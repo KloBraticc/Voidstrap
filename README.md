@@ -1,6 +1,6 @@
 <p align="center">
 <a href="https://voidstrapp.pages.dev/">
-<img src="https://raw.githubusercontent.com/voidstrap/Voidstrap/main/Bloxstrap/Voidstrap.png" alt="preview" width="100px"/>
+<img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/Bloxstrap/Voidstrap.png" alt="preview" width="100px"/>
 </a>
 </p>
 
@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/voidstrap/Voidstrap/releases/latest">Latest release</a> |
+  <a href="https://github.com/KloBraticc/Voidstrap/releases/latest">Latest release</a> |
   <a href="https://www.youtube.com/watch?v=P-GqTUo_HIA&t">Tutorial</a> |
   <a href="https://voidstrapp.netlify.app/donate/donate">Donate</a> |
   <a href="https://discord.gg/5tJBqBH8ck">Discord</a>
@@ -38,7 +38,7 @@ Leave a star if you like the project! ⭐️
 > In the meantime, you can use **[AppleBlox](https://github.com/AppleBlox/appleblox)** *(for macOS)* or **[Sober](https://sober.vinegarhq.org/)** *(for Linux)*.  
 > More experienced Linux users can also try tools like **[Lution](https://github.com/wookhq/Lution)**.
 
-<img src="https://raw.githubusercontent.com/voidstrap/Voidstrap/main/Resources/bar.png" style="width: 100%;">
+<img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/Resources/bar.png" style="width: 100%;">
 
 ## Find Me
 1. **Roblox:** [@conshun](https://www.roblox.com/users/8657911604/profile)
@@ -48,7 +48,7 @@ Leave a star if you like the project! ⭐️
 ## Installation
 
 1. Download the latest version
-   👉 https://github.com/voidstrap/Voidstrap/releases/latest
+   👉 https://github.com/KloBraticc/Voidstrap/releases/latest
 2. Run the Exe and Finish the setup
 3. Launch Voidstrap
 4. Enjoy a more simple Roblox
@@ -75,7 +75,7 @@ Leave a star if you like the project! ⭐️
   If your antivirus flags it, it is most likely a false positive due to how launchers interact with Roblox processes and updates.
 
   You can verify the source code yourself at:
-  https://github.com/voidstrap/Voidstrap
+  https://github.com/KloBraticc/Voidstrap
   or just scroll up dummy <!-- hada add this -->
 </details>
 
@@ -94,7 +94,7 @@ Voidstrap is built using **C# and .NET**
 ### Fork the Repository
 
 1. Go to:  
-   https://github.com/voidstrap/Voidstrap
+   https://github.com/KloBraticc/Voidstrap
 2. Click **Fork** (top right)
 3. This creates your own copy under your GitHub account
 
@@ -104,11 +104,11 @@ Built on top of [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by pizza
 <table style="width: 100%; border-collapse: collapse;">
   <tr>
     <td style="width: 33%; text-align: left;">© Voidstrap</td>
-    <td style="width: 33%; text-align: right;"><a href="https://github.com/voidstrap/Voidstrap/blob/main/LICENSE.VOIDSTRAP" target="_blank">MIT</a></td>
+    <td style="width: 33%; text-align: right;"><a href="https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP" target="_blank">MIT</a></td>
   </tr>
 </table>
 
-<img src="https://raw.githubusercontent.com/voidstrap/Voidstrap/main/Resources/bar.png" style="width: 100%;">
+<img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/Resources/bar.png" style="width: 100%;">
 
 ## Star History
 
@@ -120,9 +120,9 @@ Built on top of [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by pizza
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/voidstrap/Voidstrap/output/github-contribution-grid-snake-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/voidstrap/Voidstrap/output/github-contribution-grid-snake.svg">
-    <img alt="WH MY POOKIES" src="https://raw.githubusercontent.com/voidstrap/Voidstrap/output/github-contribution-grid-snake.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/github-contribution-grid-snake-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/github-contribution-grid-snake.svg">
+    <img alt="WH MY POOKIES" src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/github-contribution-grid-snake.svg">
   </picture>
 </p>
 
@@ -132,13 +132,13 @@ Built on top of [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by pizza
   </a>
 </p>
 
-[shield-repo-downloads]:  https://img.shields.io/github/downloads/voidstrap/Voidstrap/latest/total?color=981bfe
-[shield-repo-total]:      https://img.shields.io/github/downloads/voidstrap/Voidstrap/total?color=8a2be2
-[shield-repo-latest]:     https://img.shields.io/github/v/release/voidstrap/Voidstrap?color=7a39fb
-[shield-repo-stars]:      https://img.shields.io/github/stars/voidstrap/Voidstrap?color=ffd700
+[shield-repo-downloads]:  https://img.shields.io/github/downloads/KloBraticc/Voidstrap/latest/total?color=981bfe
+[shield-repo-total]:      https://img.shields.io/github/downloads/KloBraticc/Voidstrap/total?color=8a2be2
+[shield-repo-latest]:     https://img.shields.io/github/v/release/KloBraticc/Voidstrap?color=7a39fb
+[shield-repo-stars]:      https://img.shields.io/github/stars/KloBraticc/Voidstrap?color=ffd700
 [shield-discord-server]:  https://img.shields.io/discord/1327967202015580223?logo=discord&logoColor=white&label=Discord&color=4d3dff
 
-[repo-releases]:          https://github.com/voidstrap/Voidstrap/releases
-[repo-latest]:            https://github.com/voidstrap/Voidstrap/releases/latest
-[repo-stargazers]:        https://github.com/voidstrap/Voidstrap/stargazers
+[repo-releases]:          https://github.com/KloBraticc/Voidstrap/releases
+[repo-latest]:            https://github.com/KloBraticc/Voidstrap/releases/latest
+[repo-stargazers]:        https://github.com/KloBraticc/Voidstrap/stargazers
 [discord-invite]:         https://discord.gg/dfA9PdWgcV
