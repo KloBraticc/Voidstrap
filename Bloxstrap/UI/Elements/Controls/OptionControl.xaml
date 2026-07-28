@@ -1,0 +1,77 @@
+﻿<UserControl
+    x:Class="Voidstrap.UI.Elements.Controls.OptionControl"
+    x:Name="RootControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Voidstrap.UI.Elements.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:Voidstrap.UI.ViewModels"
+    xmlns:resources="clr-namespace:Voidstrap.Resources"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <local:NullOrEmptyToVisibilityConverter x:Key="NullOrEmptyToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <ui:CardControl Margin="0,8,0,0">
+
+        <ui:CardControl.Header>
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+    Grid.Column="0"
+    FontSize="14"
+    Text="{Binding Header, RelativeSource={RelativeSource AncestorType=UserControl}, TargetNullValue=''}" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="4,0,0,0"
+                        Visibility="{Binding HelpLink, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource NullOrEmptyToVisibilityConverter}}">
+                        <Hyperlink
+                            Command="{x:Static models:GlobalViewModel.OpenWebpageCommand}"
+                            CommandParameter="{Binding HelpLink, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            TextDecorations="None"
+                            ToolTip="{x:Static resources:Strings.Menu_MoreInfo}">
+                            <ui:SymbolIcon Margin="0,1,0,0" Symbol="QuestionCircle48"/>
+                        </Hyperlink>
+                    </TextBlock>
+                </Grid>
+
+                <local:MarkdownTextBlock
+                    Margin="0,2,0,0"
+                    FontSize="12"
+                    Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                    TextWrapping="Wrap"
+                    MarkdownText="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}, TargetNullValue=''}"
+                    Visibility="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource NullOrEmptyToVisibilityConverter}}"/>
+            </StackPanel>
+        </ui:CardControl.Header>
+
+        <ui:CardControl.Content>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0"/>
+
+                <ContentPresenter
+                    Grid.Column="1"
+                    Margin="16,0,0,0"
+                    VerticalAlignment="Center"
+                    Content="{Binding InnerContent, RelativeSource={RelativeSource AncestorType=UserControl}, TargetNullValue=''}"/>
+            </Grid>
+        </ui:CardControl.Content>
+
+    </ui:CardControl>
+</UserControl>

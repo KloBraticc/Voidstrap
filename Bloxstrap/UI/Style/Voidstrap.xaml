@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base">
+    <SolidColorBrush x:Key="TextEditorBackgroundBrush" Color="#160518"/>
+    <SolidColorBrush x:Key="TextEditorForegroundBrush" Color="#7F8CBF"/>
+    <SolidColorBrush x:Key="TextEditorLinkBrush" Color="#5E52C2"/>
+    <SolidColorBrush x:Key="PrimaryBackgroundBrush" Color="#0A0412"/>
+    <SolidColorBrush x:Key="SecondaryBackgroundBrush" Color="#33100524"/>
+    <SolidColorBrush x:Key="TertiaryBackgroundBrush" Color="#08080F"/>
+    <Color x:Key="ControlFillColor">#0A0412</Color>
+    <Color x:Key="WindowBackgroundColorPrimary">#1E0B2F</Color>
+    <Color x:Key="WindowBackgroundColorSecondary">#130724</Color>
+    <Color x:Key="WindowBackgroundColorTertiary">#0A0415</Color>
+    <Color x:Key="WindowBackgroundColorPrimaryWithOpacity">#801E0B2F</Color>
+    <Color x:Key="WindowBackgroundColorSecondaryWithOpacity">#80130724</Color>
+    <Color x:Key="WindowBackgroundColorTertiaryWithOpacity">#800A0415</Color>
+    <SolidColorBrush x:Key="WindowBackgroundBrushPrimary" Color="{StaticResource WindowBackgroundColorPrimary}" />
+    <SolidColorBrush x:Key="WindowBackgroundBrushSecondary" Color="{StaticResource WindowBackgroundColorSecondary}" />
+    <SolidColorBrush x:Key="WindowBackgroundBrushTertiary" Color="{StaticResource WindowBackgroundColorTertiary}" />
+    <SolidColorBrush x:Key="PrimaryForegroundBrush" Color="#7F8CBF"/>
+    <SolidColorBrush x:Key="SecondaryForegroundBrush" Color="#6E78A5"/>
+    <SolidColorBrush x:Key="TertiaryForegroundBrush" Color="#5C6390"/>
+</ResourceDictionary>

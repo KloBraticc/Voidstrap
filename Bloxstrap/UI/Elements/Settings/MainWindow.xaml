@@ -1,0 +1,491 @@
+﻿<base:WpfUiWindow
+    x:Class="Voidstrap.UI.Elements.Settings.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages"
+    xmlns:resources="clr-namespace:Voidstrap.Resources"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+    xmlns:media="clr-namespace:System.Windows.Media.Animation;assembly=PresentationCore"
+    Title="{x:Static resources:Strings.Menu_Title}"
+    Width="1071"
+    Height="690"
+    MinWidth="1071"
+    MinHeight="690"
+    d:DataContext="{d:DesignInstance dmodels:MainWindowViewModel, IsDesignTimeCreatable=True}"
+    AllowsTransparency="True"
+    WindowStyle="None"
+    Background="Transparent"
+    Closed="WpfUiWindow_Closed"
+    Closing="WpfUiWindow_Closing"
+    ExtendsContentIntoTitleBar="True"
+    WindowBackdropType="Aero"
+    WindowStartupLocation="CenterScreen"
+    Loaded="MainWindow_Loaded"
+    UseLayoutRounding="True"
+    SnapsToDevicePixels="True"
+    mc:Ignorable="d">
+
+    <base:WpfUiWindow.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <BitmapImage x:Key="AppIconImage"
+                     UriSource="pack://application:,,,/Voidstrap.ico" />
+        <media:CubicEase x:Key="SmoothEaseOut" EasingMode="EaseOut" />
+        <media:QuinticEase x:Key="UltraSmoothEaseOut" EasingMode="EaseOut" />
+        <LinearGradientBrush x:Key="LightningBrush"
+                     StartPoint="0,0"
+                     EndPoint="1,0">
+            <GradientStop Color="#00000000" Offset="0.0"/>
+            <GradientStop Color="#AAFFFFFF" Offset="0.45"/>
+            <GradientStop Color="#FFFFFFFF" Offset="0.5"/>
+            <GradientStop Color="#AAFFFFFF" Offset="0.55"/>
+            <GradientStop Color="#00000000" Offset="1.0"/>
+        </LinearGradientBrush>
+
+        <Storyboard x:Key="LightningStoryboard"
+                    RepeatBehavior="Forever">
+            <DoubleAnimation
+    Storyboard.TargetName="LightningTranslate"
+    Storyboard.TargetProperty="X"
+    From="-900"
+    To="1800"
+    Duration="0:0:1.2"
+    EasingFunction="{StaticResource SmoothEaseOut}" />
+
+
+            <DoubleAnimation
+                Storyboard.TargetName="LightningLayer"
+                Storyboard.TargetProperty="Opacity"
+                From="0.3"
+                To="0.9"
+                Duration="0:0:0.06"
+                AutoReverse="True"
+                RepeatBehavior="Forever"/>
+        </Storyboard>
+        <Storyboard x:Key="IntroStoryboard">
+
+            <!-- Scale X -->
+            <DoubleAnimationUsingKeyFrames
+        Storyboard.TargetName="IntroScaleTransform"
+        Storyboard.TargetProperty="ScaleX">
+                <EasingDoubleKeyFrame Value="0.96" KeyTime="0:0:0" />
+                <EasingDoubleKeyFrame Value="1.015" KeyTime="0:0:0.55"
+                              EasingFunction="{StaticResource UltraSmoothEaseOut}" />
+                <EasingDoubleKeyFrame Value="1.0" KeyTime="0:0:0.9"
+                              EasingFunction="{StaticResource SmoothEaseOut}" />
+            </DoubleAnimationUsingKeyFrames>
+
+            <!-- Scale Y -->
+            <DoubleAnimationUsingKeyFrames
+        Storyboard.TargetName="IntroScaleTransform"
+        Storyboard.TargetProperty="ScaleY">
+                <EasingDoubleKeyFrame Value="0.96" KeyTime="0:0:0" />
+                <EasingDoubleKeyFrame Value="1.015" KeyTime="0:0:0.55"
+                              EasingFunction="{StaticResource UltraSmoothEaseOut}" />
+                <EasingDoubleKeyFrame Value="1.0" KeyTime="0:0:0.9"
+                              EasingFunction="{StaticResource SmoothEaseOut}" />
+            </DoubleAnimationUsingKeyFrames>
+
+            <!-- Overlay fade -->
+            <DoubleAnimation
+        Storyboard.TargetName="IntroOverlay"
+        Storyboard.TargetProperty="Opacity"
+        From="1.0"
+        To="0.0"
+        BeginTime="0:0:0.6"
+        Duration="0:0:0.8"
+        EasingFunction="{StaticResource SmoothEaseOut}"
+        FillBehavior="Stop" />
+
+            <!-- Lightning fade -->
+            <DoubleAnimation
+        Storyboard.TargetName="LightningLayer"
+        Storyboard.TargetProperty="Opacity"
+        To="0"
+        BeginTime="0:0:0.6"
+        Duration="0:0:0.8"
+        EasingFunction="{StaticResource SmoothEaseOut}"
+        FillBehavior="Stop" />
+
+        </Storyboard>
+    </base:WpfUiWindow.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="BackgroundLayer"
+      Grid.RowSpan="3"
+      Panel.ZIndex="-10"
+      ClipToBounds="True">
+
+            <MediaElement x:Name="BackgroundMedia"
+                  Stretch="UniformToFill"
+                  Opacity="1"
+                  IsHitTestVisible="False"
+                  LoadedBehavior="Manual"
+                  UnloadedBehavior="Stop"
+                  Visibility="Collapsed" />
+
+            <Image x:Name="BackgroundImage"
+           Stretch="UniformToFill"
+           Opacity="1"
+           RenderOptions.BitmapScalingMode="HighQuality"
+           IsHitTestVisible="False"
+           Visibility="Visible"/>
+
+            <Border x:Name="GradientLayer">
+                <Border.Background>
+                    <LinearGradientBrush x:Name="MainBackgroundBrush"
+                                 StartPoint="0,0"
+                                 EndPoint="1,1">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <RotateTransform x:Name="BackgroundGradientRotate"
+                                         CenterX="0.5"
+                                         CenterY="0.5"/>
+                                <TranslateTransform x:Name="BackgroundGradientTranslate"/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+
+                        <GradientStop Offset="0.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+                        <GradientStop Offset="0.35" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+                        <GradientStop Offset="0.75" Color="{DynamicResource WindowBackgroundColorThird}" />
+                        <GradientStop Offset="1.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+        </Grid>
+
+        <Canvas x:Name="SnowCanvas"
+                Grid.RowSpan="3"
+                IsHitTestVisible="False"
+                Panel.ZIndex="0" />
+
+
+        <Grid x:Name="IntroOverlay"
+      Grid.RowSpan="3"
+      Panel.ZIndex="999"
+      Background="#CC0A0A0A"
+      Opacity="1"
+      RenderTransformOrigin="0.5,0.5">
+
+            <Grid.RenderTransform>
+                <ScaleTransform x:Name="IntroScaleTransform"
+                                ScaleX="1"
+                                ScaleY="1" />
+            </Grid.RenderTransform>
+
+            <Grid x:Name="LightningLayer"
+                  IsHitTestVisible="False"
+                  Opacity="0.8">
+
+                <Rectangle Height="100"
+                           Margin="0,0,0,60"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Center"
+                           Fill="{StaticResource LightningBrush}">
+                    <Rectangle.RenderTransform>
+                        <TranslateTransform x:Name="LightningTranslate"/>
+                    </Rectangle.RenderTransform>
+                    <Rectangle.Effect>
+                        <BlurEffect Radius="35"/>
+                    </Rectangle.Effect>
+                </Rectangle>
+
+            </Grid>
+
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                <Image Width="120"
+                       Height="120"
+                       Source="{StaticResource AppIconImage}"
+                       Stretch="Uniform"
+                       Margin="0,0,0,12" />
+
+                <TextBlock Text="Voidstrap"
+                           FontSize="28"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           Foreground="White"
+                           Opacity="0.95" />
+
+                <TextBlock Text="Bloxstrap Fork | Voidstrap Team"
+                           FontSize="14"
+                           HorizontalAlignment="Center"
+                           Foreground="White"
+                           Opacity="0.7"
+                           Margin="0,4,0,0" />
+            </StackPanel>
+        </Grid>
+
+        <ui:Snackbar x:Name="AlreadyRunningSnackbar"
+                     Title="{x:Static resources:Strings.Menu_AlreadyRunning_Title}"
+                     Grid.RowSpan="10"
+                     Margin="200,0,200,20"
+                     Panel.ZIndex="10"
+                     Icon="Info20"
+                     Message="{x:Static resources:Strings.Menu_AlreadyRunning_Caption}"
+                     Timeout="10000">
+            <ui:Snackbar.Background>
+                <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                    <GradientStop Offset="0.00" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+                    <GradientStop Offset="0.70" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+                    <GradientStop Offset="1.00" Color="{DynamicResource WindowBackgroundColorThird}" />
+                </LinearGradientBrush>
+            </ui:Snackbar.Background>
+        </ui:Snackbar>
+
+        <ui:Snackbar x:Name="SettingsSavedSnackbar"
+             Title="{x:Static resources:Strings.Menu_SettingsSaved_Title}"
+             Grid.RowSpan="10"
+             Margin="200,0,200,20"
+             Panel.ZIndex="9"
+             Appearance="Dark"
+             Icon="CheckboxChecked24"
+             Message="{x:Static resources:Strings.Menu_SettingsSaved_Message}"
+             Timeout="2100">
+            <ui:Snackbar.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+                    <GradientStop Offset="0.35" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+                    <GradientStop Offset="0.75" Color="{DynamicResource WindowBackgroundColorThird}" />
+                    <GradientStop Offset="1.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+                </LinearGradientBrush>
+            </ui:Snackbar.Background>
+        </ui:Snackbar>
+        
+        <ui:Snackbar x:Name="SettingsSavedLaunchSnackbar"
+             Title="Voidstrap Saved And Launched Roblox!"
+             Grid.RowSpan="10"
+             Margin="150,0,150,20"
+             Panel.ZIndex="10"
+             Appearance="Dark"
+             Icon="CheckboxChecked24"
+             Message="Changes have been saved."
+             Timeout="2000">
+            <ui:Snackbar.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+                    <GradientStop Offset="0.35" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+                    <GradientStop Offset="0.75" Color="{DynamicResource WindowBackgroundColorThird}" />
+                    <GradientStop Offset="1.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+                </LinearGradientBrush>
+            </ui:Snackbar.Background>
+        </ui:Snackbar>
+
+        <ui:TitleBar Padding="8"
+                     x:Name="RootTitleBar"
+                     Grid.Row="0"
+                     ForceShutdown="False"
+                     MinimizeToTray="False"
+                     UseSnapLayout="True"
+                     Title="{x:Static resources:Strings.Menu_Title}"
+                     Icon="pack://application:,,,/Voidstrap.ico" />
+
+        <Grid x:Name="RootGrid"
+              MouseMove="RootGrid_MouseMove"
+              MouseLeave="RootGrid_MouseLeave"
+              Grid.Row="1"
+              Margin="8,12,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ui:NavigationFluent x:Name="RootNavigation" Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" Frame="{Binding ElementName=RootFrame}" SelectedPageIndex="0">
+                <ui:NavigationFluent.Items>
+                    <ui:NavigationItem Content="Core" IsEnabled="False" Opacity="0.6" />
+                    <ui:NavigationItem Content="Continue Playing" Icon="Play24" Tag="Play20" PageType="{x:Type pages:HistoryPage}" />
+                    <ui:NavigationItem Content="{x:Static resources:Strings.Menu_Integrations_Title}" Icon="Add12" Tag="Add16" PageType="{x:Type pages:IntegrationsPage}" />
+                    <ui:NavigationItem Content="Deployment" Icon="PlaySettings20" Tag="Play20" PageType="{x:Type pages:BehaviourPage}" />
+                    <ui:NavigationItem Content="{x:Static resources:Strings.Menu_Appearance_Title}" Icon="PaintBucket24" Tag="PaintBucket20" PageType="{x:Type pages:AppearancePage}" />
+                    <ui:NavigationItem Content="Browser" Icon="Server20" Tag="ServerPlay20" PageType="{x:Type pages:ServerBrowserPage}" />
+                    <ui:NavigationSeparator />
+                    <ui:NavigationItem Content="Configuration" IsEnabled="False" Opacity="0.6" />
+                    <ui:NavigationItem Content="FastFlag Settings" Icon="Settings28" Tag="SettingsChat24" PageType="{x:Type pages:FastFlagsPage}" />
+                    <ui:NavigationItem x:Name="FastFlagEditorNavItem" Content="FastFlag Editor" Icon="Flag28" Tag="Flag20" PageType="{x:Type pages:FastFlagEditorPage}" Visibility="{Binding IsFastFlagEditorVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <ui:NavigationItem Content="Global" Icon="GlobeLocation20" Tag="Globe20" PageType="{x:Type pages:GBSEditorPage}" />
+                    <ui:NavigationItem Content="{x:Static resources:Strings.Menu_Mods_Title}" Icon="WrenchScrewdriver20" Tag="Wrench24" PageType="{x:Type pages:ModsPage}" />
+                    <ui:NavigationSeparator />
+                    <ui:NavigationItem IsEnabled="False" Opacity="0.6" />
+                    <ui:NavigationItem Content="News" Icon="News16" Tag="News20" Margin="0,-40,0,20" PageType="{x:Type pages:NewsPage}" />
+                </ui:NavigationFluent.Items>
+
+                <ui:NavigationFluent.Footer>
+                    <ui:NavigationItem Content="Extensions" Icon="CubeAdd20" Tag="CubeLink20" PageType="{x:Type pages:ExtensionPage}" />
+                    <ui:NavigationItem Content="{x:Static resources:Strings.Common_Shortcuts}" Icon="Apps32" Tag="Apps24" PageType="{x:Type pages:ShortcutsPage}" />
+                    <ui:NavigationItem Content="Settings" Icon="Settings28" Tag="Settings20" PageType="{x:Type pages:ChannelPage}" />
+                    <ui:NavigationItem Content="{x:Static resources:Strings.Menu_About_Title}" Icon="QuestionCircle32" Tag="QuestionCircle48" Command="{Binding OpenAboutCommand, Mode=OneTime}" />
+                </ui:NavigationFluent.Footer>
+            </ui:NavigationFluent>
+
+            <Grid Grid.Row="0" Grid.RowSpan="3" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <ui:SymbolIcon x:Name="BreadcrumbIcon" Symbol="Add12"
+                   FontSize="23"
+                   Margin="0,4,6,0"
+                   VerticalAlignment="Center" />
+                        <ui:Breadcrumb Navigation="{Binding ElementName=RootNavigation}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <ui:TextBox x:Name="GlobalSearchBox"
+                Margin="0,0,6,0"
+                HorizontalAlignment="Right"
+                PlaceholderText="Search..."
+                TextChanged="GlobalSearchBox_TextChanged"
+                ClearButtonEnabled="True"
+                Icon="Search24"
+                Visibility="{Binding ShowSearchBox, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </StackPanel>
+
+                    <ui:InfoBar Margin="0,0,28,0"
+                    Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    Padding="3"
+                    IsClosable="True"
+                    IsOpen="True"
+                    Severity="Informational"
+                    Message="{Binding AppVersion}"/>
+
+                </Grid>
+                <Frame x:Name="RootFrame" Grid.Row="1"/>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TabControl x:Name="WorkspaceTabs" 
+                ItemsSource="{Binding Tabs}" 
+                SelectedItem="{Binding SelectedTab, Mode=TwoWay}" 
+                Background="Transparent" 
+                BorderThickness="0" 
+                Height="34" 
+                MinWidth="200" 
+                Grid.Column="0" 
+                Margin="275,5,0,0"
+                SelectionChanged="WorkspaceTabs_SelectionChanged">
+                <TabControl.Template>
+                    <ControlTemplate TargetType="TabControl">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                <TabPanel x:Name="HeaderPanel" IsItemsHost="True" Background="Transparent"/>
+                            </ScrollViewer>
+                            <ContentPresenter Grid.Row="1" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </TabControl.Template>
+            </TabControl>
+
+            <ui:Button Grid.Column="1" Width="34" Height="34" Appearance="Secondary" Icon="Add16" Click="AddTab_Click" Margin="0,0,16,6">
+                <ui:Button.ToolTip>
+                    <ToolTip>Tabs - Beta</ToolTip>
+                </ui:Button.ToolTip>
+            </ui:Button>
+        </Grid>
+
+        <Border Grid.Row="2"
+                VerticalAlignment="Bottom"
+                Height="52"
+                Background="{ui:ThemeResource ControlFillColorDefaultBrush}"
+                CornerRadius="12,12,0,0"
+                Padding="16,0">
+
+            <StatusBar x:Name="RootStatusBar"
+                       Padding="14,10"
+                       BorderThickness="0,1,0,0">
+                <StatusBar.Background>
+                    <SolidColorBrush Color="{ui:ThemeResource ApplicationBackgroundColor}" Opacity="0" />
+                </StatusBar.Background>
+
+                <StatusBar.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </StatusBar.ItemsPanel>
+
+                <StatusBarItem Grid.Column="0" Margin="0,0,4,0">
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}"
+                                         Foreground="{DynamicResource SystemAccentBrush}"
+                                         IsChecked="{Binding TestModeEnabled, Mode=TwoWay}" />
+                        <TextBlock Padding="10,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontSize="14"
+                                   Text="{x:Static resources:Strings.Menu_TestMode}" />
+
+                    </StackPanel>
+                </StatusBarItem>
+
+                <StatusBarItem Grid.Column="2" Padding="0,0,8,0">
+                    <ui:Button x:Name="InstallLaunchButton"
+                               HorizontalAlignment="Center"
+                               Appearance="Primary"
+                               Background="{DynamicResource SystemAccentBrush}"
+                               Command="{Binding SaveAndLaunchSettingsCommand, Mode=OneWay}"
+                               Content="Install" />
+                </StatusBarItem>
+
+                <StatusBarItem Grid.Column="3" Padding="0,0,9,0">
+                    <ui:Button Width="56.587"
+                               Appearance="Primary"
+                               Background="{DynamicResource SystemAccentBrush}"
+                               Click="Button_Click_1"
+                               Command="{Binding SaveSettingsCommand, Mode=OneWay}"
+                               Content="{x:Static resources:Strings.Menu_Save}" />
+                </StatusBarItem>
+
+                <StatusBarItem Grid.Column="4" Padding="0,0,8,0">
+                    <ui:Button Width="56.587"
+                               HorizontalAlignment="Center"
+                               Appearance="Secondary"
+                               Command="{Binding CloseWindowCommand, Mode=OneTime}"
+                               Click="Button_Click_2"
+                               Content="{x:Static resources:Strings.Common_Close}" />
+                </StatusBarItem>
+            </StatusBar>
+        </Border>
+    </Grid>
+</base:WpfUiWindow>

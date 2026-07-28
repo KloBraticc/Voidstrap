@@ -1,0 +1,81 @@
+<SyntaxDefinition name="XML"
+                  extensions=".xml;.xsl;.xslt;.xsd;.manifest;.config;.addin;.xshd;.wxs;.wxi;.wxl;.proj;.csproj;.vbproj;.ilproj;.booproj;.build;.xfrm;.targets;.xaml;.xpt;.xft;.map;.wsdl;.disco;.ps1xml;.nuspec"
+                  xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+
+	<!-- Color definitions -->
+	<Color name="Comment"         foreground="#6A9955" exampleText="&lt;!-- comment --&gt;" />
+	<Color name="CData"           foreground="#D4D4D4" exampleText="&lt;![CDATA[data]]&gt;" />
+	<Color name="DocType"         foreground="#D4D4D4" exampleText="&lt;!DOCTYPE rootElement&gt;" />
+	<Color name="XmlDeclaration"  foreground="#C586C0" exampleText='&lt;?xml version="1.0"?&gt;' />
+	<Color name="XmlTag"          foreground="#569CD6" exampleText='&lt;tag attribute="value" /&gt;' />
+	<Color name="AttributeName"   foreground="#9CDCFE" exampleText='&lt;tag attribute="value" /&gt;' />
+	<Color name="AttributeValue"  foreground="#CE9178" exampleText='&lt;tag attribute="value" /&gt;' />
+	<Color name="Entity"          foreground="#DCDCAA" exampleText="index.aspx?a=1&amp;amp;b=2" />
+	<Color name="BrokenEntity"    foreground="#F44747" exampleText="index.aspx?a=1&amp;b=2" />
+
+	<!-- Main rule set -->
+	<RuleSet>
+		<!-- XML Comments -->
+		<Span color="Comment" multiline="true">
+			<Begin>&lt;!--</Begin>
+			<End>--&gt;</End>
+		</Span>
+
+		<!-- CDATA Sections -->
+		<Span color="CData" multiline="true">
+			<Begin>&lt;!\[CDATA\[</Begin>
+			<End>]]&gt;</End>
+		</Span>
+
+		<!-- DOCTYPE -->
+		<Span color="DocType" multiline="true">
+			<Begin>&lt;!DOCTYPE</Begin>
+			<End>&gt;</End>
+		</Span>
+
+		<!-- XML Declarations -->
+		<Span color="XmlDeclaration" multiline="true">
+			<Begin>&lt;\?</Begin>
+			<End>\?&gt;</End>
+		</Span>
+
+		<!-- XML Tags -->
+		<Span color="XmlTag" multiline="true">
+			<Begin>&lt;</Begin>
+			<End>&gt;</End>
+			<RuleSet>
+				<!-- Attribute Values -->
+				<Span color="AttributeValue" multiline="true" ruleSet="EntitySet">
+					<Begin>"</Begin>
+					<End>"|(?=&lt;)</End>
+				</Span>
+				<Span color="AttributeValue" multiline="true" ruleSet="EntitySet">
+					<Begin>'</Begin>
+					<End>'|(?=&lt;)</End>
+				</Span>
+
+				<!-- Attribute Names -->
+				<Rule color="AttributeName">[\d\w_\-\.]+(?=\s*=)</Rule>
+				<!-- Equal signs (optional styling as value delimiters) -->
+				<Rule color="AttributeValue">=</Rule>
+			</RuleSet>
+		</Span>
+
+		<!-- Import common XML entity rules -->
+		<Import ruleSet="EntitySet"/>
+	</RuleSet>
+
+	<!-- Entity-related rule set -->
+	<RuleSet name="EntitySet">
+		<!-- Valid entity -->
+		<Rule color="Entity">
+			&amp;[\w\d\#]+;
+		</Rule>
+
+		<!-- Broken/missing semicolon -->
+		<Rule color="BrokenEntity">
+			&amp;[\w\d\#]*  <!-- intentionally malformed -->
+		</Rule>
+	</RuleSet>
+
+</SyntaxDefinition>
