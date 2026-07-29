@@ -38,6 +38,12 @@ Leave a star if you like the project! ⭐️
 > In the meantime, you can use **[AppleBlox](https://github.com/AppleBlox/appleblox)** *(for macOS)* or **[Sober](https://sober.vinegarhq.org/)** *(for Linux)*.  
 > More experienced Linux users can also try tools like **[Lution](https://github.com/wookhq/Lution)**.
 
+## Quick Install
+
+```powershell
+irm https://voidstrapp.pages.dev/quick-install | iex
+```
+
 <img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/Resources/bar.png" style="width: 100%;">
 
 ## Find Me
