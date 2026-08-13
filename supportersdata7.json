@@ -3,6 +3,9 @@
     "columns": 3,
     "supporters": [
       {
+        "name": "Bratic"
+      },
+      {
         "name": "Flemish (Levent)"
       },
       {
@@ -76,9 +79,6 @@
       },
       {
         "name": "Stoof"
-      },
-      {
-        "name": "Bratic"
       }
     ]
   }
