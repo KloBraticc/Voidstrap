@@ -7,7 +7,7 @@
 <h1 align="center"><b>Voidstrap</b></h1>
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/KloBraticc/RandomMods/main/Untitled%20design%20(2)-Photoroom.png" alt="preview" width="100%"/>
+  <img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/assets/save.png" alt="preview" width="85%"/>
 </p>
 
 <p align="center">
