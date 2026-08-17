@@ -39,8 +39,6 @@ Leave a star if you like the project! ⭐️
 > In the meantime, you can use **[AppleBlox](https://github.com/AppleBlox/appleblox)** *(for macOS)* or **[Sober](https://sober.vinegarhq.org/)** *(for Linux)*.  
 > More experienced Linux users can also try tools like **[Lution](https://github.com/wookhq/Lution)**.
 
-<img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/Resources/bar.png" style="width: 100%;">
-
 ## Installation
 
 1. Download the latest version
@@ -109,8 +107,6 @@ Built on top of [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by pizza
     <td style="width: 33%; text-align: right;"><a href="https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP" target="_blank">MIT</a></td>
   </tr>
 </table>
-
-<img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/Resources/bar.png" style="width: 100%;">
 
 <p align="center">
   <picture>
