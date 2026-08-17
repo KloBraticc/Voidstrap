@@ -1,6 +1,6 @@
 <p align="center">
 <a href="https://voidstrapp.pages.dev/">
-<img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/Bloxstrap/Voidstrap.png" alt="preview" width="100px"/>
+<img src="https://github.com/KloBraticc/Voidstrap/blob/main/src/Voidstrap.App/Voidstrap.png" alt="preview" width="100px"/>
 </a>
 </p>
 
