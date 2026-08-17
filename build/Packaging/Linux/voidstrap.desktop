@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Voidstrap
+Exec=voidstrap %u
+TryExec=voidstrap
+Icon=voidstrap
+Terminal=false
+Categories=Game;
+StartupNotify=true
+StartupWMClass=Voidstrap
+MimeType=x-scheme-handler/roblox;x-scheme-handler/roblox-player;x-scheme-handler/roblox-studio;x-scheme-handler/roblox-studio-auth;

@@ -1,0 +1,8 @@
+<UserControl x:Class="Voidstrap.UI.Elements.Controls.InlineVideoPlayer" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Loaded="Control_Loaded" Unloaded="Control_Unloaded">
+  <Border CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="Transparent">
+    <Grid>
+      <Grid Name="PlayerHost" />
+      <TextBlock Name="FallbackLink" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13" Cursor="Hand" Foreground="#C9C9D2" TextDecorations="Underline" MouseLeftButtonUp="FallbackLink_Click" Text="Watch on YouTube" />
+    </Grid>
+  </Border>
+</UserControl>

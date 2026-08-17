@@ -1,0 +1,10 @@
+{
+  "id": "Rojo",
+  "displayName": "Rojo",
+  "supportedPlatforms": ["Windows"],
+  "requiredFeatures": ["RobloxStudio", "ExtensionNativeAssets"],
+  "nativeAssets": {
+    "Windows": ["Rojo/Rojo.exe"]
+  },
+  "externalRequirements": []
+}

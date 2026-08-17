@@ -1,0 +1,183 @@
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.NvidiaFFlagEditorPage"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:resources="clr-namespace:Voidstrap.Resources"
+           xmlns:conv="clr-namespace:Voidstrap.UI.Converters"
+           xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+           Title="NVIDIA FFlag Editor"
+           Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <conv:TagColorConverter x:Key="TagColorConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+
+  <Grid Margin="0,0,14,14">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <TextBlock Grid.Row="0" Margin="0,0,0,14" Style="{StaticResource FastFlagsCaption}" TextWrapping="Wrap"
+               Text="Manage NVIDIA settings saved in your NIP profile." />
+
+    <WrapPanel Grid.Row="1" Orientation="Horizontal">
+      <ui:Button Width="110" Margin="0,0,10,12" Content="Add New" Icon="AddCircle24" Click="Add_Click" />
+      <ui:Button Margin="0,0,10,12" VerticalAlignment="Top" Appearance="Danger" Background="#ff3334" Content="Delete Selected" Icon="SlideEraser24" Click="DeleteSelected_Click">
+        <ui:Button.PressedBackground>
+          <SolidColorBrush Opacity="0.7" Color="#ff5c5d" />
+        </ui:Button.PressedBackground>
+        <ui:Button.MouseOverBackground>
+          <SolidColorBrush Opacity="0.9" Color="#ff5c5d" />
+        </ui:Button.MouseOverBackground>
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type ui:Button}}" TargetType="{x:Type ui:Button}">
+            <Style.Triggers>
+              <DataTrigger Value="0" Binding="{Binding SelectedItems.Count, ElementName=DataGridRef}">
+                <Setter Property="IsEnabled" Value="False" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </ui:Button>
+      <ui:Button Margin="0,0,10,12" Content="Delete all" Icon="Delete48" Click="DeleteAll_Click" />
+      <ui:Button MinWidth="108" Margin="0,0,10,12" VerticalAlignment="Top" Content="Reset NIP" Icon="DeleteDismiss24" Click="ResetNipFile_Click" />
+      <ui:Button Width="95" Margin="0,0,10,12" VerticalAlignment="Top" Content="Apply" Icon="CheckmarkCircle24" Click="Apply_Click" />
+    </WrapPanel>
+
+    <Grid Grid.Row="2" Margin="0,0,0,8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+
+      <Grid Grid.Column="0" Height="34">
+        <ui:TextBox Name="SearchTextBox" Height="32" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                    BorderThickness="0" FontSize="14" Icon="Search48" PlaceholderText="Search flags"
+                    FocusVisualStyle="{x:Null}" TextChanged="SearchTextBox_TextChanged" />
+        <TextBlock Name="SuggestionTextBlock" Margin="12,0,11,0" HorizontalAlignment="Right" VerticalAlignment="Center"
+                   Cursor="Hand" FontSize="13.85" Foreground="#FF51A2ED" Opacity="0"
+                   RenderTransformOrigin="0.5,0.5" Visibility="Collapsed"
+                   MouseLeftButtonUp="SuggestionTextBlock_MouseLeftButtonUp">
+          <UIElement.RenderTransform>
+            <TranslateTransform x:Name="SuggestionTranslateTransform" X="10" />
+          </UIElement.RenderTransform>
+          <Run Text="Looking For" /> <Run Name="SuggestionKeywordRun" FontWeight="Bold" Text="" /> <Run Text="?" />
+        </TextBlock>
+      </Grid>
+
+      <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="14,0,0,0" VerticalAlignment="Center">
+        <TextBlock Name="TotalFlagsTextBlock" Style="{StaticResource FastFlagsCounter}" Text="Flags added: 0" />
+        <TextBlock Name="SelectedFlagsTextBlock" Style="{StaticResource FastFlagsCounter}" Margin="0" Text="Selected: 0" />
+      </StackPanel>
+    </Grid>
+
+    <Border Grid.Row="3" Height="280" VerticalAlignment="Top" Style="{StaticResource FastFlagsGridSurface}">
+      <DataGrid Name="DataGridRef"
+                AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
+                GridLinesVisibility="None" HeadersVisibility="Column" RowHeight="32"
+                AlternatingRowBackground="{DynamicResource ControlFillColorSecondaryBrush}"
+                Background="Transparent" BorderThickness="0" Margin="0"
+                ColumnHeaderStyle="{StaticResource FastFlagsColumnHeaderStyle}"
+                CellStyle="{StaticResource FastFlagsCellStyle}"
+                EnableRowVirtualization="True" EnableColumnVirtualization="True"
+                VirtualizingPanel.IsVirtualizing="True"
+                VirtualizingPanel.VirtualizationMode="Recycling"
+                VirtualizingPanel.ScrollUnit="Item"
+                VirtualizingPanel.CacheLengthUnit="Item"
+                ScrollViewer.CanContentScroll="True"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                BeginningEdit="DataGrid_BeginningEdit"
+                CellEditEnding="DataGrid_CellEditEnding"
+                CurrentCellChanged="DataGrid_CurrentCellChanged"
+                SelectionChanged="DataGrid_SelectionChanged">
+        <DataGrid.Columns>
+          <DataGridTemplateColumn Header="Type" Width="110" CanUserSort="False">
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Border Style="{StaticResource FastFlagsTagPill}" Background="{Binding ValueType, Converter={StaticResource TagColorConverter}}">
+                  <TextBlock Style="{StaticResource FastFlagsTagText}" Text="{Binding ValueType}" />
+                </Border>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+            <DataGridTemplateColumn.CellEditingTemplate>
+              <DataTemplate>
+                <ComboBox ItemsSource="{Binding DataContext.ValueTypes, RelativeSource={RelativeSource AncestorType=DataGrid}}" SelectedItem="{Binding ValueType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              </DataTemplate>
+            </DataGridTemplateColumn.CellEditingTemplate>
+          </DataGridTemplateColumn>
+
+          <DataGridTextColumn x:Name="NameColumn" Width="2*" Header="{x:Static resources:Strings.Common_Name}" Binding="{Binding Name}">
+            <DataGridTextColumn.ElementStyle>
+              <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+              </Style>
+            </DataGridTextColumn.ElementStyle>
+          </DataGridTextColumn>
+
+          <DataGridTextColumn x:Name="IdColumn" Width="*" Header="Setting ID" Binding="{Binding SettingId}">
+            <DataGridTextColumn.ElementStyle>
+              <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+              </Style>
+            </DataGridTextColumn.ElementStyle>
+          </DataGridTextColumn>
+
+          <DataGridTextColumn x:Name="ValueColumn" Width="*" Header="{x:Static resources:Strings.Common_Value}" Binding="{Binding Value}">
+            <DataGridTextColumn.ElementStyle>
+              <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+              </Style>
+            </DataGridTextColumn.ElementStyle>
+          </DataGridTextColumn>
+        </DataGrid.Columns>
+      </DataGrid>
+    </Border>
+
+    <StackPanel Name="EmptyStatePanel" Grid.Row="3" Margin="24" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Visibility="Collapsed">
+      <ui:SymbolIcon Symbol="Flag24" FontSize="42" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+      <TextBlock Name="EmptyStateTextBlock" Margin="0,12,0,0" FontSize="14" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Add an NVIDIA setting to get started." />
+    </StackPanel>
+
+    <WrapPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
+      <ui:Button Width="140" VerticalAlignment="Center" Content="Export .NIP" Icon="ArrowExit20" Margin="0,0,10,0" Click="ExportNip_Click" />
+      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="Copy flags" Icon="Clipboard16" Click="CopySelected_Click" />
+      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="Back" Click="BackButton" />
+    </WrapPanel>
+
+    <Expander Grid.Row="5" Margin="0,6,0,0" Background="{DynamicResource ControlFillColorTertiaryBrush}" ExpandDirection="Up" Header="NVIDIA Flag History" IsExpanded="False" ToolTip="Tracks changes made to NVIDIA flags this session.">
+      <Grid Margin="8,6,8,8">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+          <ui:Button Content="Undo Selected" Icon="ArrowUndo24" Margin="0,0,10,0" Click="UndoHistoryButton_Click" />
+          <ui:Button Content="Clear History" Icon="Delete24" Margin="0,0,10,0" Click="ClearHistoryButton_Click" />
+          <TextBlock Name="HistoryCountTextBlock" VerticalAlignment="Center" Style="{StaticResource FastFlagsCaption}" Text="No changes recorded" />
+        </StackPanel>
+        <ListBox Name="HistoryListBox" Grid.Row="1" MaxHeight="200" Background="Transparent" BorderThickness="0" FontSize="13"
+                 Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 VirtualizingPanel.IsVirtualizing="True"
+                 VirtualizingPanel.VirtualizationMode="Recycling"
+                 MouseDoubleClick="HistoryListBox_MouseDoubleClick">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock TextWrapping="Wrap" Text="{Binding}" ToolTip="Double click to revert this change" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ListBox>
+      </Grid>
+    </Expander>
+  </Grid>
+</ui:UiPage>

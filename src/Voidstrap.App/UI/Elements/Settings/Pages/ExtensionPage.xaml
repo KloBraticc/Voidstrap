@@ -1,0 +1,275 @@
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.ExtensionPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="Extensions" Scrollable="True">
+  <ui:UiPage.Resources>
+    <Style x:Key="ExtensionCard" TargetType="ui:Card" BasedOn="{StaticResource {x:Type ui:Card}}">
+      <Setter Property="Margin" Value="0,0,12,12" />
+      <Setter Property="Padding" Value="16" />
+      <Setter Property="MinHeight" Value="188" />
+      <Setter Property="VerticalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+    <Style x:Key="ExtensionIconTile" TargetType="Border">
+      <Setter Property="Width" Value="44" />
+      <Setter Property="Height" Value="44" />
+      <Setter Property="CornerRadius" Value="5" />
+      <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+      <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+    <Style x:Key="ExtensionIconImage" TargetType="Image">
+      <Setter Property="Width" Value="32" />
+      <Setter Property="Height" Value="32" />
+      <Setter Property="Stretch" Value="Uniform" />
+      <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+    </Style>
+    <Style x:Key="ExtensionTitle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="15" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+    <Style x:Key="ExtensionSubtitle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="Margin" Value="0,1,0,0" />
+      <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
+    </Style>
+    <Style x:Key="ExtensionDescription" TargetType="TextBlock">
+      <Setter Property="Margin" Value="0,12,0,12" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+      <Setter Property="VerticalAlignment" Value="Top" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+  </ui:UiPage.Resources>
+
+  <Grid SizeChanged="ExtensionPage_SizeChanged">
+    <StackPanel Margin="0,0,14,14">
+      <TextBlock FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Browse and manage extensions for Voidstrap and its community." />
+
+      <WrapPanel Margin="0,10,0,6">
+        <ui:TextBox Width="300" Height="34" Margin="0,0,10,8" VerticalContentAlignment="Center" PlaceholderText="Search extensions" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+          <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Text="Type" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <ComboBox Width="220" Height="34" VerticalContentAlignment="Center" ItemsSource="{Binding ExtensionTypes}" SelectedItem="{Binding SelectedExtensionType, Mode=TwoWay}" />
+        </StackPanel>
+      </WrapPanel>
+
+      <UniformGrid x:Name="ExtensionCardsPanel" Columns="2" HorizontalAlignment="Stretch">
+
+        <ui:Card Style="{StaticResource ExtensionCard}" Visibility="{Binding FleasionVisibility}">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Border Grid.Column="0" Style="{StaticResource ExtensionIconTile}">
+                <Image Style="{StaticResource ExtensionIconImage}" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/186699266" />
+              </Border>
+              <StackPanel Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource ExtensionTitle}" Text="Fleasion" />
+                <TextBlock Style="{StaticResource ExtensionSubtitle}" Text="Roblox Extension" />
+              </StackPanel>
+              <ui:ToggleSwitch Grid.Column="2" VerticalAlignment="Center" AutomationProperties.Name="Fleasion" IsChecked="{Binding fleasionenabler, Mode=TwoWay}" />
+            </Grid>
+            <TextBlock Grid.Row="1" Style="{StaticResource ExtensionDescription}" Text="Swap game textures, sounds, meshes and more in real time. Can also dump game assets." />
+            <ui:Button Grid.Row="2" HorizontalAlignment="Left" Content="Open" Click="OpenFleasion_Click" IsEnabled="{Binding fleasionenabler}" />
+          </Grid>
+        </ui:Card>
+
+        <ui:Card Style="{StaticResource ExtensionCard}" Visibility="{Binding RiShadeVisibility}">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Border Grid.Column="0" Style="{StaticResource ExtensionIconTile}">
+                <Image Style="{StaticResource ExtensionIconImage}" util:DynamicRenderSystem.LazyImageSource="https://raw.githubusercontent.com/KloBraticc/RiShade/main/Images/RiShde.png" />
+              </Border>
+              <StackPanel Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource ExtensionTitle}" Text="RiShade" />
+                <TextBlock Style="{StaticResource ExtensionSubtitle}" Text="Roblox Extension" />
+              </StackPanel>
+              <ui:ToggleSwitch Grid.Column="2" VerticalAlignment="Center" AutomationProperties.Name="RiShade" IsChecked="{Binding rishadeenabler, Mode=TwoWay}" />
+            </Grid>
+            <TextBlock Grid.Row="1" Style="{StaticResource ExtensionDescription}" Text="Brings shaders back to Roblox for better visuals. Press F8 in game to open the panel. Best used for screenshots rather than everyday play." />
+            <ui:Button Grid.Row="2" HorizontalAlignment="Left" Content="{Binding RiShadeOpenLabel}" Click="OpenRiShade_Click" IsEnabled="{Binding rishadeenabler}" />
+          </Grid>
+        </ui:Card>
+
+        <ui:Card Style="{StaticResource ExtensionCard}" Visibility="{Binding ApiDumpVisibility}">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Border Grid.Column="0" Style="{StaticResource ExtensionIconTile}">
+                <Image Style="{StaticResource ExtensionIconImage}" util:DynamicRenderSystem.LazyImageSource="https://raw.githubusercontent.com/MaximumADHD/Roblox-API-Dump-Tool/master/Resources/AppLogo.png" />
+              </Border>
+              <StackPanel Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource ExtensionTitle}" Text="Roblox API Dump Tool" />
+                <TextBlock Style="{StaticResource ExtensionSubtitle}" Text="Roblox Extension" />
+              </StackPanel>
+              <ui:ToggleSwitch Grid.Column="2" VerticalAlignment="Center" AutomationProperties.Name="Roblox API Dump Tool" IsChecked="{Binding apidumpenabler, Mode=TwoWay}" />
+            </Grid>
+            <TextBlock Grid.Row="1" Style="{StaticResource ExtensionDescription}" Text="Browse Roblox API classes and enums, and see what changed between Roblox versions." />
+            <ui:Button Grid.Row="2" HorizontalAlignment="Left" Content="Open" Click="OpenApiDumpTool_Click" IsEnabled="{Binding apidumpenabler}" />
+          </Grid>
+        </ui:Card>
+
+        <ui:Card Style="{StaticResource ExtensionCard}" Visibility="{Binding CommunityContentVisibility}">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Border Grid.Column="0" Style="{StaticResource ExtensionIconTile}">
+                <ui:SymbolIcon Symbol="Grid24" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
+              <StackPanel Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource ExtensionTitle}" Text="Community Content" />
+                <TextBlock Style="{StaticResource ExtensionSubtitle}" Text="Classic Roblox" />
+              </StackPanel>
+              <ui:ToggleSwitch Grid.Column="2" VerticalAlignment="Center" AutomationProperties.Name="Community Content" IsChecked="{Binding communitycontentenabler, Mode=TwoWay}" />
+            </Grid>
+            <TextBlock Grid.Row="1" Style="{StaticResource ExtensionDescription}" Text="Extra catalog items, decals, meshes, audio and maps for the classic Roblox clients." />
+            <ui:Button Grid.Row="2" HorizontalAlignment="Left" Content="Update now" Click="UpdateCommunityContent_Click" IsEnabled="{Binding communitycontentenabler}" />
+          </Grid>
+        </ui:Card>
+
+        <ui:Card Style="{StaticResource ExtensionCard}" Visibility="{Binding RojoVisibility}">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Border Grid.Column="0" Style="{StaticResource ExtensionIconTile}">
+                <Image Style="{StaticResource ExtensionIconImage}" util:DynamicRenderSystem.LazyImageSource="https://github.com/rojo-rbx.png" />
+              </Border>
+              <StackPanel Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource ExtensionTitle}" Text="Rojo" />
+                <TextBlock Style="{StaticResource ExtensionSubtitle}" Text="Roblox Studio Extensions" />
+              </StackPanel>
+              <ui:ToggleSwitch Grid.Column="2" VerticalAlignment="Center" AutomationProperties.Name="Rojo" IsChecked="{Binding rojoenabler, Mode=TwoWay}" />
+            </Grid>
+            <TextBlock Grid.Row="1" Style="{StaticResource ExtensionDescription}" Text="Syncs code files from your computer into Roblox Studio live." />
+            <Grid Grid.Row="2">
+              <Expander x:Name="RojoToolsExpander" Header="Project tools" IsExpanded="False" IsEnabled="{Binding rojoenabler}" />
+              <Popup
+                  AllowsTransparency="True"
+                  Placement="Bottom"
+                  PlacementTarget="{Binding ElementName=RojoToolsExpander}"
+                  StaysOpen="False"
+                  VerticalOffset="2"
+                  MinWidth="{Binding ActualWidth, ElementName=RojoToolsExpander}"
+                  IsOpen="{Binding IsExpanded, ElementName=RojoToolsExpander, Mode=TwoWay}">
+                <Border
+                    Padding="12"
+                    CornerRadius="{DynamicResource PopupCornerRadius}"
+                    BorderThickness="1"
+                    BorderBrush="{DynamicResource MenuBorderColorDefaultBrush}"
+                    Background="{DynamicResource ApplicationBackgroundBrush}">
+                  <StackPanel>
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <ui:TextBox Grid.Column="0" Height="34" Margin="0,0,8,0" VerticalContentAlignment="Center" PlaceholderText="Project folder" Text="{Binding RojoProjectPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding rojoenabler}" />
+                      <ui:Button Grid.Column="1" Height="34" Content="Browse" Click="BrowseRojoFolder_Click" IsEnabled="{Binding rojoenabler}" />
+                    </Grid>
+                    <WrapPanel Margin="0,10,0,0">
+                      <ui:Button Margin="0,0,8,8" Content="New project" Click="RojoInit_Click" IsEnabled="{Binding rojoenabler}" />
+                      <ui:Button Margin="0,0,8,8" Content="{Binding RojoServeLabel}" Appearance="Primary" Click="RojoServe_Click" IsEnabled="{Binding rojoenabler}" />
+                      <ui:Button Margin="0,0,8,8" Content="Build place" Click="RojoBuild_Click" IsEnabled="{Binding rojoenabler}" />
+                      <ui:Button Margin="0,0,8,8" Content="Install Studio plugin" Click="RojoInstallPlugin_Click" IsEnabled="{Binding rojoenabler}" />
+                      <ui:Button Margin="0,0,0,8" Content="Open folder" Click="OpenRojo_Click" IsEnabled="{Binding rojoenabler}" />
+                    </WrapPanel>
+                  </StackPanel>
+                </Border>
+              </Popup>
+            </Grid>
+          </Grid>
+        </ui:Card>
+
+        <ui:Card Style="{StaticResource ExtensionCard}" Visibility="{Binding StudioPluginVisibility}">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Border Grid.Column="0" Style="{StaticResource ExtensionIconTile}">
+                <Image Style="{StaticResource ExtensionIconImage}" Source="pack://application:,,,/Voidstrap.png" />
+              </Border>
+              <StackPanel Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource ExtensionTitle}" Text="Voidstrap Studio plugin" />
+                <TextBlock Style="{StaticResource ExtensionSubtitle}" Text="Roblox Studio Extensions" />
+              </StackPanel>
+              <ui:ToggleSwitch Grid.Column="2" VerticalAlignment="Center" AutomationProperties.Name="Voidstrap Studio plugin" IsChecked="{Binding studiopluginenabler, Mode=TwoWay}" />
+            </Grid>
+            <TextBlock Grid.Row="1" Style="{StaticResource ExtensionDescription}" Text="A Voidstrap panel in Studio. Shows what you're building on Discord." />
+          </Grid>
+        </ui:Card>
+
+      </UniformGrid>
+      <Border Visibility="{Binding EmptyStateVisibility}" Margin="0,20,12,0" Padding="28" CornerRadius="7" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}" HorizontalAlignment="Stretch">
+        <StackPanel HorizontalAlignment="Center">
+          <ui:SymbolIcon Symbol="Search24" FontSize="34" HorizontalAlignment="Center" Opacity="0.55" />
+          <TextBlock Margin="0,12,0,0" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" TextAlignment="Center" Text="{Binding EmptyStateTitle}" />
+          <TextBlock Margin="0,4,0,0" FontSize="12" Opacity="0.7" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="460" Text="{Binding EmptyStateSubtitle}" />
+        </StackPanel>
+      </Border>
+    </StackPanel>
+
+    <Grid Name="ProgressOverlay" Visibility="Collapsed" Background="Transparent">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource CardBackgroundBrush}" Padding="24" CornerRadius="7" MinWidth="420">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+          <TextBlock Name="ProgressTitle" FontSize="16" FontWeight="Bold" Text="Processing..." Margin="0,0,0,12" HorizontalAlignment="Center" />
+          <ProgressBar Name="ProgressBar" Width="380" Height="12" Minimum="0" Maximum="100" IsIndeterminate="True" />
+          <TextBlock Name="ProgressPercent" Margin="0,8,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <ui:Button Content="Cancel" Margin="0,14,0,0" Width="180" HorizontalAlignment="Center" Click="CancelDownload_Click" />
+        </StackPanel>
+      </Border>
+    </Grid>
+  </Grid>
+</ui:UiPage>

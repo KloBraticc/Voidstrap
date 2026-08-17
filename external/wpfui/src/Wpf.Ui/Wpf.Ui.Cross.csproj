@@ -1,0 +1,47 @@
+<Project Sdk="LibreWPF.Sdk">
+
+  <PropertyGroup>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)bin-cross\$(RuntimeIdentifier)\</BaseOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Wpf.Ui</RootNamespace>
+    <AssemblyName>Wpf.Ui</AssemblyName>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+    <ProGpuWpfUsePortableFrameworkReferences>true</ProGpuWpfUsePortableFrameworkReferences>
+    <ProGpuWpfSystemSecurityCryptographyXmlVersion>10.0.11</ProGpuWpfSystemSecurityCryptographyXmlVersion>
+    <ProGpuWpfUsePortableWinFormsCompat>false</ProGpuWpfUsePortableWinFormsCompat>
+    <ProGpuWpfUseLibreWinForms>false</ProGpuWpfUseLibreWinForms>
+    <PlatformTarget Condition="'$(RuntimeIdentifier)' == 'linux-arm64' Or '$(RuntimeIdentifier)' == 'osx-arm64'">ARM64</PlatformTarget>
+    <PlatformTarget Condition="'$(RuntimeIdentifier)' == 'linux-x64' Or '$(RuntimeIdentifier)' == 'osx-x64'">x64</PlatformTarget>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <NoWarn>$(NoWarn);CS8632;CS8669;CS8600;CS8601;CS8602;CS8603;CS8604;CS8612;CS8618;CS8620;CS8622;CS8625;CS8714;CA1416</NoWarn>
+    <EnableSourceLink>false</EnableSourceLink>
+    <DeterministicSourcePaths>false</DeterministicSourcePaths>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="obj-*\**;bin-cross\**;obj\**;bin\**;Tray\Hicon.cs" />
+    <Page Remove="obj-*\**;bin-cross\**;obj\**;bin\**" />
+    <None Remove="obj-*\**;bin-cross\**;obj\**;bin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\..\src\Voidstrap.Cross\WpfUi\HiconCrossStub.cs" Link="HiconCrossStub.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\FluentSystemIcons-Filled.ttf" />
+    <Resource Include="Fonts\FluentSystemIcons-Regular.ttf" />
+  </ItemGroup>
+
+</Project>

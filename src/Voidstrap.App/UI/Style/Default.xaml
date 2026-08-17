@@ -1,0 +1,90 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+    <Color x:Key="ComboBoxPopupAcrylicBackground">#FF2C2C2C</Color>
+<Style x:Key="NoUserExpansionCardExpanderStyle" TargetType="{x:Type ui:CardExpander}">
+    <Setter Property="FrameworkElement.FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}" />
+    <Setter Property="Background">
+      <Setter.Value>
+        <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Foreground">
+      <Setter.Value>
+        <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+      </Setter.Value>
+    </Setter>
+    <Setter Property="ui:CardExpander.IconForeground">
+      <Setter.Value>
+        <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+      </Setter.Value>
+    </Setter>
+    <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{StaticResource CardExpanderBorderThemeThickness}" />
+    <Setter Property="Padding" Value="{StaticResource CardExpanderPadding}" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Border.CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+    <Setter Property="ui:CardExpander.IconFilled" Value="False" />
+    <Setter Property="ui:CardExpander.Icon" Value="Empty" />
+    <Setter Property="Expander.IsExpanded" Value="False" />
+    <Setter Property="UIElement.SnapsToDevicePixels" Value="True" />
+    <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="True" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type ui:CardExpander}">
+          <Border Name="ContentBorder" Width="{TemplateBinding FrameworkElement.Width}" Height="{TemplateBinding FrameworkElement.Height}" MinWidth="{TemplateBinding FrameworkElement.MinWidth}" MinHeight="{TemplateBinding FrameworkElement.MinHeight}" Padding="0" HorizontalAlignment="{TemplateBinding FrameworkElement.HorizontalAlignment}" VerticalAlignment="{TemplateBinding FrameworkElement.VerticalAlignment}" Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="{TemplateBinding Control.BorderThickness}" CornerRadius="{TemplateBinding Border.CornerRadius}">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid Margin="{TemplateBinding Control.Padding}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#00FFFFFF">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ContentPresenter Name="HeaderContentPresenter" Grid.Column="1" Content="{TemplateBinding HeaderedContentControl.Header}" TextElement.Foreground="{TemplateBinding Control.Foreground}" />
+              </Grid>
+              <Border Name="ContentPresenterBorder" Grid.Row="1" Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding Control.BorderBrush}" Height="0" Opacity="0.0" ui:ExpanderReveal.IsOpen="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}">
+                <ContentPresenter Name="ContentPresenter" Margin="{TemplateBinding Control.Padding}" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" Content="{TemplateBinding ContentControl.Content}" />
+              </Border>
+            </Grid>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="Expander.IsExpanded" Value="True">
+              <Setter TargetName="ContentPresenterBorder" Property="Border.BorderThickness" Value="0,1,0,0" />
+            </Trigger>
+            <Trigger Property="UIElement.IsMouseOver" Value="True" />
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter Value="{DynamicResource ControlFillColorDisabledBrush}" Property="Background" />
+              <Setter Value="{DynamicResource ControlStrokeColorDefaultBrush}" Property="BorderBrush" />
+              <Setter TargetName="ContentPresenter" Value="{DynamicResource TextFillColorDisabledBrush}" Property="TextElement.Foreground" />
+              <Setter TargetName="HeaderContentPresenter" Value="{DynamicResource TextFillColorDisabledBrush}" Property="TextElement.Foreground" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style x:Key="NewTextEditor" TargetType="{x:Type avalonedit:TextEditor}">
+    <Setter Property="Foreground" Value="{DynamicResource NewTextEditorForeground}" />
+    <Setter Property="Background" Value="{DynamicResource NewTextEditorBackground}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type avalonedit:TextEditor}">
+          <Border Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="{TemplateBinding Control.BorderThickness}" CornerRadius="4">
+            <ScrollViewer Name="PART_ScrollViewer" Padding="{TemplateBinding Control.Padding}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" CanContentScroll="True" Focusable="False" HorizontalScrollBarVisibility="{TemplateBinding avalonedit:TextEditor.HorizontalScrollBarVisibility}" VerticalScrollBarVisibility="{TemplateBinding avalonedit:TextEditor.VerticalScrollBarVisibility}" Content="{Binding Path=TextArea, RelativeSource={RelativeSource TemplatedParent}}" />
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="avalonedit:TextEditor.WordWrap" Value="True">
+              <Setter TargetName="PART_ScrollViewer" Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>

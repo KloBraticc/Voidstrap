@@ -1,0 +1,17 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base">
+  <SolidColorBrush x:Key="NewTextEditorBackground" Color="#E6241307" />
+  <SolidColorBrush x:Key="NewTextEditorForeground" Color="#FFF6EADD" />
+  <SolidColorBrush x:Key="NewTextEditorLink" Color="#FFE8923A" />
+  <SolidColorBrush x:Key="PrimaryBackgroundColor" Color="#E61C0E06" />
+  <SolidColorBrush x:Key="PrimaryForegroundBrush" Color="#FFF6EADD" />
+  <Color x:Key="ControlFillColorDefault">#E61C0E06</Color>
+  <Color x:Key="WindowBackgroundColorPrimary">#E6241307</Color>
+  <Color x:Key="ComboBoxPopupAcrylicBackground">#FF241307</Color>
+  <Color x:Key="WindowBackgroundColorSecondary">#E65A3110</Color>
+  <Color x:Key="WindowBackgroundColorThird">#E61C0E06</Color>
+  <Color x:Key="WindowBackgroundColorTertiary">#E61C0E06</Color>
+  <Color x:Key="WindowBackgroundColorPrimaryWithOpacity">#80241307</Color>
+  <Color x:Key="WindowBackgroundColorSecondaryWithOpacity">#805A3110</Color>
+  <Color x:Key="WindowBackgroundColorThirdWithOpacity">#801C0E06</Color>
+  <Color x:Key="WindowBackgroundColorTertiaryWithOpacity">#801C0E06</Color>
+</ResourceDictionary>

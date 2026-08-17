@@ -1,0 +1,80 @@
+<Window x:Class="Voidstrap.UI.Elements.Settings.DownloadProgressWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Downloading Roblox"
+        Width="660" Height="380"
+        MinWidth="520" MinHeight="320"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResizeWithGrip"
+        ShowInTaskbar="True"
+        Background="{DynamicResource ApplicationBackgroundBrush}"
+        Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,14">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <ui:SymbolIcon Symbol="ArrowDownload24" FontSize="20" VerticalAlignment="Center" Opacity="0.85" Margin="0,0,10,0" />
+                <TextBlock Text="{Binding GraphTitle}" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="{Binding CurrentSpeedText}" FontSize="13" VerticalAlignment="Center" Foreground="{DynamicResource AppAccentBrush}" />
+                <TextBlock Text="{Binding PeakSpeedText}" FontSize="12" Opacity="0.55" VerticalAlignment="Center" Margin="12,0,0,0" />
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="1"
+                CornerRadius="8"
+                Background="{DynamicResource ControlFillColorDefaultBrush}"
+                BorderThickness="1"
+                BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                ClipToBounds="True">
+            <Grid>
+                <Rectangle Height="1" VerticalAlignment="Center" Fill="{DynamicResource ControlStrokeColorDefaultBrush}" />
+                <TextBlock Text="{Binding ActiveItem.ProgressDetail}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="13"
+                           Opacity="0.5"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap"
+                           Margin="20"
+                           Visibility="{Binding PlaceholderVisibility}" />
+                <Polyline Points="{Binding GraphPoints}"
+                          Stretch="Fill"
+                          Margin="8"
+                          Stroke="{DynamicResource AppAccentBrush}"
+                          StrokeThickness="2.2"
+                          StrokeLineJoin="Round" />
+            </Grid>
+        </Border>
+
+        <TextBlock Grid.Row="2" Text="{Binding DownloadedText}" FontSize="13" Opacity="0.65" Margin="2,12,0,0" />
+
+        <ProgressBar Grid.Row="3"
+                     Height="10"
+                     Margin="0,10,0,0"
+                     Minimum="0"
+                     Maximum="100"
+                     Value="{Binding ActiveItem.Progress, Mode=OneWay}" />
+
+        <Grid Grid.Row="4" Margin="0,14,0,0">
+            <TextBlock Text="{Binding ActiveItem.ProgressDetail}" FontSize="12" Opacity="0.6" VerticalAlignment="Center" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" />
+            <ui:Button Content="Cancel"
+                       Appearance="Secondary"
+                       HorizontalAlignment="Right"
+                       MinWidth="110"
+                       Command="{Binding ActiveItem.CancelCommand}" />
+        </Grid>
+    </Grid>
+</Window>

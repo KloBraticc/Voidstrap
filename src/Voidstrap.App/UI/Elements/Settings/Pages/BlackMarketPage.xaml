@@ -1,0 +1,73 @@
+﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.BlackMarketPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="Black Market" Scrollable="False" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+  <Grid Margin="0,0,14,14">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <Grid Grid.Row="0" Margin="0,0,0,12">
+      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <Image Width="24" Height="24" Margin="0,0,8,0" Stretch="Uniform" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="https://voidstrapp.pages.dev/assets/img/blackmarket-allinone.png?v=3" />
+        <TextBlock x:Name="HeaderTitle" Text="Black Market" FontSize="20" FontWeight="Medium" VerticalAlignment="Center" />
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <ui:Button Content="Back" Icon="ArrowLeft24" Appearance="Secondary" Click="Back_Click" />
+        <ui:Button x:Name="RefreshButton" Margin="8,0,0,0" Content="Refresh" Icon="ArrowClockwise24" Appearance="Secondary" Click="Refresh_Click" />
+      </StackPanel>
+    </Grid>
+
+    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,12">
+      <ui:Button x:Name="ShopTabButton" Content="Shop" Icon="Cart24" Appearance="Secondary" Click="ShopTab_Click" />
+      <ui:Button x:Name="MarketTabButton" Margin="8,0,0,0" Appearance="Secondary" IsEnabled="False" Click="MarketTab_Click">
+        <StackPanel Orientation="Horizontal">
+          <Image x:Name="MarketTabIcon" Width="16" Height="16" Margin="0,0,8,0" Stretch="Uniform" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+          <TextBlock Text="Black Market" VerticalAlignment="Center" />
+        </StackPanel>
+      </ui:Button>
+    </StackPanel>
+
+    <Border Grid.Row="2" Margin="0,0,0,12" Padding="14" CornerRadius="8"
+            Background="{DynamicResource ControlFillColorDefaultBrush}"
+            BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+            BorderThickness="1">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Image x:Name="HeaderIcon" Grid.Column="0" Width="52" Height="52" Margin="0,0,14,0"
+               Stretch="Uniform" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+          <TextBlock x:Name="FocusName" Text="Black Market" FontSize="15" FontWeight="Medium" Margin="0,0,0,6" />
+          <Border Height="8" CornerRadius="4" Background="{DynamicResource ControlFillColorSecondaryBrush}" HorizontalAlignment="Stretch">
+            <Border x:Name="ProgressFill" HorizontalAlignment="Left" CornerRadius="4" Background="#8B5CF6" Width="0" />
+          </Border>
+          <TextBlock x:Name="ProgressText" Text="" FontSize="12" Margin="0,6,0,0" Opacity="0.75" />
+          <TextBlock x:Name="RestockText" Text="" FontSize="12" Margin="0,2,0,0" Opacity="0.6" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="3">
+      <ui:ProgressRing x:Name="LoadingRing" IsIndeterminate="True" Width="32" Height="32"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+      <TextBlock x:Name="StatusText" Text="" TextWrapping="Wrap" Opacity="0.75"
+                 HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
+      <ScrollViewer x:Name="ItemsScroller" VerticalScrollBarVisibility="Auto" Visibility="Collapsed">
+        <ItemsControl x:Name="ItemsHost">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+        </ItemsControl>
+      </ScrollViewer>
+    </Grid>
+  </Grid>
+</ui:UiPage>

@@ -1,0 +1,161 @@
+<UserControl x:Class="Voidstrap.UI.Elements.Controls.RinColorPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Width="324">
+  <UserControl.Resources>
+    <DrawingBrush x:Key="RinCheckerboard" TileMode="Tile" Viewport="0,0,8,8" ViewportUnits="Absolute">
+      <DrawingBrush.Drawing>
+        <DrawingGroup>
+          <GeometryDrawing Brush="#FFFFFFFF">
+            <GeometryDrawing.Geometry>
+              <RectangleGeometry Rect="0,0,8,8" />
+            </GeometryDrawing.Geometry>
+          </GeometryDrawing>
+          <GeometryDrawing Brush="#40808080">
+            <GeometryDrawing.Geometry>
+              <GeometryGroup>
+                <RectangleGeometry Rect="0,0,4,4" />
+                <RectangleGeometry Rect="4,4,4,4" />
+              </GeometryGroup>
+            </GeometryDrawing.Geometry>
+          </GeometryDrawing>
+        </DrawingGroup>
+      </DrawingBrush.Drawing>
+    </DrawingBrush>
+  </UserControl.Resources>
+  <StackPanel>
+    <Grid Height="256">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="12" />
+        <ColumnDefinition Width="44" />
+      </Grid.ColumnDefinitions>
+      <Border x:Name="SpectrumHost" Grid.Column="0" CornerRadius="5" ClipToBounds="True" Cursor="Cross">
+        <Grid x:Name="SpectrumGrid" Background="Transparent" MouseDown="Spectrum_MouseDown" MouseMove="Spectrum_MouseMove" MouseUp="Spectrum_MouseUp">
+          <Rectangle>
+            <Rectangle.Fill>
+              <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Color="#FFFF0000" Offset="0" />
+                <GradientStop Color="#FFFFFF00" Offset="0.167" />
+                <GradientStop Color="#FF00FF00" Offset="0.333" />
+                <GradientStop Color="#FF00FFFF" Offset="0.5" />
+                <GradientStop Color="#FF0000FF" Offset="0.667" />
+                <GradientStop Color="#FFFF00FF" Offset="0.833" />
+                <GradientStop Color="#FFFF0000" Offset="1" />
+              </LinearGradientBrush>
+            </Rectangle.Fill>
+          </Rectangle>
+          <Rectangle>
+            <Rectangle.Fill>
+              <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#00FFFFFF" Offset="0" />
+                <GradientStop Color="#FFFFFFFF" Offset="1" />
+              </LinearGradientBrush>
+            </Rectangle.Fill>
+          </Rectangle>
+          <Canvas x:Name="SpectrumCanvas">
+            <Ellipse x:Name="SpectrumThumb" Width="14" Height="14" StrokeThickness="2" Stroke="White" Fill="Transparent" IsHitTestVisible="False" />
+          </Canvas>
+        </Grid>
+      </Border>
+      <Border Grid.Column="2" CornerRadius="5" ClipToBounds="True" BorderThickness="1">
+        <Border.BorderBrush>
+          <SolidColorBrush Color="{DynamicResource DividerStrokeColorDefault}" />
+        </Border.BorderBrush>
+        <Grid>
+          <Rectangle Fill="{StaticResource RinCheckerboard}" />
+          <Rectangle x:Name="PreviewRect" />
+        </Grid>
+      </Border>
+    </Grid>
+    <Grid Height="18" Margin="0,22,0,0">
+      <Border x:Name="ValueTrack" Height="12" VerticalAlignment="Center" CornerRadius="6" Background="Transparent" MouseDown="Value_MouseDown" MouseMove="Value_MouseMove" MouseUp="Value_MouseUp" Cursor="Hand" />
+      <Canvas IsHitTestVisible="False">
+        <Ellipse x:Name="ValueHandle" Width="18" Height="18" StrokeThickness="4">
+          <Ellipse.Fill>
+            <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+          </Ellipse.Fill>
+          <Ellipse.Stroke>
+            <SolidColorBrush Color="{DynamicResource ControlSolidFillColorDefault}" />
+          </Ellipse.Stroke>
+        </Ellipse>
+      </Canvas>
+    </Grid>
+    <Grid x:Name="AlphaRow" Height="18" Margin="0,22,0,0">
+      <Border Height="12" VerticalAlignment="Center" CornerRadius="6" ClipToBounds="True">
+        <Grid>
+          <Rectangle Fill="{StaticResource RinCheckerboard}" />
+          <Rectangle x:Name="AlphaGradientRect" />
+        </Grid>
+      </Border>
+      <Border x:Name="AlphaTrack" Height="12" VerticalAlignment="Center" CornerRadius="6" Background="Transparent" MouseDown="Alpha_MouseDown" MouseMove="Alpha_MouseMove" MouseUp="Alpha_MouseUp" Cursor="Hand" />
+      <Canvas IsHitTestVisible="False">
+        <Ellipse x:Name="AlphaHandle" Width="18" Height="18" StrokeThickness="4">
+          <Ellipse.Fill>
+            <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+          </Ellipse.Fill>
+          <Ellipse.Stroke>
+            <SolidColorBrush Color="{DynamicResource ControlSolidFillColorDefault}" />
+          </Ellipse.Stroke>
+        </Ellipse>
+      </Canvas>
+    </Grid>
+    <Grid Margin="0,20,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="132" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="132" />
+      </Grid.ColumnDefinitions>
+      <ComboBox x:Name="ModeBox" Grid.Column="0" SelectedIndex="0" SelectionChanged="ModeBox_SelectionChanged">
+        <ComboBoxItem Content="RGB" />
+        <ComboBoxItem Content="HSV" />
+      </ComboBox>
+      <TextBox x:Name="HexBox" Grid.Column="2" MaxLength="9" TextChanged="HexBox_TextChanged" />
+    </Grid>
+    <Grid Margin="0,12,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="8" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="8" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <StackPanel Grid.Column="0">
+        <TextBlock x:Name="C1Label" Text="Red" FontSize="12" Margin="2,0,0,4">
+          <TextBlock.Foreground>
+            <SolidColorBrush Color="{DynamicResource TextFillColorSecondary}" />
+          </TextBlock.Foreground>
+        </TextBlock>
+        <TextBox x:Name="C1Box" MaxLength="3" TextChanged="Channel_TextChanged" />
+      </StackPanel>
+      <StackPanel Grid.Column="2">
+        <TextBlock x:Name="C2Label" Text="Green" FontSize="12" Margin="2,0,0,4">
+          <TextBlock.Foreground>
+            <SolidColorBrush Color="{DynamicResource TextFillColorSecondary}" />
+          </TextBlock.Foreground>
+        </TextBlock>
+        <TextBox x:Name="C2Box" MaxLength="3" TextChanged="Channel_TextChanged" />
+      </StackPanel>
+      <StackPanel Grid.Column="4">
+        <TextBlock x:Name="C3Label" Text="Blue" FontSize="12" Margin="2,0,0,4">
+          <TextBlock.Foreground>
+            <SolidColorBrush Color="{DynamicResource TextFillColorSecondary}" />
+          </TextBlock.Foreground>
+        </TextBlock>
+        <TextBox x:Name="C3Box" MaxLength="3" TextChanged="Channel_TextChanged" />
+      </StackPanel>
+    </Grid>
+    <Grid x:Name="AlphaInputRow" Margin="0,12,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="120" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBox x:Name="AlphaBox" Grid.Column="0" MaxLength="3" TextChanged="AlphaBox_TextChanged" />
+      <TextBlock Grid.Column="1" Text="%" VerticalAlignment="Center" Margin="8,0,0,0">
+        <TextBlock.Foreground>
+          <SolidColorBrush Color="{DynamicResource TextFillColorSecondary}" />
+        </TextBlock.Foreground>
+      </TextBlock>
+    </Grid>
+  </StackPanel>
+</UserControl>

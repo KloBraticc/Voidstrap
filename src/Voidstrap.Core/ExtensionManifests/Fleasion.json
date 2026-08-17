@@ -1,0 +1,10 @@
+{
+  "id": "Fleasion",
+  "displayName": "Fleasion",
+  "supportedPlatforms": ["Windows"],
+  "requiredFeatures": ["AssetInjection", "ExtensionNativeAssets"],
+  "nativeAssets": {
+    "Windows": ["Fleasion/Fleasion.exe"]
+  },
+  "externalRequirements": []
+}

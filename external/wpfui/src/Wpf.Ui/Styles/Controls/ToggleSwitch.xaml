@@ -1,0 +1,349 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Wpf.Ui.Controls">
+    <Thickness x:Key="ToggleSwitchContentMargin">12,0,0,0</Thickness>
+
+    <Style x:Key="DefaultUiToggleSwitchStyle" TargetType="{x:Type controls:ToggleSwitch}">
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}" />
+        <Setter Property="Background" Value="{DynamicResource SystemAccentBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:ToggleSwitch}">
+                    <Grid Background="Transparent" SnapsToDevicePixels="True" UseLayoutRounding="True">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="ToggleCheckStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition To="SwitchUnchecked">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_KnobPosition" Storyboard.TargetProperty="X">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.367" KeySpline="0.1,0.9 0.2,1.0" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="CenterX">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.367" KeySpline="0.1,0.9 0.2,1.0" Value="2.4" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchActiveTrack" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchUncheckedKnob" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchCheckedKnob" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition To="SwitchChecked">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_KnobPosition" Storyboard.TargetProperty="X">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.367" KeySpline="0.1,0.9 0.2,1.0" Value="20" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="CenterX">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.367" KeySpline="0.1,0.9 0.2,1.0" Value="9.6" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchActiveTrack" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchUncheckedKnob" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchCheckedKnob" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition To="SwitchIndeterminate">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_KnobPosition" Storyboard.TargetProperty="X">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.367" KeySpline="0.1,0.9 0.2,1.0" Value="10" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="CenterX">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.367" KeySpline="0.1,0.9 0.2,1.0" Value="6" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchActiveTrack" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="0.55" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchUncheckedKnob" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="0.5" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchCheckedKnob" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="0.5" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="SwitchUnchecked">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchActiveTrack" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchUncheckedKnob" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchCheckedKnob" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="PART_KnobPosition" Storyboard.TargetProperty="X" To="0" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="CenterX" To="2.4" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="SwitchChecked">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchActiveTrack" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchUncheckedKnob" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchCheckedKnob" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="PART_KnobPosition" Storyboard.TargetProperty="X" To="20" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="CenterX" To="9.6" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="SwitchIndeterminate">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchActiveTrack" Storyboard.TargetProperty="Opacity" To="0.55" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchUncheckedKnob" Storyboard.TargetProperty="Opacity" To="0.5" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchCheckedKnob" Storyboard.TargetProperty="Opacity" To="0.5" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="PART_KnobPosition" Storyboard.TargetProperty="X" To="10" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="CenterX" To="6" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ToggleInteractionStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition To="SwitchNormal">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchBaseTrack" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchHoverTrack" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleX">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleY">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="ScaleX">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchVisual" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition To="SwitchPointerOver">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchBaseTrack" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchHoverTrack" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleX">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1.166666667" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleY">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1.166666667" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="ScaleX">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchVisual" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition To="SwitchPressed">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchBaseTrack" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchHoverTrack" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleX">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleY">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1.166666667" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="ScaleX">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1.416666667" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchVisual" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition To="SwitchDragging">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchBaseTrack" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchHoverTrack" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleX">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleY">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1.166666667" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="ScaleX">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1.416666667" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchVisual" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition To="SwitchDisabled">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchBaseTrack" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.25" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchHoverTrack" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.25" KeySpline="0,0,0,1" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleX">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.25" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleY">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.25" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="ScaleX">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.25" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchVisual" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.25" KeySpline="0,0,0,1" Value="0.2169" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="SwitchNormal">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchBaseTrack" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchHoverTrack" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="SwitchPointerOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchBaseTrack" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchHoverTrack" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleX" To="1.166666667" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleY" To="1.166666667" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="SwitchPressed">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchBaseTrack" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchHoverTrack" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleY" To="1.166666667" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="ScaleX" To="1.416666667" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="SwitchDragging">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchBaseTrack" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchHoverTrack" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleY" To="1.166666667" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="ScaleX" To="1.416666667" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="SwitchDisabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchBaseTrack" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchHoverTrack" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobHoverScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobPressScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchVisual" Storyboard.TargetProperty="Opacity" To="0.2169" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition To="KeyboardUnfocused">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KeyboardFocusCue" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition To="KeyboardFocused">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="KeyboardFocusCue" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.083" KeySpline="0,0,0,1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="KeyboardUnfocused">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="KeyboardFocusCue" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="KeyboardFocused">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="KeyboardFocusCue" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid x:Name="SwitchVisual" Width="40" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Grid x:Name="PART_Track" Width="40" Height="20" Background="Transparent">
+                                <Border x:Name="SwitchBaseTrack" CornerRadius="10" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlStrongStrokeColorDefaultBrush}" BorderThickness="1" />
+                                <Border x:Name="SwitchHoverTrack" CornerRadius="10" Background="{DynamicResource ControlFillColorTertiaryBrush}" BorderBrush="{DynamicResource ControlStrongStrokeColorDefaultBrush}" BorderThickness="1" Opacity="0" />
+                                <Border x:Name="SwitchActiveTrack" CornerRadius="10" Background="{TemplateBinding Background}" Opacity="0" />
+                                <Border x:Name="KeyboardFocusCue" IsHitTestVisible="False" Opacity="0" />
+                                <Canvas IsHitTestVisible="False">
+                                    <Grid x:Name="PART_KnobHost" Canvas.Left="4" Canvas.Top="4" Width="12" Height="12" RenderTransformOrigin="0,0">
+                                        <Grid.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform x:Name="KnobHoverScale" CenterX="6" CenterY="6" />
+                                                <ScaleTransform x:Name="KnobPressScale" CenterX="2.4" CenterY="6" />
+                                                <TranslateTransform x:Name="PART_KnobPosition" />
+                                                <TranslateTransform x:Name="PART_DragTransform" />
+                                            </TransformGroup>
+                                        </Grid.RenderTransform>
+                                        <Ellipse x:Name="SwitchUncheckedKnob" Fill="{DynamicResource ControlStrongStrokeColorDefaultBrush}" />
+                                        <Ellipse x:Name="SwitchCheckedKnob" Fill="{DynamicResource TextOnAccentFillColorPrimaryBrush}" Opacity="0" />
+                                    </Grid>
+                                </Canvas>
+                            </Grid>
+                        </Grid>
+                        <ContentPresenter x:Name="SwitchContent" Grid.Column="1" Margin="{StaticResource ToggleSwitchContentMargin}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter TargetName="SwitchContent" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="Content" Value="">
+                            <Setter TargetName="SwitchContent" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource TextFillColorDisabledBrush}" />
+                            <Setter Property="Cursor" Value="Arrow" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource DefaultUiToggleSwitchStyle}" TargetType="{x:Type controls:ToggleSwitch}" />
+</ResourceDictionary>

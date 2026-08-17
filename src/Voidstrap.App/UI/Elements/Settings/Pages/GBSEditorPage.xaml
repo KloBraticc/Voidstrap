@@ -1,0 +1,269 @@
+﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.GBSEditorPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="GBSEditor" Scrollable="True" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages">
+  <StackPanel Margin="0,0,14,14">
+    <TextBlock Text="Customize Roblox Game Settings" FontSize="14" />
+
+    <controls:OptionControl Margin="0,12,0,0" Header="Lock settings file" Description="Marks the Roblox settings file read only so Roblox cannot overwrite your changes">
+      <ui:ToggleSwitch IsChecked="{Binding SettingsFileReadOnly, Mode=TwoWay}" />
+    </controls:OptionControl>
+
+    <TabControl Margin="0,12,0,0">
+
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Grid24" Margin="0,0,6,0" />
+            <TextBlock Text="Interface" />
+          </StackPanel>
+        </TabItem.Header>
+        <StackPanel Margin="10">
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="User Interface" />
+          <controls:OptionControl Header="UI Transparency" Description="Set your preferred interface transparency.">
+            <StackPanel Orientation="Horizontal">
+              <Slider Minimum="0" Maximum="1" TickFrequency="0.05" IsSnapToTickEnabled="True" Value="{Binding UITransparency, Mode=TwoWay}" Width="200" />
+              <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding UITransparency, StringFormat={}{0:0.0}}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Text Size" Description="Controls the overall UI text size.">
+            <ComboBox SelectedValuePath="Tag" Width="200" SelectedValue="{Binding PreferredTextSize, Mode=TwoWay}">
+              <ComboBoxItem Content="Small">
+                <FrameworkElement.Tag>
+                  <sys:Int32>0</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="Normal">
+                <FrameworkElement.Tag>
+                  <sys:Int32>1</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="Large">
+                <FrameworkElement.Tag>
+                  <sys:Int32>2</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+            </ComboBox>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Reduced Motion" Description="Disable UI animations for accessibility.">
+            <ui:ToggleSwitch IsChecked="{Binding ReducedMotion, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="HUD Visibility" Description="Toggle HUD (heads-up display) on/off.">
+            <ui:ToggleSwitch IsChecked="{Binding HudVisible, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Chat Visibility" Description="Toggle Chat Visibility on/off.">
+            <ui:ToggleSwitch IsChecked="{Binding ChatVisible, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Player Names Visible" Description="Show other player names.">
+            <ui:ToggleSwitch IsChecked="{Binding PlayerNamesEnabled, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Badge Visible" Description="Show badges earned in-game.">
+            <ui:ToggleSwitch IsChecked="{Binding BadgeVisible, Mode=TwoWay}" />
+          </controls:OptionControl>
+        </StackPanel>
+      </TabItem>
+
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Color24" Margin="0,0,6,0" />
+            <TextBlock Text="Graphics" />
+          </StackPanel>
+        </TabItem.Header>
+        <StackPanel Margin="10">
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Graphics and Rendering" />
+          <controls:OptionControl Header="Framerate Cap" Description="Limit maximum FPS.">
+            <ui:TextBox Width="100" Text="{Binding FramerateCap, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Graphics Quality" Description="Set manual or automatic graphics level (1–10).">
+            <ComboBox SelectedValuePath="Tag" Width="200" SelectedValue="{Binding GraphicsQuality, Mode=TwoWay}">
+              <ComboBoxItem Content="Automatic">
+                <FrameworkElement.Tag>
+                  <sys:Int32>0</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="1">
+                <FrameworkElement.Tag>
+                  <sys:Int32>1</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="2">
+                <FrameworkElement.Tag>
+                  <sys:Int32>2</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="3">
+                <FrameworkElement.Tag>
+                  <sys:Int32>3</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="4">
+                <FrameworkElement.Tag>
+                  <sys:Int32>4</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="5">
+                <FrameworkElement.Tag>
+                  <sys:Int32>5</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="6">
+                <FrameworkElement.Tag>
+                  <sys:Int32>6</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="7">
+                <FrameworkElement.Tag>
+                  <sys:Int32>7</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="8">
+                <FrameworkElement.Tag>
+                  <sys:Int32>8</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="9">
+                <FrameworkElement.Tag>
+                  <sys:Int32>9</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="10">
+                <FrameworkElement.Tag>
+                  <sys:Int32>10</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+            </ComboBox>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Fullscreen" Description="Toggle fullscreen mode.">
+            <ui:ToggleSwitch IsChecked="{Binding Fullscreen, Mode=TwoWay}" />
+          </controls:OptionControl>
+        </StackPanel>
+      </TabItem>
+
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="MusicNote224" Margin="0,0,6,0" />
+            <TextBlock Text="Audio" />
+          </StackPanel>
+        </TabItem.Header>
+        <StackPanel Margin="10">
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Audio" />
+          <controls:OptionControl Header="Master Volume" Description="Overall game volume (0–1).">
+            <StackPanel Orientation="Horizontal">
+              <Slider Minimum="0" Maximum="1" TickFrequency="0.05" Value="{Binding MasterVolume, Mode=TwoWay}" Width="200" />
+              <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding MasterVolume, StringFormat={}{0:0.0}}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Voice Chat Volume" Description="Volume for voice communication.">
+            <StackPanel Orientation="Horizontal">
+              <Slider Minimum="0" Maximum="1" TickFrequency="0.05" Value="{Binding VoiceChatVolume, Mode=TwoWay}" Width="200" />
+              <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding VoiceChatVolume, StringFormat={}{0:0.0}}" />
+            </StackPanel>
+          </controls:OptionControl>
+        </StackPanel>
+      </TabItem>
+
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Games24" Margin="0,0,6,0" />
+            <TextBlock Text="Input" />
+          </StackPanel>
+        </TabItem.Header>
+        <StackPanel Margin="10">
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Input and Controls" />
+          <controls:OptionControl Header="Mouse Sensitivity" Description="Adjust mouse sensitivity.">
+            <ui:TextBox Width="100" Text="{Binding MouseSensitivity, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Invert Y-Axis" Description="Reverse camera Y direction.">
+            <ui:ToggleSwitch IsChecked="{Binding CameraYInverted, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Gamepad Sensitivity" Description="Adjust joystick sensitivity.">
+            <StackPanel Orientation="Horizontal">
+              <Slider Minimum="0.1" Maximum="2.0" TickFrequency="0.1" Value="{Binding GamepadSensitivity, Mode=TwoWay}" Width="200" />
+              <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding GamepadSensitivity, StringFormat={}{0:0.0}}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Enable Controller Vibration" Description="Toggle haptic feedback on controllers.">
+            <ui:ToggleSwitch IsChecked="{Binding ControllerVibration, Mode=TwoWay}" />
+          </controls:OptionControl>
+        </StackPanel>
+      </TabItem>
+
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Rocket24" Margin="0,0,6,0" />
+            <TextBlock Text="VR" />
+          </StackPanel>
+        </TabItem.Header>
+        <StackPanel Margin="10">
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Virtual Reality" />
+          <controls:OptionControl Header="Enable VR" Description="Toggle virtual reality mode.">
+            <ui:ToggleSwitch IsChecked="{Binding VREnabled, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="VR Comfort Setting" Description="Controls camera movement in VR.">
+            <ComboBox SelectedValuePath="Tag" Width="150" SelectedValue="{Binding VRComfortSetting, Mode=TwoWay}">
+              <ComboBoxItem Content="Comfort">
+                <FrameworkElement.Tag>
+                  <sys:Int32>1</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="Normal">
+                <FrameworkElement.Tag>
+                  <sys:Int32>2</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+              <ComboBoxItem Content="Intense">
+                <FrameworkElement.Tag>
+                  <sys:Int32>3</sys:Int32>
+                </FrameworkElement.Tag>
+              </ComboBoxItem>
+            </ComboBox>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Vignette in VR" Description="Enable vignette for motion sickness reduction.">
+            <ui:ToggleSwitch IsChecked="{Binding VignetteEnabled, Mode=TwoWay}" />
+          </controls:OptionControl>
+        </StackPanel>
+      </TabItem>
+
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="PlugConnected24" Margin="0,0,6,0" />
+            <TextBlock Text="Network" />
+          </StackPanel>
+        </TabItem.Header>
+        <StackPanel Margin="10">
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Network and Connectivity" />
+          <controls:OptionControl Header="Network Debug Stats" Description="Show network ping and packet stats.">
+            <ui:ToggleSwitch IsChecked="{Binding NetworkStatsVisible, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Chat Translation" Description="Enable chat auto-translation.">
+            <ui:ToggleSwitch IsChecked="{Binding ChatTranslationEnabled, Mode=TwoWay}" />
+          </controls:OptionControl>
+        </StackPanel>
+      </TabItem>
+
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Wrench24" Margin="0,0,6,0" />
+            <TextBlock Text="Advanced" />
+          </StackPanel>
+        </TabItem.Header>
+        <StackPanel Margin="10">
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Advanced and Developer" />
+          <controls:OptionControl Header="Micro Profiler" Description="Enable Roblox microprofiler server.">
+            <ui:ToggleSwitch IsChecked="{Binding MicroProfilerWebServerEnabled, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="On-Screen Profiler" Description="Show FPS and performance overlay.">
+            <ui:ToggleSwitch IsChecked="{Binding OnScreenProfilerEnabled, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Reset to Default Settings" Description="Restore all preferences to default.">
+            <Button Content="Reset" Width="120" Command="{Binding ResetToDefaultsCommand}" />
+          </controls:OptionControl>
+        </StackPanel>
+      </TabItem>
+
+    </TabControl>
+  </StackPanel>
+</ui:UiPage>

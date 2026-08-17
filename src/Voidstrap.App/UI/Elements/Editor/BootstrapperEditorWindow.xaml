@@ -1,0 +1,420 @@
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Editor.BootstrapperEditorWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.Editor" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Editor" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Closing="OnClosing" Width="1400" Height="880" MinWidth="900" MinHeight="600" ExtendsContentIntoTitleBar="True" WindowState="Maximized" WindowStartupLocation="CenterScreen" Title="{Binding Path=Title, Mode=OneTime}" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+  <FrameworkElement.Resources>
+    <Style x:Key="PaneCard" TargetType="Border">
+      <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+    </Style>
+    <Style x:Key="PaneHeader" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style x:Key="ToolButton" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+      <Setter Property="Appearance" Value="Secondary" />
+      <Setter Property="Padding" Value="8,5" />
+      <Setter Property="Margin" Value="4,0,0,0" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="MinWidth" Value="0" />
+    </Style>
+    <Style x:Key="EditorSearchTextBox" TargetType="TextBox">
+      <Setter Property="Height" Value="30" />
+      <Setter Property="Width" Value="190" />
+      <Setter Property="Padding" Value="9,4" />
+      <Setter Property="FontFamily" Value="Cascadia Mono, Consolas" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+      <Setter Property="CaretBrush" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+      <Setter Property="SelectionBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+      <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="TextBox">
+            <Border x:Name="SearchInputBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+              <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}" VerticalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter TargetName="SearchInputBorder" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                <Setter TargetName="SearchInputBorder" Property="BorderThickness" Value="1,1,1,2" />
+              </Trigger>
+              <Trigger Property="Validation.HasError" Value="True">
+                <Setter TargetName="SearchInputBorder" Property="BorderBrush" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="EditorSearchButton" TargetType="Button">
+      <Setter Property="Width" Value="30" />
+      <Setter Property="Height" Value="30" />
+      <Setter Property="Margin" Value="2,0,0,0" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="SearchButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="SearchButtonBorder" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="SearchButtonBorder" Property="Background" Value="{DynamicResource ControlFillColorTertiaryBrush}" />
+              </Trigger>
+              <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter TargetName="SearchButtonBorder" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="EditorSearchDropDown" TargetType="avalonedit:DropDownButton">
+      <Setter Property="Width" Value="30" />
+      <Setter Property="Height" Value="30" />
+      <Setter Property="Margin" Value="2,0,0,0" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="avalonedit:DropDownButton">
+            <Border x:Name="SearchDropDownBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+              <Path Width="8" Height="5" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0,0 L 4,4 L 8,0" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="SearchDropDownBorder" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+              </Trigger>
+              <Trigger Property="IsDropDownContentOpen" Value="True">
+                <Setter TargetName="SearchDropDownBorder" Property="Background" Value="{DynamicResource ControlFillColorTertiaryBrush}" />
+                <Setter TargetName="SearchDropDownBorder" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+              </Trigger>
+              <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter TargetName="SearchDropDownBorder" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="EditorSearchCheckBox" TargetType="CheckBox">
+      <Setter Property="MinHeight" Value="28" />
+      <Setter Property="Padding" Value="8,4" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="CheckBox">
+            <Border x:Name="SearchOptionBorder" Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="18" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border x:Name="SearchOptionBox" Width="15" Height="15" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="3">
+                  <Path x:Name="SearchOptionCheck" Width="9" Height="7" Data="M 0,3 L 3,6 L 8,0" Stroke="{DynamicResource TextOnAccentFillColorPrimaryBrush}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Visibility="Collapsed" />
+                </Border>
+                <ContentPresenter Grid.Column="1" Margin="7,0,0,0" VerticalAlignment="Center" RecognizesAccessKey="True" />
+              </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="SearchOptionBorder" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+              </Trigger>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="SearchOptionBox" Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                <Setter TargetName="SearchOptionBox" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                <Setter TargetName="SearchOptionCheck" Property="Visibility" Value="Visible" />
+              </Trigger>
+              <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter TargetName="SearchOptionBorder" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                <Setter TargetName="SearchOptionBorder" Property="BorderThickness" Value="1" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="avalonedit:SearchPanel">
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+      <Setter Property="MarkerBrush" Value="#665CA9F7" />
+      <Setter Property="MarkerPen">
+        <Setter.Value>
+          <Pen Brush="#CC5CA9F7" Thickness="1" />
+        </Setter.Value>
+      </Setter>
+      <Setter Property="MarkerCornerRadius" Value="3" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="avalonedit:SearchPanel">
+            <Border Margin="10" Padding="7" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="7" Cursor="Arrow">
+              <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="PART_searchTextBox" Style="{StaticResource EditorSearchTextBox}" Focusable="True">
+                  <TextBox.Text>
+                    <Binding Path="SearchPattern" UpdateSourceTrigger="PropertyChanged" RelativeSource="{RelativeSource TemplatedParent}">
+                      <Binding.ValidationRules>
+                        <ExceptionValidationRule />
+                      </Binding.ValidationRules>
+                    </Binding>
+                  </TextBox.Text>
+                </TextBox>
+                <avalonedit:DropDownButton Style="{StaticResource EditorSearchDropDown}" ToolTip="Search options">
+                  <avalonedit:DropDownButton.DropDownContent>
+                    <Popup x:Name="PART_dropdownPopup" StaysOpen="False" AllowsTransparency="True">
+                      <Border Margin="0,5,0,0" Padding="5" MinWidth="190" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="7">
+                        <StackPanel>
+                          <CheckBox Style="{StaticResource EditorSearchCheckBox}" IsChecked="{Binding MatchCase, RelativeSource={RelativeSource TemplatedParent}}" Content="{Binding Localization.MatchCaseText, RelativeSource={RelativeSource TemplatedParent}}" />
+                          <CheckBox Style="{StaticResource EditorSearchCheckBox}" IsChecked="{Binding WholeWords, RelativeSource={RelativeSource TemplatedParent}}" Content="{Binding Localization.MatchWholeWordsText, RelativeSource={RelativeSource TemplatedParent}}" />
+                          <CheckBox Style="{StaticResource EditorSearchCheckBox}" IsChecked="{Binding UseRegex, RelativeSource={RelativeSource TemplatedParent}}" Content="{Binding Localization.UseRegexText, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </StackPanel>
+                      </Border>
+                    </Popup>
+                  </avalonedit:DropDownButton.DropDownContent>
+                </avalonedit:DropDownButton>
+                <Button Style="{StaticResource EditorSearchButton}" Command="avalonedit:SearchCommands.FindPrevious" ToolTip="{Binding Localization.FindPreviousText, RelativeSource={RelativeSource TemplatedParent}}">
+                  <Path Width="8" Height="12" Data="M 7,1 L 2,6 L 7,11" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                </Button>
+                <Button Style="{StaticResource EditorSearchButton}" Command="avalonedit:SearchCommands.FindNext" ToolTip="{Binding Localization.FindNextText, RelativeSource={RelativeSource TemplatedParent}}">
+                  <Path Width="8" Height="12" Data="M 1,1 L 6,6 L 1,11" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                </Button>
+                <Button Style="{StaticResource EditorSearchButton}" Command="avalonedit:SearchCommands.CloseSearchPanel" ToolTip="Close search" Focusable="False">
+                  <Path Width="10" Height="10" Data="M 1,1 L 9,9 M 9,1 L 1,9" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                </Button>
+              </StackPanel>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="{x:Type avalonedit:LineNumberMargin}">
+      <Setter Property="Margin" Value="10,0,12,0" />
+      <Setter Property="TextElement.FontFamily" Value="Cascadia Mono, Consolas" />
+      <Setter Property="TextElement.FontSize" Value="13" />
+      <Setter Property="TextElement.FontWeight" Value="Medium" />
+      <Setter Property="TextElement.Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+  </FrameworkElement.Resources>
+
+  <Grid>
+    <Panel.Background>
+      <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+        <GradientStop Offset="0.00" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+        <GradientStop Offset="0.70" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+        <GradientStop Offset="1.00" Color="{DynamicResource WindowBackgroundColorThird}" />
+      </LinearGradientBrush>
+    </Panel.Background>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Padding="8" ForceShutdown="False" Icon="pack://application:,,,/Voidstrap.png" MinimizeToTray="False" UseSnapLayout="True" Title="{Binding Path=Title, Mode=OneTime}" />
+
+    <Grid Grid.Row="1" Margin="14,6,14,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Name="FilesColumn" Width="260" MinWidth="190" MaxWidth="440" />
+        <ColumnDefinition Width="8" />
+        <ColumnDefinition Width="*" MinWidth="320" />
+        <ColumnDefinition Width="8" />
+        <ColumnDefinition Name="PreviewColumn" Width="460" MinWidth="0" MaxWidth="900" />
+      </Grid.ColumnDefinitions>
+
+      <Border Grid.Column="0" Style="{StaticResource PaneCard}">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+
+          <Grid Grid.Row="0" Margin="14,12,10,10">
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+              <ui:Button Style="{StaticResource ToolButton}" Margin="0" Icon="DocumentAdd24" ToolTip="New file" Click="NewFile_Click" />
+              <ui:Button Style="{StaticResource ToolButton}" Icon="ArrowImport24" ToolTip="Import" Click="ImportFile_Click" />
+              <ui:Button Style="{StaticResource ToolButton}" Icon="FolderAdd24" ToolTip="New folder" Click="NewFolder_Click" />
+              <ui:Button Style="{StaticResource ToolButton}" Icon="ArrowClockwise24" ToolTip="Reload" Click="RefreshFiles_Click" />
+            </StackPanel>
+          </Grid>
+
+          <ListBox Name="FileList" Grid.Row="1" Margin="6,0,6,8" Background="Transparent" BorderThickness="0" SelectionChanged="FileList_SelectionChanged" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <Grid Margin="2,3">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <ui:SymbolIcon Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" FontSize="16" Opacity="0.75" Symbol="{Binding Path=Icon, Mode=OneWay}" />
+                  <TextBlock Grid.Column="1" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Path=RelativePath, Mode=OneWay}" Text="{Binding Path=Display, Mode=OneWay}" />
+                  <TextBlock Grid.Column="2" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Path=SizeText, Mode=OneWay}" />
+                </Grid>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ContextMenu>
+              <ContextMenu>
+                <MenuItem Header="Rename" Click="RenameFile_Click" />
+                <MenuItem Header="Replace" Click="ReplaceFile_Click" />
+                <MenuItem Header="Duplicate" Click="DuplicateFile_Click" />
+                <Separator />
+                <MenuItem Header="Copy theme path" Click="CopyThemePath_Click" />
+                <MenuItem Header="Show in folder" Click="ShowInFolder_Click" />
+                <Separator />
+                <MenuItem Header="Delete" Click="DeleteFile_Click" />
+              </ContextMenu>
+            </ListBox.ContextMenu>
+          </ListBox>
+        </Grid>
+      </Border>
+
+      <GridSplitter Grid.Column="1" Width="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" />
+
+      <Border Grid.Column="2" Style="{StaticResource PaneCard}">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+
+          <Grid Grid.Row="0" Margin="14,10,10,8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+              <TextBlock Name="EditorFileLabel" Style="{StaticResource PaneHeader}" Text="" />
+              <TextBlock Name="EditorDirtyLabel" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource SystemFillColorCautionBrush}" Text="" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+              <ui:Button Style="{StaticResource ToolButton}" Margin="0" Icon="ArrowUndo24" ToolTip="Undo" Click="UndoEditor_Click" />
+              <ui:Button Style="{StaticResource ToolButton}" Icon="ArrowRedo24" ToolTip="Redo" Click="RedoEditor_Click" />
+              <ui:Button Style="{StaticResource ToolButton}" Icon="Search24" ToolTip="Find in file" Click="FindEditor_Click" />
+            </StackPanel>
+          </Grid>
+
+          <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <avalonedit:TextEditor Name="UIXML" Grid.Row="0" Margin="4,0,4,0" controls:CodeEditorBehavior.Language=".xaml" Padding="10,10" FontFamily="Cascadia Mono, Consolas" FontSize="14" ShowLineNumbers="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Style="{StaticResource NewTextEditor}" />
+            <Border Grid.Row="1" Margin="4,0,4,6" Padding="12,7" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="0,1,0,0" CornerRadius="0,0,4,4">
+              <Grid>
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Name="EditorPositionLabel" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Ln 1, Col 1" />
+                  <TextBlock Name="EditorSelectionLabel" Margin="16,0,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="No selection" />
+                  <TextBlock Margin="16,0,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Spaces: 2" />
+                  <TextBlock Margin="16,0,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="XML" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                  <ui:Button Style="{StaticResource ToolButton}" Margin="0" Padding="5,1" Icon="Subtract24" ToolTip="Zoom out" Click="ZoomOutEditor_Click" />
+                  <TextBlock Name="EditorZoomLabel" Width="42" VerticalAlignment="Center" TextAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="100%" />
+                  <ui:Button Style="{StaticResource ToolButton}" Margin="0" Padding="5,1" Icon="Add24" ToolTip="Zoom in" Click="ZoomInEditor_Click" />
+                </StackPanel>
+              </Grid>
+            </Border>
+
+            <Border Name="MediaPanel" Grid.RowSpan="2" Margin="4,0,4,6" Visibility="Collapsed" Background="{DynamicResource ControlFillColorDefaultBrush}" CornerRadius="6">
+              <Grid Margin="20">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" CornerRadius="6" ClipToBounds="True">
+                  <Image Name="MediaImage" Margin="8" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform" StretchDirection="DownOnly" />
+                </Border>
+                <TextBlock Name="MediaInfo" Grid.Row="1" Margin="0,16,0,0" HorizontalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextAlignment="Center" TextWrapping="Wrap" />
+                <StackPanel Grid.Row="2" Margin="0,16,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                  <ui:Button Appearance="Primary" Icon="ArrowSwap24" Content="Replace" Click="ReplaceFile_Click" />
+                  <ui:Button Margin="8,0,0,0" Appearance="Secondary" Icon="Rename24" Content="Rename" Click="RenameFile_Click" />
+                  <ui:Button Margin="8,0,0,0" Appearance="Secondary" Icon="Delete24" Content="Delete" Click="DeleteFile_Click" />
+                </StackPanel>
+              </Grid>
+            </Border>
+          </Grid>
+        </Grid>
+      </Border>
+
+      <GridSplitter Grid.Column="3" Width="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" />
+
+      <Border Grid.Column="4" Style="{StaticResource PaneCard}">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+
+          <Grid Grid.Row="0" Margin="14,12,10,10">
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+              <CheckBox Name="LiveToggle" Margin="0" Padding="8,0,0,0" MinWidth="0" VerticalAlignment="Center" FontSize="12" IsChecked="True" Content="Live" ToolTip="Rebuild while you type" />
+              <ui:Button Style="{StaticResource ToolButton}" Margin="6,0,0,0" Icon="ArrowClockwise24" ToolTip="Rebuild now" Click="RefreshPreview_Click" />
+            </StackPanel>
+          </Grid>
+
+          <Border Grid.Row="1" Margin="10,0,10,10" ClipToBounds="True">
+            <Grid>
+              <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <Border Name="PreviewHost" Margin="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </ScrollViewer>
+              <TextBlock Name="PreviewPlaceholder" Margin="24" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextAlignment="Center" TextWrapping="Wrap" Text="Nothing to show yet??" />
+            </Grid>
+          </Border>
+
+          <Border Name="PreviewStatus" Grid.Row="2" Margin="10,0,10,10" Padding="12,10" CornerRadius="6" Background="{DynamicResource ControlFillColorDefaultBrush}">
+            <StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon Name="PreviewStatusIcon" Margin="0,0,9,0" VerticalAlignment="Center" FontSize="16" Symbol="CheckmarkCircle24" />
+                <TextBlock Name="PreviewStatusTitle" VerticalAlignment="Center" FontSize="13" FontWeight="SemiBold" Text="Ready" />
+              </StackPanel>
+              <TextBlock Name="PreviewStatusDetail" Margin="25,5,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" Visibility="Collapsed" />
+              <TextBlock Name="PreviewStatusHint" Margin="25,6,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Visibility="Collapsed" />
+              <ui:Button Name="PreviewGoTo" Margin="25,10,0,0" Padding="10,4" Appearance="Secondary" FontSize="12" Content="Go to line" Visibility="Collapsed" Click="PreviewGoTo_Click" />
+            </StackPanel>
+          </Border>
+        </Grid>
+      </Border>
+    </Grid>
+
+    <Grid Grid.Row="2" Margin="14,10,14,12">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <ui:Button Appearance="Secondary" Icon="FolderOpen24" Content="{x:Static resources:Strings.CustomTheme_Editor_OpenThemeDirectory}" Command="{Binding Path=OpenThemeFolderCommand, Mode=OneTime}" />
+        <ui:Button Name="ExternalButton" Margin="8,0,0,0" Appearance="Secondary" Icon="Open24" Content="Open Editor" ToolTip="Edit in another program. Saving there updates this window." Click="OpenExternal_Click" />
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <ui:Button MinWidth="92" Appearance="Secondary" Content="{x:Static resources:Strings.CustomTheme_Editor_Preview}" Command="{Binding Path=PreviewCommand, Mode=OneTime}" />
+        <ui:Button MinWidth="92" Margin="8,0,0,0" Appearance="Primary" Content="{x:Static resources:Strings.CustomTheme_Editor_Save}" Click="SaveActive_Click" />
+        <ui:Button MinWidth="92" Margin="8,0,0,0" Appearance="Secondary" Content="{x:Static resources:Strings.Common_Close}" IsCancel="True" />
+      </StackPanel>
+    </Grid>
+
+    <ui:Snackbar Name="Snackbar" Grid.RowSpan="3" Margin="200,0,200,24" Panel.ZIndex="9" Timeout="3000">
+      <Control.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+          <GradientStop Offset="0.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+          <GradientStop Offset="0.35" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+          <GradientStop Offset="0.75" Color="{DynamicResource WindowBackgroundColorThird}" />
+          <GradientStop Offset="1.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+        </LinearGradientBrush>
+      </Control.Background>
+    </ui:Snackbar>
+  </Grid>
+</base:WpfUiWindow>

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0-windows10.0.17763.0</TargetFramework>
+		<SupportedOSPlatformVersion>10.0.14393.0</SupportedOSPlatformVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>latest</LangVersion>
+		<RootNamespace>Voidstrap.Platform.Windows</RootNamespace>
+		<AssemblyName>Voidstrap.Platform.Windows</AssemblyName>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="ZstdSharp.Port" Version="0.8.8" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Voidstrap.Core\Voidstrap.Core.csproj" />
+		<ProjectReference Include="..\Voidstrap.Platform.Abstractions\Voidstrap.Platform.Abstractions.csproj" />
+	</ItemGroup>
+</Project>

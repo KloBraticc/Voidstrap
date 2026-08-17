@@ -1,0 +1,46 @@
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.ContextMenu.AnimationPreviewWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Width="720" Height="680" MinWidth="480" MinHeight="480" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterScreen" xmlns:contextmenu="clr-namespace:Voidstrap.UI.Elements.ContextMenu" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Title="Animation Preview" Padding="8" Icon="pack://application:,,,/Voidstrap.png" MinimizeToTray="False" ShowMaximize="True" />
+    <Border Name="ViewportHost" Grid.Row="1" Margin="10,4,10,4" CornerRadius="6" ClipToBounds="True" Background="#FF1B1B1F" MouseLeftButtonDown="ViewportHost_MouseLeftButtonDown" MouseLeftButtonUp="ViewportHost_MouseLeftButtonUp" MouseMove="ViewportHost_MouseMove" MouseWheel="ViewportHost_MouseWheel">
+      <Viewport3D Name="Viewport">
+        <Viewport3D.Camera>
+          <PerspectiveCamera x:Name="Camera" Position="0,0,16" LookDirection="0,0,-1" UpDirection="0,1,0" FieldOfView="45" />
+        </Viewport3D.Camera>
+        <ModelVisual3D>
+          <ModelVisual3D.Content>
+            <Model3DGroup>
+              <AmbientLight Color="#666666" />
+              <DirectionalLight Color="#FFFFFF" Direction="-0.5,-0.7,-1" />
+              <DirectionalLight Color="#888888" Direction="0.8,0.5,0.7" />
+            </Model3DGroup>
+          </ModelVisual3D.Content>
+        </ModelVisual3D>
+        <ModelVisual3D x:Name="RigVisual" />
+      </Viewport3D>
+    </Border>
+    <Grid Row="2" Margin="12,2,12,2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <ui:Button Name="PlayButton" Grid.Column="0" Icon="Pause24" Appearance="Primary" Padding="10,4" Click="PlayButton_Click" />
+      <Slider Name="TimelineSlider" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Thumb.DragStarted="Timeline_DragStarted" Thumb.DragCompleted="Timeline_DragCompleted" ValueChanged="TimelineSlider_ValueChanged" />
+      <TextBlock Name="TimeText" Grid.Column="2" VerticalAlignment="Center" MinWidth="90" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Grid>
+    <Border Grid.Row="3" Padding="12,6" Background="{DynamicResource PrimaryBackgroundColor}">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Text="Speed" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Margin="0,0,6,0" />
+        <Slider Name="SpeedSlider" Width="120" Minimum="0.1" Maximum="2" Value="1" VerticalAlignment="Center" SmallChange="0.1" />
+        <CheckBox Name="LoopCheck" Content="Loop" IsChecked="True" Margin="14,0,0,0" VerticalAlignment="Center" />
+        <TextBlock Name="StatusText" VerticalAlignment="Center" Margin="16,0,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+      </StackPanel>
+    </Border>
+  </Grid>
+</base:WpfUiWindow>

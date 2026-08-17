@@ -1,0 +1,3 @@
+namespace Voidstrap.Utility
+{
+}

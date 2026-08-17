@@ -1,0 +1,5 @@
+<VoidstrapCustomBootstrapper Version="2" Width="520" Height="330" Theme="Default" WindowCornerPreference="Round">
+	<TitleBar Title="" ShowMinimize="False" ShowClose="False" />
+
+	<WebPanel Source="theme://panel.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+</VoidstrapCustomBootstrapper>

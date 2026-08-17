@@ -1,0 +1,321 @@
+<base:WpfUiWindow
+    x:Class="Voidstrap.UI.Elements.ContextMenu.DoubleMovementWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base"
+    xmlns:resources="clr-namespace:Voidstrap.Resources"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Double Movement"
+    Width="500"
+    MinWidth="450"
+    Height="780"
+    MinHeight="700"
+    ResizeMode="NoResize"
+    Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+    ExtendsContentIntoTitleBar="True"
+    WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                <GradientStop Offset="0.00" Color="{DynamicResource WindowBackgroundColorPrimary}"/>
+                <GradientStop Offset="0.70" Color="{DynamicResource WindowBackgroundColorSecondary}"/>
+                <GradientStop Offset="1.1" Color="{DynamicResource WindowBackgroundColorThird}"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar
+            Grid.Row="0"
+            Padding="8"
+            Title="Double Movement"
+            ShowMinimize="False"
+            ShowMaximize="False"
+            CanMaximize="False"
+            KeyboardNavigation.TabNavigation="None"
+            Icon="pack://application:,,,/Voidstrap.png" />
+
+        <ScrollViewer Grid.Row="1" Margin="16,8,16,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel>
+                <TextBlock FontSize="14" FontWeight="SemiBold" Text="Controller Emulation Settings" Margin="0,0,0,4" />
+                <TextBlock FontSize="12" TextWrapping="Wrap" Margin="0,0,0,12"
+                           Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                           Text="Replaces WASD keyboard input with a virtual Xbox 360 or DualShock 4 analog stick. Non-WASD keys and mouse are unaffected. System auto-disengages when Roblox is not focused." />
+
+                <StackPanel IsEnabled="{Binding ViGEmIsReady}">
+                    <controls:OptionControl
+                        Header="Enable Double Movement"
+                        Description="WASD is blocked from reaching Roblox and converted to analog stick. Other keys and mouse pass through normally.">
+                        <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DoubleMovementEnabled, Mode=TwoWay}" />
+                    </controls:OptionControl>
+
+                    <controls:OptionControl
+                        Header="Controller Type"
+                        Description="Which controller type to emulate (Xbox 360 or PlayStation 4).">
+                        <ComboBox Width="200" Padding="10,5,10,5" SelectedValuePath="Content" SelectedValue="{Binding DoubleMovementControllerType, Mode=TwoWay}">
+                            <ComboBoxItem Content="Xbox360" />
+                            <ComboBoxItem Content="DualShock4" />
+                        </ComboBox>
+                    </controls:OptionControl>
+
+                    <ui:CardExpander Margin="0,8,0,0" IsExpanded="True">
+                        <ui:CardExpander.Header>
+                            <TextBlock FontSize="13" FontWeight="Medium" Text="Angle Settings" />
+                        </ui:CardExpander.Header>
+                        <StackPanel>
+                            <controls:OptionControl
+                                Header="Forward Angle"
+                                Description="Steepness of forward diagonals (W+A, W+D). Lower = more sideways, higher = more forward.">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="{Binding DoubleMovementForwardAngle, StringFormat={}{0:0}°}" VerticalAlignment="Center" Width="40" Margin="8,0,0,0" DockPanel.Dock="Right" />
+                                    <Slider Minimum="5" Maximum="85" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding DoubleMovementForwardAngle, Mode=TwoWay}" />
+                                </DockPanel>
+                            </controls:OptionControl>
+
+                            <controls:OptionControl
+                                Header="Strafe Angle"
+                                Description="Steepness of backward diagonals (S+A, S+D). Lower = more sideways, higher = more backward.">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="{Binding DoubleMovementStrafeAngle, StringFormat={}{0:0}°}" VerticalAlignment="Center" Width="40" Margin="8,0,0,0" DockPanel.Dock="Right" />
+                                    <Slider Minimum="5" Maximum="85" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding DoubleMovementStrafeAngle, Mode=TwoWay}" />
+                                </DockPanel>
+                            </controls:OptionControl>
+                        </StackPanel>
+                    </ui:CardExpander>
+
+                    <ui:CardExpander Margin="0,8,0,0" IsExpanded="True">
+                        <ui:CardExpander.Header>
+                            <TextBlock FontSize="13" FontWeight="Medium" Text="Response &amp; SOCD" />
+                        </ui:CardExpander.Header>
+                        <StackPanel>
+                            <controls:OptionControl
+                                Header="Sensitivity"
+                                Description="Overall magnitude scaling of the virtual stick.">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="{Binding DoubleMovementSensitivity, StringFormat={}{0:0.0}x}" VerticalAlignment="Center" Width="40" Margin="8,0,0,0" DockPanel.Dock="Right" />
+                                    <Slider Minimum="0.1" Maximum="2.0" TickFrequency="0.1" IsSnapToTickEnabled="True" Value="{Binding DoubleMovementSensitivity, Mode=TwoWay}" />
+                                </DockPanel>
+                            </controls:OptionControl>
+
+                            <controls:OptionControl
+                                Header="Input Curve"
+                                Description="Response curve for analog movement. Linear = direct mapping, Exponential = more precise at low speeds.">
+                                <ComboBox Width="200" Padding="10,5,10,5" SelectedValuePath="Content" SelectedValue="{Binding DoubleMovementCurve, Mode=TwoWay}">
+                                    <ComboBoxItem Content="Linear" />
+                                    <ComboBoxItem Content="Exponential" />
+                                </ComboBox>
+                            </controls:OptionControl>
+
+                            <controls:OptionControl
+                                Header="SOCD Mode"
+                                Description="How opposite keys (W+S, A+D) resolve when held simultaneously.">
+                                <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding DoubleMovementSocdMode, Mode=TwoWay}">
+                                    <ComboBoxItem Content="Last Input Wins" />
+                                    <ComboBoxItem Content="Cancel (Neutral)" />
+                                    <ComboBoxItem Content="Up Priority" />
+                                </ComboBox>
+                            </controls:OptionControl>
+                        </StackPanel>
+                    </ui:CardExpander>
+                </StackPanel>
+
+                <Separator Margin="0,12,0,8" />
+
+                <TextBlock FontSize="14" FontWeight="SemiBold" Text="Key Bindings" Margin="0,0,0,4" />
+                <TextBlock FontSize="12" TextWrapping="Wrap" Margin="0,0,0,8"
+                           Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                           Text="Map keyboard keys to controller buttons. Click a key name then press the desired key to rebind. Unmapped keys are blocked to prevent mixed input conflicts." />
+
+                <ListBox x:Name="KeybindListBox"
+                         ItemsSource="{Binding Keybinds}"
+                         Height="180"
+                         BorderThickness="1"
+                         BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                         Background="{DynamicResource ControlAltFillColorSecondaryBrush}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="2">
+                                <Button Content="{Binding Key}"
+                                        Width="110" Height="26"
+                                        Click="OnCaptureKeyClick"
+                                        ToolTip="Click then press the key you want to bind" />
+                                <ComboBox SelectedValuePath="Content"
+                                          SelectedValue="{Binding Button, Mode=TwoWay}"
+                                          Width="130" Height="26" Margin="4,0,0,0">
+                                    <ComboBoxItem Content="A" />
+                                    <ComboBoxItem Content="B" />
+                                    <ComboBoxItem Content="X" />
+                                    <ComboBoxItem Content="Y" />
+                                    <ComboBoxItem Content="LeftShoulder" />
+                                    <ComboBoxItem Content="RightShoulder" />
+                                    <ComboBoxItem Content="LeftTrigger" />
+                                    <ComboBoxItem Content="RightTrigger" />
+                                    <ComboBoxItem Content="Back" />
+                                    <ComboBoxItem Content="Start" />
+                                    <ComboBoxItem Content="LeftThumb" />
+                                    <ComboBoxItem Content="RightThumb" />
+                                    <ComboBoxItem Content="DPadUp" />
+                                    <ComboBoxItem Content="DPadDown" />
+                                    <ComboBoxItem Content="DPadLeft" />
+                                    <ComboBoxItem Content="DPadRight" />
+                                    <ComboBoxItem Content="Guide" />
+                                </ComboBox>
+                                <Button Content="X"
+                                        Width="26" Height="26"
+                                        Click="OnRemoveKeybindClick"
+                                        ToolTip="Remove this binding" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                    <Button Content="+ Add Binding" Click="OnAddKeybindClick" MinWidth="100" Height="26" />
+                    <Button Content="Reset Bindings" Click="OnResetKeybindsClick" MinWidth="110" Height="26" Margin="8,0,0,0" />
+                </StackPanel>
+
+                <Separator Margin="0,12,0,8" />
+
+                <TextBlock FontSize="14" FontWeight="SemiBold" Text="Mouse &amp; Scroll Bindings" Margin="0,0,0,4" />
+                <TextBlock FontSize="12" TextWrapping="Wrap" Margin="0,0,0,8"
+                           Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                           Text="Mouse buttons and scroll are blocked from Roblox and mapped to controller buttons. Mouse movement drives the right analog stick for camera. Scroll triggers a brief 50ms pulse." />
+
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,2">
+                        <TextBlock Text="Left Click" Width="100" VerticalAlignment="Center" />
+                        <ComboBox SelectedValue="{Binding DMMouseLeft, Mode=TwoWay}" Width="130" SelectedValuePath="Content">
+                            <ComboBoxItem Content="" /><ComboBoxItem Content="A" /><ComboBoxItem Content="B" /><ComboBoxItem Content="X" /><ComboBoxItem Content="Y" />
+                            <ComboBoxItem Content="LeftShoulder" /><ComboBoxItem Content="RightShoulder" />
+                            <ComboBoxItem Content="LeftTrigger" /><ComboBoxItem Content="RightTrigger" />
+                            <ComboBoxItem Content="Back" /><ComboBoxItem Content="Start" />
+                            <ComboBoxItem Content="LeftThumb" /><ComboBoxItem Content="RightThumb" />
+                            <ComboBoxItem Content="DPadUp" /><ComboBoxItem Content="DPadDown" />
+                            <ComboBoxItem Content="DPadLeft" /><ComboBoxItem Content="DPadRight" /><ComboBoxItem Content="Guide" />
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,2">
+                        <TextBlock Text="Right Click" Width="100" VerticalAlignment="Center" />
+                        <ComboBox SelectedValue="{Binding DMMouseRight, Mode=TwoWay}" Width="130" SelectedValuePath="Content">
+                            <ComboBoxItem Content="" /><ComboBoxItem Content="A" /><ComboBoxItem Content="B" /><ComboBoxItem Content="X" /><ComboBoxItem Content="Y" />
+                            <ComboBoxItem Content="LeftShoulder" /><ComboBoxItem Content="RightShoulder" />
+                            <ComboBoxItem Content="LeftTrigger" /><ComboBoxItem Content="RightTrigger" />
+                            <ComboBoxItem Content="Back" /><ComboBoxItem Content="Start" />
+                            <ComboBoxItem Content="LeftThumb" /><ComboBoxItem Content="RightThumb" />
+                            <ComboBoxItem Content="DPadUp" /><ComboBoxItem Content="DPadDown" />
+                            <ComboBoxItem Content="DPadLeft" /><ComboBoxItem Content="DPadRight" /><ComboBoxItem Content="Guide" />
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,2">
+                        <TextBlock Text="Middle Click" Width="100" VerticalAlignment="Center" />
+                        <ComboBox SelectedValue="{Binding DMMouseMiddle, Mode=TwoWay}" Width="130" SelectedValuePath="Content">
+                            <ComboBoxItem Content="" /><ComboBoxItem Content="A" /><ComboBoxItem Content="B" /><ComboBoxItem Content="X" /><ComboBoxItem Content="Y" />
+                            <ComboBoxItem Content="LeftShoulder" /><ComboBoxItem Content="RightShoulder" />
+                            <ComboBoxItem Content="LeftTrigger" /><ComboBoxItem Content="RightTrigger" />
+                            <ComboBoxItem Content="Back" /><ComboBoxItem Content="Start" />
+                            <ComboBoxItem Content="LeftThumb" /><ComboBoxItem Content="RightThumb" />
+                            <ComboBoxItem Content="DPadUp" /><ComboBoxItem Content="DPadDown" />
+                            <ComboBoxItem Content="DPadLeft" /><ComboBoxItem Content="DPadRight" /><ComboBoxItem Content="Guide" />
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,2">
+                        <TextBlock Text="X1 (Back)" Width="100" VerticalAlignment="Center" />
+                        <ComboBox SelectedValue="{Binding DMMouseX1, Mode=TwoWay}" Width="130" SelectedValuePath="Content">
+                            <ComboBoxItem Content="" /><ComboBoxItem Content="A" /><ComboBoxItem Content="B" /><ComboBoxItem Content="X" /><ComboBoxItem Content="Y" />
+                            <ComboBoxItem Content="LeftShoulder" /><ComboBoxItem Content="RightShoulder" />
+                            <ComboBoxItem Content="LeftTrigger" /><ComboBoxItem Content="RightTrigger" />
+                            <ComboBoxItem Content="Back" /><ComboBoxItem Content="Start" />
+                            <ComboBoxItem Content="LeftThumb" /><ComboBoxItem Content="RightThumb" />
+                            <ComboBoxItem Content="DPadUp" /><ComboBoxItem Content="DPadDown" />
+                            <ComboBoxItem Content="DPadLeft" /><ComboBoxItem Content="DPadRight" /><ComboBoxItem Content="Guide" />
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,2">
+                        <TextBlock Text="X2 (Forward)" Width="100" VerticalAlignment="Center" />
+                        <ComboBox SelectedValue="{Binding DMMouseX2, Mode=TwoWay}" Width="130" SelectedValuePath="Content">
+                            <ComboBoxItem Content="" /><ComboBoxItem Content="A" /><ComboBoxItem Content="B" /><ComboBoxItem Content="X" /><ComboBoxItem Content="Y" />
+                            <ComboBoxItem Content="LeftShoulder" /><ComboBoxItem Content="RightShoulder" />
+                            <ComboBoxItem Content="LeftTrigger" /><ComboBoxItem Content="RightTrigger" />
+                            <ComboBoxItem Content="Back" /><ComboBoxItem Content="Start" />
+                            <ComboBoxItem Content="LeftThumb" /><ComboBoxItem Content="RightThumb" />
+                            <ComboBoxItem Content="DPadUp" /><ComboBoxItem Content="DPadDown" />
+                            <ComboBoxItem Content="DPadLeft" /><ComboBoxItem Content="DPadRight" /><ComboBoxItem Content="Guide" />
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,2">
+                        <TextBlock Text="Scroll Up" Width="100" VerticalAlignment="Center" />
+                        <ComboBox SelectedValue="{Binding DMScrollUp, Mode=TwoWay}" Width="130" SelectedValuePath="Content">
+                            <ComboBoxItem Content="" /><ComboBoxItem Content="A" /><ComboBoxItem Content="B" /><ComboBoxItem Content="X" /><ComboBoxItem Content="Y" />
+                            <ComboBoxItem Content="LeftShoulder" /><ComboBoxItem Content="RightShoulder" />
+                            <ComboBoxItem Content="LeftTrigger" /><ComboBoxItem Content="RightTrigger" />
+                            <ComboBoxItem Content="Back" /><ComboBoxItem Content="Start" />
+                            <ComboBoxItem Content="LeftThumb" /><ComboBoxItem Content="RightThumb" />
+                            <ComboBoxItem Content="DPadUp" /><ComboBoxItem Content="DPadDown" />
+                            <ComboBoxItem Content="DPadLeft" /><ComboBoxItem Content="DPadRight" /><ComboBoxItem Content="Guide" />
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,2">
+                        <TextBlock Text="Scroll Down" Width="100" VerticalAlignment="Center" />
+                        <ComboBox SelectedValue="{Binding DMScrollDown, Mode=TwoWay}" Width="130" SelectedValuePath="Content">
+                            <ComboBoxItem Content="" /><ComboBoxItem Content="A" /><ComboBoxItem Content="B" /><ComboBoxItem Content="X" /><ComboBoxItem Content="Y" />
+                            <ComboBoxItem Content="LeftShoulder" /><ComboBoxItem Content="RightShoulder" />
+                            <ComboBoxItem Content="LeftTrigger" /><ComboBoxItem Content="RightTrigger" />
+                            <ComboBoxItem Content="Back" /><ComboBoxItem Content="Start" />
+                            <ComboBoxItem Content="LeftThumb" /><ComboBoxItem Content="RightThumb" />
+                            <ComboBoxItem Content="DPadUp" /><ComboBoxItem Content="DPadDown" />
+                            <ComboBoxItem Content="DPadLeft" /><ComboBoxItem Content="DPadRight" /><ComboBoxItem Content="Guide" />
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+
+                <controls:OptionControl
+                    Header="Mouse Sensitivity"
+                    Description="How much mouse movement translates to right stick deflection. Higher = faster camera.">
+                    <DockPanel LastChildFill="True">
+                        <TextBlock Text="{Binding DMMouseSensitivity, StringFormat={}{0:0.0}x}" VerticalAlignment="Center" Width="40" Margin="8,0,0,0" DockPanel.Dock="Right" />
+                        <Slider Minimum="0.5" Maximum="20.0" TickFrequency="0.5" IsSnapToTickEnabled="True" Value="{Binding DMMouseSensitivity, Mode=TwoWay}" />
+                    </DockPanel>
+                </controls:OptionControl>
+
+                <TextBlock x:Name="StatusTextBlock" FontSize="11" Margin="0,8,0,0"
+                           Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border Grid.Row="2" Padding="12" Background="{DynamicResource PrimaryBackgroundColor}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="ResetButton"
+                        MinWidth="100"
+                        Margin="0,0,8,0"
+                        Content="Reset to Defaults"
+                        ToolTip="Reset all Double Movement settings to factory defaults" />
+                <Button x:Name="SaveButton"
+                        MinWidth="100"
+                        Margin="0,0,8,0"
+                        Content="Save &amp; Close"
+                        ToolTip="Save settings and close this window" />
+            </StackPanel>
+        </Border>
+
+        <Grid x:Name="ViGEmProgressOverlay" Visibility="Collapsed" Grid.RowSpan="3">
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Background="{DynamicResource CardBackgroundBrush}"
+                    Padding="20" CornerRadius="12">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock x:Name="ViGEmProgressTitle" FontSize="16" FontWeight="Bold"
+                               Text="Processing..." Margin="0,0,0,10" HorizontalAlignment="Center"/>
+                    <ProgressBar Width="400" Height="12" IsIndeterminate="True"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</base:WpfUiWindow>

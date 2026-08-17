@@ -1,0 +1,10 @@
+<Project>
+
+	<ItemGroup Condition="'$(EnableDefaultItems)' != 'false'">
+		<Compile Remove="obj/**/*AssemblyInfo.cs" />
+		<Compile Remove="obj/**/*AssemblyAttributes.cs" />
+		<Compile Remove="obj-*/**/*AssemblyInfo.cs" />
+		<Compile Remove="obj-*/**/*AssemblyAttributes.cs" />
+	</ItemGroup>
+
+</Project>

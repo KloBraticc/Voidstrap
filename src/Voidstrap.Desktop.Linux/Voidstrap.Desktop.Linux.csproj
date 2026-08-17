@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<OutputType>Exe</OutputType>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>latest</LangVersion>
+		<RootNamespace>Voidstrap.Desktop.Linux</RootNamespace>
+		<AssemblyName>Voidstrap</AssemblyName>
+		<RuntimeIdentifiers>linux-x64;linux-arm64;linux-musl-x64;linux-musl-arm64</RuntimeIdentifiers>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Avalonia.Wayland" Version="12.1.0" />
+		<ProjectReference Include="..\Voidstrap.Desktop\Voidstrap.Desktop.csproj" />
+		<ProjectReference Include="..\Voidstrap.Platform.Linux\Voidstrap.Platform.Linux.csproj" />
+	</ItemGroup>
+</Project>

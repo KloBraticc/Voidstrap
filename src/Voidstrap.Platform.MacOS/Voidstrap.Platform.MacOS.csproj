@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>latest</LangVersion>
+		<RootNamespace>Voidstrap.Platform.MacOS</RootNamespace>
+		<AssemblyName>Voidstrap.Platform.MacOS</AssemblyName>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Voidstrap.Core\Voidstrap.Core.csproj" />
+		<ProjectReference Include="..\Voidstrap.Platform.Abstractions\Voidstrap.Platform.Abstractions.csproj" />
+	</ItemGroup>
+</Project>

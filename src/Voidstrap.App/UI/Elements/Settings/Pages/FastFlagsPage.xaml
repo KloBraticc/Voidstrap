@@ -1,0 +1,305 @@
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.FastFlagsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:local="clr-namespace:Voidstrap" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:settings="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:conv="clr-namespace:Voidstrap.Converters" xmlns:converters="clr-namespace:Voidstrap.UI.Converters" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="FastFlagsPage" Scrollable="True" Loaded="Window_Loaded">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <conv:CustomVisibilityConverter x:Key="CustomVisibilityConverter" />
+      <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <StackPanel Margin="0,0,14,14">
+    <TextBlock Margin="0,0,0,8" FontSize="14" Text="{x:Static resources:Strings.Menu_FastFlags_Description}" />
+    <TabControl Margin="0,0,0,0">
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Flag48" Margin="0,0,6,0" />
+            <TextBlock Text="Roblox FFlags" />
+          </StackPanel>
+        </TabItem.Header>
+        <StackPanel Margin="10">
+          <controls:OptionControl Header="Profiles" Visibility="Collapsed">
+      <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding ProfileModes.Keys, Mode=OneTime}" Text="{Binding SelectedProfileMods, Mode=TwoWay}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+    </controls:OptionControl>
+    <controls:OptionControl Height="73" Description="{x:Static resources:Strings.Menu_FastFlags_ManagerEnabled_Description}" Header="{x:Static resources:Strings.Menu_FastFlags_ManagerEnabled_Title}">
+      <ui:ToggleSwitch IsChecked="{Binding UseFastFlagManager, Mode=TwoWay}" />
+    </controls:OptionControl>
+    <controls:OptionControl Header="{x:Static resources:Strings.Menu_FastFlags_Reset_Title}">
+      <ui:ToggleSwitch IsChecked="{Binding ResetConfiguration, Mode=TwoWay}" />
+    </controls:OptionControl>
+    <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+      <HeaderedContentControl.Header>
+        <StackPanel>
+          <TextBlock Margin="0,0,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="View the FastFlags Roblox officially allows in local configuration." />
+        </StackPanel>
+      </HeaderedContentControl.Header>
+      <StackPanel>
+        <TextBlock Margin="5,0,0,2" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+          <Hyperlink NavigateUri="https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569" RequestNavigate="Hyperlink_RequestNavigate">View the official Roblox announcement</Hyperlink>
+        </TextBlock>
+                            <Border Grid.Row="4" Height="300" Style="{StaticResource FastFlagsGridSurface}">
+          <DataGrid Name="DataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
+                    IsReadOnly="True" GridLinesVisibility="None" HeadersVisibility="Column" RowHeight="32"
+                    AlternatingRowBackground="{DynamicResource ControlFillColorSecondaryBrush}"
+                    Background="Transparent" BorderThickness="0" Margin="0"
+                    ColumnHeaderStyle="{StaticResource FastFlagsColumnHeaderStyle}"
+                    CellStyle="{StaticResource FastFlagsCellStyle}"
+                    EnableRowVirtualization="True" EnableColumnVirtualization="True"
+                    VirtualizingPanel.IsVirtualizing="True"
+                    VirtualizingPanel.VirtualizationMode="Recycling"
+                    VirtualizingPanel.ScrollUnit="Item"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.CanContentScroll="True">
+            <DataGrid.Columns>
+              <DataGridTextColumn Width="2*" Header="{x:Static resources:Strings.Common_Name}" Binding="{Binding Name}" />
+              <DataGridTextColumn Width="*" Header="Category" Binding="{Binding Value}" />
+            </DataGrid.Columns>
+          </DataGrid>
+        </Border>
+      </StackPanel>
+    </ui:CardExpander>
+    <TextBlock Margin="0,16,0,0" FontSize="17.65" FontWeight="Medium" Text="FastFlags" />
+    <controls:OptionControl Description="Reduces or scales grass movement in Roblox for performance or visual comfort." Header="Grass Movement Factor">
+      <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" SelectedValuePath="Key" ItemsSource="{Binding GrassMovementOptions}" SelectedValue="{Binding SelectedGrassMovementFactor, Mode=TwoWay}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Value}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+    </controls:OptionControl>
+    <ui:CardExpander Margin="0,8,0,0" Style="{StaticResource NoUserExpansionCardExpanderStyle}" IsExpanded="{Binding MeshQualityEnabled, Mode=OneWay}">
+      <HeaderedContentControl.Header>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel Grid.Column="0">
+            <TextBlock FontSize="14" Text="Mesh Detail" />
+            <TextBlock FontSize="12" Text="Control how detail meshes appear in the game itself." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+          </StackPanel>
+          <ui:ToggleSwitch Grid.Column="1" AutomationProperties.Name="Mesh Detail" IsChecked="{Binding MeshQualityEnabled, Mode=TwoWay}" />
+        </Grid>
+      </HeaderedContentControl.Header>
+      <StackPanel Margin="0,8,0,0">
+        <Grid Margin="0,8,0,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="Lowest Quality" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0" />
+          <Slider Grid.Column="1" Minimum="1" Maximum="3" TickFrequency="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" SmallChange="1" LargeChange="1" Margin="8,0,8,0" Value="{Binding MeshQuality, Mode=TwoWay}" />
+          <TextBlock Text="Highest Quality" Grid.Column="2" VerticalAlignment="Center" Margin="8,0,0,0" />
+        </Grid>
+      </StackPanel>
+    </ui:CardExpander>
+    <ui:CardExpander Margin="0,8,0,0" Style="{StaticResource NoUserExpansionCardExpanderStyle}" IsExpanded="{Binding FRMQualityOverrideEnabled, Mode=OneWay}">
+      <HeaderedContentControl.Header>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel Grid.Column="0">
+            <TextBlock FontSize="14" Text="FRM Quality Overright" />
+            <TextBlock FontSize="12" Text="Choose the FRM quality overright." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+          </StackPanel>
+          <ui:ToggleSwitch Grid.Column="1" AutomationProperties.Name="FRM Quality Override" IsChecked="{Binding FRMQualityOverrideEnabled, Mode=TwoWay}" />
+        </Grid>
+      </HeaderedContentControl.Header>
+      <StackPanel Margin="0,8,0,0">
+        <Grid Margin="0,8,0,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="Lowest Quality" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0" />
+          <Slider Grid.Column="1" Minimum="1" Maximum="21" TickFrequency="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" SmallChange="1" LargeChange="1" Margin="8,0,8,0" Value="{Binding FRMQualityOverride, Mode=TwoWay}" />
+          <TextBlock Text="Highest Quality" Grid.Column="2" VerticalAlignment="Center" Margin="8,0,0,0" />
+        </Grid>
+      </StackPanel>
+    </ui:CardExpander>
+    <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+      <HeaderedContentControl.Header>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel Grid.Column="0">
+            <TextBlock FontSize="14.4" Text="{x:Static resources:Strings.Menu_FastFlags_Presets_Categories_Rendering}" />
+            <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Configure basic graphic and rendering settings" />
+          </StackPanel>
+        </Grid>
+      </HeaderedContentControl.Header>
+      <StackPanel>
+        <ui:CardExpander IsExpanded="False">
+          <HeaderedContentControl.Header>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <StackPanel Grid.Column="0">
+                <TextBlock FontSize="14" Text="Lighting" />
+              </StackPanel>
+            </Grid>
+          </HeaderedContentControl.Header>
+          <StackPanel>
+            <controls:OptionControl Margin="0,-8,0,0" Header="Force Gray Sky">
+              <ui:ToggleSwitch IsChecked="{Binding EnableGraySky, Mode=TwoWay}" />
+            </controls:OptionControl>
+          </StackPanel>
+        </ui:CardExpander>
+        <controls:OptionControl Description="Smooth out jagged edges. Higher values increases smoothness." Header="{x:Static resources:Strings.Menu_FastFlags_Presets_MSAA_Title}">
+          <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding MSAALevels.Keys, Mode=OneTime}" Text="{Binding SelectedMSAALevel, Mode=TwoWay}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding ., Converter={StaticResource EnumNameConverter}}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ComboBox>
+        </controls:OptionControl>
+        <controls:OptionControl Description="Adjust the quality of textures. Higher levels increase quality." Header="Texture quality">
+          <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding TextureQualities.Keys, Mode=OneTime}" Text="{Binding SelectedTextureQuality, Mode=TwoWay}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding ., Converter={StaticResource EnumNameConverter}}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ComboBox>
+        </controls:OptionControl>
+        <controls:OptionControl Description="{x:Static resources:Strings.Menu_FastFlags_Presets_FixDisplayScaling_Description}" Header="{x:Static resources:Strings.Menu_FastFlags_Presets_FixDisplayScaling_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/A-guide-to-FastFlags#dpi-scaling-fixes">
+          <ui:ToggleSwitch IsChecked="{Binding FixDisplayScaling, Mode=TwoWay}" />
+        </controls:OptionControl>
+        <controls:OptionControl Description="Controls grass render distance in Roblox games. Set both values to 0 to disable grass." Header="Grass Distance">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock VerticalAlignment="Center" Text="Min" Margin="0,0,8,0" />
+            <ui:TextBox Width="80" Padding="8,4" Text="{Binding MinGrassDistance, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PreviewTextInput="ValidateInt" />
+            <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" />
+            <ui:TextBox Width="80" Padding="8,4" Text="{Binding MaxGrassDistance, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PreviewTextInput="ValidateInt" />
+            <TextBlock VerticalAlignment="Center" Text="Max" Margin="8,0,0,0" />
+          </StackPanel>
+        </controls:OptionControl>
+        <controls:OptionControl Description="Configure the rendering api for Roblox. Press Alt Enter when going to Fullscreen if using Direct3D. Setting to Vulkan may cause some bugs!." Header="Rendering Mode">
+          <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding RenderingModes.Keys, Mode=OneTime}" Text="{Binding SelectedRenderingMode, Mode=TwoWay}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding ., Converter={StaticResource EnumNameConverter}}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ComboBox>
+        </controls:OptionControl>
+      </StackPanel>
+    </ui:CardExpander>
+    <StackPanel Margin="0,12,0,0" HorizontalAlignment="Right" Orientation="Horizontal">
+      <ComboBox Name="RecommendedProfileBox" SelectedIndex="0">
+        <ComboBoxItem Content="Balanced, Recommended" Tag="Balanced" />
+        <ComboBoxItem Content="Performance" Tag="Performance" />
+        <ComboBoxItem Content="Quality" Tag="Quality" />
+      </ComboBox>
+      <Button Name="CheckSystemButton" Margin="8,0,0,0" Content="Apply Profile" Click="CheckSystemButton_Click" />
+    </StackPanel>
+        </StackPanel>
+      </TabItem>
+      <TabItem IsEnabled="{Binding HasNvidiaGpu}" ToolTip="{Binding NvidiaTabUnavailableReason}" Visibility="{Binding IsWindows, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Flag48" Margin="0,0,6,0" />
+            <TextBlock Text="NVIDIA FFlags" />
+          </StackPanel>
+        </TabItem.Header>
+        <Grid>
+          <Frame Margin="10" Source="NvidiaFastFlagsPage.xaml" NavigationUIVisibility="Hidden" JournalOwnership="OwnsJournal" Background="Transparent" PreviewMouseWheel="NvidiaFrame_PreviewMouseWheel" Visibility="{Binding HasNvidiaGpu, Converter={StaticResource BooleanToVisibilityConverter}}" />
+          <TextBlock Margin="24" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding NvidiaTabUnavailableReason}" Visibility="{Binding HasNvidiaGpu, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+        </Grid>
+      </TabItem>
+      <TabItem FontWeight="Medium" Visibility="{Binding IsWindows, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="PaintBrush24" Margin="0,0,6,0" />
+            <TextBlock Text="Asset Warp" />
+          </StackPanel>
+                </TabItem.Header>
+                <StackPanel Margin="10" Height="Auto">
+                  <controls:OptionControl Header="AssetWarp" Description="Enables the AssetWarp proxy and all related features">
+                    <ui:ToggleSwitch IsChecked="{Binding AssetWarpEnabled, Mode=TwoWay}" />
+                  </controls:OptionControl>
+                  <StackPanel IsEnabled="{Binding AssetWarpEnabled}">
+                    <controls:OptionControl Header="Remove All Textures" Description="Removes only texture and texture pack entries from Roblox asset batches">
+            <ui:ToggleSwitch IsChecked="{Binding DisableAllTextures, Mode=TwoWay}" />
+          </controls:OptionControl>
+		  <controls:OptionControl Header="Remove All Decals" Description="Removes only decal entries from Roblox asset batches">
+			<ui:ToggleSwitch IsChecked="{Binding DisableAllDecals, Mode=TwoWay}" />
+		  </controls:OptionControl>
+		  <controls:OptionControl Header="Remove All Images" Description="Removes only image entries from Roblox asset batches">
+			<ui:ToggleSwitch IsChecked="{Binding DisableAllImages, Mode=TwoWay}" />
+		  </controls:OptionControl>
+		  <controls:OptionControl Header="Remove All Animations" Description="Removes only animation entries from Roblox asset batches, This breaks games with 0 animation fallback">
+			<ui:ToggleSwitch IsChecked="{Binding DisableAllAnimations, Mode=TwoWay}" />
+		  </controls:OptionControl>
+		  <controls:OptionControl Header="Remove All Meshes" Description="Removes mesh and meshpart entries from Roblox asset batches, This makes all 3D geometry invisible">
+			<ui:ToggleSwitch IsChecked="{Binding DisableAllMeshes, Mode=TwoWay}" />
+		  </controls:OptionControl>
+		  <controls:OptionControl Header="Presence Spoofer" Description="Changes what others see online, in studio, or offline">
+			<ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding PresenceSpoofMode, Mode=TwoWay}">
+			  <ComboBoxItem Content="Off" />
+			  <ComboBoxItem Content="Appear Online" />
+			  <ComboBoxItem Content="Appear In Studio" />
+			  <ComboBoxItem Content="Appear Offline" />
+			</ComboBox>
+		  </controls:OptionControl>
+
+                    <TextBlock Text="Preloading" FontSize="18" FontWeight="SemiBold" Margin="0,16,0,2" />
+                    <controls:OptionControl Header="Asset Preloading" Description="Learns each game and serves previously downloaded assets">
+                        <ui:ToggleSwitch IsChecked="{Binding AssetWarpPreloadEnabled, Mode=TwoWay}" />
+                    </controls:OptionControl>
+                    <controls:OptionControl Header="Preload Cache Limit" Description="Limits how much disk space the learned asset cache can use">
+                        <StackPanel Width="250">
+                            <Slider Minimum="256" Maximum="8192" TickFrequency="256" IsSnapToTickEnabled="True" Value="{Binding AssetWarpPreloadCacheMb, Mode=TwoWay}" />
+                            <TextBlock HorizontalAlignment="Right" Text="{Binding AssetWarpPreloadCacheSizeDisplay}" />
+                        </StackPanel>
+                    </controls:OptionControl>
+                    <controls:OptionControl Header="Preload Avatar" Description="Preloads your avatar and equipped accessories before each game launch">
+                        <ui:ToggleSwitch IsChecked="{Binding AssetWarpPreloadAvatar, Mode=TwoWay}" />
+                    </controls:OptionControl>
+                    <controls:OptionControl Header="Preload Recent Games" Description="Warms cache from your recently played games before each launch">
+                        <ui:ToggleSwitch IsChecked="{Binding AssetWarpPreloadCrossGame, Mode=TwoWay}" />
+                    </controls:OptionControl>
+                    <TextBlock Text="Client Spoofer" FontSize="18" FontWeight="SemiBold" Margin="0,16,0,2" />
+		  <TextBlock Text="Client sided, only you see these changes." Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,0,0,4" />
+		  <controls:OptionControl Header="Everyone Else Username" Description="Sets the client sided username shown for every other player">
+			<TextBox Width="200" Padding="10,5,10,5" Text="{Binding SpoofOthersName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+		  </controls:OptionControl>
+		  <controls:OptionControl Header="Apply Everyone Else Ingame" Description="Applies the everyone else username inside Roblox">
+			<ui:ToggleSwitch IsChecked="{Binding SpoofOthersApplyIngame, Mode=TwoWay}" />
+		  </controls:OptionControl>
+		  <controls:OptionControl Header="Verify Everyone Else" Description="Shows every other player as verified on this client">
+			<ui:ToggleSwitch IsChecked="{Binding SpoofOthersVerified, Mode=TwoWay}" />
+		  </controls:OptionControl>
+		  <controls:OptionControl Header="Your Username" Description="Sets the client sided username shown for your account">
+			<TextBox Width="200" Padding="10,5,10,5" Text="{Binding SpoofSelfName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+		  </controls:OptionControl>
+		  <controls:OptionControl Header="Apply Your Username Ingame" Description="Applies your spoofed username inside Roblox">
+			<ui:ToggleSwitch IsChecked="{Binding SpoofSelfApplyIngame, Mode=TwoWay}" />
+		  </controls:OptionControl>
+		  <controls:OptionControl Header="Verify Your Account" Description="Shows your account as verified on this client">
+			<ui:ToggleSwitch IsChecked="{Binding SpoofSelfVerified, Mode=TwoWay}" />
+		  </controls:OptionControl>
+		  <controls:OptionControl Header="Make Yourself Game Creator" Description="Uses your current Roblox user ID for intercepted game creator metadata">
+			<ui:ToggleSwitch IsChecked="{Binding SpoofSelfGameCreator, Mode=TwoWay}" />
+		  </controls:OptionControl>
+                  </StackPanel>
+        </StackPanel>
+      </TabItem>
+    </TabControl>
+  </StackPanel>
+</ui:UiPage>

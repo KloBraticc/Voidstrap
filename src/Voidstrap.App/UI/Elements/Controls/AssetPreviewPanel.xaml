@@ -1,0 +1,85 @@
+<UserControl x:Class="Voidstrap.UI.Elements.Controls.AssetPreviewPanel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls;assembly=Voidstrap" Loaded="Panel_Loaded" Unloaded="Panel_Unloaded">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" Margin="2,0,2,4">
+      <Run Text="Preview: " Foreground="{DynamicResource TextFillColorTertiaryBrush}" /> <Run Name="TitleRun" Text="" FontWeight="SemiBold" /></TextBlock>
+    <Border Name="ContentHost" Grid.Row="1" CornerRadius="6" ClipToBounds="True" Focusable="True" Background="#FF26262B" MouseLeftButtonDown="Host_MouseDown" MouseLeftButtonUp="Host_MouseUp" MouseRightButtonDown="Host_MouseDown" MouseRightButtonUp="Host_MouseUp" MouseMove="Host_MouseMove" MouseWheel="Host_MouseWheel">
+      <Grid>
+        <TextBlock Name="Placeholder" Text="Select an asset to preview it here" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+        <Image Name="ImageView" Visibility="Collapsed" Stretch="Uniform" Margin="10" RenderOptions.BitmapScalingMode="HighQuality" />
+        <Viewport3D Name="Viewport" Visibility="Collapsed">
+          <Viewport3D.Camera>
+            <PerspectiveCamera x:Name="Camera" Position="0,0,16" LookDirection="0,0,-1" UpDirection="0,1,0" FieldOfView="45" />
+          </Viewport3D.Camera>
+          <ModelVisual3D>
+            <ModelVisual3D.Content>
+              <Model3DGroup>
+                <AmbientLight Color="#6E6E6E" />
+                <DirectionalLight Color="#FFFFFF" Direction="-0.5,-0.7,-1" />
+                <DirectionalLight Color="#808080" Direction="0.8,0.5,0.7" />
+              </Model3DGroup>
+            </ModelVisual3D.Content>
+          </ModelVisual3D>
+          <ModelVisual3D x:Name="GridVisual" />
+          <ModelVisual3D x:Name="AxisVisual" />
+          <ModelVisual3D x:Name="MeshVisual" />
+          <ModelVisual3D x:Name="WireVisual" />
+          <ModelVisual3D x:Name="RigVisual" />
+        </Viewport3D>
+        <ui:TextBox Name="TextView" Visibility="Collapsed" IsReadOnly="True" Margin="8" TextWrapping="Wrap" AcceptsReturn="True" FontFamily="Consolas" VerticalScrollBarVisibility="Auto" Background="#00FFFFFF" />
+        <StackPanel Name="AudioView" Visibility="Collapsed" Width="460" VerticalAlignment="Center" HorizontalAlignment="Center">
+          <StackPanel Orientation="Horizontal" Margin="0,0,0,6" HorizontalAlignment="Center">
+            <TextBlock Text="Volume:" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <Slider Name="VolumeSlider" Width="300" Minimum="0" Maximum="1" Value="0.7" VerticalAlignment="Center" ValueChanged="VolumeSlider_ValueChanged" />
+          </StackPanel>
+          <Slider Name="AudioPositionSlider" Minimum="0" Maximum="1" Margin="0,0,0,4" Thumb.DragStarted="AudioSeek_DragStarted" Thumb.DragCompleted="AudioSeek_DragCompleted" />
+          <TextBlock Name="AudioTimeText" HorizontalAlignment="Center" Margin="0,0,0,8" Text="00:00.000 / 00:00.000" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <ui:Button Name="AudioPlayButton" Icon="Play24" Padding="10,4" Click="AudioPlay_Click" />
+            <ui:Button Name="AudioLoopButton" Icon="ArrowRepeatAll24" Padding="10,4" Margin="6,0,0,0" ToolTip="Loop" Click="AudioLoop_Click" />
+            <ComboBox Name="AudioFormatCombo" Width="120" Margin="10,0,0,0" VerticalAlignment="Center" SelectedIndex="0" ToolTip="Output format">
+              <ComboBoxItem Content="Original" />
+              <ComboBoxItem Content="WAV" />
+              <ComboBoxItem Content="MP3" />
+              <ComboBoxItem Content="AAC (M4A)" />
+              <ComboBoxItem Content="WMA" />
+            </ComboBox>
+            <ui:Button Content="Save" Padding="10,4" Margin="6,0,0,0" ToolTip="Download / convert this audio" Click="AudioDownload_Click" />
+          </StackPanel>
+        </StackPanel>
+        <ui:Button Name="HelpButton" Content="?" Width="30" Height="30" Padding="0" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Visibility="Collapsed" ToolTip="Camera controls" Opacity="0.9" Click="Help_Click" />
+      </Grid>
+    </Border>
+    <Grid Row="2" Margin="2,6,2,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <StackPanel Name="MeshControls" Grid.Column="0" Orientation="Horizontal" Visibility="Collapsed">
+        <ui:Button Content="Reset View" Padding="8,3" Click="ResetView_Click" />
+        <ui:Button Name="OptionsButton" Content="Options" Icon="ChevronDown24" Padding="8,3" Margin="6,0,0,0" Click="Options_Click">
+          <FrameworkElement.ContextMenu>
+            <ContextMenu>
+              <MenuItem Name="WireframeItem" Header="Wireframe" IsCheckable="True" Click="Wireframe_Click" />
+              <MenuItem Name="AutoRotateItem" Header="Auto rotate" IsCheckable="True" Click="AutoRotate_Click" />
+              <MenuItem Name="GridItem" Header="Show grid" IsCheckable="True" IsChecked="True" Click="GridToggle_Click" />
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
+        </ui:Button>
+      </StackPanel>
+      <StackPanel Name="AnimBar" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
+        <ui:Button Name="AnimPlayButton" Icon="Pause24" Padding="8,3" Click="AnimPlay_Click" />
+        <Slider Name="AnimSlider" Width="170" Margin="8,0" VerticalAlignment="Center" Minimum="0" Maximum="1" Thumb.DragStarted="AnimSeek_DragStarted" Thumb.DragCompleted="AnimSeek_DragCompleted" ValueChanged="AnimSlider_ValueChanged" />
+        <TextBlock Name="AnimTimeText" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+      </StackPanel>
+      <StackPanel Grid.Column="2" Orientation="Horizontal">
+        <TextBlock Name="MeshInfoText" VerticalAlignment="Center" Visibility="Collapsed" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+      </StackPanel>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,10 @@
+{
+  "id": "RobloxApiDumpTool",
+  "displayName": "Roblox API Dump Tool",
+  "supportedPlatforms": ["Windows"],
+  "requiredFeatures": ["ExtensionNativeAssets"],
+  "nativeAssets": {
+    "Windows": ["RobloxAPIDumpTool/RobloxApiDumpTool.exe"]
+  },
+  "externalRequirements": []
+}

@@ -1,0 +1,115 @@
+﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.NotificationsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:util="clr-namespace:Voidstrap.Utility"
+    Title="Notifications" Scrollable="False" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+  <ui:UiPage.Resources>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+  </ui:UiPage.Resources>
+  <Grid Margin="0,0,14,14">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Grid Grid.Row="0" Margin="0,0,0,12">
+      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <ui:SymbolIcon Symbol="Alert24" FontSize="22" Margin="0,0,8,0" VerticalAlignment="Center" />
+        <TextBlock Text="Notifications" FontSize="20" FontWeight="Medium" VerticalAlignment="Center" />
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <ui:Button Content="Back" Icon="ArrowLeft24" Appearance="Secondary" Click="Back_Click" />
+        <ui:Button x:Name="RefreshButton" Margin="8,0,0,0" Content="Refresh" Icon="ArrowClockwise24" Appearance="Secondary" Click="Refresh_Click" />
+        <ui:Button x:Name="MarkAllButton" Margin="8,0,0,0" Content="Mark all read" Appearance="Secondary" Click="MarkAll_Click" Visibility="Collapsed" />
+        <ui:Button x:Name="ClearAllButton" Margin="8,0,0,0" Content="Clear all" Icon="Delete24" Appearance="Secondary" Click="ClearAll_Click" Visibility="Collapsed" />
+      </StackPanel>
+    </Grid>
+    <StackPanel x:Name="FilterPanel" Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,12" Visibility="Collapsed">
+      <ui:Button x:Name="AllButton" Content="All" Appearance="Primary" Click="All_Click" />
+      <ui:Button x:Name="UnreadButton" Margin="6,0,0,0" Content="Unread" Appearance="Secondary" Click="Unread_Click" />
+    </StackPanel>
+    <TextBlock x:Name="StatusText" Grid.Row="2" Text="Loading notifications" FontSize="13" Opacity="0.75" Margin="2,0,0,12" />
+    <ui:DynamicScrollViewer x:Name="NotificationScroll" Grid.Row="3" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" PanningMode="VerticalOnly">
+      <Grid>
+        <Border x:Name="EmptyPanel" Padding="20,48" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="{DynamicResource ControlFillColorSecondaryBrush}" Visibility="Collapsed">
+          <TextBlock x:Name="EmptyText" Text="No notifications yet." HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        </Border>
+        <ListBox x:Name="NotificationList" ItemsSource="{Binding Notifications}" SelectionChanged="NotificationList_SelectionChanged" Background="Transparent" BorderThickness="0" Padding="0">
+      <ListBox.Template>
+        <ControlTemplate TargetType="ListBox">
+          <ItemsPresenter />
+        </ControlTemplate>
+      </ListBox.Template>
+      <ListBox.ItemContainerStyle>
+        <Style TargetType="ListBoxItem">
+          <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+          <Setter Property="Padding" Value="0" />
+          <Setter Property="Margin" Value="0" />
+          <Setter Property="Background" Value="Transparent" />
+          <Setter Property="BorderThickness" Value="0" />
+          <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="ListBoxItem">
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </ListBox.ItemContainerStyle>
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Border Margin="0,0,0,8" Padding="12" CornerRadius="8">
+            <Border.Style>
+              <Style TargetType="Border">
+                <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsUnread}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </Border.Style>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Border Grid.ColumnSpan="3" Width="3" Height="24" Margin="-12,0,0,0" CornerRadius="1.5" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{DynamicResource SystemAccentBrush}" Visibility="{Binding IsUnread, Converter={StaticResource BooleanToVisibilityConverter}}" />
+              <Grid Width="56" Height="56" Margin="-8,-8,4,0" ClipToBounds="False" VerticalAlignment="Top">
+                <Border Width="40" Height="40" CornerRadius="8" ClipToBounds="True" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource ControlFillColorTertiaryBrush}" Visibility="{Binding AvatarVisibility}">
+                  <Image util:DynamicRenderSystem.LazyImageSource="{Binding AvatarUrl}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
+                </Border>
+                <Border Width="40" Height="40" CornerRadius="8" ClipToBounds="True" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource ControlFillColorTertiaryBrush}" Visibility="{Binding NotificationImageVisibility}">
+                  <Image Margin="4" util:DynamicRenderSystem.LazyImageSource="{Binding NotificationImageUrl}" Stretch="Uniform" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                </Border>
+                <Border Width="40" Height="40" CornerRadius="8" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding IconBackground}" Visibility="{Binding FallbackVisibility}">
+                  <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <Image Source="{Binding BorderImageSource}" Width="{Binding BorderImageWidth}" Height="{Binding BorderImageHeight}" Margin="{Binding BorderImageMargin}" Panel.ZIndex="2" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="HighQuality" />
+              </Grid>
+              <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" FontSize="13">
+                  <Run Text="{Binding LeadText, Mode=OneWay}" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" /><Run Text="{Binding MessageText, Mode=OneWay}" /><Run Text="{Binding StrongTailText, Mode=OneWay}" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                </TextBlock>
+                <TextBlock Text="{Binding TimeText}" FontSize="11" Margin="0,3,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <StackPanel Orientation="Horizontal" Margin="0,8,0,0" Visibility="{Binding ActionVisibility}">
+                  <ui:Button Content="Accept" Appearance="Primary" Click="Accept_Click" Tag="{Binding}" IsEnabled="{Binding IsActionEnabled}" />
+                  <ui:Button Content="Decline" Appearance="Secondary" Margin="6,0,0,0" Click="Decline_Click" Tag="{Binding}" IsEnabled="{Binding IsActionEnabled}" />
+                </StackPanel>
+              </StackPanel>
+              <Ellipse Grid.Column="2" Width="8" Height="8" Margin="10,4,0,0" VerticalAlignment="Top" Fill="{DynamicResource SystemAccentBrush}" Visibility="{Binding IsUnread, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Grid>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+        </ListBox>
+      </Grid>
+    </ui:DynamicScrollViewer>
+  </Grid>
+</ui:UiPage>

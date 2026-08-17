@@ -1,0 +1,11 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base">
+  <SolidColorBrush x:Key="NewTextEditorBackground" Color="#CC202020" />
+  <SolidColorBrush x:Key="NewTextEditorForeground" Color="#FFE8E8E8" />
+  <SolidColorBrush x:Key="NewTextEditorLink" Color="#FF3897E8" />
+  <SolidColorBrush x:Key="PrimaryBackgroundColor" Color="#FF202020" />
+  <Color x:Key="ControlFillColorDefault">#11FFFFFF</Color>
+  <Color x:Key="WindowBackgroundColorPrimary">#CC202020</Color>
+  <Color x:Key="WindowBackgroundColorSecondary">#CC202020</Color>
+  <Color x:Key="WindowBackgroundColorThird">#CC202020</Color>
+  <Color x:Key="ComboBoxPopupAcrylicBackground">#FF2C2C2C</Color>
+</ResourceDictionary>

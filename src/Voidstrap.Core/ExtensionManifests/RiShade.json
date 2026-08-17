@@ -1,0 +1,10 @@
+{
+  "id": "RiShade",
+  "displayName": "RiShade",
+  "supportedPlatforms": ["Windows"],
+  "requiredFeatures": ["Overlay", "ExtensionNativeAssets"],
+  "nativeAssets": {
+    "Windows": ["RiShade/RiShade.exe"]
+  },
+  "externalRequirements": []
+}

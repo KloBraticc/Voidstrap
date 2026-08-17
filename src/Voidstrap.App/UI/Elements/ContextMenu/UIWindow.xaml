@@ -1,0 +1,3 @@
+<Window x:Class="Voidstrap.UI.Elements.FPS.FPSOverlayWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" AllowsTransparency="True" Background="#00FFFFFF" WindowStyle="None" Topmost="True" ShowInTaskbar="False" Width="140" Height="32" xmlns:fps="clr-namespace:Voidstrap.UI.Elements.FPS;assembly=Voidstrap">
+  <TextBlock Name="FpsTextBlock" FontSize="16" FontWeight="SemiBold" Foreground="#FF00FF00" Background="#00FFFFFF" Padding="6" Text="FPS: --" />
+</Window>

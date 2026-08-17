@@ -1,0 +1,20 @@
+<VoidstrapCustomBootstrapper Version="2" Width="520" Height="330" Theme="Default" WindowCornerPreference="Round" Margin="30">
+	<TitleBar Title="" ShowMinimize="False" ShowClose="False" />
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<Image Grid.Row="0" Source="{Icon}" Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+		<TextBlock Grid.Row="1" Name="StatusText" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,14" TextTrimming="CharacterEllipsis" />
+
+		<ProgressBar Grid.Row="2" Name="PrimaryProgressBar" Width="450" Height="12" HorizontalAlignment="Center" />
+
+		<Button Grid.Row="3" Name="CancelButton" Content="Cancel" Width="100" Height="30" HorizontalAlignment="Center" Margin="0,18,0,0" />
+	</Grid>
+</VoidstrapCustomBootstrapper>

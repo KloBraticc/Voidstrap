@@ -1,0 +1,8 @@
+{
+  "id": "CommunityContent",
+  "displayName": "Community Content",
+  "supportedPlatforms": ["Windows", "MacOS", "Linux"],
+  "requiredFeatures": [],
+  "nativeAssets": {},
+  "externalRequirements": []
+}

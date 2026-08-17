@@ -1,0 +1,76 @@
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Installer.Pages.WelcomePage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Installer.Pages" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.Installer" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" Title="WelcomePage" Scrollable="True" Loaded="UiPage_Loaded">
+  <ui:UiPage.Resources>
+    <Style x:Key="WelcomeSectionLabel" TargetType="{x:Type TextBlock}">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Margin" Value="0,24,0,10" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
+    </Style>
+    <Style x:Key="WelcomeLinkTitle" TargetType="{x:Type TextBlock}">
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+    <Style x:Key="WelcomeLinkDesc" TargetType="{x:Type TextBlock}">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="Margin" Value="0,2,0,0" />
+      <Setter Property="Padding" Value="0,0,12,0" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
+    </Style>
+  </ui:UiPage.Resources>
+
+  <Grid Margin="0,0,14,14">
+    <StackPanel MaxWidth="760" VerticalAlignment="Center" HorizontalAlignment="Left">
+
+            <TextBlock FontSize="15" LineHeight="22" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Voidstrap is a custom open-source launcher and alternative bootstrapper for Roblox, designed as an advanced fork of Bloxstrap. It lets players change hidden game settings, modify performance configurations, and adjust the look and behavior of the Roblox client." />
+
+      <TextBlock Style="{StaticResource WelcomeSectionLabel}" Text="Handy Links" />
+
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ui:CardAction Grid.Row="0" Grid.Column="0" Margin="0,0,4,0" Icon="Home24" Tag="https://voidstrapp.pages.dev/home" Click="LinkCard_Click">
+          <StackPanel>
+            <TextBlock Style="{StaticResource WelcomeLinkTitle}" Text="Website" />
+            <TextBlock Style="{StaticResource WelcomeLinkDesc}" Text="Downloads, news and your profile" />
+          </StackPanel>
+        </ui:CardAction>
+        <ui:CardAction Grid.Row="0" Grid.Column="1" Margin="4,0,0,0" Icon="WindowWrench24" Tag="https://voidstrapp.pages.dev/mods/mods" Click="LinkCard_Click">
+          <StackPanel>
+            <TextBlock Style="{StaticResource WelcomeLinkTitle}" Text="Mods" />
+            <TextBlock Style="{StaticResource WelcomeLinkDesc}" Text="Find good mods" />
+          </StackPanel>
+        </ui:CardAction>
+        <ui:CardAction Grid.Row="1" Grid.Column="0" Margin="0,8,4,0" Icon="Cursor20" Tag="https://voidstrapp.pages.dev/crosshairs/crosshairs" Click="LinkCard_Click">
+          <StackPanel>
+            <TextBlock Style="{StaticResource WelcomeLinkTitle}" Text="Crosshairs" />
+            <TextBlock Style="{StaticResource WelcomeLinkDesc}" Text="Community Crosshairs" />
+          </StackPanel>
+        </ui:CardAction>
+        <ui:CardAction Grid.Row="1" Grid.Column="1" Margin="4,8,0,0" Icon="BookQuestionMark24" Tag="https://voidstrapp.pages.dev/documentation/documentation" Click="LinkCard_Click">
+          <StackPanel>
+            <TextBlock Style="{StaticResource WelcomeLinkTitle}" Text="Documentation" />
+            <TextBlock Style="{StaticResource WelcomeLinkDesc}" Text="Features, FastFlags and fixes" />
+          </StackPanel>
+        </ui:CardAction>
+      </Grid>
+
+      <TextBlock Style="{StaticResource WelcomeSectionLabel}" Text="Support the Project" />
+      <StackPanel Orientation="Horizontal">
+        <ui:Button Height="36" MinWidth="124" Margin="0,0,8,0" HorizontalContentAlignment="Center" Content="Donate" Icon="Heart24" Click="DonateButton_Click" />
+        <ui:Button Height="36" MinWidth="124" Margin="0,0,8,0" HorizontalContentAlignment="Center" Content="Contributors" Icon="People24" Click="ContributorsButton_Click" />
+        <ui:Button Height="36" MinWidth="124" HorizontalContentAlignment="Center" Content="GitHub" Icon="Code24" Tag="https://github.com/KloBraticc/Voidstrap" Click="LinkCard_Click" />
+      </StackPanel>
+
+      <TextBlock Margin="0,24,0,0" FontSize="11" LineHeight="16" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Press Next when you are ready. Nothing is installed until you confirm the location on the next step." />
+
+    </StackPanel>
+  </Grid>
+</ui:UiPage>

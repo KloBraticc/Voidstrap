@@ -1,0 +1,55 @@
+﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Installer.Pages.SignInPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Installer.Pages" Title="SignInPage" Scrollable="False" Loaded="UiPage_Loaded">
+  <Grid>
+
+    <StackPanel Name="IdlePanel" Width="380" VerticalAlignment="Center" HorizontalAlignment="Center">
+      <Image Width="72" Height="72" HorizontalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Voidstrap.png" />
+      <TextBlock Margin="0,26,0,0" FontSize="26" FontWeight="SemiBold" TextAlignment="Center" TextWrapping="Wrap" Text="Welcome to Voidstrap" />
+      <TextBlock Margin="0,10,0,0" FontSize="13" LineHeight="18" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Sign in to your profile, You can always do this later" />
+      <ui:Button Margin="0,30,0,0" Height="40" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Appearance="Primary" Icon="Person24" Content="Sign in with Voidstrap" Click="SignIn_Click" />
+      <ui:Button Margin="0,10,0,0" Height="36" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Appearance="Transparent" FontSize="12" Content="No, Continue" Click="Skip_Click" />
+    </StackPanel>
+
+    <StackPanel Name="WaitingPanel" Width="380" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
+      <ui:ProgressRing Width="48" Height="48" HorizontalAlignment="Center" IsIndeterminate="True" />
+            <TextBlock Margin="0,24,0,0" FontSize="18" FontWeight="SemiBold" TextAlignment="Center" TextWrapping="Wrap" Text="Waiting for sign in" />
+            <TextBlock Name="WaitingStatus" Margin="0,14,0,0" MinHeight="32" FontSize="11" LineHeight="16" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+      <ui:Button Margin="0,10,0,0" Height="36" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Appearance="Secondary" Content="Cancel" Click="Cancel_Click" />
+      <ui:Button Margin="0,8,0,0" Height="36" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Appearance="Transparent" FontSize="11" Content="Open the sign in page again" Click="Reopen_Click" />
+    </StackPanel>
+
+    <StackPanel Name="DonePanel" Width="420" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
+
+      <Border Name="BannerHost" Height="120" CornerRadius="12" Visibility="Collapsed" Background="{DynamicResource ControlFillColorDefaultBrush}">
+        <Border.Clip>
+          <RectangleGeometry Rect="0,0,420,120" RadiusX="12" RadiusY="12" />
+        </Border.Clip>
+        <Image Name="BannerImage" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
+      </Border>
+
+      <Grid Width="170" Height="170" HorizontalAlignment="Center">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="Margin" Value="0,0,0,-30" />
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding Visibility, ElementName=BannerHost}" Value="Visible">
+                <Setter Property="Margin" Value="0,-85,0,0" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Ellipse Name="AvatarRing" Width="104" Height="104" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Ellipse Name="AvatarFill" Width="92" Height="92" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Image Name="AvatarBorderImage" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False" Panel.ZIndex="10" RenderOptions.BitmapScalingMode="HighQuality" Visibility="Collapsed" />
+      </Grid>
+
+      <TextBlock Name="DoneName" Margin="0,14,0,0" FontSize="20" FontWeight="SemiBold" TextAlignment="Center" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
+      <TextBlock Name="DoneUsername" Margin="0,4,0,0" FontSize="12" TextAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+      <TextBlock Margin="0,16,0,0" FontSize="13" LineHeight="18" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="You are signed in. Continue to finish setting up Voidstrap." />
+
+      <ui:Button Margin="0,22,0,0" Height="40" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Appearance="Primary" Content="Continue" Click="Skip_Click" />
+      <ui:Button Margin="0,10,0,0" Height="36" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Appearance="Transparent" FontSize="12" Icon="PeopleSwap24" Content="Switch accounts" Click="SwitchAccounts_Click" />
+
+    </StackPanel>
+
+  </Grid>
+</ui:UiPage>
