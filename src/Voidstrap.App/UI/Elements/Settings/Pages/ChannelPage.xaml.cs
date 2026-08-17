@@ -238,9 +238,14 @@ public partial class ChannelPage : UiPage{
 		{
 			string currentVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 			CancellationToken token = _versionCts?.Token ?? CancellationToken.None;
-			var release = await App.GetLatestRelease() ?? throw new InvalidDataException("Release information is unavailable");
+			var release = await App.GetLatestRelease(true) ?? throw new InvalidDataException("Release information is unavailable");
 			string text = release.TagName;
-			if (IsNewerVersion(text, currentVersion))
+				if (!TryCompareVersions(text, currentVersion, out bool newer))
+				{
+					Frontend.ShowMessageBox("Could not compare versions. This build reports " + currentVersion + " and the latest release is tagged " + text + ".");
+					return;
+				}
+				if (newer)
 			{
 				Frontend.ShowMessageBox("A new version (" + text + ") is available!");
 				if (!await Voidstrap.Extensions.GithubUpdater.DownloadAndInstallUpdate(release.TagName))
@@ -254,7 +259,7 @@ public partial class ChannelPage : UiPage{
 			}
 			else
 			{
-				Frontend.ShowMessageBox("You are already running the latest version of Voidstrap.");
+				Frontend.ShowMessageBox("You are already running the latest version of Voidstrap (" + currentVersion + ").");
 			}
 		}
 		catch (OperationCanceledException)
@@ -266,13 +271,19 @@ public partial class ChannelPage : UiPage{
 		}
 	}
 
-	private bool IsNewerVersion(string latest, string current)
+	private static bool TryCompareVersions(string latest, string current, out bool newer)
 	{
-		if (Version.TryParse(latest.TrimStart('v'), out Version result) && Version.TryParse(current, out Version result2))
+		newer = false;
+		if (string.IsNullOrWhiteSpace(latest) || string.IsNullOrWhiteSpace(current))
 		{
-			return result > result2;
+			return false;
 		}
-		return false;
+		if (!Version.TryParse(latest.TrimStart('v', 'V'), out Version? remote) || !Version.TryParse(current, out Version? local))
+		{
+			return false;
+		}
+		newer = remote > local;
+		return true;
 	}
 
 	private void ResetSettingsButton_Click(object sender, RoutedEventArgs e)

@@ -17,4 +17,6 @@ public class AppState
 	public Dictionary<string, List<string>> ManagedModManifest { get; set; } = new Dictionary<string, List<string>>();
 
 	public string ModApplyVersion { get; set; } = string.Empty;
+
+	public List<string>? CriticalFiles { get; set; }
 }

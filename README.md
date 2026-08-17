@@ -1,13 +1,13 @@
 <p align="center">
 <a href="https://voidstrapp.pages.dev/">
-<img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/Bloxstrap/Voidstrap.png" alt="preview" width="100px"/>
+<img src="https://github.com/KloBraticc/Voidstrap/blob/main/src/Voidstrap.App/Voidstrap.png" alt="preview" width="100px"/>
 </a>
 </p>
 
 <h1 align="center"><b>Voidstrap</b></h1>
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/KloBraticc/RandomMods/main/Untitled%20design%20(2)-Photoroom.png" alt="preview" width="100%"/>
+  <img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/assets/save.png" alt="preview" width="85%"/>
 </p>
 
 <p align="center">
@@ -38,8 +38,6 @@ Leave a star if you like the project! ⭐️
 >
 > In the meantime, you can use **[AppleBlox](https://github.com/AppleBlox/appleblox)** *(for macOS)* or **[Sober](https://sober.vinegarhq.org/)** *(for Linux)*.  
 > More experienced Linux users can also try tools like **[Lution](https://github.com/wookhq/Lution)**.
-
-<img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/Resources/bar.png" style="width: 100%;">
 
 ## Installation
 
@@ -109,8 +107,6 @@ Built on top of [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by pizza
     <td style="width: 33%; text-align: right;"><a href="https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP" target="_blank">MIT</a></td>
   </tr>
 </table>
-
-<img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/Resources/bar.png" style="width: 100%;">
 
 <p align="center">
   <picture>

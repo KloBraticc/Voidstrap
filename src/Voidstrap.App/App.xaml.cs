@@ -419,20 +419,22 @@ public partial class App : Application
 
 	public static bool AllowPreReleaseUpdates => Settings?.Prop?.AllowPreReleaseUpdates == true;
 
-	public static async Task<GithubRelease?> GetLatestRelease()
+	public static TimeSpan ReleaseCacheAge(bool forceRefresh) => forceRefresh ? TimeSpan.Zero : TimeSpan.FromMinutes(15L);
+
+	public static async Task<GithubRelease?> GetLatestRelease(bool forceRefresh = false)
 	{
 		try
 		{
 			if (AllowPreReleaseUpdates)
 			{
-				GithubRelease? newest = await GetNewestReleaseFromListAsync();
+				GithubRelease? newest = await GetNewestReleaseFromListAsync(forceRefresh);
 				if (newest != null)
 				{
 					return newest;
 				}
 				Logger.WriteLine("App::GetLatestRelease", "Prerelease lookup found nothing, falling back to the stable release");
 			}
-			GithubRelease githubRelease = await GitHubCache.GetJsonWithFallbackAsync<GithubRelease>(ProjectReleaseApi, ProjectFallbackReleaseApi, TimeSpan.FromMinutes(15L));
+			GithubRelease githubRelease = await GitHubCache.GetJsonWithFallbackAsync<GithubRelease>(ProjectReleaseApi, ProjectFallbackReleaseApi, ReleaseCacheAge(forceRefresh));
 			if (githubRelease == null || githubRelease.Assets == null)
 			{
 				Logger.WriteLine("App::GetLatestRelease", "Encountered invalid data");
@@ -447,16 +449,18 @@ public partial class App : Application
 		return null;
 	}
 
-	public static async Task<GithubRelease?> GetNewestReleaseFromListAsync()
+	public static async Task<GithubRelease?> GetNewestReleaseFromListAsync(bool forceRefresh = false)
 	{
 		try
 		{
-			List<GithubRelease>? releases = await GitHubCache.GetJsonWithFallbackAsync<List<GithubRelease>>(ProjectReleaseListApi, ProjectFallbackReleaseListApi, TimeSpan.FromMinutes(15L));
+			List<GithubRelease>? releases = await GitHubCache.GetJsonWithFallbackAsync<List<GithubRelease>>(ProjectReleaseListApi, ProjectFallbackReleaseListApi, ReleaseCacheAge(forceRefresh));
 			if (releases == null)
 			{
 				return null;
 			}
 			bool allowPre = AllowPreReleaseUpdates;
+			GithubRelease? best = null;
+			System.Version? bestVersion = null;
 			foreach (GithubRelease release in releases)
 			{
 				if (release == null || release.Draft || release.Assets == null)
@@ -467,9 +471,18 @@ public partial class App : Application
 				{
 					continue;
 				}
-				return release;
+				if (!System.Version.TryParse((release.TagName ?? "").TrimStart('v', 'V'), out System.Version? parsed))
+				{
+					best ??= release;
+					continue;
+				}
+				if (bestVersion == null || parsed > bestVersion)
+				{
+					best = release;
+					bestVersion = parsed;
+				}
 			}
-			return null;
+			return best;
 		}
 		catch (Exception ex)
 		{

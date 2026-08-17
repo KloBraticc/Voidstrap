@@ -47,14 +47,28 @@ namespace Voidstrap.Integrations.GameChat
         private readonly GameChatRoundButton _toggleBtn;
         private readonly GameChatResizeGrip _grip;
 
+        private const int TabChatIndex = 0;
+        private const int TabGlobalIndex = 1;
+        private const int TabBridgeIndex = 2;
+
         private readonly Border _tabChat;
         private readonly Border _tabGlobal;
+        private readonly Border _tabBridge;
         private readonly TextBlock _tabChatText;
         private readonly TextBlock _tabGlobalText;
+        private readonly TextBlock _tabBridgeText;
         private readonly Border _tabChatUnderline;
         private readonly Border _tabGlobalUnderline;
-        private bool _globalSelected;
+        private readonly Border _tabBridgeUnderline;
+        private int _selectedTab = TabChatIndex;
         private string _jobId = "global";
+
+        private readonly GameChatBridgeClient _bridge = new GameChatBridgeClient();
+        private readonly ColumnDefinition _tabBridgeColumn;
+        private FlowDocument _docBridge;
+        private bool _bridgeConsentShown;
+        private bool _bridgeVerifyBusy;
+        private bool _bridgeAvailable;
 
         private readonly GameChatClient _client;
         private readonly ActivityWatcher? _activityWatcher;
@@ -258,6 +272,7 @@ namespace Voidstrap.Integrations.GameChat
 			_chatBox.PreviewMouseMove += OnChatPreviewMouseMove;
             _docChat = NewDoc();
             _docGlobal = NewDoc();
+            _docBridge = NewDoc();
             _chatBox.Document = _docChat;
 
             _inputBox = new GameChatInputBox();
@@ -294,15 +309,25 @@ namespace Voidstrap.Integrations.GameChat
             _tabGlobal = BuildTab(_tabGlobalText, _tabGlobalUnderline);
             _tabGlobal.MouseLeftButtonUp += OnTabGlobalClicked;
 
+            _tabBridgeText = BuildTabText("Bootstrappers", false);
+            _tabBridgeUnderline = BuildTabUnderline(false);
+            _tabBridge = BuildTab(_tabBridgeText, _tabBridgeUnderline);
+            _tabBridge.Visibility = Visibility.Collapsed;
+            _tabBridge.MouseLeftButtonUp += OnTabBridgeClicked;
+            _tabBridgeColumn = new ColumnDefinition { Width = new GridLength(0) };
+
             var tabRow = new Grid { Height = 40 };
             tabRow.ColumnDefinitions.Add(new ColumnDefinition());
             tabRow.ColumnDefinitions.Add(new ColumnDefinition());
+            tabRow.ColumnDefinitions.Add(_tabBridgeColumn);
             Grid.SetColumn(_tabChat, 0);
             Grid.SetColumn(_tabGlobal, 1);
+            Grid.SetColumn(_tabBridge, 2);
 			var tabDivider = new Border { Height = 1, Background = FreezeBrush(Color.FromRgb(42, 42, 48)), VerticalAlignment = VerticalAlignment.Bottom };
-            Grid.SetColumnSpan(tabDivider, 2);
+            Grid.SetColumnSpan(tabDivider, 3);
             tabRow.Children.Add(_tabChat);
             tabRow.Children.Add(_tabGlobal);
+            tabRow.Children.Add(_tabBridge);
             tabRow.Children.Add(tabDivider);
             DockPanel.SetDock(tabRow, Dock.Top);
 
@@ -358,7 +383,11 @@ namespace Voidstrap.Integrations.GameChat
             _client.OnMessage += OnClientMessage;
             _client.OnRejected += OnClientRejected;
             _client.OnBadgesUpdated += OnClientBadgesUpdated;
+            _bridge.OnSystem += OnBridgeSystem;
+            _bridge.OnMessage += OnBridgeMessage;
+            _bridge.OnVerificationRequired += OnBridgeVerificationRequired;
             _ = InitOwnRobloxIdAsync();
+            _ = RefreshBridgeAvailabilityAsync();
 
             SourceInitialized += OnSourceInitializedHandler;
             IsVisibleChanged += OnOverlayIsVisibleChanged;
@@ -381,13 +410,19 @@ namespace Voidstrap.Integrations.GameChat
             if (_jobId != "global" && newJob != _jobId)
             {
                 _docChat = NewDoc();
-                if (!_globalSelected)
+                if (_selectedTab == TabChatIndex)
                     _chatBox.Document = _docChat;
+                _docBridge = NewDoc();
+                if (_selectedTab == TabBridgeIndex)
+                    _chatBox.Document = _docBridge;
+                _bridge.Stop();
             }
             _jobId = newJob;
             ApplyTrackerRect(RobloxWindowTracker.Current);
             _ = GameChatRoblox.GetBlockedIdsAsync();
-            _ = SwitchChannelAsync(_globalSelected ? "global" : _jobId);
+            _ = SwitchChannelAsync(_selectedTab == TabGlobalIndex ? "global" : _jobId);
+            if (_selectedTab == TabBridgeIndex)
+                StartBridge();
         }
 
         public void LeaveGame()
@@ -423,6 +458,7 @@ namespace Voidstrap.Integrations.GameChat
                 return;
             _inGame = false;
             _client.Stop();
+            _bridge.Stop();
             if (_isChatting)
                 CancelChatMode();
             if (IsVisible)
@@ -1018,8 +1054,26 @@ namespace Voidstrap.Integrations.GameChat
                 ExitChatUI();
 
                 bool isCommand = await HandleCommands(userMessage);
-                if (!isCommand)
-                    await _client.SendMessageAsync(userMessage);
+                if (isCommand)
+                    return;
+
+                if (_selectedTab == TabBridgeIndex)
+                {
+                    if (!_bridgeAvailable)
+                    {
+                        AppendSystemMessage(GameChatStrings.BridgeUnavailable);
+                        return;
+                    }
+                    if (!App.Settings.Prop.GameChatBridgeEnabled)
+                    {
+                        AppendBridgeSystem(GameChatStrings.BridgeConsent);
+                        return;
+                    }
+                    await _bridge.SendMessageAsync(userMessage);
+                    return;
+                }
+
+                await _client.SendMessageAsync(userMessage);
             }
             catch (Exception ex)
             {
@@ -1134,6 +1188,7 @@ namespace Voidstrap.Integrations.GameChat
                 _messageBatchActive = false;
                 TrimDocument(_docChat);
                 TrimDocument(_docGlobal);
+                TrimDocument(_docBridge);
                 if (scrollToEnd)
                     _chatBox.ScrollToEnd();
                 Interlocked.Exchange(ref _flushScheduled, 0);
@@ -1723,22 +1778,318 @@ namespace Voidstrap.Integrations.GameChat
             };
         }
 
-        private void OnTabChatClicked(object sender, MouseButtonEventArgs e) => SelectTab(false);
+        private void OnTabChatClicked(object sender, MouseButtonEventArgs e) => SelectTab(TabChatIndex);
 
-        private void OnTabGlobalClicked(object sender, MouseButtonEventArgs e) => SelectTab(true);
+        private void OnTabGlobalClicked(object sender, MouseButtonEventArgs e) => SelectTab(TabGlobalIndex);
 
-        private void SelectTab(bool global)
+        private void OnTabBridgeClicked(object sender, MouseButtonEventArgs e) => SelectTab(TabBridgeIndex);
+
+        private void SelectTab(int tab)
         {
-            if (_globalSelected == global && _client.Connected)
+            bool sameTab = _selectedTab == tab;
+            if (sameTab && tab != TabBridgeIndex && _client.Connected)
                 return;
-            _globalSelected = global;
-            _tabChatText.Foreground = global ? TabIdleBrush : TabActiveBrush;
-            _tabGlobalText.Foreground = global ? TabActiveBrush : TabIdleBrush;
-            _tabChatUnderline.Visibility = global ? Visibility.Collapsed : Visibility.Visible;
-            _tabGlobalUnderline.Visibility = global ? Visibility.Visible : Visibility.Collapsed;
-            _chatBox.Document = global ? _docGlobal : _docChat;
+
+            _selectedTab = tab;
+
+            _tabChatText.Foreground = tab == TabChatIndex ? TabActiveBrush : TabIdleBrush;
+            _tabGlobalText.Foreground = tab == TabGlobalIndex ? TabActiveBrush : TabIdleBrush;
+            _tabBridgeText.Foreground = tab == TabBridgeIndex ? TabActiveBrush : TabIdleBrush;
+            _tabChatUnderline.Visibility = tab == TabChatIndex ? Visibility.Visible : Visibility.Collapsed;
+            _tabGlobalUnderline.Visibility = tab == TabGlobalIndex ? Visibility.Visible : Visibility.Collapsed;
+            _tabBridgeUnderline.Visibility = tab == TabBridgeIndex ? Visibility.Visible : Visibility.Collapsed;
+
+            _chatBox.Document = tab switch
+            {
+                TabGlobalIndex => _docGlobal,
+                TabBridgeIndex => _docBridge,
+                _ => _docChat,
+            };
             _chatBox.ScrollToEnd();
-            _ = SwitchChannelAsync(global ? "global" : _jobId);
+
+            if (tab == TabBridgeIndex)
+            {
+                _ = RefreshBridgeAvailabilityAsync();
+                StartBridge();
+                return;
+            }
+
+            if (!sameTab)
+                _ = SwitchChannelAsync(tab == TabGlobalIndex ? "global" : _jobId);
+        }
+
+        private async Task RefreshBridgeAvailabilityAsync()
+        {
+            bool available;
+            try
+            {
+                available = await GameChatBridgeConfig.IsEnabledAsync(_lifetimeCts.Token).ConfigureAwait(true);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
+            if (_closed || _bridgeAvailable == available)
+                return;
+
+            _bridgeAvailable = available;
+            _tabBridge.Visibility = available ? Visibility.Visible : Visibility.Collapsed;
+            _tabBridgeColumn.Width = available ? new GridLength(1.4, GridUnitType.Star) : new GridLength(0);
+
+            if (available)
+                return;
+
+            _bridge.Stop();
+            if (_selectedTab == TabBridgeIndex)
+                SelectTab(TabChatIndex);
+        }
+
+        private void StartBridge()
+        {
+            if (_closed)
+                return;
+
+            if (!_bridgeAvailable)
+            {
+                _ = RefreshBridgeAvailabilityAsync();
+                AppendSystemMessage(GameChatStrings.BridgeUnavailable);
+                return;
+            }
+
+            if (!App.Settings.Prop.GameChatBridgeEnabled)
+            {
+                AppendSystemMessage(GameChatStrings.BridgeDisabled);
+                return;
+            }
+
+            if (!_bridgeConsentShown)
+            {
+                _bridgeConsentShown = true;
+                AppendBridgeSystem(GameChatStrings.BridgeWelcome);
+                AppendBridgeSystem(GameChatStrings.BridgeConsent);
+            }
+
+            if (!GameChatBridgeClient.IsJoinableServer(_jobId))
+            {
+                AppendSystemMessage(GameChatStrings.BridgeNoServer);
+                return;
+            }
+
+            _bridge.Start(_jobId);
+        }
+
+        private void OnBridgeSystem(object? sender, string message)
+        {
+            QueueUi(() => AppendBridgeSystem(message));
+        }
+
+        private void OnBridgeMessage(object? sender, GameChatBridgeMessage message)
+        {
+            QueueUi(() => ProcessBridgeMessage(message));
+        }
+
+        private void OnBridgeVerificationRequired(object? sender, EventArgs e)
+        {
+            QueueUi(() =>
+            {
+                if (_closed || _bridgeVerifyBusy || !_bridgeAvailable || !App.Settings.Prop.GameChatBridgeEnabled)
+                    return;
+                AppendBridgeSystem(GameChatStrings.BridgeNeedsVerify);
+                _ = HandleBridgeVerifyAsync();
+            });
+        }
+
+        private void ProcessBridgeMessage(GameChatBridgeMessage message)
+        {
+            if (message.Kind == "system")
+            {
+                AppendBridgeSystem(message.Text);
+                return;
+            }
+
+            if (_mutedUsers.Contains(message.Sender))
+                return;
+            if (message.SenderId > 0 && GameChatRoblox.BlockedSnapshot.Contains(message.SenderId))
+                return;
+
+            GameChatLog.Add(message.Sender, "Bootstrappers", message.Text);
+            AppendChatMessage(_docBridge, message.Sender, message.SenderId, message.Text);
+        }
+
+        private void AppendBridgeSystem(string message)
+        {
+            if (string.IsNullOrEmpty(message))
+                return;
+            var p = NewParagraph();
+            p.Inlines.Add(new Run(GameChatStrings.System + ": ") { Foreground = Brushes.Gray });
+            p.Inlines.Add(new Run(message));
+            AddBlock(_docBridge, p);
+        }
+
+        private async Task HandleBridgeCommandAsync(string args)
+        {
+            await RefreshBridgeAvailabilityAsync().ConfigureAwait(true);
+            if (!_bridgeAvailable)
+            {
+                AppendSystemMessage(GameChatStrings.BridgeUnavailable);
+                return;
+            }
+
+            string action = args.Trim().ToLowerInvariant();
+
+            switch (action)
+            {
+                case "on":
+                    if (!App.Settings.Prop.GameChatBridgeEnabled)
+                    {
+                        App.Settings.Prop.GameChatBridgeEnabled = true;
+                        App.Settings.SaveDeferred();
+                    }
+                    AppendSystemMessage(GameChatStrings.BridgeEnabled);
+                    if (!GameChatBridgeClient.IsJoinableServer(_jobId))
+                    {
+                        AppendSystemMessage(GameChatStrings.BridgeNoServer);
+                        return;
+                    }
+                    if (GameChatBridgeAuth.GetToken() == null)
+                    {
+                        await HandleBridgeVerifyAsync().ConfigureAwait(true);
+                        return;
+                    }
+                    _bridge.Start(_jobId);
+                    return;
+
+                case "off":
+                    App.Settings.Prop.GameChatBridgeEnabled = false;
+                    App.Settings.SaveDeferred();
+                    _bridge.Stop();
+                    AppendSystemMessage(GameChatStrings.BridgeTurnedOff);
+                    return;
+
+                case "verify":
+                    await HandleBridgeVerifyAsync().ConfigureAwait(true);
+                    return;
+
+                case "reconnect":
+                case "rc":
+                    if (!App.Settings.Prop.GameChatBridgeEnabled)
+                    {
+                        AppendSystemMessage(GameChatStrings.BridgeDisabled);
+                        return;
+                    }
+                    _bridge.Stop();
+                    StartBridge();
+                    return;
+
+                case "status":
+                    AppendSystemMessage(string.Format(
+                        GameChatStrings.BridgeStatus,
+                        !App.Settings.Prop.GameChatBridgeEnabled
+                            ? GameChatStrings.BridgeStatusOff
+                            : _bridge.Connected
+                                ? string.Format(GameChatStrings.BridgeStatusConnected, _bridge.Name, _bridge.RoomId)
+                                : GameChatStrings.BridgeStatusOn));
+                    return;
+
+                default:
+                    AppendSystemMessage(GameChatStrings.UsageBridge);
+                    return;
+            }
+        }
+
+        private async Task HandleBridgeVerifyAsync()
+        {
+            if (_bridgeVerifyBusy)
+                return;
+
+            _bridgeVerifyBusy = true;
+            try
+            {
+                GameChatBridgeChallenge? challenge = await GameChatBridgeVerify.StartAsync(_lifetimeCts.Token).ConfigureAwait(true);
+                if (challenge == null)
+                {
+                    AppendSystemMessage(GameChatStrings.BridgeVerifyUnavailable);
+                    return;
+                }
+
+                try
+                {
+                    Clipboard.SetText(challenge.BotName);
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine(LogTag, "Clipboard copy failed: " + ex.Message);
+                }
+
+                try
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "https://www.roblox.com/users/" + challenge.BotId.ToString(System.Globalization.CultureInfo.InvariantCulture) + "/profile",
+                        UseShellExecute = true,
+                    });
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine(LogTag, "Could not open the verify profile: " + ex.Message);
+                }
+
+                AppendSystemMessage(string.Format(GameChatStrings.BridgeVerifyStarted, challenge.BotName));
+                AppendSystemMessage(GameChatStrings.BridgeVerifyWaiting);
+
+                bool verified = await GameChatBridgeVerify.WaitAsync(challenge, _lifetimeCts.Token).ConfigureAwait(true);
+                if (_closed)
+                    return;
+
+                if (!verified)
+                {
+                    AppendSystemMessage(GameChatStrings.BridgeVerifyFailed);
+                    return;
+                }
+
+                AppendSystemMessage(GameChatStrings.BridgeVerifySuccess);
+                StartBridge();
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            finally
+            {
+                _bridgeVerifyBusy = false;
+            }
+        }
+
+        private async Task<bool> HandleVotekickAsync(string args)
+        {
+            if (!_bridgeAvailable)
+            {
+                AppendSystemMessage(GameChatStrings.BridgeUnavailable);
+                return true;
+            }
+
+            if (_selectedTab != TabBridgeIndex)
+            {
+                AppendSystemMessage(GameChatStrings.BridgeVotekickWrongTab);
+                return true;
+            }
+
+            string[] parts = args.Trim().Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 0)
+            {
+                AppendSystemMessage(GameChatStrings.UsageVotekick);
+                return true;
+            }
+
+            if (!_bridge.Connected)
+            {
+                AppendSystemMessage(GameChatStrings.BridgeNotConnected);
+                return true;
+            }
+
+            bool voteOnly = string.Equals(_bridge.ActiveVotekickTarget, parts[0], StringComparison.OrdinalIgnoreCase);
+            await _bridge.SendVotekickAsync(parts[0], parts.Length > 1 ? parts[1] : "", voteOnly).ConfigureAwait(true);
+            return true;
         }
 
         private void OpenProfile(long userId) => OpenProfile(userId, null);
@@ -1877,6 +2228,7 @@ namespace Voidstrap.Integrations.GameChat
         {
             UpdateDocumentBadges(_docChat, userId, badges);
             UpdateDocumentBadges(_docGlobal, userId, badges);
+            UpdateDocumentBadges(_docBridge, userId, badges);
         }
 
         private void UpdateDocumentBadges(FlowDocument document, long userId, IReadOnlyList<GameChatBadge> badges)
@@ -1967,8 +2319,19 @@ namespace Voidstrap.Integrations.GameChat
 
                 case "/id":
                 case "/channel":
-                    AppendSystemMessage($"{GameChatStrings.CurrentChannelID}: {_client.ChannelId}");
+                    if (_selectedTab == TabBridgeIndex)
+                        AppendSystemMessage($"{GameChatStrings.CurrentChannelID}: {(_bridge.RoomId.Length > 0 ? _bridge.RoomId : _jobId)}");
+                    else
+                        AppendSystemMessage($"{GameChatStrings.CurrentChannelID}: {_client.ChannelId}");
                     return true;
+
+                case "/bridge":
+                    await HandleBridgeCommandAsync(args);
+                    return true;
+
+                case "/votekick":
+                case "/vk":
+                    return await HandleVotekickAsync(args);
 
                 case "/bug":
                 case "/issue":
@@ -2425,6 +2788,7 @@ namespace Voidstrap.Integrations.GameChat
 			_chatBox.PreviewMouseMove -= OnChatPreviewMouseMove;
             _tabChat.MouseLeftButtonUp -= OnTabChatClicked;
             _tabGlobal.MouseLeftButtonUp -= OnTabGlobalClicked;
+            _tabBridge.MouseLeftButtonUp -= OnTabBridgeClicked;
 
             if (_profileWindow != null)
             {
@@ -2438,8 +2802,13 @@ namespace Voidstrap.Integrations.GameChat
             _client.OnRejected -= OnClientRejected;
             _client.OnBadgesUpdated -= OnClientBadgesUpdated;
             _client.Dispose();
+            _bridge.OnSystem -= OnBridgeSystem;
+            _bridge.OnMessage -= OnBridgeMessage;
+            _bridge.OnVerificationRequired -= OnBridgeVerificationRequired;
+            _bridge.Dispose();
             _docChat.Blocks.Clear();
             _docGlobal.Blocks.Clear();
+            _docBridge.Blocks.Clear();
             InlineBorderCache.Clear();
             BadgeImageCache.Clear();
             GameChatRoblox.InvalidateAccountState();

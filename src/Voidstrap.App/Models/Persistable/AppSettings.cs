@@ -213,6 +213,7 @@ namespace Voidstrap.Models.Persistable
         public string GameChatFilter { get; set; } = "default";
         public bool GameChatVerified { get; set; } = false;
         public long GameChatRobloxUserId { get; set; } = 0;
+        public bool GameChatBridgeEnabled { get; set; } = true;
 
         public bool GameIconChecked { get; set; } = true;
         public bool ServerLocationGame { get; set; } = false;

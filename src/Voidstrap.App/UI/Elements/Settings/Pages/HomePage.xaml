@@ -72,6 +72,14 @@
                             Message="Sign into Voidstrap to use more features"
                             IsOpen="{Binding IsSignedOut, Mode=OneWay}" />
 
+                <ui:InfoBar Margin="0,0,0,8"
+                            Padding="8"
+                            Severity="Warning"
+                            IsClosable="False"
+                            Title="If Not Working?"
+                            Message="Cloudflare pages is being limited right now you cant sign in, logout or do much of anything."
+                            IsOpen="{Binding IsSignedOut, Mode=OneWay}" />
+
                 <ui:Button Icon="Person24"
                            Appearance="Primary"
                            HorizontalAlignment="Left"
@@ -346,13 +354,15 @@
                                              Maximum="100"
                                              Value="{Binding WebsiteLevelPercent, Mode=OneWay}"/>
                             </StackPanel>
-                            <controls:OptionControl Header="In-game Voidstrap chat"
-                                                    Description="Chat with other users, Voidstrap.">
-                                <ui:ToggleSwitch IsChecked="{Binding GameChatEnabled, Mode=TwoWay}"/>
-                            </controls:OptionControl>
                         </StackPanel>
                     </Grid>
                 </Border>
+
+                <controls:OptionControl Header="In-game Voidstrap chat"
+                                        Description="Chat with other users, Voidstrap."
+                                        Margin="0,0,0,16">
+                    <ui:ToggleSwitch IsChecked="{Binding GameChatEnabled, Mode=TwoWay}"/>
+                </controls:OptionControl>
 
                 <TextBlock Text="New on the Catalog"
                            FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}"

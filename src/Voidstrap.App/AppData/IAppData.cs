@@ -22,4 +22,6 @@ internal interface IAppData
 	AppState State { get; }
 
 	IReadOnlyDictionary<string, string> PackageDirectoryMap { get; set; }
+
+	IReadOnlyList<string> CandidateCriticalFiles { get; }
 }

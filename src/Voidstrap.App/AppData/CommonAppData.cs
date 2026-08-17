@@ -58,6 +58,8 @@ public abstract class CommonAppData
 
 	public virtual IReadOnlyDictionary<string, string> PackageDirectoryMap { get; set; }
 
+	public virtual IReadOnlyList<string> CandidateCriticalFiles => [];
+
 	public static bool IsVersionGuidValid(string? versionGuid)
 	{
 		if (versionGuid is not { Length: 24 } || !versionGuid.StartsWith("version-", StringComparison.Ordinal))

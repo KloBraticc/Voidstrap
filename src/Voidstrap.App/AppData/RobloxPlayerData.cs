@@ -28,4 +28,6 @@ public class RobloxPlayerData : CommonAppData, IAppData
 	public override AppState State => App.State.Prop.Player;
 
 	public override IReadOnlyDictionary<string, string> PackageDirectoryMap { get; set; } = new Dictionary<string, string> { { "RobloxApp.zip", "" } };
+
+	public override IReadOnlyList<string> CandidateCriticalFiles => ["RobloxPlayerBeta.dll"];
 }

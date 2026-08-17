@@ -271,12 +271,54 @@ public class Bootstrapper
     {
         get
         {
-            if (!string.IsNullOrEmpty(AppData.State.VersionGuid))
+            if (string.IsNullOrEmpty(AppData.State.VersionGuid))
             {
-                return !File.Exists(AppData.ExecutablePath);
+                return true;
             }
-            return true;
+            if (!File.Exists(AppData.ExecutablePath))
+            {
+                return true;
+            }
+            return GetMissingCriticalFile() != null;
         }
+    }
+
+    private string? GetMissingCriticalFile()
+    {
+        IReadOnlyList<string> required = AppData.State.CriticalFiles ?? AppData.CandidateCriticalFiles;
+        if (required.Count == 0)
+        {
+            return null;
+        }
+        string directory = AppData.Directory;
+        foreach (string name in required)
+        {
+            if (string.IsNullOrWhiteSpace(name) || name.IndexOfAny(InvalidCriticalFileChars) >= 0)
+            {
+                continue;
+            }
+            if (!File.Exists(Path.Combine(directory, name)))
+            {
+                App.Logger.WriteLine("Bootstrapper::MustUpgrade", "Critical file is missing, a repair is required: " + name);
+                return name;
+            }
+        }
+        return null;
+    }
+
+    private static readonly char[] InvalidCriticalFileChars = ['/', '\\', ':'];
+
+    private List<string> ScanCriticalFiles(string directory)
+    {
+        List<string> found = [];
+        foreach (string name in AppData.CandidateCriticalFiles)
+        {
+            if (File.Exists(Path.Combine(directory, name)))
+            {
+                found.Add(name);
+            }
+        }
+        return found;
     }
 
     public Bootstrapper(LaunchMode launchMode)
@@ -2583,6 +2625,7 @@ public class Bootstrapper
 			}
 			await CommitInstallationAsync(stagingDirectory, _latestVersionDirectory, AppData.VersionsRoot, ct).ConfigureAwait(continueOnCapturedContext: false);
 			_packageExtractionDirectory = null;
+			VerifyCommittedInstallation();
             try
             {
                 MigrateCompatibilityFlags();
@@ -2592,6 +2635,7 @@ public class Bootstrapper
                 App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "MigrateCompatibilityFlags: " + ex.Message);
             }
             AppData.State.VersionGuid = _latestVersionGuid;
+            AppData.State.CriticalFiles = [.. _stagedCriticalFiles];
             AppData.State.PackageHashes.Clear();
             foreach (Package item in _versionPackageManifest)
             {
@@ -2802,6 +2846,32 @@ public class Bootstrapper
 		if (!File.Exists(Path.Combine(stagingDirectory, "AppSettings.xml")))
 		{
 			throw new InvalidDataException("The staged Roblox settings file is missing");
+		}
+		_stagedCriticalFiles = ScanCriticalFiles(stagingDirectory);
+		foreach (string name in _stagedCriticalFiles)
+		{
+			FileInfo info = new(Path.Combine(stagingDirectory, name));
+			if (!info.Exists || info.Length == 0)
+			{
+				throw new InvalidDataException("The staged Roblox client file " + name + " is missing or empty");
+			}
+		}
+	}
+
+	private List<string> _stagedCriticalFiles = [];
+
+	private void VerifyCommittedInstallation()
+	{
+		foreach (string name in _stagedCriticalFiles)
+		{
+			if (File.Exists(Path.Combine(_latestVersionDirectory, name)))
+			{
+				continue;
+			}
+			App.Logger.WriteLine("Bootstrapper::VerifyCommittedInstallation", "Missing after commit: " + name);
+			throw new InvalidDataException(
+				"Roblox was installed but " + name + " is missing. Your antivirus most likely removed it. "
+				+ "Add the Roblox versions folder to your antivirus exclusions, then launch again.");
 		}
 	}
 

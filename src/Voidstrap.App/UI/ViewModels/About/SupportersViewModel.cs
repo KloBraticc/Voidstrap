@@ -49,7 +49,7 @@ public class SupportersViewModel : NotifyPropertyChangedViewModel, IDisposable
 	{
 		try
 		{
-			SupporterData = await GitHubCache.GetJsonAsync<SupporterData>("https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/supportersdata7.json", TimeSpan.FromHours(1), _lifetimeCts.Token);
+			SupporterData = await GitHubCache.GetJsonAsync<SupporterData>("https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/assets/supportersdata7.json", TimeSpan.FromHours(1), _lifetimeCts.Token);
 		}
 		catch (OperationCanceledException)
 		{

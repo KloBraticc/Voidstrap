@@ -19,8 +19,8 @@ public static class ServerFetchStore
 {
 	private const string LOG_IDENT = "ServerFetchStore";
 
-	public const string OfficialPresetUrl = "https://github.com/KloBraticc/Voidstrap/blob/main/Datacenters/ServerFetch.json";
-	public const string FallbackPresetUrl = "https://github.com/KloBraticc/Voidstrap/blob/main/Datacenters/ServerFetch.json";
+	public const string OfficialPresetUrl = "https://github.com/KloBraticc/Voidstrap/blob/main/assets/Datacenters/ServerFetch.json";
+	public const string FallbackPresetUrl = "https://github.com/KloBraticc/Voidstrap/blob/main/assets/Datacenters/ServerFetch.json";
 
 	private const int MaxPingSamples = 25;
 
