@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -27,6 +27,8 @@ public class Logger : IDisposable
 	});
 
 	private readonly CancellationTokenSource _writerCts = new CancellationTokenSource();
+
+	private readonly SemaphoreSlim _writerGate = new SemaphoreSlim(1, 1);
 
 	private StreamWriter? _writer;
 
@@ -235,11 +237,19 @@ public class Logger : IDisposable
 		{
 			while (await _writeQueue.Reader.WaitToReadAsync(_writerCts.Token).ConfigureAwait(continueOnCapturedContext: false))
 			{
-				while (_writeQueue.Reader.TryRead(out string? message))
+				await _writerGate.WaitAsync(_writerCts.Token).ConfigureAwait(continueOnCapturedContext: false);
+				try
 				{
-					await writer.WriteLineAsync(message).ConfigureAwait(continueOnCapturedContext: false);
+					while (_writeQueue.Reader.TryRead(out string? message))
+					{
+						await writer.WriteLineAsync(message).ConfigureAwait(continueOnCapturedContext: false);
+					}
+					await writer.FlushAsync(_writerCts.Token).ConfigureAwait(continueOnCapturedContext: false);
 				}
-				await writer.FlushAsync(_writerCts.Token).ConfigureAwait(continueOnCapturedContext: false);
+				finally
+				{
+					_writerGate.Release();
+				}
 			}
 		}
 		catch (OperationCanceledException)
@@ -263,6 +273,53 @@ public class Logger : IDisposable
 		finally
 		{
 			writer.Dispose();
+		}
+	}
+
+	public void Flush()
+	{
+		StreamWriter? writer;
+		lock (_historyLock)
+		{
+			if (_disposed || !Initialized)
+			{
+				return;
+			}
+			writer = _writer;
+		}
+		if (writer == null)
+		{
+			return;
+		}
+		bool entered = false;
+		try
+		{
+			entered = _writerGate.Wait(TimeSpan.FromSeconds(2));
+			if (!entered)
+			{
+				return;
+			}
+			while (_writeQueue.Reader.TryRead(out string? message))
+			{
+				writer.WriteLine(message);
+			}
+			writer.Flush();
+		}
+		catch
+		{
+		}
+		finally
+		{
+			if (entered)
+			{
+				try
+				{
+					_writerGate.Release();
+				}
+				catch
+				{
+				}
+			}
 		}
 	}
 
@@ -304,6 +361,7 @@ public class Logger : IDisposable
 		{
 			_writerCts.Dispose();
 			writer?.Dispose();
+			_writerGate.Dispose();
 		}
 		else if (writerTask != null)
 		{
@@ -311,6 +369,7 @@ public class Logger : IDisposable
 			{
 				writer?.Dispose();
 				_writerCts.Dispose();
+				_writerGate.Dispose();
 			}, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
 		}
 		GC.SuppressFinalize(this);

@@ -117,16 +117,22 @@ internal static class LinuxAssetWarpBridge
 		}
 	}
 
-	public static void DisableBlocking()
+	public static void DisableBlocking(TimeSpan? budget = null)
 	{
 		if (!Voidstrap.Utility.Platform.IsLinux || !NeedsCleanup())
 		{
 			return;
 		}
 
+		TimeSpan limit = budget ?? TimeSpan.FromSeconds(8);
+		if (limit <= TimeSpan.Zero)
+		{
+			return;
+		}
+
 		try
 		{
-			using CancellationTokenSource deadline = new(TimeSpan.FromSeconds(8));
+			using CancellationTokenSource deadline = new(limit);
 			DisableAsync(deadline.Token).GetAwaiter().GetResult();
 		}
 		catch (Exception ex)

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -131,7 +131,7 @@ public static class AudioGain
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			int requestedSamples = Math.Min(interleaved.Length, (maxFrames - totalFrames) * inputChannels);
-			int samplesRead = provider.Read(interleaved, 0, requestedSamples);
+			int samplesRead = provider.Read(interleaved.AsSpan(0, requestedSamples));
 			int framesRead = samplesRead / inputChannels;
 			if (framesRead == 0)
 				break;

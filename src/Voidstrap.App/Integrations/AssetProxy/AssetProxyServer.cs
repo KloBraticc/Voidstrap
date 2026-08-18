@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
@@ -255,9 +255,13 @@ public static class AssetProxyServer
 
 	private const int ListenPort = 443;
 
+	private const int StopBudgetMilliseconds = 3000;
+
 	private const int MaxBodyBytes = 33554432;
 
 	private const int MaxCapturedAssetBytes = 33554432;
+
+	private const long MaxOutstandingCaptureBytes = 134217728;
 
 	private const long MaxStreamedBodyBytes = 4294967296;
 
@@ -276,8 +280,9 @@ public static class AssetProxyServer
 		{
 			AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
 		}
-		catch
+		catch (Exception ex)
 		{
+			App.Logger?.WriteLine(LogIdent, "AssetWarp could not register its process exit cleanup: " + ex.Message);
 		}
 	}
 
@@ -289,7 +294,9 @@ public static class AssetProxyServer
 
 	private static readonly SemaphoreSlim Lifecycle = new(1, 1);
 
-	private static readonly SemaphoreSlim ClientSlots = new(64, 64);
+	private const int MaxConcurrentClients = 256;
+
+	private static readonly SemaphoreSlim ClientSlots = new(MaxConcurrentClients, MaxConcurrentClients);
 
 	private static readonly ConcurrentDictionary<int, Task> ClientTasks = new();
 
@@ -310,6 +317,10 @@ public static class AssetProxyServer
 	private static string[] _hosts = [];
 
 	private static int _nextClientId;
+
+	private static long _outstandingCaptureBytes;
+
+	private static int _rejectedClients;
 
 	private static string _lastTlsFailure = "";
 
@@ -590,18 +601,19 @@ public static class AssetProxyServer
 
 	private static void StopInternal()
 	{
+		long deadline = Environment.TickCount64 + StopBudgetMilliseconds;
 		lock (Gate)
 		{
 			SafeCancel(_startupCts);
 		}
-		bool acquired = Lifecycle.Wait(TimeSpan.FromSeconds(15));
+		bool acquired = Lifecycle.Wait(RemainingBudget(deadline, 1500));
 		if (!acquired)
 		{
 			App.Logger?.WriteLine(LogIdent, "AssetWarp startup did not release in time, stopping anyway");
 		}
 		try
 		{
-			StopCore();
+			StopCore(deadline);
 		}
 		finally
 		{
@@ -609,6 +621,33 @@ public static class AssetProxyServer
 			{
 				Lifecycle.Release();
 			}
+		}
+	}
+
+	private static TimeSpan RemainingBudget(long deadline, int maximumMilliseconds)
+	{
+		long remaining = deadline - Environment.TickCount64;
+		return remaining <= 0 ? TimeSpan.Zero : TimeSpan.FromMilliseconds(Math.Min(remaining, maximumMilliseconds));
+	}
+
+	private static void DrainTasks(Task[] tasks, long deadline)
+	{
+		if (tasks.Length == 0)
+		{
+			return;
+		}
+		TimeSpan remaining = RemainingBudget(deadline, StopBudgetMilliseconds);
+		if (remaining == TimeSpan.Zero)
+		{
+			App.Logger?.WriteLine(LogIdent, "Shutdown budget spent, leaving " + tasks.Length + " AssetWarp tasks to finish in the background");
+			return;
+		}
+		try
+		{
+			Task.WaitAll(tasks, remaining);
+		}
+		catch
+		{
 		}
 	}
 
@@ -638,20 +677,24 @@ public static class AssetProxyServer
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
 			return;
-		AssetProxyCA.Initialize();
+		AssetProxyCA.Initialize(requireTrustBundle: false);
 		if (!_running)
 		{
 			AssetProxyCA.Cleanup();
 		}
 	}
 
-	public static void RemoveCertificates()
+	public static bool RemoveCertificates()
 	{
 		Stop();
 		if (!TryAcquireOwnership(out FileStream? ownership))
-			throw new IOException("Another AssetWarp proxy session is active");
+		{
+			App.Logger?.WriteLine(LogIdent, "Another AssetWarp session holds the lock, certificate removal was skipped");
+			return false;
+		}
 		using (ownership)
 			AssetProxyCA.RemoveOutdatedCertificates(false);
+		return true;
 	}
 
 	private static void QueueRuntimeReconcile(bool restart)
@@ -685,7 +728,7 @@ public static class AssetProxyServer
 		});
 	}
 
-	private static void StopCore()
+	private static void StopCore(long deadline)
 	{
 		TextureStripper.InvalidateRuntimeState();
 		CancellationTokenSource? cancellation;
@@ -718,37 +761,25 @@ public static class AssetProxyServer
 			try { client.Client?.Close(); } catch { }
 			try { client.Dispose(); } catch { }
 		}
-		bool routingCleaned = !ownsProxy || AssetProxyRouting.Cleanup();
+		bool routingCleaned = !ownsProxy || AssetProxyRouting.Cleanup(RemainingBudget(deadline, 1000));
 		if (ownsProxy && !routingCleaned)
 		{
 			App.Logger?.WriteLine(LogIdent, "AssetWarp routing cleanup will be retried after shutdown");
 		}
-		LinuxAssetWarpBridge.DisableBlocking();
-		AssetPreloadCache.StopBackgroundWarm();
+		LinuxAssetWarpBridge.DisableBlocking(RemainingBudget(deadline, 1000));
+		AssetPreloadCache.StopBackgroundWarm(RemainingBudget(deadline, 1000));
 		if (!wasActive)
 		{
 			_upstreamIps.Clear();
 			_hosts = [];
 			if (ownsProxy)
 				AssetProxyCA.Cleanup();
-			AssetCaptureStore.Shutdown();
+			AssetCaptureStore.Shutdown(RemainingBudget(deadline, 1000));
 			ReleaseOwnership();
 			return;
 		}
-		try
-		{
-			Task.WaitAll(loops, TimeSpan.FromSeconds(3));
-		}
-		catch
-		{
-		}
-		try
-		{
-			Task.WaitAll([.. ClientTasks.Values], TimeSpan.FromSeconds(3));
-		}
-		catch
-		{
-		}
+		DrainTasks(loops, deadline);
+		DrainTasks([.. ClientTasks.Values], deadline);
 		cancellation?.Dispose();
 		ClientConnections.Clear();
 		ClientTasks.Clear();
@@ -756,7 +787,7 @@ public static class AssetProxyServer
 		_hosts = [];
 		if (ownsProxy)
 			AssetProxyCA.Cleanup();
-		AssetCaptureStore.Shutdown();
+		AssetCaptureStore.Shutdown(RemainingBudget(deadline, 1000));
 		AssetPreloadCache.Flush();
 		ReleaseOwnership();
 		App.Logger?.WriteLine(LogIdent, "AssetWarp proxy stopped");
@@ -773,7 +804,15 @@ public static class AssetProxyServer
 		}
 		using (ownership)
 		{
-			AssetProxyRouting.Cleanup();
+			if (Voidstrap.Utility.ProcessElevation.IsAdministrator())
+			{
+				AssetProxyRouting.Cleanup();
+			}
+			if (AssetProxyRouting.HasInstalledEntries())
+			{
+				App.Logger?.WriteLine(LogIdent, "Leftover AssetWarp routing is present in the hosts file, asking the recovery task to clear it");
+				AssetProxyRouting.TryRunRecoveryTask(waitForCompletion: false);
+			}
 			if (App.Settings.Prop.AssetWarpEnabled && !App.Settings.Prop.AssetWarpCertificateApproved)
 			{
 				App.Settings.Prop.AssetWarpEnabled = false;
@@ -821,6 +860,11 @@ public static class AssetProxyServer
 				if (!ClientSlots.Wait(0))
 				{
 					client.Dispose();
+					int rejected = Interlocked.Increment(ref _rejectedClients);
+					if (rejected == 1 || rejected % 50 == 0)
+					{
+						App.Logger?.WriteLine(LogIdent, "All " + MaxConcurrentClients + " AssetWarp connection slots are busy, refused " + rejected + " connections");
+					}
 					continue;
 				}
 				int id = Interlocked.Increment(ref _nextClientId);
@@ -1062,10 +1106,22 @@ public static class AssetProxyServer
 						await localTls.WriteAsync(response.Raw, ct).ConfigureAwait(false);
 						string responseEncoding = response.Get("Content-Encoding");
 						bool identityEncoded = responseEncoding.Length == 0 || responseEncoding.Equals("identity", StringComparison.OrdinalIgnoreCase);
-						int captureLimit = App.Settings.Prop.AssetWarpEnabled && App.Settings.Prop.AssetWarpPreloadEnabled && identityEncoded ? MaxCapturedAssetBytes : 0;
-						byte[]? captured = streamingLength > 0
-							? await remote.CopyExactToAsync(streamingLength, localTls, captureLimit, ct).ConfigureAwait(false)
-							: null;
+						bool wantsCapture = App.Settings.Prop.AssetWarpEnabled && App.Settings.Prop.AssetWarpPreloadEnabled && identityEncoded;
+						long reservedCapture = wantsCapture ? TryReserveCapture(streamingLength) : 0;
+						byte[]? captured;
+						try
+						{
+							captured = streamingLength > 0
+								? await remote.CopyExactToAsync(streamingLength, localTls, (int)reservedCapture, ct).ConfigureAwait(false)
+								: null;
+						}
+						finally
+						{
+							if (reservedCapture > 0)
+							{
+								Interlocked.Add(ref _outstandingCaptureBytes, -reservedCapture);
+							}
+						}
 						if (captured is { Length: > 0 })
 						{
 							string? assetId = TextureStripper.ResolveAssetId(host, path);
@@ -1416,17 +1472,34 @@ public static class AssetProxyServer
 	{
 		if (!IsCompleteHead(raw))
 			throw new InvalidDataException("HTTP header is incomplete");
-		string text = Encoding.ASCII.GetString(raw);
+		string text = Encoding.Latin1.GetString(raw);
 		string[] split = text.Split(["\r\n"], StringSplitOptions.None);
 		if (split.Length == 0 || string.IsNullOrWhiteSpace(split[0]))
 		{
 			throw new InvalidDataException("HTTP start line is missing");
 		}
-		List<string> lines = [.. split.Skip(1).Where(line => line.Length > 0)];
+		List<string> lines = [];
+		foreach (string line in split.Skip(1))
+		{
+			if (line.Length == 0)
+			{
+				continue;
+			}
+			if (char.IsWhiteSpace(line[0]))
+			{
+				if (lines.Count == 0)
+				{
+					throw new InvalidDataException("HTTP header starts with a folded field");
+				}
+				lines[^1] = lines[^1] + " " + line.Trim();
+				continue;
+			}
+			lines.Add(line);
+		}
 		foreach (string line in lines)
 		{
 			int separator = line.IndexOf(':');
-			if (separator <= 0 || char.IsWhiteSpace(line[0]) || line.AsSpan(0, separator).ContainsAny(" ()<>@,;:\\\"/[]?={}\t"))
+			if (separator <= 0 || line.AsSpan(0, separator).ContainsAny(" ()<>@,;:\\\"/[]?={}\t"))
 				throw new InvalidDataException("HTTP header contains an invalid field");
 		}
 		string[] contentLengths = [.. lines
@@ -1534,6 +1607,29 @@ public static class AssetProxyServer
 		{
 			return body;
 		}
+		string[] layers = encoding.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+		if (layers.Length <= 1)
+		{
+			return DecodeLayer(body, encoding);
+		}
+		byte[] current = body;
+		for (int index = layers.Length - 1; index >= 0; index--)
+		{
+			current = DecodeLayer(current, layers[index]);
+			if (current.Length == 0)
+			{
+				return current;
+			}
+		}
+		return current;
+	}
+
+	private static byte[] DecodeLayer(byte[] body, string encoding)
+	{
+		if (body.Length == 0)
+		{
+			return body;
+		}
 		bool gzipEncoded = encoding.Contains("gzip", StringComparison.OrdinalIgnoreCase) || body.Length > 2 && body[0] == 0x1F && body[1] == 0x8B;
 		bool brotliEncoded = encoding.Contains("br", StringComparison.OrdinalIgnoreCase);
 		bool zstdEncoded = encoding.Contains("zstd", StringComparison.OrdinalIgnoreCase) || body.Length > 4 && body[0] == 0x28 && body[1] == 0xB5 && body[2] == 0x2F && body[3] == 0xFD;
@@ -1607,7 +1703,7 @@ public static class AssetProxyServer
 			builder.Append(line).Append("\r\n");
 		}
 		builder.Append("Content-Length: ").Append(contentLength.ToString(CultureInfo.InvariantCulture)).Append("\r\n\r\n");
-		return Encoding.ASCII.GetBytes(builder.ToString());
+		return Encoding.Latin1.GetBytes(builder.ToString());
 	}
 
 	private static async Task ServeRouteAsync(Stream stream, string method, string range, AssetWarpRoute route, CancellationToken ct)
@@ -1779,7 +1875,7 @@ public static class AssetProxyServer
 
 	private static bool HasDelimitedBody(HttpHead head, string method)
 	{
-		return !ResponseHasBody(head, method) || head.Get("Transfer-Encoding").Contains("chunked", StringComparison.OrdinalIgnoreCase) || long.TryParse(head.Get("Content-Length"), out _);
+		return !ResponseHasBody(head, method) || head.Get("Transfer-Encoding").Contains("chunked", StringComparison.OrdinalIgnoreCase) || long.TryParse(head.Get("Content-Length"), NumberStyles.None, CultureInfo.InvariantCulture, out _);
 	}
 
 	private static bool ShouldClose(HttpHead head)
@@ -1792,6 +1888,20 @@ public static class AssetProxyServer
 			}
 		}
 		return head.FirstLine.EndsWith("HTTP/1.0", StringComparison.OrdinalIgnoreCase) || head.FirstLine.StartsWith("HTTP/1.0", StringComparison.OrdinalIgnoreCase);
+	}
+
+	private static long TryReserveCapture(long length)
+	{
+		if (length <= 0 || length > MaxCapturedAssetBytes)
+		{
+			return 0;
+		}
+		if (Interlocked.Add(ref _outstandingCaptureBytes, length) <= MaxOutstandingCaptureBytes)
+		{
+			return length;
+		}
+		Interlocked.Add(ref _outstandingCaptureBytes, -length);
+		return 0;
 	}
 
 	private static bool IsCdnHost(string host)
@@ -1819,21 +1929,5 @@ public static class AssetProxyServer
 			".mp3" => "audio/mpeg",
 			_ => "application/octet-stream"
 		};
-	}
-
-	private static byte[] StripRobloxMetadata(byte[] data)
-	{
-		ReadOnlySpan<byte> prefix = [82, 66, 88, 72, 2, 0, 0, 0, 0, 0, 0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-		if (data.Length < prefix.Length + 12 || !data.AsSpan(0, prefix.Length).SequenceEqual(prefix))
-		{
-			return data;
-		}
-		int length = BitConverter.ToInt32(data, prefix.Length);
-		int offset = prefix.Length + 12;
-		if (length < 0 || length > data.Length - offset)
-		{
-			return data;
-		}
-		return data.AsSpan(offset, length).ToArray();
 	}
 }

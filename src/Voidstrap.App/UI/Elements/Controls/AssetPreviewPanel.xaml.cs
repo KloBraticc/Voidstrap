@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -900,7 +900,7 @@ public partial class AssetPreviewPanel : UserControl{
 			_audioData = data;
 			_audioExt = (string.IsNullOrEmpty(ext) ? ".ogg" : ext);
 			_waveReader = CreateWaveReader(data, ext);
-			_waveOut = new WaveOutEvent();
+			_waveOut = new WaveOut();
 			_waveOut.Init(_waveReader);
 			_waveOut.Volume = (float)Math.Clamp(VolumeSlider.Value, 0.0, 1.0);
 			_waveOut.PlaybackStopped += WaveOut_PlaybackStopped;

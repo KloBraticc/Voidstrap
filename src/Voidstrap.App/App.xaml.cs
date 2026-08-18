@@ -265,6 +265,7 @@ public partial class App : Application
 		Application? application = Current;
 		if (application == null)
 		{
+			Logger.Flush();
 			Environment.Exit(exitCodeNum);
 			return;
 		}
@@ -288,6 +289,7 @@ public partial class App : Application
 		}
 		catch
 		{
+			Logger.Flush();
 			Environment.Exit(exitCodeNum);
 		}
 	}
@@ -308,6 +310,7 @@ public partial class App : Application
 		else
 		{
 			Logger.WriteException("App::GlobalExceptionHandler", ex);
+			Logger.Flush();
 		}
 	}
 
@@ -339,6 +342,7 @@ public partial class App : Application
 		try
 		{
 			Logger.WriteException("App::UnobservedTaskException", e.Exception);
+			Logger.Flush();
 		}
 		catch
 		{
@@ -354,6 +358,17 @@ public partial class App : Application
 			{
 				Logger.WriteException("App::DomainUnhandledException", ex);
 			}
+			else
+			{
+				Logger.WriteLine("App::DomainUnhandledException", "The runtime reported a non exception failure, terminating: " + (e.IsTerminating ? "yes" : "no"));
+			}
+		}
+		catch
+		{
+		}
+		try
+		{
+			Logger.Flush();
 		}
 		catch
 		{
@@ -375,6 +390,7 @@ public partial class App : Application
 		{
 			Logger.WriteException("App::FinalizeExceptionHandling", ex);
 		}
+		Logger.Flush();
 		if (Interlocked.Exchange(ref _showingExceptionDialog, 1) != 0)
 		{
 			return;
@@ -619,11 +635,24 @@ public partial class App : Application
 		TryStartup("Locale", Locale.Initialize);
 		TryStartup("Icon font", Voidstrap.Utility.IconFontLoader.Install);
 		TryStartup("Rounded window chrome", Voidstrap.UI.RoundedWindowChrome.Install);
+		TryStartup("Progress bar motion", Voidstrap.UI.SmoothProgress.Install);
 
 		LaunchSettings = new LaunchSettings(args);
 		if (LaunchSettings.DeferredCleanupFlag.Active)
 		{
 			await Installer.RunDeferredCleanupAsync(LaunchSettings.DeferredCleanupFlag.Data);
+			Terminate();
+			return;
+		}
+		if (LaunchSettings.AssetWarpGuardFlag.Active)
+		{
+			await Voidstrap.Integrations.AssetProxy.AssetProxyRouting.RunCleanupGuardAsync(LaunchSettings.AssetWarpGuardFlag.Data);
+			Terminate();
+			return;
+		}
+		if (LaunchSettings.AssetWarpCleanupFlag.Active)
+		{
+			Voidstrap.Integrations.AssetProxy.AssetProxyRouting.RunScheduledCleanup();
 			Terminate();
 			return;
 		}
@@ -1078,6 +1107,7 @@ public partial class App : Application
 		Logger.WriteLine("App::OnStartup", "Loaded from " + Paths.Process);
 		Logger.WriteLine("App::OnStartup", "Temp path is " + Paths.Temp);
 		Logger.WriteLine("App::OnStartup", "WindowsStartMenu path is " + Paths.WindowsStartMenu);
+		Logger.WriteLine("App::OnStartup", "DLL hijack protection pinned " + Voidstrap.Utility.LoaderHardening.PinnedModuleCount + " system modules");
 	}
 
 	private static void LoadPersistentState()
@@ -1307,7 +1337,7 @@ public partial class App : Application
 		TryShutdown(Voidstrap.Integrations.Studio.StudioIntegration.Shutdown);
 		TryShutdown(AssetProxyServer.Stop);
 		TryShutdown(AssetPreloadCache.Shutdown);
-		TryShutdown(AssetCaptureStore.Shutdown);
+		TryShutdown(() => AssetCaptureStore.Shutdown());
 		TryShutdown(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Overlays.RobloxWindowTracker.Shutdown);
 		TryShutdown(Voidstrap.UI.LiveLanguageRefresher.Shutdown);

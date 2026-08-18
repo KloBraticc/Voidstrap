@@ -3737,7 +3737,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void OnDisplaySettingsChanged(object? sender, EventArgs e)
     {
-        Dispatcher.BeginInvoke(FitToScreen, DispatcherPriority.Background);
+        try
+        {
+            Dispatcher.BeginInvoke(FitToScreen, DispatcherPriority.Background);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::OnDisplaySettingsChanged", ex);
+        }
     }
 
     private void FitToScreen()

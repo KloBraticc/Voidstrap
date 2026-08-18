@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -1014,7 +1014,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 			App.Settings.Prop.AssetWarpPreloadFlagBackup = AssetWarpPreloadFlags
 				.ToDictionary(pair => pair.Value, pair => GetValue(pair.Value));
 			App.Settings.Prop.AssetWarpPreloadFlagsOwned = true;
-			App.Settings.SaveDeferred();
+			App.Settings.Save();
 		}
 		foreach (string preset in AssetWarpPreloadPresets.Where(preset => preset.StartsWith("Cache.Increase", StringComparison.Ordinal)))
 		{

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -86,7 +86,7 @@ public class Program
 			using Process process = Process.GetProcessById(processId);
 			process.WaitForExit();
 		}
-		catch (ArgumentException)
+		catch (Exception)
 		{
 		}
 		Environment.Exit(123);

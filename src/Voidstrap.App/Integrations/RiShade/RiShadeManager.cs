@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using System.Windows;
@@ -60,15 +60,22 @@ namespace Voidstrap.Integrations.RiShade
 
         private static void OnReloadDebounce(object? state)
         {
-			if (!_installed)
-				return;
-            if (Environment.TickCount64 - RiShadeSettings.LastSaveTicks < 2000)
-                return;
-            RiShadeSettings.Load();
-			if (!_installed)
-				return;
-            App.Logger.WriteLine("RiShade", "Settings reloaded live");
-            OverlayHub.Refresh();
+            try
+            {
+				if (!_installed)
+					return;
+                if (Environment.TickCount64 - RiShadeSettings.LastSaveTicks < 2000)
+                    return;
+                RiShadeSettings.Load();
+				if (!_installed)
+					return;
+                App.Logger.WriteLine("RiShade", "Settings reloaded live");
+                OverlayHub.Refresh();
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException("RiShadeManager::OnReloadDebounce", ex);
+            }
         }
 
         public static void SetEnabled(bool enabled)

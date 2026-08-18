@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -214,24 +214,31 @@ namespace Voidstrap.Integrations.Fullscreen
 
         private static void OnDisplaySettingsChanged(object? sender, EventArgs e)
         {
-            var dispatcher = Application.Current?.Dispatcher;
-            if (dispatcher == null)
-                return;
-
-            if (!dispatcher.CheckAccess())
+            try
             {
-                dispatcher.BeginInvoke(new Action(() => OnDisplaySettingsChanged(sender, e)));
-                return;
-            }
-
-            lock (_sync)
-            {
-                if (!_applied)
+                var dispatcher = Application.Current?.Dispatcher;
+                if (dispatcher == null || dispatcher.HasShutdownStarted)
                     return;
-            }
 
-            App.Logger.WriteLine(LOG_IDENT, "Display settings changed, refitting the Roblox window to the new monitor size");
-            Apply();
+                if (!dispatcher.CheckAccess())
+                {
+                    dispatcher.BeginInvoke(new Action(() => OnDisplaySettingsChanged(sender, e)));
+                    return;
+                }
+
+                lock (_sync)
+                {
+                    if (!_applied)
+                        return;
+                }
+
+                App.Logger.WriteLine(LOG_IDENT, "Display settings changed, refitting the Roblox window to the new monitor size");
+                Apply();
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException(LOG_IDENT + "::OnDisplaySettingsChanged", ex);
+            }
         }
 
         private static void OnTrackerChanged(object? sender, RobloxWindowRect rect)

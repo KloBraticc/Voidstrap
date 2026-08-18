@@ -36,6 +36,8 @@ public static partial class AssetCaptureStore
 
 	private const long MaxQueuedCaptureBytes = 50331648;
 
+	private const int CaptureQueueCapacity = 256;
+
 	private static readonly ConcurrentDictionary<string, CapturedAsset> _items = new();
 
 	private static readonly ConcurrentQueue<string> _order = new();
@@ -122,10 +124,6 @@ public static partial class AssetCaptureStore
 
 	private static string RobloxLogsDir => Path.Combine(Paths.LocalAppData, "Roblox", "logs");
 
-	public static event Action<CapturedAsset>? Captured;
-
-	public static event Action? CapturesCleared;
-
 	public static void SetCurrentPlaceId(long placeId)
 	{
 		if (placeId > 0)
@@ -186,8 +184,9 @@ public static partial class AssetCaptureStore
 				}
 			}
 		}
-		catch
+		catch (Exception ex)
 		{
+			App.Logger?.WriteLine(LOG_IDENT, "The asset cache index could not be saved: " + ex.Message);
 		}
 	}
 
@@ -206,8 +205,9 @@ public static partial class AssetCaptureStore
 				_index[item.Key] = item.Value;
 			}
 		}
-		catch
+		catch (Exception ex)
 		{
+			App.Logger?.WriteLine(LOG_IDENT, "The asset cache index could not be loaded: " + ex.Message);
 		}
 	}
 
@@ -252,7 +252,6 @@ public static partial class AssetCaptureStore
 				existing.IsMesh = assetTypeInfo.IsMesh;
 				existing.CapturedAt = DateTime.Now;
 				TouchIndex(existing);
-				AssetCaptureStore.Captured?.Invoke(existing);
 				return existing;
 			}
 			CapturedAsset capturedAsset = new()
@@ -276,7 +275,6 @@ public static partial class AssetCaptureStore
 			_order.Enqueue(text);
 			EvictIfNeeded();
 			TouchIndex(capturedAsset);
-			AssetCaptureStore.Captured?.Invoke(capturedAsset);
 			return capturedAsset;
 		}
 		catch (Exception ex)
@@ -314,7 +312,7 @@ public static partial class AssetCaptureStore
 			{
 				return _captureQueue;
 			}
-			Channel<PendingCapture> queue = Channel.CreateBounded<PendingCapture>(new BoundedChannelOptions(4)
+			Channel<PendingCapture> queue = Channel.CreateBounded<PendingCapture>(new BoundedChannelOptions(CaptureQueueCapacity)
 			{
 				SingleReader = true,
 				SingleWriter = false,
@@ -358,7 +356,7 @@ public static partial class AssetCaptureStore
 		}
 	}
 
-	public static void Shutdown()
+	public static void Shutdown(TimeSpan? budget = null)
 	{
 		Channel<PendingCapture>? queue;
 		CancellationTokenSource? cancellation;
@@ -373,12 +371,18 @@ public static partial class AssetCaptureStore
 			_captureWriterTask = null;
 		}
 		queue?.Writer.TryComplete();
+		TimeSpan limit = budget ?? TimeSpan.FromSeconds(1);
+		long deadline = Environment.TickCount64 + (long)limit.TotalMilliseconds;
 		try
 		{
-			if (worker?.Wait(TimeSpan.FromSeconds(2)) == false)
+			if (worker != null && limit > TimeSpan.Zero && !worker.Wait(limit))
 			{
 				cancellation?.Cancel();
-				worker.Wait(TimeSpan.FromSeconds(2));
+				long remaining = deadline - Environment.TickCount64;
+				if (remaining > 0)
+				{
+					worker.Wait(TimeSpan.FromMilliseconds(remaining));
+				}
 			}
 		}
 		catch
@@ -422,7 +426,6 @@ public static partial class AssetCaptureStore
 		}
 		_order.Enqueue(text);
 		EvictIfNeeded();
-		AssetCaptureStore.Captured?.Invoke(capturedAsset);
 		return capturedAsset;
 	}
 
@@ -870,7 +873,6 @@ public static partial class AssetCaptureStore
 		}
 		_order.Enqueue(text);
 		EvictIfNeeded();
-		AssetCaptureStore.Captured?.Invoke(capturedAsset);
 		return capturedAsset;
 	}
 
@@ -1766,11 +1768,11 @@ public static partial class AssetCaptureStore
 				Directory.Delete(CacheDir, recursive: true);
 			}
 		}
-		catch
+		catch (Exception ex)
 		{
+			App.Logger?.WriteLine(LOG_IDENT, "The asset cache folder could not be removed: " + ex.Message);
 		}
 		_suppressScan = false;
-		AssetCaptureStore.CapturesCleared?.Invoke();
 	}
 
 	public static void FullReset()
@@ -1818,7 +1820,6 @@ public static partial class AssetCaptureStore
 			_logPath = null;
 			_logOffset = 0L;
 		}
-		AssetCaptureStore.CapturesCleared?.Invoke();
 		Task.Run(() =>
 		{
 			try
@@ -1828,8 +1829,9 @@ public static partial class AssetCaptureStore
 					Directory.Delete(CacheDir, recursive: true);
 				}
 			}
-			catch
+			catch (Exception ex)
 			{
+				App.Logger?.WriteLine(LOG_IDENT, "The asset cache folder could not be removed: " + ex.Message);
 			}
 			try
 			{

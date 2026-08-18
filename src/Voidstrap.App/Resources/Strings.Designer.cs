@@ -169,6 +169,15 @@ namespace Voidstrap.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Voidstrap was unable to automatically update to version {0}. Please update it manually by downloading and running it from the website..
         /// </summary>
+        public static string Bootstrapper_AssetWarpRoutingLeftover {
+            get {
+                return ResourceManager.GetString("Bootstrapper.AssetWarpRoutingLeftover", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Voidstrap could not remove leftover AssetWarp routing from the Windows hosts file. Roblox will not be able to load textures or other assets until it is removed. Run Voidstrap as administrator to clear it.
+        /// </summary>
         public static string Bootstrapper_AutoUpdateFailed {
             get {
                 return ResourceManager.GetString("Bootstrapper.AutoUpdateFailed", resourceCulture);

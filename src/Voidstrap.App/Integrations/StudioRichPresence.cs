@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -74,7 +74,14 @@ public sealed class StudioRichPresence : IDisposable
 
 	private void OnPollTimer(object? sender, System.Timers.ElapsedEventArgs e)
 	{
-		Poll();
+		try
+		{
+			Poll();
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException(LogTag + "::OnPollTimer", ex);
+		}
 	}
 
 	private void Poll()

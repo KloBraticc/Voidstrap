@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -446,10 +446,6 @@ public abstract class WpfUiWindow : UiWindow, IDisposable
 		{
 			_hwndSource.RemoveHook(WindowProc);
 			_hwndSource = null;
-		}
-		if (_themeService is IDisposable disposable)
-		{
-			disposable.Dispose();
 		}
 		_lastAppliedDict = null;
 		GC.SuppressFinalize(this);

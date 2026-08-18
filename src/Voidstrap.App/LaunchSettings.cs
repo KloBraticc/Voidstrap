@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Voidstrap.Core;
@@ -72,6 +72,10 @@ public class LaunchSettings
 	public LaunchFlag FactoryResetFlag { get; } = new LaunchFlag("factoryreset");
 
 	public LaunchFlag DeferredCleanupFlag { get; } = new LaunchFlag("deferredcleanup");
+
+	public LaunchFlag AssetWarpGuardFlag { get; } = new LaunchFlag("assetwarpguard");
+
+	public LaunchFlag AssetWarpCleanupFlag { get; } = new LaunchFlag("assetwarpcleanup");
 
 	public bool BypassUpdateCheck
 	{

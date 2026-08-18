@@ -66,24 +66,30 @@
                                 <Decorator
                                     Name="PART_Indicator"
                                     Margin="1,1,1,1"
-                                    HorizontalAlignment="Left">
-                                    <Grid Name="Animation" ClipToBounds="True">
-                                        <Grid.Clip>
-                                            <MultiBinding Converter="{StaticResource ProgressBarClipConverter}">
-                                                <Binding ElementName="TheCoolBorder" Path="ActualWidth" />
-                                                <Binding ElementName="TheCoolBorder" Path="ActualHeight" />
-                                                <Binding ElementName="TheCoolBorder" Path="CornerRadius" />
-                                            </MultiBinding>
-                                        </Grid.Clip>
-                                        <Border
-                                            Name="PART_GlowRect"
-                                            Width="200"
-                                            Margin="0,0,0,0"
-                                            HorizontalAlignment="Left"
-                                            Background="{TemplateBinding Foreground}"
-                                            CornerRadius="4" />
-                                    </Grid>
-                                </Decorator>
+                                    HorizontalAlignment="Left" />
+                                <Grid
+                                    Name="Animation"
+                                    Margin="1,1,1,1"
+                                    ClipToBounds="True">
+                                    <Grid.Clip>
+                                        <MultiBinding Converter="{StaticResource ProgressBarClipConverter}">
+                                            <Binding ElementName="TheCoolBorder" Path="ActualWidth" />
+                                            <Binding ElementName="TheCoolBorder" Path="ActualHeight" />
+                                            <Binding ElementName="TheCoolBorder" Path="CornerRadius" />
+                                        </MultiBinding>
+                                    </Grid.Clip>
+                                    <Border
+                                        Name="GlowRect"
+                                        Width="200"
+                                        Margin="0,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        Background="{TemplateBinding Foreground}"
+                                        CornerRadius="4">
+                                        <Border.RenderTransform>
+                                            <TranslateTransform X="0" />
+                                        </Border.RenderTransform>
+                                    </Border>
+                                </Grid>
                             </Grid>
                         </ControlTemplate>
                     </Setter.Value>

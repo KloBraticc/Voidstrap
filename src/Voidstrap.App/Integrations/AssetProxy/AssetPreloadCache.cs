@@ -245,7 +245,7 @@ internal static class AssetPreloadCache
 		Interlocked.Exchange(ref _authoritativePlaceId, 0);
 	}
 
-	public static void StopBackgroundWarm()
+	public static void StopBackgroundWarm(TimeSpan? budget = null)
 	{
 		CancellationTokenSource? warm = Interlocked.Exchange(ref _warmCts, null);
 		if (warm == null)
@@ -253,13 +253,26 @@ internal static class AssetPreloadCache
 			return;
 		}
 		SafeCancel(warm);
-		try
+		TimeSpan limit = budget ?? TimeSpan.FromSeconds(1);
+		Task? pending = Volatile.Read(ref _warmTask);
+		bool settled = pending == null;
+		if (!settled && limit > TimeSpan.Zero)
 		{
-			Volatile.Read(ref _warmTask)?.Wait(TimeSpan.FromSeconds(3));
+			try
+			{
+				settled = pending!.Wait(limit);
+			}
+			catch
+			{
+				settled = true;
+			}
 		}
-		catch
+		if (settled)
 		{
+			warm.Dispose();
+			return;
 		}
+		_ = pending!.ContinueWith(static (_, state) => ((CancellationTokenSource)state!).Dispose(), warm, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
 	}
 
 	private static void SafeCancel(CancellationTokenSource? source)

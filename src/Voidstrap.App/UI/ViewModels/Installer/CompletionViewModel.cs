@@ -181,9 +181,16 @@ public class CompletionViewModel : ObservableObject, IDisposable
 
 	private void OnSaveTimerElapsed(object? sender, ElapsedEventArgs e)
 	{
-		if (!_disposed)
+		try
 		{
-			App.State.Save();
+			if (!_disposed)
+			{
+				App.State.Save();
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("CompletionViewModel::OnSaveTimerElapsed", ex);
 		}
 	}
 

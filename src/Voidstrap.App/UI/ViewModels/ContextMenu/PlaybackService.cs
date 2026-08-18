@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using NAudio.CoreAudioApi;
@@ -11,7 +11,7 @@ public sealed class PlaybackService : IDisposable
 {
     public static readonly float[] Bands = { 31f, 62f, 125f, 250f, 500f, 1000f, 2000f, 4000f, 8000f, 16000f };
 
-    private WasapiOut? _output;
+    private IWavePlayer? _output;
     private MediaFoundationReader? _reader;
     private EqualizerSampleProvider? _equalizer;
     private VolumeSampleProvider? _volumeProvider;
@@ -98,7 +98,9 @@ public sealed class PlaybackService : IDisposable
             for (int i = 0; i < _eqGains.Length; i++)
                 _equalizer.SetBandGain(i, _eqGains[i]);
             _volumeProvider = new VolumeSampleProvider(_equalizer) { Volume = _volume };
+#pragma warning disable CS0618
             _output = new WasapiOut(AudioClientShareMode.Shared, false, 200);
+#pragma warning restore CS0618
             _output.PlaybackStopped += Output_PlaybackStopped;
             _output.Init(_volumeProvider);
             return true;

@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
 
 	<ItemGroup Condition="'$(EnableDefaultItems)' != 'false'">
 		<Compile Remove="obj/**/*AssemblyInfo.cs" />

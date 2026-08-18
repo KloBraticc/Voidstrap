@@ -144,23 +144,6 @@ namespace Voidstrap.Integrations.AssetProxy
 			}
         }
 
-        public static async Task<HttpClient> CreateDirectHttpClientAsync(string host, CancellationToken ct = default)
-        {
-            await DnsResolver.ResolveAsync(host, ct).ConfigureAwait(false);
-            return Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(25), handler =>
-            {
-                handler.UseProxy = false;
-                handler.ConnectCallback = async (ctx, ct2) =>
-                {
-                    string ip = await DnsResolver.ResolveAsync(ctx.DnsEndPoint.Host, ct2).ConfigureAwait(false) ?? ctx.DnsEndPoint.Host;
-                    var s = new Socket(SocketType.Stream, ProtocolType.Tcp);
-                    await s.ConnectAsync(new DnsEndPoint(ip, ctx.DnsEndPoint.Port), ct2).ConfigureAwait(false);
-                    return new NetworkStream(s, ownsSocket: true);
-                };
-                handler.MaxConnectionsPerServer = 8;
-            });
-        }
-
         private static async Task<UpstreamConnection?> HttpConnectAsync(string targetHost, int targetPort, CancellationToken ct)
         {
             string proxyHost = HttpConnectProxyHost;

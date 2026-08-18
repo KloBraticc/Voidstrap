@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NAudio.Dsp;
 using NAudio.Wave;
@@ -61,9 +61,9 @@ public sealed class EqualizerSampleProvider : ISampleProvider
         _dirty = false;
     }
 
-    public int Read(float[] buffer, int offset, int count)
+    public int Read(Span<float> buffer)
     {
-        int read = _source.Read(buffer, offset, count);
+        int read = _source.Read(buffer);
         if (!_enabled)
             return read;
         if (_dirty)
@@ -76,10 +76,10 @@ public sealed class EqualizerSampleProvider : ISampleProvider
         for (int n = 0; n < read; n++)
         {
             int channel = n % channels;
-            float sample = buffer[offset + n];
+            float sample = buffer[n];
             for (int b = 0; b < bands; b++)
                 sample = filters[channel, b].Transform(sample);
-            buffer[offset + n] = sample;
+            buffer[n] = sample;
         }
         return read;
     }

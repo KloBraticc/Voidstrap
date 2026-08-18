@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -345,7 +345,14 @@ public partial class CustomThemeEditor : WpfUiWindow
 
     private void Watcher_Changed(object sender, FileSystemEventArgs e)
     {
-        Dispatcher.BeginInvoke(ReloadFromDisk, DispatcherPriority.Background);
+        try
+        {
+            Dispatcher.BeginInvoke(ReloadFromDisk, DispatcherPriority.Background);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("CustomThemeEditor::Watcher_Changed", ex);
+        }
     }
 
     private void ReloadFromDisk()

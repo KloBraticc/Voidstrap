@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -433,10 +433,30 @@ public static class LaunchHandler
 		}
 		bool useAssetWarp = launchMode == LaunchMode.Player && AssetProxyServer.IsRequired;
 		bool needsAssetWarpCleanup = !useAssetWarp && AssetProxyRouting.HasInstalledEntries();
-		string? elevationReason = null;
-		if (useAssetWarp || needsAssetWarpCleanup)
+		if (needsAssetWarpCleanup)
 		{
-			elevationReason = "AssetWarp needs administrator access to start or remove old routing";
+			if (ProcessElevation.IsAdministrator())
+			{
+				AssetProxyRouting.Cleanup();
+			}
+			if (AssetProxyRouting.HasInstalledEntries())
+			{
+				AssetProxyRouting.TryRunRecoveryTask(waitForCompletion: true);
+			}
+			needsAssetWarpCleanup = AssetProxyRouting.HasInstalledEntries();
+			if (!needsAssetWarpCleanup)
+			{
+				App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Leftover AssetWarp routing was cleared without administrator access");
+			}
+		}
+		string? elevationReason = null;
+		if (useAssetWarp)
+		{
+			elevationReason = "AssetWarp needs administrator access to start";
+		}
+		else if (needsAssetWarpCleanup)
+		{
+			elevationReason = "Leftover AssetWarp routing could not be cleared automatically and needs administrator access to remove";
 		}
 
 		if (elevationReason != null && !ProcessElevation.IsAdministrator())
@@ -465,6 +485,21 @@ public static class LaunchHandler
 				App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "User declined elevation. Continuing launch.");
 				App.State.Prop.PendingLaunchMode = 0;
 				App.State.Save();
+			}
+		}
+		if (needsAssetWarpCleanup)
+		{
+			if (ProcessElevation.IsAdministrator())
+			{
+				AssetProxyRouting.Cleanup();
+			}
+			if (AssetProxyRouting.HasInstalledEntries())
+			{
+				App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Leftover AssetWarp routing is still in the hosts file, Roblox assets will fail to load until it is removed");
+				if (!App.LaunchSettings.QuietFlag.Active)
+				{
+					Frontend.ShowMessageBox(Strings.Bootstrapper_AssetWarpRoutingLeftover, MessageBoxImage.Exclamation);
+				}
 			}
 		}
 		if (launchMode != LaunchMode.Player)

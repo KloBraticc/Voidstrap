@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -734,7 +734,14 @@ public partial class NvidiaFFlagEditorPage : UiPage
         if (!_pageActive || Environment.TickCount64 < _internalWriteUntil)
             return;
 
-        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(LoadFromNipSafe));
+        try
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(LoadFromNipSafe));
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("NvidaEditor::OnNipFileChanged", ex);
+        }
     }
 
     private static List<uint> ParseSettingIds(IEnumerable<string> raw)

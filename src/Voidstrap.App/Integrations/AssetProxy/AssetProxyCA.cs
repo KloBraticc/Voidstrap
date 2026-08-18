@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Security.Cryptography;
@@ -38,6 +39,8 @@ internal static partial class AssetProxyCA
 
 	private static X509Certificate2? _rootCa;
 
+	private static readonly List<X509Certificate2> _retiredCerts = [];
+
 	private static readonly ConcurrentDictionary<string, X509Certificate2> _certCache = new(StringComparer.OrdinalIgnoreCase);
 
 	private static readonly System.Threading.Lock _initLock = new();
@@ -49,7 +52,40 @@ internal static partial class AssetProxyCA
 
 	public static X509Certificate2? RootCa => _rootCa;
 
-	public static void Initialize()
+	private static void SetRootCa(X509Certificate2? certificate)
+	{
+		X509Certificate2? previous = _rootCa;
+		_rootCa = certificate;
+		if (previous != null && !ReferenceEquals(previous, certificate))
+		{
+			try
+			{
+				previous.Dispose();
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine(LOG_IDENT, "Previous CA handle could not be released: " + ex.Message);
+			}
+		}
+	}
+
+	private static void DisposeRetiredCerts()
+	{
+		foreach (X509Certificate2 certificate in _retiredCerts)
+		{
+			try
+			{
+				certificate.Dispose();
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine(LOG_IDENT, "Retired certificate handle could not be released: " + ex.Message);
+			}
+		}
+		_retiredCerts.Clear();
+	}
+
+	public static void Initialize(bool requireTrustBundle = true)
 	{
 		lock (_initLock)
 		{
@@ -57,7 +93,7 @@ internal static partial class AssetProxyCA
 				return;
 
 			EnsureRootCAInstalled();
-			PatchRobloxTrustBundles();
+			PatchRobloxTrustBundles(requireTrustBundle);
 			_initialized = true;
 		}
 	}
@@ -82,7 +118,7 @@ internal static partial class AssetProxyCA
 				}
 				try
 				{
-					_rootCa = X509CertificateLoader.LoadPkcs12(pfx, CaPassword, X509KeyStorageFlags.EphemeralKeySet);
+					SetRootCa(X509CertificateLoader.LoadPkcs12(pfx, CaPassword, X509KeyStorageFlags.EphemeralKeySet));
 					if (migrated)
 						WriteProtectedPfx(pfx);
 				}
@@ -95,8 +131,7 @@ internal static partial class AssetProxyCA
 				DateTime now = DateTime.UtcNow;
 				if (!_rootCa.HasPrivateKey || now < _rootCa.NotBefore.ToUniversalTime() || now >= _rootCa.NotAfter.ToUniversalTime() || !string.Equals(_rootCa.Subject, CA_SUBJECT, StringComparison.OrdinalIgnoreCase))
 				{
-					_rootCa.Dispose();
-					_rootCa = null;
+					SetRootCa(null);
 					throw new InvalidDataException("Existing AssetWarp CA is invalid");
 				}
 				ImportToRootStore(_rootCa);
@@ -125,7 +160,7 @@ internal static partial class AssetProxyCA
 
 		X509Certificate2 cert = req.CreateSelfSigned(CaNotBefore, CaNotAfter);
 
-		_rootCa = cert;
+		SetRootCa(cert);
 
 		Directory.CreateDirectory(CaDirectory);
 
@@ -167,15 +202,26 @@ internal static partial class AssetProxyCA
 			store.Open(OpenFlags.ReadWrite);
 
 			bool alreadyExists = false;
-			foreach (X509Certificate2 existing in store.Certificates)
+			X509Certificate2Collection present = store.Certificates;
+			try
 			{
-				if (existing.Thumbprint == cert.Thumbprint)
+				foreach (X509Certificate2 existing in present)
 				{
-					alreadyExists = true;
+					if (existing.Thumbprint == cert.Thumbprint)
+					{
+						alreadyExists = true;
+					}
+					else if (string.Equals(existing.Subject, CA_SUBJECT, StringComparison.OrdinalIgnoreCase))
+					{
+						store.Remove(existing);
+					}
 				}
-				else if (string.Equals(existing.Subject, CA_SUBJECT, StringComparison.OrdinalIgnoreCase))
+			}
+			finally
+			{
+				foreach (X509Certificate2 existing in present)
 				{
-					store.Remove(existing);
+					existing.Dispose();
 				}
 			}
 
@@ -221,7 +267,7 @@ internal static partial class AssetProxyCA
 		}
 	}
 
-	private static void PatchRobloxTrustBundles()
+	private static void PatchRobloxTrustBundles(bool requireTrustBundle)
 	{
 		if (_rootCa == null)
 		{
@@ -255,10 +301,19 @@ internal static partial class AssetProxyCA
 		}
 
 		App.Logger?.WriteLine(LOG_IDENT, "Roblox trust bundles ready: " + patched + ", not updated: " + failed);
-		if (patched == 0 && failed > 0)
+		if (patched > 0)
+		{
+			return;
+		}
+		if (failed > 0)
 		{
 			throw new IOException("The Roblox certificate bundle could not be updated");
 		}
+		if (requireTrustBundle)
+		{
+			throw new IOException("No Roblox certificate bundle was found, AssetWarp cannot intercept asset delivery");
+		}
+		App.Logger?.WriteLine(LOG_IDENT, "No Roblox certificate bundle is present yet, it will be patched when Roblox launches");
 	}
 
 	private static void AddVersionDirectories(HashSet<string> directories, string root)
@@ -362,14 +417,14 @@ internal static partial class AssetProxyCA
 	{
 		lock (_initLock)
 		{
+			DisposeRetiredCerts();
 			foreach (X509Certificate2 cert in _certCache.Values)
 			{
 				DeletePersistedKey(cert);
-				cert.Dispose();
+				_retiredCerts.Add(cert);
 			}
 			_certCache.Clear();
-			_rootCa?.Dispose();
-			_rootCa = null;
+			SetRootCa(null);
 			_initialized = false;
 		}
 	}
@@ -390,8 +445,9 @@ internal static partial class AssetProxyCA
 				csp.PersistKeyInCsp = false;
 			}
 		}
-		catch
+		catch (Exception ex)
 		{
+			App.Logger?.WriteLine(LOG_IDENT, "A leaf certificate private key could not be deleted: " + ex.Message);
 		}
 	}
 
@@ -529,10 +585,21 @@ internal static partial class AssetProxyCA
 		{
 			using X509Store store = new(StoreName.Root, StoreLocation.CurrentUser);
 			store.Open(OpenFlags.ReadWrite);
-			foreach (X509Certificate2 existing in store.Certificates)
+			X509Certificate2Collection present = store.Certificates;
+			try
 			{
-				if (string.Equals(existing.Subject, CA_SUBJECT, StringComparison.OrdinalIgnoreCase) && !string.Equals(existing.Thumbprint, keepThumbprint, StringComparison.OrdinalIgnoreCase))
-					store.Remove(existing);
+				foreach (X509Certificate2 existing in present)
+				{
+					if (string.Equals(existing.Subject, CA_SUBJECT, StringComparison.OrdinalIgnoreCase) && !string.Equals(existing.Thumbprint, keepThumbprint, StringComparison.OrdinalIgnoreCase))
+						store.Remove(existing);
+				}
+			}
+			finally
+			{
+				foreach (X509Certificate2 existing in present)
+				{
+					existing.Dispose();
+				}
 			}
 		}
 		catch (Exception ex)

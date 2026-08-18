@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Voidstrap.Core.AssetProxy;
@@ -14,6 +15,15 @@ namespace Voidstrap.Integrations.AssetProxy;
 internal static class AssetProxyRouting
 {
 	private const string Marker = "Voidstrap AssetWarp entry";
+
+	private const string RecoveryTaskName = "Voidstrap\\AssetWarpCleanup";
+
+	private sealed class CleanupGuardPayload
+	{
+		public int ProcessId { get; set; }
+
+		public long ProcessStartTicks { get; set; }
+	}
 
 	private const string LegacyPresenceMarker = "# VOIDSTRAP-PRESENCEOFF";
 
@@ -60,10 +70,6 @@ internal static class AssetProxyRouting
 		}
 
 		string storage = Path.GetFullPath(Path.Combine(roblox, "rbx-storage"));
-		if (!storage.StartsWith(roblox + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
-		{
-			throw new IOException("Roblox cache path validation failed");
-		}
 		if (Directory.Exists(storage))
 		{
 			foreach (string file in Directory.EnumerateFiles(storage, "*", SearchOption.AllDirectories))
@@ -118,9 +124,15 @@ internal static class AssetProxyRouting
 		{
 			if (string.IsNullOrWhiteSpace(address) || !IPAddress.TryParse(address, out IPAddress? parsed) || IPAddress.IsLoopback(parsed))
 			{
-				throw new InvalidOperationException("Could not resolve a direct endpoint for " + host);
+				App.Logger?.WriteLine("AssetProxyRouting", "No direct endpoint for " + host + " yet, it will be resolved on demand");
+				continue;
 			}
 			endpoints[host] = address;
+		}
+
+		if (endpoints.Count == 0)
+		{
+			throw new InvalidOperationException("Could not resolve a direct endpoint for any AssetWarp host");
 		}
 
 		return endpoints;
@@ -154,12 +166,14 @@ internal static class AssetProxyRouting
 		FlushDns();
 		VerifyEntries(requested, includeIpv6);
 		StartCleanupGuard();
+		ArmRecoveryTask();
 	}
 
-	public static bool Cleanup()
+	public static bool Cleanup(TimeSpan? budget = null)
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
 			return true;
+		long deadline = Environment.TickCount64 + Math.Max(500L, (long)(budget ?? TimeSpan.FromMilliseconds(600)).TotalMilliseconds);
 		string[] hosts;
 		lock (Gate)
 		{
@@ -177,15 +191,17 @@ internal static class AssetProxyRouting
 					FlushDns();
 				}
 				StopCleanupGuard();
+				DisarmRecoveryTask();
 				return true;
 			}
 			catch (Exception ex)
 			{
 				failure = ex;
-				if (attempt < 4)
+				if (attempt >= 4 || Environment.TickCount64 + 100 >= deadline)
 				{
-					Task.Delay(100).GetAwaiter().GetResult();
+					break;
 				}
+				Task.Delay(100).GetAwaiter().GetResult();
 			}
 		}
 		App.Logger?.WriteLine("AssetProxyRouting", "Hosts cleanup failed: " + failure?.Message);
@@ -298,8 +314,9 @@ internal static class AssetProxyRouting
 			});
 			process?.WaitForExit(5000);
 		}
-		catch
+		catch (Exception ex)
 		{
+			App.Logger?.WriteLine("AssetProxyRouting", "The DNS cache could not be flushed, routing changes may be delayed: " + ex.Message);
 		}
 	}
 
@@ -322,8 +339,9 @@ internal static class AssetProxyRouting
 				guard.Kill();
 			}
 		}
-		catch
+		catch (Exception ex)
 		{
+			App.Logger?.WriteLine("AssetProxyRouting", "The AssetWarp cleanup guard could not be stopped: " + ex.Message);
 		}
 		try
 		{
@@ -339,22 +357,27 @@ internal static class AssetProxyRouting
 		try
 		{
 			StopCleanupGuard();
-			string escapedHosts = HostsPath.Replace("'", "''", StringComparison.Ordinal);
-			string escapedMarker = Marker.Replace("'", "''", StringComparison.Ordinal);
-			string script = "$p=" + SelfProcessId() + ";Wait-Process -Id $p -ErrorAction SilentlyContinue;$f='" + escapedHosts + "';if(Test-Path -LiteralPath $f){$l=Get-Content -LiteralPath $f|Where-Object{$_ -notmatch '" + escapedMarker + "'};$t=$f+'.voidstrap.guard.tmp';for($i=0;$i-lt5;$i++){try{[IO.File]::WriteAllLines($t,$l);[IO.File]::Replace($t,$f,$null);break}catch{Remove-Item -LiteralPath $t -Force -ErrorAction SilentlyContinue;Start-Sleep -Milliseconds 100}}};& ipconfig.exe /flushdns|Out-Null";
-			string encoded = Convert.ToBase64String(Encoding.Unicode.GetBytes(script));
-			ProcessStartInfo startInfo = new ProcessStartInfo
+			string executable = Paths.Process;
+			if (string.IsNullOrEmpty(executable) || !File.Exists(executable))
 			{
-				FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "WindowsPowerShell", "v1.0", "powershell.exe"),
+				App.Logger?.WriteLine("AssetProxyRouting", "Cleanup guard skipped, the Voidstrap executable path is unavailable");
+				return;
+			}
+			using Process current = Process.GetCurrentProcess();
+			CleanupGuardPayload payload = new()
+			{
+				ProcessId = current.Id,
+				ProcessStartTicks = current.StartTime.ToUniversalTime().Ticks
+			};
+			string encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(payload)));
+			ProcessStartInfo startInfo = new()
+			{
+				FileName = executable,
 				UseShellExecute = false,
 				CreateNoWindow = true,
 				WindowStyle = ProcessWindowStyle.Hidden
 			};
-			startInfo.ArgumentList.Add("-NoProfile");
-			startInfo.ArgumentList.Add("-NonInteractive");
-			startInfo.ArgumentList.Add("-WindowStyle");
-			startInfo.ArgumentList.Add("Hidden");
-			startInfo.ArgumentList.Add("-EncodedCommand");
+			startInfo.ArgumentList.Add("-assetwarpguard");
 			startInfo.ArgumentList.Add(encoded);
 			Process? started = Process.Start(startInfo);
 			lock (GuardGate)
@@ -368,8 +391,213 @@ internal static class AssetProxyRouting
 		}
 	}
 
-	private static int SelfProcessId()
+	public static void RunScheduledCleanup()
 	{
-		return Environment.ProcessId;
+		if (!Voidstrap.Utility.Platform.IsWindows)
+		{
+			return;
+		}
+		try
+		{
+			if (AnyOtherVoidstrapRunning())
+			{
+				return;
+			}
+			if (RemoveEntries([]))
+			{
+				FlushDns();
+			}
+			DisarmRecoveryTask();
+		}
+		catch
+		{
+		}
 	}
+
+	private static bool AnyOtherVoidstrapRunning()
+	{
+		int self = Environment.ProcessId;
+		Process[] found = Process.GetProcessesByName("Voidstrap");
+		try
+		{
+			return found.Any(process => process.Id != self);
+		}
+		finally
+		{
+			foreach (Process process in found)
+			{
+				try
+				{
+					process.Dispose();
+				}
+				catch
+				{
+				}
+			}
+		}
+	}
+
+	private static bool RunScheduler(string[] arguments, int timeoutMilliseconds = 8000)
+	{
+		try
+		{
+			ProcessStartInfo startInfo = new()
+			{
+				FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "schtasks.exe"),
+				UseShellExecute = false,
+				CreateNoWindow = true,
+				WindowStyle = ProcessWindowStyle.Hidden,
+				RedirectStandardOutput = true,
+				RedirectStandardError = true
+			};
+			foreach (string argument in arguments)
+			{
+				startInfo.ArgumentList.Add(argument);
+			}
+			using Process? process = Process.Start(startInfo);
+			if (process == null)
+			{
+				return false;
+			}
+			if (!process.WaitForExit(timeoutMilliseconds))
+			{
+				return false;
+			}
+			return process.ExitCode == 0;
+		}
+		catch
+		{
+			return false;
+		}
+	}
+
+	private static void ArmRecoveryTask()
+	{
+		try
+		{
+			string executable = Paths.Process;
+			if (string.IsNullOrEmpty(executable) || !File.Exists(executable))
+			{
+				return;
+			}
+			bool created = RunScheduler([
+				"/Create",
+				"/TN", RecoveryTaskName,
+				"/TR", "\"" + executable + "\" -assetwarpcleanup",
+				"/SC", "ONLOGON",
+				"/RL", "HIGHEST",
+				"/F"
+			]);
+			App.Logger?.WriteLine("AssetProxyRouting", created
+				? "Armed the AssetWarp recovery task, leftover routing will clear itself without another administrator prompt"
+				: "Could not arm the AssetWarp recovery task, leftover routing will need administrator access to clear");
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("AssetProxyRouting", "Arming the AssetWarp recovery task failed: " + ex.Message);
+		}
+	}
+
+	private static void DisarmRecoveryTask()
+	{
+		RunScheduler(["/Delete", "/TN", RecoveryTaskName, "/F"], 5000);
+	}
+
+	public static bool TryRunRecoveryTask(bool waitForCompletion)
+	{
+		if (!Voidstrap.Utility.Platform.IsWindows || !HasInstalledEntries())
+		{
+			return true;
+		}
+		if (!RunScheduler(["/Run", "/TN", RecoveryTaskName], 5000))
+		{
+			App.Logger?.WriteLine("AssetProxyRouting", "The AssetWarp recovery task is not available, leftover routing needs administrator access to clear");
+			return false;
+		}
+		if (!waitForCompletion)
+		{
+			App.Logger?.WriteLine("AssetProxyRouting", "Started the AssetWarp recovery task to clear leftover routing in the background");
+			return false;
+		}
+		for (int attempt = 0; attempt < 12; attempt++)
+		{
+			Task.Delay(150).GetAwaiter().GetResult();
+			if (!HasInstalledEntries())
+			{
+				FlushDns();
+				App.Logger?.WriteLine("AssetProxyRouting", "The AssetWarp recovery task cleared the leftover routing");
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static async Task RunCleanupGuardAsync(string? encodedPayload)
+	{
+		if (!Voidstrap.Utility.Platform.IsWindows || string.IsNullOrWhiteSpace(encodedPayload) || encodedPayload.Length > 4096)
+		{
+			return;
+		}
+
+		CleanupGuardPayload? payload;
+		try
+		{
+			byte[] serialized = Convert.FromBase64String(encodedPayload);
+			if (serialized.Length > 2048)
+			{
+				return;
+			}
+			payload = JsonSerializer.Deserialize<CleanupGuardPayload>(serialized);
+		}
+		catch
+		{
+			return;
+		}
+
+		if (payload == null || payload.ProcessId <= 0 || payload.ProcessStartTicks <= 0)
+		{
+			return;
+		}
+
+		try
+		{
+			using Process parent = Process.GetProcessById(payload.ProcessId);
+			if (parent.StartTime.ToUniversalTime().Ticks != payload.ProcessStartTicks)
+			{
+				return;
+			}
+			await parent.WaitForExitAsync().ConfigureAwait(false);
+		}
+		catch (ArgumentException)
+		{
+		}
+		catch (InvalidOperationException)
+		{
+		}
+		catch
+		{
+			return;
+		}
+
+		for (int attempt = 0; attempt < 6; attempt++)
+		{
+			try
+			{
+				if (RemoveEntries([]))
+				{
+					FlushDns();
+				}
+				return;
+			}
+			catch when (attempt < 5)
+			{
+				await Task.Delay(250).ConfigureAwait(false);
+			}
+			catch
+			{
+				return;
+			}
+		}
+	}
+
 }

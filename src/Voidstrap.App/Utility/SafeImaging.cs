@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -87,11 +88,25 @@ internal static class SafeImaging
 		}
 	}
 
+	private const int MaxCachedUriImages = 64;
+
+	private static readonly ConcurrentDictionary<string, BitmapSource> _uriCache = new(StringComparer.OrdinalIgnoreCase);
+
+	public static void ClearUriCache()
+	{
+		_uriCache.Clear();
+	}
+
 	public static BitmapSource? FromUri(Uri? uri, int decodeWidth = 0)
 	{
 		if (uri == null)
 		{
 			return null;
+		}
+		string key = uri.OriginalString + "|" + decodeWidth.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		if (_uriCache.TryGetValue(key, out BitmapSource? cached))
+		{
+			return cached;
 		}
 		BitmapSource? loaded = LoadUri(uri, decodeWidth);
 		if (loaded == null)
@@ -101,6 +116,15 @@ internal static class SafeImaging
 		if (loaded == null)
 		{
 			App.Logger?.WriteLine("SafeImaging::FromUri", "Could not load " + uri);
+			return null;
+		}
+		if (loaded.IsFrozen)
+		{
+			if (_uriCache.Count >= MaxCachedUriImages)
+			{
+				_uriCache.Clear();
+			}
+			_uriCache[key] = loaded;
 		}
 		return loaded;
 	}

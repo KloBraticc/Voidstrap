@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -1502,7 +1502,15 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		if (Dispatcher.HasShutdownStarted || Interlocked.Exchange(ref _themeRefreshPending, 1) != 0)
 			return;
 
-		Dispatcher.BeginInvoke(new Action(ApplyThemeFileChange));
+		try
+		{
+			Dispatcher.BeginInvoke(new Action(ApplyThemeFileChange));
+		}
+		catch (Exception ex)
+		{
+			Interlocked.Exchange(ref _themeRefreshPending, 0);
+			App.Logger.WriteException("BootstrapperEditorWindow::QueueThemeRefresh", ex);
+		}
 	}
 
 	private void ApplyThemeFileChange()
@@ -2202,17 +2210,27 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 	private void OnExternalFileChanged(object sender, FileSystemEventArgs e)
 	{
-		Dispatcher.BeginInvoke(new Action(delegate
-		{
-			if (_externalReload == null)
-			{
-				_externalReload = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
-				_externalReload.Tick += OnExternalReloadTick;
-			}
+		if (Dispatcher.HasShutdownStarted)
+			return;
 
-			_externalReload.Stop();
-			_externalReload.Start();
-		}));
+		try
+		{
+			Dispatcher.BeginInvoke(new Action(delegate
+			{
+				if (_externalReload == null)
+				{
+					_externalReload = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
+					_externalReload.Tick += OnExternalReloadTick;
+				}
+
+				_externalReload.Stop();
+				_externalReload.Start();
+			}));
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("BootstrapperEditorWindow::OnExternalFileChanged", ex);
+		}
 	}
 
 	private void OnExternalReloadTick(object? sender, EventArgs e)

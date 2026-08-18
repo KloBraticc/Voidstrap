@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<OutputType>Exe</OutputType>
@@ -10,7 +10,7 @@
 		<RuntimeIdentifiers>linux-x64;linux-arm64;linux-musl-x64;linux-musl-arm64</RuntimeIdentifiers>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Avalonia.Wayland" Version="12.1.0" />
+		<PackageReference Include="Avalonia.Wayland" Version="12.1.1" />
 		<ProjectReference Include="..\Voidstrap.Desktop\Voidstrap.Desktop.csproj" />
 		<ProjectReference Include="..\Voidstrap.Platform.Linux\Voidstrap.Platform.Linux.csproj" />
 	</ItemGroup>

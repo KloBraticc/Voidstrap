@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -481,8 +481,15 @@ public class DiscordRichPresence : IDisposable
 			return;
 		}
 		_studioSuppressed = studioRunning;
-		App.Logger.WriteLine("DiscordRichPresence", studioRunning ? "Roblox Studio opened, stopping rich presence" : "Roblox Studio closed, resuming rich presence");
-		ApplyVisibility();
+		try
+		{
+			App.Logger.WriteLine("DiscordRichPresence", studioRunning ? "Roblox Studio opened, stopping rich presence" : "Roblox Studio closed, resuming rich presence");
+			ApplyVisibility();
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("DiscordRichPresence::OnStudioWatch", ex);
+		}
 	}
 
 	private async Task SetCurrentGameAsync()
