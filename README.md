@@ -14,6 +14,7 @@
   <a href="https://github.com/KloBraticc/Voidstrap/releases/latest">Latest release</a> |
   <a href="https://www.youtube.com/watch?v=P-GqTUo_HIA&t">Tutorial</a> |
   <a href="https://voidstrapp.pages.dev/donate">Donate</a> |
+  <a href="https://github.com/sponsors/KloBraticc">Sponsor</a> |
   <a href="https://voidstrapp.pages.dev/pages/documentation">Documentation</a> |
   <a href="https://discord.gg/5tJBqBH8ck">Discord</a>
 </p>
@@ -25,6 +26,7 @@
 [![Latest Release][shield-repo-latest]][repo-latest]
 [![Discord][shield-discord-server]][discord-invite]
 [![Stars][shield-repo-stars]][repo-stargazers]
+[![Sponsors][shield-repo-sponsors]][sponsor-link]
 
 </div>
 
@@ -127,8 +129,10 @@ Built on top of [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by pizza
 [shield-repo-latest]:     https://img.shields.io/github/v/release/KloBraticc/Voidstrap?color=7a39fb
 [shield-repo-stars]:      https://img.shields.io/github/stars/KloBraticc/Voidstrap?color=ffd700
 [shield-discord-server]:  https://img.shields.io/discord/1327967202015580223?logo=discord&logoColor=white&label=Discord&color=4d3dff
+[shield-repo-sponsors]:   https://img.shields.io/github/sponsors/KloBraticc?logo=githubsponsors&logoColor=white&label=Sponsors&color=ea4aaa
 
 [repo-releases]:          https://github.com/KloBraticc/Voidstrap/releases
 [repo-latest]:            https://github.com/KloBraticc/Voidstrap/releases/latest
 [repo-stargazers]:        https://github.com/KloBraticc/Voidstrap/stargazers
 [discord-invite]:         https://discord.gg/dfA9PdWgcV
+[sponsor-link]:           https://github.com/sponsors/KloBraticc
