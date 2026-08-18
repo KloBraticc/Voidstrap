@@ -68,6 +68,7 @@ namespace Voidstrap.Integrations.GameChat
         private FlowDocument _docBridge;
         private bool _bridgeConsentShown;
         private bool _bridgeVerifyBusy;
+        private readonly HashSet<long> _bridgeBadgeLookups = [];
         private bool _bridgeAvailable;
 
         private readonly GameChatClient _client;
@@ -1866,7 +1867,6 @@ namespace Voidstrap.Integrations.GameChat
             if (!_bridgeConsentShown)
             {
                 _bridgeConsentShown = true;
-                AppendBridgeSystem(GameChatStrings.BridgeWelcome);
                 AppendBridgeSystem(GameChatStrings.BridgeConsent);
             }
 
@@ -1915,6 +1915,38 @@ namespace Voidstrap.Integrations.GameChat
 
             GameChatLog.Add(message.Sender, "Bootstrappers", message.Text);
             AppendChatMessage(_docBridge, message.Sender, message.SenderId, message.Text);
+            QueueBridgeBadgeLookup(message.SenderId);
+        }
+
+        private void QueueBridgeBadgeLookup(long userId)
+        {
+            if (_closed || userId <= 0 || !_bridgeBadgeLookups.Add(userId))
+                return;
+
+            _ = ResolveBridgeBadgesAsync(userId);
+        }
+
+        private async Task ResolveBridgeBadgesAsync(long userId)
+        {
+            try
+            {
+                GameChatIdentity? identity = await GameChatRoblox.GetChatIdentityAsync(userId, _lifetimeCts.Token).ConfigureAwait(false);
+                if (_closed || identity == null || identity.Badges.Count == 0)
+                    return;
+
+                QueueUi(() => UpdateVisibleBadges(userId, identity.Badges));
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LogTag, "Bridge badge lookup failed: " + ex.Message);
+            }
+            finally
+            {
+                QueueUi(() => _bridgeBadgeLookups.Remove(userId));
+            }
         }
 
         private void AppendBridgeSystem(string message)
@@ -2013,30 +2045,28 @@ namespace Voidstrap.Integrations.GameChat
                     return;
                 }
 
-                try
+                if (!GameChatBridgeVerify.IsSafeAuthUrl(challenge.AuthUrl))
                 {
-                    Clipboard.SetText(challenge.BotName);
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.WriteLine(LogTag, "Clipboard copy failed: " + ex.Message);
+                    AppendSystemMessage(GameChatStrings.BridgeVerifyUnavailable);
+                    return;
                 }
 
                 try
                 {
                     Process.Start(new ProcessStartInfo
                     {
-                        FileName = "https://www.roblox.com/users/" + challenge.BotId.ToString(System.Globalization.CultureInfo.InvariantCulture) + "/profile",
+                        FileName = challenge.AuthUrl,
                         UseShellExecute = true,
                     });
                 }
                 catch (Exception ex)
                 {
-                    App.Logger.WriteLine(LogTag, "Could not open the verify profile: " + ex.Message);
+                    App.Logger.WriteLine(LogTag, "Could not open the Roblox sign in page: " + ex.Message);
+                    AppendSystemMessage(GameChatStrings.BridgeVerifyUnavailable);
+                    return;
                 }
 
-                AppendSystemMessage(string.Format(GameChatStrings.BridgeVerifyStarted, challenge.BotName));
-                AppendSystemMessage(GameChatStrings.BridgeVerifyWaiting);
+                AppendSystemMessage(GameChatStrings.BridgeVerifyStarted);
 
                 bool verified = await GameChatBridgeVerify.WaitAsync(challenge, _lifetimeCts.Token).ConfigureAwait(true);
                 if (_closed)

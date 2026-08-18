@@ -2,13 +2,17 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Windows.Win32.UI.Accessibility;
 using Voidstrap.Extensions;
 using Voidstrap.Models.Entities;
+using Voidstrap.Utility;
 
 namespace Voidstrap.Integrations
 {
@@ -19,7 +23,22 @@ namespace Voidstrap.Integrations
         private bool _disposed;
 
         private HWND _hWnd;
+        private nint _hWndRaw;
         private uint _robloxPID;
+
+        private const int WM_SETICON = 0x0080;
+        private const int WM_GETICON = 0x007F;
+        private const nint ICON_SMALL = 0;
+        private const nint ICON_BIG = 1;
+        private const uint SMTO_ABORTIFHUNG = 0x0002;
+        private const uint IconMessageTimeout = 1000;
+        private const int GameIconMaxBytes = 2 * 1024 * 1024;
+
+        private readonly object _iconGate = new object();
+        private nint _originalSmallIcon;
+        private nint _originalBigIcon;
+        private nint _ownedSmallIcon;
+        private nint _ownedBigIcon;
 
         private volatile string _currentDesiredTitle;
 
@@ -35,6 +54,7 @@ namespace Voidstrap.Integrations
 
             App.Logger.WriteLine(LOG_IDENT, $"Got window handle as {windowHandle}");
             _hWnd = (HWND)(IntPtr)windowHandle;
+            _hWndRaw = (nint)windowHandle;
             _robloxPID = (uint)robloxProcessId;
             _activityWatcher = activityWatcher;
 
@@ -51,13 +71,24 @@ namespace Voidstrap.Integrations
             ApplyWindowModifications();
             ApplyWindowBackdrop();
 
-            if (_activityWatcher != null && App.Settings.Prop.CycleTitleWithGameName)
+            bool useGameIcon = App.Settings.Prop.UseGameIconForRobloxWindow;
+
+            if (_activityWatcher != null && (App.Settings.Prop.CycleTitleWithGameName || useGameIcon))
             {
                 _activityWatcher.OnGameJoin += OnGameJoin;
                 _activityWatcher.OnGameLeave += OnGameLeave;
 
                 if (_activityWatcher.InGame && _activityWatcher.Data?.UniverseId > 0)
-                    _ = Task.Run(() => UpdateTitleWithGameNameAsync(_activityWatcher.Data.UniverseId));
+                {
+                    long universeId = _activityWatcher.Data.UniverseId;
+                    _ = Task.Run(async () =>
+                    {
+                        if (useGameIcon)
+                            await ApplyGameIconAsync(universeId);
+                        if (App.Settings.Prop.CycleTitleWithGameName)
+                            await UpdateTitleWithGameNameAsync(universeId);
+                    });
+                }
             }
         }
 
@@ -102,7 +133,6 @@ namespace Voidstrap.Integrations
             const string LOG_IDENT = "WindowManipulation::ApplyWindowModifications";
             const int WINEVENT_OUTOFCONTEXT = 0x0;
             const int EVENT_OBJECT_NAMECHANGE = 0x800C;
-            const int WM_SETICON = 0x0080;
 
             App.Logger.WriteLine(LOG_IDENT, "Applying window modifications");
 
@@ -111,12 +141,9 @@ namespace Voidstrap.Integrations
             try
             {
                 App.Logger.WriteLine(LOG_IDENT, "Setting Roblox icon");
-                using (var icon = GetWindowIcon())
-                {
-                    IntPtr hIconCopy = PInvoke.CopyIcon((HICON)icon.Handle);
-                    PInvoke.SendMessage(_hWnd, WM_SETICON, 0, hIconCopy);
-                    PInvoke.SendMessage(_hWnd, WM_SETICON, 1, hIconCopy);
-                }
+                _originalSmallIcon = SendIconMessage(WM_GETICON, ICON_SMALL, 0);
+                _originalBigIcon = SendIconMessage(WM_GETICON, ICON_BIG, 0);
+                ApplyBaseIcon();
             }
             catch (Exception ex)
             {
@@ -163,14 +190,18 @@ namespace Voidstrap.Integrations
         {
             try
             {
-                if (_disposed || _activityWatcher == null || !App.Settings.Prop.CycleTitleWithGameName)
+                if (_disposed || _activityWatcher == null)
                     return;
 
                 long universeId = _activityWatcher.Data?.UniverseId ?? 0;
                 if (universeId <= 0)
                     return;
 
-                await UpdateTitleWithGameNameAsync(universeId);
+                if (App.Settings.Prop.UseGameIconForRobloxWindow)
+                    await ApplyGameIconAsync(universeId);
+
+                if (App.Settings.Prop.CycleTitleWithGameName)
+                    await UpdateTitleWithGameNameAsync(universeId);
             }
             catch (Exception ex)
             {
@@ -180,7 +211,13 @@ namespace Voidstrap.Integrations
 
         private void OnGameLeave(object? sender, EventArgs e)
         {
-            if (_disposed || !App.Settings.Prop.CycleTitleWithGameName)
+            if (_disposed)
+                return;
+
+            if (App.Settings.Prop.UseGameIconForRobloxWindow)
+                ApplyBaseIcon();
+
+            if (!App.Settings.Prop.CycleTitleWithGameName)
                 return;
 
             string baseTitle = string.IsNullOrWhiteSpace(App.Settings.Prop.RobloxTitle)
@@ -417,20 +454,294 @@ namespace Voidstrap.Integrations
             public int Size;
         }
 
-        private static System.Drawing.Icon GetWindowIcon()
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern nint SendMessageTimeout(nint hWnd, int message, nint wParam, nint lParam, uint flags, uint timeout, out nint result);
+
+        [DllImport("user32.dll")]
+        private static extern bool IsWindow(nint hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern bool DestroyIcon(nint hIcon);
+
+        [DllImport("user32.dll")]
+        private static extern nint CopyIcon(nint hIcon);
+
+        private nint SendIconMessage(int message, nint wParam, nint lParam)
         {
-            BootstrapperIcon icon = App.Settings.Prop.RobloxIcon;
-            if (icon == BootstrapperIcon.IconCustom && !string.IsNullOrEmpty(App.Settings.Prop.RobloxIconCustomLocation) && File.Exists(App.Settings.Prop.RobloxIconCustomLocation))
+            try
+            {
+                if (_hWndRaw == 0 || !IsWindow(_hWndRaw))
+                    return 0;
+
+                if (SendMessageTimeout(_hWndRaw, message, wParam, lParam, SMTO_ABORTIFHUNG, IconMessageTimeout, out nint result) == 0)
+                    return 0;
+
+                return result;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        private static void DestroyIconSafe(nint hIcon)
+        {
+            if (hIcon == 0)
+                return;
+
+            try
+            {
+                DestroyIcon(hIcon);
+            }
+            catch
+            {
+            }
+        }
+
+        private void ApplyIcons(nint small, nint big, bool owned)
+        {
+            if (small == 0)
+                small = big;
+            if (big == 0)
+                big = small;
+
+            if (small == 0 && big == 0)
+                return;
+
+            lock (_iconGate)
+            {
+                nint oldSmall = _ownedSmallIcon;
+                nint oldBig = _ownedBigIcon;
+
+                SendIconMessage(WM_SETICON, ICON_SMALL, small);
+                SendIconMessage(WM_SETICON, ICON_BIG, big);
+
+                _ownedSmallIcon = owned ? small : 0;
+                _ownedBigIcon = owned ? big : 0;
+
+                if (oldSmall != small && oldSmall != big)
+                    DestroyIconSafe(oldSmall);
+                if (oldBig != small && oldBig != big && oldBig != oldSmall)
+                    DestroyIconSafe(oldBig);
+            }
+        }
+
+        private void ResetIcons()
+        {
+            lock (_iconGate)
+            {
+                nint oldSmall = _ownedSmallIcon;
+                nint oldBig = _ownedBigIcon;
+
+                SendIconMessage(WM_SETICON, ICON_SMALL, _originalSmallIcon);
+                SendIconMessage(WM_SETICON, ICON_BIG, _originalBigIcon);
+
+                _ownedSmallIcon = 0;
+                _ownedBigIcon = 0;
+
+                DestroyIconSafe(oldSmall);
+                if (oldBig != oldSmall)
+                    DestroyIconSafe(oldBig);
+            }
+        }
+
+        private void ApplyBaseIcon()
+        {
+            const string LOG_IDENT = "WindowManipulation::ApplyBaseIcon";
+
+            if (_hWndRaw == 0)
+                return;
+
+            CreateBaseIcons(out nint small, out nint big);
+
+            if (small == 0 && big == 0)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "No Voidstrap icon available, restoring the Roblox icon");
+                ResetIcons();
+                return;
+            }
+
+            ApplyIcons(small, big, true);
+        }
+
+        private static void CreateBaseIcons(out nint small, out nint big)
+        {
+            const string LOG_IDENT = "WindowManipulation::CreateBaseIcons";
+
+            small = 0;
+            big = 0;
+
+            System.Drawing.Icon? custom = null;
+
+            try
+            {
+                string location = App.Settings.Prop.RobloxIconCustomLocation;
+                if (App.Settings.Prop.RobloxIcon == BootstrapperIcon.IconCustom && !string.IsNullOrEmpty(location) && File.Exists(location))
+                    custom = new System.Drawing.Icon(location);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Failed to load the custom icon: " + ex.Message);
+            }
+
+            try
+            {
+                System.Drawing.Icon? source = custom;
+
+                if (source == null)
+                {
+                    try
+                    {
+                        source = App.Settings.Prop.RobloxIcon.GetIcon();
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Logger.WriteLine(LOG_IDENT, "Failed to load the Voidstrap icon: " + ex.Message);
+                    }
+                }
+
+                if (source == null)
+                    return;
+
+                small = ScaleIconHandle(source, 32);
+                big = ScaleIconHandle(source, 64);
+            }
+            finally
+            {
+                custom?.Dispose();
+            }
+        }
+
+        private static nint ScaleIconHandle(System.Drawing.Icon source, int size)
+        {
+            try
+            {
+                using var sized = new System.Drawing.Icon(source, size, size);
+                return CopyIcon(sized.Handle);
+            }
+            catch
             {
                 try
                 {
-                    return new System.Drawing.Icon(App.Settings.Prop.RobloxIconCustomLocation);
+                    return CopyIcon(source.Handle);
                 }
                 catch
                 {
+                    return 0;
                 }
             }
-            return icon.GetIcon();
+        }
+
+        private async Task ApplyGameIconAsync(long universeId)
+        {
+            const string LOG_IDENT = "WindowManipulation::ApplyGameIcon";
+
+            try
+            {
+                if (_disposed || !App.Settings.Prop.UseGameIconForRobloxWindow)
+                    return;
+
+                string? url = await GetGameIconUrlAsync(universeId).ConfigureAwait(false);
+
+                if (_disposed)
+                    return;
+
+                if (string.IsNullOrWhiteSpace(url))
+                {
+                    App.Logger.WriteLine(LOG_IDENT, $"No icon for universe {universeId}, using the Voidstrap icon");
+                    ApplyBaseIcon();
+                    return;
+                }
+
+                byte[] data = await DownloadIconAsync(url).ConfigureAwait(false);
+
+                if (_disposed)
+                    return;
+
+                if (data.Length == 0)
+                {
+                    ApplyBaseIcon();
+                    return;
+                }
+
+                nint small;
+                nint big;
+
+                using (var stream = new MemoryStream(data))
+                using (var bitmap = new Bitmap(stream))
+                {
+                    small = HIconFromBitmap(bitmap, 32);
+                    big = HIconFromBitmap(bitmap, 64);
+                }
+
+                if (small == 0 && big == 0)
+                {
+                    ApplyBaseIcon();
+                    return;
+                }
+
+                App.Logger.WriteLine(LOG_IDENT, $"Applying the game icon for universe {universeId}");
+                ApplyIcons(small, big, true);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Failed to set the game icon: " + ex.Message);
+
+                try
+                {
+                    ApplyBaseIcon();
+                }
+                catch (Exception fallbackEx)
+                {
+                    App.Logger.WriteLine(LOG_IDENT, "Failed to restore the base icon: " + fallbackEx.Message);
+                }
+            }
+        }
+
+        private static async Task<string?> GetGameIconUrlAsync(long universeId)
+        {
+            var details = UniverseDetails.LoadFromCache(universeId);
+
+            if (string.IsNullOrWhiteSpace(details?.Thumbnail?.ImageUrl))
+            {
+                await UniverseDetails.FetchSingle(universeId).ConfigureAwait(false);
+                details = UniverseDetails.LoadFromCache(universeId);
+            }
+
+            return details?.Thumbnail?.ImageUrl;
+        }
+
+        private static async Task<byte[]> DownloadIconAsync(string url)
+        {
+            using var response = await App.HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+                return Array.Empty<byte>();
+
+            return await Http.ReadBytesBoundedAsync(response.Content, GameIconMaxBytes, CancellationToken.None).ConfigureAwait(false);
+        }
+
+        private static nint HIconFromBitmap(Bitmap source, int size)
+        {
+            try
+            {
+                using var scaled = new Bitmap(size, size, PixelFormat.Format32bppArgb);
+
+                using (var graphics = Graphics.FromImage(scaled))
+                {
+                    graphics.Clear(System.Drawing.Color.Transparent);
+                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    graphics.SmoothingMode = SmoothingMode.HighQuality;
+                    graphics.DrawImage(source, new Rectangle(0, 0, size, size));
+                }
+
+                return scaled.GetHicon();
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public void Dispose()
@@ -439,6 +750,15 @@ namespace Voidstrap.Integrations
                 return;
 
             _disposed = true;
+
+            try
+            {
+                ResetIcons();
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("WindowManipulation::Dispose", "Failed to restore the Roblox icon: " + ex.Message);
+            }
 
             if (_activityWatcher != null)
             {

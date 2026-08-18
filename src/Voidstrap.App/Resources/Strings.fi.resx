@@ -1228,9 +1228,6 @@ Kun se on päällä, se käynnistää Robloxin automaattisesti, kun suljet asetu
 
 Haluaisitko ottaa testaustilan käyttöön?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Kaikki Voidstrapin käännökset joukkoistetaan [Crowdinin]({0}) kautta. Täällä listatut henkilöt ovat anteliaasti ja vapaaehtoisesti tarjonneet aikaansa ja vaivaansa auttaakseen Voidstrapin lokalisoinnissa. Suuret kiitokset kaikille täällä oleville!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Asentaa</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

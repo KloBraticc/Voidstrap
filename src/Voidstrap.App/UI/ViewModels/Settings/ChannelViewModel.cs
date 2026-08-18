@@ -529,6 +529,24 @@ public class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public string DownloadConfigurationSummary => $"{MaxConcurrentDownloads} package workers, {MaxDownloadSegments} parts per large package, {DownloadConfiguration.ResolveSegmentRequestLimit(App.Settings.Prop)} maximum ranged requests";
 
+	public bool StaticDirectory
+	{
+		get
+		{
+			return App.Settings.Prop.StaticDirectory;
+		}
+		set
+		{
+			if (App.Settings.Prop.StaticDirectory == value)
+				return;
+			App.Settings.Prop.StaticDirectory = value;
+			new Voidstrap.AppData.RobloxPlayerData().TryMigrateInstallDirectory(value);
+			new Voidstrap.AppData.RobloxStudioData().TryMigrateInstallDirectory(value);
+			OnPropertyChanged("StaticDirectory");
+			App.Settings.Save();
+		}
+	}
+
 	public string ViewChannel
 	{
 		get

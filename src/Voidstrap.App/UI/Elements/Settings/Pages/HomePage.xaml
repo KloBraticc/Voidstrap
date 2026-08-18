@@ -354,13 +354,19 @@
                                              Maximum="100"
                                              Value="{Binding WebsiteLevelPercent, Mode=OneWay}"/>
                             </StackPanel>
+                            <controls:OptionControl Header="In-game Voidstrap chat"
+                                                    Description="Chat with other users, Voidstrap."
+                                                    Margin="0,0,0,0">
+                                <ui:ToggleSwitch IsChecked="{Binding GameChatEnabled, Mode=TwoWay}"/>
+                            </controls:OptionControl>
                         </StackPanel>
                     </Grid>
                 </Border>
 
                 <controls:OptionControl Header="In-game Voidstrap chat"
                                         Description="Chat with other users, Voidstrap."
-                                        Margin="0,0,0,16">
+                                        Margin="0,0,0,16"
+                                        Visibility="{Binding IsSignedOut, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <ui:ToggleSwitch IsChecked="{Binding GameChatEnabled, Mode=TwoWay}"/>
                 </controls:OptionControl>
 
@@ -773,13 +779,22 @@
                                                    CommandParameter="{Binding}"/>
                                     </Grid>
 
-                                    <ComboBox Margin="12,8,12,12"
+                                    <ComboBox Margin="12,8,12,0"
                                               Padding="8,4,8,4"
                                               FontSize="12"
                                               ToolTip="Preferred server for rejoining this game"
+                                              IsEnabled="{Binding MatchmakerEnabledForGame}"
                                               ItemsSource="{Binding DatacenterOptions}"
                                               SelectedItem="{Binding SelectedDatacenter, Mode=TwoWay}"
                                               DisplayMemberPath="Display"/>
+
+                                    <ui:Button Margin="12,8,12,12"
+                                               HorizontalAlignment="Stretch"
+                                               FontSize="12"
+                                               Icon="{Binding SkipMatchmakerIcon}"
+                                               Content="{Binding SkipMatchmakerLabel}"
+                                               ToolTip="{Binding SkipMatchmakerTooltip}"
+                                               Command="{Binding ToggleSkipMatchmakerCommand}"/>
                                 </StackPanel>
                             </ui:Card>
                         </DataTemplate>

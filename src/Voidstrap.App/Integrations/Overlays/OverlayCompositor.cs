@@ -70,6 +70,7 @@ namespace Voidstrap.Integrations.Overlays
         private long _captureUnstableSinceMs;
         private long _lastRecreateMs;
         private bool _hotkeyRegistered;
+        private bool _hotkeyAttempted;
 
         private ID3D11VertexShader? _vs;
         private ID3D11PixelShader? _psPass;
@@ -87,6 +88,13 @@ namespace Voidstrap.Integrations.Overlays
 		private int _homepageMediaWidth;
 		private int _homepageMediaHeight;
 		private long _homepageMediaVersion;
+		private bool _homepageMediaUploaded;
+		private bool _homepageRepaintDue = true;
+		private double _homepageIdleNextMs;
+		private const double HomepageIdleIntervalMs = 1000.0 / 120.0;
+		private bool _rawValid;
+		private int _rawWidth;
+		private int _rawHeight;
         private ID3D11SamplerState? _sampler;
         private ID3D11Buffer? _cbuffer;
         private ID3D11BlendState? _hudBlend;
@@ -739,10 +747,41 @@ namespace Voidstrap.Integrations.Overlays
 
         private void CreateSizedResources()
         {
+            ID3D11Texture2D? previousRaw = _rawTex;
+            int previousWidth = _rawWidth;
+            int previousHeight = _rawHeight;
+            bool previousValid = _rawValid;
+            _rawTex = null;
             ReleaseSizedResources();
+            _rawValid = false;
             _rawTex = CreateTex();
             _rawSrv = _device!.CreateShaderResourceView(_rawTex);
             _rawRtv = _device!.CreateRenderTargetView(_rawTex);
+            _rawWidth = _width;
+            _rawHeight = _height;
+            if (previousRaw != null)
+            {
+                if (previousValid)
+                {
+                    try
+                    {
+                        int copyWidth = Math.Min(previousWidth, _width);
+                        int copyHeight = Math.Min(previousHeight, _height);
+                        if (copyWidth > 0 && copyHeight > 0)
+                        {
+                            _context!.ClearRenderTargetView(_rawRtv, new Color4(18f / 255f, 18f / 255f, 21f / 255f, 1f));
+                            _context!.CopySubresourceRegion(_rawTex, 0, 0, 0, 0, previousRaw, 0, new Box(0, 0, 0, copyWidth, copyHeight, 1));
+                            _rawValid = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Logger.WriteLine(LOG_IDENT, "The last frame could not be carried across the resize: " + ex.Message);
+                    }
+                }
+                previousRaw.Dispose();
+            }
+            _homepageRepaintDue = true;
             for (int i = 0; i < 2; i++)
             {
                 _stageTex[i] = CreateTex();
@@ -971,6 +1010,7 @@ namespace Voidstrap.Integrations.Overlays
                 if (_hiddenByFocus)
                 {
                     _hiddenByFocus = false;
+                    _homepageRepaintDue = true;
                     App.Logger.WriteLine(LOG_IDENT, "Roblox is in the foreground again, the overlay is rendering");
                     TryRestoreWindowCapture();
                     _wgc?.SetTargetFps(CaptureTargetFps());
@@ -1070,6 +1110,7 @@ namespace Voidstrap.Integrations.Overlays
 				if (_wgc == null)
 					CreateDuplicationForRect(_rectLeft, _rectTop);
 				ResetCaptureMeasurements();
+				_homepageRepaintDue = true;
 			}
             else if (_wgc == null)
             {
@@ -1421,6 +1462,28 @@ namespace Voidstrap.Integrations.Overlays
 			_context.PSSetShaderResources(0, _nullSrvs);
 		}
 
+		private bool TryHomepageIdlePresent()
+		{
+			if (!OverlayHub.HomepageBackgroundActive || _fgGenerating)
+				return false;
+			double now = _clock.Elapsed.TotalMilliseconds;
+			if (now < _homepageIdleNextMs)
+				return false;
+			_homepageIdleNextMs = now + HomepageIdleIntervalMs;
+			_homepageMediaUploaded = false;
+			bool hasMedia = UpdateHomepageMedia();
+			if (!_rawValid || _rawSrv == null || _backBufferRtv == null)
+				return false;
+			if (!_homepageRepaintDue && !_homepageMediaUploaded)
+				return false;
+			_homepageRepaintDue = false;
+			ComposeHomepage(_backBufferRtv, _rawSrv, hasMedia);
+			if (!Present())
+				return false;
+			_realPresented++;
+			return true;
+		}
+
 		private bool UpdateHomepageMedia()
 		{
 			try
@@ -1501,6 +1564,7 @@ namespace Voidstrap.Integrations.Overlays
 				_context.Unmap(_homepageMediaTexture!, 0);
 			}
 			_homepageMediaVersion = version;
+			_homepageMediaUploaded = true;
 		}
 
 		private void ReleaseHomepageMedia()
@@ -1514,6 +1578,7 @@ namespace Voidstrap.Integrations.Overlays
 			_homepageMediaWidth = 0;
 			_homepageMediaHeight = 0;
 			_homepageMediaVersion = 0;
+			_homepageRepaintDue = true;
 		}
 
         private void ResetFrameGenState()
@@ -1589,24 +1654,31 @@ namespace Voidstrap.Integrations.Overlays
 
         private void SyncStages(bool riEnabled, bool riOn, bool aaOn, bool fgOn)
         {
-            if (riOn && !_riAttached)
+            if (riEnabled && !_riAttached)
             {
                 try { _rishade.AttachExternal(_device!, _context!, _width, _height); _riAttached = true; }
                 catch (Exception ex) { App.Logger.WriteException("OverlayCompositor::AttachRiShade", ex); }
             }
-            else if (!riOn && _riAttached)
+            else if (!riEnabled && _riAttached)
             {
                 _rishade.DisposeExternal();
                 _riAttached = false;
-                App.Logger.WriteLine(LOG_IDENT, "RiShade stage detached, no effects are switched on so the frame is left untouched");
+                App.Logger.WriteLine(LOG_IDENT, "RiShade stage detached, RiShade is switched off so the frame is left untouched");
             }
 
-            if (riEnabled && !_hotkeyRegistered && _hwnd != IntPtr.Zero)
+            if (riEnabled && !_hotkeyRegistered && !_hotkeyAttempted && _hwnd != IntPtr.Zero)
+            {
+                _hotkeyAttempted = true;
                 _hotkeyRegistered = RiShadeInterop.RegisterHotKey(_hwnd, 1, RiShadeInterop.MOD_NOREPEAT, RiShadeInterop.VK_F8);
+                App.Logger.WriteLine(LOG_IDENT, _hotkeyRegistered
+                    ? "RiShade panel hotkey F8 is registered"
+                    : "F8 could not be registered because another program already owns it, open the RiShade panel from Voidstrap settings instead");
+            }
             else if (!riEnabled && _hotkeyRegistered)
             {
                 RiShadeInterop.UnregisterHotKey(_hwnd, 1);
                 _hotkeyRegistered = false;
+                _hotkeyAttempted = false;
             }
 
             if (aaOn && !_aaAttached)
@@ -1706,13 +1778,14 @@ namespace Voidstrap.Integrations.Overlays
             if (!fresh)
             {
                 bool filled = TryStutterFill(token);
-                if (!filled)
+                if (!filled && !TryHomepageIdlePresent())
                 {
                     if (_wgc != null)
-                        _wgc.WaitForFrame(_fgGenerating ? 1 : 20);
+                        _wgc.WaitForFrame(_fgGenerating ? 1 : _homepageMedia?.IsAnimated == true ? 4 : 20);
                 }
                 return;
             }
+            _rawValid = true;
             double priorFreshMs = _lastFreshPresentMs;
             _freshCaptureMs = _clock.Elapsed.TotalMilliseconds;
             _lastFreshPresentMs = _freshCaptureMs;
@@ -1936,7 +2009,11 @@ namespace Voidstrap.Integrations.Overlays
 
         private void ComposeHomepage(ID3D11RenderTargetView target, ID3D11ShaderResourceView source)
         {
-            bool hasMedia = UpdateHomepageMedia();
+            ComposeHomepage(target, source, UpdateHomepageMedia());
+        }
+
+        private void ComposeHomepage(ID3D11RenderTargetView target, ID3D11ShaderResourceView source, bool hasMedia)
+        {
             float sourceAspect = hasMedia ? (float)_homepageMediaWidth / _homepageMediaHeight : 1f;
             float targetAspect = (float)_width / _height;
             float scaleX = sourceAspect > targetAspect ? targetAspect / sourceAspect : 1f;
@@ -3024,6 +3101,13 @@ namespace Voidstrap.Integrations.Overlays
                 return;
             _lastSettingsCheckSec = nowSec;
             _wgc?.SetTargetFps(CaptureTargetFps());
+            if (_homepageMedia != null && !OverlayHub.HomepageBackgroundActive)
+            {
+                ReleaseHomepageMedia();
+                _homepageMediaPath = "";
+                _homepageMediaResolvedPath = "";
+                _homepageMediaProbeMs = 0;
+            }
             try
             {
                 string path = App.Settings.FileLocation;
@@ -3039,6 +3123,7 @@ namespace Voidstrap.Integrations.Overlays
                 {
                     _settingsFileTimeUtc = stamp;
                     App.Settings.Load();
+                    _homepageRepaintDue = true;
                     App.Logger.WriteLine(LOG_IDENT, "Settings changed on disk, reloaded so overlay toggles apply live");
                 }
             }

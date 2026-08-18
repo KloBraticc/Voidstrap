@@ -20,7 +20,6 @@ public static class TelemetryBlocker
 
 	public static readonly string[] Domains = new string[]
 	{
-		"ecsv2.roblox.com",
 		"client-telemetry.roblox.com",
 		"ephemeralcounters.api.roblox.com",
 		"metrics.roblox.com",
@@ -31,12 +30,6 @@ public static class TelemetryBlocker
 		"abtesting.roblox.com",
 		"upload.crashes.roblox.com",
 		"upload.crashes.rbxinfra.com",
-		"dfw2-128-116-95-3.roblox.com",
-		"ams2-128-116-21-3.roblox.com",
-		"atl1-128-116-99-3.roblox.com",
-		"lax2-128-116-116-3.roblox.com",
-		"nrt1-128-116-120-3.roblox.com",
-		"ord2-128-116-101-3.roblox.com",
 		"roblox.qq.com"
 	};
 
@@ -63,6 +56,68 @@ public static class TelemetryBlocker
 			App.Settings.Prop.BlockRobloxTelemetry = true;
 			App.Settings.SaveDeferred();
 			App.Logger?.WriteLine(LOG_IDENT, "Setting reconciled to on to match the active hosts block");
+		}
+		RefreshStaleEntries();
+	}
+
+	public static string[] GetStaleBlockedDomains()
+	{
+		try
+		{
+			string hostsPath = HostsPath;
+			if (!File.Exists(hostsPath))
+			{
+				return [];
+			}
+			HashSet<string> allowed = new(Domains, StringComparer.OrdinalIgnoreCase);
+			HashSet<string> stale = new(StringComparer.OrdinalIgnoreCase);
+			foreach (string line in File.ReadAllLines(hostsPath))
+			{
+				if (!line.Contains(Marker, StringComparison.Ordinal))
+				{
+					continue;
+				}
+				string entry = line.Substring(0, line.IndexOf(Marker, StringComparison.Ordinal));
+				string[] parts = entry.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
+				if (parts.Length >= 2 && !allowed.Contains(parts[1]))
+				{
+					stale.Add(parts[1]);
+				}
+			}
+			return [.. stale];
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine(LOG_IDENT, "Could not inspect the hosts block: " + ex.Message);
+			return [];
+		}
+	}
+
+	private static void RefreshStaleEntries()
+	{
+		string[] stale = GetStaleBlockedDomains();
+		if (stale.Length == 0)
+		{
+			return;
+		}
+
+		App.Logger?.WriteLine(LOG_IDENT, "The hosts block still contains " + stale.Length + " domain(s) that Voidstrap no longer blocks: " + string.Join(", ", stale));
+		if (!ProcessElevation.IsAdministrator())
+		{
+			App.Logger?.WriteLine(LOG_IDENT, "Run Voidstrap as administrator once, or turn the telemetry block off and on, to clear them");
+			return;
+		}
+
+		try
+		{
+			if (App.Settings.Prop.BlockRobloxTelemetry ? Apply() : Remove())
+			{
+				App.Logger?.WriteLine(LOG_IDENT, "Cleared the outdated hosts block entries");
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine(LOG_IDENT, "Could not clear the outdated hosts block entries: " + ex.Message);
 		}
 	}
 

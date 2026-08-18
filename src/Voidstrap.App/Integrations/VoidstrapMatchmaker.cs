@@ -45,6 +45,10 @@ public static class VoidstrapMatchmaker
 
 	private const double ClosestDatacenterBandMs = 12.0;
 
+	private const double HandoffPingMs = 120.0;
+
+	private const double HandoffFloorMultiplier = 4.0;
+
 	private const int EarlyExitMinResults = 12;
 
 	private const int EarlyExitClosestMatches = 6;
@@ -606,16 +610,19 @@ public static class VoidstrapMatchmaker
 		App.Logger.WriteLine(LOG_IDENT, $"Winner: {winner.DatacenterName}, about {winner.EstimatedPingMs}ms, {players}, JobId {winner.JobId}");
 
 		bool winnerIsPreferred = preferred.Length > 0 && MatchesPreferredDc(winner.Datacenter, preferred);
-		if (!winnerIsPreferred)
+		if (ShouldHandOff(winner.EstimatedPingMs, floorMs, winnerIsPreferred))
 		{
-			double ceilingMs = Math.Max(floorMs * 2.5, floorMs + 25.0);
-			if (winner.EstimatedPingMs > ceilingMs)
-			{
-				App.Logger.WriteLine(LOG_IDENT, $"Best server is about {winner.EstimatedPingMs}ms but a datacenter near you should reach about {EstimatePingMs(nearestDcKm)}ms, handing off to Roblox matchmaking so it can start a fresh nearby server");
-				return null;
-			}
+			App.Logger.WriteLine(LOG_IDENT, $"Every server found is far away, the best is about {winner.EstimatedPingMs}ms, handing off to Roblox matchmaking so it can try a fresh nearby server");
+			return null;
 		}
 		return winner;
+	}
+
+	internal static bool ShouldHandOff(double winnerPingMs, double floorMs, bool winnerIsPreferred)
+	{
+		if (winnerIsPreferred)
+			return false;
+		return winnerPingMs > HandoffPingMs && winnerPingMs > floorMs * HandoffFloorMultiplier;
 	}
 
 	private static bool HasSafeJoinHeadroom(MatchmakerCandidate candidate)
@@ -743,7 +750,7 @@ public static class VoidstrapMatchmaker
 				Interlocked.Increment(ref resultCount);
 
 				bool usable = !blocked.Contains(DatacenterKey(dc));
-				bool onTarget = preferred.Length > 0 ? MatchesPreferredDc(dc, preferred) : EstimateRttMs(km) <= floorMs + GoodEnoughMarginMs;
+				bool onTarget = preferred.Length > 0 ? MatchesPreferredDc(dc, preferred) : EstimateRttMs(km) <= floorMs + ClosestDatacenterBandMs;
 				bool populated = preferEmpty || sv.Playing >= 4 || sv.MaxPlayers > 0 && sv.Playing >= Math.Ceiling(sv.MaxPlayers * 0.15);
 				int requiredMatches = preferred.Length > 0 ? 3 : EarlyExitClosestMatches;
 				if (usable && onTarget && populated && Interlocked.Increment(ref goodEnough) >= requiredMatches && Volatile.Read(ref resultCount) >= EarlyExitMinResults)
@@ -914,6 +921,26 @@ public static class VoidstrapMatchmaker
 		}
 	}
 
+	private static long _lastProbeFailureLogTicks;
+
+	private static void LogProbeFailure(HttpStatusCode status)
+	{
+		long now = DateTime.UtcNow.Ticks;
+		long last = Interlocked.Read(ref _lastProbeFailureLogTicks);
+		if (now - last < TimeSpan.TicksPerSecond * 5)
+			return;
+		if (Interlocked.CompareExchange(ref _lastProbeFailureLogTicks, now, last) != last)
+			return;
+		string hint = status switch
+		{
+			HttpStatusCode.Unauthorized => "your Roblox sign in is missing or expired, sign in again through Settings",
+			HttpStatusCode.Forbidden => "Roblox rejected the request token",
+			HttpStatusCode.TooManyRequests => "Roblox is rate limiting the probes",
+			_ => "Roblox refused the probe"
+		};
+		App.Logger.WriteLine(LOG_IDENT, "Server probe returned HTTP " + (int)status + ", " + hint);
+	}
+
 	private static async Task<ResolveAttempt> AttemptResolveAsync(bool useV2, long placeId, string jobId, string cookie, CancellationToken token)
 	{
 		for (int attempt = 0; attempt < 2; attempt++)
@@ -938,6 +965,7 @@ public static class VoidstrapMatchmaker
 				}
 				if (!res.IsSuccessStatusCode)
 				{
+					LogProbeFailure(res.StatusCode);
 					bool alternate = res.StatusCode is HttpStatusCode.BadRequest or HttpStatusCode.NotFound or HttpStatusCode.MethodNotAllowed
 						or HttpStatusCode.RequestTimeout or HttpStatusCode.InternalServerError or HttpStatusCode.BadGateway
 						or HttpStatusCode.ServiceUnavailable or HttpStatusCode.GatewayTimeout;

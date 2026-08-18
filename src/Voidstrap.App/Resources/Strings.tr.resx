@@ -1225,9 +1225,6 @@ Etkinken, kapatana kadar bir döngü içerisinde Ayarları kapattıktan sonra ot
 
 Test modu açmak ister misiniz?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Voidstrap'ın tüm çevirileri [Crowdin]({0}) üzerinden kitle kaynaklıdır. Burada listelenen herkes cömertce Voidstrap'ı yerelleştirmek için zamanlarını ve çabalarını harcayan kişilerdir. Buradaki herkese çok teşekkürler!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Yükle</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

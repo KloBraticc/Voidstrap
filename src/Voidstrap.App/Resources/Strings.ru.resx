@@ -1226,9 +1226,6 @@ Voidstrap был установлен по адресу "{1}".</value>
 
 Хотите включить тестовый режим?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Все переводы Voidstrap выполнены с помощью краудсорсинга [Crowdin]({0}). Все, кто здесь перечислены, - это люди, которые щедро пожертвовали своим временем и усилиями, чтобы помочь локализовать Voidstrap. Огромное спасибо всем присутствующим!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Установить</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

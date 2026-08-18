@@ -1229,9 +1229,6 @@ Quando è attiva, avvierà automaticamente Roblox dopo aver chiuso le Impostazio
 
 Vuoi abilitare la modalità di prova?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Tutte le traduzioni di Voidstrap provengono dalla community attraverso [Crowdin]({0}). Tutte le persone elencate qui hanno volontariamente dedicato il loro tempo e impegno ad aiutare a tradurre Voidstrap. Un grande grazie a tutti!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Installa</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

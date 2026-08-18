@@ -198,7 +198,17 @@ public static class LaunchHandler
 					App.Terminate(ErrorCode.ERROR_INSTALL_FAILURE);
 					return;
 				}
-				installer.DoInstall();
+				try
+				{
+					installer.DoInstall();
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteException("LaunchHandler::LaunchInstaller", ex);
+					Frontend.ShowMessageBox(ex.Message, MessageBoxImage.Hand);
+					App.Terminate(ErrorCode.ERROR_INSTALL_FAILURE);
+					return;
+				}
 				interProcessLock.Dispose();
 				ProcessLaunchArgs();
 			}

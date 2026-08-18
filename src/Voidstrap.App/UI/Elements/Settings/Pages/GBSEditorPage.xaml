@@ -70,7 +70,7 @@
         <StackPanel Margin="10">
           <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Graphics and Rendering" />
           <controls:OptionControl Header="Framerate Cap" Description="Limit maximum FPS.">
-            <ui:TextBox Width="100" Text="{Binding FramerateCap, Mode=TwoWay}" />
+            <ui:TextBox Width="100" MaxLength="5" PreviewTextInput="ValidateUInt32" Text="{Binding FramerateCap, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Header="Graphics Quality" Description="Set manual or automatic graphics level (1–10).">
             <ComboBox SelectedValuePath="Tag" Width="200" SelectedValue="{Binding GraphicsQuality, Mode=TwoWay}">
@@ -171,7 +171,7 @@
         <StackPanel Margin="10">
           <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Input and Controls" />
           <controls:OptionControl Header="Mouse Sensitivity" Description="Adjust mouse sensitivity.">
-            <ui:TextBox Width="100" Text="{Binding MouseSensitivity, Mode=TwoWay}" />
+            <ui:TextBox Width="100" MaxLength="6" PreviewTextInput="ValidateFloat" Text="{Binding MouseSensitivity, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Header="Invert Y-Axis" Description="Reverse camera Y direction.">
             <ui:ToggleSwitch IsChecked="{Binding CameraYInverted, Mode=TwoWay}" />

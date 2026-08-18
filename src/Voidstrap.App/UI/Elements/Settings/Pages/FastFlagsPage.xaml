@@ -291,6 +291,9 @@
 		  <controls:OptionControl Header="Apply Your Username Ingame" Description="Applies your spoofed username inside Roblox">
 			<ui:ToggleSwitch IsChecked="{Binding SpoofSelfApplyIngame, Mode=TwoWay}" />
 		  </controls:OptionControl>
+		  <controls:OptionControl Header="Robux adjuster" Description="{Binding RobuxSpoofSummary}">
+			<TextBox Width="200" Padding="10,5,10,5" Text="{Binding RobuxSpoofAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+		  </controls:OptionControl>
 		  <controls:OptionControl Header="Verify Your Account" Description="Shows your account as verified on this client">
 			<ui:ToggleSwitch IsChecked="{Binding SpoofSelfVerified, Mode=TwoWay}" />
 		  </controls:OptionControl>

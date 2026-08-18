@@ -1227,9 +1227,6 @@ Voidstrap е инсталиран на „{1}“.</value>
 
 Искате ли да активирате тестовия режим?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Всички преводи на Voidstrap са събрани от общността чрез [Crowdin]({0}). Всички, изброени тук, са хора, които щедро са отделили времето и усилията си, за да помогнат за локализирането на Voidstrap. Огромно благодаря на всички тук!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Инсталирай</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

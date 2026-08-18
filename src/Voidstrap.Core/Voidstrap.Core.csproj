@@ -12,8 +12,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Content Include="ExtensionManifests\*.json" CopyToOutputDirectory="PreserveNewest" />
-		<Content Include="..\Voidstrap.App\Models\Persistable\AppSettings.cs" Link="Catalog\AppSettings.cs" CopyToOutputDirectory="PreserveNewest" />
-		<Content Include="..\Voidstrap.App\UI\Elements\Settings\SearchCatalog.cs" Link="Catalog\SearchCatalog.cs" CopyToOutputDirectory="PreserveNewest" />
-		<Content Include="..\Voidstrap.App\UI\Elements\Settings\Pages\*.xaml" Link="Catalog\Pages\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+		<Content Include="..\Voidstrap.App\Models\Persistable\AppSettings.cs" Link="Catalog\AppSettings.cs" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+		<Content Include="..\Voidstrap.App\UI\Elements\Settings\SearchCatalog.cs" Link="Catalog\SearchCatalog.cs" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+		<Content Include="..\Voidstrap.App\UI\Elements\Settings\Pages\*.xaml" Link="Catalog\Pages\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" Visible="false" />
 	</ItemGroup>
 </Project>

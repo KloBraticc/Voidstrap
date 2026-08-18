@@ -17,6 +17,15 @@ public partial class BehaviourPage : UiPage{
 	{
 		base.DataContext = new BehaviourViewModel();
 		InitializeComponent();
+		base.Loaded += OnPageLoaded;
+	}
+
+	private void OnPageLoaded(object sender, RoutedEventArgs e)
+	{
+		if (base.DataContext is BehaviourViewModel behaviourViewModel)
+		{
+			behaviourViewModel.RefreshExcludedGames();
+		}
 	}
 
 	private void ResetDatacenters_Click(object sender, RoutedEventArgs e)

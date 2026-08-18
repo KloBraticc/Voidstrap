@@ -30,6 +30,11 @@ public static class LaunchInterceptor
 				App.Logger.WriteLine("LaunchInterceptor", "No placeId in launch args; skipping rewrite.");
 				return null;
 			}
+			if (ServerMatchmaker.IsExcluded(placeId))
+			{
+				App.Logger.WriteLine("LaunchInterceptor", $"Place {placeId} is excluded from the matchmaker, skipping rewrite");
+				return null;
+			}
 			if (!App.Settings.Prop.VoidstrapMatchmakerEnabled && !ServerMatchmaker.HasPerGamePreference(placeId))
 			{
 				App.Logger.WriteLine("LaunchInterceptor", "Matchmaker is disabled and this game has no datacenter preference, skipping rewrite");

@@ -83,10 +83,9 @@ namespace Voidstrap.Integrations.RiShade
 
             var border = new System.Windows.Controls.Border
             {
-                Background = BuildThemeBackground(),
+                Background = Brushes.Transparent,
                 BorderBrush = new SolidColorBrush(Color.FromArgb(64, 255, 255, 255)),
                 BorderThickness = new Thickness(1),
-                CornerRadius = new CornerRadius(4),
                 Child = root,
             };
 
@@ -98,8 +97,8 @@ namespace Voidstrap.Integrations.RiShade
                 Height = Math.Clamp(s.PanelH, 300, 1200),
                 WindowStyle = WindowStyle.None,
                 ResizeMode = ResizeMode.CanResizeWithGrip,
-                AllowsTransparency = true,
-                Background = Brushes.Transparent,
+                AllowsTransparency = false,
+                Background = BuildThemeBackground(),
                 Topmost = true,
                 ShowInTaskbar = false,
                 ShowActivated = true,
@@ -205,9 +204,9 @@ namespace Voidstrap.Integrations.RiShade
                         StartPoint = new Point(1.0, 1.0),
                         EndPoint = new Point(0.0, 0.0),
                     };
-                    primary.A = 245;
-                    secondary.A = 245;
-                    third.A = 245;
+                    primary.A = 255;
+                    secondary.A = 255;
+                    third.A = 255;
                     brush.GradientStops.Add(new GradientStop(primary, 0.0));
                     brush.GradientStops.Add(new GradientStop(secondary, 0.8));
                     brush.GradientStops.Add(new GradientStop(third, 1.1));
@@ -218,7 +217,7 @@ namespace Voidstrap.Integrations.RiShade
             catch
             {
             }
-            return new SolidColorBrush(Color.FromArgb(242, 22, 24, 29));
+            return new SolidColorBrush(Color.FromRgb(22, 24, 29));
         }
 
         private static void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -236,12 +235,31 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
+        [System.Runtime.InteropServices.DllImport("dwmapi.dll")]
+        private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int value, int size);
+
+        private static void ApplyRoundedCorners(IntPtr handle)
+        {
+            if (handle == IntPtr.Zero || !Voidstrap.Utility.Platform.IsWindows)
+                return;
+            try
+            {
+                int rounded = 2;
+                _ = DwmSetWindowAttribute(handle, 33, ref rounded, sizeof(int));
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine("RiShadePanel::ApplyRoundedCorners", "Rounded corners are unavailable: " + ex.Message);
+            }
+        }
+
         private static void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (sender is Window w)
             {
                 IntPtr h = new WindowInteropHelper(w).Handle;
                 RiShadeInterop.SetWindowDisplayAffinity(h, RiShadeInterop.WDA_EXCLUDEFROMCAPTURE);
+                ApplyRoundedCorners(h);
                 Interlocked.Exchange(ref _hwnd, h);
             }
         }

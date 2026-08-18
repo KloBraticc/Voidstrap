@@ -88,12 +88,10 @@ internal partial class Installer
 			{
 				App.Logger.WriteLine("Installer::DoInstall", "Could not overwrite executable");
 				App.Logger.WriteException("Installer::DoInstall", ex);
-				Frontend.ShowMessageBox(Strings.Installer_Install_CannotOverwrite, MessageBoxImage.Hand);
-				App.Terminate(ErrorCode.ERROR_INSTALL_FAILURE);
-				return;
+				throw new IOException(Strings.Installer_Install_CannotOverwrite, ex);
 			}
 		}
-		Voidstrap.Utility.InstallRecord.Write(Paths.Base);
+		TrySafe("install record", () => Voidstrap.Utility.InstallRecord.Write(Paths.Base));
 		if (Voidstrap.Utility.Platform.SupportsRegistry)
 		{
 			TrySafe("uninstall registry entry", delegate
@@ -116,10 +114,10 @@ internal partial class Installer
 				registryKey.SetValueSafe("URLInfoAbout", Voidstrap.Utility.GitHubCache.PreferredRepository + "/issues/new");
 				registryKey.SetValueSafe("URLUpdateInfo", Voidstrap.Utility.GitHubCache.PreferredRepository + "/releases");
 			});
-			WindowsRegistry.RegisterApis();
-			WindowsRegistry.RegisterPlayer();
-			WindowsRegistry.RegisterStudioProtocol(Paths.Application, "-studio \"%1\"");
-			WindowsRegistry.RegisterVoidstrap();
+			TrySafe("api registration", WindowsRegistry.RegisterApis);
+			TrySafe("player registration", WindowsRegistry.RegisterPlayer);
+			TrySafe("studio protocol registration", () => WindowsRegistry.RegisterStudioProtocol(Paths.Application, "-studio \"%1\""));
+			TrySafe("theme protocol registration", WindowsRegistry.RegisterVoidstrap);
 		}
 		if (Voidstrap.Utility.Platform.IsWindows)
 		{
@@ -144,7 +142,7 @@ internal partial class Installer
 		App.Settings.Prop.EnableAnalytics = EnableAnalytics;
 		if (App.IsStudioVisible)
 		{
-			WindowsRegistry.RegisterStudio();
+			TrySafe("studio registration", WindowsRegistry.RegisterStudio);
 		}
 		App.Settings.Save();
 		ApplyPendingAuth();
@@ -916,42 +914,7 @@ internal partial class Installer
 		{
 			if (Utilities.CompareVersions(productVersion, "1.0.3.6") == VersionComparison.LessThan)
 			{
-				if (flag)
-				{
-					if (App.LaunchSettings.Args.Length == 0)
-					{
-						App.LaunchSettings.RobloxLaunchMode = LaunchMode.Player;
-					}
-					string text = App.LaunchSettings.Args.FirstOrDefault(x => x.Contains("roblox"));
-					if (text != null)
-					{
-						App.LaunchSettings.RobloxLaunchMode = LaunchMode.Player;
-						App.LaunchSettings.RobloxLaunchArgs = text;
-					}
-				}
-				string text2 = Path.Combine(Paths.Desktop, "Play Roblox.lnk");
-				string path4 = Path.Combine(Paths.WindowsStartMenu, "Voidstrap");
-				if (File.Exists(text2))
-				{
-					File.Move(text2, DesktopShortcut, overwrite: true);
-				}
-				if (Directory.Exists(path4))
-				{
-					try
-					{
-						Directory.Delete(path4, recursive: true);
-					}
-					catch (Exception ex4)
-					{
-						App.Logger.WriteException("Installer::HandleUpgrade", ex4);
-					}
-					Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut);
-				}
-				Registry.CurrentUser.DeleteSubKeyTree("Software\\Voidstrap", throwOnMissingSubKey: false);
-				WindowsRegistry.RegisterPlayer();
-			WindowsRegistry.RegisterVoidstrap();
-				App.FastFlags.SetValue("FFlagDisableNewIGMinDUA", null);
-				App.FastFlags.SetValue("FFlagFixGraphicsQuality", null);
+				TrySafe("legacy install migration", () => MigrateLegacyInstall(flag));
 			}
 			App.Settings.Save();
 			App.FastFlags.Save();
@@ -962,6 +925,63 @@ internal partial class Installer
 		{
 			Frontend.ShowMessageBox(string.Format(Strings.InstallChecker_Updated, productVersion2), MessageBoxImage.Asterisk);
 		}
+	}
+
+	private static void MigrateLegacyInstall(bool upgradeLaunch)
+	{
+		if (upgradeLaunch)
+		{
+			if (App.LaunchSettings.Args.Length == 0)
+			{
+				App.LaunchSettings.RobloxLaunchMode = LaunchMode.Player;
+			}
+			string? launchArgument = App.LaunchSettings.Args.FirstOrDefault(x => x.Contains("roblox"));
+			if (launchArgument != null)
+			{
+				App.LaunchSettings.RobloxLaunchMode = LaunchMode.Player;
+				App.LaunchSettings.RobloxLaunchArgs = launchArgument;
+			}
+		}
+
+		TrySafe("legacy desktop shortcut", delegate
+		{
+			string legacyShortcut = Path.Combine(Paths.Desktop, "Play Roblox.lnk");
+			if (File.Exists(legacyShortcut))
+			{
+				File.Move(legacyShortcut, DesktopShortcut, overwrite: true);
+			}
+		});
+
+		TrySafe("legacy start menu folder", delegate
+		{
+			string legacyFolder = Path.Combine(Paths.WindowsStartMenu, "Voidstrap");
+			if (!Directory.Exists(legacyFolder))
+			{
+				return;
+			}
+			try
+			{
+				Directory.Delete(legacyFolder, recursive: true);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteException("Installer::MigrateLegacyInstall", ex);
+			}
+			Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut);
+		});
+
+		if (Voidstrap.Utility.Platform.SupportsRegistry)
+		{
+			TrySafe("legacy registry cleanup", delegate
+			{
+				Registry.CurrentUser.DeleteSubKeyTree("Software\\Voidstrap", throwOnMissingSubKey: false);
+			});
+		}
+
+		TrySafe("player registration", WindowsRegistry.RegisterPlayer);
+		TrySafe("theme protocol registration", WindowsRegistry.RegisterVoidstrap);
+		App.FastFlags.SetValue("FFlagDisableNewIGMinDUA", null);
+		App.FastFlags.SetValue("FFlagFixGraphicsQuality", null);
 	}
 
 	private static void ReplaceInstalledExecutable()

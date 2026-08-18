@@ -13,7 +13,7 @@ namespace Voidstrap.Integrations.Overlays
             "Roblox", "GlobalBasicSettings_13.xml");
 
         private static readonly Regex CapRegex = new Regex(
-            "<int name=\"FramerateCap\">\\s*(\\d+)\\s*</int>",
+            "<int name=\"FramerateCap\">\\s*(-?\\d+)\\s*</int>",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private static int _cap;

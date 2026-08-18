@@ -403,11 +403,12 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 	{
 		get
 		{
-			return RobloxSettings.IsUncapped();
+			return App.GlobalSettings.GetInt("FramerateCap", 0) > 240;
 		}
 		set
 		{
-			RobloxSettings.SetUncapped(value);
+			if (App.GlobalSettings.SetProperty("FramerateCap", value ? 9999 : 240))
+				App.GlobalSettings.Save();
 		}
 	}
 

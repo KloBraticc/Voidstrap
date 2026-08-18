@@ -1226,9 +1226,6 @@
 
 هل ترغب في تمكين وضع الاختبار؟</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>جميع ترجمات Voidstrap مزدحمة من خلال [Crowdin]({0}). كل الأشخاص المذكورين هنا هم المتطوعين الذين تطوعوا بذلوا جهدهم ووقتهم للمساعدة في توطين Voidstrap. شكراً جزيلاً للجميع هنا!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>تثبيت</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

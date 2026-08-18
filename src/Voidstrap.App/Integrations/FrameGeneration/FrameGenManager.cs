@@ -51,13 +51,12 @@ namespace Voidstrap.Integrations.FrameGeneration
 
         private static void ApplyTargetCap(int fps)
         {
-            RobloxSettings.SetCap(fps);
             App.FastFlags.SetPreset("Rendering.Framerate", fps >= 5 && fps < 1000 ? fps : null);
             App.FastFlags.SaveDeferred();
             RobloxFpsCap.ReloadNow();
         }
 
-        private static int NormalizeTargetCap(int fps) => fps >= 5 && fps <= 15 ? 15 : fps > 15 && fps < 1000 ? fps : 0;
+        private static int NormalizeTargetCap(int fps) => fps >= 5 && fps <= 15 ? 15 : fps > 15 && fps <= 10000 ? fps : 0;
 
 		private static void PreparePipeline()
 		{

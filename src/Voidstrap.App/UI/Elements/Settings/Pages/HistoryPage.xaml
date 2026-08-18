@@ -101,7 +101,8 @@
                     <ui:Button Grid.Column="0" Icon="Play24" IconForeground="#FFFFFFFF" Foreground="#FFFFFFFF" Appearance="Primary" ToolTip="Play" HorizontalAlignment="Stretch" Command="{Binding DataContext.LaunchCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
                     <ui:Button Grid.Column="2" Icon="Copy24" Appearance="Secondary" ToolTip="Copy game link" Command="{Binding DataContext.CopyLinkCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
                   </Grid>
-                  <ComboBox Margin="12,8,12,12" Padding="8,4,8,4" FontSize="12" ToolTip="Preferred server for rejoining this game" DisplayMemberPath="Display" ItemsSource="{Binding DatacenterOptions}" SelectedItem="{Binding SelectedDatacenter, Mode=TwoWay}" />
+                  <ComboBox Margin="12,8,12,0" Padding="8,4,8,4" FontSize="12" ToolTip="Preferred server for rejoining this game" DisplayMemberPath="Display" IsEnabled="{Binding MatchmakerEnabledForGame}" ItemsSource="{Binding DatacenterOptions}" SelectedItem="{Binding SelectedDatacenter, Mode=TwoWay}" />
+                  <ui:Button Margin="12,8,12,12" HorizontalAlignment="Stretch" FontSize="12" Icon="{Binding SkipMatchmakerIcon}" Content="{Binding SkipMatchmakerLabel}" ToolTip="{Binding SkipMatchmakerTooltip}" Command="{Binding ToggleSkipMatchmakerCommand}" />
                 </StackPanel>
               </ui:Card>
             </DataTemplate>

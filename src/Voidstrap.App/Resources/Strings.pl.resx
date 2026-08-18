@@ -1227,9 +1227,6 @@ Podczas gdy jest to włączone, automatycznie uruchomi Roblox po zamknięciu ust
 
 Czy chcesz włączyć tryb testowania?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Wszystkie tłumaczenia Voidstrap są tworzone wspólnie przez społeczność za pośrednictwem platformy [Crowdin]({0}). Wszyscy wymienieni tutaj hojnie wykorzystali swój czas i wysiłek, aby pomóc zlokalizować Voidstrap. Wręczamy najserdeczniejsze podziękowania!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Zainstaluj</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

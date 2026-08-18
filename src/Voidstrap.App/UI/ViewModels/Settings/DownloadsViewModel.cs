@@ -39,7 +39,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             public string Subtitle { get; }
             public ImageSource IconImage { get; }
             public bool ShowFleasionAddon { get; }
-            public bool HasAddons => ShowFleasionAddon;
+            public bool ShowStudioAddons => _launchMode == LaunchMode.Studio;
+            public bool HasAddons => ShowFleasionAddon || ShowStudioAddons;
             public bool ShowFleasion => ShowFleasionAddon;
             public bool ShowCommunityContent => false;
 
@@ -371,7 +372,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 try
                 {
                     string exeName = _appData.ExecutableName;
-                    await Task.Run(() => MoveBinaryInstalls(source, target, exeName)).ConfigureAwait(true);
+                    await Task.Run(() => MoveBinaryInstalls(source, target, exeName, _binaryType)).ConfigureAwait(true);
                     if (_binaryType == "WindowsPlayer")
                         App.Settings.Prop.PlayerInstallLocation = target;
                     else
@@ -394,7 +395,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 }
             }
 
-            private static void MoveBinaryInstalls(string sourceRoot, string targetRoot, string exeName)
+            private static void MoveBinaryInstalls(string sourceRoot, string targetRoot, string exeName, string binaryType)
             {
                 Directory.CreateDirectory(targetRoot);
                 if (!Directory.Exists(sourceRoot))
@@ -405,6 +406,9 @@ namespace Voidstrap.UI.ViewModels.Settings
                         continue;
                     MoveDirectory(dir, Path.Combine(targetRoot, Path.GetFileName(dir)));
                 }
+                string staticDir = Path.Combine(sourceRoot, binaryType);
+                if (Directory.Exists(staticDir) && File.Exists(Path.Combine(staticDir, exeName)))
+                    MoveDirectory(staticDir, Path.Combine(targetRoot, binaryType));
             }
 
             private string ScanForExistingInstall()

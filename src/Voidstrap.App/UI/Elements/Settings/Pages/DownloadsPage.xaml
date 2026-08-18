@@ -372,7 +372,7 @@
                             Background="{DynamicResource ControlFillColorSecondaryBrush}"
                             BorderThickness="1"
                             BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                            Click="FleasionAddon_Click"
+                            Click="Addon_Click"
                             ToolTip="Open Fleasion in the Extensions page"
                             Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel Orientation="Horizontal">
@@ -393,7 +393,7 @@
                             Background="{DynamicResource ControlFillColorSecondaryBrush}"
                             BorderThickness="1"
                             BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                            Click="CommunityContentAddon_Click"
+                            Click="Addon_Click"
                             ToolTip="Community hats, faces and gear for classic clients"
                             Visibility="{Binding ShowCommunityContent, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel Orientation="Horizontal">
@@ -414,13 +414,54 @@
                             Background="{DynamicResource ControlFillColorSecondaryBrush}"
                             BorderThickness="1"
                             BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                            Click="RiShadeAddon_Click"
+                            Click="Addon_Click"
                             ToolTip="Open RiShade in the Extensions page"
-                            Visibility="{Binding HasAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel Orientation="Horizontal">
                             <Image Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,8,0" util:DynamicRenderSystem.LazyImageSource="https://raw.githubusercontent.com/KloBraticc/RiShade/main/Images/RiShde.png" />
                             <StackPanel VerticalAlignment="Center">
                                 <TextBlock Text="RiShade" FontSize="13" FontWeight="SemiBold" />
+                                <TextBlock Text="Open in Extensions" FontSize="10" Opacity="0.55" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="RojoAddonButton"
+                            HorizontalAlignment="Left"
+                            HorizontalContentAlignment="Left"
+                            Padding="10,6"
+                            Cursor="Hand"
+                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                            BorderThickness="1"
+                            BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                            Click="Addon_Click"
+                            ToolTip="Syncs code files from your computer into Roblox Studio live"
+                            Visibility="{Binding ShowStudioAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,8,0" util:DynamicRenderSystem.LazyImageSource="https://github.com/rojo-rbx.png" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="Rojo" FontSize="13" FontWeight="SemiBold" />
+                                <TextBlock Text="Open in Extensions" FontSize="10" Opacity="0.55" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="StudioPluginAddonButton"
+                            HorizontalAlignment="Left"
+                            HorizontalContentAlignment="Left"
+                            Padding="10,6"
+                            Margin="0,6,0,0"
+                            Cursor="Hand"
+                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                            BorderThickness="1"
+                            BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                            Click="Addon_Click"
+                            ToolTip="A Voidstrap panel in Studio, shows what you are building on Discord"
+                            Visibility="{Binding ShowStudioAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,8,0" Source="pack://application:,,,/Voidstrap.png" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="Voidstrap Studio plugin" FontSize="13" FontWeight="SemiBold" />
                                 <TextBlock Text="Open in Extensions" FontSize="10" Opacity="0.55" />
                             </StackPanel>
                         </StackPanel>

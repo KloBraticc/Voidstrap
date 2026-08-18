@@ -147,11 +147,15 @@ public class Bootstrapper
 
     private const string ProcRobloxExe = "RobloxPlayerBeta.exe";
 
-    private const string SkyboxArchiveBaseUrl = "https://github.com/KloBraticc/SkyboxPackV2/archive/";
-
     private const string SkyboxCommitApiUrl = "https://api.github.com/repos/KloBraticc/SkyboxPackV2/commits/main";
 
-    private const string SkyboxVersionFile = "skybox.commit";
+    private const string SkyboxRawBaseUrl = "https://raw.githubusercontent.com/KloBraticc/SkyboxPackV2/";
+
+    private const string SkyboxPackCommitFile = ".commit";
+
+    private const long SkyboxMaxFaceBytes = 16777216L;
+
+    private const long SkyboxMinSegmentBytes = 524288L;
 
     private static readonly string[] SkyboxFileNames = ["sky512_bk.tex", "sky512_dn.tex", "sky512_ft.tex", "sky512_lf.tex", "sky512_rt.tex", "sky512_up.tex"];
 
@@ -1271,7 +1275,8 @@ public class Bootstrapper
 			throw new InvalidDataException("VersionGuid has an invalid format");
 		}
         _latestVersionGuid = clientVersion.VersionGuid;
-		_latestVersionDirectory = Path.GetFullPath(Path.Combine(AppData.VersionsRoot, _latestVersionGuid));
+		string installFolderName = App.Settings.Prop.StaticDirectory && !string.IsNullOrEmpty(AppData.BinaryType) ? AppData.BinaryType : _latestVersionGuid;
+		_latestVersionDirectory = Path.GetFullPath(Path.Combine(AppData.VersionsRoot, installFolderName));
 		string versionsRoot = Path.GetFullPath(AppData.VersionsRoot).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
 		if (!_latestVersionDirectory.StartsWith(versionsRoot, StringComparison.OrdinalIgnoreCase))
 		{
@@ -1575,6 +1580,11 @@ public class Bootstrapper
             return launchCommandLine;
         }
 		long placeId = LaunchInterceptor.ExtractPlaceId(launchCommandLine);
+		if (ServerMatchmaker.IsExcluded(placeId))
+		{
+			App.Logger.WriteLine("Bootstrapper::MaybeApplyVoidstrapMatchmakerAsync", $"Place {placeId} is excluded from the matchmaker, launching with the original URL.");
+			return launchCommandLine;
+		}
 		if (placeId == 0 || (!App.Settings.Prop.VoidstrapMatchmakerEnabled && !ServerMatchmaker.HasPerGamePreference(placeId)) || LaunchInterceptor.ContainsSpecificGameInstance(launchCommandLine))
 		{
 			return launchCommandLine;
@@ -1659,7 +1669,6 @@ public class Bootstrapper
         else
         {
             Voidstrap.Utility.EmulationBypassService.RestoreCompatLayers();
-            Voidstrap.Utility.EmulationBypassService.RemoveBypassEnvironment(processStartInfo);
         }
         return processStartInfo;
     }
@@ -1962,8 +1971,64 @@ public class Bootstrapper
         }
     }
 
+    private void LaunchFleasion(string logIdent)
+    {
+        if (App.Settings.Prop?.Fleasion != true)
+        {
+            return;
+        }
+
+        string executable = Path.Combine(Paths.Fleasion, "Fleasion.exe");
+        if (!File.Exists(executable))
+        {
+            App.Logger.WriteLine(logIdent, "Fleasion is switched on but it is not installed, skipping it");
+            return;
+        }
+
+        try
+        {
+            Process[] running = Process.GetProcessesByName("Fleasion");
+            try
+            {
+                if (running.Length > 0)
+                {
+                    App.Logger.WriteLine(logIdent, "Fleasion is already running, leaving it as it is");
+                    return;
+                }
+            }
+            finally
+            {
+                foreach (Process existing in running)
+                {
+                    existing.Dispose();
+                }
+            }
+
+            ProcessStartInfo startInfo = new()
+            {
+                FileName = executable,
+                WorkingDirectory = Paths.Fleasion,
+                UseShellExecute = true
+            };
+            using Process? process = Process.Start(startInfo);
+            if (process != null)
+            {
+                App.Logger.WriteLine(logIdent, $"Launched Fleasion (pid {process.Id})");
+            }
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(logIdent, "Failed to launch Fleasion: " + ex.Message);
+        }
+    }
+
     private async Task LaunchCustomIntegrations(string logIdent, bool preLaunch, CancellationToken ct)
     {
+        if (preLaunch)
+        {
+            LaunchFleasion(logIdent);
+        }
+
         IEnumerable<CustomIntegration> enumerable = App.Settings.Prop?.CustomIntegrations;
         foreach (CustomIntegration integration in (enumerable ?? []).Where(i => !i.SpecifyGame && i.PreLaunch == preLaunch))
         {
@@ -3577,7 +3642,7 @@ public class Bootstrapper
                     App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Skybox storage patch unavailable: " + patchException.Message);
                 }
                 if (!App.Settings.Prop.SkyboxName.Equals(SkyboxImageConverter.CustomPackName, StringComparison.OrdinalIgnoreCase))
-                    await EnsureSkyboxPackDownloadedAsync();
+                    await EnsureSkyboxPackDownloadedAsync(App.Settings.Prop.SkyboxName);
                 await ApplySkyboxAsync(App.Settings.Prop.SkyboxName, Paths.Mods);
                 App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Skybox applied: " + App.Settings.Prop.SkyboxName);
             }
@@ -3934,48 +3999,30 @@ public class Bootstrapper
         return sha;
     }
 
-    private static bool HasSkyboxPack()
-    {
-        try
-        {
-            return Directory.Exists(PackFolder) && Directory.EnumerateDirectories(PackFolder).Any(IsValidSkyboxPackDirectory);
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
     private static bool IsValidSkyboxPackDirectory(string directory)
     {
         return SkyboxImageConverter.IsValidPackDirectory(directory);
     }
 
-    private static string? GetLocalCommit()
+    public async Task EnsureSkyboxPackDownloadedAsync(string packName)
     {
-        string path = Path.Combine(PackFolder, SkyboxVersionFile);
-        try
+        if (string.IsNullOrWhiteSpace(packName) || packName.Length > 128 || packName == "." || packName == ".."
+            || packName.IndexOfAny([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar]) >= 0)
         {
-            FileInfo file = new(path);
-            if (!file.Exists || file.Length <= 0 || file.Length > 128)
-                return null;
-            string value = File.ReadAllText(path).Trim();
-            return value.Length == 40 && value.All(Uri.IsHexDigit) ? value : null;
+            throw new InvalidDataException("The selected skybox name is invalid.");
         }
-        catch
-        {
-            return null;
-        }
-    }
 
-    public async Task EnsureSkyboxPackDownloadedAsync()
-    {
         Directory.CreateDirectory(PackFolder);
-        string versionPath = Path.Combine(PackFolder, SkyboxVersionFile);
-        if (HasSkyboxPack() && File.Exists(versionPath) && DateTime.UtcNow - File.GetLastWriteTimeUtc(versionPath) < TimeSpan.FromHours(6))
-        {
+        string packRoot = Path.GetFullPath(PackFolder) + Path.DirectorySeparatorChar;
+        string packFolder = Path.GetFullPath(Path.Combine(PackFolder, packName));
+        if (!packFolder.StartsWith(packRoot, StringComparison.OrdinalIgnoreCase))
+            throw new InvalidDataException("The selected skybox name is invalid.");
+
+        string commitPath = Path.Combine(packFolder, SkyboxPackCommitFile);
+        bool present = IsValidSkyboxPackDirectory(packFolder);
+        if (present && File.Exists(commitPath) && DateTime.UtcNow - File.GetLastWriteTimeUtc(commitPath) < TimeSpan.FromHours(6))
             return;
-        }
+
         string latest;
         try
         {
@@ -3988,96 +4035,45 @@ public class Bootstrapper
         catch (Exception ex)
         {
             App.Logger.WriteLine("Bootstrapper::EnsureSkyboxPackDownloaded", "Commit check failed, keeping local pack: " + ex.Message);
-            if (GetLocalCommit() != null && HasSkyboxPack())
-            {
+            if (present)
                 return;
-            }
             throw;
         }
-        if (GetLocalCommit() == latest && HasSkyboxPack())
+
+        if (present && ReadPackCommit(commitPath) == latest)
         {
-            File.SetLastWriteTimeUtc(versionPath, DateTime.UtcNow);
+            TrySetCommitTimestamp(commitPath);
             return;
         }
-        SetStatus("Updating Skybox Pack...");
+
         string operationId = Guid.NewGuid().ToString("N");
-        string tempZip = Path.Combine(Path.GetTempPath(), "VoidstrapSkybox_" + operationId + ".zip");
-        string stagingFolder = PackFolder + ".new." + operationId;
-        string backupFolder = PackFolder + ".backup." + operationId;
+        string stagingFolder = packFolder + ".new." + operationId;
+        string backupFolder = packFolder + ".backup." + operationId;
         try
         {
-            string archiveUrl = SkyboxArchiveBaseUrl + latest + ".zip";
-            await DownloadFileWithProgressAsync(archiveUrl, tempZip, "Downloading Skybox", 536870912L, _cancelTokenSource.Token);
-            if (Dialog != null)
-            {
-                SetProgressStyle(ProgressBarStyle.Marquee);
-            }
-            SetStatus("Updating Skybox Pack...");
             if (Directory.Exists(stagingFolder))
-            {
                 Directory.Delete(stagingFolder, recursive: true);
-            }
             Directory.CreateDirectory(stagingFolder);
-            string stagingRoot = Path.GetFullPath(stagingFolder) + Path.DirectorySeparatorChar;
-            using ZipArchive zip = System.IO.Compression.ZipFile.OpenRead(tempZip);
-            int extractedEntries = 0;
-            long extractedBytes = 0;
-            long actualExtractedBytes = 0;
-            byte[] extractionBuffer = new byte[81920];
-            foreach (ZipArchiveEntry entry in zip.Entries)
-            {
-                _cancelTokenSource.Token.ThrowIfCancellationRequested();
-                if (string.IsNullOrEmpty(entry.Name))
-                    continue;
-                string[] source = entry.FullName.Split(['/', '\\'], StringSplitOptions.RemoveEmptyEntries);
-                if (source.Length != 3 || !SkyboxFileNames.Contains(entry.Name, StringComparer.OrdinalIgnoreCase))
-                    continue;
-                if (entry.Length <= 0 || entry.Length > 16777216)
-                    throw new InvalidDataException("Skybox archive contains an invalid file size.");
-                extractedEntries++;
-                extractedBytes += entry.Length;
-                if (extractedEntries > 4096 || extractedBytes > 536870912L)
-                    throw new InvalidDataException("Skybox archive exceeds the extraction limit.");
-                string path = Path.GetFullPath(Path.Combine(stagingFolder, Path.Combine([.. source.Skip(1)])));
-                if (!path.StartsWith(stagingRoot, StringComparison.OrdinalIgnoreCase))
-                {
-                    throw new InvalidDataException("Skybox archive contains an invalid path.");
-                }
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
-                using Stream es = entry.Open();
-                await using FileStream fs = new(path, FileMode.Create, FileAccess.Write, FileShare.None, 81920, useAsync: true);
-                long entryBytes = 0;
-                while (true)
-                {
-                    int read = await es.ReadAsync(extractionBuffer.AsMemory(), _cancelTokenSource.Token);
-                    if (read == 0)
-                        break;
-                    entryBytes += read;
-                    actualExtractedBytes += read;
-                    if (entryBytes > entry.Length || actualExtractedBytes > 536870912L)
-                        throw new InvalidDataException("Skybox archive exceeds the extraction limit.");
-                    await fs.WriteAsync(extractionBuffer.AsMemory(0, read), _cancelTokenSource.Token);
-                }
-                if (entryBytes != entry.Length)
-                    throw new InvalidDataException("Skybox archive contains an invalid file size.");
-            }
-            if (!Directory.EnumerateDirectories(stagingFolder).Any(IsValidSkyboxPackDirectory))
-            {
-                throw new InvalidDataException("Skybox archive did not contain a valid pack.");
-            }
-            File.WriteAllText(Path.Combine(stagingFolder, SkyboxVersionFile), latest);
-            if (Directory.Exists(PackFolder))
-                Directory.Move(PackFolder, backupFolder);
-            Directory.Move(stagingFolder, PackFolder);
+
+            await DownloadSkyboxPackFilesAsync(packName, latest, stagingFolder, _cancelTokenSource.Token);
+
+            if (!IsValidSkyboxPackDirectory(stagingFolder))
+                throw new InvalidDataException("The downloaded skybox pack is incomplete.");
+
+            File.WriteAllText(Path.Combine(stagingFolder, SkyboxPackCommitFile), latest);
+
+            if (Directory.Exists(packFolder))
+                Directory.Move(packFolder, backupFolder);
+            Directory.Move(stagingFolder, packFolder);
             TryDeleteDirectory(backupFolder);
         }
         catch
         {
-            if (!Directory.Exists(PackFolder) && Directory.Exists(backupFolder))
+            if (!Directory.Exists(packFolder) && Directory.Exists(backupFolder))
             {
                 try
                 {
-                    Directory.Move(backupFolder, PackFolder);
+                    Directory.Move(backupFolder, packFolder);
                 }
                 catch (Exception restoreException)
                 {
@@ -4088,16 +4084,140 @@ public class Bootstrapper
         }
         finally
         {
+            TryDeleteDirectory(stagingFolder);
+            if (Directory.Exists(packFolder))
+                TryDeleteDirectory(backupFolder);
+        }
+    }
+
+    private static string? ReadPackCommit(string commitPath)
+    {
+        try
+        {
+            if (!File.Exists(commitPath))
+                return null;
+            string value = File.ReadAllText(commitPath).Trim();
+            return IsSkyboxCommitSha(value) ? value : null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static bool IsSkyboxCommitSha(string value)
+    {
+        if (value.Length is < 7 or > 64)
+            return false;
+        foreach (char current in value)
+        {
+            if (!Uri.IsHexDigit(current))
+                return false;
+        }
+        return true;
+    }
+
+    private static void TrySetCommitTimestamp(string commitPath)
+    {
+        try
+        {
+            File.SetLastWriteTimeUtc(commitPath, DateTime.UtcNow);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Bootstrapper::EnsureSkyboxPackDownloaded", "Could not refresh the skybox timestamp: " + ex.Message);
+        }
+    }
+
+    private async Task DownloadSkyboxPackFilesAsync(string packName, string commitSha, string stagingFolder, CancellationToken ct)
+    {
+        if (!IsSkyboxCommitSha(commitSha))
+            throw new InvalidDataException("The skybox version is invalid");
+
+        string prefix = SkyboxRawBaseUrl + commitSha + "/" + Uri.EscapeDataString(packName) + "/";
+        string[] urls = [.. SkyboxFileNames.Select(name => prefix + Uri.EscapeDataString(name))];
+
+        long[] sizes = await Task.WhenAll(urls.Select(url => GetSkyboxFileSizeAsync(url, ct)));
+        long total = 0;
+        foreach (long size in sizes)
+        {
+            if (size > SkyboxMaxFaceBytes)
+                throw new InvalidDataException("The skybox download exceeds the size limit.");
+            if (size > 0)
+                total += size;
+        }
+
+        App.Logger.WriteLine("Bootstrapper::DownloadSkyboxPack", $"Downloading {urls.Length} skybox faces ({total:N0} bytes) from the raw CDN.");
+
+        int bufferSize = DownloadConfiguration.NormalizeBuffer(App.Settings.Prop.DownloadBufferKb) * 1024;
+        int maxSegments = DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments);
+        long downloaded = 0L;
+
+        using CancellationTokenSource progressCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+        Task progressTask = RunSingleFileProgressLoopAsync("Downloading Skybox", () => Interlocked.Read(in downloaded), total, progressCts.Token);
+        try
+        {
+            await Parallel.ForEachAsync(
+                Enumerable.Range(0, urls.Length),
+                new ParallelOptions { MaxDegreeOfParallelism = urls.Length, CancellationToken = ct },
+                async (index, token) =>
+                {
+                    string destination = Path.Combine(stagingFolder, SkyboxFileNames[index]);
+                    long size = sizes[index];
+
+                    if (size >= SkyboxMinSegmentBytes * 2L)
+                    {
+                        try
+                        {
+                            await DownloadFileSegmentedAsync(urls[index], destination, size, bufferSize, maxSegments, SkyboxMinSegmentBytes, Add, token);
+                            return;
+                        }
+                        catch (Exception ex) when (ex is not OperationCanceledException)
+                        {
+                            App.Logger.WriteLine("Bootstrapper::DownloadSkyboxPack", "Segmented face download failed (" + ex.Message + "), using a single stream.");
+                        }
+                    }
+
+                    using HttpResponseMessage response = await SkyboxHttpClient.GetAsync(urls[index], HttpCompletionOption.ResponseHeadersRead, token);
+                    response.EnsureSuccessStatusCode();
+                    await StreamResponseToFileAsync(response, destination, bufferSize, SkyboxMaxFaceBytes, Add, token);
+                });
+        }
+        finally
+        {
+            progressCts.Cancel();
             try
             {
-                File.Delete(tempZip);
+                await progressTask.ConfigureAwait(false);
             }
             catch
             {
             }
-            TryDeleteDirectory(stagingFolder);
-            if (Directory.Exists(PackFolder))
-                TryDeleteDirectory(backupFolder);
+        }
+
+        void Add(long n)
+        {
+            Interlocked.Add(ref downloaded, n);
+        }
+    }
+
+    private static async Task<long> GetSkyboxFileSizeAsync(string url, CancellationToken ct)
+    {
+        try
+        {
+            using HttpRequestMessage request = new(HttpMethod.Head, url);
+            using HttpResponseMessage response = await SkyboxHttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct);
+            if (!response.IsSuccessStatusCode)
+                return -1;
+            return response.Content.Headers.ContentLength ?? -1;
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch
+        {
+            return -1;
         }
     }
 
@@ -4110,69 +4230,6 @@ public class Bootstrapper
         }
         catch
         {
-        }
-    }
-
-    private async Task DownloadFileWithProgressAsync(string url, string destPath, string label, long maximumBytes, CancellationToken ct)
-    {
-		int bufferSize = DownloadConfiguration.NormalizeBuffer(App.Settings.Prop.DownloadBufferKb) * 1024;
-		int maxSegments = DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments);
-        long downloaded = 0L;
-        using HttpResponseMessage probe = await SkyboxHttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct);
-        probe.EnsureSuccessStatusCode();
-        long contentLength = probe.Content.Headers.ContentLength ?? (-1);
-        if (contentLength > maximumBytes)
-            throw new InvalidDataException("The skybox download exceeds the size limit.");
-        bool flag = contentLength >= 4194304 && (probe.Headers.AcceptRanges?.Contains("bytes") ?? false);
-        CancellationTokenSource pcts = CancellationTokenSource.CreateLinkedTokenSource(ct);
-        try
-        {
-            Task progressTask = RunSingleFileProgressLoopAsync(label, () => Interlocked.Read(in downloaded), contentLength, pcts.Token);
-            try
-            {
-                if (!flag)
-                {
-                    App.Logger.WriteLine("Bootstrapper::DownloadFileWithProgress", $"Single-stream download ({contentLength:N0} bytes, ranges unsupported).");
-                    await StreamResponseToFileAsync(probe, destPath, bufferSize, maximumBytes, Add, ct);
-                    return;
-                }
-                try
-                {
-                    App.Logger.WriteLine("Bootstrapper::DownloadFileWithProgress", $"Multi-segment download ({contentLength:N0} bytes).");
-                    probe.Dispose();
-                    await DownloadFileSegmentedAsync(url, destPath, contentLength, bufferSize, maxSegments, 2097152L, Add, ct);
-                }
-                catch (Exception ex) when (ex is not OperationCanceledException)
-                {
-                    App.Logger.WriteLine("Bootstrapper::DownloadFileWithProgress", "Segmented download failed (" + ex.Message + "); falling back to single stream.");
-                    Interlocked.Exchange(ref downloaded, 0L);
-                    using HttpResponseMessage fresh = await SkyboxHttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct);
-                    fresh.EnsureSuccessStatusCode();
-                    await StreamResponseToFileAsync(fresh, destPath, bufferSize, maximumBytes, Add, ct);
-                }
-            }
-            finally
-            {
-                pcts.Cancel();
-                try
-                {
-                    await progressTask.ConfigureAwait(continueOnCapturedContext: false);
-                }
-                catch
-                {
-                }
-            }
-        }
-        finally
-        {
-            if (pcts != null)
-            {
-                ((IDisposable)pcts).Dispose();
-            }
-        }
-        void Add(long n)
-        {
-            Interlocked.Add(ref downloaded, n);
         }
     }
 

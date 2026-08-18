@@ -25,19 +25,14 @@ public static class EmulationBypassService
 
 	private const string ImageOptionsKeyPath = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options";
 
-	private static readonly string[] EmulationLayers =
+	private static readonly string[] KeptLayers =
 	{
-		"256COLOR",
-		"640X480",
-		"8BITCOLOR",
-		"16BITCOLOR",
-		"DISABLEDWM",
-		"DISABLETHEMES",
-		"DPIUNAWARE",
-		"GDIDPISCALING"
+		"RUNASADMIN",
+		"RUNASINVOKER",
+		"RUNASHIGHEST",
+		"ELEVATECREATEPROCESS",
+		"DISABLEDXMAXIMIZEDWINDOWEDMODE"
 	};
-
-	private static readonly string[] EmulationLayerPrefixes = { "WIN", "VISTA", "NT4" };
 
 	private static readonly string[] ImageOptionValues =
 	{
@@ -73,43 +68,23 @@ public static class EmulationBypassService
 		if (startInfo == null)
 			return;
 
+		if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("__COMPAT_LAYER")))
+			return;
+
 		if (startInfo.UseShellExecute)
 		{
-			App.Logger.WriteLine("EmulationBypassService::ApplyBypassEnvironment", "Skipped the environment bypass because this launch needs ShellExecute, which cannot carry environment variables");
+			App.Logger.WriteLine("EmulationBypassService::ApplyBypassEnvironment", "Voidstrap inherited a compatibility layer but this launch needs ShellExecute, which cannot carry environment variables, so Roblox will inherit it too");
 			return;
 		}
 
 		try
 		{
 			startInfo.EnvironmentVariables.Remove("__COMPAT_LAYER");
-			startInfo.EnvironmentVariables["_NO_DEBUG_HEAP"] = "1";
-			App.Logger.WriteLine("EmulationBypassService::ApplyBypassEnvironment", "Cleared the inherited compatibility layer variable and disabled the NT debug heap for this launch");
+			App.Logger.WriteLine("EmulationBypassService::ApplyBypassEnvironment", "Cleared the compatibility layer variable Voidstrap inherited so Roblox does not inherit it");
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine("EmulationBypassService::ApplyBypassEnvironment", "Failed to apply environment bypass: " + ex.Message);
-		}
-	}
-
-	public static void RemoveBypassEnvironment(ProcessStartInfo startInfo)
-	{
-		if (startInfo == null)
-			return;
-
-		if (startInfo.UseShellExecute)
-			return;
-
-		try
-		{
-			startInfo.EnvironmentVariables.Remove("__COMPAT_LAYER");
-			startInfo.EnvironmentVariables.Remove("_NO_DEBUG_HEAP");
-			startInfo.EnvironmentVariables.Remove("DISABLE_LAYER");
-			startInfo.EnvironmentVariables.Remove("__COMPAT_LAYER_NO_APPHACKS");
-			startInfo.EnvironmentVariables.Remove("AMD_DISABLE_AGS_BUILD");
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("EmulationBypassService::RemoveBypassEnvironment", "Failed to remove environment bypass: " + ex.Message);
 		}
 	}
 
@@ -133,7 +108,7 @@ public static class EmulationBypassService
 
 			if (removed.Count == 0)
 			{
-				App.Logger.WriteLine("EmulationBypassService::ApplyCompatLayerBypass", "No Windows compatibility layers are attached to this Roblox build");
+				App.Logger.WriteLine("EmulationBypassService::ApplyCompatLayerBypass", "No Windows compatibility or emulation layers are attached to this Roblox build");
 			}
 			else
 			{
@@ -239,10 +214,10 @@ public static class EmulationBypassService
 
 		foreach (string token in value.Split(' ', StringSplitOptions.RemoveEmptyEntries))
 		{
-			if (IsEmulationLayer(token))
-				removed.Add(token);
-			else
+			if (IsKeptLayer(token))
 				kept.Add(token);
+			else
+				removed.Add(token);
 		}
 
 		if (removed.Count == 0)
@@ -257,20 +232,14 @@ public static class EmulationBypassService
 		return string.Empty;
 	}
 
-	private static bool IsEmulationLayer(string token)
+	private static bool IsKeptLayer(string token)
 	{
 		if (IsControlToken(token))
-			return false;
+			return true;
 
-		foreach (string layer in EmulationLayers)
+		foreach (string layer in KeptLayers)
 		{
 			if (token.Equals(layer, StringComparison.OrdinalIgnoreCase))
-				return true;
-		}
-
-		foreach (string prefix in EmulationLayerPrefixes)
-		{
-			if (token.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
 				return true;
 		}
 
@@ -283,7 +252,7 @@ public static class EmulationBypassService
 			return true;
 
 		char first = token[0];
-		return first == '~' || first == '$' || first == '^' || first == '#';
+		return first == '~' || first == '$' || first == '^' || first == '#' || first == '!';
 	}
 
 	private static void ReportMachineWideLayers(string executablePath)
@@ -368,7 +337,7 @@ public static class EmulationBypassService
 
 		if (TrySetThrottling(handle, ExecutionSpeed | IgnoreTimerResolution, out int error))
 		{
-			App.Logger.WriteLine("EmulationBypassService::ApplyProcessBypass", "Disabled power throttling for process " + process.Id);
+			App.Logger.WriteLine("EmulationBypassService::ApplyProcessBypass", "Disabled power throttling for process " + process.Id + " and told Windows to honour its timer resolution requests");
 			return;
 		}
 
@@ -414,57 +383,14 @@ public static class EmulationBypassService
 		};
 	}
 
-	public static void ApplyEfficiencyMode(Process process)
-	{
-		if (process == null || !Platform.IsWindows)
-			return;
-
-		IntPtr handle;
-		try
-		{
-			if (process.HasExited)
-				return;
-
-			handle = process.Handle;
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("EmulationBypassService::ApplyEfficiencyMode", "Could not open the process handle: " + ex.Message);
-			return;
-		}
-
-		if (handle == IntPtr.Zero)
-			return;
-
-		if (TrySetThrottling(handle, ExecutionSpeed, out int error, ExecutionSpeed))
-		{
-			App.Logger.WriteLine("EmulationBypassService::ApplyEfficiencyMode", "Enabled efficiency mode for process " + process.Id);
-		}
-		else
-		{
-			App.Logger.WriteLine("EmulationBypassService::ApplyEfficiencyMode", "Windows refused the efficiency mode change (error " + error + ")");
-			return;
-		}
-
-		try
-		{
-			process.PriorityClass = ProcessPriorityClass.Idle;
-			App.Logger.WriteLine("EmulationBypassService::ApplyEfficiencyMode", "Lowered priority for process " + process.Id);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("EmulationBypassService::ApplyEfficiencyMode", "Could not lower the process priority: " + ex.Message);
-		}
-	}
-
-	private static bool TrySetThrottling(IntPtr handle, uint controlMask, out int error, uint stateMask = 0)
+	private static bool TrySetThrottling(IntPtr handle, uint controlMask, out int error)
 	{
 		error = 0;
 		ProcessPowerThrottlingState state = new ProcessPowerThrottlingState
 		{
 			Version = PowerThrottlingCurrentVersion,
 			ControlMask = controlMask,
-			StateMask = stateMask
+			StateMask = 0
 		};
 
 		try
@@ -477,7 +403,7 @@ public static class EmulationBypassService
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine("EmulationBypassService::ApplyProcessBypass", "Could not change power throttling: " + ex.Message);
+			App.Logger.WriteLine("EmulationBypassService::TrySetThrottling", "Could not change power throttling: " + ex.Message);
 			return false;
 		}
 	}

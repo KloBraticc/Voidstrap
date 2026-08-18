@@ -678,7 +678,7 @@ public class Watcher : IDisposable
 	private static bool IsWindowManipulationEnabled()
 	{
 		var prop = App.Settings.Prop;
-		if (prop.FakeBorderlessFullscreen || prop.CycleTitleWithGameName)
+		if (prop.FakeBorderlessFullscreen || prop.CycleTitleWithGameName || prop.UseGameIconForRobloxWindow)
 		{
 			return true;
 		}

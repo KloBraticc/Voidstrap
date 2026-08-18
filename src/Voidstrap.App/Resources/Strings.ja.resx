@@ -1241,9 +1241,6 @@ Robloxが[正規のランチャー]({1})で動作するか確認してくださ�
 テストモードをオンにしますか？
 </value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Voidstrapにおけるすべての翻訳は[Crowdin]({0})を通じたクラウドソーシングによって行われています。ここに掲載されている皆様は、Voidstrapをローカライズするために多大なる時間と努力を費やした人々です。翻訳者の皆様、本当にありがとうございます！</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>インストール</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

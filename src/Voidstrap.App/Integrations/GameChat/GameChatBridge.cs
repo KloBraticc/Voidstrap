@@ -23,8 +23,7 @@ namespace Voidstrap.Integrations.GameChat
 
     public sealed class GameChatBridgeChallenge
     {
-        public string BotName = "";
-        public long BotId;
+        public string AuthUrl = "";
         public string SessionId = "";
         public int Ttl;
     }
@@ -409,7 +408,7 @@ namespace Voidstrap.Integrations.GameChat
                 if (!await GameChatBridgeConfig.IsEnabledAsync(token).ConfigureAwait(false))
                     return null;
 
-                using var request = new HttpRequestMessage(HttpMethod.Post, GameChatBridgeTransport.Api("/api/roblox/verify/challenge"));
+                using var request = new HttpRequestMessage(HttpMethod.Post, GameChatBridgeTransport.Api("/api/roblox/oauth/challenge"));
                 using GameChatBridgeResponse response = await GameChatBridgeTransport.SendAsync(request, token).ConfigureAwait(false);
 
                 JsonElement root = response.Root;
@@ -417,19 +416,17 @@ namespace Voidstrap.Integrations.GameChat
                     return null;
 
                 string sessionId = GameChatBridgeTransport.ReadString(root, "session_id", 128);
-                string botName = GameChatBridgeTransport.ReadString(root, "bot_name", 40);
-                long botId = GameChatBridgeTransport.ReadLong(root, "bot_id");
+                string authUrl = GameChatBridgeTransport.ReadString(root, "auth_url", 2048);
                 long ttl = GameChatBridgeTransport.ReadLong(root, "ttl");
 
-                if (sessionId.Length == 0 || botName.Length == 0 || botId <= 0)
+                if (sessionId.Length == 0 || !IsSafeAuthUrl(authUrl))
                     return null;
 
                 return new GameChatBridgeChallenge
                 {
                     SessionId = sessionId,
-                    BotName = botName,
-                    BotId = botId,
-                    Ttl = (int)Math.Clamp(ttl <= 0 ? 120 : ttl, 30, 600),
+                    AuthUrl = authUrl,
+                    Ttl = (int)Math.Clamp(ttl <= 0 ? 300 : ttl, 30, 900),
                 };
             }
             catch (OperationCanceledException)
@@ -451,7 +448,7 @@ namespace Voidstrap.Integrations.GameChat
             using var deadline = CancellationTokenSource.CreateLinkedTokenSource(token);
             deadline.CancelAfter(TimeSpan.FromSeconds(challenge.Ttl + 15));
 
-            string path = "/api/roblox/verify/status/" + Uri.EscapeDataString(challenge.SessionId);
+            string path = "/api/roblox/oauth/status/" + Uri.EscapeDataString(challenge.SessionId);
 
             while (!deadline.IsCancellationRequested)
             {
@@ -501,6 +498,33 @@ namespace Voidstrap.Integrations.GameChat
                 }
             }
 
+            return false;
+        }
+
+        private static readonly string[] AuthUrlHosts =
+        [
+            "roblox.com",
+            "www.roblox.com",
+            "apis.roblox.com",
+            "authorize.roblox.com",
+            GameChatBridgeTransport.Host,
+            "www." + GameChatBridgeTransport.Host
+        ];
+
+        public static bool IsSafeAuthUrl(string value)
+        {
+            if (value.Length == 0 || value.Length > 2048)
+                return false;
+            if (!Uri.TryCreate(value, UriKind.Absolute, out Uri? uri))
+                return false;
+            if (!string.Equals(uri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            foreach (string host in AuthUrlHosts)
+            {
+                if (string.Equals(uri.Host, host, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
             return false;
         }
 

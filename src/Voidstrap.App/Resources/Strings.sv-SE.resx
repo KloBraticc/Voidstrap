@@ -1228,9 +1228,6 @@ När testläge är aktiverat kommer Voidstrap automatiskt att starta Roblox efte
 
 Vill du aktivera testläge?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Alla Voidstraps översättningar är insamlade med crowdsourcing via [Crowdin]({0}). Alla listade här är människor som frivilligt lagt ner sin tid och ansträngning för att hjälpa till at lokalisera Voidstrap. Ett stort tack till alla här!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Installera</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

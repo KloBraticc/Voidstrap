@@ -1230,9 +1230,6 @@ Voidstrap 安裝在 "{1}"。</value>
 
 您想要啟用測試模式嗎？</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Voidstrap 的所有翻譯都是通過 [Crowdin]({0}) 群眾外包而來。這裡列出的每一個人都是慷慨地志願貢獻時間和精力來幫助本地化 Voidstrap 的人。對這裡的每一位，我們深表感謝！</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>安裝</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

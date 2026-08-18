@@ -1219,9 +1219,6 @@ Semasa mod ini diaktifkan, ia akan melancarkan Roblox secara automatik selepas m
 
 Adakah anda ingin mengaktifkan mod pengujian?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Semua terjemahan Voidstrap yang diperoleh adalah dengan kerjasama ramai melalui [Crowdin]({0}). Setiap individu yang disenaraikan di sini adalah mereka yang menyumbangkan masa dan juga usaha untuk membantu menjayakan penterjemahan Voidstrap. Jutaan terima kasih kepada mereka semua di sini!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Pasang</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

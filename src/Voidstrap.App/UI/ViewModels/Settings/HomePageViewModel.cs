@@ -132,6 +132,32 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public ObservableCollection<DatacenterOption> DatacenterOptions => _datacenterOptions;
 
+        public bool ExcludedFromMatchmaker => Voidstrap.Integrations.ServerMatchmaker.IsExcluded(PlaceId);
+
+        public bool MatchmakerEnabledForGame => !ExcludedFromMatchmaker;
+
+        public string SkipMatchmakerLabel => ExcludedFromMatchmaker ? "Matchmaker skipped" : "Skip matchmaker";
+
+        public Wpf.Ui.Common.SymbolRegular SkipMatchmakerIcon => ExcludedFromMatchmaker
+            ? Wpf.Ui.Common.SymbolRegular.CheckmarkCircle24
+            : Wpf.Ui.Common.SymbolRegular.ArrowRouting24;
+
+        public string SkipMatchmakerTooltip => ExcludedFromMatchmaker
+            ? "Voidstrap joins this game normally. Click to let it pick servers again."
+            : "For games that put you in their own server when you pick a map or a village. Click so Voidstrap joins normally and never moves you.";
+
+        public ICommand ToggleSkipMatchmakerCommand => new RelayCommand(ToggleSkipMatchmaker);
+
+        private void ToggleSkipMatchmaker()
+        {
+            Voidstrap.Integrations.ServerMatchmaker.SetExcluded(PlaceId, !ExcludedFromMatchmaker);
+            OnPropertyChanged(nameof(ExcludedFromMatchmaker));
+            OnPropertyChanged(nameof(MatchmakerEnabledForGame));
+            OnPropertyChanged(nameof(SkipMatchmakerLabel));
+            OnPropertyChanged(nameof(SkipMatchmakerIcon));
+            OnPropertyChanged(nameof(SkipMatchmakerTooltip));
+        }
+
         public DatacenterOption? SelectedDatacenter
         {
             get => _selectedDatacenter;

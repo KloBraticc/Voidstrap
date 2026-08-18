@@ -145,6 +145,9 @@
           <controls:OptionControl Header="Segments Per File" Description="Splits each package into parallel chunks for faster downloading">
 			<ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding DownloadSegmentOptions}" SelectedItem="{Binding MaxDownloadSegments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
+          <controls:OptionControl Header="Static directory" Description="Switch from version-xxx to BinaryType based install directories.">
+            <ui:ToggleSwitch IsChecked="{Binding StaticDirectory, Mode=TwoWay}" />
+          </controls:OptionControl>
                 </StackPanel>
       </TabItem>
 

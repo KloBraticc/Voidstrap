@@ -1,7 +1,7 @@
 <ui:UiPage x:Class="Voidstrap.UI.Elements.About.Pages.TranslatorsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="AboutPage" Scrollable="True" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.About.Pages">
   <StackPanel Margin="0,0,14,14">
     <TextBlock Text="{x:Static resources:Strings.About_Translators_Title}" FontWeight="Medium" FontSize="24" />
-    <controls:MarkdownTextBlock TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" MarkdownText="{Binding Source={x:Static resources:Strings.About_Translators_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://crowdin.com/project/Voidstrap}" />
+    <controls:MarkdownTextBlock TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" MarkdownText="{x:Static resources:Strings.About_Translators_Description}" />
     <Grid Margin="0,16,0,0">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />

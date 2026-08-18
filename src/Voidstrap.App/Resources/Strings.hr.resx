@@ -1226,9 +1226,6 @@ Kada uključen, automatski će pokrenuti Roblox nakon zatvaranja postavki, i pon
 
 Želite li uključiti testni mod?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Svi Voidstrapovi prijevodi su crowdsourcani preko [Crowdin-a]({0}). Svi navedeni ovdje su ljudi koji su velikodušno volontirali svoje vrijeme i trud kako bi pomogli lokalizirati Voidstrap. Veliko hvala svima ovdje!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Instaliraj</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

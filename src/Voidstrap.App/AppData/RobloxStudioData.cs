@@ -7,7 +7,7 @@ public class RobloxStudioData : CommonAppData, IAppData
 {
 	public string ProductName => "Roblox Studio";
 
-	public string BinaryType => "WindowsStudio64";
+	public override string BinaryType => "WindowsStudio64";
 
 	public string RegistryName => "RobloxStudio";
 

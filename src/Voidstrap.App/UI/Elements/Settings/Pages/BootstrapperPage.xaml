@@ -79,7 +79,7 @@
               <controls:OptionControl Header="Prioritize Roblox while focused" Description="Uses safe Above Normal scheduling while Roblox is in the foreground. A custom Roblox Priority choice takes precedence.">
                 <ui:ToggleSwitch IsChecked="{Binding OptimizeRoblox, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Bypass Windows emulation overhead" Description="Detaches the Windows compatibility engine from the Roblox executable, drops the inherited compatibility layer, disables the NT debug heap" Visibility="{Binding BypassEmulationOverheadVisibility, Mode=OneWay}">
+              <controls:OptionControl Header="Bypass Windows emulation overhead" Description="Strips compatibility and CPU emulation layers from the Roblox build, drops any compatibility layer Voidstrap inherited, and stops Windows from power throttling Roblox. Your elevation and fullscreen optimisation choices are kept, and everything is restored when you turn this off." Visibility="{Binding BypassEmulationOverheadVisibility, Mode=OneWay}">
                 <ui:ToggleSwitch IsChecked="{Binding BypassEmulationOverhead, Mode=TwoWay}" />
               </controls:OptionControl>
             </StackPanel>
@@ -162,6 +162,80 @@
           </ui:CardExpander>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                  <TextBlock FontSize="14" FontWeight="Medium" Text="Skipped games" />
+                  <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{Binding ExcludedGamesSummary}" />
+                </StackPanel>
+                <ui:Button Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" Content="Clear" Icon="ArrowReset24" Visibility="{Binding HasExcludedGames, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding ClearExcludedGamesCommand}" />
+              </Grid>
+            </HeaderedContentControl.Header>
+            <StackPanel>
+              <TextBlock Margin="0,0,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Add those here and Voidstrap joins normally and never moves you." />
+              <ui:TextBox Margin="0,0,0,8" Padding="10,5,10,5" PlaceholderText="Search for a game by name, or paste a place id" Text="{Binding GameSearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <TextBlock Margin="0,0,0,8" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding GameSearchStatus}" Visibility="{Binding HasGameSearchStatus, Converter={StaticResource BooleanToVisibilityConverter}}" />
+              <Border Margin="0,0,0,8" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4" MaxHeight="260" Visibility="{Binding HasGameSearchResults, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                  <ItemsControl ItemsSource="{Binding GameSearchResults}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <Grid Margin="8,6,8,6">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+                          <Border Grid.Column="0" Width="40" Height="40" Margin="0,0,10,0" CornerRadius="6" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                            <Image Source="{Binding IconUrl}" Width="40" Height="40" Visibility="{Binding HasIcon, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                          </Border>
+                          <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock FontWeight="Medium" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+                            <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                              <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Players}" Visibility="{Binding HasPlayers, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                              <TextBlock FontSize="11" Margin="8,0,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Detail}" Visibility="{Binding HasDetail, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            </StackPanel>
+                          </StackPanel>
+                          <ui:Button Grid.Column="2" VerticalAlignment="Center" Icon="Add24" Content="Skip" ToolTip="Never let Voidstrap pick a server for this game" Command="{Binding DataContext.AddSearchResultCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
+                        </Grid>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </ScrollViewer>
+              </Border>
+              <Border BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4" MaxHeight="320" Visibility="{Binding HasExcludedGames, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Background="#00FFFFFF" BorderThickness="0" RowHeight="48" AlternatingRowBackground="{DynamicResource SubtleFillColorTertiaryBrush}" ItemsSource="{Binding ExcludedGames}">
+                  <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Game" Width="*" MinWidth="200">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Width="32" Height="32" Margin="0,0,10,0" CornerRadius="6" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                              <Image Source="{Binding IconUrl}" Width="32" Height="32" Visibility="{Binding HasIcon, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            </Border>
+                            <TextBlock VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+                          </StackPanel>
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Place id" Width="140" MinWidth="110" Binding="{Binding PlaceIdDisplay}" />
+                    <DataGridTemplateColumn Header="" Width="60" CanUserSort="False">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <ui:Button HorizontalAlignment="Center" VerticalAlignment="Center" Icon="Delete24" Appearance="Secondary" ToolTip="Let Voidstrap pick servers for this game again" Command="{Binding DataContext.RemoveExcludedGameCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                  </DataGrid.Columns>
+                </DataGrid>
+              </Border>
+            </StackPanel>
+          </ui:CardExpander>
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+            <HeaderedContentControl.Header>
               <StackPanel>
                 <TextBlock FontSize="14" FontWeight="Medium" Text="Advanced" />
                 <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="The defaults are right for almost everyone" />
@@ -207,6 +281,9 @@
           </controls:OptionControl>
           <controls:OptionControl Header="Add the game name" Description="Shows the experience you are playing in the title bar">
             <ui:ToggleSwitch IsChecked="{Binding CycleTitleWithGameName, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Use the game icon" Description="Shows the experience icon on the Roblox window and taskbar button">
+            <ui:ToggleSwitch IsChecked="{Binding UseGameIconForRobloxWindow, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Header="Add the server info" Description="Shows the server region and player count in the title bar">
             <ui:ToggleSwitch IsChecked="{Binding ShowServerInfoInTitle, Mode=TwoWay}" />

@@ -2137,6 +2137,33 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		set => UpdateUsernameSpooferState(state => state with { SelfVerified = value }, nameof(SpoofSelfVerified));
 	}
 
+	public string RobuxSpoofAmount
+	{
+		get => App.Settings.Prop.RobuxSpoofAmount;
+		set
+		{
+			string trimmed = (value ?? "").Trim();
+			if (App.Settings.Prop.RobuxSpoofAmount == trimmed)
+				return;
+			App.Settings.Prop.RobuxSpoofAmount = trimmed;
+			OnPropertyChanged(nameof(RobuxSpoofAmount));
+			OnPropertyChanged(nameof(RobuxSpoofSummary));
+			App.Settings.SaveDeferred();
+		}
+	}
+
+	public string RobuxSpoofSummary
+	{
+		get
+		{
+			if (string.IsNullOrWhiteSpace(App.Settings.Prop.RobuxSpoofAmount))
+				return "Leave empty to show your real balance";
+			if (!RobuxSpoofer.TryGetAmount(out long amount))
+				return "Enter a whole number that is not negative";
+			return "Your client will show " + amount.ToString("N0") + " Robux, your real balance is untouched";
+		}
+	}
+
 	public bool SpoofSelfGameCreator
 	{
 		get => UsernameSpoofer.CurrentState.SelfGameCreator;

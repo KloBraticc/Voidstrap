@@ -1236,9 +1236,6 @@ Voidstrap 的安装路径是：
 
 您想启用 “测试模式” 吗？</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Voidstrap 的所有翻译都是由 [Crowdin]({0}) 来众包；在此处列出的每一个人都是慷慨地自愿贡献自己的时间和精力来帮助 本地化 Voidstrap 的人。因此向每一个人的贡献表示衷心的感谢！</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>安装</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

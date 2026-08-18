@@ -7,7 +7,7 @@ public class RobloxPlayerData : CommonAppData, IAppData
 {
 	public string ProductName => "Roblox";
 
-	public string BinaryType => "WindowsPlayer";
+	public override string BinaryType => "WindowsPlayer";
 
 	public string RegistryName => "RobloxPlayer";
 

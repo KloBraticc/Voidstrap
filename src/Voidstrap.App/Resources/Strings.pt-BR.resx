@@ -1228,9 +1228,6 @@ Enquanto ativo, ele iniciará o Roblox automaticamente após fechar as Configura
 
 Gostaria de habilitar o modo de teste?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Todas as traduções do Voidstrap são colaborativas através do [Crowdin]({0}). Todos listados aqui são pessoas que gentilmente usaram seu tempo e esforço para ajudar a localizar o Voidstrap. Um enorme agradecimento a todos!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Instalar</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

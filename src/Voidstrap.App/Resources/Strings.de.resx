@@ -1228,9 +1228,6 @@ Bei aktiviertem Testmodus werden die Einstellungen für dich nach dem Schließen
 
 Möchtest du den Testmodus aktivieren?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Alle Übersetzungen von Voidstrap wurden über [Crowdin]({0}) erstellt. Alle hier aufgeführten Personen haben ihre Freizeit und Mühe dazu genutzt, um bei der Lokalisierung von Voidstrap mitzuwirken. Ein riesiges Dankeschön an alle hier!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Installieren</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

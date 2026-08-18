@@ -1228,9 +1228,6 @@
 
 آیا می خواهید حالت تست را فعال کنید؟</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>همه ترجمه‌های بلاکسترپ از طریق [Crowdin] ({0}) جمع‌آوری می‌شوند. همه افرادی که در اینجا لیست شده اند افرادی هستند که سخاوتمندانه زمان و تلاش خود را برای کمک به بومی سازی بلاکسترپ صرف کرده اند. یک تشکر گسترده از همه در اینجا!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>نصب</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

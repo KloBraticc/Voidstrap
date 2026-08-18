@@ -76,6 +76,13 @@ public sealed class ServerMatchmaker : IDisposable
 
 			_ = RecordLearningAsync(data);
 
+			if (IsExcluded(data.PlaceId))
+			{
+				App.Logger.WriteLine(LOG_IDENT, $"Place {data.PlaceId} is excluded from the matchmaker, staying put");
+				ClearAttempt(data.PlaceId);
+				return;
+			}
+
 			if (!App.Settings.Prop.VoidstrapMatchmakerEnabled && !HasPerGamePreference(data.PlaceId))
 			{
 				App.Logger.WriteLine(LOG_IDENT, "Matchmaker is turned off and this place has no per game preference, staying put");
@@ -142,6 +149,48 @@ public sealed class ServerMatchmaker : IDisposable
 
 	}
 
+	public static bool IsExcluded(long placeId)
+	{
+		if (placeId == 0L)
+			return false;
+		try
+		{
+			List<long>? excluded = App.Settings.Prop.MatchmakerExcludedPlaceIds;
+			return excluded != null && excluded.Contains(placeId);
+		}
+		catch
+		{
+			return false;
+		}
+	}
+
+	public static void SetExcluded(long placeId, bool excluded)
+	{
+		if (placeId == 0L)
+			return;
+		try
+		{
+			List<long> list = App.Settings.Prop.MatchmakerExcludedPlaceIds ??= [];
+			bool changed;
+			if (excluded)
+			{
+				changed = !list.Contains(placeId);
+				if (changed)
+					list.Add(placeId);
+			}
+			else
+			{
+				changed = list.Remove(placeId);
+			}
+			if (changed)
+				App.Settings.SaveDeferred();
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("ServerMatchmaker::SetExcluded", "Could not update the matchmaker exclusion list: " + ex.Message);
+		}
+	}
+
 	public static bool HasPerGamePreference(long placeId)
 	{
 		if (placeId == 0L)
@@ -206,7 +255,17 @@ public sealed class ServerMatchmaker : IDisposable
 		bool currentIsBlocked = VoidstrapMatchmaker.GetBlockedDatacenters().Contains(currentKey);
 
 		string preferredKey = ResolvePreferredDatacenterKey(data.PlaceId);
-		bool wantsOtherDc = preferredKey.Length > 0 && !VoidstrapMatchmaker.MatchesPreferredDc(currentDc, preferredKey);
+		bool hasPreferred = preferredKey.Length > 0;
+		bool wantsOtherDc = hasPreferred && !VoidstrapMatchmaker.MatchesPreferredDc(currentDc, preferredKey);
+		bool inPreferredDc = hasPreferred && !wantsOtherDc;
+
+		if (inPreferredDc && !currentIsBlocked)
+		{
+			App.Logger.WriteLine(LOG_IDENT, $"Already in your preferred datacenter {currentDc.City} ({currentPing}ms), staying put");
+			ClearAttempt(data.PlaceId);
+			ShowAlert($"You are in your preferred datacenter {currentDc.City}, about {currentPing}ms", 6);
+			return;
+		}
 
 		string rejoinTarget = (App.LaunchSettings.MatchmakerTargetFlag.Data ?? "").Trim();
 		bool landedOnRejoinTarget = rejoinTarget.Length == 0 || string.Equals(currentDc.City, rejoinTarget, StringComparison.OrdinalIgnoreCase);
@@ -258,7 +317,7 @@ public sealed class ServerMatchmaker : IDisposable
 			reason = $"leaving blocked datacenter {currentDc.City}";
 		else if (wantsOtherDc && bestIsPreferred)
 			reason = $"moving to your preferred datacenter {best.Datacenter?.City}";
-		else if (!sameDc && gainMs >= MinRttGainMs)
+		else if (!sameDc && !hasPreferred && gainMs >= MinRttGainMs)
 			reason = $"saving about {(int)gainMs}ms";
 
 		if (reason == null)
@@ -268,6 +327,12 @@ public sealed class ServerMatchmaker : IDisposable
 			{
 				App.Logger.WriteLine(LOG_IDENT, $"Best alternative is in the same blocked datacenter {currentDc.City}, staying put");
 				ShowAlert($"You are in {currentDc.City} which you blocked, but every server there is the same, staying put", 7);
+			}
+			else if (wantsOtherDc)
+			{
+				string preferredCity = preferredKey.Split('|')[0];
+				App.Logger.WriteLine(LOG_IDENT, $"Preferred datacenter {preferredCity} has no servers right now, staying in {currentDc.City} instead of moving somewhere you did not pick");
+				ShowAlert($"{preferredCity} has no servers right now, staying in {currentDc.City}", 7);
 			}
 			else
 			{

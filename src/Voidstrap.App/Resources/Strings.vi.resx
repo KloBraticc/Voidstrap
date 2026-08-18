@@ -1230,9 +1230,6 @@ Khi được bật, nó sẽ tự động khởi chạy Roblox sau khi đóng C�
 
 Bạn có muốn bật chế độ thử nghiệm không?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Tất cả các bản dịch của Voidstrap đều được đóng góp từ cộng đồng thông qua [Crowdin]({0}). Tất cả những người được liệt kê ở đây đều đã tự nguyện dành thời gian và công sức để giúp dịch Voidstrap. Xin gửi lời cảm ơn chân thành đến tất cả mọi người!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Cài đặt</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

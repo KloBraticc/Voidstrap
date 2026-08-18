@@ -26,6 +26,95 @@ namespace Voidstrap.UI.ViewModels.Settings;
 
 public class BehaviourViewModel : NotifyPropertyChangedViewModel
 {
+	public sealed class ExcludedGameItem : NotifyPropertyChangedViewModel
+	{
+		private string _name;
+
+		private string _iconUrl = "";
+
+		private string _players = "";
+
+		private string _detail = "";
+
+		public ExcludedGameItem(long placeId)
+		{
+			PlaceId = placeId;
+			_name = "Place " + placeId.ToString(CultureInfo.InvariantCulture);
+		}
+
+		public long PlaceId { get; }
+
+		public string PlaceIdDisplay => PlaceId.ToString(CultureInfo.InvariantCulture);
+
+		public string Name
+		{
+			get => _name;
+			set
+			{
+				if (string.IsNullOrWhiteSpace(value) || _name == value)
+					return;
+				_name = value;
+				OnPropertyChanged(nameof(Name));
+			}
+		}
+
+		public string IconUrl
+		{
+			get => _iconUrl;
+			set
+			{
+				if (_iconUrl == value)
+					return;
+				_iconUrl = value ?? "";
+				OnPropertyChanged(nameof(IconUrl));
+				OnPropertyChanged(nameof(HasIcon));
+			}
+		}
+
+		public bool HasIcon => !string.IsNullOrEmpty(_iconUrl);
+
+		public long UniverseId { get; set; }
+
+		public string Players
+		{
+			get => _players;
+			set
+			{
+				if (_players == value)
+					return;
+				_players = value ?? "";
+				OnPropertyChanged(nameof(Players));
+				OnPropertyChanged(nameof(HasPlayers));
+			}
+		}
+
+		public bool HasPlayers => !string.IsNullOrEmpty(_players);
+
+		public string Detail
+		{
+			get => _detail;
+			set
+			{
+				if (_detail == value)
+					return;
+				_detail = value ?? "";
+				OnPropertyChanged(nameof(Detail));
+				OnPropertyChanged(nameof(HasDetail));
+			}
+		}
+
+		public bool HasDetail => !string.IsNullOrEmpty(_detail);
+
+		public static string FormatCount(long value)
+		{
+			if (value >= 1000000L)
+				return (value / 1000000.0).ToString("0.#", CultureInfo.InvariantCulture) + "M";
+			if (value >= 1000L)
+				return (value / 1000.0).ToString("0.#", CultureInfo.InvariantCulture) + "K";
+			return value.ToString(CultureInfo.InvariantCulture);
+		}
+	}
+
 	public sealed class DatacenterItem : NotifyPropertyChangedViewModel
 	{
 		private readonly Action<DatacenterItem> _onChange;
@@ -1000,7 +1089,359 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		LoadUserGeoForPreferredAsync();
 		FetchPresetAsync();
 		LoadAccountAsync();
+		LoadExcludedGames();
 		SelectedWebBackground = App.Settings.Prop.WebCustomBackgrounds.FirstOrDefault();
+	}
+
+	public ObservableCollection<ExcludedGameItem> ExcludedGames { get; } = new ObservableCollection<ExcludedGameItem>();
+
+	private static readonly string GameSearchSessionId = Guid.NewGuid().ToString();
+
+	private string _gameSearchText = "";
+
+	private string _gameSearchStatus = "";
+
+	private CancellationTokenSource? _gameSearchCts;
+
+	public ObservableCollection<ExcludedGameItem> GameSearchResults { get; } = new ObservableCollection<ExcludedGameItem>();
+
+	public string GameSearchText
+	{
+		get => _gameSearchText;
+		set
+		{
+			if (_gameSearchText == value)
+				return;
+			_gameSearchText = value ?? "";
+			OnPropertyChanged(nameof(GameSearchText));
+			BeginGameSearch();
+		}
+	}
+
+	public string GameSearchStatus
+	{
+		get => _gameSearchStatus;
+		private set
+		{
+			if (_gameSearchStatus == value)
+				return;
+			_gameSearchStatus = value ?? "";
+			OnPropertyChanged(nameof(GameSearchStatus));
+			OnPropertyChanged(nameof(HasGameSearchStatus));
+		}
+	}
+
+	public bool HasGameSearchStatus => !string.IsNullOrEmpty(_gameSearchStatus);
+
+	public bool HasGameSearchResults => GameSearchResults.Count > 0;
+
+	public ICommand AddSearchResultCommand => new RelayCommand<ExcludedGameItem>(AddSearchResult);
+
+	private void BeginGameSearch()
+	{
+		CancellationTokenSource? previous = _gameSearchCts;
+		_gameSearchCts = null;
+		try
+		{
+			previous?.Cancel();
+			previous?.Dispose();
+		}
+		catch
+		{
+		}
+
+		string query = (_gameSearchText ?? "").Trim();
+		if (query.Length < 2)
+		{
+			ClearGameSearchResults();
+			GameSearchStatus = "";
+			return;
+		}
+
+		var cts = new CancellationTokenSource();
+		_gameSearchCts = cts;
+		_ = RunGameSearchAsync(query, cts);
+	}
+
+	private async Task RunGameSearchAsync(string query, CancellationTokenSource cts)
+	{
+		try
+		{
+			await Task.Delay(350, cts.Token).ConfigureAwait(true);
+			GameSearchStatus = "Searching...";
+
+			List<ExcludedGameItem> found = await FindGamesAsync(query, cts.Token).ConfigureAwait(true);
+			if (cts.Token.IsCancellationRequested)
+				return;
+
+			ClearGameSearchResults();
+			foreach (ExcludedGameItem item in found)
+				GameSearchResults.Add(item);
+
+			OnPropertyChanged(nameof(HasGameSearchResults));
+			GameSearchStatus = found.Count == 0 ? "No games found." : "";
+
+			if (found.Count > 0)
+				await ApplyExcludedGameIconsAsync([.. found], string.Join(",", found.Select(g => g.PlaceId.ToString(CultureInfo.InvariantCulture)))).ConfigureAwait(true);
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("BehaviourViewModel::RunGameSearch", "Game search failed: " + ex.Message);
+			GameSearchStatus = "Search is unavailable right now, paste a place id instead.";
+		}
+		finally
+		{
+			if (ReferenceEquals(_gameSearchCts, cts))
+				_gameSearchCts = null;
+			try
+			{
+				cts.Dispose();
+			}
+			catch
+			{
+			}
+		}
+	}
+
+	private void ClearGameSearchResults()
+	{
+		if (GameSearchResults.Count == 0)
+			return;
+		GameSearchResults.Clear();
+		OnPropertyChanged(nameof(HasGameSearchResults));
+	}
+
+	private static async Task<List<ExcludedGameItem>> FindGamesAsync(string query, CancellationToken token)
+	{
+		if (long.TryParse(query, NumberStyles.Integer, CultureInfo.InvariantCulture, out long typedPlaceId) && typedPlaceId > 0)
+		{
+			var direct = new ExcludedGameItem(typedPlaceId);
+			await ApplyExcludedGameNamesAsync([direct], typedPlaceId.ToString(CultureInfo.InvariantCulture)).ConfigureAwait(false);
+			return [direct];
+		}
+
+		using var request = new System.Net.Http.HttpRequestMessage(
+			System.Net.Http.HttpMethod.Get,
+			"https://apis.roblox.com/search-api/omni-search?searchQuery=" + Uri.EscapeDataString(query)
+				+ "&pageToken=&sessionId=" + GameSearchSessionId + "&pageType=all");
+
+		string? cookie = RobloxCookie.Get();
+		if (!string.IsNullOrEmpty(cookie))
+			request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+
+		using System.Net.Http.HttpResponseMessage response = await App.HttpClient.SendAsync(request, token).ConfigureAwait(false);
+		if (!response.IsSuccessStatusCode)
+			return [];
+
+		using JsonDocument json = JsonDocument.Parse(await response.Content.ReadAsStringAsync(token).ConfigureAwait(false));
+		if (json.RootElement.ValueKind != JsonValueKind.Object || !json.RootElement.TryGetProperty("searchResults", out JsonElement groups) || groups.ValueKind != JsonValueKind.Array)
+			return [];
+
+		var results = new List<ExcludedGameItem>();
+		var seen = new HashSet<long>();
+
+		foreach (JsonElement group in groups.EnumerateArray())
+		{
+			if (!group.TryGetProperty("contents", out JsonElement contents) || contents.ValueKind != JsonValueKind.Array)
+				continue;
+
+			foreach (JsonElement entry in contents.EnumerateArray())
+			{
+				if (results.Count >= 12)
+					return results;
+
+				if (entry.TryGetProperty("isSponsored", out JsonElement sponsoredElement) && sponsoredElement.ValueKind == JsonValueKind.True)
+					continue;
+
+				if (!entry.TryGetProperty("rootPlaceId", out JsonElement placeElement) || !placeElement.TryGetInt64(out long placeId) || placeId <= 0 || !seen.Add(placeId))
+					continue;
+
+				var item = new ExcludedGameItem(placeId);
+				if (entry.TryGetProperty("universeId", out JsonElement universeElement) && universeElement.TryGetInt64(out long universeId))
+					item.UniverseId = universeId;
+				if (entry.TryGetProperty("name", out JsonElement nameElement) && nameElement.ValueKind == JsonValueKind.String)
+					item.Name = nameElement.GetString() ?? "";
+
+				if (entry.TryGetProperty("playerCount", out JsonElement playersElement) && playersElement.TryGetInt64(out long players))
+					item.Players = ExcludedGameItem.FormatCount(players) + " playing";
+
+				item.Detail = BuildSearchDetail(entry);
+				results.Add(item);
+			}
+		}
+
+		return results;
+	}
+
+	private static string BuildSearchDetail(JsonElement entry)
+	{
+		var parts = new List<string>(2);
+
+		if (entry.TryGetProperty("creatorName", out JsonElement creatorElement) && creatorElement.ValueKind == JsonValueKind.String)
+		{
+			string creator = creatorElement.GetString() ?? "";
+			if (creator.Length > 0)
+				parts.Add("by " + creator);
+		}
+
+		long up = entry.TryGetProperty("totalUpVotes", out JsonElement upElement) && upElement.TryGetInt64(out long upVotes) ? upVotes : 0L;
+		long down = entry.TryGetProperty("totalDownVotes", out JsonElement downElement) && downElement.TryGetInt64(out long downVotes) ? downVotes : 0L;
+		if (up + down > 0L)
+			parts.Add(Math.Round(up * 100.0 / (up + down)).ToString("0", CultureInfo.InvariantCulture) + "% rating");
+
+		return string.Join("  ", parts);
+	}
+
+	private void AddSearchResult(ExcludedGameItem? item)
+	{
+		if (item == null || item.PlaceId <= 0)
+			return;
+
+		GameSearchText = "";
+		ClearGameSearchResults();
+		GameSearchStatus = "";
+
+		if (ExcludedGames.Any(g => g.PlaceId == item.PlaceId))
+			return;
+
+		ServerMatchmaker.SetExcluded(item.PlaceId, excluded: true);
+		ExcludedGames.Add(item);
+		RaiseExcludedGamesChanged();
+		RunSafeExcludedGamesAsync();
+	}
+
+	public string ExcludedGamesSummary => ExcludedGames.Count == 0
+		? "Voidstrap picks a server for every game."
+		: (ExcludedGames.Count == 1
+			? "1 game joins normally, Voidstrap never picks its server."
+			: $"{ExcludedGames.Count} games join normally, Voidstrap never picks their servers.");
+
+	public bool HasExcludedGames => ExcludedGames.Count > 0;
+
+	public ICommand RemoveExcludedGameCommand => new RelayCommand<ExcludedGameItem>(RemoveExcludedGame);
+
+	public ICommand ClearExcludedGamesCommand => new RelayCommand(ClearExcludedGames);
+
+	public void RefreshExcludedGames()
+	{
+		if (ExcludedGames.Count == (App.Settings.Prop.MatchmakerExcludedPlaceIds ?? []).Distinct().Count(id => id > 0)
+			&& ExcludedGames.All(g => ServerMatchmaker.IsExcluded(g.PlaceId)))
+		{
+			return;
+		}
+
+		LoadExcludedGames();
+	}
+
+	private void LoadExcludedGames()
+	{
+		ExcludedGames.Clear();
+		foreach (long placeId in (App.Settings.Prop.MatchmakerExcludedPlaceIds ?? []).Distinct().Where(id => id > 0))
+			ExcludedGames.Add(new ExcludedGameItem(placeId));
+
+		RaiseExcludedGamesChanged();
+		RunSafeExcludedGamesAsync();
+	}
+
+	private void RaiseExcludedGamesChanged()
+	{
+		OnPropertyChanged(nameof(ExcludedGamesSummary));
+		OnPropertyChanged(nameof(HasExcludedGames));
+	}
+
+	private void RemoveExcludedGame(ExcludedGameItem? item)
+	{
+		if (item == null)
+			return;
+
+		ServerMatchmaker.SetExcluded(item.PlaceId, excluded: false);
+		ExcludedGames.Remove(item);
+		RaiseExcludedGamesChanged();
+	}
+
+	private void ClearExcludedGames()
+	{
+		foreach (ExcludedGameItem item in ExcludedGames.ToList())
+			ServerMatchmaker.SetExcluded(item.PlaceId, excluded: false);
+
+		ExcludedGames.Clear();
+		RaiseExcludedGamesChanged();
+	}
+
+	private void RunSafeExcludedGamesAsync()
+	{
+		_ = ResolveExcludedGameDetailsAsync();
+	}
+
+	private async Task ResolveExcludedGameDetailsAsync()
+	{
+		ExcludedGameItem[] pending = ExcludedGames.Where(g => !g.HasIcon).ToArray();
+		if (pending.Length == 0)
+			return;
+
+		foreach (ExcludedGameItem[] chunk in pending.Chunk(25))
+		{
+			try
+			{
+				string ids = string.Join(",", chunk.Select(g => g.PlaceId.ToString(CultureInfo.InvariantCulture)));
+				await ApplyExcludedGameNamesAsync(chunk, ids).ConfigureAwait(true);
+				await ApplyExcludedGameIconsAsync(chunk, ids).ConfigureAwait(true);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine("BehaviourViewModel::ResolveExcludedGameDetails", "Could not resolve excluded game details: " + ex.Message);
+			}
+		}
+	}
+
+	private static async Task ApplyExcludedGameNamesAsync(ExcludedGameItem[] chunk, string ids)
+	{
+		using var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + ids);
+		string? cookie = RobloxCookie.Get();
+		if (!string.IsNullOrEmpty(cookie))
+			request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+
+		using System.Net.Http.HttpResponseMessage response = await App.HttpClient.SendAsync(request).ConfigureAwait(true);
+		if (!response.IsSuccessStatusCode)
+			return;
+
+		using JsonDocument json = JsonDocument.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+		if (json.RootElement.ValueKind != JsonValueKind.Array)
+			return;
+
+		foreach (JsonElement entry in json.RootElement.EnumerateArray())
+		{
+			if (!entry.TryGetProperty("placeId", out JsonElement idElement) || !idElement.TryGetInt64(out long placeId))
+				continue;
+			if (!entry.TryGetProperty("name", out JsonElement nameElement) || nameElement.ValueKind != JsonValueKind.String)
+				continue;
+
+			ExcludedGameItem? match = chunk.FirstOrDefault(g => g.PlaceId == placeId);
+			if (match != null)
+				match.Name = nameElement.GetString() ?? "";
+		}
+	}
+
+	private static async Task ApplyExcludedGameIconsAsync(ExcludedGameItem[] chunk, string ids)
+	{
+		var response = await Voidstrap.Utility.Http.GetJson<Voidstrap.Models.APIs.Roblox.ApiArrayResponse<Voidstrap.Models.APIs.Roblox.ThumbnailResponse>>(
+			"https://thumbnails.roblox.com/v1/places/gameicons?placeIds=" + ids + "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false").ConfigureAwait(true);
+
+		if (response?.Data == null)
+			return;
+
+		foreach (var thumbnail in response.Data)
+		{
+			if (thumbnail == null || string.IsNullOrWhiteSpace(thumbnail.ImageUrl))
+				continue;
+
+			ExcludedGameItem? match = chunk.FirstOrDefault(g => g.PlaceId == thumbnail.TargetId);
+			if (match != null)
+				match.IconUrl = thumbnail.ImageUrl;
+		}
 	}
 
 
@@ -1791,6 +2232,22 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 	}
 
 
+
+	public bool UseGameIconForRobloxWindow
+	{
+		get
+		{
+			return App.Settings.Prop.UseGameIconForRobloxWindow;
+		}
+		set
+		{
+			if (App.Settings.Prop.UseGameIconForRobloxWindow != value)
+			{
+				App.Settings.Prop.UseGameIconForRobloxWindow = value;
+				OnPropertyChanged("UseGameIconForRobloxWindow");
+			}
+		}
+	}
 
 	public bool ShowServerInfoInTitle
 	{

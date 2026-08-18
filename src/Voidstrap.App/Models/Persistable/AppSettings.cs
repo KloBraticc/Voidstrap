@@ -277,6 +277,7 @@ namespace Voidstrap.Models.Persistable
         public bool AutoTranslate { get; set; } = false;
         public string AutoTranslateLanguage { get; set; } = "";
         public bool CycleTitleWithGameName { get; set; } = true;
+        public bool UseGameIconForRobloxWindow { get; set; } = true;
         public string DMMouseLeft { get; set; } = "A";
         public string DMMouseMiddle { get; set; } = "";
         public string DMMouseRight { get; set; } = "B";
@@ -296,6 +297,7 @@ namespace Voidstrap.Models.Persistable
         public bool FakeBorderlessFullscreen { get; set; } = false;
         public bool FakeExclusiveFullscreen { get; set; } = false;
         public Dictionary<long, string> PerGamePreferredDatacenters { get; set; } = [];
+        public List<long> MatchmakerExcludedPlaceIds { get; set; } = [];
         public int ProxyConnectorType { get; set; } = 0;
         public string? ProxyHttpConnectHost { get; set; } = null;
         public int ProxyHttpConnectPort { get; set; } = 0;
@@ -316,6 +318,7 @@ namespace Voidstrap.Models.Persistable
         public bool SpoofSelfGameCreator { get; set; } = false;
         public string SpoofSelfName { get; set; } = "";
         public bool SpoofSelfVerified { get; set; } = false;
+        public string RobuxSpoofAmount { get; set; } = "";
         public string StudioRpcClientId { get; set; } = "";
         public bool StudioRpcShowPlace { get; set; } = true;
         public bool StudioRpcShowScript { get; set; } = true;
@@ -335,6 +338,7 @@ namespace Voidstrap.Models.Persistable
         public bool WebAccurateContinue { get; set; } = true;
         public string PlayerInstallLocation { get; set; } = "";
         public string StudioInstallLocation { get; set; } = "";
+        public bool StaticDirectory { get; set; } = false;
         public string ClassicInstallLocation { get; set; } = "";
         public string ClassicSourceLocation { get; set; } = "";
         public string ClassicDownloadBaseUrl { get; set; } = "";

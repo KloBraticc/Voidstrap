@@ -1228,9 +1228,6 @@ Voidstrap이 “{1}”에 설치되어 있습니다.</value>
 
 테스트 모드를 활성화하시겠습니까?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Voidstrap의 모든 번역은 [Crowdin]({0})을 통해 크라우드소싱됩니다. 여기 적힌 모든 사람들은 Voidstrap의 번역을 위해 시간과 노력을 아끼지 않고 도와주신 분들입니다. 모두 진심으로 감사드립니다!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>설치</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

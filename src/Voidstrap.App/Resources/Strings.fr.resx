@@ -1227,9 +1227,6 @@ Lorsque cette option est activée, Roblox se lancera automatiquement après la f
 
 Voulez-vous activer le mode test ?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Toutes les traductions de Voidstrap sont crowdsourcés via [Crowdin]({0}). Toutes les personnes listées ici sont des personnes qui ont généreusement donnés de leur temps et de leurs efforts pour aider à rendre Voidstrap accessible à tous. Un grand merci à eux !</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Installer</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

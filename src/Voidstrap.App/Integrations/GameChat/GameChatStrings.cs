@@ -1,4 +1,4 @@
-namespace Voidstrap.Integrations.GameChat
+﻿namespace Voidstrap.Integrations.GameChat
 {
     public static class GameChatStrings
     {
@@ -87,27 +87,25 @@ namespace Voidstrap.Integrations.GameChat
         public const string CopiedMessage = "Copied message.";
 
         public const string BridgeUnavailable = "All Bootstrappers is not available right now.";
-        public const string BridgeWelcome = "All Bootstrappers reaches everyone in your Roblox server who runs a bootstrapper with this chat, not just Voidstrap users.";
-        public const string BridgeConsent = "This tab is off by default because it uses a community server outside Voidstrap (hermivore.cat). Turning it on shares your Roblox username, user id and current server job id with that server. Chat '/bridge on' to turn it on, or '/bridge off' at any time to stop.";
+        public const string BridgeConsent = "This tab uses hermivore.cat, a community server outside Voidstrap. It shares your Roblox name, user id and server id. Type '/bridge off' to stop.";
         public const string BridgeDisabled = "All Bootstrappers is turned off.";
         public const string BridgeEnabled = "All Bootstrappers is on. Connecting...";
         public const string BridgeTurnedOff = "All Bootstrappers is now off and disconnected.";
         public const string BridgeConnected = "Connected to the All Bootstrappers room.";
         public const string BridgeNotConnected = "Not connected to All Bootstrappers yet.";
-        public const string BridgeNoServer = "Join a Roblox server first, then open All Bootstrappers.";
+        public const string BridgeNoServer = "Join a Roblox server first.";
         public const string BridgeJoinFailed = "Could not join the All Bootstrappers room.";
         public const string BridgeRoomMissing = "That All Bootstrappers room no longer exists.";
         public const string BridgeRoomFull = "The All Bootstrappers room for this server is full.";
         public const string BridgeRateLimited = "Slow down, you are sending messages too quickly.";
-        public const string BridgeGaveUp = "Gave up connecting to All Bootstrappers. Chat '/bridge reconnect' to try again.";
+        public const string BridgeGaveUp = "Could not connect. Type '/bridge reconnect' to retry.";
         public const string BridgeKicked = "You were votekicked from the All Bootstrappers room.";
         public const string BridgeKickCooldown = "You were votekicked recently and cannot rejoin yet.";
-        public const string BridgeNeedsVerify = "All Bootstrappers needs a one time Roblox check. Starting it now...";
-        public const string BridgeVerifyStarted = "Add the Roblox user '{0}' as a friend to finish the check. The name was copied to your clipboard and the profile was opened in your browser.";
-        public const string BridgeVerifyWaiting = "Waiting for the friend request...";
+        public const string BridgeNeedsVerify = "One time Roblox check, starting...";
+        public const string BridgeVerifyStarted = "Log in with Roblox in your browser to finish.";
         public const string BridgeVerifySuccess = "Verified. Connecting to All Bootstrappers...";
-        public const string BridgeVerifyFailed = "The check did not finish in time. Chat '/bridge verify' to try again.";
-        public const string BridgeVerifyUnavailable = "Could not reach the All Bootstrappers check server.";
+        public const string BridgeVerifyFailed = "Check timed out. Type '/bridge verify' to retry.";
+        public const string BridgeVerifyUnavailable = "Check server unreachable.";
         public const string BridgeStatus = "All Bootstrappers: {0}";
         public const string BridgeStatusOn = "on";
         public const string BridgeStatusOff = "off";

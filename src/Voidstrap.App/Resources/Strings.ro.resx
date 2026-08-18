@@ -1228,9 +1228,6 @@ Cât timp este activat, acesta va lansa automat Roblox după închiderea setări
 
 Doriți să activați modul de testare?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Toate traducerile Voidstrap sunt realizate prin [Crowdin]({0}). Toții listat aici sunt oameni care s-au oferit cu generozitate ca voluntari să își ofere timpul și efortul pentru a ajuta la localizarea Voidstrap. Mulțumiri masive tuturor celor de aici!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Instalează</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

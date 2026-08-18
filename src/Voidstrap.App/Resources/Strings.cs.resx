@@ -1228,9 +1228,6 @@ Pokud je zapnut, po zavření nastavení automaticky spustí Roblox a po zavřen
 
 Chcete zapnout testovací režim?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Všechny překlady Voidstrapu jsou crowdsourcovány skrz [Crowdin]({0}). Všichni uvedení zde jsou lidé, kteří velkoryse dobrovolili svůj čas a snahu přeložit Voidstrap. Obrovský dík všem!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Instalovat</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

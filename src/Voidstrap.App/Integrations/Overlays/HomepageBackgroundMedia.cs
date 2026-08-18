@@ -185,7 +185,7 @@ namespace Voidstrap.Integrations.Overlays
 			_player.Play();
 			_timer = new DispatcherTimer(DispatcherPriority.Render)
 			{
-				Interval = _tickInterval
+				Interval = TimeSpan.FromMilliseconds(Math.Max(_tickInterval.TotalMilliseconds, 1000.0 / 60.0))
 			};
 			_timer.Tick += OnVideoTick;
 			_timer.Start();

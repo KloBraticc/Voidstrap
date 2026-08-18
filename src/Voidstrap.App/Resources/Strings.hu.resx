@@ -1226,9 +1226,6 @@ Amíg engedélyezve van, a beállítások bezárása után automatikusan elindí
 
 Szeretné engedélyezni a teszt üzemmódot?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>A Voidstrap összes fordítása a [Crowdin]({0}) segítségével készül. Mindenki, aki itt szerepel, olyan ember, aki nagylelkűen önkéntes munkát végzett, hogy segítsen a Voidstrap lokalizálásában. Hatalmas köszönet mindenkinek!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Telepítés</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

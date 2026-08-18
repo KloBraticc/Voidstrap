@@ -122,7 +122,7 @@ namespace Voidstrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All of Voidstrap&apos;s translations are crowdsourced through [Crowdin]({0}). Everyone listed here are people who generously volunteered their time and effort to help localise Voidstrap. A massive thank you to everyone here!.
+        ///   Looks up a localized string similar to Everyone listed here generously volunteered their time and effort to help translate Voidstrap. A massive thank you to everyone here!.
         /// </summary>
         public static string About_Translators_Description {
             get {

@@ -59,31 +59,7 @@ public partial class DownloadsPage : UiPage
         _viewModel.RefreshAll();
     }
 
-    private void FleasionAddon_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            if (Window.GetWindow(this) is MainWindow mainWindow)
-                mainWindow.RootNavigation?.Navigate(typeof(ExtensionPage));
-        }
-        catch
-        {
-        }
-    }
-
-    private void CommunityContentAddon_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            if (Window.GetWindow(this) is MainWindow mainWindow)
-                mainWindow.RootNavigation?.Navigate(typeof(ExtensionPage));
-        }
-        catch
-        {
-        }
-    }
-
-    private void RiShadeAddon_Click(object sender, RoutedEventArgs e)
+    private void Addon_Click(object sender, RoutedEventArgs e)
     {
         try
         {

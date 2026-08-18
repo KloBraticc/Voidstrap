@@ -1,10 +1,6 @@
 using System;
-using System.CodeDom.Compiler;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Markup;
 using Voidstrap.UI.ViewModels.Settings;
 using Wpf.Ui.Controls;
 
@@ -17,6 +13,8 @@ public partial class GBSEditorPage : UiPage{
 	{
 		SetupViewModel();
 		InitializeComponent();
+		base.Loaded += OnPageLoaded;
+		base.Unloaded += OnPageUnloaded;
 	}
 
 	private void SetupViewModel()
@@ -25,13 +23,40 @@ public partial class GBSEditorPage : UiPage{
 		base.DataContext = _viewModel;
 	}
 
+	private void OnPageLoaded(object sender, RoutedEventArgs e)
+	{
+		if (_viewModel is null || _viewModel.IsDisposed)
+		{
+			SetupViewModel();
+		}
+	}
+
+	private void OnPageUnloaded(object sender, RoutedEventArgs e)
+	{
+		_viewModel?.Dispose();
+	}
+
 	private void ValidateUInt32(object sender, TextCompositionEventArgs e)
 	{
-		e.Handled = !uint.TryParse(e.Text, out var _);
+		foreach (char character in e.Text)
+		{
+			if (!char.IsAsciiDigit(character))
+			{
+				e.Handled = true;
+				return;
+			}
+		}
 	}
 
 	private void ValidateFloat(object sender, TextCompositionEventArgs e)
 	{
-		e.Handled = !float.TryParse(e.Text, out var _);
+		foreach (char character in e.Text)
+		{
+			if (!char.IsAsciiDigit(character) && character != '.')
+			{
+				e.Handled = true;
+				return;
+			}
+		}
 	}
 }

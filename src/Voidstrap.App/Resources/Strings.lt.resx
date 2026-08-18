@@ -1228,9 +1228,6 @@ Kai režimas įjungtas, jis automatiškai paleis „Roblox“ uždarius nustatym
 
 Ar norėtumėte įjungti bandymo režimą?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Visi „Voidstrap“ vertimai sutelktinti per [„Crowdin“]({0}). Visi čia išvardyti žmonės dosniai savanoriškai skyrė savo laiką ir pastangas, kad padėtų lokalizuoti „Voidstrap“. Didelis dėkui visiems esantiems čia!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Diegti</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

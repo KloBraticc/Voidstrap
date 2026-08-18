@@ -1227,9 +1227,6 @@ Wanneer ingeschakeld, zal Roblox automatisch starten na het sluiten van de inste
 
 Wilt u de testmodus inschakelen?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Alle vertalingen van Voidstrap zijn gecrowdsourcet via [Crowdin]({0}). Iedereen die hier op de lijst staat, zijn mensen die zich ruimhartig hebben ingezet voor het lokaliseren van Voidstrap. Een grote dank aan iedereen hier!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Installeer</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

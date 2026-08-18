@@ -1227,9 +1227,6 @@ Habang naka-enable, kusang bubukas ang Roblox pagkatapos isara ang mga settings,
 
 Gusto mo bang i-enable ang "Test Mode"?</value>
   </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Lahat ng translations para sa Voidstrap ay crowdsourced galing sa [Crowdin]({0}). Lahat nakalista dito ang mga tao na nakapagboluntaryo para sa oras at pagsisikap para tulungan i-localize at Voidstrap. Malaking pasasalamat sa iyong lahat!</value>
-  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>I-install</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>

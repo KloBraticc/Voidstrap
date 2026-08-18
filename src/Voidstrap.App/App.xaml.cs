@@ -127,7 +127,7 @@ public partial class App : Application
 
 	public static readonly BuildMetadataAttribute BuildMetadata = ResolveBuildMetadata();
 
-	public static string Version { get; set; } = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+	public static string Version { get; set; } = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0";
 
 	public const int TaskbarProgressMaximum = 100;
 
@@ -598,10 +598,10 @@ public partial class App : Application
 	protected override async void OnStartup(StartupEventArgs e)
 	{
 		RegisterExceptionHandlers();
-		VpnHttpClient.Initialize();
-		base.OnStartup(e);
 		try
 		{
+			VpnHttpClient.Initialize();
+			base.OnStartup(e);
 			await StartAsync(e.Args);
 		}
 		catch (Exception ex)
@@ -721,6 +721,7 @@ public partial class App : Application
 		LoadPersistentState();
 		TryStartup("Render acceleration", Voidstrap.Utility.RenderAcceleration.ApplyProcess);
 		TryStartup("Roblox app storage", () => Voidstrap.Integrations.RobloxAppStorage.Apply());
+		TryStartup("Roblox global settings repair", () => GlobalSettings.RepairFile());
 		if (!LaunchSettings.WatcherFlag.Active)
 		{
 			TryStartup("AssetWarp route cleanup", () =>
@@ -911,7 +912,7 @@ public partial class App : Application
 		}
 		catch (Exception ex)
 		{
-			Logger.WriteLine("App::ResolveBuildMetadata", "Could not resolve the build timestamp: " + ex.Message);
+			Logger?.WriteLine("App::ResolveBuildMetadata", "Could not resolve the build timestamp: " + ex.Message);
 		}
 		return metadata;
 	}

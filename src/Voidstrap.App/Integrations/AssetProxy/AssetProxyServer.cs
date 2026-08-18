@@ -33,7 +33,8 @@ public static class AssetProxyServer
 		TextureStripper.HasConfiguredRules ||
 		App.Settings.Prop.AssetWarpPreloadEnabled ||
 		PresenceSpoofer.IsEnabled() ||
-		UsernameSpoofer.IsEnabled());
+		UsernameSpoofer.IsEnabled() ||
+		RobuxSpoofer.IsEnabled);
 
 	private sealed class HttpHead
 	{
@@ -400,6 +401,14 @@ public static class AssetProxyServer
 		if (usernameState.SelfGameCreator)
 		{
 			hostList.Add("gamejoin.roblox.com");
+		}
+		if (AppShellStripper.IsEnabled)
+		{
+			hostList.Add(AppShellStripper.ThumbnailsHost);
+		}
+		if (RobuxSpoofer.IsEnabled)
+		{
+			hostList.Add(RobuxSpoofer.EconomyHost);
 		}
 		string[] hosts = [.. hostList.Distinct(StringComparer.OrdinalIgnoreCase)];
 		if (hosts.Length == 0)
@@ -1077,8 +1086,10 @@ public static class AssetProxyServer
 					}
 					MessageBody responseBody = await ReadMessageBodyAsync(remote, response, true, method, ct).ConfigureAwait(false);
 					bool spoofResponse = UsernameSpoofer.CanProcessResponse(host, path);
+					bool shellResponse = AppShellStripper.CanProcessResponse(host, path, request.Get("User-Agent"));
+					bool robuxResponse = RobuxSpoofer.CanProcessResponse(host, path);
 					bool captureCdnResponse = cdnResponse && App.Settings.Prop.AssetWarpEnabled && App.Settings.Prop.AssetWarpPreloadEnabled;
-					byte[] decodedResponse = batch || captureCdnResponse || spoofResponse
+					byte[] decodedResponse = batch || captureCdnResponse || spoofResponse || shellResponse || robuxResponse
 						? DecodeContent(responseBody.Decoded, response.Get("Content-Encoding"))
 						: responseBody.Decoded;
 					if (batch)
@@ -1088,7 +1099,11 @@ public static class AssetProxyServer
 
 					byte[]? changed = spoofResponse
 						? await UsernameSpoofer.ProcessResponseAsync(host, path, decodedResponse, ct).ConfigureAwait(false)
-						: null;
+						: shellResponse
+							? AppShellStripper.ProcessResponse(decodedResponse)
+							: robuxResponse
+								? RobuxSpoofer.ProcessResponse(decodedResponse)
+								: null;
 					if (changed != null)
 					{
 						byte[] rebuilt = RebuildHead(response, changed.Length, true);
