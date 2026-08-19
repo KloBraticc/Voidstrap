@@ -1,5 +1,0 @@
-<Solution>
-  <Project Path="ClientCommon/ClientCommon.csproj" />
-  <Project Path="WebServer/WebServer.csproj" />
-  <Project Path="ServerAuthInterface/ServerAuthInterface.csproj" />
-</Solution>
