@@ -27,7 +27,8 @@ arch=('x86_64' 'aarch64')
 url='$PROJECT_URL'
 license=('LicenseRef-Voidstrap')
 depends=('glibc' 'gcc-libs' 'zlib' 'libx11' 'libice' 'libsm' 'fontconfig' 'freetype2' 'libglvnd' 'openssl' 'ca-certificates' 'hicolor-icon-theme' 'desktop-file-utils')
-optdepends=('xdg-utils: protocol handler registration'
+optdepends=('flatpak: required to install and run the Sober Roblox runtime'
+            'xdg-utils: protocol handler registration'
             'libnotify: desktop notifications'
             'libsecret: credential storage'
             'vulkan-icd-loader: Vulkan rendering backend'

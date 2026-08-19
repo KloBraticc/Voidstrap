@@ -12,6 +12,10 @@ internal static class LinuxStartup
 
 	private const string GpuRetryFlag = "VOIDSTRAP_GPU_RETRY";
 
+	private const string HardwareGlStage = "gl";
+
+	private const string SoftwareStage = "software";
+
 	private const string ApplicationName = "Voidstrap";
 
 	private static readonly int SoftwareThreadCount = Math.Clamp((Environment.ProcessorCount + 1) / 2, 1, 8);
@@ -69,7 +73,8 @@ internal static class LinuxStartup
 		{
 			return;
 		}
-		if (Environment.GetEnvironmentVariable(GpuRetryFlag) == "1")
+		string stage = Environment.GetEnvironmentVariable(GpuRetryFlag) ?? string.Empty;
+		if (stage == SoftwareStage || stage == "1")
 		{
 			try
 			{
@@ -93,6 +98,16 @@ internal static class LinuxStartup
 			Environment.Exit(1);
 			return;
 		}
+		string nextStage = stage == HardwareGlStage ? SoftwareStage : HardwareGlStage;
+		try
+		{
+			Console.Error.WriteLine(nextStage == HardwareGlStage
+				? "Voidstrap could not start the default renderer, retrying with OpenGL on your graphics card."
+				: "Voidstrap could not start an accelerated renderer, retrying with software rendering. Expect reduced performance until your graphics drivers are updated.");
+		}
+		catch
+		{
+		}
 		try
 		{
 			string? executable = Environment.ProcessPath;
@@ -109,13 +124,13 @@ internal static class LinuxStartup
 			{
 				startInfo.ArgumentList.Add(arguments[i]);
 			}
-			startInfo.Environment[GpuRetryFlag] = "1";
+			startInfo.Environment[GpuRetryFlag] = nextStage;
 			startInfo.Environment[ConfiguredFlag] = "1";
 			startInfo.Environment["RESOURCE_NAME"] = ApplicationName;
 			startInfo.Environment["SDL_VIDEO_X11_WMCLASS"] = ApplicationName;
 			startInfo.Environment["WGPU_BACKEND"] = "gl";
-			startInfo.Environment["WGPU_POWER_PREF"] = "low";
-			if (OperatingSystem.IsLinux())
+			startInfo.Environment["WGPU_POWER_PREF"] = nextStage == HardwareGlStage ? "high" : "low";
+			if (OperatingSystem.IsLinux() && nextStage == SoftwareStage)
 			{
 				startInfo.Environment["LIBGL_ALWAYS_SOFTWARE"] = "1";
 				startInfo.Environment["LP_NUM_THREADS"] = SoftwareThreadCount.ToString(System.Globalization.CultureInfo.InvariantCulture);

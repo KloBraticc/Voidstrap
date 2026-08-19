@@ -491,7 +491,7 @@
           </ui:NavigationBase.Items>
           <ui:NavigationBase.Footer>
             <ui:NavigationItem Content="Extensions" Icon="CubeAdd20" Tag="CubeLink20" PageType="{x:Type pages:ExtensionPage}" />
-            <ui:NavigationItem Content="{x:Static resources:Strings.Common_Shortcuts}" Icon="Apps32" Tag="Apps24" PageType="{x:Type pages:ShortcutsPage}" />
+            <ui:NavigationItem Name="ShortcutsNavItem" Content="{x:Static resources:Strings.Common_Shortcuts}" Icon="Apps32" Tag="Apps24" PageType="{x:Type pages:ShortcutsPage}" />
             <ui:NavigationItem Name="SettingsNavItem" Content="Settings" Icon="Settings28" Tag="Settings20" PageType="{x:Type pages:ChannelPage}" />
             <ui:NavigationItem Content="{x:Static resources:Strings.Menu_About_Title}" Icon="QuestionCircle32" Tag="QuestionCircle48" Command="{Binding OpenAboutCommand, Mode=OneTime}" />
           </ui:NavigationBase.Footer>

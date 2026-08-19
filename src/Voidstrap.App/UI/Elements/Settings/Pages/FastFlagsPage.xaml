@@ -1,4 +1,4 @@
-<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.FastFlagsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:local="clr-namespace:Voidstrap" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:settings="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:conv="clr-namespace:Voidstrap.Converters" xmlns:converters="clr-namespace:Voidstrap.UI.Converters" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="FastFlagsPage" Scrollable="True" Loaded="Window_Loaded">
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.FastFlagsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:local="clr-namespace:Voidstrap" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:settings="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:conv="clr-namespace:Voidstrap.Converters" xmlns:converters="clr-namespace:Voidstrap.UI.Converters" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="FastFlagsPage" Scrollable="True" Loaded="Window_Loaded">
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <conv:CustomVisibilityConverter x:Key="CustomVisibilityConverter" />
@@ -189,7 +189,7 @@
             <TextBlock VerticalAlignment="Center" Text="Max" Margin="8,0,0,0" />
           </StackPanel>
         </controls:OptionControl>
-        <controls:OptionControl Description="Configure the rendering api for Roblox. Press Alt Enter when going to Fullscreen if using Direct3D. Setting to Vulkan may cause some bugs!." Header="Rendering Mode">
+        <controls:OptionControl Description="Configure the rendering api for Roblox. Press Alt Enter when going to Fullscreen if using Direct3D. Setting to Vulkan may cause some bugs!." Header="Rendering Mode" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
           <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding RenderingModes.Keys, Mode=OneTime}" Text="{Binding SelectedRenderingMode, Mode=TwoWay}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>

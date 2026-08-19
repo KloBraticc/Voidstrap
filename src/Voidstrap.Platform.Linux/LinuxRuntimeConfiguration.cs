@@ -160,6 +160,8 @@ public sealed partial class LinuxRuntimeConfiguration
 		"use_opengl"
 	};
 
+	public IReadOnlyList<string> SkippedAssets { get; private set; } = [];
+
 	private readonly LinuxRuntimeConfigurationPaths _paths;
 	private readonly ISoberProcessProbe? _soberProcessProbe;
 	private readonly SoberApkAssetIndexProvider? _soberAssetIndexProvider;
@@ -260,7 +262,9 @@ public sealed partial class LinuxRuntimeConfiguration
 				_paths.SoberAssetManifestFile,
 				static relative => string.Equals(relative, ClientSettingsRelativePath, StringComparison.OrdinalIgnoreCase),
 				cancellationToken,
-				assetIndex: assetIndex).ConfigureAwait(false);
+				assetIndex: assetIndex,
+				includeSourceDirectory: options.ApplyModifications,
+				additionalSources: options.ApplyModifications ? options.AdditionalModSources : null).ConfigureAwait(false);
 		}
 		finally
 		{
@@ -815,7 +819,9 @@ public sealed partial class LinuxRuntimeConfiguration
 		Func<string, bool> exclude,
 		CancellationToken cancellationToken,
 		string? vinegarVersionsDirectory = null,
-		SoberApkAssetIndex? assetIndex = null)
+		SoberApkAssetIndex? assetIndex = null,
+		bool includeSourceDirectory = true,
+		IReadOnlyList<LinuxModSource>? additionalSources = null)
 	{
 		List<StagedAsset> staged = [];
 		try
@@ -849,13 +855,20 @@ public sealed partial class LinuxRuntimeConfiguration
 				return OperationResult.Fail(previousResult.Failure!.Code, previousResult.Failure.Message, previousResult.Failure.State);
 			HashSet<string> previous = previousResult.Value;
 
-			OperationResult<List<SourceAsset>> sourceResult = EnumerateSourceAssets(sourceRoot, exclude, cancellationToken);
+			OperationResult<List<SourceAsset>> sourceResult = includeSourceDirectory
+				? EnumerateSourceAssets(sourceRoot, exclude, cancellationToken)
+				: OperationResult<List<SourceAsset>>.Success([]);
 			if (!sourceResult.Succeeded || sourceResult.Value is null)
 				return OperationResult.Fail(sourceResult.Failure!.Code, sourceResult.Failure.Message, sourceResult.Failure.State);
-			List<SourceAsset> sourceAssets = sourceResult.Value;
+			OperationResult<List<SourceAsset>> mergedResult = MergeAdditionalSources(sourceResult.Value, additionalSources, exclude);
+			if (!mergedResult.Succeeded || mergedResult.Value is null)
+				return OperationResult.Fail(mergedResult.Failure!.Code, mergedResult.Failure.Message, mergedResult.Failure.State);
+			List<SourceAsset> sourceAssets = mergedResult.Value;
 			if (assetIndex is not null)
 			{
-				OperationResult<List<SourceAsset>> mappedResult = MapToPackageAssets(sourceAssets, assetIndex);
+				List<string> skippedAssets = [];
+				OperationResult<List<SourceAsset>> mappedResult = MapToPackageAssets(sourceAssets, assetIndex, skippedAssets);
+				SkippedAssets = skippedAssets;
 				if (!mappedResult.Succeeded || mappedResult.Value is null)
 					return OperationResult.Fail(mappedResult.Failure!.Code, mappedResult.Failure.Message, mappedResult.Failure.State);
 				sourceAssets = mappedResult.Value;
@@ -1074,6 +1087,11 @@ public sealed partial class LinuxRuntimeConfiguration
 
 	internal static OperationResult<List<SourceAsset>> MapToPackageAssets(List<SourceAsset> sourceAssets, SoberApkAssetIndex assetIndex)
 	{
+		return MapToPackageAssets(sourceAssets, assetIndex, null);
+	}
+
+	internal static OperationResult<List<SourceAsset>> MapToPackageAssets(List<SourceAsset> sourceAssets, SoberApkAssetIndex assetIndex, List<string>? skipped)
+	{
 		List<SourceAsset> mapped = [];
 		Dictionary<string, string> claimed = new(StringComparer.Ordinal);
 		foreach (SourceAsset asset in sourceAssets)
@@ -1082,7 +1100,10 @@ public sealed partial class LinuxRuntimeConfiguration
 			if (!resolved.Succeeded || resolved.Value is null)
 			{
 				if (string.Equals(resolved.Failure?.Code, "SoberAssetNotInPackage", StringComparison.Ordinal))
+				{
+					skipped?.Add(asset.RelativePath);
 					continue;
+				}
 				return OperationResult<List<SourceAsset>>.Fail(resolved.Failure!.Code, resolved.Failure.Message, resolved.Failure.State);
 			}
 
@@ -1134,6 +1155,48 @@ public sealed partial class LinuxRuntimeConfiguration
 
 		assets.Sort(static (left, right) => StringComparer.Ordinal.Compare(left.RelativePath, right.RelativePath));
 		return OperationResult<List<SourceAsset>>.Success(assets);
+	}
+
+	private static OperationResult<List<SourceAsset>> MergeAdditionalSources(
+		List<SourceAsset> assets,
+		IReadOnlyList<LinuxModSource>? additionalSources,
+		Func<string, bool> exclude)
+	{
+		if (additionalSources is null || additionalSources.Count == 0)
+			return OperationResult<List<SourceAsset>>.Success(assets);
+
+		Dictionary<string, SourceAsset> merged = new(StringComparer.Ordinal);
+		foreach (SourceAsset asset in assets)
+			merged[asset.RelativePath] = asset;
+
+		foreach (LinuxModSource source in additionalSources)
+		{
+			if (source is null)
+				return OperationResult<List<SourceAsset>>.Fail("LinuxAssetPathInvalid", "A modification contains an unsafe relative path");
+
+			string relativePath = NormalizeRelativePath(source.RelativePath ?? string.Empty);
+			if (!IsSafeRelativePath(relativePath))
+				return OperationResult<List<SourceAsset>>.Fail("LinuxAssetPathInvalid", "A modification contains an unsafe relative path");
+			if (exclude(relativePath))
+				continue;
+
+			if (string.IsNullOrWhiteSpace(source.SourcePath))
+				return OperationResult<List<SourceAsset>>.Fail("LinuxAssetPathInvalid", "A modification contains an unsafe source path");
+			string sourcePath = Path.GetFullPath(source.SourcePath);
+			FileInfo file = new(sourcePath);
+			if (!file.Exists)
+				continue;
+			if (IsSymbolicLink(file))
+				return OperationResult<List<SourceAsset>>.Fail("LinuxAssetLinkRejected", "Symbolic links are not allowed in managed modifications");
+			if (!IsRegularFile(file))
+				return OperationResult<List<SourceAsset>>.Fail("LinuxAssetTypeRejected", "Managed modifications must contain regular files only");
+
+			merged[relativePath] = new SourceAsset(relativePath, sourcePath);
+		}
+
+		List<SourceAsset> result = [.. merged.Values];
+		result.Sort(static (left, right) => StringComparer.Ordinal.Compare(left.RelativePath, right.RelativePath));
+		return OperationResult<List<SourceAsset>>.Success(result);
 	}
 
 	private static async Task<OperationResult<HashSet<string>>> ReadManifestAsync(string manifestPath, CancellationToken cancellationToken)

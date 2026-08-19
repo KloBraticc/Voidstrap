@@ -26,7 +26,7 @@
           <controls:OptionControl Description="{x:Static resources:Strings.Menu_Integrations_PlayerMessageLogs_Description}" Header="{x:Static resources:Strings.Menu_Integrations_PlayerMessageLogs_Title}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding PlayerLogsEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{x:Static resources:Strings.Menu_Integrations_DesktopApp_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/What-is-activity-tracking%3F#dont-exit-to-desktop-app" Description="{Binding Source={x:Static resources:Strings.Menu_Integrations_DesktopApp_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://github.com/BloxstrapLabs/Bloxstrap/wiki/What-is-activity-tracking%3F#dont-exit-to-desktop-app}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
+          <controls:OptionControl Header="{x:Static resources:Strings.Menu_Integrations_DesktopApp_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/What-is-activity-tracking%3F#dont-exit-to-desktop-app" Description="{Binding Source={x:Static resources:Strings.Menu_Integrations_DesktopApp_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://github.com/BloxstrapLabs/Bloxstrap/wiki/What-is-activity-tracking%3F#dont-exit-to-desktop-app}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DisableAppPatchEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
         </StackPanel>
@@ -142,7 +142,7 @@
           <controls:OptionControl Header="Launch Startup" Description="Would you like to Launch Roblox on Startup" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding LaunchStartup, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="FPS Unlocker" Description="Removes the 240 FPS limit. Without the use of FFlags. Locked while Frame Generation is enabled, an uncapped framerate leaves frame generation no room to add frames" IsEnabled="{Binding UncapFpsToggleEnabled, Mode=OneWay}">
+          <controls:OptionControl Header="FPS Unlocker" Description="Removes the 240 FPS limit. Without the use of FFlags. Locked while Frame Generation is enabled, an uncapped framerate leaves frame generation no room to add frames" IsEnabled="{Binding UncapFpsToggleEnabled, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding UncapFPS, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Header="Account Switcher" Description="Easily create or switch Roblox accounts. Backup Accounts for Later Use">

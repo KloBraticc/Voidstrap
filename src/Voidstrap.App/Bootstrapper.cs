@@ -618,6 +618,10 @@ public class Bootstrapper
         if (!Voidstrap.Utility.Platform.SupportsWindowsClient)
         {
             Observe(versionInfoTask);
+            if (_launchMode == LaunchMode.Player)
+            {
+                await PrepareLinuxLaunchAsync(_cancelTokenSource.Token);
+            }
             await mutex.ReleaseAsync();
             if (!App.LaunchSettings.NoLaunchFlag.Active && !InstallOnly && !_cancelTokenSource.IsCancellationRequested)
             {
@@ -1358,15 +1362,21 @@ public class Bootstrapper
         return false;
     }
 
-    private async Task<RuntimeInstallation> InstallSoberAndRefreshAsync(
+    internal static async Task<RuntimeInstallation> EnsureSoberInstalledAsync(
         IRobloxRuntimeProvider provider,
         RuntimeInstallation installation,
         IPlatformHost host,
+        Action<string>? report,
         CancellationToken cancellationToken)
     {
-        const string logIdent = "Bootstrapper::InstallSober";
+        const string logIdent = "Bootstrapper::EnsureSoberInstalled";
+        if (installation.Capability.IsAvailable || !LinuxSoberInstaller.CanInstall(installation.Capability))
+        {
+            return installation;
+        }
+
         App.Logger.WriteLine(logIdent, "Sober is not installed, installing it from Flathub");
-        SetStatus("Installing Sober, this can take a while");
+        report?.Invoke("Installing Sober, this can take a while");
         try
         {
             OperationResult installed = await new LinuxSoberInstaller(host.Processes).InstallAsync(cancellationToken);
@@ -1377,7 +1387,7 @@ public class Bootstrapper
             }
 
             App.Logger.WriteLine(logIdent, "Sober installed");
-            SetStatus("Starting Roblox");
+            report?.Invoke("Starting Roblox");
             return await provider.FindInstallationAsync(cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
@@ -1412,17 +1422,22 @@ public class Bootstrapper
             {
                 IRobloxRuntimeProvider provider = runtimeKind == RuntimeKind.Player ? host.PlayerRuntime : host.StudioRuntime;
                 RuntimeInstallation installation = await provider.FindInstallationAsync(cancellationToken);
-                if (!installation.Capability.IsAvailable
-                    && runtimeKind == RuntimeKind.Player
-                    && LinuxSoberInstaller.CanInstall(installation.Capability))
+                if (runtimeKind == RuntimeKind.Player)
                 {
-                    installation = await InstallSoberAndRefreshAsync(provider, installation, host, cancellationToken);
+                    installation = await EnsureSoberInstalledAsync(provider, installation, host, SetStatus, cancellationToken);
                 }
                 if (!installation.Capability.IsAvailable)
                 {
                     App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", installation.Capability.Reason);
                     Frontend.ShowMessageBox(installation.Capability.Reason, MessageBoxImage.Hand);
                     return false;
+                }
+
+                LinuxSoberRuntimeProvider.ForceX11Session = App.Settings.Prop.OverlaysEnabled
+                    && !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
+                if (LinuxSoberRuntimeProvider.ForceX11Session)
+                {
+                    App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", "Overlays are on, starting Sober on X11 so the overlay can track its window");
                 }
 
                 LinuxRuntimeConfiguration configuration = LinuxRuntimeConfiguration.CreateDefault(Paths.Mods, host.Processes);
@@ -1436,6 +1451,14 @@ public class Bootstrapper
                     App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", message);
                     Frontend.ShowMessageBox(message, MessageBoxImage.Hand);
                     return false;
+                }
+
+                if (configuration.SkippedAssets.Count > 0)
+                {
+                    App.Logger.WriteLine(
+                        "Bootstrapper::TryLaunchNonWindowsClient",
+                        configuration.SkippedAssets.Count + " mod files have no matching asset in the installed Sober Roblox package and were not applied: "
+                            + string.Join(", ", configuration.SkippedAssets.Take(20)));
                 }
             }
 
@@ -3588,11 +3611,84 @@ public class Bootstrapper
             : target == Voidstrap.Enums.ModApplyTarget.Player;
     }
 
-    private async Task ApplyModifications()
+
+    internal async Task PrepareLinuxLaunchAsync(CancellationToken cancellationToken)
     {
+        const string logIdent = "Bootstrapper::PrepareLinuxLaunch";
+        try
+        {
+            App.FastFlags.MigratePlayerLoggingPreset();
+            App.FastFlags.Save();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(logIdent, "Fast flags could not be written before launch: " + ex.Message);
+        }
+
         SetStatus(Strings.Bootstrapper_Status_ApplyingModifications);
-        File.Delete(Path.Combine(Paths.Base, "ModManifest.txt"));
         Directory.CreateDirectory(Paths.Mods);
+
+        try
+        {
+            await ApplySkyboxModifications(false);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(logIdent, "Skybox could not be applied: " + ex.Message);
+        }
+
+        try
+        {
+            await ApplyLinuxFontFamiliesAsync(cancellationToken);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(logIdent, "Font families could not be prepared: " + ex.Message);
+        }
+    }
+
+    private async Task ApplyLinuxFontFamiliesAsync(CancellationToken cancellationToken)
+    {
+        const string logIdent = "Bootstrapper::ApplyLinuxFontFamilies";
+        if (!File.Exists(Paths.CustomFont))
+        {
+            Voidstrap.Utility.CustomFontMod.RemoveGeneratedFamilies();
+            return;
+        }
+
+        OperationResult<SoberApkAssetIndex> indexResult = await SoberApkAssetIndexProvider.CreateDefault().LoadAsync(cancellationToken);
+        if (!indexResult.Succeeded || indexResult.Value is null)
+        {
+            App.Logger.WriteLine(logIdent, indexResult.Failure?.Message ?? "The Sober Roblox package is unavailable");
+            return;
+        }
+
+        string familiesDirectory = Path.Combine(Paths.Base, "Cache", "SoberFontFamilies");
+        OperationResult<int> extracted = await indexResult.Value.ExtractEntriesAsync(
+            "content/fonts/families",
+            familiesDirectory,
+            ".json",
+            cancellationToken);
+        if (!extracted.Succeeded)
+        {
+            App.Logger.WriteLine(logIdent, extracted.Failure?.Message ?? "The Sober font families could not be extracted");
+            return;
+        }
+
+        App.Logger.WriteLine(logIdent, "Extracted " + extracted.Value + " font families from the Sober Roblox package");
+        Voidstrap.Utility.CustomFontMod.Apply(familiesDirectory, logIdent);
+    }
+
+    private async Task ApplySkyboxModifications(bool allowStoragePatch)
+    {
         string[] files;
         if (IsStudioLaunch)
         {
@@ -3631,7 +3727,8 @@ public class Bootstrapper
             {
                 try
                 {
-                    await ApplySkyboxPatchToRobloxStorageAsync(_cancelTokenSource.Token);
+                    if (allowStoragePatch)
+                        await ApplySkyboxPatchToRobloxStorageAsync(_cancelTokenSource.Token);
                 }
                 catch (OperationCanceledException) when (_cancelTokenSource.IsCancellationRequested)
                 {
@@ -3655,6 +3752,14 @@ public class Bootstrapper
                 App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Skybox failed: " + ex2.Message);
             }
         }
+    }
+
+    private async Task ApplyModifications()
+    {
+        SetStatus(Strings.Bootstrapper_Status_ApplyingModifications);
+        File.Delete(Path.Combine(Paths.Base, "ModManifest.txt"));
+        Directory.CreateDirectory(Paths.Mods);
+        await ApplySkyboxModifications(true);
 		_cancelTokenSource.Token.ThrowIfCancellationRequested();
         string installedFontDir = Path.Combine(_latestVersionDirectory, "content", "fonts", "families");
         CustomFontMod.Apply(installedFontDir, "Bootstrapper::ApplyModifications");

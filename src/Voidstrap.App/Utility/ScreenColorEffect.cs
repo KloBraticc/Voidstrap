@@ -100,6 +100,9 @@ namespace Voidstrap.Utility
             bool cbEnabled = false, ColorBlindnessType cbType = ColorBlindnessType.Deuteranopia,
             double cbSeverity = 1.0, bool cbSimulate = false)
         {
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return;
+
             float sat = (float)Math.Clamp(saturation / 100.0, 0.0, 2.0);
             float con = (float)Math.Clamp(contrast / 100.0, 0.0, 2.0);
             double temp = Math.Clamp(colorTemperature / 100.0, -1.0, 1.0);
@@ -139,6 +142,9 @@ namespace Voidstrap.Utility
 
         public static void Reset()
         {
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return;
+
             OnUi(delegate
             {
                 lock (Sync)

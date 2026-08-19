@@ -604,6 +604,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         //IL_01de: Expected O, but got Unknown
         InitializeComponent();
         SoberNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
+        ShortcutsNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
         SettingChangeNotifier.Failed += OnSettingChangeFailed;
         RestartNotificationService.Changed += OnRestartRequirementsChanged;
         CreateBackgroundMedia();

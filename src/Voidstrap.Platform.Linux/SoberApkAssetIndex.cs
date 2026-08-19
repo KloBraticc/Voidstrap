@@ -32,13 +32,19 @@ public sealed record SoberApkAssetIndexPaths(
 
 public sealed class SoberApkAssetIndex
 {
+	private const string PlatformContentRoot = "PlatformContent/";
+
 	private readonly Dictionary<string, string> _canonicalPaths;
+	private readonly Dictionary<string, List<string>> _byFileName;
+	private readonly List<string> _platformSegments;
 
 	internal SoberApkAssetIndex(string packageFile, string packageSha256, IEnumerable<string> canonicalPaths)
 	{
 		PackageFile = packageFile;
 		PackageSha256 = packageSha256;
 		_canonicalPaths = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+		_byFileName = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
+		HashSet<string> platformSegments = new(StringComparer.OrdinalIgnoreCase);
 		foreach (string path in canonicalPaths)
 		{
 			OperationResult<string> normalized = Normalize(path);
@@ -46,7 +52,24 @@ public sealed class SoberApkAssetIndex
 				throw new InvalidDataException("The Sober package contains an invalid asset path");
 			if (!_canonicalPaths.TryAdd(normalized.Value, normalized.Value))
 				throw new InvalidDataException("The Sober package contains asset paths that differ only by case");
+
+			string fileName = normalized.Value[(normalized.Value.LastIndexOf('/') + 1)..];
+			if (!_byFileName.TryGetValue(fileName, out List<string>? bucket))
+			{
+				bucket = [];
+				_byFileName[fileName] = bucket;
+			}
+			bucket.Add(normalized.Value);
+
+			if (normalized.Value.StartsWith(PlatformContentRoot, StringComparison.OrdinalIgnoreCase))
+			{
+				int separator = normalized.Value.IndexOf('/', PlatformContentRoot.Length);
+				if (separator > PlatformContentRoot.Length)
+					platformSegments.Add(normalized.Value[PlatformContentRoot.Length..separator]);
+			}
 		}
+
+		_platformSegments = [.. platformSegments];
 	}
 
 	public string PackageFile { get; }
@@ -61,9 +84,123 @@ public sealed class SoberApkAssetIndex
 		if (!normalized.Succeeded || normalized.Value is null)
 			return normalized;
 
-		return _canonicalPaths.TryGetValue(normalized.Value, out string? canonical)
-			? OperationResult<string>.Success(canonical)
-			: OperationResult<string>.Fail("SoberAssetNotInPackage", "The modification does not match an asset in the installed Sober Roblox package");
+		string requested = normalized.Value;
+		if (_canonicalPaths.TryGetValue(requested, out string? canonical))
+			return OperationResult<string>.Success(canonical);
+
+		string? remapped = ResolveAcrossPlatformSegments(requested) ?? ResolveByUniqueTail(requested);
+		return remapped is null
+			? OperationResult<string>.Fail("SoberAssetNotInPackage", "The modification does not match an asset in the installed Sober Roblox package")
+			: OperationResult<string>.Success(remapped);
+	}
+
+	private string? ResolveAcrossPlatformSegments(string requested)
+	{
+		if (!requested.StartsWith(PlatformContentRoot, StringComparison.OrdinalIgnoreCase))
+			return null;
+
+		int separator = requested.IndexOf('/', PlatformContentRoot.Length);
+		if (separator <= PlatformContentRoot.Length)
+			return null;
+
+		string tail = requested[separator..];
+		foreach (string segment in _platformSegments)
+		{
+			string candidate = PlatformContentRoot + segment + tail;
+			if (_canonicalPaths.TryGetValue(candidate, out string? canonical))
+				return canonical;
+		}
+
+		return null;
+	}
+
+	private string? ResolveByUniqueTail(string requested)
+	{
+		string fileName = requested[(requested.LastIndexOf('/') + 1)..];
+		if (!_byFileName.TryGetValue(fileName, out List<string>? candidates) || candidates.Count == 0)
+			return null;
+		if (candidates.Count == 1)
+			return candidates[0];
+
+		string? best = null;
+		int bestLength = -1;
+		bool ambiguous = false;
+		foreach (string candidate in candidates)
+		{
+			int length = CommonTailLength(requested, candidate);
+			if (length > bestLength)
+			{
+				bestLength = length;
+				best = candidate;
+				ambiguous = false;
+			}
+			else if (length == bestLength)
+			{
+				ambiguous = true;
+			}
+		}
+
+		return ambiguous ? null : best;
+	}
+
+	private static int CommonTailLength(string left, string right)
+	{
+		int length = 0;
+		while (length < left.Length && length < right.Length
+			&& char.ToUpperInvariant(left[^(length + 1)]) == char.ToUpperInvariant(right[^(length + 1)]))
+		{
+			length++;
+		}
+
+		return length;
+	}
+
+	public async Task<OperationResult<int>> ExtractEntriesAsync(
+		string logicalDirectory,
+		string destinationDirectory,
+		string searchExtension,
+		CancellationToken cancellationToken = default)
+	{
+		OperationResult<string> normalized = Normalize(logicalDirectory);
+		if (!normalized.Succeeded || normalized.Value is null)
+			return OperationResult<int>.Fail(normalized.Failure!.Code, normalized.Failure.Message, normalized.Failure.State);
+
+		string prefix = "assets/" + normalized.Value + "/";
+		int extracted = 0;
+		try
+		{
+			Directory.CreateDirectory(destinationDirectory);
+			using ZipArchive archive = ZipFile.OpenRead(PackageFile);
+			foreach (ZipArchiveEntry entry in archive.Entries)
+			{
+				cancellationToken.ThrowIfCancellationRequested();
+				string fullName = entry.FullName.Normalize(NormalizationForm.FormC);
+				if (!fullName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) || fullName.EndsWith("/", StringComparison.Ordinal))
+					continue;
+
+				string name = fullName[prefix.Length..];
+				if (name.Length == 0 || name.Contains('/', StringComparison.Ordinal))
+					continue;
+				if (!string.IsNullOrEmpty(searchExtension) && !name.EndsWith(searchExtension, StringComparison.OrdinalIgnoreCase))
+					continue;
+
+				string destination = Path.Combine(destinationDirectory, name);
+				await using FileStream output = new(destination, FileMode.Create, FileAccess.Write, FileShare.None);
+				await using Stream input = entry.Open();
+				await input.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
+				extracted++;
+			}
+		}
+		catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+		{
+			throw;
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException)
+		{
+			return OperationResult<int>.Fail("SoberApkExtractFailed", "The installed Sober Roblox package could not be read: " + ex.Message);
+		}
+
+		return OperationResult<int>.Success(extracted);
 	}
 
 	internal static OperationResult<string> Normalize(string? logicalPath)

@@ -393,22 +393,47 @@ public class ActivityWatcher : IDisposable
 		}
 	}
 
+	private static string[] GetClientLogDirectories()
+	{
+		List<string> candidates = [];
+		if (OperatingSystem.IsLinux())
+		{
+			string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+			string soberData = Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "data", "sober");
+			candidates.Add(Path.Combine(soberData, "appData", "logs"));
+			candidates.Add(Path.Combine(soberData, "sober_logs"));
+		}
+		else
+		{
+			candidates.Add(Path.Combine(Paths.LocalAppData, "Roblox", "logs"));
+		}
+
+		return [.. candidates.Where(Directory.Exists)];
+	}
+
+	private static bool IsClientLogFile(FileInfo file)
+	{
+		return OperatingSystem.IsLinux()
+			? file.Extension.Equals(".log", StringComparison.OrdinalIgnoreCase) || file.Name.Contains("Player", StringComparison.OrdinalIgnoreCase)
+			: file.Name.Contains("Player", StringComparison.OrdinalIgnoreCase);
+	}
+
 	private async Task RunAsync()
 	{
 		CancellationToken token = _playerLifetimeCts.Token;
 		FileInfo logFileInfo = null;
 		if (string.IsNullOrEmpty(LogLocation))
 		{
-			string logDirectory = Path.Combine(Paths.LocalAppData, "Roblox", "logs");
-			if (!Directory.Exists(logDirectory))
+			string[] logDirectories = GetClientLogDirectories();
+			if (logDirectories.Length == 0)
 			{
 				return;
 			}
 			App.Logger.WriteLine("ActivityWatcher::Start", "Opening Roblox log file...");
 			while (!IsDisposed && !token.IsCancellationRequested)
 			{
-				FileInfo fileInfo = (from x in new DirectoryInfo(logDirectory).GetFiles()
-					where x.Name.Contains("Player", StringComparison.OrdinalIgnoreCase) && x.CreationTime <= DateTime.Now
+				FileInfo fileInfo = (from x in logDirectories.SelectMany(static directory => new DirectoryInfo(directory).GetFiles())
+					where IsClientLogFile(x) && x.CreationTime <= DateTime.Now
 					orderby x.CreationTime descending
 					select x).FirstOrDefault();
 				if (fileInfo == null)

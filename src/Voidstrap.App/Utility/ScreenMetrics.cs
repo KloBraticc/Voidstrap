@@ -49,13 +49,13 @@ internal static class ScreenMetrics
 
 	private static (double, double) QueryLinux()
 	{
-		string info = Run("xdpyinfo", "");
+		string info = ShellQuery.Run("xdpyinfo", "");
 		Match match = Regex.Match(info, @"dimensions:\s+(\d+)x(\d+)");
 		if (match.Success && int.TryParse(match.Groups[1].Value, out int w1) && int.TryParse(match.Groups[2].Value, out int h1))
 		{
 			return (w1, h1);
 		}
-		string randr = Run("xrandr", "--current");
+		string randr = ShellQuery.Run("xrandr", "--current");
 		match = Regex.Match(randr, @"current\s+(\d+)\s*x\s*(\d+)");
 		if (match.Success && int.TryParse(match.Groups[1].Value, out int w2) && int.TryParse(match.Groups[2].Value, out int h2))
 		{
@@ -71,37 +71,12 @@ internal static class ScreenMetrics
 
 	private static (double, double) QueryMacOS()
 	{
-		string info = Run("system_profiler", "SPDisplaysDataType");
+		string info = ShellQuery.Run("system_profiler", "SPDisplaysDataType");
 		Match match = Regex.Match(info, @"Resolution:\s+(\d+)\s*x\s*(\d+)");
 		if (match.Success && int.TryParse(match.Groups[1].Value, out int w) && int.TryParse(match.Groups[2].Value, out int h))
 		{
 			return (w, h);
 		}
 		return (0.0, 0.0);
-	}
-
-	private static string Run(string fileName, string arguments)
-	{
-		try
-		{
-			using Process? process = Process.Start(new ProcessStartInfo(fileName, arguments)
-			{
-				RedirectStandardOutput = true,
-				RedirectStandardError = true,
-				UseShellExecute = false,
-				CreateNoWindow = true
-			});
-			if (process == null)
-			{
-				return string.Empty;
-			}
-			string output = process.StandardOutput.ReadToEnd();
-			process.WaitForExit(2500);
-			return output;
-		}
-		catch
-		{
-			return string.Empty;
-		}
 	}
 }

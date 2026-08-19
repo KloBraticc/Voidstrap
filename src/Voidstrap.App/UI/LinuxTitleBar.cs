@@ -60,7 +60,7 @@ internal static class LinuxTitleBar
 
 	private static void ApplyLayout(TitleBar titleBar)
 	{
-		_layout ??= GnomeButtonLayout.Parse(Run("gsettings", "get org.gnome.desktop.wm.preferences button-layout"));
+		_layout ??= GnomeButtonLayout.Parse(Voidstrap.Utility.ShellQuery.Run("gsettings", "get org.gnome.desktop.wm.preferences button-layout"));
 		bool onLeft = _layout.OnLeft;
 		IReadOnlyList<string> order = _layout.Order;
 		if (order.Count == 0)
@@ -182,30 +182,5 @@ internal static class LinuxTitleBar
 			}
 		}
 		return null;
-	}
-
-	private static string Run(string fileName, string arguments)
-	{
-		try
-		{
-			using Process? process = Process.Start(new ProcessStartInfo(fileName, arguments)
-			{
-				RedirectStandardOutput = true,
-				RedirectStandardError = true,
-				UseShellExecute = false,
-				CreateNoWindow = true
-			});
-			if (process == null)
-			{
-				return string.Empty;
-			}
-			string output = process.StandardOutput.ReadToEnd();
-			process.WaitForExit(2500);
-			return output;
-		}
-		catch
-		{
-			return string.Empty;
-		}
 	}
 }

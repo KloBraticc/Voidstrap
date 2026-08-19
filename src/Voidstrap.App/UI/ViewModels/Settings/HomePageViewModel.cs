@@ -278,10 +278,13 @@ namespace Voidstrap.UI.ViewModels.Pages
                 _hasWebsiteProfile = value;
                 OnPropertyChanged(nameof(HasWebsiteProfile));
                 OnPropertyChanged(nameof(IsSignedOut));
+                OnPropertyChanged(nameof(IsSignedOutWithGameChat));
             }
         }
 
         public bool IsSignedOut => !_hasWebsiteProfile;
+
+        public bool IsSignedOutWithGameChat => IsSignedOut && Voidstrap.Utility.Platform.IsWindows;
 
         private bool _isSigningIn;
 

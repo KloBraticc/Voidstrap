@@ -29,9 +29,13 @@ public sealed record SoberNativeConfigurationOptions(
 	bool? UseLibsecret = null,
 	bool? UseOpenGl = null);
 
+public sealed record LinuxModSource(string RelativePath, string SourcePath);
+
 public sealed record LinuxPlayerPreparationOptions(
 	bool UseFastFlagManager = true,
-	SoberNativeConfigurationOptions? NativeConfiguration = null);
+	SoberNativeConfigurationOptions? NativeConfiguration = null,
+	bool ApplyModifications = true,
+	IReadOnlyList<LinuxModSource>? AdditionalModSources = null);
 
 public interface ISoberProcessProbe
 {

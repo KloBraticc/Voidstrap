@@ -119,12 +119,15 @@ namespace Voidstrap.Integrations.Overlays
                 _started = true;
             }
 
-            _foregroundProc = OnForegroundEvent;
-            _foregroundHook = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _foregroundProc, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
+            if (!Voidstrap.Utility.Platform.IsLinux)
+            {
+                _foregroundProc = OnForegroundEvent;
+                _foregroundHook = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _foregroundProc, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
+            }
 
             _discoveryTimer = new DispatcherTimer(DispatcherPriority.Background)
             {
-                Interval = TimeSpan.FromMilliseconds(1000)
+                Interval = TimeSpan.FromMilliseconds(Voidstrap.Utility.Platform.IsLinux ? 250 : 1000)
             };
             _discoveryTimer.Tick += OnDiscoveryTick;
             _discoveryTimer.Start();
@@ -261,6 +264,12 @@ namespace Voidstrap.Integrations.Overlays
         {
             if (!_started)
                 return;
+
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                Publish();
+                return;
+            }
 
             if (_hwnd != IntPtr.Zero && IsWindow(_hwnd) && IsWindowVisible(_hwnd))
             {
@@ -408,6 +417,9 @@ namespace Voidstrap.Integrations.Overlays
 
         private static RobloxWindowRect Measure()
         {
+            if (Voidstrap.Utility.Platform.IsLinux)
+                return MeasureLinux();
+
             IntPtr hwnd = _hwnd;
             if (hwnd == IntPtr.Zero || !IsWindow(hwnd) || !IsWindowVisible(hwnd) || IsIconic(hwnd))
                 return new RobloxWindowRect(hwnd, 0, 0, 0, 0, false, false);
@@ -427,8 +439,27 @@ namespace Voidstrap.Integrations.Overlays
             return new RobloxWindowRect(hwnd, origin.X, origin.Y, width, height, true, IsRobloxForeground());
         }
 
+        private static RobloxWindowRect MeasureLinux()
+        {
+            Voidstrap.Platform.Linux.LinuxWindowGeometry geometry = Voidstrap.Platform.Linux.LinuxWindowInterop.FindRuntimeWindow();
+            if (!geometry.Valid)
+            {
+                _hwnd = IntPtr.Zero;
+                _pid = 0;
+                return new RobloxWindowRect(IntPtr.Zero, 0, 0, 0, 0, false, false);
+            }
+
+            _hwnd = geometry.Window;
+            _pid = (uint)geometry.ProcessId;
+            return new RobloxWindowRect(geometry.Window, geometry.Left, geometry.Top, geometry.Width, geometry.Height, true, geometry.Focused);
+        }
+
         public static bool IsRobloxForeground()
         {
+            if (Voidstrap.Utility.Platform.IsLinux)
+                return Current.Foreground;
+
+
             IntPtr foreground = GetForegroundWindow();
             if (foreground == IntPtr.Zero)
                 return false;
@@ -694,6 +725,18 @@ namespace Voidstrap.Integrations.Overlays
 						left = rect.Left + rect.Width - width - horizontalMargin;
 						top = rect.Top + verticalMargin;
 					}
+				}
+				if (Voidstrap.Utility.Platform.IsLinux)
+				{
+					DpiScale surfaceDpi = VisualTreeHelper.GetDpi(_window);
+					double scaleX = surfaceDpi.DpiScaleX <= 0 ? 1 : surfaceDpi.DpiScaleX;
+					double scaleY = surfaceDpi.DpiScaleY <= 0 ? 1 : surfaceDpi.DpiScaleY;
+					_window.Left = left / scaleX;
+					_window.Top = top / scaleY;
+					_window.Width = Math.Max(1, width / scaleX);
+					_window.Height = Math.Max(1, height / scaleY);
+					_window.Topmost = true;
+					return;
 				}
 				SetWindowPos(_hwnd, HWND_TOPMOST, left, top, width, height, SWP_NOACTIVATE | SWP_SHOWWINDOW);
             }

@@ -1,3 +1,8 @@
+using System.Windows;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
+using Voidstrap.Core;
+using Voidstrap.Platform;
 using Voidstrap.Platform.Linux;
 using Voidstrap.Resources;
 
@@ -5,7 +10,121 @@ namespace Voidstrap.UI.ViewModels.Settings;
 
 public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 {
+	private string _runtimeStatus = "Checking for Sober";
+	private bool _isBusy;
+	private bool _canInstall;
+
 	public sealed record Choice<T>(T Value, string Display);
+
+	public SoberViewModel()
+	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+			_ = RefreshRuntimeAsync();
+		else
+			_runtimeStatus = "Sober is only available on Linux";
+	}
+
+	public Visibility RuntimeVisibility => Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
+
+	public string RuntimeStatus
+	{
+		get => _runtimeStatus;
+		private set
+		{
+			if (string.Equals(_runtimeStatus, value, StringComparison.Ordinal))
+				return;
+			_runtimeStatus = value;
+			OnPropertyChanged();
+		}
+	}
+
+	public bool IsBusy
+	{
+		get => _isBusy;
+		private set
+		{
+			if (_isBusy == value)
+				return;
+			_isBusy = value;
+			OnPropertyChanged();
+			OnPropertyChanged(nameof(IsIdle));
+			OnPropertyChanged(nameof(CanInstall));
+		}
+	}
+
+	public bool IsIdle => !_isBusy;
+
+	public bool CanInstall
+	{
+		get => _canInstall && !_isBusy;
+		private set
+		{
+			if (_canInstall == value)
+				return;
+			_canInstall = value;
+			OnPropertyChanged();
+		}
+	}
+
+	public ICommand InstallRuntimeCommand => new AsyncRelayCommand(InstallRuntimeAsync);
+
+	public ICommand RefreshRuntimeCommand => new AsyncRelayCommand(RefreshRuntimeAsync);
+
+	private async Task RefreshRuntimeAsync()
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux || IsBusy)
+			return;
+
+		IsBusy = true;
+		try
+		{
+			SoberInstallationState state = await new LinuxSoberInstaller(new SystemProcessService()).DetectAsync();
+			RuntimeStatus = state.Message;
+			CanInstall = state.Status != SoberInstallationStatus.FlatpakMissing;
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("SoberViewModel::RefreshRuntime", "Sober detection failed: " + ex.Message);
+			RuntimeStatus = "Sober could not be detected";
+			CanInstall = true;
+		}
+		finally
+		{
+			IsBusy = false;
+		}
+	}
+
+	private async Task InstallRuntimeAsync()
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux || IsBusy)
+			return;
+
+		IsBusy = true;
+		RuntimeStatus = "Installing Sober, this can take a while";
+		try
+		{
+			OperationResult result = await new LinuxSoberInstaller(new SystemProcessService()).InstallAsync();
+			if (!result.Succeeded)
+			{
+				string message = result.Failure?.Message ?? "Sober could not be installed";
+				App.Logger.WriteLine("SoberViewModel::InstallRuntime", message);
+				RuntimeStatus = message;
+				return;
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("SoberViewModel::InstallRuntime", "Sober install failed: " + ex.Message);
+			RuntimeStatus = "Sober could not be installed: " + ex.Message;
+			return;
+		}
+		finally
+		{
+			IsBusy = false;
+		}
+
+		await RefreshRuntimeAsync();
+	}
 
 	public IReadOnlyList<Choice<bool?>> BooleanChoices { get; } =
 	[

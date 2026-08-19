@@ -73,6 +73,12 @@ namespace Voidstrap.UI.Elements.Crosshair
 
         private void MakeWindowClickThrough()
         {
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                Voidstrap.Integrations.Overlays.LinuxOverlaySurface.MakeClickThrough(this);
+                return;
+            }
+
             var hwnd = new WindowInteropHelper(this).Handle;
             int exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
             SetWindowLong(hwnd, GWL_EXSTYLE, exStyle | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);

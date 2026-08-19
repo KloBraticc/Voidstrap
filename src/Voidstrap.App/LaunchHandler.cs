@@ -649,10 +649,28 @@ public static class LaunchHandler
 
 			if (OperatingSystem.IsLinux())
 			{
+				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+				{
+					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session = App.Settings.Prop.OverlaysEnabled
+						&& !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
+					try
+					{
+						await new Bootstrapper(launchMode).PrepareLinuxLaunchAsync(CancellationToken.None);
+					}
+					catch (Exception ex)
+					{
+						App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "Linux modifications could not be prepared: " + ex.Message);
+					}
+				}
+
 				Voidstrap.Platform.IRobloxRuntimeProvider provider = runtimeKind == Voidstrap.Platform.RuntimeKind.Player
 					? host.PlayerRuntime
 					: host.StudioRuntime;
 				Voidstrap.Platform.RuntimeInstallation installation = await provider.FindInstallationAsync();
+				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+				{
+					installation = await Bootstrapper.EnsureSoberInstalledAsync(provider, installation, host, null, CancellationToken.None);
+				}
 				if (!installation.Capability.IsAvailable)
 				{
 					ShowPortableLaunchFailure(installation.Capability.Reason);
@@ -667,6 +685,14 @@ public static class LaunchHandler
 				{
 					ShowPortableLaunchFailure(prepared.Failure?.Message ?? "Linux runtime preparation failed.");
 					return;
+				}
+
+				if (configuration.SkippedAssets.Count > 0)
+				{
+					App.Logger.WriteLine(
+						"LaunchHandler::LaunchPortableRuntime",
+						configuration.SkippedAssets.Count + " mod files have no matching asset in the installed Sober Roblox package and were not applied: "
+							+ string.Join(", ", configuration.SkippedAssets.Take(20)));
 				}
 			}
 

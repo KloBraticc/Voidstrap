@@ -73,7 +73,7 @@ internal static class SystemAccent
 
 	private static Color? GetMacOSAccent()
 	{
-		string value = Run("defaults", "read -g AppleAccentColor").Trim();
+		string value = ShellQuery.Run("defaults", "read -g AppleAccentColor").Trim();
 		if (!int.TryParse(value, out int index))
 		{
 			return null;
@@ -93,13 +93,13 @@ internal static class SystemAccent
 
 	private static Color? GetLinuxAccent()
 	{
-		string accent = Run("gsettings", "get org.gnome.desktop.interface accent-color").Trim().Trim('\'', '"');
+		string accent = ShellQuery.Run("gsettings", "get org.gnome.desktop.interface accent-color").Trim().Trim('\'', '"');
 		Color? named = FromGnomeName(accent);
 		if (named.HasValue)
 		{
 			return named;
 		}
-		string theme = Run("gsettings", "get org.gnome.desktop.interface gtk-theme").Trim().Trim('\'', '"');
+		string theme = ShellQuery.Run("gsettings", "get org.gnome.desktop.interface gtk-theme").Trim().Trim('\'', '"');
 		return FromGnomeName(theme);
 	}
 
@@ -120,30 +120,5 @@ internal static class SystemAccent
 		if (value.Contains("purple")) return Color.FromRgb(0x91, 0x41, 0xAC);
 		if (value.Contains("slate")) return Color.FromRgb(0x6F, 0x83, 0x96);
 		return null;
-	}
-
-	private static string Run(string fileName, string arguments)
-	{
-		try
-		{
-			using Process? process = Process.Start(new ProcessStartInfo(fileName, arguments)
-			{
-				RedirectStandardOutput = true,
-				RedirectStandardError = true,
-				UseShellExecute = false,
-				CreateNoWindow = true
-			});
-			if (process == null)
-			{
-				return string.Empty;
-			}
-			string output = process.StandardOutput.ReadToEnd();
-			process.WaitForExit(2000);
-			return output;
-		}
-		catch
-		{
-			return string.Empty;
-		}
 	}
 }

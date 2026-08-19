@@ -191,7 +191,9 @@ public sealed class LinuxPlatformHost : IPlatformHost
 
 	private static CapabilityDescriptor CreateOverlayCapability()
 	{
-		return new CapabilityDescriptor(FeatureId.Overlay, CapabilityState.Unavailable, "The X11 and Wayland overlay adapters have not been ported to the shared desktop host");
+		return LinuxWindowInterop.IsAvailable
+			? new CapabilityDescriptor(FeatureId.Overlay, CapabilityState.Experimental, "The X11 overlay adapter can track and cover the Sober window", null, true)
+			: new CapabilityDescriptor(FeatureId.Overlay, CapabilityState.RequiresExternalRuntime, "Overlays require an X11 or XWayland session", "Start the desktop session on X11, or run Voidstrap with DISPLAY set");
 	}
 
 	private static CapabilityDescriptor CreateInputCapability()
@@ -899,6 +901,8 @@ public sealed class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 	public RuntimeKind Kind => RuntimeKind.Player;
 
+	public static bool ForceX11Session { get; set; }
+
 	public CapabilityDescriptor PrerequisiteCapability => _prerequisiteCapability;
 
 	public async Task<RuntimeInstallation> FindInstallationAsync(CancellationToken cancellationToken = default)
@@ -959,8 +963,17 @@ public sealed class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 				installation.Capability.State);
 		}
 
+		List<string> arguments = ["run"];
+		if (ForceX11Session)
+		{
+			arguments.Add("--nosocket=wayland");
+			arguments.Add("--env=SDL_VIDEODRIVER=x11");
+		}
+		arguments.Add(SoberApplicationId);
+		arguments.Add(deeplink.AbsoluteUri);
+
 		OperationResult<ProcessStartResult> result = await _processes.StartAsync(
-			new ProcessCommand(installation.Location, ["run", SoberApplicationId, deeplink.AbsoluteUri], CaptureOutput: false),
+			new ProcessCommand(installation.Location, arguments, CaptureOutput: false),
 			cancellationToken);
 		ThrowIfCanceled(result.Failure, cancellationToken);
 

@@ -82,7 +82,9 @@ internal static class SearchCatalog
 						Entry = entry,
 						PageType = ResolvePageType(entry.SourcePage)
 					})
-					.Where(static item => item.PageType is not null)
+					.Where(static item => item.PageType is not null
+						&& IsPageAvailableOnThisPlatform(item.Entry.SourcePage)
+						&& IsVisibleOnThisPlatform(item.Entry.VisibilityExpression))
 					.Select(static item => new SearchCatalogOption(item.Entry.Id, item.PageType!, item.Entry.Title, item.Entry.Description, item.Entry.Aliases.ToArray(), item.Entry.TargetName, item.Entry.Containers.ToArray()))
 					.ToArray();
 			}
@@ -104,6 +106,32 @@ internal static class SearchCatalog
 			}
 			_loadTask = null;
 		}
+	}
+
+	private static readonly HashSet<string> WindowsOnlyPages = new(StringComparer.Ordinal)
+	{
+		"ShortcutsPage",
+		"NvidiaFastFlagsPage",
+		"NvidaEditor"
+	};
+
+	private static bool IsPageAvailableOnThisPlatform(string sourcePage)
+	{
+		return !Voidstrap.Utility.Platform.IsLinux || !WindowsOnlyPages.Contains(sourcePage);
+	}
+
+	private static bool IsVisibleOnThisPlatform(string visibilityExpression)
+	{
+		if (string.IsNullOrWhiteSpace(visibilityExpression))
+			return true;
+
+		Match match = Regex.Match(visibilityExpression, @"PlatformFeatureVisibility\.(?<member>[A-Za-z0-9_]+)");
+		if (!match.Success)
+			return true;
+
+		System.Reflection.PropertyInfo? member = typeof(Voidstrap.UI.PlatformFeatureVisibility)
+			.GetProperty(match.Groups["member"].Value, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+		return member?.GetValue(null) is not System.Windows.Visibility visibility || visibility == System.Windows.Visibility.Visible;
 	}
 
 	public static string Resolve(string value)

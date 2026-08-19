@@ -475,6 +475,12 @@ namespace Voidstrap.UI.Elements.Overlay
 
         private void MakeClickThrough()
         {
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+            	Voidstrap.Integrations.Overlays.LinuxOverlaySurface.MakeClickThrough(this);
+            	return;
+            }
+
             var hwnd = new WindowInteropHelper(this).Handle;
             int style = GetWindowLong(hwnd, GWL_EXSTYLE);
             SetWindowLong(hwnd, GWL_EXSTYLE, style | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);

@@ -1,7 +1,7 @@
 ﻿<Page
     x:Class="Voidstrap.UI.Elements.Settings.Pages.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:models="clr-namespace:Voidstrap.UI.ViewModels"
@@ -356,7 +356,7 @@
                             </StackPanel>
                             <controls:OptionControl Header="In-game Voidstrap chat"
                                                     Description="Chat with other users, Voidstrap."
-                                                    Margin="0,0,0,0">
+                                                    Margin="0,0,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
                                 <ui:ToggleSwitch IsChecked="{Binding GameChatEnabled, Mode=TwoWay}"/>
                             </controls:OptionControl>
                         </StackPanel>
@@ -366,7 +366,7 @@
                 <controls:OptionControl Header="In-game Voidstrap chat"
                                         Description="Chat with other users, Voidstrap."
                                         Margin="0,0,0,16"
-                                        Visibility="{Binding IsSignedOut, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        Visibility="{Binding IsSignedOutWithGameChat, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <ui:ToggleSwitch IsChecked="{Binding GameChatEnabled, Mode=TwoWay}"/>
                 </controls:OptionControl>
 

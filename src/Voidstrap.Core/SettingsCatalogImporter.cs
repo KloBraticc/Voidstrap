@@ -18,7 +18,8 @@ public sealed record SettingsCatalogEntry(
 	string Description,
 	IReadOnlyCollection<string> Aliases,
 	string TargetName,
-	IReadOnlyCollection<string> Containers);
+	IReadOnlyCollection<string> Containers,
+	string VisibilityExpression = "");
 
 public static class SettingsCatalogImporter
 {
@@ -218,6 +219,13 @@ public static class SettingsCatalogImporter
 				string title = GetAttributeValue(element, "Header");
 				string description = GetAttributeValue(element, "Description");
 				string targetName = GetAttributeValue(element, "Name");
+				string visibility = GetAttributeValue(element, "Visibility");
+				if (string.IsNullOrEmpty(visibility))
+				{
+					visibility = element.Ancestors()
+						.Select(static ancestor => GetAttributeValue(ancestor, "Visibility"))
+						.FirstOrDefault(static value => value.Contains("PlatformFeatureVisibility", StringComparison.Ordinal)) ?? string.Empty;
+				}
 				string[] containers = element.Ancestors()
 					.Where(static ancestor => string.Equals(ancestor.Name.LocalName, "TabItem", StringComparison.Ordinal) || string.Equals(ancestor.Name.LocalName, "Expander", StringComparison.Ordinal))
 					.Reverse()
@@ -242,7 +250,8 @@ public static class SettingsCatalogImporter
 					description,
 					aliases.Where(static alias => !string.IsNullOrWhiteSpace(alias)).Distinct(StringComparer.OrdinalIgnoreCase).ToArray(),
 					targetName,
-					containers));
+					containers,
+					visibility));
 			}
 
 			return entries;

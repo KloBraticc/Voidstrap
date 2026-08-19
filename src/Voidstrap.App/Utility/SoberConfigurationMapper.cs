@@ -8,7 +8,37 @@ internal static class SoberConfigurationMapper
 	public static LinuxPlayerPreparationOptions CreatePlayerOptions(AppSettings settings)
 	{
 		ArgumentNullException.ThrowIfNull(settings);
-		return new LinuxPlayerPreparationOptions(settings.UseFastFlagManager, CreateNativeOptions(settings));
+		bool modsAllowed = settings.ModApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Player;
+		return new LinuxPlayerPreparationOptions(
+			settings.UseFastFlagManager,
+			CreateNativeOptions(settings),
+			modsAllowed,
+			modsAllowed ? CollectManagedModSources() : null);
+	}
+
+	private static IReadOnlyList<LinuxModSource> CollectManagedModSources()
+	{
+		List<LinuxModSource> sources = [];
+		try
+		{
+			ManagedModScanResult scan = ManagedModStore.ScanEnabledFiles();
+			foreach (ManagedModFile file in scan.Files)
+			{
+				string relative = file.Relative.Replace('\\', '/');
+				if (relative.EndsWith(".lock", StringComparison.OrdinalIgnoreCase))
+					continue;
+				sources.Add(new LinuxModSource(relative, file.Source));
+			}
+
+			foreach ((string id, string message) in scan.Failures)
+				App.Logger.WriteLine("SoberConfigurationMapper::CollectManagedModSources", "Managed mod " + id[..Math.Min(8, id.Length)] + " could not be indexed: " + message);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("SoberConfigurationMapper::CollectManagedModSources", "Managed mods could not be indexed: " + ex.Message);
+		}
+
+		return sources;
 	}
 
 	public static SoberNativeConfigurationOptions? CreateNativeOptions(AppSettings settings)

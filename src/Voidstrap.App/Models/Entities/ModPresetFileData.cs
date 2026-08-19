@@ -21,7 +21,7 @@ public class ModPresetFileData
 
 	public ModPresetFileData(string contentPath, string resource)
 	{
-		FilePath = contentPath;
+		FilePath = contentPath.Replace('\\', Path.DirectorySeparatorChar);
 		ResourceIdentifier = resource;
 		ResourceHash = Array.Empty<byte>();
 

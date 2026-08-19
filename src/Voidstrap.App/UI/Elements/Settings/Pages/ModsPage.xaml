@@ -612,32 +612,32 @@
                 <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding BrightnessDisplay}" />
               </StackPanel>
             </controls:OptionControl>
-            <controls:OptionControl Header="Saturation" Description="Adjust color saturation. 100 is default.">
+            <controls:OptionControl Header="Saturation" Description="Adjust color saturation. 100 is default." Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
               <StackPanel>
                 <Slider Minimum="0" Maximum="200" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding Saturation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding SaturationDisplay}" />
               </StackPanel>
             </controls:OptionControl>
-            <controls:OptionControl Header="Contrast" Description="Adjust contrast level. 100 is default.">
+            <controls:OptionControl Header="Contrast" Description="Adjust contrast level. 100 is default." Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
               <StackPanel>
                 <Slider Minimum="0" Maximum="200" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding Contrast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding ContrastDisplay}" />
               </StackPanel>
             </controls:OptionControl>
-                        <controls:OptionControl Header="Color Temperature" Description="Warm or cool color tint. 0 is neutral.">
+                        <controls:OptionControl Header="Color Temperature" Description="Warm or cool color tint. 0 is neutral." Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
                             <StackPanel>
                                 <Slider Minimum="-100" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding ColorTemperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding ColorTemperatureDisplay}" />
                             </StackPanel>
                         </controls:OptionControl>
 
-            <controls:OptionControl Header="Anti Aliasing" Description="Smooths jagged edges over Roblox with your GPU">
+            <controls:OptionControl Header="Anti Aliasing" Description="Smooths jagged edges over Roblox with your GPU" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
               <ComboBox Padding="10,5,10,5" MinWidth="140" ItemsSource="{Binding AntiAliasingMethodNames, Mode=OneTime}" SelectedIndex="{Binding AntiAliasingMethodIndex, Mode=TwoWay}" />
             </controls:OptionControl>
-            <controls:OptionControl Header="Frame Generation" Description="Auto generates as many stable frames as your game, Adds a little input latency">
+            <controls:OptionControl Header="Frame Generation" Description="Auto generates as many stable frames as your game, Adds a little input latency" Visibility="{x:Static platform:PlatformFeatureVisibility.FrameGeneration}">
               <ui:ToggleSwitch IsChecked="{Binding FrameGenEnabled, Mode=TwoWay}" />
             </controls:OptionControl>
-            <controls:OptionControl Header="Generated Frames Overlay" Description="Displays how many frames per second are being generated">
+            <controls:OptionControl Header="Generated Frames Overlay" Description="Displays how many frames per second are being generated" Visibility="{x:Static platform:PlatformFeatureVisibility.FrameGeneration}">
               <ui:ToggleSwitch IsChecked="{Binding FrameGenOverlayShow, Mode=TwoWay}" />
             </controls:OptionControl>
             <ui:InfoBar Margin="0,4,0,0" Severity="Warning" IsClosable="False" IsOpen="{Binding FrameGenCapWarningOpen, Mode=OneWay}" Message="{Binding FrameGenCapWarningMessage, Mode=OneWay}">
@@ -645,24 +645,24 @@
             </ui:InfoBar>
                         <ui:CardExpander IsExpanded="False" Margin="0,4,0,0" Header="Color Blindness Correction">
                             <StackPanel>
-                                <controls:OptionControl Header="Enable Correction" Description="Recolor the screen so color blind people can see the original colors">
+                                <controls:OptionControl Header="Enable Correction" Description="Recolor the screen so color blind people can see the original colors" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
                                     <ui:ToggleSwitch IsChecked="{Binding ColorBlindnessEnabled, Mode=TwoWay}" />
                                 </controls:OptionControl>
-                                <controls:OptionControl Header="Correction Type" Description="Select your type of color blindness">
+                                <controls:OptionControl Header="Correction Type" Description="Select your type of color blindness" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
                                     <ComboBox SelectedIndex="{Binding ColorBlindnessType, Mode=TwoWay}">
                                         <ComboBoxItem Content="Protanopia (red/green)" />
                                         <ComboBoxItem Content="Deuteranopia (red/green)" />
                                         <ComboBoxItem Content="Tritanopia (blue/yellow)" />
                                     </ComboBox>
                                 </controls:OptionControl>
-                                <controls:OptionControl Header="Severity" Description="How strong the correction should be. 100 is full dichromacy correction">
+                                <controls:OptionControl Header="Severity" Description="How strong the correction should be. 100 is full dichromacy correction" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
                                     <StackPanel>
                                         <Slider Minimum="0" Maximum="100" TickFrequency="25" IsSnapToTickEnabled="True"
                             Value="{Binding ColorBlindnessSeverity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding ColorBlindnessSeverityDisplay}" />
                                     </StackPanel>
                                 </controls:OptionControl>
-                                <controls:OptionControl Header="Simulate Mode" Description="Simulate what color blind people see (instead of correcting)">
+                                <controls:OptionControl Header="Simulate Mode" Description="Simulate what color blind people see (instead of correcting)" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
                                     <ui:ToggleSwitch IsChecked="{Binding ColorBlindnessSimulate, Mode=TwoWay}" />
                                 </controls:OptionControl>
                             </StackPanel>

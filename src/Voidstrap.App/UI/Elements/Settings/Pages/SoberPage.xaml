@@ -5,6 +5,14 @@
     <ui:InfoBar Margin="0,0,0,8" Padding="8" IsClosable="False" IsOpen="True" Severity="Informational" Message="{x:Static resources:Strings.Menu_Sober_DefaultNotice}" />
     <ui:InfoBar Margin="0,0,0,12" Padding="8" IsClosable="False" IsOpen="True" Severity="Warning" Message="{x:Static resources:Strings.Menu_Sober_RuntimeNotice}" />
 
+    <controls:OptionControl x:Name="RuntimeOption" Margin="0,0,0,12" Header="Sober runtime" Description="Voidstrap runs Roblox through the Sober Flatpak. Install it here or let a launch install it for you." Visibility="{Binding RuntimeVisibility, Mode=OneTime}">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Margin="0,0,12,0" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="320" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding RuntimeStatus, Mode=OneWay}" />
+        <ui:Button Margin="0,0,8,0" Icon="ArrowDownload24" Content="Install or update" Appearance="Primary" IsEnabled="{Binding CanInstall, Mode=OneWay}" Command="{Binding InstallRuntimeCommand, Mode=OneTime}" />
+        <ui:Button Icon="ArrowClockwise24" Content="Refresh" IsEnabled="{Binding IsIdle, Mode=OneWay}" Command="{Binding RefreshRuntimeCommand, Mode=OneTime}" />
+      </StackPanel>
+    </controls:OptionControl>
+
     <Expander Header="{x:Static resources:Strings.Menu_Sober_Group_Session}" IsExpanded="True">
       <StackPanel Margin="0,6,0,8">
         <controls:OptionControl x:Name="CloseOnLeaveOption" Header="{x:Static resources:Strings.Menu_Sober_CloseOnLeave_Title}" Description="{x:Static resources:Strings.Menu_Sober_CloseOnLeave_Description}">
