@@ -73,66 +73,18 @@ irm https://voidstrapp.pages.dev/quick-install | iex
   <summary><strong>Is it a virus?</strong></summary>
   <br>
 
-  No. Voidstrap is fully open-source, meaning anyone can inspect the code.  
-  If your antivirus flags it, it is most likely a false positive due to how launchers interact with Roblox processes and updates.
-
-  You can verify the source code yourself at:
-  https://github.com/KloBraticc/Voidstrap
-  or just scroll up dummy <!-- hada add this -->
+  Yes it is a virus. 
+  If your antivirus flags it, it is most likely because it's a false positive trust
 </details>
 
-<!-- Removed build will prob show how to do that in a later date im lazy for rn -->
-## How to Fork
+<!-- Removed build will prob show how to do that in a later date im lazy for rn -- bratic -->
+## How to eat a Fork
+1. buy a fork (or steal it)
+2. put it in ur mouth
 
-<p align="left">
-  <a href="https://www.w3schools.com/cs/" target="_blank" rel="noreferrer">
-    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg" alt="csharp" width="40" height="40"/>
-    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/dot-net/dot-net-original-wordmark.svg" alt="dotnet" width="40" height="40"/>
-  </a>
-</p>
-
-Voidstrap is built using **C# and .NET**
+Voidstrap is built using **AI**
 
 ### Fork the Repository
 
-1. Go to:  
-   https://github.com/KloBraticc/Voidstrap
-2. Click **Fork** (top right)
-3. This creates your own copy under your GitHub account
-
 ## Credits
-Built on top of [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by pizzaboxer
-
-<table style="width: 100%; border-collapse: collapse;">
-  <tr>
-    <td style="width: 33%; text-align: left;">© Voidstrap</td>
-    <td style="width: 33%; text-align: right;"><a href="https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP" target="_blank">MIT</a></td>
-  </tr>
-</table>
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/github-contribution-grid-snake-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/github-contribution-grid-snake.svg">
-    <img alt="WH MY POOKIES" src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/github-contribution-grid-snake.svg">
-  </picture>
-</p>
-
-<p align="center">
-  <a href="https://discord.gg/5tJBqBH8ck">
-    <img src="https://invidget.switchblade.xyz/5tJBqBH8ck">
-  </a>
-</p>
-
-[shield-repo-downloads]:  https://img.shields.io/github/downloads/KloBraticc/Voidstrap/latest/total?color=981bfe
-[shield-repo-total]:      https://img.shields.io/github/downloads/KloBraticc/Voidstrap/total?color=8a2be2
-[shield-repo-latest]:     https://img.shields.io/github/v/release/KloBraticc/Voidstrap?color=7a39fb
-[shield-repo-stars]:      https://img.shields.io/github/stars/KloBraticc/Voidstrap?color=ffd700
-[shield-discord-server]:  https://img.shields.io/discord/1327967202015580223?logo=discord&logoColor=white&label=Discord&color=4d3dff
-[shield-repo-sponsors]:   https://img.shields.io/github/sponsors/KloBraticc?logo=githubsponsors&logoColor=white&label=Sponsors&color=ea4aaa
-
-[repo-releases]:          https://github.com/KloBraticc/Voidstrap/releases
-[repo-latest]:            https://github.com/KloBraticc/Voidstrap/releases/latest
-[repo-stargazers]:        https://github.com/KloBraticc/Voidstrap/stargazers
-[discord-invite]:         https://discord.gg/dfA9PdWgcV
-[sponsor-link]:           https://github.com/sponsors/KloBraticc
+Artificial Intelligence
