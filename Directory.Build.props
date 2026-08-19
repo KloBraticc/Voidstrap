@@ -1,7 +1,7 @@
 ﻿<Project>
 
 	<PropertyGroup>
-		<VoidstrapVersion>1.1.2.0</VoidstrapVersion>
+		<VoidstrapVersion>6.7.7.7</VoidstrapVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
