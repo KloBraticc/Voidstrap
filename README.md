@@ -42,7 +42,9 @@ Leave a star if you like the project! ⭐️
 > More experienced Linux users can also try tools like **[Lution](https://github.com/wookhq/Lution)**.
 
 > [!WARNING]
-> Voidstrap is not an exploit and never will be one. We are not considered an exploit. We are here to provide users with more freedom, features, and support for Roblox.
+> Voidstrap is not an exploit and never will be. We are not considered an exploit (more on that below). We are here to give users more freedom, features, and support for Roblox.
+>
+> I understand that multi-instance is considered an exploit under Roblox’s terminology. If Roblox provides further clarification on the subject, I will remove it without question. I have no interest in supporting exploits and hope to remain on good terms with Roblox staff while continuing to give **MY** users a fun experience.
 
 ## Installation
 
