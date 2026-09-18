@@ -677,7 +677,7 @@ public class Bootstrapper
             SetStatus("You are offline, launching the installed Roblox");
         }
         Task versionInfoTask = Voidstrap.Utility.Platform.SupportsWindowsClient && !_noConnection ? GetLatestVersionInfo(false) : Task.CompletedTask;
-        bool updateCheckFresh = DateTime.UtcNow - App.State.Prop.LastLauncherUpdateCheckUtc < TimeSpan.FromMinutes(15);
+        bool updateCheckFresh = DateTime.UtcNow - App.State.Prop.LastLauncherUpdateCheckUtc < TimeSpan.FromMinutes(2);
         Task<bool> launcherUpdateTask = App.Settings.Prop.CheckForUpdates && !App.LaunchSettings.UpgradeFlag.Active && !InstallOnly && !updateCheckFresh && !_noConnection
             ? CheckAndApplyUpdate("Bootstrapper::Run")
             : Task.FromResult(false);

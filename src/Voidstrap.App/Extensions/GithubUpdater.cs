@@ -36,7 +36,7 @@ public static class GithubUpdater
                 var releases = await Voidstrap.Utility.GitHubCache.GetJsonWithFallbackAsync<List<Voidstrap.Models.APIs.GitHub.GithubRelease>>(
                     App.ProjectReleaseListApi,
                     App.ProjectFallbackReleaseListApi,
-                    TimeSpan.FromMinutes(15),
+                    TimeSpan.Zero,
                     cancellationToken);
                 cancellationToken.ThrowIfCancellationRequested();
                 var newest = releases?.FirstOrDefault(release => release != null && !release.Draft && release.Assets != null);
@@ -48,7 +48,7 @@ public static class GithubUpdater
             string? response = await Voidstrap.Utility.GitHubCache.GetStringWithFallbackAsync(
                 App.ProjectReleaseApi,
                 App.ProjectFallbackReleaseApi,
-                TimeSpan.FromMinutes(15),
+                TimeSpan.Zero,
                 cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
             if (response == null)
@@ -75,7 +75,7 @@ public static class GithubUpdater
             var releases = await Voidstrap.Utility.GitHubCache.GetJsonWithFallbackAsync<List<Voidstrap.Models.APIs.GitHub.GithubRelease>>(
                 App.ProjectReleaseListApi,
                 App.ProjectFallbackReleaseListApi,
-                TimeSpan.FromMinutes(15),
+                TimeSpan.Zero,
                 cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
             var release = releases?.FirstOrDefault(candidate =>
@@ -84,7 +84,7 @@ public static class GithubUpdater
                 string.Equals(candidate.TagName, tag, StringComparison.OrdinalIgnoreCase));
             if (release == null)
             {
-                string? response = await Voidstrap.Utility.GitHubCache.GetStringWithFallbackAsync(App.ProjectReleaseApi, App.ProjectFallbackReleaseApi, TimeSpan.FromMinutes(15), cancellationToken);
+                string? response = await Voidstrap.Utility.GitHubCache.GetStringWithFallbackAsync(App.ProjectReleaseApi, App.ProjectFallbackReleaseApi, TimeSpan.Zero, cancellationToken);
                 cancellationToken.ThrowIfCancellationRequested();
                 if (response == null)
                     return false;
@@ -343,7 +343,18 @@ public static class GithubUpdater
         string currentExe = Environment.ProcessPath!;
         string backupExe = currentExe + ".old";
         string replacementExe = currentExe + ".update";
-        if (File.Exists(backupExe)) File.Delete(backupExe);
+        if (File.Exists(backupExe))
+        {
+            try
+            {
+                File.Delete(backupExe);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                backupExe = currentExe + "." + Guid.NewGuid().ToString("N") + ".old";
+                App.Logger.WriteLine("GitHubUpdater", "The previous backup is still in use, keeping this one as " + Path.GetFileName(backupExe));
+            }
+        }
         File.Copy(exePath, replacementExe, true);
         File.Replace(replacementExe, currentExe, backupExe, true);
         UpdateInstalledMetadata(tag);

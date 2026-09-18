@@ -1794,18 +1794,50 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private async void AppMenuUpdates_Click(object sender, RoutedEventArgs e)
     {
         AppMenuPopup.IsOpen = false;
+        await CheckForUpdatesAsync(manual: true);
+    }
+
+    private bool _checkingForUpdates;
+
+    private async Task AutoCheckForUpdatesAsync()
+    {
+        if (!App.Settings.Prop.CheckForUpdates || App.LaunchSettings.UpgradeFlag.Active)
+        {
+            return;
+        }
+        try
+        {
+            await Task.Delay(TimeSpan.FromSeconds(4), _lifetimeCts.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        await CheckForUpdatesAsync(manual: false);
+    }
+
+    private async Task CheckForUpdatesAsync(bool manual)
+    {
+        if (_checkingForUpdates)
+        {
+            return;
+        }
+        _checkingForUpdates = true;
         try
         {
             string currentText = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0";
             var release = await App.GetLatestRelease(true) ?? throw new InvalidDataException("Release information is unavailable");
             if (!Version.TryParse(currentText, out Version? current) || !Version.TryParse(release.TagName.TrimStart('v', 'V'), out Version? latest))
             {
-                Frontend.ShowMessageBox("Could not compare this build with the latest release.");
+                if (manual)
+                    Frontend.ShowMessageBox("Could not compare this build with the latest release.");
                 return;
             }
+            App.Logger.WriteLine("MainWindow::CheckForUpdates", "Local: " + currentText + " | Remote: " + release.TagName);
             if (latest <= current)
             {
-                Frontend.ShowMessageBox("You are already running the latest version of Voidstrap (" + currentText + ").");
+                if (manual)
+                    Frontend.ShowMessageBox("You are already running the latest version of Voidstrap (" + currentText + ").");
                 return;
             }
             if (Frontend.ShowMessageBox("Voidstrap " + release.TagName + " is available. Install it now?", MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
@@ -1827,7 +1859,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         catch (Exception ex)
         {
             App.Logger.WriteException("MainWindow::CheckForUpdates", ex);
-            Frontend.ShowMessageBox("Error checking for updates:\n" + ex.Message);
+            if (manual)
+                Frontend.ShowMessageBox("Error checking for updates:\n" + ex.Message);
+        }
+        finally
+        {
+            _checkingForUpdates = false;
         }
     }
 
@@ -3604,6 +3641,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
         }, (DispatcherPriority)6);
         PlayIntro();
+        _ = AutoCheckForUpdatesAsync();
     }
 
     private bool _navShortcutsReady;

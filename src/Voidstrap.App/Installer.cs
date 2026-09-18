@@ -873,6 +873,25 @@ internal partial class Installer
 			App.Logger.WriteLine("Installer::CleanupStaleBundleExtractions", "Removed " + removed + " stale extraction folders from the temp directory");
 	}
 
+	internal static void CleanupUpdateBackups()
+	{
+		string? exe = Environment.ProcessPath;
+		string? folder = Path.GetDirectoryName(exe);
+		if (string.IsNullOrEmpty(exe) || string.IsNullOrEmpty(folder))
+			return;
+		foreach (string backup in Directory.EnumerateFiles(folder, Path.GetFileName(exe) + ".*old"))
+		{
+			try
+			{
+				File.Delete(backup);
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+				App.Logger.WriteLine("Installer::CleanupUpdateBackups", "Could not remove the old update backup " + Path.GetFileName(backup) + ": " + ex.Message);
+			}
+		}
+	}
+
 	private static bool IsAnotherVoidstrapRunning()
 	{
 		bool found = false;
