@@ -1,14 +1,15 @@
-﻿<Project Sdk="LibreWPF.Sdk">
+<Project Sdk="LibreWPF.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0-windows</TargetFramework>
 		<OutputType>WinExe</OutputType>
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
+		<NeutralLanguage>en-US</NeutralLanguage>
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
 		<PublishTrimmed>false</PublishTrimmed>
 		<SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
-		<BaseOutputPath Condition="'$(RuntimeIdentifier)' != ''">bin-$(RuntimeIdentifier)\</BaseOutputPath>
+		<BaseOutputPath Condition="'$(RuntimeIdentifier)' != '' And '$(VoidstrapLinuxPackagingRoot)' == ''">bin-$(RuntimeIdentifier)\</BaseOutputPath>
 		<AssemblyName>Voidstrap</AssemblyName>
 		<RootNamespace>Voidstrap</RootNamespace>
 		<EnableDefaultItems>false</EnableDefaultItems>
@@ -18,7 +19,7 @@
 		<ProGpuWpfSystemSecurityCryptographyXmlVersion>10.0.11</ProGpuWpfSystemSecurityCryptographyXmlVersion>
 		<ProGpuWpfUsePortableWinFormsCompat>false</ProGpuWpfUsePortableWinFormsCompat>
 		<ProGpuWpfUseLibreWinForms>false</ProGpuWpfUseLibreWinForms>
-		<NoWarn>$(NoWarn);CS0067;CS0105;CS0108;CS0168;CS0169;CS0219;CS0414;CS0649;CS4014;CS8305;CS8321;CS8600;CS8601;CS8602;CS8603;CS8604;CS8612;CS8618;CS8619;CS8620;CS8622;CS8625;CS8632;CS8669;CS8670;CS8714;CA1416;MSB3277;MSB3825;NU1510;NU1701;NU1702;PInvoke004;SYSLIB0014;SYSLIB1096;WFDEV004</NoWarn>
+		<NoWarn>$(NoWarn);CS8305</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
@@ -26,7 +27,26 @@
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
 		<EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+		<LinuxProGpuWpfAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\ProGPU.Wpf.dll</LinuxProGpuWpfAssembly>
+		<LinuxPresentationCoreAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\PresentationCore.dll</LinuxPresentationCoreAssembly>
+		<LinuxPresentationFrameworkAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\PresentationFramework.dll</LinuxPresentationFrameworkAssembly>
 	</PropertyGroup>
+
+	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\libvoidstrapeditorcompat.so">
+			<Link>libvoidstrapeditorcompat.so</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\System.Windows.Forms.dll">
+			<Link>System.Windows.Forms.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
 
 	<Target Name="BundleManagedTransportAssets" BeforeTargets="_ComputeFilesToBundle" DependsOnTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="'$(PublishSingleFile)' == 'true'" />
 
@@ -45,20 +65,25 @@
 
 	<ItemGroup>
 		<Compile Include="*.cs" />
-		<Compile Visible="false" Include="..\Voidstrap.App\**\*.cs" Exclude="..\Voidstrap.App\obj\**;..\Voidstrap.App\obj-*\**;..\Voidstrap.App\bin\**;..\Voidstrap.App\bin-*\**;..\Voidstrap.App\UI\Elements\RobloxWeb\**;..\Voidstrap.App\UI\Elements\Controls\InlineVideoPlayer.xaml.cs;..\Voidstrap.App\UI\Elements\Bootstrapper\CustomDialog*.cs;..\Voidstrap.App\UI\Elements\Bootstrapper\ProgressDialog*.cs;..\Voidstrap.App\UI\Elements\Bootstrapper\LegacyDialog*.cs;..\Voidstrap.App\UI\Elements\Bootstrapper\VistaDialog*.cs;..\Voidstrap.App\UI\Elements\Bootstrapper\Base\WinFormsDialogBase.cs;..\Voidstrap.App\Integrations\RiShade\RiShadeWgc.cs;..\Voidstrap.App\Integrations\RiShade\RiShadeWinRtStubs*.cs" />
-		<Page Visible="false" Include="..\Voidstrap.App\**\*.xaml" Exclude="..\Voidstrap.App\obj\**;..\Voidstrap.App\obj-*\**;..\Voidstrap.App\bin\**;..\Voidstrap.App\bin-*\**;..\Voidstrap.App\App.xaml;..\Voidstrap.App\UI\Elements\RobloxWeb\**;..\Voidstrap.App\UI\Elements\Controls\InlineVideoPlayer.xaml;..\Voidstrap.App\UI\Elements\Bootstrapper\CustomDialog.xaml;..\Voidstrap.App\UI\Elements\About\MainWindow.xaml;..\Voidstrap.App\UI\Elements\Installer\MainWindow.xaml" />
+		<Compile Visible="false" Include="..\Voidstrap.App\**\*.cs" Exclude="..\Voidstrap.App\obj\**;..\Voidstrap.App\obj-*\**;..\Voidstrap.App\bin\**;..\Voidstrap.App\bin-*\**;..\Voidstrap.App\UI\Elements\RobloxWeb\**;..\Voidstrap.App\UI\Elements\Controls\InlineVideoPlayer.xaml.cs;..\Voidstrap.App\UI\Elements\Bootstrapper\ProgressDialog*.cs;..\Voidstrap.App\UI\Elements\Bootstrapper\LegacyDialog*.cs;..\Voidstrap.App\UI\Elements\Bootstrapper\VistaDialog*.cs;..\Voidstrap.App\UI\Elements\Bootstrapper\Base\WinFormsDialogBase.cs;..\Voidstrap.App\Integrations\RiShade\RiShadeWgc.cs;..\Voidstrap.App\Integrations\RiShade\RiShadeWinRtStubs*.cs" />
+		<Page Visible="false" Include="..\Voidstrap.App\**\*.xaml" Exclude="..\Voidstrap.App\obj\**;..\Voidstrap.App\obj-*\**;..\Voidstrap.App\bin\**;..\Voidstrap.App\bin-*\**;..\Voidstrap.App\App.xaml;..\Voidstrap.App\UI\Elements\RobloxWeb\**;..\Voidstrap.App\UI\Elements\Controls\InlineVideoPlayer.xaml;..\Voidstrap.App\UI\Elements\About\MainWindow.xaml;..\Voidstrap.App\UI\Elements\Installer\MainWindow.xaml" />
 		<Page Remove="..\Voidstrap.App\UI\Elements\Installer\Pages\ChannelPage.xaml" />
 		<Page Include="Xaml\AboutMainWindow.xaml" />
-		<Page Include="Xaml\InstallerMainWindow.xaml" />
-		<Page Include="Xaml\InstallerChannelPage.xaml" />
+		<Page Include="Xaml\InstallerMainWindow.xaml" Condition="!$(RuntimeIdentifier.StartsWith('linux'))" />
+		<Page Include="Xaml\InstallerMainWindow.Linux.xaml" Condition="$(RuntimeIdentifier.StartsWith('linux'))" />
+		<Page Include="Xaml\InstallerChannelPage.xaml" Condition="!$(RuntimeIdentifier.StartsWith('linux'))" />
+		<Page Include="Xaml\InstallerChannelPage.Linux.xaml" Condition="$(RuntimeIdentifier.StartsWith('linux'))" />
 		<ApplicationDefinition Visible="false" Include="..\Voidstrap.App\App.xaml">
 			<Link>App.xaml</Link>
 		</ApplicationDefinition>
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Visible="false" Include="..\Voidstrap.App\Resources\**\*" Exclude="..\Voidstrap.App\Resources\**\*.cs">
+		<EmbeddedResource Visible="false" Include="..\Voidstrap.App\Resources\**\*" Exclude="..\Voidstrap.App\Resources\**\*.cs;..\Voidstrap.App\Resources\**\*.ico;..\Voidstrap.App\Resources\**\*.jpg;..\Voidstrap.App\Resources\**\*.png;..\Voidstrap.App\Resources\Fonts\Montserrat-*.ttf;..\Voidstrap.App\Resources\Fonts\NotoSansThai-*.ttf;..\Voidstrap.App\Resources\Fonts\Rubik-*.ttf">
 			<Link>Resources\%(RecursiveDir)%(Filename)%(Extension)</Link>
+		</EmbeddedResource>
+		<EmbeddedResource Visible="false" Include="..\Voidstrap.App\Resources\Mods\Cursor\**\*.png">
+			<Link>Resources\Mods\Cursor\%(RecursiveDir)%(Filename)%(Extension)</Link>
 		</EmbeddedResource>
 		<EmbeddedResource Visible="false" Include="..\Voidstrap.App\Properties\*.resx">
 			<Link>Properties\%(Filename)%(Extension)</Link>
@@ -75,8 +100,26 @@
 		<Resource Visible="false" Include="..\Voidstrap.App\Voidstrap.png">
 			<Link>Voidstrap.png</Link>
 		</Resource>
-		<Resource Visible="false" Include="..\Voidstrap.App\Resources\**\*.ttf;..\Voidstrap.App\Resources\**\*.png;..\Voidstrap.App\Resources\**\*.jpg;..\Voidstrap.App\Resources\**\*.ico">
-			<Link>Resources\%(RecursiveDir)%(Filename)%(Extension)</Link>
+		<Resource Visible="false" Include="..\Voidstrap.App\Resources\Checkmark.ico;..\Voidstrap.App\Resources\CrossMark.ico;..\Voidstrap.App\Resources\Icon2008.ico;..\Voidstrap.App\Resources\Icon2011.ico;..\Voidstrap.App\Resources\Icon2017.ico;..\Voidstrap.App\Resources\Icon2019.ico;..\Voidstrap.App\Resources\Icon2022.ico;..\Voidstrap.App\Resources\IconEarly2015.ico;..\Voidstrap.App\Resources\IconLate2015.ico;..\Voidstrap.App\Resources\IconVoidstrap.ico;..\Voidstrap.App\Resources\Erik.png;..\Voidstrap.App\Resources\RobloxFace.png;..\Voidstrap.App\Resources\RobloxPlayerIcon.png;..\Voidstrap.App\Resources\RobloxStudioIcon.png;..\Voidstrap.App\Resources\SoberIcon.png;..\Voidstrap.App\Resources\VinegarIcon.png">
+			<Link>Resources\%(Filename)%(Extension)</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Voidstrap.App\Resources\BootstrapperStyles\ByfronDialog\ByfronLogoDark.jpg;..\Voidstrap.App\Resources\BootstrapperStyles\ByfronDialog\ByfronLogoLight.jpg;..\Voidstrap.App\Resources\BootstrapperStyles\ByfronDialog\Matt.png">
+			<Link>Resources\BootstrapperStyles\ByfronDialog\%(Filename)%(Extension)</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Voidstrap.App\Resources\CommunityMods\*.png">
+			<Link>Resources\CommunityMods\%(Filename)%(Extension)</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Voidstrap.App\Resources\Fonts\NotoSansThai-VariableFont_wdth,wght.ttf;..\Voidstrap.App\Resources\Fonts\Rubik-VariableFont_wght.ttf">
+			<Link>Resources\Fonts\%(Filename)%(Extension)</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Voidstrap.App\Resources\MessageBox\Error.png;..\Voidstrap.App\Resources\MessageBox\Information.png;..\Voidstrap.App\Resources\MessageBox\Question.png;..\Voidstrap.App\Resources\MessageBox\Warning.png">
+			<Link>Resources\MessageBox\%(Filename)%(Extension)</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Voidstrap.App\Resources\Mods\Cursor\**\*.png">
+			<Link>Resources\Mods\Cursor\%(RecursiveDir)%(Filename)%(Extension)</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Voidstrap.App\Resources\AppImages\*.png">
+			<Link>Resources\AppImages\%(Filename)%(Extension)</Link>
 		</Resource>
 	</ItemGroup>
 
@@ -85,42 +128,40 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ably.io" Version="1.2.18" />
 		<PackageReference Include="AvalonEdit" Version="6.3.1.120" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 		<PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
-		<PackageReference Include="Emoji.Wpf" Version="0.3.4" />
 		<PackageReference Include="Markdig" Version="1.3.2" />
 		<PackageReference Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" Condition="'$(RuntimeIdentifier)' == 'linux-x64' Or '$(RuntimeIdentifier)' == 'linux-arm64'" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.11" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.11" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.11" />
-		<PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.29.0" />
-		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.321">
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.12" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.12" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.12" />
+		<PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.30.0" />
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.333">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="NAudio" Version="3.0.1" />
-		<PackageReference Include="NAudio.Vorbis" Version="1.5.0" />
+		<PackageReference Include="NAudio" Version="3.1.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="Nefarius.ViGEm.Client" Version="1.21.256" />
+		<PackageReference Include="Concentus.Oggfile" Version="1.0.7" />
 		<PackageReference Include="NVorbis" Version="0.10.5" />
 		<PackageReference Include="OggVorbisEncoder" Version="1.2.2" />
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
 		<PackageReference Include="SharpZipLib" Version="1.4.2" />
 		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
-		<PackageReference Include="System.Drawing.Common" Version="10.0.11" />
-		<PackageReference Include="System.Management" Version="10.0.11" />
+		<PackageReference Include="System.Drawing.Common" Version="10.0.12" />
+		<PackageReference Include="System.Management" Version="10.0.12" />
 		<PackageReference Include="System.Resources.Extensions" Version="10.0.10" />
-		<PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.2.5" ExcludeAssets="native;build;buildTransitive" />
 		<PackageReference Include="Vortice.D3DCompiler" Version="3.8.3" />
 		<PackageReference Include="Vortice.Direct3D11" Version="3.8.3" />
 		<PackageReference Include="Vortice.DirectComposition" Version="3.8.3" />
 		<PackageReference Include="Vortice.DXGI" Version="3.8.3" />
+		<PackageReference Include="Vortice.MediaFoundation" Version="3.8.3" />
 		<PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
-		<PackageReference Include="XamlAnimatedGif" Version="2.3.2" />
 		<PackageReference Include="Openize.Drako" Version="26.2.0" />
 		<PackageReference Include="ZstdSharp.Port" Version="0.8.8" />
+		<PackageReference Include="Tmds.DBus" Version="0.95.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -157,6 +198,57 @@
 		<ItemGroup>
 			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Extension)' == '.xml' Or '%(ResolvedFileToPublish.Extension)' == '.pdb'" />
 			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="$([System.String]::Copy('%(ResolvedFileToPublish.Filename)').StartsWith('libmscordaccore')) Or $([System.String]::Copy('%(ResolvedFileToPublish.Filename)').StartsWith('libmscordbi')) Or $([System.String]::Copy('%(ResolvedFileToPublish.Filename)').StartsWith('mscordaccore')) Or $([System.String]::Copy('%(ResolvedFileToPublish.Filename)').StartsWith('mscordbi'))" />
+		</ItemGroup>
+	</Target>
+
+  <Target Name="RemoveDuplicatePortableCoreAssemblies" AfterTargets="ComputeResolvedFilesToPublishList">
+    <ItemGroup>
+      <_VoidstrapDuplicatePublishFile Include="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'System.Private.Windows.Core.dll' And $([System.String]::Copy('%(ResolvedFileToPublish.Identity)').Contains('librewpf.transport'))" />
+      <ResolvedFileToPublish Remove="@(_VoidstrapDuplicatePublishFile)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="RemoveDuplicateBundleAssemblies" AfterTargets="_ComputeFilesToBundle" Condition="'$(PublishSingleFile)' == 'true'">
+    <ItemGroup>
+      <_VoidstrapDuplicateBundleFile Include="@(_FilesToBundle)" Condition="'%(_FilesToBundle.Filename)%(_FilesToBundle.Extension)' == 'System.Private.Windows.Core.dll' And $([System.String]::Copy('%(_FilesToBundle.Identity)').Contains('librewpf.transport'))" />
+      <_FilesToBundle Remove="@(_VoidstrapDuplicateBundleFile)" />
+    </ItemGroup>
+  </Target>
+
+	<Target Name="ReplaceLinuxProGpuWpfOutput" AfterTargets="ResolveReferences" BeforeTargets="CopyFilesToOutputDirectory" Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<ItemGroup>
+			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)' == 'ProGPU.Wpf.dll'" />
+			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)' == 'PresentationCore.dll'" />
+			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)' == 'PresentationFramework.dll'" />
+			<ReferenceCopyLocalPaths Include="$(LinuxProGpuWpfAssembly)" />
+			<ReferenceCopyLocalPaths Include="$(LinuxPresentationCoreAssembly)" />
+			<ReferenceCopyLocalPaths Include="$(LinuxPresentationFrameworkAssembly)" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="CopyLinuxProGpuWpfOutput" AfterTargets="_ProGpuWpfSdkCopyPackageRuntimeAssets" Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<Copy SourceFiles="$(LinuxProGpuWpfAssembly);$(LinuxPresentationCoreAssembly);$(LinuxPresentationFrameworkAssembly)" DestinationFiles="$(TargetDir)ProGPU.Wpf.dll;$(TargetDir)PresentationCore.dll;$(TargetDir)PresentationFramework.dll" SkipUnchangedFiles="false" />
+	</Target>
+
+	<Target Name="ReplaceLinuxProGpuWpfPublish" AfterTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<ItemGroup>
+			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'ProGPU.Wpf.dll'" />
+			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'PresentationCore.dll'" />
+			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'PresentationFramework.dll'" />
+			<ResolvedFileToPublish Include="$(LinuxProGpuWpfAssembly)" RelativePath="ProGPU.Wpf.dll" CopyToPublishDirectory="PreserveNewest" />
+			<ResolvedFileToPublish Include="$(LinuxPresentationCoreAssembly)" RelativePath="PresentationCore.dll" CopyToPublishDirectory="PreserveNewest" />
+			<ResolvedFileToPublish Include="$(LinuxPresentationFrameworkAssembly)" RelativePath="PresentationFramework.dll" CopyToPublishDirectory="PreserveNewest" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="ReplaceLinuxProGpuWpfBundle" AfterTargets="_ComputeFilesToBundle" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(PublishSingleFile)' == 'true'">
+		<ItemGroup>
+			<_FilesToBundle Remove="@(_FilesToBundle)" Condition="'%(_FilesToBundle.Filename)%(_FilesToBundle.Extension)' == 'ProGPU.Wpf.dll'" />
+			<_FilesToBundle Remove="@(_FilesToBundle)" Condition="'%(_FilesToBundle.Filename)%(_FilesToBundle.Extension)' == 'PresentationCore.dll'" />
+			<_FilesToBundle Remove="@(_FilesToBundle)" Condition="'%(_FilesToBundle.Filename)%(_FilesToBundle.Extension)' == 'PresentationFramework.dll'" />
+			<_FilesToBundle Include="$(LinuxProGpuWpfAssembly)" RelativePath="ProGPU.Wpf.dll" />
+			<_FilesToBundle Include="$(LinuxPresentationCoreAssembly)" RelativePath="PresentationCore.dll" />
+			<_FilesToBundle Include="$(LinuxPresentationFrameworkAssembly)" RelativePath="PresentationFramework.dll" />
 		</ItemGroup>
 	</Target>
 

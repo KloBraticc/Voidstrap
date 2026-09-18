@@ -18,6 +18,22 @@ internal class MarkdownTextBlock : TextBlock
 {
 	private static readonly MarkdownPipeline _markdownPipeline = new MarkdownPipelineBuilder().UseEmphasisExtras(EmphasisExtraOptions.Marked).UseSoftlineBreakAsHardlineBreak().Build();
 
+	private static readonly SolidColorBrush HighlightBrush = CreateHighlightBrush();
+
+	private static readonly System.Buffers.SearchValues<char> MarkdownSyntax = System.Buffers.SearchValues.Create("*_=[]<>`#\\&!|~\r\n");
+
+	private static bool IsPlainText(string text)
+	{
+		return text.Length == 0 || char.IsLetter(text[0]) && !char.IsWhiteSpace(text[^1]) && text.AsSpan().IndexOfAny(MarkdownSyntax) < 0;
+	}
+
+	private static SolidColorBrush CreateHighlightBrush()
+	{
+		SolidColorBrush brush = new(Color.FromArgb(50, byte.MaxValue, byte.MaxValue, byte.MaxValue));
+		brush.Freeze();
+		return brush;
+	}
+
 	public static readonly DependencyProperty MarkdownTextProperty = DependencyProperty.Register("MarkdownText", typeof(string), typeof(MarkdownTextBlock), (PropertyMetadata)(object)new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnTextMarkdownChanged)));
 
 	[Localizability(LocalizationCategory.Text)]
@@ -47,31 +63,30 @@ internal class MarkdownTextBlock : TextBlock
 			case '_':
 				if (emphasisInline.DelimiterCount == 1)
 				{
-					return new Italic(GetWpfInlineFromMarkdownInline(emphasisInline.FirstChild));
+					return AddChildren(new Italic(), emphasisInline);
 				}
-				return new Bold(GetWpfInlineFromMarkdownInline(emphasisInline.FirstChild));
+				return AddChildren(new Bold(), emphasisInline);
 			case '=':
-				return new Span(GetWpfInlineFromMarkdownInline(emphasisInline.FirstChild))
+				return AddChildren(new Span
 				{
-					Background = new SolidColorBrush(Color.FromArgb(50, byte.MaxValue, byte.MaxValue, byte.MaxValue))
-				};
+					Background = HighlightBrush
+				}, emphasisInline);
 			}
 		}
 		else
 		{
 			if (inline is LinkInline linkInline)
 			{
-				string url = linkInline.Url;
-				Markdig.Syntax.Inlines.Inline firstChild = linkInline.FirstChild;
+				string? url = linkInline.Url;
 				if (string.IsNullOrEmpty(url))
 				{
-					return GetWpfInlineFromMarkdownInline(firstChild);
+					return AddChildren(new Span(), linkInline);
 				}
-				return new Hyperlink(GetWpfInlineFromMarkdownInline(firstChild))
+				return AddChildren(new Hyperlink
 				{
 					Command = GlobalViewModel.OpenWebpageCommand,
 					CommandParameter = url
-				};
+				}, linkInline);
 			}
 			if (inline is LineBreakInline)
 			{
@@ -81,9 +96,22 @@ internal class MarkdownTextBlock : TextBlock
 		return null;
 	}
 
+	private static Span AddChildren(Span span, ContainerInline container)
+	{
+		foreach (Markdig.Syntax.Inlines.Inline child in container)
+		{
+			System.Windows.Documents.Inline? wpfInline = GetWpfInlineFromMarkdownInline(child);
+			if (wpfInline != null)
+			{
+				span.Inlines.Add(wpfInline);
+			}
+		}
+		return span;
+	}
+
 	private void AddMarkdownInline(Markdig.Syntax.Inlines.Inline? inline)
 	{
-		System.Windows.Documents.Inline wpfInlineFromMarkdownInline = GetWpfInlineFromMarkdownInline(inline);
+		System.Windows.Documents.Inline? wpfInlineFromMarkdownInline = GetWpfInlineFromMarkdownInline(inline);
 		if (wpfInlineFromMarkdownInline != null)
 		{
 			base.Inlines.Add(wpfInlineFromMarkdownInline);
@@ -96,9 +124,23 @@ internal class MarkdownTextBlock : TextBlock
 		{
 			return;
 		}
+		if (IsPlainText(markdown))
+		{
+			markdownTextBlock.Inlines.Clear();
+			if (markdown.Length > 0)
+			{
+				markdownTextBlock.Inlines.Add(new Run(markdown));
+			}
+			if (!Voidstrap.Utility.Platform.IsWindows)
+			{
+				Voidstrap.UI.LinuxInlineText.Sanitize(markdownTextBlock);
+				Voidstrap.UI.LinuxTextGuard.Refresh(markdownTextBlock);
+			}
+			return;
+		}
 		MarkdownDocument markdownDocument = Markdown.Parse(markdown, _markdownPipeline);
 		markdownTextBlock.Inlines.Clear();
-		Markdig.Syntax.Block block = markdownDocument.Last();
+		Markdig.Syntax.Block? block = markdownDocument.LastOrDefault();
 		foreach (Markdig.Syntax.Block item in markdownDocument)
 		{
 			if (!(item is ParagraphBlock { Inline: not null } paragraphBlock))
@@ -115,6 +157,10 @@ internal class MarkdownTextBlock : TextBlock
 				markdownTextBlock.AddMarkdownInline(new LineBreakInline());
 			}
 		}
-		EmojiTextRenderer.Refresh(markdownTextBlock);
+		if (!Voidstrap.Utility.Platform.IsWindows)
+		{
+			Voidstrap.UI.LinuxInlineText.Sanitize(markdownTextBlock);
+			Voidstrap.UI.LinuxTextGuard.Refresh(markdownTextBlock);
+		}
 	}
 }

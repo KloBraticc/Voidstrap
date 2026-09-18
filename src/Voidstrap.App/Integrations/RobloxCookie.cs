@@ -13,16 +13,14 @@ using Microsoft.Win32;
 
 namespace Voidstrap.Integrations;
 
-public static class RobloxCookie
+public static partial class RobloxCookie
 {
 	public readonly record struct AssetMeta(string Name, string Type, string CreatorName);
 
 	private const string LOG_IDENT = "RobloxCookie";
 	private const int MaxApiResponseBytes = 4 * 1024 * 1024;
 
-	private static readonly Regex WarningRegex = new Regex("(_\\|WARNING:-DO-NOT-SHARE[^\\s;,\"']+)", RegexOptions.Compiled);
 
-	private static readonly Regex NamedRegex = new Regex("\\.ROBLOSECURITY[\\s=]+([^\\s;,\"']+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
 	private static string? _cached;
 
@@ -37,6 +35,55 @@ public static class RobloxCookie
 	private static DateTime _economyCooldownUntil = DateTime.MinValue;
 
 	private static string CookiesDatPath => Path.Combine(Paths.LocalAppData, "Roblox", "LocalStorage", "RobloxCookies.dat");
+
+	private const string SecurityCookieName = ".ROBLOSECURITY";
+
+	internal static string SoberCookiePath
+	{
+		get
+		{
+			string home = Environment.GetEnvironmentVariable("HOME")
+				?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+			return Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "data", "sober", "cookies");
+		}
+	}
+
+	private static string? ReadFromSober()
+	{
+		try
+		{
+			string path = SoberCookiePath;
+
+			if (!File.Exists(path))
+				return null;
+
+			string contents = File.ReadAllText(path);
+
+			foreach (string pair in contents.Split(';', StringSplitOptions.RemoveEmptyEntries))
+			{
+				string trimmed = pair.Trim();
+				int separator = trimmed.IndexOf('=');
+
+				if (separator <= 0)
+					continue;
+
+				if (!string.Equals(trimmed[..separator].Trim(), SecurityCookieName, StringComparison.OrdinalIgnoreCase))
+					continue;
+
+				string value = trimmed[(separator + 1)..].Trim();
+
+				return string.IsNullOrEmpty(value) ? null : value;
+			}
+
+			return null;
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("RobloxCookie", "The Sober cookie could not be read: " + ex.Message);
+			return null;
+		}
+	}
 
 	public static bool Exists
 	{
@@ -56,9 +103,9 @@ public static class RobloxCookie
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
-			return null;
+			return Voidstrap.Utility.Platform.IsLinux ? ReadFromSober() : null;
 		}
-		string text = ReadFromDat();
+		string? text = ReadFromDat();
 		if (!string.IsNullOrEmpty(text))
 		{
 			return text;
@@ -113,9 +160,43 @@ public static class RobloxCookie
 				DisplayName = displayName
 			};
 		}
+		catch (OperationCanceledException)
+		{
+			App.Logger?.WriteLine("RobloxCookie", ct.IsCancellationRequested
+				? "The Roblox account check was stopped before users.roblox.com answered"
+				: "users.roblox.com did not answer the account check in time");
+			return null;
+		}
 		catch (Exception ex)
 		{
 			App.Logger?.WriteLine("RobloxCookie", "GetAccountAsync failed: " + ex.Message);
+			return null;
+		}
+	}
+
+	public static async Task<string?> GetAuthenticatedStringAsync(string url, CancellationToken ct = default(CancellationToken))
+	{
+		string? cookie = Get();
+		if (string.IsNullOrEmpty(cookie))
+		{
+			return null;
+		}
+		try
+		{
+			using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, url);
+			req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+			req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
+			using HttpResponseMessage res = await _authClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
+			if (!res.IsSuccessStatusCode)
+			{
+				App.Logger?.WriteLine("RobloxCookie", "Authenticated GET returned " + (int)res.StatusCode);
+				return null;
+			}
+			return await Utility.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct).ConfigureAwait(continueOnCapturedContext: false);
+		}
+		catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException or IOException)
+		{
+			App.Logger?.WriteLine("RobloxCookie", "Authenticated GET failed: " + ex.Message);
 			return null;
 		}
 	}
@@ -128,12 +209,16 @@ public static class RobloxCookie
 			{
 				return null;
 			}
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				return Extract(File.ReadAllText(datPath));
+			}
 			using JsonDocument jsonDocument = JsonDocument.Parse(File.ReadAllText(datPath));
 			if (!jsonDocument.RootElement.TryGetProperty("CookiesData", out var value))
 			{
 				return null;
 			}
-			string text = value.GetString();
+			string? text = value.GetString();
 			if (string.IsNullOrEmpty(text))
 			{
 				return null;
@@ -156,19 +241,32 @@ public static class RobloxCookie
 			{
 				return false;
 			}
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				string source = File.ReadAllText(templateDatPath);
+				Match match = NamedRegex.Match(source);
+				string updated = match.Success
+					? source[..match.Groups[1].Index] + newCookie + source[(match.Groups[1].Index + match.Groups[1].Length)..]
+					: source.TrimEnd() + (source.Length == 0 || source.TrimEnd().EndsWith(';') ? "" : ";") + ".ROBLOSECURITY=" + newCookie;
+				Directory.CreateDirectory(Path.GetDirectoryName(outputDatPath)!);
+				File.WriteAllText(outputDatPath, updated);
+				if (!OperatingSystem.IsWindows())
+					File.SetUnixFileMode(outputDatPath, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+				return string.Equals(ExtractCookieFromDat(outputDatPath), newCookie, StringComparison.Ordinal);
+			}
 			using JsonDocument jsonDocument = JsonDocument.Parse(File.ReadAllText(templateDatPath));
 			if (!jsonDocument.RootElement.TryGetProperty("CookiesData", out var value))
 			{
 				return false;
 			}
-			string text = value.GetString();
+			string? text = value.GetString();
 			if (string.IsNullOrEmpty(text))
 			{
 				return false;
 			}
 			byte[] plain = ProtectedData.Unprotect(Convert.FromBase64String(text), null, DataProtectionScope.CurrentUser);
 			string blob = Encoding.UTF8.GetString(plain);
-			string oldCookie = Extract(blob);
+			string? oldCookie = Extract(blob);
 			if (string.IsNullOrEmpty(oldCookie) || !blob.Contains(oldCookie))
 			{
 				return false;
@@ -210,7 +308,7 @@ public static class RobloxCookie
 		{
 			return result;
 		}
-		string text = Get();
+		string? text = Get();
 		if (!string.IsNullOrEmpty(text))
 		{
 			try
@@ -300,8 +398,8 @@ public static class RobloxCookie
 							(bool, long) value10 = item4.Value;
 							bool item = value10.Item1;
 							long item2 = value10.Item2;
-							string value11;
-							string value12;
+							string? value11;
+							string? value12;
 							string text5 = ((!item) ? (userNames.TryGetValue(item2, out value11) ? value11 : "") : (dictionary.TryGetValue(item2, out value12) ? value12 : ""));
 							if (text5.Length > 0 && result.TryGetValue(item4.Key, out var value13))
 							{
@@ -387,7 +485,7 @@ public static class RobloxCookie
 		return result;
 	}
 
-	private static async Task<Dictionary<long, string>> ResolveUserNamesAsync(ICollection<long> ids, CancellationToken ct)
+	private static async Task<Dictionary<long, string>> ResolveUserNamesAsync(HashSet<long> ids, CancellationToken ct)
 	{
 		Dictionary<long, string> map = new Dictionary<long, string>();
 		if (ids == null || ids.Count == 0)
@@ -419,7 +517,7 @@ public static class RobloxCookie
 						{
 							if (item.TryGetProperty("id", out var value2) && value2.TryGetInt64(out var value3) && item.TryGetProperty("name", out var value4))
 							{
-								string text = value4.GetString();
+								string? text = value4.GetString();
 								if (text != null && text.Length > 0)
 								{
 									map[value3] = text;
@@ -439,7 +537,7 @@ public static class RobloxCookie
 		return map;
 	}
 
-	private static async Task<Dictionary<long, string>> ResolveGroupNamesAsync(ICollection<long> ids, CancellationToken ct)
+	private static async Task<Dictionary<long, string>> ResolveGroupNamesAsync(HashSet<long> ids, CancellationToken ct)
 	{
 		Dictionary<long, string> map = new Dictionary<long, string>();
 		if (ids == null || ids.Count == 0)
@@ -462,7 +560,7 @@ public static class RobloxCookie
 				{
 					if (item.TryGetProperty("id", out var value2) && value2.TryGetInt64(out var value3) && item.TryGetProperty("name", out var value4))
 					{
-						string text = value4.GetString();
+						string? text = value4.GetString();
 						if (text != null && text.Length > 0)
 						{
 							map[value3] = text;
@@ -491,7 +589,7 @@ public static class RobloxCookie
 			{
 				return null;
 			}
-			string text = value.GetString();
+			string? text = value.GetString();
 			if (string.IsNullOrEmpty(text))
 			{
 				return null;
@@ -514,7 +612,7 @@ public static class RobloxCookie
 		}
 		try
 		{
-			using RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("Software\\Roblox\\RobloxStudioBrowser\\roblox.com");
+			using RegistryKey? registryKey = Registry.CurrentUser.OpenSubKey("Software\\Roblox\\RobloxStudioBrowser\\roblox.com");
 			if (registryKey == null)
 			{
 				return null;
@@ -524,7 +622,7 @@ public static class RobloxCookie
 			{
 				if (text.Equals(".ROBLOSECURITY", StringComparison.OrdinalIgnoreCase) && registryKey.GetValue(text) is string text2 && !string.IsNullOrEmpty(text2))
 				{
-					string text3 = Extract(text2);
+					string? text3 = Extract(text2);
 					if (!string.IsNullOrEmpty(text3))
 					{
 						return text3;
@@ -557,4 +655,9 @@ public static class RobloxCookie
 		}
 		return null;
 	}
+
+    [GeneratedRegex("(_\\|WARNING:-DO-NOT-SHARE[^\\s;,\"']+)")]
+    private static partial Regex WarningRegex { get; }
+    [GeneratedRegex("\\.ROBLOSECURITY[\\s=]+([^\\s;,\"']+)", RegexOptions.IgnoreCase, "en-US")]
+    private static partial Regex NamedRegex { get; }
 }

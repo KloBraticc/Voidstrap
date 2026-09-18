@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -113,16 +112,8 @@ internal sealed class NavigationService : IDisposable
     public NavigationService()
     {
         _eventIdentifier = new EventIdentifier();
-        _navigationServiceItems = new NavigationServiceItem[] { };
+        _navigationServiceItems = Array.Empty<NavigationServiceItem>();
         _history = new List<int>();
-    }
-
-    /// <summary>
-    /// Control finalizer.
-    /// </summary>
-    ~NavigationService()
-    {
-        Dispose(false);
     }
 
     #endregion Constructors
@@ -291,10 +282,10 @@ internal sealed class NavigationService : IDisposable
             if (_navigationServiceItems[i].Tag != pageTag)
                 continue;
 
-            if (_navigationServiceItems[i].Instance is not FrameworkElement)
+            if (_navigationServiceItems[i].Instance is not FrameworkElement element)
                 return false;
 
-            ((FrameworkElement)_navigationServiceItems[i].Instance).DataContext = dataContext;
+            element.DataContext = dataContext;
 
             return true;
         }
@@ -312,10 +303,10 @@ internal sealed class NavigationService : IDisposable
         if (_navigationServiceItems.Length - 1 < serviceItemId)
             return false;
 
-        if (_navigationServiceItems[serviceItemId].Instance is not FrameworkElement)
+        if (_navigationServiceItems[serviceItemId].Instance is not FrameworkElement element)
             return false;
 
-        ((FrameworkElement)_navigationServiceItems[serviceItemId].Instance).DataContext = dataContext;
+        element.DataContext = dataContext;
 
         return true;
     }
@@ -345,7 +336,23 @@ internal sealed class NavigationService : IDisposable
                 serviceItemCollection.Add(NavigationServiceItem.Create(navigationItem));
             }
 
+        var previous = _navigationServiceItems;
         _navigationServiceItems = serviceItemCollection.ToArray();
+
+        foreach (var item in _navigationServiceItems)
+        {
+            if (!item.Cache || item.Type == null)
+                continue;
+
+            foreach (var old in previous)
+            {
+                if (old.Type == item.Type && old.Instance != null)
+                {
+                    item.Instance = old.Instance;
+                    break;
+                }
+            }
+        }
 
         if (Precache)
             PrecacheItems();
@@ -443,28 +450,10 @@ internal sealed class NavigationService : IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
-        Dispose(true);
-
-        GC.SuppressFinalize(this);
-    }
-
-    /// <summary>
-    /// If disposing equals <see langword="true"/>, the method has been called directly or indirectly
-    /// by a user's code. Managed and unmanaged resources can be disposed. If disposing equals <see langword="false"/>,
-    /// the method has been called by the runtime from inside the finalizer and you should not
-    /// reference other objects.
-    /// <para>Only unmanaged resources can be disposed.</para>
-    /// </summary>
-    /// <param name="disposing">If disposing equals <see langword="true"/>, dispose all managed and unmanaged resources.</param>
-    private void Dispose(bool disposing)
-    {
         if (_disposed)
             return;
 
         _disposed = true;
-
-        if (!disposing)
-            return;
 
         if (_frame != null)
         {
@@ -492,7 +481,7 @@ internal sealed class NavigationService : IDisposable
     /// <returns></returns>
     private bool NavigateInternal(int serviceItemId, object? dataContext)
     {
-        if (!_navigationServiceItems.Any())
+        if (_navigationServiceItems.Length == 0)
             return false;
 
         _currentActionIdentifier = _eventIdentifier.GetNext();
@@ -537,8 +526,8 @@ internal sealed class NavigationService : IDisposable
         if (_navigationServiceItems[serviceItemId].Instance != null)
         {
             // Sometimes a user may want to update the context of a page that is already in the cache.
-            if (dataContext != null && _navigationServiceItems[serviceItemId].Instance is FrameworkElement)
-                ((FrameworkElement)_navigationServiceItems[serviceItemId].Instance).DataContext = dataContext;
+            if (dataContext != null && _navigationServiceItems[serviceItemId].Instance is FrameworkElement cachedElement)
+                cachedElement.DataContext = dataContext;
 
             _frame.Navigate(
                 _navigationServiceItems[serviceItemId].Instance,
@@ -701,12 +690,47 @@ internal sealed class NavigationService : IDisposable
 
     #region Instance management
 
+    public FrameworkElement? PrecacheItem(Type pageType)
+    {
+        if (_pageService != null || pageType == null)
+            return null;
+
+        foreach (var item in _navigationServiceItems)
+        {
+            if (item.Type != pageType)
+                continue;
+
+            if (!item.Cache || item.Instance != null)
+                return null;
+
+            FrameworkElement instance = NavigationServiceActivator.CreateInstance(pageType, null);
+            item.Instance = instance;
+            return instance;
+        }
+
+        return null;
+    }
+
+    public bool IsCached(Type pageType)
+    {
+        foreach (var item in _navigationServiceItems)
+        {
+            if (item.Type == pageType)
+                return item.Instance != null;
+        }
+
+        return false;
+    }
+
     /// <summary>
     /// Tries to create an instance from the selected page type.
     /// </summary>
-    private FrameworkElement CreateFrameworkElementInstance(Type pageType, object? dataContext)
+    private static FrameworkElement CreateFrameworkElementInstance(Type pageType, object? dataContext)
     {
-        return NavigationServiceActivator.CreateInstance(pageType, dataContext);
+        long started = System.Diagnostics.Stopwatch.GetTimestamp();
+        FrameworkElement instance = NavigationServiceActivator.CreateInstance(pageType, dataContext);
+        Wpf.Ui.Controls.Navigation.NavigationTiming.Report(pageType, System.Diagnostics.Stopwatch.GetElapsedTime(started).TotalMilliseconds);
+        return instance;
     }
 
     #endregion Instance management

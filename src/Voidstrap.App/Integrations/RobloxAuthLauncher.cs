@@ -36,13 +36,13 @@ public static class RobloxAuthLauncher
 
 	public static async Task<string?> BuildRobloxPlayerUriAsync(long placeId, string? specificJobId = null, CancellationToken token = default)
 	{
-		string text = TryGetRobloxSecurityCookie();
+		string? text = TryGetRobloxSecurityCookie();
 		if (string.IsNullOrEmpty(text))
 		{
 			App.Logger.WriteLine("RobloxAuthLauncher", "No .ROBLOSECURITY cookie available; cannot build auth-ticket URI.");
 			return null;
 		}
-		string ticket = null;
+		string? ticket = null;
 		try
 		{
 			ticket = await FetchAuthTicketAsync(text, token).ConfigureAwait(continueOnCapturedContext: false);
@@ -76,7 +76,7 @@ public static class RobloxAuthLauncher
 				{
 					if (item.TryGetProperty("id", out var value2) && value2.ValueKind == JsonValueKind.String)
 					{
-						string text = value2.GetString();
+						string? text = value2.GetString();
 						if (!string.IsNullOrEmpty(text))
 						{
 							ids.Add(text);
@@ -94,7 +94,7 @@ public static class RobloxAuthLauncher
 
 	private static async Task<string?> FetchAuthTicketAsync(string cookie, CancellationToken token)
 	{
-		string value = null;
+		string? value = null;
 		for (int attempt = 0; attempt < 2; attempt++)
 		{
 			using HttpRequestMessage req = new(HttpMethod.Post, "https://auth.roblox.com/v1/authentication-ticket/");
@@ -106,7 +106,7 @@ public static class RobloxAuthLauncher
 			}
 			req.Content = new StringContent("", Encoding.UTF8, "application/json");
 			using HttpResponseMessage httpResponseMessage = await AuthClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(continueOnCapturedContext: false);
-			if (httpResponseMessage.StatusCode == HttpStatusCode.Forbidden && httpResponseMessage.Headers.TryGetValues("x-csrf-token", out IEnumerable<string> values))
+			if (httpResponseMessage.StatusCode == HttpStatusCode.Forbidden && httpResponseMessage.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
 			{
 				value = values.FirstOrDefault();
 				if (string.IsNullOrEmpty(value))
@@ -120,7 +120,7 @@ public static class RobloxAuthLauncher
 				App.Logger.WriteLine("RobloxAuthLauncher", $"Ticket endpoint returned {(int)httpResponseMessage.StatusCode}.");
 				return null;
 			}
-			if (httpResponseMessage.Headers.TryGetValues("rbx-authentication-ticket", out IEnumerable<string> values2))
+			if (httpResponseMessage.Headers.TryGetValues("rbx-authentication-ticket", out IEnumerable<string>? values2))
 			{
 				return values2.FirstOrDefault();
 			}

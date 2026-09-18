@@ -37,13 +37,12 @@
 		<SelfContained>false</SelfContained>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
 
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
 		<InvariantGlobalization>false</InvariantGlobalization>
 
 		<PublishTrimmed>false</PublishTrimmed>
-		<PublishReadyToRun>false</PublishReadyToRun>
+		<PublishReadyToRun>true</PublishReadyToRun>
 		<TieredCompilation>true</TieredCompilation>
 		<TieredCompilationQuickJit>true</TieredCompilationQuickJit>
 		<TieredCompilationQuickJitForLoops>true</TieredCompilationQuickJitForLoops>
@@ -70,7 +69,7 @@
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisLevel>latest</AnalysisLevel>
-		<NoWarn>$(NoWarn);CS8600;CS8601;CS8602;CS8603;CS8604;CS8612;CS8618;CS8619;CS8620;CS8622;CS8625;CS8632;CS8669;CS8670;CS8714;CS0105;CS0108;CS0168;CS0169;CS0219;CS0414;CS0649;CS4014;CS8321;SYSLIB0014;SYSLIB1096;WFDEV004;NU1510;NU1701;MSB3568;MSB3825;PInvoke004;CS8305;CA1416</NoWarn>
+		<NoWarn>$(NoWarn);CS8305</NoWarn>
 
 		<StartupObject></StartupObject>
 
@@ -97,21 +96,27 @@
 		<Resource Include="Voidstrap.ico" />
 		<Resource Include="Resources\Checkmark.ico" />
 		<Resource Include="Resources\CrossMark.ico" />
+		<Resource Include="Resources\Erik.png" />
 		<Resource Include="Resources\RobloxFace.png" />
 		<Resource Include="Resources\RobloxPlayerIcon.png" />
 		<Resource Include="Resources\RobloxStudioIcon.png" />
+		<Resource Include="Resources\SoberIcon.png" />
+		<Resource Include="Resources\VinegarIcon.png" />
 		<Resource Include="Resources\Fonts\NotoSansThai-VariableFont_wdth,wght.ttf" />
 		<Resource Include="Resources\Fonts\Rubik-VariableFont_wght.ttf" />
-		<Resource Include="Resources\Fonts\Montserrat-Medium.ttf" />
-		<Resource Include="Resources\Fonts\Montserrat-Bold.ttf" />
 		<Resource Include="Resources\BootstrapperStyles\ByfronDialog\ByfronLogoDark.jpg" />
 		<Resource Include="Resources\BootstrapperStyles\ByfronDialog\ByfronLogoLight.jpg" />
 		<Resource Include="Resources\BootstrapperStyles\ByfronDialog\Matt.png" />
+		<Resource Include="Resources\CommunityMods\*.png" />
 		<Resource Include="Resources\MessageBox\Error.png" />
 		<Resource Include="Resources\MessageBox\Information.png" />
 		<Resource Include="Resources\MessageBox\Question.png" />
 		<Resource Include="Resources\MessageBox\Warning.png" />
+		<Resource Include="Resources\Flags\*.png" />
+		<Resource Include="Resources\AppImages\*.png" />
 		<EmbeddedResource Include="Resources\mappings.json" />
+		<EmbeddedResource Include="Resources\WorldMap\WorldLand.txt" />
+		<EmbeddedResource Include="Resources\WorldMap\WorldBorders.txt" />
 		<EmbeddedResource Include="UI\Style\Editor-Theme-Berry.xshd" />
 		<EmbeddedResource Include="UI\Style\Editor-Theme-UltraGray.xshd" />
 		<EmbeddedResource Include="UI\Style\Editor-Theme-Voidstrap.xshd" />
@@ -157,6 +162,10 @@
 		<EmbeddedResource Include="Resources\Mods\Cursor\VerySmallWhiteDot\ArrowCursor.png" />
 		<EmbeddedResource Include="Resources\Mods\Cursor\VerySmallWhiteDot\ArrowFarCursor.png" />
 		<EmbeddedResource Include="Resources\Mods\Cursor\VerySmallWhiteDot\ArrowCursorDecalDrag.png" />
+		<EmbeddedResource Include="Resources\Mods\Cursor\BibataModernIce\ArrowCursor.png" />
+		<EmbeddedResource Include="Resources\Mods\Cursor\BibataModernIce\ArrowFarCursor.png" />
+		<EmbeddedResource Include="Resources\Mods\Cursor\BibataModernIce\ArrowCursorDecalDrag.png" />
+		<EmbeddedResource Include="Resources\Mods\Cursor\BibataModernIce\IBeamCursor.png" />
 		<EmbeddedResource Include="Resources\Mods\Sounds\OldDeath.ogg" />
 		<EmbeddedResource Include="Resources\Mods\Sounds\OldGetUp.mp3" />
 		<EmbeddedResource Include="Resources\Mods\Sounds\OldJump.mp3" />
@@ -167,33 +176,29 @@
 
 	<ItemGroup>
 		<PackageReference Include="AvalonEdit" Version="6.3.1.120" />
-		<PackageReference Include="ably.io" Version="1.2.18" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 		<PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
-		<PackageReference Include="Emoji.Wpf" Version="0.3.4" />
 		<PackageReference Include="Markdig" Version="1.3.2" />
-		<PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.29.0" />
-		<PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.2.5" ExcludeAssets="native;build;buildTransitive" />
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4129.50" />
+		<PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.30.0" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
 		<!-- <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" /> -->
 
-		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.321">
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.333">
 			<!--<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="NAudio" Version="3.0.1" />
-		<PackageReference Include="NAudio.Vorbis" Version="1.5.0" />
+		<PackageReference Include="NAudio" Version="3.1.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="Nefarius.ViGEm.Client" Version="1.21.256" />
+		<PackageReference Include="Concentus.Oggfile" Version="1.0.7" />
 		<PackageReference Include="NVorbis" Version="0.10.5" />
 		<PackageReference Include="OggVorbisEncoder" Version="1.2.2" />
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
 		<PackageReference Include="SharpZipLib" Version="1.4.2" />
 		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
-		<PackageReference Include="System.Management" Version="10.0.11" />
+		<PackageReference Include="System.Management" Version="10.0.12" />
 
-		<PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.11" />
 
 		<PackageReference Include="Vortice.D3DCompiler" Version="3.8.3" />
 
@@ -202,12 +207,16 @@
 		<PackageReference Include="Vortice.DirectComposition" Version="3.8.3" />
 
 		<PackageReference Include="Vortice.DXGI" Version="3.8.3" />
+		<PackageReference Include="Vortice.MediaFoundation" Version="3.8.3" />
 		<PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
-		<PackageReference Include="XamlAnimatedGif" Version="2.3.2" />
 		<PackageReference Include="Openize.Drako" Version="26.2.0" />
 		<PackageReference Include="ZstdSharp.Port" Version="0.8.8" />
 		<!-- <PackageReference Include="YoutubeExplode" Version="6.5.5" />
 		<PackageReference Include="YoutubeExplode.Converter" Version="6.5.5" /> -->
+	</ItemGroup>
+
+	<ItemGroup>
+		<PublishReadyToRunExclude Include="Microsoft.ML.OnnxRuntime.dll;System.Numerics.Tensors.dll;OggVorbisEncoder.dll;ZstdSharp.dll;Openize.Drako.dll;Tomlyn.dll;Voidstrap.Platform.Linux.dll;Voidstrap.Platform.MacOS.dll;Vortice.Direct2D1.dll;Vortice.Direct3D11.dll;Vortice.DirectComposition.dll;Vortice.D3DCompiler.dll;Vortice.Mathematics.dll;Nefarius.ViGEm.Client.dll" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -248,11 +257,6 @@
 			<ProjectionMetadataWinmd Include="$(UserProfile)\.nuget\packages\microsoft.windows.sdk.win32metadata\69.0.7-preview\Windows.Win32.winmd" />
 		</ItemGroup>
 	</Target>
-
-	<ItemGroup>
-	  <None Include="ThirdParty\NvOFFRUC.dll" CopyToOutputDirectory="PreserveNewest" Link="NvOFFRUC.dll" />
-	  <None Include="ThirdParty\cudart64_110.dll" CopyToOutputDirectory="PreserveNewest" Link="cudart64_110.dll" />
-	</ItemGroup>
 
 
 	<ItemGroup>

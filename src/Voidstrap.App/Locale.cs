@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -22,7 +22,7 @@ internal static class Locale
 			"nil",
 			Strings.Common_SystemDefault
 		},
-		{ "en-US", "English (Recommended)" },
+		{ "en-US", "English" },
 		{ "ar", "العربية" },
 		{ "bg", "Български" },
 		{ "cs", "Čeština" },
@@ -54,6 +54,29 @@ internal static class Locale
 		{ "zh-TW", "中文 (繁體)" }
 	};
 
+	private static readonly Dictionary<string, string> LatinLocaleNames = new Dictionary<string, string>
+	{
+		{ "ar", "Arabic" },
+		{ "fa", "Persian" },
+		{ "ja", "Japanese" },
+		{ "ko", "Korean" },
+		{ "th", "Thai" },
+		{ "zh-CN", "Chinese (Simplified)" },
+		{ "zh-TW", "Chinese (Traditional)" }
+	};
+
+	static Locale()
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux)
+			return;
+
+		foreach (KeyValuePair<string, string> replacement in LatinLocaleNames)
+		{
+			if (SupportedLocales.ContainsKey(replacement.Key))
+				SupportedLocales[replacement.Key] = replacement.Value;
+		}
+	}
+
 	public static CultureInfo CurrentCulture { get; private set; } = CultureInfo.InvariantCulture;
 
 	public static bool RightToLeft { get; private set; } = false;
@@ -65,7 +88,7 @@ internal static class Locale
 
 	public static List<string> GetLanguages()
 	{
-		List<string> languages = SupportedLocales.Values.Take(3).ToList();
+		List<string> languages = SupportedLocales.Values.Take(2).ToList();
 		languages.AddRange(from x in SupportedLocales.Values
 			where !languages.Contains(x)
 			orderby x

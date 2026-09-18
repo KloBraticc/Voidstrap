@@ -76,6 +76,6 @@ public static class InstallLocationSelector
 		{
 			return normalizedProfile;
 		}
-		return normalizedProfile + normalized.Substring(relativeStart);
+		return string.Concat(normalizedProfile, normalized.AsSpan(relativeStart));
 	}
 }

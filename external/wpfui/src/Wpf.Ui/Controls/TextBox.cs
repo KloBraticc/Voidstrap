@@ -199,7 +199,15 @@ public class TextBox : System.Windows.Controls.TextBox, IIconControl
     protected void RevealClearButton()
     {
         if (ClearButtonEnabled && IsKeyboardFocusWithin)
-            ShowClearButton = Text.Length > 0;
+            ShowClearButton = Text.Length > 0 && ActualWidth >= 80;
+    }
+
+    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+    {
+        base.OnRenderSizeChanged(sizeInfo);
+
+        if (sizeInfo.WidthChanged)
+            RevealClearButton();
     }
 
     /// <summary>

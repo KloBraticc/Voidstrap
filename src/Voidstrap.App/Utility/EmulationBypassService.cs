@@ -7,7 +7,7 @@ using Microsoft.Win32;
 
 namespace Voidstrap.Utility;
 
-public static class EmulationBypassService
+public static partial class EmulationBypassService
 {
 	private const int ProcessPowerThrottling = 4;
 
@@ -55,13 +55,13 @@ public static class EmulationBypassService
 		public uint StateMask;
 	}
 
-	[DllImport("kernel32.dll", SetLastError = true)]
+	[LibraryImport("kernel32.dll", SetLastError = true)]
 	[return: MarshalAs(UnmanagedType.Bool)]
-	private static extern bool SetProcessInformation(IntPtr hProcess, int informationClass, ref ProcessPowerThrottlingState information, uint size);
+	private static partial bool SetProcessInformation(IntPtr hProcess, int informationClass, ref ProcessPowerThrottlingState information, uint size);
 
-	[DllImport("kernel32.dll", SetLastError = true)]
+	[LibraryImport("kernel32.dll", SetLastError = true)]
 	[return: MarshalAs(UnmanagedType.Bool)]
-	private static extern bool IsWow64Process2(IntPtr hProcess, out ushort processMachine, out ushort nativeMachine);
+	private static partial bool IsWow64Process2(IntPtr hProcess, out ushort processMachine, out ushort nativeMachine);
 
 	public static void ApplyBypassEnvironment(ProcessStartInfo startInfo)
 	{

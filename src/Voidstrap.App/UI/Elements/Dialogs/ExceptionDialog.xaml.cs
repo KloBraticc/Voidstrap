@@ -34,7 +34,7 @@ public partial class ExceptionDialog : WpfUiWindow{
 			LocateLogFileButton.Content = Strings.Dialog_Exception_CopyLogContents;
 		}
 		string text = "https://github.com/KloBraticc/Voidstrap";
-		string wikiUrl = App.WebsiteBaseUrl + "/documentation/documentation";
+		string wikiUrl = App.ProjectHelpLink;
 		string text2 = HttpUtility.UrlEncode($"[BUG] {exception.GetType()}: {exception.Message}");
 		string value = HttpUtility.UrlEncode((App.Logger.AsDocument.Length > MaxLogLength) ? App.Logger.AsDocument.Substring(0, MaxLogLength) : App.Logger.AsDocument);
 		_issueUrl = $"{text}/issues/new?template=bug_report.yaml&title={text2}&log={value}";
@@ -79,7 +79,7 @@ public partial class ExceptionDialog : WpfUiWindow{
 				{
 					ErrorRichTextBox.Selection.Text += $"\n\n[Inner Exception]\n{ex.GetType()}: {ex.Message}";
 				}
-				AppendException(ex.InnerException, isInner: true);
+				AppendException(ex.InnerException!, isInner: true);
 			}
 		}
 	}
@@ -94,7 +94,7 @@ public partial class ExceptionDialog : WpfUiWindow{
 		string payload = string.Format(Strings.Dialog_Exception_Version, App.Version) + Environment.NewLine + Environment.NewLine + details.Trim();
 		try
 		{
-			Clipboard.SetDataObject(payload, copy: true);
+			Voidstrap.Utility.ClipboardService.SetDataObject(payload, copy: true);
 		}
 		catch (Exception ex)
 		{
@@ -162,7 +162,7 @@ public partial class ExceptionDialog : WpfUiWindow{
 		FlashWindowOnLoad();
 	}
 
-	private string GetHelpMessage(string wikiUrl, string issueUrl)
+	private static string GetHelpMessage(string wikiUrl, string issueUrl)
 	{
 		if (!App.IsActionBuild && !App.BuildMetadata.Machine.Contains("pizzaboxer", StringComparison.Ordinal))
 		{
@@ -179,7 +179,7 @@ public partial class ExceptionDialog : WpfUiWindow{
 		}
 		else
 		{
-			Clipboard.SetDataObject(App.Logger.AsDocument);
+			Voidstrap.Utility.ClipboardService.SetDataObject(App.Logger.AsDocument);
 		}
 	}
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -123,6 +123,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 		private string _pingDisplay;
 
+		private int _pingMs = -1;
+
 		private double _distanceKm = -1.0;
 
 		public string City { get; }
@@ -156,8 +158,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				if (_distanceKm != value)
 				{
 					_distanceKm = value;
-					OnPropertyChanged("DistanceKm");
-					OnPropertyChanged("DistanceDisplay");
+					OnPropertyChanged(nameof(DistanceKm));
+					OnPropertyChanged(nameof(DistanceDisplay));
 				}
 			}
 		}
@@ -175,7 +177,23 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				if (_pingDisplay != value)
 				{
 					_pingDisplay = value;
-					OnPropertyChanged("PingDisplay");
+					OnPropertyChanged(nameof(PingDisplay));
+				}
+			}
+		}
+
+		public int PingMs
+		{
+			get
+			{
+				return _pingMs;
+			}
+			set
+			{
+				if (_pingMs != value)
+				{
+					_pingMs = value;
+					OnPropertyChanged(nameof(PingMs));
 				}
 			}
 		}
@@ -191,8 +209,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				if (_isBlocked == !value)
 					return;
 				_isBlocked = !value;
-				OnPropertyChanged("IsAllowed");
-				OnPropertyChanged("IsBlocked");
+				OnPropertyChanged(nameof(IsAllowed));
+				OnPropertyChanged(nameof(IsBlocked));
 				_onChange(this);
 			}
 		}
@@ -227,6 +245,20 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		public string Display { get; init; } = "";
 	}
 
+	public sealed class PreferredDatacenterOption
+	{
+		public string Key { get; init; } = "";
+
+		public string Display { get; init; } = "";
+
+		public double DistanceKm { get; init; }
+
+		public override string ToString()
+		{
+			return Display;
+		}
+	}
+
 	private static readonly ObservableCollection<GamejoinApiItem> _gamejoinApiOptions = new()
 	{
 		new GamejoinApiItem { Value = 1, Display = "V1 (stable)" },
@@ -246,22 +278,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.VoidstrapMatchmakerGamejoinApiVersion != value)
 			{
 				App.Settings.Prop.VoidstrapMatchmakerGamejoinApiVersion = value;
-				OnPropertyChanged("GamejoinApiVersion");
+				OnPropertyChanged(nameof(GamejoinApiVersion));
 			}
-		}
-	}
-
-	public sealed class PreferredDatacenterOption
-	{
-		public string Key { get; init; } = "";
-
-		public string Display { get; init; } = "";
-
-		public double DistanceKm { get; init; }
-
-		public override string ToString()
-		{
-			return Display;
 		}
 	}
 
@@ -273,15 +291,13 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	private bool _isFetchingPreset;
 
-	private PreferredDatacenterOption? _selectedPreferredDatacenter;
-
 	private (double lat, double lon)? _userGeoForPreferred;
 
 	private RobloxAccount? _account;
 
-	private string _cpuModelName;
+	private string _cpuModelName = null!;
 
-	private string _cpuSummary;
+	private string _cpuSummary = null!;
 
 	private string _selectedCpuPriority = "Automatic";
 
@@ -306,7 +322,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				if (Frontend.ShowMessageBox("Voidstrap can't find your Roblox login yet, so the matchmaker can't sync.\n\nClick Continue to launch Roblox and log in - it will sync automatically afterwards.\nClick Cancel to leave the matchmaker turned off.", MessageBoxImage.Exclamation, MessageBoxButton.OKCancel, MessageBoxResult.OK) == MessageBoxResult.OK)
 				{
 					App.Settings.Prop.VoidstrapMatchmakerEnabled = true;
-					OnPropertyChanged("VoidstrapMatchmakerEnabled");
+					OnPropertyChanged(nameof(VoidstrapMatchmakerEnabled));
 					RefreshLoginStatus();
 					try
 					{
@@ -319,12 +335,12 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 					}
 				}
 				App.Settings.Prop.VoidstrapMatchmakerEnabled = false;
-				OnPropertyChanged("VoidstrapMatchmakerEnabled");
+				OnPropertyChanged(nameof(VoidstrapMatchmakerEnabled));
 			}
 			else
 			{
 				App.Settings.Prop.VoidstrapMatchmakerEnabled = value;
-				OnPropertyChanged("VoidstrapMatchmakerEnabled");
+				OnPropertyChanged(nameof(VoidstrapMatchmakerEnabled));
 				RefreshMatchmakerSummary();
 			}
 		}
@@ -373,14 +389,21 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			catch
 			{
 			}
-			OnPropertyChanged("MatchmakerMode");
-			OnPropertyChanged("ShowPreferredDatacenterPicker");
+			OnPropertyChanged(nameof(MatchmakerMode));
+			OnPropertyChanged(nameof(ShowPreferredDatacenterPicker));
+			OnPropertyChanged(nameof(PreferredDatacenterKey));
+			OnPropertyChanged(nameof(SelectedPreferredDatacenter));
 			RefreshPreferredDatacenterOptions();
+			EnsurePreferredDatacenter();
 			RefreshMatchmakerSummary();
 		}
 	}
 
 	public bool ShowPreferredDatacenterPicker => MatchmakerMode == 2;
+
+	public double UserLatitude => _userGeoForPreferred?.lat ?? double.NaN;
+
+	public double UserLongitude => _userGeoForPreferred?.lon ?? double.NaN;
 
 	public string UserLocationText
 	{
@@ -409,7 +432,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.VoidstrapMatchmakerMaxCandidates != num)
 			{
 				App.Settings.Prop.VoidstrapMatchmakerMaxCandidates = num;
-				OnPropertyChanged("VoidstrapMatchmakerMaxCandidates");
+				OnPropertyChanged(nameof(VoidstrapMatchmakerMaxCandidates));
 				RefreshMatchmakerAutoDetect();
 			}
 		}
@@ -428,8 +451,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.VoidstrapMatchmakerAutoCandidates != value)
 			{
 				App.Settings.Prop.VoidstrapMatchmakerAutoCandidates = value;
-				OnPropertyChanged("VoidstrapMatchmakerAutoCandidates");
-				OnPropertyChanged("VoidstrapMatchmakerManualCandidates");
+				OnPropertyChanged(nameof(VoidstrapMatchmakerAutoCandidates));
+				OnPropertyChanged(nameof(VoidstrapMatchmakerManualCandidates));
 				RefreshMatchmakerAutoDetect();
 			}
 		}
@@ -495,7 +518,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 							{
 								return false;
 							}
-							return country.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
+							return country.Contains(value, StringComparison.OrdinalIgnoreCase);
 						}
 					}
 					return true;
@@ -520,7 +543,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				return;
 			}
 			_datacenterSearchText = value ?? "";
-			OnPropertyChanged("DatacenterSearchText");
+			OnPropertyChanged(nameof(DatacenterSearchText));
 			try
 			{
 				FilteredDatacenters.Refresh();
@@ -552,10 +575,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				catch
 				{
 				}
-				OnPropertyChanged("DatacenterPresetUrl");
+				OnPropertyChanged(nameof(DatacenterPresetUrl));
 				if (!string.IsNullOrWhiteSpace(text))
 				{
-					FetchPresetAsync();
+					_ = FetchPresetAsync();
 				}
 			}
 		}
@@ -572,8 +595,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		set
 		{
 			_presetFetchStatus = value ?? "";
-			OnPropertyChanged("PresetFetchStatus");
-			OnPropertyChanged("HasPresetFetchStatus");
+			OnPropertyChanged(nameof(PresetFetchStatus));
+			OnPropertyChanged(nameof(HasPresetFetchStatus));
 		}
 	}
 
@@ -590,8 +613,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		set
 		{
 			_isFetchingPreset = value;
-			OnPropertyChanged("IsFetchingPreset");
-			OnPropertyChanged("CanFetchPreset");
+			OnPropertyChanged(nameof(IsFetchingPreset));
+			OnPropertyChanged(nameof(CanFetchPreset));
 		}
 	}
 
@@ -611,6 +634,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 
 
+	private PreferredDatacenterOption? _selectedPreferredDatacenter;
+
 	public ObservableCollection<PreferredDatacenterOption> PreferredDatacenterOptions { get; } = new ObservableCollection<PreferredDatacenterOption>();
 
 	public PreferredDatacenterOption? SelectedPreferredDatacenter
@@ -621,10 +646,13 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		set
 		{
+			if (value == null && _specificDatacenterMode && PreferredDatacenterOptions.Count > 0)
+				return;
 			if (_selectedPreferredDatacenter != value)
 			{
 				_selectedPreferredDatacenter = value;
-				App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter = value?.Key ?? "";
+				string key = value?.Key ?? "";
+				App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter = key;
 				try
 				{
 					App.Settings.SaveDeferred();
@@ -632,9 +660,36 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				catch
 				{
 				}
-				OnPropertyChanged("SelectedPreferredDatacenter");
+				OnPropertyChanged(nameof(SelectedPreferredDatacenter));
+				OnPropertyChanged(nameof(PreferredDatacenterKey));
 				RefreshMatchmakerSummary();
 			}
+		}
+	}
+
+	public string PreferredDatacenterKey
+	{
+		get
+		{
+			return App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "";
+		}
+		set
+		{
+			string key = value ?? "";
+			if (string.Equals(PreferredDatacenterKey, key, StringComparison.OrdinalIgnoreCase))
+				return;
+			App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter = key;
+			try
+			{
+				App.Settings.SaveDeferred();
+			}
+			catch
+			{
+			}
+			_selectedPreferredDatacenter = PreferredDatacenterOptions.FirstOrDefault(o => string.Equals(o.Key, key, StringComparison.OrdinalIgnoreCase));
+			OnPropertyChanged(nameof(PreferredDatacenterKey));
+			OnPropertyChanged(nameof(SelectedPreferredDatacenter));
+			RefreshMatchmakerSummary();
 		}
 	}
 
@@ -713,7 +768,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.ServerMatchmakerMaxRetries != num)
 			{
 				App.Settings.Prop.ServerMatchmakerMaxRetries = num;
-				OnPropertyChanged("ServerMatchmakerMaxRetries");
+				OnPropertyChanged(nameof(ServerMatchmakerMaxRetries));
 			}
 		}
 	}
@@ -729,7 +784,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		set
 		{
 			_cpuModelName = value;
-			OnPropertyChanged("CpuModelName");
+			OnPropertyChanged(nameof(CpuModelName));
 		}
 	}
 
@@ -744,7 +799,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		set
 		{
 			_cpuSummary = value;
-			OnPropertyChanged("CpuSummary");
+			OnPropertyChanged(nameof(CpuSummary));
 		}
 	}
 
@@ -763,7 +818,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (_selectedCpuPriority != value)
 			{
 				_selectedCpuPriority = value;
-				OnPropertyChanged("SelectedCpuPriority");
+				OnPropertyChanged(nameof(SelectedCpuPriority));
 				App.Settings.Prop.SelectedCpuPriority = value;
 				App.Settings.SaveDeferred();
 			}
@@ -783,7 +838,25 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.DisableCrash != value)
 			{
 				App.Settings.Prop.DisableCrash = value;
-				OnPropertyChanged("disablecrashhandleryayyysocool");
+				OnPropertyChanged(nameof(disablecrashhandleryayyysocool));
+			}
+		}
+	}
+
+
+
+	public bool TasxOptimization
+	{
+		get
+		{
+			return App.Settings.Prop.TasxOptimization;
+		}
+		set
+		{
+			if (App.Settings.Prop.TasxOptimization != value)
+			{
+				App.Settings.Prop.TasxOptimization = value;
+				OnPropertyChanged(nameof(TasxOptimization));
 			}
 		}
 	}
@@ -802,6 +875,23 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
+	public bool MultiInstanceLaunching
+	{
+		get
+		{
+			return App.Settings.Prop.MultiInstanceLaunching;
+		}
+		set
+		{
+			App.Settings.Prop.MultiInstanceLaunching = value;
+			App.Settings.SaveDeferred();
+			if (!value)
+			{
+				Voidstrap.Utility.MultiInstanceLock.Release();
+			}
+		}
+	}
+
 
 
 	public bool LaunchRobloxWebsite
@@ -812,7 +902,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		set
 		{
-			OnPropertyChanged("LaunchRobloxWebsite");
+			OnPropertyChanged(nameof(LaunchRobloxWebsite));
 		}
 	}
 
@@ -885,7 +975,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.OptimizeRoblox != value)
 			{
 				App.Settings.Prop.OptimizeRoblox = value;
-				OnPropertyChanged("OptimizeRoblox");
+				OnPropertyChanged(nameof(OptimizeRoblox));
 				App.Settings.SaveDeferred();
 			}
 		}
@@ -904,7 +994,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				App.Settings.Prop.BypassEmulationOverhead = value;
 				if (!value)
 					Voidstrap.Utility.EmulationBypassService.RestoreCompatLayers();
-				OnPropertyChanged("BypassEmulationOverhead");
+				OnPropertyChanged(nameof(BypassEmulationOverhead));
 				App.Settings.SaveDeferred();
 			}
 		}
@@ -925,7 +1015,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.ReduceMemoryOutOfFocus != value)
 			{
 				App.Settings.Prop.ReduceMemoryOutOfFocus = value;
-				OnPropertyChanged("ReduceMemoryOutOfFocus");
+				OnPropertyChanged(nameof(ReduceMemoryOutOfFocus));
 				App.Settings.SaveDeferred();
 			}
 		}
@@ -943,7 +1033,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.MultiAccount != value)
 			{
 				App.Settings.Prop.MultiAccount = value;
-				OnPropertyChanged("MultiAccount");
+				OnPropertyChanged(nameof(MultiAccount));
 				App.Settings.SaveDeferred();
 			}
 		}
@@ -1027,7 +1117,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				CleanerItems.Remove("RobloxLogs");
 				UpdateCleanerItems();
 			}
-			OnPropertyChanged("CleanerLogs");
+			OnPropertyChanged(nameof(CleanerLogs));
 		}
 	}
 
@@ -1051,7 +1141,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				CleanerItems.Remove("RobloxCache");
 				UpdateCleanerItems();
 			}
-			OnPropertyChanged("CleanerCache");
+			OnPropertyChanged(nameof(CleanerCache));
 		}
 	}
 
@@ -1075,7 +1165,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				CleanerItems.Remove("VoidstrapLogs");
 				UpdateCleanerItems();
 			}
-			OnPropertyChanged("CleanerVoidstrap");
+			OnPropertyChanged(nameof(CleanerVoidstrap));
 		}
 	}
 
@@ -1086,9 +1176,9 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		CleanerItems = new List<string>(App.Settings.Prop.CleanerDirectories);
 		LoadCpuOptions();
 		LoadDatacenters();
-		LoadUserGeoForPreferredAsync();
-		FetchPresetAsync();
-		LoadAccountAsync();
+		_ = LoadUserGeoForPreferredAsync();
+		_ = FetchPresetAsync(false);
+		_ = LoadAccountAsync();
 		LoadExcludedGames();
 		SelectedWebBackground = App.Settings.Prop.WebCustomBackgrounds.FirstOrDefault();
 	}
@@ -1457,7 +1547,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		{
 			list.AddRange(Process.GetProcessesByName("RobloxStudioBeta"));
 		}
-		if (list.Any())
+		if (list.Count != 0)
 		{
 			Frontend.ShowMessageBox("Close Roblox before cleaning the cache.", MessageBoxImage.Hand);
 			return;
@@ -1589,6 +1679,9 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				{
 					ApplyDistances();
 					RefreshPreferredDatacenterOptions();
+					EnsurePreferredDatacenter();
+					OnPropertyChanged(nameof(UserLatitude));
+					OnPropertyChanged(nameof(UserLongitude));
 					RefreshMatchmakerSummary();
 				});
 			}
@@ -1604,7 +1697,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 	{
 		try
 		{
-			UserGeo geo = await VoidstrapMatchmaker.GetUserGeoAsync().ConfigureAwait(continueOnCapturedContext: false);
+			UserGeo? geo = await VoidstrapMatchmaker.GetUserGeoAsync().ConfigureAwait(continueOnCapturedContext: false);
 			if (geo == null)
 			{
 				return null;
@@ -1621,15 +1714,15 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public void RefreshMatchmakerAutoDetect()
 	{
-		OnPropertyChanged("RecommendedMatchmakerCandidates");
-		OnPropertyChanged("EffectiveMatchmakerCandidates");
-		OnPropertyChanged("SearchDepthDescription");
+		OnPropertyChanged(nameof(RecommendedMatchmakerCandidates));
+		OnPropertyChanged(nameof(EffectiveMatchmakerCandidates));
+		OnPropertyChanged(nameof(SearchDepthDescription));
 	}
 
 	public void RefreshMatchmakerSummary()
 	{
-		OnPropertyChanged("UserLocationText");
-		OnPropertyChanged("BlockedDatacenterSummary");
+		OnPropertyChanged(nameof(UserLocationText));
+		OnPropertyChanged(nameof(BlockedDatacenterSummary));
 	}
 
 	public string BlockedDatacenterSummary
@@ -1677,7 +1770,12 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			HashSet<string> hashSet = new HashSet<string>(App.Settings.Prop.VoidstrapMatchmakerDisabledDatacenters ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
 			Datacenters.Clear();
 			Dictionary<string, List<LearnedServerEntry>> dictionary = new Dictionary<string, List<LearnedServerEntry>>(StringComparer.OrdinalIgnoreCase);
-			foreach (LearnedServerEntry item in ServerFetchStore.AllEntries())
+			List<LearnedServerEntry> entries = ServerFetchStore.AllEntries();
+			HashSet<string> learnedCidrs = new HashSet<string>(entries.Select(e => e.Cidr), StringComparer.OrdinalIgnoreCase);
+			entries.AddRange(RobloxDatacenterMap.AllSeedEntries()
+				.Where(seed => !learnedCidrs.Contains(seed.Cidr))
+				.Select(seed => new LearnedServerEntry { Cidr = seed.Cidr, City = seed.City, Region = seed.Region, Country = seed.Country, Lat = seed.Lat, Lon = seed.Lon }));
+			foreach (LearnedServerEntry item in entries)
 			{
 				if (!string.IsNullOrWhiteSpace(item.City) && (item.Lat != 0.0 || item.Lon != 0.0))
 				{
@@ -1695,7 +1793,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				LearnedServerEntry learnedServerEntry = value2.OrderByDescending((LearnedServerEntry x) => x.SeenCount).First();
 				List<string> serverIps = value2.SelectMany(delegate(LearnedServerEntry x)
 				{
-					IEnumerable<string> iPs = x.IPs;
+					IEnumerable<string>? iPs = x.IPs;
 					return iPs ?? Enumerable.Empty<string>();
 				}).Where(IsUsablePingIp).Distinct<string>(StringComparer.OrdinalIgnoreCase)
 					.ToList();
@@ -1707,8 +1805,9 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 			ApplyDistances();
 			RefreshPreferredDatacenterOptions();
+			EnsurePreferredDatacenter();
 			RefreshMatchmakerSummary();
-			MeasureDatacenterPingsAsync();
+			_ = MeasureDatacenterPingsAsync();
 		}
 		catch (Exception ex)
 		{
@@ -1723,7 +1822,11 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		foreach (DatacenterItem item in Datacenters)
 		{
 			item.DistanceKm = Voidstrap.Integrations.VoidstrapMatchmaker.HaversineKm(_userGeoForPreferred.Value.lat, _userGeoForPreferred.Value.lon, item.Lat, item.Lon);
-			item.PingDisplay = $"{Voidstrap.Integrations.VoidstrapMatchmaker.EstimatePingMs(item.DistanceKm)} ms";
+			if (item.PingMs < 0)
+			{
+				item.PingMs = Voidstrap.Integrations.VoidstrapMatchmaker.EstimatePingMs(item.DistanceKm);
+				item.PingDisplay = $"{item.PingMs} ms";
+			}
 		}
 		SortDatacentersByDistance();
 	}
@@ -1751,7 +1854,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		{
 			return false;
 		}
-		if (!IPAddress.TryParse(ip, out IPAddress _))
+		if (!IPAddress.TryParse(ip, out _))
 		{
 			return false;
 		}
@@ -1763,7 +1866,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 
 
-	public async Task FetchPresetAsync()
+	public async Task FetchPresetAsync(bool force = true)
 	{
 		if (_isFetchingPreset)
 		{
@@ -1772,7 +1875,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		IsFetchingPreset = true;
 		try
 		{
-			await Voidstrap.Utility.WebsiteGeoSync.PullAsync().ConfigureAwait(continueOnCapturedContext: true);
+			await Voidstrap.Utility.RemoteData.RefreshServerLocationsAsync(force, CancellationToken.None).ConfigureAwait(continueOnCapturedContext: true);
 			LoadDatacenters();
 		}
 		catch (Exception ex)
@@ -1807,37 +1910,19 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 	{
 		try
 		{
-			HashSet<string> hashSet = new HashSet<string>(App.Settings.Prop.VoidstrapMatchmakerDisabledDatacenters ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
-			List<PreferredDatacenterOption> list = new List<PreferredDatacenterOption>();
-			Dictionary<string, LearnedServerEntry> dictionary = new Dictionary<string, LearnedServerEntry>(StringComparer.OrdinalIgnoreCase);
-			foreach (LearnedServerEntry item in ServerFetchStore.AllEntries())
-			{
-				if (!string.IsNullOrWhiteSpace(item.City) && (item.Lat != 0.0 || item.Lon != 0.0))
-				{
-					string text = item.City + "|" + item.Country;
-					if (!hashSet.Contains(text) && (!dictionary.TryGetValue(text, out var value) || item.SeenCount > value.SeenCount))
-					{
-						dictionary[text] = item;
-					}
-				}
-			}
-			List<PreferredDatacenterOption> collection = (from e in dictionary.Values
-				let km = (_userGeoForPreferred.HasValue ? VoidstrapMatchmaker.HaversineKm(_userGeoForPreferred.Value.lat, _userGeoForPreferred.Value.lon, e.Lat, e.Lon) : double.PositiveInfinity)
-				select new PreferredDatacenterOption
-				{
-					Key = e.City + "|" + e.Country,
-					Display = double.IsPositiveInfinity(km) ? e.City + ", " + e.Country : $"{e.City}, {e.Country} ({VoidstrapMatchmaker.EstimatePingMs(km)}ms)",
-					DistanceKm = km
-				} into o
-				orderby o.DistanceKm, o.Display
-				select o).ToList();
-			list.AddRange(collection);
-			PreferredDatacenterOptions.Clear();
-			foreach (PreferredDatacenterOption item2 in list)
-			{
-				PreferredDatacenterOptions.Add(item2);
-			}
 			string savedKey = App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "";
+			PreferredDatacenterOptions.Clear();
+			foreach (DatacenterItem item in Datacenters.Where(d => d.IsAllowed))
+			{
+				string ping = item.PingMs >= 0 ? $"{item.PingMs} ms" : (item.DistanceKm >= 0.0 ? $"{VoidstrapMatchmaker.EstimatePingMs(item.DistanceKm)} ms" : "");
+				string display = string.IsNullOrEmpty(ping) ? item.Location : $"{item.Location} ({ping})";
+				PreferredDatacenterOptions.Add(new PreferredDatacenterOption
+				{
+					Key = item.Key,
+					Display = display,
+					DistanceKm = item.DistanceKm
+				});
+			}
 			PreferredDatacenterOption? match = PreferredDatacenterOptions.FirstOrDefault(o => string.Equals(o.Key, savedKey, StringComparison.OrdinalIgnoreCase));
 			_selectedPreferredDatacenter = match ?? (_specificDatacenterMode ? PreferredDatacenterOptions.FirstOrDefault() : null);
 			string resolvedKey = _selectedPreferredDatacenter?.Key ?? "";
@@ -1851,12 +1936,33 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				catch
 				{
 				}
+				OnPropertyChanged(nameof(PreferredDatacenterKey));
 			}
-			OnPropertyChanged("SelectedPreferredDatacenter");
+			OnPropertyChanged(nameof(SelectedPreferredDatacenter));
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine("BehaviourViewModel::RefreshPreferredDatacenterOptions", "Failed: " + ex.Message);
+		}
+	}
+
+	public void EnsurePreferredDatacenter()
+	{
+		if (!_specificDatacenterMode)
+			return;
+		string saved = PreferredDatacenterKey;
+		if (Datacenters.Any(d => d.IsAllowed && string.Equals(d.Key, saved, StringComparison.OrdinalIgnoreCase)))
+		{
+			_selectedPreferredDatacenter = PreferredDatacenterOptions.FirstOrDefault(o => string.Equals(o.Key, saved, StringComparison.OrdinalIgnoreCase));
+			OnPropertyChanged(nameof(SelectedPreferredDatacenter));
+			return;
+		}
+		DatacenterItem? nearest = Datacenters.Where(d => d.IsAllowed).OrderBy(d => d.DistanceKm < 0.0 ? double.MaxValue : d.DistanceKm).FirstOrDefault();
+		if (nearest != null)
+		{
+			PreferredDatacenterKey = nearest.Key;
+			_selectedPreferredDatacenter = PreferredDatacenterOptions.FirstOrDefault(o => string.Equals(o.Key, nearest.Key, StringComparison.OrdinalIgnoreCase));
+			OnPropertyChanged(nameof(SelectedPreferredDatacenter));
 		}
 	}
 
@@ -1881,6 +1987,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		RefreshMatchmakerAutoDetect();
 		RefreshPreferredDatacenterOptions();
+		EnsurePreferredDatacenter();
 		RefreshMatchmakerSummary();
 	}
 
@@ -1901,7 +2008,11 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				if (ms < 0)
 					return;
 				string text = $"{ms} ms";
-				await Application.Current.Dispatcher.InvokeAsync(() => item.PingDisplay = text);
+				await Application.Current.Dispatcher.InvokeAsync(delegate
+				{
+					item.PingMs = ms;
+					item.PingDisplay = text;
+				});
 			}
 			catch
 			{
@@ -1914,6 +2025,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		try
 		{
 			await Task.WhenAll(tasks).ConfigureAwait(false);
+			await Application.Current.Dispatcher.InvokeAsync(RefreshPreferredDatacenterOptions);
 		}
 		catch
 		{
@@ -1924,7 +2036,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	private static async Task<int> MeasureTcpPingAsync(string ip)
 	{
-		if (!IPAddress.TryParse(ip, out IPAddress addr))
+		if (!IPAddress.TryParse(ip, out IPAddress? addr))
 		{
 			return -1;
 		}
@@ -1990,6 +2102,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		RefreshMatchmakerAutoDetect();
 		RefreshPreferredDatacenterOptions();
+		EnsurePreferredDatacenter();
 		RefreshMatchmakerSummary();
 	}
 
@@ -1997,8 +2110,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public void RefreshLearnedStats()
 	{
-		OnPropertyChanged("VoidstrapMatchmakerLearnedStats");
-		OnPropertyChanged("HasLearnedData");
+		OnPropertyChanged(nameof(VoidstrapMatchmakerLearnedStats));
+		OnPropertyChanged(nameof(HasLearnedData));
 	}
 
 
@@ -2006,10 +2119,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 	public void RefreshLoginStatus()
 	{
 		RobloxCookie.InvalidateCache();
-		OnPropertyChanged("LoginStatusText");
-		OnPropertyChanged("IsSignedIn");
-		OnPropertyChanged("IsNotSignedIn");
-		LoadAccountAsync();
+		OnPropertyChanged(nameof(LoginStatusText));
+		OnPropertyChanged(nameof(IsSignedIn));
+		OnPropertyChanged(nameof(IsNotSignedIn));
+		_ = LoadAccountAsync();
 	}
 
 
@@ -2024,7 +2137,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		{
 			_account = null;
 		}
-		OnPropertyChanged("LoginStatusText");
+		OnPropertyChanged(nameof(LoginStatusText));
 	}
 
 
@@ -2072,7 +2185,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				App.Settings.SaveDeferred();
 			}
 			_selectedCpuPriority = App.Settings.Prop.SelectedCpuPriority;
-			OnPropertyChanged("SelectedCpuPriority");
+			OnPropertyChanged(nameof(SelectedCpuPriority));
 			App.Settings.Prop.TotalLogicalCores = processorCount;
 			App.Settings.Prop.TotalPhysicalCores = physicalCoreCount;
 		}
@@ -2083,13 +2196,13 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			_selectedCpuPriority = "Automatic";
 			CpuModelName = "Unknown CPU";
 			CpuSummary = "CPU information unavailable. Automatic uses every available processor.";
-			OnPropertyChanged("SelectedCpuPriority");
+			OnPropertyChanged(nameof(SelectedCpuPriority));
 		}
 	}
 
 
 
-	private int GetPhysicalCoreCount()
+	private static int GetPhysicalCoreCount()
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
@@ -2154,8 +2267,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				FakeExclusiveFullscreen = true;
 				if (!App.Settings.Prop.FakeExclusiveFullscreen)
 				{
-					OnPropertyChanged("RobloxFullscreenMode");
-					OnPropertyChanged("ShowExclusiveFullscreenWarning");
+					OnPropertyChanged(nameof(RobloxFullscreenMode));
+					OnPropertyChanged(nameof(ShowExclusiveFullscreenWarning));
 					return;
 				}
 				FakeBorderlessFullscreen = false;
@@ -2165,8 +2278,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				FakeExclusiveFullscreen = false;
 				FakeBorderlessFullscreen = value == 1;
 			}
-			OnPropertyChanged("RobloxFullscreenMode");
-			OnPropertyChanged("ShowExclusiveFullscreenWarning");
+			OnPropertyChanged(nameof(RobloxFullscreenMode));
+			OnPropertyChanged(nameof(ShowExclusiveFullscreenWarning));
 		}
 	}
 
@@ -2183,7 +2296,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.FakeBorderlessFullscreen != value)
 			{
 				App.Settings.Prop.FakeBorderlessFullscreen = value;
-				OnPropertyChanged("FakeBorderlessFullscreen");
+				OnPropertyChanged(nameof(FakeBorderlessFullscreen));
 			}
 		}
 	}
@@ -2205,11 +2318,11 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				MessageBoxImage.Warning,
 				MessageBoxButton.YesNo) != MessageBoxResult.Yes)
 			{
-				OnPropertyChanged("FakeExclusiveFullscreen");
+				OnPropertyChanged(nameof(FakeExclusiveFullscreen));
 				return;
 			}
 			App.Settings.Prop.FakeExclusiveFullscreen = value;
-			OnPropertyChanged("FakeExclusiveFullscreen");
+			OnPropertyChanged(nameof(FakeExclusiveFullscreen));
 		}
 	}
 
@@ -2226,7 +2339,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.CycleTitleWithGameName != value)
 			{
 				App.Settings.Prop.CycleTitleWithGameName = value;
-				OnPropertyChanged("CycleTitleWithGameName");
+				OnPropertyChanged(nameof(CycleTitleWithGameName));
 			}
 		}
 	}
@@ -2244,7 +2357,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.UseGameIconForRobloxWindow != value)
 			{
 				App.Settings.Prop.UseGameIconForRobloxWindow = value;
-				OnPropertyChanged("UseGameIconForRobloxWindow");
+				OnPropertyChanged(nameof(UseGameIconForRobloxWindow));
 			}
 		}
 	}
@@ -2260,7 +2373,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.ShowServerInfoInTitle != value)
 			{
 				App.Settings.Prop.ShowServerInfoInTitle = value;
-				OnPropertyChanged("ShowServerInfoInTitle");
+				OnPropertyChanged(nameof(ShowServerInfoInTitle));
 			}
 		}
 	}
@@ -2297,7 +2410,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			{
 				App.Settings.Prop.RobloxWindowBackdropType = value;
 				App.Settings.SaveDeferred();
-				OnPropertyChanged("RobloxBackdropType");
+				OnPropertyChanged(nameof(RobloxBackdropType));
 			}
 		}
 	}
@@ -2318,7 +2431,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.RobloxTitle != text)
 			{
 				App.Settings.Prop.RobloxTitle = text;
-				OnPropertyChanged("RobloxTitle");
+				OnPropertyChanged(nameof(RobloxTitle));
 			}
 		}
 	}
@@ -2336,7 +2449,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.WebViewDevTools != value)
 			{
 				App.Settings.Prop.WebViewDevTools = value;
-				OnPropertyChanged("WebViewDevTools");
+				OnPropertyChanged(nameof(WebViewDevTools));
 			}
 		}
 	}
@@ -2354,7 +2467,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.WebCustomBackgroundEnabled != value)
 			{
 				App.Settings.Prop.WebCustomBackgroundEnabled = value;
-				OnPropertyChanged("WebCustomBackgroundEnabled");
+				OnPropertyChanged(nameof(WebCustomBackgroundEnabled));
 				App.Settings.SaveDeferred();
 			}
 		}
@@ -2373,7 +2486,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.WebCustomBackgroundBlur != value)
 			{
 				App.Settings.Prop.WebCustomBackgroundBlur = value;
-				OnPropertyChanged("WebCustomBackgroundBlur");
+				OnPropertyChanged(nameof(WebCustomBackgroundBlur));
 				App.Settings.SaveDeferred();
 			}
 		}
@@ -2393,7 +2506,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.WebCustomBackgroundOpacity != num)
 			{
 				App.Settings.Prop.WebCustomBackgroundOpacity = num;
-				OnPropertyChanged("WebCustomBackgroundOpacity");
+				OnPropertyChanged(nameof(WebCustomBackgroundOpacity));
 				App.Settings.SaveDeferred();
 			}
 		}
@@ -2405,7 +2518,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			string path = App.Settings.Prop.WebCustomBackgroundPath;
+			string? path = App.Settings.Prop.WebCustomBackgroundPath;
 			return string.IsNullOrEmpty(path) ? "No background applied" : ("Applied: " + Path.GetFileName(path));
 		}
 	}
@@ -2442,8 +2555,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		set
 		{
 			_selectedWebBackground = value;
-			OnPropertyChanged("SelectedWebBackground");
-			OnPropertyChanged("ApplyButtonText");
+			OnPropertyChanged(nameof(SelectedWebBackground));
+			OnPropertyChanged(nameof(ApplyButtonText));
 			LoadBackgroundPreview();
 		}
 	}
@@ -2459,8 +2572,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		private set
 		{
 			_selectedBackgroundPreview = value;
-			OnPropertyChanged("SelectedBackgroundPreview");
-			OnPropertyChanged("HasBackgroundPreview");
+			OnPropertyChanged(nameof(SelectedBackgroundPreview));
+			OnPropertyChanged(nameof(HasBackgroundPreview));
 		}
 	}
 
@@ -2476,6 +2589,11 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (selected == null || string.IsNullOrEmpty(selected.FilePath) || !File.Exists(selected.FilePath))
 			{
 				SelectedBackgroundPreview = null;
+				return;
+			}
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				SelectedBackgroundPreview = Voidstrap.Utility.SafeImaging.FromFile(selected.FilePath, 360);
 				return;
 			}
 			var bitmap = new System.Windows.Media.Imaging.BitmapImage();
@@ -2520,8 +2638,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 	{
 		App.Settings.Prop.WebCustomBackgroundPath = null;
 		App.Settings.SaveDeferred();
-		OnPropertyChanged("WebCustomBackgroundDisplay");
-		OnPropertyChanged("ApplyButtonText");
+		OnPropertyChanged(nameof(WebCustomBackgroundDisplay));
+		OnPropertyChanged(nameof(ApplyButtonText));
 	}
 
 
@@ -2537,7 +2655,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		{
 			return;
 		}
-		Voidstrap.Models.CustomBackground last = null;
+		Voidstrap.Models.CustomBackground? last = null;
 		foreach (string file in dialog.FileNames)
 		{
 			if (App.Settings.Prop.WebCustomBackgrounds.Any((Voidstrap.Models.CustomBackground b) => string.Equals(b.FilePath, file, StringComparison.OrdinalIgnoreCase)))
@@ -2572,7 +2690,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		if (!string.IsNullOrEmpty(selected.FilePath) && string.Equals(App.Settings.Prop.WebCustomBackgroundPath, selected.FilePath, StringComparison.OrdinalIgnoreCase))
 		{
 			App.Settings.Prop.WebCustomBackgroundPath = null;
-			OnPropertyChanged("WebCustomBackgroundDisplay");
+			OnPropertyChanged(nameof(WebCustomBackgroundDisplay));
 		}
 		int count = App.Settings.Prop.WebCustomBackgrounds.Count;
 		if (count == 0)
@@ -2598,9 +2716,9 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		App.Settings.Prop.WebCustomBackgroundPath = selected.FilePath;
 		App.Settings.Prop.WebCustomBackgroundEnabled = true;
 		App.Settings.SaveDeferred();
-		OnPropertyChanged("WebCustomBackgroundDisplay");
-		OnPropertyChanged("WebCustomBackgroundEnabled");
-		OnPropertyChanged("ApplyButtonText");
+		OnPropertyChanged(nameof(WebCustomBackgroundDisplay));
+		OnPropertyChanged(nameof(WebCustomBackgroundEnabled));
+		OnPropertyChanged(nameof(ApplyButtonText));
 	}
 
 

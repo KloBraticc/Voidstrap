@@ -27,7 +27,7 @@ public class PersistenceController : ControllerBase
 	{
 		base.Response.Headers.CacheControl = "no-cache";
 		byte[] blob = DataPersistenceService.Instance.GetBlob(userId);
-		base.Response.Headers["Content-Encoding"] = "gzip";
+		base.Response.Headers.ContentEncoding = "gzip";
 		return File(blob, "application/octet-stream");
 	}
 

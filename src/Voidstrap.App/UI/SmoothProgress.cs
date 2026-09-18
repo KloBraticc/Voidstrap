@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,6 +19,8 @@ internal static class SmoothProgress
 
 	private static readonly TimeSpan ValueTransition = TimeSpan.FromMilliseconds(220);
 
+	private const int MaxRestartAttempts = 30;
+
 	private static readonly DependencyProperty StateProperty = DependencyProperty.RegisterAttached(
 		"State",
 		typeof(BarState),
@@ -33,6 +35,8 @@ internal static class SmoothProgress
 		public double MarqueeWidth = -1.0;
 
 		public bool IndeterminateHooked;
+
+		public int RestartAttempts;
 	}
 
 	private static readonly DependencyPropertyDescriptor IndeterminateDescriptor =
@@ -68,7 +72,9 @@ internal static class SmoothProgress
 	{
 		if (sender is ProgressBar bar)
 		{
-			StartMarquee(bar, EnsureAttached(bar));
+			BarState state = EnsureAttached(bar);
+			state.RestartAttempts = 0;
+			StartMarquee(bar, state);
 		}
 	}
 
@@ -99,6 +105,7 @@ internal static class SmoothProgress
 			return;
 		}
 		state.MarqueeWidth = -1.0;
+		state.RestartAttempts = 0;
 		if (!bar.IsIndeterminate)
 		{
 			StopMarquee(bar);
@@ -115,10 +122,18 @@ internal static class SmoothProgress
 		}
 		state.MarqueeWidth = -1.0;
 		StartMarquee(bar, state);
-		if (state.MarqueeWidth < 0.0)
+		if (state.MarqueeWidth >= 0.0)
 		{
-			bar.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => RestartMarquee(bar)));
+			state.RestartAttempts = 0;
+			return;
 		}
+		if (!bar.IsVisible || !bar.IsLoaded || state.RestartAttempts >= MaxRestartAttempts)
+		{
+			state.RestartAttempts = 0;
+			return;
+		}
+		state.RestartAttempts++;
+		bar.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => RestartMarquee(bar)));
 	}
 
 	private static void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -130,12 +145,14 @@ internal static class SmoothProgress
 		if (bar.IsVisible)
 		{
 			HookIndeterminate(bar, state);
+			state.RestartAttempts = 0;
 			RestartMarquee(bar);
 			return;
 		}
 		UnhookIndeterminate(bar, state);
 		StopMarquee(bar);
 		state.MarqueeWidth = -1.0;
+		state.RestartAttempts = 0;
 		bar.BeginAnimation(RangeBase.ValueProperty, null);
 		state.Suppress = false;
 	}

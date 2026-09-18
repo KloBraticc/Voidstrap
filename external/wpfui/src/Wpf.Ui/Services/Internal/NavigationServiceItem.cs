@@ -37,7 +37,7 @@ internal class NavigationServiceItem
     /// <summary>
     /// Instantiated page content.
     /// </summary>
-    public object Instance { get; set; } = null;
+    public object? Instance { get; set; } = null;
 
     /// <summary>
     /// Sets DataContext of the <see cref="Instance"/>.

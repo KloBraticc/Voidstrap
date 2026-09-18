@@ -13,18 +13,19 @@ public class BadgeService
 
 	private List<int> GetPlayerBadges(int id)
 	{
-		if (!_awardedBadges.ContainsKey(id))
+		if (!_awardedBadges.TryGetValue(id, out List<int>? value))
 		{
-			_awardedBadges[id] = new List<int>();
+            value = new List<int>();
+            _awardedBadges[id] = value;
 		}
-		return _awardedBadges[id];
+		return value;
 	}
 
 	private List<int>? GetPlayerBadgesIfExists(int id)
 	{
-		if (_awardedBadges.ContainsKey(id))
+		if (_awardedBadges.TryGetValue(id, out List<int>? value))
 		{
-			return _awardedBadges[id];
+			return value;
 		}
 		return null;
 	}
@@ -34,11 +35,11 @@ public class BadgeService
 		string value;
 		lock (_awardedBadges)
 		{
-			if (userId <= 0 || !PlaceMetadata.Default.Badges.ContainsKey(badgeId))
+			if (userId <= 0 || !PlaceMetadata.Default.Badges.TryGetValue(badgeId, out string? value1))
 			{
 				return "0";
 			}
-			value = PlaceMetadata.Default.Badges[badgeId];
+			value = value1;
 			if (GetPlayerBadgesIfExists(userId)?.Contains(badgeId) == true)
 			{
 				return "0";

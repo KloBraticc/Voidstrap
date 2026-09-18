@@ -1,4 +1,5 @@
-﻿using System.Windows;
+#nullable enable
+using System.Windows;
 using System.Windows.Forms;
 
 namespace Voidstrap.UI.Elements.Bootstrapper
@@ -8,7 +9,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         /// <summary>
         ///  Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private System.ComponentModel.IContainer? components = null;
         private Window? _mainWindow;
         /// <summary>
         ///  Clean up any resources being used.
@@ -16,7 +17,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-			this.Closed -= Dialog_Closed;
+			this.FormClosed -= Dialog_Closed;
 			FormClosing -= Dialog_FormClosing;
 			Load -= LegacyDialog2011_Load;
 			if (buttonCancel != null)
@@ -44,7 +45,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 _mainWindow?.Hide();
             }
             Voidstrap.UI.Elements.Bootstrapper.AudioPlayerHelper.PlayStartupAudio();
-			this.Closed += Dialog_Closed;
+			this.FormClosed += Dialog_Closed;
             labelMessage = new Label();
             ProgressBar = new ProgressBar();
             IconBox = new PictureBox();
@@ -118,9 +119,9 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
         #endregion
 
-        private Label labelMessage;
-        private ProgressBar ProgressBar;
-        private PictureBox IconBox;
-        private Button buttonCancel;
+        private Label labelMessage = null!;
+        private ProgressBar ProgressBar = null!;
+        private PictureBox IconBox = null!;
+        private Button buttonCancel = null!;
     }
 }

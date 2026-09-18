@@ -42,27 +42,11 @@ public partial class ThemeChangesDialog : WpfUiWindow
 {
     private static readonly Brush AddedRow = Freeze(new SolidColorBrush(Color.FromArgb(38, 63, 185, 80)));
 
-    private static readonly Brush RemovedRow = Freeze(new SolidColorBrush(Color.FromArgb(38, 248, 81, 73)));
-
     private static readonly Brush AddedText = Freeze(new SolidColorBrush(Color.FromRgb(126, 231, 135)));
-
-    private static readonly Brush RemovedText = Freeze(new SolidColorBrush(Color.FromRgb(255, 129, 122)));
 
     private static readonly Brush SameText = Freeze(new SolidColorBrush(Color.FromRgb(190, 190, 190)));
 
     private static readonly Brush MutedText = Freeze(new SolidColorBrush(Color.FromRgb(130, 130, 130)));
-
-    private readonly List<ThemeFileChange> _files;
-
-    private readonly string _tempFolder;
-
-    private List<DiffLine> _lines = new();
-
-    private bool _expanded;
-
-    private bool _hasChanges;
-
-    private readonly bool _localOnly;
 
     private static Brush Freeze(Brush brush)
     {
@@ -70,65 +54,30 @@ public partial class ThemeChangesDialog : WpfUiWindow
         return brush;
     }
 
-    public ThemeChangesDialog(string themeName, List<ThemeFileChange> files, bool localOnly = false)
+    public ThemeChangesDialog(string themeName, List<ThemeFileChange> files)
     {
         InitializeComponent();
 
-        _files = files;
-        _localOnly = localOnly;
-        _tempFolder = Path.Combine(Paths.Temp, "ThemeChanges", Guid.NewGuid().ToString("N"));
-
-        base.Title = (localOnly ? "Files in " : "Changes to ") + themeName;
+        base.Title = "Files in " + themeName;
         RootTitleBar.Title = base.Title;
         HeadingText.Text = themeName;
-
-        int changed = files.Count(f => f.State != ThemeFileState.Same);
-
-        SummaryText.Text = localOnly
-            ? files.Count + (files.Count == 1 ? " file in this theme." : " files in this theme.")
-            : changed == 0
-                ? files.Count + (files.Count == 1 ? " file, nothing changed since the last publish." : " files, nothing changed since the last publish.")
-                : changed + (changed == 1 ? " file waiting to be committed" : " files waiting to be committed") +
-                  " out of " + files.Count + ".";
+        SummaryText.Text = files.Count + (files.Count == 1 ? " file in this theme." : " files in this theme.");
 
         FileList.ItemsSource = files.Select(file => new FileRow
         {
             Path = file.Path,
-            StateLabel = localOnly ? file.SizeLabel : file.StateLabel,
-            StateBrush = file.State switch
-            {
-                ThemeFileState.Added => AddedText,
-                ThemeFileState.Removed => RemovedText,
-                ThemeFileState.Changed => Freeze(new SolidColorBrush(Color.FromRgb(226, 192, 141))),
-                _ => MutedText
-            },
+            StateLabel = file.SizeLabel,
+            StateBrush = MutedText,
             Change = file
         }).ToList();
 
         FileList.SelectedIndex = 0;
-
-        Closed += OnClosed;
-    }
-
-    private void OnClosed(object? sender, EventArgs e)
-    {
-        Closed -= OnClosed;
-
-        try
-        {
-            if (Directory.Exists(_tempFolder))
-                Directory.Delete(_tempFolder, true);
-        }
-        catch
-        {
-        }
     }
 
     private ThemeFileChange? Current => (FileList.SelectedItem as FileRow)?.Change;
 
     private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        _expanded = false;
         Show(Current);
     }
 
@@ -141,8 +90,7 @@ public partial class ThemeChangesDialog : WpfUiWindow
         if (file == null)
         {
             EmptyText.Visibility = Visibility.Visible;
-            EmptyText.Text = "Pick a file to see what changed.";
-            ShowAllButton.Visibility = Visibility.Collapsed;
+            EmptyText.Text = "Pick a file to see what is inside.";
             FilesText.Text = "";
             return;
         }
@@ -151,67 +99,26 @@ public partial class ThemeChangesDialog : WpfUiWindow
 
         if (file.IsText)
         {
-            ShowAllButton.Visibility = Visibility.Visible;
             ShowText(file);
             return;
         }
 
-        ShowAllButton.Visibility = Visibility.Collapsed;
         ShowMedia(file);
     }
 
     private void ShowText(ThemeFileChange file)
     {
-        if (_localOnly)
-        {
-            _lines = LineDiff.Compare("", file.LocalText);
-            _hasChanges = false;
-            _expanded = true;
-        }
-        else
-        {
-            _lines = LineDiff.Compare(file.PublishedText, file.LocalText);
-
-            int added = _lines.Count(line => line.Kind == DiffKind.Added);
-            int removed = _lines.Count(line => line.Kind == DiffKind.Removed);
-            _hasChanges = added > 0 || removed > 0;
-        }
-
-        if (!_hasChanges && !_expanded)
-        {
-            EmptyText.Visibility = Visibility.Visible;
-            EmptyText.Text = _lines.Count == 0
-                ? "This file is empty."
-                : "Nothing has changed in " + file.Path + ". Press Show file to read it anyway.";
-            ShowAllButton.Content = "Show file";
-            return;
-        }
-
         DiffScroller.Visibility = Visibility.Visible;
 
-        List<DiffLine> lines = _expanded ? _lines : LineDiff.Collapse(_lines);
-
-        DiffList.ItemsSource = lines.Select(line => new DiffRow
+        DiffList.ItemsSource = LineDiff.Compare("", file.LocalText).Select(line => new DiffRow
         {
             Marker = line.Marker,
             Text = line.Text,
             OldLabel = line.OldLabel,
             NewLabel = line.NewLabel,
-            RowBrush = line.Kind switch
-            {
-                DiffKind.Added => AddedRow,
-                DiffKind.Removed => RemovedRow,
-                _ => Brushes.Transparent
-            },
-            TextBrush = line.Kind switch
-            {
-                DiffKind.Added => AddedText,
-                DiffKind.Removed => RemovedText,
-                _ => SameText
-            }
+            RowBrush = line.Kind == DiffKind.Added ? AddedRow : Brushes.Transparent,
+            TextBrush = line.Kind == DiffKind.Added ? AddedText : SameText
         }).ToList();
-
-        ShowAllButton.Content = !_hasChanges ? "Hide file" : _expanded ? "Only changes" : "Show all lines";
     }
 
     private void ShowMedia(ThemeFileChange file)
@@ -219,79 +126,16 @@ public partial class ThemeChangesDialog : WpfUiWindow
         MediaScroller.Visibility = Visibility.Visible;
 
         MediaTitle.Text = file.Path;
-
-        if (_localOnly)
-        {
-            MediaSubtitle.Text = "Part of this theme on this PC.";
-            PublishedPane.Visibility = Visibility.Collapsed;
-            LocalPane.Visibility = Visibility.Visible;
-            PublishedImage.Visibility = Visibility.Collapsed;
-            LocalImage.Visibility = Visibility.Collapsed;
-            PublishedFontSample.Visibility = Visibility.Collapsed;
-            LocalFontSample.Visibility = Visibility.Collapsed;
-
-            if (file.IsImage)
-                LoadImage(LocalImage, LocalInfo, file.LocalPath, file.LocalSize);
-            else if (file.IsFont)
-                LoadFont(LocalFontSample, LocalInfo, file.LocalPath, file.LocalSize);
-            else
-                LocalInfo.Text = Describe(file.LocalSize);
-
-            return;
-        }
-
-        MediaSubtitle.Text = file.State switch
-        {
-            ThemeFileState.Added => "This file is new and will be uploaded when you commit.",
-            ThemeFileState.Removed => "This file is on the website but not on this PC. Committing removes it.",
-            ThemeFileState.Changed => "This file differs from the published copy.",
-            _ => "This file matches the published copy."
-        };
-
-        PublishedPane.Visibility = file.State == ThemeFileState.Added ? Visibility.Collapsed : Visibility.Visible;
-        LocalPane.Visibility = file.State == ThemeFileState.Removed ? Visibility.Collapsed : Visibility.Visible;
-
-        PublishedImage.Visibility = Visibility.Collapsed;
+        MediaSubtitle.Text = "Part of this theme on this PC.";
         LocalImage.Visibility = Visibility.Collapsed;
-        PublishedFontSample.Visibility = Visibility.Collapsed;
         LocalFontSample.Visibility = Visibility.Collapsed;
 
-        string? publishedPath = WriteTemp(file);
-
         if (file.IsImage)
-        {
-            LoadImage(PublishedImage, PublishedInfo, publishedPath, file.PublishedSize);
             LoadImage(LocalImage, LocalInfo, file.LocalPath, file.LocalSize);
-            return;
-        }
-
-        if (file.IsFont)
-        {
-            LoadFont(PublishedFontSample, PublishedInfo, publishedPath, file.PublishedSize);
+        else if (file.IsFont)
             LoadFont(LocalFontSample, LocalInfo, file.LocalPath, file.LocalSize);
-            return;
-        }
-
-        PublishedInfo.Text = file.PublishedSize > 0 ? Describe(file.PublishedSize) : "Not published";
-        LocalInfo.Text = file.LocalSize > 0 ? Describe(file.LocalSize) : "Not on this PC";
-    }
-
-    private string? WriteTemp(ThemeFileChange file)
-    {
-        if (file.PublishedBytes == null || file.PublishedBytes.Length == 0)
-            return null;
-
-        try
-        {
-            Directory.CreateDirectory(_tempFolder);
-            string path = Path.Combine(_tempFolder, Path.GetFileName(file.Path));
-            File.WriteAllBytes(path, file.PublishedBytes);
-            return path;
-        }
-        catch
-        {
-            return null;
-        }
+        else
+            LocalInfo.Text = file.SizeLabel;
     }
 
     private static void LoadImage(Image target, TextBlock info, string? path, long size)
@@ -304,6 +148,19 @@ public partial class ThemeChangesDialog : WpfUiWindow
 
         try
         {
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				BitmapSource? portable = Voidstrap.Utility.SafeImaging.FromFile(path, 512);
+				if (portable == null)
+				{
+					info.Text = "Could not preview this image.";
+					return;
+				}
+				target.Source = portable;
+				target.Visibility = Visibility.Visible;
+				info.Text = portable.PixelWidth + " by " + portable.PixelHeight + ", " + Describe(size);
+				return;
+			}
             BitmapImage bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
@@ -358,12 +215,6 @@ public partial class ThemeChangesDialog : WpfUiWindow
             return (bytes / 1024.0).ToString("0.#") + " KB";
 
         return (bytes / (1024.0 * 1024.0)).ToString("0.#") + " MB";
-    }
-
-    private void ShowAll_Click(object sender, RoutedEventArgs e)
-    {
-        _expanded = !_expanded;
-        Show(Current);
     }
 
     private void Close_Click(object sender, RoutedEventArgs e) => Close();

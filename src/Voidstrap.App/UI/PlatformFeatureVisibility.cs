@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using Voidstrap.Platform;
 
 namespace Voidstrap.UI;
@@ -20,6 +20,10 @@ public static class PlatformFeatureVisibility
 	public static Visibility VirtualController { get; } = Resolve(FeatureId.VirtualController);
 
 	public static Visibility WindowsIntegration { get; } = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
+
+	public static Visibility DesktopBackdrop { get; } = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
+
+	public static Visibility LinuxIntegration { get; } = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
 
 	public static bool IsSupported(FeatureId feature)
 	{

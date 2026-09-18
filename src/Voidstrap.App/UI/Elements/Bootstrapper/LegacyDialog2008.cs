@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Windows.Forms;
 using Voidstrap.UI.Elements.Bootstrapper.Base;
 
@@ -73,15 +73,15 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             ProgressBar.RightToLeftLayout = RightToLeftLayout;
         }
 
-        private void LegacyDialog2008_Load(object sender, System.EventArgs e)
+        private void LegacyDialog2008_Load(object? sender, System.EventArgs e)
         {
             if (!DesignMode)
                 Activate();
         }
 
-		private void Dialog_Closed(object? sender, System.EventArgs e)
+		private void Dialog_Closed(object? sender, FormClosedEventArgs e)
 		{
-			this.Closed -= Dialog_Closed;
+			this.FormClosed -= Dialog_Closed;
 			_mainWindow = System.Windows.Application.Current.Windows
 				.OfType<Voidstrap.UI.Elements.Settings.MainWindow>()
 				.FirstOrDefault();

@@ -41,10 +41,10 @@ public static class IniParser
 				string text2 = text.Substring(0, num);
 				string text3 = text;
 				int num2 = num + 1;
-				string value = text3.Substring(num2, text3.Length - num2);
-				if (!string.IsNullOrEmpty(text2) && propertyInfos.ContainsKey(text2))
+				string value = text3.Substring(num2);
+				if (!string.IsNullOrEmpty(text2) && propertyInfos.TryGetValue(text2, out PropertyInfo? value1))
 				{
-					propertyInfos[text2].SetValue(val, value);
+                    value1.SetValue(val, value);
 				}
 			}
 		}

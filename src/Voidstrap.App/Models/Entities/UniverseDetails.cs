@@ -27,13 +27,13 @@ public class UniverseDetails
 
 	private const int MaxPlaceMappings = 1024;
 
-	public GameDetailResponse Data { get; set; }
+	public GameDetailResponse Data { get; set; } = null!;
 
-	public ThumbnailResponse Thumbnail { get; set; }
+	public ThumbnailResponse Thumbnail { get; set; } = null!;
 
 	public static UniverseDetails? LoadFromCache(long id)
 	{
-		if (!_cache.TryGetValue(id, out UniverseDetails value))
+		if (!_cache.TryGetValue(id, out UniverseDetails? value))
 		{
 			return null;
 		}
@@ -72,57 +72,47 @@ public class UniverseDetails
 	{
 		string queryIds = string.Join(',', requestedIds);
 		ApiArrayResponse<GameDetailResponse> gameDetailResponse;
-		try
+		for (int attempt = 1; ; attempt++)
 		{
-			gameDetailResponse = await Http.GetJson<ApiArrayResponse<GameDetailResponse>>("https://games.roblox.com/v1/games?universeIds=" + queryIds, token);
-		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-			throw;
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("UniverseDetails::FetchBulk(Games)", ex);
-			throw new InvalidHTTPResponseException("Roblox API for Game Details did not respond. This is normally a transient issue; try again in a moment.");
+			try
+			{
+				gameDetailResponse = await Http.GetJson<ApiArrayResponse<GameDetailResponse>>("https://games.roblox.com/v1/games?universeIds=" + queryIds, token);
+				break;
+			}
+			catch (OperationCanceledException) when (token.IsCancellationRequested)
+			{
+				throw;
+			}
+			catch (Exception ex) when (attempt < 3)
+			{
+				App.Logger.WriteLine("UniverseDetails::FetchBulk(Games)", "Attempt " + attempt + " failed, retrying: " + ex.Message);
+				await Task.Delay(1000 * attempt, token).ConfigureAwait(false);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteException("UniverseDetails::FetchBulk(Games)", ex);
+				throw new InvalidHTTPResponseException("Roblox API for Game Details did not respond. This is normally a transient issue; try again in a moment.");
+			}
 		}
 		if (gameDetailResponse?.Data == null || !gameDetailResponse.Data.Any())
 		{
 			MarkNotFound(requestedIds);
 			return;
 		}
-		ApiArrayResponse<ThumbnailResponse> universeThumbnailResponse = null;
-		try
-		{
-			universeThumbnailResponse = await Http.GetJson<ApiArrayResponse<ThumbnailResponse>>("https://thumbnails.roblox.com/v1/games/icons?universeIds=" + queryIds + "&returnPolicy=PlaceHolder&size=128x128&format=Png&isCircular=false", token);
-		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-			throw;
-		}
-		catch (Exception ex2)
-		{
-			App.Logger.WriteException("UniverseDetails::FetchBulk(Thumbnails)", ex2);
-		}
-		IEnumerable<ThumbnailResponse> source = universeThumbnailResponse?.Data ?? Enumerable.Empty<ThumbnailResponse>();
+		Dictionary<long, ThumbnailResponse> thumbnailsById = await FetchThumbnailsAsync(requestedIds, token).ConfigureAwait(false);
 		Dictionary<long, GameDetailResponse> detailsById = new();
 		foreach (GameDetailResponse detail in gameDetailResponse.Data)
 		{
 			if (detail != null)
 				detailsById.TryAdd(detail.Id, detail);
 		}
-		Dictionary<long, ThumbnailResponse> thumbnailsById = new();
-		foreach (ThumbnailResponse entry in source)
-		{
-			if (entry != null)
-				thumbnailsById.TryAdd(entry.TargetId, entry);
-		}
 		HashSet<long> storedIds = new HashSet<long>();
 		foreach (long id in requestedIds)
 		{
-			detailsById.TryGetValue(id, out GameDetailResponse gameDetailResponse2);
+			detailsById.TryGetValue(id, out GameDetailResponse? gameDetailResponse2);
 			if (gameDetailResponse2 != null)
 			{
-				ThumbnailResponse thumbnail = (thumbnailsById.TryGetValue(id, out ThumbnailResponse existingThumbnail) ? existingThumbnail : null) ?? new ThumbnailResponse
+				ThumbnailResponse thumbnail = (thumbnailsById.TryGetValue(id, out ThumbnailResponse? existingThumbnail) ? existingThumbnail : null) ?? new ThumbnailResponse
 				{
 					TargetId = id,
 					State = "Unavailable",
@@ -140,6 +130,63 @@ public class UniverseDetails
 		if (notFoundIds.Count > 0)
 		{
 			MarkNotFound(notFoundIds);
+		}
+	}
+
+	private static bool HasImage(ThumbnailResponse? thumbnail)
+	{
+		return !string.IsNullOrEmpty(thumbnail?.ImageUrl) && string.Equals(thumbnail.State, "Completed", StringComparison.OrdinalIgnoreCase);
+	}
+
+	private static async Task<Dictionary<long, ThumbnailResponse>> FetchThumbnailsAsync(List<long> ids, CancellationToken token)
+	{
+		Dictionary<long, ThumbnailResponse> result = new();
+		List<long> pending = ids;
+		for (int attempt = 1; attempt <= 3 && pending.Count > 0; attempt++)
+		{
+			if (attempt > 1)
+			{
+				await Task.Delay(1500 * (attempt - 1), token).ConfigureAwait(false);
+			}
+			try
+			{
+				ApiArrayResponse<ThumbnailResponse>? response = await Http.GetJson<ApiArrayResponse<ThumbnailResponse>>("https://thumbnails.roblox.com/v1/games/icons?universeIds=" + string.Join(',', pending) + "&returnPolicy=PlaceHolder&size=128x128&format=Png&isCircular=false", token).ConfigureAwait(false);
+				foreach (ThumbnailResponse entry in response?.Data ?? Enumerable.Empty<ThumbnailResponse>())
+				{
+					if (entry == null)
+						continue;
+					if (!result.TryGetValue(entry.TargetId, out ThumbnailResponse? existing) || !HasImage(existing))
+						result[entry.TargetId] = entry;
+				}
+			}
+			catch (OperationCanceledException) when (token.IsCancellationRequested)
+			{
+				throw;
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("UniverseDetails::FetchThumbnails", "Attempt " + attempt + " failed: " + ex.Message);
+			}
+			pending = pending.Where(id => !result.TryGetValue(id, out ThumbnailResponse? thumbnail) || !HasImage(thumbnail)).ToList();
+		}
+		return result;
+	}
+
+	public static async Task RefreshMissingThumbnailsAsync(IEnumerable<long> universeIds, CancellationToken token = default(CancellationToken))
+	{
+		List<long> missing = universeIds
+			.Where(id => id > 0 && _cache.TryGetValue(id, out UniverseDetails? details) && !HasImage(details.Thumbnail))
+			.Distinct()
+			.ToList();
+		for (int offset = 0; offset < missing.Count; offset += MaxIdsPerRequest)
+		{
+			List<long> batch = missing.GetRange(offset, Math.Min(MaxIdsPerRequest, missing.Count - offset));
+			Dictionary<long, ThumbnailResponse> found = await FetchThumbnailsAsync(batch, token).ConfigureAwait(false);
+			foreach ((long id, ThumbnailResponse thumbnail) in found)
+			{
+				if (!string.IsNullOrEmpty(thumbnail.ImageUrl) && _cache.TryGetValue(id, out UniverseDetails? details))
+					details.Thumbnail = thumbnail;
+			}
 		}
 	}
 
@@ -215,6 +262,7 @@ public class UniverseDetails
 				entry.UniverseDetails = LoadFromCache(entry.UniverseId);
 			}
 		}
+		await RefreshMissingThumbnailsAsync(list.Select(x => x.UniverseId), token).ConfigureAwait(false);
 	}
 
 	private static async Task ResolvePlaceBatch(List<long> placeIds, CancellationToken token)

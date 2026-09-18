@@ -23,6 +23,8 @@ using Wpf.Ui.Controls;
 namespace Voidstrap.UI.Elements.Dialogs;
 
 public partial class FFlagSearchDialog : WpfUiWindow{
+	private static readonly JsonSerializerOptions ExportJsonOptions = new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }; 	
+
 	private const int MaximumValidationFileBytes = 4 * 1024 * 1024;
 
 	private const int MaximumFlagsPerSource = 100_000;
@@ -175,13 +177,13 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 		}
 	}
 
-	private async Task<Dictionary<string, object>> FetchFlagsFromSourceAsync(string url, string sourceName, CancellationToken token)
+	private static async Task<Dictionary<string, object>> FetchFlagsFromSourceAsync(string url, string sourceName, CancellationToken token)
 	{
 		Dictionary<string, object> flags = new Dictionary<string, object>();
 		string response = string.Empty;
 		try
 		{
-			response = await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, url, token);
+			response = await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, url, token: token);
 			if (url.EndsWith(".json") || url.Contains("clientsettings.roblox.com"))
 			{
 				using JsonDocument jsonDocument = JsonDocument.Parse(response);
@@ -289,7 +291,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 	private async void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
 	{
 		int generation = Interlocked.Increment(ref _searchGeneration);
-		string searchTerm = SearchTextBox.Text?.Trim();
+		string? searchTerm = SearchTextBox.Text?.Trim();
 		if (string.IsNullOrEmpty(searchTerm))
 		{
 			_searchResults.Clear();
@@ -328,7 +330,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 						token.ThrowIfCancellationRequested();
 					if (allFlag.Key.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
 					{
-						FlagMetadata value;
+						FlagMetadata? value;
 						FlagMetadata flagMetadata = (metadata.TryGetValue(allFlag.Key, out value) ? value : new FlagMetadata());
 						if ((!trueFlagsOnly || IsTrueValue(allFlag.Value)) && (!falseFlagsOnly || IsFalseValue(allFlag.Value)))
 						{
@@ -366,7 +368,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	private async void ValidateButton_Click(object sender, RoutedEventArgs e)
 	{
-		string text = ValidationInputTextBox.Text?.Trim();
+		string? text = ValidationInputTextBox.Text?.Trim();
 		if (string.IsNullOrEmpty(text))
 		{
 			System.Windows.MessageBox.Show("Please enter flags to validate.", "No Input", MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -405,7 +407,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 						Name = item.Key,
 						InputValue = item.Value?.ToString() ?? "null"
 					};
-					if (knownFlags.TryGetValue(item.Key, out object value))
+					if (knownFlags.TryGetValue(item.Key, out object? value))
 					{
 						result.Status = "✓ Valid";
 						result.ValidValue = value?.ToString() ?? "null";
@@ -511,7 +513,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 				{
 					Name = flag.Key,
 					Value = (flag.Value?.ToString() ?? "null"),
-					Source = (_flagMetadata.TryGetValue(flag.Key, out FlagMetadata value) ? value.Source : "Unknown"),
+					Source = (_flagMetadata.TryGetValue(flag.Key, out FlagMetadata? value) ? value.Source : "Unknown"),
 					DateAdded = DateTime.Now.AddHours(-Random.Shared.Next(0, 24)).ToString("yyyy-MM-dd HH:mm")
 				}).ToList();
 			_recentFlags.Clear();
@@ -520,9 +522,9 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 				_recentFlags.Add(item);
 			}
 			UpdateRecentFlagsCount();
-			DownloadAllRecentButton.IsEnabled = list.Any();
-			DownloadTrueRecentButton.IsEnabled = list.Any();
-			DownloadFalseRecentButton.IsEnabled = list.Any();
+			DownloadAllRecentButton.IsEnabled = list.Count != 0;
+			DownloadTrueRecentButton.IsEnabled = list.Count != 0;
+			DownloadFalseRecentButton.IsEnabled = list.Count != 0;
 			await UpdateStatusAsync($"Found {list.Count} recent flags");
 		}
 		catch (Exception ex)
@@ -621,7 +623,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 		await ExportFlagsAsync(flags, "recent_flags_false");
 	}
 
-	private async Task ExportFlagsAsync(Dictionary<string, object> flags, string defaultName)
+	private static async Task ExportFlagsAsync(Dictionary<string, object> flags, string defaultName)
 	{
 		SaveFileDialog dialog = new SaveFileDialog
 		{
@@ -632,12 +634,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 		{
 			try
 			{
-				JsonSerializerOptions options = new JsonSerializerOptions
-				{
-					WriteIndented = true,
-					Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-				};
-				string contents = JsonSerializer.Serialize(flags, options);
+				string contents = JsonSerializer.Serialize(flags, ExportJsonOptions);
 				await File.WriteAllTextAsync(dialog.FileName, contents);
 				System.Windows.MessageBox.Show($"Exported {flags.Count} flags to {dialog.FileName}", "Export Complete", MessageBoxButton.OK, MessageBoxImage.Asterisk);
 			}
@@ -686,7 +683,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 		}
 	}
 
-	private static bool IsTrueValue(object value)
+	private static bool IsTrueValue(object? value)
 	{
 		if (!(value is bool result))
 		{
@@ -703,7 +700,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 		return result;
 	}
 
-	private static bool IsFalseValue(object value)
+	private static bool IsFalseValue(object? value)
 	{
 		if (!(value is bool flag))
 		{
@@ -747,7 +744,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	private void TrueFlagsOnlyCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
 	{
-		string text = SearchTextBox.Text?.Trim();
+		string? text = SearchTextBox.Text?.Trim();
 		if (!string.IsNullOrEmpty(text))
 		{
 			int generation = Interlocked.Increment(ref _searchGeneration);
@@ -757,7 +754,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	private void FalseFlagsOnlyCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
 	{
-		string text = SearchTextBox.Text?.Trim();
+		string? text = SearchTextBox.Text?.Trim();
 		if (!string.IsNullOrEmpty(text))
 		{
 			int generation = Interlocked.Increment(ref _searchGeneration);
@@ -769,9 +766,9 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 	{
 		try
 		{
-			if (Clipboard.ContainsText())
+			if (Voidstrap.Utility.ClipboardService.ContainsText())
 			{
-				string text = Clipboard.GetText();
+				string text = Voidstrap.Utility.ClipboardService.GetText();
 				ValidationInputTextBox.Focus();
 				RoutedUICommand paste = ApplicationCommands.Paste;
 				if (paste.CanExecute(null, ValidationInputTextBox))

@@ -49,7 +49,7 @@ internal class HistoryPageViewModel : NotifyPropertyChangedViewModel
 		{
 			if (_gameHistory.Count > 0)
 			{
-				return ((IEnumerable)FilteredHistory).Cast<object>().Count() == 0;
+				return !((IEnumerable)FilteredHistory).Cast<object>().Any();
 			}
 			return false;
 		}
@@ -73,7 +73,7 @@ internal class HistoryPageViewModel : NotifyPropertyChangedViewModel
 						return false;
 					}
 					string value = _searchText.Trim();
-					return historyGameEntry.Name.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0 || historyGameEntry.CreatorName.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0 || historyGameEntry.PlaceId.ToString().IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
+					return historyGameEntry.Name.Contains(value, StringComparison.OrdinalIgnoreCase) || historyGameEntry.CreatorName.Contains(value, StringComparison.OrdinalIgnoreCase) || historyGameEntry.PlaceId.ToString().Contains(value, StringComparison.OrdinalIgnoreCase);
 				};
 			}
 			return _filteredHistory;
@@ -91,7 +91,7 @@ internal class HistoryPageViewModel : NotifyPropertyChangedViewModel
 			if (!(_searchText == value))
 			{
 				_searchText = value ?? "";
-				OnPropertyChanged("SearchText");
+				OnPropertyChanged(nameof(SearchText));
 				try
 				{
 					FilteredHistory.Refresh();
@@ -99,7 +99,7 @@ internal class HistoryPageViewModel : NotifyPropertyChangedViewModel
 				catch
 				{
 				}
-				OnPropertyChanged("IsFilteredEmpty");
+				OnPropertyChanged(nameof(IsFilteredEmpty));
 			}
 		}
 	}
@@ -113,7 +113,7 @@ internal class HistoryPageViewModel : NotifyPropertyChangedViewModel
 		private set
 		{
 			_loadState = value;
-			OnPropertyChanged("LoadState");
+			OnPropertyChanged(nameof(LoadState));
 		}
 	}
 
@@ -126,7 +126,7 @@ internal class HistoryPageViewModel : NotifyPropertyChangedViewModel
 		private set
 		{
 			_error = value;
-			OnPropertyChanged("Error");
+			OnPropertyChanged(nameof(Error));
 		}
 	}
 
@@ -145,7 +145,7 @@ internal class HistoryPageViewModel : NotifyPropertyChangedViewModel
 		LaunchCommand = new RelayCommand<HistoryGameEntry>(LaunchGame);
 		CopyLinkCommand = new RelayCommand<HistoryGameEntry>(CopyDeeplink);
 		LoadDatacenterOptions();
-		LoadAsync();
+		_ = LoadAsync();
 	}
 
 	private void LoadDatacenterOptions()
@@ -238,9 +238,9 @@ internal class HistoryPageViewModel : NotifyPropertyChangedViewModel
 
 	private void NotifyCollectionsChanged()
 	{
-		OnPropertyChanged("GameHistory");
-		OnPropertyChanged("IsEmpty");
-		OnPropertyChanged("IsFilteredEmpty");
+		OnPropertyChanged(nameof(GameHistory));
+		OnPropertyChanged(nameof(IsEmpty));
+		OnPropertyChanged(nameof(IsFilteredEmpty));
 		try
 		{
 			FilteredHistory.Refresh();
@@ -300,7 +300,7 @@ internal class HistoryPageViewModel : NotifyPropertyChangedViewModel
 			{
 				foreach (HistoryGameEntry item2 in _gameHistory)
 				{
-					if (likeById.TryGetValue(item2.UniverseId, out string value5))
+					if (likeById.TryGetValue(item2.UniverseId, out string? value5))
 					{
 						item2.LikePercent = value5;
 					}
@@ -383,7 +383,7 @@ internal class HistoryPageViewModel : NotifyPropertyChangedViewModel
 		try
 		{
 			string text = $"roblox://experiences/start?placeId={entry.PlaceId}";
-			string process = Paths.Process;
+			string process = Paths.LaunchExecutable;
 			if (!string.IsNullOrEmpty(process))
 			{
 				ProcessStartInfo startInfo = new ProcessStartInfo
@@ -399,6 +399,7 @@ internal class HistoryPageViewModel : NotifyPropertyChangedViewModel
 			}
 			else
 			{
+				Voidstrap.Utility.RobloxInstallCompression.EnsureExtracted(new RobloxPlayerData());
 				string executablePath = new RobloxPlayerData().ExecutablePath;
 				ProcessStartInfo startInfo = new ProcessStartInfo
 				{
@@ -425,7 +426,7 @@ internal class HistoryPageViewModel : NotifyPropertyChangedViewModel
 		}
 		try
 		{
-			Clipboard.SetText($"https://www.roblox.com/games/{entry.PlaceId}");
+			Voidstrap.Utility.ClipboardService.SetText($"https://www.roblox.com/games/{entry.PlaceId}");
 		}
 		catch (Exception ex)
 		{

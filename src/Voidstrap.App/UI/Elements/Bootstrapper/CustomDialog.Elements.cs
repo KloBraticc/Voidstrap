@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
@@ -18,7 +18,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
     public partial class CustomDialog
     {
         #region Transformation
-        private static Transform HandleXmlElement_ScaleTransform(CustomDialog dialog, XElement xmlElement)
+        private static ScaleTransform HandleXmlElement_ScaleTransform(CustomDialog dialog, XElement xmlElement)
         {
             var st = new ScaleTransform();
 
@@ -30,7 +30,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return st;
         }
 
-        private static Transform HandleXmlElement_SkewTransform(CustomDialog dialog, XElement xmlElement)
+        private static SkewTransform HandleXmlElement_SkewTransform(CustomDialog dialog, XElement xmlElement)
         {
             var st = new SkewTransform();
 
@@ -42,7 +42,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return st;
         }
 
-        private static Transform HandleXmlElement_RotateTransform(CustomDialog dialog, XElement xmlElement)
+        private static RotateTransform HandleXmlElement_RotateTransform(CustomDialog dialog, XElement xmlElement)
         {
             var rt = new RotateTransform();
 
@@ -53,7 +53,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return rt;
         }
 
-        private static Transform HandleXmlElement_TranslateTransform(CustomDialog dialog, XElement xmlElement)
+        private static TranslateTransform HandleXmlElement_TranslateTransform(CustomDialog dialog, XElement xmlElement)
         {
             var tt = new TranslateTransform();
 
@@ -100,7 +100,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             brush.Opacity = ParseXmlAttribute<double>(xmlElement, "Opacity", 1.0);
         }
 
-        private static Brush HandleXmlElement_SolidColorBrush(CustomDialog dialog, XElement xmlElement)
+        private static SolidColorBrush HandleXmlElement_SolidColorBrush(CustomDialog dialog, XElement xmlElement)
         {
             var brush = new SolidColorBrush();
             HandleXml_Brush(brush, xmlElement);
@@ -112,7 +112,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return brush;
         }
 
-        private static Brush HandleXmlElement_ImageBrush(CustomDialog dialog, XElement xmlElement)
+        private static ImageBrush HandleXmlElement_ImageBrush(CustomDialog dialog, XElement xmlElement)
         {
             var imageBrush = new ImageBrush();
             HandleXml_Brush(imageBrush, xmlElement);
@@ -173,7 +173,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return gs;
         }
 
-        private static Brush HandleXmlElement_LinearGradientBrush(CustomDialog dialog, XElement xmlElement)
+        private static LinearGradientBrush HandleXmlElement_LinearGradientBrush(CustomDialog dialog, XElement xmlElement)
         {
             var brush = new LinearGradientBrush();
             HandleXml_Brush(brush, xmlElement);
@@ -381,7 +381,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             };
         }
 
-        private static UIElement HandleXmlElement_BloxstrapCustomBootstrapper(CustomDialog dialog, XElement xmlElement)
+        private static DummyFrameworkElement HandleXmlElement_BloxstrapCustomBootstrapper(CustomDialog dialog, XElement xmlElement)
         {
             xmlElement.SetAttributeValue("Visibility", "Collapsed"); // don't show the bootstrapper yet!!!
             xmlElement.SetAttributeValue("IsEnabled", "True");
@@ -510,7 +510,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return new DummyFrameworkElement(); // dont add anything
         }
 
-        private static UIElement HandleXmlElement_Button(CustomDialog dialog, XElement xmlElement)
+        private static Button HandleXmlElement_Button(CustomDialog dialog, XElement xmlElement)
         {
             var button = new Button();
             HandleXmlElement_Control(dialog, button, xmlElement);
@@ -537,7 +537,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             rangeBase.Maximum = ParseXmlAttribute<double>(xmlElement, "Maximum", 100);
         }
 
-        private static UIElement HandleXmlElement_ProgressBar(CustomDialog dialog, XElement xmlElement)
+        private static Wpf.Ui.Controls.ProgressBar HandleXmlElement_ProgressBar(CustomDialog dialog, XElement xmlElement)
         {
             var progressBar = new Wpf.Ui.Controls.ProgressBar();
             ProgressBarStyler.Apply(progressBar);
@@ -568,7 +568,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return progressBar;
         }
 
-        private static UIElement HandleXmlElement_ProgressRing(CustomDialog dialog, XElement xmlElement)
+        private static Wpf.Ui.Controls.ProgressRing HandleXmlElement_ProgressRing(CustomDialog dialog, XElement xmlElement)
         {
             var progressBar = new Wpf.Ui.Controls.ProgressRing();
             HandleXmlElement_RangeBase(dialog, progressBar, xmlElement);
@@ -625,7 +625,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 textBlock.Padding = (Thickness)padding;
         }
 
-        private static UIElement HandleXmlElement_TextBlock(CustomDialog dialog, XElement xmlElement)
+        private static TextBlock HandleXmlElement_TextBlock(CustomDialog dialog, XElement xmlElement)
         {
             var textBlock = new TextBlock();
             HandleXmlElement_TextBlock_Base(dialog, textBlock, xmlElement);
@@ -641,7 +641,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return textBlock;
         }
 
-        private static UIElement HandleXmlElement_MarkdownTextBlock(CustomDialog dialog, XElement xmlElement)
+        private static MarkdownTextBlock HandleXmlElement_MarkdownTextBlock(CustomDialog dialog, XElement xmlElement)
         {
             var textBlock = new MarkdownTextBlock();
             HandleXmlElement_TextBlock_Base(dialog, textBlock, xmlElement);
@@ -653,7 +653,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return textBlock;
         }
 
-        private static UIElement HandleXmlElement_Image(CustomDialog dialog, XElement xmlElement)
+        private static Image HandleXmlElement_Image(CustomDialog dialog, XElement xmlElement)
         {
             var image = new Image();
             HandleXmlElement_FrameworkElement(dialog, image, xmlElement);
@@ -690,7 +690,11 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 }
                 else if (Voidstrap.Utility.Platform.IsWindows)
                 {
-                    XamlAnimatedGif.AnimationBehavior.SetSourceUri(image, sourceData.Uri!);
+                    WpfAnimatedGif.ImageBehavior.SetAnimatedSource(image, new System.Windows.Media.Imaging.BitmapImage(sourceData.Uri!));
+                }
+                else if (sourceData.Uri!.IsFile && System.IO.File.Exists(sourceData.Uri.LocalPath))
+                {
+                    Voidstrap.UI.GifImageBehavior.SetSourcePath(image, sourceData.Uri.LocalPath);
                 }
                 else
                 {
@@ -829,7 +833,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             }
         }
 
-        private static UIElement HandleXmlElement_WebPanel(CustomDialog dialog, XElement xmlElement)
+        private static Border HandleXmlElement_WebPanel(CustomDialog dialog, XElement xmlElement)
         {
             var host = new Border();
             HandleXmlElement_FrameworkElement(dialog, host, xmlElement);
@@ -854,12 +858,40 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             if (extension != ".html" && extension != ".htm")
                 throw new CustomThemeException("CustomTheme.Errors.ElementAttributeParseError", xmlElement.Name, "Source", "Uri");
 
+            bool canDrag = ParseXmlAttribute<bool>(xmlElement, "CanDrag", true);
+
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                if (!Voidstrap.UI.LinuxWebPanel.IsSupported)
+                {
+                    App.Logger.WriteLine("CustomDialog::CreateWebPanel", "The portable web engine is unavailable, this panel stays empty");
+                    return host;
+                }
+
+                Voidstrap.UI.LinuxWebPanel panel = new()
+                {
+                    Source = new Uri(source).AbsoluteUri,
+                    ThemeFolder = System.IO.Path.GetDirectoryName(source)!,
+                    AccentColor = GetWindowsAccentColorHex(),
+                    Owner = dialog,
+                    AllowDrag = canDrag
+                };
+
+                if (canDrag)
+                    dialog.AllowWebPanelDrag = true;
+
+                dialog.RegisterLinuxWebPanel(panel);
+                host.Child = panel;
+                host.ClipToBounds = true;
+                return host;
+            }
+
             var view = new Microsoft.Web.WebView2.Wpf.WebView2();
             view.DefaultBackgroundColor = System.Drawing.Color.Transparent;
             host.Child = view;
             host.ClipToBounds = true;
 
-            if (ParseXmlAttribute<bool>(xmlElement, "CanDrag", true))
+            if (canDrag)
                 dialog.AllowWebPanelDrag = true;
 
             InitialiseWebPanel(dialog, view, System.IO.Path.GetDirectoryName(source)!, System.IO.Path.GetFileName(source));
@@ -867,7 +899,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return host;
         }
 
-        private const string WebPanelApi = """
+        internal const string WebPanelApi = """
             window.voidstrap = (function () {
                 var state = { status: "", progress: 0, max: 100, indeterminate: true, cancelEnabled: false };
                 var listeners = [];

@@ -17,6 +17,8 @@ public class State
 
 	public int LastPage { get; set; } = 1;
 
+	public int SidebarLayoutVersion { get; set; }
+
 	public AppState Player { get; set; } = new AppState();
 
 	public AppState Studio { get; set; } = new AppState();

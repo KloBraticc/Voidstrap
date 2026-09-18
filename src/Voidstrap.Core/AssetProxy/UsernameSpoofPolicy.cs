@@ -328,7 +328,7 @@ public static class UsernameSpoofPolicy
 		return changed;
 	}
 
-	private static JsonNode CreatorTypeValue(JsonNode? value, string key)
+	private static JsonValue CreatorTypeValue(JsonNode? value, string key)
 	{
 		if (TryReadString(value, out string current))
 		{

@@ -58,7 +58,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("PreferredTransparency", value);
-			OnPropertyChanged("UITransparency");
+			OnPropertyChanged(nameof(UITransparency));
 		}
 	}
 
@@ -68,7 +68,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("PreferredTextSize", value);
-			OnPropertyChanged("PreferredTextSize");
+			OnPropertyChanged(nameof(PreferredTextSize));
 		}
 	}
 
@@ -78,7 +78,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("ReducedMotion", value);
-			OnPropertyChanged("ReducedMotion");
+			OnPropertyChanged(nameof(ReducedMotion));
 		}
 	}
 
@@ -88,7 +88,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("UsedHideHudShortcut", !value);
-			OnPropertyChanged("HudVisible");
+			OnPropertyChanged(nameof(HudVisible));
 		}
 	}
 
@@ -99,7 +99,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		{
 			Write("FramerateCap", value);
 			Voidstrap.Integrations.FrameGeneration.FrameGenManager.SetTargetCap(App.GlobalSettings.GetInt("FramerateCap", 0));
-			OnPropertyChanged("FramerateCap");
+			OnPropertyChanged(nameof(FramerateCap));
 		}
 	}
 
@@ -109,7 +109,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("VignetteEnabled", value);
-			OnPropertyChanged("VignetteEnabled");
+			OnPropertyChanged(nameof(VignetteEnabled));
 		}
 	}
 
@@ -119,7 +119,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("SavedQualityLevel", value);
-			OnPropertyChanged("GraphicsQuality");
+			OnPropertyChanged(nameof(GraphicsQuality));
 		}
 	}
 
@@ -129,7 +129,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("Fullscreen", value);
-			OnPropertyChanged("Fullscreen");
+			OnPropertyChanged(nameof(Fullscreen));
 		}
 	}
 
@@ -139,7 +139,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("MasterVolume", value);
-			OnPropertyChanged("MasterVolume");
+			OnPropertyChanged(nameof(MasterVolume));
 		}
 	}
 
@@ -149,7 +149,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("PartyVoiceVolume", value);
-			OnPropertyChanged("VoiceChatVolume");
+			OnPropertyChanged(nameof(VoiceChatVolume));
 		}
 	}
 
@@ -159,7 +159,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("MouseSensitivity", value);
-			OnPropertyChanged("MouseSensitivity");
+			OnPropertyChanged(nameof(MouseSensitivity));
 		}
 	}
 
@@ -169,7 +169,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("CameraYInverted", value);
-			OnPropertyChanged("CameraYInverted");
+			OnPropertyChanged(nameof(CameraYInverted));
 		}
 	}
 
@@ -179,7 +179,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("GamepadCameraSensitivity", value);
-			OnPropertyChanged("GamepadSensitivity");
+			OnPropertyChanged(nameof(GamepadSensitivity));
 		}
 	}
 
@@ -189,7 +189,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("HapticStrength", value ? 1f : 0f);
-			OnPropertyChanged("ControllerVibration");
+			OnPropertyChanged(nameof(ControllerVibration));
 		}
 	}
 
@@ -199,7 +199,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("VREnabled", value);
-			OnPropertyChanged("VREnabled");
+			OnPropertyChanged(nameof(VREnabled));
 		}
 	}
 
@@ -209,7 +209,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("VRComfortSetting", value);
-			OnPropertyChanged("VRComfortSetting");
+			OnPropertyChanged(nameof(VRComfortSetting));
 		}
 	}
 
@@ -219,7 +219,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("PerformanceStatsVisible", value);
-			OnPropertyChanged("NetworkStatsVisible");
+			OnPropertyChanged(nameof(NetworkStatsVisible));
 		}
 	}
 
@@ -229,7 +229,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("ChatTranslationEnabled", value);
-			OnPropertyChanged("ChatTranslationEnabled");
+			OnPropertyChanged(nameof(ChatTranslationEnabled));
 		}
 	}
 
@@ -239,7 +239,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("MicroProfilerWebServerEnabled", value);
-			OnPropertyChanged("MicroProfilerWebServerEnabled");
+			OnPropertyChanged(nameof(MicroProfilerWebServerEnabled));
 		}
 	}
 
@@ -249,7 +249,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("OnScreenProfilerEnabled", value);
-			OnPropertyChanged("OnScreenProfilerEnabled");
+			OnPropertyChanged(nameof(OnScreenProfilerEnabled));
 		}
 	}
 
@@ -259,7 +259,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("PlayerNamesEnabled", value);
-			OnPropertyChanged("PlayerNamesEnabled");
+			OnPropertyChanged(nameof(PlayerNamesEnabled));
 		}
 	}
 
@@ -269,7 +269,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("BadgeVisible", value);
-			OnPropertyChanged("BadgeVisible");
+			OnPropertyChanged(nameof(BadgeVisible));
 		}
 	}
 
@@ -279,7 +279,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("ChatVisible", value);
-			OnPropertyChanged("ChatVisible");
+			OnPropertyChanged(nameof(ChatVisible));
 		}
 	}
 
@@ -367,6 +367,23 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		}
 	}
 
+	private int _suspendedVersion = -1;
+
+	public void Resume()
+	{
+		if (!_disposed)
+		{
+			return;
+		}
+
+		_disposed = false;
+		_saveTimer.Tick += OnSaveTimerTick;
+		if (App.GlobalSettings.Version != _suspendedVersion)
+		{
+			OnPropertyChanged(string.Empty);
+		}
+	}
+
 	public void Dispose()
 	{
 		if (_disposed)
@@ -378,6 +395,7 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		_saveTimer.Stop();
 		_saveTimer.Tick -= OnSaveTimerTick;
 		Flush();
+		_suspendedVersion = App.GlobalSettings.Version;
 		GC.SuppressFinalize(this);
 	}
 }

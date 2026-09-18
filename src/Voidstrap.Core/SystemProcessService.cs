@@ -11,7 +11,7 @@ using Voidstrap.Platform;
 
 namespace Voidstrap.Core;
 
-public sealed class SystemProcessService : IProcessService
+public sealed partial class SystemProcessService : IProcessService
 {
 	private const int MaxCapturedCharacters = 4 * 1024 * 1024;
 	private const int LinuxCurrentWorkingDirectory = -100;
@@ -19,6 +19,7 @@ public sealed class SystemProcessService : IProcessService
 	private const uint LinuxFileTypeMaskRequest = 0x1;
 	private const ushort LinuxFileTypeMask = 0xf000;
 	private const ushort LinuxRegularFileType = 0x8000;
+	private static bool ContinueOnCapturedContext => !OperatingSystem.IsLinux();
 
 	[StructLayout(LayoutKind.Explicit, Size = 256)]
 	private struct LinuxFileStatus
@@ -27,8 +28,8 @@ public sealed class SystemProcessService : IProcessService
 		public ushort Mode;
 	}
 
-	[DllImport("libc", EntryPoint = "statx", SetLastError = true)]
-	private static extern int GetLinuxFileStatus(
+	[LibraryImport("libc", EntryPoint = "statx", SetLastError = true)]
+	private static partial int GetLinuxFileStatus(
 		int directoryFileDescriptor,
 		[MarshalAs(UnmanagedType.LPUTF8Str)] string path,
 		int flags,
@@ -132,25 +133,25 @@ public sealed class SystemProcessService : IProcessService
 
 			if (command.StandardInput is not null)
 			{
-				await process.StandardInput.WriteAsync(command.StandardInput.AsMemory(), cancellationToken);
-				await process.StandardInput.FlushAsync(cancellationToken);
+				await process.StandardInput.WriteAsync(command.StandardInput.AsMemory(), cancellationToken).ConfigureAwait(ContinueOnCapturedContext);
+				await process.StandardInput.FlushAsync(cancellationToken).ConfigureAwait(ContinueOnCapturedContext);
 				process.StandardInput.Close();
 			}
 
-			await process.WaitForExitAsync(cancellationToken);
-			string standardOutput = await standardOutputTask;
-			string standardError = await standardErrorTask;
+			await process.WaitForExitAsync(cancellationToken).ConfigureAwait(ContinueOnCapturedContext);
+			string standardOutput = await standardOutputTask.ConfigureAwait(ContinueOnCapturedContext);
+			string standardError = await standardErrorTask.ConfigureAwait(ContinueOnCapturedContext);
 
 			return OperationResult<ProcessExecution>.Success(new ProcessExecution(process.ExitCode, standardOutput, standardError));
 		}
 		catch (OperationCanceledException)
 		{
-			await TryTerminateAsync(process, standardOutputTask, standardErrorTask);
+			await TryTerminateAsync(process, standardOutputTask, standardErrorTask).ConfigureAwait(ContinueOnCapturedContext);
 			return OperationResult<ProcessExecution>.Fail("OperationCanceled", "The requested process was canceled");
 		}
 		catch (Exception exception)
 		{
-			await TryTerminateAsync(process, standardOutputTask, standardErrorTask);
+			await TryTerminateAsync(process, standardOutputTask, standardErrorTask).ConfigureAwait(ContinueOnCapturedContext);
 			return OperationResult<ProcessExecution>.Fail("ProcessExecutionFailed", exception.Message);
 		}
 		finally
@@ -166,7 +167,7 @@ public sealed class SystemProcessService : IProcessService
 		bool exceeded = false;
 		while (true)
 		{
-			int read = await reader.ReadAsync(buffer.AsMemory(0, buffer.Length), token);
+			int read = await reader.ReadAsync(buffer.AsMemory(0, buffer.Length), token).ConfigureAwait(ContinueOnCapturedContext);
 			if (read == 0)
 				break;
 			int remaining = MaxCapturedCharacters - output.Length;
@@ -248,6 +249,20 @@ public sealed class SystemProcessService : IProcessService
 		}
 	}
 
+	private static void Observe(Task task)
+	{
+		if (task.IsCompletedSuccessfully)
+		{
+			return;
+		}
+
+		_ = task.ContinueWith(
+			static completed => _ = completed.Exception,
+			CancellationToken.None,
+			TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
+			TaskScheduler.Default);
+	}
+
 	private static async Task TryTerminateAsync(Process? process, Task<string> standardOutputTask, Task<string> standardErrorTask)
 	{
 		if (process is null)
@@ -261,15 +276,18 @@ public sealed class SystemProcessService : IProcessService
 			{
 				process.Kill(true);
 			}
-			await process.WaitForExitAsync(CancellationToken.None).WaitAsync(TimeSpan.FromSeconds(5));
+			await process.WaitForExitAsync(CancellationToken.None).WaitAsync(TimeSpan.FromSeconds(5)).ConfigureAwait(ContinueOnCapturedContext);
 		}
 		catch
 		{
 		}
 
+		Observe(standardOutputTask);
+		Observe(standardErrorTask);
+
 		try
 		{
-			await Task.WhenAll(standardOutputTask, standardErrorTask).WaitAsync(TimeSpan.FromSeconds(5));
+			await Task.WhenAll(standardOutputTask, standardErrorTask).WaitAsync(TimeSpan.FromSeconds(5)).ConfigureAwait(ContinueOnCapturedContext);
 		}
 		catch
 		{

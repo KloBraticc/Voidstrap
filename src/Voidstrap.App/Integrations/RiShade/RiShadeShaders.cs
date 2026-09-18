@@ -104,8 +104,8 @@ float hash(float2 p) { return frac(sin(dot(p, float2(127.1, 311.7))) * 43758.5);
 float ign(float2 p) { return frac(52.9829189 * frac(dot(p, float2(0.06711056, 0.00583715)))); }
 float2 texPx() { return 1.0 / float2(uTexW, uTexH); }
 
-float3 sampG(Texture2D t, float2 g) { return t.Sample(smp, float2(g.x, 1.0 - g.y)).rgb; }
-float4 sampG4(Texture2D t, float2 g) { return t.Sample(smp, float2(g.x, 1.0 - g.y)); }
+float3 sampG(Texture2D t, float2 g) { return t.SampleLevel(smp, float2(g.x, 1.0 - g.y), 0.0).rgb; }
+float4 sampG4(Texture2D t, float2 g) { return t.SampleLevel(smp, float2(g.x, 1.0 - g.y), 0.0); }
 
 static const float AI_TANHALF = 0.7;
 

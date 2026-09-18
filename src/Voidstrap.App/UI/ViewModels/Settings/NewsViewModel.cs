@@ -41,12 +41,16 @@ namespace Voidstrap.UI.ViewModels.Settings
             "https://raw.githubusercontent.com/KloBraticc/VoidstrapNews-/main/news.json";
 
         private static string BasePath => Paths.Cache;
-        private string CachePath => Path.Combine(BasePath, "news_cache.json");
-        private string ETagPath => Path.Combine(BasePath, "news_cache.etag");
+        private static string CachePath => Path.Combine(BasePath, "news_cache.json");
+        private static string ETagPath => Path.Combine(BasePath, "news_cache.etag");
 
-        [ObservableProperty] private ObservableCollection<NewsItem> newsItems = new();
-        [ObservableProperty] private string lastUpdatedText = "Loading...";
-        [ObservableProperty] private bool isLoading = true;
+        [ObservableProperty]
+        public partial ObservableCollection<NewsItem> NewsItems { get; set; } = new();
+
+        [ObservableProperty]
+        public partial string LastUpdatedText { get; set; } = "Loading...";
+
+        [ObservableProperty] public partial bool IsLoading { get; set; } = true;
 
         private static HttpClient CreateHttpClient()
         {
@@ -69,7 +73,7 @@ namespace Voidstrap.UI.ViewModels.Settings
         }
 
         [RelayCommand]
-        private void OpenUrl(string? url)
+        private static void OpenUrl(string? url)
         {
             if (string.IsNullOrWhiteSpace(url) || !Uri.IsWellFormedUriString(url, UriKind.Absolute))
                 return;

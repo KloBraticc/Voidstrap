@@ -375,7 +375,7 @@ public sealed class PlatformOverviewWindow : Window
 		RenderPage(page);
 	}
 
-	private IPlatformCapabilities GetEffectiveCapabilities()
+	private RuntimeAwarePlatformCapabilities GetEffectiveCapabilities()
 	{
 		return new RuntimeAwarePlatformCapabilities(_host.Capabilities, _playerRuntime, _studioRuntime);
 	}
@@ -711,8 +711,8 @@ public sealed class PlatformOverviewWindow : Window
 
 	private void RenderCatalogSettings(DesktopPageDefinition page)
 	{
-		IReadOnlyCollection<string> sourcePages = GetCatalogSourcePages(page.Id);
-		if (sourcePages.Count == 0)
+		string[] sourcePages = GetCatalogSourcePages(page.Id);
+		if (sourcePages.Length == 0)
 		{
 			return;
 		}
@@ -817,7 +817,7 @@ public sealed class PlatformOverviewWindow : Window
 		};
 	}
 
-	private Control? CreateReadOnlySettingValue(string? key)
+	private TextBlock? CreateReadOnlySettingValue(string? key)
 	{
 		if (_settings is null || string.IsNullOrWhiteSpace(key) || _settings.Root[key] is not JsonNode node)
 		{
@@ -1260,7 +1260,7 @@ public sealed class PlatformOverviewWindow : Window
 		_actionInputs.Clear();
 	}
 
-	private static IReadOnlyCollection<string> GetCatalogSourcePages(string pageId)
+	private static string[] GetCatalogSourcePages(string pageId)
 	{
 		return pageId switch
 		{
@@ -1273,7 +1273,6 @@ public sealed class PlatformOverviewWindow : Window
 			"Mods" => ["ModsPage"],
 			"Shortcuts" => ["ShortcutsPage"],
 			"NvidiaFastFlags" => ["NvidiaFastFlagsPage"],
-			"Friends" => ["FriendsPage"],
 			_ => Array.Empty<string>()
 		};
 	}

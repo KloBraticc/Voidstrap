@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Windows.Input;
 using Voidstrap.UI.ViewModels.ContextMenu;
@@ -14,15 +14,11 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             OpenUrlCommand = new RelayCommand(OpenUrl);
         }
 
-        private void OpenUrl(object parameter)
+        private void OpenUrl(object? parameter)
         {
             if (parameter is string url)
             {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = url,
-                    UseShellExecute = true
-                });
+                Utilities.ShellExecute(url);
             }
         }
     }

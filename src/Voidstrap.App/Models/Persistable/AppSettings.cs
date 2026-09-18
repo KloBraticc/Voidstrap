@@ -12,12 +12,13 @@ namespace Voidstrap.Models.Persistable
     public class AppSettings
     {
         // General Configuration
-        public BootstrapperStyle BootstrapperStyle { get; set; } = OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000) ? BootstrapperStyle.FluentAeroDialog : BootstrapperStyle.FluentDialog;
+        public BootstrapperStyle BootstrapperStyle { get; set; } = !OperatingSystem.IsWindows() ? BootstrapperStyle.FluentDialog : (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000) ? BootstrapperStyle.FluentAeroDialog : BootstrapperStyle.FluentDialog);
         public BootstrapperScale BootstrapperScale { get; set; } = BootstrapperScale.Normal;
         public BootstrapperIcon BootstrapperIcon { get; set; } = BootstrapperIcon.IconVoidstrap;
         public BootstrapperIcon StudioBootstrapperIcon { get; set; }
         public bool RiShadeEnabled { get; set; } = false;
         public int AntiAliasingMethodIndex { get; set; } = 0;
+        public int MotionBlurStrengthIndex { get; set; } = 0;
         public int FrameGenModeIndex { get; set; } = 0;
         public bool FrameGenOverlayShow { get; set; } = false;
         public int FrameGenResumeIndex { get; set; } = 0;
@@ -27,7 +28,6 @@ namespace Voidstrap.Models.Persistable
         public int FrameGenTargetFps { get; set; } = 0;
         public bool RobloxApiDumpTool { get; set; } = false;
         public string LastSeenNewsKey { get; set; } = "";
-        public bool ShowLaunchProfile { get; set; } = true;
 
         [JsonIgnore]
         public BootstrapperIcon ActiveBootstrapperIcon
@@ -45,11 +45,15 @@ namespace Voidstrap.Models.Persistable
         public string BootstrapperTitle { get; set; } = App.ProjectName;
         public string BootstrapperIconCustomLocation { get; set; } = "";
         public Theme Theme2 { get; set; } = Theme.Dark;
-        public BackdropType WindowBackdrop { get; set; } = OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000) ? BackdropType.Mica : BackdropType.None;
+        public BackdropType WindowBackdrop { get; set; } = DefaultWindowBackdrop;
+        public int WindowBackdropResetVersion { get; set; }
+
+        public static BackdropType DefaultWindowBackdrop => OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000) ? BackdropType.Aero : BackdropType.None;
         public string? SelectedCustomTheme { get; set; } = null;
         public bool CheckForUpdates { get; set; } = true;
         public bool AssetWarpEnabled { get; set; } = false;
         public bool AssetWarpCertificateApproved { get; set; }
+        public bool AssetWarpAutoEnableDeclined { get; set; }
         public bool AssetWarpDisableAllTextures { get; set; } = false;
         public bool AssetWarpDisableAllDecals { get; set; } = false;
         public bool AssetWarpDisableAllImages { get; set; } = false;
@@ -68,6 +72,9 @@ namespace Voidstrap.Models.Persistable
         public int PresenceSpoofMode { get; set; }
         public bool DuckRobloxAudioOnUnfocus { get; set; }
         public bool EnableHeadsetLoudness { get; set; }
+        public bool SnapTapEnabled { get; set; }
+        public int SnapTapMode { get; set; }
+        public string SnapTapKeys { get; set; } = Voidstrap.KeyRouting.OpposingKeyResolver.DefaultKeys;
         public bool ResetRobloxAudioOnNextLaunch { get; set; } = true;
         public double Saturation { get; set; } = 100.0;
         public double Contrast { get; set; } = 100.0;
@@ -82,6 +89,9 @@ namespace Voidstrap.Models.Persistable
 		public int DownloadBufferKb { get; set; } = 2048;
 		public int DownloadPipelineVersion { get; set; } = 3;
         public bool ConfirmLaunches { get; set; } = true;
+        public bool MultiInstanceLaunching { get; set; }
+        public bool CompressRobloxInstalls { get; set; }
+        public bool LaunchWithoutVoidstrap { get; set; }
         public string VoidstrapMatchmakerPresetUrl { get; set; } = "";
         public int LaunchSelectionIndex { get; set; }
         public bool LaunchRobloxWebsite
@@ -95,6 +105,7 @@ namespace Voidstrap.Models.Persistable
         public int TotalPhysicalCores { get; set; } = Environment.ProcessorCount;
         public bool IsChannelEnabled { get; set; } = false;
         public bool UpdateRoblox { get; set; } = true;
+        public string RobloxUpdateDelivery { get; set; } = "Normal";
 
         public bool ForceRobloxReinstall { get; set; } = false;
 
@@ -105,14 +116,10 @@ namespace Voidstrap.Models.Persistable
         public int CleanRobloxNumber = 0;
         public bool DisableCrash { get; set; } = false;
         public int CpuCoreLimit { get; set; } = Environment.ProcessorCount;
-        public string ShiftlockCursorSelectedPath { get; set; } = "";
         public string UseCustomIcon { get; set; } = "";
         public string CustomGameName { get; set; } = "";
         public string PriorityLimit { get; set; } = "Normal";
         public string SelectedStatus { get; set; } = "Gray";
-        public string ArrowCursorSelectedPath { get; set; } = "";
-        public string ArrowFarCursorSelectedPath { get; set; } = "";
-        public string IBeamCursorSelectedPath { get; set; } = "";
 
         public bool DisableSplashScreen { get; set; } = true;
         public bool EnableAnalytics { get; set; } = true;
@@ -132,7 +139,21 @@ namespace Voidstrap.Models.Persistable
         public bool? SoberUseConsoleExperience { get; set; }
         public bool? SoberUseLibsecret { get; set; }
         public bool? SoberUseOpenGl { get; set; }
+        public VinegarRenderer? VinegarRenderer { get; set; }
+        public bool? VinegarEnableGameMode { get; set; }
+        public bool? VinegarDiscordRpcEnabled { get; set; }
+        public string VinegarGpu { get; set; } = "";
+        public string VinegarVirtualDesktop { get; set; } = "";
+        public string VinegarLauncher { get; set; } = "";
+        public string VinegarForcedVersion { get; set; } = "";
+        public string VinegarChannel { get; set; } = "";
+        public string VinegarWineRoot { get; set; } = "";
+        public bool VinegarApplyFastFlags { get; set; } = true;
         public bool WPFSoftwareRender { get; set; } = false;
+
+        public int SoberSharpness { get; set; } = 0;
+
+        public bool SoberAutoFullscreen { get; set; } = false;
         public bool SmooothBARRyesirikikthxlucipook { get; set; } = false; // wanna keep this on false so people may not be annoyed by it being on
         public bool HasLaunchedGame { get; set; } = false;
         public bool NotificationWindowShow { get; set; } = true;
@@ -148,10 +169,12 @@ namespace Voidstrap.Models.Persistable
         public bool BypassEmulationOverhead { get; set; } = false;
 
         public bool RobloxEfficiencyMode { get; set; } = false;
+        public bool RobloxMemoryLimitEnabled { get; set; } = false;
+        public int RobloxMemoryLimitMb { get; set; } = 4096;
         public bool ReduceMemoryOutOfFocus { get; set; } = false;
+        public bool TasxOptimization { get; set; } = false;
         public bool BackgroundUpdatesEnabled { get; set; } = true;
         public bool VoidNotify { get; set; } = true;
-        public bool ServerPingCounter { get; set; } = false;
         public bool ShowServerDetailsUI { get; set; } = false;
         public bool EnableCustomStatusDisplay { get; set; } = true;
         public bool RenameClientToEuroTrucks2 { get; set; } = false;
@@ -170,15 +193,6 @@ namespace Voidstrap.Models.Persistable
 
         public bool FFlagRPCDisplayer { get; set; } = false;
 
-        public bool WebsiteQuestTracking { get; set; } = true;
-
-        public bool QuestCompleteNotifications { get; set; } = true;
-
-        public string QuestBadgeLastDay { get; set; } = "";
-
-        public int QuestBadgeCount { get; set; }
-
-
         public bool CurrentTimeDisplay { get; set; } = false;
 
         public string ClockTimeZoneId { get; set; } = "";
@@ -187,6 +201,7 @@ namespace Voidstrap.Models.Persistable
         public bool ExclusiveFullscreen { get; set; } = false;
         public bool Crosshair { get; set; } = false;
         public int CrosshairShapeIndex { get; set; }
+        public string CrosshairImagePath { get; set; } = "";
         public string CrosshairColorHex { get; set; } = "#FF00FF00";
         public string CrosshairOutlineColorHex { get; set; } = "#FF000000";
         public int CrosshairSize { get; set; } = 20;
@@ -205,15 +220,7 @@ namespace Voidstrap.Models.Persistable
         public string DownloadingStringFormat { get; set; } = Strings.Bootstrapper_Status_Downloading + " {0} - {1}MB / {2}MB";
         public bool ConnectCloset { get; set; } = false;
 
-        public bool GameChatEnabled { get; set; } = false;
-        public int GameChatOffsetX { get; set; } = 2;
-        public int GameChatOffsetY { get; set; } = 9;
-        public int GameChatWindowWidth { get; set; } = 500;
-        public int GameChatWindowHeight { get; set; } = 400;
-        public string GameChatFilter { get; set; } = "default";
-        public bool GameChatVerified { get; set; } = false;
-        public long GameChatRobloxUserId { get; set; } = 0;
-        public bool GameChatBridgeEnabled { get; set; } = true;
+        public string LinuxRenderBackend { get; set; } = "Auto";
 
         public bool GameIconChecked { get; set; } = true;
         public bool ServerLocationGame { get; set; } = false;
@@ -228,6 +235,14 @@ namespace Voidstrap.Models.Persistable
         public bool ShowServerDetails { get; set; } = true;
 
         public bool OverlaysEnabled { get; set; } = false;
+
+        public bool ClassicTopBarEnabled { get; set; } = false;
+
+        public bool ClassicTopBarHideAllCoreGui { get; set; } = false;
+
+        public bool Ps4ButtonsEnabled { get; set; } = false;
+
+        public bool ModPacksNoticeShown { get; set; } = false;
 
         public bool HomepageBackgroundOverlayEnabled { get; set; } = false;
 
@@ -247,7 +262,8 @@ namespace Voidstrap.Models.Persistable
 
         // Mod Settings
         public string CustomFontLocation { get; set; } = string.Empty;
-        public CursorType CursorType { get; set; } = CursorType.Default;
+        public CursorType CursorType { get; set; } = CursorType.VoidstrapDefault;
+        public bool HasSelectedCursorType { get; set; }
 
         // Custom Integrations
         public ObservableCollection<CustomIntegration> CustomIntegrations { get; set; } = [];
@@ -324,6 +340,8 @@ namespace Voidstrap.Models.Persistable
         public bool StudioRpcShowScript { get; set; } = true;
         public bool StudioRpcShowState { get; set; } = true;
         public double SidebarWidth { get; set; } = 225;
+
+        public double LibrarySidebarWidth { get; set; } = 225;
         public int UiZoomPercent { get; set; } = 100;
         public bool VoidstrapMatchmakerAutoCandidates { get; set; } = true;
         public List<string> VoidstrapMatchmakerDisabledDatacenters { get; set; } = [];
@@ -386,6 +404,19 @@ namespace Voidstrap.Models.Persistable
         public bool WebTransactionHistory { get; set; } = true;
         public bool WebUsernameColor { get; set; } = true;
         public bool WebViewDevMode { get; set; } = false;
+
+        public int TextureParticleStyle { get; set; } = 0;
+        public int TextureParticleOpacity { get; set; } = 100;
+        public int TextureStudStyle { get; set; } = 0;
+        public int TextureStudShade { get; set; } = 50;
+        public bool TextureTerrainEnabled { get; set; } = false;
+        public double TextureTerrainSize { get; set; } = 0.5;
+        public double TextureTerrainRepeat { get; set; } = 4;
+        public int TextureWaterStyle { get; set; } = 0;
+        public int TextureWaterStrength { get; set; } = 100;
+        public int TextureWaterSpeed { get; set; } = 1;
+        public int TextureWaterFrame { get; set; } = 1;
+        public int TextureWaterGlitch { get; set; } = 50;
 
         public List<LibraryPin> LibraryPins { get; set; } = [];
 

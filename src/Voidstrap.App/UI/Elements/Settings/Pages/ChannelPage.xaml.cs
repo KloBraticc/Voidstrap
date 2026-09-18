@@ -22,21 +22,45 @@ using Wpf.Ui.Controls;
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class ChannelPage : UiPage{
-
-	private CancellationTokenSource _versionCts;
+	private CancellationTokenSource? _versionCts = null!;
 	private bool _resetInProgress;
+	private Window? _ownerWindow;
 
 	public ChannelPage()
 	{
-		InitializeComponent();
 		base.DataContext = new ChannelViewModel();
+		InitializeComponent();
+		if (GameSettingsTab.Visibility == Visibility.Visible)
+		{
+			SettingsTabs.Items.Remove(GameSettingsTab);
+			SettingsTabs.Items.Insert(1, GameSettingsTab);
+		}
+		SettingsTabs.SelectedIndex = 0;
 	}
 
 	private void OnChannelPageLoaded(object sender, RoutedEventArgs e)
 	{
-		if (base.DataContext is not ChannelViewModel)
+		if (base.DataContext is ChannelViewModel viewModel)
+		{
+			viewModel.Resume();
+			viewModel.RefreshMemoryLimit();
+		}
+		else
 		{
 			base.DataContext = new ChannelViewModel();
+		}
+		Window? owner = Window.GetWindow(this);
+		if (!ReferenceEquals(owner, _ownerWindow))
+		{
+			if (_ownerWindow != null)
+			{
+				_ownerWindow.Closed -= OnOwnerWindowClosed;
+			}
+			_ownerWindow = owner;
+			if (_ownerWindow != null)
+			{
+				_ownerWindow.Closed += OnOwnerWindowClosed;
+			}
 		}
 		if (_versionCts != null)
 		{
@@ -57,6 +81,19 @@ public partial class ChannelPage : UiPage{
 		{
 		}
 		_versionCts = null;
+		if (base.DataContext is ChannelViewModel viewModel)
+		{
+			viewModel.Suspend();
+		}
+	}
+
+	private void OnOwnerWindowClosed(object? sender, EventArgs e)
+	{
+		if (_ownerWindow != null)
+		{
+			_ownerWindow.Closed -= OnOwnerWindowClosed;
+			_ownerWindow = null;
+		}
 		if (base.DataContext is ChannelViewModel viewModel)
 		{
 			viewModel.Dispose();
@@ -112,14 +149,14 @@ public partial class ChannelPage : UiPage{
 				RobloxVersionAPP.Header = "Not Installed";
 				return;
 			}
-			string version = null;
+			string? version = null;
 			string[] array = files;
 			foreach (string path2 in array)
 			{
 				try
 				{
 					token.ThrowIfCancellationRequested();
-					Match match = Regex.Match(await ReadLocalTextBoundedAsync(path2, 1024 * 1024, token), "\"AppVersion\"\\s*:\\s*\"([^\"]+)\"");
+					Match match = AppVersionPattern.Match(await ReadLocalTextBoundedAsync(path2, 1024 * 1024, token));
 					if (match.Success)
 					{
 						version = match.Groups[1].Value;
@@ -171,10 +208,10 @@ public partial class ChannelPage : UiPage{
 			{
 				string text = Path.Combine(item, "Settings.json");
 				string text2 = Path.Combine(item, "Modifications");
-				BackupIfExists(text);
-				BackupIfExists(text2);
-				SafeCopy(sourcePath, text);
-				SafeCopy(sourcePath2, text2);
+                BackupIfExists(text);
+                BackupIfExists(text2);
+                SafeCopy(sourcePath, text);
+                SafeCopy(sourcePath2, text2);
 			}
 			Frontend.ShowMessageBox("Voidstrap Settings/Mods Synced");
 		}
@@ -184,20 +221,20 @@ public partial class ChannelPage : UiPage{
 		}
 	}
 
-	private void SafeCopy(string sourcePath, string destPath)
+	private static void SafeCopy(string sourcePath, string destPath)
 	{
 		if (File.Exists(sourcePath))
 		{
-			Directory.CreateDirectory(Path.GetDirectoryName(destPath));
+			Directory.CreateDirectory(Path.GetDirectoryName(destPath)!);
 			File.Copy(sourcePath, destPath, overwrite: true);
 		}
 		else if (Directory.Exists(sourcePath))
 		{
-			CopyDirectory(sourcePath, destPath);
+            CopyDirectory(sourcePath, destPath);
 		}
 	}
 
-	private void CopyDirectory(string sourceDir, string destDir)
+	private static void CopyDirectory(string sourceDir, string destDir)
 	{
 		Directory.CreateDirectory(destDir);
 		string[] files = Directory.GetFiles(sourceDir);
@@ -210,11 +247,11 @@ public partial class ChannelPage : UiPage{
 		foreach (string text2 in files)
 		{
 			string destDir2 = Path.Combine(destDir, Path.GetFileName(text2));
-			CopyDirectory(text2, destDir2);
+            CopyDirectory(text2, destDir2);
 		}
 	}
 
-	private void BackupIfExists(string path)
+	private static void BackupIfExists(string path)
 	{
 		if (File.Exists(path))
 		{
@@ -236,7 +273,7 @@ public partial class ChannelPage : UiPage{
 		_ = 2;
 		try
 		{
-			string currentVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+			string currentVersion = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
 			CancellationToken token = _versionCts?.Token ?? CancellationToken.None;
 			var release = await App.GetLatestRelease(true) ?? throw new InvalidDataException("Release information is unavailable");
 			string text = release.TagName;
@@ -252,7 +289,7 @@ public partial class ChannelPage : UiPage{
 				{
 					throw new InvalidDataException("The update could not be installed");
 				}
-				if (!App.RestartApplication(["-settings"]))
+				if (!App.RestartApplication(["-settings", "-elevatedwait", Environment.ProcessId.ToString()]))
 				{
 					throw new InvalidOperationException("The updated application could not be restarted");
 				}
@@ -303,12 +340,21 @@ public partial class ChannelPage : UiPage{
 		try
 		{
 			App.PendingSettingTasks.Clear();
-			using Process process = Process.Start(new ProcessStartInfo
+			ProcessStartInfo startInfo = new()
 			{
 				FileName = Paths.Application,
-				Arguments = "-factoryreset " + Environment.ProcessId,
-				UseShellExecute = true
-			}) ?? throw new InvalidOperationException("Voidstrap could not start the factory reset");
+				UseShellExecute = !Voidstrap.Utility.Platform.IsLinux
+			};
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				startInfo.ArgumentList.Add("-factoryreset");
+				startInfo.ArgumentList.Add(Environment.ProcessId.ToString(System.Globalization.CultureInfo.InvariantCulture));
+			}
+			else
+			{
+				startInfo.Arguments = "-factoryreset " + Environment.ProcessId;
+			}
+			using Process process = Process.Start(startInfo) ?? throw new InvalidOperationException("Voidstrap could not start the factory reset");
 			Application.Current.Shutdown();
 		}
 		catch (Exception ex)
@@ -324,7 +370,7 @@ public partial class ChannelPage : UiPage{
 	{
 		ChannelListsDialog channelListsDialog = new ChannelListsDialog();
 		channelListsDialog.Owner = Window.GetWindow((DependencyObject)(object)this);
-		channelListsDialog.ShowDialog();
+		channelListsDialog.ShowOwnedDialog();
 	}
 
 	private void LogsButton_Click(object sender, RoutedEventArgs e)
@@ -348,7 +394,7 @@ public partial class ChannelPage : UiPage{
 	{
 		UninstallerDialog uninstallerDialog = new UninstallerDialog();
 		uninstallerDialog.Owner = Window.GetWindow((DependencyObject)(object)this);
-		uninstallerDialog.ShowDialog();
+		uninstallerDialog.ShowOwnedDialog();
 		if (uninstallerDialog.Confirmed)
 		{
 			Voidstrap.Installer.DoUninstall(uninstallerDialog.KeepData);
@@ -359,7 +405,7 @@ public partial class ChannelPage : UiPage{
 
 	private void DonateButton_Click(object sender, RoutedEventArgs e)
 	{
-		string fileName = App.WebsiteBaseUrl + "/donate/donate";
+		string fileName = App.ProjectDonateLink;
 		try
 		{
 			Process.Start(new ProcessStartInfo
@@ -373,4 +419,7 @@ public partial class ChannelPage : UiPage{
 			Frontend.ShowMessageBox("Wasnt able to open: " + ex.Message);
 		}
 	}
+
+    [GeneratedRegex("\"AppVersion\"\\s*:\\s*\"([^\"]+)\"")]
+    private static partial Regex AppVersionPattern { get; }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,6 +25,9 @@ using Wpf.Ui.Mvvm.Contracts;
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class FastFlagsPage : UiPage{
+	[GeneratedRegex("^[\\+\\-]?[0-9]*$")]
+	private static partial Regex SignedIntegerInputPattern { get; }
+
 	public class NvidiaFFlag : INotifyPropertyChanged, IDataErrorInfo
 	{
 		private string _name = string.Empty;
@@ -57,7 +60,7 @@ public partial class FastFlagsPage : UiPage{
 			}
 		}
 
-		public string Error => null;
+		public string Error => string.Empty;
 
 		public string this[string columnName]
 		{
@@ -71,7 +74,7 @@ public partial class FastFlagsPage : UiPage{
 				{
 					return "Value is required";
 				}
-				return null;
+				return string.Empty;
 			}
 		}
 
@@ -85,15 +88,17 @@ public partial class FastFlagsPage : UiPage{
 
 	public class FFlagItem
 	{
-		public string Name { get; set; }
+		public string Name { get; set; } = null!;
 
-		public string Value { get; set; }
+		public string Value { get; set; } = null!;
 	}
 
 	private bool _initialLoad;
 
-	private FastFlagsViewModel _viewModel;
+	private FastFlagsViewModel _viewModel = null!;
 	private bool _loadingFlags;
+
+	private DispatcherTimer? _waterPreviewTimer;
 
 	private const string AllowlistJsonUrl = RobloxFastFlagAllowlist.AnnouncementUrl + ".json";
 
@@ -128,10 +133,10 @@ public partial class FastFlagsPage : UiPage{
 			return result;
 
 		string section = cooked[start..end];
-		foreach (Match categoryMatch in Regex.Matches(section, "<p><strong>(?<category>[^<]+)</strong>:</p>\\s*<ul>(?<items>.*?)</ul>", RegexOptions.Singleline | RegexOptions.IgnoreCase))
+		foreach (Match categoryMatch in CategorySectionPattern.Matches(section))
 		{
 			string category = WebUtility.HtmlDecode(categoryMatch.Groups["category"].Value).Trim();
-			foreach (Match flagMatch in Regex.Matches(categoryMatch.Groups["items"].Value, "<li>(?<flag>[A-Za-z][A-Za-z0-9_]*)</li>", RegexOptions.IgnoreCase))
+			foreach (Match flagMatch in FlagListItemPattern.Matches(categoryMatch.Groups["items"].Value))
 			{
 				string flag = flagMatch.Groups["flag"].Value;
 				result[flag] = category;
@@ -140,7 +145,8 @@ public partial class FastFlagsPage : UiPage{
 		return result;
 	}
 
-	private static readonly Regex _intRegex = new Regex("^[0-9]+$");
+	[GeneratedRegex("^[0-9]+$")]
+	private static partial Regex _intRegex { get; }
 
 	private static readonly HttpClient _httpClient = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(25L));
 
@@ -158,12 +164,41 @@ public partial class FastFlagsPage : UiPage{
 		SetupViewModel();
 		InitializeComponent();
 		base.Loaded += LoadFlagsOnLoaded;
+		base.Loaded += StartWaterPreview;
 		base.Unloaded += FastFlagsPage_Unloaded;
 	}
 
 	private void FastFlagsPage_Unloaded(object sender, RoutedEventArgs e)
 	{
 		_loadingFlags = false;
+		StopWaterPreview();
+	}
+
+	private void StartWaterPreview(object sender, RoutedEventArgs e)
+	{
+		StopWaterPreview();
+		_viewModel.RefreshWaterPreview();
+		_waterPreviewTimer = new DispatcherTimer(DispatcherPriority.Background)
+		{
+			Interval = TimeSpan.FromMilliseconds(80)
+		};
+		_waterPreviewTimer.Tick += WaterPreviewTimer_Tick;
+		_waterPreviewTimer.Start();
+	}
+
+	private void StopWaterPreview()
+	{
+		if (_waterPreviewTimer is null)
+			return;
+		_waterPreviewTimer.Stop();
+		_waterPreviewTimer.Tick -= WaterPreviewTimer_Tick;
+		_waterPreviewTimer = null;
+	}
+
+	private void WaterPreviewTimer_Tick(object? sender, EventArgs e)
+	{
+		if (WaterPreviewImage.IsVisible)
+			_viewModel.AdvanceWaterPreview();
 	}
 
 	private async void LoadFlagsOnLoaded(object sender, RoutedEventArgs e)
@@ -188,11 +223,7 @@ public partial class FastFlagsPage : UiPage{
 
 	private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
 	{
-		Process.Start(new ProcessStartInfo
-		{
-			FileName = e.Uri.AbsoluteUri,
-			UseShellExecute = true
-		});
+		Utilities.ShellExecute(e.Uri.AbsoluteUri);
 		e.Handled = true;
 	}
 
@@ -233,7 +264,7 @@ public partial class FastFlagsPage : UiPage{
 		{
 			return;
 		}
-		DependencyObject node = e.OriginalSource as DependencyObject;
+		DependencyObject? node = e.OriginalSource as DependencyObject;
 		while (node != null && node != sender)
 		{
 			if (node is ScrollViewer scrollViewer && scrollViewer.ScrollableHeight > 0.0)
@@ -278,6 +309,8 @@ public partial class FastFlagsPage : UiPage{
 		_viewModel.OpenFlagEditorEvent += OpenFlagEditor;
 		_viewModel.RequestPageReloadEvent += RequestPageReload;
 		base.DataContext = _viewModel;
+		if (IsLoaded)
+			_viewModel.RefreshWaterPreview();
 	}
 
 	private void RequestPageReload(object? sender, EventArgs e)
@@ -287,9 +320,9 @@ public partial class FastFlagsPage : UiPage{
 
 	private void ValidateIntInput(object sender, TextCompositionEventArgs e)
 	{
-		System.Windows.Controls.TextBox textBox = sender as System.Windows.Controls.TextBox;
+		if (sender is not System.Windows.Controls.TextBox textBox) return;
 		string input = textBox.Text.Insert(textBox.SelectionStart, e.Text);
-		e.Handled = !Regex.IsMatch(input, "^[\\+\\-]?[0-9]*$");
+		e.Handled = !SignedIntegerInputPattern.IsMatch(input);
 	}
 
 	private void OpenFlagEditor(object? sender, EventArgs e)
@@ -369,4 +402,8 @@ public partial class FastFlagsPage : UiPage{
 		Frontend.ShowMessageBox(profile + " profile applied. " + flags.Count + " Roblox allowlisted flags were updated.\nYour other flags were left unchanged.", MessageBoxImage.Asterisk);
 	}
 
+    [GeneratedRegex("<p><strong>(?<category>[^<]+)</strong>:</p>\\s*<ul>(?<items>.*?)</ul>", RegexOptions.IgnoreCase | RegexOptions.Singleline, "en-US")]
+    private static partial Regex CategorySectionPattern { get; }
+    [GeneratedRegex("<li>(?<flag>[A-Za-z][A-Za-z0-9_]*)</li>", RegexOptions.IgnoreCase, "en-US")]
+    private static partial Regex FlagListItemPattern { get; }
 }

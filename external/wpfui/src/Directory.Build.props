@@ -6,8 +6,21 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Wpf.Ui.Cross'">
-    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)Wpf.Ui\obj-cross\</BaseIntermediateOutputPath>
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Wpf.Ui.Cross' And '$(VoidstrapLinuxPackagingRoot)' == ''">
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)Wpf.Ui\obj-cross\$(RuntimeIdentifier)\</BaseIntermediateOutputPath>
+    <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(VoidstrapLinuxPackagingRoot)' != ''">
+    <BaseOutputPath>$(VoidstrapLinuxPackagingRoot)bin/$(MSBuildProjectName)/</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(VoidstrapLinuxPackagingRoot)obj/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
+    <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
+    <DefaultItemExcludes>$(DefaultItemExcludes);bin/**;bin-*/**;bin-cross/**;obj/**;obj-*/**;obj-cross/**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(VoidstrapLinuxPackagingRoot)' != '' And $(MSBuildProjectName.StartsWith('Wpf.Ui.Cross'))">
+    <BaseOutputPath>$(VoidstrapLinuxPackagingRoot)bin/Wpf.Ui.Cross/</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(VoidstrapLinuxPackagingRoot)obj/Wpf.Ui.Cross/</BaseIntermediateOutputPath>
     <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
   </PropertyGroup>
 

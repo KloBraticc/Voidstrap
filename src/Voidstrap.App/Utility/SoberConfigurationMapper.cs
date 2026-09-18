@@ -11,12 +11,12 @@ internal static class SoberConfigurationMapper
 		bool modsAllowed = settings.ModApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Player;
 		return new LinuxPlayerPreparationOptions(
 			settings.UseFastFlagManager,
-			CreateNativeOptions(settings),
+			ApplyVirtualMachineProfile(CreateNativeOptions(settings)),
 			modsAllowed,
 			modsAllowed ? CollectManagedModSources() : null);
 	}
 
-	private static IReadOnlyList<LinuxModSource> CollectManagedModSources()
+	private static List<LinuxModSource> CollectManagedModSources()
 	{
 		List<LinuxModSource> sources = [];
 		try
@@ -41,6 +41,21 @@ internal static class SoberConfigurationMapper
 		return sources;
 	}
 
+	private static SoberNativeConfigurationOptions? ApplyVirtualMachineProfile(SoberNativeConfigurationOptions? options)
+	{
+		if (!Voidstrap.Utility.VirtualMachineProfile.ShouldForceSafeGraphics)
+		{
+			return options;
+		}
+
+		SoberNativeConfigurationOptions current = options ?? new SoberNativeConfigurationOptions();
+		return current with
+		{
+			UseOpenGl = true,
+			GraphicsOptimizationMode = SoberGraphicsOptimizationMode.Performance
+		};
+	}
+
 	public static SoberNativeConfigurationOptions? CreateNativeOptions(AppSettings settings)
 	{
 		ArgumentNullException.ThrowIfNull(settings);
@@ -52,17 +67,17 @@ internal static class SoberConfigurationMapper
 		return new SoberNativeConfigurationOptions(
 			AllowGamepadPermission: settings.SoberAllowGamepadPermission,
 			CloseOnLeave: settings.SoberCloseOnLeave,
-			DiscordRpcEnabled: settings.SoberDiscordRpcEnabled,
-			DiscordRpcShowJoinButton: settings.SoberDiscordRpcShowJoinButton,
+			DiscordRpcEnabled: false,
+			DiscordRpcShowJoinButton: false,
 			EnableGameMode: settings.SoberEnableGameMode,
 			EnableHiDpi: settings.SoberEnableHiDpi,
 			EnableMobileHomeScreen: settings.SoberEnableMobileHomeScreen,
 			GraphicsOptimizationMode: settings.SoberGraphicsOptimizationMode,
-			ServerLocationIndicatorEnabled: settings.SoberServerLocationIndicatorEnabled,
+			ServerLocationIndicatorEnabled: false,
 			TouchMode: settings.SoberTouchMode,
 			UseConsoleExperience: settings.SoberUseConsoleExperience,
 			UseLibsecret: settings.SoberUseLibsecret,
-			UseOpenGl: settings.SoberUseOpenGl);
+			UseOpenGl: RequiresNativeHomepageShader(settings) ? false : settings.SoberUseOpenGl);
 	}
 
 	public static bool HasNativeOverrides(AppSettings settings)
@@ -70,16 +85,24 @@ internal static class SoberConfigurationMapper
 		ArgumentNullException.ThrowIfNull(settings);
 		return settings.SoberAllowGamepadPermission is not null
 			|| settings.SoberCloseOnLeave is not null
-			|| settings.SoberDiscordRpcEnabled is not null
-			|| settings.SoberDiscordRpcShowJoinButton is not null
 			|| settings.SoberEnableGameMode is not null
 			|| settings.SoberEnableHiDpi is not null
 			|| settings.SoberEnableMobileHomeScreen is not null
 			|| settings.SoberGraphicsOptimizationMode is not null
-			|| settings.SoberServerLocationIndicatorEnabled is not null
 			|| settings.SoberTouchMode is not null
 			|| settings.SoberUseConsoleExperience is not null
 			|| settings.SoberUseLibsecret is not null
-			|| settings.SoberUseOpenGl is not null;
+			|| settings.SoberUseOpenGl is not null
+			|| RequiresNativeHomepageShader(settings);
+	}
+
+	private static bool RequiresNativeHomepageShader(AppSettings settings)
+	{
+		if (!settings.HomepageBackgroundOverlayEnabled || VirtualMachineProfile.ShouldForceSafeGraphics)
+			return false;
+		if (Integrations.Overlays.OverlaySettings.HomepageBackgroundMode != "Media")
+			return true;
+		string path = settings.HomepageBackgroundOverlayMediaPath ?? string.Empty;
+		return Path.GetExtension(path).ToLowerInvariant() is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".tga";
 	}
 }

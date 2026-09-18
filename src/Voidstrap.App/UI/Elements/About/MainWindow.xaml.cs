@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
-using System.Windows.Navigation;
 using Voidstrap.UI.Elements.Base;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
@@ -20,9 +19,7 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 		InitializeComponent();
 		App.Logger.WriteLine("MainWindow", "Initializing about window");
 		if (Locale.CurrentCulture.Name.StartsWith("tr"))
-		{
 			TranslatorsText.FontSize = 9.0;
-		}
 	}
 
 	public Frame GetFrame()
@@ -55,7 +52,4 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 		Close();
 	}
 
-	private void RootFrame_Navigated(object sender, NavigationEventArgs e)
-	{
-	}
 }

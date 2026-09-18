@@ -13,28 +13,28 @@ public class GameDetailResponse
 	public long RootPlaceId { get; set; }
 
 	[JsonPropertyName("name")]
-	public string Name { get; set; }
+	public string Name { get; set; } = null!;
 
 	[JsonPropertyName("description")]
-	public string Description { get; set; }
+	public string Description { get; set; } = null!;
 
 	[JsonPropertyName("sourceName")]
-	public string SourceName { get; set; }
+	public string SourceName { get; set; } = null!;
 
 	[JsonPropertyName("sourceDescription")]
-	public string SourceDescription { get; set; }
+	public string SourceDescription { get; set; } = null!;
 
 	[JsonPropertyName("creator")]
-	public GameCreator Creator { get; set; }
+	public GameCreator Creator { get; set; } = null!;
 
 	[JsonPropertyName("price")]
 	public long? Price { get; set; }
 
 	[JsonPropertyName("allowedGearGenres")]
-	public IEnumerable<string> AllowedGearGenres { get; set; }
+	public IEnumerable<string> AllowedGearGenres { get; set; } = null!;
 
 	[JsonPropertyName("allowedGearCategories")]
-	public IEnumerable<string> AllowedGearCategories { get; set; }
+	public IEnumerable<string> AllowedGearCategories { get; set; } = null!;
 
 	[JsonPropertyName("isGenreEnforced")]
 	public bool IsGenreEnforced { get; set; }
@@ -64,10 +64,10 @@ public class GameDetailResponse
 	public bool CreateVipServersAllowed { get; set; }
 
 	[JsonPropertyName("universeAvatarType")]
-	public string UniverseAvatarType { get; set; }
+	public string UniverseAvatarType { get; set; } = null!;
 
 	[JsonPropertyName("genre")]
-	public string Genre { get; set; }
+	public string Genre { get; set; } = null!;
 
 	[JsonPropertyName("isAllGenre")]
 	public bool IsAllGenre { get; set; }

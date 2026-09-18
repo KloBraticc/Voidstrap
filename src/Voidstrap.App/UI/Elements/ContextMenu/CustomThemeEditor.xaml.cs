@@ -289,7 +289,7 @@ public partial class CustomThemeEditor : WpfUiWindow
             return;
 
         ExternalEditorPickerDialog dialog = new(editors) { Owner = this };
-        if (dialog.ShowDialog() != true || dialog.SelectedEditor == null)
+        if (dialog.ShowOwnedDialog() != true || dialog.SelectedEditor == null)
             return;
 
         _external = dialog.SelectedEditor;
@@ -415,7 +415,7 @@ public partial class CustomThemeEditor : WpfUiWindow
         try
         {
             RinColorPickerDialog dialog = new(initial, alphaEnabled: true) { Owner = this };
-            if (dialog.ShowDialog() != true)
+            if (dialog.ShowOwnedDialog() != true)
                 return false;
             picked = dialog.SelectedColor;
             return true;
@@ -431,7 +431,7 @@ public partial class CustomThemeEditor : WpfUiWindow
     {
         try
         {
-            Clipboard.SetText(CodeEditor.Text);
+            Voidstrap.Utility.ClipboardService.SetText(CodeEditor.Text);
             ShowStatus("Copied to the clipboard", isError: false);
         }
         catch (Exception ex)

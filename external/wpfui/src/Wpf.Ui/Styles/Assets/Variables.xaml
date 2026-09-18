@@ -33,10 +33,10 @@
 
     <Thickness x:Key="TextControlBorderThemeThickness">1</Thickness>
     <Thickness x:Key="TextControlBorderThemeThicknessFocused">2</Thickness>
-    <Thickness x:Key="TextControlThemePadding">10,8,10,7</Thickness>
+    <Thickness x:Key="TextControlThemePadding">10,4,10,4</Thickness>
 
     <system:Double x:Key="ContentControlFontSize">14</system:Double>
-    <system:Double x:Key="TextControlThemeMinHeight">24</system:Double>
+    <system:Double x:Key="TextControlThemeMinHeight">32</system:Double>
     <system:Double x:Key="TextControlThemeMinWidth">0</system:Double>
     <system:Double x:Key="ListViewItemMinHeight">32</system:Double>
     <system:Double x:Key="TreeViewItemMinHeight">24</system:Double>

@@ -44,6 +44,8 @@
   <Color x:Key="TextFillColorTertiary">#72000000</Color>
   <Color x:Key="TextFillColorDisabled">#5C000000</Color>
   <Color x:Key="TextPlaceholderColor">#72000000</Color>
+  <Color x:Key="RinControlBorderColor">#0F000000</Color>
+  <Color x:Key="RinTextControlBorderColor">#73000000</Color>
   <Color x:Key="TextOnAccentFillColorPrimary">#FFFFFFFF</Color>
   <Color x:Key="FocusStrokeColorOuter">#E4000000</Color>
   <Color x:Key="FocusStrokeColorInner">#FFFFFFFF</Color>

@@ -54,7 +54,7 @@ internal static class PathValidator
 
 	public static ValidationResult IsPathValid(string path)
 	{
-		string pathRoot = Path.GetPathRoot(path);
+		string? pathRoot = Path.GetPathRoot(path);
 		string[] array = ((pathRoot != null) ? path.Substring(pathRoot.Length) : path).Split(_directorySeperatorDelimiters);
 		foreach (string text in array)
 		{

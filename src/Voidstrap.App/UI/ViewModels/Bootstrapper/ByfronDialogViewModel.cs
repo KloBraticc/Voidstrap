@@ -7,7 +7,7 @@ namespace Voidstrap.UI.ViewModels.Bootstrapper;
 
 public class ByfronDialogViewModel : BootstrapperDialogViewModel
 {
-	public ImageSource ByfronLogoLocation { get; set; } = Voidstrap.Utility.SafeImaging.FromUri(new Uri("pack://application:,,,/Resources/BootstrapperStyles/ByfronDialog/ByfronLogoDark.jpg"));
+	public ImageSource? ByfronLogoLocation { get; set; } = Voidstrap.Utility.SafeImaging.FromUri(new Uri("pack://application:,,,/Resources/BootstrapperStyles/ByfronDialog/ByfronLogoDark.jpg"));
 
 	public Thickness DialogBorder { get; set; } = new Thickness(0.0);
 

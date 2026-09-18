@@ -5096,5 +5096,49 @@ namespace Voidstrap.Resources {
         public static string Menu_Sober_OpenGl_Description {
             get { return ResourceManager.GetString("Menu.Sober.OpenGl.Description", resourceCulture); }
         }
+
+        public static string Installer_Appearance_BackgroundUI_Title => ResourceManager.GetString("Installer.Appearance.BackgroundUI.Title", resourceCulture);
+
+        public static string Installer_Appearance_BackgroundUI_Description => ResourceManager.GetString("Installer.Appearance.BackgroundUI.Description", resourceCulture);
+
+        public static string Installer_Appearance_Snow_Title => ResourceManager.GetString("Installer.Appearance.Snow.Title", resourceCulture);
+
+        public static string Installer_Appearance_Snow_Description => ResourceManager.GetString("Installer.Appearance.Snow.Description", resourceCulture);
+
+        public static string Installer_Appearance_GradientMovement_Title => ResourceManager.GetString("Installer.Appearance.GradientMovement.Title", resourceCulture);
+
+        public static string Installer_Appearance_GradientMovement_Description => ResourceManager.GetString("Installer.Appearance.GradientMovement.Description", resourceCulture);
+
+        public static string Installer_Appearance_SmoothScrolling_Title => ResourceManager.GetString("Installer.Appearance.SmoothScrolling.Title", resourceCulture);
+
+        public static string Installer_Appearance_SmoothScrolling_Description => ResourceManager.GetString("Installer.Appearance.SmoothScrolling.Description", resourceCulture);
+
+        public static string Installer_Appearance_ClearFont_Title => ResourceManager.GetString("Installer.Appearance.ClearFont.Title", resourceCulture);
+
+        public static string Installer_Appearance_ClearFont_Description => ResourceManager.GetString("Installer.Appearance.ClearFont.Description", resourceCulture);
+
+        public static string Installer_Appearance_Background_Title => ResourceManager.GetString("Installer.Appearance.Background.Title", resourceCulture);
+
+        public static string Installer_Appearance_Background_Description => ResourceManager.GetString("Installer.Appearance.Background.Description", resourceCulture);
+
+        public static string Installer_Appearance_GradientOpacity => ResourceManager.GetString("Installer.Appearance.GradientOpacity", resourceCulture);
+
+        public static string Installer_Appearance_DarkOverlay => ResourceManager.GetString("Installer.Appearance.DarkOverlay", resourceCulture);
+
+        public static string Installer_Appearance_DisplayEverywhere => ResourceManager.GetString("Installer.Appearance.DisplayEverywhere", resourceCulture);
+
+        public static string Installer_Appearance_RemoveBackground => ResourceManager.GetString("Installer.Appearance.RemoveBackground", resourceCulture);
+
+        public static string Installer_Appearance_Theme_Description => ResourceManager.GetString("Installer.Appearance.Theme.Description", resourceCulture);
+
+        public static string Installer_Appearance_Theme_Customize => ResourceManager.GetString("Installer.Appearance.Theme.Customize", resourceCulture);
+
+        public static string Installer_Appearance_Backdrop_Title => ResourceManager.GetString("Installer.Appearance.Backdrop.Title", resourceCulture);
+
+        public static string Installer_Appearance_Backdrop_Description => ResourceManager.GetString("Installer.Appearance.Backdrop.Description", resourceCulture);
+
+        public static string Installer_Appearance_PageZoom_Title => ResourceManager.GetString("Installer.Appearance.PageZoom.Title", resourceCulture);
+
+        public static string Installer_Appearance_PageZoom_Description => ResourceManager.GetString("Installer.Appearance.PageZoom.Description", resourceCulture);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Buffers;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Net.Http;
 using System.Net.Sockets;
@@ -32,7 +33,7 @@ internal static class Http
 
 	public static async Task<T> GetJson<T>(string url, CancellationToken token)
 	{
-		T val = JsonSerializer.Deserialize<T>(await GetString(url, token).ConfigureAwait(continueOnCapturedContext: false), DefaultJsonOptions);
+		T? val = JsonSerializer.Deserialize<T>(await GetString(url, token).ConfigureAwait(continueOnCapturedContext: false), DefaultJsonOptions);
 		if (val != null)
 		{
 			return val;
@@ -56,6 +57,7 @@ internal static class Http
 
 	public static async Task<string> GetString(string url, CancellationToken token = default(CancellationToken))
 	{
+		ThrowIfRateLimited(url);
 		return await WithRetryAsync(async delegate(CancellationToken ct)
 		{
 			using CancellationTokenSource perCallCts = LinkedTimeout(ct);
@@ -66,7 +68,7 @@ internal static class Http
 		}, token).ConfigureAwait(continueOnCapturedContext: false);
 	}
 
-	public static async Task<string> GetStringBoundedAsync(HttpClient client, string url, CancellationToken token = default, int maxBytes = DefaultMaxResponseBytes)
+	public static async Task<string> GetStringBoundedAsync(HttpClient client, string url, int maxBytes = DefaultMaxResponseBytes, CancellationToken token = default)
 	{
 		using HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
 		response.EnsureSuccessStatusCode();
@@ -75,11 +77,8 @@ internal static class Http
 
 	public static async Task<byte[]> ReadBytesBoundedAsync(HttpContent content, int maxBytes, CancellationToken token)
 	{
-		if (maxBytes <= 0)
-		{
-			throw new ArgumentOutOfRangeException(nameof(maxBytes));
-		}
-		if (content.Headers.ContentLength is long contentLength && contentLength > maxBytes)
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxBytes);
+        if (content.Headers.ContentLength is long contentLength && contentLength > maxBytes)
 		{
 			throw new InvalidDataException("HTTP response is too large");
 		}
@@ -117,11 +116,8 @@ internal static class Http
 
 	public static async Task DownloadToFileBoundedAsync(HttpContent content, string path, long maxBytes, CancellationToken token)
 	{
-		if (maxBytes <= 0)
-		{
-			throw new ArgumentOutOfRangeException(nameof(maxBytes));
-		}
-		if (content.Headers.ContentLength is long contentLength && contentLength > maxBytes)
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxBytes);
+        if (content.Headers.ContentLength is long contentLength && contentLength > maxBytes)
 		{
 			throw new InvalidDataException("HTTP response is too large");
 		}
@@ -174,12 +170,39 @@ internal static class Http
 		return cancellationTokenSource;
 	}
 
+	private static readonly ConcurrentDictionary<string, long> RateLimitedUntil = new ConcurrentDictionary<string, long>(StringComparer.OrdinalIgnoreCase);
+
+	private static readonly TimeSpan MinRateLimitCooldown = TimeSpan.FromSeconds(15L);
+
+	private static readonly TimeSpan MaxRateLimitCooldown = TimeSpan.FromSeconds(60L);
+
+	private static string RateLimitKey(Uri uri)
+	{
+		string path = uri.AbsolutePath;
+		int end = path.IndexOf('/', 1);
+		return uri.Host + (end > 0 ? path.Substring(0, end) : path);
+	}
+
+	private static void ThrowIfRateLimited(string url)
+	{
+		if (Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
+			&& RateLimitedUntil.TryGetValue(RateLimitKey(uri), out long until)
+			&& Environment.TickCount64 < until)
+		{
+			throw new RateLimitedException();
+		}
+	}
+
 	private static void ThrowIfShouldNotRetry(HttpResponseMessage response)
 	{
 		int statusCode = (int)response.StatusCode;
 		if (statusCode == 429)
 		{
-			throw new RateLimitedException(ReadRetryAfter(response));
+			if (response.RequestMessage?.RequestUri is Uri uri)
+			{
+				RateLimitedUntil[RateLimitKey(uri)] = Environment.TickCount64 + (long)ReadRetryAfter(response).TotalMilliseconds;
+			}
+			throw new RateLimitedException();
 		}
 		if (((uint)(statusCode - 400) <= 1u || (uint)(statusCode - 403) <= 1u || statusCode == 410) ? true : false)
 		{
@@ -194,31 +217,25 @@ internal static class Http
 		{
 			delta = date - DateTimeOffset.UtcNow;
 		}
-		if (!delta.HasValue || delta.Value <= TimeSpan.Zero)
+		if (!delta.HasValue || delta.Value < MinRateLimitCooldown)
 		{
-			return TimeSpan.Zero;
+			return MinRateLimitCooldown;
 		}
-		return delta.Value > MaxRetryAfter ? MaxRetryAfter : delta.Value;
+		return delta.Value > MaxRateLimitCooldown ? MaxRateLimitCooldown : delta.Value;
 	}
-
-	private static readonly TimeSpan MaxRetryAfter = TimeSpan.FromSeconds(10L);
 
 	private sealed class RateLimitedException : Exception
 	{
-		public TimeSpan Delay { get; }
-
-		public RateLimitedException(TimeSpan delay)
+		public RateLimitedException()
 			: base("The server returned HTTP 429.")
 		{
-			Delay = delay;
 		}
 	}
 
 	private static async Task<T> WithRetryAsync<T>(Func<CancellationToken, Task<T>> action, CancellationToken outer, int maxAttempts = 3)
 	{
-		Exception last = null;
+		Exception? last = null;
 		int baseDelayMs = 400;
-		TimeSpan retryAfter = TimeSpan.Zero;
 		for (int attempt = 1; attempt <= maxAttempts; attempt++)
 		{
 			outer.ThrowIfCancellationRequested();
@@ -246,17 +263,7 @@ internal static class Http
 			{
 				last = ex5;
 			}
-			catch (RateLimitedException ex6) when (attempt < maxAttempts)
-			{
-				last = ex6;
-				retryAfter = ex6.Delay;
-			}
 			int millisecondsDelay = baseDelayMs * (1 << attempt - 1);
-			if (retryAfter > TimeSpan.Zero)
-			{
-				millisecondsDelay = Math.Max(millisecondsDelay, (int)retryAfter.TotalMilliseconds);
-				retryAfter = TimeSpan.Zero;
-			}
 			try
 			{
 				await Task.Delay(millisecondsDelay, outer).ConfigureAwait(continueOnCapturedContext: false);
@@ -279,7 +286,6 @@ internal static class Http
 		{
 		case 408:
 		case 425:
-		case 429:
 		case 500:
 		case 502:
 		case 503:

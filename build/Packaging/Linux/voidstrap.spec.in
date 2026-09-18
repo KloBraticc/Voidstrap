@@ -1,0 +1,80 @@
+# The application ships as a single file bundle that keeps its payload appended to
+# the executable. The default post install processing strips that payload away and
+# leaves a binary that aborts with "Failure processing application bundle", so the
+# binary post processing and the debug package are both turned off here.
+%global __os_install_post %{nil}
+%global debug_package %{nil}
+%global __strip /bin/true
+
+Name: voidstrap
+Version: @VERSION@
+Release: 1
+Summary: Customize and launch Roblox through Sober on Linux
+License: MIT
+BuildArch: @ARCH@
+Requires: vulkan-loader
+Requires: mesa-vulkan-drivers
+Requires: libX11
+Requires: libXext
+Requires: libXrender
+Requires: libXrandr
+Requires: libXi
+Requires: libXcursor
+Requires: libXfixes
+Requires: libICE
+Requires: libSM
+Requires: fontconfig
+Requires: freetype
+Requires: libxkbcommon
+Requires: libxkbcommon-x11
+Requires: wayland-libs
+Requires: dbus-libs
+Requires: mesa-libGL
+Requires: mesa-libEGL
+Requires: ca-certificates
+Requires: flatpak
+Recommends: xdg-utils
+Recommends: libnotify
+Recommends: libsecret
+Recommends: gstreamer1
+Recommends: gstreamer1-plugins-base
+Recommends: gstreamer1-plugins-good
+Recommends: gstreamer1-plugins-bad-free
+Recommends: gstreamer1-plugin-libav
+Recommends: webkit2gtk4.1
+Source0: publish
+Source1: io.github.KloBraticc.Voidstrap.desktop
+Source2: io.github.KloBraticc.Voidstrap.png
+Source3: io.github.KloBraticc.Voidstrap.metainfo.xml
+Source4: LICENSE
+
+%description
+Voidstrap is an open source Roblox bootstrapper for Linux that installs and
+launches Roblox through Sober. It brings FastFlags, performance and graphics
+controls, mods, themes, account tools, server tools, Discord Rich Presence,
+and desktop integrations together in one customizable app.
+
+%install
+mkdir -p %{buildroot}%{_libdir}/voidstrap %{buildroot}%{_bindir}
+cp -a %{_sourcedir}/publish/. %{buildroot}%{_libdir}/voidstrap/
+ln -s %{_libdir}/voidstrap/Voidstrap %{buildroot}%{_bindir}/voidstrap
+install -Dm644 %{_sourcedir}/io.github.KloBraticc.Voidstrap.desktop %{buildroot}%{_datadir}/applications/io.github.KloBraticc.Voidstrap.desktop
+install -Dm644 %{_sourcedir}/io.github.KloBraticc.Voidstrap.png %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/io.github.KloBraticc.Voidstrap.png
+install -Dm644 %{_sourcedir}/io.github.KloBraticc.Voidstrap.metainfo.xml %{buildroot}%{_datadir}/metainfo/io.github.KloBraticc.Voidstrap.metainfo.xml
+install -Dm644 %{_sourcedir}/LICENSE %{buildroot}%{_licensedir}/voidstrap/LICENSE
+
+%post
+command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database %{_datadir}/applications || true
+command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f -t %{_datadir}/icons/hicolor || true
+
+%postun
+command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database %{_datadir}/applications || true
+command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f -t %{_datadir}/icons/hicolor || true
+
+%files
+%{_libdir}/voidstrap
+%{_bindir}/voidstrap
+%{_datadir}/applications/io.github.KloBraticc.Voidstrap.desktop
+%{_datadir}/icons/hicolor/256x256/apps/io.github.KloBraticc.Voidstrap.png
+%{_datadir}/metainfo/io.github.KloBraticc.Voidstrap.metainfo.xml
+%license %{_licensedir}/voidstrap/LICENSE

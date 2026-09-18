@@ -10,10 +10,10 @@ namespace Wpf.Ui.Controls
     public static class SmoothScroll
     {
         private const double WheelStepPixels = 96d;
-        private const double GlideFactor = 0.22;
+        private const double GlideFactor = 0.45;
         private const double OvershootResistance = 0.35;
-        private const double OvershootMax = 44d;
-        private const double SpringFactor = 0.12;
+        private const double OvershootMax = 22d;
+        private const double SpringFactor = 0.24;
 
         private static bool _registered;
         private static bool _globalEnabled;
@@ -41,6 +41,12 @@ namespace Wpf.Ui.Controls
             if (_registered)
                 return;
             _registered = true;
+            if (OperatingSystem.IsLinux())
+            {
+                InputManager.Current.PreProcessInput += OnLinuxPreProcessInput;
+                return;
+            }
+
             EventManager.RegisterClassHandler(
                 typeof(ScrollViewer),
                 UIElement.PreviewMouseWheelEvent,
@@ -52,11 +58,10 @@ namespace Wpf.Ui.Controls
         {
             try
             {
-				if (OperatingSystem.IsLinux())
-					return;
                 if (e.Handled || sender is not ScrollViewer sv)
                     return;
-                if (!GetIsEnabled(sv) && !_globalEnabled)
+                bool enhancedMotion = GetIsEnabled(sv) || _globalEnabled;
+                if (!enhancedMotion)
                     return;
                 if (sv.VerticalScrollBarVisibility == ScrollBarVisibility.Disabled)
                     return;
@@ -75,11 +80,69 @@ namespace Wpf.Ui.Controls
                     sv.SetValue(DriverProperty, driver);
                 }
 
-                driver.Wheel(e.Delta);
+                driver.Wheel(e.Delta, enhancedMotion);
             }
             catch
             {
             }
+        }
+
+        private static void OnLinuxPreProcessInput(object sender, PreProcessInputEventArgs e)
+        {
+            if (e.StagingItem.Input is not MouseWheelEventArgs wheel || wheel.Handled)
+                return;
+
+            DependencyObject? source = wheel.MouseDevice.DirectlyOver as DependencyObject
+                ?? wheel.OriginalSource as DependencyObject;
+            if (TryHandleLinuxWheel(source, wheel.Delta))
+                wheel.Handled = true;
+        }
+
+        internal static bool TryHandleLinuxWheel(DependencyObject? source, int delta)
+        {
+            if (!OperatingSystem.IsLinux() ||
+                Keyboard.Modifiers.HasFlag(ModifierKeys.Control) ||
+                FindLinuxScrollViewer(source, delta) is not ScrollViewer sv)
+            {
+                return false;
+            }
+
+            if (sv.GetValue(DriverProperty) is not Driver driver)
+            {
+                driver = new Driver(sv);
+                sv.SetValue(DriverProperty, driver);
+            }
+
+            driver.Wheel(delta, GetIsEnabled(sv) || _globalEnabled);
+            return true;
+        }
+
+        private static ScrollViewer? FindLinuxScrollViewer(DependencyObject? source, int delta)
+        {
+            ScrollViewer? fallback = null;
+            DependencyObject? node = source;
+            int depth = 0;
+            while (node != null && depth < 96)
+            {
+                if (node is ScrollViewer viewer &&
+                    viewer.VerticalScrollBarVisibility != ScrollBarVisibility.Disabled &&
+                    viewer.ScrollableHeight > 0)
+                {
+                    fallback ??= viewer;
+                    if ((delta < 0 && viewer.VerticalOffset < viewer.ScrollableHeight) ||
+                        (delta > 0 && viewer.VerticalOffset > 0))
+                    {
+                        return viewer;
+                    }
+                }
+
+                node = node is Visual or System.Windows.Media.Media3D.Visual3D
+                    ? VisualTreeHelper.GetParent(node)
+                    : LogicalTreeHelper.GetParent(node);
+                depth++;
+            }
+
+            return fallback;
         }
 
         private static bool HasInnerScrollable(ScrollViewer outer, DependencyObject? source, int delta)
@@ -122,6 +185,7 @@ namespace Wpf.Ui.Controls
             private double _overshoot;
             private bool _hooked;
             private TranslateTransform? _transform;
+            private long _lastFrame;
 
             public Driver(ScrollViewer sv)
             {
@@ -149,12 +213,12 @@ namespace Wpf.Ui.Controls
                 }
             }
 
-            public void Wheel(int delta)
+            public void Wheel(int delta, bool enhancedMotion)
             {
                 if (!_hooked)
                 {
-                    _target = _sv.VerticalOffset;
-                    _current = _sv.VerticalOffset;
+                    _target = ReadVerticalOffset();
+                    _current = _target;
                 }
 
                 double unit = _sv.CanContentScroll
@@ -170,8 +234,11 @@ namespace Wpf.Ui.Controls
                     bool restingAtTop = !_hooked && _current <= restEps && Math.Abs(_overshoot) < 0.3;
                     if (restingAtTop)
                         return;
-                    double px = _sv.CanContentScroll ? (0 - proposed) * 24 : (0 - proposed);
-                    _overshoot = Math.Min(OvershootMax, _overshoot + px * OvershootResistance);
+                    if (enhancedMotion)
+                    {
+                        double px = _sv.CanContentScroll ? (0 - proposed) * 24 : (0 - proposed);
+                        _overshoot = Math.Min(OvershootMax, _overshoot + px * OvershootResistance);
+                    }
                     _target = 0;
                 }
                 else if (proposed > max)
@@ -179,8 +246,11 @@ namespace Wpf.Ui.Controls
                     bool restingAtBottom = !_hooked && _current >= max - restEps && Math.Abs(_overshoot) < 0.3;
                     if (restingAtBottom)
                         return;
-                    double px = _sv.CanContentScroll ? (proposed - max) * 24 : (proposed - max);
-                    _overshoot = Math.Max(-OvershootMax, _overshoot - px * OvershootResistance);
+                    if (enhancedMotion)
+                    {
+                        double px = _sv.CanContentScroll ? (proposed - max) * 24 : (proposed - max);
+                        _overshoot = Math.Max(-OvershootMax, _overshoot - px * OvershootResistance);
+                    }
                     _target = max;
                 }
                 else
@@ -196,7 +266,10 @@ namespace Wpf.Ui.Controls
                 if (_hooked)
                     return;
                 _hooked = true;
+                _lastFrame = Environment.TickCount64;
                 CompositionTarget.Rendering += OnRender;
+                if (OperatingSystem.IsLinux())
+                    Wpf.Ui.Animations.RenderReady.Hold(_sv, TimeSpan.FromMilliseconds(900));
             }
 
             private void Unhook()
@@ -209,25 +282,31 @@ namespace Wpf.Ui.Controls
 
             private void OnRender(object? sender, EventArgs e)
             {
+                _lastFrame = Environment.TickCount64;
+                Advance(GlideFactor, SpringFactor);
+            }
+
+            private void Advance(double glideFactor, double springFactor)
+            {
                 bool busy = false;
 
                 double diff = _target - _current;
                 double minStep = _sv.CanContentScroll ? 0.02 : 0.6;
                 if (Math.Abs(diff) > 0)
                 {
-                    double step = diff * GlideFactor;
+                    double step = diff * glideFactor;
                     if (Math.Abs(step) < minStep)
                         step = Math.Sign(diff) * Math.Min(minStep, Math.Abs(diff));
                     _current += step;
                     if ((diff > 0 && _current >= _target) || (diff < 0 && _current <= _target))
                         _current = _target;
-                    _sv.ScrollToVerticalOffset(_current);
+                    ApplyVerticalOffset(_current);
                     busy = _current != _target;
                 }
 
                 if (Math.Abs(_overshoot) > 0.3)
                 {
-                    _overshoot -= _overshoot * SpringFactor;
+                    _overshoot -= _overshoot * springFactor;
                     ApplyOvershoot(_overshoot);
                     busy = true;
                 }
@@ -239,6 +318,16 @@ namespace Wpf.Ui.Controls
 
                 if (!busy)
                     Unhook();
+            }
+
+            private void ApplyVerticalOffset(double offset)
+            {
+                _sv.ScrollToVerticalOffset(offset);
+            }
+
+            private double ReadVerticalOffset()
+            {
+                return _sv.VerticalOffset;
             }
 
             private void ApplyOvershoot(double amount)

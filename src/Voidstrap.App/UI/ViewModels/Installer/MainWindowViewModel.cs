@@ -1,4 +1,5 @@
 using System;
+using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Voidstrap.Resources;
@@ -17,13 +18,26 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 	{
 		CurrentStep = index;
 		StepHeading = heading;
-		OnPropertyChanged("CurrentStep");
-		OnPropertyChanged("StepHeading");
+		OnPropertyChanged(nameof(CurrentStep));
+		OnPropertyChanged(nameof(StepHeading));
 	}
 
 	public bool BackButtonEnabled { get; private set; }
 
 	public bool NextButtonEnabled { get; private set; }
+
+	public Visibility NavigationVisibility { get; private set; } = Visibility.Visible;
+
+	public void SetNavigationVisible(bool visible)
+	{
+		Visibility target = visible ? Visibility.Visible : Visibility.Collapsed;
+		if (NavigationVisibility == target)
+		{
+			return;
+		}
+		NavigationVisibility = target;
+		OnPropertyChanged(nameof(NavigationVisibility));
+	}
 
 	public int ButtonWidth { get; } = Locale.CurrentCulture.Name.StartsWith("bg") ? 112 : 96;
 
@@ -42,19 +56,19 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 		if (type == "next")
 		{
 			NextButtonEnabled = state;
-			OnPropertyChanged("NextButtonEnabled");
+			OnPropertyChanged(nameof(NextButtonEnabled));
 		}
 		else if (type == "back")
 		{
 			BackButtonEnabled = state;
-			OnPropertyChanged("BackButtonEnabled");
+			OnPropertyChanged(nameof(BackButtonEnabled));
 		}
 	}
 
 	public void SetNextButtonText(string text)
 	{
 		NextButtonText = text;
-		OnPropertyChanged("NextButtonText");
+		OnPropertyChanged(nameof(NextButtonText));
 	}
 
 	private void BackPage()

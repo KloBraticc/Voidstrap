@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.Windows;
 using Voidstrap.UI.ViewModels.Settings;
 using Wpf.Ui.Controls;
@@ -7,29 +6,35 @@ namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class DownloadsPage : UiPage
 {
-    private readonly DownloadsViewModel _viewModel = new DownloadsViewModel();
-    private DownloadProgressWindow _progressWindow;
+    private readonly DownloadsViewModel _viewModel = DownloadsViewModel.Shared;
 
-    // this page is hosted by the settings window and by the installer, which is a
-    // lot narrower, so the side panel and the card grid adapt instead of clipping
     private const double DetailPanelWidth = 300.0;
-    private const double NeedsDetailPanel = 680.0;
-    private const double NeedsTwoCards = 440.0;
 
-    public static readonly DependencyProperty CardColumnsProperty = DependencyProperty.Register(
-        nameof(CardColumns),
-        typeof(int),
-        typeof(DownloadsPage),
-        new PropertyMetadata(2));
+    private string _search = "";
 
-    public int CardColumns
+    private readonly System.Predicate<object> _searchFilter;
+
+    private const double PosterMinWidth = 190.0;
+
+    public static readonly DependencyProperty RobloxColumnsProperty = DependencyProperty.Register(nameof(RobloxColumns), typeof(int), typeof(DownloadsPage), new PropertyMetadata(2));
+
+    public static readonly DependencyProperty ClassicColumnsProperty = DependencyProperty.Register(nameof(ClassicColumns), typeof(int), typeof(DownloadsPage), new PropertyMetadata(3));
+
+    public int RobloxColumns
     {
-        get => (int)GetValue(CardColumnsProperty);
-        set => SetValue(CardColumnsProperty, value);
+        get => (int)GetValue(RobloxColumnsProperty);
+        set => SetValue(RobloxColumnsProperty, value);
+    }
+
+    public int ClassicColumns
+    {
+        get => (int)GetValue(ClassicColumnsProperty);
+        set => SetValue(ClassicColumnsProperty, value);
     }
 
     public DownloadsPage()
     {
+        _searchFilter = MatchesSearch;
         base.DataContext = _viewModel;
         InitializeComponent();
         Loaded += DownloadsPage_Loaded;
@@ -38,25 +43,83 @@ public partial class DownloadsPage : UiPage
 
     private void Root_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        double width = e.NewSize.Width;
+        ApplyLayout(e.NewSize.Width);
+    }
+
+    private void ApplyLayout(double width)
+    {
         if (double.IsNaN(width) || width <= 0.0)
             return;
 
-        bool showDetail = width >= NeedsDetailPanel;
-        if (DetailPanel != null)
-            DetailPanel.Visibility = showDetail ? Visibility.Visible : Visibility.Collapsed;
-        if (DetailColumn != null)
-            DetailColumn.Width = new GridLength(showDetail ? DetailPanelWidth : 0.0);
+        bool showDetail = Window.GetWindow(this) is MainWindow;
+        DetailPanel.Visibility = showDetail ? Visibility.Visible : Visibility.Collapsed;
+        DetailColumn.Width = new GridLength(showDetail ? DetailPanelWidth : 0.0);
 
-        double cards = showDetail ? width - DetailPanelWidth : width;
-        CardColumns = cards >= NeedsTwoCards ? 2 : 1;
+        double cards = (showDetail ? width - DetailPanelWidth : width) - 40.0;
+        int columns = System.Math.Max(1, (int)(cards / PosterMinWidth));
+        int roblox = System.Math.Max(1, System.Math.Min(columns, System.Math.Max(1, _viewModel.Items.Count)));
+        if (roblox != RobloxColumns)
+            RobloxColumns = roblox;
+        if (columns != ClassicColumns)
+            ClassicColumns = columns;
+    }
+
+    private void SearchBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+        _search = SearchBox.Text?.Trim() ?? "";
+        SearchPlaceholder.Visibility = _search.Length == 0 && string.IsNullOrEmpty(SearchBox.Text) ? Visibility.Visible : Visibility.Collapsed;
+        ApplyFilters();
+    }
+
+    private void FilterCombo_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        ApplyFilters();
+    }
+
+    private bool MatchesSearch(object item)
+    {
+        if (_search.Length == 0)
+            return true;
+        string title = item switch
+        {
+            DownloadsViewModel.DownloadItem download => download.Title + " " + download.Subtitle,
+            DownloadsViewModel.ClientItem client => client.Title + " " + client.Description,
+            _ => ""
+        };
+        return title.Contains(_search, System.StringComparison.OrdinalIgnoreCase);
+    }
+
+    private void ApplyFilters()
+    {
+        if (RobloxItems == null || ClassicItems == null)
+            return;
+        int filter = FilterCombo?.SelectedIndex ?? 0;
+        RobloxSection.Visibility = filter == 2 ? Visibility.Collapsed : Visibility.Visible;
+        ClassicSection.Visibility = filter == 1 ? Visibility.Collapsed : Visibility.Visible;
+        System.Predicate<object>? searchFilter = _search.Length == 0 ? null : _searchFilter;
+        SetFilter(System.Windows.Data.CollectionViewSource.GetDefaultView(_viewModel.Items), searchFilter);
+        SetFilter(System.Windows.Data.CollectionViewSource.GetDefaultView(_viewModel.ClientItems), searchFilter);
+    }
+
+    private static void SetFilter(System.ComponentModel.ICollectionView view, System.Predicate<object>? filter)
+    {
+        if (!ReferenceEquals(view.Filter, filter))
+        {
+            view.Filter = filter;
+        }
+        else if (filter != null)
+        {
+            view.Refresh();
+        }
     }
 
     private void DownloadsPage_Loaded(object sender, RoutedEventArgs e)
     {
-        _viewModel.PropertyChanged -= ViewModel_PropertyChanged;
-        _viewModel.PropertyChanged += ViewModel_PropertyChanged;
+        ApplyLayout(ActualWidth);
         _viewModel.RefreshAll();
+        ApplyFilters();
+        if (_viewModel.SelectedItem == null && _viewModel.Items.Count > 0)
+            _viewModel.SelectedItem = _viewModel.Items[0];
     }
 
     private void Addon_Click(object sender, RoutedEventArgs e)
@@ -73,53 +136,7 @@ public partial class DownloadsPage : UiPage
 
     private void DownloadsPage_Unloaded(object sender, RoutedEventArgs e)
     {
-        _viewModel.PropertyChanged -= ViewModel_PropertyChanged;
-        CloseProgressWindow();
-    }
-
-    private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName != nameof(DownloadsViewModel.IsDownloading))
-            return;
-        if (_viewModel.IsDownloading)
-            ShowProgressWindow();
-        else
-            CloseProgressWindow();
-    }
-
-    private void ShowProgressWindow()
-    {
-        if (_progressWindow != null)
-            return;
-        _progressWindow = new DownloadProgressWindow(_viewModel)
-        {
-            Owner = Window.GetWindow(this)
-        };
-        _progressWindow.Closed += OnProgressWindowClosed;
-        _progressWindow.Show();
-    }
-
-    private void OnProgressWindowClosed(object sender, System.EventArgs e)
-    {
-        if (_progressWindow != null)
-            _progressWindow.Closed -= OnProgressWindowClosed;
-        _progressWindow = null;
-    }
-
-    private void CloseProgressWindow()
-    {
-		DownloadProgressWindow progressWindow = _progressWindow;
-		_progressWindow = null;
-		if (progressWindow == null)
-			return;
-
-		progressWindow.Closed -= OnProgressWindowClosed;
-        try
-        {
-			progressWindow.Close();
-        }
-        catch
-        {
-        }
+        SetFilter(System.Windows.Data.CollectionViewSource.GetDefaultView(_viewModel.Items), null);
+        SetFilter(System.Windows.Data.CollectionViewSource.GetDefaultView(_viewModel.ClientItems), null);
     }
 }

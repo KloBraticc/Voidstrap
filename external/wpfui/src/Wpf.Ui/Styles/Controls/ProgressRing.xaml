@@ -73,9 +73,13 @@
                                 </controls:Arc>
                             </Grid>
                             <ControlTemplate.Triggers>
-                                <Trigger Property="IsEnabled" Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsEnabled" Value="True" />
+                                        <Condition Property="IsVisible" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.EnterActions>
+                                        <BeginStoryboard x:Name="IndeterminateStoryboard">
                                             <Storyboard>
                                                 <DoubleAnimation
                                                     Timeline.DesiredFrameRate="60"
@@ -96,13 +100,11 @@
                                                     Duration="0:0:5" />
                                             </Storyboard>
                                         </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard />
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
-                                </Trigger>
+                                    </MultiTrigger.EnterActions>
+                                    <MultiTrigger.ExitActions>
+                                        <RemoveStoryboard BeginStoryboardName="IndeterminateStoryboard" />
+                                    </MultiTrigger.ExitActions>
+                                </MultiTrigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>

@@ -26,9 +26,9 @@
       <data:LicenseEntry Name="Markdig" Url="https://github.com/xoofx/markdig/blob/main/license.txt" License="{x:Static resources:Strings.Menu_About_Licenses_BSD2}" />
       <data:LicenseEntry Name="AvalonEdit" Url="https://github.com/icsharpcode/AvalonEdit/blob/master/LICENSE" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
       <data:LicenseEntry Name="SharpDX/SharpDXGI" Url="https://github.com/sharpdx/SharpDX/blob/master/LICENSE" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
-      <data:LicenseEntry Name="XamlAnimatedGIF" Url="https://github.com/XamlAnimatedGif/XamlAnimatedGif" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
       <data:LicenseEntry Name="Nvidia Profile Inspector" Url="https://github.com/Orbmu2k/nvidiaProfileInspector/blob/master/LICENSE.txt" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
       <data:LicenseEntry Name="NewtonsoftJSON" Url="https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
+	  <data:LicenseEntry Name="Bibata Cursor" Url="https://github.com/ful1e5/Bibata_Cursor/blob/v2.0.7/LICENSE" License="GPL 3.0" />
     </ItemsControl>
   </StackPanel>
 </ui:UiPage>

@@ -5,7 +5,7 @@ using Voidstrap.Integrations.Overlays;
 
 namespace Voidstrap.Utility
 {
-    public static class ScreenColorEffect
+    public static partial class ScreenColorEffect
     {
         public enum ColorBlindnessType
         {
@@ -15,20 +15,40 @@ namespace Voidstrap.Utility
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct MAGCOLOREFFECT
+        private partial struct MAGCOLOREFFECT
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 25)]
             public float[] transform;
         }
 
-        [DllImport("Magnification.dll", SetLastError = true)]
-        private static extern bool MagInitialize();
+        [LibraryImport("Magnification.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool MagInitialize();
 
-        [DllImport("Magnification.dll")]
-        private static extern bool MagUninitialize();
+        [LibraryImport("Magnification.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool MagUninitialize();
 
-        [DllImport("Magnification.dll", SetLastError = true)]
-        private static extern bool MagSetFullscreenColorEffect(ref MAGCOLOREFFECT effect);
+        [LibraryImport("Magnification.dll", SetLastError = true, EntryPoint = "MagSetFullscreenColorEffect")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool MagSetFullscreenColorEffectNative(IntPtr effect);
+
+        private static bool MagSetFullscreenColorEffect(ref MAGCOLOREFFECT effect)
+        {
+            IntPtr buffer = Marshal.AllocHGlobal(Marshal.SizeOf<MAGCOLOREFFECT>());
+            try
+            {
+                Marshal.StructureToPtr(effect, buffer, false);
+                bool result = MagSetFullscreenColorEffectNative(buffer);
+                effect = Marshal.PtrToStructure<MAGCOLOREFFECT>(buffer);
+                return result;
+            }
+            finally
+            {
+                Marshal.DestroyStructure<MAGCOLOREFFECT>(buffer);
+                Marshal.FreeHGlobal(buffer);
+            }
+        }
 
         private static readonly object Sync = new object();
         private static bool _initialized;
@@ -65,6 +85,12 @@ namespace Voidstrap.Utility
 
         public static void ApplyConfigured()
         {
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                Voidstrap.Integrations.LinuxLiveColor.Schedule();
+                return;
+            }
+
             Apply(
                 App.Settings.Prop.Saturation,
                 App.Settings.Prop.Contrast,
@@ -96,13 +122,10 @@ namespace Voidstrap.Utility
             { 0.7, 0.7, 1.0 }
         };
 
-        public static void Apply(double saturation, double contrast, double colorTemperature,
+        public static float[]? BuildMatrix(double saturation, double contrast, double colorTemperature,
             bool cbEnabled = false, ColorBlindnessType cbType = ColorBlindnessType.Deuteranopia,
             double cbSeverity = 1.0, bool cbSimulate = false)
         {
-            if (!Voidstrap.Utility.Platform.IsWindows)
-                return;
-
             float sat = (float)Math.Clamp(saturation / 100.0, 0.0, 2.0);
             float con = (float)Math.Clamp(contrast / 100.0, 0.0, 2.0);
             double temp = Math.Clamp(colorTemperature / 100.0, -1.0, 1.0);
@@ -110,16 +133,27 @@ namespace Voidstrap.Utility
             bool neutral = Math.Abs(sat - 1f) < 0.001f && Math.Abs(con - 1f) < 0.001f
                 && Math.Abs(temp) < 0.001 && !cbEnabled;
 
-            float[]? matrix = null;
-            if (!neutral)
-            {
-                matrix = Multiply(
-                    Multiply(SaturationMatrix(sat), ContrastMatrix(con)),
-                    TemperatureMatrix(temp));
+            if (neutral)
+                return null;
 
-                if (cbEnabled)
-                    matrix = Multiply(matrix, BuildCbMatrix(cbType, Math.Clamp(cbSeverity, 0.0, 1.0), cbSimulate));
-            }
+            float[] matrix = Multiply(
+                Multiply(SaturationMatrix(sat), ContrastMatrix(con)),
+                TemperatureMatrix(temp));
+
+            if (cbEnabled)
+                matrix = Multiply(matrix, BuildCbMatrix(cbType, Math.Clamp(cbSeverity, 0.0, 1.0), cbSimulate));
+
+            return matrix;
+        }
+
+        public static void Apply(double saturation, double contrast, double colorTemperature,
+            bool cbEnabled = false, ColorBlindnessType cbType = ColorBlindnessType.Deuteranopia,
+            double cbSeverity = 1.0, bool cbSimulate = false)
+        {
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return;
+
+            float[]? matrix = BuildMatrix(saturation, contrast, colorTemperature, cbEnabled, cbType, cbSeverity, cbSimulate);
 
             OnUi(delegate
             {

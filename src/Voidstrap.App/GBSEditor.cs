@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml.Linq;
 
 namespace Voidstrap;
@@ -60,6 +61,20 @@ public class GBSEditor
 	};
 
 	public bool Loaded { get; private set; }
+
+	private int _version;
+
+	public int Version
+	{
+		get
+		{
+			lock (_sync)
+			{
+				EnsureFresh();
+				return _version;
+			}
+		}
+	}
 
 	public bool RepairedOnLoad => _repairedOnLoad;
 
@@ -183,6 +198,7 @@ public class GBSEditor
 			}
 
 			element2.Value = normalized;
+			Interlocked.Increment(ref _version);
 			return true;
 		}
 	}
@@ -347,7 +363,9 @@ public class GBSEditor
 
 		EnsureProperties(Document);
 		Loaded = true;
+		Interlocked.Increment(ref _version);
 		PreviousReadOnlyState = GetReadOnly();
+		App.Logger?.WriteLine("GBSEditor::Load", _repairedOnLoad ? "Loaded with repairs" : "Loaded successfully");
 	}
 
 	public bool RepairFile()
@@ -509,6 +527,7 @@ public class GBSEditor
 			{
 				element.Remove();
 			}
+			Interlocked.Increment(ref _version);
 		}
 	}
 

@@ -21,7 +21,7 @@ public interface INavigation
     /// <summary>
     /// Service providing views.
     /// </summary>
-    IPageService PageService { get; set; }
+    IPageService? PageService { get; set; }
 
     /// <summary>
     /// Navigation item ID of the current page.
@@ -47,13 +47,13 @@ public interface INavigation
     /// <summary>
     /// Currently used item like <see cref="INavigationItem"/>.
     /// </summary>
-    INavigationItem Current { get; }
+    INavigationItem? Current { get; }
 
     /// <summary>
     /// Gets or sets the <see cref="System.Windows.Controls.Frame"/> in which the <see cref="System.Windows.Controls.Page"/> will be loaded after navigation.
     /// </summary>
     [Bindable(true)]
-    Frame Frame { get; set; }
+    Frame? Frame { get; set; }
 
     /// <summary>
     /// Gets or sets the list of <see cref="INavigationControl"/> that will be displayed on the navigation.

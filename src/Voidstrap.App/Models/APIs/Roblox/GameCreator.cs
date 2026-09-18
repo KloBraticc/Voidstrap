@@ -8,10 +8,10 @@ public class GameCreator
 	public long Id { get; set; }
 
 	[JsonPropertyName("name")]
-	public string Name { get; set; }
+	public string Name { get; set; } = null!;
 
 	[JsonPropertyName("type")]
-	public string Type { get; set; }
+	public string Type { get; set; } = null!;
 
 	[JsonPropertyName("isRNVAccount")]
 	public bool IsRNVAccount { get; set; }

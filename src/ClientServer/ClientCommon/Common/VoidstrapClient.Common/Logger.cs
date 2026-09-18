@@ -40,7 +40,7 @@ public class Logger : IDisposable
 		_Verbose = verbose;
 	}
 
-	private string ConstructLogOutput(LogType type, string message)
+	private static string ConstructLogOutput(LogType type, string message)
 	{
 		return $"{DateTime.UtcNow.ToString("O")} [{type}] {message}";
 	}

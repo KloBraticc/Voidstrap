@@ -21,30 +21,36 @@ public sealed record SettingsCatalogEntry(
 	IReadOnlyCollection<string> Containers,
 	string VisibilityExpression = "");
 
-public static class SettingsCatalogImporter
+public static partial class SettingsCatalogImporter
 {
+	[GeneratedRegex("Path=(?<path>[A-Za-z_][A-Za-z0-9_.]+)", RegexOptions.CultureInvariant)]
+	private static partial Regex BindingPathAssignmentPattern { get; }
+
+	[GeneratedRegex("\\{Binding\\s+(?<path>[A-Za-z_][A-Za-z0-9_.]+)", RegexOptions.CultureInvariant)]
+	private static partial Regex BindingShorthandPathPattern { get; }
+
 	private const long MaximumCatalogBytes = 4L * 1024 * 1024;
 	private const int MaximumPageFiles = 256;
 	private const int MaximumCatalogEntries = 25_000;
-	private static readonly Regex PageExpression = new("new\\s+SearchCatalogOption\\(typeof\\((?<page>[A-Za-z0-9_]+)\\)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+	private const string PageResourcePrefix = "Catalog/Pages/";
 
-	private static readonly Regex StringExpression = new("\"(?<value>(?:\\\\.|[^\"\\\\])*)\"", RegexOptions.Compiled | RegexOptions.CultureInvariant);
-
-	public static string DefaultCatalogPath => Path.Combine(AppContext.BaseDirectory, "Catalog", "SearchCatalog.cs");
 
 	public static async Task<OperationResult<IReadOnlyCollection<SettingsCatalogEntry>>> LoadAsync(string? catalogPath = null, CancellationToken cancellationToken = default)
 	{
-		string path = string.IsNullOrWhiteSpace(catalogPath) ? DefaultCatalogPath : catalogPath;
 		try
 		{
 			List<SettingsCatalogEntry> entries = new();
-			if (File.Exists(path))
+			if (string.IsNullOrWhiteSpace(catalogPath))
+			{
+				entries.AddRange(await Task.Run(() => LoadEmbeddedEntries(cancellationToken), cancellationToken));
+			}
+			else if (File.Exists(catalogPath))
 			{
 				try
 				{
-					if (new FileInfo(path).Length <= MaximumCatalogBytes)
+					if (new FileInfo(catalogPath).Length <= MaximumCatalogBytes)
 					{
-						string source = await ReadTextAsync(path, cancellationToken);
+						string source = await ReadTextAsync(catalogPath, cancellationToken);
 						entries.AddRange(Parse(source));
 					}
 				}
@@ -58,10 +64,6 @@ public static class SettingsCatalogImporter
 				{
 				}
 			}
-			if (string.IsNullOrWhiteSpace(catalogPath))
-			{
-				entries.AddRange(await LoadPageEntriesAsync(Path.Combine(Path.GetDirectoryName(path) ?? string.Empty, "Pages"), cancellationToken));
-			}
 			if (entries.Count == 0)
 			{
 				return OperationResult<IReadOnlyCollection<SettingsCatalogEntry>>.Fail("SettingsCatalogMissing", "The settings catalog is unavailable");
@@ -69,7 +71,7 @@ public static class SettingsCatalogImporter
 
 			IReadOnlyCollection<SettingsCatalogEntry> uniqueEntries = entries
 				.Take(MaximumCatalogEntries)
-				.GroupBy(static entry => $"{entry.SourcePage}\u001F{entry.TargetName}\u001F{entry.Title}\u001F{string.Join("\u001E", entry.Containers)}", StringComparer.Ordinal)
+				.GroupBy(static entry => $"{entry.SourcePage}{entry.TargetName}{entry.Title}{string.Join("", entry.Containers)}", StringComparer.Ordinal)
 				.Select(static group =>
 				{
 					SettingsCatalogEntry first = group.First();
@@ -80,7 +82,8 @@ public static class SettingsCatalogImporter
 						first.Description,
 						group.SelectMany(static entry => entry.Aliases).Distinct(StringComparer.OrdinalIgnoreCase).ToArray(),
 						first.TargetName,
-						first.Containers);
+						first.Containers,
+						first.VisibilityExpression);
 				})
 				.ToArray();
 			return OperationResult<IReadOnlyCollection<SettingsCatalogEntry>>.Success(uniqueEntries);
@@ -103,41 +106,31 @@ public static class SettingsCatalogImporter
 		}
 	}
 
-	private static async Task<IReadOnlyCollection<SettingsCatalogEntry>> LoadPageEntriesAsync(string directoryPath, CancellationToken cancellationToken)
+	private static List<SettingsCatalogEntry> LoadEmbeddedEntries(CancellationToken cancellationToken)
 	{
-		if (!Directory.Exists(directoryPath))
-		{
-			return Array.Empty<SettingsCatalogEntry>();
-		}
-
-		List<SettingsCatalogEntry> entries = new();
-		foreach (string path in Directory.EnumerateFiles(directoryPath, "*.xaml", SearchOption.TopDirectoryOnly).Take(MaximumPageFiles))
+		List<SettingsCatalogEntry> entries = new(Parse(ReadResource("Catalog/SearchCatalog.cs")));
+		IEnumerable<string> pages = typeof(SettingsCatalogImporter).Assembly.GetManifestResourceNames()
+			.Where(static name => name.StartsWith(PageResourcePrefix, StringComparison.Ordinal))
+			.Order(StringComparer.Ordinal)
+			.Take(MaximumPageFiles);
+		foreach (string name in pages)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			try
-			{
-				if (new FileInfo(path).Length > MaximumCatalogBytes)
-					continue;
-				string source = await ReadTextAsync(path, cancellationToken);
-				entries.AddRange(ParsePage(source, Path.GetFileNameWithoutExtension(path)));
-				if (entries.Count >= MaximumCatalogEntries)
-					break;
-			}
-			catch (XmlException)
-			{
-			}
-			catch (IOException)
-			{
-			}
-			catch (InvalidDataException)
-			{
-			}
-			catch (UnauthorizedAccessException)
-			{
-			}
+			entries.AddRange(ParsePage(ReadResource(name), Path.GetFileNameWithoutExtension(name)));
+			if (entries.Count >= MaximumCatalogEntries)
+				break;
 		}
 
 		return entries;
+	}
+
+	internal static string ReadResource(string name)
+	{
+		using Stream? stream = typeof(SettingsCatalogImporter).Assembly.GetManifestResourceStream(name);
+		if (stream == null || stream.Length <= 0 || stream.Length > MaximumCatalogBytes)
+			return string.Empty;
+		using StreamReader reader = new StreamReader(stream, System.Text.Encoding.UTF8, true);
+		return reader.ReadToEnd();
 	}
 
 	public static IReadOnlyCollection<SettingsCatalogEntry> Parse(string source)
@@ -219,13 +212,9 @@ public static class SettingsCatalogImporter
 				string title = GetAttributeValue(element, "Header");
 				string description = GetAttributeValue(element, "Description");
 				string targetName = GetAttributeValue(element, "Name");
-				string visibility = GetAttributeValue(element, "Visibility");
-				if (string.IsNullOrEmpty(visibility))
-				{
-					visibility = element.Ancestors()
-						.Select(static ancestor => GetAttributeValue(ancestor, "Visibility"))
-						.FirstOrDefault(static value => value.Contains("PlatformFeatureVisibility", StringComparison.Ordinal)) ?? string.Empty;
-				}
+				string[] visibilities = element.AncestorsAndSelf().Select(static node => GetAttributeValue(node, "Visibility")).ToArray();
+				string platformVisibility = visibilities.FirstOrDefault(static value => value.Contains("PlatformFeatureVisibility", StringComparison.Ordinal)) ?? string.Empty;
+				string visibility = visibilities.Any(static value => value is "Collapsed" or "Hidden") ? ("Collapsed " + platformVisibility).TrimEnd() : platformVisibility;
 				string[] containers = element.Ancestors()
 					.Where(static ancestor => string.Equals(ancestor.Name.LocalName, "TabItem", StringComparison.Ordinal) || string.Equals(ancestor.Name.LocalName, "Expander", StringComparison.Ordinal))
 					.Reverse()
@@ -349,7 +338,7 @@ public static class SettingsCatalogImporter
 			return fallback;
 		}
 
-		int separator = typeName.LastIndexOf(".", StringComparison.Ordinal);
+		int separator = typeName.LastIndexOf('.');
 		return separator >= 0 && separator < typeName.Length - 1 ? typeName[(separator + 1)..] : typeName;
 	}
 
@@ -361,10 +350,10 @@ public static class SettingsCatalogImporter
 		}
 
 		List<string> values = new();
-		Match pathMatch = Regex.Match(value, "Path=(?<path>[A-Za-z_][A-Za-z0-9_.]+)", RegexOptions.CultureInvariant);
+		Match pathMatch = BindingPathAssignmentPattern.Match(value);
 		if (!pathMatch.Success)
 		{
-			pathMatch = Regex.Match(value, "\\{Binding\\s+(?<path>[A-Za-z_][A-Za-z0-9_.]+)", RegexOptions.CultureInvariant);
+			pathMatch = BindingShorthandPathPattern.Match(value);
 		}
 		if (pathMatch.Success)
 		{
@@ -374,4 +363,9 @@ public static class SettingsCatalogImporter
 
 		return values;
 	}
+
+    [GeneratedRegex("new\\s+SearchCatalogOption\\(typeof\\((?<page>[A-Za-z0-9_]+)\\)", RegexOptions.CultureInvariant)]
+    private static partial Regex PageExpression { get; }
+    [GeneratedRegex("\"(?<value>(?:\\\\.|[^\"\\\\])*)\"", RegexOptions.CultureInvariant)]
+    private static partial Regex StringExpression { get; }
 }

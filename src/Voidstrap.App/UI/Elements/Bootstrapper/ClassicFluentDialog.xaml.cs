@@ -35,7 +35,7 @@ public partial class ClassicFluentDialog : WpfUiWindow,IBootstrapperDialog{
 		set
 		{
 			_viewModel.Message = value;
-			_viewModel.OnPropertyChanged("Message");
+			_viewModel.OnPropertyChanged(nameof(Message));
 		}
 	}
 
@@ -65,7 +65,7 @@ public partial class ClassicFluentDialog : WpfUiWindow,IBootstrapperDialog{
 		set
 		{
 			_viewModel.ProgressMaximum = value;
-			_viewModel.OnPropertyChanged("ProgressMaximum");
+			_viewModel.OnPropertyChanged(nameof(ProgressMaximum));
 		}
 	}
 
@@ -78,7 +78,7 @@ public partial class ClassicFluentDialog : WpfUiWindow,IBootstrapperDialog{
 		set
 		{
 			_viewModel.ProgressValue = value;
-			_viewModel.OnPropertyChanged("ProgressValue");
+			_viewModel.OnPropertyChanged(nameof(ProgressValue));
 		}
 	}
 
@@ -91,7 +91,7 @@ public partial class ClassicFluentDialog : WpfUiWindow,IBootstrapperDialog{
 		set
 		{
 			_viewModel.TaskbarProgressState = value;
-			_viewModel.OnPropertyChanged("TaskbarProgressState");
+			_viewModel.OnPropertyChanged(nameof(TaskbarProgressState));
 		}
 	}
 
@@ -104,7 +104,7 @@ public partial class ClassicFluentDialog : WpfUiWindow,IBootstrapperDialog{
 		set
 		{
 			_viewModel.TaskbarProgressValue = value;
-			_viewModel.OnPropertyChanged("TaskbarProgressValue");
+			_viewModel.OnPropertyChanged(nameof(TaskbarProgressValue));
 		}
 	}
 
@@ -120,7 +120,7 @@ public partial class ClassicFluentDialog : WpfUiWindow,IBootstrapperDialog{
 		{
 			_viewModel.CancelEnabled = value;
 			_viewModel.OnPropertyChanged("CancelButtonVisibility");
-			_viewModel.OnPropertyChanged("CancelEnabled");
+			_viewModel.OnPropertyChanged(nameof(CancelEnabled));
 		}
 	}
 
@@ -162,7 +162,7 @@ public partial class ClassicFluentDialog : WpfUiWindow,IBootstrapperDialog{
 
 	public void ShowBootstrapper()
 	{
-		ShowDialog();
+		this.ShowOwnedDialog();
 	}
 
 	public void CloseBootstrapper()

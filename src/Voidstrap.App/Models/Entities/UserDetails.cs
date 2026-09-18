@@ -18,13 +18,13 @@ public class UserDetails
 
 	private const int MaxCacheEntries = 256;
 
-	public GetUserResponse Data { get; private set; }
+	public GetUserResponse Data { get; private set; } = null!;
 
-	public ThumbnailResponse Thumbnail { get; private set; }
+	public ThumbnailResponse Thumbnail { get; private set; } = null!;
 
 	public static async Task<UserDetails> Fetch(long id, CancellationToken token = default(CancellationToken))
 	{
-		if (_cache.TryGetValue(id, out UserDetails value))
+		if (_cache.TryGetValue(id, out UserDetails? value))
 		{
 			return value;
 		}

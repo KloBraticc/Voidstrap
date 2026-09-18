@@ -78,7 +78,10 @@ public class Logger : IDisposable
 		{
 			Directory.CreateDirectory(text);
 			FileStream stream = new FileStream(text3, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, useAsync: true);
-			StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), 4096);
+			StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), 4096)
+			{
+				AutoFlush = !Voidstrap.Utility.Platform.IsWindows
+			};
 			lock (_historyLock)
 			{
 				_writer = writer;
@@ -211,15 +214,36 @@ public class Logger : IDisposable
 		}
 	}
 
+	private static readonly bool EchoToStandardError =
+		Environment.GetEnvironmentVariable("VOIDSTRAP_STDERR_LOG") == "1";
+
+	private static void Echo(string line)
+	{
+		if (!EchoToStandardError)
+			return;
+
+		try
+		{
+			Console.Error.WriteLine(line);
+			Console.Error.Flush();
+		}
+		catch (IOException)
+		{
+		}
+	}
+
 	public void WriteLine(string identifier, string message)
 	{
+		Echo("[" + identifier + "] " + message);
 		WriteEntry(GetCategory(identifier), "[" + identifier + "] " + message);
 	}
 
 	public void WriteException(string identifier, Exception ex)
 	{
 		string value = $"0x{ex.HResult:X8}";
+		Echo($"[{identifier}] ({value}) {ex}");
 		WriteEntry(GetCategory(identifier), $"[{identifier}] ({value}) {ex}");
+		Voidstrap.Utility.AppNotifications.RecordError(identifier, ex);
 	}
 
 	private void QueueWrite(string message)
@@ -278,6 +302,13 @@ public class Logger : IDisposable
 
 	public void Flush()
 	{
+		try
+		{
+			Voidstrap.Utility.AppNotifications.Flush();
+		}
+		catch
+		{
+		}
 		StreamWriter? writer;
 		lock (_historyLock)
 		{

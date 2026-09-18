@@ -7,12 +7,11 @@ namespace Voidstrap.Utility;
 public static class MD5Hash
 {
 	public static string FromBytes(byte[] data)
-	{
-		using MD5 mD = MD5.Create();
-		return Stringify(mD.ComputeHash(data));
-	}
+    {
+        return Stringify(MD5.HashData(data));
+    }
 
-	public static string FromStream(Stream stream)
+    public static string FromStream(Stream stream)
 	{
 		stream.Seek(0L, SeekOrigin.Begin);
 		using MD5 mD = MD5.Create();
@@ -28,6 +27,6 @@ public static class MD5Hash
 
 	public static string Stringify(byte[] hash)
 	{
-		return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+		return Convert.ToHexStringLower(hash);
 	}
 }

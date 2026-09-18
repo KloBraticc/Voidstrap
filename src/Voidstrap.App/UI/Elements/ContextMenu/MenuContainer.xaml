@@ -68,25 +68,6 @@
             <Expander Header="PlayTime" IsExpanded="True" Background="#00FFFFFF">
               <TextBlock Name="PlayTimeTextBlock" Margin="4,2,0,2" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="PlayTime: 00:00:00" />
             </Expander>
-            <Expander x:Name="QuestExpander" Header="Quests" IsExpanded="True" Background="#00FFFFFF" Visibility="Collapsed">
-              <ItemsControl x:Name="QuestProgressList" Margin="4,2,0,2">
-                <ItemsControl.ItemTemplate>
-                  <DataTemplate>
-                    <StackPanel Margin="0,0,0,6">
-                      <TextBlock Text="{Binding Display}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" FontSize="11" TextTrimming="CharacterEllipsis" />
-                      <ProgressBar Height="10"
-                                   Margin="0,3,8,0"
-                                   Minimum="0"
-                                   Maximum="100"
-                                   BorderThickness="0"
-                                   Background="#33FFFFFF"
-                                   Foreground="#3BA55D"
-                                   Value="{Binding Percent, Mode=OneWay}" />
-                    </StackPanel>
-                  </DataTemplate>
-                </ItemsControl.ItemTemplate>
-              </ItemsControl>
-            </Expander>
             <Expander Header="Memory Details" IsExpanded="True" Background="#00FFFFFF">
               <StackPanel Margin="4,2,0,2">
                 <TextBlock Name="MemoryTextBlock" Foreground="{DynamicResource TextFillColorSecondaryBrush}" FontWeight="SemiBold" Text="Roblox: 0 MB" />
@@ -178,18 +159,6 @@
             </Grid.ColumnDefinitions>
             <ui:SymbolIcon Grid.Column="0" Symbol="AnimalRabbit24" FontSize="18" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{x:Static resources:Strings.Menu_Context_PlayerLogs}" />
-          </Grid>
-        </HeaderedItemsControl.Header>
-      </MenuItem>
-      <MenuItem Name="ChatLogsMenuItem" Visibility="Collapsed" Click="ChatLogsMenuItemMenuItem_Click">
-        <HeaderedItemsControl.Header>
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="26" />
-              <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <ui:SymbolIcon Grid.Column="0" Symbol="Chat24" FontSize="18" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{x:Static resources:Strings.ContextMenu_MessageLogs_Title}" />
           </Grid>
         </HeaderedItemsControl.Header>
       </MenuItem>

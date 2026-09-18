@@ -28,6 +28,12 @@ internal sealed class WindowEdgeResizer
 
 	private double _startHeight;
 
+	private nint _nativeWindow;
+
+	private System.Windows.Threading.DispatcherTimer? _pollTimer;
+
+	private EventHandler? _pollHandler;
+
 	[Flags]
 	private enum ResizeEdge
 	{
@@ -65,6 +71,7 @@ internal sealed class WindowEdgeResizer
 		_window.PreviewMouseLeftButtonUp -= OnPreviewMouseUp;
 		_window.LostMouseCapture -= OnLostCapture;
 		_window.Closed -= OnClosed;
+		StopPointerPolling();
 		Attached.Remove(_window);
 	}
 
@@ -114,7 +121,17 @@ internal sealed class WindowEdgeResizer
 
 	private Point ScreenLogical(MouseEventArgs e)
 	{
-		Point device = _window.PointToScreen(e.GetPosition(_window));
+		Point device;
+		if (Voidstrap.Utility.Platform.IsLinux
+			&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPointerPosition(out int pointerX, out int pointerY))
+		{
+			device = new Point(pointerX, pointerY);
+		}
+		else
+		{
+			device = _window.PointToScreen(e.GetPosition(_window));
+		}
+
 		PresentationSource? source = PresentationSource.FromVisual(_window);
 		if (source?.CompositionTarget != null)
 		{
@@ -125,7 +142,7 @@ internal sealed class WindowEdgeResizer
 
 	private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
 	{
-		if (_window.WindowState != System.Windows.WindowState.Normal)
+		if (_window.WindowState != System.Windows.WindowState.Normal || LinuxWindowMode.IsFullscreen(_window) || LinuxWindowMode.IsMaximized(_window))
 		{
 			return;
 		}
@@ -141,7 +158,16 @@ internal sealed class WindowEdgeResizer
 		_startTop = _window.Top;
 		_startWidth = _window.ActualWidth;
 		_startHeight = _window.ActualHeight;
-		_window.CaptureMouse();
+		_nativeWindow = ResolveNativeWindow();
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			StartPointerPolling();
+		}
+		else
+		{
+			_window.CaptureMouse();
+		}
+
 		e.Handled = true;
 	}
 
@@ -149,7 +175,7 @@ internal sealed class WindowEdgeResizer
 	{
 		if (!_resizing)
 		{
-			if (_window.WindowState == System.Windows.WindowState.Normal)
+			if (_window.WindowState == System.Windows.WindowState.Normal && !LinuxWindowMode.IsFullscreen(_window) && !LinuxWindowMode.IsMaximized(_window))
 			{
 				Cursor? cursor = CursorFor(HitTest(e.GetPosition(_window)));
 				if (cursor != null)
@@ -168,13 +194,20 @@ internal sealed class WindowEdgeResizer
 			EndResize();
 			return;
 		}
-		Point cursor2 = ScreenLogical(e);
+		ApplyResize(ScreenLogical(e));
+		e.Handled = true;
+	}
+
+	private void ApplyResize(Point cursor2)
+	{
 		double deltaX = cursor2.X - _startCursor.X;
 		double deltaY = cursor2.Y - _startCursor.Y;
 		double minWidth = double.IsNaN(_window.MinWidth) || _window.MinWidth <= 0.0 ? 800.0 : Math.Max(_window.MinWidth, 800.0);
 		double minHeight = double.IsNaN(_window.MinHeight) || _window.MinHeight <= 0.0 ? 500.0 : Math.Max(_window.MinHeight, 500.0);
 		double maxWidth = double.IsNaN(_window.MaxWidth) || _window.MaxWidth <= 0.0 ? double.PositiveInfinity : _window.MaxWidth;
 		double maxHeight = double.IsNaN(_window.MaxHeight) || _window.MaxHeight <= 0.0 ? double.PositiveInfinity : _window.MaxHeight;
+		minWidth = Math.Min(minWidth, maxWidth);
+		minHeight = Math.Min(minHeight, maxHeight);
 		if ((_edge & ResizeEdge.Right) != 0)
 		{
 			_window.Width = Math.Clamp(_startWidth + deltaX, minWidth, maxWidth);
@@ -195,7 +228,120 @@ internal sealed class WindowEdgeResizer
 			_window.Top = _startTop + (_startHeight - height);
 			_window.Height = height;
 		}
-		e.Handled = true;
+
+		CommitNativeGeometry();
+	}
+
+	private nint ResolveNativeWindow()
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux)
+		{
+			return 0;
+		}
+
+		try
+		{
+			string title = _window.Title ?? string.Empty;
+			return title.Length == 0 ? 0 : Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(title);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("WindowEdgeResizer::ResolveNativeWindow", "The native window could not be resolved: " + ex.Message);
+			return 0;
+		}
+	}
+
+	private void CommitNativeGeometry()
+	{
+		if (_nativeWindow == 0)
+		{
+			return;
+		}
+
+		try
+		{
+			double scale = 1.0;
+			PresentationSource? source = PresentationSource.FromVisual(_window);
+			if (source?.CompositionTarget != null)
+			{
+				scale = source.CompositionTarget.TransformToDevice.M11;
+			}
+
+			if (scale <= 0.0 || double.IsNaN(scale))
+			{
+				scale = 1.0;
+			}
+
+			int left = (int)Math.Round(_window.Left * scale);
+			int top = (int)Math.Round(_window.Top * scale);
+			int width = (int)Math.Round(_window.Width * scale);
+			int height = (int)Math.Round(_window.Height * scale);
+			Voidstrap.Platform.Linux.LinuxWindowInterop.TryMoveResize(_nativeWindow, left, top, width, height);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("WindowEdgeResizer::CommitNativeGeometry", "The window geometry could not be applied: " + ex.Message);
+		}
+	}
+
+	private void StartPointerPolling()
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux || _pollTimer != null)
+		{
+			return;
+		}
+
+		_pollHandler = OnPollTick;
+		_pollTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Input, _window.Dispatcher)
+		{
+			Interval = TimeSpan.FromMilliseconds(16.0)
+		};
+		_pollTimer.Tick += _pollHandler;
+		_pollTimer.Start();
+	}
+
+	private void StopPointerPolling()
+	{
+		if (_pollTimer == null)
+		{
+			return;
+		}
+
+		_pollTimer.Stop();
+		if (_pollHandler != null)
+		{
+			_pollTimer.Tick -= _pollHandler;
+		}
+
+		_pollTimer = null;
+		_pollHandler = null;
+	}
+
+	private void OnPollTick(object? sender, EventArgs e)
+	{
+		if (!_resizing)
+		{
+			StopPointerPolling();
+			return;
+		}
+
+		if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPointerPosition(out int x, out int y, out bool pressed))
+		{
+			return;
+		}
+
+		if (!pressed)
+		{
+			EndResize();
+			return;
+		}
+
+		Point device = new(x, y);
+		PresentationSource? source = PresentationSource.FromVisual(_window);
+		Point logical = source?.CompositionTarget != null
+			? source.CompositionTarget.TransformFromDevice.Transform(device)
+			: device;
+		ApplyResize(logical);
 	}
 
 	private void OnPreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -220,6 +366,8 @@ internal sealed class WindowEdgeResizer
 	{
 		_resizing = false;
 		_edge = ResizeEdge.None;
+		_nativeWindow = 0;
+		StopPointerPolling();
 		if (_window.IsMouseCaptured)
 		{
 			_window.ReleaseMouseCapture();

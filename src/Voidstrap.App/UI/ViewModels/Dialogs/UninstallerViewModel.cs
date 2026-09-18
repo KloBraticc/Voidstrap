@@ -7,7 +7,7 @@ namespace Voidstrap.UI.ViewModels.Dialogs;
 
 public class UninstallerViewModel
 {
-	public string Text => string.Format(Strings.Uninstaller_Text, "https://voidstrapp.pages.dev/documentation#issues", Paths.Base);
+	public string Text => string.Format(Strings.Uninstaller_Text, App.ProjectIssuesLink, Paths.Base);
 
 	public bool KeepData { get; set; } = true;
 

@@ -1,4 +1,4 @@
-﻿using Timer = System.Timers.Timer;
+using Timer = System.Timers.Timer;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -45,7 +45,7 @@ public class CompletionViewModel : ObservableObject, IDisposable
 		}
 		set
 		{
-			SetProperty(ref _showLoadingError, value, "ShowLoadingError");
+			SetProperty(ref _showLoadingError, value, nameof(ShowLoadingError));
 		}
 	}
 
@@ -57,7 +57,7 @@ public class CompletionViewModel : ObservableObject, IDisposable
 		}
 		set
 		{
-			SetProperty(ref _channelInfoLoadingText, value, "ChannelInfoLoadingText");
+			SetProperty(ref _channelInfoLoadingText, value, nameof(ChannelInfoLoadingText));
 		}
 	}
 
@@ -69,7 +69,7 @@ public class CompletionViewModel : ObservableObject, IDisposable
 		}
 		set
 		{
-			SetProperty(ref _channelDeployInfo, value, "ChannelDeployInfo");
+			SetProperty(ref _channelDeployInfo, value, nameof(ChannelDeployInfo));
 		}
 	}
 
@@ -81,7 +81,7 @@ public class CompletionViewModel : ObservableObject, IDisposable
 		}
 		set
 		{
-			SetProperty(ref _showChannelWarning, value, "ShowChannelWarning");
+			SetProperty(ref _showChannelWarning, value, nameof(ShowChannelWarning));
 		}
 	}
 
@@ -97,8 +97,8 @@ public class CompletionViewModel : ObservableObject, IDisposable
 			if (!(_viewChannel == text))
 			{
 				_viewChannel = text;
-				OnPropertyChanged("ViewChannel");
-				LoadChannelDeployInfoAsync(text);
+				OnPropertyChanged(nameof(ViewChannel));
+				_ = LoadChannelDeployInfoAsync(text);
 				App.Settings.Prop.Channel = text;
 				_saveTimer.Stop();
 				_saveTimer.Start();
@@ -124,10 +124,10 @@ public class CompletionViewModel : ObservableObject, IDisposable
 		});
 		OpenAboutCommand = new RelayCommand(delegate
 		{
-			new Voidstrap.UI.Elements.About.MainWindow().ShowDialog();
+			new Voidstrap.UI.Elements.About.MainWindow().ShowOwnedDialog();
 		});
 		_viewChannel = App.Settings.Prop.Channel;
-		LoadChannelDeployInfoAsync(App.Settings.Prop.Channel);
+		_ = LoadChannelDeployInfoAsync(App.Settings.Prop.Channel);
 		_saveTimer.Elapsed += OnSaveTimerElapsed;
 		_saveTimer.AutoReset = false;
 	}
@@ -161,13 +161,34 @@ public class CompletionViewModel : ObservableObject, IDisposable
 
 		try
 		{
-			System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+			System.Diagnostics.ProcessStartInfo startInfo = new()
 			{
 				FileName = executable,
-				Arguments = flags,
-				UseShellExecute = true,
+				UseShellExecute = !Voidstrap.Utility.Platform.IsLinux,
 				WorkingDirectory = System.IO.Path.GetDirectoryName(executable) ?? ""
-			});
+			};
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				string? setsid = new Voidstrap.Core.SystemProcessService().FindExecutable("setsid");
+				if (!string.IsNullOrWhiteSpace(setsid))
+				{
+					startInfo.FileName = setsid;
+					startInfo.CreateNoWindow = true;
+					startInfo.ArgumentList.Add("--fork");
+					startInfo.ArgumentList.Add(executable);
+				}
+				startInfo.ArgumentList.Add(flags);
+			}
+			else
+			{
+				startInfo.Arguments = flags;
+			}
+
+			using System.Diagnostics.Process? successor = System.Diagnostics.Process.Start(startInfo);
+			if (successor == null)
+			{
+				throw new InvalidOperationException("The installed Voidstrap executable did not start");
+			}
 			App.Logger.WriteLine("CompletionViewModel", "Restarting Voidstrap with " + flags);
 			App.Terminate();
 			return true;
@@ -202,9 +223,9 @@ public class CompletionViewModel : ObservableObject, IDisposable
 			ShowLoadingError = false;
 			ChannelDeployInfo = null;
 			ChannelInfoLoadingText = "Fetching latest deploy info, please wait...";
-			OnPropertyChanged("ShowLoadingError");
-			OnPropertyChanged("ChannelDeployInfo");
-			OnPropertyChanged("ChannelInfoLoadingText");
+			OnPropertyChanged(nameof(ShowLoadingError));
+			OnPropertyChanged(nameof(ChannelDeployInfo));
+			OnPropertyChanged(nameof(ChannelInfoLoadingText));
 			ClientVersion clientVersion = await Deployment.GetInfo(channel);
 			if (_disposed || generation != _loadGeneration)
 			{
@@ -217,8 +238,8 @@ public class CompletionViewModel : ObservableObject, IDisposable
 				VersionGuid = clientVersion.VersionGuid
 			};
 			App.State.Prop.IgnoreOutdatedChannel = true;
-			OnPropertyChanged("ShowChannelWarning");
-			OnPropertyChanged("ChannelDeployInfo");
+			OnPropertyChanged(nameof(ShowChannelWarning));
+			OnPropertyChanged(nameof(ChannelDeployInfo));
 		}
 		catch (HttpRequestException)
 		{
@@ -239,8 +260,8 @@ public class CompletionViewModel : ObservableObject, IDisposable
 		{
 			if (!_disposed && generation == _loadGeneration)
 			{
-				OnPropertyChanged("ShowLoadingError");
-				OnPropertyChanged("ChannelInfoLoadingText");
+				OnPropertyChanged(nameof(ShowLoadingError));
+				OnPropertyChanged(nameof(ChannelInfoLoadingText));
 			}
 		}
 	}

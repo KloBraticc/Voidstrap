@@ -10,121 +10,7 @@ namespace Voidstrap.UI.ViewModels.Settings;
 
 public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 {
-	private string _runtimeStatus = "Checking for Sober";
-	private bool _isBusy;
-	private bool _canInstall;
-
 	public sealed record Choice<T>(T Value, string Display);
-
-	public SoberViewModel()
-	{
-		if (Voidstrap.Utility.Platform.IsLinux)
-			_ = RefreshRuntimeAsync();
-		else
-			_runtimeStatus = "Sober is only available on Linux";
-	}
-
-	public Visibility RuntimeVisibility => Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
-
-	public string RuntimeStatus
-	{
-		get => _runtimeStatus;
-		private set
-		{
-			if (string.Equals(_runtimeStatus, value, StringComparison.Ordinal))
-				return;
-			_runtimeStatus = value;
-			OnPropertyChanged();
-		}
-	}
-
-	public bool IsBusy
-	{
-		get => _isBusy;
-		private set
-		{
-			if (_isBusy == value)
-				return;
-			_isBusy = value;
-			OnPropertyChanged();
-			OnPropertyChanged(nameof(IsIdle));
-			OnPropertyChanged(nameof(CanInstall));
-		}
-	}
-
-	public bool IsIdle => !_isBusy;
-
-	public bool CanInstall
-	{
-		get => _canInstall && !_isBusy;
-		private set
-		{
-			if (_canInstall == value)
-				return;
-			_canInstall = value;
-			OnPropertyChanged();
-		}
-	}
-
-	public ICommand InstallRuntimeCommand => new AsyncRelayCommand(InstallRuntimeAsync);
-
-	public ICommand RefreshRuntimeCommand => new AsyncRelayCommand(RefreshRuntimeAsync);
-
-	private async Task RefreshRuntimeAsync()
-	{
-		if (!Voidstrap.Utility.Platform.IsLinux || IsBusy)
-			return;
-
-		IsBusy = true;
-		try
-		{
-			SoberInstallationState state = await new LinuxSoberInstaller(new SystemProcessService()).DetectAsync();
-			RuntimeStatus = state.Message;
-			CanInstall = state.Status != SoberInstallationStatus.FlatpakMissing;
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("SoberViewModel::RefreshRuntime", "Sober detection failed: " + ex.Message);
-			RuntimeStatus = "Sober could not be detected";
-			CanInstall = true;
-		}
-		finally
-		{
-			IsBusy = false;
-		}
-	}
-
-	private async Task InstallRuntimeAsync()
-	{
-		if (!Voidstrap.Utility.Platform.IsLinux || IsBusy)
-			return;
-
-		IsBusy = true;
-		RuntimeStatus = "Installing Sober, this can take a while";
-		try
-		{
-			OperationResult result = await new LinuxSoberInstaller(new SystemProcessService()).InstallAsync();
-			if (!result.Succeeded)
-			{
-				string message = result.Failure?.Message ?? "Sober could not be installed";
-				App.Logger.WriteLine("SoberViewModel::InstallRuntime", message);
-				RuntimeStatus = message;
-				return;
-			}
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("SoberViewModel::InstallRuntime", "Sober install failed: " + ex.Message);
-			RuntimeStatus = "Sober could not be installed: " + ex.Message;
-			return;
-		}
-		finally
-		{
-			IsBusy = false;
-		}
-
-		await RefreshRuntimeAsync();
-	}
 
 	public IReadOnlyList<Choice<bool?>> BooleanChoices { get; } =
 	[
@@ -149,6 +35,231 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 		new Choice<SoberTouchMode?>(SoberTouchMode.FakeOff, Strings.Menu_Sober_TouchMode_FakeOff)
 	];
 
+	private bool _uninstalling;
+	private bool _installed;
+	private string _status = "Checking for Sober...";
+
+	public SoberViewModel()
+	{
+		_ = RefreshInstallationAsync();
+	}
+
+	public string InstallationStatus
+	{
+		get => _status;
+		private set
+		{
+			if (string.Equals(_status, value, StringComparison.Ordinal))
+				return;
+			_status = value;
+			OnPropertyChanged(nameof(InstallationStatus));
+		}
+	}
+
+	public bool CanUninstall
+	{
+		get => !_uninstalling && _installed;
+	}
+
+	public string UninstallDescription => InstallationStatus;
+
+	private async Task RefreshInstallationAsync()
+	{
+		try
+		{
+			SoberInstallationState state = await new Voidstrap.Platform.Linux.LinuxSoberInstaller(new Voidstrap.Core.SystemProcessService())
+				.DetectAsync()
+				.ConfigureAwait(true);
+
+			_installed = state.Status == SoberInstallationStatus.Installed;
+			InstallationStatus = state.Message;
+		}
+		catch (Exception ex)
+		{
+			_installed = false;
+			InstallationStatus = "Sober could not be detected: " + ex.Message;
+		}
+		finally
+		{
+			OnPropertyChanged(nameof(CanUninstall));
+			OnPropertyChanged(nameof(UninstallDescription));
+		}
+	}
+
+	private void RefreshUninstallState()
+	{
+		OnPropertyChanged(nameof(CanUninstall));
+		OnPropertyChanged(nameof(UninstallDescription));
+	}
+
+	public ICommand UninstallSoberCommand => new RelayCommand(UninstallSober);
+
+	private void UninstallSober()
+	{
+		if (_uninstalling)
+			return;
+
+		MessageBoxResult answer = Frontend.ShowMessageBox(
+			"Remove Sober and all of its data? Roblox will need to be downloaded again.",
+			MessageBoxImage.Warning,
+			MessageBoxButton.YesNo);
+
+		if (answer != MessageBoxResult.Yes)
+			return;
+
+		_uninstalling = true;
+		RefreshUninstallState();
+		InstallationStatus = "Removing Sober...";
+
+		_ = RunUninstallAsync();
+	}
+
+	private async Task RunUninstallAsync()
+	{
+		try
+		{
+			Voidstrap.Platform.OperationResult result = await new Voidstrap.Platform.Linux.LinuxSoberInstaller(new Voidstrap.Core.SystemProcessService())
+				.UninstallAsync()
+				.ConfigureAwait(true);
+
+			Frontend.ShowMessageBox(
+				result.Succeeded ? "Sober has been removed." : result.Failure?.Message ?? "Sober could not be removed",
+				result.Succeeded ? MessageBoxImage.Information : MessageBoxImage.Error,
+				MessageBoxButton.OK);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("SoberViewModel::Uninstall", ex);
+		}
+		finally
+		{
+			_uninstalling = false;
+			await RefreshInstallationAsync().ConfigureAwait(true);
+		}
+	}
+
+	public bool AutoFullscreen
+	{
+		get => App.Settings.Prop.SoberAutoFullscreen;
+		set
+		{
+			if (App.Settings.Prop.SoberAutoFullscreen == value)
+				return;
+
+			App.Settings.Prop.SoberAutoFullscreen = value;
+			OnPropertyChanged(nameof(AutoFullscreen));
+		}
+	}
+
+	public IReadOnlyList<Choice<int>> SharpnessChoices { get; } =
+	[
+		new Choice<int>(0, "Off"),
+		new Choice<int>(30, "Light"),
+		new Choice<int>(50, "Medium"),
+		new Choice<int>(75, "Strong"),
+		new Choice<int>(100, "Maximum")
+	];
+
+	public Choice<int> SharpnessChoice
+	{
+		get
+		{
+			int current = App.Settings.Prop.SoberSharpness;
+
+			foreach (Choice<int> choice in SharpnessChoices)
+			{
+				if (choice.Value == current)
+					return choice;
+			}
+
+			return SharpnessChoices[0];
+		}
+		set
+		{
+			int resolved = value?.Value ?? 0;
+
+			if (App.Settings.Prop.SoberSharpness == resolved)
+				return;
+
+			App.Settings.Prop.SoberSharpness = resolved;
+			OnPropertyChanged(nameof(SharpnessChoice));
+		}
+	}
+
+	public Choice<bool?> AllowGamepadPermissionChoice
+	{
+		get => ResolveChoice(BooleanChoices, AllowGamepadPermission);
+		set => AllowGamepadPermission = value?.Value;
+	}
+
+	public Choice<bool?> CloseOnLeaveChoice
+	{
+		get => ResolveChoice(BooleanChoices, CloseOnLeave);
+		set => CloseOnLeave = value?.Value;
+	}
+
+
+
+	public Choice<bool?> EnableGameModeChoice
+	{
+		get => ResolveChoice(BooleanChoices, EnableGameMode);
+		set => EnableGameMode = value?.Value;
+	}
+
+	public Choice<bool?> EnableHiDpiChoice
+	{
+		get => ResolveChoice(BooleanChoices, EnableHiDpi);
+		set => EnableHiDpi = value?.Value;
+	}
+
+	public Choice<bool?> EnableMobileHomeScreenChoice
+	{
+		get => ResolveChoice(BooleanChoices, EnableMobileHomeScreen);
+		set => EnableMobileHomeScreen = value?.Value;
+	}
+
+	public Choice<SoberGraphicsOptimizationMode?> GraphicsOptimizationModeChoice
+	{
+		get => ResolveChoice(GraphicsChoices, GraphicsOptimizationMode);
+		set => GraphicsOptimizationMode = value?.Value;
+	}
+
+
+	public Choice<SoberTouchMode?> TouchModeChoice
+	{
+		get => ResolveChoice(TouchChoices, TouchMode);
+		set => TouchMode = value?.Value;
+	}
+
+	public Choice<bool?> UseConsoleExperienceChoice
+	{
+		get => ResolveChoice(BooleanChoices, UseConsoleExperience);
+		set => UseConsoleExperience = value?.Value;
+	}
+
+	public Choice<bool?> UseLibsecretChoice
+	{
+		get => ResolveChoice(BooleanChoices, UseLibsecret);
+		set => UseLibsecret = value?.Value;
+	}
+
+	public Choice<bool?> UseOpenGlChoice
+	{
+		get => ResolveChoice(BooleanChoices, UseOpenGl);
+		set => UseOpenGl = value?.Value;
+	}
+
+	private static Choice<T> ResolveChoice<T>(IReadOnlyList<Choice<T>> choices, T value)
+	{
+		foreach (Choice<T> choice in choices)
+		{
+			if (EqualityComparer<T>.Default.Equals(choice.Value, value))
+				return choice;
+		}
+
+		return choices[0];
+	}
+
 	public bool? AllowGamepadPermission
 	{
 		get => App.Settings.Prop.SoberAllowGamepadPermission;
@@ -161,17 +272,7 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 		set => SetValue(App.Settings.Prop.SoberCloseOnLeave, value, updated => App.Settings.Prop.SoberCloseOnLeave = updated);
 	}
 
-	public bool? DiscordRpcEnabled
-	{
-		get => App.Settings.Prop.SoberDiscordRpcEnabled;
-		set => SetValue(App.Settings.Prop.SoberDiscordRpcEnabled, value, updated => App.Settings.Prop.SoberDiscordRpcEnabled = updated);
-	}
 
-	public bool? DiscordRpcShowJoinButton
-	{
-		get => App.Settings.Prop.SoberDiscordRpcShowJoinButton;
-		set => SetValue(App.Settings.Prop.SoberDiscordRpcShowJoinButton, value, updated => App.Settings.Prop.SoberDiscordRpcShowJoinButton = updated);
-	}
 
 	public bool? EnableGameMode
 	{
@@ -197,11 +298,6 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 		set => SetValue(App.Settings.Prop.SoberGraphicsOptimizationMode, value, updated => App.Settings.Prop.SoberGraphicsOptimizationMode = updated);
 	}
 
-	public bool? ServerLocationIndicatorEnabled
-	{
-		get => App.Settings.Prop.SoberServerLocationIndicatorEnabled;
-		set => SetValue(App.Settings.Prop.SoberServerLocationIndicatorEnabled, value, updated => App.Settings.Prop.SoberServerLocationIndicatorEnabled = updated);
-	}
 
 	public SoberTouchMode? TouchMode
 	{

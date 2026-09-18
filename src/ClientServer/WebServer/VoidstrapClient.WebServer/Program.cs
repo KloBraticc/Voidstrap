@@ -21,7 +21,7 @@ public class Program
 		if (request.Path.Value != null && request.Path.Value.StartsWith("//"))
 		{
 			string value = request.Path.Value;
-			request.Path = new PathString(value.Substring(1, value.Length - 1));
+			request.Path = new PathString(value.Substring(1));
 		}
 	}
 
@@ -45,8 +45,9 @@ public class Program
 	private static readonly object _unhandledLogLock = new object();
 	private static long _unhandledWindowStarted = Environment.TickCount64;
 	private static int _unhandledInWindow;
+    private static readonly char[] separator = new char[] { ';', ',' };
 
-	private static bool ShouldLogUnhandled()
+    private static bool ShouldLogUnhandled()
 	{
 		lock (_unhandledLogLock)
 		{
@@ -111,12 +112,12 @@ public class Program
 			if (text2.StartsWith("--client="))
 			{
 				string text3 = text2;
-				text = text3.Substring(9, text3.Length - 9).Trim();
+				text = text3.Substring(9).Trim();
 			}
 			else if (text2.StartsWith("--pid="))
 			{
 				string text3 = text2;
-				string text4 = text3.Substring(6, text3.Length - 6).Trim();
+				string text4 = text3.Substring(6).Trim();
 				if (!int.TryParse(text4, out processId))
 				{
 					Logger.Instance.Warn("Invalid process ID provided: " + text4);
@@ -150,7 +151,7 @@ public class Program
 				options.UrlPrefixes.Clear();
 				if (!string.IsNullOrWhiteSpace(httpSysPrefixes))
 				{
-					foreach (string prefix in httpSysPrefixes.Split(new char[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries))
+					foreach (string prefix in httpSysPrefixes.Split(separator, StringSplitOptions.RemoveEmptyEntries))
 					{
 						string trimmed = prefix.Trim();
 						if (trimmed.Length > 0)

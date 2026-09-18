@@ -88,24 +88,24 @@ public class VoidstrapViewModel : NotifyPropertyChangedViewModel
 				App.State.FileLocation,
 				App.FastFlags.FileLocation
 			};
-			AddFilesToZipStream(zipOutputStream, files, "Config/");
+            AddFilesToZipStream(zipOutputStream, files, "Config/");
 		}
 		if (ShouldExportLogs && Directory.Exists(Paths.Logs))
 		{
 			IEnumerable<string> files2 = from x in Directory.GetFiles(Paths.Logs)
 				where !x.Equals(App.Logger.FileLocation, StringComparison.OrdinalIgnoreCase)
 				select x;
-			AddFilesToZipStream(zipOutputStream, files2, "Logs/");
+            AddFilesToZipStream(zipOutputStream, files2, "Logs/");
 		}
 		zipOutputStream.CloseEntry();
 		zipOutputStream.Finish();
 		memoryStream.Position = 0L;
 		using FileStream destination = new(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.None);
 		memoryStream.CopyTo(destination);
-		Process.Start("explorer.exe", "/select,\"" + saveFileDialog.FileName + "\"");
+		Voidstrap.Utility.PlatformShell.TryRevealFile(saveFileDialog.FileName);
 	}
 
-	private void AddFilesToZipStream(ZipOutputStream zipStream, IEnumerable<string> files, string directory)
+	private static void AddFilesToZipStream(ZipOutputStream zipStream, IEnumerable<string> files, string directory)
 	{
 		foreach (string file in files)
 		{

@@ -22,8 +22,7 @@ public static class ControlsServices
     /// <exception cref="ArgumentNullException"></exception>
     public static void Initialize(IServiceProvider serviceProvider)
     {
-        if (serviceProvider == null)
-            throw new ArgumentNullException(nameof(serviceProvider));
+        ArgumentNullException.ThrowIfNull(serviceProvider);
 
         ControlsServiceProvider = serviceProvider;
     }

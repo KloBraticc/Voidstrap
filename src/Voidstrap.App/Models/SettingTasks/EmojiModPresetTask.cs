@@ -15,9 +15,9 @@ namespace Voidstrap.Models.SettingTasks;
 
 public class EmojiModPresetTask : EnumBaseTask<EmojiType>
 {
-	private string _filePath => Path.Combine(Paths.Mods, "content", "fonts", "TwemojiMozilla.ttf");
+	private static string _filePath => Path.Combine(Paths.Mods, "content", "fonts", "TwemojiMozilla.ttf");
 
-	private IEnumerable<KeyValuePair<EmojiType, string>>? QueryCurrentValue()
+	private static IEnumerable<KeyValuePair<EmojiType, string>>? QueryCurrentValue()
 	{
 		if (!File.Exists(_filePath))
 		{
@@ -31,7 +31,7 @@ public class EmojiModPresetTask : EnumBaseTask<EmojiType>
 	public EmojiModPresetTask()
 		: base("ModPreset", "EmojiFont")
 	{
-		IEnumerable<KeyValuePair<EmojiType, string>> enumerable = QueryCurrentValue();
+		IEnumerable<KeyValuePair<EmojiType, string>>? enumerable = QueryCurrentValue();
 		if (enumerable != null)
 		{
 			OriginalState = enumerable.FirstOrDefault().Key;
@@ -45,7 +45,7 @@ public class EmojiModPresetTask : EnumBaseTask<EmojiType>
 
 	public override async Task ExecuteAsync()
 	{
-		IEnumerable<KeyValuePair<EmojiType, string>> enumerable = QueryCurrentValue();
+		IEnumerable<KeyValuePair<EmojiType, string>>? enumerable = QueryCurrentValue();
 		if (NewState != EmojiType.Default && (enumerable == null || enumerable.FirstOrDefault().Key != NewState))
 		{
 			try
@@ -59,7 +59,7 @@ public class EmojiModPresetTask : EnumBaseTask<EmojiType>
 				string temporary = _filePath + "." + Guid.NewGuid().ToString("N") + ".download";
 				try
 				{
-					await ResilientDownload.DownloadAsync(App.HttpClient, [NewState.GetUrl()], temporary, EmojiTypeEx.Sizes[NewState], CancellationToken.None, "sha256:" + NewState.GetHash()).ConfigureAwait(false);
+					await ResilientDownload.DownloadAsync(App.HttpClient, [NewState.GetUrl()], temporary, EmojiTypeEx.Sizes[NewState], "sha256:" + NewState.GetHash()).ConfigureAwait(false);
 					Filesystem.AssertReadOnly(_filePath);
 					File.Move(temporary, _filePath, true);
 				}

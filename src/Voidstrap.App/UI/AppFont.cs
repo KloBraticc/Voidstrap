@@ -1,4 +1,4 @@
-using FontFamily = System.Windows.Media.FontFamily;
+﻿using FontFamily = System.Windows.Media.FontFamily;
 using System;
 using System.IO;
 using System.Linq;
@@ -15,9 +15,29 @@ public static class AppFont
 
 	private static FontFamily? _current;
 
+	private static readonly FontFamily LinuxWpfUiFontFamily = new("Inter 18pt, Selawik, Segoe UI Variable, Segoe UI, Ubuntu, Cantarell, Noto Sans, DejaVu Sans, Liberation Sans");
+
 	public static bool HasCustomFont => _current != null;
 
-	public static FontFamily CurrentFontFamily => _current ?? new FontFamily("Segoe UI");
+	public static FontFamily CurrentFontFamily => _current ?? DefaultFontFamily;
+
+	private static FontFamily DefaultFontFamily
+	{
+		get
+		{
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				return LinuxWpfUiFontFamily;
+			}
+
+			if (Application.Current?.TryFindResource("ContentControlThemeFontFamily") is FontFamily fontFamily)
+			{
+				return fontFamily;
+			}
+
+			return new FontFamily("Segoe UI");
+		}
+	}
 
 	public static string CurrentFontName
 	{
@@ -41,6 +61,11 @@ public static class AppFont
 
 	public static void Initialize()
 	{
+		if (Voidstrap.Utility.Platform.IsLinux && Application.Current != null)
+		{
+			Application.Current.Resources["ContentControlThemeFontFamily"] = LinuxWpfUiFontFamily;
+			Application.Current.Resources[SystemFonts.MessageFontFamilyKey] = LinuxWpfUiFontFamily;
+		}
 		Load();
 		Register();
 		ApplyToAllWindows();
@@ -81,15 +106,15 @@ public static class AppFont
 
 	public static void Apply(Window window)
 	{
-		if (window == null || window is not WpfUiWindow)
+		if (window == null || !Voidstrap.Utility.Platform.IsLinux && window is not WpfUiWindow)
 		{
 			return;
 		}
 		try
 		{
-			if (_current != null)
+			if (_current != null || Voidstrap.Utility.Platform.IsLinux)
 			{
-				window.FontFamily = _current;
+				window.FontFamily = CurrentFontFamily;
 			}
 			else
 			{

@@ -23,21 +23,18 @@ public sealed class RelayCommand : ICommand
 
 	public RelayCommand(Action<object?> execute, Predicate<object?>? canExecute = null)
 	{
-		_execute = execute ?? throw new ArgumentNullException("execute");
+		_execute = execute ?? throw new ArgumentNullException(nameof(execute));
 		_canExecute = canExecute;
 	}
 
 	public RelayCommand(Action execute, Func<bool>? canExecute = null)
 	{
-		if (execute == null)
-		{
-			throw new ArgumentNullException("execute");
-		}
-		_execute = delegate
+        ArgumentNullException.ThrowIfNull(execute);
+        _execute = delegate
 		{
 			execute();
 		};
-		_canExecute = ((canExecute == null) ? null : ((Predicate<object>)((object? _) => canExecute())));
+		_canExecute = ((canExecute == null) ? null : ((Predicate<object?>)((object? _) => canExecute())));
 	}
 
 	public bool CanExecute(object? parameter)

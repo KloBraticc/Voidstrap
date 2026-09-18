@@ -1,11 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shell;
 using Voidstrap.Enums;
 using Voidstrap.Extensions;
@@ -15,6 +18,32 @@ namespace Voidstrap.UI;
 
 public static partial class WindowBackdrop
 {
+    private const double MicaAccentTint = 1.0;
+
+    private const double MicaSaturationBoost = 2.4;
+
+    private const double MaxSurfaceSaturation = 1.0;
+
+    private const double MinimumAccentSaturation = 0.12;
+
+    private const int AccentCacheMs = 5000;
+
+    private const int FlatGradientTolerance = 3;
+
+    private static readonly bool HardwareRendering = (RenderCapability.Tier >> 16) > 0;
+
+    private static readonly object _surfaceGate = new object();
+
+    private static readonly Dictionary<(uint, uint), Color> _vibrantCache = new Dictionary<(uint, uint), Color>();
+
+    private static Brush? _cachedSurfaceBrush;
+
+    private static (uint, uint, uint, byte, uint) _cachedSurfaceKey;
+
+    private static Color _accentColor;
+
+    private static long _accentReadTicks = long.MinValue;
+
     private const int DwmwaMicaEffect = 1029;
     private const int DwmwaSystemBackdropType = 38;
     private const int DwmwaWindowCornerPreference = 33;
@@ -24,7 +53,7 @@ public static partial class WindowBackdrop
     private const int AccentEnableAcrylicBlurBehind = 4;
     private const int AccentFlagUseGradientColor = 2;
 
-    private static readonly ConditionalWeakTable<Window, object> _backdropWindows = new();
+    private static readonly ConditionalWeakTable<Window, object?> _backdropWindows = new();
 
     private static readonly ConditionalWeakTable<Window, string> _appliedBackdrops = new();
 
@@ -32,7 +61,7 @@ public static partial class WindowBackdrop
 
     private static Wpf.Ui.Appearance.BackgroundType _contextMenuBackdrop = Wpf.Ui.Appearance.BackgroundType.None;
 
-    private static readonly ConditionalWeakTable<Window, object> _renderHooked = new();
+    private static readonly ConditionalWeakTable<Window, object?> _renderHooked = new();
 
     private sealed class BackdropOverride
     {
@@ -123,10 +152,6 @@ public static partial class WindowBackdrop
         {
             return;
         }
-        if (window.AllowsTransparency)
-        {
-            return;
-        }
         if (!window.Dispatcher.CheckAccess())
         {
             if (window.Dispatcher.HasShutdownStarted || window.Dispatcher.HasShutdownFinished)
@@ -134,6 +159,15 @@ public static partial class WindowBackdrop
                 return;
             }
             window.Dispatcher.BeginInvoke(() => ApplyBackdrop(window));
+            return;
+        }
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            ApplyLinuxSurface(window);
+            return;
+        }
+        if (window.AllowsTransparency)
+        {
             return;
         }
         if (!Voidstrap.Utility.Platform.IsWindows)
@@ -249,6 +283,17 @@ public static partial class WindowBackdrop
         {
             return;
         }
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            contextMenu.Background = CreateLinuxSurfaceBrush();
+            if (PresentationSource.FromVisual(contextMenu) is HwndSource linuxSource
+                && linuxSource.Handle != IntPtr.Zero
+                && linuxSource.CompositionTarget is { } target)
+            {
+                target.BackgroundColor = CreateSurfaceColor(BackdropType.None);
+            }
+            return;
+        }
         if (!Voidstrap.Utility.Platform.IsWindows)
         {
             Color color = CreateSurfaceColor();
@@ -264,6 +309,10 @@ public static partial class WindowBackdrop
         }
         IntPtr handle = source.Handle;
         Wpf.Ui.Appearance.BackgroundType backgroundType = Resolve(App.Settings.Prop.WindowBackdrop);
+        if (backgroundType == Wpf.Ui.Appearance.BackgroundType.Aero)
+        {
+            backgroundType = Wpf.Ui.Appearance.BackgroundType.None;
+        }
         if (_contextMenuHandle == handle && _contextMenuBackdrop == backgroundType && contextMenu.Background != null)
         {
             return;
@@ -288,11 +337,14 @@ public static partial class WindowBackdrop
                     applied = VerifyAppliedBackdrop(handle, backgroundType, applied, null);
                 }
             }
-            if (applied && backgroundType != Wpf.Ui.Appearance.BackgroundType.None)
+            Brush surface = applied && backgroundType != Wpf.Ui.Appearance.BackgroundType.None
+                ? CreateSurfaceBrush(contextMenu)
+                : Brushes.Transparent;
+            if (applied && backgroundType != Wpf.Ui.Appearance.BackgroundType.None && !IsFullyTransparent(surface))
             {
                 if (source.CompositionTarget is { } target)
                     target.BackgroundColor = Colors.Transparent;
-                contextMenu.Background = CreateSurfaceBrush(contextMenu);
+                contextMenu.Background = surface;
             }
             else
             {
@@ -309,6 +361,26 @@ public static partial class WindowBackdrop
         {
             App.Logger.WriteException("WindowBackdrop::ApplyContextMenu", ex);
         }
+    }
+
+    private static bool IsFullyTransparent(Brush brush)
+    {
+        if (brush is SolidColorBrush solid)
+        {
+            return solid.Color.A == 0;
+        }
+        if (brush is GradientBrush gradient)
+        {
+            foreach (GradientStop stop in gradient.GradientStops)
+            {
+                if (stop.Color.A != 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     private static BackdropType EffectiveBackdrop(Window? window)
@@ -493,6 +565,7 @@ public static partial class WindowBackdrop
             application.Dispatcher.BeginInvoke((Action)ApplyThemeToAllOpenWindows);
             return;
         }
+        InvalidateSurfaceCache();
         foreach (Window window in application.Windows.Cast<Window>().ToArray())
         {
             _appliedBackdrops.Remove(window);
@@ -535,6 +608,10 @@ public static partial class WindowBackdrop
 
     internal static bool HasBackdrop(Window window)
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            return false;
+        }
         return Resolve(EffectiveBackdrop(window)) != Wpf.Ui.Appearance.BackgroundType.None;
     }
 
@@ -574,11 +651,161 @@ public static partial class WindowBackdrop
 
     public static Color GetSurfaceColor(Color color)
     {
-        return Color.FromArgb(GetSurfaceOpacity(), color.R, color.G, color.B);
+        Color vibrant = Vibrant(color, EffectiveBackdrop(null));
+        return Color.FromArgb(GetSurfaceOpacity(), vibrant.R, vibrant.G, vibrant.B);
+    }
+
+    private static Color Vibrant(Color color, BackdropType backdrop)
+    {
+        if (backdrop == BackdropType.None || !Voidstrap.Utility.Platform.IsWindows)
+        {
+            return color;
+        }
+        Color accent = ResolveAccentColor();
+        (uint, uint) cacheKey = (Pack(color), Pack(accent));
+        lock (_surfaceGate)
+        {
+            if (_vibrantCache.TryGetValue(cacheKey, out Color cached))
+            {
+                return cached;
+            }
+        }
+        ToHsl(color, out double hue, out double saturation, out double lightness);
+        ToHsl(accent, out double accentHue, out double accentSaturation, out _);
+        if (accentSaturation >= MinimumAccentSaturation)
+        {
+            hue = accentHue;
+            saturation += (accentSaturation - saturation) * MicaAccentTint;
+        }
+        saturation = Math.Clamp(saturation * MicaSaturationBoost, 0.0, MaxSurfaceSaturation);
+        Color result = FromHsl(hue, saturation, lightness);
+        lock (_surfaceGate)
+        {
+            _vibrantCache[cacheKey] = result;
+        }
+        return result;
+    }
+
+    private static uint Pack(Color color)
+    {
+        return ((uint)color.A << 24) | ((uint)color.R << 16) | ((uint)color.G << 8) | color.B;
+    }
+
+    private static Color ResolveAccentColor()
+    {
+        long now = Environment.TickCount64;
+        if (now - Volatile.Read(ref _accentReadTicks) < AccentCacheMs)
+        {
+            return _accentColor;
+        }
+        try
+        {
+            _accentColor = SystemParameters.WindowGlassColor;
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine("WindowBackdrop::ResolveAccentColor", "The system accent colour could not be read: " + ex.Message);
+            _accentColor = Colors.Transparent;
+        }
+        Volatile.Write(ref _accentReadTicks, now);
+        return _accentColor;
+    }
+
+    internal static void InvalidateSurfaceCache()
+    {
+        lock (_surfaceGate)
+        {
+            _cachedSurfaceBrush = null;
+            _vibrantCache.Clear();
+        }
+        Volatile.Write(ref _accentReadTicks, long.MinValue);
+    }
+
+    private static bool NearlyEqual(Color first, Color second)
+    {
+        return Math.Abs(first.R - second.R) <= FlatGradientTolerance
+            && Math.Abs(first.G - second.G) <= FlatGradientTolerance
+            && Math.Abs(first.B - second.B) <= FlatGradientTolerance;
+    }
+
+    private static void ToHsl(Color color, out double hue, out double saturation, out double lightness)
+    {
+        double r = color.R / 255.0;
+        double g = color.G / 255.0;
+        double b = color.B / 255.0;
+        double max = Math.Max(r, Math.Max(g, b));
+        double min = Math.Min(r, Math.Min(g, b));
+        double delta = max - min;
+        lightness = (max + min) / 2.0;
+        if (delta <= 0.0)
+        {
+            hue = 0.0;
+            saturation = 0.0;
+            return;
+        }
+        saturation = lightness > 0.5 ? delta / (2.0 - max - min) : delta / (max + min);
+        if (max == r)
+        {
+            hue = ((g - b) / delta + (g < b ? 6.0 : 0.0)) / 6.0;
+        }
+        else if (max == g)
+        {
+            hue = ((b - r) / delta + 2.0) / 6.0;
+        }
+        else
+        {
+            hue = ((r - g) / delta + 4.0) / 6.0;
+        }
+    }
+
+    private static Color FromHsl(double hue, double saturation, double lightness)
+    {
+        if (saturation <= 0.0)
+        {
+            byte grey = (byte)Math.Clamp(Math.Round(lightness * 255.0), 0.0, 255.0);
+            return Color.FromRgb(grey, grey, grey);
+        }
+        double q = lightness < 0.5 ? lightness * (1.0 + saturation) : lightness + saturation - (lightness * saturation);
+        double p = (2.0 * lightness) - q;
+        return Color.FromRgb(Channel(p, q, hue + (1.0 / 3.0)), Channel(p, q, hue), Channel(p, q, hue - (1.0 / 3.0)));
+    }
+
+    private static byte Channel(double p, double q, double t)
+    {
+        if (t < 0.0)
+        {
+            t += 1.0;
+        }
+        if (t > 1.0)
+        {
+            t -= 1.0;
+        }
+        double value;
+        if (t < 1.0 / 6.0)
+        {
+            value = p + ((q - p) * 6.0 * t);
+        }
+        else if (t < 1.0 / 2.0)
+        {
+            value = q;
+        }
+        else if (t < 2.0 / 3.0)
+        {
+            value = p + ((q - p) * ((2.0 / 3.0) - t) * 6.0);
+        }
+        else
+        {
+            value = p;
+        }
+        return (byte)Math.Clamp(Math.Round(value * 255.0), 0.0, 255.0);
     }
 
     public static Brush CreateSurfaceBrush(FrameworkElement element)
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            return CreateLinuxSurfaceBrush();
+        }
         if (EffectiveBackdrop(element as Window) == BackdropType.Aero)
         {
             return Brushes.Transparent;
@@ -587,10 +814,66 @@ public static partial class WindowBackdrop
         Color primary = ResolveColor(element, "WindowBackgroundColorPrimary", fallback);
         Color secondary = ResolveColor(element, "WindowBackgroundColorSecondary", primary);
         Color third = ResolveColor(element, "WindowBackgroundColorThird", secondary);
-        if (primary.R == secondary.R && primary.G == secondary.G && primary.B == secondary.B
-            && primary.R == third.R && primary.G == third.G && primary.B == third.B)
+        (uint, uint, uint, byte, uint) surfaceKey = (Pack(primary), Pack(secondary), Pack(third), GetSurfaceOpacity(), Pack(ResolveAccentColor()));
+        lock (_surfaceGate)
         {
-            SolidColorBrush solid = new(GetSurfaceColor(primary));
+            if (_cachedSurfaceBrush != null && _cachedSurfaceKey.Equals(surfaceKey))
+            {
+                return _cachedSurfaceBrush;
+            }
+        }
+        Color surfacePrimary = GetSurfaceColor(primary);
+        Color surfaceSecondary = GetSurfaceColor(secondary);
+        Color surfaceThird = GetSurfaceColor(third);
+        Brush brush;
+        if (!HardwareRendering || (NearlyEqual(surfacePrimary, surfaceSecondary) && NearlyEqual(surfacePrimary, surfaceThird)))
+        {
+            SolidColorBrush solid = new(surfacePrimary);
+            if (solid.CanFreeze)
+            {
+                solid.Freeze();
+            }
+            brush = solid;
+        }
+        else
+        {
+            LinearGradientBrush gradient = new()
+            {
+                StartPoint = new Point(0, 0),
+                EndPoint = new Point(1, 1)
+            };
+            gradient.GradientStops.Add(new GradientStop(surfacePrimary, 0));
+            gradient.GradientStops.Add(new GradientStop(surfaceSecondary, 0.42));
+            gradient.GradientStops.Add(new GradientStop(surfaceThird, 0.78));
+            gradient.GradientStops.Add(new GradientStop(surfacePrimary, 1));
+            if (gradient.CanFreeze)
+            {
+                gradient.Freeze();
+            }
+            brush = gradient;
+        }
+        lock (_surfaceGate)
+        {
+            _cachedSurfaceBrush = brush;
+            _cachedSurfaceKey = surfaceKey;
+        }
+        return brush;
+    }
+
+    internal static Brush CreateOpaqueSurfaceBrush(FrameworkElement element)
+    {
+        Color fallback = CreateSurfaceColor(BackdropType.None);
+        fallback.A = byte.MaxValue;
+        Color primary = ResolveColor(element, "WindowBackgroundColorPrimary", fallback);
+        Color secondary = ResolveColor(element, "WindowBackgroundColorSecondary", primary);
+        Color third = ResolveColor(element, "WindowBackgroundColorThird", secondary);
+        double amount = GetSurfaceOpacity() / (double)byte.MaxValue;
+        primary = MixColor(fallback, primary, amount);
+        secondary = MixColor(fallback, secondary, amount);
+        third = MixColor(fallback, third, amount);
+        if (primary == secondary && primary == third)
+        {
+            SolidColorBrush solid = new(primary);
             if (solid.CanFreeze)
             {
                 solid.Freeze();
@@ -602,15 +885,41 @@ public static partial class WindowBackdrop
             StartPoint = new Point(0, 0),
             EndPoint = new Point(1, 1)
         };
-        gradient.GradientStops.Add(new GradientStop(GetSurfaceColor(primary), 0));
-        gradient.GradientStops.Add(new GradientStop(GetSurfaceColor(secondary), 0.42));
-        gradient.GradientStops.Add(new GradientStop(GetSurfaceColor(third), 0.78));
-        gradient.GradientStops.Add(new GradientStop(GetSurfaceColor(primary), 1));
+        gradient.GradientStops.Add(new GradientStop(primary, 0));
+        gradient.GradientStops.Add(new GradientStop(secondary, 0.42));
+        gradient.GradientStops.Add(new GradientStop(third, 0.78));
+        gradient.GradientStops.Add(new GradientStop(primary, 1));
         if (gradient.CanFreeze)
         {
             gradient.Freeze();
         }
         return gradient;
+    }
+
+    internal static Brush CreateLinuxSurfaceBrush()
+    {
+        Color opaque = CreateSurfaceColor(BackdropType.None);
+        opaque.A = byte.MaxValue;
+        SolidColorBrush brush = new(opaque);
+        if (brush.CanFreeze)
+        {
+            brush.Freeze();
+        }
+        return brush;
+    }
+
+    private static Color MixColor(Color first, Color second, double amount)
+    {
+        double factor = Math.Clamp(amount, 0, 1);
+        return Color.FromRgb(
+            (byte)Math.Round(first.R + ((second.R - first.R) * factor)),
+            (byte)Math.Round(first.G + ((second.G - first.G) * factor)),
+            (byte)Math.Round(first.B + ((second.B - first.B) * factor)));
+    }
+
+    private static Color WithAlpha(Color color, byte alpha)
+    {
+        return Color.FromArgb(alpha, color.R, color.G, color.B);
     }
 
     private static Color ResolveColor(FrameworkElement element, string key, Color fallback)
@@ -664,6 +973,17 @@ public static partial class WindowBackdrop
         }
     }
 
+    private static void ApplyLinuxSurface(Window window)
+    {
+        window.Background = CreateLinuxSurfaceBrush();
+        if (window is Voidstrap.UI.Elements.Settings.MainWindow mainWindow)
+        {
+            mainWindow.ApplyBackdropSurface();
+        }
+
+        _backdropWindows.Remove(window);
+    }
+
     internal static BackdropType ResolveFor(Window? window) => EffectiveBackdrop(window);
 
     internal static Color CreateSurfaceColor() => CreateSurfaceColor(App.Settings.Prop.WindowBackdrop);
@@ -682,15 +1002,19 @@ public static partial class WindowBackdrop
 
     private static byte GetSurfaceOpacity(BackdropType backdrop)
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            return byte.MaxValue;
+        }
         if (backdrop != BackdropType.Aero && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
         {
             return byte.MaxValue;
         }
         double opacity = backdrop switch
         {
-            BackdropType.MicaAlt => 62,
-            BackdropType.Mica => 74,
-            BackdropType.Acrylic => 54,
+            BackdropType.MicaAlt => 54,
+            BackdropType.Mica => 64,
+            BackdropType.Acrylic => 48,
             BackdropType.Aero => 92,
             BackdropType.None => byte.MaxValue,
             _ => 68
@@ -703,4 +1027,5 @@ public static partial class WindowBackdrop
         double scaled = opacity * (0.55 + (gradientOpacity * 0.45));
         return (byte)Math.Clamp(Math.Round(scaled), 24.0, byte.MaxValue);
     }
+
 }

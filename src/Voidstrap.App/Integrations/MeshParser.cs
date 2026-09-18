@@ -9,7 +9,7 @@ using Openize.Drako;
 
 namespace Voidstrap.Integrations;
 
-public static class MeshParser
+public static partial class MeshParser
 {
 	private const int MaxCount = 500000;
 
@@ -25,7 +25,7 @@ public static class MeshParser
 		}
 		int lineLen;
 		string text = ReadVersionLine(data, out lineLen);
-		Match match = Regex.Match(text, "version\\s+(\\d+)\\.(\\d+)", RegexOptions.IgnoreCase);
+		Match match = MeshVersionPattern.Match(text);
 		if (!match.Success)
 		{
 			throw new InvalidDataException("Not a Roblox mesh file");
@@ -139,7 +139,7 @@ public static class MeshParser
 	{
 		string input = Encoding.ASCII.GetString(data, lineLen, data.Length - lineLen);
 		List<Point3D> list = new List<Point3D>();
-		foreach (Match item in Regex.Matches(input, "\\[([^\\]]*)\\]"))
+		foreach (Match item in BracketGroupPattern.Matches(input))
 		{
 			if (list.Count >= MaxCount * 3)
 			{
@@ -422,4 +422,9 @@ public static class MeshParser
 		sb.Append(z.ToString("0.######", CultureInfo.InvariantCulture));
 		sb.Append(']');
 	}
+
+    [GeneratedRegex("version\\s+(\\d+)\\.(\\d+)", RegexOptions.IgnoreCase, "en-US")]
+    private static partial Regex MeshVersionPattern { get; }
+    [GeneratedRegex("\\[([^\\]]*)\\]")]
+    private static partial Regex BracketGroupPattern { get; }
 }

@@ -13,19 +13,32 @@ namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class BehaviourPage : UiPage{
 
+	private int _settingsRevision;
+
 	public BehaviourPage()
 	{
 		base.DataContext = new BehaviourViewModel();
 		InitializeComponent();
+		_settingsRevision = App.Settings.Revision;
 		base.Loaded += OnPageLoaded;
+		base.Unloaded += OnPageUnloaded;
 	}
 
 	private void OnPageLoaded(object sender, RoutedEventArgs e)
 	{
 		if (base.DataContext is BehaviourViewModel behaviourViewModel)
 		{
+			if (App.Settings.Revision != _settingsRevision)
+			{
+				behaviourViewModel.OnPropertyChanged(string.Empty);
+			}
 			behaviourViewModel.RefreshExcludedGames();
 		}
+	}
+
+	private void OnPageUnloaded(object sender, RoutedEventArgs e)
+	{
+		_settingsRevision = App.Settings.Revision;
 	}
 
 	private void ResetDatacenters_Click(object sender, RoutedEventArgs e)

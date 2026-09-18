@@ -10,7 +10,7 @@ using Voidstrap.Integrations.FrameGeneration;
 
 namespace Voidstrap.Integrations.Overlays
 {
-    public static class OverlayDiagnostics
+    public static partial class OverlayDiagnostics
     {
         private const int GWL_STYLE = -16;
         private const int GWL_EXSTYLE = -20;
@@ -37,7 +37,7 @@ namespace Voidstrap.Integrations.Overlays
                 _registeredHandles.Add(handle);
                 PublishHandlesLocked();
             }
-            SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOOWNERZORDER);
+            RaiseHandle(handle);
         }
 
         public static void UnregisterOverlayHandle(IntPtr handle)
@@ -97,7 +97,7 @@ namespace Voidstrap.Integrations.Overlays
                     if (handle != IntPtr.Zero)
                     {
                         handles.Add(handle);
-                        SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOOWNERZORDER);
+                        RaiseHandle(handle);
                     }
                 }
                 catch
@@ -115,20 +115,44 @@ namespace Voidstrap.Integrations.Overlays
 
         private static void PublishHandlesLocked()
         {
-            _registeredHandles.RemoveWhere(handle => handle == IntPtr.Zero || !IsWindow(handle));
-            _discoveredHandles.RemoveWhere(handle => handle == IntPtr.Zero || !IsWindow(handle));
+            _registeredHandles.RemoveWhere(handle => !IsLiveHandle(handle));
+            _discoveredHandles.RemoveWhere(handle => !IsLiveHandle(handle));
             var combined = new System.Collections.Generic.HashSet<IntPtr>(_registeredHandles);
             foreach (IntPtr handle in _discoveredHandles)
                 combined.Add(handle);
             Volatile.Write(ref _overlayHandles, combined.ToArray());
         }
 
+		private static bool IsLiveHandle(IntPtr handle)
+		{
+			if (handle == IntPtr.Zero)
+				return false;
+			return Voidstrap.Utility.Platform.IsLinux
+				? Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(handle)
+					|| Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(handle)
+				: IsWindow(handle);
+		}
+
+		private static void RaiseHandle(IntPtr handle)
+		{
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				if (Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(handle))
+					Voidstrap.Platform.Linux.LinuxWindowInterop.TryRaiseWindow(handle);
+				else
+					Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetAlwaysOnTop(handle);
+				return;
+			}
+			SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOOWNERZORDER);
+		}
+
         public static bool IsOverlayHandle(IntPtr handle)
         {
             if (handle == IntPtr.Zero)
                 return false;
             foreach (IntPtr overlay in Volatile.Read(ref _overlayHandles))
-                if (overlay == handle)
+				if (overlay == handle || Voidstrap.Utility.Platform.IsLinux
+					&& Voidstrap.Platform.Linux.LinuxWindowInterop.IsSameOrDescendantWindow(handle, overlay))
                     return true;
             return false;
         }
@@ -138,7 +162,6 @@ namespace Voidstrap.Integrations.Overlays
             string ns = window.GetType().Namespace ?? "";
             string name = window.GetType().Name;
             return ns.Contains("Overlay")
-                || ns.Contains("GameChat")
                 || name.Contains("Overlay")
                 || name.Contains("Crosshair")
                 || name.Contains("Cursor");
@@ -338,13 +361,33 @@ namespace Voidstrap.Integrations.Overlays
             return true;
         }
 
-        [DllImport("user32.dll")]
-        private static extern int GetWindowLong(IntPtr hwnd, int index);
+        [LibraryImport("user32.dll", EntryPoint = "GetWindowLongA")]
+        private static partial int NativeGetWindowLong(IntPtr hwnd, int index);
 
-        [DllImport("user32.dll")]
-        private static extern bool SetWindowPos(IntPtr hwnd, IntPtr insertAfter, int x, int y, int cx, int cy, uint flags);
+        [LibraryImport("user32.dll", EntryPoint = "SetWindowPos")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool NativeSetWindowPos(IntPtr hwnd, IntPtr insertAfter, int x, int y, int cx, int cy, uint flags);
 
-        [DllImport("user32.dll")]
-        private static extern bool IsWindow(IntPtr hwnd);
+        [LibraryImport("user32.dll", EntryPoint = "IsWindow")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool NativeIsWindow(IntPtr hwnd);
+
+        private static int GetWindowLong(IntPtr hwnd, int index)
+        {
+            return Voidstrap.Utility.Platform.IsWindows ? NativeGetWindowLong(hwnd, index) : 0;
+        }
+
+        private static bool SetWindowPos(IntPtr hwnd, IntPtr insertAfter, int x, int y, int cx, int cy, uint flags)
+        {
+            return Voidstrap.Utility.Platform.IsWindows && NativeSetWindowPos(hwnd, insertAfter, x, y, cx, cy, flags);
+        }
+
+        private static bool IsWindow(IntPtr hwnd)
+        {
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return hwnd != IntPtr.Zero;
+
+            return NativeIsWindow(hwnd);
+        }
     }
 }

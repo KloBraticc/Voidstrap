@@ -23,6 +23,7 @@ using System.Windows.Threading;
 using CommunityToolkit.Mvvm.Input;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Win32;
+using SixLabors.ImageSharp.Processing;
 using Voidstrap.AppData;
 using Voidstrap.Enums;
 using Voidstrap.Integrations;
@@ -38,7 +39,7 @@ using Windows.Win32.UI.Shell;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
-public class ModsViewModel : NotifyPropertyChangedViewModel
+public partial class ModsViewModel : NotifyPropertyChangedViewModel
 {
 	public class SkyboxPack
 	{
@@ -116,10 +117,6 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 
 	private System.Windows.Media.FontFamily _selectedPreviewFontFamily = new("Segoe UI");
 
-	private int _selectedCustomCursorSetIndex;
-
-	private string _selectedCustomCursorSetName = string.Empty;
-
 	private CrosshairShape _selectedShape;
 
 	private string _cursorColorHex = "#00FF00";
@@ -134,13 +131,13 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 
 	private double _cursorOpacity = 1.0;
 
-	private string _cursorCode;
+	private string _cursorCode = null!;
 
-	private ImageSource _cursorPreview;
+	private ImageSource? _cursorPreview;
 
 	private bool _useImageCrosshair;
 
-	private string _imageUrl;
+	private string _imageUrl = null!;
 
 	private readonly string _dir = Paths.UserData;
 
@@ -149,22 +146,6 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 	private CancellationTokenSource? _deathSoundConversionCts;
 
 	private long _deathSoundConversionGeneration;
-
-	private string _shiftlockCursorSelectedPath = "";
-
-	private string _arrowCursorSelectedPath = "";
-
-	private string _arrowFarCursorSelectedPath = "";
-
-	private string _iBeamCursorSelectedPath = "";
-
-	private ImageSource? _shiftlockCursorPreview;
-
-	private ImageSource? _arrowCursorPreview;
-
-	private ImageSource? _arrowFarCursorPreview;
-
-	private ImageSource? _iBeamCursorPreview;
 
 	private bool _modExplorerVisible;
 
@@ -221,6 +202,8 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 	public ObservableCollection<ModInfo> AvailableMods { get; set; } = new ObservableCollection<ModInfo>();
 
 	public ObservableCollection<ManagedModItem> ManagedMods { get; } = [];
+
+	public CommunityModsViewModel CommunityMods { get; } = new CommunityModsViewModel();
 
 	public string ManagedModSearchText
 	{
@@ -282,8 +265,9 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.Saturation != num)
 			{
 				App.Settings.Prop.Saturation = num;
-				OnPropertyChanged("Saturation");
-				OnPropertyChanged("SaturationDisplay");
+				Voidstrap.Utility.LinuxEffectMapper.RefreshConfiguration();
+				OnPropertyChanged(nameof(Saturation));
+				OnPropertyChanged(nameof(SaturationDisplay));
 			}
 		}
 	}
@@ -312,8 +296,9 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.Contrast != num)
 			{
 				App.Settings.Prop.Contrast = num;
-				OnPropertyChanged("Contrast");
-				OnPropertyChanged("ContrastDisplay");
+				Voidstrap.Utility.LinuxEffectMapper.RefreshConfiguration();
+				OnPropertyChanged(nameof(Contrast));
+				OnPropertyChanged(nameof(ContrastDisplay));
 			}
 		}
 	}
@@ -342,8 +327,8 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.ColorTemperature != num)
 			{
 				App.Settings.Prop.ColorTemperature = num;
-				OnPropertyChanged("ColorTemperature");
-				OnPropertyChanged("ColorTemperatureDisplay");
+				OnPropertyChanged(nameof(ColorTemperature));
+				OnPropertyChanged(nameof(ColorTemperatureDisplay));
 			}
 		}
 	}
@@ -360,6 +345,242 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
+	private bool _classicTopBarBusy;
+
+	private static int _classicTopBarCard;
+
+	private static volatile bool _classicTopBarFinished;
+
+	private static CancellationTokenSource? _classicTopBarCancellation;
+
+	public bool ClassicTopBarEnabled
+	{
+		get
+		{
+			return App.Settings.Prop.ClassicTopBarEnabled;
+		}
+		set
+		{
+			if (App.Settings.Prop.ClassicTopBarEnabled == value || _classicTopBarBusy)
+			{
+				return;
+			}
+			App.Settings.Prop.ClassicTopBarEnabled = value;
+			App.Settings.Prop.ClassicTopBarHideAllCoreGui = value;
+			OnPropertyChanged(nameof(ClassicTopBarEnabled));
+			OnPropertyChanged(nameof(ClassicTopBarHideAllCoreGui));
+			OnPropertyChanged(nameof(ClassicTopBarCoreGuiEditable));
+			_ = ApplyClassicTopBarAsync(value);
+		}
+	}
+
+	public bool ClassicTopBarHideAllCoreGui
+	{
+		get
+		{
+			return App.Settings.Prop.ClassicTopBarHideAllCoreGui;
+		}
+		set
+		{
+			if (App.Settings.Prop.ClassicTopBarHideAllCoreGui == value || !ClassicTopBarCoreGuiEditable)
+			{
+				return;
+			}
+			App.Settings.Prop.ClassicTopBarHideAllCoreGui = value;
+			OnPropertyChanged(nameof(ClassicTopBarHideAllCoreGui));
+			App.Settings.Save();
+			_ = ApplyHideCoreGuiAsync(value);
+		}
+	}
+
+	public bool Ps4ButtonsEnabled
+	{
+		get
+		{
+			return App.Settings.Prop.Ps4ButtonsEnabled;
+		}
+		set
+		{
+			if (App.Settings.Prop.Ps4ButtonsEnabled == value || _classicTopBarBusy)
+			{
+				return;
+			}
+			App.Settings.Prop.Ps4ButtonsEnabled = value;
+			OnPropertyChanged(nameof(Ps4ButtonsEnabled));
+			App.Settings.Save();
+			_ = ApplyPs4ButtonsAsync(value);
+		}
+	}
+
+	private Task ApplyPs4ButtonsAsync(bool enabled)
+	{
+		return RunClassicTopBarAsync(
+			(progress, token) => Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.SetPs4ButtonsAsync(true, progress, token),
+			(progress, token) => Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.SetPs4ButtonsAsync(false, progress, token),
+			enabled,
+			"The PS4 buttons are installed. Relaunch Roblox to see them.",
+			"The PS4 buttons were removed.",
+			RollbackPs4Buttons);
+	}
+
+	private void RollbackPs4Buttons(bool enabled)
+	{
+		App.Settings.Prop.Ps4ButtonsEnabled = !enabled;
+		OnPropertyChanged(nameof(Ps4ButtonsEnabled));
+	}
+
+	public bool ClassicTopBarBusy
+	{
+		get => _classicTopBarBusy;
+		private set
+		{
+			_classicTopBarBusy = value;
+			OnPropertyChanged(nameof(ClassicTopBarBusy));
+			OnPropertyChanged(nameof(ClassicTopBarReady));
+			OnPropertyChanged(nameof(ClassicTopBarCoreGuiEditable));
+		}
+	}
+
+	public bool ClassicTopBarReady => !_classicTopBarBusy;
+
+	public bool ClassicTopBarCoreGuiEditable => !_classicTopBarBusy && !App.Settings.Prop.ClassicTopBarEnabled;
+
+	private Task ApplyClassicTopBarAsync(bool enabled)
+	{
+		return RunClassicTopBarAsync(
+			(progress, token) => Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.EnableAsync(progress, token),
+			(progress, token) => Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.DisableAsync(token),
+			enabled,
+			"The classic topbar is ready. Relaunch Roblox to see it.",
+			"The classic topbar was turned off and Roblox was put back to normal.",
+			RollbackClassicTopBar);
+	}
+
+	private Task ApplyHideCoreGuiAsync(bool enabled)
+	{
+		return RunClassicTopBarAsync(
+			(progress, token) => Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.SetHideCoreGuiAsync(true, progress, token),
+			(progress, token) => Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.SetHideCoreGuiAsync(false, progress, token),
+			enabled,
+			"Every CoreGui icon is hidden. Relaunch Roblox to see it.",
+			"The Roblox interface art was put back.",
+			RollbackHideCoreGui);
+	}
+
+	private void RollbackClassicTopBar(bool enabled)
+	{
+		App.Settings.Prop.ClassicTopBarEnabled = !enabled;
+		App.Settings.Prop.ClassicTopBarHideAllCoreGui = !enabled;
+		OnPropertyChanged(nameof(ClassicTopBarEnabled));
+		OnPropertyChanged(nameof(ClassicTopBarHideAllCoreGui));
+		OnPropertyChanged(nameof(ClassicTopBarCoreGuiEditable));
+	}
+
+	private void RollbackHideCoreGui(bool enabled)
+	{
+		App.Settings.Prop.ClassicTopBarHideAllCoreGui = !enabled;
+		OnPropertyChanged(nameof(ClassicTopBarHideAllCoreGui));
+		OnPropertyChanged(nameof(ClassicTopBarCoreGuiEditable));
+	}
+
+	private async Task RunClassicTopBarAsync(
+		Func<IProgress<string>, CancellationToken, Task> turnOn,
+		Func<IProgress<string>, CancellationToken, Task> turnOff,
+		bool enabled,
+		string enabledMessage,
+		string disabledMessage,
+		Action<bool> rollback)
+	{
+		ClassicTopBarBusy = true;
+		_classicTopBarFinished = false;
+		CancellationTokenSource cancellation = new CancellationTokenSource();
+		CancellationTokenSource? previous = Interlocked.Exchange(ref _classicTopBarCancellation, cancellation);
+		try
+		{
+			previous?.Cancel();
+			previous?.Dispose();
+		}
+		catch (ObjectDisposedException)
+		{
+		}
+		Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.RegisterCancelAction(CancelClassicTopBar);
+		Progress<string> progress = new Progress<string>(OnClassicTopBarProgress);
+		CancellationToken token = cancellation.Token;
+		try
+		{
+			Func<IProgress<string>, CancellationToken, Task> work = enabled ? turnOn : turnOff;
+			await Task.Run(() => work(progress, token), token).ConfigureAwait(true);
+			ReportClassicTopBar(enabled ? enabledMessage : disabledMessage, 1.0, true);
+			App.Settings.Save();
+		}
+		catch (OperationCanceledException)
+		{
+			rollback(enabled);
+			ReportClassicTopBar("The change was cancelled.", 1.0, true);
+		}
+		catch (Exception ex)
+		{
+			rollback(enabled);
+			ReportClassicTopBar("It could not be changed: " + ex.Message, 1.0, true);
+			App.Logger.WriteLine("ModsViewModel", "The classic topbar change failed: " + ex.Message);
+		}
+		finally
+		{
+			ClassicTopBarBusy = false;
+			Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.UnregisterCancelAction(CancelClassicTopBar);
+			if (ReferenceEquals(Volatile.Read(ref _classicTopBarCancellation), cancellation))
+			{
+				Interlocked.Exchange(ref _classicTopBarCancellation, null);
+			}
+			cancellation.Dispose();
+			Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.Reconcile();
+			RefreshManagedModsCommand.Execute(null);
+		}
+	}
+
+	private void OnClassicTopBarProgress(string message)
+	{
+		if (_classicTopBarFinished)
+		{
+			return;
+		}
+		ReportClassicTopBar(message, -1.0, false);
+	}
+
+	private static void CancelClassicTopBar()
+	{
+		try
+		{
+			Volatile.Read(ref _classicTopBarCancellation)?.Cancel();
+		}
+		catch (ObjectDisposedException)
+		{
+		}
+	}
+
+	private static void ReportClassicTopBar(string message, double fraction, bool final)
+	{
+		if (final)
+		{
+			_classicTopBarFinished = true;
+		}
+		int generation = Interlocked.Increment(ref _classicTopBarCard);
+		Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.ReportProgress(message, fraction, true);
+		if (final)
+		{
+			_ = HideClassicTopBarCardAsync(generation);
+		}
+	}
+
+	private static async Task HideClassicTopBarCardAsync(int generation)
+	{
+		await Task.Delay(6000).ConfigureAwait(true);
+		if (Volatile.Read(ref _classicTopBarCard) == generation)
+		{
+			Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.ReportProgress("", -1.0, false);
+		}
+	}
+
 	public bool ColorBlindnessEnabled
 	{
 		get
@@ -371,7 +592,7 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.ColorBlindnessEnabled != value)
 			{
 				App.Settings.Prop.ColorBlindnessEnabled = value;
-				OnPropertyChanged("ColorBlindnessEnabled");
+				OnPropertyChanged(nameof(ColorBlindnessEnabled));
 			}
 		}
 	}
@@ -388,7 +609,7 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.ColorBlindnessType != clamped)
 			{
 				App.Settings.Prop.ColorBlindnessType = clamped;
-				OnPropertyChanged("ColorBlindnessType");
+				OnPropertyChanged(nameof(ColorBlindnessType));
 			}
 		}
 	}
@@ -405,8 +626,8 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.ColorBlindnessSeverity != clamped)
 			{
 				App.Settings.Prop.ColorBlindnessSeverity = clamped;
-				OnPropertyChanged("ColorBlindnessSeverity");
-				OnPropertyChanged("ColorBlindnessSeverityDisplay");
+				OnPropertyChanged(nameof(ColorBlindnessSeverity));
+				OnPropertyChanged(nameof(ColorBlindnessSeverityDisplay));
 			}
 		}
 	}
@@ -435,7 +656,7 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.ColorBlindnessSimulate != value)
 			{
 				App.Settings.Prop.ColorBlindnessSimulate = value;
-				OnPropertyChanged("ColorBlindnessSimulate");
+				OnPropertyChanged(nameof(ColorBlindnessSimulate));
 			}
 		}
 	}
@@ -492,7 +713,7 @@ public ICommand PickCursorColorCommand { get; }
 			if (_selectedSkyboxPack != value)
 			{
 				_selectedSkyboxPack = value;
-				OnPropertyChanged("SelectedSkyboxPack");
+				OnPropertyChanged(nameof(SelectedSkyboxPack));
 				if (_selectedSkyboxPack != null)
 				{
 					App.Settings.Prop.SkyboxName = _selectedSkyboxPack.Name;
@@ -647,19 +868,15 @@ public ICommand PickCursorColorCommand { get; }
 
 	public ICommand RenameManagedModCommand { get; }
 
+	public ICommand EditManagedModCommand { get; }
+
 	public ICommand RemoveManagedModCommand { get; }
 
 	public ICommand ToggleManagedModCommand { get; }
 
 	public ICommand CopyManagedModIdCommand { get; }
 
-	public ICommand AddCustomCursorModCommand => new RelayCommand(AddCustomCursorMod);
-
-	public ICommand RemoveCustomCursorModCommand => new RelayCommand(RemoveCustomCursorMod);
-
-	public ICommand AddCustomShiftlockModCommand => new RelayCommand(AddCustomShiftlockMod);
-
-	public ICommand RemoveCustomShiftlockModCommand => new RelayCommand(RemoveCustomShiftlockMod);
+	public ICommand ViewModPackCommand { get; }
 
 	public ICommand AddCustomDeathSoundCommand => new AsyncRelayCommand(AddCustomDeathSoundAsync);
 
@@ -766,16 +983,17 @@ public ICommand PickCursorColorCommand { get; }
 			return;
 
 		CancellationTokenSource cancellation = new();
+		CancellationToken token = cancellation.Token;
 		_fontPreviewCts = cancellation;
-		_ = LoadSelectedFontPreviewAsync(selected, cancellation);
+		_ = LoadSelectedFontPreviewAsync(selected, cancellation, token);
 	}
 
-	private async Task LoadSelectedFontPreviewAsync(GoogleFontOption selected, CancellationTokenSource cancellation)
+	private async Task LoadSelectedFontPreviewAsync(GoogleFontOption selected, CancellationTokenSource cancellation, CancellationToken token)
 	{
 		try
 		{
-			await Task.Delay(220, cancellation.Token);
-			string path = await GoogleFontsService.DownloadAsync(selected, cancellation.Token);
+			await Task.Delay(220, token);
+			string path = await GoogleFontsService.DownloadAsync(selected, token);
 			if (!ReferenceEquals(Volatile.Read(ref _fontPreviewCts), cancellation) || !ReferenceEquals(SelectedGoogleFont, selected))
 				return;
 			if (!TryCreatePreviewFontFamily(path, out System.Windows.Media.FontFamily family))
@@ -787,7 +1005,7 @@ public ICommand PickCursorColorCommand { get; }
 			_selectedPreviewFontFamily = family;
 			OnPropertyChanged(nameof(FontPreviewFontFamily));
 		}
-		catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{
 			return;
 		}
@@ -824,7 +1042,7 @@ public ICommand PickCursorColorCommand { get; }
 			}
 
 			App.Settings.Prop.CustomFontScale = scale;
-			OnPropertyChanged("CustomFontScale");
+			OnPropertyChanged(nameof(CustomFontScale));
 
 			FontModPresetTask.Rescale(TextFontTask.NewState);
 		}
@@ -848,7 +1066,7 @@ public ICommand PickCursorColorCommand { get; }
 			}
 
 			App.Settings.Prop.CustomDeathSoundVolume = volume;
-			OnPropertyChanged("CustomDeathSoundVolume");
+			OnPropertyChanged(nameof(CustomDeathSoundVolume));
 
 			ApplyDeathSoundVolume();
 		}
@@ -895,81 +1113,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public EmojiModPresetTask EmojiFontTask { get; } = new EmojiModPresetTask();
 
-	public EnumModPresetTask<Voidstrap.Enums.CursorType> CursorTypeTask { get; } = new EnumModPresetTask<Voidstrap.Enums.CursorType>("CursorType", new Dictionary<Voidstrap.Enums.CursorType, Dictionary<string, string>>
-	{
-		{
-			Voidstrap.Enums.CursorType.DotCursor,
-			new Dictionary<string, string>
-			{
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursor.png", "Cursor.DotCursor.ArrowCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowFarCursor.png", "Cursor.DotCursor.ArrowFarCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursorDecalDrag.png", "Cursor.DotCursor.ArrowCursorDecalDrag.png" }
-			}
-		},
-		{
-			Voidstrap.Enums.CursorType.WhiteDotCursor,
-			new Dictionary<string, string>
-			{
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursor.png", "Cursor.WhiteDotCursor.ArrowCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowFarCursor.png", "Cursor.WhiteDotCursor.ArrowFarCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursorDecalDrag.png", "Cursor.WhiteDotCursor.ArrowCursorDecalDrag.png" }
-			}
-		},
-		{
-			Voidstrap.Enums.CursorType.VerySmallWhiteDot,
-			new Dictionary<string, string>
-			{
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursor.png", "Cursor.VerySmallWhiteDot.ArrowCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowFarCursor.png", "Cursor.VerySmallWhiteDot.ArrowFarCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursorDecalDrag.png", "Cursor.VerySmallWhiteDot.ArrowCursorDecalDrag.png" }
-			}
-		},
-		{
-			Voidstrap.Enums.CursorType.StoofsCursor,
-			new Dictionary<string, string>
-			{
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursor.png", "Cursor.StoofsCursor.ArrowCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowFarCursor.png", "Cursor.StoofsCursor.ArrowFarCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursorDecalDrag.png", "Cursor.StoofsCursor.ArrowCursorDecalDrag.png" }
-			}
-		},
-		{
-			Voidstrap.Enums.CursorType.CleanCursor,
-			new Dictionary<string, string>
-			{
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursor.png", "Cursor.CleanCursor.ArrowCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowFarCursor.png", "Cursor.CleanCursor.ArrowFarCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursorDecalDrag.png", "Cursor.CleanCursor.ArrowCursorDecalDrag.png" }
-			}
-		},
-		{
-			Voidstrap.Enums.CursorType.FPSCursor,
-			new Dictionary<string, string>
-			{
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursor.png", "Cursor.FPSCursor.ArrowCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowFarCursor.png", "Cursor.FPSCursor.ArrowFarCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursorDecalDrag.png", "Cursor.FPSCursor.ArrowCursorDecalDrag.png" }
-			}
-		},
-		{
-			Voidstrap.Enums.CursorType.From2006,
-			new Dictionary<string, string>
-			{
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursor.png", "Cursor.From2006.ArrowCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowFarCursor.png", "Cursor.From2006.ArrowFarCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursorDecalDrag.png", "Cursor.From2006.ArrowCursorDecalDrag.png" }
-			}
-		},
-		{
-			Voidstrap.Enums.CursorType.From2013,
-			new Dictionary<string, string>
-			{
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursor.png", "Cursor.From2013.ArrowCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowFarCursor.png", "Cursor.From2013.ArrowFarCursor.png" },
-				{ "content\\textures\\Cursors\\KeyboardMouse\\ArrowCursorDecalDrag.png", "Cursor.From2013.ArrowCursorDecalDrag.png" }
-			}
-		}
-	});
+	public CursorSettingsViewModel CursorSettings { get; } = new CursorSettingsViewModel();
 
 	public bool SkyboxEnabled
 	{
@@ -1010,7 +1154,12 @@ public ICommand PickCursorColorCommand { get; }
 			OnPropertyChanged();
 			Voidstrap.Integrations.Overlays.OverlayHub.Refresh();
 			if (value)
-				Frontend.ShowMessageBox("Roblox light mode is not supported. Make sure Roblox dark mode is selected.", MessageBoxImage.Warning);
+			{
+				string message = Voidstrap.Utility.Platform.IsLinux
+					? "Sober dark mode is required. Voidstrap will use X11 or XWayland the next time Sober launches."
+					: "Roblox light mode is not supported. Make sure Roblox dark mode is selected.";
+				Frontend.ShowMessageBox(message, MessageBoxImage.Warning);
+			}
 		}
 	}
 
@@ -1179,7 +1328,7 @@ public ICommand PickCursorColorCommand { get; }
 			catch (Exception ex)
 			{
 				App.Logger.WriteLine("ModsViewModel::HomepageMediaPreview", "The video preview could not be opened: " + ex.Message);
-				_homepagePreviewMessage = "This file could not be previewed.";
+				_homepagePreviewMessage = Voidstrap.Utility.Platform.IsLinux ? "This video could not be previewed." : "Video previews are not supported on Linux yet.";
 			}
 			Dispatcher.CurrentDispatcher.BeginInvoke(new Action(NotifyHomepagePreviewChanged), DispatcherPriority.Background);
 			return;
@@ -1201,12 +1350,16 @@ public ICommand PickCursorColorCommand { get; }
 				if (length > MaxHomepagePreviewBytes)
 					message = "This file is too large to preview.";
 				else
+				{
 					still = BuildStillPreview(path);
+					if (still == null)
+						message = DescribeUnpreviewableFile(path);
+				}
 			}
 			catch (Exception ex)
 			{
 				App.Logger.WriteLine("ModsViewModel::HomepageMediaPreview", "The preview could not be built: " + ex.Message);
-				message = "This file could not be previewed.";
+				message = DescribeUnpreviewableFile(path);
 			}
 
 			if (token.IsCancellationRequested)
@@ -1227,6 +1380,9 @@ public ICommand PickCursorColorCommand { get; }
 			System.Windows.Media.ImageSource? animated = null;
 			try
 			{
+				if (!Voidstrap.Utility.Platform.IsWindows)
+					return;
+
 				BitmapImage bitmap = new();
 				bitmap.BeginInit();
 				bitmap.UriSource = new Uri(path, UriKind.Absolute);
@@ -1255,8 +1411,13 @@ public ICommand PickCursorColorCommand { get; }
 		}, token);
 	}
 
-	private static System.Windows.Media.ImageSource BuildStillPreview(string path)
+	private static System.Windows.Media.ImageSource? BuildStillPreview(string path)
 	{
+		if (!Voidstrap.Utility.Platform.IsWindows)
+		{
+			return Voidstrap.Utility.SafeImaging.FromFile(path, HomepagePreviewDecodeWidth);
+		}
+
 		BitmapImage source = new();
 		source.BeginInit();
 		source.UriSource = new Uri(path, UriKind.Absolute);
@@ -1267,6 +1428,25 @@ public ICommand PickCursorColorCommand { get; }
 		WriteableBitmap still = new(source);
 		still.Freeze();
 		return still;
+	}
+
+	private static string DescribeUnpreviewableFile(string path)
+	{
+		try
+		{
+			FileInfo info = new(path);
+			string size = info.Length >= 1024L * 1024
+				? (info.Length / 1024.0 / 1024.0).ToString("0.0", CultureInfo.InvariantCulture) + " MB"
+				: Math.Max(1L, info.Length / 1024L).ToString(CultureInfo.InvariantCulture) + " KB";
+			string dimensions = Voidstrap.Utility.SafeImaging.TryReadDimensions(path, out int width, out int height)
+				? width.ToString(CultureInfo.InvariantCulture) + " by " + height.ToString(CultureInfo.InvariantCulture) + ", "
+				: string.Empty;
+			return info.Name + " (" + dimensions + size + ")";
+		}
+		catch (Exception)
+		{
+			return "This file could not be previewed.";
+		}
 	}
 
 	public IReadOnlyList<string> HomepageBackgroundModes { get; } = ["Solid color", "Gradient", "Image or video"];
@@ -1377,6 +1557,23 @@ public ICommand PickCursorColorCommand { get; }
 				return;
 			Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.SetMethod(value);
 			OnPropertyChanged(nameof(AntiAliasingMethodIndex));
+		}
+	}
+
+	public string[] MotionBlurStrengthNames => Voidstrap.Integrations.MotionBlur.MotionBlurSettings.StrengthNames;
+
+	public int MotionBlurStrengthIndex
+	{
+		get
+		{
+			return Voidstrap.Integrations.MotionBlur.MotionBlurSettings.StrengthIndex;
+		}
+		set
+		{
+			if (value < 0)
+				return;
+			Voidstrap.Integrations.MotionBlur.MotionBlurManager.SetStrength(value);
+			OnPropertyChanged(nameof(MotionBlurStrengthIndex));
 		}
 	}
 
@@ -1505,8 +1702,8 @@ public ICommand PickCursorColorCommand { get; }
 			if (App.Settings.Prop.Brightness != num)
 			{
 				App.Settings.Prop.Brightness = num;
-				OnPropertyChanged("Brightness");
-				OnPropertyChanged("BrightnessDisplay");
+				OnPropertyChanged(nameof(Brightness));
+				OnPropertyChanged(nameof(BrightnessDisplay));
 			}
 		}
 	}
@@ -1531,7 +1728,12 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
+			if (App.Settings.Prop.Crosshair == value)
+				return;
 			App.Settings.Prop.Crosshair = value;
+			OnPropertyChanged(nameof(Crosshair));
+			App.Settings.SaveDeferred();
+			Voidstrap.Integrations.Overlays.OverlayHub.RefreshCrosshair();
 		}
 	}
 
@@ -1573,154 +1775,17 @@ public ICommand PickCursorColorCommand { get; }
 			if (App.Settings.Prop.CurrentTimeDisplay == value)
 				return;
 			App.Settings.Prop.CurrentTimeDisplay = value;
-			OnPropertyChanged("CurrentTimeDisplay");
+			OnPropertyChanged(nameof(CurrentTimeDisplay));
 		}
 	}
 
 	public FontModPresetTask TextFontTask { get; } = new FontModPresetTask();
 
-	public Visibility ChooseCustomCursorVisibility
-	{
-		get
-		{
-			InlineArray5<string> buffer = default(InlineArray5<string>);
-			buffer[0] = Paths.Mods;
-			buffer[1] = "Content";
-			buffer[2] = "textures";
-			buffer[3] = "Cursors";
-			buffer[4] = "KeyboardMouse";
-			return GetVisibility(Path.Combine(buffer), new string[3] { "ArrowCursor.png", "ArrowFarCursor.png", "MouseLockedCursor.png" }, checkExist: false);
-		}
-	}
+	public Visibility ChooseCustomDeathSoundVisibility => GetVisibility(Path.Combine(Paths.Mods, "Content", "sounds"), DeathSoundFiles, checkExist: false);
 
-	public Visibility DeleteCustomCursorVisibility
-	{
-		get
-		{
-			InlineArray5<string> buffer = default(InlineArray5<string>);
-			buffer[0] = Paths.Mods;
-			buffer[1] = "Content";
-			buffer[2] = "textures";
-			buffer[3] = "Cursors";
-			buffer[4] = "KeyboardMouse";
-			return GetVisibility(Path.Combine(buffer), new string[3] { "ArrowCursor.png", "ArrowFarCursor.png", "MouseLockedCursor.png" }, checkExist: true);
-		}
-	}
-
-	public Visibility ChooseCustomShiftlockVisibility => GetVisibility(Path.Combine(Paths.Mods, "Content", "textures"), new string[1] { "MouseLockedCursor.png" }, checkExist: false);
-
-	public Visibility DeleteCustomShiftlockVisibility => GetVisibility(Path.Combine(Paths.Mods, "Content", "textures"), new string[1] { "MouseLockedCursor.png" }, checkExist: true);
-
-	public Visibility ChooseCustomDeathSoundVisibility => GetVisibility(Path.Combine(Paths.Mods, "Content", "sounds"), new string[1] { "oof.ogg" }, checkExist: false);
-
-	public Visibility DeleteCustomDeathSoundVisibility => GetVisibility(Path.Combine(Paths.Mods, "Content", "sounds"), new string[1] { "oof.ogg" }, checkExist: true);
+	public Visibility DeleteCustomDeathSoundVisibility => GetVisibility(Path.Combine(Paths.Mods, "Content", "sounds"), DeathSoundFiles, checkExist: true);
 
 	public ObservableCollection<GradientStopViewModel> GradientStops { get; set; } = new ObservableCollection<GradientStopViewModel>();
-
-	public ObservableCollection<CustomCursorSet> CustomCursorSets { get; } = new ObservableCollection<CustomCursorSet>();
-
-	public int SelectedCustomCursorSetIndex
-	{
-		get
-		{
-			return _selectedCustomCursorSetIndex;
-		}
-		set
-		{
-			if (_selectedCustomCursorSetIndex != value)
-			{
-				_selectedCustomCursorSetIndex = value;
-				OnPropertyChanged("SelectedCustomCursorSetIndex");
-				OnPropertyChanged("SelectedCustomCursorSet");
-				OnPropertyChanged("IsCustomCursorSetSelected");
-				SelectedCustomCursorSetName = SelectedCustomCursorSet?.Name ?? "";
-				SelectedCustomCursorSetIndex = value;
-				NotifyCursorVisibilities();
-				LoadCursorPathsForSelectedSet();
-			}
-		}
-	}
-
-	public CustomCursorSet? SelectedCustomCursorSet
-	{
-		get
-		{
-			if (SelectedCustomCursorSetIndex < 0 || SelectedCustomCursorSetIndex >= CustomCursorSets.Count)
-			{
-				return null;
-			}
-			return CustomCursorSets[SelectedCustomCursorSetIndex];
-		}
-	}
-
-	public bool IsCustomCursorSetSelected => SelectedCustomCursorSet != null;
-
-	public string SelectedCustomCursorSetName
-	{
-		get
-		{
-			return _selectedCustomCursorSetName;
-		}
-		set
-		{
-			if (_selectedCustomCursorSetName != value)
-			{
-				_selectedCustomCursorSetName = value;
-				OnPropertyChanged("SelectedCustomCursorSetName");
-			}
-		}
-	}
-
-	public ICommand AddCustomCursorSetCommand => new RelayCommand(AddCustomCursorSet);
-
-	public ICommand DeleteCustomCursorSetCommand => new RelayCommand(DeleteCustomCursorSet);
-
-	public ICommand RenameCustomCursorSetCommand => new RelayCommand(RenameCustomCursorSet);
-
-	public ICommand ApplyCursorSetCommand => new RelayCommand(ApplyCursorSet);
-
-	public ICommand GetCurrentCursorSetCommand => new RelayCommand(GetCurrentCursorSet);
-
-	public ICommand ExportCursorSetCommand => new RelayCommand(ExportCursorSet);
-
-	public ICommand ImportCursorSetCommand => new RelayCommand(ImportCursorSet);
-
-	public ICommand AddArrowCursorCommand => new RelayCommand(delegate
-	{
-		AddCursorImage("ArrowCursor.png", "Select Arrow Cursor PNG");
-	});
-
-	public ICommand AddArrowFarCursorCommand => new RelayCommand(delegate
-	{
-		AddCursorImage("ArrowFarCursor.png", "Select Arrow Far Cursor PNG");
-	});
-
-	public ICommand AddIBeamCursorCommand => new RelayCommand(delegate
-	{
-		AddCursorImage("IBeamCursor.png", "Select IBeam Cursor PNG");
-	});
-
-	public ICommand AddShiftlockCursorCommand => new RelayCommand(AddShiftlockCursor);
-
-	public ICommand DeleteArrowCursorCommand => new RelayCommand(delegate
-	{
-		DeleteCursorImage("ArrowCursor.png");
-	});
-
-	public ICommand DeleteArrowFarCursorCommand => new RelayCommand(delegate
-	{
-		DeleteCursorImage("ArrowFarCursor.png");
-	});
-
-	public ICommand DeleteIBeamCursorCommand => new RelayCommand(delegate
-	{
-		DeleteCursorImage("IBeamCursor.png");
-	});
-
-	public ICommand DeleteShiftlockCursorCommand => new RelayCommand(delegate
-	{
-		DeleteCursorImage("MouseLockedCursor.png");
-	});
 
 	public RelayCommand DownloadCurCommand { get; }
 
@@ -1742,11 +1807,10 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
-			if (SetProperty(ref _selectedShape, value, "SelectedShape"))
+			if (SetProperty(ref _selectedShape, value, nameof(SelectedShape)))
 			{
 				UseImageCrosshair = value == CrosshairShape.Image;
-				SaveIni();
-				UpdatePreview();
+				ApplyCrosshairChange();
 			}
 		}
 	}
@@ -1759,10 +1823,9 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
-			if (SetProperty(ref _useImageCrosshair, value, "UseImageCrosshair"))
+			if (SetProperty(ref _useImageCrosshair, value, nameof(UseImageCrosshair)))
 			{
-				SaveIni();
-				UpdatePreview();
+				ApplyCrosshairChange();
 			}
 		}
 	}
@@ -1775,10 +1838,9 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
-			if (SetProperty(ref _imageUrl, value, "ImageUrl"))
+			if (SetProperty(ref _imageUrl, value, nameof(ImageUrl)))
 			{
-				SaveIni();
-				UpdatePreview();
+				ApplyCrosshairChange();
 			}
 		}
 	}
@@ -1791,9 +1853,8 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
-			SetProperty(ref _cursorColorHex, value, "CursorColorHex");
-			SaveIni();
-			UpdatePreview();
+			SetProperty(ref _cursorColorHex, value, nameof(CursorColorHex));
+			ApplyCrosshairChange();
 		}
 	}
 
@@ -1805,9 +1866,8 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
-			SetProperty(ref _cursorOutlineColorHex, value, "CursorOutlineColorHex");
-			SaveIni();
-			UpdatePreview();
+			SetProperty(ref _cursorOutlineColorHex, value, nameof(CursorOutlineColorHex));
+			ApplyCrosshairChange();
 		}
 	}
 
@@ -1819,9 +1879,8 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
-			SetProperty(ref _cursorSize, value, "CursorSize");
-			SaveIni();
-			UpdatePreview();
+			SetProperty(ref _cursorSize, value, nameof(CursorSize));
+			ApplyCrosshairChange();
 		}
 	}
 
@@ -1833,9 +1892,8 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
-			SetProperty(ref _crosshairThickness, value, "CrosshairThickness");
-			SaveIni();
-			UpdatePreview();
+			SetProperty(ref _crosshairThickness, value, nameof(CrosshairThickness));
+			ApplyCrosshairChange();
 		}
 	}
 
@@ -1847,9 +1905,8 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
-			SetProperty(ref _gap, value, "Gap");
-			SaveIni();
-			UpdatePreview();
+			SetProperty(ref _gap, value, nameof(Gap));
+			ApplyCrosshairChange();
 		}
 	}
 
@@ -1861,9 +1918,8 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
-			SetProperty(ref _cursorOpacity, value, "CursorOpacity");
-			SaveIni();
-			UpdatePreview();
+			SetProperty(ref _cursorOpacity, value, nameof(CursorOpacity));
+			ApplyCrosshairChange();
 		}
 	}
 
@@ -1875,11 +1931,11 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
-			SetProperty(ref _cursorCode, value, "CursorCode");
+			SetProperty(ref _cursorCode, value, nameof(CursorCode));
 		}
 	}
 
-	public ImageSource CursorPreview
+	public ImageSource? CursorPreview
 	{
 		get
 		{
@@ -1887,141 +1943,9 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
-			SetProperty(ref _cursorPreview, value, "CursorPreview");
+			SetProperty(ref _cursorPreview, value, nameof(CursorPreview));
 		}
 	}
-
-	public string ShiftlockCursorSelectedPath
-	{
-		get
-		{
-			return _shiftlockCursorSelectedPath;
-		}
-		set
-		{
-			if (_shiftlockCursorSelectedPath != value)
-			{
-				_shiftlockCursorSelectedPath = value;
-				OnPropertyChanged("ShiftlockCursorSelectedPath");
-			}
-		}
-	}
-
-	public string ArrowCursorSelectedPath
-	{
-		get
-		{
-			return _arrowCursorSelectedPath;
-		}
-		set
-		{
-			if (_arrowCursorSelectedPath != value)
-			{
-				_arrowCursorSelectedPath = value;
-				OnPropertyChanged("ArrowCursorSelectedPath");
-			}
-		}
-	}
-
-	public string ArrowFarCursorSelectedPath
-	{
-		get
-		{
-			return _arrowFarCursorSelectedPath;
-		}
-		set
-		{
-			if (_arrowFarCursorSelectedPath != value)
-			{
-				_arrowFarCursorSelectedPath = value;
-				OnPropertyChanged("ArrowFarCursorSelectedPath");
-			}
-		}
-	}
-
-	public string IBeamCursorSelectedPath
-	{
-		get
-		{
-			return _iBeamCursorSelectedPath;
-		}
-		set
-		{
-			if (_iBeamCursorSelectedPath != value)
-			{
-				_iBeamCursorSelectedPath = value;
-				OnPropertyChanged("IBeamCursorSelectedPath");
-			}
-		}
-	}
-
-	public ImageSource? ShiftlockCursorPreview
-	{
-		get
-		{
-			return _shiftlockCursorPreview;
-		}
-		set
-		{
-			_shiftlockCursorPreview = value;
-			OnPropertyChanged("ShiftlockCursorPreview");
-		}
-	}
-
-	public ImageSource? ArrowCursorPreview
-	{
-		get
-		{
-			return _arrowCursorPreview;
-		}
-		set
-		{
-			_arrowCursorPreview = value;
-			OnPropertyChanged("ArrowCursorPreview");
-		}
-	}
-
-	public ImageSource? ArrowFarCursorPreview
-	{
-		get
-		{
-			return _arrowFarCursorPreview;
-		}
-		set
-		{
-			_arrowFarCursorPreview = value;
-			OnPropertyChanged("ArrowFarCursorPreview");
-		}
-	}
-
-	public ImageSource? IBeamCursorPreview
-	{
-		get
-		{
-			return _iBeamCursorPreview;
-		}
-		set
-		{
-			_iBeamCursorPreview = value;
-			OnPropertyChanged("IBeamCursorPreview");
-		}
-	}
-
-	public Visibility AddShiftlockCursorVisibility => GetCursorAddVisibility("MouseLockedCursor.png");
-
-	public Visibility DeleteShiftlockCursorVisibility => GetCursorDeleteVisibility("MouseLockedCursor.png");
-
-	public Visibility AddArrowCursorVisibility => GetCursorAddVisibility("ArrowCursor.png");
-
-	public Visibility DeleteArrowCursorVisibility => GetCursorDeleteVisibility("ArrowCursor.png");
-
-	public Visibility AddArrowFarCursorVisibility => GetCursorAddVisibility("ArrowFarCursor.png");
-
-	public Visibility DeleteArrowFarCursorVisibility => GetCursorDeleteVisibility("ArrowFarCursor.png");
-
-	public Visibility AddIBeamCursorVisibility => GetCursorAddVisibility("IBeamCursor.png");
-
-	public Visibility DeleteIBeamCursorVisibility => GetCursorDeleteVisibility("IBeamCursor.png");
 
 	public bool ModExplorerVisible
 	{
@@ -2032,8 +1956,8 @@ public ICommand PickCursorColorCommand { get; }
 		set
 		{
 			_modExplorerVisible = value;
-			OnPropertyChanged("ModExplorerVisible");
-			OnPropertyChanged("MainContentVisibility");
+			OnPropertyChanged(nameof(ModExplorerVisible));
+			OnPropertyChanged(nameof(MainContentVisibility));
 		}
 	}
 
@@ -2059,10 +1983,21 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
+			if (ReferenceEquals(_selectedModFile, value))
+				return;
 			_selectedModFile = value;
-			OnPropertyChanged("SelectedModFile");
+			OnPropertyChanged(nameof(SelectedModFile));
+			OnPropertyChanged(nameof(ExplorerHasSelection));
+			OnPropertyChanged(nameof(ExplorerSelectedFile));
+			OnPropertyChanged(nameof(ExplorerSelectedImage));
 		}
 	}
+
+	public bool ExplorerHasSelection => SelectedModFile is not null;
+
+	public bool ExplorerSelectedFile => SelectedModFile is { IsFolder: false };
+
+	public bool ExplorerSelectedImage => SelectedModFile is { IsImage: true };
 
 	public string CurrentExplorerPath
 	{
@@ -2081,8 +2016,9 @@ public ICommand PickCursorColorCommand { get; }
 				return;
 			}
 			_currentExplorerPath = value;
-			OnPropertyChanged("CurrentExplorerPath");
-			OnPropertyChanged("ExplorerPathDisplay");
+			OnPropertyChanged(nameof(CurrentExplorerPath));
+			OnPropertyChanged(nameof(ExplorerPathDisplay));
+			OnPropertyChanged(nameof(ExplorerCanGoBack));
 		}
 	}
 
@@ -2093,7 +2029,8 @@ public ICommand PickCursorColorCommand { get; }
 			string robloxPlayerDir = ResolveRobloxPlayerDir();
 			try
 			{
-				return Path.GetRelativePath(robloxPlayerDir, CurrentExplorerPath);
+				string relative = Path.GetRelativePath(robloxPlayerDir, CurrentExplorerPath);
+				return relative == "." ? "Roblox" : "Roblox  >  " + relative.Replace(Path.DirectorySeparatorChar.ToString(), "  >  ");
 			}
 			catch
 			{
@@ -2102,12 +2039,22 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public ICommand ToggleModExplorerCommand => new RelayCommand(delegate
+	public bool ExplorerCanGoBack
+	{
+		get
+		{
+			string root = ResolveRobloxPlayerDir().TrimEnd(trimChars);
+			return !CurrentExplorerPath.TrimEnd(trimChars).Equals(root, StringComparison.OrdinalIgnoreCase);
+		}
+	}
+
+	public ICommand ToggleModExplorerCommand => new RelayCommand(async delegate
 	{
 		ModExplorerVisible = !ModExplorerVisible;
 		if (ModExplorerVisible)
 		{
-			_currentExplorerPath = ResolveRobloxPlayerDir(forceRefresh: true);
+			await Task.Run(() => Voidstrap.Utility.RobloxInstallCompression.EnsureExtracted(new RobloxPlayerData()));
+			CurrentExplorerPath = ResolveRobloxPlayerDir(forceRefresh: true);
 			RefreshModFiles();
 		}
 	});
@@ -2130,17 +2077,12 @@ public ICommand PickCursorColorCommand { get; }
 
 	public ICommand GoBackCommand => new RelayCommand(delegate
 	{
-		string text = ResolveRobloxPlayerDir().TrimEnd(new char[2] { '\\', '/' });
-		string text2 = CurrentExplorerPath.TrimEnd(new char[2] { '\\', '/' });
+		string text = ResolveRobloxPlayerDir().TrimEnd(trimChars);
+		string text2 = CurrentExplorerPath.TrimEnd(trimChars);
 		if (text2.Equals(text, StringComparison.OrdinalIgnoreCase))
-		{
-			ModExplorerVisible = false;
-		}
-		else
-		{
-			CurrentExplorerPath = Path.GetDirectoryName(text2) ?? text;
-			RefreshModFiles();
-		}
+			return;
+		CurrentExplorerPath = Path.GetDirectoryName(text2) ?? text;
+		RefreshModFiles();
 	});
 
 	public string ExplorerSearchText
@@ -2151,8 +2093,10 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
+			if (_explorerSearchText == value)
+				return;
 			_explorerSearchText = value;
-			OnPropertyChanged("ExplorerSearchText");
+			OnPropertyChanged(nameof(ExplorerSearchText));
 			RefreshModFiles();
 		}
 	}
@@ -2194,7 +2138,7 @@ public ICommand PickCursorColorCommand { get; }
 		set
 		{
 			_cacheFilter = value ?? "All";
-			OnPropertyChanged("CacheFilter");
+			OnPropertyChanged(nameof(CacheFilter));
 			RebuildCaptures();
 		}
 	}
@@ -2208,7 +2152,7 @@ public ICommand PickCursorColorCommand { get; }
 		set
 		{
 			_captureSearch = value ?? "";
-			OnPropertyChanged("CaptureSearch");
+			OnPropertyChanged(nameof(CaptureSearch));
 			RebuildCaptures();
 		}
 	}
@@ -2223,14 +2167,14 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			_showAssetNames = value;
 			CapturedAsset.ShowNames = value;
-			OnPropertyChanged("ShowAssetNames");
+			OnPropertyChanged(nameof(ShowAssetNames));
 			foreach (CapturedAsset capturedAsset in CapturedAssets)
 			{
 				capturedAsset.RaiseLabelChanged();
 			}
 			if (value)
 			{
-				ResolveNamesAsync();
+				_ = ResolveNamesAsync();
 			}
 		}
 	}
@@ -2244,7 +2188,7 @@ public ICommand PickCursorColorCommand { get; }
 		set
 		{
 			_captureStatsText = value;
-			OnPropertyChanged("CaptureStatsText");
+			OnPropertyChanged(nameof(CaptureStatsText));
 		}
 	}
 
@@ -2304,7 +2248,10 @@ public ICommand PickCursorColorCommand { get; }
 
 	private void OpenModsFolder()
 	{
-		Process.Start("explorer.exe", Paths.Mods);
+		if (!Voidstrap.Utility.PlatformShell.TryOpenFolder(Paths.Mods))
+		{
+			Frontend.ShowMessageBox("The mods folder could not be opened. It is at " + Paths.Mods, MessageBoxImage.Warning);
+		}
 	}
 
 	private void ManageCustomFont()
@@ -2461,10 +2408,10 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		_activePreviewFontPath = string.Empty;
 		_activePreviewFontFamily = new System.Windows.Media.FontFamily("Segoe UI");
-		OnPropertyChanged("ChooseCustomFontVisibility");
-		OnPropertyChanged("DeleteCustomFontVisibility");
-		OnPropertyChanged("DeleteCustomFontFontName");
-		OnPropertyChanged("DeleteCustomFontFontFamily");
+		OnPropertyChanged(nameof(ChooseCustomFontVisibility));
+		OnPropertyChanged(nameof(DeleteCustomFontVisibility));
+		OnPropertyChanged(nameof(DeleteCustomFontFontName));
+		OnPropertyChanged(nameof(DeleteCustomFontFontFamily));
 		OnPropertyChanged(nameof(FontPreviewFontFamily));
 		OnPropertyChanged(nameof(FontPreviewVisible));
 		OnPropertyChanged(nameof(HasCustomFont));
@@ -2502,7 +2449,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	private async Task<string> GetPreviewImageUrl(string folder, HttpClient http)
+	private static async Task<string?> GetPreviewImageUrl(string folder, HttpClient http)
 	{
 		await PreviewProbeGate.WaitAsync().ConfigureAwait(false);
 		try
@@ -2699,7 +2646,7 @@ public ICommand PickCursorColorCommand { get; }
 		NotifyCustomSkyboxSelectionChanged();
 	}
 
-	private IReadOnlyDictionary<string, string> GetCustomSkyboxSources()
+	private Dictionary<string, string> GetCustomSkyboxSources()
 	{
 		return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
 		{
@@ -2805,6 +2752,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	private void OpenCompatSettings()
 	{
+		Voidstrap.Utility.RobloxInstallCompression.EnsureExtracted(new RobloxPlayerData());
 		string executablePath = new RobloxPlayerData().ExecutablePath;
 		if (File.Exists(executablePath))
 		{
@@ -2816,7 +2764,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	private Visibility GetVisibility(string directory, string[] filenames, bool checkExist)
+	private static Visibility GetVisibility(string directory, string[] filenames, bool checkExist)
 	{
 		bool flag = filenames.Any((string name) => File.Exists(Path.Combine(directory, name)));
 		if (!(checkExist ? flag : (!flag)))
@@ -2826,36 +2774,7 @@ public ICommand PickCursorColorCommand { get; }
 		return Visibility.Visible;
 	}
 
-	private void AddCustomFile(string[] targetFiles, string targetDir, string dialogTitle, string filter, string failureText, Action postAction = null)
-	{
-		Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
-		{
-			Filter = filter,
-			Title = dialogTitle
-		};
-		if (openFileDialog.ShowDialog() != true)
-		{
-			return;
-		}
-		string fileName = openFileDialog.FileName;
-		Directory.CreateDirectory(targetDir);
-		try
-		{
-			foreach (string path in targetFiles)
-			{
-				string destFileName = Path.Combine(targetDir, path);
-				Filesystem.CopyWritableFile(fileName, destFileName);
-			}
-		}
-		catch (Exception ex)
-		{
-			Frontend.ShowMessageBox("Failed to add " + failureText + ":\n" + ex.Message, MessageBoxImage.Hand);
-			return;
-		}
-		postAction?.Invoke();
-	}
-
-	private void RemoveCustomFile(string[] targetFiles, string targetDir, string notFoundMessage, Action postAction = null)
+	private static void RemoveCustomFile(string[] targetFiles, string targetDir, string notFoundMessage, Action? postAction = null)
 	{
 		bool flag = false;
 		foreach (string text in targetFiles)
@@ -2879,56 +2798,6 @@ public ICommand PickCursorColorCommand { get; }
 			Frontend.ShowMessageBox(notFoundMessage, MessageBoxImage.Asterisk);
 		}
 		postAction?.Invoke();
-	}
-
-	public void AddCustomCursorMod()
-	{
-		string[] targetFiles = new string[3] { "ArrowCursor.png", "ArrowFarCursor.png", "IBeamCursor.png" };
-		InlineArray5<string> buffer = default(InlineArray5<string>);
-		buffer[0] = Paths.Mods;
-		buffer[1] = "Content";
-		buffer[2] = "textures";
-		buffer[3] = "Cursors";
-		buffer[4] = "KeyboardMouse";
-		AddCustomFile(targetFiles, Path.Combine(buffer), "Select a PNG Cursor Image", "PNG Images (*.png)|*.png", "cursors", delegate
-		{
-			OnPropertyChanged("ChooseCustomCursorVisibility");
-			OnPropertyChanged("DeleteCustomCursorVisibility");
-		});
-	}
-
-	public void RemoveCustomCursorMod()
-	{
-		string[] targetFiles = new string[3] { "ArrowCursor.png", "ArrowFarCursor.png", "IBeamCursor.png" };
-		InlineArray5<string> buffer = default(InlineArray5<string>);
-		buffer[0] = Paths.Mods;
-		buffer[1] = "Content";
-		buffer[2] = "textures";
-		buffer[3] = "Cursors";
-		buffer[4] = "KeyboardMouse";
-		RemoveCustomFile(targetFiles, Path.Combine(buffer), "No custom cursors found to remove.", delegate
-		{
-			OnPropertyChanged("ChooseCustomCursorVisibility");
-			OnPropertyChanged("DeleteCustomCursorVisibility");
-		});
-	}
-
-	public void AddCustomShiftlockMod()
-	{
-		AddCustomFile(new string[1] { "MouseLockedCursor.png" }, Path.Combine(Paths.Mods, "Content", "textures"), "Select a PNG Shiftlock Image", "PNG Images (*.png)|*.png", "Shiftlock", delegate
-		{
-			OnPropertyChanged("ChooseCustomShiftlockVisibility");
-			OnPropertyChanged("DeleteCustomShiftlockVisibility");
-		});
-	}
-
-	public void RemoveCustomShiftlockMod()
-	{
-		RemoveCustomFile(new string[1] { "MouseLockedCursor.png" }, Path.Combine(Paths.Mods, "Content", "textures"), "No custom Shiftlock found to remove.", delegate
-		{
-			OnPropertyChanged("ChooseCustomShiftlockVisibility");
-			OnPropertyChanged("DeleteCustomShiftlockVisibility");
-		});
 	}
 
 	public async Task AddCustomDeathSoundAsync()
@@ -2976,6 +2845,11 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			return;
 		}
+		catch (InvalidDataException ex)
+		{
+			Frontend.ShowMessageBox("Failed to add death sound:\n" + ex.Message, MessageBoxImage.Warning);
+			return;
+		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::AddCustomDeathSound", ex);
@@ -2985,9 +2859,9 @@ public ICommand PickCursorColorCommand { get; }
 
 		await ApplyDeathSoundVolumeAsync();
 
-		OnPropertyChanged("ChooseCustomDeathSoundVisibility");
-		OnPropertyChanged("DeleteCustomDeathSoundVisibility");
-		OnPropertyChanged("CustomDeathSoundVolumeVisibility");
+		OnPropertyChanged(nameof(ChooseCustomDeathSoundVisibility));
+		OnPropertyChanged(nameof(DeleteCustomDeathSoundVisibility));
+		OnPropertyChanged(nameof(CustomDeathSoundVolumeVisibility));
 	}
 
 	public void AddCustomDeathSound()
@@ -2998,7 +2872,7 @@ public ICommand PickCursorColorCommand { get; }
 	public void RemoveCustomDeathSound()
 	{
 		CancelDeathSoundConversion();
-		RemoveCustomFile(new string[1] { "oof.ogg" }, Path.Combine(Paths.Mods, "Content", "sounds"), "No custom death sound found to remove.", delegate
+        RemoveCustomFile(DeathSoundFiles, Path.Combine(Paths.Mods, "Content", "sounds"), "No custom death sound found to remove.", delegate
 		{
 			try
 			{
@@ -3012,9 +2886,9 @@ public ICommand PickCursorColorCommand { get; }
 				App.Logger.WriteLine("ModsViewModel::RemoveCustomDeathSound", "Could not remove the stored sound: " + ex.Message);
 			}
 
-			OnPropertyChanged("ChooseCustomDeathSoundVisibility");
-			OnPropertyChanged("DeleteCustomDeathSoundVisibility");
-			OnPropertyChanged("CustomDeathSoundVolumeVisibility");
+			OnPropertyChanged(nameof(ChooseCustomDeathSoundVisibility));
+			OnPropertyChanged(nameof(DeleteCustomDeathSoundVisibility));
+			OnPropertyChanged(nameof(CustomDeathSoundVolumeVisibility));
 		});
 	}
 
@@ -3035,7 +2909,9 @@ public ICommand PickCursorColorCommand { get; }
 		try
 		{
 			double volume = App.Settings.Prop.CustomDeathSoundVolume;
-			error = await Task.Run(() => AudioGain.TryApplyGain(Paths.CustomDeathSoundSource, Paths.CustomDeathSound, volume, cancellation.Token, out string conversionError) ? string.Empty : conversionError);
+			error = await Task.Run(() => Math.Abs(volume - 1.0) < 0.005
+				? CopyDeathSoundAtFullVolume()
+				: AudioGain.TryApplyGain(Paths.CustomDeathSoundSource, Paths.CustomDeathSound, volume, cancellation.Token, out string conversionError) ? string.Empty : conversionError);
 			if (cancellation.IsCancellationRequested || generation != Interlocked.Read(ref _deathSoundConversionGeneration))
 				return;
 		}
@@ -3046,6 +2922,20 @@ public ICommand PickCursorColorCommand { get; }
 		if (!string.IsNullOrEmpty(error))
 		{
 			Frontend.ShowMessageBox("The death sound could not be converted:\n" + error, MessageBoxImage.Warning);
+		}
+	}
+
+	private static string CopyDeathSoundAtFullVolume()
+	{
+		try
+		{
+			Filesystem.CopyWritableFile(Paths.CustomDeathSoundSource, Paths.CustomDeathSound);
+			App.Logger.WriteLine("ModsViewModel::ApplyDeathSoundVolume", "Death sound set at 100 percent volume, no conversion needed");
+			return string.Empty;
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			return ex.Message;
 		}
 	}
 
@@ -3106,9 +2996,11 @@ public ICommand PickCursorColorCommand { get; }
 		OpenManagedModsRootCommand = new RelayCommand(OpenManagedModsRoot);
 		OpenManagedModCommand = new RelayCommand<ManagedModItem>(OpenManagedMod);
 		RenameManagedModCommand = new AsyncRelayCommand<ManagedModItem>(RenameManagedModAsync);
+		EditManagedModCommand = new AsyncRelayCommand<ManagedModItem>(EditManagedModAsync);
 		RemoveManagedModCommand = new AsyncRelayCommand<ManagedModItem>(RemoveManagedModAsync);
 		ToggleManagedModCommand = new AsyncRelayCommand<ManagedModItem>(ToggleManagedModAsync);
 		CopyManagedModIdCommand = new RelayCommand<ManagedModItem>(CopyManagedModId);
+		ViewModPackCommand = new AsyncRelayCommand<ManagedModItem>(ViewModPackAsync);
 		RefreshSkyboxesCommand = new AsyncRelayCommand(() => LoadSkyboxPacksFromGithub(true));
 		ChooseSkyboxFaceCommand = new RelayCommand<string>(ChooseSkyboxFace);
 		ChooseSingleSkyboxImageCommand = new RelayCommand(ChooseSingleSkyboxImage);
@@ -3119,9 +3011,6 @@ public ICommand PickCursorColorCommand { get; }
 		ChooseLocalFontCommand = new AsyncRelayCommand(ChooseLocalFontAsync);
 		RemoveCustomFontCommand = new RelayCommand(RemoveCustomFont);
 		((DispatcherObject)System.Windows.Application.Current).Dispatcher.BeginInvoke((DispatcherPriority)6, (Delegate)new Action(UpdatePreview));
-		LoadCustomCursorSets();
-		LoadCursorPathsForSelectedSet();
-		NotifyCursorVisibilities();
 	}
 
 	private void PickHomepageBackgroundColor()
@@ -3136,7 +3025,7 @@ public ICommand PickCursorColorCommand { get; }
 			initial = System.Windows.Media.Color.FromRgb(18, 18, 21);
 		}
 		var dialog = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(initial);
-		if (dialog.ShowDialog() == true)
+		if (dialog.ShowOwnedDialog() == true)
 			HomepageBackgroundOverlayColor = $"#{dialog.SelectedColor.R:X2}{dialog.SelectedColor.G:X2}{dialog.SelectedColor.B:X2}";
 	}
 
@@ -3152,14 +3041,14 @@ public ICommand PickCursorColorCommand { get; }
 			initial = System.Windows.Media.Color.FromRgb(91, 46, 255);
 		}
 		var dialog = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(initial);
-		if (dialog.ShowDialog() == true)
+		if (dialog.ShowOwnedDialog() == true)
 			HomepageBackgroundOverlayGradientColor = $"#{dialog.SelectedColor.R:X2}{dialog.SelectedColor.G:X2}{dialog.SelectedColor.B:X2}";
 	}
 
 	private static string NormalizeHomepageColor(string? value)
 	{
 		string text = (value ?? "").Trim();
-		if (Regex.IsMatch(text, "^#[0-9A-Fa-f]{6}$"))
+		if (HexColorPattern.IsMatch(text))
 			return text.ToUpperInvariant();
 		return "#121215";
 	}
@@ -3224,13 +3113,29 @@ public ICommand PickCursorColorCommand { get; }
 		NotifyHomepagePreviewChanged();
 	}
 
+	private const long CatalogRefreshMilliseconds = 600000;
+
+	private long _catalogsLoadedAt;
+
 	public async Task InitializeAsync()
 	{
+		long now = Environment.TickCount64;
+		if (_catalogsLoadedAt != 0 && now - _catalogsLoadedAt < CatalogRefreshMilliseconds)
+		{
+			await LoadManagedModsAsync();
+			return;
+		}
+		_catalogsLoadedAt = now;
 		await Task.WhenAll(LoadModsAsync(), LoadManagedModsAsync(), LoadSkyboxPacksFromGithub(), LoadGoogleFontsAsync());
 	}
 
 	public void CancelTransientOperations()
 	{
+		if (FontManagerBusy || SkyboxManagerBusy)
+			_catalogsLoadedAt = 0;
+		CancellationTokenSource? explorer = Interlocked.Exchange(ref _explorerCts, null);
+		explorer?.Cancel();
+		explorer?.Dispose();
 		CancellationTokenSource? fonts = Interlocked.Exchange(ref _fontManagerCts, null);
 		fonts?.Cancel();
 		fonts?.Dispose();
@@ -3247,6 +3152,7 @@ public ICommand PickCursorColorCommand { get; }
 		FontManagerBusy = false;
 		SkyboxManagerBusy = false;
 		CustomSkyboxBusy = false;
+		CommunityMods.CancelTransientOperations();
 	}
 
 	private async Task LoadManagedModsAsync()
@@ -3257,53 +3163,55 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			ManagedModItem[] items = await Task.Run(() =>
 			{
-				IReadOnlyList<ManagedModRecord> records = ManagedModStore.Load();
-				ManagedModScanResult scan = ManagedModStore.ScanEnabledFiles();
+				IReadOnlyList<ManagedModLibraryEntry> library = ManagedModStore.ScanLibrary();
 				Dictionary<string, int> pathCounts = new(StringComparer.OrdinalIgnoreCase);
-				Dictionary<string, HashSet<string>> pathsByMod = new(StringComparer.OrdinalIgnoreCase);
 				try
 				{
-					foreach (string file in Directory.EnumerateFiles(Paths.Mods, "*", SearchOption.AllDirectories))
+					if (Directory.Exists(Paths.Mods))
 					{
-						string relative = Path.GetRelativePath(Paths.Mods, file);
-						if (!relative.EndsWith(".lock", StringComparison.OrdinalIgnoreCase) && !string.Equals(relative, "README.txt", StringComparison.OrdinalIgnoreCase))
-							pathCounts[relative] = pathCounts.GetValueOrDefault(relative) + 1;
+						foreach (string file in Directory.EnumerateFiles(Paths.Mods, "*", SearchOption.AllDirectories))
+						{
+							string relative = Path.GetRelativePath(Paths.Mods, file);
+							if (!IsConflictExempt(relative))
+								pathCounts[relative] = pathCounts.GetValueOrDefault(relative) + 1;
+						}
 					}
 				}
 				catch (Exception ex)
 				{
 					App.Logger.WriteLine("ModsViewModel::LoadManagedMods", "Could not compare the standard mod folder: " + ex.Message);
 				}
-				foreach (ManagedModFile file in scan.Files)
+				Dictionary<string, ManagedModLibraryEntry> owners = new(StringComparer.OrdinalIgnoreCase);
+				foreach (ManagedModLibraryEntry entry in library.Where(entry => entry.Record.Enabled).OrderByDescending(entry => entry.AppliedOnTop))
 				{
-					pathCounts[file.Relative] = pathCounts.GetValueOrDefault(file.Relative) + 1;
-					if (!pathsByMod.TryGetValue(file.Mod.Id, out HashSet<string>? paths))
+					foreach (string relative in entry.RelativePaths)
 					{
-						paths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-						pathsByMod[file.Mod.Id] = paths;
+						if (IsConflictExempt(relative))
+							continue;
+						pathCounts[relative] = pathCounts.GetValueOrDefault(relative) + 1;
+						owners.TryAdd(relative, entry);
 					}
-					paths.Add(file.Relative);
 				}
-				return records.Select(record =>
+				return library.Select(entry =>
 				{
-					string scanError = scan.Failures.GetValueOrDefault(record.Id) ?? string.Empty;
-					ManagedModStatistics statistics;
-					try
+					int conflicts = 0;
+					int overridden = 0;
+					if (entry.Record.Enabled)
 					{
-						statistics = ManagedModStore.GetStatistics(record.Id);
+						foreach (string path in entry.RelativePaths)
+						{
+							if (IsConflictExempt(path) || pathCounts.GetValueOrDefault(path) <= 1)
+								continue;
+							conflicts++;
+							if (!ReferenceEquals(owners[path], entry))
+								overridden++;
+						}
 					}
-					catch (Exception ex)
-					{
-						App.Logger.WriteLine("ModsViewModel::LoadManagedMods", "Could not inspect " + record.Name + ": " + ex.Message);
-						scanError = ex.Message;
-						statistics = new ManagedModStatistics(0, 0);
-					}
-					int conflicts = pathsByMod.TryGetValue(record.Id, out HashSet<string>? paths) ? paths.Count(path => pathCounts.GetValueOrDefault(path) > 1) : 0;
-					return new ManagedModItem(record.Id, record.Name, record.Enabled, record.CreatedUtc, statistics.FileCount, statistics.TotalBytes, conflicts, scanError);
+					bool editable = ExternalModConfigs.IsExternal(entry.Record.Id) || Voidstrap.Integrations.CommunityMods.ModVariantStore.HasSlots(entry.Record.Id);
+					return new ManagedModItem(entry.Record.Id, entry.Record.Name, entry.Record.Enabled, entry.Record.CreatedUtc, entry.FileCount, entry.TotalBytes, conflicts, entry.Failure, entry.Pack, editable, overridden, entry.AppliedOnTop);
 				}).ToArray();
 			});
-			_allManagedMods.Clear();
-			_allManagedMods.AddRange(items);
+			MergeManagedMods(items);
 			ApplyManagedModFilter();
 			int enabled = items.Count(item => item.Enabled);
 			int files = items.Sum(item => item.FileCount);
@@ -3321,18 +3229,52 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
+	private static bool IsConflictExempt(string relative)
+	{
+		return relative.EndsWith(".lock", StringComparison.OrdinalIgnoreCase)
+			|| string.Equals(relative, "README.txt", StringComparison.OrdinalIgnoreCase);
+	}
+
+	private void MergeManagedMods(IReadOnlyList<ManagedModItem> fresh)
+	{
+		Dictionary<string, ManagedModItem> existing = new(StringComparer.OrdinalIgnoreCase);
+		foreach (ManagedModItem item in _allManagedMods)
+			existing[item.Id] = item;
+		List<ManagedModItem> merged = new(fresh.Count);
+		foreach (ManagedModItem item in fresh)
+		{
+			if (existing.TryGetValue(item.Id, out ManagedModItem? current))
+			{
+				current.Apply(item);
+				merged.Add(current);
+			}
+			else
+			{
+				merged.Add(item);
+			}
+		}
+		_allManagedMods.Clear();
+		_allManagedMods.AddRange(merged);
+	}
+
 	private void ApplyManagedModFilter()
 	{
 		string query = ManagedModSearchText.Trim();
-		IEnumerable<ManagedModItem> filtered = string.IsNullOrEmpty(query)
+		List<ManagedModItem> filtered = (string.IsNullOrEmpty(query)
 			? _allManagedMods
-			: _allManagedMods.Where(item => item.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || item.Id.Contains(query, StringComparison.OrdinalIgnoreCase));
-		ManagedMods.Clear();
-		foreach (ManagedModItem item in filtered)
-			ManagedMods.Add(item);
+			: _allManagedMods.Where(item => item.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || item.Id.Contains(query, StringComparison.OrdinalIgnoreCase))).ToList();
+		bool sameOrder = filtered.Count == ManagedMods.Count;
+		for (int index = 0; sameOrder && index < filtered.Count; index++)
+			sameOrder = ReferenceEquals(ManagedMods[index], filtered[index]);
+		if (!sameOrder)
+		{
+			ManagedMods.Clear();
+			foreach (ManagedModItem item in filtered)
+				ManagedMods.Add(item);
+		}
 		bool searchHasNoResults = ManagedMods.Count == 0 && _allManagedMods.Count > 0 && !string.IsNullOrEmpty(query);
-		ManagedModsEmptyTitle = searchHasNoResults ? "No managed mods match your search" : "Your managed mod library is empty";
-		ManagedModsEmptyDescription = searchHasNoResults ? "Try a different name or identifier." : "Add a mod to create its indexed folder, then place its files inside.";
+		ManagedModsEmptyTitle = searchHasNoResults ? "No Mods match your search" : "No Mods found";
+		ManagedModsEmptyDescription = searchHasNoResults ? "Try a different name or identifier." : "Roblox is better with mods. Add your first mod to create its indexed folder, then place its files inside.";
 	}
 
 	private async Task AddManagedModAsync()
@@ -3357,6 +3299,19 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		if (record is not null)
 			OpenManagedFolder(ManagedModStore.GetFolder(record.Id));
+	}
+
+	private async Task EditManagedModAsync(ManagedModItem? item)
+	{
+		if (item is null)
+			return;
+		Voidstrap.UI.Elements.Dialogs.ModEditorWindow window = new(item.Id, item.Name, item.Pack)
+		{
+			Owner = System.Windows.Application.Current?.MainWindow
+		};
+		window.ShowDialog();
+		if (window.Changed)
+			await LoadManagedModsAsync();
 	}
 
 	private async Task RenameManagedModAsync(ManagedModItem? item)
@@ -3389,7 +3344,11 @@ public ICommand PickCursorColorCommand { get; }
 		await _managedModsMutationGate.WaitAsync();
 		try
 		{
-			await Task.Run(() => ManagedModStore.Delete(item.Id));
+			await Task.Run(() =>
+			{
+				RestoreAssetCache(item.Id);
+				ManagedModStore.Delete(item.Id);
+			});
 			await LoadManagedModsAsync();
 		}
 		catch (Exception ex)
@@ -3426,10 +3385,18 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		if (item is null)
 			return;
+		bool enable = !item.Enabled;
+		bool saved = false;
 		await _managedModsMutationGate.WaitAsync();
 		try
 		{
-			await Task.Run(() => ManagedModStore.SetEnabled(item.Id, !item.Enabled));
+			await Task.Run(() =>
+			{
+				ApplyAssetCacheState(item.Id, enable);
+				ExternalModConfigs.SetEnabled(item.Id, enable);
+				ManagedModStore.SetEnabled(item.Id, enable);
+			});
+			saved = true;
 			await LoadManagedModsAsync();
 		}
 		catch (Exception ex)
@@ -3440,13 +3407,71 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			_managedModsMutationGate.Release();
 		}
+		if (saved && enable)
+		{
+			Voidstrap.Integrations.AssetProxy.AssetWarpAutoEnable.EnsureEnabled(allowPrompt: true, userAction: true);
+		}
+	}
+
+	private static string GetAssetCacheBackupFolder(string id)
+	{
+		return Path.Combine(ManagedModStore.GetFolder(id), RobloxAssetCache.BackupFolderName);
+	}
+
+	private static void RestoreAssetCache(string id)
+	{
+		try
+		{
+			string folder = GetAssetCacheBackupFolder(id);
+			if (RobloxAssetCache.HasBackups(folder))
+				RobloxAssetCache.Restore(folder);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("ModsViewModel::RestoreAssetCache", "The cached assets could not be restored: " + ex.Message);
+		}
+	}
+
+	private static void ApplyAssetCacheState(string id, bool enable)
+	{
+		try
+		{
+			string folder = GetAssetCacheBackupFolder(id);
+			if (!RobloxAssetCache.HasBackups(folder))
+				return;
+			if (enable)
+				RobloxAssetCache.Reapply(folder);
+			else
+				RobloxAssetCache.Restore(folder);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("ModsViewModel::ApplyAssetCacheState", "The cached assets could not be updated: " + ex.Message);
+		}
+	}
+
+	public event EventHandler? ModPackViewRequested;
+
+	private async Task ViewModPackAsync(ManagedModItem? item)
+	{
+		if (item?.Pack is not ModPackInfo pack)
+			return;
+		try
+		{
+			ModPackViewRequested?.Invoke(this, EventArgs.Empty);
+			await CommunityMods.OpenPackAsync(pack);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("ModsViewModel::ViewModPack", ex);
+		}
 	}
 
 	private static string? AskForManagedModName(string title, string initial)
 	{
 		Voidstrap.UI.Elements.Dialogs.TextInputDialog dialog = new(title, initial);
 		dialog.Owner = System.Windows.Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive);
-		dialog.ShowDialog();
+		dialog.ShowOwnedDialog();
 		return dialog.Confirmed ? dialog.Value : null;
 	}
 
@@ -3481,18 +3506,9 @@ public ICommand PickCursorColorCommand { get; }
 
 	private static void OpenManagedFolder(string folder)
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
+		if (!Voidstrap.Utility.PlatformShell.TryOpenFolder(folder))
 		{
-			Frontend.ShowMessageBox(Strings.Common_NotAvailableOnPlatform, MessageBoxImage.Information);
-			return;
-		}
-		try
-		{
-			System.Diagnostics.Process.Start(new ProcessStartInfo(folder) { UseShellExecute = true });
-		}
-		catch (Exception ex)
-		{
-			Frontend.ShowMessageBox("The folder could not be opened:\n" + ex.Message, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox("The folder could not be opened. It is at " + folder, MessageBoxImage.Warning);
 		}
 	}
 
@@ -3502,7 +3518,7 @@ public ICommand PickCursorColorCommand { get; }
 			return;
 		try
 		{
-			System.Windows.Clipboard.SetText(item.Id);
+			Voidstrap.Utility.ClipboardService.SetText(item.Id);
 		}
 		catch (Exception ex)
 		{
@@ -3513,7 +3529,7 @@ public ICommand PickCursorColorCommand { get; }
 	private void PickColor(bool main)
 	{
 		var dlg = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog();
-		if (dlg.ShowDialog() == true)
+		if (dlg.ShowOwnedDialog() == true)
 		{
 			string text = $"#{dlg.SelectedColor.R:X2}{dlg.SelectedColor.G:X2}{dlg.SelectedColor.B:X2}";
 			if (main)
@@ -3527,7 +3543,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	private ImageSource LoadImageFromUrl(string url)
+	private static BitmapSource? LoadImageFromUrl(string url)
 	{
 		try
 		{
@@ -3541,285 +3557,162 @@ public ICommand PickCursorColorCommand { get; }
 
 	private void DownloadCurFile()
 	{
-		if (!Voidstrap.Utility.SafeImaging.SupportsVisualCapture)
-		{
-			Frontend.ShowMessageBox(Strings.Common_NotAvailableOnPlatform, MessageBoxImage.Information);
-			return;
-		}
-		//IL_0044: Unknown result type (might be due to invalid IL or missing references)
-		//IL_01bd: Unknown result type (might be due to invalid IL or missing references)
-		//IL_01c7: Unknown result type (might be due to invalid IL or missing references)
-		//IL_01da: Unknown result type (might be due to invalid IL or missing references)
-		//IL_01e4: Unknown result type (might be due to invalid IL or missing references)
-		//IL_01f7: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0201: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0214: Unknown result type (might be due to invalid IL or missing references)
-		//IL_021e: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0231: Unknown result type (might be due to invalid IL or missing references)
-		//IL_023b: Unknown result type (might be due to invalid IL or missing references)
-		//IL_024e: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0258: Unknown result type (might be due to invalid IL or missing references)
-		//IL_026b: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0275: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0288: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0292: Unknown result type (might be due to invalid IL or missing references)
-		//IL_02b6: Unknown result type (might be due to invalid IL or missing references)
-		//IL_02df: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0304: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0319: Unknown result type (might be due to invalid IL or missing references)
-		//IL_00a6: Unknown result type (might be due to invalid IL or missing references)
 		try
 		{
-			double num = 32.0;
-			DrawingVisual drawingVisual = new DrawingVisual();
-			using (DrawingContext drawingContext = drawingVisual.RenderOpen())
-			{
-				drawingContext.DrawRectangle(System.Windows.Media.Brushes.Transparent, null, new Rect(0.0, 0.0, 64.0, 64.0));
-				if (SelectedShape == CrosshairShape.Image && !string.IsNullOrWhiteSpace(ImageUrl))
-				{
-					if (LoadImageFromUrl(ImageUrl) is BitmapSource imageSource)
-					{
-						drawingContext.DrawImage(imageSource, new Rect(0.0, 0.0, 64.0, 64.0));
-					}
-				}
-				else
-				{
-					System.Windows.Media.Color color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(CursorColorHex);
-					System.Windows.Media.Color color2 = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(CursorOutlineColorHex);
-					SolidColorBrush solidColorBrush = new SolidColorBrush(color)
-					{
-						Opacity = CursorOpacity
-					};
-					SolidColorBrush solidColorBrush2 = new SolidColorBrush(color2)
-					{
-						Opacity = CursorOpacity
-					};
-					((Freezable)solidColorBrush).Freeze();
-					((Freezable)solidColorBrush2).Freeze();
-					double num2 = 1.0;
-					double num3 = (double)CursorSize * num2;
-					double num4 = (double)Gap * num2;
-					double num5 = Math.Max(1.0, (double)CrosshairThickness * num2);
-					System.Windows.Media.Pen pen = new System.Windows.Media.Pen(solidColorBrush, num5)
-					{
-						StartLineCap = PenLineCap.Round,
-						EndLineCap = PenLineCap.Round
-					};
-					System.Windows.Media.Pen pen2 = new System.Windows.Media.Pen(solidColorBrush2, num5 + 2.0)
-					{
-						StartLineCap = PenLineCap.Round,
-						EndLineCap = PenLineCap.Round
-					};
-					((Freezable)pen).Freeze();
-					((Freezable)pen2).Freeze();
-					switch (SelectedShape)
-					{
-					case CrosshairShape.Cross:
-						drawingContext.DrawLine(pen2, new Point(num - num3, num), new Point(num - num4, num));
-						drawingContext.DrawLine(pen2, new Point(num + num4, num), new Point(num + num3, num));
-						drawingContext.DrawLine(pen2, new Point(num, num - num3), new Point(num, num - num4));
-						drawingContext.DrawLine(pen2, new Point(num, num + num4), new Point(num, num + num3));
-						drawingContext.DrawLine(pen, new Point(num - num3, num), new Point(num - num4, num));
-						drawingContext.DrawLine(pen, new Point(num + num4, num), new Point(num + num3, num));
-						drawingContext.DrawLine(pen, new Point(num, num - num3), new Point(num, num - num4));
-						drawingContext.DrawLine(pen, new Point(num, num + num4), new Point(num, num + num3));
-						break;
-					case CrosshairShape.Dot:
-					{
-						double num7 = num3 / 3.0;
-						drawingContext.DrawEllipse(solidColorBrush2, null, new Point(num, num), num7 + 2.0, num7 + 2.0);
-						drawingContext.DrawEllipse(solidColorBrush, null, new Point(num, num), num7, num7);
-						break;
-					}
-					case CrosshairShape.Circle:
-					{
-						double num6 = num3 / 2.0;
-						drawingContext.DrawEllipse(null, pen2, new Point(num, num), num6, num6);
-						drawingContext.DrawEllipse(null, pen, new Point(num, num), num6 - 2.0, num6 - 2.0);
-						break;
-					}
-					}
-				}
-			}
-			RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap(64, 64, 96.0, 96.0, PixelFormats.Pbgra32);
-			renderTargetBitmap.Render(drawingVisual);
-			int num8 = 256;
-			byte[] array = new byte[num8 * 64];
-			renderTargetBitmap.CopyPixels(array, num8, 0);
-			byte[] array2 = new byte[array.Length];
-			for (int i = 0; i < 64; i++)
-			{
-				Array.Copy(array, i * num8, array2, (64 - i - 1) * num8, num8);
-			}
-			Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog
+			BitmapSource bitmap = CreateCrosshairExportBitmap(64);
+			byte[] cursor = EncodeCrosshairCursor(bitmap, 32, 32);
+			Microsoft.Win32.SaveFileDialog dialog = new Microsoft.Win32.SaveFileDialog
 			{
 				Filter = "Cursor File (*.cur)|*.cur",
+				DefaultExt = ".cur",
+				AddExtension = true,
 				FileName = "crosshair.cur"
 			};
-			if (saveFileDialog.ShowDialog() != true)
-			{
+			if (dialog.ShowDialog() != true)
 				return;
-			}
-			using FileStream output = new FileStream(saveFileDialog.FileName, FileMode.Create);
-			using BinaryWriter binaryWriter = new BinaryWriter(output);
-			binaryWriter.Write((ushort)0);
-			binaryWriter.Write((ushort)2);
-			binaryWriter.Write((ushort)1);
-			binaryWriter.Write((byte)64);
-			binaryWriter.Write((byte)64);
-			binaryWriter.Write((byte)0);
-			binaryWriter.Write((byte)0);
-			binaryWriter.Write((ushort)32);
-			binaryWriter.Write((ushort)32);
-			int value = 40 + array2.Length + 512;
-			binaryWriter.Write((uint)value);
-			binaryWriter.Write(22u);
-			binaryWriter.Write(40);
-			binaryWriter.Write(64);
-			binaryWriter.Write(128);
-			binaryWriter.Write((ushort)1);
-			binaryWriter.Write((ushort)32);
-			binaryWriter.Write(0);
-			binaryWriter.Write(array2.Length);
-			binaryWriter.Write(0);
-			binaryWriter.Write(0);
-			binaryWriter.Write(0);
-			binaryWriter.Write(0);
-			binaryWriter.Write(array2);
-			int num9 = 512;
-			binaryWriter.Write(new byte[num9]);
-			binaryWriter.Flush();
-			Frontend.ShowMessageBox("Crosshair CUR Saved");
+			File.WriteAllBytes(dialog.FileName, cursor);
+			Frontend.ShowMessageBox("Crosshair CUR saved to:\n" + dialog.FileName);
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("Failed to generate cursor:\n" + ex.Message);
+			App.Logger.WriteException("ModsViewModel::DownloadCurFile", ex);
+			Frontend.ShowMessageBox("Failed to generate cursor:\n" + ex.Message, MessageBoxImage.Warning);
 		}
 	}
 
 	private void DownloadPngFile()
 	{
-		if (!Voidstrap.Utility.SafeImaging.SupportsVisualCapture)
-		{
-			Frontend.ShowMessageBox(Strings.Common_NotAvailableOnPlatform, MessageBoxImage.Information);
-			return;
-		}
-		//IL_0044: Unknown result type (might be due to invalid IL or missing references)
-		//IL_01bd: Unknown result type (might be due to invalid IL or missing references)
-		//IL_01c7: Unknown result type (might be due to invalid IL or missing references)
-		//IL_01da: Unknown result type (might be due to invalid IL or missing references)
-		//IL_01e4: Unknown result type (might be due to invalid IL or missing references)
-		//IL_01f7: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0201: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0214: Unknown result type (might be due to invalid IL or missing references)
-		//IL_021e: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0231: Unknown result type (might be due to invalid IL or missing references)
-		//IL_023b: Unknown result type (might be due to invalid IL or missing references)
-		//IL_024e: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0258: Unknown result type (might be due to invalid IL or missing references)
-		//IL_026b: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0275: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0288: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0292: Unknown result type (might be due to invalid IL or missing references)
-		//IL_02b6: Unknown result type (might be due to invalid IL or missing references)
-		//IL_02df: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0304: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0319: Unknown result type (might be due to invalid IL or missing references)
-		//IL_00a6: Unknown result type (might be due to invalid IL or missing references)
 		try
 		{
-			double num = 64.0;
-			DrawingVisual drawingVisual = new DrawingVisual();
-			using (DrawingContext drawingContext = drawingVisual.RenderOpen())
-			{
-				drawingContext.DrawRectangle(System.Windows.Media.Brushes.Transparent, null, new Rect(0.0, 0.0, 128.0, 128.0));
-				if (SelectedShape == CrosshairShape.Image && !string.IsNullOrWhiteSpace(ImageUrl))
-				{
-					if (LoadImageFromUrl(ImageUrl) is BitmapSource imageSource)
-					{
-						drawingContext.DrawImage(imageSource, new Rect(0.0, 0.0, 128.0, 128.0));
-					}
-				}
-				else
-				{
-					System.Windows.Media.Color color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(CursorColorHex);
-					System.Windows.Media.Color color2 = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(CursorOutlineColorHex);
-					SolidColorBrush solidColorBrush = new SolidColorBrush(color)
-					{
-						Opacity = CursorOpacity
-					};
-					SolidColorBrush solidColorBrush2 = new SolidColorBrush(color2)
-					{
-						Opacity = CursorOpacity
-					};
-					((Freezable)solidColorBrush).Freeze();
-					((Freezable)solidColorBrush2).Freeze();
-					double num2 = 1.0;
-					double num3 = (double)CursorSize * num2;
-					double num4 = (double)Gap * num2;
-					double num5 = Math.Max(1.0, (double)CrosshairThickness * num2);
-					System.Windows.Media.Pen pen = new System.Windows.Media.Pen(solidColorBrush, num5)
-					{
-						StartLineCap = PenLineCap.Round,
-						EndLineCap = PenLineCap.Round
-					};
-					System.Windows.Media.Pen pen2 = new System.Windows.Media.Pen(solidColorBrush2, num5 + 2.0)
-					{
-						StartLineCap = PenLineCap.Round,
-						EndLineCap = PenLineCap.Round
-					};
-					((Freezable)pen).Freeze();
-					((Freezable)pen2).Freeze();
-					switch (SelectedShape)
-					{
-					case CrosshairShape.Cross:
-						drawingContext.DrawLine(pen2, new Point(num - num3, num), new Point(num - num4, num));
-						drawingContext.DrawLine(pen2, new Point(num + num4, num), new Point(num + num3, num));
-						drawingContext.DrawLine(pen2, new Point(num, num - num3), new Point(num, num - num4));
-						drawingContext.DrawLine(pen2, new Point(num, num + num4), new Point(num, num + num3));
-						drawingContext.DrawLine(pen, new Point(num - num3, num), new Point(num - num4, num));
-						drawingContext.DrawLine(pen, new Point(num + num4, num), new Point(num + num3, num));
-						drawingContext.DrawLine(pen, new Point(num, num - num3), new Point(num, num - num4));
-						drawingContext.DrawLine(pen, new Point(num, num + num4), new Point(num, num + num3));
-						break;
-					case CrosshairShape.Dot:
-					{
-						double num7 = num3 / 3.0;
-						drawingContext.DrawEllipse(solidColorBrush2, null, new Point(num, num), num7 + 2.0, num7 + 2.0);
-						drawingContext.DrawEllipse(solidColorBrush, null, new Point(num, num), num7, num7);
-						break;
-					}
-					case CrosshairShape.Circle:
-					{
-						double num6 = num3 / 2.0;
-						drawingContext.DrawEllipse(null, pen2, new Point(num, num), num6, num6);
-						drawingContext.DrawEllipse(null, pen, new Point(num, num), num6 - 2.0, num6 - 2.0);
-						break;
-					}
-					}
-				}
-			}
-			RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap(128, 128, 96.0, 96.0, PixelFormats.Pbgra32);
-			renderTargetBitmap.Render(drawingVisual);
-			Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog
+			BitmapSource bitmap = CreateCrosshairExportBitmap(128);
+			byte[] png = EncodeCrosshairPng(bitmap);
+			Microsoft.Win32.SaveFileDialog dialog = new Microsoft.Win32.SaveFileDialog
 			{
 				Filter = "PNG Image (*.png)|*.png",
+				DefaultExt = ".png",
+				AddExtension = true,
 				FileName = "crosshair.png"
 			};
-			if (saveFileDialog.ShowDialog() != true)
-			{
+			if (dialog.ShowDialog() != true)
 				return;
-			}
-			PngBitmapEncoder pngBitmapEncoder = new PngBitmapEncoder();
-			pngBitmapEncoder.Frames.Add(BitmapFrame.Create(renderTargetBitmap));
-			using FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create);
-			pngBitmapEncoder.Save(stream);
-			Frontend.ShowMessageBox("Crosshair PNG Saved");
+			File.WriteAllBytes(dialog.FileName, png);
+			Frontend.ShowMessageBox("Crosshair PNG saved to:\n" + dialog.FileName);
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("Failed to save PNG:\n" + ex.Message);
+			App.Logger.WriteException("ModsViewModel::DownloadPngFile", ex);
+			Frontend.ShowMessageBox("Failed to save PNG:\n" + ex.Message, MessageBoxImage.Warning);
 		}
+	}
+
+	private BitmapSource CreateCrosshairExportBitmap(int dimension)
+	{
+		if (SelectedShape == CrosshairShape.Image && !string.IsNullOrWhiteSpace(ImageUrl))
+		{
+			if (LoadImageFromUrl(ImageUrl) is not BitmapSource image)
+				throw new InvalidOperationException("The selected crosshair image could not be loaded.");
+			return ResizeCrosshairImage(image, dimension, CursorOpacity);
+		}
+		return CreateCrosshairBitmap(dimension, 1.0);
+	}
+
+	private static BitmapSource ResizeCrosshairImage(BitmapSource source, int dimension, double opacity)
+	{
+		byte[] sourcePixels = ReadStraightBgraPixels(source, out int sourceWidth, out int sourceHeight);
+		using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image = SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(sourcePixels, sourceWidth, sourceHeight);
+		image.Mutate(context => context.Resize(new SixLabors.ImageSharp.Processing.ResizeOptions
+		{
+			Size = new SixLabors.ImageSharp.Size(dimension, dimension),
+			Mode = SixLabors.ImageSharp.Processing.ResizeMode.Pad,
+			PadColor = SixLabors.ImageSharp.Color.Transparent,
+			Sampler = SixLabors.ImageSharp.Processing.KnownResamplers.Lanczos3
+		}));
+		byte[] pixels = new byte[dimension * dimension * 4];
+		image.CopyPixelDataTo(pixels);
+		double alphaScale = Math.Clamp(opacity, 0.0, 1.0);
+		if (alphaScale < 1.0)
+		{
+			for (int offset = 3; offset < pixels.Length; offset += 4)
+				pixels[offset] = (byte)Math.Round(pixels[offset] * alphaScale);
+		}
+		BitmapSource bitmap = BitmapSource.Create(dimension, dimension, 96.0, 96.0, PixelFormats.Bgra32, null, pixels, dimension * 4);
+		bitmap.Freeze();
+		return bitmap;
+	}
+
+	internal static byte[] EncodeCrosshairPng(BitmapSource bitmap)
+	{
+		byte[] pixels = ReadStraightBgraPixels(bitmap, out int width, out int height);
+		using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image = SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(pixels, width, height);
+		using MemoryStream stream = new MemoryStream();
+		image.Save(stream, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
+		return stream.ToArray();
+	}
+
+	internal static byte[] EncodeCrosshairCursor(BitmapSource bitmap, ushort hotspotX, ushort hotspotY)
+	{
+		byte[] png = EncodeCrosshairPng(bitmap);
+		int width = bitmap.PixelWidth;
+		int height = bitmap.PixelHeight;
+		if (width < 1 || width > 256 || height < 1 || height > 256)
+			throw new InvalidOperationException("Cursor dimensions must be between 1 and 256 pixels.");
+		if (hotspotX >= width || hotspotY >= height)
+			throw new InvalidOperationException("Cursor hotspot must be inside the image.");
+		using MemoryStream stream = new MemoryStream(22 + png.Length);
+		using BinaryWriter writer = new BinaryWriter(stream);
+		writer.Write((ushort)0);
+		writer.Write((ushort)2);
+		writer.Write((ushort)1);
+		writer.Write((byte)(width == 256 ? 0 : width));
+		writer.Write((byte)(height == 256 ? 0 : height));
+		writer.Write((byte)0);
+		writer.Write((byte)0);
+		writer.Write(hotspotX);
+		writer.Write(hotspotY);
+		writer.Write((uint)png.Length);
+		writer.Write(22u);
+		writer.Write(png);
+		writer.Flush();
+		return stream.ToArray();
+	}
+
+	private static byte[] ReadStraightBgraPixels(BitmapSource bitmap, out int width, out int height)
+	{
+		BitmapSource source = bitmap;
+		if (source.Format != PixelFormats.Bgra32 && source.Format != PixelFormats.Pbgra32 && source.Format != PixelFormats.Bgr32)
+		{
+			if (!Voidstrap.Utility.Platform.IsWindows)
+				throw new InvalidOperationException("The selected image uses an unsupported pixel format.");
+			source = new FormatConvertedBitmap(source, PixelFormats.Bgra32, null, 0);
+		}
+		width = source.PixelWidth;
+		height = source.PixelHeight;
+		int stride = checked(width * 4);
+		byte[] pixels = new byte[checked(stride * height)];
+		source.CopyPixels(pixels, stride, 0);
+		if (source.Format == PixelFormats.Bgr32)
+		{
+			for (int offset = 3; offset < pixels.Length; offset += 4)
+				pixels[offset] = 255;
+		}
+		else if (source.Format == PixelFormats.Pbgra32)
+		{
+			for (int offset = 0; offset < pixels.Length; offset += 4)
+			{
+				int alpha = pixels[offset + 3];
+				if (alpha == 0)
+				{
+					pixels[offset] = 0;
+					pixels[offset + 1] = 0;
+					pixels[offset + 2] = 0;
+					continue;
+				}
+				pixels[offset] = (byte)Math.Min(255, (pixels[offset] * 255 + alpha / 2) / alpha);
+				pixels[offset + 1] = (byte)Math.Min(255, (pixels[offset + 1] * 255 + alpha / 2) / alpha);
+				pixels[offset + 2] = (byte)Math.Min(255, (pixels[offset + 2] * 255 + alpha / 2) / alpha);
+			}
+		}
+		return pixels;
 	}
 
 	public void GenerateCode()
@@ -3866,119 +3759,150 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
+	private bool _loadingCrosshair;
+
+	private void ApplyCrosshairChange()
+	{
+		if (_loadingCrosshair)
+			return;
+		SaveIni();
+		UpdatePreview();
+	}
+
 	private void UpdatePreview()
 	{
 		if (System.Windows.Application.Current == null)
-		{
 			return;
-		}
 		((DispatcherObject)System.Windows.Application.Current).Dispatcher.Invoke((Action)delegate
 		{
-			//IL_0076: Unknown result type (might be due to invalid IL or missing references)
-			//IL_0196: Unknown result type (might be due to invalid IL or missing references)
-			//IL_01a0: Unknown result type (might be due to invalid IL or missing references)
-			//IL_01b3: Unknown result type (might be due to invalid IL or missing references)
-			//IL_01bd: Unknown result type (might be due to invalid IL or missing references)
-			//IL_01d0: Unknown result type (might be due to invalid IL or missing references)
-			//IL_01da: Unknown result type (might be due to invalid IL or missing references)
-			//IL_01ed: Unknown result type (might be due to invalid IL or missing references)
-			//IL_01f7: Unknown result type (might be due to invalid IL or missing references)
-			//IL_020a: Unknown result type (might be due to invalid IL or missing references)
-			//IL_0214: Unknown result type (might be due to invalid IL or missing references)
-			//IL_0227: Unknown result type (might be due to invalid IL or missing references)
-			//IL_0231: Unknown result type (might be due to invalid IL or missing references)
-			//IL_0244: Unknown result type (might be due to invalid IL or missing references)
-			//IL_024e: Unknown result type (might be due to invalid IL or missing references)
-			//IL_0261: Unknown result type (might be due to invalid IL or missing references)
-			//IL_026b: Unknown result type (might be due to invalid IL or missing references)
-			//IL_028f: Unknown result type (might be due to invalid IL or missing references)
-			//IL_02b8: Unknown result type (might be due to invalid IL or missing references)
-			//IL_02dd: Unknown result type (might be due to invalid IL or missing references)
-			//IL_02f2: Unknown result type (might be due to invalid IL or missing references)
 			try
 			{
-				double num = 64.0;
 				if (SelectedShape == CrosshairShape.Image && !string.IsNullOrWhiteSpace(ImageUrl))
 				{
-					ImageSource imageSource = LoadImageFromUrl(ImageUrl);
+					ImageSource? imageSource = LoadImageFromUrl(ImageUrl);
 					if (imageSource != null)
 					{
 						CursorPreview = imageSource;
 						return;
 					}
 				}
-				DrawingVisual drawingVisual = new DrawingVisual();
-				using (DrawingContext drawingContext = drawingVisual.RenderOpen())
-				{
-					drawingContext.DrawRectangle(System.Windows.Media.Brushes.Transparent, null, new Rect(0.0, 0.0, 128.0, 128.0));
-					System.Windows.Media.Color color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(CursorColorHex);
-					System.Windows.Media.Color color2 = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(CursorOutlineColorHex);
-					SolidColorBrush solidColorBrush = new SolidColorBrush(color)
-					{
-						Opacity = CursorOpacity
-					};
-					((Freezable)solidColorBrush).Freeze();
-					SolidColorBrush solidColorBrush2 = new SolidColorBrush(color2)
-					{
-						Opacity = CursorOpacity
-					};
-					((Freezable)solidColorBrush2).Freeze();
-					double num2 = 0.75;
-					double num3 = (double)CursorSize * num2;
-					double num4 = (double)Gap * num2;
-					double num5 = Math.Max(1.0, (double)CrosshairThickness * num2);
-					System.Windows.Media.Pen pen = new System.Windows.Media.Pen(solidColorBrush, num5)
-					{
-						StartLineCap = PenLineCap.Round,
-						EndLineCap = PenLineCap.Round,
-						LineJoin = PenLineJoin.Round
-					};
-					((Freezable)pen).Freeze();
-					System.Windows.Media.Pen pen2 = new System.Windows.Media.Pen(solidColorBrush2, num5 + 2.0)
-					{
-						StartLineCap = PenLineCap.Round,
-						EndLineCap = PenLineCap.Round,
-						LineJoin = PenLineJoin.Round
-					};
-					((Freezable)pen2).Freeze();
-					switch (SelectedShape)
-					{
-					case CrosshairShape.Cross:
-						drawingContext.DrawLine(pen2, new Point(num - num3, num), new Point(num - num4, num));
-						drawingContext.DrawLine(pen2, new Point(num + num4, num), new Point(num + num3, num));
-						drawingContext.DrawLine(pen, new Point(num - num3, num), new Point(num - num4, num));
-						drawingContext.DrawLine(pen, new Point(num + num4, num), new Point(num + num3, num));
-						drawingContext.DrawLine(pen2, new Point(num, num - num3), new Point(num, num - num4));
-						drawingContext.DrawLine(pen2, new Point(num, num + num4), new Point(num, num + num3));
-						drawingContext.DrawLine(pen, new Point(num, num - num3), new Point(num, num - num4));
-						drawingContext.DrawLine(pen, new Point(num, num + num4), new Point(num, num + num3));
-						break;
-					case CrosshairShape.Dot:
-					{
-						double num7 = num3 / 3.0;
-						drawingContext.DrawEllipse(solidColorBrush2, null, new Point(num, num), num7 + 2.0, num7 + 2.0);
-						drawingContext.DrawEllipse(solidColorBrush, null, new Point(num, num), num7, num7);
-						break;
-					}
-					case CrosshairShape.Circle:
-					{
-						double num6 = num3 / 2.0;
-						drawingContext.DrawEllipse(null, pen2, new Point(num, num), num6, num6);
-						drawingContext.DrawEllipse(null, pen, new Point(num, num), num6 - 2.0, num6 - 2.0);
-						break;
-					}
-					}
-				}
-				RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap(128, 128, 96.0, 96.0, PixelFormats.Pbgra32);
-				renderTargetBitmap.Render(drawingVisual);
-				((Freezable)renderTargetBitmap).Freeze();
-				CursorPreview = renderTargetBitmap;
+				CursorPreview = CreateCrosshairBitmap(128, 0.75);
 			}
-			catch
+			catch (Exception ex)
 			{
 				CursorPreview = null;
+				App.Logger.WriteException("ModsViewModel::UpdatePreview", ex);
 			}
 		});
+	}
+
+	private BitmapSource CreateCrosshairBitmap(int dimension, double scale)
+	{
+		const int samples = 4;
+		const int sampleCount = samples * samples;
+		int width = dimension;
+		int height = dimension;
+		byte[] pixels = new byte[width * height * 4];
+		System.Windows.Media.Color fill = ParsePreviewColor(CursorColorHex, System.Windows.Media.Color.FromRgb(0, 255, 0));
+		System.Windows.Media.Color outline = ParsePreviewColor(CursorOutlineColorHex, System.Windows.Media.Colors.Black);
+		double opacity = Math.Clamp(CursorOpacity, 0.0, 1.0);
+		double size = Math.Clamp(CursorSize, 2, 60) * scale;
+		double gap = Math.Clamp(Gap, 0, 40) * scale;
+		double thickness = Math.Max(1.0, Math.Clamp(CrosshairThickness, 1, 16) * scale);
+		double centerX = width / 2.0;
+		double centerY = height / 2.0;
+		double reach = size + thickness + 4.0;
+		double band = thickness / 2.0 + 3.0;
+		bool cross = SelectedShape == CrosshairShape.Cross;
+
+		for (int y = 0; y < height; y++)
+		{
+			double rowOffset = Math.Abs(y + 0.5 - centerY);
+			if (rowOffset > reach)
+				continue;
+			for (int x = 0; x < width; x++)
+			{
+				double columnOffset = Math.Abs(x + 0.5 - centerX);
+				if (columnOffset > reach || cross && columnOffset > band && rowOffset > band)
+					continue;
+				int alphaSum = 0;
+				int redSum = 0;
+				int greenSum = 0;
+				int blueSum = 0;
+				for (int sampleY = 0; sampleY < samples; sampleY++)
+				{
+					for (int sampleX = 0; sampleX < samples; sampleX++)
+					{
+						double px = x + (sampleX + 0.5) / samples - centerX;
+						double py = y + (sampleY + 0.5) / samples - centerY;
+						bool fillHit = PreviewHit(px, py, size, gap, thickness, false);
+						bool outlineHit = !fillHit && PreviewHit(px, py, size, gap, thickness, true);
+						if (!fillHit && !outlineHit)
+							continue;
+						System.Windows.Media.Color color = fillHit ? fill : outline;
+						int alpha = (int)Math.Round(color.A * opacity);
+						alphaSum += alpha;
+						redSum += color.R * alpha / 255;
+						greenSum += color.G * alpha / 255;
+						blueSum += color.B * alpha / 255;
+					}
+				}
+				int offset = (y * width + x) * 4;
+				pixels[offset] = (byte)(blueSum / sampleCount);
+				pixels[offset + 1] = (byte)(greenSum / sampleCount);
+				pixels[offset + 2] = (byte)(redSum / sampleCount);
+				pixels[offset + 3] = (byte)(alphaSum / sampleCount);
+			}
+		}
+
+		BitmapSource bitmap = BitmapSource.Create(width, height, 96.0, 96.0, PixelFormats.Pbgra32, null, pixels, width * 4);
+		bitmap.Freeze();
+		return bitmap;
+	}
+
+	private bool PreviewHit(double x, double y, double size, double gap, double thickness, bool outline)
+	{
+		double radius = outline ? thickness / 2.0 + 1.0 : thickness / 2.0;
+		switch (SelectedShape)
+		{
+		case CrosshairShape.Cross:
+			return DistanceToSegment(x, y, -size, 0, -gap, 0) <= radius
+				|| DistanceToSegment(x, y, gap, 0, size, 0) <= radius
+				|| DistanceToSegment(x, y, 0, -size, 0, -gap) <= radius
+				|| DistanceToSegment(x, y, 0, gap, 0, size) <= radius;
+		case CrosshairShape.Dot:
+			return Math.Sqrt(x * x + y * y) <= size / 3.0 + (outline ? 2.0 : 0.0);
+		case CrosshairShape.Circle:
+			double circleRadius = outline ? size / 2.0 : Math.Max(0.0, size / 2.0 - 2.0);
+			return Math.Abs(Math.Sqrt(x * x + y * y) - circleRadius) <= radius;
+		default:
+			return false;
+		}
+	}
+
+	private static double DistanceToSegment(double px, double py, double x1, double y1, double x2, double y2)
+	{
+		double dx = x2 - x1;
+		double dy = y2 - y1;
+		double lengthSquared = dx * dx + dy * dy;
+		double t = lengthSquared == 0 ? 0 : Math.Clamp(((px - x1) * dx + (py - y1) * dy) / lengthSquared, 0.0, 1.0);
+		double nearestX = x1 + t * dx;
+		double nearestY = y1 + t * dy;
+		double distanceX = px - nearestX;
+		double distanceY = py - nearestY;
+		return Math.Sqrt(distanceX * distanceX + distanceY * distanceY);
+	}
+
+	private static System.Windows.Media.Color ParsePreviewColor(string? value, System.Windows.Media.Color fallback)
+	{
+		try
+		{
+			return (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(value ?? "");
+		}
+		catch
+		{
+			return fallback;
+		}
 	}
 
 	private void MirrorCrosshairToSettings()
@@ -3987,6 +3911,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			var prop = App.Settings.Prop;
 			prop.CrosshairShapeIndex = (int)SelectedShape;
+			prop.CrosshairImagePath = ImageUrl ?? "";
 			prop.CrosshairColorHex = CursorColorHex ?? "";
 			prop.CrosshairOutlineColorHex = CursorOutlineColorHex ?? "";
 			prop.CrosshairSize = CursorSize;
@@ -4015,9 +3940,39 @@ public ICommand PickCursorColorCommand { get; }
 			["Opacity"] = CursorOpacity.ToString(),
 			["ImageUrl"] = ImageUrl ?? ""
 		});
+		Voidstrap.Integrations.Overlays.OverlayHub.RefreshCrosshair();
 	}
 
 	private void LoadIni()
+	{
+		_loadingCrosshair = true;
+		try
+		{
+			LoadIniValues();
+		}
+		finally
+		{
+			_loadingCrosshair = false;
+		}
+		if (File.Exists(_file) && !CrosshairSettingsMatch())
+			MirrorCrosshairToSettings();
+		UpdatePreview();
+	}
+
+	private bool CrosshairSettingsMatch()
+	{
+		var prop = App.Settings.Prop;
+		return prop.CrosshairShapeIndex == (int)SelectedShape
+			&& string.Equals(prop.CrosshairImagePath, ImageUrl ?? "", StringComparison.Ordinal)
+			&& string.Equals(prop.CrosshairColorHex, CursorColorHex ?? "", StringComparison.Ordinal)
+			&& string.Equals(prop.CrosshairOutlineColorHex, CursorOutlineColorHex ?? "", StringComparison.Ordinal)
+			&& prop.CrosshairSize == CursorSize
+			&& prop.CrosshairLineThickness == CrosshairThickness
+			&& prop.CrosshairGap == Gap
+			&& prop.CrosshairOpacity.Equals(CursorOpacity);
+	}
+
+	private void LoadIniValues()
 	{
 		if (File.Exists(_file))
 		{
@@ -4053,590 +4008,6 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	private void LoadCustomCursorSets()
-	{
-		CustomCursorSets.Clear();
-		if (!Directory.Exists(Paths.CustomCursors))
-		{
-			Directory.CreateDirectory(Paths.CustomCursors);
-		}
-		string[] directories = Directory.GetDirectories(Paths.CustomCursors);
-		foreach (string text in directories)
-		{
-			string fileName = Path.GetFileName(text);
-			CustomCursorSets.Add(new CustomCursorSet
-			{
-				Name = fileName,
-				FolderPath = text
-			});
-		}
-		if (CustomCursorSets.Any())
-		{
-			SelectedCustomCursorSetIndex = 0;
-		}
-		OnPropertyChanged("IsCustomCursorSetSelected");
-	}
-
-	private void AddCustomCursorSet()
-	{
-		string customCursors = Paths.CustomCursors;
-		int num = 1;
-		string text;
-		do
-		{
-			string path = $"Custom Cursor Set {num}";
-			text = Path.Combine(customCursors, path);
-			num++;
-		}
-		while (Directory.Exists(text));
-		try
-		{
-			Directory.CreateDirectory(text);
-			CustomCursorSet item = new CustomCursorSet
-			{
-				Name = Path.GetFileName(text),
-				FolderPath = text
-			};
-			CustomCursorSets.Add(item);
-			SelectedCustomCursorSetIndex = CustomCursorSets.Count - 1;
-			OnPropertyChanged("IsCustomCursorSetSelected");
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("ModsViewModel::AddCustomCursorSet", ex);
-			Frontend.ShowMessageBox("Failed to create cursor set:\n" + ex.Message, MessageBoxImage.Hand);
-		}
-	}
-
-	private void DeleteCustomCursorSet()
-	{
-		if (SelectedCustomCursorSet == null)
-		{
-			return;
-		}
-		try
-		{
-			if (Directory.Exists(SelectedCustomCursorSet.FolderPath))
-			{
-				Filesystem.AssertReadOnlyDirectory(SelectedCustomCursorSet.FolderPath);
-				Directory.Delete(SelectedCustomCursorSet.FolderPath, recursive: true);
-			}
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("ModsViewModel::DeleteCustomCursorSet", ex);
-			Frontend.ShowMessageBox("Failed to delete cursor set:\n" + ex.Message, MessageBoxImage.Hand);
-			return;
-		}
-		CustomCursorSets.Remove(SelectedCustomCursorSet);
-		if (CustomCursorSets.Any())
-		{
-			SelectedCustomCursorSetIndex = CustomCursorSets.Count - 1;
-			OnPropertyChanged("SelectedCustomCursorSet");
-		}
-		OnPropertyChanged("IsCustomCursorSetSelected");
-	}
-
-	private void RenameCustomCursorSetStructure(string oldName, string newName)
-	{
-		string sourceDirName = Path.Combine(Paths.CustomCursors, oldName);
-		string text = Path.Combine(Paths.CustomCursors, newName);
-		if (Directory.Exists(text))
-		{
-			throw new IOException("A folder with the new name already exists.");
-		}
-		Directory.Move(sourceDirName, text);
-	}
-
-	private void RenameCustomCursorSet()
-	{
-		if (SelectedCustomCursorSet == null || SelectedCustomCursorSet.Name == SelectedCustomCursorSetName)
-		{
-			return;
-		}
-		if (string.IsNullOrWhiteSpace(SelectedCustomCursorSetName))
-		{
-			Frontend.ShowMessageBox("Name cannot be empty.", MessageBoxImage.Hand);
-			return;
-		}
-		PathValidator.ValidationResult validationResult = PathValidator.IsFileNameValid(SelectedCustomCursorSetName);
-		if (validationResult != PathValidator.ValidationResult.Ok)
-		{
-			object message = validationResult switch
-			{
-				PathValidator.ValidationResult.IllegalCharacter => "Name contains illegal characters.", 
-				PathValidator.ValidationResult.ReservedFileName => "Name is reserved.", 
-				_ => "Unknown validation error.", 
-			};
-			App.Logger.WriteLine("ModsViewModel::RenameCustomCursorSet", $"Validation result: {validationResult}");
-			Frontend.ShowMessageBox((string)message, MessageBoxImage.Hand);
-			return;
-		}
-		try
-		{
-			RenameCustomCursorSetStructure(SelectedCustomCursorSet.Name, SelectedCustomCursorSetName);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("ModsViewModel::RenameCustomCursorSet", ex);
-			Frontend.ShowMessageBox("Failed to rename:\n" + ex.Message, MessageBoxImage.Hand);
-			return;
-		}
-		int num = CustomCursorSets.IndexOf(SelectedCustomCursorSet);
-		CustomCursorSets[num] = new CustomCursorSet
-		{
-			Name = SelectedCustomCursorSetName,
-			FolderPath = Path.Combine(Paths.CustomCursors, SelectedCustomCursorSetName)
-		};
-		SelectedCustomCursorSetIndex = num;
-		OnPropertyChanged("SelectedCustomCursorSetIndex");
-	}
-
-	private void ApplyCursorSet()
-	{
-		if (SelectedCustomCursorSet == null)
-		{
-			Frontend.ShowMessageBox("Please select a cursor set first.", MessageBoxImage.Exclamation);
-			return;
-		}
-		string folderPath = SelectedCustomCursorSet.FolderPath;
-		string text = Path.Combine(Paths.Mods, "content", "textures");
-		string text2 = Path.Combine(text, "Cursors", "KeyboardMouse");
-		try
-		{
-			if (!Directory.Exists(folderPath))
-			{
-				Frontend.ShowMessageBox("Selected cursor set folder does not exist.", MessageBoxImage.Hand);
-				return;
-			}
-			Directory.CreateDirectory(text);
-			Directory.CreateDirectory(text2);
-			string[] array = new string[4]
-			{
-				Path.Combine(text, "MouseLockedCursor.png"),
-				Path.Combine(text2, "ArrowCursor.png"),
-				Path.Combine(text2, "ArrowFarCursor.png"),
-				Path.Combine(text2, "IBeamCursor.png")
-			};
-			HashSet<string> appliedFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-			foreach (string text3 in Directory.GetFiles(folderPath, "*", SearchOption.AllDirectories))
-			{
-				string relativePath = Path.GetRelativePath(folderPath, text3);
-				string text4 = Path.Combine(text, relativePath);
-				Filesystem.CopyWritableFile(text3, text4);
-				appliedFiles.Add(Path.GetFullPath(text4));
-			}
-			foreach (string path in array)
-			{
-				if (!appliedFiles.Contains(Path.GetFullPath(path)))
-				{
-					Filesystem.DeleteWritableFile(path);
-				}
-			}
-			Frontend.ShowMessageBox("Cursor set '" + SelectedCustomCursorSet.Name + "' applied successfully!", MessageBoxImage.Asterisk);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("ModsViewModel::ApplyCursorSet", ex);
-			Frontend.ShowMessageBox("Failed to apply cursor set:\n" + ex.Message, MessageBoxImage.Hand);
-		}
-		LoadCursorPathsForSelectedSet();
-		OnPropertyChanged("ChooseCustomShiftlockVisibility");
-		OnPropertyChanged("DeleteCustomShiftlockVisibility");
-		OnPropertyChanged("ChooseCustomCursorVisibility");
-		OnPropertyChanged("DeleteCustomCursorVisibility");
-	}
-
-	private void GetCurrentCursorSet()
-	{
-		if (SelectedCustomCursorSet == null)
-		{
-			Frontend.ShowMessageBox("Please select a cursor set first.", MessageBoxImage.Exclamation);
-			return;
-		}
-		string text = Path.Combine(Paths.Mods, "content", "textures", "MouseLockedCursor.png");
-		InlineArray5<string> buffer = default(InlineArray5<string>);
-		buffer[0] = Paths.Mods;
-		buffer[1] = "content";
-		buffer[2] = "textures";
-		buffer[3] = "Cursors";
-		buffer[4] = "KeyboardMouse";
-		string text2 = Path.Combine(buffer);
-		string folderPath = SelectedCustomCursorSet.FolderPath;
-		string text3 = Path.Combine(folderPath, "MouseLockedCursor.png");
-		string text4 = Path.Combine(folderPath, "Cursors", "KeyboardMouse");
-		try
-		{
-			Directory.CreateDirectory(folderPath);
-			Directory.CreateDirectory(text4);
-			string[] array = new string[4]
-			{
-				text3,
-				Path.Combine(text4, "ArrowCursor.png"),
-				Path.Combine(text4, "ArrowFarCursor.png"),
-				Path.Combine(text4, "IBeamCursor.png")
-			};
-			foreach (string path in array)
-			{
-				Filesystem.DeleteWritableFile(path);
-			}
-			if (File.Exists(text))
-			{
-				Filesystem.CopyWritableFile(text, text3);
-			}
-			if (Directory.Exists(text2))
-			{
-				array = new string[3] { "ArrowCursor.png", "ArrowFarCursor.png", "IBeamCursor.png" };
-				foreach (string path2 in array)
-				{
-					string text5 = Path.Combine(text2, path2);
-					string destFileName = Path.Combine(text4, path2);
-					if (File.Exists(text5))
-					{
-						Filesystem.CopyWritableFile(text5, destFileName);
-					}
-				}
-			}
-			Frontend.ShowMessageBox("Current cursor set copied into selected folder.", MessageBoxImage.Asterisk);
-			NotifyCursorVisibilities();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("ModsViewModel::GetCurrentCursorSet", ex);
-			Frontend.ShowMessageBox("Failed to get current cursor set:\n" + ex.Message, MessageBoxImage.Hand);
-		}
-		LoadCursorPathsForSelectedSet();
-		NotifyCursorVisibilities();
-	}
-
-	private void ExportCursorSet()
-	{
-		if (SelectedCustomCursorSet == null)
-		{
-			return;
-		}
-		Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog
-		{
-			FileName = SelectedCustomCursorSet.Name + ".zip",
-			Filter = Strings.FileTypes_ZipArchive + "|*.zip"
-		};
-		if (saveFileDialog.ShowDialog() != true)
-		{
-			return;
-		}
-		string folderPath = SelectedCustomCursorSet.FolderPath;
-		try
-		{
-			using MemoryStream memoryStream = new MemoryStream();
-			using ZipOutputStream zipOutputStream = new ZipOutputStream(memoryStream);
-			foreach (string item in Directory.EnumerateFiles(folderPath, "*.*", SearchOption.AllDirectories))
-			{
-				ZipEntry entry = new ZipEntry(item.Substring(folderPath.Length + 1).Replace('\\', '/'))
-				{
-					DateTime = DateTime.Now,
-					Size = new FileInfo(item).Length
-				};
-				zipOutputStream.PutNextEntry(entry);
-				using FileStream fileStream = File.OpenRead(item);
-				fileStream.CopyTo(zipOutputStream);
-				zipOutputStream.CloseEntry();
-			}
-			zipOutputStream.Finish();
-			memoryStream.Position = 0L;
-			using FileStream destination = new(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.None);
-			memoryStream.CopyTo(destination);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("ModsViewModel::ExportCursorSet", ex);
-			Frontend.ShowMessageBox("Failed to export cursor set:\n" + ex.Message, MessageBoxImage.Hand);
-			return;
-		}
-		Process.Start("explorer.exe", "/select,\"" + saveFileDialog.FileName + "\"");
-	}
-
-	private void ImportCursorSet()
-	{
-		if (SelectedCustomCursorSet == null)
-		{
-			Frontend.ShowMessageBox("Please select a cursor set first.", MessageBoxImage.Exclamation);
-			return;
-		}
-		Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
-		{
-			Title = "Import Cursor Set",
-			Filter = Strings.FileTypes_ZipArchive + "|*.zip",
-			Multiselect = false
-		};
-		if (openFileDialog.ShowDialog() != true)
-		{
-			return;
-		}
-		string text = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-		try
-		{
-			Directory.CreateDirectory(text);
-			ExtractZipToDirectory(openFileDialog.FileName, text);
-			string text2 = Path.Combine(SelectedCustomCursorSet.FolderPath, "MouseLockedCursor.png");
-			string text3 = Path.Combine(SelectedCustomCursorSet.FolderPath, "Cursors", "KeyboardMouse");
-			string text4 = Directory.GetFiles(text, "MouseLockedCursor.png", SearchOption.AllDirectories).FirstOrDefault();
-			if (text4 != null)
-			{
-				Filesystem.CopyWritableFile(text4, text2);
-			}
-			else
-			{
-				Filesystem.DeleteWritableFile(text2);
-			}
-			Directory.CreateDirectory(text3);
-			string[] array = new string[3] { "ArrowCursor.png", "ArrowFarCursor.png", "IBeamCursor.png" };
-			foreach (string text5 in array)
-			{
-				string text6 = Directory.GetFiles(text, text5, SearchOption.AllDirectories).FirstOrDefault();
-				string destFileName = Path.Combine(text3, text5);
-				if (text6 != null)
-				{
-					Filesystem.CopyWritableFile(text6, destFileName);
-				}
-				else
-				{
-					Filesystem.DeleteWritableFile(destFileName);
-				}
-			}
-			Frontend.ShowMessageBox("Cursor set imported successfully.", MessageBoxImage.Asterisk);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("ModsViewModel::ImportCursorSet", ex);
-			Frontend.ShowMessageBox("Failed to import cursor set:\n" + ex.Message, MessageBoxImage.Hand);
-		}
-		finally
-		{
-			try
-			{
-				if (Directory.Exists(text))
-				{
-					Filesystem.AssertReadOnlyDirectory(text);
-					Directory.Delete(text, recursive: true);
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteException("ModsViewModel::ImportCursorSetCleanup", ex);
-			}
-		}
-		LoadCursorPathsForSelectedSet();
-	}
-
-	private void ExtractZipToDirectory(string zipFilePath, string extractPath)
-	{
-		SafeZipExtractor.ExtractToDirectory(zipFilePath, extractPath, true, 256L * 1024 * 1024, 4096);
-	}
-
-	private string? GetCursorTargetPath(string fileName)
-	{
-		if (SelectedCustomCursorSet == null)
-		{
-			return null;
-		}
-		string obj = ((fileName == "MouseLockedCursor.png") ? SelectedCustomCursorSet.FolderPath : Path.Combine(SelectedCustomCursorSet.FolderPath, "Cursors", "KeyboardMouse"));
-		Directory.CreateDirectory(obj);
-		return Path.Combine(obj, fileName);
-	}
-
-	private void DeleteCursorImage(string fileName)
-	{
-		string cursorTargetPath = GetCursorTargetPath(fileName);
-		if (cursorTargetPath != null && File.Exists(cursorTargetPath))
-		{
-			try
-			{
-				Filesystem.DeleteWritableFile(cursorTargetPath);
-				UpdateCursorPathProperty(fileName, "");
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteException("ModsViewModel::Delete" + fileName, ex);
-				Frontend.ShowMessageBox("Failed to delete " + fileName + ":\n" + ex.Message, MessageBoxImage.Hand);
-			}
-			LoadCursorPathsForSelectedSet();
-			NotifyCursorVisibilities();
-			OnPropertyChanged("ChooseCustomShiftlockVisibility");
-			OnPropertyChanged("DeleteCustomShiftlockVisibility");
-			OnPropertyChanged("ChooseCustomCursorVisibility");
-			OnPropertyChanged("DeleteCustomCursorVisibility");
-		}
-	}
-
-	private void AddShiftlockCursor()
-	{
-		AddCursorImage("MouseLockedCursor.png", "Select Shiftlock PNG");
-		OnPropertyChanged("ChooseCustomShiftlockVisibility");
-		OnPropertyChanged("DeleteCustomShiftlockVisibility");
-		OnPropertyChanged("ChooseCustomCursorVisibility");
-		OnPropertyChanged("DeleteCustomCursorVisibility");
-	}
-
-	private void AddCursorImage(string fileName, string dialogTitle)
-	{
-		if (SelectedCustomCursorSet == null)
-		{
-			Frontend.ShowMessageBox("Please select a cursor set first.", MessageBoxImage.Exclamation);
-			return;
-		}
-		Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
-		{
-			Title = dialogTitle,
-			Filter = "PNG files (*.png)|*.png",
-			Multiselect = false
-		};
-		if (openFileDialog.ShowDialog() != true)
-		{
-			return;
-		}
-		string cursorTargetPath = GetCursorTargetPath(fileName);
-		if (cursorTargetPath == null)
-		{
-			return;
-		}
-		try
-		{
-			Filesystem.CopyWritableFile(openFileDialog.FileName, cursorTargetPath);
-			UpdateCursorPathAndPreview(fileName, openFileDialog.FileName);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("ModsViewModel::Add" + fileName, ex);
-			Frontend.ShowMessageBox("Failed to add " + fileName + ":\n" + ex.Message, MessageBoxImage.Hand);
-		}
-		LoadCursorPathsForSelectedSet();
-		NotifyCursorVisibilities();
-		OnPropertyChanged("ChooseCustomShiftlockVisibility");
-		OnPropertyChanged("DeleteCustomShiftlockVisibility");
-		OnPropertyChanged("ChooseCustomCursorVisibility");
-		OnPropertyChanged("DeleteCustomCursorVisibility");
-	}
-
-	private void UpdateCursorPathProperty(string fileName, string path)
-	{
-		switch (fileName)
-		{
-		case "MouseLockedCursor.png":
-			ShiftlockCursorSelectedPath = path;
-			break;
-		case "ArrowCursor.png":
-			ArrowCursorSelectedPath = path;
-			break;
-		case "ArrowFarCursor.png":
-			ArrowFarCursorSelectedPath = path;
-			break;
-		case "IBeamCursor.png":
-			IBeamCursorSelectedPath = path;
-			break;
-		}
-	}
-
-	private void UpdateCursorPathAndPreview(string fileName, string fullPath)
-	{
-		if (!File.Exists(fullPath))
-		{
-			fullPath = "";
-		}
-		ImageSource imageSource = LoadImageSafely(fullPath);
-		switch (fileName)
-		{
-		case "MouseLockedCursor.png":
-			ShiftlockCursorSelectedPath = fullPath;
-			ShiftlockCursorPreview = imageSource;
-			App.Settings.Prop.ShiftlockCursorSelectedPath = fullPath;
-			break;
-		case "ArrowCursor.png":
-			ArrowCursorSelectedPath = fullPath;
-			ArrowCursorPreview = imageSource;
-			App.Settings.Prop.ArrowCursorSelectedPath = fullPath;
-			break;
-		case "ArrowFarCursor.png":
-			ArrowFarCursorSelectedPath = fullPath;
-			ArrowFarCursorPreview = imageSource;
-			App.Settings.Prop.ArrowFarCursorSelectedPath = fullPath;
-			break;
-		case "IBeamCursor.png":
-			IBeamCursorSelectedPath = fullPath;
-			IBeamCursorPreview = imageSource;
-			App.Settings.Prop.IBeamCursorSelectedPath = fullPath;
-			break;
-		}
-		App.Settings.SaveDeferred();
-	}
-
-	private void LoadCursorPathsForSelectedSet()
-	{
-		if (SelectedCustomCursorSet == null)
-		{
-			UpdateCursorPathAndPreview("MouseLockedCursor.png", "");
-			UpdateCursorPathAndPreview("ArrowCursor.png", "");
-			UpdateCursorPathAndPreview("ArrowFarCursor.png", "");
-			UpdateCursorPathAndPreview("IBeamCursor.png", "");
-		}
-		else
-		{
-			string folderPath = SelectedCustomCursorSet.FolderPath;
-			string path = Path.Combine(folderPath, "Cursors", "KeyboardMouse");
-			UpdateCursorPathAndPreview("MouseLockedCursor.png", Path.Combine(folderPath, "MouseLockedCursor.png"));
-			UpdateCursorPathAndPreview("ArrowCursor.png", Path.Combine(path, "ArrowCursor.png"));
-			UpdateCursorPathAndPreview("ArrowFarCursor.png", Path.Combine(path, "ArrowFarCursor.png"));
-			UpdateCursorPathAndPreview("IBeamCursor.png", Path.Combine(path, "IBeamCursor.png"));
-		}
-	}
-
-	private static BitmapSource LoadImageSafely(string path)
-	{
-		if (!File.Exists(path))
-		{
-			return null;
-		}
-		try
-		{
-			return Voidstrap.Utility.SafeImaging.FromFile(path);
-		}
-		catch
-		{
-			return null;
-		}
-	}
-
-	private Visibility GetCursorAddVisibility(string fileName)
-	{
-		string cursorTargetPath = GetCursorTargetPath(fileName);
-		if (cursorTargetPath == null || !File.Exists(cursorTargetPath))
-		{
-			return Visibility.Visible;
-		}
-		return Visibility.Collapsed;
-	}
-
-	private Visibility GetCursorDeleteVisibility(string fileName)
-	{
-		string cursorTargetPath = GetCursorTargetPath(fileName);
-		if (cursorTargetPath == null || !File.Exists(cursorTargetPath))
-		{
-			return Visibility.Collapsed;
-		}
-		return Visibility.Visible;
-	}
-
-	private void NotifyCursorVisibilities()
-	{
-		OnPropertyChanged("AddShiftlockCursorVisibility");
-		OnPropertyChanged("DeleteShiftlockCursorVisibility");
-		OnPropertyChanged("AddArrowCursorVisibility");
-		OnPropertyChanged("DeleteArrowCursorVisibility");
-		OnPropertyChanged("AddArrowFarCursorVisibility");
-		OnPropertyChanged("DeleteArrowFarCursorVisibility");
-		OnPropertyChanged("AddIBeamCursorVisibility");
-		OnPropertyChanged("DeleteIBeamCursorVisibility");
-	}
-
 	public string ExplorerStatusMessage
 	{
 		get
@@ -4648,12 +4019,14 @@ public ICommand PickCursorColorCommand { get; }
 			if (_explorerStatusMessage == value)
 				return;
 			_explorerStatusMessage = value;
-			OnPropertyChanged("ExplorerStatusMessage");
-			OnPropertyChanged("ExplorerHasStatus");
+			OnPropertyChanged(nameof(ExplorerStatusMessage));
+			OnPropertyChanged(nameof(ExplorerHasStatus));
 		}
 	}
 
 	public bool ExplorerHasStatus => !string.IsNullOrEmpty(_explorerStatusMessage);
+
+	public string ExplorerItemCountText => ModFiles.Count == 1 ? "1 item" : $"{ModFiles.Count} items";
 
 	private string ResolveRobloxPlayerDir(bool forceRefresh = false)
 	{
@@ -4663,7 +4036,7 @@ public ICommand PickCursorColorCommand { get; }
 		return _robloxPlayerDirCache;
 	}
 
-	private string GetRobloxPlayerDir()
+	private static string GetRobloxPlayerDir()
 	{
 		RobloxPlayerData playerData = new RobloxPlayerData();
 		string versionsRoot = Path.GetFullPath(playerData.VersionsRoot);
@@ -4679,7 +4052,9 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			try
 			{
-				string[] directories = Directory.GetDirectories(versionsRoot);
+				string[] directories = Directory.GetDirectories(versionsRoot)
+					.OrderByDescending(Directory.GetLastWriteTimeUtc)
+					.ToArray();
 				foreach (string text2 in directories)
 				{
 					if (Voidstrap.AppData.CommonAppData.IsVersionGuidValid(Path.GetFileName(text2)) && File.Exists(Path.Combine(text2, "RobloxPlayerBeta.exe")))
@@ -4719,7 +4094,7 @@ public ICommand PickCursorColorCommand { get; }
 			return;
 		}
 		string text = Path.Combine(Paths.Mods, SelectedModFile.RelativePath);
-		string directoryName = Path.GetDirectoryName(text);
+		string? directoryName = Path.GetDirectoryName(text);
 		try
 		{
 			if (directoryName != null)
@@ -4793,32 +4168,22 @@ public ICommand PickCursorColorCommand { get; }
 
 	public void RecolorImage()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-		{
-			Frontend.ShowMessageBox(Strings.Common_NotAvailableOnPlatform, MessageBoxImage.Information);
-			return;
-		}
 		if (SelectedModFile != null && SelectedModFile.IsImage)
 		{
 			ImageRecolorWindow imageRecolorWindow = new ImageRecolorWindow(SelectedModFile.FullPath, SelectedModFile.RelativePath);
 			imageRecolorWindow.Owner = System.Windows.Application.Current.MainWindow;
-			imageRecolorWindow.ShowDialog();
+			imageRecolorWindow.ShowOwnedDialog();
 			RefreshModFiles();
 		}
 	}
 
 	public void AdjustImage()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-		{
-			Frontend.ShowMessageBox(Strings.Common_NotAvailableOnPlatform, MessageBoxImage.Information);
-			return;
-		}
 		if (SelectedModFile != null && SelectedModFile.IsImage)
 		{
 			ImageAdjustWindow imageAdjustWindow = new ImageAdjustWindow(SelectedModFile.FullPath, SelectedModFile.RelativePath);
 			imageAdjustWindow.Owner = System.Windows.Application.Current.MainWindow;
-			imageAdjustWindow.ShowDialog();
+			imageAdjustWindow.ShowOwnedDialog();
 			RefreshModFiles();
 		}
 	}
@@ -4834,6 +4199,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 		}
 		_explorerCts = new CancellationTokenSource();
+		SelectedModFile = null;
 		_ = RefreshModFilesAsync(_explorerCts.Token);
 	}
 
@@ -4845,8 +4211,8 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			path = root;
 			_currentExplorerPath = root;
-			OnPropertyChanged("CurrentExplorerPath");
-			OnPropertyChanged("ExplorerPathDisplay");
+			OnPropertyChanged(nameof(CurrentExplorerPath));
+			OnPropertyChanged(nameof(ExplorerPathDisplay));
 		}
 
 		if (!Directory.Exists(path))
@@ -4855,8 +4221,8 @@ public ICommand PickCursorColorCommand { get; }
 			if (Directory.Exists(root))
 			{
 				_currentExplorerPath = root;
-				OnPropertyChanged("CurrentExplorerPath");
-				OnPropertyChanged("ExplorerPathDisplay");
+				OnPropertyChanged(nameof(CurrentExplorerPath));
+				OnPropertyChanged(nameof(ExplorerPathDisplay));
 				path = root;
 			}
 		}
@@ -4893,6 +4259,7 @@ public ICommand PickCursorColorCommand { get; }
 		ModFiles.Clear();
 		foreach (ModFile item in built)
 			ModFiles.Add(item);
+		OnPropertyChanged(nameof(ExplorerItemCountText));
 		ExplorerStatusMessage = status;
 	}
 
@@ -4913,7 +4280,7 @@ public ICommand PickCursorColorCommand { get; }
 			if (filter.Length != 0 && !name.Contains(filter, StringComparison.OrdinalIgnoreCase))
 				continue;
 			ModFile entry = CreateModFile(directory, isFolder: true);
-			UpdateModStatus(entry, robloxRoot);
+            UpdateModStatus(entry, robloxRoot);
 			built.Add(entry);
 		}
 
@@ -4928,14 +4295,14 @@ public ICommand PickCursorColorCommand { get; }
 			if (filter.Length != 0 && !name.Contains(filter, StringComparison.OrdinalIgnoreCase))
 				continue;
 			ModFile entry = CreateModFile(file, isFolder: false);
-			UpdateModStatus(entry, robloxRoot);
+            UpdateModStatus(entry, robloxRoot);
 			built.Add(entry);
 		}
 
 		return built;
 	}
 
-	private void UpdateModStatus(ModFile file, string robloxPlayerDir)
+	private static void UpdateModStatus(ModFile file, string robloxPlayerDir)
 	{
 		if (file.IsFolder)
 		{
@@ -5098,8 +4465,10 @@ public ICommand PickCursorColorCommand { get; }
 	private static int _scanBusy;
 
 	private string _lastCaptureSig = "";
+    private static readonly string[] DeathSoundFiles = ["oof.ogg"];
+    private static readonly char[] trimChars = new char[2] { '\\', '/' };
 
-	private void RunScanAndRebuild(bool initial)
+    private void RunScanAndRebuild(bool initial)
 	{
 		if (System.Threading.Interlocked.CompareExchange(ref _scanBusy, 1, 0) != 0)
 		{
@@ -5174,21 +4543,21 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		try
 		{
-			AssetCaptureStore.ScanAvatarAssetsAsync();
+			_ = AssetCaptureStore.ScanAvatarAssetsAsync();
 		}
 		catch
 		{
 		}
 		try
 		{
-			AssetCaptureStore.ResolveHashesAsync(150);
+			_ = AssetCaptureStore.ResolveHashesAsync(150);
 		}
 		catch
 		{
 		}
 		try
 		{
-			AssetCaptureStore.PrefetchUnsizedAsync(6);
+			_ = AssetCaptureStore.PrefetchUnsizedAsync(6);
 		}
 		catch
 		{
@@ -5274,7 +4643,7 @@ public ICommand PickCursorColorCommand { get; }
 		UpdateCaptureStats();
 		if (_showAssetNames)
 		{
-			ResolveNamesAsync();
+			_ = ResolveNamesAsync();
 		}
 	}
 
@@ -5294,7 +4663,7 @@ public ICommand PickCursorColorCommand { get; }
 		string text = ((!string.IsNullOrEmpty(asset.AssetId)) ? asset.AssetId : asset.Hash);
 		try
 		{
-			System.Windows.Clipboard.SetText(text);
+			Voidstrap.Utility.ClipboardService.SetText(text);
 		}
 		catch
 		{
@@ -5307,7 +4676,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			return;
 		}
-		byte[] array = AssetCaptureStore.ReadContent(asset);
+		byte[]? array = AssetCaptureStore.ReadContent(asset);
 		if (array == null || array.Length == 0)
 		{
 			return;
@@ -5318,7 +4687,7 @@ public ICommand PickCursorColorCommand { get; }
 			string text = ((!string.IsNullOrEmpty(asset.AssetId)) ? asset.AssetId : asset.Hash);
 			if (KtxDecoder.IsKtx(array))
 			{
-				BitmapSource bitmapSource = KtxDecoder.DecodeToBitmap(array);
+				BitmapSource? bitmapSource = KtxDecoder.DecodeToBitmap(array);
 				if (bitmapSource != null)
 				{
 					string path = Path.Combine(ExportDir, text + ".png");
@@ -5441,4 +4810,7 @@ public ICommand PickCursorColorCommand { get; }
 			_resolving = false;
 		}
 	}
+
+    [GeneratedRegex("^#[0-9A-Fa-f]{6}$")]
+    private static partial Regex HexColorPattern { get; }
 }

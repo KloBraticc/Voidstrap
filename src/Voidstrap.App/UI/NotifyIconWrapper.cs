@@ -53,10 +53,41 @@ public class NotifyIconWrapper : IDisposable
 		_watcher = watcher ?? throw new ArgumentNullException(nameof(watcher));
 		_notifyIcon = new NotifyIcon(new Container())
 		{
-			Icon = Voidstrap.Properties.Resources.IconVoidstrap,
-			Text = "Voidstrap",
-			Visible = true
+			Text = "Voidstrap"
 		};
+		if (Voidstrap.Utility.Platform.IsWindows)
+		{
+			_notifyIcon.Icon = Voidstrap.Properties.Resources.IconVoidstrap;
+		}
+		if (!Voidstrap.Utility.Platform.IsWindows)
+		{
+			try
+			{
+				EnsureMenuContainer();
+				App.Logger.WriteLine("NotifyIconWrapper::NotifyIconWrapper", "Tray menu built before the icon was published");
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteException("NotifyIconWrapper::NotifyIconWrapper", ex);
+			}
+		}
+
+		_notifyIcon.Visible = true;
+
+#if CROSSPLAT
+		if (!Voidstrap.Utility.Platform.IsWindows)
+		{
+			try
+			{
+				_menuContainer?.AttachTrayMenuProvider();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteException("NotifyIconWrapper::AttachTrayMenu", ex);
+			}
+		}
+#endif
+
 		_notifyIcon.MouseClick += NotifyIcon_MouseClick;
 		RefreshGameJoinSubscription();
 	}
@@ -109,7 +140,10 @@ public class NotifyIconWrapper : IDisposable
 		if (_menuContainer == null)
 		{
 			_menuContainer = new MenuContainer(_watcher);
-			_menuContainer.Show();
+			if (Voidstrap.Utility.Platform.IsWindows)
+			{
+				_menuContainer.Show();
+			}
 		}
 		return _menuContainer;
 	}
@@ -179,7 +213,7 @@ public class NotifyIconWrapper : IDisposable
 		{
 			return;
 		}
-		string text = await ActivityWatcher.Data.QueryServerLocation();
+		string? text = await ActivityWatcher.Data.QueryServerLocation();
 		if (string.IsNullOrEmpty(text))
 		{
 			return;

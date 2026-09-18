@@ -1,7 +1,22 @@
 ﻿<Project>
 
 	<PropertyGroup>
-		<VoidstrapVersion>1.1.2.0</VoidstrapVersion>
+		<VoidstrapVersion>1.1.2.1</VoidstrapVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(VoidstrapLinuxPackagingRoot)' != ''">
+		<BaseOutputPath>$(VoidstrapLinuxPackagingRoot)bin/$(MSBuildProjectName)/</BaseOutputPath>
+		<BaseIntermediateOutputPath>$(VoidstrapLinuxPackagingRoot)obj/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
+		<DefaultItemExcludes>$(DefaultItemExcludes);bin/**;bin-*/**;bin-cross/**;obj/**;obj-*/**</DefaultItemExcludes>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(VoidstrapLinuxPackagingRoot)' != '' And $(MSBuildProjectName.StartsWith('Voidstrap.Cross'))">
+		<BaseOutputPath>$(VoidstrapLinuxPackagingRoot)bin/Voidstrap.Cross/</BaseOutputPath>
+		<BaseIntermediateOutputPath>$(VoidstrapLinuxPackagingRoot)obj/Voidstrap.Cross/</BaseIntermediateOutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup>

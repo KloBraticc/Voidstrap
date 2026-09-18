@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -13,7 +14,7 @@ using Voidstrap.Core;
 
 namespace Voidstrap.Platform.Linux;
 
-public sealed class LinuxPlatformHost : IPlatformHost
+public sealed partial class LinuxPlatformHost : IPlatformHost
 {
 	public LinuxPlatformHost()
 		: this(new SystemProcessService(), null, LinuxRuntimeEnvironmentInfo.Detect())
@@ -171,7 +172,7 @@ public sealed class LinuxPlatformHost : IPlatformHost
 		};
 	}
 
-	private static INotificationService CreateNotifications(IProcessService processes)
+	private static ProcessNotificationService CreateNotifications(IProcessService processes)
 	{
 		string? executable = processes.FindExecutable("notify-send");
 		CapabilityDescriptor capability = executable is null
@@ -207,7 +208,7 @@ public sealed class LinuxPlatformHost : IPlatformHost
 	}
 }
 
-public sealed class LinuxPaths : PlatformPathsBase
+public sealed partial class LinuxPaths : PlatformPathsBase
 {
 	public LinuxPaths()
 		: this(new SystemProcessService())
@@ -302,10 +303,7 @@ public sealed class LinuxPaths : PlatformPathsBase
 
 			foreach (string line in File.ReadLines(path))
 			{
-				Match match = Regex.Match(
-					line,
-					"^\\s*XDG_DOWNLOAD_DIR\\s*=\\s*\"(?<value>(?:[^\"\\\\]|\\\\.)*)\"\\s*$",
-					RegexOptions.CultureInvariant);
+				Match match = XdgDownloadDirPattern.Match(line);
 				if (!match.Success)
 				{
 					continue;
@@ -428,9 +426,12 @@ public sealed class LinuxPaths : PlatformPathsBase
 			return false;
 		}
 	}
+
+	[GeneratedRegex("^\\s*XDG_DOWNLOAD_DIR\\s*=\\s*\"(?<value>(?:[^\"\\\\]|\\\\.)*)\"\\s*$", RegexOptions.CultureInvariant)]
+	private static partial Regex XdgDownloadDirPattern { get; }
 }
 
-internal static class LinuxRuntimeDirectory
+internal static partial class LinuxRuntimeDirectory
 {
 	private const UnixFileMode PrivateMode = UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute;
 	private const UnixFileMode SharedMode = UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute;
@@ -501,7 +502,7 @@ internal static class LinuxRuntimeDirectory
 			throw new ArgumentException("The runtime directory nonce is invalid", nameof(nonce));
 		}
 
-		string user = Regex.Replace(userName ?? string.Empty, "[^A-Za-z0-9_.]", "_");
+		string user = UnsafeUserNameCharacterPattern.Replace(userName ?? string.Empty, "_");
 		if (string.IsNullOrWhiteSpace(user))
 		{
 			user = "user";
@@ -663,20 +664,23 @@ internal static class LinuxRuntimeDirectory
 		}
 	}
 
-	private static class NativeMethods
+	private static partial class NativeMethods
 	{
-		[DllImport("libc", EntryPoint = "mkdir", SetLastError = true)]
-		public static extern int CreateDirectory(string path, uint mode);
+		[LibraryImport("libc", EntryPoint = "mkdir", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
+		public static partial int CreateDirectory(string path, uint mode);
 
-		[DllImport("libc", EntryPoint = "geteuid")]
-		public static extern uint GetEffectiveUserId();
+		[LibraryImport("libc", EntryPoint = "geteuid")]
+		public static partial uint GetEffectiveUserId();
 
-		[DllImport("libc", EntryPoint = "statx", SetLastError = true)]
-		public static extern int GetFileStatus(int directoryFileDescriptor, string path, int flags, uint mask, IntPtr status);
+		[LibraryImport("libc", EntryPoint = "statx", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
+		public static partial int GetFileStatus(int directoryFileDescriptor, string path, int flags, uint mask, IntPtr status);
 	}
+
+	[GeneratedRegex("[^A-Za-z0-9_.]")]
+	private static partial Regex UnsafeUserNameCharacterPattern { get; }
 }
 
-public sealed class LinuxSecureStore : ISecureStore
+public sealed partial class LinuxSecureStore : ISecureStore
 {
 	private const int MaximumIdentifierLength = 256;
 	private const int MaximumSecureValueBytes = 4194304;
@@ -804,7 +808,7 @@ public sealed class LinuxSecureStore : ISecureStore
 	{
 		if (value.EndsWith("\r\n", StringComparison.Ordinal))
 			return value[..^2];
-		if (value.EndsWith("\n", StringComparison.Ordinal))
+		if (value.EndsWith('\n'))
 			return value[..^1];
 		return value;
 	}
@@ -824,7 +828,7 @@ public sealed record LinuxRuntimeEnvironmentInfo(
 	}
 }
 
-internal static class LinuxRuntimePrerequisites
+internal static partial class LinuxRuntimePrerequisites
 {
 	private static readonly Version MinimumSoberKernel = new(5, 11);
 
@@ -880,9 +884,13 @@ internal static class LinuxRuntimePrerequisites
 	}
 }
 
-public sealed class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
+public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 {
 	private const string SoberApplicationId = "org.vinegarhq.Sober";
+	private const long InstalledCacheMilliseconds = 5000;
+	private static int _installedState = -1;
+	private static int _installedRefreshActive;
+	private static long _installedCacheExpires;
 
 	private readonly IProcessService _processes;
 	private readonly CapabilityDescriptor _prerequisiteCapability;
@@ -903,6 +911,278 @@ public sealed class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 	public static bool ForceX11Session { get; set; }
 
+	private static System.Diagnostics.Process? StartSoberKill()
+	{
+		return LinuxFlatpakHost.Start(["kill", SoberApplicationId]);
+	}
+
+	private static async Task<bool> IsSoberRunningAsync(CancellationToken cancellationToken)
+	{
+		try
+		{
+			LinuxSoberProcessProbe probe = new(new SystemProcessService());
+			return await probe.IsRunningAsync(cancellationToken).ConfigureAwait(false);
+		}
+		catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+		{
+			throw;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	private static async Task<bool> WaitForSoberStoppedAsync(CancellationToken cancellationToken)
+	{
+		using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+		timeout.CancelAfter(TimeSpan.FromSeconds(8));
+		int stoppedChecks = 0;
+
+		try
+		{
+			while (!timeout.IsCancellationRequested)
+			{
+				if (await IsSoberRunningAsync(timeout.Token).ConfigureAwait(false))
+				{
+					stoppedChecks = 0;
+				}
+				else if (++stoppedChecks >= 2)
+				{
+					return true;
+				}
+
+				await Task.Delay(250, timeout.Token).ConfigureAwait(false);
+			}
+		}
+		catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+		{
+		}
+
+		cancellationToken.ThrowIfCancellationRequested();
+		return false;
+	}
+
+	private static async Task<bool> WaitForSoberStartedAsync(CancellationToken cancellationToken)
+	{
+		using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+		timeout.CancelAfter(TimeSpan.FromSeconds(12));
+		int runningChecks = 0;
+
+		try
+		{
+			while (!timeout.IsCancellationRequested)
+			{
+				if (await IsSoberRunningAsync(timeout.Token).ConfigureAwait(false))
+				{
+					if (++runningChecks >= 3)
+						return true;
+				}
+				else
+				{
+					runningChecks = 0;
+				}
+
+				await Task.Delay(300, timeout.Token).ConfigureAwait(false);
+			}
+		}
+		catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+		{
+		}
+
+		cancellationToken.ThrowIfCancellationRequested();
+		return false;
+	}
+
+	public static bool IsRobloxPackageInstalled()
+	{
+		try
+		{
+			string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+			string package = Path.Combine(
+				home, ".var", "app", SoberApplicationId, "data", "sober",
+				"packages", "x86_64", "com.roblox.client", "base.apk");
+
+			return File.Exists(package);
+		}
+		catch (Exception)
+		{
+			return true;
+		}
+	}
+
+	public static async Task<bool> TryDownloadRobloxPackageAsync(CancellationToken cancellationToken)
+	{
+		if (IsRobloxPackageInstalled())
+			return true;
+
+		System.Diagnostics.Process? process = null;
+
+		try
+		{
+			process = LinuxFlatpakHost.Start(["run", SoberApplicationId]);
+			if (process is null)
+				return false;
+
+			for (int attempt = 0; attempt < 600; attempt++)
+			{
+				await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
+
+				if (IsRobloxPackageInstalled())
+					return true;
+
+				if (process is { HasExited: true })
+					return IsRobloxPackageInstalled();
+			}
+
+			return false;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+		finally
+		{
+			try
+			{
+				TryCloseSober();
+				process?.Dispose();
+			}
+			catch (Exception)
+			{
+			}
+		}
+	}
+
+	public static bool TryCloseSober()
+	{
+		try
+		{
+			return TryCloseSoberAsync(CancellationToken.None).GetAwaiter().GetResult();
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	public static async Task<bool> TryCloseSoberAsync(CancellationToken cancellationToken)
+	{
+		if (!await IsSoberRunningAsync(cancellationToken).ConfigureAwait(false))
+			return true;
+
+		try
+		{
+			using System.Diagnostics.Process? process = StartSoberKill();
+
+			if (process is null)
+				return false;
+
+			using CancellationTokenSource commandTimeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			commandTimeout.CancelAfter(TimeSpan.FromSeconds(5));
+
+			await process.WaitForExitAsync(commandTimeout.Token).ConfigureAwait(false);
+			if (process.ExitCode != 0 && await IsSoberRunningAsync(cancellationToken).ConfigureAwait(false))
+				return false;
+
+			return await WaitForSoberStoppedAsync(cancellationToken).ConfigureAwait(false);
+		}
+		catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+		{
+			return false;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	public static IReadOnlyList<string> EffectLayerArguments { get; set; } = [];
+
+	public static IReadOnlyList<string> ProxyArguments { get; set; } = [];
+
+	public static bool UseCompositor { get; set; }
+
+
+
+	public static bool IsInstalled()
+	{
+		try
+		{
+			if (LinuxFlatpakHost.IsSandboxed)
+			{
+				int state = Volatile.Read(ref _installedState);
+				if (state < 0 || Environment.TickCount64 >= Interlocked.Read(ref _installedCacheExpires))
+					QueueInstalledRefresh();
+				return state < 0 ? HasSandboxedSoberData() : state == 1;
+			}
+
+			string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+			string[] roots =
+			[
+				Path.Combine(home, ".local", "share", "flatpak", "app", SoberApplicationId),
+				Path.Combine("/var", "lib", "flatpak", "app", SoberApplicationId)
+			];
+
+			foreach (string root in roots)
+			{
+				if (Directory.Exists(root))
+					return true;
+			}
+
+			return false;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	private static bool HasSandboxedSoberData()
+	{
+		try
+		{
+			string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+			return Directory.Exists(Path.Combine(home, ".var", "app", SoberApplicationId));
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	private static void QueueInstalledRefresh()
+	{
+		if (Interlocked.CompareExchange(ref _installedRefreshActive, 1, 0) != 0)
+			return;
+		_ = Task.Run(RefreshInstalledStateAsync);
+	}
+
+	private static async Task RefreshInstalledStateAsync()
+	{
+		bool installed = HasSandboxedSoberData();
+		try
+		{
+			SystemProcessService processes = new();
+			if (LinuxFlatpakHost.TryCreateCommand(processes, ["info", SoberApplicationId], out ProcessCommand command))
+			{
+				using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(2));
+				OperationResult<ProcessExecution> result = await processes.ExecuteAsync(command, timeout.Token).ConfigureAwait(false);
+				if (result.Succeeded && result.Value is not null)
+					installed = result.Value.ExitCode == 0;
+			}
+		}
+		catch (Exception)
+		{
+		}
+		finally
+		{
+			Volatile.Write(ref _installedState, installed ? 1 : 0);
+			Interlocked.Exchange(ref _installedCacheExpires, Environment.TickCount64 + InstalledCacheMilliseconds);
+			Volatile.Write(ref _installedRefreshActive, 0);
+		}
+	}
+
 	public CapabilityDescriptor PrerequisiteCapability => _prerequisiteCapability;
 
 	public async Task<RuntimeInstallation> FindInstallationAsync(CancellationToken cancellationToken = default)
@@ -913,14 +1193,13 @@ public sealed class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 			return UnsupportedInstallation(_prerequisiteCapability);
 		}
 
-		string? flatpak = _processes.FindExecutable("flatpak");
-		if (flatpak is null)
+		if (!LinuxFlatpakHost.TryCreateCommand(_processes, ["info", SoberApplicationId], out ProcessCommand infoCommand))
 		{
 			return MissingInstallation("Flatpak is not installed");
 		}
 
 		OperationResult<ProcessExecution> result = await _processes.ExecuteAsync(
-			new ProcessCommand(flatpak, ["info", "--show-version", SoberApplicationId]),
+			infoCommand,
 			cancellationToken);
 		ThrowIfCanceled(result.Failure, cancellationToken);
 
@@ -937,8 +1216,8 @@ public sealed class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		return new RuntimeInstallation(
 			RuntimeKind.Player,
 			"Sober",
-			result.Value.StandardOutput.Trim(),
-			flatpak,
+			FlatpakApplicationInfo.ParseVersion(result.Value.StandardOutput) ?? string.Empty,
+			infoCommand.FileName,
 			GetSoberDataDirectory(),
 			new CapabilityDescriptor(FeatureId.RobloxPlayer, CapabilityState.Experimental, "Sober is available", null, true));
 	}
@@ -967,30 +1246,77 @@ public sealed class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		if (ForceX11Session)
 		{
 			arguments.Add("--nosocket=wayland");
+			arguments.Add("--socket=x11");
 			arguments.Add("--env=SDL_VIDEODRIVER=x11");
 		}
-		arguments.Add(SoberApplicationId);
-		arguments.Add(deeplink.AbsoluteUri);
 
-		OperationResult<ProcessStartResult> result = await _processes.StartAsync(
-			new ProcessCommand(installation.Location, arguments, CaptureOutput: false),
-			cancellationToken);
-		ThrowIfCanceled(result.Failure, cancellationToken);
+		foreach (string argument in EffectLayerArguments)
+			arguments.Add(argument);
 
-		if (!result.Succeeded || result.Value is null)
+		foreach (string argument in ProxyArguments)
+			arguments.Add(argument);
+
+		bool composited = UseCompositor && LinuxGamescope.IsInstalled();
+		if (composited)
 		{
-			return result.Failure is null
-				? OperationResult<LaunchSession>.Fail("SoberLaunchFailed", "Sober did not start", CapabilityState.Experimental)
-				: OperationResult<LaunchSession>.Fail(result.Failure.Code, result.Failure.Message, result.Failure.State);
+			arguments.Add("--command=" + LinuxGamescope.LauncherPath);
+			arguments.Add("--filesystem=" + LinuxEffectLayers.ConfigDirectory + ":ro");
 		}
 
-		return OperationResult<LaunchSession>.Success(new LaunchSession(
-			RuntimeKind.Player,
-			"Sober",
-			result.Value.ProcessId,
-			DateTimeOffset.UtcNow,
-			installation,
-			false));
+		arguments.Add(SoberApplicationId);
+
+		if (composited)
+		{
+			LinuxDisplayInfo display = LinuxDisplayMetrics.Current;
+
+			foreach (string argument in LinuxGamescope.BuildCompositorArguments(
+				display.Bounds.Width,
+				display.Bounds.Height))
+			{
+				arguments.Add(argument);
+			}
+		}
+
+		arguments.Add(deeplink.AbsoluteUri);
+
+		if (!await TryCloseSoberAsync(cancellationToken).ConfigureAwait(false))
+		{
+			return OperationResult<LaunchSession>.Fail(
+				"SoberCloseFailed",
+				"The current Sober session could not be closed before joining the requested server",
+				CapabilityState.Experimental);
+		}
+
+		if (!LinuxFlatpakHost.TryCreateCommand(_processes, arguments, out ProcessCommand launchCommand, false))
+			return OperationResult<LaunchSession>.Fail("FlatpakMissing", "Flatpak is not installed", CapabilityState.RequiresExternalRuntime);
+
+		OperationResult<ProcessStartResult>? result = null;
+		for (int attempt = 0; attempt < 2; attempt++)
+		{
+			result = await _processes.StartAsync(launchCommand, cancellationToken);
+			ThrowIfCanceled(result.Failure, cancellationToken);
+			if (result.Succeeded && result.Value is not null
+				&& await WaitForSoberStartedAsync(cancellationToken).ConfigureAwait(false))
+			{
+				return OperationResult<LaunchSession>.Success(new LaunchSession(
+					RuntimeKind.Player,
+					"Sober",
+					result.Value.ProcessId,
+					DateTimeOffset.UtcNow,
+					installation,
+					false));
+			}
+
+			if (attempt == 0)
+			{
+				await TryCloseSoberAsync(cancellationToken).ConfigureAwait(false);
+				await Task.Delay(300, cancellationToken).ConfigureAwait(false);
+			}
+		}
+
+		return result?.Failure is null
+			? OperationResult<LaunchSession>.Fail("SoberLaunchFailed", "Sober did not stay running after two launch attempts", CapabilityState.Experimental)
+			: OperationResult<LaunchSession>.Fail(result.Failure.Code, result.Failure.Message, result.Failure.State);
 	}
 
 	private static RuntimeInstallation MissingInstallation(string reason)
@@ -1036,7 +1362,7 @@ public sealed class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 	}
 }
 
-public sealed class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimeProvider
+public sealed partial class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimeProvider
 {
 	private const string VinegarApplicationId = "org.vinegarhq.Vinegar";
 
@@ -1059,6 +1385,60 @@ public sealed class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimeProvider
 
 	public CapabilityDescriptor PrerequisiteCapability => _prerequisiteCapability;
 
+	public static bool IsInstalled()
+	{
+		try
+		{
+			string home = Environment.GetEnvironmentVariable("HOME")
+				?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+			if (LinuxFlatpakHost.IsSandboxed)
+				return Directory.Exists(Path.Combine(home, ".var", "app", VinegarApplicationId));
+
+			string[] roots =
+			[
+				Path.Combine(home, ".local", "share", "flatpak", "app", VinegarApplicationId),
+				Path.Combine("/var", "lib", "flatpak", "app", VinegarApplicationId)
+			];
+
+			foreach (string root in roots)
+			{
+				if (Directory.Exists(root))
+					return true;
+			}
+
+			return HasNativeVinegar();
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	private static bool HasNativeVinegar()
+	{
+		string? search = Environment.GetEnvironmentVariable("PATH");
+		if (string.IsNullOrEmpty(search))
+			return false;
+
+		foreach (string directory in search.Split(Path.PathSeparator))
+		{
+			if (directory.Length == 0)
+				continue;
+
+			try
+			{
+				if (File.Exists(Path.Combine(directory, "vinegar")))
+					return true;
+			}
+			catch (Exception)
+			{
+			}
+		}
+
+		return false;
+	}
+
 	public async Task<RuntimeInstallation> FindInstallationAsync(CancellationToken cancellationToken = default)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
@@ -1077,14 +1457,13 @@ public sealed class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimeProvider
 				GetNativeDataDirectory());
 		}
 
-		string? flatpak = _processes.FindExecutable("flatpak");
-		if (flatpak is null)
+		if (!LinuxFlatpakHost.TryCreateCommand(_processes, ["info", VinegarApplicationId], out ProcessCommand infoCommand))
 		{
 			return MissingInstallation("Vinegar is not installed");
 		}
 
 		OperationResult<ProcessExecution> flatpakResult = await _processes.ExecuteAsync(
-			new ProcessCommand(flatpak, ["info", "--show-version", VinegarApplicationId]),
+			infoCommand,
 			cancellationToken);
 		ThrowIfCanceled(flatpakResult.Failure, cancellationToken);
 		if (!flatpakResult.Succeeded)
@@ -1099,8 +1478,8 @@ public sealed class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimeProvider
 
 		return CreateInstallation(
 			"Vinegar Flatpak",
-			flatpakResult.Value.StandardOutput.Trim(),
-			flatpak,
+			FlatpakApplicationInfo.ParseVersion(flatpakResult.Value.StandardOutput) ?? string.Empty,
+			infoCommand.FileName,
 			GetFlatpakDataDirectory());
 	}
 
@@ -1124,11 +1503,19 @@ public sealed class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimeProvider
 				installation.Capability.State);
 		}
 
-		IReadOnlyList<string> arguments = string.Equals(installation.Provider, "Vinegar Native", StringComparison.Ordinal)
-			? [deeplink.AbsoluteUri]
-			: ["run", VinegarApplicationId, deeplink.AbsoluteUri];
+		bool native = string.Equals(installation.Provider, "Vinegar Native", StringComparison.Ordinal);
+		IReadOnlyList<string> arguments = native ? [deeplink.AbsoluteUri] : ["run", VinegarApplicationId, deeplink.AbsoluteUri];
+		ProcessCommand launchCommand;
+		if (native)
+		{
+			launchCommand = new ProcessCommand(installation.Location, arguments, CaptureOutput: false);
+		}
+		else if (!LinuxFlatpakHost.TryCreateCommand(_processes, arguments, out launchCommand, false))
+		{
+			return OperationResult<LaunchSession>.Fail("FlatpakMissing", "Flatpak is not installed", CapabilityState.RequiresExternalRuntime);
+		}
 		OperationResult<ProcessStartResult> result = await _processes.StartAsync(
-			new ProcessCommand(installation.Location, arguments, CaptureOutput: false),
+			launchCommand,
 			cancellationToken);
 		ThrowIfCanceled(result.Failure, cancellationToken);
 
@@ -1201,7 +1588,7 @@ public sealed class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimeProvider
 	}
 }
 
-public sealed class LinuxStudioRuntimeProvider : IRobloxRuntimeProvider
+public sealed partial class LinuxStudioRuntimeProvider : IRobloxRuntimeProvider
 {
 	private readonly LinuxVinegarStudioRuntimeProvider _provider;
 
@@ -1228,9 +1615,9 @@ public sealed class LinuxStudioRuntimeProvider : IRobloxRuntimeProvider
 	}
 }
 
-public sealed class LinuxProtocolRegistration : IProtocolRegistration
+public sealed partial class LinuxProtocolRegistration : IProtocolRegistration
 {
-	private static readonly Regex SchemeExpression = new Regex("^[a-z][a-z0-9+.-]*$", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
 	private static readonly HashSet<string> SupportedSchemes = new HashSet<string>(StringComparer.Ordinal)
 	{
 		"roblox",
@@ -1263,6 +1650,9 @@ public sealed class LinuxProtocolRegistration : IProtocolRegistration
 
 	private static CapabilityDescriptor CreateCapability(IProcessService processes)
 	{
+		if (LinuxFlatpakHost.IsSandboxed)
+			return new CapabilityDescriptor(FeatureId.ProtocolRegistration, CapabilityState.Available, "The Flatpak desktop entry provides protocol registration");
+
 		return processes.FindExecutable("xdg-mime") is null
 			? new CapabilityDescriptor(FeatureId.ProtocolRegistration, CapabilityState.RequiresExternalRuntime, "The XDG MIME utility is unavailable", "Install xdg utils")
 			: new CapabilityDescriptor(FeatureId.ProtocolRegistration, CapabilityState.Available, "Freedesktop protocol registration is available");
@@ -1285,6 +1675,8 @@ public sealed class LinuxProtocolRegistration : IProtocolRegistration
 		}
 		if (string.IsNullOrWhiteSpace(request.DisplayName) || request.DisplayName.Length > 128 || request.DisplayName.Any(char.IsControl))
 			return OperationResult.Fail("ApplicationNameInvalid", "The protocol handler application name is invalid");
+		if (LinuxFlatpakHost.IsSandboxed)
+			return OperationResult.Success();
 		string? xdgMime = _processes.FindExecutable("xdg-mime");
 		if (xdgMime is null)
 		{
@@ -1518,5 +1910,29 @@ public sealed class LinuxProtocolRegistration : IProtocolRegistration
 		}
 
 		return builder.ToString();
+	}
+
+	[GeneratedRegex("^[a-z][a-z0-9+.-]*$", RegexOptions.CultureInvariant)]
+	private static partial Regex SchemeExpression { get; }
+}
+
+internal static partial class FlatpakApplicationInfo
+{
+	public static string? ParseVersion(string? output)
+	{
+		if (string.IsNullOrWhiteSpace(output))
+			return null;
+
+		foreach (string line in output.Split('\n'))
+		{
+			string trimmed = line.Trim();
+			if (!trimmed.StartsWith("Version:", StringComparison.Ordinal))
+				continue;
+
+			string value = trimmed.Substring("Version:".Length).Trim();
+			return string.IsNullOrWhiteSpace(value) ? null : value;
+		}
+
+		return null;
 	}
 }

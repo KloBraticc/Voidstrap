@@ -6,10 +6,10 @@ namespace Voidstrap.Models.APIs.Config;
 public class Supporter
 {
 	[JsonPropertyName("imageAsset")]
-	public string ImageAsset { get; set; }
+	public string ImageAsset { get; set; } = null!;
 
 	[JsonPropertyName("name")]
-	public string Name { get; set; }
+	public string Name { get; set; } = null!;
 
 	public string Image
 	{

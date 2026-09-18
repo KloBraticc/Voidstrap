@@ -135,6 +135,102 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		}
 	}
 
+	public bool SnapTapEnabled
+	{
+		get
+		{
+			return App.Settings.Prop.SnapTapEnabled;
+		}
+		set
+		{
+			if (App.Settings.Prop.SnapTapEnabled == value)
+			{
+				return;
+			}
+			App.Settings.Prop.SnapTapEnabled = value;
+			App.Settings.Save();
+			SettingChangeResult result = SettingChangeNotifier.Try(
+				"IntegrationsViewModel::SnapTapEnabled",
+				"Snap Tap could not be changed.",
+				() =>
+				{
+					if (!value)
+					{
+						Voidstrap.KeyRouting.SnapTapHook.Stop();
+					}
+					else if (!Voidstrap.KeyRouting.SnapTapHook.Start())
+					{
+						throw new InvalidOperationException("Snap Tap could not start");
+					}
+				});
+			if (!result.Success && value)
+			{
+				App.Settings.Prop.SnapTapEnabled = false;
+				App.Settings.Save();
+			}
+			OnPropertyChanged(nameof(SnapTapEnabled));
+		}
+	}
+
+	public IReadOnlyList<string> SnapTapModes { get; } = new[]
+	{
+		"Last key wins (Snap Tap)",
+		"Neutral, both keys cancel",
+		"First listed key always wins"
+	};
+
+	public int SnapTapMode
+	{
+		get
+		{
+			return Math.Clamp(App.Settings.Prop.SnapTapMode, 0, SnapTapModes.Count - 1);
+		}
+		set
+		{
+			value = Math.Clamp(value, 0, SnapTapModes.Count - 1);
+			if (App.Settings.Prop.SnapTapMode == value)
+			{
+				return;
+			}
+			App.Settings.Prop.SnapTapMode = value;
+			App.Settings.SaveDeferred();
+			if (App.Settings.Prop.SnapTapEnabled)
+			{
+				Voidstrap.KeyRouting.SnapTapHook.Start();
+			}
+			OnPropertyChanged(nameof(SnapTapMode));
+		}
+	}
+
+	public string SnapTapKeys
+	{
+		get
+		{
+			return App.Settings.Prop.SnapTapKeys;
+		}
+		set
+		{
+			List<int[]> groups = Voidstrap.KeyRouting.OpposingKeyResolver.ParseGroups(value);
+			string normalized = groups.Count == 0
+				? App.Settings.Prop.SnapTapKeys
+				: Voidstrap.KeyRouting.OpposingKeyResolver.FormatGroups(groups);
+			if (groups.Count == 0)
+			{
+				Frontend.ShowMessageBox("Enter at least two keys per group, for example: A D, W S", MessageBoxImage.Warning);
+			}
+			if (App.Settings.Prop.SnapTapKeys != normalized)
+			{
+				App.Settings.Prop.SnapTapKeys = normalized;
+				App.Settings.SaveDeferred();
+				if (App.Settings.Prop.SnapTapEnabled)
+				{
+					Voidstrap.KeyRouting.SnapTapHook.Start();
+				}
+			}
+			OnPropertyChanged(nameof(SnapTapKeys));
+		}
+	}
+
 	public bool BlockTelemetry
 	{
 		get
@@ -148,7 +244,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 				return;
 			}
 			_blockTelemetry = value;
-			OnPropertyChanged("BlockTelemetry");
+			OnPropertyChanged(nameof(BlockTelemetry));
 			int version = Interlocked.Increment(ref _telemetryVersion);
 			_ = ApplyTelemetrySettingAsync(value, version);
 		}
@@ -484,7 +580,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 			{
 				App.Settings.Prop.RpcIdleIcon = value.Key;
 				App.Settings.SaveDeferred();
-				OnPropertyChanged("SelectedRpcIdleIcon");
+				OnPropertyChanged(nameof(SelectedRpcIdleIcon));
 			}
 		}
 	}
@@ -602,8 +698,8 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 			if (_selectedCustomIntegration != value)
 			{
 				_selectedCustomIntegration = value;
-				OnPropertyChanged("SelectedCustomIntegration");
-				OnPropertyChanged("IsCustomIntegrationSelected");
+				OnPropertyChanged(nameof(SelectedCustomIntegration));
+				OnPropertyChanged(nameof(IsCustomIntegrationSelected));
 			}
 		}
 	}
@@ -630,8 +726,8 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 			Name = Strings.Menu_Integrations_Custom_NewIntegration
 		});
 		SelectedCustomIntegrationIndex = CustomIntegrations.Count - 1;
-		OnPropertyChanged("SelectedCustomIntegrationIndex");
-		OnPropertyChanged("IsCustomIntegrationSelected");
+		OnPropertyChanged(nameof(SelectedCustomIntegrationIndex));
+		OnPropertyChanged(nameof(IsCustomIntegrationSelected));
 	}
 
 	private void SaveAppSetting(string propertyName)
@@ -663,9 +759,9 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 			if (CustomIntegrations.Count > 0)
 			{
 				SelectedCustomIntegrationIndex = CustomIntegrations.Count - 1;
-				OnPropertyChanged("SelectedCustomIntegrationIndex");
+				OnPropertyChanged(nameof(SelectedCustomIntegrationIndex));
 			}
-			OnPropertyChanged("IsCustomIntegrationSelected");
+			OnPropertyChanged(nameof(IsCustomIntegrationSelected));
 		}
 	}
 
@@ -681,7 +777,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 			{
 				SelectedCustomIntegration.Name = openFileDialog.SafeFileName;
 				SelectedCustomIntegration.Location = openFileDialog.FileName;
-				OnPropertyChanged("SelectedCustomIntegration");
+				OnPropertyChanged(nameof(SelectedCustomIntegration));
 			}
 		}
 	}
@@ -713,7 +809,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 					return;
 				}
 				_blockTelemetry = !value;
-				OnPropertyChanged("BlockTelemetry");
+				OnPropertyChanged(nameof(BlockTelemetry));
 				Frontend.ShowMessageBox(value ? "Voidstrap could not enable the telemetry blocker. Administrator approval is required to edit the hosts file." : "Voidstrap could not disable the telemetry blocker. Administrator approval is required to edit the hosts file.", MessageBoxImage.Warning);
 			});
 		}

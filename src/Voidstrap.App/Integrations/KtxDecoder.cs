@@ -102,7 +102,7 @@ public static class KtxDecoder
 
 	public static BitmapSource? DecodeToBitmap(byte[] data, int off = 0)
 	{
-		DecodedImage decodedImage = Decode(data, off);
+		DecodedImage? decodedImage = Decode(data, off);
 		if (decodedImage == null)
 		{
 			return null;
@@ -132,6 +132,118 @@ public static class KtxDecoder
 		}
 	}
 
+	public static bool IsDds(byte[] d)
+	{
+		return d != null && d.Length >= 128 && d[0] == (byte)'D' && d[1] == (byte)'D' && d[2] == (byte)'S' && d[3] == (byte)' ';
+	}
+
+	public static int DdsArraySize(byte[] data)
+	{
+		if (!IsDds(data) || data.Length < 148 || data[84] != (byte)'D' || data[85] != (byte)'X' || data[86] != (byte)'1' || data[87] != (byte)'0')
+		{
+			return IsDds(data) ? 1 : 0;
+		}
+		return Math.Max(1, BitConverter.ToInt32(data, 140));
+	}
+
+	public static DecodedImage? DecodeDds(byte[] data, int slice = 0)
+	{
+		try
+		{
+			if (!IsDds(data))
+			{
+				return null;
+			}
+			int height = BitConverter.ToInt32(data, 12);
+			int width = BitConverter.ToInt32(data, 16);
+			int mips = Math.Max(1, BitConverter.ToInt32(data, 28));
+			if (width <= 0 || height <= 0 || width > 16384 || height > 16384 || (long)width * height > MaxDecodedPixels || mips > 32)
+			{
+				return null;
+			}
+			string fourCc = System.Text.Encoding.ASCII.GetString(data, 84, 4);
+			int offset = 128;
+			int arraySize = 1;
+			int format = fourCc switch
+			{
+				"DXT1" => 71,
+				"DXT2" or "DXT3" => 74,
+				"DXT4" or "DXT5" => 77,
+				"ATI1" or "BC4U" => 80,
+				"ATI2" or "BC5U" => 83,
+				_ => 0
+			};
+			if (fourCc == "DX10")
+			{
+				if (data.Length < 148)
+				{
+					return null;
+				}
+				format = BitConverter.ToInt32(data, 128);
+				arraySize = Math.Max(1, BitConverter.ToInt32(data, 140));
+				offset = 148;
+			}
+			else if (format == 0 && BitConverter.ToInt32(data, 88) == 32)
+			{
+				format = BitConverter.ToUInt32(data, 92) == 0x00FF0000 ? 87 : 28;
+			}
+			if (slice < 0 || slice >= arraySize)
+			{
+				return null;
+			}
+			long sliceBytes = 0;
+			int levelWidth = width;
+			int levelHeight = height;
+			for (int level = 0; level < mips; level++)
+			{
+				long bytes = DdsLevelBytes(format, levelWidth, levelHeight);
+				if (bytes <= 0)
+				{
+					return null;
+				}
+				sliceBytes += bytes;
+				levelWidth = Math.Max(1, levelWidth / 2);
+				levelHeight = Math.Max(1, levelHeight / 2);
+			}
+			long start = offset + sliceBytes * slice;
+			long topBytes = DdsLevelBytes(format, width, height);
+			if (start + topBytes > data.Length)
+			{
+				return null;
+			}
+			int p = (int)start;
+			byte[]? bgra = format switch
+			{
+				71 or 72 => DecodeBc1(data, p, width, height, dxt1Alpha: true),
+				74 or 75 => DecodeBc2(data, p, width, height),
+				77 or 78 => DecodeBc3(data, p, width, height),
+				80 or 81 => DecodeBc4(data, p, width, height),
+				83 or 84 => DecodeBc5(data, p, width, height),
+				98 or 99 => DecodeBc7(data, p, width, height),
+				28 or 29 => RawRgba(data.AsSpan(p, (int)topBytes).ToArray(), width, height),
+				87 or 91 => data.AsSpan(p, (int)topBytes).ToArray(),
+				_ => null
+			};
+			return bgra == null ? null : new DecodedImage { Width = width, Height = height, Bgra = bgra };
+		}
+		catch
+		{
+			return null;
+		}
+	}
+
+	private static long DdsLevelBytes(int format, int width, int height)
+	{
+		long blocks = (long)Math.Max(1, (width + 3) / 4) * Math.Max(1, (height + 3) / 4);
+		return format switch
+		{
+			71 or 72 or 80 or 81 => blocks * 8,
+			74 or 75 or 77 or 78 or 83 or 84 or 98 or 99 => blocks * 16,
+			28 or 29 or 87 or 91 => (long)width * height * 4,
+			_ => 0
+		};
+	}
+
 	private static DecodedImage? DecodeKtx1(byte[] data, int off)
 	{
 		int p = off + 12;
@@ -158,7 +270,7 @@ public static class KtxDecoder
 			return null;
 		}
 		U32(data, ref p, swap);
-		byte[] array;
+		byte[]? array;
 		switch (num)
 		{
 		case 33776u:
@@ -189,7 +301,7 @@ public static class KtxDecoder
 			array = DecodeUncompressed(data, p, num2, num3, glFormat, glType);
 			break;
 		}
-		byte[] array2 = array;
+		byte[]? array2 = array;
 		if (array2 != null)
 		{
 			return new DecodedImage
@@ -237,7 +349,7 @@ public static class KtxDecoder
 		{
 			return null;
 		}
-		byte[] array2;
+		byte[]? array2;
 		switch (num)
 		{
 		case 131u:
@@ -276,7 +388,7 @@ public static class KtxDecoder
 			array2 = null;
 			break;
 		}
-		byte[] array3 = array2;
+		byte[]? array3 = array2;
 		if (array3 != null)
 		{
 			return new DecodedImage

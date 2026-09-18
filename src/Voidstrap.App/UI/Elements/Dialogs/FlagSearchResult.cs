@@ -22,7 +22,7 @@ public class FlagSearchResult : INotifyPropertyChanged
 		set
 		{
 			_name = value;
-			OnPropertyChanged("Name");
+			OnPropertyChanged(nameof(Name));
 		}
 	}
 
@@ -35,7 +35,7 @@ public class FlagSearchResult : INotifyPropertyChanged
 		set
 		{
 			_value = value;
-			OnPropertyChanged("Value");
+			OnPropertyChanged(nameof(Value));
 		}
 	}
 
@@ -48,7 +48,7 @@ public class FlagSearchResult : INotifyPropertyChanged
 		set
 		{
 			_source = value;
-			OnPropertyChanged("Source");
+			OnPropertyChanged(nameof(Source));
 		}
 	}
 
@@ -61,7 +61,7 @@ public class FlagSearchResult : INotifyPropertyChanged
 		set
 		{
 			_dateAdded = value;
-			OnPropertyChanged("DateAdded");
+			OnPropertyChanged(nameof(DateAdded));
 		}
 	}
 

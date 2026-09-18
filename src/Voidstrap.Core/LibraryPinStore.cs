@@ -21,12 +21,9 @@ public static class LibraryPinStore
 
 	public static IReadOnlyList<LibraryPin> Get(SettingsDocument document)
 	{
-		if (document is null)
-		{
-			throw new ArgumentNullException(nameof(document));
-		}
+        ArgumentNullException.ThrowIfNull(document);
 
-		if (document.Root[SettingKey] is not JsonArray source)
+        if (document.Root[SettingKey] is not JsonArray source)
 		{
 			return Array.Empty<LibraryPin>();
 		}
@@ -50,12 +47,9 @@ public static class LibraryPinStore
 
 	public static bool Add(SettingsDocument document, long placeId, long universeId, string? name)
 	{
-		if (document is null)
-		{
-			throw new ArgumentNullException(nameof(document));
-		}
+        ArgumentNullException.ThrowIfNull(document);
 
-		if (placeId <= 0 && universeId <= 0)
+        if (placeId <= 0 && universeId <= 0)
 		{
 			return false;
 		}
@@ -91,12 +85,9 @@ public static class LibraryPinStore
 
 	public static bool Remove(SettingsDocument document, long placeId)
 	{
-		if (document is null)
-		{
-			throw new ArgumentNullException(nameof(document));
-		}
+        ArgumentNullException.ThrowIfNull(document);
 
-		if (placeId <= 0)
+        if (placeId <= 0)
 		{
 			return false;
 		}
@@ -117,7 +108,7 @@ public static class LibraryPinStore
 		return JsonSerializer.Serialize(Get(document), BrowserSerializerOptions);
 	}
 
-	private static IReadOnlyList<LibraryPin> Normalize(IEnumerable<LibraryPin> pins)
+	private static List<LibraryPin> Normalize(IEnumerable<LibraryPin> pins)
 	{
 		HashSet<long> places = new();
 		HashSet<long> universes = new();

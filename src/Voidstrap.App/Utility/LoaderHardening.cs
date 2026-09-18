@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Voidstrap.Utility;
 
-internal static class LoaderHardening
+internal static partial class LoaderHardening
 {
 	private const uint LoadLibrarySearchSystem32 = 0x800;
 
@@ -36,12 +36,12 @@ internal static class LoaderHardening
 
 	public static int PinnedModuleCount { get; private set; }
 
-	[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+	[LibraryImport("kernel32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
 	[return: MarshalAs(UnmanagedType.Bool)]
-	private static extern bool SetDllDirectoryW(string path);
+	private static partial bool SetDllDirectoryW(string path);
 
-	[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-	private static extern IntPtr LoadLibraryExW(string path, IntPtr file, uint flags);
+	[LibraryImport("kernel32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+	private static partial IntPtr LoadLibraryExW(string path, IntPtr file, uint flags);
 
 	[ModuleInitializer]
 	internal static void Apply()

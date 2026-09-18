@@ -27,10 +27,10 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 			{
 				SetCanContinueEvent?.Invoke(this, e: true);
 				installer.InstallLocationError = "";
-				OnPropertyChanged("ErrorMessage");
+				OnPropertyChanged(nameof(ErrorMessage));
 			}
 			installer.InstallLocation = value;
-			OnPropertyChanged("DataFoundMessageVisibility");
+			OnPropertyChanged(nameof(DataFoundMessageVisibility));
 		}
 	}
 
@@ -136,12 +136,13 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 		if (!installer.CheckInstallLocation())
 		{
 			SetCanContinueEvent?.Invoke(this, e: false);
-			OnPropertyChanged("ErrorMessage");
+			OnPropertyChanged(nameof(ErrorMessage));
 			return false;
 		}
 		try
 		{
 			installer.DoInstall();
+			StartSoberInstall();
 		}
 		catch (Exception ex)
 		{
@@ -153,24 +154,64 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 		return true;
 	}
 
+	private static void StartSoberInstall()
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux)
+			return;
+
+		_ = System.Threading.Tasks.Task.Run(async () =>
+		{
+			try
+			{
+				Voidstrap.Platform.OperationResult result = await new Voidstrap.Platform.Linux.LinuxSoberInstaller(new Voidstrap.Core.SystemProcessService()).InstallAsync();
+				App.Logger.WriteLine("InstallViewModel::StartSoberInstall", result.Succeeded ? "Sober installed" : (result.Failure?.Message ?? "Sober could not be installed"));
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("InstallViewModel::StartSoberInstall", "Sober install failed: " + ex.Message);
+			}
+		});
+	}
+
 	private void BrowseInstallLocation()
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			Microsoft.Win32.OpenFolderDialog dialog = new()
+			{
+				Title = "Choose the Voidstrap installation folder",
+				InitialDirectory = InstallLocation
+			};
+			if (dialog.ShowDialog() == true)
+			{
+				InstallLocation = dialog.FolderName;
+				OnPropertyChanged(nameof(InstallLocation));
+			}
+			return;
+		}
+
 		using FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
 		if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
 		{
 			InstallLocation = folderBrowserDialog.SelectedPath;
-			OnPropertyChanged("InstallLocation");
+			OnPropertyChanged(nameof(InstallLocation));
 		}
 	}
 
 	private void ResetInstallLocation()
 	{
 		InstallLocation = _originalInstallLocation;
-		OnPropertyChanged("InstallLocation");
+		OnPropertyChanged(nameof(InstallLocation));
 	}
 
 	private void OpenFolder()
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			Voidstrap.Utility.PlatformShell.TryOpenFolder(Paths.Base);
+			return;
+		}
+
 		try
 		{
 			ProcessStartInfo startInfo = new ProcessStartInfo

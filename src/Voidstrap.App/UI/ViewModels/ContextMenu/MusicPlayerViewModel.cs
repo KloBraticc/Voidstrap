@@ -1,4 +1,5 @@
-﻿using RichPresence = DiscordRPC.RichPresence;
+using Voidstrap.Utility;
+using RichPresence = DiscordRPC.RichPresence;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,12 +26,13 @@ using Microsoft.Win32;
 
 namespace Voidstrap.UI.ViewModels.ContextMenu;
 
-public class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
+public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
 {
-    private static class NativeMethods
+    private static partial class NativeMethods
     {
-        [DllImport("gdi32.dll")]
-        public static extern bool DeleteObject(nint hObject);
+        [LibraryImport("gdi32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool DeleteObject(nint hObject);
     }
 
     private static readonly string[] BandLabels = { "31", "62", "125", "250", "500", "1k", "2k", "4k", "8k", "16k" };
@@ -468,9 +470,9 @@ public class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
             List<TrackItem> filtered = string.IsNullOrEmpty(query)
                 ? snapshot
                 : snapshot.Where(t =>
-                    (!string.IsNullOrEmpty(t.Title) && t.Title.ToLowerInvariant().Contains(query)) ||
-                    (!string.IsNullOrEmpty(t.Artist) && t.Artist.ToLowerInvariant().Contains(query)) ||
-                    (!string.IsNullOrEmpty(t.FileType) && t.FileType.ToLowerInvariant().Contains(query))).ToList();
+                    (!string.IsNullOrEmpty(t.Title) && t.Title.Contains(query, StringComparison.InvariantCultureIgnoreCase)) ||
+                    (!string.IsNullOrEmpty(t.Artist) && t.Artist.Contains(query, StringComparison.InvariantCultureIgnoreCase)) ||
+                    (!string.IsNullOrEmpty(t.FileType) && t.FileType.Contains(query, StringComparison.InvariantCultureIgnoreCase))).ToList();
 
             if (token.IsCancellationRequested)
                 return;
@@ -737,7 +739,7 @@ public class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         OnPropertyChanged(nameof(PositionString));
     }
 
-    private void ProbeDurationAsync(TrackItem item)
+    private static void ProbeDurationAsync(TrackItem item)
     {
         string path = item.FilePath;
         Task.Run(() =>
@@ -769,8 +771,16 @@ public class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
             }
             Status = "Connecting to RPC...";
             DisconnectRpcClient();
+            if (!Voidstrap.Integrations.DiscordIpc.TryFindPipe(out int pipe))
+            {
+                Status = "Discord is not running.";
+                OnPropertyChanged(nameof(RpcButtonLabel));
+                if (!isAutoReconnect)
+                    Frontend.ShowMessageBox("Discord is not running.");
+                return;
+            }
             _showRpcConnectedMessage = !isAutoReconnect;
-            _rpcClient = new DiscordRpcClient("1375529225230094507");
+            _rpcClient = new DiscordRpcClient("1375529225230094507", pipe, null, true, null);
             _rpcClient.OnReady += RpcClient_OnReady;
             _rpcClient.OnError += RpcClient_OnError;
             _rpcClient.Initialize();
@@ -856,7 +866,7 @@ public class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 State = "Voidstrap Music Player",
                 Assets = new Assets
                 {
-                    LargeImageKey = App.WebsiteBaseUrl + "/Image/Voidstrap.png",
+                    LargeImageKey = App.ProjectLogoUrl,
                     LargeImageText = "Voidstrap Music Player"
                 }
             };
@@ -873,7 +883,7 @@ public class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 State = state,
                 Assets = new Assets
                 {
-                    LargeImageKey = App.WebsiteBaseUrl + "/Image/Voidstrap.png",
+                    LargeImageKey = App.ProjectLogoUrl,
                     LargeImageText = "Voidstrap Music Player",
                     SmallImageKey = _isPlaying ? "play_icon" : "pause_icon",
                     SmallImageText = _isPlaying ? "Playing" : "Paused"
@@ -889,7 +899,7 @@ public class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 };
             }
         }
-        try { _rpcClient.SetPresence(presence); } catch { }
+        try { _rpcClient.SetPresenceSafe(presence); } catch { }
     }
 
     private void SaveLibraryThrottled()
@@ -945,7 +955,7 @@ public class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 return;
 			JsonElement root = Voidstrap.Utility.JsonFile.Deserialize<JsonElement>(_savePath, Voidstrap.Utility.JsonOptions.Tolerant, 16777216);
 
-            if (root.TryGetProperty("Tracks", out JsonElement tracks))
+            if (root.TryGetProperty(nameof(Tracks), out JsonElement tracks))
             {
                 foreach (JsonElement el in tracks.EnumerateArray())
                 {
@@ -965,7 +975,7 @@ public class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 }
             }
 
-            _volume = root.TryGetProperty("Volume", out JsonElement vol) ? Math.Clamp(SafeGetDouble(vol), 0.0, 1.0) : 1.0;
+            _volume = root.TryGetProperty(nameof(Volume), out JsonElement vol) ? Math.Clamp(SafeGetDouble(vol), 0.0, 1.0) : 1.0;
             _isLooping = root.TryGetProperty("Looping", out JsonElement lp) && lp.GetBoolean();
             if (root.TryGetProperty("Shuffling", out JsonElement sh))
                 _isShuffling = sh.GetBoolean();
@@ -973,7 +983,7 @@ public class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
             double pos = root.TryGetProperty("Position", out JsonElement ps) ? SafeGetDouble(ps) : 0.0;
             bool wasPlaying = root.TryGetProperty("WasPlaying", out JsonElement wp) && wp.GetBoolean();
             string selected = root.TryGetProperty("Selected", out JsonElement sel) ? sel.GetString() ?? "" : "";
-            string last = root.TryGetProperty("NowPlaying", out JsonElement np) ? np.GetString() ?? "" : "";
+            string last = root.TryGetProperty(nameof(NowPlaying), out JsonElement np) ? np.GetString() ?? "" : "";
 
             string restore = !string.IsNullOrEmpty(last) ? last : selected;
             if (!string.IsNullOrEmpty(restore))
@@ -1079,7 +1089,7 @@ public class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         catch { return 0.0; }
     }
 
-    private static ImageSource? GetFileIcon(string path)
+    private static BitmapSource? GetFileIcon(string path)
     {
         try
         {

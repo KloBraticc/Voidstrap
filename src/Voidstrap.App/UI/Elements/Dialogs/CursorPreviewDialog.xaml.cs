@@ -46,7 +46,7 @@ public partial class CursorPreviewDialog : WpfUiWindow{
 		}
 	}
 
-	private FrameworkElement CreateCursorPreviewItem(Voidstrap.Enums.CursorType cursor)
+	private Border CreateCursorPreviewItem(Voidstrap.Enums.CursorType cursor)
 	{
 		Border border = new Border
 		{
@@ -128,7 +128,7 @@ public partial class CursorPreviewDialog : WpfUiWindow{
 		base.Closed -= OnClosed;
 	}
 
-	private string GetCursorImagePath(Voidstrap.Enums.CursorType cursor)
+	private static string GetCursorImagePath(Voidstrap.Enums.CursorType cursor)
 	{
 		return cursor switch
 		{
@@ -144,7 +144,7 @@ public partial class CursorPreviewDialog : WpfUiWindow{
 		};
 	}
 
-	private string GetCursorDisplayName(Voidstrap.Enums.CursorType cursor)
+	private static string GetCursorDisplayName(Voidstrap.Enums.CursorType cursor)
 	{
 		return cursor switch
 		{

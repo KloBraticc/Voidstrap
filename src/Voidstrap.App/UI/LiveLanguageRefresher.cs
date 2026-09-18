@@ -24,6 +24,8 @@ internal static class LiveLanguageRefresher
 
 	private static bool _initialized;
 
+	private static bool _loadedHandlerRegistered;
+
 	public static void Initialize()
 	{
 		if (_initialized)
@@ -32,9 +34,17 @@ internal static class LiveLanguageRefresher
 		}
 		_initialized = true;
 
-		EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.LoadedEvent, (RoutedEventHandler)OnElementLoaded);
-
 		UpdateSweepTimer();
+	}
+
+	private static void EnsureLoadedHandler()
+	{
+		if (_loadedHandlerRegistered)
+		{
+			return;
+		}
+		_loadedHandlerRegistered = true;
+		EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.LoadedEvent, (RoutedEventHandler)OnElementLoaded);
 	}
 
 	public static void Shutdown()
@@ -135,6 +145,7 @@ internal static class LiveLanguageRefresher
 			StopTimer(ref _sweepTimer, SweepTick);
 			return;
 		}
+		EnsureLoadedHandler();
 		if (_sweepTimer == null)
 		{
 			_sweepTimer = new DispatcherTimer(DispatcherPriority.Background)
@@ -581,7 +592,7 @@ internal static class LiveLanguageRefresher
 
 	private static void RefreshWindow(Window window)
 	{
-		INavigation nav = FindNavigation(window);
+		INavigation? nav = FindNavigation(window);
 		if (nav == null)
 		{
 			return;
@@ -632,7 +643,7 @@ internal static class LiveLanguageRefresher
 			{
 				return result;
 			}
-			INavigation navigation = FindNavigation(child);
+			INavigation? navigation = FindNavigation(child);
 			if (navigation != null)
 			{
 				return navigation;

@@ -46,7 +46,7 @@ public class OutfitManager
 		Load();
 	}
 
-	private Outfit? GetOutfitByPath(string path)
+	private static Outfit? GetOutfitByPath(string path)
 	{
 		try
 		{
@@ -101,9 +101,9 @@ public class OutfitManager
 			Outfit outfitByPath = GetOutfitByPath(path);
 			if (outfitByPath != null)
 			{
-				if (dictionary.ContainsKey(outfitByPath.Name))
+				if (dictionary.TryGetValue(outfitByPath.Name, out string? value))
 				{
-					outfitByPath.Client = dictionary[outfitByPath.Name];
+					outfitByPath.Client = value;
 				}
 				Outfits[outfitByPath.Name.ToLowerInvariant()] = outfitByPath;
 			}
@@ -116,7 +116,7 @@ public class OutfitManager
 		return dictionary.ToDictionary<KeyValuePair<T, U>, T, U>((KeyValuePair<T, U> entry) => entry.Key, (KeyValuePair<T, U> entry) => entry.Value);
 	}
 
-	private void MigrateOutfits()
+	private static void MigrateOutfits()
 	{
 		if (!Directory.Exists(PathHelper.UserOutfitsLegacy))
 		{
@@ -190,13 +190,13 @@ public class OutfitManager
 		}
 	}
 
-	private string GetOutfitPath(string outfitName)
+	private static string GetOutfitPath(string outfitName)
 	{
 		Directory.CreateDirectory(PathHelper.UserOutfits);
 		return Path.Combine(PathHelper.UserOutfits, outfitName + ".json");
 	}
 
-	private string[] GetOutfitPaths()
+	private static string[] GetOutfitPaths()
 	{
 		Directory.CreateDirectory(PathHelper.UserOutfits);
 		return Directory.EnumerateFiles(PathHelper.UserOutfits, "*.json", SearchOption.TopDirectoryOnly).Take(MaxOutfits).ToArray();
@@ -205,9 +205,9 @@ public class OutfitManager
 	public Outfit? GetOutfit(string outfitName)
 	{
 		string key = outfitName.ToLowerInvariant();
-		if (Outfits.ContainsKey(key))
+		if (Outfits.TryGetValue(key, out Outfit? value))
 		{
-			return Outfits[key];
+			return value;
 		}
 		return null;
 	}
@@ -217,7 +217,7 @@ public class OutfitManager
 		return Outfits.Select<KeyValuePair<string, Outfit>, Outfit>((KeyValuePair<string, Outfit> x) => x.Value);
 	}
 
-	private void SaveOutfit(string name, Character character)
+	private static void SaveOutfit(string name, Character character)
 	{
 		if (!PathHelper.IsFileNameValid(name))
 		{

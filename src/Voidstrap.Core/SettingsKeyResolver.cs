@@ -6,7 +6,7 @@ namespace Voidstrap.Core;
 
 public static class SettingsKeyResolver
 {
-	private static readonly IReadOnlyDictionary<string, string> Aliases = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+	private static readonly Dictionary<string, string> Aliases = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
 	{
 		["ActivityTrackingEnabled"] = "EnableActivityTracking",
 		["BlockTelemetry"] = "BlockRobloxTelemetry",
@@ -26,12 +26,9 @@ public static class SettingsKeyResolver
 
 	public static string? Resolve(SettingsDocument document, IEnumerable<string> aliases)
 	{
-		if (document is null)
-		{
-			throw new ArgumentNullException(nameof(document));
-		}
+        ArgumentNullException.ThrowIfNull(document);
 
-		foreach (string alias in aliases.Where(static alias => !string.IsNullOrWhiteSpace(alias)))
+        foreach (string alias in aliases.Where(static alias => !string.IsNullOrWhiteSpace(alias)))
 		{
 			string candidate = Aliases.TryGetValue(alias, out string? mapped) ? mapped : alias;
 			string? key = document.Root.Select(static pair => pair.Key).FirstOrDefault(key => string.Equals(key, candidate, StringComparison.OrdinalIgnoreCase));

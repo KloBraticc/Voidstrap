@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Voidstrap.UI.Elements.Controls;
 
@@ -29,6 +30,14 @@ public partial class RinColorPicker : UserControl
 	private bool _dragSpectrum;
 	private bool _dragValue;
 	private bool _dragAlpha;
+	private SolidColorBrush? _linuxSpectrumStroke;
+	private SolidColorBrush? _linuxPreviewBrush;
+	private LinearGradientBrush? _linuxValueBrush;
+	private GradientStop? _linuxValueStop;
+	private LinearGradientBrush? _linuxAlphaBrush;
+	private GradientStop? _linuxAlphaStart;
+	private GradientStop? _linuxAlphaEnd;
+	private int _linuxInputRefreshPending;
 
 	public Color SelectedColor
 	{
@@ -49,6 +58,125 @@ public partial class RinColorPicker : UserControl
 		InitializeComponent();
 		Loaded += OnLoaded;
 		SizeChanged += OnAnySizeChanged;
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			InitializeLinuxRendering();
+			SpectrumGrid.Focusable = true;
+			ValueTrack.Focusable = true;
+			AlphaTrack.Focusable = true;
+			SpectrumGrid.KeyDown += OnLinuxTrackKeyDown;
+			ValueTrack.KeyDown += OnLinuxTrackKeyDown;
+			AlphaTrack.KeyDown += OnLinuxTrackKeyDown;
+			HexBox.LostKeyboardFocus += OnLinuxInputLostKeyboardFocus;
+			C1Box.LostKeyboardFocus += OnLinuxInputLostKeyboardFocus;
+			C2Box.LostKeyboardFocus += OnLinuxInputLostKeyboardFocus;
+			C3Box.LostKeyboardFocus += OnLinuxInputLostKeyboardFocus;
+			AlphaBox.LostKeyboardFocus += OnLinuxInputLostKeyboardFocus;
+			LostMouseCapture += OnLinuxLostMouseCapture;
+			PreviewMouseLeftButtonUp += OnLinuxPreviewMouseUp;
+			Unloaded += OnLinuxUnloaded;
+		}
+	}
+
+	private void OnLinuxInputLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+	{
+		RefreshInputs();
+	}
+
+	private void OnLinuxTrackKeyDown(object sender, KeyEventArgs e)
+	{
+		bool changed = true;
+		if (ReferenceEquals(sender, SpectrumGrid))
+		{
+			switch (e.Key)
+			{
+				case Key.Left:
+					_h = (_h + 359) % 360;
+					break;
+				case Key.Right:
+					_h = (_h + 1) % 360;
+					break;
+				case Key.Up:
+					_s = Math.Min(1, _s + 0.01);
+					break;
+				case Key.Down:
+					_s = Math.Max(0, _s - 0.01);
+					break;
+				default:
+					changed = false;
+					break;
+			}
+		}
+		else if (ReferenceEquals(sender, ValueTrack))
+		{
+			changed = ApplyLinuxTrackKey(e.Key, ref _v);
+		}
+		else
+		{
+			changed = ApplyLinuxTrackKey(e.Key, ref _a);
+		}
+
+		if (changed)
+		{
+			Commit();
+			e.Handled = true;
+		}
+	}
+
+	private static bool ApplyLinuxTrackKey(Key key, ref double value)
+	{
+		switch (key)
+		{
+			case Key.Left:
+			case Key.Down:
+				value = Math.Max(0, value - 1.0 / 255.0);
+				return true;
+			case Key.Right:
+			case Key.Up:
+				value = Math.Min(1, value + 1.0 / 255.0);
+				return true;
+			case Key.Home:
+				value = 0;
+				return true;
+			case Key.End:
+				value = 1;
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	private void InitializeLinuxRendering()
+	{
+		_linuxSpectrumStroke = new SolidColorBrush(Colors.White);
+		_linuxPreviewBrush = new SolidColorBrush(SelectedColor);
+		_linuxValueStop = new GradientStop(Colors.Red, 1);
+		_linuxValueBrush = new LinearGradientBrush
+		{
+			StartPoint = new Point(0, 0.5),
+			EndPoint = new Point(1, 0.5),
+			GradientStops = new GradientStopCollection
+			{
+				new GradientStop(Colors.Black, 0),
+				_linuxValueStop
+			}
+		};
+		_linuxAlphaStart = new GradientStop(Colors.Transparent, 0);
+		_linuxAlphaEnd = new GradientStop(Colors.White, 1);
+		_linuxAlphaBrush = new LinearGradientBrush
+		{
+			StartPoint = new Point(0, 0.5),
+			EndPoint = new Point(1, 0.5),
+			GradientStops = new GradientStopCollection
+			{
+				_linuxAlphaStart,
+				_linuxAlphaEnd
+			}
+		};
+		SpectrumThumb.Stroke = _linuxSpectrumStroke;
+		PreviewRect.Fill = _linuxPreviewBrush;
+		ValueTrack.Background = _linuxValueBrush;
+		AlphaGradientRect.Fill = _linuxAlphaBrush;
 	}
 
 	private void OnLoaded(object sender, RoutedEventArgs e)
@@ -102,7 +230,39 @@ public partial class RinColorPicker : UserControl
 		_updating = false;
 		ColorChanged?.Invoke(this, c);
 		RefreshVisuals();
-		RefreshInputs();
+		if (Voidstrap.Utility.Platform.IsLinux && IsDragging)
+			QueueLinuxInputRefresh();
+		else
+			RefreshInputs();
+	}
+
+	private bool IsDragging => _dragSpectrum || _dragValue || _dragAlpha;
+
+	internal bool IsInputRefreshPending => System.Threading.Volatile.Read(ref _linuxInputRefreshPending) != 0;
+
+	internal void BeginAlphaInteraction()
+	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+			BeginLinuxDrag(AlphaTrack, 2);
+	}
+
+	internal void EndInteraction()
+	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+			EndLinuxDrag(true);
+	}
+
+	private void QueueLinuxInputRefresh()
+	{
+		if (System.Threading.Interlocked.Exchange(ref _linuxInputRefreshPending, 1) != 0)
+			return;
+
+		Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+		{
+			System.Threading.Volatile.Write(ref _linuxInputRefreshPending, 0);
+			if (IsLoaded)
+				RefreshInputs();
+		}));
 	}
 
 	private void RefreshAll()
@@ -122,10 +282,17 @@ public partial class RinColorPicker : UserControl
 		}
 		Color opaque = HsvToColor(_h, _s, _v);
 		double lum = (0.299 * opaque.R + 0.587 * opaque.G + 0.114 * opaque.B) / 255.0;
-		SpectrumThumb.Stroke = new SolidColorBrush(lum < 0.75 ? Colors.White : Colors.Black);
+		Color thumbColor = lum < 0.75 ? Colors.White : Colors.Black;
+		if (_linuxSpectrumStroke != null)
+			_linuxSpectrumStroke.Color = thumbColor;
+		else
+			SpectrumThumb.Stroke = new SolidColorBrush(thumbColor);
 
-		var valBrush = new LinearGradientBrush(Colors.Black, HsvToColor(_h, _s, 1), 0);
-		ValueTrack.Background = valBrush;
+		Color maximum = HsvToColor(_h, _s, 1);
+		if (_linuxValueStop != null)
+			_linuxValueStop.Color = maximum;
+		else
+			ValueTrack.Background = new LinearGradientBrush(Colors.Black, maximum, 0);
 		double vw = ValueTrack.ActualWidth;
 		if (vw > 18)
 		{
@@ -134,8 +301,15 @@ public partial class RinColorPicker : UserControl
 		}
 
 		Color solid = HsvToColor(_h, _s, _v);
-		var aBrush = new LinearGradientBrush(Color.FromArgb(0, solid.R, solid.G, solid.B), Color.FromArgb(255, solid.R, solid.G, solid.B), 0);
-		AlphaGradientRect.Fill = aBrush;
+		Color transparent = Color.FromArgb(0, solid.R, solid.G, solid.B);
+		Color opaqueAlpha = Color.FromArgb(255, solid.R, solid.G, solid.B);
+		if (_linuxAlphaStart != null && _linuxAlphaEnd != null)
+		{
+			_linuxAlphaStart.Color = transparent;
+			_linuxAlphaEnd.Color = opaqueAlpha;
+		}
+		else
+			AlphaGradientRect.Fill = new LinearGradientBrush(transparent, opaqueAlpha, 0);
 		double aw = AlphaTrack.ActualWidth;
 		if (aw > 18)
 		{
@@ -143,7 +317,11 @@ public partial class RinColorPicker : UserControl
 			Canvas.SetTop(AlphaHandle, 0);
 		}
 
-		PreviewRect.Fill = new SolidColorBrush(CurrentColor());
+		Color current = CurrentColor();
+		if (_linuxPreviewBrush != null)
+			_linuxPreviewBrush.Color = current;
+		else
+			PreviewRect.Fill = new SolidColorBrush(current);
 	}
 
 	private void RefreshInputs()
@@ -177,38 +355,150 @@ public partial class RinColorPicker : UserControl
 		_updating = false;
 	}
 
-	private void SpectrumUpdate(Point p)
+	internal void SetSpectrumFromPosition(Point p)
 	{
 		double w = SpectrumGrid.ActualWidth;
 		double h = SpectrumGrid.ActualHeight;
 		if (w < 1 || h < 1)
 			return;
-		_h = Math.Clamp(p.X / w, 0, 1) * 360.0;
-		_s = 1 - Math.Clamp(p.Y / h, 0, 1);
+		double hue = Math.Clamp(p.X / w, 0, 1) * 360.0;
+		double saturation = 1 - Math.Clamp(p.Y / h, 0, 1);
+		if (Math.Abs(_h - hue) < 0.0001 && Math.Abs(_s - saturation) < 0.0001)
+			return;
+		_h = hue;
+		_s = saturation;
 		Commit();
+	}
+
+	internal void SetValueFromPosition(double x)
+	{
+		double width = ValueTrack.ActualWidth;
+		if (width <= 1)
+			return;
+		double value = Voidstrap.Utility.Platform.IsLinux
+			? Math.Clamp((x - ValueHandle.Width / 2.0) / Math.Max(1, width - ValueHandle.Width), 0, 1)
+			: Math.Clamp(x / width, 0, 1);
+		if (Math.Abs(_v - value) < 0.0001)
+			return;
+		_v = value;
+		Commit();
+	}
+
+	internal void SetAlphaFromPosition(double x)
+	{
+		double width = AlphaTrack.ActualWidth;
+		if (width <= 1)
+			return;
+		double alpha = Voidstrap.Utility.Platform.IsLinux
+			? Math.Clamp((x - AlphaHandle.Width / 2.0) / Math.Max(1, width - AlphaHandle.Width), 0, 1)
+			: Math.Clamp(x / width, 0, 1);
+		if (Math.Abs(_a - alpha) < 0.0001)
+			return;
+		_a = alpha;
+		Commit();
+	}
+
+	private void BeginLinuxDrag(UIElement target, int mode)
+	{
+		_dragSpectrum = mode == 0;
+		_dragValue = mode == 1;
+		_dragAlpha = mode == 2;
+		target.Focus();
+		Mouse.Capture(target, CaptureMode.Element);
+	}
+
+	private void EndLinuxDrag(bool releaseCapture)
+	{
+		if (!IsDragging)
+			return;
+		_dragSpectrum = false;
+		_dragValue = false;
+		_dragAlpha = false;
+		if (releaseCapture && Mouse.Captured != null)
+			Mouse.Capture(null);
+		QueueLinuxInputRefresh();
+	}
+
+	private void OnLinuxLostMouseCapture(object sender, MouseEventArgs e)
+	{
+		EndLinuxDrag(false);
+	}
+
+	private void OnLinuxPreviewMouseUp(object sender, MouseButtonEventArgs e)
+	{
+		if (e.ChangedButton == MouseButton.Left && IsDragging)
+		{
+			EndLinuxDrag(true);
+			e.Handled = true;
+		}
+	}
+
+	private void OnLinuxUnloaded(object sender, RoutedEventArgs e)
+	{
+		EndLinuxDrag(true);
 	}
 
 	private void Spectrum_MouseDown(object sender, MouseButtonEventArgs e)
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			if (e.ChangedButton != MouseButton.Left)
+				return;
+			BeginLinuxDrag(SpectrumGrid, 0);
+			SetSpectrumFromPosition(e.GetPosition(SpectrumGrid));
+			e.Handled = true;
+			return;
+		}
 		_dragSpectrum = true;
 		SpectrumGrid.CaptureMouse();
-		SpectrumUpdate(e.GetPosition(SpectrumGrid));
+		SetSpectrumFromPosition(e.GetPosition(SpectrumGrid));
 	}
 
 	private void Spectrum_MouseMove(object sender, MouseEventArgs e)
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			if (!_dragSpectrum)
+				return;
+			if (e.LeftButton != MouseButtonState.Pressed)
+			{
+				EndLinuxDrag(true);
+				return;
+			}
+			SetSpectrumFromPosition(e.GetPosition(SpectrumGrid));
+			e.Handled = true;
+			return;
+		}
 		if (_dragSpectrum)
-			SpectrumUpdate(e.GetPosition(SpectrumGrid));
+			SetSpectrumFromPosition(e.GetPosition(SpectrumGrid));
 	}
 
 	private void Spectrum_MouseUp(object sender, MouseButtonEventArgs e)
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			if (e.ChangedButton == MouseButton.Left && _dragSpectrum)
+			{
+				EndLinuxDrag(true);
+				e.Handled = true;
+			}
+			return;
+		}
 		_dragSpectrum = false;
 		SpectrumGrid.ReleaseMouseCapture();
 	}
 
 	private void Value_MouseDown(object sender, MouseButtonEventArgs e)
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			if (e.ChangedButton != MouseButton.Left)
+				return;
+			BeginLinuxDrag(ValueTrack, 1);
+			SetValueFromPosition(e.GetPosition(ValueTrack).X);
+			e.Handled = true;
+			return;
+		}
 		_dragValue = true;
 		ValueTrack.CaptureMouse();
 		_v = Math.Clamp(e.GetPosition(ValueTrack).X / Math.Max(1, ValueTrack.ActualWidth), 0, 1);
@@ -217,6 +507,19 @@ public partial class RinColorPicker : UserControl
 
 	private void Value_MouseMove(object sender, MouseEventArgs e)
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			if (!_dragValue)
+				return;
+			if (e.LeftButton != MouseButtonState.Pressed)
+			{
+				EndLinuxDrag(true);
+				return;
+			}
+			SetValueFromPosition(e.GetPosition(ValueTrack).X);
+			e.Handled = true;
+			return;
+		}
 		if (!_dragValue)
 			return;
 		_v = Math.Clamp(e.GetPosition(ValueTrack).X / Math.Max(1, ValueTrack.ActualWidth), 0, 1);
@@ -225,12 +528,30 @@ public partial class RinColorPicker : UserControl
 
 	private void Value_MouseUp(object sender, MouseButtonEventArgs e)
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			if (e.ChangedButton == MouseButton.Left && _dragValue)
+			{
+				EndLinuxDrag(true);
+				e.Handled = true;
+			}
+			return;
+		}
 		_dragValue = false;
 		ValueTrack.ReleaseMouseCapture();
 	}
 
 	private void Alpha_MouseDown(object sender, MouseButtonEventArgs e)
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			if (e.ChangedButton != MouseButton.Left)
+				return;
+			BeginLinuxDrag(AlphaTrack, 2);
+			SetAlphaFromPosition(e.GetPosition(AlphaTrack).X);
+			e.Handled = true;
+			return;
+		}
 		_dragAlpha = true;
 		AlphaTrack.CaptureMouse();
 		_a = Math.Clamp(e.GetPosition(AlphaTrack).X / Math.Max(1, AlphaTrack.ActualWidth), 0, 1);
@@ -239,6 +560,19 @@ public partial class RinColorPicker : UserControl
 
 	private void Alpha_MouseMove(object sender, MouseEventArgs e)
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			if (!_dragAlpha)
+				return;
+			if (e.LeftButton != MouseButtonState.Pressed)
+			{
+				EndLinuxDrag(true);
+				return;
+			}
+			SetAlphaFromPosition(e.GetPosition(AlphaTrack).X);
+			e.Handled = true;
+			return;
+		}
 		if (!_dragAlpha)
 			return;
 		_a = Math.Clamp(e.GetPosition(AlphaTrack).X / Math.Max(1, AlphaTrack.ActualWidth), 0, 1);
@@ -247,6 +581,15 @@ public partial class RinColorPicker : UserControl
 
 	private void Alpha_MouseUp(object sender, MouseButtonEventArgs e)
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			if (e.ChangedButton == MouseButton.Left && _dragAlpha)
+			{
+				EndLinuxDrag(true);
+				e.Handled = true;
+			}
+			return;
+		}
 		_dragAlpha = false;
 		AlphaTrack.ReleaseMouseCapture();
 	}

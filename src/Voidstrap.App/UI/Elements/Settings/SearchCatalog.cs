@@ -25,8 +25,11 @@ internal sealed class SearchCatalogOption
 
 	public IReadOnlyList<string> Containers { get; }
 
-	public SearchCatalogOption(string id, Type pageType, string titleToken, string descriptionToken, IReadOnlyList<string> aliases, string targetName, IReadOnlyList<string> containers)
+	public bool HiddenByDefault { get; }
+
+	public SearchCatalogOption(string id, Type pageType, string titleToken, string descriptionToken, IReadOnlyList<string> aliases, string targetName, IReadOnlyList<string> containers, bool hiddenByDefault)
 	{
+		HiddenByDefault = hiddenByDefault;
 		Id = id;
 		PageType = pageType;
 		TitleToken = titleToken;
@@ -37,7 +40,7 @@ internal sealed class SearchCatalogOption
 	}
 }
 
-internal static class SearchCatalog
+internal static partial class SearchCatalog
 {
 	private static readonly object OptionsGate = new();
 
@@ -70,7 +73,7 @@ internal static class SearchCatalog
 
 	private static async Task LoadOptionsCoreAsync()
 	{
-		IReadOnlyList<SearchCatalogOption> loaded = Array.Empty<SearchCatalogOption>();
+		SearchCatalogOption[] loaded = Array.Empty<SearchCatalogOption>();
 		try
 		{
 			OperationResult<IReadOnlyCollection<SettingsCatalogEntry>> result = await SettingsCatalogImporter.LoadAsync().ConfigureAwait(false);
@@ -85,7 +88,7 @@ internal static class SearchCatalog
 					.Where(static item => item.PageType is not null
 						&& IsPageAvailableOnThisPlatform(item.Entry.SourcePage)
 						&& IsVisibleOnThisPlatform(item.Entry.VisibilityExpression))
-					.Select(static item => new SearchCatalogOption(item.Entry.Id, item.PageType!, item.Entry.Title, item.Entry.Description, item.Entry.Aliases.ToArray(), item.Entry.TargetName, item.Entry.Containers.ToArray()))
+					.Select(static item => new SearchCatalogOption(item.Entry.Id, item.PageType!, item.Entry.Title, item.Entry.Description, item.Entry.Aliases.ToArray(), item.Entry.TargetName, item.Entry.Containers.ToArray(), item.Entry.VisibilityExpression.StartsWith("Collapsed", StringComparison.Ordinal)))
 					.ToArray();
 			}
 			else
@@ -100,7 +103,7 @@ internal static class SearchCatalog
 
 		lock (OptionsGate)
 		{
-			if (loaded.Count > 0)
+			if (loaded.Length > 0)
 			{
 				_options = loaded;
 			}
@@ -112,7 +115,8 @@ internal static class SearchCatalog
 	{
 		"ShortcutsPage",
 		"NvidiaFastFlagsPage",
-		"NvidaEditor"
+		"NvidaEditor",
+		"DownloadsPage"
 	};
 
 	private static bool IsPageAvailableOnThisPlatform(string sourcePage)
@@ -125,7 +129,7 @@ internal static class SearchCatalog
 		if (string.IsNullOrWhiteSpace(visibilityExpression))
 			return true;
 
-		Match match = Regex.Match(visibilityExpression, @"PlatformFeatureVisibility\.(?<member>[A-Za-z0-9_]+)");
+		Match match = PlatformVisibilityMemberPattern.Match(visibilityExpression);
 		if (!match.Success)
 			return true;
 
@@ -140,25 +144,12 @@ internal static class SearchCatalog
 		{
 			return string.Empty;
 		}
-		Match match = Regex.Match(value, "Strings\\.([A-Za-z0-9_]+)");
+		Match match = StringsResourcePattern.Match(value);
 		if (match.Success)
 		{
 			return Strings.ResourceManager.GetString(match.Groups[1].Value) ?? match.Groups[1].Value;
 		}
 		return value;
-	}
-
-	public static string FriendlyPageName(Type pageType)
-	{
-		return pageType.Name switch
-		{
-			"BehaviourPage" => "Deployment",
-			"GBSEditorPage" => "Global",
-			"FastFlagsPage" => "FastFlag Settings",
-			"FastFlagEditorPage" => "FastFlag Editor",
-			"ChannelPage" => "Settings",
-			_ => pageType.Name
-		};
 	}
 
 	private static Type? ResolvePageType(string sourcePage)
@@ -170,4 +161,9 @@ internal static class SearchCatalog
 
 		return typeof(SearchCatalog).Assembly.GetType("Voidstrap.UI.Elements.Settings.Pages." + sourcePage);
 	}
+
+    [GeneratedRegex(@"PlatformFeatureVisibility\.(?<member>[A-Za-z0-9_]+)")]
+    private static partial Regex PlatformVisibilityMemberPattern { get; }
+    [GeneratedRegex("Strings\\.([A-Za-z0-9_]+)")]
+    private static partial Regex StringsResourcePattern { get; }
 }

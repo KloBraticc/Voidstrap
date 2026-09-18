@@ -216,7 +216,13 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             string checkedPath = Path.GetRelativePath(root, fullPath);
             if (checkedPath == ".." || checkedPath.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal))
                 throw new InvalidDataException("Theme path leaves the theme directory.");
-            return fullPath;
+
+            string resolved = Voidstrap.Utility.CaseInsensitivePath.Resolve(fullPath);
+            string resolvedCheck = Path.GetRelativePath(root, resolved);
+            if (resolvedCheck == ".." || resolvedCheck.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal))
+                throw new InvalidDataException("Theme path leaves the theme directory.");
+
+            return resolved;
         }
 
         private static System.Windows.Media.FontFamily? ResolveFontFamily(CustomDialog dialog, string? value, XElement xmlElement)
@@ -270,6 +276,38 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return families.First();
         }
 
+        private static Uri CreateFileUri(string path)
+        {
+            return new UriBuilder
+            {
+                Scheme = Uri.UriSchemeFile,
+                Host = string.Empty,
+                Path = Path.GetFullPath(path)
+            }.Uri;
+        }
+
+        private static Uri ResolveResourceUri(CustomDialog dialog, string path)
+        {
+            if (Uri.TryCreate(path, UriKind.Absolute, out Uri? parsed) && parsed.Scheme.Length > 1)
+            {
+                if (!parsed.IsFile)
+                    return parsed;
+
+                if (path.StartsWith(Uri.UriSchemeFile + ":", StringComparison.OrdinalIgnoreCase))
+                    return parsed;
+            }
+
+            string candidate = path;
+
+            if (!Path.IsPathRooted(candidate))
+            {
+                string root = string.IsNullOrEmpty(dialog.ThemeDir) ? Directory.GetCurrentDirectory() : dialog.ThemeDir;
+                candidate = Path.Combine(root, candidate.Replace('/', Path.DirectorySeparatorChar));
+            }
+
+            return CreateFileUri(candidate);
+        }
+
         private static GetImageSourceDataResult GetImageSourceData(CustomDialog dialog, string name, XElement xmlElement)
         {
             string path = GetXmlAttribute(xmlElement, name);
@@ -279,13 +317,24 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
             path = GetFullPath(dialog, path)!;
 
-            if (!Uri.TryCreate(path, UriKind.RelativeOrAbsolute, out Uri? result))
-                throw new CustomThemeException("CustomTheme.Errors.ElementAttributeParseError", xmlElement.Name, name, "Uri");
-
-            if (result == null)
+            if (string.IsNullOrWhiteSpace(path))
                 throw new CustomThemeException("CustomTheme.Errors.ElementAttributeParseErrorNull", xmlElement.Name, name, "Uri");
 
-            if (result.Scheme != "file")
+            Uri result;
+
+            try
+            {
+                result = ResolveResourceUri(dialog, path);
+            }
+            catch (Exception ex) when (ex is UriFormatException or ArgumentException or NotSupportedException or PathTooLongException)
+            {
+                throw new CustomThemeException("CustomTheme.Errors.ElementAttributeParseError", xmlElement.Name, name, "Uri");
+            }
+
+            if (!result.IsAbsoluteUri)
+                throw new CustomThemeException("CustomTheme.Errors.ElementAttributeParseError", xmlElement.Name, name, "Uri");
+
+            if (result.Scheme != Uri.UriSchemeFile)
                 throw new CustomThemeException("CustomTheme.Errors.ElementAttributeBlacklistedUriScheme", xmlElement.Name, name, result.Scheme);
 
             return new GetImageSourceDataResult { Uri = result };

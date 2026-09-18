@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -12,6 +13,8 @@ public class RinColorPickerDialog : WpfUiWindow
 	private readonly RinColorPicker _picker;
 
 	public Color SelectedColor => _picker.SelectedColor;
+
+	internal RinColorPicker Picker => _picker;
 
 	public RinColorPickerDialog(Color? initial = null, bool alphaEnabled = false)
 	{
@@ -61,6 +64,14 @@ public class RinColorPickerDialog : WpfUiWindow
 		body.Children.Add(buttons);
 
 		Content = DialogChrome.Host(DialogChrome.TitleBar("Pick a colour"), body);
+		if (Voidstrap.Utility.Platform.IsLinux && Application.Current != null)
+		{
+			Window? active = Application.Current.Windows
+				.OfType<Window>()
+				.LastOrDefault(window => !ReferenceEquals(window, this) && window.IsVisible && window.IsActive);
+			if (active != null)
+				Owner = active;
+		}
 	}
 
 	protected override void OnSourceInitialized(EventArgs e)

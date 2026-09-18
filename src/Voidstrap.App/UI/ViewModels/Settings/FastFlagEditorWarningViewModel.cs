@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Voidstrap.Resources;
 using Voidstrap.UI.Elements.Settings.Pages;
+using Voidstrap.UI.ViewModels.ContextMenu;
 using Wpf.Ui.Mvvm.Contracts;
 
 namespace Voidstrap.UI.ViewModels.Settings;
@@ -18,9 +19,15 @@ internal class FastFlagEditorWarningViewModel : NotifyPropertyChangedViewModel
 
 	public bool CanContinue { get; set; } = true;
 
+	public System.Windows.Input.ICommand ContinueCommand { get; }
+
+	public System.Windows.Input.ICommand GoBackCommand { get; }
+
 	public FastFlagEditorWarningViewModel(Page page)
 	{
 		_page = page;
+		ContinueCommand = new RelayCommand(Continue, () => CanContinue);
+		GoBackCommand = new RelayCommand(GoBack);
 	}
 
 	public void StopCountdown()
@@ -41,11 +48,11 @@ internal class FastFlagEditorWarningViewModel : NotifyPropertyChangedViewModel
 	private async Task DoCountdownAsync(CancellationToken token)
 	{
 		CanContinue = false;
-		OnPropertyChanged("CanContinue");
+		OnPropertyChanged(nameof(CanContinue));
 		for (int i = 10; i > 0; i--)
 		{
 			ContinueButtonText = $"({i}) {Strings.Menu_FastFlagEditor_Warning_Continue}";
-			OnPropertyChanged("ContinueButtonText");
+			OnPropertyChanged(nameof(ContinueButtonText));
 			try
 			{
 				await Task.Delay(1000, token);
@@ -56,9 +63,9 @@ internal class FastFlagEditorWarningViewModel : NotifyPropertyChangedViewModel
 			}
 		}
 		ContinueButtonText = Strings.Menu_FastFlagEditor_Warning_Continue;
-		OnPropertyChanged("ContinueButtonText");
+		OnPropertyChanged(nameof(ContinueButtonText));
 		CanContinue = true;
-		OnPropertyChanged("CanContinue");
+		OnPropertyChanged(nameof(CanContinue));
 	}
 
 	private void Continue()

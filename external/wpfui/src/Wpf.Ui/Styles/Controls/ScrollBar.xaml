@@ -5,10 +5,9 @@
     xmlns:common="clr-namespace:Wpf.Ui.Common"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <Duration x:Key="ScrollAnimationDuration">0:0:0.15</Duration>
-    <Duration x:Key="ScrollAnimationOutDuration">0:0:0.28</Duration>
     <Duration x:Key="ButtonHoverAnimationDuration">0:0:0.12</Duration>
     <Duration x:Key="ButtonHoverAnimationOutDuration">0:0:0.22</Duration>
+    <Duration x:Key="ButtonPressAnimationDuration">0:0:0.08</Duration>
     <PowerEase x:Key="ScrollEase" EasingMode="EaseOut" Power="3" />
 
     <sys:Double x:Key="LineButtonHeight">12</sys:Double>
@@ -18,7 +17,7 @@
         <Setter Property="Foreground" Value="{DynamicResource ControlStrongFillColorDefaultBrush}" />
         <Setter Property="Width" Value="{StaticResource LineButtonWidth}" />
         <Setter Property="Height" Value="{StaticResource LineButtonHeight}" />
-        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontSize" Value="10" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -26,36 +25,61 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border
-                        x:Name="Border"
-                        Width="{TemplateBinding Width}"
-                        Height="{TemplateBinding Height}"
-                        Margin="{TemplateBinding Margin}"
-                        CornerRadius="6">
-                        <Border.Background>
-                            <SolidColorBrush Opacity="0" Color="{DynamicResource ControlFillColorSecondary}" />
-                        </Border.Background>
+                    <Grid Background="Transparent">
+                        <Border
+                            x:Name="Border"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            Margin="{TemplateBinding Margin}"
+                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                            CornerRadius="4"
+                            Opacity="0" />
                         <controls:SymbolIcon
+                            x:Name="Glyph"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Filled="True"
                             FontSize="{TemplateBinding FontSize}"
                             Foreground="{TemplateBinding Foreground}"
-                            Symbol="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, TargetNullValue={x:Static common:SymbolRegular.Empty}}" />
-                    </Border>
+                            RenderTransformOrigin="0.5,0.5"
+                            Symbol="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, TargetNullValue={x:Static common:SymbolRegular.Empty}}">
+                            <controls:SymbolIcon.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </controls:SymbolIcon.RenderTransform>
+                        </controls:SymbolIcon>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Glyph" Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)" To="1" Duration="{StaticResource ButtonHoverAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
+                                        <DoubleAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="Opacity" To="1" Duration="{StaticResource ButtonHoverAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)" To="0" Duration="{StaticResource ButtonHoverAnimationOutDuration}" EasingFunction="{StaticResource ScrollEase}" />
+                                        <DoubleAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="Opacity" To="0" Duration="{StaticResource ButtonHoverAnimationOutDuration}" EasingFunction="{StaticResource ScrollEase}" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Glyph" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="0.8" Duration="{StaticResource ButtonPressAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
+                                        <DoubleAnimation Storyboard.TargetName="Glyph" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="0.8" Duration="{StaticResource ButtonPressAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Glyph" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="{StaticResource ButtonHoverAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
+                                        <DoubleAnimation Storyboard.TargetName="Glyph" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="{StaticResource ButtonHoverAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
@@ -82,7 +106,7 @@
 
     <Style x:Key="UiScrollBarThumb" TargetType="{x:Type Thumb}">
         <Setter Property="Background" Value="{DynamicResource ControlStrongFillColorDefaultBrush}" />
-        <Setter Property="Opacity" Value="0.82" />
+        <Setter Property="Opacity" Value="0.7" />
         <Setter Property="Border.CornerRadius" Value="4" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -91,18 +115,21 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Border
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="1"
-                        CornerRadius="{TemplateBinding Border.CornerRadius}" />
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding Border.CornerRadius}" />
+                        <Border
+                            x:Name="ThumbHighlight"
+                            Background="{DynamicResource TextFillColorSecondaryBrush}"
+                            CornerRadius="{TemplateBinding Border.CornerRadius}"
+                            Opacity="0" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <ControlTemplate x:Key="UiVerticalScrollBar" TargetType="{x:Type ScrollBar}">
-        <Grid HorizontalAlignment="Center">
+        <Grid HorizontalAlignment="Center" Background="Transparent">
             <Grid.RowDefinitions>
                 <RowDefinition MaxHeight="14" />
                 <RowDefinition Height="0.00001*" />
@@ -114,12 +141,13 @@
                 Width="12"
                 HorizontalAlignment="Center"
                 Background="{DynamicResource ControlFillColorDefaultBrush}"
+                BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
+                BorderThickness="1"
                 CornerRadius="6"
                 Opacity="0" />
             <RepeatButton
                 x:Name="PART_ButtonScrollUp"
                 Grid.Row="0"
-                HorizontalContentAlignment="Left"
                 Command="ScrollBar.LineUpCommand"
                 Content="{x:Static common:SymbolRegular.CaretUp24}"
                 Opacity="0"
@@ -127,7 +155,7 @@
             <Track
                 x:Name="PART_Track"
                 Grid.Row="1"
-                Width="6"
+                Width="4"
                 IsDirectionReversed="True">
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Command="ScrollBar.PageUpCommand" Style="{StaticResource UiScrollBarPageButton}" />
@@ -142,53 +170,28 @@
             <RepeatButton
                 x:Name="PART_ButtonScrollDown"
                 Grid.Row="2"
-                HorizontalContentAlignment="Left"
                 Command="ScrollBar.LineDownCommand"
                 Content="{x:Static common:SymbolRegular.CaretDown24}"
                 Opacity="0"
                 Style="{StaticResource UiScrollBarLineButton}" />
         </Grid>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="PART_Track" Storyboard.TargetProperty="Width" To="8" Duration="{StaticResource ScrollAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Opacity" To="1" Duration="{StaticResource ScrollAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_ButtonScrollUp" Storyboard.TargetProperty="Opacity" To="1" Duration="{StaticResource ScrollAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_ButtonScrollDown" Storyboard.TargetProperty="Opacity" To="1" Duration="{StaticResource ScrollAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_Thumb" Storyboard.TargetProperty="Opacity" To="1" Duration="{StaticResource ScrollAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="PART_Track" Storyboard.TargetProperty="Width" To="6" Duration="{StaticResource ScrollAnimationOutDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Opacity" To="0" Duration="{StaticResource ScrollAnimationOutDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_ButtonScrollUp" Storyboard.TargetProperty="Opacity" To="0" Duration="{StaticResource ScrollAnimationOutDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_ButtonScrollDown" Storyboard.TargetProperty="Opacity" To="0" Duration="{StaticResource ScrollAnimationOutDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_Thumb" Storyboard.TargetProperty="Opacity" To="0.82" Duration="{StaticResource ScrollAnimationOutDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
-            </Trigger>
-        </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <ControlTemplate x:Key="UiHorizontalScrollBar" TargetType="{x:Type ScrollBar}">
-        <Grid VerticalAlignment="Center">
+        <Grid VerticalAlignment="Center" Background="Transparent">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MaxWidth="18" />
+                <ColumnDefinition MaxWidth="14" />
                 <ColumnDefinition Width="0.00001*" />
-                <ColumnDefinition MaxWidth="18" />
+                <ColumnDefinition MaxWidth="14" />
             </Grid.ColumnDefinitions>
             <Border
                 x:Name="PART_Border"
                 Grid.ColumnSpan="3"
                 Height="12"
                 VerticalAlignment="Center"
-                Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                Background="{DynamicResource ControlFillColorDefaultBrush}"
+                BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
+                BorderThickness="1"
                 CornerRadius="6"
                 Opacity="0" />
             <RepeatButton
@@ -202,7 +205,7 @@
             <Track
                 x:Name="PART_Track"
                 Grid.Column="1"
-                Height="6"
+                Height="4"
                 VerticalAlignment="Center"
                 IsDirectionReversed="False">
                 <Track.DecreaseRepeatButton>
@@ -229,30 +232,6 @@
                 <Setter TargetName="PART_ButtonScrollLeft" Property="Content" Value="{x:Static common:SymbolRegular.CaretRight24}" />
                 <Setter TargetName="PART_ButtonScrollRight" Property="Content" Value="{x:Static common:SymbolRegular.CaretLeft24}" />
             </Trigger>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="PART_Track" Storyboard.TargetProperty="Height" To="8" Duration="{StaticResource ScrollAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Opacity" To="1" Duration="{StaticResource ScrollAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_ButtonScrollLeft" Storyboard.TargetProperty="Opacity" To="1" Duration="{StaticResource ScrollAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_ButtonScrollRight" Storyboard.TargetProperty="Opacity" To="1" Duration="{StaticResource ScrollAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_Thumb" Storyboard.TargetProperty="Opacity" To="1" Duration="{StaticResource ScrollAnimationDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="PART_Track" Storyboard.TargetProperty="Height" To="6" Duration="{StaticResource ScrollAnimationOutDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Opacity" To="0" Duration="{StaticResource ScrollAnimationOutDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_ButtonScrollLeft" Storyboard.TargetProperty="Opacity" To="0" Duration="{StaticResource ScrollAnimationOutDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_ButtonScrollRight" Storyboard.TargetProperty="Opacity" To="0" Duration="{StaticResource ScrollAnimationOutDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                            <DoubleAnimation Storyboard.TargetName="PART_Thumb" Storyboard.TargetProperty="Opacity" To="0.82" Duration="{StaticResource ScrollAnimationOutDuration}" EasingFunction="{StaticResource ScrollEase}" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
-            </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
@@ -262,6 +241,7 @@
         <Setter Property="Padding" Value="0" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="controls:ScrollBarMotion.Enabled" Value="True" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="Width" Value="Auto" />

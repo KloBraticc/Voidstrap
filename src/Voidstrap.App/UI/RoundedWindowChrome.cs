@@ -1,3 +1,4 @@
+﻿using System.Runtime.CompilerServices;
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -8,7 +9,12 @@ public static class RoundedWindowChrome
 {
 	public const double CornerRadius = 8.0;
 
+	private const double ContentWidthTolerance = 0.5;
+
 	private static bool _installed;
+	private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<Window, object> LinuxIdentityRetries = new();
+	private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<Window, object> ContentWidthPending = new();
+	private static readonly object PendingMarker = new();
 
 	public static void Install()
 	{
@@ -28,18 +34,72 @@ public static class RoundedWindowChrome
 		}
 		try
 		{
-			if (window.WindowStyle != WindowStyle.None)
+			if (Voidstrap.Utility.Platform.IsLinux)
 			{
-				window.WindowStyle = WindowStyle.None;
+				window.SourceInitialized -= OnLinuxWindowReady;
+				window.SourceInitialized += OnLinuxWindowReady;
+				window.Activated -= OnLinuxWindowReady;
+				window.Activated += OnLinuxWindowReady;
+				window.ContentRendered -= OnLinuxWindowReady;
+				window.ContentRendered += OnLinuxWindowReady;
+				EnsureLinuxIdentity(window);
 			}
-			if (!window.AllowsTransparency)
-			{
-				window.AllowsTransparency = true;
-			}
+			ApplyTransparentStyle(window);
+			window.Initialized -= OnWindowInitialized;
+			window.Initialized += OnWindowInitialized;
 		}
 		catch (Exception ex)
 		{
 			App.Logger?.WriteLine("RoundedWindowChrome::Prepare", "Could not enable transparency: " + ex.Message);
+		}
+	}
+
+	internal static void Refresh(Window window)
+	{
+		ApplyContentWidth(window);
+		ApplyClip(window);
+		ApplyNativeRounding(window);
+		window.InvalidateMeasure();
+		window.InvalidateVisual();
+	}
+
+	private static void OnWindowInitialized(object? sender, EventArgs e)
+	{
+		if (sender is not Window window)
+		{
+			return;
+		}
+
+		window.Initialized -= OnWindowInitialized;
+		ApplyTransparentStyle(window);
+	}
+
+	private static void ApplyTransparentStyle(Window window)
+	{
+		try
+		{
+			if (window.WindowStyle != WindowStyle.None)
+			{
+				window.WindowStyle = WindowStyle.None;
+			}
+
+			if (!window.AllowsTransparency)
+			{
+				window.AllowsTransparency = true;
+
+				if (Voidstrap.Utility.Platform.IsLinux && !window.AllowsTransparency)
+				{
+					App.Logger?.WriteLine(
+						"RoundedWindowChrome::ApplyTransparentStyle",
+						"AllowsTransparency did not take effect for " + window.Title + ", the platform ignored it");
+				}
+			}
+		}
+		catch (InvalidOperationException ex)
+		{
+			App.Logger?.WriteLine(
+				"RoundedWindowChrome::ApplyTransparentStyle",
+				"Transparency could not be enabled for " + window.Title + ": " + ex.Message);
 		}
 	}
 
@@ -49,9 +109,17 @@ public static class RoundedWindowChrome
 		{
 			return;
 		}
+		if (Voidstrap.Utility.Platform.IsLinux && IsOverlaySurface(window))
+		{
+			window.ShowActivated = false;
+			window.ShowInTaskbar = false;
+			LinuxTextGuard.SetPreserveCompactLayout(window, true);
+			return;
+		}
 		ConstrainContentWidth(window);
 		ApplyStartupLocation(window);
 		ApplyClip(window);
+		EnsureLinuxIdentity(window);
 		LinuxTitleBar.Apply(window);
 		window.SizeChanged -= OnWindowSizeChanged;
 		window.SizeChanged += OnWindowSizeChanged;
@@ -65,14 +133,99 @@ public static class RoundedWindowChrome
 		}
 	}
 
+	private static bool IsOverlaySurface(Window window)
+	{
+		string name = window.GetType().Name;
+		string area = window.GetType().Namespace ?? string.Empty;
+		return area.Contains(".Overlay", System.StringComparison.Ordinal)
+			|| area.Contains(".Crosshair", System.StringComparison.Ordinal)
+			|| name.Contains("Overlay", System.StringComparison.Ordinal)
+			|| name.Contains("Crosshair", System.StringComparison.Ordinal);
+	}
+
+	private static async System.Threading.Tasks.Task ApplyLinuxIdentityAfterMappingAsync(Window window)
+	{
+		try
+		{
+			for (int attempt = 0; attempt < 60; attempt++)
+			{
+				await System.Threading.Tasks.Task.Delay(50).ConfigureAwait(false);
+				if (window.Dispatcher.HasShutdownStarted || window.Dispatcher.HasShutdownFinished)
+					return;
+
+				bool applied = await window.Dispatcher.InvokeAsync(() => ApplyLinuxIdentity(window), System.Windows.Threading.DispatcherPriority.Loaded);
+				if (applied)
+					return;
+			}
+		}
+		finally
+		{
+			LinuxIdentityRetries.Remove(window);
+		}
+	}
+
+	private static void EnsureLinuxIdentity(Window window)
+	{
+		if (ApplyLinuxIdentity(window) || LinuxIdentityRetries.TryGetValue(window, out _))
+			return;
+
+		LinuxIdentityRetries.Add(window, new object());
+		_ = ApplyLinuxIdentityAfterMappingAsync(window);
+	}
+
+	private static void OnLinuxWindowReady(object? sender, EventArgs e)
+	{
+		if (sender is Window window)
+			ApplyLinuxIdentity(window);
+	}
+
+	private static readonly ConditionalWeakTable<Window, object> ClipReported = new();
+
+	private static readonly ConditionalWeakTable<Window, object> LinuxIdentityApplied = new();
+
+	private static bool ApplyLinuxIdentity(Window window)
+	{
+		if (LinuxIdentityApplied.TryGetValue(window, out _))
+			return true;
+
+		if (!LinuxApplicationIdentity.Apply(window))
+			return false;
+
+		LinuxIdentityApplied.Add(window, new object());
+		ApplyNativeRounding(window);
+		window.SourceInitialized -= OnLinuxWindowReady;
+		window.Activated -= OnLinuxWindowReady;
+		window.ContentRendered -= OnLinuxWindowReady;
+		return true;
+	}
+
 	private static void OnWindowSizeChanged(object sender, SizeChangedEventArgs e)
 	{
 		ApplyClip(sender as Window);
+		if (sender is Window window)
+		{
+			QueueContentWidth(window);
+		}
 	}
 
 	private static void OnWindowStateChanged(object? sender, EventArgs e)
 	{
-		ApplyClip(sender as Window);
+		if (sender is not Window window)
+		{
+			return;
+		}
+
+		ApplyContentWidth(window);
+		if (window.Dispatcher.HasShutdownStarted || window.Dispatcher.HasShutdownFinished)
+		{
+			return;
+		}
+
+		window.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, (Action)delegate
+		{
+			ApplyClip(window);
+			ApplyContentWidth(window);
+		});
 	}
 
 	private static void OnWindowClosed(object? sender, EventArgs e)
@@ -83,6 +236,10 @@ public static class RoundedWindowChrome
 		}
 		window.SizeChanged -= OnWindowSizeChanged;
 		window.StateChanged -= OnWindowStateChanged;
+		window.SourceInitialized -= OnLinuxWindowReady;
+		window.Activated -= OnLinuxWindowReady;
+		window.ContentRendered -= OnLinuxWindowReady;
+		LinuxIdentityRetries.Remove(window);
 		window.Closed -= OnWindowClosed;
 	}
 
@@ -134,6 +291,73 @@ public static class RoundedWindowChrome
 		}
 	}
 
+	private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<FrameworkElement, System.Runtime.CompilerServices.StrongBox<double>> ContentWidths = new();
+
+	private static void ApplyContentWidth(Window? window)
+	{
+		if (window?.Content is not FrameworkElement root)
+		{
+			return;
+		}
+
+		if (!ContentWidths.TryGetValue(root, out System.Runtime.CompilerServices.StrongBox<double>? stored))
+		{
+			return;
+		}
+
+		if (IsMaximizedOrFullscreen(window))
+		{
+			SetContentWidth(root, double.PositiveInfinity);
+			return;
+		}
+
+		double available = window.ActualWidth;
+		if (double.IsNaN(available) || available <= 0.0)
+		{
+			available = stored.Value;
+		}
+
+		SetContentWidth(root, available);
+	}
+
+	private static void SetContentWidth(FrameworkElement root, double width)
+	{
+		double current = root.MaxWidth;
+		if (double.IsPositiveInfinity(width))
+		{
+			if (double.IsPositiveInfinity(current))
+			{
+				return;
+			}
+		}
+		else if (!double.IsNaN(current) && !double.IsPositiveInfinity(current) && Math.Abs(current - width) < ContentWidthTolerance)
+		{
+			return;
+		}
+
+		root.MaxWidth = width;
+	}
+
+	private static void QueueContentWidth(Window window)
+	{
+		if (window.Dispatcher.HasShutdownStarted || window.Dispatcher.HasShutdownFinished)
+		{
+			return;
+		}
+
+		if (ContentWidthPending.TryGetValue(window, out _))
+		{
+			return;
+		}
+
+		ContentWidthPending.Add(window, PendingMarker);
+		window.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, (Action)delegate
+		{
+			ContentWidthPending.Remove(window);
+			ApplyContentWidth(window);
+		});
+	}
+
 	private static void ConstrainContentWidth(Window window)
 	{
 		try
@@ -145,19 +369,69 @@ public static class RoundedWindowChrome
 			double target = window.Width;
 			if (double.IsNaN(target) || target <= 0.0)
 			{
-				target = window.ActualWidth;
-			}
-			if (double.IsNaN(target) || target <= 0.0)
-			{
 				return;
 			}
 			if (window.Content is FrameworkElement root && (double.IsNaN(root.MaxWidth) || root.MaxWidth > target))
 			{
-				root.MaxWidth = target;
+				ContentWidths.Remove(root);
+				ContentWidths.Add(root, new System.Runtime.CompilerServices.StrongBox<double>(target));
+				ApplyContentWidth(window);
 			}
 		}
 		catch
 		{
+		}
+	}
+
+	private static void ApplyNativeRounding(Window window)
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux || IsOverlaySurface(window))
+		{
+			return;
+		}
+
+		try
+		{
+			double width = window.ActualWidth;
+			double height = window.ActualHeight;
+
+			nint handle = Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(window.Title ?? string.Empty);
+
+			if (handle == 0)
+			{
+				return;
+			}
+
+			Voidstrap.Platform.Linux.LinuxWindowInterop.TryResetInputShape(handle);
+
+			bool report = !ClipReported.TryGetValue(window, out _);
+			if (report)
+			{
+				ClipReported.Add(window, new object());
+			}
+
+			if (IsMaximizedOrFullscreen(window) || width <= 0.0 || height <= 0.0)
+			{
+				Voidstrap.Platform.Linux.LinuxWindowInterop.TryClearShape(handle);
+				return;
+			}
+
+			bool rounded = Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(
+				handle,
+				(int)Math.Round(width),
+				(int)Math.Round(height),
+				(int)Math.Round(CornerRadius));
+
+			if (report)
+			{
+				App.Logger?.WriteLine(
+					"RoundedWindowChrome::ApplyNativeRounding",
+					"Shaped " + window.Title + " at 0x" + handle.ToString("x") + " size " + (int)width + "x" + (int)height + " result=" + rounded);
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("RoundedWindowChrome::ApplyNativeRounding", "Native rounding failed: " + ex.Message);
 		}
 	}
 
@@ -170,11 +444,12 @@ public static class RoundedWindowChrome
 		if (!window.AllowsTransparency)
 		{
 			window.Clip = null;
+			ApplyNativeRounding(window);
 			return;
 		}
 		double width = window.ActualWidth;
 		double height = window.ActualHeight;
-		if (window.WindowState == System.Windows.WindowState.Maximized || width <= 0.0 || height <= 0.0)
+		if (IsMaximizedOrFullscreen(window) || width <= 0.0 || height <= 0.0)
 		{
 			window.Clip = null;
 			return;
@@ -182,5 +457,16 @@ public static class RoundedWindowChrome
 		RectangleGeometry geometry = new(new Rect(0.0, 0.0, width, height), CornerRadius, CornerRadius);
 		geometry.Freeze();
 		window.Clip = geometry;
+
+
+	}
+
+	private static bool IsMaximizedOrFullscreen(Window window)
+	{
+		if (LinuxWindowMode.IsFullscreen(window))
+			return true;
+		return Voidstrap.Utility.Platform.IsLinux
+			? LinuxWindowMode.IsCompositorMaximized(window)
+			: window.WindowState == System.Windows.WindowState.Maximized;
 	}
 }

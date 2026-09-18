@@ -11,6 +11,10 @@ internal static class LinuxGithubPlatformUpdater
 	public static IPlatformUpdater Create()
 	{
 		string? executable = Environment.ProcessPath;
+		if (LinuxAppImageHost.TryGetCurrentPath(out string appImagePath))
+		{
+			executable = appImagePath;
+		}
 		string? directory = executable is null ? null : Path.GetDirectoryName(executable);
 		if (string.IsNullOrWhiteSpace(directory))
 		{
@@ -18,18 +22,8 @@ internal static class LinuxGithubPlatformUpdater
 				new CapabilityDescriptor(FeatureId.Updater, CapabilityState.Unavailable, "The current executable location is unavailable"));
 		}
 
-		if (LinuxBundleInstaller.IsPackageManagedLocation(directory))
-		{
-			return new UnavailablePlatformUpdater(
-				new CapabilityDescriptor(
-					FeatureId.Updater,
-					CapabilityState.Unavailable,
-					"Updates are managed by the Linux package manager",
-					"Use the Linux package manager"));
-		}
-
 		return new LinuxPlatformUpdater(
-			new CapabilityDescriptor(FeatureId.Updater, CapabilityState.Available, "Linux bundle updates are available"),
+			new CapabilityDescriptor(FeatureId.Updater, CapabilityState.Available, "Linux package updates are available"),
 			CheckAsync,
 			ApplyAsync);
 	}

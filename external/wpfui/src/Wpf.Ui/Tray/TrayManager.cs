@@ -41,8 +41,7 @@ namespace Wpf.Ui.Tray
         /// </summary>
         public static bool Register(INotifyIcon notifyIcon, HwndSource parentSource)
         {
-            if (notifyIcon is null)
-                throw new ArgumentNullException(nameof(notifyIcon));
+            ArgumentNullException.ThrowIfNull(notifyIcon);
 
             if (parentSource is null)
             {
@@ -120,8 +119,7 @@ namespace Wpf.Ui.Tray
         /// </summary>
         public static bool Unregister(INotifyIcon notifyIcon)
         {
-            if (notifyIcon is null)
-                throw new ArgumentNullException(nameof(notifyIcon));
+            ArgumentNullException.ThrowIfNull(notifyIcon);
 
             if (!notifyIcon.IsRegistered || notifyIcon.ShellIconData is null)
                 return false;

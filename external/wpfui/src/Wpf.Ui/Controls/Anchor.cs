@@ -49,11 +49,7 @@ public class Anchor : Wpf.Ui.Controls.Button
 #endif
         if (String.IsNullOrEmpty(NavigateUri))
             return;
-        System.Diagnostics.ProcessStartInfo sInfo = new(new Uri(NavigateUri).AbsoluteUri)
-        {
-            UseShellExecute = true
-        };
 
-        System.Diagnostics.Process.Start(sInfo);
+        NavigateUriLauncher.Open(NavigateUri);
     }
 }

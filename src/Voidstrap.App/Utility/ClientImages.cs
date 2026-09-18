@@ -48,7 +48,7 @@ namespace Voidstrap.Utility
         private static readonly Dictionary<string, ImageSource> _cache = new Dictionary<string, ImageSource>(StringComparer.OrdinalIgnoreCase);
         private static readonly Queue<string> _cacheOrder = new Queue<string>();
         private static readonly ConcurrentDictionary<string, Lazy<Task<ImageSource>>> _inflight = new(StringComparer.OrdinalIgnoreCase);
-        private static ImageSource _defaultImage;
+        private static ImageSource? _defaultImage;
         private static long _cacheBytes;
 
         private const int MaxMemoryCacheEntries = 64;
@@ -59,7 +59,7 @@ namespace Voidstrap.Utility
 
         public static string GetUri(string code)
         {
-            if (!string.IsNullOrEmpty(code) && Images.TryGetValue(code, out string uri) && !string.IsNullOrWhiteSpace(uri))
+            if (!string.IsNullOrEmpty(code) && Images.TryGetValue(code, out string? uri) && !string.IsNullOrWhiteSpace(uri))
                 return uri;
             return Default;
         }
@@ -73,19 +73,19 @@ namespace Voidstrap.Utility
                 string key = uri + "@0";
                 lock (_cache)
                 {
-                    if (_cache.TryGetValue(key, out ImageSource cached) && cached != null)
+                    if (_cache.TryGetValue(key, out ImageSource? cached) && cached != null)
                         return cached;
                 }
-                ImageSource local = Load(uri, 0) ?? DefaultImage();
+                ImageSource? local = Load(uri, 0) ?? DefaultImage();
                 StoreCached(key, local);
                 return local;
             }
 
             lock (_cache)
             {
-                if (_cache.TryGetValue(uri + "@" + FullRes, out ImageSource full) && full != null)
+                if (_cache.TryGetValue(uri + "@" + FullRes, out ImageSource? full) && full != null)
                     return full;
-                if (_cache.TryGetValue(uri + "@" + LowRes, out ImageSource low) && low != null)
+                if (_cache.TryGetValue(uri + "@" + LowRes, out ImageSource? low) && low != null)
                     return low;
             }
             return DefaultImage();
@@ -122,10 +122,11 @@ namespace Voidstrap.Utility
             string key = uri + "@" + (IsLocal(uri) ? 0 : size);
             lock (_cache)
             {
-                if (_cache.TryGetValue(key, out ImageSource cached) && cached != null)
+                if (_cache.TryGetValue(key, out ImageSource? cached) && cached != null)
                     return cached;
             }
-            ImageSource image = (IsLocal(uri) ? Load(uri, 0) : LoadRemote(uri, size)) ?? DefaultImage();
+            string? embedded = AppImage.EmbeddedAsset(uri);
+            ImageSource? image = (embedded != null ? Load(embedded, 0) : IsLocal(uri) ? Load(uri, 0) : LoadRemote(uri, size)) ?? DefaultImage();
             StoreCached(key, image);
             return image;
         }
@@ -134,7 +135,7 @@ namespace Voidstrap.Utility
         {
             lock (_cache)
             {
-                if (_cache.TryGetValue(key, out ImageSource existing) && existing != null)
+                if (_cache.TryGetValue(key, out ImageSource? existing) && existing != null)
                     _cacheBytes -= EstimateBytes(existing);
                 if (!_cache.ContainsKey(key))
                     _cacheOrder.Enqueue(key);
@@ -143,7 +144,7 @@ namespace Voidstrap.Utility
                 while ((_cache.Count > MaxMemoryCacheEntries || _cacheBytes > MaxMemoryCacheBytes) && _cacheOrder.Count > 0)
                 {
                     string oldest = _cacheOrder.Dequeue();
-                    if (_cache.Remove(oldest, out ImageSource removed) && removed != null)
+                    if (_cache.Remove(oldest, out ImageSource? removed) && removed != null)
                         _cacheBytes -= EstimateBytes(removed);
                 }
             }
@@ -159,7 +160,7 @@ namespace Voidstrap.Utility
 
         private static ImageSource DefaultImage()
         {
-            return _defaultImage ??= Load(Default, 0);
+            return _defaultImage ??= (ImageSource?)Load(Default, 0) ?? new System.Windows.Media.DrawingImage();
         }
 
         private static bool IsLocal(string uri)
@@ -168,7 +169,7 @@ namespace Voidstrap.Utility
                 && !uri.StartsWith("https://", StringComparison.OrdinalIgnoreCase);
         }
 
-        private static ImageSource Load(string uri, int size)
+        private static BitmapSource? Load(string uri, int size)
         {
             try
             {
@@ -181,13 +182,13 @@ namespace Voidstrap.Utility
             }
         }
 
-        private static ImageSource LoadRemote(string uri, int size)
+        private static ImageSource? LoadRemote(string uri, int size)
         {
             try
             {
                 foreach (string candidate in AppImage.GetCandidates(uri, size))
                 {
-                    ImageSource image = TryLoadCandidate(candidate, uri, size);
+                    ImageSource? image = TryLoadCandidate(candidate, uri, size);
                     if (image != null)
                         return image;
                 }
@@ -198,12 +199,12 @@ namespace Voidstrap.Utility
             return null;
         }
 
-        private static ImageSource TryLoadCandidate(string candidate, string uri, int size)
+        private static BitmapSource? TryLoadCandidate(string candidate, string uri, int size)
         {
             try
             {
                 string cacheFile = DiskCachePath(uri, size);
-                byte[] bytes = TryReadFile(cacheFile);
+                byte[]? bytes = TryReadFile(cacheFile);
                 if (bytes == null)
                 {
                     using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, candidate);
@@ -230,7 +231,7 @@ namespace Voidstrap.Utility
             return Path.Combine(CacheDir, Convert.ToHexString(hash) + ".png");
         }
 
-        private static byte[] TryReadFile(string path)
+        private static byte[]? TryReadFile(string path)
         {
             try
             {
@@ -250,7 +251,7 @@ namespace Voidstrap.Utility
             return null;
         }
 
-        private static byte[] ReadBounded(Stream stream)
+        private static byte[]? ReadBounded(Stream stream)
         {
             using MemoryStream output = new MemoryStream();
             byte[] buffer = new byte[81920];

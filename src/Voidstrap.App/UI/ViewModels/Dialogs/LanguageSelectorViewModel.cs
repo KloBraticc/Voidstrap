@@ -9,7 +9,7 @@ using Voidstrap.Utility;
 
 namespace Voidstrap.UI.ViewModels.Dialogs;
 
-internal class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
+public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 {
 	public static string AutoTranslateOption => Strings.Dialog_LanguageSelector_AutoTranslate;
 

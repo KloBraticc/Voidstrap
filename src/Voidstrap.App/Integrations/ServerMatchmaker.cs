@@ -18,25 +18,47 @@ public sealed class ServerMatchmaker : IDisposable
 {
 	private const string LOG_IDENT = "ServerMatchmaker";
 
-	private const double MinRttGainMs = 8.0;
+	private const double MinRttGainMs = 25.0;
+
+	private const double AcceptablePingMs = 60.0;
 
 	private const int JoinSettleDelayMs = 2000;
 
 	private const int HandoffPollIntervalMs = 500;
 
 	private const int HandoffPollCount = 120;
+	private const int LinuxRejoinLeaseSeconds = 90;
 
 	private static readonly TimeSpan AttemptResetWindow = TimeSpan.FromMinutes(10.0);
 
 	private static readonly TimeSpan HopCooldown = TimeSpan.FromSeconds(90.0);
 
 	private static DateTime _lastHopUtc = DateTime.MinValue;
+	private static long _linuxRejoinLeaseDeadlineUtcTicks;
+
+	internal static bool LinuxRejoinInProgress
+	{
+		get
+		{
+			long deadline = Volatile.Read(ref _linuxRejoinLeaseDeadlineUtcTicks);
+			if (deadline == 0)
+				return false;
+			if (DateTime.UtcNow.Ticks <= deadline)
+				return true;
+			Interlocked.CompareExchange(ref _linuxRejoinLeaseDeadlineUtcTicks, 0, deadline);
+			return false;
+		}
+	}
 
 	private readonly ActivityWatcher _activityWatcher;
 
 	private readonly Watcher _watcher;
 
 	private CancellationTokenSource? _currentCts;
+
+	private string? _linuxRejoinTarget;
+
+	private long _linuxRejoinPlaceId;
 
 	private bool _disposed;
 
@@ -51,6 +73,7 @@ public sealed class ServerMatchmaker : IDisposable
 
 	private void OnGameJoin(object? sender, EventArgs e)
 	{
+		CompleteLinuxRejoinLease();
 		_ = HandleGameJoinAsync();
 	}
 
@@ -222,6 +245,9 @@ public sealed class ServerMatchmaker : IDisposable
 
 	private async Task EvaluateAsync(ActivityData data, CancellationToken token)
 	{
+		if (_linuxRejoinTarget != null && _linuxRejoinPlaceId != data.PlaceId)
+			ClearLinuxRejoin();
+
 		try
 		{
 			await Task.Delay(JoinSettleDelayMs, token).ConfigureAwait(false);
@@ -237,6 +263,7 @@ public sealed class ServerMatchmaker : IDisposable
 		if (geo == null)
 		{
 			App.Logger.WriteLine(LOG_IDENT, "No user location available, staying put");
+			ClearLinuxRejoin();
 			return;
 		}
 
@@ -245,6 +272,7 @@ public sealed class ServerMatchmaker : IDisposable
 		if (currentDc == null)
 		{
 			App.Logger.WriteLine(LOG_IDENT, "Current datacenter could not be resolved, staying put instead of hopping blind");
+			ClearLinuxRejoin();
 			ClearAttempt(data.PlaceId);
 			return;
 		}
@@ -262,24 +290,29 @@ public sealed class ServerMatchmaker : IDisposable
 		if (inPreferredDc && !currentIsBlocked)
 		{
 			App.Logger.WriteLine(LOG_IDENT, $"Already in your preferred datacenter {currentDc.City} ({currentPing}ms), staying put");
+			ClearLinuxRejoin();
 			ClearAttempt(data.PlaceId);
 			ShowAlert($"You are in your preferred datacenter {currentDc.City}, about {currentPing}ms", 6);
 			return;
 		}
 
-		string rejoinTarget = (App.LaunchSettings.MatchmakerTargetFlag.Data ?? "").Trim();
+		bool linuxRejoin = Voidstrap.Utility.Platform.IsLinux && _linuxRejoinTarget != null;
+		string rejoinTarget = linuxRejoin
+			? _linuxRejoinTarget ?? ""
+			: (App.LaunchSettings.MatchmakerTargetFlag.Data ?? "").Trim();
 		bool landedOnRejoinTarget = rejoinTarget.Length == 0 || string.Equals(currentDc.City, rejoinTarget, StringComparison.OrdinalIgnoreCase);
-		if (App.LaunchSettings.MatchmakerRejoinFlag.Active && !currentIsBlocked && !wantsOtherDc && landedOnRejoinTarget)
+		if ((App.LaunchSettings.MatchmakerRejoinFlag.Active || linuxRejoin) && !currentIsBlocked && !wantsOtherDc && landedOnRejoinTarget)
 		{
 			App.Logger.WriteLine(LOG_IDENT, $"Landed via matchmaker rejoin in {currentDc.City} ({currentPing}ms), accepting this server");
+			ClearLinuxRejoin();
 			ClearAttempt(data.PlaceId);
 			ShowAlert($"Connected to {currentDc.City}, about {currentPing}ms", 6);
 			return;
 		}
-		if (App.LaunchSettings.MatchmakerRejoinFlag.Active && !landedOnRejoinTarget)
+		if ((App.LaunchSettings.MatchmakerRejoinFlag.Active || linuxRejoin) && !landedOnRejoinTarget)
 			App.Logger.WriteLine(LOG_IDENT, $"Requested {rejoinTarget} but Roblox landed in {currentDc.City}, searching again");
 
-		if (DateTime.UtcNow - _lastHopUtc < HopCooldown)
+		if (!linuxRejoin && DateTime.UtcNow - _lastHopUtc < HopCooldown)
 		{
 			App.Logger.WriteLine(LOG_IDENT, "Hop cooldown active, staying put");
 			return;
@@ -290,11 +323,12 @@ public sealed class ServerMatchmaker : IDisposable
 			tried.Add(data.JobId);
 
 		MatchmakerCandidate? best = await VoidstrapMatchmaker
-			.PickBestJobIdAsync(data.PlaceId, tried, VoidstrapMatchmaker.ResolveEffectiveCandidateCount(), token, preferredKey)
+			.PickBestJobIdAsync(data.PlaceId, tried, VoidstrapMatchmaker.ResolveEffectiveCandidateCount(), preferredKey, token)
 			.ConfigureAwait(false);
 
 		if (best == null)
 		{
+			ClearLinuxRejoin();
 			ClearAttempt(data.PlaceId);
 			if (currentIsBlocked)
 			{
@@ -317,11 +351,12 @@ public sealed class ServerMatchmaker : IDisposable
 			reason = $"leaving blocked datacenter {currentDc.City}";
 		else if (wantsOtherDc && bestIsPreferred)
 			reason = $"moving to your preferred datacenter {best.Datacenter?.City}";
-		else if (!sameDc && !hasPreferred && gainMs >= MinRttGainMs)
+		else if (!sameDc && !hasPreferred && currentPing > AcceptablePingMs && gainMs >= MinRttGainMs)
 			reason = $"saving about {(int)gainMs}ms";
 
 		if (reason == null)
 		{
+			ClearLinuxRejoin();
 			ClearAttempt(data.PlaceId);
 			if (currentIsBlocked)
 			{
@@ -336,7 +371,7 @@ public sealed class ServerMatchmaker : IDisposable
 			}
 			else
 			{
-				App.Logger.WriteLine(LOG_IDENT, $"Current {currentDc.City} at {currentPing}ms vs best {best.DatacenterName} at {best.EstimatedPingMs}ms, not worth reconnecting");
+				App.Logger.WriteLine(LOG_IDENT, $"Current {currentDc.City} at {currentPing}ms vs best {best.DatacenterName} at {best.EstimatedPingMs}ms, not worth reconnecting for {(int)gainMs}ms");
 				ShowAlert($"You are already on a good server, about {currentPing}ms", 5);
 			}
 			return;
@@ -347,6 +382,7 @@ public sealed class ServerMatchmaker : IDisposable
 		if (attempt > maxRetries)
 		{
 			App.Logger.WriteLine(LOG_IDENT, $"Reached the retry limit of {maxRetries} for place {data.PlaceId}");
+			ClearLinuxRejoin();
 			ClearAttempt(data.PlaceId);
 			ShowAlert($"Could not reach a better datacenter after {maxRetries} tries, staying in {currentDc.City}", 10);
 			return;
@@ -363,10 +399,10 @@ public sealed class ServerMatchmaker : IDisposable
 		ShowAlert($"Moving you to {best.Datacenter?.City ?? "the best server"}, about {best.EstimatedPingMs}ms{attemptNote}{blockedNote}", 8);
 
 		_lastHopUtc = DateTime.UtcNow;
-		await TriggerRejoinAsync(data.PlaceId, attempt, token, best.JobId, best.Datacenter?.City).ConfigureAwait(false);
+		await TriggerRejoinAsync(data.PlaceId, attempt, best.JobId, best.Datacenter?.City, token).ConfigureAwait(false);
 	}
 
-	private async Task TriggerRejoinAsync(long placeId, int attemptNumber, CancellationToken token, string? explicitJobId, string? targetName)
+	private async Task TriggerRejoinAsync(long placeId, int attemptNumber, string? explicitJobId, string? targetName, CancellationToken token)
 	{
 		if (_disposed || token.IsCancellationRequested)
 			return;
@@ -389,11 +425,17 @@ public sealed class ServerMatchmaker : IDisposable
 				? $"roblox://experiences/start?placeId={placeId}"
 				: $"roblox://experiences/start?placeId={placeId}&gameInstanceId={Uri.EscapeDataString(explicitJobId)}";
 
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			await TriggerLinuxRejoinAsync(placeId, launchUri, targetName, token).ConfigureAwait(false);
+			return;
+		}
+
 		HashSet<int> existingPids = SnapshotRobloxPids();
 		bool spawnedSuccessor = false;
 		try
 		{
-			string process = Paths.Process;
+			string process = Paths.LaunchExecutable;
 			if (!string.IsNullOrEmpty(process))
 			{
 				ProcessStartInfo startInfo = new ProcessStartInfo
@@ -431,6 +473,7 @@ public sealed class ServerMatchmaker : IDisposable
 		{
 			try
 			{
+				Voidstrap.Utility.RobloxInstallCompression.EnsureExtracted(new RobloxPlayerData());
 				string playerPath = new RobloxPlayerData().ExecutablePath;
 				ProcessStartInfo startInfo = new ProcessStartInfo
 				{
@@ -467,6 +510,69 @@ public sealed class ServerMatchmaker : IDisposable
 		{
 			App.Logger.WriteLine(LOG_IDENT, "Closing the old Roblox failed: " + ex.Message);
 		}
+	}
+
+	private async Task TriggerLinuxRejoinAsync(long placeId, string launchUri, string? targetName, CancellationToken token)
+	{
+		Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
+		if (host is null || !Uri.TryCreate(launchUri, UriKind.Absolute, out Uri? deeplink))
+		{
+			App.Logger.WriteLine(LOG_IDENT, "The Linux Roblox runtime could not accept the matchmaker rejoin");
+			return;
+		}
+
+		_linuxRejoinPlaceId = placeId;
+		_linuxRejoinTarget = (targetName ?? "").Trim();
+		BeginLinuxRejoinLease();
+		App.Logger.WriteLine(LOG_IDENT, "Closing Sober and joining the selected matchmaker server");
+		Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result;
+		try
+		{
+			result = await host.PlayerRuntime
+				.LaunchAsync(new Voidstrap.Platform.LaunchRequest(Voidstrap.Platform.RuntimeKind.Player, deeplink), token)
+				.ConfigureAwait(false);
+		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested)
+		{
+			throw;
+		}
+		catch (Exception ex)
+		{
+			ClearLinuxRejoin();
+			App.Logger.WriteLine(LOG_IDENT, "Sober matchmaker rejoin failed: " + ex.Message);
+			ShowAlert("Sober could not join the selected server: " + ex.Message, 10);
+			return;
+		}
+
+		if (result.Succeeded)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "Sober accepted the matchmaker rejoin");
+			return;
+		}
+
+		ClearLinuxRejoin();
+		string error = result.Failure?.Message ?? "Sober did not accept the matchmaker rejoin";
+		App.Logger.WriteLine(LOG_IDENT, error);
+		ShowAlert(error, 10);
+	}
+
+	private void ClearLinuxRejoin()
+	{
+		CompleteLinuxRejoinLease();
+		_linuxRejoinTarget = null;
+		_linuxRejoinPlaceId = 0;
+	}
+
+	private static void BeginLinuxRejoinLease()
+	{
+		Volatile.Write(
+			ref _linuxRejoinLeaseDeadlineUtcTicks,
+			DateTime.UtcNow.AddSeconds(LinuxRejoinLeaseSeconds).Ticks);
+	}
+
+	private static void CompleteLinuxRejoinLease()
+	{
+		Interlocked.Exchange(ref _linuxRejoinLeaseDeadlineUtcTicks, 0);
 	}
 
 	private static HashSet<int> SnapshotRobloxPids()
@@ -637,6 +743,7 @@ public sealed class ServerMatchmaker : IDisposable
 		if (_disposed)
 			return;
 		_disposed = true;
+		CompleteLinuxRejoinLease();
 		try
 		{
 			_activityWatcher.OnGameJoin -= OnGameJoin;

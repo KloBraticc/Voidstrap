@@ -21,8 +21,8 @@ public partial class ConnectivityDialog : WpfUiWindow{
 	public ConnectivityDialog(string title, string description, MessageBoxImage image, Exception exception)
 	{
 		InitializeComponent();
-		string text = null;
-		SystemSound systemSound = null;
+		string? text = null;
+		SystemSound? systemSound = null;
 		switch (image)
 		{
 		case MessageBoxImage.Hand:

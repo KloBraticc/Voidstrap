@@ -278,12 +278,9 @@ public sealed class PortableSettingsStore
 
 	private async Task<OperationResult> SaveCoreAsync(SettingsDocument document, CancellationToken cancellationToken)
 	{
-		if (document is null)
-		{
-			throw new ArgumentNullException(nameof(document));
-		}
+        ArgumentNullException.ThrowIfNull(document);
 
-		OperationResult directoryResult = await _paths.EnsureDirectoriesAsync(cancellationToken);
+        OperationResult directoryResult = await _paths.EnsureDirectoriesAsync(cancellationToken);
 		if (!directoryResult.Succeeded)
 		{
 			return CopyFailure(directoryResult.Failure);

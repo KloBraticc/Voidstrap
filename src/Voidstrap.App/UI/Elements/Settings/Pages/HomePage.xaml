@@ -12,40 +12,176 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     Title="Home">
 
+    <Page.Resources>
+        <DataTemplate x:Key="StudioProjectCard">
+            <Border x:Name="ProjectCard"
+                    Margin="0,0,12,12"
+                    Padding="10"
+                    CornerRadius="8"
+                    Background="#0DFFFFFF"
+                    BorderThickness="1"
+                    BorderBrush="#14FFFFFF"
+                    Cursor="Hand"
+                    ToolTip="{Binding Name, StringFormat='Open {0} in Studio'}">
+                <Border.InputBindings>
+                    <MouseBinding MouseAction="LeftClick"
+                                  Command="{Binding DataContext.OpenStudioProjectCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                  CommandParameter="{Binding}"/>
+                </Border.InputBindings>
+                <StackPanel>
+                    <Border Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" CornerRadius="6" ClipToBounds="True" Background="#14FFFFFF">
+                        <Image Stretch="UniformToFill"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl}"/>
+                    </Border>
+                    <Grid Margin="0,10,0,0">
+                        <Border x:Name="PrivacyPill"
+                                HorizontalAlignment="Left"
+                                Padding="8,3"
+                                CornerRadius="11"
+                                Background="#14FFFFFF"
+                                BorderThickness="1"
+                                BorderBrush="#26FFFFFF">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:SymbolIcon x:Name="PrivacyIcon" Symbol="{Binding PrivacyIcon}" FontSize="12" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="PrivacyText" Text="{Binding PrivacyLabel}" FontSize="11.5" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                        <ui:Button HorizontalAlignment="Right"
+                                   Width="26" Height="26" Padding="0"
+                                   Appearance="Transparent"
+                                   Icon="MoreVertical24"
+                                   ToolTip="More options"
+                                   Click="StudioMore_Click"/>
+                    </Grid>
+                    <TextBlock Text="{Binding Name}"
+                               Margin="0,6,0,0"
+                               FontSize="13.5"
+                               FontWeight="SemiBold"
+                               TextWrapping="Wrap"
+                               Height="38"
+                               TextTrimming="CharacterEllipsis"
+                               Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="{Binding ModifiedLabel}" FontSize="11" Margin="0,3,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    <TextBlock Text="{Binding CreatorName}" FontSize="11" Margin="0,1,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
+                </StackPanel>
+            </Border>
+            <DataTemplate.Triggers>
+                <Trigger SourceName="ProjectCard" Property="IsMouseOver" Value="True">
+                    <Setter TargetName="ProjectCard" Property="Background" Value="#1AFFFFFF"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding IsPublic}" Value="True">
+                    <Setter TargetName="PrivacyPill" Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}"/>
+                    <Setter TargetName="PrivacyPill" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}"/>
+                    <Setter TargetName="PrivacyIcon" Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}"/>
+                    <Setter TargetName="PrivacyText" Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <DataTemplate x:Key="StudioTemplateCard">
+            <Border x:Name="TemplateCard"
+                    Margin="0,0,12,12"
+                    Padding="10"
+                    CornerRadius="8"
+                    Background="#0DFFFFFF"
+                    BorderThickness="1"
+                    BorderBrush="#14FFFFFF"
+                    Cursor="Hand"
+                    ToolTip="{Binding Name, StringFormat='Start from {0}'}">
+                <Border.InputBindings>
+                    <MouseBinding MouseAction="LeftClick"
+                                  Command="{Binding DataContext.OpenStudioProjectCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                  CommandParameter="{Binding}"/>
+                </Border.InputBindings>
+                <StackPanel>
+                    <Border Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" CornerRadius="6" ClipToBounds="True" Background="#14FFFFFF">
+                        <Image Stretch="UniformToFill"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl}"/>
+                    </Border>
+                    <TextBlock Text="{Binding Name}"
+                               Margin="2,10,0,2"
+                               FontSize="12.5"
+                               FontWeight="SemiBold"
+                               TextTrimming="CharacterEllipsis"
+                               Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                </StackPanel>
+            </Border>
+            <DataTemplate.Triggers>
+                <Trigger SourceName="TemplateCard" Property="IsMouseOver" Value="True">
+                    <Setter TargetName="TemplateCard" Property="Background" Value="#1AFFFFFF"/>
+                </Trigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <ItemsPanelTemplate x:Key="StudioGridPanel">
+            <UniformGrid Columns="{Binding DataContext.StudioColumns, RelativeSource={RelativeSource AncestorType=Page}}" VerticalAlignment="Top"/>
+        </ItemsPanelTemplate>
+    </Page.Resources>
+
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="0,0,28,12">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="8"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <ui:Button Grid.Column="1"
-                       Content="Refresh"
-                       Appearance="Secondary"
-                       Command="{Binding RefreshCommand}"/>
-
-            <ui:Button Grid.Column="3"
-                       Content="Clear All"
-                       Appearance="Secondary"
-                       Command="{Binding ClearCommand}"/>
+        <Grid Grid.Row="0" Margin="0,4,28,6">
+            <Border HorizontalAlignment="Left" Padding="4" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+                <StackPanel Orientation="Horizontal">
+                    <ui:Button Height="32" Margin="0,0,4,0" Padding="12,0" Tag="Roblox" Click="HomeTab_Click">
+                        <ui:Button.Style>
+                            <Style TargetType="{x:Type ui:Button}" BasedOn="{StaticResource {x:Type ui:Button}}">
+                                <Setter Property="Appearance" Value="Transparent" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsStudioTab}" Value="False">
+                                        <Setter Property="Appearance" Value="Primary" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ui:Button.Style>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="16" Height="16" Margin="0,0,7,0" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxPlayerIcon.png" />
+                            <TextBlock VerticalAlignment="Center" Text="Roblox" />
+                        </StackPanel>
+                    </ui:Button>
+                    <ui:Button Height="32" Padding="12,0" Tag="Studio" Click="HomeTab_Click">
+                        <ui:Button.Style>
+                            <Style TargetType="{x:Type ui:Button}" BasedOn="{StaticResource {x:Type ui:Button}}">
+                                <Setter Property="Appearance" Value="Transparent" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsStudioTab}" Value="True">
+                                        <Setter Property="Appearance" Value="Primary" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ui:Button.Style>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="16" Height="16" Margin="0,0,7,0" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxStudioIcon.png" />
+                            <TextBlock VerticalAlignment="Center" Text="Studio" />
+                        </StackPanel>
+                    </ui:Button>
+                </StackPanel>
+            </Border>
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Visibility="{Binding StudioTabVisibility}">
+                <ProgressBar Width="120" Height="3" Margin="0,0,12,0" VerticalAlignment="Center" IsIndeterminate="True"
+                             Visibility="{Binding IsStudioLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <ui:Button Content="Refresh" Icon="ArrowSync24" Appearance="Secondary" Command="{Binding RefreshStudioCommand}" />
+                <ui:Button Margin="8,0,0,0" Appearance="Primary" Command="{Binding LaunchStudioCommand}" ToolTip="Launch Roblox Studio">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="16" Height="16" Margin="0,0,7,0" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxStudioIcon.png" />
+                        <TextBlock VerticalAlignment="Center" Text="Open Studio" />
+                    </StackPanel>
+                </ui:Button>
+            </StackPanel>
         </Grid>
-
-        <TextBlock Grid.Row="2" Visibility="Collapsed" />
 
         <TextBlock Grid.Row="1"
                    Text="{Binding Error}"
-                   Foreground="Red"
-                   FontSize="12"
-                   Margin="0,0,28,8"
+                   Foreground="{DynamicResource SystemFillColorCriticalBrush}"
+                   FontSize="13"
+                   Margin="0,0,28,12"
                    TextWrapping="Wrap">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
@@ -59,320 +195,208 @@
             </TextBlock.Style>
         </TextBlock>
 
-        <ui:DynamicScrollViewer Grid.Row="3"
+        <ui:DynamicScrollViewer Grid.Row="2"
+                      Visibility="{Binding RobloxTabVisibility}"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled">
             <StackPanel Margin="0,0,28,0">
 
-                <ui:InfoBar Margin="0,0,0,8"
-                            Padding="8"
-                            Severity="Informational"
-                            IsClosable="False"
-                            Title="Voidstrap Profile"
-                            Message="Sign into Voidstrap to use more features"
-                            IsOpen="{Binding IsSignedOut, Mode=OneWay}" />
-
-                <ui:InfoBar Margin="0,0,0,8"
-                            Padding="8"
-                            Severity="Warning"
-                            IsClosable="False"
-                            Title="If Not Working?"
-                            Message="Cloudflare pages is being limited right now you cant sign in, logout or do much of anything."
-                            IsOpen="{Binding IsSignedOut, Mode=OneWay}" />
-
-                <ui:Button Icon="Person24"
-                           Appearance="Primary"
-                           HorizontalAlignment="Left"
-                           Margin="0,0,0,16"
-                           Command="{Binding SignInCommand}">
-                    <ui:Button.Style>
-                        <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Setter Property="Content" Value="Sign in"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsSignedOut}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsSigningIn}" Value="True">
-                                    <Setter Property="Content" Value="Waiting for your browser, click to retry"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ui:Button.Style>
-                </ui:Button>
-
-                <Border Margin="0,0,0,16"
-                        Padding="16"
-                        CornerRadius="8"
-                        Background="{DynamicResource SystemFillColorAttentionBackgroundBrush}"
-                        BorderThickness="1"
-                        BorderBrush="{DynamicResource ControlElevationBorderBrush}">
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding HasWebsiteProfile}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="320"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Grid.RowSpan="4"
-                                    Grid.ColumnSpan="2"
-                                    Panel.ZIndex="10"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Top"
-                                    Margin="0,8,8,0">
-                            <ui:Button Content="Edit profile"
-                                       Icon="Edit24"
-                                       Appearance="Secondary"
-                                       Background="#33000000"
-                                       BorderBrush="#40FFFFFF"
-                                       Click="EditProfile_Click"/>
-                            <ui:Button Icon="PeopleSwap24"
-                                       Content="Accounts"
-                                       Appearance="Secondary"
-                                       Background="#33000000"
-                                       BorderBrush="#40FFFFFF"
-                                       Margin="8,0,0,0">
-                                <ui:Button.ContextMenu>
-                                    <ContextMenu ItemsSource="{Binding Accounts}">
-                                        <ContextMenu.ItemContainerStyle>
-                                            <Style TargetType="MenuItem">
-                                                <Setter Property="Header" Value="{Binding Label}"/>
-                                                <Setter Property="Command" Value="{Binding DataContext.SwitchAccountCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
-                                                <Setter Property="CommandParameter" Value="{Binding}"/>
-                                            </Style>
-                                        </ContextMenu.ItemContainerStyle>
-                                    </ContextMenu>
-                                </ui:Button.ContextMenu>
-                                <ui:Button.Style>
-                                    <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
-                                        <EventSetter Event="Click" Handler="AccountsButton_Click"/>
-                                    </Style>
-                                </ui:Button.Style>
-                            </ui:Button>
-                            <ui:Button Icon="PersonAdd24"
-                                       Appearance="Secondary"
-                                       Background="#33000000"
-                                       BorderBrush="#40FFFFFF"
-                                       Width="40"
-                                       Margin="8,0,0,0"
-                                       Command="{Binding AddAccountCommand}"/>
-                            <ui:Button Icon="SignOut24"
-                                       Appearance="Secondary"
-                                       Background="#33000000"
-                                       BorderBrush="#40FFFFFF"
-                                       Width="40"
-                                       Margin="8,0,0,0"
-                                       Command="{Binding SignOutCommand}"/>
-                        </StackPanel>
-                        <Border Grid.Row="0"
-                                Grid.ColumnSpan="2"
-                                Height="130"
-                                CornerRadius="8,8,0,0"
-                                Margin="-16,-16,-16,0"
-                                ClipToBounds="True"
-                                Background="{Binding WebsiteBannerBrush}">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding HasWebsiteBannerBrush}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-                        </Border>
-                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,12,0,0">
-                            <Grid Width="96" Height="96" Margin="0,-19,0,-19" ClipToBounds="False">
-                                <Border x:Name="AvatarBorderRing"
-                                        Width="58" Height="58" CornerRadius="29"
-                                        Padding="3"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Background="{DynamicResource SystemFillColorAttentionBackgroundBrush}"
-                                        x:FieldModifier="private">
-                                    <Border Width="52" Height="52" CornerRadius="26"
-                                            Padding="2" Background="#0A0A0A">
-                                        <Border CornerRadius="26" ClipToBounds="True">
-                                            <Border.Background>
-                                                <ImageBrush x:Name="WebsiteAvatarBrush" Stretch="UniformToFill" />
-                                            </Border.Background>
-                                        </Border>
-                                    </Border>
-                                </Border>
-                                <Image Source="{Binding WebsiteBorderImage}"
-                                       Width="{Binding WebsiteBorderWidth}"
-                                       Height="{Binding WebsiteBorderHeight}"
-                                       Margin="{Binding WebsiteBorderMargin}"
-                                       Panel.ZIndex="{Binding WebsiteBorderZ}"
-                                       HorizontalAlignment="Left"
-                                       VerticalAlignment="Top"
-                                       IsHitTestVisible="False"
-                                       RenderOptions.BitmapScalingMode="HighQuality"
-                                       Visibility="{Binding HasWebsiteBorderImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                            </Grid>
-                            <StackPanel VerticalAlignment="Center" Margin="12,0,0,0" MaxWidth="220">
-                                <Border x:Name="WebsiteStatusPill"
-                                        HorizontalAlignment="Left"
-                                        Margin="0,0,0,6"
-                                        Padding="10,4"
-                                        CornerRadius="12"
-                                        Background="#E6161616"
-                                        BorderBrush="#40FFFFFF"
-                                        BorderThickness="1">
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding HasWebsiteStatus}" Value="True">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                    <TextBlock x:Name="WebsiteStatusText"
-                                               Text="{Binding WebsiteStatus}"
-                                               FontSize="11"
-                                               Foreground="#FFECECEC"
-                                               TextTrimming="CharacterEllipsis"
-                                               MaxWidth="200"
-                                               ToolTip="{Binding WebsiteStatus}"/>
-                                </Border>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock x:Name="WebsiteDisplayNameText"
-                                               Text="{Binding WebsiteDisplayName}"
-                                               FontWeight="SemiBold"
-                                               FontSize="14"
-                                               Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                                               TextTrimming="CharacterEllipsis"/>
-                                    <ItemsControl ItemsSource="{Binding WebsiteBadges}" Margin="6,0,0,0">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Image Source="{Binding Image}"
-                                                       Width="19"
-                                                       Height="19"
-                                                       Margin="0,0,3,0"
-                                                       Stretch="Uniform"
-                                                       RenderOptions.BitmapScalingMode="HighQuality"
-                                                       ToolTip="{Binding Name}"/>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </StackPanel>
-                                <TextBlock x:Name="WebsiteUsernameText"
-                                           Text="{Binding WebsiteUsername, StringFormat=@{0}}"
+                <Grid Margin="0,12,0,14"
+                      Visibility="{Binding HasLatestNews,
+                          Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Latest Roblox News"
+                                   FontSize="21"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                        <TextBlock Text="{Binding NewsHeaderCount}"
+                                   FontSize="13"
+                                   Margin="9,4,0,0"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
+                    </StackPanel>
+                    <ui:Button HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Appearance="Transparent"
+                               Padding="6,3"
+                               ToolTip="See every Roblox announcement"
+                               Click="ExploreNews_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Explore all news"
+                                       FontSize="13.5"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource AccentColorSecondaryBrush}"/>
+                            <ui:SymbolIcon Symbol="ChevronRight24"
                                            FontSize="11"
-                                           Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                                           TextTrimming="CharacterEllipsis"/>
-                            </StackPanel>
+                                           Margin="6,1,0,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource AccentColorSecondaryBrush}"/>
                         </StackPanel>
-                        <TextBlock x:Name="WebsiteAboutText"
-                                   Grid.Row="2"
-                                   Text="{Binding WebsiteAbout}"
-                                   FontSize="11"
-                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                                   TextWrapping="Wrap"
-                                   Margin="0,8,0,0"
-                                   TextTrimming="CharacterEllipsis">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding HasWebsiteAbout}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,10,0,0">
-                            <StackPanel Orientation="Vertical" Margin="0,0,16,0">
-                                <TextBlock Text="{Binding WebsiteFriendsDisplay}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center"/>
-                                <TextBlock Text="Friends" FontSize="10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Opacity="0.6" HorizontalAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Vertical" Margin="0,0,16,0">
-                                <TextBlock Text="{Binding WebsiteFollowersDisplay}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center"/>
-                                <TextBlock Text="Followers" FontSize="10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Opacity="0.6" HorizontalAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Vertical" Margin="0,0,16,0">
-                                <TextBlock Text="{Binding WebsiteFollowingDisplay}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center"/>
-                                <TextBlock Text="Following" FontSize="10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Opacity="0.6" HorizontalAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Vertical" Margin="0,0,16,0">
-                                <TextBlock Text="{Binding WebsiteLikesDisplay}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center"/>
-                                <TextBlock Text="Likes" FontSize="10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Opacity="0.6" HorizontalAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{Binding WebsiteDislikesDisplay}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center"/>
-                                <TextBlock Text="Dislikes" FontSize="10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Opacity="0.6" HorizontalAlignment="Center"/>
-                            </StackPanel>
-                        </StackPanel>
-                        <StackPanel Grid.Row="2"
-                                    Grid.RowSpan="2"
-                                    Grid.Column="1"
-                                    Margin="16,8,0,0"
-                                    VerticalAlignment="Bottom">
-                            <StackPanel Orientation="Vertical" Margin="0,0,0,10">
-                                <StackPanel.Style>
-                                    <Style TargetType="StackPanel">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding HasWebsiteLevel}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </StackPanel.Style>
-                                <Grid>
-                                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">
-                                        <Run Text="Level" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                                        <Run Text="{Binding WebsiteLevelDisplay, Mode=OneWay}" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                                    </TextBlock>
-                                    <TextBlock Text="{Binding WebsiteLevelXpDisplay}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                                </Grid>
-                                <ProgressBar Height="5"
-                                             Margin="0,8,0,0"
-                                             Minimum="0"
-                                             Maximum="100"
-                                             Value="{Binding WebsiteLevelPercent, Mode=OneWay}"/>
-                            </StackPanel>
-                            <controls:OptionControl Header="In-game Voidstrap chat"
-                                                    Description="Chat with other users, Voidstrap."
-                                                    Margin="0,0,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-                                <ui:ToggleSwitch IsChecked="{Binding GameChatEnabled, Mode=TwoWay}"/>
-                            </controls:OptionControl>
-                        </StackPanel>
-                    </Grid>
-                </Border>
+                    </ui:Button>
+                </Grid>
 
-                <controls:OptionControl Header="In-game Voidstrap chat"
-                                        Description="Chat with other users, Voidstrap."
-                                        Margin="0,0,0,16"
-                                        Visibility="{Binding IsSignedOutWithGameChat, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <ui:ToggleSwitch IsChecked="{Binding GameChatEnabled, Mode=TwoWay}"/>
-                </controls:OptionControl>
+                <ItemsControl ItemsSource="{Binding LatestNews}"
+                              Margin="0,0,0,24"
+                              Visibility="{Binding HasLatestNews,
+                                  Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border x:Name="NewsCard"
+                                    Height="212"
+                                    Margin="0,0,14,0"
+                                    CornerRadius="10"
+                                    Background="#FF0E1015"
+                                    BorderThickness="1"
+                                    BorderBrush="#26FFFFFF"
+                                    Cursor="Hand">
+                                <Border.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick"
+                                                  Command="{Binding DataContext.OpenNewsCardCommand,
+                                                      RelativeSource={RelativeSource AncestorType=Page}}"
+                                                  CommandParameter="{Binding}"/>
+                                </Border.InputBindings>
+                                <Grid>
+                                    <Border x:Name="NewsImageHost" CornerRadius="9" RenderOptions.BitmapScalingMode="LowQuality"
+                                        util:DynamicRenderSystem.BrushDecodeWidth="520"
+                                        util:DynamicRenderSystem.BrushImageSource="{Binding ImageUrl}">
+                                        <Border.Background>
+                                            <ImageBrush Stretch="UniformToFill">
+                                                <ImageBrush.RelativeTransform>
+                                                    <ScaleTransform x:Name="NewsZoom" CenterX="0.5" CenterY="0.5" ScaleX="1" ScaleY="1"/>
+                                                </ImageBrush.RelativeTransform>
+                                            </ImageBrush>
+                                        </Border.Background>
+                                    </Border>
+                                    <Border CornerRadius="9" IsHitTestVisible="False">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#66080A0E" Offset="0"/>
+                                                <GradientStop Color="#2E080A0E" Offset="0.45"/>
+                                                <GradientStop Color="#8C05060A" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                    <Border HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Margin="0,12,12,0"
+                                            Padding="11,4"
+                                            CornerRadius="13"
+                                            Background="{DynamicResource AccentFillColorPrimaryBrush}"
+                                            Visibility="{Binding TagVisibility}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <ui:SymbolIcon Symbol="Megaphone24"
+                                                           FontSize="11"
+                                                           Margin="0,1,5,0"
+                                                           VerticalAlignment="Center"
+                                                           Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"/>
+                                            <TextBlock Text="{Binding Tag}"
+                                                       FontSize="11.5"
+                                                       FontWeight="SemiBold"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <TextBlock Text="{Binding CardTitle}"
+                                               FontSize="17"
+                                               FontWeight="Bold"
+                                               MaxHeight="66"
+                                               LineHeight="21"
+                                               Margin="16,13,108,0"
+                                               TextAlignment="Left"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Foreground="White"
+                                               TextWrapping="Wrap"
+                                               TextTrimming="CharacterEllipsis"
+                                               IsHitTestVisible="False"/>
+                                    <TextBlock Text="{Binding DateLabel}"
+                                               FontSize="11.5"
+                                               FontWeight="SemiBold"
+                                               Margin="16,0,0,14"
+                                               Opacity="0.92"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Bottom"
+                                               Foreground="White"
+                                               IsHitTestVisible="False"/>
+                                    <Border Width="28"
+                                            Height="28"
+                                            Margin="0,0,13,12"
+                                            CornerRadius="14"
+                                            Background="White"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom">
+                                        <ui:SymbolIcon Symbol="ArrowRight24"
+                                                       FontSize="12"
+                                                       Foreground="#FF0B0D11"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ui:ProgressRing Width="26"
+                                                     Height="26"
+                                                     IsIndeterminate="True"
+                                                     HorizontalAlignment="Center"
+                                                     VerticalAlignment="Center"
+                                                     IsHitTestVisible="False"
+                                                     Visibility="{Binding Background.(util:DynamicRenderSystem.IsBrushLoading),
+                                                         ElementName=NewsImageHost,
+                                                         Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                </Grid>
+                            </Border>
+                            <DataTemplate.Triggers>
+                                <EventTrigger SourceName="NewsCard" RoutedEvent="Border.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="NewsZoom"
+                                                             Storyboard.TargetProperty="ScaleX"
+                                                             To="1.05" Duration="0:0:0.55">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuinticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="NewsZoom"
+                                                             Storyboard.TargetProperty="ScaleY"
+                                                             To="1.05" Duration="0:0:0.55">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuinticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger SourceName="NewsCard" RoutedEvent="Border.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="NewsZoom"
+                                                             Storyboard.TargetProperty="ScaleX"
+                                                             To="1" Duration="0:0:0.65">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuinticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="NewsZoom"
+                                                             Storyboard.TargetProperty="ScaleY"
+                                                             To="1" Duration="0:0:0.65">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuinticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
 
                 <TextBlock Text="New on the Catalog"
                            FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                           Margin="0,16,0,8"/>
+                           Margin="0,8,0,8"/>
 
                 <TextBlock Text="{Binding CatalogError}"
                            Foreground="Red"
@@ -519,134 +543,77 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <StackPanel Visibility="{Binding HasUnderratedGames,
-                                Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock Text="Underrated Games"
-                               FontSize="20"
-                               FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                               Margin="0,8,0,2"/>
-                    <TextBlock Text="{Binding UnderratedSubtitle}"
-                               FontSize="12"
-                               Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                               Opacity="0.85"
-                               Margin="0,0,0,10"/>
-
-                    <ItemsControl ItemsSource="{Binding UnderratedGames}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="4"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <ui:Card Margin="0,0,10,10" Padding="0" Cursor="Hand">
-                                    <StackPanel>
-                                        <Border Height="92"
-                                                CornerRadius="8,8,0,0"
-                                                ClipToBounds="True"
-                                                Cursor="Hand"
-                                                ToolTip="View game page"
-                                                MouseLeftButtonUp="UnderratedThumbnail_Click"
-                                                Background="#1AFFFFFF">
-                                            <Image Stretch="UniformToFill"
-                                                   RenderOptions.BitmapScalingMode="HighQuality"
-                                                   util:DynamicRenderSystem.LazyImageSource="{Binding BannerUrl}">
-                                                <Image.Style>
-                                                    <Style TargetType="Image">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding HasBanner}" Value="False">
-                                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Image.Style>
-                                            </Image>
-                                        </Border>
-
-                                        <StackPanel Margin="10,6,10,0">
-                                            <TextBlock FontSize="13"
-                                                       FontWeight="SemiBold"
-                                                       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                                                       Text="{Binding Name}"
-                                                       TextTrimming="CharacterEllipsis"
-                                                       ToolTip="{Binding Name}"/>
-
-                                            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                                <ui:SymbolIcon Symbol="ThumbLike24"
-                                                               FontSize="13"
-                                                               Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                                                               Opacity="0.75"
-                                                               VerticalAlignment="Center"/>
-                                                <TextBlock Text="{Binding LikePercent}"
-                                                           FontSize="11"
-                                                           Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                                                           Margin="4,0,10,0"
-                                                           Opacity="0.75"
-                                                           VerticalAlignment="Center"/>
-                                                <ui:SymbolIcon Symbol="People24"
-                                                               FontSize="13"
-                                                               Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                                                               Opacity="0.75"
-                                                               VerticalAlignment="Center"/>
-                                                <TextBlock Text="{Binding PlayerCount}"
-                                                           FontSize="11"
-                                                           Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                                                           Margin="4,0,0,0"
-                                                           Opacity="0.75"
-                                                           VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </StackPanel>
-
-                                        <ui:Button Margin="10,8,10,10"
-                                                   Icon="Play24"
-                                                   IconForeground="White"
-                                                   Foreground="White"
-                                                   Appearance="Primary"
-                                                   ToolTip="{Binding Name, StringFormat='Play {0}'}"
-                                                   HorizontalAlignment="Stretch"
-                                                   Command="{Binding DataContext.LaunchUnderratedCommand,
-                                                       RelativeSource={RelativeSource AncestorType=Page}}"
-                                                   CommandParameter="{Binding}"/>
-                                    </StackPanel>
-                                </ui:Card>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
 
                 <TextBlock Text="Continue Playing"
                            FontSize="20"
                            FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                            Margin="0,8,0,8"/>
 
-                <StackPanel HorizontalAlignment="Center"
-                            Margin="0,24,0,24"
-                            Visibility="{Binding IsEmpty,
-                                Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <ui:SymbolIcon Symbol="History24" FontSize="52" Opacity="0.25"
-                                   HorizontalAlignment="Center"/>
-                    <TextBlock Text="No history yet" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                               FontSize="16" Opacity="0.5"
-                               Margin="0,12,0,4" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Games you play will appear here."
-                               Opacity="0.4" FontSize="12"
-                               HorizontalAlignment="Center"/>
-                </StackPanel>
+                <Border Margin="0,4,0,18"
+                        Padding="0,34,0,34"
+                        CornerRadius="10"
+                        Background="#0AFFFFFF"
+                        BorderThickness="1"
+                        BorderBrush="#1FFFFFFF"
+                        Visibility="{Binding IsEmpty,
+                            Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <Border Width="56"
+                                Height="56"
+                                CornerRadius="28"
+                                Background="#14FFFFFF"
+                                HorizontalAlignment="Center">
+                            <ui:SymbolIcon Symbol="History24"
+                                           FontSize="26"
+                                           Foreground="{StaticResource AccentColorSecondaryBrush}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="No history yet"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Margin="0,14,0,5"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                        <TextBlock Text="Games you play will show up here so you can jump back in."
+                                   FontSize="12.5"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
+                    </StackPanel>
+                </Border>
 
-                <StackPanel HorizontalAlignment="Center"
-                            Margin="0,24,0,24"
-                            Visibility="{Binding IsFilteredEmpty,
-                                Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <ui:SymbolIcon Symbol="Search24" FontSize="52" Opacity="0.25"
-                                   HorizontalAlignment="Center"/>
-                    <TextBlock Text="No matches" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                               FontSize="16" Opacity="0.5"
-                               Margin="0,12,0,4" HorizontalAlignment="Center"/>
-                    <TextBlock Text="No history entries match your search."
-                               Opacity="0.4" FontSize="12"
-                               HorizontalAlignment="Center"/>
-                </StackPanel>
+                <Border Margin="0,4,0,18"
+                        Padding="0,34,0,34"
+                        CornerRadius="10"
+                        Background="#0AFFFFFF"
+                        BorderThickness="1"
+                        BorderBrush="#1FFFFFFF"
+                        Visibility="{Binding IsFilteredEmpty,
+                            Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <Border Width="56"
+                                Height="56"
+                                CornerRadius="28"
+                                Background="#14FFFFFF"
+                                HorizontalAlignment="Center">
+                            <ui:SymbolIcon Symbol="Search24"
+                                           FontSize="26"
+                                           Foreground="{StaticResource AccentColorSecondaryBrush}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="No matches"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Margin="0,14,0,5"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                        <TextBlock Text="Nothing in your history matches that search."
+                                   FontSize="12.5"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
+                    </StackPanel>
+                </Border>
 
                 <ItemsControl ItemsSource="{Binding FilteredHistory}">
                     <ItemsControl.Style>
@@ -801,6 +768,89 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
+            </StackPanel>
+        </ui:DynamicScrollViewer>
+
+        <ui:DynamicScrollViewer Grid.Row="2"
+                      SizeChanged="StudioScroller_SizeChanged"
+                      Visibility="{Binding StudioTabVisibility}"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="0,0,28,18">
+                <TextBlock Text="{Binding StudioStatus}"
+                           Margin="0,12,0,0"
+                           FontSize="13"
+                           Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding StudioStatus}" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <StackPanel Visibility="{Binding StudioRecentVisibility}">
+                    <TextBlock Text="My Recent Experiences" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <ItemsControl ItemsSource="{Binding StudioRecent}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding StudioOwnedVisibility}">
+                    <TextBlock Text="My Experiences" FontSize="21" FontWeight="Bold" Margin="0,12,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="Every experience on your account, newest changes first." FontSize="13" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    <ItemsControl ItemsSource="{Binding StudioOwned}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding StudioLocalFilesVisibility}">
+                    <TextBlock Text="Recent Files" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <ItemsControl ItemsSource="{Binding StudioLocalFiles}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border x:Name="FileRow"
+                                        Margin="0,0,0,8"
+                                        Padding="14,10"
+                                        CornerRadius="8"
+                                        Background="#0DFFFFFF"
+                                        BorderThickness="1"
+                                        BorderBrush="#14FFFFFF"
+                                        Cursor="Hand"
+                                        ToolTip="{Binding FilePath}">
+                                    <Border.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick"
+                                                      Command="{Binding DataContext.OpenStudioProjectCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                      CommandParameter="{Binding}"/>
+                                    </Border.InputBindings>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Width="28" Height="28" Margin="0,0,12,0" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxStudioIcon.png"/>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}" FontSize="13.5" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                            <TextBlock Text="{Binding CreatorName}" FontSize="11" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="2" Text="{Binding ModifiedLabel}" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                                    </Grid>
+                                </Border>
+                                <DataTemplate.Triggers>
+                                    <Trigger SourceName="FileRow" Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="FileRow" Property="Background" Value="#1AFFFFFF"/>
+                                    </Trigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding StudioTemplatesVisibility}">
+                    <TextBlock Text="Open a Template" FontSize="21" FontWeight="Bold" Margin="0,12,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="See what's possible on Roblox in popular genres with ready made experiences, or start from scratch." FontSize="13" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    <ItemsControl ItemsSource="{Binding StudioTemplates}" ItemTemplate="{StaticResource StudioTemplateCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
+                </StackPanel>
             </StackPanel>
         </ui:DynamicScrollViewer>
     </Grid>

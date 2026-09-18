@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,28 +9,22 @@ namespace Voidstrap.UI.ViewModels.Settings
 {
     public partial class NewsItem : ObservableObject
     {
-        private static readonly Regex UrlRegex =
-            new(@"(https?://[^\s]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-        private static readonly Regex UrlStripRegex =
-            new(@"https?://[^\s]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
         [ObservableProperty]
-        private string title = string.Empty;
+        public partial string Title { get; set; } = string.Empty;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsNew))]
         [NotifyPropertyChangedFor(nameof(AgeLabel))]
-        private DateTime date;
+        public partial DateTime Date { get; set; }
 
         [ObservableProperty]
-        private string content = string.Empty;
+        public partial string Content { get; set; } = string.Empty;
 
         [ObservableProperty]
-        private string imageUrl = string.Empty;
+        public partial string ImageUrl { get; set; } = string.Empty;
 
         [ObservableProperty]
-        private BitmapSource? image;
+        public partial BitmapSource? Image { get; set; }
 
         private readonly ObservableCollection<string> tags = new();
         public ObservableCollection<string> Tags => tags;
@@ -68,5 +62,10 @@ namespace Voidstrap.UI.ViewModels.Settings
             (DateTime.Now - Date).TotalDays <= 3;
 
         public string AgeLabel => "NEW";
+
+        [GeneratedRegex(@"(https?://[^\s]+)", RegexOptions.IgnoreCase, "en-US")]
+        private static partial Regex UrlRegex { get; }
+        [GeneratedRegex(@"https?://[^\s]+", RegexOptions.IgnoreCase, "en-US")]
+        private static partial Regex UrlStripRegex { get; }
     }
 }

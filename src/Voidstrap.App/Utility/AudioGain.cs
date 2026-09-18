@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using NAudio.Vorbis;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using OggVorbisEncoder;
@@ -22,6 +21,14 @@ public static class AudioGain
 	private const int BlockFrames = 4096;
 
 	private const long MaxInputBytes = 256L * 1024L * 1024L;
+
+	private const int MfInvalidStreamNumber = unchecked((int)0xC00D36B3);
+
+	private const int MfUnsupportedByteStream = unchecked((int)0xC00D36C4);
+
+	private const int MfInvalidMediaType = unchecked((int)0xC00D36B4);
+
+	private const int MfCodecNotFound = unchecked((int)0xC00D5212);
 
 	public static bool TryApplyGain(string sourcePath, string targetPath, double gain)
 	{
@@ -152,42 +159,177 @@ public static class AudioGain
 
 	private static WaveStream OpenReader(string path)
 	{
+		byte[] head = ReadHeader(path);
+		bool ogg = StartsWith(head, "OggS");
+		bool opus = ogg && Contains(head, "OpusHead");
+		bool wave = StartsWith(head, "RIFF") && Matches(head, 8, "WAVE");
+		bool aiff = StartsWith(head, "FORM") && (Matches(head, 8, "AIFF") || Matches(head, 8, "AIFC"));
+		bool mpeg = StartsWith(head, "ID3") || (head.Length > 1 && head[0] == 0xFF && (head[1] & 0xE6) == 0xE2);
 		string extension = Path.GetExtension(path).ToLowerInvariant();
-		List<Func<WaveStream>> readers = [];
-		if (extension is ".ogg" or ".oga")
-			readers.Add(() => new VorbisWaveReader(path));
-		if (extension is ".wav" or ".wave")
-			readers.Add(() => new WaveFileReader(path));
-		if (extension is ".aif" or ".aiff" or ".aifc")
-			readers.Add(() => new AiffFileReader(path));
-		if (extension is ".mp3" or ".mp2" or ".mpa")
-			readers.Add(() => new Mp3FileReader(path));
-		readers.Add(() => new MediaFoundationReader(path));
-		if (extension is not ".ogg" and not ".oga")
-			readers.Add(() => new VorbisWaveReader(path));
-		if (extension is not ".wav" and not ".wave")
-			readers.Add(() => new WaveFileReader(path));
-		if (extension is not ".aif" and not ".aiff" and not ".aifc")
-			readers.Add(() => new AiffFileReader(path));
-		if (extension is not ".mp3" and not ".mp2" and not ".mpa")
-			readers.Add(() => new Mp3FileReader(path));
 
-		Exception? lastError = null;
-		foreach (Func<WaveStream> createReader in readers)
+		List<(string Name, Func<WaveStream> Create)> readers = [];
+		void Add(string name, Func<WaveStream> create) => readers.Add((name, create));
+		if (ogg && !opus)
+			Add("vorbis", () => new VorbisWaveStream(path));
+		if (opus)
+			Add("opus", () => new OpusWaveStream(path));
+		if (wave)
 		{
+			Add("wave", () => new WaveFileReader(path));
+			Add("wave codec", () => ConvertToPcm(new WaveFileReader(path)));
+		}
+		if (aiff)
+			Add("aiff", () => new AiffFileReader(path));
+		if (mpeg)
+			Add("mpeg", () => new Mp3FileReader(path));
+		if (!ogg)
+			Add("media foundation", () => new MediaFoundationReader(path));
+		Add("media foundation stream", () => OpenMediaFoundationStream(path));
+		if (!ogg && extension is ".ogg" or ".oga")
+			Add("vorbis", () => new VorbisWaveStream(path));
+		if (!wave)
+			Add("wave", () => new WaveFileReader(path));
+		if (!aiff)
+			Add("aiff", () => new AiffFileReader(path));
+		if (!mpeg)
+			Add("mpeg", () => new Mp3FileReader(path));
+
+		Exception? firstError = null;
+		bool noAudioTrack = false;
+		foreach ((string name, Func<WaveStream> createReader) in readers)
+		{
+			WaveStream? reader = null;
 			try
 			{
-				WaveStream reader = createReader();
-				if (reader.WaveFormat.Channels > 0 && reader.WaveFormat.SampleRate > 0)
+				reader = createReader();
+				_ = reader.ToSampleProvider();
+				if (reader.WaveFormat.Channels > 0 && reader.WaveFormat.SampleRate > 0 && HasAudio(reader))
+				{
+					App.Logger?.WriteLine(LogIdent, "Decoding " + Path.GetFileName(path) + " with the " + name + " reader");
 					return reader;
+				}
 				reader.Dispose();
 			}
 			catch (Exception ex)
 			{
-				lastError = ex;
+				reader?.Dispose();
+				firstError ??= ex;
+				noAudioTrack |= ex.HResult == MfInvalidStreamNumber;
+				App.Logger?.WriteLine(LogIdent, "The " + name + " reader could not open " + Path.GetFileName(path) + ": " + ex.Message.Split('\n')[0]);
 			}
 		}
-		throw new InvalidDataException("Windows could not decode this audio format", lastError);
+		if (head.Length == 0)
+			throw new InvalidDataException("The selected file is empty");
+		if (noAudioTrack)
+			throw new InvalidDataException("This file has no sound in it. It is probably a video saved without its audio track, pick a file that plays sound.", firstError);
+		throw new InvalidDataException(DescribeFailure(firstError), firstError);
+	}
+
+	private static string DescribeFailure(Exception? error)
+	{
+		return error?.HResult switch
+		{
+			MfUnsupportedByteStream => "This file is not a sound file Voidstrap can read. Pick an MP3, OGG, WAV, M4A or FLAC file.",
+			MfInvalidMediaType or MfCodecNotFound => "Windows has no decoder for the sound in this file. Convert it to MP3 or OGG, then add it again.",
+			_ => "This file is not an audio format Windows can decode" + (error == null ? string.Empty : ", " + error.Message.Split('\n')[0])
+		};
+	}
+
+	private static WaveStream ConvertToPcm(WaveStream source)
+	{
+		try
+		{
+			return WaveFormatConversionStream.CreatePcmStream(source);
+		}
+		catch
+		{
+			source.Dispose();
+			throw;
+		}
+	}
+
+	private static bool HasAudio(WaveStream reader)
+	{
+		if (!reader.CanSeek)
+			return true;
+		byte[] probe = new byte[Math.Max(reader.WaveFormat.BlockAlign, 1) * 64];
+		int read = reader.Read(probe, 0, probe.Length);
+		reader.Position = 0;
+		return read > 0;
+	}
+
+	private static OwnedStreamMediaFoundationReader OpenMediaFoundationStream(string path)
+	{
+		FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.Read, 65536, FileOptions.SequentialScan);
+		try
+		{
+			return new OwnedStreamMediaFoundationReader(stream);
+		}
+		catch
+		{
+			stream.Dispose();
+			throw;
+		}
+	}
+
+	private sealed class OwnedStreamMediaFoundationReader : StreamMediaFoundationReader
+	{
+		private readonly Stream _stream;
+
+		public OwnedStreamMediaFoundationReader(Stream stream)
+			: base(stream)
+		{
+			_stream = stream;
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			base.Dispose(disposing);
+			if (disposing)
+				_stream.Dispose();
+		}
+	}
+
+	private static byte[] ReadHeader(string path)
+	{
+		try
+		{
+			using FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+			byte[] buffer = new byte[64];
+			int read = stream.Read(buffer, 0, buffer.Length);
+			return read == buffer.Length ? buffer : buffer[..read];
+		}
+		catch
+		{
+			return [];
+		}
+	}
+
+	private static bool StartsWith(byte[] data, string marker)
+	{
+		return Matches(data, 0, marker);
+	}
+
+	private static bool Matches(byte[] data, int offset, string marker)
+	{
+		if (data.Length < offset + marker.Length)
+			return false;
+		for (int i = 0; i < marker.Length; i++)
+		{
+			if (data[offset + i] != marker[i])
+				return false;
+		}
+		return true;
+	}
+
+	private static bool Contains(byte[] data, string marker)
+	{
+		for (int offset = 0; offset + marker.Length <= data.Length; offset++)
+		{
+			if (Matches(data, offset, marker))
+				return true;
+		}
+		return false;
 	}
 
 	private static void ConvertChannels(float[] input, float[][] output, int frames, int inputChannels, float gain)

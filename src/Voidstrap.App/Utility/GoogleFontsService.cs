@@ -32,7 +32,7 @@ internal static partial class GoogleFontsService
 
 	private const long MaximumFontCacheBytes = 268435456;
 
-	private const string CatalogUrl = "https://voidstrapp.pages.dev/api/google-fonts";
+	private const string CatalogUrl = "https://fonts.google.com/metadata/fonts";
 
 	private static readonly HttpClient Http = CreateHttpClient();
 
@@ -70,8 +70,7 @@ internal static partial class GoogleFontsService
 			using HttpResponseMessage response = await Http.GetAsync(CatalogUrl, HttpCompletionOption.ResponseHeadersRead, token);
 			response.EnsureSuccessStatusCode();
 			byte[] data = await ReadLimitedAsync(response.Content, MaximumCatalogBytes, token);
-			CatalogEnvelope? envelope = JsonSerializer.Deserialize<CatalogEnvelope>(data, JsonOptions.Tolerant);
-			List<GoogleFontOption> fonts = Normalize(envelope?.Fonts);
+			List<GoogleFontOption> fonts = Normalize(ParseCatalog(data));
 			if (fonts.Count == 0)
 				throw new InvalidDataException("The font catalog was empty");
 			await Task.Run(() => JsonFile.SerializeAtomic(CatalogPath, new CatalogEnvelope { Fonts = fonts }), token);
@@ -254,6 +253,25 @@ internal static partial class GoogleFontsService
 		{
 			CacheMaintenanceGate.Release();
 		}
+	}
+
+	private static List<GoogleFontOption> ParseCatalog(byte[] data)
+	{
+		int start = Array.IndexOf(data, (byte)'{');
+		if (start < 0)
+			throw new InvalidDataException("The font catalog is not valid JSON");
+		using JsonDocument document = JsonDocument.Parse(data.AsMemory(start));
+		List<GoogleFontOption> fonts = [];
+		if (!document.RootElement.TryGetProperty("familyMetadataList", out JsonElement families) || families.ValueKind != JsonValueKind.Array)
+			return fonts;
+		foreach (JsonElement family in families.EnumerateArray())
+		{
+			if (family.ValueKind != JsonValueKind.Object || !family.TryGetProperty("family", out JsonElement name) || name.ValueKind != JsonValueKind.String)
+				continue;
+			string category = family.TryGetProperty("category", out JsonElement value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? "" : "";
+			fonts.Add(new GoogleFontOption { Family = name.GetString() ?? "", Category = category });
+		}
+		return fonts;
 	}
 
 	private static bool TryLoadCache(out IReadOnlyList<GoogleFontOption> fonts)

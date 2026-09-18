@@ -34,7 +34,8 @@ public static class GlobalBackground
     private sealed class GlobalBackgroundHost : Grid, IDisposable
     {
         private readonly Image _image;
-        private readonly MediaElement _media;
+        private MediaElement? _media;
+        private readonly Voidstrap.UI.Elements.Controls.HomepageMediaPreviewVideo? _portableMedia;
         private readonly Border _shade;
         private bool _disposed;
 
@@ -52,6 +53,61 @@ public static class GlobalBackground
                 Stretch = Stretch.UniformToFill,
                 IsHitTestVisible = false
             };
+            _shade = new Border
+            {
+                Background = Brushes.Black,
+                IsHitTestVisible = false
+            };
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                _portableMedia = new Voidstrap.UI.Elements.Controls.HomepageMediaPreviewVideo
+                {
+                    IsHitTestVisible = false,
+                    Visibility = Visibility.Collapsed
+                };
+                Children.Add(_portableMedia);
+            }
+            else
+            {
+                Children.Add(_image);
+            }
+            Children.Add(_shade);
+            Children.Add(content);
+        }
+
+        protected override Size MeasureOverride(Size constraint)
+        {
+            ContentElement.Measure(constraint);
+            Size desired = ContentElement.DesiredSize;
+            Size layer = new Size(
+                double.IsInfinity(constraint.Width) ? desired.Width : constraint.Width,
+                double.IsInfinity(constraint.Height) ? desired.Height : constraint.Height);
+            foreach (UIElement child in InternalChildren)
+            {
+                if (!ReferenceEquals(child, ContentElement))
+                {
+                    child.Measure(layer);
+                }
+            }
+            return desired;
+        }
+
+        protected override Size ArrangeOverride(Size arrangeSize)
+        {
+            Rect bounds = new Rect(arrangeSize);
+            foreach (UIElement child in InternalChildren)
+            {
+                child.Arrange(bounds);
+            }
+            return arrangeSize;
+        }
+
+        private MediaElement EnsureMedia()
+        {
+            if (_media != null)
+            {
+                return _media;
+            }
             _media = new MediaElement
             {
                 Stretch = Stretch.UniformToFill,
@@ -61,16 +117,9 @@ public static class GlobalBackground
                 Volume = 0.0,
                 Visibility = Visibility.Collapsed
             };
-            _shade = new Border
-            {
-                Background = Brushes.Black,
-                IsHitTestVisible = false
-            };
             _media.MediaEnded += OnMediaEnded;
-            Children.Add(_image);
-            Children.Add(_media);
-            Children.Add(_shade);
-            Children.Add(content);
+            Children.Insert(Children.IndexOf(_shade), _media);
+            return _media;
         }
 
         public void Apply(State state, BitmapSource? bitmap, DateTime writeTimeUtc)
@@ -83,12 +132,19 @@ public static class GlobalBackground
             ClearMedia();
             AppliedPath = state.FilePath;
             AppliedWriteTimeUtc = writeTimeUtc;
-            string extension = Path.GetExtension(state.FilePath).ToLowerInvariant();
+            if (_portableMedia != null)
+            {
+                _portableMedia.SourcePath = state.FilePath ?? string.Empty;
+                _portableMedia.Visibility = string.IsNullOrWhiteSpace(state.FilePath) ? Visibility.Collapsed : Visibility.Visible;
+                return;
+            }
+            string extension = (Path.GetExtension(state.FilePath) ?? string.Empty).ToLowerInvariant();
             if (extension is ".mp4" or ".webm" or ".avi" or ".mov")
             {
-                _media.Source = new Uri(state.FilePath!, UriKind.Absolute);
-                _media.Visibility = Visibility.Visible;
-                _media.Play();
+                MediaElement media = EnsureMedia();
+                media.Source = new Uri(state.FilePath!, UriKind.Absolute);
+                media.Visibility = Visibility.Visible;
+                media.Play();
                 return;
             }
             if (extension == ".gif" && bitmap != null && Voidstrap.Utility.Platform.IsWindows)
@@ -105,7 +161,7 @@ public static class GlobalBackground
 
         private void OnMediaEnded(object? sender, RoutedEventArgs e)
         {
-            if (_disposed || _media.Source == null)
+            if (_disposed || _media == null || _media.Source == null)
             {
                 return;
             }
@@ -115,9 +171,18 @@ public static class GlobalBackground
 
         private void ClearMedia()
         {
+            if (_portableMedia != null)
+            {
+                _portableMedia.SourcePath = string.Empty;
+                _portableMedia.Visibility = Visibility.Collapsed;
+            }
             ImageBehavior.SetAnimatedSource(_image, null);
             _image.Source = null;
             _image.Visibility = Visibility.Collapsed;
+            if (_media == null)
+            {
+                return;
+            }
             try
             {
                 _media.Stop();
@@ -137,7 +202,10 @@ public static class GlobalBackground
                 return;
             }
             _disposed = true;
-            _media.MediaEnded -= OnMediaEnded;
+            if (_media != null)
+            {
+                _media.MediaEnded -= OnMediaEnded;
+            }
             ClearMedia();
             Children.Clear();
             GC.SuppressFinalize(this);
@@ -247,6 +315,10 @@ public static class GlobalBackground
     {
         if (sender is Window window)
         {
+			if (IsProtectedLinuxOverlay(window))
+			{
+				return;
+			}
             WindowBackdrop.Apply(window);
             Apply(window, Current);
         }
@@ -261,7 +333,7 @@ public static class GlobalBackground
     {
         try
         {
-            if (window == null || window is Voidstrap.UI.Elements.Settings.MainWindow || (window.GetType().Namespace ?? string.Empty).Contains("Bootstrapper", StringComparison.OrdinalIgnoreCase))
+			if (window == null || IsProtectedLinuxOverlay(window) || window is Voidstrap.UI.Elements.Settings.MainWindow || (window.GetType().Namespace ?? string.Empty).Contains("Bootstrapper", StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
@@ -288,8 +360,8 @@ public static class GlobalBackground
                 window.Closed += OnWindowClosed;
             }
             DateTime writeTimeUtc = File.GetLastWriteTimeUtc(state.FilePath);
-            string extension = Path.GetExtension(state.FilePath).ToLowerInvariant();
-            BitmapSource? bitmap = extension is ".mp4" or ".webm" or ".avi" or ".mov"
+            string extension = (Path.GetExtension(state.FilePath) ?? string.Empty).ToLowerInvariant();
+            BitmapSource? bitmap = Voidstrap.Utility.Platform.IsLinux || extension is ".mp4" or ".webm" or ".avi" or ".mov"
                 ? null
                 : GetBackgroundImage(state.FilePath, Math.Max(800, (int)Math.Ceiling(window.ActualWidth)));
             host.Apply(state, bitmap, writeTimeUtc);
@@ -299,6 +371,12 @@ public static class GlobalBackground
             App.Logger?.WriteLine("GlobalBackground", "Background apply failed: " + ex.Message);
         }
     }
+
+	private static bool IsProtectedLinuxOverlay(Window window)
+	{
+		return Voidstrap.Utility.Platform.IsLinux
+			&& window is Voidstrap.Integrations.Overlays.LinuxHomepageOverlayWindow;
+	}
 
     private static void Remove(Window window)
     {

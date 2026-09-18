@@ -24,7 +24,7 @@ public class FlagValidationResult : INotifyPropertyChanged
 		set
 		{
 			_name = value;
-			OnPropertyChanged("Name");
+			OnPropertyChanged(nameof(Name));
 		}
 	}
 
@@ -37,7 +37,7 @@ public class FlagValidationResult : INotifyPropertyChanged
 		set
 		{
 			_inputValue = value;
-			OnPropertyChanged("InputValue");
+			OnPropertyChanged(nameof(InputValue));
 		}
 	}
 
@@ -50,7 +50,7 @@ public class FlagValidationResult : INotifyPropertyChanged
 		set
 		{
 			_status = value;
-			OnPropertyChanged("Status");
+			OnPropertyChanged(nameof(Status));
 		}
 	}
 
@@ -63,7 +63,7 @@ public class FlagValidationResult : INotifyPropertyChanged
 		set
 		{
 			_validValue = value;
-			OnPropertyChanged("ValidValue");
+			OnPropertyChanged(nameof(ValidValue));
 		}
 	}
 
@@ -76,7 +76,7 @@ public class FlagValidationResult : INotifyPropertyChanged
 		set
 		{
 			_notes = value;
-			OnPropertyChanged("Notes");
+			OnPropertyChanged(nameof(Notes));
 		}
 	}
 

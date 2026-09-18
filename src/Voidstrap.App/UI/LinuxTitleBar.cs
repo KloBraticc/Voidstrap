@@ -1,19 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Voidstrap.Platform.Linux;
 using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI;
 
 internal static class LinuxTitleBar
 {
-	private static GnomeButtonLayout? _layout;
-
 	public static void Apply(Window window)
 	{
 		if (window == null || !OperatingSystem.IsLinux())
@@ -37,7 +31,7 @@ internal static class LinuxTitleBar
 		}
 		catch (Exception ex)
 		{
-			App.Logger?.WriteLine("LinuxTitleBar::Apply", "Could not read the system button layout: " + ex.Message);
+			App.Logger?.WriteLine("LinuxTitleBar::Apply", "Could not apply the Windows caption controls: " + ex.Message);
 		}
 	}
 
@@ -54,115 +48,129 @@ internal static class LinuxTitleBar
 		}
 		catch (Exception ex)
 		{
-			App.Logger?.WriteLine("LinuxTitleBar::OnTitleBarLoaded", "Could not apply the system button layout: " + ex.Message);
+			App.Logger?.WriteLine("LinuxTitleBar::OnTitleBarLoaded", "Could not apply the Windows caption controls: " + ex.Message);
 		}
 	}
 
 	private static void ApplyLayout(TitleBar titleBar)
 	{
-		_layout ??= GnomeButtonLayout.Parse(Voidstrap.Utility.ShellQuery.Run("gsettings", "get org.gnome.desktop.wm.preferences button-layout"));
-		bool onLeft = _layout.OnLeft;
-		IReadOnlyList<string> order = _layout.Order;
-		if (order.Count == 0)
-		{
-			return;
-		}
-
 		titleBar.ApplyTemplate();
-		FrameworkElement? close = FindPart(titleBar, "PART_CloseButton");
-		FrameworkElement? maximize = FindPart(titleBar, "PART_MaximizeButton");
-		FrameworkElement? restore = FindPart(titleBar, "PART_RestoreButton");
-		FrameworkElement? minimize = FindPart(titleBar, "ButtonMinimize");
-		if (close == null)
-		{
-			return;
-		}
-
-		if (!order.Contains("minimize"))
-		{
-			titleBar.ShowMinimize = false;
-		}
-		if (!order.Contains("maximize"))
-		{
-			titleBar.ShowMaximize = false;
-		}
-		if (!order.Contains("close"))
-		{
-			titleBar.ShowClose = false;
-		}
-
-		int column = 1;
-		foreach (string button in order)
-		{
-			switch (button)
-			{
-				case "minimize":
-					SetColumn(minimize, column);
-					break;
-				case "maximize":
-					SetColumn(maximize, column);
-					SetColumn(restore, column);
-					break;
-				case "close":
-					SetColumn(close, column);
-					break;
-				default:
-					continue;
-			}
-			column++;
-		}
-
-		if (onLeft)
-		{
-			MoveButtonsToLeft(titleBar, close);
-		}
+		OverrideMaximizeAction(titleBar);
+		EnableFullWidthDrag(titleBar);
+		Window? window = Window.GetWindow(titleBar);
+		if (window != null)
+			ApplyMaximizedVisual(titleBar, LinuxWindowMode.IsMaximized(window));
+		App.Logger?.WriteLine("LinuxTitleBar::ApplyLayout", "Applied the Windows Wpf.Ui caption controls");
 	}
 
-	private static void MoveButtonsToLeft(TitleBar titleBar, FrameworkElement close)
+	internal static void RefreshMaximized(Window window, bool maximized)
 	{
+		TitleBar? titleBar = FindTitleBar(window);
+		if (titleBar != null)
+			ApplyMaximizedVisual(titleBar, maximized);
+	}
+
+	private static void ApplyMaximizedVisual(TitleBar titleBar, bool maximized)
+	{
+		titleBar.ApplyTemplate();
+		if (titleBar.Template?.FindName("PART_MaximizeButton", titleBar) is FrameworkElement maximize)
+			maximize.Visibility = titleBar.ShowMaximize && !maximized ? Visibility.Visible : Visibility.Collapsed;
+		if (titleBar.Template?.FindName("PART_RestoreButton", titleBar) is FrameworkElement restore)
+			restore.Visibility = titleBar.ShowMaximize && maximized ? Visibility.Visible : Visibility.Collapsed;
+	}
+
+
+	private static void EnableFullWidthDrag(TitleBar titleBar)
+	{
+		titleBar.PreviewMouseLeftButtonDown -= OnTitleBarPressed;
+		titleBar.PreviewMouseLeftButtonDown += OnTitleBarPressed;
+	}
+
+	private static void OnTitleBarPressed(object sender, System.Windows.Input.MouseButtonEventArgs e)
+	{
+		if (sender is not TitleBar titleBar || e.ButtonState != System.Windows.Input.MouseButtonState.Pressed)
+		{
+			return;
+		}
+
+		if (IsInteractive(e.OriginalSource as DependencyObject))
+		{
+			return;
+		}
+
+		Window? window = Window.GetWindow(titleBar);
+		if (window == null)
+		{
+			return;
+		}
+
+		if (e.ClickCount == 2)
+		{
+			ToggleMaximize(window);
+			e.Handled = true;
+			return;
+		}
+
+		if (LinuxWindowMode.IsFullscreen(window) || LinuxWindowMode.IsCompositorMaximized(window))
+		{
+			return;
+		}
+		if (window.WindowState == System.Windows.WindowState.Maximized)
+			window.WindowState = System.Windows.WindowState.Normal;
+
 		try
 		{
-			if (VisualTreeHelper.GetParent(close) is not Grid buttons)
-			{
-				return;
-			}
-			if (VisualTreeHelper.GetParent(buttons) is not Grid row || row.ColumnDefinitions.Count < 2)
-			{
-				return;
-			}
-			buttons.HorizontalAlignment = HorizontalAlignment.Left;
-			Grid.SetColumn(buttons, 0);
-			row.ColumnDefinitions[0].Width = GridLength.Auto;
-			row.ColumnDefinitions[1].Width = new GridLength(1.0, GridUnitType.Star);
-			foreach (UIElement child in row.Children)
-			{
-				if (child is ContentPresenter presenter)
-				{
-					Grid.SetColumn(presenter, 1);
-				}
-			}
-			if (FindPart(titleBar, "TitleGrid") is FrameworkElement title)
-			{
-				title.HorizontalAlignment = HorizontalAlignment.Right;
-			}
+			window.DragMove();
+			e.Handled = true;
+		}
+		catch (InvalidOperationException)
+		{
 		}
 		catch (Exception ex)
 		{
-			App.Logger?.WriteLine("LinuxTitleBar::MoveButtonsToLeft", "Kept the buttons on the right: " + ex.Message);
+			App.Logger?.WriteLine("LinuxTitleBar::OnTitleBarPressed", "The window could not be moved: " + ex.Message);
 		}
 	}
 
-	private static void SetColumn(FrameworkElement? element, int column)
+	private static bool IsInteractive(DependencyObject? source)
 	{
-		if (element != null)
+		while (source != null)
 		{
-			Grid.SetColumn(element, column);
+			if (source is System.Windows.Controls.Primitives.ButtonBase
+				or System.Windows.Controls.Primitives.TextBoxBase
+				or ComboBox
+				or System.Windows.Controls.Primitives.Thumb
+				or System.Windows.Controls.Primitives.ScrollBar
+				or System.Windows.Controls.PasswordBox
+				or System.Windows.Controls.Slider)
+			{
+				return true;
+			}
+
+			source = source is Visual or System.Windows.Media.Media3D.Visual3D
+				? VisualTreeHelper.GetParent(source)
+				: LogicalTreeHelper.GetParent(source);
 		}
+
+		return false;
 	}
 
-	private static FrameworkElement? FindPart(TitleBar titleBar, string name)
+	private static void ToggleMaximize(Window window)
 	{
-		return titleBar.Template?.FindName(name, titleBar) as FrameworkElement;
+		LinuxWindowMode.ToggleMaximize(window);
+	}
+
+	private static void OverrideMaximizeAction(TitleBar titleBar)
+	{
+		titleBar.MaximizeActionOverride = OnTitleBarMaximizeRequested;
+	}
+
+	private static void OnTitleBarMaximizeRequested(TitleBar titleBar, Window window)
+	{
+		if (window != null)
+		{
+			ToggleMaximize(window);
+		}
 	}
 
 	private static TitleBar? FindTitleBar(DependencyObject root)

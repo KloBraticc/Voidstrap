@@ -20,7 +20,7 @@ internal static class GitHubCache
 	private static readonly SemaphoreSlim WriteLock = new SemaphoreSlim(1, 1);
 	private const long MaxCacheBytes = 8L * 1024L * 1024L;
 
-	public static async Task<string?> GetStringAsync(string url, TimeSpan maxAge, CancellationToken token = default(CancellationToken), bool useStaleOnFailure = true)
+	public static async Task<string?> GetStringAsync(string url, TimeSpan maxAge, bool useStaleOnFailure = true, CancellationToken token = default(CancellationToken))
 	{
 		string dir = Path.Combine(Paths.Cache, "GitHub");
 		string file = Path.Combine(dir, Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(url))) + ".json");
@@ -94,7 +94,7 @@ internal static class GitHubCache
 
 	public static async Task<T?> GetJsonAsync<T>(string url, TimeSpan maxAge, CancellationToken token = default(CancellationToken)) where T : class
 	{
-		string? json = await GetStringAsync(url, maxAge, token).ConfigureAwait(continueOnCapturedContext: false);
+		string? json = await GetStringAsync(url, maxAge, token: token).ConfigureAwait(continueOnCapturedContext: false);
 		if (string.IsNullOrEmpty(json))
 		{
 			return null;
@@ -118,7 +118,7 @@ internal static class GitHubCache
 
 	public static async Task<string?> GetStringWithFallbackAsync(string primaryUrl, string fallbackUrl, TimeSpan maxAge, CancellationToken token = default)
 	{
-		string? value = await GetStringAsync(primaryUrl, maxAge, token, false).ConfigureAwait(false);
+		string? value = await GetStringAsync(primaryUrl, maxAge, false, token).ConfigureAwait(false);
 		if (!string.IsNullOrEmpty(value))
 		{
 			Volatile.Write(ref _primaryReachable, 1);
@@ -126,7 +126,7 @@ internal static class GitHubCache
 		}
 		Volatile.Write(ref _primaryReachable, 0);
 		App.Logger.WriteLine("GitHubCache::Fallback", "Primary repository unreachable, using backup for " + fallbackUrl);
-		return await GetStringAsync(fallbackUrl, maxAge, token).ConfigureAwait(false);
+		return await GetStringAsync(fallbackUrl, maxAge, token: token).ConfigureAwait(false);
 	}
 
 	public static async Task<T?> GetJsonWithFallbackAsync<T>(string primaryUrl, string fallbackUrl, TimeSpan maxAge, CancellationToken token = default) where T : class

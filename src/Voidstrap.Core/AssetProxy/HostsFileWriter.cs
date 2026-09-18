@@ -87,9 +87,9 @@ public static class HostsFileWriter
 		}
 	}
 
-	private static byte[] EncodeLines(IReadOnlyCollection<string> lines)
+	private static byte[] EncodeLines(string[] lines)
 	{
-		if (lines.Count == 0)
+		if (lines.Length == 0)
 		{
 			return [];
 		}

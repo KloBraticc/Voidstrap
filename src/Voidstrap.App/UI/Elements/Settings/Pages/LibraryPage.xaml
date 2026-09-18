@@ -86,6 +86,7 @@
         </Setter>
       </Style>
       <Style x:Key="NavSideItem" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="ui:RinControlMotion.Enabled" Value="True" />
         <Setter Property="Margin" Value="0,0,0,4" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="FontSize" Value="14" />
@@ -146,6 +147,7 @@
         </Setter>
       </Style>
       <Style x:Key="NavSideButton" TargetType="{x:Type Button}">
+        <Setter Property="ui:RinControlMotion.Enabled" Value="True" />
         <Setter Property="Margin" Value="0,0,0,4" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="FontSize" Value="14" />
@@ -209,7 +211,7 @@
       <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
 
-    <Grid Grid.Column="0" Width="225" Margin="0,0,10,0" HorizontalAlignment="Left">
+    <Grid x:Name="LibrarySidebar" Grid.Column="0" Width="225" Margin="0,0,10,0" HorizontalAlignment="Left" ClipToBounds="True">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
@@ -217,17 +219,17 @@
         <RowDefinition Height="*" />
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
-      <Button Grid.Row="0" Style="{StaticResource NavSideButton}" Command="{Binding GoHomeCommand}">
-        <StackPanel Orientation="Horizontal">
-          <ui:SymbolIcon Width="18" Margin="0,0,14,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Symbol="Home24" />
-          <TextBlock FontSize="14" VerticalAlignment="Center" Text="Library Home" />
+      <Button Grid.Row="0" Style="{StaticResource NavSideButton}" Command="{Binding GoHomeCommand}" ToolTip="Library Home">
+        <StackPanel x:Name="SidebarHomeContent" Orientation="Horizontal">
+          <ui:SymbolIcon x:Name="SidebarHomeIcon" Width="18" Margin="0,0,14,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Symbol="Home24" />
+          <TextBlock x:Name="SidebarHomeLabel" FontSize="14" VerticalAlignment="Center" Text="Library Home" />
         </StackPanel>
       </Button>
-      <ui:TextBox Grid.Row="1" Margin="0,2,0,0" PlaceholderText="Search games" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SidebarSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-      <Grid Grid.Row="2" Margin="16,6,0,0">
+      <ui:TextBox x:Name="SidebarSearchBox" Grid.Row="1" Margin="0,2,0,0" PlaceholderText="Search games" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SidebarSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+      <Grid x:Name="SidebarRefreshRow" Grid.Row="2" Margin="16,6,0,0">
         <ui:Button HorizontalAlignment="Right" Padding="4,0" Appearance="Transparent" Icon="ArrowSync24" ToolTip="Refresh library" Command="{Binding RefreshCommand}" />
       </Grid>
-      <ListBox Grid.Row="3" Background="#00FFFFFF" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Source={StaticResource SidebarGamesView}}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
+      <ListBox x:Name="SidebarList" Grid.Row="3" Background="#00FFFFFF" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.ScrollUnit="Pixel" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Source={StaticResource SidebarGamesView}}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
         <ListBox.GroupStyle>
           <GroupStyle>
             <GroupStyle.ContainerStyle>
@@ -282,6 +284,10 @@
                                   <Setter TargetName="GroupName" Property="Foreground" Value="#FFFFFFFF" />
                                   <Setter TargetName="Chevron" Property="Foreground" Value="#FFFFFFFF" />
                                 </Trigger>
+                                <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
+                                  <Setter TargetName="GroupName" Property="Visibility" Value="Collapsed" />
+                                  <Setter TargetName="GroupCount" Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
                               </ControlTemplate.Triggers>
                             </ControlTemplate>
                           </ToggleButton.Template>
@@ -344,14 +350,35 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
-              <Image Grid.Column="0" Width="18" Height="18" Margin="0,0,14,0" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
-              <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
-              <ui:SymbolIcon Grid.Column="2" Margin="8,0,0,0" Symbol="Pin16" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{Binding PinIconVisibility}" />
+              <Image Grid.Column="0" Width="18" Height="18" Margin="0,0,14,0" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
+              <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type TextBlock}">
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TextBlock>
+              <ui:SymbolIcon Grid.Column="2" Margin="8,0,0,0" Symbol="Pin16" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type ui:SymbolIcon}">
+                    <Setter Property="Visibility" Value="{Binding PinIconVisibility}" />
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </ui:SymbolIcon>
             </Grid>
           </DataTemplate>
         </ItemsControl.ItemTemplate>
       </ListBox>
-      <Border Grid.Row="4" Margin="0,8,0,0" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Padding="0,8,0,0">
+      <Border x:Name="SidebarAddRow" Grid.Row="4" Margin="0,8,0,0" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Padding="0,8,0,0">
         <StackPanel>
           <Grid>
             <Grid.ColumnDefinitions>
@@ -364,6 +391,7 @@
           <TextBlock Margin="2,6,0,0" FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCautionBrush}" Text="{Binding StatusText}" Visibility="{Binding StatusVisibility}" />
         </StackPanel>
       </Border>
+      <Border x:Name="SidebarResizer" Grid.Row="0" Grid.RowSpan="5" Width="8" Margin="0,0,-4,0" HorizontalAlignment="Right" Background="Transparent" Cursor="SizeWE" Panel.ZIndex="50" ToolTip="Drag to resize, double click to reset" MouseLeftButtonDown="SidebarResizer_MouseLeftButtonDown" MouseMove="SidebarResizer_MouseMove" MouseLeftButtonUp="SidebarResizer_MouseLeftButtonUp" />
     </Grid>
 
     <Grid Grid.Column="1">
@@ -373,7 +401,7 @@
       </Grid.RowDefinitions>
       <ProgressBar Grid.Row="0" Height="10" Margin="0,0,0,6" IsIndeterminate="True" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
 
-      <ui:DynamicScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="{Binding DashboardVisibility}">
+      <ui:DynamicScrollViewer x:Name="DashboardScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="{Binding DashboardVisibility}" ScrollChanged="DashboardScroll_ScrollChanged">
         <StackPanel Margin="2,0,4,10">
                     <StackPanel Margin="0,60,0,0" HorizontalAlignment="Center" Visibility="{Binding EmptyLibraryVisibility}">
                         <TextBlock Margin="0,12,0,0" MaxWidth="380" FontSize="14" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Your library is empty. Play a game through Voidstrap or add one by PlaceId from the sidebar." />
@@ -382,7 +410,7 @@
           <StackPanel Visibility="{Binding EventsVisibility}" Margin="0,0,0,18">
             <TextBlock Margin="2,0,0,8" FontSize="18" FontWeight="SemiBold" Text="Events" />
             <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly">
-              <ItemsControl ItemsSource="{Binding Events}">
+              <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding Events}">
                 <ItemsControl.ItemsPanel>
                   <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />
@@ -425,7 +453,7 @@
           <StackPanel Visibility="{Binding WhatsNewVisibility}">
             <TextBlock Margin="2,0,0,8" FontSize="18" FontWeight="SemiBold" Text="What's New" />
             <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly">
-              <ItemsControl ItemsSource="{Binding WhatsNew}">
+              <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding WhatsNew}">
                 <ItemsControl.ItemsPanel>
                   <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />
@@ -453,7 +481,7 @@
           <StackPanel Margin="0,14,0,0" Visibility="{Binding RecentVisibility}">
             <TextBlock Margin="2,0,0,8" FontSize="18" FontWeight="SemiBold" Text="Recent Games" />
             <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly">
-              <ItemsControl ItemsSource="{Binding RecentGames}">
+              <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding RecentGames}">
                 <ItemsControl.ItemsPanel>
                   <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />
@@ -483,7 +511,7 @@
               <TextBlock FontSize="18" FontWeight="SemiBold" Text="{Binding AllGamesHeader}" />
               <TextBlock HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding TotalPlayTimeDisplay}" />
             </Grid>
-            <ItemsControl ItemsSource="{Binding AllGames}">
+            <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding AllGames}">
               <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                   <WrapPanel />
@@ -513,7 +541,7 @@
         <StackPanel Margin="2,0,4,10">
           <Border Height="240" CornerRadius="8" ClipToBounds="True" Background="{DynamicResource ControlFillColorDefaultBrush}">
             <Grid>
-              <Image Source="{Binding SelectedGame.ThumbnailUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
+              <Image util:DynamicRenderSystem.LazyImageSource="{Binding SelectedGame.ThumbnailUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
               <Border>
                 <Border.Background>
                   <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -608,7 +636,7 @@
               <StackPanel Margin="12">
                 <ProgressBar Height="10" Margin="0,0,0,10" IsIndeterminate="True" Visibility="{Binding GamePassesLoading, Converter={StaticResource BoolToVis}}" />
                 <TextBlock Margin="0,0,0,10" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding GamePassStatus}" Visibility="{Binding GamePassStatusVisibility}" />
-                <ItemsControl ItemsSource="{Binding GamePasses}">
+                <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding GamePasses}">
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                       <WrapPanel />
@@ -642,7 +670,7 @@
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
           <Border Grid.Column="0" Width="32" Height="32" CornerRadius="6" ClipToBounds="True" Background="{DynamicResource ControlFillColorSecondaryBrush}">
-            <Image Source="{Binding SelectedGame.IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
+            <Image util:DynamicRenderSystem.LazyImageSource="{Binding SelectedGame.IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
           </Border>
           <TextBlock Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.Name}" />
           <ui:Button Grid.Column="2" MinWidth="110" Height="34" Appearance="Primary" Background="{DynamicResource SystemAccentBrush}" Icon="Play24" Content="Play" Command="{Binding LaunchCommand}" CommandParameter="{Binding SelectedGame}" />

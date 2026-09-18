@@ -151,7 +151,7 @@ function onYouTubeIframeAPIReady(){
     {
         if (string.IsNullOrEmpty(query))
             return null;
-        string trimmed = query.StartsWith("?", StringComparison.Ordinal) ? query.Substring(1) : query;
+        string trimmed = query.StartsWith('?') ? query.Substring(1) : query;
         foreach (string pair in trimmed.Split('&'))
         {
             if (pair.Length == 0)

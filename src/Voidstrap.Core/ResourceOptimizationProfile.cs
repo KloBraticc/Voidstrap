@@ -15,12 +15,9 @@ public static class ResourceOptimizationProfileResolver
 
 	public static ResourceOptimizationProfile Resolve(SettingsDocument settings)
 	{
-		if (settings is null)
-		{
-			throw new ArgumentNullException(nameof(settings));
-		}
+        ArgumentNullException.ThrowIfNull(settings);
 
-		bool optimize = settings.Get("OptimizeRoblox", false);
+        bool optimize = settings.Get("OptimizeRoblox", false);
 		ResourcePriority priority = ParsePriority(settings.Get("PriorityLimit", "Normal"), optimize);
 		int? cpuLimit = ParseCpuLimit(settings.Get("SelectedCpuPriority", "Automatic"));
 		return new ResourceOptimizationProfile(priority, cpuLimit);

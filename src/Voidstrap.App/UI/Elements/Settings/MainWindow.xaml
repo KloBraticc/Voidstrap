@@ -1,31 +1,81 @@
-﻿<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Settings.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:media="clr-namespace:System.Windows.Media.Animation;assembly=PresentationCore" Closed="WpfUiWindow_Closed" Closing="WpfUiWindow_Closing" Loaded="MainWindow_Loaded" PreviewMouseWheel="OnZoomWheel" Title="{x:Static resources:Strings.Menu_Title}" Width="1071" Height="690" MinWidth="850" MinHeight="550" AllowsTransparency="False" Background="#00FFFFFF" ExtendsContentIntoTitleBar="True" WindowBackdropType="None" WindowStartupLocation="CenterScreen" UseLayoutRounding="True" SnapsToDevicePixels="True" mc:Ignorable="d" xmlns:settings="clr-namespace:Voidstrap.UI.Elements.Settings">
+﻿<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Settings.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:vscontrols="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:media="clr-namespace:System.Windows.Media.Animation;assembly=PresentationCore" xmlns:appUi="clr-namespace:Voidstrap.UI" Closed="WpfUiWindow_Closed" Closing="WpfUiWindow_Closing" Loaded="MainWindow_Loaded" PreviewMouseWheel="OnZoomWheel" Title="{x:Static resources:Strings.Menu_Title}" Width="1071" Height="690" MinWidth="850" MinHeight="550" AllowsTransparency="False" Background="#00FFFFFF" ExtendsContentIntoTitleBar="True" WindowBackdropType="None" WindowStartupLocation="CenterScreen" UseLayoutRounding="True" SnapsToDevicePixels="True" mc:Ignorable="d" xmlns:settings="clr-namespace:Voidstrap.UI.Elements.Settings">
     
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
       <BitmapImage x:Key="AppIconImage" UriSource="pack://application:,,,/Voidstrap.png" />
-      <Style x:Key="TitleBarAvatarButtonStyle" TargetType="Button">
-        <Setter Property="Width" Value="44" />
+      <SolidColorBrush x:Key="LauncherMenuBrush" Color="#FF1C1C1E" />
+      <SolidColorBrush x:Key="LauncherMenuHoverBrush" Color="#14FFFFFF" />
+      <SolidColorBrush x:Key="LauncherMenuBorderBrush" Color="#1AFFFFFF" />
+      <SolidColorBrush x:Key="LauncherDividerBrush" Color="#12FFFFFF" />
+      <SolidColorBrush x:Key="LauncherControlBrush" Color="#0FFFFFFF" />
+      <SolidColorBrush x:Key="LauncherControlHoverBrush" Color="#1AFFFFFF" />
+      <SolidColorBrush x:Key="LauncherControlPressedBrush" Color="#10FFFFFF" />
+      <SolidColorBrush x:Key="LauncherTextPrimaryBrush" Color="#FFEDEDED" />
+      <SolidColorBrush x:Key="LauncherTextSecondaryBrush" Color="#FFB4B4B4" />
+      <SolidColorBrush x:Key="LauncherTextTertiaryBrush" Color="#FF7C7C7C" />
+      <Style x:Key="TopBarButtonStyle" TargetType="Button">
         <Setter Property="Height" Value="30" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="#0FFFFFFF" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="8,0" />
+        <Setter Property="Foreground" Value="{StaticResource LauncherTextPrimaryBrush}" />
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Focusable" Value="True" />
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="Button">
-              <Border x:Name="AvatarButtonBg" Background="{TemplateBinding Background}">
+              <Border x:Name="ButtonBackground" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6">
                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
               </Border>
               <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                  <Setter TargetName="AvatarButtonBg" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                  <Setter TargetName="ButtonBackground" Property="Background" Value="{StaticResource LauncherControlHoverBrush}" />
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
-                  <Setter TargetName="AvatarButtonBg" Property="Background" Value="{DynamicResource ControlFillColorTertiaryBrush}" />
+                  <Setter TargetName="ButtonBackground" Property="Background" Value="{StaticResource LauncherControlPressedBrush}" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                  <Setter Property="Opacity" Value="0.45" />
                 </Trigger>
               </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+      <Style x:Key="TopBarIconButtonStyle" TargetType="Button" BasedOn="{StaticResource TopBarButtonStyle}">
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="#FFCACACA" />
+      </Style>
+      <Style x:Key="TopBarPillButtonStyle" TargetType="Button" BasedOn="{StaticResource TopBarButtonStyle}">
+        <Setter Property="Padding" Value="10,0" />
+      </Style>
+      <Style x:Key="TopBarPopupButtonStyle" TargetType="{x:Type ui:Button}" BasedOn="{StaticResource {x:Type ui:Button}}">
+        <Setter Property="Height" Value="34" />
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="FontSize" Value="13.5" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Appearance" Value="Transparent" />
+      </Style>
+      <Style x:Key="TopSearchTextBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="13.5" />
+        <Setter Property="Foreground" Value="{StaticResource LauncherTextPrimaryBrush}" />
+        <Setter Property="CaretBrush" Value="{StaticResource LauncherTextPrimaryBrush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentBrush}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type TextBox}">
+              <ScrollViewer x:Name="PART_ContentHost" Style="{x:Null}" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
             </ControlTemplate>
           </Setter.Value>
         </Setter>
@@ -36,7 +86,7 @@
         <Setter Property="Padding" Value="12,4" />
         <Setter Property="FontSize" Value="13" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource LauncherTextSecondaryBrush}" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">
@@ -46,9 +96,9 @@
                 <StackPanel>
                   <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                   <Rectangle x:Name="TabUnderline" Height="2" Margin="0,3,0,0" RadiusX="1" RadiusY="1" HorizontalAlignment="Stretch" Opacity="0" RenderTransformOrigin="0.5,0.5" Fill="{DynamicResource SystemAccentBrush}">
-                    <UIElement.RenderTransform>
+                    <Rectangle.RenderTransform>
                       <ScaleTransform ScaleX="0" />
-                    </UIElement.RenderTransform>
+                    </Rectangle.RenderTransform>
                   </Rectangle>
                 </StackPanel>
               </Border>
@@ -57,20 +107,18 @@
                   <Trigger.EnterActions>
                     <BeginStoryboard>
                       <Storyboard>
-                        <media:DoubleAnimation Storyboard.TargetName="TabUnderline" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.12" />
-                        <media:DoubleAnimation Storyboard.TargetName="TabUnderline" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.22">
-                          <media:DoubleAnimation.EasingFunction>
-                            <media:CubicEase EasingMode="EaseOut" />
-                          </media:DoubleAnimation.EasingFunction>
-                        </media:DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="TabUnderline" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.12" />
+                        <DoubleAnimation Storyboard.TargetName="TabUnderline" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.22">
+                          <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
                       </Storyboard>
                     </BeginStoryboard>
                   </Trigger.EnterActions>
                   <Trigger.ExitActions>
                     <BeginStoryboard>
                       <Storyboard>
-                        <media:DoubleAnimation Storyboard.TargetName="TabUnderline" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.12" />
-                        <media:DoubleAnimation Storyboard.TargetName="TabUnderline" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="0" Duration="0:0:0.12" />
+                        <DoubleAnimation Storyboard.TargetName="TabUnderline" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.12" />
+                        <DoubleAnimation Storyboard.TargetName="TabUnderline" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="0" Duration="0:0:0.12" />
                       </Storyboard>
                     </BeginStoryboard>
                   </Trigger.ExitActions>
@@ -81,12 +129,70 @@
         </Setter>
         <Style.Triggers>
           <Trigger Property="IsMouseOver" Value="True">
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource LauncherTextPrimaryBrush}" />
           </Trigger>
           <Trigger Property="Tag" Value="Active">
-            <Setter Property="Foreground" Value="{DynamicResource SystemAccentBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource LauncherTextPrimaryBrush}" />
           </Trigger>
         </Style.Triggers>
+      </Style>
+      <Style x:Key="TopBarMenuSeparatorStyle" TargetType="{x:Type Separator}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type Separator}">
+              <Border Height="1" Margin="4,5" Background="{StaticResource LauncherDividerBrush}" />
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+      <Style x:Key="TopBarMenuItemStyle" TargetType="{x:Type MenuItem}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Foreground" Value="{StaticResource LauncherTextPrimaryBrush}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type MenuItem}">
+              <Grid>
+                <Border x:Name="MenuChrome" Background="Transparent" CornerRadius="6" Height="34" Padding="10,0">
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ContentPresenter x:Name="MenuIcon" ContentSource="Icon" Width="16" Height="16" Margin="0,0,10,0" VerticalAlignment="Center" />
+                    <ContentPresenter Grid.Column="1" ContentSource="Header" VerticalAlignment="Center" RecognizesAccessKey="True" />
+                    <ui:SymbolIcon x:Name="MenuArrow" Grid.Column="2" Symbol="ChevronRight24" FontSize="12" Margin="12,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextTertiaryBrush}" Visibility="Collapsed" />
+                  </Grid>
+                </Border>
+                <vscontrols:AnimatedPopup x:Name="PART_Popup" Placement="Right" HorizontalOffset="-6" VerticalOffset="-18" AllowsTransparency="True" Focusable="False" IsOpen="{TemplateBinding IsSubmenuOpen}">
+                  <Border Margin="12" MinWidth="200" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="6">
+                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                  </Border>
+                </vscontrols:AnimatedPopup>
+              </Grid>
+              <ControlTemplate.Triggers>
+                <Trigger Property="Icon" Value="{x:Null}">
+                  <Setter TargetName="MenuIcon" Property="Visibility" Value="Collapsed" />
+                </Trigger>
+                <Trigger Property="Role" Value="SubmenuHeader">
+                  <Setter TargetName="MenuArrow" Property="Visibility" Value="Visible" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter TargetName="MenuChrome" Property="Background" Value="{StaticResource LauncherMenuHoverBrush}" />
+                </Trigger>
+                <Trigger Property="IsSubmenuOpen" Value="True">
+                  <Setter TargetName="MenuChrome" Property="Background" Value="{StaticResource LauncherMenuHoverBrush}" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                  <Setter Property="Opacity" Value="0.45" />
+                </Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
       </Style>
       <Style x:Key="TopNavArrowStyle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent" />
@@ -120,8 +226,8 @@
       <media:CubicEase x:Key="SmoothEaseOut" EasingMode="EaseOut" />
       <media:QuinticEase x:Key="UltraSmoothEaseOut" EasingMode="EaseOut" />
       <Storyboard x:Key="IntroStoryboard">
-        <media:DoubleAnimation Storyboard.TargetName="IntroContent" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:0.4" EasingFunction="{StaticResource SmoothEaseOut}" />
-        <media:DoubleAnimation Storyboard.TargetName="IntroOverlay" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" BeginTime="0:0:1.0" Duration="0:0:0.45" EasingFunction="{StaticResource SmoothEaseOut}" />
+        <media:DoubleAnimation Storyboard.TargetName="IntroContent" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:0.25" EasingFunction="{StaticResource SmoothEaseOut}" />
+        <media:DoubleAnimation Storyboard.TargetName="IntroOverlay" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" BeginTime="0:0:0.45" Duration="0:0:0.3" EasingFunction="{StaticResource SmoothEaseOut}" />
       </Storyboard>
     </ResourceDictionary>
   </FrameworkElement.Resources>
@@ -134,7 +240,7 @@
     <Grid Name="BackgroundLayer" RowSpan="3" ZIndex="-10" ClipToBounds="True">
       <Image Name="BackgroundImage" Stretch="UniformToFill" Opacity="1" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" Visibility="Visible" />
       <Border Name="BackgroundBlackOverlay" Background="#FF000000" Opacity="0" IsHitTestVisible="False" />
-      <Border Name="GradientLayer">
+      <Border Name="GradientLayer" IsHitTestVisible="False">
         <Border.Background>
           <LinearGradientBrush x:Name="MainBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
             <Brush.RelativeTransform>
@@ -160,13 +266,13 @@
       </Border>
       <Image Name="IntroContent" Width="120" Height="120" Opacity="0" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{StaticResource AppIconImage}" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality">
         <Image.Effect>
-          <DropShadowEffect BlurRadius="30" ShadowDepth="6" Direction="270" Color="#FF000000" Opacity="0.8" />
+          <DropShadowEffect BlurRadius="28" ShadowDepth="6" Direction="270" Color="#FF000000" Opacity="0.8" />
         </Image.Effect>
       </Image>
     </Grid>
     <Border Name="RestartNotificationCard" Grid.RowSpan="3" Width="390" MinHeight="116" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,24,72" Padding="14" Panel.ZIndex="1200" Visibility="Collapsed" Opacity="0" CornerRadius="7" Background="{DynamicResource SystemFillColorSolidNeutralBackgroundBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}">
       <Border.Effect>
-        <DropShadowEffect BlurRadius="24" ShadowDepth="4" Opacity="0.45" Color="#000000" />
+        <DropShadowEffect BlurRadius="24" ShadowDepth="4" Direction="270" Opacity="0.45" Color="#000000" />
       </Border.Effect>
       <Border.RenderTransform>
         <TranslateTransform x:Name="RestartNotificationTranslate" X="28" />
@@ -184,11 +290,12 @@
         </Grid.RowDefinitions>
         <ui:SymbolIcon Grid.Column="0" Grid.RowSpan="2" Margin="0,1,12,0" VerticalAlignment="Top" FontSize="22" Symbol="ArrowClockwise24" />
         <TextBlock Name="RestartNotificationTitle" Grid.Column="1" FontSize="14" FontWeight="SemiBold" Text="Settings changed" TextWrapping="Wrap" />
-        <ui:Button Grid.Column="2" Width="30" Height="30" Margin="10,-5,-5,0" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="Dismiss" Click="RestartNotificationDismiss_Click" />
+        <ui:Button Name="RestartNotificationDismiss" Grid.Column="2" Width="30" Height="30" Margin="10,-5,-5,0" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="Dismiss" Click="RestartNotificationDismiss_Click" />
         <TextBlock Name="RestartNotificationMessage" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Restart Voidstrap to apply this change." TextWrapping="Wrap" />
         <ui:Button Name="RestartNotificationAction" Grid.Column="1" Grid.Row="2" Margin="0,10,0,0" HorizontalAlignment="Left" Appearance="Primary" Background="{DynamicResource SystemAccentBrush}" Content="Restart now" Click="RestartNotificationAction_Click" />
       </Grid>
     </Border>
+    <vscontrols:DownloadNotificationCard x:Name="DownloadCard" Grid.RowSpan="3" Margin="0,0,24,72" Panel.ZIndex="1190" />
     <ui:Snackbar Name="AlreadyRunningSnackbar" Title="{x:Static resources:Strings.Menu_AlreadyRunning_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="10" Icon="Info20" Message="{x:Static resources:Strings.Menu_AlreadyRunning_Caption}" Timeout="10000">
       <Control.Background>
         <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
@@ -221,92 +328,215 @@
     <ui:Snackbar Name="SettingFailureSnackbar" Title="Setting not changed" Grid.RowSpan="10" Margin="180,0,180,20" Panel.ZIndex="11" Icon="ErrorCircle24" Timeout="5000" />
     <ui:TitleBar Name="RootTitleBar" Padding="8" Grid.Row="0" Panel.ZIndex="1000" ForceShutdown="False" MinimizeToTray="False" UseSnapLayout="True">
       <ui:TitleBar.Header>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight">
-        <ui:AutoSuggestBox x:Name="TopSearchBox" Width="260" Height="32" VerticalAlignment="Center" Margin="0,0,8,0" PlaceholderText="Search settings and pages..." Icon="Search24" TextChanged="TopSearchBox_TextChanged" SuggestionChosen="TopSearchBox_SuggestionChosen" KeyDown="TopSearchBox_KeyDown" />
-        <Button x:Name="NotificationsButton" Click="NotificationsButton_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" Style="{StaticResource TitleBarAvatarButtonStyle}">
-          <Grid Width="30" Height="30" ClipToBounds="False" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <ui:SymbolIcon Symbol="Alert24" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <Border x:Name="NotificationsBadge" MinWidth="17" Height="17" Padding="3,0" CornerRadius="8.5" Background="#EF4444" BorderBrush="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderThickness="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-1,-4,0" Panel.ZIndex="2" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
-              <Border.RenderTransform>
-                <ScaleTransform x:Name="NotificationsBadgeScale" ScaleX="1" ScaleY="1" />
-              </Border.RenderTransform>
-              <TextBlock x:Name="NotificationsBadgeText" Text="0" Foreground="White" FontSize="9" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Border>
-          </Grid>
-        </Button>
-        <Button x:Name="QuestsButton" Click="QuestsButton_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" Style="{StaticResource TitleBarAvatarButtonStyle}">
-          <Grid Width="30" Height="30" ClipToBounds="False" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <ui:SymbolIcon Symbol="TaskListSquareLtr24" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <Border x:Name="QuestsBadge" MinWidth="17" Height="17" Padding="3,0" CornerRadius="8.5" Background="#EF4444" BorderBrush="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderThickness="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-1,-4,0" Panel.ZIndex="2" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
-              <Border.RenderTransform>
-                <ScaleTransform x:Name="QuestsBadgeScale" ScaleX="1" ScaleY="1" />
-              </Border.RenderTransform>
-              <TextBlock x:Name="QuestsBadgeText" Text="0" Foreground="White" FontSize="9" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Border>
-          </Grid>
-        </Button>
-        <Button x:Name="ShopButton" Click="ShopButton_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" Style="{StaticResource TitleBarAvatarButtonStyle}">
-          <Grid Width="30" Height="30" ClipToBounds="False" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <ui:SymbolIcon Symbol="Cart24" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
-          </Grid>
-        </Button>
-        <Button x:Name="AccountAvatarButton" Click="AccountAvatarButton_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" Style="{StaticResource TitleBarAvatarButtonStyle}">
-          <Grid Width="30" Height="30" ClipToBounds="False" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Border x:Name="AccountAvatarRing" Width="20" Height="20" CornerRadius="10" Padding="1.5" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource ControlFillColorSecondaryBrush}">
-              <Border CornerRadius="9" ClipToBounds="True">
-                <Border.Background>
-                  <ImageBrush x:Name="AccountAvatarBrush" Stretch="UniformToFill" />
-                </Border.Background>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight" Margin="0,6,0,-6">
+          <Grid Margin="0,0,2,0">
+            <Button x:Name="TopSearchButton" Style="{StaticResource TopBarIconButtonStyle}" Click="TopSearchButton_Click">
+              <Button.ToolTip>
+                <StackPanel>
+                  <TextBlock Text="Search" />
+                  <TextBlock Text="Ctrl K" FontSize="11" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
+                </StackPanel>
+              </Button.ToolTip>
+              <ui:SymbolIcon Symbol="Search24" FontSize="16" />
+            </Button>
+            <vscontrols:AnimatedPopup x:Name="CommandPalettePopup" PlacementTarget="{Binding ElementName=TopSearchButton}" Placement="Bottom" LightDismiss="True" AllowsTransparency="True" HorizontalOffset="-362" VerticalOffset="-4" Opened="CommandPalettePopup_Opened">
+              <Border Margin="12" Width="380" Padding="6" CornerRadius="10" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" TextElement.Foreground="{StaticResource LauncherTextPrimaryBrush}">
+                <StackPanel>
+                  <Border Height="34" CornerRadius="6" Background="#26000000" BorderBrush="#0FFFFFFF" BorderThickness="1">
+                    <Grid>
+                      <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                      <ui:SymbolIcon Symbol="Search24" FontSize="14" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
+                      <TextBlock x:Name="CommandPalettePlaceholder" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="13.5" Text="Search Voidstrap" Foreground="{StaticResource LauncherTextTertiaryBrush}" IsHitTestVisible="False" />
+                      <TextBox x:Name="CommandPaletteSearchBox" Grid.Column="1" Margin="8,0,10,0" Style="{StaticResource TopSearchTextBoxStyle}" TextChanged="CommandPaletteSearchBox_TextChanged" PreviewKeyDown="CommandPaletteSearchBox_PreviewKeyDown" />
+                    </Grid>
+                  </Border>
+                  <Grid x:Name="CommandPaletteResultsArea" Margin="0,6,0,0" Visibility="Collapsed">
+                    <ScrollViewer x:Name="CommandPaletteResultsScroll" MaxHeight="340" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                      <ItemsControl x:Name="CommandPaletteResultsList" Focusable="False">
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate>
+                            <Border x:Name="PaletteRow" Height="34" Padding="10,0" CornerRadius="6" Background="Transparent" Cursor="Hand" MouseEnter="CommandPaletteRow_MouseEnter" MouseLeftButtonUp="CommandPaletteRow_MouseLeftButtonUp">
+                              <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                                <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="16" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
+                                <TextBlock Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="13.5" Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Grid.Column="2" MaxWidth="140" VerticalAlignment="Center" FontSize="12" Text="{Binding Detail}" TextTrimming="CharacterEllipsis" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
+                              </Grid>
+                            </Border>
+                            <DataTemplate.Triggers>
+                              <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <Setter TargetName="PaletteRow" Property="Background" Value="{StaticResource LauncherMenuHoverBrush}" />
+                              </DataTrigger>
+                            </DataTemplate.Triggers>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                    </ScrollViewer>
+                    <TextBlock x:Name="CommandPaletteEmpty" Margin="10,8" FontSize="13" Text="No results" Foreground="{StaticResource LauncherTextTertiaryBrush}" Visibility="Collapsed" />
+                  </Grid>
+                </StackPanel>
               </Border>
-            </Border>
-            <Image x:Name="AccountBorderImage" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False" Visibility="Collapsed" RenderOptions.BitmapScalingMode="HighQuality" />
+            </vscontrols:AnimatedPopup>
           </Grid>
-        </Button>
+          <Grid Margin="2,0,4,0">
+            <Button x:Name="NotificationsButton" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="Notifications" Click="NotificationsButton_Click">
+              <Grid Width="28" Height="28" ClipToBounds="False">
+                <ui:SymbolIcon Symbol="Alert24" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <Border x:Name="NotificationsBadge" MinWidth="16" Height="16" Padding="3,0" CornerRadius="8" Background="#FFFF4D4F" BorderBrush="#FF0E0E0E" BorderThickness="1.5" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-1,-4,0" Panel.ZIndex="2" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" appUi:LinuxTextGuard.PreserveCompactLayout="True">
+                  <Border.RenderTransform>
+                    <ScaleTransform x:Name="NotificationsBadgeScale" ScaleX="1" ScaleY="1" />
+                  </Border.RenderTransform>
+                  <TextBlock x:Name="NotificationsBadgeText" Text="0" Foreground="White" FontSize="9" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+              </Grid>
+            </Button>
+            <vscontrols:AnimatedPopup x:Name="NotificationPopup" PlacementTarget="{Binding ElementName=NotificationsButton}" Placement="Bottom" HorizontalOffset="-364" VerticalOffset="-4" LightDismiss="True" AllowsTransparency="True" Closed="NotificationPopup_Closed">
+              <Border Margin="14" Width="380" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="12" TextElement.Foreground="{StaticResource LauncherTextPrimaryBrush}">
+                <Grid>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                  </Grid.RowDefinitions>
+                  <Grid Margin="18,14,12,8">
+                    <TextBlock Text="Notifications" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                      <ui:Button x:Name="NotificationMarkAllButton" Width="32" Height="32" Padding="0" Appearance="Transparent" Icon="CheckboxChecked24" ToolTip="Mark all as read" Click="NotificationMarkAll_Click" />
+                      <ui:Button x:Name="NotificationClearButton" Width="32" Height="32" Margin="2,0,0,0" Padding="0" Appearance="Transparent" Icon="Delete24" ToolTip="Clear all" Click="NotificationClear_Click" />
+                    </StackPanel>
+                  </Grid>
+                  <Grid Grid.Row="1" MinHeight="176">
+                    <StackPanel x:Name="NotificationEmpty" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="24,0,24,18">
+                      <ui:SymbolIcon Symbol="Alert24" FontSize="28" Foreground="{StaticResource LauncherTextTertiaryBrush}" HorizontalAlignment="Center" />
+                      <TextBlock x:Name="NotificationEmptyTitle" Text="You're all caught up" FontSize="14" FontWeight="SemiBold" Margin="0,10,0,0" HorizontalAlignment="Center" />
+                      <TextBlock x:Name="NotificationEmptySubtitle" Text="Crashes, errors and important updates from Voidstrap show up here." FontSize="12" Foreground="{StaticResource LauncherTextTertiaryBrush}" Margin="0,3,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <ScrollViewer x:Name="NotificationScroll" MaxHeight="430" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="Collapsed">
+                      <ItemsControl x:Name="NotificationList" Margin="6,0,6,8">
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate>
+                            <Border x:Name="NotificationRow" Background="Transparent" CornerRadius="8" Padding="12,10" Cursor="Hand" ToolTip="Open the log for this entry" MouseLeftButtonUp="NotificationItem_MouseLeftButtonUp">
+                              <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                                <Border Width="40" Height="40" VerticalAlignment="Top" CornerRadius="8" Background="#14FFFFFF">
+                                  <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="20" Foreground="{Binding IconBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <StackPanel Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center">
+                                  <TextBlock Text="{Binding Title}" FontSize="13" FontWeight="Bold" TextWrapping="Wrap" />
+                                  <TextBlock Text="{Binding Text}" FontSize="12" LineHeight="17" Margin="0,2,0,0" MaxHeight="68" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
+                                  <TextBlock Text="{Binding TimeAgo}" FontSize="11.5" Margin="0,3,0,0" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
+                                </StackPanel>
+                                <Ellipse Grid.Column="2" Width="8" Height="8" Fill="#FF00FF65" VerticalAlignment="Top" Margin="0,6,2,0" Visibility="{Binding UnreadVisibility}" />
+                              </Grid>
+                            </Border>
+                            <DataTemplate.Triggers>
+                              <Trigger SourceName="NotificationRow" Property="IsMouseOver" Value="True"><Setter TargetName="NotificationRow" Property="Background" Value="{StaticResource LauncherMenuHoverBrush}" /></Trigger>
+                            </DataTemplate.Triggers>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                    </ScrollViewer>
+                  </Grid>
+                </Grid>
+              </Border>
+            </vscontrols:AnimatedPopup>
+          </Grid>
+          <Button x:Name="InstancesButton" MinWidth="142" Margin="0,0,2,0" Style="{StaticResource TopBarPillButtonStyle}" ToolTip="Running Roblox instances" Click="InstancesButton_Click">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <TextBlock x:Name="InstancesCountText" Text="0" FontSize="12" FontWeight="SemiBold" />
+              <TextBlock x:Name="InstancesLabelText" Text=" Instances Running" FontSize="12" FontWeight="SemiBold" />
+              <ui:SymbolIcon Margin="6,0,0,0" Symbol="Open24" FontSize="13" />
+            </StackPanel>
+          </Button>
         </StackPanel>
       </ui:TitleBar.Header>
     </ui:TitleBar>
-    <StackPanel x:Name="TopNavPanel" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="16,5,0,0" Panel.ZIndex="5">
-      <Image Width="19" Height="19" Margin="0,0,15,0" VerticalAlignment="Center" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="HighQuality" Source="{StaticResource AppIconImage}" />
-      <Button x:Name="TopNavBack" Style="{StaticResource TopNavArrowStyle}" Margin="0" IsEnabled="False" ToolTip="Back" Click="TopNavBack_Click">
-        <ui:SymbolIcon Symbol="ArrowLeft24" FontSize="22" FontWeight="Bold" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
-      </Button>
-      <Button x:Name="TopNavForward" Style="{StaticResource TopNavArrowStyle}" Margin="0,0,7,0" IsEnabled="False" ToolTip="Forward" Click="TopNavForward_Click">
-        <ui:SymbolIcon Symbol="ArrowRight24" FontSize="22" FontWeight="Bold" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
-      </Button>
-      <Button x:Name="TopNavHome" FontWeight="SemiBold" Content="HOME" Style="{StaticResource TopNavButtonStyle}" Click="TopNavHome_Click" />
-            <Button x:Name="TopNavLibrary" FontWeight="SemiBold" Content="LIBRARY" Style="{StaticResource TopNavButtonStyle}" Click="TopNavLibrary_Click" />
-            <Button x:Name="TopNavCommunity" FontWeight="SemiBold" Content="COMMUNITY" Style="{StaticResource TopNavButtonStyle}" Click="TopNavCommunity_Click" />
-    </StackPanel>
-    <Popup x:Name="AccountPopup" PlacementTarget="{Binding ElementName=AccountAvatarButton}" Placement="Bottom" StaysOpen="False" AllowsTransparency="True" PopupAnimation="None" HorizontalOffset="-170" VerticalOffset="2">
-      <Border Margin="10" CornerRadius="12" Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}">
-        <Border.Effect>
-          <DropShadowEffect BlurRadius="20" ShadowDepth="3" Opacity="0.4" Color="#000000" />
-        </Border.Effect>
-        <StackPanel Width="252">
-          <Grid Margin="14,14,14,12">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Width="42" Height="42" CornerRadius="21" ClipToBounds="True">
-              <Border.Background>
-                <ImageBrush x:Name="AccountPopupAvatarBrush" Stretch="UniformToFill" />
-              </Border.Background>
-            </Border>
-            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
-              <TextBlock Name="AccountDisplayNameText" Text="" FontWeight="SemiBold" FontSize="14" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-              <TextBlock Name="AccountUsernameText" Text="" FontSize="12" Margin="0,2,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-            </StackPanel>
-          </Grid>
-          <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Padding="6">
-            <StackPanel>
-              <ui:Button x:Name="AccountFriendsButton" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="10,8" Appearance="Transparent" Icon="People24" Content="Friends" Click="AccountFriends_Click" />
-              <ui:Button x:Name="AccountSignOutButton" Margin="0,2,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="10,8" Appearance="Transparent" Icon="SignOut24" Content="Sign out" Click="AccountSignOut_Click" />
-            </StackPanel>
+    <StackPanel x:Name="TopNavPanel" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="14,5,0,0" Panel.ZIndex="1001">
+      <Button x:Name="AppMenuButton" Margin="0,0,5,0" Style="{StaticResource TopBarButtonStyle}" Click="AppMenuButton_Click">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+          <Image Width="16" Height="16" Margin="0,0,8,0" RenderOptions.BitmapScalingMode="HighQuality" Source="{StaticResource AppIconImage}" />
+          <TextBlock Text="Voidstrap" FontSize="13" FontWeight="SemiBold" />
+          <Border Margin="7,0,0,0" RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform><RotateTransform /></Border.RenderTransform>
+            <Border.Style>
+              <Style TargetType="Border">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsOpen, ElementName=AppMenuPopup}" Value="True">
+                    <DataTrigger.EnterActions>
+                      <BeginStoryboard>
+                        <Storyboard>
+                          <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(RotateTransform.Angle)" To="180" Duration="0:0:0.22">
+                            <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction>
+                          </DoubleAnimation>
+                        </Storyboard>
+                      </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                      <BeginStoryboard>
+                        <Storyboard>
+                          <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(RotateTransform.Angle)" To="0" Duration="0:0:0.22">
+                            <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction>
+                          </DoubleAnimation>
+                        </Storyboard>
+                      </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </Border.Style>
+            <ui:SymbolIcon Symbol="ChevronDown12" FontSize="12" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
           </Border>
         </StackPanel>
+      </Button>
+      <Button x:Name="TopNavBack" Width="26" Height="26" Style="{StaticResource TopNavArrowStyle}" Margin="5,0,0,0" IsEnabled="False" ToolTip="Back" Click="TopNavBack_Click">
+        <ui:SymbolIcon Symbol="ChevronLeft24" FontSize="17" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
+      </Button>
+      <Button x:Name="TopNavForward" Width="26" Height="26" Style="{StaticResource TopNavArrowStyle}" Margin="0" IsEnabled="False" ToolTip="Forward" Click="TopNavForward_Click">
+        <ui:SymbolIcon Symbol="ChevronRight24" FontSize="17" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
+      </Button>
+      <Button x:Name="TopNavHome" Content="HOME" Style="{StaticResource TopNavButtonStyle}" Click="TopNavHome_Click" />
+      <Button x:Name="TopNavLibrary" Content="LIBRARY" Style="{StaticResource TopNavButtonStyle}" Click="TopNavLibrary_Click" />
+      <Button x:Name="TopNavNews" Content="NEWS" Style="{StaticResource TopNavButtonStyle}" Click="TopNavNews_Click" />
+    </StackPanel>
+    <vscontrols:AnimatedPopup x:Name="AppMenuPopup" PlacementTarget="{Binding ElementName=AppMenuButton}" Placement="Bottom" LightDismiss="True" AllowsTransparency="True" HorizontalOffset="-8" VerticalOffset="-4">
+      <Border Margin="12" MinWidth="220" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="6" TextElement.FontSize="13.5" TextElement.Foreground="{StaticResource LauncherTextPrimaryBrush}">
+        <StackPanel x:Name="AppMenuItemsPanel" PreviewMouseMove="AppMenuItems_PreviewMouseMove">
+          <MenuItem Header="About Voidstrap" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuAbout_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="Rocket24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
+          <MenuItem Header="Check for Updates" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuUpdates_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="ArrowClockwise24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
+          <MenuItem Header="Release Notes" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuReleases_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="DocumentBulletList24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
+          <Separator Style="{StaticResource TopBarMenuSeparatorStyle}" />
+          <MenuItem x:Name="AppMenuLogsItem" Header="Open Logs Folder" Style="{StaticResource TopBarMenuItemStyle}" MouseLeave="AppMenuLogsItem_MouseLeave">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="Folder24" FontSize="16" /></MenuItem.Icon>
+            <MenuItem Header="Voidstrap Logs" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuVoidstrapLogs_Click" />
+            <MenuItem Header="Roblox Logs" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuRobloxLogs_Click" />
+          </MenuItem>
+          <MenuItem Header="Open Application Folder" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuApplicationFolder_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="FolderOpen24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
+          <Separator Style="{StaticResource TopBarMenuSeparatorStyle}" />
+          <MenuItem Header="Support" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuSupport_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="Question24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
+          <MenuItem Header="Support Voidstrap" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuDonate_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="Star24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
+          <Separator Style="{StaticResource TopBarMenuSeparatorStyle}" />
+          <MenuItem Header="Restart Voidstrap" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuRestart_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="ArrowClockwise24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
+        </StackPanel>
       </Border>
-    </Popup>
+    </vscontrols:AnimatedPopup>
+    <vscontrols:AnimatedPopup x:Name="InstancesPopup" PlacementTarget="{Binding ElementName=InstancesButton}" Placement="Bottom" LightDismiss="True" AllowsTransparency="True" HorizontalOffset="-8" VerticalOffset="-4">
+      <Border Margin="12" MinWidth="220" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="6" TextElement.FontSize="13.5" TextElement.Foreground="{StaticResource LauncherTextPrimaryBrush}">
+        <StackPanel x:Name="InstancesPopupItems" />
+      </Border>
+    </vscontrols:AnimatedPopup>
     <Grid Name="RootGrid" Row="1" Margin="8,12,0,0" MouseMove="RootGrid_MouseMove" MouseLeave="RootGrid_MouseLeave">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
@@ -316,11 +546,13 @@
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
+      <ui:Button Name="SidebarToggle" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Width="40" Height="36" Margin="8,0,0,6" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="70" Style="{StaticResource HamburgerButton}" ToolTip="Collapse or expand the sidebar" Click="SidebarToggle_Click" />
       <Grid Name="SidebarHost" Row="1" Column="0" Margin="0,0,5,0" Panel.ZIndex="60">
-        <ui:NavigationFluent Name="RootNavigation" Width="225" SelectedPageIndex="1" TransitionType="FadeInWithSlideLeft" TransitionDuration="520" Frame="{Binding ElementName=RootFrame}">
+        <ui:NavigationFluent Name="RootNavigation" ClipToBounds="True" Width="225" SelectedPageIndex="1" TransitionType="FadeInWithSlideLeft" TransitionDuration="150" Frame="{Binding ElementName=RootFrame}">
           <ui:NavigationFluent.Resources>
             <Style TargetType="{x:Type ui:NavigationItem}">
               <Setter Property="Cache" Value="False" />
+              <Setter Property="ui:RinControlMotion.Enabled" Value="True" />
               <Setter Property="Margin" Value="0,0,0,4" />
               <Setter Property="Cursor" Value="Arrow" />
               <Setter Property="FontSize" Value="14" />
@@ -353,7 +585,7 @@
                   <ControlTemplate TargetType="{x:Type ui:NavigationItem}">
                     <Border x:Name="MainBorder" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderThickness="1" CornerRadius="5">
                       <Grid>
-                        <Rectangle x:Name="ActiveRectangle" Width="3" Height="0" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.0" RadiusX="1.5" RadiusY="1.5">
+                        <Rectangle x:Name="ActiveRectangle" Width="3" Height="0" Margin="-1,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.0" RadiusX="1.5" RadiusY="1.5">
                           <Rectangle.Fill>
                             <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
                           </Rectangle.Fill>
@@ -367,6 +599,11 @@
                           <Image x:Name="ItemImage" Grid.Column="0" Width="18" Margin="0,0,14,0" RenderOptions.BitmapScalingMode="HighQuality" Source="{TemplateBinding Image}" />
                           <ContentPresenter x:Name="Label" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
+                        <ui:SymbolIcon x:Name="GroupChevron" Margin="0,0,12,0" HorizontalAlignment="Right" VerticalAlignment="Center" Symbol="ChevronDown20" Filled="True" FontSize="14" Opacity="0.7" Foreground="{TemplateBinding IconForeground}" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
+                          <ui:SymbolIcon.RenderTransform>
+                            <RotateTransform Angle="0" />
+                          </ui:SymbolIcon.RenderTransform>
+                        </ui:SymbolIcon>
                       </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -378,41 +615,118 @@
                         </Setter>
                       </Trigger>
                       <Trigger Property="IsActive" Value="True">
-                        <Setter TargetName="ActiveRectangle" Property="Height" Value="16" />
+                        <Setter TargetName="ActiveRectangle" Property="Height" Value="17" />
                         <Setter TargetName="ActiveRectangle" Property="Opacity" Value="1" />
                         <Trigger.EnterActions>
-                          <BeginStoryboard>
+                          <BeginStoryboard x:Name="PillSelected">
                             <Storyboard>
-                              <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Height)" From="0" To="16" Duration="00:00:00.25">
+                              <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="0.0" To="1.0" Duration="00:00:00.25">
                                 <DoubleAnimation.EasingFunction>
-                                  <QuinticEase EasingMode="EaseOut" />
+                                  <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                               </DoubleAnimation>
-                              <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="0.0" To="1.0" Duration="00:00:00.175">
+                              <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Height)" From="0" To="17" Duration="00:00:00.667">
                                 <DoubleAnimation.EasingFunction>
-                                  <QuarticEase EasingMode="EaseOut" />
+                                  <QuinticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                               </DoubleAnimation>
                             </Storyboard>
                           </BeginStoryboard>
                         </Trigger.EnterActions>
                         <Trigger.ExitActions>
-                          <BeginStoryboard>
+                          <RemoveStoryboard BeginStoryboardName="PillSelected" />
+                        </Trigger.ExitActions>
+                      </Trigger>
+                      <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                          <Condition Property="vscontrols:SidebarGroup.HasActiveChild" Value="True" />
+                          <Condition Property="vscontrols:SidebarGroup.IsExpanded" Value="False" />
+                        </MultiTrigger.Conditions>
+                        <Setter TargetName="ActiveRectangle" Property="Height" Value="17" />
+                        <Setter TargetName="ActiveRectangle" Property="Opacity" Value="1" />
+                        <Setter TargetName="MainBorder" Property="Background">
+                          <Setter.Value>
+                            <SolidColorBrush Color="{DynamicResource SubtleFillColorSecondary}" />
+                          </Setter.Value>
+                        </Setter>
+                        <MultiTrigger.EnterActions>
+                          <BeginStoryboard x:Name="PillParent">
                             <Storyboard>
-                              <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Height)" From="16" To="0" Duration="00:00:00.25">
+                              <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="0.0" To="1.0" Duration="00:00:00.25">
+                                <DoubleAnimation.EasingFunction>
+                                  <QuadraticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                              </DoubleAnimation>
+                              <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Height)" From="0" To="17" Duration="00:00:00.667">
                                 <DoubleAnimation.EasingFunction>
                                   <QuinticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                               </DoubleAnimation>
-                              <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="1.0" To="0.0" Duration="00:00:00.175">
+                            </Storyboard>
+                          </BeginStoryboard>
+                        </MultiTrigger.EnterActions>
+                        <MultiTrigger.ExitActions>
+                          <RemoveStoryboard BeginStoryboardName="PillParent" />
+                        </MultiTrigger.ExitActions>
+                      </MultiTrigger>
+                      <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                          <Condition Property="IsMouseOver" Value="True" />
+                          <Condition Property="IsEnabled" Value="True" />
+                          <Condition Property="vscontrols:SidebarGroup.IsChild" Value="False" />
+                        </MultiTrigger.Conditions>
+                        <MultiTrigger.EnterActions>
+                          <BeginStoryboard>
+                            <Storyboard>
+                              <DoubleAnimation Storyboard.TargetName="MainBorder" Storyboard.TargetProperty="Opacity" To="0.875" Duration="00:00:00.187">
                                 <DoubleAnimation.EasingFunction>
                                   <QuarticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                               </DoubleAnimation>
                             </Storyboard>
                           </BeginStoryboard>
-                        </Trigger.ExitActions>
-                      </Trigger>
+                        </MultiTrigger.EnterActions>
+                        <MultiTrigger.ExitActions>
+                          <BeginStoryboard>
+                            <Storyboard>
+                              <DoubleAnimation Storyboard.TargetName="MainBorder" Storyboard.TargetProperty="Opacity" Duration="00:00:00.187">
+                                <DoubleAnimation.EasingFunction>
+                                  <QuarticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                              </DoubleAnimation>
+                            </Storyboard>
+                          </BeginStoryboard>
+                        </MultiTrigger.ExitActions>
+                      </MultiTrigger>
+                      <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                          <Condition Property="IsPressed" Value="True" />
+                          <Condition Property="IsEnabled" Value="True" />
+                          <Condition Property="vscontrols:SidebarGroup.IsChild" Value="False" />
+                        </MultiTrigger.Conditions>
+                        <MultiTrigger.EnterActions>
+                          <BeginStoryboard>
+                            <Storyboard>
+                              <DoubleAnimation Storyboard.TargetName="MainBorder" Storyboard.TargetProperty="Opacity" To="0.65" Duration="00:00:00.187">
+                                <DoubleAnimation.EasingFunction>
+                                  <QuarticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                              </DoubleAnimation>
+                            </Storyboard>
+                          </BeginStoryboard>
+                        </MultiTrigger.EnterActions>
+                        <MultiTrigger.ExitActions>
+                          <BeginStoryboard>
+                            <Storyboard>
+                              <DoubleAnimation Storyboard.TargetName="MainBorder" Storyboard.TargetProperty="Opacity" Duration="00:00:00.187">
+                                <DoubleAnimation.EasingFunction>
+                                  <QuarticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                              </DoubleAnimation>
+                            </Storyboard>
+                          </BeginStoryboard>
+                        </MultiTrigger.ExitActions>
+                      </MultiTrigger>
                       <MultiTrigger>
                         <MultiTrigger.Conditions>
                           <Condition Property="IsMouseOver" Value="True" />
@@ -423,9 +737,43 @@
                           </Setter.Value>
                         </Setter>
                       </MultiTrigger>
+                      <Trigger Property="vscontrols:SidebarGroup.IsHeader" Value="True">
+                        <Setter TargetName="GroupChevron" Property="Visibility" Value="Visible" />
+                      </Trigger>
+                      <Trigger Property="vscontrols:SidebarGroup.IsExpanded" Value="True">
+                        <Trigger.EnterActions>
+                          <BeginStoryboard>
+                            <Storyboard>
+                              <DoubleAnimation Storyboard.TargetName="GroupChevron" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" To="180" Duration="00:00:00.25">
+                                <DoubleAnimation.EasingFunction>
+                                  <QuinticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                              </DoubleAnimation>
+                            </Storyboard>
+                          </BeginStoryboard>
+                        </Trigger.EnterActions>
+                        <Trigger.ExitActions>
+                          <BeginStoryboard>
+                            <Storyboard>
+                              <DoubleAnimation Storyboard.TargetName="GroupChevron" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" To="0" Duration="00:00:00.25">
+                                <DoubleAnimation.EasingFunction>
+                                  <QuinticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                              </DoubleAnimation>
+                            </Storyboard>
+                          </BeginStoryboard>
+                        </Trigger.ExitActions>
+                      </Trigger>
+                      <Trigger Property="vscontrols:SidebarGroup.IsChild" Value="True">
+                        <Setter TargetName="ItemIcon" Property="Visibility" Value="Hidden" />
+                        <Setter TargetName="MainBorder" Property="Margin" Value="0,0,0,4" />
+                        <Setter TargetName="ActiveRectangle" Property="Margin" Value="37,0,0,0" />
+                        <Setter TargetName="MainBorder" Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}" />
+                      </Trigger>
                       <Trigger Property="Icon" Value="Empty">
                         <Setter TargetName="ItemIcon" Property="Width" Value="0" />
                         <Setter TargetName="ItemIcon" Property="Margin" Value="0" />
+                        <Setter TargetName="ItemIcon" Property="Visibility" Value="Collapsed" />
                       </Trigger>
                       <Trigger Property="Image" Value="{x:Null}">
                         <Setter TargetName="ItemImage" Property="Width" Value="0" />
@@ -436,6 +784,7 @@
                         <Setter TargetName="Label" Property="Visibility" Value="Collapsed" />
                         <Setter TargetName="InnerGrid" Property="HorizontalAlignment" Value="Center" />
                         <Setter TargetName="ItemIcon" Property="Margin" Value="0" />
+                        <Setter TargetName="GroupChevron" Property="Visibility" Value="Collapsed" />
                       </DataTrigger>
                     </ControlTemplate.Triggers>
                   </ControlTemplate>
@@ -459,7 +808,7 @@
                     </ItemsControl.ItemsPanel>
                   </ItemsControl>
                 </ScrollViewer>
-                <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Padding="0,4,0,0">
+                <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" Padding="0,4,0,0">
                   <ItemsControl Focusable="False" ItemsSource="{TemplateBinding Footer}" KeyboardNavigation.DirectionalNavigation="Contained" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                     <ItemsControl.ItemsPanel>
                       <ItemsPanelTemplate>
@@ -473,26 +822,25 @@
           </ui:NavigationFluent.Template>
           <ui:NavigationBase.Items>
             <ui:NavigationItem Content="Core" IsEnabled="False" Opacity="0.6" />
-            <ui:NavigationItem Content="Home" Icon="Home24" Tag="Home20" PageType="{x:Type pages:HomePage}" />
-            <ui:NavigationItem Content="{x:Static resources:Strings.Menu_Integrations_Title}" Icon="Add12" Tag="Add16" PageType="{x:Type pages:IntegrationsPage}" />
-            <ui:NavigationItem Content="Deployment" Icon="PlaySettings20" Tag="Play20" PageType="{x:Type pages:BehaviourPage}" />
-            <ui:NavigationItem Name="SoberNavItem" Content="{x:Static resources:Strings.Menu_Sober_Title}" Icon="Settings28" Tag="Settings20" PageType="{x:Type pages:SoberPage}" />
-            <ui:NavigationItem Content="{x:Static resources:Strings.Menu_Appearance_Title}" Icon="PaintBucket24" Tag="PaintBucket20" PageType="{x:Type pages:AppearancePage}" />
+            <ui:NavigationItem Cache="True" Content="Home" Icon="Home24" Tag="Home20" PageType="{x:Type pages:HomePage}" />
+            <ui:NavigationItem Cache="True" Content="{x:Static resources:Strings.Menu_Integrations_Title}" Icon="Add12" Tag="Add16" PageType="{x:Type pages:IntegrationsPage}" />
+            <ui:NavigationItem Cache="True" Content="Deployment" Icon="PlaySettings20" Tag="Play20" PageType="{x:Type pages:BehaviourPage}" />
+            <ui:NavigationItem Cache="True" Content="{x:Static resources:Strings.Menu_Appearance_Title}" Icon="Color24" Tag="Color20" PageType="{x:Type pages:AppearancePage}" />
             <ui:NavigationSeparator />
             <ui:NavigationItem Content="Configuration" IsEnabled="False" Opacity="0.6" />
-            <ui:NavigationItem Content="FastFlag Settings" Icon="Settings28" Tag="SettingsChat24" PageType="{x:Type pages:FastFlagsPage}" />
-            <ui:NavigationItem Name="FastFlagEditorNavItem" Content="FastFlag Editor" Icon="Flag28" Tag="Flag20" PageType="{x:Type pages:FastFlagEditorPage}" />
-            <ui:NavigationItem Content="Global" Icon="GlobeLocation20" Tag="Globe20" PageType="{x:Type pages:GBSEditorPage}" />
-            <ui:NavigationItem Content="{x:Static resources:Strings.Menu_Mods_Title}" Icon="WrenchScrewdriver20" Tag="Wrench24" PageType="{x:Type pages:ModsPage}" />
-            <ui:NavigationSeparator />
-            <ui:NavigationItem IsEnabled="False" Opacity="0.6" />
-            <ui:NavigationItem Name="NewsNavItem" Content="News" Icon="News16" Tag="News20" Margin="0,-40,0,0" PageType="{x:Type pages:NewsPage}" />
-            <ui:NavigationItem Content="Manager" Icon="ArrowDownload24" Tag="ArrowDownload20" Margin="0,4,0,20" PageType="{x:Type pages:DownloadsPage}" />
+            <ui:NavigationItem Cache="True" Content="FastFlag Settings" Icon="Settings28" Tag="SettingsChat24" PageType="{x:Type pages:FastFlagsPage}" />
+            <ui:NavigationItem Cache="True" Name="FastFlagEditorNavItem" Content="FastFlag Editor" Icon="Flag28" Tag="Flag20" PageType="{x:Type pages:FastFlagEditorPage}" />
+            <ui:NavigationItem Cache="True" Content="{x:Static resources:Strings.Menu_Mods_Title}" Icon="WrenchScrewdriver20" Tag="Wrench24" PageType="{x:Type pages:ModsPage}" />
+            <ui:NavigationItem Cache="True" Name="MoreNavItem" Content="More" Icon="MoreHorizontal24" Tag="MoreHorizontal20" PageType="{x:Type pages:MorePage}" vscontrols:SidebarGroup.IsHeader="True" />
+            <ui:NavigationItem Cache="True" Name="GlobalNavItem" Margin="0" Content="Global" Icon="GlobeLocation20" Tag="Globe20" PageType="{x:Type pages:GBSEditorPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
+            <ui:NavigationItem Cache="True" Name="ShortcutsNavItem" Margin="0" Content="{x:Static resources:Strings.Common_Shortcuts}" Icon="Apps32" Tag="Apps24" PageType="{x:Type pages:ShortcutsPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
+            <ui:NavigationItem Cache="True" Name="NewsNavItem" Margin="0" Content="News" Icon="News16" Tag="News20" PageType="{x:Type pages:NewsPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
           </ui:NavigationBase.Items>
           <ui:NavigationBase.Footer>
-            <ui:NavigationItem Content="Extensions" Icon="CubeAdd20" Tag="CubeLink20" PageType="{x:Type pages:ExtensionPage}" />
-            <ui:NavigationItem Name="ShortcutsNavItem" Content="{x:Static resources:Strings.Common_Shortcuts}" Icon="Apps32" Tag="Apps24" PageType="{x:Type pages:ShortcutsPage}" />
-            <ui:NavigationItem Name="SettingsNavItem" Content="Settings" Icon="Settings28" Tag="Settings20" PageType="{x:Type pages:ChannelPage}" />
+            <ui:NavigationItem Cache="True" Name="ExtensionsNavItem" Content="Extensions" Icon="CubeAdd20" Tag="CubeLink20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:ExtensionPage}" />
+            <ui:NavigationItem Cache="True" Name="ManagerNavItem" Content="Manager" Icon="ArrowDownload24" Tag="ArrowDownload20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:DownloadsPage}" />
+            <ui:NavigationItem Cache="True" Name="SettingsNavItem" Content="Settings" Icon="Settings28" Tag="Settings20" PageType="{x:Type pages:ChannelPage}" />
+            <ui:NavigationItem Cache="True" Name="SoberNavItem" Content="{x:Static resources:Strings.Menu_Sober_Title}" Icon="Empty" Image="pack://application:,,,/Resources/SoberIcon.png" Tag="Settings20" PageType="{x:Type pages:SoberPage}" />
             <ui:NavigationItem Content="{x:Static resources:Strings.Menu_About_Title}" Icon="QuestionCircle32" Tag="QuestionCircle48" Command="{Binding OpenAboutCommand, Mode=OneTime}" />
           </ui:NavigationBase.Footer>
         </ui:NavigationFluent>
@@ -518,7 +866,9 @@
           </StackPanel>
           <ui:InfoBar Margin="0,0,28,0" Grid.Column="2" HorizontalAlignment="Right" Padding="3" IsClosable="True" IsOpen="True"  Message="{Binding AppVersion}" />
         </Grid>
-        <Frame Name="RootFrame" Grid.Row="1" ClipToBounds="True" />
+        <Border Name="PageSurface" Grid.Row="1" Margin="0" Padding="12,10,2,0" CornerRadius="8,0,0,0" Background="{DynamicResource LayerFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1,1,0,0" SnapsToDevicePixels="True" UseLayoutRounding="True">
+          <Frame Name="RootFrame" ClipToBounds="True" />
+        </Border>
       </Grid>
     </Grid>
     <Border Name="ZoomIndicator"
@@ -541,34 +891,7 @@
         <ui:Button Height="30" Margin="10,0,0,0" Padding="12,0" Content="Reset" Click="ZoomReset_Click" />
       </StackPanel>
     </Border>
-    <Grid Row="1" Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="Auto" />
-      </Grid.ColumnDefinitions>
-      <TabControl Name="WorkspaceTabs" DisplayMemberPath="Title" Background="{x:Null}" BorderThickness="0" Height="34" HorizontalAlignment="Left" Grid.Column="0" Margin="275,5,0,0" ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedTab, Mode=TwoWay}" SelectionChanged="WorkspaceTabs_SelectionChanged">
-        <Control.Template>
-          <ControlTemplate TargetType="{x:Type TabControl}">
-            <Grid>
-              <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-              </Grid.RowDefinitions>
-              <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                <TabPanel Name="HeaderPanel" IsItemsHost="True" Background="{x:Null}" />
-              </ScrollViewer>
-              <ContentPresenter Grid.Row="1" ContentSource="SelectedContent" Margin="{TemplateBinding Control.Padding}" />
-            </Grid>
-          </ControlTemplate>
-        </Control.Template>
-      </TabControl>
-      <ui:Button Grid.Column="1" Width="34" Height="34" Appearance="Secondary" Icon="Add16" Margin="0,0,16,6" Click="AddTab_Click">
-        <FrameworkElement.ToolTip>
-          <ToolTip>Tabs - Beta</ToolTip>
-        </FrameworkElement.ToolTip>
-      </ui:Button>
-    </Grid>
-    <Border Grid.Row="2" VerticalAlignment="Bottom" Height="52" CornerRadius="12,12,0,0" Padding="16,0" Background="{ui:ThemeResource ControlFillColorDefaultBrush}">
+    <Border x:Name="StatusBarHost" Grid.Row="2" VerticalAlignment="Bottom" Height="52" CornerRadius="0" Padding="16,0" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="{ui:ThemeResource ControlFillColorDefaultBrush}">
       <StatusBar Name="RootStatusBar" Padding="14,10" BorderThickness="0,1,0,0">
         <Control.Background>
           <SolidColorBrush Opacity="0" Color="{ui:ThemeResource ApplicationBackgroundColor}" />
@@ -596,33 +919,12 @@
         <StatusBarItem Grid.Column="2" Padding="0,0,8,0">
           <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
             <Grid VerticalAlignment="Center" Margin="0,0,8,0">
-              <ui:Button Name="LaunchTargetButton" Height="33" MinWidth="36" Padding="10,0" Appearance="Secondary" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="LaunchTargetButton_Click">
+              <ui:Button Name="LaunchTargetButton" Height="34" Padding="10,0" Appearance="Secondary" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="LaunchTargetButton_Click">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                  <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Text="{Binding SelectedLaunchTargetName, Mode=OneWay}">
-                    <FrameworkElement.Style>
-                      <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                          <DataTrigger Value="True" Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Button}}}">
-                            <Setter Property="Visibility" Value="Visible" />
-                          </DataTrigger>
-                        </Style.Triggers>
-                      </Style>
-                    </FrameworkElement.Style>
-                  </TextBlock>
-                  <ui:SymbolIcon FontSize="14" VerticalAlignment="Center" Symbol="ChevronUp24" />
+                  <TextBlock VerticalAlignment="Center" Margin="0,0,6,0" FontWeight="Medium" Text="{Binding SelectedLaunchTargetName, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
+                  <ui:SymbolIcon FontSize="11" VerticalAlignment="Center" Symbol="ChevronUp24" RenderTransformOrigin="0.5,0.5"><ui:SymbolIcon.RenderTransform><RotateTransform x:Name="LaunchTargetChevronRotate" Angle="0" /></ui:SymbolIcon.RenderTransform></ui:SymbolIcon>
                 </StackPanel>
               </ui:Button>
-              <Popup Name="LaunchTargetPopup" IsOpen="False" StaysOpen="False" AllowsTransparency="True" PopupAnimation="None" Placement="Top" VerticalOffset="-6" PlacementTarget="{Binding ElementName=LaunchTargetButton}">
-                <Border Background="{DynamicResource ApplicationBackgroundBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" CornerRadius="8" MinWidth="190" Padding="4" SnapsToDevicePixels="True">
-                  <Border.Effect>
-                    <DropShadowEffect BlurRadius="16" ShadowDepth="2" Opacity="0.4" Color="#000000" />
-                  </Border.Effect>
-                  <ScrollViewer Name="LaunchTargetScroll" MaxHeight="132" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" PanningMode="VerticalOnly">
-                    <StackPanel Name="LaunchTargetList" />
-                  </ScrollViewer>
-                </Border>
-              </Popup>
             </Grid>
             <ui:Button Name="InstallLaunchButton" HorizontalAlignment="Center" Appearance="Primary" Background="{DynamicResource SystemAccentBrush}" Content="Install" Command="{Binding SaveAndLaunchSettingsCommand, Mode=OneWay}" />
           </StackPanel>
@@ -635,5 +937,30 @@
         </StatusBarItem>
       </StatusBar>
     </Border>
+    <Grid x:Name="LaunchTargetOverlay" Grid.RowSpan="3" Panel.ZIndex="1100" Visibility="Collapsed" Opacity="0">
+      <Border Background="#99000000" MouseLeftButtonDown="LaunchTargetScrim_MouseLeftButtonDown" />
+      <Border x:Name="LaunchTargetPanel" Width="600" Margin="32" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="20,18,20,14" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" SnapsToDevicePixels="True">
+        <Border.RenderTransform>
+          <TranslateTransform x:Name="LaunchTargetPanelTranslate" Y="28" />
+        </Border.RenderTransform>
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="{StaticResource LauncherTextPrimaryBrush}" Text="Choose Roblox version" />
+            <ui:Button Grid.Column="1" Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="Close" Click="LaunchTargetClose_Click" />
+          </Grid>
+          <TextBlock Grid.Row="1" Margin="0,6,0,16" FontSize="13" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="Select what Save and Launch should start." TextWrapping="Wrap" />
+          <vscontrols:RobloxVersionList x:Name="LaunchTargetList" Grid.Row="2" MaxHeight="470" ItemChosen="LaunchTargetList_ItemChosen" />
+        </Grid>
+      </Border>
+    </Grid>
   </Grid>
 </base:WpfUiWindow>

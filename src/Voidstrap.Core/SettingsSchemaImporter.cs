@@ -12,21 +12,23 @@ namespace Voidstrap.Core;
 
 public sealed record SettingsDefaultDefinition(string Name, JsonNode DefaultValue);
 
-public static class SettingsSchemaImporter
+public static partial class SettingsSchemaImporter
 {
 	private const long MaximumSchemaBytes = 4L * 1024 * 1024;
 	private const int MaximumDefinitions = 10_000;
-	private static readonly Regex PropertyExpression = new(
-		"^\\s*public\\s+(?<type>[A-Za-z_][A-Za-z0-9_?.]*(?:<[^;{}]+>)?)\\s+(?<name>[A-Za-z_][A-Za-z0-9_]*)\\s*\\{\\s*get;\\s*set;\\s*\\}(?:\\s*=\\s*(?<initializer>[^;]+))?;",
-		RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Multiline);
-
-	public static string DefaultSchemaPath => Path.Combine(AppContext.BaseDirectory, "Catalog", "AppSettings.cs");
 
 	public static async Task<OperationResult<IReadOnlyCollection<SettingsDefaultDefinition>>> LoadAsync(string? schemaPath = null, CancellationToken cancellationToken = default)
 	{
-		string path = string.IsNullOrWhiteSpace(schemaPath) ? DefaultSchemaPath : schemaPath;
 		try
 		{
+			if (string.IsNullOrWhiteSpace(schemaPath))
+			{
+				string embedded = SettingsCatalogImporter.ReadResource("Catalog/AppSettings.cs");
+				return embedded.Length == 0
+					? OperationResult<IReadOnlyCollection<SettingsDefaultDefinition>>.Fail("SettingsSchemaMissing", "The current settings schema is unavailable")
+					: OperationResult<IReadOnlyCollection<SettingsDefaultDefinition>>.Success(Parse(embedded));
+			}
+			string path = schemaPath;
 			if (!File.Exists(path))
 			{
 				return OperationResult<IReadOnlyCollection<SettingsDefaultDefinition>>.Fail("SettingsSchemaMissing", "The current settings schema is unavailable");
@@ -151,7 +153,7 @@ public static class SettingsSchemaImporter
 			return false;
 		}
 
-		int separator = initializer.LastIndexOf(".", StringComparison.Ordinal);
+		int separator = initializer.LastIndexOf('.');
 		if (separator < 0 || separator == initializer.Length - 1)
 		{
 			value = null;
@@ -205,4 +207,7 @@ public static class SettingsSchemaImporter
 		}
 		return true;
 	}
+
+    [GeneratedRegex("^\\s*public\\s+(?<type>[A-Za-z_][A-Za-z0-9_?.]*(?:<[^;{}]+>)?)\\s+(?<name>[A-Za-z_][A-Za-z0-9_]*)\\s*\\{\\s*get;\\s*set;\\s*\\}(?:\\s*=\\s*(?<initializer>[^;]+))?;", RegexOptions.Multiline | RegexOptions.CultureInvariant)]
+    private static partial Regex PropertyExpression { get; }
 }

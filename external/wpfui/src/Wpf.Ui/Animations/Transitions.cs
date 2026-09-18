@@ -29,6 +29,12 @@ namespace Wpf.Ui.Animations
                 typeof(long),
                 typeof(Transitions),
                 new PropertyMetadata(0L));
+        private static readonly DependencyProperty TransitionGenerationProperty =
+            DependencyProperty.RegisterAttached(
+                "TransitionGeneration",
+                typeof(long),
+                typeof(Transitions),
+                new PropertyMetadata(0L));
 
         public static bool ApplyTransition(object element, TransitionType type, int duration)
         {
@@ -88,8 +94,18 @@ namespace Wpf.Ui.Animations
 
         private static void FadeIn(FrameworkElement element, int durationMilliseconds)
         {
-            ResetAnimation(element, UIElement.OpacityProperty, 1);
-            Animate(element, UIElement.OpacityProperty, 0, 1, durationMilliseconds, FadeEase);
+            long generation = NextTransitionGeneration(element);
+            ResetAnimation(element, UIElement.OpacityProperty, 0);
+
+            RenderReady.Run(element, () =>
+            {
+                if (!IsCurrentTransition(element, generation))
+                    return;
+
+                ResetAnimation(element, UIElement.OpacityProperty, 1);
+                RenderReady.Hold(element, TimeSpan.FromMilliseconds(durationMilliseconds));
+                Animate(element, UIElement.OpacityProperty, 0, 1, durationMilliseconds, FadeEase);
+            });
         }
 
         private static void Slide(
@@ -99,19 +115,31 @@ namespace Wpf.Ui.Animations
             int durationMilliseconds,
             bool fade)
         {
+            long generation = NextTransitionGeneration(element);
             TranslateTransform transform = GetTransitionTransform(element);
-            ResetAnimation(transform, TranslateTransform.XProperty, 0);
-            ResetAnimation(transform, TranslateTransform.YProperty, 0);
-            ResetAnimation(element, UIElement.OpacityProperty, 1);
+            ResetAnimation(transform, TranslateTransform.XProperty, offsetX);
+            ResetAnimation(transform, TranslateTransform.YProperty, offsetY);
+            ResetAnimation(element, UIElement.OpacityProperty, fade ? 0 : 1);
 
-            if (offsetX != 0)
-                Animate(transform, TranslateTransform.XProperty, offsetX, 0, durationMilliseconds, MoveEase);
+            RenderReady.Run(element, () =>
+            {
+                if (!IsCurrentTransition(element, generation) || transform.IsFrozen)
+                    return;
 
-            if (offsetY != 0)
-                Animate(transform, TranslateTransform.YProperty, offsetY, 0, durationMilliseconds, MoveEase);
+                ResetAnimation(transform, TranslateTransform.XProperty, 0);
+                ResetAnimation(transform, TranslateTransform.YProperty, 0);
+                ResetAnimation(element, UIElement.OpacityProperty, 1);
+                RenderReady.Hold(element, TimeSpan.FromMilliseconds(durationMilliseconds));
 
-            if (fade)
-                Animate(element, UIElement.OpacityProperty, 0, 1, durationMilliseconds, FadeEase);
+                if (offsetX != 0)
+                    Animate(transform, TranslateTransform.XProperty, offsetX, 0, durationMilliseconds, MoveEase);
+
+                if (offsetY != 0)
+                    Animate(transform, TranslateTransform.YProperty, offsetY, 0, durationMilliseconds, MoveEase);
+
+                if (fade)
+                    Animate(element, UIElement.OpacityProperty, 0, 1, durationMilliseconds, FadeEase);
+            });
         }
 
         private static void Animate(
@@ -213,8 +241,21 @@ namespace Wpf.Ui.Animations
             return generation;
         }
 
+        private static long NextTransitionGeneration(DependencyObject target)
+        {
+            long generation = unchecked((long)target.GetValue(TransitionGenerationProperty) + 1);
+            target.SetValue(TransitionGenerationProperty, generation);
+            return generation;
+        }
+
+        private static bool IsCurrentTransition(DependencyObject target, long generation)
+        {
+            return (long)target.GetValue(TransitionGenerationProperty) == generation;
+        }
+
         private static void Reset(FrameworkElement element)
         {
+            NextTransitionGeneration(element);
             ResetAnimation(element, UIElement.OpacityProperty, 1);
 
             if (FindTransitionTransform(element.RenderTransform) is not TranslateTransform transform || transform.IsFrozen)
@@ -263,7 +304,7 @@ namespace Wpf.Ui.Animations
             return null;
         }
 
-        private static IEasingFunction CreateEase()
+        private static CubicEase CreateEase()
         {
             CubicEase easing = new() { EasingMode = EasingMode.EaseOut };
             easing.Freeze();

@@ -1,4 +1,5 @@
 ﻿using System;
+using Voidstrap.Utility;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,6 +7,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -46,58 +48,15 @@ namespace Voidstrap.UI.Elements.Settings;
 
 public partial class MainWindow : WpfUiWindow, INavigationWindow
 {
-    private enum TabOptionKind
+    private sealed partial class PageSearchTarget
     {
-        Toggle,
-        Dropdown,
-        Slider
+        public FrameworkElement Element { get; init; } = null!;
+
+        public string Text { get; init; } = null!;
     }
 
-    private sealed class TabOptionDefinition
-    {
-        public string Key = "";
 
-        public string Title = "";
-
-        public string Description = "";
-
-        public TabOptionKind Kind;
-
-        public string[] Choices = Array.Empty<string>();
-
-        public double Min;
-
-        public double Max = 100.0;
-
-        public double Step = 1.0;
-
-        public Func<bool> GetBool = () => false;
-
-        public Action<bool> SetBool = delegate
-        {
-        };
-
-        public Func<string> GetChoice = () => "";
-
-        public Action<string> SetChoice = delegate
-        {
-        };
-
-        public Func<double> GetValue = () => 0.0;
-
-        public Action<double> SetValue = delegate
-        {
-        };
-    }
-
-    private sealed class PageSearchTarget
-    {
-        public FrameworkElement Element { get; init; }
-
-        public string Text { get; init; }
-    }
-
-    private sealed class TopSearchEntry
+    private sealed partial class TopSearchEntry
     {
 		public string Id { get; }
 
@@ -111,15 +70,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
         public IReadOnlyList<string> TargetTerms { get; }
 
-		public IReadOnlyList<string> ContainerTerms { get; }
+		public List<string> ContainerTerms { get; }
 
 		public string NormalizedSearchText { get; }
 
 		public string NormalizedTargetText { get; }
 
-        public TopSearchEntry(string id, string displayText, string searchText, Type pageType, string? targetText = null, IEnumerable<string>? targetTerms = null, IEnumerable<string>? containerTerms = null)
+		public bool HiddenByDefault { get; }
+
+        public TopSearchEntry(string id, string displayText, string searchText, Type pageType, string? targetText = null, IEnumerable<string>? targetTerms = null, IEnumerable<string>? containerTerms = null, bool hiddenByDefault = false)
         {
 			Id = id;
+			HiddenByDefault = hiddenByDefault;
             DisplayText = displayText;
             SearchText = searchText;
             PageType = pageType;
@@ -131,50 +93,120 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    public class TabItemViewModel : INotifyPropertyChanged
+    private sealed partial class TopBarNotificationItem
     {
-        private string _title = "";
+        private static readonly Brush CrashBrush = FreezeBrush(Color.FromRgb(255, 77, 79));
 
-        public string Title
+        private static readonly Brush ErrorBrush = FreezeBrush(Color.FromRgb(245, 166, 35));
+
+        private static readonly Brush InfoBrush = FreezeBrush(Color.FromRgb(77, 163, 255));
+
+        public string Id { get; init; } = "";
+
+        public string Title { get; init; } = "";
+
+        public string Text { get; init; } = "";
+
+        public string TimeAgo { get; init; } = "";
+
+        public string LogPath { get; init; } = "";
+
+        public bool IsUnread { get; init; }
+
+        public SymbolRegular Icon { get; init; } = SymbolRegular.Info24;
+
+        public Brush IconBrush { get; init; } = InfoBrush;
+
+        public Visibility UnreadVisibility => IsUnread ? Visibility.Visible : Visibility.Collapsed;
+
+        private static Brush FreezeBrush(Color color)
         {
-            get
+            SolidColorBrush brush = new SolidColorBrush(color);
+            brush.Freeze();
+            return brush;
+        }
+
+        public static TopBarNotificationItem From(Voidstrap.Utility.AppNotification source)
+        {
+            (SymbolRegular icon, Brush brush) = source.Kind switch
             {
-                return _title;
+                Voidstrap.Utility.AppNotifications.KindCrash => (SymbolRegular.ErrorCircle24, CrashBrush),
+                Voidstrap.Utility.AppNotifications.KindError => (SymbolRegular.Warning24, ErrorBrush),
+                _ => (SymbolRegular.Info24, InfoBrush)
+            };
+            string text = source.Text.Trim();
+            if (source.Count > 1)
+            {
+                text += (text.Length > 0 ? Environment.NewLine : "") + "Happened " + source.Count.ToString("N0") + " times";
             }
+            return new TopBarNotificationItem
+            {
+                Id = source.Id,
+                Title = source.Title,
+                Text = text,
+                TimeAgo = FormatAge(source.LastSeen),
+                LogPath = source.LogPath,
+                IsUnread = !source.Read,
+                Icon = icon,
+                IconBrush = brush
+            };
+        }
+
+        private static string FormatAge(long timestamp)
+        {
+            if (timestamp <= 0)
+            {
+                return "";
+            }
+            DateTimeOffset when = timestamp > 100_000_000_000 ? DateTimeOffset.FromUnixTimeMilliseconds(timestamp) : DateTimeOffset.FromUnixTimeSeconds(timestamp);
+            TimeSpan age = DateTimeOffset.UtcNow - when;
+            if (age.TotalMinutes < 1)
+            {
+                return "Just now";
+            }
+            if (age.TotalHours < 1)
+            {
+                return $"{(int)age.TotalMinutes} minutes ago";
+            }
+            if (age.TotalDays < 1)
+            {
+                return (int)age.TotalHours == 1 ? "1 hour ago" : $"{(int)age.TotalHours} hours ago";
+            }
+            if (age.TotalDays < 30)
+            {
+                return (int)age.TotalDays == 1 ? "Yesterday" : $"{(int)age.TotalDays} days ago";
+            }
+            return when.LocalDateTime.ToString("MMM d, yyyy");
+        }
+    }
+
+    private sealed partial class CommandPaletteRow : INotifyPropertyChanged
+    {
+        private bool _isSelected;
+
+        public string Title { get; init; } = "";
+
+        public string Detail { get; init; } = "";
+
+        public SymbolRegular Icon { get; init; } = SymbolRegular.Document24;
+
+        public Action? Open { get; init; }
+
+        public bool IsSelected
+        {
+            get => _isSelected;
             set
             {
-                if (!(_title == value))
+                if (_isSelected == value)
                 {
-                    _title = value;
-                    this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Title"));
+                    return;
                 }
+                _isSelected = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
             }
         }
 
-        public Page PageInstance { get; set; }
-
-        public List<string> OptionKeys { get; } = new List<string>();
-
         public event PropertyChangedEventHandler? PropertyChanged;
-
-        public override string ToString()
-        {
-            return Title;
-        }
-    }
-
-    public class TabBlueprint
-    {
-        public string Title { get; set; } = "";
-
-        public List<string> OptionKeys { get; set; } = new List<string>();
-
-        public List<LegacyOptionData>? Options { get; set; }
-    }
-
-    public class LegacyOptionData
-    {
-        public string Header { get; set; } = "";
     }
 
     private bool _isSaveAndLaunchClicked;
@@ -187,11 +219,17 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private readonly DispatcherTimer _visibilityTimer = new DispatcherTimer();
 
+    private double _appliedUiZoom = double.NaN;
+
+    private bool _uiZoomQueued;
+
     private bool _bgGifPausedByDeactivate;
 
     private DiscordRpcClient? _discordClient;
 
     private bool _discordReady;
+
+    private DateTime _discordRetryAtUtc;
 
     private bool _discordRpcEnabled = App.Settings.Prop.VoidRPC;
 
@@ -205,26 +243,31 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private string? _lastVoidRpcState;
 
+    private string? _lastVoidRpcExtra;
+
     private DateTime _lastRobloxCheck = DateTime.MinValue;
 
-    private bool _robloxRunningCached;
+    private volatile bool _robloxRunningCached;
+
+    private int _robloxCheckRunning;
+
+    private readonly DispatcherTimer _instanceCountTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2.5) };
+
+    private static readonly string[] InstanceProcessNames = ["RobloxPlayerBeta", "RobloxStudioBeta"];
+
+    private readonly List<System.Windows.Controls.MenuItem> _instanceMenuItems = new List<System.Windows.Controls.MenuItem>();
 
 
     private static readonly Dictionary<string, (string Details, string State)> _voidRpcPageDescriptions = new Dictionary<string, (string, string)>
     {
         ["HomePage"] = ("Home", "On the Voidstrap home screen"),
         ["GamePage"] = ("Game Details", "Looking at a game"),
-        ["FriendsPage"] = ("Friends", "Checking the friends list"),
-        ["QuestsPage"] = ("Quests", "Checking daily quests"),
-        ["NotificationsPage"] = ("Notifications", "Checking notifications"),
         ["MobilePage"] = ("Mobile", "Roblox on mobile setup"),
         ["MobilePageExplain"] = ("Mobile", "Reading the mobile guide"),
         ["NvidaEditor"] = ("NVIDIA Editor", "GPU specific tweaks"),
-        ["ReleasesPage"] = ("Releases", "Voidstrap release history"),
         ["HistoryPage"] = ("Continue Playing", "Browsing recent games"),
         ["IntegrationsPage"] = ("Integrations", "Advanced integrations"),
         ["BehaviourPage"] = ("Deployment", "Channels, cleaner, matchmaker"),
-        ["AppearancePage"] = ("Appearance", "Themes, backgrounds, fonts"),
         ["FastFlagsPage"] = ("FastFlag Settings", "Tweaking flag presets"),
         ["FastFlagEditorPage"] = ("FastFlag Editor", "Editing fast flags"),
         ["FastFlagEditorWarningPage"] = ("FastFlag Editor", "Reading the warning"),
@@ -237,23 +280,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["ChannelPage"] = ("Settings", "App settings & updates"),
         ["ReleasesPage"] = ("Releases", "Voidstrap release history"),
         ["DonoPage"] = ("Support Voidstrap", "Considering a donation"),
-        ["HelpPage"] = ("Help", "why... THIS ISNT A PAGE ANYMORE"),
+        ["HelpPage"] = ("Help", "Reading the help guides"),
+        ["AppearancePage"] = ("Appearance", "Themes and backgrounds"),
+        ["BootstrapperPage"] = ("Bootstrapper", "Launch window settings"),
+        ["LibraryPage"] = ("Library", "Browsing the game library"),
+        ["SoberPage"] = ("Sober", "Roblox on Linux settings"),
+        ["Releases"] = ("Releases", "Voidstrap release history"),
+        ["ServerBrowserPage"] = ("Server Browser", "Looking for a server"),
         ["NvidiaFastFlagsPage"] = ("NVIDIA FFlags", "GPU specific tweaks")
     };
 
-    private AppearanceViewModel _appearanceViewModel;
-
-    private long _lastBorderRefreshTicks;
-
-    private long _lastNotificationRefreshTicks;
-
-    private int _notificationRefreshRunning;
-
-    private int _notificationRefreshRequested;
+    private AppearanceViewModel.BackgroundSettings _backgroundSettings;
 
     private int _notificationUnread = -1;
 
-    private readonly Voidstrap.Utility.WebsiteNotificationRealtime _notificationRealtime = new Voidstrap.Utility.WebsiteNotificationRealtime();
+    private int _notificationReloadTicks;
 
     private string? _currentBackgroundPath;
 
@@ -263,7 +304,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private readonly Dictionary<UIElement, TaskCompletionSource<bool>> _backgroundAnimationWaiters = new Dictionary<UIElement, TaskCompletionSource<bool>>();
 
-    private bool _spotifyInitialized;
 
     private Vector _currentOffset;
 
@@ -273,7 +313,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private double _targetRotation;
 
-    private DispatcherTimer _searchDebounceTimer;
+    private DispatcherTimer _searchDebounceTimer = null!;
 
     private readonly List<PageSearchTarget> _pageSearchTargets = new List<PageSearchTarget>();
 
@@ -281,17 +321,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private readonly Dictionary<string, TopSearchEntry> _topSearchEntries = new Dictionary<string, TopSearchEntry>(StringComparer.OrdinalIgnoreCase);
 
+    private readonly ObservableCollection<CommandPaletteRow> _commandPaletteRows = new ObservableCollection<CommandPaletteRow>();
+
+    private int _commandPaletteSelected = -1;
+
+    private readonly Dictionary<string, (WeakReference<FrameworkElement> Element, bool Visible)> _searchTargetStates = new Dictionary<string, (WeakReference<FrameworkElement>, bool)>(StringComparer.Ordinal);
+
     private TopSearchEntry? _pendingTopSearchEntry;
-
-    private bool _topSearchNavigationPending;
-
-    private bool _topSearchItemsUpdating;
 
 	private int _topSearchNavigationGeneration;
 
     private bool _navigationInitialized;
 
-    private Page _lastPage;
+    private Page? _lastPage;
 
     private const double MaxOffset = 0.04;
 
@@ -315,147 +357,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private LibraryPage? _libraryPage;
 
-    private bool _pendingForumsTab;
+    private Pages.RobloxNewsPage? _robloxNewsPage;
 
     private static readonly int ProcessorCount = Environment.ProcessorCount;
 
-    private static readonly List<TabOptionDefinition> TabOptionRegistry = new List<TabOptionDefinition>
-    {
-        Toggle("Enable Overlay", "Enable Overlay", "Enables the Overlay Mods to work over Roblox.", () => App.Settings.Prop.OverlaysEnabled, delegate(bool v)
-        {
-            App.Settings.Prop.OverlaysEnabled = v;
-        }),
-        Toggle("Crosshair", "Crosshair", "Show a crosshair on screen. (In-Game Only)", () => App.Settings.Prop.Crosshair, delegate(bool v)
-        {
-            App.Settings.Prop.Crosshair = v;
-        }),
-        Toggle("Clock", "Clock", "Displays a clock in the stats overlay.", () => App.Settings.Prop.CurrentTimeDisplay, delegate(bool v)
-        {
-            App.Settings.Prop.CurrentTimeDisplay = v;
-        }),
-        Toggle("Server Ping Counter", "Server Ping Counter", "Shows your ping to the current server on the overlay.", () => App.Settings.Prop.ServerPingCounter, delegate(bool v)
-        {
-            App.Settings.Prop.ServerPingCounter = v;
-        }),
-        Toggle("Server Location Overlay", "Server Location Overlay", "Shows the current server location on the overlay.", () => App.Settings.Prop.ShowServerDetailsUI, delegate(bool v)
-        {
-            App.Settings.Prop.ShowServerDetailsUI = v;
-        }),
-        Toggle("Join Notifications", "Join Notifications", "Shows a notification with server info when joining a game.", () => App.Settings.Prop.NotificationWindowShow, delegate(bool v)
-        {
-            App.Settings.Prop.NotificationWindowShow = v;
-        }),
-        Toggle("Activity Tracking", Strings.Menu_Integrations_EnableActivityTracking_Title, Strings.Menu_Integrations_EnableActivityTracking_Description, () => App.Settings.Prop.EnableActivityTracking, delegate(bool v)
-        {
-            App.Settings.Prop.EnableActivityTracking = v;
-        }),
-        Toggle("Query Server Location", Strings.Menu_Integrations_QueryServerLocation_Title, Strings.Menu_Integrations_QueryServerLocation_Description, () => App.Settings.Prop.ShowServerDetails, delegate(bool v)
-        {
-            App.Settings.Prop.ShowServerDetails = v;
-        }),
-        Toggle("Desktop App", Strings.Menu_Integrations_DesktopApp_Title, Strings.Menu_Integrations_DesktopApp_Description, () => App.Settings.Prop.UseDisableAppPatch, delegate(bool v)
-        {
-            App.Settings.Prop.UseDisableAppPatch = v;
-        }),
-        Toggle("Show Game Activity", Strings.Menu_Integrations_ShowGameActivity_Title, Strings.Menu_Integrations_ShowGameActivity_Description, () => App.Settings.Prop.UseDiscordRichPresence, delegate(bool v)
-        {
-            App.Settings.Prop.UseDiscordRichPresence = v;
-        }),
-        Toggle("Show Account On Profile", Strings.Menu_Integrations_ShowAccountOnProfile_Title, Strings.Menu_Integrations_ShowAccountOnProfile_Description, () => App.Settings.Prop.ShowAccountOnRichPresence, delegate(bool v)
-        {
-            App.Settings.Prop.ShowAccountOnRichPresence = v;
-        }),
-        Toggle("Confirm Launches", Strings.Menu_Behaviour_ConfirmLaunches_Title, Strings.Menu_Behaviour_ConfirmLaunches_Description, () => App.Settings.Prop.ConfirmLaunches, delegate(bool v)
-        {
-            App.Settings.Prop.ConfirmLaunches = v;
-        }),
-        Toggle("Disable Background Window", "Disable Background Window", "Disables Background Window when launching Roblox.", () => App.Settings.Prop.BackgroundWindow, delegate(bool v)
-        {
-            App.Settings.Prop.BackgroundWindow = v;
-        }),
-        Toggle("Disable RobloxCrashHandler", "Disable RobloxCrashHandler", "Disables the RobloxCrashHandler that runs on startup.", () => App.Settings.Prop.DisableCrash, delegate(bool v)
-        {
-            App.Settings.Prop.DisableCrash = v;
-        }),
-        Toggle("Background Snow", "Background Snow", "Adds snow to Voidstrap's background.", () => App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw, delegate(bool v)
-        {
-            App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw = v;
-        }),
-        Toggle("Gradient Movement", "Gradient Movement", "Adds gradient movement following the cursor.", () => App.Settings.Prop.GRADmentFR, delegate(bool v)
-        {
-            App.Settings.Prop.GRADmentFR = v;
-        }),
-        Toggle("Smooth ScrollBar", "Smooth ScrollBar", "Adds smooth scrollbar movement.", () => App.Settings.Prop.SmooothBARRyesirikikthxlucipook, delegate(bool v)
-        {
-            App.Settings.Prop.SmooothBARRyesirikikthxlucipook = v;
-            App.Settings.Save();
-            Wpf.Ui.Controls.SmoothScroll.SetGlobalEnabled(v);
-        }),
-        Toggle("Optimize Roblox", "Prioritize Roblox while focused", "Uses safe Above Normal scheduling while Roblox is in the foreground. A custom Roblox Priority choice takes precedence.", () => App.Settings.Prop.OptimizeRoblox, delegate(bool v)
-        {
-            App.Settings.Prop.OptimizeRoblox = v;
-        }),
-        Toggle("Trim Roblox Memory", "Trim memory when Roblox is unfocused", "After Roblox remains unfocused, unused working set is released. It does not trim memory while you are playing.", () => App.Settings.Prop.MultiAccount, delegate(bool v)
-        {
-            App.Settings.Prop.MultiAccount = v;
-        }),
-        Toggle("Update Roblox", "Update Roblox", "Automatically keeps Roblox up to date when launching.", () => App.Settings.Prop.UpdateRoblox, delegate(bool v)
-        {
-            App.Settings.Prop.UpdateRoblox = v;
-        }),
-        Dropdown("Process Priority", "Roblox Priority", "Choose a safe Windows scheduling priority for Roblox.", new string[5] { "Low", "Below Normal", "Normal", "Above Normal", "High" }, () => NormalizeRobloxPriority(App.Settings.Prop.PriorityLimit), delegate(string v)
-        {
-            App.Settings.Prop.PriorityLimit = v;
-        }),
-        Dropdown("CPU Priority", "Roblox CPU limit", "Automatic uses every available processor. Set a lower limit only for multi client use.", CreateRobloxCpuLimitChoices(), () => App.Settings.Prop.SelectedCpuPriority, delegate(string v)
-        {
-            App.Settings.Prop.SelectedCpuPriority = v;
-        }),
-        Dropdown("RPC Idle Icon", "RPC Idle Icon", "Selects the idle icon shown on Discord Rich Presence.", new string[6] { "blue", "purple", "red", "green", "white", "black" }, () => App.Settings.Prop.RpcIdleIcon, delegate(string v)
-        {
-            App.Settings.Prop.RpcIdleIcon = v;
-        }),
-        SliderOption("Brightness", "Brightness", "In-game brightness overlay. 50 is neutral.", 0.0, 100.0, 5.0, () => App.Settings.Prop.Brightness, delegate(double v)
-        {
-            App.Settings.Prop.Brightness = v;
-        }),
-        SliderOption("Saturation", "Saturation", "In-game color saturation. 100 is neutral.", 0.0, 200.0, 5.0, () => App.Settings.Prop.Saturation, delegate(double v)
-        {
-            App.Settings.Prop.Saturation = v;
-        }),
-        SliderOption("Contrast", "Contrast", "In-game contrast. 100 is neutral.", 0.0, 200.0, 5.0, () => App.Settings.Prop.Contrast, delegate(double v)
-        {
-            App.Settings.Prop.Contrast = v;
-        }),
-        SliderOption("Color Temperature", "Color Temperature", "In-game color temperature. 0 is neutral, negative is cooler, positive is warmer.", -100.0, 100.0, 5.0, () => App.Settings.Prop.ColorTemperature, delegate(double v)
-        {
-            App.Settings.Prop.ColorTemperature = v;
-        }),
-        SliderOption("CPU Core Limit", "Voidstrap CPU core limit", "Limits the processor affinity of Voidstrap itself. Leave it at the maximum unless you need to reserve cores for another app.", 1.0, ProcessorCount, 1.0, () => App.Settings.Prop.CpuCoreLimit, delegate(double v)
-        {
-            int normalized = Math.Clamp((int)v, 1, ProcessorCount);
-            App.Settings.Prop.CpuCoreLimit = normalized;
-            CpuCoreLimiter.SetCpuCoreLimit(normalized);
-        }),
-		SliderOption("Max Concurrent Downloads", "Max Concurrent Downloads", "How many files Voidstrap downloads at once when installing Roblox.", 1.0, 32.0, 1.0, () => App.Settings.Prop.MaxConcurrentDownloads, delegate(double v)
-        {
-            App.Settings.Prop.MaxConcurrentDownloads = DownloadConfiguration.NormalizeConcurrent((int)v);
-        })
-    };
-
-    private static bool _syncingTabControls;
-
-    private int _navIndexBeforeTab = -1;
-
-    private int _friendsReturnIndex = -1;
-
-    private object? _notificationsReturnPage;
-
-    private Pages.NotificationsPage? _activeNotificationsPage;
-
-    private object? _pageBeforeTab;
-
-    private sealed class NavigationHistoryEntry
+    private sealed partial class NavigationHistoryEntry
     {
         public Type PageType { get; }
 
@@ -482,11 +388,17 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool _introPlayed;
 
+    private bool _introFinished;
+
     private DispatcherTimer? _introCacheTimer;
 
-    private Voidstrap.Models.Persistable.WindowState _state => App.State.Prop.SettingsWindow;
+    private DispatcherTimer? _introWatchdog;
 
-    private string TabsConfigPath => System.IO.Path.Combine(Paths.Config, "TabsConfig.json");
+    private Storyboard? _introWatchdogStoryboard;
+
+    private static readonly TimeSpan IntroDuration = TimeSpan.FromMilliseconds(750.0);
+
+    private static Voidstrap.Models.Persistable.WindowState _state => App.State.Prop.SettingsWindow;
 
     public double GradientLayerOpacity
     {
@@ -512,6 +424,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         base.ApplyTheme();
         Voidstrap.UI.WindowBackdrop.ApplyMainWindow(this);
+        Resources["LauncherMenuBrush"] = Voidstrap.UI.WindowBackdrop.CreateOpaqueSurfaceBrush(this);
     }
 
     protected override void OnSourceInitialized(EventArgs e)
@@ -522,12 +435,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void ApplyThemeBackground()
     {
+        Resources["LauncherMenuBrush"] = Voidstrap.UI.WindowBackdrop.CreateOpaqueSurfaceBrush(this);
         if (GradientLayer == null)
         {
             return;
         }
         Brush surface = Voidstrap.UI.WindowBackdrop.CreateSurfaceBrush(this);
-        if (BackgroundGradientTransform != null)
+        if (BackgroundGradientTransform != null && !Voidstrap.Utility.Platform.IsLinux)
         {
             if (surface.IsFrozen)
             {
@@ -544,33 +458,30 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     }
 
     private MediaElement? BackgroundMedia;
-
-    private void LogContentDiagnostics()
-    {
-        try
-        {
-            object? content = RootFrame?.Content;
-            string kind = content?.GetType().Name ?? "<null>";
-            double opacity = (content as UIElement)?.Opacity ?? -1.0;
-            bool visible = (content as UIElement)?.IsVisible ?? false;
-            double w = RootFrame?.ActualWidth ?? -1.0;
-            double h = RootFrame?.ActualHeight ?? -1.0;
-            App.Logger?.WriteLine("MainWindow::Diag", $"VSDIAG frame={w:F0}x{h:F0} content={kind} opacity={opacity:F2} visible={visible} navItems={RootNavigation?.Items?.Count ?? -1}");
-        }
-        catch (Exception ex)
-        {
-            App.Logger?.WriteLine("MainWindow::Diag", "VSDIAG failed: " + ex.Message);
-        }
-    }
+    private Voidstrap.UI.Elements.Controls.HomepageMediaPreviewVideo? BackgroundPortableMedia;
 
     private void CreateBackgroundMedia()
     {
-        if (!Voidstrap.Utility.Platform.IsWindows || BackgroundLayer == null)
+        if (BackgroundLayer == null)
         {
             return;
         }
         try
         {
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                Voidstrap.UI.Elements.Controls.HomepageMediaPreviewVideo portable = new()
+                {
+                    Name = "BackgroundPortableMedia",
+                    Opacity = 1.0,
+                    IsHitTestVisible = false,
+                    Visibility = Visibility.Collapsed
+                };
+                BackgroundLayer.Children.Insert(0, portable);
+                BackgroundPortableMedia = portable;
+                return;
+            }
+
             MediaElement media = new MediaElement
             {
                 Name = "BackgroundMedia",
@@ -603,11 +514,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         //IL_01cc: Unknown result type (might be due to invalid IL or missing references)
         //IL_01de: Expected O, but got Unknown
         InitializeComponent();
+        CommandPaletteResultsList.ItemsSource = _commandPaletteRows;
+        PrepareLinuxRestartNotificationInput();
         SoberNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
-        ShortcutsNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
+        ExtensionsNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
+        ShortcutsNavItem.Visibility = Visibility.Visible;
+        ManagerNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
         SettingChangeNotifier.Failed += OnSettingChangeFailed;
         RestartNotificationService.Changed += OnRestartRequirementsChanged;
-        CreateBackgroundMedia();
+        if (Voidstrap.Utility.Platform.IsLinux)
+            CreateBackgroundMedia();
         AllowsTransparency = false;
         ApplyThemeBackground();
         InitializeViewModel();
@@ -615,7 +531,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         UpdateButtonContent();
         InitializeDiscordRPC();
         RegisterHoverIcons();
-        _appearanceViewModel = new AppearanceViewModel();
+        _backgroundSettings = AppearanceViewModel.LoadSettings();
         GlobalBackground.Changed += OnGlobalBackgroundChanged;
         ApplyBackgroundSettings();
         PopulateTopSearch();
@@ -623,35 +539,50 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _visibilityTimer.Interval = TimeSpan.FromSeconds(0.8);
         _visibilityTimer.Tick += VisibilityTimer_Tick;
         _visibilityTimer.Start();
+        _instanceCountTimer.Tick += InstanceCountTimer_Tick;
+        _instanceCountTimer.Start();
         base.SizeChanged += MainWindow_SizeChanged;
         base.LocationChanged += MainWindow_LocationChanged;
         base.StateChanged += MainWindow_StateChanged;
+        RootFrame.Navigating += RootFrame_Navigating;
         RootFrame.Navigated += RootFrame_Navigated;
-        WorkspaceTabs.PreviewMouseLeftButtonDown += WorkspaceTabs_PreviewMouseLeftButtonDown;
-        AccountPopup.Closed += OverlayPopup_Closed;
-        LaunchTargetPopup.Closed += OverlayPopup_Closed;
+        Wpf.Ui.Controls.Navigation.NavigationTiming.PageCreated += OnNavigationPageCreated;
+        CommandPalettePopup.Closed += OverlayPopup_Closed;
+        AppMenuPopup.Closing += AppMenuPopup_Closing;
+        AppMenuPopup.Closed += OverlayPopup_Closed;
+        InstancesPopup.Closed += OverlayPopup_Closed;
         App.Logger.WriteLine("MainWindow", "Initializing settings window");
-        if (base.DataContext is MainWindowViewModel { Tabs: null } mainWindowViewModel)
-        {
-            mainWindowViewModel.Tabs = new ObservableCollection<TabItemViewModel>();
-        }
         if (showAlreadyRunningWarning)
         {
-            ShowAlreadyRunningSnackbarAsync();
+            _ = ShowAlreadyRunningSnackbarAsync();
         }
         RefreshRestartNotification();
+        RefreshInstanceCount();
+    }
+
+    private void InstanceCountTimer_Tick(object? sender, EventArgs e)
+    {
+        if (WindowState != System.Windows.WindowState.Minimized)
+        {
+            RefreshInstanceCount();
+        }
     }
 
     private void VisibilityTimer_Tick(object? sender, EventArgs e)
     {
         UpdateFastFlagEditorVisibility();
         UpdateDiscordPresence();
+        if (++_notificationReloadTicks >= 12)
+        {
+            _notificationReloadTicks = 0;
+            Voidstrap.Utility.AppNotifications.Reload();
+        }
     }
 
     private void RegisterHoverIcons()
     {
         foreach (NavigationItem item in from i in RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>())
-                                        where i.Tag != null
+                                        where i.Tag != null && i.Image == null
                                         select i)
         {
             SymbolRegular defaultIcon = item.Icon;
@@ -677,647 +608,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private static TabOptionDefinition Toggle(string key, string title, string description, Func<bool> get, Action<bool> set)
-    {
-        return new TabOptionDefinition
-        {
-            Key = key,
-            Title = title,
-            Description = description,
-            Kind = TabOptionKind.Toggle,
-            GetBool = get,
-            SetBool = delegate (bool v)
-            {
-                set(v);
-                App.Settings.SaveDeferred();
-            }
-        };
-    }
-
-    private static TabOptionDefinition Dropdown(string key, string title, string description, string[] choices, Func<string> get, Action<string> set)
-    {
-        return new TabOptionDefinition
-        {
-            Key = key,
-            Title = title,
-            Description = description,
-            Kind = TabOptionKind.Dropdown,
-            Choices = choices,
-            GetChoice = get,
-            SetChoice = delegate (string v)
-            {
-                set(v);
-                App.Settings.SaveDeferred();
-            }
-        };
-    }
-
-    private static string[] CreateRobloxCpuLimitChoices()
-    {
-        int processorCount = ProcessorCount;
-        if (processorCount > IntPtr.Size * 8)
-        {
-            return new string[1] { "Automatic" };
-        }
-        return new string[1] { "Automatic" }
-            .Concat(Enumerable.Range(1, processorCount).Select(count => count + " Core" + ((count == 1) ? string.Empty : "s")))
-            .ToArray();
-    }
-
-    private static string NormalizeRobloxPriority(string? priority)
-    {
-        if (priority?.Equals("Realtime", StringComparison.OrdinalIgnoreCase) == true || priority?.Equals("RealTime", StringComparison.OrdinalIgnoreCase) == true)
-        {
-            return "High";
-        }
-        if (priority?.Equals("AboveNormal", StringComparison.OrdinalIgnoreCase) == true)
-        {
-            return "Above Normal";
-        }
-        if (priority?.Equals("BelowNormal", StringComparison.OrdinalIgnoreCase) == true)
-        {
-            return "Below Normal";
-        }
-        return priority ?? "Normal";
-    }
-
-    private static TabOptionDefinition SliderOption(string key, string title, string description, double min, double max, double step, Func<double> get, Action<double> set)
-    {
-        return new TabOptionDefinition
-        {
-            Key = key,
-            Title = title,
-            Description = description,
-            Kind = TabOptionKind.Slider,
-            Min = min,
-            Max = max,
-            Step = step,
-            GetValue = get,
-            SetValue = delegate (double v)
-            {
-                set(v);
-                App.Settings.SaveDeferred();
-            }
-        };
-    }
-
-    private static TabOptionDefinition? FindTabOption(string keyOrTitle)
-    {
-        if (string.IsNullOrWhiteSpace(keyOrTitle))
-        {
-            return null;
-        }
-        return TabOptionRegistry.FirstOrDefault((TabOptionDefinition o) => string.Equals(o.Key, keyOrTitle, StringComparison.OrdinalIgnoreCase)) ?? TabOptionRegistry.FirstOrDefault((TabOptionDefinition o) => string.Equals(o.Title, keyOrTitle, StringComparison.OrdinalIgnoreCase));
-    }
-
-    private void SaveTabsStructure()
-    {
-        if (!(base.DataContext is MainWindowViewModel mainWindowViewModel))
-        {
-            return;
-        }
-        try
-        {
-            List<TabBlueprint> tabs = mainWindowViewModel.Tabs.Select((TabItemViewModel tab) => new TabBlueprint
-            {
-                Title = tab.Title,
-                OptionKeys = tab.OptionKeys.ToList()
-            }).ToList();
-            Voidstrap.Utility.JsonFile.SerializeAtomic(TabsConfigPath, tabs, Voidstrap.Utility.JsonOptions.Indented);
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteLine("MainWindow::SaveTabsStructure", "Save error: " + ex.Message);
-        }
-    }
-
-    private void LoadTabsStructure()
-    {
-        if (!File.Exists(TabsConfigPath) || !(base.DataContext is MainWindowViewModel mainWindowViewModel))
-        {
-            return;
-        }
-        try
-        {
-            List<TabBlueprint> list = Voidstrap.Utility.JsonFile.Deserialize<List<TabBlueprint>>(TabsConfigPath, Voidstrap.Utility.JsonOptions.Tolerant, 4194304);
-            mainWindowViewModel.Tabs.Clear();
-            foreach (TabBlueprint item in list)
-            {
-                List<string> optionKeys = item.OptionKeys;
-                List<string> optionKeys2 = (from k in (optionKeys != null && optionKeys.Count > 0) ? ((IEnumerable<string>)item.OptionKeys) : ((IEnumerable<string>)(item.Options?.Select((LegacyOptionData o) => o.Header).ToList() ?? new List<string>()))
-                                            where FindTabOption(k) != null
-                                            select FindTabOption(k).Key).Distinct<string>(StringComparer.OrdinalIgnoreCase).ToList();
-                mainWindowViewModel.Tabs.Add(CreateTab(item.Title, optionKeys2, mainWindowViewModel));
-            }
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteLine("MainWindow", "Load Error: " + ex.Message);
-        }
-    }
-
-    private TabItemViewModel CreateTab(string title, IEnumerable<string> optionKeys, MainWindowViewModel vm)
-    {
-        TabItemViewModel tab = new TabItemViewModel
-        {
-            Title = title
-        };
-        tab.OptionKeys.AddRange(optionKeys);
-        Grid grid = new Grid();
-        grid.RowDefinitions.Add(new RowDefinition
-        {
-            Height = GridLength.Auto
-        });
-        grid.RowDefinitions.Add(new RowDefinition
-        {
-            Height = new GridLength(1.0, GridUnitType.Star)
-        });
-        StackPanel stackPanel = new StackPanel
-        {
-            Orientation = Orientation.Horizontal,
-            Margin = new Thickness(10.0)
-        };
-        System.Windows.Controls.Button button = new System.Windows.Controls.Button
-        {
-            Content = "✕",
-            Width = 34.0,
-            Height = 34.0,
-            ToolTip = "Delete this tab",
-            Margin = new Thickness(0.0, 0.0, 5.0, 0.0)
-        };
-        button.Click += delegate
-        {
-            vm.Tabs.Remove(tab);
-            if (vm.SelectedTab == tab)
-            {
-                vm.SelectedTab = null;
-                NavigateBackFromTab();
-            }
-            SaveTabsStructure();
-        };
-        stackPanel.Children.Add(button);
-        System.Windows.Controls.Button button2 = new System.Windows.Controls.Button
-        {
-            Content = "+",
-            Width = 34.0,
-            Height = 34.0,
-            ToolTip = "Add an option to this tab",
-            Margin = new Thickness(0.0, 0.0, 5.0, 0.0)
-        };
-        button2.Click += delegate
-        {
-            OpenToolbox(tab, vm);
-        };
-        stackPanel.Children.Add(button2);
-        System.Windows.Controls.TextBox renameBox = new System.Windows.Controls.TextBox
-        {
-            Width = 160.0,
-            Height = 34.0,
-            VerticalContentAlignment = VerticalAlignment.Center,
-            ToolTip = "Rename this tab",
-            Text = tab.Title,
-            Margin = new Thickness(0.0, 0.0, 5.0, 0.0)
-        };
-        renameBox.LostFocus += delegate
-        {
-            CommitRename();
-        };
-        renameBox.KeyDown += delegate (object _, KeyEventArgs e)
-        {
-            //IL_0001: Unknown result type (might be due to invalid IL or missing references)
-            //IL_0007: Invalid comparison between Unknown and I4
-            if ((int)e.Key == 6)
-            {
-                CommitRename();
-            }
-        };
-        stackPanel.Children.Add(renameBox);
-        Grid.SetRow(stackPanel, 0);
-        grid.Children.Add(stackPanel);
-        ScrollViewer scrollViewer = new ScrollViewer
-        {
-            VerticalScrollBarVisibility = ScrollBarVisibility.Auto
-        };
-        Grid grid2 = new Grid
-        {
-            Margin = new Thickness(10.0)
-        };
-        for (int num = 0; num < 3; num++)
-        {
-            grid2.ColumnDefinitions.Add(new ColumnDefinition());
-        }
-        scrollViewer.Content = grid2;
-        Grid.SetRow(scrollViewer, 1);
-        grid.Children.Add(scrollViewer);
-        tab.PageInstance = new Page
-        {
-            Background = Brushes.Transparent,
-            Content = grid
-        };
-        RebuildTabOptions(tab, vm);
-        return tab;
-        void CommitRename()
-        {
-            string text = renameBox.Text?.Trim() ?? "";
-            if (text.Length != 0 && !(text == tab.Title))
-            {
-                tab.Title = text;
-                SaveTabsStructure();
-            }
-        }
-    }
-
-    private void RebuildTabOptions(TabItemViewModel tab, MainWindowViewModel vm)
-    {
-        if (!(tab.PageInstance?.Content is Grid grid) || !(grid.Children.OfType<ScrollViewer>().FirstOrDefault()?.Content is Grid grid2))
-        {
-            return;
-        }
-        foreach (ToggleSwitch toggleSwitch in FindVisualChildren<ToggleSwitch>(grid2))
-        {
-            toggleSwitch.Checked -= CustomToggleChanged;
-            toggleSwitch.Unchecked -= CustomToggleChanged;
-        }
-        grid2.Children.Clear();
-        grid2.RowDefinitions.Clear();
-        int num = 0;
-        foreach (string item in tab.OptionKeys.ToList())
-        {
-            TabOptionDefinition tabOptionDefinition = FindTabOption(item);
-            if (tabOptionDefinition != null)
-            {
-                int num2 = num / 3;
-                int value = num % 3;
-                while (grid2.RowDefinitions.Count <= num2)
-                {
-                    grid2.RowDefinitions.Add(new RowDefinition
-                    {
-                        Height = GridLength.Auto
-                    });
-                }
-                FrameworkElement element = BuildOptionCard(tabOptionDefinition, tab, vm);
-                Grid.SetRow(element, num2);
-                Grid.SetColumn(element, value);
-                grid2.Children.Add(element);
-                num++;
-            }
-        }
-    }
-
-    private FrameworkElement BuildOptionCard(TabOptionDefinition def, TabItemViewModel tab, MainWindowViewModel vm)
-    {
-        Border border = new Border
-        {
-            Background = Brushes.Transparent,
-            BorderBrush = new SolidColorBrush(Color.FromRgb(80, 80, 80)),
-            BorderThickness = new Thickness(1.0),
-            CornerRadius = new CornerRadius(6.0),
-            Padding = new Thickness(8.0),
-            Margin = new Thickness(5.0)
-        };
-        StackPanel stackPanel = new StackPanel();
-        Grid grid = new Grid();
-        grid.ColumnDefinitions.Add(new ColumnDefinition
-        {
-            Width = new GridLength(1.0, GridUnitType.Star)
-        });
-        grid.ColumnDefinitions.Add(new ColumnDefinition
-        {
-            Width = GridLength.Auto
-        });
-        TextBlock element = new TextBlock
-        {
-            Text = def.Title,
-            FontWeight = FontWeights.Bold,
-            Foreground = Brushes.White,
-            TextTrimming = TextTrimming.CharacterEllipsis
-        };
-        Grid.SetColumn(element, 0);
-        grid.Children.Add(element);
-        System.Windows.Controls.Button button = new System.Windows.Controls.Button
-        {
-            Content = "✕",
-            Width = 20.0,
-            Height = 20.0,
-            FontSize = 10.0,
-            Padding = new Thickness(0.0),
-            ToolTip = "Remove this option from the tab"
-        };
-        button.Click += delegate
-        {
-            tab.OptionKeys.RemoveAll((string k) => string.Equals(k, def.Key, StringComparison.OrdinalIgnoreCase));
-            RebuildTabOptions(tab, vm);
-            SaveTabsStructure();
-        };
-        Grid.SetColumn(button, 1);
-        grid.Children.Add(button);
-        stackPanel.Children.Add(grid);
-        if (!string.IsNullOrEmpty(def.Description))
-        {
-            stackPanel.Children.Add(new TextBlock
-            {
-                Text = def.Description,
-                FontSize = 12.0,
-                TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(0.0, 5.0, 0.0, 5.0),
-                Foreground = Brushes.White
-            });
-        }
-        switch (def.Kind)
-        {
-            case TabOptionKind.Toggle:
-                {
-                    ToggleSwitch toggleSwitch = new ToggleSwitch
-                    {
-                        IsChecked = def.GetBool(),
-                        Margin = new Thickness(0.0, 5.0, 0.0, 0.0),
-                        Tag = def.Key
-                    };
-                    AutomationProperties.SetName(toggleSwitch, def.Title);
-                    AutomationProperties.SetHelpText(toggleSwitch, def.Description);
-                    toggleSwitch.Checked += CustomToggleChanged;
-                    toggleSwitch.Unchecked += CustomToggleChanged;
-                    stackPanel.Children.Add(toggleSwitch);
-                    break;
-                }
-            case TabOptionKind.Dropdown:
-                {
-                    ComboBox combo = new ComboBox
-                    {
-                        Margin = new Thickness(0.0, 5.0, 0.0, 0.0),
-                        Padding = new Thickness(8.0, 4.0, 8.0, 4.0),
-                        Tag = def.Key,
-                        ItemsSource = def.Choices
-                    };
-                    string current = def.GetChoice();
-                    combo.SelectedItem = def.Choices.FirstOrDefault((string c) => string.Equals(c, current, StringComparison.OrdinalIgnoreCase)) ?? def.Choices.FirstOrDefault();
-                    combo.SelectionChanged += delegate
-                    {
-                        if (!_syncingTabControls && combo.SelectedItem is string obj)
-                        {
-                            def.SetChoice(obj);
-                            SyncTabControls(def);
-                        }
-                    };
-                    stackPanel.Children.Add(combo);
-                    break;
-                }
-            case TabOptionKind.Slider:
-                {
-                    Grid grid2 = new Grid
-                    {
-                        Margin = new Thickness(0.0, 5.0, 0.0, 0.0)
-                    };
-                    grid2.ColumnDefinitions.Add(new ColumnDefinition
-                    {
-                        Width = new GridLength(1.0, GridUnitType.Star)
-                    });
-                    grid2.ColumnDefinitions.Add(new ColumnDefinition
-                    {
-                        Width = new GridLength(44.0)
-                    });
-                    TextBlock valueText = new TextBlock
-                    {
-                        Foreground = Brushes.White,
-                        VerticalAlignment = VerticalAlignment.Center,
-                        HorizontalAlignment = HorizontalAlignment.Right,
-                        Text = def.GetValue().ToString("0")
-                    };
-                    Slider slider = new Slider
-                    {
-                        Minimum = def.Min,
-                        Maximum = def.Max,
-                        TickFrequency = def.Step,
-                        IsSnapToTickEnabled = true,
-                        Value = def.GetValue(),
-                        VerticalAlignment = VerticalAlignment.Center,
-                        Tag = def.Key
-                    };
-                    slider.ValueChanged += delegate (object _, RoutedPropertyChangedEventArgs<double> e2)
-                    {
-                        valueText.Text = e2.NewValue.ToString("0");
-                        if (!_syncingTabControls)
-                        {
-                            def.SetValue(e2.NewValue);
-                            SyncTabControls(def);
-                        }
-                    };
-                    Grid.SetColumn(slider, 0);
-                    Grid.SetColumn(valueText, 1);
-                    grid2.Children.Add(slider);
-                    grid2.Children.Add(valueText);
-                    stackPanel.Children.Add(grid2);
-                    break;
-                }
-        }
-        border.Child = stackPanel;
-        return border;
-    }
-
-    private static void CustomToggleChanged(object sender, RoutedEventArgs e)
-    {
-        if (_syncingTabControls || sender is not ToggleSwitch { Tag: string key } toggleSwitch)
-        {
-            return;
-        }
-
-        TabOptionDefinition? definition = FindTabOption(key);
-        if (definition is null)
-        {
-            return;
-        }
-
-        bool previous = definition.GetBool();
-        SettingChangeResult result = SettingChangeNotifier.Try(
-            "MainWindow::CustomToggleChanged",
-            "The custom setting could not be changed.",
-            () => definition.SetBool(toggleSwitch.IsChecked == true));
-        if (!result.Success)
-        {
-            try
-            {
-                definition.SetBool(previous);
-            }
-            catch (Exception ex)
-            {
-                App.Logger?.WriteException("MainWindow::CustomToggleRollback", ex);
-            }
-            _syncingTabControls = true;
-            try
-            {
-                toggleSwitch.SetCurrentValue(ToggleSwitch.IsCheckedProperty, previous);
-            }
-            finally
-            {
-                _syncingTabControls = false;
-            }
-        }
-        SyncTabControls(definition);
-    }
-
-    private static void SyncTabControls(TabOptionDefinition def)
-    {
-        if (_syncingTabControls)
-        {
-            return;
-        }
-        _syncingTabControls = true;
-        try
-        {
-            foreach (Window window in Application.Current.Windows)
-            {
-                foreach (FrameworkElement item in FindVisualChildren<FrameworkElement>((DependencyObject)(object)window))
-                {
-                    if (!(item.Tag is string a) || !string.Equals(a, def.Key, StringComparison.OrdinalIgnoreCase))
-                    {
-                        continue;
-                    }
-                    FrameworkElement frameworkElement = item;
-                    if (!(frameworkElement is ToggleSwitch { IsChecked: var isChecked } toggleSwitch))
-                    {
-                        if (!(frameworkElement is ComboBox comboBox))
-                        {
-                            if (frameworkElement is Slider slider && Math.Abs(slider.Value - def.GetValue()) > 0.001)
-                            {
-                                slider.Value = def.GetValue();
-                            }
-                            continue;
-                        }
-                        string current2 = def.GetChoice();
-                        string text = def.Choices.FirstOrDefault((string c) => string.Equals(c, current2, StringComparison.OrdinalIgnoreCase));
-                        if (text != null && !object.Equals(comboBox.SelectedItem, text))
-                        {
-                            comboBox.SelectedItem = text;
-                        }
-                    }
-                    else if (isChecked != def.GetBool())
-                    {
-                        toggleSwitch.SetCurrentValue(ToggleSwitch.IsCheckedProperty, def.GetBool());
-                    }
-                }
-            }
-        }
-        catch
-        {
-        }
-        finally
-        {
-            _syncingTabControls = false;
-        }
-    }
-
-    private void OpenToolbox(TabItemViewModel targetTab, MainWindowViewModel vm)
-    {
-        //IL_007a: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0097: Unknown result type (might be due to invalid IL or missing references)
-        Window obj = new Window
-        {
-            Title = "Add Options",
-            Width = 360.0,
-            Height = 480.0,
-            Owner = this,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            Background = Brushes.Transparent
-        };
-        LinearGradientBrush linearGradientBrush = new LinearGradientBrush
-        {
-            StartPoint = new Point(1.0, 1.0),
-            EndPoint = new Point(0.0, 0.0)
-        };
-        linearGradientBrush.GradientStops.Add(new GradientStop((Color)TryFindResource("WindowBackgroundColorPrimary"), 0.0));
-        linearGradientBrush.GradientStops.Add(new GradientStop((Color)TryFindResource("WindowBackgroundColorSecondary"), 0.8));
-        linearGradientBrush.GradientStops.Add(new GradientStop((Color)TryFindResource("WindowBackgroundColorThird"), 1.1));
-        Grid grid = new Grid
-        {
-            Background = linearGradientBrush
-        };
-        grid.RowDefinitions.Add(new RowDefinition
-        {
-            Height = GridLength.Auto
-        });
-        grid.RowDefinitions.Add(new RowDefinition
-        {
-            Height = new GridLength(1.0, GridUnitType.Star)
-        });
-        System.Windows.Controls.TextBox searchBox = new System.Windows.Controls.TextBox
-        {
-            Margin = new Thickness(15.0, 15.0, 15.0, 0.0),
-            Padding = new Thickness(8.0, 6.0, 8.0, 6.0),
-            ToolTip = "Search options"
-        };
-        Grid.SetRow(searchBox, 0);
-        grid.Children.Add(searchBox);
-        StackPanel toolboxPanel = new StackPanel
-        {
-            Margin = new Thickness(15.0)
-        };
-        ScrollViewer element = new ScrollViewer
-        {
-            Content = toolboxPanel,
-            VerticalScrollBarVisibility = ScrollBarVisibility.Auto
-        };
-        Grid.SetRow(element, 1);
-        grid.Children.Add(element);
-        obj.Content = grid;
-        searchBox.TextChanged += delegate
-        {
-            Populate(searchBox.Text);
-        };
-        Populate("");
-        obj.ShowDialog();
-        void Populate(string filter)
-        {
-            toolboxPanel.Children.Clear();
-            foreach (TabOptionDefinition def in TabOptionRegistry)
-            {
-                string searchableText = string.Join(" ", new[]
-                {
-                    def.Key,
-                    def.Title,
-                    def.Description,
-                    def.Kind.ToString(),
-                    string.Join(" ", def.Choices)
-                });
-                if (string.IsNullOrWhiteSpace(filter) || IsFuzzyMatch(searchableText, filter))
-                {
-                    bool flag = targetTab.OptionKeys.Contains<string>(def.Key, StringComparer.OrdinalIgnoreCase);
-                    System.Windows.Controls.Button button = new System.Windows.Controls.Button
-                    {
-                        Margin = new Thickness(0.0, 0.0, 0.0, 8.0),
-                        Padding = new Thickness(10.0),
-                        HorizontalContentAlignment = HorizontalAlignment.Left,
-                        IsEnabled = !flag
-                    };
-                    StackPanel stackPanel = new StackPanel();
-                    TextBlock textBlock = new TextBlock
-                    {
-                        FontWeight = FontWeights.Medium
-                    };
-                    textBlock.Text = (flag ? (def.Title + " (added)") : $"{def.Title} [{def.Kind}]");
-                    stackPanel.Children.Add(textBlock);
-                    stackPanel.Children.Add(new TextBlock
-                    {
-                        Text = def.Description,
-                        FontSize = 12.0,
-                        TextWrapping = TextWrapping.Wrap
-                    });
-                    button.Content = stackPanel;
-                    button.Click += delegate
-                    {
-                        if (!targetTab.OptionKeys.Contains<string>(def.Key, StringComparer.OrdinalIgnoreCase))
-                        {
-                            targetTab.OptionKeys.Add(def.Key);
-                            RebuildTabOptions(targetTab, vm);
-                            SaveTabsStructure();
-                            Populate(searchBox.Text);
-                        }
-                    };
-                    toolboxPanel.Children.Add(button);
-                }
-            }
-        }
-    }
-
     private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
     {
         if (parent == null)
@@ -1327,7 +617,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
         {
             DependencyObject child = VisualTreeHelper.GetChild(parent, i);
-            T val = (T)(object)((child is T) ? child : null);
+            T? val = (T?)(object?)((child is T) ? child : null);
             if (val != null)
             {
                 yield return val;
@@ -1339,96 +629,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private void AddTab_Click(object sender, RoutedEventArgs e)
-    {
-        if (!(base.DataContext is MainWindowViewModel mainWindowViewModel) || mainWindowViewModel.Tabs.Count >= 8)
-        {
-            return;
-        }
-        int value = 1;
-        if (mainWindowViewModel.Tabs.Any())
-        {
-            List<int> source = (from t in mainWindowViewModel.Tabs
-                                select Regex.Match(t.Title, "\\d+") into m
-                                where m.Success
-                                select int.Parse(m.Value)).ToList();
-            value = (source.Any() ? (source.Max() + 1) : (mainWindowViewModel.Tabs.Count + 1));
-        }
-        TabItemViewModel tabItemViewModel = CreateTab($"Tab #{value}", Enumerable.Empty<string>(), mainWindowViewModel);
-        mainWindowViewModel.Tabs.Add(tabItemViewModel);
-        mainWindowViewModel.SelectedTab = tabItemViewModel;
-        SaveTabsStructure();
-    }
-
-    private bool IsTabPage(object? content)
-    {
-        if (content == null || !(base.DataContext is MainWindowViewModel mainWindowViewModel))
-        {
-            return false;
-        }
-        return mainWindowViewModel.Tabs.Any((TabItemViewModel t) => t.PageInstance == content);
-    }
-
-    private void WorkspaceTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (WorkspaceTabs.SelectedItem is TabItemViewModel { PageInstance: not null } tabItemViewModel)
-        {
-            if (ReferenceEquals(RootFrame.Content, tabItemViewModel.PageInstance))
-            {
-                return;
-            }
-            if (!IsTabPage(RootFrame.Content))
-            {
-                _navIndexBeforeTab = RootNavigation.SelectedPageIndex;
-                _pageBeforeTab = RootFrame.Content;
-            }
-            RootNavigation.NavigateExternal(tabItemViewModel.PageInstance);
-        }
-    }
-
-    private void WorkspaceTabs_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        if (base.DataContext is MainWindowViewModel { SelectedTab: not null } mainWindowViewModel)
-        {
-            object originalSource = e.OriginalSource;
-            DependencyObject val = (DependencyObject)((originalSource is DependencyObject) ? originalSource : null);
-            if (val != null && FindAncestor<TabItem>(val)?.DataContext is TabItemViewModel tabItemViewModel && tabItemViewModel == mainWindowViewModel.SelectedTab && RootFrame.Content == tabItemViewModel.PageInstance)
-            {
-                e.Handled = true;
-                mainWindowViewModel.SelectedTab = null;
-                NavigateBackFromTab();
-            }
-        }
-    }
-
-    private void NavigateBackFromTab()
-    {
-        if (_pageBeforeTab != null && !IsTabPage(_pageBeforeTab))
-        {
-            RootNavigation.NavigateExternal(_pageBeforeTab);
-            return;
-        }
-        int num = ResolveSafeNavigationIndex((_navIndexBeforeTab >= 0) ? _navIndexBeforeTab : App.State.Prop.LastPage);
-        IReadOnlyList<NavigationItem> navigationItems = GetNavigationItemsInServiceOrder();
-        if (num >= 0 && num < navigationItems.Count && navigationItems[num] is NavigationItem { PageType: not null } navigationItem && !RootNavigation.Navigate(navigationItem.PageType) && RootFrame.Content != null && IsTabPage(RootFrame.Content))
-        {
-            FrameworkElement frameworkElement = RootNavigation.PageService?.GetPage(navigationItem.PageType);
-            if (frameworkElement != null)
-            {
-                RootNavigation.NavigateExternal(frameworkElement);
-            }
-            else
-            {
-                RootNavigation.NavigateExternal(Activator.CreateInstance(navigationItem.PageType));
-            }
-        }
-    }
-
     private static T? FindAncestor<T>(DependencyObject current) where T : DependencyObject
     {
         while (current != null)
         {
-            T val = (T)(object)((current is T) ? current : null);
+            T? val = (T?)(object?)((current is T) ? current : null);
             if (val != null)
             {
                 return val;
@@ -1439,25 +644,203 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         return default(T);
     }
 
+    private long _navigationStartedTicks;
+
+    private double _navigationCreateMs;
+
+    private void OnNavigationPageCreated(Type pageType, double milliseconds)
+    {
+        _navigationStartedTicks = System.Diagnostics.Stopwatch.GetTimestamp();
+        _navigationCreateMs = milliseconds;
+    }
+
+    private FrameworkElement? _discardedPage;
+
+    private readonly object _downloadProgressSync = new();
+
+    private string _pendingDownloadTitle = "";
+
+    private double _pendingDownloadFraction;
+
+    private bool _pendingDownloadShow;
+
+    private bool _downloadProgressScheduled;
+
+    private void OnExtensionProgressChanged(string title, double fraction, bool show)
+    {
+        if (_isClosed)
+        {
+            return;
+        }
+        lock (_downloadProgressSync)
+        {
+            _pendingDownloadTitle = title;
+            _pendingDownloadFraction = fraction;
+            _pendingDownloadShow = show;
+            if (_downloadProgressScheduled)
+            {
+                return;
+            }
+            _downloadProgressScheduled = true;
+        }
+        Dispatcher.BeginInvoke(new Action(ApplyPendingDownloadProgress));
+    }
+
+    private void ApplyPendingDownloadProgress()
+    {
+        string title;
+        double fraction;
+        bool show;
+        lock (_downloadProgressSync)
+        {
+            title = _pendingDownloadTitle;
+            fraction = _pendingDownloadFraction;
+            show = _pendingDownloadShow;
+            _downloadProgressScheduled = false;
+        }
+        if (_isClosed || DownloadCard == null)
+        {
+            return;
+        }
+        if (!show)
+        {
+            DownloadCard.Hide();
+            return;
+        }
+        if (!DownloadCard.IsShown || DownloadCard.IsCompleted)
+        {
+            DownloadCard.Show(title, Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.CancelActiveDownload);
+        }
+        DownloadCard.Update(title, fraction);
+    }
+
+    private void RootFrame_Navigating(object sender, NavigatingCancelEventArgs e)
+    {
+        if (_navigationStartedTicks == 0)
+        {
+            _navigationStartedTicks = System.Diagnostics.Stopwatch.GetTimestamp();
+            _navigationCreateMs = 0;
+        }
+        if (RootFrame.Content is FrameworkElement leaving && !ReferenceEquals(leaving, e.Content) && !IsCachedPage(leaving))
+        {
+            _discardedPage = leaving;
+        }
+    }
+
+    private static bool IsDiscardedPage(object? page)
+    {
+        return page is Page discarded && discarded.Content == null && discarded.DataContext == null;
+    }
+
+    private bool IsCachedPage(FrameworkElement page)
+    {
+        if (ReferenceEquals(page, _libraryPage) || ReferenceEquals(page, _robloxNewsPage))
+        {
+            return true;
+        }
+        Type pageType = page.GetType();
+        foreach (NavigationItem item in RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>()))
+        {
+            if (item.PageType == pageType)
+            {
+                return item.Cache;
+            }
+        }
+        return false;
+    }
+
+    private void DetachDiscardedPage()
+    {
+        FrameworkElement? page = _discardedPage;
+        _discardedPage = null;
+        if (page == null || page.IsLoaded || ReferenceEquals(page, RootFrame.Content))
+        {
+            return;
+        }
+        try
+        {
+            List<ItemsControl> itemsControls = EnumerateDescendants(page).OfType<ItemsControl>().ToList();
+            foreach (ItemsControl itemsControl in itemsControls)
+            {
+                try
+                {
+                    System.Windows.Data.BindingOperations.ClearBinding(itemsControl, ItemsControl.ItemsSourceProperty);
+                    if (itemsControl.ItemsSource != null)
+                    {
+                        itemsControl.ItemsSource = null;
+                    }
+                    else if (itemsControl.Items.Count > 0)
+                    {
+                        itemsControl.Items.Clear();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine("MainWindow::DetachDiscardedPage", page.GetType().Name + " " + itemsControl.GetType().Name + " " + itemsControl.Name + ": " + ex.Message);
+                }
+            }
+            page.DataContext = null;
+            if (page is ContentControl contentHost)
+            {
+                contentHost.Content = null;
+            }
+            else if (page is Page pageHost)
+            {
+                pageHost.Content = null;
+            }
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MainWindow::DetachDiscardedPage", ex.Message);
+        }
+    }
+
+    private static IEnumerable<DependencyObject> EnumerateDescendants(DependencyObject root)
+    {
+        Stack<DependencyObject> pending = new Stack<DependencyObject>();
+        pending.Push(root);
+        while (pending.Count > 0)
+        {
+            DependencyObject current = pending.Pop();
+            yield return current;
+            int count = current is Visual || current is System.Windows.Media.Media3D.Visual3D ? VisualTreeHelper.GetChildrenCount(current) : 0;
+            for (int i = 0; i < count; i++)
+            {
+                pending.Push(VisualTreeHelper.GetChild(current, i));
+            }
+        }
+    }
+
+    private void LogPageReady(object content)
+    {
+        if (_navigationStartedTicks == 0)
+        {
+            return;
+        }
+        double total = _navigationCreateMs + System.Diagnostics.Stopwatch.GetElapsedTime(_navigationStartedTicks).TotalMilliseconds;
+        _navigationStartedTicks = 0;
+        App.Logger.WriteLine("MainWindow::Navigation", content.GetType().Name + " ready in " + (int)total + " ms, construct " + (int)_navigationCreateMs + " ms");
+    }
+
     private void RootFrame_Navigated(object sender, NavigationEventArgs e)
     {
-        if (_activeNotificationsPage != null && !ReferenceEquals(e.Content, _activeNotificationsPage))
-        {
-            _activeNotificationsPage.BackRequested -= NotificationsPage_BackRequested;
-            _activeNotificationsPage = null;
-            _notificationsReturnPage = null;
-        }
+		if (Voidstrap.Utility.Platform.IsLinux && (e.Content is DownloadsPage or ExtensionPage))
+		{
+			if (e.Content is FrameworkElement hiddenPage)
+			{
+				hiddenPage.Visibility = Visibility.Collapsed;
+			}
+
+			Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() => RootNavigation.Navigate(typeof(HomePage))));
+			return;
+		}
+
         _pageSearchTargets.Clear();
         _lastPage = null;
         TrackNavigationHistory(e.Content);
-        if (base.DataContext is MainWindowViewModel mainWindowViewModel)
-        {
-            var owningTab = mainWindowViewModel.Tabs?.FirstOrDefault(t => ReferenceEquals(t.PageInstance, e.Content));
-            if (!ReferenceEquals(mainWindowViewModel.SelectedTab, owningTab))
-            {
-                mainWindowViewModel.SelectedTab = owningTab;
-            }
-        }
+        object readyContent = e.Content;
+        Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => LogPageReady(readyContent)));
+        Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(DetachDiscardedPage));
         object content = e.Content;
         if (content != null && _pagesToHideSearchBox.Contains(content.GetType()))
         {
@@ -1469,28 +852,23 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         if (BreadcrumbPanel != null)
         {
-            BreadcrumbPanel.Visibility = (content is Pages.FriendsPage || content is Pages.NotificationsPage || content is Pages.QuestsPage || content is Pages.ShopPage || content is Pages.BlackMarketPage || content is LibraryPage) ? Visibility.Collapsed : Visibility.Visible;
+            BreadcrumbPanel.Visibility = content is LibraryPage ? Visibility.Collapsed : Visibility.Visible;
         }
         bool isLibrary = content is LibraryPage;
         RootNavigation.Visibility = (isLibrary ? Visibility.Collapsed : Visibility.Visible);
         SynchronizeSidebarSelection(content);
+        SidebarGroup.RefreshActiveChild(MoreNavItem);
         Dispatcher.BeginInvoke(new Action(SynchronizeCurrentSidebarSelection), DispatcherPriority.Loaded);
         UpdateTopNavActive(content);
-        PerformSearch(GlobalSearchBox.Text?.Trim() ?? "");
         if (content is Page)
         {
-            Dispatcher.BeginInvoke(new Action(IndexLoadedPageSearchEntries), DispatcherPriority.Loaded);
+            Dispatcher.BeginInvoke(new Action(IndexLoadedPageSearchEntries), _pendingTopSearchEntry != null ? DispatcherPriority.Loaded : DispatcherPriority.ApplicationIdle);
         }
         else if (_pendingTopSearchEntry != null)
         {
             _pendingTopSearchEntry = null;
         }
-        if (content is NewsPage newsPage && _pendingForumsTab)
-        {
-            _pendingForumsTab = false;
-            newsPage.SelectForumsTab();
-        }
-        NavigationItem navigationItem = RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>()).FirstOrDefault((NavigationItem i) => i.IsActive);
+        NavigationItem? navigationItem = RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>()).FirstOrDefault((NavigationItem i) => i.IsActive);
         if (navigationItem != null && _defaultIcons.TryGetValue(navigationItem, out var value))
         {
             BreadcrumbIcon.Symbol = value;
@@ -1499,12 +877,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void UpdateTopNavActive(object? content)
     {
-        TopNavHome.Tag = ((content is HomePage) ? "Active" : null);
-        TopNavLibrary.Tag = ((content is LibraryPage) ? "Active" : null);
-        TopNavCommunity.Tag = ((content is NewsPage) ? "Active" : null);
+        TopNavHome.Tag = content is HomePage ? "Active" : null;
+        TopNavLibrary.Tag = content is LibraryPage ? "Active" : null;
+        TopNavNews.Tag = content is NewsPage ? "Active" : null;
     }
 
-    private IReadOnlyList<NavigationItem> GetNavigationItemsInServiceOrder()
+    private NavigationItem[] GetNavigationItemsInServiceOrder()
     {
         return RootNavigation.Items.OfType<NavigationItem>()
             .Concat(RootNavigation.Footer.OfType<NavigationItem>())
@@ -1514,6 +892,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void SynchronizeCurrentSidebarSelection()
     {
         SynchronizeSidebarSelection(RootFrame?.Content);
+        SidebarGroup.RefreshActiveChild(MoreNavItem);
     }
 
     private void SynchronizeSidebarSelection(object? content)
@@ -1523,7 +902,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
 
-        IReadOnlyList<NavigationItem> navigationItems = GetNavigationItemsInServiceOrder();
+        NavigationItem[] navigationItems = GetNavigationItemsInServiceOrder();
         Type contentType = content.GetType();
         NavigationItem? activeItem = navigationItems.FirstOrDefault(item => item.PageType == contentType);
         if (activeItem == null)
@@ -1531,7 +910,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
 
-        for (int i = 0; i < navigationItems.Count; i++)
+        for (int i = 0; i < navigationItems.Length; i++)
         {
             NavigationItem item = navigationItems[i];
             bool isActive = ReferenceEquals(item, activeItem);
@@ -1590,7 +969,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private bool RestoreNavigationHistoryEntry(NavigationHistoryEntry entry, List<NavigationHistoryEntry> oppositeHistory)
     {
         object? target = null;
-        bool hasTarget = entry.Content.TryGetTarget(out target);
+        bool hasTarget = entry.Content.TryGetTarget(out target) && !IsDiscardedPage(target);
         if (!hasTarget && !GetSidebarPageNames().ContainsKey(entry.PageType))
         {
             return false;
@@ -1664,16 +1043,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            Dictionary<Type, string> sidebarPages = GetSidebarPageNames();
-            List<TopSearchEntry> entries = new List<TopSearchEntry>();
-            foreach (KeyValuePair<Type, string> page in sidebarPages)
+            Dictionary<Type, string> navigationPages = new Dictionary<Type, string>();
+            foreach (NavigationItem item in GetNavigationItemsInServiceOrder())
             {
-                string displayText = "Page: " + page.Value;
-				entries.Add(new TopSearchEntry("Page." + page.Key.FullName, displayText, page.Value + " " + page.Key.Name, page.Key));
+                if (item.PageType != null)
+                {
+                    navigationPages.TryAdd(item.PageType, item.Content as string ?? item.PageType.Name);
+                }
             }
+            List<TopSearchEntry> entries = new List<TopSearchEntry>();
             foreach (SearchCatalogOption option in SearchCatalog.Options)
             {
-                if (!sidebarPages.TryGetValue(option.PageType, out string pageName))
+                if (!navigationPages.TryGetValue(option.PageType, out string? pageName))
                 {
                     continue;
                 }
@@ -1688,17 +1069,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 List<string> terms = new List<string> { title, option.TitleToken, description, option.TargetName, option.Id };
                 terms.AddRange(option.Aliases);
 				terms.AddRange(containers);
-                entries.Add(new TopSearchEntry(option.Id, displayText, string.Join(" ", terms), option.PageType, title, terms, containers));
-            }
-            foreach (TabOptionDefinition option in TabOptionRegistry)
-            {
-                Type? pageType = GetSidebarPageForTabOption(option.Key);
-                if (pageType == null || !sidebarPages.TryGetValue(pageType, out string pageName))
-                {
-                    continue;
-                }
-                string displayText = "Option: " + option.Title + " | " + pageName;
-				entries.Add(new TopSearchEntry("TabOption." + option.Key, displayText, string.Join(" ", option.Key, option.Title, option.Description), pageType, option.Title, new[] { option.Key, option.Title, option.Description }));
+                entries.Add(new TopSearchEntry(option.Id, displayText, string.Join(" ", terms), option.PageType, title, terms, containers, option.HiddenByDefault));
             }
             _topSearchEntriesList.Clear();
             _topSearchEntries.Clear();
@@ -1707,17 +1078,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
 				int occurrence = displayCounts.TryGetValue(originalEntry.DisplayText, out int count) ? count + 1 : 1;
 				displayCounts[originalEntry.DisplayText] = occurrence;
-				TopSearchEntry entry = occurrence == 1 ? originalEntry : new TopSearchEntry(originalEntry.Id, originalEntry.DisplayText + " | " + occurrence, originalEntry.SearchText, originalEntry.PageType, originalEntry.TargetText, originalEntry.TargetTerms, originalEntry.ContainerTerms);
+				TopSearchEntry entry = occurrence == 1 ? originalEntry : new TopSearchEntry(originalEntry.Id, originalEntry.DisplayText + " | " + occurrence, originalEntry.SearchText, originalEntry.PageType, originalEntry.TargetText, originalEntry.TargetTerms, originalEntry.ContainerTerms, originalEntry.HiddenByDefault);
                 _topSearchEntriesList.Add(entry);
                 _topSearchEntries.Add(entry.DisplayText, entry);
             }
-            SetTopSearchItems(_topSearchEntriesList);
         }
         catch (Exception ex)
         {
 			App.Logger.WriteLine("MainWindow::Search", "Could not populate settings search: " + ex.Message);
         }
     }
+
+    private static readonly char[] separatorArray = new[] { ' ', '\t', '\r', '\n', ',', '.', ':', '/', '\\', '_', '-' };
+    private static readonly char[] separator = new[] { ' ', '\t', '\r', '\n', ',', '.', ':', '/', '\\' };
 
     private async Task LoadCatalogOptionsAsync()
     {
@@ -1759,54 +1132,31 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 continue;
             }
             string name = item.Content as string ?? item.PageType.Name;
-            if (!pages.ContainsKey(item.PageType))
-            {
-                pages.Add(item.PageType, name);
-            }
+            pages.TryAdd(item.PageType, name);
         }
         return pages;
     }
 
-    private static Type? GetSidebarPageForTabOption(string key)
-    {
-        return key switch
-        {
-            "Roblox FPS Counter" or "Enable Overlay" or "Crosshair" or "Clock" or "Brightness" or "Saturation" or "Contrast" or "Color Temperature" => typeof(ModsPage),
-            "Server Ping Counter" or "Server Location Overlay" or "Join Notifications" => typeof(IntegrationsPage),
-            "Activity Tracking" or "Query Server Location" or "Desktop App" or "Show Game Activity" or "Show Account On Profile" or "RPC Idle Icon" => typeof(IntegrationsPage),
-            "Confirm Launches" or "Disable Background Window" or "Disable RobloxCrashHandler" or "Optimize Roblox" or "Trim Roblox Memory" or "CPU Priority" => typeof(BehaviourPage),
-            "Background Snow" or "Gradient Movement" or "Smooth ScrollBar" => typeof(AppearancePage),
-            "Update Roblox" or "Process Priority" or "CPU Core Limit" or "Max Concurrent Downloads" => typeof(ChannelPage),
-            _ => null
-        };
-    }
-
-    private void SetTopSearchItems(IEnumerable<TopSearchEntry> entries)
-    {
-        _topSearchItemsUpdating = true;
-        try
-        {
-            TopSearchBox.ItemsSource = entries.Select(entry => entry.DisplayText).ToList();
-        }
-        finally
-        {
-            _topSearchItemsUpdating = false;
-        }
-    }
+    private readonly System.Runtime.CompilerServices.ConditionalWeakTable<Page, object> _indexedSearchPages = new System.Runtime.CompilerServices.ConditionalWeakTable<Page, object>();
 
     private void IndexLoadedPageSearchEntries()
     {
-        if (RootFrame.Content is not Page page)
+        if (_isClosed || RootFrame.Content is not Page page)
         {
             _pendingTopSearchEntry = null;
             return;
         }
-        page.UpdateLayout();
-        CachePageSearchTargets(page);
-        _lastPage = page;
-        IndexDynamicPageSearchEntries(page);
+        bool pending = _pendingTopSearchEntry?.PageType == page.GetType();
+        if (pending)
+        {
+            page.UpdateLayout();
+        }
+        if (_indexedSearchPages.TryAdd(page, page))
+        {
+            IndexDynamicPageSearchEntries(page);
+        }
         PerformSearch(GlobalSearchBox.Text?.Trim() ?? "");
-        if (_pendingTopSearchEntry?.PageType == page.GetType())
+        if (pending)
         {
             ApplyPendingTopSearchEntry();
         }
@@ -1822,9 +1172,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             return;
         }
+        Type pageType = page.GetType();
+        Dictionary<string, FrameworkElement> optionHeaders = new Dictionary<string, FrameworkElement>(StringComparer.Ordinal);
+        Dictionary<string, FrameworkElement> namedElements = new Dictionary<string, FrameworkElement>(StringComparer.OrdinalIgnoreCase);
         foreach (FrameworkElement element in EnumerateSearchElements(page))
         {
-            if (element.Visibility != Visibility.Visible || element is OptionControl)
+            if (!string.IsNullOrWhiteSpace(element.Name))
+            {
+                namedElements.TryAdd(element.Name, element);
+            }
+            if (element is OptionControl option)
+            {
+                optionHeaders.TryAdd(NormalizeSearchText(SearchCatalog.Resolve(option.Header)), option);
+                continue;
+            }
+            if (FindAncestor<OptionControl>(element) != null)
             {
                 continue;
             }
@@ -1834,93 +1196,69 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 continue;
             }
             string displayText = "Option: " + text + " | " + pageName;
-            if (_topSearchEntries.ContainsKey(displayText))
+            if (_topSearchEntries.TryGetValue(displayText, out TopSearchEntry? existing))
+            {
+                if (existing.Id.StartsWith("Dynamic.", StringComparison.Ordinal))
+                {
+                    TrackSearchTarget(existing.Id, element);
+                }
+                continue;
+            }
+			TopSearchEntry entry = new TopSearchEntry("Dynamic." + pageType.Name + "." + element.Name + "." + _topSearchEntriesList.Count, displayText, text + " " + element.Name, pageType, text, new[] { text, element.Name });
+            _topSearchEntriesList.Add(entry);
+            _topSearchEntries.Add(displayText, entry);
+            TrackSearchTarget(entry.Id, element);
+        }
+        foreach (TopSearchEntry entry in _topSearchEntriesList)
+        {
+            if (entry.PageType != pageType || entry.Id.StartsWith("Dynamic.", StringComparison.Ordinal))
             {
                 continue;
             }
-			TopSearchEntry entry = new TopSearchEntry("Dynamic." + page.GetType().Name + "." + element.Name + "." + _topSearchEntriesList.Count, displayText, text + " " + element.Name, page.GetType(), text, new[] { text, element.Name });
-            _topSearchEntriesList.Add(entry);
-            _topSearchEntries.Add(displayText, entry);
-        }
-        FilterTopSearchItems();
-    }
-
-    private void TopSearchBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (_topSearchItemsUpdating)
-        {
-            return;
-        }
-        FilterTopSearchItems();
-    }
-
-    private void FilterTopSearchItems()
-    {
-        string query = TopSearchBox.Text?.Trim() ?? "";
-		List<TopSearchEntry> result = string.IsNullOrWhiteSpace(query)
-			? _topSearchEntriesList.Take(80).ToList()
-			: _topSearchEntriesList
-				.Select(entry => (Entry: entry, Score: ScoreTopSearchEntry(entry, query)))
-				.Where(item => item.Score < int.MaxValue)
-				.OrderBy(item => item.Score)
-				.ThenBy(item => item.Entry.DisplayText.Length)
-				.Take(80)
-				.Select(item => item.Entry)
-				.ToList();
-        SetTopSearchItems(result);
-        if (query.Length > 0 && result.Count == 0)
-        {
-            TopSearchBox.IsSuggestionListOpen = false;
+            FrameworkElement? target = optionHeaders.GetValueOrDefault(entry.NormalizedTargetText) ?? entry.TargetTerms.Select(term => namedElements.GetValueOrDefault(term)).FirstOrDefault(element => element != null);
+            if (target != null)
+            {
+                TrackSearchTarget(entry.Id, target);
+            }
         }
     }
 
-    private void TopSearchBox_SuggestionChosen(object sender, RoutedEventArgs e)
+    private void TrackSearchTarget(string id, FrameworkElement element)
     {
-        if (_topSearchNavigationPending)
-        {
-            return;
-        }
-        string chosen = TopSearchBox.Text?.Trim() ?? "";
-        if (chosen.Length == 0 || !_topSearchEntries.TryGetValue(chosen, out TopSearchEntry? entry))
-        {
-            return;
-        }
-		QueueTopSearchNavigation(entry);
-	}
+        _searchTargetStates[id] = (new WeakReference<FrameworkElement>(element), IsSearchElementShown(element));
+    }
 
-	private void TopSearchBox_KeyDown(object sender, KeyEventArgs e)
-	{
-		if (e.Key != Key.Enter || _topSearchNavigationPending)
-		{
-			return;
-		}
-		string query = TopSearchBox.Text?.Trim() ?? string.Empty;
-		if (query.Length == 0)
-		{
-			return;
-		}
-		TopSearchEntry? entry = _topSearchEntries.TryGetValue(query, out TopSearchEntry? exact)
-			? exact
-			: _topSearchEntriesList
-				.Select(item => (Entry: item, Score: ScoreTopSearchEntry(item, query)))
-				.Where(item => item.Score < int.MaxValue)
-				.OrderBy(item => item.Score)
-				.ThenBy(item => item.Entry.DisplayText.Length)
-				.Select(item => item.Entry)
-				.FirstOrDefault();
-		if (entry == null)
-		{
-			return;
-		}
-		e.Handled = true;
-		QueueTopSearchNavigation(entry);
-	}
+    private bool IsSearchEntryShown(TopSearchEntry entry)
+    {
+        if (!_searchTargetStates.TryGetValue(entry.Id, out var state))
+        {
+            return !entry.HiddenByDefault;
+        }
+        if (state.Element.TryGetTarget(out FrameworkElement? element))
+        {
+            state.Visible = IsSearchElementShown(element);
+            _searchTargetStates[entry.Id] = state;
+        }
+        return state.Visible;
+    }
+
+    private static bool IsSearchElementShown(FrameworkElement element)
+    {
+        DependencyObject? current = element;
+        while (current != null)
+        {
+            if (current is UIElement { Visibility: not Visibility.Visible })
+            {
+                return false;
+            }
+            current = LogicalTreeHelper.GetParent(current) ?? (current is Visual or Visual3D ? VisualTreeHelper.GetParent(current) : null);
+        }
+        return true;
+    }
 
 	private void QueueTopSearchNavigation(TopSearchEntry entry)
 	{
         _pendingTopSearchEntry = entry;
-        _topSearchNavigationPending = true;
-        TopSearchBox.IsSuggestionListOpen = false;
         Dispatcher.BeginInvoke(new Action(CompleteTopSearchNavigation), DispatcherPriority.Input);
     }
 
@@ -1928,18 +1266,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         TopSearchEntry? entry = _pendingTopSearchEntry;
         _pendingTopSearchEntry = null;
-        try
+        if (entry != null)
         {
-            TopSearchBox.Text = "";
-            TopSearchBox.IsSuggestionListOpen = false;
-            if (entry != null)
-            {
-                NavigateTopSearchEntry(entry);
-            }
-        }
-        finally
-        {
-            _topSearchNavigationPending = false;
+            NavigateTopSearchEntry(entry);
         }
     }
 
@@ -2026,7 +1355,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 		}
 	}
 
-    private FrameworkElement? FindTopSearchTarget(Page page, TopSearchEntry entry)
+    private static FrameworkElement? FindTopSearchTarget(Page page, TopSearchEntry entry)
     {
 		return EnumerateSearchElements(page)
 			.Select(element => (Element: element, Score: ScoreSearchTarget(element, entry)))
@@ -2094,7 +1423,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 		}
 	}
 
-    private static void RevealTopSearchTarget(FrameworkElement target, Page page)
+    internal static void RevealTopSearchTarget(FrameworkElement target, Page page)
     {
         for (DependencyObject? current = target; current != null && current != page; current = GetParent(current))
         {
@@ -2130,7 +1459,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         return LogicalTreeHelper.GetParent(current);
     }
 
-	private static IReadOnlyList<FrameworkElement> EnumerateSearchElements(DependencyObject root)
+	internal static IReadOnlyList<FrameworkElement> EnumerateSearchElements(DependencyObject root)
 	{
 		List<FrameworkElement> elements = new List<FrameworkElement>();
 		Queue<DependencyObject> pending = new Queue<DependencyObject>();
@@ -2203,7 +1532,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private static string FormatSearchName(string name)
     {
-        return Regex.Replace(name.Replace('_', ' '), "(?<=[a-z0-9])(?=[A-Z])", " ");
+        return CamelCaseBoundaryPattern.Replace(name.Replace('_', ' '), " ");
     }
 
     private void TopNavHome_Click(object sender, RoutedEventArgs e)
@@ -2214,22 +1543,663 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void TopNavLibrary_Click(object sender, RoutedEventArgs e)
     {
         _libraryPage ??= new LibraryPage();
-        if (RootFrame.Content != _libraryPage)
+        if (!ReferenceEquals(RootFrame.Content, _libraryPage))
         {
             RootNavigation.NavigateExternal(_libraryPage);
         }
     }
 
-    private void TopNavCommunity_Click(object sender, RoutedEventArgs e)
+    public void NavigateBack()
     {
-        if (RootFrame.Content is NewsPage newsPage)
+        if (_navHistoryBack.Count == 0)
         {
-            newsPage.SelectForumsTab();
+            RootNavigation.Navigate(typeof(Pages.HomePage));
             return;
         }
-        _pendingForumsTab = true;
+        TopNavBack_Click(this, new RoutedEventArgs());
+    }
+
+    public void ShowRobloxNews()
+    {
+        _robloxNewsPage ??= new Pages.RobloxNewsPage();
+        if (!ReferenceEquals(RootFrame.Content, _robloxNewsPage))
+        {
+            RootNavigation.NavigateExternal(_robloxNewsPage);
+        }
+    }
+
+    private void TopNavNews_Click(object sender, RoutedEventArgs e)
+    {
         NavigateTopNav(typeof(NewsPage));
     }
+
+    private void TopSearchButton_Click(object sender, RoutedEventArgs e)
+    {
+        ToggleCommandPalette();
+    }
+
+    private void ToggleCommandPalette()
+    {
+        if (CommandPalettePopup.IsOpen && !CommandPalettePopup.IsClosing)
+        {
+            CloseCommandPalette();
+            return;
+        }
+        CloseOverlayPopups();
+        CommandPaletteSearchBox.Text = "";
+        RefreshCommandPaletteResults();
+        CommandPalettePopup.IsOpen = true;
+    }
+
+    private void CommandPalettePopup_Opened(object? sender, EventArgs e)
+    {
+        Dispatcher.BeginInvoke(new Action(FocusCommandPalette), DispatcherPriority.Input);
+    }
+
+    private void FocusCommandPalette()
+    {
+        if (!CommandPalettePopup.IsOpen)
+        {
+            return;
+        }
+        CommandPaletteSearchBox.Focus();
+        Keyboard.Focus(CommandPaletteSearchBox);
+    }
+
+    private void CloseCommandPalette()
+    {
+        if (CommandPalettePopup != null)
+        {
+            CommandPalettePopup.IsOpen = false;
+        }
+    }
+
+    private void RefreshCommandPaletteResults()
+    {
+        string query = CommandPaletteSearchBox.Text?.Trim() ?? "";
+        _commandPaletteRows.Clear();
+        _commandPaletteSelected = -1;
+        if (query.Length > 0)
+        {
+            string normalizedQuery = NormalizeSearchText(query);
+            Dictionary<Type, string> pageNames = GetSidebarPageNames();
+            Dictionary<Type, SymbolRegular> pageIcons = new Dictionary<Type, SymbolRegular>();
+            List<CommandPaletteRow> pageRows = new List<CommandPaletteRow>();
+            foreach (NavigationItem item in GetNavigationItemsInServiceOrder())
+            {
+                if (item.PageType == null || !pageNames.TryGetValue(item.PageType, out string? pageName))
+                {
+                    continue;
+                }
+                SymbolRegular icon = item.Icon == SymbolRegular.Empty ? SymbolRegular.Document24 : item.Icon;
+                pageIcons.TryAdd(item.PageType, icon);
+                Type pageType = item.PageType;
+                AddCommandPalettePage(pageRows, pageName, icon, query, () => NavigateTopNav(pageType));
+            }
+            AddCommandPalettePage(pageRows, "Library", SymbolRegular.Apps24, query, () => TopNavLibrary_Click(this, new RoutedEventArgs()));
+            foreach (CommandPaletteRow row in pageRows.OrderBy(row => NormalizeSearchText(row.Title).StartsWith(normalizedQuery, StringComparison.Ordinal) ? 0 : 1))
+            {
+                _commandPaletteRows.Add(row);
+            }
+            IEnumerable<TopSearchEntry> settings = _topSearchEntriesList
+                .Where(entry => pageNames.ContainsKey(entry.PageType) && !string.Equals(entry.NormalizedTargetText, NormalizeSearchText(pageNames[entry.PageType]), StringComparison.Ordinal))
+                .Select(entry => (Entry: entry, Score: ScoreTopSearchEntry(entry, query)))
+                .Where(item => item.Score < int.MaxValue)
+                .OrderBy(item => item.Score)
+                .ThenBy(item => item.Entry.DisplayText.Length)
+                .Select(item => item.Entry)
+                .Where(IsSearchEntryShown)
+                .DistinctBy(entry => (entry.PageType, entry.NormalizedTargetText))
+                .Take(30);
+            foreach (TopSearchEntry entry in settings)
+            {
+                TopSearchEntry captured = entry;
+                _commandPaletteRows.Add(new CommandPaletteRow
+                {
+                    Title = entry.TargetText ?? pageNames[entry.PageType],
+                    Detail = pageNames[entry.PageType],
+                    Icon = pageIcons.GetValueOrDefault(entry.PageType, SymbolRegular.Document24),
+                    Open = () => QueueTopSearchNavigation(captured)
+                });
+            }
+        }
+        CommandPaletteResultsArea.Visibility = query.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
+        CommandPaletteEmpty.Visibility = query.Length > 0 && _commandPaletteRows.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+        CommandPaletteResultsScroll.Visibility = _commandPaletteRows.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+        CommandPaletteResultsScroll.ScrollToTop();
+        MoveCommandPaletteSelection(1);
+    }
+
+    private static void AddCommandPalettePage(List<CommandPaletteRow> rows, string title, SymbolRegular icon, string query, Action open)
+    {
+        if (IsFuzzyMatch(title, query))
+        {
+            rows.Add(new CommandPaletteRow { Title = title, Icon = icon, Open = open });
+        }
+    }
+
+    private void CommandPaletteSearchBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        CommandPalettePlaceholder.Visibility = string.IsNullOrEmpty(CommandPaletteSearchBox.Text) ? Visibility.Visible : Visibility.Collapsed;
+        if (CommandPalettePopup.IsOpen)
+        {
+            RefreshCommandPaletteResults();
+        }
+    }
+
+    private void CommandPaletteSearchBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Down)
+        {
+            MoveCommandPaletteSelection(1);
+            e.Handled = true;
+        }
+        else if (e.Key == Key.Up)
+        {
+            MoveCommandPaletteSelection(-1);
+            e.Handled = true;
+        }
+        else if (e.Key == Key.Enter)
+        {
+            OpenSelectedCommandPaletteRow();
+            e.Handled = true;
+        }
+    }
+
+    private void MoveCommandPaletteSelection(int direction)
+    {
+        int count = _commandPaletteRows.Count;
+        if (count == 0)
+        {
+            return;
+        }
+        SelectCommandPaletteRow(((_commandPaletteSelected + direction) % count + count) % count);
+    }
+
+    private void SelectCommandPaletteRow(int index)
+    {
+        if (_commandPaletteSelected >= 0 && _commandPaletteSelected < _commandPaletteRows.Count)
+        {
+            _commandPaletteRows[_commandPaletteSelected].IsSelected = false;
+        }
+        _commandPaletteSelected = index;
+        if (index < 0 || index >= _commandPaletteRows.Count)
+        {
+            return;
+        }
+        _commandPaletteRows[index].IsSelected = true;
+        if (CommandPaletteResultsList.ItemContainerGenerator.ContainerFromIndex(index) is FrameworkElement container)
+        {
+            container.BringIntoView();
+        }
+    }
+
+    private void OpenSelectedCommandPaletteRow()
+    {
+        if (_commandPaletteSelected < 0 || _commandPaletteSelected >= _commandPaletteRows.Count)
+        {
+            return;
+        }
+        Action? open = _commandPaletteRows[_commandPaletteSelected].Open;
+        if (open == null)
+        {
+            return;
+        }
+        CloseCommandPalette();
+        open();
+    }
+
+    private void CommandPaletteRow_MouseEnter(object sender, MouseEventArgs e)
+    {
+        if (sender is FrameworkElement { DataContext: CommandPaletteRow row })
+        {
+            int index = _commandPaletteRows.IndexOf(row);
+            if (index >= 0 && index != _commandPaletteSelected)
+            {
+                SelectCommandPaletteRow(index);
+            }
+        }
+    }
+
+    private void CommandPaletteRow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is FrameworkElement { DataContext: CommandPaletteRow row })
+        {
+            SelectCommandPaletteRow(_commandPaletteRows.IndexOf(row));
+            OpenSelectedCommandPaletteRow();
+        }
+    }
+
+    private void AppMenuButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (AppMenuPopup.IsOpen && !AppMenuPopup.IsClosing)
+        {
+            AppMenuPopup.IsOpen = false;
+            return;
+        }
+        CloseOverlayPopups();
+        AppMenuPopup.IsOpen = true;
+    }
+
+    private void AppMenuAbout_Click(object sender, RoutedEventArgs e)
+    {
+        AppMenuPopup.IsOpen = false;
+        Voidstrap.UI.Elements.About.MainWindow window = new Voidstrap.UI.Elements.About.MainWindow
+        {
+            Owner = this
+        };
+        window.ShowDialog();
+    }
+
+    private async void AppMenuUpdates_Click(object sender, RoutedEventArgs e)
+    {
+        AppMenuPopup.IsOpen = false;
+        try
+        {
+            string currentText = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0";
+            var release = await App.GetLatestRelease(true) ?? throw new InvalidDataException("Release information is unavailable");
+            if (!Version.TryParse(currentText, out Version? current) || !Version.TryParse(release.TagName.TrimStart('v', 'V'), out Version? latest))
+            {
+                Frontend.ShowMessageBox("Could not compare this build with the latest release.");
+                return;
+            }
+            if (latest <= current)
+            {
+                Frontend.ShowMessageBox("You are already running the latest version of Voidstrap (" + currentText + ").");
+                return;
+            }
+            if (Frontend.ShowMessageBox("Voidstrap " + release.TagName + " is available. Install it now?", MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+            {
+                return;
+            }
+            if (!await GithubUpdater.DownloadAndInstallUpdate(release.TagName, _lifetimeCts.Token))
+            {
+                throw new InvalidDataException("The update could not be installed");
+            }
+            if (!App.RestartApplication(["-settings", "-elevatedwait", Environment.ProcessId.ToString()]))
+            {
+                throw new InvalidOperationException("The updated application could not be restarted");
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::CheckForUpdates", ex);
+            Frontend.ShowMessageBox("Error checking for updates:\n" + ex.Message);
+        }
+    }
+
+    private void AppMenuReleases_Click(object sender, RoutedEventArgs e)
+    {
+        AppMenuPopup.IsOpen = false;
+        new Voidstrap.UI.Elements.Dialogs.ReleaseNotesDialog { Owner = this }.ShowDialog();
+    }
+
+    private DispatcherTimer? _logsSubmenuCloseTimer;
+
+    private void AppMenuItems_PreviewMouseMove(object sender, MouseEventArgs e)
+    {
+        if (AppMenuLogsItem.IsMouseOver)
+        {
+            StopLogsSubmenuCloseTimer();
+            if (!AppMenuLogsItem.IsSubmenuOpen)
+                AppMenuLogsItem.IsSubmenuOpen = true;
+        }
+        else if (AppMenuLogsItem.IsSubmenuOpen)
+        {
+            StartLogsSubmenuCloseTimer();
+        }
+    }
+
+    private void AppMenuLogsItem_MouseLeave(object sender, MouseEventArgs e)
+    {
+        if (AppMenuLogsItem.IsSubmenuOpen)
+            StartLogsSubmenuCloseTimer();
+    }
+
+    private void StartLogsSubmenuCloseTimer()
+    {
+        if (_logsSubmenuCloseTimer == null)
+        {
+            _logsSubmenuCloseTimer = new DispatcherTimer(DispatcherPriority.Input) { Interval = TimeSpan.FromMilliseconds(250) };
+            _logsSubmenuCloseTimer.Tick += LogsSubmenuCloseTimer_Tick;
+        }
+        if (!_logsSubmenuCloseTimer.IsEnabled)
+            _logsSubmenuCloseTimer.Start();
+    }
+
+    private void StopLogsSubmenuCloseTimer()
+    {
+        _logsSubmenuCloseTimer?.Stop();
+    }
+
+    private void LogsSubmenuCloseTimer_Tick(object? sender, EventArgs e)
+    {
+        StopLogsSubmenuCloseTimer();
+        if (!AppMenuLogsItem.IsMouseOver)
+            AppMenuLogsItem.IsSubmenuOpen = false;
+    }
+
+    private void AppMenuVoidstrapLogs_Click(object sender, RoutedEventArgs e)
+    {
+        AppMenuPopup.IsOpen = false;
+        OpenTopBarFolder(Paths.Logs);
+    }
+
+    private void AppMenuRobloxLogs_Click(object sender, RoutedEventArgs e)
+    {
+        AppMenuPopup.IsOpen = false;
+        OpenTopBarFolder(Paths.RobloxLogs);
+    }
+
+    private void AppMenuApplicationFolder_Click(object sender, RoutedEventArgs e)
+    {
+        AppMenuPopup.IsOpen = false;
+        OpenTopBarFolder(Paths.Base);
+    }
+
+    private static void OpenTopBarFolder(string path)
+    {
+        if (!Voidstrap.Utility.PlatformShell.TryOpenFolder(path))
+        {
+            Frontend.ShowMessageBox("The folder could not be opened.");
+        }
+    }
+
+    private void AppMenuSupport_Click(object sender, RoutedEventArgs e)
+    {
+        AppMenuPopup.IsOpen = false;
+        Utilities.ShellExecute(App.ProjectSupportLink);
+    }
+
+    private void AppMenuDonate_Click(object sender, RoutedEventArgs e)
+    {
+        AppMenuPopup.IsOpen = false;
+        Utilities.ShellExecute(App.ProjectDonateLink);
+    }
+
+    private void AppMenuRestart_Click(object sender, RoutedEventArgs e)
+    {
+        AppMenuPopup.IsOpen = false;
+        App.Settings.FlushDeferred();
+        App.State.FlushDeferred();
+        App.FastFlags.FlushDeferred();
+        try
+        {
+            RestartVoidstrapFromSettings();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::AppMenuRestart", ex);
+            Frontend.ShowMessageBox("Voidstrap could not restart: " + ex.Message, MessageBoxImage.Error);
+        }
+    }
+
+    private Voidstrap.UI.Elements.ContextMenu.InstanceManager? _instanceManager;
+
+    private void InstancesButton_Click(object sender, RoutedEventArgs e)
+    {
+        CloseOverlayPopups();
+        if (InstancesPopup.IsOpen)
+        {
+            InstancesPopup.IsOpen = false;
+        }
+        if (_instanceManager != null)
+        {
+            _instanceManager.Activate();
+            return;
+        }
+        _instanceManager = new Voidstrap.UI.Elements.ContextMenu.InstanceManager
+        {
+            Owner = this
+        };
+        _instanceManager.Closed += InstanceManager_Closed;
+        _instanceManager.Show();
+    }
+
+    private void InstanceManager_Closed(object? sender, EventArgs e)
+    {
+        if (_instanceManager != null)
+        {
+            _instanceManager.Closed -= InstanceManager_Closed;
+            _instanceManager = null;
+        }
+        RefreshInstanceCount();
+    }
+
+    private int _instanceCountRunning;
+
+    private void RefreshInstanceCount()
+    {
+        if (Interlocked.Exchange(ref _instanceCountRunning, 1) != 0)
+        {
+            return;
+        }
+        _ = RefreshInstanceCountAsync();
+    }
+
+    private async Task RefreshInstanceCountAsync()
+    {
+        try
+        {
+            int count = await Task.Run(CountRunningInstances);
+            if (!_isClosed)
+            {
+                RefreshInstanceCount(count);
+            }
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MainWindow::RefreshInstanceCount", ex.Message);
+        }
+        finally
+        {
+            Interlocked.Exchange(ref _instanceCountRunning, 0);
+        }
+    }
+
+    private void RefreshInstanceCount(int count)
+    {
+        if (InstancesCountText != null)
+        {
+            InstancesCountText.Text = count.ToString();
+        }
+        if (InstancesLabelText != null)
+        {
+            InstancesLabelText.Text = count == 1 ? " Instance Running" : " Instances Running";
+        }
+    }
+
+    private static int CountRunningInstances()
+    {
+        int count = 0;
+        foreach (string name in InstanceProcessNames)
+        {
+            try
+            {
+                Process[] processes = Process.GetProcessesByName(name);
+                count += processes.Length;
+                foreach (Process process in processes)
+                {
+                    process.Dispose();
+                }
+            }
+            catch
+            {
+            }
+        }
+        return count;
+    }
+
+    private void PopulateInstanceMenu()
+    {
+        ClearInstanceMenu();
+        int count = 0;
+        foreach (string name in InstanceProcessNames)
+        {
+            Process[] processes;
+            try
+            {
+                processes = Process.GetProcessesByName(name);
+            }
+            catch
+            {
+                continue;
+            }
+            foreach (Process process in processes)
+            {
+                using (process)
+                {
+                    string product = name == "RobloxStudioBeta" ? "Roblox Studio" : "Roblox";
+                    string uptime = "";
+                    try
+                    {
+                        TimeSpan elapsed = DateTime.Now - process.StartTime;
+                        uptime = elapsed.TotalHours >= 1 ? $"{(int)elapsed.TotalHours}h {elapsed.Minutes}m" : $"{Math.Max(1, (int)elapsed.TotalMinutes)}m";
+                    }
+                    catch
+                    {
+                    }
+                    AddInstanceMenuItem(uptime.Length == 0 ? product : product + "   " + uptime, process.Id, true);
+                    count++;
+                }
+            }
+        }
+        if (count == 0)
+        {
+            AddInstanceMenuItem("No instances running", null, false);
+            AddInstanceMenuItem("Launch Roblox", "Launch", true);
+        }
+        else
+        {
+            InstancesPopupItems.Children.Add(new Separator { Style = (Style)FindResource("TopBarMenuSeparatorStyle") });
+            AddInstanceMenuItem("Close All Instances", "CloseAll", true);
+        }
+        RefreshInstanceCount(count);
+    }
+
+    private void AddInstanceMenuItem(string header, object? action, bool enabled)
+    {
+        System.Windows.Controls.MenuItem item = new System.Windows.Controls.MenuItem
+        {
+            Header = header,
+            Tag = action,
+            IsEnabled = enabled
+        };
+        if (action != null)
+        {
+            item.Click += InstanceMenuItem_Click;
+            _instanceMenuItems.Add(item);
+        }
+        item.Style = (Style)FindResource("TopBarMenuItemStyle");
+        InstancesPopupItems.Children.Add(item);
+    }
+
+    private async void InstanceMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        InstancesPopup.IsOpen = false;
+        if (sender is not System.Windows.Controls.MenuItem item)
+        {
+            return;
+        }
+        if (item.Tag is int processId)
+        {
+            FocusInstance(processId);
+            return;
+        }
+        if (item.Tag as string == "Launch" && DataContext is MainWindowViewModel viewModel)
+        {
+            await viewModel.SaveAndLaunchSettingsAsync();
+            return;
+        }
+        if (item.Tag as string == "CloseAll")
+        {
+            CloseAllInstances();
+        }
+    }
+
+    private void ClearInstanceMenu()
+    {
+        foreach (System.Windows.Controls.MenuItem item in _instanceMenuItems)
+        {
+            item.Click -= InstanceMenuItem_Click;
+        }
+        _instanceMenuItems.Clear();
+        InstancesPopupItems?.Children.Clear();
+    }
+
+    private void CloseAllInstances()
+    {
+        if (Frontend.ShowMessageBox("Close every running Roblox instance? Unsaved progress in those sessions will be lost.", MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+        {
+            return;
+        }
+        foreach (string name in InstanceProcessNames)
+        {
+            try
+            {
+                foreach (Process process in Process.GetProcessesByName(name))
+                {
+                    using (process)
+                    {
+                        try
+                        {
+                            process.Kill();
+                        }
+                        catch (Exception ex)
+                        {
+                            App.Logger.WriteLine("MainWindow::CloseInstances", "Could not close " + name + ": " + ex.Message);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("MainWindow::CloseInstances", "Could not inspect " + name + ": " + ex.Message);
+            }
+        }
+        RefreshInstanceCount();
+    }
+
+    private static void FocusInstance(int processId)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+        try
+        {
+            using Process process = Process.GetProcessById(processId);
+            IntPtr handle = process.MainWindowHandle;
+            if (handle == IntPtr.Zero)
+            {
+                return;
+            }
+            if (IsIconic(handle))
+            {
+                ShowWindow(handle, 9);
+            }
+            SetForegroundWindow(handle);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MainWindow::FocusInstance", "Could not focus the instance: " + ex.Message);
+        }
+    }
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool SetForegroundWindow(IntPtr hWnd);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool IsIconic(IntPtr hWnd);
 
     private void NavigateTopNav(Type pageType)
     {
@@ -2266,7 +2236,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void PerformSearch(string query)
     {
-        if (!(RootFrame.Content is Page page))
+        if (string.IsNullOrWhiteSpace(query) || !(RootFrame.Content is Page page))
         {
             return;
         }
@@ -2275,10 +2245,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             page.UpdateLayout();
             CachePageSearchTargets(page);
             _lastPage = page;
-        }
-        if (string.IsNullOrWhiteSpace(query))
-        {
-            return;
         }
         string query2 = query.Trim();
         List<PageSearchTarget> matches = new List<PageSearchTarget>();
@@ -2362,7 +2328,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         return string.Join(" ", parts.Distinct(StringComparer.OrdinalIgnoreCase));
     }
 
-	private static void ScrollSearchTargetIntoView(FrameworkElement target)
+	internal static void ScrollSearchTargetIntoView(FrameworkElement target)
 	{
 		try
 		{
@@ -2402,7 +2368,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 		}
 	}
 
-    private void ScrollToClosestMatch(IReadOnlyList<PageSearchTarget> matches)
+    private static void ScrollToClosestMatch(IReadOnlyList<PageSearchTarget> matches)
     {
         if (matches.Count == 0)
         {
@@ -2411,7 +2377,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         PageSearchTarget fallback = matches[0];
         foreach (PageSearchTarget match in matches)
         {
-            ScrollViewer scrollViewer = null;
+            ScrollViewer? scrollViewer = null;
             for (DependencyObject current = match.Element; current != null; current = VisualTreeHelper.GetParent(current))
             {
                 if (current is ScrollViewer scrollViewer2)
@@ -2434,7 +2400,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 }
             }
         }
-        ScrollViewer fallbackScrollViewer = FindAncestor<ScrollViewer>(fallback.Element);
+        ScrollViewer? fallbackScrollViewer = FindAncestor<ScrollViewer>(fallback.Element);
         if (fallbackScrollViewer != null)
         {
             Point point = fallback.Element.TransformToAncestor(fallbackScrollViewer).Transform(new Point(0.0, 0.0));
@@ -2444,7 +2410,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private void SmoothScrollTo(ScrollViewer scrollViewer, double targetOffset)
+    private static void SmoothScrollTo(ScrollViewer scrollViewer, double targetOffset)
     {
         //IL_003c: Unknown result type (might be due to invalid IL or missing references)
         //IL_0041: Unknown result type (might be due to invalid IL or missing references)
@@ -2474,7 +2440,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         timer.Start();
     }
 
-    private void FlashHighlight(TextBlock tb)
+    private static void FlashHighlight(TextBlock tb)
     {
         //IL_001f: Unknown result type (might be due to invalid IL or missing references)
         //IL_0024: Unknown result type (might be due to invalid IL or missing references)
@@ -2528,18 +2494,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 		{
 			return string.Empty;
 		}
-		return Regex.Replace(value.Trim().ToLowerInvariant().Replace('_', ' ').Replace('-', ' '), "\\s+", " ");
+		return WhitespacePattern.Replace(value.Trim().ToLowerInvariant().Replace('_', ' ').Replace('-', ' '), " ");
 	}
 
     private static bool IsFuzzyMatch(string text, string query)
     {
 		string normalizedText = NormalizeSearchText(text);
-		string[] terms = NormalizeSearchText(query).Split(new[] { ' ', '\t', '\r', '\n', ',', '.', ':', '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
+		string[] terms = NormalizeSearchText(query).Split(separator, StringSplitOptions.RemoveEmptyEntries);
         if (terms.Length == 0)
         {
             return true;
         }
-        string[] words = normalizedText.Split(new[] { ' ', '\t', '\r', '\n', ',', '.', ':', '/', '\\', '_', '-' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] words = normalizedText.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
         foreach (string term in terms)
         {
             if (normalizedText.Contains(term, StringComparison.Ordinal))
@@ -2580,7 +2546,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 		return previous[s.Length];
     }
 
-    private void AnimateOpacity(UIElement element, double toOpacity, double durationSeconds = 0.5)
+    private static void AnimateOpacity(UIElement element, double toOpacity, double durationSeconds = 0.5)
     {
         if (element != null)
         {
@@ -2657,11 +2623,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void ApplyBackgroundSettings()
     {
+        _backgroundSettings = AppearanceViewModel.LoadSettings();
         ApplyBackgroundState(new GlobalBackground.State(
-            _appearanceViewModel.BackgroundFilePath,
-            _appearanceViewModel.GradientOpacity,
-            _appearanceViewModel.BlackOverlayOpacity,
-            _appearanceViewModel.BackgroundEverywhere));
+            _backgroundSettings.BackgroundFilePath,
+            _backgroundSettings.GradientOpacity,
+            _backgroundSettings.BlackOverlayOpacity,
+            _backgroundSettings.DisplayEverywhere));
     }
 
     public async Task SetBackgroundImage(string? path, bool loop = true)
@@ -2689,8 +2656,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (!IsCurrentBackgroundOperation(generation))
                 return;
         }
+        if (BackgroundPortableMedia != null && BackgroundPortableMedia.Visibility == Visibility.Visible)
+        {
+            await FadeOutElementAsync(BackgroundPortableMedia, 0.12);
+            if (!IsCurrentBackgroundOperation(generation))
+                return;
+        }
         ImageBehavior.SetAnimatedSource(BackgroundImage, null);
         BackgroundImage.Source = null;
+        if (BackgroundPortableMedia != null)
+        {
+            BackgroundPortableMedia.SourcePath = string.Empty;
+            BackgroundPortableMedia.Visibility = Visibility.Collapsed;
+        }
         if (BackgroundMedia != null)
         {
             BackgroundMedia.MediaEnded -= BackgroundMedia_MediaEnded;
@@ -2718,6 +2696,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         _currentBackgroundPath = path;
         _currentBackgroundWriteTimeUtc = File.GetLastWriteTimeUtc(path);
+        if (BackgroundPortableMedia != null)
+        {
+            BackgroundPortableMedia.SourcePath = path;
+            BackgroundPortableMedia.Visibility = Visibility.Visible;
+            BackgroundImage.Visibility = Visibility.Collapsed;
+            await FadeInElementAsync(BackgroundPortableMedia, 0.2);
+            return;
+        }
         string text = System.IO.Path.GetExtension(path).ToLowerInvariant();
         bool flag;
         switch (text)
@@ -2796,6 +2782,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 flag = false;
                 break;
         }
+        if (flag && BackgroundMedia == null)
+            CreateBackgroundMedia();
         if (flag && BackgroundMedia != null)
         {
             BackgroundMedia.Source = new Uri(path, UriKind.Absolute);
@@ -2833,36 +2821,17 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private Task FadeOutElementAsync(UIElement element, double durationSeconds)
     {
-        if (element == null)
-        {
-            return Task.CompletedTask;
-        }
-        TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-        if (_backgroundAnimationWaiters.Remove(element, out TaskCompletionSource<bool>? previous))
-            previous.TrySetResult(result: false);
-        _backgroundAnimationWaiters[element] = tcs;
-        DoubleAnimation doubleAnimation = new DoubleAnimation
-        {
-            To = 0.0,
-            Duration = TimeSpan.FromSeconds(durationSeconds),
-            EasingFunction = new QuadraticEase
-            {
-                EasingMode = EasingMode.EaseInOut
-            }
-        };
-        doubleAnimation.Completed += delegate
-        {
-            if (_backgroundAnimationWaiters.TryGetValue(element, out TaskCompletionSource<bool>? current) && ReferenceEquals(current, tcs))
-                _backgroundAnimationWaiters.Remove(element);
-            if (!_isClosed)
-                element.Visibility = Visibility.Collapsed;
-            tcs.TrySetResult(result: true);
-        };
-        element.BeginAnimation(UIElement.OpacityProperty, doubleAnimation);
-        return tcs.Task;
+        return FadeElementAsync(element, 0.0, durationSeconds, collapse: true);
     }
 
     private Task FadeInElementAsync(UIElement element, double durationSeconds)
+    {
+        if (element != null)
+            element.Visibility = Visibility.Visible;
+        return FadeElementAsync(element!, 1.0, durationSeconds, collapse: false);
+    }
+
+    private Task FadeElementAsync(UIElement element, double target, double durationSeconds, bool collapse)
     {
         if (element == null)
         {
@@ -2872,22 +2841,53 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (_backgroundAnimationWaiters.Remove(element, out TaskCompletionSource<bool>? previous))
             previous.TrySetResult(result: false);
         _backgroundAnimationWaiters[element] = tcs;
-        element.Visibility = Visibility.Visible;
+
+        double from = element.Opacity;
+        element.Opacity = target;
+
+        DispatcherTimer? watchdog = null;
+        void settle()
+        {
+            if (watchdog != null)
+            {
+                watchdog.Stop();
+                watchdog = null;
+            }
+            if (!_backgroundAnimationWaiters.TryGetValue(element, out TaskCompletionSource<bool>? current) || !ReferenceEquals(current, tcs))
+                return;
+            _backgroundAnimationWaiters.Remove(element);
+            element.BeginAnimation(UIElement.OpacityProperty, null);
+            element.Opacity = target;
+            if (collapse && !_isClosed)
+                element.Visibility = Visibility.Collapsed;
+            tcs.TrySetResult(result: true);
+        }
+
+        Wpf.Ui.Animations.RenderReady.Hold(this, TimeSpan.FromSeconds(durationSeconds));
         DoubleAnimation doubleAnimation = new DoubleAnimation
         {
-            To = 1.0,
+            From = from,
+            To = target,
             Duration = TimeSpan.FromSeconds(durationSeconds),
             EasingFunction = new QuadraticEase
             {
                 EasingMode = EasingMode.EaseInOut
-            }
+            },
+            FillBehavior = FillBehavior.Stop
         };
         doubleAnimation.Completed += delegate
         {
-            if (_backgroundAnimationWaiters.TryGetValue(element, out TaskCompletionSource<bool>? current) && ReferenceEquals(current, tcs))
-                _backgroundAnimationWaiters.Remove(element);
-            tcs.TrySetResult(result: true);
+            settle();
         };
+        watchdog = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromSeconds(durationSeconds) + TimeSpan.FromMilliseconds(750.0)
+        };
+        watchdog.Tick += delegate
+        {
+            settle();
+        };
+        watchdog.Start();
         element.BeginAnimation(UIElement.OpacityProperty, doubleAnimation);
         return tcs.Task;
     }
@@ -2963,22 +2963,97 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void InitializeDiscordRPC()
     {
-        _discordClient = new DiscordRpcClient("1459679943498661910");
-        _discordClient.Logger = new ConsoleLogger
-        {
-            Level = LogLevel.Warning
-        };
-        _discordClient.OnReady += DiscordClient_OnReady;
-        _discordClient.OnError += DiscordClient_OnError;
-        _discordClient.Initialize();
+        _ = SuperviseDiscordRpcAsync(_lifetimeCts.Token);
         if (RootNavigation != null)
         {
             RootNavigation.Navigated += RootNavigation_RpcNavigated;
         }
         Activated += MainWindow_ActivatedRpc;
         Closed += MainWindow_ClosedRpc;
+        Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.AnyProgressChanged += OnExtensionProgressChanged;
         _ = CheckForNewNewsAsync();
         _ = FetchRpcAvatarAsync();
+    }
+
+    private async Task SuperviseDiscordRpcAsync(CancellationToken token)
+    {
+        try
+        {
+            while (!_isClosed && !token.IsCancellationRequested)
+            {
+                if (_discordRpcEnabled && _discordClient == null && DateTime.UtcNow >= _discordRetryAtUtc && DiscordIpc.TryFindPipe(out int pipe))
+                {
+                    await Dispatcher.InvokeAsync(() => InitializeDiscordRpcClient(pipe), DispatcherPriority.Background, token);
+                }
+
+                await Task.Delay(DiscordIpc.PollInterval, token).ConfigureAwait(false);
+            }
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+        }
+    }
+
+    private void InitializeDiscordRpcClient(int pipe)
+    {
+        if (_isClosed || !_discordRpcEnabled || _discordClient != null)
+            return;
+
+        DiscordRpcLogger logger = new DiscordRpcLogger("DiscordRichPresence::App")
+        {
+            Level = LogLevel.Warning
+        };
+        DiscordRpcClient client = new DiscordRpcClient("1459679943498661910", pipe, logger, true, null);
+        client.OnReady += DiscordClient_OnReady;
+        client.OnError += DiscordClient_OnError;
+        client.OnConnectionFailed += DiscordClient_OnConnectionFailed;
+        _discordClient = client;
+        try
+        {
+            client.Initialize();
+        }
+        catch
+        {
+            ReleaseDiscordRpcClient();
+        }
+    }
+
+    private void DiscordClient_OnConnectionFailed(object sender, ConnectionFailedMessage e)
+    {
+        if (!Dispatcher.HasShutdownStarted)
+        {
+            Dispatcher.BeginInvoke(new Action(() => RetryDiscordRpcLater(sender)));
+        }
+    }
+
+    private void RetryDiscordRpcLater(object client)
+    {
+        if (!ReferenceEquals(client, _discordClient))
+            return;
+
+        App.Logger.WriteLine("DiscordRPC", "Discord connection failed, retrying in " + (int)DiscordIpc.RetryDelay.TotalSeconds + " seconds");
+        _discordRetryAtUtc = DateTime.UtcNow + DiscordIpc.RetryDelay;
+        ReleaseDiscordRpcClient();
+    }
+
+    private void ReleaseDiscordRpcClient()
+    {
+        DiscordRpcClient? client = _discordClient;
+        _discordClient = null;
+        _discordReady = false;
+        if (client == null)
+            return;
+
+        client.OnReady -= DiscordClient_OnReady;
+        client.OnError -= DiscordClient_OnError;
+        client.OnConnectionFailed -= DiscordClient_OnConnectionFailed;
+        try
+        {
+            client.Dispose();
+        }
+        catch
+        {
+        }
     }
 
     private void DiscordClient_OnReady(object sender, ReadyMessage e)
@@ -3026,7 +3101,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            string cookie = Voidstrap.Integrations.RobloxCookie.Get();
+            string? cookie = Voidstrap.Integrations.RobloxCookie.Get();
             if (string.IsNullOrEmpty(cookie))
             {
                 return;
@@ -3102,6 +3177,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             }
             _lastVoidRpcDetails = null;
             _lastVoidRpcState = null;
+            _lastVoidRpcExtra = null;
             await Dispatcher.InvokeAsync(UpdateDiscordPresence);
         }
         catch (Exception ex)
@@ -3169,23 +3245,31 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 return;
             }
-            var panel = new System.Windows.Controls.StackPanel { Orientation = System.Windows.Controls.Orientation.Horizontal };
-            panel.Children.Add(new System.Windows.Controls.TextBlock { Text = "News", VerticalAlignment = VerticalAlignment.Center });
-            var dot = new System.Windows.Shapes.Ellipse
+            NewsNavItem.Content = BuildBadgedLabel("News");
+            if (MoreNavItem != null)
             {
-                Width = 7.0,
-                Height = 7.0,
-                Margin = new Thickness(6.0, 1.0, 0.0, 0.0),
-                VerticalAlignment = VerticalAlignment.Center,
-                Fill = new SolidColorBrush(Color.FromRgb(248, 113, 113)),
-            };
-            panel.Children.Add(dot);
-            NewsNavItem.Content = panel;
+                MoreNavItem.Content = BuildBadgedLabel("More");
+            }
         }
         catch (Exception ex)
         {
             App.Logger.WriteException("MainWindow::ShowNewsBadge", ex);
         }
+    }
+
+    private static System.Windows.Controls.StackPanel BuildBadgedLabel(string text)
+    {
+        var panel = new System.Windows.Controls.StackPanel { Orientation = System.Windows.Controls.Orientation.Horizontal };
+        panel.Children.Add(new System.Windows.Controls.TextBlock { Text = text, VerticalAlignment = VerticalAlignment.Center });
+        panel.Children.Add(new System.Windows.Shapes.Ellipse
+        {
+            Width = 7.0,
+            Height = 7.0,
+            Margin = new Thickness(6.0, 1.0, 0.0, 0.0),
+            VerticalAlignment = VerticalAlignment.Center,
+            Fill = new SolidColorBrush(Color.FromRgb(248, 113, 113)),
+        });
+        return panel;
     }
 
     private void ClearNewsBadge()
@@ -3195,6 +3279,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (NewsNavItem != null && NewsNavItem.Content is not string)
             {
                 NewsNavItem.Content = "News";
+            }
+            if (MoreNavItem != null && MoreNavItem.Content is not string)
+            {
+                MoreNavItem.Content = "More";
             }
             if (!string.IsNullOrEmpty(_latestNewsKey) && App.Settings.Prop.LastSeenNewsKey != _latestNewsKey)
             {
@@ -3211,14 +3299,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private (string PageKey, string Display) GetCurrentPageInfo()
     {
         string text = "";
-        object obj = RootFrame?.Content;
+        object? obj = RootFrame?.Content;
         if (obj != null)
         {
             text = obj.GetType().Name;
         }
-        string item = "";
-        IReadOnlyList<NavigationItem> navigationItems = GetNavigationItemsInServiceOrder();
-        if (RootNavigation.SelectedPageIndex >= 0 && RootNavigation.SelectedPageIndex < navigationItems.Count && navigationItems[RootNavigation.SelectedPageIndex] is NavigationItem { Content: var content } navigationItem)
+        string? item = "";
+        NavigationItem[] navigationItems = GetNavigationItemsInServiceOrder();
+        if (RootNavigation.SelectedPageIndex >= 0 && RootNavigation.SelectedPageIndex < navigationItems.Length && navigationItems[RootNavigation.SelectedPageIndex] is NavigationItem { Content: var content } navigationItem)
         {
             if (!string.IsNullOrWhiteSpace(content?.ToString()))
             {
@@ -3229,7 +3317,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 text = navigationItem.PageType.Name;
             }
         }
-        return (PageKey: text, Display: item);
+        return (PageKey: text, Display: item ?? string.Empty);
     }
 
     public void ToggleDiscordRPC(bool enabled)
@@ -3242,6 +3330,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 _discordClient.ClearPresence();
                 _lastVoidRpcDetails = null;
                 _lastVoidRpcState = null;
+                _lastVoidRpcExtra = null;
                 App.Logger.WriteLine("DiscordRPC", "DiscordRPC disabled.");
             }
             else
@@ -3287,11 +3376,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool IsRobloxRunning()
     {
-        if ((DateTime.UtcNow - _lastRobloxCheck).TotalMilliseconds < 1000.0)
+        if ((DateTime.UtcNow - _lastRobloxCheck).TotalMilliseconds >= 1000.0 && Interlocked.Exchange(ref _robloxCheckRunning, 1) == 0)
         {
-            return _robloxRunningCached;
+            _lastRobloxCheck = DateTime.UtcNow;
+            _ = Task.Run(RefreshRobloxRunning);
         }
-        _lastRobloxCheck = DateTime.UtcNow;
+        return _robloxRunningCached;
+    }
+
+    private void RefreshRobloxRunning()
+    {
         try
         {
             _robloxRunningCached = AnyProcessRunning("RobloxPlayerBeta") || AnyProcessRunning("RobloxStudioBeta");
@@ -3300,7 +3394,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             _robloxRunningCached = false;
         }
-        return _robloxRunningCached;
+        finally
+        {
+            Interlocked.Exchange(ref _robloxCheckRunning, 0);
+        }
     }
 
     private static bool AnyProcessRunning(string name)
@@ -3340,6 +3437,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 _voidRpcSuppressed = true;
                 _lastVoidRpcDetails = null;
                 _lastVoidRpcState = null;
+                _lastVoidRpcExtra = null;
             }
             return;
         }
@@ -3352,7 +3450,17 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         var (text, text2) = GetCurrentPageInfo();
         string details;
         string state;
-        if (!string.IsNullOrEmpty(text) && _voidRpcPageDescriptions.TryGetValue(text, out (string, string) value))
+        VoidstrapPresenceContext? context = VoidstrapPresence.Current;
+        if (context != null && !string.Equals(context.Owner, text, StringComparison.Ordinal))
+        {
+            context = null;
+        }
+        if (context != null)
+        {
+            details = context.Details;
+            state = context.State;
+        }
+        else if (!string.IsNullOrEmpty(text) && _voidRpcPageDescriptions.TryGetValue(text, out (string, string) value))
         {
             (details, state) = value;
         }
@@ -3366,7 +3474,20 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             details = "Idle";
             state = "Configuring Voidstrap";
         }
-        if (details == _lastVoidRpcDetails && state == _lastVoidRpcState)
+        details = VoidstrapPresence.Clip(details, 128);
+        state = VoidstrapPresence.Clip(state, 128);
+        if (details.Length < 2)
+        {
+            details = "Voidstrap";
+        }
+        if (state.Length < 2)
+        {
+            state = "Exploring Voidstrap";
+        }
+        string imageUrl = context != null && VoidstrapPresence.IsWebUrl(context.ImageUrl) ? context.ImageUrl : "";
+        string buttonUrl = context != null && VoidstrapPresence.IsWebUrl(context.ButtonUrl) ? context.ButtonUrl : "";
+        string extra = imageUrl + "|" + buttonUrl;
+        if (details == _lastVoidRpcDetails && state == _lastVoidRpcState && extra == _lastVoidRpcExtra)
         {
             return;
         }
@@ -3379,22 +3500,40 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             text3 = "";
         }
-        string largeImageText = (string.IsNullOrWhiteSpace(text3) ? "Voidstrap" : ("Voidstrap v" + text3));
+        string versionText = (string.IsNullOrWhiteSpace(text3) ? "Voidstrap" : ("Voidstrap v" + text3));
+        const string VoidstrapLogo = App.ProjectLogoUrl;
         try
         {
-            _discordClient.SetPresence(new DiscordRPC.RichPresence
-            {
-                Details = details,
-                State = state,
-                Timestamps = new Timestamps(_voidRpcSessionStart),
-                Assets = new Assets
+            Assets assets = imageUrl.Length > 0
+                ? new Assets
                 {
-                    LargeImageKey = "https://voidstrapp.pages.dev/assets/img/voidstrap.png",
-                    LargeImageText = largeImageText,
-                    SmallImageKey = string.IsNullOrEmpty(_voidRpcSmallImageUrl) ? null : _voidRpcSmallImageUrl,
-                    SmallImageText = string.IsNullOrEmpty(_voidRpcSmallImageUrl) ? null : (_voidRpcSmallImageText.Length > 0 ? _voidRpcSmallImageText : "Roblox")
-                },
-                Buttons = new DiscordRPC.Button[2]
+                    LargeImageKey = imageUrl,
+                    LargeImageText = VoidstrapPresence.Clip(context!.ImageText.Length > 0 ? context.ImageText : details, 128),
+                    SmallImageKey = VoidstrapLogo,
+                    SmallImageText = versionText
+                }
+                : new Assets
+                {
+                    LargeImageKey = VoidstrapLogo,
+                    LargeImageText = versionText,
+                    SmallImageKey = _voidRpcSmallImageUrl,
+                    SmallImageText = string.IsNullOrEmpty(_voidRpcSmallImageUrl) ? string.Empty : (_voidRpcSmallImageText.Length > 0 ? _voidRpcSmallImageText : "Roblox")
+                };
+            DiscordRPC.Button[] buttons = buttonUrl.Length > 0
+                ? new DiscordRPC.Button[2]
+                {
+                    new DiscordRPC.Button
+                    {
+                        Label = VoidstrapPresence.Clip(context!.ButtonLabel.Length > 0 ? context.ButtonLabel : "Open", 32),
+                        Url = buttonUrl
+                    },
+                    new DiscordRPC.Button
+                    {
+                        Label = "Get Voidstrap",
+                        Url = App.ProjectDownloadLink
+                    }
+                }
+                : new DiscordRPC.Button[2]
                 {
                     new DiscordRPC.Button
                     {
@@ -3406,10 +3545,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                         Label = "Github",
                         Url = Voidstrap.Utility.GitHubCache.PreferredRepository
                     }
-                }
+                };
+            _discordClient.SetPresenceSafe(new DiscordRPC.RichPresence
+            {
+                Details = details,
+                State = state,
+                Timestamps = new Timestamps(_voidRpcSessionStart),
+                Assets = assets,
+                Buttons = buttons
             });
             _lastVoidRpcDetails = details;
             _lastVoidRpcState = state;
+            _lastVoidRpcExtra = extra;
         }
         catch (Exception ex)
         {
@@ -3425,50 +3572,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private void OnWebsiteAuthChanged()
-    {
-        if (_isClosed)
-            return;
-        try
-        {
-            ((DispatcherObject)this).Dispatcher.BeginInvoke((Action)delegate
-            {
-                if (!_isClosed)
-                {
-                    UpdateAccountButtonsEnabled();
-                    UpdateNotificationsButtonState(true);
-                    _notificationRealtime.Start();
-                    _ = LoadAccountBorderAsync();
-                    if (RootFrame?.Content is not Pages.NotificationsPage)
-                        _ = RefreshNotificationBadgeAsync(true);
-                }
-            });
-        }
-        catch
-        {
-        }
-    }
-
     private async void MainWindow_Loaded(object? sender, RoutedEventArgs e)
     {
-        LoadTabsStructure();
         InitializeNavigation();
         PopulateTopSearch();
-        RefreshAccountUi();
         ApplyUiZoom();
-        Dispatcher.BeginInvoke(new Action(LogContentDiagnostics), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         LoadSidebarWidth();
+        ApplyLinuxWindowSize();
         SetupNavShortcuts();
-        Dispatcher.BeginInvoke(new Action(ResetNavigationHistory), DispatcherPriority.ApplicationIdle);
-        Voidstrap.Utility.WebsiteAuth.Changed -= OnWebsiteAuthChanged;
-        Voidstrap.Utility.WebsiteAuth.Changed += OnWebsiteAuthChanged;
+        _ = Dispatcher.BeginInvoke(new Action(ResetNavigationHistory), DispatcherPriority.ApplicationIdle);
         Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChanged;
         Microsoft.Win32.SystemEvents.DisplaySettingsChanged += OnDisplaySettingsChanged;
-        Voidstrap.Utility.WebsiteNotifications.UnreadChanged -= OnNotificationsUnreadChanged;
-        Voidstrap.Utility.WebsiteNotifications.UnreadChanged += OnNotificationsUnreadChanged;
-        _notificationRealtime.Start();
-        UpdateNotificationsButtonState(true);
-        _ = RefreshNotificationBadgeAsync(true);
+        Voidstrap.Utility.AppNotifications.Changed -= OnAppNotificationsChanged;
+        Voidstrap.Utility.AppNotifications.Changed += OnAppNotificationsChanged;
+        Voidstrap.Utility.AppNotifications.Reload();
+        ApplyNotificationUnread(Voidstrap.Utility.AppNotifications.UnreadCount);
         if (App.Settings.Prop.GRADmentFR)
         {
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
@@ -3510,12 +3628,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool? _sidebarIconMode;
 
+    private double _sidebarExpandedWidth = SidebarDefaultWidth;
+
+    private const double SidebarCollapsedWidth = 72.0;
+
     private static readonly (Type Page, Key Key, string Label)[] NavShortcuts = new (Type, Key, string)[]
     {
         (typeof(HomePage), Key.D1, "Ctrl+1"),
         (typeof(IntegrationsPage), Key.D2, "Ctrl+2"),
         (typeof(BehaviourPage), Key.D3, "Ctrl+3"),
-        (typeof(AppearancePage), Key.D4, "Ctrl+4"),
         (typeof(FastFlagsPage), Key.D5, "Ctrl+5"),
         (typeof(FastFlagEditorPage), Key.D6, "Ctrl+6"),
         (typeof(GBSEditorPage), Key.D7, "Ctrl+7"),
@@ -3539,7 +3660,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         PreviewKeyDown += MainWindow_PreviewKeyDown;
     }
 
-    private void ApplyNavToolTips(System.Collections.IEnumerable items)
+    private static void ApplyNavToolTips(System.Collections.IEnumerable items)
     {
         if (items == null)
         {
@@ -3557,46 +3678,105 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 {
                     continue;
                 }
-                StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal };
-                panel.Children.Add(new TextBlock
-                {
-                    Text = item.Content?.ToString() ?? "",
-                    VerticalAlignment = VerticalAlignment.Center
-                });
-                panel.Children.Add(new TextBlock
-                {
-                    Text = shortcut.Label,
-                    Opacity = 0.55,
-                    Margin = new Thickness(12.0, 0.0, 0.0, 0.0),
-                    VerticalAlignment = VerticalAlignment.Center
-                });
                 item.ToolTip = new System.Windows.Controls.ToolTip
                 {
-                    Content = panel,
-                    Placement = PlacementMode.Right
+                    Content = BuildShortcutToolTip(item.Content?.ToString() ?? "", shortcut.Label),
+                    Placement = PlacementMode.Right,
+                    HorizontalOffset = 8,
+                    VerticalOffset = 0
                 };
                 ToolTipService.SetInitialShowDelay(item, 350);
+                ToolTipService.SetBetweenShowDelay(item, 60);
                 ToolTipService.SetPlacement(item, PlacementMode.Right);
                 break;
             }
         }
     }
 
+    private static StackPanel BuildShortcutToolTip(string title, string shortcut)
+    {
+        StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal };
+        panel.Children.Add(new TextBlock
+        {
+            Text = title,
+            VerticalAlignment = VerticalAlignment.Center
+        });
+        Border keycap = new Border
+        {
+            Margin = new Thickness(10.0, 0.0, 0.0, 0.0),
+            Padding = new Thickness(5.0, 1.0, 5.0, 1.0),
+            CornerRadius = new CornerRadius(4.0),
+            BorderThickness = new Thickness(1.0),
+            VerticalAlignment = VerticalAlignment.Center,
+            Child = new TextBlock
+            {
+                Text = shortcut,
+                FontSize = 11,
+                Opacity = 0.8,
+                VerticalAlignment = VerticalAlignment.Center
+            }
+        };
+        keycap.SetResourceReference(Border.BackgroundProperty, "ControlFillColorSecondaryBrush");
+        keycap.SetResourceReference(Border.BorderBrushProperty, "ControlElevationBorderBrush");
+        panel.Children.Add(keycap);
+        return panel;
+    }
+
     private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
     {
+        if (e.Key == Key.Escape && _launchTargetOverlayOpen)
+        {
+            CloseLaunchTargetOverlay();
+            e.Handled = true;
+            return;
+        }
+        if (e.Key == Key.Escape && CommandPalettePopup.IsOpen)
+        {
+            CloseCommandPalette();
+            e.Handled = true;
+            return;
+        }
+        if (e.Key == Key.K && Keyboard.Modifiers == ModifierKeys.Control)
+        {
+            ToggleCommandPalette();
+            e.Handled = true;
+            return;
+        }
+        if (CommandPalettePopup.IsOpen)
+        {
+            return;
+        }
         if (Keyboard.Modifiers != ModifierKeys.Control)
         {
             return;
         }
         foreach (var shortcut in NavShortcuts)
         {
-            if (e.Key == shortcut.Key)
+            if (e.Key != shortcut.Key)
             {
-                RootNavigation.Navigate(shortcut.Page);
-                e.Handled = true;
+                continue;
+            }
+            if (!IsNavigablePage(shortcut.Page))
+            {
                 return;
             }
+            RootNavigation.Navigate(shortcut.Page);
+            e.Handled = true;
+            return;
         }
+    }
+
+    private bool IsNavigablePage(Type pageType)
+    {
+        foreach (NavigationItem item in RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>()))
+        {
+            if (item.PageType != pageType)
+            {
+                continue;
+            }
+            return item.IsEnabled && item.Visibility == Visibility.Visible;
+        }
+        return false;
     }
 
     private static readonly int[] ZoomSteps = new int[] { 50, 67, 75, 80, 90, 100, 110, 125, 150, 175, 200 };
@@ -3728,12 +3908,46 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
 
         double finalScale = userScale * autoFitScale;
-        if (Math.Abs(finalScale - 1.0) < 0.001)
+        if (Math.Abs(finalScale - _appliedUiZoom) < 0.005)
         {
-            RootFrame.LayoutTransform = Transform.Identity;
             return;
         }
+        _appliedUiZoom = finalScale;
+
+        if (Math.Abs(finalScale - 1.0) < 0.005)
+        {
+            if (!ReferenceEquals(RootFrame.LayoutTransform, Transform.Identity))
+            {
+                RootFrame.LayoutTransform = Transform.Identity;
+            }
+            return;
+        }
+
+        if (RootFrame.LayoutTransform is ScaleTransform applied && !applied.IsFrozen)
+        {
+            applied.ScaleX = finalScale;
+            applied.ScaleY = finalScale;
+            return;
+        }
+
         RootFrame.LayoutTransform = new ScaleTransform(finalScale, finalScale);
+    }
+
+    private void QueueUiZoom()
+    {
+        if (_uiZoomQueued || _isClosed || Dispatcher.HasShutdownStarted)
+        {
+            return;
+        }
+        _uiZoomQueued = true;
+        Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate
+        {
+            _uiZoomQueued = false;
+            if (!_isClosed)
+            {
+                ApplyUiZoom();
+            }
+        });
     }
 
     private void OnDisplaySettingsChanged(object? sender, EventArgs e)
@@ -3752,7 +3966,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            if (WindowState == System.Windows.WindowState.Maximized)
+            if (WindowState == System.Windows.WindowState.Maximized || Voidstrap.UI.LinuxWindowMode.IsFullscreen(this))
                 return;
 
             System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
@@ -3802,7 +4016,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ApplySidebarWidth(App.Settings.Prop.SidebarWidth);
     }
 
-    private double ClampSidebarWidth(double w)
+    private static double ClampSidebarWidth(double w)
     {
         if (double.IsNaN(w) || w <= 0.0)
         {
@@ -3824,6 +4038,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         RootNavigation.Width = w;
         bool iconsOnly = w < SidebarIconThreshold;
+        if (!iconsOnly)
+            _sidebarExpandedWidth = w;
         RootNavigation.Tag = (iconsOnly ? "icons" : "full");
         double font = (iconsOnly ? 11.0 : 11.0 + (w - SidebarIconThreshold) * 4.0 / (SidebarMaxWidth - SidebarIconThreshold));
         ApplyNavFontSize(RootNavigation.Items, font);
@@ -3833,6 +4049,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _sidebarIconMode = iconsOnly;
             ApplyIconModeLayout(RootNavigation.Items, iconsOnly);
             ApplyIconModeLayout(RootNavigation.Footer, iconsOnly);
+            SidebarGroup.SetIconOnly(MoreNavItem, iconsOnly);
+            if (iconsOnly)
+                SidebarGroup.Expand(MoreNavItem, false, animate: false);
         }
     }
 
@@ -3844,7 +4063,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         foreach (object obj in items)
         {
-            if (obj is not Wpf.Ui.Controls.NavigationItem item)
+            if (obj is not Wpf.Ui.Controls.NavigationItem item || SidebarGroup.GetIsChild(item))
             {
                 continue;
             }
@@ -3894,8 +4113,58 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         App.Settings.Save();
     }
 
+    private void SidebarToggle_Click(object sender, RoutedEventArgs e)
+    {
+        if (RootFrame.Content is LibraryPage libraryPage)
+        {
+            libraryPage.ToggleSidebar();
+            return;
+        }
+        if (RootNavigation == null)
+            return;
+        if (_sidebarResizing)
+        {
+            _sidebarResizing = false;
+            try
+            {
+                SidebarResizer.ReleaseMouseCapture();
+            }
+            catch
+            {
+            }
+        }
+        RootNavigation.BeginAnimation(WidthProperty, null);
+        double from = double.IsNaN(RootNavigation.Width) ? SidebarDefaultWidth : RootNavigation.Width;
+        double to = _sidebarIconMode == true ? Math.Max(SidebarIconThreshold, _sidebarExpandedWidth) : SidebarCollapsedWidth;
+        if (Math.Abs(to - from) > 1.0)
+        {
+            DoubleAnimation slide = new DoubleAnimation(from, to, TimeSpan.FromMilliseconds(180))
+            {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+                FillBehavior = FillBehavior.Stop
+            };
+            slide.Completed += SidebarToggleAnimation_Completed;
+            RootNavigation.Tag = "full";
+            RootNavigation.BeginAnimation(WidthProperty, slide);
+        }
+        else
+        {
+            ApplySidebarWidth(to);
+            SaveSidebarWidth();
+        }
+    }
+
+    private void SidebarToggleAnimation_Completed(object? sender, EventArgs e)
+    {
+        if (RootNavigation == null)
+            return;
+        ApplySidebarWidth(_sidebarIconMode == true ? Math.Max(SidebarIconThreshold, _sidebarExpandedWidth) : SidebarCollapsedWidth);
+        SaveSidebarWidth();
+    }
+
     private void SidebarResizer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
+        RootNavigation?.BeginAnimation(WidthProperty, null);
         if (e.ClickCount > 1)
         {
             _sidebarResizing = false;
@@ -3950,16 +4219,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
         _introPlayed = true;
-        if (!Voidstrap.Utility.Platform.IsWindows)
-        {
-            if (IntroOverlay != null)
-            {
-                IntroOverlay.Visibility = Visibility.Collapsed;
-            }
-            LiftTopNav();
-            return;
-        }
-        Storyboard storyboard = TryFindResource("IntroStoryboard") as Storyboard;
+        Storyboard? storyboard = TryFindResource("IntroStoryboard") as Storyboard;
         if (storyboard == null)
         {
             if (IntroOverlay != null)
@@ -3967,35 +4227,101 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 IntroOverlay.Visibility = Visibility.Collapsed;
             }
             LiftTopNav();
+            StartPageWarmup();
             return;
         }
-        EventHandler onCompleted = null;
+        EventHandler? onCompleted = null;
         onCompleted = delegate
         {
             storyboard.Completed -= onCompleted;
-            try
-            {
-                storyboard.Remove(IntroOverlay);
-            }
-            catch
-            {
-            }
-            IntroOverlay.Visibility = Visibility.Collapsed;
-            LiftTopNav();
+            FinishIntro(storyboard);
         };
         storyboard.Completed += onCompleted;
+        IntroOverlay.Visibility = Visibility.Visible;
+        Wpf.Ui.Animations.RenderReady.Run(this, delegate
+        {
+            if (_isClosed || _introFinished)
+            {
+                return;
+            }
+            if (IntroContent != null && !Voidstrap.Utility.Platform.IsLinux)
+            {
+                IntroContent.CacheMode = new System.Windows.Media.BitmapCache();
+                _introCacheTimer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromSeconds(1.0)
+                };
+                _introCacheTimer.Tick += IntroCacheTimer_Tick;
+                _introCacheTimer.Start();
+            }
+            StartIntroWatchdog(storyboard);
+            Wpf.Ui.Animations.RenderReady.Hold(this, IntroDuration);
+            storyboard.Begin(IntroOverlay, isControllable: true);
+            App.Logger?.WriteLine("MainWindow::PlayIntro", "Intro storyboard started");
+        });
+    }
+
+    private void StartIntroWatchdog(Storyboard storyboard)
+    {
+        StopIntroWatchdog();
+        _introWatchdogStoryboard = storyboard;
+        _introWatchdog = new DispatcherTimer
+        {
+            Interval = IntroDuration + TimeSpan.FromSeconds(1.5)
+        };
+        _introWatchdog.Tick += IntroWatchdog_Tick;
+        _introWatchdog.Start();
+    }
+
+    private void StopIntroWatchdog()
+    {
+        if (_introWatchdog != null)
+        {
+            _introWatchdog.Stop();
+            _introWatchdog.Tick -= IntroWatchdog_Tick;
+            _introWatchdog = null;
+        }
+        _introWatchdogStoryboard = null;
+    }
+
+    private void IntroWatchdog_Tick(object? sender, EventArgs e)
+    {
+        Storyboard? storyboard = _introWatchdogStoryboard;
+        StopIntroWatchdog();
+        if (!_introFinished)
+        {
+            App.Logger?.WriteLine("MainWindow::PlayIntro", "Intro watchdog closed the overlay");
+        }
+        FinishIntro(storyboard);
+    }
+
+    private void FinishIntro(Storyboard? storyboard)
+    {
+        if (_introFinished)
+        {
+            return;
+        }
+        _introFinished = true;
+        App.Logger?.WriteLine("MainWindow::PlayIntro", "Intro finished");
+        StopIntroWatchdog();
+        StopIntroCacheTimer();
         if (IntroContent != null)
         {
-            IntroContent.CacheMode = new System.Windows.Media.BitmapCache();
-            _introCacheTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(1.0)
-            };
-            _introCacheTimer.Tick += IntroCacheTimer_Tick;
-            _introCacheTimer.Start();
+            IntroContent.CacheMode = null;
         }
-        IntroOverlay.Visibility = Visibility.Visible;
-        storyboard.Begin(IntroOverlay, isControllable: true);
+        try
+        {
+            storyboard?.Remove(IntroOverlay);
+        }
+        catch
+        {
+        }
+        if (IntroOverlay != null)
+        {
+            IntroOverlay.Visibility = Visibility.Collapsed;
+        }
+        LiftTopNav();
+        StartPageWarmup();
     }
 
     private void LiftTopNav()
@@ -4023,95 +4349,61 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private void RefreshAccountUi()
-    {
-        LoadAccountAsync();
-    }
-
-    private async Task LoadAccountAsync()
-    {
-        try
-        {
-            RobloxAccount account = await RobloxCookie.GetAccountAsync();
-            _lifetimeCts.Token.ThrowIfCancellationRequested();
-            await ((DispatcherObject)this).Dispatcher.InvokeAsync((Action)delegate
-            {
-                if (_isClosed)
-                    return;
-                if (account == null)
-                {
-                    if (AccountAvatarButton != null)
-                    {
-                        AccountAvatarButton.Visibility = Visibility.Collapsed;
-                    }
-                }
-                else
-                {
-                    if (AccountAvatarButton != null)
-                    {
-                        AccountAvatarButton.Visibility = Visibility.Visible;
-                    }
-                    if (AccountDisplayNameText != null)
-                    {
-                        AccountDisplayNameText.Text = (string.IsNullOrWhiteSpace(account.DisplayName) ? account.Username : account.DisplayName);
-                    }
-                    if (AccountUsernameText != null)
-                    {
-                        AccountUsernameText.Text = "@" + account.Username;
-                    }
-                }
-            });
-            if (account != null && account.UserId > 0)
-            {
-                await LoadAvatarAsync(account.UserId);
-            }
-            await LoadAccountBorderAsync();
-        }
-        catch
-        {
-        }
-    }
-
-    private void AccountAvatarButton_Click(object sender, RoutedEventArgs e)
-    {
-        if (AccountPopup == null)
-        {
-            return;
-        }
-        if (AccountPopup.IsOpen || JustClosedOverlayPopup())
-        {
-            AccountPopup.IsOpen = false;
-            return;
-        }
-        UpdateAccountButtonsEnabled();
-        AccountPopup.IsOpen = true;
-    }
-
     private long _overlayPopupClosedTicks;
+    private Popup? _lastClosedOverlayPopup;
 
-    private bool JustClosedOverlayPopup()
+    private bool JustClosedOverlayPopup(Popup popup)
     {
         long elapsed = Environment.TickCount64 - _overlayPopupClosedTicks;
-        return elapsed >= 0 && elapsed < 250;
+        return ReferenceEquals(_lastClosedOverlayPopup, popup) && elapsed >= 0 && elapsed < 250;
+    }
+
+    private void AppMenuPopup_Closing(object? sender, EventArgs e)
+    {
+        StopLogsSubmenuCloseTimer();
+        AppMenuLogsItem.IsSubmenuOpen = false;
     }
 
     private void OverlayPopup_Closed(object? sender, EventArgs e)
     {
+        _lastClosedOverlayPopup = sender as Popup;
         _overlayPopupClosedTicks = Environment.TickCount64;
+        if (ReferenceEquals(sender, AppMenuPopup))
+        {
+            StopLogsSubmenuCloseTimer();
+            AppMenuLogsItem.IsSubmenuOpen = false;
+        }
+        else if (ReferenceEquals(sender, CommandPalettePopup))
+        {
+            CommandPaletteSearchBox.Text = "";
+            _commandPaletteRows.Clear();
+            _commandPaletteSelected = -1;
+        }
         ReleaseOrphanedCapture();
     }
 
     private void CloseOverlayPopups()
     {
-        if (AccountPopup != null)
-        {
-            AccountPopup.IsOpen = false;
-        }
-        if (LaunchTargetPopup != null)
-        {
-            LaunchTargetPopup.IsOpen = false;
-        }
+        CloseTopBarMenus();
+        CloseCommandPalette();
+        CloseLaunchTargetOverlay();
         ReleaseOrphanedCapture();
+    }
+
+    private void CloseTopBarMenus()
+    {
+        if (AppMenuPopup != null)
+        {
+            AppMenuPopup.IsOpen = false;
+        }
+        if (InstancesPopup != null)
+        {
+            InstancesPopup.IsOpen = false;
+        }
+        if (NotificationPopup != null)
+        {
+            NotificationPopup.IsOpen = false;
+        }
     }
 
     private void ReleaseOrphanedCapture()
@@ -4121,7 +4413,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             return;
         }
-        if (AccountPopup?.IsOpen == true || LaunchTargetPopup?.IsOpen == true)
+        if (_launchTargetOverlayOpen || CommandPalettePopup?.IsOpen == true || AppMenuPopup?.IsOpen == true || InstancesPopup?.IsOpen == true || NotificationPopup?.IsOpen == true)
         {
             return;
         }
@@ -4132,319 +4424,99 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Mouse.Capture(null);
     }
 
-    private object? _questsReturnPage;
-    private object? _shopReturnPage;
-
-    private int _questBadgeCount = -1;
-
-    private void QuestsButton_Click(object sender, RoutedEventArgs e)
-    {
-        if (!Voidstrap.Utility.WebsiteAuth.IsSignedIn())
-            return;
-        if (AccountPopup != null)
-            AccountPopup.IsOpen = false;
-        try
-        {
-            if (RootFrame?.Content is Pages.QuestsPage)
-                return;
-            _questsReturnPage = RootFrame?.Content;
-            ClearQuestBadge();
-            Pages.QuestsPage page = new Pages.QuestsPage();
-            page.BackRequested += QuestsPage_BackRequested;
-            RootNavigation.NavigateExternal(page);
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::Quests", ex);
-        }
-    }
-
-    private void ShopButton_Click(object sender, RoutedEventArgs e)
-    {
-        if (!Voidstrap.Utility.WebsiteAuth.IsSignedIn())
-            return;
-        if (AccountPopup != null)
-            AccountPopup.IsOpen = false;
-        try
-        {
-            if (RootFrame?.Content is Pages.ShopPage)
-                return;
-            if (RootFrame?.Content is not Pages.BlackMarketPage)
-                _shopReturnPage = RootFrame?.Content;
-            OpenShopPage();
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::Shop", ex);
-        }
-    }
-
-    private void OpenShopPage()
-    {
-        Pages.ShopPage page = new Pages.ShopPage();
-        page.BackRequested += ShopPage_BackRequested;
-        page.MarketRequested += ShopPage_MarketRequested;
-        RootNavigation.NavigateExternal(page);
-    }
-
-    private void OpenMarketPage()
-    {
-        Pages.BlackMarketPage page = new Pages.BlackMarketPage();
-        page.BackRequested += MarketPage_BackRequested;
-        page.ShopRequested += MarketPage_ShopRequested;
-        RootNavigation.NavigateExternal(page);
-    }
-
-    private void ShopPage_MarketRequested(object? sender, EventArgs e)
-    {
-        try
-        {
-            if (sender is Pages.ShopPage page)
-            {
-                page.BackRequested -= ShopPage_BackRequested;
-                page.MarketRequested -= ShopPage_MarketRequested;
-            }
-            OpenMarketPage();
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::ShopToMarket", ex);
-        }
-    }
-
-    private void MarketPage_ShopRequested(object? sender, EventArgs e)
-    {
-        try
-        {
-            if (sender is Pages.BlackMarketPage page)
-            {
-                page.BackRequested -= MarketPage_BackRequested;
-                page.ShopRequested -= MarketPage_ShopRequested;
-            }
-            OpenShopPage();
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::MarketToShop", ex);
-        }
-    }
-
-    private void ShopPage_BackRequested(object? sender, EventArgs e)
-    {
-        if (sender is Pages.ShopPage page)
-        {
-            page.BackRequested -= ShopPage_BackRequested;
-            page.MarketRequested -= ShopPage_MarketRequested;
-        }
-        ReturnFromShop();
-    }
-
-    private void MarketPage_BackRequested(object? sender, EventArgs e)
-    {
-        if (sender is Pages.BlackMarketPage page)
-        {
-            page.BackRequested -= MarketPage_BackRequested;
-            page.ShopRequested -= MarketPage_ShopRequested;
-        }
-        ReturnFromShop();
-    }
-
-    private void ReturnFromShop()
-    {
-        try
-        {
-            if (_shopReturnPage != null)
-                RootNavigation.NavigateExternal(_shopReturnPage);
-            else
-                RootNavigation.Navigate(typeof(Pages.HomePage));
-            _shopReturnPage = null;
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::ShopBack", ex);
-        }
-    }
-
-    private void QuestsPage_BackRequested(object? sender, EventArgs e)
-    {
-        try
-        {
-            if (sender is Pages.QuestsPage page)
-                page.BackRequested -= QuestsPage_BackRequested;
-            if (_questsReturnPage != null)
-                RootNavigation.NavigateExternal(_questsReturnPage);
-            else
-                RootNavigation.Navigate(typeof(Pages.HomePage));
-            _questsReturnPage = null;
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::QuestsBack", ex);
-        }
-    }
-
     private void NotificationsButton_Click(object sender, RoutedEventArgs e)
     {
-        if (!Voidstrap.Utility.WebsiteAuth.IsSignedIn())
+        bool wasOpen = NotificationPopup.IsOpen && !NotificationPopup.IsClosing;
+        CloseTopBarMenus();
+        if (wasOpen)
+        {
             return;
-        if (AccountPopup != null)
-            AccountPopup.IsOpen = false;
-        try
-        {
-            if (RootFrame?.Content is Pages.NotificationsPage)
-                return;
-            _notificationsReturnPage = RootFrame?.Content;
-            Pages.NotificationsPage page = new Pages.NotificationsPage();
-            page.BackRequested += NotificationsPage_BackRequested;
-            _activeNotificationsPage = page;
-            RootNavigation.NavigateExternal(page);
         }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::Notifications", ex);
-        }
+        NotificationPopup.IsOpen = true;
+        LoadTopBarNotifications();
     }
 
-    private void NotificationsPage_BackRequested(object? sender, EventArgs e)
+    private void NotificationPopup_Closed(object? sender, EventArgs e)
     {
-        try
-        {
-            if (sender is Pages.NotificationsPage page)
-                page.BackRequested -= NotificationsPage_BackRequested;
-            _activeNotificationsPage = null;
-            object? returnPage = _notificationsReturnPage;
-            _notificationsReturnPage = null;
-            if (returnPage != null && returnPage is not Pages.NotificationsPage)
-                RootNavigation.NavigateExternal(returnPage);
-            else
-                RootNavigation.Navigate(typeof(Pages.HomePage));
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::NotificationsBack", ex);
-        }
+        ReleaseOrphanedCapture();
     }
 
-    private void UpdateNotificationsButtonState(bool resetCount = false)
+    private void LoadTopBarNotifications()
     {
-        bool signedIn = Voidstrap.Utility.WebsiteAuth.IsSignedIn();
-        if (NotificationsButton != null)
-            NotificationsButton.Visibility = signedIn ? Visibility.Visible : Visibility.Collapsed;
-            QuestsButton.Visibility = signedIn ? Visibility.Visible : Visibility.Collapsed;
-            if (ShopButton != null)
-                ShopButton.Visibility = signedIn ? Visibility.Visible : Visibility.Collapsed;
-            if (signedIn)
-                RefreshQuestBadge();
-            else
-                ApplyQuestBadge(0);
-        if (!signedIn || resetCount)
-        {
-            if (resetCount)
-            {
-                _lastNotificationRefreshTicks = 0;
-                _notificationUnread = 0;
-            }
-            if (NotificationsBadge != null)
-                NotificationsBadge.Visibility = Visibility.Collapsed;
-            if (NotificationsBadgeText != null)
-                NotificationsBadgeText.Text = "0";
-        }
-        if (!signedIn && AccountPopup != null)
-            AccountPopup.IsOpen = false;
+        Voidstrap.Utility.AppNotifications.Reload();
+        List<TopBarNotificationItem> items = Voidstrap.Utility.AppNotifications.Items.Select(TopBarNotificationItem.From).ToList();
+        NotificationList.ItemsSource = items;
+        bool any = items.Count > 0;
+        NotificationEmpty.Visibility = any ? Visibility.Collapsed : Visibility.Visible;
+        NotificationScroll.Visibility = any ? Visibility.Visible : Visibility.Collapsed;
+        NotificationMarkAllButton.IsEnabled = items.Exists(item => item.IsUnread);
+        NotificationClearButton.IsEnabled = any;
+        ApplyNotificationUnread(Voidstrap.Utility.AppNotifications.UnreadCount);
     }
 
-    private void OnNotificationsUnreadChanged(int unread)
+    private void NotificationMarkAll_Click(object sender, RoutedEventArgs e)
+    {
+        Voidstrap.Utility.AppNotifications.MarkAllRead();
+        LoadTopBarNotifications();
+    }
+
+    private void NotificationClear_Click(object sender, RoutedEventArgs e)
+    {
+        Voidstrap.Utility.AppNotifications.Clear();
+        LoadTopBarNotifications();
+    }
+
+    private void NotificationItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is not FrameworkElement { DataContext: TopBarNotificationItem item })
+        {
+            return;
+        }
+        if (item.IsUnread)
+        {
+            Voidstrap.Utility.AppNotifications.MarkRead(item.Id);
+        }
+        if (!string.IsNullOrEmpty(item.LogPath) && File.Exists(item.LogPath))
+        {
+            NotificationPopup.IsOpen = false;
+            Utilities.ShellExecute(item.LogPath);
+            return;
+        }
+        LoadTopBarNotifications();
+    }
+
+    private void OnAppNotificationsChanged()
     {
         if (_isClosed)
             return;
         try
         {
-            Dispatcher.BeginInvoke(new Action(() => ApplyNotificationUnread(unread)));
+            Dispatcher.BeginInvoke(new Action(RefreshNotificationBadge));
         }
         catch
         {
         }
     }
 
-    private static string QuestDayKey()
+    private void RefreshNotificationBadge()
     {
-        return DateTime.UtcNow.ToString("yyyy-MM-dd");
-    }
-
-    private void RefreshQuestBadge()
-    {
-        if (_isClosed || !Voidstrap.Utility.WebsiteAuth.IsSignedIn())
+        if (_isClosed)
             return;
-        try
+        if (NotificationPopup.IsOpen)
         {
-            string today = QuestDayKey();
-            string last = App.Settings.Prop.QuestBadgeLastDay ?? "";
-            if (last.Length == 0)
-            {
-                App.Settings.Prop.QuestBadgeLastDay = today;
-                App.Settings.Prop.QuestBadgeCount = 1;
-                App.Settings.SaveDeferred();
-            }
-            else if (!string.Equals(last, today, StringComparison.Ordinal))
-            {
-                App.Settings.Prop.QuestBadgeLastDay = today;
-                App.Settings.Prop.QuestBadgeCount = Math.Min(99, App.Settings.Prop.QuestBadgeCount + 1);
-                App.Settings.SaveDeferred();
-            }
-            ApplyQuestBadge(App.Settings.Prop.QuestBadgeCount);
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::RefreshQuestBadge", ex);
-        }
-    }
-
-    private void ClearQuestBadge()
-    {
-        try
-        {
-            App.Settings.Prop.QuestBadgeLastDay = QuestDayKey();
-            App.Settings.Prop.QuestBadgeCount = 0;
-            App.Settings.SaveDeferred();
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::ClearQuestBadge", ex);
-        }
-        ApplyQuestBadge(0);
-    }
-
-    private void ApplyQuestBadge(int count)
-    {
-        if (_isClosed || QuestsBadge == null || QuestsBadgeText == null)
+            LoadTopBarNotifications();
             return;
-        count = Math.Clamp(count, 0, 100);
-        bool changed = _questBadgeCount != count;
-        _questBadgeCount = count;
-        QuestsBadgeText.Text = count > 99 ? "99+" : count.ToString();
-        QuestsBadge.Visibility = count > 0 ? Visibility.Visible : Visibility.Collapsed;
-        if (count > 0 && changed)
-        {
-            CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseOut };
-            Duration duration = new Duration(TimeSpan.FromMilliseconds(180));
-            QuestsBadgeScale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation(0.72, 1.0, duration) { EasingFunction = ease });
-            QuestsBadgeScale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation(0.72, 1.0, duration) { EasingFunction = ease });
-            QuestsBadge.BeginAnimation(OpacityProperty, new DoubleAnimation(0.35, 1.0, duration) { EasingFunction = ease });
         }
+        ApplyNotificationUnread(Voidstrap.Utility.AppNotifications.UnreadCount);
     }
 
     private void ApplyNotificationUnread(int unread)
     {
-        if (_isClosed || !Voidstrap.Utility.WebsiteAuth.IsSignedIn())
+        if (_isClosed)
             return;
         unread = Math.Clamp(unread, 0, 100);
         bool changed = _notificationUnread != unread;
         _notificationUnread = unread;
-        NotificationsButton.Visibility = Visibility.Visible;
-        QuestsButton.Visibility = Visibility.Visible;
-        if (ShopButton != null)
-            ShopButton.Visibility = Visibility.Visible;
-        RefreshQuestBadge();
         NotificationsBadgeText.Text = unread > 99 ? "99+" : unread.ToString();
         NotificationsBadge.Visibility = unread > 0 ? Visibility.Visible : Visibility.Collapsed;
         if (unread > 0 && changed)
@@ -4457,255 +4529,20 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private async Task RefreshNotificationBadgeAsync(bool force = false)
-    {
-        if (_isClosed || !Voidstrap.Utility.WebsiteAuth.IsSignedIn())
-            return;
-        long now = Environment.TickCount64;
-        if (!force && now - _lastNotificationRefreshTicks < 30000L)
-            return;
-        if (Interlocked.Exchange(ref _notificationRefreshRunning, 1) != 0)
-        {
-            if (force)
-                Interlocked.Exchange(ref _notificationRefreshRequested, 1);
-            return;
-        }
-        _lastNotificationRefreshTicks = now;
-        try
-        {
-            await Voidstrap.Utility.WebsiteNotifications.GetAsync(_lifetimeCts.Token).ConfigureAwait(false);
-        }
-        finally
-        {
-            Interlocked.Exchange(ref _notificationRefreshRunning, 0);
-            if (!_isClosed && Interlocked.Exchange(ref _notificationRefreshRequested, 0) != 0)
-                _ = RefreshNotificationBadgeAsync(true);
-        }
-    }
-
-    private void UpdateAccountButtonsEnabled()
-    {
-        bool signedIn = Voidstrap.Utility.WebsiteAuth.IsSignedIn();
-        if (AccountFriendsButton != null)
-        {
-            AccountFriendsButton.IsEnabled = signedIn;
-        }
-        if (AccountSignOutButton != null)
-        {
-            AccountSignOutButton.IsEnabled = signedIn;
-        }
-    }
-
-    private void RepositionAccountPopup()
-    {
-        if (AccountPopup == null || !AccountPopup.IsOpen)
-        {
-            return;
-        }
-        double offset = AccountPopup.HorizontalOffset;
-        AccountPopup.HorizontalOffset = offset + 0.5;
-        AccountPopup.HorizontalOffset = offset;
-    }
-
     private void MainWindow_LocationChanged(object? sender, EventArgs e)
     {
-        if (LaunchTargetPopup != null)
-        {
-            LaunchTargetPopup.IsOpen = false;
-        }
-        RepositionAccountPopup();
+        CloseTopBarMenus();
     }
 
     private void MainWindow_StateChanged(object? sender, EventArgs e)
     {
-        if (LaunchTargetPopup != null)
-        {
-            LaunchTargetPopup.IsOpen = false;
-        }
-        RepositionAccountPopup();
+        CloseTopBarMenus();
     }
 
-
-    private void AccountFriends_Click(object sender, RoutedEventArgs e)
-    {
-        if (AccountPopup != null)
-        {
-            AccountPopup.IsOpen = false;
-        }
-        try
-        {
-            if (RootFrame?.Content is Pages.FriendsPage)
-            {
-                return;
-            }
-            _friendsReturnIndex = RootNavigation.SelectedPageIndex;
-            Pages.FriendsPage page = new Pages.FriendsPage();
-            page.BackRequested += FriendsPage_BackRequested;
-            RootNavigation.NavigateExternal(page);
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::AccountFriends", ex);
-        }
-    }
-
-    private void FriendsPage_BackRequested(object? sender, EventArgs e)
-    {
-        try
-        {
-            if (sender is Pages.FriendsPage page)
-            {
-                page.BackRequested -= FriendsPage_BackRequested;
-            }
-            int num = ResolveSafeNavigationIndex((_friendsReturnIndex >= 0) ? _friendsReturnIndex : App.State.Prop.LastPage);
-            IReadOnlyList<NavigationItem> navigationItems = GetNavigationItemsInServiceOrder();
-            if (num >= 0 && num < navigationItems.Count && navigationItems[num] is NavigationItem { PageType: not null } navigationItem)
-            {
-                RootNavigation.Navigate(navigationItem.PageType);
-            }
-            else
-            {
-                RootNavigation.Navigate(typeof(Pages.HomePage));
-            }
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::FriendsBack", ex);
-        }
-    }
-
-    private async void AccountSignOut_Click(object sender, RoutedEventArgs e)
-    {
-        if (AccountPopup != null)
-        {
-            AccountPopup.IsOpen = false;
-        }
-        try
-        {
-            string? token = Voidstrap.Utility.WebsiteAuth.GetToken();
-            Voidstrap.Utility.WebsiteAuth.Clear();
-            RefreshAccountUi();
-            UpdateAccountButtonsEnabled();
-            if (!string.IsNullOrEmpty(token))
-            {
-                try
-                {
-                    using System.Net.Http.HttpRequestMessage req = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Post, App.WebsiteBaseUrl + "/api/auth/logout");
-                    req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                    using System.Net.Http.HttpResponseMessage resp = await App.HttpClient.SendAsync(req, _lifetimeCts.Token).ConfigureAwait(continueOnCapturedContext: false);
-                }
-                catch (Exception serverEx)
-                {
-                    App.Logger.WriteException("MainWindow::AccountSignOutServer", serverEx);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::AccountSignOut", ex);
-        }
-    }
-
-    private async Task LoadAccountBorderAsync()
-    {
-        string activeAccount = Voidstrap.Utility.WebsiteAuth.GetActiveId() ?? "";
-        try
-        {
-            Voidstrap.Utility.WebsiteBorderData data = await Voidstrap.Utility.WebsiteBorderRenderer.FetchActiveAsync(20.0, 30.0).ConfigureAwait(continueOnCapturedContext: false);
-            if (_isClosed || activeAccount != (Voidstrap.Utility.WebsiteAuth.GetActiveId() ?? ""))
-                return;
-            await ((DispatcherObject)this).Dispatcher.InvokeAsync((Action)delegate
-            {
-                if (_isClosed || activeAccount != (Voidstrap.Utility.WebsiteAuth.GetActiveId() ?? ""))
-                    return;
-                try
-                {
-                    if (AccountAvatarRing != null)
-                    {
-                        System.Windows.Media.Brush ringBrush = (data != null && !string.IsNullOrEmpty(data.GradientBorderKey))
-                            ? Voidstrap.Utility.GradientProfileBorder.ParseBorder(data.GradientBorderKey)
-                            : null;
-                        AccountAvatarRing.Background = ringBrush ?? (System.Windows.Application.Current.TryFindResource("ControlFillColorSecondaryBrush") as System.Windows.Media.Brush);
-                    }
-                    if (AccountBorderImage != null)
-                    {
-                        if (data != null && data.ImageBorder != null)
-                        {
-                            AccountBorderImage.Source = data.ImageBorder.Image;
-                            AccountBorderImage.Width = data.ImageBorder.Width;
-                            AccountBorderImage.Height = data.ImageBorder.Height;
-                            AccountBorderImage.Margin = data.ImageBorder.Margin;
-                            System.Windows.Controls.Panel.SetZIndex(AccountBorderImage, data.ImageBorder.ZIndex);
-                            AccountBorderImage.Visibility = Visibility.Visible;
-                        }
-                        else
-                        {
-                            AccountBorderImage.Visibility = Visibility.Collapsed;
-                        }
-                    }
-                }
-                catch
-                {
-                }
-            });
-        }
-        catch
-        {
-        }
-    }
-
-    private async Task LoadAvatarAsync(long userId)
-    {
-        try
-        {
-            CancellationToken token = _lifetimeCts.Token;
-            string requestUri = $"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={userId}&size=150x150&format=Png&isCircular=false";
-            using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetString(requestUri, token).ConfigureAwait(false));
-            if (!doc.RootElement.TryGetProperty("data", out var value) || value.ValueKind != JsonValueKind.Array)
-            {
-                return;
-            }
-            string text = null;
-            foreach (JsonElement item in value.EnumerateArray())
-            {
-                if (item.TryGetProperty("imageUrl", out var value2) && value2.ValueKind == JsonValueKind.String)
-                {
-                    text = value2.GetString();
-                    break;
-                }
-            }
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                return;
-            }
-            BitmapSource? bitmap = await Voidstrap.Utility.AppImage.LoadAsync(text, 150, token).ConfigureAwait(false);
-            if (bitmap == null)
-            {
-                return;
-            }
-            await ((DispatcherObject)this).Dispatcher.InvokeAsync((Action)delegate
-            {
-                if (_isClosed)
-                    return;
-                if (AccountAvatarBrush != null)
-                {
-                    AccountAvatarBrush.ImageSource = bitmap;
-                }
-                if (AccountPopupAvatarBrush != null)
-                {
-                    AccountPopupAvatarBrush.ImageSource = bitmap;
-                }
-            });
-        }
-        catch
-        {
-        }
-    }
 
     private void MainWindow_SizeChanged(object? sender, SizeChangedEventArgs e)
     {
-        RepositionAccountPopup();
-        ApplyUiZoom();
+        QueueUiZoom();
     }
 
     protected override void OnActivated(EventArgs e)
@@ -4716,6 +4553,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             SnowCanvas?.SetActive(true);
         }
+        RefreshInstanceCount();
         try
         {
             _visibilityTimer.Start();
@@ -4736,15 +4574,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     ImageBehavior.GetAnimationController(BackgroundImage)?.Play();
                 }
             }
-            if (Voidstrap.Utility.WebsiteAuth.IsSignedIn() && Environment.TickCount64 - _lastBorderRefreshTicks > 30000L)
-            {
-                _lastBorderRefreshTicks = Environment.TickCount64;
-                _ = LoadAccountBorderAsync();
-            }
-            if (RootFrame?.Content is Pages.NotificationsPage notificationsPage)
-                notificationsPage.Refresh();
-            else
-                _ = RefreshNotificationBadgeAsync();
+            Voidstrap.Utility.AppNotifications.Reload();
         }
         catch
         {
@@ -4797,6 +4627,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             RootNavigation.NavigationFailed -= OnNavigationFailed;
             RootNavigation.NavigationFailed += OnNavigationFailed;
         }
+        _declaredWidth = base.Width;
+        _declaredHeight = base.Height;
         MainWindowViewModel mainWindowViewModel = (MainWindowViewModel)(base.DataContext = new MainWindowViewModel());
         mainWindowViewModel.RequestSaveNoticeEvent = (EventHandler)Delegate.Combine(mainWindowViewModel.RequestSaveNoticeEvent, new EventHandler(OnRequestSaveNotice));
         mainWindowViewModel.RequestSaveLaunchNoticeEvent = (EventHandler)Delegate.Combine(mainWindowViewModel.RequestSaveLaunchNoticeEvent, new EventHandler(OnRequestSaveLaunchNotice));
@@ -4818,7 +4650,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             bool studio = base.DataContext is MainWindowViewModel mainWindowViewModel && mainWindowViewModel.SelectedLaunchModeIndex == 1;
             bool installed = IsLaunchTargetInstalled(studio);
-            content = (studio ? (installed ? "Save and Launch Studio" : "Install Studio") : (installed ? "Save and Launch" : "Install"));
+            if (!Voidstrap.Utility.Platform.SupportsWindowsClient)
+            {
+                string runtime = studio ? "Vinegar" : "Sober";
+                content = installed ? "Save and Launch " + runtime : "Install " + runtime;
+            }
+            else
+            {
+                content = (studio ? (installed ? "Save and Launch Studio" : "Install Studio") : (installed ? "Save and Launch" : "Install"));
+            }
         }
         if (!object.Equals(InstallLaunchButton.Content, content))
         {
@@ -4830,8 +4670,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
+            if (!Voidstrap.Utility.Platform.SupportsWindowsClient)
+            {
+                return studio
+                    ? Voidstrap.Platform.Linux.LinuxVinegarStudioRuntimeProvider.IsInstalled()
+                    : Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.IsInstalled();
+            }
+
             Voidstrap.AppData.IAppData appData = (studio ? ((Voidstrap.AppData.IAppData)new Voidstrap.AppData.RobloxStudioData()) : ((Voidstrap.AppData.IAppData)new Voidstrap.AppData.RobloxPlayerData()));
-            if (!string.IsNullOrEmpty(appData.State.VersionGuid) && File.Exists(appData.ExecutablePath))
+            if (!string.IsNullOrEmpty(appData.State.VersionGuid) && (File.Exists(appData.ExecutablePath) || Voidstrap.Utility.RobloxInstallCompression.IsCompressed(appData)))
             {
                 return true;
             }
@@ -4879,6 +4726,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             base.WindowState = System.Windows.WindowState.Maximized;
         }
+
     }
 
     private void InitializeNavigation()
@@ -4888,6 +4736,29 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
         _navigationInitialized = true;
+        if (App.State.Prop.SidebarLayoutVersion < 1)
+        {
+            App.State.Prop.LastPage = App.State.Prop.LastPage switch
+            {
+                4 => 10,
+                6 => 5,
+                7 => 6,
+                8 => 9,
+                9 => 7,
+                int page => page
+            };
+            App.State.Prop.SidebarLayoutVersion = 1;
+            App.State.SaveDeferred();
+        }
+        if (App.State.Prop.SidebarLayoutVersion < 2)
+        {
+            if (App.State.Prop.LastPage >= 4)
+            {
+                App.State.Prop.LastPage++;
+            }
+            App.State.Prop.SidebarLayoutVersion = 2;
+            App.State.SaveDeferred();
+        }
         int lastPage = App.State.Prop.LastPage;
         int selectedPageIndex = ResolveSafeNavigationIndex(lastPage);
         RootNavigation.SelectedPageIndex = selectedPageIndex;
@@ -4900,12 +4771,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             return 0;
         }
-        IReadOnlyList<NavigationItem> items = GetNavigationItemsInServiceOrder();
+        NavigationItem[] items = GetNavigationItemsInServiceOrder();
         if (IsUsable(requested))
         {
             return requested;
         }
-        for (int i = 0; i < items.Count; i++)
+        for (int i = 0; i < items.Length; i++)
         {
             if (IsUsable(i))
             {
@@ -4913,17 +4784,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             }
         }
         return 0;
-        bool IsUsable(int num)
-        {
-            if (num < 0 || num >= items.Count)
+		bool IsUsable(int num)
+		{
+            if (num < 0 || num >= items.Length)
             {
                 return false;
             }
             NavigationItem navigationItem = items[num];
-            if (!navigationItem.IsEnabled)
-            {
-                return false;
-            }
+			if (!navigationItem.IsEnabled)
+			{
+				return false;
+			}
+			if (navigationItem.Visibility != Visibility.Visible)
+			{
+				return false;
+			}
             if ((object)navigationItem.PageType == null)
             {
                 return false;
@@ -4993,15 +4868,46 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 		RestartNotificationMessage.Text = requirement.Message;
 		RestartNotificationAction.Content = requirement.ActionText;
 		RestartNotificationAction.IsEnabled = true;
+		RestartNotificationAction.IsHitTestVisible = true;
+		RestartNotificationDismiss.IsHitTestVisible = true;
+		RestartNotificationCard.IsHitTestVisible = true;
 		RestartNotificationCard.Visibility = Visibility.Visible;
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			PrepareLinuxRestartNotificationInput();
+		}
+		RestartNotificationCard.Opacity = 1.0;
+		RestartNotificationTranslate.X = 0.0;
+		Wpf.Ui.Animations.RenderReady.Hold(this, TimeSpan.FromMilliseconds(260.0));
 		RestartNotificationCard.BeginAnimation(OpacityProperty, new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(180))
 		{
-			EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+			EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+			FillBehavior = FillBehavior.Stop
 		});
 		RestartNotificationTranslate.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(28.0, 0.0, TimeSpan.FromMilliseconds(220))
 		{
-			EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+			EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+			FillBehavior = FillBehavior.Stop
 		});
+	}
+
+	private void PrepareLinuxRestartNotificationInput()
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux || RestartNotificationCard == null)
+		{
+			return;
+		}
+
+		RestartNotificationTranslate.BeginAnimation(TranslateTransform.XProperty, null);
+		RestartNotificationTranslate.X = 0.0;
+		Panel.SetZIndex(RestartNotificationCard, 32000);
+		if (RestartNotificationCard.Parent is Panel parent
+			&& parent.Children.Count > 0
+			&& !ReferenceEquals(parent.Children[parent.Children.Count - 1], RestartNotificationCard))
+		{
+			parent.Children.Remove(RestartNotificationCard);
+			parent.Children.Add(RestartNotificationCard);
+		}
 	}
 
 	private void HideRestartNotification()
@@ -5013,6 +4919,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
 		RestartNotificationCard.BeginAnimation(OpacityProperty, null);
 		RestartNotificationTranslate?.BeginAnimation(TranslateTransform.XProperty, null);
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			RestartNotificationCard.IsHitTestVisible = false;
+		}
 		RestartNotificationCard.Opacity = 0.0;
 		RestartNotificationCard.Visibility = Visibility.Collapsed;
 	}
@@ -5074,7 +4984,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 					LaunchHandler.LaunchRoblox(LaunchMode.Studio);
 					break;
 				default:
-					RestartVoidstrapFromSettings();
+                    RestartVoidstrapFromSettings();
 					break;
 			}
 		}
@@ -5085,41 +4995,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 		}
 	}
 
-	private void RestartVoidstrapFromSettings()
+	private static void RestartVoidstrapFromSettings()
 	{
-		string executable = "";
-		try
-		{
-			executable = Paths.Application ?? "";
-		}
-		catch
-		{
-		}
-
-		if (string.IsNullOrWhiteSpace(executable) || !File.Exists(executable))
-		{
-			executable = Environment.ProcessPath ?? "";
-		}
-		if (string.IsNullOrWhiteSpace(executable) || !File.Exists(executable))
-		{
-			throw new FileNotFoundException("The Voidstrap executable could not be found");
-		}
-
-		using Process? process = Process.Start(new ProcessStartInfo
-		{
-			FileName = executable,
-			Arguments = "-settings",
-			UseShellExecute = true,
-			WorkingDirectory = System.IO.Path.GetDirectoryName(executable) ?? ""
-		});
-		if (process == null)
+		App.Logger.WriteLine("MainWindow::RestartNotification", "Restarting Voidstrap from settings");
+		RestartNotificationService.ClearAll();
+		if (!App.RestartApplication(["-settings", "-elevatedwait", Environment.ProcessId.ToString()], closeRuntime: false))
 		{
 			throw new InvalidOperationException("The Voidstrap restart process did not start");
 		}
-
-		App.Logger.WriteLine("MainWindow::RestartNotification", "Restarting Voidstrap from settings");
-		RestartNotificationService.ClearAll();
-		Application.Current.Shutdown();
 	}
 
 	private void ShowRestartNotificationFailure(string message)
@@ -5141,7 +5024,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             await Task.Delay(225, _lifetimeCts.Token);
             if (!_isClosed && !((DispatcherObject)this).Dispatcher.HasShutdownStarted)
             {
-                ((DispatcherObject)this).Dispatcher.InvokeAsync<bool?>((Func<bool?>)(() => AlreadyRunningSnackbar?.Show()));
+                _ = ((DispatcherObject)this).Dispatcher.InvokeAsync<bool?>((Func<bool?>)(() => AlreadyRunningSnackbar?.Show()));
             }
         }
         catch (OperationCanceledException)
@@ -5162,7 +5045,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void WpfUiWindow_Closing(object sender, CancelEventArgs e)
     {
-        SaveTabsStructure();
         SaveWindowState();
     }
 
@@ -5171,7 +5053,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (_isClosed)
             return;
         _isClosed = true;
+        StopPageWarmup();
+        MainWindowViewModel? closingViewModel = DataContext as MainWindowViewModel;
 		Interlocked.Increment(ref _topSearchNavigationGeneration);
+        CloseCommandPalette();
+        ClearInstanceMenu();
         ReleaseZoomIndicator();
         _backgroundGeneration++;
         foreach (TaskCompletionSource<bool> waiter in _backgroundAnimationWaiters.Values)
@@ -5186,10 +5072,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChanged;
         Activated -= MainWindow_ActivatedRpc;
         Closed -= MainWindow_ClosedRpc;
+        Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.AnyProgressChanged -= OnExtensionProgressChanged;
+        RootFrame.Navigating -= RootFrame_Navigating;
         RootFrame.Navigated -= RootFrame_Navigated;
-        WorkspaceTabs.PreviewMouseLeftButtonDown -= WorkspaceTabs_PreviewMouseLeftButtonDown;
-        AccountPopup.Closed -= OverlayPopup_Closed;
-        LaunchTargetPopup.Closed -= OverlayPopup_Closed;
+        Wpf.Ui.Controls.Navigation.NavigationTiming.PageCreated -= OnNavigationPageCreated;
+        CommandPalettePopup.Closed -= OverlayPopup_Closed;
+        AppMenuPopup.Closing -= AppMenuPopup_Closing;
+        AppMenuPopup.Closed -= OverlayPopup_Closed;
+        InstancesPopup.Closed -= OverlayPopup_Closed;
         RootNavigation.NavigationFailed -= OnNavigationFailed;
         RootNavigation.Navigated -= SaveNavigation;
         RootNavigation.Navigated -= RootNavigation_RpcNavigated;
@@ -5199,16 +5089,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             _visibilityTimer.Stop();
             _visibilityTimer.Tick -= VisibilityTimer_Tick;
-            SnowCanvas?.Dispose();
-            Voidstrap.Utility.WebsiteAuth.Changed -= OnWebsiteAuthChanged;
-            Voidstrap.Utility.WebsiteNotifications.UnreadChanged -= OnNotificationsUnreadChanged;
-            _notificationRealtime.Dispose();
-            if (_activeNotificationsPage != null)
+            _instanceCountTimer.Stop();
+            _instanceCountTimer.Tick -= InstanceCountTimer_Tick;
+            if (_logsSubmenuCloseTimer != null)
             {
-                _activeNotificationsPage.BackRequested -= NotificationsPage_BackRequested;
-                _activeNotificationsPage = null;
+                _logsSubmenuCloseTimer.Stop();
+                _logsSubmenuCloseTimer.Tick -= LogsSubmenuCloseTimer_Tick;
+                _logsSubmenuCloseTimer = null;
             }
+            SnowCanvas?.Dispose();
+            Voidstrap.Utility.AppNotifications.Changed -= OnAppNotificationsChanged;
             StopIntroCacheTimer();
+            StopIntroWatchdog();
             DispatcherTimer searchDebounceTimer = _searchDebounceTimer;
             if (searchDebounceTimer != null)
             {
@@ -5219,27 +5111,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         catch
         {
         }
-        try
-        {
-            if (_discordClient != null)
-            {
-                _discordClient.OnReady -= DiscordClient_OnReady;
-                _discordClient.OnError -= DiscordClient_OnError;
-            }
-        }
-        catch
-        {
-        }
-        DiscordRpcClient? discordClient = _discordClient;
-        _discordClient = null;
-		_discordReady = false;
-        try
-        {
-            discordClient?.Dispose();
-        }
-        catch
-        {
-        }
+        ReleaseDiscordRpcClient();
         try
         {
             (TryFindResource("IntroStoryboard") as Storyboard)?.Remove(IntroOverlay);
@@ -5253,16 +5125,63 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _lifetimeCts.Dispose();
         if (App.LaunchSettings.TestModeFlag.Active)
         {
-            LaunchHandler.LaunchRoblox(LaunchMode.Player);
+            StartTestModeLaunch(closingViewModel);
         }
-        else if (!App.WebsiteTakeoverActive)
+        else if (!LaunchHandler.PortableSessionActive)
         {
             App.SoftTerminate();
         }
     }
 
+    private async void StartTestModeLaunch(MainWindowViewModel? viewModel)
+    {
+        if (viewModel == null)
+        {
+            App.Logger.WriteLine("MainWindow::StartTestModeLaunch", "The settings view model was already released, launching without saving");
+            LaunchHandler.LaunchRoblox(LaunchMode.Player);
+            return;
+        }
+        try
+        {
+            await viewModel.LaunchForTestModeAsync();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::StartTestModeLaunch", ex);
+        }
+    }
+
+    private double _declaredWidth;
+
+    private double _declaredHeight;
+
+    private void ApplyLinuxWindowSize()
+    {
+        if (Voidstrap.Utility.Platform.IsWindows || base.WindowState != System.Windows.WindowState.Normal || Voidstrap.UI.LinuxWindowMode.IsFullscreen(this))
+        {
+            return;
+        }
+
+        double width = _state.WidthUpdateV2 > 0.0 ? _state.WidthUpdateV2 : _declaredWidth;
+        double height = _state.HeightUpdateV2 > 0.0 ? _state.HeightUpdateV2 : _declaredHeight;
+        if (double.IsNaN(width) || double.IsNaN(height) || width < MinWidth || height < MinHeight)
+        {
+            return;
+        }
+
+        Voidstrap.UI.LinuxWindowSize.Apply(Title, (int)Math.Round(width), (int)Math.Round(height));
+    }
+
     private void ReleaseBackgroundResources()
     {
+        Voidstrap.UI.Elements.Controls.HomepageMediaPreviewVideo? portable = BackgroundPortableMedia;
+        BackgroundPortableMedia = null;
+        if (portable != null)
+        {
+            portable.SourcePath = string.Empty;
+            portable.BeginAnimation(UIElement.OpacityProperty, null);
+            BackgroundLayer?.Children.Remove(portable);
+        }
         MediaElement? media = BackgroundMedia;
         BackgroundMedia = null;
         if (media != null)
@@ -5322,8 +5241,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _pageSearchTargets.Clear();
         _topSearchEntries.Clear();
         _topSearchEntriesList.Clear();
-        LaunchTargetList?.Children.Clear();
+        if (LaunchTargetList is not null)
+            LaunchTargetList.ItemsSource = null;
         _libraryPage = null;
+        _robloxNewsPage = null;
         _lastPage = null;
         try
         {
@@ -5341,13 +5262,22 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             viewModel.RequestSaveNoticeEvent -= OnRequestSaveNotice;
             viewModel.RequestSaveLaunchNoticeEvent -= OnRequestSaveLaunchNotice;
             viewModel.RequestCloseWindowEvent -= OnRequestCloseWindow;
-            viewModel.Tabs?.Clear();
         }
         base.DataContext = null;
     }
 
     private void SaveWindowState()
     {
+        if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.UI.LinuxWindowMode.TryGetRestorePlacement(this, out bool fullscreenMaximized, out Rect fullscreenBounds))
+        {
+            _state.MaximizedUpdateV2 = fullscreenMaximized;
+            _state.WidthUpdateV2 = fullscreenBounds.Width;
+            _state.HeightUpdateV2 = fullscreenBounds.Height;
+            _state.TopUpdateV2 = fullscreenBounds.Top;
+            _state.LeftUpdateV2 = fullscreenBounds.Left;
+            App.State.Save();
+            return;
+        }
         bool maximized = base.WindowState == System.Windows.WindowState.Maximized;
         _state.MaximizedUpdateV2 = maximized;
         if (maximized && !base.RestoreBounds.IsEmpty)
@@ -5359,8 +5289,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         else if (!maximized)
         {
-            _state.WidthUpdateV2 = base.Width;
-            _state.HeightUpdateV2 = base.Height;
+            if (Voidstrap.Utility.Platform.IsWindows)
+            {
+                _state.WidthUpdateV2 = base.Width;
+                _state.HeightUpdateV2 = base.Height;
+            }
+            else if (Voidstrap.UI.LinuxWindowSize.TryGet(Title, out int nativeWidth, out int nativeHeight) && nativeWidth > 0 && nativeHeight > 0)
+            {
+                _state.WidthUpdateV2 = nativeWidth;
+                _state.HeightUpdateV2 = nativeHeight;
+            }
+            else
+            {
+                _state.WidthUpdateV2 = base.ActualWidth;
+                _state.HeightUpdateV2 = base.ActualHeight;
+            }
             _state.TopUpdateV2 = base.Top;
             _state.LeftUpdateV2 = base.Left;
         }
@@ -5369,6 +5312,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void SaveNavigation(INavigation sender, RoutedNavigationEventArgs e)
     {
+        SidebarGroup.RefreshActiveChild(MoreNavItem);
         App.State.Prop.LastPage = RootNavigation.SelectedPageIndex;
         UpdateDiscordPresence();
     }
@@ -5385,6 +5329,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public bool Navigate(Type pageType)
     {
+		if (Voidstrap.Utility.Platform.IsLinux && (pageType == typeof(DownloadsPage) || pageType == typeof(ExtensionPage)))
+		{
+			return false;
+		}
+
         return RootNavigation.Navigate(pageType);
     }
 
@@ -5421,118 +5370,148 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void LaunchTargetButton_Click(object sender, RoutedEventArgs e)
     {
-        if (LaunchTargetPopup == null)
+        if (_launchTargetOverlayOpen)
         {
+            CloseLaunchTargetOverlay();
             return;
         }
-        if (LaunchTargetPopup.IsOpen || JustClosedOverlayPopup())
-        {
-            LaunchTargetPopup.IsOpen = false;
-            return;
-        }
-        PopulateLaunchTargets();
-        LaunchTargetPopup.IsOpen = true;
+        OpenLaunchTargetOverlay();
     }
 
     private void PopulateLaunchTargets()
     {
         if (LaunchTargetList == null)
-        {
             return;
-        }
-        LaunchTargetList.Children.Clear();
-        string currentKind = "player";
-        string currentCode = "";
+
+        DownloadsViewModel downloads = DownloadsViewModel.Shared;
+        foreach (DownloadsViewModel.DownloadItem download in downloads.Items)
+            download.Refresh();
+        downloads.RefreshClassic();
+
+        List<object> entries = [.. downloads.Items, .. downloads.ClientItems];
+        object? current = null;
         if (base.DataContext is MainWindowViewModel vm)
         {
-            if (!string.IsNullOrEmpty(vm.SelectedLaunchClient) && Voidstrap.Utility.ClassicClients.IsClientInstalled(vm.SelectedLaunchClient))
-            {
-                currentKind = "client";
-                currentCode = vm.SelectedLaunchClient;
-            }
-            else if (vm.SelectedLaunchModeIndex == 1)
-            {
-                currentKind = "studio";
-            }
+            string code = vm.SelectedLaunchClient;
+            if (!string.IsNullOrEmpty(code))
+                current = downloads.ClientItems.FirstOrDefault(client => client.IsInstalled && string.Equals(client.Code, code, StringComparison.OrdinalIgnoreCase));
+            Voidstrap.Enums.LaunchMode mode = vm.SelectedLaunchModeIndex == 1 ? Voidstrap.Enums.LaunchMode.Studio : Voidstrap.Enums.LaunchMode.Player;
+            current ??= downloads.Items.FirstOrDefault(download => download.LaunchMode == mode);
         }
-        Wpf.Ui.Controls.Button selectedButton = AddLaunchTargetButton("Roblox", "player", "", currentKind == "player");
-        Wpf.Ui.Controls.Button studioButton = AddLaunchTargetButton("Roblox Studio", "studio", "", currentKind == "studio");
-        if (currentKind == "studio")
-        {
-            selectedButton = studioButton;
-        }
-        try
-        {
-            foreach (string code in Voidstrap.Utility.ClassicClients.ListInstalledClients())
-            {
-                var config = Voidstrap.Utility.ClassicClients.GetInstalledConfig(code);
-                string name = (config != null && !string.IsNullOrWhiteSpace(config.Name)) ? config.Name : code;
-                bool isSelected = currentKind == "client" && string.Equals(currentCode, code, StringComparison.OrdinalIgnoreCase);
-                Wpf.Ui.Controls.Button clientButton = AddLaunchTargetButton(name + "  (" + code + ")", "client", code, isSelected);
-                if (isSelected)
-                {
-                    selectedButton = clientButton;
-                }
-            }
-        }
-        catch
-        {
-        }
-        if (selectedButton != null)
-        {
-            selectedButton.Dispatcher.BeginInvoke((Action)delegate
-            {
-                try
-                {
-                    selectedButton.BringIntoView();
-                }
-                catch
-                {
-                }
-            }, DispatcherPriority.Loaded);
-        }
+        LaunchTargetList.ItemsSource = entries;
+        LaunchTargetList.SelectedItem = current;
     }
 
-    private Wpf.Ui.Controls.Button AddLaunchTargetButton(string label, string kind, string code, bool selected)
+    private void LaunchTargetList_ItemChosen(object? sender, object item)
     {
-        Wpf.Ui.Controls.Button button = new Wpf.Ui.Controls.Button
+        if (base.DataContext is MainWindowViewModel mainWindowViewModel)
         {
-            Content = label,
-            Appearance = (selected ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Secondary),
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            HorizontalContentAlignment = HorizontalAlignment.Left,
-            Margin = new Thickness(0.0, 0.0, 0.0, 4.0),
-            Tag = kind + "|" + code
-        };
-        button.Click += LaunchTargetItem_Click;
-        LaunchTargetList.Children.Add(button);
-        return button;
-    }
-
-    private void LaunchTargetItem_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is Wpf.Ui.Controls.Button button && button.Tag is string tag)
-        {
-            int sep = tag.IndexOf('|');
-            string kind = (sep >= 0) ? tag.Substring(0, sep) : tag;
-            string code = (sep >= 0) ? tag.Substring(sep + 1) : "";
-            if (base.DataContext is MainWindowViewModel mainWindowViewModel)
+            switch (item)
             {
-                if (kind == "client")
-                {
-                    mainWindowViewModel.SelectedLaunchClient = code;
-                }
-                else
-                {
+                case DownloadsViewModel.ClientItem client when client.IsInstalled:
+                    mainWindowViewModel.SelectedLaunchClient = client.Code;
+                    break;
+                case DownloadsViewModel.DownloadItem download:
                     mainWindowViewModel.SelectedLaunchClient = "";
-                    mainWindowViewModel.SelectedLaunchModeIndex = (kind == "studio") ? 1 : 0;
-                }
+                    mainWindowViewModel.SelectedLaunchModeIndex = download.LaunchMode == Voidstrap.Enums.LaunchMode.Studio ? 1 : 0;
+                    break;
+                default:
+                    return;
             }
         }
         UpdateButtonContent();
-        if (LaunchTargetPopup != null)
-        {
-            LaunchTargetPopup.IsOpen = false;
-        }
+        CloseLaunchTargetOverlay();
     }
+
+    private void LaunchTargetClose_Click(object sender, RoutedEventArgs e)
+    {
+        CloseLaunchTargetOverlay();
+    }
+
+    private bool _launchTargetOverlayOpen;
+
+    private int _launchTargetOverlayGeneration;
+
+    private System.Windows.Media.Effects.BlurEffect? _launchTargetBlur;
+
+    private static readonly CubicEase LaunchTargetEaseOut = CreateLaunchTargetEase(EasingMode.EaseOut);
+
+    private static readonly CubicEase LaunchTargetEaseIn = CreateLaunchTargetEase(EasingMode.EaseIn);
+
+    private static CubicEase CreateLaunchTargetEase(EasingMode mode)
+    {
+        CubicEase ease = new CubicEase { EasingMode = mode };
+        ease.Freeze();
+        return ease;
+    }
+
+    private UIElement[] LaunchTargetBlurTargets => [BackgroundLayer, RootGrid, StatusBarHost, TopNavPanel, RootTitleBar];
+
+    private void OpenLaunchTargetOverlay()
+    {
+        CloseTopBarMenus();
+        PopulateLaunchTargets();
+        _launchTargetOverlayOpen = true;
+        int generation = ++_launchTargetOverlayGeneration;
+        LaunchTargetOverlay.Visibility = Visibility.Visible;
+        LaunchTargetOverlay.IsHitTestVisible = true;
+        _launchTargetBlur ??= new System.Windows.Media.Effects.BlurEffect
+        {
+            Radius = 0,
+            KernelType = System.Windows.Media.Effects.KernelType.Gaussian,
+            RenderingBias = System.Windows.Media.Effects.RenderingBias.Performance
+        };
+        foreach (UIElement target in LaunchTargetBlurTargets)
+        {
+            if (target.Effect == null)
+                target.Effect = _launchTargetBlur;
+        }
+        AnimateLaunchTargetOverlay(1.0, 0.0, 8.0, TimeSpan.FromMilliseconds(260), LaunchTargetEaseOut, generation, false);
+        LaunchTargetList.FocusList();
+    }
+
+    private void CloseLaunchTargetOverlay()
+    {
+        if (!_launchTargetOverlayOpen)
+            return;
+        _launchTargetOverlayOpen = false;
+        int generation = ++_launchTargetOverlayGeneration;
+        LaunchTargetOverlay.IsHitTestVisible = false;
+        AnimateLaunchTargetOverlay(0.0, 28.0, 0.0, TimeSpan.FromMilliseconds(200), LaunchTargetEaseIn, generation, true);
+    }
+
+    private void AnimateLaunchTargetOverlay(double opacity, double offsetY, double blurRadius, TimeSpan duration, IEasingFunction ease, int generation, bool finishClose)
+    {
+        DoubleAnimation fade = new DoubleAnimation(opacity, duration) { EasingFunction = ease };
+        if (finishClose)
+            fade.Completed += (_, _) => FinishLaunchTargetClose(generation);
+        LaunchTargetOverlay.BeginAnimation(OpacityProperty, fade, HandoffBehavior.SnapshotAndReplace);
+        LaunchTargetPanelTranslate.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(offsetY, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
+        _launchTargetBlur?.BeginAnimation(System.Windows.Media.Effects.BlurEffect.RadiusProperty, new DoubleAnimation(blurRadius, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
+        LaunchTargetChevronRotate.BeginAnimation(RotateTransform.AngleProperty, new DoubleAnimation(finishClose ? 0.0 : 180.0, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
+    }
+
+    private void FinishLaunchTargetClose(int generation)
+    {
+        if (generation != _launchTargetOverlayGeneration || _launchTargetOverlayOpen)
+            return;
+        LaunchTargetOverlay.Visibility = Visibility.Collapsed;
+        foreach (UIElement target in LaunchTargetBlurTargets)
+        {
+            if (ReferenceEquals(target.Effect, _launchTargetBlur))
+                target.Effect = null;
+        }
+        ReleaseOrphanedCapture();
+    }
+
+    private void LaunchTargetScrim_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        CloseLaunchTargetOverlay();
+        e.Handled = true;
+    }
+
+    [GeneratedRegex("(?<=[a-z0-9])(?=[A-Z])")]
+    private static partial Regex CamelCaseBoundaryPattern { get; }
+    [GeneratedRegex("\\s+")]
+    private static partial Regex WhitespacePattern { get; }
 }

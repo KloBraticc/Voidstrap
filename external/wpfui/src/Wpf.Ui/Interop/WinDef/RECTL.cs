@@ -1,4 +1,4 @@
-﻿// This Source Code is partially based on reverse engineering of the Windows Operating System,
+// This Source Code is partially based on reverse engineering of the Windows Operating System,
 // and is intended for use on Windows systems only.
 // This Source Code is partially based on the source code provided by the .NET Foundation.
 // This Source Code Form is subject to the terms of the MIT License.
@@ -141,4 +141,8 @@ public struct RECTL
     {
         return _top.GetHashCode() ^ _bottom.GetHashCode() ^ _left.GetHashCode() ^ _right.GetHashCode();
     }
+
+    public static bool operator ==(RECTL left, RECTL right) => left.Equals(right);
+
+    public static bool operator !=(RECTL left, RECTL right) => !left.Equals(right);
 }

@@ -37,7 +37,6 @@ public partial class MenuContainer : WpfUiWindow
     private readonly DispatcherTimer _memoryTimer;
     private readonly DispatcherTimer _playTimer;
 
-    private string _questSignature = string.Empty;
     private readonly CancellationTokenSource _lifetimeCts = new CancellationTokenSource();
     private readonly object _sessionSync = new object();
 
@@ -57,8 +56,6 @@ public partial class MenuContainer : WpfUiWindow
 
     private OutputConsole? _outputConsole;
 
-    private ChatLogs? _chatLogs;
-
     private CancellationTokenSource? _sessionCts;
 
     private bool _closed;
@@ -74,7 +71,7 @@ public partial class MenuContainer : WpfUiWindow
         {
             return "...";
         }
-        return text.Substring(0, num) + "...";
+        return string.Concat(text.AsSpan(0, num), "...");
     }
 
     private void LoadFlags()
@@ -102,6 +99,14 @@ public partial class MenuContainer : WpfUiWindow
         _activityWatcher = watcher.ActivityWatcher;
         InitializeComponent();
         MenuContainerViewModel dataContext = (MenuContainerViewModel)(base.DataContext = new MenuContainerViewModel());
+        if (!Voidstrap.Utility.Platform.IsWindows)
+        {
+            LoadFlags();
+#if CROSSPLAT
+            AttachTrayMenuProvider();
+#endif
+        }
+
         if (base.ContextMenu != null)
         {
             base.ContextMenu.DataContext = dataContext;
@@ -145,6 +150,28 @@ public partial class MenuContainer : WpfUiWindow
             LogTracerMenuItem.Visibility = Visibility.Visible;
         if (_activityWatcher?.InGame == true)
             ActivityWatcher_OnGameJoin(_activityWatcher, EventArgs.Empty);
+        PrewarmJoinNotification();
+    }
+
+    private void PrewarmJoinNotification()
+    {
+        if (!Voidstrap.Utility.Platform.IsLinux || _activityWatcher == null || !App.Settings.Prop.NotificationWindowShow)
+            return;
+
+        try
+        {
+            if (Application.Current.Resources["NotificationWindow"] is not NotificationWindow window || !window.IsUsable)
+            {
+                window = new NotificationWindow();
+                Application.Current.Resources["NotificationWindow"] = window;
+            }
+
+            window.Prewarm();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MenuContainer::PrewarmJoinNotification", "The join notification could not be prepared: " + ex.Message);
+        }
     }
 
     private void UpdateCurrentGameInfo(string gameName, BitmapSource? gameIcon)
@@ -187,10 +214,10 @@ public partial class MenuContainer : WpfUiWindow
         return !_closed && !token.IsCancellationRequested && _activityWatcher?.InGame == true && ReferenceEquals(_activityWatcher.Data, data);
     }
 
-    private async Task<(string Name, BitmapSource? Icon)> LoadGamePresentationAsync(ActivityData data, CancellationToken token)
+    private static async Task<(string Name, BitmapSource? Icon)> LoadGamePresentationAsync(ActivityData data, CancellationToken token)
     {
         string universeName = data.UniverseDetails?.Data.Name ?? "Roblox Experience";
-        string iconUrl = data.UniverseDetails?.Thumbnail.ImageUrl;
+        string? iconUrl = data.UniverseDetails?.Thumbnail.ImageUrl;
         if (data.UniverseDetails == null)
         {
             try
@@ -211,7 +238,7 @@ public partial class MenuContainer : WpfUiWindow
         BitmapSource? gameIcon = null;
         try
         {
-            gameIcon = await Voidstrap.Utility.AppImage.LoadAsync(iconUrl, 128, token);
+            gameIcon = await Voidstrap.Utility.AppImage.LoadAsync(iconUrl ?? string.Empty, 128, token);
         }
         catch (OperationCanceledException)
         {
@@ -264,7 +291,7 @@ public partial class MenuContainer : WpfUiWindow
             if (window.IsVisible)
                 window.Activate();
             else
-                window.ShowDialog();
+                window.ShowOwnedDialog();
         }
         catch (Exception ex)
         {
@@ -425,7 +452,7 @@ public partial class MenuContainer : WpfUiWindow
     {
         try
         {
-            string processPath = Paths.Process;
+            string processPath = Paths.LaunchExecutable;
             var startInfo = new ProcessStartInfo
             {
                 FileName = processPath,
@@ -486,6 +513,12 @@ public partial class MenuContainer : WpfUiWindow
         }
         catch (TimeoutException)
         {
+            universeName = data.GameName ?? "Roblox";
+            notificationIcon = null;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MenuContainer::LoadGamePresentation", ex);
             universeName = data.GameName ?? "Roblox";
             notificationIcon = null;
         }
@@ -565,6 +598,9 @@ public partial class MenuContainer : WpfUiWindow
                         notificationWindow = new NotificationWindow();
                         Application.Current.Resources["NotificationWindow"] = notificationWindow;
                     }
+                    App.Logger.WriteLine(
+                        "MenuContainer::ShowJoinNotification",
+                        "Join notification icon: " + (notificationIcon != null ? notificationIcon.PixelWidth + "x" + notificationIcon.PixelHeight + " frozen " + notificationIcon.IsFrozen : "none, thumbnail url was " + (string.IsNullOrEmpty(data.UniverseDetails?.Thumbnail?.ImageUrl) ? "empty" : data.UniverseDetails.Thumbnail.ImageUrl)));
                     notificationWindow.ShowNotification(text3, notificationIcon, 6.0, flagImage);
                 }
                 catch (Exception ex)
@@ -596,7 +632,6 @@ public partial class MenuContainer : WpfUiWindow
 				return Task.CompletedTask;
 			bool trace = ActivityWatcher.PlayerLoggingEnabled;
 			OutputConsoleMenuItem.Visibility = trace ? Visibility.Visible : Visibility.Collapsed;
-			ChatLogsMenuItem.Visibility = trace ? Visibility.Visible : Visibility.Collapsed;
             BrightnessTrackerLog.Visibility = App.Settings.Prop.OverlaysEnabled ? Visibility.Visible : Visibility.Collapsed;
             ColorsTrackerLog.Visibility = BrightnessTrackerLog.Visibility;
         }
@@ -621,10 +656,8 @@ public partial class MenuContainer : WpfUiWindow
         GamePassDetailsMenuItem.Visibility = Visibility.Collapsed;
         JoinClosestServerMenuItem.Visibility = Visibility.Collapsed;
         OutputConsoleMenuItem.Visibility = Visibility.Collapsed;
-        ChatLogsMenuItem.Visibility = Visibility.Collapsed;
         BrightnessTrackerLog.Visibility = Visibility.Collapsed;
         ColorsTrackerLog.Visibility = Visibility.Collapsed;
-        _chatLogs?.Close();
         _outputConsole?.Close();
         _serverInformationWindow?.Close();
         UpdateCurrentGameInfo(string.Empty, null);
@@ -674,35 +707,11 @@ public partial class MenuContainer : WpfUiWindow
         }
     }
 
-    private void PlayTimer_Tick(object sender, EventArgs e)
+    private void PlayTimer_Tick(object? sender, EventArgs e)
     {
-        RefreshQuestProgress();
         if (_activityWatcher?.InGame != true || _activityWatcher.Data.TimeJoined == default)
             return;
         UpdatePlayTime(DateTime.Now - _activityWatcher.Data.TimeJoined);
-    }
-
-    private void RefreshQuestProgress()
-    {
-        if (QuestExpander == null || QuestProgressList == null)
-            return;
-        Voidstrap.Models.QuestProgressSnapshot? snapshot = Voidstrap.Integrations.QuestTracker.Progress;
-        if (snapshot == null || snapshot.Lines.Count == 0)
-        {
-            if (_questSignature.Length != 0)
-            {
-                _questSignature = string.Empty;
-                QuestProgressList.ItemsSource = null;
-                QuestExpander.Visibility = Visibility.Collapsed;
-            }
-            return;
-        }
-        string signature = snapshot.Signature;
-        if (signature == _questSignature)
-            return;
-        _questSignature = signature;
-        QuestProgressList.ItemsSource = snapshot.Lines;
-        QuestExpander.Visibility = Visibility.Visible;
     }
 
     private void UpdatePlayTime(TimeSpan value)
@@ -712,11 +721,215 @@ public partial class MenuContainer : WpfUiWindow
 
     private void Window_Loaded(object? sender, RoutedEventArgs e)
     {
-        HWND hWnd = (HWND)new WindowInteropHelper(this).Handle;
-        int windowLong = Windows.Win32.PInvoke.GetWindowLong(hWnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
-        windowLong |= 0x80;
-        Windows.Win32.PInvoke.SetWindowLong(hWnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, windowLong);
+        if (Voidstrap.Utility.Platform.IsWindows)
+        {
+            HWND hWnd = (HWND)new WindowInteropHelper(this).Handle;
+            int windowLong = Windows.Win32.PInvoke.GetWindowLong(hWnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+            windowLong |= 0x80;
+            _ = Windows.Win32.PInvoke.SetWindowLong(hWnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, windowLong);
+        }
         LoadFlags();
+    }
+
+#if CROSSPLAT
+    internal void AttachTrayMenuProvider()
+    {
+        try
+        {
+            Voidstrap.UI.Tray.DbusMenuObject? menu = Voidstrap.UI.Tray.LinuxTray.Menu;
+            if (menu is null)
+            {
+                return;
+            }
+
+            menu.MenuProvider = BuildTrayMenu;
+            menu.Rebuild();
+            App.Logger.WriteLine("MenuContainer::AttachTrayMenuProvider", "Tray menu is now served over D-Bus");
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MenuContainer::AttachTrayMenuProvider", "The tray menu could not be published: " + ex.Message);
+        }
+    }
+
+    private List<Voidstrap.UI.Tray.LinuxTrayMenuItem> BuildTrayMenu()
+    {
+        if (!Dispatcher.CheckAccess())
+        {
+            return Dispatcher.Invoke(BuildTrayMenu);
+        }
+
+        List<Voidstrap.UI.Tray.LinuxTrayMenuItem> items = [];
+        if (base.ContextMenu is not null)
+        {
+            AppendTrayItems(base.ContextMenu.Items, items);
+        }
+
+        return items;
+    }
+
+    private void AppendTrayItems(ItemCollection source, List<Voidstrap.UI.Tray.LinuxTrayMenuItem> target)
+    {
+        foreach (object? entry in source)
+        {
+            if (entry is Separator)
+            {
+                target.Add(new Voidstrap.UI.Tray.LinuxTrayMenuItem { IsSeparator = true });
+                continue;
+            }
+
+            if (entry is not MenuItem menuItem || menuItem.Visibility != Visibility.Visible)
+            {
+                continue;
+            }
+
+            Voidstrap.UI.Tray.LinuxTrayMenuItem item = new()
+            {
+                Label = GetTrayLabel(menuItem),
+                Enabled = menuItem.IsEnabled,
+                IsCheckable = menuItem.IsCheckable,
+                IsChecked = menuItem.IsChecked
+            };
+
+            if (menuItem.Items.Count > 0)
+            {
+                AppendTrayItems(menuItem.Items, item.Children);
+            }
+            else if (!Voidstrap.Utility.Platform.IsWindows && ContainsSlider(menuItem))
+            {
+                item.Activated = ShowAdjustmentsWindow;
+            }
+            else
+            {
+                MenuItem target2 = menuItem;
+                item.Activated = () => RaiseTrayClick(target2);
+            }
+
+            target.Add(item);
+        }
+    }
+#endif
+
+    private static bool ContainsSlider(DependencyObject node)
+    {
+        if (node is System.Windows.Controls.Primitives.RangeBase)
+            return true;
+
+        if (node is MenuItem menuItem && menuItem.Header is DependencyObject header && ContainsSlider(header))
+            return true;
+
+        int count = System.Windows.Media.VisualTreeHelper.GetChildrenCount(node);
+
+        for (int i = 0; i < count; i++)
+        {
+            if (ContainsSlider(System.Windows.Media.VisualTreeHelper.GetChild(node, i)))
+                return true;
+        }
+
+        if (node is Panel panel)
+        {
+            foreach (UIElement child in panel.Children)
+            {
+                if (ContainsSlider(child))
+                    return true;
+            }
+        }
+
+        if (node is Decorator decorator && decorator.Child is not null)
+            return ContainsSlider(decorator.Child);
+
+        if (node is ContentControl content && content.Content is DependencyObject inner)
+            return ContainsSlider(inner);
+
+        return false;
+    }
+
+    private LinuxAdjustmentsWindow? _adjustmentsWindow;
+
+    private void ShowAdjustmentsWindow()
+    {
+        Dispatcher.BeginInvoke(new Action(delegate
+        {
+            try
+            {
+                if (_adjustmentsWindow is null || !_adjustmentsWindow.IsLoaded)
+                {
+                    _adjustmentsWindow = new LinuxAdjustmentsWindow(DataContext);
+                    _adjustmentsWindow.Closed += OnAdjustmentsWindowClosed;
+                }
+
+                _adjustmentsWindow.Show();
+                _adjustmentsWindow.Activate();
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("MenuContainer::ShowAdjustmentsWindow", "The adjustments window could not be opened: " + ex.Message);
+            }
+        }));
+    }
+
+    private void OnAdjustmentsWindowClosed(object? sender, EventArgs e)
+    {
+        if (sender is LinuxAdjustmentsWindow window)
+            window.Closed -= OnAdjustmentsWindowClosed;
+
+        _adjustmentsWindow = null;
+    }
+
+    private void RaiseTrayClick(MenuItem menuItem)
+    {
+        Dispatcher.BeginInvoke(new Action(delegate
+        {
+            try
+            {
+                menuItem.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("MenuContainer::RaiseTrayClick", "The tray menu action failed: " + ex.Message);
+            }
+        }));
+    }
+
+    private static string GetTrayLabel(MenuItem menuItem)
+    {
+        if (menuItem.Header is string header && !string.IsNullOrWhiteSpace(header))
+        {
+            return header;
+        }
+
+        string extracted = ExtractText(menuItem.Header);
+        return string.IsNullOrWhiteSpace(extracted) ? menuItem.Name ?? string.Empty : extracted;
+    }
+
+    private static string ExtractText(object? content)
+    {
+        switch (content)
+        {
+            case null:
+                return string.Empty;
+            case string text:
+                return text;
+            case TextBlock textBlock:
+                return textBlock.Text;
+            case ContentControl contentControl:
+                return ExtractText(contentControl.Content);
+            case Panel panel:
+            {
+                foreach (UIElement child in panel.Children)
+                {
+                    string value = ExtractText(child);
+                    if (!string.IsNullOrWhiteSpace(value))
+                        return value;
+                }
+
+                return string.Empty;
+            }
+            case Decorator decorator:
+                return ExtractText(decorator.Child);
+            default:
+                return string.Empty;
+        }
     }
 
     public void ApplyBackdrop()
@@ -737,11 +950,9 @@ public partial class MenuContainer : WpfUiWindow
 		ApplyBackdrop();
 		bool enabled = _activityWatcher?.InGame == true && ActivityWatcher.PlayerLoggingEnabled;
 		OutputConsoleMenuItem.Visibility = enabled ? Visibility.Visible : Visibility.Collapsed;
-		ChatLogsMenuItem.Visibility = enabled ? Visibility.Visible : Visibility.Collapsed;
 		if (!enabled)
 		{
 			_outputConsole?.Close();
-			_chatLogs?.Close();
 		}
     }
 
@@ -806,8 +1017,7 @@ public partial class MenuContainer : WpfUiWindow
             _gameHistoryWindow,
             _musicPlayerWindow,
             _gamePassWindow,
-            _outputConsole,
-            _chatLogs
+            _outputConsole
         }.OfType<Window>().ToArray();
         foreach (Window window in windows)
         {
@@ -825,7 +1035,6 @@ public partial class MenuContainer : WpfUiWindow
         _musicPlayerWindow = null;
         _gamePassWindow = null;
         _outputConsole = null;
-        _chatLogs = null;
     }
 
     private void ChildWindow_Closed(object? sender, EventArgs e)
@@ -844,8 +1053,6 @@ public partial class MenuContainer : WpfUiWindow
             _gamePassWindow = null;
         else if (ReferenceEquals(sender, _outputConsole))
             _outputConsole = null;
-        else if (ReferenceEquals(sender, _chatLogs))
-            _chatLogs = null;
     }
 
     private void RichPresenceMenuItem_Click(object sender, RoutedEventArgs e)
@@ -882,14 +1089,14 @@ public partial class MenuContainer : WpfUiWindow
 
     private void InviteDeeplinkMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        string deeplink = _activityWatcher?.Data?.GetInviteDeeplink();
+        string? deeplink = _activityWatcher?.Data?.GetInviteDeeplink();
         if (string.IsNullOrEmpty(deeplink))
         {
             return;
         }
         try
         {
-            Clipboard.SetDataObject(deeplink, true);
+            Voidstrap.Utility.ClipboardService.SetDataObject(deeplink, true);
         }
         catch (Exception ex)
         {
@@ -918,7 +1125,7 @@ public partial class MenuContainer : WpfUiWindow
 
     private void LogTracerMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        string text = _activityWatcher?.LogLocation;
+        string? text = _activityWatcher?.LogLocation;
         if (text != null)
         {
             Utilities.ShellExecute(text);
@@ -960,12 +1167,5 @@ public partial class MenuContainer : WpfUiWindow
 		if (_activityWatcher == null || !ActivityWatcher.PlayerLoggingEnabled)
 			return;
         ShowChildWindow(ref _outputConsole, () => new OutputConsole(_activityWatcher));
-    }
-
-	private void ChatLogsMenuItemMenuItem_Click(object sender, RoutedEventArgs e)
-	{
-		if (_activityWatcher == null || !ActivityWatcher.PlayerLoggingEnabled)
-			return;
-        ShowChildWindow(ref _chatLogs, () => new ChatLogs());
     }
 }

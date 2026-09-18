@@ -13,45 +13,58 @@ internal static class ThemeTransition
 {
 	private sealed class FadeAdorner : Adorner
 	{
-		private Image? _image;
+		private FrameworkElement? _child;
 
 		private bool _cleaned;
 
-		protected override int VisualChildrenCount => (_image != null) ? 1 : 0;
+		protected override int VisualChildrenCount => (_child != null) ? 1 : 0;
 
 		public FadeAdorner(UIElement adornedElement, BitmapSource snapshot)
 			: base(adornedElement)
 		{
-			_image = new Image
+			Image image = new Image
 			{
 				Source = snapshot,
 				Stretch = Stretch.Fill,
 				IsHitTestVisible = false
 			};
-			RenderOptions.SetBitmapScalingMode(_image, BitmapScalingMode.LowQuality);
+			RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.LowQuality);
+			_child = image;
 			IsHitTestVisible = false;
-			AddVisualChild(_image);
+			AddVisualChild(_child);
 		}
 
-		protected override Visual? GetVisualChild(int index) => _image;
+		public FadeAdorner(UIElement adornedElement, Brush backdrop)
+			: base(adornedElement)
+		{
+			_child = new Border
+			{
+				Background = backdrop,
+				IsHitTestVisible = false
+			};
+			IsHitTestVisible = false;
+			AddVisualChild(_child);
+		}
+
+		protected override Visual? GetVisualChild(int index) => _child;
 
 		protected override Size MeasureOverride(Size constraint)
 		{
-			if (_image == null)
+			if (_child == null)
 				return Size.Empty;
-			_image.Measure(constraint);
+			_child.Measure(constraint);
 			return AdornedElement.RenderSize;
 		}
 
 		protected override Size ArrangeOverride(Size finalSize)
 		{
-			_image?.Arrange(new Rect(new Point(0.0, 0.0), AdornedElement.RenderSize));
+			_child?.Arrange(new Rect(new Point(0.0, 0.0), AdornedElement.RenderSize));
 			return finalSize;
 		}
 
 		public void Play(Duration duration, Action onCompleted)
 		{
-			if (_cleaned || _image == null)
+			if (_cleaned || _child == null)
 			{
 				onCompleted?.Invoke();
 				return;
@@ -68,6 +81,7 @@ internal static class ThemeTransition
 			{
 				onCompleted?.Invoke();
 			};
+			Wpf.Ui.Animations.RenderReady.Hold(this, duration.HasTimeSpan ? duration.TimeSpan : FadeDuration.TimeSpan);
 			BeginAnimation(UIElement.OpacityProperty, fade);
 		}
 
@@ -83,11 +97,14 @@ internal static class ThemeTransition
 			catch
 			{
 			}
-			if (_image != null)
+			if (_child is Image image)
 			{
-				_image.Source = null;
-				RemoveVisualChild(_image);
-				_image = null;
+				image.Source = null;
+			}
+			if (_child != null)
+			{
+				RemoveVisualChild(_child);
+				_child = null;
 			}
 		}
 	}
@@ -128,8 +145,9 @@ internal static class ThemeTransition
 			return;
 		}
 
-		BitmapSource? snapshot = TrySnapshot(content);
-		if (snapshot == null)
+		BitmapSource? snapshot = Voidstrap.Utility.Platform.IsWindows ? TrySnapshot(content) : null;
+		Brush? backdrop = snapshot == null ? TryResolveBackdrop(window, content) : null;
+		if (snapshot == null && backdrop == null)
 		{
 			SafeApply(applyTheme);
 			return;
@@ -138,7 +156,9 @@ internal static class ThemeTransition
 		FadeAdorner adorner;
 		try
 		{
-			adorner = new FadeAdorner(content, snapshot);
+			adorner = snapshot != null
+				? new FadeAdorner(content, snapshot)
+				: new FadeAdorner(content, backdrop!);
 			layer.Add(adorner);
 		}
 		catch
@@ -206,6 +226,32 @@ internal static class ThemeTransition
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ThemeTransition::Apply", ex);
+		}
+	}
+
+	private static SolidColorBrush? TryResolveBackdrop(Window window, UIElement content)
+	{
+		try
+		{
+			Color? colour = null;
+			if (window.TryFindResource("WindowBackgroundColorPrimary") is Color primary)
+				colour = primary;
+			if (colour == null && window.TryFindResource("ApplicationBackgroundBrush") is SolidColorBrush application && application.Color.A > 0)
+				colour = application.Color;
+			if (colour == null && window.Background is SolidColorBrush background && background.Color.A > 0)
+				colour = background.Color;
+			if (colour == null && content is Panel panel && panel.Background is SolidColorBrush panelBackground && panelBackground.Color.A > 0)
+				colour = panelBackground.Color;
+			if (colour == null)
+				return null;
+
+			SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(colour.Value.R, colour.Value.G, colour.Value.B));
+			brush.Freeze();
+			return brush;
+		}
+		catch
+		{
+			return null;
 		}
 	}
 

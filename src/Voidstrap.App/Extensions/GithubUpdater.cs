@@ -84,7 +84,7 @@ public static class GithubUpdater
                 string.Equals(candidate.TagName, tag, StringComparison.OrdinalIgnoreCase));
             if (release == null)
             {
-                string? response = await Voidstrap.Utility.GitHubCache.GetStringWithFallbackAsync(App.ProjectReleaseApi, App.ProjectFallbackReleaseApi, TimeSpan.FromMinutes(15));
+                string? response = await Voidstrap.Utility.GitHubCache.GetStringWithFallbackAsync(App.ProjectReleaseApi, App.ProjectFallbackReleaseApi, TimeSpan.FromMinutes(15), cancellationToken);
                 cancellationToken.ThrowIfCancellationRequested();
                 if (response == null)
                     return false;
@@ -108,9 +108,12 @@ public static class GithubUpdater
                 return false;
             }
 
-            string expectedAssetName = OperatingSystem.IsLinux()
-                ? LinuxBundleInstaller.GetAssetName(tag, LinuxBundleInstaller.GetCurrentRuntimeIdentifier())
-                : "Voidstrap.exe";
+            LinuxInstallationInfo? linuxInstallation = OperatingSystem.IsLinux()
+                ? await LinuxInstallationUpdates.DetectAsync(new Voidstrap.Core.SystemProcessService(), Environment.ProcessPath, cancellationToken).ConfigureAwait(false)
+                : null;
+            string? expectedAssetName = linuxInstallation is null
+                ? "Voidstrap.exe"
+                : GetLinuxAssetName(tag, linuxInstallation.Kind);
 
             foreach (var asset in release.Assets ?? [])
             {
@@ -120,18 +123,30 @@ public static class GithubUpdater
                 string digest = asset.Digest ?? "";
                 string state = asset.State ?? "";
 
-                bool assetNameMatches = string.Equals(name, expectedAssetName, OperatingSystem.IsLinux() ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
+                bool assetNameMatches = expectedAssetName is not null && string.Equals(name, expectedAssetName, OperatingSystem.IsLinux() ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
                 if (assetNameMatches &&
                     string.Equals(state, "uploaded", StringComparison.OrdinalIgnoreCase) &&
                     Uri.TryCreate(downloadUrl, UriKind.Absolute, out Uri? uri) &&
                     uri.Scheme == Uri.UriSchemeHttps &&
                     uri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase))
                     return OperatingSystem.IsLinux()
-                        ? await UpdateLinuxBundle(downloadUrl, name, digest, cancellationToken)
+                        ? linuxInstallation!.Kind switch
+                        {
+                            LinuxInstallationKind.AppImage => await UpdateLinuxAppImage(downloadUrl, name, digest, linuxInstallation.ExecutablePath, cancellationToken),
+                            LinuxInstallationKind.PortableBundle => await UpdateLinuxBundle(downloadUrl, name, digest, cancellationToken),
+                            LinuxInstallationKind.Flatpak or LinuxInstallationKind.Debian or LinuxInstallationKind.Rpm => await UpdateLinuxPackage(downloadUrl, name, digest, linuxInstallation, cancellationToken),
+                            _ => await UpdateLinuxPackageSource(linuxInstallation, tag, cancellationToken)
+                        }
                         : await UpdateExe(downloadUrl, name, digest, tag, cancellationToken);
             }
 
-            App.Logger.WriteLine("GitHubUpdater", OperatingSystem.IsLinux() ? "No valid Linux bundle asset found." : "No valid Voidstrap executable asset found.");
+            if (linuxInstallation is not null && linuxInstallation.Kind is LinuxInstallationKind.Flatpak or LinuxInstallationKind.Debian or LinuxInstallationKind.Rpm or LinuxInstallationKind.Arch)
+            {
+                App.Logger.WriteLine("GitHubUpdater", "The matching GitHub package is unavailable, trying the installed package source");
+                return await UpdateLinuxPackageSource(linuxInstallation, tag, cancellationToken).ConfigureAwait(false);
+            }
+
+            App.Logger.WriteLine("GitHubUpdater", OperatingSystem.IsLinux() ? "No valid Linux update asset was found" : "No valid Voidstrap executable asset found.");
             return false;
         }
         catch (OperationCanceledException)
@@ -143,6 +158,108 @@ public static class GithubUpdater
             App.Logger.WriteLine("GitHubUpdater", $"Update failed: {ex}");
             return false;
         }
+    }
+
+    private static string? GetLinuxAssetName(string tag, LinuxInstallationKind kind)
+    {
+        return kind switch
+        {
+            LinuxInstallationKind.AppImage => LinuxBundleInstaller.GetAppImageAssetName(tag),
+            LinuxInstallationKind.PortableBundle => LinuxBundleInstaller.GetAssetName(tag, LinuxBundleInstaller.GetCurrentRuntimeIdentifier()),
+            LinuxInstallationKind.Flatpak => LinuxBundleInstaller.GetFlatpakAssetName(tag),
+            LinuxInstallationKind.Debian => LinuxBundleInstaller.GetDebianAssetName(tag),
+            LinuxInstallationKind.Rpm => LinuxBundleInstaller.GetRpmAssetName(tag),
+            _ => null
+        };
+    }
+
+    private static async Task<bool> UpdateLinuxPackage(
+        string url,
+        string name,
+        string digest,
+        LinuxInstallationInfo installation,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        using Voidstrap.Utility.InterProcessLock updateLock = new("AutoUpdater", TimeSpan.FromSeconds(5));
+        if (!updateLock.IsAcquired)
+            throw new IOException("Another update is already in progress");
+
+        string temporaryParent = installation.Kind == LinuxInstallationKind.Flatpak
+            ? ResolveFlatpakUpdateDirectory()
+            : Path.GetTempPath();
+        string temporaryDirectory = Path.Combine(temporaryParent, "Voidstrap_Update_" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(temporaryDirectory);
+        try
+        {
+            string packagePath = Path.Combine(temporaryDirectory, name);
+            await DownloadToFileAsync(url, packagePath, digest, cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+            Voidstrap.Platform.OperationResult result = await LinuxInstallationUpdates.InstallPackageAsync(
+                new Voidstrap.Core.SystemProcessService(),
+                installation,
+                packagePath,
+                cancellationToken).ConfigureAwait(false);
+            if (!result.Succeeded)
+            {
+                App.Logger.WriteLine("GitHubUpdater", "The downloaded Linux package could not be installed: " + (result.Failure?.Message ?? "Unknown package error"));
+                return false;
+            }
+
+            App.Logger.WriteLine("GitHubUpdater", "The " + installation.Kind + " package update completed");
+            return true;
+        }
+        finally
+        {
+            try
+            {
+                if (Directory.Exists(temporaryDirectory))
+                    Directory.Delete(temporaryDirectory, true);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("GitHubUpdater", "Temporary update cleanup failed: " + ex.Message);
+            }
+        }
+    }
+
+    private static string ResolveFlatpakUpdateDirectory()
+    {
+        string directory = Paths.Cache;
+        if (string.IsNullOrWhiteSpace(directory) || !Path.IsPathRooted(directory))
+        {
+            string profile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            directory = Path.Combine(profile, ".var", "app", LinuxInstallationUpdates.ApplicationId, "cache", "Voidstrap", "Updates");
+        }
+        Directory.CreateDirectory(directory);
+        return directory;
+    }
+
+    private static async Task<bool> UpdateLinuxPackageSource(LinuxInstallationInfo installation, string expectedVersionTag, CancellationToken cancellationToken)
+    {
+        using Voidstrap.Utility.InterProcessLock updateLock = new("AutoUpdater", TimeSpan.FromSeconds(5));
+        if (!updateLock.IsAcquired)
+            throw new IOException("Another update is already in progress");
+        return await UpdateLinuxPackageSourceCore(installation, expectedVersionTag, cancellationToken).ConfigureAwait(false);
+    }
+
+    private static async Task<bool> UpdateLinuxPackageSourceCore(LinuxInstallationInfo installation, string? expectedVersionTag, CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(expectedVersionTag))
+            return false;
+        Voidstrap.Platform.OperationResult result = await LinuxInstallationUpdates.UpdateFromPackageSourceAsync(
+            new Voidstrap.Core.SystemProcessService(),
+            installation,
+            expectedVersionTag,
+            cancellationToken).ConfigureAwait(false);
+        if (!result.Succeeded)
+        {
+            App.Logger.WriteLine("GitHubUpdater", "The Linux package source fallback could not update Voidstrap: " + (result.Failure?.Message ?? "Unknown package error"));
+            return false;
+        }
+
+        App.Logger.WriteLine("GitHubUpdater", "The " + installation.Kind + " package source update completed");
+        return true;
     }
 
     private static async Task<bool> UpdateLinuxBundle(string url, string name, string digest, CancellationToken cancellationToken)
@@ -162,6 +279,37 @@ public static class GithubUpdater
             cancellationToken.ThrowIfCancellationRequested();
             string currentExecutable = Environment.ProcessPath ?? throw new InvalidOperationException("The current executable path is unavailable");
             await LinuxBundleInstaller.InstallAsync(archivePath, currentExecutable, cancellationToken);
+            return true;
+        }
+        finally
+        {
+            try
+            {
+                if (Directory.Exists(tempDirectory))
+                    Directory.Delete(tempDirectory, true);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("GitHubUpdater", "Temporary update cleanup failed: " + ex.Message);
+            }
+        }
+    }
+
+    private static async Task<bool> UpdateLinuxAppImage(string url, string name, string digest, string currentAppImagePath, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        using Voidstrap.Utility.InterProcessLock updateLock = new("AutoUpdater", TimeSpan.FromSeconds(5));
+        if (!updateLock.IsAcquired)
+            throw new IOException("Another update is already in progress");
+
+        string tempDirectory = Path.Combine(Path.GetTempPath(), "Voidstrap_Update_" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(tempDirectory);
+        try
+        {
+            string imagePath = Path.Combine(tempDirectory, name);
+            await DownloadToFileAsync(url, imagePath, digest, cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+            await LinuxBundleInstaller.InstallAppImageAsync(imagePath, currentAppImagePath, cancellationToken);
             return true;
         }
         finally
@@ -229,6 +377,6 @@ public static class GithubUpdater
     {
         if (!digest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase) || digest.Length != 71)
             throw new CryptographicException("The update has no valid SHA256 digest");
-        await Voidstrap.Utility.ResilientDownload.DownloadAsync(http, [url], path, MaxUpdateBytes, token, digest).ConfigureAwait(false);
+        await Voidstrap.Utility.ResilientDownload.DownloadAsync(http, [url], path, MaxUpdateBytes, digest, token: token).ConfigureAwait(false);
     }
 }

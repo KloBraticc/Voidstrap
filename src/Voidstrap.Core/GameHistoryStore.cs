@@ -61,7 +61,27 @@ public sealed class GameHistoryStore
 		_paths = paths;
 	}
 
-	public string FilePath => Path.Combine(_paths.Storage.Data, "ServerHistory.json");
+	private string? _filePath;
+
+	public string FilePath => _filePath ??= ResolveFilePath();
+
+	private string ResolveFilePath()
+	{
+		string legacy = Path.Combine(_paths.Storage.Data, "ServerHistory.json");
+		if (!OperatingSystem.IsWindows())
+		{
+			return legacy;
+		}
+
+		string documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+		if (string.IsNullOrWhiteSpace(documents))
+		{
+			return legacy;
+		}
+
+		string library = Path.Combine(documents, "Voidstrap", "Library", "ServerHistory.json");
+		return File.Exists(library) || !File.Exists(legacy) ? library : legacy;
+	}
 
 	public async Task<OperationResult<IReadOnlyCollection<GameHistoryEntry>>> LoadAsync(CancellationToken cancellationToken = default)
 	{
@@ -161,7 +181,7 @@ public sealed class GameHistoryStore
 		return Normalize(entries);
 	}
 
-	private static IReadOnlyCollection<GameHistoryEntry> Normalize(IEnumerable<GameHistoryEntry> entries)
+	private static GameHistoryEntry[] Normalize(IEnumerable<GameHistoryEntry> entries)
 	{
 		Dictionary<string, GameHistoryEntry> unique = new(StringComparer.Ordinal);
 		foreach (GameHistoryEntry entry in entries)

@@ -35,8 +35,8 @@ public static class ThemeEx
 		{
 			return Theme.Dark;
 		}
-		using RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize");
-		object obj = registryKey?.GetValue("AppsUseLightTheme");
+		using RegistryKey? registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize");
+		object? obj = registryKey?.GetValue("AppsUseLightTheme");
 		if (obj is int && (int)obj == 0)
 		{
 			return Theme.Dark;

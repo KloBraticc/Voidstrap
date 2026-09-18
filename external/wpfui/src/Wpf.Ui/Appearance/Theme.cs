@@ -1,4 +1,4 @@
-﻿// This Source Code Form is subject to the terms of the MIT License.
+// This Source Code Form is subject to the terms of the MIT License.
 // If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
@@ -14,6 +14,10 @@ namespace Wpf.Ui.Appearance;
 /// </summary>
 public static class Theme
 {
+    private static readonly ResourceDictionaryManager DictionaryManager = new(AppearanceData.LibraryNamespace);
+    private static readonly Uri LightThemeUri = new(AppearanceData.LibraryThemeDictionariesUri + "Light.xaml", UriKind.Absolute);
+    private static readonly Uri DarkThemeUri = new(AppearanceData.LibraryThemeDictionariesUri + "Dark.xaml", UriKind.Absolute);
+
     /// <summary>
     /// Event triggered when the application's theme is changed.
     /// </summary>
@@ -57,23 +61,9 @@ public static class Theme
             return;
         }
 
-        var appDictionaries = new ResourceDictionaryManager(AppearanceData.LibraryNamespace);
-
-        var themeDictionaryName = "Light";
-
-        switch (themeType)
-        {
-            case ThemeType.Dark:
-                themeDictionaryName = "Dark";
-                break;
-        }
-
-        var isUpdated = appDictionaries.UpdateDictionary(
+        var isUpdated = DictionaryManager.UpdateDictionary(
             "theme",
-            new Uri(
-                AppearanceData.LibraryThemeDictionariesUri + themeDictionaryName + ".xaml",
-                UriKind.Absolute
-            )
+            themeType == ThemeType.Dark ? DarkThemeUri : LightThemeUri
         );
 
         //var wpfUiDictionary = appDictionaries.GetDictionary("wpf.ui");
@@ -98,7 +88,7 @@ public static class Theme
 
 #if DEBUG
         System.Diagnostics.Debug.WriteLine(
-            $"INFO | {typeof(Theme)} tries to update theme to {themeDictionaryName} ({themeType}): {isUpdated}",
+            $"INFO | {typeof(Theme)} tries to update theme to {(themeType == ThemeType.Dark ? "Dark" : "Light")} ({themeType}): {isUpdated}",
             "Wpf.Ui.Theme");
 #endif
         if (!isUpdated)
@@ -230,19 +220,18 @@ public static class Theme
     /// </summary>
     private static void FetchApplicationTheme()
     {
-        var appDictionaries = new ResourceDictionaryManager(AppearanceData.LibraryNamespace);
-        var themeDictionary = appDictionaries.GetDictionary("theme");
+        var themeDictionary = DictionaryManager.GetDictionary("theme");
 
         if (themeDictionary == null)
             return;
 
-        var themeUri = themeDictionary.Source.ToString().Trim().ToLower();
+        var themeUri = themeDictionary.Source?.OriginalString;
 
-        if (themeUri.Contains("light"))
+        if (themeUri?.Contains("light", StringComparison.OrdinalIgnoreCase) == true)
             AppearanceData.ApplicationTheme = ThemeType.Light;
-        else if (themeUri.Contains("dark"))
+        else if (themeUri?.Contains("dark", StringComparison.OrdinalIgnoreCase) == true)
             AppearanceData.ApplicationTheme = ThemeType.Dark;
-        else if (themeUri.Contains("highcontrast"))
+        else if (themeUri?.Contains("highcontrast", StringComparison.OrdinalIgnoreCase) == true)
             AppearanceData.ApplicationTheme = ThemeType.HighContrast;
     }
 

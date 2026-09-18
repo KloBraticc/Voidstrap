@@ -18,7 +18,7 @@
       <RowDefinition />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Title="Music Player" ShowMinimize="True" ShowMaximize="True" Icon="pack://application:,,,/Voidstrap.png" Background="{DynamicResource WindowTitleBarBackgroundBrush}" />
+    <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Title="Music Player" ShowMinimize="True" ShowMaximize="True" Icon="pack://application:,,,/Voidstrap.png" Background="{DynamicResource ApplicationBackgroundBrush}" />
     <Grid Row="1" Margin="16,12,16,12">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="380" />

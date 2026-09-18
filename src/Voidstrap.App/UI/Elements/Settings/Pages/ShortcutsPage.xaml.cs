@@ -1,13 +1,12 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -16,9 +15,9 @@ using System.Web;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Threading;
+using SixLabors.ImageSharp.Processing;
 using Voidstrap.UI.ViewModels.Settings;
 using Wpf.Ui.Controls;
-using Size = System.Drawing.Size;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
@@ -29,16 +28,17 @@ public partial class ShortcutsPage : UiPage{
 
 	private static readonly HttpClient _noRedirectClient = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(15), handler => handler.AllowAutoRedirect = false);
 
-	[DllImport("user32.dll", CharSet = CharSet.Auto)]
-	private static extern bool DestroyIcon(nint handle);
-
 	public ShortcutsPage()
 	{
 		base.DataContext = new ShortcutsViewModel();
 		InitializeComponent();
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			StartMenuOption.Header = "Applications menu";
+		}
 		try
 		{
-			string directoryName = Path.GetDirectoryName(instanceFilePath);
+			string? directoryName = Path.GetDirectoryName(instanceFilePath);
 			if (!string.IsNullOrEmpty(directoryName))
 			{
 				Directory.CreateDirectory(directoryName);
@@ -56,132 +56,53 @@ public partial class ShortcutsPage : UiPage{
 
 	private async void BtnLaunchGame_Click(object sender, RoutedEventArgs e)
 	{
-		ShortcutsViewModel obj = (ShortcutsViewModel)base.DataContext;
-		string text = obj.GameID?.Trim();
-		string text2 = obj.GameInstanceId?.Trim();
-		bool isPrivateServer = obj.IsPrivateServer;
-		string text3 = obj.PrivateServerCode?.Trim();
-		if (string.IsNullOrEmpty(text) && string.IsNullOrEmpty(text3))
-		{
-			Frontend.ShowMessageBox("Please enter a Game ID or a Private Server Link.");
-			return;
-		}
+		SetGameActionsEnabled(false);
 		try
 		{
-			if (!string.IsNullOrEmpty(text2))
-			{
-				string directoryName = Path.GetDirectoryName(instanceFilePath);
-				if (!string.IsNullOrEmpty(directoryName))
-				{
-					Directory.CreateDirectory(directoryName);
-				}
-				File.WriteAllText(instanceFilePath, text2);
-			}
-		}
-		catch (Exception ex)
-		{
-			Frontend.ShowMessageBox("Failed to save Game Instance ID.\n\nError: " + ex.Message);
-		}
-		if (isPrivateServer && !string.IsNullOrEmpty(text3))
-		{
-			try
-			{
-				string text4 = Paths.UserData;
-				Directory.CreateDirectory(text4);
-				File.WriteAllText(Path.Combine(text4, "PrivateServerCode.txt"), text3);
-			}
-			catch (Exception ex2)
-			{
-				Frontend.ShowMessageBox("Failed to save Private Server Code.\n\nError: " + ex2.Message);
-			}
-		}
-		string text6;
-		if (isPrivateServer)
-		{
-			if (string.IsNullOrEmpty(text3))
-			{
-				Frontend.ShowMessageBox("Please enter your Private Server Share Link or Code.");
+			(string LaunchUrl, string PlaceId)? launch = await BuildLaunchAsync();
+			if (launch is null)
 				return;
-			}
-			(string placeId, string code) = await ResolvePrivateServerAsync(text, text3);
-			if (string.IsNullOrEmpty(placeId) || string.IsNullOrEmpty(code))
-			{
-				Frontend.ShowMessageBox("Could not detect Game ID from the share link.");
-				return;
-			}
-			text6 = "roblox://experiences/start?placeId=" + Uri.EscapeDataString(placeId) + "&privateServerLinkCode=" + Uri.EscapeDataString(code);
-		}
-		else
-		{
-			text6 = "roblox://experiences/start?placeId=" + Uri.EscapeDataString(text);
-			if (!string.IsNullOrEmpty(text2))
-			{
-				text6 = text6 + "&gameInstanceId=" + Uri.EscapeDataString(text2);
-			}
-		}
-		try
-		{
+			SaveGameSettings();
 			ProcessStartInfo startInfo = new ProcessStartInfo
 			{
-				FileName = Paths.Process,
+				FileName = Paths.LaunchExecutable,
 				UseShellExecute = false,
 				CreateNoWindow = true,
-				WorkingDirectory = Path.GetDirectoryName(Paths.Process) ?? string.Empty
+				WorkingDirectory = Path.GetDirectoryName(Paths.LaunchExecutable) ?? string.Empty
 			};
 			startInfo.ArgumentList.Add("-player");
-			startInfo.ArgumentList.Add(text6);
+			startInfo.ArgumentList.Add(launch.Value.LaunchUrl);
 			using Process? process = Process.Start(startInfo);
 			Application.Current.Shutdown();
 		}
-		catch (Exception ex4)
+		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("Failed to launch the game.\n\nError: " + ex4.Message);
+			Frontend.ShowMessageBox("Failed to launch the game.\n\nError: " + Describe(ex));
+		}
+		finally
+		{
+			SetGameActionsEnabled(true);
 		}
 	}
 
 	private async void BtnCreateShortcut_Click(object sender, RoutedEventArgs e)
 	{
+		SetGameActionsEnabled(false);
+		try
+		{
 		ShortcutsViewModel shortcutsViewModel = (ShortcutsViewModel)base.DataContext;
-		string displayName = (string.IsNullOrWhiteSpace(shortcutsViewModel.DisplayGameName) ? "Roblox Game" : shortcutsViewModel.DisplayGameName);
-		char[] invalidFileNameChars = Path.GetInvalidFileNameChars();
-		foreach (char oldChar in invalidFileNameChars)
-		{
-			displayName = displayName.Replace(oldChar, '_');
-		}
-		if (displayName.Length > 80)
-		{
-			displayName = displayName.Substring(0, 80);
-		}
-		string launchUrl;
-		string iconPlaceId;
-		if (shortcutsViewModel.IsPrivateServer && !string.IsNullOrWhiteSpace(shortcutsViewModel.PrivateServerCode))
-		{
-			(string placeId, string code) = await ResolvePrivateServerAsync(shortcutsViewModel.GameID, shortcutsViewModel.PrivateServerCode);
-			if (string.IsNullOrEmpty(placeId) || string.IsNullOrEmpty(code))
-			{
-				Frontend.ShowMessageBox("Could not detect Game ID from the private server link.");
-				return;
-			}
-			launchUrl = "roblox://experiences/start?placeId=" + Uri.EscapeDataString(placeId) + "&privateServerLinkCode=" + Uri.EscapeDataString(code);
-			iconPlaceId = placeId;
-		}
-		else
-		{
-			if (string.IsNullOrWhiteSpace(shortcutsViewModel.GameID))
-			{
-				Frontend.ShowMessageBox("Please enter a Game ID first.");
-				return;
-			}
-			launchUrl = "roblox://experiences/start?placeId=" + Uri.EscapeDataString(shortcutsViewModel.GameID.Trim());
-			iconPlaceId = shortcutsViewModel.GameID.Trim();
-		}
+		(string LaunchUrl, string PlaceId)? launch = await BuildLaunchAsync();
+		if (launch is null)
+			return;
+		SaveGameSettings();
+		string displayName = SafeShortcutName(shortcutsViewModel.DisplayGameName);
 		string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-		string shortcutPath = Path.Combine(folderPath, displayName + ".lnk");
-		string executable = File.Exists(Paths.Application) ? Paths.Application : Paths.Process;
+		string shortcutPath = Path.Combine(folderPath, displayName + (Voidstrap.Utility.Platform.IsLinux ? ".desktop" : ".lnk"));
+		string executable = File.Exists(Paths.Application) ? Paths.Application : Paths.LaunchExecutable;
 		string iconPath = string.Empty;
 		try
 		{
-			iconPath = await DownloadAndForceIcoAsync(await FetchGameIconUrlAsync(iconPlaceId), displayName);
+			iconPath = await DownloadAndForceIcoAsync(await FetchGameIconUrlAsync(launch.Value.PlaceId), displayName);
 		}
 		catch (Exception ex)
 		{
@@ -192,17 +113,13 @@ public partial class ShortcutsPage : UiPage{
 		{
 			iconPath = executable;
 		}
-		try
-		{
 			if (File.Exists(shortcutPath))
-			{
 				File.Delete(shortcutPath);
-			}
-			string arguments = "-player \"" + launchUrl.Replace("\"", "") + "\"";
+			string arguments = "-player \"" + launch.Value.LaunchUrl.Replace("\"", "") + "\"";
 			Voidstrap.Utility.Shortcut.Create(executable, arguments, shortcutPath, iconPath);
 			if (!File.Exists(shortcutPath))
 			{
-				Frontend.ShowMessageBox("Failed to create shortcut.\n\nWindows did not let Voidstrap write to the desktop.");
+				Frontend.ShowMessageBox("Failed to create shortcut.\n\nVoidstrap could not write to the desktop folder.");
 				return;
 			}
 			Frontend.ShowMessageBox("Shortcut created:\n" + displayName);
@@ -212,6 +129,80 @@ public partial class ShortcutsPage : UiPage{
 			App.Logger.WriteException("Shortcuts::CreateShortcut", ex);
 			Frontend.ShowMessageBox("Failed to create shortcut.\n\nError: " + Describe(ex));
 		}
+		finally
+		{
+			SetGameActionsEnabled(true);
+		}
+	}
+
+	private async Task<(string LaunchUrl, string PlaceId)?> BuildLaunchAsync()
+	{
+		ShortcutsViewModel viewModel = (ShortcutsViewModel)base.DataContext;
+		string gameId = viewModel.GameID?.Trim() ?? "";
+		if (viewModel.IsPrivateServer)
+		{
+			(string placeId, string code) = await ResolvePrivateServerAsync(gameId, viewModel.PrivateServerCode);
+			if (string.IsNullOrEmpty(placeId) || string.IsNullOrEmpty(code))
+			{
+				Frontend.ShowMessageBox("Enter a valid private server share link, or provide both a Game ID and access code.");
+				return null;
+			}
+			return ("roblox://experiences/start?placeId=" + Uri.EscapeDataString(placeId) + "&privateServerLinkCode=" + Uri.EscapeDataString(code), placeId);
+		}
+		if (!long.TryParse(gameId, out long parsedGameId) || parsedGameId <= 0)
+		{
+			Frontend.ShowMessageBox("Enter a valid numeric Game ID.");
+			return null;
+		}
+		string launchUrl = "roblox://experiences/start?placeId=" + gameId;
+		string instanceId = viewModel.GameInstanceId?.Trim() ?? "";
+		if (instanceId.Length > 128 || instanceId.Any(char.IsControl))
+		{
+			Frontend.ShowMessageBox("Enter a valid server instance ID.");
+			return null;
+		}
+		if (instanceId.Length != 0)
+			launchUrl += "&gameInstanceId=" + Uri.EscapeDataString(instanceId);
+		return (launchUrl, gameId);
+	}
+
+	private static string SafeShortcutName(string? value)
+	{
+		string name = string.IsNullOrWhiteSpace(value) || value == "Unknown Game" || value == "Enter a valid Game ID" ? "Roblox Game" : value.Trim();
+		foreach (char invalid in Path.GetInvalidFileNameChars())
+			name = name.Replace(invalid, '_');
+		name = name.Trim(' ', '.');
+		if (name.Length == 0)
+			name = "Roblox Game";
+		if (new[] { "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" }.Contains(name.Split('.')[0], StringComparer.OrdinalIgnoreCase))
+			name += " Game";
+		return name.Length > 80 ? name[..80].TrimEnd(' ', '.') : name;
+	}
+
+	private void SaveGameSettings()
+	{
+		ShortcutsViewModel viewModel = (ShortcutsViewModel)base.DataContext;
+		Directory.CreateDirectory(Paths.UserData);
+		SaveOptionalText(instanceFilePath, viewModel.GameInstanceId);
+		SaveOptionalText(Path.Combine(Paths.UserData, "PrivateServerCode.txt"), viewModel.IsPrivateServer ? viewModel.PrivateServerCode : null);
+	}
+
+	private static void SaveOptionalText(string path, string? value)
+	{
+		value = value?.Trim();
+		if (string.IsNullOrEmpty(value))
+		{
+			if (File.Exists(path))
+				File.Delete(path);
+			return;
+		}
+		File.WriteAllText(path, value);
+	}
+
+	private void SetGameActionsEnabled(bool enabled)
+	{
+		LaunchGameButton.IsEnabled = enabled;
+		CreateGameShortcutButton.IsEnabled = enabled;
 	}
 
 	private static string Describe(Exception ex)
@@ -231,13 +222,17 @@ public partial class ShortcutsPage : UiPage{
 			return (placeId, code);
 		if (shareUri.Scheme != Uri.UriSchemeHttps || (!shareUri.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase) && !shareUri.Host.Equals("www.roblox.com", StringComparison.OrdinalIgnoreCase)))
 			return ("", "");
-		code = HttpUtility.ParseQueryString(shareUri.Query)["code"] ?? "";
+		var query = HttpUtility.ParseQueryString(shareUri.Query);
+		code = query["code"] ?? query["privateServerLinkCode"] ?? "";
 		if (code.Length == 0 || code.Length > 512)
 			return ("", "");
 		try
 		{
 			using CancellationTokenSource redirectCts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
 			Uri current = shareUri;
+			Match initialMatch = GamePathPattern.Match(current.AbsolutePath);
+			if (initialMatch.Success)
+				placeId = initialMatch.Groups[1].Value;
 			for (int i = 0; i < 5 && string.IsNullOrEmpty(placeId); i++)
 			{
 				using HttpResponseMessage response = await _noRedirectClient.GetAsync(current, HttpCompletionOption.ResponseHeadersRead, redirectCts.Token);
@@ -247,7 +242,7 @@ public partial class ShortcutsPage : UiPage{
 				current = location.IsAbsoluteUri ? location : new Uri(current, location);
 				if (current.Scheme != Uri.UriSchemeHttps || (!current.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase) && !current.Host.EndsWith(".roblox.com", StringComparison.OrdinalIgnoreCase)))
 					return ("", "");
-				Match match = Regex.Match(current.AbsolutePath, "/games/(\\d+)(?:/|$)", RegexOptions.IgnoreCase);
+				Match match = GamePathPattern.Match(current.AbsolutePath);
 				if (match.Success)
 					placeId = match.Groups[1].Value;
 			}
@@ -260,7 +255,7 @@ public partial class ShortcutsPage : UiPage{
 		return long.TryParse(placeId, out long parsedPlaceId) && parsedPlaceId > 0 ? (placeId, code) : ("", "");
 	}
 
-	private async Task<string?> FetchGameIconUrlAsync(string gameId)
+	private static async Task<string?> FetchGameIconUrlAsync(string gameId)
 	{
 		if (string.IsNullOrWhiteSpace(gameId))
 		{
@@ -286,7 +281,8 @@ public partial class ShortcutsPage : UiPage{
 			catch (Exception ex)
 			{
 				App.Logger.WriteLine("Shortcuts::FetchGameIcon", "Icon lookup attempt failed: " + ex.Message);
-				return null;
+				if (i == 2)
+					return null;
 			}
 			try
 			{
@@ -300,7 +296,7 @@ public partial class ShortcutsPage : UiPage{
 		return null;
 	}
 
-	private async Task<string> DownloadAndForceIcoAsync(string? imageUrl, string baseName)
+	private static async Task<string> DownloadAndForceIcoAsync(string? imageUrl, string baseName)
 	{
 		try
 		{
@@ -310,7 +306,6 @@ public partial class ShortcutsPage : UiPage{
 			}
 			string text = Path.Combine(Paths.UserData, "Icons");
 			Directory.CreateDirectory(text);
-			string iconPath = Path.Combine(text, baseName + ".ico");
 			using CancellationTokenSource imageCts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
 			using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, imageUrl);
 			using HttpResponseMessage response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, imageCts.Token).ConfigureAwait(false);
@@ -319,22 +314,41 @@ public partial class ShortcutsPage : UiPage{
 			SixLabors.ImageSharp.ImageInfo? imageInfo = SixLabors.ImageSharp.Image.Identify(imageBytes);
 			if (imageInfo == null || imageInfo.Width <= 0 || imageInfo.Height <= 0 || (long)imageInfo.Width * imageInfo.Height > 16_777_216)
 				throw new InvalidDataException("Game icon dimensions are invalid");
-			using MemoryStream stream = new MemoryStream(imageBytes, writable: false);
-			using Bitmap original = new Bitmap(stream);
-			using Bitmap bitmap = new Bitmap(original, new Size(64, 64));
-			nint hicon = bitmap.GetHicon();
-			try
+			string iconId = Convert.ToHexString(SHA256.HashData(imageBytes))[..12];
+			string iconPath = Path.Combine(text, baseName + "_" + iconId + ".ico");
+			if (Voidstrap.Utility.Platform.IsLinux)
 			{
-				using (Icon icon = Icon.FromHandle(hicon))
-				{
-					using FileStream outputStream = new FileStream(iconPath, FileMode.Create, FileAccess.Write);
-					icon.Save(outputStream);
-				}
+				string portablePath = Path.Combine(text, baseName + ".png");
+				using SixLabors.ImageSharp.Image portable = SixLabors.ImageSharp.Image.Load(imageBytes);
+				using FileStream portableStream = File.Create(portablePath);
+				portable.Save(portableStream, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
+				return portablePath;
 			}
-			finally
+			using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32> image = SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>(imageBytes);
+			image.Mutate(context => context.Resize(new SixLabors.ImageSharp.Processing.ResizeOptions
 			{
-				DestroyIcon(hicon);
-			}
+				Size = new SixLabors.ImageSharp.Size(256, 256),
+				Mode = SixLabors.ImageSharp.Processing.ResizeMode.Pad,
+				PadColor = SixLabors.ImageSharp.Color.Transparent,
+				Sampler = SixLabors.ImageSharp.Processing.KnownResamplers.Lanczos3
+			}));
+			using MemoryStream png = new MemoryStream();
+			image.Save(png, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
+			byte[] payload = png.ToArray();
+			using FileStream output = new FileStream(iconPath, FileMode.Create, FileAccess.Write, FileShare.None);
+			using BinaryWriter writer = new BinaryWriter(output);
+			writer.Write((ushort)0);
+			writer.Write((ushort)1);
+			writer.Write((ushort)1);
+			writer.Write((byte)0);
+			writer.Write((byte)0);
+			writer.Write((byte)0);
+			writer.Write((byte)0);
+			writer.Write((ushort)1);
+			writer.Write((ushort)32);
+			writer.Write((uint)payload.Length);
+			writer.Write((uint)22);
+			writer.Write(payload);
 			return iconPath;
 		}
 		catch (Exception ex)
@@ -343,7 +357,7 @@ public partial class ShortcutsPage : UiPage{
 			return string.Empty;
 		}
 	}
+
+    [GeneratedRegex("/games/(\\d+)(?:/|$)", RegexOptions.IgnoreCase, "en-US")]
+    private static partial Regex GamePathPattern { get; }
 }
-
-
-

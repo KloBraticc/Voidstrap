@@ -34,7 +34,7 @@ internal partial class Installer
 
 	private const bool OpenReleaseNotes = false;
 
-	public string InstallLocation = Path.Combine(Paths.LocalAppData, "Voidstrap");
+	public string InstallLocation = GetDefaultInstallLocation();
 
 	public bool CreateDesktopShortcuts = true;
 
@@ -52,7 +52,7 @@ internal partial class Installer
 
 	public bool VoidstrapRPCReal = true;
 
-	public bool IsImplicitInstall;
+	public bool IsImplicitInstall { get; }
 
 	private static string DesktopShortcut => Path.Combine(Paths.Desktop, "Voidstrap.lnk");
 
@@ -62,21 +62,32 @@ internal partial class Installer
 
 	public string InstallLocationError { get; set; } = "";
 
-	public static string PendingAuthToken = "";
-
-	public static string PendingAuthId = "";
-
-	public static string PendingAuthLabel = "";
-
-	public static string PendingAuthAvatar = "";
-
 	public void DoInstall()
 	{
 		App.Logger.WriteLine("Installer::DoInstall", "Beginning installation");
-		Directory.CreateDirectory(InstallLocation);
-		Paths.Initialize(InstallLocation);
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
+			string? applicationPath = Environment.ProcessPath;
+			if (host == null || string.IsNullOrWhiteSpace(applicationPath))
+			{
+				throw new InvalidOperationException("Linux platform storage is unavailable");
+			}
+			Voidstrap.Platform.OperationResult directoryResult = host.Paths.EnsureDirectoriesAsync().GetAwaiter().GetResult();
+			if (!directoryResult.Succeeded)
+			{
+				throw new IOException(directoryResult.Failure?.Message ?? "Linux data folders could not be prepared");
+			}
+			Paths.InitializePortable(host.Paths.Storage, applicationPath);
+			InstallLocation = Paths.Base;
+		}
+		else
+		{
+			Directory.CreateDirectory(InstallLocation);
+			Paths.Initialize(InstallLocation);
+		}
 		Paths.EnsureDirectories();
-		if (!IsImplicitInstall && !string.Equals(Paths.Process, Paths.Application, StringComparison.InvariantCultureIgnoreCase))
+		if (!Voidstrap.Utility.Platform.IsLinux && !IsImplicitInstall && !string.Equals(Paths.Process, Paths.Application, StringComparison.InvariantCultureIgnoreCase))
 		{
 			TrySafe("clear read only", () => Filesystem.AssertReadOnly(Paths.Application));
 			try
@@ -117,7 +128,6 @@ internal partial class Installer
 			TrySafe("api registration", WindowsRegistry.RegisterApis);
 			TrySafe("player registration", WindowsRegistry.RegisterPlayer);
 			TrySafe("studio protocol registration", () => WindowsRegistry.RegisterStudioProtocol(Paths.Application, "-studio \"%1\""));
-			TrySafe("theme protocol registration", WindowsRegistry.RegisterVoidstrap);
 		}
 		if (Voidstrap.Utility.Platform.IsWindows)
 		{
@@ -133,11 +143,11 @@ internal partial class Installer
 		}
 		else
 		{
-			TrySafe("desktop entry", () => Voidstrap.Utility.LinuxDesktopEntry.Install(Paths.Application));
+			TrySafe("desktop entry", () => Voidstrap.Utility.LinuxDesktopEntry.Install(Paths.Application, CreateDesktopShortcuts));
 		}
-		TrySafe("install location repair", () => InstallLocationResolver.Repair(Paths.Base));
 		App.Settings.Load(alertFailure: false);
 		App.State.Load(alertFailure: false);
+		TrySafe("install location repair", () => InstallLocationResolver.Repair(Paths.Base));
 		App.FastFlags.Load(alertFailure: false);
 		App.Settings.Prop.EnableAnalytics = EnableAnalytics;
 		if (App.IsStudioVisible)
@@ -145,27 +155,16 @@ internal partial class Installer
 			TrySafe("studio registration", WindowsRegistry.RegisterStudio);
 		}
 		App.Settings.Save();
-		ApplyPendingAuth();
 		App.Logger.WriteLine("Installer::DoInstall", "Installation finished");
 	}
 
-	private static void ApplyPendingAuth()
+	private static string GetDefaultInstallLocation()
 	{
-		if (string.IsNullOrWhiteSpace(PendingAuthToken))
+		if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.Platform.RuntimeHost is Voidstrap.Platform.IPlatformHost host)
 		{
-			return;
+			return host.Paths.Storage.ApplicationSupport;
 		}
-
-		try
-		{
-			Voidstrap.Utility.WebsiteAuth.AddOrUpdateAccount(PendingAuthToken, PendingAuthId, PendingAuthLabel, PendingAuthAvatar);
-			App.Logger.WriteLine("Installer::DoInstall", "Restored the onboarding sign in for " + (PendingAuthLabel.Length > 0 ? PendingAuthLabel : PendingAuthId));
-			Voidstrap.Utility.WebsiteAuth.Notify();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Installer::DoInstall", "Could not restore the onboarding sign in: " + ex.Message);
-		}
+		return Path.Combine(Paths.LocalAppData, "Voidstrap");
 	}
 
 	private bool ValidateLocation()
@@ -500,10 +499,25 @@ internal partial class Installer
 		Voidstrap.Integrations.AssetProxy.AssetProxyServer.RemoveCertificates();
 		Voidstrap.Utility.LinuxDesktopEntry.Remove();
 		Voidstrap.Utility.InstallRecord.Delete();
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			if (keepData)
+			{
+				ForceDeleteDirectory(Paths.Cache);
+				ForceDeleteDirectory(Paths.Logs);
+				ForceDeleteDirectory(Paths.Temp);
+			}
+			else
+			{
+				Paths.ResetUserData();
+			}
+			return;
+		}
 		if (Voidstrap.Utility.Platform.IsWindows)
 		{
-			using RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-player");
-			object obj = registryKey?.GetValue("InstallLocation");
+			WindowsRegistry.Unregister("voidstrap");
+			using RegistryKey? registryKey = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-player");
+			object? obj = registryKey?.GetValue("InstallLocation");
 			if (registryKey == null || obj is not string)
 			{
 				WindowsRegistry.Unregister("roblox");
@@ -513,8 +527,8 @@ internal partial class Installer
 			{
 				WindowsRegistry.RegisterPlayer(Path.Combine((string)obj, "RobloxPlayerBeta.exe"), "%1");
 			}
-			using RegistryKey registryKey2 = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-studio");
-			object obj2 = registryKey2?.GetValue("InstallLocation");
+			using RegistryKey? registryKey2 = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-studio");
+			object? obj2 = registryKey2?.GetValue("InstallLocation");
 			if (registryKey2 == null || obj2 is not string)
 			{
 				WindowsRegistry.Unregister("roblox-studio");
@@ -833,6 +847,85 @@ internal partial class Installer
 		}
 	}
 
+	internal static void CleanupStaleBundleExtractions()
+	{
+		if (!Voidstrap.Utility.Platform.IsWindows)
+			return;
+		string root = Path.Combine(Path.GetTempPath(), ".net");
+		if (!Directory.Exists(root) || IsAnotherVoidstrapRunning())
+			return;
+		List<string> inUse = CurrentBundleDirectories();
+		int removed = 0;
+		foreach (string directory in Directory.EnumerateDirectories(root, "Voidstrap*"))
+		{
+			string name = Path.GetFileName(directory);
+			if (name.StartsWith("VoidstrapCleanup.", StringComparison.OrdinalIgnoreCase))
+			{
+				removed += TryDeleteExtraction(directory, inUse);
+			}
+			else if (name.Equals("Voidstrap", StringComparison.OrdinalIgnoreCase) || name.StartsWith("Voidstrap (", StringComparison.OrdinalIgnoreCase))
+			{
+				foreach (string version in Directory.EnumerateDirectories(directory))
+					removed += TryDeleteExtraction(version, inUse);
+			}
+		}
+		if (removed > 0)
+			App.Logger.WriteLine("Installer::CleanupStaleBundleExtractions", "Removed " + removed + " stale extraction folders from the temp directory");
+	}
+
+	private static bool IsAnotherVoidstrapRunning()
+	{
+		bool found = false;
+		int self = Environment.ProcessId;
+		foreach (Process process in Process.GetProcesses())
+		{
+			try
+			{
+				found |= process.Id != self && process.ProcessName.StartsWith("Voidstrap", StringComparison.OrdinalIgnoreCase);
+			}
+			catch
+			{
+			}
+			process.Dispose();
+		}
+		return found;
+	}
+
+	private static List<string> CurrentBundleDirectories()
+	{
+		List<string> directories = [WithTrailingSeparator(AppContext.BaseDirectory)];
+		if (AppContext.GetData("NATIVE_DLL_SEARCH_DIRECTORIES") is string native)
+		{
+			foreach (string entry in native.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries))
+				directories.Add(WithTrailingSeparator(entry));
+		}
+		return directories;
+	}
+
+	private static string WithTrailingSeparator(string path)
+	{
+		return Path.TrimEndingDirectorySeparator(Path.GetFullPath(path)) + Path.DirectorySeparatorChar;
+	}
+
+	private static int TryDeleteExtraction(string directory, List<string> inUse)
+	{
+		string full = WithTrailingSeparator(directory);
+		foreach (string path in inUse)
+		{
+			if (path.StartsWith(full, StringComparison.OrdinalIgnoreCase))
+				return 0;
+		}
+		try
+		{
+			Directory.Delete(full, true);
+			return 1;
+		}
+		catch
+		{
+			return 0;
+		}
+	}
+
 	private static void TryRemoveCleanupHelper()
 	{
 		try
@@ -859,8 +952,8 @@ internal partial class Installer
 			return;
 		}
 		bool flag = App.LaunchSettings.UpgradeFlag.Active || Paths.Process.StartsWith(Path.Combine(Paths.Base, "Updates")) || Paths.Process.StartsWith(Path.Combine(Paths.LocalAppData, "Temp")) || Paths.Process.StartsWith(Paths.TempUpdates);
-		string productVersion = FileVersionInfo.GetVersionInfo(Paths.Application).ProductVersion;
-		string productVersion2 = FileVersionInfo.GetVersionInfo(Paths.Process).ProductVersion;
+		string? productVersion = FileVersionInfo.GetVersionInfo(Paths.Application).ProductVersion;
+		string? productVersion2 = FileVersionInfo.GetVersionInfo(Paths.Process).ProductVersion;
 		if (MD5Hash.FromFile(Paths.Process) == MD5Hash.FromFile(Paths.Application) || (productVersion2 != null && productVersion != null && Utilities.CompareVersions(productVersion2, productVersion) == VersionComparison.LessThan && Frontend.ShowMessageBox(Strings.InstallChecker_VersionLessThanInstalled, MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes) || (!flag && Frontend.ShowMessageBox(Strings.InstallChecker_VersionDifferentThanInstalled, MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes))
 		{
 			return;
@@ -921,6 +1014,10 @@ internal partial class Installer
 			App.State.Save();
 		}
 		RefreshAppIcons();
+		if (productVersion2 != null)
+		{
+			Voidstrap.Utility.AppNotifications.RecordInfo("upgrade:" + productVersion2, "Voidstrap updated", "Voidstrap was updated to version " + productVersion2 + ".");
+		}
 		if (productVersion2 != null && !flag)
 		{
 			Frontend.ShowMessageBox(string.Format(Strings.InstallChecker_Updated, productVersion2), MessageBoxImage.Asterisk);
@@ -979,7 +1076,6 @@ internal partial class Installer
 		}
 
 		TrySafe("player registration", WindowsRegistry.RegisterPlayer);
-		TrySafe("theme protocol registration", WindowsRegistry.RegisterVoidstrap);
 		App.FastFlags.SetValue("FFlagDisableNewIGMinDUA", null);
 		App.FastFlags.SetValue("FFlagFixGraphicsQuality", null);
 	}

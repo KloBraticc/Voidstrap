@@ -2,14 +2,15 @@ using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
+
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Markup;
 using System.Windows.Media.Imaging;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.ContextMenu;
@@ -19,9 +20,9 @@ public partial class ImageRecolorWindow : UiWindow{
 
 	private readonly string _relativePath;
 
-	private Bitmap _originalBitmap;
+	private Image<Rgba32> _originalBitmap;
 
-	private Bitmap _currentBitmap;
+	private Image<Rgba32> _currentBitmap;
 
 	public ImageRecolorWindow(string sourcePath, string relativePath)
 	{
@@ -29,67 +30,51 @@ public partial class ImageRecolorWindow : UiWindow{
 		InitializeComponent();
 		_sourcePath = sourcePath;
 		_relativePath = relativePath;
-		_originalBitmap = new Bitmap(_sourcePath);
-		_currentBitmap = new Bitmap(_originalBitmap);
+		_originalBitmap = SixLabors.ImageSharp.Image.Load<Rgba32>(_sourcePath);
+		_currentBitmap = _originalBitmap.Clone();
 		UpdatePreview();
 	}
 
 	private void UpdatePreview()
 	{
 		using MemoryStream memoryStream = new MemoryStream();
-		_currentBitmap.Save(memoryStream, ImageFormat.Png);
+		_currentBitmap.SaveAsPng(memoryStream);
 		memoryStream.Seek(0L, SeekOrigin.Begin);
-		BitmapImage bitmapImage = new BitmapImage();
-		bitmapImage.BeginInit();
-		bitmapImage.StreamSource = memoryStream;
-		bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-		bitmapImage.EndInit();
-		((Freezable)bitmapImage).Freeze();
-		PreviewImage.Source = bitmapImage;
+		PreviewImage.Source = Voidstrap.Utility.SafeImaging.FromStream(memoryStream);
 	}
 
 	private void ApplyRecolor()
 	{
 		try
 		{
-			Color color = ColorTranslator.FromHtml(HexInput.Text);
-			float num = (float)IntensitySlider.Value;
-			Bitmap bitmap = new Bitmap(_originalBitmap.Width, _originalBitmap.Height);
-			using (Graphics graphics = Graphics.FromImage(bitmap))
+			if (!SixLabors.ImageSharp.Color.TryParseHex(HexInput.Text, out SixLabors.ImageSharp.Color parsed))
 			{
-				ColorMatrix colorMatrix = new ColorMatrix(new float[5][]
-				{
-					new float[5]
-					{
-						1f - num + (float)(int)color.R / 255f * num,
-						0f,
-						0f,
-						0f,
-						0f
-					},
-					new float[5]
-					{
-						0f,
-						1f - num + (float)(int)color.G / 255f * num,
-						0f,
-						0f,
-						0f
-					},
-					new float[5]
-					{
-						0f,
-						0f,
-						1f - num + (float)(int)color.B / 255f * num,
-						0f,
-						0f
-					},
-					new float[5] { 0f, 0f, 0f, 1f, 0f },
-					new float[5] { 0f, 0f, 0f, 0f, 1f }
-				});
-				ImageAttributes imageAttributes = new ImageAttributes();
-				imageAttributes.SetColorMatrix(colorMatrix);
-				graphics.DrawImage(_originalBitmap, new Rectangle(0, 0, _originalBitmap.Width, _originalBitmap.Height), 0, 0, _originalBitmap.Width, _originalBitmap.Height, GraphicsUnit.Pixel, imageAttributes);
+				return;
 			}
+
+			Rgba32 target = parsed.ToPixel<Rgba32>();
+			float intensity = (float)IntensitySlider.Value;
+			float scaleR = 1f - intensity + target.R / 255f * intensity;
+			float scaleG = 1f - intensity + target.G / 255f * intensity;
+			float scaleB = 1f - intensity + target.B / 255f * intensity;
+
+			Image<Rgba32> bitmap = _originalBitmap.Clone();
+			bitmap.ProcessPixelRows(accessor =>
+			{
+				for (int y = 0; y < accessor.Height; y++)
+				{
+					Span<Rgba32> row = accessor.GetRowSpan(y);
+					for (int x = 0; x < row.Length; x++)
+					{
+						Rgba32 pixel = row[x];
+						pixel.R = (byte)Math.Clamp(pixel.R * scaleR, 0f, 255f);
+						pixel.G = (byte)Math.Clamp(pixel.G * scaleG, 0f, 255f);
+						pixel.B = (byte)Math.Clamp(pixel.B * scaleB, 0f, 255f);
+						row[x] = pixel;
+					}
+				}
+			});
+
 			_currentBitmap?.Dispose();
 			_currentBitmap = bitmap;
 			UpdatePreview();
@@ -112,7 +97,7 @@ public partial class ImageRecolorWindow : UiWindow{
 	private void PickColor_Click(object sender, RoutedEventArgs e)
 	{
 		var dlg = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog { Owner = this };
-		if (dlg.ShowDialog() == true)
+		if (dlg.ShowOwnedDialog() == true)
 		{
 			HexInput.Text = $"#{dlg.SelectedColor.R:X2}{dlg.SelectedColor.G:X2}{dlg.SelectedColor.B:X2}";
 		}
@@ -121,7 +106,7 @@ public partial class ImageRecolorWindow : UiWindow{
 	private void Reset_Click(object sender, RoutedEventArgs e)
 	{
 		_currentBitmap?.Dispose();
-		_currentBitmap = new Bitmap(_originalBitmap);
+		_currentBitmap = _originalBitmap.Clone();
 		HexInput.Text = "#FFFFFF";
 		IntensitySlider.Value = 1.0;
 		UpdatePreview();
@@ -130,14 +115,14 @@ public partial class ImageRecolorWindow : UiWindow{
 	private void Save_Click(object sender, RoutedEventArgs e)
 	{
 		string text = Path.Combine(Paths.Mods, _relativePath);
-		string directoryName = Path.GetDirectoryName(text);
+		string? directoryName = Path.GetDirectoryName(text);
 		try
 		{
 			if (directoryName != null)
 			{
 				Directory.CreateDirectory(directoryName);
 			}
-			_currentBitmap.Save(text, ImageFormat.Png);
+			_currentBitmap.SaveAsPng(text);
 			Frontend.ShowMessageBox("Image recolored and saved to Mods!", MessageBoxImage.Asterisk);
 			Close();
 		}

@@ -10,7 +10,7 @@ namespace Voidstrap.UI.ViewModels.Bootstrapper;
 
 public class BootstrapperDialogViewModel : NotifyPropertyChangedViewModel
 {
-	private readonly IBootstrapperDialog _dialog;
+	private readonly IBootstrapperDialog? _dialog;
 
 	public ICommand CancelInstallCommand => new RelayCommand(CancelInstall);
 
@@ -57,6 +57,7 @@ public class BootstrapperDialogViewModel : NotifyPropertyChangedViewModel
 
 	private void CancelInstall()
 	{
+		if (_dialog == null) return;
 		try { _dialog.CancelCallback?.Invoke(); } catch { }
 		_dialog.Bootstrapper?.Cancel();
 		_dialog.CloseBootstrapper();

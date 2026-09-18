@@ -63,7 +63,7 @@ namespace Voidstrap.Utility
             "RadialGradientBrush.GradientStops"
         };
 
-        private static readonly IReadOnlyDictionary<string, HashSet<string>> AllowedAttributes = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal)
+        private static readonly Dictionary<string, HashSet<string>> AllowedAttributes = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal)
         {
             ["ResourceDictionary"] = new HashSet<string>(StringComparer.Ordinal),
             ["Color"] = new HashSet<string>(StringComparer.Ordinal) { "Key" },

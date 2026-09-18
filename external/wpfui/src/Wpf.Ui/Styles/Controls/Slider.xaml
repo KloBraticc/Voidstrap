@@ -7,6 +7,8 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <CubicEase x:Key="UiSliderEaseOut" EasingMode="EaseOut" />
+
     <Style x:Key="UiSliderButtonStyle" TargetType="{x:Type RepeatButton}">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Focusable" Value="False" />
@@ -21,6 +23,300 @@
         </Setter>
     </Style>
 
+    <Style x:Key="UiSliderFillButtonStyle" TargetType="{x:Type RepeatButton}">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Grid Background="Transparent">
+                        <Border
+                            x:Name="Fill"
+                            Height="4"
+                            Margin="0,0,-6,0"
+                            VerticalAlignment="Center"
+                            CornerRadius="2"
+                            Opacity="0.9">
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
+                            </Border.Background>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="UiSliderVerticalFillButtonStyle" TargetType="{x:Type RepeatButton}">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Grid Background="Transparent">
+                        <Border
+                            Width="4"
+                            Margin="0,-6,0,0"
+                            HorizontalAlignment="Center"
+                            CornerRadius="2"
+                            Opacity="0.9">
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
+                            </Border.Background>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="UiSliderThumbTemplate" TargetType="{x:Type Thumb}">
+        <Grid>
+            <Ellipse x:Name="OuterRing" StrokeThickness="1">
+                <Ellipse.Fill>
+                    <SolidColorBrush Color="{DynamicResource ControlSolidFillColorDefault}" />
+                </Ellipse.Fill>
+                <Ellipse.Stroke>
+                    <SolidColorBrush Color="{DynamicResource ControlStrokeColorDefault}" />
+                </Ellipse.Stroke>
+            </Ellipse>
+            <Ellipse
+                x:Name="InnerDot"
+                Fill="{TemplateBinding Background}"
+                RenderTransformOrigin="0.5,0.5">
+                <Ellipse.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="DotScale" ScaleX="0.6" ScaleY="0.6" />
+                        <ScaleTransform x:Name="HoverScale" ScaleX="1" ScaleY="1" />
+                    </TransformGroup>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleX" To="1.15" Duration="0:0:0.08">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuadraticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleY" To="1.15" Duration="0:0:0.08">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuadraticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.1" />
+                            <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+            <Trigger Property="IsDragging" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="DotScale" Storyboard.TargetProperty="ScaleX" To="0.46" Duration="0:0:0.14">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuarticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="DotScale" Storyboard.TargetProperty="ScaleY" To="0.46" Duration="0:0:0.14">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuarticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="DotScale" Storyboard.TargetProperty="ScaleX" To="0.6" Duration="0:0:0.34">
+                                <DoubleAnimation.EasingFunction>
+                                    <BackEase Amplitude="0.5" EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="DotScale" Storyboard.TargetProperty="ScaleY" To="0.6" Duration="0:0:0.34">
+                                <DoubleAnimation.EasingFunction>
+                                    <BackEase Amplitude="0.5" EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="UiSliderBubbleThumbTemplate" TargetType="{x:Type Thumb}">
+        <Grid>
+            <Ellipse x:Name="OuterRing" StrokeThickness="1">
+                <Ellipse.Fill>
+                    <SolidColorBrush Color="{DynamicResource ControlSolidFillColorDefault}" />
+                </Ellipse.Fill>
+                <Ellipse.Stroke>
+                    <SolidColorBrush Color="{DynamicResource ControlStrokeColorDefault}" />
+                </Ellipse.Stroke>
+            </Ellipse>
+            <Ellipse
+                x:Name="InnerDot"
+                Fill="{TemplateBinding Background}"
+                RenderTransformOrigin="0.5,0.5">
+                <Ellipse.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="DotScale" ScaleX="0.6" ScaleY="0.6" />
+                        <ScaleTransform x:Name="HoverScale" ScaleX="1" ScaleY="1" />
+                    </TransformGroup>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+        <Canvas IsHitTestVisible="False">
+            <Grid
+                x:Name="Bubble"
+                Canvas.Left="-50"
+                Canvas.Top="-36"
+                Width="120"
+                Opacity="0"
+                RenderTransformOrigin="0.5,1">
+                <Grid.RenderTransform>
+                    <TranslateTransform x:Name="BubbleShift" Y="6" />
+                </Grid.RenderTransform>
+                <Border
+                    HorizontalAlignment="Center"
+                    Padding="8,3"
+                    CornerRadius="5"
+                    BorderThickness="1">
+                    <Border.Background>
+                        <SolidColorBrush Color="{DynamicResource ControlSolidFillColorDefault}" />
+                    </Border.Background>
+                    <Border.BorderBrush>
+                        <SolidColorBrush Color="{DynamicResource ControlStrokeColorDefault}" />
+                    </Border.BorderBrush>
+                    <Grid>
+                        <TextBlock
+                            x:Name="ValueText"
+                            FontSize="12"
+                            FontWeight="SemiBold"
+                            Text="{Binding Value, RelativeSource={RelativeSource AncestorType=Slider}, StringFormat={}{0:0.##}}">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                            </TextBlock.Foreground>
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Slider}}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock
+                            FontSize="12"
+                            FontWeight="SemiBold"
+                            Text="{Binding Tag, RelativeSource={RelativeSource AncestorType=Slider}}">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                            </TextBlock.Foreground>
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Slider}}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Canvas>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleX" To="1.15" Duration="0:0:0.08">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuadraticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleY" To="1.15" Duration="0:0:0.08">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuadraticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.1" />
+                            <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+            <Trigger Property="IsDragging" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Bubble" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.14" />
+                            <DoubleAnimation Storyboard.TargetName="BubbleShift" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.2">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="DotScale" Storyboard.TargetProperty="ScaleX" To="0.46" Duration="0:0:0.14">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuarticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="DotScale" Storyboard.TargetProperty="ScaleY" To="0.46" Duration="0:0:0.14">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuarticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Bubble" Storyboard.TargetProperty="Opacity" To="0" BeginTime="0:0:0.15" Duration="0:0:0.2" />
+                            <DoubleAnimation Storyboard.TargetName="BubbleShift" Storyboard.TargetProperty="Y" To="6" BeginTime="0:0:0.15" Duration="0:0:0.2" />
+                            <DoubleAnimation Storyboard.TargetName="DotScale" Storyboard.TargetProperty="ScaleX" To="0.6" Duration="0:0:0.34">
+                                <DoubleAnimation.EasingFunction>
+                                    <BackEase Amplitude="0.5" EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="DotScale" Storyboard.TargetProperty="ScaleY" To="0.6" Duration="0:0:0.34">
+                                <DoubleAnimation.EasingFunction>
+                                    <BackEase Amplitude="0.5" EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
     <Style x:Key="UiSliderThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Height" Value="20" />
         <Setter Property="Width" Value="20" />
@@ -31,135 +327,13 @@
                 <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Grid>
-                        <Ellipse x:Name="OuterRing" StrokeThickness="1">
-                            <Ellipse.Fill>
-                                <SolidColorBrush Color="{DynamicResource ControlSolidFillColorDefault}" />
-                            </Ellipse.Fill>
-                            <Ellipse.Stroke>
-                                <SolidColorBrush Color="{DynamicResource ControlStrokeColorDefault}" />
-                            </Ellipse.Stroke>
-                        </Ellipse>
-                        <Ellipse
-                            x:Name="InnerDot"
-                            Fill="{TemplateBinding Background}"
-                            RenderTransformOrigin="0.5,0.5">
-                            <Ellipse.RenderTransform>
-                                <ScaleTransform ScaleX="0.6" ScaleY="0.6" />
-                            </Ellipse.RenderTransform>
-                        </Ellipse>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="InnerDot"
-                                            Storyboard.TargetProperty="(Ellipse.RenderTransform).(ScaleTransform.ScaleX)"
-                                            To="0.7"
-                                            Duration="00:00:00.175">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuarticEase EasingMode="EaseOut" />
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="InnerDot"
-                                            Storyboard.TargetProperty="(Ellipse.RenderTransform).(ScaleTransform.ScaleY)"
-                                            To="0.7"
-                                            Duration="00:00:00.175">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuarticEase EasingMode="EaseOut" />
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="InnerDot"
-                                            Storyboard.TargetProperty="(Ellipse.RenderTransform).(ScaleTransform.ScaleX)"
-                                            To="0.6"
-                                            Duration="00:00:00.175">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuarticEase EasingMode="EaseOut" />
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="InnerDot"
-                                            Storyboard.TargetProperty="(Ellipse.RenderTransform).(ScaleTransform.ScaleY)"
-                                            To="0.6"
-                                            Duration="00:00:00.175">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuarticEase EasingMode="EaseOut" />
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
-                        </Trigger>
-                        <Trigger Property="IsDragging" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="InnerDot"
-                                            Storyboard.TargetProperty="(Ellipse.RenderTransform).(ScaleTransform.ScaleX)"
-                                            To="0.5"
-                                            Duration="00:00:00.175">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuarticEase EasingMode="EaseOut" />
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="InnerDot"
-                                            Storyboard.TargetProperty="(Ellipse.RenderTransform).(ScaleTransform.ScaleY)"
-                                            To="0.5"
-                                            Duration="00:00:00.175">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuarticEase EasingMode="EaseOut" />
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="InnerDot"
-                                            Storyboard.TargetProperty="(Ellipse.RenderTransform).(ScaleTransform.ScaleX)"
-                                            To="0.6"
-                                            Duration="00:00:00.175">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuarticEase EasingMode="EaseOut" />
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="InnerDot"
-                                            Storyboard.TargetProperty="(Ellipse.RenderTransform).(ScaleTransform.ScaleY)"
-                                            To="0.6"
-                                            Duration="00:00:00.175">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuarticEase EasingMode="EaseOut" />
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Template" Value="{StaticResource UiSliderThumbTemplate}" />
     </Style>
 
-    <!--  Template when the orientation of the Slider is Horizontal.  -->
+    <Style x:Key="UiSliderBubbleThumbStyle" BasedOn="{StaticResource UiSliderThumbStyle}" TargetType="{x:Type Thumb}">
+        <Setter Property="Template" Value="{StaticResource UiSliderBubbleThumbTemplate}" />
+    </Style>
+
     <ControlTemplate x:Key="UiHorizontalSlider" TargetType="{x:Type Slider}">
         <Grid>
             <Grid.RowDefinitions>
@@ -189,10 +363,10 @@
             </Border>
             <Track x:Name="PART_Track" Grid.Row="1">
                 <Track.DecreaseRepeatButton>
-                    <RepeatButton Command="Slider.DecreaseLarge" Style="{StaticResource UiSliderButtonStyle}" />
+                    <RepeatButton x:Name="FillButton" Command="Slider.DecreaseLarge" Style="{StaticResource UiSliderFillButtonStyle}" />
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
-                    <Thumb x:Name="Thumb" Style="{StaticResource UiSliderThumbStyle}" />
+                    <Thumb x:Name="Thumb" Style="{StaticResource UiSliderBubbleThumbStyle}" />
                 </Track.Thumb>
                 <Track.IncreaseRepeatButton>
                     <RepeatButton Command="Slider.IncreaseLarge" Style="{StaticResource UiSliderButtonStyle}" />
@@ -224,16 +398,14 @@
                         <SolidColorBrush Color="{DynamicResource ControlFillColorSecondary}" />
                     </Setter.Value>
                 </Setter>
-                <Setter TargetName="Thumb" Property="Background">
-                    <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
-                    </Setter.Value>
-                </Setter>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="FillButton" Property="Opacity" Value="0.4" />
+                <Setter TargetName="Thumb" Property="Opacity" Value="0.6" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <!--  Template when the orientation of the Slider is Vertical.  -->
     <ControlTemplate x:Key="UiVerticalSlider" TargetType="{x:Type Slider}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -264,7 +436,7 @@
             </Border>
             <Track x:Name="PART_Track" Grid.Column="1">
                 <Track.DecreaseRepeatButton>
-                    <RepeatButton Command="Slider.DecreaseLarge" Style="{StaticResource UiSliderButtonStyle}" />
+                    <RepeatButton x:Name="FillButton" Command="Slider.DecreaseLarge" Style="{StaticResource UiSliderVerticalFillButtonStyle}" />
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
                     <Thumb x:Name="Thumb" Style="{StaticResource UiSliderThumbStyle}" />
@@ -299,11 +471,10 @@
                         <SolidColorBrush Color="{DynamicResource ControlFillColorSecondary}" />
                     </Setter.Value>
                 </Setter>
-                <Setter TargetName="Thumb" Property="Background">
-                    <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
-                    </Setter.Value>
-                </Setter>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="FillButton" Property="Opacity" Value="0.4" />
+                <Setter TargetName="Thumb" Property="Opacity" Value="0.6" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

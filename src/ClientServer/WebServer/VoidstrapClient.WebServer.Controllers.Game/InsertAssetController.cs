@@ -21,7 +21,7 @@ public class InsertAssetController : ControllerBase
 		string content = "<List></List>";
 		if (type == "base")
 		{
-			content = SetsService.Instance.GetBaseSet();
+			content = SetsService.GetBaseSet();
 		}
 		else if (setId > 0)
 		{

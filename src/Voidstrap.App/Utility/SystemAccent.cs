@@ -1,14 +1,28 @@
 using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Media;
+using Microsoft.Win32;
 
 namespace Voidstrap.Utility;
 
-internal static class SystemAccent
+internal static partial class SystemAccent
 {
+	private const string LogIdent = "SystemAccent";
+
 	private static readonly Color Fallback = Color.FromRgb(0x6B, 0x4E, 0xE6);
 
+	private static readonly Color TextLight = Color.FromRgb(0xFF, 0xFF, 0xFF);
+
+	private static readonly Color TextDark = Color.FromRgb(0x00, 0x00, 0x00);
+
 	private static Color? _cached;
+
+	private static bool _subscribed;
+
+	[LibraryImport("dwmapi.dll", EntryPoint = "DwmGetColorizationColor")]
+	private static partial int DwmGetColorizationColor(out uint colorizationColor, [MarshalAs(UnmanagedType.Bool)] out bool opaqueBlend);
 
 	public static Color GetGlassColor()
 	{
@@ -55,7 +69,11 @@ internal static class SystemAccent
 		Color result = Fallback;
 		try
 		{
-			if (OperatingSystem.IsMacOS())
+			if (OperatingSystem.IsWindows())
+			{
+				result = GetWindowsAccent() ?? Fallback;
+			}
+			else if (OperatingSystem.IsMacOS())
 			{
 				result = GetMacOSAccent() ?? Fallback;
 			}
@@ -69,6 +87,116 @@ internal static class SystemAccent
 		}
 		_cached = result;
 		return result;
+	}
+
+	public static void ApplyResources()
+	{
+		Application? application = Application.Current;
+		if (application == null)
+		{
+			return;
+		}
+		try
+		{
+			Color fill = ResolveFill(application);
+			SolidColorBrush fillBrush = new SolidColorBrush(fill);
+			fillBrush.Freeze();
+			SolidColorBrush textBrush = new SolidColorBrush(ReadableOn(fill));
+			textBrush.Freeze();
+			application.Resources["AccentFillColorPrimary"] = fill;
+			application.Resources["AccentFillColorPrimaryBrush"] = fillBrush;
+			application.Resources["TextOnAccentFillColorPrimary"] = textBrush.Color;
+			application.Resources["TextOnAccentFillColorPrimaryBrush"] = textBrush;
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine(LogIdent, "The accent brushes could not be applied: " + ex.Message);
+		}
+		if (_subscribed || !Platform.IsWindows)
+		{
+			return;
+		}
+		SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+		_subscribed = true;
+	}
+
+	public static void Shutdown()
+	{
+		if (!_subscribed)
+		{
+			return;
+		}
+		SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+		_subscribed = false;
+	}
+
+	private static void OnUserPreferenceChanged(object? sender, UserPreferenceChangedEventArgs e)
+	{
+		if (e.Category != UserPreferenceCategory.General && e.Category != UserPreferenceCategory.Color && e.Category != UserPreferenceCategory.VisualStyle)
+		{
+			return;
+		}
+		_cached = null;
+		Application? application = Application.Current;
+		if (application == null)
+		{
+			return;
+		}
+		application.Dispatcher.BeginInvoke(new Action(ApplyResources));
+	}
+
+	private static Color ResolveFill(Application application)
+	{
+		foreach (string key in new string[] { "SystemAccentColorSecondary", "SystemAccentColorPrimary", "SystemAccentColor" })
+		{
+			try
+			{
+				if (application.Resources[key] is Color themed && themed.A != 0)
+				{
+					return themed;
+				}
+			}
+			catch
+			{
+			}
+		}
+		return Get();
+	}
+
+	private static Color ReadableOn(Color color)
+	{
+		double luminance = (0.299 * color.R + 0.587 * color.G + 0.114 * color.B) / 255.0;
+		return luminance > 0.58 ? TextDark : TextLight;
+	}
+
+	private static Color? GetWindowsAccent()
+	{
+		try
+		{
+			if (DwmGetColorizationColor(out uint colorization, out bool _) == 0)
+			{
+				Color color = Color.FromRgb((byte)(colorization >> 16), (byte)(colorization >> 8), (byte)colorization);
+				if (color.R != 0 || color.G != 0 || color.B != 0)
+				{
+					return color;
+				}
+			}
+		}
+		catch
+		{
+		}
+		try
+		{
+			Color glass = System.Windows.SystemParameters.WindowGlassColor;
+			if (glass.A != 0 && (glass.R != 0 || glass.G != 0 || glass.B != 0))
+			{
+				return Color.FromRgb(glass.R, glass.G, glass.B);
+			}
+		}
+		catch
+		{
+		}
+		return null;
 	}
 
 	private static Color? GetMacOSAccent()

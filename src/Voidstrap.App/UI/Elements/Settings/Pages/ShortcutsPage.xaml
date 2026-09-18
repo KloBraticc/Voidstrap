@@ -1,4 +1,4 @@
-<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.ShortcutsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="ShortcutsPage" Scrollable="True">
+﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.ShortcutsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:appUi="clr-namespace:Voidstrap.UI" Title="ShortcutsPage" Scrollable="True">
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -19,7 +19,7 @@
       <controls:OptionControl Grid.Column="0" Header="{x:Static resources:Strings.Common_Shortcuts_Desktop}">
         <ui:ToggleSwitch IsChecked="{Binding DesktopIconTask.NewState, Mode=TwoWay}" />
       </controls:OptionControl>
-      <controls:OptionControl Grid.Column="1" Header="{x:Static resources:Strings.Common_Shortcuts_StartMenu}">
+      <controls:OptionControl x:Name="StartMenuOption" Grid.Column="1" Header="{x:Static resources:Strings.Common_Shortcuts_StartMenu}">
         <ui:ToggleSwitch IsChecked="{Binding StartMenuIconTask.NewState, Mode=TwoWay}" />
       </controls:OptionControl>
     </Grid>
@@ -41,38 +41,62 @@
         <ui:ToggleSwitch IsChecked="{Binding SettingsIconTask.NewState, Mode=TwoWay}" />
       </controls:OptionControl>
     </Grid>
-    <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+    <ui:CardExpander Margin="0,12,0,0" IsExpanded="False">
       <HeaderedContentControl.Header>
         <StackPanel>
-          <TextBlock FontSize="14" Text="Game Settings" />
-          <TextBlock Margin="0,2,0,0" FontSize="12" Text="Configure and launch your Roblox game" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+          <TextBlock FontSize="14" FontWeight="Medium" Text="Game shortcut" />
+          <TextBlock Margin="0,2,0,0" FontSize="12" Text="Launch a game now or create a reusable desktop shortcut" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
         </StackPanel>
       </HeaderedContentControl.Header>
-      <StackPanel>
-        <TextBlock FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Manage launch options for Roblox or Voidstrap." TextWrapping="Wrap" />
-        <StackPanel Margin="0,8,0,0">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="140" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Margin="0,0,18,0">
+          <Border Width="120" Height="120" CornerRadius="12" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}" HorizontalAlignment="Left" ClipToBounds="True">
+            <Grid>
+              <ui:SymbolIcon Symbol="Games24" FontSize="38" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              <Border Visibility="{Binding IsIconVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Border.Background>
+                  <ImageBrush Stretch="UniformToFill" ImageSource="{Binding GameIconUrl, Converter={StaticResource WindowsOnlyImageSourceConverter}, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+                </Border.Background>
+                <Image util:DynamicRenderSystem.LinuxImageSource="{Binding GameIconUrl}" Stretch="UniformToFill" Visibility="{x:Static appUi:PlatformFeatureVisibility.LinuxIntegration}" />
+              </Border>
+            </Grid>
+          </Border>
+          <TextBlock Width="120" Margin="0,8,0,0" FontSize="14" FontWeight="SemiBold" TextAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding DisplayGameName}" ToolTip="{Binding DisplayGameName}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+          <TextBlock FontSize="16" FontWeight="SemiBold" Text="Destination" />
+          <TextBlock Margin="0,2,0,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Use the place ID from the Roblox game URL." TextWrapping="Wrap" />
           <TextBlock Text="Game ID" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-          <ui:TextBox Margin="0,4,0,0" PlaceholderText="Enter Game ID (e.g., 1818)" Text="{Binding GameID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          <ui:TextBox Margin="0,4,0,0" PlaceholderText="Example: 1818" Text="{Binding GameID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          <Grid Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+              <TextBlock FontWeight="Medium" Text="Private server" />
+              <TextBlock Margin="0,2,12,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Use a private server share link or access code" TextWrapping="Wrap" />
+            </StackPanel>
+            <ui:ToggleSwitch Grid.Column="1" VerticalAlignment="Center" AutomationProperties.Name="Private server" IsChecked="{Binding IsPrivateServer, Mode=TwoWay}" />
+          </Grid>
+          <StackPanel Margin="0,10,0,0" Visibility="{Binding IsPrivateServer, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TextBlock Text="Share link or access code" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <ui:TextBox Margin="0,4,0,0" PlaceholderText="Paste the complete private server link" Text="{Binding PrivateServerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          </StackPanel>
+          <StackPanel Margin="0,10,0,0">
+            <TextBlock Text="Server instance ID" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <ui:TextBox Margin="0,4,0,0" PlaceholderText="Optional public server instance" IsEnabled="{Binding IsPublicServer}" Text="{Binding GameInstanceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          </StackPanel>
+          <StackPanel Margin="0,16,0,0" Orientation="Horizontal">
+            <ui:Button x:Name="LaunchGameButton" Appearance="Primary" Icon="Play24" Content="Launch game" Click="BtnLaunchGame_Click" />
+            <ui:Button x:Name="CreateGameShortcutButton" Margin="8,0,0,0" Icon="Desktop24" Content="Create desktop shortcut" Click="BtnCreateShortcut_Click" />
+          </StackPanel>
         </StackPanel>
-        <StackPanel Margin="0,8,0,0">
-          <TextBlock Text="Instance ID (Optional)" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-          <ui:TextBox Margin="0,4,0,0" PlaceholderText="Enter Instance ID" Text="{Binding GameInstanceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        </StackPanel>
-        <StackPanel Margin="0,8,0,0" Visibility="{Binding IsPrivateServer, Converter={StaticResource BoolToVisibilityConverter}}">
-          <TextBlock Text="Private Server Access Code" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-          <ui:TextBox Margin="0,4,0,0" PlaceholderText="Enter Private Server Code" Text="{Binding PrivateServerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        </StackPanel>
-        <TextBlock Margin="0,8,0,0" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding DisplayGameName}" />
-        <Border Margin="0,4,0,0" Width="96" Height="96" CornerRadius="12" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding IsIconVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-          <Border.Background>
-            <ImageBrush Stretch="UniformToFill" ImageSource="{Binding GameIconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
-          </Border.Background>
-        </Border>
-        <TextBlock Margin="0,8,0,0" Text="Launch as Private Server" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-        <ui:ToggleSwitch Margin="0,4,0,0" AutomationProperties.Name="Launch as Private Server" IsChecked="{Binding IsPrivateServer, Mode=TwoWay}" />
-        <ui:Button Margin="0,12,0,0" Content="Launch Game" Click="BtnLaunchGame_Click" />
-        <ui:Button Margin="0,8,0,0" Content="Create Shortcut" Click="BtnCreateShortcut_Click" />
-      </StackPanel>
+      </Grid>
     </ui:CardExpander>
   </StackPanel>
 </ui:UiPage>

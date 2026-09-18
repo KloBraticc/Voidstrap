@@ -22,10 +22,7 @@ namespace Voidstrap.Utility
         private static readonly HttpClient _httpClient = VpnHttpClient.Create(TimeSpan.FromSeconds(20));
         private static string CachePath => Path.Combine(Paths.Initialized ? Paths.Cache : Paths.Temp, "Translations.json");
 
-        private static string RemoteApi => App.WebsiteBaseUrl + "/api/translations";
-        private static string RemoteMetaPath => Path.Combine(Paths.Initialized ? Paths.Cache : Paths.Temp, "TranslationsRemote.json");
-        private static readonly ConcurrentDictionary<string, long> _remoteSeen = new();
-        private static readonly ConcurrentDictionary<string, byte> _remoteFetchStarted = new();
+        private static readonly ConcurrentDictionary<string, byte> _communityLoaded = new();
 
         private static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _cache = new();
         private static readonly ConcurrentDictionary<string, byte> _outputs = new();
@@ -45,7 +42,6 @@ namespace Voidstrap.Utility
             _initialized = true;
 
             LoadCache();
-            LoadRemoteMeta();
 
             try
             {
@@ -253,7 +249,7 @@ namespace Voidstrap.Utility
                     if (taken == 0) break;
 
                     foreach (string lang in byLang.Keys)
-                        EnsureRemoteFetched(lang);
+                        EnsureCommunityLoaded(lang);
 
                     var jobs = new List<Task<bool>>();
                     foreach (var kv in byLang)
@@ -310,7 +306,6 @@ namespace Voidstrap.Utility
 
             bool any = false;
             bool stored = false;
-            var uploads = new Dictionary<string, string>();
 
             try
             {
@@ -330,7 +325,6 @@ namespace Voidstrap.Utility
                             continue;
 
                         RememberTranslation(lang, need[i], translated!);
-                        uploads[need[i]] = translated!;
                         any = true;
                     }
                 }
@@ -354,16 +348,16 @@ namespace Voidstrap.Utility
             if (stored)
                 QueueSave();
 
-            if (uploads.Count > 0)
-                _ = PushRemoteAsync(lang, uploads);
-
             return any;
         }
+
+        private static long _offlineUntilTicks;
 
         private static async Task<string?[]> TranslateBatchAsync(List<string> texts, string targetLanguage)
         {
             var results = new string?[texts.Count];
-
+            if (Environment.TickCount64 < Volatile.Read(ref _offlineUntilTicks))
+                return results;
             await _net.WaitAsync().ConfigureAwait(false);
             try
             {
@@ -387,6 +381,12 @@ namespace Voidstrap.Utility
             }
             catch (Exception ex)
             {
+                if (Connectivity.IsConnectionFailure(ex))
+                {
+                    Volatile.Write(ref _offlineUntilTicks, Environment.TickCount64 + 30000);
+                    App.Logger.WriteLine("TranslationService::TranslateBatch", "Offline, pausing translation requests for 30 seconds");
+                    return results;
+                }
                 App.Logger.WriteLine("TranslationService::TranslateBatch", $"Error: {ex.Message}");
             }
             finally
@@ -542,42 +542,41 @@ namespace Voidstrap.Utility
             }
         }
 
-        private static void EnsureRemoteFetched(string lang)
+        private static void EnsureCommunityLoaded(string lang)
         {
             if (string.IsNullOrEmpty(lang) || lang == "en") return;
-            if (!_remoteFetchStarted.TryAdd(lang, 0)) return;
-            _ = FetchLanguageAsync(lang);
+            if (!_communityLoaded.TryAdd(lang, 0)) return;
+            LoadCommunityLanguage(lang);
         }
 
-        private static async Task FetchLanguageAsync(string lang)
+        public static void ReloadCommunityTranslations()
+        {
+            foreach (string lang in _communityLoaded.Keys.ToArray())
+            {
+                _communityLoaded.TryRemove(lang, out _);
+                EnsureCommunityLoaded(lang);
+            }
+        }
+
+        private static void LoadCommunityLanguage(string lang)
         {
             try
             {
-                long since = _remoteSeen.TryGetValue(lang, out var s) ? s : 0;
-                string url = RemoteApi + "?lang=" + Uri.EscapeDataString(lang) + "&since=" + since;
-                string response = await Http.GetStringBoundedAsync(_httpClient, url, maxBytes: 32 * 1024 * 1024).ConfigureAwait(false);
+                string path = RemoteData.TranslationsPath;
+                if (!Paths.Initialized || !File.Exists(path)) return;
 
-                using var doc = JsonDocument.Parse(response);
-                var root = doc.RootElement;
-
-                if (root.TryGetProperty("unchanged", out var unchanged) && unchanged.ValueKind == JsonValueKind.True)
-                {
-                    if (root.TryGetProperty("updated", out var up0) && up0.TryGetInt64(out long upv0))
-                        _remoteSeen[lang] = upv0;
-                    SaveRemoteMeta();
-                    return;
-                }
-
-                if (!root.TryGetProperty("entries", out var entries) || entries.ValueKind != JsonValueKind.Object)
+                using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using JsonDocument document = JsonDocument.Parse(stream);
+                if (!document.RootElement.TryGetProperty(lang, out JsonElement entries) || entries.ValueKind != JsonValueKind.Object)
                     return;
 
                 var bucket = _cache.GetOrAdd(lang, _ => new ConcurrentDictionary<string, string>());
                 bool any = false;
-                foreach (var kv in entries.EnumerateObject())
+                foreach (JsonProperty entry in entries.EnumerateObject())
                 {
-                    if (kv.Value.ValueKind != JsonValueKind.String) continue;
-                    string src = kv.Name;
-                    string tr = kv.Value.GetString() ?? "";
+                    if (entry.Value.ValueKind != JsonValueKind.String) continue;
+                    string src = entry.Name;
+                    string tr = entry.Value.GetString() ?? "";
                     if (string.IsNullOrEmpty(src) || string.IsNullOrEmpty(tr)) continue;
                     if (bucket.TryAdd(src, tr))
                     {
@@ -585,10 +584,6 @@ namespace Voidstrap.Utility
                         any = true;
                     }
                 }
-
-                if (root.TryGetProperty("updated", out var up) && up.TryGetInt64(out long upv))
-                    _remoteSeen[lang] = upv;
-                SaveRemoteMeta();
 
                 if (any)
                 {
@@ -599,55 +594,7 @@ namespace Voidstrap.Utility
             }
             catch (Exception ex)
             {
-                App.Logger.WriteLine("TranslationService::FetchLanguageAsync", $"Error: {ex.Message}");
-            }
-        }
-
-        private static async Task PushRemoteAsync(string lang, Dictionary<string, string> pairs)
-        {
-            if (pairs == null || pairs.Count == 0) return;
-            try
-            {
-                var payload = new { lang = lang, entries = pairs };
-                string body = JsonSerializer.Serialize(payload);
-                using var content = new StringContent(body, Encoding.UTF8, "application/json");
-                using var resp = await _httpClient.PostAsync(RemoteApi, content).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("TranslationService::PushRemoteAsync", $"Error: {ex.Message}");
-            }
-        }
-
-        private static void LoadRemoteMeta()
-        {
-            try
-            {
-                string remoteMetaPath = RemoteMetaPath;
-                if (!File.Exists(remoteMetaPath)) return;
-                var dict = JsonFile.Deserialize<Dictionary<string, long>>(remoteMetaPath, JsonOptions.Tolerant, 16777216);
-                if (dict != null)
-                    foreach (var kv in dict)
-                        _remoteSeen[kv.Key] = kv.Value;
-            }
-            catch
-            {
-            }
-        }
-
-        private static void SaveRemoteMeta()
-        {
-            try
-            {
-                string remoteMetaPath = RemoteMetaPath;
-                string directory = Path.GetDirectoryName(remoteMetaPath)!;
-                if (!Directory.Exists(directory))
-                    Directory.CreateDirectory(directory);
-                var snapshot = _remoteSeen.ToDictionary(k => k.Key, v => v.Value);
-                JsonFile.SerializeAtomic(remoteMetaPath, snapshot);
-            }
-            catch
-            {
+                App.Logger.WriteLine("TranslationService::LoadCommunityLanguage", $"Error: {ex.Message}");
             }
         }
 

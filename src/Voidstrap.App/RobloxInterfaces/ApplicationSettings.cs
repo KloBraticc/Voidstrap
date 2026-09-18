@@ -80,7 +80,7 @@ public class ApplicationSettings
 			{
 				throw new Exception("Empty response from configuration endpoint.");
 			}
-			ClientFlagSettings clientFlagSettings = JsonSerializer.Deserialize<ClientFlagSettings>(result.Body);
+			ClientFlagSettings? clientFlagSettings = JsonSerializer.Deserialize<ClientFlagSettings>(result.Body);
 			if (clientFlagSettings?.ApplicationSettings == null)
 			{
 				throw new Exception("Deserialized ApplicationSettings is null!");
@@ -153,7 +153,7 @@ public class ApplicationSettings
 	public async Task<T?> GetAsync<T>(string name)
 	{
 		await FetchAsync().ConfigureAwait(continueOnCapturedContext: false);
-		if (_flags == null || !_flags.TryGetValue(name, out string value))
+		if (_flags == null || !_flags.TryGetValue(name, out string? value))
 		{
 			return default;
 		}
@@ -162,7 +162,7 @@ public class ApplicationSettings
 			TypeConverter converter = TypeDescriptor.GetConverter(typeof(T));
 			if (converter != null && converter.CanConvertFrom(typeof(string)))
 			{
-				return (T)converter.ConvertFromInvariantString(value);
+				return (T?)converter.ConvertFromInvariantString(value);
 			}
 		}
 		catch (Exception ex)

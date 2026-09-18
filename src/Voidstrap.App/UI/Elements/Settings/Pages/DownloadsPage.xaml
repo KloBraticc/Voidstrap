@@ -1,4 +1,4 @@
-﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.DownloadsPage"
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.DownloadsPage"
            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -10,497 +10,331 @@
     <FrameworkElement.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+            <Style x:Key="PosterCardStyle" TargetType="{x:Type Border}">
+                <Setter Property="Height" Value="230" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="BorderThickness" Value="2" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="SnapsToDevicePixels" Value="True" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="{DynamicResource ControlStrongStrokeColorDefaultBrush}" />
+                    </Trigger>
+                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                        <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="PosterActionStyle" TargetType="{x:Type ui:Button}" BasedOn="{StaticResource {x:Type ui:Button}}">
+                <Setter Property="Appearance" Value="Transparent" />
+                <Setter Property="Width" Value="30" />
+                <Setter Property="Height" Value="30" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="IconForeground" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                <Setter Property="MouseOverBackground" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+            </Style>
+
+            <Style x:Key="AddonChipStyle" TargetType="{x:Type Button}">
+                <Setter Property="Width" Value="38" />
+                <Setter Property="Height" Value="38" />
+                <Setter Property="Margin" Value="0,0,6,0" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="ChipBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ChipBorder" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <DataTemplate x:Key="PosterCardTemplate">
+                <StackPanel Margin="0,0,16,18">
+                    <Border Style="{StaticResource PosterCardStyle}" ToolTip="{Binding Subtitle}">
+                        <Border.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding SelectCommand}" />
+                        </Border.InputBindings>
+                        <Grid>
+                            <Border CornerRadius="10" Margin="1">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding IconImage}" Stretch="UniformToFill" />
+                                </Border.Background>
+                            </Border>
+                            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="7,2" CornerRadius="6" Background="#CC1E1E24" Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon Symbol="CheckmarkCircle16" FontSize="12" Foreground="{DynamicResource SystemFillColorSuccessBrush}" VerticalAlignment="Center" />
+                                    <TextBlock Text="Installed" FontSize="11" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+                            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="7,2" CornerRadius="6" Background="#CC1E1E24" Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon Symbol="ArrowSync16" FontSize="12" Foreground="{DynamicResource AccentFillColorDefaultBrush}" VerticalAlignment="Center" />
+                                    <TextBlock Text="Update" FontSize="11" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+                            <Border VerticalAlignment="Bottom" Margin="1" Padding="10,8" CornerRadius="0,0,10,10" Background="#CC1E1E24" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding ProgressDetail}" FontSize="10" Foreground="White" Opacity="0.85" TextTrimming="CharacterEllipsis" />
+                                    <ProgressBar Height="4" Margin="0,4,0,0" Minimum="0" Maximum="100" Value="{Binding Progress, Mode=OneWay}" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <Grid Margin="4,8,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" Text="{Binding Title}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Title}" />
+                        <ui:Button Grid.Column="1" Style="{StaticResource PosterActionStyle}" Icon="ArrowDownload24" ToolTip="{Binding PrimaryButtonText}" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
         </ResourceDictionary>
     </FrameworkElement.Resources>
 
-    <Grid Margin="0,4,0,0" SizeChanged="Root_SizeChanged">
+    <Grid Margin="0,4,0,12" SizeChanged="Root_SizeChanged">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition x:Name="DetailColumn" Width="300" />
+            <ColumnDefinition x:Name="DetailColumn" Width="0" />
         </Grid.ColumnDefinitions>
 
-        <ui:DynamicScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Padding="0,0,14,0">
-            <StackPanel>
-                <TextBlock Text="Manage your Roblox installs, and install locations."
-                           FontSize="13"
-                           Opacity="0.6"
-                           Margin="0,0,0,12" />
+        <Grid Grid.Column="0" Margin="0,0,14,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-                <ItemsControl ItemsSource="{Binding Items}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="{Binding CardColumns, RelativeSource={RelativeSource AncestorType=pages:DownloadsPage}}" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ui:Card Margin="0,0,10,10" Padding="0">
-                                <StackPanel>
-                                    <Border Height="150"
-                                            CornerRadius="8,8,0,0"
-                                            ClipToBounds="True"
-                                            Cursor="Hand"
-                                            Background="#0DFFFFFF"
-                                            ToolTip="Show details">
-                                        <Border.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick"
-                                                          Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                          CommandParameter="{Binding}" />
-                                        </Border.InputBindings>
-                                        <Image Source="{Binding IconImage}"
-                                               Stretch="UniformToFill"
-                                               HorizontalAlignment="Stretch"
-                                               VerticalAlignment="Stretch"
-                                               fx:ImageFx.SmoothLoad="True"
-                                               RenderOptions.BitmapScalingMode="HighQuality" />
-                                    </Border>
+            <Grid Grid.Row="0" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Grid.ColumnSpan="2" Height="44" CornerRadius="10" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox x:Name="FilterCombo" Grid.Column="0" MinWidth="118" Margin="6,0,0,0" VerticalAlignment="Center" Padding="10,5" BorderThickness="0" Background="Transparent" SelectedIndex="0" SelectionChanged="FilterCombo_SelectionChanged">
+                            <ComboBoxItem Content="Everything" />
+                            <ComboBoxItem Content="Roblox" />
+                            <ComboBoxItem Content="Classic" />
+                        </ComboBox>
+                        <Rectangle Grid.Column="1" Width="1" Margin="4,10" Fill="{DynamicResource ControlElevationBorderBrush}" />
+                        <TextBox x:Name="SearchBox" Grid.Column="2" Margin="4,0,6,0" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" FontSize="13" TextChanged="SearchBox_TextChanged" />
+                        <TextBlock x:Name="SearchPlaceholder" Grid.Column="2" Margin="14,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Search your installs" IsHitTestVisible="False" />
+                    </Grid>
+                </Border>
+                <ui:Button Grid.Column="2" Height="44" Margin="10,0,0,0" Padding="14,0" Icon="FolderOpen24" Content="Install folder" Appearance="Secondary" Command="{Binding OpenRootCommand}" />
+            </Grid>
 
-                                    <StackPanel Margin="12,8,12,0">
-                                        <TextBlock FontSize="14"
-                                                   FontWeight="SemiBold"
-                                                   Text="{Binding Title}"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   ToolTip="{Binding Title}" />
-
-                                        <TextBlock FontSize="11"
-                                                   Opacity="0.6"
-                                                   Margin="0,2,0,0"
-                                                   Text="{Binding Subtitle}"
-                                                   TextTrimming="CharacterEllipsis" />
-
-                                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                                            <ui:SymbolIcon Symbol="Info24"
-                                                           FontSize="14"
-                                                           Opacity="0.75"
-                                                           VerticalAlignment="Center" />
-                                            <TextBlock Text="{Binding StatusText}"
-                                                       FontSize="12"
-                                                       Margin="4,0,12,0"
-                                                       Opacity="0.75"
-                                                       VerticalAlignment="Center" />
-
-                                            <ui:SymbolIcon Symbol="Document24"
-                                                           FontSize="14"
-                                                           Opacity="0.75"
-                                                           VerticalAlignment="Center"
-                                                           Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                            <TextBlock Text="{Binding SizeText}"
-                                                       FontSize="12"
-                                                       Margin="4,0,0,0"
-                                                       Opacity="0.75"
-                                                       VerticalAlignment="Center"
-                                                       Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                        </StackPanel>
-
-                                        <TextBlock FontSize="10" Opacity="0.45" Margin="0,4,0,0" TextTrimming="CharacterEllipsis">
-                                            <Run Text="Version: " />
-                                            <Run Text="{Binding VersionText, Mode=OneWay}" />
-                                        </TextBlock>
-                                        <TextBlock FontSize="10" Opacity="0.45" Margin="0,2,0,0" TextTrimming="CharacterEllipsis"
-                                                   ToolTip="{Binding LocationText}">
-                                            <Run Text="Location: " />
-                                            <Run Text="{Binding LocationText, Mode=OneWay}" />
-                                        </TextBlock>
-                                    </StackPanel>
-
-                                    <StackPanel Margin="12,10,12,0"
-                                                Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                        <ProgressBar Height="10"
-                                                     Minimum="0"
-                                                     Maximum="100"
-                                                     Value="{Binding Progress, Mode=OneWay}" />
-                                        <TextBlock Text="{Binding ProgressDetail}" FontSize="10" Opacity="0.6" Margin="0,4,0,0" TextTrimming="CharacterEllipsis" />
-                                        <ui:Button Content="Cancel"
-                                                   Appearance="Secondary"
-                                                   HorizontalAlignment="Stretch"
-                                                   HorizontalContentAlignment="Center"
-                                                   Margin="0,8,0,0"
-                                                   Command="{Binding CancelCommand}" />
-                                    </StackPanel>
-
-                                    <Grid Margin="12,8,12,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="6" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <ui:Button Grid.Column="0"
-                                                   Icon="ArrowDownload24"
-                                                   IconForeground="White"
-                                                   Foreground="White"
-                                                   Appearance="Primary"
-                                                   Content="{Binding PrimaryButtonText}"
-                                                   HorizontalAlignment="Stretch"
-                                                   HorizontalContentAlignment="Center"
-                                                   IsEnabled="{Binding CanPrimary}"
-                                                   Command="{Binding InstallCommand}" />
-
-                                        <ui:Button Grid.Column="2"
-                                                   Icon="Delete24"
-                                                   Appearance="Danger"
-                                                   ToolTip="Uninstall"
-                                                   IsEnabled="{Binding CanUninstall}"
-                                                   Command="{Binding UninstallCommand}" />
-                                    </Grid>
-
-                                    <Grid Margin="12,8,12,12">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="6" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <ui:Button Grid.Column="0"
-                                                   Icon="FolderOpen24"
-                                                   Content="Open"
-                                                   Appearance="Secondary"
-                                                   HorizontalAlignment="Stretch"
-                                                   HorizontalContentAlignment="Center"
-                                                   Command="{Binding OpenFolderCommand}" />
-                                        <ui:Button Grid.Column="2"
-                                                   Icon="FolderArrowRight24"
-                                                   Content="Install"
-                                                   Appearance="Secondary"
-                                                   HorizontalAlignment="Stretch"
-                                                   HorizontalContentAlignment="Center"
-                                                   Command="{Binding ChangeLocationCommand}" />
-                                    </Grid>
-                                </StackPanel>
-                            </ui:Card>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-                <Grid Margin="0,18,10,12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="8" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0"
-                               Text="Map:"
-                               FontSize="12"
-                               Opacity="0.75"
-                               VerticalAlignment="Center" />
-                    <ComboBox Grid.Column="2"
-                              ItemsSource="{Binding ClientMaps}"
-                              SelectedItem="{Binding SelectedClassicMap, Mode=TwoWay}"
-                              VerticalAlignment="Center" />
-                </Grid>
-
-                <ItemsControl ItemsSource="{Binding ClientItems}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="{Binding CardColumns, RelativeSource={RelativeSource AncestorType=pages:DownloadsPage}}" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ui:Card Margin="0,0,10,10" Padding="0">
-                                <StackPanel>
-                                    <Border Height="150"
-                                            CornerRadius="8,8,0,0"
-                                            ClipToBounds="True"
-                                            Cursor="Hand"
-                                            Background="#0DFFFFFF"
-                                            ToolTip="Select for launch">
-                                        <Border.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick"
-                                                          Command="{Binding SelectCommand}" />
-                                        </Border.InputBindings>
-                                        <Image Source="{Binding IconImage}"
-                                               Stretch="UniformToFill"
-                                               HorizontalAlignment="Stretch"
-                                               VerticalAlignment="Stretch"
-                                               fx:ImageFx.SmoothLoad="True"
-                                               RenderOptions.BitmapScalingMode="HighQuality" />
-                                    </Border>
-
-                                    <StackPanel Margin="12,8,12,0">
-                                        <TextBlock FontSize="14"
-                                                   FontWeight="SemiBold"
-                                                   Text="{Binding Title}"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   ToolTip="{Binding Title}" />
-
-                                        <TextBlock FontSize="11"
-                                                   Opacity="0.6"
-                                                   Margin="0,2,0,0"
-                                                   Text="{Binding Subtitle}"
-                                                   TextTrimming="CharacterEllipsis" />
-
-                                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                                            <ui:SymbolIcon Symbol="Info24"
-                                                           FontSize="14"
-                                                           Opacity="0.75"
-                                                           VerticalAlignment="Center" />
-                                            <TextBlock Text="{Binding StatusText}"
-                                                       FontSize="12"
-                                                       Margin="4,0,12,0"
-                                                       Opacity="0.75"
-                                                       VerticalAlignment="Center" />
-
-                                            <ui:SymbolIcon Symbol="Document24"
-                                                           FontSize="14"
-                                                           Opacity="0.75"
-                                                           VerticalAlignment="Center"
-                                                           Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                            <TextBlock Text="{Binding SizeText}"
-                                                       FontSize="12"
-                                                       Margin="4,0,0,0"
-                                                       Opacity="0.75"
-                                                       VerticalAlignment="Center"
-                                                       Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                        </StackPanel>
-
-                                        <TextBlock FontSize="10" Opacity="0.45" Margin="0,4,0,0" TextTrimming="CharacterEllipsis">
-                                            <Run Text="Version: " />
-                                            <Run Text="{Binding VersionText, Mode=OneWay}" />
-                                        </TextBlock>
-                                        <TextBlock FontSize="10" Opacity="0.45" Margin="0,2,0,0" TextTrimming="CharacterEllipsis"
-                                                   ToolTip="{Binding LocationText}">
-                                            <Run Text="Location: " />
-                                            <Run Text="{Binding LocationText, Mode=OneWay}" />
-                                        </TextBlock>
-                                    </StackPanel>
-
-                                    <StackPanel Margin="12,10,12,0"
-                                                Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                        <ProgressBar Height="10"
-                                                     Minimum="0"
-                                                     Maximum="100"
-                                                     Value="{Binding Progress, Mode=OneWay}" />
-                                        <TextBlock Text="{Binding ProgressDetail}" FontSize="10" Opacity="0.6" Margin="0,4,0,0" TextTrimming="CharacterEllipsis" />
-                                        <ui:Button Content="Cancel"
-                                                   Appearance="Secondary"
-                                                   HorizontalAlignment="Stretch"
-                                                   HorizontalContentAlignment="Center"
-                                                   Margin="0,8,0,0"
-                                                   Command="{Binding CancelCommand}" />
-                                    </StackPanel>
-
-                                    <Grid Margin="12,8,12,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="6" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <ui:Button Grid.Column="0"
-                                                   Icon="ArrowDownload24"
-                                                   IconForeground="White"
-                                                   Foreground="White"
-                                                   Appearance="Primary"
-                                                   Content="{Binding PrimaryButtonText}"
-                                                   HorizontalAlignment="Stretch"
-                                                   HorizontalContentAlignment="Center"
-                                                   IsEnabled="{Binding CanPrimary}"
-                                                   Command="{Binding InstallCommand}" />
-
-                                        <ui:Button Grid.Column="2"
-                                                   Icon="Delete24"
-                                                   Appearance="Danger"
-                                                   ToolTip="Uninstall"
-                                                   IsEnabled="{Binding CanUninstall}"
-                                                   Command="{Binding UninstallCommand}" />
-                                    </Grid>
-
-                                    <Grid Margin="12,8,12,12">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="6" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <ui:Button Grid.Column="0"
-                                                   Icon="FolderOpen24"
-                                                   Content="Open"
-                                                   Appearance="Secondary"
-                                                   HorizontalAlignment="Stretch"
-                                                   HorizontalContentAlignment="Center"
-                                                   Command="{Binding OpenFolderCommand}" />
-                                        <ui:Button Grid.Column="2"
-                                                   Icon="ArrowSync24"
-                                                   Content="Update"
-                                                   Appearance="Secondary"
-                                                   HorizontalAlignment="Stretch"
-                                                   HorizontalContentAlignment="Center"
-                                                   Command="{Binding ChangeLocationCommand}" />
-                                    </Grid>
-                                </StackPanel>
-                            </ui:Card>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-        </ui:DynamicScrollViewer>
-
-        <Border x:Name="DetailPanel" Grid.Column="1"
-                Padding="16"
-                DataContext="{Binding SelectedItem}">
-            <ui:DynamicScrollViewer VerticalScrollBarVisibility="Auto">
+            <ui:DynamicScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,10,0">
                 <StackPanel>
-
-                    <Border Height="180"
-                            ClipToBounds="True"
-                            Background="#12000000">
-                        <Image Source="{Binding IconImage}"
-                               Stretch="UniformToFill"
-                               RenderOptions.BitmapScalingMode="HighQuality" />
-                    </Border>
-
-                    <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="SemiBold" Margin="0,12,0,0" />
-                    <TextBlock Text="{Binding Subtitle}" FontSize="12" Opacity="0.6" Margin="0,2,0,0" TextWrapping="Wrap" />
-
-                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                        <ui:SymbolIcon Symbol="Info24" FontSize="14" Opacity="0.75" VerticalAlignment="Center" />
-                        <TextBlock Text="{Binding StatusText}" FontSize="13" Margin="6,0,0,0" Opacity="0.85" VerticalAlignment="Center" />
-                    </StackPanel>
-                    <TextBlock FontSize="11" Opacity="0.5" Margin="0,4,0,0" TextTrimming="CharacterEllipsis">
-                        <Run Text="Version: " />
-                        <Run Text="{Binding VersionText, Mode=OneWay}" />
-                    </TextBlock>
-
-                    <Rectangle Height="1" Fill="{DynamicResource ControlElevationBorderBrush}" Margin="0,14,0,12" />
-
-                    <TextBlock Text="Addons" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8" />
-
-                    <Button x:Name="FleasionAddonButton"
-                            HorizontalAlignment="Left"
-                            HorizontalContentAlignment="Left"
-                            Padding="10,6"
-                            Cursor="Hand"
-                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
-                            BorderThickness="1"
-                            BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                            Click="Addon_Click"
-                            ToolTip="Open Fleasion in the Extensions page"
-                            Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Symbol="CubeLink20" FontSize="18" VerticalAlignment="Center" Margin="0,0,8,0" />
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Fleasion" FontSize="13" FontWeight="SemiBold" />
-                                <TextBlock Text="Open in Extensions" FontSize="10" Opacity="0.55" />
-                            </StackPanel>
-                        </StackPanel>
-                    </Button>
-
-                    <Button x:Name="CommunityContentAddonButton"
-                            HorizontalAlignment="Left"
-                            HorizontalContentAlignment="Left"
-                            Padding="10,6"
-                            Margin="0,6,0,0"
-                            Cursor="Hand"
-                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
-                            BorderThickness="1"
-                            BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                            Click="Addon_Click"
-                            ToolTip="Community hats, faces and gear for classic clients"
-                            Visibility="{Binding ShowCommunityContent, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Symbol="Globe24" FontSize="18" VerticalAlignment="Center" Margin="0,0,8,0" />
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Community Content" FontSize="13" FontWeight="SemiBold" />
-                                <TextBlock Text="Open in Extensions" FontSize="10" Opacity="0.55" />
-                            </StackPanel>
-                        </StackPanel>
-                    </Button>
-
-                    <Button x:Name="RiShadeAddonButton"
-                            HorizontalAlignment="Left"
-                            HorizontalContentAlignment="Left"
-                            Padding="10,6"
-                            Margin="0,6,0,0"
-                            Cursor="Hand"
-                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
-                            BorderThickness="1"
-                            BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                            Click="Addon_Click"
-                            ToolTip="Open RiShade in the Extensions page"
-                            Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,8,0" util:DynamicRenderSystem.LazyImageSource="https://raw.githubusercontent.com/KloBraticc/RiShade/main/Images/RiShde.png" />
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="RiShade" FontSize="13" FontWeight="SemiBold" />
-                                <TextBlock Text="Open in Extensions" FontSize="10" Opacity="0.55" />
-                            </StackPanel>
-                        </StackPanel>
-                    </Button>
-
-                    <Button x:Name="RojoAddonButton"
-                            HorizontalAlignment="Left"
-                            HorizontalContentAlignment="Left"
-                            Padding="10,6"
-                            Cursor="Hand"
-                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
-                            BorderThickness="1"
-                            BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                            Click="Addon_Click"
-                            ToolTip="Syncs code files from your computer into Roblox Studio live"
-                            Visibility="{Binding ShowStudioAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,8,0" util:DynamicRenderSystem.LazyImageSource="https://github.com/rojo-rbx.png" />
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Rojo" FontSize="13" FontWeight="SemiBold" />
-                                <TextBlock Text="Open in Extensions" FontSize="10" Opacity="0.55" />
-                            </StackPanel>
-                        </StackPanel>
-                    </Button>
-
-                    <Button x:Name="StudioPluginAddonButton"
-                            HorizontalAlignment="Left"
-                            HorizontalContentAlignment="Left"
-                            Padding="10,6"
-                            Margin="0,6,0,0"
-                            Cursor="Hand"
-                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
-                            BorderThickness="1"
-                            BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                            Click="Addon_Click"
-                            ToolTip="A Voidstrap panel in Studio, shows what you are building on Discord"
-                            Visibility="{Binding ShowStudioAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,8,0" Source="pack://application:,,,/Voidstrap.png" />
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Voidstrap Studio plugin" FontSize="13" FontWeight="SemiBold" />
-                                <TextBlock Text="Open in Extensions" FontSize="10" Opacity="0.55" />
-                            </StackPanel>
-                        </StackPanel>
-                    </Button>
-
-                    <TextBlock Text="No addons yet." FontSize="12" Opacity="0.5" Margin="0,2,0,0">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Visibility" Value="Visible" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding HasAddons}" Value="True">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-
-                    <StackPanel Margin="0,16,0,0"
-                                Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <ProgressBar Height="10" Minimum="0" Maximum="100" Value="{Binding Progress, Mode=OneWay}" />
-                        <TextBlock Text="{Binding ProgressDetail}" FontSize="10" Opacity="0.6" Margin="0,4,0,0" TextTrimming="CharacterEllipsis" />
+                    <StackPanel x:Name="RobloxSection">
+                        <TextBlock Text="Roblox" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10" />
+                        <ItemsControl x:Name="RobloxItems" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource PosterCardTemplate}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="{Binding RobloxColumns, RelativeSource={RelativeSource AncestorType=pages:DownloadsPage}}" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
                     </StackPanel>
 
-                    <ui:Button Margin="0,16,0,0"
-                               Height="38"
-                               Icon="ArrowDownload24"
-                               IconForeground="White"
-                               Foreground="White"
-                               FontSize="15"
-                               FontWeight="SemiBold"
-                               Appearance="Primary"
-                               Content="{Binding PrimaryButtonText}"
-                               HorizontalAlignment="Stretch"
-                               HorizontalContentAlignment="Center"
-                               IsEnabled="{Binding CanPrimary}"
-                               Command="{Binding InstallCommand}" />
+                    <StackPanel x:Name="ClassicSection">
+                        <Grid Margin="0,6,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Classic clients" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="Map" FontSize="12" Opacity="0.7" Margin="0,0,8,0" VerticalAlignment="Center" />
+                            <ComboBox Grid.Column="2" MinWidth="170" Padding="10,5" ItemsSource="{Binding ClientMaps}" SelectedItem="{Binding SelectedClassicMap, Mode=TwoWay}" VerticalAlignment="Center" />
+                        </Grid>
+                        <ItemsControl x:Name="ClassicItems" ItemsSource="{Binding ClientItems}" ItemTemplate="{StaticResource PosterCardTemplate}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="{Binding ClassicColumns, RelativeSource={RelativeSource AncestorType=pages:DownloadsPage}}" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
                 </StackPanel>
             </ui:DynamicScrollViewer>
+        </Grid>
+
+        <Border x:Name="DetailPanel" Grid.Column="1" CornerRadius="12" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" Margin="0,0,0,4" Visibility="Collapsed">
+            <Grid>
+                <TextBlock Text="Pick an install on the left to see its details." FontSize="13" Opacity="0.6" Margin="24" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasSelection}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <Grid DataContext="{Binding SelectedItem}" Visibility="{Binding DataContext.HasSelection, RelativeSource={RelativeSource AncestorType=pages:DownloadsPage}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ui:DynamicScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <Border Height="150" CornerRadius="11,11,0,0" Background="#1A1A1F">
+                                <Grid>
+                                    <Grid.OpacityMask>
+                                        <VisualBrush Stretch="None" AlignmentX="Left" AlignmentY="Top">
+                                            <VisualBrush.Visual>
+                                                <Border Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}" Height="150" CornerRadius="11,11,0,0" Background="Black" />
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Grid.OpacityMask>
+                                    <Image Source="{Binding IconImage}" Stretch="UniformToFill" Opacity="0.45" RenderOptions.BitmapScalingMode="LowQuality">
+                                        <Image.Effect>
+                                            <BlurEffect Radius="26" KernelType="Gaussian" RenderingBias="Performance" />
+                                        </Image.Effect>
+                                    </Image>
+                                    <Image Source="{Binding IconImage}" Stretch="Uniform" Height="88" Margin="0,0,0,18" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" />
+                                    <Border VerticalAlignment="Bottom" Padding="12,8" CornerRadius="0">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Offset="0" Color="#00000000" />
+                                                <GradientStop Offset="1" Color="#C0000000" />
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <TextBlock Text="{Binding StatusText}" FontSize="12" FontWeight="SemiBold" Foreground="White" TextTrimming="CharacterEllipsis" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+                            <StackPanel Margin="16,14,16,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon Symbol="Games24" FontSize="20" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="SemiBold" Margin="8,0,0,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding Subtitle}" FontSize="13" Opacity="0.7" Margin="0,8,0,0" TextWrapping="Wrap" LineHeight="20" />
+
+                                <Grid Margin="0,18,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Version" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                    <Border Grid.Column="1" MaxWidth="150" Padding="10,5" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
+                                        <TextBlock Text="{Binding VersionText}" FontSize="12" TextTrimming="CharacterEllipsis" ToolTip="{Binding VersionText}" />
+                                    </Border>
+                                </Grid>
+
+                                <Grid Margin="0,12,0,0">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SizeText}" Value="">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding SizeText}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Size" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                    <Border Grid.Column="1" Padding="10,5" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
+                                        <TextBlock Text="{Binding SizeText}" FontSize="12" />
+                                    </Border>
+                                </Grid>
+
+                                <Grid Margin="0,12,0,0" Visibility="{Binding HasAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Addons" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        <Button x:Name="FleasionAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="Fleasion, open in Extensions" Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <ui:SymbolIcon Symbol="CubeLink20" FontSize="18" />
+                                        </Button>
+                                        <Button x:Name="RiShadeAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="RiShade, open in Extensions" Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <Image Width="20" Height="20" util:DynamicRenderSystem.LazyImageSource="https://raw.githubusercontent.com/KloBraticc/RiShade/main/Images/RiShde.png" />
+                                        </Button>
+                                        <Button x:Name="RojoAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="Rojo, open in Extensions" Visibility="{Binding ShowStudioAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <Image Width="20" Height="20" util:DynamicRenderSystem.LazyImageSource="https://github.com/rojo-rbx.png" />
+                                        </Button>
+                                        <Button x:Name="StudioPluginAddonButton" Style="{StaticResource AddonChipStyle}" Margin="0" Click="Addon_Click" ToolTip="Voidstrap Studio plugin, open in Extensions" Visibility="{Binding ShowStudioAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <Image Width="20" Height="20" Source="pack://application:,,,/Voidstrap.png" />
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Border Margin="0,14,0,0" Padding="10,8" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" ToolTip="{Binding LocationText}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <ui:SymbolIcon Grid.Column="0" Symbol="Folder24" FontSize="15" Foreground="{DynamicResource AccentFillColorDefaultBrush}" VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="{Binding LocationText}" FontSize="12" Margin="8,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                        <ui:Button Grid.Column="2" Width="26" Height="26" Padding="0" Appearance="Transparent" Icon="ArrowSwap20" FontSize="14" ToolTip="Change install location" Command="{Binding ChangeLocationCommand}" />
+                                    </Grid>
+                                </Border>
+
+                                <StackPanel Margin="0,12,0,0" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <ProgressBar Height="6" Minimum="0" Maximum="100" Value="{Binding Progress, Mode=OneWay}" />
+                                    <Grid Margin="0,6,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding ProgressDetail}" FontSize="11" Opacity="0.7" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                        <ui:Button Grid.Column="1" Padding="8,3" FontSize="11" Appearance="Secondary" Content="Cancel" Command="{Binding CancelCommand}" />
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </ui:DynamicScrollViewer>
+
+                    <Grid Grid.Row="1" Margin="16,10,16,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ui:Button Grid.Column="0" Width="42" Height="42" Padding="0" Appearance="Secondary" Icon="FolderOpen24" FontSize="18" ToolTip="Open install folder" Command="{Binding OpenFolderCommand}" />
+                        <ui:Button Grid.Column="2" Height="42" Icon="ArrowDownload24" IconForeground="White" Foreground="White" FontSize="15" FontWeight="SemiBold" Appearance="Primary" Content="{Binding PrimaryButtonText}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
+                        <ui:Button Grid.Column="4" Width="42" Height="42" Padding="0" Appearance="Danger" Icon="Delete24" FontSize="18" ToolTip="Uninstall" IsEnabled="{Binding CanUninstall}" Command="{Binding UninstallCommand}" />
+                    </Grid>
+                </Grid>
+            </Grid>
         </Border>
     </Grid>
 </ui:UiPage>

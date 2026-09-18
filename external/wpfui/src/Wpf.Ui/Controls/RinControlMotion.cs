@@ -15,6 +15,8 @@ public static class RinControlMotion
     private enum MotionKind
     {
         Button,
+        Card,
+        Surface,
         ComboBox,
         ComboBoxItem
     }
@@ -38,7 +40,22 @@ public static class RinControlMotion
         public Color? TargetColor { get; set; }
 
         public double TargetBrushOpacity { get; set; } = double.NaN;
+
+        public string? TargetKey { get; set; }
     }
+
+    private const string TransparentKey = "";
+
+    private const int PressDuration = 70;
+
+    private const int HoverDuration = 110;
+
+    private const int ReleaseDuration = 190;
+
+    private static readonly IEasingFunction CardEase = CreateCardEase();
+
+    private static readonly DependencyPropertyDescriptor IsActiveDescriptor =
+        DependencyPropertyDescriptor.FromProperty(NavigationItem.IsActiveProperty, typeof(NavigationItem));
 
     private static readonly DependencyPropertyDescriptor IsMouseOverDescriptor =
         DependencyPropertyDescriptor.FromProperty(UIElement.IsMouseOverProperty, typeof(UIElement));
@@ -60,12 +77,6 @@ public static class RinControlMotion
 
     private static readonly DependencyPropertyDescriptor PressedBackgroundDescriptor =
         DependencyPropertyDescriptor.FromProperty(Button.PressedBackgroundProperty, typeof(Button));
-
-    private static readonly DependencyPropertyDescriptor IsHighlightedDescriptor =
-        DependencyPropertyDescriptor.FromProperty(ComboBoxItem.IsHighlightedProperty, typeof(ComboBoxItem));
-
-    private static readonly DependencyPropertyDescriptor IsSelectedDescriptor =
-        DependencyPropertyDescriptor.FromProperty(ListBoxItem.IsSelectedProperty, typeof(ListBoxItem));
 
     public static readonly DependencyProperty EnabledProperty = DependencyProperty.RegisterAttached(
         "Enabled",
@@ -167,6 +178,13 @@ public static class RinControlMotion
 
         control.ApplyTemplate();
         state.Root = control.Template?.FindName("ContentBorder", control) as Border;
+        bool surface = false;
+        if (state.Root is null)
+        {
+            state.Root = control.Template?.FindName("MainBorder", control) as Border;
+            surface = state.Root is not null;
+        }
+
         if (state.Root is null)
         {
             return;
@@ -174,7 +192,12 @@ public static class RinControlMotion
 
         SetState(element, state);
 
-        if (element is ComboBoxItem item)
+        if (surface)
+        {
+            state.Kind = MotionKind.Surface;
+            AttachSurface(control, state);
+        }
+        else if (element is ComboBoxItem item)
         {
             state.Kind = MotionKind.ComboBoxItem;
             AttachItem(item, state);
@@ -183,6 +206,13 @@ public static class RinControlMotion
         {
             state.Kind = MotionKind.ComboBox;
             AttachComboBox(comboBox, state);
+        }
+        else if (element is CardControl card)
+        {
+            state.Kind = MotionKind.Card;
+            IsMouseOverDescriptor.AddValueChanged(card, OnControlStateChanged);
+            IsPressedDescriptor.AddValueChanged(card, OnControlStateChanged);
+            IsEnabledDescriptor.AddValueChanged(card, OnControlStateChanged);
         }
         else if (element is ButtonBase button)
         {
@@ -215,6 +245,18 @@ public static class RinControlMotion
         {
             DetachComboBox(comboBox, state);
         }
+        else if (state.Kind == MotionKind.Card)
+        {
+            IsMouseOverDescriptor.RemoveValueChanged(element, OnControlStateChanged);
+            IsPressedDescriptor.RemoveValueChanged(element, OnControlStateChanged);
+            IsEnabledDescriptor.RemoveValueChanged(element, OnControlStateChanged);
+            state.Root?.ClearValue(Border.BackgroundProperty);
+        }
+        else if (state.Kind == MotionKind.Surface)
+        {
+            DetachSurface(element);
+            state.Root?.ClearValue(Border.BackgroundProperty);
+        }
         else if (state.Kind == MotionKind.Button && element is ButtonBase button)
         {
             DetachButton(button);
@@ -228,6 +270,7 @@ public static class RinControlMotion
         state.TargetOpacity = double.NaN;
         state.TargetColor = null;
         state.TargetBrushOpacity = double.NaN;
+        state.TargetKey = null;
     }
 
     private static void AttachButton(ButtonBase button)
@@ -260,6 +303,104 @@ public static class RinControlMotion
         }
     }
 
+    private static void AttachSurface(Control control, MotionState state)
+    {
+        if (control is ListBoxItem listItem)
+        {
+            listItem.MouseEnter += OnItemPointerChanged;
+            listItem.MouseLeave += OnItemPointerChanged;
+            listItem.IsEnabledChanged += OnItemEnabledChanged;
+            listItem.Selected += OnItemSelectionChanged;
+            listItem.Unselected += OnItemSelectionChanged;
+            listItem.PreviewMouseLeftButtonDown += OnItemMouseDown;
+            listItem.PreviewMouseLeftButtonUp += OnSurfaceItemRelease;
+            listItem.MouseLeave += OnSurfaceItemRelease;
+            state.ItemPressed = false;
+            return;
+        }
+
+        IsMouseOverDescriptor.AddValueChanged(control, OnControlStateChanged);
+        IsEnabledDescriptor.AddValueChanged(control, OnControlStateChanged);
+
+        if (control is ButtonBase)
+        {
+            IsPressedDescriptor.AddValueChanged(control, OnControlStateChanged);
+        }
+
+        if (control is NavigationItem)
+        {
+            IsActiveDescriptor.AddValueChanged(control, OnControlStateChanged);
+        }
+
+    }
+
+    private static void DetachSurface(FrameworkElement element)
+    {
+        if (element is ListBoxItem listItem)
+        {
+            listItem.MouseEnter -= OnItemPointerChanged;
+            listItem.MouseLeave -= OnItemPointerChanged;
+            listItem.IsEnabledChanged -= OnItemEnabledChanged;
+            listItem.Selected -= OnItemSelectionChanged;
+            listItem.Unselected -= OnItemSelectionChanged;
+            listItem.PreviewMouseLeftButtonDown -= OnItemMouseDown;
+            listItem.PreviewMouseLeftButtonUp -= OnSurfaceItemRelease;
+            listItem.MouseLeave -= OnSurfaceItemRelease;
+            return;
+        }
+
+        IsMouseOverDescriptor.RemoveValueChanged(element, OnControlStateChanged);
+        IsEnabledDescriptor.RemoveValueChanged(element, OnControlStateChanged);
+
+        if (element is ButtonBase)
+        {
+            IsPressedDescriptor.RemoveValueChanged(element, OnControlStateChanged);
+        }
+
+        if (element is NavigationItem)
+        {
+            IsActiveDescriptor.RemoveValueChanged(element, OnControlStateChanged);
+        }
+
+    }
+
+    private static void OnItemPointerChanged(object sender, MouseEventArgs e)
+    {
+        if (sender is FrameworkElement element)
+        {
+            Update(element, true);
+        }
+    }
+
+    private static void OnItemEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (sender is FrameworkElement element)
+        {
+            Update(element, true);
+        }
+    }
+
+    private static void OnItemSelectionChanged(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement element && ReferenceEquals(e.OriginalSource, sender))
+        {
+            Update(element, true);
+        }
+    }
+
+    private static void OnItemFocusChanged(object sender, KeyboardFocusChangedEventArgs e)
+    {
+        if (sender is FrameworkElement element)
+        {
+            Update(element, true);
+        }
+    }
+
+    private static void OnSurfaceItemRelease(object sender, MouseEventArgs e)
+    {
+        ReleaseItem(sender);
+    }
+
     private static void AttachComboBox(ComboBox comboBox, MotionState state)
     {
         IsEnabledDescriptor.AddValueChanged(comboBox, OnControlStateChanged);
@@ -290,9 +431,11 @@ public static class RinControlMotion
 
     private static void AttachItem(ComboBoxItem item, MotionState state)
     {
-        IsHighlightedDescriptor.AddValueChanged(item, OnControlStateChanged);
-        IsSelectedDescriptor.AddValueChanged(item, OnControlStateChanged);
-        IsEnabledDescriptor.AddValueChanged(item, OnControlStateChanged);
+        item.IsEnabledChanged += OnItemEnabledChanged;
+        item.Selected += OnItemSelectionChanged;
+        item.Unselected += OnItemSelectionChanged;
+        item.GotKeyboardFocus += OnItemFocusChanged;
+        item.LostKeyboardFocus += OnItemFocusChanged;
         item.MouseEnter += OnItemMouseEnter;
         item.MouseLeave += OnItemMouseLeave;
         item.PreviewMouseLeftButtonDown += OnItemMouseDown;
@@ -304,9 +447,11 @@ public static class RinControlMotion
 
     private static void DetachItem(ComboBoxItem item)
     {
-        IsHighlightedDescriptor.RemoveValueChanged(item, OnControlStateChanged);
-        IsSelectedDescriptor.RemoveValueChanged(item, OnControlStateChanged);
-        IsEnabledDescriptor.RemoveValueChanged(item, OnControlStateChanged);
+        item.IsEnabledChanged -= OnItemEnabledChanged;
+        item.Selected -= OnItemSelectionChanged;
+        item.Unselected -= OnItemSelectionChanged;
+        item.GotKeyboardFocus -= OnItemFocusChanged;
+        item.LostKeyboardFocus -= OnItemFocusChanged;
         item.MouseEnter -= OnItemMouseEnter;
         item.MouseLeave -= OnItemMouseLeave;
         item.PreviewMouseLeftButtonDown -= OnItemMouseDown;
@@ -351,7 +496,7 @@ public static class RinControlMotion
 
     private static void OnItemMouseDown(object sender, MouseButtonEventArgs e)
     {
-        if (sender is ComboBoxItem item && GetState(item) is MotionState state)
+        if (sender is ListBoxItem item && GetState(item) is MotionState state)
         {
             state.ItemPressed = true;
             Update(item, true);
@@ -389,7 +534,7 @@ public static class RinControlMotion
 
     private static void ReleaseItem(object sender)
     {
-        if (sender is ComboBoxItem item && GetState(item) is MotionState state && state.ItemPressed)
+        if (sender is ListBoxItem item && GetState(item) is MotionState state && state.ItemPressed)
         {
             state.ItemPressed = false;
             Update(item, true);
@@ -407,6 +552,14 @@ public static class RinControlMotion
         if (state.Kind == MotionKind.Button && element is ButtonBase button)
         {
             UpdateButton(button, state, animate);
+        }
+        else if (state.Kind == MotionKind.Card && element is CardControl card)
+        {
+            UpdateCard(card, state, animate);
+        }
+        else if (state.Kind == MotionKind.Surface && element is Control surface)
+        {
+            UpdateSurface(surface, state, animate);
         }
         else if (state.Kind == MotionKind.ComboBox && element is ComboBox comboBox)
         {
@@ -459,7 +612,7 @@ public static class RinControlMotion
         bool animateBrush = standard;
         if (!button.IsEnabled)
         {
-            target = highlighted
+            target = highlighted && button is Button
                 ? FindBrush(button, "TextFillColorPrimaryBrush", normal)
                 : flat ? Brushes.Transparent : normal;
             animateBrush = highlighted || standard;
@@ -481,6 +634,128 @@ public static class RinControlMotion
 
         ApplyOpacity(state, targetOpacity, 187, EasingMode.EaseOut, animate);
         ApplyBrush(state, target, 187, EasingMode.EaseOut, animate && animateBrush);
+    }
+
+    private static void UpdateCard(CardControl card, MotionState state, bool animate)
+    {
+        string key = !card.IsEnabled
+            ? "ControlFillColorDisabledBrush"
+            : card.IsPressed
+                ? "ControlFillColorTertiaryBrush"
+                : card.IsMouseOver
+                ? "ControlFillColorSecondaryBrush"
+                : "ControlFillColorDefaultBrush";
+
+        int duration = card.IsEnabled && card.IsPressed ? PressDuration : card.IsEnabled && card.IsMouseOver ? HoverDuration : ReleaseDuration;
+        ApplyKeyedBrush(card, state, key, duration, animate);
+    }
+
+    private static void UpdateSurface(Control control, MotionState state, bool animate)
+    {
+        bool pressed = control is ButtonBase button ? button.IsPressed : state.ItemPressed;
+        bool selected = control is NavigationItem navigationItem
+            ? navigationItem.IsActive
+            : control is ListBoxItem listItem && listItem.IsSelected;
+
+        string key;
+        int duration;
+        if (!control.IsEnabled)
+        {
+            key = TransparentKey;
+            duration = ReleaseDuration;
+        }
+        else if (pressed)
+        {
+            key = "SubtleFillColorTertiaryBrush";
+            duration = PressDuration;
+        }
+        else if (selected)
+        {
+            key = control is ListBoxItem ? "ControlFillColorDefaultBrush" : "SubtleFillColorSecondaryBrush";
+            duration = HoverDuration;
+        }
+        else if (control.IsMouseOver)
+        {
+            key = "SubtleFillColorSecondaryBrush";
+            duration = HoverDuration;
+        }
+        else
+        {
+            key = TransparentKey;
+            duration = ReleaseDuration;
+        }
+
+        ApplyKeyedBrush(control, state, key, duration, animate);
+    }
+
+    private static void ApplyKeyedBrush(FrameworkElement element, MotionState state, string key, int duration, bool animate)
+    {
+        Border? root = state.Root;
+        if (root is null || state.TargetKey == key)
+        {
+            return;
+        }
+
+        state.TargetKey = key;
+        bool transparent = key.Length == 0;
+        SolidColorBrush? target = transparent ? null : element.TryFindResource(key) as SolidColorBrush;
+        if (!animate || root.Background is not SolidColorBrush current || (!transparent && target is null))
+        {
+            SetRestBrush(root, key);
+            return;
+        }
+
+        Color from = Flatten(current);
+        Color to = target is null ? Color.FromArgb(0, from.R, from.G, from.B) : Flatten(target);
+        if (from.A == 0)
+        {
+            from = Color.FromArgb(0, to.R, to.G, to.B);
+        }
+
+        SolidColorBrush animated = new(to);
+        ColorAnimation animation = new()
+        {
+            From = from,
+            To = to,
+            Duration = TimeSpan.FromMilliseconds(duration),
+            FillBehavior = FillBehavior.Stop,
+            EasingFunction = CardEase
+        };
+        animation.Completed += (_, _) =>
+        {
+            if (state.Root == root && state.TargetKey == key && ReferenceEquals(root.Background, animated))
+            {
+                SetRestBrush(root, key);
+            }
+        };
+        root.Background = animated;
+        animated.BeginAnimation(SolidColorBrush.ColorProperty, animation);
+    }
+
+    private static void SetRestBrush(Border root, string key)
+    {
+        if (key.Length == 0)
+        {
+            root.Background = Brushes.Transparent;
+        }
+        else
+        {
+            root.SetResourceReference(Border.BackgroundProperty, key);
+        }
+    }
+
+    private static Color Flatten(SolidColorBrush brush)
+    {
+        Color color = brush.Color;
+        double opacity = Math.Clamp(brush.Opacity, 0d, 1d);
+        return Color.FromArgb((byte)Math.Round(color.A * opacity), color.R, color.G, color.B);
+    }
+
+    private static CubicEase CreateCardEase()
+    {
+        CubicEase ease = new() { EasingMode = EasingMode.EaseOut };
+        ease.Freeze();
+        return ease;
     }
 
     private static void UpdateComboBox(ComboBox comboBox, MotionState state, bool animate)
@@ -517,7 +792,7 @@ public static class RinControlMotion
             target = FindBrush(item, "SubtleFillColorSecondaryBrush", target);
         }
 
-        ApplyBrush(state, target, 187, EasingMode.EaseInOut, animate);
+        ApplyBrush(state, target, state.ItemPressed ? 83 : 187, state.ItemPressed ? EasingMode.EaseOut : EasingMode.EaseInOut, animate);
     }
 
     private static void ApplyOpacity(MotionState state, double target, int duration, EasingMode easingMode, bool animate)

@@ -1,4 +1,4 @@
-﻿// This Source Code Form is subject to the terms of the MIT License.
+// This Source Code Form is subject to the terms of the MIT License.
 // If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
@@ -15,11 +15,11 @@ namespace Wpf.Ui.Interop;
 /// <summary>
 /// A set of dangerous methods to modify the appearance.
 /// </summary>
-public static class UnsafeNativeMethods
+public static unsafe partial class UnsafeNativeMethods
 {
     private static readonly bool IsWindowsPlatform = OperatingSystem.IsWindows();
     private static readonly object TaskbarSync = new();
-    private static ShObjIdl.ITaskbarList4? TaskbarList;
+    private static IntPtr TaskbarList;
 
     #region Window Corners
 
@@ -52,7 +52,7 @@ public static class UnsafeNativeMethods
             handle,
             Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE,
             ref pvAttribute,
-            Marshal.SizeOf(typeof(int))) == 0;
+            Marshal.SizeOf<int>()) == 0;
     }
 
     #endregion
@@ -90,7 +90,7 @@ public static class UnsafeNativeMethods
             handle,
             dwAttribute,
             ref pvAttribute,
-            Marshal.SizeOf(typeof(int))) == 0;
+            Marshal.SizeOf<int>()) == 0;
     }
 
     /// <summary>
@@ -124,7 +124,7 @@ public static class UnsafeNativeMethods
             handle,
             dwAttribute,
             ref pvAttribute,
-            Marshal.SizeOf(typeof(int))) == 0;
+            Marshal.SizeOf<int>()) == 0;
     }
 
     #endregion
@@ -213,7 +213,7 @@ public static class UnsafeNativeMethods
             handle,
             Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE,
             ref backdropPvAttribute,
-            Marshal.SizeOf(typeof(int))) == 0;
+            Marshal.SizeOf<int>()) == 0;
     }
 
     /// <summary>
@@ -244,13 +244,13 @@ public static class UnsafeNativeMethods
             handle,
             Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_MICA_EFFECT,
             ref pvAttribute,
-            Marshal.SizeOf(typeof(int)));
+            Marshal.SizeOf<int>());
 
         Dwmapi.DwmSetWindowAttribute(
             handle,
             Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE,
             ref backdropPvAttribute,
-            Marshal.SizeOf(typeof(int)));
+            Marshal.SizeOf<int>());
 
         return true;
     }
@@ -276,7 +276,7 @@ public static class UnsafeNativeMethods
         var pvAttribute = 0x0;
 
         Dwmapi.DwmGetWindowAttribute(handle, Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref pvAttribute,
-            Marshal.SizeOf(typeof(int)));
+            Marshal.SizeOf<int>());
 
         return pvAttribute == GetBackdropAttribute(backdropType);
     }
@@ -316,7 +316,7 @@ public static class UnsafeNativeMethods
         var pvAttribute = 0x0;
 
         Dwmapi.DwmGetWindowAttribute(handle, Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_MICA_EFFECT, ref pvAttribute,
-            Marshal.SizeOf(typeof(int)));
+            Marshal.SizeOf<int>());
 
         return pvAttribute == 0x1;
     }
@@ -345,7 +345,7 @@ public static class UnsafeNativeMethods
             handle,
             Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_MICA_EFFECT,
             ref backdropPvAttribute,
-            Marshal.SizeOf(typeof(int))) == 0;
+            Marshal.SizeOf<int>()) == 0;
     }
 
     #endregion
@@ -435,7 +435,7 @@ public static class UnsafeNativeMethods
 
         try
         {
-            Dwmapi.DwmGetColorizationParameters(out var dwmParams);
+            Marshal.ThrowExceptionForHR(Dwmapi.DwmGetColorizationParameters(out var dwmParams));
             values = BitConverter.GetBytes(dwmParams.clrColor);
         }
         catch (Exception)
@@ -476,10 +476,9 @@ public static class UnsafeNativeMethods
         try
         {
             var taskbarList = GetTaskbarList();
-            if (taskbarList == null)
+            if (taskbarList == IntPtr.Zero)
                 return false;
-            taskbarList.SetProgressState(hWnd, taskbarFlag);
-            return true;
+            return SetTaskbarProgressState(taskbarList, hWnd, taskbarFlag) >= 0;
         }
         catch
         {
@@ -504,11 +503,12 @@ public static class UnsafeNativeMethods
         try
         {
             var taskbarList = GetTaskbarList();
-            if (taskbarList == null)
+            if (taskbarList == IntPtr.Zero)
                 return false;
-            taskbarList.SetProgressState(hWnd, taskbarFlag);
+            if (SetTaskbarProgressState(taskbarList, hWnd, taskbarFlag) < 0)
+                return false;
             if (taskbarFlag != ShObjIdl.TBPFLAG.TBPF_INDETERMINATE && taskbarFlag != ShObjIdl.TBPFLAG.TBPF_NOPROGRESS)
-                taskbarList.SetProgressValue(hWnd, Convert.ToUInt64(current), Convert.ToUInt64(total));
+                return SetTaskbarProgressValue(taskbarList, hWnd, Convert.ToUInt64(current), Convert.ToUInt64(total)) >= 0;
             return true;
         }
         catch
@@ -517,16 +517,41 @@ public static class UnsafeNativeMethods
         }
     }
 
-    private static ShObjIdl.ITaskbarList4? GetTaskbarList()
+    private static readonly Guid TaskbarListClassId = new("56FDF344-FD6D-11d0-958A-006097C9A090");
+    private static readonly Guid TaskbarList3InterfaceId = new("ea1afb91-9e28-4b86-90e9-9e9f8a5eefaf");
+
+    [LibraryImport("ole32.dll")]
+    private static partial int CoCreateInstance(in Guid rclsid, IntPtr pUnkOuter, uint dwClsContext, in Guid riid, out IntPtr ppv);
+
+    private static IntPtr GetTaskbarList()
     {
         lock (TaskbarSync)
         {
-            if (TaskbarList != null)
+            if (TaskbarList != IntPtr.Zero)
                 return TaskbarList;
-            TaskbarList = new ShObjIdl.CTaskbarList() as ShObjIdl.ITaskbarList4;
-            TaskbarList?.HrInit();
+            if (CoCreateInstance(in TaskbarListClassId, IntPtr.Zero, 1, in TaskbarList3InterfaceId, out IntPtr instance) < 0 || instance == IntPtr.Zero)
+                return IntPtr.Zero;
+            IntPtr* vtable = *(IntPtr**)instance;
+            if (((delegate* unmanaged[Stdcall]<IntPtr, int>)vtable[3])(instance) < 0)
+            {
+                Marshal.Release(instance);
+                return IntPtr.Zero;
+            }
+            TaskbarList = instance;
             return TaskbarList;
         }
+    }
+
+    private static int SetTaskbarProgressValue(IntPtr taskbarList, IntPtr hWnd, ulong completed, ulong total)
+    {
+        IntPtr* vtable = *(IntPtr**)taskbarList;
+        return ((delegate* unmanaged[Stdcall]<IntPtr, IntPtr, ulong, ulong, int>)vtable[9])(taskbarList, hWnd, completed, total);
+    }
+
+    private static int SetTaskbarProgressState(IntPtr taskbarList, IntPtr hWnd, ShObjIdl.TBPFLAG taskbarFlag)
+    {
+        IntPtr* vtable = *(IntPtr**)taskbarList;
+        return ((delegate* unmanaged[Stdcall]<IntPtr, IntPtr, int, int>)vtable[10])(taskbarList, hWnd, (int)taskbarFlag);
     }
 
     #endregion
@@ -557,11 +582,11 @@ public static class UnsafeNativeMethods
             dwMask = UxTheme.WTNCA.VALIDBITS
         };
 
-        UxTheme.SetWindowThemeAttribute(
+        Marshal.ThrowExceptionForHR(UxTheme.SetWindowThemeAttribute(
             hWnd,
             UxTheme.WINDOWTHEMEATTRIBUTETYPE.WTA_NONCLIENT,
             ref wtaOptions,
-            (uint)Marshal.SizeOf(typeof(UxTheme.WTA_OPTIONS)));
+            (uint)Marshal.SizeOf<UxTheme.WTA_OPTIONS>()));
 
         return true;
     }
@@ -596,11 +621,11 @@ public static class UnsafeNativeMethods
             dwMask = UxTheme.WTNCA.VALIDBITS
         };
 
-        Interop.UxTheme.SetWindowThemeAttribute(
+        Marshal.ThrowExceptionForHR(Interop.UxTheme.SetWindowThemeAttribute(
             hWnd,
             UxTheme.WINDOWTHEMEATTRIBUTETYPE.WTA_NONCLIENT,
             ref wtaOptions,
-            (uint)Marshal.SizeOf(typeof(UxTheme.WTA_OPTIONS)));
+            (uint)Marshal.SizeOf<UxTheme.WTA_OPTIONS>()));
 
         var windowDpi = Ui.Dpi.DpiHelper.GetWindowDpi(hWnd);
 
@@ -620,7 +645,7 @@ public static class UnsafeNativeMethods
         };
 
         // #3 Extend client area
-        Interop.Dwmapi.DwmExtendFrameIntoClientArea(hWnd, ref dwmMargin);
+        Marshal.ThrowExceptionForHR(Interop.Dwmapi.DwmExtendFrameIntoClientArea(hWnd, ref dwmMargin));
 
         // #4 Clear rounding region
         Interop.User32.SetWindowRgn(hWnd, IntPtr.Zero,

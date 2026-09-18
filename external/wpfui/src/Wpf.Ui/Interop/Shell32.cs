@@ -1,4 +1,4 @@
-﻿// This Source Code is partially based on reverse engineering of the Windows Operating System,
+// This Source Code is partially based on reverse engineering of the Windows Operating System,
 // and is intended for use on Windows systems only.
 // This Source Code is partially based on the source code provided by the .NET Foundation.
 // This Source Code Form is subject to the terms of the MIT License.
@@ -22,7 +22,7 @@ namespace Wpf.Ui.Interop;
 /// </summary>
 // ReSharper disable IdentifierTypo
 // ReSharper disable InconsistentNaming
-internal static class Shell32
+internal static partial class Shell32
 {
     /// <summary>
     /// DATAOBJ_GET_ITEM_FLAGS.  DOGIF_*.
@@ -75,13 +75,13 @@ internal static class Shell32
         VISTA_MASK = XP_MASK | REALTIME | SHOWTIP,
     }
 
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public class NOTIFYICONDATA
     {
         /// <summary>
         /// The size of this structure, in bytes.
         /// </summary>
-        public int cbSize = Marshal.SizeOf(typeof(NOTIFYICONDATA));
+        public int cbSize = Marshal.SizeOf<NOTIFYICONDATA>();
 
         /// <summary>
         /// A handle to the window that receives notifications associated with an icon in the notification area.
@@ -143,31 +143,37 @@ internal static class Shell32
         IntPtr hBalloonIcon;
     }
 
-    [DllImport(Libraries.Shell32, PreserveSig = false)]
-    public static extern void SHGetItemFromDataObject(IDataObject pdtobj, DOGIF dwFlags, [In] ref Guid riid,
-        [Out, MarshalAs(UnmanagedType.Interface)]
-        out object ppv);
-
-    [DllImport(Libraries.Shell32)]
-    public static extern int SHCreateItemFromParsingName([MarshalAs(UnmanagedType.LPWStr)] string pszPath, IBindCtx pbc,
-        [In] ref Guid riid, [Out, MarshalAs(UnmanagedType.Interface)] out object ppv);
-
-    [DllImport(Libraries.Shell32)]
+    [LibraryImport(Libraries.Shell32, EntryPoint = "Shell_NotifyIconW")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern bool Shell_NotifyIcon([In] NIM dwMessage, [In] NOTIFYICONDATA lpdata);
+    private static partial bool Shell_NotifyIconNative(NIM dwMessage, IntPtr lpdata);
+
+    public static bool Shell_NotifyIcon(NIM dwMessage, NOTIFYICONDATA lpdata)
+    {
+        IntPtr buffer = Marshal.AllocHGlobal(Marshal.SizeOf<NOTIFYICONDATA>());
+        try
+        {
+            Marshal.StructureToPtr(lpdata, buffer, false);
+            return Shell_NotifyIconNative(dwMessage, buffer);
+        }
+        finally
+        {
+            Marshal.DestroyStructure<NOTIFYICONDATA>(buffer);
+            Marshal.FreeHGlobal(buffer);
+        }
+    }
 
     /// <summary>
     /// Sets the User Model AppID for the current process, enabling Windows to retrieve this ID
     /// </summary>
     /// <param name="AppID"></param>
-    [DllImport(Libraries.Shell32, PreserveSig = false)]
-    public static extern void SetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)] string AppID);
+    [LibraryImport(Libraries.Shell32)]
+    public static partial int SetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)] string AppID);
 
     /// <summary>
     /// Retrieves the User Model AppID that has been explicitly set for the current process via SetCurrentProcessExplicitAppUserModelID
     /// </summary>
     /// <param name="AppID"></param>
-    [DllImport(Libraries.Shell32)]
-    public static extern int GetCurrentProcessExplicitAppUserModelID(
-        [Out, MarshalAs(UnmanagedType.LPWStr)] out string AppID);
+    [LibraryImport(Libraries.Shell32)]
+    public static partial int GetCurrentProcessExplicitAppUserModelID(
+        [MarshalAs(UnmanagedType.LPWStr)] out string AppID);
 }

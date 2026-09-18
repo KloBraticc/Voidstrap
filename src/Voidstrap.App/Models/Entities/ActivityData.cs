@@ -135,7 +135,7 @@ public class ActivityData
 	{
 		get
 		{
-			InlineArray4<object> buffer = default(InlineArray4<object>);
+			InlineArray4<object?> buffer = default(InlineArray4<object?>);
 			buffer[0] = UniverseDetails?.Data?.Creator?.Name ?? "Unknown creator";
 			buffer[1] = TimeJoined.ToString("t");
 			buffer[2] = (Locale.CurrentCulture.Name.StartsWith("ja") ? '~' : '-');
@@ -267,7 +267,7 @@ public class ActivityData
 	{
 		try
 		{
-			string voidstrapPath = Paths.Process;
+			string voidstrapPath = Paths.LaunchExecutable;
 			ProcessStartInfo startInfo = new ProcessStartInfo
 			{
 				FileName = voidstrapPath,

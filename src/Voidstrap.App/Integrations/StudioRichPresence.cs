@@ -1,4 +1,5 @@
-﻿using System;
+using Voidstrap.Utility;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -11,20 +12,24 @@ using DiscordRPC;
 
 namespace Voidstrap.Integrations;
 
-public sealed class StudioRichPresence : IDisposable
+public sealed partial class StudioRichPresence : IDisposable
 {
+	[GeneratedRegex(@"\s*[-–—]\s*Roblox Studio\s*$", RegexOptions.IgnoreCase)]
+	private static partial Regex StudioTitleSuffixPattern { get; }
+
 	private const string LogTag = "StudioRPC";
 	private const string StudioIconUrl = "https://images.rbxcdn.com/905bd722ee0a6ceda3caacde54c0b081.png";
 	private const int MaxIconCacheEntries = 64;
 	private const int MaxApiResponseBytes = 1024 * 1024;
 	private static readonly HttpClient Http = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(10));
 	private static readonly Dictionary<long, string> IconCache = [];
-	private static readonly Regex PlaceIdPattern = new(@"\bplaceId\b[^0-9]{0,12}(\d{1,19})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-	private static readonly Regex UniverseIdPattern = new(@"\buniverseId\b[^0-9]{0,12}(\d{1,19})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-	private static readonly Regex ScriptLinePattern = new(@"(?:line count|lines)\D{0,8}(\d{1,9})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+	[GeneratedRegex(@"(?:line count|lines)\D{0,8}(\d{1,9})", RegexOptions.IgnoreCase)]
+	private static partial Regex ScriptLinePattern { get; }
 	private readonly CancellationTokenSource _lifetimeCancellation = new();
 	private readonly CancellationToken _lifetimeToken;
 	private DiscordRpcClient? _client;
+	private string _clientId = "";
+	private DateTime _retryAtUtc;
 	private System.Timers.Timer? _pollTimer;
 	private bool _disposed;
 	private bool _studioRunning;
@@ -60,16 +65,60 @@ public sealed class StudioRichPresence : IDisposable
 
 	private void Start()
 	{
-		string clientId = string.IsNullOrWhiteSpace(App.Settings.Prop.StudioRpcClientId)
+		_clientId = string.IsNullOrWhiteSpace(App.Settings.Prop.StudioRpcClientId)
 			? "1005469189907173486"
 			: App.Settings.Prop.StudioRpcClientId.Trim();
-		_client = new DiscordRpcClient(clientId);
-		_client.Initialize();
-		App.Logger.WriteLine(LogTag, $"Studio RPC initialized, client {clientId}");
 		_pollTimer = new System.Timers.Timer(4000) { AutoReset = true };
 		_pollTimer.Elapsed += OnPollTimer;
 		_pollTimer.Start();
 		Poll();
+	}
+
+	private void EnsureClient()
+	{
+		if (_disposed || _client != null || DateTime.UtcNow < _retryAtUtc || !DiscordIpc.TryFindPipe(out int pipe))
+		{
+			return;
+		}
+		DiscordRpcClient client = new DiscordRpcClient(_clientId, pipe, null, true, null);
+		client.OnConnectionFailed += OnConnectionFailed;
+		_client = client;
+		_lastSignature = "";
+		try
+		{
+			client.Initialize();
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LogTag, "Discord connection failed: " + ex.Message);
+			_retryAtUtc = DateTime.UtcNow + DiscordIpc.RetryDelay;
+			ReleaseClient();
+			return;
+		}
+		App.Logger.WriteLine(LogTag, $"Studio RPC initialized, client {_clientId}");
+	}
+
+	private void OnConnectionFailed(object sender, DiscordRPC.Message.ConnectionFailedMessage e)
+	{
+		_retryAtUtc = DateTime.UtcNow + DiscordIpc.RetryDelay;
+		ReleaseClient();
+	}
+
+	private void ReleaseClient()
+	{
+		DiscordRpcClient? client = Interlocked.Exchange(ref _client, null);
+		if (client == null)
+		{
+			return;
+		}
+		client.OnConnectionFailed -= OnConnectionFailed;
+		try
+		{
+			client.Dispose();
+		}
+		catch
+		{
+		}
 	}
 
 	private void OnPollTimer(object? sender, System.Timers.ElapsedEventArgs e)
@@ -122,6 +171,7 @@ public sealed class StudioRichPresence : IDisposable
 		ReadLogState();
 		ApplyPluginState();
 		EnsureIcon();
+		EnsureClient();
 		UpdatePresence();
 	}
 
@@ -150,12 +200,26 @@ public sealed class StudioRichPresence : IDisposable
 		}
 	}
 
+	private static string SafeProcessName(Process process)
+	{
+		try
+		{
+			return process.ProcessName;
+		}
+		catch
+		{
+			return string.Empty;
+		}
+	}
+
 	private static Process? FindStudioProcess()
 	{
 		Process[] processes;
 		try
 		{
-			processes = Process.GetProcessesByName("RobloxStudioBeta");
+			processes = Voidstrap.Utility.Platform.IsLinux
+				? Process.GetProcesses().Where(static candidate => Voidstrap.Platform.Linux.StudioProcessNames.IsStudio(SafeProcessName(candidate))).ToArray()
+				: Process.GetProcessesByName("RobloxStudioBeta");
 		}
 		catch
 		{
@@ -197,7 +261,7 @@ public sealed class StudioRichPresence : IDisposable
 			return;
 		}
 		_mode = ResolveMode(title);
-		string cleaned = Regex.Replace(title, @"\s*[-–—]\s*Roblox Studio\s*$", "", RegexOptions.IgnoreCase);
+		string cleaned = StudioTitleSuffixPattern.Replace(title, "");
 		string[] parts = cleaned.Split([" - ", " – ", " — "], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 		List<string> meaningful = parts.Where(part => !IsModeText(part)).ToList();
 		if (meaningful.Count > 0)
@@ -446,7 +510,7 @@ public sealed class StudioRichPresence : IDisposable
 		{
 			buttons.Add(new DiscordRPC.Button { Label = "View Game", Url = $"https://www.roblox.com/games/{_placeId}" });
 		}
-		buttons.Add(new DiscordRPC.Button { Label = "Get Voidstrap", Url = App.WebsiteBaseUrl });
+		buttons.Add(new DiscordRPC.Button { Label = "Get Voidstrap", Url = App.ProjectDownloadLink });
 		string signature = string.Join("|", details, state, largeImage, largeText, _placeId);
 		if (signature == _lastSignature)
 		{
@@ -455,7 +519,7 @@ public sealed class StudioRichPresence : IDisposable
 		_lastSignature = signature;
 		try
 		{
-			_client.SetPresence(new DiscordRPC.RichPresence
+			_client.SetPresenceSafe(new DiscordRPC.RichPresence
 			{
 				Details = Trim(details, 128),
 				State = Trim(state, 128),
@@ -514,10 +578,14 @@ public sealed class StudioRichPresence : IDisposable
 		catch
 		{
 		}
-		_client?.Dispose();
+		ReleaseClient();
 		_lifetimeCancellation.Dispose();
 		_pollTimer = null;
-		_client = null;
 		GC.SuppressFinalize(this);
 	}
+
+    [GeneratedRegex(@"\bplaceId\b[^0-9]{0,12}(\d{1,19})", RegexOptions.IgnoreCase, "en-US")]
+    private static partial Regex PlaceIdPattern { get; }
+    [GeneratedRegex(@"\buniverseId\b[^0-9]{0,12}(\d{1,19})", RegexOptions.IgnoreCase, "en-US")]
+    private static partial Regex UniverseIdPattern { get; }
 }

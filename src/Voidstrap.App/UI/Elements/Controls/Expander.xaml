@@ -1,5 +1,24 @@
 <UserControl x:Class="Voidstrap.UI.Elements.Controls.Expander" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" x:Name="Control">
-  <Expander VerticalAlignment="Top" Padding="8" Content="{Binding InnerContent, ElementName=Control}" IsExpanded="{Binding IsExpanded, ElementName=Control}">
+  <UserControl.Resources>
+    <ControlTemplate x:Key="StableLinuxExpanderToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+      <Grid Margin="{TemplateBinding Padding}" Background="Transparent">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ContentPresenter x:Name="ContentPresenter" Grid.Column="0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" />
+        <Grid x:Name="ChevronGrid" Grid.Column="1" Margin="0" VerticalAlignment="Center" Background="Transparent">
+          <ui:SymbolIcon x:Name="ControlChevronIcon" FontSize="16" Foreground="{TemplateBinding Foreground}" Symbol="ChevronDown24" />
+        </Grid>
+      </Grid>
+      <ControlTemplate.Triggers>
+        <Trigger Property="IsChecked" Value="True">
+          <Setter TargetName="ControlChevronIcon" Property="Symbol" Value="ChevronUp24" />
+        </Trigger>
+      </ControlTemplate.Triggers>
+    </ControlTemplate>
+  </UserControl.Resources>
+  <Expander x:Name="RootExpander" VerticalAlignment="Top" Padding="8" Content="{Binding InnerContent, ElementName=Control}" IsExpanded="{Binding IsExpanded, ElementName=Control}">
     <HeaderedContentControl.Header>
       <Grid VerticalAlignment="Center" Margin="0,0,0,0">
         <Grid.ColumnDefinitions>

@@ -59,8 +59,7 @@ public sealed class RelayCommand : IRelayCommand
     /// <exception cref="ArgumentNullException">Exception occurring when no <see cref="Action"/> is defined.</exception>
     public RelayCommand(Action execute, Func<bool> canExecute)
     {
-        if (execute == null)
-            throw new ArgumentNullException("execute");
+        ArgumentNullException.ThrowIfNull(execute);
 
         _execute = p => execute();
         _canExecute = canExecute;
@@ -74,7 +73,7 @@ public sealed class RelayCommand : IRelayCommand
     /// <exception cref="ArgumentNullException">Exception occurring when no <see cref="Action"/> is defined.</exception>
     public RelayCommand(Action<object> execute, Func<bool> canExecute)
     {
-        _execute = execute ?? throw new ArgumentNullException("execute");
+        _execute = execute ?? throw new ArgumentNullException(nameof(execute));
         _canExecute = canExecute;
     }
 

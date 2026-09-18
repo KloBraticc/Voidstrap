@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -15,6 +15,8 @@ namespace Voidstrap.Integrations.FrameGeneration
         public Vector4 Dims;
         public Vector4 SrcRect;
         public Vector4 Interp;
+        public Vector4 Extra;
+        public Vector4 Extra2;
     }
 
     internal sealed class FrameGenPipeline
@@ -68,7 +70,7 @@ namespace Voidstrap.Integrations.FrameGeneration
         private bool _historyValid;
 		private bool _disposed;
 
-        private static readonly ID3D11ShaderResourceView?[] _nullSrvs = new ID3D11ShaderResourceView?[8];
+        private static readonly ID3D11ShaderResourceView[] _nullSrvs = new ID3D11ShaderResourceView[8];
         private static readonly int ProcessorCount = Environment.ProcessorCount;
         private static readonly string[] ShaderEntries = ["VSMain", "PSPass", "PSLumaColor", "PSLumaDown", "PSFlowCoarse", "PSFlowCoarseFast", "PSFlowRefine", "PSFlowRefineFast", "PSFlowRefineFine", "PSFlowSmooth", "PSFlowSmoothWide", "PSFlowGlobal", "PSWarp", "PSWarpFast", "PSWarpX", "PSWarpXFast"];
         private static readonly Lazy<byte[][]> ShaderBytecode = new(CompileShaders);
@@ -278,7 +280,7 @@ namespace Voidstrap.Integrations.FrameGeneration
             _context.PSSetShaderResources(0, _nullSrvs);
             _context.OMSetRenderTargets(target);
             _context.PSSetShader(ps);
-            _context.PSSetShaderResource(0, t0);
+            _context.PSSetShaderResource(0, t0!);
             if (t1 != null) _context.PSSetShaderResource(1, t1);
             if (t2 != null) _context.PSSetShaderResource(2, t2);
             _context.Draw(3, 0);
@@ -312,6 +314,18 @@ namespace Voidstrap.Integrations.FrameGeneration
             _historyValid = true;
         }
 
+        public void ComputeBackwardFlow(int prevSet, int currSet, float searchRange)
+        {
+            _coarseRange = searchRange;
+            SetState();
+            ComputeFlowDirection(1, currSet, prevSet);
+            _historyValid = true;
+        }
+
+        public ID3D11ShaderResourceView BackwardFlowSrv => _flowSmoothSrv[1, _smoothIdx[1]]!;
+
+        public ID3D11ShaderResourceView PreviousBackwardFlowSrv => _flowSmoothSrv[1, _smoothIdx[1] ^ 1]!;
+
         private void ComputeFlowDirection(int dir, int aSet, int bSet)
         {
             int coarse = PyramidLevels - 1;
@@ -336,13 +350,13 @@ namespace Voidstrap.Integrations.FrameGeneration
                 : Math.Clamp(0.36f * 12f / Math.Max(12f, _coarseRange), 0.12f, 0.36f);
             int flowLevel = _flowLevel;
             SetPass(_levelW[flowLevel], _levelH[flowLevel], 0f, temporal);
-            DrawPass(smoothPs, _flowSmoothRtv[dir, sNow]!, _flowSrv[flowLevel], _lumaSrv[bSet, flowLevel], _flowSmoothSrv[dir, sPrev]);
+            DrawPass(smoothPs, _flowSmoothRtv[dir, sNow]!, _flowSrv[flowLevel], _lumaSrv[aSet, flowLevel], _flowSmoothSrv[dir, sPrev]);
             if (lowRate && _quality >= 2 && flowLevel == 1)
             {
                 SetPass(_levelW[flowLevel], _levelH[flowLevel], 0f);
                 DrawPass(_psFlowRefineFine!, _flowRtv[flowLevel]!, _lumaSrv[aSet, flowLevel], _lumaSrv[bSet, flowLevel], _flowSmoothSrv[dir, sNow]);
                 SetPass(_levelW[flowLevel], _levelH[flowLevel], 0f, temporal);
-                DrawPass(smoothPs, _flowSmoothRtv[dir, sNow]!, _flowSrv[flowLevel], _lumaSrv[bSet, flowLevel], _flowSmoothSrv[dir, sPrev]);
+                DrawPass(smoothPs, _flowSmoothRtv[dir, sNow]!, _flowSrv[flowLevel], _lumaSrv[aSet, flowLevel], _flowSmoothSrv[dir, sPrev]);
             }
             int gPrev = _globalIdx[dir];
             _globalIdx[dir] ^= 1;
@@ -360,12 +374,12 @@ namespace Voidstrap.Integrations.FrameGeneration
             _context.PSSetShader(_quality == 0 ? _psWarpFast : _psWarp);
             _context.PSSetShaderResource(0, prevColor);
             _context.PSSetShaderResource(1, currColor);
-            _context.PSSetShaderResource(2, _flowSmoothSrv[0, _smoothIdx[0]]);
-            _context.PSSetShaderResource(3, _flowGlobalSrv[0, _globalIdx[0]]);
-            _context.PSSetShaderResource(4, _flowSmoothSrv[1, _smoothIdx[1]]);
-            _context.PSSetShaderResource(5, _flowGlobalSrv[1, _globalIdx[1]]);
-            _context.PSSetShaderResource(6, _flowGlobalSrv[0, _globalIdx[0] ^ 1]);
-            _context.PSSetShaderResource(7, _flowGlobalSrv[1, _globalIdx[1] ^ 1]);
+            _context.PSSetShaderResource(2, _flowSmoothSrv[0, _smoothIdx[0]]!);
+            _context.PSSetShaderResource(3, _flowGlobalSrv[0, _globalIdx[0]]!);
+            _context.PSSetShaderResource(4, _flowSmoothSrv[1, _smoothIdx[1]]!);
+            _context.PSSetShaderResource(5, _flowGlobalSrv[1, _globalIdx[1]]!);
+            _context.PSSetShaderResource(6, _flowGlobalSrv[0, _globalIdx[0] ^ 1]!);
+            _context.PSSetShaderResource(7, _flowGlobalSrv[1, _globalIdx[1] ^ 1]!);
             _context.Draw(3, 0);
             _context.PSSetShaderResources(0, _nullSrvs);
         }
@@ -377,10 +391,10 @@ namespace Voidstrap.Integrations.FrameGeneration
             _context.PSSetShaderResources(0, _nullSrvs);
             _context.OMSetRenderTargets(output);
             _context.PSSetShader(_quality == 0 ? _psWarpXFast : _psWarpX);
-            _context.PSSetShaderResource(0, _flowGlobalSrv[1, _globalIdx[1]]);
+            _context.PSSetShaderResource(0, _flowGlobalSrv[1, _globalIdx[1]]!);
             _context.PSSetShaderResource(1, currColor);
-            _context.PSSetShaderResource(2, _flowSmoothSrv[1, _smoothIdx[1]]);
-            _context.PSSetShaderResource(3, _flowGlobalSrv[1, _globalIdx[1] ^ 1]);
+            _context.PSSetShaderResource(2, _flowSmoothSrv[1, _smoothIdx[1]]!);
+            _context.PSSetShaderResource(3, _flowGlobalSrv[1, _globalIdx[1] ^ 1]!);
             _context.Draw(3, 0);
             _context.PSSetShaderResources(0, _nullSrvs);
         }

@@ -29,14 +29,14 @@ public enum ServerHistorySortBy
 
 public class SortByOption
 {
-    public string Display { get; init; }
+    public string Display { get; init; } = null!;
     public ServerHistorySortBy Value { get; init; }
     public override string ToString() => Display;
 }
 
 public class ServerTypeFilterOption
 {
-    public string Display { get; init; }
+    public string Display { get; init; } = null!;
     public ServerType? Value { get; init; }
     public override string ToString() => Display;
 }
@@ -94,7 +94,7 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 			if (_selectedSort != value)
 			{
 				_selectedSort = value;
-				OnPropertyChanged("SelectedSort");
+				OnPropertyChanged(nameof(SelectedSort));
 				ApplyFilterAndSort();
 			}
 		}
@@ -108,7 +108,7 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 			if (_selectedServerTypeFilter != value)
 			{
 				_selectedServerTypeFilter = value;
-				OnPropertyChanged("SelectedServerTypeFilter");
+				OnPropertyChanged(nameof(SelectedServerTypeFilter));
 				ApplyFilterAndSort();
 			}
 		}
@@ -123,7 +123,7 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 
 	public ServerHistoryViewModel(ActivityWatcher activityWatcher)
 	{
-		_activityWatcher = activityWatcher ?? throw new ArgumentNullException("activityWatcher");
+		_activityWatcher = activityWatcher ?? throw new ArgumentNullException(nameof(activityWatcher));
 		CloseWindowCommand = new RelayCommand(RequestClose);
 		CopyDeeplinkCommand = new RelayCommand<ActivityData>(CopyDeeplinkToClipboard);
 		LaunchDeeplinkCommand = new RelayCommand<ActivityData>(LaunchDeeplink);
@@ -286,7 +286,7 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		}
 		try
 		{
-			string voidstrapPath = Paths.Process;
+			string voidstrapPath = Paths.LaunchExecutable;
 			ProcessStartInfo startInfo = new ProcessStartInfo
 			{
 				FileName = voidstrapPath,
@@ -312,7 +312,7 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		}
 		try
 		{
-			Clipboard.SetText(data.GetInviteDeeplink());
+			Voidstrap.Utility.ClipboardService.SetText(data.GetInviteDeeplink());
 		}
 		catch (Exception ex)
 		{
@@ -322,8 +322,8 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 
 	private void NotifyHistoryChanged()
 	{
-		OnPropertyChanged("GameHistory");
-		OnPropertyChanged("Top10RecentHistory");
+		OnPropertyChanged(nameof(GameHistory));
+		OnPropertyChanged(nameof(Top10RecentHistory));
 		ApplyFilterAndSort();
 	}
 
@@ -344,7 +344,7 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 			_ => source.OrderByDescending((ActivityData x) => x.TimeJoined),
 		};
 		FilteredGameHistory = source.ToList();
-		OnPropertyChanged("FilteredGameHistory");
+		OnPropertyChanged(nameof(FilteredGameHistory));
 	}
 
 	private void SetLoadingState()
@@ -352,7 +352,7 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		RunOnUi(delegate
 		{
 			LoadState = GenericTriState.Unknown;
-			OnPropertyChanged("LoadState");
+			OnPropertyChanged(nameof(LoadState));
 		});
 	}
 
@@ -361,7 +361,7 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		RunOnUi(delegate
 		{
 			LoadState = GenericTriState.Successful;
-			OnPropertyChanged("LoadState");
+			OnPropertyChanged(nameof(LoadState));
 		});
 	}
 
@@ -372,8 +372,8 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		{
 			Error = "Failed to load history: " + ex.Message;
 			LoadState = GenericTriState.Failed;
-			OnPropertyChanged("Error");
-			OnPropertyChanged("LoadState");
+			OnPropertyChanged(nameof(Error));
+			OnPropertyChanged(nameof(LoadState));
 		});
 	}
 

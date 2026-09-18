@@ -1839,7 +1839,7 @@ Would you like to switch your preferred channel to {0}?</value>
     <value>Sober</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
-    <value>Configure native Sober behavior on Linux. Voidstrap changes only options you explicitly override.</value>
+    <value>Configure the Linux runtimes Voidstrap launches Roblox with. Sober runs the player, Vinegar runs Studio. Voidstrap changes only options you explicitly override.</value>
   </data>
   <data name="Menu.Sober.Default" xml:space="preserve">
     <value>Use Sober default</value>
@@ -1960,5 +1960,71 @@ Would you like to switch your preferred channel to {0}?</value>
   </data>
   <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
     <value>Uses OpenGL instead of Sober's default graphics backend.</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>Background and UI</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>Personalize the installer and the main app.</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>Background snow</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>Adds a subtle snow effect to the background.</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>Gradient movement</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>Lets the background gradient follow the pointer.</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>Smooth scrolling</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>Animates scrolling throughout the interface.</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>Clear font</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Uses sharper text rendering after Voidstrap restarts.</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>Custom background</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>Use an image, GIF, or video and tune how it appears.</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>Gradient opacity</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>Dark overlay</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>Display everywhere</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>Remove background</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>Choose the theme used across every Voidstrap window.</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>Customize</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>Window backdrop</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Choose the material shown behind Voidstrap windows.</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>Page zoom</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>Adjust the size of settings pages.</value>
   </data>
 </root>

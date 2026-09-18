@@ -182,8 +182,8 @@ namespace Voidstrap.Integrations.Rojo
                     !Uri.TryCreate(url, UriKind.Absolute, out Uri? assetUri) || assetUri.Scheme != Uri.UriSchemeHttps || !assetUri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase))
                     continue;
 
-                if (name.IndexOf("x86_64", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                    name.IndexOf("win64", StringComparison.OrdinalIgnoreCase) >= 0)
+                if (name.Contains("x86_64", StringComparison.OrdinalIgnoreCase) ||
+                    name.Contains("win64", StringComparison.OrdinalIgnoreCase))
                     return (tag, url, digest, size);
 
                 fallback ??= (url, digest, size);
@@ -205,12 +205,12 @@ namespace Voidstrap.Integrations.Rojo
 
         private static async Task DownloadAsync(string url, string outputPath, string digest, long size, string label, Action<string, double, bool>? progress, CancellationToken ct)
         {
-            await Voidstrap.Utility.ResilientDownload.DownloadAsync(Http, [url], outputPath, size, ct, digest,
+            await Voidstrap.Utility.ResilientDownload.DownloadAsync(Http, [url], outputPath, size, digest,
                 progress: (read, total) =>
                 {
-                    double fraction = total is > 0 ? (double)read / total.Value : -1.0;
+                    double fraction = total is > 0 ? Math.Min((double)read / total.Value, 0.99) : -1.0;
                     progress?.Invoke(fraction >= 0 ? $"{label} {fraction * 100:0}%" : label, fraction, true);
-                });
+                }, token: ct);
         }
 
         public static async Task UninstallAsync()
@@ -325,7 +325,15 @@ namespace Voidstrap.Integrations.Rojo
                     UseShellExecute = false,
                     CreateNoWindow = true
                 };
-                _serveProcess = Process.Start(psi);
+                try
+                {
+                    _serveProcess = Process.Start(psi);
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine(LogTag, "rojo serve could not start: " + ex.Message);
+                    return false;
+                }
                 App.Logger.WriteLine(LogTag, "rojo serve started in " + workingDir);
                 return _serveProcess != null;
             }

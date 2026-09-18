@@ -216,8 +216,11 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
     /// </summary>
     protected void CalculateSpacing(Size finalSize, out double innerSpacing, out double outerSpacing)
     {
-        Size childSize = CalculateChildArrangeSize(finalSize);
+        CalculateSpacing(finalSize, CalculateChildArrangeSize(finalSize), out innerSpacing, out outerSpacing);
+    }
 
+    private void CalculateSpacing(Size finalSize, Size childSize, out double innerSpacing, out double outerSpacing)
+    {
         double finalWidth = GetWidth(finalSize);
 
         double totalItemsWidth = Math.Min(GetWidth(childSize) * ItemsPerRowCount, finalWidth);
@@ -261,7 +264,7 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
 
         Size childSize = CalculateChildArrangeSize(finalSize);
 
-        CalculateSpacing(finalSize, out double innerSpacing, out double outerSpacing);
+        CalculateSpacing(finalSize, childSize, out double innerSpacing, out double outerSpacing);
 
         for (int childIndex = 0; childIndex < InternalChildren.Count; childIndex++)
         {
@@ -325,9 +328,17 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
     /// <returns></returns>
     private T ReadItemContainerStyle<T>(DependencyProperty property, T fallbackValue) where T : notnull
     {
-        var value = ItemsControl.ItemContainerStyle?.Setters.OfType<Setter>()
-            .FirstOrDefault(setter => setter.Property == property)?.Value;
-        return (T)(value ?? fallbackValue);
+        var setters = ItemsControl.ItemContainerStyle?.Setters;
+        if (setters == null)
+            return fallbackValue;
+
+        foreach (SetterBase setterBase in setters)
+        {
+            if (setterBase is Setter setter && setter.Property == property)
+                return setter.Value is T value ? value : fallbackValue;
+        }
+
+        return fallbackValue;
     }
 
     /// <inheritdoc />

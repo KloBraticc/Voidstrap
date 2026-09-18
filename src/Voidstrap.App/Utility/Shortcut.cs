@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using ShellLink;
 using Voidstrap.Enums;
@@ -18,13 +18,21 @@ internal static class Shortcut
 
 	public static void Create(string exePath, string exeArgs, string lnkPath, string iconPath)
 	{
-		if (File.Exists(lnkPath))
+		if (!Platform.IsLinux && File.Exists(lnkPath))
 		{
 			return;
 		}
 		try
 		{
-			ShellLink.Shortcut.CreateShortcut(exePath, exeArgs, iconPath, 0).WriteToFile(lnkPath);
+			if (Platform.IsLinux)
+			{
+				if (!LinuxDesktopEntry.CreateShortcut(lnkPath, Path.GetFileNameWithoutExtension(lnkPath), exePath, exeArgs, iconPath))
+					throw new IOException("The desktop entry could not be written to " + lnkPath);
+			}
+			else
+			{
+				ShellLink.Shortcut.CreateShortcut(exePath, exeArgs, iconPath, 0).WriteToFile(lnkPath);
+			}
 			if (_loadStatus != GenericTriState.Successful)
 			{
 				_loadStatus = GenericTriState.Successful;

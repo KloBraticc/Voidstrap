@@ -16,7 +16,7 @@ public static class ColorExtensions
     /// <summary>
     /// Maximum <see cref="Byte"/> size with the current <see cref="Single"/> precision.
     /// </summary>
-    private static float ByteMax = (float)Byte.MaxValue;
+    private const float ByteMax = Byte.MaxValue;
 
     /// <summary>
     /// Creates a <see cref="SolidColorBrush"/> from a <see cref="System.Windows.Media.Color"/>.

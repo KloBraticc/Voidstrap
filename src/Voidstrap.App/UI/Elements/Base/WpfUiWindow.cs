@@ -1,8 +1,10 @@
-﻿using System;
+using System.Runtime.InteropServices;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Markup;
 using Voidstrap.Enums;
@@ -15,9 +17,9 @@ using Wpf.Ui.Mvvm.Services;
 
 namespace Voidstrap.UI.Elements.Base;
 
-public abstract class WpfUiWindow : UiWindow, IDisposable
+public abstract partial class WpfUiWindow : UiWindow, IDisposable
 {
-	private static readonly IThemeService _themeService = new ThemeService();
+	private static readonly ThemeService _themeService = new ThemeService();
 
 	private static readonly HashSet<string> SharedStyleDictionaries = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 	{
@@ -35,9 +37,18 @@ public abstract class WpfUiWindow : UiWindow, IDisposable
 
 	private bool _disposed;
 
+	static WpfUiWindow()
+	{
+		ToolTipService.InitialShowDelayProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(400));
+		ToolTipService.BetweenShowDelayProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(80));
+		ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(12000));
+	}
+
 	protected WpfUiWindow()
 	{
+		Voidstrap.UI.AppFont.Apply(this);
 		Voidstrap.UI.RoundedWindowChrome.Prepare(this);
+		Voidstrap.UI.LinuxWindowMode.Attach(this);
 		ApplyTheme();
 	}
 
@@ -64,7 +75,8 @@ public abstract class WpfUiWindow : UiWindow, IDisposable
 			{
 				App.Logger?.WriteLine("WpfUiWindow::ApplyTheme", "Wpf.Ui theme service failed: " + ex.Message);
 			}
-			ResourceDictionary resourceDictionary = null;
+			Voidstrap.Utility.SystemAccent.ApplyResources();
+			ResourceDictionary? resourceDictionary = null;
 			if (flag)
 			{
 				resourceDictionary = LoadCustomThemeDict();
@@ -82,7 +94,7 @@ public abstract class WpfUiWindow : UiWindow, IDisposable
 		WindowBackdrop.ApplyThemeToAllOpenWindows();
 	}
 
-	private ResourceDictionary? LoadCustomThemeDict()
+	private static ResourceDictionary? LoadCustomThemeDict()
 	{
 		try
 		{
@@ -101,7 +113,7 @@ public abstract class WpfUiWindow : UiWindow, IDisposable
 		{
 			return cached;
 		}
-		string text = Enum.GetName(typeof(Voidstrap.Enums.Theme), theme) ?? "Dark";
+		string text = Enum.GetName(theme) ?? "Dark";
 		ResourceDictionary? loaded = TryLoadStyleDictionary(text);
 		if (loaded == null && !string.Equals(text, "Dark", StringComparison.OrdinalIgnoreCase))
 		{
@@ -163,23 +175,25 @@ public abstract class WpfUiWindow : UiWindow, IDisposable
 		_lastAppliedDict = newDict;
 	}
 
-	[System.Runtime.InteropServices.DllImport("gdi32.dll")]
-	private static extern IntPtr CreateRoundRectRgn(int x1, int y1, int x2, int y2, int cx, int cy);
+	[LibraryImport("gdi32.dll")]
+	private static partial IntPtr CreateRoundRectRgn(int x1, int y1, int x2, int y2, int cx, int cy);
 
-	[System.Runtime.InteropServices.DllImport("gdi32.dll")]
-	private static extern bool DeleteObject(IntPtr hObject);
+	[LibraryImport("gdi32.dll")]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static partial bool DeleteObject(IntPtr hObject);
 
-	[System.Runtime.InteropServices.DllImport("user32.dll")]
-	private static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
+	[LibraryImport("user32.dll")]
+	private static partial int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, [MarshalAs(UnmanagedType.Bool)] bool bRedraw);
 
-	[System.Runtime.InteropServices.DllImport("user32.dll")]
-	private static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
+	[LibraryImport("user32.dll")]
+	private static partial IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
 
-	[System.Runtime.InteropServices.DllImport("user32.dll")]
-	private static extern bool GetMonitorInfo(IntPtr hMonitor, ref NativeMonitorInfo lpmi);
+	[LibraryImport("user32.dll", EntryPoint = "GetMonitorInfoA")]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static partial bool GetMonitorInfo(IntPtr hMonitor, ref NativeMonitorInfo lpmi);
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
-	private struct NativePoint
+	private partial struct NativePoint
 	{
 		public int X;
 
@@ -187,7 +201,7 @@ public abstract class WpfUiWindow : UiWindow, IDisposable
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
-	private struct NativeRect
+	private partial struct NativeRect
 	{
 		public int Left;
 
@@ -199,7 +213,7 @@ public abstract class WpfUiWindow : UiWindow, IDisposable
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
-	private struct NativeMonitorInfo
+	private partial struct NativeMonitorInfo
 	{
 		public int Size;
 
@@ -211,7 +225,7 @@ public abstract class WpfUiWindow : UiWindow, IDisposable
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
-	private struct NativeMinMaxInfo
+	private partial struct NativeMinMaxInfo
 	{
 		public NativePoint Reserved;
 
@@ -237,7 +251,9 @@ public abstract class WpfUiWindow : UiWindow, IDisposable
 		{
 			try
 			{
-				Icon = System.Windows.Media.Imaging.BitmapFrame.Create(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute));
+				Icon = Voidstrap.Utility.Platform.IsLinux
+					? Voidstrap.Utility.SafeImaging.FromUri(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute))
+					: System.Windows.Media.Imaging.BitmapFrame.Create(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute));
 			}
 			catch (Exception ex)
 			{
@@ -319,7 +335,7 @@ public abstract class WpfUiWindow : UiWindow, IDisposable
 		}
 		if (base.WindowState == System.Windows.WindowState.Maximized)
 		{
-			SetWindowRgn(handle, IntPtr.Zero, bRedraw: true);
+			_ = SetWindowRgn(handle, IntPtr.Zero, bRedraw: true);
 			return;
 		}
 		System.Windows.Media.Matrix m = hwndSource.CompositionTarget.TransformToDevice;

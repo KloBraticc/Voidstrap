@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Voidstrap.Platform.Linux;
 
-public static class LinuxBundleInstaller
+public static partial class LinuxBundleInstaller
 {
 	private const long MaxExtractedBytes = 2147483648L;
 	private const string ArchiveRoot = "Voidstrap";
@@ -15,6 +15,7 @@ public static class LinuxBundleInstaller
 	private const string BackupSuffix = ".voidstrap.previous";
 	private const string MarkerSuffix = ".owner";
 	private const string MarkerHeader = "Voidstrap Linux bundle backup\n";
+	private const string AppImageUpdateSuffix = ".voidstrap.update";
 	private const int AtomicExchangeFlag = 2;
 	private const int CurrentWorkingDirectoryDescriptor = -100;
 	private const int ElfHeaderSize = 64;
@@ -81,6 +82,138 @@ public static class LinuxBundleInstaller
 		return $"Voidstrap_{version}_{runtimeIdentifier}.tar.gz";
 	}
 
+	public static string GetAppImageAssetName(string tag)
+	{
+		string version = ValidateReleaseTag(tag);
+		string architecture = RuntimeInformation.OSArchitecture switch
+		{
+			Architecture.X64 => "x86_64",
+			Architecture.Arm64 => "aarch64",
+			_ => throw new PlatformNotSupportedException("The current Linux architecture is unsupported")
+		};
+		return $"Voidstrap_{version}_{architecture}.AppImage";
+	}
+
+	public static string GetDebianAssetName(string tag)
+	{
+		string version = ValidateReleaseTag(tag);
+		string architecture = RuntimeInformation.OSArchitecture switch
+		{
+			Architecture.X64 => "amd64",
+			Architecture.Arm64 => "arm64",
+			_ => throw new PlatformNotSupportedException("The current Linux architecture is unsupported")
+		};
+		return $"Voidstrap_{version}_{architecture}.deb";
+	}
+
+	public static string GetRpmAssetName(string tag)
+	{
+		string version = ValidateReleaseTag(tag);
+		string architecture = RuntimeInformation.OSArchitecture switch
+		{
+			Architecture.X64 => "x86_64",
+			Architecture.Arm64 => "aarch64",
+			_ => throw new PlatformNotSupportedException("The current Linux architecture is unsupported")
+		};
+		return $"Voidstrap_{version}_{architecture}.rpm";
+	}
+
+	public static string GetFlatpakAssetName(string tag)
+	{
+		string version = ValidateReleaseTag(tag);
+		string architecture = RuntimeInformation.OSArchitecture switch
+		{
+			Architecture.X64 => "x86_64",
+			Architecture.Arm64 => "aarch64",
+			_ => throw new PlatformNotSupportedException("The current Linux architecture is unsupported")
+		};
+		return $"Voidstrap_{version}_{architecture}.flatpak";
+	}
+
+	public static async Task InstallAppImageAsync(string imagePath, string currentImagePath, CancellationToken cancellationToken)
+	{
+		if (!OperatingSystem.IsLinux())
+		{
+			throw new PlatformNotSupportedException("AppImage updates require Linux");
+		}
+		ArgumentException.ThrowIfNullOrWhiteSpace(imagePath);
+		ArgumentException.ThrowIfNullOrWhiteSpace(currentImagePath);
+		cancellationToken.ThrowIfCancellationRequested();
+
+		string sourcePath = Path.GetFullPath(imagePath);
+		string targetPath = Path.GetFullPath(currentImagePath);
+		string targetDirectory = Path.GetDirectoryName(targetPath) ?? throw new InvalidOperationException("The AppImage folder is unavailable");
+		if (!File.Exists(sourcePath) || new FileInfo(sourcePath).Length == 0 || IsLink(sourcePath))
+		{
+			throw new FileNotFoundException("The AppImage update is unavailable", sourcePath);
+		}
+		if (!File.Exists(targetPath) || new FileInfo(targetPath).Length == 0 || IsLink(targetPath))
+		{
+			throw new FileNotFoundException("The current AppImage is unavailable", targetPath);
+		}
+		if (!LinuxAppImageHost.HasValidHeader(sourcePath))
+		{
+			throw new InvalidDataException("The update is not a valid AppImage for this computer");
+		}
+
+		EnsureWritable(targetDirectory);
+		string stagedPath = targetPath + AppImageUpdateSuffix;
+		try
+		{
+			if (File.Exists(stagedPath))
+			{
+				if (IsLink(stagedPath))
+				{
+					throw new IOException("The AppImage update slot is unsafe");
+				}
+				File.Delete(stagedPath);
+			}
+
+			await using (FileStream source = new(sourcePath, FileMode.Open, FileAccess.Read, FileShare.Read, 131072, FileOptions.Asynchronous | FileOptions.SequentialScan))
+			await using (FileStream target = new(stagedPath, FileMode.CreateNew, FileAccess.Write, FileShare.None, 131072, FileOptions.Asynchronous | FileOptions.SequentialScan))
+			{
+				await source.CopyToAsync(target, 131072, cancellationToken).ConfigureAwait(false);
+				await target.FlushAsync(cancellationToken).ConfigureAwait(false);
+				target.Flush(true);
+			}
+
+			UnixFileMode currentMode = File.GetUnixFileMode(targetPath);
+			UnixFileMode executableMode = currentMode | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute;
+			File.SetUnixFileMode(stagedPath, executableMode);
+			if (new FileInfo(stagedPath).Length != new FileInfo(sourcePath).Length || !LinuxAppImageHost.HasValidHeader(stagedPath))
+			{
+				throw new InvalidDataException("The staged AppImage update is invalid");
+			}
+
+			File.Move(stagedPath, targetPath, true);
+			try
+			{
+				SyncDirectory(targetDirectory);
+			}
+			catch (IOException)
+			{
+			}
+		}
+		finally
+		{
+			if (File.Exists(stagedPath) && !IsLink(stagedPath))
+			{
+				File.Delete(stagedPath);
+			}
+		}
+	}
+
+	private static string ValidateReleaseTag(string tag)
+	{
+		string version = tag.Trim().TrimStart('v', 'V');
+		string[] parts = version.Split('.');
+		if (parts.Length is < 2 or > 4 || parts.Any(part => part.Length == 0 || !part.All(char.IsAsciiDigit)))
+		{
+			throw new ArgumentException("The release tag is invalid", nameof(tag));
+		}
+		return version;
+	}
+
 	public static bool IsPackageManagedLocation(string installDirectory)
 	{
 		string normalized = NormalizeUnixPath(installDirectory);
@@ -108,30 +241,30 @@ public static class LinuxBundleInstaller
 					afterBackupCreated();
 				}
 			};
-		InstallCoreAsync(archivePath, currentExecutablePath, CancellationToken.None, faultInjector, AtomicExchange).GetAwaiter().GetResult();
+		InstallCoreAsync(archivePath, currentExecutablePath, faultInjector, AtomicExchange, CancellationToken.None).GetAwaiter().GetResult();
 	}
 
 	public static Task InstallAsync(string archivePath, string currentExecutablePath, CancellationToken cancellationToken)
 	{
-		return InstallCoreAsync(archivePath, currentExecutablePath, cancellationToken, null, AtomicExchange);
+		return InstallCoreAsync(archivePath, currentExecutablePath, null, AtomicExchange, cancellationToken);
 	}
 
 	internal static Task InstallAsync(
 		string archivePath,
 		string currentExecutablePath,
-		CancellationToken cancellationToken,
 		Action<LinuxBundleInstallBoundary>? faultInjector,
-		Action<string, string>? atomicExchange = null)
+		Action<string, string>? atomicExchange,
+		CancellationToken cancellationToken)
 	{
-		return InstallCoreAsync(archivePath, currentExecutablePath, cancellationToken, faultInjector, atomicExchange ?? AtomicExchange);
+		return InstallCoreAsync(archivePath, currentExecutablePath, faultInjector, atomicExchange ?? AtomicExchange, cancellationToken);
 	}
 
 	private static async Task InstallCoreAsync(
 		string archivePath,
 		string currentExecutablePath,
-		CancellationToken cancellationToken,
 		Action<LinuxBundleInstallBoundary>? faultInjector,
-		Action<string, string> atomicExchange)
+		Action<string, string> atomicExchange,
+		CancellationToken cancellationToken)
 	{
 		ArgumentException.ThrowIfNullOrWhiteSpace(archivePath);
 		ArgumentException.ThrowIfNullOrWhiteSpace(currentExecutablePath);
@@ -180,7 +313,7 @@ public static class LinuxBundleInstaller
 		try
 		{
 			Directory.CreateDirectory(stageDirectory);
-			UnixFileMode? executableMode = await ExtractBundleAsync(archivePath, stageDirectory, cancellationToken, faultInjector).ConfigureAwait(false);
+			UnixFileMode? executableMode = await ExtractBundleAsync(archivePath, stageDirectory, faultInjector, cancellationToken).ConfigureAwait(false);
 			cancellationToken.ThrowIfCancellationRequested();
 			ValidateCandidate(stageDirectory, executableMode);
 			InvokeBoundary(faultInjector, LinuxBundleInstallBoundary.CandidateStaged);
@@ -319,8 +452,8 @@ public static class LinuxBundleInstaller
 		}
 	}
 
-	[DllImport("libc", EntryPoint = "syscall", SetLastError = true)]
-	private static extern nint InvokeSyscall(
+	[LibraryImport("libc", EntryPoint = "syscall", SetLastError = true)]
+	private static partial nint InvokeSyscall(
 		nint number,
 		nint firstDirectoryDescriptor,
 		[MarshalAs(UnmanagedType.LPUTF8Str)] string firstPath,
@@ -328,14 +461,14 @@ public static class LinuxBundleInstaller
 		[MarshalAs(UnmanagedType.LPUTF8Str)] string secondPath,
 		nint flags);
 
-	[DllImport("libc", EntryPoint = "open", SetLastError = true)]
-	private static extern int OpenDirectory([MarshalAs(UnmanagedType.LPUTF8Str)] string path, int flags);
+	[LibraryImport("libc", EntryPoint = "open", SetLastError = true)]
+	private static partial int OpenDirectory([MarshalAs(UnmanagedType.LPUTF8Str)] string path, int flags);
 
-	[DllImport("libc", EntryPoint = "fsync", SetLastError = true)]
-	private static extern int FlushFileDescriptor(int fileDescriptor);
+	[LibraryImport("libc", EntryPoint = "fsync", SetLastError = true)]
+	private static partial int FlushFileDescriptor(int fileDescriptor);
 
-	[DllImport("libc", EntryPoint = "close", SetLastError = true)]
-	private static extern int CloseFileDescriptor(int fileDescriptor);
+	[LibraryImport("libc", EntryPoint = "close", SetLastError = true)]
+	private static partial int CloseFileDescriptor(int fileDescriptor);
 
 	private static bool IsMuslRuntime()
 	{
@@ -357,7 +490,7 @@ public static class LinuxBundleInstaller
 	private static string NormalizeUnixPath(string path)
 	{
 		string normalized = path.Replace('\\', '/');
-		if (!normalized.StartsWith("/", StringComparison.Ordinal))
+		if (!normalized.StartsWith('/'))
 		{
 			return normalized.TrimEnd('/');
 		}
@@ -416,8 +549,8 @@ public static class LinuxBundleInstaller
 	private static async Task<UnixFileMode?> ExtractBundleAsync(
 		string archivePath,
 		string stageDirectory,
-		CancellationToken cancellationToken,
-		Action<LinuxBundleInstallBoundary>? faultInjector)
+		Action<LinuxBundleInstallBoundary>? faultInjector,
+		CancellationToken cancellationToken)
 	{
 		string stageRoot = Path.GetFullPath(stageDirectory) + Path.DirectorySeparatorChar;
 		HashSet<string> extractedPaths = new(GetPathComparer());
@@ -463,7 +596,7 @@ public static class LinuxBundleInstaller
 					Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
 					await using (FileStream output = new(destination, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan))
 					{
-						await CopyEntryAsync(entry.DataStream, output, entry.Length, cancellationToken, faultInjector).ConfigureAwait(false);
+						await CopyEntryAsync(entry.DataStream, output, entry.Length, faultInjector, cancellationToken).ConfigureAwait(false);
 						ApplyMode(destination, entry.Mode);
 						await output.FlushAsync(cancellationToken).ConfigureAwait(false);
 						output.Flush(true);
@@ -546,8 +679,8 @@ public static class LinuxBundleInstaller
 		Stream? input,
 		Stream output,
 		long expectedLength,
-		CancellationToken cancellationToken,
-		Action<LinuxBundleInstallBoundary>? faultInjector)
+		Action<LinuxBundleInstallBoundary>? faultInjector,
+		CancellationToken cancellationToken)
 	{
 		if (input is null)
 		{
@@ -578,13 +711,13 @@ public static class LinuxBundleInstaller
 
 	private static string ValidateArchivePath(string entryName)
 	{
-		if (string.IsNullOrWhiteSpace(entryName) || entryName.IndexOf('\0') >= 0)
+		if (string.IsNullOrWhiteSpace(entryName) || entryName.Contains('\0'))
 		{
 			throw new InvalidDataException("The update bundle contains an invalid path");
 		}
 
 		string normalized = entryName.Replace('\\', '/').TrimEnd('/');
-		if (normalized.StartsWith("/", StringComparison.Ordinal) || normalized.Contains("//", StringComparison.Ordinal))
+		if (normalized.StartsWith('/') || normalized.Contains("//", StringComparison.Ordinal))
 		{
 			throw new InvalidDataException("The update bundle contains an unsafe path");
 		}

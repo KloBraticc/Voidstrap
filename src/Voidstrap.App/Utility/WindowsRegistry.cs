@@ -31,8 +31,8 @@ internal static class WindowsRegistry
 		try
 		{
 			using RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(subkey);
-			using RegistryKey registryKey2 = registryKey?.CreateSubKey("DefaultIcon");
-			using RegistryKey registryKey3 = registryKey?.CreateSubKey("shell\\open\\command");
+			using RegistryKey? registryKey2 = registryKey?.CreateSubKey("DefaultIcon");
+			using RegistryKey? registryKey3 = registryKey?.CreateSubKey("shell\\open\\command");
 			if (registryKey == null || registryKey2 == null || registryKey3 == null)
 			{
 				throw new InvalidOperationException("Failed to create subkeys for " + key);
@@ -52,11 +52,28 @@ internal static class WindowsRegistry
 
 	public static void RegisterPlayer()
 	{
+		RegisterPlayerFor(Paths.Application);
+	}
+
+	public static void RegisterPlayerFor(string voidstrapExecutable)
+	{
 		if (!Platform.SupportsRegistry)
 		{
 			return;
 		}
-		RegisterPlayer(Paths.Application, "-player \"%1\"");
+		string? direct = DirectPlayerExecutable();
+		if (direct != null)
+			RegisterPlayer(direct, "%1");
+		else
+			RegisterPlayer(voidstrapExecutable, "-player \"%1\"");
+	}
+
+	public static string? DirectPlayerExecutable()
+	{
+		if (App.Settings?.Prop?.LaunchWithoutVoidstrap != true)
+			return null;
+		string executable = new Voidstrap.AppData.RobloxPlayerData().ExecutablePath;
+		return File.Exists(executable) ? executable : null;
 	}
 
 	public static void RegisterPlayer(string handler, string handlerParam)
@@ -67,15 +84,6 @@ internal static class WindowsRegistry
 		}
 		RegisterProtocol("roblox", "Roblox", handler, handlerParam);
 		RegisterProtocol("roblox-player", "Roblox", handler, handlerParam);
-	}
-
-	public static void RegisterVoidstrap()
-	{
-		if (!Platform.SupportsRegistry)
-		{
-			return;
-		}
-		RegisterProtocol("voidstrap", "Voidstrap", Paths.Application, "-theme \"%1\"");
 	}
 
 	public static void RegisterStudio()
@@ -120,15 +128,15 @@ internal static class WindowsRegistry
 		try
 		{
 			using RegistryKey registryKey = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Roblox.Place");
-			using RegistryKey registryKey2 = registryKey?.CreateSubKey("DefaultIcon");
-			using RegistryKey registryKey3 = registryKey?.CreateSubKey("shell\\open");
-			using RegistryKey registryKey4 = registryKey3?.CreateSubKey("command");
+			using RegistryKey? registryKey2 = registryKey?.CreateSubKey("DefaultIcon");
+			using RegistryKey? registryKey3 = registryKey?.CreateSubKey("shell\\open");
+			using RegistryKey? registryKey4 = registryKey3?.CreateSubKey("command");
 			if (registryKey == null || registryKey2 == null || registryKey4 == null)
 			{
 				throw new InvalidOperationException("Failed to create subkeys for Roblox.Place");
 			}
 			registryKey.SetValueSafe("", "Roblox Place");
-			registryKey3.SetValueSafe("", "Open");
+			registryKey3!.SetValueSafe("", "Open");
 			registryKey2.SetValueSafe("", value2);
 			registryKey4.SetValueSafe("", value);
 		}

@@ -114,6 +114,20 @@ public static class BackgroundManager
         {
             throw new InvalidDataException("The animated background is too large.");
         }
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            await imageControl.Dispatcher.InvokeAsync((Action)delegate
+            {
+                if (!IsCurrent(state, generation, token))
+                {
+                    return;
+                }
+                ClearImage(imageControl);
+                Voidstrap.UI.GifImageBehavior.SetSourcePath(imageControl, path);
+                ApplyHighQualityScaling(imageControl);
+            }, DispatcherPriority.Render, token);
+            return;
+        }
         byte[] data = await File.ReadAllBytesAsync(path, token).ConfigureAwait(false);
         token.ThrowIfCancellationRequested();
         BitmapImage bitmap = new();
@@ -140,7 +154,7 @@ public static class BackgroundManager
             }
             else
             {
-                imageControl.Source = bitmap;
+                Voidstrap.UI.GifImageBehavior.SetSourcePath(imageControl, path);
             }
             ApplyHighQualityScaling(imageControl);
         }, DispatcherPriority.Render, token);
@@ -191,6 +205,10 @@ public static class BackgroundManager
 
     private static void ClearImage(Image imageControl)
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            Voidstrap.UI.GifImageBehavior.SetSourcePath(imageControl, string.Empty);
+        }
         ImageBehavior.SetAnimatedSource(imageControl, null);
         imageControl.Source = null;
     }

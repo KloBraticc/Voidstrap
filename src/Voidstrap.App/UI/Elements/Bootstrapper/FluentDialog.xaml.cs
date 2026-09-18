@@ -41,7 +41,7 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 		}
 		set
 		{
-			SetProperty("Message", value, delegate(string v)
+			SetProperty(nameof(Message), value, delegate(string v)
 			{
 				_viewModel.Message = v;
 			});
@@ -75,7 +75,7 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 		}
 		set
 		{
-			SetProperty("ProgressMaximum", value, delegate(int v)
+			SetProperty(nameof(ProgressMaximum), value, delegate(int v)
 			{
 				_viewModel.ProgressMaximum = v;
 			});
@@ -90,7 +90,7 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 		}
 		set
 		{
-			SetProperty("ProgressValue", value, delegate(int v)
+			SetProperty(nameof(ProgressValue), value, delegate(int v)
 			{
 				_viewModel.ProgressValue = v;
 			});
@@ -105,7 +105,7 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 		}
 		set
 		{
-			SetProperty("TaskbarProgressState", value, delegate(TaskbarItemProgressState v)
+			SetProperty(nameof(TaskbarProgressState), value, delegate(TaskbarItemProgressState v)
 			{
 				_viewModel.TaskbarProgressState = v;
 			});
@@ -120,7 +120,7 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 		}
 		set
 		{
-			SetProperty("TaskbarProgressValue", value, delegate(double v)
+			SetProperty(nameof(TaskbarProgressValue), value, delegate(double v)
 			{
 				_viewModel.TaskbarProgressValue = v;
 			});
@@ -138,7 +138,7 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 		set
 		{
 			_viewModel.CancelEnabled = value;
-			_viewModel.OnPropertyChanged("CancelEnabled");
+			_viewModel.OnPropertyChanged(nameof(CancelEnabled));
 			_viewModel.OnPropertyChanged("CancelButtonVisibility");
 		}
 	}
@@ -163,7 +163,6 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 		_viewModel = new FluentDialogViewModel(this, aero);
 		base.DataContext = _viewModel;
 		ApplyScale();
-		_ = _viewModel.LoadProfileAsync();
 		_mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
 		if (App.Settings.Prop.BackgroundWindow)
 		{
@@ -174,20 +173,31 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 		base.Icon = Voidstrap.Extensions.IconEx.GetBootstrapperWindowIcon();
 		if (aero)
 		{
-			if (Environment.OSVersion.Version.Build >= 22000)
+			if (Voidstrap.UI.LinuxGlassBackdrop.IsSupported)
 			{
-				base.AllowsTransparency = true;
+				base.AllowsTransparency = false;
+				base.WindowBackdropType = Wpf.Ui.Appearance.BackgroundType.None;
+				Voidstrap.UI.LinuxGlassBackdrop.Attach(this, BackgroundImage);
 			}
-			base.WindowBackdropType = Wpf.Ui.Appearance.BackgroundType.Acrylic;
+			else
+			{
+				if (Environment.OSVersion.Version.Build >= 22000)
+				{
+					base.AllowsTransparency = true;
+				}
+				base.WindowBackdropType = Wpf.Ui.Appearance.BackgroundType.Acrylic;
+			}
 			base.LocationChanged += OnLocationChanged;
 			base.SizeChanged += OnSizeChanged;
 			base.Loaded += OnLoaded;
 		}
 		else
 		{
-			base.WindowBackdropType = Wpf.Ui.Appearance.BackgroundType.Mica;
+			base.WindowBackdropType = Voidstrap.UI.LinuxGlassBackdrop.IsSupported
+				? Wpf.Ui.Appearance.BackgroundType.None
+				: Wpf.Ui.Appearance.BackgroundType.Mica;
 		}
-		string text = Directory.Exists(Paths.Media) ? Directory.GetFiles(Paths.Media, "bootstrapper_bg.*").FirstOrDefault() : null;
+		string? text = Directory.Exists(Paths.Media) ? Directory.GetFiles(Paths.Media, "bootstrapper_bg.*").FirstOrDefault() : null;
 		if (text != null)
 		{
 			CustomBackgroundPath = text;
@@ -197,7 +207,7 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 		base.Closed += OnFluentDialogClosed;
 	}
 
-	private void OnBackgroundEventsChanged(string path)
+	private void OnBackgroundEventsChanged(string? path)
 	{
 		((DispatcherObject)this).Dispatcher.Invoke((Action)delegate
 		{
@@ -246,7 +256,7 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 		}
 		try
 		{
-			Rect workArea = SystemParameters.WorkArea;
+			Rect workArea = Voidstrap.Utility.ScreenMetrics.WorkArea;
 			double num = base.Left + base.Width / 2.0;
 			double num2 = base.Top + base.Height / 2.0;
 			double num3 = workArea.Left + workArea.Width / 2.0;
@@ -261,7 +271,7 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 
 	private void SetBackgroundImage()
 	{
-		BackgroundManager.SetBackgroundAsync(BackgroundImage, CustomBackgroundPath);
+		_ = BackgroundManager.SetBackgroundAsync(BackgroundImage, CustomBackgroundPath);
 	}
 
 	public async Task ChangeBackgroundAsync(string? newPath)
@@ -282,7 +292,7 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 
 	public void ShowBootstrapper()
 	{
-		ShowDialog();
+		this.ShowOwnedDialog();
 	}
 
 	public void CloseBootstrapper()

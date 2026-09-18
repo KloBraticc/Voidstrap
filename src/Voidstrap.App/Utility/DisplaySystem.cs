@@ -10,7 +10,7 @@ using System.Windows.Threading;
 
 namespace Voidstrap.Utility
 {
-    public class DisplayInfo
+    public partial class DisplayInfo
     {
         public string DeviceName { get; set; } = string.Empty;
 
@@ -31,7 +31,7 @@ namespace Voidstrap.Utility
         public int Number { get; set; }
     }
 
-    public static class DisplaySystem
+    public static partial class DisplaySystem
     {
         public const int Success = 0;
 
@@ -64,7 +64,7 @@ namespace Voidstrap.Utility
         private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct DEVMODE
+        private partial struct DEVMODE
         {
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
             public string dmDeviceName;
@@ -101,7 +101,7 @@ namespace Voidstrap.Utility
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct DISPLAY_DEVICE
+        private partial struct DISPLAY_DEVICE
         {
             public uint cb;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
@@ -115,23 +115,77 @@ namespace Voidstrap.Utility
             public string DeviceKey;
         }
 
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern bool EnumDisplayDevices(string? lpDevice, uint iDevNum, ref DISPLAY_DEVICE lpDisplayDevice, uint dwFlags);
+        [LibraryImport("user32.dll", StringMarshalling = StringMarshalling.Utf16, EntryPoint = "EnumDisplayDevicesW")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool EnumDisplayDevicesNative(string? lpDevice, uint iDevNum, IntPtr lpDisplayDevice, uint dwFlags);
 
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern bool EnumDisplaySettings(string? lpszDeviceName, int iModeNum, ref DEVMODE lpDevMode);
+        private static bool EnumDisplayDevices(string? lpDevice, uint iDevNum, ref DISPLAY_DEVICE lpDisplayDevice, uint dwFlags)
+        {
+            IntPtr buffer = Marshal.AllocHGlobal(Marshal.SizeOf<DISPLAY_DEVICE>());
+            try
+            {
+                Marshal.StructureToPtr(lpDisplayDevice, buffer, false);
+                bool result = EnumDisplayDevicesNative(lpDevice, iDevNum, buffer, dwFlags);
+                lpDisplayDevice = Marshal.PtrToStructure<DISPLAY_DEVICE>(buffer);
+                return result;
+            }
+            finally
+            {
+                Marshal.DestroyStructure<DISPLAY_DEVICE>(buffer);
+                Marshal.FreeHGlobal(buffer);
+            }
+        }
 
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern int ChangeDisplaySettingsEx(string? lpszDeviceName, ref DEVMODE lpDevMode, IntPtr hwnd, uint dwflags, IntPtr lParam);
+        [LibraryImport("user32.dll", StringMarshalling = StringMarshalling.Utf16, EntryPoint = "EnumDisplaySettingsW")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool EnumDisplaySettingsNative(string? lpszDeviceName, int iModeNum, IntPtr lpDevMode);
 
-        [DllImport("user32.dll")]
-        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+        private static bool EnumDisplaySettings(string? lpszDeviceName, int iModeNum, ref DEVMODE lpDevMode)
+        {
+            IntPtr buffer = Marshal.AllocHGlobal(Marshal.SizeOf<DEVMODE>());
+            try
+            {
+                Marshal.StructureToPtr(lpDevMode, buffer, false);
+                bool result = EnumDisplaySettingsNative(lpszDeviceName, iModeNum, buffer);
+                lpDevMode = Marshal.PtrToStructure<DEVMODE>(buffer);
+                return result;
+            }
+            finally
+            {
+                Marshal.DestroyStructure<DEVMODE>(buffer);
+                Marshal.FreeHGlobal(buffer);
+            }
+        }
+
+        [LibraryImport("user32.dll", StringMarshalling = StringMarshalling.Utf16, EntryPoint = "ChangeDisplaySettingsExW")]
+        private static partial int ChangeDisplaySettingsExNative(string? lpszDeviceName, IntPtr lpDevMode, IntPtr hwnd, uint dwflags, IntPtr lParam);
+
+        private static int ChangeDisplaySettingsEx(string? lpszDeviceName, ref DEVMODE lpDevMode, IntPtr hwnd, uint dwflags, IntPtr lParam)
+        {
+            IntPtr buffer = Marshal.AllocHGlobal(Marshal.SizeOf<DEVMODE>());
+            try
+            {
+                Marshal.StructureToPtr(lpDevMode, buffer, false);
+                int result = ChangeDisplaySettingsExNative(lpszDeviceName, buffer, hwnd, dwflags, lParam);
+                lpDevMode = Marshal.PtrToStructure<DEVMODE>(buffer);
+                return result;
+            }
+            finally
+            {
+                Marshal.DestroyStructure<DEVMODE>(buffer);
+                Marshal.FreeHGlobal(buffer);
+            }
+        }
+
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
         private static DEVMODE NewDevMode()
         {
             return new DEVMODE
             {
-                dmSize = (ushort)Marshal.SizeOf(typeof(DEVMODE))
+                dmSize = (ushort)Marshal.SizeOf<DEVMODE>()
             };
         }
 
@@ -139,7 +193,7 @@ namespace Voidstrap.Utility
         {
             return new DISPLAY_DEVICE
             {
-                cb = (uint)Marshal.SizeOf(typeof(DISPLAY_DEVICE))
+                cb = (uint)Marshal.SizeOf<DISPLAY_DEVICE>()
             };
         }
 
@@ -399,11 +453,11 @@ namespace Voidstrap.Utility
             }
             if (windows.Count > 0)
             {
-                new IdentifySession(windows);
+                _ = new IdentifySession(windows);
             }
         }
 
-        private sealed class IdentifySession
+        private sealed partial class IdentifySession
         {
             private readonly List<Window> _windows;
 

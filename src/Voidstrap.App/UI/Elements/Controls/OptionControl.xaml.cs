@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,6 +7,8 @@ using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using System.Windows.Media;
+using Wpf.Ui.Extensions;
 
 namespace Voidstrap.UI.Elements.Controls;
 
@@ -18,7 +20,13 @@ public partial class OptionControl : UserControl{
 
 	private static readonly bool ConstrainDescriptionWidth = Voidstrap.Utility.Platform.IsLinux;
 
+	private static readonly bool ReplaceHelpIconWithGlyph = Voidstrap.Utility.Platform.IsLinux;
+
 	private string? _ownedAutomationHelpText;
+
+	private bool _helpGlyphApplied;
+
+	private bool _descriptionWidthQueued;
 
 	public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(OptionControl), (PropertyMetadata)(object)new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.AffectsMeasure, (PropertyChangedCallback)delegate(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
@@ -105,15 +113,38 @@ public partial class OptionControl : UserControl{
 	private void OnLoaded(object sender, RoutedEventArgs e)
 	{
 		base.Loaded -= OnLoaded;
-		UpdateDescriptionWidth();
-		InvalidateMeasure();
-		InvalidateArrange();
-		InvalidateVisual();
+		if (ConstrainDescriptionWidth && InnerContentPresenter != null)
+		{
+			InnerContentPresenter.SizeChanged -= OnInnerContentSizeChangedForDescription;
+			InnerContentPresenter.SizeChanged += OnInnerContentSizeChangedForDescription;
+		}
+
+		QueueDescriptionWidth();
 	}
 
 	private void OnSizeChangedForDescription(object sender, SizeChangedEventArgs e)
 	{
-		UpdateDescriptionWidth();
+		QueueDescriptionWidth();
+	}
+
+	private void OnInnerContentSizeChangedForDescription(object sender, SizeChangedEventArgs e)
+	{
+		QueueDescriptionWidth();
+	}
+
+	private void QueueDescriptionWidth()
+	{
+		if (_descriptionWidthQueued || Dispatcher.HasShutdownStarted)
+		{
+			return;
+		}
+
+		_descriptionWidthQueued = true;
+		Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, (Action)delegate
+		{
+			_descriptionWidthQueued = false;
+			UpdateDescriptionWidth();
+		});
 	}
 
 	private void UpdateDescriptionWidth()
@@ -123,13 +154,25 @@ public partial class OptionControl : UserControl{
 			return;
 		}
 
-		double reserved = InnerContentPresenter?.ActualWidth ?? 0d;
+		if (ActualWidth <= 0d)
+		{
+			return;
+		}
+
+		double reserved = 0d;
+		if (InnerContentPresenter != null)
+		{
+			reserved = InnerContentPresenter.ActualWidth + InnerContentPresenter.Margin.Left + InnerContentPresenter.Margin.Right;
+		}
+
 		double available = ActualWidth - reserved - DescriptionChromeWidth;
-		double target = available >= MinimumDescriptionWidth ? available : double.PositiveInfinity;
+		double target = available >= MinimumDescriptionWidth ? available : MinimumDescriptionWidth;
 		if (Math.Abs(DescriptionTextBlock.MaxWidth - target) > 0.5)
 		{
 			DescriptionTextBlock.MaxWidth = target;
 		}
+
+		Voidstrap.UI.LinuxTextGuard.Refresh(DescriptionTextBlock);
 	}
 
 	private void ApplyHeader(string? value)
@@ -153,11 +196,70 @@ public partial class OptionControl : UserControl{
 
 	private void ApplyHelpLink(string? value)
 	{
-		if (HelpLinkTextBlock != null && HelpLinkHyperlink != null)
+		if (HelpLinkTextBlock == null || HelpLinkHyperlink == null)
 		{
-			HelpLinkHyperlink.CommandParameter = value;
-			HelpLinkTextBlock.Visibility = (string.IsNullOrEmpty(value) ? Visibility.Collapsed : Visibility.Visible);
+			return;
 		}
+
+		HelpLinkHyperlink.CommandParameter = value;
+		HelpLinkTextBlock.Visibility = string.IsNullOrEmpty(value) ? Visibility.Collapsed : Visibility.Visible;
+		if (ReplaceHelpIconWithGlyph)
+		{
+			ApplyHelpGlyph();
+		}
+	}
+
+	private void ApplyHelpGlyph()
+	{
+		if (_helpGlyphApplied || HelpLinkHyperlink == null || HelpLinkTextBlock == null)
+		{
+			return;
+		}
+
+		_helpGlyphApplied = true;
+		HelpLinkHyperlink.Inlines.Clear();
+		Run glyph = new(Wpf.Ui.Common.SymbolRegular.QuestionCircle48.GetString());
+		glyph.SetResourceReference(TextElement.FontFamilyProperty, "FluentSystemIcons");
+		glyph.SetResourceReference(TextElement.FontSizeProperty, "DefaultIconFontSize");
+		HelpLinkHyperlink.Inlines.Add(glyph);
+		HelpLinkHyperlink.TextDecorations = null;
+		HelpLinkHyperlink.SetResourceReference(TextElement.ForegroundProperty, "AccentColorSecondaryBrush");
+		Voidstrap.UI.LinuxInlineText.Sanitize(HelpLinkTextBlock);
+
+		HelpLinkTextBlock.Cursor = System.Windows.Input.Cursors.Hand;
+		HelpLinkTextBlock.Background = Brushes.Transparent;
+		HelpLinkTextBlock.ToolTip ??= Voidstrap.Resources.Strings.Menu_MoreInfo;
+		HelpLinkTextBlock.PreviewMouseLeftButtonDown -= OnHelpGlyphPressed;
+		HelpLinkTextBlock.PreviewMouseLeftButtonDown += OnHelpGlyphPressed;
+		HelpLinkTextBlock.MouseEnter -= OnHelpGlyphMouseEnter;
+		HelpLinkTextBlock.MouseEnter += OnHelpGlyphMouseEnter;
+		HelpLinkTextBlock.MouseLeave -= OnHelpGlyphMouseLeave;
+		HelpLinkTextBlock.MouseLeave += OnHelpGlyphMouseLeave;
+	}
+
+	private void OnHelpGlyphPressed(object sender, System.Windows.Input.MouseButtonEventArgs e)
+	{
+		if (HelpLinkHyperlink?.CommandParameter is not string url || string.IsNullOrEmpty(url))
+		{
+			return;
+		}
+
+		e.Handled = true;
+		System.Windows.Input.ICommand command = Voidstrap.UI.ViewModels.GlobalViewModel.OpenWebpageCommand;
+		if (command.CanExecute(url))
+		{
+			command.Execute(url);
+		}
+	}
+
+	private void OnHelpGlyphMouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+	{
+		HelpLinkHyperlink?.SetResourceReference(TextElement.ForegroundProperty, "AccentColorTertiaryBrush");
+	}
+
+	private void OnHelpGlyphMouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+	{
+		HelpLinkHyperlink?.SetResourceReference(TextElement.ForegroundProperty, "AccentColorSecondaryBrush");
 	}
 
 	private void ApplyInnerContent(object? value)

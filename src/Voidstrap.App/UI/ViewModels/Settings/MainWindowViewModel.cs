@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using CommunityToolkit.Mvvm.Input;
 using Voidstrap.Enums;
 using Voidstrap.Models.SettingTasks.Base;
@@ -27,9 +28,7 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 
 	public EventHandler? RequestCloseWindowEvent;
 
-	private Voidstrap.UI.Elements.Settings.MainWindow.TabItemViewModel _selectedTab;
-
-	public string AppVersion => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+	public string AppVersion => Assembly.GetExecutingAssembly().GetName().Version!.ToString();
 
 	public ICommand OpenAboutCommand => new RelayCommand(OpenAbout);
 
@@ -47,36 +46,38 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 		}
 		set
 		{
+			if (value == App.LaunchSettings.TestModeFlag.Active)
+			{
+				return;
+			}
 			if (value && !App.State.Prop.TestModeWarningShown)
 			{
 				if (Frontend.ShowMessageBox(Strings.Menu_TestMode_Prompt, MessageBoxImage.Asterisk, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
 				{
-					OnPropertyChanged(nameof(TestModeEnabled));
+					RestoreTestModeToggle();
 					return;
 				}
 				App.State.Prop.TestModeWarningShown = true;
+				App.State.Save();
 			}
 			App.LaunchSettings.TestModeFlag.Active = value;
+			App.Logger.WriteLine("MainWindowViewModel::TestMode", value ? "Test mode enabled" : "Test mode disabled");
+			OnPropertyChanged(nameof(TestModeEnabled));
 		}
 	}
 
-	public Voidstrap.UI.Elements.Settings.MainWindow.TabItemViewModel SelectedTab
+
+	private void RestoreTestModeToggle()
 	{
-		get
+		Dispatcher? dispatcher = Application.Current?.Dispatcher;
+		if (dispatcher == null)
 		{
-			return _selectedTab;
+			OnPropertyChanged(nameof(TestModeEnabled));
+			return;
 		}
-		set
-		{
-			if (_selectedTab != value)
-			{
-				_selectedTab = value;
-				OnPropertyChanged("SelectedTab");
-			}
-		}
+		dispatcher.BeginInvoke(new Action(() => OnPropertyChanged(nameof(TestModeEnabled))), DispatcherPriority.DataBind);
 	}
 
-	public ObservableCollection<Voidstrap.UI.Elements.Settings.MainWindow.TabItemViewModel> Tabs { get; set; } = new ObservableCollection<Voidstrap.UI.Elements.Settings.MainWindow.TabItemViewModel>();
 
 	public int SelectedLaunchModeIndex
 	{
@@ -91,8 +92,8 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 			{
 				App.Settings.Prop.LaunchSelectionIndex = num;
 				App.Settings.SaveDeferred();
-				OnPropertyChanged("SelectedLaunchModeIndex");
-				OnPropertyChanged("SelectedLaunchTargetName");
+				OnPropertyChanged(nameof(SelectedLaunchModeIndex));
+				OnPropertyChanged(nameof(SelectedLaunchTargetName));
 			}
 		}
 	}
@@ -110,8 +111,8 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 			{
 				App.Settings.Prop.LaunchSelectedClient = newValue;
 				App.Settings.SaveDeferred();
-				OnPropertyChanged("SelectedLaunchClient");
-				OnPropertyChanged("SelectedLaunchTargetName");
+				OnPropertyChanged(nameof(SelectedLaunchClient));
+				OnPropertyChanged(nameof(SelectedLaunchTargetName));
 			}
 		}
 	}
@@ -209,6 +210,30 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 		if (!await TrySaveSettingsAsync(false))
 			return;
 		RequestSaveLaunchNoticeEvent?.Invoke(this, EventArgs.Empty);
+		LaunchSelectedTarget();
+	}
+
+	public async Task LaunchForTestModeAsync()
+	{
+		if (!await TrySaveSettingsAsync(false, false))
+		{
+			App.Logger.WriteLine("MainWindowViewModel::LaunchForTestMode", "Settings could not be saved, continuing the test mode launch with what was stored");
+		}
+		try
+		{
+			App.Settings.FlushDeferred();
+			App.State.FlushDeferred();
+			App.FastFlags.FlushDeferred();
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("MainWindowViewModel::LaunchForTestMode", ex);
+		}
+		LaunchSelectedTarget();
+	}
+
+	private void LaunchSelectedTarget()
+	{
 		string code = SelectedLaunchClient;
 		if (!string.IsNullOrEmpty(code) && ClassicClients.EngineInstalled && ClassicClients.IsClientInstalled(code))
 		{
@@ -348,7 +373,7 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 			return false;
 		}
 		field = newValue;
-		this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName ?? throw new ArgumentNullException("propertyName")));
+		this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName ?? throw new ArgumentNullException(nameof(propertyName))));
 		return true;
 	}
 }

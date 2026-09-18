@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -9,6 +9,11 @@ internal static class TextFontInstaller
 {
 	private static readonly string[] FontFiles = new[]
 	{
+		"Inter_18pt-Light.ttf",
+		"Inter_18pt-Regular.ttf",
+		"Inter_18pt-Medium.ttf",
+		"Inter_18pt-SemiBold.ttf",
+		"Inter_18pt-Bold.ttf",
 		"selawk.ttf",
 		"selawkb.ttf",
 		"selawkl.ttf",

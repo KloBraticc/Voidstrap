@@ -50,7 +50,7 @@ public partial class AddCustomThemeDialog : WpfUiWindow{
 
 	private static string GenerateRandomName()
 	{
-		int num = Directory.GetDirectories(Paths.CustomThemes).Count();
+		int num = Directory.GetDirectories(Paths.CustomThemes).Length;
 		string text = $"Custom Theme {num + 1}";
 		if (File.Exists(GetThemePath(text)))
 		{

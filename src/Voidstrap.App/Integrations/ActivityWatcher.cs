@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +16,7 @@ using Voidstrap.Utility;
 
 namespace Voidstrap.Integrations;
 
-public class ActivityWatcher : IDisposable
+public partial class ActivityWatcher : IDisposable
 {
 	private const string GameMessageEntry = "[FLog::Output] [VoidstrapRPC]";
 
@@ -45,7 +45,9 @@ public class ActivityWatcher : IDisposable
 
 	private const string GameTeleportJoinTypePattern = "JoinTypeId(?:\"|%22)?(?::|%3a)(\\d+)";
 
-	private const string GameJoiningUniversePattern = "universeid:([0-9]+).*userid:([0-9]+)";
+	private const string GameJoiningUniversePattern = "universeid:([0-9]+)";
+
+	private const string GameJoiningUserPattern = "userid:([0-9]+)";
 
 	private const string GameJoiningUDMUXPattern = "UDMUX Address = ([0-9\\.]+), Port = [0-9]+ \\| RCC Server Address = ([0-9\\.]+), Port = [0-9]+";
 
@@ -56,16 +58,25 @@ public class ActivityWatcher : IDisposable
 	private const string GamePlayerJoinLeavePattern = "(added|removed): (.*) ([0-9]+)\\s*$";
 
 	private const string GameMessageLogPattern = "Success Text: (.*)";
-	private static readonly Regex PlayerAddedRegex = new Regex("playerAdded:\\s*userId=(?<id>[0-9]+)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
-	private static readonly Regex PlayerRemovedRegex = new Regex("(?:playerRemoving:\\s*userId=|Purging (?:social counterparties|age group|compatibility tokens) for player\\s+)(?<id>[0-9]+)", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-	private static readonly Regex LogPattern1 = new Regex("! Joining game '([0-9a-f\\-]{36})' place ([0-9]+) at ([0-9\\.]+)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
-	private static readonly Regex LogPattern2 = new Regex("referral_page:([^,]+)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
-	private static readonly Regex LogPattern3 = new Regex("universeid:([0-9]+).*userid:([0-9]+)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
-	private static readonly Regex LogPattern4 = new Regex("UDMUX Address = ([0-9\\.]+), Port = [0-9]+ \\| RCC Server Address = ([0-9\\.]+), Port = [0-9]+", RegexOptions.Compiled | RegexOptions.CultureInvariant);
-	private static readonly Regex LogPattern5 = new Regex("JoinTypeId(?:\"|%22)?(?::|%3a)(\\d+)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
-	private static readonly Regex LogPattern6 = new Regex("\\[VoidstrapRPC\\] (.*)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
-	private static readonly Regex LogPattern7 = new Regex("(added|removed): (.*) ([0-9]+)\\s*$", RegexOptions.Compiled | RegexOptions.CultureInvariant);
-	private static readonly Regex LogPattern8 = new Regex("Success Text: (.*)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+	[GeneratedRegex("! Joining game '([0-9a-f\\-]{36})' place ([0-9]+) at ([0-9\\.]+)", RegexOptions.CultureInvariant)]
+	private static partial Regex LogPattern1 { get; }
+	[GeneratedRegex("referral_page:([^,]+)", RegexOptions.CultureInvariant)]
+	private static partial Regex LogPattern2 { get; }
+	[GeneratedRegex(GameJoiningUniversePattern, RegexOptions.CultureInvariant)]
+	private static partial Regex LogPattern3 { get; }
+
+	[GeneratedRegex(GameJoiningUserPattern, RegexOptions.CultureInvariant)]
+	private static partial Regex LogPattern3User { get; }
+	[GeneratedRegex("UDMUX Address = ([0-9\\.]+), Port = [0-9]+ \\| RCC Server Address = ([0-9\\.]+), Port = [0-9]+", RegexOptions.CultureInvariant)]
+	private static partial Regex LogPattern4 { get; }
+	[GeneratedRegex("JoinTypeId(?:\"|%22)?(?::|%3a)(\\d+)", RegexOptions.CultureInvariant)]
+	private static partial Regex LogPattern5 { get; }
+	[GeneratedRegex("\\[VoidstrapRPC\\] (.*)", RegexOptions.CultureInvariant)]
+	private static partial Regex LogPattern6 { get; }
+	[GeneratedRegex("(added|removed): (.*) ([0-9]+)\\s*$", RegexOptions.CultureInvariant)]
+	private static partial Regex LogPattern7 { get; }
+	[GeneratedRegex("Success Text: (.*)", RegexOptions.CultureInvariant)]
+	private static partial Regex LogPattern8 { get; }
 
 	private static readonly string? LaunchStatusFile = Environment.GetEnvironmentVariable("VOIDSTRAP_STATUS_FILE");
 
@@ -81,7 +92,7 @@ public class ActivityWatcher : IDisposable
 
 	private DateTime LastRPCRequest;
 
-	public string LogLocation;
+	public string LogLocation = null!;
 
 	public bool InGame;
 
@@ -227,7 +238,7 @@ public class ActivityWatcher : IDisposable
 
 	public async Task<int> GetMaxPlayers()
 	{
-		UniverseDetails details = Data.UniverseDetails;
+		UniverseDetails? details = Data.UniverseDetails;
 		if ((details?.Data?.MaxPlayers).GetValueOrDefault() <= 0 && Data.UniverseId > 0)
 		{
 			try
@@ -261,7 +272,7 @@ public class ActivityWatcher : IDisposable
 		bool serverFound = false;
 		try
 		{
-			ServerInfo serverInfo = await GetCurrentServerInfoAsync().ConfigureAwait(continueOnCapturedContext: false);
+			ServerInfo? serverInfo = await GetCurrentServerInfoAsync().ConfigureAwait(continueOnCapturedContext: false);
 			if (serverInfo != null)
 			{
 				apiCurrent = serverInfo.Playing;
@@ -321,7 +332,7 @@ public class ActivityWatcher : IDisposable
 			return null;
 		}
 		using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(8L));
-		string text = null;
+		string? text = null;
 		for (int pages = 0; pages < 6; pages++)
 		{
 			if (cts.IsCancellationRequested)
@@ -333,7 +344,7 @@ public class ActivityWatcher : IDisposable
 			{
 				text2 = text2 + "&cursor=" + Uri.EscapeDataString(text);
 			}
-			ServerListResponse serverListResponse;
+			ServerListResponse? serverListResponse;
 			try
 			{
 				serverListResponse = JsonSerializer.Deserialize<ServerListResponse>(await Voidstrap.Utility.Http.GetString(text2, cts.Token).ConfigureAwait(continueOnCapturedContext: false), JsonOptions.CaseInsensitive);
@@ -346,7 +357,7 @@ public class ActivityWatcher : IDisposable
 			{
 				break;
 			}
-			ServerInfo serverInfo = serverListResponse.Data.FirstOrDefault((ServerInfo s) => s.Id == jobId);
+			ServerInfo? serverInfo = serverListResponse.Data.FirstOrDefault((ServerInfo s) => s.Id == jobId);
 			if (serverInfo != null)
 			{
 				if (serverInfo.Ping > 0 && machineValid)
@@ -421,7 +432,7 @@ public class ActivityWatcher : IDisposable
 	private async Task RunAsync()
 	{
 		CancellationToken token = _playerLifetimeCts.Token;
-		FileInfo logFileInfo = null;
+		FileInfo? logFileInfo = null;
 		if (string.IsNullOrEmpty(LogLocation))
 		{
 			string[] logDirectories = GetClientLogDirectories();
@@ -432,7 +443,7 @@ public class ActivityWatcher : IDisposable
 			App.Logger.WriteLine("ActivityWatcher::Start", "Opening Roblox log file...");
 			while (!IsDisposed && !token.IsCancellationRequested)
 			{
-				FileInfo fileInfo = (from x in logDirectories.SelectMany(static directory => new DirectoryInfo(directory).GetFiles())
+				FileInfo? fileInfo = (from x in logDirectories.SelectMany(static directory => new DirectoryInfo(directory).GetFiles())
 					where IsClientLogFile(x) && x.CreationTime <= DateTime.Now
 					orderby x.CreationTime descending
 					select x).FirstOrDefault();
@@ -479,7 +490,7 @@ public class ActivityWatcher : IDisposable
 			using StreamReader streamReader = new StreamReader(fileStream);
 			while (!IsDisposed && !token.IsCancellationRequested)
 			{
-				string text;
+				string? text;
 				try
 				{
 					text = await streamReader.ReadLineAsync(token);
@@ -570,7 +581,7 @@ public class ActivityWatcher : IDisposable
 		if (entry.Contains("[FLog::SingleSurfaceApp] leaveUGCGameInternal"))
 		{
 			App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "User is back into the desktop app");
-			RestoreOriginalResolution();
+            RestoreOriginalResolution();
 			RaiseEvent(OnAppClose, "OnAppClose");
 			if (Data.PlaceId != 0L && !InGame)
 			{
@@ -624,12 +635,13 @@ public class ActivityWatcher : IDisposable
 					}
 				}
 				Match match3 = LogPattern3.Match(entry);
-				if (match3.Groups.Count != 3)
+				Match match3User = LogPattern3User.Match(entry);
+				if (!match3.Success || !match3User.Success)
 				{
 					return;
 				}
 				Data.UniverseId = long.Parse(match3.Groups[1].Value);
-				Data.UserId = long.Parse(match3.Groups[2].Value);
+				Data.UserId = long.Parse(match3User.Groups[1].Value);
 				lock (History)
 				{
 					if (History.Count > 0)
@@ -682,7 +694,7 @@ public class ActivityWatcher : IDisposable
 			if (entry.Contains("[FLog::Network] Time to disconnect replication data:"))
 			{
 				App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "Disconnected from Game (" + Data.JobId + ")");
-				RestoreOriginalResolution();
+                RestoreOriginalResolution();
 				Data.TimeLeft = DateTime.Now;
 				lock (History)
 				{
@@ -727,7 +739,7 @@ public class ActivityWatcher : IDisposable
 				{
 					return;
 				}
-				Message message3;
+				Message? message3;
 				try
 				{
 					message3 = JsonSerializer.Deserialize<Message>(value2);
@@ -742,7 +754,7 @@ public class ActivityWatcher : IDisposable
 				}
 				if (message3.Command == "SetLaunchData")
 				{
-					string text = message3.Data.Deserialize<string>();
+					string? text = message3.Data.Deserialize<string>();
 					if (text != null && text.Length <= 200)
 					{
 						Data.RPCLaunchData = text;
@@ -887,7 +899,7 @@ public class ActivityWatcher : IDisposable
 		}
 	}
 
-	private void RestoreOriginalResolution()
+	private static void RestoreOriginalResolution()
 	{
 		if (_resolutionApplied && _originalResolution != null)
 		{
@@ -988,7 +1000,7 @@ public class ActivityWatcher : IDisposable
 			_logWatcher.Dispose();
 			_logWatcher = null;
 		}
-		RestoreOriginalResolution();
+        RestoreOriginalResolution();
 		OnGameJoin = null;
 		OnGameLeave = null;
 		OnLogOpen = null;
@@ -1006,4 +1018,9 @@ public class ActivityWatcher : IDisposable
 		_logSignal.Dispose();
 		GC.SuppressFinalize(this);
 	}
+
+    [GeneratedRegex("playerAdded:\\s*userId=(?<id>[0-9]+)", RegexOptions.CultureInvariant)]
+    private static partial Regex PlayerAddedRegex { get; }
+    [GeneratedRegex("(?:playerRemoving:\\s*userId=|Purging (?:social counterparties|age group|compatibility tokens) for player\\s+)(?<id>[0-9]+)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex PlayerRemovedRegex { get; }
 }

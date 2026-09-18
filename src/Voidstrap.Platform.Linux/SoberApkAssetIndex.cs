@@ -175,7 +175,7 @@ public sealed class SoberApkAssetIndex
 			{
 				cancellationToken.ThrowIfCancellationRequested();
 				string fullName = entry.FullName.Normalize(NormalizationForm.FormC);
-				if (!fullName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) || fullName.EndsWith("/", StringComparison.Ordinal))
+				if (!fullName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) || fullName.EndsWith('/'))
 					continue;
 
 				string name = fullName[prefix.Length..];
@@ -205,11 +205,11 @@ public sealed class SoberApkAssetIndex
 
 	internal static OperationResult<string> Normalize(string? logicalPath)
 	{
-		if (string.IsNullOrWhiteSpace(logicalPath) || logicalPath.IndexOf('\0') >= 0)
+		if (string.IsNullOrWhiteSpace(logicalPath) || logicalPath.Contains('\0'))
 			return OperationResult<string>.Fail("SoberAssetPathInvalid", "The modification contains an invalid asset path");
 
 		string normalized = logicalPath.Replace('\\', '/').Normalize(NormalizationForm.FormC);
-		if (normalized.StartsWith("/", StringComparison.Ordinal) || Path.IsPathRooted(normalized) || normalized.Contains(':', StringComparison.Ordinal))
+		if (normalized.StartsWith('/') || Path.IsPathRooted(normalized) || normalized.Contains(':', StringComparison.Ordinal))
 			return OperationResult<string>.Fail("SoberAssetPathInvalid", "The modification contains an unsafe asset path");
 
 		string[] segments = normalized.Split('/', StringSplitOptions.None);
@@ -370,7 +370,7 @@ public sealed class SoberApkAssetIndexProvider
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			string fullName = entry.FullName.Normalize(NormalizationForm.FormC);
-			if (!fullName.StartsWith("assets/", StringComparison.Ordinal) || fullName.EndsWith("/", StringComparison.Ordinal))
+			if (!fullName.StartsWith("assets/", StringComparison.Ordinal) || fullName.EndsWith('/'))
 				continue;
 			if (paths.Count >= MaximumAssetEntries)
 				return OperationResult<List<string>>.Fail("SoberApkTooLarge", "The installed Sober Roblox package contains too many assets");

@@ -25,8 +25,57 @@ public static class IconEx
 		return GetIconSource(App.Settings.Prop.ActiveBootstrapperIcon);
 	}
 
+	internal static BitmapSource? LoadPortableIcon(BootstrapperIcon icon, int decodeWidth)
+	{
+		if (icon == BootstrapperIcon.IconCustom)
+		{
+			string custom = App.Settings.Prop.BootstrapperIconCustomLocation;
+			if (!string.IsNullOrEmpty(custom) && File.Exists(custom))
+			{
+				try
+				{
+					BitmapSource? loaded = Voidstrap.Utility.SafeImaging.FromBytes(File.ReadAllBytes(custom), decodeWidth);
+					if (loaded != null)
+					{
+						return loaded;
+					}
+				}
+				catch (Exception ex)
+				{
+					App.Logger?.WriteLine("IconEx::LoadPortableIcon", "Could not read the custom icon: " + ex.Message);
+				}
+			}
+			icon = BootstrapperIcon.IconVoidstrap;
+		}
+
+		string assembly = typeof(IconEx).Assembly.GetName().Name ?? "Voidstrap";
+		foreach (string candidate in new[]
+		{
+			"pack://application:,,,/Resources/" + icon + ".ico",
+			"pack://application:,,,/" + assembly + ";component/Resources/" + icon + ".ico"
+		})
+		{
+			BitmapSource? source = Voidstrap.Utility.SafeImaging.FromUri(new Uri(candidate, UriKind.Absolute), decodeWidth);
+			if (source != null)
+			{
+				return source;
+			}
+		}
+
+		return null;
+	}
+
 	public static ImageSource GetIconSource(BootstrapperIcon icon)
 	{
+		if (!Voidstrap.Utility.Platform.IsWindows)
+		{
+			BitmapSource? portable = LoadPortableIcon(icon, 128);
+			if (portable != null)
+			{
+				return portable;
+			}
+		}
+
 		if (icon == BootstrapperIcon.IconCustom)
 		{
 			string custom = App.Settings.Prop.BootstrapperIconCustomLocation;
@@ -53,7 +102,17 @@ public static class IconEx
 			}
 		}
 
-		return Voidstrap.Utility.SafeImaging.FromUri(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute));
+		Uri packUri = new("pack://application:,,,/Voidstrap.png", UriKind.Absolute);
+		if (!Voidstrap.Utility.Platform.IsWindows)
+		{
+			ImageSource? decoded = DecodeIcon(() => System.Windows.Application.GetResourceStream(packUri)?.Stream);
+			if (decoded != null)
+			{
+				return decoded;
+			}
+		}
+
+		return Voidstrap.Utility.SafeImaging.FromUri(packUri)!;
 	}
 
 	private static ImageSource? DecodeIcon(Func<Stream?> open)
@@ -99,7 +158,7 @@ public static class IconEx
 		return GetLargestFrame(memoryStream);
 	}
 
-	private static ImageSource GetLargestFrame(MemoryStream stream)
+	private static BitmapFrame GetLargestFrame(MemoryStream stream)
 	{
 		BitmapDecoder decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
 		BitmapFrame best = decoder.Frames[0];

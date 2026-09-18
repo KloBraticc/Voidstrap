@@ -27,7 +27,7 @@ internal static class BootstrapperIconEx
 		{
 		case BootstrapperIcon.IconCustom:
 		{
-			Icon icon2 = null;
+			Icon? icon2 = null;
 			string bootstrapperIconCustomLocation = App.Settings.Prop.BootstrapperIconCustomLocation;
 			if (string.IsNullOrEmpty(bootstrapperIconCustomLocation))
 			{

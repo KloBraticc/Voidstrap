@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -13,5 +13,18 @@ public partial class TranslatorsPage : UiPage{
 	public TranslatorsPage()
 	{
 		InitializeComponent();
+		ApplyReadableHeadings();
+	}
+
+	private void ApplyReadableHeadings()
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux)
+			return;
+
+		ThaiHeading.Text = "Thai";
+		KoreanHeading.Text = "Korean";
+		ChineseSimplifiedHeading.Text = "Chinese (Simplified)";
+		ChineseTraditionalHeading.Text = "Chinese (Traditional)";
+		JapaneseHeading.Text = "Japanese";
 	}
 }

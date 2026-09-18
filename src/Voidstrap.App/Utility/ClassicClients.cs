@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -73,8 +73,11 @@ namespace Voidstrap.Utility
         public _Server Server { get; set; } = new _Server();
     }
 
-    public static class ClassicClients
+    public static partial class ClassicClients
     {
+        [GeneratedRegex(@"github\.com/([^/]+)/([^/]+)/releases/(?:tag/([^/]+)/)?", RegexOptions.IgnoreCase)]
+        private static partial Regex GitHubReleaseUrlPattern { get; }
+
         private sealed class ReleaseAssetIntegrity
         {
             public string Url { get; init; } = "";
@@ -166,7 +169,7 @@ namespace Voidstrap.Utility
                 {
                     try
                     {
-                        string json = await Voidstrap.Utility.Http.GetStringBoundedAsync(Http, url, ct, MaxReleaseMetadataBytes).ConfigureAwait(false);
+                        string json = await Voidstrap.Utility.Http.GetStringBoundedAsync(Http, url, MaxReleaseMetadataBytes, ct).ConfigureAwait(false);
                         using JsonDocument doc = JsonDocument.Parse(json);
                         JsonElement root = doc.RootElement;
                         var manifest = new ClassicManifest();
@@ -180,7 +183,7 @@ namespace Voidstrap.Utility
                             {
                                 if (!c.TryGetProperty("code", out JsonElement codeEl))
                                     continue;
-                                string code = codeEl.GetString();
+                                string? code = codeEl.GetString();
                                 if (string.IsNullOrWhiteSpace(code) || !IsSupportedClientCode(code))
                                     continue;
                                 long size = (c.TryGetProperty("size", out JsonElement sz) && sz.TryGetInt64(out long szv)) ? szv : 0L;
@@ -264,7 +267,7 @@ namespace Voidstrap.Utility
                     url = DefaultBaseUrl;
 				if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? source) || source.Scheme != Uri.UriSchemeHttps)
 					url = DefaultBaseUrl;
-                return url.EndsWith("/") ? url : url + "/";
+                return url.EndsWith('/') ? url : url + "/";
             }
         }
 
@@ -411,7 +414,7 @@ namespace Voidstrap.Utility
 
         public static bool IsSupportedClientCode(string? code)
         {
-			if (string.IsNullOrWhiteSpace(code) || code.Length > 64 || !Regex.IsMatch(code, @"^\d{4}[A-Za-z0-9](?:-[A-Za-z0-9]+)?$", RegexOptions.CultureInvariant))
+			if (string.IsNullOrWhiteSpace(code) || code.Length > 64 || !ClassicVersionCodePattern.IsMatch(code))
 				return false;
 			return int.TryParse(code.AsSpan(0, 4), out int year) && year is >= 2006 and < 2014;
         }
@@ -844,10 +847,10 @@ namespace Voidstrap.Utility
             string flat = relativePath.Contains('/') ? relativePath.Substring(relativePath.LastIndexOf('/') + 1) : relativePath;
 
             string baseUrl = BaseUrl;
-            var raw = Regex.Match(baseUrl, @"github\.com/([^/]+)/([^/]+)/raw/([^/]+)/", RegexOptions.IgnoreCase);
-            var rel = Regex.Match(baseUrl, @"github\.com/([^/]+)/([^/]+)/releases/(?:tag/([^/]+)/)?", RegexOptions.IgnoreCase);
+            var raw = GitHubRawUrlPattern.Match(baseUrl);
+            var rel = GitHubReleaseUrlPattern.Match(baseUrl);
 
-            string owner = null, repo = null, branch = "main", tag = null;
+            string? owner = null, repo = null, branch = "main", tag = null;
             if (raw.Success) { owner = raw.Groups[1].Value; repo = raw.Groups[2].Value; branch = raw.Groups[3].Value; }
             else if (rel.Success) { owner = rel.Groups[1].Value; repo = rel.Groups[2].Value; tag = rel.Groups[3].Success ? rel.Groups[3].Value : null; }
 
@@ -869,7 +872,7 @@ namespace Voidstrap.Utility
             return urls.Distinct().ToList();
         }
 
-        private static async Task StageLocalEngineAsync(string localSource, Action<double, string> progress, CancellationToken ct)
+        private static async Task StageLocalEngineAsync(string localSource, Action<double, string>? progress, CancellationToken ct)
         {
             string stagedRoot = CreateSiblingPath(Root, "staging");
             try
@@ -890,7 +893,7 @@ namespace Voidstrap.Utility
             }
         }
 
-        private static async Task StageLocalClientAsync(string client, string localClient, Action<double, string> progress, CancellationToken ct)
+        private static async Task StageLocalClientAsync(string client, string localClient, Action<double, string>? progress, CancellationToken ct)
         {
             string target = ResolvePathWithin(ClientsDir, client);
             string stagedClient = CreateSiblingPath(target, "staging");
@@ -919,7 +922,7 @@ namespace Voidstrap.Utility
                 progress?.Invoke(96, "Extracting");
                 if (string.Equals(relativePath, "engine.zip", StringComparison.OrdinalIgnoreCase) && Directory.Exists(Root))
                     await Task.Run(() => CopyTree(Root, stagedRoot, null, null, ct), ct).ConfigureAwait(false);
-                await Task.Run(() => SafeZipExtractor.ExtractToDirectory(tempZip, stagedRoot, overwrite: true, maxExpandedBytes: 4294967296L), ct).ConfigureAwait(false);
+                await Task.Run(() => SafeZipExtractor.ExtractToDirectory(tempZip, stagedRoot, overwrite: true, maxExpandedBytes: 4294967296L, token: ct), ct).ConfigureAwait(false);
 
                 if (string.Equals(relativePath, "engine.zip", StringComparison.OrdinalIgnoreCase))
                 {
@@ -953,39 +956,25 @@ namespace Voidstrap.Utility
             finally
             {
                 try { if (File.Exists(tempZip)) File.Delete(tempZip); } catch { }
+                try { if (File.Exists(tempZip + ".part")) File.Delete(tempZip + ".part"); } catch { }
                 DeleteDirectoryIfExists(stagedRoot);
             }
         }
 
         private static async Task DownloadOneAsync(ReleaseAssetIntegrity asset, string tempZip, Action<double, string> progress, CancellationToken ct)
         {
-            progress?.Invoke(0, "Connecting");
-            using var response = await Http.GetAsync(asset.Url, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
-            if (response.Content.Headers.ContentLength is long contentLength && contentLength != asset.Size)
-                throw new InvalidDataException("The classic archive size does not match its release metadata");
-            using var input = await response.Content.ReadAsStreamAsync(ct).ConfigureAwait(false);
-            await using var output = new FileStream(tempZip, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
-            using IncrementalHash hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
-            var buffer = new byte[81920];
-            long read = 0;
-            int n;
-            while ((n = await input.ReadAsync(buffer, ct).ConfigureAwait(false)) > 0)
+            if (!string.IsNullOrEmpty(asset.Sha256) && PackageCache.TryUseClassic(asset.Sha256, asset.Size, tempZip))
             {
-                read = checked(read + n);
-                if (read > asset.Size || read > MaxArchiveBytes)
-                    throw new InvalidDataException("The classic archive exceeds its release size");
-                await output.WriteAsync(buffer.AsMemory(0, n), ct).ConfigureAwait(false);
-                hash.AppendData(buffer, 0, n);
-                progress?.Invoke(read / (double)asset.Size * 95.0, $"Downloading {FormatBytes(read)} of {FormatBytes(asset.Size)}");
+                progress?.Invoke(95, "Using cached copy");
+                return;
             }
-            await output.FlushAsync(ct).ConfigureAwait(false);
-            if (read != asset.Size)
-                throw new InvalidDataException("The classic archive ended before its release size");
-            byte[] expected = Convert.FromHexString(asset.Sha256);
-            byte[] actual = hash.GetHashAndReset();
-            if (!CryptographicOperations.FixedTimeEquals(expected, actual))
-                throw new CryptographicException("The classic archive digest does not match its release metadata");
+            progress?.Invoke(0, "Connecting");
+            await ResilientDownload.DownloadAsync(Http, [asset.Url], tempZip, Math.Min(asset.Size, MaxArchiveBytes), asset.Sha256,
+                (read, _) => progress?.Invoke(read / (double)asset.Size * 95.0, $"Downloading {FormatBytes(read)} of {FormatBytes(asset.Size)}"), ct).ConfigureAwait(false);
+            if (new FileInfo(tempZip).Length != asset.Size)
+                throw new InvalidDataException("The classic archive size does not match its release metadata");
+            if (!string.IsNullOrEmpty(asset.Sha256))
+                PackageCache.StoreClassic(asset.Sha256, tempZip);
         }
 
         private static string CreateSiblingPath(string target, string purpose)
@@ -1048,11 +1037,11 @@ namespace Voidstrap.Utility
         {
             try
             {
-                if (Directory.Exists(path))
-                    Directory.Delete(path, true);
+                Filesystem.DeleteDirectoryRobust(path);
             }
-            catch
+            catch (Exception ex)
             {
+                App.Logger?.WriteLine("ClassicClients::DeleteDirectory", ex.Message);
             }
         }
 
@@ -1085,7 +1074,7 @@ namespace Voidstrap.Utility
                     throw new ArgumentException("The classic client code is invalid", nameof(client));
                 string dir = ResolvePathWithin(ClientsDir, client);
                 if (Directory.Exists(dir))
-                    await Task.Run(() => Directory.Delete(dir, true), ct).ConfigureAwait(false);
+                    await Task.Run(() => Filesystem.DeleteDirectoryRobust(dir), ct).ConfigureAwait(false);
                 var index = LoadIndex();
                 if (index.Remove(client))
                     SaveIndex(index);
@@ -1511,7 +1500,7 @@ namespace Voidstrap.Utility
             return process;
         }
 
-		private static IReadOnlyList<string> SplitLaunchArguments(string commandLine)
+		private static List<string> SplitLaunchArguments(string commandLine)
 		{
 			List<string> arguments = [];
 			int position = 0;
@@ -1757,7 +1746,7 @@ namespace Voidstrap.Utility
                     }
                 }
                 if (firstLine.Length > 60)
-                    firstLine = firstLine.Substring(0, 60) + "...";
+                    firstLine = string.Concat(firstLine.AsSpan(0, 60), "...");
                 detail = "HTTP " + ((int)response.StatusCode).ToString(CultureInfo.InvariantCulture)
                     + (firstLine.Length > 0 ? ", first line: " + firstLine : ", empty response");
                 return false;
@@ -2250,5 +2239,10 @@ namespace Voidstrap.Utility
                 return (bytes / 1024.0).ToString("0") + " KB";
             return bytes + " B";
         }
+
+        [GeneratedRegex(@"^\d{4}[A-Za-z0-9](?:-[A-Za-z0-9]+)?$", RegexOptions.CultureInvariant)]
+        private static partial Regex ClassicVersionCodePattern { get; }
+        [GeneratedRegex(@"github\.com/([^/]+)/([^/]+)/raw/([^/]+)/", RegexOptions.IgnoreCase, "en-US")]
+        private static partial Regex GitHubRawUrlPattern { get; }
     }
 }

@@ -80,12 +80,12 @@ public static class VpnHttpClient
 				try
 				{
 					HttpResponseMessage response = await transport.Invoker.SendAsync(current, cancellationToken).ConfigureAwait(false);
-					if (!retryable || attempt >= 2 || !IsTransient(response.StatusCode))
+					if (!retryable || attempt >= MaxResponseRetries || !IsTransient(response.StatusCode))
 						return response;
 					response.Dispose();
 					RefreshTransport(transport);
 				}
-				catch (Exception ex) when (retryable && attempt < 2 && IsTransient(ex, cancellationToken))
+				catch (Exception ex) when (retryable && attempt < (IsUnreachable(ex) ? RetryDelaysMs.Length : MaxResponseRetries) && IsTransient(ex, cancellationToken))
 				{
 					RefreshTransport(transport);
 				}
@@ -94,8 +94,18 @@ public static class VpnHttpClient
 					if (attempt != 0)
 						current.Dispose();
 				}
-				await Task.Delay(attempt == 0 ? 150 : 450, cancellationToken).ConfigureAwait(false);
+				await Task.Delay(RetryDelaysMs[attempt], cancellationToken).ConfigureAwait(false);
 			}
+		}
+
+		private const int MaxResponseRetries = 2;
+
+		private static readonly int[] RetryDelaysMs = [150, 450, 1000, 2000];
+
+		private static bool IsUnreachable(Exception exception)
+		{
+			return exception is HttpRequestException { HttpRequestError: HttpRequestError.NameResolutionError or HttpRequestError.ConnectionError }
+				|| exception.InnerException is SocketException { SocketErrorCode: SocketError.HostNotFound or SocketError.TryAgain or SocketError.NetworkUnreachable or SocketError.HostUnreachable or SocketError.NetworkDown };
 		}
 
 		private Transport GetTransport()

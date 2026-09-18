@@ -1,4 +1,4 @@
-﻿using Windows.Win32;
+using Windows.Win32;
 using Voidstrap.UI.Elements.Bootstrapper.Base;
 using Voidstrap.UI.ViewModels.Bootstrapper;
 using System.ComponentModel;
@@ -158,7 +158,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         }
 
         #region IBootstrapperDialog Methods
-        public void ShowBootstrapper() => this.ShowDialog();
+        public void ShowBootstrapper() => this.ShowOwnedDialog();
 
         public void CloseBootstrapper()
         {
@@ -171,6 +171,19 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
         #region Web panels
         private readonly HashSet<Microsoft.Web.WebView2.Wpf.WebView2> _webPanels = new();
+
+        private readonly HashSet<Voidstrap.UI.LinuxWebPanel> _linuxWebPanels = new();
+
+        internal void RegisterLinuxWebPanel(Voidstrap.UI.LinuxWebPanel panel)
+        {
+            _linuxWebPanels.Add(panel);
+            QueueWebPanelState();
+        }
+
+        internal void RequestWebPanelState()
+        {
+            QueueWebPanelState();
+        }
         private readonly CancellationTokenSource _webPanelLifetime = new();
         private int _webPanelUpdatePending;
         private int _webPanelUpdateRunning;
@@ -233,6 +246,17 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             }
 
             App.Logger.WriteLine("CustomDialog::OnWebPanelMessage", "The panel asked to cancel");
+            Dispatcher.BeginInvoke(new Action(CancelFromWebPanel));
+        }
+
+        internal void HandleWebPanelDrag()
+        {
+            Dispatcher.BeginInvoke(new Action(DragFromWebPanel));
+        }
+
+        internal void HandleWebPanelCancel()
+        {
+            App.Logger.WriteLine("CustomDialog::HandleWebPanelCancel", "The panel asked to cancel");
             Dispatcher.BeginInvoke(new Action(CancelFromWebPanel));
         }
 
@@ -310,7 +334,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             {
                 while (!token.IsCancellationRequested && Interlocked.Exchange(ref _webPanelUpdatePending, 0) != 0)
                 {
-                    if (_webPanels.Count == 0)
+                    if (_webPanels.Count == 0 && _linuxWebPanels.Count == 0)
                         return;
 
                     string payload = System.Text.Json.JsonSerializer.Serialize(new
@@ -323,6 +347,10 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                     });
 
                     string script = "window.voidstrap && window.voidstrap.__apply(" + payload + ");";
+
+                    foreach (Voidstrap.UI.LinuxWebPanel panel in _linuxWebPanels)
+                        panel.Evaluate(script);
+
                     Task<string>[] updates = _webPanels
                         .Select(view => view.CoreWebView2)
                         .Where(core => core != null)

@@ -210,6 +210,113 @@
     </StackPanel>
         </StackPanel>
       </TabItem>
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Wrench24" Margin="0,0,6,0" />
+            <TextBlock Text="Advanced FFlags" />
+          </StackPanel>
+        </TabItem.Header>
+        <StackPanel Margin="10">
+          <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Informational" Message="These options only swap some of Roblox's built in texture files, like particles, studs, terrain and water. Most games use their own textures and effects, so you may not notice much of a difference." />
+          <controls:OptionControl Header="Particles" Description="Fire, smoke, explosions, sparkles and force fields">
+            <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding TextureParticleStyle, Mode=TwoWay}">
+              <ComboBoxItem Content="Roblox default" />
+              <ComboBoxItem Content="Hidden" />
+              <ComboBoxItem Content="Squares" />
+            </ComboBox>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Square opacity" Description="How solid the squares look" Visibility="{Binding TextureParticleSquares, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="200" Minimum="10" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding TextureParticleOpacity, Mode=TwoWay}" />
+              <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureParticleOpacityDisplay}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Studs" Description="The stud pattern on parts">
+            <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding TextureStudStyle, Mode=TwoWay}">
+              <ComboBoxItem Content="Roblox default" />
+              <ComboBoxItem Content="Flat" />
+            </ComboBox>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Flat shade" Description="How bright flat surfaces look. 50% matches the normal brightness" Visibility="{Binding TextureStudFlat, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="200" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding TextureStudShade, Mode=TwoWay}" />
+              <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureStudShadeDisplay}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Water" Description="The ripples on terrain water">
+            <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding TextureWaterStyle, Mode=TwoWay}">
+              <ComboBoxItem Content="Roblox default" />
+              <ComboBoxItem Content="Adjusted ripples" />
+              <ComboBoxItem Content="Smooth" />
+              <ComboBoxItem Content="Frozen" />
+              <ComboBoxItem Content="Glitchy" />
+              <ComboBoxItem Content="Custom animation" />
+            </ComboBox>
+          </controls:OptionControl>
+          <Border Margin="0,8,0,0" Padding="16,12,16,12" CornerRadius="4" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Border BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="#1A1A1A">
+                <Image x:Name="WaterPreviewImage" Width="256" Height="256" Stretch="None" SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="{Binding TextureWaterPreview}" />
+              </Border>
+              <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
+                <TextBlock FontSize="14" Text="Water preview" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{Binding TextureWaterPreviewStatus}" />
+                <TextBlock Margin="0,10,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="This is the exact ripple texture Roblox loads" />
+              </StackPanel>
+            </Grid>
+          </Border>
+          <controls:OptionControl Header="Water animation images" Description="{Binding TextureWaterFramesSummary}" Visibility="{Binding TextureWaterCustom, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+              <ui:Button Icon="DocumentAdd16" Content="Choose" Command="{Binding ChooseWaterFramesCommand}" />
+              <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="Remove" Command="{Binding ClearWaterFramesCommand}" Visibility="{Binding TextureWaterHasFrames, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Ripple strength" Description="0% is flat, 100% is normal, higher is choppier" Visibility="{Binding TextureWaterShowStrength, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="200" Minimum="0" Maximum="300" TickFrequency="10" IsSnapToTickEnabled="True" Value="{Binding TextureWaterStrength, Mode=TwoWay}" />
+              <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureWaterStrengthDisplay}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Ripple speed" Description="How fast the ripples move" Visibility="{Binding TextureWaterShowSpeed, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="200" Minimum="1" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding TextureWaterSpeed, Mode=TwoWay}" />
+              <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureWaterSpeedDisplay}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Frozen frame" Description="Which ripple frame to hold still" Visibility="{Binding TextureWaterShowFrame, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="200" Minimum="1" Maximum="25" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding TextureWaterFrame, Mode=TwoWay}" />
+              <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureWaterFrameDisplay}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Glitch amount" Description="How broken the water looks" Visibility="{Binding TextureWaterShowGlitch, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="200" Minimum="5" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding TextureWaterGlitch, Mode=TwoWay}" />
+              <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureWaterGlitchDisplay}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Terrain" Description="Stretch the ground textures and change how much they repeat">
+            <ui:ToggleSwitch IsChecked="{Binding TextureTerrainEnabled, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Terrain texture size" Description="1x is the normal Roblox size, lower is bigger and blurrier" Visibility="{Binding TextureTerrainEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="200" Minimum="0.05" Maximum="1" TickFrequency="0.05" IsSnapToTickEnabled="True" Value="{Binding TextureTerrainSize, Mode=TwoWay}" />
+              <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureTerrainSizeDisplay}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="Terrain repeat hiding" Description="Higher lets repeating patterns show more" Visibility="{Binding TextureTerrainEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="200" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding TextureTerrainRepeat, Mode=TwoWay}" />
+              <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureTerrainRepeatDisplay}" />
+            </StackPanel>
+          </controls:OptionControl>
+        </StackPanel>
+      </TabItem>
       <TabItem IsEnabled="{Binding HasNvidiaGpu}" ToolTip="{Binding NvidiaTabUnavailableReason}" Visibility="{Binding IsWindows, Converter={StaticResource BooleanToVisibilityConverter}}">
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
@@ -222,7 +329,7 @@
           <TextBlock Margin="24" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding NvidiaTabUnavailableReason}" Visibility="{Binding HasNvidiaGpu, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
         </Grid>
       </TabItem>
-      <TabItem FontWeight="Medium" Visibility="{Binding IsWindows, Converter={StaticResource BooleanToVisibilityConverter}}">
+      <TabItem>
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="PaintBrush24" Margin="0,0,6,0" />

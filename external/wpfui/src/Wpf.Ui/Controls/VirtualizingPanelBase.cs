@@ -25,6 +25,14 @@ namespace Wpf.Ui.Controls;
 /// </summary>
 public abstract class VirtualizingPanelBase : VirtualizingPanel, IScrollInfo
 {
+    private static readonly MethodInfo GetItemsOwnerInternalMethod = typeof(ItemsControl).GetMethod(
+        "GetItemsOwnerInternal",
+        BindingFlags.Static | BindingFlags.NonPublic,
+        null,
+        new[] { typeof(DependencyObject) },
+        null
+    )!;
+
     #region Private properties
 
     /// <summary>
@@ -108,15 +116,7 @@ public abstract class VirtualizingPanelBase : VirtualizingPanel, IScrollInfo
             /* Use reflection to access internal method because the public 
                  * GetItemsOwner method does always return the itmes control instead 
                  * of the real items owner for example the group item when grouping */
-            MethodInfo getItemsOwnerInternalMethod = typeof(ItemsControl).GetMethod(
-                "GetItemsOwnerInternal",
-                BindingFlags.Static | BindingFlags.NonPublic,
-                null,
-                new Type[] { typeof(DependencyObject) },
-                null
-            )!;
-
-            _itemsOwner = (DependencyObject)getItemsOwnerInternalMethod.Invoke(null, new object[] { this })!;
+            _itemsOwner = (DependencyObject)GetItemsOwnerInternalMethod.Invoke(null, new object[] { this })!;
 
             return _itemsOwner;
         }

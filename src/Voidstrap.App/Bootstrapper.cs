@@ -157,6 +157,8 @@ public class Bootstrapper
 
     private const long SkyboxMinSegmentBytes = 524288L;
 
+    private bool _modSkyPatchApplied;
+
     private static readonly string[] SkyboxFileNames = ["sky512_bk.tex", "sky512_dn.tex", "sky512_ft.tex", "sky512_lf.tex", "sky512_rt.tex", "sky512_up.tex"];
 
 	private const int MaxPackageDownloadAttempts = 5;
@@ -175,13 +177,15 @@ public class Bootstrapper
 
     private readonly IAppData AppData;
 
+    private IDisposable? _installLock;
+
     private readonly LaunchMode _launchMode;
     private string _deploymentChannel;
 
 
     private string _launchCommandLine = App.LaunchSettings.RobloxLaunchArgs;
 
-    private string _latestVersionGuid;
+    private string _latestVersionGuid = null!;
 
     public bool InstallOnly { get; set; }
 
@@ -198,9 +202,9 @@ public class Bootstrapper
 
     public static event Action<DownloadProgressInfo>? DownloadProgressChanged;
 
-    private string _latestVersionDirectory;
+    private string _latestVersionDirectory = null!;
 
-    private PackageManifest _versionPackageManifest;
+    private PackageManifest _versionPackageManifest = null!;
 
     private int _isInstalling;
 
@@ -226,14 +230,30 @@ public class Bootstrapper
 
     private static readonly string PackFolder = Paths.SkyboxPack;
 
+    private const long TargetSegmentBytes = 4L * 1024L * 1024L;
+
+    private const int MaxSegmentCount = 64;
+
+    private const int MirrorSpread = 3;
+
+    private const int NetworkReadBufferCap = 1024 * 1024;
+
+    private const int SlowSegmentGraceMs = 9000;
+
+    private const int SlowSegmentWindowMs = 6000;
+
+    private const long SlowSegmentMinimumBytes = 128L * 1024L;
+
     private static readonly HttpClient SkyboxHttpClient = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromMinutes(30L));
 
     private static readonly HttpClient RobloxPackageClient = Voidstrap.Utility.VpnHttpClient.Create(Timeout.InfiniteTimeSpan, handler =>
     {
         handler.AutomaticDecompression = DecompressionMethods.None;
         handler.MaxConnectionsPerServer = 128;
-        handler.PooledConnectionIdleTimeout = TimeSpan.FromSeconds(30);
-        handler.PooledConnectionLifetime = TimeSpan.FromMinutes(5);
+        handler.EnableMultipleHttp2Connections = true;
+        handler.ConnectTimeout = TimeSpan.FromSeconds(10);
+        handler.PooledConnectionIdleTimeout = TimeSpan.FromSeconds(60);
+        handler.PooledConnectionLifetime = TimeSpan.FromMinutes(10);
     });
 
     private static readonly ArrayPool<byte> DownloadBufferPool = ArrayPool<byte>.Shared;
@@ -241,6 +261,8 @@ public class Bootstrapper
     private static readonly int ExtractionConcurrency = Math.Clamp(ModApplyConcurrency, 2, 8);
 
 	private readonly SemaphoreSlim _networkRequestSlots;
+
+	private readonly int _networkRequestLimit;
 
     private string? _packageExtractionDirectory;
 
@@ -270,6 +292,39 @@ public class Bootstrapper
 
 
     public bool IsStudioLaunch => _launchMode != LaunchMode.Player;
+
+    private static readonly TimeSpan LateDeliveryHold = TimeSpan.FromDays(3);
+
+    private string ApplyUpdateDelivery(string latest, bool forceManifest)
+    {
+        AppState state = AppData.State;
+        string installed = state.VersionGuid;
+        bool late = string.Equals(App.Settings.Prop.RobloxUpdateDelivery, "Late", StringComparison.OrdinalIgnoreCase);
+        if (!late || forceManifest || string.IsNullOrEmpty(installed) || installed == latest || !IsValidVersionGuid(installed) || MustUpgrade || App.Settings.Prop.ForceRobloxReinstall)
+        {
+            if (!string.IsNullOrEmpty(state.HeldVersionGuid))
+            {
+                state.HeldVersionGuid = string.Empty;
+                state.HeldVersionFirstSeenUtc = default;
+                App.State.Save();
+            }
+            return latest;
+        }
+        if (state.HeldVersionGuid != latest)
+        {
+            state.HeldVersionGuid = latest;
+            state.HeldVersionFirstSeenUtc = DateTime.UtcNow;
+            App.State.Save();
+        }
+        TimeSpan remaining = state.HeldVersionFirstSeenUtc + LateDeliveryHold - DateTime.UtcNow;
+        if (remaining <= TimeSpan.Zero || remaining > LateDeliveryHold)
+        {
+            App.Logger.WriteLine("Bootstrapper::UpdateDelivery", "Late delivery hold is over, installing " + latest);
+            return latest;
+        }
+        App.Logger.WriteLine("Bootstrapper::UpdateDelivery", $"Late delivery is holding {latest} for about {Math.Ceiling(remaining.TotalHours)} more hours, launching the installed {installed}");
+        return installed;
+    }
 
     private bool MustUpgrade
     {
@@ -331,6 +386,7 @@ public class Bootstrapper
 			App.Settings.SaveDeferred();
 		int requestLimit = DownloadConfiguration.ResolveSegmentRequestLimit(App.Settings.Prop);
 		_networkRequestSlots = new SemaphoreSlim(requestLimit, requestLimit);
+		_networkRequestLimit = requestLimit;
         _launchMode = launchMode;
         _deploymentChannel = App.Settings.Prop.Channel;
         _fastZipEvents.FileFailure = OnExtractionFailure;
@@ -368,7 +424,7 @@ public class Bootstrapper
             return;
         }
         IBootstrapperDialog? dialog = Dialog;
-        DependencyObject val = (DependencyObject)((dialog is DependencyObject) ? dialog : null);
+        DependencyObject? val = (DependencyObject?)((dialog is DependencyObject) ? dialog : null);
         if (val != null)
         {
             if (!((DispatcherObject)val).Dispatcher.CheckAccess())
@@ -399,7 +455,7 @@ public class Bootstrapper
             {
                 result = 1;
             }
-            string data = App.LaunchSettings.MatchmakerTargetFlag.Data;
+            string? data = App.LaunchSettings.MatchmakerTargetFlag.Data;
             string text = ((result > 1) ? $" (try #{result})" : "");
             if (!string.IsNullOrWhiteSpace(data))
             {
@@ -412,7 +468,7 @@ public class Bootstrapper
         }
         InvokeOnDialog(delegate
         {
-            Dialog.Message = message;
+            Dialog!.Message = message;
         });
         PublishLaunchStatus(message);
     }
@@ -436,7 +492,7 @@ public class Bootstrapper
     {
         InvokeOnDialog(delegate
         {
-            Dialog.ProgressValue = value;
+            Dialog!.ProgressValue = value;
         });
     }
 
@@ -444,7 +500,7 @@ public class Bootstrapper
     {
         InvokeOnDialog(delegate
         {
-            Dialog.ProgressMaximum = max;
+            Dialog!.ProgressMaximum = max;
         });
     }
 
@@ -452,7 +508,7 @@ public class Bootstrapper
     {
         InvokeOnDialog(delegate
         {
-            Dialog.ProgressStyle = style;
+            Dialog!.ProgressStyle = style;
         });
     }
 
@@ -500,7 +556,7 @@ public class Bootstrapper
             long num4 = Math.Max(0L, totalPacked - num);
             string value2 = ((emaSpeed > 4096.0) ? FormatEta((double)num4 / emaSpeed) : "calculating");
             int value3 = completedGetter();
-            SetStatus($"Downloading {value:0}%\n{FormatBytes(num)} of {FormatBytes(totalPacked)} · {FormatSpeed(emaSpeed)} · ETA {value2} · {value3}/{totalPackages}");
+            SetStatus($"Downloading {value:0}%\n{FormatBytes(num)} of {FormatBytes(totalPacked)}, {FormatSpeed(emaSpeed)}, ETA {value2}, {value3}/{totalPackages}");
             UpdateProgressBar();
             try
             {
@@ -605,9 +661,24 @@ public class Bootstrapper
 			AppData.State.VersionGuid = string.Empty;
 			App.State.Save();
 		}
-        Task versionInfoTask = Voidstrap.Utility.Platform.SupportsWindowsClient ? GetLatestVersionInfo(false) : Task.CompletedTask;
+		using IDisposable? installLock = await PrepareCompressedInstallAsync();
+		_installLock = installLock;
+        if (Voidstrap.Utility.Platform.SupportsWindowsClient && !await Voidstrap.Utility.Connectivity.IsOnlineAsync(_cancelTokenSource.Token))
+        {
+            _noConnection = true;
+            if (MustUpgrade)
+            {
+                App.Logger.WriteLine("Bootstrapper::Run", "Offline and Roblox is not installed, nothing to launch");
+                Frontend.ShowMessageBox("Voidstrap is offline and Roblox is not installed yet. Connect to the internet, then launch again.", MessageBoxImage.Exclamation);
+                Dialog?.CloseBootstrapper();
+                return;
+            }
+            App.Logger.WriteLine("Bootstrapper::Run", "Offline, skipping update checks and launching the installed Roblox");
+            SetStatus("You are offline, launching the installed Roblox");
+        }
+        Task versionInfoTask = Voidstrap.Utility.Platform.SupportsWindowsClient && !_noConnection ? GetLatestVersionInfo(false) : Task.CompletedTask;
         bool updateCheckFresh = DateTime.UtcNow - App.State.Prop.LastLauncherUpdateCheckUtc < TimeSpan.FromMinutes(15);
-        Task<bool> launcherUpdateTask = App.Settings.Prop.CheckForUpdates && !App.LaunchSettings.UpgradeFlag.Active && !InstallOnly && !updateCheckFresh
+        Task<bool> launcherUpdateTask = App.Settings.Prop.CheckForUpdates && !App.LaunchSettings.UpgradeFlag.Active && !InstallOnly && !updateCheckFresh && !_noConnection
             ? CheckAndApplyUpdate("Bootstrapper::Run")
             : Task.FromResult(false);
         if (await launcherUpdateTask)
@@ -632,7 +703,7 @@ public class Bootstrapper
         }
         if (!_noConnection)
         {
-            Exception versionError = await FetchVersionInfoAsync(versionInfoTask);
+            Exception? versionError = await FetchVersionInfoAsync(versionInfoTask);
             if (_cancelTokenSource.IsCancellationRequested)
             {
                 return;
@@ -652,7 +723,7 @@ public class Bootstrapper
 			bool upgradeRequired = AppData.State.VersionGuid != _latestVersionGuid || MustUpgrade || App.Settings.Prop.ForceRobloxReinstall;
 			if (upgradeRequired)
             {
-				Exception connectivityError = await Deployment.InitializeConnectivity();
+				Exception? connectivityError = await Deployment.InitializeConnectivity();
 				App.Logger.WriteLine("Bootstrapper::Run", "Package connectivity completed in " + launchTimer.ElapsedMilliseconds + " ms");
 				if (connectivityError != null)
 					await HandleConnectionError(connectivityError);
@@ -690,13 +761,13 @@ public class Bootstrapper
         {
             WindowsRegistry.RegisterPlayer();
         }
-        WindowsRegistry.RegisterVoidstrap();
         await mutex.ReleaseAsync();
         if (!App.LaunchSettings.NoLaunchFlag.Active && !InstallOnly && !_cancelTokenSource.IsCancellationRequested)
         {
             App.Logger.WriteLine("Bootstrapper::Run", "Prelaunch preparation completed in " + launchTimer.ElapsedMilliseconds + " ms");
             await StartRoblox(_cancelTokenSource.Token);
         }
+        installLock?.Dispose();
         Dialog?.CloseBootstrapper();
         if (InstallOnly)
         {
@@ -748,6 +819,46 @@ public class Bootstrapper
         catch
         {
         }
+    }
+
+    private async Task<IDisposable?> PrepareCompressedInstallAsync()
+    {
+        if (!RobloxInstallCompression.Supported)
+        {
+            return null;
+        }
+        IDisposable? installLock = await RobloxInstallCompression.AcquireLockAsync(TimeSpan.FromMinutes(2), _cancelTokenSource.Token).ConfigureAwait(false);
+        try
+        {
+            await RobloxInstallCompression.EnsureExtractedAsync(AppData, SetStatus, true, _cancelTokenSource.Token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            installLock?.Dispose();
+            throw;
+        }
+        catch (InsufficientSpaceException ex)
+        {
+            App.Logger.WriteLine("Bootstrapper::PrepareCompressedInstall", ex.Message);
+            Frontend.ShowMessageBox(ex.Message + ". Free up some space, then launch again.", MessageBoxImage.Exclamation);
+        }
+        catch (Exception ex)
+        {
+            string archive = RobloxInstallCompression.ArchivePathFor(AppData.Directory);
+            App.Logger.WriteLine("Bootstrapper::PrepareCompressedInstall", "The compressed install could not be unpacked and will be reinstalled: " + ex.Message);
+            try
+            {
+                if (File.Exists(archive))
+                {
+                    File.Delete(archive);
+                }
+            }
+            catch (Exception deleteError) when (deleteError is IOException or UnauthorizedAccessException)
+            {
+                App.Logger.WriteLine("Bootstrapper::PrepareCompressedInstall", "Could not remove the unreadable archive: " + deleteError.Message);
+            }
+        }
+        return installLock;
     }
 
     private async Task WaitForRobloxToFullyCloseAsync()
@@ -821,13 +932,13 @@ public class Bootstrapper
                 return;
             }
             App.Logger.WriteLine("Bootstrapper::WaitForRobloxGame", "Roblox process detected - watching for leave.");
-            string currentLog = null;
+            string? currentLog = null;
             long position = 0L;
             bool leaving = false;
             DateTime leaveAt = DateTime.MinValue;
             while (!_cancelTokenSource.IsCancellationRequested)
             {
-                string text = FindNewestPlayerLog();
+                string? text = FindNewestPlayerLog();
                 if (!string.Equals(text, currentLog, StringComparison.OrdinalIgnoreCase))
                 {
                     currentLog = text;
@@ -1021,7 +1132,7 @@ public class Bootstrapper
 
     private async Task<bool> CheckAndApplyUpdate(string logIdent)
     {
-        string text = await GithubUpdater.GetLatestVersionTagAsync();
+        string? text = await GithubUpdater.GetLatestVersionTagAsync();
 		App.State.Prop.LastLauncherUpdateCheckUtc = DateTime.UtcNow;
 		App.State.Save();
         if (string.IsNullOrEmpty(text))
@@ -1057,7 +1168,7 @@ public class Bootstrapper
         }
         string text = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0";
         remoteTag = remoteTag.TrimStart(['v', 'V']);
-        if (Version.TryParse(text, out Version result) && Version.TryParse(remoteTag, out Version result2))
+        if (Version.TryParse(text, out Version? result) && Version.TryParse(remoteTag, out Version? result2))
         {
             return result2 > result;
         }
@@ -1080,18 +1191,18 @@ public class Bootstrapper
         _ = task.ContinueWith(static finished => _ = finished.Exception, CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default);
     }
 
-    private static bool IsRetryableConnectionError(Exception error)
+    private static bool IsRetryableConnectionError(Exception? error)
     {
         if (error is HttpRequestException { StatusCode: { } status })
             return (int)status >= 500 || status == HttpStatusCode.RequestTimeout || status == HttpStatusCode.TooManyRequests;
         return error is HttpRequestException or IOException or TaskCanceledException or TimeoutException or SocketException;
     }
 
-    private async Task<Exception> FetchVersionInfoAsync(Task started)
+    private async Task<Exception?> FetchVersionInfoAsync(Task started)
     {
         using CancellationTokenSource deadline = CancellationTokenSource.CreateLinkedTokenSource(_cancelTokenSource.Token);
         deadline.CancelAfter(ConnectDeadline);
-        Exception lastError = null;
+        Exception? lastError = null;
         try
         {
             for (int attempt = 1; attempt <= ConnectAttempts; attempt++)
@@ -1112,7 +1223,7 @@ public class Bootstrapper
                 catch (Exception error)
                 {
                     lastError = UnwrapException(error);
-                    App.Logger.WriteLine("Bootstrapper::FetchVersionInfo", $"Deploy info attempt {attempt} failed: {lastError.Message}");
+                    App.Logger.WriteLine("Bootstrapper::FetchVersionInfo", $"Deploy info attempt {attempt} failed: {lastError?.Message}");
                     if (deadline.IsCancellationRequested || !IsRetryableConnectionError(lastError) || attempt == ConnectAttempts)
                     {
                         break;
@@ -1143,7 +1254,7 @@ public class Bootstrapper
         return lastError;
     }
 
-    private async Task HandleConnectionError(Exception exception)
+    private async Task HandleConnectionError(Exception? exception)
     {
         if (exception == null || _cancelTokenSource.IsCancellationRequested)
         {
@@ -1154,7 +1265,7 @@ public class Bootstrapper
         {
             return;
         }
-        App.Logger.WriteException("Bootstrapper::HandleConnectionError", exception);
+        App.Logger.WriteException("Bootstrapper::HandleConnectionError", exception!);
         if (Interlocked.Read(in _totalDownloadedBytes) > 0 && Volatile.Read(in _isInstalling) == 1)
         {
             App.Logger.WriteLine("Bootstrapper::HandleConnectionError", "Already upgrading, skipping retry.");
@@ -1194,7 +1305,8 @@ public class Bootstrapper
         Frontend.ShowMessageBox(message, MessageBoxImage.Exclamation);
     }
 
-    private static Exception UnwrapException(Exception ex)
+    [return: System.Diagnostics.CodeAnalysis.NotNullIfNotNull(nameof(ex))]
+    private static Exception? UnwrapException(Exception? ex)
     {
         for (int i = 0; i < 8; i++)
         {
@@ -1278,7 +1390,7 @@ public class Bootstrapper
 		{
 			throw new InvalidDataException("VersionGuid has an invalid format");
 		}
-        _latestVersionGuid = clientVersion.VersionGuid;
+        _latestVersionGuid = ApplyUpdateDelivery(clientVersion.VersionGuid, forceManifest);
 		string installFolderName = App.Settings.Prop.StaticDirectory && !string.IsNullOrEmpty(AppData.BinaryType) ? AppData.BinaryType : _latestVersionGuid;
 		_latestVersionDirectory = Path.GetFullPath(Path.Combine(AppData.VersionsRoot, installFolderName));
 		string versionsRoot = Path.GetFullPath(AppData.VersionsRoot).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
@@ -1298,7 +1410,7 @@ public class Bootstrapper
 			return;
 		}
         IReadOnlyList<string> manifestUrls = Deployment.GetLocations("/" + _latestVersionGuid + "-rbxPkgManifest.txt", _deploymentChannel);
-        string manifestBody = null;
+        string? manifestBody = null;
         foreach (string manifestUrl in manifestUrls)
         {
             App.Logger.WriteLine("Bootstrapper::GetLatestVersionInfo", "Fetching manifest: " + manifestUrl);
@@ -1312,12 +1424,14 @@ public class Bootstrapper
 				using HttpResponseMessage manifestResp = await SendPackageRequestAsync(request, ct).ConfigureAwait(continueOnCapturedContext: false);
                 if (!manifestResp.IsSuccessStatusCode)
                 {
+                    Deployment.ReportMirrorFailure(manifestUrl, $"manifest HTTP {(int)manifestResp.StatusCode}");
                     App.Logger.WriteLine("Bootstrapper::GetLatestVersionInfo", $"Manifest HTTP {(int)manifestResp.StatusCode} ({manifestResp.StatusCode}) from this mirror, trying next.");
                     continue;
                 }
 				string body = await ReadTextBoundedAsync(manifestResp.Content, 4194304, ct).ConfigureAwait(continueOnCapturedContext: false);
                 if (string.IsNullOrWhiteSpace(body) || body.TrimStart().StartsWith('<'))
                 {
+                    Deployment.ReportMirrorFailure(manifestUrl, "manifest returned HTML or empty content");
                     App.Logger.WriteLine("Bootstrapper::GetLatestVersionInfo", "Manifest returned HTML or empty content, trying next mirror.");
                     continue;
                 }
@@ -1401,6 +1515,45 @@ public class Bootstrapper
         }
     }
 
+    internal static async Task<RuntimeInstallation> EnsureVinegarInstalledAsync(
+        IRobloxRuntimeProvider provider,
+        RuntimeInstallation installation,
+        IPlatformHost host,
+        Action<string>? report,
+        CancellationToken cancellationToken)
+    {
+        const string logIdent = "Bootstrapper::EnsureVinegarInstalled";
+        if (installation.Capability.IsAvailable || !LinuxVinegarInstaller.CanInstall(installation.Capability))
+        {
+            return installation;
+        }
+
+        App.Logger.WriteLine(logIdent, "Vinegar is not installed, installing it from Flathub");
+        report?.Invoke("Installing Vinegar, this can take a while");
+        try
+        {
+            OperationResult installed = await new LinuxVinegarInstaller(host.Processes).InstallAsync(cancellationToken);
+            if (!installed.Succeeded)
+            {
+                App.Logger.WriteLine(logIdent, installed.Failure?.Message ?? "Vinegar could not be installed");
+                return installation;
+            }
+
+            App.Logger.WriteLine(logIdent, "Vinegar installed");
+            report?.Invoke("Starting Roblox Studio");
+            return await provider.FindInstallationAsync(cancellationToken);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(logIdent, "Vinegar could not be installed: " + ex.Message);
+            return installation;
+        }
+    }
+
     private async Task<bool> TryLaunchNonWindowsClientAsync(string launchCommandLine, LaunchMode launchMode, CancellationToken cancellationToken)
     {
         try
@@ -1426,6 +1579,10 @@ public class Bootstrapper
                 {
                     installation = await EnsureSoberInstalledAsync(provider, installation, host, SetStatus, cancellationToken);
                 }
+                else
+                {
+                    installation = await EnsureVinegarInstalledAsync(provider, installation, host, SetStatus, cancellationToken);
+                }
                 if (!installation.Capability.IsAvailable)
                 {
                     App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", installation.Capability.Reason);
@@ -1433,7 +1590,7 @@ public class Bootstrapper
                     return false;
                 }
 
-                LinuxSoberRuntimeProvider.ForceX11Session = App.Settings.Prop.OverlaysEnabled
+                LinuxSoberRuntimeProvider.ForceX11Session = Voidstrap.Integrations.Overlays.OverlaySettings.RequiresLinuxX11Session
                     && !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
                 if (LinuxSoberRuntimeProvider.ForceX11Session)
                 {
@@ -1444,6 +1601,7 @@ public class Bootstrapper
                 OperationResult prepared = await configuration.PrepareAsync(
                     installation,
                     Voidstrap.Utility.SoberConfigurationMapper.CreatePlayerOptions(App.Settings.Prop),
+                    Voidstrap.Utility.VinegarConfigurationMapper.CreateStudioOptions(App.Settings.Prop),
                     cancellationToken);
                 if (!prepared.Succeeded)
                 {
@@ -1520,6 +1678,8 @@ public class Bootstrapper
             }
             if (_launchMode == LaunchMode.Player)
                 await StartAssetProxyIfEnabled(ct);
+            if (AssetProxyRouting.ConsumeCacheCleared())
+                await RestoreStoragePatchesAsync(ct);
             if (_launchMode == LaunchMode.Player && (!App.Settings.Prop.AssetWarpEnabled || !App.Settings.Prop.AssetWarpPreloadEnabled))
             {
 				App.FastFlags.RemoveInstalledPreloadFlags(Path.Combine(AppData.Directory, "ClientSettings", "ClientAppSettings.json"));
@@ -1545,7 +1705,7 @@ public class Bootstrapper
             }
             string text = Path.Combine(Paths.LocalAppData, "Roblox", "logs");
             Directory.CreateDirectory(text);
-            string logFileName = await WaitForLogFileAsync(text, startInfo, ct);
+            string? logFileName = await WaitForLogFileAsync(text, startInfo, ct);
 			App.Logger.WriteLine("Bootstrapper::StartRoblox", "Process start and readiness completed in " + startTimer.ElapsedMilliseconds + " ms");
             if (string.IsNullOrEmpty(logFileName))
             {
@@ -1564,7 +1724,6 @@ public class Bootstrapper
                 return;
             }
             await LaunchCustomIntegrations("Bootstrapper::StartRoblox", preLaunch: false, ct);
-            await DisableCrashHandlerIfNeeded("Bootstrapper::StartRoblox", ct);
             await LaunchWatcherIfNeeded(logFileName, ct);
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
@@ -1666,10 +1825,22 @@ public class Bootstrapper
     private ProcessStartInfo BuildStartInfo()
     {
         string args = _launchCommandLine ?? string.Empty;
+        string executablePath = AppData.ExecutablePath;
+        string workingDirectory = AppData.Directory;
+        if (Voidstrap.Utility.MultiInstanceLock.Enabled)
+        {
+            string? instanceDirectory = Voidstrap.Utility.InstanceDirectory.Prepare(AppData.Directory, AppData.ExecutableName);
+            if (instanceDirectory != null)
+            {
+                executablePath = Path.Combine(instanceDirectory, AppData.ExecutableName);
+                workingDirectory = instanceDirectory;
+                App.Logger.WriteLine("Bootstrapper::BuildStartInfo", "Starting this instance from " + instanceDirectory);
+            }
+        }
         ProcessStartInfo processStartInfo = new()
         {
-            FileName = AppData.ExecutablePath,
-            WorkingDirectory = AppData.Directory,
+            FileName = executablePath,
+            WorkingDirectory = workingDirectory,
             UseShellExecute = false
         };
 		if (RobloxDeeplink.TryExtract(args, out Uri? deeplink) && deeplink != null)
@@ -1686,7 +1857,7 @@ public class Bootstrapper
         }
         if (App.Settings.Prop.BypassEmulationOverhead)
         {
-            Voidstrap.Utility.EmulationBypassService.ApplyCompatLayerBypass(AppData.ExecutablePath);
+            Voidstrap.Utility.EmulationBypassService.ApplyCompatLayerBypass(executablePath);
             Voidstrap.Utility.EmulationBypassService.ApplyBypassEnvironment(processStartInfo);
         }
         else
@@ -1718,7 +1889,20 @@ public class Bootstrapper
 		string clientSettingsPath = Path.Combine(AppData.Directory, "ClientSettings", "ClientAppSettings.json");
 		string blockedFlagsPath = Path.Combine(Paths.Cache, "BlockedFastFlags.txt");
 		TrySuppressKnownBlockedFastFlags(clientSettingsPath, blockedFlagsPath);
-		(string? logFile, bool timedOut) = await LaunchAndWaitForLogFileAsync(rbxLogDir, existingLogs, launchStartedUtc, startInfo, ct).ConfigureAwait(false);
+		(string? logFile, bool timedOut, bool startupCrash) = await LaunchAndWaitForLogFileAsync(rbxLogDir, existingLogs, launchStartedUtc, startInfo, ct).ConfigureAwait(false);
+		for (int relaunch = 1; startupCrash && relaunch <= StartupCrashRelaunchLimit && !ct.IsCancellationRequested; relaunch++)
+		{
+			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", $"Roblox crashed before its renderer started, relaunching ({relaunch} of {StartupCrashRelaunchLimit})");
+			Voidstrap.Utility.AppNotifications.RecordInfo("roblox:startupcrash", "Roblox crashed while starting", "Roblox crashed before it finished loading, so Voidstrap relaunched it automatically.");
+			SetStatus("Roblox crashed while starting, trying again");
+			existingLogs = GetExistingLogFiles(rbxLogDir);
+			(logFile, timedOut, startupCrash) = await LaunchAndWaitForLogFileAsync(rbxLogDir, existingLogs, DateTime.UtcNow, startInfo, ct).ConfigureAwait(false);
+		}
+		if (startupCrash && !ct.IsCancellationRequested)
+		{
+			ReportRepeatedStartupCrash();
+			return null;
+		}
 		if (!timedOut || !string.IsNullOrEmpty(logFile) || ct.IsCancellationRequested)
 			return logFile;
 		if (_launchMode != LaunchMode.Player || !File.Exists(clientSettingsPath))
@@ -1737,7 +1921,7 @@ public class Bootstrapper
 			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Roblox did not become ready, retrying once without the installed FastFlag file");
 			existingLogs = GetExistingLogFiles(rbxLogDir);
 			launchStartedUtc = DateTime.UtcNow;
-			(logFile, _) = await LaunchAndWaitForLogFileAsync(rbxLogDir, existingLogs, launchStartedUtc, startInfo, ct).ConfigureAwait(false);
+			(logFile, _, _) = await LaunchAndWaitForLogFileAsync(rbxLogDir, existingLogs, launchStartedUtc, startInfo, ct).ConfigureAwait(false);
 			if (!string.IsNullOrEmpty(logFile))
 			{
 				if (!string.IsNullOrEmpty(blockedHash))
@@ -1779,7 +1963,7 @@ public class Bootstrapper
 		}
     }
 
-	private async Task<(string? LogFile, bool TimedOut)> LaunchAndWaitForLogFileAsync(string rbxLogDir, HashSet<string> existingLogs, DateTime launchStartedUtc, ProcessStartInfo startInfo, CancellationToken ct)
+	private async Task<(string? LogFile, bool TimedOut, bool StartupCrash)> LaunchAndWaitForLogFileAsync(string rbxLogDir, HashSet<string> existingLogs, DateTime launchStartedUtc, ProcessStartInfo startInfo, CancellationToken ct)
 	{
 		bool retainForRecovery = false;
 		launchStartedUtc = DateTime.UtcNow;
@@ -1797,7 +1981,7 @@ public class Bootstrapper
         }
         catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
         {
-			return (null, false);
+			return (null, false, false);
         }
         try
         {
@@ -1806,30 +1990,34 @@ public class Bootstrapper
             {
 				string? logFileName = FindNewLogFile(rbxLogDir, existingLogs, launchStartedUtc);
 				if (!string.IsNullOrEmpty(logFileName))
-					return (logFileName, false);
+					return (logFileName, false, await CrashedBeforeRendererAsync(logFileName, ct).ConfigureAwait(false));
 
 				Task delayTask = Task.Delay(500, ct);
 				Task completedTask = await Task.WhenAny(logWaiter.Task, delayTask).ConfigureAwait(false);
 				if (completedTask == logWaiter.Task)
-					return (await logWaiter.Task.ConfigureAwait(false), false);
+				{
+					string createdLog = await logWaiter.Task.ConfigureAwait(false);
+					return (createdLog, false, await CrashedBeforeRendererAsync(createdLog, ct).ConfigureAwait(false));
+				}
 				if (ct.IsCancellationRequested)
-					return (null, false);
+					return (null, false, false);
 
                 try
                 {
                     if (_robloxProcess?.HasExited == true)
                     {
-						return (FindNewLogFile(rbxLogDir, existingLogs, launchStartedUtc), false);
+						string? exitedLog = FindNewLogFile(rbxLogDir, existingLogs, launchStartedUtc);
+						return (exitedLog, false, await CrashedBeforeRendererAsync(exitedLog, ct).ConfigureAwait(false));
                     }
                 }
                 catch
                 {
-					return (null, false);
+					return (null, false, false);
                 }
             }
 			string? finalLog = FindNewLogFile(rbxLogDir, existingLogs, launchStartedUtc);
 			retainForRecovery = string.IsNullOrEmpty(finalLog);
-			return (finalLog, retainForRecovery);
+			return (finalLog, retainForRecovery, false);
         }
         finally
         {
@@ -1840,6 +2028,68 @@ public class Bootstrapper
 			}
         }
     }
+
+	private const int StartupCrashRelaunchLimit = 5;
+
+	private const string RendererReadyMarker = "shaders from pack";
+
+	private static readonly TimeSpan RendererReadyTimeout = TimeSpan.FromSeconds(8);
+
+	private async Task<bool> CrashedBeforeRendererAsync(string? logFile, CancellationToken ct)
+	{
+		Process? process = _robloxProcess;
+		if (process == null || _launchMode != LaunchMode.Player)
+			return false;
+		try
+		{
+			Task exitTask = process.WaitForExitAsync(ct);
+			DateTime deadline = DateTime.UtcNow + RendererReadyTimeout;
+			long position = 0L;
+			string tail = string.Empty;
+			while (true)
+			{
+				if (!string.IsNullOrEmpty(logFile))
+				{
+					string text = tail + ReadNewLogText(logFile, ref position);
+					if (text.Contains(RendererReadyMarker, StringComparison.Ordinal))
+						return false;
+					tail = text.Length > RendererReadyMarker.Length ? text[^RendererReadyMarker.Length..] : text;
+				}
+				if (process.HasExited)
+					return IsCrashExitCode(process.ExitCode);
+				TimeSpan remaining = deadline - DateTime.UtcNow;
+				if (remaining <= TimeSpan.Zero)
+				{
+					App.Logger.WriteLine("Bootstrapper::WaitForLogFile", $"Roblox did not report its renderer within {RendererReadyTimeout.TotalSeconds:0} seconds, skipping the startup crash check");
+					return false;
+				}
+				await Task.WhenAny(exitTask, Task.Delay(remaining < TimeSpan.FromMilliseconds(500) ? remaining : TimeSpan.FromMilliseconds(500), ct)).ConfigureAwait(false);
+				if (ct.IsCancellationRequested)
+					return false;
+			}
+		}
+		catch (Exception ex) when (ex is InvalidOperationException or Win32Exception or NotSupportedException)
+		{
+			return false;
+		}
+	}
+
+	private static bool IsCrashExitCode(int exitCode)
+	{
+		return (uint)exitCode is >= 0xC0000000u and < 0xFFFFFFFFu;
+	}
+
+	private static void ReportRepeatedStartupCrash()
+	{
+		App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Roblox crashed before its renderer started on every attempt, giving up");
+		ModCrashGuard.BeginSession();
+		IReadOnlyList<string> disabled = ModCrashGuard.HandleCrash();
+		string message = disabled.Count == 0
+			? $"Roblox crashed while starting {StartupCrashRelaunchLimit + 1} times in a row, so Voidstrap stopped retrying. The crash happens inside the Roblox client before it finishes loading. Launch again, and if it keeps happening, update your graphics driver or reinstall Roblox from Settings."
+			: "Roblox crashed while loading your mods, so Voidstrap turned these off:\n\n" + string.Join("\n", disabled.Select(name => "  " + name)) + "\n\nYou can turn them back on in My Mods. Launch Roblox again to try without them.";
+		Voidstrap.Utility.AppNotifications.RecordInfo("roblox:startupcrashrepeated", "Roblox kept crashing while starting", message);
+		Frontend.ShowMessageBox(message, MessageBoxImage.Warning);
+	}
 
 	private void TerminateFailedLaunchProcess()
 	{
@@ -1994,7 +2244,7 @@ public class Bootstrapper
         }
     }
 
-    private void LaunchFleasion(string logIdent)
+    private static void LaunchFleasion(string logIdent)
     {
         if (App.Settings.Prop?.Fleasion != true)
         {
@@ -2052,7 +2302,11 @@ public class Bootstrapper
             LaunchFleasion(logIdent);
         }
 
-        IEnumerable<CustomIntegration> enumerable = App.Settings.Prop?.CustomIntegrations;
+        if (ClosesAfterLaunch)
+        {
+            return;
+        }
+        IEnumerable<CustomIntegration>? enumerable = App.Settings.Prop?.CustomIntegrations;
         foreach (CustomIntegration integration in (enumerable ?? []).Where(i => !i.SpecifyGame && i.PreLaunch == preLaunch))
         {
             if (string.IsNullOrWhiteSpace(integration.Location) || !File.Exists(integration.Location))
@@ -2083,7 +2337,7 @@ public class Bootstrapper
                 {
                     processStartInfo.Verb = "runas";
                 }
-                using Process process = Process.Start(processStartInfo);
+                using Process? process = Process.Start(processStartInfo);
                 if (process != null)
                 {
                     App.Logger.WriteLine(logIdent, $"Launched integration '{integration.Name}' (pid {process.Id})");
@@ -2100,39 +2354,6 @@ public class Bootstrapper
             catch (Exception ex)
             {
                 App.Logger.WriteLine(logIdent, "Failed to launch '" + integration.Name + "': " + ex.Message);
-            }
-        }
-    }
-
-    private async Task DisableCrashHandlerIfNeeded(string logIdent, CancellationToken ct)
-    {
-        if (!App.Settings.Prop.DisableCrash)
-        {
-            return;
-        }
-        await Task.Delay(800, ct).ConfigureAwait(continueOnCapturedContext: false);
-        Process[] processesByName = Process.GetProcessesByName("RobloxCrashHandler");
-        foreach (Process process in processesByName)
-        {
-            try
-            {
-                if (!process.HasExited && IsFromCurrentRobloxLaunch(process))
-                {
-                    process.CloseMainWindow();
-                    if (!process.WaitForExit(1000))
-                    {
-                        process.Kill(entireProcessTree: true);
-                    }
-                    App.Logger.WriteLine(logIdent, $"CrashHandler {process.Id} terminated.");
-                }
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine(logIdent, $"CrashHandler kill error {process.Id}: {ex.Message}");
-            }
-            finally
-            {
-                process.Dispose();
             }
         }
     }
@@ -2155,6 +2376,7 @@ public class Bootstrapper
 
     private async Task RunStudioSessionAsync(CancellationToken ct)
     {
+        _installLock?.Dispose();
         try
         {
             System.Windows.Application current = System.Windows.Application.Current;
@@ -2201,6 +2423,7 @@ public class Bootstrapper
                 await Task.Delay(2000, ct).ConfigureAwait(continueOnCapturedContext: false);
             }
             App.Logger.WriteLine("Bootstrapper::RunStudioSessionAsync", "Roblox Studio closed, ending background session");
+            await CompressInstallsAfterExitAsync().ConfigureAwait(continueOnCapturedContext: false);
         }
         catch (OperationCanceledException)
         {
@@ -2223,6 +2446,11 @@ public class Bootstrapper
 
     private static bool StudioRunning()
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            return Voidstrap.Platform.Linux.StudioProcessNames.AnyRunning();
+        }
+
         Process[] procs = Process.GetProcessesByName("RobloxStudioBeta");
         bool any = procs.Length > 0;
         foreach (Process p in procs)
@@ -2238,11 +2466,22 @@ public class Bootstrapper
         return any;
     }
 
+    private bool ClosesAfterLaunch => _launchMode == LaunchMode.Player && (App.Settings?.Prop.LaunchWithoutVoidstrap ?? false);
+
     private Task LaunchWatcherIfNeeded(string logFileName, CancellationToken ct)
     {
+        if (ClosesAfterLaunch)
+        {
+            App.Logger.WriteLine("Bootstrapper::LaunchWatcherIfNeeded", "Launch without Voidstrap is on, nothing keeps running after Roblox starts");
+            return Task.CompletedTask;
+        }
         bool flag = !string.IsNullOrEmpty(_launchStatusFile);
         bool shouldOptimize = RobloxProcessOptimizer.ShouldRun(App.Settings?.Prop);
-        if (!((App.Settings?.Prop.EnableActivityTracking ?? false) || flag || shouldOptimize) && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
+		bool shouldTrackLinuxHomepage = Voidstrap.Utility.Platform.IsLinux
+			&& Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled;
+		bool shouldKeepSnapTap = _launchMode == LaunchMode.Player && Voidstrap.Utility.Platform.SupportsInputHooks && (App.Settings?.Prop.SnapTapEnabled ?? false);
+		bool shouldCompressAfterExit = RobloxInstallCompression.Supported && (App.Settings?.Prop.CompressRobloxInstalls ?? false);
+		if (!((App.Settings?.Prop.EnableActivityTracking ?? false) || flag || shouldOptimize || shouldTrackLinuxHomepage || shouldKeepSnapTap || shouldCompressAfterExit) && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
         {
             return Task.CompletedTask;
         }
@@ -2293,7 +2532,7 @@ public class Bootstrapper
             ct.ThrowIfCancellationRequested();
             ProcessStartInfo watcherStartInfo = new ProcessStartInfo
             {
-                FileName = Paths.Process,
+                FileName = Paths.LaunchExecutable,
                 UseShellExecute = false
 			};
 			watcherStartInfo.ArgumentList.Add("-watcher");
@@ -2316,15 +2555,17 @@ public class Bootstrapper
         return Task.CompletedTask;
     }
 
-    private static async Task StartAssetProxyIfEnabled(CancellationToken ct)
+    internal static async Task StartAssetProxyIfEnabled(CancellationToken ct)
     {
         if (!AssetProxyServer.IsRequired)
         {
+            AssetProxyRouting.InvalidateCache();
             AssetProxyServer.ReconcileRuntimeState();
             return;
         }
-        if (!ProcessElevation.IsAdministrator())
+        if (Voidstrap.Utility.Platform.IsWindows && !ProcessElevation.IsAdministrator())
         {
+            AssetProxyRouting.InvalidateCache();
             App.Logger.WriteLine("Bootstrapper::StartAssetProxyIfEnabled", "AssetWarp requires administrator access, continuing without AssetWarp");
             return;
         }
@@ -2355,6 +2596,7 @@ public class Bootstrapper
 
         if (finalFailure != null)
         {
+            AssetProxyRouting.InvalidateCache();
             App.Logger.WriteLine("Bootstrapper::StartAssetProxyIfEnabled", "AssetWarp could not start after three attempts, continuing without AssetWarp: " + finalFailure);
         }
     }
@@ -2363,10 +2605,10 @@ public class Bootstrapper
     {
         foreach (RegistryKey root in WindowsRegistry.Roots)
         {
-            using RegistryKey registryKey = root.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers");
+            using RegistryKey? registryKey = root.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers");
             if (registryKey != null)
             {
-                string obj = (string)registryKey.GetValue(AppData.ExecutablePath);
+                string? obj = (string?)registryKey.GetValue(AppData.ExecutablePath);
                 if (obj != null && obj.Contains("RUNASADMIN", StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
@@ -2460,8 +2702,26 @@ public class Bootstrapper
         }
     }
 
+	internal static async Task CompressInstallsAfterExitAsync()
+	{
+		if (!RobloxInstallCompression.Supported || !App.Settings.Prop.CompressRobloxInstalls)
+		{
+			return;
+		}
+		using CancellationTokenSource deadline = new(TimeSpan.FromMinutes(10));
+		try
+		{
+			await RobloxInstallCompression.CompressAllAsync(deadline.Token).ConfigureAwait(false);
+		}
+		catch (OperationCanceledException)
+		{
+			App.Logger.WriteLine("Bootstrapper::CompressInstallsAfterExit", "Compression ran out of time and was stopped, the install stays uncompressed");
+		}
+	}
+
     private void CleanupVersionsFolder()
     {
+        RobloxInstallCompression.DeleteStaleArchives(AppData.VersionsRoot, [App.State.Prop.Player.VersionGuid, App.State.Prop.Studio.VersionGuid]);
         string[] directories = Directory.GetDirectories(AppData.VersionsRoot);
 		bool customRoot = !PathsEqual(AppData.VersionsRoot, Paths.Versions);
         foreach (string text in directories)
@@ -2588,7 +2848,6 @@ public class Bootstrapper
             catch
             {
             }
-            List<string?> cachedHashes = (Directory.Exists(Paths.Downloads) ? [.. Directory.GetFiles(Paths.Downloads).Where(f => !f.EndsWith(".part", StringComparison.OrdinalIgnoreCase) && !f.EndsWith(".meta", StringComparison.OrdinalIgnoreCase)).Select(Path.GetFileName)] : new List<string>());
             if (!IsStudioLaunch)
             {
                 await StopRobloxPlayersAsync(ct).ConfigureAwait(continueOnCapturedContext: false);
@@ -2742,21 +3001,11 @@ public class Bootstrapper
             {
                 App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "CleanupVersionsFolder: " + ex2.Message);
             }
-            IEnumerable<string> enumerable = App.State.Prop.Player?.PackageHashes.Values;
+            IEnumerable<string>? enumerable = App.State.Prop.Player?.PackageHashes.Values;
             IEnumerable<string> first = enumerable ?? [];
             enumerable = App.State.Prop.Studio?.PackageHashes.Values;
             HashSet<string> allHashes = [.. first, .. enumerable ?? []];
-            await Task.WhenAll(from h in cachedHashes
-                               where h != null && !allHashes.Contains(h)
-                               select WithRetryAsync(delegate
-                               {
-                                   string path = Path.Combine(Paths.Downloads, h);
-                                   if (File.Exists(path))
-                                   {
-                                       File.Delete(path);
-                                   }
-                                   return Task.CompletedTask;
-                               }, "Bootstrapper::UpgradeRoblox::DeleteCache(" + h + ")", 3, 500, ex6 => (ex6 is IOException || ex6 is UnauthorizedAccessException), ct)).ConfigureAwait(continueOnCapturedContext: false);
+            Voidstrap.Utility.PackageCache.Trim(allHashes);
             try
             {
 				long installedBytes = _versionPackageManifest.Sum(package => (long)package.Size + package.PackedSize);
@@ -2984,6 +3233,7 @@ public class Bootstrapper
             if (MD5Hash.FromFile(package.DownloadPath) == package.Signature)
             {
                 App.Logger.WriteLine(logIdent, "Already downloaded, skipping.");
+                Voidstrap.Utility.PackageCache.Touch(package.DownloadPath);
 				progress.Set(package.PackedSize);
                 UpdateProgressBar();
                 return;
@@ -3053,7 +3303,7 @@ public class Bootstrapper
                 }
 				using HttpRequestMessage initialRequest = new(HttpMethod.Get, packageUrl)
 				{
-					Version = HttpVersion.Version20,
+					Version = HttpVersion.Version11,
 					VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
 				};
                 if (resumeOffset > 0)
@@ -3072,7 +3322,7 @@ public class Bootstrapper
 					}
                     App.Logger.WriteLine(logIdent, $"Resuming single stream download at byte {resumeOffset:N0}");
 					progress.Set(resumeOffset);
-					await DownloadSingleThreadAsync(response, tempFile, bufferSize, logIdent, ct, package.PackedSize - resumeOffset, progress, append: true).ConfigureAwait(continueOnCapturedContext: false);
+					await DownloadSingleThreadAsync(response, tempFile, bufferSize, logIdent, package.PackedSize - resumeOffset, progress, true, ct).ConfigureAwait(continueOnCapturedContext: false);
                     string resumedHash = MD5Hash.FromFile(tempFile);
                     if (!resumedHash.Equals(package.Signature, StringComparison.OrdinalIgnoreCase))
                     {
@@ -3100,6 +3350,7 @@ public class Bootstrapper
                 if (!response.IsSuccessStatusCode)
                 {
                     HttpStatusCode statusCode = response.StatusCode;
+                    Deployment.ReportMirrorFailure(packageUrl, $"package HTTP {(int)statusCode}");
                     App.Logger.WriteLine(logIdent, $"Package '{package.Name}' returned HTTP {(int)statusCode} ({statusCode}) from {packageUrl} (attempt {attempt})");
                     if ((statusCode == HttpStatusCode.Forbidden || statusCode == HttpStatusCode.Unauthorized || statusCode == HttpStatusCode.NotFound) && urlIndex + 1 < packageUrls.Count)
                     {
@@ -3115,7 +3366,7 @@ public class Bootstrapper
 				if (!contentLength.HasValue || contentLength.Value != package.PackedSize || contentLength.Value < minMultipartSize || !(response.Headers.AcceptRanges?.Contains("bytes") ?? false))
                 {
 					progress.Set(0);
-					await DownloadSingleThreadAsync(response, tempFile, bufferSize, logIdent, ct, package.PackedSize, progress).ConfigureAwait(continueOnCapturedContext: false);
+					await DownloadSingleThreadAsync(response, tempFile, bufferSize, logIdent, package.PackedSize, progress, false, ct).ConfigureAwait(continueOnCapturedContext: false);
                 }
                 else
                 {
@@ -3244,7 +3495,7 @@ public class Bootstrapper
 		}
 	}
 
-	private const int DownloadStallTimeoutMs = 20000;
+	private const int DownloadStallTimeoutMs = 12000;
 
     private static async ValueTask<int> ReadWithStallTimeoutAsync(Stream net, Memory<byte> buffer, CancellationToken token)
     {
@@ -3278,18 +3529,19 @@ public class Bootstrapper
         return $"{Math.Max(0L, bytes)} B";
     }
 
-	private async Task DownloadSingleThreadAsync(HttpResponseMessage response, string tempFile, int bufferSize, string logIdent, CancellationToken token, long expectedLength, PackageProgressTracker progress, bool append = false)
+	private static async Task DownloadSingleThreadAsync(HttpResponseMessage response, string tempFile, int bufferSize, string logIdent, long expectedLength, PackageProgressTracker progress, bool append, CancellationToken token)
     {
         await using Stream net = await response.Content.ReadAsStreamAsync(token);
         await using FileStream file = new(tempFile, append ? FileMode.Append : FileMode.Create, FileAccess.Write, FileShare.None, bufferSize, FileOptions.Asynchronous | FileOptions.SequentialScan);
-        byte[] buf = DownloadBufferPool.Rent(bufferSize);
+        int readSize = Math.Min(bufferSize, NetworkReadBufferCap);
+        byte[] buf = DownloadBufferPool.Rent(readSize);
         long total = 0L;
         try
         {
             while (true)
             {
                 int num;
-                int read = (num = await ReadWithStallTimeoutAsync(net, buf.AsMemory(0, bufferSize), token));
+                int read = (num = await ReadWithStallTimeoutAsync(net, buf.AsMemory(0, readSize), token));
                 if (num <= 0)
                 {
                     break;
@@ -3315,13 +3567,21 @@ public class Bootstrapper
         }
     }
 
+	internal static bool IsSlowSegment(long moved, long movedOverall, int activeSegments)
+	{
+		long fairShare = movedOverall / Math.Max(1, activeSegments);
+		return moved < SlowSegmentMinimumBytes && moved * 6L < fairShare;
+	}
+
+	private sealed class SlowMirrorException() : IOException("Package segment is moving too slowly, switching mirror");
+
 	private sealed class PackageProgressTracker(Bootstrapper owner)
 	{
 		private long _credited;
 
 		public void Add(long bytes)
 		{
-			if (bytes <= 0)
+			if (bytes == 0)
 			{
 				return;
 			}
@@ -3348,22 +3608,26 @@ public class Bootstrapper
 
 	private async Task DownloadMultipartAsync(IReadOnlyList<string> urls, int initialUrlIndex, string tempFile, long contentLength, int bufferSize, int maxSegments, bool updating, string logIdent, PackageProgressTracker progress, CancellationToken token)
     {
-        int segs = (int)Math.Min(maxSegments, Math.Max(1L, contentLength / 1572864));
+        int segs = (int)Math.Clamp(contentLength / TargetSegmentBytes, 1L, MaxSegmentCount);
+        if (segs < maxSegments)
+        {
+            segs = (int)Math.Min(maxSegments, Math.Max(1L, contentLength / 1572864));
+        }
         if (segs <= 1)
         {
 			using HttpRequestMessage request = new(HttpMethod.Get, urls[initialUrlIndex])
 			{
-				Version = HttpVersion.Version20,
+				Version = HttpVersion.Version11,
 				VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
 			};
 			using HttpResponseMessage r = await SendPackageRequestAsync(request, token).ConfigureAwait(continueOnCapturedContext: false);
 			r.EnsureSuccessStatusCode();
-			await DownloadSingleThreadAsync(r, tempFile, bufferSize, logIdent, token, contentLength, progress).ConfigureAwait(continueOnCapturedContext: false);
+			await DownloadSingleThreadAsync(r, tempFile, bufferSize, logIdent, contentLength, progress, false, token).ConfigureAwait(continueOnCapturedContext: false);
             return;
         }
         long segSize = contentLength / segs;
         string metaFile = tempFile + ".meta";
-        MultipartDownloadState state = null;
+        MultipartDownloadState? state = null;
         if (File.Exists(metaFile) && File.Exists(tempFile))
         {
             try
@@ -3374,7 +3638,7 @@ public class Bootstrapper
             {
                 state = null;
             }
-			if (state != null && (state.Length != contentLength || state.Done == null || state.Done.Length == 0 || state.Done.Length > maxSegments || state.SegSize != contentLength / state.Done.Length || new FileInfo(tempFile).Length != contentLength))
+			if (state != null && (state.Length != contentLength || state.Done == null || state.Done.Length == 0 || state.Done.Length > MaxSegmentCount || state.SegSize != contentLength / state.Done.Length || new FileInfo(tempFile).Length != contentLength))
             {
                 state = null;
             }
@@ -3382,7 +3646,7 @@ public class Bootstrapper
         bool resuming = state != null;
         if (resuming)
         {
-            segs = state.Done.Length;
+            segs = state!.Done.Length;
             segSize = state.SegSize;
             long doneBytes = 0L;
             for (int s = 0; s < segs; s++)
@@ -3448,7 +3712,8 @@ public class Bootstrapper
                 int segIndex = i;
                 long start = segIndex * segSize;
                 long end = ((segIndex == segs - 1) ? (contentLength - 1) : (start + segSize - 1));
-				tasks.Add(DownloadSegmentAsync(urls, initialUrlIndex, handle, state, segIndex, start, end, contentLength, bufferSize, metaFile, metaLock, bytes =>
+                int segmentUrlIndex = (initialUrlIndex + segIndex % Math.Min(urls.Count, MirrorSpread)) % urls.Count;
+				tasks.Add(DownloadSegmentAsync(urls, segmentUrlIndex, handle, state, segIndex, start, end, contentLength, bufferSize, metaFile, metaLock, bytes =>
 				{
 					Interlocked.Add(ref totalRead, bytes);
 					progress.Add(bytes);
@@ -3500,7 +3765,7 @@ public class Bootstrapper
         }
     }
 
-	private async Task DownloadSegmentAsync(IReadOnlyList<string> urls, int initialUrlIndex, Microsoft.Win32.SafeHandles.SafeFileHandle handle, MultipartDownloadState state, int segmentIndex, long start, long end, long contentLength, int bufferSize, string metaFile, object metaLock, Action<long> reportCompleted, CancellationToken token)
+	private async Task DownloadSegmentAsync(IReadOnlyList<string> urls, int initialUrlIndex, Microsoft.Win32.SafeHandles.SafeFileHandle handle, MultipartDownloadState state, int segmentIndex, long start, long end, long contentLength, int bufferSize, string metaFile, object metaLock, Action<long> reportProgress, CancellationToken token)
 	{
 		int attempts = Math.Clamp(urls.Count, 2, 4);
 		Exception? failure = null;
@@ -3509,11 +3774,12 @@ public class Bootstrapper
 			token.ThrowIfCancellationRequested();
 			int urlIndex = (initialUrlIndex + attempt) % urls.Count;
 			await _networkRequestSlots.WaitAsync(token).ConfigureAwait(continueOnCapturedContext: false);
+			long credited = 0L;
 			try
 			{
 				using HttpRequestMessage request = new(HttpMethod.Get, urls[urlIndex])
 				{
-					Version = HttpVersion.Version20,
+					Version = HttpVersion.Version11,
 					VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
 				};
 				request.Headers.Range = new RangeHeaderValue(start, end);
@@ -3529,13 +3795,19 @@ public class Bootstrapper
 					throw new IOException("Package segment length does not match the requested range");
 				}
 				await using Stream net = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(continueOnCapturedContext: false);
-				byte[] buffer = DownloadBufferPool.Rent(bufferSize);
+				int readSize = Math.Min(bufferSize, NetworkReadBufferCap);
+				byte[] buffer = DownloadBufferPool.Rent(readSize);
 				long position = start;
+				bool mayAbandonSlowMirror = attempt + 1 < attempts;
+				Stopwatch clock = Stopwatch.StartNew();
+				long windowStartBytes = 0L;
+				long windowStartTotal = Interlocked.Read(in _totalDownloadedBytes);
+				long nextWindowMs = SlowSegmentGraceMs;
 				try
 				{
 					while (position <= end)
 					{
-						int requested = (int)Math.Min(bufferSize, end - position + 1);
+						int requested = (int)Math.Min(readSize, end - position + 1);
 						int read = await ReadWithStallTimeoutAsync(net, buffer.AsMemory(0, requested), token).ConfigureAwait(continueOnCapturedContext: false);
 						if (read == 0)
 						{
@@ -3543,6 +3815,21 @@ public class Bootstrapper
 						}
 						await RandomAccess.WriteAsync(handle, buffer.AsMemory(0, read), position, token).ConfigureAwait(continueOnCapturedContext: false);
 						position += read;
+						credited += read;
+						reportProgress(read);
+						if (!mayAbandonSlowMirror || clock.ElapsedMilliseconds < nextWindowMs)
+						{
+							continue;
+						}
+						long moved = position - start - windowStartBytes;
+						long movedOverall = Interlocked.Read(in _totalDownloadedBytes) - windowStartTotal;
+						if (IsSlowSegment(moved, movedOverall, _networkRequestLimit - _networkRequestSlots.CurrentCount))
+						{
+							throw new SlowMirrorException();
+						}
+						windowStartBytes = position - start;
+						windowStartTotal = Interlocked.Read(in _totalDownloadedBytes);
+						nextWindowMs += SlowSegmentWindowMs;
 					}
 				}
 				finally
@@ -3554,16 +3841,23 @@ public class Bootstrapper
 					state.Done[segmentIndex] = true;
 					WriteJsonAtomic(metaFile, state);
 				}
-				reportCompleted(expectedLength);
+				if (credited != expectedLength)
+				{
+					reportProgress(expectedLength - credited);
+				}
 				return;
 			}
 			catch (OperationCanceledException) when (token.IsCancellationRequested)
 			{
+				reportProgress(-credited);
 				throw;
 			}
 			catch (Exception ex)
 			{
+				reportProgress(-credited);
 				failure = ex;
+				if (ex is not SlowMirrorException)
+					Deployment.ReportMirrorFailure(urls[urlIndex], "segment failed: " + ex.Message);
 			}
 			finally
 			{
@@ -3584,12 +3878,12 @@ public class Bootstrapper
 
     private void ExtractPackage(Package package, List<string>? files = null)
     {
-        string valueOrDefault = AppData.PackageDirectoryMap.GetValueOrDefault(package.Name);
+        string? valueOrDefault = AppData.PackageDirectoryMap.GetValueOrDefault(package.Name);
         if (valueOrDefault == null)
         {
 			throw new InvalidDataException("Package " + package.Name + " is not present in the extraction map");
         }
-        string fileFilter = null;
+        string? fileFilter = null;
         if (files != null)
         {
             IEnumerable<string> values = files.Select(f => "(?i)^" + System.Text.RegularExpressions.Regex.Escape(f).Replace("\\\\", "[\\\\/]") + "$");
@@ -3603,7 +3897,7 @@ public class Bootstrapper
 
     private bool ModsAllowedForThisLaunch()
     {
-        Voidstrap.Enums.ModApplyTarget target = App.Settings?.Prop?.ModApplyTarget ?? Voidstrap.Enums.ModApplyTarget.Both;
+        Voidstrap.Enums.ModApplyTarget target = App.Settings.Prop.ModApplyTarget;
         if (target == Voidstrap.Enums.ModApplyTarget.Both)
             return true;
         return IsStudioLaunch
@@ -3617,6 +3911,15 @@ public class Bootstrapper
         const string logIdent = "Bootstrapper::PrepareLinuxLaunch";
         try
         {
+            Voidstrap.Utility.VirtualMachineProfile.ReportOnce();
+            if (Voidstrap.Utility.VirtualMachineProfile.ShouldForceSafeGraphics)
+            {
+                foreach (KeyValuePair<string, object> flag in Voidstrap.Utility.VirtualMachineProfile.SafeFastFlags)
+                {
+                    App.FastFlags.SetValue(flag.Key, flag.Value);
+                }
+            }
+
             App.FastFlags.MigratePlayerLoggingPreset();
             App.FastFlags.Save();
         }
@@ -3655,7 +3958,7 @@ public class Bootstrapper
         }
     }
 
-    private async Task ApplyLinuxFontFamiliesAsync(CancellationToken cancellationToken)
+    private static async Task ApplyLinuxFontFamiliesAsync(CancellationToken cancellationToken)
     {
         const string logIdent = "Bootstrapper::ApplyLinuxFontFamilies";
         if (!File.Exists(Paths.CustomFont))
@@ -3762,14 +4065,55 @@ public class Bootstrapper
         await ApplySkyboxModifications(true);
 		_cancelTokenSource.Token.ThrowIfCancellationRequested();
         string installedFontDir = Path.Combine(_latestVersionDirectory, "content", "fonts", "families");
-        CustomFontMod.Apply(installedFontDir, "Bootstrapper::ApplyModifications");
+        try
+        {
+            CustomFontMod.Apply(installedFontDir, "Bootstrapper::ApplyModifications");
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Custom font failed: " + ex.Message);
+        }
         bool modsAllowed = ModsAllowedForThisLaunch();
         if (!modsAllowed)
         {
-            App.Logger.WriteLine("Bootstrapper::ApplyModifications", $"Mods are set to {App.Settings?.Prop?.ModApplyTarget}, so this {(IsStudioLaunch ? "Studio" : "Player")} launch runs unmodded. Mod files are kept on disk.");
+            App.Logger.WriteLine("Bootstrapper::ApplyModifications", $"Mods are set to {App.Settings.Prop.ModApplyTarget}, so this {(IsStudioLaunch ? "Studio" : "Player")} launch runs unmodded. Mod files are kept on disk.");
         }
+		else
+		{
+			CursorManager.ApplyOnLaunch();
+			FileModManager.ApplyFromSettings(_latestVersionDirectory, _latestVersionGuid);
+		}
 
+        if (modsAllowed)
+        {
+            ModAutoFixer.PrepareModSources(_latestVersionDirectory);
+        }
+        if (!IsStudioLaunch)
+        {
+            try
+            {
+                if (modsAllowed)
+                {
+                    using CancellationTokenSource materialDeadline = CancellationTokenSource.CreateLinkedTokenSource(_cancelTokenSource.Token);
+                    materialDeadline.CancelAfter(TimeSpan.FromSeconds(45));
+                    await LegacyMaterialTextures.ApplyAsync([.. ManagedModStore.EnabledFoldersByPriority(), Paths.Mods], _latestVersionDirectory, materialDeadline.Token);
+                }
+                else
+                {
+                    LegacyMaterialTextures.RemoveGenerated();
+                }
+            }
+            catch (OperationCanceledException) when (_cancelTokenSource.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception materialException)
+            {
+                App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Classic terrain and material textures could not be prepared: " + materialException.Message);
+            }
+        }
         HashSet<string> modFolderFiles = new(StringComparer.OrdinalIgnoreCase);
+        int ignoredModFiles = 0;
         int appliedModCount = 0;
         int failedModCount = 0;
         Dictionary<string, string> selectedMods = new(StringComparer.OrdinalIgnoreCase);
@@ -3787,14 +4131,34 @@ public class Bootstrapper
                 try { File.Delete(text); }
                 catch (Exception ex5) { App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Could not remove README.txt: " + ex5.Message); }
             }
+            else if (modsAllowed && ModAutoFixer.IsIgnoredModFile(text2))
+            {
+                ignoredModFiles++;
+            }
             else if (modsAllowed && !text2.EndsWith(".lock") && (App.Settings.Prop.UseFastFlagManager || !string.Equals(text2, "ClientSettings\\ClientAppSettings.json", StringComparison.OrdinalIgnoreCase)) && (!IsStudioLaunch || !text2.StartsWith("PlatformContent\\pc\\textures\\sky", StringComparison.OrdinalIgnoreCase)))
             {
                 selectedMods[text2] = text;
             }
         }
+        if (modsAllowed && !IsStudioLaunch)
+        {
+            try
+            {
+                await ModGenerator.RefreshOutdatedAsync(_latestVersionDirectory, _latestVersionGuid, _cancelTokenSource.Token).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("Bootstrapper::ApplyModifications", "The generated UI mod could not be refreshed: " + ex.Message);
+            }
+        }
         try
         {
             ManagedModScanResult scan = ManagedModStore.ScanEnabledFiles();
+            ignoredModFiles += scan.IgnoredSkipped;
             foreach (string id in scan.SuccessfulModIds)
                 nextManagedManifest[id] = [];
             foreach (ManagedModFile file in scan.Files)
@@ -3833,6 +4197,27 @@ public class Bootstrapper
             nextManagedManifest = GetPreviousManagedModManifest().ToDictionary(item => item.Key, item => new List<string>(item.Value), StringComparer.OrdinalIgnoreCase);
             preservedManagedPaths.UnionWith(GetPreviousModManifest());
         }
+        if (ignoredModFiles > 0)
+        {
+            App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Skipped " + ignoredModFiles + " mod files that Roblox cannot load from the client folder: app scripts, configs and translations tied to another Roblox version, duplicate copies, and classic terrain and material textures, which are served through AssetWarp instead.");
+        }
+        if (!IsStudioLaunch && !App.Settings.Prop.SkyBoxDataSending && selectedMods.Keys.Any(relative => relative.StartsWith(ModAutoFixer.SkyFolder + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)))
+        {
+            try
+            {
+                _modSkyPatchApplied = true;
+                await ApplySkyboxPatchToRobloxStorageAsync(_cancelTokenSource.Token);
+                App.Logger.WriteLine("Bootstrapper::ApplyModifications", "A mod replaces the sky, so the skybox storage patch was applied to let Roblox use it.");
+            }
+            catch (OperationCanceledException) when (_cancelTokenSource.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception patchException)
+            {
+                App.Logger.WriteLine("Bootstrapper::ApplyModifications", "The skybox storage patch for a mod sky is unavailable: " + patchException.Message);
+            }
+        }
         List<(string Source, string Relative, string Target)> pendingMods = new(selectedMods.Count);
         foreach ((string relative, string source) in selectedMods)
         {
@@ -3840,7 +4225,7 @@ public class Bootstrapper
             pendingMods.Add((source, relative, Path.Combine(_latestVersionDirectory, relative)));
         }
         modFolderFiles.UnionWith(preservedManagedPaths);
-        foreach (string directory in pendingMods.Select(item => Path.GetDirectoryName(item.Target)).Where(path => !string.IsNullOrEmpty(path)).Distinct(StringComparer.OrdinalIgnoreCase))
+        foreach (string directory in pendingMods.Select(item => Path.GetDirectoryName(item.Target)).OfType<string>().Where(path => path.Length > 0).Distinct(StringComparer.OrdinalIgnoreCase))
         {
             Directory.CreateDirectory(directory);
         }
@@ -3892,6 +4277,14 @@ public class Bootstrapper
         if (failedModCount > 0)
         {
             App.Logger.WriteLine("Bootstrapper::ApplyModifications", $"{failedModCount} mod files could not be applied, the rest were still applied.");
+        }
+        try
+        {
+            ModAutoFixer.Run(_latestVersionDirectory, selectedMods.Count > 0);
+        }
+        catch (Exception autoFixError)
+        {
+            App.Logger.WriteLine("Bootstrapper::ApplyModifications", "The mod auto fixer could not run: " + autoFixError.Message);
         }
         Dictionary<string, List<string>> dictionary = [];
         KeyValuePair<string, string>[] packagePrefixes = [.. AppData.PackageDirectoryMap
@@ -4013,7 +4406,7 @@ public class Bootstrapper
 
     private static string BuildModFingerprint(FileInfo source, FileInfo target)
     {
-        return string.Concat(source.Length, "|", source.LastWriteTimeUtc.Ticks, "|", target.Exists ? target.Length : -1L, "|", target.Exists ? target.LastWriteTimeUtc.Ticks : -1L);
+        return string.Concat(source.FullName, "|", source.Length, "|", source.LastWriteTimeUtc.Ticks, "|", target.Exists ? target.Length : -1L, "|", target.Exists ? target.LastWriteTimeUtc.Ticks : -1L);
     }
 
 	private bool TryResolveVersionRelativePath(string relativePath, out string fullPath)
@@ -4038,7 +4431,7 @@ public class Bootstrapper
 		return true;
 	}
 
-    private IReadOnlyList<string> GetPreviousModManifest()
+    private List<string> GetPreviousModManifest()
     {
         if (string.Equals(AppData.State.ModApplyVersion, _latestVersionGuid, StringComparison.OrdinalIgnoreCase))
         {
@@ -4470,7 +4863,7 @@ public class Bootstrapper
                 double num4 = Math.Clamp((double)num / (double)total * 100.0, 0.0, 100.0);
                 long num5 = Math.Max(0L, total - num);
                 string value = ((emaSpeed > 4096.0) ? FormatEta((double)num5 / emaSpeed) : "calculating");
-                SetStatus($"{label} {num4:0}%\n{FormatSpeed(emaSpeed)} · ETA {value}");
+                SetStatus($"{label} {num4:0}%\n{FormatSpeed(emaSpeed)}, ETA {value}");
                 if (Dialog != null)
                 {
                     int value2 = (int)Math.Clamp(num4 * 10.0, 0.0, 1000.0);
@@ -4482,7 +4875,7 @@ public class Bootstrapper
             }
             else
             {
-                SetStatus($"{label}\n{BytesToString(num)} · {FormatSpeed(emaSpeed)}");
+                SetStatus($"{label}\n{BytesToString(num)}, {FormatSpeed(emaSpeed)}");
             }
         }
     }
@@ -4547,6 +4940,39 @@ public class Bootstrapper
                 TryDeleteDirectory(backupRoot);
         }
         return Task.CompletedTask;
+    }
+
+    private async Task RestoreStoragePatchesAsync(CancellationToken ct)
+    {
+        if (!IsStudioLaunch && (_modSkyPatchApplied || App.Settings.Prop.SkyBoxDataSending))
+        {
+            try
+            {
+                await ApplySkyboxPatchToRobloxStorageAsync(ct);
+                App.Logger.WriteLine("Bootstrapper::RestoreStoragePatches", "Reapplied the skybox storage patch after AssetWarp reset the Roblox asset cache.");
+            }
+            catch (OperationCanceledException) when (ct.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("Bootstrapper::RestoreStoragePatches", "The skybox storage patch could not be reapplied: " + ex.Message);
+            }
+        }
+        try
+        {
+            foreach (string folder in ManagedModStore.EnabledFoldersByPriority().Reverse())
+            {
+                string backup = Path.Combine(folder, RobloxAssetCache.BackupFolderName);
+                if (RobloxAssetCache.HasBackups(backup))
+                    RobloxAssetCache.Reapply(backup);
+            }
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Bootstrapper::RestoreStoragePatches", "Asset cache mods could not be reapplied: " + ex.Message);
+        }
     }
 
     public static async Task ApplySkyboxPatchToRobloxStorageAsync(CancellationToken ct = default)

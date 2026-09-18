@@ -16,12 +16,15 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
-public partial class AppearancePage : UiPage{
+public partial class AppearancePage : UiPage
+{
 	private readonly AppearanceViewModel _appearanceViewModel;
 
 	private bool isThemeInitialized;
 
 	private bool _customThemeSelectionReady;
+
+	private bool _backdropSelectionReady;
 
 	public AppearancePage()
 	{
@@ -30,11 +33,13 @@ public partial class AppearancePage : UiPage{
 		InitializeComponent();
 		Loaded += OnAppearancePageLoaded;
 		Unloaded += OnAppearancePageUnloaded;
-		DownloadCustomThemeAsync();
+		_ = DownloadCustomThemeAsync();
 	}
 
 	private void OnAppearancePageLoaded(object sender, RoutedEventArgs e)
 	{
+		_appearanceViewModel.OnPropertyChanged(nameof(AppearanceViewModel.SelectedBackdrop));
+		Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.ContextIdle, new Action(() => _backdropSelectionReady = true));
 		GlobalBackground.Changed -= OnLiveBackgroundChanged;
 		GlobalBackground.Changed += OnLiveBackgroundChanged;
 		_appearanceViewModel.ApplyLiveBackgroundState(GlobalBackground.Current);
@@ -43,7 +48,15 @@ public partial class AppearancePage : UiPage{
 
 	private void OnAppearancePageUnloaded(object sender, RoutedEventArgs e)
 	{
+		_backdropSelectionReady = false;
 		GlobalBackground.Changed -= OnLiveBackgroundChanged;
+	}
+
+	private void BackdropComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		if (_backdropSelectionReady
+			&& sender is ComboBox { SelectedItem: Voidstrap.Models.BackdropType backdrop })
+			_appearanceViewModel.SelectedBackdrop = backdrop;
 	}
 
 	private void OnLiveBackgroundChanged(GlobalBackground.State state)
@@ -80,8 +93,8 @@ public partial class AppearancePage : UiPage{
 	private void OptionControl_Loaded(object sender, RoutedEventArgs e)
 	{
 		DependencyObject parent = (DependencyObject)sender;
-		ComboBox combo = FindChild<ComboBox>(parent);
-		System.Windows.Controls.Button button = FindChild<System.Windows.Controls.Button>(parent);
+		ComboBox? combo = FindChild<ComboBox>(parent);
+		System.Windows.Controls.Button? button = FindChild<System.Windows.Controls.Button>(parent);
 		if (combo != null && button != null)
 		{
 			combo.SelectionChanged -= CustomThemeComboBox_SelectionChanged;
@@ -103,17 +116,17 @@ public partial class AppearancePage : UiPage{
 			button.Visibility = combo.SelectedItem?.ToString() == "Custom" ? Visibility.Visible : Visibility.Collapsed;
 	}
 
-	private static T FindChild<T>(DependencyObject parent) where T : DependencyObject
+	private static T? FindChild<T>(DependencyObject parent) where T : DependencyObject
 	{
 		for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
 		{
 			DependencyObject child = VisualTreeHelper.GetChild(parent, i);
-			T val = (T)(object)((child is T) ? child : null);
+			T? val = (T?)(object?)((child is T) ? child : null);
 			if (val != null)
 			{
 				return val;
 			}
-			T val2 = FindChild<T>(child);
+			T? val2 = FindChild<T>(child);
 			if (val2 != null)
 			{
 				return val2;
@@ -126,10 +139,10 @@ public partial class AppearancePage : UiPage{
 	{
 		CustomThemeEditor customThemeEditor = new CustomThemeEditor();
 		customThemeEditor.Owner = Window.GetWindow((DependencyObject)(object)this);
-		customThemeEditor.ShowDialog();
+		customThemeEditor.ShowOwnedDialog();
 	}
 
-	private async Task DownloadCustomThemeAsync()
+	private static async Task DownloadCustomThemeAsync()
 	{
 		string requestUri = "https://raw.githubusercontent.com/KloBraticc/VoidstrapCustomThemes/main/Custom.xaml";
 		string destinationPath = Paths.CustomThemeXaml;

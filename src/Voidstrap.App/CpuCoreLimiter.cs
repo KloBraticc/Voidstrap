@@ -37,7 +37,7 @@ public static class CpuCoreLimiter
 					return;
 				}
 				ulong mask = ((1UL << coreCount) - 1UL) << (processorCount - coreCount);
-				process.ProcessorAffinity = (IntPtr)unchecked((long)mask);
+				process.ProcessorAffinity = new IntPtr(unchecked((long)mask));
 				App.Logger.WriteLine("CpuCoreLimiter", "Voidstrap CPU limit set to the top " + coreCount + " logical processors");
 			}
 			catch (Exception ex)

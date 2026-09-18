@@ -19,7 +19,7 @@ public class TextMarkerService : DocumentColorizingTransformer, IBackgroundRende
 
 		public Color? ForegroundColor { get; set; }
 
-		public string ToolTip { get; set; }
+		public string ToolTip { get; set; } = null!;
 	}
 
 	private readonly TextDocument _document;
@@ -32,7 +32,7 @@ public class TextMarkerService : DocumentColorizingTransformer, IBackgroundRende
 
 	public TextMarkerService(TextDocument document)
 	{
-		_document = document ?? throw new ArgumentNullException("document");
+		_document = document ?? throw new ArgumentNullException(nameof(document));
 	}
 
 	public ITextMarker Create(int startOffset, int length)

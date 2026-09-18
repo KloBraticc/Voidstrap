@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Voidstrap.Utility;
 
@@ -26,7 +27,27 @@ internal sealed class ManagedModIndex
 
 internal readonly record struct ManagedModFile(ManagedModRecord Mod, string Source, string Relative);
 
-internal readonly record struct ManagedModStatistics(int FileCount, long TotalBytes);
+internal sealed class ManagedModLibraryEntry
+{
+	public ManagedModLibraryEntry(ManagedModRecord record)
+	{
+		Record = record;
+	}
+
+	public ManagedModRecord Record { get; }
+
+	public int FileCount { get; set; }
+
+	public long TotalBytes { get; set; }
+
+	public HashSet<string> RelativePaths { get; } = new(StringComparer.OrdinalIgnoreCase);
+
+	public string Failure { get; set; } = string.Empty;
+
+	public bool AppliedOnTop { get; set; }
+
+	public ModPackInfo? Pack { get; set; }
+}
 
 internal sealed class ManagedModScanResult
 {
@@ -35,6 +56,8 @@ internal sealed class ManagedModScanResult
 	public HashSet<string> SuccessfulModIds { get; } = new(StringComparer.OrdinalIgnoreCase);
 
 	public Dictionary<string, string> Failures { get; } = new(StringComparer.OrdinalIgnoreCase);
+
+	public int IgnoredSkipped { get; set; }
 }
 
 internal static class ManagedModStore
@@ -69,7 +92,7 @@ internal static class ManagedModStore
 				CreatedUtc = DateTime.UtcNow
 			};
 			Directory.CreateDirectory(GetFolderCore(record.Id));
-			records.Add(record);
+			records.Insert(0, record);
 			SaveCore(records);
 			return Clone(record);
 		}
@@ -107,6 +130,11 @@ internal static class ManagedModStore
 
 	public static void Delete(string id)
 	{
+		if (IsValidId(id))
+		{
+			ExternalModConfigs.RemoveConfigs(id);
+		}
+		bool cleanup = false;
 		lock (Sync)
 		{
 			List<ManagedModRecord> records = LoadCore();
@@ -116,11 +144,77 @@ internal static class ManagedModStore
 			string folder = GetFolderCore(id);
 			if (Directory.Exists(folder))
 			{
-				FileAttributes attributes = File.GetAttributes(folder);
-				Directory.Delete(folder, (attributes & FileAttributes.ReparsePoint) == 0);
+				MoveToTrashOrDelete(folder);
+				cleanup = true;
+			}
+			string sources = Path.Combine(Paths.ManagedMods, "Sources", Path.GetFileName(folder));
+			if (Directory.Exists(sources))
+			{
+				MoveToTrashOrDelete(sources);
+				cleanup = true;
 			}
 			SaveCore(records);
 		}
+		if (cleanup)
+		{
+			_ = Task.Run(CleanupTrash);
+		}
+	}
+
+	public static void Discard(string path)
+	{
+		if (!Directory.Exists(path))
+			return;
+		MoveToTrashOrDelete(path);
+		_ = Task.Run(CleanupTrash);
+	}
+
+	private static void MoveToTrashOrDelete(string path)
+	{
+		string trash = Path.Combine(Paths.ManagedMods, "Trash");
+		Directory.CreateDirectory(trash);
+		string destination = Path.Combine(trash, Guid.NewGuid().ToString("N"));
+		try
+		{
+			Directory.Move(path, destination);
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			DeleteDirectory(path);
+		}
+	}
+
+	private static void CleanupTrash()
+	{
+		string trash = Path.Combine(Paths.ManagedMods, "Trash");
+		try
+		{
+			if (!Directory.Exists(trash))
+				return;
+			foreach (string folder in Directory.EnumerateDirectories(trash))
+			{
+				try
+				{
+					DeleteDirectory(folder);
+				}
+				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+				{
+				}
+			}
+			if (!Directory.EnumerateFileSystemEntries(trash).Any())
+			{
+				Directory.Delete(trash, false);
+			}
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+		}
+	}
+
+	private static void DeleteDirectory(string path)
+	{
+		FileAttributes attributes = File.GetAttributes(path);
+		Directory.Delete(path, (attributes & FileAttributes.ReparsePoint) == 0);
 	}
 
 	public static string GetFolder(string id)
@@ -130,18 +224,46 @@ internal static class ManagedModStore
 		return GetFolderCore(id);
 	}
 
-	public static ManagedModStatistics GetStatistics(string id)
+	public static IReadOnlyList<ManagedModLibraryEntry> ScanLibrary()
 	{
-		string folder = GetFolder(id);
-		int count = 0;
-		long total = 0;
-		foreach (string file in EnumeratePackageFiles(folder))
+		lock (Sync)
 		{
-			FileInfo info = new(file);
-			count++;
-			total = total > long.MaxValue - info.Length ? long.MaxValue : total + info.Length;
+			List<ManagedModLibraryEntry> entries = [];
+			HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
+			foreach (ManagedModRecord record in LoadCore())
+			{
+				ManagedModLibraryEntry entry = new(Clone(record)) { AppliedOnTop = onTop.Contains(record.Id) };
+				string folder = GetFolderCore(record.Id);
+				entry.Pack = ModPackInfo.Read(folder);
+				try
+				{
+					foreach (string file in EnumeratePackageFiles(folder))
+					{
+						FileInfo info = new(file);
+						entry.FileCount++;
+						entry.TotalBytes = entry.TotalBytes > long.MaxValue - info.Length ? long.MaxValue : entry.TotalBytes + info.Length;
+						string relative = Path.GetRelativePath(folder, file);
+						if (IsSafeRelativePath(relative) && !ModAutoFixer.IsIgnoredModFile(relative))
+							entry.RelativePaths.Add(relative);
+					}
+				}
+				catch (Exception ex)
+				{
+					entry.Failure = ex.Message;
+				}
+				entries.Add(entry);
+			}
+			return entries;
 		}
-		return new ManagedModStatistics(count, total);
+	}
+
+	public static IReadOnlyList<string> EnabledFoldersByPriority()
+	{
+		lock (Sync)
+		{
+			HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
+			return [.. LoadCore().Where(record => record.Enabled).OrderByDescending(record => onTop.Contains(record.Id)).Select(record => GetFolderCore(record.Id))];
+		}
 	}
 
 	public static ManagedModScanResult ScanEnabledFiles()
@@ -149,7 +271,9 @@ internal static class ManagedModStore
 		lock (Sync)
 		{
 			ManagedModScanResult result = new();
-			foreach (ManagedModRecord record in LoadCore().Where(record => record.Enabled))
+			HashSet<string> claimed = new(StringComparer.OrdinalIgnoreCase);
+			HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
+			foreach (ManagedModRecord record in LoadCore().Where(record => record.Enabled).OrderByDescending(record => onTop.Contains(record.Id)))
 			{
 				string folder = GetFolderCore(record.Id);
 				List<ManagedModFile> packageFiles = [];
@@ -162,7 +286,13 @@ internal static class ManagedModStore
 							continue;
 						packageFiles.Add(new ManagedModFile(Clone(record), file, relative));
 					}
-					result.Files.AddRange(packageFiles);
+					foreach (ManagedModFile file in packageFiles)
+					{
+						if (ModAutoFixer.IsIgnoredModFile(file.Relative))
+							result.IgnoredSkipped++;
+						else if (claimed.Add(file.Relative))
+							result.Files.Add(file);
+					}
 					result.SuccessfulModIds.Add(record.Id);
 				}
 				catch (Exception ex)

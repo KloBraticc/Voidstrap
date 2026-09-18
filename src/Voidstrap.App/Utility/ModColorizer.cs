@@ -25,7 +25,7 @@ namespace Voidstrap.Utility
         private static bool IsExcluded(string path)
         {
             foreach (var seg in ExcludedSegments)
-                if (path.IndexOf(Path.DirectorySeparatorChar + seg + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase) >= 0)
+                if (path.Contains(Path.DirectorySeparatorChar + seg + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
                     return true;
             return false;
         }

@@ -8,12 +8,9 @@ public static class SettingsEnumValueCodec
 {
 	public static string Get(SettingsDocument document, string key, IReadOnlyList<string> values, string fallback)
 	{
-		if (document is null)
-		{
-			throw new ArgumentNullException(nameof(document));
-		}
+        ArgumentNullException.ThrowIfNull(document);
 
-		if (string.IsNullOrWhiteSpace(key) || values.Count == 0 || document.Root[key] is not JsonValue value)
+        if (string.IsNullOrWhiteSpace(key) || values.Count == 0 || document.Root[key] is not JsonValue value)
 		{
 			return fallback;
 		}
@@ -44,12 +41,9 @@ public static class SettingsEnumValueCodec
 
 	public static void Set(SettingsDocument document, string key, IReadOnlyList<string> values, string value)
 	{
-		if (document is null)
-		{
-			throw new ArgumentNullException(nameof(document));
-		}
+        ArgumentNullException.ThrowIfNull(document);
 
-		int index = FindIndex(values, value);
+        int index = FindIndex(values, value);
 		if (index < 0)
 		{
 			throw new ArgumentException("The enum value is not supported", nameof(value));

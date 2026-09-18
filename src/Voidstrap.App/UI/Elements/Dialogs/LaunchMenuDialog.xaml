@@ -14,61 +14,48 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
     <ui:TitleBar Title="Voidstrap" Grid.Row="0" Padding="8" CanMaximize="False" Icon="pack://application:,,,/Voidstrap.png" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="True" />
-    <Grid Name="grid" Row="1">
+    <Grid Name="grid" Grid.Row="1" Margin="0,0,0,16">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="280" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
-      <Grid Column="0" VerticalAlignment="Center">
-        <Grid.RowDefinitions>
-          <RowDefinition Height="Auto" />
-          <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid Row="0" HorizontalAlignment="Center" Margin="0,0,0,32">
+      <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid HorizontalAlignment="Center" Margin="0,0,0,26">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
           </Grid.ColumnDefinitions>
           <Image Grid.Column="0" Width="72" Height="72" Source="pack://application:,,,/Voidstrap.png" RenderOptions.BitmapScalingMode="HighQuality" />
-          <StackPanel Grid.Column="1" Margin="11,0,0,0" VerticalAlignment="Center">
-            <TextBlock Name="LaunchTitle" Text="Voidstrap" FontSize="24" />
-            <TextBlock VerticalAlignment="Bottom" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Version, Mode=OneTime}" />
+          <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+            <TextBlock Name="LaunchTitle" Text="Voidstrap" FontSize="24" FontWeight="SemiBold" />
+            <TextBlock Margin="0,1,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Version, Mode=OneTime}" />
           </StackPanel>
         </Grid>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-          <ui:Hyperlink Icon="QuestionCircle48" Content="{x:Static resources:Strings.About_Title}" Command="{Binding LaunchAboutCommand, Mode=OneTime}" />
-          <ui:Hyperlink Icon="Heart20" Content="Donate Ko-Fi" NavigateUri="https://voidstrapp.pages.dev/donate/donate" HorizontalAlignment="Center" />
+        <StackPanel HorizontalAlignment="Center">
+          <ui:Hyperlink HorizontalAlignment="Center" Icon="QuestionCircle48" Content="{x:Static resources:Strings.About_Title}" Command="{Binding LaunchAboutCommand, Mode=OneTime}" />
+          <ui:Hyperlink Margin="0,2,0,0" HorizontalAlignment="Center" Icon="Heart20" Content="Donate" NavigateUri="https://github.com/sponsors/KloBraticc" />
         </StackPanel>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" />
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" />
-      </Grid>
-      <StackPanel Grid.Column="1" Margin="0,9,0,8">
-        <ui:CardAction Width="285" Icon="Games28" IconFilled="False" TabIndex="0" Command="{Binding LaunchRobloxCommand, Mode=OneTime}">
-          <StackPanel>
-            <TextBlock FontSize="14" Text="{x:Static resources:Strings.LaunchMenu_LaunchRoblox}" />
-          </StackPanel>
+      </StackPanel>
+      <StackPanel Grid.Column="1" Width="285" Margin="0,9,0,0" HorizontalAlignment="Left">
+        <ui:CardAction Icon="Games28" IconFilled="False" TabIndex="0" Command="{Binding LaunchRobloxCommand, Mode=OneTime}">
+          <TextBlock FontSize="14" Text="{x:Static resources:Strings.LaunchMenu_LaunchRoblox}" />
         </ui:CardAction>
-        <Grid Height="61">
+        <Grid Margin="0,8,0,0">
           <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
           </Grid.ColumnDefinitions>
-          <ui:CardAction Grid.Column="1" Width="148" Margin="-435,8,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Icon="Settings28" TabIndex="1" Command="{Binding LaunchSettingsCommand, Mode=OneTime}">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
-              <TextBlock HorizontalAlignment="Center" FontSize="13.8" Text="Settings" />
-            </StackPanel>
+          <ui:CardAction Grid.Column="0" Margin="0,0,4,0" Padding="13,13,13,12" IsChevronVisible="False" Icon="Settings28" TabIndex="1" Command="{Binding LaunchSettingsCommand, Mode=OneTime}">
+            <TextBlock FontSize="14" TextTrimming="None" Text="Settings" />
           </ui:CardAction>
-          <ui:CardAction Grid.Column="0" Width="130" Margin="162,8,10,0" VerticalAlignment="Top" Icon="WindowDevTools24" IconFilled="False" TabIndex="2" Command="{Binding LaunchRobloxStudioCommand, Mode=OneTime}">
-            <StackPanel HorizontalAlignment="Center">
-              <TextBlock Width="39" HorizontalAlignment="Center" FontSize="13.8" Text="Studio" />
-            </StackPanel>
+          <ui:CardAction Grid.Column="1" Margin="4,0,0,0" Padding="13,13,13,12" IsChevronVisible="False" Icon="WindowDevTools24" IconFilled="False" TabIndex="2" Command="{Binding LaunchRobloxStudioCommand, Mode=OneTime}">
+            <TextBlock FontSize="14" TextTrimming="None" Text="Studio" />
           </ui:CardAction>
         </Grid>
-        <Border Margin="12" />
-        <ui:CardAction Width="285" Margin="0,10,0,0" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://voidstrapp.pages.dev" Icon="Globe20" IconFilled="False" TabIndex="2">
+        <ui:CardAction Margin="0,12,0,0" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/KloBraticc/Voidstrap" Icon="Code24" IconFilled="False" TabIndex="3">
           <StackPanel>
-            <TextBlock FontSize="14" Text="Website" />
-            <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" Foreground="#FF808080" Text="View Mods, Crosshairs and more." />
+            <TextBlock FontSize="14" Text="GitHub" />
+            <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Releases, source and issues." />
           </StackPanel>
         </ui:CardAction>
       </StackPanel>

@@ -14,7 +14,7 @@ public class BodyColorsListController : ControllerBase
 		_logger = logger;
 	}
 
-	private int GetBodyColor(string colorStr, int fallback)
+	private static int GetBodyColor(string colorStr, int fallback)
 	{
 		if (!int.TryParse(colorStr, out var result))
 		{

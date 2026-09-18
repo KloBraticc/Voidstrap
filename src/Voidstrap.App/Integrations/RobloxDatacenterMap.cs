@@ -20,7 +20,7 @@ public static class RobloxDatacenterMap
 
 		public string Cidr = "";
 
-		public RobloxDatacenter Datacenter;
+		public RobloxDatacenter Datacenter = null!;
 	}
 
 	private static readonly List<SeedCidrEntry> _seedEntries = BuildSeedEntries();
@@ -126,7 +126,7 @@ public static class RobloxDatacenterMap
 		{
 			return null;
 		}
-		if (!IPAddress.TryParse(ipOrHost, out IPAddress address))
+		if (!IPAddress.TryParse(ipOrHost, out IPAddress? address))
 		{
 			try
 			{

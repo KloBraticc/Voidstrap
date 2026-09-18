@@ -85,7 +85,7 @@ public static class RbxmModelParser
 			}
 			ModelPart Get(int referent)
 			{
-				if (!builders.TryGetValue(referent, out ModelPart value2))
+				if (!builders.TryGetValue(referent, out ModelPart? value2))
 				{
 					value2 = new ModelPart();
 					builders[referent] = value2;
@@ -171,9 +171,142 @@ public static class RbxmModelParser
 		}
 	}
 
-	private static byte[] DecodeChunk(byte[] data, int pos, uint compressedLength, uint uncompressedLength)
+	public static List<(string Path, byte[] Bytecode)> ReadScripts(byte[] data, Func<string, bool> includeName)
 	{
-		if (uncompressedLength == 0 || uncompressedLength > MaxChunkBytes)
+		List<(string Path, byte[] Bytecode)> scripts = [];
+		if (data == null || data.Length < 32 || !data.AsSpan(0, Magic.Length).SequenceEqual(Magic))
+		{
+			return scripts;
+		}
+		Dictionary<int, int[]> classRefs = [];
+		Dictionary<int, string> names = [];
+		Dictionary<int, byte[]> sources = [];
+		Dictionary<int, int> parents = [];
+		int pos = 32;
+		while (pos + 16 <= data.Length)
+		{
+			string chunk = Encoding.ASCII.GetString(data, pos, 4);
+			pos += 4;
+			uint compressed = ReadU32(data, ref pos);
+			uint uncompressed = ReadU32(data, ref pos);
+			pos += 4;
+			uint stored = compressed != 0 ? compressed : uncompressed;
+			if (chunk == "END\0" || stored > int.MaxValue || stored > data.Length - pos)
+			{
+				break;
+			}
+			if (chunk is "INST" or "PROP" or "PRNT")
+			{
+				byte[] body = DecodeChunk(data, pos, compressed, uncompressed, MaxScriptChunkBytes);
+				if (body.Length > 0)
+				{
+					switch (chunk)
+					{
+						case "INST":
+							ReadScriptClass(body, classRefs);
+							break;
+						case "PROP":
+							ReadScriptProperty(body, classRefs, names, sources, includeName);
+							break;
+						default:
+							ReadParents(body, parents);
+							break;
+					}
+				}
+			}
+			pos += (int)stored;
+		}
+		foreach ((int referent, byte[] bytecode) in sources)
+		{
+			List<string> parts = [];
+			int current = referent;
+			for (int depth = 0; depth < 128; depth++)
+			{
+				parts.Add(names.GetValueOrDefault(current, ""));
+				if (!parents.TryGetValue(current, out current) || current < 0)
+				{
+					break;
+				}
+			}
+			parts.Reverse();
+			scripts.Add((string.Join("/", parts), bytecode));
+		}
+		return scripts;
+	}
+
+	private const int MaxScriptChunkBytes = 512 * 1024 * 1024;
+
+	private static void ReadScriptClass(byte[] p, Dictionary<int, int[]> classRefs)
+	{
+		int pos = 0;
+		int classId = (int)ReadU32(p, ref pos);
+		ReadString(p, ref pos);
+		pos++;
+		int count = (int)ReadU32(p, ref pos);
+		if (count >= 0 && (long)count * 4 <= p.Length - pos)
+		{
+			classRefs[classId] = ReadReferentArray(p, ref pos, count);
+		}
+	}
+
+	private static void ReadScriptProperty(byte[] p, Dictionary<int, int[]> classRefs, Dictionary<int, string> names, Dictionary<int, byte[]> sources, Func<string, bool> includeName)
+	{
+		int pos = 0;
+		int classId = (int)ReadU32(p, ref pos);
+		string property = ReadString(p, ref pos);
+		if (pos >= p.Length || !classRefs.TryGetValue(classId, out int[]? referents))
+		{
+			return;
+		}
+		byte type = p[pos++];
+		bool isName = property == "Name" && type == 0x01;
+		bool isSource = property == "Source" && type is 0x01 or 0x1D;
+		if (!isName && !isSource)
+		{
+			return;
+		}
+		foreach (int referent in referents)
+		{
+			if (pos + 4 > p.Length)
+			{
+				return;
+			}
+			int length = (int)ReadU32(p, ref pos);
+			if (length < 0 || length > p.Length - pos)
+			{
+				return;
+			}
+			if (isName)
+			{
+				names[referent] = Encoding.UTF8.GetString(p, pos, length);
+			}
+			else if (includeName(names.GetValueOrDefault(referent, "")))
+			{
+				sources[referent] = p.AsSpan(pos, length).ToArray();
+			}
+			pos += length;
+		}
+	}
+
+	private static void ReadParents(byte[] p, Dictionary<int, int> parents)
+	{
+		int pos = 1;
+		int count = (int)ReadU32(p, ref pos);
+		if (count < 0 || (long)count * 8 > p.Length - pos)
+		{
+			return;
+		}
+		int[] children = ReadReferentArray(p, ref pos, count);
+		int[] owners = ReadReferentArray(p, ref pos, count);
+		for (int i = 0; i < count; i++)
+		{
+			parents[children[i]] = owners[i];
+		}
+	}
+
+	private static byte[] DecodeChunk(byte[] data, int pos, uint compressedLength, uint uncompressedLength, int maxBytes = MaxChunkBytes)
+	{
+		if (uncompressedLength == 0 || uncompressedLength > maxBytes)
 		{
 			return Array.Empty<byte>();
 		}
@@ -242,7 +375,7 @@ public static class RbxmModelParser
 			return;
 		}
 		byte b = p[pos++];
-		if (!classRefs.TryGetValue(key, out int[] value))
+		if (!classRefs.TryGetValue(key, out int[]? value))
 		{
 			return;
 		}

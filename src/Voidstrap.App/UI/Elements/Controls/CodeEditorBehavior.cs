@@ -298,7 +298,7 @@ public static class CodeEditorBehavior
         if (owner != null)
             dialog.Owner = owner;
 
-        dialog.ShowDialog();
+        dialog.ShowOwnedDialog();
 
         if (!dialog.Confirmed || dialog.Value.Length == 0)
             return;
@@ -339,7 +339,7 @@ public static class CodeEditorBehavior
         if (owner != null)
             dialog.Owner = owner;
 
-        dialog.ShowDialog();
+        dialog.ShowOwnedDialog();
 
         if (!dialog.Confirmed || !int.TryParse(dialog.Value.Trim(), out int line))
             return;

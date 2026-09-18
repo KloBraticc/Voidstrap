@@ -20,6 +20,12 @@ internal static class CustomFontMod
 			return;
 		}
 
+		if (!Directory.Exists(sourceDirectory))
+		{
+			App.Logger.WriteLine(logIdent, "Custom font skipped, the installed Roblox font families folder is missing: " + sourceDirectory);
+			return;
+		}
+
 		Directory.CreateDirectory(FamiliesDirectory);
 		foreach (string sourcePath in Directory.EnumerateFiles(sourceDirectory, "*.json", SearchOption.TopDirectoryOnly))
 		{

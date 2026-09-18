@@ -147,10 +147,10 @@ namespace Voidstrap.UI
         private static ushort _lastButtons;
         private static TimeSpan _lastRenderTime;
 
-        private static Window _activeWindow;
-        private static UIElement _adornedRoot;
-        private static AdornerLayer _adornerLayer;
-        private static ControllerCrosshairAdorner _crosshair;
+        private static Window? _activeWindow = null!;
+        private static UIElement? _adornedRoot = null!;
+        private static AdornerLayer? _adornerLayer = null!;
+        private static ControllerCrosshairAdorner? _crosshair = null!;
         private static Point _cursor;
         private static Point _drawPos;
 
@@ -178,8 +178,26 @@ namespace Voidstrap.UI
                 Interval = TimeSpan.FromMilliseconds(500)
             };
             _watchdog.Tick += OnWatchdog;
-            _watchdog.Start();
             InputManager.Current.PreProcessInput += OnPreProcessInput;
+            Application app = Application.Current;
+            if (app != null)
+            {
+                app.Activated += OnApplicationActivated;
+                app.Deactivated += OnApplicationDeactivated;
+            }
+        }
+
+        private static void OnApplicationActivated(object? sender, EventArgs e)
+        {
+            if (!_xinputMissing)
+                _watchdog?.Start();
+        }
+
+        private static void OnApplicationDeactivated(object? sender, EventArgs e)
+        {
+            _watchdog?.Stop();
+            StopRendering();
+            DetachCrosshair();
         }
 
         public static void Shutdown()
@@ -190,6 +208,12 @@ namespace Voidstrap.UI
             StopRendering();
             DetachCrosshair();
             InputManager.Current.PreProcessInput -= OnPreProcessInput;
+            Application app = Application.Current;
+            if (app != null)
+            {
+                app.Activated -= OnApplicationActivated;
+                app.Deactivated -= OnApplicationDeactivated;
+            }
             if (_watchdog != null)
             {
                 _watchdog.Stop();
@@ -235,7 +259,7 @@ namespace Voidstrap.UI
             }
         }
 
-        private static void OnWatchdog(object sender, EventArgs e)
+        private static void OnWatchdog(object? sender, EventArgs e)
         {
             if (_xinputMissing)
             {
@@ -272,7 +296,7 @@ namespace Voidstrap.UI
             CompositionTarget.Rendering -= OnRendering;
         }
 
-        private static void OnRendering(object sender, EventArgs e)
+        private static void OnRendering(object? sender, EventArgs e)
         {
             double dt = 0.016;
             if (e is RenderingEventArgs rea)
@@ -302,7 +326,7 @@ namespace Voidstrap.UI
                 return;
             }
 
-            Window win = FindActiveWindow();
+            Window? win = FindActiveWindow();
             if (win == null)
             {
                 StopRendering();
@@ -395,7 +419,7 @@ namespace Voidstrap.UI
             {
                 if (Environment.TickCount64 < _ignoreMouseUntil)
                     return;
-                object input = e.StagingItem?.Input;
+                object? input = e.StagingItem?.Input;
                 if (input is MouseButtonEventArgs || input is MouseWheelEventArgs)
                 {
                     _mouseMode = true;
@@ -439,7 +463,7 @@ namespace Voidstrap.UI
             }
         }
 
-        private static Window FindActiveWindow()
+        private static Window? FindActiveWindow()
         {
             try
             {
@@ -467,7 +491,7 @@ namespace Voidstrap.UI
             AdornerLayer layer = AdornerLayer.GetAdornerLayer(root);
             if (layer == null)
             {
-                AdornerDecorator decorator = FindDescendant<AdornerDecorator>(win);
+                AdornerDecorator? decorator = FindDescendant<AdornerDecorator>(win);
                 if (decorator != null && decorator.Child != null)
                 {
                     root = decorator.Child;
@@ -521,7 +545,7 @@ namespace Voidstrap.UI
             _activeWindow = null;
         }
 
-        private static T FindDescendant<T>(DependencyObject root) where T : DependencyObject
+        private static T? FindDescendant<T>(DependencyObject root) where T : DependencyObject
         {
             if (root == null)
                 return null;
@@ -531,7 +555,7 @@ namespace Voidstrap.UI
                 DependencyObject child = VisualTreeHelper.GetChild(root, i);
                 if (child is T match)
                     return match;
-                T nested = FindDescendant<T>(child);
+                T? nested = FindDescendant<T>(child);
                 if (nested != null)
                     return nested;
             }
@@ -653,7 +677,7 @@ namespace Voidstrap.UI
             {
                 if (_adornedRoot == null)
                     return;
-                DependencyObject hit = null;
+                DependencyObject? hit = null;
                 VisualTreeHelper.HitTest(
                     _adornedRoot,
                     null,
@@ -664,7 +688,7 @@ namespace Voidstrap.UI
                     },
                     new PointHitTestParameters(_cursor));
 
-                UIElement target = FindActivatable(hit);
+                UIElement? target = FindActivatable(hit);
                 if (target != null)
                 {
                     target.Focus();
@@ -676,7 +700,7 @@ namespace Voidstrap.UI
             }
         }
 
-        private static UIElement FindActivatable(DependencyObject node)
+        private static UIElement? FindActivatable(DependencyObject? node)
         {
             while (node != null)
             {
@@ -764,18 +788,18 @@ namespace Voidstrap.UI
         {
             if (Math.Abs(ry) <= StickDeadzone)
                 return;
-            ScrollViewer viewer = FindScrollViewerUnderCursor();
+            ScrollViewer? viewer = FindScrollViewerUnderCursor();
             if (viewer == null)
                 return;
             double delta = -Normalize(ry) * 1600.0 * dt;
             viewer.ScrollToVerticalOffset(viewer.VerticalOffset + delta);
         }
 
-        private static ScrollViewer FindScrollViewerUnderCursor()
+        private static ScrollViewer? FindScrollViewerUnderCursor()
         {
             try
             {
-                DependencyObject node = Mouse.DirectlyOver as DependencyObject;
+                DependencyObject? node = Mouse.DirectlyOver as DependencyObject;
                 while (node != null)
                 {
                     if (node is ScrollViewer sv && sv.IsVisible && sv.ScrollableHeight > 0.0)
@@ -811,7 +835,7 @@ namespace Voidstrap.UI
         {
             try
             {
-                Selector selector = FindVisibleSelector(_activeWindow);
+                Selector? selector = FindVisibleSelector(_activeWindow);
                 if (selector == null || selector.Items.Count == 0)
                     return;
                 int index = selector.SelectedIndex + delta;
@@ -826,7 +850,7 @@ namespace Voidstrap.UI
             }
         }
 
-        private static Selector FindVisibleSelector(DependencyObject root)
+        private static Selector? FindVisibleSelector(DependencyObject? root)
         {
             if (root == null)
                 return null;
@@ -836,7 +860,7 @@ namespace Voidstrap.UI
                 DependencyObject child = VisualTreeHelper.GetChild(root, i);
                 if (child is TabControl tab && tab.IsVisible && tab.Items.Count > 1)
                     return tab;
-                Selector nested = FindVisibleSelector(child);
+                Selector? nested = FindVisibleSelector(child);
                 if (nested != null)
                     return nested;
             }

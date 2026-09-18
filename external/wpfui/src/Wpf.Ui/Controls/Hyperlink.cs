@@ -42,15 +42,7 @@ namespace Wpf.Ui.Controls
             if (string.IsNullOrWhiteSpace(NavigateUri))
                 return;
 
-            if (!Uri.TryCreate(NavigateUri, UriKind.Absolute, out var uri))
-                return;
-
-            var processStartInfo = new System.Diagnostics.ProcessStartInfo(uri.AbsoluteUri)
-            {
-                UseShellExecute = true
-            };
-
-            System.Diagnostics.Process.Start(processStartInfo);
+            NavigateUriLauncher.Open(NavigateUri);
         }
     }
 }

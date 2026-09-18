@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -7,13 +7,26 @@ using Voidstrap.Models.Persistable;
 
 namespace Voidstrap.Utility;
 
-internal sealed class RobloxProcessOptimizer : IDisposable
+internal sealed partial class RobloxProcessOptimizer : IDisposable
 {
 	private const int PollIntervalMs = 2000;
 
-	private const int TrimDelayMs = 15000;
+	private const int ProcessMemoryPriorityClass = 0;
 
-	private const int TrimIntervalMs = 60000;
+	private const uint MemoryPriorityLow = 2;
+
+	private const uint MemoryPriorityNormal = 5;
+
+	private const int LaunchGraceMs = 25000;
+
+	private const int TransitionGraceMs = 30000;
+
+	private static long _lastTransitionTicks = long.MinValue / 2;
+
+	public static void NoteGameTransition()
+	{
+		Interlocked.Exchange(ref _lastTransitionTicks, Environment.TickCount64);
+	}
 
 	private static readonly int ProcessorCount = Environment.ProcessorCount;
 
@@ -25,15 +38,15 @@ internal sealed class RobloxProcessOptimizer : IDisposable
 
 	private bool _disposed;
 
-	private DateTime _unfocusedSinceUtc = DateTime.MinValue;
+	private bool _memoryPriorityLowered;
 
-	private long _lastTrimTicks;
+	private bool _trimmedWhileMinimized;
 
 	private ProcessPriorityClass? _lastPriority;
 
-	private ProcessPriorityClass? _selfPriority;
-
 	private int? _lastCpuLimit;
+
+	private int? _lastMemoryLimitMb = -1;
 
 	private IntPtr? _originalAffinity;
 
@@ -41,18 +54,91 @@ internal sealed class RobloxProcessOptimizer : IDisposable
 
 	private int _started;
 
-	[DllImport("psapi.dll", SetLastError = true)]
-	private static extern bool EmptyWorkingSet(IntPtr hProcess);
+	[LibraryImport("psapi.dll", SetLastError = true)]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static partial bool EmptyWorkingSet(IntPtr hProcess);
 
-	[DllImport("user32.dll")]
-	private static extern IntPtr GetForegroundWindow();
+	[LibraryImport("user32.dll")]
+	private static partial IntPtr GetForegroundWindow();
 
-	[DllImport("user32.dll")]
-	private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+	[LibraryImport("user32.dll")]
+	private static partial uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+	[LibraryImport("user32.dll")]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static partial bool IsIconic(IntPtr hWnd);
+
+	[LibraryImport("kernel32.dll", EntryPoint = "SetProcessInformation", SetLastError = true)]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static partial bool SetProcessMemoryPriority(IntPtr hProcess, int informationClass, ref uint memoryPriority, uint size);
 
 	public RobloxProcessOptimizer(int processId)
 	{
 		_processId = processId;
+	}
+
+	public static bool IsStillLaunching(Process? process)
+	{
+		if (process == null)
+		{
+			return false;
+		}
+		try
+		{
+			if (process.HasExited)
+			{
+				return false;
+			}
+			if (Environment.TickCount64 - Interlocked.Read(ref _lastTransitionTicks) < TransitionGraceMs)
+			{
+				return true;
+			}
+			if ((DateTime.Now - process.StartTime).TotalMilliseconds < LaunchGraceMs)
+			{
+				return true;
+			}
+			process.Refresh();
+			return process.MainWindowHandle == IntPtr.Zero;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	internal static bool SetMemoryPriority(Process process, bool low)
+	{
+		if (!Platform.IsWindows)
+		{
+			return true;
+		}
+		uint priority = low ? MemoryPriorityLow : MemoryPriorityNormal;
+		try
+		{
+			return SetProcessMemoryPriority(process.Handle, ProcessMemoryPriorityClass, ref priority, sizeof(uint));
+		}
+		catch
+		{
+			return false;
+		}
+	}
+
+	internal static bool IsMinimized(Process process)
+	{
+		if (!Platform.IsWindows)
+		{
+			return false;
+		}
+		try
+		{
+			process.Refresh();
+			IntPtr window = process.MainWindowHandle;
+			return window != IntPtr.Zero && IsIconic(window);
+		}
+		catch
+		{
+			return false;
+		}
 	}
 
 	public static bool ShouldRun(AppSettings? settings)
@@ -62,8 +148,10 @@ internal sealed class RobloxProcessOptimizer : IDisposable
 			return false;
 		}
 		return settings.OptimizeRoblox
+			|| settings.TasxOptimization
 			|| settings.BypassEmulationOverhead
 			|| settings.RobloxEfficiencyMode
+			|| settings.RobloxMemoryLimitEnabled
 			|| settings.MultiAccount
 			|| settings.ReduceMemoryOutOfFocus
 			|| !IsAutomaticCpuLimit(settings.SelectedCpuPriority)
@@ -77,11 +165,15 @@ internal sealed class RobloxProcessOptimizer : IDisposable
 			return;
 		}
 		AppSettings settings = App.Settings.Prop;
+		if (settings.RobloxMemoryLimitEnabled)
+		{
+			RobloxMemoryLimit.Apply(process, settings.RobloxMemoryLimitMb);
+		}
 		if (settings.BypassEmulationOverhead)
 		{
 			EmulationBypassService.ApplyProcessBypass(process);
 		}
-		if (!ShouldRun(settings))
+		if (!ShouldRun(settings) || settings.TasxOptimization)
 		{
 			return;
 		}
@@ -126,8 +218,16 @@ internal sealed class RobloxProcessOptimizer : IDisposable
 	private void ApplySettings(Process process)
 	{
 		AppSettings settings = App.Settings.Prop;
+		int? memoryLimit = settings.RobloxMemoryLimitEnabled ? RobloxMemoryLimit.Clamp(settings.RobloxMemoryLimitMb) : null;
+		if (memoryLimit != _lastMemoryLimitMb && RobloxMemoryLimit.Apply(process, memoryLimit))
+		{
+			_lastMemoryLimitMb = memoryLimit;
+		}
+		if (settings.TasxOptimization)
+		{
+			return;
+		}
 		bool focused = IsProcessFocused();
-		ApplySelfPriority(focused);
 		ProcessPriorityClass desiredPriority = !focused && settings.RobloxEfficiencyMode ? ProcessPriorityClass.Idle : (!focused && settings.ReduceMemoryOutOfFocus ? ProcessPriorityClass.BelowNormal : ResolvePriority(settings));
 		if (_lastPriority != desiredPriority)
 		{
@@ -189,58 +289,36 @@ internal sealed class RobloxProcessOptimizer : IDisposable
 			TryApplyCpuLimit(process, settings.SelectedCpuPriority, _originalAffinity);
 			_lastCpuLimit = cpuLimit;
 		}
-		if (focused)
+		bool lowerMemoryPriority = settings.ReduceMemoryOutOfFocus && !focused;
+		if (_memoryPriorityLowered != lowerMemoryPriority && SetMemoryPriority(process, lowerMemoryPriority))
 		{
-			_unfocusedSinceUtc = DateTime.MinValue;
+			_memoryPriorityLowered = lowerMemoryPriority;
+		}
+		bool minimized = settings.ReduceMemoryOutOfFocus && !focused && !IsStillLaunching(process) && IsMinimized(process);
+		if (!minimized)
+		{
+			_trimmedWhileMinimized = false;
 			return;
 		}
-		if (_unfocusedSinceUtc == DateTime.MinValue)
+		if (!_trimmedWhileMinimized)
 		{
-			_unfocusedSinceUtc = DateTime.UtcNow;
-			return;
-		}
-		if (settings.ReduceMemoryOutOfFocus && (DateTime.UtcNow - _unfocusedSinceUtc).TotalMilliseconds >= TrimDelayMs)
-		{
+			_trimmedWhileMinimized = true;
 			TrimWorkingSet(process);
 		}
 	}
 
-	private void ApplySelfPriority(bool robloxFocused)
+	private static void TrimWorkingSet(Process process)
 	{
-		ProcessPriorityClass desired = robloxFocused ? ProcessPriorityClass.BelowNormal : ProcessPriorityClass.Normal;
-		if (_selfPriority == desired)
+		if (!Platform.IsWindows)
 		{
 			return;
 		}
-		try
-		{
-			using Process self = Process.GetCurrentProcess();
-			if (self.PriorityClass != desired)
-			{
-				self.PriorityClass = desired;
-			}
-			_selfPriority = desired;
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("RobloxProcessOptimizer", "Voidstrap priority change failed: " + ex.Message);
-		}
-	}
-
-	private void TrimWorkingSet(Process process)
-	{
-		long now = Environment.TickCount64;
-		if (now - Interlocked.Read(ref _lastTrimTicks) < TrimIntervalMs)
-		{
-			return;
-		}
-		Interlocked.Exchange(ref _lastTrimTicks, now);
 		try
 		{
 			if (EmptyWorkingSet(process.Handle))
 			{
 				process.Refresh();
-				App.Logger.WriteLine("RobloxProcessOptimizer", "Trimmed Roblox working set to " + process.WorkingSet64 / 1048576 + " MB while unfocused");
+				App.Logger.WriteLine("RobloxProcessOptimizer", "Trimmed minimized Roblox working set to " + process.WorkingSet64 / 1048576 + " MB");
 			}
 		}
 		catch (Exception ex)
@@ -251,7 +329,6 @@ internal sealed class RobloxProcessOptimizer : IDisposable
 
 	private void RestoreProcessState()
 	{
-		ApplySelfPriority(robloxFocused: false);
 		using Process? process = TryGetProcess();
 		if (process == null || process.HasExited)
 		{
@@ -279,6 +356,14 @@ internal sealed class RobloxProcessOptimizer : IDisposable
 				App.Logger.WriteLine("RobloxProcessOptimizer", "Priority boost could not be restored: " + ex.Message);
 			}
 		}
+		if (_memoryPriorityLowered)
+		{
+			SetMemoryPriority(process, low: false);
+		}
+		if (!App.Settings.Prop.RobloxMemoryLimitEnabled)
+		{
+			RobloxMemoryLimit.Apply(process, null);
+		}
 		if (!ShouldRun(App.Settings.Prop))
 		{
 			TryApplyPriority(process, ProcessPriorityClass.Normal);
@@ -299,6 +384,11 @@ internal sealed class RobloxProcessOptimizer : IDisposable
 
 	private bool IsProcessFocused()
 	{
+		if (!Platform.IsWindows)
+		{
+			return IsLinuxRuntimeFocused();
+		}
+
 		try
 		{
 			IntPtr foregroundWindow = GetForegroundWindow();
@@ -373,7 +463,7 @@ internal sealed class RobloxProcessOptimizer : IDisposable
 		try
 		{
 			ulong mask = (1UL << limit.Value) - 1UL;
-			process.ProcessorAffinity = (IntPtr)unchecked((long)mask);
+			process.ProcessorAffinity = new IntPtr(unchecked((long)mask));
 			App.Logger.WriteLine("RobloxProcessOptimizer", "Roblox CPU limit set to " + limit.Value + " logical processors");
 		}
 		catch (Exception ex)
@@ -430,6 +520,18 @@ internal sealed class RobloxProcessOptimizer : IDisposable
 	private static bool IsNormalPriority(string? priority)
 	{
 		return string.IsNullOrWhiteSpace(priority) || priority.Equals("Normal", StringComparison.OrdinalIgnoreCase);
+	}
+
+	private static bool IsLinuxRuntimeFocused()
+	{
+		try
+		{
+			return Voidstrap.Platform.Linux.LinuxWindowInterop.FindRuntimeWindow().Focused;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
 	}
 
 	private static bool IsRobloxPlayer(Process process)

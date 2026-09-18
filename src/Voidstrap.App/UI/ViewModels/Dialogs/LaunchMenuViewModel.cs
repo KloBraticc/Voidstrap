@@ -28,6 +28,6 @@ namespace Voidstrap.UI.ViewModels.Installer
 
         private void LaunchRobloxStudio() => CloseWindowRequest?.Invoke(this, NextAction.LaunchRobloxStudio);
 
-        private void LaunchAbout() => new MainWindow().ShowDialog();
+        private void LaunchAbout() => new MainWindow().ShowOwnedDialog();
     }
 }

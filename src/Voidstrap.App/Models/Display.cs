@@ -1,5 +1,7 @@
 using System.ComponentModel;
 
+namespace Voidstrap.Models;
+
 public class DisplayMode
 {
     public int Width { get; set; }

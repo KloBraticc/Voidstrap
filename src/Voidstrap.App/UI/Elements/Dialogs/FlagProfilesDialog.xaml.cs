@@ -5,13 +5,22 @@ using Voidstrap.UI.Elements.Base;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 
+public sealed class FlagProfile
+{
+    public string Id { get; init; } = "";
+
+    public string Name { get; init; } = "";
+
+    public Dictionary<string, string> Flags { get; init; } = new(StringComparer.Ordinal);
+
+    public string LocalFileName { get; init; } = "";
+}
+
 public partial class FlagProfilesDialog : WpfUiWindow
 {
     private const int MaxLocalBytes = 600000;
-    private readonly ObservableCollection<WebsiteFlagProfile> _profiles = new();
+    private readonly ObservableCollection<FlagProfile> _profiles = new();
     private readonly Dictionary<string, string> _currentFlags;
-    private readonly CancellationTokenSource _cancellation = new();
-    private bool _busy;
     private bool _loaded;
 
     public MessageBoxResult Result { get; private set; } = MessageBoxResult.Cancel;
@@ -27,62 +36,29 @@ public partial class FlagProfilesDialog : WpfUiWindow
         UpdateState();
     }
 
-    private async void Window_Loaded(object sender, RoutedEventArgs e)
+    private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         if (_loaded)
             return;
         _loaded = true;
-        await ReloadAsync();
+        Reload();
     }
 
-    private void Window_Closed(object sender, EventArgs e)
+    private void Reload()
     {
-        _cancellation.Cancel();
-        _cancellation.Dispose();
+        string selectedId = (LoadBackup.SelectedItem as FlagProfile)?.Id ?? "";
+        _profiles.Clear();
+        foreach (FlagProfile profile in LoadLocalProfiles().OrderBy(x => x.Name, StringComparer.CurrentCultureIgnoreCase))
+            _profiles.Add(profile);
+        FlagProfile? restore = _profiles.FirstOrDefault(x => x.Id == selectedId);
+        if (restore != null)
+            LoadBackup.SelectedItem = restore;
+        UpdateState();
     }
 
-    private async Task ReloadAsync()
+    private static List<FlagProfile> LoadLocalProfiles()
     {
-        if (_busy)
-            return;
-        SetBusy(true);
-        WebsiteFlagProfile? selected = LoadBackup.SelectedItem as WebsiteFlagProfile;
-        string selectedId = selected?.Id ?? "";
-        try
-        {
-            List<WebsiteFlagProfile> profiles = new();
-            if (WebsiteAuth.IsSignedIn())
-            {
-                try
-                {
-                    profiles.AddRange(await WebsiteFlagProfiles.GetAsync(_cancellation.Token));
-                }
-                catch (OperationCanceledException) when (_cancellation.IsCancellationRequested)
-                {
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.WriteException("FlagProfiles::LoadAccount", ex);
-                }
-            }
-            profiles.AddRange(LoadLocalProfiles());
-            _profiles.Clear();
-            foreach (WebsiteFlagProfile profile in profiles.OrderByDescending(x => x.IsCloud).ThenBy(x => x.Name, StringComparer.CurrentCultureIgnoreCase))
-                _profiles.Add(profile);
-            WebsiteFlagProfile? restore = _profiles.FirstOrDefault(x => x.Id == selectedId);
-            if (restore != null)
-                LoadBackup.SelectedItem = restore;
-        }
-        finally
-        {
-            SetBusy(false);
-        }
-    }
-
-    private static List<WebsiteFlagProfile> LoadLocalProfiles()
-    {
-        List<WebsiteFlagProfile> profiles = new();
+        List<FlagProfile> profiles = new();
         try
         {
             Directory.CreateDirectory(Paths.SavedBackups);
@@ -106,13 +82,11 @@ public partial class FlagProfilesDialog : WpfUiWindow
                             flags[item.Key] = value;
                     }
                     string fileName = Path.GetFileName(file);
-                    profiles.Add(new WebsiteFlagProfile
+                    profiles.Add(new FlagProfile
                     {
                         Id = "local:" + fileName,
                         Name = Path.GetFileNameWithoutExtension(fileName),
                         Flags = flags,
-                        Updated = new DateTimeOffset(info.LastWriteTimeUtc).ToUnixTimeMilliseconds(),
-                        IsCloud = false,
                         LocalFileName = fileName
                     });
                 }
@@ -129,13 +103,11 @@ public partial class FlagProfilesDialog : WpfUiWindow
         return profiles;
     }
 
-    private async void OKButton_Click(object sender, RoutedEventArgs e)
+    private void OKButton_Click(object sender, RoutedEventArgs e)
     {
-        if (_busy)
-            return;
         if (Tabs.SelectedIndex == 1)
         {
-            if (LoadBackup.SelectedItem is not WebsiteFlagProfile selected)
+            if (LoadBackup.SelectedItem is not FlagProfile selected)
                 return;
             AppliedFlags = new Dictionary<string, string>(selected.Flags, StringComparer.Ordinal);
             AppliedProfileName = selected.Name;
@@ -146,67 +118,31 @@ public partial class FlagProfilesDialog : WpfUiWindow
         string name = NormalizeName(SaveBackup.Text);
         if (string.IsNullOrEmpty(name) || _currentFlags.Count == 0)
             return;
-        SetBusy(true);
         try
         {
-            if (WebsiteAuth.IsSignedIn())
-            {
-                WebsiteFlagProfile? existing = _profiles.FirstOrDefault(x => x.IsCloud && string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
-                await WebsiteFlagProfiles.SaveAsync(name, _currentFlags, existing, _cancellation.Token);
-            }
-            else
-            {
-                string fileName = SafeLocalFileName(name);
-                Directory.CreateDirectory(Paths.SavedBackups);
-                string path = Path.Combine(Paths.SavedBackups, fileName);
-                JsonFile.SerializeAtomic(path, _currentFlags, JsonOptions.Indented, false);
-                Dictionary<string, string>? stored = JsonFile.Deserialize<Dictionary<string, string>>(path, JsonOptions.Tolerant);
-                EnsureCompleteSnapshot(_currentFlags, stored);
-            }
+            string fileName = SafeLocalFileName(name);
+            Directory.CreateDirectory(Paths.SavedBackups);
+            string path = Path.Combine(Paths.SavedBackups, fileName);
+            JsonFile.SerializeAtomic(path, _currentFlags, JsonOptions.Indented, false);
+            Dictionary<string, string>? stored = JsonFile.Deserialize<Dictionary<string, string>>(path, JsonOptions.Tolerant);
+            EnsureCompleteSnapshot(_currentFlags, stored);
             Close();
-        }
-        catch (OperationCanceledException) when (_cancellation.IsCancellationRequested)
-        {
         }
         catch (Exception ex)
         {
             App.Logger.WriteException("FlagProfiles::Save", ex);
-            Frontend.ShowMessageBox(ex is InvalidOperationException ? ex.Message : "That profile could not be saved. Try again.", MessageBoxImage.Hand);
-        }
-        finally
-        {
-            SetBusy(false);
+            Frontend.ShowMessageBox("That profile could not be saved. Try again.", MessageBoxImage.Hand);
         }
     }
 
-    private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+    private void DeleteButton_Click(object sender, RoutedEventArgs e)
     {
-        if (_busy || LoadBackup.SelectedItem is not WebsiteFlagProfile selected)
+        if (LoadBackup.SelectedItem is not FlagProfile selected)
             return;
         if (Frontend.ShowMessageBox("Delete the profile '" + selected.Name + "'?", MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
             return;
-        SetBusy(true);
-        try
-        {
-            if (selected.IsCloud)
-                await WebsiteFlagProfiles.DeleteAsync(selected, _cancellation.Token);
-            else
-                App.FastFlags.DeleteBackup(selected.LocalFileName);
-        }
-        catch (OperationCanceledException) when (_cancellation.IsCancellationRequested)
-        {
-            return;
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("FlagProfiles::Delete", ex);
-            Frontend.ShowMessageBox(ex is InvalidOperationException ? ex.Message : "That profile could not be deleted. Try again.", MessageBoxImage.Hand);
-        }
-        finally
-        {
-            SetBusy(false);
-        }
-        await ReloadAsync();
+        App.FastFlags.DeleteBackup(selected.LocalFileName);
+        Reload();
     }
 
     private void LoadBackup_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -224,24 +160,17 @@ public partial class FlagProfilesDialog : WpfUiWindow
         UpdateState();
     }
 
-    private void SetBusy(bool busy)
-    {
-        _busy = busy;
-        Tabs.IsEnabled = !busy;
-        UpdateState();
-    }
-
     private void UpdateState()
     {
         EmptyProfiles.Visibility = _profiles.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-        DeleteButton.IsEnabled = !_busy && LoadBackup.SelectedItem is WebsiteFlagProfile;
-        OKButton.IsEnabled = !_busy && (Tabs.SelectedIndex == 1 ? LoadBackup.SelectedItem is WebsiteFlagProfile : _currentFlags.Count > 0 && !string.IsNullOrEmpty(NormalizeName(SaveBackup.Text)));
+        DeleteButton.IsEnabled = LoadBackup.SelectedItem is FlagProfile;
+        OKButton.IsEnabled = Tabs.SelectedIndex == 1 ? LoadBackup.SelectedItem is FlagProfile : _currentFlags.Count > 0 && !string.IsNullOrEmpty(NormalizeName(SaveBackup.Text));
     }
 
     private static string NormalizeName(string value)
     {
-        string name = Regex.Replace(value ?? "", "[\\x00-\\x1f\\x7f]", "");
-        name = Regex.Replace(name, "\\s+", " ").Trim();
+        string name = ControlCharacterPattern.Replace(value ?? "", "");
+        name = WhitespacePattern.Replace(name, " ").Trim();
         return name.Length <= 48 ? name : "";
     }
 
@@ -266,4 +195,9 @@ public partial class FlagProfilesDialog : WpfUiWindow
                 throw new InvalidDataException("The complete flag list could not be saved");
         }
     }
+
+    [GeneratedRegex("[\\x00-\\x1f\\x7f]")]
+    private static partial Regex ControlCharacterPattern { get; }
+    [GeneratedRegex("\\s+")]
+    private static partial Regex WhitespacePattern { get; }
 }

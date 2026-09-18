@@ -1,0 +1,2523 @@
+diff --git a/src/Microsoft.DotNet.Wpf/src/PresentationCore/System/Windows/Media/MediaContext.cs b/src/Microsoft.DotNet.Wpf/src/PresentationCore/System/Windows/Media/MediaContext.cs
+index 3ca1769f..aa12e7ad 100644
+--- a/src/Microsoft.DotNet.Wpf/src/PresentationCore/System/Windows/Media/MediaContext.cs
++++ b/src/Microsoft.DotNet.Wpf/src/PresentationCore/System/Windows/Media/MediaContext.cs
+@@ -583,6 +583,11 @@ private void ScheduleNextRenderOp(TimeSpan minimumDelay)
+                     nextTickNeeded = _timeManager.GetNextTickNeeded();
+                 }
+ 
++                bool hasActivePortableAnimation = PortableMediaContextRenderService.IsEnabled &&
++                    (Rendering == null
++                        ? nextTickNeeded >= TimeSpan.Zero
++                        : _timeManager.GetNextTickNeeded() >= TimeSpan.Zero);
++
+                 //
+                 // If we have a tick in the future, make sure that it's not before
+                 // the minimum delay requested.
+@@ -677,7 +682,14 @@ private void ScheduleNextRenderOp(TimeSpan minimumDelay)
+                 EventTrace.EasyTraceEvent(EventTrace.Keyword.KeywordGraphics, EventTrace.Event.WClientScheduleRender, nextTickNeeded.TotalMilliseconds);
+                 if (scheduledPortableRenderWakeup)
+                 {
+-                    PortableMediaContextRenderService.RequestRender(nextTickNeeded);
++                    if (hasActivePortableAnimation)
++                    {
++                        PortableMediaContextRenderService.RequestAnimationRender(nextTickNeeded);
++                    }
++                    else
++                    {
++                        PortableMediaContextRenderService.RequestRender(nextTickNeeded);
++                    }
+                 }
+             }
+         }
+diff --git a/src/Microsoft.DotNet.Wpf/src/PresentationCore/System/Windows/Media/PortableMediaContextRenderService.cs b/src/Microsoft.DotNet.Wpf/src/PresentationCore/System/Windows/Media/PortableMediaContextRenderService.cs
+index 1104bcff..31182050 100644
+--- a/src/Microsoft.DotNet.Wpf/src/PresentationCore/System/Windows/Media/PortableMediaContextRenderService.cs
++++ b/src/Microsoft.DotNet.Wpf/src/PresentationCore/System/Windows/Media/PortableMediaContextRenderService.cs
+@@ -10,6 +10,7 @@ namespace System.Windows.Media
+     internal static class PortableMediaContextRenderService
+     {
+         private static readonly object s_lock = new object();
++        private static readonly object s_animationRenderRequestSource = new Guid(0x48a34330, 0x3d39, 0x4d2d, 0x73, 0x5d, 0xbb, 0xd6, 0x75, 0x0c, 0x09, 0xfa);
+         private static readonly List<Action<object, TimeSpan>> s_renderRequests = new List<Action<object, TimeSpan>>();
+         private static readonly bool s_isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+ 
+@@ -68,6 +69,11 @@ internal static void RequestRender(TimeSpan delay)
+             RequestRender(null, delay);
+         }
+ 
++        internal static void RequestAnimationRender(TimeSpan delay)
++        {
++            RequestRender(s_animationRenderRequestSource, delay);
++        }
++
+         internal static void RequestRender(object invalidatedSource)
+         {
+             RequestRender(invalidatedSource, TimeSpan.Zero);
+diff --git a/src/Microsoft.DotNet.Wpf/src/PresentationFramework/System/Windows/Controls/Primitives/Popup.cs b/src/Microsoft.DotNet.Wpf/src/PresentationFramework/System/Windows/Controls/Primitives/Popup.cs
+index ad60bb62..ef41e214 100644
+--- a/src/Microsoft.DotNet.Wpf/src/PresentationFramework/System/Windows/Controls/Primitives/Popup.cs
++++ b/src/Microsoft.DotNet.Wpf/src/PresentationFramework/System/Windows/Controls/Primitives/Popup.cs
+@@ -339,6 +339,10 @@ private static void OnIsOpenChanged(DependencyObject d, DependencyPropertyChange
+             Popup popup = (Popup)d;
+ 
+             bool visible = (bool) e.NewValue;
++            if (!OperatingSystem.IsWindows())
++            {
++                popup._portableLifecycleGeneration++;
++            }
+             // This is actually the current state and not necessary the desired state (i.e. old value).
+             // A portable PresentationSource can become disposed before WPF has removed its native popup
+             // bridge.  Treat that retained source reference as closable when IsOpen transitions to false,
+@@ -1547,6 +1551,11 @@ private void CreateWindow(bool asyncCall)
+             // create a new window?
+             bool makeNewWindow = !_secHelper.IsWindowAlive();
+ 
++            if (makeNewWindow && !OperatingSystem.IsWindows() && _secHelper.HasWindowReference())
++            {
++                DestroyWindowImpl();
++            }
++
+             // When running in Per-Monitor DPI aware mode, always create a new window
+             // This ensures that a recycled HWND that is moving from one display
+             // to another does not undergo a WM_DPICHANGED event and thus cause a
+@@ -1724,6 +1733,7 @@ private void HideWindow()
+         {
+             CancelPortableSettledPosition();
+             bool animating = SetupAnimations(false);
++            long portableLifecycleGeneration = _portableLifecycleGeneration;
+ 
+             SetHitTestable(false);
+             ReleasePopupCapture();
+@@ -1739,6 +1749,12 @@ private void HideWindow()
+                 _asyncDestroy.Stop();
+                 _asyncDestroy = null;
+ 
++                if (!OperatingSystem.IsWindows() &&
++                    (portableLifecycleGeneration != _portableLifecycleGeneration || IsOpen))
++                {
++                    return;
++                }
++
+                 DestroyWindow();
+             };
+ 
+@@ -1996,6 +2012,7 @@ private void AttachPortablePopupRootLayoutUpdates()
+                 return;
+             }
+ 
++            _hasPortablePopupRootLayoutSnapshot = false;
+             _popupRoot.LayoutUpdated += OnPortablePopupRootLayoutUpdated;
+             _isPortablePopupRootLayoutUpdateAttached = true;
+         }
+@@ -2009,6 +2026,7 @@ private void DetachPortablePopupRootLayoutUpdates()
+ 
+             _popupRoot?.LayoutUpdated -= OnPortablePopupRootLayoutUpdated;
+ 
++            _hasPortablePopupRootLayoutSnapshot = false;
+             _isPortablePopupRootLayoutUpdateAttached = false;
+         }
+ 
+@@ -2025,23 +2043,25 @@ private void OnPortablePopupRootLayoutUpdated(object sender, EventArgs e)
+             _isUpdatingPortablePopupRootLayout = true;
+             try
+             {
+-                if (_secHelper.TryUpdatePortablePopupRootClientSize(_popupRoot, out Size clientSize))
++                if (HasPortablePopupRootLayoutChanged())
+                 {
+-                    OnWindowResize(_popupRoot, new AutoResizedEventArgs(clientSize));
+-                    // Size can remain constant while a theme entrance animation changes
+-                    // the child's transform. Native popup windows receive position updates
+-                    // throughout that animation; the portable compositor has no HWND move
+-                    // notifications, so keep its layer compensation synchronized here too.
+-                    UpdatePosition();
+-                }
+-                else
+-                {
+-                    // A portable popup shares the owner compositor instead of receiving native
+-                    // window-position updates.  Render transforms (for example Fluent's drop-down
+-                    // entrance animation) and placement-target movement can change the correct
+-                    // owner-relative origin without changing the popup's measured size.
+-                    UpdatePosition();
++                    if (_secHelper.TryUpdatePortablePopupRootClientSize(_popupRoot, out Size clientSize))
++                    {
++                        OnWindowResize(_popupRoot, new AutoResizedEventArgs(clientSize));
++                    }
++
++                    CapturePortablePopupRootLayoutSnapshot();
+                 }
++
++                // Size can remain constant while a theme entrance animation changes
++                // the child's transform. Native popup windows receive position updates
++                // throughout that animation; the portable compositor has no HWND move
++                // notifications, so keep its layer compensation synchronized here too.
++                // A portable popup shares the owner compositor instead of receiving native
++                // window-position updates.  Render transforms (for example Fluent's drop-down
++                // entrance animation) and placement-target movement can change the correct
++                // owner-relative origin without changing the popup's measured size.
++                UpdatePosition();
+             }
+             finally
+             {
+@@ -2049,6 +2069,39 @@ private void OnPortablePopupRootLayoutUpdated(object sender, EventArgs e)
+             }
+         }
+ 
++        private bool HasPortablePopupRootLayoutChanged()
++        {
++            if (_popupRoot == null)
++            {
++                return false;
++            }
++
++            if (!_hasPortablePopupRootLayoutSnapshot)
++            {
++                return true;
++            }
++
++            Size renderSize = _popupRoot.RenderSize;
++            Size desiredSize = _popupRoot.DesiredSize;
++            return !DoubleUtil.AreClose(renderSize.Width, _portablePopupRootRenderSize.Width)
++                || !DoubleUtil.AreClose(renderSize.Height, _portablePopupRootRenderSize.Height)
++                || !DoubleUtil.AreClose(desiredSize.Width, _portablePopupRootDesiredSize.Width)
++                || !DoubleUtil.AreClose(desiredSize.Height, _portablePopupRootDesiredSize.Height);
++        }
++
++        private void CapturePortablePopupRootLayoutSnapshot()
++        {
++            if (_popupRoot == null)
++            {
++                _hasPortablePopupRootLayoutSnapshot = false;
++                return;
++            }
++
++            _portablePopupRootRenderSize = _popupRoot.RenderSize;
++            _portablePopupRootDesiredSize = _popupRoot.DesiredSize;
++            _hasPortablePopupRootLayoutSnapshot = true;
++        }
++
+         private void OnDpiChanged(object sender, HwndDpiChangedEventArgs e)
+         {
+             // Popups do not handle layout updates due to DPI changes very well  when they are visible.
+@@ -3104,8 +3157,12 @@ private bool IsDragDropActive
+         private PopupRoot _popupRoot;
+         private DispatcherOperation _asyncCreate;
+         private DispatcherTimer _asyncDestroy;
++        private long _portableLifecycleGeneration;
+         private DispatcherTimer _portableSettledPosition;
+         private long _portablePlacementTrackingDeadline;
++        private Size _portablePopupRootRenderSize;
++        private Size _portablePopupRootDesiredSize;
++        private bool _hasPortablePopupRootLayoutSnapshot;
+         private bool _isPortablePopupRootLayoutUpdateAttached;
+         private bool _isUpdatingPortablePopupRootLayout;
+ 
+diff --git a/src/ProGPU.Wpf.Tests/Composition/WpfManagedProjectGraphTests.cs b/src/ProGPU.Wpf.Tests/Composition/WpfManagedProjectGraphTests.cs
+index 15e73abd..fd94f276 100644
+--- a/src/ProGPU.Wpf.Tests/Composition/WpfManagedProjectGraphTests.cs
++++ b/src/ProGPU.Wpf.Tests/Composition/WpfManagedProjectGraphTests.cs
+@@ -536,6 +536,43 @@ public void MediaContextUsesPortableClockOutsideWindows()
+         Assert.DoesNotContain("SafeNativeMethods.QueryPerformanceCounter(out counts)", source, StringComparison.Ordinal);
+     }
+ 
++    [Fact]
++    public void PortableAnimationWakeupsRequirePresentationWhileIdleRenderingRemainsWakeOnly()
++    {
++        var mediaContext = File.ReadAllText(FindRepoPath(
++            "src",
++            "Microsoft.DotNet.Wpf",
++            "src",
++            "PresentationCore",
++            "System",
++            "Windows",
++            "Media",
++            "MediaContext.cs"));
++        var renderService = File.ReadAllText(FindRepoPath(
++            "src",
++            "Microsoft.DotNet.Wpf",
++            "src",
++            "PresentationCore",
++            "System",
++            "Windows",
++            "Media",
++            "PortableMediaContextRenderService.cs"));
++        var host = File.ReadAllText(FindRepoPath(
++            "src",
++            "ProGPU.Wpf",
++            "ProGpuWpfWindowHost.cs"));
++
++        Assert.Contains("private static readonly object s_animationRenderRequestSource = new Guid(0x48a34330", renderService, StringComparison.Ordinal);
++        Assert.Contains("internal static void RequestAnimationRender(TimeSpan delay)", renderService, StringComparison.Ordinal);
++        Assert.Contains("RequestRender(s_animationRenderRequestSource, delay)", renderService, StringComparison.Ordinal);
++        Assert.Contains("bool hasActivePortableAnimation = PortableMediaContextRenderService.IsEnabled", mediaContext, StringComparison.Ordinal);
++        Assert.Contains("PortableMediaContextRenderService.RequestAnimationRender(nextTickNeeded)", mediaContext, StringComparison.Ordinal);
++        Assert.Contains("PortableMediaContextRenderService.RequestRender(nextTickNeeded)", mediaContext, StringComparison.Ordinal);
++        Assert.Contains("if (invalidatedSource != null)", host, StringComparison.Ordinal);
++        Assert.Contains("RequestRenderAndWakeNativeLoop();", host, StringComparison.Ordinal);
++        Assert.Contains("RequestRenderWakeOnlyAndWakeNativeLoop();", host, StringComparison.Ordinal);
++    }
++
+     [Fact]
+     public void MediaContextHasPortableRenderWakeupBoundary()
+     {
+@@ -1042,7 +1079,7 @@ public void MediaContextHasPortableRenderWakeupBoundary()
+         Assert.Contains("RegisterActiveActivation(window, this)", proGpuActivation, StringComparison.Ordinal);
+         Assert.Contains("s_activeActivations.Remove(Window)", proGpuActivation, StringComparison.Ordinal);
+         Assert.Contains("internal static bool TryGetActiveHost(object? window, out ProGpuWpfWindowHost? host)", proGpuActivation, StringComparison.Ordinal);
+-        Assert.Contains("PortableWpfServiceRegistry.RegisterPopupService(_portablePopupService)", proGpuHost, StringComparison.Ordinal);
++        Assert.Contains("WpfPortablePopupService.RegisterHost(this)", proGpuHost, StringComparison.Ordinal);
+         Assert.Contains("internal bool TryCreatePortablePopup(", proGpuHost, StringComparison.Ordinal);
+         Assert.Contains("private WpfVisualReplayResult ReplayPortablePopups(", proGpuHost, StringComparison.Ordinal);
+         Assert.Contains("internal bool TryProcessPortablePopupInput(WpfInputEventArgs input)", proGpuHost, StringComparison.Ordinal);
+@@ -1092,11 +1129,10 @@ public void MediaContextHasPortableRenderWakeupBoundary()
+         Assert.Contains("public static bool TryHitTestOwners(object? window, double x, double y, Span<object?> owners, out int ownerCount)", proGpuDiagnostics, StringComparison.Ordinal);
+         Assert.Contains("public static bool TryQueryHitTestBoundsOwners(", proGpuDiagnostics, StringComparison.Ordinal);
+         Assert.Contains("Span<object?> owners,\n        out int ownerCount)", proGpuDiagnostics, StringComparison.Ordinal);
+-        Assert.Contains("IWpfDelayedRenderScheduler delayedScheduler", proGpuActivation, StringComparison.Ordinal);
+         Assert.Contains("ProcessHostInputAndRequestRender", proGpuActivation, StringComparison.Ordinal);
+         Assert.Contains("Host.TryRequestNativeLoopWakeup();", proGpuActivation, StringComparison.Ordinal);
+         Assert.Contains("RequestRenderFromMediaContext(RootVisual, TimeSpan.Zero);", proGpuActivation, StringComparison.Ordinal);
+-        Assert.Contains("Host.InvalidateWpfSourceForPortableRender(invalidatedSource ?? RootVisual);", proGpuActivation, StringComparison.Ordinal);
++        Assert.Contains("Host.RequestMediaContextRenderAndWakeNativeLoop(invalidatedSource, delay);", proGpuActivation, StringComparison.Ordinal);
+         Assert.Contains("Host.RenderWakeupRequested += OnHostRenderWakeupRequested", proGpuActivation, StringComparison.Ordinal);
+         Assert.Contains("Host.UpdateTick += OnHostUpdateTick", proGpuActivation, StringComparison.Ordinal);
+         Assert.Contains("SynchronizeInitialWindowState(updatePortablePresentationSource: false);", proGpuActivation, StringComparison.Ordinal);
+@@ -1358,7 +1394,7 @@ public void MediaContextHasPortableRenderWakeupBoundary()
+         Assert.Contains("RequestRenderAndWakeNativeLoop();", proGpuHost, StringComparison.Ordinal);
+         Assert.Contains("internal void RequestRenderAndWakeNativeLoop()", proGpuHost, StringComparison.Ordinal);
+         Assert.Contains("internal void InvalidateWpfSourceForPortableRender(object? source)", proGpuHost, StringComparison.Ordinal);
+-        Assert.Contains("object? dirtySource = source ?? _wpfRootVisual;", proGpuHost, StringComparison.Ordinal);
++        Assert.Contains("source is Guid animationRequest && animationRequest == new Guid(0x48a34330", proGpuHost, StringComparison.Ordinal);
+         Assert.Contains("private bool _forceFullWpfReplay;", proGpuHost, StringComparison.Ordinal);
+         Assert.Contains("internal bool ForceFullWpfReplayForNextFrame => _forceFullWpfReplay;", proGpuHost, StringComparison.Ordinal);
+         Assert.Contains("var forceFullWpfReplay = _forceFullWpfReplay;", proGpuHost, StringComparison.Ordinal);
+@@ -1368,15 +1404,22 @@ public void MediaContextHasPortableRenderWakeupBoundary()
+         Assert.Contains("private void InvalidateWpfRootVisualForPresentationSourceGeometryChange()", proGpuHost, StringComparison.Ordinal);
+         Assert.Contains("_target.WpfInvalidationTracker.MarkDirty(_wpfRootVisual);", proGpuHost, StringComparison.Ordinal);
+         int hostOnRender = proGpuHost.IndexOf("private void OnRender(double deltaSeconds)", StringComparison.Ordinal);
++        int hostConsumeScheduledRender = proGpuHost.IndexOf("ConsumeScheduledRenderRequest();", hostOnRender, StringComparison.Ordinal);
+         int hostPreReplayGeometrySync = proGpuHost.IndexOf("SynchronizePortablePresentationSourceGeometry(geometry);", hostOnRender, StringComparison.Ordinal);
+-        int hostPreReplayDispatcherDrain = proGpuHost.IndexOf("ProcessDispatcherQueueCore();", hostPreReplayGeometrySync, StringComparison.Ordinal);
++        int hostPreReplayDispatcherDrain = proGpuHost.IndexOf("ProcessDispatcherQueueCore(bounded: true);", hostPreReplayGeometrySync, StringComparison.Ordinal);
+         int hostDetectWpfSourceChanges = proGpuHost.IndexOf("_target.DetectWpfSourceChanges();", hostOnRender, StringComparison.Ordinal);
+         Assert.True(
+             hostOnRender >= 0 &&
++            hostConsumeScheduledRender > hostOnRender &&
++            hostConsumeScheduledRender < hostPreReplayDispatcherDrain &&
+             hostPreReplayGeometrySync >= 0 &&
+             hostPreReplayGeometrySync < hostPreReplayDispatcherDrain &&
+             hostPreReplayDispatcherDrain < hostDetectWpfSourceChanges,
+-            "The Silk.NET render callback must synchronize WPF logical geometry before draining dispatcher/layout work and before polling WPF render data.");
++            "The Silk.NET render callback must consume only the entering frame request, then synchronize WPF logical geometry before draining dispatcher/layout work and before polling WPF render data.");
++        Assert.Contains("RequestRenderWakeOnlyAndWakeNativeLoop();", proGpuHost, StringComparison.Ordinal);
++        Assert.Contains("RequestMediaContextRenderAndWakeNativeLoop(", proGpuHost, StringComparison.Ordinal);
++        Assert.Contains("Volatile.Read(ref _pendingRenderRequestIsWakeOnly) == 0", proGpuHost, StringComparison.Ordinal);
++        Assert.Contains("Host.RequestMediaContextRenderAndWakeNativeLoop(invalidatedSource, delay);", proGpuActivation, StringComparison.Ordinal);
+         Assert.Contains("_retainedWpfVisualRoot.Scale = Vector3.One", proGpuDrawingFrame, StringComparison.Ordinal);
+         Assert.Contains("TrySubscribePropertyChanged(", proGpuInvalidationTracker, StringComparison.Ordinal);
+         Assert.Contains("TryUnsubscribePropertyChanged(", proGpuInvalidationTracker, StringComparison.Ordinal);
+diff --git a/src/ProGPU.Wpf.Tests/Platform/QueuedWpfDispatcherServiceTests.cs b/src/ProGPU.Wpf.Tests/Platform/QueuedWpfDispatcherServiceTests.cs
+index 8231062c..3c1137b8 100644
+--- a/src/ProGPU.Wpf.Tests/Platform/QueuedWpfDispatcherServiceTests.cs
++++ b/src/ProGPU.Wpf.Tests/Platform/QueuedWpfDispatcherServiceTests.cs
+@@ -117,4 +117,96 @@ public void CallbackPostedFromWorkerThreadRunsOnOwnerThread()
+         Assert.True(dispatcher.ProcessPending());
+         Assert.Equal(ownerThreadId, callbackThreadId);
+     }
++
++    [Fact]
++    public void WorkAvailableIsCoalescedWhileOperationsAreAlreadyQueued()
++    {
++        var dispatcher = new QueuedWpfDispatcherService();
++        var workAvailableCount = 0;
++        dispatcher.WorkAvailable += (_, _) => workAvailableCount++;
++
++        for (var i = 0; i < 10000; i++)
++        {
++            dispatcher.Post(() => { });
++        }
++
++        Assert.Equal(1, workAvailableCount);
++        Assert.True(dispatcher.HasPendingOperations);
++        Assert.True(dispatcher.ProcessPending());
++        Assert.False(dispatcher.HasPendingOperations);
++    }
++
++    [Fact]
++    public void BoundedProcessingYieldsWithOperationsRemaining()
++    {
++        var dispatcher = new QueuedWpfDispatcherService();
++        var count = 0;
++
++        for (var i = 0; i < 600; i++)
++        {
++            dispatcher.Post(() => count++);
++        }
++
++        Assert.True(dispatcher.ProcessPending(256));
++        Assert.Equal(256, count);
++        Assert.True(dispatcher.HasPendingOperations);
++
++        Assert.True(dispatcher.ProcessPending(256));
++        Assert.Equal(512, count);
++        Assert.True(dispatcher.HasPendingOperations);
++
++        Assert.True(dispatcher.ProcessPending(256));
++        Assert.Equal(600, count);
++        Assert.False(dispatcher.HasPendingOperations);
++    }
++
++    [Fact]
++    public void LargeMixedPriorityBurstRetainsPriorityAndFifoOrder()
++    {
++        var dispatcher = new QueuedWpfDispatcherService();
++        var firstNormal = -1;
++        var lastNormal = -1;
++        var firstBackground = -1;
++        var lastBackground = -1;
++        var executionIndex = 0;
++
++        for (var i = 0; i < 20000; i++)
++        {
++            var value = i;
++            dispatcher.Post(
++                () =>
++                {
++                    var index = executionIndex++;
++                    if (value == 0)
++                    {
++                        firstBackground = index;
++                    }
++                    else if (value == 19999)
++                    {
++                        lastBackground = index;
++                    }
++                },
++                WpfDispatcherPriority.Background);
++            dispatcher.Post(
++                () =>
++                {
++                    var index = executionIndex++;
++                    if (value == 0)
++                    {
++                        firstNormal = index;
++                    }
++                    else if (value == 19999)
++                    {
++                        lastNormal = index;
++                    }
++                },
++                WpfDispatcherPriority.Normal);
++        }
++
++        Assert.True(dispatcher.ProcessPending());
++        Assert.Equal(0, firstNormal);
++        Assert.Equal(19999, lastNormal);
++        Assert.Equal(20000, firstBackground);
++        Assert.Equal(39999, lastBackground);
++    }
+ }
+diff --git a/src/ProGPU.Wpf.Tests/ProGpuWpfWindowHostTests.cs b/src/ProGPU.Wpf.Tests/ProGpuWpfWindowHostTests.cs
+index 365c411b..7360d2b8 100644
+--- a/src/ProGPU.Wpf.Tests/ProGpuWpfWindowHostTests.cs
++++ b/src/ProGPU.Wpf.Tests/ProGpuWpfWindowHostTests.cs
+@@ -281,7 +281,8 @@ public void NativeRunUsesOwnerDrivenPortableLoop()
+         Assert.Contains("if (ShouldPumpNativeRender())", source, StringComparison.Ordinal);
+         Assert.Contains("NativeRenderPumpCount++;\n            window.DoRender();", source, StringComparison.Ordinal);
+         Assert.Contains("SkippedNativeRenderPumpCount++;", source, StringComparison.Ordinal);
+-        Assert.Contains("Thread.Sleep(hadPendingRender || WpfRenderScheduler.HasPendingRenderRequest", source, StringComparison.Ordinal);
++        Assert.Contains("WaitForNativeLoopWakeup(hadPendingRender || WpfRenderScheduler.HasPendingRenderRequest", source, StringComparison.Ordinal);
++        Assert.DoesNotContain("Thread.Sleep(hadPendingRender || WpfRenderScheduler.HasPendingRenderRequest", source, StringComparison.Ordinal);
+         Assert.Contains("private bool ShouldKeepPortableNativeRunLoopAlive()", source, StringComparison.Ordinal);
+         Assert.Contains("if (_isLoadingCompositionTarget)", source, StringComparison.Ordinal);
+         Assert.Contains("composition target load deferred during reentrant initialization", source, StringComparison.Ordinal);
+@@ -468,6 +469,8 @@ public void NativeLoopWakeupInvokesContinueEventsAndCountsSuccessfulRequests()
+ 
+         Assert.Equal(2, continueEventsCount);
+         Assert.Equal(2, host.NativeLoopWakeupCount);
++        Assert.True(host.WaitForNativeLoopWakeup(TimeSpan.Zero));
++        Assert.False(host.WaitForNativeLoopWakeup(TimeSpan.Zero));
+     }
+ 
+     [Fact]
+@@ -480,6 +483,16 @@ public void NativeLoopWakeupReturnsFalseWhenContinueEventsFails()
+         Assert.Equal(0, host.NativeLoopWakeupCount);
+     }
+ 
++    [Fact]
++    public void LinuxMouseWheelRequiresImmediateInputAndRenderDrain()
++    {
++        using var host = new ProGpuWpfWindowHost();
++        var wheel = new WpfInputEventArgs(WpfInputEventKind.MouseWheel, deltaY: -1);
++
++        Assert.Equal(OperatingSystem.IsLinux(), host.RequiresImmediateInputProcessing(wheel));
++        Assert.Equal(OperatingSystem.IsLinux(), host.RequiresImmediateInputRendering(wheel));
++    }
++
+     [Fact]
+     public void NativeUpdateRaisesUpdateTick()
+     {
+@@ -494,6 +507,159 @@ public void NativeUpdateRaisesUpdateTick()
+         Assert.Equal(1, updateTickCount);
+     }
+ 
++    [Fact]
++    public void LinuxPassivePointerMovesCoalesceUntilNativeUpdate()
++    {
++        if (!OperatingSystem.IsLinux())
++        {
++            return;
++        }
++
++        using var host = new ProGpuWpfWindowHost
++        {
++            WpfRenderScheduler = new TestRenderScheduler()
++        };
++        var inputs = new List<WpfInputEventArgs>();
++        host.InputReceived += OnInputReceived;
++
++        RaisePlatformInput(host, new WpfInputEventArgs(WpfInputEventKind.MouseMove, x: 10, y: 20));
++        RaisePlatformInput(host, new WpfInputEventArgs(WpfInputEventKind.MouseMove, x: 11, y: 21));
++        RaisePlatformInput(host, new WpfInputEventArgs(WpfInputEventKind.MouseMove, x: 12, y: 22));
++
++        Assert.Empty(inputs);
++
++        typeof(ProGpuWpfWindowHost)
++            .GetMethod("OnUpdate", BindingFlags.Instance | BindingFlags.NonPublic)!
++            .Invoke(host, new object[] { 0.0 });
++
++        Assert.Single(inputs);
++        Assert.Equal(12, inputs[0].X);
++        Assert.Equal(22, inputs[0].Y);
++        host.InputReceived -= OnInputReceived;
++
++        void OnInputReceived(object? sender, WpfInputEventArgs input)
++        {
++            inputs.Add(input);
++        }
++    }
++
++    [Fact]
++    public void LinuxPressedPointerMoveBurstsKeepLatestPositionAndOrdering()
++    {
++        if (!OperatingSystem.IsLinux())
++        {
++            return;
++        }
++
++        using var host = new ProGpuWpfWindowHost
++        {
++            WpfRenderScheduler = new TestRenderScheduler()
++        };
++        var inputs = new List<WpfInputEventArgs>();
++        host.InputReceived += OnInputReceived;
++
++        RaisePlatformInput(host, new WpfInputEventArgs(WpfInputEventKind.MouseDown, x: 10, y: 20, button: WpfMouseButton.Left));
++        RaisePlatformInput(host, new WpfInputEventArgs(WpfInputEventKind.MouseMove, x: 11, y: 21));
++        RaisePlatformInput(host, new WpfInputEventArgs(WpfInputEventKind.MouseMove, x: 12, y: 22));
++
++        Assert.Single(inputs);
++
++        typeof(ProGpuWpfWindowHost)
++            .GetMethod("OnUpdate", BindingFlags.Instance | BindingFlags.NonPublic)!
++            .Invoke(host, new object[] { 0.0 });
++
++        RaisePlatformInput(host, new WpfInputEventArgs(WpfInputEventKind.MouseUp, x: 12, y: 22, button: WpfMouseButton.Left));
++
++        Assert.Equal(
++            new[]
++            {
++                WpfInputEventKind.MouseDown,
++                WpfInputEventKind.MouseMove,
++                WpfInputEventKind.MouseUp
++            },
++            inputs.Select(input => input.Kind));
++        Assert.Equal(12, inputs[1].X);
++        Assert.Equal(22, inputs[1].Y);
++        host.InputReceived -= OnInputReceived;
++
++        void OnInputReceived(object? sender, WpfInputEventArgs input)
++        {
++            inputs.Add(input);
++        }
++    }
++
++    [Fact]
++    public void LinuxStateChangingInputFlushesPendingPointerMoveFirst()
++    {
++        if (!OperatingSystem.IsLinux())
++        {
++            return;
++        }
++
++        using var host = new ProGpuWpfWindowHost
++        {
++            WpfRenderScheduler = new TestRenderScheduler()
++        };
++        var inputs = new List<WpfInputEventArgs>();
++        host.InputReceived += OnInputReceived;
++
++        RaisePlatformInput(host, new WpfInputEventArgs(WpfInputEventKind.MouseMove, x: 10, y: 20));
++        RaisePlatformInput(host, new WpfInputEventArgs(WpfInputEventKind.MouseDown, x: 10, y: 20, button: WpfMouseButton.Left));
++
++        Assert.Equal(2, inputs.Count);
++        Assert.Equal(WpfInputEventKind.MouseMove, inputs[0].Kind);
++        Assert.Equal(WpfInputEventKind.MouseDown, inputs[1].Kind);
++        host.InputReceived -= OnInputReceived;
++
++        void OnInputReceived(object? sender, WpfInputEventArgs input)
++        {
++            inputs.Add(input);
++        }
++    }
++
++    [Fact]
++    public void IdenticalHitTestsWithinOneInputDispatchReuseGpuResult()
++    {
++        using var host = new ProGpuWpfWindowHost
++        {
++            WpfRenderScheduler = new TestRenderScheduler()
++        };
++        var target = ProGpuWpfCompositionTarget.CreateHeadless();
++        SetPrivateField(host, "_target", target);
++        object expectedOwner = new();
++        int ownerId = target.GpuHitTestOwnerMap.GetOrCreateId(expectedOwner);
++        var index = GpuHitTestIndex.Build(
++        [
++            GpuHitTestPrimitive.RectangleFill(
++                ownerId,
++                System.Numerics.Vector2.Zero,
++                new System.Numerics.Vector2(100f, 100f),
++                System.Numerics.Vector2.Zero,
++                zIndex: 0f)
++        ]);
++        typeof(global::ProGPU.Scene.Compositor)
++            .GetMethod("SetLastHitTestIndex", BindingFlags.Instance | BindingFlags.NonPublic)!
++            .Invoke(target.Compositor, new object[] { index });
++        host.InputReceived += OnInputReceived;
++
++        RaisePlatformInput(host, new WpfInputEventArgs(WpfInputEventKind.MouseDown, x: 10, y: 20, button: WpfMouseButton.Left));
++
++        Assert.Equal(1, host.PlatformInputHitTestCacheHitCount);
++        host.InputReceived -= OnInputReceived;
++
++        void OnInputReceived(object? sender, WpfInputEventArgs input)
++        {
++            var firstOwners = new object?[4];
++            var secondOwners = new object?[4];
++            Assert.True(host.TryHitTestOwners(input.X, input.Y, firstOwners, out int firstCount));
++            Assert.True(host.TryHitTestOwners(input.X, input.Y, secondOwners, out int secondCount));
++            Assert.Equal(1, firstCount);
++            Assert.Equal(firstCount, secondCount);
++            Assert.Same(expectedOwner, firstOwners[0]);
++            Assert.Same(firstOwners[0], secondOwners[0]);
++        }
++    }
++
+     [Fact]
+     public void ReplacingRenderSchedulerDisconnectsPreviousWakeupSource()
+     {
+@@ -566,6 +732,88 @@ public void ShouldRenderFrameReturnsTrueWhenSchedulerHasPendingRequest()
+         Assert.True(host.ShouldRenderFrame(frameState));
+     }
+ 
++    [Fact]
++    public void MediaContextTickDoesNotPresentAnUnchangedFrame()
++    {
++        var scheduler = new TestRenderScheduler();
++        using var host = new ProGpuWpfWindowHost
++        {
++            WpfRenderScheduler = scheduler
++        };
++        var frameState = new ProGpuWpfFrameState(100, 50, 1, 2, 3);
++        host.RecordPresentedFrame(frameState);
++
++        host.RequestMediaContextRenderAndWakeNativeLoop(null, TimeSpan.Zero);
++
++        Assert.True(scheduler.HasPendingRenderRequest);
++        Assert.False(host.ShouldRenderFrame(frameState));
++        Assert.False(host.ConsumeScheduledRenderRequest());
++        Assert.False(scheduler.HasPendingRenderRequest);
++    }
++
++    [Fact]
++    public void ExplicitRenderRequestUpgradesPendingMediaContextTick()
++    {
++        var scheduler = new TestRenderScheduler();
++        using var host = new ProGpuWpfWindowHost
++        {
++            WpfRenderScheduler = scheduler
++        };
++        var frameState = new ProGpuWpfFrameState(100, 50, 1, 2, 3);
++        host.RecordPresentedFrame(frameState);
++
++        host.RequestMediaContextRenderAndWakeNativeLoop(null, TimeSpan.Zero);
++        host.RequestRenderAndWakeNativeLoop();
++
++        Assert.True(host.ShouldRenderFrame(frameState));
++        Assert.True(host.ConsumeScheduledRenderRequest());
++    }
++
++    [Fact]
++    public void MediaContextVisualInvalidationRequiresPresentation()
++    {
++        var scheduler = new TestRenderScheduler();
++        using var host = new ProGpuWpfWindowHost
++        {
++            WpfRenderScheduler = scheduler
++        };
++        var frameState = new ProGpuWpfFrameState(100, 50, 1, 2, 3);
++        host.RecordPresentedFrame(frameState);
++
++        host.RequestMediaContextRenderAndWakeNativeLoop(new object(), TimeSpan.Zero);
++
++        Assert.True(host.ShouldRenderFrame(frameState));
++        Assert.True(host.ConsumeScheduledRenderRequest());
++    }
++
++    [Fact]
++    public void MediaContextAnimationTicksAndTerminalFrameAlwaysRequirePresentation()
++    {
++        var scheduler = new TestRenderScheduler();
++        using var host = new ProGpuWpfWindowHost
++        {
++            WpfRenderScheduler = scheduler
++        };
++        var frameState = new ProGpuWpfFrameState(100, 50, 1, 2, 3);
++        var animationRequestSource = new Guid(0x48a34330, 0x3d39, 0x4d2d, 0x73, 0x5d, 0xbb, 0xd6, 0x75, 0x0c, 0x09, 0xfa);
++        host.RecordPresentedFrame(frameState);
++
++        for (int index = 0; index < 4; index++)
++        {
++            host.RequestMediaContextRenderAndWakeNativeLoop(animationRequestSource, TimeSpan.Zero);
++
++            Assert.True(host.ShouldRenderFrame(frameState));
++            Assert.True(host.ConsumeScheduledRenderRequest());
++            Assert.False(scheduler.HasPendingRenderRequest);
++            host.RecordPresentedFrame(frameState);
++        }
++
++        host.RequestMediaContextRenderAndWakeNativeLoop(null, TimeSpan.Zero);
++
++        Assert.False(host.ShouldRenderFrame(frameState));
++        Assert.False(host.ConsumeScheduledRenderRequest());
++    }
++
+     [Fact]
+     public void ShouldRenderFrameReturnsTrueWhenNativeVersionChanges()
+     {
+@@ -688,6 +936,21 @@ public void RequestRenderAndWakeNativeLoopSchedulesRenderWithoutWindow()
+         Assert.Equal(0, host.NativeLoopWakeupCount);
+     }
+ 
++    [Fact]
++    public void RequestRenderAndWakeNativeLoopUsesImmediateDelayedSchedulerRequest()
++    {
++        var scheduler = new TestDelayedRenderScheduler();
++        using var host = new ProGpuWpfWindowHost
++        {
++            WpfRenderScheduler = scheduler
++        };
++
++        host.RequestRenderAndWakeNativeLoop();
++
++        Assert.Equal(TimeSpan.Zero, scheduler.LastDelay);
++        Assert.Equal(1, scheduler.RequestCount);
++    }
++
+     [Fact]
+     public void RequestRenderAndWakeNativeLoopIgnoresDisposedRenderScheduler()
+     {
+@@ -824,6 +1087,19 @@ public void NativeRenderPumpRemainsContinuousForExplicitFrameCallbacks()
+         Assert.True(host.ShouldPumpNativeRender());
+     }
+ 
++    [Fact]
++    public void NativeRenderPumpStopsWhileWindowIsHiddenOrMinimized()
++    {
++        using var hiddenHost = new ProGpuWpfWindowHost();
++        hiddenHost.Hide();
++
++        using var minimizedHost = new ProGpuWpfWindowHost();
++        minimizedHost.SetWindowState(ProGpuWpfWindowState.Minimized);
++
++        Assert.False(hiddenHost.ShouldPumpNativeRender());
++        Assert.False(minimizedHost.ShouldPumpNativeRender());
++    }
++
+     [Fact]
+     public void PresentedFrameCountTracksActualPresentations()
+     {
+@@ -1694,6 +1970,52 @@ public void DispatcherWorkAvailableFromWorkerThreadWaitsForOwnerThreadPump()
+         Assert.True(ran);
+     }
+ 
++    [Fact]
++    public void NativeUpdatesBoundLinuxDispatcherBursts()
++    {
++        if (!OperatingSystem.IsLinux())
++        {
++            return;
++        }
++
++        using var host = new ProGpuWpfWindowHost
++        {
++            PlatformServices = new CrossPlatformWpfPlatformServices()
++        };
++        var dispatcher = Assert.IsType<QueuedWpfDispatcherService>(host.PlatformServices.Dispatcher);
++        var ran = 0;
++        var worker = new Thread(() =>
++        {
++            for (var i = 0; i < 600; i++)
++            {
++                dispatcher.Post(() => ran++);
++            }
++        });
++
++        worker.Start();
++        worker.Join();
++
++        Assert.Equal(1, host.DispatcherWakeupCount);
++        Assert.True(dispatcher.HasPendingOperations);
++
++        typeof(ProGpuWpfWindowHost)
++            .GetMethod("OnUpdate", BindingFlags.Instance | BindingFlags.NonPublic)!
++            .Invoke(host, new object[] { 0.0 });
++
++        Assert.Equal(64, ran);
++        Assert.True(dispatcher.HasPendingOperations);
++
++        for (var i = 0; i < 9; i++)
++        {
++            typeof(ProGpuWpfWindowHost)
++                .GetMethod("OnUpdate", BindingFlags.Instance | BindingFlags.NonPublic)!
++                .Invoke(host, new object[] { 0.0 });
++        }
++
++        Assert.Equal(600, ran);
++        Assert.False(dispatcher.HasPendingOperations);
++    }
++
+     [Fact]
+     public void ReplacingPlatformServicesDisconnectsPreviousDispatcherWakeupSource()
+     {
+@@ -1899,6 +2221,63 @@ public void PortablePopupHostCreatesAndControlsPopupForBoundOwner()
+         Assert.True(scheduler.RequestCount > 1);
+     }
+ 
++    [Fact]
++    public void PortablePopupServiceRoutesAcrossMultipleWindowHosts()
++    {
++        var firstPopupSource = new FakePortablePresentationSource();
++        var secondPopupSource = new FakePortablePresentationSource();
++        int popupSourceIndex = 0;
++        using var popupSourceFactory = UsePortablePopupSourceFactory(() =>
++            popupSourceIndex++ == 0 ? firstPopupSource : secondPopupSource);
++        using var firstHost = new ProGpuWpfWindowHost();
++        var firstOwner = new FakePortablePresentationSource
++        {
++            RootVisual = new object()
++        };
++        Assert.True(firstHost.TryBindPortablePresentationSource(firstOwner));
++
++        IPortablePopupServiceRegistrar service;
++        using (var secondHost = new ProGpuWpfWindowHost())
++        {
++            var secondOwner = new FakePortablePresentationSource
++            {
++                RootVisual = new object()
++            };
++            Assert.True(secondHost.TryBindPortablePresentationSource(secondOwner));
++            Assert.True(PortableWpfServiceRegistry.TryGetPopupService(
++                PortableWpfServiceKey.PresentationFramework,
++                out service));
++
++            var firstRequest = new PortablePopupCreateRequest(
++                placementTarget: null,
++                ownerPresentationSource: firstOwner,
++                ownerHandle: firstOwner.Handle,
++                x: 24,
++                y: 32,
++                isTransparent: false,
++                isChildPopup: false);
++            Assert.True(service.TryCreatePopup(firstRequest, out object? firstSource));
++            Assert.Same(firstPopupSource, firstSource);
++            Assert.True(service.TryShowPopup(firstSource!));
++            Assert.True(service.TryHidePopup(firstSource!));
++            Assert.True(service.TryDestroyPopup(firstSource!));
++        }
++
++        var secondRequest = new PortablePopupCreateRequest(
++            placementTarget: null,
++            ownerPresentationSource: firstOwner,
++            ownerHandle: firstOwner.Handle,
++            x: 48,
++            y: 64,
++            isTransparent: false,
++            isChildPopup: false);
++        Assert.True(service.TryCreatePopup(secondRequest, out object? secondSource));
++        Assert.Same(secondPopupSource, secondSource);
++        Assert.True(service.TryShowPopup(secondSource!));
++        Assert.True(service.TryHidePopup(secondSource!));
++        Assert.True(service.TryDestroyPopup(secondSource!));
++    }
++
+     [Fact]
+     public void PortablePopupUsesNativeHostLifecycleAndLocalInputWhenAvailable()
+     {
+@@ -1983,6 +2362,65 @@ public void PortablePopupUsesNativeHostLifecycleAndLocalInputWhenAvailable()
+         }
+     }
+ 
++    [Fact]
++    public void PortablePopupFallsBackToOwnerSurfaceWhenNativePresentationFails()
++    {
++        var popupPresentationSource = new FakePortablePresentationSource
++        {
++            RootVisual = new object()
++        };
++        var nativeHost = new FakePortableNativePopupHost();
++        var previousSourceFactory = WpfPortablePopupBridge.PortablePresentationSourceFactory;
++        var previousNativeHostFactory = WpfPortablePopupBridge.NativePopupHostFactory;
++        WpfPortablePopupBridge.PortablePresentationSourceFactory = (_, _) => popupPresentationSource;
++        WpfPortablePopupBridge.NativePopupHostFactory = (_, _, _, _, _) => nativeHost;
++        try
++        {
++            using var host = new ProGpuWpfWindowHost();
++            var owner = new FakePortablePresentationSource { RootVisual = new object() };
++            Assert.True(host.TryBindPortablePresentationSource(owner));
++            var request = new PortablePopupCreateRequest(
++                placementTarget: null,
++                ownerPresentationSource: owner,
++                ownerHandle: owner.Handle,
++                popupScreenDeviceX: 20,
++                popupScreenDeviceY: 30,
++                ownerClientScreenDeviceX: 0,
++                ownerClientScreenDeviceY: 0,
++                isTransparent: false,
++                isChildPopup: false);
++
++            Assert.True(host.TryCreatePortablePopup(request, out object? popupSource));
++            Assert.True(host.TrySetPortablePopupSize(popupSource!, 100, 80));
++            Assert.True(host.TryShowPortablePopup(popupSource!));
++            Assert.True(host.HasVisibleNativePortablePopup);
++
++            nativeHost.RaisePresentationFailed();
++
++            host.GetPortablePopupDiagnostics(
++                out int openCount,
++                out int visibleCount,
++                out int nativeWindowCount,
++                out int presentedNativeWindowCount,
++                out int nativeWindowGpuHitTestCount,
++                out int nativeWindowGpuHitTestOwnerCount);
++            Assert.Equal(1, openCount);
++            Assert.Equal(1, visibleCount);
++            Assert.Equal(0, nativeWindowCount);
++            Assert.Equal(0, presentedNativeWindowCount);
++            Assert.Equal(0, nativeWindowGpuHitTestCount);
++            Assert.Equal(0, nativeWindowGpuHitTestOwnerCount);
++            Assert.True(nativeHost.IsDisposed);
++            Assert.True(host.TryHidePortablePopup(popupSource!));
++            Assert.True(host.TryDestroyPortablePopup(popupSource!));
++        }
++        finally
++        {
++            WpfPortablePopupBridge.PortablePresentationSourceFactory = previousSourceFactory;
++            WpfPortablePopupBridge.NativePopupHostFactory = previousNativeHostFactory;
++        }
++    }
++
+     [Fact]
+     public void PortablePopupInputRoutesToPopupPresentationSourceWithLocalCoordinates()
+     {
+@@ -2883,6 +3321,42 @@ public void Reset()
+         }
+     }
+ 
++    private sealed class TestDelayedRenderScheduler : IWpfDelayedRenderScheduler
++    {
++        public event EventHandler? RenderRequested;
++
++        public bool HasPendingRenderRequest { get; private set; }
++
++        public int RequestCount { get; private set; }
++
++        public TimeSpan? LastDelay { get; private set; }
++
++        public void RequestRender()
++        {
++            RequestRender(TimeSpan.FromMilliseconds(16));
++        }
++
++        public void RequestRender(TimeSpan delay)
++        {
++            RequestCount++;
++            LastDelay = delay;
++            HasPendingRenderRequest = true;
++            RenderRequested?.Invoke(this, EventArgs.Empty);
++        }
++
++        public bool ConsumeRenderRequest()
++        {
++            bool pending = HasPendingRenderRequest;
++            HasPendingRenderRequest = false;
++            return pending;
++        }
++
++        public void Reset()
++        {
++            HasPendingRenderRequest = false;
++        }
++    }
++
+     private sealed class TestRegistration : IDisposable
+     {
+         public bool IsDisposed { get; private set; }
+@@ -2947,6 +3421,10 @@ private sealed class FakePortableNativePopupHost : IWpfPortableNativePopupHost
+     {
+         public bool HasPresentedFrame => true;
+ 
++        public long PresentedFrameCount => 1;
++
++        public event EventHandler? PresentationFailed;
++
+         public bool HasGpuHitTestCache => true;
+ 
+         public bool TryGetGpuHitTestCacheSnapshot(out ProGpuWpfDiagnostics.GpuHitTestCacheSnapshot snapshot)
+@@ -3008,6 +3486,8 @@ public void SetDeviceScale(double dpiScaleX, double dpiScaleY)
+ 
+         public void Hide() => HideCount++;
+ 
++        public void RaisePresentationFailed() => PresentationFailed?.Invoke(this, EventArgs.Empty);
++
+         public void Dispose() => IsDisposed = true;
+     }
+ 
+diff --git a/src/ProGPU.Wpf.Tests/WpfPortableWindowActivationTests.cs b/src/ProGPU.Wpf.Tests/WpfPortableWindowActivationTests.cs
+index 028ff4f0..207c3ea1 100644
+--- a/src/ProGPU.Wpf.Tests/WpfPortableWindowActivationTests.cs
++++ b/src/ProGPU.Wpf.Tests/WpfPortableWindowActivationTests.cs
+@@ -616,6 +616,14 @@ public void CreateHostOptionsMapsResizableCustomChromeToHiddenResizableBorder()
+         Assert.Equal(ProGpuWpfWindowBorder.HiddenResizable, options.WindowBorder);
+     }
+ 
++    [Fact]
++    public void CreateHostOptionsEnablesDisplaySynchronizedPresentationOnLinux()
++    {
++        var options = WpfPortableWindowActivation.CreateHostOptions(new FakeWindow());
++
++        Assert.Equal(OperatingSystem.IsLinux(), options.VSync);
++    }
++
+     [Fact]
+     public void TryAttachSynchronizesInitialWindowShapeBeforeFirstRender()
+     {
+@@ -1131,6 +1139,12 @@ public void PassivePointerInputForNonActivatingOwnedWindowPreservesCurrentActiva
+ 
+         var args = new WpfInputEventArgs(WpfInputEventKind.MouseMove, x: 12, y: 24);
+         RaiseHostInputEvent(host, args);
++        if (OperatingSystem.IsLinux())
++        {
++            typeof(ProGpuWpfWindowHost)
++                .GetMethod("OnUpdate", BindingFlags.Instance | BindingFlags.NonPublic)!
++                .Invoke(host, new object[] { 0.0 });
++        }
+ 
+         Assert.Equal(0, service.SetActivationStateCount);
+         Assert.Equal(1, service.InputCount);
+@@ -1249,6 +1263,12 @@ public void HostInputUsesTypedDispatcherQueue()
+         Assert.NotNull(service.LastBeginInvokeInputCallback);
+         Assert.Equal(0, window.Dispatcher.BeginInvokeCount);
+         Assert.Equal(0, service.InputCount);
++        if (OperatingSystem.IsLinux())
++        {
++            Assert.Contains("Input", service.FlushedPriorities);
++            Assert.Contains("Render", service.FlushedPriorities);
++            Assert.Same(window, service.LastFlushWindow);
++        }
+ 
+         service.LastBeginInvokeInputCallback.Invoke();
+ 
+@@ -1260,6 +1280,88 @@ public void HostInputUsesTypedDispatcherQueue()
+         Assert.True(scheduler.RequestCount > requestCountBeforeInput);
+     }
+ 
++    [Fact]
++    public void QueuedPressedMoveBurstsRenderOnlyTheLatestPosition()
++    {
++        var service = new TestWindowActivationServiceRegistrar
++        {
++            QueueInputCallbacks = true,
++            RunQueuedInputOnInputFlush = true
++        };
++        using var serviceRegistration = PortableWpfServiceRegistry.RegisterWindowActivationService(service);
++        using var host = new ProGpuWpfWindowHost();
++        var window = new FakeDispatchingPortableInputWindow();
++        var source = new FakePortablePresentationSource();
++
++        Assert.True(WpfPortableWindowActivation.TryAttach(host, window, source, out var activation));
++        Assert.NotNull(activation);
++
++        RaiseHostInputEvent(host, new WpfInputEventArgs(WpfInputEventKind.MouseDown, x: 10, y: 20, button: WpfMouseButton.Left));
++        RaiseHostInputEvent(host, new WpfInputEventArgs(WpfInputEventKind.MouseMove, x: 20, y: 30));
++        RaiseHostInputEvent(host, new WpfInputEventArgs(WpfInputEventKind.MouseMove, x: 30, y: 40));
++
++        Assert.Equal(1, service.InputCount);
++
++        typeof(ProGpuWpfWindowHost)
++            .GetMethod("OnUpdate", BindingFlags.Instance | BindingFlags.NonPublic)!
++            .Invoke(host, new object[] { 0.0 });
++
++        Assert.True(host.RequiresImmediateInputProcessing(new WpfInputEventArgs(WpfInputEventKind.MouseMove, x: 30, y: 40)));
++        Assert.False(host.RequiresImmediateInputRendering(new WpfInputEventArgs(WpfInputEventKind.MouseMove, x: 30, y: 40)));
++
++        RaiseHostInputEvent(host, new WpfInputEventArgs(WpfInputEventKind.MouseUp, x: 30, y: 40, button: WpfMouseButton.Left));
++
++        Assert.Equal(3, service.InputCount);
++        Assert.Equal(
++            new[]
++            {
++                "ProcessInput:10",
++                "ProcessInput:30",
++                "ProcessInput:30"
++            },
++            service.InputDispatchLog.Where(entry => entry.StartsWith("ProcessInput:", StringComparison.Ordinal)));
++        Assert.DoesNotContain("ProcessInput:20", service.InputDispatchLog);
++        Assert.Equal(3, service.InputDispatchLog.Count(entry => entry == "BeginInput"));
++        Assert.True(service.InputDispatchLog.Count(entry => entry == "Flush:Render") >= 2);
++    }
++
++    [Fact]
++    public void LinuxPassivePointerInputDoesNotForceDispatcherRendering()
++    {
++        if (!OperatingSystem.IsLinux())
++        {
++            return;
++        }
++
++        var service = new TestWindowActivationServiceRegistrar
++        {
++            QueueInputCallbacks = true,
++            RunQueuedInputOnInputFlush = true
++        };
++        using var serviceRegistration = PortableWpfServiceRegistry.RegisterWindowActivationService(service);
++        using var host = new ProGpuWpfWindowHost();
++        var window = new FakeDispatchingPortableInputWindow();
++        var source = new FakePortablePresentationSource();
++
++        Assert.True(WpfPortableWindowActivation.TryAttach(host, window, source, out var activation));
++        Assert.NotNull(activation);
++
++        RaiseHostInputEvent(host, new WpfInputEventArgs(WpfInputEventKind.MouseMove, x: 10, y: 20));
++
++        Assert.Equal(0, service.BeginInvokeInputCount);
++        Assert.Equal(0, service.InputCount);
++        Assert.DoesNotContain("Input", service.FlushedPriorities);
++        Assert.DoesNotContain("Render", service.FlushedPriorities);
++
++        typeof(ProGpuWpfWindowHost)
++            .GetMethod("OnUpdate", BindingFlags.Instance | BindingFlags.NonPublic)!
++            .Invoke(host, new object[] { 0.0 });
++
++        Assert.Equal(1, service.InputCount);
++        Assert.Contains("Input", service.FlushedPriorities);
++        Assert.DoesNotContain("Render", service.FlushedPriorities);
++    }
++
+     [Fact]
+     public void HostInputDoesNotUseReflectedHandleActivateOrInputFallback()
+     {
+@@ -2285,12 +2387,16 @@ private sealed class TestWindowActivationServiceRegistrar : IPortableWindowActiv
+ 
+         public bool QueueInputCallbacks { get; set; }
+ 
++        public bool RunQueuedInputOnInputFlush { get; set; }
++
+         public int BeginInvokeInputCount { get; private set; }
+ 
+         public object? LastBeginInvokeInputWindow { get; private set; }
+ 
+         public Action? LastBeginInvokeInputCallback { get; private set; }
+ 
++        public List<string> InputDispatchLog { get; } = new List<string>();
++
+         public int InputCount { get; private set; }
+ 
+         public object? LastInputWindow { get; private set; }
+@@ -2417,6 +2523,7 @@ public bool TryBeginInvokeInput(object window, Action callback)
+             BeginInvokeInputCount++;
+             LastBeginInvokeInputWindow = window;
+             LastBeginInvokeInputCallback = callback;
++            InputDispatchLog.Add("BeginInput");
+             return true;
+         }
+ 
+@@ -2425,6 +2532,8 @@ public bool TryProcessInputEvent(object window, PortableWindowInputEvent input)
+             InputCount++;
+             LastInputWindow = window;
+             LastInput = input;
++            InputDispatchLog.Add(
++                "ProcessInput:" + input.X.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture));
+             input.Handled = true;
+             return true;
+         }
+@@ -2433,12 +2542,21 @@ public bool TryFlushDispatcherOperations(object window, string markerPriorityNam
+         {
+             LastFlushWindow = window;
+             FlushedPriorities.Add(markerPriorityName);
++            InputDispatchLog.Add($"Flush:{markerPriorityName}");
+             FlushTimeouts.Add(timeout);
+             if (ThrowOnDispatcherFlush)
+             {
+                 throw new InvalidOperationException("Cannot perform this operation while dispatcher processing is suspended.");
+             }
+ 
++            if (RunQueuedInputOnInputFlush &&
++                string.Equals(markerPriorityName, "Input", StringComparison.Ordinal) &&
++                LastBeginInvokeInputCallback is { } callback)
++            {
++                LastBeginInvokeInputCallback = null;
++                callback();
++            }
++
+             return true;
+         }
+ 
+@@ -2485,6 +2603,7 @@ public void Clear()
+             LastDragDropText = null;
+             FlushedPriorities.Clear();
+             FlushTimeouts.Clear();
++            InputDispatchLog.Clear();
+         }
+     }
+ 
+diff --git a/src/ProGPU.Wpf/Composition/Mil/WpfResourceResolver.cs b/src/ProGPU.Wpf/Composition/Mil/WpfResourceResolver.cs
+index b6e7bcc5..2226ed13 100644
+--- a/src/ProGPU.Wpf/Composition/Mil/WpfResourceResolver.cs
++++ b/src/ProGPU.Wpf/Composition/Mil/WpfResourceResolver.cs
+@@ -2841,7 +2841,9 @@ or OverflowException
+     {
+         try
+         {
+-            return new FontFamily(familyName).NativeFont;
++            FontInfo? info = FontApi.FindSystemFont(familyName)
++                ?? FontApi.FindSystemFont("Arial", "DejaVu Sans", "Liberation Sans", "Noto Sans");
++            return info == null ? FontApi.PlatformFallbackFont : FontManager.LoadSystemFont(info);
+         }
+         catch (FormatException)
+         {
+diff --git a/src/ProGPU.Wpf/Composition/Mil/WpfVisualInvalidationTracker.cs b/src/ProGPU.Wpf/Composition/Mil/WpfVisualInvalidationTracker.cs
+index 828b38ec..e48efe3f 100644
+--- a/src/ProGPU.Wpf/Composition/Mil/WpfVisualInvalidationTracker.cs
++++ b/src/ProGPU.Wpf/Composition/Mil/WpfVisualInvalidationTracker.cs
+@@ -41,6 +41,10 @@ public sealed class WpfVisualInvalidationTracker : IDisposable
+     private readonly HashSet<object> _visualStateTraversalVisited = new(ReferenceEqualityComparer.Instance);
+     private readonly HashSet<object> _visualChildrenCurrentSources = new(ReferenceEqualityComparer.Instance);
+     private readonly HashSet<object> _subscriptionTraversalVisited = new(ReferenceEqualityComparer.Instance);
++
++    private readonly HashSet<object> _subscribedObjects = new(ReferenceEqualityComparer.Instance);
++
++    private readonly HashSet<object> _incrementalSubscriptionSources = new(ReferenceEqualityComparer.Instance);
+     private object? _root;
+     private object? _lastDirtySource;
+     private bool _isDirty;
+@@ -286,6 +290,15 @@ private void MarkDirtyAndRefresh(object? source)
+         RequestSubscriptionRefresh();
+     }
+ 
++    private void MarkDirtyAndSubscribeIncremental(object? source)
++    {
++        MarkDirty(source);
++        if (_root != null && source != null && !_subscriptionsNeedRefresh)
++        {
++            _incrementalSubscriptionSources.Add(source);
++        }
++    }
++
+     private void MarkDirtyListAndRefresh(IReadOnlyList<object> sources)
+     {
+         var shouldRaiseInvalidated = false;
+@@ -311,6 +324,36 @@ private void RefreshSubscriptionsIfNeeded()
+         if (_subscriptionsNeedRefresh)
+         {
+             RefreshSubscriptions();
++            _incrementalSubscriptionSources.Clear();
++            return;
++        }
++
++        if (_incrementalSubscriptionSources.Count > 0)
++        {
++            SubscribeIncremental();
++        }
++    }
++
++    private void SubscribeIncremental()
++    {
++        if (_root == null || _isRefreshing)
++        {
++            _incrementalSubscriptionSources.Clear();
++            return;
++        }
++
++        _isRefreshing = true;
++        try
++        {
++            foreach (var source in _incrementalSubscriptionSources)
++            {
++                SubscribeObject(source, _subscribedObjects);
++            }
++        }
++        finally
++        {
++            _incrementalSubscriptionSources.Clear();
++            _isRefreshing = false;
+         }
+     }
+ 
+@@ -343,16 +386,15 @@ private void RefreshSubscriptions()
+ 
+     private void SubscribeGraph(object root)
+     {
+-        _subscriptionTraversalVisited.Clear();
++        _subscribedObjects.Clear();
+         _visualChildrenCurrentSources.Clear();
+         try
+         {
+-            SubscribeObject(root, _subscriptionTraversalVisited);
++            SubscribeObject(root, _subscribedObjects);
+             RemoveStaleVisualChildrenSnapshots(_visualChildrenSnapshots, _visualChildrenCurrentSources);
+         }
+         finally
+         {
+-            _subscriptionTraversalVisited.Clear();
+             _visualChildrenCurrentSources.Clear();
+         }
+     }
+@@ -1980,6 +2022,7 @@ private void ClearSubscriptions()
+         }
+ 
+         _subscriptions.Clear();
++        _subscribedObjects.Clear();
+     }
+ 
+     private readonly struct InvalidationSubscription
+@@ -2062,7 +2105,7 @@ public SourceInvalidationHandler(WpfVisualInvalidationTracker tracker, object so
+ 
+         public void OnInvalidated(object? sender, EventArgs e)
+         {
+-            _tracker.MarkDirtyAndRefresh(_source);
++            _tracker.MarkDirtyAndSubscribeIncremental(_source);
+         }
+     }
+ 
+@@ -2079,7 +2122,7 @@ public PropertyChangedInvalidationHandler(WpfVisualInvalidationTracker tracker,
+ 
+         public void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+         {
+-            _tracker.MarkDirtyAndRefresh(_source);
++            _tracker.MarkDirtyAndSubscribeIncremental(_source);
+         }
+     }
+ 
+diff --git a/src/ProGPU.Wpf/Platform/QueuedWpfDispatcherService.cs b/src/ProGPU.Wpf/Platform/QueuedWpfDispatcherService.cs
+index 6b43bad3..89beaafd 100644
+--- a/src/ProGPU.Wpf/Platform/QueuedWpfDispatcherService.cs
++++ b/src/ProGPU.Wpf/Platform/QueuedWpfDispatcherService.cs
+@@ -8,8 +8,10 @@ public sealed class QueuedWpfDispatcherService : IWpfDispatcherService
+ {
+     private readonly object _gate = new();
+     private readonly int _dispatcherThreadId;
+-    private readonly List<QueuedOperation> _queue = new();
++    private readonly Queue<QueuedOperation>[] _queues;
+     private long _nextSequence;
++    private int _pendingCount;
++    private bool _isProcessing;
+ 
+     public QueuedWpfDispatcherService()
+         : this(Environment.CurrentManagedThreadId)
+@@ -24,10 +26,26 @@ internal QueuedWpfDispatcherService(int dispatcherThreadId)
+         }
+ 
+         _dispatcherThreadId = dispatcherThreadId;
++        _queues = new Queue<QueuedOperation>[(int)WpfDispatcherPriority.Send + 1];
++        for (var i = 0; i < _queues.Length; i++)
++        {
++            _queues[i] = new Queue<QueuedOperation>();
++        }
+     }
+ 
+     public event EventHandler? WorkAvailable;
+ 
++    internal bool HasPendingOperations
++    {
++        get
++        {
++            lock (_gate)
++            {
++                return _pendingCount != 0;
++            }
++        }
++    }
++
+     public bool CheckAccess()
+     {
+         return Environment.CurrentManagedThreadId == _dispatcherThreadId;
+@@ -43,78 +61,116 @@ public IWpfDispatcherOperation Post(Action callback, WpfDispatcherPriority prior
+         }
+ 
+         QueuedOperation operation;
++        bool raiseWorkAvailable;
+         lock (_gate)
+         {
+             operation = new QueuedOperation(callback, priority, _nextSequence++);
+-            _queue.Add(operation);
++            raiseWorkAvailable = _pendingCount == 0 && !_isProcessing;
++            _queues[(int)priority].Enqueue(operation);
++            _pendingCount++;
++        }
++
++        if (raiseWorkAvailable)
++        {
++            WorkAvailable?.Invoke(this, EventArgs.Empty);
+         }
+ 
+-        WorkAvailable?.Invoke(this, EventArgs.Empty);
+         return operation;
+     }
+ 
+     public bool ProcessPending()
++    {
++        return ProcessPending(int.MaxValue);
++    }
++
++    internal bool ProcessPending(int maximumOperations)
+     {
+         if (!CheckAccess())
+         {
+             throw new InvalidOperationException("The queued WPF dispatcher must be processed on its owning thread.");
+         }
+ 
+-        var processed = false;
++        if (maximumOperations <= 0)
++        {
++            throw new ArgumentOutOfRangeException(nameof(maximumOperations), maximumOperations, "Maximum operations must be greater than zero.");
++        }
+ 
+-        while (true)
++        lock (_gate)
+         {
+-            QueuedOperation? operation;
+-            lock (_gate)
++            if (_isProcessing)
+             {
+-                operation = DequeueNextOperation();
++                return false;
+             }
+ 
+-            if (operation == null)
+-            {
+-                return processed;
+-            }
++            _isProcessing = true;
++        }
+ 
+-            if (!operation.TryStart())
++        var processed = false;
++        var dequeuedCount = 0;
++        try
++        {
++            while (dequeuedCount < maximumOperations)
+             {
+-                continue;
++                QueuedOperation? operation;
++                lock (_gate)
++                {
++                    operation = DequeueNextOperation();
++                }
++
++                if (operation == null)
++                {
++                    return processed;
++                }
++
++                dequeuedCount++;
++                if (!operation.TryStart())
++                {
++                    continue;
++                }
++
++                try
++                {
++                    operation.Invoke();
++                    processed = true;
++                }
++                finally
++                {
++                    operation.MarkCompleted();
++                }
+             }
+ 
+-            try
+-            {
+-                operation.Invoke();
+-                processed = true;
+-            }
+-            finally
++            return processed;
++        }
++        finally
++        {
++            lock (_gate)
+             {
+-                operation.MarkCompleted();
++                _isProcessing = false;
+             }
+         }
+     }
+ 
+     private QueuedOperation? DequeueNextOperation()
+     {
+-        if (_queue.Count == 0)
++        if (_pendingCount == 0)
+         {
+             return null;
+         }
+ 
+-        var selectedIndex = 0;
+-        var selected = _queue[0];
+-
+-        for (var i = 1; i < _queue.Count; i++)
++        for (var i = _queues.Length - 1; i >= 0; i--)
+         {
+-            var candidate = _queue[i];
+-            if (candidate.Priority > selected.Priority ||
+-                candidate.Priority == selected.Priority && candidate.Sequence < selected.Sequence)
++            Queue<QueuedOperation> queue = _queues[i];
++            if (queue.Count == 0)
+             {
+-                selectedIndex = i;
+-                selected = candidate;
++                continue;
+             }
++
++            _pendingCount--;
++            return queue.Dequeue();
+         }
+ 
+-        _queue.RemoveAt(selectedIndex);
+-        return selected;
++        _pendingCount = 0;
++        return null;
+     }
+ 
+     private sealed class QueuedOperation : IWpfDispatcherOperation
+diff --git a/src/ProGPU.Wpf/ProGpuWpfWindowHost.cs b/src/ProGPU.Wpf/ProGpuWpfWindowHost.cs
+index 005ed707..46901a33 100644
+--- a/src/ProGPU.Wpf/ProGpuWpfWindowHost.cs
++++ b/src/ProGPU.Wpf/ProGpuWpfWindowHost.cs
+@@ -28,6 +28,7 @@ public unsafe sealed class ProGpuWpfWindowHost : IDisposable
+     private const string TraceInputEnvironmentVariable = "PROGPU_WPF_TRACE_INPUT";
+     private const string TraceNativeLoopEnvironmentVariable = "PROGPU_WPF_TRACE_NATIVE_LOOP";
+     private const int HitTestOwnerBufferCapacity = 64;
++    private const int MaximumDispatcherOperationsPerNativePass = 64;
+     private static readonly TimeSpan PortableNativeLoopActiveDelay = TimeSpan.FromMilliseconds(1);
+     private static readonly TimeSpan PortableNativeLoopIdleDelay = TimeSpan.FromMilliseconds(16);
+ 
+@@ -39,6 +40,7 @@ public unsafe sealed class ProGpuWpfWindowHost : IDisposable
+     private static WeakReference<ProGpuWpfWindowHost>? s_requestedNativeActivation;
+ 
+     private readonly ProGpuWpfWindowOptions _options;
++    private readonly SemaphoreSlim _nativeLoopSignal = new(0, 1);
+     private IWindow? _window;
+     private ProGpuWpfCompositionTarget? _target;
+     private ProGpuDirectXDevice? _directXDevice;
+@@ -53,7 +55,7 @@ public unsafe sealed class ProGpuWpfWindowHost : IDisposable
+     private IWpfRenderScheduler _wpfRenderScheduler;
+     private WpfPortablePresentationSourceBridge? _portablePresentationSourceBridge;
+     private readonly List<WpfPortablePopupBridge> _portablePopupBridges = new();
+-    private readonly WpfPortablePopupService? _portablePopupService;
++    private readonly object?[] _platformInputHitTestOwners = new object?[HitTestOwnerBufferCapacity];
+     private readonly IDisposable? _portablePopupServiceRegistration;
+     private object? _wpfRootVisual;
+     private double _portablePresentationSourceDpiScaleX = double.NaN;
+@@ -69,11 +71,22 @@ public unsafe sealed class ProGpuWpfWindowHost : IDisposable
+     private bool _disposeNativeWindowWhenLoopExits;
+     private bool _hasPresentedFrame;
+     private long _presentedFrameCount;
++    private int _pendingRenderRequestIsWakeOnly;
+     private bool _ownsRenderScheduler;
+     private bool _isRendering;
+     private bool _isRenderingLiveResize;
+     private bool _isInNativeWindowCloseCallback;
+     private bool _isForwardingPlatformInput;
++    private WpfInputEventArgs? _pendingPassivePointerMove;
++    private WpfInputEventArgs? _pendingPressedPointerMove;
++    private uint _pressedMouseButtons;
++    private long _platformInputDispatchVersion;
++    private long _platformInputHitTestVersion = -1;
++    private double _platformInputHitTestX;
++    private double _platformInputHitTestY;
++    private int _platformInputHitTestOwnerCount;
++    private int _platformInputHitTestCapacity;
++    private bool _platformInputHitTestResult;
+     private bool _isProcessingRenderSchedulerWakeup;
+     private bool _isProcessingDispatcherWorkWakeup;
+     private bool _forceFullWpfReplay;
+@@ -128,8 +141,7 @@ public ProGpuWpfWindowHost(ProGpuWpfWindowOptions? options = null)
+         AttachRenderScheduler(_wpfRenderScheduler);
+         if (!OperatingSystem.IsWindows() && _options.EnablePortablePopupService)
+         {
+-            _portablePopupService = new WpfPortablePopupService(this);
+-            _portablePopupServiceRegistration = PortableWpfServiceRegistry.RegisterPopupService(_portablePopupService);
++            _portablePopupServiceRegistration = WpfPortablePopupService.RegisterHost(this);
+         }
+     }
+ 
+@@ -291,6 +303,8 @@ public IWpfRenderScheduler WpfRenderScheduler
+ 
+     internal long NativeLoopWakeupCount { get; private set; }
+ 
++    internal long PlatformInputHitTestCacheHitCount { get; private set; }
++
+     internal long NativeLoopOwnerActivationCount { get; private set; }
+ 
+     internal long NativeLoopOwnerIterationCount { get; private set; }
+@@ -548,7 +562,7 @@ private void RunPortableNativeLoop()
+                 return;
+             }
+ 
+-            Thread.Sleep(hadPendingRender || WpfRenderScheduler.HasPendingRenderRequest
++            WaitForNativeLoopWakeup(hadPendingRender || WpfRenderScheduler.HasPendingRenderRequest
+                 ? PortableNativeLoopActiveDelay
+                 : PortableNativeLoopIdleDelay);
+         }
+@@ -967,7 +981,7 @@ private void SetClientSizeCore(int width, int height, bool updatePortablePresent
+     public void DoEvents()
+     {
+         ThrowIfDisposed();
+-        ProcessDispatcherQueueCore();
++        ProcessDispatcherQueueCore(bounded: true);
+         EnsureWindow();
+         IWindow window = _window!;
+         if (!window.IsInitialized)
+@@ -1012,7 +1026,7 @@ public void DoEvents()
+             return;
+         }
+ 
+-        ProcessDispatcherQueueCore();
++        ProcessDispatcherQueueCore(bounded: true);
+     }
+ 
+     public void Close()
+@@ -1430,6 +1444,7 @@ private void OnUpdate(double deltaSeconds)
+             return;
+         }
+ 
++        FlushPendingPointerMoves();
+         TryProcessDispatcherWorkWakeup();
+         UpdateTick?.Invoke(this, EventArgs.Empty);
+         DisposeDeferredNativeWindowIfNeeded();
+@@ -1452,13 +1467,14 @@ private void OnRender(double deltaSeconds)
+ 
+             if (_target == null || _window == null || _target.Context.Surface == null)
+             {
+-                ProcessDispatcherQueueCore();
++                ProcessDispatcherQueueCore(bounded: true);
+                 return;
+             }
+ 
++            bool currentRequestRequiresPresentation = ConsumeScheduledRenderRequest();
+             var geometry = ResolveCurrentRenderSurfaceGeometry();
+             SynchronizePortablePresentationSourceGeometry(geometry);
+-            ProcessDispatcherQueueCore();
++            ProcessDispatcherQueueCore(bounded: true);
+ 
+             if (_target == null || _window == null || _target.Context.Surface == null)
+             {
+@@ -1487,7 +1503,7 @@ private void OnRender(double deltaSeconds)
+                 pixelHeight,
+                 dpiScale);
+ 
+-            if (!ShouldRenderFrame(frameState))
++            if (!ShouldRenderFrame(frameState, currentRequestRequiresPresentation))
+             {
+                 SkippedFrameCount++;
+                 return;
+@@ -1616,7 +1632,6 @@ private void OnRender(double deltaSeconds)
+                     Render?.Invoke(this, args);
+                 }
+ 
+-                WpfRenderScheduler.ConsumeRenderRequest();
+             }
+ 
+             if (Present(
+@@ -2105,10 +2120,17 @@ private void OnClosing()
+ 
+     private void OnCompositionTargetRenderInvalidated(object? sender, EventArgs e)
+     {
+-        RequestRenderAndWakeNativeLoop();
++        RequestRenderWakeOnlyAndWakeNativeLoop();
+     }
+ 
+     internal bool ShouldRenderFrame(ProGpuWpfFrameState frameState)
++    {
++        return ShouldRenderFrame(frameState, currentRequestRequiresPresentation: false);
++    }
++
++    private bool ShouldRenderFrame(
++        ProGpuWpfFrameState frameState,
++        bool currentRequestRequiresPresentation)
+     {
+         if (!EnableFrameCoalescing)
+         {
+@@ -2120,7 +2142,9 @@ internal bool ShouldRenderFrame(ProGpuWpfFrameState frameState)
+             return true;
+         }
+ 
+-        if (WpfRenderScheduler.HasPendingRenderRequest)
++        if (currentRequestRequiresPresentation ||
++            (WpfRenderScheduler.HasPendingRenderRequest &&
++             Volatile.Read(ref _pendingRenderRequestIsWakeOnly) == 0))
+         {
+             return true;
+         }
+@@ -2130,7 +2154,11 @@ internal bool ShouldRenderFrame(ProGpuWpfFrameState frameState)
+ 
+     internal bool ShouldPumpNativeRender()
+     {
+-        if (_isDisposed || _hasNativeWindowCloseStarted)
++        if (_isDisposed ||
++            _hasNativeWindowCloseStarted ||
++            !_isHostVisible ||
++            _windowState == ProGpuWpfWindowState.Minimized ||
++            _window is { WindowState: SilkWindowState.Minimized })
+         {
+             return false;
+         }
+@@ -2277,17 +2305,80 @@ internal bool TryHitTestOwners(double x, double y, Span<object?> owners, out int
+             return false;
+         }
+ 
++        if (TryCopyPlatformInputHitTest(x, y, owners, out ownerCount, out bool cachedResult))
++        {
++            return cachedResult;
++        }
++
+         ProGpuWpfCompositionTarget? target = GetGpuHitTestTargetAfterRefresh();
+         if (target == null)
+         {
+             return false;
+         }
+ 
+-        return target.TryHitTestOwners(
++        bool result = target.TryHitTestOwners(
+             new System.Numerics.Vector2((float)x, (float)y),
+             owners,
+             out ownerCount,
+             out _);
++        StorePlatformInputHitTest(x, y, owners, ownerCount, result);
++        return result;
++    }
++
++    private bool TryCopyPlatformInputHitTest(
++        double x,
++        double y,
++        Span<object?> owners,
++        out int ownerCount,
++        out bool result)
++    {
++        ownerCount = 0;
++        result = false;
++        if (!_isForwardingPlatformInput ||
++            _platformInputHitTestVersion != _platformInputDispatchVersion ||
++            _platformInputHitTestX != x ||
++            _platformInputHitTestY != y ||
++            owners.Length > _platformInputHitTestCapacity)
++        {
++            return false;
++        }
++
++        ownerCount = Math.Min(_platformInputHitTestOwnerCount, owners.Length);
++        _platformInputHitTestOwners.AsSpan(0, ownerCount).CopyTo(owners);
++        result = _platformInputHitTestResult;
++        PlatformInputHitTestCacheHitCount++;
++        return true;
++    }
++
++    private void StorePlatformInputHitTest(
++        double x,
++        double y,
++        ReadOnlySpan<object?> owners,
++        int ownerCount,
++        bool result)
++    {
++        if (!_isForwardingPlatformInput || owners.Length > _platformInputHitTestOwners.Length)
++        {
++            return;
++        }
++
++        ClearPlatformInputHitTestCache();
++        _platformInputHitTestVersion = _platformInputDispatchVersion;
++        _platformInputHitTestX = x;
++        _platformInputHitTestY = y;
++        _platformInputHitTestOwnerCount = Math.Min(ownerCount, owners.Length);
++        _platformInputHitTestCapacity = owners.Length;
++        _platformInputHitTestResult = result;
++        owners[.._platformInputHitTestOwnerCount].CopyTo(_platformInputHitTestOwners);
++    }
++
++    private void ClearPlatformInputHitTestCache()
++    {
++        Array.Clear(_platformInputHitTestOwners, 0, _platformInputHitTestOwnerCount);
++        _platformInputHitTestVersion = -1;
++        _platformInputHitTestOwnerCount = 0;
++        _platformInputHitTestCapacity = 0;
++        _platformInputHitTestResult = false;
+     }
+ 
+     private ProGpuWpfCompositionTarget? GetGpuHitTestTargetAfterRefresh()
+@@ -2586,6 +2677,11 @@ private void DetachInputService()
+         {
+             TraceNativeLoop($"input detached: host={GetHashCode():x}, handle={window.Handle}");
+         }
++
++        _pendingPassivePointerMove = null;
++        _pendingPressedPointerMove = null;
++        _pressedMouseButtons = 0;
++        ClearPlatformInputHitTestCache();
+     }
+ 
+     private void OnPlatformInputReceived(object? sender, WpfInputEventArgs e)
+@@ -2600,23 +2696,121 @@ private void OnPlatformInputReceived(object? sender, WpfInputEventArgs e)
+         TraceInputEvent("native", e);
+         var input = NormalizeInputEventForCurrentRenderSurface(e);
+         TraceInputEvent("wpf", input);
++
++        if (OperatingSystem.IsLinux() && input.Kind == WpfInputEventKind.MouseMove)
++        {
++            if (_pressedMouseButtons == 0)
++            {
++                _pendingPassivePointerMove = input;
++                TryRequestNativeLoopWakeup();
++            }
++            else
++            {
++                _pendingPressedPointerMove = input;
++                TryRequestNativeLoopWakeup();
++            }
++
++            return;
++        }
++
++        FlushPendingPointerMoves();
++        UpdatePressedMouseButtons(input);
++        DispatchPlatformInput(input, e);
++    }
++
++    private void FlushPendingPointerMoves()
++    {
++        FlushPendingPassivePointerMove();
++        FlushPendingPressedPointerMove();
++    }
++
++    private void FlushPendingPassivePointerMove()
++    {
++        WpfInputEventArgs? input = _pendingPassivePointerMove;
++        if (input == null)
++        {
++            return;
++        }
++
++        _pendingPassivePointerMove = null;
++        DispatchPlatformInput(input, null);
++    }
++
++    private void FlushPendingPressedPointerMove()
++    {
++        WpfInputEventArgs? input = _pendingPressedPointerMove;
++        if (input == null)
++        {
++            return;
++        }
++
++        _pendingPressedPointerMove = null;
++        DispatchPlatformInput(input, null);
++    }
++
++    internal bool RequiresImmediateInputProcessing(WpfInputEventArgs input)
++    {
++        ArgumentNullException.ThrowIfNull(input);
++        return OperatingSystem.IsLinux();
++    }
++
++    internal bool RequiresImmediateInputRendering(WpfInputEventArgs input)
++    {
++        ArgumentNullException.ThrowIfNull(input);
++        return OperatingSystem.IsLinux() &&
++            input.Kind is WpfInputEventKind.MouseDown or
++                WpfInputEventKind.MouseUp or
++                WpfInputEventKind.MouseWheel;
++    }
++
++    private void DispatchPlatformInput(WpfInputEventArgs input, WpfInputEventArgs? originalInput)
++    {
++        unchecked
++        {
++            _platformInputDispatchVersion++;
++        }
++
++        ClearPlatformInputHitTestCache();
+         _isForwardingPlatformInput = true;
+         try
+         {
+             InputReceived?.Invoke(this, input);
+-            if (!ReferenceEquals(input, e))
++            if (originalInput != null && !ReferenceEquals(input, originalInput))
+             {
+-                e.Handled = input.Handled;
++                originalInput.Handled = input.Handled;
+             }
+         }
+         finally
+         {
+             _isForwardingPlatformInput = false;
++            ClearPlatformInputHitTestCache();
+         }
+ 
+         RequestRenderAndWakeNativeLoop();
+     }
+ 
++    private void UpdatePressedMouseButtons(WpfInputEventArgs input)
++    {
++        uint button = input.Button switch
++        {
++            WpfMouseButton.Left => 1u,
++            WpfMouseButton.Right => 2u,
++            WpfMouseButton.Middle => 4u,
++            WpfMouseButton.XButton1 => 8u,
++            WpfMouseButton.XButton2 => 16u,
++            _ => 0u
++        };
++
++        if (input.Kind == WpfInputEventKind.MouseDown)
++        {
++            _pressedMouseButtons |= button;
++        }
++        else if (input.Kind == WpfInputEventKind.MouseUp)
++        {
++            _pressedMouseButtons &= ~button;
++        }
++    }
++
+     internal bool TryProcessPortablePopupInput(WpfInputEventArgs input)
+     {
+         ArgumentNullException.ThrowIfNull(input);
+@@ -2910,11 +3104,25 @@ private bool IsPlatformEventForCurrentWindow(object? sender)
+         return sender is not IView || ReferenceEquals(sender, _window);
+     }
+ 
+-    private bool ProcessDispatcherQueueCore()
++    private bool ProcessDispatcherQueueCore(bool bounded = false)
+     {
+         try
+         {
+-            return PlatformServices.Dispatcher.ProcessPending();
++            IWpfDispatcherService dispatcher = PlatformServices.Dispatcher;
++            if (bounded &&
++                OperatingSystem.IsLinux() &&
++                dispatcher is QueuedWpfDispatcherService queuedDispatcher)
++            {
++                bool processed = queuedDispatcher.ProcessPending(MaximumDispatcherOperationsPerNativePass);
++                if (queuedDispatcher.HasPendingOperations)
++                {
++                    TryRequestNativeLoopWakeup();
++                }
++
++                return processed;
++            }
++
++            return dispatcher.ProcessPending();
+         }
+         catch (PlatformNotSupportedException)
+         {
+@@ -2969,7 +3177,7 @@ internal bool TryProcessDispatcherWorkWakeup()
+         _isProcessingDispatcherWorkWakeup = true;
+         try
+         {
+-            return ProcessDispatcherQueueCore();
++            return ProcessDispatcherQueueCore(bounded: true);
+         }
+         finally
+         {
+@@ -2995,6 +3203,7 @@ private void DisposeTarget()
+         target.RenderInvalidated -= OnCompositionTargetRenderInvalidated;
+         target.Dispose();
+         WpfRenderScheduler.Reset();
++        Volatile.Write(ref _pendingRenderRequestIsWakeOnly, 0);
+         LastPresentedFrameState = default;
+         Interlocked.Exchange(ref _presentedFrameCount, 0);
+         Volatile.Write(ref _hasPresentedFrame, false);
+@@ -3058,16 +3267,97 @@ internal void RequestRenderAndWakeNativeLoop()
+ 
+         try
+         {
++            Volatile.Write(ref _pendingRenderRequestIsWakeOnly, 0);
++            if (WpfRenderScheduler is IWpfDelayedRenderScheduler delayedScheduler)
++            {
++                delayedScheduler.RequestRender(TimeSpan.Zero);
++            }
++            else
++            {
++                WpfRenderScheduler.RequestRender();
++            }
++        }
++        catch (ObjectDisposedException)
++        {
++            return;
++        }
++
++        TryRequestNativeLoopWakeup();
++    }
++
++    private void RequestRenderWakeOnlyAndWakeNativeLoop()
++    {
++        if (_isDisposed)
++        {
++            return;
++        }
++
++        try
++        {
++            if (!WpfRenderScheduler.HasPendingRenderRequest)
++            {
++                Volatile.Write(ref _pendingRenderRequestIsWakeOnly, 1);
++            }
++
+             WpfRenderScheduler.RequestRender();
+         }
+         catch (ObjectDisposedException)
+         {
++            Volatile.Write(ref _pendingRenderRequestIsWakeOnly, 0);
++            return;
++        }
++
++        TryRequestNativeLoopWakeup();
++    }
++
++    internal void RequestMediaContextRenderAndWakeNativeLoop(
++        object? invalidatedSource,
++        TimeSpan delay)
++    {
++        if (_isDisposed)
++        {
++            return;
++        }
++
++        if (invalidatedSource != null)
++        {
++            InvalidateWpfSourceForPortableRender(invalidatedSource);
++            RequestRenderAndWakeNativeLoop();
++            return;
++        }
++
++        try
++        {
++            if (!WpfRenderScheduler.HasPendingRenderRequest)
++            {
++                Volatile.Write(ref _pendingRenderRequestIsWakeOnly, 1);
++            }
++
++            if (WpfRenderScheduler is IWpfDelayedRenderScheduler delayedScheduler)
++            {
++                delayedScheduler.RequestRender(delay);
++            }
++            else
++            {
++                WpfRenderScheduler.RequestRender();
++            }
++        }
++        catch (ObjectDisposedException)
++        {
++            Volatile.Write(ref _pendingRenderRequestIsWakeOnly, 0);
+             return;
+         }
+ 
+         TryRequestNativeLoopWakeup();
+     }
+ 
++    internal bool ConsumeScheduledRenderRequest()
++    {
++        bool wakeOnly = Interlocked.Exchange(ref _pendingRenderRequestIsWakeOnly, 0) != 0;
++        bool hadPendingRequest = WpfRenderScheduler.ConsumeRenderRequest();
++        return hadPendingRequest && !wakeOnly;
++    }
++
+     internal void InvalidateWpfSourceForPortableRender(object? source)
+     {
+         if (_target == null)
+@@ -3075,7 +3365,7 @@ internal void InvalidateWpfSourceForPortableRender(object? source)
+             return;
+         }
+ 
+-        object? dirtySource = source ?? _wpfRootVisual;
++        object? dirtySource = source is Guid animationRequest && animationRequest == new Guid(0x48a34330, 0x3d39, 0x4d2d, 0x73, 0x5d, 0xbb, 0xd6, 0x75, 0x0c, 0x09, 0xfa) ? _wpfRootVisual : source ?? _wpfRootVisual;
+         if (dirtySource != null)
+         {
+             _target.WpfInvalidationTracker.MarkDirty(dirtySource);
+@@ -3092,6 +3382,7 @@ internal bool TryRequestNativeLoopWakeup(Action continueEvents)
+         try
+         {
+             continueEvents();
++            SignalNativeLoopWakeup();
+             NativeLoopWakeupCount++;
+             return true;
+         }
+@@ -3109,6 +3400,22 @@ internal bool TryRequestNativeLoopWakeup(Action continueEvents)
+         }
+     }
+ 
++    internal bool WaitForNativeLoopWakeup(TimeSpan timeout)
++    {
++        return _nativeLoopSignal.Wait(timeout);
++    }
++
++    private void SignalNativeLoopWakeup()
++    {
++        try
++        {
++            _nativeLoopSignal.Release();
++        }
++        catch (SemaphoreFullException)
++        {
++        }
++    }
++
+     internal bool TryProcessRenderSchedulerWakeup()
+     {
+         var window = _window;
+diff --git a/src/ProGPU.Wpf/WpfPortableNativePopupHost.cs b/src/ProGPU.Wpf/WpfPortableNativePopupHost.cs
+index 115b20a5..32a55afe 100644
+--- a/src/ProGPU.Wpf/WpfPortableNativePopupHost.cs
++++ b/src/ProGPU.Wpf/WpfPortableNativePopupHost.cs
+@@ -9,6 +9,10 @@ internal interface IWpfPortableNativePopupHost : IDisposable
+ {
+     bool HasPresentedFrame { get; }
+ 
++    long PresentedFrameCount { get; }
++
++    event EventHandler? PresentationFailed;
++
+     bool HasGpuHitTestCache { get; }
+ 
+     bool TryGetGpuHitTestCacheSnapshot(out ProGpuWpfDiagnostics.GpuHitTestCacheSnapshot snapshot);
+@@ -51,10 +55,17 @@ internal sealed class WpfPortableNativePopupHost : IWpfPortableNativePopupHost
+     private bool _isVisible;
+     private bool _isPumping;
+     private bool _disposeWhenPumpCompletes;
++    private long _presentedFrameBaseline;
++    private int _presentationTicks;
++    private bool _awaitingPresentation;
+     private bool _isDisposed;
+ 
+     public bool HasPresentedFrame => !_isDisposed && _popupHost.HasPresentedFrame;
+ 
++    public long PresentedFrameCount => _isDisposed ? 0 : _popupHost.PresentedFrameCount;
++
++    public event EventHandler? PresentationFailed;
++
+     public bool HasGpuHitTestCache =>
+         TryGetGpuHitTestCacheSnapshot(out var snapshot) && snapshot.OwnerCount > 0;
+ 
+@@ -260,6 +271,9 @@ public void Show()
+         // owner/type hints exist and immediately before the nonactivating map.
+         _popupHost.SetPosition(_nativeLogicalX, _nativeLogicalY);
+         _isVisible = true;
++        _presentedFrameBaseline = _popupHost.PresentedFrameCount;
++        _presentationTicks = 0;
++        _awaitingPresentation = true;
+         try
+         {
+             _popupHost.ShowWithoutActivation();
+@@ -275,6 +289,7 @@ public void Hide()
+     {
+         ObjectDisposedException.ThrowIf(_isDisposed, this);
+         _isVisible = false;
++        _awaitingPresentation = false;
+         _popupHost.Hide();
+     }
+ 
+@@ -289,6 +304,7 @@ public void Dispose()
+         _ownerHost.UpdateTick -= OnOwnerUpdateTick;
+         _popupHost.InputReceived -= OnPopupInputReceived;
+         _inputHandler = null;
++        PresentationFailed = null;
+         if (_isPumping)
+         {
+             _disposeWhenPumpCompletes = true;
+@@ -325,6 +341,7 @@ private void OnOwnerUpdateTick(object? sender, EventArgs e)
+         try
+         {
+             _popupHost.DoEvents();
++            VerifyPresentation();
+         }
+         catch (ObjectDisposedException) when (_isDisposed)
+         {
+@@ -340,6 +357,28 @@ private void OnOwnerUpdateTick(object? sender, EventArgs e)
+         }
+     }
+ 
++    private void VerifyPresentation()
++    {
++        if (!_awaitingPresentation)
++        {
++            return;
++        }
++
++        if (_popupHost.PresentedFrameCount > _presentedFrameBaseline)
++        {
++            _awaitingPresentation = false;
++            return;
++        }
++
++        if (++_presentationTicks < 8)
++        {
++            return;
++        }
++
++        _awaitingPresentation = false;
++        PresentationFailed?.Invoke(this, EventArgs.Empty);
++    }
++
+     internal static bool ShouldPumpEvents(
+         bool isDisposed,
+         bool isInitialized,
+diff --git a/src/ProGPU.Wpf/WpfPortablePopupBridge.cs b/src/ProGPU.Wpf/WpfPortablePopupBridge.cs
+index aa6f4b1b..e9944294 100644
+--- a/src/ProGPU.Wpf/WpfPortablePopupBridge.cs
++++ b/src/ProGPU.Wpf/WpfPortablePopupBridge.cs
+@@ -32,6 +32,7 @@ internal sealed class WpfPortablePopupBridge : IDisposable
+     private PortableGeometryHitTestBufferOverride? _hitTestBoundsBufferOverrideHandler;
+     private Func<double, double, double, double, object?[]?>? _hitTestEllipseBoundsOverrideHandler;
+     private PortableGeometryHitTestBufferOverride? _hitTestEllipseBoundsBufferOverrideHandler;
++    private long _visibilityGeneration;
+     private bool _isDisposed;
+ 
+     private WpfPortablePopupBridge(
+@@ -271,7 +272,11 @@ public static bool TryCreate(
+         try
+         {
+             bridge._nativeHost = NativePopupHostFactory(host, source, request, dpiScaleX, dpiScaleY);
+-            bridge._nativeHost?.SetInputHandler(bridge.TryProcessNativeInput);
++            if (bridge._nativeHost is not null)
++            {
++                bridge._nativeHost.PresentationFailed += bridge.OnNativePresentationFailed;
++                bridge._nativeHost.SetInputHandler(bridge.TryProcessNativeInput);
++            }
+         }
+         catch (PlatformNotSupportedException)
+         {
+@@ -403,12 +408,23 @@ public bool TryShow()
+         }
+ 
+         IsVisible = true;
++        long generation = ++_visibilityGeneration;
+         if (RootVisual is { } rootVisual)
+         {
+             EnsureRootLayout(rootVisual);
+             _nativeHost?.SetSize(Width, Height);
+         }
+-        _nativeHost?.Show();
++        if (_nativeHost is not null)
++        {
++            try
++            {
++                _nativeHost.Show();
++            }
++            catch (Exception exception) when (IsRecoverableNativePopupFailure(exception))
++            {
++                FallBackToOwnerSurface(generation, exception.GetType().Name);
++            }
++        }
+         Trace($"show width={Width} height={Height} root={(RootVisual is null ? "<null>" : "set")}");
+         RequestRender();
+         return true;
+@@ -423,7 +439,18 @@ public bool TryHide()
+         }
+ 
+         IsVisible = false;
+-        _nativeHost?.Hide();
++        _visibilityGeneration++;
++        if (_nativeHost is not null)
++        {
++            try
++            {
++                _nativeHost.Hide();
++            }
++            catch (Exception exception) when (IsRecoverableNativePopupFailure(exception))
++            {
++                DropNativeHost(exception.GetType().Name);
++            }
++        }
+         Trace("hide");
+         RequestRender();
+         return true;
+@@ -442,6 +469,46 @@ public bool TrySetHitTestable(bool hitTestable)
+         return true;
+     }
+ 
++    private void OnNativePresentationFailed(object? sender, EventArgs e)
++    {
++        if (ReferenceEquals(sender, _nativeHost))
++        {
++            FallBackToOwnerSurface(_visibilityGeneration, "presentation-timeout");
++        }
++    }
++
++    private void FallBackToOwnerSurface(long generation, string reason)
++    {
++        if (!IsVisible || generation != _visibilityGeneration)
++        {
++            return;
++        }
++
++        DropNativeHost(reason);
++        RequestRender();
++    }
++
++    private void DropNativeHost(string reason)
++    {
++        IWpfPortableNativePopupHost? nativeHost = _nativeHost;
++        if (nativeHost is null)
++        {
++            return;
++        }
++
++        _nativeHost = null;
++        nativeHost.PresentationFailed -= OnNativePresentationFailed;
++        nativeHost.Dispose();
++        Trace("native fallback " + reason);
++    }
++
++    private static bool IsRecoverableNativePopupFailure(Exception exception)
++    {
++        return exception is not OutOfMemoryException
++            and not StackOverflowException
++            and not AccessViolationException;
++    }
++
+     public WpfVisualReplayResult Replay(
+         ProGpuWpfCompositionTarget target,
+         ProGpuWpfDrawingFrame drawingFrame,
+@@ -591,7 +658,7 @@ public void Dispose()
+             return;
+         }
+ 
+-        _nativeHost?.Dispose();
++        DropNativeHost("dispose");
+         _source.RenderRequested -= OnSourceRenderRequested;
+         _source.CursorRequested -= OnSourceCursorRequested;
+ 
+diff --git a/src/ProGPU.Wpf/WpfPortablePopupService.cs b/src/ProGPU.Wpf/WpfPortablePopupService.cs
+index cf775a3c..0505723d 100644
+--- a/src/ProGPU.Wpf/WpfPortablePopupService.cs
++++ b/src/ProGPU.Wpf/WpfPortablePopupService.cs
+@@ -1,56 +1,136 @@
+ using System;
++using System.Collections.Generic;
++using System.Threading;
+ using ProGPU.Wpf.Interop;
+ 
+ namespace System.Windows.Media.ProGPU;
+ 
+ internal sealed class WpfPortablePopupService : IPortablePopupServiceRegistrar
+ {
+-    private readonly ProGpuWpfWindowHost _host;
++    private static readonly object SyncRoot = new();
++    private static readonly List<ProGpuWpfWindowHost> Hosts = new();
++    private static readonly WpfPortablePopupService Instance = new();
++    private static readonly IDisposable ServiceRegistration =
++        PortableWpfServiceRegistry.RegisterPopupService(Instance);
+ 
+-    public WpfPortablePopupService(ProGpuWpfWindowHost host)
++    private WpfPortablePopupService()
+     {
+-        _host = host ?? throw new ArgumentNullException(nameof(host));
+     }
+ 
+     public PortableWpfServiceKey ServiceKey => PortableWpfServiceKey.PresentationFramework;
+ 
++    public static IDisposable RegisterHost(ProGpuWpfWindowHost host)
++    {
++        ArgumentNullException.ThrowIfNull(host);
++        _ = ServiceRegistration;
++        lock (SyncRoot)
++        {
++            Hosts.Add(host);
++        }
++
++        return new HostRegistration(host);
++    }
++
+     public bool TryCreatePopup(PortablePopupCreateRequest request, out object? presentationSource)
+     {
+-        return _host.TryCreatePortablePopup(request, out presentationSource);
++        ProGpuWpfWindowHost[] hosts = GetHosts();
++        for (int i = hosts.Length - 1; i >= 0; i--)
++        {
++            if (hosts[i].TryCreatePortablePopup(request, out presentationSource))
++            {
++                return true;
++            }
++        }
++
++        presentationSource = null;
++        return false;
+     }
+ 
+     public bool TrySetPopupPosition(object presentationSource, int x, int y)
+     {
+-        return _host.TrySetPortablePopupPosition(presentationSource, x, y);
++        return TryRoute(host => host.TrySetPortablePopupPosition(presentationSource, x, y));
+     }
+ 
+     public bool TrySetPopupSize(object presentationSource, int width, int height)
+     {
+-        return _host.TrySetPortablePopupSize(presentationSource, width, height);
++        return TryRoute(host => host.TrySetPortablePopupSize(presentationSource, width, height));
+     }
+ 
+     public bool TryShowPopup(object presentationSource)
+     {
+-        return _host.TryShowPortablePopup(presentationSource);
++        return TryRoute(host => host.TryShowPortablePopup(presentationSource));
+     }
+ 
+     public bool TryHidePopup(object presentationSource)
+     {
+-        return _host.TryHidePortablePopup(presentationSource);
++        return TryRoute(host => host.TryHidePortablePopup(presentationSource));
+     }
+ 
+     public bool TrySetPopupHitTestable(object presentationSource, bool hitTestable)
+     {
+-        return _host.TrySetPortablePopupHitTestable(presentationSource, hitTestable);
++        return TryRoute(host => host.TrySetPortablePopupHitTestable(presentationSource, hitTestable));
+     }
+ 
+     public bool TryDestroyPopup(object presentationSource)
+     {
+-        return _host.TryDestroyPortablePopup(presentationSource);
++        return TryRoute(host => host.TryDestroyPortablePopup(presentationSource));
+     }
+ 
+     public void Clear()
+     {
+-        _host.ClearPortablePopups();
++        ProGpuWpfWindowHost[] hosts = GetHosts();
++        for (int i = hosts.Length - 1; i >= 0; i--)
++        {
++            hosts[i].ClearPortablePopups();
++        }
++    }
++
++    private static bool TryRoute(Func<ProGpuWpfWindowHost, bool> operation)
++    {
++        ProGpuWpfWindowHost[] hosts = GetHosts();
++        for (int i = hosts.Length - 1; i >= 0; i--)
++        {
++            if (operation(hosts[i]))
++            {
++                return true;
++            }
++        }
++
++        return false;
++    }
++
++    private static ProGpuWpfWindowHost[] GetHosts()
++    {
++        lock (SyncRoot)
++        {
++            return Hosts.ToArray();
++        }
++    }
++
++    private static void RemoveHost(ProGpuWpfWindowHost host)
++    {
++        lock (SyncRoot)
++        {
++            Hosts.Remove(host);
++        }
++    }
++
++    private sealed class HostRegistration : IDisposable
++    {
++        private ProGpuWpfWindowHost? _host;
++
++        public HostRegistration(ProGpuWpfWindowHost host)
++        {
++            _host = host;
++        }
++
++        public void Dispose()
++        {
++            ProGpuWpfWindowHost? host = Interlocked.Exchange(ref _host, null);
++            if (host is not null)
++            {
++                RemoveHost(host);
++            }
++        }
+     }
+ }
+diff --git a/src/ProGPU.Wpf/WpfPortableWindowActivation.cs b/src/ProGPU.Wpf/WpfPortableWindowActivation.cs
+index fbe637dd..76d7708f 100644
+--- a/src/ProGPU.Wpf/WpfPortableWindowActivation.cs
++++ b/src/ProGPU.Wpf/WpfPortableWindowActivation.cs
+@@ -723,7 +723,7 @@ public static ProGpuWpfWindowOptions CreateHostOptions(
+             Height = fallback.Height,
+             Left = fallback.Left,
+             Top = fallback.Top,
+-            VSync = fallback.VSync,
++            VSync = OperatingSystem.IsLinux() || fallback.VSync,
+             IsVisible = fallback.IsVisible,
+             Topmost = fallback.Topmost,
+             ShowActivated = fallback.ShowActivated,
+@@ -1375,6 +1375,17 @@ private bool TryDispatchHostInputToWindowDispatcher(WpfInputEventArgs e)
+         if (TryGetWindowActivationService(out var activationService) &&
+             activationService.TryBeginInvokeInput(Window, callback))
+         {
++            if (Host.RequiresImmediateInputProcessing(e))
++            {
++                if (Host.RequiresImmediateInputRendering(e))
++                {
++                    FlushWpfDispatcherOperations("Input", "Render");
++                }
++                else
++                {
++                    FlushWpfDispatcherOperations("Input");
++                }
++            }
+             Host.TryRequestNativeLoopWakeup();
+             return true;
+         }
+@@ -1541,18 +1552,7 @@ private void RequestRenderFromMediaContext(object? invalidatedSource, TimeSpan d
+ 
+         try
+         {
+-            Host.InvalidateWpfSourceForPortableRender(invalidatedSource ?? RootVisual);
+-
+-            if (Host.WpfRenderScheduler is IWpfDelayedRenderScheduler delayedScheduler)
+-            {
+-                delayedScheduler.RequestRender(delay);
+-            }
+-            else
+-            {
+-                Host.WpfRenderScheduler.RequestRender();
+-            }
+-
+-            Host.TryRequestNativeLoopWakeup();
++            Host.RequestMediaContextRenderAndWakeNativeLoop(invalidatedSource, delay);
+         }
+         catch (ObjectDisposedException)
+         {

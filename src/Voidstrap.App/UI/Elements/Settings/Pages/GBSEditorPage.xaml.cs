@@ -7,7 +7,7 @@ using Wpf.Ui.Controls;
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class GBSEditorPage : UiPage{
-	private GBSEditorViewModel _viewModel;
+	private GBSEditorViewModel _viewModel = null!;
 
 	public GBSEditorPage()
 	{
@@ -25,10 +25,12 @@ public partial class GBSEditorPage : UiPage{
 
 	private void OnPageLoaded(object sender, RoutedEventArgs e)
 	{
-		if (_viewModel is null || _viewModel.IsDisposed)
+		if (_viewModel is null)
 		{
 			SetupViewModel();
+			return;
 		}
+		_viewModel.Resume();
 	}
 
 	private void OnPageUnloaded(object sender, RoutedEventArgs e)

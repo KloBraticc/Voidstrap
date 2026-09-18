@@ -151,17 +151,12 @@ public static class GpuInventory
     {
         try
         {
-            foreach (string path in System.IO.Directory.EnumerateDirectories("/sys/class/drm"))
+            foreach (Voidstrap.Platform.Linux.LinuxGpuCard card in Voidstrap.Platform.Linux.LinuxGpuCatalog.Cards)
             {
-                string vendorFile = System.IO.Path.Combine(path, "device", "vendor");
-                if (!System.IO.File.Exists(vendorFile))
+                if (!uint.TryParse(card.VendorId, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out uint vendor))
                     continue;
-                string raw = System.IO.File.ReadAllText(vendorFile).Trim();
-                if (raw.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                    raw = raw.Substring(2);
-                if (!uint.TryParse(raw, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out uint vendor))
-                    continue;
-                Add(found, System.IO.Path.GetFileName(path), vendor, "sysfs");
+                string name = string.IsNullOrWhiteSpace(card.ProductName) ? card.Node : (card.VendorName + " " + card.ProductName).Trim();
+                Add(found, name, vendor, "sysfs");
             }
         }
         catch (Exception ex)

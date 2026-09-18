@@ -224,26 +224,91 @@ public static class VoidstrapMatchmaker
 				if (_cachedGeo != null && _cachedGeoNetworkVersion == networkVersion && DateTime.UtcNow - _cachedGeoUtc < GeoCacheTtl)
 					return _cachedGeo;
 			}
-			UserGeo? result = await TryGeoProviderAsync("https://ipinfo.io/json", ParseIpInfo, token).ConfigureAwait(false)
-				?? await TryGeoProviderAsync("https://ipwho.is/", ParseIpWhoIs, token).ConfigureAwait(false)
-				?? await TryGeoProviderAsync("https://ipapi.co/json/", ParseIpApiCo, token).ConfigureAwait(false);
+			UserGeo? result = await FirstUserGeoAsync(token).ConfigureAwait(false);
 			if (result == null || !IsValidCoordinate(result.Lat, result.Lon))
 			{
-				App.Logger.WriteLine(LOG_IDENT, "All geo providers failed, cannot match by location");
-				return null;
+				result = LoadSavedGeo();
+				if (result == null)
+				{
+					App.Logger.WriteLine(LOG_IDENT, "All geo providers failed and no location was saved yet, cannot match by location");
+					return null;
+				}
+				App.Logger.WriteLine(LOG_IDENT, "Geo providers are unreachable right now, using the last known location");
+				return result;
 			}
+			SaveGeo(result);
 			lock (_geoLock)
 			{
 				_cachedGeo = result;
 				_cachedGeoUtc = DateTime.UtcNow;
 				_cachedGeoNetworkVersion = networkVersion;
 			}
-			App.Logger.WriteLine(LOG_IDENT, $"User geo: {result.City}, {result.Region}, {result.Country} ({result.Lat:F2}, {result.Lon:F2})");
+			App.Logger.WriteLine(LOG_IDENT, "User geo resolved");
 			return result;
 		}
 		finally
 		{
 			_geoRefreshLock.Release();
+		}
+	}
+
+	private static string SavedGeoPath => Path.Combine(ServerFetchStore.FolderPath, "UserGeo.json");
+
+	private static async Task<UserGeo?> FirstUserGeoAsync(CancellationToken token)
+	{
+		using CancellationTokenSource race = CancellationTokenSource.CreateLinkedTokenSource(token);
+		List<Task<UserGeo?>> pending =
+		[
+			TryGeoProviderAsync("https://ipinfo.io/json", ParseIpInfo, race.Token),
+			TryGeoProviderAsync("https://ipwho.is/", ParseIpWhoIs, race.Token),
+			TryGeoProviderAsync("https://ipapi.co/json/", ParseIpApiCo, race.Token)
+		];
+		try
+		{
+			while (pending.Count > 0)
+			{
+				Task<UserGeo?> finished = await Task.WhenAny(pending).ConfigureAwait(false);
+				pending.Remove(finished);
+				UserGeo? geo = finished.IsCompletedSuccessfully ? finished.Result : null;
+				if (geo != null && IsValidCoordinate(geo.Lat, geo.Lon))
+					return geo;
+				token.ThrowIfCancellationRequested();
+			}
+			return null;
+		}
+		finally
+		{
+			race.Cancel();
+			foreach (Task<UserGeo?> task in pending)
+				_ = task.ContinueWith(static t => _ = t.Exception, TaskScheduler.Default);
+		}
+	}
+
+	private static UserGeo? LoadSavedGeo()
+	{
+		try
+		{
+			if (!File.Exists(SavedGeoPath))
+				return null;
+			UserGeo? geo = JsonSerializer.Deserialize<UserGeo>(File.ReadAllText(SavedGeoPath));
+			return geo != null && IsValidCoordinate(geo.Lat, geo.Lon) && (geo.Lat != 0.0 || geo.Lon != 0.0) ? geo : null;
+		}
+		catch
+		{
+			return null;
+		}
+	}
+
+	private static void SaveGeo(UserGeo geo)
+	{
+		try
+		{
+			Directory.CreateDirectory(ServerFetchStore.FolderPath);
+			Voidstrap.Utility.JsonFile.WriteAtomicText(SavedGeoPath, JsonSerializer.Serialize(geo));
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "Could not save the last known location: " + ex.Message);
 		}
 	}
 
@@ -256,7 +321,7 @@ public static class VoidstrapMatchmaker
 	{
 		try
 		{
-			using JsonDocument doc = JsonDocument.Parse(await Utility.Http.GetStringBoundedAsync(_geoClient, url, token, 262144).ConfigureAwait(false));
+			using JsonDocument doc = JsonDocument.Parse(await Utility.Http.GetStringBoundedAsync(_geoClient, url, 262144, token).ConfigureAwait(false));
 			return parser(doc.RootElement);
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -424,11 +489,11 @@ public static class VoidstrapMatchmaker
 		return double.IsPositiveInfinity(best) ? 0.0 : best;
 	}
 
-	public static async Task<MatchmakerCandidate?> PickBestJobIdAsync(long placeId, IEnumerable<string>? exclude = null, int maxCandidates = 40, CancellationToken token = default, string? preferredOverride = null)
+	public static async Task<MatchmakerCandidate?> PickBestJobIdAsync(long placeId, IEnumerable<string>? exclude = null, int maxCandidates = 40, string? preferredOverride = null, CancellationToken token = default)
 	{
 		try
 		{
-			return await PickBestCoreAsync(placeId, exclude, maxCandidates, token, preferredOverride).ConfigureAwait(false);
+			return await PickBestCoreAsync(placeId, exclude, maxCandidates, preferredOverride, token).ConfigureAwait(false);
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{
@@ -447,7 +512,7 @@ public static class VoidstrapMatchmaker
 		}
 	}
 
-	private static async Task<MatchmakerCandidate?> PickBestCoreAsync(long placeId, IEnumerable<string>? exclude, int maxCandidates, CancellationToken token, string? preferredOverride)
+	private static async Task<MatchmakerCandidate?> PickBestCoreAsync(long placeId, IEnumerable<string>? exclude, int maxCandidates, string? preferredOverride, CancellationToken token)
 	{
 		System.Diagnostics.Stopwatch stageClock = System.Diagnostics.Stopwatch.StartNew();
 		using CancellationTokenSource deadlineCts = CancellationTokenSource.CreateLinkedTokenSource(token);
@@ -922,8 +987,9 @@ public static class VoidstrapMatchmaker
 	}
 
 	private static long _lastProbeFailureLogTicks;
+    private static readonly string[] separator = new[] { "\r\n\r\n", "\n\n" };
 
-	private static void LogProbeFailure(HttpStatusCode status)
+    private static void LogProbeFailure(HttpStatusCode status)
 	{
 		long now = DateTime.UtcNow.Ticks;
 		long last = Interlocked.Read(ref _lastProbeFailureLogTicks);
@@ -1000,7 +1066,7 @@ public static class VoidstrapMatchmaker
 	private static async Task<JsonDocument?> ReadJoinResponseAsync(HttpResponseMessage res, CancellationToken token)
 	{
 		string contentType = res.Content.Headers.ContentType?.MediaType ?? "";
-		if (contentType.IndexOf("text/event-stream", StringComparison.OrdinalIgnoreCase) >= 0)
+		if (contentType.Contains("text/event-stream", StringComparison.OrdinalIgnoreCase))
 			return await ReadJoinEventStreamAsync(res, token).ConfigureAwait(false);
 		if (res.Content.Headers.ContentLength is long length && length > MaxJoinResponseBytes)
 			return null;
@@ -1076,7 +1142,7 @@ public static class VoidstrapMatchmaker
 		if (string.IsNullOrEmpty(text))
 			return string.Empty;
 		string firstData = string.Empty;
-		foreach (string block in text.Split(new[] { "\r\n\r\n", "\n\n" }, StringSplitOptions.None))
+		foreach (string block in text.Split(separator, StringSplitOptions.None))
 		{
 			if (string.IsNullOrWhiteSpace(block))
 				continue;

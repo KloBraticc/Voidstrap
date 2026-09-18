@@ -14,7 +14,7 @@ namespace Voidstrap.Models
                 if (_name != value)
                 {
                     _name = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Name"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
                 }
             }
         }

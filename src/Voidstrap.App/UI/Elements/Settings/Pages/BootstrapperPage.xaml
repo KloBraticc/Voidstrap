@@ -1,4 +1,4 @@
-﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.BehaviourPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="BehaviourPage" Scrollable="True">
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.BehaviourPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" Title="BehaviourPage" Scrollable="True">
   <StackPanel>
     <TextBlock Margin="0,0,0,8" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.Menu_Behaviour_Description}" />
     <TabControl Margin="0,0,14,14">
@@ -14,11 +14,17 @@
           <controls:OptionControl x:Name="ConfirmLaunchOption" Header="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Title}" Description="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Description}">
             <ui:ToggleSwitch IsChecked="{Binding ConfirmLaunches, Mode=TwoWay}" />
           </controls:OptionControl>
+          <controls:OptionControl Header="Multi instance launching" Description="Lets several Roblox Clients run at once, Manage them from the instances button in the title bar." Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+            <ui:ToggleSwitch IsChecked="{Binding MultiInstanceLaunching, Mode=TwoWay}" />
+          </controls:OptionControl>
           <controls:OptionControl Description="Disables Background Window when Launching Roblox" Header="Disable Background Window" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding BackgroundWindow, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Disable RobloxCrashHandler" Description="Disables the RobloxCrashHandler that runs on startup, improving memory and RAM efficiency" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+		  <controls:OptionControl Header="Disable RobloxCrashHandler" Description="Closes RobloxCrashHandler after Roblox has safely finished starting" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding disablecrashhandleryayyysocool, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="TASX optimization" Description="Full speed while Roblox is focused, throttled while you are tabbed out." Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+            <ui:ToggleSwitch IsChecked="{Binding TasxOptimization, Mode=TwoWay}" />
           </controls:OptionControl>
         </StackPanel>
       </TabItem>
@@ -62,7 +68,7 @@
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
-          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <HeaderedContentControl.Header>
               <StackPanel>
                 <TextBlock FontSize="14" Text="Resource controls" />
@@ -84,7 +90,7 @@
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
-          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <HeaderedContentControl.Header>
               <StackPanel>
                 <TextBlock FontSize="14" Text="Background resource use" />
@@ -114,9 +120,14 @@
           <controls:OptionControl Header="What to join" Description="How Voidstrap chooses between the servers it finds">
             <ComboBox Width="280" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" ItemsSource="{Binding MatchmakerModes}" SelectedValue="{Binding MatchmakerMode, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Which datacenter" Description="Voidstrap will always try this one first and only fall back when it has no room" Visibility="{Binding ShowPreferredDatacenterPicker, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ComboBox Width="280" Padding="10,5,10,5" DisplayMemberPath="Display" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" ItemsSource="{Binding PreferredDatacenterOptions}" SelectedItem="{Binding SelectedPreferredDatacenter, Mode=TwoWay}" />
-          </controls:OptionControl>
+          <StackPanel Margin="0,12,0,0" Visibility="{Binding ShowPreferredDatacenterPicker, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock FontSize="14" Text="Which datacenter" />
+            <TextBlock Margin="0,2,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Click a pin to pick a datacenter. Drag to pan, scroll to zoom, hover for details." />
+            <controls:WorldServerMap Height="420" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" Datacenters="{Binding Datacenters}" SelectedKey="{Binding PreferredDatacenterKey, Mode=TwoWay}" UserLatitude="{Binding UserLatitude}" UserLongitude="{Binding UserLongitude}" />
+            <controls:OptionControl Margin="0,8,0,0" Header="Preferred datacenter" Description="Voidstrap will always try this one first and only fall back when it has no room">
+              <ComboBox Width="280" Padding="10,5,10,5" DisplayMemberPath="Display" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" ItemsSource="{Binding PreferredDatacenterOptions}" SelectedItem="{Binding SelectedPreferredDatacenter, Mode=TwoWay}" />
+            </controls:OptionControl>
+          </StackPanel>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <Grid>
@@ -190,7 +201,7 @@
                             <ColumnDefinition Width="Auto" />
                           </Grid.ColumnDefinitions>
                           <Border Grid.Column="0" Width="40" Height="40" Margin="0,0,10,0" CornerRadius="6" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
-                            <Image Source="{Binding IconUrl}" Width="40" Height="40" Visibility="{Binding HasIcon, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <Image Source="{Binding IconUrl}" util:DynamicRenderSystem.LinuxImageSource="{Binding IconUrl}" Width="40" Height="40" Visibility="{Binding HasIcon, Converter={StaticResource BooleanToVisibilityConverter}}" />
                           </Border>
                           <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock FontWeight="Medium" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
@@ -214,7 +225,7 @@
                         <DataTemplate>
                           <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <Border Width="32" Height="32" Margin="0,0,10,0" CornerRadius="6" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
-                              <Image Source="{Binding IconUrl}" Width="32" Height="32" Visibility="{Binding HasIcon, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                              <Image Source="{Binding IconUrl}" util:DynamicRenderSystem.LinuxImageSource="{Binding IconUrl}" Width="32" Height="32" Visibility="{Binding HasIcon, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             </Border>
                             <TextBlock VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
                           </StackPanel>
@@ -264,7 +275,7 @@
           </ui:CardExpander>
         </StackPanel>
       </TabItem>
-      <TabItem>
+      <TabItem Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
         <HeaderedContentControl.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Settings24" Margin="0,0,6,0" />

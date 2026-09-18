@@ -23,7 +23,7 @@ namespace Voidstrap.Models
 
             foreach (var line in lines)
             {
-                if (string.IsNullOrWhiteSpace(line) || line.StartsWith("[") || line.StartsWith(";"))
+                if (string.IsNullOrWhiteSpace(line) || line.StartsWith('[') || line.StartsWith(';'))
                     continue;
 
                 var split = line.Split('=', 2);

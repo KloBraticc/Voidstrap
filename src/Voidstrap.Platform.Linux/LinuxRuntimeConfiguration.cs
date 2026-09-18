@@ -38,6 +38,10 @@ public sealed record LinuxRuntimeConfigurationPaths(
 
 	public string NativeVinegarRefreshFile => GetRefreshFile(NativeVinegarAssetManifestFile);
 
+	public string NativeVinegarSettingsManifestFile => GetSettingsManifestFile(NativeVinegarAssetManifestFile);
+
+	public string FlatpakVinegarSettingsManifestFile => GetSettingsManifestFile(FlatpakVinegarAssetManifestFile);
+
 	public string FlatpakVinegarRefreshFile => GetRefreshFile(FlatpakVinegarAssetManifestFile);
 
 	public string NativeVinegarConfigurationFile => GetVinegarConfigurationFile(NativeVinegarStudioOverlayDirectory);
@@ -76,6 +80,14 @@ public sealed record LinuxRuntimeConfigurationPaths(
 		return assetManifestFile.EndsWith(suffix, StringComparison.Ordinal)
 			? assetManifestFile[..^suffix.Length] + ".flags.json"
 			: assetManifestFile + ".flags.json";
+	}
+
+	private static string GetSettingsManifestFile(string assetManifestFile)
+	{
+		const string suffix = ".assets.json";
+		return assetManifestFile.EndsWith(suffix, StringComparison.Ordinal)
+			? assetManifestFile[..^suffix.Length] + ".settings.json"
+			: assetManifestFile + ".settings.json";
 	}
 
 	private static string GetRefreshFile(string assetManifestFile)
@@ -130,7 +142,6 @@ public sealed partial class LinuxRuntimeConfiguration
 	private const ushort LinuxFileTypeMask = 0xf000;
 	private const ushort LinuxRegularFileType = 0x8000;
 	private static readonly SemaphoreSlim PreparationLock = new(1, 1);
-	private static readonly Regex FlagNameExpression = new("^[A-Za-z0-9_]+$", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 	private static readonly JsonSerializerOptions JsonOptions = new()
 	{
 		WriteIndented = true
@@ -143,6 +154,19 @@ public sealed partial class LinuxRuntimeConfiguration
 	private static readonly StringComparison PathComparison = OperatingSystem.IsWindows()
 		? StringComparison.OrdinalIgnoreCase
 		: StringComparison.Ordinal;
+	private static readonly HashSet<string> RendererSelectionFlags = new(StringComparer.Ordinal)
+	{
+		"FFlagDebugGraphicsPreferOpenGL",
+		"FFlagDebugGraphicsPreferVulkan",
+		"FFlagDebugGraphicsPreferD3D11",
+		"FFlagDebugGraphicsPreferD3D11FL10",
+		"FFlagDebugGraphicsPreferMetal",
+		"FFlagDebugGraphicsDisableOpenGL",
+		"FFlagDebugGraphicsDisableVulkan",
+		"FFlagDebugGraphicsDisableDirect3D11",
+		"FFlagDebugGraphicsDisableMetal"
+	};
+
 	private static readonly HashSet<string> ManagedSoberSettingKeys = new(StringComparer.Ordinal)
 	{
 		"allow_gamepad_permission",
@@ -160,7 +184,22 @@ public sealed partial class LinuxRuntimeConfiguration
 		"use_opengl"
 	};
 
+	private static readonly HashSet<string> ManagedVinegarSettingKeys = new(StringComparer.Ordinal)
+	{
+		"channel",
+		"discord_rpc",
+		"forced_version",
+		"gamemode",
+		"gpu",
+		"launcher",
+		"renderer",
+		"virtual_desktop",
+		"wineroot"
+	};
+
 	public IReadOnlyList<string> SkippedAssets { get; private set; } = [];
+
+	public IReadOnlyList<string> AddedAssets { get; private set; } = [];
 
 	private readonly LinuxRuntimeConfigurationPaths _paths;
 	private readonly ISoberProcessProbe? _soberProcessProbe;
@@ -209,9 +248,18 @@ public sealed partial class LinuxRuntimeConfiguration
 		return PrepareAsync(installation, null, cancellationToken);
 	}
 
+	public Task<OperationResult> PrepareAsync(
+		RuntimeInstallation installation,
+		LinuxPlayerPreparationOptions? playerOptions,
+		CancellationToken cancellationToken = default)
+	{
+		return PrepareAsync(installation, playerOptions, null, cancellationToken);
+	}
+
 	public async Task<OperationResult> PrepareAsync(
 		RuntimeInstallation installation,
 		LinuxPlayerPreparationOptions? playerOptions,
+		LinuxStudioPreparationOptions? studioOptions,
 		CancellationToken cancellationToken = default)
 	{
 		ArgumentNullException.ThrowIfNull(installation);
@@ -230,7 +278,7 @@ public sealed partial class LinuxRuntimeConfiguration
 		else
 			return OperationResult.Fail("VinegarProviderInvalid", "The selected Vinegar installation is not supported");
 
-		return await PrepareStudioAsync(kind, cancellationToken).ConfigureAwait(false);
+		return await PrepareStudioAsync(kind, studioOptions ?? new LinuxStudioPreparationOptions(), cancellationToken).ConfigureAwait(false);
 	}
 
 	public Task<OperationResult> PreparePlayerAsync(CancellationToken cancellationToken = default)
@@ -272,8 +320,15 @@ public sealed partial class LinuxRuntimeConfiguration
 		}
 	}
 
-	public async Task<OperationResult> PrepareStudioAsync(LinuxVinegarInstallationKind kind, CancellationToken cancellationToken = default)
+	public Task<OperationResult> PrepareStudioAsync(LinuxVinegarInstallationKind kind, CancellationToken cancellationToken = default)
 	{
+		return PrepareStudioAsync(kind, new LinuxStudioPreparationOptions(), cancellationToken);
+	}
+
+	public async Task<OperationResult> PrepareStudioAsync(LinuxVinegarInstallationKind kind, LinuxStudioPreparationOptions options, CancellationToken cancellationToken = default)
+	{
+		ArgumentNullException.ThrowIfNull(options);
+
 		string targetDirectory = kind == LinuxVinegarInstallationKind.Native
 			? _paths.NativeVinegarStudioOverlayDirectory
 			: _paths.FlatpakVinegarStudioOverlayDirectory;
@@ -289,10 +344,21 @@ public sealed partial class LinuxRuntimeConfiguration
 		string versionsDirectory = kind == LinuxVinegarInstallationKind.Native
 			? _paths.NativeVinegarVersionsDirectory
 			: _paths.FlatpakVinegarVersionsDirectory;
+		string settingsManifestFile = kind == LinuxVinegarInstallationKind.Native
+			? _paths.NativeVinegarSettingsManifestFile
+			: _paths.FlatpakVinegarSettingsManifestFile;
 
 		await PreparationLock.WaitAsync(cancellationToken).ConfigureAwait(false);
 		try
 		{
+			OperationResult settingsResult = await MergeVinegarConfigurationAsync(
+				configurationFile,
+				settingsManifestFile,
+				options.NativeConfiguration,
+				cancellationToken).ConfigureAwait(false);
+			if (!settingsResult.Succeeded)
+				return settingsResult;
+
 			OperationResult flagsResult = await MergeVinegarFlagsAsync(configurationFile, flagManifestFile, cancellationToken).ConfigureAwait(false);
 			if (!flagsResult.Succeeded)
 				return flagsResult;
@@ -302,7 +368,9 @@ public sealed partial class LinuxRuntimeConfiguration
 				manifestFile,
 				static relative => string.Equals(relative, ClientSettingsRelativePath, StringComparison.OrdinalIgnoreCase),
 				cancellationToken,
-				versionsDirectory).ConfigureAwait(false);
+				versionsDirectory,
+				includeSourceDirectory: options.ApplyModifications,
+				additionalSources: options.ApplyModifications ? options.AdditionalModSources : null).ConfigureAwait(false);
 		}
 		finally
 		{
@@ -400,11 +468,16 @@ public sealed partial class LinuxRuntimeConfiguration
 			foreach (string staleName in previous.Except(current, StringComparer.Ordinal))
 				soberFlags.Remove(staleName);
 
+			foreach (string rendererFlag in RendererSelectionFlags)
+				soberFlags.Remove(rendererFlag);
+
 			foreach ((string name, JsonNode? value) in sourceFlags)
 			{
 				cancellationToken.ThrowIfCancellationRequested();
 				if (!IsSafeFlagName(name))
 					return OperationResult.Fail("SoberFlagNameInvalid", "Client settings contain an invalid flag name");
+				if (RendererSelectionFlags.Contains(name))
+					continue;
 				OperationResult<JsonNode?> converted = ConvertFlagValue(name, value);
 				if (!converted.Succeeded)
 					return OperationResult.Fail(converted.Failure!.Code, converted.Failure.Message, converted.Failure.State);
@@ -431,8 +504,8 @@ public sealed partial class LinuxRuntimeConfiguration
 			await WriteTextAtomicallyAsync(
 				configurationFile,
 				header + soberConfiguration.ToJsonString(JsonOptions) + "\n",
-				cancellationToken,
-				false).ConfigureAwait(false);
+				false,
+				cancellationToken).ConfigureAwait(false);
 			await WriteFlagManifestAsync(_paths.SoberFlagManifestFile, current, currentSettings, cancellationToken).ConfigureAwait(false);
 			return OperationResult.Success();
 		}
@@ -464,6 +537,124 @@ public sealed partial class LinuxRuntimeConfiguration
 		return sourceNode is JsonObject sourceFlags
 			? OperationResult<JsonObject>.Success(sourceFlags)
 			: OperationResult<JsonObject>.Fail("ClientSettingsInvalid", "Client settings must contain a JSON object");
+	}
+
+	private static OperationResult<Dictionary<string, string>> BuildVinegarSettings(VinegarNativeConfigurationOptions? options)
+	{
+		Dictionary<string, string> settings = new(StringComparer.Ordinal);
+		if (options is null)
+			return OperationResult<Dictionary<string, string>>.Success(settings);
+
+		if (options.Renderer is VinegarRenderer renderer)
+			settings["renderer"] = QuoteTomlString(renderer.ToConfigValue());
+		if (options.EnableGameMode is bool gamemode)
+			settings["gamemode"] = gamemode ? "true" : "false";
+		if (options.DiscordRpcEnabled is bool rpc)
+			settings["discord_rpc"] = rpc ? "true" : "false";
+
+		OperationResult text = AddVinegarText(settings, "gpu", options.Gpu);
+		if (!text.Succeeded)
+			return OperationResult<Dictionary<string, string>>.Fail(text.Failure!.Code, text.Failure.Message, text.Failure.State);
+		text = AddVinegarText(settings, "virtual_desktop", options.VirtualDesktop);
+		if (!text.Succeeded)
+			return OperationResult<Dictionary<string, string>>.Fail(text.Failure!.Code, text.Failure.Message, text.Failure.State);
+		text = AddVinegarText(settings, "launcher", options.Launcher);
+		if (!text.Succeeded)
+			return OperationResult<Dictionary<string, string>>.Fail(text.Failure!.Code, text.Failure.Message, text.Failure.State);
+		text = AddVinegarText(settings, "forced_version", options.ForcedVersion);
+		if (!text.Succeeded)
+			return OperationResult<Dictionary<string, string>>.Fail(text.Failure!.Code, text.Failure.Message, text.Failure.State);
+		text = AddVinegarText(settings, "channel", options.Channel);
+		if (!text.Succeeded)
+			return OperationResult<Dictionary<string, string>>.Fail(text.Failure!.Code, text.Failure.Message, text.Failure.State);
+		text = AddVinegarText(settings, "wineroot", options.WineRoot);
+		if (!text.Succeeded)
+			return OperationResult<Dictionary<string, string>>.Fail(text.Failure!.Code, text.Failure.Message, text.Failure.State);
+
+		return OperationResult<Dictionary<string, string>>.Success(settings);
+	}
+
+	private static OperationResult AddVinegarText(Dictionary<string, string> settings, string key, string? value)
+	{
+		if (value is null)
+			return OperationResult.Success();
+
+		string trimmed = value.Trim();
+		if (trimmed.Length == 0)
+			return OperationResult.Success();
+
+		foreach (char character in trimmed)
+		{
+			if (char.IsControl(character))
+				return OperationResult.Fail("VinegarSettingValueInvalid", "The Vinegar " + key + " value contains an unsupported character");
+		}
+
+		settings[key] = QuoteTomlString(trimmed);
+		return OperationResult.Success();
+	}
+
+	private static async Task<OperationResult> MergeVinegarConfigurationAsync(
+		string configurationFile,
+		string manifestFile,
+		VinegarNativeConfigurationOptions? options,
+		CancellationToken cancellationToken)
+	{
+		try
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			OperationResult<Dictionary<string, string>> builtResult = BuildVinegarSettings(options);
+			if (!builtResult.Succeeded || builtResult.Value is null)
+				return OperationResult.Fail(builtResult.Failure!.Code, builtResult.Failure.Message, builtResult.Failure.State);
+			Dictionary<string, string> current = builtResult.Value;
+
+			OperationResult manifestSafety = EnsureManifestSafety(manifestFile);
+			if (!manifestSafety.Succeeded)
+				return manifestSafety;
+
+			OperationResult<SoberOwnershipManifest> previousResult = await ReadFlagManifestAsync(
+				manifestFile,
+				ManagedVinegarSettingKeys,
+				cancellationToken).ConfigureAwait(false);
+			if (!previousResult.Succeeded || previousResult.Value is null)
+				return OperationResult.Fail(previousResult.Failure!.Code, previousResult.Failure.Message, previousResult.Failure.State);
+			HashSet<string> previous = previousResult.Value.Settings;
+
+			if (current.Count == 0 && previous.Count == 0)
+				return OperationResult.Success();
+
+			string fullConfigurationFile = Path.GetFullPath(configurationFile);
+			string? configurationDirectory = Path.GetDirectoryName(fullConfigurationFile);
+			if (string.IsNullOrWhiteSpace(configurationDirectory))
+				return OperationResult.Fail("VinegarConfigurationPathInvalid", "The Vinegar configuration path is invalid");
+			OperationResult directorySafety = EnsureDirectorySafety(configurationDirectory);
+			if (!directorySafety.Succeeded)
+				return directorySafety;
+			OperationResult fileSafety = ValidateDestinationFileSafety(configurationDirectory, fullConfigurationFile);
+			if (!fileSafety.Succeeded)
+				return fileSafety;
+
+			string existing = File.Exists(fullConfigurationFile)
+				? await File.ReadAllTextAsync(fullConfigurationFile, cancellationToken).ConfigureAwait(false)
+				: string.Empty;
+			OperationResult<string> merged = MergeVinegarToml(existing, current, previous, StudioTableParts, false);
+			if (!merged.Succeeded || merged.Value is null)
+				return OperationResult.Fail(merged.Failure!.Code, merged.Failure.Message, merged.Failure.State);
+
+			HashSet<string> transactionManifest = new(previous, StringComparer.Ordinal);
+			transactionManifest.UnionWith(current.Keys);
+			await WriteFlagManifestAsync(manifestFile, [], transactionManifest, cancellationToken).ConfigureAwait(false);
+			await WriteTextAtomicallyAsync(fullConfigurationFile, merged.Value, false, cancellationToken).ConfigureAwait(false);
+			await WriteFlagManifestAsync(manifestFile, [], current.Keys, cancellationToken).ConfigureAwait(false);
+			return OperationResult.Success();
+		}
+		catch (OperationCanceledException)
+		{
+			throw;
+		}
+		catch (Exception ex)
+		{
+			return OperationResult.Fail("VinegarConfigurationFailed", "The Vinegar configuration could not be updated: " + ex.Message);
+		}
 	}
 
 	private async Task<OperationResult> MergeVinegarFlagsAsync(string configurationFile, string manifestFile, CancellationToken cancellationToken)
@@ -522,7 +713,7 @@ public sealed partial class LinuxRuntimeConfiguration
 			HashSet<string> transactionManifest = new(previous, StringComparer.Ordinal);
 			transactionManifest.UnionWith(current);
 			await WriteFlagManifestAsync(manifestFile, transactionManifest, cancellationToken).ConfigureAwait(false);
-			await WriteTextAtomicallyAsync(fullConfigurationFile, merged.Value, cancellationToken, false).ConfigureAwait(false);
+			await WriteTextAtomicallyAsync(fullConfigurationFile, merged.Value, false, cancellationToken).ConfigureAwait(false);
 			await WriteFlagManifestAsync(manifestFile, current, cancellationToken).ConfigureAwait(false);
 			return OperationResult.Success();
 		}
@@ -542,6 +733,17 @@ public sealed partial class LinuxRuntimeConfiguration
 
 	private static OperationResult<string> MergeVinegarToml(string existing, IReadOnlyDictionary<string, string> current, IReadOnlySet<string> previous)
 	{
+		return MergeVinegarToml(existing, current, previous, StudioFlagsTableParts);
+	}
+
+	private static OperationResult<string> MergeVinegarToml(
+		string existing,
+		IReadOnlyDictionary<string, string> current,
+		IReadOnlySet<string> previous,
+		IReadOnlyList<string> tableParts,
+		bool quoteKeys = true)
+	{
+		string tableName = string.Join('.', tableParts);
 		try
 		{
 			string lineEnding = existing.Contains("\r\n", StringComparison.Ordinal) ? "\r\n" : "\n";
@@ -549,19 +751,19 @@ public sealed partial class LinuxRuntimeConfiguration
 			TableSyntax? section = null;
 			foreach (TableSyntaxBase candidate in document.Tables)
 			{
-				if (candidate is not TableSyntax table || !IsStudioFlagsTable(table))
+				if (candidate is not TableSyntax table || !IsTable(table, tableParts))
 					continue;
 				if (section is not null)
-					return OperationResult<string>.Fail("VinegarConfigurationInvalid", "The Vinegar configuration contains more than one Studio fflags table");
+					return OperationResult<string>.Fail("VinegarConfigurationInvalid", "The Vinegar configuration contains more than one " + tableName + " table");
 				section = table;
 			}
 
 			if (section is null)
 			{
-				DocumentSyntax tableDocument = SyntaxParser.ParseStrict("[studio.fflags]" + lineEnding);
+				DocumentSyntax tableDocument = SyntaxParser.ParseStrict("[" + tableName + "]" + lineEnding);
 				section = tableDocument.Tables.GetChild(0) as TableSyntax;
 				if (section is null)
-					return OperationResult<string>.Fail("VinegarConfigurationInvalid", "The Vinegar Studio fflags table could not be created");
+					return OperationResult<string>.Fail("VinegarConfigurationInvalid", "The Vinegar " + tableName + " table could not be created");
 				tableDocument.Tables.RemoveChild(section);
 				document.Tables.Add(section);
 			}
@@ -570,7 +772,7 @@ public sealed partial class LinuxRuntimeConfiguration
 			managed.UnionWith(current.Keys);
 			foreach (KeyValueSyntax item in section.Items.ToList())
 			{
-				IReadOnlyList<string>? parts = GetTomlKeyParts(item.Key);
+				List<string>? parts = GetTomlKeyParts(item.Key);
 				if (parts is { Count: 1 } && managed.Contains(parts[0]))
 					section.Items.RemoveChild(item);
 			}
@@ -590,10 +792,11 @@ public sealed partial class LinuxRuntimeConfiguration
 
 			foreach ((string name, string value) in current.OrderBy(static pair => pair.Key, StringComparer.Ordinal))
 			{
-				DocumentSyntax itemDocument = SyntaxParser.ParseStrict(QuoteTomlString(name) + " = " + value + lineEnding);
+				string keyText = quoteKeys ? QuoteTomlString(name) : name;
+				DocumentSyntax itemDocument = SyntaxParser.ParseStrict(keyText + " = " + value + lineEnding);
 				KeyValueSyntax? item = itemDocument.KeyValues.GetChild(0);
 				if (item is null)
-					return OperationResult<string>.Fail("VinegarConfigurationInvalid", "A Vinegar Studio flag could not be created");
+					return OperationResult<string>.Fail("VinegarConfigurationInvalid", "A Vinegar " + tableName + " entry could not be created");
 				itemDocument.KeyValues.RemoveChild(item);
 				item.EndOfLineToken = new SyntaxToken(TokenKind.NewLine, lineEnding);
 				section.Items.Add(item);
@@ -622,15 +825,25 @@ public sealed partial class LinuxRuntimeConfiguration
 		return token;
 	}
 
-	private static bool IsStudioFlagsTable(TableSyntax table)
+	private static readonly string[] StudioFlagsTableParts = ["studio", "fflags"];
+
+	private static readonly string[] StudioTableParts = ["studio"];
+
+	private static bool IsTable(TableSyntax table, IReadOnlyList<string> expected)
 	{
-		IReadOnlyList<string>? parts = GetTomlKeyParts(table.Name);
-		return parts is { Count: 2 }
-			&& string.Equals(parts[0], "studio", StringComparison.Ordinal)
-			&& string.Equals(parts[1], "fflags", StringComparison.Ordinal);
+		List<string>? parts = GetTomlKeyParts(table.Name);
+		if (parts is null || parts.Count != expected.Count)
+			return false;
+		for (int index = 0; index < expected.Count; index++)
+		{
+			if (!string.Equals(parts[index], expected[index], StringComparison.Ordinal))
+				return false;
+		}
+
+		return true;
 	}
 
-	private static IReadOnlyList<string>? GetTomlKeyParts(KeySyntax? key)
+	private static List<string>? GetTomlKeyParts(KeySyntax? key)
 	{
 		if (key is null || GetTomlKeyPart(key.Key) is not string first)
 			return null;
@@ -692,7 +905,12 @@ public sealed partial class LinuxRuntimeConfiguration
 		return builder.ToString();
 	}
 
-	private static async Task<OperationResult<SoberOwnershipManifest>> ReadFlagManifestAsync(string manifestFile, CancellationToken cancellationToken)
+	private static Task<OperationResult<SoberOwnershipManifest>> ReadFlagManifestAsync(string manifestFile, CancellationToken cancellationToken)
+	{
+		return ReadFlagManifestAsync(manifestFile, ManagedSoberSettingKeys, cancellationToken);
+	}
+
+	private static async Task<OperationResult<SoberOwnershipManifest>> ReadFlagManifestAsync(string manifestFile, HashSet<string> managedSettingKeys, CancellationToken cancellationToken)
 	{
 		HashSet<string> names = new(StringComparer.Ordinal);
 		HashSet<string> settings = new(StringComparer.Ordinal);
@@ -715,8 +933,8 @@ public sealed partial class LinuxRuntimeConfiguration
 				return OperationResult<SoberOwnershipManifest>.Fail("LinuxFlagManifestInvalid", "The managed flag manifest must contain a settings array");
 			foreach (JsonNode? entry in settingsEntries)
 			{
-				if (entry is not JsonValue value || !value.TryGetValue(out string? key) || key is null || !ManagedSoberSettingKeys.Contains(key))
-					return OperationResult<SoberOwnershipManifest>.Fail("LinuxFlagManifestInvalid", "The managed flag manifest contains an unmanaged Sober setting");
+				if (entry is not JsonValue value || !value.TryGetValue(out string? key) || key is null || !managedSettingKeys.Contains(key))
+					return OperationResult<SoberOwnershipManifest>.Fail("LinuxFlagManifestInvalid", "The managed flag manifest contains an unmanaged runtime setting");
 				settings.Add(key);
 			}
 		}
@@ -738,7 +956,7 @@ public sealed partial class LinuxRuntimeConfiguration
 			["names"] = entries,
 			["settings"] = settingEntries
 		};
-		return WriteJsonAtomicallyAsync(manifestFile, manifest, cancellationToken, true);
+		return WriteJsonAtomicallyAsync(manifestFile, manifest, true, cancellationToken);
 	}
 
 	private static OperationResult<Dictionary<string, JsonNode?>> BuildNativeSettings(SoberNativeConfigurationOptions? options)
@@ -867,8 +1085,10 @@ public sealed partial class LinuxRuntimeConfiguration
 			if (assetIndex is not null)
 			{
 				List<string> skippedAssets = [];
-				OperationResult<List<SourceAsset>> mappedResult = MapToPackageAssets(sourceAssets, assetIndex, skippedAssets);
+				List<string> addedAssets = [];
+				OperationResult<List<SourceAsset>> mappedResult = MapToPackageAssets(sourceAssets, assetIndex, skippedAssets, addedAssets);
 				SkippedAssets = skippedAssets;
+				AddedAssets = addedAssets;
 				if (!mappedResult.Succeeded || mappedResult.Value is null)
 					return OperationResult.Fail(mappedResult.Failure!.Code, mappedResult.Failure.Message, mappedResult.Failure.State);
 				sourceAssets = mappedResult.Value;
@@ -911,26 +1131,17 @@ public sealed partial class LinuxRuntimeConfiguration
 				OperationResult refreshSafety = EnsureManifestSafety(refreshFile);
 				if (!refreshSafety.Succeeded)
 					return refreshSafety;
-				OperationResult pendingRefresh = await ResolvePendingVinegarRefreshAsync(refreshFile, vinegarVersionsDirectory, cancellationToken).ConfigureAwait(false);
-				if (!pendingRefresh.Succeeded)
-					return pendingRefresh;
+				if (File.Exists(refreshFile))
+					File.Delete(refreshFile);
 
-				bool requiresRefresh = !previous.SetEquals(current) || changedAssets.Count > 0;
-
-				if (requiresRefresh)
-				{
-					OperationResult<List<string>> deploymentsResult = GetVinegarDeployments(vinegarVersionsDirectory);
-					if (!deploymentsResult.Succeeded || deploymentsResult.Value is null)
-						return OperationResult.Fail(deploymentsResult.Failure!.Code, deploymentsResult.Failure.Message, deploymentsResult.Failure.State);
-					if (deploymentsResult.Value.Count > 0)
-					{
-						await WriteVinegarRefreshAsync(refreshFile, deploymentsResult.Value, cancellationToken).ConfigureAwait(false);
-						return OperationResult.Fail(
-							"VinegarRefreshRequired",
-							"Vinegar must refresh its installed Studio files before changed modifications can take effect. Open Vinegar Manage, choose Uninstall Studio, then retry the launch.",
-							CapabilityState.RequiresExternalRuntime);
-					}
-				}
+				OperationResult deployments = await SynchronizeVinegarDeploymentsAsync(
+					vinegarVersionsDirectory,
+					sourceAssets,
+					previous,
+					current,
+					cancellationToken).ConfigureAwait(false);
+				if (!deployments.Succeeded)
+					return deployments;
 			}
 
 			if (changedAssets.Count == 0 && previous.SetEquals(current))
@@ -1009,36 +1220,90 @@ public sealed partial class LinuxRuntimeConfiguration
 			: manifestFile + ".refresh.json";
 	}
 
-	private static async Task<OperationResult> ResolvePendingVinegarRefreshAsync(string refreshFile, string versionsDirectory, CancellationToken cancellationToken)
+
+	private const string VinegarBackupSuffix = ".voidstrap-original";
+
+	private static async Task<OperationResult> SynchronizeVinegarDeploymentsAsync(
+		string versionsDirectory,
+		IReadOnlyList<SourceAsset> sourceAssets,
+		IReadOnlySet<string> previous,
+		IReadOnlySet<string> current,
+		CancellationToken cancellationToken)
 	{
-		if (!File.Exists(refreshFile))
+		OperationResult<List<string>> deploymentsResult = GetVinegarDeployments(versionsDirectory);
+		if (!deploymentsResult.Succeeded || deploymentsResult.Value is null)
+			return OperationResult.Fail(deploymentsResult.Failure!.Code, deploymentsResult.Failure.Message, deploymentsResult.Failure.State);
+		if (deploymentsResult.Value.Count == 0)
 			return OperationResult.Success();
 
-		JsonNode? node = await ReadJsonNodeAsync(refreshFile, cancellationToken).ConfigureAwait(false);
-		if (node is not JsonObject state || state["deployments"] is not JsonArray deployments)
-			return OperationResult.Fail("VinegarRefreshStateInvalid", "The Vinegar refresh state is invalid");
 		string versionsRoot = Path.GetFullPath(versionsDirectory);
-		foreach (JsonNode? entry in deployments)
+		List<string> stale = previous.Except(current, StringComparer.Ordinal).ToList();
+
+		foreach (string deployment in deploymentsResult.Value)
 		{
-			if (entry is not JsonValue value || !value.TryGetValue(out string? name) || !IsSafeRelativePath(name))
-				return OperationResult.Fail("VinegarRefreshStateInvalid", "The Vinegar refresh state contains an invalid deployment");
-			OperationResult<string> pathResult = ResolveContainedPath(versionsRoot, name);
-			if (!pathResult.Succeeded || pathResult.Value is null)
-				return OperationResult.Fail("VinegarRefreshStateInvalid", "The Vinegar refresh state contains an unsafe deployment");
-		}
-		OperationResult<List<string>> currentDeployments = GetVinegarDeployments(versionsRoot);
-		if (!currentDeployments.Succeeded || currentDeployments.Value is null)
-			return OperationResult.Fail(currentDeployments.Failure!.Code, currentDeployments.Failure.Message, currentDeployments.Failure.State);
-		if (currentDeployments.Value.Count > 0)
-		{
-			await WriteVinegarRefreshAsync(refreshFile, currentDeployments.Value, cancellationToken).ConfigureAwait(false);
-			return OperationResult.Fail(
-				"VinegarRefreshRequired",
-				"Vinegar must refresh its installed Studio files before changed modifications can take effect. Open Vinegar Manage, choose Uninstall Studio, then retry the launch.",
-				CapabilityState.RequiresExternalRuntime);
+			cancellationToken.ThrowIfCancellationRequested();
+			OperationResult<string> rootResult = ResolveContainedPath(versionsRoot, deployment);
+			if (!rootResult.Succeeded || rootResult.Value is null)
+				return OperationResult.Fail(rootResult.Failure!.Code, rootResult.Failure.Message, rootResult.Failure.State);
+			string deploymentRoot = rootResult.Value;
+			if (!Directory.Exists(deploymentRoot))
+				continue;
+
+			foreach (SourceAsset asset in sourceAssets)
+			{
+				cancellationToken.ThrowIfCancellationRequested();
+				OperationResult<string> destinationResult = ResolveContainedPath(deploymentRoot, asset.RelativePath);
+				if (!destinationResult.Succeeded || destinationResult.Value is null)
+					return OperationResult.Fail(destinationResult.Failure!.Code, destinationResult.Failure.Message, destinationResult.Failure.State);
+				string destination = destinationResult.Value;
+
+				OperationResult destinationSafety = ValidateDestinationFileSafety(deploymentRoot, destination);
+				if (!destinationSafety.Succeeded)
+					return destinationSafety;
+
+				if (File.Exists(destination) && await FilesEqualAsync(asset.SourcePath, destination, cancellationToken).ConfigureAwait(false))
+					continue;
+
+				string? parent = Path.GetDirectoryName(destination);
+				if (string.IsNullOrWhiteSpace(parent))
+					return OperationResult.Fail("LinuxAssetDestinationInvalid", "A managed asset destination is invalid");
+				OperationResult parentSafety = EnsureContainedDirectorySafety(deploymentRoot, parent);
+				if (!parentSafety.Succeeded)
+					return parentSafety;
+
+				string backup = destination + VinegarBackupSuffix;
+				if (File.Exists(destination) && !File.Exists(backup))
+					File.Move(destination, backup);
+
+				string stagedFile = Path.Combine(parent, ".voidstrap." + Guid.NewGuid().ToString("N") + ".tmp");
+				await CopyFileAsync(asset.SourcePath, stagedFile, cancellationToken).ConfigureAwait(false);
+				File.Move(stagedFile, destination, true);
+			}
+
+			foreach (string staleRelativePath in stale)
+			{
+				cancellationToken.ThrowIfCancellationRequested();
+				OperationResult<string> staleResult = ResolveContainedPath(deploymentRoot, staleRelativePath);
+				if (!staleResult.Succeeded || staleResult.Value is null)
+					return OperationResult.Fail(staleResult.Failure!.Code, staleResult.Failure.Message, staleResult.Failure.State);
+				string stalePath = staleResult.Value;
+				OperationResult staleSafety = ValidateDestinationFileSafety(deploymentRoot, stalePath);
+				if (!staleSafety.Succeeded)
+					return staleSafety;
+
+				string backup = stalePath + VinegarBackupSuffix;
+				if (File.Exists(backup))
+				{
+					File.Move(backup, stalePath, true);
+					continue;
+				}
+
+				if (File.Exists(stalePath))
+					File.Delete(stalePath);
+				RemoveEmptyParents(deploymentRoot, Path.GetDirectoryName(stalePath));
+			}
 		}
 
-		File.Delete(refreshFile);
 		return OperationResult.Success();
 	}
 
@@ -1061,15 +1326,6 @@ public sealed partial class LinuxRuntimeConfiguration
 		return OperationResult<List<string>>.Success(deployments);
 	}
 
-	private static Task WriteVinegarRefreshAsync(string refreshFile, IEnumerable<string> deployments, CancellationToken cancellationToken)
-	{
-		JsonArray entries = new(deployments.Order(StringComparer.Ordinal).Select(static deployment => (JsonNode?)JsonValue.Create(deployment)).ToArray());
-		JsonObject state = new()
-		{
-			["deployments"] = entries
-		};
-		return WriteJsonAtomicallyAsync(refreshFile, state, cancellationToken, true);
-	}
 
 	private static async Task<bool> FilesEqualAsync(string leftPath, string rightPath, CancellationToken cancellationToken)
 	{
@@ -1090,7 +1346,47 @@ public sealed partial class LinuxRuntimeConfiguration
 		return MapToPackageAssets(sourceAssets, assetIndex, null);
 	}
 
+	private static readonly string[] AdditiveAssetRoots = ["content/", "PlatformContent/", "ExtraContent/"];
+
+	private static readonly string[] NonAssetExtensions = [".bak", ".txt", ".md", ".log", ".lock", ".ini", ".old"];
+	private static readonly string[] IgnoredSourceArtifactExtensions = [".bak", ".old", ".tmp", ".swp", ".lock"];
+
+	internal static bool IsIgnoredSourceArtifact(string relativePath)
+	{
+		if (string.IsNullOrWhiteSpace(relativePath) || relativePath.EndsWith('~'))
+			return true;
+		foreach (string extension in IgnoredSourceArtifactExtensions)
+			if (relativePath.EndsWith(extension, StringComparison.OrdinalIgnoreCase))
+				return true;
+		return false;
+	}
+
+	internal static bool IsAdditiveAsset(string relativePath)
+	{
+		if (string.IsNullOrWhiteSpace(relativePath))
+			return false;
+
+		foreach (string extension in NonAssetExtensions)
+		{
+			if (relativePath.EndsWith(extension, StringComparison.OrdinalIgnoreCase))
+				return false;
+		}
+
+		foreach (string root in AdditiveAssetRoots)
+		{
+			if (relativePath.StartsWith(root, StringComparison.OrdinalIgnoreCase))
+				return true;
+		}
+
+		return false;
+	}
+
 	internal static OperationResult<List<SourceAsset>> MapToPackageAssets(List<SourceAsset> sourceAssets, SoberApkAssetIndex assetIndex, List<string>? skipped)
+	{
+		return MapToPackageAssets(sourceAssets, assetIndex, skipped, null);
+	}
+
+	internal static OperationResult<List<SourceAsset>> MapToPackageAssets(List<SourceAsset> sourceAssets, SoberApkAssetIndex assetIndex, List<string>? skipped, List<string>? added)
 	{
 		List<SourceAsset> mapped = [];
 		Dictionary<string, string> claimed = new(StringComparer.Ordinal);
@@ -1101,6 +1397,14 @@ public sealed partial class LinuxRuntimeConfiguration
 			{
 				if (string.Equals(resolved.Failure?.Code, "SoberAssetNotInPackage", StringComparison.Ordinal))
 				{
+					if (IsAdditiveAsset(asset.RelativePath))
+					{
+						claimed[asset.RelativePath] = asset.RelativePath;
+						mapped.Add(new SourceAsset(asset.RelativePath, asset.SourcePath));
+						added?.Add(asset.RelativePath);
+						continue;
+					}
+
 					skipped?.Add(asset.RelativePath);
 					continue;
 				}
@@ -1148,7 +1452,7 @@ public sealed partial class LinuxRuntimeConfiguration
 
 				if (entry is not FileInfo file || !IsRegularFile(file))
 					return OperationResult<List<SourceAsset>>.Fail("LinuxAssetTypeRejected", "Managed modifications must contain regular files only");
-				if (!exclude(relativePath))
+				if (!IsIgnoredSourceArtifact(relativePath) && !exclude(relativePath))
 					assets.Add(new SourceAsset(relativePath, entry.FullName));
 			}
 		}
@@ -1177,7 +1481,7 @@ public sealed partial class LinuxRuntimeConfiguration
 			string relativePath = NormalizeRelativePath(source.RelativePath ?? string.Empty);
 			if (!IsSafeRelativePath(relativePath))
 				return OperationResult<List<SourceAsset>>.Fail("LinuxAssetPathInvalid", "A modification contains an unsafe relative path");
-			if (exclude(relativePath))
+			if (IsIgnoredSourceArtifact(relativePath) || exclude(relativePath))
 				continue;
 
 			if (string.IsNullOrWhiteSpace(source.SourcePath))
@@ -1232,7 +1536,7 @@ public sealed partial class LinuxRuntimeConfiguration
 		{
 			["files"] = entries
 		};
-		return WriteJsonAtomicallyAsync(manifestPath, manifest, cancellationToken, true);
+		return WriteJsonAtomicallyAsync(manifestPath, manifest, true, cancellationToken);
 	}
 
 	private static OperationResult<JsonNode?> ConvertFlagValue(string name, JsonNode? value)
@@ -1291,7 +1595,7 @@ public sealed partial class LinuxRuntimeConfiguration
 		return await JsonNode.ParseAsync(stream, nodeOptions: null, DocumentOptions, cancellationToken).ConfigureAwait(false);
 	}
 
-	private static async Task WriteJsonAtomicallyAsync(string path, JsonNode node, CancellationToken cancellationToken, bool privateFile)
+	private static async Task WriteJsonAtomicallyAsync(string path, JsonNode node, bool privateFile, CancellationToken cancellationToken)
 	{
 		string? directory = Path.GetDirectoryName(path);
 		if (string.IsNullOrWhiteSpace(directory))
@@ -1318,7 +1622,7 @@ public sealed partial class LinuxRuntimeConfiguration
 		}
 	}
 
-	private static async Task WriteTextAtomicallyAsync(string path, string content, CancellationToken cancellationToken, bool privateFile)
+	private static async Task WriteTextAtomicallyAsync(string path, string content, bool privateFile, CancellationToken cancellationToken)
 	{
 		string? directory = Path.GetDirectoryName(path);
 		if (string.IsNullOrWhiteSpace(directory))
@@ -1520,4 +1824,7 @@ public sealed partial class LinuxRuntimeConfiguration
 	internal sealed record SourceAsset(string RelativePath, string SourcePath);
 
 	private sealed record StagedAsset(string StagedPath, string DestinationPath);
+
+    [GeneratedRegex("^[A-Za-z0-9_]+$", RegexOptions.CultureInvariant)]
+    private static partial Regex FlagNameExpression { get; }
 }

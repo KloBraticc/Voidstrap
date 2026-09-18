@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,7 +23,7 @@ namespace Voidstrap.UI.Elements.Dialogs
             try
             {
                 var text = $"{_item.Title}\n{_item.Date:G}\n\n{_item.Content}";
-                Clipboard.SetText(text);
+                Voidstrap.Utility.ClipboardService.SetText(text);
             }
             catch (Exception ex)
             {

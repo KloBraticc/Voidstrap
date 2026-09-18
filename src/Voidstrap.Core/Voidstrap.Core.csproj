@@ -2,6 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>latest</LangVersion>
 		<RootNamespace>Voidstrap.Core</RootNamespace>
@@ -11,9 +12,8 @@
 		<ProjectReference Include="..\Voidstrap.Platform.Abstractions\Voidstrap.Platform.Abstractions.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<Content Include="ExtensionManifests\*.json" CopyToOutputDirectory="PreserveNewest" />
-		<Content Include="..\Voidstrap.App\Models\Persistable\AppSettings.cs" Link="Catalog\AppSettings.cs" CopyToOutputDirectory="PreserveNewest" Visible="false" />
-		<Content Include="..\Voidstrap.App\UI\Elements\Settings\SearchCatalog.cs" Link="Catalog\SearchCatalog.cs" CopyToOutputDirectory="PreserveNewest" Visible="false" />
-		<Content Include="..\Voidstrap.App\UI\Elements\Settings\Pages\*.xaml" Link="Catalog\Pages\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+		<EmbeddedResource Include="..\Voidstrap.App\Models\Persistable\AppSettings.cs" LogicalName="Catalog/AppSettings.cs" Visible="false" />
+		<EmbeddedResource Include="..\Voidstrap.App\UI\Elements\Settings\SearchCatalog.cs" LogicalName="Catalog/SearchCatalog.cs" Visible="false" />
+		<EmbeddedResource Include="..\Voidstrap.App\UI\Elements\Settings\Pages\*.xaml" LogicalName="Catalog/Pages/%(Filename)%(Extension)" Visible="false" />
 	</ItemGroup>
 </Project>

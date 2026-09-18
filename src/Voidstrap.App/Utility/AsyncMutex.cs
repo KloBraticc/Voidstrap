@@ -20,7 +20,7 @@ public sealed class AsyncMutex : IAsyncDisposable
 	{
 		if (string.IsNullOrWhiteSpace(name))
 		{
-			throw new ArgumentException("Mutex name cannot be null or whitespace.", "name");
+			throw new ArgumentException("Mutex name cannot be null or whitespace.", nameof(name));
 		}
 		_initiallyOwned = initiallyOwned;
 		_name = name;

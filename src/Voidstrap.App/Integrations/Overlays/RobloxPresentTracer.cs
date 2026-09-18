@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Diagnostics.Tracing;
-using Microsoft.Diagnostics.Tracing.Session;
 
 namespace Voidstrap.Integrations.Overlays
 {
-    public static class RobloxPresentTracer
+    public static partial class RobloxPresentTracer
     {
         private static readonly Guid DxgiProvider = new Guid("ca11c036-0102-4a2d-a6ad-f03cfed5d3c9");
         private static readonly Guid D3d9Provider = new Guid("783aca0a-790e-4d7f-8451-aa850511c6b9");
@@ -32,7 +32,7 @@ namespace Voidstrap.Integrations.Overlays
         private const long StaleAfterMs = 1500;
 
         private static Thread? _thread;
-        private static TraceEventSession? _session;
+        private static EtwSession? _session;
         private static int _references;
 		private static IDisposable? _trackerLease;
 		private static int _retryPending;
@@ -61,7 +61,7 @@ namespace Voidstrap.Integrations.Overlays
             {
                 if (Volatile.Read(ref _enabledPid) != 0)
                     return;
-                TraceEventSession? session;
+                EtwSession? session;
                 lock (LifetimeLock)
                 {
                     if (_references == 0)
@@ -179,7 +179,7 @@ namespace Voidstrap.Integrations.Overlays
 
         public static void Stop()
         {
-            TraceEventSession? session = null;
+            EtwSession? session = null;
             IDisposable? trackerLease = null;
             lock (LifetimeLock)
             {
@@ -215,8 +215,7 @@ namespace Voidstrap.Integrations.Overlays
             int stopGeneration = Volatile.Read(ref _stopGeneration);
             try
             {
-                using var session = new TraceEventSession(sessionName);
-                session.StopOnDispose = true;
+                using var session = EtwSession.Create(sessionName);
                 lock (LifetimeLock)
                 {
                     if (_references == 0)
@@ -230,15 +229,7 @@ namespace Voidstrap.Integrations.Overlays
 					? "Present trace session started, target pid " + startupPid
 					: "Present trace session started with no Roblox window yet, waiting for the tracker");
 				EnableProviderForTarget(session, startupPid);
-                session.Source.Dynamic.All += OnTraceEvent;
-                try
-                {
-                    session.Source.Process();
-                }
-                finally
-                {
-                    session.Source.Dynamic.All -= OnTraceEvent;
-                }
+                session.Process();
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -296,19 +287,36 @@ namespace Voidstrap.Integrations.Overlays
 			}
 		}
 
-        private static void OnTraceEvent(TraceEvent data)
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
+        private static unsafe void OnEventRecord(byte* record)
+        {
+            try
+            {
+                Guid provider = *(Guid*)(record + 24);
+                int id = *(ushort*)(record + 40);
+                int processId = *(int*)(record + 12);
+                long timeStamp = *(long*)(record + 16);
+                ushort userDataLength = *(ushort*)(record + 86);
+                byte* userData = *(byte**)(record + 96);
+                ulong streamKey = userData != null && userDataLength >= 8 ? *(ulong*)userData : 0;
+                OnPresent(provider, id, processId, timeStamp * 1000.0 / Stopwatch.Frequency, streamKey);
+            }
+            catch
+            {
+            }
+        }
+
+        private static void OnPresent(Guid provider, int id, int processId, double timestamp, ulong streamKey)
         {
             int pid = Volatile.Read(ref _targetPid);
-            bool dxgiPresent = data.ProviderGuid == DxgiProvider
-                && ((int)data.ID == PresentStartEventId || (int)data.ID == PresentMultiplaneOverlayStartEventId);
-            bool d3d9Present = data.ProviderGuid == D3d9Provider && (int)data.ID == D3d9PresentStartEventId;
-            if (pid == 0 || data.ProcessID != pid || (!dxgiPresent && !d3d9Present) || Volatile.Read(ref _accepting) == 0)
+            bool dxgiPresent = provider == DxgiProvider
+                && (id == PresentStartEventId || id == PresentMultiplaneOverlayStartEventId);
+            bool d3d9Present = provider == D3d9Provider && id == D3d9PresentStartEventId;
+            if (pid == 0 || processId != pid || (!dxgiPresent && !d3d9Present) || Volatile.Read(ref _accepting) == 0)
                 return;
 
-            double timestamp = data.TimeStampRelativeMSec;
             lock (SampleLock)
             {
-                ulong streamKey = GetStreamKey(data);
                 if (!PresentStreams.TryGetValue(streamKey, out PresentStream? stream))
                 {
                     if (PresentStreams.Count >= 16)
@@ -382,39 +390,6 @@ namespace Voidstrap.Integrations.Overlays
             return fps >= 5.0 && fps <= 500.0 ? fps : 0;
         }
 
-        private static ulong GetStreamKey(TraceEvent data)
-        {
-            try
-            {
-                object? value = data.PayloadByName("pIDXGISwapChain");
-                if (value != null)
-                    return ConvertPayloadKey(value);
-            }
-            catch
-            {
-            }
-            foreach (string name in data.PayloadNames)
-            {
-                if (!name.Contains("SwapChain", StringComparison.OrdinalIgnoreCase))
-                    continue;
-                try
-                {
-                    object? value = data.PayloadByName(name);
-                    if (value != null)
-                        return ConvertPayloadKey(value);
-                }
-                catch
-                {
-                }
-            }
-            return 0;
-        }
-
-        private static ulong ConvertPayloadKey(object value)
-        {
-            return value is IntPtr pointer ? unchecked((ulong)pointer.ToInt64()) : Convert.ToUInt64(value);
-        }
-
         private static void RemoveOldestStreamLocked()
         {
             ulong oldestKey = 0;
@@ -436,27 +411,23 @@ namespace Voidstrap.Integrations.Overlays
 			int currentPid = Volatile.Read(ref _targetPid);
 			if (currentPid == 0)
 				return;
-			TraceEventSession? session;
+			EtwSession? session;
 			lock (LifetimeLock)
 				session = _session;
 			if (session != null)
 				EnableProviderForTarget(session, currentPid);
         }
 
-		private static void EnableProviderForTarget(TraceEventSession session, int processId)
+		private static void EnableProviderForTarget(EtwSession session, int processId)
 		{
 			if (processId <= 0)
 				return;
 			if (Interlocked.Exchange(ref _enabledPid, processId) == processId)
 				return;
-			TraceEventProviderOptions options = new()
-			{
-				ProcessIDFilter = [processId]
-			};
 			try
 			{
-				session.EnableProvider(DxgiProvider, TraceEventLevel.Verbose, DxgiEventsKeyword, options);
-				session.EnableProvider(D3d9Provider, TraceEventLevel.Verbose, DxgiEventsKeyword, options);
+				session.EnableProvider(DxgiProvider, DxgiEventsKeyword, processId);
+				session.EnableProvider(D3d9Provider, DxgiEventsKeyword, processId);
 				App.Logger.WriteLine("RobloxPresentTracer", "Tracing Present events for Roblox pid " + processId);
 			}
 			catch (Exception ex)
@@ -515,7 +486,166 @@ namespace Voidstrap.Integrations.Overlays
             Volatile.Write(ref _lastFrameGenerationTick, 0);
         }
 
-        [DllImport("user32.dll")]
-        private static extern uint GetWindowThreadProcessId(IntPtr hwnd, out uint processId);
+        [LibraryImport("user32.dll")]
+        private static partial uint GetWindowThreadProcessId(IntPtr hwnd, out uint processId);
+
+        private sealed unsafe partial class EtwSession : IDisposable
+        {
+            private const int PropertiesSize = 120;
+            private const int NameBytes = 1024;
+            private const int LogFileSize = 448;
+            private const uint ErrorAlreadyExists = 183;
+            private const uint ErrorAccessDenied = 5;
+            private const uint ErrorCancelled = 1223;
+            private const ulong InvalidTraceHandle = ulong.MaxValue;
+
+            private readonly string _name;
+            private readonly ulong _handle;
+            private readonly object _stateLock = new object();
+            private ulong _consumer = InvalidTraceHandle;
+            private bool _stopped;
+
+            private EtwSession(string name, ulong handle)
+            {
+                _name = name;
+                _handle = handle;
+            }
+
+            public static EtwSession Create(string name)
+            {
+                byte* properties = NewProperties();
+                try
+                {
+                    uint status = StartTrace(out ulong handle, name, properties);
+                    if (status == ErrorAlreadyExists)
+                    {
+                        ResetProperties(properties);
+                        ControlTrace(0, name, properties, 1);
+                        ResetProperties(properties);
+                        status = StartTrace(out handle, name, properties);
+                    }
+                    if (status == ErrorAccessDenied)
+                        throw new UnauthorizedAccessException("Starting an ETW session requires administrator rights");
+                    if (status != 0)
+                        throw new InvalidOperationException("StartTrace failed with error " + status);
+                    return new EtwSession(name, handle);
+                }
+                finally
+                {
+                    NativeMemory.Free(properties);
+                }
+            }
+
+            public void EnableProvider(Guid provider, ulong keyword, int processId)
+            {
+                uint pid = (uint)processId;
+                byte* filter = stackalloc byte[16];
+                *(ulong*)filter = (ulong)&pid;
+                *(uint*)(filter + 8) = sizeof(uint);
+                *(uint*)(filter + 12) = 0x80000004;
+                byte* parameters = stackalloc byte[48];
+                new Span<byte>(parameters, 48).Clear();
+                *(uint*)parameters = 2;
+                *(ulong*)(parameters + 32) = (ulong)filter;
+                *(uint*)(parameters + 40) = 1;
+                uint status = EnableTraceEx2(_handle, &provider, 1, 5, keyword, 0, 0, parameters);
+                if (status != 0)
+                    throw new InvalidOperationException("EnableTraceEx2 failed with error " + status);
+            }
+
+            public void Process()
+            {
+                IntPtr namePointer = Marshal.StringToHGlobalUni(_name);
+                byte* logFile = (byte*)NativeMemory.AllocZeroed(LogFileSize);
+                try
+                {
+                    *(IntPtr*)(logFile + 8) = namePointer;
+                    *(uint*)(logFile + 28) = 0x100 | 0x10000000;
+                    *(IntPtr*)(logFile + 424) = (IntPtr)(delegate* unmanaged[Stdcall]<byte*, void>)&OnEventRecord;
+                    ulong consumer = OpenTrace(logFile);
+                    if (consumer == InvalidTraceHandle)
+                        throw new InvalidOperationException("OpenTrace failed with error " + Marshal.GetLastPInvokeError());
+                    lock (_stateLock)
+                    {
+                        if (_stopped)
+                        {
+                            CloseTrace(consumer);
+                            return;
+                        }
+                        _consumer = consumer;
+                    }
+                    uint status = ProcessTrace(&consumer, 1, IntPtr.Zero, IntPtr.Zero);
+                    if (status != 0 && status != ErrorCancelled)
+                        App.Logger.WriteLine("RobloxPresentTracer", "ProcessTrace ended with error " + status);
+                }
+                finally
+                {
+                    NativeMemory.Free(logFile);
+                    Marshal.FreeHGlobal(namePointer);
+                }
+            }
+
+            public void Stop()
+            {
+                ulong consumer;
+                lock (_stateLock)
+                {
+                    if (_stopped)
+                        return;
+                    _stopped = true;
+                    consumer = _consumer;
+                    _consumer = InvalidTraceHandle;
+                }
+                byte* properties = NewProperties();
+                try
+                {
+                    ControlTrace(_handle, null, properties, 1);
+                }
+                finally
+                {
+                    NativeMemory.Free(properties);
+                }
+                if (consumer != InvalidTraceHandle)
+                    CloseTrace(consumer);
+            }
+
+            public void Dispose() => Stop();
+
+            private static byte* NewProperties()
+            {
+                byte* properties = (byte*)NativeMemory.Alloc(PropertiesSize + NameBytes);
+                ResetProperties(properties);
+                return properties;
+            }
+
+            private static void ResetProperties(byte* properties)
+            {
+                new Span<byte>(properties, PropertiesSize + NameBytes).Clear();
+                *(uint*)properties = PropertiesSize + NameBytes;
+                *(uint*)(properties + 40) = 1;
+                *(uint*)(properties + 44) = 0x20000;
+                *(uint*)(properties + 64) = 0x100;
+                *(uint*)(properties + 116) = PropertiesSize;
+            }
+
+            [LibraryImport("advapi32.dll", EntryPoint = "StartTraceW", StringMarshalling = StringMarshalling.Utf16)]
+            private static partial uint StartTrace(out ulong handle, string name, byte* properties);
+
+            [LibraryImport("advapi32.dll", EntryPoint = "ControlTraceW", StringMarshalling = StringMarshalling.Utf16)]
+            private static partial uint ControlTrace(ulong handle, string? name, byte* properties, uint controlCode);
+
+            [LibraryImport("advapi32.dll", EntryPoint = "EnableTraceEx2")]
+            private static partial uint EnableTraceEx2(ulong handle, Guid* provider, uint controlCode, byte level, ulong matchAnyKeyword, ulong matchAllKeyword, uint timeout, byte* parameters);
+
+            [LibraryImport("advapi32.dll", EntryPoint = "OpenTraceW", SetLastError = true)]
+            private static partial ulong OpenTrace(byte* logFile);
+
+            [LibraryImport("advapi32.dll", EntryPoint = "ProcessTrace")]
+            private static partial uint ProcessTrace(ulong* handles, uint count, IntPtr startTime, IntPtr endTime);
+
+            [LibraryImport("advapi32.dll", EntryPoint = "CloseTrace")]
+            private static partial uint CloseTrace(ulong handle);
+        }
     }
 }
+

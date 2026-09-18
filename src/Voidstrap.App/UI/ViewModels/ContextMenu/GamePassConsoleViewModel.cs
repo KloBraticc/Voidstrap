@@ -87,7 +87,7 @@ internal class GamePassConsoleViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	private static async Task<List<GamePassData>?> FetchAuthorizedPassesAsync(long userId, CancellationToken token)
 	{
-		string cookie = RobloxCookie.Get();
+		string? cookie = RobloxCookie.Get();
 		if (string.IsNullOrWhiteSpace(cookie))
 			return null;
 

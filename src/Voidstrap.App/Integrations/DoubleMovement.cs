@@ -14,7 +14,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Voidstrap.Integrations
 {
-    public class DoubleMovement : IDisposable
+    public partial class DoubleMovement : IDisposable
     {
         private volatile bool _w, _a, _s, _d;
         private long _tW, _tA, _tS, _tD;
@@ -30,7 +30,7 @@ namespace Voidstrap.Integrations
         private readonly IXbox360Controller? _x360;
         private readonly IDualShock4Controller? _ds4;
         private readonly UnhookWindowsHookExSafeHandle? _hook;
-        private readonly HOOKPROC _hookProc;
+        private readonly HOOKPROC _hookProc = null!;
         private readonly int _targetPid;
 
         private Thread? _updateThread;
@@ -51,7 +51,7 @@ namespace Voidstrap.Integrations
         private float _mouseSens = 3.0f;
 
         private UnhookWindowsHookExSafeHandle? _mouseHook;
-        private HOOKPROC _mouseHookProc;
+        private HOOKPROC _mouseHookProc = null!;
         private int _prevMouseX, _prevMouseY;
         private float _targetRX, _targetRY, _curRX, _curRY;
         private int _scrollBi = -1;
@@ -231,8 +231,8 @@ namespace Voidstrap.Integrations
             catch { return false; }
         }
 
-        [DllImport("user32.dll")]
-        private static extern short GetAsyncKeyState(int vKey);
+        [LibraryImport("user32.dll")]
+        private static partial short GetAsyncKeyState(int vKey);
 
 
         public void RefreshCache()

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -52,6 +52,12 @@ public static class TextureStripper
 
 	private static readonly ConcurrentQueue<string> RouteOrder = new();
 
+	private static readonly ConcurrentDictionary<string, AssetWarpRoute> LocalAssets = new(StringComparer.OrdinalIgnoreCase);
+
+	internal const string BatchHost = "assetdelivery.roblox.com";
+
+	private const string LocalAssetPathPrefix = "/voidstrap/asset/";
+
 	private static readonly System.Threading.Lock RulesGate = new();
 
 	private static RuleSet _rules = new();
@@ -68,14 +74,12 @@ public static class TextureStripper
 		App.Settings.Prop.AssetWarpDisableAllAnimations ||
 		App.Settings.Prop.AssetWarpDisableAllMeshes);
 
-	public static bool HasConfiguredRules
+	public static bool HasConfiguredRules => App.Settings.Prop.AssetWarpEnabled && RulesPresent;
+
+	public static bool RulesPresent
 	{
 		get
 		{
-			if (!App.Settings.Prop.AssetWarpEnabled)
-			{
-				return false;
-			}
 			RuleSet rules = GetRules();
 			return rules.IdReplacements.Count > 0 || rules.Removals.Count > 0 || rules.Routes.Count > 0;
 		}
@@ -83,10 +87,32 @@ public static class TextureStripper
 
 	public static bool RequiresCacheReset => IsEnabled || HasConfiguredRules;
 
+	internal static string CacheSignature
+	{
+		get
+		{
+			GetRules();
+			string rules;
+			lock (RulesGate)
+			{
+				rules = _rulesSignature;
+			}
+			var settings = App.Settings.Prop;
+			return string.Join("|",
+				settings.AssetWarpEnabled,
+				settings.AssetWarpDisableAllTextures,
+				settings.AssetWarpDisableAllDecals,
+				settings.AssetWarpDisableAllImages,
+				settings.AssetWarpDisableAllAnimations,
+				settings.AssetWarpDisableAllMeshes,
+				rules);
+		}
+	}
+
 	public static bool IsBatchRequest(string host, string path)
 	{
 		return App.Settings.Prop.AssetWarpEnabled &&
-			host.Equals("assetdelivery.roblox.com", StringComparison.OrdinalIgnoreCase) &&
+			host.Equals(BatchHost, StringComparison.OrdinalIgnoreCase) &&
 			path.Contains("/v1/assets/batch", StringComparison.OrdinalIgnoreCase);
 	}
 
@@ -117,6 +143,8 @@ public static class TextureStripper
 		AssetBatchContext batch = new() { PlaceId = placeId };
 		JsonArray output = [];
 		bool modified = false;
+		List<string> replaced = [];
+		List<string> sourced = [];
 
 		foreach (JsonNode? node in source)
 		{
@@ -139,6 +167,17 @@ public static class TextureStripper
 			}
 
 			JsonObject outbound = (JsonObject)entry.DeepClone();
+			if (matchedKey != null)
+			{
+				replaced.Add(assetId);
+			}
+			bool wantsSource = matchedKey != null && rules.Routes.TryGetValue(matchedKey, out AssetWarpRoute? localRoute) && localRoute.Kind == AssetWarpRouteKind.Local;
+			if (wantsSource && outbound.Remove("contentRepresentationPriorityList"))
+			{
+				outbound.Remove("doNotFallbackToBaselineRepresentation");
+				sourced.Add(assetId);
+				modified = true;
+			}
 			if (matchedKey != null && rules.IdReplacements.TryGetValue(matchedKey, out string? replacementId))
 			{
 				outbound["assetId"] = long.TryParse(replacementId, out long numericId) ? JsonValue.Create(numericId) : JsonValue.Create(replacementId);
@@ -158,6 +197,14 @@ public static class TextureStripper
 		}
 
 		context = batch;
+		if (replaced.Count > 0)
+		{
+			App.Logger?.WriteLine("TextureStripper", "Replaced assets: " + string.Join(", ", replaced.Distinct(StringComparer.Ordinal)));
+		}
+		if (sourced.Count > 0)
+		{
+			App.Logger?.WriteLine("TextureStripper", "Requested the original format for locally replaced assets: " + string.Join(", ", sourced.Distinct(StringComparer.Ordinal)));
+		}
 		if (!modified)
 		{
 			return body;
@@ -166,6 +213,66 @@ public static class TextureStripper
 		byte[] result = JsonSerializer.SerializeToUtf8Bytes(output);
 		App.Logger?.WriteLine("TextureStripper", "Asset batch updated: " + source.Count + " to " + output.Count);
 		return result;
+	}
+
+	internal static byte[]? RewriteBatchResponse(AssetBatchContext? context, byte[] body)
+	{
+		if (context == null || context.Routes.Count == 0 || body.Length == 0)
+		{
+			return null;
+		}
+		JsonNode? parsed;
+		try
+		{
+			parsed = JsonNode.Parse(body);
+		}
+		catch
+		{
+			return null;
+		}
+		if (parsed is not JsonArray items)
+		{
+			return null;
+		}
+		bool changed = false;
+		for (int index = 0; index < items.Count; index++)
+		{
+			if (items[index] is not JsonObject item)
+			{
+				continue;
+			}
+			string requestId = ReadString(item["requestId"]);
+			if (requestId.Length == 0 && index < context.RequestIds.Count)
+			{
+				requestId = context.RequestIds[index];
+			}
+			if (!context.Routes.TryGetValue(requestId, out AssetWarpRoute? route))
+			{
+				continue;
+			}
+			string location = route.Value;
+			if (route.Kind == AssetWarpRouteKind.Local)
+			{
+				string token = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(route.Value)), 0, 16).ToLowerInvariant();
+				LocalAssets[token] = route;
+				location = "https://" + BatchHost + LocalAssetPathPrefix + token;
+			}
+			item["location"] = location;
+			item.Remove("errors");
+			changed = true;
+		}
+		return changed ? JsonSerializer.SerializeToUtf8Bytes(items) : null;
+	}
+
+	internal static bool TryGetLocalAsset(string host, string path, out AssetWarpRoute? route)
+	{
+		route = null;
+		if (!host.Equals(BatchHost, StringComparison.OrdinalIgnoreCase) || !path.StartsWith(LocalAssetPathPrefix, StringComparison.OrdinalIgnoreCase))
+		{
+			return false;
+		}
+		string token = path[LocalAssetPathPrefix.Length..].Split('?', 2)[0];
+		return LocalAssets.TryGetValue(token, out route);
 	}
 
 	internal static void ObserveBatchResponse(AssetBatchContext? context, byte[] body)
@@ -342,7 +449,7 @@ public static class TextureStripper
 				return;
 			}
 
-			foreach (JsonElement rule in rules.EnumerateArray())
+			foreach (JsonElement rule in EnumerateRules(rules))
 			{
 				if (rule.ValueKind != JsonValueKind.Object || rule.TryGetProperty("enabled", out JsonElement enabled) && enabled.ValueKind == JsonValueKind.False)
 				{
@@ -367,6 +474,26 @@ public static class TextureStripper
 		catch (Exception ex)
 		{
 			App.Logger?.WriteLine("TextureStripper", "Could not load replacement rules: " + ex.Message);
+		}
+	}
+
+	private static IEnumerable<JsonElement> EnumerateRules(JsonElement rules)
+	{
+		foreach (JsonElement rule in rules.EnumerateArray())
+		{
+			if (rule.ValueKind != JsonValueKind.Object
+				|| rule.TryGetProperty("enabled", out JsonElement enabled) && enabled.ValueKind == JsonValueKind.False)
+			{
+				continue;
+			}
+			yield return rule;
+			if (rule.TryGetProperty("children", out JsonElement children) && children.ValueKind == JsonValueKind.Array)
+			{
+				foreach (JsonElement child in EnumerateRules(children))
+				{
+					yield return child;
+				}
+			}
 		}
 	}
 

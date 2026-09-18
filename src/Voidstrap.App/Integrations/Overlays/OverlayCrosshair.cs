@@ -12,6 +12,7 @@ namespace Voidstrap.Integrations.Overlays
     {
         public const int TexWidth = 128;
         public const int TexHeight = 128;
+        internal const float RuntimeScale = 0.75f;
 
         private ID3D11Device _device = null!;
         private ID3D11Texture2D? _tex;
@@ -42,6 +43,7 @@ namespace Voidstrap.Integrations.Overlays
             _bitmap = new Bitmap(TexWidth, TexHeight, PixelFormat.Format32bppArgb);
             _graphics = Graphics.FromImage(_bitmap);
             _graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
             _last = "";
         }
 
@@ -49,7 +51,19 @@ namespace Voidstrap.Integrations.Overlays
         {
             try
             {
-                return OverlayHub.InGame && App.Settings?.Prop?.Crosshair == true && App.Settings.Prop.CrosshairShapeIndex != 3;
+                return OverlayHub.InGame && App.Settings?.Prop?.Crosshair == true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool CanComposite()
+        {
+            try
+            {
+                return IsEnabled() && App.Settings.Prop.CrosshairShapeIndex != 3;
             }
             catch
             {
@@ -64,9 +78,9 @@ namespace Voidstrap.Integrations.Overlays
 
             var prop = App.Settings.Prop;
             int shape = Math.Clamp(prop.CrosshairShapeIndex, 0, 2);
-            int size = Math.Clamp(prop.CrosshairSize, 2, 60);
-            int thickness = Math.Clamp(prop.CrosshairLineThickness, 1, 16);
-            int gap = Math.Clamp(prop.CrosshairGap, 0, 40);
+            float size = Math.Clamp(prop.CrosshairSize, 2, 60) * RuntimeScale;
+            float thickness = Math.Max(1f, Math.Clamp(prop.CrosshairLineThickness, 1, 16) * RuntimeScale);
+            float gap = Math.Clamp(prop.CrosshairGap, 0, 40) * RuntimeScale;
             double opacity = Math.Clamp(prop.CrosshairOpacity, 0.05, 1.0);
             string signature = $"{shape}|{size}|{thickness}|{gap}|{opacity:0.00}|{prop.CrosshairColorHex}|{prop.CrosshairOutlineColorHex}";
             if (signature == _last)
@@ -78,15 +92,20 @@ namespace Voidstrap.Integrations.Overlays
 
             _graphics.Clear(Color.Transparent);
             using (var fillBrush = new SolidBrush(fill))
-            using (var outlinePen = new Pen(outline, Math.Max(1f, thickness * 0.5f)))
+            using (var outlineBrush = new SolidBrush(outline))
+            using (var outlinePen = new Pen(outline, thickness + 2f))
             using (var fillPen = new Pen(fill, thickness))
             {
+                outlinePen.StartCap = LineCap.Round;
+                outlinePen.EndCap = LineCap.Round;
+                fillPen.StartCap = LineCap.Round;
+                fillPen.EndCap = LineCap.Round;
                 float cx = TexWidth / 2f;
                 float cy = TexHeight / 2f;
                 if (shape == 0)
                 {
                     float inner = gap;
-                    float outer = gap + size;
+                    float outer = size;
                     DrawArm(outlinePen, fillPen, cx, cy - inner, cx, cy - outer);
                     DrawArm(outlinePen, fillPen, cx, cy + inner, cx, cy + outer);
                     DrawArm(outlinePen, fillPen, cx - inner, cy, cx - outer, cy);
@@ -94,15 +113,18 @@ namespace Voidstrap.Integrations.Overlays
                 }
                 else if (shape == 1)
                 {
-                    float r = Math.Max(1f, size * 0.5f);
-                    _graphics.FillEllipse(fillBrush, cx - r, cy - r, r * 2f, r * 2f);
-                    _graphics.DrawEllipse(outlinePen, cx - r, cy - r, r * 2f, r * 2f);
+                    float outerRadius = size / 3f + 2f;
+                    float innerRadius = size / 3f;
+                    _graphics.FillEllipse(outlineBrush, cx - outerRadius, cy - outerRadius, outerRadius * 2f, outerRadius * 2f);
+                    _graphics.FillEllipse(fillBrush, cx - innerRadius, cy - innerRadius, innerRadius * 2f, innerRadius * 2f);
                 }
                 else
                 {
-                    float r = Math.Max(1f, size * 0.5f);
-                    _graphics.DrawEllipse(outlinePen, cx - r, cy - r, r * 2f, r * 2f);
-                    _graphics.DrawEllipse(fillPen, cx - r, cy - r, r * 2f, r * 2f);
+                    float outerRadius = size / 2f;
+                    float innerRadius = Math.Max(0f, size / 2f - 2f);
+                    _graphics.DrawEllipse(outlinePen, cx - outerRadius, cy - outerRadius, outerRadius * 2f, outerRadius * 2f);
+                    if (innerRadius > 0f)
+                        _graphics.DrawEllipse(fillPen, cx - innerRadius, cy - innerRadius, innerRadius * 2f, innerRadius * 2f);
                 }
             }
 

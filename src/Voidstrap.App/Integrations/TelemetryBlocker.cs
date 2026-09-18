@@ -24,7 +24,6 @@ public static class TelemetryBlocker
 		"ephemeralcounters.api.roblox.com",
 		"metrics.roblox.com",
 		"tracing.roblox.com",
-		"lms.roblox.com",
 		"ncs.roblox.com",
 		"gold.roblox.com",
 		"abtesting.roblox.com",
@@ -104,13 +103,30 @@ public static class TelemetryBlocker
 		App.Logger?.WriteLine(LOG_IDENT, "The hosts block still contains " + stale.Length + " domain(s) that Voidstrap no longer blocks: " + string.Join(", ", stale));
 		if (!ProcessElevation.IsAdministrator())
 		{
-			App.Logger?.WriteLine(LOG_IDENT, "Run Voidstrap as administrator once, or turn the telemetry block off and on, to clear them");
+			App.Logger?.WriteLine(LOG_IDENT, "Requesting administrator approval to refresh the existing hosts block");
+			bool enable = App.Settings.Prop.BlockRobloxTelemetry;
+			_ = Task.Run(() => RefreshStaleEntriesElevatedAsync(enable));
 			return;
 		}
 
 		try
 		{
 			if (App.Settings.Prop.BlockRobloxTelemetry ? Apply() : Remove())
+			{
+				App.Logger?.WriteLine(LOG_IDENT, "Cleared the outdated hosts block entries");
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine(LOG_IDENT, "Could not clear the outdated hosts block entries: " + ex.Message);
+		}
+	}
+
+	private static async Task RefreshStaleEntriesElevatedAsync(bool enable)
+	{
+		try
+		{
+			if (await SetAsync(enable, CancellationToken.None).ConfigureAwait(false))
 			{
 				App.Logger?.WriteLine(LOG_IDENT, "Cleared the outdated hosts block entries");
 			}

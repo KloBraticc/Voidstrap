@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +17,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class IntegrationsPage
 {
+    private static readonly JsonSerializerOptions RpcHistoryJsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };     
+
     private const double PreviewIntervalMs = 500.0;
     private const long FallbackPlaceId = 189707L;
     private const string FallbackGameName = "Natural Disaster Survival";
@@ -24,6 +27,8 @@ public partial class IntegrationsPage
     private DispatcherTimer? _rpcPreviewTimer;
     private string _rpcLargeLoaded = string.Empty;
     private string _rpcSmallLoaded = string.Empty;
+    private readonly PreviewImageLoad _rpcLargeImageLoad = new();
+    private readonly PreviewImageLoad _rpcSmallImageLoad = new();
     private string _rpcLastElapsed = string.Empty;
     private PreviewGame? _rpcPreviewGame;
     private bool _rpcGameResolveStarted;
@@ -45,6 +50,23 @@ public partial class IntegrationsPage
         public string IconUrl { get; set; } = string.Empty;
     }
 
+    private sealed class PreviewImageLoad
+    {
+        public CancellationTokenSource? Cancellation { get; set; }
+
+        public string RequestedKey { get; set; } = string.Empty;
+
+        public string LoadedKey { get; set; } = string.Empty;
+
+        public long RetryAfter { get; set; }
+
+        public int Generation { get; set; }
+
+        public bool Loading { get; set; }
+
+        public bool FailureLogged { get; set; }
+    }
+
     private void StartRpcPreview()
     {
         if (_rpcPreviewTimer != null)
@@ -62,11 +84,19 @@ public partial class IntegrationsPage
 
     private void StopRpcPreview()
     {
-        if (_rpcPreviewTimer == null)
-            return;
-        _rpcPreviewTimer.Stop();
-        _rpcPreviewTimer.Tick -= RpcPreviewTimer_Tick;
-        _rpcPreviewTimer = null;
+        if (_rpcPreviewTimer != null)
+        {
+            _rpcPreviewTimer.Stop();
+            _rpcPreviewTimer.Tick -= RpcPreviewTimer_Tick;
+            _rpcPreviewTimer = null;
+        }
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            CancelPreviewImageLoad(_rpcLargeImageLoad);
+            CancelPreviewImageLoad(_rpcSmallImageLoad);
+            _rpcLargeImageLoad.Generation++;
+            _rpcSmallImageLoad.Generation++;
+        }
     }
 
     private void RpcPreviewTimer_Tick(object? sender, EventArgs e)
@@ -170,7 +200,7 @@ public partial class IntegrationsPage
             if (!File.Exists(Paths.ServerHistory))
                 return new PreviewGame();
             string json = await File.ReadAllTextAsync(Paths.ServerHistory).ConfigureAwait(false);
-            List<ActivityData>? history = JsonSerializer.Deserialize<List<ActivityData>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            List<ActivityData>? history = JsonSerializer.Deserialize<List<ActivityData>>(json, RpcHistoryJsonOptions);
             if (history == null || history.Count == 0)
                 return new PreviewGame();
             ActivityData? newest = history
@@ -217,9 +247,17 @@ public partial class IntegrationsPage
             }
             RpcPreviewElapsed.Visibility = string.IsNullOrEmpty(elapsed) ? Visibility.Collapsed : Visibility.Visible;
 
-            ApplyPreviewImage(RpcLargeImageHost, snapshot.LargeImageKey, snapshot.LargeImageText, ref _rpcLargeLoaded);
-            bool hasSmall = ApplyPreviewImage(RpcSmallImageHost, snapshot.SmallImageKey, snapshot.SmallImageText, ref _rpcSmallLoaded);
-            RpcSmallImageHost.Visibility = hasSmall ? Visibility.Visible : Visibility.Collapsed;
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                QueuePreviewImage(RpcLargeImageHost, RpcLargeImage, snapshot.LargeImageKey, snapshot.LargeImageText, _rpcLargeImageLoad, false);
+                QueuePreviewImage(RpcSmallImageHost, RpcSmallImage, snapshot.SmallImageKey, snapshot.SmallImageText, _rpcSmallImageLoad, true);
+            }
+            else
+            {
+                ApplyPreviewImage(RpcLargeImageHost, snapshot.LargeImageKey, snapshot.LargeImageText, ref _rpcLargeLoaded);
+                bool hasSmall = ApplyPreviewImage(RpcSmallImageHost, snapshot.SmallImageKey, snapshot.SmallImageText, ref _rpcSmallLoaded);
+                RpcSmallImageHost.Visibility = hasSmall ? Visibility.Visible : Visibility.Collapsed;
+            }
 
             BuildPreviewButtons(snapshot);
         }
@@ -360,6 +398,151 @@ public partial class IntegrationsPage
         brush.Freeze();
         target.Background = brush;
         return true;
+    }
+
+    private void QueuePreviewImage(Border host, Image image, string key, string tooltip, PreviewImageLoad state, bool hideHostWhenEmpty)
+    {
+        host.ToolTip = string.IsNullOrEmpty(tooltip) ? null : tooltip;
+        if (!IsPreviewImageKeySupported(key))
+        {
+            if (string.IsNullOrWhiteSpace(key) || string.Equals(key, "voidstrap", StringComparison.OrdinalIgnoreCase))
+            {
+                ResetPreviewImage(host, image, state, hideHostWhenEmpty);
+                return;
+            }
+            if (!string.Equals(state.RequestedKey, key, StringComparison.Ordinal))
+            {
+                ResetPreviewImage(host, image, state, hideHostWhenEmpty);
+                state.RequestedKey = key;
+                state.FailureLogged = true;
+                App.Logger.WriteLine("IntegrationsPage", "Preview image key is unsupported: " + key);
+            }
+            return;
+        }
+
+        long now = Environment.TickCount64;
+        if (string.Equals(state.LoadedKey, key, StringComparison.Ordinal) && image.Source != null)
+        {
+            image.Visibility = Visibility.Visible;
+            if (hideHostWhenEmpty)
+                host.Visibility = Visibility.Visible;
+            return;
+        }
+        if (string.Equals(state.RequestedKey, key, StringComparison.Ordinal) && (state.Loading || now < state.RetryAfter))
+            return;
+
+        CancelPreviewImageLoad(state);
+        state.Generation++;
+        state.RequestedKey = key;
+        state.Loading = true;
+        state.RetryAfter = 0;
+        state.LoadedKey = string.Empty;
+        state.FailureLogged = false;
+        image.Source = null;
+        image.Visibility = Visibility.Collapsed;
+        if (hideHostWhenEmpty)
+            host.Visibility = Visibility.Collapsed;
+        CancellationTokenSource cancellation = new(TimeSpan.FromSeconds(12));
+        state.Cancellation = cancellation;
+        _ = LoadPreviewImageAsync(host, image, key, state, state.Generation, hideHostWhenEmpty, cancellation);
+    }
+
+    private async Task LoadPreviewImageAsync(Border host, Image image, string key, PreviewImageLoad state, int generation, bool hideHostWhenEmpty, CancellationTokenSource cancellation)
+    {
+        ImageSource? source = null;
+        try
+        {
+            source = await Voidstrap.Utility.AppImage.LoadAsync(key, 160, cancellation.Token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("IntegrationsPage", "Preview image load failed: " + ex.Message);
+        }
+        try
+        {
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (generation != state.Generation || !string.Equals(state.RequestedKey, key, StringComparison.Ordinal))
+                    return;
+                state.Loading = false;
+                state.Cancellation = null;
+                if (source == null)
+                {
+                    state.LoadedKey = string.Empty;
+                    state.RetryAfter = Environment.TickCount64 + 3000;
+                    if (!state.FailureLogged)
+                    {
+                        state.FailureLogged = true;
+                        App.Logger.WriteLine("IntegrationsPage", "Preview image could not be loaded: " + key);
+                    }
+                    image.Source = null;
+                    image.Visibility = Visibility.Collapsed;
+                    if (hideHostWhenEmpty)
+                        host.Visibility = Visibility.Collapsed;
+                    return;
+                }
+                state.LoadedKey = key;
+                state.RetryAfter = 0;
+                state.FailureLogged = false;
+                image.Source = source;
+                image.Visibility = Visibility.Visible;
+                if (hideHostWhenEmpty)
+                    host.Visibility = Visibility.Visible;
+                App.Logger.WriteLine("IntegrationsPage", "Preview image displayed at " + source.Width.ToString("F0") + "x" + source.Height.ToString("F0"));
+            }, DispatcherPriority.Render);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("IntegrationsPage", "Preview image display failed: " + ex.Message);
+        }
+        finally
+        {
+            cancellation.Dispose();
+        }
+    }
+
+    private static bool IsPreviewImageKeySupported(string key)
+    {
+        if (string.IsNullOrWhiteSpace(key) || string.Equals(key, "voidstrap", StringComparison.OrdinalIgnoreCase))
+            return false;
+        if (key.StartsWith("data:", StringComparison.OrdinalIgnoreCase) || File.Exists(key))
+            return true;
+        return Uri.TryCreate(key, UriKind.Absolute, out Uri? uri)
+            && (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeFile || uri.Scheme == "pack");
+    }
+
+    private static void ResetPreviewImage(Border host, Image image, PreviewImageLoad state, bool hideHostWhenEmpty)
+    {
+        CancelPreviewImageLoad(state);
+        state.Generation++;
+        state.RequestedKey = string.Empty;
+        state.LoadedKey = string.Empty;
+        state.RetryAfter = 0;
+        state.Loading = false;
+        state.FailureLogged = false;
+        image.Source = null;
+        image.Visibility = Visibility.Collapsed;
+        if (hideHostWhenEmpty)
+            host.Visibility = Visibility.Collapsed;
+    }
+
+    private static void CancelPreviewImageLoad(PreviewImageLoad state)
+    {
+        CancellationTokenSource? cancellation = state.Cancellation;
+        state.Cancellation = null;
+        state.Loading = false;
+        if (cancellation == null)
+            return;
+        try
+        {
+            cancellation.Cancel();
+        }
+        catch (ObjectDisposedException)
+        {
+        }
     }
 
     private void BuildPreviewButtons(PresenceSnapshot snapshot)

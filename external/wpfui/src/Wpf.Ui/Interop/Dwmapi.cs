@@ -1,4 +1,4 @@
-﻿// This Source Code is partially based on reverse engineering of the Windows Operating System,
+// This Source Code is partially based on reverse engineering of the Windows Operating System,
 // and is intended for use on Windows systems only.
 // This Source Code is partially based on the source code provided by the .NET Foundation.
 // This Source Code Form is subject to the terms of the MIT License.
@@ -23,7 +23,7 @@ namespace Wpf.Ui.Interop;
 /// </summary>
 // ReSharper disable IdentifierTypo
 // ReSharper disable InconsistentNaming
-internal static class Dwmapi
+internal static partial class Dwmapi
 {
     /// <summary>
     /// Cloaked flags describing why a window is cloaked.
@@ -400,7 +400,7 @@ internal static class Dwmapi
         /// <summary>
         /// ColorizationOpaqueBlend.
         /// </summary>
-        public bool fOpaque;
+        public int fOpaque;
     }
 
     /// <summary>
@@ -525,31 +525,31 @@ internal static class Dwmapi
     /// </summary>
     /// <param name="pfEnabled">A pointer to a value that, when this function returns successfully, receives TRUE if DWM composition is enabled; otherwise, FALSE.</param>
     /// <returns>If this function succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.</returns>
-    [DllImport(Libraries.Dwmapi, BestFitMapping = false)]
-    public static extern int DwmIsCompositionEnabled([Out] out int pfEnabled);
+    [LibraryImport(Libraries.Dwmapi)]
+    public static partial int DwmIsCompositionEnabled(out int pfEnabled);
 
     /// <summary>
     /// Extends the window frame into the client area.
     /// </summary>
     /// <param name="hWnd">The handle to the window in which the frame will be extended into the client area.</param>
     /// <param name="pMarInset">A pointer to a MARGINS structure that describes the margins to use when extending the frame into the client area.</param>
-    [DllImport(Libraries.Dwmapi, PreserveSig = false)]
-    public static extern void DwmExtendFrameIntoClientArea([In] IntPtr hWnd, [In] ref UxTheme.MARGINS pMarInset);
+    [LibraryImport(Libraries.Dwmapi)]
+    public static partial int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref UxTheme.MARGINS pMarInset);
 
     /// <summary>
     /// Retrieves the current composition timing information for a specified window.
     /// </summary>
     /// <param name="hWnd">The handle to the window for which the composition timing information should be retrieved.</param>
     /// <param name="pTimingInfo">A pointer to a <see cref="DWM_TIMING_INFO"/> structure that, when this function returns successfully, receives the current composition timing information for the window.</param>
-    [DllImport(Libraries.Dwmapi)]
-    public static extern void DwmGetCompositionTimingInfo([In] IntPtr hWnd, [In] ref DWM_TIMING_INFO pTimingInfo);
+    [LibraryImport(Libraries.Dwmapi)]
+    public static partial void DwmGetCompositionTimingInfo(IntPtr hWnd, ref DWM_TIMING_INFO pTimingInfo);
 
     /// <summary>
     /// Called by an application to indicate that all previously provided iconic bitmaps from a window, both thumbnails and peek representations, should be refreshed.
     /// </summary>
     /// <param name="hWnd">A handle to the window or tab whose bitmaps are being invalidated through this call. This window must belong to the calling process.</param>
-    [DllImport(Libraries.Dwmapi, PreserveSig = false)]
-    public static extern void DwmInvalidateIconicBitmaps([In] IntPtr hWnd);
+    [LibraryImport(Libraries.Dwmapi)]
+    public static partial int DwmInvalidateIconicBitmaps(IntPtr hWnd);
 
     /// <summary>
     /// Sets a static, iconic bitmap on a window or tab to use as a thumbnail representation. The taskbar can use this bitmap as a thumbnail switch target for the window or tab.
@@ -557,19 +557,8 @@ internal static class Dwmapi
     /// <param name="hWnd">A handle to the window or tab. This window must belong to the calling process.</param>
     /// <param name="hbmp">A handle to the bitmap to represent the window that hwnd specifies.</param>
     /// <param name="dwSITFlags">The display options for the thumbnail.</param>
-    [DllImport(Libraries.Dwmapi, PreserveSig = false)]
-    public static extern void DwmSetIconicThumbnail([In] IntPtr hWnd, [In] IntPtr hbmp, [In] DWM_SIT dwSITFlags);
-
-    /// <summary>
-    /// Sets a static, iconic bitmap to display a live preview (also known as a Peek preview) of a window or tab. The taskbar can use this bitmap to show a full-sized preview of a window or tab.
-    /// </summary>
-    /// <param name="hWnd">A handle to the window. This window must belong to the calling process.</param>
-    /// <param name="hbmp">A handle to the bitmap to represent the window that hwnd specifies.</param>
-    /// <param name="pptClient">The offset of a tab window's client region (the content area inside the client window frame) from the host window's frame. This offset enables the tab window's contents to be drawn correctly in a live preview when it is drawn without its frame.</param>
-    /// <param name="dwSITFlags">The display options for the live preview.</param>
-    [DllImport(Libraries.Dwmapi, PreserveSig = false)]
-    public static extern int DwmSetIconicLivePreviewBitmap([In] IntPtr hWnd, [In] IntPtr hbmp,
-        [In, Optional] WinDef.POINT pptClient, [In] DWM_SIT dwSITFlags);
+    [LibraryImport(Libraries.Dwmapi)]
+    public static partial int DwmSetIconicThumbnail(IntPtr hWnd, IntPtr hbmp, DWM_SIT dwSITFlags);
 
     /// <summary>
     /// Sets the value of Desktop Window Manager (DWM) non-client rendering attributes for a window.
@@ -579,10 +568,10 @@ internal static class Dwmapi
     /// <param name="pvAttribute">A pointer to an object containing the attribute value to set.</param>
     /// <param name="cbAttribute">The size, in bytes, of the attribute value being set via the <c>pvAttribute</c> parameter.</param>
     /// <returns>If the function succeeds, it returns <c>S_OK</c>. Otherwise, it returns an <c>HRESULT</c> error code.</returns>
-    [DllImport(Libraries.Dwmapi)]
-    public static extern int DwmSetWindowAttribute([In] IntPtr hWnd, [In] int dwAttribute,
-        [In] ref int pvAttribute,
-        [In] int cbAttribute);
+    [LibraryImport(Libraries.Dwmapi)]
+    public static partial int DwmSetWindowAttribute(IntPtr hWnd, int dwAttribute,
+        ref int pvAttribute,
+        int cbAttribute);
 
     /// <summary>
     /// Sets the value of Desktop Window Manager (DWM) non-client rendering attributes for a window.
@@ -592,10 +581,10 @@ internal static class Dwmapi
     /// <param name="pvAttribute">A pointer to an object containing the attribute value to set.</param>
     /// <param name="cbAttribute">The size, in bytes, of the attribute value being set via the <c>pvAttribute</c> parameter.</param>
     /// <returns>If the function succeeds, it returns <c>S_OK</c>. Otherwise, it returns an <c>HRESULT</c> error code.</returns>
-    [DllImport(Libraries.Dwmapi)]
-    public static extern int DwmSetWindowAttribute([In] IntPtr hWnd, [In] DWMWINDOWATTRIBUTE dwAttribute,
-        [In] ref int pvAttribute,
-        [In] int cbAttribute);
+    [LibraryImport(Libraries.Dwmapi)]
+    public static partial int DwmSetWindowAttribute(IntPtr hWnd, DWMWINDOWATTRIBUTE dwAttribute,
+        ref int pvAttribute,
+        int cbAttribute);
 
     /// <summary>
     /// Retrieves the current value of a specified Desktop Window Manager (DWM) attribute applied to a window. For programming guidance, and code examples, see Controlling non-client region rendering.
@@ -605,10 +594,10 @@ internal static class Dwmapi
     /// <param name="pvAttributeValue">A pointer to a value which, when this function returns successfully, receives the current value of the attribute. The type of the retrieved value depends on the value of the dwAttribute parameter.</param>
     /// <param name="cbAttribute">The size, in bytes, of the attribute value being received via the pvAttribute parameter.</param>
     /// <returns>If the function succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.</returns>
-    [DllImport(Libraries.Dwmapi)]
-    public static extern int DwmGetWindowAttribute([In] IntPtr hWnd, [In] DWMWINDOWATTRIBUTE dwAttributeToGet,
-           [In] ref int pvAttributeValue,
-           [In] int cbAttribute);
+    [LibraryImport(Libraries.Dwmapi)]
+    public static partial int DwmGetWindowAttribute(IntPtr hWnd, DWMWINDOWATTRIBUTE dwAttributeToGet,
+           ref int pvAttributeValue,
+           int cbAttribute);
 
     /// <summary>
     /// Retrieves the current value of a specified Desktop Window Manager (DWM) attribute applied to a window. For programming guidance, and code examples, see Controlling non-client region rendering.
@@ -618,15 +607,15 @@ internal static class Dwmapi
     /// <param name="pvAttributeValue">A pointer to a value which, when this function returns successfully, receives the current value of the attribute. The type of the retrieved value depends on the value of the dwAttribute parameter.</param>
     /// <param name="cbAttribute">The size, in bytes, of the attribute value being received via the pvAttribute parameter.</param>
     /// <returns>If the function succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.</returns>
-    [DllImport(Libraries.Dwmapi)]
-    public static extern int DwmGetWindowAttribute([In] IntPtr hWnd, [In] int dwAttributeToGet,
-            [In] ref int pvAttributeValue,
-            [In] int cbAttribute);
+    [LibraryImport(Libraries.Dwmapi)]
+    public static partial int DwmGetWindowAttribute(IntPtr hWnd, int dwAttributeToGet,
+            ref int pvAttributeValue,
+            int cbAttribute);
 
     /// <summary>
     /// The feature is not included in the Microsoft documentation. Reads Desktop Window Manager (DWM) color information.
     /// </summary>
     /// <param name="dwParameters">A pointer to a reference value that will hold the color information.</param>
-    [DllImport(Libraries.Dwmapi, EntryPoint = "#127", PreserveSig = false, CharSet = CharSet.Unicode)]
-    public static extern void DwmGetColorizationParameters([Out] out DWMCOLORIZATIONPARAMS dwParameters);
+    [LibraryImport(Libraries.Dwmapi, EntryPoint = "#127")]
+    public static partial int DwmGetColorizationParameters(out DWMCOLORIZATIONPARAMS dwParameters);
 }

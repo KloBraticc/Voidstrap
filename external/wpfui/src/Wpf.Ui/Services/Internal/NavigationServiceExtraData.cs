@@ -25,5 +25,5 @@ internal struct NavigationServiceExtraData
     /// <summary>
     /// Additional <see cref="System.Windows.FrameworkElement.DataContext"/>.
     /// </summary>
-    public object DataContext { get; set; }
+    public object? DataContext { get; set; }
 }

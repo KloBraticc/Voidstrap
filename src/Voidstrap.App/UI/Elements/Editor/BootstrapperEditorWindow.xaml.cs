@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -94,9 +94,9 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 		private static (SortedDictionary<string, string>, List<string>) GetElementAttributes(string name, Element element)
 		{
-			if (ElementInfo.ContainsKey(name))
+			if (ElementInfo.TryGetValue(name, out SortedDictionary<string, string>? value))
 			{
-				return (ElementInfo[name], PropertyElements[name]);
+				return (value, PropertyElements[name]);
 			}
 			List<string> list = new List<string>();
 			SortedDictionary<string, string> sortedDictionary = new SortedDictionary<string, string>();
@@ -139,7 +139,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		private static void PopulateElementInfo()
 		{
 			List<string> list = new List<string>();
-			foreach (KeyValuePair<string, Element> element in _schema.Elements)
+			foreach (KeyValuePair<string, Element> element in _schema!.Elements)
 			{
 				GetElementAttributes(element.Key, element.Value);
 				if (!element.Value.IsCreatable)
@@ -539,7 +539,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		CloseCompletionWindow();
 		if (UIXML.CaretOffset >= 2 && UIXML.Text.Length > 2 && UIXML.CaretOffset - 2 < UIXML.Text.Length && UIXML.Text[UIXML.CaretOffset - 2] == '<')
 		{
-			string elementAtCursor = GetElementAtCursor(UIXML.Text, UIXML.CaretOffset - 3);
+			string? elementAtCursor = GetElementAtCursor(UIXML.Text, UIXML.CaretOffset - 3);
 			if (elementAtCursor != null)
 			{
 				UIXML.TextArea.Document.Insert(UIXML.CaretOffset, elementAtCursor + ">");
@@ -684,12 +684,12 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 	private void OpenAttributesFor(string elementName, int wordStart)
 	{
-		if (string.IsNullOrEmpty(elementName) || !CustomBootstrapperSchema.ElementInfo.ContainsKey(elementName))
+		if (string.IsNullOrEmpty(elementName) || !CustomBootstrapperSchema.ElementInfo.TryGetValue(elementName, out SortedDictionary<string, string>? value))
 			return;
 
 		var list = new List<ICompletionData>();
 
-		foreach (KeyValuePair<string, string> attribute in CustomBootstrapperSchema.ElementInfo[elementName])
+		foreach (KeyValuePair<string, string> attribute in value)
 		{
 			string type = attribute.Value;
 			list.Add(new AttributeCompletionData(attribute.Key, type, delegate
@@ -745,19 +745,19 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 	private void OpenAttributeAutoComplete()
 	{
-		string text = ShowAttributesForElementName();
+		string? text = ShowAttributesForElementName();
 		if (text == null)
 		{
 			CloseCompletionWindow();
 			return;
 		}
-		if (!CustomBootstrapperSchema.ElementInfo.ContainsKey(text))
+		if (!CustomBootstrapperSchema.ElementInfo.TryGetValue(text, out SortedDictionary<string, string>? sortedDictionary))
 		{
 			CloseCompletionWindow();
 			return;
 		}
-		SortedDictionary<string, string> sortedDictionary = CustomBootstrapperSchema.ElementInfo[text];
-		List<ICompletionData> list = new List<ICompletionData>();
+
+        List<ICompletionData> list = new List<ICompletionData>();
 		foreach (KeyValuePair<string, string> attribute in sortedDictionary)
 		{
 			list.Add(new AttributeCompletionData(attribute.Key, attribute.Value, delegate
@@ -789,19 +789,19 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 	private void OpenPropertyElementAutoComplete()
 	{
-		string elementAtCursorNoSpaces = GetElementAtCursorNoSpaces(UIXML.Text, UIXML.CaretOffset);
+		string? elementAtCursorNoSpaces = GetElementAtCursorNoSpaces(UIXML.Text, UIXML.CaretOffset);
 		if (elementAtCursorNoSpaces == null)
 		{
 			CloseCompletionWindow();
 			return;
 		}
-		if (!CustomBootstrapperSchema.PropertyElements.ContainsKey(elementAtCursorNoSpaces))
+		if (!CustomBootstrapperSchema.PropertyElements.TryGetValue(elementAtCursorNoSpaces, out List<string>? list))
 		{
 			CloseCompletionWindow();
 			return;
 		}
-		List<string> list = CustomBootstrapperSchema.PropertyElements[elementAtCursorNoSpaces];
-		List<ICompletionData> list2 = new List<ICompletionData>();
+
+        List<ICompletionData> list2 = new List<ICompletionData>();
 		foreach (string item in list)
 		{
 			list2.Add(new TypeValueCompletionData(item));
@@ -827,7 +827,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 	private void ShowCompletionWindow(List<ICompletionData> completionData, int startOffset)
 	{
 		CloseCompletionWindow();
-		if (!completionData.Any())
+		if (completionData.Count == 0)
 		{
 			return;
 		}
@@ -1180,6 +1180,11 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 			if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
 				return null;
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				_wallpaper = Voidstrap.Utility.SafeImaging.FromFile(path, 1280);
+				return _wallpaper;
+			}
 
 			var image = new System.Windows.Media.Imaging.BitmapImage();
 			image.BeginInit();
@@ -1264,6 +1269,17 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			return;
 
 		double scale = Math.Min(1.0, available / shell.Width);
+
+		if (shell.LayoutTransform is System.Windows.Media.ScaleTransform applied && !applied.IsFrozen)
+		{
+			if (Math.Abs(applied.ScaleX - scale) < 0.005)
+				return;
+
+			applied.ScaleX = scale;
+			applied.ScaleY = scale;
+			return;
+		}
+
 		shell.LayoutTransform = new System.Windows.Media.ScaleTransform(scale, scale);
 	}
 
@@ -1334,7 +1350,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			current = current.InnerException;
 		}
 
-		var match = System.Text.RegularExpressions.Regex.Match(ex.Message, @"line (\d+)", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+		var match = LineNumberPattern.Match(ex.Message);
 		return match.Success && int.TryParse(match.Groups[1].Value, out int line) ? line : 0;
 	}
 
@@ -1536,7 +1552,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			var entries = Directory
 				.EnumerateFiles(_viewModel.Directory, "*.*", SearchOption.AllDirectories)
 				.Select(path => Path.GetRelativePath(_viewModel.Directory, path).Replace(Path.DirectorySeparatorChar, '/'))
-				.Where(rel => !rel.StartsWith(".", StringComparison.Ordinal))
+				.Where(rel => !rel.StartsWith('.'))
 				.OrderBy(rel => rel.Equals("Theme.xml", StringComparison.OrdinalIgnoreCase) ? 0 : 1)
 				.ThenBy(rel => rel.Contains('/') ? 1 : 0)
 				.ThenBy(rel => rel, StringComparer.OrdinalIgnoreCase);
@@ -1712,6 +1728,16 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 		try
 		{
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				System.Windows.Media.Imaging.BitmapSource? portable = Voidstrap.Utility.SafeImaging.FromFile(file.FullPath, 1280);
+				if (portable == null)
+					throw new InvalidDataException("Unsupported image data");
+				MediaImage.Source = portable;
+				MediaInfo.Text = file.RelativePath + "\n" + portable.PixelWidth + " by " + portable.PixelHeight + ", " + file.SizeText
+					+ "\n\nUse theme://" + file.RelativePath + " to reference it.";
+				return;
+			}
 			var image = new System.Windows.Media.Imaging.BitmapImage();
 			image.BeginInit();
 			image.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
@@ -1796,7 +1822,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 	{
 		var dialog = new Voidstrap.UI.Elements.Dialogs.TextInputDialog(title, initial);
 		dialog.Owner = this;
-		dialog.ShowDialog();
+		dialog.ShowOwnedDialog();
 		return dialog.Confirmed ? dialog.Value : null;
 	}
 
@@ -1804,7 +1830,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 	{
 		if (string.IsNullOrWhiteSpace(value))
 			return false;
-		if (value.Contains("..", StringComparison.Ordinal) || value.StartsWith("/", StringComparison.Ordinal) || Path.IsPathRooted(value))
+		if (value.Contains("..", StringComparison.Ordinal) || value.StartsWith('/') || Path.IsPathRooted(value))
 			return false;
 		return value.IndexOfAny(Path.GetInvalidPathChars()) == -1;
 	}
@@ -2070,7 +2096,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		if (file == null)
 			return;
 
-		try { System.Windows.Clipboard.SetText("theme://" + file.RelativePath); } catch { }
+		try { Voidstrap.Utility.ClipboardService.SetText("theme://" + file.RelativePath); } catch { }
 
 		ThemeSavedCallback(true, "Copied theme://" + file.RelativePath);
 	}
@@ -2083,7 +2109,10 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 		try
 		{
-			using Process? process = Process.Start("explorer.exe", "/select,\"" + file.FullPath + "\"");
+			if (Voidstrap.Utility.Platform.IsLinux)
+				Voidstrap.Utility.PlatformShell.TryRevealFile(file.FullPath);
+			else
+				using (Process? process = Process.Start("explorer.exe", "/select,\"" + file.FullPath + "\"")) { }
 		}
 		catch (Exception ex)
 		{
@@ -2111,7 +2140,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 		ExternalEditorPickerDialog dialog = new(editors) { Owner = this };
 
-		if (dialog.ShowDialog() != true || dialog.SelectedEditor == null)
+		if (dialog.ShowOwnedDialog() != true || dialog.SelectedEditor == null)
 			return;
 
 		_external = dialog.SelectedEditor;
@@ -2275,4 +2304,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			App.Logger?.WriteLine("BootstrapperEditorWindow", message);
 		}
 	}
+
+    [GeneratedRegex(@"line (\d+)", System.Text.RegularExpressions.RegexOptions.IgnoreCase, "en-US")]
+    private static partial Regex LineNumberPattern { get; }
 }

@@ -46,7 +46,7 @@ public abstract class EnumBaseTask<T> : BaseTask where T : struct, Enum
 
 	public override bool Changed => !_newState.Equals(OriginalState);
 
-	public IEnumerable<T> Selections { get; private set; } = Enum.GetValues(typeof(T)).Cast<T>().OrderBy(delegate(T x)
+	public IEnumerable<T> Selections { get; private set; } = Enum.GetValues<T>().Cast<T>().OrderBy(delegate(T x)
 	{
 		object[] customAttributes = x.GetType().GetMember(x.ToString())[0].GetCustomAttributes(typeof(EnumSortAttribute), inherit: false);
 		return (customAttributes.Length != 0) ? ((EnumSortAttribute)customAttributes[0]).Order : 0;

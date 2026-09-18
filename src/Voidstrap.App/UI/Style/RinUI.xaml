@@ -44,6 +44,11 @@
   <Color x:Key="SystemFillColorCaution">#FFFCE100</Color>
   <Color x:Key="SystemFillColorCritical">#FFFF99A4</Color>
   <Color x:Key="SystemFillColorNeutral">#FF9F9F9F</Color>
+  <Color x:Key="RinPrimaryColor">#FF605ED2</Color>
+  <Color x:Key="RinControlBorderColor">#17000000</Color>
+  <Color x:Key="RinTextControlBorderColor">#8AFFFFFF</Color>
+  <Color x:Key="RinCaptionCloseColor">#FFC42B1C</Color>
+  <Color x:Key="RinCaptionCloseTextColor">#FFFFFFFF</Color>
   <CornerRadius x:Key="ControlCornerRadius">5</CornerRadius>
   <CornerRadius x:Key="OverlayCornerRadius">7</CornerRadius>
   <CornerRadius x:Key="PopupCornerRadius">7</CornerRadius>
@@ -63,6 +68,11 @@
   <SolidColorBrush x:Key="SubtleFillColorSecondaryBrush" Color="{DynamicResource SubtleFillColorSecondary}" />
   <SolidColorBrush x:Key="SubtleFillColorTertiaryBrush" Color="{DynamicResource SubtleFillColorTertiary}" />
   <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush" Color="{DynamicResource ControlStrokeColorDefault}" />
+  <SolidColorBrush x:Key="RinPrimaryColorBrush" Color="{DynamicResource RinPrimaryColor}" />
+  <SolidColorBrush x:Key="RinControlBorderBrush" Color="{DynamicResource RinControlBorderColor}" />
+  <SolidColorBrush x:Key="RinTextControlBorderBrush" Color="{DynamicResource RinTextControlBorderColor}" />
+  <SolidColorBrush x:Key="RinCaptionCloseBrush" Color="{DynamicResource RinCaptionCloseColor}" />
+  <SolidColorBrush x:Key="RinCaptionCloseTextBrush" Color="{DynamicResource RinCaptionCloseTextColor}" />
   <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush" Color="{DynamicResource ControlStrokeColorSecondary}" />
   <SolidColorBrush x:Key="ControlStrongStrokeColorDefaultBrush" Color="{DynamicResource ControlStrongStrokeColorDefault}" />
   <SolidColorBrush x:Key="CardBackgroundFillColorDefaultBrush" Color="{DynamicResource CardBackgroundFillColorDefault}" />

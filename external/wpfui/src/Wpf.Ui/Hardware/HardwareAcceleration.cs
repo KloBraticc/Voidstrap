@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -8,7 +8,7 @@ using System.Windows.Media.Animation;
 
 namespace Wpf.Ui.Hardware
 {
-    public static class HardwareAcceleration
+    public static partial class HardwareAcceleration
     {
         public enum RenderingTier
         {
@@ -162,19 +162,21 @@ namespace Wpf.Ui.Hardware
         private const uint SPI_SETTOOLTIPANIMATION = 0x1017;
         private const uint SPIF_SENDCHANGE = 0x02;
 
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
+        [LibraryImport("user32.dll", EntryPoint = "SystemParametersInfoA", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
 
-        private static class NativeMethods
+        private static partial class NativeMethods
         {
-            [DllImport("kernel32.dll", SetLastError = true)]
-            public static extern bool SetProcessWorkingSetSize(IntPtr process, int minSize, int maxSize);
+            [LibraryImport("kernel32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static partial bool SetProcessWorkingSetSize(IntPtr process, int minSize, int maxSize);
 
-            [DllImport("kernel32.dll")]
-            public static extern void FlushProcessWriteBuffers();
+            [LibraryImport("kernel32.dll")]
+            public static partial void FlushProcessWriteBuffers();
 
-            [DllImport("dwmapi.dll", PreserveSig = true)]
-            public static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref bool attrValue, int attrSize);
+            [LibraryImport("dwmapi.dll")]
+            public static partial int DwmSetWindowAttribute(IntPtr hwnd, int attr, [MarshalAs(UnmanagedType.Bool)] ref bool attrValue, int attrSize);
         }
     }
 }

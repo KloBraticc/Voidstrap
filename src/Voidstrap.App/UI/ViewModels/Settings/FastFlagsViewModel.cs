@@ -24,6 +24,14 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	private static readonly string[] LODLevels = new string[4] { "L0", "L12", "L23", "L34" };
 
+	private const int MinMeshQuality = 1;
+
+	private const int MaxMeshQuality = 3;
+
+	private const int MinFRMQuality = 1;
+
+	private const int MaxFRMQuality = 21;
+
 	private const int DefaultMinGrassDistance = 100;
 
 	private const int DefaultMaxGrassDistance = 290;
@@ -136,16 +144,20 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		}
 		set
 		{
+			if (value == FRMQualityOverrideEnabled)
+			{
+				return;
+			}
 			if (value)
 			{
-				FRMQualityOverride = 21;
+				App.FastFlags.SetPreset("Rendering.FRMQualityOverride", MaxFRMQuality);
 			}
 			else
 			{
 				App.FastFlags.SetPreset("Rendering.FRMQualityOverride", null);
 			}
-			OnPropertyChanged("FRMQualityOverride");
-			OnPropertyChanged("FRMQualityOverrideEnabled");
+			OnPropertyChanged(nameof(FRMQualityOverride));
+			OnPropertyChanged(nameof(FRMQualityOverrideEnabled));
 		}
 	}
 
@@ -155,14 +167,19 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		{
 			if (!int.TryParse(App.FastFlags.GetPreset("Rendering.FRMQualityOverride"), out var result))
 			{
-				return 21;
+				return MaxFRMQuality;
 			}
-			return result;
+			return Math.Clamp(result, MinFRMQuality, MaxFRMQuality);
 		}
 		set
 		{
-			App.FastFlags.SetPreset("Rendering.FRMQualityOverride", value);
-			OnPropertyChanged("FRMQualityOverride");
+			if (!FRMQualityOverrideEnabled)
+			{
+				OnPropertyChanged(nameof(FRMQualityOverride));
+				return;
+			}
+			App.FastFlags.SetPreset("Rendering.FRMQualityOverride", Math.Clamp(value, MinFRMQuality, MaxFRMQuality));
+			OnPropertyChanged(nameof(FRMQualityOverride));
 		}
 	}
 
@@ -172,21 +189,26 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		{
 			if (!int.TryParse(App.FastFlags.GetPreset("Geometry.MeshLOD.L0"), out var result))
 			{
-				return 0;
+				return MaxMeshQuality;
 			}
-			return result;
+			return Math.Clamp(result, MinMeshQuality, MaxMeshQuality);
 		}
 		set
 		{
-			int num = Math.Clamp(value, 0, LODLevels.Length - 1);
+			int num = Math.Clamp(value, MinMeshQuality, MaxMeshQuality);
+			if (!MeshQualityEnabled)
+			{
+				OnPropertyChanged(nameof(MeshQuality));
+				return;
+			}
 			for (int i = 0; i < LODLevels.Length; i++)
 			{
 				int num2 = Math.Clamp(num - i, 0, 3);
 				string text = LODLevels[i];
 				App.FastFlags.SetPreset("Geometry.MeshLOD." + text, num2);
 			}
-			OnPropertyChanged("MeshQuality");
-			OnPropertyChanged("MeshQualityEnabled");
+			OnPropertyChanged(nameof(MeshQuality));
+			OnPropertyChanged(nameof(MeshQualityEnabled));
 		}
 	}
 
@@ -198,9 +220,17 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		}
 		set
 		{
+			if (value == MeshQualityEnabled)
+			{
+				return;
+			}
 			if (value)
 			{
-				MeshQuality = 3;
+				for (int i = 0; i < LODLevels.Length; i++)
+				{
+					int level = Math.Clamp(MaxMeshQuality - i, 0, 3);
+					App.FastFlags.SetPreset("Geometry.MeshLOD." + LODLevels[i], level);
+				}
 			}
 			else
 			{
@@ -211,7 +241,8 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 				}
 				App.FastFlags.SetPreset("Geometry.MeshLOD.Static", null);
 			}
-			OnPropertyChanged("MeshQualityEnabled");
+			OnPropertyChanged(nameof(MeshQualityEnabled));
+			OnPropertyChanged(nameof(MeshQuality));
 		}
 	}
 
@@ -687,7 +718,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return App.FastFlags?.GetPreset("Rendering.WorserParticles1") == "False";
+			return App.FastFlags.GetPreset("Rendering.WorserParticles1") == "False";
 		}
 		set
 		{
@@ -835,7 +866,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return MSAALevels.FirstOrDefault<KeyValuePair<MSAAMode, string>>((KeyValuePair<MSAAMode, string> x) => x.Value == App.FastFlags.GetPreset("Rendering.MSAA1")).Key;
+			return MSAALevels.FirstOrDefault<KeyValuePair<MSAAMode, string?>>((KeyValuePair<MSAAMode, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.MSAA1")).Key;
 		}
 		set
 		{
@@ -850,7 +881,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return TextureQualities.FirstOrDefault<KeyValuePair<TextureQuality, string>>((KeyValuePair<TextureQuality, string> x) => x.Value == App.FastFlags.GetPreset("Rendering.TextureQuality.Level")).Key;
+			return TextureQualities.FirstOrDefault<KeyValuePair<TextureQuality, string?>>((KeyValuePair<TextureQuality, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.TextureQuality.Level")).Key;
 		}
 		set
 		{
@@ -917,7 +948,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		set
 		{
 			App.FastFlags.SetPreset("Rendering.Nograss1", value.ToString());
-			OnPropertyChanged("MinGrassDistance");
+			OnPropertyChanged(nameof(MinGrassDistance));
 		}
 	}
 
@@ -934,7 +965,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		set
 		{
 			App.FastFlags.SetPreset("Rendering.Nograss2", value.ToString());
-			OnPropertyChanged("MaxGrassDistance");
+			OnPropertyChanged(nameof(MaxGrassDistance));
 		}
 	}
 
@@ -956,10 +987,10 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			foreach (KeyValuePair<InGameMenuVersion, Dictionary<string, string>> iGMenuVersion in IGMenuVersions)
+			foreach (KeyValuePair<InGameMenuVersion, Dictionary<string, string?>> iGMenuVersion in IGMenuVersions)
 			{
 				bool flag = true;
-				foreach (KeyValuePair<string, string> flag2 in iGMenuVersion.Value)
+				foreach (KeyValuePair<string, string?> flag2 in iGMenuVersion.Value)
 				{
 					foreach (KeyValuePair<string, string> item in FastFlagManager.PresetFlags.Where<KeyValuePair<string, string>>((KeyValuePair<string, string> x) => x.Key.StartsWith("UI.Menu.Style." + flag2.Key)))
 					{
@@ -978,7 +1009,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		}
 		set
 		{
-			foreach (KeyValuePair<string, string> item in IGMenuVersions[value])
+			foreach (KeyValuePair<string, string?> item in IGMenuVersions[value])
 			{
 				App.FastFlags.SetPreset("UI.Menu.Style." + item.Key, item.Value);
 			}
@@ -1021,7 +1052,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return TextureSkippings.FirstOrDefault<KeyValuePair<TextureSkipping, string>>((KeyValuePair<TextureSkipping, string> x) => x.Value == App.FastFlags.GetPreset("Rendering.TextureSkipping.Skips")).Key;
+			return TextureSkippings.FirstOrDefault<KeyValuePair<TextureSkipping, string?>>((KeyValuePair<TextureSkipping, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.TextureSkipping.Skips")).Key;
 		}
 		set
 		{
@@ -1042,7 +1073,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return DistanceRenderings.FirstOrDefault<KeyValuePair<DistanceRendering, string>>((KeyValuePair<DistanceRendering, string> x) => x.Value == App.FastFlags.GetPreset("Rendering.Distance.Chunks")).Key;
+			return DistanceRenderings.FirstOrDefault<KeyValuePair<DistanceRendering, string?>>((KeyValuePair<DistanceRendering, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.Distance.Chunks")).Key;
 		}
 		set
 		{
@@ -1057,7 +1088,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public IReadOnlyDictionary<int, string?> GrassMovementOptions { get; } = new Dictionary<int, string>
+	public IReadOnlyDictionary<int, string?> GrassMovementOptions { get; } = new Dictionary<int, string?>
 	{
 		{ 0, "No Movement" },
 		{ 1, "Minimal Movement" },
@@ -1087,7 +1118,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			{
 				App.FastFlags.SetPreset("Grass.Movement", value.ToString());
 			}
-			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedGrassMovementFactor"));
+			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedGrassMovementFactor)));
 		}
 	}
 
@@ -1097,7 +1128,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return DynamicResolutions.FirstOrDefault<KeyValuePair<DynamicResolution, string>>((KeyValuePair<DynamicResolution, string> x) => x.Value == App.FastFlags.GetPreset("Rendering.Dynamic.Resolution")).Key;
+			return DynamicResolutions.FirstOrDefault<KeyValuePair<DynamicResolution, string?>>((KeyValuePair<DynamicResolution, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.Dynamic.Resolution")).Key;
 		}
 		set
 		{
@@ -1118,7 +1149,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return FastFlagManager.RomarkStartMappings.FirstOrDefault<KeyValuePair<RomarkStart, string>>((KeyValuePair<RomarkStart, string> x) => x.Value == App.FastFlags.GetPreset("Rendering.Start.Graphic")).Key;
+			return FastFlagManager.RomarkStartMappings.FirstOrDefault<KeyValuePair<RomarkStart, string?>>((KeyValuePair<RomarkStart, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.Start.Graphic")).Key;
 		}
 		set
 		{
@@ -1139,7 +1170,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return PresentsLevels.FirstOrDefault<KeyValuePair<Presents, string>>((KeyValuePair<Presents, string> x) => x.Value == App.FastFlags.GetPreset("Rendering.MSAA")).Key;
+			return PresentsLevels.FirstOrDefault<KeyValuePair<Presents, string?>>((KeyValuePair<Presents, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.MSAA")).Key;
 		}
 		set
 		{
@@ -1153,7 +1184,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return FastFlagManager.QualityLevels.FirstOrDefault<KeyValuePair<QualityLevel, string>>((KeyValuePair<QualityLevel, string> x) => x.Value == App.FastFlags.GetPreset("Rendering.FrmQuality")).Key;
+			return FastFlagManager.QualityLevels.FirstOrDefault<KeyValuePair<QualityLevel, string?>>((KeyValuePair<QualityLevel, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.FrmQuality")).Key;
 		}
 		set
 		{
@@ -1505,6 +1536,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		{
 			App.FastFlags.SetPreset("Graphic.WhiteSky", value ? "True" : null);
 			App.FastFlags.SetPreset("Graphic.GraySky", value ? "True" : null);
+			OnPropertyChanged(nameof(EnableGraySky));
 		}
 	}
 
@@ -1547,7 +1579,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			}
 			else
 			{
-				App.FastFlags.Prop = _preResetFlags;
+				App.FastFlags.Prop = _preResetFlags ?? App.FastFlags.Prop;
 				_preResetFlags = null;
 			}
 			this.RequestPageReloadEvent?.Invoke(this, EventArgs.Empty);
@@ -1638,7 +1670,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return RefreshRates.FirstOrDefault<KeyValuePair<RefreshRate, string>>((KeyValuePair<RefreshRate, string> x) => x.Value == App.FastFlags.GetPreset("System.TargetRefreshRate1")).Key;
+			return RefreshRates.FirstOrDefault<KeyValuePair<RefreshRate, string?>>((KeyValuePair<RefreshRate, string?> x) => x.Value == App.FastFlags.GetPreset("System.TargetRefreshRate1")).Key;
 		}
 		set
 		{
@@ -1665,7 +1697,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return Shaders.FirstOrDefault<KeyValuePair<Shader, string>>((KeyValuePair<Shader, string> x) => x.Value == App.FastFlags.GetPreset("Rendering.Shaders")).Key;
+			return Shaders.FirstOrDefault<KeyValuePair<Shader, string?>>((KeyValuePair<Shader, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.Shaders")).Key;
 		}
 		set
 		{
@@ -1701,40 +1733,40 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		get
 		{
 			string currentValue = App.FastFlags.GetPreset("System.CpuCore1") ?? "Automatic";
-			return CpuThreads?.FirstOrDefault((KeyValuePair<string, string> kvp) => kvp.Key == currentValue) ?? default(KeyValuePair<string, string>);
+			return CpuThreads?.FirstOrDefault((KeyValuePair<string, string?> kvp) => kvp.Key == currentValue) ?? default(KeyValuePair<string, string?>);
 		}
 		set
 		{
 			App.FastFlags.SetPreset("System.CpuCore1", value.Value);
-			OnPropertyChanged("SelectedCpuThreads");
+			OnPropertyChanged(nameof(SelectedCpuThreads));
 			App.FastFlags.SetPreset("System.CpuCore2", value.Value);
-			OnPropertyChanged("SelectedCpuThreads");
+			OnPropertyChanged(nameof(SelectedCpuThreads));
 			App.FastFlags.SetPreset("System.CpuCore3", value.Value);
-			OnPropertyChanged("SelectedCpuThreads");
+			OnPropertyChanged(nameof(SelectedCpuThreads));
 			App.FastFlags.SetPreset("System.CpuCore4", value.Value);
-			OnPropertyChanged("SelectedCpuThreads");
+			OnPropertyChanged(nameof(SelectedCpuThreads));
 			App.FastFlags.SetPreset("System.CpuCore5", value.Value);
-			OnPropertyChanged("SelectedCpuThreads");
+			OnPropertyChanged(nameof(SelectedCpuThreads));
 			App.FastFlags.SetPreset("System.CpuCore6", value.Value);
-			OnPropertyChanged("SelectedCpuThreads");
+			OnPropertyChanged(nameof(SelectedCpuThreads));
 			App.FastFlags.SetPreset("System.CpuCore7", value.Value);
-			OnPropertyChanged("SelectedCpuThreads");
+			OnPropertyChanged(nameof(SelectedCpuThreads));
 			App.FastFlags.SetPreset("System.CpuCore9", value.Value);
-			OnPropertyChanged("SelectedCpuThreads");
+			OnPropertyChanged(nameof(SelectedCpuThreads));
 			if (value.Value != null && int.TryParse(value.Value, out var result))
 			{
 				int num = Math.Max(result - 1, 1);
 				App.FastFlags.SetPreset("System.CpuThreads", num.ToString());
-				OnPropertyChanged("SelectedCpuThreads");
+				OnPropertyChanged(nameof(SelectedCpuThreads));
 				App.FastFlags.SetPreset("System.CpuCore8", num.ToString());
-				OnPropertyChanged("SelectedCpuThreads");
+				OnPropertyChanged(nameof(SelectedCpuThreads));
 			}
 			else
 			{
 				App.FastFlags.SetPreset("System.CpuThreads", null);
-				OnPropertyChanged("SelectedCpuThreads");
+				OnPropertyChanged(nameof(SelectedCpuThreads));
 				App.FastFlags.SetPreset("System.CpuCore8", null);
-				OnPropertyChanged("SelectedCpuThreads");
+				OnPropertyChanged(nameof(SelectedCpuThreads));
 			}
 		}
 	}
@@ -1746,12 +1778,12 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		get
 		{
 			string currentValue = App.FastFlags.GetPreset("System.CpuCoreMinThreadCount") ?? "Automatic";
-			return CpuThreads?.FirstOrDefault((KeyValuePair<string, string> kvp) => kvp.Key == currentValue) ?? default(KeyValuePair<string, string>);
+			return CpuThreads?.FirstOrDefault((KeyValuePair<string, string?> kvp) => kvp.Key == currentValue) ?? default(KeyValuePair<string, string?>);
 		}
 		set
 		{
 			App.FastFlags.SetPreset("System.CpuCoreMinThreadCount", value.Value);
-			OnPropertyChanged("SelectedCpuThreads");
+			OnPropertyChanged(nameof(SelectedCpuThreads));
 			if (value.Value != null && int.TryParse(value.Value, out var result))
 			{
 				int num = Math.Max(result - 1, 1);
@@ -1761,7 +1793,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			{
 				App.FastFlags.SetPreset("System.CpuCoreMinThreadCount", null);
 			}
-			OnPropertyChanged("SelectedCpuCoreMinThreadCount");
+			OnPropertyChanged(nameof(SelectedCpuCoreMinThreadCount));
 		}
 	}
 
@@ -1773,7 +1805,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		}
 		set
 		{
-			SetProperty(ref profileModes, value, "ProfileModes");
+			SetProperty(ref profileModes, value, nameof(ProfileModes));
 		}
 	}
 
@@ -1785,14 +1817,12 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		}
 		set
 		{
-			SetProperty(ref selectedProfileMods, value, "SelectedProfileMods");
+			SetProperty(ref selectedProfileMods, value, nameof(SelectedProfileMods));
 		}
 	}
 
 	public bool IsWindows => Voidstrap.Utility.Platform.IsWindows;
 
-	// true when any installed adapter is NVIDIA, so a hybrid laptop with an Intel or
-	// AMD integrated part plus an NVIDIA discrete one still gets access
 	public bool HasNvidiaGpu => Voidstrap.Utility.GpuInventory.HasNvidia;
 
 	public string NvidiaTabUnavailableReason => Voidstrap.Utility.GpuInventory.HasNvidia
@@ -1808,40 +1838,67 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			{
 				return;
 			}
-			if (value && Frontend.ShowMessageBox("AssetWarp redirects selected Roblox asset requests through a secure local proxy. When an AssetWarp feature requires the proxy, Voidstrap will request administrator permission and temporarily install a local certificate so Roblox can trust the connection. The certificate and routing changes are removed when AssetWarp stops. Enable AssetWarp?", MessageBoxImage.Warning, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+			if (value && !TryEnableAssetWarp())
 			{
 				OnPropertyChanged(nameof(AssetWarpEnabled));
 				return;
 			}
-			App.Settings.Prop.AssetWarpEnabled = value;
-			if (value)
+			App.Settings.Prop.AssetWarpAutoEnableDeclined = !value;
+			if (!value)
 			{
-				try
-				{
-					AssetProxyServer.PrepareCertificate();
-					App.Settings.Prop.AssetWarpCertificateApproved = true;
-				}
-				catch (Exception ex)
-				{
-					App.Settings.Prop.AssetWarpEnabled = false;
-					App.Settings.Prop.AssetWarpCertificateApproved = false;
-					Frontend.ShowMessageBox("AssetWarp could not install its local certificate: " + ex.Message, MessageBoxImage.Error);
-					OnPropertyChanged(nameof(AssetWarpEnabled));
-					return;
-				}
-			}
-			else
-			{
+				App.Settings.Prop.AssetWarpEnabled = false;
 				App.Settings.Prop.AssetWarpCertificateApproved = false;
+				AssetProxyServer.ReconcileRuntimeState();
+				App.FastFlags.SaveDeferred();
+				App.Settings.SaveDeferred();
 			}
-			AssetProxyServer.ReconcileRuntimeState();
-			App.FastFlags.SaveDeferred();
-			App.Settings.SaveDeferred();
 			if (!value && Voidstrap.Utility.Platform.IsLinux)
 			{
 				_ = RemoveLinuxAssetWarpCertificateAsync();
 			}
 			OnPropertyChanged(nameof(AssetWarpEnabled));
+		}
+	}
+
+	public static bool TryEnableAssetWarp(string? reason = null)
+	{
+		if (App.Settings.Prop.AssetWarpEnabled)
+		{
+			return true;
+		}
+		string prompt = Voidstrap.Utility.Platform.IsLinux
+			? "AssetWarp routes selected Roblox asset requests through a secure local proxy while Sober is running. Voidstrap adds a temporary certificate only to Sober's private Roblox trust bundle and restores Sober's proxy settings when Roblox closes. Enable AssetWarp?"
+			: "AssetWarp redirects selected Roblox asset requests through a secure local proxy. When an AssetWarp feature requires the proxy, Voidstrap will request administrator permission and temporarily install a local certificate so Roblox can trust the connection. The certificate and routing changes are removed when AssetWarp stops. Enable AssetWarp?";
+		if (reason != null)
+		{
+			prompt = reason + "\n\n" + prompt;
+		}
+		if (Frontend.ShowMessageBox(prompt, MessageBoxImage.Warning, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		{
+			if (reason != null)
+			{
+				App.Settings.Prop.AssetWarpAutoEnableDeclined = true;
+				App.Settings.SaveDeferred();
+			}
+			return false;
+		}
+		try
+		{
+			AssetProxyServer.PrepareCertificate();
+			App.Settings.Prop.AssetWarpEnabled = true;
+			App.Settings.Prop.AssetWarpCertificateApproved = true;
+			App.Settings.Prop.AssetWarpAutoEnableDeclined = false;
+			AssetProxyServer.ReconcileRuntimeState();
+			App.FastFlags.SaveDeferred();
+			App.Settings.SaveDeferred();
+			return true;
+		}
+		catch (Exception ex)
+		{
+			App.Settings.Prop.AssetWarpEnabled = false;
+			App.Settings.Prop.AssetWarpCertificateApproved = false;
+			Frontend.ShowMessageBox("AssetWarp could not install its local certificate: " + ex.Message, MessageBoxImage.Error);
+			return false;
 		}
 	}
 
@@ -1906,7 +1963,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 				catch
 				{
 				}
-				OnPropertyChanged("DisableAllTextures");
+				OnPropertyChanged(nameof(DisableAllTextures));
 			}
 		}
 	}
@@ -2208,8 +2265,210 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		set
 		{
 			_assetWarpStatus = value;
-			OnPropertyChanged("AssetWarpStatus");
+			OnPropertyChanged(nameof(AssetWarpStatus));
 		}
+	}
+
+	public int TextureParticleStyle
+	{
+		get => App.Settings.Prop.TextureParticleStyle;
+		set { int v = Math.Min(value, 2); if (value < 0 || App.Settings.Prop.TextureParticleStyle == v) return; App.Settings.Prop.TextureParticleStyle = v; ApplyTextureMods(); OnPropertyChanged(nameof(TextureParticleStyle)); OnPropertyChanged(nameof(TextureParticleSquares)); }
+	}
+	public bool TextureParticleSquares => App.Settings.Prop.TextureParticleStyle == 2;
+	public double TextureParticleOpacity
+	{
+		get => App.Settings.Prop.TextureParticleOpacity;
+		set { int v = (int)Math.Clamp(Math.Round(value), 10, 100); if (App.Settings.Prop.TextureParticleOpacity == v) return; App.Settings.Prop.TextureParticleOpacity = v; ApplyTextureMods(); OnPropertyChanged(nameof(TextureParticleOpacity)); OnPropertyChanged(nameof(TextureParticleOpacityDisplay)); }
+	}
+	public string TextureParticleOpacityDisplay => App.Settings.Prop.TextureParticleOpacity + "%";
+	public int TextureStudStyle
+	{
+		get => App.Settings.Prop.TextureStudStyle;
+		set { int v = Math.Min(value, 1); if (value < 0 || App.Settings.Prop.TextureStudStyle == v) return; App.Settings.Prop.TextureStudStyle = v; ApplyTextureMods(); OnPropertyChanged(nameof(TextureStudStyle)); OnPropertyChanged(nameof(TextureStudFlat)); }
+	}
+	public bool TextureStudFlat => App.Settings.Prop.TextureStudStyle == 1;
+	public double TextureStudShade
+	{
+		get => App.Settings.Prop.TextureStudShade;
+		set { int v = (int)Math.Clamp(Math.Round(value), 0, 100); if (App.Settings.Prop.TextureStudShade == v) return; App.Settings.Prop.TextureStudShade = v; ApplyTextureMods(); OnPropertyChanged(nameof(TextureStudShade)); OnPropertyChanged(nameof(TextureStudShadeDisplay)); }
+	}
+	public string TextureStudShadeDisplay => App.Settings.Prop.TextureStudShade + "%";
+	public bool TextureTerrainEnabled
+	{
+		get => App.Settings.Prop.TextureTerrainEnabled;
+		set { if (App.Settings.Prop.TextureTerrainEnabled == value) return; App.Settings.Prop.TextureTerrainEnabled = value; ApplyTextureMods(); OnPropertyChanged(nameof(TextureTerrainEnabled)); }
+	}
+	public double TextureTerrainSize
+	{
+		get => App.Settings.Prop.TextureTerrainSize;
+		set { double v = Math.Clamp(value, 0.05, 1); if (Math.Abs(App.Settings.Prop.TextureTerrainSize - v) < 0.001) return; App.Settings.Prop.TextureTerrainSize = v; ApplyTextureMods(); OnPropertyChanged(nameof(TextureTerrainSize)); OnPropertyChanged(nameof(TextureTerrainSizeDisplay)); }
+	}
+	public string TextureTerrainSizeDisplay => App.Settings.Prop.TextureTerrainSize.ToString("0.00") + "x";
+	public double TextureTerrainRepeat
+	{
+		get => App.Settings.Prop.TextureTerrainRepeat;
+		set { double v = Math.Clamp(value, 1, 10); if (Math.Abs(App.Settings.Prop.TextureTerrainRepeat - v) < 0.01) return; App.Settings.Prop.TextureTerrainRepeat = v; ApplyTextureMods(); OnPropertyChanged(nameof(TextureTerrainRepeat)); OnPropertyChanged(nameof(TextureTerrainRepeatDisplay)); }
+	}
+	public string TextureTerrainRepeatDisplay => App.Settings.Prop.TextureTerrainRepeat.ToString("0.#");
+	public int TextureWaterStyle
+	{
+		get => App.Settings.Prop.TextureWaterStyle;
+		set { int v = Math.Min(value, 5); if (value < 0 || App.Settings.Prop.TextureWaterStyle == v) return; App.Settings.Prop.TextureWaterStyle = v; ApplyTextureMods(); RefreshWaterPreview(); OnPropertyChanged(nameof(TextureWaterStyle)); OnPropertyChanged(nameof(TextureWaterCustom)); OnPropertyChanged(nameof(TextureWaterShowStrength)); OnPropertyChanged(nameof(TextureWaterShowSpeed)); OnPropertyChanged(nameof(TextureWaterShowFrame)); OnPropertyChanged(nameof(TextureWaterShowGlitch)); }
+	}
+	public bool TextureWaterCustom => App.Settings.Prop.TextureWaterStyle == 5;
+	public bool TextureWaterShowStrength => App.Settings.Prop.TextureWaterStyle is 1 or 3 or 4 or 5;
+	public bool TextureWaterShowSpeed => App.Settings.Prop.TextureWaterStyle is 1 or 4 or 5;
+	public bool TextureWaterShowFrame => App.Settings.Prop.TextureWaterStyle == 3;
+	public bool TextureWaterShowGlitch => App.Settings.Prop.TextureWaterStyle == 4;
+	public double TextureWaterStrength
+	{
+		get => App.Settings.Prop.TextureWaterStrength;
+		set { int v = (int)Math.Clamp(Math.Round(value), 0, 300); if (App.Settings.Prop.TextureWaterStrength == v) return; App.Settings.Prop.TextureWaterStrength = v; ApplyTextureMods(); RefreshWaterPreview(); OnPropertyChanged(nameof(TextureWaterStrength)); OnPropertyChanged(nameof(TextureWaterStrengthDisplay)); }
+	}
+	public string TextureWaterStrengthDisplay => App.Settings.Prop.TextureWaterStrength + "%";
+	public double TextureWaterSpeed
+	{
+		get => App.Settings.Prop.TextureWaterSpeed;
+		set { int v = (int)Math.Clamp(Math.Round(value), 1, 4); if (App.Settings.Prop.TextureWaterSpeed == v) return; App.Settings.Prop.TextureWaterSpeed = v; ApplyTextureMods(); RefreshWaterPreview(); OnPropertyChanged(nameof(TextureWaterSpeed)); OnPropertyChanged(nameof(TextureWaterSpeedDisplay)); }
+	}
+	public string TextureWaterSpeedDisplay => App.Settings.Prop.TextureWaterSpeed + "x";
+	public double TextureWaterFrame
+	{
+		get => App.Settings.Prop.TextureWaterFrame;
+		set { int v = (int)Math.Clamp(Math.Round(value), 1, 25); if (App.Settings.Prop.TextureWaterFrame == v) return; App.Settings.Prop.TextureWaterFrame = v; ApplyTextureMods(); RefreshWaterPreview(); OnPropertyChanged(nameof(TextureWaterFrame)); OnPropertyChanged(nameof(TextureWaterFrameDisplay)); }
+	}
+	public string TextureWaterFrameDisplay => App.Settings.Prop.TextureWaterFrame.ToString();
+	public double TextureWaterGlitch
+	{
+		get => App.Settings.Prop.TextureWaterGlitch;
+		set { int v = (int)Math.Clamp(Math.Round(value), 5, 100); if (App.Settings.Prop.TextureWaterGlitch == v) return; App.Settings.Prop.TextureWaterGlitch = v; ApplyTextureMods(); RefreshWaterPreview(); OnPropertyChanged(nameof(TextureWaterGlitch)); OnPropertyChanged(nameof(TextureWaterGlitchDisplay)); }
+	}
+	public string TextureWaterGlitchDisplay => App.Settings.Prop.TextureWaterGlitch + "%";
+	private System.Windows.Media.Imaging.BitmapSource[]? _waterPreviewFrames;
+	private int _waterPreviewIndex;
+	private int _waterPreviewRequest;
+	private string _waterPreviewStatus = "Building preview";
+	public System.Windows.Media.ImageSource? TextureWaterPreview => _waterPreviewFrames is { Length: > 0 } frames ? frames[_waterPreviewIndex % frames.Length] : null;
+	public string TextureWaterPreviewStatus => _waterPreviewStatus;
+	public void AdvanceWaterPreview()
+	{
+		if (_waterPreviewFrames is not { Length: > 0 } frames)
+			return;
+		_waterPreviewIndex = (_waterPreviewIndex + 1) % frames.Length;
+		_waterPreviewStatus = "Frame " + (_waterPreviewIndex + 1) + " of " + frames.Length;
+		OnPropertyChanged(nameof(TextureWaterPreview));
+		OnPropertyChanged(nameof(TextureWaterPreviewStatus));
+	}
+	public async void RefreshWaterPreview()
+	{
+		int request = System.Threading.Interlocked.Increment(ref _waterPreviewRequest);
+		var settings = App.Settings.Prop;
+		int style = settings.TextureWaterStyle;
+		int strength = settings.TextureWaterStrength;
+		int speed = settings.TextureWaterSpeed;
+		int frame = settings.TextureWaterFrame;
+		int glitch = settings.TextureWaterGlitch;
+		try
+		{
+			await System.Threading.Tasks.Task.Delay(250);
+			if (request != _waterPreviewRequest)
+				return;
+			byte[][]? pixels = await System.Threading.Tasks.Task.Run(() => FileModManager.BuildWaterPreview(style, strength, speed, frame, glitch));
+			if (request != _waterPreviewRequest)
+				return;
+			if (pixels is null)
+			{
+				_waterPreviewFrames = null;
+				_waterPreviewStatus = style == 5 ? "Choose images to see a preview" : "The Roblox water textures could not be read. Start Roblox once and try again";
+			}
+			else
+			{
+				Dictionary<byte[], System.Windows.Media.Imaging.BitmapSource> made = new Dictionary<byte[], System.Windows.Media.Imaging.BitmapSource>(ReferenceEqualityComparer.Instance);
+				System.Windows.Media.Imaging.BitmapSource[] frames = new System.Windows.Media.Imaging.BitmapSource[pixels.Length];
+				for (int index = 0; index < pixels.Length; index++)
+				{
+					if (!made.TryGetValue(pixels[index], out System.Windows.Media.Imaging.BitmapSource? bitmap))
+					{
+						bitmap = System.Windows.Media.Imaging.BitmapSource.Create(256, 256, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null, pixels[index], 256 * 4);
+						bitmap.Freeze();
+						made[pixels[index]] = bitmap;
+					}
+					frames[index] = bitmap;
+				}
+				_waterPreviewFrames = frames;
+				_waterPreviewIndex %= frames.Length;
+				_waterPreviewStatus = "Frame " + (_waterPreviewIndex + 1) + " of " + frames.Length;
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("FastFlagsViewModel::RefreshWaterPreview", ex);
+			_waterPreviewFrames = null;
+			_waterPreviewStatus = "The water preview could not be built";
+		}
+		OnPropertyChanged(nameof(TextureWaterPreview));
+		OnPropertyChanged(nameof(TextureWaterPreviewStatus));
+	}
+	public bool TextureWaterHasFrames => FileModManager.CountWaterFrames() > 0;
+	public string TextureWaterFramesSummary
+	{
+		get
+		{
+			int count = FileModManager.CountWaterFrames();
+			return count == 0
+				? "Pick a GIF or up to 25 images. Bright areas become ripple peaks"
+				: count + (count == 1 ? " image" : " images") + " chosen. Bright areas become ripple peaks";
+		}
+	}
+	private CommunityToolkit.Mvvm.Input.RelayCommand? _chooseWaterFramesCommand;
+	public System.Windows.Input.ICommand ChooseWaterFramesCommand => _chooseWaterFramesCommand ??= new CommunityToolkit.Mvvm.Input.RelayCommand(ChooseWaterFrames);
+	private CommunityToolkit.Mvvm.Input.RelayCommand? _clearWaterFramesCommand;
+	public System.Windows.Input.ICommand ClearWaterFramesCommand => _clearWaterFramesCommand ??= new CommunityToolkit.Mvvm.Input.RelayCommand(ClearWaterFrames);
+	private void ChooseWaterFrames()
+	{
+		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
+		{
+			Title = "Choose water animation images",
+			Filter = "Images|*.png;*.jpg;*.jpeg;*.jfif;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.tga;*.qoi|All files|*.*",
+			Multiselect = true
+		};
+		if (dialog.ShowDialog() != true)
+			return;
+		string[] names = dialog.FileNames;
+		Array.Sort(names, StringComparer.OrdinalIgnoreCase);
+		try
+		{
+			FileModManager.ImportWaterFrames(names);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("FastFlagsViewModel::ChooseWaterFrames", ex);
+			Frontend.ShowMessageBox("Could not use those images: " + ex.Message, System.Windows.MessageBoxImage.Error);
+		}
+		OnPropertyChanged(nameof(TextureWaterFramesSummary));
+		OnPropertyChanged(nameof(TextureWaterHasFrames));
+		ApplyTextureMods();
+		RefreshWaterPreview();
+	}
+	private void ClearWaterFrames()
+	{
+		try
+		{
+			FileModManager.ClearWaterFrames();
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("FastFlagsViewModel::ClearWaterFrames", ex);
+		}
+		OnPropertyChanged(nameof(TextureWaterFramesSummary));
+		OnPropertyChanged(nameof(TextureWaterHasFrames));
+		ApplyTextureMods();
+		RefreshWaterPreview();
+	}
+	private static void ApplyTextureMods()
+	{
+		App.Settings.SaveDeferred();
+		FileModManager.QueueApplyFromSettings();
 	}
 
 	public event EventHandler? RequestPageReloadEvent;
@@ -2235,7 +2494,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public static IReadOnlyDictionary<string, string?> GetCpuThreads()
 	{
-		Dictionary<string, string> dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) { ["Automatic"] = null };
+		Dictionary<string, string?> dictionary = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase) { ["Automatic"] = null };
 		try
 		{
 			int logicalProcessorCount = SystemInfo.GetLogicalProcessorCount();
@@ -2261,7 +2520,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public static IReadOnlyDictionary<string, string?> GetCpuCoreMinThreadCount()
 	{
-		Dictionary<string, string> dictionary = new Dictionary<string, string>();
+		Dictionary<string, string?> dictionary = new Dictionary<string, string?>();
 		dictionary.Add("Automatic", null);
 		try
 		{

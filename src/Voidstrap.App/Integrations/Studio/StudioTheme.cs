@@ -6,7 +6,7 @@ using System.Windows.Threading;
 
 namespace Voidstrap.Integrations.Studio;
 
-public static class StudioTheme
+public static partial class StudioTheme
 {
 	private static readonly object _lock = new object();
 
@@ -14,8 +14,8 @@ public static class StudioTheme
 
 	private static DateTime _builtUtc;
 
-	[DllImport("dwmapi.dll")]
-	private static extern int DwmGetColorizationColor(out uint colorizationColor, [MarshalAs(UnmanagedType.Bool)] out bool opaqueBlend);
+	[LibraryImport("dwmapi.dll")]
+	private static partial int DwmGetColorizationColor(out uint colorizationColor, [MarshalAs(UnmanagedType.Bool)] out bool opaqueBlend);
 
 	public static string GetPaletteJson()
 	{
@@ -34,11 +34,11 @@ public static class StudioTheme
 	private static string Build()
 	{
 		string text = AccentHex();
-		Color color = Composite(ResColor(new string[2] { "ApplicationBackgroundBrush", "ApplicationBackgroundColor" }, Color.FromRgb(27, 29, 34)), Color.FromRgb(27, 29, 34));
-		Color color2 = Composite(ResColor(new string[3] { "CardBackgroundBrush", "CardBackgroundFillColorDefaultBrush", "CardBackgroundFillColorDefault" }, Color.FromRgb(37, 39, 46)), color);
-		Color color3 = Composite(ResColor(new string[2] { "ControlFillColorDefaultBrush", "ControlFillColorDefault" }, Color.FromRgb(46, 49, 56)), color2);
-		Color c = Composite(ResColor(new string[2] { "TextFillColorPrimaryBrush", "TextFillColorPrimary" }, Color.FromRgb(233, 236, 242)), color3);
-		Color c2 = Composite(ResColor(new string[2] { "TextFillColorSecondaryBrush", "TextFillColorSecondary" }, Color.FromRgb(150, 155, 165)), color3);
+		Color color = Composite(ResColor(["ApplicationBackgroundBrush", "ApplicationBackgroundColor"], Color.FromRgb(27, 29, 34)), Color.FromRgb(27, 29, 34));
+		Color color2 = Composite(ResColor(["CardBackgroundBrush", "CardBackgroundFillColorDefaultBrush", "CardBackgroundFillColorDefault"], Color.FromRgb(37, 39, 46)), color);
+		Color color3 = Composite(ResColor(["ControlFillColorDefaultBrush", "ControlFillColorDefault"], Color.FromRgb(46, 49, 56)), color2);
+		Color c = Composite(ResColor(["TextFillColorPrimaryBrush", "TextFillColorPrimary"], Color.FromRgb(233, 236, 242)), color3);
+		Color c2 = Composite(ResColor(["TextFillColorSecondaryBrush", "TextFillColorSecondary"], Color.FromRgb(150, 155, 165)), color3);
 		return "{\"accent\":\"" + text + "\",\"bg\":\"" + Hex(color) + "\",\"section\":\"" + Hex(color2) + "\",\"row\":\"" + Hex(color3) + "\",\"text\":\"" + Hex(c) + "\",\"sub\":\"" + Hex(c2) + "\"}";
 	}
 

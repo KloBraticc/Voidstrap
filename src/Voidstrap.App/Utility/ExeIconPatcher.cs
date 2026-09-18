@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Voidstrap.Utility
 {
-    public static class ExeIconPatcher
+    public static partial class ExeIconPatcher
     {
         private const string LOG_IDENT = "ExeIconPatcher";
         public const string BackupSuffix = ".vsiconbak";
@@ -14,29 +14,34 @@ namespace Voidstrap.Utility
         private static readonly IntPtr RT_GROUP_ICON = (IntPtr)14;
         private const uint LOAD_LIBRARY_AS_DATAFILE = 0x00000002;
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        private static extern IntPtr BeginUpdateResource(string pFileName, bool bDeleteExistingResources);
+        [LibraryImport("kernel32.dll", EntryPoint = "BeginUpdateResourceW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+        private static partial IntPtr BeginUpdateResource(string pFileName, [MarshalAs(UnmanagedType.Bool)] bool bDeleteExistingResources);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool UpdateResource(IntPtr hUpdate, IntPtr lpType, IntPtr lpName, ushort wLanguage, byte[]? lpData, uint cb);
+        [LibraryImport("kernel32.dll", EntryPoint = "UpdateResourceA", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool UpdateResource(IntPtr hUpdate, IntPtr lpType, IntPtr lpName, ushort wLanguage, [In] byte[]? lpData, uint cb);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool EndUpdateResource(IntPtr hUpdate, bool fDiscard);
+        [LibraryImport("kernel32.dll", EntryPoint = "EndUpdateResourceA", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool EndUpdateResource(IntPtr hUpdate, [MarshalAs(UnmanagedType.Bool)] bool fDiscard);
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        private static extern IntPtr LoadLibraryEx(string lpFileName, IntPtr hFile, uint dwFlags);
+        [LibraryImport("kernel32.dll", EntryPoint = "LoadLibraryExW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+        private static partial IntPtr LoadLibraryEx(string lpFileName, IntPtr hFile, uint dwFlags);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool FreeLibrary(IntPtr hModule);
+        [LibraryImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool FreeLibrary(IntPtr hModule);
 
         private delegate bool EnumResNameProc(IntPtr hModule, IntPtr lpType, IntPtr lpName, IntPtr lParam);
         private delegate bool EnumResLangProc(IntPtr hModule, IntPtr lpType, IntPtr lpName, ushort wLang, IntPtr lParam);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool EnumResourceNames(IntPtr hModule, IntPtr lpszType, EnumResNameProc lpEnumFunc, IntPtr lParam);
+        [LibraryImport("kernel32.dll", EntryPoint = "EnumResourceNamesA", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool EnumResourceNames(IntPtr hModule, IntPtr lpszType, IntPtr lpEnumFunc, IntPtr lParam);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool EnumResourceLanguages(IntPtr hModule, IntPtr lpType, IntPtr lpName, EnumResLangProc lpEnumFunc, IntPtr lParam);
+        [LibraryImport("kernel32.dll", EntryPoint = "EnumResourceLanguagesA", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool EnumResourceLanguages(IntPtr hModule, IntPtr lpType, IntPtr lpName, IntPtr lpEnumFunc, IntPtr lParam);
 
         public static bool IsValidExecutable(string exePath)
         {
@@ -183,7 +188,7 @@ namespace Voidstrap.Utility
             catch { }
         }
 
-        private struct IcoEntry
+        private partial struct IcoEntry
         {
             public byte Width;
             public byte Height;
@@ -194,7 +199,7 @@ namespace Voidstrap.Utility
             public int ImageOffset;
         }
 
-        private struct GrpIconDirEntry
+        private partial struct GrpIconDirEntry
         {
             public byte Width;
             public byte Height;
@@ -284,7 +289,7 @@ namespace Voidstrap.Utility
 
             try
             {
-                EnumResourceNames(hModule, RT_GROUP_ICON, (mod, type, name, param) =>
+                EnumResNameProc nameCallback = (mod, type, name, param) =>
                 {
                     if (((long)name >> 16) == 0)
                     {
@@ -296,7 +301,9 @@ namespace Voidstrap.Utility
                         }
                     }
                     return true;
-                }, IntPtr.Zero);
+                };
+                _ = EnumResourceNames(hModule, RT_GROUP_ICON, Marshal.GetFunctionPointerForDelegate(nameCallback), IntPtr.Zero);
+                GC.KeepAlive(nameCallback);
 
                 if (found)
                 {
@@ -304,12 +311,14 @@ namespace Voidstrap.Utility
                     ushort detectedLang = 0;
                     bool gotLang = false;
 
-                    EnumResourceLanguages(hModule, RT_GROUP_ICON, (IntPtr)best, (mod, type, name, wLang, param) =>
+                    EnumResLangProc languageCallback = (mod, type, name, wLang, param) =>
                     {
                         detectedLang = wLang;
                         gotLang = true;
                         return false;
-                    }, IntPtr.Zero);
+                    };
+                    _ = EnumResourceLanguages(hModule, RT_GROUP_ICON, (IntPtr)best, Marshal.GetFunctionPointerForDelegate(languageCallback), IntPtr.Zero);
+                    GC.KeepAlive(languageCallback);
 
                     if (gotLang)
                         lang = detectedLang;

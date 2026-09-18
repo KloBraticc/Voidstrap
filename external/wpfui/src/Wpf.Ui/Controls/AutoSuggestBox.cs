@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -189,6 +188,12 @@ public class AutoSuggestBox : Wpf.Ui.Controls.TextBox
     /// </summary>
     public override void OnApplyTemplate()
     {
+        if (SuggestionsPresenter != null)
+        {
+            SuggestionsPresenter.SelectionChanged -= OnSuggestionsPresenterSelectionChanged;
+            SuggestionsPresenter.LostFocus -= OnSuggestionsPresenterLostFocus;
+        }
+
         base.OnApplyTemplate();
 
         Popup = GetTemplateChild(ElementPopup) as Popup;
@@ -197,8 +202,6 @@ public class AutoSuggestBox : Wpf.Ui.Controls.TextBox
         if (SuggestionsPresenter == null)
             return;
 
-        SuggestionsPresenter.SelectionChanged -= OnSuggestionsPresenterSelectionChanged;
-        SuggestionsPresenter.LostFocus -= OnSuggestionsPresenterLostFocus;
         SuggestionsPresenter.SelectionChanged += OnSuggestionsPresenterSelectionChanged;
         SuggestionsPresenter.LostFocus += OnSuggestionsPresenterLostFocus;
     }
@@ -208,7 +211,8 @@ public class AutoSuggestBox : Wpf.Ui.Controls.TextBox
     {
         base.OnTextChanged(e);
 
-        if (ItemsSource == null || !ItemsSource.Any())
+        IEnumerable<string> itemsSource = ItemsSource;
+        if (itemsSource == null || !HasItems(itemsSource))
             return;
 
         var newText = Text;
@@ -218,13 +222,29 @@ public class AutoSuggestBox : Wpf.Ui.Controls.TextBox
 
         if (String.IsNullOrEmpty(newText))
         {
-            FilteredItemsSource = ItemsSource;
+            FilteredItemsSource = itemsSource;
         }
         else
         {
-            var formattedNewText = newText.ToLower();
+            var filteredItems = itemsSource is ICollection<string> collection
+                ? new List<string>(collection.Count)
+                : new List<string>();
 
-            FilteredItemsSource = ItemsSource.Where(elem => elem.ToLower().Contains(formattedNewText)).ToArray();
+            foreach (string item in itemsSource)
+            {
+                if (item?.Contains(newText, StringComparison.OrdinalIgnoreCase) == true)
+                    filteredItems.Add(item);
+            }
+
+            if (filteredItems.Count == 0)
+            {
+                FilteredItemsSource = Array.Empty<string>();
+                IsSuggestionListOpen = false;
+                OnQuerySubmitted();
+                return;
+            }
+
+            FilteredItemsSource = filteredItems;
         }
 
         OnQuerySubmitted();
@@ -319,5 +339,14 @@ public class AutoSuggestBox : Wpf.Ui.Controls.TextBox
             return;
 
         autoSuggestBox.OnItemsSourceChanged(e.NewValue as IEnumerable<string>);
+    }
+
+    private static bool HasItems(IEnumerable<string> items)
+    {
+        if (items is ICollection<string> collection)
+            return collection.Count != 0;
+
+        using IEnumerator<string> enumerator = items.GetEnumerator();
+        return enumerator.MoveNext();
     }
 }

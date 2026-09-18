@@ -1,17 +1,12 @@
 using System;
-using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Sockets;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Voidstrap.Integrations;
 
@@ -19,20 +14,15 @@ public static class ServerFetchStore
 {
 	private const string LOG_IDENT = "ServerFetchStore";
 
-	public const string OfficialPresetUrl = "https://github.com/KloBraticc/Voidstrap/blob/main/assets/Datacenters/ServerFetch.json";
-	public const string FallbackPresetUrl = "https://github.com/KloBraticc/Voidstrap/blob/main/assets/Datacenters/ServerFetch.json";
-
 	private const int MaxPingSamples = 25;
 
 	private const int MaxIpsPerEntry = 100;
 
 	private const int MaxServerEntries = 4096;
 
-	private const int MaxRemoteBytes = 4194304;
+	private const int MaxImportBytes = 4194304;
 
 	private const int MaxStoreBytes = 16777216;
-
-	private static readonly HttpClient RemoteClient = CreateRemoteClient();
 
 	private static readonly object _lock = new object();
 
@@ -50,15 +40,6 @@ public static class ServerFetchStore
 	public static string FolderPath => Paths.ServerFetch;
 
 	public static string FilePath => Path.Combine(FolderPath, "Data.json");
-
-	private static HttpClient CreateRemoteClient()
-	{
-		HttpClient client = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(15L));
-		client.DefaultRequestHeaders.UserAgent.ParseAdd("Voidstrap/1.0");
-		client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-		client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
-		return client;
-	}
 
 	public static void EnsureLoaded()
 	{
@@ -108,12 +89,10 @@ public static class ServerFetchStore
 	{
 		try
 		{
-			HashSet<string> hashSet = new HashSet<string>(from s in RobloxDatacenterMap.AllSeedEntries()
-				select s.Cidr, StringComparer.OrdinalIgnoreCase);
 			List<string> list = new List<string>();
 			foreach (KeyValuePair<string, LearnedServerEntry> server in _data.Servers)
 			{
-				if (server.Value.SeenCount <= 0 && (server.Value.IPs == null || server.Value.IPs.Count == 0) && hashSet.Contains(server.Key))
+				if (server.Value.SeenCount <= 0 && (server.Value.IPs == null || server.Value.IPs.Count == 0))
 				{
 					list.Add(server.Key);
 				}
@@ -126,7 +105,7 @@ public static class ServerFetchStore
 			{
 				_data.Servers.Remove(item);
 			}
-			App.Logger.WriteLine("ServerFetchStore", $"Pruned {list.Count} unseen preseeded entries on load");
+			App.Logger.WriteLine("ServerFetchStore", $"Moved {list.Count} reference only datacenters out of the learned store, they stay available to the matchmaker");
 			SaveNow();
 		}
 		catch (Exception ex)
@@ -215,19 +194,19 @@ public static class ServerFetchStore
 		return num;
 	}
 
-	public static async Task<int> RefreshFromRemoteAsync(string? url, CancellationToken token = default(CancellationToken))
+	public static int ImportServerLocations()
 	{
-		if (string.IsNullOrWhiteSpace(url))
+		string path = Voidstrap.Utility.RemoteData.ServerLocationsPath;
+		if (!Paths.Initialized || !File.Exists(path))
 		{
 			return 0;
 		}
-		string normalizedUrl = NormalizeRemoteUrl(url.Trim());
-		int added = 0;
+		int reference = 0;
 		int updated = 0;
 		try
 		{
-			string json = await ReadRemoteTextAsync(normalizedUrl, token).ConfigureAwait(continueOnCapturedContext: false);
-			ServerFetchData serverFetchData = null;
+			string json = Voidstrap.Utility.JsonFile.ReadText(path, MaxImportBytes);
+			ServerFetchData? serverFetchData = null;
 			try
 			{
 				serverFetchData = JsonSerializer.Deserialize<ServerFetchData>(json);
@@ -237,7 +216,7 @@ public static class ServerFetchStore
 			}
 			if (serverFetchData == null || serverFetchData.Servers == null || serverFetchData.Servers.Count == 0)
 			{
-				Dictionary<string, LearnedServerEntry> dictionary = null;
+				Dictionary<string, LearnedServerEntry>? dictionary = null;
 				try
 				{
 					dictionary = JsonSerializer.Deserialize<Dictionary<string, LearnedServerEntry>>(json);
@@ -255,7 +234,7 @@ public static class ServerFetchStore
 			}
 			if (serverFetchData == null || serverFetchData.Servers == null || serverFetchData.Servers.Count == 0)
 			{
-				App.Logger.WriteLine("ServerFetchStore", "Remote preset returned no usable entries");
+				App.Logger.WriteLine("ServerFetchStore", "The server locations file has no usable entries");
 				return 0;
 			}
 			serverFetchData = NormalizeData(serverFetchData);
@@ -272,11 +251,11 @@ public static class ServerFetchStore
 					}
 					string text2 = server.Value.City ?? "";
 					string text3 = server.Value.Region ?? "";
-					string text4 = VoidstrapMatchmaker.NormalizeCountryCode(server.Value.Country ?? "");
+					string text4 = RobloxDatacenterMap.ResolveCountry(text2, VoidstrapMatchmaker.NormalizeCountryCode(server.Value.Country ?? ""));
 					double lat = server.Value.Lat;
 					double lon = server.Value.Lon;
 					bool hasLocation = double.IsFinite(lat) && double.IsFinite(lon) && lat is >= -90.0 and <= 90.0 && lon is >= -180.0 and <= 180.0 && (lat != 0.0 || lon != 0.0);
-					List<string> list2 = ((server.Value.IPs != null && server.Value.IPs.Count > 0) ? new List<string>(server.Value.IPs) : null);
+					List<string>? list2 = ((server.Value.IPs != null && server.Value.IPs.Count > 0) ? new List<string>(server.Value.IPs) : null);
 					list.Add(new SeedCidrEntry
 					{
 						Cidr = text,
@@ -286,22 +265,9 @@ public static class ServerFetchStore
 						Lat = lat,
 						Lon = lon
 					});
-					if (!_data.Servers.TryGetValue(text, out LearnedServerEntry value))
+					if (!_data.Servers.TryGetValue(text, out LearnedServerEntry? value))
 					{
-						_data.Servers[text] = new LearnedServerEntry
-						{
-							Cidr = text,
-							City = text2,
-							Region = text3,
-							Country = text4,
-							Lat = lat,
-							Lon = lon,
-							FirstSeenUtc = DateTime.UtcNow,
-							LastSeenUtc = DateTime.UtcNow,
-							SeenCount = 0,
-							IPs = list2
-						};
-						added++;
+						reference++;
 						continue;
 					}
 					bool num = value.SeenCount <= 0 && (value.IPs == null || value.IPs.Count == 0);
@@ -368,11 +334,7 @@ public static class ServerFetchStore
 						}
 						if (list2 != null)
 						{
-							LearnedServerEntry learnedServerEntry = value;
-							if (learnedServerEntry.IPs == null)
-							{
-								learnedServerEntry.IPs = new List<string>();
-							}
+							value.IPs ??= new List<string>();
 							foreach (string item in list2)
 							{
 								if (!value.IPs.Contains(item))
@@ -401,68 +363,17 @@ public static class ServerFetchStore
 					App.Logger.WriteLine("ServerFetchStore", $"Failed to inject {list.Count} CIDR into map: {ex.Message}");
 				}
 			}
-			if (added > 0 || updated > 0)
+			if (updated > 0)
 			{
 				SaveNow();
 			}
-			App.Logger.WriteLine("ServerFetchStore", $"Remote preset fetched from {DescribeRemote(normalizedUrl)}: +{added} new, {updated} updated entries");
-			return added + updated;
-		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-			throw;
+			App.Logger.WriteLine("ServerFetchStore", $"Server locations imported: {reference} reference datacenters, {updated} learned entries updated");
+			return reference + updated;
 		}
 		catch (Exception ex2)
 		{
-			App.Logger.WriteLine("ServerFetchStore", "RefreshFromRemoteAsync('" + normalizedUrl + "') failed: " + ex2.Message);
+			App.Logger.WriteLine("ServerFetchStore", "Server locations import failed: " + ex2.Message);
 			return 0;
-		}
-	}
-
-	private static async Task<string> ReadRemoteTextAsync(string url, CancellationToken token)
-	{
-		try
-		{
-			return await ReadRemoteTextCoreAsync(url, token).ConfigureAwait(false);
-		}
-		catch when (string.Equals(url, NormalizeRemoteUrl(OfficialPresetUrl), StringComparison.OrdinalIgnoreCase))
-		{
-			return await ReadRemoteTextCoreAsync(NormalizeRemoteUrl(FallbackPresetUrl), token).ConfigureAwait(false);
-		}
-	}
-
-	private static async Task<string> ReadRemoteTextCoreAsync(string url, CancellationToken token)
-	{
-		using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
-		using HttpResponseMessage response = await RemoteClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
-		response.EnsureSuccessStatusCode();
-		if (response.Content.Headers.ContentLength is long length && (length <= 0 || length > MaxRemoteBytes))
-		{
-			throw new InvalidDataException("Remote server fetch data is too large");
-		}
-		await using Stream input = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
-		using MemoryStream output = new MemoryStream(response.Content.Headers.ContentLength is long contentLength ? (int)contentLength : 0);
-		byte[] buffer = ArrayPool<byte>.Shared.Rent(65536);
-		try
-		{
-			while (true)
-			{
-				int read = await input.ReadAsync(buffer.AsMemory(0, buffer.Length), token).ConfigureAwait(continueOnCapturedContext: false);
-				if (read == 0)
-				{
-					break;
-				}
-				if (output.Length + read > MaxRemoteBytes)
-				{
-					throw new InvalidDataException("Remote server fetch data is too large");
-				}
-				await output.WriteAsync(buffer.AsMemory(0, read), token).ConfigureAwait(continueOnCapturedContext: false);
-			}
-			return Encoding.UTF8.GetString(output.GetBuffer(), 0, (int)output.Length);
-		}
-		finally
-		{
-			ArrayPool<byte>.Shared.Return(buffer);
 		}
 	}
 
@@ -484,39 +395,11 @@ public static class ServerFetchStore
 			{
 				entry.PingSamplesMs = entry.PingSamplesMs.TakeLast(MaxPingSamples).ToList();
 			}
+			entry.Country = RobloxDatacenterMap.ResolveCountry(entry.City, entry.Country);
 			normalized[item.Key] = entry;
 		}
 		data.Servers = normalized;
 		return data;
-	}
-
-	private static string DescribeRemote(string url)
-	{
-		try
-		{
-			return new Uri(url).Host;
-		}
-		catch
-		{
-			return url;
-		}
-	}
-
-	private static string NormalizeRemoteUrl(string url)
-	{
-		if (url.StartsWith("https://github.com/", StringComparison.OrdinalIgnoreCase))
-		{
-			string[] array = url.Substring("https://github.com/".Length).Split('/');
-			if (array.Length >= 5 && string.Equals(array[2], "blob", StringComparison.OrdinalIgnoreCase))
-			{
-				string value = array[0];
-				string value2 = array[1];
-				string value3 = array[3];
-				string value4 = string.Join('/', array, 4, array.Length - 4);
-				return $"https://raw.githubusercontent.com/{value}/{value2}/{value3}/{value4}";
-			}
-		}
-		return url;
 	}
 
 	public static List<LearnedServerEntry> AllEntries()
@@ -535,14 +418,14 @@ public static class ServerFetchStore
 			return null;
 		}
 		EnsureLoaded();
-		string slash24Cidr = GetSlash24Cidr(ip);
+		string? slash24Cidr = GetSlash24Cidr(ip);
 		if (slash24Cidr == null)
 		{
 			return null;
 		}
 		lock (_lock)
 		{
-			_data.Servers.TryGetValue(slash24Cidr, out LearnedServerEntry value);
+			_data.Servers.TryGetValue(slash24Cidr, out LearnedServerEntry? value);
 			return value;
 		}
 	}
@@ -554,15 +437,18 @@ public static class ServerFetchStore
 			return;
 		}
 		EnsureLoaded();
-		string slash24Cidr = GetSlash24Cidr(ip);
+		string? slash24Cidr = GetSlash24Cidr(ip);
 		if (slash24Cidr == null)
 		{
 			return;
 		}
+		bool created = false;
+		SeedCidrEntry? located = null;
 		lock (_lock)
 		{
-			if (!_data.Servers.TryGetValue(slash24Cidr, out LearnedServerEntry value))
+			if (!_data.Servers.TryGetValue(slash24Cidr, out LearnedServerEntry? value))
 			{
+				created = true;
 				value = new LearnedServerEntry
 				{
 					Cidr = slash24Cidr,
@@ -599,13 +485,21 @@ public static class ServerFetchStore
 					value.Lon = lon.Value;
 				}
 			}
+			if ((created || value.SeenCount == 0) && (value.Lat != 0.0 || value.Lon != 0.0) && !string.IsNullOrWhiteSpace(value.City))
+			{
+				located = new SeedCidrEntry
+				{
+					Cidr = slash24Cidr,
+					City = value.City,
+					Region = value.Region,
+					Country = value.Country,
+					Lat = value.Lat,
+					Lon = value.Lon
+				};
+			}
 			value.SeenCount++;
 			value.LastSeenUtc = DateTime.UtcNow;
-			LearnedServerEntry learnedServerEntry = value;
-			if (learnedServerEntry.IPs == null)
-			{
-				List<string> list = (learnedServerEntry.IPs = new List<string>());
-			}
+			value.IPs ??= new List<string>();
 			if (!value.IPs.Contains(ip))
 			{
 				value.IPs.Add(ip);
@@ -615,8 +509,21 @@ public static class ServerFetchStore
 				}
 			}
 		}
-		SaveThrottled();
-		Voidstrap.Utility.WebsiteGeoSync.PushSoon();
+		if (located != null)
+		{
+			try
+			{
+				RobloxDatacenterMap.AddCidrEntries([located]);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("ServerFetchStore", "Could not add the learned datacenter to the matchmaker map: " + ex.Message);
+			}
+		}
+		if (created)
+			SaveNow();
+		else
+			SaveThrottled();
 	}
 
 	public static void RecordPing(string? ip, int pingMs)
@@ -626,22 +533,18 @@ public static class ServerFetchStore
 			return;
 		}
 		EnsureLoaded();
-		string slash24Cidr = GetSlash24Cidr(ip);
+		string? slash24Cidr = GetSlash24Cidr(ip);
 		if (slash24Cidr == null)
 		{
 			return;
 		}
 		lock (_lock)
 		{
-			if (!_data.Servers.TryGetValue(slash24Cidr, out LearnedServerEntry value))
+			if (!_data.Servers.TryGetValue(slash24Cidr, out LearnedServerEntry? value))
 			{
 				return;
 			}
-			LearnedServerEntry learnedServerEntry = value;
-			if (learnedServerEntry.PingSamplesMs == null)
-			{
-				List<int> list = (learnedServerEntry.PingSamplesMs = new List<int>());
-			}
+			value.PingSamplesMs ??= new List<int>();
 			value.PingSamplesMs.Add(pingMs);
 			if (value.PingSamplesMs.Count > 25)
 			{
@@ -768,7 +671,7 @@ public static class ServerFetchStore
 
 	private static string? GetSlash24Cidr(string ip)
 	{
-		if (!IPAddress.TryParse(ip, out IPAddress address) || address.AddressFamily != AddressFamily.InterNetwork)
+		if (!IPAddress.TryParse(ip, out IPAddress? address) || address.AddressFamily != AddressFamily.InterNetwork)
 		{
 			return null;
 		}

@@ -19,7 +19,7 @@ public class BetterBloxDataCenterConsoleViewModel : NotifyPropertyChangedViewMod
 
 	public BetterBloxDataCenterConsoleViewModel()
 	{
-		LoadDatacentersAsync();
+		_ = LoadDatacentersAsync();
 	}
 
 	private async Task LoadDatacentersAsync()
@@ -44,15 +44,15 @@ public class BetterBloxDataCenterConsoleViewModel : NotifyPropertyChangedViewMod
 				});
 			}
 			LoadState = GenericTriState.Successful;
-			OnPropertyChanged("DatacenterCollection");
-			OnPropertyChanged("LoadState");
+			OnPropertyChanged(nameof(DatacenterCollection));
+			OnPropertyChanged(nameof(LoadState));
 		}
 		catch (Exception ex)
 		{
 			LoadState = GenericTriState.Failed;
 			ErrorMessage = "Error loading datacenters: " + ex.Message;
-			OnPropertyChanged("LoadState");
-			OnPropertyChanged("ErrorMessage");
+			OnPropertyChanged(nameof(LoadState));
+			OnPropertyChanged(nameof(ErrorMessage));
 		}
 	}
 }

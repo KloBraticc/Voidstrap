@@ -58,7 +58,7 @@
       </Grid>
 
       <Border Grid.Row="1" Margin="0,16,0,0" CornerRadius="6"
-              Background="{DynamicResource ControlFillColorPrimaryBrush}"
+              Background="{DynamicResource ControlFillColorDefaultBrush}"
               BorderBrush="{DynamicResource ControlElevationBorderBrush}"
               BorderThickness="1" SnapsToDevicePixels="True">
         <RichTextBox Name="ErrorRichTextBox" MaxHeight="240" Padding="12,10"

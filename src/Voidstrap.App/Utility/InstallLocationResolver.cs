@@ -66,7 +66,7 @@ internal static class InstallLocationResolver
 			App.Logger?.WriteLine("InstallLocationResolver::Repair", "Registry repair failed: " + ex.Message);
 		}
 
-		WindowsRegistry.RegisterPlayer(executable, "-player \"%1\"");
+		WindowsRegistry.RegisterPlayerFor(executable);
 		WindowsRegistry.RegisterStudioProtocol(executable, "-studio \"%1\"");
 		RepairShortcut(DesktopShortcut, executable);
 		RepairShortcut(StartMenuShortcut, executable);

@@ -134,20 +134,18 @@ public static class AudioDucker
 	public static void Stop()
 	{
 		CancellationTokenSource? cts;
+		bool wasRunning;
 		lock (_gate)
 		{
 			cts = _cts;
-			if (cts == null && _loopTask == null)
-			{
-				IsRunning = false;
-			}
-			else
+			wasRunning = cts != null || _loopTask != null;
+			if (wasRunning)
 			{
 				_generation++;
-				IsRunning = false;
 				_cts = null;
 				_loopTask = null;
 			}
+			IsRunning = false;
 		}
 
 		try
@@ -159,7 +157,8 @@ public static class AudioDucker
 		}
 		RestoreAllSnapshots();
 		StartRestoreRetries();
-		App.Logger?.WriteLine(LOG_IDENT, "Audio ducking stopped");
+		if (wasRunning)
+			App.Logger?.WriteLine(LOG_IDENT, "Audio ducking stopped");
 	}
 
 	public static void Shutdown()

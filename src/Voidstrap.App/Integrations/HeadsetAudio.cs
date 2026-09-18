@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using System.Threading;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
@@ -9,7 +10,7 @@ using Windows.Win32.Foundation;
 
 namespace Voidstrap.Integrations;
 
-public static class HeadsetAudio
+public static partial class HeadsetAudio
 {
 	private const string LOG_IDENT = "HeadsetAudio";
 	private const string RobloxProcess = "RobloxPlayerBeta";
@@ -21,11 +22,15 @@ public static class HeadsetAudio
 	private const float WriteEpsilon = 0.004f;
 	private const int GainDelayPackets = 3;
 	private const int IdlePollMs = 1000;
+	private const int FailurePollMs = 30000;
+	private const int FailuresBeforeBackoff = 5;
 
 	private static readonly object _gate = new object();
 	private static CancellationTokenSource? _cts;
 	private static Thread? _thread;
 	private static float? _baseVolume;
+	private static int _consecutiveFailures;
+	private static string? _lastFailureReason;
 
 	public static bool IsRunning { get; private set; }
 
@@ -52,6 +57,8 @@ public static class HeadsetAudio
 		{
 			if (IsRunning)
 				return true;
+			_consecutiveFailures = 0;
+			_lastFailureReason = null;
 			var cts = new CancellationTokenSource();
 			Thread thread = new Thread(() => Loop(cts.Token))
 			{
@@ -150,6 +157,21 @@ public static class HeadsetAudio
 		}
 	}
 
+	private static void WaitAfterFailure(string reason, CancellationToken token)
+	{
+		if (_lastFailureReason != reason)
+		{
+			_lastFailureReason = reason;
+			_consecutiveFailures = 0;
+			App.Logger?.WriteLine(LOG_IDENT, reason);
+		}
+		if (_consecutiveFailures < int.MaxValue)
+			_consecutiveFailures++;
+		if (_consecutiveFailures == FailuresBeforeBackoff)
+			App.Logger?.WriteLine(LOG_IDENT, "Retrying every " + FailurePollMs / 1000 + " seconds until this changes");
+		token.WaitHandle.WaitOne(_consecutiveFailures >= FailuresBeforeBackoff ? FailurePollMs : IdlePollMs);
+	}
+
 	private static void RunSession(uint pid, CancellationToken token)
 	{
 		MMDeviceEnumerator? enumerator = null;
@@ -168,35 +190,37 @@ public static class HeadsetAudio
 			session = FindSession(device, pid);
 			if (session == null)
 			{
-				token.WaitHandle.WaitOne(IdlePollMs);
+				WaitAfterFailure("Roblox audio session not available yet", token);
 				return;
 			}
 
-			object? activated = Native.ActivateProcessLoopback(pid, out int activateHr);
-			if (activated == null)
+			client = Native.ActivateProcessLoopback(pid, out int activateHr);
+			if (client == null)
 			{
-				App.Logger?.WriteLine(LOG_IDENT, $"Process loopback unavailable, code 0x{activateHr:X8}");
-				token.WaitHandle.WaitOne(IdlePollMs);
+				WaitAfterFailure($"Process loopback unavailable, code 0x{activateHr:X8}", token);
 				return;
 			}
 
-			client = (Native.IAudioClient)activated;
 			if (!Native.TryInitialize(client, out bool isFloat, out int channels))
 			{
-				App.Logger?.WriteLine(LOG_IDENT, "No supported capture format");
-				token.WaitHandle.WaitOne(IdlePollMs);
+				WaitAfterFailure("No supported capture format", token);
 				return;
 			}
 
 			pump = new EventWaitHandle(false, EventResetMode.AutoReset);
 			client.SetEventHandle(pump.SafeWaitHandle.DangerousGetHandle());
 			Guid captureIid = Native.IID_AudioCaptureClient;
-			if (client.GetService(ref captureIid, out object captureObj) != 0)
+			if (client.GetService(ref captureIid, out IntPtr capturePointer) != 0)
 			{
-				token.WaitHandle.WaitOne(IdlePollMs);
+				WaitAfterFailure("Capture service unavailable", token);
 				return;
 			}
-			capture = (Native.IAudioCaptureClient)captureObj;
+			capture = Native.Wrap<Native.IAudioCaptureClient>(capturePointer);
+			if (capture == null)
+			{
+				WaitAfterFailure("Capture client could not be created", token);
+				return;
+			}
 
 			float baseVolume = session.SimpleAudioVolume.Volume;
 			if (baseVolume <= 0.01f)
@@ -207,6 +231,8 @@ public static class HeadsetAudio
 
 			client.Start();
 			started = true;
+			_consecutiveFailures = 0;
+			_lastFailureReason = null;
 
 			var history = new float[8];
 			for (int i = 0; i < history.Length; i++)
@@ -310,10 +336,8 @@ public static class HeadsetAudio
 			catch
 			{
 			}
-			if (capture != null && Marshal.IsComObject(capture))
-				Marshal.ReleaseComObject(capture);
-			if (client != null && Marshal.IsComObject(client))
-				Marshal.ReleaseComObject(client);
+			((object?)capture as ComObject)?.FinalRelease();
+			((object?)client as ComObject)?.FinalRelease();
 			pump?.Dispose();
 			device?.Dispose();
 			enumerator?.Dispose();
@@ -456,9 +480,25 @@ public static class HeadsetAudio
 		}
 	}
 
-	private static class Native
+	internal static partial class Native
 	{
 		public const uint BufferFlagSilent = 0x2;
+
+		private static readonly StrategyBasedComWrappers Wrappers = new StrategyBasedComWrappers();
+
+		public static T? Wrap<T>(IntPtr pointer) where T : class
+		{
+			if (pointer == IntPtr.Zero)
+				return null;
+			try
+			{
+				return (T)Wrappers.GetOrCreateObjectForComInstance(pointer, CreateObjectFlags.UniqueInstance);
+			}
+			finally
+			{
+				Marshal.Release(pointer);
+			}
+		}
 
 		public static readonly Guid IID_AudioCaptureClient = new Guid("C8ADBD64-E71E-48A0-A4DE-185C395CD317");
 
@@ -482,10 +522,9 @@ public static class HeadsetAudio
 			public int ProcessLoopbackMode;
 		}
 
-		[ComImport]
+		[GeneratedComInterface]
 		[Guid("1CB9AD4C-DBFA-4C32-B178-C2F568A703B2")]
-		[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-		public interface IAudioClient
+		public partial interface IAudioClient
 		{
 			[PreserveSig]
 			int Initialize(int shareMode, uint streamFlags, long bufferDuration, long periodicity, IntPtr format, IntPtr sessionGuid);
@@ -521,13 +560,12 @@ public static class HeadsetAudio
 			int SetEventHandle(IntPtr handle);
 
 			[PreserveSig]
-			int GetService(ref Guid riid, [MarshalAs(UnmanagedType.IUnknown)] out object service);
+			int GetService(ref Guid riid, out IntPtr service);
 		}
 
-		[ComImport]
+		[GeneratedComInterface]
 		[Guid("C8ADBD64-E71E-48A0-A4DE-185C395CD317")]
-		[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-		public interface IAudioCaptureClient
+		public partial interface IAudioCaptureClient
 		{
 			[PreserveSig]
 			int GetBuffer(out IntPtr data, out uint frames, out uint flags, out long devicePosition, out long qpcPosition);
@@ -539,36 +577,71 @@ public static class HeadsetAudio
 			int GetNextPacketSize(out uint frames);
 		}
 
-		[ComImport]
+		[GeneratedComInterface]
 		[Guid("72A22D78-CDE4-431D-B8CC-843A71199B6D")]
-		[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-		public interface IActivateAudioInterfaceAsyncOperation
+		public partial interface IActivateAudioInterfaceAsyncOperation
 		{
-			void GetActivateResult([MarshalAs(UnmanagedType.Error)] out int result, [MarshalAs(UnmanagedType.IUnknown)] out object activated);
+			[PreserveSig]
+			int GetActivateResult(out int result, out IntPtr activated);
 		}
 
-		[ComImport]
+		[GeneratedComInterface]
 		[Guid("41D949AB-9862-444A-80F6-C261334DA5EB")]
-		[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-		public interface IActivateAudioInterfaceCompletionHandler
+		public partial interface IActivateAudioInterfaceCompletionHandler
 		{
 			void ActivateCompleted(IActivateAudioInterfaceAsyncOperation operation);
 		}
 
-		private sealed class CompletionHandler : IActivateAudioInterfaceCompletionHandler
+		[GeneratedComInterface]
+		[Guid("94EA2B94-E9CC-49E0-C0FF-EE64CA8F5B90")]
+		public partial interface IAgileObject
 		{
+		}
+
+		[GeneratedComClass]
+		internal sealed partial class CompletionHandler : IActivateAudioInterfaceCompletionHandler, IAgileObject
+		{
+			private readonly object _sync = new object();
+
+			private bool _abandoned;
+
 			public readonly ManualResetEventSlim Completed = new ManualResetEventSlim(false);
 
-			public object? Result;
+			public IntPtr Activated;
 
 			public int Result_HResult;
+
+			public void Abandon()
+			{
+				lock (_sync)
+				{
+					_abandoned = true;
+					if (Activated != IntPtr.Zero)
+					{
+						Marshal.Release(Activated);
+						Activated = IntPtr.Zero;
+					}
+				}
+			}
 
 			public void ActivateCompleted(IActivateAudioInterfaceAsyncOperation operation)
 			{
 				try
 				{
-					operation.GetActivateResult(out Result_HResult, out object activated);
-					Result = activated;
+					Marshal.ThrowExceptionForHR(operation.GetActivateResult(out int result, out IntPtr activated));
+					lock (_sync)
+					{
+						Result_HResult = result;
+						if (_abandoned)
+						{
+							if (activated != IntPtr.Zero)
+								Marshal.Release(activated);
+						}
+						else
+						{
+							Activated = activated;
+						}
+					}
 				}
 				catch (Exception ex)
 				{
@@ -578,10 +651,10 @@ public static class HeadsetAudio
 			}
 		}
 
-		[DllImport("Mmdevapi.dll", ExactSpelling = true, PreserveSig = false)]
-		private static extern void ActivateAudioInterfaceAsync([MarshalAs(UnmanagedType.LPWStr)] string devicePath, [MarshalAs(UnmanagedType.LPStruct)] Guid riid, IntPtr activationParams, IActivateAudioInterfaceCompletionHandler handler, out IActivateAudioInterfaceAsyncOperation operation);
+		[LibraryImport("Mmdevapi.dll", StringMarshalling = StringMarshalling.Utf16)]
+		private static partial int ActivateAudioInterfaceAsync(string devicePath, in Guid riid, IntPtr activationParams, IActivateAudioInterfaceCompletionHandler handler, out IActivateAudioInterfaceAsyncOperation operation);
 
-		public static object? ActivateProcessLoopback(uint processId, out int hr)
+		public static IAudioClient? ActivateProcessLoopback(uint processId, out int hr)
 		{
 			hr = 0;
 			IntPtr paramsPtr = IntPtr.Zero;
@@ -604,14 +677,15 @@ public static class HeadsetAudio
 				Marshal.WriteIntPtr(variantPtr, 16, paramsPtr);
 
 				var handler = new CompletionHandler();
-				ActivateAudioInterfaceAsync(VirtualLoopbackDevice, IID_AudioClient, variantPtr, handler, out _);
+				Marshal.ThrowExceptionForHR(ActivateAudioInterfaceAsync(VirtualLoopbackDevice, in IID_AudioClient, variantPtr, handler, out _));
 				if (!handler.Completed.Wait(5000))
 				{
+					handler.Abandon();
 					hr = -1;
 					return null;
 				}
 				hr = handler.Result_HResult;
-				return hr == 0 ? handler.Result : null;
+				return hr == 0 ? Wrap<IAudioClient>(handler.Activated) : null;
 			}
 			catch (Exception ex)
 			{

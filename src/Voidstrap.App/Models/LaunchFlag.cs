@@ -24,7 +24,7 @@ public class LaunchFlag
 
 	public LaunchFlag(string identifiers)
 	{
-		Identifiers = identifiers ?? throw new ArgumentNullException("identifiers");
+		Identifiers = identifiers ?? throw new ArgumentNullException(nameof(identifiers));
 		_active = false;
 	}
 

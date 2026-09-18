@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Voidstrap.Integrations
 {
-    internal static class ViGEmInterop
+    internal static partial class ViGEmInterop
     {
         public const string LegacyPath = @"\\.\ViGEmBus";
 
@@ -14,7 +14,7 @@ namespace Voidstrap.Integrations
         private static readonly IntPtr INVALID_HANDLE_VALUE = new(-1);
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct SP_DEVICE_INTERFACE_DATA
+        private partial struct SP_DEVICE_INTERFACE_DATA
         {
             public uint cbSize;
             public Guid InterfaceClassGuid;
@@ -22,17 +22,20 @@ namespace Voidstrap.Integrations
             public UIntPtr Reserved;
         }
 
-        [DllImport("setupapi.dll", SetLastError = true)]
-        private static extern IntPtr SetupDiGetClassDevs(ref Guid classGuid, IntPtr enumerator, IntPtr hwndParent, uint flags);
+        [LibraryImport("setupapi.dll", EntryPoint = "SetupDiGetClassDevsA", SetLastError = true)]
+        private static partial IntPtr SetupDiGetClassDevs(ref Guid classGuid, IntPtr enumerator, IntPtr hwndParent, uint flags);
 
-        [DllImport("setupapi.dll", SetLastError = true)]
-        private static extern bool SetupDiEnumDeviceInterfaces(IntPtr deviceInfoSet, IntPtr deviceInfoData, ref Guid interfaceClassGuid, uint memberIndex, ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData);
+        [LibraryImport("setupapi.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool SetupDiEnumDeviceInterfaces(IntPtr deviceInfoSet, IntPtr deviceInfoData, ref Guid interfaceClassGuid, uint memberIndex, ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData);
 
-        [DllImport("setupapi.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        private static extern bool SetupDiGetDeviceInterfaceDetail(IntPtr deviceInfoSet, ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData, IntPtr deviceInterfaceDetailData, uint deviceInterfaceDetailDataSize, out uint requiredSize, IntPtr deviceInfoData);
+        [LibraryImport("setupapi.dll", EntryPoint = "SetupDiGetDeviceInterfaceDetailW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool SetupDiGetDeviceInterfaceDetail(IntPtr deviceInfoSet, ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData, IntPtr deviceInterfaceDetailData, uint deviceInterfaceDetailDataSize, out uint requiredSize, IntPtr deviceInfoData);
 
-        [DllImport("setupapi.dll", SetLastError = true)]
-        private static extern bool SetupDiDestroyDeviceInfoList(IntPtr deviceInfoSet);
+        [LibraryImport("setupapi.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool SetupDiDestroyDeviceInfoList(IntPtr deviceInfoSet);
 
         public static string? GetBusDevicePath()
         {

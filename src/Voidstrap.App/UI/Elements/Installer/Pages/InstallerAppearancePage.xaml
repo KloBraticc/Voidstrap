@@ -1,0 +1,117 @@
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Installer.Pages.InstallerAppearancePage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:enums="clr-namespace:Voidstrap.Enums" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="{x:Static resources:Strings.Menu_Appearance_Title}" Scrollable="True" Loaded="UiPage_Loaded">
+  <StackPanel Margin="0,0,14,14">
+    <TextBlock FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.Menu_Appearance_Description}" TextWrapping="Wrap" />
+    <ui:CardExpander Margin="0,16,0,0" IsExpanded="False">
+      <HeaderedContentControl.Header>
+        <StackPanel>
+          <TextBlock FontSize="14" FontWeight="Medium" Text="{x:Static resources:Strings.Installer_Appearance_BackgroundUI_Title}" />
+          <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Installer_Appearance_BackgroundUI_Description}" TextWrapping="Wrap" />
+        </StackPanel>
+      </HeaderedContentControl.Header>
+      <StackPanel>
+        <controls:OptionControl Header="{x:Static resources:Strings.Installer_Appearance_Snow_Title}" Description="{x:Static resources:Strings.Installer_Appearance_Snow_Description}">
+          <ui:ToggleSwitch IsChecked="{Binding Snowww, Mode=TwoWay}" />
+        </controls:OptionControl>
+        <controls:OptionControl Header="{x:Static resources:Strings.Installer_Appearance_GradientMovement_Title}" Description="{x:Static resources:Strings.Installer_Appearance_GradientMovement_Description}">
+          <ui:ToggleSwitch IsChecked="{Binding GRADmentFR, Mode=TwoWay}" />
+        </controls:OptionControl>
+        <controls:OptionControl Header="{x:Static resources:Strings.Installer_Appearance_SmoothScrolling_Title}" Description="{x:Static resources:Strings.Installer_Appearance_SmoothScrolling_Description}" Visibility="{Binding WindowsOnlyVisibility}">
+          <ui:ToggleSwitch IsChecked="{Binding SmooothBARRyesirikikthxlucipook, Mode=TwoWay}" />
+        </controls:OptionControl>
+        <controls:OptionControl Header="{x:Static resources:Strings.Installer_Appearance_ClearFont_Title}" Description="{x:Static resources:Strings.Installer_Appearance_ClearFont_Description}" Visibility="{Binding WindowsOnlyVisibility}">
+          <ui:ToggleSwitch IsChecked="{Binding ClearFont, Mode=TwoWay}" />
+        </controls:OptionControl>
+        <controls:OptionControl Header="{x:Static resources:Strings.Installer_Appearance_Background_Title}" Description="{x:Static resources:Strings.Installer_Appearance_Background_Description}">
+          <StackPanel Width="280" Margin="0,4,0,0">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="108" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="38" />
+              </Grid.ColumnDefinitions>
+              <TextBlock VerticalAlignment="Center" Text="{x:Static resources:Strings.Installer_Appearance_GradientOpacity}" />
+              <Slider Grid.Column="1" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding GradientOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <TextBlock Grid.Column="2" Margin="6,0,0,0" VerticalAlignment="Center" Text="{Binding GradientOpacity, StringFormat={}{0:F2}}" />
+            </Grid>
+            <Grid Margin="0,8,0,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="108" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="38" />
+              </Grid.ColumnDefinitions>
+              <TextBlock VerticalAlignment="Center" Text="{x:Static resources:Strings.Installer_Appearance_DarkOverlay}" />
+              <Slider Grid.Column="1" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding BlackOverlayOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <TextBlock Grid.Column="2" Margin="6,0,0,0" VerticalAlignment="Center" Text="{Binding BlackOverlayOpacity, StringFormat={}{0:F2}}" />
+            </Grid>
+            <Grid Margin="0,10,0,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock VerticalAlignment="Center" Text="{x:Static resources:Strings.Installer_Appearance_DisplayEverywhere}" />
+              <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding BackgroundEverywhere, Mode=TwoWay}" />
+            </Grid>
+            <ui:Button Margin="0,10,0,0" HorizontalAlignment="Right">
+              <ui:Button.Style>
+                <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                  <Setter Property="Content" Value="{x:Static resources:Strings.Common_Browse}" />
+                  <Setter Property="Command" Value="{Binding ImportBackgroundCommand2}" />
+                  <Setter Property="Icon" Value="ImageAdd24" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding HasCustomBackground}" Value="True">
+                      <Setter Property="Content" Value="{x:Static resources:Strings.Installer_Appearance_RemoveBackground}" />
+                      <Setter Property="Command" Value="{Binding RemoveBackgroundCommand2}" />
+                      <Setter Property="Appearance" Value="Danger" />
+                      <Setter Property="Icon" Value="Delete24" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </ui:Button.Style>
+            </ui:Button>
+          </StackPanel>
+        </controls:OptionControl>
+      </StackPanel>
+    </ui:CardExpander>
+    <controls:OptionControl Margin="0,4,0,0" Header="{x:Static resources:Strings.Menu_Appearance_Global_Theme_Title}" Description="{x:Static resources:Strings.Installer_Appearance_Theme_Description}">
+      <StackPanel Width="200">
+        <ComboBox Padding="10,5" ItemsSource="{Binding BindableThemes, Mode=OneTime}" SelectedItem="{Binding Theme, Mode=TwoWay}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Converter={StaticResource EnumNameConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ComboBox>
+        <ui:Button Margin="0,8,0,0" HorizontalAlignment="Right" Content="{x:Static resources:Strings.Installer_Appearance_Theme_Customize}" Icon="Color24" Click="OpenCustomThemeEditor_Click">
+          <ui:Button.Style>
+            <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Theme}" Value="{x:Static enums:Theme.Custom}">
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </ui:Button.Style>
+        </ui:Button>
+      </StackPanel>
+    </controls:OptionControl>
+    <controls:OptionControl Margin="0,4,0,0" Header="{x:Static resources:Strings.Installer_Appearance_Backdrop_Title}" Description="{x:Static resources:Strings.Installer_Appearance_Backdrop_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.DesktopBackdrop}">
+      <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding BackdropOptions, Mode=OneTime}" SelectedItem="{Binding SelectedBackdrop, Mode=TwoWay}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Converter={StaticResource EnumNameConverter}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+    </controls:OptionControl>
+    <controls:OptionControl Margin="0,4,0,0" Header="{x:Static resources:Strings.Installer_Appearance_PageZoom_Title}" Description="{x:Static resources:Strings.Installer_Appearance_PageZoom_Description}">
+      <ComboBox Width="110" Padding="10,5" ItemsSource="{Binding ZoomOptions, Mode=OneTime}" SelectedItem="{Binding UiZoomPercent, Mode=TwoWay}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding StringFormat={}{0}%}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+    </controls:OptionControl>
+  </StackPanel>
+</ui:UiPage>

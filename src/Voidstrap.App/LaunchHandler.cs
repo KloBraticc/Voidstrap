@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using Voidstrap.Enums;
 using Voidstrap.Extensions;
 using Voidstrap.Integrations;
@@ -47,6 +48,19 @@ public static class LaunchHandler
 		}
 	}
 
+	private static void RunWindowAudit()
+	{
+		try
+		{
+			Voidstrap.Utility.WindowAudit.Run();
+		}
+		catch (Exception auditEx)
+		{
+			App.Logger.WriteLine("WindowAudit", "audit harness failed: " + auditEx);
+		}
+		App.Terminate();
+	}
+
 	public static void ProcessLaunchArgs()
 	{
 		if (App.LaunchSettings.ResumeLaunchFlag.Active && App.State.Prop.PendingLaunchMode > 0)
@@ -61,15 +75,13 @@ public static class LaunchHandler
 		if (App.LaunchSettings.WindowAuditFlag.Active)
 		{
 			App.Logger.WriteLine("LaunchHandler::ProcessLaunchArgs", "Running window audit");
-			try
+			Application? auditApplication = Application.Current;
+			if (auditApplication == null)
 			{
-				Voidstrap.Utility.WindowAudit.Run();
+				RunWindowAudit();
+				return;
 			}
-			catch (Exception auditEx)
-			{
-				App.Logger.WriteLine("WindowAudit", "audit harness failed: " + auditEx);
-			}
-			App.Terminate();
+			auditApplication.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(RunWindowAudit));
 			return;
 		}
 		if (App.LaunchSettings.NvApplyFlag.Active)
@@ -131,12 +143,7 @@ public static class LaunchHandler
 		{
 			CloseOtherInstances();
 		}
-		if (App.LaunchSettings.ThemeFlag.Active)
-		{
-			App.Logger.WriteLine("LaunchHandler::ProcessLaunchArgs", "Installing a bootstrapper theme");
-			LaunchThemeInstall(App.LaunchSettings.ThemeFlag.Data);
-		}
-		else if (App.LaunchSettings.UninstallFlag.Active)
+		if (App.LaunchSettings.UninstallFlag.Active)
 		{
 			App.Logger.WriteLine("LaunchHandler::ProcessLaunchArgs", "Opening uninstaller");
 			LaunchUninstaller();
@@ -214,13 +221,13 @@ public static class LaunchHandler
 			}
 			else
 			{
-				if (new LanguageSelectorDialog().ShowDialog() != true)
+				if (new LanguageSelectorDialog().ShowOwnedDialog() != true)
 				{
 					App.Terminate(ErrorCode.ERROR_INSTALL_USEREXIT);
 					return;
 				}
 				Voidstrap.UI.Elements.Installer.MainWindow mainWindow = new Voidstrap.UI.Elements.Installer.MainWindow();
-				mainWindow.ShowDialog();
+				mainWindow.ShowOwnedDialog();
 				interProcessLock.Dispose();
 				ProcessNextAction(mainWindow.CloseAction, !mainWindow.Finished);
 			}
@@ -229,80 +236,6 @@ public static class LaunchHandler
 		{
 			interProcessLock.Dispose();
 		}
-	}
-
-	private static string? ParseThemeId(string? raw)
-	{
-		if (string.IsNullOrWhiteSpace(raw))
-			return null;
-
-		string value = raw.Trim().Trim('"');
-
-		const string scheme = "voidstrap://";
-		if (value.StartsWith(scheme, StringComparison.OrdinalIgnoreCase))
-			value = value.Substring(scheme.Length);
-
-		value = value.TrimStart('/');
-
-		const string prefix = "theme/";
-		if (value.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-			value = value.Substring(prefix.Length);
-
-		int cut = value.IndexOfAny(new[] { '/', '?', '#', '&' });
-		if (cut >= 0)
-			value = value.Substring(0, cut);
-
-		value = Uri.UnescapeDataString(value).Trim();
-
-		if (value.Length == 0 || value.Length > 64)
-			return null;
-
-		foreach (char c in value)
-		{
-			if (!char.IsLetterOrDigit(c) && c != '-' && c != '_')
-				return null;
-		}
-
-		return value;
-	}
-
-	public static void LaunchThemeInstall(string? raw)
-	{
-		string? themeId = ParseThemeId(raw);
-
-		if (themeId == null)
-		{
-			Frontend.ShowMessageBox("That theme link is not valid.", MessageBoxImage.Hand);
-			LaunchSettings();
-			return;
-		}
-
-		Task.Run(async delegate
-		{
-			try
-			{
-				string folder = await Voidstrap.Integrations.BootstrapperThemes.InstallFromWebsiteAsync(themeId);
-
-				App.Settings.Prop.BootstrapperStyle = BootstrapperStyle.CustomDialog;
-				App.Settings.Prop.SelectedCustomTheme = folder;
-				App.Settings.Save();
-
-				Frontend.ShowMessageBox(
-					"The theme " + folder + " has been added and selected.",
-					MessageBoxImage.Information);
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("LaunchHandler::LaunchThemeInstall", "Install failed");
-				App.Logger.WriteException("LaunchHandler::LaunchThemeInstall", ex);
-				Frontend.ShowMessageBox("Could not install that theme: " + ex.Message, MessageBoxImage.Hand);
-			}
-
-			Application.Current?.Dispatcher.Invoke(delegate
-			{
-				LaunchSettings();
-			});
-		});
 	}
 
 	public static void LaunchUninstaller()
@@ -333,7 +266,7 @@ public static class LaunchHandler
 		else
 		{
 			UninstallerDialog uninstallerDialog = new UninstallerDialog();
-			uninstallerDialog.ShowDialog();
+			uninstallerDialog.ShowOwnedDialog();
 			flag = uninstallerDialog.Confirmed;
 			keepData = uninstallerDialog.KeepData;
 		}
@@ -353,14 +286,31 @@ public static class LaunchHandler
 		using InterProcessLock interProcessLock = new InterProcessLock("Settings");
 		if (interProcessLock.IsAcquired)
 		{
-			new Voidstrap.UI.Elements.Settings.MainWindow(Process.GetProcessesByName("Voidstrap").Length > 1).ShowDialog();
+			Voidstrap.UI.Elements.Settings.MainWindow window = new(Process.GetProcessesByName("Voidstrap").Length > 1);
+			Application? application = Application.Current;
+			Window? previousMainWindow = null;
+			bool ownsLinuxMainWindow = Voidstrap.Utility.Platform.IsLinux && application != null;
+			if (ownsLinuxMainWindow)
+			{
+				previousMainWindow = application!.MainWindow;
+				application.MainWindow = window;
+			}
+			try
+			{
+				window.ShowOwnedDialog();
+			}
+			finally
+			{
+				if (ownsLinuxMainWindow && ReferenceEquals(application!.MainWindow, window))
+					application.MainWindow = previousMainWindow!;
+			}
 			return;
 		}
 		App.Logger.WriteLine("LaunchHandler::LaunchSettings", "Found an already existing menu window");
 		Process[] processesSafe = Utilities.GetProcessesSafe();
 		try
 		{
-			Process process = processesSafe.FirstOrDefault((Process x) => x.MainWindowTitle == Strings.Menu_Title);
+			Process? process = processesSafe.FirstOrDefault((Process x) => x.MainWindowTitle == Strings.Menu_Title);
 			if (process != null && process.MainWindowHandle != IntPtr.Zero)
 			{
 				Windows.Win32.PInvoke.SetForegroundWindow(new HWND(process.MainWindowHandle));
@@ -413,7 +363,7 @@ public static class LaunchHandler
 	public static void LaunchMenu()
 	{
 		LaunchMenuDialog launchMenuDialog = new LaunchMenuDialog();
-		launchMenuDialog.ShowDialog();
+		launchMenuDialog.ShowOwnedDialog();
 		ProcessNextAction(launchMenuDialog.CloseAction);
 	}
 
@@ -428,10 +378,14 @@ public static class LaunchHandler
 		if (!Voidstrap.Utility.Platform.SupportsWindowsClient)
 		{
 			App.LaunchSettings.RobloxLaunchMode = launchMode;
-			_ = LaunchPortableRuntimeAsync(launchMode);
+			RunPortableLaunch(launchMode);
 			return;
 		}
-		bool useAssetWarp = launchMode == LaunchMode.Player && AssetProxyServer.IsRequired;
+		if (launchMode == LaunchMode.Player)
+		{
+			AssetWarpAutoEnable.EnsureEnabled(allowPrompt: !App.LaunchSettings.QuietFlag.Active, userAction: false);
+		}
+		bool useAssetWarp = launchMode == LaunchMode.Player && (AssetProxyServer.IsRequired || AssetWarpAutoEnable.IsActiveForMods());
 		bool needsAssetWarpCleanup = !useAssetWarp && AssetProxyRouting.HasInstalledEntries();
 		if (needsAssetWarpCleanup)
 		{
@@ -538,8 +492,13 @@ public static class LaunchHandler
 			App.Terminate(ErrorCode.ERROR_FILE_NOT_FOUND);
 			return;
 		}
+		bool multiInstance = Voidstrap.Utility.MultiInstanceLock.Enabled;
+		if (multiInstance)
+		{
+			Voidstrap.Utility.MultiInstanceLock.Acquire();
+		}
 		bool flag = false;
-		Mutex result;
+		Mutex? result;
 		try
 		{
 			flag = Mutex.TryOpenExisting("Global\\ROBLOX_singletonMutex", out result);
@@ -563,19 +522,19 @@ public static class LaunchHandler
 				flag = false;
 			}
 		}
-		if (App.Settings.Prop.ConfirmLaunches && flag && !App.LaunchSettings.MatchmakerRejoinFlag.Active && (!App.Settings.Prop.IsGameEnabled || string.IsNullOrWhiteSpace(App.Settings.Prop.LaunchGameID)) && Frontend.ShowMessageBox(Strings.Bootstrapper_ConfirmLaunch, MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		if (App.Settings.Prop.ConfirmLaunches && flag && !multiInstance && !App.LaunchSettings.MatchmakerRejoinFlag.Active && (!App.Settings.Prop.IsGameEnabled || string.IsNullOrWhiteSpace(App.Settings.Prop.LaunchGameID)) && Frontend.ShowMessageBox(Strings.Bootstrapper_ConfirmLaunch, MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
 		{
 			App.Terminate();
 			return;
 		}
 		bool flag2 = string.Equals(Environment.GetEnvironmentVariable("VOIDSTRAP_FORCE_NATIVE"), "1", StringComparison.Ordinal);
-		if (!flag2)
+		if (!flag2 && !multiInstance)
 		{
 			CloseOtherInstances();
 		}
 		App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Initializing bootstrapper");
 		App.Bootstrapper = new Bootstrapper(launchMode);
-		IBootstrapperDialog bootstrapperDialog = null;
+		IBootstrapperDialog? bootstrapperDialog = null;
 		if (!App.LaunchSettings.QuietFlag.Active && !flag2)
 		{
 			App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Initializing bootstrapper dialog");
@@ -610,13 +569,322 @@ public static class LaunchHandler
 		App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Exiting");
 	}
 
+	private static readonly CancellationTokenSource _residentCancellation = new();
+
+	private static int _residentActive;
+
+	private static readonly TaskCompletionSource<bool> PortableSessionEnded = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+	internal static bool PortableSessionActive { get; private set; }
+
+	private static void RunPortableLaunch(LaunchMode launchMode)
+	{
+		PortableSessionActive = true;
+		KeepAliveUntilPortableSessionEnds();
+		_ = LaunchPortableRuntimeAsync(launchMode);
+	}
+
+	private const string LaunchKeepAliveTitle = "Voidstrap Launch";
+
+	private static Window? _launchKeepAliveWindow;
+
+	private static void KeepAliveUntilPortableSessionEnds()
+	{
+		Application? application = Application.Current;
+		if (application is null || !application.Dispatcher.CheckAccess())
+		{
+			WaitForPortableSession();
+			return;
+		}
+
+		try
+		{
+			application.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::KeepAliveUntilPortableSessionEnds", "The shutdown mode could not be set: " + ex.Message);
+		}
+
+		try
+		{
+			Window window = new()
+			{
+				Title = LaunchKeepAliveTitle,
+				Width = 1,
+				Height = 1,
+				Left = -32000,
+				Top = -32000,
+				ShowInTaskbar = false,
+				ShowActivated = false,
+				WindowStyle = WindowStyle.None,
+				ResizeMode = ResizeMode.NoResize,
+				WindowState = System.Windows.WindowState.Minimized
+			};
+			window.Show();
+			window.Hide();
+			_launchKeepAliveWindow = window;
+			application.MainWindow = window;
+			Voidstrap.UI.LinuxHiddenWindow.Hide(LaunchKeepAliveTitle);
+			CloseSettingsWindows(application);
+			StopAppPresence();
+			App.Logger.WriteLine("LaunchHandler::KeepAliveUntilPortableSessionEnds", "Holding the session open while Roblox starts");
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::KeepAliveUntilPortableSessionEnds", "The session could not be held open: " + ex.Message);
+		}
+
+		PortableSessionEnded.Task.ContinueWith(
+			delegate { ReleaseLaunchKeepAlive(); },
+			CancellationToken.None,
+			TaskContinuationOptions.ExecuteSynchronously,
+			TaskScheduler.Default);
+	}
+
+	private static void CloseSettingsWindows(Application application)
+	{
+		try
+		{
+			foreach (Window open in application.Windows.OfType<Window>().ToArray())
+			{
+				if (open is Voidstrap.UI.Elements.Settings.MainWindow settings)
+				{
+					App.Logger.WriteLine("LaunchHandler::CloseSettingsWindows", "Closing the Voidstrap window so the session runs from the tray");
+					settings.Close();
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::CloseSettingsWindows", "The Voidstrap window could not be closed: " + ex.Message);
+		}
+	}
+
+	private static void StopAppPresence()
+	{
+		try
+		{
+			App.StopCustomRpc();
+			App.Logger.WriteLine("LaunchHandler::StopAppPresence", "Voidstrap presence stopped so the Roblox presence is the only one shown");
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::StopAppPresence", "The Voidstrap presence could not be stopped: " + ex.Message);
+		}
+	}
+
+	private static void ReleaseLaunchKeepAlive()
+	{
+		Voidstrap.UI.LinuxTaskbarPresence.StopForShutdown();
+		Window? window = Interlocked.Exchange(ref _launchKeepAliveWindow, null);
+		if (window is null)
+		{
+			return;
+		}
+
+		Application? application = Application.Current;
+		if (application is null)
+		{
+			return;
+		}
+
+		void close()
+		{
+			try
+			{
+				window.Close();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("LaunchHandler::ReleaseLaunchKeepAlive", "The session window could not be closed: " + ex.Message);
+			}
+		}
+
+		try
+		{
+			if (application.Dispatcher.CheckAccess())
+			{
+				close();
+			}
+			else
+			{
+				application.Dispatcher.Invoke(close);
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::ReleaseLaunchKeepAlive", "The session window could not be reached: " + ex.Message);
+		}
+	}
+
+	private static void WaitForPortableSession()
+	{
+		try
+		{
+			PortableSessionEnded.Task.Wait();
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::WaitForPortableSession", "The launch wait ended early: " + ex.Message);
+		}
+	}
+
+	private const int SoberStartupAttempts = 60;
+
+	private const int SoberExitConfirmations = 3;
+
+	private static async Task<bool> WaitForSoberExitAsync(CancellationToken cancellationToken)
+	{
+		Voidstrap.Platform.Linux.LinuxSoberProcessProbe probe =
+			new Voidstrap.Platform.Linux.LinuxSoberProcessProbe(new Voidstrap.Core.SystemProcessService());
+
+		bool started = false;
+
+		for (int attempt = 0; attempt < SoberStartupAttempts; attempt++)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (await probe.IsRunningAsync(cancellationToken))
+			{
+				started = true;
+				break;
+			}
+
+			await Task.Delay(1000, cancellationToken);
+		}
+
+		if (!started)
+		{
+			App.Logger.WriteLine("LaunchHandler::WaitForSoberExitAsync", "Roblox never appeared in the process list, falling back to the launch process lifetime");
+			return false;
+		}
+
+		int missed = 0;
+		bool waitingForRejoin = false;
+
+		while (!cancellationToken.IsCancellationRequested)
+		{
+			if (await probe.IsRunningAsync(cancellationToken))
+			{
+				missed = 0;
+				waitingForRejoin = false;
+			}
+			else if (Voidstrap.Integrations.ServerMatchmaker.LinuxRejoinInProgress)
+			{
+				missed = 0;
+				if (!waitingForRejoin)
+				{
+					waitingForRejoin = true;
+					App.Logger.WriteLine("LaunchHandler::WaitForSoberExitAsync", "Sober is restarting for a matchmaker rejoin, keeping Voidstrap resident");
+				}
+			}
+			else
+			{
+				missed++;
+
+				if (missed >= SoberExitConfirmations)
+				{
+					return true;
+				}
+
+				App.Logger.WriteLine(
+					"LaunchHandler::WaitForSoberExitAsync",
+					"Roblox was not visible on check " + missed + " of " + SoberExitConfirmations + ", waiting before deciding it closed");
+			}
+
+			await Task.Delay(2000, cancellationToken);
+		}
+
+		return false;
+	}
+
+	private static bool StartResidentWatcher(int processId)
+	{
+		try
+		{
+			Voidstrap.Models.WatcherData watcherData = new()
+			{
+				ProcessId = processId,
+				AutoclosePids = []
+			};
+
+			Watcher resident = new(watcherData);
+			Voidstrap.Integrations.LinuxAutoFullscreen? autoFullscreen = null;
+
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				System.Windows.Application? application = System.Windows.Application.Current;
+
+				application?.Dispatcher.Invoke(delegate
+				{
+					autoFullscreen = new Voidstrap.Integrations.LinuxAutoFullscreen();
+					autoFullscreen.Start();
+				});
+			}
+
+			_ = Task.Run(async delegate
+			{
+				try
+				{
+					Task residentTask = resident.Run();
+					bool soberExitObserved = await WaitForSoberExitAsync(_residentCancellation.Token);
+					if (!soberExitObserved)
+						await residentTask;
+				}
+				catch (OperationCanceledException)
+				{
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "The resident watcher stopped unexpectedly: " + ex.Message);
+				}
+
+				App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "Roblox has exited, shutting down");
+				try
+				{
+					autoFullscreen?.Dispose();
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "Auto fullscreen could not be released: " + ex.Message);
+				}
+
+				try
+				{
+					resident.Dispose();
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "The watcher could not be disposed: " + ex.Message);
+				}
+
+				Volatile.Write(ref _residentActive, 0);
+				PortableSessionEnded.TrySetResult(true);
+				App.SoftTerminate();
+			});
+
+			Volatile.Write(ref _residentActive, 1);
+			App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "Voidstrap is staying resident so overlays and integrations keep running");
+			return true;
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "The resident watcher could not start: " + ex.Message);
+			return false;
+		}
+	}
+
 	private static async Task LaunchPortableRuntimeAsync(LaunchMode launchMode)
 	{
 		if (Interlocked.CompareExchange(ref _portableLaunchActive, 1, 0) != 0)
 		{
 			ShowPortableLaunchFailure("A Roblox launch is already in progress.");
+			PortableSessionEnded.TrySetResult(true);
 			return;
 		}
+
+		bool stayResident = false;
+		long assetPreloadPlaceId = 0;
 
 		try
 		{
@@ -646,16 +914,27 @@ public static class LaunchHandler
 				launchTarget = rewrittenTarget;
 				App.LaunchSettings.RobloxLaunchArgs = rewrittenTarget;
 			}
+			assetPreloadPlaceId = LaunchInterceptor.ExtractPlaceId(launchTarget);
 
 			if (OperatingSystem.IsLinux())
 			{
+				Bootstrapper bootstrapper = new(launchMode);
+				ShowPortableLaunchDialog(bootstrapper);
 				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
 				{
-					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session = App.Settings.Prop.OverlaysEnabled
+					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session = Voidstrap.Integrations.Overlays.OverlaySettings.RequiresLinuxX11Session
 						&& !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
+					await PrepareLinuxEffectLayersAsync();
+					SetPortableLaunchStatus("Closing the current Roblox session");
+					if (!await Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.TryCloseSoberAsync(CancellationToken.None))
+					{
+						ShowPortableLaunchFailure("The current Sober session could not be closed. Close Sober and try joining again.");
+						return;
+					}
 					try
 					{
-						await new Bootstrapper(launchMode).PrepareLinuxLaunchAsync(CancellationToken.None);
+						SetPortableLaunchStatus(Strings.Bootstrapper_Status_Configuring);
+						await bootstrapper.PrepareLinuxLaunchAsync(CancellationToken.None);
 					}
 					catch (Exception ex)
 					{
@@ -666,10 +945,15 @@ public static class LaunchHandler
 				Voidstrap.Platform.IRobloxRuntimeProvider provider = runtimeKind == Voidstrap.Platform.RuntimeKind.Player
 					? host.PlayerRuntime
 					: host.StudioRuntime;
+				SetPortableLaunchStatus(Strings.Bootstrapper_Status_Connecting);
 				Voidstrap.Platform.RuntimeInstallation installation = await provider.FindInstallationAsync();
 				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
 				{
-					installation = await Bootstrapper.EnsureSoberInstalledAsync(provider, installation, host, null, CancellationToken.None);
+					installation = await Bootstrapper.EnsureSoberInstalledAsync(provider, installation, host, SetPortableLaunchStatus, CancellationToken.None);
+				}
+				else
+				{
+					installation = await Bootstrapper.EnsureVinegarInstalledAsync(provider, installation, host, SetPortableLaunchStatus, CancellationToken.None);
 				}
 				if (!installation.Capability.IsAvailable)
 				{
@@ -677,14 +961,42 @@ public static class LaunchHandler
 					return;
 				}
 
+				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player
+					&& !Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.IsRobloxPackageInstalled())
+				{
+					SetPortableLaunchStatus("Downloading Roblox for the first time, this can take a few minutes");
+					App.Logger.WriteLine(
+						"LaunchHandler::FirstRun",
+						"Roblox is not downloaded yet, fetching it before applying settings and mods");
+
+					bool downloaded = await Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider
+						.TryDownloadRobloxPackageAsync(CancellationToken.None);
+
+					App.Logger.WriteLine(
+						"LaunchHandler::FirstRun",
+						downloaded
+							? "Roblox downloaded, settings and mods will apply on this launch"
+							: "Roblox did not finish downloading, continuing anyway");
+				}
+
+				SetPortableLaunchStatus(Strings.Bootstrapper_Status_Configuring);
 				Voidstrap.Platform.Linux.LinuxRuntimeConfiguration configuration = Voidstrap.Platform.Linux.LinuxRuntimeConfiguration.CreateDefault(Paths.Mods, host.Processes);
 				Voidstrap.Platform.OperationResult prepared = await configuration.PrepareAsync(
 					installation,
-					Voidstrap.Utility.SoberConfigurationMapper.CreatePlayerOptions(App.Settings.Prop));
+					Voidstrap.Utility.SoberConfigurationMapper.CreatePlayerOptions(App.Settings.Prop),
+					Voidstrap.Utility.VinegarConfigurationMapper.CreateStudioOptions(App.Settings.Prop));
 				if (!prepared.Succeeded)
 				{
 					ShowPortableLaunchFailure(prepared.Failure?.Message ?? "Linux runtime preparation failed.");
 					return;
+				}
+
+				if (configuration.AddedAssets.Count > 0)
+				{
+					App.Logger.WriteLine(
+						"LaunchHandler::LaunchPortableRuntime",
+						configuration.AddedAssets.Count + " mod files were added to the Sober Roblox package: "
+							+ string.Join(", ", configuration.AddedAssets.Take(20)));
 				}
 
 				if (configuration.SkippedAssets.Count > 0)
@@ -694,8 +1006,28 @@ public static class LaunchHandler
 						configuration.SkippedAssets.Count + " mod files have no matching asset in the installed Sober Roblox package and were not applied: "
 							+ string.Join(", ", configuration.SkippedAssets.Take(20)));
 				}
+
+				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+				{
+					AssetWarpAutoEnable.EnsureEnabled(allowPrompt: !App.LaunchSettings.QuietFlag.Active, userAction: false);
+					if (!App.Settings.Prop.AssetWarpEnabled)
+					{
+						AssetProxyServer.Stop();
+					}
+					else if (App.Settings.Prop.AssetWarpPreloadEnabled && assetPreloadPlaceId > 0)
+					{
+						AssetPreloadCache.SwitchSession(assetPreloadPlaceId);
+					}
+					SetPortableLaunchStatus("Starting AssetWarp");
+					await Bootstrapper.StartAssetProxyIfEnabled(CancellationToken.None);
+					if (AssetProxyServer.IsRequired && !AssetProxyServer.IsRunning)
+					{
+						throw new InvalidOperationException("AssetWarp could not start its Linux proxy. Check the Voidstrap log for the exact failure.");
+					}
+				}
 			}
 
+			SetPortableLaunchStatus(Strings.Bootstrapper_Status_Starting);
 			Voidstrap.Core.RuntimeLaunchCoordinator coordinator = new(host.PlayerRuntime, host.StudioRuntime);
 			Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result = await coordinator.LaunchAsync(runtimeKind, launchTarget);
 			if (!result.Succeeded || result.Value == null)
@@ -705,6 +1037,17 @@ public static class LaunchHandler
 			}
 
 			App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", result.Value.Provider + " accepted the Roblox launch request");
+			if (AssetProxyServer.IsRunning && assetPreloadPlaceId > 0)
+			{
+				AssetPreloadCache.StartBackgroundWarm(assetPreloadPlaceId, CancellationToken.None);
+			}
+
+			ClosePortableLaunchDialog();
+			if (OperatingSystem.IsLinux() && StartResidentWatcher(result.Value.ProcessId))
+			{
+				stayResident = true;
+				Voidstrap.UI.LinuxTaskbarPresence.HideWhileSessionRuns();
+			}
 		}
 		catch (Exception ex)
 		{
@@ -713,12 +1056,240 @@ public static class LaunchHandler
 		finally
 		{
 			Interlocked.Exchange(ref _portableLaunchActive, 0);
-			App.SoftTerminate();
+			if (!stayResident)
+			{
+				AssetProxyServer.Stop();
+				PortableSessionEnded.TrySetResult(true);
+				App.SoftTerminate();
+			}
+		}
+	}
+
+	private static IBootstrapperDialog? _portableDialog;
+    private static readonly char[] anyOf = new[] { '/', '?', '#', '&' };
+
+    private static void ShowPortableLaunchDialog(Bootstrapper bootstrapper)
+	{
+		if (App.LaunchSettings.QuietFlag.Active)
+		{
+			return;
+		}
+
+		Application? application = Application.Current;
+		if (application is null)
+		{
+			return;
+		}
+
+		void show()
+		{
+			try
+			{
+				IBootstrapperDialog dialog = App.Settings.Prop.BootstrapperStyle.GetNew();
+				dialog.Bootstrapper = bootstrapper;
+				bootstrapper.Dialog = dialog;
+				dialog.CancelEnabled = false;
+				dialog.Message = FormatLaunchStatus(Strings.Bootstrapper_Status_Starting);
+				_portableDialog = dialog;
+				if (dialog is Window window)
+				{
+					window.Show();
+				}
+				else
+				{
+					dialog.ShowBootstrapper();
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("LaunchHandler::ShowPortableLaunchDialog", "The launch dialog could not be shown: " + ex.Message);
+			}
+		}
+
+		try
+		{
+			if (application.Dispatcher.CheckAccess())
+			{
+				show();
+			}
+			else
+			{
+				application.Dispatcher.Invoke(show);
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::ShowPortableLaunchDialog", "The launch dialog could not be reached: " + ex.Message);
+		}
+	}
+
+	private static async Task PrepareLinuxCompositorAsync()
+	{
+		bool wanted = Voidstrap.Utility.LinuxEffectMapper.HasLiveColorEffect();
+		Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.UseCompositor = wanted;
+
+		if (!wanted)
+			return;
+
+		if (!Voidstrap.Platform.Linux.LinuxGamescope.IsInstalled())
+		{
+			Voidstrap.Platform.OperationResult installed = await Voidstrap.Platform.Linux.LinuxEffectLayers.InstallAsync(
+				new Voidstrap.Core.SystemProcessService(),
+				Voidstrap.Platform.Linux.LinuxGamescope.LayerId);
+
+			if (!installed.Succeeded)
+			{
+				App.Logger.WriteLine(
+					"LaunchHandler::PrepareLinuxCompositorAsync",
+					"The compositor could not be installed, colour effects will not update live: "
+						+ (installed.Failure?.Message ?? "unknown reason"));
+				Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.UseCompositor = false;
+				return;
+			}
+		}
+
+		await Voidstrap.Integrations.LinuxLiveColor.WriteAsync();
+		Voidstrap.Integrations.LinuxLiveColor.BeginTracking();
+	}
+
+	private static async Task PrepareLinuxEffectLayersAsync()
+	{
+		try
+		{
+			await PrepareLinuxCompositorAsync();
+
+			Voidstrap.Platform.Linux.LinuxEffectOptions options = Voidstrap.Utility.LinuxEffectMapper.CreateOptions();
+			if (!options.Enabled)
+			{
+				Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.EffectLayerArguments = [];
+				Voidstrap.Integrations.Overlays.OverlayHub.SetLinuxHomepageNativeShaderActive(false);
+				return;
+			}
+
+			await EnsureEffectLayersInstalledAsync(options);
+
+			Voidstrap.Platform.OperationResult written = Voidstrap.Platform.Linux.LinuxEffectLayers.WriteConfiguration(options);
+			if (!written.Succeeded)
+			{
+				App.Logger.WriteLine("LaunchHandler::PrepareLinuxEffectLayers", written.Failure?.Message ?? "The effect configuration could not be written");
+				Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.EffectLayerArguments = [];
+				return;
+			}
+
+			IReadOnlyList<string> arguments = Voidstrap.Platform.Linux.LinuxEffectLayers.BuildLaunchArguments(options);
+			Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.EffectLayerArguments = arguments;
+			Voidstrap.Integrations.Overlays.OverlayHub.SetLinuxHomepageNativeShaderActive(
+				!string.IsNullOrWhiteSpace(options.HomepageShader)
+				&& arguments.Any(argument => argument.Contains("ENABLE_VKBASALT=1", StringComparison.Ordinal)));
+			App.Logger.WriteLine(
+				"LaunchHandler::PrepareLinuxEffectLayers",
+				arguments.Count == 0
+					? "Effects are enabled but the Vulkan layers are not installed, launching without them"
+					: "Applying " + arguments.Count + " Vulkan layer arguments for the enabled effects");
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::PrepareLinuxEffectLayers", "The effect layers could not be prepared: " + ex.Message);
+			Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.EffectLayerArguments = [];
+			Voidstrap.Integrations.Overlays.OverlayHub.SetLinuxHomepageNativeShaderActive(false);
+		}
+	}
+
+	private static async Task EnsureEffectLayersInstalledAsync(Voidstrap.Platform.Linux.LinuxEffectOptions options)
+	{
+		Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
+		if (host is null || App.LaunchSettings.QuietFlag.Active)
+		{
+			return;
+		}
+
+		bool wantsShaders = !string.IsNullOrWhiteSpace(options.AntiAliasing)
+			|| options.Sharpening
+			|| !string.IsNullOrWhiteSpace(options.GradingShader)
+			|| !string.IsNullOrWhiteSpace(options.HomepageShader);
+
+		if (wantsShaders && !Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(Voidstrap.Platform.Linux.LinuxEffectLayers.ShaderLayerId))
+		{
+			await PromptInstallEffectLayerAsync(
+				host,
+				Voidstrap.Platform.Linux.LinuxEffectLayers.ShaderLayerId,
+				"Shader effects and anti aliasing need the vkBasalt Vulkan layer. Install it now?");
+		}
+
+		if (options.FrameGenMultiplier > 1 && !Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(Voidstrap.Platform.Linux.LinuxEffectLayers.FrameGenLayerId))
+		{
+			await PromptInstallEffectLayerAsync(
+				host,
+				Voidstrap.Platform.Linux.LinuxEffectLayers.FrameGenLayerId,
+				"Frame generation needs the LSFG Vulkan layer. Install it now?");
+		}
+	}
+
+	private static async Task PromptInstallEffectLayerAsync(Voidstrap.Platform.IPlatformHost host, string layerId, string question)
+	{
+		MessageBoxResult answer = Frontend.ShowMessageBox(question, MessageBoxImage.Question, MessageBoxButton.YesNo);
+		if (answer != MessageBoxResult.Yes)
+		{
+			App.Logger.WriteLine("LaunchHandler::EffectLayers", "The user declined installing " + layerId);
+			return;
+		}
+
+		SetPortableLaunchStatus("Installing the effect layer, this can take a while");
+		Voidstrap.Platform.OperationResult result = await Voidstrap.Platform.Linux.LinuxEffectLayers
+			.InstallAsync(host.Processes, layerId, CancellationToken.None);
+		App.Logger.WriteLine(
+			"LaunchHandler::EffectLayers",
+			result.Succeeded ? layerId + " installed" : (result.Failure?.Message ?? "The effect layer could not be installed"));
+		if (!result.Succeeded)
+			Frontend.ShowMessageBox("The effect layer could not be installed, Roblox will start without those effects.", MessageBoxImage.Warning);
+	}
+
+	private static string FormatLaunchStatus(string message)
+	{
+		return string.IsNullOrEmpty(message) || !message.Contains("{product}", StringComparison.Ordinal)
+			? message
+			: message.Replace("{product}", "Roblox", StringComparison.Ordinal);
+	}
+
+	private static void SetPortableLaunchStatus(string message)
+	{
+		IBootstrapperDialog? dialog = _portableDialog;
+		if (dialog is null)
+		{
+			return;
+		}
+
+		try
+		{
+			dialog.Message = FormatLaunchStatus(message);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::SetPortableLaunchStatus", "The launch dialog could not be updated: " + ex.Message);
+		}
+	}
+
+	private static void ClosePortableLaunchDialog()
+	{
+		IBootstrapperDialog? dialog = Interlocked.Exchange(ref _portableDialog, null);
+		if (dialog is null)
+		{
+			return;
+		}
+
+		try
+		{
+			dialog.CloseBootstrapper();
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::ClosePortableLaunchDialog", "The launch dialog could not be closed: " + ex.Message);
 		}
 	}
 
 	private static void ShowPortableLaunchFailure(string message)
 	{
+		ClosePortableLaunchDialog();
 		App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", message);
 		Application? application = Application.Current;
 		if (application == null || application.Dispatcher.CheckAccess())
@@ -730,8 +1301,13 @@ public static class LaunchHandler
 		application.Dispatcher.Invoke(() => Frontend.ShowMessageBox(message, MessageBoxImage.Hand));
 	}
 
-	private static void CloseOtherInstances()
+	internal static void CloseOtherInstances()
 	{
+		if (Voidstrap.Utility.MultiInstanceLock.Enabled)
+		{
+			App.Logger.WriteLine("LaunchHandler::CloseOtherInstances", "Multi instance launching is on, the other Voidstrap windows are left alone");
+			return;
+		}
 		try
 		{
 			int processId = Environment.ProcessId;
@@ -804,7 +1380,7 @@ public static class LaunchHandler
 	public static void LaunchBloxshadeConfig()
 	{
 		App.Logger.WriteLine("LaunchHandler::LaunchBloxshade", "Showing unsupported warning");
-		new BloxshadeDialog().ShowDialog();
+		new BloxshadeDialog().ShowOwnedDialog();
 		App.SoftTerminate();
 	}
 }

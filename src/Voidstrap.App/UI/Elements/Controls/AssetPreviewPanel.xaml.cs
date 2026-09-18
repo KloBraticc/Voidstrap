@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +20,6 @@ using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using NAudio.MediaFoundation;
-using NAudio.Vorbis;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using Voidstrap.Integrations;
@@ -114,9 +113,8 @@ public partial class AssetPreviewPanel : UserControl{
 
 	private bool _draggingAudio;
 
-	private bool _suppressAudio;
 
-	private IWavePlayer? _waveOut;
+	private WaveOut? _waveOut;
 
 	private WaveStream? _waveReader;
 
@@ -231,7 +229,7 @@ public partial class AssetPreviewPanel : UserControl{
 		}
 		else if (assetTypeInfo.Category == "Model")
 		{
-			AnimationData animationData = RobloxAnimationParser.Parse(data);
+			AnimationData? animationData = RobloxAnimationParser.Parse(data);
 			if (animationData != null && animationData.Keyframes.Count > 0)
 			{
 				PreviewAnimation(animationData);
@@ -326,7 +324,7 @@ public partial class AssetPreviewPanel : UserControl{
 	{
 		try
 		{
-			ImageSource imageSource;
+			ImageSource? imageSource;
 			if (KtxDecoder.IsKtx(data))
 			{
 				imageSource = KtxDecoder.DecodeToBitmap(data);
@@ -340,7 +338,7 @@ public partial class AssetPreviewPanel : UserControl{
 			{
 				using MemoryStream streamSource = new MemoryStream(data);
 				var bitmapImage = Voidstrap.Utility.SafeImaging.FromStream(streamSource);
-				if (((Freezable)bitmapImage).CanFreeze)
+				if (bitmapImage != null && bitmapImage.CanFreeze)
 				{
 					((Freezable)bitmapImage).Freeze();
 				}
@@ -481,7 +479,7 @@ public partial class AssetPreviewPanel : UserControl{
 		}
 		if (parts.Count == 0)
 		{
-			AnimationData animationData = RobloxAnimationParser.Parse(data);
+			AnimationData? animationData = RobloxAnimationParser.Parse(data);
 			if (animationData != null && animationData.Keyframes.Count > 0)
 			{
 				PreviewAnimation(animationData);
@@ -503,7 +501,7 @@ public partial class AssetPreviewPanel : UserControl{
 		int previewGeneration = _previewGeneration;
 		try
 		{
-		Dictionary<string, MeshModel?> meshCache = new Dictionary<string, MeshModel>(StringComparer.OrdinalIgnoreCase);
+		Dictionary<string, MeshModel?> meshCache = new Dictionary<string, MeshModel?>(StringComparer.OrdinalIgnoreCase);
 		long meshBytes = 0;
 		if (meshFetcher != null)
 		{
@@ -520,7 +518,7 @@ public partial class AssetPreviewPanel : UserControl{
 				meshCache[part.MeshId] = null;
 				try
 				{
-					byte[] array = await meshFetcher(part.MeshId, token);
+					byte[]? array = await meshFetcher(part.MeshId, token);
 					if (token.IsCancellationRequested || previewGeneration != _previewGeneration)
 						return;
 					if (array != null && array.Length > 0 && array.Length <= 8 * 1024 * 1024 && meshBytes + array.Length <= MaxModelMeshBytes)
@@ -549,7 +547,7 @@ public partial class AssetPreviewPanel : UserControl{
 		double num6 = double.MinValue;
 		foreach (ModelPart item in parts)
 		{
-			MeshModel value = null;
+			MeshModel? value = null;
 			if (!string.IsNullOrEmpty(item.MeshId))
 			{
 				meshCache.TryGetValue(item.MeshId, out value);
@@ -621,7 +619,7 @@ public partial class AssetPreviewPanel : UserControl{
 		BuildAxis(num7 * 0.6);
 		Viewport.Visibility = Visibility.Visible;
 		int num8 = 0;
-		foreach (MeshModel value2 in meshCache.Values)
+		foreach (MeshModel? value2 in meshCache.Values)
 		{
 			if (value2 != null)
 			{
@@ -1010,7 +1008,7 @@ public partial class AssetPreviewPanel : UserControl{
 		bool flag2 = data.Length > 3 && ((data[0] == 73 && data[1] == 68 && data[2] == 51) || (data[0] == byte.MaxValue && (data[1] & 0xE0) == 224));
 		if (num || string.Equals(ext, ".ogg", StringComparison.OrdinalIgnoreCase))
 		{
-			return new VorbisWaveReader(memoryStream, closeOnDispose: true);
+			return new Voidstrap.Utility.VorbisWaveStream(memoryStream, closeOnDispose: true);
 		}
 		if (flag || string.Equals(ext, ".wav", StringComparison.OrdinalIgnoreCase))
 		{
@@ -1103,9 +1101,7 @@ public partial class AssetPreviewPanel : UserControl{
 	{
 		if (!_draggingAudio && _waveReader != null)
 		{
-			_suppressAudio = true;
 			AudioPositionSlider.Value = Math.Min(_waveReader.CurrentTime.TotalSeconds, AudioPositionSlider.Maximum);
-			_suppressAudio = false;
 			UpdateAudioTime();
 		}
 	}
@@ -1538,7 +1534,7 @@ public partial class AssetPreviewPanel : UserControl{
 		}
 	}
 
-	private static Model3D BuildWireframe(MeshGeometry3D mesh, Point3D center)
+	private static GeometryModel3D BuildWireframe(MeshGeometry3D mesh, Point3D center)
 	{
 		Point3DCollection positions = new Point3DCollection();
 		Int32Collection indices = new Int32Collection();

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -65,7 +65,7 @@ namespace Voidstrap.UI.ViewModels
         public string Handle => "@" + Username;
 
         [JsonIgnore]
-        public string Subtitle => "@" + Username + "  ·  ID " + UserId;
+        public string Subtitle => "@" + Username + ", ID " + UserId;
 
         [JsonIgnore]
         public string LastUsedDisplay => LastUsedUtc == default ? "Never switched to" : "Last used " + LastUsedUtc.ToLocalTime().ToString("g");
@@ -92,9 +92,11 @@ namespace Voidstrap.UI.ViewModels
 
         private static readonly string[] RobloxProcessNames = { "RobloxPlayerBeta", "RobloxStudioBeta", "RobloxPlayer", "Roblox" };
 
+        private static readonly string[] LinuxRobloxProcessNames = { "sober", "Sober", "org.vinegarhq.Sober" };
+
         private readonly string _folder = Paths.AccountBackups;
         private readonly string _metaPath = Path.Combine(Paths.AccountBackups, "accounts.json");
-        private readonly string _liveCookiePath = App.RobloxCookiesFilePath;
+        private readonly string _liveCookiePath = Voidstrap.Utility.Platform.IsLinux ? RobloxCookie.SoberCookiePath : App.RobloxCookiesFilePath;
 
         private CancellationTokenSource? _cts;
         private readonly SemaphoreSlim _opLock = new(1, 1);
@@ -130,6 +132,8 @@ namespace Voidstrap.UI.ViewModels
         public AccountSwitcherViewModel()
         {
             Directory.CreateDirectory(_folder);
+            if (Voidstrap.Utility.Platform.IsLinux)
+                File.SetUnixFileMode(_folder, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
 
             RefreshCommand = new RelayCommand(_ => _ = RefreshAsync());
             AddCurrentCommand = new RelayCommand(_ => _ = AddCurrentAsync());
@@ -219,7 +223,7 @@ namespace Voidstrap.UI.ViewModels
                     _currentUserId = current.UserId;
                     IsLoggedIn = true;
                     CurrentTitle = string.IsNullOrWhiteSpace(current.DisplayName) ? current.Username : current.DisplayName;
-                    CurrentSubtitle = "@" + current.Username + "  ·  ID " + current.UserId;
+                    CurrentSubtitle = "@" + current.Username + ", ID " + current.UserId;
                     _currentInLibrary = Accounts.Any(a => a.UserId == current.UserId);
                     Raise(nameof(AddCurrentEnabled));
                 }
@@ -316,7 +320,9 @@ namespace Voidstrap.UI.ViewModels
                 }
                 if (!File.Exists(_liveCookiePath))
                 {
-                    Frontend.ShowMessageBox("RobloxCookies.dat was not found, so this account cannot be snapshotted.", MessageBoxImage.Warning);
+                    Frontend.ShowMessageBox(Voidstrap.Utility.Platform.IsLinux
+                        ? "Sober's active login file disappeared before this account could be saved. Sign in again and retry."
+                        : "RobloxCookies.dat was not found, so this account cannot be snapshotted.", MessageBoxImage.Warning);
                     return;
                 }
 
@@ -458,6 +464,12 @@ namespace Voidstrap.UI.ViewModels
                         string safety = Path.Combine(_folder, "_previous_session.dat");
                         await CopyWithRetryAsync(_liveCookiePath, safety, overwrite: true).ConfigureAwait(true);
                         backedUp = true;
+                        SwitcherAccount? outgoing = _currentUserId == 0 ? null : Accounts.FirstOrDefault(a => a.UserId == _currentUserId && a != account);
+                        if (outgoing != null && !string.IsNullOrWhiteSpace(outgoing.DatFile))
+                        {
+                            await CopyWithRetryAsync(_liveCookiePath, Path.Combine(_folder, outgoing.DatFile), overwrite: true).ConfigureAwait(true);
+                            App.Logger?.WriteLine("AccountSwitcher", "Saved the latest login for " + outgoing.Username + " before switching");
+                        }
                     }
                     await ReplaceLiveCookieAsync(datPath).ConfigureAwait(true);
                     RobloxCookie.InvalidateCache();
@@ -593,7 +605,7 @@ namespace Voidstrap.UI.ViewModels
                 return;
             try
             {
-                Clipboard.SetText(account.UserId.ToString());
+                Voidstrap.Utility.ClipboardService.SetText(account.UserId.ToString());
                 Status = "Copied user ID " + account.UserId;
             }
             catch (Exception ex)
@@ -742,7 +754,10 @@ namespace Voidstrap.UI.ViewModels
 
         private static bool IsRobloxRunning()
         {
-            foreach (var name in RobloxProcessNames)
+            IEnumerable<string> processNames = Voidstrap.Utility.Platform.IsLinux
+                ? RobloxProcessNames.Concat(LinuxRobloxProcessNames)
+                : RobloxProcessNames;
+            foreach (var name in processNames)
             {
                 Process[] processes = Array.Empty<Process>();
                 try
@@ -790,6 +805,8 @@ namespace Voidstrap.UI.ViewModels
                     using var s = new FileStream(src, FileMode.Open, FileAccess.Read, FileShare.Read);
                     using var d = new FileStream(dest, overwrite ? FileMode.Create : FileMode.CreateNew, FileAccess.Write, FileShare.None);
                     await s.CopyToAsync(d).ConfigureAwait(false);
+                    if (Voidstrap.Utility.Platform.IsLinux)
+                        File.SetUnixFileMode(dest, UnixFileMode.UserRead | UnixFileMode.UserWrite);
                     return;
                 }
                 catch (IOException) when (i < retries - 1)

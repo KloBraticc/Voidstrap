@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Voidstrap.Integrations.AntiAliasing
 {
-    internal static class AntiAliasingInterop
+    internal static partial class AntiAliasingInterop
     {
         public const uint WS_POPUP = 0x80000000;
         public const int WS_EX_NOACTIVATE = 0x08000000;
@@ -25,7 +25,7 @@ namespace Voidstrap.Integrations.AntiAliasing
         public const uint MONITOR_DEFAULTTONEAREST = 2;
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct RECT
+        public partial struct RECT
         {
             public int Left;
             public int Top;
@@ -34,7 +34,7 @@ namespace Voidstrap.Integrations.AntiAliasing
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct MONITORINFO
+        public partial struct MONITORINFO
         {
             public uint cbSize;
             public RECT rcMonitor;
@@ -43,7 +43,7 @@ namespace Voidstrap.Integrations.AntiAliasing
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct WNDCLASSEXW
+        public partial struct WNDCLASSEXW
         {
             public uint cbSize;
             public uint style;
@@ -60,7 +60,7 @@ namespace Voidstrap.Integrations.AntiAliasing
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct MSG
+        public partial struct MSG
         {
             public IntPtr hwnd;
             public uint message;
@@ -73,78 +73,89 @@ namespace Voidstrap.Integrations.AntiAliasing
 
         public delegate IntPtr WndProcDelegate(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern ushort RegisterClassExW(ref WNDCLASSEXW lpwcx);
+        [LibraryImport("user32.dll", SetLastError = true)]
+        public static partial ushort RegisterClassExW(ref WNDCLASSEXW lpwcx);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool UnregisterClassW(IntPtr lpClassName, IntPtr hInstance);
+        [LibraryImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool UnregisterClassW(IntPtr lpClassName, IntPtr hInstance);
 
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern IntPtr CreateWindowExW(int dwExStyle, IntPtr lpClassName, string lpWindowName, uint dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+        [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+        public static partial IntPtr CreateWindowExW(int dwExStyle, IntPtr lpClassName, string lpWindowName, uint dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr DefWindowProcW(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+        [LibraryImport("user32.dll")]
+        public static partial IntPtr DefWindowProcW(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
-        [DllImport("user32.dll")]
-        public static extern bool DestroyWindow(IntPtr hWnd);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool DestroyWindow(IntPtr hWnd);
 
-        [DllImport("user32.dll")]
-        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-        [DllImport("user32.dll")]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
-        [DllImport("user32.dll")]
-        public static extern bool SetWindowDisplayAffinity(IntPtr hWnd, uint dwAffinity);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool SetWindowDisplayAffinity(IntPtr hWnd, uint dwAffinity);
 
-        [DllImport("user32.dll")]
-        public static extern bool PeekMessageW(out MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool PeekMessageW(out MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
 
-        [DllImport("user32.dll")]
-        public static extern bool TranslateMessage(ref MSG lpMsg);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool TranslateMessage(ref MSG lpMsg);
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr DispatchMessageW(ref MSG lpMsg);
+        [LibraryImport("user32.dll")]
+        public static partial IntPtr DispatchMessageW(ref MSG lpMsg);
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr GetModuleHandleW(string? lpModuleName);
+        [LibraryImport("kernel32.dll", StringMarshalling = StringMarshalling.Utf16)]
+        public static partial IntPtr GetModuleHandleW(string? lpModuleName);
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetForegroundWindow();
+        [LibraryImport("user32.dll")]
+        public static partial IntPtr GetForegroundWindow();
 
-        [DllImport("user32.dll")]
-        public static extern bool IsWindow(IntPtr hWnd);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool IsWindow(IntPtr hWnd);
 
-        [DllImport("user32.dll")]
-        public static extern bool GetWindowRect(IntPtr hWnd, out RECT rect);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool GetWindowRect(IntPtr hWnd, out RECT rect);
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint flags);
+        [LibraryImport("user32.dll")]
+        public static partial IntPtr MonitorFromWindow(IntPtr hwnd, uint flags);
 
-        [DllImport("user32.dll")]
-        public static extern bool GetMonitorInfoW(IntPtr hMonitor, ref MONITORINFO mi);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool GetMonitorInfoW(IntPtr hMonitor, ref MONITORINFO mi);
 
-        [DllImport("user32.dll")]
-        public static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags);
 
-        [DllImport("kernel32.dll")]
-        public static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
+        [LibraryImport("kernel32.dll")]
+        public static partial uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
 
-        [DllImport("winmm.dll")]
-        public static extern uint timeBeginPeriod(uint uPeriod);
+        [LibraryImport("winmm.dll")]
+        public static partial uint timeBeginPeriod(uint uPeriod);
 
-        [DllImport("winmm.dll")]
-        public static extern uint timeEndPeriod(uint uPeriod);
+        [LibraryImport("winmm.dll")]
+        public static partial uint timeEndPeriod(uint uPeriod);
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct UNSIGNED_RATIO
+        public partial struct UNSIGNED_RATIO
         {
             public uint uiNumerator;
             public uint uiDenominator;
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct DWM_TIMING_INFO
+        public partial struct DWM_TIMING_INFO
         {
             public uint cbSize;
             public UNSIGNED_RATIO rateRefresh;
@@ -188,13 +199,13 @@ namespace Voidstrap.Integrations.AntiAliasing
             public ulong cBuffersEmpty;
         }
 
-        [DllImport("dwmapi.dll")]
-        public static extern int DwmGetCompositionTimingInfo(IntPtr hwnd, ref DWM_TIMING_INFO pTimingInfo);
+        [LibraryImport("dwmapi.dll")]
+        public static partial int DwmGetCompositionTimingInfo(IntPtr hwnd, ref DWM_TIMING_INFO pTimingInfo);
 
         public const int ENUM_CURRENT_SETTINGS = -1;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct MONITORINFOEXW
+        public partial struct MONITORINFOEXW
         {
             public uint cbSize;
             public RECT rcMonitor;
@@ -205,7 +216,7 @@ namespace Voidstrap.Integrations.AntiAliasing
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct DEVMODEW
+        public partial struct DEVMODEW
         {
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
             public string dmDeviceName;
@@ -241,10 +252,46 @@ namespace Voidstrap.Integrations.AntiAliasing
             public uint dmPanningHeight;
         }
 
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        public static extern bool GetMonitorInfoW(IntPtr hMonitor, ref MONITORINFOEXW mi);
+        [LibraryImport("user32.dll", EntryPoint = "GetMonitorInfoW")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool GetMonitorInfoExNative(IntPtr hMonitor, IntPtr mi);
 
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        public static extern bool EnumDisplaySettingsW(string? lpszDeviceName, int iModeNum, ref DEVMODEW lpDevMode);
+        public static bool GetMonitorInfoW(IntPtr hMonitor, ref MONITORINFOEXW mi)
+        {
+            IntPtr buffer = Marshal.AllocHGlobal(Marshal.SizeOf<MONITORINFOEXW>());
+            try
+            {
+                Marshal.StructureToPtr(mi, buffer, false);
+                bool result = GetMonitorInfoExNative(hMonitor, buffer);
+                mi = Marshal.PtrToStructure<MONITORINFOEXW>(buffer);
+                return result;
+            }
+            finally
+            {
+                Marshal.DestroyStructure<MONITORINFOEXW>(buffer);
+                Marshal.FreeHGlobal(buffer);
+            }
+        }
+
+        [LibraryImport("user32.dll", StringMarshalling = StringMarshalling.Utf16, EntryPoint = "EnumDisplaySettingsW")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool EnumDisplaySettingsNative(string? lpszDeviceName, int iModeNum, IntPtr lpDevMode);
+
+        public static bool EnumDisplaySettingsW(string? lpszDeviceName, int iModeNum, ref DEVMODEW lpDevMode)
+        {
+            IntPtr buffer = Marshal.AllocHGlobal(Marshal.SizeOf<DEVMODEW>());
+            try
+            {
+                Marshal.StructureToPtr(lpDevMode, buffer, false);
+                bool result = EnumDisplaySettingsNative(lpszDeviceName, iModeNum, buffer);
+                lpDevMode = Marshal.PtrToStructure<DEVMODEW>(buffer);
+                return result;
+            }
+            finally
+            {
+                Marshal.DestroyStructure<DEVMODEW>(buffer);
+                Marshal.FreeHGlobal(buffer);
+            }
+        }
     }
 }

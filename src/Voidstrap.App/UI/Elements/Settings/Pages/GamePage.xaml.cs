@@ -56,7 +56,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             try
             {
                 string uri = $"roblox://experiences/start?placeId={_placeId}";
-                string voidstrapPath = Paths.Process;
+                string voidstrapPath = Paths.LaunchExecutable;
 
                 Process.Start(new ProcessStartInfo
                 {
@@ -232,8 +232,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 if (string.IsNullOrEmpty(imageUrl))
                     return;
 
-				var bmp = await Voidstrap.Utility.GradientWebsite.LoadBannerImageAsync(imageUrl, token).ConfigureAwait(false)
-					?? await Voidstrap.Utility.AppImage.LoadAsync(imageUrl, 960, token).ConfigureAwait(false);
+				var bmp = await Voidstrap.Utility.AppImage.LoadAsync(imageUrl, 960, token).ConfigureAwait(false);
 				if (bmp == null)
 					return;
 				token.ThrowIfCancellationRequested();
@@ -253,7 +252,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         }
 
         private static string Truncate(string text, int max)
-            => text.Length <= max ? text : text.Substring(0, max - 1) + "…";
+            => text.Length <= max ? text : string.Concat(text.AsSpan(0, max - 1), "…");
 
         private static string FormatCount(long count)
         {

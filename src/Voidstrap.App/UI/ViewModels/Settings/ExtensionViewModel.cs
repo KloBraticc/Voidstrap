@@ -38,7 +38,9 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         private static string apiDumpDir => Paths.ApiDumpTool;
 
         private static readonly SemaphoreSlim _gate = new SemaphoreSlim(1, 1);
-        private static CancellationTokenSource _activeCts;
+        private static CancellationTokenSource? _activeCts;
+        private static readonly object CancelSync = new();
+        private static readonly HashSet<Action> CancelActions = [];
         private string _selectedExtensionType = TypeAll;
 
         private int _fleasionRev;
@@ -49,8 +51,64 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         public event Action<string, double, bool> OnProgressChanged;
 
+        public static event Action<string, double, bool>? AnyProgressChanged;
+
+        public static void ReportProgress(string title, double fraction, bool show)
+        {
+            AnyProgressChanged?.Invoke(title, fraction, show);
+        }
+
+        public static void CancelActiveDownload()
+        {
+            _userCancel = true;
+            try
+            {
+                _activeCts?.Cancel();
+            }
+            catch
+            {
+            }
+            Action[] actions;
+            lock (CancelSync)
+            {
+                actions = CancelActions.ToArray();
+            }
+            foreach (Action action in actions)
+            {
+                try
+                {
+                    action();
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        public static void RegisterCancelAction(Action action)
+        {
+            lock (CancelSync)
+            {
+                CancelActions.Add(action);
+            }
+        }
+
+        public static void UnregisterCancelAction(Action action)
+        {
+            lock (CancelSync)
+            {
+                CancelActions.Remove(action);
+            }
+        }
+
+        private void RelayProgress(string title, double fraction, bool show)
+        {
+            AnyProgressChanged?.Invoke(title, fraction, show);
+        }
+
         public ExtensionViewModel()
         {
+            OnProgressChanged += RelayProgress;
             if (App.Settings.Prop.Fleasion)
             {
                 string exePath = Path.Combine(fleasionDir, "Fleasion.exe");
@@ -151,7 +209,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 if (q.Length > 0)
                 {
                     if (q.Length > 40)
-                        q = q.Substring(0, 40) + "...";
+                        q = string.Concat(q.AsSpan(0, 40), "...");
                     return "No results for \"" + q + "\"";
                 }
                 return "Nothing to show here";
@@ -718,7 +776,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             }
         }
 
-        private (CancellationTokenSource Cts, CancellationToken Token) BeginOperation()
+        private static (CancellationTokenSource Cts, CancellationToken Token) BeginOperation()
         {
             _userCancel = false;
             var cts = new CancellationTokenSource();
@@ -733,7 +791,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             return (cts, cts.Token);
         }
 
-        private void EndOperation(CancellationTokenSource cts)
+        private static void EndOperation(CancellationTokenSource cts)
         {
             Interlocked.CompareExchange(ref _activeCts, null, cts);
             try
@@ -773,12 +831,12 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         private async Task<bool> DownloadToFileAsync(IReadOnlyList<string> urls, string outputPath, string label, CancellationToken ct, string expectedDigest = "")
         {
-            await Voidstrap.Utility.ResilientDownload.DownloadAsync(client, urls, outputPath, MaxDownloadBytes, ct, expectedDigest,
+            await Voidstrap.Utility.ResilientDownload.DownloadAsync(client, urls, outputPath, MaxDownloadBytes, expectedDigest,
                 (read, total) =>
                 {
-                    double fraction = total is > 0 ? (double)read / total.Value : -1.0;
+                    double fraction = total is > 0 ? Math.Min((double)read / total.Value, 0.99) : -1.0;
                     OnProgressChanged?.Invoke(fraction >= 0 ? $"{label} {fraction * 100:0}%" : label, fraction, true);
-                });
+                }, ct);
             return true;
         }
 
@@ -788,13 +846,13 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             string digest = "";
             try
             {
-                using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(client, "https://api.github.com/repos/fleasion/Fleasion/releases/latest", ct));
+                using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(client, "https://api.github.com/repos/fleasion/Fleasion/releases/latest", token: ct));
                 foreach (JsonElement asset in doc.RootElement.GetProperty("assets").EnumerateArray())
                 {
                     string name = asset.GetProperty("name").GetString() ?? "";
                     if (name.Equals("Fleasion.exe", StringComparison.OrdinalIgnoreCase) || name.EndsWith("-Windows.exe", StringComparison.OrdinalIgnoreCase))
                     {
-                        string url = asset.GetProperty("browser_download_url").GetString();
+                        string? url = asset.GetProperty("browser_download_url").GetString();
                         string assetDigest = asset.TryGetProperty("digest", out JsonElement digestElement) ? digestElement.GetString() ?? "" : "";
                         if (!string.IsNullOrEmpty(url) && assetDigest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase) && assetDigest.Length == 71)
                         {
@@ -820,13 +878,13 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             string digest = ApiDumpSha256;
             try
             {
-                using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(client, "https://api.github.com/repos/MaximumADHD/Roblox-API-Dump-Tool/releases/latest", ct));
+                using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(client, "https://api.github.com/repos/MaximumADHD/Roblox-API-Dump-Tool/releases/latest", token: ct));
                 foreach (JsonElement asset in doc.RootElement.GetProperty("assets").EnumerateArray())
                 {
                     string name = asset.GetProperty("name").GetString() ?? "";
                     if (name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
                     {
-                        string url = asset.GetProperty("browser_download_url").GetString();
+                        string? url = asset.GetProperty("browser_download_url").GetString();
                         string assetDigest = asset.TryGetProperty("digest", out JsonElement digestElement) ? digestElement.GetString() ?? "" : "";
                         if (!string.IsNullOrEmpty(url) && assetDigest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase) && assetDigest.Length == 71)
                         {
@@ -920,6 +978,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
                     OnProgressChanged?.Invoke("Preparing community content", -1.0, true);
                     SafeDelete(tempZip);
+                    SafeDelete(tempZip + ".part");
                     SafeDeleteDir(tempDir);
 
                     var urls = new[]
@@ -933,11 +992,14 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
                     ct.ThrowIfCancellationRequested();
                     OnProgressChanged?.Invoke("Installing community content", -1.0, true);
-                    Voidstrap.Utility.SafeZipExtractor.ExtractToDirectory(tempZip, tempDir, maxExpandedBytes: 2147483648L);
+                    await Task.Run(() => Voidstrap.Utility.SafeZipExtractor.ExtractToDirectory(tempZip, tempDir, maxExpandedBytes: 2147483648L, token: ct), ct);
                     string extracted = Directory.GetDirectories(tempDir).FirstOrDefault() ?? tempDir;
 
-                    CopyMerge(Path.Combine(extracted, "data"), Path.Combine(ClassicClients.Root, "data"));
-                    CopyMerge(Path.Combine(extracted, "maps"), Path.Combine(ClassicClients.Root, "maps"));
+                    await Task.Run(() =>
+                    {
+                        CopyMerge(Path.Combine(extracted, "data"), Path.Combine(ClassicClients.Root, "data"), ct);
+                        CopyMerge(Path.Combine(extracted, "maps"), Path.Combine(ClassicClients.Root, "maps"), ct);
+                    }, ct);
 
                     OnProgressChanged?.Invoke("Community content updated", 1.0, true);
                     await Task.Delay(700, ct);
@@ -959,6 +1021,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             finally
             {
                 SafeDelete(tempZip);
+                SafeDelete(tempZip + ".part");
                 SafeDeleteDir(tempDir);
                 OnProgressChanged?.Invoke("", -1.0, false);
                 EndOperation(cts);
@@ -1056,24 +1119,27 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             }
         }
 
-        private static void CopyMerge(string source, string target)
+        private static void CopyMerge(string source, string target, CancellationToken token)
         {
             if (!Directory.Exists(source))
                 return;
             Directory.CreateDirectory(target);
             foreach (string file in Directory.GetFiles(source))
             {
+                token.ThrowIfCancellationRequested();
                 string ext = Path.GetExtension(file).ToLowerInvariant();
                 if (ext == ".dll" || ext == ".md" || ext == ".ps1" || ext == ".gitignore")
                     continue;
                 File.Copy(file, Path.Combine(target, Path.GetFileName(file)), true);
+                token.ThrowIfCancellationRequested();
             }
             foreach (string dir in Directory.GetDirectories(source))
             {
+                token.ThrowIfCancellationRequested();
                 string name = Path.GetFileName(dir);
-                if (name.StartsWith("."))
+                if (name.StartsWith('.'))
                     continue;
-                CopyMerge(dir, Path.Combine(target, name));
+                CopyMerge(dir, Path.Combine(target, name), token);
             }
         }
 

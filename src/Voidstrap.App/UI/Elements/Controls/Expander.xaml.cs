@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Markup;
+using System.Windows.Threading;
 using Wpf.Ui.Common;
 
 namespace Voidstrap.UI.Elements.Controls;
@@ -51,7 +53,7 @@ public partial class Expander : UserControl{
 		}
 		set
 		{
-			((DependencyObject)this).SetValue(HeaderTextProperty, (object)value);
+			((DependencyObject)this).SetValue(HeaderIconProperty, (object)value);
 		}
 	}
 
@@ -70,5 +72,36 @@ public partial class Expander : UserControl{
 	public Expander()
 	{
 		InitializeComponent();
+		Loaded += OnExpanderLoaded;
+	}
+
+	protected override void OnInitialized(EventArgs e)
+	{
+		base.OnInitialized(e);
+		QueueStableLinuxChevron();
+	}
+
+	private void OnExpanderLoaded(object sender, RoutedEventArgs e)
+	{
+		Loaded -= OnExpanderLoaded;
+		QueueStableLinuxChevron();
+	}
+
+	private void QueueStableLinuxChevron()
+	{
+		if (OperatingSystem.IsLinux() && !Wpf.Ui.Controls.ExpanderMotion.GetUseLinuxAnimationClock(this))
+		{
+			Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(ApplyStableLinuxChevron));
+		}
+	}
+
+	private void ApplyStableLinuxChevron()
+	{
+		RootExpander.ApplyTemplate();
+		if (RootExpander.Template.FindName("ExpanderToggleButton", RootExpander) is ToggleButton toggle
+			&& Resources["StableLinuxExpanderToggleButtonStyle"] is ControlTemplate template)
+		{
+			toggle.Template = template;
+		}
 	}
 }

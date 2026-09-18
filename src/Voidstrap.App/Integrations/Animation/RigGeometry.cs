@@ -22,7 +22,7 @@ public static class RigGeometry
 		try
 		{
 			var bitmapImage = Voidstrap.Utility.SafeImaging.FromUri(new Uri("pack://application:,,,/Resources/RobloxFace.png"));
-			if (((Freezable)bitmapImage).CanFreeze)
+			if (bitmapImage != null && bitmapImage.CanFreeze)
 			{
 				((Freezable)bitmapImage).Freeze();
 			}
@@ -55,7 +55,7 @@ public static class RigGeometry
 		{
 			return geometryModel3D;
 		}
-		ImageSource imageSource = FaceTexture();
+		ImageSource? imageSource = FaceTexture();
 		if (imageSource == null)
 		{
 			return geometryModel3D;

@@ -131,7 +131,7 @@ namespace Voidstrap.Integrations.AntiAliasing
                 }
                 CreateComposition();
                 CreatePipeline();
-                AntiAliasingInterop.timeBeginPeriod(1);
+                _ = AntiAliasingInterop.timeBeginPeriod(1);
                 _timerRaised = true;
                 _captureFailures = 0;
                 _stableCaptureFrames = 0;
@@ -744,14 +744,14 @@ namespace Voidstrap.Integrations.AntiAliasing
             }
         }
 
-        private static readonly ID3D11ShaderResourceView?[] _nullSrvs = new ID3D11ShaderResourceView?[2];
+        private static readonly ID3D11ShaderResourceView[] _nullSrvs = new ID3D11ShaderResourceView[2];
 
         private void DrawPass(ID3D11PixelShader ps, ID3D11RenderTargetView target, ID3D11ShaderResourceView? t0, ID3D11ShaderResourceView? t1 = null)
         {
             _context!.PSSetShaderResources(0, _nullSrvs);
             _context.OMSetRenderTargets(target);
             _context.PSSetShader(ps);
-            _context.PSSetShaderResource(0, t0);
+            _context.PSSetShaderResource(0, t0!);
             if (t1 != null) _context.PSSetShaderResource(1, t1);
             _context.Draw(3, 0);
         }
@@ -957,7 +957,7 @@ namespace Voidstrap.Integrations.AntiAliasing
             {
                 if (_timerRaised)
 				{
-                    AntiAliasingInterop.timeEndPeriod(1);
+                    _ = AntiAliasingInterop.timeEndPeriod(1);
 					_timerRaised = false;
 				}
 				_context?.ClearState();

@@ -10,7 +10,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
         private const int MinimumVersion = 1;
 
-        private static readonly string[] RootNames = { "VoidstrapCustomBootstrapper", "BloxstrapCustomBootstrapper" };
+        private static readonly string[] RootNames = { "VoidstrapCustomBootstrapper", "BloxstrapCustomBootstrapper", "FishstrapCustomBootstrapper" };
 
         private class DummyFrameworkElement : FrameworkElement { }
 
@@ -29,6 +29,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         {
             ["BloxstrapCustomBootstrapper"] = HandleXmlElement_BloxstrapCustomBootstrapper_Fake,
             ["VoidstrapCustomBootstrapper"] = HandleXmlElement_BloxstrapCustomBootstrapper_Fake,
+            ["FishstrapCustomBootstrapper"] = HandleXmlElement_BloxstrapCustomBootstrapper_Fake,
             ["TitleBar"] = HandleXmlElement_TitleBar,
             ["Button"] = HandleXmlElement_Button,
             ["ProgressBar"] = HandleXmlElement_ProgressBar,
@@ -112,7 +113,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             string rootName = xml.Name.LocalName;
 
             if (!RootNames.Contains(rootName))
-                throw new CustomThemeException("CustomTheme.Errors.InvalidRoot", RootNames[0]);
+                throw new CustomThemeException("CustomTheme.Errors.InvalidRoot", string.Join(" or ", RootNames));
 
             AssertThemeVersion(xml.Attribute("Version")?.Value, rootName);
 
@@ -150,7 +151,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         #region Public APIs
         public void ApplyCustomTheme(string name, string contents)
         {
-            ThemeDir = System.IO.Path.Combine(Paths.CustomThemes, name);
+            ThemeDir = Voidstrap.Utility.CaseInsensitivePath.Resolve(System.IO.Path.Combine(Paths.CustomThemes, name));
 
             XElement xml;
 
@@ -175,7 +176,8 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
         public void ApplyCustomTheme(string name)
         {
-            string path = System.IO.Path.Combine(Paths.CustomThemes, name, "Theme.xml");
+            string path = Voidstrap.Utility.CaseInsensitivePath.Resolve(
+                System.IO.Path.Combine(Paths.CustomThemes, name, "Theme.xml"));
 
             ApplyCustomTheme(name, File.ReadAllText(path));
         }

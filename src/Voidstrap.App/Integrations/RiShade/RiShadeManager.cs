@@ -20,7 +20,10 @@ namespace Voidstrap.Integrations.RiShade
             RiShadeSettings.Load();
             App.Logger.WriteLine("RiShade", "Installed, enabled setting is " + App.Settings.Prop.RiShadeEnabled);
             if (App.Settings.Prop.RiShadeEnabled)
+            {
                 StartSettingsWatcher();
+                RiShadeShaderCache.WarmInBackground();
+            }
             OverlayHub.Refresh();
         }
 
@@ -95,7 +98,10 @@ namespace Voidstrap.Integrations.RiShade
             App.Settings.SaveDeferred();
             App.Logger.WriteLine("RiShade", enabled ? "Enabled by user" : "Disabled by user");
             if (enabled)
+            {
                 StartSettingsWatcher();
+                RiShadeShaderCache.WarmInBackground();
+            }
             else
                 StopSettingsWatcher();
             OverlayHub.Refresh();
@@ -135,7 +141,7 @@ namespace Voidstrap.Integrations.RiShade
         {
 			_installed = false;
             OverlayHub.Shutdown();
-            RiShadeDepth.Shutdown();
+            RiShadeDepth.Shutdown(wait: true);
             StopSettingsWatcher();
         }
     }

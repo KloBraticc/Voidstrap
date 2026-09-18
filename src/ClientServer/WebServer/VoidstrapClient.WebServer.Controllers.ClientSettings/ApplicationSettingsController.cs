@@ -17,7 +17,7 @@ public class ApplicationSettingsController : ControllerBase
 	[HttpGet("v1/settings/application")]
 	[HttpGet("v2/settings/application")]
 	[HttpGet("v1/settings/application/{applicationName}")]
-	public IActionResult Application([FromQuery] string? applicationName = null)
+	public IActionResult Application(string? applicationName = null)
 	{
 		string flags = ((!System.IO.File.Exists(ClientPaths.Flags)) ? "{}" : Config.ReadTextFile(ClientPaths.Flags, 4194304));
 		string json = "{\"applicationSettings\":" + flags + "}";

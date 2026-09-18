@@ -1,0 +1,23 @@
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.MorePage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="More" Scrollable="True">
+  <StackPanel Margin="0,0,14,14">
+    <TextBlock Margin="0,0,0,12" FontSize="14" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Extra pages grouped under More in the sidebar." />
+    <ui:CardAction Icon="GlobeLocation20" Margin="0,0,0,8" Click="OpenGlobal_Click">
+      <StackPanel>
+        <TextBlock FontSize="14" Text="Global" />
+        <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Edit Roblox's own in game settings." />
+      </StackPanel>
+    </ui:CardAction>
+    <ui:CardAction Icon="Apps24" Margin="0,0,0,8" Click="OpenShortcuts_Click">
+      <StackPanel>
+        <TextBlock FontSize="14" Text="{x:Static resources:Strings.Common_Shortcuts}" />
+        <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_Shortcuts_Description}" />
+      </StackPanel>
+    </ui:CardAction>
+    <ui:CardAction Icon="News20" Margin="0,0,0,8" Click="OpenNews_Click">
+      <StackPanel>
+        <TextBlock FontSize="14" Text="News" />
+        <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Read Voidstrap news, updates and forum posts." />
+      </StackPanel>
+    </ui:CardAction>
+  </StackPanel>
+</ui:UiPage>

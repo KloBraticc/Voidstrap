@@ -81,6 +81,24 @@ internal static class IconFontLoader
 		}
 	}
 
+	public static System.Windows.Media.FontFamily? Resolve(string familyName)
+	{
+		try
+		{
+			string directory = Path.Combine(Paths.Temp, "Fonts");
+			if (!Directory.Exists(directory))
+				return null;
+
+			return new System.Windows.Media.FontFamily(
+				new Uri(directory + Path.DirectorySeparatorChar),
+				"./#" + familyName);
+		}
+		catch (Exception)
+		{
+			return null;
+		}
+	}
+
 	public static bool HasGlyphs(System.Windows.Media.FontFamily family)
 	{
 		try

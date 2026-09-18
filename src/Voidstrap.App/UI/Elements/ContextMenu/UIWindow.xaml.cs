@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,19 +13,18 @@ using Voidstrap.Integrations.Overlays;
 
 namespace Voidstrap.UI.Elements.Overlay
 {
-    public class OverlayWindow : Window, INotifyPropertyChanged
+    public partial class OverlayWindow : Window, INotifyPropertyChanged
     {
-        private TextBlock _pingTextBlock;
-        private TextBlock _locationTextBlock;
-        private TextBlock _timeTextBlock;
+        private TextBlock _locationTextBlock = null!;
+        private TextBlock _timeTextBlock = null!;
 		private readonly StackPanel _readoutPanel;
+		private readonly Border _readoutBorder;
 
         private readonly DispatcherTimer _updateTimer;
         private readonly RobloxOverlayAnchor _anchor;
 		private readonly ActivityWatcher? _activityWatcher;
 		private readonly CancellationTokenSource _lifetimeCts = new();
 
-        private readonly bool _showPing = App.Settings.Prop.ServerPingCounter;
         private readonly bool _showTime = App.Settings.Prop.CurrentTimeDisplay;
         private readonly bool _showLocation = App.Settings.Prop.ShowServerDetailsUI;
 		private readonly bool _fullSurface;
@@ -46,8 +44,8 @@ namespace Voidstrap.UI.Elements.Overlay
         private double _lastCbSeverity = App.Settings.Prop.ColorBlindnessSeverity;
         private bool _lastCbSimulate = App.Settings.Prop.ColorBlindnessSimulate;
 
-        private string _serverIp;
-        private string _lastServerIp;
+        private string _serverIp = null!;
+        private string _lastServerIp = null!;
         private bool _locationFetching;
 		private string _serverLocation = "Location: unavailable";
         private int _networkUpdating;
@@ -55,15 +53,13 @@ namespace Voidstrap.UI.Elements.Overlay
         private bool _disposed;
 		private string _lastTimeText = string.Empty;
 
-        private static readonly Ping Ping = new Ping();
 
         public static bool SurfaceRequired
         {
             get
             {
                 var settings = App.Settings.Prop;
-                return settings.ServerPingCounter
-                    || settings.CurrentTimeDisplay
+                return settings.CurrentTimeDisplay
                     || settings.ShowServerDetailsUI
                     || Math.Abs(settings.Brightness - DefaultBrightness) > 0.01;
             }
@@ -74,7 +70,6 @@ namespace Voidstrap.UI.Elements.Overlay
 			var settings = App.Settings.Prop;
 			bool fullSurface = Math.Abs(settings.Brightness - DefaultBrightness) > 0.01;
 			return settings.OverlaysEnabled
-				&& _showPing == settings.ServerPingCounter
 				&& _showTime == settings.CurrentTimeDisplay
 				&& _showLocation == settings.ShowServerDetailsUI
 				&& _fullSurface == fullSurface;
@@ -83,6 +78,8 @@ namespace Voidstrap.UI.Elements.Overlay
         public OverlayWindow(ActivityWatcher? activityWatcher = null)
         {
 			_activityWatcher = activityWatcher;
+			_fullSurface = Math.Abs(_brightness - DefaultBrightness) > 0.01;
+            Title = "Voidstrap Overlay";
             AllowsTransparency = true;
             Background = Brushes.Transparent;
             WindowStyle = WindowStyle.None;
@@ -114,7 +111,7 @@ namespace Voidstrap.UI.Elements.Overlay
 				Margin = new Thickness(0)
             };
 
-            var readout = new Border
+			_readoutBorder = new Border
             {
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Top,
@@ -126,13 +123,6 @@ namespace Voidstrap.UI.Elements.Overlay
 				BorderThickness = new Thickness(1),
 				Child = _readoutPanel
             };
-
-            if (_showPing)
-            {
-                _pingTextBlock = CreateTextBlock(Brushes.LightSkyBlue);
-				_pingTextBlock.Text = "Ping: unavailable";
-				_readoutPanel.Children.Add(_pingTextBlock);
-            }
 
             if (_showLocation)
             {
@@ -149,8 +139,18 @@ namespace Voidstrap.UI.Elements.Overlay
 				_readoutPanel.Children.Add(_timeTextBlock);
             }
 
-            if (_showPing || _showLocation || _showTime)
-                root.Children.Add(readout);
+			if (Voidstrap.Utility.Platform.IsLinux && !_fullSurface)
+			{
+				SizeToContent = SizeToContent.WidthAndHeight;
+				MaxWidth = 360;
+				_readoutBorder.HorizontalAlignment = HorizontalAlignment.Stretch;
+				_readoutBorder.VerticalAlignment = VerticalAlignment.Stretch;
+				_readoutBorder.MaxWidth = 360;
+				_readoutBorder.Background = new SolidColorBrush(Color.FromRgb(12, 13, 16));
+			}
+
+			if (_showLocation || _showTime)
+				root.Children.Add(_readoutBorder);
             Content = root;
 
             _updateTimer = new DispatcherTimer
@@ -159,22 +159,28 @@ namespace Voidstrap.UI.Elements.Overlay
             };
             _updateTimer.Tick += OnUpdateTimerTick;
 
-			_fullSurface = Math.Abs(_brightness - DefaultBrightness) > 0.01;
 			if (!_fullSurface)
             {
-				Width = 360;
-				Height = 18 + new[] { _showPing, _showLocation, _showTime }.Count(value => value) * 25;
+				if (!Voidstrap.Utility.Platform.IsLinux)
+				{
+					Width = 360;
+					Height = 18 + new[] { _showLocation, _showTime }.Count(value => value) * 25;
+				}
             }
 			_anchor = new RobloxOverlayAnchor(this, placement: _fullSurface ? RobloxOverlayPlacement.Fill : RobloxOverlayPlacement.TopRight);
 
-            Loaded += OnOverlayLoaded;
+			Loaded += OnOverlayLoaded;
+			SizeChanged += OnOverlaySizeChanged;
 			IsVisibleChanged += OnOverlayVisibilityChanged;
             Closed += OnUIWindowClosed;
         }
 
         private void OnOverlayLoaded(object? sender, RoutedEventArgs e)
         {
-            MakeClickThrough();
+			if (Voidstrap.Utility.Platform.IsLinux && !_fullSurface)
+				Voidstrap.Integrations.Overlays.LinuxOverlaySurface.MakeClickThrough(this, 8);
+			else
+				MakeClickThrough();
             ApplyBrightness();
             ApplyColorEffects();
 			UpdateActiveState(IsVisible);
@@ -183,6 +189,15 @@ namespace Voidstrap.UI.Elements.Overlay
 		private void OnOverlayVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
 			UpdateActiveState(e.NewValue is true);
+		}
+
+		private void OnOverlaySizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			if (Voidstrap.Utility.Platform.IsLinux && !_fullSurface)
+			{
+				_anchor.Refresh();
+				Voidstrap.Integrations.Overlays.LinuxOverlaySurface.ApplyRoundedShape(this, 8);
+			}
 		}
 
 		private void UpdateActiveState(bool active)
@@ -204,9 +219,10 @@ namespace Voidstrap.UI.Elements.Overlay
                 return;
             try
             {
+                Voidstrap.Integrations.Overlays.LinuxOverlaySurface.KeepAbove(this);
                 UpdateEffects();
                 UpdateReadouts();
-                if ((_showPing || _showLocation) && _networkUpdateCountdown-- <= 0)
+                if (_showLocation && _networkUpdateCountdown-- <= 0)
                 {
                     _networkUpdateCountdown = 3;
                     _ = UpdateNetworkStatsGuardedAsync();
@@ -250,6 +266,7 @@ namespace Voidstrap.UI.Elements.Overlay
             _anchor.Dispose();
 			_lifetimeCts.Dispose();
             Loaded -= OnOverlayLoaded;
+			SizeChanged -= OnOverlaySizeChanged;
 			IsVisibleChanged -= OnOverlayVisibilityChanged;
             Closed -= OnUIWindowClosed;
             if (Application.Current?.Resources["OverlayWindow"] is OverlayWindow overlay && ReferenceEquals(overlay, this))
@@ -303,7 +320,7 @@ namespace Voidstrap.UI.Elements.Overlay
             }
         }
 
-        private void ApplyColorEffects()
+        private static void ApplyColorEffects()
         {
             Voidstrap.Utility.ScreenColorEffect.ApplyConfigured();
         }
@@ -379,7 +396,7 @@ namespace Voidstrap.UI.Elements.Overlay
             if (_disposed)
                 return;
 
-            if (!_showPing && !_showLocation)
+            if (!_showLocation)
                 return;
 
 			string activityIp = _activityWatcher?.Data?.MachineAddressValid == true ? _activityWatcher.Data.MachineAddress : "";
@@ -388,32 +405,26 @@ namespace Voidstrap.UI.Elements.Overlay
 				_serverIp = activityIp;
 			}
 
-            if (string.IsNullOrEmpty(_serverIp))
+			string jobId = _activityWatcher?.Data?.JobId ?? string.Empty;
+			bool resolvableJob = _activityWatcher?.InGame == true
+				&& _activityWatcher.Data.PlaceId > 0
+				&& !string.IsNullOrWhiteSpace(jobId);
+
+            if (string.IsNullOrEmpty(_serverIp) && !resolvableJob)
             {
-                if (_showPing)
-					_pingTextBlock.Text = "Ping: unavailable";
-                if (_showLocation)
-					_locationTextBlock.Text = "Location: unavailable";
+				_locationTextBlock.Text = "Location: unavailable";
                 return;
             }
 
-            if (_showPing)
-            {
-                int ping = await PingServerAsync(_serverIp, _lifetimeCts.Token);
-                if (_disposed)
-                    return;
-				_pingTextBlock.Text = ping > 0 ? $"Ping: {ping} ms" : "Ping: unavailable";
-            }
+			string key = string.IsNullOrEmpty(_serverIp) ? jobId : _serverIp;
 
-            if (_showLocation && !_locationFetching && _serverIp != _lastServerIp)
+            if (!_locationFetching && key != _lastServerIp)
             {
-                string serverIp = _serverIp;
-                _lastServerIp = serverIp;
+                _lastServerIp = key;
                 _locationFetching = true;
-				_locationTextBlock.Text = "Location: unavailable";
 				try
 				{
-					string location = await GetServerLocationAsync(serverIp, _lifetimeCts.Token);
+					string location = await GetServerLocationAsync(_serverIp, _lifetimeCts.Token);
 					if (_disposed)
 						return;
 					_serverLocation = location;
@@ -424,20 +435,6 @@ namespace Voidstrap.UI.Elements.Overlay
 					_locationFetching = false;
 				}
             }
-        }
-
-        private static async Task<int> PingServerAsync(string ip, CancellationToken token)
-        {
-            try
-            {
-				var reply = await Ping.SendPingAsync(ip, 1000).WaitAsync(token);
-                return reply.Status == IPStatus.Success ? (int)reply.RoundtripTime : -1;
-            }
-			catch (OperationCanceledException)
-			{
-				throw;
-			}
-            catch { return -1; }
         }
 
         private async Task<string> GetServerLocationAsync(string ip, CancellationToken token)
@@ -483,7 +480,7 @@ namespace Voidstrap.UI.Elements.Overlay
 
             var hwnd = new WindowInteropHelper(this).Handle;
             int style = GetWindowLong(hwnd, GWL_EXSTYLE);
-            SetWindowLong(hwnd, GWL_EXSTYLE, style | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
+            _ = SetWindowLong(hwnd, GWL_EXSTYLE, style | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
         }
 
         private const int GWL_EXSTYLE = -20;
@@ -491,10 +488,10 @@ namespace Voidstrap.UI.Elements.Overlay
         private const int WS_EX_TOOLWINDOW = 0x80;
         private const int WS_EX_NOACTIVATE = 0x08000000;
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")] private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-        [System.Runtime.InteropServices.DllImport("user32.dll")] private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        [System.Runtime.InteropServices.LibraryImport("user32.dll")] private static partial int GetWindowLong(IntPtr hWnd, int nIndex);
+        [System.Runtime.InteropServices.LibraryImport("user32.dll")] private static partial int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }

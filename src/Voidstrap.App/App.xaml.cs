@@ -50,7 +50,11 @@ public partial class App : Application
 
 	public const string ProjectFallbackReleaseListApi = "https://api.github.com/repos/KloBraticc/Voidstrap/releases?per_page=20";
 
-	public const string ProjectHelpLink = "https://voidstrapp.pages.dev/documentation";
+	public const string ProjectHelpLink = "https://github.com/KloBraticc/Voidstrap";
+
+	public const string ProjectDonateLink = "https://github.com/sponsors/KloBraticc";
+
+	public const string ProjectLogoUrl = "https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/src/Voidstrap.App/Voidstrap.png";
 
 	public const string ProjectSupportLink = "https://github.com/KloBraticc/Voidstrap/issues/new";
 	public const string ProjectFallbackSupportLink = ProjectFallbackRepository + "/issues/new";
@@ -64,64 +68,6 @@ public partial class App : Application
 	public const string UninstallKey = "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap";
 
 	public const string ApisKey = "Software\\Voidstrap";
-
-	// for dev testing new features I may add in the near future
-
-	public static readonly bool UseLocalWebsite = false;
-
-	public const string WebsiteProductionUrl = "https://voidstrapp.pages.dev";
-
-	public const string WebsiteLocalUrl = "http://localhost:8788";
-
-	private static long _localSiteCheckTicks = -60000;
-
-	private static bool _localSiteOnline;
-
-	private static bool IsLocalWebsiteOnline()
-	{
-		long tickCount = Environment.TickCount64;
-		long sinceCheck = tickCount - System.Threading.Interlocked.Read(ref _localSiteCheckTicks);
-		int cacheWindow = _localSiteOnline ? 30000 : 3000;
-
-		if (sinceCheck < cacheWindow)
-		{
-			return _localSiteOnline;
-		}
-
-		System.Threading.Interlocked.Exchange(ref _localSiteCheckTicks, tickCount);
-		bool wasOnline = _localSiteOnline;
-
-		try
-		{
-			Uri uri = new(WebsiteLocalUrl);
-			using System.Net.Sockets.TcpClient tcpClient = new();
-			Task connectTask = tcpClient.ConnectAsync(uri.Host, uri.Port);
-			bool finished = connectTask.Wait(1500);
-			if (!finished)
-			{
-				connectTask.ContinueWith(delegate(Task t)
-				{
-					_ = t.Exception;
-				}, TaskContinuationOptions.OnlyOnFaulted);
-			}
-			_localSiteOnline = finished && tcpClient.Connected;
-		}
-		catch
-		{
-			_localSiteOnline = false;
-		}
-
-		if (_localSiteOnline != wasOnline)
-		{
-			Logger?.WriteLine("App::IsLocalWebsiteOnline", _localSiteOnline
-				? "Local website is reachable, using " + WebsiteLocalUrl
-				: "Local website is not reachable, using " + WebsiteProductionUrl);
-		}
-
-		return _localSiteOnline;
-	}
-
-	public static string WebsiteBaseUrl => (UseLocalWebsite && IsLocalWebsiteOnline()) ? WebsiteLocalUrl : WebsiteProductionUrl;
 
 	public static readonly string RobloxCookiesFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox\\LocalStorage\\RobloxCookies.dat");
 
@@ -156,8 +102,6 @@ public partial class App : Application
 	private readonly CancellationTokenSource _lifetimeCancellation = new();
 
 	public static DiscordRpcClient? DiscordClient { get; set; }
-
-	public static bool WebsiteTakeoverActive { get; set; }
 
 	public static LaunchSettings LaunchSettings { get; private set; } = null!;
 
@@ -201,22 +145,12 @@ public partial class App : Application
 
 	public static void Terminate(ErrorCode exitCode = ErrorCode.ERROR_SUCCESS)
 	{
-		if (WebsiteTakeoverActive)
-		{
-			Logger.WriteLine("App::Terminate", "Termination blocked WebsiteTakeoverActive is true.");
-			return;
-		}
 		Logger.WriteLine("App::Terminate", $"Terminating with exit code {(int)exitCode} ({exitCode})");
 		ShutdownApplication((int)exitCode);
 	}
 
 	public static void SoftTerminate(ErrorCode exitCode = ErrorCode.ERROR_SUCCESS)
 	{
-		if (WebsiteTakeoverActive)
-		{
-			Logger.WriteLine("App::SoftTerminate", "Soft termination blocked WebsiteTakeoverActive is true.");
-			return;
-		}
 		if (LaunchSettings?.WindowAuditFlag.Active == true)
 		{
 			Logger.WriteLine("App::SoftTerminate", "Soft termination blocked, window audit is running.");
@@ -224,14 +158,48 @@ public partial class App : Application
 		}
 		int exitCodeNum = (int)exitCode;
 		Logger.WriteLine("App::SoftTerminate", $"Terminating with exit code {exitCodeNum} ({exitCode})");
+		CloseRuntimeOnExit();
 		ShutdownApplication(exitCodeNum);
 	}
 
-	public static bool RestartApplication(IReadOnlyList<string> arguments)
+	private static void CloseRuntimeOnExit()
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux)
+		{
+			return;
+		}
+
+		try
+		{
+			if (Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.TryCloseSober())
+			{
+				Logger.WriteLine("App::CloseRuntimeOnExit", "Closed the Roblox runtime alongside Voidstrap");
+			}
+		}
+		catch (Exception ex)
+		{
+			Logger.WriteLine("App::CloseRuntimeOnExit", "The Roblox runtime could not be closed: " + ex.Message);
+		}
+	}
+
+	public static bool RestartApplication(IReadOnlyList<string> arguments, bool closeRuntime = true)
 	{
 		try
 		{
-			string? executable = Environment.ProcessPath;
+			if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed)
+			{
+				List<string> flatpakArguments = ["run", Voidstrap.Platform.Linux.LinuxFlatpakHost.CurrentApplicationId];
+				flatpakArguments.AddRange(arguments);
+				using Process? flatpakProcess = Voidstrap.Platform.Linux.LinuxFlatpakHost.Start(flatpakArguments);
+				if (flatpakProcess == null)
+					return false;
+				ExitForRestart(closeRuntime);
+				return true;
+			}
+
+			string? executable = Voidstrap.Utility.Platform.IsLinux
+				? Voidstrap.Platform.Linux.LinuxAppImageHost.ResolveApplicationPath(Environment.ProcessPath ?? string.Empty)
+				: Environment.ProcessPath;
 			if (string.IsNullOrWhiteSpace(executable))
 			{
 				return false;
@@ -250,7 +218,7 @@ public partial class App : Application
 			{
 				return false;
 			}
-			SoftTerminate();
+			ExitForRestart(closeRuntime);
 			return true;
 		}
 		catch (Exception ex)
@@ -258,6 +226,44 @@ public partial class App : Application
 			Logger.WriteLine("App::RestartApplication", "Restart failed: " + ex.Message);
 			return false;
 		}
+	}
+
+	private static void ExitForRestart(bool closeRuntime)
+	{
+		if (closeRuntime)
+		{
+			SoftTerminate();
+			return;
+		}
+		Logger.WriteLine("App::RestartApplication", "Closing the current instance for the restart");
+		ShutdownApplication((int)ErrorCode.ERROR_SUCCESS);
+	}
+
+	private static void OnLinuxExitMarkRenderer(object sender, ExitEventArgs e)
+	{
+		Voidstrap.Utility.LinuxStartup.MarkRendererHealthy();
+	}
+
+	private static int _linuxRendererConfirmed;
+
+	private static void OnLinuxWindowLoaded(object sender, RoutedEventArgs e)
+	{
+		if (sender is not Window window || Volatile.Read(ref _linuxRendererConfirmed) != 0)
+		{
+			return;
+		}
+		window.ContentRendered -= OnLinuxWindowContentRendered;
+		window.ContentRendered += OnLinuxWindowContentRendered;
+	}
+
+	private static void OnLinuxWindowContentRendered(object? sender, EventArgs e)
+	{
+		if (sender is Window window)
+		{
+			window.ContentRendered -= OnLinuxWindowContentRendered;
+		}
+		Volatile.Write(ref _linuxRendererConfirmed, 1);
+		Voidstrap.Utility.LinuxStartup.MarkRendererHealthy();
 	}
 
 	private static void ShutdownApplication(int exitCodeNum)
@@ -273,6 +279,7 @@ public partial class App : Application
 		{
 			if (!application.Dispatcher.HasShutdownStarted)
 			{
+				Logger.Flush();
 				application.Shutdown(exitCodeNum);
 			}
 		}
@@ -337,8 +344,68 @@ public partial class App : Application
 		return ex is OutOfMemoryException || ex is AccessViolationException || ex is System.Runtime.InteropServices.SEHException || ex is BadImageFormatException || ex is System.Threading.ThreadAbortException;
 	}
 
+	private static bool IsExpectedLinuxCancellation(Exception ex)
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux)
+		{
+			return false;
+		}
+		if (ex is AggregateException aggregate)
+		{
+			AggregateException flattened = aggregate.Flatten();
+			return flattened.InnerExceptions.Count > 0 && flattened.InnerExceptions.All(IsExpectedLinuxCancellation);
+		}
+		if (ex is OperationCanceledException)
+		{
+			return true;
+		}
+		if (ex is IOException { InnerException: not null } io)
+		{
+			return IsExpectedLinuxCancellation(io.InnerException!);
+		}
+		if (ex is System.Net.Sockets.SocketException socket)
+		{
+			return socket.SocketErrorCode is System.Net.Sockets.SocketError.OperationAborted or System.Net.Sockets.SocketError.Interrupted
+				|| socket.NativeErrorCode == 125;
+		}
+		return false;
+	}
+
 	private void OnUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
 	{
+		if (IsExpectedLinuxCancellation(e.Exception))
+		{
+			e.SetObserved();
+			return;
+		}
+		try
+		{
+			AggregateException flat = e.Exception.Flatten();
+			foreach (Exception inner in flat.InnerExceptions)
+			{
+				Exception? cur = inner;
+				while (cur != null)
+				{
+					if (cur is ArgumentException arg && arg.Message.Contains("Hwnd of zero", StringComparison.OrdinalIgnoreCase))
+					{
+						e.SetObserved();
+						return;
+					}
+					if (cur.Message.Contains("Hwnd of zero", StringComparison.OrdinalIgnoreCase))
+					{
+						e.SetObserved();
+						return;
+					}
+					if (cur.StackTrace != null && cur.StackTrace.Contains("WpfTap", StringComparison.OrdinalIgnoreCase) && cur.StackTrace.Contains("HitTestHelper", StringComparison.OrdinalIgnoreCase))
+					{
+						e.SetObserved();
+						return;
+					}
+					cur = cur.InnerException;
+				}
+			}
+		}
+		catch { }
 		try
 		{
 			Logger.WriteException("App::UnobservedTaskException", e.Exception);
@@ -357,6 +424,10 @@ public partial class App : Application
 			if (e.ExceptionObject is Exception ex)
 			{
 				Logger.WriteException("App::DomainUnhandledException", ex);
+				if (e.IsTerminating)
+				{
+					Voidstrap.Utility.AppNotifications.RecordCrash("App::DomainUnhandledException", ex);
+				}
 			}
 			else
 			{
@@ -390,6 +461,7 @@ public partial class App : Application
 		{
 			Logger.WriteException("App::FinalizeExceptionHandling", ex);
 		}
+		Voidstrap.Utility.AppNotifications.RecordCrash("App::FinalizeExceptionHandling", ex);
 		Logger.Flush();
 		if (Interlocked.Exchange(ref _showingExceptionDialog, 1) != 0)
 		{
@@ -450,7 +522,7 @@ public partial class App : Application
 				}
 				Logger.WriteLine("App::GetLatestRelease", "Prerelease lookup found nothing, falling back to the stable release");
 			}
-			GithubRelease githubRelease = await GitHubCache.GetJsonWithFallbackAsync<GithubRelease>(ProjectReleaseApi, ProjectFallbackReleaseApi, ReleaseCacheAge(forceRefresh));
+			GithubRelease? githubRelease = await GitHubCache.GetJsonWithFallbackAsync<GithubRelease>(ProjectReleaseApi, ProjectFallbackReleaseApi, ReleaseCacheAge(forceRefresh));
 			if (githubRelease == null || githubRelease.Assets == null)
 			{
 				Logger.WriteLine("App::GetLatestRelease", "Encountered invalid data");
@@ -611,9 +683,17 @@ public partial class App : Application
 		return sb.ToString();
 	}
 
+	private const int NativeRuntimeMissingExitCode = 78;
+
 	protected override async void OnStartup(StartupEventArgs e)
 	{
 		RegisterExceptionHandlers();
+		if (!Voidstrap.Utility.LinuxRuntimePreflight.Verify())
+		{
+			Shutdown(NativeRuntimeMissingExitCode);
+			return;
+		}
+
 		try
 		{
 			VpnHttpClient.Initialize();
@@ -631,11 +711,33 @@ public partial class App : Application
 		TryStartup("Focus style", DisableFocusVisuals);
 		TryStartup("Portable popups", EmbedPortablePopups);
 		TryStartup("Portable tooltips", DisablePortableToolTips);
-		TryStartup("Emoji renderer", Voidstrap.UI.EmojiTextRenderer.Install);
 		TryStartup("Locale", Locale.Initialize);
 		TryStartup("Icon font", Voidstrap.Utility.IconFontLoader.Install);
 		TryStartup("Rounded window chrome", Voidstrap.UI.RoundedWindowChrome.Install);
+		TryStartup("Text guard", Voidstrap.UI.LinuxTextGuard.Install);
+		TryStartup("Hyperlink routing", Voidstrap.UI.LinuxInlineText.Install);
+		TryStartup("Dropdown lifecycle", Voidstrap.UI.LinuxComboBoxGuard.Install);
+		TryStartup("Grid scrolling", Voidstrap.UI.LinuxDataGridScroll.Install);
+		TryStartup("Image guard", Voidstrap.Utility.DynamicRenderSystem.InstallLinuxImageGuard);
 		TryStartup("Progress bar motion", Voidstrap.UI.SmoothProgress.Install);
+		if (OperatingSystem.IsLinux())
+		{
+			base.Exit += OnLinuxExitMarkRenderer;
+			Voidstrap.Utility.LinuxStartup.BeginRendererProbe();
+			EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnLinuxWindowLoaded));
+			_ = Task.Run(async delegate
+			{
+				try
+				{
+					await Task.Delay(TimeSpan.FromSeconds(8.0), _lifetimeCancellation.Token).ConfigureAwait(false);
+				}
+				catch (OperationCanceledException)
+				{
+					return;
+				}
+				Voidstrap.Utility.LinuxStartup.MarkRendererHealthy();
+			});
+		}
 
 		LaunchSettings = new LaunchSettings(args);
 		if (LaunchSettings.DeferredCleanupFlag.Active)
@@ -662,7 +764,7 @@ public partial class App : Application
 			RunFactoryReset(LaunchSettings.FactoryResetFlag.Data);
 			return;
 		}
-		bool headlessLaunch = LaunchSettings.NvApplyFlag.Active || LaunchSettings.WindowAuditFlag.Active;
+		bool headlessLaunch = LaunchSettings.NvApplyFlag.Active || LaunchSettings.WindowAuditFlag.Active || LaunchSettings.TelemetryBlockFlag.Active;
 		bool portableLinux = Voidstrap.Utility.Platform.IsLinux;
 		string? installLocation;
 		if (portableLinux)
@@ -708,6 +810,14 @@ public partial class App : Application
 			LaunchInstaller();
 			return;
 		}
+		if (portableLinux
+			&& !headlessLaunch
+			&& !LaunchSettings.WatcherFlag.Active
+			&& !File.Exists(App.Settings.FileLocation))
+		{
+			LaunchInstaller();
+			return;
+		}
 
 		if (!portableLinux)
 		{
@@ -725,12 +835,16 @@ public partial class App : Application
 			Terminate();
 			return;
 		}
-		LogResolvedPaths();
-		if (LaunchSettings.NvApplyFlag.Active)
+		if (LaunchSettings.NvApplyFlag.Active || LaunchSettings.TelemetryBlockFlag.Active)
 		{
 			LaunchHandler.ProcessLaunchArgs();
 			return;
 		}
+		if (!LaunchSettings.WatcherFlag.Active && !headlessLaunch)
+		{
+			LaunchHandler.CloseOtherInstances();
+		}
+		LogResolvedPaths();
 
 		if (Paths.LegacyLayoutReset && !headlessLaunch && !LaunchSettings.QuietFlag.Active && !LaunchSettings.UninstallFlag.Active && !LaunchSettings.WatcherFlag.Active)
 		{
@@ -745,9 +859,12 @@ public partial class App : Application
 		if (!portableLinux)
 		{
 			TryStartup("Cloud folder handling", PrepareCloudSyncedInstall);
-			TryStartup("Install location repair", () => InstallLocationResolver.Repair(Paths.Base));
 		}
 		LoadPersistentState();
+		if (!portableLinux)
+		{
+			TryStartup("Install location repair", () => InstallLocationResolver.Repair(Paths.Base));
+		}
 		TryStartup("Render acceleration", Voidstrap.Utility.RenderAcceleration.ApplyProcess);
 		TryStartup("Roblox app storage", () => Voidstrap.Integrations.RobloxAppStorage.Apply());
 		TryStartup("Roblox global settings repair", () => GlobalSettings.RepairFile());
@@ -764,6 +881,12 @@ public partial class App : Application
 		}
 		if (LaunchSettings.WatcherFlag.Active)
 		{
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				TryStartup("Linux animation parity", LinuxAnimationParity.Apply);
+			TryStartup("Linux screen metrics", LinuxScreenMetrics.Apply);
+			TryStartup("Linux window state", LinuxWindowState.Install);
+			}
 			InitializeWatcherServices();
 			InitializeLanguage();
 			LaunchHandler.ProcessLaunchArgs();
@@ -784,30 +907,16 @@ public partial class App : Application
 				Logger.WriteException("App::OnStartup::Upgrade", ex);
 			}
 		}
-		TryStartup("API registration", WindowsRegistry.RegisterApis);
-		TryStartup("Theme protocol registration", WindowsRegistry.RegisterVoidstrap);
-		StartInstalledThemeUpdates();
-		LaunchHandler.ProcessLaunchArgs();
-	}
-
-	private static void StartInstalledThemeUpdates()
-	{
-		if (LaunchSettings.QuietFlag.Active || LaunchSettings.UninstallFlag.Active || LaunchSettings.WatcherFlag.Active)
+		if (Voidstrap.Utility.Platform.IsLinux
+			&& !Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed
+			&& !headlessLaunch
+			&& !LaunchSettings.UninstallFlag.Active)
 		{
-			return;
+			TryStartup("Linux desktop integration", () => Voidstrap.Utility.LinuxDesktopEntry.EnsureInstalled(Paths.Application));
 		}
-
-		_ = Task.Run(async delegate
-		{
-			try
-			{
-				await Voidstrap.Integrations.BootstrapperThemes.UpdateInstalledThemesAsync().ConfigureAwait(false);
-			}
-			catch (Exception ex)
-			{
-				Logger.WriteLine("App::StartInstalledThemeUpdates", "Could not check installed themes: " + ex.Message);
-			}
-		});
+		TryStartup("API registration", WindowsRegistry.RegisterApis);
+		TryStartup("Theme protocol cleanup", () => WindowsRegistry.Unregister("voidstrap"));
+		LaunchHandler.ProcessLaunchArgs();
 	}
 
 	private void RegisterExceptionHandlers()
@@ -1002,14 +1111,27 @@ public partial class App : Application
 
 		try
 		{
-			string? installLocation = InstallLocationResolver.Resolve() ?? Path.GetDirectoryName(Paths.Process);
-			if (string.IsNullOrWhiteSpace(installLocation))
+			if (Voidstrap.Utility.Platform.IsLinux)
 			{
-				LaunchInstaller();
-				return;
+				Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
+				string? applicationPath = Environment.ProcessPath;
+				if (host == null || string.IsNullOrWhiteSpace(applicationPath))
+				{
+					throw new InvalidOperationException("Linux platform storage is unavailable");
+				}
+				Paths.InitializePortable(host.Paths.Storage, applicationPath);
+			}
+			else
+			{
+				string? installLocation = InstallLocationResolver.Resolve() ?? Path.GetDirectoryName(Paths.Process);
+				if (string.IsNullOrWhiteSpace(installLocation))
+				{
+					LaunchInstaller();
+					return;
+				}
+				Paths.Initialize(installLocation);
 			}
 
-			Paths.Initialize(installLocation);
 			Voidstrap.Integrations.AssetProxy.AssetProxyServer.CleanupStaleState();
 			Voidstrap.Integrations.AssetProxy.AssetProxyServer.RemoveCertificates();
 			if (Voidstrap.Integrations.TelemetryBlocker.IsApplied() && !Voidstrap.Integrations.TelemetryBlocker.Set(false))
@@ -1017,7 +1139,14 @@ public partial class App : Application
 				throw new InvalidOperationException("The telemetry block could not be removed");
 			}
 			Voidstrap.Integrations.RobloxAppStorage.Reset();
-			ResetGeneratedShortcuts();
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				Voidstrap.Utility.LinuxDesktopEntry.Remove();
+			}
+			else
+			{
+				ResetGeneratedShortcuts();
+			}
 			Paths.ResetUserData();
 		}
 		catch (Exception ex)
@@ -1106,6 +1235,10 @@ public partial class App : Application
 	{
 		Logger.WriteLine("App::OnStartup", "Loaded from " + Paths.Process);
 		Logger.WriteLine("App::OnStartup", "Temp path is " + Paths.Temp);
+
+		if (!Voidstrap.Utility.Platform.IsWindows)
+			return;
+
 		Logger.WriteLine("App::OnStartup", "WindowsStartMenu path is " + Paths.WindowsStartMenu);
 		Logger.WriteLine("App::OnStartup", "DLL hijack protection pinned " + Voidstrap.Utility.LoaderHardening.PinnedModuleCount + " system modules");
 	}
@@ -1116,14 +1249,25 @@ public partial class App : Application
 		State.Load();
 		RobloxState.Load();
 		Settings.Load();
+		ResetWindowBackdropOnce();
 		FastFlags.Load(alertFailure: false);
+	}
+
+	private const int WindowBackdropResetVersion = 1;
+
+	private static void ResetWindowBackdropOnce()
+	{
+		if (Settings.Prop.WindowBackdropResetVersion >= WindowBackdropResetVersion)
+			return;
+		Settings.Prop.WindowBackdrop = Voidstrap.Models.Persistable.AppSettings.DefaultWindowBackdrop;
+		Settings.Prop.WindowBackdropResetVersion = WindowBackdropResetVersion;
+		Settings.Save();
+		Logger.WriteLine("App::ResetWindowBackdropOnce", "Window backdrop reset to the default " + Settings.Prop.WindowBackdrop);
 	}
 
 	private void InitializeServices()
 	{
 		TryStartup("Controller service", UI.ControllerService.Initialize);
-		TryStartup("Website save queue", Voidstrap.Utility.WebsiteSaveQueue.Start);
-		TryStartup("Website history sync", Voidstrap.Utility.WebsiteHistorySync.Install);
 		InstallEnabledOverlays();
 		TryStartup("Telemetry blocker", Voidstrap.Integrations.TelemetryBlocker.SyncSettingFromState);
 		if (Voidstrap.Utility.Platform.SupportsAudioDucking)
@@ -1131,6 +1275,8 @@ public partial class App : Application
 			TryStartup("Audio ducking", Voidstrap.Integrations.AudioDucker.ApplyFromSettings);
 			TryStartup("Headset audio", Voidstrap.Integrations.HeadsetAudio.ApplyFromSettings);
 		}
+		if (!LaunchSettings.IsHelperInvocation)
+			TryStartup("Snap Tap", Voidstrap.KeyRouting.SnapTapHook.ApplyFromSettings);
 		if (!LaunchSettings.WatcherFlag.Active)
 		{
 			TryStartup("Rojo updater", Voidstrap.Integrations.Rojo.RojoManager.AutoUpdate);
@@ -1138,6 +1284,7 @@ public partial class App : Application
 		}
 		if (!LaunchSettings.WatcherFlag.Active && !LaunchSettings.IsHelperInvocation)
 		{
+			_ = Voidstrap.Utility.RobloxInstanceManager.EnsureCurrentAccountSavedAsync(_lifetimeCancellation.Token);
 			TryStartup("ORC updater", () => _ = Task.Run(async delegate
 			{
 				Voidstrap.Integrations.ClassicHostRedirect.CleanStaleRedirect();
@@ -1150,39 +1297,62 @@ public partial class App : Application
 					Logger?.WriteLine("App::OrcAutoUpdate", "Auto update failed: " + ex.Message);
 				}
 			}));
+			_ = CleanupTempAsync(_lifetimeCancellation.Token);
+			if (LaunchSettings.RobloxLaunchMode == LaunchMode.None && Settings.Prop.CompressRobloxInstalls && Voidstrap.Utility.RobloxInstallCompression.Supported)
+				_ = CompressIdleInstallsAsync(_lifetimeCancellation.Token);
 		}
 		TryStartup("CPU core limiter", CpuCoreLimiter.ApplyConfiguredLimit);
 		TryStartup("GPU inventory warmup", () => Task.Run(() => _ = Voidstrap.Utility.GpuInventory.HasNvidia));
 		TryStartup("Custom RPC", StartCustomRpcIfEnabled);
 	}
 
+	private static async Task CompressIdleInstallsAsync(CancellationToken token)
+	{
+		try
+		{
+			await Task.Delay(TimeSpan.FromSeconds(45), token).ConfigureAwait(false);
+			await Voidstrap.UI.ViewModels.Settings.ChannelViewModel.RunInstallCompressionAsync(true, false, token).ConfigureAwait(false);
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			Logger?.WriteLine("App::CompressIdleInstalls", "Background compression failed: " + ex.Message);
+		}
+	}
+
 	private static void InitializeWatcherServices()
 	{
-		TryStartup("Website save queue", Voidstrap.Utility.WebsiteSaveQueue.Start);
-		TryStartup("Website history sync", Voidstrap.Utility.WebsiteHistorySync.Install);
+		TryStartup("Memory manager", Voidstrap.Utility.MemoryManager.Start);
+		Voidstrap.Integrations.Overlays.OverlayHub.MarkHostProcess();
 		InstallEnabledOverlays();
 		if (Voidstrap.Utility.Platform.SupportsAudioDucking)
 		{
 			TryStartup("Audio ducking", Voidstrap.Integrations.AudioDucker.ApplyFromSettings);
 			TryStartup("Headset audio", Voidstrap.Integrations.HeadsetAudio.ApplyFromSettings);
 		}
+		TryStartup("Snap Tap", Voidstrap.KeyRouting.SnapTapHook.ApplyFromSettings);
 	}
 
 	private static void InstallEnabledOverlays()
 	{
-		if (!Voidstrap.Utility.Platform.SupportsOverlays)
+		bool nativeOverlays = Voidstrap.Utility.Platform.SupportsOverlays;
+		bool linuxHomepage = Voidstrap.Utility.Platform.IsLinux
+			&& Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled;
+		if (!nativeOverlays && !linuxHomepage)
 		{
 			return;
 		}
-		if (Settings.Prop.RiShadeEnabled)
+		if (nativeOverlays && Settings.Prop.RiShadeEnabled)
 		{
 			TryStartup("RiShade", Voidstrap.Integrations.RiShade.RiShadeManager.Install);
 		}
-		if (Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodIndex > 0)
+		if (nativeOverlays && Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodIndex > 0)
 		{
 			TryStartup("Anti aliasing", Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.Install);
 		}
-		if (Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex > 0)
+		if (nativeOverlays && Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex > 0)
 		{
 			TryStartup("Frame generation", Voidstrap.Integrations.FrameGeneration.FrameGenManager.Install);
 		}
@@ -1193,9 +1363,15 @@ public partial class App : Application
 	{
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
-			TryStartup("Linux scrolling", () =>
+			TryStartup("Linux animation parity", LinuxAnimationParity.Apply);
+			TryStartup("Linux screen metrics", LinuxScreenMetrics.Apply);
+			TryStartup("Linux window state", LinuxWindowState.Install);
+			TryStartup("Render loop warm up", () =>
 			{
-				EventManager.RegisterClassHandler(typeof(System.Windows.Controls.ScrollViewer), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyLinuxScrollViewer));
+				EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(WarmRenderLoop));
+			});
+			TryStartup("Linux image scaling", () =>
+			{
 				EventManager.RegisterClassHandler(typeof(System.Windows.Controls.Image), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyLinuxImageScaling));
 			});
 		}
@@ -1203,6 +1379,8 @@ public partial class App : Application
 		{
 			TryStartup("Clear font", () => EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyClearFont)));
 		}
+		TryStartup("Linux file dialogs", Voidstrap.UI.LinuxFileDialog.Install);
+		TryStartup("Linux editor compatibility", Voidstrap.UI.LinuxEditorCompat.Install);
 		TryStartup("Smooth scrolling", () =>
 		{
 			Wpf.Ui.Controls.SmoothScroll.SetGlobalEnabled(Settings.Prop.SmooothBARRyesirikikthxlucipook);
@@ -1212,6 +1390,14 @@ public partial class App : Application
 		TryStartup("Application font", AppFont.Initialize);
 		TryStartup("Memory manager", Voidstrap.Utility.MemoryManager.Start);
 		TryStartup("Render diagnostics", LogRenderMode);
+	}
+
+	private static void WarmRenderLoop(object sender, RoutedEventArgs e)
+	{
+		if (sender is Window window)
+		{
+			Wpf.Ui.Animations.RenderReady.Warm(window);
+		}
 	}
 
 	private static void ApplyClearFont(object sender, RoutedEventArgs e)
@@ -1237,16 +1423,9 @@ public partial class App : Application
 		{
 			Logger.WriteLine("App::OnStartup", "Linux session: " + (Environment.GetEnvironmentVariable("XDG_SESSION_TYPE") ?? "unknown")
 				+ ", windowing: " + (Environment.GetEnvironmentVariable("PROGPU_WPF_LINUX_WINDOWING") ?? "auto")
-				+ ", renderer stage: " + (Environment.GetEnvironmentVariable("VOIDSTRAP_GPU_RETRY") ?? "default"));
-		}
-	}
-
-	private static void ApplyLinuxScrollViewer(object sender, RoutedEventArgs e)
-	{
-		if (sender is System.Windows.Controls.ScrollViewer viewer)
-		{
-			System.Windows.Controls.ScrollViewer.SetIsDeferredScrollingEnabled(viewer, true);
-			RenderOptions.SetBitmapScalingMode(viewer, BitmapScalingMode.Linear);
+				+ ", renderer stage: " + (Environment.GetEnvironmentVariable("VOIDSTRAP_GPU_RETRY") ?? "default")
+				+ ", backend: " + (Environment.GetEnvironmentVariable("VOIDSTRAP_RENDER_BACKEND") ?? "Auto")
+				+ " (" + (Environment.GetEnvironmentVariable("WGPU_BACKEND") ?? "unset") + ")");
 		}
 	}
 
@@ -1273,7 +1452,8 @@ public partial class App : Application
 	{
 		try
 		{
-			await Voidstrap.Utility.WebsiteGeoSync.PullAsync().ConfigureAwait(false);
+			await Task.Run(RemoveWebsiteLeftovers, cancellationToken).ConfigureAwait(false);
+			await Voidstrap.Utility.RemoteData.RefreshAsync(cancellationToken).ConfigureAwait(false);
 		}
 		catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
 		{
@@ -1281,6 +1461,85 @@ public partial class App : Application
 		catch (Exception ex)
 		{
 			Logger.WriteException("App::RefreshRemoteData", ex);
+		}
+	}
+
+	private static void RemoveWebsiteLeftovers()
+	{
+		string documents = Paths.DocumentsData;
+		string[] files =
+		[
+			Path.Combine(documents, "WebsiteAuth.json"),
+			Path.Combine(documents, "WebsiteAuth.json.bak"),
+			Path.Combine(documents, "WebsiteAuth.key"),
+			Path.Combine(documents, "BootstrapperChat.json"),
+			Path.Combine(Paths.Config, "WebsiteSaveQueue.dat"),
+			Path.Combine(Paths.Config, "WebsiteHistorySync.json"),
+			Path.Combine(Paths.Config, "QuestSession.json"),
+			Path.Combine(Paths.Cache, "WebsiteProfile.json"),
+			Path.Combine(Paths.Cache, "TranslationsRemote.json"),
+			Path.Combine(Paths.Temp, "blackmarket-bg.png")
+		];
+		foreach (string file in files)
+		{
+			TryDeleteLeftover(file);
+		}
+		try
+		{
+			if (Directory.Exists(Paths.Config))
+			{
+				foreach (string file in Directory.EnumerateFiles(Paths.Config, "WebsiteCache_*.json"))
+				{
+					TryDeleteLeftover(file);
+				}
+			}
+			foreach (string folder in new[] { Path.Combine(Paths.Cache, "Forums"), Path.Combine(Paths.Cache, "Banners") })
+			{
+				if (Directory.Exists(folder))
+				{
+					Directory.Delete(folder, recursive: true);
+				}
+			}
+			if (Directory.Exists(documents) && !Directory.EnumerateFileSystemEntries(documents).Any())
+			{
+				Directory.Delete(documents);
+			}
+		}
+		catch (Exception ex)
+		{
+			Logger.WriteLine("App::RemoveWebsiteLeftovers", "Could not remove old website data: " + ex.Message);
+		}
+	}
+
+	private static void TryDeleteLeftover(string path)
+	{
+		try
+		{
+			if (File.Exists(path))
+			{
+				File.Delete(path);
+				Logger.WriteLine("App::RemoveWebsiteLeftovers", "Removed " + Path.GetFileName(path));
+			}
+		}
+		catch (Exception ex)
+		{
+			Logger.WriteLine("App::RemoveWebsiteLeftovers", "Could not remove " + Path.GetFileName(path) + ": " + ex.Message);
+		}
+	}
+
+	private static async Task CleanupTempAsync(CancellationToken cancellationToken)
+	{
+		try
+		{
+			await Task.Delay(TimeSpan.FromMinutes(1), cancellationToken).ConfigureAwait(false);
+			Installer.CleanupStaleBundleExtractions();
+		}
+		catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+		{
+		}
+		catch (Exception ex)
+		{
+			Logger.WriteException("App::CleanupTemp", ex);
 		}
 	}
 
@@ -1320,10 +1579,6 @@ public partial class App : Application
 		TryShutdown(VpnHttpClient.Shutdown);
 		TryShutdown(_lifetimeCancellation.Cancel);
 		TryShutdown(Voidstrap.Utility.ScreenColorEffect.Shutdown);
-		TryShutdown(Voidstrap.UI.EmojiTextRenderer.Shutdown);
-		TryShutdown(Voidstrap.Utility.WebsiteSaveQueue.Shutdown);
-		TryShutdown(Voidstrap.Utility.WebsiteHistorySync.Shutdown);
-		TryShutdown(Voidstrap.Utility.WebsiteGeoSync.Shutdown);
 		TryShutdown(Voidstrap.Integrations.ServerFetchStore.Shutdown);
 		TryShutdown(Voidstrap.Utility.MemoryManager.Shutdown);
 		TryShutdown(Voidstrap.Utility.LinuxStartup.Shutdown);
@@ -1335,15 +1590,20 @@ public partial class App : Application
 		TryShutdown(Voidstrap.Integrations.FrameGeneration.FrameGenManager.Shutdown);
 		TryShutdown(Voidstrap.Integrations.HeadsetAudio.Shutdown);
 		TryShutdown(Voidstrap.Integrations.AudioDucker.Shutdown);
+		TryShutdown(Voidstrap.KeyRouting.SnapTapHook.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Rojo.RojoManager.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Studio.StudioIntegration.Shutdown);
 		TryShutdown(AssetProxyServer.Stop);
 		TryShutdown(AssetPreloadCache.Shutdown);
 		TryShutdown(() => AssetCaptureStore.Shutdown());
 		TryShutdown(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.Shutdown);
+		if (Voidstrap.Utility.Platform.IsLinux)
+			TryShutdown(Voidstrap.Integrations.Overlays.OverlayHub.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Overlays.RobloxWindowTracker.Shutdown);
 		TryShutdown(Voidstrap.UI.LiveLanguageRefresher.Shutdown);
 		TryShutdown(Voidstrap.UI.Utility.WindowScaling.Shutdown);
+		TryShutdown(Voidstrap.Utility.SystemAccent.Shutdown);
+		TryShutdown(Voidstrap.Utility.MultiInstanceLock.Release);
 		TryShutdown(Voidstrap.Utility.TranslationService.Shutdown);
 		TryShutdown(Voidstrap.UI.GlobalBackground.ClearCache);
 		TryShutdown(Voidstrap.Utility.DynamicRenderSystem.ClearCache);
@@ -1352,6 +1612,7 @@ public partial class App : Application
 		TryShutdown(StopCustomRpc);
 		TryShutdown(DisposeDiscordClient);
 		TryShutdown(DisposeMusicPlayer);
+		TryShutdown(Voidstrap.Utility.AppNotifications.Shutdown);
 		TryShutdown(_httpClient.Dispose);
 		TryShutdown(_lifetimeCancellation.Dispose);
 		try
@@ -1382,7 +1643,7 @@ public partial class App : Application
 		}
 	}
 
-	private static void StopCustomRpc()
+	internal static void StopCustomRpc()
 	{
 		RPCCustomizerViewModel.SharedOrNull?.Dispose();
 	}

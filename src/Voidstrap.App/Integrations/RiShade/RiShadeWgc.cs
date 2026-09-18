@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Threading;
 using Vortice.Direct3D11;
 using Vortice.DXGI;
@@ -13,29 +14,14 @@ using ApiInformation = Windows.Foundation.Metadata.ApiInformation;
 
 namespace Voidstrap.Integrations.RiShade
 {
-    [ComImport]
-    [Guid("3628E81B-3CAC-4C60-B7F4-23CE0E0C3356")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    internal interface IGraphicsCaptureItemInterop
-    {
-        IntPtr CreateForWindow([In] IntPtr window, [In] ref Guid iid);
-        IntPtr CreateForMonitor([In] IntPtr monitor, [In] ref Guid iid);
-    }
-
-    [ComImport]
-    [Guid("A9B3D012-3DF2-4EE3-B8D1-8695F457D3C1")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    internal interface IDirect3DDxgiInterfaceAccess
-    {
-        IntPtr GetInterface([In] ref Guid iid);
-    }
-
-    internal sealed partial class RiShadeWgc : IDisposable
+    internal sealed unsafe partial class RiShadeWgc : IDisposable
     {
         private const string LOG_IDENT = "RiShade";
         private static readonly Guid GraphicsCaptureItemIid = new("79C3F95B-31F7-4EC2-A464-632EF5D30760");
         private static readonly Guid Texture2DIid = new("6F15AAF2-D208-4E89-9AB4-489535D34F9C");
-        private static readonly bool SupportsMinUpdateInterval = ApiInformation.IsPropertyPresent("Windows.Graphics.Capture.GraphicsCaptureSession", "MinUpdateInterval");
+        private static readonly Guid CaptureItemInteropIid = new("3628E81B-3CAC-4C60-B7F4-23CE0E0C3356");
+        private static readonly Guid DxgiInterfaceAccessIid = new("A9B3D012-3DF2-4EE3-B8D1-8695F457D3C1");
+        private static readonly bool SupportsMinUpdateInterval = OperatingSystem.IsWindowsVersionAtLeast(10, 0, 26100) && ApiInformation.IsPropertyPresent("Windows.Graphics.Capture.GraphicsCaptureSession", "MinUpdateInterval");
 
         [LibraryImport("d3d11.dll")]
         private static partial int CreateDirect3D11DeviceFromDXGIDevice(IntPtr dxgiDevice, out IntPtr graphicsDevice);
@@ -76,6 +62,7 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
+        [SupportedOSPlatform("windows10.0.19041.0")]
         private bool Initialize(ID3D11Device device, IntPtr targetHwnd, double targetFps)
         {
             if (!GraphicsCaptureSession.IsSupported())
@@ -90,9 +77,9 @@ namespace Voidstrap.Integrations.RiShade
                 Marshal.Release(inspectable);
             }
 
-            var interop = GraphicsCaptureItem.As<IGraphicsCaptureItemInterop>();
-            Guid iid = GraphicsCaptureItemIid;
-            IntPtr itemAbi = interop.CreateForWindow(targetHwnd, ref iid);
+            IntPtr itemAbi;
+            using (IObjectReference factory = ActivationFactory.Get("Windows.Graphics.Capture.GraphicsCaptureItem"))
+                itemAbi = QueryAndCall(factory.ThisPtr, CaptureItemInteropIid, targetHwnd, GraphicsCaptureItemIid);
             _item = GraphicsCaptureItem.FromAbi(itemAbi);
             Marshal.Release(itemAbi);
             if (_item == null)
@@ -112,12 +99,15 @@ namespace Voidstrap.Integrations.RiShade
             catch
             {
             }
-            try
+            if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 20348))
             {
-                _session.IsBorderRequired = false;
-            }
-            catch
-            {
+                try
+                {
+                    _session.IsBorderRequired = false;
+                }
+                catch
+                {
+                }
             }
             _session.StartCapture();
             string cadence = _targetFps > 0 ? $", requested up to {_targetFps:0} FPS" : "";
@@ -127,7 +117,7 @@ namespace Voidstrap.Integrations.RiShade
 
         public void SetTargetFps(double targetFps)
         {
-            if (_session == null || !SupportsMinUpdateInterval)
+            if (_session == null || !SupportsMinUpdateInterval || !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 26100))
                 return;
             targetFps = targetFps > 0 ? Math.Clamp(targetFps, 30.0, 500.0) : 0;
             if (Math.Abs(targetFps - _targetFps) < 0.5)
@@ -194,7 +184,7 @@ namespace Voidstrap.Integrations.RiShade
         public bool TryCopyLatestFrame(ID3D11DeviceContext context, ID3D11Texture2D destination, int destWidth, int destHeight, out double sourceTimeMs)
         {
             sourceTimeMs = 0;
-            if (_framePool == null || _closed)
+            if (_framePool == null || _closed || !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19041))
                 return false;
             Direct3D11CaptureFrame? frame = null;
             try
@@ -234,9 +224,16 @@ namespace Voidstrap.Integrations.RiShade
                     return false;
                 }
 
-                var access = frame.Surface.As<IDirect3DDxgiInterfaceAccess>();
-                Guid iid = Texture2DIid;
-                IntPtr texPtr = access.GetInterface(ref iid);
+                IntPtr surfaceAbi = MarshalInterface<IDirect3DSurface>.FromManaged(frame.Surface);
+                IntPtr texPtr;
+                try
+                {
+                    texPtr = QueryAndCall(surfaceAbi, DxgiInterfaceAccessIid, null, Texture2DIid);
+                }
+                finally
+                {
+                    Marshal.Release(surfaceAbi);
+                }
                 using var frameTex = new ID3D11Texture2D(texPtr);
                 var desc = frameTex.Description;
                 int w = Math.Min(destWidth, (int)desc.Width);
@@ -251,15 +248,37 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
+        private static IntPtr QueryAndCall(IntPtr unknown, Guid interfaceId, IntPtr? handle, Guid resultId)
+        {
+            Marshal.ThrowExceptionForHR(Marshal.QueryInterface(unknown, in interfaceId, out IntPtr instance));
+            try
+            {
+                IntPtr* vtable = *(IntPtr**)instance;
+                IntPtr result;
+                int hr = handle is not IntPtr window
+                    ? ((delegate* unmanaged[Stdcall]<IntPtr, Guid*, IntPtr*, int>)vtable[3])(instance, &resultId, &result)
+                    : ((delegate* unmanaged[Stdcall]<IntPtr, IntPtr, Guid*, IntPtr*, int>)vtable[3])(instance, window, &resultId, &result);
+                Marshal.ThrowExceptionForHR(hr);
+                return result;
+            }
+            finally
+            {
+                Marshal.Release(instance);
+            }
+        }
+
         public void Dispose()
         {
 			if (Interlocked.Exchange(ref _disposed, 1) != 0)
 				return;
 			_closed = true;
-			try { if (_item != null) _item.Closed -= Item_Closed; } catch { }
-			try { if (_framePool != null) _framePool.FrameArrived -= FramePool_FrameArrived; } catch { }
-			try { _session?.Dispose(); } catch { }
-			try { _framePool?.Dispose(); } catch { }
+			if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19041))
+			{
+				try { if (_item != null) _item.Closed -= Item_Closed; } catch { }
+				try { if (_framePool != null) _framePool.FrameArrived -= FramePool_FrameArrived; } catch { }
+				try { _session?.Dispose(); } catch { }
+				try { _framePool?.Dispose(); } catch { }
+			}
 			try { _winrtDevice?.Dispose(); } catch { }
             _session = null;
             _framePool = null;

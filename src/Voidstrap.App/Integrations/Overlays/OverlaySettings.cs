@@ -1,5 +1,6 @@
 ﻿using Voidstrap.Integrations.AntiAliasing;
 using Voidstrap.Integrations.FrameGeneration;
+using Voidstrap.Integrations.MotionBlur;
 using Voidstrap.Integrations.RiShade;
 
 namespace Voidstrap.Integrations.Overlays
@@ -9,6 +10,7 @@ namespace Voidstrap.Integrations.Overlays
         public static bool GameEffectsEnabled =>
             App.Settings.Prop.RiShadeEnabled
             || AntiAliasingSettings.MethodIndex > 0
+            || MotionBlurSettings.StrengthIndex > 0
             || FrameGenSettings.ModeIndex > 0;
 
         public static bool HomepageBackgroundEnabled => App.Settings.Prop.HomepageBackgroundOverlayEnabled;
@@ -27,5 +29,14 @@ namespace Voidstrap.Integrations.Overlays
 		}
 
         public static bool AnyEnabled => OverlayHub.InGame ? GameEffectsEnabled : HomepageBackgroundEnabled;
+
+		public static bool RequiresLinuxX11Session => Voidstrap.Utility.Platform.IsLinux
+			&& (App.Settings.Prop.OverlaysEnabled
+				|| App.Settings.Prop.Crosshair
+				|| App.Settings.Prop.NotificationWindowShow
+				|| App.Settings.Prop.FakeExclusiveFullscreen
+				|| App.Settings.Prop.FakeBorderlessFullscreen
+				|| HomepageBackgroundEnabled
+				|| GameEffectsEnabled);
     }
 }

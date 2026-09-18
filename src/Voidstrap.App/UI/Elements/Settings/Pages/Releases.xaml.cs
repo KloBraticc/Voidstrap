@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -24,6 +24,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 {
     public partial class ReleasesPage
     {
+        private static readonly JsonSerializerOptions ReleaseJsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };         
+
         private const int MaxReleaseJsonBytes = 4 * 1024 * 1024;
         private const string ReleasesApiUrl = "https://api.github.com/repos/KloBraticc/Voidstrap/releases";
         private const string FallbackReleasesApiUrl = "https://api.github.com/repos/KloBraticc/Voidstrap/releases";
@@ -37,7 +39,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         private FileSystemWatcher? _cacheWatcher;
         private int _cacheReloadQueued;
-        private string? _etag;
         private readonly TimeSpan _refreshInterval = TimeSpan.FromMinutes(5);
 
         private static HttpClient CreateHttpClient()
@@ -66,7 +67,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
             Unloaded += OnReleasesPageUnloaded;
 
-            _ = LoadReleasesAsync(true, _refreshCts.Token);
+            _ = LoadReleasesAsync(true, _refreshCts?.Token ?? System.Threading.CancellationToken.None);
         }
 
         private void OnReleasesPageUnloaded(object sender, RoutedEventArgs e)
@@ -179,10 +180,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     return;
                 var releases = JsonSerializer.Deserialize<GithubRelease[]>(
                     json,
-                    new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    }) ?? Array.Empty<GithubRelease>();
+                    ReleaseJsonOptions) ?? Array.Empty<GithubRelease>();
 				await Task.Run(() => Voidstrap.Utility.JsonFile.WriteAtomicText(CacheFile, json), token);
 
                 UpdateReleasesCollection(releases, token);
@@ -206,10 +204,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
                 var releases = JsonSerializer.Deserialize<GithubRelease[]>(
                     json,
-                    new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    }) ?? Array.Empty<GithubRelease>();
+                    ReleaseJsonOptions) ?? Array.Empty<GithubRelease>();
 
                 UpdateReleasesCollection(releases, token);
             }
@@ -251,7 +246,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var query =
-                (sender as System.Windows.Forms.TextBox)?.Text?.Trim() ?? string.Empty;
+                (sender as System.Windows.Controls.TextBox)?.Text?.Trim() ?? string.Empty;
 
             if (string.IsNullOrWhiteSpace(query))
             {
@@ -265,8 +260,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
                     bool Matches(string? s) =>
                         !string.IsNullOrEmpty(s) &&
-                        s.IndexOf(query,
-                            StringComparison.OrdinalIgnoreCase) >= 0;
+                        s.Contains(query, StringComparison.OrdinalIgnoreCase);
 
                     return Matches(r.Name) ||
                            Matches(r.TagName) ||

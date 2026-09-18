@@ -6,10 +6,12 @@ namespace Voidstrap.UI.Converters;
 
 public class StringFormatConverter : IValueConverter
 {
-	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    private static readonly char[] separator = new char[1] { '|' };
+
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		string text = value as string;
-		string text2 = parameter as string;
+		string? text = value as string;
+		string? text2 = parameter as string;
 		if (text == null)
 		{
 			return "";
@@ -18,7 +20,7 @@ public class StringFormatConverter : IValueConverter
 		{
 			return text;
 		}
-		string[] array = text2.Split(new char[1] { '|' });
+		string[] array = text2.Split(separator);
 		object[] array2 = array;
 		try
 		{

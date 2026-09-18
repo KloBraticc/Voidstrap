@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,8 +63,8 @@ public static class Deployment
 			{ "https://setup.rbxcdn.com", 0 },
 			{ "https://setup-aws.rbxcdn.com", 2 },
 			{ "https://setup-ak.rbxcdn.com", 2 },
-			{ "https://roblox-setup.cachefly.net", 2 },
-			{ "https://s3.amazonaws.com/setup.roblox.com", 4 }
+			{ "https://s3.amazonaws.com/setup.roblox.com", 4 },
+			{ "https://roblox-setup.cachefly.net", 5 }
 		};
 		SharedHttp = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(30L));
 		SharedHttp.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "VoidstrapUpdater/2.0");
@@ -84,7 +84,8 @@ public static class Deployment
 	{
 		ValidateBinaryType(binaryType);
 		Exception? lastError = null;
-		foreach (string host in ClientSettingsHosts)
+		IEnumerable<string> hosts = string.Equals(App.Settings.Prop.RobloxUpdateDelivery, "Early", StringComparison.OrdinalIgnoreCase) ? Enumerable.Reverse(ClientSettingsHosts) : ClientSettingsHosts;
+		foreach (string host in hosts)
 		{
 			string path = string.Equals(channel, "production", StringComparison.OrdinalIgnoreCase)
 				? "/v2/client-version/" + binaryType
@@ -120,14 +121,14 @@ public static class Deployment
 		throw lastError ?? new HttpRequestException("Roblox deployment services are unavailable");
 	}
 
-	public static async Task<ClientVersion> GetInfo(string? inputChannel = null, IEnumerable<string>? cycleChannels = null, CancellationToken cancellationToken = default, string binaryType = "WindowsPlayer", Action<string>? resolvedChannel = null)
+	public static async Task<ClientVersion> GetInfo(string? inputChannel = null, IEnumerable<string>? cycleChannels = null, string binaryType = "WindowsPlayer", Action<string>? resolvedChannel = null, CancellationToken cancellationToken = default)
 	{
 		ValidateBinaryType(binaryType);
 		string channel = string.IsNullOrEmpty(inputChannel) ? App.Settings.Prop.Channel : inputChannel;
 		bool isDefault = string.Equals(channel, "production", StringComparison.OrdinalIgnoreCase);
 		App.Logger.WriteLine("Deployment::GetInfo", "Fetching deploy info for channel " + channel);
 		string cacheKey = channel + "|" + binaryType;
-		if (ClientVersionCache.TryGetValue(cacheKey, out ClientVersion value))
+		if (ClientVersionCache.TryGetValue(cacheKey, out ClientVersion? value))
 		{
 			App.Logger.WriteLine("Deployment::GetInfo", "Using cached deploy info");
 			resolvedChannel?.Invoke(channel);
@@ -197,6 +198,43 @@ public static class Deployment
 		}
 	}
 
+	private static readonly TimeSpan MirrorPenalty = TimeSpan.FromMinutes(30);
+
+	private static readonly ConcurrentDictionary<string, DateTime> UnhealthyMirrors = new(StringComparer.OrdinalIgnoreCase);
+
+	public static void ReportMirrorFailure(string url, string reason)
+	{
+		string? host = BaseUrls.Keys.FirstOrDefault(key => url.StartsWith(key + "/", StringComparison.OrdinalIgnoreCase) || string.Equals(url, key, StringComparison.OrdinalIgnoreCase));
+		if (host == null)
+			return;
+		bool alreadyUnhealthy = !IsMirrorHealthy(host);
+		UnhealthyMirrors[host] = DateTime.UtcNow + MirrorPenalty;
+		if (!alreadyUnhealthy)
+			App.Logger.WriteLine("Deployment::ReportMirrorFailure", $"Mirror {host} is unhealthy ({reason}), trying it last for the next {MirrorPenalty.TotalMinutes:0} minutes");
+	}
+
+	private static bool IsMirrorHealthy(string host)
+	{
+		return !UnhealthyMirrors.TryGetValue(host, out DateTime until) || until <= DateTime.UtcNow;
+	}
+
+	private static async Task CheckMirrorHealthAsync(string chosen)
+	{
+		try
+		{
+			await Task.WhenAll(BaseUrls.Keys.Where(host => !string.Equals(host, chosen, StringComparison.OrdinalIgnoreCase)).Select(async host =>
+			{
+				using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(10));
+				if (await ProbeAsync(host, timeout.Token).ConfigureAwait(false) == null)
+					ReportMirrorFailure(host, "health check did not return a valid Roblox deployment");
+			})).ConfigureAwait(false);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("Deployment::CheckMirrorHealth", "Mirror health check stopped: " + ex.Message);
+		}
+	}
+
 	public static async Task<Exception?> InitializeConnectivity()
 	{
 		using CancellationTokenSource cancellation = new();
@@ -210,6 +248,7 @@ public static class Deployment
 			{
 				BaseUrl = chosen;
 				App.Logger.WriteLine("Deployment::InitializeConnectivity", "Using preferred base URL: " + BaseUrl);
+				_ = CheckMirrorHealthAsync(BaseUrl);
 				return null;
 			}
 			App.Logger.WriteLine("Deployment::InitializeConnectivity", "Preferred mirror did not respond, falling back to automatic: " + preferred);
@@ -227,6 +266,7 @@ public static class Deployment
 				cancellation.Cancel();
 				BaseUrl = text;
 				App.Logger.WriteLine("Deployment::InitializeConnectivity", "Using base URL: " + BaseUrl);
+				_ = CheckMirrorHealthAsync(BaseUrl);
 				return null;
 			}
 		}
@@ -270,13 +310,14 @@ public static class Deployment
 		{
 			hosts.Add(BaseUrl);
 		}
-		foreach (string key in BaseUrls.Keys)
+		foreach (string key in BaseUrls.OrderBy(entry => entry.Value).Select(entry => entry.Key))
 		{
 			if (!hosts.Contains(key))
 			{
 				hosts.Add(key);
 			}
 		}
+		hosts = hosts.OrderBy(host => IsMirrorHealthy(host) ? 0 : 1).ToList();
 		List<string> urls = [];
 		if (!string.Equals(effectiveChannel, DefaultChannel, StringComparison.OrdinalIgnoreCase))
 		{

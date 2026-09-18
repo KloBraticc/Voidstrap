@@ -1,0 +1,55 @@
+name: Linux release packages
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing GitHub release tag
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  packages:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          submodules: recursive
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9
+        with:
+          dotnet-version: 10.0.300
+      - run: sudo apt-get update && sudo apt-get install -y appstream desktop-file-utils flatpak flatpak-builder rpm
+      - run: flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+      - run: curl --fail --location --retry 5 --output "$RUNNER_TEMP/appimagetool" https://github.com/AppImage/appimagetool/releases/download/1.9.1/appimagetool-x86_64.AppImage && echo 'ed4ce84f0d9caff66f50bcca6ff6f35aae54ce8135408b3fa33abfc3cb384eb0  '"$RUNNER_TEMP/appimagetool" | sha256sum --check && chmod 755 "$RUNNER_TEMP/appimagetool"
+      - name: Validate release version
+        shell: bash
+        run: |
+          package_version="$(sed -n 's:^[[:space:]]*<VoidstrapVersion>\(.*\)</VoidstrapVersion>[[:space:]]*$:\1:p' Directory.Build.props | head -n 1)"
+          release_version="${RELEASE_TAG#v}"
+          test "$package_version" = "$release_version"
+      - name: Build the AppImage sysroots
+        shell: bash
+        run: |
+          bash build/Packaging/Linux/appimage-sysroot.sh amd64 "$RUNNER_TEMP/appimage-sysroots/x86_64"
+          bash build/Packaging/Linux/appimage-sysroot.sh arm64 "$RUNNER_TEMP/appimage-sysroots/aarch64"
+      - name: Build Linux packages
+        shell: pwsh
+        env:
+          APPIMAGETOOL: ${{ runner.temp }}/appimagetool
+          APPIMAGE_EXTRACT_AND_RUN: "1"
+          VOIDSTRAP_APPIMAGE_SYSROOT_DIR: ${{ runner.temp }}/appimage-sysroots
+        run: ./publish-all.ps1 -Only linux-x64,linux-arm64,linux-musl-x64,linux-musl-arm64 -LinuxPackages -SkipSolutionBuild -Parallel
+      - name: Prepare AUR metadata
+        shell: bash
+        run: tar --sort=name --mtime='UTC 1970-01-01' --owner=0 --group=0 --numeric-owner -C PublishedBuilds/LinuxPackages/AUR -czf PublishedBuilds/LinuxPackages/Voidstrap_AUR_metadata.tar.gz PKGBUILD .SRCINFO
+      - name: Upload release packages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$RELEASE_TAG" PublishedBuilds/LinuxPackages/*.AppImage PublishedBuilds/LinuxPackages/*.zsync PublishedBuilds/LinuxPackages/*.deb PublishedBuilds/LinuxPackages/*.rpm PublishedBuilds/LinuxPackages/*.flatpak PublishedBuilds/LinuxPackages/*.tar.gz --clobber

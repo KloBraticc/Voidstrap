@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Voidstrap.Models.Persistable;
@@ -5,6 +6,10 @@ namespace Voidstrap.Models.Persistable;
 public class AppState
 {
 	public string VersionGuid { get; set; } = string.Empty;
+
+	public string HeldVersionGuid { get; set; } = string.Empty;
+
+	public DateTime HeldVersionFirstSeenUtc { get; set; }
 
 	public Dictionary<string, string> PackageHashes { get; set; } = new Dictionary<string, string>();
 

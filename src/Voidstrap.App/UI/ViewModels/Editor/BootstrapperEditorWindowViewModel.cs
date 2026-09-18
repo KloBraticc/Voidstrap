@@ -99,7 +99,7 @@ public class BootstrapperEditorWindowViewModel : NotifyPropertyChangedViewModel,
 
 	private void OpenThemeFolder()
 	{
-		using Process? process = Process.Start("explorer.exe", Directory);
+		Voidstrap.Utility.PlatformShell.TryOpenFolder(Directory);
 	}
 
 	public void Dispose()

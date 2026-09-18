@@ -1,13 +1,25 @@
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace Wpf.Ui.Controls
 {
     public static class PopupReveal
     {
+        private static readonly IEasingFunction FadeEase = Freeze(new QuarticEase { EasingMode = EasingMode.EaseInOut });
+
+        private static readonly IEasingFunction RevealEase = Freeze(new QuinticEase { EasingMode = EasingMode.EaseOut });
+
+        private static EasingFunctionBase Freeze(EasingFunctionBase ease)
+        {
+            ease.Freeze();
+            return ease;
+        }
+
         public static readonly DependencyProperty CloseTargetProperty = DependencyProperty.RegisterAttached(
             "CloseTarget",
             typeof(bool),
@@ -32,6 +44,12 @@ namespace Wpf.Ui.Controls
             typeof(PopupReveal),
             new PropertyMetadata(0));
 
+        private static readonly DependencyProperty CloseStateProperty = DependencyProperty.RegisterAttached(
+            "CloseState",
+            typeof(CloseState),
+            typeof(PopupReveal),
+            new PropertyMetadata(null));
+
         public static void SetCloseTarget(DependencyObject element, bool value) => element.SetValue(CloseTargetProperty, value);
 
         public static bool GetCloseTarget(DependencyObject element) => (bool)element.GetValue(CloseTargetProperty);
@@ -55,22 +73,41 @@ namespace Wpf.Ui.Controls
             popup.SetValue(CloseGenerationProperty, generation);
 
             FrameworkElement child = popup.Child as FrameworkElement;
+            CloseState? closeState = OperatingSystem.IsLinux() ? GetCloseState(popup) : null;
 
             if ((bool)e.NewValue)
             {
+                closeState?.Cancel();
                 if (child is not null)
                 {
+                    double current = child.Opacity;
+                    bool closing = GetEffectiveIsOpen(popup) && current < 1d;
                     child.BeginAnimation(UIElement.OpacityProperty, null);
                     child.Opacity = 1d;
                     child.IsHitTestVisible = true;
+                    if (closing)
+                    {
+                        child.BeginAnimation(
+                            UIElement.OpacityProperty,
+                            new DoubleAnimation
+                            {
+                                From = current,
+                                To = 1d,
+                                Duration = GetFadeDuration(child),
+                                EasingFunction = FadeEase,
+                                FillBehavior = FillBehavior.Stop
+                            });
+                    }
                 }
 
                 SetEffectiveIsOpen(popup, true);
+                closeState?.BeginOpen(generation, child);
                 return;
             }
 
             if (child is null || !GetEffectiveIsOpen(popup))
             {
+                closeState?.SetClosed(generation);
                 SetEffectiveIsOpen(popup, false);
                 return;
             }
@@ -79,15 +116,21 @@ namespace Wpf.Ui.Controls
 
             DoubleAnimation fade = new()
             {
-                From = 1d,
+                From = child.Opacity,
                 To = 0d,
                 Duration = GetCloseDuration(popup),
-                EasingFunction = new QuarticEase { EasingMode = EasingMode.EaseInOut },
-                FillBehavior = FillBehavior.Stop
+                EasingFunction = FadeEase,
+                FillBehavior = FillBehavior.HoldEnd
             };
 
             fade.Completed += (_, _) =>
             {
+                if (closeState is not null)
+                {
+                    CompleteClose(popup, child, closeState, generation);
+                    return;
+                }
+
                 if ((int)popup.GetValue(CloseGenerationProperty) != generation)
                 {
                     return;
@@ -100,6 +143,10 @@ namespace Wpf.Ui.Controls
             };
 
             child.BeginAnimation(UIElement.OpacityProperty, fade);
+            if (closeState is not null)
+            {
+                closeState.BeginClose(generation, () => CompleteClose(popup, child, closeState, generation));
+            }
         }
 
         public static readonly DependencyProperty FromHeightProperty = DependencyProperty.RegisterAttached(
@@ -225,6 +272,8 @@ namespace Wpf.Ui.Controls
                 return;
             }
 
+            element.Opacity = 1d;
+
             double from = GetFromHeight(element);
             double maximum = GetMaximumHeight(element);
             double width = element.ActualWidth;
@@ -242,14 +291,13 @@ namespace Wpf.Ui.Controls
 
             RectangleGeometry revealClip = new(new Rect(-32d, -32d, width + 64d, target + 64d));
             element.Clip = revealClip;
-            element.Opacity = 1d;
 
             DoubleAnimation fadeIn = new()
             {
                 From = 0d,
                 To = 1d,
                 Duration = GetFadeDuration(element),
-                EasingFunction = new QuarticEase { EasingMode = EasingMode.EaseInOut },
+                EasingFunction = FadeEase,
                 FillBehavior = FillBehavior.Stop
             };
 
@@ -269,7 +317,7 @@ namespace Wpf.Ui.Controls
                 From = collapsed,
                 To = new Rect(-32d, -32d, width + 64d, target + 64d),
                 Duration = GetDuration(element),
-                EasingFunction = new QuinticEase { EasingMode = EasingMode.EaseOut },
+                EasingFunction = RevealEase,
                 FillBehavior = FillBehavior.Stop
             };
 
@@ -278,5 +326,237 @@ namespace Wpf.Ui.Controls
 
         private const System.Windows.Threading.DispatcherPriority DispatcherPriorityLoaded =
             System.Windows.Threading.DispatcherPriority.Loaded;
+
+        private static TimeSpan GetCloseWatchdogDuration(Popup popup)
+        {
+            Duration duration = GetCloseDuration(popup);
+            double milliseconds = duration.HasTimeSpan ? duration.TimeSpan.TotalMilliseconds : 150d;
+            return TimeSpan.FromMilliseconds(Math.Max(500d, milliseconds + 100d));
+        }
+
+        private static CloseState GetCloseState(Popup popup)
+        {
+            if (popup.GetValue(CloseStateProperty) is CloseState state)
+            {
+                return state;
+            }
+
+            state = new CloseState(popup);
+            popup.SetValue(CloseStateProperty, state);
+            return state;
+        }
+
+        private static void CompleteClose(Popup popup, FrameworkElement child, CloseState state, int generation)
+        {
+            if ((int)popup.GetValue(CloseGenerationProperty) != generation)
+            {
+                return;
+            }
+
+            state.Cancel();
+            SetEffectiveIsOpen(popup, false);
+            child.BeginAnimation(UIElement.OpacityProperty, null);
+            child.Opacity = 1d;
+            child.IsHitTestVisible = true;
+        }
+
+        private sealed class CloseState
+        {
+            private static readonly TimeSpan OpenWatchdogDuration = TimeSpan.FromMilliseconds(500);
+
+            private readonly Popup _popup;
+            private readonly Dispatcher _dispatcher;
+            private DispatcherTimer? _timer;
+            private Action? _completion;
+            private int _generation;
+            private int _repairCount;
+            private bool _desiredOpen;
+            private bool _reconcileQueued;
+
+            internal CloseState(Popup popup)
+            {
+                _popup = popup;
+                _dispatcher = popup.Dispatcher;
+                _popup.Opened += OnOpened;
+                _popup.Closed += OnClosed;
+                _popup.Unloaded += OnUnloaded;
+            }
+
+            internal void BeginOpen(int generation, FrameworkElement? child)
+            {
+                Cancel();
+                _generation = generation;
+                _repairCount = 0;
+                _desiredOpen = true;
+                RestoreChild(child);
+                EnsureOpen();
+                Schedule(OpenWatchdogDuration, VerifyOpen);
+            }
+
+            internal void BeginClose(int generation, Action completion)
+            {
+                Cancel();
+                _generation = generation;
+                _desiredOpen = false;
+                Schedule(GetCloseWatchdogDuration(_popup), completion);
+            }
+
+            internal void SetClosed(int generation)
+            {
+                Cancel();
+                _generation = generation;
+                _desiredOpen = false;
+            }
+
+            private void Schedule(TimeSpan interval, Action completion)
+            {
+                Cancel();
+                _completion = completion;
+                _timer = new DispatcherTimer(DispatcherPriority.Input, _dispatcher)
+                {
+                    Interval = interval
+                };
+                _timer.Tick += OnTick;
+                _timer.Start();
+            }
+
+            internal void Cancel()
+            {
+                if (_timer is not null)
+                {
+                    _timer.Stop();
+                    _timer.Tick -= OnTick;
+                    _timer = null;
+                }
+
+                _completion = null;
+            }
+
+            private void EnsureOpen()
+            {
+                if (!_desiredOpen || !GetCloseTarget(_popup))
+                {
+                    return;
+                }
+
+                FrameworkElement? child = _popup.Child as FrameworkElement;
+                RestoreChild(child);
+                if (!GetEffectiveIsOpen(_popup))
+                {
+                    SetEffectiveIsOpen(_popup, true);
+                }
+
+                if (_popup.IsOpen)
+                {
+                    return;
+                }
+
+                SetEffectiveIsOpen(_popup, false);
+                SetEffectiveIsOpen(_popup, true);
+                if (!_popup.IsOpen)
+                {
+                    _popup.SetCurrentValue(Popup.IsOpenProperty, true);
+                }
+            }
+
+            private void VerifyOpen()
+            {
+                if (!_desiredOpen || !GetCloseTarget(_popup))
+                {
+                    return;
+                }
+
+                FrameworkElement? child = _popup.Child as FrameworkElement;
+                bool presented = child is not null
+                    && PresentationSource.FromVisual(child) is not null
+                    && child.ActualWidth > 0d
+                    && child.ActualHeight > 0d;
+                if (_popup.IsOpen && GetEffectiveIsOpen(_popup) && presented)
+                {
+                    RestoreChild(child);
+                    return;
+                }
+
+                if (_repairCount++ == 0)
+                {
+                    EnsureOpen();
+                    Schedule(OpenWatchdogDuration, VerifyOpen);
+                    return;
+                }
+
+                _desiredOpen = false;
+                SetEffectiveIsOpen(_popup, false);
+                if (_popup.PlacementTarget is ComboBox comboBox && comboBox.IsDropDownOpen)
+                {
+                    comboBox.SetCurrentValue(ComboBox.IsDropDownOpenProperty, false);
+                }
+            }
+
+            private void OnOpened(object? sender, EventArgs e)
+            {
+                if (!_desiredOpen || !GetCloseTarget(_popup))
+                {
+                    return;
+                }
+
+                RestoreChild(_popup.Child as FrameworkElement);
+                Schedule(OpenWatchdogDuration, VerifyOpen);
+            }
+
+            private void OnClosed(object? sender, EventArgs e)
+            {
+                if (!_desiredOpen || !GetCloseTarget(_popup) || _reconcileQueued)
+                {
+                    return;
+                }
+
+                _reconcileQueued = true;
+                int generation = _generation;
+                _ = _dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+                {
+                    _reconcileQueued = false;
+                    if (_desiredOpen && generation == _generation && GetCloseTarget(_popup))
+                    {
+                        EnsureOpen();
+                    }
+                }));
+            }
+
+            private void OnUnloaded(object sender, RoutedEventArgs e)
+            {
+                if (_desiredOpen
+                    && GetCloseTarget(_popup)
+                    && _popup.PlacementTarget is FrameworkElement target
+                    && target.IsLoaded
+                    && target.IsVisible)
+                {
+                    OnClosed(sender, EventArgs.Empty);
+                    return;
+                }
+
+                _desiredOpen = false;
+                Cancel();
+                SetEffectiveIsOpen(_popup, false);
+            }
+
+            private static void RestoreChild(FrameworkElement? child)
+            {
+                if (child is null)
+                {
+                    return;
+                }
+
+                child.BeginAnimation(UIElement.OpacityProperty, null);
+                child.Opacity = 1d;
+                child.IsHitTestVisible = true;
+            }
+
+            private void OnTick(object? sender, EventArgs e)
+            {
+                Action? completion = _completion;
+                Cancel();
+                completion?.Invoke();
+            }
+        }
     }
 }

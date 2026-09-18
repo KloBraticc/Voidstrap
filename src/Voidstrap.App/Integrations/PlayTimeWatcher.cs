@@ -1,4 +1,6 @@
-﻿using Voidstrap.Integrations;
+using Voidstrap.Integrations;
+
+namespace Voidstrap.Integrations;
 
 public sealed class PlaytimeTracker : IDisposable
 {

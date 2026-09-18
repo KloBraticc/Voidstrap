@@ -1,5 +1,5 @@
 <Window x:Class="Voidstrap.UI.Elements.Overlay.NotificationWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" AllowsTransparency="True" Background="#00FFFFFF" WindowStyle="None" Topmost="True" ShowInTaskbar="False" ShowActivated="False" Width="340" Height="88" SnapsToDevicePixels="True" UseLayoutRounding="True" xmlns:overlay="clr-namespace:Voidstrap.UI.Elements.Overlay;assembly=Voidstrap">
-  <Grid Margin="6,6,6,8">
+  <Grid x:Name="NotificationRoot" Margin="6,6,6,8">
     <UIElement.RenderTransform>
       <TranslateTransform x:Name="RootTranslate" X="360" Y="0" />
     </UIElement.RenderTransform>
@@ -22,9 +22,9 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
           </Grid.ColumnDefinitions>
-          <Image Name="NotificationImage" Grid.Column="0" Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center" Visibility="Collapsed" Stretch="Uniform" />
+          <Border Name="NotificationImage" Grid.Column="0" Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center" Visibility="Collapsed" SnapsToDevicePixels="True" />
           <StackPanel Grid.Column="1" VerticalAlignment="Center">
-            <TextBlock Name="NotificationText" Foreground="{DynamicResource TextFillColorPrimaryBrush}" FontWeight="SemiBold" FontSize="13" LineHeight="17" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxHeight="42" />
+            <TextBlock Name="NotificationText" Foreground="#FFFFFFFF" FontFamily="Inter 18pt, Selawik, Segoe UI Variable, Segoe UI, Ubuntu, Cantarell, Noto Sans, DejaVu Sans, Liberation Sans" FontWeight="SemiBold" FontSize="13" LineStackingStrategy="MaxHeight" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxHeight="42" />
             <Border Margin="0,8,0,0" CornerRadius="2" Height="3" Background="#22FFFFFF" ClipToBounds="True">
               <Grid Name="ProgressContainer" ClipToBounds="True">
                     <Rectangle Name="ProgressBar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="3" RadiusX="1.5" RadiusY="1.5" RenderTransformOrigin="0,0.5">

@@ -43,7 +43,7 @@ public static class RobloxPresence
 		{
 			return result;
 		}
-		string cookie = RobloxCookie.Get();
+		string? cookie = RobloxCookie.Get();
 		if (string.IsNullOrEmpty(cookie))
 		{
 			return result;
@@ -126,7 +126,7 @@ public static class RobloxPresence
 			using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, "https://auth.roblox.com/v2/logout");
 			req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
 			using HttpResponseMessage httpResponseMessage = await client.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(continueOnCapturedContext: false);
-			if (httpResponseMessage.Headers.TryGetValues("x-csrf-token", out IEnumerable<string> values))
+			if (httpResponseMessage.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
 			{
 				return values.FirstOrDefault() ?? "";
 			}
@@ -152,11 +152,11 @@ public static class RobloxPresence
 			}
 			req.Content = new StringContent(payload, Encoding.UTF8, "application/json");
 			using HttpResponseMessage res = await client.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(continueOnCapturedContext: false);
-			if (res.StatusCode != HttpStatusCode.Forbidden || !res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string> values))
+			if (res.StatusCode != HttpStatusCode.Forbidden || !res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
 			{
 				goto IL_01ae;
 			}
-			string text = values.FirstOrDefault();
+			string? text = values.FirstOrDefault();
 			if (string.IsNullOrEmpty(text) || !(text != csrf))
 			{
 				goto IL_01ae;
@@ -180,7 +180,7 @@ public static class RobloxPresence
 					long value3;
 					long userId = ((item.TryGetProperty("userId", out value2) && value2.TryGetInt64(out value3)) ? value3 : 0);
 					JsonElement value4;
-					string gameId = ((item.TryGetProperty("gameId", out value4) && value4.ValueKind == JsonValueKind.String) ? value4.GetString() : null);
+					string? gameId = ((item.TryGetProperty("gameId", out value4) && value4.ValueKind == JsonValueKind.String) ? value4.GetString() : null);
 					list.Add(new PresenceEntry
 					{
 						UserId = userId,

@@ -20,6 +20,8 @@ namespace Voidstrap.UI.ViewModels.Settings;
 
 public class PluginsViewModel : INotifyPropertyChanged
 {
+	private static readonly JsonSerializerOptions IndentedJsonOptions = new JsonSerializerOptions { WriteIndented = true }; 	
+
 	private const int MaxArchiveBytes = 8 * 1024 * 1024;
 	private const int MaxEntryBytes = 4 * 1024 * 1024;
 	private const int MaxPluginCount = 128;
@@ -28,24 +30,23 @@ public class PluginsViewModel : INotifyPropertyChanged
 	private CancellationTokenSource? _previewCancellation;
 	private class PlayAreaSession
 	{
-		public List<PluginModel> Plugins { get; set; }
+		public List<PluginModel> Plugins { get; set; } = null!;
 
-		public string SelectedPlugin { get; set; }
+		public string SelectedPlugin { get; set; } = null!;
 	}
 
-	private bool _suppressCodeSync;
 
-	private PluginModel _selectedPlugin;
+	private PluginModel? _selectedPlugin;
 
-	private PluginModel _selectedPublicPlugin;
+	private PluginModel? _selectedPublicPlugin;
 
-	private string _pluginXamlCode;
+	private string _pluginXamlCode = null!;
 
-	private string _pluginCsCode;
+	private string _pluginCsCode = null!;
 
-	private FrameworkElement _pluginPreview;
+	private FrameworkElement? _pluginPreview;
 
-	private string _newPluginName;
+	private string _newPluginName = string.Empty;
 
 	private readonly string AutoSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Voidstrap", "autosave_plugin.zip");
 
@@ -55,7 +56,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 
 	public ObservableCollection<PluginModel> PublicPlugins { get; } = new ObservableCollection<PluginModel>();
 
-	public PluginModel SelectedPlugin
+	public PluginModel? SelectedPlugin
 	{
 		get
 		{
@@ -63,7 +64,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 		}
 		set
 		{
-			if (SetProperty(ref _selectedPlugin, value, "SelectedPlugin"))
+			if (SetProperty(ref _selectedPlugin, value, nameof(SelectedPlugin)))
 			{
 				RunPluginCommand.NotifyCanExecuteChanged();
 			}
@@ -71,7 +72,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 		}
 	}
 
-	public PluginModel SelectedPublicPlugin
+	public PluginModel? SelectedPublicPlugin
 	{
 		get
 		{
@@ -79,7 +80,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 		}
 		set
 		{
-			if (SetProperty(ref _selectedPublicPlugin, value, "SelectedPublicPlugin"))
+			if (SetProperty(ref _selectedPublicPlugin, value, nameof(SelectedPublicPlugin)))
 			{
 				LoadPublicPluginCommand.NotifyCanExecuteChanged();
 			}
@@ -94,7 +95,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 		}
 		set
 		{
-			if (SetProperty(ref _pluginXamlCode, value, "PluginXamlCode"))
+			if (SetProperty(ref _pluginXamlCode, value, nameof(PluginXamlCode)))
 			{
 				QueueLivePreview();
 				QueueAutoSavePlugin();
@@ -110,7 +111,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 		}
 		set
 		{
-			if (SetProperty(ref _pluginCsCode, value, "PluginCsCode"))
+			if (SetProperty(ref _pluginCsCode, value, nameof(PluginCsCode)))
 			{
 				AutoFixPluginCode();
 				QueueAutoSavePlugin();
@@ -118,7 +119,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 		}
 	}
 
-	public FrameworkElement PluginPreview
+	public FrameworkElement? PluginPreview
 	{
 		get
 		{
@@ -126,7 +127,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 		}
 		set
 		{
-			SetProperty(ref _pluginPreview, value, "PluginPreview");
+			SetProperty(ref _pluginPreview, value, nameof(PluginPreview));
 		}
 	}
 
@@ -138,7 +139,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 		}
 		set
 		{
-			if (SetProperty(ref _newPluginName, value, "NewPluginName"))
+			if (SetProperty(ref _newPluginName, value, nameof(NewPluginName)))
 			{
 				AddPluginCommand.NotifyCanExecuteChanged();
 			}
@@ -159,14 +160,14 @@ public class PluginsViewModel : INotifyPropertyChanged
 
 	public RelayCommand AddPluginCommand { get; }
 
-	public event PropertyChangedEventHandler PropertyChanged;
+	public event PropertyChangedEventHandler? PropertyChanged;
 
-	protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+	protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
 	{
 		this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 	}
 
-	protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+	protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
 	{
 		if (EqualityComparer<T>.Default.Equals(field, value))
 		{
@@ -285,15 +286,12 @@ public class PluginsViewModel : INotifyPropertyChanged
 	{
 		try
 		{
-			Directory.CreateDirectory(Path.GetDirectoryName(PluginSessionPath));
+			Directory.CreateDirectory(Path.GetDirectoryName(PluginSessionPath)!);
 			string contents = JsonSerializer.Serialize(new
 			{
 				Plugins = LoadedPlugins.Select((PluginModel p) => new { p.Name, p.Author, p.Description, p.PluginXaml }).ToList(),
 				SelectedPlugin = SelectedPlugin?.Name
-			}, new JsonSerializerOptions
-			{
-				WriteIndented = true
-			});
+			}, IndentedJsonOptions);
 			if (contents.Length > MaxArchiveBytes)
 				throw new InvalidDataException("The plugin session is too large");
 			string temporary = PluginSessionPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
@@ -326,7 +324,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 			if (info.Length <= 0 || info.Length > MaxArchiveBytes)
 				throw new InvalidDataException("The plugin session size is invalid");
 			string json = File.ReadAllText(PluginSessionPath);
-			PlayAreaSession session = JsonSerializer.Deserialize<PlayAreaSession>(json);
+			PlayAreaSession? session = JsonSerializer.Deserialize<PlayAreaSession>(json);
 			if (session?.Plugins == null)
 			{
 				return;
@@ -494,7 +492,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 	{
 		lock (_saveGate)
 		{
-			Directory.CreateDirectory(Path.GetDirectoryName(AutoSavePath));
+			Directory.CreateDirectory(Path.GetDirectoryName(AutoSavePath)!);
 			byte[] bytes = Encoding.UTF8.GetBytes(PluginXamlCode ?? "");
 			byte[] bytes2 = Encoding.UTF8.GetBytes(PluginCsCode ?? "");
 			if (bytes.Length > MaxEntryBytes || bytes2.Length > MaxEntryBytes)
@@ -532,8 +530,8 @@ public class PluginsViewModel : INotifyPropertyChanged
 				throw new InvalidDataException("The plugin archive size is invalid");
 			using FileStream baseInputStream = File.OpenRead(AutoSavePath);
 			using ZipInputStream zipInputStream = new ZipInputStream(baseInputStream);
-			string text = null;
-			string text2 = null;
+			string? text = null;
+			string? text2 = null;
 			ZipEntry nextEntry;
 			int entryCount = 0;
 			while ((nextEntry = zipInputStream.GetNextEntry()) != null)
@@ -620,7 +618,6 @@ public class PluginsViewModel : INotifyPropertyChanged
 
 	private void NewPlugin()
 	{
-		_suppressCodeSync = false;
 		NewPluginName = $"NewPlugin_{DateTime.Now:MMddHHmm}";
 		PluginXamlCode = "\n<Window xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"\n        xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"\n        Title=\"New Plugin\" Width=\"300\" Height=\"200\">\n    <StackPanel VerticalAlignment=\"Center\" HorizontalAlignment=\"Center\">\n        <TextBlock Text=\"Hello, World!\" FontSize=\"16\" HorizontalAlignment=\"Center\"/>\n        <Button Content=\"Click Me!\" Margin=\"5\"/>\n    </StackPanel>\n</Window>";
 		ConvertXamlToCSharp();

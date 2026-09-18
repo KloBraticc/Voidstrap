@@ -47,6 +47,19 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
     private Wpf.Ui.Controls.Button _maximizeButton;
     private Wpf.Ui.Controls.Button _restoreButton;
 
+    private static readonly string[] CaptionButtonNames =
+    {
+        "ButtonHelp", "ButtonMinimize", ElementMaximizeButton, ElementRestoreButton, "PART_CloseButton"
+    };
+
+    private static readonly DependencyPropertyDescriptor CaptionIsPressedDescriptor =
+        DependencyPropertyDescriptor.FromProperty(System.Windows.Controls.Primitives.ButtonBase.IsPressedProperty, typeof(System.Windows.Controls.Primitives.ButtonBase));
+
+    private Wpf.Ui.Controls.Button[] _captionButtons = Array.Empty<Wpf.Ui.Controls.Button>();
+    private System.Windows.Interop.HwndSource _captionHookSource;
+    private System.Windows.Threading.DispatcherTimer _captionHoverTimer;
+    private bool _captionRefreshQueued;
+
     /// <summary>
     /// Property for <see cref="Theme"/>.
     /// </summary>
@@ -419,8 +432,18 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
             ParentWindow.StateChanged += OnParentWindowStateChanged;
         }
 
-        if (_snapLayout == null && ShowMaximize && UseSnapLayout && _maximizeButton != null && _restoreButton != null)
+        if ((_snapLayout == null || !_snapLayout.IsActive) && ShowMaximize && UseSnapLayout && _maximizeButton != null && _restoreButton != null)
+        {
+            _snapLayout?.Dispose();
+            _snapLayout = null;
             InitializeSnapLayout(_maximizeButton, _restoreButton);
+        }
+
+        if (_captionButtons.Length == 0 && Template != null)
+            AttachCaptionButtons();
+
+        AttachCaptionHook();
+        RefreshCaptionHover();
     }
 
     protected virtual void OnUnloaded(object sender, RoutedEventArgs e)
@@ -432,6 +455,22 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
 
         _snapLayout?.Dispose();
         _snapLayout = null;
+
+        DetachCaptionHook();
+        if (_captionHoverTimer != null)
+        {
+            _captionHoverTimer.Stop();
+            _captionHoverTimer.Tick -= OnCaptionHoverTimerTick;
+            _captionHoverTimer = null;
+        }
+
+        foreach (Wpf.Ui.Controls.Button button in _captionButtons)
+        {
+            CaptionButtonState.SetIsPressed(button, false);
+            CaptionButtonState.SetIsHovered(button, false);
+        }
+
+        DetachCaptionButtons();
     }
 
     /// <summary>
@@ -473,6 +512,183 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
         _snapLayout = null;
         if (ShowMaximize && UseSnapLayout && maximizeButton != null && restoreButton != null)
             InitializeSnapLayout(maximizeButton, restoreButton);
+
+        DetachCaptionButtons();
+        AttachCaptionButtons();
+    }
+
+    private void AttachCaptionButtons()
+    {
+        var buttons = new System.Collections.Generic.List<Wpf.Ui.Controls.Button>(CaptionButtonNames.Length);
+        foreach (string name in CaptionButtonNames)
+        {
+            if (GetTemplateChild(name) is not Wpf.Ui.Controls.Button button)
+                continue;
+
+            button.MouseEnter += OnCaptionButtonMouseChanged;
+            button.MouseLeave += OnCaptionButtonMouseChanged;
+            button.MouseMove += OnCaptionButtonMouseChanged;
+            button.IsVisibleChanged += OnCaptionButtonVisibleChanged;
+            CaptionIsPressedDescriptor.AddValueChanged(button, OnCaptionButtonPressedChanged);
+            buttons.Add(button);
+        }
+
+        _captionButtons = buttons.ToArray();
+    }
+
+    private void DetachCaptionButtons()
+    {
+        foreach (Wpf.Ui.Controls.Button button in _captionButtons)
+        {
+            button.MouseEnter -= OnCaptionButtonMouseChanged;
+            button.MouseLeave -= OnCaptionButtonMouseChanged;
+            button.MouseMove -= OnCaptionButtonMouseChanged;
+            button.IsVisibleChanged -= OnCaptionButtonVisibleChanged;
+            CaptionIsPressedDescriptor.RemoveValueChanged(button, OnCaptionButtonPressedChanged);
+        }
+
+        _captionButtons = Array.Empty<Wpf.Ui.Controls.Button>();
+    }
+
+    private void OnCaptionButtonMouseChanged(object sender, MouseEventArgs e)
+    {
+        RefreshCaptionHover();
+    }
+
+    private void OnCaptionButtonVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (sender is Wpf.Ui.Controls.Button button && !button.IsVisible)
+        {
+            CaptionButtonState.SetIsPressed(button, false);
+            CaptionButtonState.SetIsHovered(button, false);
+            CaptionButtonState.Apply(button, false);
+        }
+
+        QueueCaptionRefresh();
+    }
+
+    private void OnCaptionButtonPressedChanged(object sender, EventArgs e)
+    {
+        if (sender is Wpf.Ui.Controls.Button button)
+            CaptionButtonState.Apply(button, true);
+    }
+
+    private void AttachCaptionHook()
+    {
+        if (_captionHookSource != null || !System.OperatingSystem.IsWindows() || ParentWindow == null)
+            return;
+
+        var handle = new System.Windows.Interop.WindowInteropHelper(ParentWindow).Handle;
+        if (handle == IntPtr.Zero)
+            return;
+
+        _captionHookSource = System.Windows.Interop.HwndSource.FromHwnd(handle);
+        _captionHookSource?.AddHook(CaptionHoverHook);
+    }
+
+    private void DetachCaptionHook()
+    {
+        _captionHookSource?.RemoveHook(CaptionHoverHook);
+        _captionHookSource = null;
+    }
+
+    private IntPtr CaptionHoverHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        switch (msg)
+        {
+            case 0x0005:
+            case 0x001C:
+            case 0x0006:
+            case 0x00A0:
+            case 0x0200:
+            case 0x0215:
+            case 0x02A2:
+            case 0x02A3:
+                QueueCaptionRefresh();
+                break;
+        }
+
+        return IntPtr.Zero;
+    }
+
+    private void QueueCaptionRefresh()
+    {
+        if (_captionRefreshQueued)
+            return;
+
+        _captionRefreshQueued = true;
+        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Input, (Action)RunQueuedCaptionRefresh);
+    }
+
+    private void RunQueuedCaptionRefresh()
+    {
+        _captionRefreshQueued = false;
+        RefreshCaptionHover();
+    }
+
+    private void RefreshCaptionHover()
+    {
+        bool anyHovered = false;
+        Interop.WinDef.POINT cursor = default;
+        bool useCursor = System.OperatingSystem.IsWindows() && Interop.User32.GetCursorPos(out cursor);
+
+        foreach (Wpf.Ui.Controls.Button button in _captionButtons)
+        {
+            bool hovered = button.IsVisible && button.IsEnabled && (useCursor ? IsCursorInside(button, cursor) : button.IsMouseOver);
+            if (CaptionButtonState.GetIsHovered(button) != hovered)
+                CaptionButtonState.SetIsHovered(button, hovered);
+            anyHovered |= hovered;
+        }
+
+        if (anyHovered && useCursor)
+            StartCaptionHoverTimer();
+        else
+            StopCaptionHoverTimer();
+    }
+
+    private static bool IsCursorInside(Wpf.Ui.Controls.Button button, Interop.WinDef.POINT cursor)
+    {
+        if (button.ActualWidth <= 0 || button.ActualHeight <= 0 || PresentationSource.FromVisual(button) == null)
+            return false;
+
+        try
+        {
+            Point topLeft = button.PointToScreen(new Point(0, 0));
+            Point bottomRight = button.PointToScreen(new Point(button.ActualWidth, button.ActualHeight));
+            return cursor.x >= Math.Min(topLeft.X, bottomRight.X)
+                && cursor.x < Math.Max(topLeft.X, bottomRight.X)
+                && cursor.y >= Math.Min(topLeft.Y, bottomRight.Y)
+                && cursor.y < Math.Max(topLeft.Y, bottomRight.Y);
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
+    }
+
+    private void StartCaptionHoverTimer()
+    {
+        if (_captionHoverTimer == null)
+        {
+            _captionHoverTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Input, Dispatcher)
+            {
+                Interval = TimeSpan.FromMilliseconds(500)
+            };
+            _captionHoverTimer.Tick += OnCaptionHoverTimerTick;
+        }
+
+        if (!_captionHoverTimer.IsEnabled)
+            _captionHoverTimer.Start();
+    }
+
+    private void StopCaptionHoverTimer()
+    {
+        _captionHoverTimer?.Stop();
+    }
+
+    private void OnCaptionHoverTimerTick(object sender, EventArgs e)
+    {
+        RefreshCaptionHover();
     }
 
     /// <summary>

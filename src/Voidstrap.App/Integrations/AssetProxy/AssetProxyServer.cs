@@ -21,8 +21,11 @@ namespace Voidstrap.Integrations.AssetProxy;
 
 public static class AssetProxyServer
 {
-	public static bool IsRequired =>
-		Voidstrap.Utility.Platform.IsWindows &&
+    private static readonly System.Buffers.SearchValues<char> s_myChars = System.Buffers.SearchValues.Create(" ()<>@,;:\\\"/[]?={}\t");
+
+    public static bool IsRequired =>
+		(Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux) &&
+		!App.Settings.Prop.LaunchWithoutVoidstrap &&
 		App.Settings.Prop.AssetWarpEnabled &&
 		App.Settings.Prop.AssetWarpCertificateApproved &&
 		(App.Settings.Prop.AssetWarpDisableAllTextures ||
@@ -402,6 +405,10 @@ public static class AssetProxyServer
 		List<string> hostList = [];
 		if (TextureStripper.IsEnabled || TextureStripper.HasConfiguredRules || App.Settings.Prop.AssetWarpPreloadEnabled)
 		{
+			hostList.Add(TextureStripper.BatchHost);
+		}
+		if (App.Settings.Prop.AssetWarpPreloadEnabled)
+		{
 			hostList.AddRange(BaseHosts);
 		}
 		UsernameSpoofState usernameState = UsernameSpoofer.CurrentState;
@@ -434,18 +441,26 @@ public static class AssetProxyServer
 		UpstreamConnector.HttpConnectProxyPort = App.Settings.Prop.ProxyHttpConnectPort > 0 ? App.Settings.Prop.ProxyHttpConnectPort : 3128;
 		UpstreamConnector.Socks5ProxyHost = App.Settings.Prop.ProxySocks5Host ?? "";
 		UpstreamConnector.Socks5ProxyPort = App.Settings.Prop.ProxySocks5Port > 0 ? App.Settings.Prop.ProxySocks5Port : 1080;
+		string cacheSignature = TextureStripper.CacheSignature;
 		if (TextureStripper.RequiresCacheReset)
 		{
-			try
+			if (AssetProxyRouting.CacheMatches(cacheSignature))
 			{
-				AssetProxyRouting.ClearRobloxCache();
+				App.Logger?.WriteLine(LogIdent, "Replacement rules are unchanged since the last session, keeping the Roblox asset cache");
 			}
-			catch (Exception ex)
+			else
 			{
-				App.Logger?.WriteLine(LogIdent, "Roblox asset cache could not be cleared: " + ex.Message);
+				try
+				{
+					AssetProxyRouting.ClearRobloxCache();
+				}
+				catch (Exception ex)
+				{
+					App.Logger?.WriteLine(LogIdent, "Roblox asset cache could not be cleared: " + ex.Message);
+				}
 			}
 		}
-		AssetProxyCA.Initialize();
+		AssetProxyCA.Initialize(requireTrustBundle: !UsesExplicitProxy);
 		bool resolveEndpoints = UpstreamConnector.ConnectorType is not UpstreamConnectorType.HttpConnect and not UpstreamConnectorType.Socks5;
 		IReadOnlyDictionary<string, string> endpoints = await AssetProxyRouting.PrepareAsync(hosts, ct, resolveEndpoints).ConfigureAwait(false);
 		CancellationTokenSource linked = new();
@@ -538,6 +553,8 @@ public static class AssetProxyServer
 			{
 				_running = true;
 			}
+			Voidstrap.Utility.MemoryManager.LeaveQuietModeForLiveTraffic();
+			AssetProxyRouting.RecordCache(cacheSignature);
 			App.Logger?.WriteLine(LogIdent, UsesExplicitProxy
 				? "AssetWarp forward proxy active on local port " + ExplicitPort.ToString(CultureInfo.InvariantCulture)
 				: "AssetWarp TLS proxy active on local port 443");
@@ -710,7 +727,7 @@ public static class AssetProxyServer
 				StopInternal();
 				if (!App.Settings.Prop.AssetWarpEnabled || !App.Settings.Prop.AssetWarpCertificateApproved)
 					CleanupStaleState();
-				if (restart && IsRequired && ProcessElevation.IsAdministrator())
+				if (restart && IsRequired && (!Voidstrap.Utility.Platform.IsWindows || ProcessElevation.IsAdministrator()))
 					await StartAsync(next.Token).ConfigureAwait(false);
 			}
 			catch (OperationCanceledException) when (next.IsCancellationRequested)
@@ -795,7 +812,7 @@ public static class AssetProxyServer
 
 	public static void CleanupStaleState()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
+		if (!Voidstrap.Utility.Platform.IsWindows && !Voidstrap.Utility.Platform.IsLinux)
 			return;
 		if (!TryAcquireOwnership(out FileStream? ownership))
 		{
@@ -804,6 +821,18 @@ public static class AssetProxyServer
 		}
 		using (ownership)
 		{
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				LinuxAssetWarpBridge.DisableBlocking(TimeSpan.FromSeconds(3));
+				if (App.Settings.Prop.AssetWarpEnabled && !App.Settings.Prop.AssetWarpCertificateApproved)
+				{
+					App.Settings.Prop.AssetWarpEnabled = false;
+					App.Settings.Save();
+				}
+				AssetProxyCA.RemoveOutdatedCertificates(App.Settings.Prop.AssetWarpEnabled && App.Settings.Prop.AssetWarpCertificateApproved);
+				return;
+			}
+
 			if (Voidstrap.Utility.ProcessElevation.IsAdministrator())
 			{
 				AssetProxyRouting.Cleanup();
@@ -857,7 +886,7 @@ public static class AssetProxyServer
 			try
 			{
 				TcpClient client = await listener.AcceptTcpClientAsync(ct).ConfigureAwait(false);
-				if (!ClientSlots.Wait(0))
+				if (!ClientSlots.Wait(0, ct))
 				{
 					client.Dispose();
 					int rejected = Interlocked.Increment(ref _rejectedClients);
@@ -964,6 +993,15 @@ public static class AssetProxyServer
 					}
 
 					MessageBody requestBody = await ReadMessageBodyAsync(local, request, false, method, ct).ConfigureAwait(false);
+					if (TextureStripper.TryGetLocalAsset(host, path, out AssetWarpRoute? localAsset) && localAsset != null)
+					{
+						await ServeRouteAsync(localTls, method, request.Get("Range"), localAsset, ct).ConfigureAwait(false);
+						if (ShouldClose(request))
+						{
+							break;
+						}
+						continue;
+					}
 					if (PresenceSpoofer.TryCreateLocalResponse(host, path, method, out byte[] localResponse))
 					{
 						await WriteLocalJsonResponseAsync(localTls, localResponse, ct).ConfigureAwait(false);
@@ -984,6 +1022,15 @@ public static class AssetProxyServer
 					if (batch)
 					{
 						outboundBody = TextureStripper.PrepareBatchRequest(decodedRequest, AssetPreloadCache.ActivePlaceId, out batchContext);
+						if (batchContext is { RequestIds.Count: 0 })
+						{
+							await WriteLocalJsonResponseAsync(localTls, "[]"u8.ToArray(), ct).ConfigureAwait(false);
+							if (ShouldClose(request))
+							{
+								break;
+							}
+							continue;
+						}
 					}
 					if (transformPresence)
 					{
@@ -1072,7 +1119,7 @@ public static class AssetProxyServer
 					HttpHead response = ParseHead(responseHeaderBytes);
 					while (IsInformational(response))
 					{
-						responseHeaderBytes = await remote.ReadHeaderAsync(ct).ConfigureAwait(false);
+						responseHeaderBytes = await remote!.ReadHeaderAsync(ct).ConfigureAwait(false);
 						if (!IsCompleteHead(responseHeaderBytes))
 						{
 							await WriteGatewayFailureAsync(localTls, ct).ConfigureAwait(false);
@@ -1087,7 +1134,7 @@ public static class AssetProxyServer
 					if (passthroughChunkedCdn)
 					{
 						await localTls.WriteAsync(response.Raw, ct).ConfigureAwait(false);
-						await remote.CopyChunkedToAsync(localTls, ct).ConfigureAwait(false);
+						await remote!.CopyChunkedToAsync(localTls, ct).ConfigureAwait(false);
 						bool chunkedClose = ShouldClose(response);
 						if (chunkedClose)
 						{
@@ -1112,7 +1159,7 @@ public static class AssetProxyServer
 						try
 						{
 							captured = streamingLength > 0
-								? await remote.CopyExactToAsync(streamingLength, localTls, (int)reservedCapture, ct).ConfigureAwait(false)
+								? await remote!.CopyExactToAsync(streamingLength, localTls, (int)reservedCapture, ct).ConfigureAwait(false)
 								: null;
 						}
 						finally
@@ -1140,7 +1187,7 @@ public static class AssetProxyServer
 						}
 						continue;
 					}
-					MessageBody responseBody = await ReadMessageBodyAsync(remote, response, true, method, ct).ConfigureAwait(false);
+					MessageBody responseBody = await ReadMessageBodyAsync(remote!, response, true, method, ct).ConfigureAwait(false);
 					bool spoofResponse = UsernameSpoofer.CanProcessResponse(host, path);
 					bool shellResponse = AppShellStripper.CanProcessResponse(host, path, request.Get("User-Agent"));
 					bool robuxResponse = RobuxSpoofer.CanProcessResponse(host, path);
@@ -1153,7 +1200,9 @@ public static class AssetProxyServer
 						TextureStripper.ObserveBatchResponse(batchContext, decodedResponse);
 					}
 
-					byte[]? changed = spoofResponse
+					byte[]? changed = batch
+						? TextureStripper.RewriteBatchResponse(batchContext, decodedResponse)
+						: spoofResponse
 						? await UsernameSpoofer.ProcessResponseAsync(host, path, decodedResponse, ct).ConfigureAwait(false)
 						: shellResponse
 							? AppShellStripper.ProcessResponse(decodedResponse)
@@ -1499,7 +1548,7 @@ public static class AssetProxyServer
 		foreach (string line in lines)
 		{
 			int separator = line.IndexOf(':');
-			if (separator <= 0 || line.AsSpan(0, separator).ContainsAny(" ()<>@,;:\\\"/[]?={}\t"))
+			if (separator <= 0 || line.AsSpan(0, separator).ContainsAny(s_myChars))
 				throw new InvalidDataException("HTTP header contains an invalid field");
 		}
 		string[] contentLengths = [.. lines

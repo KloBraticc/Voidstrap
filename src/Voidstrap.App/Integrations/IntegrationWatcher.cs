@@ -70,7 +70,7 @@ public class IntegrationWatcher : IDisposable
 		{
 			if (item.Value.Integration.AutoCloseOnGame)
 			{
-				TerminateProcess(item.Key, item.Value);
+                TerminateProcess(item.Key, item.Value);
 				_activeIntegrations.TryRemove(item.Key, out _);
 			}
 		}
@@ -246,9 +246,9 @@ public class IntegrationWatcher : IDisposable
 		return true;
 	}
 
-	private void TerminateProcess(int pid, ActiveIntegration expected)
+	private static void TerminateProcess(int pid, ActiveIntegration expected)
 	{
-		Process process = null;
+		Process? process = null;
 		try
 		{
 			process = Process.GetProcessById(pid);
@@ -296,7 +296,7 @@ public class IntegrationWatcher : IDisposable
 		{
 			if (item.Value.Integration.AutoClose || item.Value.Integration.AutoCloseOnGame)
 			{
-				TerminateProcess(item.Key, item.Value);
+                TerminateProcess(item.Key, item.Value);
 			}
 		}
 		_activeIntegrations.Clear();

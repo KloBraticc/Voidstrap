@@ -17,12 +17,19 @@ namespace Voidstrap.Integrations.Overlays
             try
             {
 				IntPtr hwnd = RobloxWindowTracker.Current.Hwnd;
+				long now = Environment.TickCount64;
 				if (hwnd == IntPtr.Zero)
+				{
+					lock (_refreshLock)
+					{
+						if (_cachedAtMs != 0 && now - _cachedAtMs < 5000)
+							return _cachedHz;
+					}
 					hwnd = FindRobloxWindow();
+				}
                 IntPtr mon = hwnd != IntPtr.Zero
                     ? Interop.MonitorFromWindow(hwnd, Interop.MONITOR_DEFAULTTONEAREST)
                     : IntPtr.Zero;
-				long now = Environment.TickCount64;
 				lock (_refreshLock)
 				{
 					if (_cachedAtMs != 0 && mon == _cachedMonitor && now - _cachedAtMs < 2000)

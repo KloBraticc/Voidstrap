@@ -39,16 +39,37 @@ namespace Voidstrap.Utility
             return original;
         }
 
+        public override ResourceSet? GetResourceSet(CultureInfo culture, bool createIfNotExists, bool tryParents)
+        {
+            return _baseManager.GetResourceSet(culture, createIfNotExists, tryParents);
+        }
+
+        public override object? GetObject(string name)
+        {
+            return _baseManager.GetObject(name);
+        }
+
+        public override object? GetObject(string name, CultureInfo? culture)
+        {
+            return _baseManager.GetObject(name, culture ?? Locale.CurrentCulture);
+        }
+
+        public override void ReleaseAllResources()
+        {
+            _baseManager.ReleaseAllResources();
+        }
+
         public static void Inject()
         {
             var field = typeof(Strings).GetField("resourceMan", BindingFlags.Static | BindingFlags.NonPublic);
-            if (field != null)
+            if (field == null)
             {
-                var originalManager = (ResourceManager?)field.GetValue(null);
-                if (originalManager != null && originalManager is not ResourceProxy)
-                {
-                    field.SetValue(null, new ResourceProxy(originalManager));
-                }
+                return;
+            }
+            ResourceManager originalManager = Strings.ResourceManager;
+            if (originalManager is not ResourceProxy)
+            {
+                field.SetValue(null, new ResourceProxy(originalManager));
             }
         }
     }

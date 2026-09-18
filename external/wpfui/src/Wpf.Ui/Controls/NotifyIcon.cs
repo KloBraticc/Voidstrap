@@ -1,4 +1,4 @@
-﻿// This Source Code Form is subject to the terms of the MIT License.
+// This Source Code Form is subject to the terms of the MIT License.
 // If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
@@ -21,7 +21,7 @@ namespace Wpf.Ui.Controls;
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(NotifyIcon), "NotifyIcon.bmp")]
-public class NotifyIcon : System.Windows.FrameworkElement
+public class NotifyIcon : System.Windows.FrameworkElement, IDisposable
 {
     private readonly NotifyIconService _notifyIconService;
 

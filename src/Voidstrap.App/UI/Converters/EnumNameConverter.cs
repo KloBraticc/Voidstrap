@@ -17,7 +17,7 @@ internal class EnumNameConverter : IValueConverter
 		}
 		string text = obj.ToString();
 		Type type = obj.GetType();
-		string fullName = type.FullName;
+		string fullName = type.FullName ?? type.Name;
 		System.Reflection.MemberInfo[] members = type.GetMember(text);
 		if (members.Length == 0)
 		{

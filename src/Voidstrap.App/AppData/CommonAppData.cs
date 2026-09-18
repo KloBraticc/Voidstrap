@@ -33,7 +33,7 @@ public abstract class CommonAppData
 		{ "extracontent-places.zip", "ExtraContent\\places\\" }
 	};
 
-	public virtual string ExecutableName { get; }
+	public virtual string ExecutableName { get; } = null!;
 
 	public abstract string BinaryType { get; }
 
@@ -101,7 +101,7 @@ public abstract class CommonAppData
 
 	public string ExecutablePath => Path.Combine(Directory, ExecutableName);
 
-	public virtual AppState State { get; }
+	public virtual AppState State { get; } = null!;
 
 	public virtual IReadOnlyDictionary<string, string> PackageDirectoryMap { get; set; }
 

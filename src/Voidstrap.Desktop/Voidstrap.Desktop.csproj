@@ -9,10 +9,13 @@
 		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="12.1.1" />
+		<PackageReference Include="Avalonia" Version="12.1.2" />
 		<PackageReference Include="Avalonia.Controls.WebView" Version="12.1.0" />
-		<PackageReference Include="Avalonia.Desktop" Version="12.1.1" />
-		<PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.1" />
+		<PackageReference Include="Avalonia.Desktop" Version="12.1.2" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.2" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="..\Voidstrap.Core\ExtensionManifests\*.json" Link="ExtensionManifests\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Voidstrap.Core\Voidstrap.Core.csproj" />

@@ -106,7 +106,7 @@ public class FastFlag : INotifyPropertyChanged
 
 	public IReadOnlyList<string> VisibleTags => _visibleTags ??= BuildVisibleTags();
 
-	private IReadOnlyList<string> BuildVisibleTags()
+	private List<string> BuildVisibleTags()
 	{
 		List<string> tags = FastFlagEditorPage.FastFlagTagHelper.GetTags(Name);
 		if (tags.Count <= MaxVisibleTags)

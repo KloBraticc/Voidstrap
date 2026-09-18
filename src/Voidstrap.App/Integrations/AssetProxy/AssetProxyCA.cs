@@ -107,14 +107,21 @@ internal static partial class AssetProxyCA
 				byte[] stored = File.ReadAllBytes(CaPath);
 				byte[] pfx;
 				bool migrated = false;
-				try
+				if (OperatingSystem.IsWindows())
 				{
-					pfx = ProtectedData.Unprotect(stored, CaProtectionEntropy, DataProtectionScope.CurrentUser);
+					try
+					{
+						pfx = ProtectedData.Unprotect(stored, CaProtectionEntropy, DataProtectionScope.CurrentUser);
+					}
+					catch (CryptographicException)
+					{
+						pfx = (byte[])stored.Clone();
+						migrated = true;
+					}
 				}
-				catch (CryptographicException)
+				else
 				{
-					pfx = stored;
-					migrated = true;
+					pfx = (byte[])stored.Clone();
 				}
 				try
 				{
@@ -129,7 +136,7 @@ internal static partial class AssetProxyCA
 					CryptographicOperations.ZeroMemory(stored);
 				}
 				DateTime now = DateTime.UtcNow;
-				if (!_rootCa.HasPrivateKey || now < _rootCa.NotBefore.ToUniversalTime() || now >= _rootCa.NotAfter.ToUniversalTime() || !string.Equals(_rootCa.Subject, CA_SUBJECT, StringComparison.OrdinalIgnoreCase))
+				if (!_rootCa!.HasPrivateKey || now < _rootCa.NotBefore.ToUniversalTime() || now >= _rootCa.NotAfter.ToUniversalTime() || !string.Equals(_rootCa.Subject, CA_SUBJECT, StringComparison.OrdinalIgnoreCase))
 				{
 					SetRootCa(null);
 					throw new InvalidDataException("Existing AssetWarp CA is invalid");
@@ -181,12 +188,18 @@ internal static partial class AssetProxyCA
 
 	private static void WriteProtectedPfx(byte[] pfx)
 	{
-		byte[] protectedPfx = ProtectedData.Protect(pfx, CaProtectionEntropy, DataProtectionScope.CurrentUser);
+		byte[] protectedPfx = OperatingSystem.IsWindows()
+			? ProtectedData.Protect(pfx, CaProtectionEntropy, DataProtectionScope.CurrentUser)
+			: (byte[])pfx.Clone();
 		try
 		{
 			string temporary = CaPath + ".tmp";
 			File.WriteAllBytes(temporary, protectedPfx);
+			if (!OperatingSystem.IsWindows())
+				File.SetUnixFileMode(temporary, UnixFileMode.UserRead | UnixFileMode.UserWrite);
 			File.Move(temporary, CaPath, true);
+			if (!OperatingSystem.IsWindows())
+				File.SetUnixFileMode(CaPath, UnixFileMode.UserRead | UnixFileMode.UserWrite);
 		}
 		finally
 		{
@@ -196,6 +209,9 @@ internal static partial class AssetProxyCA
 
 	private static void ImportToRootStore(X509Certificate2 cert)
 	{
+		if (!OperatingSystem.IsWindows())
+			return;
+
 		try
 		{
 			using X509Store store = new(StoreName.Root, StoreLocation.CurrentUser);
@@ -489,11 +505,18 @@ internal static partial class AssetProxyCA
 		byte[]? pfx = null;
 		try
 		{
-			try
+			if (OperatingSystem.IsWindows())
 			{
-				pfx = ProtectedData.Unprotect(stored, CaProtectionEntropy, DataProtectionScope.CurrentUser);
+				try
+				{
+					pfx = ProtectedData.Unprotect(stored, CaProtectionEntropy, DataProtectionScope.CurrentUser);
+				}
+				catch (CryptographicException)
+				{
+					pfx = (byte[])stored.Clone();
+				}
 			}
-			catch (CryptographicException)
+			else
 			{
 				pfx = (byte[])stored.Clone();
 			}
@@ -581,6 +604,9 @@ internal static partial class AssetProxyCA
 
 	private static void RemoveFromRootStore(string? keepThumbprint)
 	{
+		if (!OperatingSystem.IsWindows())
+			return;
+
 		try
 		{
 			using X509Store store = new(StoreName.Root, StoreLocation.CurrentUser);

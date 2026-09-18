@@ -21,8 +21,8 @@ internal class SetsService
 	public SetsService()
 	{
 		string path = Path.Combine(PathHelper.Data, "sets");
-		ParseData(_sets, Path.Combine(path, "set"));
-		ParseData(_users, Path.Combine(path, "user"));
+        ParseData(_sets, Path.Combine(path, "set"));
+        ParseData(_users, Path.Combine(path, "user"));
 	}
 
 	public string GetSet(int setId)
@@ -35,12 +35,12 @@ internal class SetsService
 		return _users.TryGetValue(userId, out string? path) ? ReadXml(path) : EmptyList;
 	}
 
-	public string GetBaseSet()
+	public static string GetBaseSet()
 	{
 		return ReadXml(Path.Combine(PathHelper.Data, "sets", "base.xml"));
 	}
 
-	private void ParseData(Dictionary<int, string> map, string directory)
+	private static void ParseData(Dictionary<int, string> map, string directory)
 	{
 		if (!Directory.Exists(directory))
 		{
@@ -88,7 +88,7 @@ internal class SetsService
 		}
 	}
 
-	public void Test()
+	public static void Test()
 	{
 	}
 

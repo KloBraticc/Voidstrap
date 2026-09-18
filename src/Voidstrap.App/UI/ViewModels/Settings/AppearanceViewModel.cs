@@ -56,7 +56,6 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         public bool DisplayEverywhere { get; set; }
     }
 
-    private readonly Page _page;
 
     public int[] ZoomOptions { get; } = new int[] { 50, 67, 75, 80, 90, 100, 110, 125, 150, 175, 200 };
 
@@ -145,266 +144,6 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
     public ICommand ViewCustomThemeFilesCommand => new AsyncRelayCommand(ViewCustomThemeFilesAsync);
 
-    public ICommand PublishCustomThemeCommand => new RelayCommand(PublishCustomTheme);
-
-    private readonly ObservableCollection<Voidstrap.Integrations.PublishedThemeInfo> _publishedThemes = new();
-
-    private Voidstrap.Integrations.PublishedThemeInfo? _selectedPublishedTheme;
-
-    private bool _publishedBusy;
-
-    private string _publishedStatus = "Sign in and press Refresh to see the themes you have published.";
-
-    public ObservableCollection<Voidstrap.Integrations.PublishedThemeInfo> PublishedThemes => _publishedThemes;
-
-    public Voidstrap.Integrations.PublishedThemeInfo? SelectedPublishedTheme
-    {
-        get => _selectedPublishedTheme;
-        set
-        {
-            _selectedPublishedTheme = value;
-            OnPropertyChanged(nameof(SelectedPublishedTheme));
-            OnPropertyChanged(nameof(IsPublishedThemeSelected));
-            OnPropertyChanged(nameof(SelectedPublishedFacts));
-            OnPropertyChanged(nameof(SelectedPublishedState));
-            OnPropertyChanged(nameof(CanCommitSelected));
-            OnPropertyChanged(nameof(CanFetchSelected));
-        }
-    }
-
-    public bool IsPublishedThemeSelected => _selectedPublishedTheme != null && !_publishedBusy;
-
-    public bool CanRefreshPublishedThemes => !_publishedBusy;
-
-    public bool CanCommitSelected => _selectedPublishedTheme != null && _selectedPublishedTheme.HasLocalCopy && !_publishedBusy;
-
-    public bool CanFetchSelected => _selectedPublishedTheme != null && !_publishedBusy
-        && (!_selectedPublishedTheme.HasLocalCopy || _selectedPublishedTheme.HasChanges);
-
-    public string PublishedStatus
-    {
-        get => _publishedStatus;
-        private set
-        {
-            _publishedStatus = value;
-            OnPropertyChanged(nameof(PublishedStatus));
-        }
-    }
-
-    public string SelectedPublishedFacts => _selectedPublishedTheme?.Facts ?? "";
-
-    public string SelectedPublishedState => _selectedPublishedTheme?.State ?? "";
-
-    public ICommand RefreshPublishedThemesCommand => new AsyncRelayCommand(RefreshPublishedThemesAsync);
-
-    public ICommand FetchPublishedThemeCommand => new AsyncRelayCommand(FetchPublishedThemeAsync);
-
-    public ICommand CommitPublishedThemeCommand => new RelayCommand(CommitPublishedTheme);
-
-    public ICommand OpenPublishedThemeCommand => new RelayCommand(OpenPublishedTheme);
-
-    public ICommand ViewPublishedChangesCommand => new AsyncRelayCommand(ViewPublishedChangesAsync);
-
-    private void SetPublishedBusy(bool busy)
-    {
-        _publishedBusy = busy;
-        OnPropertyChanged(nameof(IsPublishedThemeSelected));
-        OnPropertyChanged(nameof(CanRefreshPublishedThemes));
-        OnPropertyChanged(nameof(CanCommitSelected));
-        OnPropertyChanged(nameof(CanFetchSelected));
-    }
-
-    private async Task RefreshPublishedThemesAsync()
-    {
-        if (_publishedBusy)
-            return;
-
-        if (string.IsNullOrWhiteSpace(WebsiteAuth.GetToken()))
-        {
-            PublishedStatus = "Sign in to your Voidstrap account first, from the Home page.";
-            return;
-        }
-
-        SetPublishedBusy(true);
-        PublishedStatus = "Loading your published themes...";
-
-        try
-        {
-            var themes = await Voidstrap.Integrations.BootstrapperThemes.GetMineAsync().ConfigureAwait(true);
-
-            string? keep = _selectedPublishedTheme?.Id;
-
-            _publishedThemes.Clear();
-
-            foreach (var theme in themes)
-                _publishedThemes.Add(theme);
-
-            SelectedPublishedTheme = _publishedThemes.FirstOrDefault(t => t.Id == keep) ?? _publishedThemes.FirstOrDefault();
-
-            int pending = themes.Count(t => t.HasChanges);
-            int local = themes.Count(t => t.HasLocalCopy);
-
-            PublishedStatus = themes.Count == 0
-                ? "You have not published any themes yet."
-                : themes.Count + (themes.Count == 1 ? " theme published, " : " themes published, ") +
-                  local + " on this PC, " +
-                  (pending == 0 ? "nothing waiting to be committed." : pending + " with uncommitted changes.");
-        }
-        catch (Exception ex)
-        {
-            PublishedStatus = ex.Message;
-            App.Logger.WriteLine("AppearanceViewModel::RefreshPublishedThemes", ex.Message);
-        }
-        finally
-        {
-            SetPublishedBusy(false);
-        }
-    }
-
-    private async Task FetchPublishedThemeAsync()
-    {
-        if (_publishedBusy)
-            return;
-
-        var theme = _selectedPublishedTheme;
-
-        if (theme == null)
-            return;
-
-        if (theme.HasLocalCopy && !theme.HasChanges)
-        {
-            PublishedStatus = theme.Name + " is already on this PC and matches the published version, so there is nothing to pull.";
-            return;
-        }
-
-        if (theme.HasLocalCopy && theme.HasChanges)
-        {
-            string warning = "This PC has changes that are not published yet (" + theme.Pending!.Describe() +
-                "). Pulling replaces them with the published version and they cannot be recovered. Pull anyway?";
-
-            if (Frontend.ShowMessageBox(warning, MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
-            {
-                PublishedStatus = "Pull cancelled, your local changes were kept.";
-                return;
-            }
-        }
-
-        SetPublishedBusy(true);
-        PublishedStatus = "Downloading " + theme.Name + "...";
-
-        bool refresh = false;
-        try
-        {
-            string folder = await Voidstrap.Integrations.BootstrapperThemes
-                .InstallFromWebsiteAsync(theme.Id, default, theme.LocalFolder)
-                .ConfigureAwait(true);
-
-            PopulateCustomThemes();
-            PublishedStatus = theme.Name + " is now in your themes as " + folder + ".";
-            refresh = true;
-
-            Frontend.ShowMessageBox("This preview has updated.", MessageBoxImage.Information, MessageBoxButton.OK);
-        }
-        catch (Exception ex)
-        {
-            PublishedStatus = ex.Message;
-            Frontend.ShowMessageBox(ex.Message, MessageBoxImage.Hand);
-        }
-        finally
-        {
-            SetPublishedBusy(false);
-        }
-        if (refresh)
-            await RefreshPublishedThemesAsync().ConfigureAwait(true);
-    }
-
-    private void CommitPublishedTheme()
-    {
-        var theme = _selectedPublishedTheme;
-
-        if (theme == null || !theme.HasLocalCopy)
-            return;
-
-        if (!theme.HasChanges)
-        {
-            Frontend.ShowMessageBox("This PC already matches the published version, so there is nothing to commit.", MessageBoxImage.Asterisk);
-            return;
-        }
-
-        PublishThemeDialog dialog = new PublishThemeDialog(theme.LocalFolder!, new Voidstrap.Integrations.ThemePublishRecord
-        {
-            Id = theme.Id,
-            Name = theme.Name,
-            Description = theme.Description,
-            Version = theme.Version
-        })
-        {
-            Owner = Application.Current.MainWindow
-        };
-
-        dialog.ShowDialog();
-        _ = RefreshPublishedThemesAsync();
-    }
-
-
-    private async Task ViewPublishedChangesAsync()
-    {
-        if (_publishedBusy)
-            return;
-
-        var theme = _selectedPublishedTheme;
-
-        if (theme == null || !theme.HasLocalCopy)
-            return;
-
-        SetPublishedBusy(true);
-
-        try
-        {
-            var changes = await Voidstrap.Integrations.BootstrapperThemes
-                .LoadChangesAsync(theme.LocalFolder!, theme.Id)
-                .ConfigureAwait(true);
-
-            ThemeChangesDialog dialog = new ThemeChangesDialog(theme.Name, changes)
-            {
-                Owner = Application.Current.MainWindow
-            };
-
-            dialog.ShowDialog();
-        }
-        catch (Exception ex)
-        {
-            PublishedStatus = ex.Message;
-            App.Logger.WriteLine("AppearanceViewModel::ViewPublishedChanges", ex.Message);
-        }
-        finally
-        {
-            SetPublishedBusy(false);
-        }
-    }
-
-    private void OpenPublishedTheme()
-    {
-        var theme = _selectedPublishedTheme;
-
-        if (theme == null)
-            return;
-
-        try
-        {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = App.WebsiteBaseUrl + "/pages/theme.html?id=" + Uri.EscapeDataString(theme.Id),
-                UseShellExecute = true
-            });
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteLine("AppearanceViewModel::OpenPublishedTheme", ex.Message);
-        }
-    }
-
-
     public ICommand ImportBackgroundCommand { get; }
 
     public ICommand RemoveBackgroundCommand { get; }
@@ -454,18 +193,6 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         }
     }
 
-    public bool ShowLaunchProfile
-    {
-        get
-        {
-            return App.Settings.Prop.ShowLaunchProfile;
-        }
-        set
-        {
-            App.Settings.Prop.ShowLaunchProfile = value;
-        }
-    }
-
     public bool Snowww
     {
         get
@@ -509,6 +236,9 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             });
         }
     }
+
+    public System.Windows.Visibility WindowsOnlyVisibility =>
+        Voidstrap.Utility.Platform.IsLinux ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
 
     public bool ClearFont
     {
@@ -671,13 +401,15 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
     public ICommand RemoveBackgroundCommand2 { get; }
 
-    public IEnumerable<Theme> Themes { get; } = Enum.GetValues(typeof(Theme)).Cast<Theme>();
+    public IEnumerable<Theme> Themes { get; } = Enum.GetValues<Theme>().Cast<Theme>();
 
     public BackdropType SelectedBackdrop
     {
         get
         {
-            if (!OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000) && App.Settings.Prop.WindowBackdrop != BackdropType.None)
+            if (!Voidstrap.Utility.Platform.IsLinux
+                && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000)
+                && App.Settings.Prop.WindowBackdrop != BackdropType.None)
             {
                 App.Settings.Prop.WindowBackdrop = BackdropType.None;
                 App.Settings.SaveDeferred();
@@ -735,45 +467,12 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
                 return;
             }
             App.Settings.Prop.Theme2 = value;
-            MainWindow window = null;
-            try
-            {
-                if (Application.Current?.Windows != null)
-                {
-                    foreach (Window window2 in Application.Current.Windows)
-                    {
-                        if (window2 is MainWindow mainWindow)
-                        {
-                            window = mainWindow;
-                            break;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-            }
-            if (window == null)
-            {
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(Theme));
+            if (Application.Current == null)
                 return;
-            }
-            try
-            {
-                ThemeTransition.Animate(window, delegate
-                {
-                    window.ApplyTheme();
-                });
-            }
-            catch
-            {
-                try
-                {
-                    window.ApplyTheme();
-                }
-                catch
-                {
-                }
-            }
+            foreach (Voidstrap.UI.Elements.Base.WpfUiWindow window in Application.Current.Windows.OfType<Voidstrap.UI.Elements.Base.WpfUiWindow>().ToArray())
+                ThemeTransition.Animate(window, window.ApplyTheme);
         }
     }
 
@@ -876,9 +575,9 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         {
             App.Settings.Prop.BootstrapperStyle = value;
             App.Settings.SaveDeferred();
-            OnPropertyChanged("Dialog");
-            OnPropertyChanged("CustomThemesExpanded");
-            OnPropertyChanged("LauncherExtrasEnabled");
+            OnPropertyChanged(nameof(Dialog));
+            OnPropertyChanged(nameof(CustomThemesExpanded));
+            OnPropertyChanged(nameof(LauncherExtrasEnabled));
         }
     }
 
@@ -912,12 +611,13 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         {
             if (value == BootstrapperIcon.IconCustom && !HasValidCustomIcon() && !PromptCustomIcon())
             {
-                OnPropertyChanged("Icon");
+                OnPropertyChanged(nameof(Icon));
                 return;
             }
             App.Settings.Prop.BootstrapperIcon = value;
             App.Settings.SaveDeferred();
-            OnPropertyChanged("Icon");
+            OnPropertyChanged(nameof(Icon));
+            Voidstrap.UI.LinuxApplicationIdentity.Refresh();
         }
     }
 
@@ -943,11 +643,11 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         {
             if (value == BootstrapperIcon.IconCustom && !HasValidCustomIcon() && !PromptCustomIcon())
             {
-                OnPropertyChanged("StudioIcon");
+                OnPropertyChanged(nameof(StudioIcon));
                 return;
             }
             App.Settings.Prop.StudioBootstrapperIcon = value;
-            OnPropertyChanged("StudioIcon");
+            OnPropertyChanged(nameof(StudioIcon));
             App.Settings.SaveDeferred();
         }
     }
@@ -985,9 +685,10 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             }
             App.Settings.Prop.BootstrapperIconCustomLocation = value;
             App.Settings.SaveDeferred();
-            OnPropertyChanged("Icon");
-            OnPropertyChanged("Icons");
-            OnPropertyChanged("CustomIconLocation");
+            RebuildIcons();
+            OnPropertyChanged(nameof(Icon));
+            OnPropertyChanged(nameof(CustomIconLocation));
+            Voidstrap.UI.LinuxApplicationIdentity.Refresh();
         }
     }
 
@@ -1000,7 +701,8 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         set
         {
             App.Settings.Prop.SelectedCustomTheme = value;
-            OnPropertyChanged("IsCustomThemeSelected");
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(IsCustomThemeSelected));
         }
     }
 
@@ -1032,7 +734,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             {
                 string key = Path.GetExtension(openFileDialog.FileName).TrimStart('.').ToLowerInvariant();
                 byte[] array = File.ReadAllBytes(openFileDialog.FileName).Take(4).ToArray();
-                if (!_appFontHeaders.TryGetValue(key, out byte[] value) || !value.SequenceEqual(array))
+                if (!_appFontHeaders.TryGetValue(key, out byte[]? value) || !value.SequenceEqual(array))
                 {
                     Frontend.ShowMessageBox("Custom Font Invalid", MessageBoxImage.Hand);
                     return;
@@ -1050,10 +752,10 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
                 return;
             }
         }
-        OnPropertyChanged("ChooseAppFontVisibility");
-        OnPropertyChanged("RemoveAppFontVisibility");
-        OnPropertyChanged("AppFontName");
-        OnPropertyChanged("AppFontFamily");
+        OnPropertyChanged(nameof(ChooseAppFontVisibility));
+        OnPropertyChanged(nameof(RemoveAppFontVisibility));
+        OnPropertyChanged(nameof(AppFontName));
+        OnPropertyChanged(nameof(AppFontFamily));
     }
 
     public AppearanceViewModel()
@@ -1076,22 +778,11 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         SharedGradientOpacity = _settings.GradientOpacity;
         ImportBackgroundCommand2 = new RelayCommand<object>(ImportFile);
         RemoveBackgroundCommand2 = new RelayCommand<object>(RemoveFile);
-        foreach (BootstrapperIcon selection in BootstrapperIconEx.Selections)
-        {
-            Icons.Add(new BootstrapperIconEntry
-            {
-                IconType = selection
-            });
-        }
+        RebuildIcons();
         PopulateCustomThemes();
-
-        if (!string.IsNullOrWhiteSpace(WebsiteAuth.GetToken()))
-        {
-            _ = RefreshPublishedThemesAsync();
-        }
     }
 
-    private string GetInitialAutoTranslateLanguageName()
+    private static string GetInitialAutoTranslateLanguageName()
     {
         string configured = App.Settings.Prop.AutoTranslateLanguage ?? "";
         if (!string.IsNullOrEmpty(configured) && TranslationService.AvailableLanguages.TryGetValue(configured, out string? configuredName))
@@ -1163,7 +854,86 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         }
     }
 
-    private static double? RecommendGradientOpacity(string path)
+    internal static byte[]? ReadBgraPixels(BitmapSource image)
+    {
+        int width = image.PixelWidth;
+        int height = image.PixelHeight;
+        if (width <= 0 || height <= 0)
+        {
+            return null;
+        }
+
+        PixelFormat format = image.Format;
+        byte[] bgra = new byte[width * height * 4];
+
+        if (format == PixelFormats.Bgra32 || format == PixelFormats.Bgr32)
+        {
+            image.CopyPixels(bgra, width * 4, 0);
+            return bgra;
+        }
+
+        if (format == PixelFormats.Pbgra32)
+        {
+            image.CopyPixels(bgra, width * 4, 0);
+            for (int i = 0; i < bgra.Length; i += 4)
+            {
+                byte alpha = bgra[i + 3];
+                if (alpha == 0 || alpha == 255)
+                {
+                    continue;
+                }
+                bgra[i] = (byte)Math.Min(255, bgra[i] * 255 / alpha);
+                bgra[i + 1] = (byte)Math.Min(255, bgra[i + 1] * 255 / alpha);
+                bgra[i + 2] = (byte)Math.Min(255, bgra[i + 2] * 255 / alpha);
+            }
+            return bgra;
+        }
+
+        if (format == PixelFormats.Bgr24 || format == PixelFormats.Rgb24)
+        {
+            int stride = width * 3;
+            byte[] source = new byte[stride * height];
+            image.CopyPixels(source, stride, 0);
+            bool swap = format == PixelFormats.Rgb24;
+            for (int p = 0, q = 0; p < source.Length; p += 3, q += 4)
+            {
+                bgra[q] = swap ? source[p + 2] : source[p];
+                bgra[q + 1] = source[p + 1];
+                bgra[q + 2] = swap ? source[p] : source[p + 2];
+                bgra[q + 3] = 255;
+            }
+            return bgra;
+        }
+
+        if (format == PixelFormats.Gray8 || format == PixelFormats.Indexed8)
+        {
+            byte[] source = new byte[width * height];
+            image.CopyPixels(source, width, 0);
+            for (int p = 0, q = 0; p < source.Length; p++, q += 4)
+            {
+                bgra[q] = source[p];
+                bgra[q + 1] = source[p];
+                bgra[q + 2] = source[p];
+                bgra[q + 3] = 255;
+            }
+            return bgra;
+        }
+
+        try
+        {
+            FormatConvertedBitmap converted = new FormatConvertedBitmap(image, PixelFormats.Bgra32, null, 0.0);
+            byte[] fallback = new byte[converted.PixelWidth * 4 * converted.PixelHeight];
+            converted.CopyPixels(fallback, converted.PixelWidth * 4, 0);
+            return fallback;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("AppearanceViewModel::ReadBgraPixels", "Could not convert " + format + ": " + ex.Message.Split('\n')[0]);
+            return null;
+        }
+    }
+
+    internal static double? RecommendGradientOpacity(string path)
     {
         if (Path.GetExtension(path).ToLowerInvariant() is ".mp4" or ".webm" or ".avi" or ".mov")
         {
@@ -1176,11 +946,8 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             {
                 return null;
             }
-            FormatConvertedBitmap converted = new FormatConvertedBitmap(image, PixelFormats.Bgra32, null, 0.0);
-            int stride = converted.PixelWidth * 4;
-            byte[] pixels = new byte[stride * converted.PixelHeight];
-            converted.CopyPixels(pixels, stride, 0);
-            if (pixels.Length == 0)
+            byte[]? pixels = ReadBgraPixels(image);
+            if (pixels == null || pixels.Length == 0)
             {
                 return null;
             }
@@ -1204,7 +971,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         BackgroundFilePath = null;
     }
 
-    private static BackgroundSettings LoadSettings()
+    internal static BackgroundSettings LoadSettings()
     {
         try
         {
@@ -1316,6 +1083,19 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         }
     }
 
+    private void RebuildIcons()
+    {
+        Icons.Clear();
+        foreach (BootstrapperIcon selection in BootstrapperIconEx.Selections)
+        {
+            Icons.Add(new BootstrapperIconEntry
+            {
+                IconType = selection
+            });
+        }
+        OnPropertyChanged(nameof(Icons));
+    }
+
     private static bool HasValidCustomIcon()
     {
         string bootstrapperIconCustomLocation = App.Settings.Prop.BootstrapperIconCustomLocation;
@@ -1338,20 +1118,20 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         }
         App.Settings.Prop.BootstrapperIconCustomLocation = openFileDialog.FileName;
         App.Settings.SaveDeferred();
-        OnPropertyChanged("CustomIconLocation");
+        OnPropertyChanged(nameof(CustomIconLocation));
         return true;
     }
 
     private void AddCustomTheme()
     {
         AddCustomThemeDialog addCustomThemeDialog = new AddCustomThemeDialog();
-        addCustomThemeDialog.ShowDialog();
+        addCustomThemeDialog.ShowOwnedDialog();
         if (addCustomThemeDialog.Created)
         {
             CustomThemes.Add(addCustomThemeDialog.ThemeName);
             SelectedCustomThemeIndex = CustomThemes.Count - 1;
-            OnPropertyChanged("SelectedCustomThemeIndex");
-            OnPropertyChanged("IsCustomThemeSelected");
+            OnPropertyChanged(nameof(SelectedCustomThemeIndex));
+            OnPropertyChanged(nameof(IsCustomThemeSelected));
             if (addCustomThemeDialog.OpenEditor)
             {
                 EditCustomTheme();
@@ -1427,6 +1207,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
     private async Task DeleteCustomThemeAsync()
     {
         string? name = SelectedCustomTheme;
+        App.Logger.WriteLine("AppearanceViewModel::DeleteCustomTheme", "Delete requested for " + (name ?? "nothing selected"));
         if (name != null)
         {
             try
@@ -1443,9 +1224,11 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             if (CustomThemes.Any())
             {
                 SelectedCustomThemeIndex = CustomThemes.Count - 1;
-                OnPropertyChanged("SelectedCustomThemeIndex");
+                OnPropertyChanged(nameof(SelectedCustomThemeIndex));
             }
             SelectedCustomTheme = null;
+            App.Settings.Save();
+            App.Logger.WriteLine("AppearanceViewModel::DeleteCustomTheme", "Deleted " + name);
         }
     }
 
@@ -1479,7 +1262,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             return;
         }
 
-        if (Voidstrap.Utility.Platform.IsWindows && (newName.EndsWith(" ") || newName.EndsWith(".")))
+        if (Voidstrap.Utility.Platform.IsWindows && (newName.EndsWith(' ') || newName.EndsWith('.')))
         {
             Frontend.ShowMessageBox("Windows does not allow names that end in a period or space.", MessageBoxImage.Hand);
             return;
@@ -1522,16 +1305,16 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             App.Settings.SaveDeferred();
         }
         SelectedCustomThemeName = newName;
-        OnPropertyChanged("SelectedCustomTheme");
-        OnPropertyChanged("SelectedCustomThemeName");
-        OnPropertyChanged("SelectedCustomThemeIndex");
+        OnPropertyChanged(nameof(SelectedCustomTheme));
+        OnPropertyChanged(nameof(SelectedCustomThemeName));
+        OnPropertyChanged(nameof(SelectedCustomThemeIndex));
     }
 
     private void EditCustomTheme()
     {
         if (SelectedCustomTheme != null)
         {
-            new BootstrapperEditorWindow(SelectedCustomTheme).ShowDialog();
+            new BootstrapperEditorWindow(SelectedCustomTheme).ShowOwnedDialog();
         }
     }
 
@@ -1543,8 +1326,8 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
         try
         {
-            var files = await Voidstrap.Integrations.BootstrapperThemes
-                .LoadLocalFilesAsync(SelectedCustomTheme)
+            var files = await Voidstrap.Integrations.ThemeFiles
+                .LoadAsync(SelectedCustomTheme)
                 .ConfigureAwait(true);
 
             if (files.Count == 0)
@@ -1553,58 +1336,17 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
                 return;
             }
 
-            ThemeChangesDialog dialog = new ThemeChangesDialog(SelectedCustomTheme, files, true)
+            ThemeChangesDialog dialog = new ThemeChangesDialog(SelectedCustomTheme, files)
             {
                 Owner = Application.Current.MainWindow
             };
 
-            dialog.ShowDialog();
+            dialog.ShowOwnedDialog();
         }
         catch (Exception ex)
         {
             Frontend.ShowMessageBox(ex.Message, MessageBoxImage.Hand);
         }
-    }
-
-    private void PublishCustomTheme()
-    {
-        if (SelectedCustomTheme == null)
-        {
-            return;
-        }
-
-        string themeDir = Path.Combine(Paths.CustomThemes, SelectedCustomTheme);
-
-        if (!Directory.Exists(themeDir))
-        {
-            Frontend.ShowMessageBox("That theme folder no longer exists.", MessageBoxImage.Hand);
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(WebsiteAuth.GetToken()))
-        {
-            Frontend.ShowMessageBox("Sign in to your Voidstrap account first, from the Home page.", MessageBoxImage.Exclamation);
-            return;
-        }
-
-        var record = Voidstrap.Integrations.BootstrapperThemes.ReadPublishRecord(SelectedCustomTheme);
-
-        if (record == null)
-        {
-            string? problem = DescribeExportProblem(themeDir);
-
-            if (problem != null && Frontend.ShowMessageBox(problem, MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
-            {
-                return;
-            }
-        }
-
-        var dialog = new Voidstrap.UI.Elements.Dialogs.PublishThemeDialog(SelectedCustomTheme, record)
-        {
-            Owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive)
-        };
-
-        dialog.ShowDialog();
     }
 
     private void ExportCustomTheme()
@@ -1681,12 +1423,19 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
         try
         {
-            using Process? process = Process.Start(new ProcessStartInfo
+            if (Voidstrap.Utility.Platform.IsLinux)
             {
-                FileName = "explorer.exe",
-                Arguments = "/select,\"" + saveFileDialog.FileName + "\"",
-                UseShellExecute = true
-            });
+                Voidstrap.Utility.PlatformShell.TryRevealFile(saveFileDialog.FileName);
+            }
+            else
+            {
+                using Process? process = Process.Start(new ProcessStartInfo
+                {
+                    FileName = "explorer.exe",
+                    Arguments = "/select,\"" + saveFileDialog.FileName + "\"",
+                    UseShellExecute = true
+                });
+            }
         }
         catch (Exception ex)
         {
@@ -1793,7 +1542,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         }
     }
 
-    private async Task DeleteCustomThemeStructure(string name)
+    private static async Task DeleteCustomThemeStructure(string name)
     {
         string folder = Path.Combine(Paths.CustomThemes, name);
 
@@ -1856,7 +1605,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         }
     }
 
-    private async Task RenameCustomThemeStructure(string oldName, string newName)
+    private static async Task RenameCustomThemeStructure(string oldName, string newName)
     {
         string sourceDirName = Path.Combine(Paths.CustomThemes, oldName);
         string destDirName = Path.Combine(Paths.CustomThemes, newName);
@@ -1929,7 +1678,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
     private void PopulateCustomThemes()
     {
-        string selectedCustomTheme = App.Settings.Prop.SelectedCustomTheme;
+        string? selectedCustomTheme = App.Settings.Prop.SelectedCustomTheme;
         Directory.CreateDirectory(Paths.CustomThemes);
         CustomThemes.Clear();
         string[] directories = Directory.GetDirectories(Paths.CustomThemes);
@@ -1947,7 +1696,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             if (num != -1)
             {
                 SelectedCustomThemeIndex = num;
-                OnPropertyChanged("SelectedCustomThemeIndex");
+                OnPropertyChanged(nameof(SelectedCustomThemeIndex));
             }
             else
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -9,7 +9,7 @@ using Interop = Voidstrap.Integrations.AntiAliasing.AntiAliasingInterop;
 
 namespace Voidstrap.Integrations.Fullscreen
 {
-    public static class FakeExclusiveFullscreen
+    public static partial class FakeExclusiveFullscreen
     {
         private const string LOG_IDENT = "FakeExclusiveFullscreen";
 
@@ -60,18 +60,36 @@ namespace Voidstrap.Integrations.Fullscreen
 
         public static void OnGameJoin()
         {
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return;
+
             if (Enabled)
                 Apply();
             else
                 Restore();
         }
 
-        public static void OnGameLeave() => Restore();
+        public static void OnGameLeave()
+        {
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return;
 
-        public static void Shutdown() => Restore();
+            Restore();
+        }
+
+        public static void Shutdown()
+        {
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return;
+
+            Restore();
+        }
 
         public static bool Apply()
         {
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return false;
+
             var dispatcher = Application.Current?.Dispatcher;
             if (dispatcher == null)
                 return false;
@@ -117,7 +135,7 @@ namespace Voidstrap.Integrations.Fullscreen
                 int style = GetWindowLong(hwnd, GWL_STYLE);
                 style &= ~(WS_CAPTION | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU | WS_BORDER | WS_DLGFRAME);
                 style |= WS_POPUP;
-                SetWindowLong(hwnd, GWL_STYLE, style);
+                _ = SetWindowLong(hwnd, GWL_STYLE, style);
 
                 SetWindowPos(hwnd, IntPtr.Zero, monitor.Left, monitor.Top, width, height,
                     SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
@@ -149,6 +167,9 @@ namespace Voidstrap.Integrations.Fullscreen
 
         public static void Restore()
         {
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return;
+
             var dispatcher = Application.Current?.Dispatcher;
             if (dispatcher == null)
                 return;
@@ -187,7 +208,7 @@ namespace Voidstrap.Integrations.Fullscreen
 
             if (_thumb != IntPtr.Zero)
             {
-                try { DwmUnregisterThumbnail(_thumb); } catch { }
+                try { _ = DwmUnregisterThumbnail(_thumb); } catch { }
                 _thumb = IntPtr.Zero;
             }
 
@@ -199,8 +220,8 @@ namespace Voidstrap.Integrations.Fullscreen
 
             if (_applied && _robloxHwnd != IntPtr.Zero && IsWindow(_robloxHwnd))
             {
-                SetWindowLong(_robloxHwnd, GWL_STYLE, _savedStyle);
-                SetWindowLong(_robloxHwnd, GWL_EXSTYLE, _savedExStyle);
+                _ = SetWindowLong(_robloxHwnd, GWL_STYLE, _savedStyle);
+                _ = SetWindowLong(_robloxHwnd, GWL_EXSTYLE, _savedExStyle);
                 SetWindowPos(_robloxHwnd, (_savedExStyle & WS_EX_TOPMOST) != 0 ? HWND_TOPMOST : HWND_NOTOPMOST,
                     _savedRect.Left, _savedRect.Top,
                     _savedRect.Right - _savedRect.Left, _savedRect.Bottom - _savedRect.Top,
@@ -353,7 +374,7 @@ namespace Voidstrap.Integrations.Fullscreen
             IntPtr handle = helper.EnsureHandle();
 
             int exStyle = GetWindowLong(handle, GWL_EXSTYLE);
-            SetWindowLong(handle, GWL_EXSTYLE, exStyle | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
+            _ = SetWindowLong(handle, GWL_EXSTYLE, exStyle | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
 
             window.Show();
 
@@ -375,7 +396,7 @@ namespace Voidstrap.Integrations.Fullscreen
 
             if (_thumb != IntPtr.Zero)
             {
-                try { DwmUnregisterThumbnail(_thumb); } catch { }
+                try { _ = DwmUnregisterThumbnail(_thumb); } catch { }
                 _thumb = IntPtr.Zero;
             }
 
@@ -418,7 +439,7 @@ namespace Voidstrap.Integrations.Fullscreen
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct RECT
+        private partial struct RECT
         {
             public int Left;
             public int Top;
@@ -427,7 +448,7 @@ namespace Voidstrap.Integrations.Fullscreen
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct DWM_THUMBNAIL_PROPERTIES
+        private partial struct DWM_THUMBNAIL_PROPERTIES
         {
             public int dwFlags;
             public RECT rcDestination;
@@ -439,40 +460,61 @@ namespace Voidstrap.Integrations.Fullscreen
 
         private const uint GW_HWNDNEXT = 2;
 
-        [DllImport("dwmapi.dll")]
-        private static extern int DwmRegisterThumbnail(IntPtr dest, IntPtr src, out IntPtr thumb);
+        [LibraryImport("dwmapi.dll")]
+        private static partial int DwmRegisterThumbnail(IntPtr dest, IntPtr src, out IntPtr thumb);
 
-        [DllImport("dwmapi.dll")]
-        private static extern int DwmUnregisterThumbnail(IntPtr thumb);
+        [LibraryImport("dwmapi.dll")]
+        private static partial int DwmUnregisterThumbnail(IntPtr thumb);
 
-        [DllImport("dwmapi.dll")]
-        private static extern int DwmUpdateThumbnailProperties(IntPtr thumb, ref DWM_THUMBNAIL_PROPERTIES props);
+        [LibraryImport("dwmapi.dll", EntryPoint = "DwmUpdateThumbnailProperties")]
+        private static partial int DwmUpdateThumbnailPropertiesNative(IntPtr thumb, IntPtr props);
 
-        [DllImport("user32.dll")]
-        private static extern bool GetWindowRect(IntPtr hwnd, out RECT rect);
+        private static int DwmUpdateThumbnailProperties(IntPtr thumb, ref DWM_THUMBNAIL_PROPERTIES props)
+        {
+            IntPtr buffer = Marshal.AllocHGlobal(Marshal.SizeOf<DWM_THUMBNAIL_PROPERTIES>());
+            try
+            {
+                Marshal.StructureToPtr(props, buffer, false);
+                int result = DwmUpdateThumbnailPropertiesNative(thumb, buffer);
+                props = Marshal.PtrToStructure<DWM_THUMBNAIL_PROPERTIES>(buffer);
+                return result;
+            }
+            finally
+            {
+                Marshal.DestroyStructure<DWM_THUMBNAIL_PROPERTIES>(buffer);
+                Marshal.FreeHGlobal(buffer);
+            }
+        }
 
-        [DllImport("user32.dll")]
-        private static extern bool SetWindowPos(IntPtr hwnd, IntPtr insertAfter, int x, int y, int cx, int cy, uint flags);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool GetWindowRect(IntPtr hwnd, out RECT rect);
 
-        [DllImport("user32.dll")]
-        private static extern int GetWindowLong(IntPtr hwnd, int index);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool SetWindowPos(IntPtr hwnd, IntPtr insertAfter, int x, int y, int cx, int cy, uint flags);
 
-        [DllImport("user32.dll")]
-        private static extern int SetWindowLong(IntPtr hwnd, int index, int newLong);
+        [LibraryImport("user32.dll", EntryPoint = "GetWindowLongA")]
+        private static partial int GetWindowLong(IntPtr hwnd, int index);
 
-        [DllImport("user32.dll")]
-        private static extern bool IsWindow(IntPtr hwnd);
+        [LibraryImport("user32.dll", EntryPoint = "SetWindowLongA")]
+        private static partial int SetWindowLong(IntPtr hwnd, int index, int newLong);
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetTopWindow(IntPtr hwnd);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool IsWindow(IntPtr hwnd);
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetWindow(IntPtr hwnd, uint cmd);
+        [LibraryImport("user32.dll")]
+        private static partial IntPtr GetTopWindow(IntPtr hwnd);
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
+        [LibraryImport("user32.dll")]
+        private static partial IntPtr GetWindow(IntPtr hwnd, uint cmd);
 
-        [DllImport("user32.dll")]
-        private static extern bool SetForegroundWindow(IntPtr hwnd);
+        [LibraryImport("user32.dll")]
+        private static partial IntPtr GetForegroundWindow();
+
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool SetForegroundWindow(IntPtr hwnd);
     }
 }

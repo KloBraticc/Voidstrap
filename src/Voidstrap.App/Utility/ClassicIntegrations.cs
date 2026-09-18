@@ -15,22 +15,25 @@ using Voidstrap.UI.ViewModels.Settings;
 
 namespace Voidstrap.Utility
 {
-    public static class ClassicIntegrations
+    public static partial class ClassicIntegrations
     {
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-        [DllImport("user32.dll")]
-        private static extern bool IsWindowVisible(IntPtr hWnd);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool IsWindowVisible(IntPtr hWnd);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
+        [LibraryImport("user32.dll", EntryPoint = "GetWindowLongPtrA", SetLastError = true)]
+        private static partial IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+        [LibraryImport("user32.dll", EntryPoint = "SetWindowLongPtrA", SetLastError = true)]
+        private static partial IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
-        [DllImport("psapi.dll")]
-        private static extern bool EmptyWorkingSet(IntPtr hProcess);
+        [LibraryImport("psapi.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool EmptyWorkingSet(IntPtr hProcess);
 
         private const int SW_HIDE = 0;
         private const int GWL_EXSTYLE = -20;
@@ -96,7 +99,7 @@ namespace Voidstrap.Utility
                     if (window == null)
                         continue;
                     string ns = window.GetType().Namespace ?? "";
-                    if (ns.Contains("Bootstrapper") || ns.Contains("Overlay") || ns.Contains("Crosshair") || ns.Contains("ContextMenu") || ns.Contains("GameChat"))
+                    if (ns.Contains("Bootstrapper") || ns.Contains("Overlay") || ns.Contains("Crosshair") || ns.Contains("ContextMenu"))
                         continue;
                     HideWindow(window);
                 }
@@ -141,11 +144,7 @@ namespace Voidstrap.Utility
         {
             try
             {
-                if (Voidstrap.Integrations.Overlays.OverlayCrosshair.IsEnabled() && !Voidstrap.Integrations.Overlays.OverlayHub.CompositorCrosshairActive && Application.Current.Resources["CrosshairWindow"] is not CrosshairWindow)
-                {
-                    var crosshair = new CrosshairWindow(new ModsViewModel());
-                    Application.Current.Resources["CrosshairWindow"] = crosshair;
-                }
+				CrosshairWindow.Reconcile();
             }
             catch (Exception ex)
             {
@@ -179,11 +178,7 @@ namespace Voidstrap.Utility
         {
             try
             {
-                if (Application.Current.Resources["CrosshairWindow"] is CrosshairWindow crosshair)
-                {
-                    crosshair.Close();
-                    Application.Current.Resources.Remove("CrosshairWindow");
-                }
+				CrosshairWindow.CloseAll();
             }
             catch { }
 
@@ -244,7 +239,10 @@ namespace Voidstrap.Utility
                         }
                         if (tick % 20 == 0)
                         {
-                            try { EmptyWorkingSet(studio.Handle); } catch { }
+                            if (Platform.IsWindows)
+                            {
+                                try { EmptyWorkingSet(studio.Handle); } catch { }
+                            }
                         }
                         tick++;
                         await Task.Delay(500, token).ConfigureAwait(false);
@@ -253,7 +251,7 @@ namespace Voidstrap.Utility
                 catch
                 {
                 }
-            });
+            }, token);
         }
 
         private static void StartRichPresence(string clientName, string map)
@@ -266,9 +264,11 @@ namespace Voidstrap.Utility
                     ? App.Settings.Prop.UseCustomIcon
                     : Voidstrap.Integrations.DiscordRichPresence.GetIdleIconUrl();
 
-                var rpc = new DiscordRpcClient("1005469189907173486");
+                if (!Voidstrap.Integrations.DiscordIpc.TryFindPipe(out int pipe))
+                    return;
+                var rpc = new DiscordRpcClient("1005469189907173486", pipe, null, true, null);
                 rpc.Initialize();
-                rpc.SetPresence(new DiscordRPC.RichPresence
+                rpc.SetPresenceSafe(new DiscordRPC.RichPresence
                 {
                     Details = PlaceName(map, clientName),
                     State = string.IsNullOrWhiteSpace(clientName) ? "Classic Roblox" : clientName,

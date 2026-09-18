@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -11,7 +11,7 @@ using System.Windows.Threading;
 
 namespace Voidstrap.Integrations.Overlays
 {
-    public readonly struct RobloxWindowRect
+    public readonly partial struct RobloxWindowRect
     {
         public readonly IntPtr Hwnd;
         public readonly int Left;
@@ -44,7 +44,7 @@ namespace Voidstrap.Integrations.Overlays
         }
     }
 
-    public static class RobloxWindowTracker
+    public static partial class RobloxWindowTracker
     {
         private const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
         private const uint EVENT_OBJECT_DESTROY = 0x8001;
@@ -234,7 +234,7 @@ namespace Voidstrap.Integrations.Overlays
                 Changed = null;
         }
 
-        private sealed class TrackerLease : IDisposable
+        private sealed partial class TrackerLease : IDisposable
         {
             private int _released;
 
@@ -268,6 +268,7 @@ namespace Voidstrap.Integrations.Overlays
             if (Voidstrap.Utility.Platform.IsLinux)
             {
                 Publish();
+				SetDiscoveryInterval(Current.Valid ? 500 : 1000);
                 return;
             }
 
@@ -441,7 +442,7 @@ namespace Voidstrap.Integrations.Overlays
 
         private static RobloxWindowRect MeasureLinux()
         {
-            Voidstrap.Platform.Linux.LinuxWindowGeometry geometry = Voidstrap.Platform.Linux.LinuxWindowInterop.FindRuntimeWindow();
+            Voidstrap.Platform.Linux.LinuxWindowGeometry geometry = Voidstrap.Platform.Linux.LinuxWindowInterop.FindRuntimeWindow(_hwnd);
             if (!geometry.Valid)
             {
                 _hwnd = IntPtr.Zero;
@@ -451,7 +452,13 @@ namespace Voidstrap.Integrations.Overlays
 
             _hwnd = geometry.Window;
             _pid = (uint)geometry.ProcessId;
-            return new RobloxWindowRect(geometry.Window, geometry.Left, geometry.Top, geometry.Width, geometry.Height, true, geometry.Focused);
+			nint inputFocus = Voidstrap.Platform.Linux.LinuxWindowInterop.GetFocusedWindow();
+			nint active = Voidstrap.Platform.Linux.LinuxWindowInterop.GetActiveTopLevelWindow();
+			bool focused = Voidstrap.Platform.Linux.LinuxWindowInterop.IsSameOrDescendantWindow(inputFocus, geometry.Window)
+				|| Voidstrap.Platform.Linux.LinuxWindowInterop.IsSameOrDescendantWindow(active, geometry.Window)
+				|| OverlayDiagnostics.IsOverlayHandle(inputFocus)
+				|| OverlayDiagnostics.IsOverlayHandle(active);
+            return new RobloxWindowRect(geometry.Window, geometry.Left, geometry.Top, geometry.Width, geometry.Height, true, focused);
         }
 
         public static bool IsRobloxForeground()
@@ -517,7 +524,7 @@ namespace Voidstrap.Integrations.Overlays
                 _enumProc = EnumWindowCallback;
             try
             {
-                EnumWindows(_enumProc, IntPtr.Zero);
+                _ = EnumWindows(Marshal.GetFunctionPointerForDelegate(_enumProc), IntPtr.Zero);
             }
             catch
             {
@@ -536,9 +543,9 @@ namespace Voidstrap.Integrations.Overlays
             if (wpid == 0 || !_findPids.Contains(wpid))
                 return true;
 
-            var sb = new StringBuilder(64);
-            GetClassName(hwnd, sb, sb.Capacity);
-            if (!sb.ToString().Equals("WINDOWSCLIENT", StringComparison.Ordinal))
+            char[] className = new char[64];
+            int classLength = GetClassName(hwnd, className, className.Length);
+            if (!className.AsSpan(0, Math.Max(0, classLength)).SequenceEqual("WINDOWSCLIENT"))
                 return true;
 
             if (!GetClientRect(hwnd, out RECT rc))
@@ -556,41 +563,48 @@ namespace Voidstrap.Integrations.Overlays
         private delegate void WinEventProc(IntPtr hook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint thread, uint time);
         private delegate bool EnumWindowsProc(IntPtr hwnd, IntPtr lparam);
 
-        [DllImport("user32.dll")]
-        private static extern bool EnumWindows(EnumWindowsProc callback, IntPtr lparam);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool EnumWindows(IntPtr callback, IntPtr lparam);
 
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern int GetClassName(IntPtr hwnd, StringBuilder className, int maxCount);
+        [LibraryImport("user32.dll", EntryPoint = "GetClassNameW", StringMarshalling = StringMarshalling.Utf16)]
+        private static partial int GetClassName(IntPtr hwnd, [Out] char[] className, int maxCount);
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr module, WinEventProc callback, uint pid, uint thread, uint flags);
+        [LibraryImport("user32.dll")]
+        private static partial IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr module, WinEventProc callback, uint pid, uint thread, uint flags);
 
-        [DllImport("user32.dll")]
-        private static extern bool UnhookWinEvent(IntPtr hook);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool UnhookWinEvent(IntPtr hook);
 
-        [DllImport("user32.dll")]
-        private static extern bool GetClientRect(IntPtr hwnd, out RECT rect);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool GetClientRect(IntPtr hwnd, out RECT rect);
 
-        [DllImport("user32.dll")]
-        private static extern bool ClientToScreen(IntPtr hwnd, ref POINT point);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool ClientToScreen(IntPtr hwnd, ref POINT point);
 
-        [DllImport("user32.dll")]
-        private static extern bool IsWindow(IntPtr hwnd);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool IsWindow(IntPtr hwnd);
 
-        [DllImport("user32.dll")]
-        private static extern bool IsWindowVisible(IntPtr hwnd);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool IsWindowVisible(IntPtr hwnd);
 
-        [DllImport("user32.dll")]
-        private static extern bool IsIconic(IntPtr hwnd);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool IsIconic(IntPtr hwnd);
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
+        [LibraryImport("user32.dll")]
+        private static partial IntPtr GetForegroundWindow();
 
-        [DllImport("user32.dll")]
-        private static extern uint GetWindowThreadProcessId(IntPtr hwnd, out uint pid);
+        [LibraryImport("user32.dll")]
+        private static partial uint GetWindowThreadProcessId(IntPtr hwnd, out uint pid);
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct RECT
+        private partial struct RECT
         {
             public int Left;
             public int Top;
@@ -599,7 +613,7 @@ namespace Voidstrap.Integrations.Overlays
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct POINT
+        private partial struct POINT
         {
             public int X;
             public int Y;
@@ -610,10 +624,11 @@ namespace Voidstrap.Integrations.Overlays
     {
         Fill,
         Center,
-        TopRight
+        TopRight,
+        TopStrip
     }
 
-    internal sealed class RobloxOverlayAnchor : IDisposable
+    internal sealed partial class RobloxOverlayAnchor : IDisposable
     {
         private const int SWP_NOACTIVATE = 0x0010;
         private const int SWP_NOZORDER = 0x0004;
@@ -635,6 +650,16 @@ namespace Voidstrap.Integrations.Overlays
             _window = window;
             _hideWhenUnfocused = hideWhenUnfocused;
 			_placement = placement;
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				_window.WindowStartupLocation = WindowStartupLocation.Manual;
+				_window.Left = LinuxParkedPosition;
+				_window.Top = LinuxParkedPosition;
+				_window.ShowActivated = false;
+				_window.ShowInTaskbar = false;
+				_window.Topmost = true;
+				Voidstrap.UI.LinuxTextGuard.SetPreserveCompactLayout(_window, true);
+			}
 
             _window.SourceInitialized += OnSourceInitialized;
             _window.Closed += OnWindowClosed;
@@ -685,15 +710,33 @@ namespace Voidstrap.Integrations.Overlays
 			Apply(rect);
 		}
 
+		public void Refresh()
+		{
+			if (_disposed || _hwnd == IntPtr.Zero)
+				return;
+			OnTrackerChanged(null, RobloxWindowTracker.Current);
+		}
+
         private void Apply(RobloxWindowRect rect)
         {
-            if (_disposed || _hwnd == IntPtr.Zero || _window.Dispatcher.HasShutdownStarted || _window.Dispatcher.HasShutdownFinished)
+            if (_disposed || _window.Dispatcher.HasShutdownStarted || _window.Dispatcher.HasShutdownFinished)
+                return;
+
+            if (_hwnd == IntPtr.Zero && !Voidstrap.Utility.Platform.IsLinux)
                 return;
 
             try
             {
                 if (!rect.Valid || (_hideWhenUnfocused && !rect.Foreground))
                 {
+                    if (Voidstrap.Utility.Platform.IsLinux)
+                    {
+						if (!rect.Valid && TryApplyLinuxCenterFallback())
+							return;
+                        ParkLinuxOverlay();
+                        return;
+                    }
+
                     if (_window.IsVisible)
                         _window.Hide();
                     return;
@@ -711,14 +754,22 @@ namespace Voidstrap.Integrations.Overlays
 					DpiScale dpi = VisualTreeHelper.GetDpi(_window);
 					double logicalWidth = ResolveLogicalLength(_window.Width, _window.ActualWidth, _window.DesiredSize.Width, _window.MinWidth);
 					double logicalHeight = ResolveLogicalLength(_window.Height, _window.ActualHeight, _window.DesiredSize.Height, _window.MinHeight);
-					width = Math.Max(1, (int)Math.Ceiling(logicalWidth * dpi.DpiScaleX));
-					height = Math.Max(1, (int)Math.Ceiling(logicalHeight * dpi.DpiScaleY));
-					int horizontalMargin = Math.Max(1, (int)Math.Round(12 * dpi.DpiScaleX));
-					int verticalMargin = Math.Max(1, (int)Math.Round(10 * dpi.DpiScaleY));
+					double scaleX = Voidstrap.Utility.Platform.IsLinux ? 1d : dpi.DpiScaleX;
+					double scaleY = Voidstrap.Utility.Platform.IsLinux ? 1d : dpi.DpiScaleY;
+					width = Math.Max(1, (int)Math.Ceiling(logicalWidth * scaleX));
+					height = Math.Max(1, (int)Math.Ceiling(logicalHeight * scaleY));
+					int horizontalMargin = Math.Max(1, (int)Math.Round(12 * scaleX));
+					int verticalMargin = Math.Max(1, (int)Math.Round(10 * scaleY));
 					if (_placement == RobloxOverlayPlacement.Center)
 					{
 						left = rect.Left + (rect.Width - width) / 2;
 						top = rect.Top + (rect.Height - height) / 2;
+					}
+					else if (_placement == RobloxOverlayPlacement.TopStrip)
+					{
+						width = rect.Width;
+						left = rect.Left;
+						top = rect.Top;
 					}
 					else
 					{
@@ -728,14 +779,7 @@ namespace Voidstrap.Integrations.Overlays
 				}
 				if (Voidstrap.Utility.Platform.IsLinux)
 				{
-					DpiScale surfaceDpi = VisualTreeHelper.GetDpi(_window);
-					double scaleX = surfaceDpi.DpiScaleX <= 0 ? 1 : surfaceDpi.DpiScaleX;
-					double scaleY = surfaceDpi.DpiScaleY <= 0 ? 1 : surfaceDpi.DpiScaleY;
-					_window.Left = left / scaleX;
-					_window.Top = top / scaleY;
-					_window.Width = Math.Max(1, width / scaleX);
-					_window.Height = Math.Max(1, height / scaleY);
-					_window.Topmost = true;
+					ApplyLinuxGeometry(left, top, Math.Max(1, width), Math.Max(1, height));
 					return;
 				}
 				SetWindowPos(_hwnd, HWND_TOPMOST, left, top, width, height, SWP_NOACTIVATE | SWP_SHOWWINDOW);
@@ -744,6 +788,169 @@ namespace Voidstrap.Integrations.Overlays
             {
             }
         }
+
+		private nint _linuxHandle;
+
+		private nint ResolveLinuxHandle()
+		{
+			if (_linuxHandle != 0 && Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(_linuxHandle))
+				return _linuxHandle;
+			if (_hwnd != IntPtr.Zero && Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(_hwnd))
+			{
+				_linuxHandle = _hwnd;
+				return _linuxHandle;
+			}
+
+			string title = _window.Title;
+
+			if (string.IsNullOrWhiteSpace(title))
+				return 0;
+
+			_linuxHandle = Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(title);
+			return _linuxHandle;
+		}
+
+		private bool _linuxPrepared;
+
+		private const int LinuxParkedPosition = -32000;
+
+		private bool _linuxParked;
+
+		private bool TryApplyLinuxCenterFallback()
+		{
+			if (_placement != RobloxOverlayPlacement.Center
+				|| !OverlayHub.InGame
+				|| !Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetScreenBounds(out int screenWidth, out int screenHeight))
+				return false;
+
+			double logicalWidth = ResolveLogicalLength(_window.Width, _window.ActualWidth, _window.DesiredSize.Width, _window.MinWidth);
+			double logicalHeight = ResolveLogicalLength(_window.Height, _window.ActualHeight, _window.DesiredSize.Height, _window.MinHeight);
+			int width = Math.Max(1, (int)Math.Ceiling(logicalWidth));
+			int height = Math.Max(1, (int)Math.Ceiling(logicalHeight));
+			ApplyLinuxGeometry((screenWidth - width) / 2, (screenHeight - height) / 2, width, height);
+			return true;
+		}
+
+		private void ParkLinuxOverlay()
+		{
+			if (_window is Voidstrap.UI.Elements.Crosshair.CrosshairWindow crosshair)
+				crosshair.SetLinuxPresentation(false);
+			if (_linuxParked)
+				return;
+
+			nint handle = ResolveLinuxHandle();
+
+			if (handle == 0)
+			{
+				ArmLinuxRetry();
+				return;
+			}
+
+			if (Voidstrap.Platform.Linux.LinuxWindowInterop.TryMoveResize(handle, LinuxParkedPosition, LinuxParkedPosition, 1, 1))
+			{
+				_linuxParked = true;
+				StopLinuxRetry();
+				return;
+			}
+
+			ArmLinuxRetry();
+		}
+
+		private const int MaxLinuxRetries = 60;
+
+		private DispatcherTimer? _linuxRetryTimer;
+
+		private int _linuxRetryAttempts;
+
+		private void ArmLinuxRetry()
+		{
+			if (_disposed || _linuxRetryTimer != null)
+				return;
+
+			_linuxRetryAttempts = 0;
+			_linuxRetryTimer = new DispatcherTimer(DispatcherPriority.Background, _window.Dispatcher)
+			{
+				Interval = TimeSpan.FromMilliseconds(150)
+			};
+			_linuxRetryTimer.Tick += OnLinuxRetryTick;
+			_linuxRetryTimer.Start();
+		}
+
+		private void StopLinuxRetry()
+		{
+			if (_linuxRetryTimer == null)
+				return;
+
+			_linuxRetryTimer.Stop();
+			_linuxRetryTimer.Tick -= OnLinuxRetryTick;
+			_linuxRetryTimer = null;
+		}
+
+		private void OnLinuxRetryTick(object? sender, EventArgs e)
+		{
+			if (_disposed)
+			{
+				StopLinuxRetry();
+				return;
+			}
+
+			_linuxRetryAttempts++;
+			if (_linuxRetryAttempts > MaxLinuxRetries)
+			{
+				StopLinuxRetry();
+				App.Logger?.WriteLine("RobloxOverlayAnchor", "The overlay surface never became addressable for " + _window.Title);
+				return;
+			}
+
+			StopLinuxRetry();
+			Apply(RobloxWindowTracker.Current);
+		}
+
+		private void ApplyLinuxGeometry(int left, int top, int width, int height)
+		{
+			nint handle = ResolveLinuxHandle();
+
+			if (handle == 0)
+			{
+				ArmLinuxRetry();
+				return;
+			}
+
+			if (!_linuxPrepared)
+				_linuxPrepared = Voidstrap.Platform.Linux.LinuxWindowInterop.TryPrepareOverlayWindow(handle);
+
+			if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryMoveResize(handle, left, top, width, height))
+			{
+				if (_window is Voidstrap.UI.Elements.Crosshair.CrosshairWindow hiddenCrosshair)
+					hiddenCrosshair.SetLinuxPresentation(false);
+				ArmLinuxRetry();
+				return;
+			}
+			Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetAlwaysOnTop(handle);
+			ReportLinuxGeometry(handle, left, top, width, height);
+			_linuxParked = false;
+			StopLinuxRetry();
+			if (_window is Voidstrap.UI.Elements.Crosshair.CrosshairWindow crosshair)
+				crosshair.SetLinuxPresentation(true);
+		}
+
+		private long _lastGeometryReport;
+
+		private void ReportLinuxGeometry(nint handle, int left, int top, int width, int height)
+		{
+			long now = Environment.TickCount64;
+			if (now - _lastGeometryReport < 4000)
+				return;
+
+			_lastGeometryReport = now;
+			bool read = Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(handle, out int actualLeft, out int actualTop, out int actualWidth, out int actualHeight);
+			App.Logger?.WriteLine(
+				"RobloxOverlayAnchor",
+				_window.Title + " asked for " + left + "," + top + " " + width + "x" + height
+					+ (read ? ", landed at " + actualLeft + "," + actualTop + " " + actualWidth + "x" + actualHeight : ", geometry unreadable")
+					+ ", prepared " + _linuxPrepared
+					+ ", reparented " + Voidstrap.Platform.Linux.LinuxWindowInterop.IsReparentedWindow(handle));
+		}
 
 		private static double ResolveLogicalLength(double configured, double actual, double desired, double minimum)
 		{
@@ -761,15 +968,19 @@ namespace Voidstrap.Integrations.Overlays
                 return;
             _disposed = true;
 			Interlocked.Exchange(ref _applyPending, 0);
+			StopLinuxRetry();
 
             RobloxWindowTracker.Changed -= OnTrackerChanged;
             _trackerLease.Dispose();
             OverlayDiagnostics.UnregisterOverlayHandle(_hwnd);
+			if (_linuxHandle != 0 && _linuxHandle != _hwnd)
+				OverlayDiagnostics.UnregisterOverlayHandle(_linuxHandle);
             _window.SourceInitialized -= OnSourceInitialized;
             _window.Closed -= OnWindowClosed;
         }
 
-        [DllImport("user32.dll")]
-        private static extern bool SetWindowPos(IntPtr hwnd, IntPtr insertAfter, int x, int y, int cx, int cy, uint flags);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool SetWindowPos(IntPtr hwnd, IntPtr insertAfter, int x, int y, int cx, int cy, uint flags);
     }
 }

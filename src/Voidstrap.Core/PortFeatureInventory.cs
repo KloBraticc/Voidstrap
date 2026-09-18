@@ -59,7 +59,6 @@ public static class PortFeatureInventory
 		Page("Shortcuts", "Shortcuts", "ShortcutsPage", FeatureId.ProtocolRegistration),
 		Page("Settings", "Settings", "ChannelPage", FeatureId.DesktopShell),
 		Page("About", "About", "AboutPage", null),
-		Page("Friends", "Friends", "FriendsPage", FeatureId.EmbeddedBrowser),
 		Page("History", "History", "HistoryPage", FeatureId.RobloxPlayer),
 		Page("Library", "Library", "LibraryPage", FeatureId.RobloxPlayer),
 		Page("MobileSupport", "Mobile Support", "MobilePage", null),
@@ -135,7 +134,6 @@ public static class PortFeatureInventory
 		Dialog("ImageAdjust", "Image adjust window", "ContextMenu/ImageAdjustWindow"),
 		Dialog("ImageRecolor", "Image recolor window", "ContextMenu/ImageRecolorWindow"),
 		Dialog("MeshViewer", "Mesh viewer window", "ContextMenu/MeshViewerWindow"),
-		Dialog("ProfileEditor", "Profile editor window", "ContextMenu/ProfileEditorWindow"),
 		Dialog("RichPresence", "Rich presence window", "ContextMenu/RPCWindow"),
 		Dialog("Overlay", "Overlay window", "ContextMenu/UIWindow"),
 		Native(FeatureId.DesktopShell),
@@ -228,12 +226,9 @@ public static class PortFeatureInventory
 		IEnumerable<SettingsCatalogEntry>? settings = null,
 		IEnumerable<ExtensionManifest>? extensions = null)
 	{
-		if (host is null)
-		{
-			throw new ArgumentNullException(nameof(host));
-		}
+        ArgumentNullException.ThrowIfNull(host);
 
-		return Evaluate(host.Capabilities, host.Paths.Storage, settings, extensions);
+        return Evaluate(host.Capabilities, host.Paths.Storage, settings, extensions);
 	}
 
 	public static IReadOnlyCollection<PortFeatureStatus> Evaluate(
@@ -241,12 +236,9 @@ public static class PortFeatureInventory
 		IEnumerable<SettingsCatalogEntry>? settings = null,
 		IEnumerable<ExtensionManifest>? extensions = null)
 	{
-		if (capabilities is null)
-		{
-			throw new ArgumentNullException(nameof(capabilities));
-		}
+        ArgumentNullException.ThrowIfNull(capabilities);
 
-		return Evaluate(capabilities, null, settings, extensions);
+        return Evaluate(capabilities, null, settings, extensions);
 	}
 
 	public static IReadOnlyCollection<PortFeatureStatus> Evaluate(
@@ -255,12 +247,9 @@ public static class PortFeatureInventory
 		IEnumerable<SettingsCatalogEntry>? settings = null,
 		IEnumerable<ExtensionManifest>? extensions = null)
 	{
-		if (capabilities is null)
-		{
-			throw new ArgumentNullException(nameof(capabilities));
-		}
+        ArgumentNullException.ThrowIfNull(capabilities);
 
-		ExtensionManifest[] extensionValues = extensions?.ToArray() ?? Array.Empty<ExtensionManifest>();
+        ExtensionManifest[] extensionValues = extensions?.ToArray() ?? Array.Empty<ExtensionManifest>();
 		IReadOnlyDictionary<string, ExtensionManifest> extensionsById = extensionValues
 			.GroupBy(static extension => extension.Id, StringComparer.OrdinalIgnoreCase)
 			.ToDictionary(static group => group.Key, static group => group.First(), StringComparer.OrdinalIgnoreCase);
@@ -271,12 +260,9 @@ public static class PortFeatureInventory
 
 	public static PortFeatureStatus Evaluate(IPlatformHost host, PortFeatureDefinition definition)
 	{
-		if (host is null)
-		{
-			throw new ArgumentNullException(nameof(host));
-		}
+        ArgumentNullException.ThrowIfNull(host);
 
-		return Evaluate(host.Capabilities, definition, null, host.Paths.Storage);
+        return Evaluate(host.Capabilities, definition, null, host.Paths.Storage);
 	}
 
 	public static PortFeatureStatus Evaluate(IPlatformCapabilities capabilities, PortFeatureDefinition definition)
@@ -290,17 +276,11 @@ public static class PortFeatureInventory
 		IReadOnlyDictionary<string, ExtensionManifest>? extensionsById,
 		PlatformStoragePaths? storage)
 	{
-		if (capabilities is null)
-		{
-			throw new ArgumentNullException(nameof(capabilities));
-		}
+        ArgumentNullException.ThrowIfNull(capabilities);
 
-		if (definition is null)
-		{
-			throw new ArgumentNullException(nameof(definition));
-		}
+        ArgumentNullException.ThrowIfNull(definition);
 
-		if (definition.Kind == PortFeatureKind.Setting)
+        if (definition.Kind == PortFeatureKind.Setting)
 		{
 			if (capabilities.Platform == PlatformId.Windows)
 			{

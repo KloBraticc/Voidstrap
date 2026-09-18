@@ -18,14 +18,14 @@ public class PackageManifest : List<Package>
 			throw new InvalidDataException("Package manifest is empty");
 		}
 		using StringReader stringReader = new StringReader(data);
-		string text = stringReader.ReadLine();
+		string? text = stringReader.ReadLine();
 		if (text != "v0")
 		{
 			throw new NotSupportedException("Unexpected package manifest version: " + text + " (expected v0!)");
 		}
 		while (true)
 		{
-			string text2 = stringReader.ReadLine();
+			string? text2 = stringReader.ReadLine();
 			if (text2 == null)
 			{
 				break;
@@ -38,9 +38,9 @@ public class PackageManifest : List<Package>
 			{
 				break;
 			}
-			string text3 = stringReader.ReadLine();
-			string text4 = stringReader.ReadLine();
-			string text5 = stringReader.ReadLine();
+			string? text3 = stringReader.ReadLine();
+			string? text4 = stringReader.ReadLine();
+			string? text5 = stringReader.ReadLine();
 			if (string.IsNullOrEmpty(text3) || string.IsNullOrEmpty(text4) || string.IsNullOrEmpty(text5))
 			{
 				throw new InvalidDataException("Package manifest ended in the middle of a package entry");

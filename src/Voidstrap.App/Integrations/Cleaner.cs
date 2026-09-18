@@ -7,7 +7,7 @@ namespace Voidstrap.Integrations;
 
 public class Cleaner
 {
-	public static Dictionary<string, string> Directories = new Dictionary<string, string>
+	public static readonly Dictionary<string, string> Directories = new Dictionary<string, string>
 	{
 		{
 			"VoidstrapLogs",
@@ -71,6 +71,10 @@ public class Cleaner
 					string[] array2 = array;
 					foreach (string text in array2)
 					{
+						if (IsLiveVoidstrapLog(text))
+						{
+							continue;
+						}
 						if (activeLog.Length > 0 && string.Equals(Path.GetFullPath(text), Path.GetFullPath(activeLog), StringComparison.OrdinalIgnoreCase))
 						{
 							continue;
@@ -80,6 +84,10 @@ public class Cleaner
 							try
 							{
 								File.Delete(text);
+							}
+							catch (Exception ex) when (IsInUse(ex))
+							{
+								App.Logger.WriteLine("Cleaner::DoCleaning", "Skipping " + Path.GetFileName(text) + ", it is still open by another program");
 							}
 							catch (Exception ex)
 							{
@@ -97,6 +105,34 @@ public class Cleaner
 			}
 		}
 		App.Logger.WriteLine("Cleaner::DoCleaning", "Cleaner finished");
+	}
+
+	private static bool IsLiveVoidstrapLog(string file)
+	{
+		string name = Path.GetFileNameWithoutExtension(file);
+		if (!name.StartsWith("Voidstrap_", StringComparison.OrdinalIgnoreCase))
+		{
+			return false;
+		}
+		int separator = name.LastIndexOf('_');
+		if (separator < 0 || !int.TryParse(name.AsSpan(separator + 1), out int processId))
+		{
+			return false;
+		}
+		try
+		{
+			using System.Diagnostics.Process process = System.Diagnostics.Process.GetProcessById(processId);
+			return !process.HasExited;
+		}
+		catch
+		{
+			return false;
+		}
+	}
+
+	private static bool IsInUse(Exception ex)
+	{
+		return ex is IOException && (ex.HResult == unchecked((int)0x80070020) || ex.HResult == unchecked((int)0x80070021));
 	}
 
 	private static bool VerifyFile(string file, DateTime Threshold)

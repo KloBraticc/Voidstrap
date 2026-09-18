@@ -26,8 +26,8 @@ public partial class FluentMessageBox : WpfUiWindow{
 		InitializeComponent();
 		base.Title = "Voidstrap";
 		RootTitleBar.Title = base.Title;
-		string text = null;
-		SystemSound systemSound = null;
+		string? text = null;
+		SystemSound? systemSound = null;
 		switch (image)
 		{
 		case MessageBoxImage.Hand:
@@ -89,10 +89,10 @@ public partial class FluentMessageBox : WpfUiWindow{
 			base.Width = 245.0;
 		}
 		double num = Math.Ceiling(Rendering.GetTextWidth(MessageTextBlock));
-		num += 40.0;
+		num += 48.0;
 		if (image != MessageBoxImage.None)
 		{
-			num += 50.0;
+			num += 52.0;
 		}
 		if (num > base.MaxWidth)
 		{
@@ -101,6 +101,10 @@ public partial class FluentMessageBox : WpfUiWindow{
 		else if (num > base.Width)
 		{
 			base.Width = num;
+		}
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			ApplyPortableHeight();
 		}
 		Voidstrap.Utility.SafeSystemSounds.Play(systemSound);
 		base.Loaded += OnLoaded;
@@ -117,6 +121,34 @@ public partial class FluentMessageBox : WpfUiWindow{
 			MessageBoxResult.No => Strings.Common_No, 
 			_ => result.ToString(), 
 		};
+	}
+
+	private void ApplyPortableHeight()
+	{
+		base.SizeToContent = SizeToContent.Manual;
+		base.Height = PortableStartHeight;
+	}
+
+	private static double PortableStartHeight
+	{
+		get
+		{
+			double screen = Voidstrap.UI.LinuxScreenMetrics.Height;
+			double ceiling = screen > 0d ? screen - 120d : 620d;
+			return Math.Max(360d, Math.Min(620d, ceiling));
+		}
+	}
+
+	private void ShrinkPortableHeight()
+	{
+		try
+		{
+			base.SizeToContent = SizeToContent.Height;
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("FluentMessageBox::ShrinkPortableHeight", "Could not size the dialog: " + ex.Message);
+		}
 	}
 
 	public void SetButton(System.Windows.Controls.Button button, MessageBoxResult result)
@@ -140,6 +172,7 @@ public partial class FluentMessageBox : WpfUiWindow{
 	private void OnLoaded(object sender, RoutedEventArgs e)
 	{
 		if (Voidstrap.Utility.Platform.IsWindows) { Windows.Win32.PInvoke.FlashWindow((HWND)new WindowInteropHelper(this).Handle, true); }
+		else { ShrinkPortableHeight(); }
 	}
 
 	private void OnClosed(object? sender, EventArgs e)

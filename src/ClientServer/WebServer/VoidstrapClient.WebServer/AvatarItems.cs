@@ -47,11 +47,11 @@ internal static class AvatarItems
 
 	public static AvatarItem? GetById(ulong id)
 	{
-		if (!Database.ContainsKey(id))
+		if (!Database.TryGetValue(id, out AvatarItem? value))
 		{
 			return null;
 		}
-		return Database[id];
+		return value;
 	}
 
 	public static bool TryGetById(ulong id, [NotNullWhen(true)] out AvatarItem item)

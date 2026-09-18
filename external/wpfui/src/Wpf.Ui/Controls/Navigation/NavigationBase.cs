@@ -404,6 +404,16 @@ public abstract class NavigationBase : System.Windows.Controls.Control, INavigat
         Current = (INavigationItem)null;
     }
 
+    public FrameworkElement? PrecachePage(Type pageType)
+    {
+        return _navigationService?.PrecacheItem(pageType);
+    }
+
+    public bool IsPageCached(Type pageType)
+    {
+        return _navigationService?.IsCached(pageType) ?? false;
+    }
+
     /// <inheritdoc/>
     public void ClearCache()
     {

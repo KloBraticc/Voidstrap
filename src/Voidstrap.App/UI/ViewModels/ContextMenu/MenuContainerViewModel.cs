@@ -21,6 +21,7 @@ namespace Voidstrap.UI.Chat
                     App.Settings.Prop.Brightness = clamped;
                     App.Settings.Save();
                     OnPropertyChanged(nameof(BrightnessDisplay));
+                    Voidstrap.Utility.ScreenColorEffect.ApplyConfigured();
                 }
             }
         }
@@ -41,6 +42,7 @@ namespace Voidstrap.UI.Chat
                     App.Settings.Prop.Saturation = clamped;
                     App.Settings.Save();
                     OnPropertyChanged(nameof(SaturationDisplay));
+                    Voidstrap.Utility.ScreenColorEffect.ApplyConfigured();
                 }
             }
         }
@@ -61,6 +63,7 @@ namespace Voidstrap.UI.Chat
                     App.Settings.Prop.Contrast = clamped;
                     App.Settings.Save();
                     OnPropertyChanged(nameof(ContrastDisplay));
+                    Voidstrap.Utility.ScreenColorEffect.ApplyConfigured();
                 }
             }
         }
@@ -81,6 +84,7 @@ namespace Voidstrap.UI.Chat
                     App.Settings.Prop.ColorTemperature = clamped;
                     App.Settings.Save();
                     OnPropertyChanged(nameof(ColorTemperatureDisplay));
+                    Voidstrap.Utility.ScreenColorEffect.ApplyConfigured();
                 }
             }
         }

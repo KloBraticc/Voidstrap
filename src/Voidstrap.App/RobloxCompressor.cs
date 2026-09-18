@@ -177,7 +177,7 @@ public static partial class RobloxCompressor
 
             try
             {
-                string manifestText = null;
+                string? manifestText = null;
                 foreach (string pkgManifestUrl in Voidstrap.RobloxInterfaces.Deployment.GetLocations($"/{versionGuid}-rbxPkgManifest.txt"))
                 {
                     App.Logger.WriteLine(LOG_IDENT, $"  Fetching {pkgManifestUrl}");

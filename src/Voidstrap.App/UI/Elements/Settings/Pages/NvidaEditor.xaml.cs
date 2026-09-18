@@ -340,7 +340,7 @@ public partial class NvidiaFFlagEditorPage : UiPage
             Owner = Window.GetWindow(this),
         };
 
-        if (dialog.ShowDialog() != true)
+        if (dialog.ShowOwnedDialog() != true)
             return;
 
         List<NvidiaEditorEntry> snapshot = SnapshotEntries();
@@ -451,7 +451,7 @@ public partial class NvidiaFFlagEditorPage : UiPage
             Owner = Window.GetWindow(this),
         };
 
-        if (dialog.ShowDialog() != true)
+        if (dialog.ShowOwnedDialog() != true)
             return;
 
         try
@@ -476,7 +476,7 @@ public partial class NvidiaFFlagEditorPage : UiPage
                     break;
             }
 
-            Clipboard.SetText(payload);
+            Voidstrap.Utility.ClipboardService.SetText(payload);
             ShowInfoMessage("Copied " + Entries.Count.ToString(CultureInfo.InvariantCulture) + " flags to the clipboard as " + format + ".");
         }
         catch (Exception ex)

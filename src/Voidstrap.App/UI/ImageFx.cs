@@ -46,7 +46,7 @@ namespace Voidstrap.UI
             image.Unloaded -= OnUnloaded;
         }
 
-        private static void OnSourceChanged(object sender, EventArgs e)
+        private static void OnSourceChanged(object? sender, EventArgs e)
         {
             if (sender is not Image image || image.Source == null)
                 return;

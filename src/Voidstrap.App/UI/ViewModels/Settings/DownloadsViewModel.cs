@@ -23,6 +23,9 @@ namespace Voidstrap.UI.ViewModels.Settings
 {
     public class DownloadsViewModel : NotifyPropertyChangedViewModel
     {
+        private static DownloadsViewModel? _shared;
+
+        public static DownloadsViewModel Shared => _shared ??= new DownloadsViewModel();
 
         public class DownloadItem : NotifyPropertyChangedViewModel
         {
@@ -33,16 +36,19 @@ namespace Voidstrap.UI.ViewModels.Settings
             private readonly string _processName;
 
             private string _latestVersion = "";
-            private CoreBootstrapper _activeBootstrapper;
+            private CoreBootstrapper? _activeBootstrapper;
 
             public string Title { get; }
             public string Subtitle { get; }
-            public ImageSource IconImage { get; }
+            public ImageSource? IconImage { get; }
+            public LaunchMode LaunchMode => _launchMode;
             public bool ShowFleasionAddon { get; }
             public bool ShowStudioAddons => _launchMode == LaunchMode.Studio;
             public bool HasAddons => ShowFleasionAddon || ShowStudioAddons;
             public bool ShowFleasion => ShowFleasionAddon;
             public bool ShowCommunityContent => false;
+
+            public ICommand SelectCommand { get; }
 
             public bool IsInstalled { get; private set; }
             public bool IsBusy { get; private set; }
@@ -57,6 +63,24 @@ namespace Voidstrap.UI.ViewModels.Settings
 
             public double Progress { get; private set; }
             public string ProgressDetail { get; private set; } = "";
+
+            private void SelectSelf()
+            {
+                _parent.SelectedItem = this;
+            }
+
+            private bool _isSelected;
+            public bool IsSelected
+            {
+                get => _isSelected;
+                set
+                {
+                    if (_isSelected == value)
+                        return;
+                    _isSelected = value;
+                    OnPropertyChanged(nameof(IsSelected));
+                }
+            }
 
             public ICommand InstallCommand { get; }
             public ICommand UninstallCommand { get; }
@@ -78,6 +102,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 InstallCommand = new AsyncRelayCommand(InstallOrUpdateAsync);
                 UninstallCommand = new AsyncRelayCommand(UninstallAsync);
                 OpenFolderCommand = new RelayCommand(OpenFolder);
+                SelectCommand = new RelayCommand(SelectSelf);
                 CancelCommand = new RelayCommand(Cancel);
                 ChangeLocationCommand = new AsyncRelayCommand(ChangeLocationAsync);
                 Refresh();
@@ -85,10 +110,10 @@ namespace Voidstrap.UI.ViewModels.Settings
 
             public void Refresh()
             {
-                bool exeExists = !string.IsNullOrEmpty(_appData.State.VersionGuid) && File.Exists(_appData.ExecutablePath);
+                bool exeExists = !string.IsNullOrEmpty(_appData.State.VersionGuid) && (File.Exists(_appData.ExecutablePath) || Voidstrap.Utility.RobloxInstallCompression.IsCompressed(_appData));
                 if (!exeExists)
                 {
-                    string detectedGuid = ScanForExistingInstall();
+                    string? detectedGuid = ScanForExistingInstall();
                     if (!string.IsNullOrEmpty(detectedGuid))
                     {
                         try
@@ -243,7 +268,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 Application.Current?.Dispatcher.BeginInvoke((Action)delegate
                 {
                     Progress = info.Percent;
-                    ProgressDetail = $"{FormatBytes(info.BytesDone)} of {FormatBytes(info.TotalBytes)} · {FormatSpeed(info.SpeedBytesPerSec)} · {info.PackagesDone}/{info.TotalPackages} packages";
+                    ProgressDetail = $"{FormatBytes(info.BytesDone)} of {FormatBytes(info.TotalBytes)}, {FormatSpeed(info.SpeedBytesPerSec)}, {info.PackagesDone}/{info.TotalPackages} packages";
                     StatusText = $"Downloading {info.Percent:0}%";
                     OnPropertyChanged(nameof(Progress));
                     OnPropertyChanged(nameof(ProgressDetail));
@@ -288,8 +313,11 @@ namespace Voidstrap.UI.ViewModels.Settings
                 try
                 {
                     string dir = _appData.Directory;
+                    bool compressed = Voidstrap.Utility.RobloxInstallCompression.IsCompressed(_appData);
                     if (Directory.Exists(dir))
-                        await Task.Run(() => Directory.Delete(dir, true)).ConfigureAwait(true);
+                        await DeleteInstallDirectoryAsync(dir).ConfigureAwait(true);
+                    if (compressed)
+                        File.Delete(Voidstrap.Utility.RobloxInstallCompression.ArchivePathFor(dir));
                     _appData.State.VersionGuid = string.Empty;
                     _appData.State.PackageHashes?.Clear();
                     _appData.State.Size = 0;
@@ -299,7 +327,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                 }
                 catch (Exception ex)
                 {
-                    Frontend.ShowMessageBox($"Could not fully remove {Title}: {ex.Message}", MessageBoxImage.Error);
+                    App.Logger?.WriteLine("DownloadsViewModel::Uninstall", $"{Title} removal failed: {ex.Message}");
+                    Frontend.ShowMessageBox($"Could not fully remove {Title}. {ex.Message}" + "\n\nIf it keeps failing, run Voidstrap as administrator.", MessageBoxImage.Error);
                 }
                 finally
                 {
@@ -307,6 +336,27 @@ namespace Voidstrap.UI.ViewModels.Settings
                     _parent.EndOperation();
                     Refresh();
                 }
+            }
+
+            private static async Task DeleteInstallDirectoryAsync(string directory)
+            {
+                Exception? failure = null;
+                for (int attempt = 0; attempt < 3; attempt++)
+                {
+                    try
+                    {
+                        await Task.Run(() => Filesystem.DeleteDirectoryRobust(directory)).ConfigureAwait(true);
+                        return;
+                    }
+                    catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+                    {
+                        failure = ex;
+                        if (attempt < 2)
+                            await Task.Delay(300).ConfigureAwait(true);
+                    }
+                }
+
+                throw new IOException(failure?.Message ?? "The install folder could not be removed.", failure);
             }
 
             private void OpenFolder()
@@ -372,7 +422,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                 try
                 {
                     string exeName = _appData.ExecutableName;
-                    await Task.Run(() => MoveBinaryInstalls(source, target, exeName, _binaryType)).ConfigureAwait(true);
+                    string? archive = Voidstrap.Utility.RobloxInstallCompression.IsCompressed(_appData) ? Voidstrap.Utility.RobloxInstallCompression.ArchivePathFor(_appData.Directory) : null;
+                    await Task.Run(() => MoveBinaryInstalls(source, target, exeName, _binaryType, archive)).ConfigureAwait(true);
                     if (_binaryType == "WindowsPlayer")
                         App.Settings.Prop.PlayerInstallLocation = target;
                     else
@@ -395,9 +446,11 @@ namespace Voidstrap.UI.ViewModels.Settings
                 }
             }
 
-            private static void MoveBinaryInstalls(string sourceRoot, string targetRoot, string exeName, string binaryType)
+            private static void MoveBinaryInstalls(string sourceRoot, string targetRoot, string exeName, string binaryType, string? archive)
             {
                 Directory.CreateDirectory(targetRoot);
+                if (archive != null && File.Exists(archive))
+                    File.Move(archive, Path.Combine(targetRoot, Path.GetFileName(archive)), overwrite: true);
                 if (!Directory.Exists(sourceRoot))
                     return;
                 foreach (var dir in Directory.GetDirectories(sourceRoot, "version-*"))
@@ -411,7 +464,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                     MoveDirectory(staticDir, Path.Combine(targetRoot, binaryType));
             }
 
-            private string ScanForExistingInstall()
+            private string? ScanForExistingInstall()
             {
                 try
                 {
@@ -451,7 +504,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 }
             }
 
-            private static ImageSource LoadIcon(string uri)
+            private static BitmapSource? LoadIcon(string uri)
             {
                 try
                 {
@@ -468,7 +521,10 @@ namespace Voidstrap.UI.ViewModels.Settings
                 try
                 {
                     if (!Directory.Exists(dir))
-                        return "";
+                    {
+                        string archive = Voidstrap.Utility.RobloxInstallCompression.ArchivePathFor(dir);
+                        return File.Exists(archive) ? FormatBytes(new FileInfo(archive).Length) : "";
+                    }
                     long total = 0;
                     foreach (var file in Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories))
                     {
@@ -484,7 +540,7 @@ namespace Voidstrap.UI.ViewModels.Settings
         public class ClientItem : NotifyPropertyChangedViewModel
         {
             private readonly DownloadsViewModel _parent;
-            private CancellationTokenSource _cts;
+            private CancellationTokenSource? _cts = null!;
 
             public string Code { get; }
             public string Title { get; private set; }
@@ -514,6 +570,20 @@ namespace Voidstrap.UI.ViewModels.Settings
             public string VersionText { get; private set; } = "";
             public string LocationText { get; private set; } = "";
             public string PrimaryButtonText => UpdateAvailable ? "Update" : (IsInstalled ? "Reinstall" : "Install");
+            public bool ShowStudioAddons => false;
+
+            private bool _isSelected;
+            public bool IsSelected
+            {
+                get => _isSelected;
+                set
+                {
+                    if (_isSelected == value)
+                        return;
+                    _isSelected = value;
+                    OnPropertyChanged(nameof(IsSelected));
+                }
+            }
             public bool CanInstall => !IsBusy;
             public bool CanPrimary => !IsBusy;
             public bool CanUninstall => IsInstalled && !IsBusy;
@@ -592,9 +662,9 @@ namespace Voidstrap.UI.ViewModels.Settings
                 RaiseAll();
             }
 
-            public bool HasAddons => true;
+            public bool HasAddons => false;
             public bool ShowFleasion => false;
-            public bool ShowCommunityContent => true;
+            public bool ShowCommunityContent => false;
 
             private void Select()
             {
@@ -785,7 +855,7 @@ namespace Voidstrap.UI.ViewModels.Settings
         public string InstallRootText => Paths.Versions;
 
         public bool IsDownloading { get; private set; }
-        public DownloadItem ActiveItem { get; private set; }
+        public DownloadItem ActiveItem { get; private set; } = null!;
         public string GraphTitle { get; private set; } = "No active download";
         public string CurrentSpeedText { get; private set; } = "0 B/s";
         public string PeakSpeedText { get; private set; } = "0 B/s";
@@ -855,7 +925,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             SelectCommand = new RelayCommand<DownloadItem>(Select);
             LocateClassicSourceCommand = new RelayCommand(LocateClassicSource);
             OpenClassicRootCommand = new RelayCommand(OpenClassicRoot);
-            _selectedItem = Items.Count > 0 ? Items[0] : null;
+            SelectedItem = Items.Count > 0 ? Items[0] : null;
             RefreshClassic();
             _ = LoadManifestClientsAsync();
         }
@@ -898,33 +968,53 @@ namespace Voidstrap.UI.ViewModels.Settings
             }
         }
 
-        private object _selectedItem;
-        public object SelectedItem
+        private object? _selectedItem;
+        public object? SelectedItem
         {
             get => _selectedItem;
             set
             {
                 _selectedItem = value;
+                foreach (DownloadItem item in Items)
+                    item.IsSelected = ReferenceEquals(item, value);
+                foreach (ClientItem item in ClientItems)
+                    item.IsSelected = ReferenceEquals(item, value);
                 OnPropertyChanged(nameof(SelectedItem));
+                OnPropertyChanged(nameof(HasSelection));
             }
         }
 
+        public bool HasSelection => _selectedItem != null;
+
         public ICommand SelectCommand { get; }
 
-        private void Select(DownloadItem item)
+        private void Select(DownloadItem? item)
         {
             if (item != null)
                 SelectedItem = item;
         }
 
+        private long _lastLocalRefresh;
+
+        private long _lastRemoteRefresh;
+
         public void RefreshAll()
         {
-            foreach (var item in Items)
-                item.Refresh();
-            OnPropertyChanged(nameof(InstallRootText));
-            RefreshClassic();
-            _ = LoadManifestClientsAsync();
-            _ = CheckAllUpdatesAsync();
+            long now = Environment.TickCount64;
+            if (_lastLocalRefresh == 0 || now - _lastLocalRefresh >= 30000)
+            {
+                _lastLocalRefresh = now;
+                foreach (var item in Items)
+                    item.Refresh();
+                OnPropertyChanged(nameof(InstallRootText));
+                RefreshClassic();
+            }
+            if (_lastRemoteRefresh == 0 || now - _lastRemoteRefresh >= 600000)
+            {
+                _lastRemoteRefresh = now;
+                _ = LoadManifestClientsAsync();
+                _ = CheckAllUpdatesAsync();
+            }
         }
 
         public void RefreshClassic()
@@ -957,26 +1047,19 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 var maps = ClassicClients.ListMaps();
                 string savedMap = App.Settings.Prop.ClassicSelectedMap ?? "";
-                ClientMaps.Clear();
-                foreach (var map in maps)
-                    ClientMaps.Add(map);
+                if (!ClientMaps.SequenceEqual(maps))
+                {
+                    ClientMaps.Clear();
+                    foreach (var map in maps)
+                        ClientMaps.Add(map);
+                }
 
-                if (maps.Count > 0)
+                string selectedMap = maps.Count == 0 ? "" : !string.IsNullOrEmpty(savedMap) && maps.Contains(savedMap) ? savedMap : maps[0];
+                if (!string.Equals(App.Settings.Prop.ClassicSelectedMap, selectedMap, StringComparison.Ordinal))
                 {
-                    if (!string.IsNullOrEmpty(savedMap) && maps.Contains(savedMap))
-                    {
-                        App.Settings.Prop.ClassicSelectedMap = savedMap;
-                    }
-                    else
-                    {
-                        App.Settings.Prop.ClassicSelectedMap = maps[0];
-                    }
+                    App.Settings.Prop.ClassicSelectedMap = selectedMap;
+                    App.Settings.Save();
                 }
-                else
-                {
-                    App.Settings.Prop.ClassicSelectedMap = "";
-                }
-                App.Settings.Save();
             }
             finally
             {
@@ -1113,7 +1196,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             }
             try
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(target));
+                Directory.CreateDirectory(Path.GetDirectoryName(target)!);
                 Directory.Move(source, target);
             }
             catch (IOException)

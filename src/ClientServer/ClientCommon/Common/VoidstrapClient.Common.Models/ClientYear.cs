@@ -57,7 +57,7 @@ public class ClientYear : IComparable<ClientYear>
 		{
 			year = year.Substring(0, num);
 		}
-		if (year.Length == 5 && int.TryParse(year.Substring(0, 4), out var result))
+		if (year.Length == 5 && int.TryParse(year.AsSpan(0, 4), out var result))
 		{
 			Year = result;
 			char end = year[4];

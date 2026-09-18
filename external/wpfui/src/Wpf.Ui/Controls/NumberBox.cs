@@ -1,4 +1,4 @@
-﻿// This Source Code Form is subject to the terms of the MIT License.
+// This Source Code Form is subject to the terms of the MIT License.
 // If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
@@ -21,6 +21,8 @@ namespace Wpf.Ui.Controls;
 [ToolboxBitmap(typeof(NumberBox), "NumberBox.bmp")]
 public class NumberBox : Wpf.Ui.Controls.TextBox
 {
+    private static readonly System.Buffers.SearchValues<char> s_myChars = System.Buffers.SearchValues.Create(".,");
+
     // In both expressions, we allow the lonely characters '-', '.' and ',' so the numbers can be typed in real-time.
 
     /// <summary>
@@ -337,14 +339,14 @@ public class NumberBox : Wpf.Ui.Controls.TextBox
         if (!DecimalExpression.IsMatch(inputText))
             return false;
 
-        int separator = inputText.IndexOfAny(new[] { '.', ',' });
+        int separator = inputText.AsSpan().IndexOfAny(s_myChars);
         return separator < 0 || inputText.Length - separator - 1 <= decimalPlaces;
     }
 
     /// <summary>
     /// Tries to parse provided string to double with invariant culture.
     /// </summary>
-    private double ParseStringToDouble(string inputText)
+    private static double ParseStringToDouble(string inputText)
     {
         Double.TryParse(inputText.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double number);
 
@@ -406,7 +408,7 @@ public class NumberBox : Wpf.Ui.Controls.TextBox
             e.Handled = !IsNumberTextValid(newText);
 
         // Do not allow a leading minus sign if the min value is greater than zero.
-        if (Min >= 0 && newText.StartsWith("-"))
+        if (Min >= 0 && newText.StartsWith('-'))
             e.Handled = true;
 
 
@@ -460,7 +462,7 @@ public class NumberBox : Wpf.Ui.Controls.TextBox
 
         string candidate = Text.Remove(SelectionStart, SelectionLength).Insert(SelectionStart, clipboardText);
 
-        if (!IsNumberTextValid(candidate) || (Min >= 0 && candidate.StartsWith("-")))
+        if (!IsNumberTextValid(candidate) || (Min >= 0 && candidate.StartsWith('-')))
             e.CancelCommand();
     }
 

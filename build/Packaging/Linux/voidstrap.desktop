@@ -1,11 +1,20 @@
 [Desktop Entry]
 Type=Application
 Name=Voidstrap
+GenericName=Roblox Bootstrapper
+Comment=Customize and launch Roblox through Sober on Linux
 Exec=voidstrap %u
 TryExec=voidstrap
-Icon=voidstrap
+Icon=io.github.KloBraticc.Voidstrap
 Terminal=false
 Categories=Game;
+Keywords=roblox;voidstrap;bootstrapper;sober;
 StartupNotify=true
-StartupWMClass=Voidstrap
+StartupWMClass=voidstrap
+X-GNOME-WMClass=voidstrap
 MimeType=x-scheme-handler/roblox;x-scheme-handler/roblox-player;x-scheme-handler/roblox-studio;x-scheme-handler/roblox-studio-auth;
+Actions=Settings;
+
+[Desktop Action Settings]
+Name=Voidstrap Settings
+Exec=voidstrap -settings

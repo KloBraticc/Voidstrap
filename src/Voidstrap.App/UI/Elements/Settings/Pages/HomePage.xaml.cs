@@ -1,6 +1,4 @@
 using System;
-using System.ComponentModel;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,81 +9,75 @@ namespace Voidstrap.UI.Elements.Settings.Pages
     public partial class HomePage : Page
     {
         private readonly HomePageViewModel _viewModel;
-        private CancellationTokenSource? _lifetimeCts;
-        private int _avatarGeneration;
+
         public HomePage()
         {
             _viewModel = new HomePageViewModel();
             DataContext = _viewModel;
             InitializeComponent();
             Loaded += OnHomePageLoaded;
-            Unloaded += OnHomePageUnloaded;
         }
 
         private void OnHomePageLoaded(object sender, RoutedEventArgs e)
         {
-            _lifetimeCts?.Cancel();
-            _lifetimeCts?.Dispose();
-            _lifetimeCts = new CancellationTokenSource();
-            _viewModel.PropertyChanged -= OnViewModelPropertyChanged;
-            _viewModel.PropertyChanged += OnViewModelPropertyChanged;
-            _viewModel.StartAutoRefresh();
             _ = _viewModel.LoadAsync();
         }
 
-        private void OnHomePageUnloaded(object sender, RoutedEventArgs e)
+        private void ExploreNews_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Interlocked.Increment(ref _avatarGeneration);
-                _lifetimeCts?.Cancel();
-                _lifetimeCts?.Dispose();
-                _lifetimeCts = null;
-                _viewModel.PropertyChanged -= OnViewModelPropertyChanged;
-                _viewModel.StopAutoRefresh();
-            }
-            catch { }
+            if (Window.GetWindow(this) is MainWindow window)
+                window.ShowRobloxNews();
+            else
+                Utilities.ShellExecute(Voidstrap.Integrations.RobloxNews.FeedPageUrl);
         }
 
-        private async void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        private void HomeTab_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (sender is FrameworkElement { Tag: string tab })
+                _viewModel.IsStudioTab = tab == "Studio";
+        }
+
+        private void StudioScroller_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _viewModel.StudioColumns = Math.Max(1, (int)((e.NewSize.Width - 28) / 190));
+        }
+
+        private void StudioMore_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement { DataContext: Voidstrap.Integrations.StudioProject project } button)
+                return;
+
+            System.Windows.Controls.ContextMenu menu = new() { PlacementTarget = button };
+            foreach (string action in new[] { "Open in Studio", "View game page", "Open in Creator Hub", "Copy place ID" })
             {
-                if (e.PropertyName == nameof(HomePageViewModel.WebsiteAvatarUrl))
-                {
-                    if (!_viewModel.HasWebsiteAvatar || string.IsNullOrEmpty(_viewModel.WebsiteAvatarUrl))
-                    {
-                        Interlocked.Increment(ref _avatarGeneration);
-                        if (WebsiteAvatarBrush is not null)
-                            WebsiteAvatarBrush.ImageSource = null;
-                        return;
-                    }
-                    CancellationTokenSource? lifetimeCts = _lifetimeCts;
-                    if (lifetimeCts == null)
-                        return;
-                    int generation = Interlocked.Increment(ref _avatarGeneration);
-                    string imageUrl = _viewModel.WebsiteAvatarUrl;
-                    var bitmap = await Voidstrap.Utility.AppImage.LoadAsync(imageUrl, 256, lifetimeCts.Token).ConfigureAwait(false);
-                    if (bitmap == null || generation != Volatile.Read(ref _avatarGeneration) || lifetimeCts.IsCancellationRequested)
-                        return;
-                    await Dispatcher.InvokeAsync(() =>
-                    {
-                        if (generation == Volatile.Read(ref _avatarGeneration) && !lifetimeCts.IsCancellationRequested && WebsiteAvatarBrush is not null)
-                            WebsiteAvatarBrush.ImageSource = bitmap;
-                    });
-                }
-                else if (e.PropertyName == nameof(HomePageViewModel.WebsiteBorderBrush))
-                {
-                    if (AvatarBorderRing is not null)
-                    {
-                        if (_viewModel.WebsiteBorderBrush is null)
-                            AvatarBorderRing.ClearValue(Border.BackgroundProperty);
-                        else
-                            AvatarBorderRing.Background = _viewModel.WebsiteBorderBrush;
-                    }
-                }
+                MenuItem item = new() { Header = action, Tag = project };
+                item.Click += StudioMenuItem_Click;
+                menu.Items.Add(item);
             }
-            catch { }
+            menu.IsOpen = true;
+        }
+
+        private void StudioMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not MenuItem { Tag: Voidstrap.Integrations.StudioProject project, Header: string action } item)
+                return;
+
+            item.Click -= StudioMenuItem_Click;
+            switch (action)
+            {
+                case "Open in Studio":
+                    Voidstrap.Integrations.StudioProjects.Open(project);
+                    break;
+                case "View game page":
+                    NavigationService?.Navigate(new GamePage(project.PlaceId, project.UniverseId));
+                    break;
+                case "Open in Creator Hub":
+                    Utilities.ShellExecute($"https://create.roblox.com/dashboard/creations/experiences/{project.UniverseId}/overview");
+                    break;
+                case "Copy place ID":
+                    Voidstrap.Utility.ClipboardService.SetText(project.PlaceId.ToString());
+                    break;
+            }
         }
 
         private void GameThumbnail_Click(object sender, MouseButtonEventArgs e)
@@ -98,45 +90,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
             e.Handled = true;
             NavigationService?.Navigate(new GamePage(entry.PlaceId, entry.UniverseId));
-        }
-
-        private void UnderratedThumbnail_Click(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is not FrameworkElement element || element.DataContext is not UnderratedGameEntry entry)
-                return;
-
-            if (entry.PlaceId == 0)
-                return;
-
-            e.Handled = true;
-            NavigationService?.Navigate(new GamePage(entry.PlaceId, entry.UniverseId));
-        }
-
-        private void AccountsButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is FrameworkElement fe && fe.ContextMenu != null)
-            {
-                fe.ContextMenu.PlacementTarget = fe;
-                fe.ContextMenu.IsOpen = true;
-            }
-        }
-
-        private void EditProfile_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var win = new Voidstrap.UI.Elements.ContextMenu.ProfileEditorWindow
-                {
-                    Owner = Window.GetWindow(this)
-                };
-                win.ShowDialog();
-                if (win.Saved)
-                    _viewModel.RefreshCommand.Execute(null);
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteException("HomePage::EditProfile", ex);
-            }
         }
     }
 }

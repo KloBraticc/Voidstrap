@@ -2,9 +2,9 @@ namespace Voidstrap.Models;
 
 public class LicenseEntry
 {
-	public string Name { get; set; }
+	public string Name { get; set; } = null!;
 
-	public string Url { get; set; }
+	public string Url { get; set; } = null!;
 
-	public string License { get; set; }
+	public string License { get; set; } = null!;
 }

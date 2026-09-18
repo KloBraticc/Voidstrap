@@ -1,15 +1,13 @@
 using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.ML.OnnxRuntime;
-using Microsoft.ML.OnnxRuntime.Tensors;
 
 namespace Voidstrap.Integrations.RiShade
 {
@@ -66,22 +64,25 @@ namespace Voidstrap.Integrations.RiShade
         private const string RuntimeDllSha256 = "E7EEDEC6A6F26DC39DC948276A75EF6D2BEE3FFF944D874CEED0BBD3B97BFF40";
         private const long ProvidersDllBytes = 22040L;
         private const string ProvidersDllSha256 = "265C8DAF29637CB259CAC8BE9F08F2CD45F3883F0F0E4949CBFDDD5B4CBEC3B6";
-        private const string DirectMlUrl = "https://voidstrapp.pages.dev/assets/bin/DirectML.dll";
         private const long DirectMlBytes = 18527776L;
         private const string DirectMlSha256 = "9C9E6D822561C6C41B90E6994B3E8857CF1D66DBFB1E0C4C799C7C89B4E92DA1";
         private const string LOG_IDENT = "RiShade";
+        private const int IdleExitMs = 60000;
         private static bool _resolverInstalled;
 
         private static readonly Lock _lock = new();
         private static InferenceSession? _session;
         private static string _inputName = "";
+        private static string _outputName = "";
         private static Thread? _thread;
         private static CancellationTokenSource? _cts;
         private static int _state;
         private static readonly SemaphoreSlim _frameSignal = new(0, 1);
-        private static byte[]? _pendingFrame;
+        private static byte[] _pendingFrame = new byte[Size * Size * 4];
+        private static bool _hasPendingFrame;
         private static readonly Lock _frameLock = new();
         private static readonly float[] _latestDepth = new float[Size * Size];
+        private static readonly ConcurrentDictionary<string, (long Length, DateTime WrittenUtc)> _verifiedFiles = new(StringComparer.OrdinalIgnoreCase);
         private static int _depthVersion;
         private static long _inferCount;
         private static double _inferMsTotal;
@@ -90,10 +91,21 @@ namespace Voidstrap.Integrations.RiShade
         public static bool IsFailed => Volatile.Read(ref _state) == 3;
         public static int DepthVersion => Volatile.Read(ref _depthVersion);
 
+        public static bool IsActive
+        {
+            get
+            {
+                int state = Volatile.Read(ref _state);
+                return state == 1 || state == 2;
+            }
+        }
+
         private static string ModelPathFor(ModelSpec spec) => Path.Combine(Paths.RiShade, spec.FileName);
 
         public static void EnsureStarted()
         {
+            if (Volatile.Read(ref _state) != 0)
+                return;
             lock (_lock)
             {
                 if (_state != 0 || _thread != null)
@@ -123,7 +135,7 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
-        public static void Shutdown()
+        public static void Shutdown(bool wait)
         {
             CancellationTokenSource? cts;
             Thread? thread;
@@ -143,7 +155,7 @@ namespace Voidstrap.Integrations.RiShade
                 catch (SemaphoreFullException)
                 {
                 }
-                if (thread != null && !ReferenceEquals(thread, Thread.CurrentThread))
+                if (wait && thread != null && !ReferenceEquals(thread, Thread.CurrentThread))
 				{
 					if (!thread.Join(2000))
 						App.Logger.WriteLine(LOG_IDENT, "AI depth shutdown is still finishing in the background");
@@ -163,7 +175,8 @@ namespace Voidstrap.Integrations.RiShade
                 return;
             lock (_frameLock)
             {
-                _pendingFrame = bgra;
+                Buffer.BlockCopy(bgra, 0, _pendingFrame, 0, Math.Min(bgra.Length, _pendingFrame.Length));
+                _hasPendingFrame = true;
                 _pendingAccumX = accumX;
                 _pendingAccumY = accumY;
             }
@@ -200,6 +213,7 @@ namespace Voidstrap.Integrations.RiShade
         private static void Worker(CancellationTokenSource owner)
         {
             CancellationToken token = owner.Token;
+            bool idleExit = false;
             try
             {
                 if (!EnsureRuntimeFiles(token))
@@ -238,13 +252,14 @@ namespace Voidstrap.Integrations.RiShade
                     }
                     if (!ready)
                     {
-                        Volatile.Write(ref _state, 3);
+                        if (!token.IsCancellationRequested)
+                            Volatile.Write(ref _state, 3);
                         return;
                     }
                     Volatile.Write(ref _state, 2);
                     App.Logger.WriteLine(LOG_IDENT, "AI depth is ready");
-                    RunLoop(token);
-                    if (token.IsCancellationRequested)
+                    idleExit = RunLoop(token);
+                    if (token.IsCancellationRequested || idleExit)
                         break;
                     App.Logger.WriteLine(LOG_IDENT, "AI model setting changed, reloading live");
                     _session?.Dispose();
@@ -261,11 +276,11 @@ namespace Voidstrap.Integrations.RiShade
             }
             finally
             {
-                CompleteWorker(owner);
+                CompleteWorker(owner, idleExit);
             }
         }
 
-        private static void CompleteWorker(CancellationTokenSource owner)
+        private static void CompleteWorker(CancellationTokenSource owner, bool idleExit)
         {
             InferenceSession? session = null;
             bool dispose = false;
@@ -277,7 +292,7 @@ namespace Voidstrap.Integrations.RiShade
                     _cts = null;
                     session = _session;
                     _session = null;
-                    if (owner.IsCancellationRequested)
+                    if (owner.IsCancellationRequested || idleExit)
                         Volatile.Write(ref _state, 0);
                     dispose = true;
                 }
@@ -286,7 +301,7 @@ namespace Voidstrap.Integrations.RiShade
                 return;
             lock (_frameLock)
             {
-                _pendingFrame = null;
+                _hasPendingFrame = false;
             }
             session?.Dispose();
             owner.Dispose();
@@ -307,7 +322,7 @@ namespace Voidstrap.Integrations.RiShade
                     string suffix = Guid.NewGuid().ToString("N");
                     string stagedRuntime = RuntimeDllPath + "." + suffix + ".tmp";
                     string stagedProviders = ProvidersDllPath + "." + suffix + ".tmp";
-                    Voidstrap.Utility.ResilientDownload.DownloadAsync(App.HttpClient, [RuntimePackageUrl], temp, RuntimePackageBytes, token, RuntimePackageSha256).GetAwaiter().GetResult();
+                    Voidstrap.Utility.ResilientDownload.DownloadAsync(App.HttpClient, [RuntimePackageUrl], temp, RuntimePackageBytes, RuntimePackageSha256, token: token).GetAwaiter().GetResult();
                     try
                     {
                         using (var zip = ZipFile.OpenRead(temp))
@@ -326,10 +341,10 @@ namespace Voidstrap.Integrations.RiShade
                     }
                     App.Logger.WriteLine(LOG_IDENT, "AI runtime downloaded and extracted");
                 }
-                if (!FileMatches(DirectMlDllPath, DirectMlBytes, DirectMlSha256))
+                if (!FileMatches(DirectMlDllPath, DirectMlBytes, DirectMlSha256) && Voidstrap.Utility.RemoteData.BinaryUrl("DirectML.dll") is string directMlUrl)
                 {
                     App.Logger.WriteLine(LOG_IDENT, "Downloading the DirectML component, one time only");
-                    Voidstrap.Utility.ResilientDownload.DownloadAsync(App.HttpClient, [DirectMlUrl], DirectMlDllPath, DirectMlBytes, token, DirectMlSha256).GetAwaiter().GetResult();
+                    Voidstrap.Utility.ResilientDownload.DownloadAsync(App.HttpClient, [directMlUrl], DirectMlDllPath, DirectMlBytes, DirectMlSha256, token: token).GetAwaiter().GetResult();
                     if (!FileMatches(DirectMlDllPath, DirectMlBytes, DirectMlSha256))
                     {
                         App.Logger.WriteLine(LOG_IDENT, "DirectML download size mismatch");
@@ -387,9 +402,18 @@ namespace Voidstrap.Integrations.RiShade
                 FileInfo info = new FileInfo(path);
                 if (!info.Exists || info.Length != expectedBytes)
                     return false;
-                using FileStream stream = File.OpenRead(path);
-                byte[] actual = SHA256.HashData(stream);
-                return CryptographicOperations.FixedTimeEquals(actual, Convert.FromHexString(expectedSha256));
+                DateTime written = info.LastWriteTimeUtc;
+                if (_verifiedFiles.TryGetValue(path, out var known) && known.Length == info.Length && known.WrittenUtc == written)
+                    return true;
+                byte[] actual;
+                using (FileStream stream = File.OpenRead(path))
+                    actual = SHA256.HashData(stream);
+                bool matches = CryptographicOperations.FixedTimeEquals(actual, Convert.FromHexString(expectedSha256));
+                if (matches)
+                    _verifiedFiles[path] = (info.Length, written);
+                else
+                    _verifiedFiles.TryRemove(path, out _);
+                return matches;
             }
             catch
             {
@@ -428,7 +452,7 @@ namespace Voidstrap.Integrations.RiShade
                 if (FileMatches(path, spec.Bytes, spec.Sha256))
                     return true;
                 App.Logger.WriteLine(LOG_IDENT, $"Downloading {spec.Name}, about {spec.Bytes / 1048576}MB, one time only");
-                Voidstrap.Utility.ResilientDownload.DownloadAsync(App.HttpClient, [spec.Url], path, spec.Bytes, token, spec.Sha256).GetAwaiter().GetResult();
+                Voidstrap.Utility.ResilientDownload.DownloadAsync(App.HttpClient, [spec.Url], path, spec.Bytes, spec.Sha256, token: token).GetAwaiter().GetResult();
                 var downloaded = new FileInfo(path);
                 if (!FileMatches(path, spec.Bytes, spec.Sha256))
                 {
@@ -450,7 +474,7 @@ namespace Voidstrap.Integrations.RiShade
         {
             try
             {
-                var options = new SessionOptions();
+                using var options = new SessionOptions();
                 string ep = "DirectML";
                 try
                 {
@@ -463,6 +487,7 @@ namespace Voidstrap.Integrations.RiShade
                 }
                 _session = new InferenceSession(ModelPathFor(spec), options);
                 _inputName = _session.InputMetadata.First().Key;
+                _outputName = _session.OutputMetadata.First().Key;
                 App.Logger.WriteLine(LOG_IDENT, $"{spec.Name} session created on " + ep);
                 return true;
             }
@@ -473,19 +498,58 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
+        private sealed class InferenceBuffers : IDisposable
+        {
+            public readonly float[] Input;
+            private readonly OrtValue _inputValue;
+            private readonly string[] _inputNames;
+            private readonly string[] _outputNames;
+            private readonly OrtValue[] _inputValues;
+            private readonly RunOptions _options = new();
+
+            public InferenceBuffers(int tensorSize)
+            {
+                Input = new float[3 * tensorSize * tensorSize];
+                _inputValue = OrtValue.CreateTensorValueFromMemory(Input, [1, 3, tensorSize, tensorSize]);
+                _inputNames = [_inputName];
+                _outputNames = [_outputName];
+                _inputValues = [_inputValue];
+            }
+
+            public int Run(float[] destination, out float min, out float max)
+            {
+                min = float.MaxValue;
+                max = float.MinValue;
+                using var results = _session!.Run(_options, _inputNames, _inputValues, _outputNames);
+                ReadOnlySpan<float> output = results[0].GetTensorDataAsSpan<float>();
+                int count = Math.Min(output.Length, destination.Length);
+                output.Slice(0, count).CopyTo(destination);
+                for (int i = 0; i < count; i++)
+                {
+                    float v = destination[i];
+                    if (v < min) min = v;
+                    if (v > max) max = v;
+                }
+                return count;
+            }
+
+            public void Dispose()
+            {
+                _inputValue.Dispose();
+                _options.Dispose();
+            }
+        }
+
         private static double ProbeSession(ModelSpec spec)
         {
             try
             {
-                int ts = spec.TensorSize;
-                var tensor = new DenseTensor<float>([1, 3, ts, ts]);
-                var inputs = new[] { NamedOnnxValue.CreateFromTensor(_inputName, tensor) };
-                using (var warm = _session!.Run(inputs)) { }
+                using var buffers = new InferenceBuffers(spec.TensorSize);
+                var scratch = new float[spec.TensorSize * spec.TensorSize];
+                buffers.Run(scratch, out _, out _);
                 var sw = System.Diagnostics.Stopwatch.StartNew();
                 for (int i = 0; i < 3; i++)
-                {
-                    using var r = _session.Run(inputs);
-                }
+                    buffers.Run(scratch, out _, out _);
                 sw.Stop();
                 return sw.Elapsed.TotalMilliseconds / 3.0;
             }
@@ -496,19 +560,44 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
-        private static void RunLoop(CancellationToken token)
+        internal static void FillInput(byte[] frame, float[] input, int ts, bool imageNet)
+        {
+            float scaleR = imageNet ? 1f / (255f * 0.229f) : 1f / 255f;
+            float scaleG = imageNet ? 1f / (255f * 0.224f) : 1f / 255f;
+            float scaleB = imageNet ? 1f / (255f * 0.225f) : 1f / 255f;
+            float offR = imageNet ? 0.485f / 0.229f : 0f;
+            float offG = imageNet ? 0.456f / 0.224f : 0f;
+            float offB = imageNet ? 0.406f / 0.225f : 0f;
+            int plane = ts * ts;
+            Span<float> red = input.AsSpan(0, plane);
+            Span<float> green = input.AsSpan(plane, plane);
+            Span<float> blue = input.AsSpan(2 * plane, plane);
+            float scale = (float)Size / ts;
+            for (int y = 0; y < ts; y++)
+            {
+                int row = Math.Min((int)(y * scale), Size - 1) * Size;
+                int o = y * ts;
+                for (int x = 0; x < ts; x++)
+                {
+                    int p = (row + Math.Min((int)(x * scale), Size - 1)) * 4;
+                    red[o + x] = frame[p + 2] * scaleR - offR;
+                    green[o + x] = frame[p + 1] * scaleG - offG;
+                    blue[o + x] = frame[p] * scaleB - offB;
+                }
+            }
+        }
+
+        private static bool RunLoop(CancellationToken token)
         {
             int ts = _model.TensorSize;
-            var tensor = new DenseTensor<float>([1, 3, ts, ts]);
-            var inputs = new NamedOnnxValue[1];
+            using var buffers = new InferenceBuffers(ts);
+            byte[] frame = new byte[Size * Size * 4];
             var normalized = new float[ts * ts];
             var vbuf = new float[ts * ts];
             var smoothed = new float[ts * ts];
             var warped = new float[ts * ts];
             float lastAccX = 0f;
             float lastAccY = 0f;
-            float[] meanC = [0.485f, 0.456f, 0.406f];
-            float[] stdC = [0.229f, 0.224f, 0.225f];
             bool hasSmoothed = false;
             float emaMin = 0f;
             float emaMax = 1f;
@@ -517,68 +606,41 @@ namespace Voidstrap.Integrations.RiShade
             {
                 try
                 {
-                    _frameSignal.Wait(token);
+                    if (!_frameSignal.Wait(IdleExitMs, token))
+                    {
+                        App.Logger.WriteLine(LOG_IDENT, "AI depth received no frames for a minute, releasing the model until it is needed again");
+                        return true;
+                    }
                 }
                 catch (OperationCanceledException)
                 {
-                    break;
+                    return false;
                 }
                 if (RiShadeSettings.Current.AiQuality != _activeQuality)
-                    break;
-                byte[]? frame;
+                    return false;
                 float accX;
                 float accY;
                 lock (_frameLock)
                 {
-                    frame = _pendingFrame;
-                    _pendingFrame = null;
+                    if (!_hasPendingFrame)
+                        continue;
+                    (frame, _pendingFrame) = (_pendingFrame, frame);
+                    _hasPendingFrame = false;
                     accX = _pendingAccumX;
                     accY = _pendingAccumY;
                 }
-                if (frame == null || _session == null)
+                if (_session == null)
                     continue;
 
                 try
                 {
                     var sw = System.Diagnostics.Stopwatch.StartNew();
-                    float scale = (float)Size / ts;
-                    for (int y = 0; y < ts; y++)
+                    FillInput(frame, buffers.Input, ts, _model.ImageNetNorm);
+                    int produced = buffers.Run(normalized, out float min, out float max);
+                    if (produced < normalized.Length)
                     {
-                        int sy = Math.Min((int)(y * scale), Size - 1);
-                        int row = sy * Size;
-                        for (int x = 0; x < ts; x++)
-                        {
-                            int sx = Math.Min((int)(x * scale), Size - 1);
-                            int p = (row + sx) * 4;
-                            float r = frame[p + 2] / 255f;
-                            float g = frame[p + 1] / 255f;
-                            float b = frame[p] / 255f;
-                            if (_model.ImageNetNorm)
-                            {
-                                r = (r - meanC[0]) / stdC[0];
-                                g = (g - meanC[1]) / stdC[1];
-                                b = (b - meanC[2]) / stdC[2];
-                            }
-                            tensor[0, 0, y, x] = r;
-                            tensor[0, 1, y, x] = g;
-                            tensor[0, 2, y, x] = b;
-                        }
-                    }
-                    inputs[0] = NamedOnnxValue.CreateFromTensor(_inputName, tensor);
-                    float min = float.MaxValue;
-                    float max = float.MinValue;
-                    using (var results = _session.Run(inputs))
-                    {
-                        var output = results[0].AsEnumerable<float>();
-                        int i = 0;
-                        foreach (float v in output)
-                        {
-                            if (i >= normalized.Length)
-                                break;
-                            normalized[i++] = v;
-                            if (v < min) min = v;
-                            if (v > max) max = v;
-                        }
+                        App.Logger.WriteLine(LOG_IDENT, $"AI depth output had {produced} values, expected {normalized.Length}, frame skipped");
+                        continue;
                     }
                     if (!hasRange)
                     {
@@ -687,6 +749,7 @@ namespace Voidstrap.Integrations.RiShade
                     App.Logger.WriteException("RiShadeDepth::Infer", ex);
                 }
             }
+            return false;
         }
     }
 }

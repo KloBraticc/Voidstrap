@@ -85,7 +85,6 @@ namespace Voidstrap.Integrations.FrameGeneration
         private static ProcessFn? _process;
         private static DestroyFn? _destroy;
 
-        private const string InstallBaseUrl = "https://voidstrapp.pages.dev/assets/bin/";
         private static readonly Lock _installLock = new();
         private static bool _installStarted;
         private static volatile bool _installReady;
@@ -118,7 +117,7 @@ namespace Voidstrap.Integrations.FrameGeneration
             try
             {
                 string dir = !string.IsNullOrEmpty(Paths.Base) ? Paths.Base : AppContext.BaseDirectory;
-                App.Logger.WriteLine("NvFruc", "Downloading the NVIDIA interpolation components from the Voidstrap site, one time only");
+                App.Logger.WriteLine("NvFruc", "Downloading the NVIDIA interpolation components, one time only");
                 bool ok = DownloadOne("NvOFFRUC.dll", 783416, "5a0b6701d30709e25e7e5b92ca46b18aab1459160cecd4f629872369d85c8b0a", dir)
                     && DownloadOne("cudart64_110.dll", 466488, "edc35e7d0fa3f257bbedfa7888911080c5696acdd40b6187b6dd0173f20759ad", dir);
                 if (ok)
@@ -138,10 +137,16 @@ namespace Voidstrap.Integrations.FrameGeneration
             string path = Path.Combine(dir, name);
             if (File.Exists(path) && new FileInfo(path).Length == size && HashMatches(path, sha256))
                 return true;
+            string? url = Voidstrap.Utility.RemoteData.BinaryUrl(name);
+            if (url == null)
+            {
+                App.Logger.WriteLine("NvFruc", name + " has no download source yet, using the built in generator");
+                return false;
+            }
             using var cts = new System.Threading.CancellationTokenSource(TimeSpan.FromSeconds(60));
             try
             {
-                Voidstrap.Utility.ResilientDownload.DownloadAsync(App.HttpClient, [InstallBaseUrl + name], path, size, cts.Token, sha256).GetAwaiter().GetResult();
+                Voidstrap.Utility.ResilientDownload.DownloadAsync(App.HttpClient, [url], path, size, sha256, token: cts.Token).GetAwaiter().GetResult();
             }
             catch (OperationCanceledException)
             {

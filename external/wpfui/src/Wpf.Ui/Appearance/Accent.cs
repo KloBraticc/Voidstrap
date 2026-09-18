@@ -39,7 +39,7 @@ public static class Accent
     /// <summary>
     /// Brush of the SystemAccentColor.
     /// </summary>
-    public static Brush SystemAccentBrush => new SolidColorBrush(SystemAccent);
+    public static Brush SystemAccentBrush => GetBrush("SystemAccentColorBrush", SystemAccent);
 
     /// <summary>
     /// SystemAccentColorPrimary.
@@ -60,7 +60,7 @@ public static class Accent
     /// <summary>
     /// Brush of the SystemAccentColorPrimary.
     /// </summary>
-    public static Brush PrimaryAccentBrush => new SolidColorBrush(PrimaryAccent);
+    public static Brush PrimaryAccentBrush => GetBrush("SystemAccentColorPrimaryBrush", PrimaryAccent);
 
     /// <summary>
     /// SystemAccentColorSecondary.
@@ -81,7 +81,7 @@ public static class Accent
     /// <summary>
     /// Brush of the SystemAccentColorSecondary.
     /// </summary>
-    public static Brush SecondaryAccentBrush => new SolidColorBrush(SecondaryAccent);
+    public static Brush SecondaryAccentBrush => GetBrush("SystemAccentColorSecondaryBrush", SecondaryAccent);
 
     /// <summary>
     /// SystemAccentColorTertiary.
@@ -102,7 +102,7 @@ public static class Accent
     /// <summary>
     /// Brush of the SystemAccentColorTertiary.
     /// </summary>
-    public static Brush TertiaryAccentBrush => new SolidColorBrush(TertiaryAccent);
+    public static Brush TertiaryAccentBrush => GetBrush("SystemAccentColorTertiaryBrush", TertiaryAccent);
 
     /// <summary>
     /// Changes the color accents of the application based on the color entered.
@@ -140,6 +140,16 @@ public static class Accent
             secondaryAccent,
             tertiaryAccent
         );
+        UpdateRinPrimary(systemAccent, themeType);
+    }
+
+    private static void UpdateRinPrimary(Color systemAccent, ThemeType themeType)
+    {
+        Color primary = themeType == ThemeType.Dark
+            ? RinColor.LighterThenDarker(systemAccent, 160, 120)
+            : systemAccent;
+        Application.Current.Resources["RinPrimaryColor"] = primary;
+        Application.Current.Resources["RinPrimaryColorBrush"] = CreateBrush(primary);
     }
 
     /// <summary>
@@ -153,6 +163,7 @@ public static class Accent
         Color secondaryAccent, Color tertiaryAccent)
     {
         UpdateColorResources(systemAccent, primaryAccent, secondaryAccent, tertiaryAccent);
+        UpdateRinPrimary(systemAccent, Theme.GetAppTheme());
     }
 
     /// <summary>
@@ -213,19 +224,33 @@ public static class Accent
         Application.Current.Resources["SystemAccentColorSecondary"] = secondaryAccent;
         Application.Current.Resources["SystemAccentColorTertiary"] = tertiaryAccent;
 
-        Application.Current.Resources["SystemAccentBrush"] = secondaryAccent.ToBrush();
-        Application.Current.Resources["SystemAccentColorBrush"] = systemAccent.ToBrush();
-        Application.Current.Resources["SystemAccentColorPrimaryBrush"] = primaryAccent.ToBrush();
-        Application.Current.Resources["SystemAccentColorSecondaryBrush"] = secondaryAccent.ToBrush();
-        Application.Current.Resources["SystemAccentColorTertiaryBrush"] = tertiaryAccent.ToBrush();
-        Application.Current.Resources["SystemFillColorAttentionBrush"] = secondaryAccent.ToBrush();
-        Application.Current.Resources["AccentTextFillColorPrimaryBrush"] = tertiaryAccent.ToBrush();
-        Application.Current.Resources["AccentTextFillColorSecondaryBrush"] = tertiaryAccent.ToBrush();
-        Application.Current.Resources["AccentTextFillColorTertiaryBrush"] = secondaryAccent.ToBrush();
-        Application.Current.Resources["AccentFillColorSelectedTextBackgroundBrush"] = systemAccent.ToBrush();
-        Application.Current.Resources["AccentFillColorDefaultBrush"] = secondaryAccent.ToBrush();
+        Application.Current.Resources["SystemAccentBrush"] = CreateBrush(secondaryAccent);
+        Application.Current.Resources["SystemAccentColorBrush"] = CreateBrush(systemAccent);
+        Application.Current.Resources["SystemAccentColorPrimaryBrush"] = CreateBrush(primaryAccent);
+        Application.Current.Resources["SystemAccentColorSecondaryBrush"] = CreateBrush(secondaryAccent);
+        Application.Current.Resources["SystemAccentColorTertiaryBrush"] = CreateBrush(tertiaryAccent);
+        Application.Current.Resources["SystemFillColorAttentionBrush"] = CreateBrush(secondaryAccent);
+        Application.Current.Resources["AccentTextFillColorPrimaryBrush"] = CreateBrush(tertiaryAccent);
+        Application.Current.Resources["AccentTextFillColorSecondaryBrush"] = CreateBrush(tertiaryAccent);
+        Application.Current.Resources["AccentTextFillColorTertiaryBrush"] = CreateBrush(secondaryAccent);
+        Application.Current.Resources["AccentFillColorSelectedTextBackgroundBrush"] = CreateBrush(systemAccent);
+        Application.Current.Resources["AccentFillColorDefaultBrush"] = CreateBrush(secondaryAccent);
 
-        Application.Current.Resources["AccentFillColorSecondaryBrush"] = secondaryAccent.ToBrush(0.9);
-        Application.Current.Resources["AccentFillColorTertiaryBrush"] = secondaryAccent.ToBrush(0.8);
+        Application.Current.Resources["AccentFillColorSecondaryBrush"] = CreateBrush(secondaryAccent, 0.9);
+        Application.Current.Resources["AccentFillColorTertiaryBrush"] = CreateBrush(secondaryAccent, 0.8);
+    }
+
+    private static Brush GetBrush(string resourceKey, Color fallbackColor)
+    {
+        return Application.Current.Resources[resourceKey] as Brush ?? CreateBrush(fallbackColor);
+    }
+
+    private static SolidColorBrush CreateBrush(Color color, double opacity = 1)
+    {
+        var brush = new SolidColorBrush(color) { Opacity = opacity };
+        if (brush.CanFreeze)
+            brush.Freeze();
+
+        return brush;
     }
 }

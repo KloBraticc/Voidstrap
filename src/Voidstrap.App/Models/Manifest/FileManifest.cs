@@ -33,7 +33,7 @@ public class FileManifest : List<ManifestFile>
 	public static async Task<FileManifest> Get(string versionGuid)
 	{
 		IReadOnlyList<string> locations = Deployment.GetLocations("/" + versionGuid + "-rbxManifest.txt");
-		System.Exception lastError = null;
+		System.Exception? lastError = null;
 		foreach (string location in locations)
 		{
 			try

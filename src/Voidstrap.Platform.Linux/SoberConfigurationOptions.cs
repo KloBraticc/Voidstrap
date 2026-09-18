@@ -53,15 +53,20 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 		_processes = processes ?? throw new ArgumentNullException(nameof(processes));
 	}
 
+	private const string SoberProcessName = "sober";
+
 	public async Task<bool> IsRunningAsync(CancellationToken cancellationToken = default)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		string? flatpak = _processes.FindExecutable("flatpak");
-		if (string.IsNullOrWhiteSpace(flatpak))
+
+		if (HasLocalProcess())
+			return true;
+
+		if (!LinuxFlatpakHost.TryCreateCommand(_processes, ["ps", "--columns=application"], out ProcessCommand command))
 			return false;
 
 		OperationResult<ProcessExecution> result = await _processes
-			.ExecuteAsync(new ProcessCommand(flatpak, ["ps", "--columns=application"]), cancellationToken)
+			.ExecuteAsync(command, cancellationToken)
 			.ConfigureAwait(false);
 		if (!result.Succeeded || result.Value is null || result.Value.ExitCode != 0)
 			return false;
@@ -70,6 +75,38 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 		{
 			if (string.Equals(line.Trim(), SoberApplicationId, StringComparison.Ordinal))
 				return true;
+		}
+
+		return false;
+	}
+
+	private static bool HasLocalProcess()
+	{
+		try
+		{
+			foreach (string directory in Directory.EnumerateDirectories("/proc"))
+			{
+				string name = Path.GetFileName(directory);
+				if (name.Length == 0 || !char.IsAsciiDigit(name[0]))
+					continue;
+
+				string commandFile = Path.Combine(directory, "comm");
+
+				try
+				{
+					if (string.Equals(File.ReadAllText(commandFile).Trim(), SoberProcessName, StringComparison.Ordinal))
+						return true;
+				}
+				catch (IOException)
+				{
+				}
+				catch (UnauthorizedAccessException)
+				{
+				}
+			}
+		}
+		catch (Exception)
+		{
 		}
 
 		return false;

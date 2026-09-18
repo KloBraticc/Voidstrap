@@ -31,7 +31,7 @@ namespace Voidstrap.Integrations.RiShade
             {
                 int row = y * S * 4;
                 float sum = 0f;
-                for (int x = 0; x < S; x += 2)
+                for (int x = 0; x < S; x++)
                 {
                     int p = row + x * 4;
                     float l = bgra[p + 2] * 0.299f + bgra[p + 1] * 0.587f + bgra[p] * 0.114f;

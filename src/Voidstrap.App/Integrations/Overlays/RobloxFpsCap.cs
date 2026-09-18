@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -6,15 +6,25 @@ using System.Threading;
 
 namespace Voidstrap.Integrations.Overlays
 {
-    public static class RobloxFpsCap
+    public static partial class RobloxFpsCap
     {
-        private static readonly string FilePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "Roblox", "GlobalBasicSettings_13.xml");
+        private static readonly string FilePath = ResolveFilePath();
 
-        private static readonly Regex CapRegex = new Regex(
-            "<int name=\"FramerateCap\">\\s*(-?\\d+)\\s*</int>",
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static string ResolveFilePath()
+        {
+            if (OperatingSystem.IsLinux())
+            {
+                string home = Environment.GetEnvironmentVariable("HOME")
+                    ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+                return Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "data", "sober", "appData", "GlobalBasicSettings_13.xml");
+            }
+
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "Roblox", "GlobalBasicSettings_13.xml");
+        }
+
 
         private static int _cap;
         private static bool _started;
@@ -288,5 +298,8 @@ namespace Voidstrap.Integrations.Overlays
                 _started = false;
             }
         }
+
+        [GeneratedRegex("<int name=\"FramerateCap\">\\s*(-?\\d+)\\s*</int>", RegexOptions.IgnoreCase, "en-US")]
+        private static partial Regex CapRegex { get; }
     }
 }

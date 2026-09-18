@@ -24,7 +24,7 @@ public class BodyColorsFigureController : ControllerBase
 		public int RightLeg;
 	}
 
-	private static readonly IReadOnlyDictionary<FigureCharacterType, FigureBodyColours> _figureBodyColorsMap = new Dictionary<FigureCharacterType, FigureBodyColours>
+	private static readonly Dictionary<FigureCharacterType, FigureBodyColours> _figureBodyColorsMap = new Dictionary<FigureCharacterType, FigureBodyColours>
 	{
 		[FigureCharacterType.Figure1] = new FigureBodyColours
 		{

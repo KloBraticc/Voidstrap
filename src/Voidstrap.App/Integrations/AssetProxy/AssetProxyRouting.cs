@@ -41,6 +41,65 @@ internal static class AssetProxyRouting
 
 	private static Process? _cleanupGuard;
 
+	private const string CacheTrashPrefix = "rbx-storage.voidstrap-trash-";
+
+	private static string CacheStatePath => Path.Combine(Paths.AssetProxy, "CacheState.txt");
+
+	public static bool CacheMatches(string signature)
+	{
+		try
+		{
+			return File.Exists(CacheStatePath)
+				&& string.Equals(File.ReadAllText(CacheStatePath).Trim(), HashSignature(signature), StringComparison.Ordinal);
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			return false;
+		}
+	}
+
+	public static void RecordCache(string signature)
+	{
+		try
+		{
+			Directory.CreateDirectory(Paths.AssetProxy);
+			string temporary = CacheStatePath + ".tmp";
+			File.WriteAllText(temporary, HashSignature(signature));
+			File.Move(temporary, CacheStatePath, overwrite: true);
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			App.Logger?.WriteLine("AssetProxyRouting", "The AssetWarp cache state could not be saved: " + ex.Message);
+		}
+	}
+
+	public static void InvalidateCache()
+	{
+		try
+		{
+			if (File.Exists(CacheStatePath))
+			{
+				File.Delete(CacheStatePath);
+			}
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			App.Logger?.WriteLine("AssetProxyRouting", "The AssetWarp cache state could not be reset: " + ex.Message);
+		}
+	}
+
+	private static string HashSignature(string signature)
+	{
+		return Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(signature)));
+	}
+
+	private static int _cacheCleared;
+
+	public static bool ConsumeCacheCleared()
+	{
+		return Interlocked.Exchange(ref _cacheCleared, 0) == 1;
+	}
+
 	public static void ClearRobloxCache()
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
@@ -69,30 +128,69 @@ internal static class AssetProxyRouting
 			}
 		}
 
+		List<string> trash = [];
+		try
+		{
+			if (Directory.Exists(roblox))
+			{
+				trash.AddRange(Directory.EnumerateDirectories(roblox, CacheTrashPrefix + "*", SearchOption.TopDirectoryOnly));
+			}
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+		}
+
 		string storage = Path.GetFullPath(Path.Combine(roblox, "rbx-storage"));
 		if (Directory.Exists(storage))
 		{
-			foreach (string file in Directory.EnumerateFiles(storage, "*", SearchOption.AllDirectories))
+			string moved = Path.Combine(roblox, CacheTrashPrefix + Guid.NewGuid().ToString("N"));
+			try
+			{
+				Directory.Move(storage, moved);
+				trash.Add(moved);
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+				DeleteTree(storage);
+			}
+		}
+
+		if (trash.Count > 0)
+		{
+			string[] pending = [.. trash];
+			_ = Task.Run(() =>
+			{
+				foreach (string folder in pending)
+				{
+					DeleteTree(folder);
+				}
+			});
+		}
+		Interlocked.Exchange(ref _cacheCleared, 1);
+		App.Logger?.WriteLine("AssetProxyRouting", "Roblox asset cache cleared");
+	}
+
+	private static void DeleteTree(string folder)
+	{
+		try
+		{
+			foreach (string file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
 			{
 				try
 				{
 					File.SetAttributes(file, FileAttributes.Normal);
-					File.Delete(file);
 				}
 				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 				{
 				}
 			}
-			try
-			{
-				Directory.Delete(storage, true);
-			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-			}
+			Directory.Delete(folder, true);
 		}
-		App.Logger?.WriteLine("AssetProxyRouting", "Roblox asset cache cleared");
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+		}
 	}
+
 
 	public static async Task<IReadOnlyDictionary<string, string>> PrepareAsync(IEnumerable<string> hosts, CancellationToken ct, bool resolveEndpoints = true)
 	{
@@ -357,7 +455,7 @@ internal static class AssetProxyRouting
 		try
 		{
 			StopCleanupGuard();
-			string executable = Paths.Process;
+			string executable = Paths.LaunchExecutable;
 			if (string.IsNullOrEmpty(executable) || !File.Exists(executable))
 			{
 				App.Logger?.WriteLine("AssetProxyRouting", "Cleanup guard skipped, the Voidstrap executable path is unavailable");
@@ -475,7 +573,7 @@ internal static class AssetProxyRouting
 	{
 		try
 		{
-			string executable = Paths.Process;
+			string executable = Paths.LaunchExecutable;
 			if (string.IsNullOrEmpty(executable) || !File.Exists(executable))
 			{
 				return;

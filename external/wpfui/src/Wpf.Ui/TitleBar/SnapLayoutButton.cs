@@ -1,4 +1,4 @@
-﻿// This Source Code Form is subject to the terms of the MIT License.
+// This Source Code Form is subject to the terms of the MIT License.
 // If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
@@ -31,6 +31,7 @@ internal class SnapLayoutButton : IDisposable
     /// </summary>
     private Size _renderedSize;
     private readonly double _initialDpiScale;
+    private double _currentDpiScale;
 
     /// <summary>
     /// Whether the button is clicked.
@@ -50,6 +51,7 @@ internal class SnapLayoutButton : IDisposable
         _visual = button ?? throw new InvalidOperationException($"Parameter button of the {typeof(SnapLayoutButton)} cannot be null.");
 
         _initialDpiScale = dpiScale;
+        _currentDpiScale = dpiScale;
 
         if (button.IsLoaded)
             UpdateScale(dpiScale);
@@ -69,6 +71,7 @@ internal class SnapLayoutButton : IDisposable
 
     public void UpdateScale(double dpiScale)
     {
+        _currentDpiScale = dpiScale;
         // If the screen is scaled, the pixels/dots do not reflect the rendered size
         var renderedWidth = _visual.ActualWidth * dpiScale;
         var renderedHeight = _visual.ActualHeight * dpiScale;
@@ -88,7 +91,14 @@ internal class SnapLayoutButton : IDisposable
         if (new ButtonAutomationPeer(_visual).GetPattern(PatternInterface.Invoke) is IInvokeProvider invokeProvider)
             invokeProvider.Invoke();
 
+        Wpf.Ui.Controls.CaptionButtonState.SetIsPressed(_visual, false);
+        IsHovered = false;
         IsClickedDown = false;
+    }
+
+    public void SetPressed(bool pressed)
+    {
+        Wpf.Ui.Controls.CaptionButtonState.SetIsPressed(_visual, pressed);
     }
 
     /// <summary>
@@ -99,7 +109,6 @@ internal class SnapLayoutButton : IDisposable
         if (IsHovered)
             return;
 
-        _visual.Background = hoverBrush;
         IsHovered = true;
     }
 
@@ -111,7 +120,7 @@ internal class SnapLayoutButton : IDisposable
         if (!IsHovered)
             return;
 
-        _visual.Background = regularBrush;
+        Wpf.Ui.Controls.CaptionButtonState.SetIsPressed(_visual, false);
 
         IsHovered = false;
         IsClickedDown = false;
@@ -128,7 +137,13 @@ internal class SnapLayoutButton : IDisposable
         if (positionPointer == IntPtr.Zero)
             return false;
 
+        if (!_visual.IsVisible)
+            return false;
+
         // Invalid button size
+        if (_renderedSize.Height == 0 && _renderedSize.Width == 0)
+            UpdateScale(_currentDpiScale);
+
         if (_renderedSize.Height == 0 && _renderedSize.Width == 0)
             return false;
 

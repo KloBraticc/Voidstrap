@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -149,7 +149,7 @@ public partial class AddFastFlagDialog : WpfUiWindow{
 
 	private void UpdateBase64Tab()
 	{
-		if (ImportedFlags.Any())
+		if (ImportedFlags.Count != 0)
 		{
 			string s = JObject.FromObject(ImportedFlags.ToDictionary((FastFlagItem f) => f.Name, (FastFlagItem f) => f.Value)).ToString();
 			string text = Convert.ToBase64String(Encoding.UTF8.GetBytes(s));
@@ -219,7 +219,7 @@ public partial class AddFastFlagDialog : WpfUiWindow{
 		{
 			try
 			{
-				text = Clipboard.GetText();
+				text = Voidstrap.Utility.ClipboardService.GetText();
 			}
 			catch
 			{
@@ -250,7 +250,7 @@ public partial class AddFastFlagDialog : WpfUiWindow{
 	private void PresetValuesButton_Click(object sender, RoutedEventArgs e)
 	{
 		FFlagPresetsDialog fFlagPresetsDialog = new FFlagPresetsDialog();
-		if (fFlagPresetsDialog.ShowDialog() == true && !string.IsNullOrEmpty(fFlagPresetsDialog.SelectedValue))
+		if (fFlagPresetsDialog.ShowOwnedDialog() == true && !string.IsNullOrEmpty(fFlagPresetsDialog.SelectedValue))
 		{
 			FlagValueTextBox.Text = fFlagPresetsDialog.SelectedValue;
 		}

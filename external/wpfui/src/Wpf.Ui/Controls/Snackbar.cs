@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls.Interfaces;
 using Brush = System.Windows.Media.Brush;
@@ -23,7 +24,8 @@ namespace Wpf.Ui.Controls;
 [ToolboxBitmap(typeof(Snackbar), "Snackbar.bmp")]
 public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl, IIconControl, IAppearanceControl
 {
-    private readonly EventIdentifier _eventIdentifier;
+    private readonly DispatcherTimer _hideTimer;
+    private TaskCompletionSource<bool>? _hideCompletion;
 
     /// <summary>
     /// Property for <see cref="IsShown"/>.
@@ -229,7 +231,9 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
     /// <inheritdoc />
     public Snackbar()
     {
-        _eventIdentifier = new EventIdentifier();
+        _hideTimer = new DispatcherTimer();
+        _hideTimer.Tick += OnHideTimerTick;
+        Unloaded += OnUnloaded;
 
         SetValue(TemplateButtonCommandProperty, new Common.RelayCommand(o => OnTemplateButtonClick(this, o)));
     }
@@ -436,29 +440,64 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
         return true;
     }
 
-    private async Task<bool> HideComponentAsync(int timeout)
+    private Task<bool> HideComponentAsync(int timeout)
     {
         if (!IsShown)
-            return false;
+            return Task.FromResult(false);
+
+        CancelScheduledHide(false);
 
         if (timeout < 1)
+        {
             IsShown = false;
+            OnClosed();
+            return Task.FromResult(true);
+        }
 
-        var currentEvent = _eventIdentifier.GetNext();
+        _hideCompletion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        _hideTimer.Interval = TimeSpan.FromMilliseconds(timeout);
+        _hideTimer.Start();
 
-        await Task.Delay(timeout);
+        return _hideCompletion.Task;
+    }
 
-        if (Application.Current == null)
-            return false;
+    private void OnHideTimerTick(object? sender, EventArgs e)
+    {
+        _hideTimer.Stop();
 
-        if (!_eventIdentifier.IsEqual(currentEvent))
-            return false;
+        if (!IsShown || Application.Current == null)
+        {
+            CancelScheduledHide(false);
+            return;
+        }
 
         IsShown = false;
-
         OnClosed();
+        CompleteScheduledHide(true);
+    }
 
-        return true;
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        bool wasShown = IsShown;
+        _hideTimer.Stop();
+        CancelScheduledHide(false);
+        IsShown = false;
+
+        if (wasShown)
+            OnClosed();
+    }
+
+    private void CancelScheduledHide(bool result)
+    {
+        _hideTimer.Stop();
+        CompleteScheduledHide(result);
+    }
+
+    private void CompleteScheduledHide(bool result)
+    {
+        TaskCompletionSource<bool>? completion = _hideCompletion;
+        _hideCompletion = null;
+        completion?.TrySetResult(result);
     }
 
     private async Task HideIfVisible()

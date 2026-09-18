@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NAudio.Dsp;
 using NAudio.Wave;
@@ -13,7 +13,7 @@ public sealed class EqualizerSampleProvider : ISampleProvider
     private readonly int _channels;
     private readonly float[] _frequencies;
     private readonly float[] _gains;
-    private BiQuadFilter[,] _filters;
+    private BiQuadFilter[,] _filters = null!;
     private volatile bool _enabled;
     private volatile bool _dirty;
 

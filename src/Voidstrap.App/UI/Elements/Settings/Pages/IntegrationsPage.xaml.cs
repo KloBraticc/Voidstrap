@@ -51,6 +51,11 @@ public partial class IntegrationsPage : UiPage{
 	private void OnPageUnloaded(object sender, RoutedEventArgs e)
 	{
 		StopRpcPreview();
+		if (_ownerWindow != null)
+		{
+			_ownerWindow.Closed -= OnOwnerWindowClosed;
+			_ownerWindow = null;
+		}
 	}
 
 	private void OnOwnerWindowClosed(object? sender, EventArgs e)

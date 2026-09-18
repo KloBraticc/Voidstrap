@@ -29,8 +29,8 @@ internal class AddCustomThemeViewModel : NotifyPropertyChangedViewModel
 			if (_filePath != value)
 			{
 				_filePath = value;
-				OnPropertyChanged("FilePath");
-				OnPropertyChanged("FilePathVisibility");
+				OnPropertyChanged(nameof(FilePath));
+				OnPropertyChanged(nameof(FilePathVisibility));
 			}
 		}
 	}
@@ -60,8 +60,8 @@ internal class AddCustomThemeViewModel : NotifyPropertyChangedViewModel
 			if (_nameError != value)
 			{
 				_nameError = value;
-				OnPropertyChanged("NameError");
-				OnPropertyChanged("NameErrorVisibility");
+				OnPropertyChanged(nameof(NameError));
+				OnPropertyChanged(nameof(NameErrorVisibility));
 			}
 		}
 	}
@@ -89,8 +89,8 @@ internal class AddCustomThemeViewModel : NotifyPropertyChangedViewModel
 			if (_fileError != value)
 			{
 				_fileError = value;
-				OnPropertyChanged("FileError");
-				OnPropertyChanged("FileErrorVisibility");
+				OnPropertyChanged(nameof(FileError));
+				OnPropertyChanged(nameof(FileErrorVisibility));
 			}
 		}
 	}

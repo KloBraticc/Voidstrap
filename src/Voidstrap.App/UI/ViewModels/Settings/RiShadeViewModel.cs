@@ -11,12 +11,62 @@ namespace Voidstrap.UI.ViewModels.Settings
 {
     public class RiShadeViewModel : Voidstrap.UI.ViewModels.NotifyPropertyChangedViewModel
     {
-        private static RiShadeSettings C => RiShadeSettings.Current;
+        private static readonly RiShadeViewModel Defaults = new RiShadeViewModel(new RiShadeSettings());
+
+        private readonly RiShadeSettings? _fixed;
+
+        private RiShadeSettings C => _fixed ?? RiShadeSettings.Current;
 
         private void T(string name)
         {
+            if (_fixed != null)
+                return;
             RiShadeSettings.Touch();
             OnPropertyChanged(name);
+        }
+
+        private RiShadeViewModel(RiShadeSettings fixedSource)
+        {
+            _fixed = fixedSource;
+            SavePresetCommand = new RelayCommand(SavePreset);
+            DeletePresetCommand = new RelayCommand(DeletePreset);
+            ImportPresetCommand = new RelayCommand(ImportPreset);
+            ExportPresetCommand = new RelayCommand(ExportPreset);
+            ImportReShadeCommand = new RelayCommand(ImportReShade);
+        }
+
+        public static object? GetDefault(string name)
+        {
+            var prop = typeof(RiShadeViewModel).GetProperty(name);
+            return prop?.GetValue(Defaults);
+        }
+
+        public bool IsDefault(string name)
+        {
+            var prop = typeof(RiShadeViewModel).GetProperty(name);
+            if (prop == null)
+                return true;
+            object? mine = prop.GetValue(this);
+            object? def = prop.GetValue(Defaults);
+            if (mine is double a && def is double b)
+                return Math.Abs(a - b) < 0.00001;
+            return Equals(mine, def);
+        }
+
+        public void Reset(string name)
+        {
+            var prop = typeof(RiShadeViewModel).GetProperty(name);
+            if (prop == null || !prop.CanWrite)
+                return;
+            prop.SetValue(this, prop.GetValue(Defaults));
+        }
+
+        public void ResetAll()
+        {
+            RiShadeSettings.ApplyPreset("Vanilla (off)");
+            _selectedBuiltinPreset = null;
+            _selectedCustomPreset = null;
+            RefreshAll();
         }
 
         public bool GradeEnabled { get => C.GradeEnabled; set { C.GradeEnabled = value; T(nameof(GradeEnabled)); } }

@@ -54,11 +54,15 @@
                                 MinHeight="{TemplateBinding MinHeight}"
                                 Background="{TemplateBinding Background}"
                                 CornerRadius="4">
+                                <Border.CacheMode>
+                                    <BitmapCache />
+                                </Border.CacheMode>
                                 <Border.Effect>
                                     <DropShadowEffect
                                         BlurRadius="30"
                                         Direction="0"
                                         Opacity="0.4"
+                                        RenderingBias="Performance"
                                         ShadowDepth="0"
                                         Color="#202020" />
                                 </Border.Effect>
@@ -133,6 +137,10 @@
                         <Trigger Property="CloseButtonEnabled" Value="False">
                             <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed" />
                             <Setter TargetName="CloseButton" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
+                            <Setter TargetName="CardShadow" Property="Effect" Value="{x:Null}" />
+                            <Setter TargetName="CardShadow" Property="CacheMode" Value="{x:Null}" />
                         </Trigger>
                         <Trigger Property="IsShown" Value="True">
                             <Setter Property="Focusable" Value="True" />

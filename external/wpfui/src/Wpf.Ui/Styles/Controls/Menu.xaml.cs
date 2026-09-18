@@ -18,7 +18,7 @@ namespace Wpf.Ui.Styles.Controls
         /// </summary>
         public Menu() => Initialize();
 
-        private void Initialize()
+        private static void Initialize()
         {
             if (!SystemParameters.MenuDropAlignment)
                 return;

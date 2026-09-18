@@ -16,7 +16,7 @@ using Voidstrap.Utility;
 
 namespace Voidstrap.Integrations
 {
-    public class WindowManipulation : IDisposable
+    public partial class WindowManipulation : IDisposable
     {
         private WINEVENTPROC? _setTitleHook;
         private Windows.Win32.UnhookWinEventSafeHandle? _winEventHook;
@@ -53,7 +53,7 @@ namespace Voidstrap.Integrations
             const string LOG_IDENT = "WindowManipulation";
 
             App.Logger.WriteLine(LOG_IDENT, $"Got window handle as {windowHandle}");
-            _hWnd = (HWND)(IntPtr)windowHandle;
+            _hWnd = (HWND)new IntPtr(windowHandle);
             _hWndRaw = (nint)windowHandle;
             _robloxPID = (uint)robloxProcessId;
             _activityWatcher = activityWatcher;
@@ -120,10 +120,10 @@ namespace Voidstrap.Integrations
             }
             catch
             {
-                resolution = Screen.PrimaryScreen.Bounds;
+                resolution = Screen.PrimaryScreen!.Bounds;
             }
 
-            PInvoke.SetWindowLong(_hWnd, (WINDOW_LONG_PTR_INDEX)GWLSTYLE, style);
+            _ = PInvoke.SetWindowLong(_hWnd, (WINDOW_LONG_PTR_INDEX)GWLSTYLE, style);
 
             PInvoke.SetWindowPos(_hWnd, (HWND)IntPtr.Zero, resolution.X, resolution.Y, resolution.Width, resolution.Height + 1, SET_WINDOW_POS_FLAGS.SWP_FRAMECHANGED | SET_WINDOW_POS_FLAGS.SWP_SHOWWINDOW);
         }
@@ -419,17 +419,17 @@ namespace Voidstrap.Integrations
 
 
 
-        [DllImport("dwmapi.dll", EntryPoint = "DwmSetWindowAttribute")]
-        private static extern int DwmSetWindowAttributeInt(IntPtr hwnd, int attribute, ref int value, int size);
+        [LibraryImport("dwmapi.dll", EntryPoint = "DwmSetWindowAttribute")]
+        private static partial int DwmSetWindowAttributeInt(IntPtr hwnd, int attribute, ref int value, int size);
 
-        [DllImport("dwmapi.dll")]
-        private static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
+        [LibraryImport("dwmapi.dll")]
+        private static partial int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
 
-        [DllImport("user32.dll")]
-        private static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+        [LibraryImport("user32.dll")]
+        private static partial int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct MARGINS
+        private partial struct MARGINS
         {
             public int Left;
             public int Right;
@@ -438,7 +438,7 @@ namespace Voidstrap.Integrations
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct AccentPolicy
+        private partial struct AccentPolicy
         {
             public int State;
             public int Flags;
@@ -447,24 +447,26 @@ namespace Voidstrap.Integrations
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct WindowCompositionAttributeData
+        private partial struct WindowCompositionAttributeData
         {
             public int Attribute;
             public IntPtr Data;
             public int Size;
         }
 
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern nint SendMessageTimeout(nint hWnd, int message, nint wParam, nint lParam, uint flags, uint timeout, out nint result);
+        [LibraryImport("user32.dll", EntryPoint = "SendMessageTimeoutA", SetLastError = true)]
+        private static partial nint SendMessageTimeout(nint hWnd, int message, nint wParam, nint lParam, uint flags, uint timeout, out nint result);
 
-        [DllImport("user32.dll")]
-        private static extern bool IsWindow(nint hWnd);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool IsWindow(nint hWnd);
 
-        [DllImport("user32.dll")]
-        private static extern bool DestroyIcon(nint hIcon);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool DestroyIcon(nint hIcon);
 
-        [DllImport("user32.dll")]
-        private static extern nint CopyIcon(nint hIcon);
+        [LibraryImport("user32.dll")]
+        private static partial nint CopyIcon(nint hIcon);
 
         private nint SendIconMessage(int message, nint wParam, nint lParam)
         {

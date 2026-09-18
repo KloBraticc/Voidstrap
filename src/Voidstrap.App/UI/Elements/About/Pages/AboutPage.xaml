@@ -1,177 +1,223 @@
-﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.About.Pages.AboutPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.About" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="AboutPage" Scrollable="True" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.About.Pages" KeyDown="UiPage_KeyDown">
-  <FrameworkElement.Resources>
-    <ResourceDictionary>
-      <Storyboard x:Key="EggStoryboard">
-        <DoubleAnimation Storyboard.TargetName="Image1" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" Duration="0:0:3" />
-        <DoubleAnimation Storyboard.TargetName="Image2" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:3" />
-      </Storyboard>
-    </ResourceDictionary>
-  </FrameworkElement.Resources>
-  <StackPanel Margin="0,0,14,14">
-    <Grid Margin="0,0,0,24" HorizontalAlignment="Center">
+﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.About.Pages.AboutPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" Title="AboutPage" Scrollable="True" KeyDown="UiPage_KeyDown">
+  <ui:UiPage.Resources>
+    <Storyboard x:Key="EggStoryboard">
+      <DoubleAnimation Storyboard.TargetName="Image1" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" Duration="0:0:3" />
+      <DoubleAnimation Storyboard.TargetName="Image2" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:3" />
+    </Storyboard>
+    <Style x:Key="AboutSectionTitle" TargetType="{x:Type TextBlock}">
+      <Setter Property="Margin" Value="0,24,0,0" />
+      <Setter Property="FontSize" Value="18" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style x:Key="AboutSectionSubtitle" TargetType="{x:Type TextBlock}">
+      <Setter Property="Margin" Value="0,2,0,0" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <BitmapImage x:Key="ErikImage" UriSource="pack://application:,,,/Resources/Erik.png" DecodePixelHeight="176" CacheOption="OnLoad" CreateOptions="IgnoreColorProfile" />
+    <Style x:Key="ErikButton" TargetType="{x:Type Button}">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="SnapsToDevicePixels" Value="True" />
+      <Setter Property="RenderTransformOrigin" Value="0.5,1" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Border Background="Transparent">
+              <ContentPresenter />
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+          <Setter Property="Opacity" Value="0.88" />
+        </Trigger>
+      </Style.Triggers>
+    </Style>    <Style x:Key="ContributorAvatar" TargetType="{x:Type Border}">
+      <Setter Property="Width" Value="44" />
+      <Setter Property="Height" Value="44" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+      <Setter Property="Clip">
+        <Setter.Value>
+          <RectangleGeometry RadiusX="22" RadiusY="22" Rect="0,0,44,44" />
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </ui:UiPage.Resources>
+  <StackPanel Margin="0,0,18,18">
+    <ui:Card Padding="20,18">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Width="64" Height="64" VerticalAlignment="Center">
+          <Image x:Name="Image1" Source="pack://application:,,,/Voidstrap.png" RenderOptions.BitmapScalingMode="HighQuality" />
+          <Image x:Name="Image2" Source="pack://application:,,,/Resources/BootstrapperStyles/ByfronDialog/Matt.png" RenderOptions.BitmapScalingMode="HighQuality" Opacity="0" />
+        </Grid>
+        <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock VerticalAlignment="Center" FontSize="24" FontWeight="SemiBold" Text="Voidstrap" />
+            <Border Margin="10,2,0,0" Padding="8,2" VerticalAlignment="Center" CornerRadius="1" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
+              <TextBlock FontSize="12" FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Version, Mode=OneTime}" />
+            </Border>
+          </StackPanel>
+          <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="A simple yet advanced Bloxstrap fork." TextWrapping="Wrap" />
+        </StackPanel>
+        <Button Grid.Column="2" Margin="24,0,6,0" VerticalAlignment="Bottom" Style="{StaticResource ErikButton}" ToolTip="Thank you, Erik" Click="ErikButton_Click">
+          <Image Height="74" Stretch="Uniform" Source="{StaticResource ErikImage}" RenderOptions.BitmapScalingMode="HighQuality" />
+        </Button>
+      </Grid>
+    </ui:Card>
+    <UniformGrid Margin="-4,8,-4,0" Columns="2">
+      <ui:Anchor Margin="4" HorizontalAlignment="Stretch" Content="{x:Static resources:Strings.Menu_About_GithubRepository}" Icon="Code24" NavigateUri="https://github.com/KloBraticc/Voidstrap" />
+      <ui:Anchor Margin="4" HorizontalAlignment="Stretch" Content="{x:Static resources:Strings.Menu_About_HelpInformation}" Icon="BookQuestionMark24" NavigateUri="https://github.com/KloBraticc/Voidstrap#readme" />
+      <ui:Anchor Margin="4" HorizontalAlignment="Stretch" Content="{x:Static resources:Strings.Menu_About_ReportIssue}" Icon="BookExclamationMark24" NavigateUri="https://github.com/KloBraticc/Voidstrap/issues" />
+      <ui:Anchor Margin="4" HorizontalAlignment="Stretch" Content="{x:Static resources:Strings.Menu_About_DiscordServer}" Icon="Chat48" NavigateUri="https://discord.gg/X3CRTP66VG" />
+    </UniformGrid>
+    <TextBlock Style="{StaticResource AboutSectionTitle}" Text="Main Contributors" />
+    <TextBlock Style="{StaticResource AboutSectionSubtitle}" Text="The people who made Voidstrap possible." />
+    <UniformGrid Margin="-4,6,-4,0" Columns="2">
+      <ui:Card Margin="4" Padding="12">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Style="{StaticResource ContributorAvatar}">
+            <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/195697851?v=4" />
+          </Border>
+          <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+            <TextBlock FontSize="15" FontWeight="SemiBold" Text="Bratic" />
+            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Love Everyone With a Purpose." TextWrapping="Wrap" />
+          </StackPanel>
+        </Grid>
+      </ui:Card>
+      <ui:Card Margin="4" Padding="12">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Style="{StaticResource ContributorAvatar}">
+                        <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/216225335?v=4" />
+          </Border>
+          <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+            <TextBlock FontSize="15" FontWeight="SemiBold" Text="Meddsam" />
+            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Froststrap Owner" TextWrapping="Wrap" />
+          </StackPanel>
+        </Grid>
+      </ui:Card>
+      <ui:Card Margin="4" Padding="12">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Style="{StaticResource ContributorAvatar}">
+            <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/193777251?v=4" />
+          </Border>
+          <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+            <TextBlock FontSize="15" FontWeight="SemiBold" Text="Midaskira" />
+            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Retired Co Owner, was like a brother." TextWrapping="Wrap" />
+          </StackPanel>
+        </Grid>
+      </ui:Card>
+      <ui:Card Margin="4" Padding="12">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Style="{StaticResource ContributorAvatar}">
+            <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/213444273?v=4" />
+          </Border>
+          <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+            <TextBlock FontSize="15" FontWeight="SemiBold" Text="NoRam" />
+            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="A kind soul that helped on the way." TextWrapping="Wrap" />
+          </StackPanel>
+        </Grid>
+      </ui:Card>
+      <ui:Card Margin="4" Padding="12">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Style="{StaticResource ContributorAvatar}">
+            <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/105540464?v=4" />
+          </Border>
+          <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+            <TextBlock FontSize="15" FontWeight="SemiBold" Text="Levent" />
+            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="A kind soul that helped on the way." TextWrapping="Wrap" />
+          </StackPanel>
+        </Grid>
+      </ui:Card>
+      <ui:Card Margin="4" Padding="12">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Style="{StaticResource ContributorAvatar}">
+            <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/194078013?v=4" />
+          </Border>
+          <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+            <TextBlock FontSize="15" FontWeight="SemiBold" Text="7bt" />
+            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="A kind soul that helped on the way." TextWrapping="Wrap" />
+          </StackPanel>
+        </Grid>
+      </ui:Card>
+    </UniformGrid>
+    <TextBlock Style="{StaticResource AboutSectionTitle}" Text="{x:Static resources:Strings.Menu_About_Contributors}" />
+    <TextBlock Style="{StaticResource AboutSectionSubtitle}" Text="{x:Static resources:Strings.Menu_About_Contributors_Description}" />
+    <Grid Margin="0,10,0,0">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
-      <Image Name="Image1" Grid.Column="0" Width="72" Height="72" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Voidstrap.png" />
-      <Image Name="Image2" Grid.Column="0" Width="72" Height="72" VerticalAlignment="Center" Opacity="0" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/BootstrapperStyles/ByfronDialog/Matt.png" />
-      <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-          <TextBlock Grid.Column="0" Margin="0,0,4,0" FontSize="24" FontWeight="Medium" Text="Voidstrap" />
-        </Grid>
-        <TextBlock Text="A Simple yet Advanced, Bloxstrap Fork." />
-      </StackPanel>
-    </Grid>
-    <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal" ItemHeight="40" ItemWidth="Auto">
-            <ui:Anchor Margin="0,0,8,0" Content="{x:Static resources:Strings.Menu_About_ReportIssue}" Icon="BookExclamationMark24" NavigateUri="https://github.com/KloBraticc/Voidstrap/issues" />
-            <ui:Anchor Margin="0,0,8,0" Content="Website" Icon="Globe20" NavigateUri="https://voidstrapp.pages.dev" />
-      <ui:Anchor Content="{x:Static resources:Strings.Menu_About_DiscordServer}" Icon="Chat48" NavigateUri="https://discord.gg/X3CRTP66VG" Click="Anchor_Click" />
-    </WrapPanel>
-    <TextBlock Margin="0,16,0,0" FontFamily="Segoe UI Semibold" FontSize="20" FontWeight="Medium" Text="Main Contributors" />
-    <TextBlock Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="These are the people who have made the main contributions to Voidstrap, helping make it real." TextWrapping="Wrap" />
-    <StackPanel Orientation="Vertical" Margin="0,8,0,0">
-      <ui:Card Padding="12">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Image Width="48" Height="48" VerticalAlignment="Top" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/195697851?v=4" />
-          <StackPanel Grid.Column="1" Margin="12,0,0,0">
-            <TextBlock FontSize="16" FontWeight="SemiBold" Text="Bratic" />
-            <TextBlock Opacity="0.7" Text="Love Everyone With a Purpose." />
-          </StackPanel>
-        </Grid>
-      </ui:Card>
-      <ui:Card Padding="12" Margin="0,8,0,0">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Image Width="48" Height="48" VerticalAlignment="Top" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/168036205?v=4" />
-          <StackPanel Grid.Column="1" Margin="12,0,0,0">
-            <TextBlock FontSize="16" FontWeight="SemiBold" Text="Luci" />
-            <TextBlock Opacity="0.7" Text="One of Bratics Besties, Lucistrap Owner" />
-          </StackPanel>
-        </Grid>
-      </ui:Card>
-      <ui:Card Padding="12" Margin="0,8,0,0">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Image Width="48" Height="48" VerticalAlignment="Top" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/193777251?v=4" />
-          <StackPanel Grid.Column="1" Margin="12,0,0,0">
-            <TextBlock FontSize="16" FontWeight="SemiBold" Text="Midaskira" />
-            <TextBlock Opacity="0.7" Text="Retired (Co-Owner) Was like a brother." />
-          </StackPanel>
-        </Grid>
-      </ui:Card>
-      <ui:Card Padding="12" Margin="0,8,0,0">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Image Width="48" Height="48" VerticalAlignment="Top" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/213444273?v=4" />
-          <StackPanel Grid.Column="1" Margin="12,0,0,0">
-            <TextBlock FontSize="16" FontWeight="SemiBold" Text="NoRam" />
-            <TextBlock Opacity="0.7" Text="A kind soul that helped on the way." />
-          </StackPanel>
-        </Grid>
-      </ui:Card>
-      <ui:Card Padding="12" Margin="0,8,0,0">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Image Width="48" Height="48" VerticalAlignment="Top" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/105540464?v=4" />
-          <StackPanel Grid.Column="1" Margin="12,0,0,0">
-            <TextBlock FontSize="16" FontWeight="SemiBold" Text="Levent" />
-            <TextBlock Opacity="0.7" Text="A kind soul that helped on the way." />
-          </StackPanel>
-        </Grid>
-      </ui:Card>
-      <ui:Card Padding="12" Margin="0,8,0,0">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Image Width="48" Height="48" VerticalAlignment="Top" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/194078013?v=4" />
-          <StackPanel Grid.Column="1" Margin="12,0,0,0">
-            <TextBlock FontSize="16" FontWeight="SemiBold" Text="7bt" />
-            <TextBlock Opacity="0.7" Text="A kind soul that helped on the way." />
-          </StackPanel>
-        </Grid>
-      </ui:Card>
-    </StackPanel>
-    <TextBlock Margin="0,16,0,0" FontFamily="Segoe UI Semibold" FontSize="20" FontWeight="Medium" Text="{x:Static resources:Strings.Menu_About_Contributors}" />
-    <TextBlock Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="These are the people who have made notable contributions to Voidstrap, helping make it what it is." TextWrapping="Wrap" />
-    <Grid Margin="0,8,0,0">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition />
-        <ColumnDefinition />
-        <ColumnDefinition />
-      </Grid.ColumnDefinitions>
-      <Grid.RowDefinitions>
-        <RowDefinition />
-        <RowDefinition />
-      </Grid.RowDefinitions>
-      <controls:Expander Grid.Column="0" Margin="0,0,4,0" BorderThickness="2,2,2,2" HeaderIcon="Code24" HeaderText="Coders" IsExpanded="False">
+      <controls:Expander Grid.Column="0" Margin="0,0,4,0" HeaderIcon="Code24" HeaderText="{x:Static resources:Strings.Menu_About_Contributors_Code}" IsExpanded="False" ui:ExpanderMotion.UseLinuxAnimationClock="False">
         <StackPanel>
+          <controls:MarkdownTextBlock MarkdownText="[Bratic](https://github.com/KloBraticc)" />
+          <controls:MarkdownTextBlock MarkdownText="[Luci](https://github.com/Luc6i)" />
+          <controls:MarkdownTextBlock MarkdownText="[Midaskira](https://www.roblox.com/users/2438075486/profile)" />
+          <controls:MarkdownTextBlock MarkdownText="7bt" />
           <controls:MarkdownTextBlock MarkdownText="[pizzaboxer](https://github.com/pizzaboxer)" />
           <controls:MarkdownTextBlock MarkdownText="[lolmanurfunny](https://github.com/lolmanurfunny)" />
-          <controls:MarkdownTextBlock MarkdownText="[ミダスキラ](https://www.roblox.com/users/2438075486/profile)" />
-          <controls:MarkdownTextBlock MarkdownText="[Bratic](https://github.com/KloBraticc)" />
           <controls:MarkdownTextBlock MarkdownText="[Meddsam](https://github.com/RealMeddsam/Froststrap)" />
-          <controls:MarkdownTextBlock MarkdownText="[stoof](https://www.youtube.com/@stoofis)" />
-          <controls:MarkdownTextBlock MarkdownText="[Luc6i](https://github.com/Luc6i)" />
-          <controls:MarkdownTextBlock MarkdownText="[return_request](https://github.com/returnrqt)" />
           <controls:MarkdownTextBlock MarkdownText="[Matt](https://github.com/bluepilledgreat)" />
-          <controls:MarkdownTextBlock MarkdownText="[GSczbfXn](https://github.com/ZFkQSZ3GxWFy6bthZ)" />
-          <controls:MarkdownTextBlock MarkdownText="[lolmanurfunny](https://github.com/lolmanurfunny)" />
+          <controls:MarkdownTextBlock MarkdownText="[stoof](https://www.youtube.com/@stoofis)" />
           <controls:MarkdownTextBlock MarkdownText="[1011025m](https://github.com/1011025m)" />
           <controls:MarkdownTextBlock MarkdownText="[EasternBloxxer](https://github.com/EasternBloxxer)" />
           <controls:MarkdownTextBlock MarkdownText="[sitiom](https://github.com/sitiom)" />
           <controls:MarkdownTextBlock MarkdownText="[Extravi](https://github.com/Extravi)" />
+          <controls:MarkdownTextBlock MarkdownText="[EpixScripts](https://github.com/EpixScripts)" />
           <controls:MarkdownTextBlock MarkdownText="[swatTurret](https://github.com/swatTurret)" />
           <controls:MarkdownTextBlock MarkdownText="[fxeP1](https://github.com/fxeP1)" />
           <controls:MarkdownTextBlock MarkdownText="[Redusofficial](https://github.com/Redusofficial)" />
           <controls:MarkdownTextBlock MarkdownText="[srthMD](https://github.com/srthMD)" />
           <controls:MarkdownTextBlock MarkdownText="[axellse](https://github.com/axellse)" />
-          <controls:MarkdownTextBlock MarkdownText="[ZFkQSZ3GxWFy6bthZ](https://github.com/ZFkQSZ3GxWFy6bthZ)" />
           <controls:MarkdownTextBlock MarkdownText="[BlueOutside](https://github.com/BlueOutside)" />
-          <controls:MarkdownTextBlock MarkdownText="[MikeyUsersREC](https://github.com/MikeyUsersREC)" />
         </StackPanel>
       </controls:Expander>
-      <controls:Expander Grid.Column="1" Margin="4,0,4,0" BorderThickness="2,2,2,2" HeaderIcon="AppsAddIn28" HeaderText="Contribution" IsExpanded="False">
+      <controls:Expander Grid.Column="1" Margin="4,0,4,0" HeaderIcon="AppsAddIn28" HeaderText="{x:Static resources:Strings.Menu_About_Contributors_FeatureIdeas}" IsExpanded="False" ui:ExpanderMotion.UseLinuxAnimationClock="False">
         <StackPanel>
+          <controls:MarkdownTextBlock MarkdownText="NoRam" />
+          <controls:MarkdownTextBlock MarkdownText="Levent" />
           <controls:MarkdownTextBlock MarkdownText="[TnoobixRT](https://guns.lol/tnoobixrt)" />
           <controls:MarkdownTextBlock MarkdownText="[Flemish](https://www.discord.com/users/1286961047990702124)" />
-          <controls:MarkdownTextBlock MarkdownText="[Stoof](https://www.youtube.com/@stoofis)" />
           <controls:MarkdownTextBlock MarkdownText="[RecBacon](https://www.discord.com/users/931627573656559656)" />
-          <controls:MarkdownTextBlock MarkdownText="[5070](https://www.discord.com/users/1272494435690610800)" />
-          <controls:MarkdownTextBlock MarkdownText="[Slut](https://www.discord.com/users/1211640594082832404)" />
-          <controls:MarkdownTextBlock MarkdownText="[Bren](https://www.discord.com/users/1211640594082832404)" />
-          <controls:MarkdownTextBlock MarkdownText="[NazoCD](https://www.discord.com/users/1094216231415984140)" />
-          <controls:MarkdownTextBlock MarkdownText="[kezcn](https://www.roblox.com/users/4401881748/profile)" />
-          <controls:MarkdownTextBlock MarkdownText="[bloodraven](https://github.com/bloodrvn)" />
-          <controls:MarkdownTextBlock MarkdownText="[Skylan](https://github.com/Skylan031/)" />
-          <controls:MarkdownTextBlock MarkdownText="[cam1494](https://github.com/cam1494)" />
-          <controls:MarkdownTextBlock MarkdownText="[Encythe](https://github.com/Encythe)" />
           <controls:MarkdownTextBlock MarkdownText="[he3als](https://github.com/he3als)" />
           <controls:MarkdownTextBlock MarkdownText="[NikSavchenk0](https://github.com/NikSavchenk0)" />
           <controls:MarkdownTextBlock MarkdownText="[carter0nline](https://github.com/carter0nline)" />
           <controls:MarkdownTextBlock MarkdownText="[MehKako](https://github.com/MehKako)" />
-          <controls:MarkdownTextBlock MarkdownText="[EpixScripts](https://github.com/EpixScripts)" />
           <controls:MarkdownTextBlock MarkdownText="[knivesofeylis](https://github.com/knivesofeylis)" />
           <controls:MarkdownTextBlock MarkdownText="[sha4owz](https://github.com/sha4owz)" />
           <controls:MarkdownTextBlock MarkdownText="[DaMlgNoodle](https://github.com/DaMlgNoodle)" />
@@ -183,18 +229,16 @@
           <controls:MarkdownTextBlock MarkdownText="[ruubloo](https://www.roblox.com/users/158082266/profile)" />
           <controls:MarkdownTextBlock MarkdownText="[toyoda165](https://www.roblox.com/users/923416649/profile)" />
           <controls:MarkdownTextBlock MarkdownText="[ShadowCodeX](https://github.com/ShadowCodeX-debug)" />
-          <controls:MarkdownTextBlock MarkdownText="[cub-has-injected](https://github.com/cub-has-injected)" />
           <controls:MarkdownTextBlock MarkdownText="[AskaLangly](https://github.com/AskaLangly)" />
           <controls:MarkdownTextBlock MarkdownText="[Encythe](https://github.com/Encythe)" />
           <controls:MarkdownTextBlock MarkdownText="[hugo9655](https://github.com/hugo9655)" />
           <controls:MarkdownTextBlock MarkdownText="[CubesterYT](https://github.com/CubesterYT)" />
-          <controls:MarkdownTextBlock MarkdownText="[lachine](https://github.com/lachine1)" />
           <controls:MarkdownTextBlock MarkdownText="[TheRealSpriteMan1337](https://github.com/TheRealSpriteMan1337)" />
           <controls:MarkdownTextBlock MarkdownText="[ms-gitblox](https://github.com/ms-gitblox)" />
           <controls:MarkdownTextBlock MarkdownText="[Luximoz](https://github.com/Luximoz)" />
         </StackPanel>
       </controls:Expander>
-      <controls:Expander Grid.Column="2" Margin="4,0,0,0" BorderThickness="2,2,2,2" HeaderIcon="Heart20" HeaderText="Inspirations" IsExpanded="False">
+      <controls:Expander Grid.Column="2" Margin="4,0,0,0" HeaderIcon="Heart16" HeaderText="{x:Static resources:Strings.Menu_About_Contributors_SpecialThanks}" IsExpanded="False" ui:ExpanderMotion.UseLinuxAnimationClock="False">
         <StackPanel>
           <controls:MarkdownTextBlock MarkdownText="[Fishstrap](https://github.com/returnrqt/)" />
           <controls:MarkdownTextBlock MarkdownText="[Bloxstrap](https://github.com/MaximumADHD)" />
@@ -205,44 +249,77 @@
           <controls:MarkdownTextBlock MarkdownText="[axstin](https://github.com/axstin)" />
           <controls:MarkdownTextBlock MarkdownText="[Mantaraix](https://github.com/Mantaraix)" />
           <controls:MarkdownTextBlock MarkdownText="[apprehensions](https://github.com/apprehensions)" />
-          <controls:MarkdownTextBlock MarkdownText="[axellse](https://github.com/axellse)" />
           <controls:MarkdownTextBlock MarkdownText="[NetSoftworks](https://github.com/netsoftwork)" />
-          <controls:MarkdownTextBlock MarkdownText="[BlueOutside](https://github.com/BlueOutside)" />
           <controls:MarkdownTextBlock MarkdownText="[Naveandice](https://github.com/Naveandice)" />
           <controls:MarkdownTextBlock MarkdownText="[Skylan](https://github.com/Skylan031)" />
           <controls:MarkdownTextBlock MarkdownText="[Xaurchark](https://github.com/nicolasfp1)" />
           <controls:MarkdownTextBlock MarkdownText="[c_llie](https://discord.com/users/1053052072779583488)" />
+          <controls:MarkdownTextBlock MarkdownText="[axellse](https://github.com/axellse)" />
+          <controls:MarkdownTextBlock MarkdownText="[BlueOutside](https://github.com/BlueOutside)" />
         </StackPanel>
       </controls:Expander>
     </Grid>
     <StackPanel Visibility="{Binding BuildInformationVisibility, Mode=OneTime}">
-      <TextBlock Margin="0,16,0,0" FontFamily="Segoe UI Semibold" FontSize="20" Text="Build Information" />
-      <Grid Margin="0,4,0,4">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-          <RowDefinition Height="Auto" />
-          <RowDefinition Height="Auto" />
-          <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" FontSize="14" FontWeight="Medium" Text="Updated:" VerticalAlignment="Center" Margin="0,0,8,0" />
-        <TextBlock Grid.Row="0" Grid.Column="1" FontSize="14" VerticalAlignment="Center" Text="{Binding BuildTimestamp, Mode=OneTime}" />
-        <TextBlock Grid.Row="1" Grid.Column="0" FontSize="14" FontWeight="Medium" Text="Version:" VerticalAlignment="Center" Margin="0,4,8,0" />
-        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="14" VerticalAlignment="Center" Text="{Binding Version, Mode=OneTime}" />
-        <TextBlock Grid.Row="2" Grid.Column="0" FontSize="14" FontWeight="Medium" Text="Commit Hash:" VerticalAlignment="Center" Margin="0,4,8,0" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}" />
-        <TextBlock Grid.Row="2" Grid.Column="1" FontSize="14" VerticalAlignment="Center" Text="{Binding CommitHash, Mode=OneTime}" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}" />
-        <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,0,0,4" VerticalAlignment="Bottom" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}">
-          <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" Foreground="{DynamicResource TextFillColorTertiaryBrush}" CommandParameter="{Binding BuildCommitHashUrl, Mode=OneTime}">
-            <TextBlock Text="{Binding BuildMetadata.CommitHash, Mode=OneTime}" />
+      <TextBlock Style="{StaticResource AboutSectionTitle}" Text="Build Information" />
+      <ui:Card Margin="0,10,0,0" Padding="16,10">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="Updated" />
+          <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,4,0,4" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding BuildTimestamp, Mode=OneTime}" />
+          <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="Version" />
+          <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,4,0,4" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Version, Mode=OneTime}" />
+          <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="Commit Hash" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}" />
+          <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,4,0,4" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}">
+            <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="{Binding BuildCommitHashUrl, Mode=OneTime}" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+              <TextBlock Text="{Binding CommitHash, Mode=OneTime}" />
+            </Hyperlink>
+          </TextBlock>
+        </Grid>
+      </ui:Card>
+    </StackPanel>
+    <TextBlock Style="{StaticResource AboutSectionTitle}" Text="Third Party Notices" />
+    <ui:Card Margin="0,10,0,0" Padding="16,12">
+      <TextBlock Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="This software contains source code provided by NVIDIA Corporation. Frame generation uses the NVIDIA Optical Flow SDK FRUC library on supported NVIDIA GPUs." TextWrapping="Wrap" />
+    </ui:Card>
+    <ui:Card Margin="0,10,0,0" Padding="16,12">
+      <StackPanel>
+        <TextBlock FontSize="14" FontWeight="Medium" Text="Old Roblox TopBar UI" />
+        <TextBlock Margin="0,6,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="The classic topbar option rebuilds two community mods. The 2014 to 2015 topbar and game menu artwork and behaviour come from &quot;2014-2015 Topbar and Menu (Improvised GUI)&quot; by HockuTM. Hiding the modern topbar uses &quot;NoGuiRBX, Hide TopBar!&quot; by Einshine. Both are used with thanks under their Creative Commons BY NC ND 4.0 terms, their files are downloaded straight from GameBanana rather than bundled, and neither author is affiliated with Voidstrap." />
+        <TextBlock Margin="0,6,0,0">
+          <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://gamebanana.com/mods/711267" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+            <TextBlock Text="2014-2015 Topbar and Menu by HockuTM" />
           </Hyperlink>
         </TextBlock>
-        <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,4,16,4" FontSize="14" FontWeight="Medium" Text="Commit Ref" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}" />
-        <TextBlock Grid.Row="3" Grid.Column="1" Margin="0,0,0,4" VerticalAlignment="Bottom" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding BuildMetadata.CommitRef, Mode=OneTime}" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}" />
-      </Grid>
-    </StackPanel>
-    <TextBlock Margin="0,16,0,0" FontFamily="Segoe UI Semibold" FontSize="20" Text="Third Party Notices" />
-    <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="This software contains source code provided by NVIDIA Corporation. Frame generation uses the NVIDIA Optical Flow SDK FRUC library on supported NVIDIA GPUs." />
+        <TextBlock Margin="0,2,0,0">
+          <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://gamebanana.com/mods/620117" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+            <TextBlock Text="NoGuiRBX, Hide TopBar! by Einshine" />
+          </Hyperlink>
+        </TextBlock>
+      </StackPanel>
+    </ui:Card>
+    <ui:Card Margin="0,10,0,0" Padding="16,12">
+      <StackPanel>
+        <TextBlock FontSize="14" FontWeight="Medium" Text="Community Mods" />
+        <TextBlock Margin="0,6,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="Community Mods lists Roblox submissions from GameBanana and Kliko's Mods, maintained by TheKliko for Kliko's modloader. Voidstrap is not affiliated with or endorsed by either. All mods, images and descriptions belong to their authors, who are credited on every listing. Voidstrap only reads their public data and never uploads anything on your behalf." />
+        <TextBlock Margin="0,6,0,0">
+          <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://gamebanana.com/games/2879" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+            <TextBlock Text="gamebanana.com/games/2879" />
+          </Hyperlink>
+        </TextBlock>
+        <TextBlock Margin="0,2,0,0">
+          <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/klikos-modloader/marketplace" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+            <TextBlock Text="github.com/klikos-modloader/marketplace" />
+          </Hyperlink>
+        </TextBlock>
+      </StackPanel>
+    </ui:Card>
   </StackPanel>
 </ui:UiPage>

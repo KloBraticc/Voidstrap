@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Voidstrap.Core;
@@ -33,8 +33,6 @@ public class LaunchSettings
 
 	public LaunchFlag UpgradeFlag { get; } = new LaunchFlag("upgrade");
 
-	public LaunchFlag ThemeFlag { get; } = new LaunchFlag("theme");
-
 	public LaunchFlag PlayerFlag { get; } = new LaunchFlag("player");
 
 	public LaunchFlag StudioFlag { get; } = new LaunchFlag("studio");
@@ -66,6 +64,8 @@ public class LaunchSettings
 		|| FactoryResetFlag.Active;
 
 	public LaunchFlag AdminRetriedFlag { get; } = new LaunchFlag("adminretried");
+
+	public LaunchFlag ElevatedWaitFlag { get; } = new LaunchFlag("elevatedwait");
 
 	public LaunchFlag ResumeLaunchFlag { get; } = new LaunchFlag("resumelaunch");
 
@@ -132,7 +132,7 @@ public class LaunchSettings
 				continue;
 			}
 			string text3 = text2.Substring(1);
-			if (!_flagMap.TryGetValue(text3, out LaunchFlag value) || value == null)
+			if (!_flagMap.TryGetValue(text3, out LaunchFlag? value) || value == null)
 			{
 				App.Logger.WriteLine("LaunchSettings", "Unknown argument: " + text3);
 				continue;

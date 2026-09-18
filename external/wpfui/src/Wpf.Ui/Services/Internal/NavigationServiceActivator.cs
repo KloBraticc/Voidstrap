@@ -35,7 +35,7 @@ internal static class NavigationServiceActivator
     /// <param name="pageType"><see cref="FrameworkElement"/> to instantiate.</param>
     /// <param name="dataContext">Additional context to set.</param>
     /// <returns>Instance of the <see cref="FrameworkElement"/> object or <see langword="null"/>.</returns>
-    public static FrameworkElement CreateInstance(Type pageType, object dataContext)
+    public static FrameworkElement CreateInstance(Type pageType, object? dataContext)
     {
         if (!typeof(FrameworkElement).IsAssignableFrom(pageType))
             throw new InvalidCastException(

@@ -6,23 +6,29 @@ using System.Text;
 
 namespace RobloxLightingOverlay
 {
-    public static class RobloxWindow
+    public static partial class RobloxWindow
     {
         private const int RescanIntervalMs = 500;
         private static readonly object _sync = new object();
         private static readonly HashSet<uint> _pids = new HashSet<uint>();
-        private static readonly StringBuilder _className = new StringBuilder(64);
+        private static readonly char[] _className = new char[64];
         private static readonly EnumWindowsProc _enumProc = EnumProc;
+        private static readonly IntPtr _enumProcPointer = Marshal.GetFunctionPointerForDelegate(_enumProc);
         private static IntPtr _cachedHwnd;
         private static long _cacheAt;
         private static IntPtr _best;
         private static long _bestArea;
 
-        public static IntPtr GetHandle() => GetHwnd();
+        public static IntPtr GetHandle() => Voidstrap.Utility.Platform.IsWindows ? GetHwnd() : GetLinuxHandle();
 
         public static bool TryGet(out RECT r)
         {
             r = new RECT();
+            if (!Voidstrap.Utility.Platform.IsWindows)
+            {
+                return TryGetLinux(out r);
+            }
+
             IntPtr hwnd = GetHwnd();
             if (hwnd == IntPtr.Zero)
                 return false;
@@ -44,6 +50,41 @@ namespace RobloxLightingOverlay
             {
             }
             return true;
+        }
+
+        private static bool TryGetLinux(out RECT r)
+        {
+            r = new RECT();
+            try
+            {
+                Voidstrap.Platform.Linux.LinuxWindowGeometry geometry = Voidstrap.Platform.Linux.LinuxWindowInterop.FindRuntimeWindow();
+                if (!geometry.Valid || geometry.Window == 0 || geometry.Width <= 0 || geometry.Height <= 0)
+                {
+                    return false;
+                }
+
+                r.Left = geometry.Left;
+                r.Top = geometry.Top;
+                r.Right = geometry.Left + geometry.Width;
+                r.Bottom = geometry.Top + geometry.Height;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static IntPtr GetLinuxHandle()
+        {
+            try
+            {
+                return (IntPtr)Voidstrap.Platform.Linux.LinuxWindowInterop.FindRuntimeWindow().Window;
+            }
+            catch (Exception)
+            {
+                return IntPtr.Zero;
+            }
         }
 
         private static IntPtr GetHwnd()
@@ -94,7 +135,7 @@ namespace RobloxLightingOverlay
 
             _best = IntPtr.Zero;
             _bestArea = 0;
-            try { EnumWindows(_enumProc, IntPtr.Zero); } catch { }
+            try { _ = EnumWindows(_enumProcPointer, IntPtr.Zero); } catch { }
             return _best;
         }
 
@@ -105,9 +146,8 @@ namespace RobloxLightingOverlay
             GetWindowThreadProcessId(hwnd, out uint wpid);
             if (wpid == 0 || !_pids.Contains(wpid))
                 return true;
-            _className.Clear();
-            GetClassName(hwnd, _className, _className.Capacity);
-            if (!_className.Equals("WINDOWSCLIENT".AsSpan()))
+            int classLength = GetClassName(hwnd, _className, _className.Length);
+            if (!_className.AsSpan(0, Math.Max(0, classLength)).SequenceEqual("WINDOWSCLIENT"))
                 return true;
             if (!GetClientRect(hwnd, out RECT rc))
                 return true;
@@ -122,30 +162,36 @@ namespace RobloxLightingOverlay
 
         private delegate bool EnumWindowsProc(IntPtr hwnd, IntPtr lparam);
 
-        [DllImport("user32.dll")]
-        private static extern bool EnumWindows(EnumWindowsProc callback, IntPtr lparam);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool EnumWindows(IntPtr callback, IntPtr lparam);
 
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern int GetClassName(IntPtr hwnd, StringBuilder className, int maxCount);
+        [LibraryImport("user32.dll", EntryPoint = "GetClassNameW", StringMarshalling = StringMarshalling.Utf16)]
+        private static partial int GetClassName(IntPtr hwnd, [Out] char[] className, int maxCount);
 
-        [DllImport("user32.dll")]
-        private static extern bool IsWindow(IntPtr hwnd);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool IsWindow(IntPtr hwnd);
 
-        [DllImport("user32.dll")]
-        private static extern bool IsWindowVisible(IntPtr hwnd);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool IsWindowVisible(IntPtr hwnd);
 
-        [DllImport("user32.dll")]
-        private static extern bool IsIconic(IntPtr hwnd);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool IsIconic(IntPtr hwnd);
 
-        [DllImport("user32.dll")]
-        private static extern uint GetWindowThreadProcessId(IntPtr hwnd, out uint pid);
+        [LibraryImport("user32.dll")]
+        private static partial uint GetWindowThreadProcessId(IntPtr hwnd, out uint pid);
 
-        [DllImport("user32.dll")]
-        private static extern bool GetClientRect(IntPtr hwnd, out RECT rect);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool GetClientRect(IntPtr hwnd, out RECT rect);
 
-        [DllImport("user32.dll")]
-        private static extern bool GetWindowRect(IntPtr hWnd, out RECT rect);
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool GetWindowRect(IntPtr hWnd, out RECT rect);
     }
 
-    public struct RECT { public int Left, Top, Right, Bottom; }
+    public partial struct RECT { public int Left, Top, Right, Bottom; }
 }

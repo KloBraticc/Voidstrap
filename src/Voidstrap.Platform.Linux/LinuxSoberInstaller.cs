@@ -33,21 +33,20 @@ public sealed class LinuxSoberInstaller
 	public async Task<SoberInstallationState> DetectAsync(CancellationToken cancellationToken = default)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		string? flatpak = _processes.FindExecutable("flatpak");
-		if (string.IsNullOrWhiteSpace(flatpak))
+		if (!LinuxFlatpakHost.TryCreateCommand(_processes, ["info", SoberApplicationId], out ProcessCommand command))
 		{
 			return new SoberInstallationState(SoberInstallationStatus.FlatpakMissing, null, FlatpakMissingMessage);
 		}
 
 		OperationResult<ProcessExecution> result = await _processes
-			.ExecuteAsync(new ProcessCommand(flatpak, ["info", "--show-version", SoberApplicationId]), cancellationToken)
+			.ExecuteAsync(command, cancellationToken)
 			.ConfigureAwait(false);
 		if (!result.Succeeded || result.Value is null || result.Value.ExitCode != 0)
 		{
 			return new SoberInstallationState(SoberInstallationStatus.NotInstalled, null, "Sober is not installed");
 		}
 
-		string version = result.Value.StandardOutput.Trim();
+		string? version = FlatpakApplicationInfo.ParseVersion(result.Value.StandardOutput);
 		return new SoberInstallationState(
 			SoberInstallationStatus.Installed,
 			string.IsNullOrWhiteSpace(version) ? null : version,
@@ -57,14 +56,12 @@ public sealed class LinuxSoberInstaller
 	public async Task<OperationResult> InstallAsync(CancellationToken cancellationToken = default)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		string? flatpak = _processes.FindExecutable("flatpak");
-		if (string.IsNullOrWhiteSpace(flatpak))
+		if (!LinuxFlatpakHost.TryCreateCommand(_processes, [], out _))
 		{
 			return OperationResult.Fail("FlatpakMissing", FlatpakMissingMessage, CapabilityState.RequiresExternalRuntime);
 		}
 
 		OperationResult remote = await RunAsync(
-			flatpak,
 			["remote-add", "--if-not-exists", "--user", RemoteName, RemoteUrl],
 			"FlathubRemoteFailed",
 			"The Flathub repository could not be added",
@@ -72,26 +69,56 @@ public sealed class LinuxSoberInstaller
 
 		if (remote.Succeeded)
 		{
-			OperationResult fromRemote = await InstallTargetAsync(flatpak, [RemoteName, SoberApplicationId], cancellationToken).ConfigureAwait(false);
+			OperationResult fromRemote = await InstallTargetAsync([RemoteName, SoberApplicationId], cancellationToken).ConfigureAwait(false);
 			if (fromRemote.Succeeded)
 			{
 				return fromRemote;
 			}
 
-			OperationResult fromReference = await InstallTargetAsync(flatpak, [ReferenceUrl], cancellationToken).ConfigureAwait(false);
+			OperationResult fromReference = await InstallTargetAsync([ReferenceUrl], cancellationToken).ConfigureAwait(false);
 			return fromReference.Succeeded ? fromReference : fromRemote;
 		}
 
-		OperationResult referenceOnly = await InstallTargetAsync(flatpak, [ReferenceUrl], cancellationToken).ConfigureAwait(false);
+		OperationResult referenceOnly = await InstallTargetAsync([ReferenceUrl], cancellationToken).ConfigureAwait(false);
 		return referenceOnly.Succeeded ? referenceOnly : remote;
 	}
 
-	private Task<OperationResult> InstallTargetAsync(string flatpak, IReadOnlyList<string> target, CancellationToken cancellationToken)
+	public async Task<OperationResult> UninstallAsync(CancellationToken cancellationToken = default)
+	{
+		if (!LinuxFlatpakHost.TryCreateCommand(_processes, ["kill", SoberApplicationId], out ProcessCommand killCommand))
+			return OperationResult.Fail("FlatpakMissing", FlatpakMissingMessage);
+
+		try
+		{
+			await _processes
+				.ExecuteAsync(killCommand, cancellationToken)
+				.ConfigureAwait(false);
+		}
+		catch (Exception)
+		{
+		}
+
+		OperationResult user = await RunAsync(
+			["uninstall", "--user", "--assumeyes", "--noninteractive", "--delete-data", SoberApplicationId],
+			"SoberUninstallFailed",
+			"Sober could not be removed",
+			cancellationToken).ConfigureAwait(false);
+
+		if (user.Succeeded)
+			return user;
+
+		return await RunAsync(
+			["uninstall", "--assumeyes", "--noninteractive", "--delete-data", SoberApplicationId],
+			"SoberUninstallFailed",
+			"Sober could not be removed",
+			cancellationToken).ConfigureAwait(false);
+	}
+
+	private Task<OperationResult> InstallTargetAsync(IReadOnlyList<string> target, CancellationToken cancellationToken)
 	{
 		List<string> arguments = ["install", "--user", "--assumeyes", "--noninteractive", "--or-update"];
 		arguments.AddRange(target);
 		return RunAsync(
-			flatpak,
 			arguments,
 			"SoberInstallFailed",
 			"Sober could not be installed",
@@ -99,14 +126,16 @@ public sealed class LinuxSoberInstaller
 	}
 
 	private async Task<OperationResult> RunAsync(
-		string flatpak,
 		IReadOnlyList<string> arguments,
 		string failureCode,
 		string failureMessage,
 		CancellationToken cancellationToken)
 	{
+		if (!LinuxFlatpakHost.TryCreateCommand(_processes, arguments, out ProcessCommand command))
+			return OperationResult.Fail("FlatpakMissing", FlatpakMissingMessage, CapabilityState.RequiresExternalRuntime);
+
 		OperationResult<ProcessExecution> result = await _processes
-			.ExecuteAsync(new ProcessCommand(flatpak, arguments), cancellationToken)
+			.ExecuteAsync(command, cancellationToken)
 			.ConfigureAwait(false);
 		if (!result.Succeeded || result.Value is null)
 		{

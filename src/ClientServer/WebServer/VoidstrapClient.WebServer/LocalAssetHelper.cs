@@ -115,12 +115,12 @@ internal class LocalAssetHelper
 		Logger.Instance.Info($"LocalAssetHelper: Loaded {value} assets");
 	}
 
-	private string GetCommonDirectoryName(LocalAssetDirectory dir)
+	private static string GetCommonDirectoryName(LocalAssetDirectory dir)
 	{
 		return dir.ToString().ToLowerInvariant();
 	}
 
-	private string GetCommonDirectoryPath(LocalAssetDirectory dir)
+	private static string GetCommonDirectoryPath(LocalAssetDirectory dir)
 	{
 		string commonDirectoryName = GetCommonDirectoryName(dir);
 		return Path.Combine(PathHelper.Assets, commonDirectoryName);

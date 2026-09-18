@@ -4,6 +4,7 @@
 // All Rights Reserved.
 
 using System;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -16,7 +17,7 @@ namespace Wpf.Ui.TitleBar
     /// <summary>
     /// Enables Windows 11 Snap Layout functionality for a custom <see cref="Controls.TitleBar"/>.
     /// </summary>
-    internal sealed class SnapLayout : IThemeControl, IDisposable
+    internal sealed partial class SnapLayout : IThemeControl, IDisposable
     {
         private SnapLayoutButton[] _buttons = Array.Empty<SnapLayoutButton>();
         private HwndSource? _source;
@@ -42,6 +43,8 @@ namespace Wpf.Ui.TitleBar
         /// Default button background.
         /// </summary>
         public SolidColorBrush DefaultButtonBackground { get; set; } = Brushes.Transparent;
+
+        public bool IsActive => _source != null && !_disposed;
 
         /// <summary>
         /// Hover color for light theme.
@@ -109,7 +112,23 @@ namespace Wpf.Ui.TitleBar
                     break;
 
                 case Interop.User32.WM.NCMOUSELEAVE:
+                case Interop.User32.WM.MOUSEMOVE:
+                case Interop.User32.WM.CAPTURECHANGED:
                     RemoveHoverFromAll();
+                    break;
+
+                case (Interop.User32.WM)0x02A3:
+                    RemoveHoverFromAll();
+                    break;
+
+                case Interop.User32.WM.ACTIVATEAPP:
+                    if (wParam == IntPtr.Zero)
+                        RemoveHoverFromAll();
+                    break;
+
+                case Interop.User32.WM.NCMOUSEMOVE:
+                    if (wParam.ToInt64() != (long)Interop.User32.WM_NCHITTEST.HTMAXBUTTON)
+                        RemoveHoverFromAll();
                     break;
 
                 case Interop.User32.WM.NCLBUTTONDOWN:
@@ -150,6 +169,33 @@ namespace Wpf.Ui.TitleBar
             GC.SuppressFinalize(this);
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        private struct TrackMouseEventInfo
+        {
+            public int cbSize;
+            public uint dwFlags;
+            public IntPtr hwndTrack;
+            public uint dwHoverTime;
+        }
+
+        [LibraryImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool TrackMouseEvent(ref TrackMouseEventInfo eventTrack);
+
+        private void TrackNonClientLeave()
+        {
+            if (_source == null)
+                return;
+
+            var info = new TrackMouseEventInfo
+            {
+                cbSize = Marshal.SizeOf<TrackMouseEventInfo>(),
+                dwFlags = 0x00000002 | 0x00000010,
+                hwndTrack = _source.Handle
+            };
+            TrackMouseEvent(ref info);
+        }
+
         private void RemoveHoverFromAll()
         {
             foreach (var btn in _buttons)
@@ -162,6 +208,7 @@ namespace Wpf.Ui.TitleBar
             {
                 if (!btn.IsMouseOver(lParam)) continue;
                 btn.IsClickedDown = true;
+                btn.SetPressed(true);
                 handled = true;
             }
         }
@@ -185,6 +232,8 @@ namespace Wpf.Ui.TitleBar
             {
                 if (btn.IsMouseOver(lParam))
                 {
+                    if (!btn.IsHovered)
+                        TrackNonClientLeave();
                     btn.Hover(_currentHoverColor);
                     handled = true;
                     return new IntPtr((int)Interop.User32.WM_NCHITTEST.HTMAXBUTTON);

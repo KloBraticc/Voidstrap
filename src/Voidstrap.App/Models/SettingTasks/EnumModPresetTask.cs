@@ -36,33 +36,43 @@ public class EnumModPresetTask<T> : EnumBaseTask<T> where T : struct, Enum
 
 	public override void Execute()
 	{
-		if (!NewState.Equals(default(T)))
+		if (NewState.Equals(default(T)))
 		{
-			foreach (KeyValuePair<string, ModPresetFileData> item in _fileDataMap[NewState])
-			{
-				ModPresetFileData value = item.Value;
-				if (value.HashMatches())
-				{
-					continue;
-				}
-				Directory.CreateDirectory(Path.GetDirectoryName(value.FullFilePath));
-				using (value.ResourceStream)
-				{
-					using MemoryStream memoryStream = new MemoryStream();
-					value.ResourceStream.CopyTo(memoryStream);
-					Filesystem.AssertReadOnly(value.FullFilePath);
-					File.WriteAllBytes(value.FullFilePath, memoryStream.ToArray());
-				}
-			}
+			foreach (Dictionary<string, ModPresetFileData> files in _fileDataMap.Values)
+				DeleteMatchingFiles(files, null);
 		}
-		else
+		else if (_fileDataMap.TryGetValue(NewState, out Dictionary<string, ModPresetFileData>? target))
 		{
-			foreach (KeyValuePair<string, ModPresetFileData> item2 in _fileDataMap.First().Value)
+			foreach (KeyValuePair<T, Dictionary<string, ModPresetFileData>> other in _fileDataMap)
 			{
-				Filesystem.AssertReadOnly(item2.Value.FullFilePath);
-				File.Delete(item2.Value.FullFilePath);
+				if (!other.Key.Equals(NewState))
+					DeleteMatchingFiles(other.Value, target);
+			}
+			foreach (ModPresetFileData value in target.Values)
+			{
+				if (value.HashMatches())
+					continue;
+				Directory.CreateDirectory(Path.GetDirectoryName(value.FullFilePath)!);
+				using Stream resource = value.ResourceStream;
+				using MemoryStream memoryStream = new MemoryStream();
+				resource.CopyTo(memoryStream);
+				Filesystem.AssertReadOnly(value.FullFilePath);
+				File.WriteAllBytes(value.FullFilePath, memoryStream.ToArray());
 			}
 		}
 		OriginalState = NewState;
+	}
+
+	private static void DeleteMatchingFiles(Dictionary<string, ModPresetFileData> files, Dictionary<string, ModPresetFileData>? keep)
+	{
+		foreach (KeyValuePair<string, ModPresetFileData> entry in files)
+		{
+			if (keep != null && keep.ContainsKey(entry.Key))
+				continue;
+			if (!entry.Value.HashMatches())
+				continue;
+			Filesystem.AssertReadOnly(entry.Value.FullFilePath);
+			File.Delete(entry.Value.FullFilePath);
+		}
 	}
 }

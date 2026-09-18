@@ -83,7 +83,7 @@ public class AssetPackManager
 
 	private static bool IsClientYearCompatible(ClientYear clientYear, List<string> rules)
 	{
-		if (!rules.Any())
+		if (rules.Count == 0)
 		{
 			return true;
 		}
@@ -130,7 +130,7 @@ public class AssetPackManager
 
 	private void ParseDisabledAssetPacks()
 	{
-		if (!DisabledAssetPacks.Any())
+		if (DisabledAssetPacks.Count == 0)
 		{
 			return;
 		}

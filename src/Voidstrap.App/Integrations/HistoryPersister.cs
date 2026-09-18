@@ -102,7 +102,7 @@ public static class PlayTimeStore
 				}
 				if (changed)
 				{
-					Directory.CreateDirectory(Paths.Data);
+					Directory.CreateDirectory(Paths.Library);
 					JsonFile.SerializeAtomic(_filePath, data, JsonOptions.Indented);
 				}
 			}
@@ -155,7 +155,7 @@ public static class PlayTimeStore
 				}
 				if (changed)
 				{
-					Directory.CreateDirectory(Paths.Data);
+					Directory.CreateDirectory(Paths.Library);
 					JsonFile.SerializeAtomic(_filePath, data, JsonOptions.Indented);
 				}
 			}
@@ -229,7 +229,7 @@ public static class PlayTimeStore
 				}
 				if (changed)
 				{
-					Directory.CreateDirectory(Paths.Data);
+					Directory.CreateDirectory(Paths.Library);
 					JsonFile.SerializeAtomic(_filePath, data, JsonOptions.Indented);
 				}
 			}
@@ -269,7 +269,7 @@ public sealed class HistoryPersister : IDisposable
 
 	public HistoryPersister(ActivityWatcher activityWatcher)
 	{
-		_activityWatcher = activityWatcher ?? throw new ArgumentNullException("activityWatcher");
+		_activityWatcher = activityWatcher ?? throw new ArgumentNullException(nameof(activityWatcher));
 		_lifetimeToken = _lifetimeCancellation.Token;
 		_activityWatcher.OnGameLeave += OnActivityChanged;
 		_activityWatcher.OnGameJoin += OnActivityChanged;
@@ -368,13 +368,12 @@ public sealed class HistoryPersister : IDisposable
 				}
 			}
 			List<ActivityData> value = Merge(await LoadExistingAsync(token).ConfigureAwait(continueOnCapturedContext: false), current);
-			Directory.CreateDirectory(Paths.Data);
+			Directory.CreateDirectory(Paths.Library);
 			token.ThrowIfCancellationRequested();
 			JsonFile.SerializeAtomic(_historyFilePath, value, JsonOptions.Indented);
 			if (current.Count != 0)
 			{
 				await Task.Run(() => PlayTimeStore.Accumulate(value, liveKey), token).ConfigureAwait(continueOnCapturedContext: false);
-				WebsiteHistorySync.PushSoon();
 			}
 	}
 

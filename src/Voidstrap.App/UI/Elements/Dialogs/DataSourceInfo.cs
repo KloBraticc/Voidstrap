@@ -24,7 +24,7 @@ public class DataSourceInfo : INotifyPropertyChanged
 		set
 		{
 			_name = value;
-			OnPropertyChanged("Name");
+			OnPropertyChanged(nameof(Name));
 		}
 	}
 
@@ -37,7 +37,7 @@ public class DataSourceInfo : INotifyPropertyChanged
 		set
 		{
 			_url = value;
-			OnPropertyChanged("Url");
+			OnPropertyChanged(nameof(Url));
 		}
 	}
 
@@ -50,7 +50,7 @@ public class DataSourceInfo : INotifyPropertyChanged
 		set
 		{
 			_status = value;
-			OnPropertyChanged("Status");
+			OnPropertyChanged(nameof(Status));
 		}
 	}
 
@@ -63,7 +63,7 @@ public class DataSourceInfo : INotifyPropertyChanged
 		set
 		{
 			_flagCount = value;
-			OnPropertyChanged("FlagCount");
+			OnPropertyChanged(nameof(FlagCount));
 		}
 	}
 
@@ -76,7 +76,7 @@ public class DataSourceInfo : INotifyPropertyChanged
 		set
 		{
 			_lastUpdated = value;
-			OnPropertyChanged("LastUpdated");
+			OnPropertyChanged(nameof(LastUpdated));
 		}
 	}
 

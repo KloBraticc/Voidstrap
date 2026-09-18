@@ -308,6 +308,8 @@
                                         <Grid
                                             x:Name="ChevronGrid"
                                             Margin="0"
+                                            MinWidth="{StaticResource ComboBoxChevronSize}"
+                                            MinHeight="{StaticResource ComboBoxChevronSize}"
                                             VerticalAlignment="Center"
                                             Background="Transparent"
                                             RenderTransformOrigin="0.5, 0.5">
@@ -318,6 +320,7 @@
                                                 x:Name="ChevronIcon"
                                                 Margin="0"
                                                 Padding="0"
+                                                HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 FontSize="{StaticResource ComboBoxChevronSize}"
                                                 Symbol="ChevronDown24">
@@ -341,7 +344,10 @@
                                             IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                             Style="{StaticResource DefaultComboBoxToggleButtonStyle}" />
                                     </Grid>
-                                    <Grid Grid.Column="0" Margin="{TemplateBinding Padding}">
+                                    <Grid
+                                        Grid.Column="0"
+                                        Margin="{TemplateBinding Padding}"
+                                        IsHitTestVisible="{TemplateBinding IsEditable}">
                                         <TextBox
                                             x:Name="PART_EditableTextBox"
                                             HorizontalAlignment="Stretch"
@@ -382,6 +388,7 @@
                                         controls:PopupReveal.Duration="{StaticResource ComboBoxPopupDuration}"
                                         controls:PopupReveal.FadeDuration="{StaticResource ComboBoxPopupFadeDuration}">
                                         <Border
+                                            x:Name="DropDownShadow"
                                             CornerRadius="{DynamicResource PopupCornerRadius}"
                                             IsHitTestVisible="False">
                                             <Border.Background>
@@ -393,6 +400,7 @@
                                             <Border.Effect>
                                                 <DropShadowEffect BlurRadius="24" ShadowDepth="4" Opacity="0.35" Color="#000000" Direction="270" />
                                             </Border.Effect>
+
                                         </Border>
                                         <Border
                                             Padding="0,2,0,2"
@@ -420,10 +428,10 @@
                                                     VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                                                     <VirtualizingStackPanel
                                                         IsItemsHost="True"
-                                                        IsVirtualizing="True"
-                                                        IsVirtualizingWhenGrouping="True"
-                                                        VirtualizationMode="Recycling"
-                                                        ScrollUnit="Pixel"
+                                                        IsVirtualizing="{TemplateBinding VirtualizingPanel.IsVirtualizing}"
+                                                        IsVirtualizingWhenGrouping="{TemplateBinding VirtualizingPanel.IsVirtualizingWhenGrouping}"
+                                                        VirtualizationMode="{TemplateBinding VirtualizingPanel.VirtualizationMode}"
+                                                        ScrollUnit="{TemplateBinding VirtualizingPanel.ScrollUnit}"
                                                         CacheLength="0.5"
                                                         CacheLengthUnit="Page"
                                                         KeyboardNavigation.DirectionalNavigation="Contained"
@@ -442,6 +450,7 @@
                             x:Name="BottomBorder"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
+                            IsHitTestVisible="False"
                             BorderBrush="{DynamicResource ControlStrokeColorSecondaryBrush}"
                             BorderThickness="{StaticResource ComboBoxAccentBorderThemeThickness}"
                             CornerRadius="{TemplateBinding Border.CornerRadius}"
@@ -450,6 +459,7 @@
                             x:Name="AccentBorder"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
+                            IsHitTestVisible="False"
                             BorderThickness="{StaticResource ComboBoxAccentBorderThemeThickness}"
                             CornerRadius="{TemplateBinding Border.CornerRadius}"
                             Visibility="Collapsed">
@@ -459,6 +469,13 @@
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
+                            <Setter Property="VirtualizingPanel.ScrollUnit" Value="Item" />
+                            <Setter TargetName="DropDownShadow" Property="CacheMode" Value="{x:Null}" />
+                            <Setter TargetName="DropDownBorder" Property="Margin" Value="16,16,16,24" />
+                            <Setter TargetName="Popup" Property="VerticalOffset" Value="-12" />
+                            <Setter TargetName="Popup" Property="HorizontalOffset" Value="-16" />
+                        </Trigger>
                         <Trigger Property="IsDropDownOpen" Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>

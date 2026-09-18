@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Voidstrap.UI.Elements.Bootstrapper.Base
 {
@@ -79,233 +79,6 @@ namespace Voidstrap.UI.Elements.Bootstrapper.Base
 
 namespace Voidstrap.UI.Elements.Bootstrapper
 {
-	public class CustomDialog : System.Windows.Window, Voidstrap.UI.IBootstrapperDialog
-	{
-		private readonly System.Windows.Controls.TextBlock _messageText;
-		private readonly System.Windows.Controls.ProgressBar _progressBar;
-		private readonly System.Windows.Controls.Button _cancelButton;
-		private string _message = "";
-		private System.Windows.Forms.ProgressBarStyle _progressStyle;
-		private int _progressValue;
-		private int _progressMaximum = 100;
-		private System.Windows.Shell.TaskbarItemProgressState _taskbarProgressState;
-		private double _taskbarProgressValue;
-		private bool _cancelEnabled;
-		private bool _closingProgrammatically;
-
-		public CustomDialog()
-			: this(false)
-		{
-		}
-
-		internal CustomDialog(bool isDesignPreview)
-		{
-			Title = "Voidstrap";
-			Width = 460;
-			Height = 190;
-			MinWidth = 360;
-			MinHeight = 170;
-			ResizeMode = System.Windows.ResizeMode.NoResize;
-			WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-
-			System.Windows.Controls.Grid root = new()
-			{
-				Margin = new System.Windows.Thickness(24)
-			};
-			root.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = System.Windows.GridLength.Auto });
-			root.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
-			root.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = System.Windows.GridLength.Auto });
-
-			_messageText = new System.Windows.Controls.TextBlock
-			{
-				FontSize = 15,
-				Text = "Preparing Roblox",
-				TextWrapping = System.Windows.TextWrapping.Wrap,
-				VerticalAlignment = System.Windows.VerticalAlignment.Center
-			};
-			System.Windows.Controls.Grid.SetRow(_messageText, 0);
-			root.Children.Add(_messageText);
-
-			_progressBar = new System.Windows.Controls.ProgressBar
-			{
-				Minimum = 0,
-				Maximum = _progressMaximum,
-				Height = 8,
-				Margin = new System.Windows.Thickness(0, 22, 0, 18),
-				VerticalAlignment = System.Windows.VerticalAlignment.Center
-			};
-			System.Windows.Controls.Grid.SetRow(_progressBar, 1);
-			root.Children.Add(_progressBar);
-
-			_cancelButton = new System.Windows.Controls.Button
-			{
-				Content = "Cancel",
-				MinWidth = 96,
-				Padding = new System.Windows.Thickness(16, 6, 16, 6),
-				HorizontalAlignment = System.Windows.HorizontalAlignment.Right,
-				Visibility = System.Windows.Visibility.Collapsed
-			};
-			System.Windows.Controls.Grid.SetRow(_cancelButton, 2);
-			root.Children.Add(_cancelButton);
-
-			Content = root;
-			_cancelButton.Click += OnCancelClick;
-			Closing += OnClosing;
-			Closed += OnClosed;
-		}
-
-		public Voidstrap.Bootstrapper? Bootstrapper { get; set; }
-
-		public string Message
-		{
-			get => _message;
-			set
-			{
-				_message = value ?? "";
-				UpdateUi(() => _messageText.Text = _message);
-			}
-		}
-
-		public System.Windows.Forms.ProgressBarStyle ProgressStyle
-		{
-			get => _progressStyle;
-			set
-			{
-				_progressStyle = value;
-				UpdateUi(() => _progressBar.IsIndeterminate = value == System.Windows.Forms.ProgressBarStyle.Marquee);
-			}
-		}
-
-		public int ProgressValue
-		{
-			get => _progressValue;
-			set
-			{
-				_progressValue = Math.Clamp(value, 0, Math.Max(1, _progressMaximum));
-				UpdateUi(() => _progressBar.Value = _progressValue);
-			}
-		}
-
-		public int ProgressMaximum
-		{
-			get => _progressMaximum;
-			set
-			{
-				_progressMaximum = Math.Max(1, value);
-				_progressValue = Math.Clamp(_progressValue, 0, _progressMaximum);
-				UpdateUi(() =>
-				{
-					_progressBar.Maximum = _progressMaximum;
-					_progressBar.Value = _progressValue;
-				});
-			}
-		}
-
-		public System.Windows.Shell.TaskbarItemProgressState TaskbarProgressState
-		{
-			get => _taskbarProgressState;
-			set => _taskbarProgressState = value;
-		}
-
-		public double TaskbarProgressValue
-		{
-			get => _taskbarProgressValue;
-			set => _taskbarProgressValue = value;
-		}
-
-		public bool CancelEnabled
-		{
-			get => _cancelEnabled;
-			set
-			{
-				_cancelEnabled = value;
-				UpdateUi(() =>
-				{
-					_cancelButton.IsEnabled = value;
-					_cancelButton.Visibility = value ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
-				});
-			}
-		}
-
-		public Action? CancelCallback { get; set; }
-
-		public Wpf.Ui.Appearance.WindowCornerPreference WindowCornerPreference { get; set; }
-
-		public void ApplyCustomTheme(string name)
-		{
-			throw new PlatformNotSupportedException("Custom themes are not available on this platform");
-		}
-
-		public void ApplyCustomTheme(string name, string content)
-		{
-			throw new PlatformNotSupportedException("Custom themes are not available on this platform");
-		}
-
-		public void ShowBootstrapper()
-		{
-			if (Dispatcher.CheckAccess())
-			{
-				ShowDialog();
-				return;
-			}
-
-			Dispatcher.Invoke(ShowDialog);
-		}
-
-		public void CloseBootstrapper()
-		{
-			_closingProgrammatically = true;
-			UpdateUi(Close);
-		}
-
-		public void ShowSuccess(string message, Action? callback = null)
-		{
-			Message = message;
-			ProgressStyle = System.Windows.Forms.ProgressBarStyle.Continuous;
-			ProgressValue = ProgressMaximum;
-			CancelEnabled = false;
-			callback?.Invoke();
-		}
-
-		private void OnCancelClick(object sender, System.Windows.RoutedEventArgs e)
-		{
-			CancelCallback?.Invoke();
-			Bootstrapper?.Cancel();
-			CancelEnabled = false;
-		}
-
-		private void OnClosing(object? sender, System.ComponentModel.CancelEventArgs e)
-		{
-			if (_closingProgrammatically)
-			{
-				return;
-			}
-
-			CancelCallback?.Invoke();
-			Bootstrapper?.Cancel();
-		}
-
-		private void OnClosed(object? sender, EventArgs e)
-		{
-			_cancelButton.Click -= OnCancelClick;
-			Closing -= OnClosing;
-			Closed -= OnClosed;
-			CancelCallback = null;
-			Bootstrapper = null;
-		}
-
-		private void UpdateUi(Action action)
-		{
-			if (Dispatcher.CheckAccess())
-			{
-				action();
-				return;
-			}
-
-			Dispatcher.Invoke(action);
-		}
-	}
-
 	public class VistaDialog : Voidstrap.UI.Elements.Bootstrapper.Base.WinFormsDialogBase
 	{
 	}
@@ -325,7 +98,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
 namespace Voidstrap.Integrations.RiShade
 {
-	internal sealed class RiShadeWgc : IDisposable
+	public sealed class RiShadeWgc : IDisposable
 	{
 		public bool IsClosed => true;
 		public long DroppedCount => 0;
@@ -534,7 +307,7 @@ namespace System.Windows.Forms
 		Back = 8,
 		Tab = 9,
 		Enter = 13,
-		Return = 13,
+		Return = Enter,
 		ShiftKey = 16,
 		ControlKey = 17,
 		Menu = 18,
@@ -668,45 +441,106 @@ namespace System.Windows.Forms
 		{
 		}
 
+		private bool _visible;
+
 		public System.Drawing.Icon? Icon { get; set; }
-		public string Text { get; set; } = "";
-		public bool Visible { get; set; }
+		public string Text { get; set; } = "Voidstrap";
+
+		public bool Visible
+		{
+			get => _visible;
+			set
+			{
+				if (_visible == value)
+				{
+					return;
+				}
+
+				_visible = value;
+				if (value)
+				{
+					if (Voidstrap.UI.Tray.LinuxTray.TryStart(Text))
+					{
+						AttachTrayHandlers();
+					}
+					return;
+				}
+
+				Voidstrap.UI.Tray.LinuxTray.Stop();
+			}
+		}
+
+		private void AttachTrayHandlers()
+		{
+			Voidstrap.UI.Tray.StatusNotifierItemObject? item = Voidstrap.UI.Tray.LinuxTray.Item;
+			if (item == null)
+			{
+				return;
+			}
+
+			item.Activated += OnTrayActivated;
+			item.SecondaryActivated += OnTraySecondaryActivated;
+			item.ContextMenuRequested += OnTrayContextMenu;
+		}
+
+		private void OnTrayActivated()
+		{
+			Click?.Invoke(this, EventArgs.Empty);
+			MouseClick?.Invoke(this, new MouseEventArgs { Button = MouseButtons.Left, Clicks = 1 });
+		}
+
+		private void OnTraySecondaryActivated()
+		{
+			MouseClick?.Invoke(this, new MouseEventArgs { Button = MouseButtons.Middle, Clicks = 1 });
+		}
+
+		private void OnTrayContextMenu()
+		{
+			MouseClick?.Invoke(this, new MouseEventArgs { Button = MouseButtons.Right, Clicks = 1 });
+		}
 		public ContextMenuStrip? ContextMenuStrip { get; set; }
 		public string BalloonTipTitle { get; set; } = "";
 		public string BalloonTipText { get; set; } = "";
 		public ToolTipIcon BalloonTipIcon { get; set; }
 
-		public event EventHandler? DoubleClick;
+		public event EventHandler? DoubleClick { add { } remove { } }
 		public event EventHandler? Click;
-		public event EventHandler? BalloonTipClicked;
-		public event EventHandler? BalloonTipClosed;
+		public event EventHandler? BalloonTipClicked { add { } remove { } }
+		public event EventHandler? BalloonTipClosed { add { } remove { } }
 		public event MouseEventHandler? MouseClick;
-		public event MouseEventHandler? MouseDoubleClick;
+		public event MouseEventHandler? MouseDoubleClick { add { } remove { } }
 
 		public void ShowBalloonTip(int timeout)
 		{
+			Voidstrap.UI.Tray.LinuxTray.Notify(BalloonTipTitle, BalloonTipText);
 		}
 
 		public void ShowBalloonTip(int timeout, string title, string message, ToolTipIcon icon)
 		{
+			Voidstrap.UI.Tray.LinuxTray.Notify(title, message);
 		}
 
 		public void Dispose()
 		{
-			DoubleClick = null;
+			Voidstrap.UI.Tray.LinuxTray.Stop();
 			Click = null;
-			BalloonTipClicked = null;
-			BalloonTipClosed = null;
 			MouseClick = null;
-			MouseDoubleClick = null;
 			GC.SuppressFinalize(this);
 		}
 	}
 
 	public static class SystemInformation
 	{
-		public static System.Drawing.Size PrimaryMonitorSize => new System.Drawing.Size(1920, 1080);
-		public static System.Drawing.Size VirtualScreen => new System.Drawing.Size(1920, 1080);
+		public static System.Drawing.Size PrimaryMonitorSize
+		{
+			get
+			{
+				System.Drawing.Rectangle bounds = Screen.PrimaryScreen.Bounds;
+				return new System.Drawing.Size(bounds.Width, bounds.Height);
+			}
+		}
+
+		public static System.Drawing.Size VirtualScreen => PrimaryMonitorSize;
 	}
 
 	public class Screen
@@ -717,9 +551,23 @@ namespace System.Windows.Forms
 
 		public static Screen[] AllScreens => new[] { _primary };
 
-		public System.Drawing.Rectangle Bounds => new System.Drawing.Rectangle(0, 0, 1920, 1080);
+		public System.Drawing.Rectangle Bounds
+		{
+			get
+			{
+				Voidstrap.Platform.Linux.LinuxDisplayBounds bounds = Voidstrap.Platform.Linux.LinuxDisplayMetrics.Current.Bounds;
+				return new System.Drawing.Rectangle(bounds.Left, bounds.Top, bounds.Width, bounds.Height);
+			}
+		}
 
-		public System.Drawing.Rectangle WorkingArea => new System.Drawing.Rectangle(0, 0, 1920, 1040);
+		public System.Drawing.Rectangle WorkingArea
+		{
+			get
+			{
+				Voidstrap.Platform.Linux.LinuxDisplayBounds workArea = Voidstrap.Platform.Linux.LinuxDisplayMetrics.Current.WorkArea;
+				return new System.Drawing.Rectangle(workArea.Left, workArea.Top, workArea.Width, workArea.Height);
+			}
+		}
 
 		public bool Primary => true;
 
@@ -733,6 +581,181 @@ namespace System.Windows.Forms
 		public static Screen FromPoint(System.Drawing.Point point)
 		{
 			return _primary;
+		}
+	}
+}
+
+namespace Microsoft.Web.WebView2.Core
+{
+	public enum CoreWebView2HostResourceAccessKind
+	{
+		Deny,
+		Allow,
+		DenyCors
+	}
+
+	public enum CoreWebView2PermissionState
+	{
+		Default,
+		Allow,
+		Deny
+	}
+
+	public enum CoreWebView2WebResourceContext
+	{
+		All
+	}
+
+	public class CoreWebView2Settings
+	{
+		public bool AreDefaultContextMenusEnabled { get; set; }
+		public bool AreDevToolsEnabled { get; set; }
+		public bool AreHostObjectsAllowed { get; set; }
+		public bool IsWebMessageEnabled { get; set; }
+		public bool IsStatusBarEnabled { get; set; }
+		public bool IsBuiltInErrorPageEnabled { get; set; }
+		public bool IsZoomControlEnabled { get; set; }
+		public bool AreBrowserAcceleratorKeysEnabled { get; set; }
+		public bool IsPasswordAutosaveEnabled { get; set; }
+		public bool IsGeneralAutofillEnabled { get; set; }
+		public bool IsSwipeNavigationEnabled { get; set; }
+	}
+
+	public class CoreWebView2WebResourceResponse
+	{
+	}
+
+	public class CoreWebView2WebResourceRequest
+	{
+		public string Uri { get; set; } = "";
+	}
+
+	public class CoreWebView2EnvironmentOptions
+	{
+		public CoreWebView2EnvironmentOptions()
+		{
+		}
+
+		public CoreWebView2EnvironmentOptions(string additionalBrowserArguments)
+		{
+		}
+	}
+
+	public class CoreWebView2Environment
+	{
+		public static System.Threading.Tasks.Task<CoreWebView2Environment> CreateAsync(string? browserExecutableFolder = null, string? userDataFolder = null, CoreWebView2EnvironmentOptions? options = null)
+		{
+			return System.Threading.Tasks.Task.FromResult(new CoreWebView2Environment());
+		}
+
+		public CoreWebView2WebResourceResponse CreateWebResourceResponse(System.IO.Stream? content, int statusCode, string reasonPhrase, string headers)
+		{
+			return new CoreWebView2WebResourceResponse();
+		}
+	}
+
+	public class CoreWebView2WebMessageReceivedEventArgs
+	{
+		public string WebMessageAsJson { get; set; } = "";
+
+		public string TryGetWebMessageAsString()
+		{
+			return "";
+		}
+	}
+
+	public class CoreWebView2NavigationCompletedEventArgs
+	{
+		public bool IsSuccess { get; set; }
+	}
+
+	public class CoreWebView2NewWindowRequestedEventArgs
+	{
+		public bool Handled { get; set; }
+	}
+
+	public class CoreWebView2NavigationStartingEventArgs
+	{
+		public string Uri { get; set; } = "";
+		public bool Cancel { get; set; }
+	}
+
+	public class CoreWebView2DownloadStartingEventArgs
+	{
+		public bool Cancel { get; set; }
+	}
+
+	public class CoreWebView2PermissionRequestedEventArgs
+	{
+		public CoreWebView2PermissionState State { get; set; }
+	}
+
+	public class CoreWebView2ContextMenuRequestedEventArgs
+	{
+		public bool Handled { get; set; }
+	}
+
+	public class CoreWebView2WebResourceRequestedEventArgs
+	{
+		public CoreWebView2WebResourceRequest Request { get; } = new CoreWebView2WebResourceRequest();
+		public CoreWebView2WebResourceResponse? Response { get; set; }
+	}
+
+	public class CoreWebView2
+	{
+		public CoreWebView2Settings Settings { get; } = new CoreWebView2Settings();
+
+		public CoreWebView2Environment Environment { get; } = new CoreWebView2Environment();
+
+		public event EventHandler<CoreWebView2WebMessageReceivedEventArgs>? WebMessageReceived { add { } remove { } }
+		public event EventHandler<CoreWebView2NavigationCompletedEventArgs>? NavigationCompleted { add { } remove { } }
+		public event EventHandler<CoreWebView2NewWindowRequestedEventArgs>? NewWindowRequested { add { } remove { } }
+		public event EventHandler<CoreWebView2NavigationStartingEventArgs>? NavigationStarting { add { } remove { } }
+		public event EventHandler<CoreWebView2DownloadStartingEventArgs>? DownloadStarting { add { } remove { } }
+		public event EventHandler<CoreWebView2PermissionRequestedEventArgs>? PermissionRequested { add { } remove { } }
+		public event EventHandler<CoreWebView2ContextMenuRequestedEventArgs>? ContextMenuRequested { add { } remove { } }
+		public event EventHandler<CoreWebView2WebResourceRequestedEventArgs>? WebResourceRequested { add { } remove { } }
+
+		public void SetVirtualHostNameToFolderMapping(string hostName, string folderPath, CoreWebView2HostResourceAccessKind accessKind)
+		{
+		}
+
+		public void AddWebResourceRequestedFilter(string uri, CoreWebView2WebResourceContext resourceContext)
+		{
+		}
+
+		public System.Threading.Tasks.Task<string> AddScriptToExecuteOnDocumentCreatedAsync(string javaScript)
+		{
+			return System.Threading.Tasks.Task.FromResult(string.Empty);
+		}
+
+		public System.Threading.Tasks.Task<string> ExecuteScriptAsync(string javaScript)
+		{
+			return System.Threading.Tasks.Task.FromResult(string.Empty);
+		}
+
+		public void Navigate(string uri)
+		{
+		}
+	}
+}
+
+namespace Microsoft.Web.WebView2.Wpf
+{
+	public class WebView2 : System.Windows.Controls.Control, IDisposable
+	{
+		public Microsoft.Web.WebView2.Core.CoreWebView2? CoreWebView2 { get; private set; }
+
+		public System.Drawing.Color DefaultBackgroundColor { get; set; }
+
+		public System.Threading.Tasks.Task EnsureCoreWebView2Async(Microsoft.Web.WebView2.Core.CoreWebView2Environment? environment = null)
+		{
+			return System.Threading.Tasks.Task.CompletedTask;
+		}
+
+		public void Dispose()
+		{
+			GC.SuppressFinalize(this);
 		}
 	}
 }

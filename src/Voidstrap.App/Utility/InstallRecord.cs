@@ -81,9 +81,10 @@ internal static class InstallRecord
 		{
 			if (File.Exists(path))
 			{
-				File.SetUnixFileMode(path, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute
-					| UnixFileMode.GroupRead | UnixFileMode.GroupExecute
-					| UnixFileMode.OtherRead | UnixFileMode.OtherExecute);
+				if (!OperatingSystem.IsWindows())
+					File.SetUnixFileMode(path, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute
+						| UnixFileMode.GroupRead | UnixFileMode.GroupExecute
+						| UnixFileMode.OtherRead | UnixFileMode.OtherExecute);
 			}
 		}
 		catch (Exception ex)

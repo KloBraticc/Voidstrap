@@ -27,7 +27,7 @@ public class ModFile : NotifyPropertyChangedViewModel
 		set
 		{
 			_name = value;
-			OnPropertyChanged("Name");
+			OnPropertyChanged(nameof(Name));
 		}
 	}
 
@@ -40,7 +40,7 @@ public class ModFile : NotifyPropertyChangedViewModel
 		set
 		{
 			_relativePath = value;
-			OnPropertyChanged("RelativePath");
+			OnPropertyChanged(nameof(RelativePath));
 		}
 	}
 
@@ -53,7 +53,7 @@ public class ModFile : NotifyPropertyChangedViewModel
 		set
 		{
 			_fullPath = value;
-			OnPropertyChanged("FullPath");
+			OnPropertyChanged(nameof(FullPath));
 		}
 	}
 
@@ -66,7 +66,7 @@ public class ModFile : NotifyPropertyChangedViewModel
 		set
 		{
 			_type = value;
-			OnPropertyChanged("Type");
+			OnPropertyChanged(nameof(Type));
 		}
 	}
 
@@ -79,7 +79,7 @@ public class ModFile : NotifyPropertyChangedViewModel
 		set
 		{
 			_sizeText = value;
-			OnPropertyChanged("SizeText");
+			OnPropertyChanged(nameof(SizeText));
 		}
 	}
 
@@ -92,7 +92,7 @@ public class ModFile : NotifyPropertyChangedViewModel
 		set
 		{
 			_modifiedTime = value;
-			OnPropertyChanged("ModifiedTime");
+			OnPropertyChanged(nameof(ModifiedTime));
 		}
 	}
 
@@ -105,7 +105,7 @@ public class ModFile : NotifyPropertyChangedViewModel
 		set
 		{
 			_isFolder = value;
-			OnPropertyChanged("IsFolder");
+			OnPropertyChanged(nameof(IsFolder));
 		}
 	}
 
@@ -118,8 +118,8 @@ public class ModFile : NotifyPropertyChangedViewModel
 		set
 		{
 			_status = value;
-			OnPropertyChanged("Status");
-			OnPropertyChanged("StatusColor");
+			OnPropertyChanged(nameof(Status));
+			OnPropertyChanged(nameof(StatusColor));
 		}
 	}
 

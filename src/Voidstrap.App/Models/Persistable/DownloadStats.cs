@@ -17,7 +17,7 @@ public class DownloadStats
 		{
 			if (string.IsNullOrEmpty(value))
 			{
-				throw new ArgumentException("DownloadingStringFormat cannot be null or empty.", "value");
+				throw new ArgumentException("DownloadingStringFormat cannot be null or empty.", nameof(value));
 			}
 			_downloadingStringFormat = value;
 		}

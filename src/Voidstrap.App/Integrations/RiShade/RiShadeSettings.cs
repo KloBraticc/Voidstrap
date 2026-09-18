@@ -96,8 +96,8 @@ namespace Voidstrap.Integrations.RiShade
         public int PanelDock { get; set; } = 5;
         public double PanelX { get; set; } = -1;
         public double PanelY { get; set; } = -1;
-        public double PanelW { get; set; } = 420;
-        public double PanelH { get; set; } = 620;
+        public double PanelW { get; set; } = 880;
+        public double PanelH { get; set; } = 680;
 
         public static readonly string[] DebugViewNames = ["Off", "Depth map", "Normals", "Polygons"];
         public static readonly string[] AiQualityNames = ["Fast", "Quality"];
@@ -176,37 +176,36 @@ namespace Voidstrap.Integrations.RiShade
             || DebugView > 0
             || HasCustomEffects;
 
-        private static readonly object CustomEffectScanLock = new();
         private static long _lastCustomEffectScan;
         private static int _hasCustomEffects;
+        private static int _customEffectScanRunning;
 
         private static bool HasCustomEffects
         {
             get
             {
-                long now = Environment.TickCount64;
-                if (now - Volatile.Read(ref _lastCustomEffectScan) < 2000)
-                    return Volatile.Read(ref _hasCustomEffects) != 0;
-                lock (CustomEffectScanLock)
-                {
-                    if (now - Volatile.Read(ref _lastCustomEffectScan) >= 2000)
-                    {
-                        bool found;
-                        try
-                        {
-                            string directory = Path.Combine(Paths.RiShade, "Effects");
-                            found = Directory.Exists(directory) && Directory.EnumerateFiles(directory, "*.hlsl").Any();
-                        }
-                        catch
-                        {
-                            found = false;
-                        }
-                        Volatile.Write(ref _hasCustomEffects, found ? 1 : 0);
-                        Volatile.Write(ref _lastCustomEffectScan, now);
-                    }
-                }
+                if (Environment.TickCount64 - Volatile.Read(ref _lastCustomEffectScan) >= 2000
+                    && Interlocked.Exchange(ref _customEffectScanRunning, 1) == 0)
+                    ThreadPool.UnsafeQueueUserWorkItem(ScanCustomEffects, null);
                 return Volatile.Read(ref _hasCustomEffects) != 0;
             }
+        }
+
+        private static void ScanCustomEffects(object? state)
+        {
+            bool found;
+            try
+            {
+                string directory = Path.Combine(Paths.RiShade, "Effects");
+                found = Directory.Exists(directory) && Directory.EnumerateFiles(directory, "*.hlsl").Any();
+            }
+            catch
+            {
+                found = false;
+            }
+            Volatile.Write(ref _hasCustomEffects, found ? 1 : 0);
+            Volatile.Write(ref _lastCustomEffectScan, Environment.TickCount64);
+            Volatile.Write(ref _customEffectScanRunning, 0);
         }
 
         private static RiShadeSettings _current = new();
@@ -219,14 +218,18 @@ namespace Voidstrap.Integrations.RiShade
 
         private static string FilePath => Path.Combine(Paths.Config, "RiShadeSettings.json");
 
+        private static long _lastTouchTicks;
+
         public static void Touch()
         {
             Interlocked.Increment(ref _version);
+            Volatile.Write(ref _lastTouchTicks, Environment.TickCount64);
             if (Interlocked.CompareExchange(ref _savePending, 1, 0) == 0)
             {
                 System.Threading.Tasks.Task.Run(async delegate
                 {
-                    await System.Threading.Tasks.Task.Delay(150).ConfigureAwait(false);
+                    while (Environment.TickCount64 - Volatile.Read(ref _lastTouchTicks) < 250)
+                        await System.Threading.Tasks.Task.Delay(120).ConfigureAwait(false);
                     Interlocked.Exchange(ref _savePending, 0);
                     Save();
                 });

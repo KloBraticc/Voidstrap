@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +16,7 @@ using Voidstrap.Utility;
 
 namespace Voidstrap.Integrations;
 
-public class DiscordRichPresence : IDisposable
+public partial class DiscordRichPresence : IDisposable
 {
 	private sealed class OriginalSnapshot
 	{
@@ -35,8 +35,6 @@ public class DiscordRichPresence : IDisposable
 
 	private const string LOG_IDENT = "DiscordRichPresence";
 
-	private const int MaxReconnectAttempts = 8;
-
 	private const int MaxQueuedMessages = 64;
 
 	private const string IdleDetails = "Inside Voidstrap";
@@ -54,7 +52,11 @@ public class DiscordRichPresence : IDisposable
 		["old"] = ("2009-2011 Logo", "https://static.wikia.nocookie.net/logopedia/images/b/b7/ROBLOX_2006-2009.svg/revision/latest/scale-to-width-down/1000?cb=20250403121056")
 	};
 
-	private readonly DiscordRpcClient _rpcClient = new DiscordRpcClient("1005469189907173486");
+	private readonly object _clientGate = new object();
+
+	private DiscordRpcClient? _rpcClient;
+
+	private DateTime _connectRetryAtUtc;
 
 	private readonly ActivityWatcher _activityWatcher;
 
@@ -89,10 +91,6 @@ public class DiscordRichPresence : IDisposable
 	private DiscordRPC.RichPresence? _pendingPresence;
 
 	private string? _lastPresenceSignature;
-
-	private int _reconnectAttempt;
-
-	private int _reconnectPending;
 
 	private readonly TimeSpan _updateCooldown = TimeSpan.FromSeconds(5L);
 
@@ -129,18 +127,18 @@ public class DiscordRichPresence : IDisposable
 	public DiscordRichPresence(ActivityWatcher activityWatcher)
 	{
 		_lifetimeToken = _lifetimeCancellation.Token;
-		_activityWatcher = activityWatcher ?? throw new ArgumentNullException("activityWatcher");
+		_activityWatcher = activityWatcher ?? throw new ArgumentNullException(nameof(activityWatcher));
 		_onGameJoinHandler = delegate
 		{
 			Interlocked.Exchange(ref _joinPresenceUpdatePending, 1);
-			SetCurrentGameAsync();
+			_ = SetCurrentGameAsync();
 		};
 		_onGameLeaveHandler = delegate
 		{
 			if (_activityWatcher.IsTeleporting)
 				return;
 			Interlocked.Exchange(ref _joinPresenceUpdatePending, 0);
-			SetCurrentGameAsync();
+			_ = SetCurrentGameAsync();
 		};
 		_onRpcMessageHandler = delegate(object? _, Message message)
 		{
@@ -149,19 +147,7 @@ public class DiscordRichPresence : IDisposable
 		_activityWatcher.OnGameJoin += _onGameJoinHandler;
 		_activityWatcher.OnGameLeave += _onGameLeaveHandler;
 		_activityWatcher.OnRPCMessage += _onRpcMessageHandler;
-		_rpcClient.OnReady += OnClientReady;
-		_rpcClient.OnPresenceUpdate += OnClientPresenceUpdate;
-		_rpcClient.OnError += OnClientError;
-		_rpcClient.OnConnectionEstablished += OnClientConnectionEstablished;
-		_rpcClient.OnClose += OnClientClose;
-		try
-		{
-			_rpcClient.Initialize();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("DiscordRichPresence", "Initial connection failed: " + ex.Message);
-		}
+		EnsureConnected();
 		_refreshTimer = new Timer(OnRefreshTimer, null, TimeSpan.FromMinutes(5L), TimeSpan.FromMinutes(5L));
 		_studioWatchTimer = new Timer(OnStudioWatch, null, TimeSpan.FromSeconds(4L), TimeSpan.FromSeconds(4L));
 	}
@@ -205,8 +191,6 @@ public class DiscordRichPresence : IDisposable
 
 	private void OnClientConnectionEstablished(object sender, ConnectionEstablishedMessage e)
 	{
-		Volatile.Write(ref _reconnectAttempt, 0);
-		Volatile.Write(ref _reconnectPending, 0);
 		_lastPresenceSignature = null;
 		App.Logger.WriteLine("DiscordRichPresence", "Connected to Discord RPC");
 	}
@@ -214,45 +198,74 @@ public class DiscordRichPresence : IDisposable
 	private void OnClientClose(object sender, CloseMessage e)
 	{
 		App.Logger.WriteLine("DiscordRichPresence", $"Connection closed: {e.Reason} ({e.Code})");
-		if (_disposed)
-		{
-			return;
-		}
-		if (Interlocked.CompareExchange(ref _reconnectPending, 1, 0) != 0)
-			return;
-		int attempt = Interlocked.Increment(ref _reconnectAttempt);
-		if (attempt > MaxReconnectAttempts)
-		{
-			Interlocked.Exchange(ref _reconnectPending, 0);
-			App.Logger.WriteLine("DiscordRichPresence", "Maximum reconnect attempts reached");
-			return;
-		}
-		int delayMs = Math.Min(30000, 1000 * (int)Math.Pow(2.0, attempt - 1));
-		_ = ReconnectAsync(attempt, delayMs, _lifetimeToken);
+		RetryLater(sender);
 	}
 
-	private async Task ReconnectAsync(int attempt, int delayMs, CancellationToken token)
+	private void OnClientConnectionFailed(object sender, ConnectionFailedMessage e)
 	{
-		try
+		RetryLater(sender);
+	}
+
+	private void RetryLater(object sender)
+	{
+		if (sender is DiscordRpcClient client)
 		{
-			await Task.Delay(delayMs, token).ConfigureAwait(continueOnCapturedContext: false);
-			if (_disposed)
+			_connectRetryAtUtc = DateTime.UtcNow + DiscordIpc.RetryDelay;
+			ReleaseClient(client);
+		}
+	}
+
+	private void EnsureConnected()
+	{
+		lock (_clientGate)
+		{
+			if (_disposed || _rpcClient != null || DateTime.UtcNow < _connectRetryAtUtc || !DiscordIpc.TryFindPipe(out int pipe))
 			{
 				return;
 			}
-			_rpcClient.Initialize();
-			App.Logger.WriteLine("DiscordRichPresence", $"Reinitialized RPC (attempt {attempt}).");
+			DiscordRpcClient client = new DiscordRpcClient("1005469189907173486", pipe, null, true, null);
+			client.OnReady += OnClientReady;
+			client.OnPresenceUpdate += OnClientPresenceUpdate;
+			client.OnError += OnClientError;
+			client.OnConnectionEstablished += OnClientConnectionEstablished;
+			client.OnConnectionFailed += OnClientConnectionFailed;
+			client.OnClose += OnClientClose;
+			_rpcClient = client;
+			try
+			{
+				client.Initialize();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("DiscordRichPresence", "Initial connection failed: " + ex.Message);
+				_connectRetryAtUtc = DateTime.UtcNow + DiscordIpc.RetryDelay;
+				ReleaseClient(client);
+			}
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
+	}
+
+	private void ReleaseClient(DiscordRpcClient client)
+	{
+		lock (_clientGate)
 		{
+			if (!ReferenceEquals(_rpcClient, client))
+			{
+				return;
+			}
+			_rpcClient = null;
 		}
-		catch (Exception ex)
+		client.OnReady -= OnClientReady;
+		client.OnPresenceUpdate -= OnClientPresenceUpdate;
+		client.OnError -= OnClientError;
+		client.OnConnectionEstablished -= OnClientConnectionEstablished;
+		client.OnConnectionFailed -= OnClientConnectionFailed;
+		client.OnClose -= OnClientClose;
+		try
 		{
-			App.Logger.WriteLine("DiscordRichPresence", "Reconnect failed: " + ex.Message);
+			client.Dispose();
 		}
-		finally
+		catch
 		{
-			Interlocked.Exchange(ref _reconnectPending, 0);
 		}
 	}
 
@@ -307,7 +320,7 @@ public class DiscordRichPresence : IDisposable
 		}
 		else if (message.Command == "SetRichPresence")
 		{
-			if (!TryDeserializePresence(message.Data, out Voidstrap.Models.VoidstrapRPC.RichPresence presence) || presence == null)
+			if (!TryDeserializePresence(message.Data, out Voidstrap.Models.VoidstrapRPC.RichPresence? presence) || presence == null)
 			{
 				return;
 			}
@@ -443,7 +456,7 @@ public class DiscordRichPresence : IDisposable
 		}
 		try
 		{
-			_rpcClient.ClearPresence();
+			_rpcClient?.ClearPresence();
 		}
 		catch
 		{
@@ -456,6 +469,7 @@ public class DiscordRichPresence : IDisposable
 		{
 			return;
 		}
+		EnsureConnected();
 		bool studioRunning;
 		try
 		{
@@ -676,20 +690,20 @@ public class DiscordRichPresence : IDisposable
 			Buttons = GetButtons(),
 			Assets = new Assets
 			{
-				LargeImageKey = largeImage,
-				LargeImageText = largeText,
-				SmallImageKey = smallImage,
-				SmallImageText = smallText
+				LargeImageKey = largeImage ?? string.Empty,
+				LargeImageText = largeText ?? string.Empty,
+				SmallImageKey = smallImage ?? string.Empty,
+				SmallImageText = smallText ?? string.Empty
 			}
 		};
 		_originalSnapshot = new OriginalSnapshot
 		{
 			Details = detailText,
 			State = stateText,
-			LargeImageKey = largeImage,
-			LargeImageText = largeText,
-			SmallImageKey = smallImage,
-			SmallImageText = smallText
+			LargeImageKey = largeImage ?? string.Empty,
+			LargeImageText = largeText ?? string.Empty,
+			SmallImageKey = smallImage ?? string.Empty,
+			SmallImageText = smallText ?? string.Empty
 		};
 		while (_messageQueue.TryDequeue(out Message? queued))
 			ProcessRPCMessage(queued, implicitUpdate: false);
@@ -838,7 +852,7 @@ public class DiscordRichPresence : IDisposable
 				App.Logger.WriteLine("DiscordRichPresence", "Failed to fetch universe details: " + ex.Message);
 			}
 		}
-		UniverseDetails universe = activity.UniverseDetails;
+		UniverseDetails? universe = activity.UniverseDetails;
 		if (universe?.Data == null)
 		{
 			App.Logger.WriteLine("DiscordRichPresence", "Universe details unavailable, using private experience fallback for place " + placeId);
@@ -853,15 +867,15 @@ public class DiscordRichPresence : IDisposable
 			ServerType.Reserved => "Reserved Server", 
 			_ => "Public Server", 
 		};
-		(string, string) tuple2 = ExtractBetaTag(universe.Data.Name, universe.Data.Description);
+		(string, string?) tuple2 = ExtractBetaTag(universe.Data.Name, universe.Data.Description);
 		string item = tuple2.Item1;
-		string betaTag = tuple2.Item2;
+		string? betaTag = tuple2.Item2;
 		string universeName = ((!string.IsNullOrWhiteSpace(App.Settings.Prop.CustomGameName)) ? App.Settings.Prop.CustomGameName : ((item.Length < 2) ? (item + "⠀⠀⠀") : item));
 		if (teleported)
 		{
 			universeName = "Teleported to " + universeName;
 		}
-		string text = string.Empty;
+		string? text = string.Empty;
 		if (App.Settings.Prop.ServerLocationGame)
 		{
 			try
@@ -907,7 +921,7 @@ public class DiscordRichPresence : IDisposable
 			_currentPresence.Assets.LargeImageKey = largeImageKey;
 			_currentPresence.Assets.LargeImageText = largeImageText;
 			_currentPresence.Assets.SmallImageKey = smallImage;
-			_currentPresence.Assets.SmallImageText = smallText;
+			_currentPresence.Assets.SmallImageText = smallText ?? string.Empty;
 			_currentPresence.Buttons = GetButtons();
 			_currentPresence.Timestamps.Start = timeStarted.ToUniversalTime();
 		}
@@ -925,10 +939,10 @@ public class DiscordRichPresence : IDisposable
 				Buttons = GetButtons(),
 				Assets = new Assets
 				{
-					LargeImageKey = largeImageKey,
-					LargeImageText = largeImageText,
-					SmallImageKey = smallImage,
-					SmallImageText = smallText
+					LargeImageKey = largeImageKey ?? string.Empty,
+					LargeImageText = largeImageText ?? string.Empty,
+					SmallImageKey = smallImage ?? string.Empty,
+					SmallImageText = smallText ?? string.Empty
 				}
 			};
 		}
@@ -936,12 +950,12 @@ public class DiscordRichPresence : IDisposable
 		{
 			Details = text2,
 			State = text4,
-			LargeImageKey = largeImageKey,
-			LargeImageText = largeImageText,
-			SmallImageKey = smallImage,
-			SmallImageText = smallText
+			LargeImageKey = largeImageKey ?? string.Empty,
+			LargeImageText = largeImageText ?? string.Empty,
+			SmallImageKey = smallImage ?? string.Empty,
+			SmallImageText = smallText ?? string.Empty
 		};
-		Message result;
+		Message? result;
 		while (_messageQueue.TryDequeue(out result))
 		{
 			ProcessRPCMessage(result, implicitUpdate: false);
@@ -989,10 +1003,10 @@ public class DiscordRichPresence : IDisposable
 					Buttons = Array.Empty<Button>(),
 					Assets = new Assets
 					{
-						LargeImageKey = idleIconUrl,
+						LargeImageKey = idleIconUrl ?? string.Empty,
 						LargeImageText = "Roblox",
-						SmallImageKey = smallImage,
-						SmallImageText = smallText
+						SmallImageKey = smallImage ?? string.Empty,
+						SmallImageText = smallText ?? string.Empty
 					}
 				};
 			}
@@ -1003,7 +1017,7 @@ public class DiscordRichPresence : IDisposable
 				_currentPresence.Assets.LargeImageKey = idleIconUrl;
 				_currentPresence.Assets.LargeImageText = "Roblox";
 				_currentPresence.Assets.SmallImageKey = smallImage;
-				_currentPresence.Assets.SmallImageText = smallText;
+				_currentPresence.Assets.SmallImageText = smallText ?? string.Empty;
 				_currentPresence.Buttons = Array.Empty<Button>();
 				_currentPresence.Timestamps = new Timestamps
 				{
@@ -1014,10 +1028,10 @@ public class DiscordRichPresence : IDisposable
 			{
 				Details = "Inside Voidstrap",
 				State = "Browsing Roblox",
-				LargeImageKey = idleIconUrl,
+				LargeImageKey = idleIconUrl ?? string.Empty,
 				LargeImageText = "Roblox",
-				SmallImageKey = smallImage,
-				SmallImageText = smallText
+				SmallImageKey = smallImage ?? string.Empty,
+				SmallImageText = smallText ?? string.Empty
 			};
 			string signature = BuildPresenceSignature(_currentPresence);
 			if (signature == _lastPresenceSignature)
@@ -1131,20 +1145,20 @@ public class DiscordRichPresence : IDisposable
 			Buttons = GetButtons(),
 			Assets = new Assets
 			{
-				LargeImageKey = largeImage,
+				LargeImageKey = largeImage ?? string.Empty,
 				LargeImageText = App.Settings.Prop.GameIconChecked ? shownName : string.Empty,
-				SmallImageKey = smallImage,
-				SmallImageText = smallText,
+				SmallImageKey = smallImage ?? string.Empty,
+				SmallImageText = smallText ?? string.Empty,
 			},
 		};
 		_originalSnapshot = new OriginalSnapshot
 		{
 			Details = _currentPresence.Details,
 			State = _currentPresence.State,
-			LargeImageKey = largeImage,
+			LargeImageKey = largeImage ?? string.Empty,
 			LargeImageText = _currentPresence.Assets.LargeImageText,
-			SmallImageKey = smallImage,
-			SmallImageText = smallText,
+			SmallImageKey = smallImage ?? string.Empty,
+			SmallImageText = smallText ?? string.Empty,
 		};
 		while (_messageQueue.TryDequeue(out Message? queued))
 		{
@@ -1157,11 +1171,10 @@ public class DiscordRichPresence : IDisposable
 
 	private static readonly (string Pattern, string Tag)[] WipMarkers = BuildWipMarkers();
 
-	private static readonly Regex WipLeftoverSeparators = new Regex("\\s*[-|:~/,]+\\s*$", RegexOptions.Compiled);
 
-	private static readonly Regex WipEmptyBrackets = new Regex("[\\[\\(\\{]\\s*[\\]\\)\\}]", RegexOptions.Compiled);
 
-	private static readonly Regex WipWhitespace = new Regex("\\s{2,}", RegexOptions.Compiled);
+	[GeneratedRegex("\\s{2,}")]
+	private static partial Regex WipWhitespace { get; }
 
 	private static (string Pattern, string Tag)[] BuildWipMarkers()
 	{
@@ -1259,7 +1272,7 @@ public class DiscordRichPresence : IDisposable
 		}
 		if (!App.Settings.Prop.HideRPCButtons)
 		{
-			string text = null;
+			string? text = null;
 			if (data.ServerType == ServerType.Public || (data.ServerType == ServerType.Reserved && !string.IsNullOrEmpty(data.RPCLaunchData)))
 			{
 				try
@@ -1293,11 +1306,11 @@ public class DiscordRichPresence : IDisposable
 		DiscordRPC.RichPresence? presence = _currentPresence;
 		if (_disposed || presence == null)
 		{
-			return new Voidstrap.Models.PresenceSnapshot { Connected = !_disposed && _rpcClient.IsInitialized, Active = false };
+			return new Voidstrap.Models.PresenceSnapshot { Connected = !_disposed && _rpcClient?.IsInitialized == true, Active = false };
 		}
 		Voidstrap.Models.PresenceSnapshot snapshot = new Voidstrap.Models.PresenceSnapshot
 		{
-			Connected = _rpcClient.IsInitialized,
+			Connected = _rpcClient?.IsInitialized == true,
 			Active = true,
 			Details = presence.Details ?? string.Empty,
 			State = presence.State ?? string.Empty,
@@ -1333,7 +1346,7 @@ public class DiscordRichPresence : IDisposable
 		{
 			try
 			{
-				_rpcClient.ClearPresence();
+				_rpcClient?.ClearPresence();
 			}
 			catch
 			{
@@ -1352,7 +1365,7 @@ public class DiscordRichPresence : IDisposable
 				_pendingPresence = null;
 				try
 				{
-					_rpcClient.SetPresence(_currentPresence);
+					_rpcClient?.SetPresenceSafe(_currentPresence);
 					return;
 				}
 				catch (Exception ex)
@@ -1383,14 +1396,14 @@ public class DiscordRichPresence : IDisposable
 				}
 				if (!_disposed)
 				{
-					DiscordRPC.RichPresence pendingPresence = _pendingPresence;
+					DiscordRPC.RichPresence? pendingPresence = _pendingPresence;
 					if (pendingPresence != null && _visible)
 					{
 						_lastPresenceUpdate = DateTime.UtcNow;
 						_pendingPresence = null;
 						try
 						{
-							_rpcClient.SetPresence(pendingPresence);
+							_rpcClient?.SetPresenceSafe(pendingPresence);
 							return;
 						}
 						catch (Exception ex)
@@ -1436,30 +1449,17 @@ public class DiscordRichPresence : IDisposable
 			catch
 			{
 			}
-			try
+			DiscordRpcClient? client = _rpcClient;
+			if (client != null)
 			{
-				_rpcClient.OnReady -= OnClientReady;
-				_rpcClient.OnPresenceUpdate -= OnClientPresenceUpdate;
-				_rpcClient.OnError -= OnClientError;
-				_rpcClient.OnConnectionEstablished -= OnClientConnectionEstablished;
-				_rpcClient.OnClose -= OnClientClose;
-			}
-			catch
-			{
-			}
-			try
-			{
-				_rpcClient.ClearPresence();
-			}
-			catch
-			{
-			}
-			try
-			{
-				_rpcClient.Dispose();
-			}
-			catch
-			{
+				try
+				{
+					client.ClearPresence();
+				}
+				catch
+				{
+				}
+				ReleaseClient(client);
 			}
 			_messageQueue.Clear();
 			_currentPresence = null;
@@ -1469,4 +1469,9 @@ public class DiscordRichPresence : IDisposable
 			GC.SuppressFinalize(this);
 		}
 	}
+
+    [GeneratedRegex("\\s*[-|:~/,]+\\s*$")]
+    private static partial Regex WipLeftoverSeparators { get; }
+    [GeneratedRegex("[\\[\\(\\{]\\s*[\\]\\)\\}]")]
+    private static partial Regex WipEmptyBrackets { get; }
 }

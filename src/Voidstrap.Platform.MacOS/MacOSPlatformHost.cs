@@ -160,7 +160,7 @@ public sealed class MacOSPaths : PlatformPathsBase
 	}
 }
 
-public sealed class MacOSSecureStore : ISecureStore
+public sealed partial class MacOSSecureStore : ISecureStore
 {
 	private const int Success = 0;
 	private const int ItemNotFound = -25300;
@@ -189,7 +189,7 @@ public sealed class MacOSSecureStore : ISecureStore
 			int status = SecKeychainFindGenericPassword(IntPtr.Zero, (uint)serviceBytes.Length, serviceBytes, (uint)keyBytes.Length, keyBytes, out _, out passwordData, out item);
 			if (passwordData != IntPtr.Zero)
 			{
-				SecKeychainItemFreeContent(IntPtr.Zero, passwordData);
+				_ = SecKeychainItemFreeContent(IntPtr.Zero, passwordData);
 				passwordData = IntPtr.Zero;
 			}
 			if (status == Success)
@@ -212,7 +212,7 @@ public sealed class MacOSSecureStore : ISecureStore
 		{
 			if (passwordData != IntPtr.Zero)
 			{
-				SecKeychainItemFreeContent(IntPtr.Zero, passwordData);
+				_ = SecKeychainItemFreeContent(IntPtr.Zero, passwordData);
 			}
 			if (item != IntPtr.Zero)
 			{
@@ -265,7 +265,7 @@ public sealed class MacOSSecureStore : ISecureStore
 		{
 			if (passwordData != IntPtr.Zero)
 			{
-				SecKeychainItemFreeContent(IntPtr.Zero, passwordData);
+				_ = SecKeychainItemFreeContent(IntPtr.Zero, passwordData);
 			}
 			if (item != IntPtr.Zero)
 			{
@@ -309,7 +309,7 @@ public sealed class MacOSSecureStore : ISecureStore
 		{
 			if (passwordData != IntPtr.Zero)
 			{
-				SecKeychainItemFreeContent(IntPtr.Zero, passwordData);
+				_ = SecKeychainItemFreeContent(IntPtr.Zero, passwordData);
 			}
 			if (item != IntPtr.Zero)
 			{
@@ -326,23 +326,23 @@ public sealed class MacOSSecureStore : ISecureStore
 			&& key.Length <= MaximumIdentifierLength;
 	}
 
-	[DllImport(SecurityFramework)]
-	private static extern int SecKeychainAddGenericPassword(IntPtr keychain, uint serviceNameLength, byte[] serviceName, uint accountNameLength, byte[] accountName, uint passwordLength, byte[] passwordData, out IntPtr itemRef);
+	[LibraryImport(SecurityFramework)]
+	private static partial int SecKeychainAddGenericPassword(IntPtr keychain, uint serviceNameLength, [In] byte[] serviceName, uint accountNameLength, [In] byte[] accountName, uint passwordLength, [In] byte[] passwordData, out IntPtr itemRef);
 
-	[DllImport(SecurityFramework)]
-	private static extern int SecKeychainFindGenericPassword(IntPtr keychainOrArray, uint serviceNameLength, byte[] serviceName, uint accountNameLength, byte[] accountName, out uint passwordLength, out IntPtr passwordData, out IntPtr itemRef);
+	[LibraryImport(SecurityFramework)]
+	private static partial int SecKeychainFindGenericPassword(IntPtr keychainOrArray, uint serviceNameLength, [In] byte[] serviceName, uint accountNameLength, [In] byte[] accountName, out uint passwordLength, out IntPtr passwordData, out IntPtr itemRef);
 
-	[DllImport(SecurityFramework)]
-	private static extern int SecKeychainItemModifyAttributesAndData(IntPtr itemRef, IntPtr attributes, uint length, byte[] data);
+	[LibraryImport(SecurityFramework)]
+	private static partial int SecKeychainItemModifyAttributesAndData(IntPtr itemRef, IntPtr attributes, uint length, [In] byte[] data);
 
-	[DllImport(SecurityFramework)]
-	private static extern int SecKeychainItemDelete(IntPtr itemRef);
+	[LibraryImport(SecurityFramework)]
+	private static partial int SecKeychainItemDelete(IntPtr itemRef);
 
-	[DllImport(SecurityFramework)]
-	private static extern int SecKeychainItemFreeContent(IntPtr attributes, IntPtr data);
+	[LibraryImport(SecurityFramework)]
+	private static partial int SecKeychainItemFreeContent(IntPtr attributes, IntPtr data);
 
-	[DllImport(CoreFoundationFramework)]
-	private static extern void CFRelease(IntPtr value);
+	[LibraryImport(CoreFoundationFramework)]
+	private static partial void CFRelease(IntPtr value);
 }
 
 public sealed class MacOSRobloxRuntimeProvider : IRobloxRuntimeProvider

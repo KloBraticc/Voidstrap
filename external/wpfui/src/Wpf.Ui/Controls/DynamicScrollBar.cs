@@ -5,10 +5,9 @@
 
 using System.ComponentModel;
 using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Wpf.Ui.Common;
+using System.Windows.Threading;
 
 namespace Wpf.Ui.Controls;
 
@@ -21,7 +20,14 @@ public class DynamicScrollBar : System.Windows.Controls.Primitives.ScrollBar
 {
     private bool _isScrolling;
     private bool _isInteracted;
-    private readonly EventIdentifier _interactionTracker = new();
+    private readonly DispatcherTimer _interactionTimer;
+
+    public DynamicScrollBar()
+    {
+        _interactionTimer = new DispatcherTimer();
+        _interactionTimer.Tick += OnInteractionTimerTick;
+        Unloaded += OnUnloaded;
+    }
 
     #region Dependency Properties
 
@@ -88,34 +94,58 @@ public class DynamicScrollBar : System.Windows.Controls.Primitives.ScrollBar
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
-        _ = UpdateInteractionStateAsync();
+        UpdateInteractionState();
     }
 
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);
-        _ = UpdateInteractionStateAsync();
+        UpdateInteractionState();
     }
 
     #endregion
 
     #region Interaction Logic
 
-    private async Task UpdateInteractionStateAsync()
+    private void UpdateInteractionState()
     {
-        var interactionEvent = _interactionTracker.GetNext();
         bool shouldBeInteracted = IsMouseOver || _isScrolling;
 
-        if (shouldBeInteracted == _isInteracted)
+        if (shouldBeInteracted)
+        {
+            _interactionTimer.Stop();
+            IsInteracted = true;
+            return;
+        }
+
+        if (!_isInteracted)
             return;
 
-        if (!shouldBeInteracted)
-            await Task.Delay(System.Math.Max(0, Timeout));
-
-        if (!_interactionTracker.IsEqual(interactionEvent))
+        int timeout = System.Math.Max(0, Timeout);
+        if (timeout == 0)
+        {
+            IsInteracted = false;
             return;
+        }
 
-        IsInteracted = shouldBeInteracted;
+        _interactionTimer.Interval = System.TimeSpan.FromMilliseconds(timeout);
+        _interactionTimer.Stop();
+        _interactionTimer.Start();
+    }
+
+    private void OnInteractionTimerTick(object? sender, System.EventArgs e)
+    {
+        _interactionTimer.Stop();
+
+        if (!IsMouseOver && !_isScrolling)
+            IsInteracted = false;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        _interactionTimer.Stop();
+        _isInteracted = false;
+        SetValue(IsInteractedProperty, false);
     }
 
     private static void OnIsScrollingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -126,7 +156,7 @@ public class DynamicScrollBar : System.Windows.Controls.Primitives.ScrollBar
             if (scrollbar._isScrolling != newValue)
             {
                 scrollbar._isScrolling = newValue;
-                _ = scrollbar.UpdateInteractionStateAsync();
+                scrollbar.UpdateInteractionState();
             }
         }
     }
@@ -139,7 +169,7 @@ public class DynamicScrollBar : System.Windows.Controls.Primitives.ScrollBar
             if (scrollbar._isInteracted != newValue)
             {
                 scrollbar._isInteracted = newValue;
-                _ = scrollbar.UpdateInteractionStateAsync();
+                scrollbar.UpdateInteractionState();
             }
         }
     }

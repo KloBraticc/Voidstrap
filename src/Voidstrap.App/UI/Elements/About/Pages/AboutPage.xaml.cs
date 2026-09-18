@@ -59,8 +59,20 @@ public partial class AboutPage : UiPage{
 			if (_keys.SequenceEqual(_expectedKeys))
 			{
 				_triggered = true;
-				(base.Resources["EggStoryboard"] as Storyboard).Begin();
+				(base.Resources["EggStoryboard"] as Storyboard)?.Begin();
 			}
+		}
+	}
+
+	private void ErikButton_Click(object sender, RoutedEventArgs e)
+	{
+		try
+		{
+			Voidstrap.UI.Frontend.ShowMessageBox("Thank you, Erik 💖", MessageBoxImage.Information);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteException("AboutPage::ErikButton", ex);
 		}
 	}
 

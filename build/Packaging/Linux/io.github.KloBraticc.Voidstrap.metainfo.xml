@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.KloBraticc.Voidstrap</id>
+  <name>Voidstrap</name>
+  <summary>Customize and launch Roblox through Sober on Linux</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.klobraticc">
+    <name>Bratic</name>
+  </developer>
+  <description>
+    <p>Voidstrap is an open source Roblox bootstrapper for Linux that installs and launches Roblox through Sober.</p>
+    <p>It brings FastFlags, performance and graphics controls, mods, themes, account tools, server tools, Discord Rich Presence, and desktop integrations together in one customizable app.</p>
+  </description>
+  <launchable type="desktop-id">io.github.KloBraticc.Voidstrap.desktop</launchable>
+  <provides>
+    <binary>voidstrap</binary>
+  </provides>
+  <url type="homepage">https://github.com/KloBraticc/Voidstrap</url>
+  <url type="bugtracker">https://github.com/KloBraticc/Voidstrap/issues</url>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="1.1.2.1" date="2026-08-22" />
+  </releases>
+</component>

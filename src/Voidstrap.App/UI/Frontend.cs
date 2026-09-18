@@ -49,7 +49,7 @@ internal static class Frontend
 		{
 			UiDispatcher?.Invoke((Action)delegate
 			{
-				new ExceptionDialog(exception).ShowDialog();
+				new ExceptionDialog(exception).ShowOwnedDialog();
 			});
 		}
 	}
@@ -60,7 +60,7 @@ internal static class Frontend
 		{
 			UiDispatcher?.Invoke((Action)delegate
 			{
-				new ConnectivityDialog(title, description, image, exception).ShowDialog();
+				new ConnectivityDialog(title, description, image, exception).ShowOwnedDialog();
 			});
 		}
 	}
@@ -71,12 +71,23 @@ internal static class Frontend
 		CustomDialog? customDialog = null;
 		try
 		{
-			if (App.Settings.Prop.SelectedCustomTheme == null)
+			string? selected = App.Settings.Prop.SelectedCustomTheme;
+
+			if (selected == null)
 			{
 				throw new CustomThemeException("CustomTheme.Errors.NoThemeSelected");
 			}
+
+			if (!Voidstrap.Utility.CaseInsensitivePath.Exists(Path.Combine(Paths.CustomThemes, selected, "Theme.xml")))
+			{
+				App.Logger.WriteLine("Frontend::GetCustomBootstrapper", "The selected theme " + selected + " is gone, falling back to Fluent");
+				App.Settings.Prop.SelectedCustomTheme = null;
+				App.Settings.Save();
+				return GetBootstrapperDialog(BootstrapperStyle.FluentDialog);
+			}
+
 			customDialog = new CustomDialog();
-			customDialog.ApplyCustomTheme(App.Settings.Prop.SelectedCustomTheme);
+			customDialog.ApplyCustomTheme(selected);
 			return customDialog;
 		}
 		catch (Exception ex)
@@ -93,6 +104,28 @@ internal static class Frontend
 
 	public static IBootstrapperDialog GetBootstrapperDialog(BootstrapperStyle style)
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			switch (style)
+			{
+				case BootstrapperStyle.VistaDialog:
+					return new LinuxVistaDialog();
+				case BootstrapperStyle.LegacyDialog2008:
+					return new LinuxLegacyDialog2008();
+				case BootstrapperStyle.LegacyDialog2011:
+					return new LinuxLegacyDialog2011();
+				case BootstrapperStyle.ProgressDialog:
+					return new LinuxProgressDialog();
+			}
+		}
+		else if (!Voidstrap.Utility.Platform.IsWindows && style is BootstrapperStyle.VistaDialog
+			or BootstrapperStyle.LegacyDialog2008
+			or BootstrapperStyle.LegacyDialog2011
+			or BootstrapperStyle.ProgressDialog)
+		{
+			style = BootstrapperStyle.FluentDialog;
+		}
+
 		return style switch
 		{
 			BootstrapperStyle.VistaDialog => new VistaDialog(), 
@@ -118,19 +151,39 @@ internal static class Frontend
 		return dispatcher.Invoke<MessageBoxResult>((Func<MessageBoxResult>)delegate
 		{
 			FluentMessageBox fluentMessageBox = new(message, icon, buttons);
-			fluentMessageBox.ShowDialog();
+			fluentMessageBox.ShowOwnedDialog();
 			return fluentMessageBox.Result;
 		});
 	}
 
 	public static void ShowBalloonTip(string title, string message, ToolTipIcon icon = ToolTipIcon.None, int timeout = 5)
 	{
+		Dispatcher? dispatcher = System.Windows.Application.Current?.Dispatcher;
+		if (dispatcher != null && !dispatcher.CheckAccess())
+		{
+			dispatcher.BeginInvoke(new Action(() => ShowBalloonTip(title, message, icon, timeout)));
+			return;
+		}
 		NotifyIcon notifyIcon = new()
 		{
 			Icon = Voidstrap.Properties.Resources.IconVoidstrap,
 			Text = "Voidstrap",
 			Visible = true
 		};
+		notifyIcon.BalloonTipClosed += BalloonTip_Finished;
+		notifyIcon.BalloonTipClicked += BalloonTip_Finished;
 		notifyIcon.ShowBalloonTip(timeout, title, message, icon);
+	}
+
+	private static void BalloonTip_Finished(object? sender, EventArgs e)
+	{
+		if (sender is not NotifyIcon notifyIcon)
+		{
+			return;
+		}
+		notifyIcon.BalloonTipClosed -= BalloonTip_Finished;
+		notifyIcon.BalloonTipClicked -= BalloonTip_Finished;
+		notifyIcon.Visible = false;
+		notifyIcon.Dispose();
 	}
 }

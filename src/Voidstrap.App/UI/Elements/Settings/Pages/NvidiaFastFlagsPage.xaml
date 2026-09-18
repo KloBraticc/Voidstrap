@@ -7,12 +7,6 @@
           <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" Text="Open the raw NVIDIA Profile Inspector editor. Recommended for advanced users only." />
         </StackPanel>
       </ui:CardAction>
-      <ui:CardAction Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://voidstrapp.pages.dev/documentation/documentation#nvidia_fflags" Margin="0,8,0,0" Icon="Book24">
-        <StackPanel>
-          <TextBlock FontSize="14" Text="NVIDIA Setup" />
-          <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" Text="Learn how to setup the NVIDIA FastFlags Editor." />
-        </StackPanel>
-      </ui:CardAction>
       <controls:OptionControl Header="Apply Changes" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Description="Apply only the modified NVIDIA FastFlags to the driver.">
         <ui:Button Content="Apply" Icon="CheckmarkCircle24" Click="Apply_Click" />
       </controls:OptionControl>

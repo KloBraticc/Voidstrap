@@ -20,6 +20,10 @@ public class JsonManager<T> where T : class, new()
 
 	public string? LastFileHash { get; private set; }
 
+	private int _revision;
+
+	public int Revision => Volatile.Read(ref _revision);
+
 	public virtual string BackupsLocation => Path.Combine(Paths.Config, "Backup.json");
 
 	public virtual string FileLocation => Path.Combine(Paths.Config, ClassName + ".json");
@@ -39,8 +43,11 @@ public class JsonManager<T> where T : class, new()
 		if (JsonFile.TryLoad<T>(FileLocation, JsonOptions.Tolerant, out T? loaded, out bool recovered, out Exception? failure) && loaded != null)
 		{
 			Prop = loaded;
+			Interlocked.Increment(ref _revision);
 			LastFileHash = SafeGetFileHash(FileLocation);
 			App.Logger.WriteLine(identifier, recovered ? "Recovered from the last valid backup" : "Loaded successfully");
+			if (recovered)
+				Voidstrap.Utility.AppNotifications.RecordInfo("recovered:" + ClassName, ClassName + " was restored", ClassName + " contained invalid data and was restored from the last valid backup.");
 			if (recovered && alertFailure)
 				Frontend.ShowMessageBox(ClassName + " contained invalid JSON and was recovered from the last valid backup.", MessageBoxImage.Exclamation);
 			return;
@@ -58,6 +65,7 @@ public class JsonManager<T> where T : class, new()
 			return;
 		}
 		App.Logger.WriteLine(identifier, "No valid JSON copy was available, defaults will be restored");
+		Voidstrap.Utility.AppNotifications.RecordInfo("reset:" + ClassName, ClassName + " was reset", ClassName + " contained invalid data and no valid backup was available, so safe defaults were restored.");
 		if (alertFailure)
 		{
 			Frontend.ShowMessageBox(ClassName + " contained invalid JSON and no valid backup was available. Safe defaults were restored. The damaged file was preserved for recovery.", MessageBoxImage.Exclamation);
@@ -76,6 +84,7 @@ public class JsonManager<T> where T : class, new()
 
 	public void SaveDeferred()
 	{
+		Interlocked.Increment(ref _revision);
 		Interlocked.Exchange(ref _savePending, 1);
 		lock (_deferredTimerLock)
 		{
@@ -124,6 +133,7 @@ public class JsonManager<T> where T : class, new()
 
 	public virtual void Save()
 	{
+		Interlocked.Increment(ref _revision);
 		string identifier = LOG_IDENT_CLASS + "::Save";
 		lock (_saveLock)
 		{
@@ -160,7 +170,7 @@ public class JsonManager<T> where T : class, new()
 	{
 		try
 		{
-			string text = SafeGetFileHash(FileLocation);
+			string? text = SafeGetFileHash(FileLocation);
 			return LastFileHash != text;
 		}
 		catch

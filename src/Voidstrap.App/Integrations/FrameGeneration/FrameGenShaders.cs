@@ -18,6 +18,8 @@ cbuffer FgParams : register(b0)
     float4 dims;
     float4 srcRect;
     float4 interp;
+    float4 extra;
+    float4 extra2;
 };
 
 Texture2D tex0 : register(t0);
@@ -71,10 +73,37 @@ float pageBackgroundWeight(float3 p, float3 source)
     return 1.0 - smoothstep(1.0 / 255.0, 10.0 / 255.0, d);
 }
 
+float3 nearestPageBackground(float3 color)
+{
+    float3 nearest = float3(18.0, 18.0, 21.0) / 255.0;
+    float distance = max(abs(color.r - nearest.r), max(abs(color.g - nearest.g), abs(color.b - nearest.b)));
+    float3 candidate = float3(18.0, 18.0, 24.0) / 255.0;
+    float candidateDistance = max(abs(color.r - candidate.r), max(abs(color.g - candidate.g), abs(color.b - candidate.b)));
+    if (candidateDistance < distance)
+    {
+        distance = candidateDistance;
+        nearest = candidate;
+    }
+    candidate = extra.rgb;
+    candidateDistance = max(abs(color.r - candidate.r), max(abs(color.g - candidate.g), abs(color.b - candidate.b)));
+    if (candidateDistance < distance)
+    {
+        distance = candidateDistance;
+        nearest = candidate;
+    }
+    candidate = extra2.rgb;
+    candidateDistance = max(abs(color.r - candidate.r), max(abs(color.g - candidate.g), abs(color.b - candidate.b)));
+    if (candidateDistance < distance)
+    {
+        nearest = candidate;
+    }
+    return nearest;
+}
+
 float4 PSHomeBackground(VSOut inp) : SV_Target
 {
     float3 c = tex0.Sample(smp, inp.uv).rgb;
-    float3 source = float3(18.0, 18.0, 21.0) / 255.0;
+    float3 source = nearestPageBackground(c);
 
     float own = pageBackgroundWeight(c, source);
 
@@ -84,7 +113,8 @@ float4 PSHomeBackground(VSOut inp) : SV_Target
     {
         [unroll] for (int ox = -1; ox <= 1; ox++)
         {
-            support += pageBackgroundWeight(tex0.Sample(smp, inp.uv + float2(ox, oy) * step).rgb, source);
+            float3 nearby = tex0.Sample(smp, inp.uv + float2(ox, oy) * step).rgb;
+            support += pageBackgroundWeight(nearby, nearestPageBackground(nearby));
         }
     }
     support /= 9.0;

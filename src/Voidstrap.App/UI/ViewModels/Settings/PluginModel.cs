@@ -5,15 +5,15 @@ namespace Voidstrap.UI.ViewModels.Settings;
 
 public class PluginModel
 {
-	public string Name { get; set; }
+	public string Name { get; set; } = null!;
 
-	public string Author { get; set; }
+	public string Author { get; set; } = null!;
 
-	public string Description { get; set; }
+	public string Description { get; set; } = null!;
 
-	public object Instance { get; set; }
+	public object Instance { get; set; } = null!;
 
-	public string PluginXaml { get; set; }
+	public string PluginXaml { get; set; } = null!;
 
 	public void Run()
 	{
@@ -21,9 +21,9 @@ public class PluginModel
 		{
 			if (Instance is Window window)
 			{
-				Window obj = (Window)Activator.CreateInstance(((object)window).GetType());
-				obj.Show();
-				obj.Activate();
+				Window? obj = (Window?)Activator.CreateInstance(((object)window).GetType());
+				obj?.Show();
+				obj?.Activate();
 			}
 			else
 			{

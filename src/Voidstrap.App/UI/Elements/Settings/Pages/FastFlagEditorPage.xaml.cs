@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -29,7 +29,7 @@ public partial class FastFlagEditorPage : UiPage
 {
 	public static class FastFlagTagHelper
 	{
-		private static bool Has(string name, string token) => name.IndexOf(token, StringComparison.OrdinalIgnoreCase) >= 0;
+		private static bool Has(string name, string token) => name.Contains(token, StringComparison.OrdinalIgnoreCase);
 
 		private static bool HasAny(string name, params string[] tokens)
 		{
@@ -130,7 +130,6 @@ public partial class FastFlagEditorPage : UiPage
 		AllowTrailingCommas = true
 	};
 
-	private static readonly Regex _groupPrefixRegex = new Regex("^[A-Z]+[a-z]*", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
 	private static readonly ImageSource _presetCheck = LoadIcon("pack://application:,,,/Resources/Checkmark.ico");
 
@@ -169,6 +168,12 @@ public partial class FastFlagEditorPage : UiPage
 
 	private static ImageSource LoadIcon(string uri)
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			ImageSource? portable = Voidstrap.Utility.SafeImaging.FromUri(new Uri(uri, UriKind.Absolute));
+			if (portable != null)
+				return portable;
+		}
 		BitmapImage image = new BitmapImage();
 		image.BeginInit();
 		image.UriSource = new Uri(uri, UriKind.Absolute);
@@ -629,13 +634,13 @@ public partial class FastFlagEditorPage : UiPage
 			case FlagHistoryAction.Cleared:
 				if (entry.Snapshot == null)
 				{
-					ShowInfoMessage("This entry cannot be reverted.");
+                        ShowInfoMessage("This entry cannot be reverted.");
 					return;
 				}
 				RestoreSnapshot(entry.Snapshot);
 				break;
 			default:
-				ShowInfoMessage("This entry cannot be reverted.");
+                    ShowInfoMessage("This entry cannot be reverted.");
 				return;
 			}
 		}
@@ -703,7 +708,7 @@ public partial class FastFlagEditorPage : UiPage
 		while (true)
 		{
 			AddFastFlagDialog dialog = new AddFastFlagDialog();
-			dialog.ShowDialog();
+			dialog.ShowOwnedDialog();
 			if (dialog.Result != MessageBoxResult.OK)
 			{
 				return;
@@ -867,7 +872,7 @@ public partial class FastFlagEditorPage : UiPage
 		{
 			Owner = Window.GetWindow(this)
 		};
-		if (dialog.ShowDialog() != true || dialog.Result != MessageBoxResult.OK || dialog.AppliedFlags == null)
+		if (dialog.ShowOwnedDialog() != true || dialog.Result != MessageBoxResult.OK || dialog.AppliedFlags == null)
 		{
 			return;
 		}
@@ -895,7 +900,7 @@ public partial class FastFlagEditorPage : UiPage
 
 	private void ShowFFlagSearchDialog()
 	{
-		new FFlagSearchDialog().ShowDialog();
+		new FFlagSearchDialog().ShowOwnedDialog();
 		ReloadList();
 		KickKnownFlagsRefresh();
 	}
@@ -1016,7 +1021,7 @@ public partial class FastFlagEditorPage : UiPage
 	{
 		if (App.FastFlags.Prop.Count == 0 && _allFlags.Count == 0)
 		{
-			ShowInfoMessage("There are no flags to delete.");
+            ShowInfoMessage("There are no flags to delete.");
 			return;
 		}
 		if (Frontend.ShowMessageBox("Are you sure you want to delete all flags?", MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
@@ -1054,7 +1059,7 @@ public partial class FastFlagEditorPage : UiPage
 	{
 		try
 		{
-			Clipboard.SetText(text);
+			Voidstrap.Utility.ClipboardService.SetText(text);
 		}
 		catch (Exception ex)
 		{
@@ -1067,7 +1072,7 @@ public partial class FastFlagEditorPage : UiPage
 		Dictionary<string, object> prop = App.FastFlags.Prop;
 		if (prop.Count == 0)
 		{
-			ShowInfoMessage("There are no flags to copy.");
+            ShowInfoMessage("There are no flags to copy.");
 			return;
 		}
 
@@ -1075,7 +1080,7 @@ public partial class FastFlagEditorPage : UiPage
 		{
 			Owner = Window.GetWindow(this)
 		};
-		if (dialog.ShowDialog() != true)
+		if (dialog.ShowOwnedDialog() != true)
 			return;
 
 		switch (dialog.SelectedFormat)
@@ -1085,16 +1090,16 @@ public partial class FastFlagEditorPage : UiPage
 				Dictionary<string, string> payload = prop.ToDictionary((KeyValuePair<string, object> x) => x.Key, (KeyValuePair<string, object> x) => x.Value?.ToString() ?? string.Empty);
 				string json = JsonSerializer.Serialize(payload, _indentedJson);
 				TrySetClipboard(Convert.ToBase64String(Encoding.UTF8.GetBytes(json)));
-				ShowInfoMessage($"Copied {payload.Count} flags to the clipboard as Base64.");
+                    ShowInfoMessage($"Copied {payload.Count} flags to the clipboard as Base64.");
 				break;
 			}
 			case Voidstrap.UI.Elements.Dialogs.CopyFlagsFormat.GroupedJson:
 				TrySetClipboard(BuildGroupedJson());
-				ShowInfoMessage($"Copied {prop.Count} flags to the clipboard as grouped JSON.");
+                ShowInfoMessage($"Copied {prop.Count} flags to the clipboard as grouped JSON.");
 				break;
 			default:
 				TrySetClipboard(JsonSerializer.Serialize(prop, _indentedJson));
-				ShowInfoMessage($"Copied {prop.Count} flags to the clipboard as JSON.");
+                ShowInfoMessage($"Copied {prop.Count} flags to the clipboard as JSON.");
 				break;
 		}
 	}
@@ -1104,7 +1109,7 @@ public partial class FastFlagEditorPage : UiPage
 		Dictionary<string, object> prop = App.FastFlags.Prop;
 		IOrderedEnumerable<IGrouping<string, KeyValuePair<string, object>>> groups = from g in prop.GroupBy(delegate(KeyValuePair<string, object> kvp)
 			{
-				Match match = _groupPrefixRegex.Match(kvp.Key);
+				Match match = GroupPrefixPattern.Match(kvp.Key);
 				return (!match.Success) ? "Other" : match.Value;
 			})
 			orderby g.Key
@@ -1140,13 +1145,13 @@ public partial class FastFlagEditorPage : UiPage
 	{
 		if (App.FastFlags.Prop.Count == 0)
 		{
-			ShowInfoMessage("There are no flags to export.");
+            ShowInfoMessage("There are no flags to export.");
 			return;
 		}
-		SaveJSONToFile(BuildGroupedJson());
+        SaveJSONToFile(BuildGroupedJson());
 	}
 
-	private void SaveJSONToFile(string json)
+	private static void SaveJSONToFile(string json)
 	{
 		SaveFileDialog saveFileDialog = new SaveFileDialog
 		{
@@ -1175,7 +1180,7 @@ public partial class FastFlagEditorPage : UiPage
 		}
 	}
 
-	private void ShowInfoMessage(string message)
+	private static void ShowInfoMessage(string message)
 	{
 		Frontend.ShowMessageBox(message, MessageBoxImage.Asterisk);
 	}
@@ -1279,4 +1284,7 @@ public partial class FastFlagEditorPage : UiPage
 		SuggestionTextBlock.BeginAnimation(UIElement.OpacityProperty, fade);
 		SuggestionTranslateTransform.BeginAnimation(TranslateTransform.XProperty, slide);
 	}
+
+    [GeneratedRegex("^[A-Z]+[a-z]*", RegexOptions.CultureInvariant)]
+    private static partial Regex GroupPrefixPattern { get; }
 }

@@ -159,7 +159,7 @@ public sealed class WindowsResourceOptimizationService : IResourceOptimizationSe
 			if (request.CpuLimit is int cpuLimit && cpuLimit < ProcessorCount)
 			{
 				ulong mask = (1UL << cpuLimit) - 1UL;
-				process.ProcessorAffinity = (IntPtr)unchecked((long)mask);
+				process.ProcessorAffinity = new IntPtr(unchecked((long)mask));
 				cpuApplied = true;
 			}
 
@@ -261,7 +261,7 @@ public sealed class WindowsPaths : PlatformPathsBase
 	}
 }
 
-public sealed class WindowsSecureStore : ISecureStore
+public sealed partial class WindowsSecureStore : ISecureStore
 {
 	private const int CryptProtectUiForbidden = 1;
 	private const int MaximumIdentifierLength = 256;
@@ -517,8 +517,9 @@ public sealed class WindowsSecureStore : ISecureStore
 		}
 	}
 
-	[DllImport("crypt32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-	private static extern bool CryptProtectData(
+	[LibraryImport("crypt32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool CryptProtectData(
 		ref DataBlob dataIn,
 		string? description,
 		IntPtr optionalEntropy,
@@ -527,8 +528,9 @@ public sealed class WindowsSecureStore : ISecureStore
 		int flags,
 		ref DataBlob dataOut);
 
-	[DllImport("crypt32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-	private static extern bool CryptUnprotectData(
+	[LibraryImport("crypt32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool CryptUnprotectData(
 		ref DataBlob dataIn,
 		IntPtr description,
 		IntPtr optionalEntropy,
@@ -537,8 +539,8 @@ public sealed class WindowsSecureStore : ISecureStore
 		int flags,
 		ref DataBlob dataOut);
 
-	[DllImport("kernel32.dll")]
-	private static extern IntPtr LocalFree(IntPtr memory);
+	[LibraryImport("kernel32.dll")]
+	private static partial IntPtr LocalFree(IntPtr memory);
 
 	[StructLayout(LayoutKind.Sequential)]
 	private struct DataBlob

@@ -194,7 +194,6 @@ namespace Voidstrap.Utility
             [".hbs"] = "HTML",
             [".ejs"] = "HTML",
             [".asp"] = "ASP/XHTML",
-            [".aspx"] = "ASP/XHTML",
             [".ascx"] = "ASP/XHTML",
             [".cshtml"] = "ASP/XHTML",
             [".razor"] = "ASP/XHTML",
@@ -411,13 +410,13 @@ namespace Voidstrap.Utility
         {
             IHighlightingDefinition? xml = HighlightingManager.Instance.GetDefinition("XML");
             if (xml != null)
-                HighlightingManager.Instance.RegisterHighlighting("XAML", new[] { ".xaml" }, xml);
+                HighlightingManager.Instance.RegisterHighlighting("XAML", extensions, xml);
         }
 
         private static void RegisterLua()
         {
             XDocument doc = XDocument.Parse(LuaSyntax);
-            HighlightingManager.Instance.RegisterHighlighting("Lua", new[] { ".lua", ".luau" }, LoadDocument(doc));
+            HighlightingManager.Instance.RegisterHighlighting("Lua", extensionsArray, LoadDocument(doc));
         }
 
         private static IHighlightingDefinition LoadDocument(XDocument doc)
@@ -506,5 +505,7 @@ namespace Voidstrap.Utility
   </RuleSet>
 </SyntaxDefinition>
 """;
+        private static readonly string[] extensions = new[] { ".xaml" };
+        private static readonly string[] extensionsArray = new[] { ".lua", ".luau" };
     }
 }

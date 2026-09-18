@@ -68,7 +68,7 @@ internal static class Highlighter
                 if (String.IsNullOrEmpty(codeMatched.Value))
                     continue;
 
-                if (codeMatched.Value.Contains("\t"))
+                if (codeMatched.Value.Contains('\t'))
                 {
                     returnText.Inlines.Add(Line("  ", Brushes.Transparent));
                 }
@@ -76,12 +76,12 @@ internal static class Highlighter
                 {
                     returnText.Inlines.Add(Line(codeMatched.Value, Brushes.Orange));
                 }
-                else if (codeMatched.Value.Contains("<") || codeMatched.Value.Contains(">"))
+                else if (codeMatched.Value.Contains('<') || codeMatched.Value.Contains('>'))
                 {
                     returnText.Inlines.Add(Line(codeMatched.Value,
                         lightTheme ? Brushes.DarkCyan : Brushes.CornflowerBlue));
                 }
-                else if (codeMatched.Value.Contains("\""))
+                else if (codeMatched.Value.Contains('"'))
                 {
                     string[] attributeArray = codeMatched.Value.Split('"');
                     attributeArray = attributeArray.Where(x => !string.IsNullOrEmpty(x.Trim())).ToArray();
@@ -105,7 +105,7 @@ internal static class Highlighter
                             lightTheme ? Brushes.DarkSlateGray : Brushes.WhiteSmoke));
                     }
                 }
-                else if (codeMatched.Value.Contains("'"))
+                else if (codeMatched.Value.Contains('\''))
                 {
                     string[] attributeArray = codeMatched.Value.Split('\'');
                     attributeArray = attributeArray.Where(x => !string.IsNullOrEmpty(x.Trim())).ToArray();
@@ -173,7 +173,7 @@ internal static class Highlighter
         var pattern = String.Empty;
 
         if (language == SyntaxLanguage.Autodetect)
-            language = code.TrimStart().StartsWith("<", StringComparison.Ordinal)
+            language = code.TrimStart().StartsWith('<')
                 ? SyntaxLanguage.XAML
                 : SyntaxLanguage.CSHARP;
 

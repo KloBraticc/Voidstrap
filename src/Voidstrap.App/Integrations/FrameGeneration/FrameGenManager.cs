@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using Voidstrap.Integrations.Overlays;
 
@@ -10,6 +11,8 @@ namespace Voidstrap.Integrations.FrameGeneration
         private static bool _installed;
 		private static int _prepareStarted;
 		private static int _gameTransitionActive;
+		private static int _transitionGeneration;
+		private const int TransitionTimeoutMs = 60000;
 
         public static void Install()
         {
@@ -101,13 +104,24 @@ namespace Voidstrap.Integrations.FrameGeneration
 			if (FrameGenSettings.ModeIndex > 0)
 				App.Logger.WriteLine("FrameGen", "Game transition started, destroying frame generation until the server is ready");
 			OverlayHub.OnGameTransitionStarted();
+			_ = ExpireTransitionAsync(Interlocked.Increment(ref _transitionGeneration));
+		}
+
+		private static async Task ExpireTransitionAsync(int generation)
+		{
+			await Task.Delay(TransitionTimeoutMs).ConfigureAwait(false);
+			if (Volatile.Read(ref _transitionGeneration) != generation || Interlocked.Exchange(ref _gameTransitionActive, 0) == 0)
+				return;
+			App.Logger.WriteLine("FrameGen", "No server join was confirmed within 60 seconds, the join or teleport likely failed, so the overlays are restored");
+			OverlayHub.OnGameTransitionCompleted();
 		}
 
 		public static void OnGameJoinConfirmed()
 		{
 			if (Interlocked.Exchange(ref _gameTransitionActive, 0) != 0)
 			{
-				App.Logger.WriteLine("FrameGen", "Server join confirmed, rebuilding frame generation with fresh capture history");
+				if (FrameGenSettings.ModeIndex > 0)
+					App.Logger.WriteLine("FrameGen", "Server join confirmed, rebuilding frame generation with fresh capture history");
 				OverlayHub.OnGameTransitionCompleted();
 			}
 			else

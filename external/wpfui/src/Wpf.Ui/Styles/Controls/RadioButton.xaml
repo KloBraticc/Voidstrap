@@ -61,7 +61,7 @@
                             <ColumnDefinition Width="20" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Grid Height="32" VerticalAlignment="Top">
+                        <Grid x:Name="Indicator" Height="32" VerticalAlignment="Top">
                             <Ellipse
                                 x:Name="OuterEllipse"
                                 Width="{StaticResource RadioButtonOuterEllipseSize}"
@@ -73,43 +73,53 @@
                                     <SolidColorBrush Color="{DynamicResource ControlAltFillColorSecondary}" />
                                 </Ellipse.Fill>
                             </Ellipse>
-                            <!--  A seperate element is added since the two orthogonal state groups that cannot touch the same property  -->
                             <Ellipse
                                 x:Name="CheckOuterEllipse"
                                 Width="{StaticResource RadioButtonOuterEllipseSize}"
                                 Height="{StaticResource RadioButtonOuterEllipseSize}"
                                 Fill="{TemplateBinding Background}"
                                 Opacity="0"
+                                RenderTransformOrigin="0.5,0.5"
                                 Stroke="{TemplateBinding Background}"
                                 StrokeThickness="{StaticResource RadioButtonStrokeThickness}"
-                                UseLayoutRounding="False" />
+                                UseLayoutRounding="False">
+                                <Ellipse.RenderTransform>
+                                    <ScaleTransform x:Name="RingScale" ScaleX="0.8" ScaleY="0.8" />
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                            <Border
+                                x:Name="PressedCheckGlyph"
+                                Width="{StaticResource RadioButtonCheckGlyphSize}"
+                                Height="{StaticResource RadioButtonCheckGlyphSize}"
+                                CornerRadius="6"
+                                Opacity="0"
+                                RenderTransformOrigin="0.5,0.5"
+                                UseLayoutRounding="False">
+                                <Border.Background>
+                                    <SolidColorBrush Color="{DynamicResource TextFillColorSecondary}" />
+                                </Border.Background>
+                                <Border.RenderTransform>
+                                    <ScaleTransform x:Name="PressedScale" ScaleX="0.4" ScaleY="0.4" />
+                                </Border.RenderTransform>
+                            </Border>
                             <Ellipse
                                 x:Name="CheckGlyph"
                                 Width="{StaticResource RadioButtonCheckGlyphSize}"
                                 Height="{StaticResource RadioButtonCheckGlyphSize}"
                                 Opacity="0"
+                                RenderTransformOrigin="0.5,0.5"
                                 Stroke="{DynamicResource CircleElevationBorderBrush}"
                                 UseLayoutRounding="False">
                                 <Ellipse.Fill>
                                     <SolidColorBrush Color="{DynamicResource TextOnAccentFillColorPrimary}" />
                                 </Ellipse.Fill>
-                                <Ellipse.LayoutTransform>
-                                    <ScaleTransform ScaleX="1.0" ScaleY="1.0" />
-                                </Ellipse.LayoutTransform>
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform x:Name="CheckScale" ScaleX="0" ScaleY="0" />
+                                        <ScaleTransform x:Name="HoverScale" ScaleX="1" ScaleY="1" />
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
                             </Ellipse>
-                            <!--  A seperate element is added since the two orthogonal state groups that cannot touch the same property  -->
-                            <Border
-                                x:Name="PressedCheckGlyph"
-                                Width="4"
-                                Height="4"
-                                BorderBrush="{DynamicResource CircleElevationBorderBrush}"
-                                CornerRadius="6"
-                                Opacity="0"
-                                UseLayoutRounding="False">
-                                <Border.Background>
-                                    <SolidColorBrush Color="{DynamicResource TextOnAccentFillColorPrimary}" />
-                                </Border.Background>
-                            </Border>
                         </Grid>
                         <ContentPresenter
                             x:Name="ContentPresenter"
@@ -122,19 +132,136 @@
                             TextElement.Foreground="{TemplateBinding Foreground}" />
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="CheckOuterEllipse" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.14" />
+                                        <DoubleAnimation Storyboard.TargetName="RingScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.18">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="RingScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.18">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="OuterEllipse" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.14" />
+                                        <DoubleAnimation Storyboard.TargetName="CheckGlyph" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="CheckScale" Storyboard.TargetProperty="ScaleX" To="1" BeginTime="0:0:0.04" Duration="0:0:0.26">
+                                            <DoubleAnimation.EasingFunction>
+                                                <BackEase Amplitude="0.45" EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="CheckScale" Storyboard.TargetProperty="ScaleY" To="1" BeginTime="0:0:0.04" Duration="0:0:0.26">
+                                            <DoubleAnimation.EasingFunction>
+                                                <BackEase Amplitude="0.45" EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="PressedCheckGlyph" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.08" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="CheckOuterEllipse" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.16" />
+                                        <DoubleAnimation Storyboard.TargetName="RingScale" Storyboard.TargetProperty="ScaleX" To="0.8" Duration="0:0:0.16" />
+                                        <DoubleAnimation Storyboard.TargetName="RingScale" Storyboard.TargetProperty="ScaleY" To="0.8" Duration="0:0:0.16" />
+                                        <DoubleAnimation Storyboard.TargetName="OuterEllipse" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.16" />
+                                        <DoubleAnimation Storyboard.TargetName="CheckGlyph" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.14" />
+                                        <DoubleAnimation Storyboard.TargetName="CheckScale" Storyboard.TargetProperty="ScaleX" To="0" Duration="0:0:0.14">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseIn" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="CheckScale" Storyboard.TargetProperty="ScaleY" To="0" Duration="0:0:0.14">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseIn" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsEnabled" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleX" To="1.17" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleY" To="1.17" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.18" />
+                                        <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.18" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsPressed" Value="True" />
+                                <Condition Property="IsEnabled" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleX" To="0.83" Duration="0:0:0.08" />
+                                        <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleY" To="0.83" Duration="0:0:0.08" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.16" />
+                                        <DoubleAnimation Storyboard.TargetName="HoverScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.16" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsPressed" Value="True" />
                                 <Condition Property="IsChecked" Value="False" />
                                 <Condition Property="IsEnabled" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="CheckGlyph" Property="Opacity" Value="1.0" />
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PressedCheckGlyph" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.08" />
+                                        <DoubleAnimation Storyboard.TargetName="PressedScale" Storyboard.TargetProperty="ScaleX" To="0.7" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="PressedScale" Storyboard.TargetProperty="ScaleY" To="0.7" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PressedCheckGlyph" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="PressedScale" Storyboard.TargetProperty="ScaleX" To="0.4" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="PressedScale" Storyboard.TargetProperty="ScaleY" To="0.4" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
                         </MultiTrigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="CheckGlyph" Property="Opacity" Value="1.0" />
-                            <Setter TargetName="OuterEllipse" Property="Opacity" Value="0.0" />
-                            <Setter TargetName="CheckOuterEllipse" Property="Opacity" Value="1.0" />
-                        </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
@@ -143,30 +270,10 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="OuterEllipse" Property="Fill" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
                         </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="IsChecked" Value="True" />
-                                <Condition Property="IsEnabled" Value="True" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="CheckOuterEllipse" Property="Opacity" Value="0.86" />
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="False" />
-                                <Condition Property="IsEnabled" Value="False" />
-                            </MultiTrigger.Conditions>
+                        <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource TextFillColorDisabledBrush}" />
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="True" />
-                                <Condition Property="IsEnabled" Value="False" />
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Foreground" Value="{DynamicResource TextFillColorDisabledBrush}" />
-                            <Setter TargetName="CheckGlyph" Property="Opacity" Value="0.7" />
-                            <Setter TargetName="CheckOuterEllipse" Property="Opacity" Value="0.7" />
-                        </MultiTrigger>
+                            <Setter TargetName="Indicator" Property="Opacity" Value="0.7" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

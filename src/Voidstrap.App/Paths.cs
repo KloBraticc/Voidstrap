@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Voidstrap.Platform;
+using Voidstrap.Platform.Linux;
 
 namespace Voidstrap;
 
@@ -22,7 +24,9 @@ internal static class Paths
 
 	public static string System => Environment.GetFolderPath(Environment.SpecialFolder.System);
 
-	public static string Process => Environment.ProcessPath;
+	public static string Process => Environment.ProcessPath!;
+
+	public static string LaunchExecutable => Voidstrap.Utility.Platform.IsLinux ? LinuxAppImageHost.ResolveApplicationPath(Process) : Process;
 
 	public static string TempUpdates => Path.Combine(Temp, "Updates");
 
@@ -31,8 +35,6 @@ internal static class Paths
 	private static string? _userData;
 
 	public static string UserData => _userData ??= ResolveUserData();
-
-	public static readonly string[] DocumentsPreservedFiles = ["WebsiteAuth.json", "WebsiteAuth.json.bak", "WebsiteAuth.key"];
 
 	public static string DocumentsData
 	{
@@ -236,6 +238,8 @@ internal static class Paths
 
 	public static string Mobile { get; private set; } = "";
 
+	public static string Library { get; private set; } = "";
+
 	public static string ServerHistory { get; private set; } = "";
 
 	public static string PlayTimeStore { get; private set; } = "";
@@ -266,7 +270,7 @@ internal static class Paths
 	{
 		if (string.IsNullOrWhiteSpace(baseDirectory))
 		{
-			throw new ArgumentException("Base directory cannot be null or empty.", "baseDirectory");
+			throw new ArgumentException("Base directory cannot be null or empty.", nameof(baseDirectory));
 		}
 		Base = baseDirectory;
 		CloudSynced = Voidstrap.Installer.IsCloudSyncedPath(baseDirectory);
@@ -288,18 +292,20 @@ internal static class Paths
 		Mods = Path.Combine(Base, "VoidstrapMods");
 		RobloxClients = Path.Combine(offloadRoot, "RobloxClients");
 		WebViewData = Path.Combine(LocalAppData, "Voidstrap", "WebView2");
+		RobloxLogs = Path.Combine(LocalAppData, "Roblox", "logs");
 		InitializeDerivedPaths();
 	}
 
 	public static void InitializePortable(Voidstrap.Platform.PlatformStoragePaths storage, string applicationPath)
 	{
-		if (storage == null)
-		{
-			throw new ArgumentNullException(nameof(storage));
-		}
-		if (string.IsNullOrWhiteSpace(applicationPath))
+        ArgumentNullException.ThrowIfNull(storage);
+        if (string.IsNullOrWhiteSpace(applicationPath))
 		{
 			throw new ArgumentException("Application path cannot be null or empty.", nameof(applicationPath));
+		}
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			applicationPath = LinuxAppImageHost.ResolveApplicationPath(applicationPath);
 		}
 
 		Base = storage.ApplicationSupport;
@@ -314,17 +320,23 @@ internal static class Paths
 		Media = Path.Combine(Data, "Media");
 		Extensions = storage.Extensions;
 		Logs = storage.Logs;
-		Downloads = storage.Downloads;
+		Downloads = Voidstrap.Utility.Platform.IsLinux ? Path.Combine(storage.Cache, "Downloads") : storage.Downloads;
 		Integrations = Path.Combine(Data, "Integrations");
 		Roblox = Path.Combine(Data, "Roblox");
 		Versions = Path.Combine(RobloxBase, "RblxVersions");
 		Mods = Path.Combine(Data, "VoidstrapMods");
 		RobloxClients = Path.Combine(Data, "RobloxClients");
 		WebViewData = Path.Combine(Cache, "WebView");
-		InitializeDerivedPaths();
+		string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+		RobloxLogs = Voidstrap.Utility.Platform.IsLinux
+			? Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "data", "sober", "appData", "logs")
+			: OperatingSystem.IsMacOS()
+				? Path.Combine(home, "Library", "Logs", "Roblox")
+				: Path.Combine(LocalAppData, "Roblox", "logs");
+		InitializeDerivedPaths(!Voidstrap.Utility.Platform.IsLinux);
 	}
 
-	private static void InitializeDerivedPaths()
+	private static void InitializeDerivedPaths(bool resetLegacyLayout = true)
 	{
 		SavedBackups = Path.Combine(Backups, "FlagProfiles");
 		AccountBackups = Path.Combine(Backups, "Accounts");
@@ -345,12 +357,14 @@ internal static class Paths
 		Mobile = Path.Combine(Data, "Mobile");
 		AssetCache = Path.Combine(Cache, "Assets");
 		ClientImageCache = Path.Combine(Cache, "ClientImages");
-		ServerHistory = Path.Combine(Data, "ServerHistory.json");
-		PlayTimeStore = Path.Combine(Data, "PlayTimeStore.json");
+		Library = ResolveLibraryRoot();
+		ServerHistory = Path.Combine(Library, "ServerHistory.json");
+		PlayTimeStore = Path.Combine(Library, "PlayTimeStore.json");
 		BackgroundSettings = Path.Combine(Config, "BackgroundSettings.json");
+		MigrateLibrary();
 		try
 		{
-			LegacyLayoutReset = IsLegacyInstall();
+			LegacyLayoutReset = resetLegacyLayout && IsLegacyInstall();
 			if (LegacyLayoutReset)
 			{
 				ResetLegacyInstall();
@@ -365,6 +379,55 @@ internal static class Paths
 		}
 	}
 
+	private static string ResolveLibraryRoot()
+	{
+		string fallback = Path.Combine(Data, "Library");
+		try
+		{
+			string documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			if (string.IsNullOrWhiteSpace(documents) || !Directory.Exists(documents))
+			{
+				return fallback;
+			}
+
+			string root = Path.Combine(DocumentsData, "Library");
+			Directory.CreateDirectory(root);
+			return root;
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("Paths::ResolveLibraryRoot", "The documents folder is not usable, keeping the library beside the app data: " + ex.Message);
+			return fallback;
+		}
+	}
+
+	private static void MigrateLibrary()
+	{
+		foreach ((string source, string destination) in new[]
+		{
+			(Path.Combine(Data, "ServerHistory.json"), ServerHistory),
+			(Path.Combine(Data, "PlayTimeStore.json"), PlayTimeStore),
+			(Path.Combine(Cache, "LibrarySnapshot.json"), Path.Combine(Library, "LibrarySnapshot.json"))
+		})
+		{
+			try
+			{
+				if (string.Equals(source, destination, PathComparison) || !File.Exists(source) || File.Exists(destination))
+				{
+					continue;
+				}
+
+				Directory.CreateDirectory(Library);
+				File.Move(source, destination);
+				App.Logger?.WriteLine("Paths::MigrateLibrary", "Moved " + Path.GetFileName(source) + " into the library folder");
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine("Paths::MigrateLibrary", "Could not move " + Path.GetFileName(source) + ": " + ex.Message);
+			}
+		}
+	}
+
 	public static void EnsureDirectories()
 	{
 		if (!Initialized)
@@ -373,6 +436,7 @@ internal static class Paths
 		}
 		EnsureDirectoryExists(Config);
 		EnsureDirectoryExists(Data);
+		EnsureDirectoryExists(Library);
 		EnsureDirectoryExists(Cache);
 		EnsureDirectoryExists(Backups);
 		EnsureDirectoryExists(Themes);
@@ -623,26 +687,27 @@ internal static class Paths
 			}
 
 			int removed = 0;
-			int preserved = 0;
+			bool keptLibrary = false;
 			foreach (string entry in SafeEntries(legacy))
 			{
-				if (DocumentsPreservedFiles.Contains(Path.GetFileName(entry), StringComparer.OrdinalIgnoreCase))
+				if (string.Equals(Path.GetFileName(Path.TrimEndingDirectorySeparator(entry)), "Library", StringComparison.OrdinalIgnoreCase))
 				{
-					preserved++;
+					keptLibrary = true;
 					continue;
 				}
+
 				if (TryRemove(entry))
 				{
 					removed++;
 				}
 			}
 
-			if (preserved == 0)
+			if (!keptLibrary)
 			{
 				TryRemove(legacy);
 			}
 
-			App.Logger?.WriteLine("Paths::ResetLegacyInstall", $"Cleared the legacy documents data at {legacy} ({removed} removed, {preserved} sign in files kept)");
+			App.Logger?.WriteLine("Paths::ResetLegacyInstall", $"Cleared the legacy documents data at {legacy} ({removed} removed)");
 		}
 		catch (Exception ex)
 		{
@@ -695,6 +760,12 @@ internal static class Paths
 
 	public static void ResetUserData()
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			ResetLinuxUserData();
+			return;
+		}
+
 		string basePath = Path.GetFullPath(Base).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 		string? baseRoot = Path.GetPathRoot(basePath)?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 		if (string.IsNullOrWhiteSpace(basePath) || string.Equals(basePath, baseRoot, PathComparison))
@@ -735,7 +806,6 @@ internal static class Paths
 			"RobloxState.json",
 			"ServerHistory.json",
 			"PlayTimeStore.json",
-			"TabsConfig.json",
 			"BackgroundSettings.json",
 			"ModManifest.txt"
 		];
@@ -749,6 +819,74 @@ internal static class Paths
 				File.Delete(path);
 			}
 		}
+
+		Directory.CreateDirectory(Config);
+		WriteVersionStamp();
+	}
+
+	private static void ResetLinuxUserData()
+	{
+		IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
+		if (host == null)
+		{
+			throw new InvalidOperationException("Linux platform storage is unavailable");
+		}
+
+		PlatformStoragePaths storage = host.Paths.Storage;
+		string logsRoot = Path.GetDirectoryName(Path.GetFullPath(storage.Logs)) ?? storage.Logs;
+		List<string> directories =
+		[
+			storage.Configuration,
+			storage.ApplicationSupport,
+			storage.Data,
+			storage.Cache,
+			logsRoot,
+			UserData,
+			Temp
+		];
+		if (string.Equals(Path.GetFileName(Path.TrimEndingDirectorySeparator(DocumentsData)), "voidstrap", StringComparison.OrdinalIgnoreCase))
+		{
+			directories.Add(DocumentsData);
+		}
+
+		foreach (string directory in directories.Distinct(PathComparison == StringComparison.OrdinalIgnoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal).OrderByDescending(path => path.Length))
+		{
+			DeleteLinuxOwnedDirectory(directory);
+		}
+	}
+
+	private static void DeleteLinuxOwnedDirectory(string path)
+	{
+		if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
+		{
+			return;
+		}
+
+		string fullPath = Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+		string? pathRoot = Path.GetPathRoot(fullPath)?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+		string profileRoot = Path.GetFullPath(UserProfile).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+		string name = Path.GetFileName(fullPath);
+		if (string.IsNullOrWhiteSpace(fullPath) || string.Equals(fullPath, pathRoot, PathComparison) || string.Equals(fullPath, profileRoot, PathComparison) || !string.Equals(name, "voidstrap", StringComparison.OrdinalIgnoreCase))
+		{
+			throw new InvalidOperationException("The Linux Voidstrap data location is unsafe to reset");
+		}
+
+		string running = Path.GetFullPath(Process);
+		if (running.StartsWith(fullPath + Path.DirectorySeparatorChar, PathComparison))
+		{
+			App.Logger?.WriteLine("Paths::ResetLinuxUserData", "Preserving the folder that contains the running executable: " + fullPath);
+			return;
+		}
+
+		DirectoryInfo info = new(fullPath);
+		if (info.LinkTarget != null)
+		{
+			info.Delete();
+			return;
+		}
+
+		ClearReadOnly(fullPath);
+		Directory.Delete(fullPath, recursive: true);
 	}
 
 	private static void DeleteOwnedDirectory(string path, string basePath)

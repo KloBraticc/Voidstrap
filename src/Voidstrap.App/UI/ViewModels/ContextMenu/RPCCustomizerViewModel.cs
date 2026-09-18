@@ -1,4 +1,5 @@
-﻿using System;
+using Voidstrap.Utility;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -30,7 +31,7 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 
 	private readonly object _rpcLock = new object();
 
-	private DiscordRpcClient _client;
+	private DiscordRpcClient? _client;
 
 	private bool _isStarting;
 
@@ -42,15 +43,15 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 
 	private readonly string _configPath = Path.Combine(Paths.UserData, "discord-rpc.json");
 
-	private CancellationTokenSource _saveCts;
+	private CancellationTokenSource? _saveCts;
 
-	private CancellationTokenSource _presenceCts;
+	private CancellationTokenSource? _presenceCts;
 
 	private readonly DispatcherTimer _reconnectTimer;
 
 	private readonly Dispatcher _dispatcher;
 
-	private string _applicationId;
+	private string _applicationId = string.Empty;
 
 	private string _appName;
 
@@ -274,7 +275,7 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 		}
 	}
 
-	public event PropertyChangedEventHandler PropertyChanged;
+	public event PropertyChangedEventHandler? PropertyChanged;
 
 	public RPCCustomizerViewModel()
 	{
@@ -297,15 +298,15 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 		_statusColor = Brushes.Gray;
 		StartRpcCommand = new RelayCommand(delegate
 		{
-			SafeStartRpcAsync();
+			_ = SafeStartRpcAsync();
 		}, CanStartRpc);
 		StopRpcCommand = new RelayCommand(delegate
 		{
-			SafeStopRpcAsync();
+			_ = SafeStopRpcAsync();
 		}, CanStopRpc);
 		UpdatePresenceCommand = new RelayCommand((Action)delegate
 		{
-			SafeManualUpdateAsync();
+			_ = SafeManualUpdateAsync();
 		}, (Func<bool>?)null);
 		CloseCommand = new RelayCommand((Action)async delegate
 		{
@@ -354,7 +355,7 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 		_ = SafeStopRpcAsync();
 	}
 
-	private bool SetValue<T>(ref T field, T value, [CallerMemberName] string name = null)
+	private bool SetValue<T>(ref T field, T value, [CallerMemberName] string? name = null)
 	{
 		if (!SetField(ref field, value, name))
 		{
@@ -370,7 +371,7 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 		if (!_isLoadingConfig && !_disposed)
 		{
 			ReplaceCancellation(ref _saveCts);
-			DebounceAsync(async delegate(CancellationToken ct)
+			_ = DebounceAsync(async delegate(CancellationToken ct)
 			{
 				SafeUpdateStatus("Saving pending...", Brushes.DarkGray);
 				await Task.Delay(1000, ct).ConfigureAwait(continueOnCapturedContext: false);
@@ -384,10 +385,10 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 		if (!_isLoadingConfig && !_disposed && _client != null && _rpcConnected)
 		{
 			ReplaceCancellation(ref _presenceCts);
-			DebounceAsync(async delegate(CancellationToken ct)
+			_ = DebounceAsync(async delegate(CancellationToken ct)
 			{
 				await Task.Delay(1500, ct).ConfigureAwait(continueOnCapturedContext: false);
-				await _dispatcher.InvokeAsync((Action)UpdatePresence, (DispatcherPriority)4);
+				await _dispatcher.InvokeAsync((Action)UpdatePresence, (DispatcherPriority)4, ct);
 			}, _presenceCts.Token);
 		}
 	}
@@ -482,9 +483,15 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 				return;
 			}
 			_rpcConnected = false;
-			DiscordRpcClient discordRpcClient = new DiscordRpcClient(ApplicationId)
+			if (!Voidstrap.Integrations.DiscordIpc.TryFindPipe(out int pipe))
 			{
-				Logger = new ConsoleLogger
+				_reconnectTimer.IsEnabled = true;
+				SafeUpdateStatus("Waiting for Discord...", Brushes.Orange);
+				return;
+			}
+			DiscordRpcClient discordRpcClient = new DiscordRpcClient(ApplicationId, pipe, null, true, null)
+			{
+				Logger = new Voidstrap.Integrations.DiscordRpcLogger("DiscordRichPresence::Customizer")
 				{
 					Level = LogLevel.Warning
 				}
@@ -605,10 +612,10 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 		}
 	}
 
-	private static void ReplaceCancellation(ref CancellationTokenSource source)
+	private static void ReplaceCancellation([System.Diagnostics.CodeAnalysis.NotNull] ref CancellationTokenSource? source)
 	{
 		CancellationTokenSource replacement = new CancellationTokenSource();
-		CancellationTokenSource previous = source;
+		CancellationTokenSource? previous = source;
 		source = replacement;
 		if (previous != null)
 		{
@@ -617,9 +624,9 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 		}
 	}
 
-	private static void CancelAndDispose(ref CancellationTokenSource source)
+	private static void CancelAndDispose(ref CancellationTokenSource? source)
 	{
-		CancellationTokenSource current = source;
+		CancellationTokenSource? current = source;
 		source = null;
 		if (current != null)
 		{
@@ -664,7 +671,7 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 			}
 			lock (_rpcLock)
 			{
-				_client?.SetPresence(richPresence);
+				_client?.SetPresenceSafe(richPresence);
 			}
 			SafeUpdateStatus("Presence updated successfully", Brushes.LightSkyBlue);
 		}
@@ -700,7 +707,7 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 			{
 				return false;
 			}
-			if (!Uri.TryCreate(url, UriKind.Absolute, out Uri result))
+			if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? result))
 			{
 				return false;
 			}
@@ -781,7 +788,7 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 				if (AutoStartRpc && !string.IsNullOrWhiteSpace(ApplicationId))
 				{
 					SafeUpdateStatus("Auto-starting RPC...", Brushes.DarkOrange);
-					SafeStartRpcAsync();
+					_ = SafeStartRpcAsync();
 				}
 			}
 		}
@@ -831,7 +838,7 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 		GC.SuppressFinalize(this);
 	}
 
-	protected bool SetField<T>(ref T field, T value, [CallerMemberName] string name = null)
+	protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? name = null)
 	{
 		if (EqualityComparer<T>.Default.Equals(field, value))
 		{

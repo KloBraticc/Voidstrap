@@ -1,7 +1,7 @@
 <Project Sdk="LibreWPF.Sdk">
 
   <PropertyGroup>
-    <BaseOutputPath>$(MSBuildThisFileDirectory)bin-cross\$(RuntimeIdentifier)\</BaseOutputPath>
+    <BaseOutputPath Condition="'$(VoidstrapLinuxPackagingRoot)' == ''">$(MSBuildThisFileDirectory)bin-cross\$(RuntimeIdentifier)\</BaseOutputPath>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -19,8 +19,7 @@
     <PlatformTarget Condition="'$(RuntimeIdentifier)' == 'linux-arm64' Or '$(RuntimeIdentifier)' == 'osx-arm64'">ARM64</PlatformTarget>
     <PlatformTarget Condition="'$(RuntimeIdentifier)' == 'linux-x64' Or '$(RuntimeIdentifier)' == 'osx-x64'">x64</PlatformTarget>
     <LangVersion>10.0</LangVersion>
-    <Nullable>disable</Nullable>
-    <NoWarn>$(NoWarn);CS8632;CS8669;CS8600;CS8601;CS8602;CS8603;CS8604;CS8612;CS8618;CS8620;CS8622;CS8625;CS8714;CA1416</NoWarn>
+    <Nullable>annotations</Nullable>
     <EnableSourceLink>false</EnableSourceLink>
     <DeterministicSourcePaths>false</DeterministicSourcePaths>
   </PropertyGroup>

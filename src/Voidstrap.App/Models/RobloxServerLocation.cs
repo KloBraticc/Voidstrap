@@ -68,7 +68,7 @@ public class RobloxServerLocation
 		string[] matchTokens = MatchTokens;
 		foreach (string text2 in matchTokens)
 		{
-			if (!string.IsNullOrEmpty(text2) && text.Contains(text2.ToLowerInvariant()))
+			if (!string.IsNullOrEmpty(text2) && text.Contains(text2, StringComparison.InvariantCultureIgnoreCase))
 			{
 				return true;
 			}
@@ -154,7 +154,7 @@ public class RobloxServerLocation
 		return text2.Trim();
 	}
 
-	private static IEnumerable<string> SplitWords(string s)
+	private static string[] SplitWords(string s)
 	{
 		return s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 	}

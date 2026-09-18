@@ -14,6 +14,13 @@ public static class Utilities
 {
 	public static void ShellExecute(string website)
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			Voidstrap.Utility.PlatformShell.TryOpenUrl(website);
+			return;
+		}
+
+		string failure;
 		try
 		{
 			Process.Start(new ProcessStartInfo
@@ -21,26 +28,18 @@ public static class Utilities
 				FileName = website,
 				UseShellExecute = true
 			});
+			return;
 		}
-		catch (Win32Exception ex)
+		catch (Exception ex)
 		{
-			if (ex.NativeErrorCode != -2147221003)
-			{
-				throw;
-			}
-			try
-			{
-				Process.Start(new ProcessStartInfo
-				{
-					FileName = "explorer.exe",
-					Arguments = "\"" + website + "\"",
-					UseShellExecute = false
-				});
-			}
-			catch
-			{
-			}
+			failure = ex.Message;
 		}
+		if (Voidstrap.Utility.PlatformShell.TryOpenUrl(website))
+		{
+			return;
+		}
+		App.Logger?.WriteLine("Utilities::ShellExecute", "Windows could not open " + website + ": " + failure);
+		Frontend.ShowMessageBox("Windows has no app set up to open this link. Copy it into your browser instead:" + Environment.NewLine + website, System.Windows.MessageBoxImage.Warning);
 	}
 
 	public static Version? GetVersionFromString(string? version)
@@ -67,7 +66,7 @@ public static class Utilities
 		version = version.Trim();
 		try
 		{
-			if (Version.TryParse(version, out Version result))
+			if (Version.TryParse(version, out Version? result))
 			{
 				return result;
 			}
@@ -85,8 +84,8 @@ public static class Utilities
 		try
 		{
 			Version? versionFromString = GetVersionFromString(versionStr1);
-			Version versionFromString2 = GetVersionFromString(versionStr2);
-			return (VersionComparison)versionFromString.CompareTo(versionFromString2);
+			Version? versionFromString2 = GetVersionFromString(versionStr2);
+			return (VersionComparison)versionFromString!.CompareTo(versionFromString2);
 		}
 		catch (Exception)
 		{
@@ -98,7 +97,7 @@ public static class Utilities
 
 	public static Version? ParseVersionSafe(string versionStr)
 	{
-		if (!Version.TryParse(versionStr, out Version result))
+		if (!Version.TryParse(versionStr, out Version? result))
 		{
 			App.Logger.WriteLine("Utilities::ParseVersionSafe", "Failed to convert " + versionStr + " to a valid Version type");
 			return result;
@@ -148,7 +147,7 @@ public static class Utilities
 
 	public static bool IsProcessAlive(int pid)
 	{
-		Process process = null;
+		Process? process = null;
 		try
 		{
 			process = Process.GetProcessById(pid);

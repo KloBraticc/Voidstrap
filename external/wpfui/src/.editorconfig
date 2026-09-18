@@ -69,6 +69,7 @@ dotnet_naming_symbols.constant_fields.required_modifiers          = const
 # C# Coding Conventions       #
 ###############################
 [*.cs]
+dotnet_code_quality.CA1822.api_surface = private, internal
 # var preferences
 csharp_style_var_for_built_in_types = true:silent
 csharp_style_var_when_type_is_apparent = true:silent

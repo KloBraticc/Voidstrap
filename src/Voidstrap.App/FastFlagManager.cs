@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace Voidstrap;
 
 public class FastFlagManager : JsonManager<Dictionary<string, object>>
 {
-	public static IReadOnlyDictionary<string, string> PresetFlags = new Dictionary<string, string>
+	public static readonly IReadOnlyDictionary<string, string> PresetFlags = new Dictionary<string, string>
 	{
 		{ "Players.LogLevel", "FStringDebugLuaLogLevel" },
 		{ "Players.LogPattern", "FStringDebugLuaLogPattern" },
@@ -378,7 +378,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		}
 	};
 
-	public static IReadOnlyDictionary<MSAAMode, string?> MSAAModes { get; } = new Dictionary<MSAAMode, string>
+	public static IReadOnlyDictionary<MSAAMode, string?> MSAAModes { get; } = new Dictionary<MSAAMode, string?>
 	{
 		{
 			MSAAMode.Default,
@@ -402,7 +402,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		}
 	};
 
-	public static IReadOnlyDictionary<TextureSkipping, string?> TextureSkippingSkips { get; } = new Dictionary<TextureSkipping, string>
+	public static IReadOnlyDictionary<TextureSkipping, string?> TextureSkippingSkips { get; } = new Dictionary<TextureSkipping, string?>
 	{
 		{
 			TextureSkipping.Noskip,
@@ -442,7 +442,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		}
 	};
 
-	public static IReadOnlyDictionary<DistanceRendering, string?> DistanceRenderings { get; } = new Dictionary<DistanceRendering, string>
+	public static IReadOnlyDictionary<DistanceRendering, string?> DistanceRenderings { get; } = new Dictionary<DistanceRendering, string?>
 	{
 		{
 			DistanceRendering.Default,
@@ -514,7 +514,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		}
 	};
 
-	public static IReadOnlyDictionary<DynamicResolution, string?> DynamicResolutions { get; } = new Dictionary<DynamicResolution, string>
+	public static IReadOnlyDictionary<DynamicResolution, string?> DynamicResolutions { get; } = new Dictionary<DynamicResolution, string?>
 	{
 		{
 			DynamicResolution.Default,
@@ -558,7 +558,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		}
 	};
 
-	public static IReadOnlyDictionary<TextureQuality, string?> TextureQualityLevels { get; } = new Dictionary<TextureQuality, string>
+	public static IReadOnlyDictionary<TextureQuality, string?> TextureQualityLevels { get; } = new Dictionary<TextureQuality, string?>
 	{
 		{
 			TextureQuality.Default,
@@ -582,11 +582,11 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		}
 	};
 
-	public static IReadOnlyDictionary<InGameMenuVersion, Dictionary<string, string?>> IGMenuVersions { get; } = new Dictionary<InGameMenuVersion, Dictionary<string, string>>
+	public static IReadOnlyDictionary<InGameMenuVersion, Dictionary<string, string?>> IGMenuVersions { get; } = new Dictionary<InGameMenuVersion, Dictionary<string, string?>>
 	{
 		{
 			InGameMenuVersion.Default,
-			new Dictionary<string, string>
+			new Dictionary<string, string?>
 			{
 				{ "V2Rollout", null },
 				{ "EnableV4", null },
@@ -597,7 +597,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		},
 		{
 			InGameMenuVersion.V2,
-			new Dictionary<string, string>
+			new Dictionary<string, string?>
 			{
 				{ "V2Rollout", "100" },
 				{ "EnableV4", "False" },
@@ -608,7 +608,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		},
 		{
 			InGameMenuVersion.V4,
-			new Dictionary<string, string>
+			new Dictionary<string, string?>
 			{
 				{ "V2Rollout", "0" },
 				{ "EnableV4", "True" },
@@ -619,7 +619,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		},
 		{
 			InGameMenuVersion.V4Chrome,
-			new Dictionary<string, string>
+			new Dictionary<string, string?>
 			{
 				{ "V2Rollout", "0" },
 				{ "EnableV4", "True" },
@@ -630,7 +630,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		}
 	};
 
-	public static IReadOnlyDictionary<RomarkStart, string?> RomarkStartMappings { get; } = new Dictionary<RomarkStart, string>
+	public static IReadOnlyDictionary<RomarkStart, string?> RomarkStartMappings { get; } = new Dictionary<RomarkStart, string?>
 	{
 		{
 			RomarkStart.Disabled,
@@ -678,7 +678,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		}
 	};
 
-	public static IReadOnlyDictionary<Presents, string?> PresentsStartMappings { get; } = new Dictionary<Presents, string>
+	public static IReadOnlyDictionary<Presents, string?> PresentsStartMappings { get; } = new Dictionary<Presents, string?>
 	{
 		{
 			Presents.Default,
@@ -690,7 +690,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		}
 	};
 
-	public static IReadOnlyDictionary<QualityLevel, string?> QualityLevels { get; } = new Dictionary<QualityLevel, string>
+	public static IReadOnlyDictionary<QualityLevel, string?> QualityLevels { get; } = new Dictionary<QualityLevel, string?>
 	{
 		{
 			QualityLevel.Disabled,
@@ -782,7 +782,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		}
 	};
 
-	public static IReadOnlyDictionary<RefreshRate, string?> RefreshRates { get; } = new Dictionary<RefreshRate, string>
+	public static IReadOnlyDictionary<RefreshRate, string?> RefreshRates { get; } = new Dictionary<RefreshRate, string?>
 	{
 		{
 			RefreshRate.Default,
@@ -834,7 +834,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		}
 	};
 
-	public static IReadOnlyDictionary<Shader, string?> Shaders { get; } = new Dictionary<Shader, string>
+	public static IReadOnlyDictionary<Shader, string?> Shaders { get; } = new Dictionary<Shader, string?>
 	{
 		{
 			Shader.Disabled,
@@ -882,7 +882,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 
 	public string? GetValue(string key)
 	{
-		if (base.Prop.TryGetValue(key, out object value) && value != null)
+		if (base.Prop.TryGetValue(key, out object? value) && value != null)
 		{
 			return value.ToString();
 		}

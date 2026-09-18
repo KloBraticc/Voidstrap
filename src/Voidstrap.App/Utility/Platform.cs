@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Versioning;
 using System.Threading;
 using Voidstrap.Core;
 using Voidstrap.Extensions;
@@ -12,8 +13,11 @@ namespace Voidstrap.Utility
     {
         private static readonly Lazy<IPlatformHost?> RuntimeHostValue = new(CreateRuntimeHost, LazyThreadSafetyMode.ExecutionAndPublication);
 
+        [SupportedOSPlatformGuard("windows")]
         public static readonly bool IsWindows = OperatingSystem.IsWindows();
+        [UnsupportedOSPlatformGuard("windows")]
         public static readonly bool IsMacOS = OperatingSystem.IsMacOS();
+        [UnsupportedOSPlatformGuard("windows")]
         public static readonly bool IsLinux = OperatingSystem.IsLinux();
 
         public static IPlatformHost? RuntimeHost => RuntimeHostValue.Value;
@@ -22,7 +26,7 @@ namespace Voidstrap.Utility
         public static bool SupportsWebBrowser => IsWindows;
         public static bool SupportsInputHooks => IsWindows;
         public static bool SupportsRegistry => IsWindows;
-        public static bool SupportsTrayIcon => IsWindows;
+        public static bool SupportsTrayIcon => IsWindows || IsLinux;
         public static bool SupportsAudioDucking => IsWindows;
         public static bool SupportsWindowsClient => IsWindows;
 

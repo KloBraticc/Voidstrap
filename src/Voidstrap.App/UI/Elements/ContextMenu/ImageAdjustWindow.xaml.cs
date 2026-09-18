@@ -2,14 +2,14 @@ using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media.Imaging;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.ContextMenu;
@@ -19,9 +19,9 @@ public partial class ImageAdjustWindow : UiWindow{
 
 	private readonly string _relativePath;
 
-	private Bitmap _originalBitmap;
+	private Image<Rgba32> _originalBitmap;
 
-	private Bitmap _currentBitmap;
+	private Image<Rgba32> _currentBitmap;
 
 	public ImageAdjustWindow(string sourcePath, string relativePath)
 	{
@@ -29,8 +29,8 @@ public partial class ImageAdjustWindow : UiWindow{
 		InitializeComponent();
 		_sourcePath = sourcePath;
 		_relativePath = relativePath;
-		_originalBitmap = new Bitmap(_sourcePath);
-		_currentBitmap = new Bitmap(_originalBitmap);
+		_originalBitmap = SixLabors.ImageSharp.Image.Load<Rgba32>(_sourcePath);
+		_currentBitmap = _originalBitmap.Clone();
 		WidthInput.Text = _originalBitmap.Width.ToString();
 		HeightInput.Text = _originalBitmap.Height.ToString();
 		UpdatePreview();
@@ -39,32 +39,26 @@ public partial class ImageAdjustWindow : UiWindow{
 	private void UpdatePreview()
 	{
 		using MemoryStream memoryStream = new MemoryStream();
-		_currentBitmap.Save(memoryStream, ImageFormat.Png);
+		_currentBitmap.SaveAsPng(memoryStream);
 		memoryStream.Seek(0L, SeekOrigin.Begin);
-		BitmapImage bitmapImage = new BitmapImage();
-		bitmapImage.BeginInit();
-		bitmapImage.StreamSource = memoryStream;
-		bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-		bitmapImage.EndInit();
-		((Freezable)bitmapImage).Freeze();
-		PreviewImage.Source = bitmapImage;
+		PreviewImage.Source = Voidstrap.Utility.SafeImaging.FromStream(memoryStream);
 	}
 
 	private void Rotate_Click(object sender, RoutedEventArgs e)
 	{
-		_currentBitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+		_currentBitmap.Mutate(context => context.Rotate(RotateMode.Rotate90));
 		UpdatePreview();
 	}
 
 	private void FlipH_Click(object sender, RoutedEventArgs e)
 	{
-		_currentBitmap.RotateFlip(RotateFlipType.RotateNoneFlipX);
+		_currentBitmap.Mutate(context => context.Flip(FlipMode.Horizontal));
 		UpdatePreview();
 	}
 
 	private void FlipV_Click(object sender, RoutedEventArgs e)
 	{
-		_currentBitmap.RotateFlip(RotateFlipType.Rotate180FlipX);
+		_currentBitmap.Mutate(context => context.Flip(FlipMode.Vertical));
 		UpdatePreview();
 	}
 
@@ -72,14 +66,12 @@ public partial class ImageAdjustWindow : UiWindow{
 	{
 		if (int.TryParse(WidthInput.Text, out var result) && int.TryParse(HeightInput.Text, out var result2))
 		{
-			Bitmap bitmap = new Bitmap(result, result2);
-			using (Graphics graphics = Graphics.FromImage(bitmap))
+			if (result <= 0 || result2 <= 0)
 			{
-				graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-				graphics.DrawImage(_currentBitmap, 0, 0, result, result2);
+				return;
 			}
-			_currentBitmap?.Dispose();
-			_currentBitmap = bitmap;
+
+			_currentBitmap.Mutate(context => context.Resize(result, result2));
 			UpdatePreview();
 		}
 	}
@@ -87,7 +79,7 @@ public partial class ImageAdjustWindow : UiWindow{
 	private void Reset_Click(object sender, RoutedEventArgs e)
 	{
 		_currentBitmap?.Dispose();
-		_currentBitmap = new Bitmap(_originalBitmap);
+		_currentBitmap = _originalBitmap.Clone();
 		WidthInput.Text = _originalBitmap.Width.ToString();
 		HeightInput.Text = _originalBitmap.Height.ToString();
 		UpdatePreview();
@@ -96,14 +88,14 @@ public partial class ImageAdjustWindow : UiWindow{
 	private void Save_Click(object sender, RoutedEventArgs e)
 	{
 		string text = Path.Combine(Paths.Mods, _relativePath);
-		string directoryName = Path.GetDirectoryName(text);
+		string? directoryName = Path.GetDirectoryName(text);
 		try
 		{
 			if (directoryName != null)
 			{
 				Directory.CreateDirectory(directoryName);
 			}
-			_currentBitmap.Save(text, ImageFormat.Png);
+			_currentBitmap.SaveAsPng(text);
 			Frontend.ShowMessageBox("Image adjustments applied and saved to Mods!", MessageBoxImage.Asterisk);
 			Close();
 		}

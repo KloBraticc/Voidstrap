@@ -16,7 +16,7 @@ using Voidstrap.Models.Entities;
 
 namespace Voidstrap.UI.ViewModels.ContextMenu;
 
-internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDisposable
+public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDisposable
 {
 	private readonly ActivityWatcher _activityWatcher;
 
@@ -77,7 +77,7 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 			if (_gameName != value)
 			{
 				_gameName = value;
-				OnPropertyChanged("GameName");
+				OnPropertyChanged(nameof(GameName));
 			}
 		}
 	}
@@ -91,7 +91,7 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 		private set
 		{
 			_gameIcon = value;
-			OnPropertyChanged("GameIcon");
+			OnPropertyChanged(nameof(GameIcon));
 		}
 	}
 
@@ -106,7 +106,7 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 			if (_username != value)
 			{
 				_username = value;
-				OnPropertyChanged("Username");
+				OnPropertyChanged(nameof(Username));
 			}
 		}
 	}
@@ -122,7 +122,7 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 			if (_playerCount != value)
 			{
 				_playerCount = value;
-				OnPropertyChanged("PlayerCount");
+				OnPropertyChanged(nameof(PlayerCount));
 			}
 		}
 	}
@@ -138,7 +138,7 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 			if (_friendsInServer != value)
 			{
 				_friendsInServer = value;
-				OnPropertyChanged("FriendsInServer");
+				OnPropertyChanged(nameof(FriendsInServer));
 			}
 		}
 	}
@@ -154,7 +154,7 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 			if (_friendsVisibility != value)
 			{
 				_friendsVisibility = value;
-				OnPropertyChanged("FriendsVisibility");
+				OnPropertyChanged(nameof(FriendsVisibility));
 			}
 		}
 	}
@@ -170,7 +170,7 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 			if (_serverLocation != value)
 			{
 				_serverLocation = value;
-				OnPropertyChanged("ServerLocation");
+				OnPropertyChanged(nameof(ServerLocation));
 			}
 		}
 	}
@@ -181,12 +181,12 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 
 	public ServerInformationViewModel(Watcher watcher)
 	{
-		_activityWatcher = watcher?.ActivityWatcher ?? throw new ArgumentNullException("watcher");
+		_activityWatcher = watcher?.ActivityWatcher ?? throw new ArgumentNullException(nameof(watcher));
 		CopyInstanceIdCommand = new RelayCommand(CopyInstanceId);
 		RefreshServerLocationCommand = new AsyncRelayCommand(QueryServerLocationAsync);
 		_onGameJoin = delegate
 		{
-			RefreshAllAsync();
+			_ = RefreshAllAsync();
 		};
 		_onGameLeave = delegate
 		{
@@ -194,13 +194,13 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 		};
 		_activityWatcher.OnGameJoin += _onGameJoin;
 		_activityWatcher.OnGameLeave += _onGameLeave;
-		InitializeAsync();
+		_ = InitializeAsync();
 	}
 
 	private async Task InitializeAsync()
 	{
 		await RefreshAllAsync();
-		RefreshLoopAsync(_cts.Token);
+		_ = RefreshLoopAsync(_cts.Token);
 	}
 
 	private async Task RefreshLoopAsync(CancellationToken token)
@@ -229,12 +229,12 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 		_gameTotal = 0;
 		_lastApiFetch = DateTime.MinValue;
 		_lastFriendsFetch = DateTime.MinValue;
-		OnPropertyChanged("InstanceId");
-		OnPropertyChanged("ServerType");
-		OnPropertyChanged("ServerLocationVisibility");
+		OnPropertyChanged(nameof(InstanceId));
+		OnPropertyChanged(nameof(ServerType));
+		OnPropertyChanged(nameof(ServerLocationVisibility));
 		if (ServerLocationVisibility == Visibility.Visible)
 		{
-			QueryServerLocationAsync();
+			_ = QueryServerLocationAsync();
 		}
 		else
 		{
@@ -261,8 +261,8 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 		Username = Strings.Common_NotAvailable;
 		PlayerCount = Strings.Common_NotAvailable;
 		ServerLocation = Strings.Common_NotAvailable;
-		OnPropertyChanged("InstanceId");
-		OnPropertyChanged("ServerType");
+		OnPropertyChanged(nameof(InstanceId));
+		OnPropertyChanged(nameof(ServerType));
 	}
 
 	private async Task FetchUsernameAsync()
@@ -278,9 +278,9 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 			using JsonDocument jsonDocument = JsonDocument.Parse(await Voidstrap.Utility.Http.GetString($"https://users.roblox.com/v1/users/{num}"));
 			JsonElement rootElement = jsonDocument.RootElement;
 			JsonElement value;
-			string text = (rootElement.TryGetProperty("name", out value) ? value.GetString() : null);
+			string? text = (rootElement.TryGetProperty("name", out value) ? value.GetString() : null);
 			JsonElement value2;
-			string text2 = (rootElement.TryGetProperty("displayName", out value2) ? value2.GetString() : null);
+			string? text2 = (rootElement.TryGetProperty("displayName", out value2) ? value2.GetString() : null);
 			string text3 = ((string.IsNullOrWhiteSpace(text) || string.IsNullOrWhiteSpace(text2) || string.Equals(text, text2, StringComparison.Ordinal)) ? (text ?? text2 ?? string.Empty) : (text2 + " (@" + text + ")"));
 			Username = (string.IsNullOrWhiteSpace(text3) ? (UsernameFromLogs() ?? Strings.Common_NotAvailable) : text3);
 		}
@@ -294,13 +294,13 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 	{
 		try
 		{
-			ActivityData data = _activityWatcher.Data;
-			Dictionary<int, ActivityData.UserLog>.ValueCollection valueCollection = data?.PlayerLogs?.Values;
+			ActivityData? data = _activityWatcher.Data;
+			Dictionary<int, ActivityData.UserLog>.ValueCollection? valueCollection = data?.PlayerLogs?.Values;
 			if (valueCollection == null)
 			{
 				return null;
 			}
-			string targetId = data.UserId.ToString();
+			string targetId = data!.UserId.ToString();
 			return (from u in valueCollection
 				where u != null && (u.UserId?.Trim() ?? "") == targetId
 				orderby u.Time descending
@@ -316,13 +316,13 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 	{
 		try
 		{
-			ActivityData data = _activityWatcher.Data;
+			ActivityData? data = _activityWatcher.Data;
 			if (data == null || data.PlaceId == 0L)
 			{
 				GameName = Strings.Common_NotAvailable;
 				return;
 			}
-			UniverseDetails details = data.UniverseDetails;
+			UniverseDetails? details = data.UniverseDetails;
 			if (details == null && data.UniverseId > 0)
 			{
 				try
@@ -351,7 +351,9 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 		}
 		try
 		{
-			BitmapSource? icon = await Task.Run(() => Voidstrap.Utility.AppImage.LoadSync(url));
+			BitmapSource? icon = Voidstrap.Utility.Platform.IsLinux
+				? await Voidstrap.Utility.AppImage.LoadAsync(url, 512)
+				: await Task.Run(() => Voidstrap.Utility.AppImage.LoadSync(url));
 			if (icon != null)
 			{
 				GameIcon = icon;
@@ -366,7 +368,7 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 	{
 		try
 		{
-			ActivityData data = _activityWatcher.Data;
+			ActivityData? data = _activityWatcher.Data;
 			if (data == null || data.PlaceId == 0L)
 			{
 				PlayerCount = Strings.Common_NotAvailable;
@@ -417,7 +419,7 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 		_lastFriendsFetch = DateTime.UtcNow;
 		try
 		{
-			ActivityData data = _activityWatcher.Data;
+			ActivityData? data = _activityWatcher.Data;
 			if (data == null || string.IsNullOrEmpty(data.JobId) || !RobloxCookie.Exists)
 			{
 				FriendsInServer = string.Empty;
@@ -451,7 +453,7 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 				ServerLocation = Strings.Common_NotAvailable;
 				return;
 			}
-			string text = await _activityWatcher.Data.QueryServerLocation();
+			string? text = await _activityWatcher.Data.QueryServerLocation(cancellationToken);
 			ServerLocation = ((!string.IsNullOrWhiteSpace(text)) ? text : "Location not available");
 		}
 		catch (Exception ex)
@@ -464,7 +466,7 @@ internal class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDis
 	{
 		try
 		{
-			Clipboard.SetDataObject(InstanceId);
+			Voidstrap.Utility.ClipboardService.SetDataObject(InstanceId);
 		}
 		catch (Exception ex)
 		{

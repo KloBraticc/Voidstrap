@@ -210,7 +210,7 @@ public class WinFormsDialogBase : Form, IBootstrapperDialog
 		Close();
 	}
 
-	public void Dialog_FormClosing(object sender, FormClosingEventArgs e)
+	public void Dialog_FormClosing(object? sender, FormClosingEventArgs e)
 	{
 		if (!_isClosing)
 		{

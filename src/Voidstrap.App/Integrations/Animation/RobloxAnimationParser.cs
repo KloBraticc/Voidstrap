@@ -139,7 +139,7 @@ public static class RobloxAnimationParser
 			return;
 		}
 		byte b = p[pos++];
-		if (!classNameByIndex.TryGetValue(key, out string value) || !referentsByClass.TryGetValue(key, out int[] value2))
+		if (!classNameByIndex.TryGetValue(key, out string? value) || !referentsByClass.TryGetValue(key, out int[]? value2))
 		{
 			return;
 		}
@@ -199,7 +199,7 @@ public static class RobloxAnimationParser
 		foreach (KeyValuePair<int, RobloxCFrame> item2 in cframeByRef)
 		{
 			int key = item2.Key;
-			if (nameByRef.TryGetValue(key, out string value) && !string.IsNullOrEmpty(value))
+			if (nameByRef.TryGetValue(key, out string? value) && !string.IsNullOrEmpty(value))
 			{
 				int num = FindKeyframe(key);
 				if (num >= 0 && dictionary.TryGetValue(num, out var value2))
@@ -233,7 +233,7 @@ public static class RobloxAnimationParser
 				{
 					return -1;
 				}
-				if (classNameByReferent.TryGetValue(value3, out string value4) && value4 == "Keyframe")
+				if (classNameByReferent.TryGetValue(value3, out string? value4) && value4 == "Keyframe")
 				{
 					return value3;
 				}

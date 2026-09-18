@@ -257,7 +257,7 @@ public static partial class AssetCaptureStore
 			CapturedAsset capturedAsset = new()
 			{
 				Key = text,
-				AssetId = ((!string.IsNullOrWhiteSpace(assetId)) ? assetId.Trim() : ((!string.IsNullOrWhiteSpace(hash) && _hashToId.TryGetValue(hash.Trim(), out string value)) ? value : "")),
+				AssetId = ((!string.IsNullOrWhiteSpace(assetId)) ? assetId.Trim() : ((!string.IsNullOrWhiteSpace(hash) && _hashToId.TryGetValue(hash.Trim(), out string? value)) ? value : "")),
 				Hash = (hash?.Trim() ?? ""),
 				Type = assetTypeInfo.Type,
 				Category = assetTypeInfo.Category,
@@ -437,7 +437,7 @@ public static partial class AssetCaptureStore
 			string text = id.Trim();
 			_hashToId[key] = text;
 			TrimDictionary(_hashToId, MaxItems * 2);
-			if (_items.TryGetValue(key, out CapturedAsset value) && string.IsNullOrEmpty(value.AssetId))
+			if (_items.TryGetValue(key, out CapturedAsset? value) && string.IsNullOrEmpty(value.AssetId))
 			{
 				value.AssetId = text;
 			}
@@ -446,9 +446,9 @@ public static partial class AssetCaptureStore
 
 	private static void EvictIfNeeded()
 	{
-		while (_items.Count > MaxItems && _order.TryDequeue(out string result) && result != null)
+		while (_items.Count > MaxItems && _order.TryDequeue(out string? result) && result != null)
 		{
-			if (_items.TryRemove(result, out CapturedAsset value))
+			if (_items.TryRemove(result, out CapturedAsset? value))
 			{
 				_index.TryRemove(result, out _);
 				if (IsCapturedCacheFile(value.FilePath))
@@ -571,7 +571,7 @@ public static partial class AssetCaptureStore
 							IsMesh = assetTypeInfo.IsMesh,
 							CapturedAt = fileInfo.LastWriteTime
 						};
-						if (_index.TryGetValue(fileNameWithoutExtension, out IndexRecord value) && !string.IsNullOrEmpty(value.Name))
+						if (_index.TryGetValue(fileNameWithoutExtension, out IndexRecord? value) && !string.IsNullOrEmpty(value.Name))
 						{
 							capturedAsset.ResolvedName = value.Name;
 						}
@@ -812,7 +812,7 @@ public static partial class AssetCaptureStore
 						{
 							Key = name,
 							Hash = name,
-							AssetId = (_hashToId.TryGetValue(name, out string value2) ? value2 : ""),
+							AssetId = (_hashToId.TryGetValue(name, out string? value2) ? value2 : ""),
 							Type = assetTypeInfo.Type,
 							Category = assetTypeInfo.Category,
 							Extension = assetTypeInfo.Extension,
@@ -889,7 +889,7 @@ public static partial class AssetCaptureStore
 			{
 				return 0;
 			}
-			FileInfo fileInfo = (from f in new DirectoryInfo(RobloxLogsDir).EnumerateFiles("*_Player_*.log")
+			FileInfo? fileInfo = (from f in new DirectoryInfo(RobloxLogsDir).EnumerateFiles("*_Player_*.log")
 				orderby f.LastWriteTimeUtc descending
 				select f).FirstOrDefault();
 			if (fileInfo == null)
@@ -995,7 +995,7 @@ public static partial class AssetCaptureStore
 
 	public static async Task<byte[]?> GetContentAsync(CapturedAsset asset, CancellationToken ct = default)
 	{
-		byte[] array = ReadContent(asset);
+		byte[]? array = ReadContent(asset);
 		if (array == null || array.Length == 0)
 		{
 			if (string.IsNullOrEmpty(asset.AssetId))
@@ -1113,7 +1113,7 @@ public static partial class AssetCaptureStore
 	{
 		try
 		{
-			string text = RobloxCookie.Get();
+			string? text = RobloxCookie.Get();
 			if (!string.IsNullOrEmpty(text))
 			{
 				req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + text);
@@ -1232,7 +1232,7 @@ public static partial class AssetCaptureStore
 		_avatarCooldownUntil = DateTime.UtcNow.AddSeconds(30.0);
 		try
 		{
-			RobloxAccount robloxAccount = await RobloxCookie.GetAccountAsync(ct).ConfigureAwait(continueOnCapturedContext: false);
+			RobloxAccount? robloxAccount = await RobloxCookie.GetAccountAsync(ct).ConfigureAwait(continueOnCapturedContext: false);
 			if (robloxAccount == null || robloxAccount.UserId <= 0)
 			{
 				return;
@@ -1270,7 +1270,7 @@ public static partial class AssetCaptureStore
 				{
 					t = value4.GetString() ?? "";
 				}
-				CapturedAsset capturedAsset = AddById(text);
+				CapturedAsset? capturedAsset = AddById(text);
 				if (capturedAsset != null)
 				{
 					var (text2, category) = MapAvatarType(t);
@@ -1407,7 +1407,7 @@ public static partial class AssetCaptureStore
 			return null;
 		}
 		id = id.Trim();
-		if (_idToHash.TryGetValue(id, out string value) && !string.IsNullOrEmpty(value))
+		if (_idToHash.TryGetValue(id, out string? value) && !string.IsNullOrEmpty(value))
 		{
 			return value;
 		}
@@ -1465,17 +1465,17 @@ public static partial class AssetCaptureStore
 	{
 		foreach (CapturedAsset value6 in _items.Values)
 		{
-			if (string.IsNullOrEmpty(value6.AssetId) && !string.IsNullOrEmpty(value6.Hash) && _hashToId.TryGetValue(value6.Hash, out string value))
+			if (string.IsNullOrEmpty(value6.AssetId) && !string.IsNullOrEmpty(value6.Hash) && _hashToId.TryGetValue(value6.Hash, out string? value))
 			{
 				value6.AssetId = value;
 			}
-			if (string.IsNullOrEmpty(value6.Hash) && !string.IsNullOrEmpty(value6.AssetId) && _idToHash.TryGetValue(value6.AssetId, out string value2))
+			if (string.IsNullOrEmpty(value6.Hash) && !string.IsNullOrEmpty(value6.AssetId) && _idToHash.TryGetValue(value6.AssetId, out string? value2))
 			{
 				value6.Hash = value2;
 			}
 			if (string.IsNullOrEmpty(value6.FilePath) && !string.IsNullOrEmpty(value6.AssetId))
 			{
-				string text = ResolveLocalFile(value6.AssetId, value6.Hash);
+				string? text = ResolveLocalFile(value6.AssetId, value6.Hash);
 				if (text != null)
 				{
 					PopulateFromFile(value6, text);
@@ -1496,12 +1496,12 @@ public static partial class AssetCaptureStore
 			CapturedAsset value4 = item.Value;
 			if (value4.Key.StartsWith("id-", StringComparison.Ordinal) && !string.IsNullOrEmpty(value4.Hash) && _items.ContainsKey(value4.Hash))
 			{
-				_items.TryRemove(value4.Key, out CapturedAsset _);
+				_items.TryRemove(value4.Key, out _);
 			}
 		}
 	}
 
-	private static string? ResolveLocalFile(string id, string hash)
+	private static string? ResolveLocalFile(string id, string? hash)
 	{
 		if (string.IsNullOrEmpty(hash))
 		{
@@ -1521,7 +1521,7 @@ public static partial class AssetCaptureStore
 			{
 			}
 		}
-		if (_fileById.TryGetValue(id, out string value) && File.Exists(value))
+		if (_fileById.TryGetValue(id, out string? value) && File.Exists(value))
 		{
 			return value;
 		}
@@ -1574,7 +1574,7 @@ public static partial class AssetCaptureStore
 			TrimDictionary(_prefetchAttempted, MaxItems);
 			try
 			{
-				byte[] array = await FetchAssetAsync(id, ct).ConfigureAwait(continueOnCapturedContext: false);
+				byte[]? array = await FetchAssetAsync(id, ct).ConfigureAwait(continueOnCapturedContext: false);
 				if (array != null && array.Length != 0)
 				{
 					AssetTypeInfo assetTypeInfo = AssetTypeDetector.Detect(array);
@@ -1710,7 +1710,7 @@ public static partial class AssetCaptureStore
 				FileInfo fileInfo = new(value.FilePath);
 				if (fileInfo.Exists && fileInfo.Length <= MaxAssetBytes + RbxhHeaderSize)
 				{
-					byte[] array = ReadContent(value);
+					byte[]? array = ReadContent(value);
 					if (array != null && array.Length != 0)
 					{
 						array = MaybeGunzip(array);
@@ -1801,7 +1801,7 @@ public static partial class AssetCaptureStore
 		}
 		try
 		{
-			FileInfo fileInfo = (Directory.Exists(RobloxLogsDir) ? (from f in new DirectoryInfo(RobloxLogsDir).EnumerateFiles("*_Player_*.log")
+			FileInfo? fileInfo = (Directory.Exists(RobloxLogsDir) ? (from f in new DirectoryInfo(RobloxLogsDir).EnumerateFiles("*_Player_*.log")
 				orderby f.LastWriteTimeUtc descending
 				select f).FirstOrDefault() : null);
 			if (fileInfo != null)

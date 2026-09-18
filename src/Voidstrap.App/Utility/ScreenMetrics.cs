@@ -1,82 +1,48 @@
-using System;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
+using System.Windows;
 
-namespace Voidstrap.Utility;
-
-internal static class ScreenMetrics
+namespace Voidstrap.Utility
 {
-	private static (double Width, double Height)? _cached;
+    public static class ScreenMetrics
+    {
+        private const double MinimumUsableWidth = 320.0;
 
-	public static (double Width, double Height) GetPrimary()
-	{
-		if (_cached.HasValue)
-		{
-			return _cached.Value;
-		}
-		(double, double) result = (0.0, 0.0);
-		try
-		{
-			if (OperatingSystem.IsLinux())
-			{
-				result = QueryLinux();
-			}
-			else if (OperatingSystem.IsMacOS())
-			{
-				result = QueryMacOS();
-			}
-		}
-		catch
-		{
-		}
-		if (result.Item1 < 320.0 || result.Item2 < 240.0)
-		{
-			try
-			{
-				result = (System.Windows.SystemParameters.PrimaryScreenWidth, System.Windows.SystemParameters.PrimaryScreenHeight);
-			}
-			catch
-			{
-			}
-		}
-		if (result.Item1 < 320.0 || result.Item2 < 240.0)
-		{
-			result = (1280.0, 800.0);
-		}
-		_cached = result;
-		return result;
-	}
+        private const double MinimumUsableHeight = 240.0;
 
-	private static (double, double) QueryLinux()
-	{
-		string info = ShellQuery.Run("xdpyinfo", "");
-		Match match = Regex.Match(info, @"dimensions:\s+(\d+)x(\d+)");
-		if (match.Success && int.TryParse(match.Groups[1].Value, out int w1) && int.TryParse(match.Groups[2].Value, out int h1))
-		{
-			return (w1, h1);
-		}
-		string randr = ShellQuery.Run("xrandr", "--current");
-		match = Regex.Match(randr, @"current\s+(\d+)\s*x\s*(\d+)");
-		if (match.Success && int.TryParse(match.Groups[1].Value, out int w2) && int.TryParse(match.Groups[2].Value, out int h2))
-		{
-			return (w2, h2);
-		}
-		match = Regex.Match(randr, @"\bconnected\b.*?\b(\d+)x(\d+)\+");
-		if (match.Success && int.TryParse(match.Groups[1].Value, out int w3) && int.TryParse(match.Groups[2].Value, out int h3))
-		{
-			return (w3, h3);
-		}
-		return (0.0, 0.0);
-	}
+        public static (double Width, double Height) GetPrimary()
+        {
+            if (Platform.IsLinux)
+            {
+                Voidstrap.Platform.Linux.LinuxDisplayInfo info = Voidstrap.Platform.Linux.LinuxDisplayMetrics.Current;
+                if (info.Bounds.Width >= MinimumUsableWidth && info.Bounds.Height >= MinimumUsableHeight)
+                    return (info.Bounds.Width, info.Bounds.Height);
+            }
 
-	private static (double, double) QueryMacOS()
-	{
-		string info = ShellQuery.Run("system_profiler", "SPDisplaysDataType");
-		Match match = Regex.Match(info, @"Resolution:\s+(\d+)\s*x\s*(\d+)");
-		if (match.Success && int.TryParse(match.Groups[1].Value, out int w) && int.TryParse(match.Groups[2].Value, out int h))
-		{
-			return (w, h);
-		}
-		return (0.0, 0.0);
-	}
+            return (SystemParameters.PrimaryScreenWidth, SystemParameters.PrimaryScreenHeight);
+        }
+
+        public static double PrimaryWidth => GetPrimary().Width;
+
+        public static double PrimaryHeight => GetPrimary().Height;
+
+        public static Rect WorkArea
+        {
+            get
+            {
+                if (Platform.IsLinux)
+                {
+                    Voidstrap.Platform.Linux.LinuxDisplayInfo info = Voidstrap.Platform.Linux.LinuxDisplayMetrics.Current;
+                    if (info.WorkArea.Width >= MinimumUsableWidth && info.WorkArea.Height >= MinimumUsableHeight)
+                    {
+                        return new Rect(
+                            info.WorkArea.Left,
+                            info.WorkArea.Top,
+                            info.WorkArea.Width,
+                            info.WorkArea.Height);
+                    }
+                }
+
+                return SystemParameters.WorkArea;
+            }
+        }
+    }
 }

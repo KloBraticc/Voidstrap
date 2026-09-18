@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,14 +27,14 @@ public partial class ChannelListsDialog : WpfUiWindow{
 		//IL_0001: Unknown result type (might be due to invalid IL or missing references)
 		//IL_0008: Invalid comparison between Unknown and I4
 		//IL_000a: Unknown result type (might be due to invalid IL or missing references)
-		if ((int)e.Key != 46 || !((Enum)Keyboard.Modifiers).HasFlag((Enum)(object)(ModifierKeys)2))
+		if ((int)e.Key != 46 || !Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
 		{
 			return;
 		}
 		List<DeployInfoDisplay> list = ((System.Windows.Controls.DataGrid)sender).SelectedItems.Cast<DeployInfoDisplay>().ToList();
 		if (list.Count > 0)
 		{
-			Clipboard.SetText(string.Join(Environment.NewLine, list.Select((DeployInfoDisplay i) => i.ChannelName)));
+			Voidstrap.Utility.ClipboardService.SetText(string.Join(Environment.NewLine, list.Select((DeployInfoDisplay i) => i.ChannelName)));
 			e.Handled = true;
 		}
 	}

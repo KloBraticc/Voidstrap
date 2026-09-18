@@ -16,6 +16,14 @@ public sealed class LinuxSoberProxyArming
 		"http_proxy"
 	];
 
+	private static readonly string[] TrustVariables =
+	[
+		"SSL_CERT_FILE",
+		"CURL_CA_BUNDLE",
+		"REQUESTS_CA_BUNDLE",
+		"NODE_EXTRA_CA_CERTS"
+	];
+
 	private static readonly string[] BypassVariables =
 	[
 		"NO_PROXY",
@@ -35,27 +43,31 @@ public sealed class LinuxSoberProxyArming
 		"raw.githubusercontent.com"
 	];
 
-	private readonly IProcessService _processes;
-
 	public LinuxSoberProxyArming(IProcessService processes)
 	{
-		_processes = processes ?? throw new ArgumentNullException(nameof(processes));
+		ArgumentNullException.ThrowIfNull(processes);
 	}
 
 	public static string BypassList => string.Join(',', LoopbackBypass.Concat(PinnedHosts));
 
-	public async Task<OperationResult> ArmAsync(Uri proxy, CancellationToken cancellationToken = default)
+	public Task<OperationResult> ArmAsync(Uri proxy, CancellationToken cancellationToken = default)
+	{
+		return ArmAsync(proxy, null, cancellationToken);
+	}
+
+	public Task<OperationResult> ArmAsync(Uri proxy, string? certificateBundlePath, CancellationToken cancellationToken = default)
 	{
 		ArgumentNullException.ThrowIfNull(proxy);
+		cancellationToken.ThrowIfCancellationRequested();
 
 		OperationResult validation = ValidateProxy(proxy);
 		if (!validation.Succeeded)
 		{
-			return validation;
+			return Task.FromResult(validation);
 		}
 
 		string address = proxy.GetLeftPart(UriPartial.Authority);
-		List<string> arguments = ["override", "--user"];
+		List<string> arguments = [];
 		foreach (string variable in ProxyVariables)
 		{
 			arguments.Add("--env=" + variable + "=" + address);
@@ -66,20 +78,83 @@ public sealed class LinuxSoberProxyArming
 			arguments.Add("--env=" + variable + "=" + BypassList);
 		}
 
-		arguments.Add(SoberApplicationId);
-		return await RunFlatpakAsync(arguments, "SoberProxyArmFailed", "Sober could not be pointed at the local asset proxy", cancellationToken).ConfigureAwait(false);
-	}
-
-	public async Task<OperationResult> DisarmAsync(CancellationToken cancellationToken = default)
-	{
-		List<string> arguments = ["override", "--user"];
-		foreach (string variable in ProxyVariables.Concat(BypassVariables))
+		if (!string.IsNullOrWhiteSpace(certificateBundlePath))
 		{
-			arguments.Add("--unset-env=" + variable);
+			foreach (string variable in TrustVariables)
+			{
+				arguments.Add("--env=" + variable + "=" + certificateBundlePath);
+			}
 		}
 
-		arguments.Add(SoberApplicationId);
-		return await RunFlatpakAsync(arguments, "SoberProxyDisarmFailed", "The Sober proxy settings could not be restored", cancellationToken).ConfigureAwait(false);
+		CleanupLegacyOverride();
+		LinuxSoberRuntimeProvider.ProxyArguments = arguments;
+		return Task.FromResult(OperationResult.Success());
+	}
+
+	public Task<OperationResult> DisarmAsync(CancellationToken cancellationToken = default)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		LinuxSoberRuntimeProvider.ProxyArguments = [];
+		CleanupLegacyOverride();
+		return Task.FromResult(OperationResult.Success());
+	}
+
+	private static void CleanupLegacyOverride()
+	{
+		try
+		{
+			string dataHome = Environment.GetEnvironmentVariable("XDG_DATA_HOME") ?? "";
+			if (string.IsNullOrWhiteSpace(dataHome) || !Path.IsPathRooted(dataHome))
+			{
+				string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+				dataHome = Path.Combine(home, ".local", "share");
+			}
+
+			string path = Path.Combine(dataHome, "flatpak", "overrides", SoberApplicationId);
+			if (!File.Exists(path))
+				return;
+
+			HashSet<string> variables = new(
+				ProxyVariables.Concat(BypassVariables).Concat(TrustVariables),
+				StringComparer.Ordinal);
+			string section = "";
+			List<string> output = [];
+			foreach (string line in File.ReadAllLines(path))
+			{
+				string trimmed = line.Trim();
+				if (trimmed.StartsWith('[') && trimmed.EndsWith(']'))
+				{
+					section = trimmed;
+					output.Add(line);
+					continue;
+				}
+
+				int separator = line.IndexOf('=');
+				if (section.Equals("[Environment]", StringComparison.Ordinal) && separator > 0 && variables.Contains(line[..separator].Trim()))
+					continue;
+
+				if (section.Equals("[Context]", StringComparison.Ordinal)
+					&& separator > 0
+					&& line[..separator].Trim().Equals("unset-environment", StringComparison.Ordinal))
+				{
+					string retained = string.Join(';', line[(separator + 1)..]
+						.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+						.Where(value => !variables.Contains(value)));
+					if (retained.Length > 0)
+						output.Add(line[..(separator + 1)] + retained + ";");
+					continue;
+				}
+
+				output.Add(line);
+			}
+
+			string temporary = path + ".voidstrap.tmp";
+			File.WriteAllLines(temporary, output);
+			File.Move(temporary, path, true);
+		}
+		catch
+		{
+		}
 	}
 
 	private static OperationResult ValidateProxy(Uri proxy)
@@ -97,40 +172,4 @@ public sealed class LinuxSoberProxyArming
 		return OperationResult.Success();
 	}
 
-	private async Task<OperationResult> RunFlatpakAsync(
-		IReadOnlyList<string> arguments,
-		string failureCode,
-		string failureMessage,
-		CancellationToken cancellationToken)
-	{
-		cancellationToken.ThrowIfCancellationRequested();
-		string? flatpak = _processes.FindExecutable("flatpak");
-		if (string.IsNullOrWhiteSpace(flatpak))
-		{
-			return OperationResult.Fail(
-				"FlatpakMissing",
-				"The flatpak command is unavailable",
-				CapabilityState.RequiresExternalRuntime);
-		}
-
-		OperationResult<ProcessExecution> result = await _processes
-			.ExecuteAsync(new ProcessCommand(flatpak, arguments), cancellationToken)
-			.ConfigureAwait(false);
-		if (!result.Succeeded || result.Value is null)
-		{
-			return OperationResult.Fail(failureCode, failureMessage);
-		}
-
-		if (result.Value.ExitCode != 0)
-		{
-			string detail = string.IsNullOrWhiteSpace(result.Value.StandardError)
-				? result.Value.StandardOutput
-				: result.Value.StandardError;
-			return string.IsNullOrWhiteSpace(detail)
-				? OperationResult.Fail(failureCode, failureMessage)
-				: OperationResult.Fail(failureCode, failureMessage + ": " + detail.Trim());
-		}
-
-		return OperationResult.Success();
-	}
 }

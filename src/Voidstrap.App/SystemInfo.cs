@@ -1,6 +1,9 @@
+using System;
 using System.Runtime.InteropServices;
 
-public static class SystemInfo
+namespace Voidstrap.Utility;
+
+public static partial class SystemInfo
 {
 	public struct SYSTEM_INFO
 	{
@@ -27,12 +30,29 @@ public static class SystemInfo
 		public ushort wProcessorRevision;
 	}
 
-	[DllImport("kernel32.dll")]
-	private static extern void GetSystemInfo(out SYSTEM_INFO lpSystemInfo);
+	[LibraryImport("kernel32.dll")]
+	private static partial void GetSystemInfo(out SYSTEM_INFO lpSystemInfo);
 
 	public static int GetLogicalProcessorCount()
 	{
-		GetSystemInfo(out var lpSystemInfo);
-		return (int)lpSystemInfo.dwNumberOfProcessors;
+		if (OperatingSystem.IsWindows())
+		{
+			try
+			{
+				GetSystemInfo(out var lpSystemInfo);
+				if (lpSystemInfo.dwNumberOfProcessors > 0)
+				{
+					return (int)lpSystemInfo.dwNumberOfProcessors;
+				}
+			}
+			catch (EntryPointNotFoundException)
+			{
+			}
+			catch (DllNotFoundException)
+			{
+			}
+		}
+
+		return Environment.ProcessorCount;
 	}
 }
