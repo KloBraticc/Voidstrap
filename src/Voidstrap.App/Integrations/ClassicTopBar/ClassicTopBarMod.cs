@@ -91,7 +91,7 @@ internal static partial class ClassicTopBarMod
 
 	private static string StatePath => Path.Combine(Root, "State.json");
 
-	private static string RobloxSettingsPath => Path.Combine(Paths.LocalAppData, "Roblox", "GlobalBasicSettings_13.xml");
+	private static string RobloxSettingsPath => App.GlobalSettings.FileLocation;
 
 	public static bool AssetsReady => RequiredAssets.All(name => File.Exists(Path.Combine(AssetFolder, name)));
 
@@ -343,7 +343,7 @@ internal static partial class ClassicTopBarMod
 				{
 					continue;
 				}
-				File.Copy(source, Path.Combine(AssetFolder, name), overwrite: true);
+				File.Copy(source, Writable(Path.Combine(AssetFolder, name)), overwrite: true);
 				token.ThrowIfCancellationRequested();
 				copied++;
 			}
@@ -458,7 +458,7 @@ internal static partial class ClassicTopBarMod
 		token.ThrowIfCancellationRequested();
 		ManagedModStore.SetEnabled(record.Id, true);
 		App.Logger?.WriteLine(LogIdent, "Prepared the hidden topbar mod with " + fonts + " fonts and " + images + " images");
-		PatchRobloxSettings(state);
+		TryPatchRobloxSettings(state);
 		token.ThrowIfCancellationRequested();
 	}
 
@@ -481,7 +481,7 @@ internal static partial class ClassicTopBarMod
 			{
 				continue;
 			}
-			File.Copy(blankFont, Path.Combine(destination, Path.GetFileName(file)), overwrite: true);
+			File.Copy(blankFont, Writable(Path.Combine(destination, Path.GetFileName(file))), overwrite: true);
 			token.ThrowIfCancellationRequested();
 			written++;
 		}
@@ -554,7 +554,7 @@ internal static partial class ClassicTopBarMod
 			}
 			try
 			{
-				File.WriteAllBytes(item.Target, bytes);
+				File.WriteAllBytes(Writable(item.Target), bytes);
 				token.ThrowIfCancellationRequested();
 				Interlocked.Increment(ref written);
 			}
@@ -633,7 +633,7 @@ internal static partial class ClassicTopBarMod
 			}
 		}
 		state.NoGuiModId = "";
-		RestoreRobloxSettings(state);
+		TryRestoreRobloxSettings(state);
 	}
 
 	private static bool TryGetManagedMod(string id, out ManagedModRecord? record)
@@ -716,12 +716,12 @@ internal static partial class ClassicTopBarMod
 			}
 			patched = SettingPattern(setting.Key).Replace(patched, match.Groups[1].Value + target + match.Groups[3].Value, 1);
 		}
-		state.RobloxSettings.Clear();
 		if (!string.Equals(patched, text, StringComparison.Ordinal))
 		{
 			WriteRobloxSettings(path, patched);
 			App.Logger?.WriteLine(LogIdent, "Restored the Roblox interface settings");
 		}
+		state.RobloxSettings.Clear();
 	}
 
 	public static async Task RestoreRobloxInterfaceAsync(CancellationToken token)
@@ -730,7 +730,7 @@ internal static partial class ClassicTopBarMod
 		try
 		{
 			ClassicTopBarState state = LoadState();
-			RestoreRobloxSettings(state);
+			TryRestoreRobloxSettings(state);
 			SaveState(state);
 		}
 		finally
@@ -742,8 +742,74 @@ internal static partial class ClassicTopBarMod
 	private static void WriteRobloxSettings(string path, string content)
 	{
 		string temporary = path + ".voidstrap.tmp";
-		File.WriteAllText(temporary, content);
-		File.Move(temporary, path, overwrite: true);
+		FileAttributes? original = null;
+		try
+		{
+			if (File.Exists(path))
+			{
+				FileAttributes attributes = File.GetAttributes(path);
+				if ((attributes & FileAttributes.ReadOnly) != 0)
+				{
+					original = attributes;
+					File.SetAttributes(path, attributes & ~FileAttributes.ReadOnly);
+				}
+			}
+			if (File.Exists(temporary))
+			{
+				File.SetAttributes(temporary, FileAttributes.Normal);
+			}
+			File.WriteAllText(temporary, content);
+			File.Move(temporary, path, overwrite: true);
+		}
+		finally
+		{
+			if (original is FileAttributes restore)
+			{
+				try
+				{
+					File.SetAttributes(path, restore);
+				}
+				catch (Exception ex)
+				{
+					App.Logger?.WriteLine(LogIdent, "The Roblox settings file could not be locked again: " + ex.Message);
+				}
+			}
+			try
+			{
+				if (File.Exists(temporary))
+				{
+					File.Delete(temporary);
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine(LogIdent, "The temporary settings file could not be removed: " + ex.Message);
+			}
+		}
+	}
+
+	private static void TryPatchRobloxSettings(ClassicTopBarState state)
+	{
+		try
+		{
+			PatchRobloxSettings(state);
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			App.Logger?.WriteLine(LogIdent, "The Roblox interface settings could not be patched, the topbar mod is still applied: " + ex.Message);
+		}
+	}
+
+	private static void TryRestoreRobloxSettings(ClassicTopBarState state)
+	{
+		try
+		{
+			RestoreRobloxSettings(state);
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			App.Logger?.WriteLine(LogIdent, "The Roblox interface settings could not be restored: " + ex.Message);
+		}
 	}
 
 	private static Regex SettingPattern(string name)
@@ -764,7 +830,7 @@ internal static partial class ClassicTopBarMod
 			token.ThrowIfCancellationRequested();
 			string target = Path.Combine(destination, Path.GetRelativePath(source, file));
 			Directory.CreateDirectory(Path.GetDirectoryName(target)!);
-			File.Copy(file, target, overwrite: true);
+			File.Copy(file, Writable(target), overwrite: true);
 			token.ThrowIfCancellationRequested();
 		}
 	}
@@ -825,12 +891,22 @@ internal static partial class ClassicTopBarMod
 		}
 	}
 
+	private static string Writable(string path)
+	{
+		if (File.Exists(path))
+		{
+			ManagedModStore.ClearReadOnlyFile(path);
+		}
+		return path;
+	}
+
 	private static void TryDeleteDirectory(string path)
 	{
 		try
 		{
 			if (Directory.Exists(path))
 			{
+				ManagedModStore.ClearReadOnly(path);
 				Directory.Delete(path, recursive: true);
 			}
 		}

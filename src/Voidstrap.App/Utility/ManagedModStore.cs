@@ -214,7 +214,45 @@ internal static class ManagedModStore
 	private static void DeleteDirectory(string path)
 	{
 		FileAttributes attributes = File.GetAttributes(path);
-		Directory.Delete(path, (attributes & FileAttributes.ReparsePoint) == 0);
+		bool recursive = (attributes & FileAttributes.ReparsePoint) == 0;
+		try
+		{
+			Directory.Delete(path, recursive);
+		}
+		catch (UnauthorizedAccessException) when (recursive)
+		{
+			ClearReadOnly(path);
+			Directory.Delete(path, recursive);
+		}
+	}
+
+	internal static void ClearReadOnly(string path)
+	{
+		EnumerationOptions options = new EnumerationOptions
+		{
+			RecurseSubdirectories = true,
+			IgnoreInaccessible = true,
+			AttributesToSkip = FileAttributes.ReparsePoint
+		};
+		foreach (string file in Directory.EnumerateFiles(path, "*", options))
+		{
+			ClearReadOnlyFile(file);
+		}
+	}
+
+	internal static void ClearReadOnlyFile(string file)
+	{
+		try
+		{
+			FileAttributes attributes = File.GetAttributes(file);
+			if ((attributes & FileAttributes.ReadOnly) != 0)
+			{
+				File.SetAttributes(file, attributes & ~FileAttributes.ReadOnly);
+			}
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+		}
 	}
 
 	public static string GetFolder(string id)
