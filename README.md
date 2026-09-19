@@ -12,7 +12,6 @@
 
 <p align="center">
   <a href="https://github.com/KloBraticc/Voidstrap/releases/latest">Latest release</a> |
-  <a href="https://github.com/sponsors/KloBraticc">Sponsor</a> |
   <a href="https://voidstrapp.pages.dev/pages/documentation">Documentation</a> |
   <a href="https://discord.gg/5tJBqBH8ck">Discord</a>
 </p>
