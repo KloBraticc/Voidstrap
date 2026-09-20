@@ -22,7 +22,7 @@ public final class HelperServer {
     static final String PORT_FILE = "/data/local/tmp/voidstrap_helper_port";
     static final int NONCE_BYTES = 16;
     static final int PROOF_BYTES = 32;
-    static final int VERSION = 6;
+    static final int VERSION = 7;
     static final int PING = -1;
     static final int STOP = -2;
     static final int STALE = -3;
@@ -74,10 +74,19 @@ public final class HelperServer {
     }
 
     static byte[] proof(String token, byte[] nonce) {
+        return proof(token, nonce, (byte) 0);
+    }
+
+    static byte[] serverProof(String token, byte[] nonce) {
+        return proof(token, nonce, (byte) 1);
+    }
+
+    private static byte[] proof(String token, byte[] nonce, byte side) {
         try {
             MessageDigest d = MessageDigest.getInstance("SHA-256");
             d.update(token.getBytes(StandardCharsets.UTF_8));
             d.update(nonce);
+            d.update(side);
             return d.digest();
         } catch (NoSuchAlgorithmException e) {
             return new byte[PROOF_BYTES];
@@ -170,6 +179,10 @@ public final class HelperServer {
             in.readFully(nonce);
             DataOutputStream out = new DataOutputStream(s.getOutputStream());
             out.write(proof(token, nonce));
+            out.flush();
+            byte[] answer = new byte[PROOF_BYTES];
+            in.readFully(answer);
+            if (!MessageDigest.isEqual(answer, serverProof(token, nonce))) return;
             out.writeInt(VERSION);
             out.writeInt(STOP);
             out.flush();
@@ -219,6 +232,8 @@ public final class HelperServer {
             byte[] offered = new byte[PROOF_BYTES];
             in.readFully(offered);
             if (!MessageDigest.isEqual(offered, proof(token, nonce))) return;
+            out.write(serverProof(token, nonce));
+            out.flush();
             int version = in.readInt();
             int timeout = in.readInt();
             if (timeout == STOP) {

@@ -118,9 +118,15 @@ public final class Helper {
             s.connect(new InetSocketAddress(InetAddress.getLoopbackAddress(), publishedPort()), 2000);
             s.setSoTimeout(2000);
             byte[] nonce = new byte[HelperServer.NONCE_BYTES];
-            new DataInputStream(s.getInputStream()).readFully(nonce);
+            DataInputStream in = new DataInputStream(s.getInputStream());
+            in.readFully(nonce);
             s.getOutputStream().write(HelperServer.proof(secret, nonce));
             s.getOutputStream().flush();
+            byte[] answer = new byte[HelperServer.PROOF_BYTES];
+            in.readFully(answer);
+            if (!java.security.MessageDigest.isEqual(answer, HelperServer.serverProof(secret, nonce))) {
+                throw new IOException("untrusted helper");
+            }
             return s;
         } catch (IOException | RuntimeException e) {
             s.close();
