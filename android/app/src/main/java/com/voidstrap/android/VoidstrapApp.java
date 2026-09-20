@@ -14,6 +14,7 @@ public final class VoidstrapApp extends Application {
         if (ext != null) new java.io.File(ext, "start.sh").delete();
         Shortcuts.watch(this);
         Translator.load(this);
+        Helper.token(this);
         Helper.onChanged = () -> Store.get(this).changed();
         registerActivityLifecycleCallbacks(new TranslationCallbacks());
     }

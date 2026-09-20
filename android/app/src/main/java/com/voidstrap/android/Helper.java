@@ -1,13 +1,15 @@
 package com.voidstrap.android;
 
 import android.content.Context;
-import android.net.LocalSocket;
-import android.net.LocalSocketAddress;
 import android.os.SystemClock;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 public final class Helper {
@@ -16,8 +18,24 @@ public final class Helper {
 
     private static volatile int uid = -1;
     private static volatile long checkedAt;
+    private static volatile String token = "";
 
     private Helper() {
+    }
+
+    public static synchronized String token(Context c) {
+        Store store = Store.get(c);
+        String saved = store.setting("helperToken", "");
+        if (saved.length() != 32) {
+            byte[] b = new byte[16];
+            new java.security.SecureRandom().nextBytes(b);
+            StringBuilder sb = new StringBuilder(32);
+            for (byte x : b) sb.append(Character.forDigit((x >> 4) & 0xF, 16)).append(Character.forDigit(x & 0xF, 16));
+            saved = sb.toString();
+            store.putSetting("helperToken", saved);
+        }
+        token = saved;
+        return saved;
     }
 
     public static String command(Context c) {
@@ -26,7 +44,7 @@ public final class Helper {
 
     public static void keepRootHelper(Context c) {
         if (FlagWriter.rootMode(c) != FlagWriter.Mode.ROOT) return;
-        FlagWriter.raw(FlagWriter.Mode.ROOT, HelperServer.launchLine(c.getPackageName(), android.os.Process.myUid()) + "exit 0\n", 30);
+        FlagWriter.raw(FlagWriter.Mode.ROOT, HelperServer.launchLine(c.getPackageName(), android.os.Process.myUid(), token(c)) + "exit 0\n", 30);
         SystemClock.sleep(1500);
         uidNow();
     }
@@ -73,21 +91,45 @@ public final class Helper {
         return uid() >= 0;
     }
 
-    private static LocalSocket connect() throws IOException {
-        LocalSocket s = new LocalSocket();
+    private static int publishedPort() throws IOException {
+        File f = new File(HelperServer.PORT_FILE);
+        int owner;
         try {
-            s.connect(new LocalSocketAddress(HelperServer.SOCKET));
-            int peer = s.getPeerCredentials().getUid();
-            if (peer != 0 && peer != HelperServer.SHELL_UID) throw new IOException("untrusted");
+            owner = android.system.Os.stat(f.getPath()).st_uid;
+        } catch (android.system.ErrnoException e) {
+            throw new IOException("no helper");
+        }
+        if (owner != 0 && owner != HelperServer.SHELL_UID) throw new IOException("untrusted");
+        int port;
+        try {
+            port = Integer.parseInt(new String(java.nio.file.Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8).trim());
+        } catch (RuntimeException e) {
+            throw new IOException("bad port");
+        }
+        if (port < 1 || port > 65535) throw new IOException("bad port");
+        return port;
+    }
+
+    private static Socket connect() throws IOException {
+        String secret = token;
+        if (secret.isEmpty()) throw new IOException("no token");
+        Socket s = new Socket();
+        try {
+            s.connect(new InetSocketAddress(InetAddress.getLoopbackAddress(), publishedPort()), 2000);
+            s.setSoTimeout(2000);
+            byte[] nonce = new byte[HelperServer.NONCE_BYTES];
+            new DataInputStream(s.getInputStream()).readFully(nonce);
+            s.getOutputStream().write(HelperServer.proof(secret, nonce));
+            s.getOutputStream().flush();
             return s;
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             s.close();
-            throw e;
+            throw new IOException("handshake failed");
         }
     }
 
     private static int ping() {
-        try (LocalSocket s = connect()) {
+        try (Socket s = connect()) {
             s.setSoTimeout(1500);
             DataOutputStream out = new DataOutputStream(s.getOutputStream());
             out.writeInt(HelperServer.VERSION);
@@ -103,8 +145,8 @@ public final class Helper {
         void line(String line);
     }
 
-    public static void stream(String target, LineSink sink, java.util.concurrent.atomic.AtomicReference<LocalSocket> handle) throws IOException {
-        try (LocalSocket s = connect()) {
+    public static void stream(String target, LineSink sink, java.util.concurrent.atomic.AtomicReference<Socket> handle) throws IOException {
+        try (Socket s = connect()) {
             handle.set(s);
             s.setSoTimeout(10000);
             DataOutputStream out = new DataOutputStream(s.getOutputStream());
@@ -127,7 +169,7 @@ public final class Helper {
         long giveUp = SystemClock.elapsedRealtime() + UPGRADE_WAIT_MS;
         while (true) {
             int r;
-            try (LocalSocket s = connect()) {
+            try (Socket s = connect()) {
                 s.setSoTimeout((timeoutSeconds + 10) * 1000);
                 DataOutputStream out = new DataOutputStream(s.getOutputStream());
                 out.writeInt(HelperServer.VERSION);

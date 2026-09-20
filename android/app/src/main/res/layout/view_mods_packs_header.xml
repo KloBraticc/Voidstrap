@@ -15,14 +15,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/packs_gamebanana"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mods_packs_gamebanana" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/packs_marketplace"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mods_packs_marketplace" />

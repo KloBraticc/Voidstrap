@@ -22,8 +22,8 @@ public final class StartScriptProvider extends ContentProvider {
         return pkg + ".start";
     }
 
-    static String script(String pkg, int uid) {
-        return HelperServer.launchLine(pkg, uid) + "sleep 1\necho 'Voidstrap helper start requested'\n";
+    static String script(String pkg, int uid, String token) {
+        return HelperServer.launchLine(pkg, uid, token) + "sleep 1\necho 'Voidstrap helper start requested'\n";
     }
 
     @Override
@@ -37,7 +37,7 @@ public final class StartScriptProvider extends ContentProvider {
         int caller = Binder.getCallingUid();
         if (caller != HelperServer.SHELL_UID && caller != 0) throw new SecurityException("Only adb can read the start script");
         if (!"r".equals(mode) || !PATH.equals(uri.getLastPathSegment())) throw new FileNotFoundException(uri.toString());
-        byte[] body = script(getContext().getPackageName(), android.os.Process.myUid()).getBytes(StandardCharsets.UTF_8);
+        byte[] body = script(getContext().getPackageName(), android.os.Process.myUid(), Helper.token(getContext())).getBytes(StandardCharsets.UTF_8);
         try {
             ParcelFileDescriptor[] pipe = ParcelFileDescriptor.createPipe();
             try (OutputStream out = new ParcelFileDescriptor.AutoCloseOutputStream(pipe[1])) {

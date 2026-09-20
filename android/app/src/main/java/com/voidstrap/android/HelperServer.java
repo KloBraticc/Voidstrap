@@ -1,22 +1,28 @@
 package com.voidstrap.android;
 
-import android.net.Credentials;
-import android.net.LocalServerSocket;
-import android.net.LocalSocket;
-import android.net.LocalSocketAddress;
 import android.os.Process;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.concurrent.TimeUnit;
 
 public final class HelperServer {
-    static final String SOCKET = "voidstrap_helper";
-    static final int VERSION = 5;
+    static final String PORT_FILE = "/data/local/tmp/voidstrap_helper_port";
+    static final int NONCE_BYTES = 16;
+    static final int PROOF_BYTES = 32;
+    static final int VERSION = 6;
     static final int PING = -1;
     static final int STOP = -2;
     static final int STALE = -3;
@@ -54,36 +60,51 @@ public final class HelperServer {
             + "  while read -r h; do [ -n \"$h\" ] && rm -f \"/data/data/$p/cache/rbx-storage/${h%${h#??}}/$h\"; done < \"$f\"\n"
             + "  rm -f \"$f\"; K=1\n"
             + "done\n"
+            + "rm -f " + PORT_FILE + "\n"
             + "rm -rf " + ModEngine.REMOTE_DIR + "\n"
             + "if [ $K = 1 ]; then for p in " + Targets.GLOBAL + " " + Targets.VN + "; do am force-stop $p 2>/dev/null; done; fi\n"
             + "exit 0\n";
 
     private static String pkg;
     private static int allowedUid;
-    private static LocalServerSocket server;
+    private static String token;
+    private static ServerSocket server;
 
     private HelperServer() {
     }
 
-    static String launchLine(String pkg, int uid) {
+    static byte[] proof(String token, byte[] nonce) {
+        try {
+            MessageDigest d = MessageDigest.getInstance("SHA-256");
+            d.update(token.getBytes(StandardCharsets.UTF_8));
+            d.update(nonce);
+            return d.digest();
+        } catch (NoSuchAlgorithmException e) {
+            return new byte[PROOF_BYTES];
+        }
+    }
+
+    static String launchLine(String pkg, int uid, String token) {
         return "p=$(pm path " + pkg + " | sed -n 's/^package://p' | grep base.apk | head -n 1)\n"
                 + "[ -z \"$p\" ] && p=$(pm path " + pkg + " | sed -n '1s/^package://p')\n"
                 + "[ -z \"$p\" ] && { echo 'Voidstrap is not installed'; exit 1; }\n"
                 + "CLASSPATH=\"$p\" nohup app_process /system/bin --nice-name=voidstrap_helper "
-                + HelperServer.class.getName() + " " + pkg + " " + uid + " </dev/null >/dev/null 2>&1 &\n";
+                + HelperServer.class.getName() + " " + pkg + " " + uid + " " + token + " </dev/null >/dev/null 2>&1 &\n";
     }
 
     public static void main(String[] args) {
-        if (args.length < 2) return;
+        if (args.length < 3) return;
         pkg = args[0];
         try {
             allowedUid = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
             return;
         }
+        token = args[2];
+        if (token.isEmpty()) return;
         server = bind();
         if (server == null) {
-            System.out.println("The Voidstrap helper is already running");
+            System.out.println("The Voidstrap helper could not listen");
             return;
         }
         System.out.println("The Voidstrap helper started");
@@ -91,7 +112,7 @@ public final class HelperServer {
         watch.setDaemon(true);
         watch.start();
         while (true) {
-            LocalSocket client;
+            Socket client;
             try {
                 client = server.accept();
             } catch (IOException e) {
@@ -102,27 +123,57 @@ public final class HelperServer {
         }
     }
 
-    private static LocalServerSocket bind() {
+    private static ServerSocket bind() {
+        stopOld();
         for (int i = 0; i < 20; i++) {
             try {
-                return new LocalServerSocket(SOCKET);
+                ServerSocket s = new ServerSocket(0, 50, InetAddress.getLoopbackAddress());
+                publish(s.getLocalPort());
+                return s;
             } catch (IOException e) {
-                if (i == 0) stopOld();
                 sleep(250);
             }
         }
         return null;
     }
 
+    private static void publish(int port) throws IOException {
+        File f = new File(PORT_FILE);
+        f.delete();
+        try (OutputStream o = new FileOutputStream(f)) {
+            o.write(String.valueOf(port).getBytes(StandardCharsets.UTF_8));
+        }
+        try {
+            android.system.Os.chmod(PORT_FILE, 0644);
+        } catch (android.system.ErrnoException e) {
+            throw new IOException("port file mode");
+        }
+    }
+
+    private static int publishedPort() {
+        try {
+            byte[] b = java.nio.file.Files.readAllBytes(new File(PORT_FILE).toPath());
+            return Integer.parseInt(new String(b, StandardCharsets.UTF_8).trim());
+        } catch (IOException | RuntimeException e) {
+            return 0;
+        }
+    }
+
     private static void stopOld() {
-        try (LocalSocket s = new LocalSocket()) {
-            s.connect(new LocalSocketAddress(SOCKET));
+        int port = publishedPort();
+        if (port <= 0) return;
+        try (Socket s = new Socket()) {
+            s.connect(new InetSocketAddress(InetAddress.getLoopbackAddress(), port), 2000);
             s.setSoTimeout(2000);
+            DataInputStream in = new DataInputStream(s.getInputStream());
+            byte[] nonce = new byte[NONCE_BYTES];
+            in.readFully(nonce);
             DataOutputStream out = new DataOutputStream(s.getOutputStream());
+            out.write(proof(token, nonce));
             out.writeInt(VERSION);
             out.writeInt(STOP);
             out.flush();
-            new DataInputStream(s.getInputStream()).readInt();
+            in.readInt();
         } catch (IOException ignored) {
         }
     }
@@ -156,19 +207,24 @@ public final class HelperServer {
         }
     }
 
-    private static void serve(LocalSocket client) {
-        try (LocalSocket s = client) {
-            Credentials peer = s.getPeerCredentials();
-            int uid = peer.getUid();
-            if (uid != allowedUid && uid != Process.myUid() && uid != 0) return;
+    private static void serve(Socket client) {
+        try (Socket s = client) {
             s.setSoTimeout(10_000);
             DataInputStream in = new DataInputStream(s.getInputStream());
             DataOutputStream out = new DataOutputStream(s.getOutputStream());
+            byte[] nonce = new byte[NONCE_BYTES];
+            new SecureRandom().nextBytes(nonce);
+            out.write(nonce);
+            out.flush();
+            byte[] offered = new byte[PROOF_BYTES];
+            in.readFully(offered);
+            if (!MessageDigest.isEqual(offered, proof(token, nonce))) return;
             int version = in.readInt();
             int timeout = in.readInt();
             if (timeout == STOP) {
                 out.writeInt(0);
                 out.flush();
+                new File(PORT_FILE).delete();
                 System.exit(0);
                 return;
             }
@@ -299,7 +355,7 @@ public final class HelperServer {
 
     private static synchronized void relaunch() {
         try {
-            new ProcessBuilder("sh", "-c", "sleep 1\n" + launchLine(pkg, allowedUid))
+            new ProcessBuilder("sh", "-c", "sleep 1\n" + launchLine(pkg, allowedUid, token))
                     .redirectErrorStream(true)
                     .redirectOutput(ProcessBuilder.Redirect.to(new File("/dev/null")))
                     .start();

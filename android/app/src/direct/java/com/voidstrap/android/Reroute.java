@@ -9,10 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 final class Reroute {
-    interface Alert {
-        void show(String text);
-    }
-
     private static final double MIN_GAIN_MS = 25.0;
     private static final double ACCEPTABLE_PING_MS = 60.0;
     private static final long SETTLE_MS = 2000;
@@ -57,7 +53,7 @@ final class Reroute {
         t.add(jobId);
     }
 
-    static void onJoined(Context c, ActivityWatcher.Data d, Alert alert) {
+    static void onJoined(Context c, ActivityWatcher.Data d, SmartJoin.Alert alert) {
         Store s = Store.get(c);
         if (d.serverAddress.isEmpty() || Matchmaker.isPrivate(d.serverAddress)) return;
         if (Matchmaker.excluded(s).contains(d.placeId)) {

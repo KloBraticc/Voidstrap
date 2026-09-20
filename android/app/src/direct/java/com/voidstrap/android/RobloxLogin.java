@@ -14,6 +14,7 @@ final class RobloxLogin {
     private static String cached;
     private static Source cachedSource = Source.NONE;
     private static long cachedAt;
+    private static boolean rejected;
 
     private RobloxLogin() {
     }
@@ -22,6 +23,14 @@ final class RobloxLogin {
         cached = null;
         cachedSource = Source.NONE;
         cachedAt = 0;
+        rejected = false;
+    }
+
+    static synchronized void reject() {
+        cached = null;
+        cachedSource = Source.NONE;
+        cachedAt = 0;
+        rejected = true;
     }
 
     static synchronized Source source(Context c) {
@@ -30,11 +39,11 @@ final class RobloxLogin {
     }
 
     static synchronized Source quick(Context c) {
-        if (cachedAt != 0 && SystemClock.elapsedRealtime() - cachedAt < CACHE_MS) return cachedSource;
-        return fromWebView() != null ? Source.VOIDSTRAP : Source.NONE;
+        return source(c);
     }
 
     static synchronized String cookie(Context c) {
+        if (rejected) return null;
         long now = SystemClock.elapsedRealtime();
         if (cachedAt != 0 && now - cachedAt < CACHE_MS) return cached;
         String value = fromWebView();

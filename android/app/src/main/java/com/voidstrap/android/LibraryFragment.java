@@ -455,9 +455,18 @@ public final class LibraryFragment extends Page {
         lp.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
         grid.addView(f, lp);
         f.setReferencedIds(ids);
-        int width = dash.getWidth() - dash.getPaddingStart() - dash.getPaddingEnd();
-        if (width > 0) fitTiles(f, views, width);
-        else grid.post(() -> fitTiles(f, views, grid.getWidth()));
+        if (grid.getWidth() > 0) {
+            fitTiles(f, views, grid.getWidth());
+            return;
+        }
+        grid.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int l, int t, int r, int b, int ol, int ot, int or, int ob) {
+                if (r - l <= 0) return;
+                v.removeOnLayoutChangeListener(this);
+                if (isAdded()) fitTiles(f, views, r - l);
+            }
+        });
     }
 
     private void fitTiles(Flow f, List<View> views, int width) {

@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_TAB = "tab";
     public static final String EXTRA_PROBLEM = "problem";
 
-    private static final int[] TABS = {R.id.nav_home, R.id.nav_library, R.id.nav_mods, R.id.nav_flags, R.id.nav_flag_editor, R.id.nav_integrations, R.id.nav_matchmaker, R.id.nav_settings};
+    private static final int[] TABS = {R.id.nav_home, R.id.nav_library, R.id.nav_mods, R.id.nav_flags, R.id.nav_flag_editor, R.id.nav_integrations, R.id.nav_smart, R.id.nav_settings};
 
     private Store store;
     private int current = R.id.nav_home;
@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static int parent(int id) {
         if (id == R.id.nav_flag_editor) return R.id.nav_flags;
-        if (id == R.id.nav_integrations || id == R.id.nav_matchmaker) return R.id.nav_settings;
+        if (id == R.id.nav_integrations || id == R.id.nav_smart) return R.id.nav_settings;
         return id;
     }
 
@@ -339,7 +339,10 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.nav_flag_editor) return new FlagsFragment();
         if (id == R.id.nav_settings) return new SettingsFragment();
         if (id == R.id.nav_integrations) return new IntegrationsFragment();
-        if (id == R.id.nav_matchmaker) return new MatchmakerFragment();
+        if (id == R.id.nav_smart) {
+            Page smart = SmartJoin.page();
+            if (smart != null) return smart;
+        }
         return new HomeFragment();
     }
 

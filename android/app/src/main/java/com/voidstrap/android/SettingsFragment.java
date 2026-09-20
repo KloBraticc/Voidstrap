@@ -122,7 +122,7 @@ public final class SettingsFragment extends Page {
         roblox.addView(helper.view);
         rootToggle(roblox);
         if (!Ui.wide(requireContext())) row(roblox, R.drawable.ic_add, R.string.nav_integrations, R.string.integrations_open_body, () -> ((MainActivity) host()).select(R.id.nav_integrations));
-        if (!Ui.wide(requireContext())) row(roblox, R.drawable.ic_globe, R.string.matchmaker_title, R.string.matchmaker_open_body, () -> ((MainActivity) host()).select(R.id.nav_matchmaker));
+        if (!Ui.wide(requireContext()) && SmartJoin.available()) row(roblox, R.drawable.ic_globe, SmartJoin.title(requireContext()), SmartJoin.openBody(requireContext()), () -> ((MainActivity) host()).select(R.id.nav_smart));
         row(roblox, R.drawable.ic_history, R.string.settings_clear_history, R.string.settings_clear_history_body, () ->
                 Ui.alert(requireContext())
                         .setTitle(R.string.history_clear_title)
@@ -158,8 +158,12 @@ public final class SettingsFragment extends Page {
     }
 
     private void row(LinearLayout parent, int icon, int title, int detail, Runnable r) {
+        row(parent, icon, getString(title), getString(detail), r);
+    }
+
+    private void row(LinearLayout parent, int icon, String title, String detail, Runnable r) {
         Row row = Row.inflate(parent);
-        row.set(icon, getString(title), getString(detail));
+        row.set(icon, title, detail);
         row.chevron.setVisibility(View.VISIBLE);
         row.view.setOnClickListener(x -> r.run());
         parent.addView(row.view);
@@ -210,11 +214,15 @@ public final class SettingsFragment extends Page {
     }
 
     private void rootFailed() {
-        Ui.alert(requireContext())
+        boolean rooted = FlagWriter.rootAvailable();
+        boolean helper = FlagWriter.mode(requireContext()) != FlagWriter.Mode.NONE;
+        int message = rooted ? R.string.settings_root_denied : helper ? R.string.settings_root_missing_helper : R.string.settings_root_missing;
+        com.google.android.material.dialog.MaterialAlertDialogBuilder b = Ui.alert(requireContext())
                 .setTitle(R.string.settings_root_denied_title)
-                .setMessage(FlagWriter.rootAvailable() ? R.string.settings_root_denied : R.string.settings_root_missing)
-                .setPositiveButton(R.string.common_ok, null)
-                .show();
+                .setMessage(message)
+                .setPositiveButton(R.string.common_ok, null);
+        if (!rooted && !helper) b.setNeutralButton(R.string.compat_setup, (d, w) -> FlagSync.setup(host()));
+        b.show();
     }
 
     @Override
@@ -228,12 +236,15 @@ public final class SettingsFragment extends Page {
         String[] states = getResources().getStringArray(R.array.compat_states);
         String[] notes = getResources().getStringArray(R.array.compat_notes);
         Context c = requireContext();
+        java.util.List<String[]> rows = new java.util.ArrayList<>();
+        for (int i = 0; i < names.length; i++) rows.add(new String[]{names[i], states[i], notes[i]});
+        SmartJoin.addCompat(c, rows);
         LinearLayout list = new LinearLayout(c);
         list.setOrientation(LinearLayout.VERTICAL);
         android.app.Dialog[] sheet = new android.app.Dialog[1];
-        for (int i = 0; i < names.length; i++) {
-            String state = states[i];
-            String note = notes[i];
+        for (String[] entry : rows) {
+            String state = entry[1];
+            String note = entry[2];
             boolean setup = false;
             if (state.equals("pin")) {
                 state = Shortcuts.pinSupported(c) ? "yes" : "partial";
@@ -243,10 +254,6 @@ public final class SettingsFragment extends Page {
                 setup = mode != FlagWriter.Mode.HELPER && mode != FlagWriter.Mode.ROOT;
                 state = setup ? "partial" : "yes";
                 if (setup) note = FlagSync.status(c);
-            } else if (state.equals("matchmaker")) {
-                boolean ready = RobloxLogin.quick(c) != RobloxLogin.Source.NONE;
-                state = ready ? "yes" : "partial";
-                if (!ready) note = getString(R.string.matchmaker_login_none);
             } else if (state.equals("activity")) {
                 FlagWriter.Mode mode = FlagWriter.mode(c);
                 setup = mode == FlagWriter.Mode.NONE;
@@ -260,7 +267,7 @@ public final class SettingsFragment extends Page {
             Row row = Row.inflate(list);
             boolean yes = state.equals("yes");
             boolean partial = state.equals("partial");
-            row.set(yes ? R.drawable.ic_checkmark_circle : partial ? R.drawable.ic_info : R.drawable.ic_dismiss_circle, names[i], note);
+            row.set(yes ? R.drawable.ic_checkmark_circle : partial ? R.drawable.ic_info : R.drawable.ic_dismiss_circle, entry[0], note);
             row.icon.setImageTintList(android.content.res.ColorStateList.valueOf(c.getColor(yes ? R.color.vs_success : partial ? R.color.vs_caution : R.color.vs_critical)));
             row.badge.setVisibility(View.VISIBLE);
             row.badge.setText(setup ? R.string.compat_setup : yes ? R.string.compat_available : partial ? R.string.compat_partial : R.string.compat_unavailable);

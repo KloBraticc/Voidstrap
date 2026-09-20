@@ -130,7 +130,7 @@ final class AppPresence {
         if (id == R.id.nav_flags) return new String[]{"FastFlag Settings", "Tweaking flag presets"};
         if (id == R.id.nav_flag_editor) return new String[]{"FastFlag Editor", "Editing fast flags"};
         if (id == R.id.nav_integrations) return new String[]{"Integrations", "Advanced integrations"};
-        if (id == R.id.nav_matchmaker) return new String[]{"Voidstrap Matchmaker", "Picking the closest servers"};
+        if (id == R.id.nav_smart && SmartJoin.presence() != null) return SmartJoin.presence();
         if (id == R.id.nav_settings) return new String[]{"Settings", "App settings & updates"};
         return new String[]{"Home", "On the Voidstrap home screen"};
     }

@@ -46,9 +46,12 @@ public final class FlagWriter {
     }
 
     private static final long SU_CACHE_MS = 10000;
+    private static final String ROOT_PROBE = "echo SHELL_TEST\nid\n";
+    private static final int ROOT_PROBE_SECONDS = 30;
 
     private static Boolean su;
     private static long suCheckedAt;
+    private static volatile boolean rootConfirmed;
 
     private FlagWriter() {
     }
@@ -71,7 +74,7 @@ public final class FlagWriter {
     }
 
     public static boolean rootAvailable() {
-        return hasSu();
+        return rootConfirmed || hasSu();
     }
 
     public static boolean rootEnabled(Context c) {
@@ -84,7 +87,70 @@ public final class FlagWriter {
     }
 
     public static int testRoot() {
-        return run(Mode.ROOT, "id > /dev/null || exit 1\nexit 0\n", 60);
+        if (openRootShell()) return OK;
+        forgetSu();
+        return openRootShell() ? OK : DENIED;
+    }
+
+    private static boolean openRootShell() {
+        String out = capture(ROOT_PROBE, ROOT_PROBE_SECONDS);
+        if (out == null) return false;
+        boolean shell = false;
+        for (String line : out.split("\n")) {
+            if (!shell) {
+                if (line.contains("SHELL_TEST")) shell = true;
+                continue;
+            }
+            if (line.contains("uid=0")) {
+                rootConfirmed = true;
+                forgetSu();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String capture(String script, int timeoutSeconds) {
+        Process p;
+        try {
+            p = new ProcessBuilder("su").redirectErrorStream(true).start();
+        } catch (IOException | RuntimeException e) {
+            return null;
+        }
+        StringBuilder out = new StringBuilder();
+        Thread reader = new Thread(() -> {
+            try (java.io.BufferedReader r = new java.io.BufferedReader(new java.io.InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = r.readLine()) != null) {
+                    synchronized (out) {
+                        out.append(line).append('\n');
+                    }
+                }
+            } catch (IOException ignored) {
+            }
+        });
+        reader.setDaemon(true);
+        reader.start();
+        try (OutputStream in = p.getOutputStream()) {
+            in.write(script.getBytes(StandardCharsets.UTF_8));
+        } catch (IOException | RuntimeException e) {
+            p.destroy();
+            return null;
+        }
+        try {
+            if (!p.waitFor(timeoutSeconds, TimeUnit.SECONDS)) {
+                p.destroy();
+                return null;
+            }
+            reader.join(2000);
+        } catch (InterruptedException e) {
+            p.destroy();
+            Thread.currentThread().interrupt();
+            return null;
+        }
+        synchronized (out) {
+            return out.toString();
+        }
     }
 
     public static Mode mode(Context c) {

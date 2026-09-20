@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_smart">Matchmaker</string>
+    <string name="matchmaker_title">Voidstrap Matchmaker</string>
+    <string name="matchmaker_subtitle">Picks the closest Roblox server for you when you join a game from Voidstrap.</string>
+    <string name="matchmaker_open_body">Smart Join and server regions</string>
+    <string name="matchmaker_finding">Finding the closest server…</string>
+    <string name="matchmaker_joining">Joining %1$s, about %2$dms</string>
+    <string name="matchmaker_no_login">Smart Join needs your Roblox login. Open Settings, Voidstrap Matchmaker to sign in.</string>
+    <string name="matchmaker_signed_in">Signed in to Roblox</string>
+    <string name="matchmaker_signed_out">Signed out of Roblox in Voidstrap</string>
+    <string name="matchmaker_location_finding">Finding your location…</string>
+    <string name="matchmaker_location_learning">Location found, learning which datacenters are near you.</string>
+    <string name="matchmaker_location">Nearest known datacenter: %1$s, about %2$dms</string>
+    <string name="matchmaker_login">Roblox login</string>
+    <string name="matchmaker_login_voidstrap">Signed in to Roblox inside Voidstrap</string>
+    <string name="matchmaker_login_none">Not signed in. Sign in to Roblox here to use Smart Join.</string>
+    <string name="matchmaker_sign_in">Sign in</string>
+    <string name="matchmaker_sign_out">Sign out</string>
+    <string name="matchmaker_login_note">Voidstrap only sends your login to Roblox, to ask which datacenter each server runs in. It is never saved by Voidstrap.</string>
+    <string name="matchmaker_section">Matchmaker</string>
+    <string name="matchmaker_enable">Enable</string>
+    <string name="matchmaker_enable_body">Pick my server for me</string>
+    <string name="matchmaker_mode">What to join</string>
+    <string name="matchmaker_mode_body">How Voidstrap chooses between the servers it finds</string>
+    <string name="matchmaker_preferred">Preferred datacenter</string>
+    <string name="matchmaker_preferred_body">Voidstrap will always try this one first and only fall back when it has no room</string>
+    <string name="matchmaker_datacenters">Datacenters</string>
+    <string name="matchmaker_lists">Where you play</string>
+    <string name="matchmaker_datacenters_none">No datacenters learned yet, they appear as you play.</string>
+    <string name="matchmaker_datacenters_note">Turn one off to never be placed there. If Roblox puts you in a blocked datacenter, Voidstrap moves you out.</string>
+    <string name="matchmaker_datacenters_search">Search by city, region, or country</string>
+    <string name="matchmaker_allow_all">Allow all</string>
+    <string name="matchmaker_distance">%1$d km away · about %2$dms</string>
+    <string name="matchmaker_skipped">Skipped games</string>
+    <string name="matchmaker_skipped_none">Voidstrap picks a server for every game.</string>
+    <string name="matchmaker_skipped_one">1 game joins normally, Voidstrap never picks its server.</string>
+    <string name="matchmaker_skipped_note">Add those here and Voidstrap joins normally and never moves you.</string>
+    <string name="matchmaker_skip_add">Add a game</string>
+    <string name="matchmaker_skip_add_library">From your library</string>
+    <string name="matchmaker_skip_hint">Place ID or game link</string>
+    <string name="matchmaker_skip_invalid">Enter a valid place ID or Roblox game link.</string>
+    <string name="matchmaker_skip_remove">Let Voidstrap pick servers for this game again</string>
+    <string name="matchmaker_place">Place %1$d</string>
+    <string name="matchmaker_advanced">Advanced</string>
+    <string name="matchmaker_advanced_body">The defaults are right for almost everyone</string>
+    <string name="matchmaker_depth">How hard to search</string>
+    <string name="matchmaker_depth_auto">Auto</string>
+    <string name="matchmaker_depth_fastest">fastest</string>
+    <string name="matchmaker_depth_balanced">balanced</string>
+    <string name="matchmaker_depth_thorough">most thorough</string>
+    <string name="matchmaker_retries">Reconnect limit</string>
+    <string name="matchmaker_retries_body">Voidstrap stops trying after this many reconnects so it can never loop. Now %1$d.</string>
+    <string name="matchmaker_api">Join API</string>
+    <string name="matchmaker_api_body">Which Roblox join endpoint Voidstrap asks for server locations. Change only if joins stop working.</string>
+    <string name="matchmaker_last">Last search: %1$s</string>
+    <string name="matchmaker_alert_preferred">You are in your preferred datacenter %1$s, about %2$dms</string>
+    <string name="matchmaker_alert_connected">Connected to %1$s, about %2$dms</string>
+    <string name="matchmaker_alert_blocked_none">You are in %1$s which you blocked, but no other datacenter is available right now</string>
+    <string name="matchmaker_alert_blocked_same">You are in %1$s which you blocked, but every server there is the same, staying put</string>
+    <string name="matchmaker_alert_preferred_empty">%1$s has no servers right now, staying in %2$s</string>
+    <string name="matchmaker_alert_good">You are already on a good server, about %1$dms</string>
+    <string name="matchmaker_alert_moving">Moving you to %1$s, about %2$dms</string>
+    <string name="matchmaker_alert_attempt">Attempt %1$d of %2$d</string>
+    <string name="matchmaker_alert_blocked_closer">%1$s is closer but you blocked it</string>
+    <string-array name="matchmaker_modes">
+        <item>Closest server</item>
+        <item>Closest server that is nearly empty</item>
+        <item>Always a specific datacenter</item>
+    </string-array>
+    <string-array name="matchmaker_apis">
+        <item>V1 (stable)</item>
+        <item>V2 (newer)</item>
+    </string-array>
+    <plurals name="matchmaker_datacenters_all">
+        <item quantity="one">%1$d datacenter known, all allowed.</item>
+        <item quantity="other">%1$d datacenters known, all allowed.</item>
+    </plurals>
+    <plurals name="matchmaker_datacenters_some">
+        <item quantity="one">%1$d datacenter known, %2$d blocked.</item>
+        <item quantity="other">%1$d datacenters known, %2$d blocked.</item>
+    </plurals>
+    <plurals name="matchmaker_skipped_many">
+        <item quantity="one">%1$d game joins normally, Voidstrap never picks its servers.</item>
+        <item quantity="other">%1$d games join normally, Voidstrap never picks their servers.</item>
+    </plurals>
+    <plurals name="matchmaker_depth_body">
+        <item quantity="one">Checks up to %1$d server before joining, %2$s.</item>
+        <item quantity="other">Checks up to %1$d servers before joining, %2$s.</item>
+    </plurals>
+    <plurals name="matchmaker_alert_limit">
+        <item quantity="one">Could not reach a better datacenter after %1$d try, staying in %2$s</item>
+        <item quantity="other">Could not reach a better datacenter after %1$d tries, staying in %2$s</item>
+    </plurals>
+    <string name="matchmaker_fallback">Smart Join stepped aside: %1$s</string>
+    <string name="matchmaker_compat_name">Smart Join and server regions</string>
+    <string name="matchmaker_compat_note">Picks the closest server when you join from Voidstrap, using a Roblox sign in inside Voidstrap.</string>
+</resources>

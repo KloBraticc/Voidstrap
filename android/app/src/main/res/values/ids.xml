@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="nav_smart" type="id" />
     <item name="tag_image" type="id" />
     <item name="vs_no_translate" type="id" />
 </resources>

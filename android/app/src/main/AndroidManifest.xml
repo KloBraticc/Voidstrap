@@ -59,11 +59,6 @@
         </activity>
 
         <activity
-            android:name=".SignInActivity"
-            android:exported="false"
-            android:label="@string/matchmaker_login" />
-
-        <activity
             android:name=".ShortcutActivity"
             android:exported="false"
             android:excludeFromRecents="true"

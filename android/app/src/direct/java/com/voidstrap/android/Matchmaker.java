@@ -65,6 +65,8 @@ final class Matchmaker {
     private static final int EARLY_EXIT_CLOSEST = 6;
     private static final long DEADLINE_MS = 25_000;
     private static final long GEO_TTL_MS = 6 * 3600_000L;
+    private static final int IP_LOOKUP_TIMEOUT_MS = 4000;
+    private static final int IP_CACHE_LIMIT = 1024;
     private static final long FAIL_COOLDOWN_MS = 10 * 60_000L;
     private static final long RESOLVED_TTL_MS = 2 * 60_000L;
 
@@ -158,6 +160,7 @@ final class Matchmaker {
     private static boolean loaded;
     private static final ConcurrentHashMap<String, Datacenter> IP_CACHE = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Long> IP_FAILED = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Boolean> IP_INFLIGHT = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Object[]> RESOLVED = new ConcurrentHashMap<>();
     private static volatile String csrf;
     private static volatile long backoffUntil;
@@ -495,8 +498,12 @@ final class Matchmaker {
     }
 
     private static Geo geoFrom(String url) {
+        return geoFrom(url, 8000);
+    }
+
+    private static Geo geoFrom(String url, int timeout) {
         try {
-            JSONObject o = new JSONObject(get(url, null, 8000));
+            JSONObject o = new JSONObject(get(url, null, timeout));
             Geo g = new Geo();
             if (o.has("loc")) {
                 String[] p = o.optString("loc").split(",");
@@ -522,31 +529,61 @@ final class Matchmaker {
     }
 
     static Datacenter lookup(Context c, String ip) {
+        return lookup(c, ip, System.currentTimeMillis() + 3L * IP_LOOKUP_TIMEOUT_MS);
+    }
+
+    static String subnet(String ip) {
+        long v = ipToLong(ip);
+        if (v < 0) return null;
+        return ((v >> 24) & 0xFF) + "." + ((v >> 16) & 0xFF) + "." + ((v >> 8) & 0xFF) + ".0/24";
+    }
+
+    private static <V> void trim(Map<String, V> map) {
+        if (map.size() > IP_CACHE_LIMIT) map.clear();
+    }
+
+    static Datacenter lookup(Context c, String ip, long deadline) {
         if (ip == null || ip.isEmpty() || isPrivate(ip)) return null;
         Datacenter mapped = map(c, ip);
         if (mapped != null) return mapped;
-        Datacenter cached = IP_CACHE.get(ip);
+        String net = subnet(ip);
+        if (net == null) return null;
+        Datacenter cached = IP_CACHE.get(net);
         if (cached != null) return cached;
-        Long failed = IP_FAILED.get(ip);
+        Long failed = IP_FAILED.get(net);
         if (failed != null && System.currentTimeMillis() - failed < FAIL_COOLDOWN_MS) return null;
-        Geo g = geoFrom("https://ipinfo.io/" + ip + "/json");
-        if (g == null) g = geoFrom("https://ipwho.is/" + ip);
-        if (g == null) g = geoFrom("https://ipapi.co/" + ip + "/json/");
-        if (g == null || !valid(g.lat, g.lon)) {
-            IP_FAILED.put(ip, System.currentTimeMillis());
-            return null;
+        if (IP_INFLIGHT.putIfAbsent(net, Boolean.TRUE) != null) return null;
+        try {
+            Geo g = null;
+            for (String url : new String[]{"https://ipinfo.io/" + ip + "/json", "https://ipwho.is/" + ip, "https://ipapi.co/" + ip + "/json/"}) {
+                int timeout = (int) Math.min(IP_LOOKUP_TIMEOUT_MS, deadline - System.currentTimeMillis());
+                if (timeout < 500) break;
+                Geo found = geoFrom(url, timeout);
+                if (found != null && valid(found.lat, found.lon)) {
+                    g = found;
+                    break;
+                }
+            }
+            if (g == null) {
+                trim(IP_FAILED);
+                IP_FAILED.put(net, System.currentTimeMillis());
+                return null;
+            }
+            Datacenter dc = new Datacenter(g.city, g.region, g.country, g.lat, g.lon);
+            trim(IP_CACHE);
+            IP_CACHE.put(net, dc);
+            learn(c, ip, dc);
+            report("Learned a new datacenter at " + net + ": " + dc.city + ", " + dc.country);
+            return dc;
+        } finally {
+            IP_INFLIGHT.remove(net);
         }
-        Datacenter dc = new Datacenter(g.city, g.region, g.country, g.lat, g.lon);
-        IP_CACHE.put(ip, dc);
-        learn(c, ip, dc);
-        report("Resolved unknown IP " + ip + ": " + dc.city + ", " + dc.country);
-        return dc;
     }
 
     private static synchronized void learn(Context c, String ip, Datacenter dc) {
         if (dc.city.isEmpty()) return;
-        long v = ipToLong(ip);
-        String cidr = ((v >> 24) & 0xFF) + "." + ((v >> 16) & 0xFF) + "." + ((v >> 8) & 0xFF) + ".0/24";
+        String cidr = subnet(ip);
+        if (cidr == null) return;
         try {
             JSONObject e = new JSONObject().put("cidr", cidr).put("city", dc.city).put("region", dc.region).put("country", dc.country).put("lat", dc.lat).put("lon", dc.lon);
             JSONArray one = new JSONArray().put(e);
@@ -702,7 +739,7 @@ final class Matchmaker {
                         Object[] resolved = resolve(placeId, sv.jobId, cookie, v2, deadline);
                         if (resolved == null) continue;
                         String ip = (String) resolved[0];
-                        Datacenter dc = lookup(c, ip);
+                        Datacenter dc = lookup(c, ip, deadline);
                         if (dc == null) continue;
                         double km = haversineKm(geo.lat, geo.lon, dc.lat, dc.lon);
                         double ping = estimateRtt(km);
@@ -859,7 +896,10 @@ final class Matchmaker {
                 return null;
             }
             if (r.code < 200 || r.code >= 300) {
-                if (r.code == 401) report("Roblox rejected your login, sign in again");
+                if (r.code == 401) {
+                    RobloxLogin.reject();
+                    report("Roblox rejected your login, sign in again");
+                }
                 allowAlternate[0] = (r.code == 400 || r.code == 404 || r.code == 405 || r.code == 408 || r.code >= 500) ? 1 : 0;
                 return null;
             }

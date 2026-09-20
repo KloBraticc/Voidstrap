@@ -184,6 +184,7 @@ final class Flyout {
         window.setTouchInterceptor((v, event) -> {
             if (event.getAction() != MotionEvent.ACTION_OUTSIDE) return false;
             close[0].run();
+            v.performClick();
             return true;
         });
         window.setOnDismissListener(() -> surface.animate().cancel());

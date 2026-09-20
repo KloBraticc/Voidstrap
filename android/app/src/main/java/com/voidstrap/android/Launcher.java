@@ -39,7 +39,7 @@ public final class Launcher {
             int flagIssue = FlagWriter.syncForLaunch(app, pkg, flags);
             boolean mods = ModEngine.syncForLaunch(app, pkg);
             boolean track = Integrations.on(store, Integrations.TRACKING) && ActivityService.available(app);
-            Deeplink target = smartJoin(app, destination);
+            Deeplink target = SmartJoin.rewrite(app, destination);
             store.main.post(() -> {
                 busy = false;
                 if (track) ActivityService.startNow(app);
@@ -49,25 +49,6 @@ public final class Launcher {
                 done.run(finish(app, destination, name, pkg, r));
             });
         });
-    }
-
-    private static Deeplink smartJoin(Context app, Deeplink destination) {
-        Store store = Store.get(app);
-        if (destination == null || !destination.isPlace() || destination.instanceId != null || destination.linkCode != null) return destination;
-        if (!Matchmaker.enabled(store) || Matchmaker.excluded(store).contains(destination.placeId)) return destination;
-        if (RobloxLogin.cookie(app) == null) {
-            store.main.post(() -> android.widget.Toast.makeText(app, R.string.matchmaker_no_login, android.widget.Toast.LENGTH_LONG).show());
-            return destination;
-        }
-        store.main.post(() -> android.widget.Toast.makeText(app, R.string.matchmaker_finding, android.widget.Toast.LENGTH_SHORT).show());
-        Matchmaker.Candidate best = Matchmaker.pick(app, destination.placeId, null, null);
-        if (best == null) return destination;
-        Deeplink picked = Deeplink.place(destination.placeId, best.jobId, null);
-        if (picked == null) return destination;
-        Reroute.expect(destination.placeId, best.dc.city);
-        String text = app.getString(R.string.matchmaker_joining, best.dc.city, best.estimatedPing);
-        store.main.post(() -> android.widget.Toast.makeText(app, text, android.widget.Toast.LENGTH_LONG).show());
-        return picked;
     }
 
     private static Result start(Context app, Deeplink destination, String pkg) {

@@ -223,6 +223,7 @@ final class Dropdown {
         w.setTouchInterceptor((v, ev) -> {
             if (ev.getAction() == MotionEvent.ACTION_OUTSIDE) {
                 close[0].run();
+                v.performClick();
                 return true;
             }
             return false;
