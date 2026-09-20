@@ -829,18 +829,11 @@ public partial class Watcher : IDisposable
 		_ = DisableCrashHandlerWhenSettledAsync(sessionStartedUtc, _lifetimeCancellation.Token);
 		try
 		{
-			using Process process = Process.GetProcessById(_watcherData.ProcessId);
-			await process.WaitForExitAsync(_lifetimeCancellation.Token);
+			await WaitForProcessExitAsync(_watcherData.ProcessId, _lifetimeCancellation.Token).ConfigureAwait(false);
 		}
 		catch (OperationCanceledException) when (_lifetimeCancellation.IsCancellationRequested)
 		{
 			return;
-		}
-		catch (ArgumentException)
-		{
-		}
-		catch (InvalidOperationException)
-		{
 		}
 		if (DateTime.UtcNow - sessionStartedUtc < TimeSpan.FromSeconds(StartupCrashSeconds))
 		{
@@ -855,6 +848,57 @@ public partial class Watcher : IDisposable
 		}
 		ReopenSettingsForTestMode();
 		await Bootstrapper.CompressInstallsAfterExitAsync().ConfigureAwait(false);
+	}
+
+	private const int ExitPollMilliseconds = 1000;
+
+	private static async Task WaitForProcessExitAsync(int processId, CancellationToken token)
+	{
+		string? processName = null;
+		try
+		{
+			using Process process = Process.GetProcessById(processId);
+			processName = process.ProcessName;
+			await process.WaitForExitAsync(token).ConfigureAwait(false);
+			return;
+		}
+		catch (ArgumentException)
+		{
+			return;
+		}
+		catch (InvalidOperationException)
+		{
+			return;
+		}
+		catch (System.ComponentModel.Win32Exception ex)
+		{
+			App.Logger.WriteLine("Watcher::WaitForProcessExitAsync", $"Roblox process {processId} does not allow a wait handle ({ex.Message}), watching it by polling instead");
+		}
+		while (!token.IsCancellationRequested)
+		{
+			await Task.Delay(ExitPollMilliseconds, token).ConfigureAwait(false);
+			if (!IsProcessAlive(processId, processName))
+			{
+				return;
+			}
+		}
+	}
+
+	private static bool IsProcessAlive(int processId, string? processName)
+	{
+		try
+		{
+			using Process process = Process.GetProcessById(processId);
+			return processName == null || string.Equals(process.ProcessName, processName, StringComparison.OrdinalIgnoreCase);
+		}
+		catch (ArgumentException)
+		{
+			return false;
+		}
+		catch (InvalidOperationException)
+		{
+			return false;
+		}
 	}
 
 	private void ReopenSettingsForTestMode()

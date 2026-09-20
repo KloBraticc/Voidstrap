@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/flags_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/vs_page_inset"
+            android:paddingTop="@dimen/vs_page_inset"
+            android:paddingEnd="@dimen/vs_page_inset"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                tools:targetApi="p"
+                android:text="@string/flags_title"
+                android:textAppearance="@style/TextAppearance.Voidstrap.PageTitle" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/flags_subtitle"
+                android:textAppearance="@style/TextAppearance.Voidstrap.PageSubtitle" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/add"
+                    style="@style/Widget.Voidstrap.Button.Standard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/flags_add"
+                    app:icon="@drawable/ic_add" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/delete_selected"
+                    style="@style/Widget.Voidstrap.Button.Standard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="@string/flags_delete_selected"
+                    app:icon="@drawable/ic_dismiss_circle" />
+
+
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/profile_button"
+                    style="@style/Widget.Voidstrap.Button.Standard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxWidth="200dp"
+                    android:maxLines="1"
+                    app:icon="@drawable/ic_chevron_down"
+                    app:iconGravity="end"
+                    app:iconSize="14dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/flags_more"
+                    style="@style/Widget.Voidstrap.Button.Standard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/common_more"
+                    android:minWidth="@dimen/vs_touch"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    app:icon="@drawable/ic_more_vertical"
+                    app:iconPadding="0dp" />
+
+                <androidx.constraintlayout.helper.widget.Flow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="add,profile_button,flags_more,delete_selected"
+                    app:flow_horizontalBias="0"
+                    app:flow_horizontalGap="8dp"
+                    app:flow_horizontalStyle="packed"
+                    app:flow_verticalGap="8dp"
+                    app:flow_wrapMode="chain"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/flag_search_layout"
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/vs_page_inset"
+            android:layout_marginEnd="@dimen/vs_page_inset"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:hint="@string/flags_search"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_search">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/flag_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionSearch"
+                android:inputType="text|textNoSuggestions"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/vs_page_inset"
+        android:layout_marginEnd="@dimen/vs_page_inset"
+        android:layout_marginBottom="@dimen/vs_page_inset"
+        app:cardBackgroundColor="?attr/vsInput"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/vsCard"
+                android:gravity="center_vertical"
+                android:minHeight="44dp"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/flags_column_name"
+                    android:textAppearance="@style/TextAppearance.Voidstrap.Body" />
+
+                <TextView
+                    android:layout_width="@dimen/vs_flag_value"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="@string/flags_column_value"
+                    android:textAppearance="@style/TextAppearance.Voidstrap.Body" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/vs_divider" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <com.voidstrap.android.ListPane
+                    android:id="@+id/flag_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="8dp"
+                    android:scrollbars="vertical" />
+
+                <TextView
+                    android:id="@+id/flags_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+            </FrameLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

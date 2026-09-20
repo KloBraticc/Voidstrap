@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="vs_accent">@android:color/system_accent1_600</color>
+    <color name="vs_accent_text">@android:color/system_accent1_600</color>
+    <color name="vs_on_accent">@android:color/system_accent1_0</color>
+</resources>

@@ -26,6 +26,8 @@ internal sealed partial class TasxOptimizer : IDisposable
 
 	private const int ProcessPowerThrottling = 4;
 
+	private const int AccessDenied = 5;
+
 	private const uint PowerThrottlingCurrentVersion = 1;
 
 	private const uint ExecutionSpeed = 0x1;
@@ -56,6 +58,8 @@ internal sealed partial class TasxOptimizer : IDisposable
 		public bool WasEverFocused { get; set; }
 
 		public bool TrimmedWhileMinimized { get; set; }
+
+		public bool Hardened { get; set; }
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -181,10 +185,21 @@ internal sealed partial class TasxOptimizer : IDisposable
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine(LogIdent, "Could not read the original state of process " + process.Id + ": " + ex.Message);
+			instance.Hardened = IsAccessDenied(ex);
+			if (!instance.Hardened)
+			{
+				App.Logger.WriteLine(LogIdent, "Could not read the original state of process " + process.Id + ": " + ex.Message);
+			}
 		}
 		_instances[process.Id] = instance;
-		App.Logger.WriteLine(LogIdent, "Now managing Roblox process " + process.Id);
+		App.Logger.WriteLine(LogIdent, instance.Hardened
+			? "Roblox process " + process.Id + " is protected and does not accept tuning, watching it without changes"
+			: "Now managing Roblox process " + process.Id);
+	}
+
+	private static bool IsAccessDenied(Exception ex)
+	{
+		return ex is System.ComponentModel.Win32Exception win32 && win32.NativeErrorCode == AccessDenied;
 	}
 
 	private void ApplyFocusState()
@@ -229,9 +244,14 @@ internal sealed partial class TasxOptimizer : IDisposable
 	private static bool Apply(Instance instance, bool focused)
 	{
 		Process process = instance.Process;
+		if (instance.Hardened)
+		{
+			return true;
+		}
 		List<string> errors = new List<string>(3);
-		AddError(errors, SetPriority(process, focused ? FocusedPriority : UnfocusedPriority));
-		AddError(errors, SetFullSpeed(process, keep: true));
+		bool denied = false;
+		AddError(errors, SetPriority(process, focused ? FocusedPriority : UnfocusedPriority, ref denied));
+		AddError(errors, SetFullSpeed(process, keep: true, ref denied));
 		if (!RobloxProcessOptimizer.SetMemoryPriority(process, low: !focused))
 		{
 			errors.Add("Memory priority change failed for process " + process.Id);
@@ -239,6 +259,12 @@ internal sealed partial class TasxOptimizer : IDisposable
 		if (errors.Count > 0 && IsExiting(process))
 		{
 			return false;
+		}
+		if (denied)
+		{
+			instance.Hardened = true;
+			App.Logger.WriteLine(LogIdent, "Roblox process " + process.Id + " is protected and does not accept tuning, leaving it alone for this session");
+			return true;
 		}
 		foreach (string error in errors)
 		{
@@ -266,7 +292,7 @@ internal sealed partial class TasxOptimizer : IDisposable
 			instance.TrimmedWhileMinimized = false;
 			return true;
 		}
-		if (instance.TrimmedWhileMinimized)
+		if (instance.TrimmedWhileMinimized || instance.Hardened)
 		{
 			return true;
 		}
@@ -297,7 +323,7 @@ internal sealed partial class TasxOptimizer : IDisposable
 		return true;
 	}
 
-	private static string? SetPriority(Process process, ProcessPriorityClass priority)
+	private static string? SetPriority(Process process, ProcessPriorityClass priority, ref bool denied)
 	{
 		try
 		{
@@ -309,11 +335,12 @@ internal sealed partial class TasxOptimizer : IDisposable
 		}
 		catch (Exception ex)
 		{
+			denied |= IsAccessDenied(ex);
 			return "Priority change failed for process " + process.Id + ": " + ex.Message;
 		}
 	}
 
-	private static string? SetFullSpeed(Process process, bool keep)
+	private static string? SetFullSpeed(Process process, bool keep, ref bool denied)
 	{
 		PowerThrottlingState state = new PowerThrottlingState
 		{
@@ -325,12 +352,15 @@ internal sealed partial class TasxOptimizer : IDisposable
 		{
 			if (!SetProcessInformation(process.Handle, ProcessPowerThrottling, ref state, (uint)Marshal.SizeOf<PowerThrottlingState>()))
 			{
-				return "Power throttling change failed for process " + process.Id + " with code " + Marshal.GetLastWin32Error();
+				int code = Marshal.GetLastWin32Error();
+				denied |= code == AccessDenied;
+				return "Power throttling change failed for process " + process.Id + " with code " + code;
 			}
 			return null;
 		}
 		catch (Exception ex)
 		{
+			denied |= IsAccessDenied(ex);
 			return "Power throttling change failed for process " + process.Id + ": " + ex.Message;
 		}
 	}
@@ -380,13 +410,14 @@ internal sealed partial class TasxOptimizer : IDisposable
 	private static void Release(Instance instance)
 	{
 		Process process = instance.Process;
-		if (!HasExited(process))
+		if (!HasExited(process) && !instance.Hardened)
 		{
 			List<string> errors = new List<string>(3);
-			AddError(errors, SetFullSpeed(process, keep: false));
-			AddError(errors, SetPriority(process, instance.OriginalPriority));
+			bool denied = false;
+			AddError(errors, SetFullSpeed(process, keep: false, ref denied));
+			AddError(errors, SetPriority(process, instance.OriginalPriority, ref denied));
 			RobloxProcessOptimizer.SetMemoryPriority(process, low: false);
-			if (errors.Count > 0 && !IsExiting(process))
+			if (errors.Count > 0 && !denied && !IsExiting(process))
 			{
 				foreach (string error in errors)
 				{

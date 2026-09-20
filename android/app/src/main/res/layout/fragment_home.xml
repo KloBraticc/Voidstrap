@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.voidstrap.android.ScrollPane xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <LinearLayout style="@style/Voidstrap.Page">
+
+        <LinearLayout
+            android:id="@+id/news_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="14dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/news_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:accessibilityHeading="true"
+                tools:targetApi="p"
+                android:maxLines="2"
+                android:text="@string/home_news_title"
+                android:textColor="?attr/vsTextPrimary"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/news_explore"
+                style="@style/Widget.Voidstrap.Button.Subtle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:text="@string/home_news_explore"
+                android:textColor="?attr/colorSecondary"
+                android:textSize="13.5sp"
+                app:icon="@drawable/ic_chevron_right"
+                app:iconGravity="end"
+                app:iconPadding="6dp"
+                app:iconSize="11dp"
+                app:iconTint="?attr/colorSecondary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/news_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:accessibilityHeading="true"
+                tools:targetApi="p"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/home_catalog_title"
+            android:textColor="?attr/vsTextPrimary"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/catalog_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:alpha="0.5"
+            android:text="@string/home_catalog_loading"
+            android:textColor="?attr/vsTextPrimary"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:id="@+id/catalog_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:orientation="vertical" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:accessibilityHeading="true"
+                tools:targetApi="p"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/home_continue_title"
+            android:textColor="?attr/vsTextPrimary"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/continue_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/vs_empty_card"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="34dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="34dp">
+
+            <FrameLayout
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/vs_empty_circle">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_history"
+                    app:tint="?attr/colorSecondary" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/home_continue_empty_title"
+                android:textColor="?attr/vsTextPrimary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/home_continue_empty_body"
+                android:textColor="?attr/vsTextTertiary"
+                android:textSize="12.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/continue_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </LinearLayout>
+</com.voidstrap.android.ScrollPane>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/vs_subtle_pressed">
+    <item android:id="@android:id/mask">
+        <shape>
+            <solid android:color="#FFFFFFFF" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+    <item>
+        <selector>
+            <item android:state_selected="true">
+                <shape>
+                    <solid android:color="@color/vs_tonal" />
+                    <corners android:radius="16dp" />
+                </shape>
+            </item>
+            <item android:state_hovered="true">
+                <shape>
+                    <solid android:color="@color/vs_subtle" />
+                    <corners android:radius="16dp" />
+                </shape>
+            </item>
+            <item>
+                <shape>
+                    <solid android:color="@android:color/transparent" />
+                </shape>
+            </item>
+        </selector>
+    </item>
+</ripple>

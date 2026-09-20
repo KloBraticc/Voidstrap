@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="vs_page_inset">16dp</dimen>
+    <dimen name="vs_touch">48dp</dimen>
+    <dimen name="vs_radius_control">12dp</dimen>
+    <dimen name="vs_radius_card">20dp</dimen>
+    <dimen name="vs_radius_overlay">28dp</dimen>
+    <dimen name="vs_icon_tile">40dp</dimen>
+    <dimen name="vs_sidebar_width">80dp</dimen>
+    <dimen name="vs_flag_value">116dp</dimen>
+</resources>

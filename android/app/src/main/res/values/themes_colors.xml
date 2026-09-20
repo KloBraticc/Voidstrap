@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ThemeOverlay.Voidstrap.Color.Voidstrap" parent="">
+        <item name="vsWindow">@color/vs_theme_voidstrap_vs_window</item>
+        <item name="vsSidebar">@color/vs_theme_voidstrap_vs_sidebar</item>
+        <item name="vsCard">@color/vs_theme_voidstrap_vs_card</item>
+        <item name="vsMenu">@color/vs_theme_voidstrap_vs_menu</item>
+        <item name="vsInput">@color/vs_theme_voidstrap_vs_input</item>
+        <item name="vsTextPrimary">@color/vs_theme_voidstrap_vs_text_primary</item>
+        <item name="vsTextSecondary">@color/vs_theme_voidstrap_vs_text_secondary</item>
+        <item name="vsTextTertiary">@color/vs_theme_voidstrap_vs_text_tertiary</item>
+        <item name="colorPrimary">@color/vs_theme_voidstrap_color_primary</item>
+        <item name="colorAccent">@color/vs_theme_voidstrap_color_accent</item>
+        <item name="colorSecondary">@color/vs_theme_voidstrap_color_secondary</item>
+        <item name="colorTertiary">@color/vs_theme_voidstrap_color_tertiary</item>
+        <item name="android:textColorLink">@color/vs_theme_voidstrap_text_color_link</item>
+        <item name="colorOnPrimary">@color/vs_theme_voidstrap_color_on_primary</item>
+    </style>
+    <style name="ThemeOverlay.Voidstrap.Color.UltraGray" parent="">
+        <item name="vsWindow">@color/vs_theme_ultra_gray_vs_window</item>
+        <item name="vsSidebar">@color/vs_theme_ultra_gray_vs_sidebar</item>
+        <item name="vsCard">@color/vs_theme_ultra_gray_vs_card</item>
+        <item name="vsMenu">@color/vs_theme_ultra_gray_vs_menu</item>
+        <item name="vsInput">@color/vs_theme_ultra_gray_vs_input</item>
+        <item name="vsTextPrimary">@color/vs_theme_ultra_gray_vs_text_primary</item>
+        <item name="vsTextSecondary">@color/vs_theme_ultra_gray_vs_text_secondary</item>
+        <item name="vsTextTertiary">@color/vs_theme_ultra_gray_vs_text_tertiary</item>
+        <item name="colorPrimary">@color/vs_theme_ultra_gray_color_primary</item>
+        <item name="colorAccent">@color/vs_theme_ultra_gray_color_accent</item>
+        <item name="colorSecondary">@color/vs_theme_ultra_gray_color_secondary</item>
+        <item name="colorTertiary">@color/vs_theme_ultra_gray_color_tertiary</item>
+        <item name="android:textColorLink">@color/vs_theme_ultra_gray_text_color_link</item>
+        <item name="colorOnPrimary">@color/vs_theme_ultra_gray_color_on_primary</item>
+    </style>
+    <style name="ThemeOverlay.Voidstrap.Color.Berry" parent="">
+        <item name="vsWindow">@color/vs_theme_berry_vs_window</item>
+        <item name="vsSidebar">@color/vs_theme_berry_vs_sidebar</item>
+        <item name="vsCard">@color/vs_theme_berry_vs_card</item>
+        <item name="vsMenu">@color/vs_theme_berry_vs_menu</item>
+        <item name="vsInput">@color/vs_theme_berry_vs_input</item>
+        <item name="vsTextPrimary">@color/vs_theme_berry_vs_text_primary</item>
+        <item name="vsTextSecondary">@color/vs_theme_berry_vs_text_secondary</item>
+        <item name="vsTextTertiary">@color/vs_theme_berry_vs_text_tertiary</item>
+        <item name="colorPrimary">@color/vs_theme_berry_color_primary</item>
+        <item name="colorAccent">@color/vs_theme_berry_color_accent</item>
+        <item name="colorSecondary">@color/vs_theme_berry_color_secondary</item>
+        <item name="colorTertiary">@color/vs_theme_berry_color_tertiary</item>
+        <item name="android:textColorLink">@color/vs_theme_berry_text_color_link</item>
+        <item name="colorOnPrimary">@color/vs_theme_berry_color_on_primary</item>
+    </style>
+    <style name="ThemeOverlay.Voidstrap.Color.Blue" parent="">
+        <item name="vsWindow">@color/vs_theme_blue_vs_window</item>
+        <item name="vsSidebar">@color/vs_theme_blue_vs_sidebar</item>
+        <item name="vsCard">@color/vs_theme_blue_vs_card</item>
+        <item name="vsMenu">@color/vs_theme_blue_vs_menu</item>
+        <item name="vsInput">@color/vs_theme_blue_vs_input</item>
+        <item name="vsTextPrimary">@color/vs_theme_blue_vs_text_primary</item>
+        <item name="vsTextSecondary">@color/vs_theme_blue_vs_text_secondary</item>
+        <item name="vsTextTertiary">@color/vs_theme_blue_vs_text_tertiary</item>
+        <item name="colorPrimary">@color/vs_theme_blue_color_primary</item>
+        <item name="colorAccent">@color/vs_theme_blue_color_accent</item>
+        <item name="colorSecondary">@color/vs_theme_blue_color_secondary</item>
+        <item name="colorTertiary">@color/vs_theme_blue_color_tertiary</item>
+        <item name="android:textColorLink">@color/vs_theme_blue_text_color_link</item>
+        <item name="colorOnPrimary">@color/vs_theme_blue_color_on_primary</item>
+    </style>
+    <style name="ThemeOverlay.Voidstrap.Color.Cyan" parent="">
+        <item name="vsWindow">@color/vs_theme_cyan_vs_window</item>
+        <item name="vsSidebar">@color/vs_theme_cyan_vs_sidebar</item>
+        <item name="vsCard">@color/vs_theme_cyan_vs_card</item>
+        <item name="vsMenu">@color/vs_theme_cyan_vs_menu</item>
+        <item name="vsInput">@color/vs_theme_cyan_vs_input</item>
+        <item name="vsTextPrimary">@color/vs_theme_cyan_vs_text_primary</item>
+        <item name="vsTextSecondary">@color/vs_theme_cyan_vs_text_secondary</item>
+        <item name="vsTextTertiary">@color/vs_theme_cyan_vs_text_tertiary</item>
+        <item name="colorPrimary">@color/vs_theme_cyan_color_primary</item>
+        <item name="colorAccent">@color/vs_theme_cyan_color_accent</item>
+        <item name="colorSecondary">@color/vs_theme_cyan_color_secondary</item>
+        <item name="colorTertiary">@color/vs_theme_cyan_color_tertiary</item>
+        <item name="android:textColorLink">@color/vs_theme_cyan_text_color_link</item>
+        <item name="colorOnPrimary">@color/vs_theme_cyan_color_on_primary</item>
+    </style>
+    <style name="ThemeOverlay.Voidstrap.Color.Green" parent="">
+        <item name="vsWindow">@color/vs_theme_green_vs_window</item>
+        <item name="vsSidebar">@color/vs_theme_green_vs_sidebar</item>
+        <item name="vsCard">@color/vs_theme_green_vs_card</item>
+        <item name="vsMenu">@color/vs_theme_green_vs_menu</item>
+        <item name="vsInput">@color/vs_theme_green_vs_input</item>
+        <item name="vsTextPrimary">@color/vs_theme_green_vs_text_primary</item>
+        <item name="vsTextSecondary">@color/vs_theme_green_vs_text_secondary</item>
+        <item name="vsTextTertiary">@color/vs_theme_green_vs_text_tertiary</item>
+        <item name="colorPrimary">@color/vs_theme_green_color_primary</item>
+        <item name="colorAccent">@color/vs_theme_green_color_accent</item>
+        <item name="colorSecondary">@color/vs_theme_green_color_secondary</item>
+        <item name="colorTertiary">@color/vs_theme_green_color_tertiary</item>
+        <item name="android:textColorLink">@color/vs_theme_green_text_color_link</item>
+        <item name="colorOnPrimary">@color/vs_theme_green_color_on_primary</item>
+    </style>
+    <style name="ThemeOverlay.Voidstrap.Color.Orange" parent="">
+        <item name="vsWindow">@color/vs_theme_orange_vs_window</item>
+        <item name="vsSidebar">@color/vs_theme_orange_vs_sidebar</item>
+        <item name="vsCard">@color/vs_theme_orange_vs_card</item>
+        <item name="vsMenu">@color/vs_theme_orange_vs_menu</item>
+        <item name="vsInput">@color/vs_theme_orange_vs_input</item>
+        <item name="vsTextPrimary">@color/vs_theme_orange_vs_text_primary</item>
+        <item name="vsTextSecondary">@color/vs_theme_orange_vs_text_secondary</item>
+        <item name="vsTextTertiary">@color/vs_theme_orange_vs_text_tertiary</item>
+        <item name="colorPrimary">@color/vs_theme_orange_color_primary</item>
+        <item name="colorAccent">@color/vs_theme_orange_color_accent</item>
+        <item name="colorSecondary">@color/vs_theme_orange_color_secondary</item>
+        <item name="colorTertiary">@color/vs_theme_orange_color_tertiary</item>
+        <item name="android:textColorLink">@color/vs_theme_orange_text_color_link</item>
+        <item name="colorOnPrimary">@color/vs_theme_orange_color_on_primary</item>
+    </style>
+    <style name="ThemeOverlay.Voidstrap.Color.Pink" parent="">
+        <item name="vsWindow">@color/vs_theme_pink_vs_window</item>
+        <item name="vsSidebar">@color/vs_theme_pink_vs_sidebar</item>
+        <item name="vsCard">@color/vs_theme_pink_vs_card</item>
+        <item name="vsMenu">@color/vs_theme_pink_vs_menu</item>
+        <item name="vsInput">@color/vs_theme_pink_vs_input</item>
+        <item name="vsTextPrimary">@color/vs_theme_pink_vs_text_primary</item>
+        <item name="vsTextSecondary">@color/vs_theme_pink_vs_text_secondary</item>
+        <item name="vsTextTertiary">@color/vs_theme_pink_vs_text_tertiary</item>
+        <item name="colorPrimary">@color/vs_theme_pink_color_primary</item>
+        <item name="colorAccent">@color/vs_theme_pink_color_accent</item>
+        <item name="colorSecondary">@color/vs_theme_pink_color_secondary</item>
+        <item name="colorTertiary">@color/vs_theme_pink_color_tertiary</item>
+        <item name="android:textColorLink">@color/vs_theme_pink_text_color_link</item>
+        <item name="colorOnPrimary">@color/vs_theme_pink_color_on_primary</item>
+    </style>
+    <style name="ThemeOverlay.Voidstrap.Color.Purple" parent="">
+        <item name="vsWindow">@color/vs_theme_purple_vs_window</item>
+        <item name="vsSidebar">@color/vs_theme_purple_vs_sidebar</item>
+        <item name="vsCard">@color/vs_theme_purple_vs_card</item>
+        <item name="vsMenu">@color/vs_theme_purple_vs_menu</item>
+        <item name="vsInput">@color/vs_theme_purple_vs_input</item>
+        <item name="vsTextPrimary">@color/vs_theme_purple_vs_text_primary</item>
+        <item name="vsTextSecondary">@color/vs_theme_purple_vs_text_secondary</item>
+        <item name="vsTextTertiary">@color/vs_theme_purple_vs_text_tertiary</item>
+        <item name="colorPrimary">@color/vs_theme_purple_color_primary</item>
+        <item name="colorAccent">@color/vs_theme_purple_color_accent</item>
+        <item name="colorSecondary">@color/vs_theme_purple_color_secondary</item>
+        <item name="colorTertiary">@color/vs_theme_purple_color_tertiary</item>
+        <item name="android:textColorLink">@color/vs_theme_purple_text_color_link</item>
+        <item name="colorOnPrimary">@color/vs_theme_purple_color_on_primary</item>
+    </style>
+    <style name="ThemeOverlay.Voidstrap.Color.Red" parent="">
+        <item name="vsWindow">@color/vs_theme_red_vs_window</item>
+        <item name="vsSidebar">@color/vs_theme_red_vs_sidebar</item>
+        <item name="vsCard">@color/vs_theme_red_vs_card</item>
+        <item name="vsMenu">@color/vs_theme_red_vs_menu</item>
+        <item name="vsInput">@color/vs_theme_red_vs_input</item>
+        <item name="vsTextPrimary">@color/vs_theme_red_vs_text_primary</item>
+        <item name="vsTextSecondary">@color/vs_theme_red_vs_text_secondary</item>
+        <item name="vsTextTertiary">@color/vs_theme_red_vs_text_tertiary</item>
+        <item name="colorPrimary">@color/vs_theme_red_color_primary</item>
+        <item name="colorAccent">@color/vs_theme_red_color_accent</item>
+        <item name="colorSecondary">@color/vs_theme_red_color_secondary</item>
+        <item name="colorTertiary">@color/vs_theme_red_color_tertiary</item>
+        <item name="android:textColorLink">@color/vs_theme_red_text_color_link</item>
+        <item name="colorOnPrimary">@color/vs_theme_red_color_on_primary</item>
+    </style>
+    <style name="ThemeOverlay.Voidstrap.Color.Yellow" parent="">
+        <item name="vsWindow">@color/vs_theme_yellow_vs_window</item>
+        <item name="vsSidebar">@color/vs_theme_yellow_vs_sidebar</item>
+        <item name="vsCard">@color/vs_theme_yellow_vs_card</item>
+        <item name="vsMenu">@color/vs_theme_yellow_vs_menu</item>
+        <item name="vsInput">@color/vs_theme_yellow_vs_input</item>
+        <item name="vsTextPrimary">@color/vs_theme_yellow_vs_text_primary</item>
+        <item name="vsTextSecondary">@color/vs_theme_yellow_vs_text_secondary</item>
+        <item name="vsTextTertiary">@color/vs_theme_yellow_vs_text_tertiary</item>
+        <item name="colorPrimary">@color/vs_theme_yellow_color_primary</item>
+        <item name="colorAccent">@color/vs_theme_yellow_color_accent</item>
+        <item name="colorSecondary">@color/vs_theme_yellow_color_secondary</item>
+        <item name="colorTertiary">@color/vs_theme_yellow_color_tertiary</item>
+        <item name="android:textColorLink">@color/vs_theme_yellow_text_color_link</item>
+        <item name="colorOnPrimary">@color/vs_theme_yellow_color_on_primary</item>
+    </style>
+</resources>

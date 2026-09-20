@@ -329,6 +329,7 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 
 	private void RestoreProcessState()
 	{
+		RobloxMemoryLimit.Forget(_processId);
 		using Process? process = TryGetProcess();
 		if (process == null || process.HasExited)
 		{

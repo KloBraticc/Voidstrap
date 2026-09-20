@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/vs_page_inset"
+    android:paddingTop="@dimen/vs_page_inset"
+    android:paddingEnd="@dimen/vs_page_inset">
+
+    <LinearLayout
+        android:id="@+id/lib_side"
+        android:layout_width="225dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/vs_page_inset">
+
+        <LinearLayout
+            android:id="@+id/lib_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/vs_sidebar_item"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:minHeight="40dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_home"
+                app:tint="?attr/vsTextPrimary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:text="@string/library_home"
+                android:textColor="?attr/vsTextPrimary"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lib_search_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:hint="@string/library_search_games"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_search">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/lib_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text|textNoSuggestions"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/lib_refresh"
+                style="@style/Widget.Voidstrap.Button.Subtle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:contentDescription="@string/library_refresh"
+                android:minWidth="@dimen/vs_touch"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                app:icon="@drawable/ic_arrow_sync"
+                app:iconPadding="0dp" />
+        </LinearLayout>
+
+        <com.voidstrap.android.ListPane
+            android:id="@+id/lib_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1"
+            android:scrollbars="none" />
+
+        <LinearLayout
+            android:id="@+id/lib_add_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/vs_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/library_add_hint">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/lib_add"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:inputType="textUri|textNoSuggestions"
+                        android:maxLines="1"
+                        android:textSize="13sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/lib_add_button"
+                    style="@style/Widget.Voidstrap.Button.Standard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:contentDescription="@string/library_add"
+                    android:minWidth="@dimen/vs_touch"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    app:icon="@drawable/ic_add"
+                    app:iconPadding="0dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/lib_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/vs_caution"
+                android:textSize="11sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <com.voidstrap.android.ScrollPane
+            android:id="@+id/lib_dashboard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/vs_page_inset">
+
+            <LinearLayout
+                android:id="@+id/lib_dash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </com.voidstrap.android.ScrollPane>
+
+        <com.voidstrap.android.ScrollPane
+            android:id="@+id/lib_detail_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/vs_page_inset"
+            android:visibility="gone">
+
+            <include
+                android:id="@+id/lib_detail"
+                layout="@layout/view_library_detail" />
+        </com.voidstrap.android.ScrollPane>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/lib_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone" />
+    </FrameLayout>
+</LinearLayout>

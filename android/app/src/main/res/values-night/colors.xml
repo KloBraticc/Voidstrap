@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="vs_p_primary">#FFCCBEFF</color>
+    <color name="vs_p_on_primary">#FF33275E</color>
+    <color name="vs_p_window">#FF141318</color>
+    <color name="vs_p_sidebar">#FF201F24</color>
+    <color name="vs_p_card">#FF1C1B20</color>
+    <color name="vs_p_menu">#FF2B292F</color>
+    <color name="vs_p_input">#FF36343A</color>
+    <color name="vs_p_text_primary">#FFE6E1E9</color>
+    <color name="vs_p_text_secondary">#FFCAC4CF</color>
+    <color name="vs_p_text_tertiary">#FF938F99</color>
+
+    <color name="vs_card_stroke">#FF48454E</color>
+    <color name="vs_control_stroke">#FF938F99</color>
+    <color name="vs_subtle">#14E6E1E9</color>
+    <color name="vs_subtle_pressed">#1FE6E1E9</color>
+    <color name="vs_divider">#FF48454E</color>
+    <color name="vs_success">#FF6CCB5F</color>
+    <color name="vs_caution">#FFFCE100</color>
+    <color name="vs_critical">#FFFFB4AB</color>
+    <color name="vs_info_fill">#14E6E1E9</color>
+
+    <color name="vs_scroll_thumb">#8BFFFFFF</color>
+    <color name="vs_scroll_highlight">#C5FFFFFF</color>
+    <color name="vs_scroll_panel">#0FFFFFFF</color>
+    <color name="vs_scroll_stroke">#12FFFFFF</color>
+</resources>

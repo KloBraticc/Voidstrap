@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.voidstrap.android.ScrollPane xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/matchmaker_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <LinearLayout style="@style/Voidstrap.Page">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/matchmaker_title"
+            android:textAppearance="@style/TextAppearance.Voidstrap.PageTitle" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@string/matchmaker_subtitle"
+            android:textAppearance="@style/TextAppearance.Voidstrap.PageSubtitle" />
+
+        <TextView
+            android:id="@+id/matchmaker_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:minHeight="32dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="8dp"
+            android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+
+        <LinearLayout
+            android:id="@+id/matchmaker_sections"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical" />
+    </LinearLayout>
+</com.voidstrap.android.ScrollPane>

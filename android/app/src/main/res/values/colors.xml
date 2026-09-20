@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="vs_launcher_background">#FF110D1C</color>
+
+    <color name="vs_p_primary">#FF625690</color>
+    <color name="vs_p_on_primary">#FFFFFFFF</color>
+    <color name="vs_p_window">#FFFDF7FF</color>
+    <color name="vs_p_sidebar">#FFF1ECF4</color>
+    <color name="vs_p_card">#FFF7F2FA</color>
+    <color name="vs_p_menu">#FFECE6EE</color>
+    <color name="vs_p_input">#FFE6E1E9</color>
+    <color name="vs_p_text_primary">#FF1C1B20</color>
+    <color name="vs_p_text_secondary">#FF48454E</color>
+    <color name="vs_p_text_tertiary">#FF79757F</color>
+
+    <color name="vs_accent">@color/vs_p_primary</color>
+    <color name="vs_accent_text">@color/vs_p_primary</color>
+    <color name="vs_on_accent">@color/vs_p_on_primary</color>
+
+    <color name="vs_window">@color/vs_p_window</color>
+    <color name="vs_sidebar">@color/vs_p_sidebar</color>
+    <color name="vs_card">@color/vs_p_card</color>
+    <color name="vs_menu">@color/vs_p_menu</color>
+    <color name="vs_input">@color/vs_p_input</color>
+    <color name="vs_text_primary">@color/vs_p_text_primary</color>
+    <color name="vs_text_secondary">@color/vs_p_text_secondary</color>
+    <color name="vs_text_tertiary">@color/vs_p_text_tertiary</color>
+
+    <color name="vs_card_stroke">#FFCAC4CF</color>
+    <color name="vs_control_stroke">#FF79757F</color>
+    <color name="vs_subtle">#141C1B20</color>
+    <color name="vs_subtle_pressed">#1F1C1B20</color>
+    <color name="vs_divider">#FFCAC4CF</color>
+    <color name="vs_success">#FF1E7B34</color>
+    <color name="vs_caution">#FF9D5D00</color>
+    <color name="vs_critical">#FFBA1A1A</color>
+    <color name="vs_info_fill">#141C1B20</color>
+
+    <color name="vs_scroll_thumb">#72000000</color>
+    <color name="vs_scroll_highlight">#9E000000</color>
+    <color name="vs_scroll_panel">#B3FFFFFF</color>
+    <color name="vs_scroll_stroke">#0F000000</color>
+</resources>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Shape.Voidstrap.Control" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/vs_radius_control</item>
+    </style>
+
+    <style name="Shape.Voidstrap.Pill" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Shape.Voidstrap.Card" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/vs_radius_card</item>
+    </style>
+
+    <style name="Shape.Voidstrap.Overlay" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/vs_radius_overlay</item>
+    </style>
+
+    <style name="Shape.Voidstrap.SheetTop" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/vs_radius_overlay</item>
+        <item name="cornerSizeTopRight">@dimen/vs_radius_overlay</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <style name="Widget.Voidstrap.Button" parent="Widget.Material3.Button">
+        <item name="shapeAppearance">@style/Shape.Voidstrap.Pill</item>
+        <item name="android:minHeight">@dimen/vs_touch</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="iconSize">18dp</item>
+        <item name="iconPadding">8dp</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <style name="Widget.Voidstrap.Button.Standard" parent="Widget.Voidstrap.Button">
+        <item name="backgroundTint">@color/vs_tonal</item>
+        <item name="android:textColor">@color/vs_button_text</item>
+        <item name="iconTint">@color/vs_button_text</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="rippleColor">@color/vs_subtle_pressed</item>
+    </style>
+
+    <style name="Widget.Voidstrap.Button.Subtle" parent="Widget.Material3.Button.TextButton">
+        <item name="shapeAppearance">@style/Shape.Voidstrap.Pill</item>
+        <item name="android:minHeight">@dimen/vs_touch</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/vs_button_text</item>
+        <item name="iconTint">@color/vs_button_text</item>
+        <item name="rippleColor">@color/vs_subtle_pressed</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <style name="Widget.Voidstrap.Button.DialogText" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/vs_button_text</item>
+        <item name="shapeAppearance">@style/Shape.Voidstrap.Pill</item>
+    </style>
+
+    <style name="Widget.Voidstrap.IconButton" parent="Widget.Material3.Button.IconButton">
+        <item name="iconTint">?attr/vsTextSecondary</item>
+        <item name="rippleColor">@color/vs_subtle_pressed</item>
+        <item name="android:minWidth">@dimen/vs_touch</item>
+        <item name="android:minHeight">@dimen/vs_touch</item>
+        <item name="shapeAppearance">@style/Shape.Voidstrap.Pill</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <style name="Widget.Voidstrap.Card" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardBackgroundColor">?attr/vsCard</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="shapeAppearance">@style/Shape.Voidstrap.Card</item>
+        <item name="rippleColor">@color/vs_subtle_pressed</item>
+    </style>
+
+    <style name="Widget.Voidstrap.TextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">?attr/vsInput</item>
+        <item name="boxStrokeColor">?attr/colorPrimary</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="shapeAppearance">@style/Shape.Voidstrap.Control</item>
+        <item name="hintTextColor">?attr/colorSecondary</item>
+        <item name="endIconTint">?attr/vsTextSecondary</item>
+        <item name="startIconTint">?attr/vsTextTertiary</item>
+    </style>
+
+    <style name="Widget.Voidstrap.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="android:minHeight">@dimen/vs_touch</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/vsTextPrimary</item>
+    </style>
+
+    <style name="Widget.Voidstrap.BottomSheet" parent="Widget.Material3.BottomSheet">
+        <item name="backgroundTint">?attr/vsMenu</item>
+        <item name="shapeAppearance">@style/Shape.Voidstrap.SheetTop</item>
+    </style>
+
+    <style name="Widget.Voidstrap.Snackbar" parent="Widget.Material3.Snackbar">
+        <item name="backgroundTint">?attr/vsMenu</item>
+        <item name="shapeAppearance">@style/Shape.Voidstrap.Card</item>
+    </style>
+
+    <style name="Widget.Voidstrap.SnackbarText" parent="Widget.Material3.Snackbar.TextView">
+        <item name="android:textColor">?attr/vsTextPrimary</item>
+    </style>
+
+    <style name="Widget.Voidstrap.PopupMenu" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@drawable/vs_menu_background</item>
+    </style>
+
+    <style name="Widget.Voidstrap.BottomNav" parent="Widget.Material3.BottomNavigationView">
+        <item name="backgroundTint">?attr/vsSidebar</item>
+        <item name="itemIconTint">@color/vs_nav_icon</item>
+        <item name="itemTextColor">@color/vs_nav_item</item>
+        <item name="itemActiveIndicatorStyle">@style/Widget.Voidstrap.NavIndicator</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearance.Voidstrap.NavLabel</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.Voidstrap.NavLabel</item>
+    </style>
+
+    <style name="Widget.Voidstrap.NavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/vs_tonal</item>
+        <item name="shapeAppearance">@style/Shape.Voidstrap.Pill</item>
+    </style>
+
+    <style name="TextAppearance.Voidstrap.NavLabel" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.Voidstrap.PageTitle" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textSize">22sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">?attr/vsTextPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Voidstrap.PageSubtitle" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/vsTextSecondary</item>
+    </style>
+
+    <style name="TextAppearance.Voidstrap.Section" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Voidstrap.RowTitle" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/vsTextPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Voidstrap.RowSummary" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/vsTextSecondary</item>
+    </style>
+
+    <style name="TextAppearance.Voidstrap.CardTitle" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">?attr/vsTextPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Voidstrap.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/vsTextPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Voidstrap.Caption" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?attr/vsTextSecondary</item>
+    </style>
+
+    <style name="TextAppearance.Voidstrap.Tertiary" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?attr/vsTextTertiary</item>
+    </style>
+
+    <style name="TextAppearance.Voidstrap.Mono" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">?attr/vsTextPrimary</item>
+    </style>
+
+    <style name="Voidstrap.Page" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingStart">@dimen/vs_page_inset</item>
+        <item name="android:paddingEnd">@dimen/vs_page_inset</item>
+        <item name="android:paddingTop">@dimen/vs_page_inset</item>
+        <item name="android:paddingBottom">24dp</item>
+    </style>
+
+    <style name="Voidstrap.CardBody" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="Voidstrap.SectionHeader" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Voidstrap.Section</item>
+    </style>
+</resources>

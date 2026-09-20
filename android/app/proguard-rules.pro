@@ -1,0 +1,2 @@
+-dontobfuscate
+-keep class com.voidstrap.android.HelperServer { public static void main(java.lang.String[]); }

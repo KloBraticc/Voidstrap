@@ -43,6 +43,21 @@ internal static partial class RobloxMemoryLimit
 	[return: MarshalAs(UnmanagedType.Bool)]
 	private static partial bool GetProcessWorkingSetSizeEx(IntPtr process, out nuint minimum, out nuint maximum, out uint flags);
 
+	[LibraryImport("kernel32.dll", EntryPoint = "OpenProcess", SetLastError = true)]
+	private static partial IntPtr OpenProcess(uint access, [MarshalAs(UnmanagedType.Bool)] bool inherit, uint processId);
+
+	[LibraryImport("kernel32.dll", EntryPoint = "CloseHandle", SetLastError = true)]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static partial bool CloseHandle(IntPtr handle);
+
+	private const uint ProcessSetQuota = 0x0100;
+	private const uint ProcessQueryLimitedInformation = 0x1000;
+	private const int AccessDenied = 5;
+
+	private static readonly System.Collections.Concurrent.ConcurrentDictionary<int, byte> Hardened = new();
+
+	public static void Forget(int processId) => Hardened.TryRemove(processId, out _);
+
 	public static (int TotalMb, int AvailableMb) SystemMemory()
 	{
 		MemoryStatusEx status = new() { Length = (uint)Marshal.SizeOf<MemoryStatusEx>() };
@@ -69,9 +84,20 @@ internal static partial class RobloxMemoryLimit
 	{
 		if (!Platform.IsWindows)
 			return true;
+		if (Hardened.ContainsKey(process.Id))
+			return false;
+		IntPtr handle = OpenProcess(ProcessSetQuota | ProcessQueryLimitedInformation, false, (uint)process.Id);
+		if (handle == IntPtr.Zero)
+		{
+			int error = Marshal.GetLastPInvokeError();
+			if (error == AccessDenied && Hardened.TryAdd(process.Id, 0))
+				App.Logger.WriteLine("RobloxMemoryLimit", "Roblox process " + process.Id + " does not allow a quota handle, the memory limit stays off for this session");
+			else if (error != AccessDenied)
+				App.Logger.WriteLine("RobloxMemoryLimit", "The Roblox memory limit could not be changed, error " + error);
+			return false;
+		}
 		try
 		{
-			IntPtr handle = process.Handle;
 			if (!GetProcessWorkingSetSizeEx(handle, out nuint minimum, out nuint maximum, out uint flags))
 				return false;
 			if (limitMb is not int mb)
@@ -101,6 +127,10 @@ internal static partial class RobloxMemoryLimit
 		{
 			App.Logger.WriteLine("RobloxMemoryLimit", "The Roblox memory limit could not be changed: " + ex.Message);
 			return false;
+		}
+		finally
+		{
+			CloseHandle(handle);
 		}
 	}
 }

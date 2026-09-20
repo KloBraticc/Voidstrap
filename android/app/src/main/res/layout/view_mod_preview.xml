@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.voidstrap.android.ScrollPane xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/preview_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:background="@drawable/vs_icon_tile"
+            android:contentDescription="@string/mods_preview_image"
+            android:maxHeight="280dp"
+            android:scaleType="fitCenter"
+            app:shapeAppearance="@style/Shape.Voidstrap.Card" />
+
+        <TextView
+            android:id="@+id/preview_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textAppearance="@style/TextAppearance.Voidstrap.CardTitle" />
+
+        <TextView
+            android:id="@+id/preview_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+
+        <include
+            layout="@layout/view_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/preview_play"
+                style="@style/Widget.Voidstrap.Button.Standard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mods_play"
+                app:icon="@drawable/ic_play" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/preview_export"
+                style="@style/Widget.Voidstrap.Button.Standard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/common_export"
+                app:icon="@drawable/ic_share" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/preview_rename"
+                style="@style/Widget.Voidstrap.Button.Standard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/common_rename"
+                app:icon="@drawable/ic_rename" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/preview_remove"
+                style="@style/Widget.Voidstrap.Button.Standard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/common_remove"
+                app:icon="@drawable/ic_delete" />
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="preview_play,preview_export,preview_rename,preview_remove"
+                app:flow_horizontalBias="0"
+                app:flow_horizontalGap="8dp"
+                app:flow_horizontalStyle="packed"
+                app:flow_verticalGap="8dp"
+                app:flow_wrapMode="chain"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</com.voidstrap.android.ScrollPane>

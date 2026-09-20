@@ -1,0 +1,1033 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Voidstrap</string>
+    <string name="url_website" translatable="false">https://voidstrapp.pages.dev</string>
+    <string name="url_releases" translatable="false">https://github.com/KloBraticc/Voidstrap/releases</string>
+    <string name="pair">%1$s · %2$s</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_library">Library</string>
+    <string name="nav_mods">Mods</string>
+    <string name="nav_flags">FastFlags</string>
+    <string name="nav_editor">Editor</string>
+    <string name="flag_settings_title">FastFlag Settings</string>
+    <string name="flag_settings_subtitle">Presets for your %1$s profile.</string>
+    <string name="flag_settings_open_editor">Open FastFlag Editor</string>
+    <string name="nav_settings">Settings</string>
+
+    <string name="common_cancel">Cancel</string>
+    <string name="common_clear">Clear</string>
+    <string name="common_close">Close</string>
+    <string name="common_copy">Copy</string>
+    <string name="common_create">Create</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_export">Export</string>
+    <string name="common_import">Import</string>
+    <string name="common_more">More options</string>
+    <string name="common_never">Never</string>
+    <string name="common_just_now">Just now</string>
+    <string name="common_ok">OK</string>
+    <string name="common_open">Open</string>
+    <string name="common_open_app">Open %1$s</string>
+    <string name="common_open_settings">Open app settings</string>
+    <string name="common_remove">Remove</string>
+    <string name="common_rename">Rename</string>
+    <string name="common_save">Save</string>
+    <string name="common_share">Share</string>
+    <string name="error_no_browser">No app can open this link.</string>
+    <string name="export_failed">Saving failed. Try a different location.</string>
+    <string name="export_denied">That location did not let Voidstrap save the file. Choose a folder on your device storage instead.</string>
+
+    <string name="target_global">Roblox</string>
+    <string name="target_vn">Roblox VN</string>
+    <string name="target_version">Installed · version %1$s</string>
+    <string name="target_not_installed">Not installed on this device</string>
+    <string name="target_disabled">Disabled in Android settings</string>
+    <string name="target_no_launcher">Version %1$s · cannot be opened</string>
+    <string name="target_sheet_title">Roblox app</string>
+    <string name="target_sheet_body">Choose which official Roblox app Voidstrap opens. Your choice applies to the next launch.</string>
+    <string name="target_button_description">Roblox app: %1$s, %2$s. Double tap to change.</string>
+    <string name="target_row">%1$s, %2$s</string>
+    <string name="target_row_selected">%1$s, %2$s, selected</string>
+
+    <string name="launch_handed_off">Opened in Roblox</string>
+    <string name="launch_not_installed">Roblox is not installed</string>
+    <string name="launch_disabled">Roblox is disabled</string>
+    <string name="launch_no_handler">Roblox could not be opened</string>
+    <string name="launch_destination_unsupported">Roblox did not accept the link</string>
+    <string name="launch_busy">Already opening Roblox</string>
+    <string name="launch_failed">Android blocked the launch</string>
+
+    <string name="install_opening_plain">Install %1$s from the store, then come back to Voidstrap.</string>
+    <string name="install_opening_pending">Install %1$s from the store. Your game launches as soon as it finishes.</string>
+    <string name="install_get">Install %1$s</string>
+    <string name="disabled_title">%1$s is disabled</string>
+    <string name="disabled_body">Enable the app in Android settings to launch it from Voidstrap.</string>
+    <string name="unsupported_title">Link not accepted</string>
+    <string name="unsupported_body">%1$s did not accept this game link. You can open the app and find the game there instead.</string>
+
+    <string name="bar_save">Save</string>
+    <string name="bar_save_launch">Save and Launch</string>
+    <string name="bar_saved">Settings saved</string>
+    <string name="bar_target_description">Launch target: %1$s, %2$s. Double tap to change.</string>
+    <string name="save_failed_title">Settings not saved</string>
+    <string name="save_failed_body">Voidstrap could not write your settings to storage. Free up some space and try again.</string>
+    <string name="home_news_title">Latest Roblox News</string>
+    <plurals name="home_news_count">
+        <item quantity="one">(%1$d new)</item>
+        <item quantity="other">(%1$d new)</item>
+    </plurals>
+    <string name="home_news_explore">Explore all news</string>
+    <string name="home_news_today">today</string>
+    <string name="home_news_yesterday">yesterday</string>
+    <string name="home_news_announcement">roblox announcement</string>
+    <string name="home_news_description">%1$s, %2$s. Double tap to read.</string>
+    <string name="home_news_all_title">Roblox news</string>
+    <string name="home_news_all_body">Official announcements from the Roblox Developer Forum. Posts open in your browser.</string>
+    <string name="home_news_loading">Loading news</string>
+    <string name="home_news_failed">News could not be loaded. Check your connection and try again.</string>
+    <string name="home_news_open_forum">Open all announcements</string>
+    <string name="home_catalog_title">New on the Catalog</string>
+    <string name="home_catalog_loading">Loading new catalog items…</string>
+    <string name="home_catalog_empty">No new catalog items right now.</string>
+    <string name="home_catalog_failed">Catalog items could not be loaded. Check your connection.</string>
+    <string name="home_catalog_description">%1$s by %2$s, %3$s. Double tap to open in Roblox.</string>
+    <string name="home_free">Free</string>
+    <string name="home_limited">Limited</string>
+    <string name="home_continue_title">Continue Playing</string>
+    <string name="home_continue_empty_title">No history yet</string>
+    <string name="home_continue_empty_body">Games you launch from Voidstrap will show up here so you can jump back in.</string>
+    <string name="home_launched">Launched: %1$s</string>
+    <string name="home_game_page">View the %1$s game page</string>
+    <string name="home_play">Play %1$s</string>
+    <string name="history_clear_title">Clear launch history?</string>
+    <string name="history_clear_body">This removes the list of launches started from Voidstrap. Pinned games stay.</string>
+    <string name="history_cleared">Launch history cleared</string>
+
+    <string name="library_home">Library Home</string>
+    <string name="library_search_games">Search games</string>
+    <string name="library_refresh">Refresh library</string>
+    <string name="library_add_hint">Add by PlaceId or link</string>
+    <string name="library_add">Add this game to your library</string>
+    <string name="library_add_invalid">Enter a valid PlaceId or Roblox game link.</string>
+    <string name="library_add_failed">Could not find a game with that PlaceId.</string>
+    <string name="library_added">Added %1$s to your library</string>
+    <string name="library_group_pinned">PINNED</string>
+    <string name="library_group_all">ALL</string>
+    <string name="library_group_count">(%1$d)</string>
+    <string name="library_empty_all">Your library is empty. Play a game through Voidstrap or add one by PlaceId from the sidebar.</string>
+    <string name="library_events">Events</string>
+    <string name="library_whats_new">What\'s New</string>
+    <string name="library_recent">Recent Games</string>
+    <string name="library_all_games">All Games (%1$d)</string>
+    <string name="library_no_match">No games match your search.</string>
+    <string name="library_view_event">View event</string>
+    <string name="library_live">Live now</string>
+    <string name="library_play">Play</string>
+    <string name="library_unpin">Unpin</string>
+    <string name="library_remove">Remove</string>
+    <string name="library_remove_menu">Remove from library</string>
+    <string name="library_removed">Removed %1$s from your library</string>
+    <string name="library_last_played">LAST PLAYED</string>
+    <string name="library_times_played">TIMES PLAYED</string>
+    <string name="library_playing_now">PLAYING NOW</string>
+    <string name="library_rating">RATING</string>
+    <string name="library_about">About</string>
+    <string name="library_store">Store</string>
+    <string name="library_creator">Creator</string>
+    <string name="library_genre">Genre</string>
+    <string name="library_max_players">Max players</string>
+    <string name="library_visits">Visits</string>
+    <string name="library_created">Created</string>
+    <string name="library_updated">Updated</string>
+    <string name="library_unknown">Unknown</string>
+    <string name="library_never">Never</string>
+    <string name="library_today">Today</string>
+    <string name="library_yesterday">Yesterday</string>
+    <string name="library_updated_today">Updated today</string>
+    <string name="library_updated_yesterday">Updated yesterday</string>
+    <plurals name="library_updated_days">
+        <item quantity="one">Updated %1$d day ago</item>
+        <item quantity="other">Updated %1$d days ago</item>
+    </plurals>
+    <string name="library_updated_on">Updated %1$s</string>
+    <string name="library_by">by %1$s</string>
+    <string name="library_no_passes">This game has no game passes.</string>
+    <string name="library_for_sale">For sale</string>
+    <string name="library_off_sale">Off sale</string>
+    <string name="library_join_server">Join a specific server</string>
+    <string name="library_open_page">Open game page</string>
+    <string name="library_link_hint">Private server code (optional)</string>
+    <string name="library_instance_hint">Server instance ID (optional)</string>
+    <string name="library_exclusive_link">Clear the server ID to use a private server code.</string>
+    <string name="library_add_shortcut">Add to home screen</string>
+    <string name="library_pin">Pin</string>
+    <string name="library_invalid_link">That private server code is not valid.</string>
+    <string name="library_invalid_instance">That server ID is not valid.</string>
+    <string name="library_share_link">Roblox share link</string>
+    <string name="library_pinned_toast">Pinned %1$s</string>
+    <string name="game_copy_link">Copy game link</string>
+    <string name="game_link_copied">Game link copied</string>
+    <string name="game_unpinned">Removed %1$s from your library</string>
+
+    <string name="shortcut_unsupported">Your home screen app cannot add shortcuts. Pinned games still show when you long press the Voidstrap icon.</string>
+    <string name="shortcut_requested">Confirm the shortcut on your home screen.</string>
+    <string name="shortcut_failed">The shortcut could not be requested.</string>
+    <string name="shortcut_already">%1$s is already on your home screen. Its icon and name were updated.</string>
+    <string name="shortcut_added">Added %1$s to your home screen</string>
+    <string name="shortcut_broken">This shortcut is no longer valid. Create it again from the Library.</string>
+    <string name="shortcut_default_label">Roblox game</string>
+
+    <string name="mods_title">Mods</string>
+    <string name="mods_subtitle">Customize Roblox with presets, mod packs and your own files.</string>
+    <string name="mods_info">This folder works like the desktop Mods folder. Files under content, ExtraContent and PlatformContent/pc are loaded into Roblox.</string>
+    <string name="mods_import_files">Import files</string>
+    <string name="mods_import_pack">Import pack</string>
+    <string name="mods_new_folder">New folder</string>
+    <string name="mods_search">Search this folder</string>
+    <string name="mods_up">Up one folder</string>
+    <string name="mods_root">Workspace</string>
+    <string name="mods_empty">This folder is empty. Import files or a zip pack to get started.</string>
+    <string name="mods_no_match">No files match your search.</string>
+    <string name="mods_preview_title">File details</string>
+    <string name="mods_preview_image">File preview</string>
+    <string name="mods_file_detail">%1$s · %2$s · %3$s</string>
+    <string name="mods_type_file">File</string>
+    <string name="mods_play">Play</string>
+    <string name="mods_stop">Stop</string>
+    <string name="mods_audio_failed">This audio file cannot be played.</string>
+    <string name="mods_name_hint">Name</string>
+    <string name="mods_actions_for">Actions for %1$s</string>
+    <string name="mods_importing">Importing</string>
+    <string name="mods_import_partial">Imported: %1$d. Skipped: %2$d, because %3$s.</string>
+    <string name="mods_exported">Exported %1$s</string>
+    <string name="mods_remove_title">Remove from workspace?</string>
+    <string name="mods_remove_file">%1$s will be deleted from the Voidstrap workspace. Exported copies are not affected.</string>
+    <string name="mods_removed">Removed %1$s</string>
+    <string name="mods_remove_failed">Some files could not be removed.</string>
+    <string name="mods_error_name">Use a name without slashes or special characters.</string>
+    <string name="mods_error_exists">Something with that name already exists here.</string>
+    <string name="mods_error_rename">That name could not be used.</string>
+    <string name="mods_error_blocked">apps, scripts and code files are not accepted</string>
+    <string name="mods_error_blocked_name">Apps, scripts and code files are not accepted.</string>
+    <string name="mods_error_cancelled">import cancelled</string>
+    <string name="mods_error_too_many">the pack has too many files</string>
+    <string name="mods_error_too_large">the file is too large</string>
+    <string name="mods_error_ratio">the pack expands to an unsafe size</string>
+    <string name="mods_error_unsafe">the pack contains unsafe file paths</string>
+    <string name="mods_error_collision">the pack contains duplicate file names</string>
+    <string name="mods_error_space">there is not enough free storage</string>
+    <string name="mods_error_empty">the pack is empty</string>
+    <string name="mods_error_not_zip">the file is not a valid zip pack</string>
+    <string name="mods_error_read">the file could not be read</string>
+
+    <string name="flags_title">FastFlag Editor</string>
+    <string name="flags_subtitle">Add, edit and import FastFlags for this profile.</string>
+    <string name="flags_add">Add new</string>
+    <string name="flags_delete_selected">Delete selected</string>
+    <string name="flags_delete_all">Delete all</string>
+    <string name="flags_copy_json">Copy JSON</string>
+    <string name="flags_hide_presets">Hide preset flags</string>
+    <string name="flags_show_presets">Show preset flags</string>
+    <string name="flags_column_name">Name</string>
+    <string name="flags_column_value">Value</string>
+    <string name="flags_json_copied">Flags copied as JSON</string>
+    <string name="flags_presets_hidden">Every flag here is set by FastFlag Settings. Turn on Show preset flags to see them.</string>
+    <string name="flags_select_hint">Long press a flag to select it first.</string>
+    <string name="flags_search">Search flags</string>
+    <string name="flags_empty">No flags in this profile yet. Add one, or paste or import flag JSON from More options.</string>
+    <string name="flags_no_match">No flags match your search.</string>
+    <string name="flags_profile_description">FastFlag profile %1$s, %2$s. Double tap to switch profiles.</string>
+    <string name="flags_row_description">%1$s set to %2$s. Double tap to edit, double tap and hold to select.</string>
+    <string name="flags_add_title">Add flag</string>
+    <string name="flags_edit_title">Edit flag</string>
+    <string name="flags_key">Flag name</string>
+    <string name="flags_value">Value</string>
+    <string name="flags_type_bool">True/false</string>
+    <string name="flags_type_number">Number</string>
+    <string name="flags_type_string">Text</string>
+    <string name="flags_removed">Removed %1$s</string>
+    <string name="flags_error_key">Use only letters, numbers and underscores, up to 256 characters.</string>
+    <string name="flags_error_exists">This profile already has that flag.</string>
+    <string name="flags_error_bool">Enter true or false.</string>
+    <string name="flags_error_number">Enter a whole or decimal number.</string>
+    <string name="flags_error_value">The value is too long or has control characters.</string>
+    <string name="flags_error_too_many">A profile can hold up to 10000 flags.</string>
+    <string name="flags_error_too_large">Flags over 4 MB cannot be imported.</string>
+    <string name="flags_error_not_object">Expected a JSON object of flag names and values.</string>
+    <string name="flags_error_invalid">This is not valid JSON.</string>
+    <string name="flags_error_read">The file could not be read.</string>
+    <string name="flags_error_profile_name">Enter a name up to 64 characters.</string>
+    <string name="flags_export_profile">Export profile</string>
+    <string name="flags_remove_root">Remove from Roblox</string>
+    <string name="flags_exported">Exported</string>
+    <string name="flags_clear_title">Remove all flags?</string>
+    <string name="flags_clear_body">This removes every flag from %1$s (total: %2$d). Export first if you want a copy.</string>
+    <string name="flags_import_failed">Import failed</string>
+    <string name="flags_import_nothing">Nothing to import</string>
+    <string name="flags_import_title">Import flags</string>
+    <string name="flags_import_summary">Flags found: %1$d. New: %2$d, changed: %3$d, unchanged: %4$d.</string>
+    <string name="flags_import_merge">Merge into %1$s</string>
+    <string name="flags_import_replace">Replace %1$s</string>
+    <string name="flags_import_done">Flags imported: %1$d</string>
+    <string name="flags_profiles">FastFlag profiles</string>
+    <string name="flags_profiles_body">Each profile is a separate set of flags. Switching profiles never changes Roblox.</string>
+    <string name="flags_profile_new">New profile</string>
+    <string name="flags_profile_duplicate">Duplicate profile</string>
+    <string name="flags_profile_delete">Delete profile</string>
+    <string name="flags_profile_delete_body">Delete %1$s? Its flags (total: %2$d) are removed and this cannot be undone.</string>
+    <string name="flags_profile_name">Profile name</string>
+    <string name="flags_profile_copy_name">%1$s copy</string>
+    <string name="flags_import_merge_body">Adds new flags and updates changed ones</string>
+    <string name="flags_import_replace_body">Removes the flags that are not in the import</string>
+    <string name="flags_import_new">Save as a new profile</string>
+    <string name="flags_import_new_body">Creates a profile called %1$s</string>
+    <string name="flags_import_file">Import from file</string>
+    <string name="flags_paste">Paste flags</string>
+    <string name="flags_paste_empty">Copy flag JSON first, then paste it here.</string>
+    <string name="flags_profile_imported">Imported</string>
+    <string name="flags_error_int">Enter a whole number no larger than 2147483647.</string>
+    <string name="flags_too_large">These flags are over 4 MB, which is too large to apply. Remove some and try again.</string>
+    <string name="presets_custom">Custom (%1$s)</string>
+    <string name="common_undo">Undo</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_system">Use device setting</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_accent">Accent color</string>
+    <string name="settings_accent_system">Device accent color</string>
+    <string name="settings_accent_brand">Voidstrap purple</string>
+    <string name="settings_accent_note">Device accent colors need Android 12 or newer.</string>
+    <string name="settings_roblox">Roblox</string>
+    <string name="settings_clear_history">Clear launch history</string>
+    <string name="settings_clear_history_body">Remove the list of recent launches</string>
+    <string name="settings_backup">Backup</string>
+    <string name="settings_backup_body">Save your pinned games, FastFlag profiles and settings to a file, or restore them on another device. Mod files are exported from the Mods page.</string>
+    <string name="settings_backup_export">Export backup</string>
+    <string name="settings_backup_import">Import backup</string>
+    <string name="settings_about">About</string>
+    <string name="settings_compat">Android compatibility</string>
+    <string name="settings_compat_body">What works on Android and what stays on desktop</string>
+    <string name="settings_diagnostics">Diagnostics</string>
+    <string name="settings_diagnostics_body">A report you can copy or share for support</string>
+    <string name="settings_licenses">Licenses</string>
+    <string name="settings_licenses_body">Open source notices</string>
+    <string name="settings_website">Voidstrap website</string>
+    <string name="settings_website_body">voidstrapp.pages.dev</string>
+    <string name="settings_updates">Check for updates</string>
+    <string name="settings_updates_body">Open the Voidstrap releases page</string>
+    <string name="settings_version">Voidstrap for Android %1$s · %2$s</string>
+    <string name="edition_play">Play edition</string>
+    <string name="edition_direct">Direct edition</string>
+
+    <string name="backup_exported">Backup saved</string>
+    <string name="backup_invalid_title">Not a Voidstrap backup</string>
+    <string name="backup_invalid_body">Choose a file created with Export backup in Voidstrap for Android.</string>
+    <string name="backup_import_title">Import backup?</string>
+    <string name="backup_import_body">This adds pinned games (%1$d) and FastFlag profiles (%2$d) and restores your theme, accent and Roblox app choice. Nothing you already have is deleted.</string>
+    <string name="backup_imported">Backup imported</string>
+
+    <string name="diagnostics_intro">Share this when asking for help. It has no account details, private server codes or file contents.</string>
+    <string name="diagnostics_note">Voidstrap cannot see what happens inside Roblox after it opens, so game errors are not included.</string>
+    <string name="diagnostics_copied">Report copied</string>
+
+    <string name="compat_intro">Voidstrap for Android works alongside the official Roblox app. Features that need to change Roblox files stay on desktop.</string>
+    <string name="compat_available">Works</string>
+    <string name="compat_partial">Limited</string>
+    <string name="compat_unavailable">Desktop only</string>
+    <string name="compat_setup">Set up</string>
+    <string name="compat_pin_unsupported">Your home screen app cannot add shortcuts. Your first four pinned games show when you long press the Voidstrap icon.</string>
+    <string-array name="compat_names">
+        <item>Launch Roblox</item>
+        <item>Join games by ID or link</item>
+        <item>Private servers and server IDs</item>
+        <item>Pinned games and launch history</item>
+        <item>Home screen game shortcuts</item>
+        <item>FastFlag editor, import and export</item>
+        <item>Mod workspace</item>
+        <item>Apply FastFlags to Roblox</item>
+        <item>Apply mods to Roblox</item>
+        <item>Choose Roblox versions</item>
+        <item>Studio, shaders and overlays</item>
+        <item>Multiple Roblox instances</item>
+        <item>Smart Join and server regions</item>
+        <item>Activity tracking and Discord presence</item>
+    </string-array>
+    <string-array name="compat_states" translatable="false">
+        <item>yes</item>
+        <item>yes</item>
+        <item>yes</item>
+        <item>yes</item>
+        <item>pin</item>
+        <item>yes</item>
+        <item>yes</item>
+        <item>flags</item>
+        <item>mods</item>
+        <item>no</item>
+        <item>no</item>
+        <item>no</item>
+        <item>matchmaker</item>
+        <item>activity</item>
+    </string-array>
+    <string-array name="compat_notes">
+        <item>Opens the official Roblox or Roblox VN app you choose.</item>
+        <item>Game IDs, roblox.com game links and Roblox share links are handed to the Roblox app.</item>
+        <item>Private server links, link codes and server IDs open that exact server in Roblox.</item>
+        <item>Stored on this device. History lists launches started here.</item>
+        <item>Add any game or private server to your home screen. Your first four pinned games also show when you long press the Voidstrap icon.</item>
+        <item>Profiles are saved in Voidstrap and exported as JSON files.</item>
+        <item>Import, preview, organize and export images, audio and packs.</item>
+        <item>Applied through the Voidstrap helper or root every time Voidstrap launches Roblox.</item>
+        <item>Loaded with root: Voidstrap rebuilds the Roblox game files with your mods and loads them over the installed app.</item>
+        <item>Updates come from the app store. Older versions cannot join current servers.</item>
+        <item>These rely on Windows features that do not exist on Android.</item>
+        <item>Android runs one copy of the Roblox app at a time.</item>
+        <item>Picks the closest server when you join from Voidstrap, using a Roblox sign in inside Voidstrap.</item>
+        <item>Follows the Roblox app while it is open through the Voidstrap helper or root, with join notifications and Discord Rich Presence through the Discord app.</item>
+    </string-array>
+
+    <string name="licenses_text">Voidstrap\nMIT License. Copyright © 2025 Bratic.\n\nBloxstrap\nMIT License. Copyright © 2022 pizzaboxer.\n\nChevstrap\nMIT License. Copyright © 2025 FrosSky. The Roblox and Roblox VN package list, launch approach and several FastFlag presets follow Chevstrap.\n\nFluent System Icons\nMIT License. Copyright © 2020 Microsoft Corporation.\n\nBibata Modern Ice cursor\nGNU General Public License 3.0. Copyright © ful1e5. Used by the Voidstrap default cursor style.\n\nAndroidX and Material Components for Android\nApache License 2.0. Copyright The Android Open Source Project and Google LLC.\n\nMIT License terms: Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files, to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, subject to including the copyright notice and this permission notice in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND.\n\nRoblox is a trademark of Roblox Corporation. Voidstrap is not affiliated with or endorsed by Roblox Corporation.</string>
+
+    <plurals name="flags_import_duplicates">
+        <item quantity="one">%1$d name appears twice in the file, so its first value was kept: %2$s</item>
+        <item quantity="other">%1$d names appear more than once in the file, so their first values were kept: %2$s</item>
+    </plurals>
+    <plurals name="flags_import_rejected">
+        <item quantity="one">%1$d entry was skipped because its name or value is not supported: %2$s</item>
+        <item quantity="other">%1$d entries were skipped because their names or values are not supported: %2$s</item>
+    </plurals>
+    <plurals name="home_news_days_ago">
+        <item quantity="one">%1$d day ago</item>
+        <item quantity="other">%1$d days ago</item>
+    </plurals>
+    <plurals name="flags_deleted">
+        <item quantity="one">Removed %1$d flag</item>
+        <item quantity="other">Removed %1$d flags</item>
+    </plurals>
+    <plurals name="flags_count">
+        <item quantity="one">%1$d flag</item>
+        <item quantity="other">%1$d flags</item>
+    </plurals>
+    <plurals name="mods_imported">
+        <item quantity="one">Imported %1$d file</item>
+        <item quantity="other">Imported %1$d files</item>
+    </plurals>
+    <plurals name="mods_items">
+        <item quantity="one">%1$d item</item>
+        <item quantity="other">%1$d items</item>
+    </plurals>
+    <plurals name="mods_remove_folder">
+        <item quantity="one">%1$s and the %2$d file inside it will be deleted from the Voidstrap workspace.</item>
+        <item quantity="other">%1$s and the %2$d files inside it will be deleted from the Voidstrap workspace.</item>
+    </plurals>
+    <string name="presets_mesh">Mesh detail</string>
+    <string name="presets_gray_sky">Gray sky</string>
+    <string name="presets_msaa">Anti aliasing</string>
+    <string name="presets_texture">Texture quality</string>
+    <string name="presets_grass_distance">Grass distance</string>
+    <string name="presets_grass_min">Min</string>
+    <string name="presets_grass_max">Max</string>
+    <string name="presets_whole_number">Enter a whole number</string>
+    <string name="presets_render_mode">Rendering mode</string>
+    <string name="presets_apply_profile">Apply</string>
+    <string name="presets_profile_applied">%1$s profile applied</string>
+    <string name="presets_allowlist">Roblox allowlist</string>
+    <string name="presets_allowlist_body">The flags Roblox allows in local configuration on PC. On Android, Voidstrap applies every flag in your profile. Tap one to copy its name.</string>
+    <string name="presets_announcement">View the official Roblox announcement</string>
+    <string name="presets_copied">Copied %1$s</string>
+    <string-array name="presets_grass_motion">
+        <item>No movement</item>
+        <item>Minimal movement</item>
+        <item>Medium movement</item>
+        <item>High movement</item>
+        <item>Ultra movement</item>
+        <item>Default movement</item>
+    </string-array>
+    <string-array name="presets_msaa">
+        <item>Automatic</item>
+        <item>1x</item>
+        <item>2x</item>
+        <item>4x</item>
+        <item>8x</item>
+    </string-array>
+    <string-array name="presets_texture">
+        <item>Automatic</item>
+        <item>Lowest</item>
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
+    <string-array name="presets_render_mode">
+        <item>Automatic</item>
+        <item>Vulkan</item>
+        <item>OpenGL</item>
+    </string-array>
+    <string-array name="presets_profiles">
+        <item>Balanced, recommended</item>
+        <item>Performance</item>
+        <item>Quality</item>
+    </string-array>
+    <string name="flags_sync_removed">FastFlags removed from Roblox</string>
+    <string name="flags_sync_denied">Voidstrap could not get access. Start the Voidstrap helper again, or allow Voidstrap in your root manager, and try again.</string>
+    <string name="flags_sync_failed">Could not write the FastFlags file.</string>
+    <plurals name="flags_sync_applied">
+        <item quantity="one">%1$d flag applied to Roblox. It loads the next time Roblox starts.</item>
+        <item quantity="other">%1$d flags applied to Roblox. They load the next time Roblox starts.</item>
+    </plurals>
+    <plurals name="flags_sync_saved">
+        <item quantity="one">Saved, %1$d flag applied to Roblox</item>
+        <item quantity="other">Saved, %1$d flags applied to Roblox</item>
+    </plurals>
+    <string name="flags_status_root">Root access is available.</string>
+    <string name="flags_status_stopped">The Voidstrap helper is not running, so changes are not applied. The last applied flags stay active. Run the start command again after your device restarts.</string>
+    <string name="flags_status_none">Start the Voidstrap helper once from a computer, or use a rooted device, to apply flags to Roblox.</string>
+    <string name="presets_performance">Performance</string>
+    <string name="presets_fps_limit">Frame rate limit</string>
+    <string name="presets_show_fps">FPS counter</string>
+    <string-array name="presets_fps_limit">
+        <item>Default</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+        <item>144</item>
+        <item>165</item>
+        <item>240</item>
+        <item>360</item>
+        <item>480</item>
+        <item>Unlimited</item>
+    </string-array>
+    <string name="flags_sync_unreadable">The flags were written, but this device blocks apps from reading them, so Roblox cannot load them.</string>
+    <string name="flags_status_helper">The Voidstrap helper is running with adb access.</string>
+    <string name="flags_status_helper_root">The Voidstrap helper is running with root access.</string>
+    <string name="flags_short_helper">Applies automatically when you launch Roblox</string>
+    <string name="settings_helper">Voidstrap helper</string>
+    <string name="setup_debugging">Turn on USB debugging</string>
+    <string name="setup_debugging_body">In Developer options, turn on USB debugging and connect this device to a computer that has adb. Tap to open Developer options.</string>
+    <string name="setup_run">Run the start command</string>
+    <string name="setup_run_body">Run this on the computer. Tap to copy it.\n%1$s</string>
+    <string name="setup_run_done">The helper is running. FastFlags apply every time Voidstrap launches Roblox.</string>
+    <string name="setup_run_unavailable">Shared storage is not available, so the start script could not be created.</string>
+    <string name="setup_copied">Start command copied</string>
+    <string name="settings_root">Use root</string>
+    <string name="settings_void_rpc">Voidstrap RPC</string>
+    <string name="settings_void_rpc_body">Displays Voidstrap\'s Discord RPC.</string>
+    <string name="settings_root_body">Apply FastFlags with root. Your root manager asks for permission when you turn this on.</string>
+    <string name="settings_root_missing">No root was found on this device.</string>
+    <string name="settings_root_ready">Root access is ready. FastFlags apply every time Voidstrap launches Roblox.</string>
+    <string name="settings_root_denied">Root access was not allowed, so Voidstrap is not using root.</string>
+    <string name="setup_title">Set up FastFlags</string>
+    <string name="setup_body">Roblox reads FastFlags from a system folder that apps cannot write to by themselves. The Voidstrap helper runs with adb access and writes them for Voidstrap. Start it once from a computer and your flags apply every time you launch Roblox. Start it again after your device restarts.</string>
+    <string name="flags_short_root">Applies automatically with root</string>
+    <string name="flags_short_stopped">Start the Voidstrap helper to apply changes</string>
+    <string name="flags_short_none">Set up the Voidstrap helper to apply flags</string>
+    <string name="flags_apply_now">Apply to Roblox now</string>
+    <string name="flags_export_json">Export as ClientAppSettings.json</string>
+    <string name="presets_section_graphics">Graphics</string>
+    <string name="presets_section_detail">World detail</string>
+    <string name="presets_section_quick">Quick setup</string>
+    <string name="presets_texture_short">Sharper textures use more memory</string>
+    <string name="presets_msaa_short">Smooths jagged edges</string>
+    <string name="presets_render_mode_short">Graphics engine Roblox uses</string>
+    <string name="presets_gray_sky_short">Replaces the sky with plain gray</string>
+    <string name="presets_dpi_title">Full resolution</string>
+    <string name="presets_dpi_short">Ignore display scaling for a sharper picture</string>
+    <string name="presets_fps_limit_short">Above 60 turns off vsync and uses OpenGL</string>
+    <string name="presets_fps_high">Going above 240 FPS is not recommended, as this may cause latency issues.</string>
+    <string name="presets_fps_opengl">Rendering mode set to OpenGL. Vulkan keeps Roblox at 60 FPS on Android.</string>
+    <string name="presets_fps_needs_opengl">Your frame rate limit needs OpenGL. Vulkan keeps Roblox at 60 FPS on Android.</string>
+    <string name="flags_launch_not_applied">FastFlags were not applied. Open Voidstrap and start the Voidstrap helper.</string>
+    <string name="presets_show_fps_short">Shows frame rate in the corner</string>
+    <string name="presets_mesh_short">How detailed distant objects look</string>
+    <string name="presets_frm_title">Graphics quality override</string>
+    <string name="presets_frm_short">Locks the Roblox graphics level</string>
+    <string name="presets_grass_motion_title">Grass movement</string>
+    <string name="presets_grass_motion_short">How much grass sways</string>
+    <string name="presets_grass_distance_short">Set both to 0 to hide grass</string>
+    <string name="presets_grass_to">to</string>
+    <string name="presets_low">Low</string>
+    <string name="presets_high">High</string>
+    <string name="presets_recommended_title">Recommended</string>
+    <string name="presets_recommended_short">Sets textures and anti aliasing</string>
+    <string name="presets_allowlist_short">Flags Roblox allows on PC</string>
+    <string name="presets_section_interface">Interface</string>
+    <string name="presets_section_network">Network</string>
+    <string name="presets_section_debug">Debug</string>
+    <string name="presets_resolution">Render resolution</string>
+    <string name="presets_resolution_short">Fixed resolution Roblox renders at</string>
+    <string name="presets_shadows">Disable shadows</string>
+    <string name="presets_shadows_short">Turns off Roblox shadows</string>
+    <string name="presets_remove_grass">Remove grass</string>
+    <string name="presets_remove_grass_short">Hides the built in terrain grass</string>
+    <string name="presets_blur">Remove blur</string>
+    <string name="presets_blur_short">No blur behind Roblox menus</string>
+    <string name="presets_hide_gui">Hide GUIs</string>
+    <string name="presets_hide_gui_short">Group ID you are in, toggled with keyboard shortcuts</string>
+    <string name="presets_font_size">Font size</string>
+    <string name="presets_font_size_short">Changes the Roblox menu font size</string>
+    <string name="presets_lag_spikes">Reduce lag spikes</string>
+    <string name="presets_lag_spikes_short">Smooths out network output</string>
+    <string name="presets_fast_load">Faster loading</string>
+    <string name="presets_fast_load_short">Preloads more assets to load games faster</string>
+    <string name="presets_mtu">MTU size</string>
+    <string name="presets_mtu_short">Bytes sent per network packet</string>
+    <string name="presets_flag_state">Flag state</string>
+    <string name="presets_flag_state_short">Shows these flag values in game, comma separated</string>
+    <string name="presets_ping">Ping breakdown</string>
+    <string name="presets_ping_short">Prints ping details to the Roblox console</string>
+    <string name="presets_off">Off</string>
+    <string-array name="presets_resolution">
+        <item>Automatic</item>
+        <item>144p</item>
+        <item>240p</item>
+        <item>360p</item>
+        <item>480p</item>
+        <item>720p</item>
+        <item>1080p</item>
+        <item>1440p</item>
+        <item>2160p</item>
+        <item>4320p</item>
+    </string-array>
+    <string-array name="settings_themes">
+        <item>@string/settings_theme_system</item>
+        <item>@string/settings_theme_dark</item>
+        <item>@string/settings_theme_light</item>
+        <item>Voidstrap</item>
+        <item>Ultra Gray</item>
+        <item>Berry</item>
+        <item>Blue</item>
+        <item>Cyan</item>
+        <item>Green</item>
+        <item>Orange</item>
+        <item>Pink</item>
+        <item>Purple</item>
+        <item>Red</item>
+        <item>Yellow</item>
+    </string-array>
+    <string name="common_help">Help</string>
+    <string name="mods_tab_customize">Customize</string>
+    <string name="mods_tab_packs">Mod Packs</string>
+    <string name="mods_tab_library">My Mods</string>
+    <string name="mods_tab_files">Files</string>
+    <string name="mods_apply_title">Apply mods to Roblox</string>
+    <string name="mods_apply_now">Apply now</string>
+    <string name="mods_use_root">Use root</string>
+    <string name="mods_restore">Restore Roblox</string>
+    <string name="mods_find_more">Find mods</string>
+    <string name="mods_apply_preparing">Getting your mods ready</string>
+    <string name="mods_apply_building">Building the modded Roblox package</string>
+    <string name="mods_apply_mounting">Loading mods into Roblox with root</string>
+    <string name="mods_state_not_installed">%1$s is not installed.</string>
+    <string name="mods_state_root_off">Mods are loaded into Roblox with root. Turn on root to use them.</string>
+    <string name="mods_state_no_root">This device is not rooted. Roblox for Android only reads game files from its own app package, which only root can change.</string>
+    <string name="mods_state_off">Mods are off, so Roblox runs without them.</string>
+    <string name="mods_state_empty">No mods are active yet. Turn on a preset, install a mod pack or add your own files.</string>
+    <string name="mods_state_pending_remove">Roblox still has mods loaded. Apply now to put the original files back.</string>
+    <string name="mods_result_applied">Mods are loaded. Close and reopen Roblox to see them.</string>
+    <string name="mods_result_unchanged">Roblox already has these mods.</string>
+    <string name="mods_result_removed">Roblox is back to its original files.</string>
+    <string name="mods_result_no_root">Root access was denied, so mods could not be loaded.</string>
+    <string name="mods_result_failed">Mods could not be loaded into Roblox. Try again.</string>
+    <string name="mods_launch_not_applied">Mods were not loaded. Check the Mods page.</string>
+    <string name="mods_working">Working</string>
+    <string name="mods_downloading">Downloading</string>
+    <string name="mods_refresh">Refresh</string>
+    <string name="mods_error_cancelled_full">Cancelled.</string>
+    <string name="mods_error_generic">Something went wrong. Try again.</string>
+    <string name="mods_error_network">The download could not be reached. Check your connection and try again.</string>
+    <string name="mods_error_package_size">The package is larger than the 256 MB limit.</string>
+    <string name="mods_error_space_full">There is not enough free storage to build the modded Roblox package.</string>
+    <string name="mods_info_managed">Files in this mod use the Roblox layout, like content/sounds or PlatformContent/pc/textures/sky.</string>
+    <string name="mods_file_applies">Loaded into Roblox as %1$s.</string>
+    <string name="mods_file_ignored">Roblox cannot load this file from a mod, so it is skipped.</string>
+    <string name="mods_file_unplaced">Not in a Roblox folder, so it is not loaded. Put it under content, ExtraContent or PlatformContent/pc.</string>
+    <string name="mods_section_cursor">Cursor</string>
+    <string name="mods_section_interface">Interface</string>
+    <string name="mods_section_sounds">Sounds</string>
+    <string name="mods_section_appearance">Appearance</string>
+    <string name="mods_section_help">Help and fixes</string>
+    <string name="mods_value_none">None</string>
+    <string name="mods_value_default">Roblox default</string>
+    <string name="mods_value_custom">Custom</string>
+    <string name="mods_value_local_font">Local font</string>
+    <string name="mods_font_short">Font</string>
+    <plurals name="mods_sets_count">
+        <item quantity="one">%d set</item>
+        <item quantity="other">%d sets</item>
+    </plurals>
+    <string name="mods_cursor_style">Cursor style</string>
+    <string name="mods_cursor_style_body">Use the Roblox cursor, a built in style, or your own images. Shows when a mouse is connected.</string>
+    <string name="mods_cursor_style_set">Cursor style set to %1$s.</string>
+    <string name="mods_cursor_custom">Custom cursor</string>
+    <string name="mods_cursor_set">Custom cursor saved.</string>
+    <string name="mods_cursor_removed">Custom cursor removed.</string>
+    <string name="mods_shiftlock">Custom shift lock</string>
+    <string name="mods_shiftlock_set">Shift lock icon saved.</string>
+    <string name="mods_shiftlock_removed">Shift lock icon removed.</string>
+    <string name="mods_sets_title">Custom cursor sets</string>
+    <string name="mods_sets_body">Keep several cursor sets ready and switch between them in one tap.</string>
+    <string name="mods_sets_none">No cursor sets yet. Tap New to make one, or import a zip.</string>
+    <string name="mods_sets_new">New</string>
+    <string name="mods_sets_pick">Cursor set</string>
+    <string name="mods_sets_default_name">Custom Cursor Set</string>
+    <string name="mods_sets_use">Use this set</string>
+    <string name="mods_sets_copy">Copy current cursor</string>
+    <string name="mods_sets_created">Created %1$s.</string>
+    <string name="mods_sets_imported">Imported %1$s.</string>
+    <string name="mods_sets_saved">Saved %1$s.</string>
+    <string name="mods_sets_used">Now using %1$s.</string>
+    <string name="mods_sets_delete_title">Delete this cursor set?</string>
+    <string name="mods_sets_delete_body">%1$s and its images will be deleted.</string>
+    <string name="mods_topbar">Old Roblox top bar</string>
+    <string name="mods_topbar_on">The old top bar is on.</string>
+    <string name="mods_topbar_off">The old top bar is off.</string>
+    <string name="mods_ps4">PS4 button icons</string>
+    <string name="mods_ps4_on">PS4 button icons are installed.</string>
+    <string name="mods_ps4_off">PS4 button icons were removed.</string>
+    <string name="mods_nogui">Hide every CoreGui icon</string>
+    <string name="mods_nogui_on">Every CoreGui image is hidden.</string>
+    <string name="mods_nogui_off">The CoreGui images are back.</string>
+    <string name="mods_old_sounds">Old character sounds</string>
+    <string name="mods_preset_on">%1$s is on.</string>
+    <string name="mods_preset_off">%1$s is off.</string>
+    <string name="mods_death">Custom death sound</string>
+    <string name="mods_death_body">Replaces the death sound with your own audio.</string>
+    <string name="mods_death_choose">Choose sound</string>
+    <string name="mods_death_remove">Remove sound</string>
+    <string name="mods_death_converting">Converting the sound</string>
+    <string name="mods_death_set">Death sound saved.</string>
+    <string name="mods_death_removed">Death sound removed.</string>
+    <string name="mods_death_volume">Death sound volume</string>
+    <string name="mods_death_volume_set">Death sound volume set to %1$s.</string>
+    <string name="mods_old_avatar">Old avatar editor background</string>
+    <string name="mods_emoji">Emoji style</string>
+    <string name="mods_emoji_set">Emoji style set to %1$s.</string>
+    <string name="mods_sky_body">Choose a skybox once. Voidstrap downloads it and loads it into Roblox.</string>
+    <string name="mods_sky_pack">Skybox</string>
+    <string name="mods_sky_loading">Loading skyboxes</string>
+    <string name="mods_sky_set">Skybox set to %1$s.</string>
+    <string name="mods_sky_off">Skybox is off.</string>
+    <string name="mods_sky_custom">Custom skybox</string>
+    <string name="mods_sky_custom_body">Use one image or choose every cube face.</string>
+    <string name="mods_sky_one_image">Use one image for every side</string>
+    <string name="mods_sky_face_missing">No image yet</string>
+    <string name="mods_sky_faces_set">Skybox image saved.</string>
+    <string name="mods_sky_save">Save and use</string>
+    <string name="mods_sky_remove_custom">Remove custom</string>
+    <string name="mods_sky_custom_removed">Custom skybox removed.</string>
+    <string name="mods_font_body">Use a local font or a Google font for Roblox text.</string>
+    <string name="mods_font_local">a local font</string>
+    <string name="mods_font_google">Google font</string>
+    <string name="mods_font_pick">Choose a font</string>
+    <string name="mods_font_search">Search fonts</string>
+    <string name="mods_font_picker_body">Pick a font to download and preview it.</string>
+    <string name="mods_font_loading">Loading the font catalog</string>
+    <string name="mods_font_ready">%1$s is ready. Tap Use font to apply it.</string>
+    <string name="mods_font_use">Use font</string>
+    <string name="mods_font_local_choose">Choose local font</string>
+    <string name="mods_font_remove">Remove font</string>
+    <string name="mods_font_removed">Roblox default font restored.</string>
+    <string name="mods_font_set">Roblox text now uses %1$s.</string>
+    <string name="mods_font_sample">Aa Bb Cc 123   The quick brown fox.</string>
+    <string name="mods_font_size">Font size</string>
+    <string name="mods_font_size_set">Font size set to %1$s.</string>
+    <string name="mods_library_info">Mods here stay separate, so you can turn each one on or off. Mods higher in the list win when two change the same file.</string>
+    <string name="mods_library_add">Add mod</string>
+    <string name="mods_library_add_archive">From a zip, rar or 7z file</string>
+    <string name="mods_library_add_empty">Empty mod folder</string>
+    <string name="mods_library_added">Added %1$s to My Mods.</string>
+    <string name="mods_library_refresh">Refresh</string>
+    <string name="mods_library_search">Search your mods</string>
+    <string name="mods_library_none">No mods yet</string>
+    <string name="mods_library_empty">Your mod library is empty. Install a mod pack or add a zip to get started.</string>
+    <string name="mods_library_failed">That change could not be saved.</string>
+    <string name="mods_library_name_required">Enter a name for the mod.</string>
+    <string name="mods_library_page">View mod page</string>
+    <string name="mods_library_open">Open folder</string>
+    <string name="mods_library_options">Edit options</string>
+    <string name="mods_library_top">Move to top</string>
+    <string name="mods_library_up">Move up</string>
+    <string name="mods_library_down">Move down</string>
+    <string name="mods_library_bottom">Move to bottom</string>
+    <string name="mods_library_copy_id">Copy mod ID</string>
+    <string name="mods_library_id_copied">Mod ID copied.</string>
+    <string name="mods_library_remove_title">Remove this mod?</string>
+    <string name="mods_library_remove_body">%1$s and all its files will be deleted from Voidstrap.</string>
+    <string name="mods_library_toggle">Use %1$s</string>
+    <string name="mods_library_by">by %1$s</string>
+    <string name="mods_library_conflicts">Shares files with another mod</string>
+    <string name="mods_options_intro">Pick which file this mod uses for each slot.</string>
+    <string name="mods_options_off">Off, use the Roblox default</string>
+    <string name="mods_options_installed">Installed file</string>
+    <string name="mods_options_none">This mod has no files to choose between.</string>
+    <string name="mods_options_save">Save options</string>
+    <string name="mods_packs_gamebanana">GameBanana</string>
+    <string name="mods_packs_marketplace">Kliko Mods</string>
+    <string name="mods_packs_search">Search Roblox mods</string>
+    <plurals name="mods_state_applied">
+        <item quantity="one">%1$d file is loaded into Roblox. Applied %2$s.</item>
+        <item quantity="other">%1$d files are loaded into Roblox. Applied %2$s.</item>
+    </plurals>
+    <plurals name="mods_state_pending">
+        <item quantity="one">%1$d file is ready. It loads the next time Voidstrap starts Roblox, or apply it now.</item>
+        <item quantity="other">%1$d files are ready. They load the next time Voidstrap starts Roblox, or apply them now.</item>
+    </plurals>
+    <plurals name="mods_library_summary">
+        <item quantity="one">%1$d mod, %2$d on</item>
+        <item quantity="other">%1$d mods, %2$d on</item>
+    </plurals>
+    <plurals name="mods_library_overridden">
+        <item quantity="one">%1$d file is replaced by a mod higher in the list</item>
+        <item quantity="other">%1$d files are replaced by mods higher in the list</item>
+    </plurals>
+    <plurals name="mods_options_saved">
+        <item quantity="one">%1$d file changed.</item>
+        <item quantity="other">%1$d files changed.</item>
+    </plurals>
+    <plurals name="mods_font_count">
+        <item quantity="one">%1$d font</item>
+        <item quantity="other">%1$d fonts</item>
+    </plurals>
+    <string-array name="mods_cursor_styles">
+        <item>Default cursor</item>
+        <item>Voidstrap default</item>
+        <item>Stoofs cursor</item>
+        <item>Dot cursor</item>
+        <item>Clean cursor</item>
+        <item>FPS cursor V1</item>
+        <item>2006 legacy cursor</item>
+        <item>2013 legacy cursor</item>
+        <item>White dot cursor</item>
+        <item>ArceyPlayz dot</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="mods_cursor_slots">
+        <item>Pointer</item>
+        <item>Out of reach</item>
+        <item>Text</item>
+        <item>Drag</item>
+        <item>Shift lock</item>
+    </string-array>
+    <string-array name="mods_emoji_types">
+        <item>Default</item>
+        <item>Catmoji</item>
+        <item>Windows 11</item>
+        <item>Windows 10</item>
+        <item>Windows 8</item>
+    </string-array>
+    <string-array name="mods_sky_faces">
+        <item>Back</item>
+        <item>Down</item>
+        <item>Front</item>
+        <item>Left</item>
+        <item>Right</item>
+        <item>Up</item>
+    </string-array>
+    <string name="mods_packs_page">Page</string>
+    <string name="mods_packs_view">View</string>
+    <string name="mods_packs_download">Download</string>
+    <string name="mods_packs_install">Apply to My Mods</string>
+    <string name="mods_packs_description">Description</string>
+    <string name="mods_packs_license">License</string>
+    <string name="mods_packs_sort">Sort</string>
+    <string name="mods_packs_categories">Category</string>
+    <string name="mods_packs_categories_loading">Loading categories</string>
+    <string name="mods_packs_all_categories">All categories</string>
+    <string name="mods_packs_category">%1$s (%2$d)</string>
+    <string name="mods_packs_loading">Loading mods from %1$s</string>
+    <string name="mods_packs_offline">The catalog could not be reached. Check your connection and try again.</string>
+    <string name="mods_packs_none">No Roblox mods matched. Anything that fails the safety checks is hidden.</string>
+    <string name="mods_packs_likes">%1$s likes</string>
+    <string name="mods_packs_downloads">%1$s downloads</string>
+    <string name="mods_packs_views">%1$s views</string>
+    <string name="mods_packs_updated">Updated %1$s</string>
+    <string name="mods_packs_points">%1$s points</string>
+    <string name="mods_packs_opening">Opening the mod</string>
+    <string name="mods_packs_hidden">That mod was hidden because it did not pass the safety checks.</string>
+    <string name="mods_packs_open_failed">That mod could not be opened. Check your connection and try again.</string>
+    <string name="mods_packs_detail_meta">%1$s by %2$s</string>
+    <string name="mods_packs_no_files">No scanned package is available for this mod.</string>
+    <string name="mods_packs_install_hint">Installs into My Mods, where you can turn it on or off.</string>
+    <string name="mods_packs_cache_hint">Replaces cached Roblox assets. Works best with assets Roblox has already downloaded.</string>
+    <string name="mods_packs_file">File</string>
+    <string name="mods_packs_no_description">No description was published.</string>
+    <string name="mods_packs_comments">Comments (%1$d)</string>
+    <string name="mods_packs_updates">Updates (%1$d)</string>
+    <string name="mods_packs_issues">Issues (%1$d)</string>
+    <string name="mods_packs_no_comments">No comments have been posted yet.</string>
+    <string name="mods_packs_no_updates">No updates have been published.</string>
+    <string name="mods_packs_no_issues">No issues are currently listed.</string>
+    <string name="mods_packs_installing">Placing the files into the Roblox layout</string>
+    <string name="mods_packs_downloading">Downloading %1$s</string>
+    <string name="mods_packs_image">Mod screenshot</string>
+    <string name="mods_packs_more">Load more</string>
+    <plurals name="mods_packs_shown">
+        <item quantity="one">%1$d Roblox mod shown</item>
+        <item quantity="other">%1$d Roblox mods shown</item>
+    </plurals>
+    <string-array name="mods_packs_sorts">
+        <item>Featured</item>
+        <item>Newest</item>
+        <item>Recently updated</item>
+    </string-array>
+    <string-array name="mods_packs_market_sorts">
+        <item>Featured</item>
+        <item>Name</item>
+    </string-array>
+    <string name="nav_integrations">Integrations</string>
+    <string name="integrations_title">Integrations</string>
+    <string name="integrations_subtitle">Configure additional functionality to go alongside Roblox.</string>
+    <string name="integrations_open_body">Activity tracking and Discord Rich Presence</string>
+    <string name="integrations_activity">Activity tracking</string>
+    <string name="integrations_tracking">Enable activity tracking</string>
+    <string name="integrations_tracking_body">Allows for Voidstrap to detect what Roblox game you\'re playing. Certain features may require this.</string>
+    <string name="integrations_location">Server location</string>
+    <string name="integrations_location_body">When in game, you\'ll be able to see where your server is located via ipinfo.io.</string>
+    <string name="integrations_notify">Join game notification</string>
+    <string name="integrations_notify_body">Shows the game you have joined and its server location in a notification.</string>
+    <string name="integrations_notify_blocked">Notifications are off for Voidstrap. Allow them in system settings to see join notifications.</string>
+    <string name="integrations_player_logs">Player and Message logs</string>
+    <string name="integrations_player_logs_body">Shows you players joining and leaving and messages being sent. Saved to your active FastFlag profile.</string>
+    <string name="integrations_log">Session log</string>
+    <string name="integrations_log_body">Games, players and messages from this session</string>
+    <string name="integrations_log_empty">Nothing yet. Launch a game from Voidstrap with activity tracking on.</string>
+    <string name="integrations_log_clear">Clear log</string>
+    <string name="integrations_log_join">Joined</string>
+    <string name="integrations_log_leave">Left</string>
+    <string name="integrations_log_chat">Message</string>
+    <string name="integrations_discord">Discord Rich Presence</string>
+    <string name="integrations_discord_note">Requires activity tracking and the Discord app on this device.</string>
+    <string name="integrations_discord_rpc">Show game activity</string>
+    <string name="integrations_discord_rpc_body">The Roblox game you\'re playing will be shown on your Discord profile.</string>
+    <string name="integrations_discord_account">Show Roblox account</string>
+    <string name="integrations_discord_account_body">Shows the Roblox account you\'re playing with on your Discord profile.</string>
+    <string name="integrations_discord_join">Allow activity joining</string>
+    <string name="integrations_discord_join_body">Allows for anybody to join the game you\'re currently in through your Discord profile.</string>
+    <string name="integrations_discord_status">Discord</string>
+    <string name="integrations_discord_missing_app">Install the Discord app to show your game on your profile.</string>
+    <string name="integrations_discord_ready">Ready. Shows while Roblox is open.</string>
+    <string name="integrations_discord_live">Connected</string>
+    <string name="integrations_discord_error">Discord said: %1$s</string>
+    <string name="integrations_custom_rpc">Custom RPC</string>
+    <string name="integrations_custom_rpc_body">Make or edit a custom RPC for Discord.</string>
+    <string name="integrations_preview_playing">Playing Roblox</string>
+    <string name="integrations_preview">Preview</string>
+    <string name="integrations_preview_app">Roblox</string>
+    <string name="integrations_preview_game">Your game</string>
+    <string name="integrations_preview_creator">Creator</string>
+    <string name="integrations_preview_location">City, Country</string>
+    <string name="integrations_preview_elapsed">00:42 elapsed</string>
+    <string name="integrations_advanced">RPC Advanced</string>
+    <string name="integrations_advanced_body">Choose what Discord shows.</string>
+    <string name="integrations_rpc_name">Game name</string>
+    <string name="integrations_rpc_icon">Game icon</string>
+    <string name="integrations_rpc_creator">Creator</string>
+    <string name="integrations_rpc_server">Server type</string>
+    <string name="integrations_rpc_server_body">Public, private or reserved</string>
+    <string name="integrations_rpc_location">Server location</string>
+    <string name="integrations_rpc_beta">Beta tag</string>
+    <string name="integrations_rpc_beta_body">Turns markers like [BETA] or WIP in the game name into a clean tag</string>
+    <string name="integrations_rpc_flags">FastFlag count</string>
+    <string name="integrations_custom_name">Custom game name</string>
+    <string name="integrations_custom_name_body">Replaces the game name. Game name must be on.</string>
+    <string name="integrations_custom_icon">Custom image link</string>
+    <string name="integrations_custom_icon_body">Replaces the game icon.</string>
+    <string name="integrations_custom_icon_invalid">Use an https image link</string>
+    <string name="integrations_idle_icon">Idle icon</string>
+    <string name="integrations_idle_icon_body">Shown when you are not in a game</string>
+    <string-array name="integrations_idle_icons">
+        <item>Blue Logo</item>
+        <item>Black Logo</item>
+        <item>2009 to 2011 Logo</item>
+    </string-array>
+    <string name="activity_channel">Activity tracking</string>
+    <string name="activity_join_channel">Game joined</string>
+    <string name="activity_notification_title">Activity tracking</string>
+    <string name="activity_waiting">Watching Roblox</string>
+    <string name="activity_playing">Playing %1$s</string>
+    <string name="activity_join_title">Joined %1$s</string>
+    <string name="activity_join_body">Connected to the server</string>
+    <string name="activity_join_location">Server location: %1$s</string>
+    <string name="activity_log_joined">Joined place %1$d</string>
+    <string name="activity_log_left">Left the game</string>
+    <string name="nav_matchmaker">Matchmaker</string>
+    <string name="matchmaker_title">Voidstrap Matchmaker</string>
+    <string name="matchmaker_subtitle">Picks the closest Roblox server for you when you join a game from Voidstrap.</string>
+    <string name="matchmaker_open_body">Smart Join and server regions</string>
+    <string name="matchmaker_finding">Finding the closest server…</string>
+    <string name="matchmaker_joining">Joining %1$s, about %2$dms</string>
+    <string name="matchmaker_no_login">Smart Join needs your Roblox login. Open Settings, Voidstrap Matchmaker to sign in.</string>
+    <string name="matchmaker_signed_in">Signed in to Roblox</string>
+    <string name="matchmaker_signed_out">Signed out of Roblox in Voidstrap</string>
+    <string name="matchmaker_location_finding">Finding your location…</string>
+    <string name="matchmaker_location_learning">Location found, learning which datacenters are near you.</string>
+    <string name="matchmaker_location">Nearest known datacenter: %1$s, about %2$dms</string>
+    <string name="matchmaker_login">Roblox login</string>
+    <string name="matchmaker_login_voidstrap">Signed in to Roblox inside Voidstrap</string>
+    <string name="matchmaker_login_none">Not signed in. Sign in to Roblox here to use Smart Join.</string>
+    <string name="matchmaker_sign_in">Sign in</string>
+    <string name="matchmaker_sign_out">Sign out</string>
+    <string name="matchmaker_login_note">Voidstrap only sends your login to Roblox, to ask which datacenter each server runs in. It is never saved by Voidstrap.</string>
+    <string name="matchmaker_section">Matchmaker</string>
+    <string name="matchmaker_enable">Enable</string>
+    <string name="matchmaker_enable_body">Pick my server for me</string>
+    <string name="matchmaker_mode">What to join</string>
+    <string name="matchmaker_mode_body">How Voidstrap chooses between the servers it finds</string>
+    <string-array name="matchmaker_modes">
+        <item>Closest server</item>
+        <item>Closest server that is nearly empty</item>
+        <item>Always a specific datacenter</item>
+    </string-array>
+    <string name="matchmaker_preferred">Preferred datacenter</string>
+    <string name="matchmaker_preferred_body">Voidstrap will always try this one first and only fall back when it has no room</string>
+    <string name="matchmaker_datacenters">Datacenters</string>
+    <string name="matchmaker_lists">Where you play</string>
+    <string name="matchmaker_datacenters_none">No datacenters learned yet, they appear as you play.</string>
+    <string name="matchmaker_datacenters_all">%1$d datacenters known, all allowed.</string>
+    <string name="matchmaker_datacenters_some">%1$d datacenters known, %2$d blocked.</string>
+    <string name="matchmaker_datacenters_note">Turn one off to never be placed there. If Roblox puts you in a blocked datacenter, Voidstrap moves you out.</string>
+    <string name="matchmaker_datacenters_search">Search by city, region, or country</string>
+    <string name="matchmaker_allow_all">Allow all</string>
+    <string name="matchmaker_distance">%1$d km away · about %2$dms</string>
+    <string name="matchmaker_skipped">Skipped games</string>
+    <string name="matchmaker_skipped_none">Voidstrap picks a server for every game.</string>
+    <string name="matchmaker_skipped_one">1 game joins normally, Voidstrap never picks its server.</string>
+    <string name="matchmaker_skipped_many">%1$d games join normally, Voidstrap never picks their servers.</string>
+    <string name="matchmaker_skipped_note">Add those here and Voidstrap joins normally and never moves you.</string>
+    <string name="matchmaker_skip_add">Add a game</string>
+    <string name="matchmaker_skip_add_library">From your library</string>
+    <string name="matchmaker_skip_hint">Place ID or game link</string>
+    <string name="matchmaker_skip_invalid">Enter a valid place ID or Roblox game link.</string>
+    <string name="matchmaker_skip_remove">Let Voidstrap pick servers for this game again</string>
+    <string name="matchmaker_place">Place %1$d</string>
+    <string name="matchmaker_advanced">Advanced</string>
+    <string name="matchmaker_advanced_body">The defaults are right for almost everyone</string>
+    <string name="matchmaker_depth">How hard to search</string>
+    <string name="matchmaker_depth_auto">Auto</string>
+    <string name="matchmaker_depth_body">Checks up to %1$d servers before joining, %2$s.</string>
+    <string name="matchmaker_depth_fastest">fastest</string>
+    <string name="matchmaker_depth_balanced">balanced</string>
+    <string name="matchmaker_depth_thorough">most thorough</string>
+    <string name="matchmaker_retries">Reconnect limit</string>
+    <string name="matchmaker_retries_body">Voidstrap stops trying after this many reconnects so it can never loop. Now %1$d.</string>
+    <string name="matchmaker_api">Join API</string>
+    <string name="matchmaker_api_body">Which Roblox join endpoint Voidstrap asks for server locations. Change only if joins stop working.</string>
+    <string-array name="matchmaker_apis">
+        <item>V1 (stable)</item>
+        <item>V2 (newer)</item>
+    </string-array>
+    <string name="matchmaker_last">Last search: %1$s</string>
+    <string name="matchmaker_alert_preferred">You are in your preferred datacenter %1$s, about %2$dms</string>
+    <string name="matchmaker_alert_connected">Connected to %1$s, about %2$dms</string>
+    <string name="matchmaker_alert_blocked_none">You are in %1$s which you blocked, but no other datacenter is available right now</string>
+    <string name="matchmaker_alert_blocked_same">You are in %1$s which you blocked, but every server there is the same, staying put</string>
+    <string name="matchmaker_alert_preferred_empty">%1$s has no servers right now, staying in %2$s</string>
+    <string name="matchmaker_alert_good">You are already on a good server, about %1$dms</string>
+    <string name="matchmaker_alert_limit">Could not reach a better datacenter after %1$d tries, staying in %2$s</string>
+    <string name="matchmaker_alert_moving">Moving you to %1$s, about %2$dms</string>
+    <string name="matchmaker_alert_attempt">Attempt %1$d of %2$d</string>
+    <string name="matchmaker_alert_blocked_closer">%1$s is closer but you blocked it</string>
+</resources>

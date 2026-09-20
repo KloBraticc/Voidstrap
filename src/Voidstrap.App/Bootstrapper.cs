@@ -2808,6 +2808,35 @@ public class Bootstrapper
         }, context, 5, 600, ex => (ex is IOException || ex is UnauthorizedAccessException), ct).ConfigureAwait(continueOnCapturedContext: false);
     }
 
+    private static string DescribePackageFailure(Exception? failure)
+    {
+        if (failure == null)
+        {
+            return string.Empty;
+        }
+        Exception root = failure;
+        while (root.InnerException != null)
+        {
+            root = root.InnerException;
+        }
+        string reason = root switch
+        {
+            UnauthorizedAccessException => "Windows blocked access to the install folder. Check that antivirus or controlled folder access is not blocking Voidstrap, then try again.",
+            IOException io when IsDiskFull(io) => "The drive ran out of space while unpacking Roblox.",
+            IOException io => "A file could not be written: " + io.Message,
+            HttpRequestException http => "Roblox could not be downloaded: " + http.Message,
+            TaskCanceledException => "The download timed out. Check your connection and try again.",
+            _ => root.Message
+        };
+        return string.IsNullOrWhiteSpace(reason) ? string.Empty : "\n" + reason;
+    }
+
+    private static bool IsDiskFull(IOException exception)
+    {
+        int code = exception.HResult & 0xFFFF;
+        return code == 39 || code == 112;
+    }
+
     private async Task UpgradeRoblox()
     {
         CancellationToken ct = _cancelTokenSource.Token;
@@ -2890,6 +2919,7 @@ public class Bootstrapper
             int totalPackages = _versionPackageManifest.Count;
             int packagesComplete = 0;
             int failedPackages = 0;
+            Exception? firstPackageFailure = null;
             Interlocked.Exchange(ref _totalDownloadedBytes, 0L);
 			using SemaphoreSlim downloadThrottler = new(DownloadConfiguration.NormalizeConcurrent(App.Settings.Prop.MaxConcurrentDownloads));
 			using SemaphoreSlim extractionThrottler = new(ExtractionConcurrency);
@@ -2933,6 +2963,7 @@ public class Bootstrapper
                         catch (Exception value)
                         {
                             Interlocked.Increment(ref failedPackages);
+                            Interlocked.CompareExchange(ref firstPackageFailure, value, null);
                             App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", $"Package {package.Name} failed: {value}");
                         }
                     }).ToList()).ConfigureAwait(continueOnCapturedContext: false);
@@ -2954,7 +2985,7 @@ public class Bootstrapper
             }
             if (failedPackages > 0)
             {
-                throw new Exception($"{failedPackages} package(s) failed during upgrade.");
+                throw new Exception($"{failedPackages} package(s) failed during upgrade.{DescribePackageFailure(firstPackageFailure)}");
             }
             if (Dialog != null)
             {

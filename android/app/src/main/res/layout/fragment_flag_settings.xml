@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.voidstrap.android.ScrollPane xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <LinearLayout style="@style/Voidstrap.Page">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/flag_settings_title"
+            android:textAppearance="@style/TextAppearance.Voidstrap.PageTitle" />
+
+        <TextView
+            android:id="@+id/flag_settings_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textAppearance="@style/TextAppearance.Voidstrap.PageSubtitle" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/flag_settings_status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/vs_row"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:minHeight="32dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="8dp"
+                android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/flag_settings_editor"
+                style="@style/Widget.Voidstrap.Button.Subtle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flag_settings_open_editor" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/flag_settings_presets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+    </LinearLayout>
+</com.voidstrap.android.ScrollPane>

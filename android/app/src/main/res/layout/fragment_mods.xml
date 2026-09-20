@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/mods_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
+
+        <include layout="@layout/view_mods_header" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/mods_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vs_page_inset"
+            android:layout_marginEnd="@dimen/vs_page_inset"
+            android:background="@android:color/transparent"
+            app:tabGravity="start"
+            app:tabMode="scrollable" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:id="@+id/mods_pages"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.voidstrap.android.ScrollPane
+            android:id="@+id/tab_customize"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="24dp">
+
+            <LinearLayout
+                android:id="@+id/customize_rows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/vs_page_inset"
+                android:paddingEnd="@dimen/vs_page_inset" />
+        </com.voidstrap.android.ScrollPane>
+
+        <include
+            android:id="@+id/tab_packs"
+            layout="@layout/view_mods_packs"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/tab_library"
+            layout="@layout/view_mods_library"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/tab_files"
+            layout="@layout/view_mods_files"
+            android:visibility="gone" />
+    </FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

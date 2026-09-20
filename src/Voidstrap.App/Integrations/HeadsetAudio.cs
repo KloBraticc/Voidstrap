@@ -201,7 +201,7 @@ public static partial class HeadsetAudio
 				return;
 			}
 
-			if (!Native.TryInitialize(client, out bool isFloat, out int channels))
+			if (!Native.TryInitialize(client, device, out bool isFloat, out int channels, out int sampleRate))
 			{
 				WaitAfterFailure("No supported capture format", token);
 				return;
@@ -302,7 +302,7 @@ public static partial class HeadsetAudio
 				float targetGainDb = levelDb > ThresholdDb ? -(levelDb - ThresholdDb) * (1f - 1f / Ratio) : 0f;
 				float targetGain = Math.Clamp((float)Math.Pow(10.0, targetGainDb / 20.0), MinGain, 1f);
 
-				float packetMs = sampleCount / (float)channels / 48f;
+				float packetMs = sampleCount / (float)channels / (sampleRate / 1000f);
 				float timeConstant = targetGain < gain ? AttackMs : ReleaseMs;
 				float alpha = 1f - (float)Math.Exp(-packetMs / Math.Max(timeConstant, 1f));
 				gain += (targetGain - gain) * alpha;
@@ -701,14 +701,60 @@ public static partial class HeadsetAudio
 			}
 		}
 
-		public static bool TryInitialize(IAudioClient client, out bool isFloat, out int channels)
+		public static bool TryInitialize(IAudioClient client, MMDevice? device, out bool isFloat, out int channels, out int sampleRate)
 		{
 			isFloat = false;
 			channels = 2;
-			if (Initialize(client, new WaveFormat(48000, 16, 2)) == 0)
+			sampleRate = 48000;
+			foreach (WaveFormat format in CandidateFormats(device))
+			{
+				if (Initialize(client, format) != 0)
+					continue;
+				isFloat = format.Encoding == WaveFormatEncoding.IeeeFloat;
+				channels = format.Channels;
+				sampleRate = format.SampleRate;
 				return true;
-			isFloat = true;
-			return Initialize(client, WaveFormat.CreateIeeeFloatWaveFormat(48000, 2)) == 0;
+			}
+			return false;
+		}
+
+		private static IEnumerable<WaveFormat> CandidateFormats(MMDevice? device)
+		{
+			int mixRate = 0;
+			int mixChannels = 0;
+			try
+			{
+				if (device != null)
+				{
+					using AudioClient audioClient = device.CreateAudioClient();
+					WaveFormat? mix = audioClient.MixFormat;
+					if (mix != null)
+					{
+						mixRate = mix.SampleRate;
+						mixChannels = mix.Channels;
+					}
+				}
+			}
+			catch
+			{
+			}
+			if (mixRate > 0 && mixChannels > 0)
+			{
+				yield return WaveFormat.CreateIeeeFloatWaveFormat(mixRate, mixChannels);
+				yield return new WaveFormat(mixRate, 16, mixChannels);
+				if (mixChannels != 2)
+				{
+					yield return WaveFormat.CreateIeeeFloatWaveFormat(mixRate, 2);
+					yield return new WaveFormat(mixRate, 16, 2);
+				}
+			}
+			foreach (int rate in new[] { 48000, 44100 })
+			{
+				if (rate == mixRate)
+					continue;
+				yield return WaveFormat.CreateIeeeFloatWaveFormat(rate, 2);
+				yield return new WaveFormat(rate, 16, 2);
+			}
 		}
 
 		private static int Initialize(IAudioClient client, WaveFormat format)

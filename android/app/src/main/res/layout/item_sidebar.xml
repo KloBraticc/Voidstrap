@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_horizontal"
+    android:minHeight="56dp"
+    android:orientation="vertical"
+    android:paddingTop="4dp"
+    android:paddingBottom="6dp">
+
+    <FrameLayout
+        android:layout_width="56dp"
+        android:layout_height="32dp"
+        android:background="@drawable/vs_rail_pill"
+        android:duplicateParentState="true">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:duplicateParentState="true"
+            android:importantForAccessibility="no"
+            app:tint="@color/vs_nav_icon" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:duplicateParentState="true"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:textAppearance="@style/TextAppearance.Voidstrap.NavLabel"
+        android:textColor="@color/vs_nav_item" />
+</LinearLayout>

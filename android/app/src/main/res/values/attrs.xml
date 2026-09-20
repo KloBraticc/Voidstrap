@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="vsWindow" format="color" />
+    <attr name="vsSidebar" format="color" />
+    <attr name="vsCard" format="color" />
+    <attr name="vsMenu" format="color" />
+    <attr name="vsInput" format="color" />
+    <attr name="vsTextPrimary" format="color" />
+    <attr name="vsTextSecondary" format="color" />
+    <attr name="vsTextTertiary" format="color" />
+</resources>

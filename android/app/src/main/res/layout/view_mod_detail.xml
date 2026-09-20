@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/detail_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:scrollbars="none" />
+
+    <TextView
+        android:id="@+id/detail_meta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+
+    <TextView
+        android:id="@+id/detail_stats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.Voidstrap.Tertiary" />
+
+    <LinearLayout
+        android:id="@+id/detail_submitter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/detail_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/vs_icon_tile"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop"
+            app:shapeAppearance="@style/Shape.Voidstrap.Card" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/detail_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Voidstrap.Body" />
+
+            <TextView
+                android:id="@+id/detail_author_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Voidstrap.Tertiary" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/detail_page"
+            style="@style/Widget.Voidstrap.Button.Subtle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mods_packs_page"
+            app:icon="@drawable/ic_globe" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/mods_packs_download"
+        android:textAppearance="@style/TextAppearance.Voidstrap.Section" />
+
+    <LinearLayout
+        android:id="@+id/detail_files"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <TextView
+        android:id="@+id/detail_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/detail_install"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/mods_packs_install"
+        app:icon="@drawable/ic_arrow_download" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/mods_packs_description"
+        android:textAppearance="@style/TextAppearance.Voidstrap.Section" />
+
+    <TextView
+        android:id="@+id/detail_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.Voidstrap.Body"
+        android:textIsSelectable="true" />
+
+    <TextView
+        android:id="@+id/detail_license_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/mods_packs_license"
+        android:textAppearance="@style/TextAppearance.Voidstrap.Section" />
+
+    <TextView
+        android:id="@+id/detail_license"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+
+    <LinearLayout
+        android:id="@+id/detail_sections"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical" />
+</LinearLayout>

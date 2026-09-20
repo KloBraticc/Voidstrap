@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.voidstrap.android.ScrollPane xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/integrations_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <LinearLayout style="@style/Voidstrap.Page">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/integrations_title"
+            android:textAppearance="@style/TextAppearance.Voidstrap.PageTitle" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@string/integrations_subtitle"
+            android:textAppearance="@style/TextAppearance.Voidstrap.PageSubtitle" />
+
+        <LinearLayout
+            android:id="@+id/integrations_sections"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical" />
+    </LinearLayout>
+</com.voidstrap.android.ScrollPane>

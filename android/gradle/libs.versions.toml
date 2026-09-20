@@ -1,0 +1,21 @@
+[versions]
+agp = "9.4.1"
+appcompat = "1.8.0"
+material = "1.14.0"
+core = "1.19.0"
+constraintlayout = "2.2.2"
+junrar = "8.1.1"
+commonsCompress = "1.28.0"
+xz = "1.12"
+
+[libraries]
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+core = { group = "androidx.core", name = "core", version.ref = "core" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+junrar = { group = "com.github.junrar", name = "junrar", version.ref = "junrar" }
+commons-compress = { group = "org.apache.commons", name = "commons-compress", version.ref = "commonsCompress" }
+xz = { group = "org.tukaani", name = "xz", version.ref = "xz" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }

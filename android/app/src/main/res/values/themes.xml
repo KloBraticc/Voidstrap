@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.Voidstrap" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="vsWindow">@color/vs_window</item>
+        <item name="vsSidebar">@color/vs_sidebar</item>
+        <item name="vsCard">@color/vs_card</item>
+        <item name="vsMenu">@color/vs_menu</item>
+        <item name="vsInput">@color/vs_input</item>
+        <item name="vsTextPrimary">@color/vs_text_primary</item>
+        <item name="vsTextSecondary">@color/vs_text_secondary</item>
+        <item name="vsTextTertiary">@color/vs_text_tertiary</item>
+        <item name="colorPrimary">@color/vs_accent</item>
+        <item name="colorOnPrimary">@color/vs_on_accent</item>
+        <item name="colorPrimaryContainer">@color/vs_tonal</item>
+        <item name="colorOnPrimaryContainer">?attr/vsTextPrimary</item>
+        <item name="colorSecondary">@color/vs_accent_text</item>
+        <item name="colorOnSecondary">@color/vs_on_accent</item>
+        <item name="colorSecondaryContainer">@color/vs_tonal</item>
+        <item name="colorOnSecondaryContainer">?attr/vsTextPrimary</item>
+        <item name="colorTertiary">@color/vs_accent_text</item>
+        <item name="colorAccent">@color/vs_accent</item>
+        <item name="colorError">@color/vs_critical</item>
+        <item name="android:colorBackground">?attr/vsWindow</item>
+        <item name="android:windowBackground">?attr/vsWindow</item>
+        <item name="colorSurface">?attr/vsWindow</item>
+        <item name="colorOnSurface">?attr/vsTextPrimary</item>
+        <item name="colorOnSurfaceVariant">?attr/vsTextSecondary</item>
+        <item name="colorSurfaceVariant">?attr/vsCard</item>
+        <item name="colorSurfaceContainerLowest">?attr/vsWindow</item>
+        <item name="colorSurfaceContainerLow">?attr/vsCard</item>
+        <item name="colorSurfaceContainer">?attr/vsSidebar</item>
+        <item name="colorSurfaceContainerHigh">?attr/vsMenu</item>
+        <item name="colorSurfaceContainerHighest">?attr/vsMenu</item>
+        <item name="colorOutline">@color/vs_control_stroke</item>
+        <item name="colorOutlineVariant">@color/vs_divider</item>
+        <item name="colorControlNormal">?attr/vsTextSecondary</item>
+        <item name="colorControlHighlight">@color/vs_subtle_pressed</item>
+        <item name="android:textColorPrimary">?attr/vsTextPrimary</item>
+        <item name="android:textColorSecondary">?attr/vsTextSecondary</item>
+        <item name="android:textColorTertiary">?attr/vsTextTertiary</item>
+        <item name="android:textColorHint">?attr/vsTextTertiary</item>
+        <item name="android:textColorLink">?attr/colorSecondary</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="shapeAppearanceCornerExtraSmall">@style/Shape.Voidstrap.Control</item>
+        <item name="shapeAppearanceCornerSmall">@style/Shape.Voidstrap.Control</item>
+        <item name="shapeAppearanceCornerMedium">@style/Shape.Voidstrap.Card</item>
+        <item name="shapeAppearanceCornerLarge">@style/Shape.Voidstrap.Overlay</item>
+        <item name="shapeAppearanceCornerExtraLarge">@style/Shape.Voidstrap.Overlay</item>
+        <item name="materialButtonStyle">@style/Widget.Voidstrap.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.Voidstrap.Button.Standard</item>
+        <item name="borderlessButtonStyle">@style/Widget.Voidstrap.Button.Subtle</item>
+        <item name="materialCardViewStyle">@style/Widget.Voidstrap.Card</item>
+        <item name="textInputStyle">@style/Widget.Voidstrap.TextInput</item>
+        <item name="materialSwitchStyle">@style/Widget.Voidstrap.Switch</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Voidstrap.BottomSheet</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.Voidstrap.Dialog</item>
+        <item name="snackbarStyle">@style/Widget.Voidstrap.Snackbar</item>
+        <item name="snackbarTextViewStyle">@style/Widget.Voidstrap.SnackbarText</item>
+        <item name="snackbarButtonStyle">@style/Widget.Voidstrap.Button.Subtle</item>
+        <item name="popupMenuStyle">@style/Widget.Voidstrap.PopupMenu</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="28">shortEdges</item>
+    </style>
+
+    <style name="Theme.Voidstrap" parent="Base.Theme.Voidstrap" />
+
+    <style name="Theme.Voidstrap.Brand" parent="Base.Theme.Voidstrap">
+        <item name="colorPrimary">@color/vs_p_primary</item>
+        <item name="colorAccent">@color/vs_p_primary</item>
+        <item name="colorOnPrimary">@color/vs_p_on_primary</item>
+        <item name="colorSecondary">@color/vs_p_primary</item>
+        <item name="colorOnSecondary">@color/vs_p_on_primary</item>
+        <item name="colorTertiary">@color/vs_p_primary</item>
+        <item name="android:textColorLink">@color/vs_p_primary</item>
+        <item name="vsWindow">@color/vs_p_window</item>
+        <item name="vsSidebar">@color/vs_p_sidebar</item>
+        <item name="vsCard">@color/vs_p_card</item>
+        <item name="vsMenu">@color/vs_p_menu</item>
+        <item name="vsInput">@color/vs_p_input</item>
+        <item name="vsTextPrimary">@color/vs_p_text_primary</item>
+        <item name="vsTextSecondary">@color/vs_p_text_secondary</item>
+        <item name="vsTextTertiary">@color/vs_p_text_tertiary</item>
+    </style>
+
+    <style name="Theme.Voidstrap.Trampoline" parent="Theme.Voidstrap">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="ThemeOverlay.Voidstrap.BottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.Voidstrap.BottomSheet</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="ThemeOverlay.Voidstrap.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorSurface">?attr/vsMenu</item>
+        <item name="colorSurfaceContainerHigh">?attr/vsMenu</item>
+        <item name="shapeAppearanceOverlay">@style/Shape.Voidstrap.Overlay</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.Voidstrap.Button.DialogText</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.Voidstrap.Button.DialogText</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.Voidstrap.Button.DialogText</item>
+    </style>
+</resources>

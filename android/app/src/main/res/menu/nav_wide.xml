@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_home" android:icon="@drawable/ic_home" android:title="@string/nav_home" />
+    <item android:id="@+id/nav_mods" android:icon="@drawable/ic_wrench_screwdriver" android:title="@string/nav_mods" />
+    <item android:id="@+id/nav_flags" android:icon="@drawable/ic_options" android:title="@string/nav_flags" />
+    <item android:id="@+id/nav_flag_editor" android:icon="@drawable/ic_flag" android:title="@string/nav_editor" />
+    <item android:id="@+id/nav_integrations" android:icon="@drawable/ic_add" android:title="@string/nav_integrations" />
+    <item android:id="@+id/nav_matchmaker" android:icon="@drawable/ic_globe" android:title="@string/nav_matchmaker" />
+    <item android:id="@+id/nav_settings" android:icon="@drawable/ic_settings" android:title="@string/nav_settings" />
+</menu>
