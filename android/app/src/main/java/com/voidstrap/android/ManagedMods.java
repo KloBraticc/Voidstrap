@@ -211,6 +211,7 @@ public final class ManagedMods {
             File moved = new File(trash, UUID.randomUUID().toString().replace("-", ""));
             if (f.isDirectory() && !f.renameTo(moved)) Mods.delete(f);
             save(c, records);
+            ModVariants.delete(c, id);
             Mods.delete(moved);
             File[] left = trash.listFiles();
             if (left != null) for (File x : left) Mods.delete(x);

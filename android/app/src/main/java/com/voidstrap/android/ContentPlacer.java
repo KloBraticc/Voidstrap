@@ -112,6 +112,7 @@ public final class ContentPlacer {
     private static synchronized void ensureIndex(Context c) {
         String pkg = Targets.selected(c);
         File base = ModEngine.originalApk(c, pkg);
+        if (base == null) base = ModEngine.baseApk(c, pkg);
         String key = base == null ? "" : ModEngine.identity(c, pkg);
         if (key.equals(indexKey)) return;
         Set<String> files = new HashSet<>();
