@@ -254,10 +254,16 @@ public final class ModsFragment extends Page {
                 .show();
         store.work.execute(() -> {
             String result;
+            boolean ok = true;
             try {
                 result = job.run(app, cancel);
             } catch (IOException | RuntimeException e) {
+                ok = false;
                 result = cancel.get() ? app.getString(R.string.mods_error_cancelled_full) : describe(app, e);
+            }
+            if (ok && result != null && !result.isEmpty()
+                    && ModEngine.state(app, Targets.selected(app)) == ModEngine.State.NO_ROOT) {
+                result = app.getString(R.string.mods_saved_no_root, result);
             }
             String text = result;
             store.main.post(() -> {

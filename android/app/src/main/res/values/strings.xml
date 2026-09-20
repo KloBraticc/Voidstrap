@@ -584,6 +584,7 @@
     <string name="mods_result_no_root">Root access was denied, so mods could not be loaded.</string>
     <string name="mods_result_failed">Mods could not be loaded into Roblox. Try again.</string>
     <string name="mods_launch_not_applied">Mods were not loaded. Check the Mods page.</string>
+    <string name="mods_saved_no_root">%1$s Saved in Voidstrap, but mods need root to reach Roblox.</string>
     <string name="mods_working">Working</string>
     <string name="mods_downloading">Downloading</string>
     <string name="mods_refresh">Refresh</string>
