@@ -11,7 +11,6 @@ Version: @VERSION@
 Release: 1
 Summary: Customize and launch Roblox through Sober on Linux
 License: MIT
-BuildArch: @ARCH@
 Requires: vulkan-loader
 Requires: mesa-vulkan-drivers
 Requires: libX11
