@@ -222,7 +222,7 @@ public final class HomeFragment extends Page {
             pill.setVisibility(n.tag.isEmpty() ? View.GONE : View.VISIBLE);
             ((TextView) card.findViewById(R.id.news_tag)).setText(n.tag);
             ImageView image = card.findViewById(R.id.news_image);
-            Net.image(image, HomeFeed.thumbnail(n.image, 760), android.R.color.transparent, Ui.dp(requireContext(), 380));
+            Net.image(image, HomeFeed.thumbnail(n.image, 760), R.color.vs_news_surface, Ui.dp(requireContext(), 380));
             card.setContentDescription(getString(R.string.home_news_description, n.title, date));
             card.setOnClickListener(x -> Ui.openWeb(requireContext(), n.url));
             cells.add(card);
@@ -273,7 +273,7 @@ public final class HomeFragment extends Page {
             TextView type = card.findViewById(R.id.catalog_type);
             type.setText(it.type);
             type.setVisibility(it.type.isEmpty() ? View.GONE : View.VISIBLE);
-            Net.image(card.findViewById(R.id.catalog_image), it.image, android.R.color.transparent, Ui.dp(requireContext(), 150));
+            Net.image(card.findViewById(R.id.catalog_image), it.image, R.color.vs_subtle, Ui.dp(requireContext(), 150));
             card.setContentDescription(getString(R.string.home_catalog_description, it.name, it.creator, price == null ? getString(R.string.home_free) : price));
             card.setOnClickListener(x -> Actions.openInRoblox(host(), it.appLink(), it.link()));
             cells.add(card);
@@ -310,7 +310,7 @@ public final class HomeFragment extends Page {
             ((TextView) card.findViewById(R.id.game_likes)).setText(g.likes);
             ((TextView) card.findViewById(R.id.game_players)).setText(g.players);
             ((TextView) card.findViewById(R.id.game_launched)).setText(getString(R.string.home_launched, when.format(new Date(g.launched))));
-            Net.image(card.findViewById(R.id.game_thumb), g.thumbnail, android.R.color.transparent, Ui.dp(requireContext(), 320));
+            Net.image(card.findViewById(R.id.game_thumb), g.thumbnail, R.color.vs_subtle_pressed, Ui.dp(requireContext(), 320));
             View thumb = card.findViewById(R.id.game_thumb_host);
             thumb.setContentDescription(getString(R.string.home_game_page, g.name));
             thumb.setOnClickListener(x -> Actions.openInRoblox(host(), "https://www.roblox.com/games/" + g.placeId));

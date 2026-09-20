@@ -22,7 +22,7 @@ public final class HelperServer {
     static final String PORT_FILE = "/data/local/tmp/voidstrap_helper_port";
     static final int NONCE_BYTES = 16;
     static final int PROOF_BYTES = 32;
-    static final int VERSION = 7;
+    static final int VERSION = 8;
     static final int PING = -1;
     static final int STOP = -2;
     static final int STALE = -3;
@@ -44,6 +44,12 @@ public final class HelperServer {
             "SocialCounterpartyManager",
             "setStage: (stage:"
     };
+    static final String STREAM_REGEX = "Joining game|game_join_loadtime|UDMUX Address|serverId:"
+            + "|Time to disconnect|leaveUGCGameInternal|doTeleport|VoidstrapRPC|BloxstrapRPC"
+            + "|ExpChat|SocialCounterpartyManager|setStage";
+    private static final long ALIVE_POLL_MS = 3000;
+    private static final int KEEPALIVE_TICKS = 10;
+    private static Boolean regexSupported;
     static final int MAX_SCRIPT = 8 * 1024 * 1024;
     static final int SHELL_UID = 2000;
     static final String CACHE_LIST = "/data/local/tmp/voidstrap_cache_";
@@ -69,6 +75,7 @@ public final class HelperServer {
     private static int allowedUid;
     private static String token;
     private static ServerSocket server;
+    private static final java.util.concurrent.atomic.AtomicReference<java.lang.Process> tail = new java.util.concurrent.atomic.AtomicReference<>();
 
     private HelperServer() {
     }
@@ -117,6 +124,7 @@ public final class HelperServer {
             return;
         }
         System.out.println("The Voidstrap helper started");
+        Runtime.getRuntime().addShutdownHook(new Thread(HelperServer::stopTail, "tail-stop"));
         Thread watch = new Thread(HelperServer::watch, "watch");
         watch.setDaemon(true);
         watch.start();
@@ -295,6 +303,38 @@ public final class HelperServer {
         }
     }
 
+    private static synchronized boolean canPreFilter() {
+        if (regexSupported == null) {
+            regexSupported = Boolean.FALSE;
+            try {
+                java.lang.Process p = new ProcessBuilder("logcat", "-e", STREAM_REGEX, "-d", "-t", "1")
+                        .redirectErrorStream(true)
+                        .redirectOutput(ProcessBuilder.Redirect.to(new File("/dev/null")))
+                        .start();
+                regexSupported = p.waitFor(10, TimeUnit.SECONDS) && p.exitValue() == 0;
+            } catch (IOException ignored) {
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        return regexSupported;
+    }
+
+    private static void stopTail() {
+        java.lang.Process p = tail.getAndSet(null);
+        if (p != null) p.destroyForcibly();
+    }
+
+    private static boolean alive(String pid, String target) {
+        try {
+            String name = new String(java.nio.file.Files.readAllBytes(new File("/proc/" + pid + "/cmdline").toPath()), StandardCharsets.UTF_8);
+            int end = name.indexOf((char) 0);
+            return (end < 0 ? name : name.substring(0, end)).equals(target);
+        } catch (IOException | RuntimeException e) {
+            return false;
+        }
+    }
+
     private static void send(DataOutputStream out, String line) throws IOException {
         synchronized (out) {
             out.writeUTF(line.length() > 8000 ? line.substring(0, 8000) : line);
@@ -311,9 +351,15 @@ public final class HelperServer {
                 continue;
             }
             send(out, STREAM_START + " " + pid);
-            java.lang.Process log = new ProcessBuilder("logcat", "-v", "raw", "--pid=" + pid, "-s", "Roblox:I")
+            java.util.List<String> argv = new java.util.ArrayList<>(java.util.Arrays.asList("logcat", "-v", "raw", "--pid=" + pid, "-s", "Roblox:I"));
+            if (canPreFilter()) {
+                argv.add("-e");
+                argv.add(STREAM_REGEX);
+            }
+            java.lang.Process log = new ProcessBuilder(argv)
                     .redirectErrorStream(true)
                     .start();
+            tail.set(log);
             java.util.concurrent.atomic.AtomicBoolean failed = new java.util.concurrent.atomic.AtomicBoolean();
             Thread reader = new Thread(() -> {
                 try (java.io.BufferedReader r = new java.io.BufferedReader(new java.io.InputStreamReader(log.getInputStream(), StandardCharsets.UTF_8))) {
@@ -328,11 +374,14 @@ public final class HelperServer {
             reader.setDaemon(true);
             reader.start();
             try {
+                int ticks = 0;
                 while (!failed.get()) {
-                    sleep(2000);
-                    if (!pid.equals(pidOf(target))) break;
+                    sleep(ALIVE_POLL_MS);
+                    if (!alive(pid, target)) break;
+                    if (++ticks % KEEPALIVE_TICKS == 0) send(out, "");
                 }
             } finally {
+                tail.compareAndSet(log, null);
                 log.destroyForcibly();
             }
             if (failed.get()) throw new IOException("client closed");

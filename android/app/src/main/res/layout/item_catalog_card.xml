@@ -14,8 +14,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/vs_subtle">
+            android:layout_height="100dp">
 
             <ImageView
                 android:id="@+id/catalog_image"

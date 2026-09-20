@@ -38,7 +38,7 @@ final class LiveTranslator {
         Store store = Store.get(root.getContext());
         String lang = Translator.language(store);
         if (Translator.DEFAULT.equals(lang)) {
-            restore(root);
+            if (!texts.isEmpty() || !hints.isEmpty() || !layoutHints.isEmpty() || !tabs.isEmpty()) restore(root);
             return;
         }
         Translator.load(root.getContext());

@@ -28,6 +28,7 @@
 
     <color name="vs_card_stroke">#FFCAC4CF</color>
     <color name="vs_control_stroke">#FF79757F</color>
+    <color name="vs_news_surface">#FF0E1015</color>
     <color name="vs_subtle">#141C1B20</color>
     <color name="vs_subtle_pressed">#1F1C1B20</color>
     <color name="vs_divider">#FFCAC4CF</color>

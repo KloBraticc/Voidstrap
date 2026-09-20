@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 public final class Store {
     public static final int HISTORY_LIMIT = 100;
+    private static final String[] SECRETS = {"helperToken"};
 
     private static Store instance;
 
@@ -32,6 +33,7 @@ public final class Store {
     private final CopyOnWriteArrayList<Runnable> listeners = new CopyOnWriteArrayList<>();
     private final File dir;
     private final java.util.concurrent.atomic.AtomicBoolean writeFailed = new java.util.concurrent.atomic.AtomicBoolean();
+    private final java.util.concurrent.atomic.AtomicBoolean queued = new java.util.concurrent.atomic.AtomicBoolean();
 
     public final JSONObject settings;
     public final List<Game> library = new ArrayList<>();
@@ -75,9 +77,10 @@ public final class Store {
 
     public void changed() {
         if (Looper.myLooper() != Looper.getMainLooper()) {
-            main.post(this::changed);
+            if (queued.compareAndSet(false, true)) main.post(this::changed);
             return;
         }
+        queued.set(false);
         for (Runnable r : listeners) r.run();
     }
 
@@ -185,7 +188,9 @@ public final class Store {
         o.put("format", "voidstrap.android.backup");
         o.put("version", 1);
         o.put("created", System.currentTimeMillis());
-        o.put("settings", new JSONObject(settings.toString()));
+        JSONObject safe = new JSONObject(settings.toString());
+        for (String key : SECRETS) safe.remove(key);
+        o.put("settings", safe);
         JSONArray a = new JSONArray();
         for (Game g : library) a.put(g.toJson());
         o.put("library", a);

@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         setupBar();
         applyInsets();
         getOnBackPressedDispatcher().addCallback(this, editorBack);
-        store.observe(presenceRefresh);
         select(current);
         if (saved == null && (getIntent().getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0) handle(getIntent());
     }
@@ -148,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        store.unobserve(presenceRefresh);
         if (isFinishing()) AppPresence.hidden();
         super.onDestroy();
     }
@@ -157,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         store.observe(barRefresh);
+        store.observe(presenceRefresh);
         updateBar();
         AppPresence.shown(this, current);
     }
@@ -164,7 +163,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         store.unobserve(barRefresh);
+        store.unobserve(presenceRefresh);
         super.onStop();
+        if (!isChangingConfigurations() && !isFinishing()) release();
     }
 
     private void setupBar() {
@@ -242,7 +243,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        if (level >= TRIM_MEMORY_UI_HIDDEN) Net.trim();
+        if (level >= TRIM_MEMORY_UI_HIDDEN) release();
+    }
+
+    private void release() {
+        releaseHiddenTabs();
+        Net.trim();
+        store.work.execute(System::gc);
+    }
+
+    private void releaseHiddenTabs() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction t = null;
+        for (int tab : TABS) {
+            Fragment f = fm.findFragmentByTag("tab" + tab);
+            if (f == null || !f.isHidden()) continue;
+            if (t == null) t = fm.beginTransaction().setReorderingAllowed(true);
+            t.remove(f);
+        }
+        if (t != null) t.commitNowAllowingStateLoss();
     }
 
     private void offerPendingLaunch() {

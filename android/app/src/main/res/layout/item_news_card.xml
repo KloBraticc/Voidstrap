@@ -5,7 +5,7 @@
     android:layout_height="212dp"
     android:clickable="true"
     android:focusable="true"
-    app:cardBackgroundColor="#FF0E1015"
+    app:cardBackgroundColor="@android:color/transparent"
     app:cardCornerRadius="10dp"
     app:strokeColor="#26FFFFFF"
     app:strokeWidth="0dp">

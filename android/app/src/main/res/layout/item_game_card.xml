@@ -13,7 +13,6 @@
             android:id="@+id/game_thumb_host"
             android:layout_width="match_parent"
             android:layout_height="112dp"
-            android:background="@color/vs_subtle_pressed"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground">
