@@ -311,8 +311,6 @@
     <string name="settings_backup_export">Export backup</string>
     <string name="settings_backup_import">Import backup</string>
     <string name="settings_about">About</string>
-    <string name="settings_compat">Android compatibility</string>
-    <string name="settings_compat_body">What works on Android and what stays on desktop</string>
     <string name="settings_diagnostics">Diagnostics</string>
     <string name="settings_diagnostics_body">A report you can copy or share for support</string>
     <string name="settings_licenses">Licenses</string>
@@ -336,57 +334,7 @@
     <string name="diagnostics_note">Voidstrap cannot see what happens inside Roblox after it opens, so game errors are not included.</string>
     <string name="diagnostics_copied">Report copied</string>
 
-    <string name="compat_intro">Voidstrap for Android works alongside the official Roblox app. Features that need to change Roblox files stay on desktop.</string>
-    <string name="compat_available">Works</string>
-    <string name="compat_partial">Limited</string>
-    <string name="compat_unavailable">Desktop only</string>
     <string name="compat_setup">Set up</string>
-    <string name="compat_pin_unsupported">Your home screen app cannot add shortcuts. Your first four pinned games show when you long press the Voidstrap icon.</string>
-    <string-array name="compat_names">
-        <item>Launch Roblox</item>
-        <item>Join games by ID or link</item>
-        <item>Private servers and server IDs</item>
-        <item>Pinned games and launch history</item>
-        <item>Home screen game shortcuts</item>
-        <item>FastFlag editor, import and export</item>
-        <item>Mod workspace</item>
-        <item>Apply FastFlags to Roblox</item>
-        <item>Apply mods to Roblox</item>
-        <item>Choose Roblox versions</item>
-        <item>Studio, shaders and overlays</item>
-        <item>Multiple Roblox instances</item>
-        <item>Activity tracking and Discord presence</item>
-    </string-array>
-    <string-array name="compat_states" translatable="false">
-        <item>yes</item>
-        <item>yes</item>
-        <item>yes</item>
-        <item>yes</item>
-        <item>pin</item>
-        <item>yes</item>
-        <item>yes</item>
-        <item>flags</item>
-        <item>mods</item>
-        <item>no</item>
-        <item>no</item>
-        <item>no</item>
-        <item>activity</item>
-    </string-array>
-    <string-array name="compat_notes">
-        <item>Opens the official Roblox or Roblox VN app you choose.</item>
-        <item>Game IDs, roblox.com game links and Roblox share links are handed to the Roblox app.</item>
-        <item>Private server links, link codes and server IDs open that exact server in Roblox.</item>
-        <item>Stored on this device. History lists launches started here.</item>
-        <item>Add any game or private server to your home screen. Your first four pinned games also show when you long press the Voidstrap icon.</item>
-        <item>Profiles are saved in Voidstrap and exported as JSON files.</item>
-        <item>Import, preview, organize and export images, audio and packs.</item>
-        <item>Applied through the Voidstrap helper or root every time Voidstrap launches Roblox.</item>
-        <item>Loaded with root: Voidstrap rebuilds the Roblox game files with your mods and loads them over the installed app.</item>
-        <item>Updates come from the app store. Older versions cannot join current servers.</item>
-        <item>These rely on Windows features that do not exist on Android.</item>
-        <item>Android runs one copy of the Roblox app at a time.</item>
-        <item>Follows the Roblox app while it is open through the Voidstrap helper or root, with join notifications and Discord Rich Presence through the Discord app.</item>
-    </string-array>
 
     <string name="licenses_text">Voidstrap\nMIT License. Copyright © 2025 Bratic.\n\nBloxstrap\nMIT License. Copyright © 2022 pizzaboxer.\n\nChevstrap\nMIT License. Copyright © 2025 FrosSky. The Roblox and Roblox VN package list, launch approach and several FastFlag presets follow Chevstrap.\n\nFluent System Icons\nMIT License. Copyright © 2020 Microsoft Corporation.\n\nBibata Modern Ice cursor\nGNU General Public License 3.0. Copyright © ful1e5. Used by the Voidstrap default cursor style.\n\nAndroidX and Material Components for Android\nApache License 2.0. Copyright The Android Open Source Project and Google LLC.\n\nMIT License terms: Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files, to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, subject to including the copyright notice and this permission notice in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND.\n\nRoblox is a trademark of Roblox Corporation. Voidstrap is not affiliated with or endorsed by Roblox Corporation.</string>
 

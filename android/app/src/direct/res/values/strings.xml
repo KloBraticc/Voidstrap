@@ -93,6 +93,4 @@
         <item quantity="other">Could not reach a better datacenter after %1$d tries, staying in %2$s</item>
     </plurals>
     <string name="matchmaker_fallback">Smart Join stepped aside: %1$s</string>
-    <string name="matchmaker_compat_name">Smart Join and server regions</string>
-    <string name="matchmaker_compat_note">Picks the closest server when you join from Voidstrap, using a Roblox sign in inside Voidstrap.</string>
 </resources>

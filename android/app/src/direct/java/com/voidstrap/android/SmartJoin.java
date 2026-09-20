@@ -65,12 +65,4 @@ final class SmartJoin {
     static void onJoined(Context c, ActivityWatcher.Data data, Alert alert) {
         Reroute.onJoined(c, data, alert);
     }
-
-    static void addCompat(Context c, List<String[]> rows) {
-        boolean ready = RobloxLogin.quick(c) != RobloxLogin.Source.NONE;
-        rows.add(new String[]{
-                c.getString(R.string.matchmaker_compat_name),
-                ready ? "yes" : "partial",
-                ready ? c.getString(R.string.matchmaker_compat_note) : c.getString(R.string.matchmaker_login_none)});
-    }
 }

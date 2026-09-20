@@ -136,7 +136,6 @@ public final class SettingsFragment extends Page {
         v.findViewById(R.id.backup_export).setOnClickListener(x -> exportLauncher.launch("voidstrap-android-backup.json"));
         v.findViewById(R.id.backup_import).setOnClickListener(x -> importLauncher.launch(new String[]{"application/json", "text/plain", "application/octet-stream"}));
         LinearLayout about = v.findViewById(R.id.about_rows);
-        row(about, R.drawable.ic_shield_checkmark, R.string.settings_compat, R.string.settings_compat_body, this::showCompatibility);
         row(about, R.drawable.ic_bug, R.string.settings_diagnostics, R.string.settings_diagnostics_body, this::showDiagnostics);
         row(about, R.drawable.ic_document, R.string.settings_licenses, R.string.settings_licenses_body, this::showLicenses);
         row(about, R.drawable.ic_globe, R.string.settings_website, R.string.settings_website_body, () -> Ui.openWeb(requireContext(), getString(R.string.url_website)));
@@ -229,62 +228,6 @@ public final class SettingsFragment extends Page {
     protected void refresh() {
         Actions.bindTarget(target, true);
         if (helperDetail != null) helperDetail.setText(FlagSync.status(requireContext()));
-    }
-
-    private void showCompatibility() {
-        String[] names = getResources().getStringArray(R.array.compat_names);
-        String[] states = getResources().getStringArray(R.array.compat_states);
-        String[] notes = getResources().getStringArray(R.array.compat_notes);
-        Context c = requireContext();
-        java.util.List<String[]> rows = new java.util.ArrayList<>();
-        for (int i = 0; i < names.length; i++) rows.add(new String[]{names[i], states[i], notes[i]});
-        SmartJoin.addCompat(c, rows);
-        LinearLayout list = new LinearLayout(c);
-        list.setOrientation(LinearLayout.VERTICAL);
-        android.app.Dialog[] sheet = new android.app.Dialog[1];
-        for (String[] entry : rows) {
-            String state = entry[1];
-            String note = entry[2];
-            boolean setup = false;
-            if (state.equals("pin")) {
-                state = Shortcuts.pinSupported(c) ? "yes" : "partial";
-                if (state.equals("partial")) note = getString(R.string.compat_pin_unsupported);
-            } else if (state.equals("flags")) {
-                FlagWriter.Mode mode = FlagWriter.mode(c);
-                setup = mode != FlagWriter.Mode.HELPER && mode != FlagWriter.Mode.ROOT;
-                state = setup ? "partial" : "yes";
-                if (setup) note = FlagSync.status(c);
-            } else if (state.equals("activity")) {
-                FlagWriter.Mode mode = FlagWriter.mode(c);
-                setup = mode == FlagWriter.Mode.NONE;
-                state = setup ? "partial" : "yes";
-                if (setup) note = FlagSync.status(c);
-            } else if (state.equals("mods")) {
-                boolean rooted = FlagWriter.rootMode(c) != FlagWriter.Mode.NONE;
-                state = rooted ? "yes" : FlagWriter.rootAvailable() ? "partial" : "no";
-                if (!rooted) note = getString(FlagWriter.rootAvailable() ? R.string.mods_state_root_off : R.string.mods_state_no_root);
-            }
-            Row row = Row.inflate(list);
-            boolean yes = state.equals("yes");
-            boolean partial = state.equals("partial");
-            row.set(yes ? R.drawable.ic_checkmark_circle : partial ? R.drawable.ic_info : R.drawable.ic_dismiss_circle, entry[0], note);
-            row.icon.setImageTintList(android.content.res.ColorStateList.valueOf(c.getColor(yes ? R.color.vs_success : partial ? R.color.vs_caution : R.color.vs_critical)));
-            row.badge.setVisibility(View.VISIBLE);
-            row.badge.setText(setup ? R.string.compat_setup : yes ? R.string.compat_available : partial ? R.string.compat_partial : R.string.compat_unavailable);
-            if (setup) {
-                row.chevron.setVisibility(View.VISIBLE);
-                row.view.setOnClickListener(x -> {
-                    sheet[0].dismiss();
-                    FlagSync.setup(host());
-                });
-            } else {
-                row.view.setClickable(false);
-            }
-            row.detail.setMaxLines(6);
-            list.addView(row.view);
-        }
-        sheet[0] = Ui.surface(host(), R.string.settings_compat, R.string.compat_intro, list);
-        sheet[0].show();
     }
 
     private String diagnostics() {

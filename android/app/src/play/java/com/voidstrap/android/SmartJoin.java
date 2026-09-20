@@ -42,7 +42,4 @@ final class SmartJoin {
 
     static void onJoined(Context c, ActivityWatcher.Data data, Alert alert) {
     }
-
-    static void addCompat(Context c, List<String[]> rows) {
-    }
 }
