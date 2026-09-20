@@ -10,8 +10,10 @@ public final class VoidstrapApp extends Application {
         super.onCreate();
         applyTheme(Store.get(this).setting("theme", "system"));
         auditFlags(Store.get(this));
-        java.io.File ext = getExternalFilesDir(null);
-        if (ext != null) new java.io.File(ext, "start.sh").delete();
+        Store.get(this).work.execute(() -> {
+            java.io.File ext = getExternalFilesDir(null);
+            if (ext != null) new java.io.File(ext, "start.sh").delete();
+        });
         Shortcuts.watch(this);
         Translator.load(this);
         Helper.token(this);

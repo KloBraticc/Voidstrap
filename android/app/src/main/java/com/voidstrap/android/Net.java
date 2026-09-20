@@ -221,11 +221,15 @@ public final class Net {
         view.setImageResource(fallback);
         Store store = Store.get(c);
         store.work.execute(() -> {
-            Bitmap b = loadBitmap(c, url, px);
-            if (b == null) return;
-            memory(c).put(key, b);
+            Bitmap b = memory(c).get(key);
+            if (b == null) {
+                b = loadBitmap(c, url, px);
+                if (b == null) return;
+                memory(c).put(key, b);
+            }
+            Bitmap ready = b;
             store.main.post(() -> {
-                if (url.equals(view.getTag(R.id.tag_image))) view.setImageBitmap(b);
+                if (url.equals(view.getTag(R.id.tag_image))) view.setImageBitmap(ready);
             });
         });
     }

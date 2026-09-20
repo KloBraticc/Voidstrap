@@ -84,12 +84,19 @@ final class Scrollbar extends Drawable {
         panelBase = panelPaint.getAlpha();
         strokeBase = strokePaint.getAlpha();
         view.setVerticalScrollBarEnabled(false);
-        view.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> setBounds(0, 0, r - l, b - t));
+        view.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> laneBounds(r - l, b - t));
         view.getOverlay().add(this);
     }
 
     static Scrollbar attach(View view, Host host) {
         return new Scrollbar(view, host);
+    }
+
+    private void laneBounds(int width, int height) {
+        float half = dp(Math.max(LANE, PANEL)) / 2 + density;
+        boolean rtl = view.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
+        float cx = rtl ? dp(LANE) / 2 : width - dp(LANE) / 2;
+        setBounds((int) Math.max(0, Math.floor(cx - half)), 0, (int) Math.min(width, Math.ceil(cx + half)), height);
     }
 
     void onScrolled() {
