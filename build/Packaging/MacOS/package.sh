@@ -59,6 +59,15 @@ mkdir -p "$PUBLISH"
 dotnet publish "$ROOT/src/Voidstrap.Cross/Voidstrap.Cross.csproj" -c Release -r "$RID" --self-contained true -o "$PUBLISH" -p:Version="$VERSION" -p:DebugType=none -p:DebugSymbols=false
 mkdir -p "$APPLICATION/Contents/MacOS" "$APPLICATION/Contents/Resources"
 cp -R "$PUBLISH/." "$APPLICATION/Contents/MacOS/"
+NOTICES="$APPLICATION/Contents/MacOS/LibreWPF/Notices"
+if [ -d "$NOTICES" ]; then
+  while IFS= read -r directory; do
+    base="$(basename "$directory")"
+    case "$base" in
+      *.*) mv "$directory" "$(dirname "$directory")/${base//./-}" ;;
+    esac
+  done < <(find "$NOTICES" -depth -type d)
+fi
 cp "$ROOT/build/Packaging/MacOS/Info.plist" "$APPLICATION/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" "$APPLICATION/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $VERSION" "$APPLICATION/Contents/Info.plist"
