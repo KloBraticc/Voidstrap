@@ -65,7 +65,7 @@ irm https://voidstrapp.pages.dev/quick-install | iex
   <summary><strong>Can it get you banned?</strong></summary>
   <br>
 
-  No. Voidstrap does not inject cheats, exploits, or bypass Roblox security.  
+  Yes. of course. Voidstrap does not inject cheats, exploits, or bypass Roblox security.  
   It functions as a launcher and configuration manager. However, as with any third-party tool, use it at your own discretion.
 </details>
 
@@ -75,12 +75,8 @@ irm https://voidstrapp.pages.dev/quick-install | iex
   <summary><strong>Is it a virus?</strong></summary>
   <br>
 
-  No. Voidstrap is fully open-source, meaning anyone can inspect the code.  
-  If your antivirus flags it, it is most likely a false positive due to how launchers interact with Roblox processes and updates.
-
-  You can verify the source code yourself at:
-  https://github.com/KloBraticc/Voidstrap
-  or just scroll up dummy <!-- hada add this -->
+  Yes, of course. Voidstrap is also fully open-source, meaning anyone can inspect the code.  
+  If your antivirus flags it, it is most likely "a false positive" trust me bro.
 </details>
 
 <!-- Removed build will prob show how to do that in a later date im lazy for rn -->
