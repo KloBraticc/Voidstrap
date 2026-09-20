@@ -84,9 +84,15 @@ public final class Net {
         return m;
     }
 
+    static void ensureDir(File dir, String label) throws IOException {
+        if (dir.isDirectory()) return;
+        dir.mkdirs();
+        if (!dir.isDirectory()) throw new IOException(label);
+    }
+
     public static JSONObject cachedJson(Context c, String url, long maxAgeMs) throws IOException, JSONException {
         File dir = new File(c.getCacheDir(), "feeds");
-        if (!dir.isDirectory() && !dir.mkdirs()) throw new IOException("cache");
+        ensureDir(dir, "cache");
         File f = new File(dir, sha1(url) + ".json");
         if (f.isFile() && System.currentTimeMillis() - f.lastModified() < maxAgeMs) {
             try {
@@ -165,7 +171,7 @@ public final class Net {
             long declared = con.getContentLengthLong();
             if (declared > limit) throw new IOException("too large");
             File parent = dest.getParentFile();
-            if (parent != null && !parent.isDirectory() && !parent.mkdirs()) throw new IOException("mkdir");
+            if (parent != null) ensureDir(parent, "mkdir");
             try (InputStream in = con.getInputStream(); FileOutputStream out = new FileOutputStream(tmp)) {
                 byte[] buf = new byte[65536];
                 long total = 0;
