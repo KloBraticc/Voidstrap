@@ -68,12 +68,11 @@ final class ModsCustomizeTab {
         int fontScale;
         boolean ps4;
         boolean noGui;
-        boolean topBar;
 
         String sig() {
             return cursor + "|" + customCursor + "|" + shiftLock + "|" + sets + "|" + oldSounds + "|" + deathSound + "|" + deathVolume + "|" + oldAvatar + "|" + emoji
                     + "|" + skyEnabled + "|" + skyName + "|" + customSky + "|" + java.util.Arrays.toString(customFaces) + "|" + font + "|" + fontName + "|" + fontScale
-                    + "|" + ps4 + "|" + noGui + "|" + topBar;
+                    + "|" + ps4 + "|" + noGui;
         }
     }
 
@@ -106,7 +105,6 @@ final class ModsCustomizeTab {
             s.fontScale = ModPresets.fontScale(app);
             s.ps4 = ModInterface.ps4(app);
             s.noGui = ModInterface.hideCoreGui(app);
-            s.topBar = ModInterface.classicTopBar(app);
             host.store().main.post(() -> {
                 if (gen != generation || !host.isAdded()) return;
                 if (!dirty && snap != null && snap.sig().equals(s.sig())) return;
@@ -141,18 +139,14 @@ final class ModsCustomizeTab {
                 : c.getResources().getQuantityString(R.plurals.mods_sets_count, s.sets.size(), s.sets.size()), R.string.mods_sets_body, this::fillSets);
 
         g = section(rows, R.string.mods_section_interface);
-        toggle(g, R.string.mods_topbar, s.topBar, on -> work(R.string.mods_working, (app, cancel) -> {
-            ModInterface.setClassicTopBar(app, on, cancel);
-            return app.getString(on ? R.string.mods_topbar_on : R.string.mods_topbar_off);
-        }));
         toggle(g, R.string.mods_ps4, s.ps4, on -> work(R.string.mods_working, (app, cancel) -> {
             ModInterface.setPs4(app, on, cancel);
             return app.getString(on ? R.string.mods_ps4_on : R.string.mods_ps4_off);
         }));
-        toggle(g, R.string.mods_nogui, s.noGui || s.topBar, on -> work(R.string.mods_working, (app, cancel) -> {
+        toggle(g, R.string.mods_nogui, s.noGui, on -> work(R.string.mods_working, (app, cancel) -> {
             ModInterface.setHideCoreGui(app, on, cancel);
             return app.getString(on ? R.string.mods_nogui_on : R.string.mods_nogui_off);
-        })).setEnabled(!s.topBar);
+        }));
 
         g = section(rows, R.string.mods_section_sounds);
         toggle(g, R.string.mods_old_sounds, s.oldSounds, on -> work(R.string.mods_working, (app, cancel) -> {

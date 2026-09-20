@@ -685,9 +685,6 @@
     <string name="mods_sets_used">Now using %1$s.</string>
     <string name="mods_sets_delete_title">Delete this cursor set?</string>
     <string name="mods_sets_delete_body">%1$s and its images will be deleted.</string>
-    <string name="mods_topbar">Old Roblox top bar</string>
-    <string name="mods_topbar_on">The old top bar is on.</string>
-    <string name="mods_topbar_off">The old top bar is off.</string>
     <string name="mods_ps4">PS4 button icons</string>
     <string name="mods_ps4_on">PS4 button icons are installed.</string>
     <string name="mods_ps4_off">PS4 button icons were removed.</string>

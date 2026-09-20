@@ -17,19 +17,11 @@ final class ModInterface {
         return false;
     }
 
-    static boolean classicTopBar(Context c) {
-        return false;
-    }
-
     static void setPs4(Context c, boolean on, AtomicBoolean cancel) throws IOException {
         throw new IOException("Not ready");
     }
 
     static void setHideCoreGui(Context c, boolean on, AtomicBoolean cancel) throws IOException {
-        throw new IOException("Not ready");
-    }
-
-    static void setClassicTopBar(Context c, boolean on, AtomicBoolean cancel) throws IOException {
         throw new IOException("Not ready");
     }
 }
