@@ -114,7 +114,7 @@ final class ModsLibraryTab {
         input.setText(initial);
         input.setSelection(initial.length());
         Ui.clearErrorOnEdit(layout, input);
-        AlertDialog d = new MaterialAlertDialogBuilder(c)
+        AlertDialog d = Ui.alert(c)
                 .setTitle(title)
                 .setView(content)
                 .setPositiveButton(R.string.common_save, null)
@@ -184,7 +184,7 @@ final class ModsLibraryTab {
     }
 
     private void remove(ManagedMods.Entry e) {
-        new MaterialAlertDialogBuilder(c)
+        Ui.alert(c)
                 .setTitle(R.string.mods_library_remove_title)
                 .setMessage(c.getString(R.string.mods_library_remove_body, e.record.name))
                 .setPositiveButton(R.string.common_remove, (d, w) -> {

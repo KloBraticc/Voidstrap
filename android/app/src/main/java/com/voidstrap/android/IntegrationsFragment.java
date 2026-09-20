@@ -198,7 +198,7 @@ public final class IntegrationsFragment extends Page {
             input.setSelection(input.getText().length());
             if (url) input.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_URI);
             Ui.clearErrorOnEdit(layout, input);
-            androidx.appcompat.app.AlertDialog d = new MaterialAlertDialogBuilder(requireContext())
+            androidx.appcompat.app.AlertDialog d = Ui.alert(requireContext())
                     .setTitle(title)
                     .setMessage(summary)
                     .setView(body)
@@ -321,7 +321,7 @@ public final class IntegrationsFragment extends Page {
         else if (ActivityService.running() && "ok".equals(result)) text = getString(R.string.integrations_discord_live);
         else if (ActivityService.running() && !result.isEmpty()) text = getString(R.string.integrations_discord_error, result);
         else text = getString(R.string.integrations_discord_ready);
-        discordStatus.setText(getString(R.string.integrations_discord_note) + "\n" + text);
+        discordStatus.setText(getString(R.string.integrations_discord_status_line, getString(R.string.integrations_discord_note), text));
     }
 
     private void openDiscord() {

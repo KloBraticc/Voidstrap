@@ -711,7 +711,7 @@ public final class LibraryFragment extends Page {
         lp.topMargin = Ui.dp(requireContext(), 8);
         box.addView(linkLayout);
         box.addView(instanceLayout, lp);
-        AlertDialog d = new MaterialAlertDialogBuilder(requireContext())
+        AlertDialog d = Ui.alert(requireContext())
                 .setTitle(R.string.library_join_server)
                 .setView(box)
                 .setPositiveButton(R.string.library_play, null)

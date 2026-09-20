@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
             barSaveLaunch.setEnabled(true);
             if (isFinishing() || isDestroyed()) return;
             if (!ok) {
-                new MaterialAlertDialogBuilder(this)
+                Ui.alert(this)
                         .setTitle(R.string.save_failed_title)
                         .setMessage(R.string.save_failed_body)
                         .setPositiveButton(R.string.common_ok, null)
@@ -306,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
             if (shown != null && shown.getView() != null) enter(shown.getView());
         }
         current = id;
+        findViewById(R.id.content).post(() -> LiveTranslator.apply(this));
         AppPresence.page(id);
         editorBack.setEnabled(parent(id) != id && nav != null && nav.getMenu().findItem(id) == null);
         if (nav != null && nav.getMenu().findItem(id) == null) {

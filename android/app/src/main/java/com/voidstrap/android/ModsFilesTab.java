@@ -310,7 +310,7 @@ final class ModsFilesTab {
         layout.setHint(R.string.mods_name_hint);
         input.setText(f.getName());
         Ui.clearErrorOnEdit(layout, input);
-        AlertDialog d = new MaterialAlertDialogBuilder(c)
+        AlertDialog d = Ui.alert(c)
                 .setTitle(R.string.common_rename)
                 .setView(content)
                 .setPositiveButton(R.string.common_save, null)
@@ -349,7 +349,7 @@ final class ModsFilesTab {
         String body = f.isDirectory() && Mods.count(f) > 0
                 ? c.getResources().getQuantityString(R.plurals.mods_remove_folder, Mods.count(f), f.getName(), Mods.count(f))
                 : c.getString(R.string.mods_remove_file, f.getName());
-        new MaterialAlertDialogBuilder(c)
+        Ui.alert(c)
                 .setTitle(R.string.mods_remove_title)
                 .setMessage(body)
                 .setPositiveButton(R.string.common_remove, (dlg, w) -> {
@@ -370,7 +370,7 @@ final class ModsFilesTab {
         TextInputEditText input = content.findViewById(R.id.input);
         layout.setHint(R.string.mods_name_hint);
         Ui.clearErrorOnEdit(layout, input);
-        AlertDialog d = new MaterialAlertDialogBuilder(c)
+        AlertDialog d = Ui.alert(c)
                 .setTitle(R.string.mods_new_folder)
                 .setView(content)
                 .setPositiveButton(R.string.common_create, null)

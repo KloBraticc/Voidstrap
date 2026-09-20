@@ -206,7 +206,7 @@ public final class FlagPresets {
             boolean switched = setFps(values(), FPS_VALUES[i]);
             commit.run();
             if (FPS_VALUES[i] > 240) {
-                new com.google.android.material.dialog.MaterialAlertDialogBuilder(a)
+                Ui.alert(a)
                         .setMessage(R.string.presets_fps_high)
                         .setPositiveButton(R.string.common_ok, null)
                         .show();

@@ -101,6 +101,12 @@ public final class SettingsFragment extends Page {
                 ThemeFade.restart(requireActivity(), R.id.nav_settings);
             });
         }
+        SettingRows.choice(appearance, getString(R.string.settings_language), getString(R.string.settings_language_body), Translator.NAMES, Translator.indexOf(Translator.language(store)), i -> {
+            String code = Translator.CODES[i];
+            if (code.equals(Translator.language(store))) return;
+            store.putSetting(Translator.SETTING, code);
+            LiveTranslator.apply(requireActivity());
+        });
         com.google.android.material.materialswitch.MaterialSwitch voidRpc = new com.google.android.material.materialswitch.MaterialSwitch(requireContext());
         voidRpc.setChecked(AppPresence.enabled(store));
         voidRpc.setContentDescription(getString(R.string.settings_void_rpc));
@@ -118,7 +124,7 @@ public final class SettingsFragment extends Page {
         if (!Ui.wide(requireContext())) row(roblox, R.drawable.ic_add, R.string.nav_integrations, R.string.integrations_open_body, () -> ((MainActivity) host()).select(R.id.nav_integrations));
         if (!Ui.wide(requireContext())) row(roblox, R.drawable.ic_globe, R.string.matchmaker_title, R.string.matchmaker_open_body, () -> ((MainActivity) host()).select(R.id.nav_matchmaker));
         row(roblox, R.drawable.ic_history, R.string.settings_clear_history, R.string.settings_clear_history_body, () ->
-                new MaterialAlertDialogBuilder(requireContext())
+                Ui.alert(requireContext())
                         .setTitle(R.string.history_clear_title)
                         .setMessage(R.string.history_clear_body)
                         .setPositiveButton(R.string.common_clear, (d, w) -> {
@@ -162,12 +168,13 @@ public final class SettingsFragment extends Page {
     private void rootToggle(LinearLayout parent) {
         Context c = requireContext();
         boolean rooted = FlagWriter.rootAvailable();
+        boolean enabled = FlagWriter.rootEnabled(c);
         com.google.android.material.materialswitch.MaterialSwitch toggle = new com.google.android.material.materialswitch.MaterialSwitch(c);
-        toggle.setChecked(rooted && FlagWriter.rootEnabled(c));
-        toggle.setEnabled(rooted);
+        toggle.setChecked(enabled);
         toggle.setContentDescription(getString(R.string.settings_root));
-        LinearLayout row = SettingRows.row(parent, getString(R.string.settings_root), getString(rooted ? R.string.settings_root_body : R.string.settings_root_missing), toggle);
-        if (rooted) row.setOnClickListener(x -> {
+        int summary = enabled ? R.string.settings_root_on : rooted ? R.string.settings_root_body : R.string.settings_root_untested;
+        LinearLayout row = SettingRows.row(parent, getString(R.string.settings_root), getString(summary), toggle);
+        row.setOnClickListener(x -> {
             if (toggle.isEnabled()) toggle.toggle();
         });
         toggle.setOnCheckedChangeListener((b, on) -> {
@@ -178,6 +185,9 @@ public final class SettingsFragment extends Page {
             }
             if (FlagWriter.rootEnabled(c)) return;
             toggle.setEnabled(false);
+            com.google.android.material.snackbar.Snackbar waiting = Ui.make(host(), getString(R.string.settings_root_waiting));
+            waiting.setDuration(com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE);
+            waiting.show();
             Context app = c.getApplicationContext();
             store.work.execute(() -> {
                 int r = FlagWriter.testRoot();
@@ -187,14 +197,24 @@ public final class SettingsFragment extends Page {
                 }
                 store.main.post(() -> {
                     if (r != FlagWriter.OK) FlagWriter.setRootEnabled(app, false);
+                    waiting.dismiss();
                     store.changed();
                     if (!isAdded()) return;
                     toggle.setEnabled(true);
                     if (r != FlagWriter.OK) toggle.setChecked(false);
-                    Ui.say(host(), r == FlagWriter.OK ? R.string.settings_root_ready : R.string.settings_root_denied);
+                    if (r == FlagWriter.OK) Ui.say(host(), R.string.settings_root_ready);
+                    else rootFailed();
                 });
             });
         });
+    }
+
+    private void rootFailed() {
+        Ui.alert(requireContext())
+                .setTitle(R.string.settings_root_denied_title)
+                .setMessage(FlagWriter.rootAvailable() ? R.string.settings_root_denied : R.string.settings_root_missing)
+                .setPositiveButton(R.string.common_ok, null)
+                .show();
     }
 
     @Override
@@ -375,13 +395,13 @@ public final class SettingsFragment extends Page {
             store.main.post(() -> {
                 if (!isAdded()) return;
                 if (backup == null) {
-                    new MaterialAlertDialogBuilder(requireContext()).setTitle(R.string.backup_invalid_title).setMessage(R.string.backup_invalid_body).setPositiveButton(R.string.common_ok, null).show();
+                    Ui.alert(requireContext()).setTitle(R.string.backup_invalid_title).setMessage(R.string.backup_invalid_body).setPositiveButton(R.string.common_ok, null).show();
                     return;
                 }
                 int games = backup.optJSONArray("library") == null ? 0 : backup.optJSONArray("library").length();
                 JSONObject flags = backup.optJSONObject("flags");
                 int profiles = flags == null || flags.optJSONArray("profiles") == null ? 0 : flags.optJSONArray("profiles").length();
-                new MaterialAlertDialogBuilder(requireContext())
+                Ui.alert(requireContext())
                         .setTitle(R.string.backup_import_title)
                         .setMessage(getString(R.string.backup_import_body, games, profiles))
                         .setPositiveButton(R.string.common_import, (d, w) -> {

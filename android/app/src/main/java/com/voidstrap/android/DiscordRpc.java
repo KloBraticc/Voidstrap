@@ -36,7 +36,7 @@ final class DiscordRpc {
 
     private final long applicationId;
     private final String name;
-    private Context app;
+    private android.app.Application app;
     private HandlerThread thread;
     private Handler handler;
     private IBinder connection;
@@ -116,7 +116,7 @@ final class DiscordRpc {
 
     synchronized void start(Context c) {
         if (thread != null) return;
-        app = c.getApplicationContext();
+        app = (android.app.Application) c.getApplicationContext();
         status = "";
         thread = new HandlerThread("discord");
         thread.start();

@@ -206,7 +206,7 @@ final class ModsPacksTab {
         Context app = c.getApplicationContext();
         View content = LayoutInflater.from(c).inflate(R.layout.view_progress, null, false);
         ((TextView) content.findViewById(R.id.progress_text)).setText(R.string.mods_packs_opening);
-        androidx.appcompat.app.AlertDialog progress = new com.google.android.material.dialog.MaterialAlertDialogBuilder(c).setView(content).setCancelable(true).show();
+        androidx.appcompat.app.AlertDialog progress = Ui.alert(c).setView(content).setCancelable(true).show();
         host.store().work.execute(() -> {
             ModCatalog.Entry d;
             String error = null;

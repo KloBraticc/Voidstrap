@@ -25,6 +25,18 @@ public final class Ui {
     private Ui() {
     }
 
+    public static MaterialAlertDialogBuilder alert(Context c) {
+        return new MaterialAlertDialogBuilder(c) {
+            @Override
+            public androidx.appcompat.app.AlertDialog show() {
+                androidx.appcompat.app.AlertDialog dialog = super.show();
+                android.view.Window w = dialog.getWindow();
+                if (w != null) w.getDecorView().post(() -> LiveTranslator.translateTree(w.getDecorView()));
+                return dialog;
+            }
+        };
+    }
+
     public static int attr(Context c, int attr) {
         return com.google.android.material.color.MaterialColors.getColor(c, attr, 0);
     }
@@ -176,6 +188,7 @@ public final class Ui {
             sheet.getBehavior().setSkipCollapsed(true);
             d = sheet;
         }
+        d.setOnShowListener(x -> LiveTranslator.translateTree(frame));
         View close = frame.findViewById(R.id.sheet_close);
         close.setOnClickListener(v -> d.dismiss());
         if (a instanceof androidx.lifecycle.LifecycleOwner) {

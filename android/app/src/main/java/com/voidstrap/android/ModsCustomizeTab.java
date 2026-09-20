@@ -426,7 +426,7 @@ final class ModsCustomizeTab {
                     }));
                     break;
                 default:
-                    new MaterialAlertDialogBuilder(c)
+                    Ui.alert(c)
                             .setTitle(R.string.mods_sets_delete_title)
                             .setMessage(c.getString(R.string.mods_sets_delete_body, set))
                             .setPositiveButton(R.string.common_remove, (d, w) -> work(R.string.mods_working, (app, cancel) -> {
@@ -469,7 +469,7 @@ final class ModsCustomizeTab {
         input.setText(initial);
         input.setSelection(initial.length());
         Ui.clearErrorOnEdit(layout, input);
-        androidx.appcompat.app.AlertDialog d = new MaterialAlertDialogBuilder(c)
+        androidx.appcompat.app.AlertDialog d = Ui.alert(c)
                 .setTitle(title)
                 .setView(content)
                 .setPositiveButton(R.string.common_save, null)

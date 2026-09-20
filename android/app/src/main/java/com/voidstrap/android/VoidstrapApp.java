@@ -13,6 +13,40 @@ public final class VoidstrapApp extends Application {
         java.io.File ext = getExternalFilesDir(null);
         if (ext != null) new java.io.File(ext, "start.sh").delete();
         Shortcuts.watch(this);
+        Translator.load(this);
+        Helper.onChanged = () -> Store.get(this).changed();
+        registerActivityLifecycleCallbacks(new TranslationCallbacks());
+    }
+
+    private static final class TranslationCallbacks implements ActivityLifecycleCallbacks {
+        @Override
+        public void onActivityCreated(android.app.Activity a, android.os.Bundle saved) {
+        }
+
+        @Override
+        public void onActivityStarted(android.app.Activity a) {
+        }
+
+        @Override
+        public void onActivityResumed(android.app.Activity a) {
+            LiveTranslator.apply(a);
+        }
+
+        @Override
+        public void onActivityPaused(android.app.Activity a) {
+        }
+
+        @Override
+        public void onActivityStopped(android.app.Activity a) {
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(android.app.Activity a, android.os.Bundle out) {
+        }
+
+        @Override
+        public void onActivityDestroyed(android.app.Activity a) {
+        }
     }
 
     private static void auditFlags(Store store) {

@@ -31,12 +31,37 @@ public final class Helper {
         uidNow();
     }
 
+    public static Runnable onChanged;
+
+    private static final java.util.concurrent.atomic.AtomicBoolean refreshing = new java.util.concurrent.atomic.AtomicBoolean();
+
     public static int uid() {
         long now = SystemClock.elapsedRealtime();
         if (now - checkedAt < CACHE_MS) return uid;
+        if (android.os.Looper.myLooper() == android.os.Looper.getMainLooper()) {
+            refreshAsync();
+            return uid;
+        }
         uid = ping();
         checkedAt = SystemClock.elapsedRealtime();
         return uid;
+    }
+
+    private static void refreshAsync() {
+        if (!refreshing.compareAndSet(false, true)) return;
+        Thread t = new Thread(() -> {
+            try {
+                int before = uid;
+                uid = ping();
+                checkedAt = SystemClock.elapsedRealtime();
+                Runnable notify = onChanged;
+                if (before != uid && notify != null) notify.run();
+            } finally {
+                refreshing.set(false);
+            }
+        }, "helper-ping");
+        t.setDaemon(true);
+        t.start();
     }
 
     public static int uidNow() {

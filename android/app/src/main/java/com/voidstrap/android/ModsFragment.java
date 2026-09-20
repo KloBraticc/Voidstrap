@@ -247,7 +247,7 @@ public final class ModsFragment extends Page {
         AtomicBoolean cancel = new AtomicBoolean();
         View content = LayoutInflater.from(requireContext()).inflate(R.layout.view_progress, null, false);
         ((TextView) content.findViewById(R.id.progress_text)).setText(message);
-        AlertDialog progress = new MaterialAlertDialogBuilder(requireContext())
+        AlertDialog progress = Ui.alert(requireContext())
                 .setView(content)
                 .setCancelable(false)
                 .setNegativeButton(R.string.common_cancel, (dlg, w) -> cancel.set(true))
@@ -390,7 +390,7 @@ public final class ModsFragment extends Page {
         View content = LayoutInflater.from(requireContext()).inflate(R.layout.view_progress, null, false);
         TextView label = content.findViewById(R.id.progress_text);
         label.setText(R.string.mods_apply_preparing);
-        AlertDialog progress = new MaterialAlertDialogBuilder(requireContext())
+        AlertDialog progress = Ui.alert(requireContext())
                 .setView(content)
                 .setCancelable(false)
                 .setNegativeButton(R.string.common_cancel, (dlg, w) -> cancel.set(true))

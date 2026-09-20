@@ -35,7 +35,7 @@ public final class Actions {
                 Launcher.openStore(a, pkg);
                 return;
             case DISABLED:
-                new MaterialAlertDialogBuilder(a)
+                Ui.alert(a)
                         .setTitle(a.getString(R.string.disabled_title, appName))
                         .setMessage(R.string.disabled_body)
                         .setPositiveButton(R.string.common_open_settings, (dlg, w) -> openAppSettings(a, pkg))
@@ -43,7 +43,7 @@ public final class Actions {
                         .show();
                 return;
             case DESTINATION_UNSUPPORTED:
-                new MaterialAlertDialogBuilder(a)
+                Ui.alert(a)
                         .setTitle(R.string.unsupported_title)
                         .setMessage(a.getString(R.string.unsupported_body, appName))
                         .setPositiveButton(a.getString(R.string.common_open_app, appName), (dlg, w) -> launch(a, null, name))

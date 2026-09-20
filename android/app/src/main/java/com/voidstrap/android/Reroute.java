@@ -130,7 +130,7 @@ final class Reroute {
         if (attempt > max) {
             clearRejoin();
             clearAttempt(d.placeId);
-            alert.show(c.getString(R.string.matchmaker_alert_limit, max, current.city));
+            alert.show(c.getResources().getQuantityString(R.plurals.matchmaker_alert_limit, max, max, current.city));
             return;
         }
         addTried(d.placeId, d.jobId);

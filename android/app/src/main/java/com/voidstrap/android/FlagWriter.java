@@ -45,20 +45,29 @@ public final class FlagWriter {
         ALLOWLIST.put("FIntGrassMovementReducedMotionFactor", "User Interface");
     }
 
+    private static final long SU_CACHE_MS = 10000;
+
     private static Boolean su;
+    private static long suCheckedAt;
 
     private FlagWriter() {
     }
 
     private static boolean hasSu() {
-        if (su == null) {
-            boolean found = false;
-            String path = System.getenv("PATH");
-            String dirs = (path == null ? "" : path) + ":/system/bin:/system/xbin";
-            for (String d : dirs.split(":")) if (!d.isEmpty() && new File(d, "su").exists()) found = true;
-            su = found;
-        }
-        return su;
+        long now = android.os.SystemClock.elapsedRealtime();
+        if (su != null && now - suCheckedAt < SU_CACHE_MS) return su;
+        boolean found = false;
+        String path = System.getenv("PATH");
+        String dirs = (path == null ? "" : path) + ":/system/bin:/system/xbin";
+        for (String d : dirs.split(":")) if (!d.isEmpty() && new File(d, "su").exists()) found = true;
+        su = found;
+        suCheckedAt = now;
+        return found;
+    }
+
+    private static void forgetSu() {
+        su = null;
+        suCheckedAt = 0;
     }
 
     public static boolean rootAvailable() {
@@ -71,7 +80,7 @@ public final class FlagWriter {
 
     public static void setRootEnabled(Context c, boolean on) {
         Store.get(c).putSetting("useRoot", on ? "1" : null);
-        if (on) su = null;
+        forgetSu();
     }
 
     public static int testRoot() {
@@ -80,7 +89,7 @@ public final class FlagWriter {
 
     public static Mode mode(Context c) {
         if (Helper.running()) return Mode.HELPER;
-        if (rootEnabled(c) && hasSu()) return Mode.ROOT;
+        if (rootEnabled(c)) return Mode.ROOT;
         return Mode.NONE;
     }
 
@@ -100,6 +109,13 @@ public final class FlagWriter {
         return json.length() > Flags.MAX_BYTES;
     }
 
+    private static final String FLAGS_DELIMITER = "VOIDSTRAP_FLAGS_END";
+
+    static boolean safeForHeredoc(String json) {
+        for (String line : json.split("\n", -1)) if (line.trim().equals(FLAGS_DELIMITER)) return false;
+        return true;
+    }
+
     private static String writeScript(String json) {
         String tmp = PATH + ".new";
         return "rm -f " + tmp + "\n"
@@ -113,6 +129,7 @@ public final class FlagWriter {
     }
 
     public static int write(Mode mode, String json) {
+        if (!safeForHeredoc(json)) return FAILED;
         return run(mode, writeScript(json) + "exit 0\n", 60);
     }
 
@@ -143,6 +160,7 @@ public final class FlagWriter {
 
     public static int syncForLaunch(Context c, String pkg, String json) {
         if (tooLarge(json)) return R.string.flags_too_large;
+        if (!safeForHeredoc(json)) return R.string.flags_launch_not_applied;
         Mode mode = mode(c);
         if (mode != Mode.HELPER && mode != Mode.ROOT) return readable(json) ? 0 : R.string.flags_launch_not_applied;
         if (!pkg.matches("[A-Za-z0-9_.]+")) return 0;
@@ -168,7 +186,7 @@ public final class FlagWriter {
 
     public static Mode rootMode(Context c) {
         if (Helper.uid() == 0) return Mode.HELPER;
-        if (rootEnabled(c) && hasSu()) return Mode.ROOT;
+        if (rootEnabled(c)) return Mode.ROOT;
         return Mode.NONE;
     }
 
@@ -182,7 +200,7 @@ public final class FlagWriter {
         try {
             p = new ProcessBuilder("su").redirectErrorStream(true).start();
         } catch (IOException | RuntimeException e) {
-            su = false;
+            forgetSu();
             return -1;
         }
         Thread drain = new Thread(() -> {

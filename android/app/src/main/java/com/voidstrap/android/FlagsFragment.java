@@ -88,6 +88,7 @@ public final class FlagsFragment extends Page {
         search = v.findViewById(R.id.flag_search);
         appbar = v.findViewById(R.id.flags_appbar);
         list = v.findViewById(R.id.flag_list);
+        list.setTag(R.id.vs_no_translate, Boolean.TRUE);
         list.setLayoutManager(new LinearLayoutManager(requireContext()));
         list.setAdapter(adapter);
         profileButton.setOnClickListener(x -> profileSheet());
@@ -182,7 +183,7 @@ public final class FlagsFragment extends Page {
     private void deleteAll() {
         Flags.Profile p = store.flags.active();
         if (p.values.isEmpty()) return;
-        new MaterialAlertDialogBuilder(requireContext())
+        Ui.alert(requireContext())
                 .setTitle(R.string.flags_clear_title)
                 .setMessage(getString(R.string.flags_clear_body, p.name, p.values.size()))
                 .setPositiveButton(R.string.flags_delete_all, (d, w) -> {
@@ -263,7 +264,7 @@ public final class FlagsFragment extends Page {
                 setting[0] = false;
             }));
         }
-        MaterialAlertDialogBuilder b = new MaterialAlertDialogBuilder(requireContext())
+        MaterialAlertDialogBuilder b = Ui.alert(requireContext())
                 .setTitle(existingKey == null ? R.string.flags_add_title : R.string.flags_edit_title)
                 .setView(content)
                 .setPositiveButton(R.string.common_save, null)
@@ -417,7 +418,7 @@ public final class FlagsFragment extends Page {
         store.main.post(() -> {
             if (!isAdded()) return;
             if (r == null) {
-                new MaterialAlertDialogBuilder(requireContext()).setTitle(R.string.flags_import_failed).setMessage(error).setPositiveButton(R.string.common_ok, null).show();
+                Ui.alert(requireContext()).setTitle(R.string.flags_import_failed).setMessage(error).setPositiveButton(R.string.common_ok, null).show();
                 return;
             }
             preview(r);
@@ -440,7 +441,7 @@ public final class FlagsFragment extends Page {
         if (!r.duplicates.isEmpty()) msg.append("\n\n").append(getResources().getQuantityString(R.plurals.flags_import_duplicates, r.duplicates.size(), r.duplicates.size(), join(r.duplicates)));
         if (!r.rejected.isEmpty()) msg.append("\n\n").append(getResources().getQuantityString(R.plurals.flags_import_rejected, r.rejected.size(), r.rejected.size(), join(r.rejected)));
         if (r.values.isEmpty()) {
-            new MaterialAlertDialogBuilder(requireContext()).setTitle(R.string.flags_import_nothing).setMessage(msg).setPositiveButton(R.string.common_ok, null).show();
+            Ui.alert(requireContext()).setTitle(R.string.flags_import_nothing).setMessage(msg).setPositiveButton(R.string.common_ok, null).show();
             return;
         }
         String done = getString(R.string.flags_import_done, r.values.size());
@@ -554,7 +555,7 @@ public final class FlagsFragment extends Page {
         layout.setCounterMaxLength(Flags.MAX_NAME);
         if (source != null) input.setText(duplicate ? getString(R.string.flags_profile_copy_name, source.name) : source.name);
         boolean rename = source != null && !duplicate;
-        AlertDialog d = new MaterialAlertDialogBuilder(requireContext())
+        AlertDialog d = Ui.alert(requireContext())
                 .setTitle(rename ? R.string.common_rename : duplicate ? R.string.flags_profile_duplicate : R.string.flags_profile_new)
                 .setView(content)
                 .setPositiveButton(rename ? R.string.common_save : R.string.common_create, null)
@@ -585,7 +586,7 @@ public final class FlagsFragment extends Page {
 
     private void deleteProfile() {
         Flags.Profile p = store.flags.active();
-        new MaterialAlertDialogBuilder(requireContext())
+        Ui.alert(requireContext())
                 .setTitle(R.string.flags_profile_delete)
                 .setMessage(getString(R.string.flags_profile_delete_body, p.name, p.values.size()))
                 .setPositiveButton(R.string.common_delete, (d, w) -> {

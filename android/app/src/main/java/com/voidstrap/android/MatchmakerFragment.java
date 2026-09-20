@@ -190,10 +190,10 @@ public final class MatchmakerFragment extends Page {
         int blocked = 0;
         Set<String> blockedKeys = Matchmaker.blocked(store);
         for (Matchmaker.Datacenter dc : datacenters) if (blockedKeys.contains(dc.key())) blocked++;
-        String dcSummary = datacenters.isEmpty() ? getString(R.string.matchmaker_datacenters_none) : blocked == 0 ? getString(R.string.matchmaker_datacenters_all, datacenters.size()) : getString(R.string.matchmaker_datacenters_some, datacenters.size(), blocked);
+        String dcSummary = datacenters.isEmpty() ? getString(R.string.matchmaker_datacenters_none) : blocked == 0 ? getResources().getQuantityString(R.plurals.matchmaker_datacenters_all, datacenters.size(), datacenters.size()) : getResources().getQuantityString(R.plurals.matchmaker_datacenters_some, datacenters.size(), datacenters.size(), blocked);
         SettingRows.row(lists, getString(R.string.matchmaker_datacenters), dcSummary, chevron(c)).setOnClickListener(x -> showDatacenters());
         Set<Long> skipped = Matchmaker.excluded(store);
-        String skipSummary = skipped.isEmpty() ? getString(R.string.matchmaker_skipped_none) : skipped.size() == 1 ? getString(R.string.matchmaker_skipped_one) : getString(R.string.matchmaker_skipped_many, skipped.size());
+        String skipSummary = skipped.isEmpty() ? getString(R.string.matchmaker_skipped_none) : skipped.size() == 1 ? getString(R.string.matchmaker_skipped_one) : getResources().getQuantityString(R.plurals.matchmaker_skipped_many, skipped.size(), skipped.size());
         SettingRows.row(lists, getString(R.string.matchmaker_skipped), skipSummary, chevron(c)).setOnClickListener(x -> showSkipped());
 
         LinearLayout advanced = SettingRows.section(root, getString(R.string.matchmaker_advanced));
@@ -204,7 +204,7 @@ public final class MatchmakerFragment extends Page {
         MaterialSwitch autoSwitch = new MaterialSwitch(c);
         autoSwitch.setText(R.string.matchmaker_depth_auto);
         autoSwitch.setChecked(auto);
-        SettingRows.row(advanced, getString(R.string.matchmaker_depth), getString(R.string.matchmaker_depth_body, count, getString(speed)), autoSwitch).setOnClickListener(x -> autoSwitch.toggle());
+        SettingRows.row(advanced, getString(R.string.matchmaker_depth), getResources().getQuantityString(R.plurals.matchmaker_depth_body, count, count, getString(speed)), autoSwitch).setOnClickListener(x -> autoSwitch.toggle());
         autoSwitch.setOnCheckedChangeListener((b, v) -> store.putSetting(Matchmaker.AUTO, v ? "1" : "0"));
         if (!auto) advanced.addView(slider(c, Matchmaker.MIN_CANDIDATES, Matchmaker.MAX_CANDIDATES, 4, Matchmaker.manualCandidates(store), v -> store.putSetting(Matchmaker.MAX, String.valueOf(v))));
         int retries = Matchmaker.maxRetries(store);
@@ -374,7 +374,7 @@ public final class MatchmakerFragment extends Page {
             EditText input = body.findViewById(R.id.input);
             layout.setHint(R.string.matchmaker_skip_hint);
             Ui.clearErrorOnEdit(layout, input);
-            androidx.appcompat.app.AlertDialog d = new MaterialAlertDialogBuilder(c)
+            androidx.appcompat.app.AlertDialog d = Ui.alert(c)
                     .setTitle(R.string.matchmaker_skip_add)
                     .setView(body)
                     .setPositiveButton(R.string.common_ok, null)
@@ -397,7 +397,7 @@ public final class MatchmakerFragment extends Page {
             if (games.isEmpty()) return;
             String[] names = new String[games.size()];
             for (int i = 0; i < names.length; i++) names[i] = games.get(i).name == null || games.get(i).name.isEmpty() ? getString(R.string.matchmaker_place, games.get(i).placeId) : games.get(i).name;
-            new MaterialAlertDialogBuilder(c)
+            Ui.alert(c)
                     .setTitle(R.string.matchmaker_skip_add_library)
                     .setItems(names, (dlg, i) -> {
                         Matchmaker.setExcluded(store, games.get(i).placeId, true);

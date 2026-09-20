@@ -37,7 +37,7 @@ final class AppPresence {
         }
     }
 
-    private static Context app;
+    private static android.app.Application app;
     private static boolean visible;
     private static int page;
     private static Scene scene;
@@ -58,7 +58,7 @@ final class AppPresence {
     }
 
     static void shown(Context c, int currentPage) {
-        app = c.getApplicationContext();
+        app = (android.app.Application) c.getApplicationContext();
         visible = true;
         page = currentPage;
         if (sessionStart == 0) sessionStart = System.currentTimeMillis();

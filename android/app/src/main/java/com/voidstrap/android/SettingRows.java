@@ -88,7 +88,7 @@ public final class SettingRows {
         row.setContentDescription(c.getString(R.string.pair, title, labels[selected]));
         row.setOnClickListener(v -> {
             androidx.appcompat.app.AlertDialog[] dialog = new androidx.appcompat.app.AlertDialog[1];
-            dialog[0] = new com.google.android.material.dialog.MaterialAlertDialogBuilder(c)
+            dialog[0] = Ui.alert(c)
                     .setTitle(title)
                     .setSingleChoiceItems(labels, current[0], (d, i) -> {
                         dialog[0].dismiss();
