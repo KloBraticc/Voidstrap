@@ -201,12 +201,8 @@ public class MainActivity extends AppCompatActivity {
     private void save(boolean launch) {
         if (saving) return;
         saving = true;
-        barSave.setEnabled(false);
-        barSaveLaunch.setEnabled(false);
         store.saveAll(ok -> {
             saving = false;
-            barSave.setEnabled(true);
-            barSaveLaunch.setEnabled(true);
             if (isFinishing() || isDestroyed()) return;
             if (!ok) {
                 Ui.alert(this)
