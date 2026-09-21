@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
             ModEngine.Result r = ModEngine.apply(app, pkg, false, null, null);
             store.main.post(() -> {
                 if (isFinishing() || isDestroyed()) return;
-                Notify.say(this, ModEngine.ok(r) ? Notify.MODS : null, modsResult(r));
+                Notify.say(this, r == ModEngine.Result.UNCHANGED ? Notify.GENERAL : ModEngine.ok(r) ? Notify.MODS : null, modsResult(r));
             });
         });
     }
@@ -241,11 +241,11 @@ public class MainActivity extends AppCompatActivity {
     private int modsResult(ModEngine.Result r) {
         switch (r) {
             case APPLIED:
-                return R.string.mods_result_applied;
+                return R.string.bar_saved_mods_applied;
             case UNCHANGED:
-                return R.string.mods_result_unchanged;
+                return R.string.bar_saved;
             case REMOVED:
-                return R.string.mods_result_removed;
+                return R.string.bar_saved_mods_removed;
             case NO_ROOT:
                 return R.string.mods_result_no_root;
             case NOT_INSTALLED:
