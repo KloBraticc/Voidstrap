@@ -602,7 +602,6 @@
     <string name="mods_file_unplaced">Not in a Roblox folder, so it is not loaded. Put it under content, ExtraContent or PlatformContent/pc.</string>
     <string name="mods_section_cursor">Cursor</string>
     <string name="mods_section_interface">Interface</string>
-    <string name="mods_section_sounds">Sounds</string>
     <string name="mods_section_appearance">Appearance</string>
     <string name="mods_section_help">Help and fixes</string>
     <string name="mods_value_none">None</string>
@@ -643,11 +642,8 @@
     <string name="mods_nogui">Hide every CoreGui icon</string>
     <string name="mods_nogui_on">Every CoreGui image is hidden.</string>
     <string name="mods_nogui_off">The CoreGui images are back.</string>
-    <string name="mods_old_sounds">Old character sounds</string>
     <string name="mods_preset_on">%1$s is on.</string>
     <string name="mods_preset_off">%1$s is off.</string>
-    <string name="mods_death">Custom death sound</string>
-    <string name="mods_death_body">Replaces the death sound with your own audio.</string>
     <string name="mods_death_choose">Choose sound</string>
     <string name="mods_death_remove">Remove sound</string>
     <string name="mods_death_converting">Converting the sound</string>
