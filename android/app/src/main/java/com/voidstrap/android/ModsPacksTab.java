@@ -312,9 +312,10 @@ final class ModsPacksTab {
         v.findViewById(R.id.detail_license_title).setVisibility(hasLicense ? View.VISIBLE : View.GONE);
         LinearLayout sections = v.findViewById(R.id.detail_sections);
         if (ModCatalog.GAMEBANANA.equals(e.source)) {
-            section(sections, c.getString(R.string.mods_packs_comments, e.commentCount), e.comments, R.string.mods_packs_no_comments);
-            section(sections, c.getString(R.string.mods_packs_updates, e.updateCount), e.updates, R.string.mods_packs_no_updates);
-            section(sections, c.getString(R.string.mods_packs_issues, e.issueCount), e.issues, R.string.mods_packs_no_issues);
+            String op = e.submitter == null ? "" : e.submitter.name;
+            section(sections, c.getString(R.string.mods_packs_comments, e.commentCount), e.comments, e.commentCount, R.string.mods_packs_no_comments, e.profileUrl, op, true);
+            section(sections, c.getString(R.string.mods_packs_updates, e.updateCount), e.updates, e.updateCount, R.string.mods_packs_no_updates, e.profileUrl, op, false);
+            section(sections, c.getString(R.string.mods_packs_issues, e.issueCount), e.issues, e.issueCount, R.string.mods_packs_no_issues, e.profileUrl, op, false);
         }
         android.app.Dialog d = Ui.surface(host.host(), e.name, e.summary.length() > 160 ? e.summary.substring(0, 160) + "..." : e.summary, v, host::publishPresence);
         String byline = e.author.isEmpty() ? e.source : "by " + e.author;
@@ -334,48 +335,212 @@ final class ModsPacksTab {
         d.show();
     }
 
-    private void section(LinearLayout parent, String title, List<ModCatalog.Post> posts, int empty) {
+    private void section(LinearLayout parent, String title, List<ModCatalog.Post> posts, int total, int empty, String url, String op, boolean withReplies) {
         Row header = Row.inflate(parent);
         header.set(R.drawable.ic_megaphone, title, null);
         header.chevron.setVisibility(View.VISIBLE);
         LinearLayout body = new LinearLayout(c);
         body.setOrientation(LinearLayout.VERTICAL);
-        body.setPadding(Ui.dp(c, 12), 0, 0, Ui.dp(c, 8));
+        body.setPadding(Ui.dp(c, 8), 0, Ui.dp(c, 4), Ui.dp(c, 8));
         body.setVisibility(View.GONE);
+        boolean[] fetched = {!withReplies};
         header.view.setOnClickListener(x -> {
             boolean open = body.getVisibility() != View.VISIBLE;
             body.setVisibility(open ? View.VISIBLE : View.GONE);
             header.chevron.setRotation(open ? 90 : 0);
+            if (!open || fetched[0]) return;
+            fetched[0] = true;
+            TextView wait = caption(c.getString(R.string.mods_packs_replies_loading));
+            wait.setPadding(0, Ui.dp(c, 8), 0, 0);
+            body.addView(wait);
+            host.store().work.execute(() -> {
+                ModCatalog.loadReplies(posts);
+                host.store().main.post(() -> fill(body, posts, total, empty, url, op));
+            });
         });
         parent.addView(header.view);
         parent.addView(body);
-        if (posts.isEmpty()) {
-            TextView none = new TextView(c);
-            none.setTextAppearance(R.style.TextAppearance_Voidstrap_Caption);
-            none.setText(empty);
-            body.addView(none);
+        fill(body, posts, total, empty, url, op);
+    }
+
+    private void fill(LinearLayout body, List<ModCatalog.Post> posts, int total, int empty, String url, String op) {
+        body.removeAllViews();
+        for (ModCatalog.Post p : posts) post(body, p, 0, op, null);
+        if (body.getChildCount() == 0 && (total <= 0 || posts.size() > 0)) body.addView(caption(c.getString(empty)));
+        int shown = ModCatalog.count(posts);
+        if (shown < total && url != null && url.startsWith("https://")) {
+            TextView more = caption(posts.isEmpty() ? c.getString(R.string.mods_packs_posts_failed) : c.getString(R.string.mods_packs_posts_more, shown, total));
+            more.setTextColor(Ui.attr(c, androidx.appcompat.R.attr.colorPrimary));
+            more.setPadding(Ui.dp(c, 4), Ui.dp(c, 12), Ui.dp(c, 4), Ui.dp(c, 12));
+            more.setBackgroundResource(R.drawable.vs_row);
+            more.setOnClickListener(x -> Ui.openWeb(c, url));
+            body.addView(more);
+        }
+    }
+
+    private void post(LinearLayout parent, ModCatalog.Post p, int depth, String op, String replyingTo) {
+        if (p.removed) return;
+        LinearLayout item = new LinearLayout(c);
+        item.setOrientation(LinearLayout.HORIZONTAL);
+        item.setPadding(0, Ui.dp(c, 12), 0, Ui.dp(c, 4));
+        int size = Ui.dp(c, depth == 0 ? 40 : 32);
+        View avatar;
+        if (p.avatar.isEmpty()) {
+            TextView initial = new TextView(c);
+            initial.setGravity(android.view.Gravity.CENTER);
+            initial.setTextAppearance(R.style.TextAppearance_Voidstrap_RowTitle);
+            initial.setTextColor(Ui.attr(c, androidx.appcompat.R.attr.colorPrimary));
+            initial.setText(p.author.isEmpty() ? "?" : p.author.substring(0, p.author.offsetByCodePoints(0, 1)).toUpperCase(java.util.Locale.ROOT));
+            android.graphics.drawable.GradientDrawable circle = new android.graphics.drawable.GradientDrawable();
+            circle.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+            circle.setColor(androidx.core.graphics.ColorUtils.setAlphaComponent(Ui.attr(c, androidx.appcompat.R.attr.colorPrimary), 40));
+            initial.setBackground(circle);
+            avatar = initial;
+        } else {
+            ShapeableImageView image = new ShapeableImageView(c);
+            image.setShapeAppearanceModel(new com.google.android.material.shape.ShapeAppearanceModel().withCornerSize(new com.google.android.material.shape.RelativeCornerSize(0.5f)));
+            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            Net.image(image, p.avatar, R.color.vs_subtle, size);
+            avatar = image;
+        }
+        avatar.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        if (!p.profile.isEmpty()) avatar.setOnClickListener(x -> Ui.openWeb(c, p.profile));
+        item.addView(avatar, new LinearLayout.LayoutParams(size, size));
+
+        LinearLayout col = new LinearLayout(c);
+        col.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams cp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        cp.setMarginStart(Ui.dp(c, 12));
+        item.addView(col, cp);
+
+        LinearLayout meta = new LinearLayout(c);
+        meta.setOrientation(LinearLayout.HORIZONTAL);
+        meta.setGravity(android.view.Gravity.CENTER_VERTICAL);
+        TextView name = new TextView(c);
+        name.setTextAppearance(R.style.TextAppearance_Voidstrap_RowTitle);
+        name.setTextSize(15);
+        name.setText(p.author.isEmpty() ? c.getString(R.string.mods_packs_unknown_author) : p.author);
+        name.setMaxLines(1);
+        name.setEllipsize(android.text.TextUtils.TruncateAt.END);
+        if (!p.profile.isEmpty()) name.setOnClickListener(x -> Ui.openWeb(c, p.profile));
+        meta.addView(name, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0f));
+        if (op != null && !op.isEmpty() && op.equals(p.author)) meta.addView(chip(c.getString(R.string.mods_packs_author_badge)));
+        if (p.pinned) meta.addView(chip(c.getString(R.string.mods_packs_pinned_badge)));
+        if (!p.status.isEmpty()) meta.addView(chip(p.status));
+        if (p.time > 0) {
+            TextView when = new TextView(c);
+            when.setTextAppearance(R.style.TextAppearance_Voidstrap_Tertiary);
+            when.setText(Ui.ago(c, p.time));
+            when.setMaxLines(1);
+            LinearLayout.LayoutParams wp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            wp.setMarginStart(Ui.dp(c, 8));
+            meta.addView(when, wp);
+        }
+        col.addView(meta);
+
+        String sub = replyingTo != null ? c.getString(R.string.mods_packs_replying_to, replyingTo) : p.authorTitle;
+        if (!sub.isEmpty()) {
+            TextView t = new TextView(c);
+            t.setTextAppearance(R.style.TextAppearance_Voidstrap_Tertiary);
+            t.setText(sub);
+            t.setMaxLines(1);
+            t.setEllipsize(android.text.TextUtils.TruncateAt.END);
+            col.addView(t);
+        }
+        if (!p.title.isEmpty()) {
+            TextView t = new TextView(c);
+            t.setTextAppearance(R.style.TextAppearance_Voidstrap_RowTitle);
+            t.setText(p.title);
+            t.setPadding(0, Ui.dp(c, 6), 0, 0);
+            col.addView(t);
+        }
+        for (String[] change : p.changes) {
+            TextView t = new TextView(c);
+            t.setTextAppearance(R.style.TextAppearance_Voidstrap_Body);
+            android.text.SpannableStringBuilder line = new android.text.SpannableStringBuilder("\u2022  ");
+            if (!change[0].isEmpty()) {
+                int at = line.length();
+                line.append(change[0]).append(": ");
+                line.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), at, line.length(), android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            line.append(change[1]);
+            t.setText(line);
+            t.setPadding(0, Ui.dp(c, 4), 0, 0);
+            col.addView(t);
+        }
+        if (!p.body.isEmpty()) {
+            TextView text = new TextView(c);
+            text.setTextAppearance(R.style.TextAppearance_Voidstrap_Body);
+            text.setText(p.body);
+            text.setTextIsSelectable(true);
+            text.setLineSpacing(Ui.dp(c, 2), 1f);
+            text.setPadding(0, Ui.dp(c, 6), 0, 0);
+            col.addView(text);
+        }
+        if (p.stamps > 0) {
+            TextView stamps = new TextView(c);
+            stamps.setTextAppearance(R.style.TextAppearance_Voidstrap_Tertiary);
+            stamps.setText(NumberFormat.getIntegerInstance().format(p.stamps));
+            android.graphics.drawable.Drawable like = androidx.core.content.ContextCompat.getDrawable(c, R.drawable.ic_thumb_like);
+            if (like != null) {
+                like = like.mutate();
+                int s14 = Ui.dp(c, 14);
+                like.setBounds(0, 0, s14, s14);
+                like.setTint(Ui.attr(c, R.attr.vsTextTertiary));
+                stamps.setCompoundDrawablesRelative(like, null, null, null);
+                stamps.setCompoundDrawablePadding(Ui.dp(c, 6));
+            }
+            stamps.setPadding(0, Ui.dp(c, 6), 0, 0);
+            col.addView(stamps);
+        }
+        parent.addView(item);
+
+        boolean anyReply = false;
+        for (ModCatalog.Post r : p.replies) anyReply |= !r.removed;
+        if (!anyReply) return;
+        if (depth >= 2) {
+            for (ModCatalog.Post r : p.replies) post(parent, r, depth + 1, op, p.author);
             return;
         }
-        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-        for (ModCatalog.Post p : posts) {
-            TextView head = new TextView(c);
-            head.setTextAppearance(R.style.TextAppearance_Voidstrap_Body);
-            StringBuilder h = new StringBuilder();
-            if (!p.title.isEmpty()) h.append(p.title);
-            if (!p.author.isEmpty()) h.append(h.length() > 0 ? " · " : "").append(p.author);
-            if (!p.status.isEmpty()) h.append(h.length() > 0 ? " · " : "").append(p.status);
-            if (p.time > 0) h.append(h.length() > 0 ? " · " : "").append(df.format(new Date(p.time)));
-            head.setText(h);
-            head.setPadding(0, Ui.dp(c, 8), 0, Ui.dp(c, 2));
-            body.addView(head);
-            if (!p.body.isEmpty()) {
-                TextView text = new TextView(c);
-                text.setTextAppearance(R.style.TextAppearance_Voidstrap_Caption);
-                text.setText(p.body);
-                text.setTextIsSelectable(true);
-                body.addView(text);
-            }
-        }
+        LinearLayout thread = new LinearLayout(c);
+        thread.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tp.setMarginStart(size / 2 - Ui.dp(c, 1));
+        View line = new View(c);
+        line.setBackgroundColor(androidx.core.graphics.ColorUtils.setAlphaComponent(Ui.attr(c, R.attr.vsTextTertiary), 70));
+        thread.addView(line, new LinearLayout.LayoutParams(Ui.dp(c, 2), ViewGroup.LayoutParams.MATCH_PARENT));
+        LinearLayout replies = new LinearLayout(c);
+        replies.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams rp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        rp.setMarginStart(Ui.dp(c, 12));
+        thread.addView(replies, rp);
+        for (ModCatalog.Post r : p.replies) post(replies, r, depth + 1, op, null);
+        parent.addView(thread, tp);
+    }
+
+    private TextView caption(String text) {
+        TextView t = new TextView(c);
+        t.setTextAppearance(R.style.TextAppearance_Voidstrap_Caption);
+        t.setText(text);
+        return t;
+    }
+
+    private TextView chip(String text) {
+        TextView t = new TextView(c);
+        t.setTextAppearance(R.style.TextAppearance_Voidstrap_Tertiary);
+        t.setTextSize(11);
+        t.setTextColor(Ui.attr(c, androidx.appcompat.R.attr.colorPrimary));
+        t.setText(text);
+        t.setMaxLines(1);
+        android.graphics.drawable.GradientDrawable bg = new android.graphics.drawable.GradientDrawable();
+        bg.setCornerRadius(Ui.dp(c, 8));
+        bg.setColor(androidx.core.graphics.ColorUtils.setAlphaComponent(Ui.attr(c, androidx.appcompat.R.attr.colorPrimary), 40));
+        t.setBackground(bg);
+        t.setPadding(Ui.dp(c, 8), Ui.dp(c, 2), Ui.dp(c, 8), Ui.dp(c, 2));
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMarginStart(Ui.dp(c, 6));
+        t.setLayoutParams(lp);
+        return t;
     }
 
     private final class Gallery extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

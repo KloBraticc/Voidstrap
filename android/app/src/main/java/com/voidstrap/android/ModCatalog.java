@@ -103,6 +103,16 @@ public final class ModCatalog {
         public String status = "";
         public long time;
         public String body = "";
+        public long id;
+        public int replyCount;
+        public boolean removed;
+        public String avatar = "";
+        public String authorTitle = "";
+        public String profile = "";
+        public boolean pinned;
+        public int stamps;
+        public final List<String[]> changes = new ArrayList<>();
+        public final List<Post> replies = new ArrayList<>();
     }
 
     public static final class ModFile {
@@ -338,19 +348,34 @@ public final class ModCatalog {
     }
 
     private static JSONObject json(String url) throws IOException {
+        String text = Net.text(url, 8 * 1024 * 1024);
         try {
-            return new JSONObject(Net.text(url, 8 * 1024 * 1024));
+            return new JSONObject(text);
         } catch (JSONException e) {
-            throw new IOException("The catalog returned an unexpected reply.", e);
+            try {
+                return new JSONObject(afterNoise(text, '{'));
+            } catch (JSONException ignored) {
+                throw new IOException("The catalog returned an unexpected reply.", e);
+            }
         }
     }
 
     private static JSONArray jsonArray(String url) throws IOException {
+        String text = Net.text(url, 8 * 1024 * 1024);
         try {
-            return new JSONArray(Net.text(url, 8 * 1024 * 1024));
+            return new JSONArray(text);
         } catch (JSONException e) {
-            throw new IOException("The catalog returned an unexpected reply.", e);
+            try {
+                return new JSONArray(afterNoise(text, '['));
+            } catch (JSONException ignored) {
+                throw new IOException("The catalog returned an unexpected reply.", e);
+            }
         }
+    }
+
+    static String afterNoise(String text, char open) {
+        int at = text.indexOf("\n" + open);
+        return at < 0 ? text : text.substring(at + 1);
     }
 
     public static List<Category> categories() throws IOException {
@@ -645,25 +670,29 @@ public final class ModCatalog {
         e.comments.clear();
         e.updates.clear();
         e.issues.clear();
-        for (JSONObject r : records(API + "/Mod/" + e.id + "/Posts", false)) {
-            Post p = new Post();
-            JSONObject poster = r.optJSONObject("_aPoster");
-            p.author = poster == null ? "" : poster.optString("_sName");
-            p.body = plainKeepLines(r.optString("_sText"));
-            p.time = r.optLong("_tsDateAdded", r.optLong("_tsDateModified")) * 1000;
-            e.comments.add(p);
+        for (JSONObject r : records(API + "/Mod/" + e.id + "/Posts", true)) {
+            e.comments.add(post(r));
         }
         for (JSONObject r : records(API + "/Mod/" + e.id + "/Updates", true)) {
             Post p = new Post();
+            poster(p, r.optJSONObject("_aSubmitter"));
+            JSONArray log = r.optJSONArray("_aChangeLog");
+            for (int i = 0; log != null && i < log.length(); i++) {
+                JSONObject item = log.optJSONObject(i);
+                String text = item == null ? "" : plain(item.optString("text"));
+                if (!text.isEmpty()) p.changes.add(new String[]{plain(item.optString("cat")), text});
+            }
             p.title = r.optString("_sName");
             String version = r.optString("_sVersion");
-            if (!version.isEmpty()) p.status = version;
+            if (!version.isEmpty()) p.status = Character.isDigit(version.charAt(0)) ? "v" + version : version;
             p.body = plainKeepLines(r.optString("_sText"));
             p.time = r.optLong("_tsDateAdded", r.optLong("_tsDateModified")) * 1000;
             e.updates.add(p);
         }
         for (JSONObject r : records(API + "/Mod/" + e.id + "/Todos", true)) {
             Post p = new Post();
+            JSONObject who = r.optJSONObject("_aSubmitter");
+            poster(p, who == null ? r.optJSONObject("_aPoster") : who);
             p.title = r.optString("_sName", r.optString("_sTitle"));
             if (p.title.isEmpty()) p.title = r.optString("_sTitle");
             p.status = r.optString("_sStatus");
@@ -676,6 +705,51 @@ public final class ModCatalog {
         e.commentCount = Math.max(e.commentCount, e.comments.size());
         e.updateCount = Math.max(e.updateCount, e.updates.size());
         e.issueCount = Math.max(e.issueCount, e.issues.size());
+    }
+
+    private static Post post(JSONObject r) {
+        JSONObject poster = r.optJSONObject("_aPoster");
+        Post p = new Post();
+        p.removed = poster == null;
+        if (p.removed) return p;
+        p.id = r.optLong("_idRow");
+        p.replyCount = r.optInt("_nReplyCount");
+        poster(p, poster);
+        p.pinned = r.optInt("_iPinLevel") > 0;
+        p.stamps = r.optInt("_nStampScore");
+        p.body = plainKeepLines(r.optString("_sText"));
+        p.time = r.optLong("_tsDateAdded", r.optLong("_tsDateModified")) * 1000;
+        return p;
+    }
+
+    private static void poster(Post p, JSONObject who) {
+        if (who == null) return;
+        p.author = who.optString("_sName");
+        p.authorTitle = plain(who.optString("_sUserTitle"));
+        String avatar = who.optString("_sAvatarUrl");
+        if (trustedUrl(avatar) && !avatar.contains("/img/defaults/")) p.avatar = avatar;
+        String profile = who.optString("_sProfileUrl");
+        if (trustedUrl(profile)) p.profile = profile;
+    }
+
+    public static void loadReplies(List<Post> posts) {
+        int[] budget = {40};
+        for (Post p : posts) replies(p, 0, budget);
+    }
+
+    private static void replies(Post p, int depth, int[] budget) {
+        if (p.replyCount <= 0 || p.id <= 0 || depth >= 8 || budget[0] <= 0 || !p.replies.isEmpty()) return;
+        budget[0]--;
+        for (JSONObject r : records(API + "/Post/" + p.id + "/Posts", true)) {
+            p.replies.add(post(r));
+        }
+        for (Post child : p.replies) replies(child, depth + 1, budget);
+    }
+
+    public static int count(List<Post> posts) {
+        int n = 0;
+        for (Post p : posts) n += 1 + count(p.replies);
+        return n;
     }
 
     private static List<JSONObject> records(String url, boolean all) {

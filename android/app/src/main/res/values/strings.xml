@@ -811,6 +811,13 @@
     <string name="mods_packs_updates">Updates (%1$d)</string>
     <string name="mods_packs_issues">Issues (%1$d)</string>
     <string name="mods_packs_no_comments">No comments have been posted yet.</string>
+    <string name="mods_packs_posts_more">Showing %1$d of %2$d. Tap to see the rest on GameBanana.</string>
+    <string name="mods_packs_posts_failed">These could not be loaded right now. Tap to see them on GameBanana.</string>
+    <string name="mods_packs_replies_loading">Loading replies</string>
+    <string name="mods_packs_unknown_author">Someone</string>
+    <string name="mods_packs_author_badge">Author</string>
+    <string name="mods_packs_pinned_badge">Pinned</string>
+    <string name="mods_packs_replying_to">Replying to %1$s</string>
     <string name="mods_packs_no_updates">No updates have been published.</string>
     <string name="mods_packs_no_issues">No issues are currently listed.</string>
     <string name="mods_packs_installing">Placing the files into the Roblox layout</string>
