@@ -583,11 +583,14 @@ final class ModsCustomizeTab {
         if (s.font) {
             int[] scales = ModPresets.FONT_SCALES;
             String[] labels = new String[scales.length];
-            int sel = 5;
+            int sel = -1;
+            int hundred = 0;
             for (int i = 0; i < scales.length; i++) {
                 labels[i] = scales[i] + "%";
+                if (scales[i] == 100) hundred = i;
                 if (scales[i] == s.fontScale) sel = i;
             }
+            if (sel < 0) sel = hundred;
             SettingRows.choice(box, c.getString(R.string.mods_font_size), null, labels, sel, i -> work(R.string.mods_working, (app, cancel) -> {
                 ModPresets.setFontScale(app, scales[i]);
                 return app.getString(R.string.mods_font_size_set, labels[i]);
