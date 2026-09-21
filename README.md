@@ -59,32 +59,27 @@ irm https://voidstrapp.pages.dev/quick-install | iex
 
 ---
 
-## Frequently Asked Questions (FAQ)
+## FAQ
 
 <details>
-  <summary><strong>Can it get you banned?</strong></summary>
-  <br>
+  <summary><strong>Can Voidstrap get me banned?</strong></summary>
 
-  No. Voidstrap does not inject cheats, exploits, or bypass Roblox security.  
-  It functions as a launcher and configuration manager. However, as with any third-party tool, use it at your own discretion.
+  Voidstrap does not inject cheats, exploit Roblox, or bypass Roblox security. It functions as a launcher and configuration manager.
 </details>
 
-<br>
-
 <details>
-  <summary><strong>Is it a virus?</strong></summary>
-  <br>
+  <summary><strong>Is Voidstrap a virus?</strong></summary>
 
-  No. Voidstrap is fully open-source, meaning anyone can inspect the code.  
-  If your antivirus flags it, it is most likely a false positive due to how launchers interact with Roblox processes and updates.
-
-  You can verify the source code yourself at:
-  https://github.com/KloBraticc/Voidstrap
-  or just scroll up dummy <!-- hada add this -->
+  Voidstrap is fully open source, allowing anyone to inspect and review its source code.
+  If your antivirus flags Voidstrap, it's a false positive caused by how Windows detects and handles unsigned applications.
+  
+  You can review the complete source code [here](https://github.com/KloBraticc/Voidstrap).
 </details>
 
 <!-- Removed build will prob show how to do that in a later date im lazy for rn -->
-## How to Fork
+## Forking
+
+Voidstrap is built with **C#** and **.NET**.
 
 <p align="left">
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg" alt="C#" width="40" height="40"/>
@@ -92,38 +87,33 @@ irm https://voidstrapp.pages.dev/quick-install | iex
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/dot-net/dot-net-original.svg" alt=".NET" width="40" height="40"/>
 </p>
 
-<p>
-  Voidstrap is built using <strong>C#</strong> and <strong>.NET</strong>
-</p>
+To create your own copy of Voidstrap:
 
-### Fork the Repository
-
-1. Go to:  
-   https://github.com/KloBraticc/Voidstrap
-2. Click **Fork** (top right)
-3. This creates your own copy under your GitHub account
+1. Open the [Voidstrap repository](https://github.com/KloBraticc/Voidstrap).
+2. Click **Fork**.
+3. Select your GitHub account.
 
 ## Credits
-Built on top of [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by pizzaboxer
 
-<table style="width: 100%; border-collapse: collapse;">
-  <tr>
-    <td style="width: 33%; text-align: left;">© Voidstrap</td>
-    <td style="width: 33%; text-align: right;"><a href="https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP" target="_blank">MIT</a></td>
-  </tr>
-</table>
+Voidstrap is built on [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by pizzaboxer.
+
+## License
+
+[MIT License](https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP)
+
+---
 
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/github-contribution-grid-snake-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/github-contribution-grid-snake.svg">
-    <img alt="WH MY POOKIES" src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/github-contribution-grid-snake.svg">
+    <img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/github-contribution-grid-snake.svg" alt="GitHub contribution graph">
   </picture>
 </p>
 
 <p align="center">
   <a href="https://discord.gg/5tJBqBH8ck">
-    <img src="https://invidget.switchblade.xyz/5tJBqBH8ck">
+    <img src="https://invidget.switchblade.xyz/5tJBqBH8ck" alt="Join the Voidstrap Discord Bro">
   </a>
 </p>
 
