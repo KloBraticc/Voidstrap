@@ -41,7 +41,7 @@ Leave a star if you like the project! ⭐️
 > [!WARNING]
 > Voidstrap is not an exploit and never will be. We are not considered an exploit (more on that below). We are here to give users more freedom, features, and support for Roblox.
 >
-> I understand that multi-instance is considered an exploit under Roblox’s terminology. If Roblox provides further clarification on the subject, I will remove it without question. I have no interest in supporting exploits and hope to remain on good terms with Roblox staff while continuing to give **MY** users a fun experience.
+> As of Voidstrap Version `1.1.2.3`, Multi-Instance Launching has been removed from the app and will not be added back in the future.
 
 ## Installation
 
