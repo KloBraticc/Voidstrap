@@ -260,8 +260,6 @@ final class DiscordRpc {
             JSONObject assets = new JSONObject();
             if (!p.largeImage.isEmpty()) assets.put("large_image", p.largeImage);
             if (!p.largeText.isEmpty()) assets.put("large_text", clip(p.largeText));
-            if (!p.smallImage.isEmpty()) assets.put("small_image", p.smallImage.equals("voidstrap") ? VOIDSTRAP_LOGO : p.smallImage);
-            if (!p.smallText.isEmpty()) assets.put("small_text", clip(p.smallText));
             if (assets.length() > 0) a.put("assets", assets);
             if (!p.buttons.isEmpty()) {
                 JSONArray buttons = new JSONArray();

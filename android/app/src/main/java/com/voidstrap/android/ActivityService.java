@@ -66,7 +66,6 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
     private Integrations.Presence presence;
     private Integrations.Presence original;
     private String lastSignature = "";
-    private volatile Integrations.Game user;
     private int generation;
 
     public static boolean available(Context c) {
@@ -373,20 +372,7 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
 
     private void idle() {
         if (!discord) return;
-        long userId = watcher.userId();
-        Integrations.Game cached = user;
-        if (cached != null || userId <= 0 || !Integrations.on(store, Integrations.ACCOUNT)) {
-            setPresence(Integrations.idle(store, cached, sessionStart));
-            return;
-        }
-        store.work.execute(() -> {
-            Integrations.Game u = new Integrations.Game();
-            account(u, userId);
-            store.main.post(() -> {
-                user = u;
-                if (discord && !watcher.inGame()) setPresence(Integrations.idle(store, u, sessionStart));
-            });
-        });
+        setPresence(Integrations.idle(store, sessionStart));
     }
 
     private void setPresence(Integrations.Presence p) {
@@ -433,31 +419,6 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
             } catch (IOException | JSONException ignored) {
             }
         }
-        if (d.userId > 0 && !String.valueOf(d.userId).equals(store.setting(AppPresence.USER_ID, ""))) store.putSetting(AppPresence.USER_ID, String.valueOf(d.userId));
-        if (Integrations.on(store, Integrations.ACCOUNT) && d.userId > 0) {
-            Integrations.Game cached = user;
-            if (cached != null && !cached.userImage.isEmpty()) {
-                g.userImage = cached.userImage;
-                g.userText = cached.userText;
-            } else {
-                account(g, d.userId);
-                user = g;
-            }
-        }
         return g;
-    }
-
-    private static void account(Integrations.Game g, long userId) {
-        try {
-            JSONObject u = Net.json("https://users.roblox.com/v1/users/" + userId);
-            JSONArray heads = Net.json("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" + userId + "&size=180x180&format=Png&isCircular=false").optJSONArray("data");
-            JSONObject head = heads == null ? null : heads.optJSONObject(0);
-            String url = head == null ? "" : head.optString("imageUrl", "");
-            if (url.startsWith("https://")) {
-                g.userImage = url;
-                g.userText = u.optString("displayName", "") + " (@" + u.optString("name", "") + ")";
-            }
-        } catch (IOException | JSONException ignored) {
-        }
     }
 }

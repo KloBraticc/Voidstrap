@@ -2,16 +2,56 @@
 <resources>
     <string name="nav_smart">Smart Join</string>
     <string name="smart_title">Smart Join</string>
-    <string name="smart_open_body">Pick a server before Roblox opens.</string>
-    <string name="smart_page_body">Chooses a server from the public server list so Roblox does not drop you into a random one.</string>
+    <string name="smart_open_body">Join servers near you with good performance.</string>
+    <string name="smart_page_body">Gets you into a good server near you, without ever signing in to Roblox.</string>
     <string name="smart_section">Server choice</string>
     <string name="smart_enable">Smart Join</string>
-    <string name="smart_enable_body">When you launch a game, Voidstrap reads the public server list and picks the server with the best reported ping and frame rate. It never signs in to Roblox.</string>
+    <string name="smart_enable_body">When you launch a game, Voidstrap checks the public server list and your region before Roblox opens.</string>
+    <string name="smart_region">Your region</string>
+    <string name="smart_region_body">Worked out from your time zone on this phone. Nothing is sent anywhere.</string>
+    <string name="smart_region_auto">Automatic (%1$s)</string>
+    <string-array name="smart_regions">
+        <item>US East</item>
+        <item>US Central</item>
+        <item>US West</item>
+        <item>South America</item>
+        <item>United Kingdom</item>
+        <item>Europe West</item>
+        <item>Europe Central</item>
+        <item>Europe East</item>
+        <item>Middle East</item>
+        <item>India</item>
+        <item>Southeast Asia</item>
+        <item>Hong Kong and Taiwan</item>
+        <item>Japan</item>
+        <item>Korea</item>
+        <item>Australia</item>
+        <item>New Zealand</item>
+        <item>Southern Africa</item>
+    </string-array>
+    <string name="smart_mode">Pick servers by</string>
+    <string name="smart_mode_near">Closest to you</string>
+    <string name="smart_mode_fast">Best performance</string>
     <string name="smart_prefer">Prefer</string>
     <string name="smart_prefer_quiet">Quieter servers</string>
     <string name="smart_prefer_busy">Busier servers</string>
-    <string name="smart_finding">Finding a server</string>
-    <string name="smart_joining">Joining a server reporting %1$d ms ping.</string>
+    <string name="smart_fps">Minimum server frame rate</string>
+    <string name="smart_fps_body">Skips servers that are running slowly.</string>
+    <string name="smart_fps_any">Any</string>
+    <string name="smart_fps_value">%1$d FPS</string>
+    <string name="smart_how">How it works</string>
+    <string name="smart_how_body">Roblox only tells signed in apps where a server is, and the Play version of Voidstrap never signs in. So Smart Join learns where servers are from the games you actually join, and uses that to send you back to healthy servers near you.\n\nWhen it does not know a server near you, Closest to you hands the join to Roblox\'s own server picking, which already chooses a server with low latency for your connection, instead of guessing.\n\nBest performance picks the server with the best frame rate and player ping that is not full, ranks servers it knows are near you first, and skips servers it knows are far away.</string>
+    <string name="smart_recent">Recent servers</string>
+    <string name="smart_recent_tracking">Turn on activity tracking in Integrations so Smart Join can learn where the servers you join are.</string>
+    <string name="smart_recent_empty">Servers you join show up here with their location and distance from you.</string>
+    <string name="smart_recent_place">Place %1$d</string>
+    <string name="smart_recent_detail">%1$s · %2$s km from you · %3$s</string>
+    <string name="smart_recent_clear">Forget recent servers</string>
+    <string name="smart_recent_clear_body">Clears the locations Smart Join has learned</string>
+    <string name="smart_finding">Finding a good server</string>
+    <string name="smart_roblox_near">Letting Roblox pick a server near you in %1$s.</string>
+    <string name="smart_joining_city">Joining a healthy server near you in %1$s.</string>
+    <string name="smart_joining">Joining a server at %1$d FPS with %2$d ms player ping.</string>
     <string name="smart_joining_plain">Joining the best server we found.</string>
-    <string name="smart_fallback">No server matched, letting Roblox choose.</string>
+    <string name="smart_fallback">No server matched your filters, letting Roblox choose one near %1$s.</string>
 </resources>

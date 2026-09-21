@@ -16,7 +16,6 @@ public final class Integrations {
     public static final String LOCATION = "activityLocation";
     public static final String NOTIFY = "activityNotify";
     public static final String RPC = "discordRpc";
-    public static final String ACCOUNT = "discordAccount";
     public static final String JOINING = "discordJoin";
     public static final String NAME = "rpcGameName";
     public static final String ICON = "rpcGameIcon";
@@ -39,7 +38,7 @@ public final class Integrations {
     static final String[] PLAYER_LOG_FLAGS = {"DFLogSocialCounterpartyManager", "FStringDebugLuaLogLevel", "FStringDebugLuaLogPattern"};
     static final Object[] PLAYER_LOG_VALUES = {7L, "trace", "ExpChat/mountClientApp"};
 
-    private static final Set<String> ON_BY_DEFAULT = new HashSet<>(Arrays.asList(TRACKING, LOCATION, NOTIFY, RPC, ACCOUNT, NAME, ICON, CREATOR, SERVER));
+    private static final Set<String> ON_BY_DEFAULT = new HashSet<>(Arrays.asList(TRACKING, LOCATION, NOTIFY, RPC, NAME, ICON, CREATOR, SERVER));
 
     private Integrations() {
     }
@@ -82,8 +81,6 @@ public final class Integrations {
         public boolean verified;
         public String icon = "";
         public String location = "";
-        public String userImage = "";
-        public String userText = "";
     }
 
     public static final class Presence {
@@ -91,8 +88,6 @@ public final class Integrations {
         public String state = "";
         public String largeImage = "";
         public String largeText = "";
-        public String smallImage = "";
-        public String smallText = "";
         public long start;
         public boolean detailsStatus;
         public final List<String[]> buttons = new ArrayList<>();
@@ -103,8 +98,6 @@ public final class Integrations {
             p.state = state;
             p.largeImage = largeImage;
             p.largeText = largeText;
-            p.smallImage = smallImage;
-            p.smallText = smallText;
             p.start = start;
             p.detailsStatus = detailsStatus;
             p.buttons.addAll(buttons);
@@ -113,7 +106,7 @@ public final class Integrations {
 
         String signature() {
             StringBuilder b = new StringBuilder();
-            b.append(details).append('\n').append(state).append('\n').append(largeImage).append('\n').append(largeText).append('\n').append(smallImage).append('\n').append(smallText).append('\n').append(start).append('\n').append(detailsStatus);
+            b.append(details).append('\n').append(state).append('\n').append(largeImage).append('\n').append(largeText).append('\n').append(start).append('\n').append(detailsStatus);
             for (String[] button : buttons) b.append('\n').append(button[0]).append(' ').append(button[1]);
             return b.toString();
         }
@@ -153,7 +146,6 @@ public final class Integrations {
         p.start = d.joined;
         p.largeImage = !customIcon.isEmpty() ? customIcon : on(s, ICON) ? g.icon : "";
         p.largeText = customIcon.isEmpty() && on(s, ICON) ? shown : "";
-        smallImage(s, g, p);
         if (on(s, JOINING) && (d.serverType == ActivityWatcher.ServerType.PUBLIC || (d.serverType == ActivityWatcher.ServerType.RESERVED && !d.launchData.isEmpty())) && !d.jobId.isEmpty()) {
             p.buttons.add(new String[]{"Join server", d.inviteLink()});
         }
@@ -161,7 +153,7 @@ public final class Integrations {
         return p;
     }
 
-    public static Presence idle(Store s, Game user, long start) {
+    public static Presence idle(Store s, long start) {
         Presence p = new Presence();
         p.details = "Inside Voidstrap";
         p.state = "Browsing Roblox";
@@ -169,22 +161,14 @@ public final class Integrations {
         p.largeText = "Roblox";
         p.start = start;
         p.detailsStatus = true;
-        smallImage(s, user, p);
         return p;
-    }
-
-    private static void smallImage(Store s, Game g, Presence p) {
-        boolean account = on(s, ACCOUNT) && g != null && !g.userImage.isEmpty();
-        p.smallImage = account ? g.userImage : "voidstrap";
-        p.smallText = account ? g.userText : "Voidstrap";
     }
 
     public static Presence applyRpc(Presence current, Presence original, JSONObject data) {
         Presence p = current.copy();
         p.details = field(p.details, data.optString("details", ""), original.details);
         p.state = field(p.state, data.optString("state", ""), original.state);
-        image(p, original, data.optJSONObject("smallImage"), true);
-        image(p, original, data.optJSONObject("largeImage"), false);
+        image(p, original, data.optJSONObject("largeImage"));
         return p;
     }
 
@@ -195,34 +179,21 @@ public final class Integrations {
         return value;
     }
 
-    private static void image(Presence p, Presence original, JSONObject data, boolean small) {
+    private static void image(Presence p, Presence original, JSONObject data) {
         if (data == null) return;
         if (data.optBoolean("clear")) {
-            if (small) p.smallImage = "";
-            else p.largeImage = "";
+            p.largeImage = "";
             return;
         }
         if (data.optBoolean("reset")) {
-            if (small) {
-                p.smallImage = original.smallImage;
-                p.smallText = original.smallText;
-            } else {
-                p.largeImage = original.largeImage;
-                p.largeText = original.largeText;
-            }
+            p.largeImage = original.largeImage;
+            p.largeText = original.largeText;
             return;
         }
         long asset = data.optLong("assetId", 0);
-        if (asset > 0) {
-            String url = "https://assetdelivery.roblox.com/v1/asset/?id=" + asset;
-            if (small) p.smallImage = url;
-            else p.largeImage = url;
-        }
+        if (asset > 0) p.largeImage = "https://assetdelivery.roblox.com/v1/asset/?id=" + asset;
         String hover = data.optString("hoverText", "");
-        if (!hover.isEmpty()) {
-            if (small) p.smallText = hover;
-            else p.largeText = hover;
-        }
+        if (!hover.isEmpty()) p.largeText = hover;
     }
 
     private static final String[][] WIP_MARKERS = {

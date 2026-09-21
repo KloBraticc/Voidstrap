@@ -863,8 +863,6 @@
     <string name="integrations_discord_note">Requires activity tracking and the Discord app on this device.</string>
     <string name="integrations_discord_rpc">Show game activity</string>
     <string name="integrations_discord_rpc_body">The Roblox game you\'re playing will be shown on your Discord profile.</string>
-    <string name="integrations_discord_account">Show Roblox account</string>
-    <string name="integrations_discord_account_body">Shows the Roblox account you\'re playing with on your Discord profile.</string>
     <string name="integrations_discord_join">Allow activity joining</string>
     <string name="integrations_discord_join_body">Allows for anybody to join the game you\'re currently in through your Discord profile.</string>
     <string name="integrations_discord_status">Discord</string>

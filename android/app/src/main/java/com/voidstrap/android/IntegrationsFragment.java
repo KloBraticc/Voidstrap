@@ -108,7 +108,6 @@ public final class IntegrationsFragment extends Page {
         discordStatus = (TextView) ((LinearLayout) statusRow.getChildAt(0)).getChildAt(1);
         statusRow.setOnClickListener(x -> openDiscord());
         toggle(discord, R.string.integrations_discord_rpc, R.string.integrations_discord_rpc_body, Integrations.RPC, tracking, null);
-        toggle(discord, R.string.integrations_discord_account, R.string.integrations_discord_account_body, Integrations.ACCOUNT, rpc, null);
         toggle(discord, R.string.integrations_discord_join, R.string.integrations_discord_join_body, Integrations.JOINING, rpc, null);
 
         LinearLayout custom = SettingRows.section(root, getString(R.string.integrations_custom_rpc));
@@ -247,13 +246,7 @@ public final class IntegrationsFragment extends Page {
         previewLarge.setScaleType(ImageView.ScaleType.CENTER_CROP);
         previewLarge.setShapeAppearanceModel(ShapeAppearanceModel.builder().setAllCornerSizes(Ui.dp(c, 8)).build());
         art.addView(previewLarge, new android.widget.FrameLayout.LayoutParams(size, size));
-        ShapeableImageView small = new ShapeableImageView(c);
-        small.setImageResource(R.mipmap.ic_launcher_round);
-        small.setShapeAppearanceModel(ShapeAppearanceModel.builder().setAllCornerSizes(ShapeAppearanceModel.PILL).build());
-        int smallSize = Ui.dp(c, 24);
-        android.widget.FrameLayout.LayoutParams sp = new android.widget.FrameLayout.LayoutParams(smallSize, smallSize, Gravity.BOTTOM | Gravity.END);
-        art.addView(small, sp);
-        line.addView(art, new LinearLayout.LayoutParams(size + Ui.dp(c, 6), size + Ui.dp(c, 6)));
+        line.addView(art, new LinearLayout.LayoutParams(size, size));
         LinearLayout texts = new LinearLayout(c);
         texts.setOrientation(LinearLayout.VERTICAL);
         texts.setPadding(Ui.dp(c, 12), 0, 0, 0);
