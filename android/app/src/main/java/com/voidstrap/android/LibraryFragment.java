@@ -663,10 +663,10 @@ public final class LibraryFragment extends Page {
     private void togglePin(LibraryData.Game g) {
         if (g.pinned) {
             store.unpin(g.placeId);
-            Ui.say(host(), getString(R.string.game_unpinned, g.title()));
+            Notify.say(host(), Notify.LIBRARY, getString(R.string.game_unpinned, g.title()));
         } else {
             store.pin(new Store.Game(g.placeId, g.universeId, Store.clip(g.name, 200), g.iconUrl == null ? "" : g.iconUrl, System.currentTimeMillis()));
-            Ui.say(host(), getString(R.string.library_pinned_toast, g.title()));
+            Notify.say(host(), Notify.LIBRARY, getString(R.string.library_pinned_toast, g.title()));
         }
     }
 
@@ -674,7 +674,7 @@ public final class LibraryFragment extends Page {
         store.forget(g.placeId);
         known.remove(g.placeId);
         if (selected != null && selected.placeId == g.placeId) selected = null;
-        Ui.say(host(), getString(R.string.library_removed, g.title()));
+        Notify.say(host(), Notify.LIBRARY, getString(R.string.library_removed, g.title()));
         load(false);
     }
 
@@ -695,7 +695,7 @@ public final class LibraryFragment extends Page {
                 .add(R.drawable.ic_phone_add, R.string.library_add_shortcut, () -> Shortcuts.request(host(), Deeplink.place(g.placeId, null, null), g.title(), g.iconUrl))
                 .add(R.drawable.ic_copy, R.string.game_copy_link, () -> {
                     Ui.copy(requireContext(), g.title(), link);
-                    Ui.say(host(), R.string.game_link_copied);
+                    Notify.say(host(), Notify.COPY, R.string.game_link_copied);
                 })
                 .add(R.drawable.ic_globe, R.string.library_open_page, () -> Actions.openInRoblox(host(), link))
                 .show(anchor);
@@ -775,7 +775,7 @@ public final class LibraryFragment extends Page {
             Store.Game existing = store.game(d.placeId);
             if (existing == null) store.pin(new Store.Game(d.placeId, m.universeId, name, m.iconUrl == null ? "" : m.iconUrl, System.currentTimeMillis()));
             LibraryData.Game g = find(d.placeId);
-            Ui.say(host(), getString(R.string.library_added, name.isEmpty() ? String.valueOf(d.placeId) : name));
+            Notify.say(host(), Notify.LIBRARY, getString(R.string.library_added, name.isEmpty() ? String.valueOf(d.placeId) : name));
             if (g != null) select(g);
         });
     }

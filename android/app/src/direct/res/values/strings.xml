@@ -93,4 +93,6 @@
         <item quantity="other">Could not reach a better datacenter after %1$d tries, staying in %2$s</item>
     </plurals>
     <string name="matchmaker_fallback">Smart Join stepped aside: %1$s</string>
+    <string name="matchmaker_notify_alerts">Matchmaker alerts</string>
+    <string name="matchmaker_notify_alerts_body">Tells you which server region you joined and when the Matchmaker moves you to a closer one.</string>
 </resources>

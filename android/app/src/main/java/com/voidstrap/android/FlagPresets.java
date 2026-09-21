@@ -211,7 +211,7 @@ public final class FlagPresets {
                         .setPositiveButton(R.string.common_ok, null)
                         .show();
             } else if (switched) {
-                Ui.say(a, R.string.presets_fps_opengl);
+                Notify.say(a, Notify.FLAGS, R.string.presets_fps_opengl);
             }
             build();
         });
@@ -486,7 +486,7 @@ public final class FlagPresets {
             put(TEXTURE, PROFILES[profile][0]);
             put(MSAA, PROFILES[profile][1]);
             commit.run();
-            Ui.say(a, a.getString(R.string.presets_profile_applied, names[profile]));
+            Notify.say(a, Notify.FLAGS, a.getString(R.string.presets_profile_applied, names[profile]));
             build();
         });
         LinearLayout controls = new LinearLayout(a);
@@ -513,7 +513,7 @@ public final class FlagPresets {
                 item.set(R.drawable.ic_flag, e.getKey(), e.getValue());
                 item.view.setOnClickListener(x -> {
                     Ui.copy(a, e.getKey(), e.getKey());
-                    Ui.say(a, a.getString(R.string.presets_copied, e.getKey()));
+                    Notify.say(a, Notify.COPY, a.getString(R.string.presets_copied, e.getKey()));
                 });
                 list.addView(item.view);
             }

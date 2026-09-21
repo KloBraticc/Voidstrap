@@ -371,6 +371,10 @@ public final class ModEngine {
         FlagWriter.Mode mode = FlagWriter.rootMode(c);
         if (mode == FlagWriter.Mode.NONE) return !want;
         Result r = want ? apply(c, pkg, true, null, null) : remove(c, pkg, true);
+        return ok(r);
+    }
+
+    public static boolean ok(Result r) {
         return r == Result.APPLIED || r == Result.UNCHANGED || r == Result.REMOVED;
     }
 

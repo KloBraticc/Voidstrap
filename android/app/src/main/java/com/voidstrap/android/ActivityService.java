@@ -30,6 +30,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public final class ActivityService extends Service implements ActivityWatcher.Listener {
     private static final String CHANNEL_TRACKING = "activity";
     private static final String CHANNEL_JOIN = "activity_join";
+    private static final String CHANNEL_JOIN_QUIET = "activity_join_quiet";
     private static final int ID_TRACKING = 41;
     private static final int ID_JOIN = 42;
     private static final int ID_JOIN_ALERT = 43;
@@ -117,7 +118,7 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
         super.onCreate();
         store = Store.get(this);
         running = true;
-        channels();
+        channels(this);
         int type = Build.VERSION.SDK_INT >= 34 ? ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE : 0;
         ServiceCompat.startForeground(this, ID_TRACKING, tracking(getString(R.string.activity_waiting)), type);
         sessionStart = System.currentTimeMillis();
@@ -206,15 +207,19 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
         watcher.feed(line);
     }
 
-    private void channels() {
+    static void channels(Context c) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
-        NotificationManager nm = getSystemService(NotificationManager.class);
-        NotificationChannel tracking = new NotificationChannel(CHANNEL_TRACKING, getString(R.string.activity_channel), NotificationManager.IMPORTANCE_MIN);
+        NotificationManager nm = c.getSystemService(NotificationManager.class);
+        if (nm == null) return;
+        NotificationChannel tracking = new NotificationChannel(CHANNEL_TRACKING, c.getString(R.string.activity_channel), NotificationManager.IMPORTANCE_MIN);
         tracking.setShowBadge(false);
-        NotificationChannel join = new NotificationChannel(CHANNEL_JOIN, getString(R.string.activity_join_channel), NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel join = new NotificationChannel(CHANNEL_JOIN, c.getString(R.string.activity_join_channel), NotificationManager.IMPORTANCE_HIGH);
         join.setShowBadge(false);
+        NotificationChannel quiet = new NotificationChannel(CHANNEL_JOIN_QUIET, c.getString(R.string.activity_join_quiet_channel), NotificationManager.IMPORTANCE_LOW);
+        quiet.setShowBadge(false);
         nm.createNotificationChannel(tracking);
         nm.createNotificationChannel(join);
+        nm.createNotificationChannel(quiet);
     }
 
     private PendingIntent openApp() {
@@ -261,8 +266,8 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
                 String shown = Integrations.shownName(store, g);
                 nowPlaying = shown;
                 store.changed();
-                updateTracking(getString(R.string.activity_playing, shown));
-                if (Integrations.on(store, Integrations.NOTIFY) && canNotify()) joinNotification(shown, g.location);
+                if (Notify.on(store, Notify.TRACK_GAME)) updateTracking(getString(R.string.activity_playing, shown));
+                if (Integrations.on(store, Integrations.NOTIFY) && canNotify()) joinNotification(shown, Integrations.on(store, Integrations.LOCATION) ? g.location : "");
                 if (discord) {
                     int flags = store.flags.active().values.size();
                     setPresence(Integrations.game(store, data, g, flags));
@@ -271,18 +276,25 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
         });
     }
 
-    private void joinAlert(String text) {
-        if (stopping || !canNotify()) return;
-        Notification n = new NotificationCompat.Builder(this, CHANNEL_JOIN)
+    private NotificationCompat.Builder alert(String title, String text, long automatic) {
+        boolean popup = Notify.on(store, Notify.POPUP);
+        NotificationCompat.Builder b = new NotificationCompat.Builder(this, popup ? CHANNEL_JOIN : CHANNEL_JOIN_QUIET)
                 .setSmallIcon(R.drawable.ic_stat_activity)
-                .setContentTitle(SmartJoin.title(this))
+                .setContentTitle(title)
                 .setContentText(text)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .setAutoCancel(true)
-                .setTimeoutAfter(10000)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(popup ? NotificationCompat.PRIORITY_HIGH : NotificationCompat.PRIORITY_LOW)
                 .setCategory(NotificationCompat.CATEGORY_STATUS)
-                .setContentIntent(openApp())
+                .setContentIntent(openApp());
+        long timeout = Notify.joinTimeout(store, automatic);
+        if (timeout > 0) b.setTimeoutAfter(timeout);
+        return b;
+    }
+
+    private void joinAlert(String text) {
+        if (stopping || !canNotify() || !Notify.on(store, Notify.SMART_ALERTS)) return;
+        Notification n = alert(SmartJoin.title(this), text, 10000)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .build();
         NotificationManager nm = getSystemService(NotificationManager.class);
         if (nm != null) nm.notify(ID_JOIN_ALERT, n);
@@ -290,16 +302,7 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
 
     private void joinNotification(String game, String location) {
         String text = location.isEmpty() ? getString(R.string.activity_join_body) : getString(R.string.activity_join_location, location);
-        Notification n = new NotificationCompat.Builder(this, CHANNEL_JOIN)
-                .setSmallIcon(R.drawable.ic_stat_activity)
-                .setContentTitle(getString(R.string.activity_join_title, game))
-                .setContentText(text)
-                .setAutoCancel(true)
-                .setTimeoutAfter(8000)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_STATUS)
-                .setContentIntent(openApp())
-                .build();
+        Notification n = alert(getString(R.string.activity_join_title, game), text, 8000).build();
         NotificationManager nm = getSystemService(NotificationManager.class);
         if (nm != null) nm.notify(ID_JOIN, n);
     }

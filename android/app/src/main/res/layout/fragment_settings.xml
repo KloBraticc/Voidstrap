@@ -75,6 +75,20 @@
         </com.voidstrap.android.ScrollPane>
 
         <com.voidstrap.android.ScrollPane
+            android:id="@+id/settings_page_notifications"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/notification_sections"
+                style="@style/Voidstrap.Page"
+                android:paddingTop="12dp" />
+        </com.voidstrap.android.ScrollPane>
+
+        <com.voidstrap.android.ScrollPane
             android:id="@+id/settings_page_roblox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

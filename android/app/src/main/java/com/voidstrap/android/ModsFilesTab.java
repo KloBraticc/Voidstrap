@@ -297,7 +297,7 @@ final class ModsFilesTab {
                 }
                 int result = error;
                 host.store().main.post(() -> {
-                    if (host.isAdded()) Ui.say(host.host(), result == 0 ? c.getString(R.string.mods_exported, f.getName()) : c.getString(result));
+                    if (host.isAdded()) Notify.say(host.host(), result == 0 ? Notify.MODS : null, result == 0 ? c.getString(R.string.mods_exported, f.getName()) : c.getString(result));
                 });
             });
         });
@@ -357,7 +357,7 @@ final class ModsFilesTab {
                     boolean ok = Mods.delete(f);
                     if (previewDialog != null) previewDialog.dismiss();
                     if (f.getPath().equals(selectedPath)) selectedPath = null;
-                    Ui.say(host.host(), ok ? c.getString(R.string.mods_removed, f.getName()) : c.getString(R.string.mods_remove_failed));
+                    Notify.say(host.host(), ok ? Notify.MODS : null, ok ? c.getString(R.string.mods_removed, f.getName()) : c.getString(R.string.mods_remove_failed));
                     host.changed();
                 })
                 .setNegativeButton(R.string.common_cancel, null)

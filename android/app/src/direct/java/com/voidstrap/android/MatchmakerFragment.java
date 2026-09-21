@@ -152,7 +152,7 @@ public final class MatchmakerFragment extends Page {
         action.setOnClickListener(x -> {
             if (signedInHere) {
                 RobloxLogin.signOut();
-                Ui.say(host(), R.string.matchmaker_signed_out);
+                Notify.say(host(), Notify.GENERAL, R.string.matchmaker_signed_out);
                 load();
             } else {
                 startActivity(new Intent(c, SignInActivity.class));

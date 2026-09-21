@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
     private void applySavedMods() {
         Context app = getApplicationContext();
         if (!ModEngine.enabled(app) || !ModEngine.hasMods(app)) {
-            Ui.say(this, R.string.bar_saved);
+            Notify.say(this, Notify.GENERAL, R.string.bar_saved);
             return;
         }
         if (FlagWriter.rootMode(app) == FlagWriter.Mode.NONE) {
@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
             ModEngine.Result r = ModEngine.apply(app, pkg, false, null, null);
             store.main.post(() -> {
                 if (isFinishing() || isDestroyed()) return;
-                Ui.say(this, modsResult(r));
+                Notify.say(this, ModEngine.ok(r) ? Notify.MODS : null, modsResult(r));
             });
         });
     }

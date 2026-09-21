@@ -905,4 +905,53 @@
     <string name="activity_join_location">Server location: %1$s</string>
     <string name="activity_log_joined">Joined place %1$d</string>
     <string name="activity_log_left">Left the game</string>
+    <string name="activity_join_quiet_channel">Game joined (quiet)</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="notify_system">Notification shade</string>
+    <string name="notify_allow">Allow notifications</string>
+    <string name="notify_allowed">On. Tap to open Android notification settings.</string>
+    <string name="notify_blocked">Off. Tap to allow.</string>
+    <string name="notify_channels">Sound, vibration and lock screen</string>
+    <string name="notify_channels_body">Opens Android notification settings for Voidstrap</string>
+    <string name="notify_open">Settings</string>
+    <string name="notify_tracking_off">Game notifications need activity tracking, which is turned off in Integrations.</string>
+    <string name="notify_location">Show server location</string>
+    <string name="notify_location_body">Adds where the server is to the join notification.</string>
+    <string name="notify_popup">Pop up on screen</string>
+    <string name="notify_popup_body">Shows join notifications on top of Roblox with sound. Off keeps them quietly in the notification shade.</string>
+    <string name="notify_join_time">Dismiss after</string>
+    <string-array name="notify_join_times">
+        <item>Automatic</item>
+        <item>5 seconds</item>
+        <item>15 seconds</item>
+        <item>30 seconds</item>
+        <item>Never</item>
+    </string-array>
+    <string name="notify_track_game">Show game while tracking</string>
+    <string name="notify_track_game_body">The ongoing activity tracking notification shows the game you are playing.</string>
+    <string name="notify_in_app">In app messages</string>
+    <string name="notify_in_app_body">Errors always show, whatever you turn off here.</string>
+    <string name="notify_length">Message length</string>
+    <string-array name="notify_lengths">
+        <item>Short</item>
+        <item>Normal</item>
+        <item>Long</item>
+        <item>Very long</item>
+    </string-array>
+    <string name="notify_launch">Launch messages</string>
+    <string name="notify_launch_body">Warns when FastFlags or mods were not applied as Roblox opens, and when the store opens to install it.</string>
+    <string name="notify_smart">%1$s messages</string>
+    <string name="notify_smart_body">Shows progress while a server is picked for you.</string>
+    <string name="notify_flags">FastFlag messages</string>
+    <string name="notify_flags_body">Confirms when flags are saved, applied, imported or exported.</string>
+    <string name="notify_mods">Mod messages</string>
+    <string name="notify_mods_body">Confirms when mods are applied, restored, exported or removed.</string>
+    <string name="notify_library">Library messages</string>
+    <string name="notify_library_body">Confirms when games are added, pinned, unpinned or removed.</string>
+    <string name="notify_shortcuts">Shortcut messages</string>
+    <string name="notify_shortcuts_body">Confirms home screen shortcuts.</string>
+    <string name="notify_copy">Copy messages</string>
+    <string name="notify_copy_body">Confirms when something is copied to the clipboard.</string>
+    <string name="notify_general">Other messages</string>
+    <string name="notify_general_body">Confirms saves, backups, sign in and other actions.</string>
 </resources>

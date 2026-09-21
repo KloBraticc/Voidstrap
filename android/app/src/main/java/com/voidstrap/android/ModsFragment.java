@@ -264,12 +264,14 @@ public final class ModsFragment extends Page {
             if (ok && result != null && !result.isEmpty()
                     && ModEngine.state(app, Targets.selected(app)) == ModEngine.State.NO_ROOT) {
                 result = app.getString(R.string.mods_saved_no_root, result);
+                ok = false;
             }
             String text = result;
+            String topic = ok ? Notify.MODS : null;
             store.main.post(() -> {
                 if (progress.isShowing()) progress.dismiss();
                 if (!isAdded()) return;
-                if (text != null && !text.isEmpty()) Ui.say(host(), text);
+                if (text != null && !text.isEmpty()) Notify.say(host(), topic, text);
                 changed();
             });
         });
@@ -411,7 +413,7 @@ public final class ModsFragment extends Page {
                 applying = false;
                 if (progress.isShowing()) progress.dismiss();
                 if (!isAdded()) return;
-                Ui.say(host(), resultMessage(r));
+                Notify.say(host(), ModEngine.ok(r) ? Notify.MODS : null, resultMessage(r));
                 changed();
             });
         });
@@ -448,7 +450,7 @@ public final class ModsFragment extends Page {
             store.main.post(() -> {
                 applying = false;
                 if (!isAdded()) return;
-                Ui.say(host(), resultMessage(r));
+                Notify.say(host(), ModEngine.ok(r) ? Notify.MODS : null, resultMessage(r));
                 changed();
             });
         });
@@ -468,7 +470,7 @@ public final class ModsFragment extends Page {
                 store.changed();
                 if (!isAdded()) return;
                 root.setEnabled(true);
-                Ui.say(host(), r == FlagWriter.OK ? R.string.settings_root_ready : R.string.settings_root_denied);
+                Notify.say(host(), r == FlagWriter.OK ? Notify.MODS : null, r == FlagWriter.OK ? R.string.settings_root_ready : R.string.settings_root_denied);
             });
         });
     }

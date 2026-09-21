@@ -42,6 +42,14 @@ final class SmartJoin {
         return c.getString(R.string.smart_title);
     }
 
+    static String alertsTitle(Context c) {
+        return null;
+    }
+
+    static String alertsBody(Context c) {
+        return null;
+    }
+
     static String openBody(Context c) {
         return c.getString(R.string.smart_open_body);
     }
@@ -140,6 +148,6 @@ final class SmartJoin {
     }
 
     private static void toast(Context app, String text) {
-        Store.get(app).main.post(() -> android.widget.Toast.makeText(app, text, android.widget.Toast.LENGTH_LONG).show());
+        Store.get(app).main.post(() -> Notify.toast(app, Notify.SMART, text));
     }
 }

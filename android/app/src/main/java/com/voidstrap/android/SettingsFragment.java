@@ -1,11 +1,13 @@
 package com.voidstrap.android;
 
 import android.app.ActivityManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,8 +17,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
@@ -26,6 +30,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public final class SettingsFragment extends Page {
@@ -39,6 +45,10 @@ public final class SettingsFragment extends Page {
 
     private ActivityResultLauncher<String> exportLauncher;
     private ActivityResultLauncher<String[]> importLauncher;
+    private ActivityResultLauncher<String> notifyPermission;
+    private final List<MaterialSwitch> notifySwitches = new ArrayList<>();
+    private TextView notifyStatus;
+    private View trackingOff;
 
     public SettingsFragment() {
         super(R.layout.fragment_settings);
@@ -49,14 +59,19 @@ public final class SettingsFragment extends Page {
         super.onCreate(saved);
         exportLauncher = registerForActivityResult(new ActivityResultContracts.CreateDocument("application/json"), this::onExport);
         importLauncher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), this::onImport);
+        notifyPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
+            if (!isAdded()) return;
+            bindNotifications();
+            if (!granted) Ui.make(host(), getString(R.string.integrations_notify_blocked)).setAction(R.string.notify_open, x -> openNotificationSettings()).show();
+        });
     }
 
     @Override
     public void onViewCreated(@NonNull View v, @Nullable Bundle saved) {
-        pages = new View[]{v.findViewById(R.id.settings_page_appearance), v.findViewById(R.id.settings_page_roblox), v.findViewById(R.id.settings_page_backup), v.findViewById(R.id.settings_page_about)};
+        pages = new View[]{v.findViewById(R.id.settings_page_appearance), v.findViewById(R.id.settings_page_notifications), v.findViewById(R.id.settings_page_roblox), v.findViewById(R.id.settings_page_backup), v.findViewById(R.id.settings_page_about)};
         tabs = v.findViewById(R.id.settings_tabs);
-        int[] labels = {R.string.settings_appearance, R.string.settings_roblox, R.string.settings_backup, R.string.settings_about};
-        int[] icons = {R.drawable.ic_options, R.drawable.ic_games, R.drawable.ic_folder, R.drawable.ic_info};
+        int[] labels = {R.string.settings_appearance, R.string.settings_notifications, R.string.settings_roblox, R.string.settings_backup, R.string.settings_about};
+        int[] icons = {R.drawable.ic_options, R.drawable.ic_alert, R.drawable.ic_games, R.drawable.ic_folder, R.drawable.ic_info};
         for (int i = 0; i < labels.length; i++) tabs.addTab(tabs.newTab().setText(labels[i]).setIcon(icons[i]));
         section = saved == null ? 0 : Math.max(0, Math.min(pages.length - 1, saved.getInt(STATE_SECTION, 0)));
         TabLayout.Tab initial = tabs.getTabAt(section);
@@ -112,6 +127,7 @@ public final class SettingsFragment extends Page {
         voidRpc.setContentDescription(getString(R.string.settings_void_rpc));
         SettingRows.row(appearance, getString(R.string.settings_void_rpc), getString(R.string.settings_void_rpc_body), voidRpc).setOnClickListener(x -> voidRpc.toggle());
         voidRpc.setOnCheckedChangeListener((b, on) -> store.putSetting(AppPresence.SETTING, on ? "1" : "0"));
+        notifications(v.findViewById(R.id.notification_sections));
         LinearLayout roblox = v.findViewById(R.id.roblox_rows);
         Row helper = Row.inflate(roblox);
         helper.set(R.drawable.ic_shield_checkmark, getString(R.string.settings_helper), FlagSync.status(requireContext()));
@@ -129,7 +145,7 @@ public final class SettingsFragment extends Page {
                         .setMessage(R.string.history_clear_body)
                         .setPositiveButton(R.string.common_clear, (d, w) -> {
                             store.clearHistory();
-                            Ui.say(host(), R.string.history_cleared);
+                            Notify.say(host(), Notify.GENERAL, R.string.history_cleared);
                         })
                         .setNegativeButton(R.string.common_cancel, null)
                         .show());
@@ -166,6 +182,89 @@ public final class SettingsFragment extends Page {
         row.chevron.setVisibility(View.VISIBLE);
         row.view.setOnClickListener(x -> r.run());
         parent.addView(row.view);
+    }
+
+    private void notifications(LinearLayout root) {
+        Context c = requireContext();
+        notifySwitches.clear();
+        LinearLayout system = SettingRows.section(root, getString(R.string.notify_system));
+        LinearLayout allow = SettingRows.row(system, getString(R.string.notify_allow), getString(R.string.notify_blocked), null);
+        notifyStatus = (TextView) ((LinearLayout) allow.getChildAt(0)).getChildAt(1);
+        allow.setOnClickListener(x -> {
+            if (Build.VERSION.SDK_INT >= 33 && !NotificationManagerCompat.from(c).areNotificationsEnabled()) notifyPermission.launch(android.Manifest.permission.POST_NOTIFICATIONS);
+            else openNotificationSettings();
+        });
+        SettingRows.row(system, getString(R.string.notify_channels), getString(R.string.notify_channels_body), null).setOnClickListener(x -> openNotificationSettings());
+        trackingOff = caption(system, R.string.notify_tracking_off);
+        notifySwitch(system, getString(R.string.integrations_notify), getString(R.string.integrations_notify_body), Integrations.NOTIFY);
+        notifySwitch(system, getString(R.string.notify_location), getString(R.string.notify_location_body), Integrations.LOCATION);
+        notifySwitch(system, getString(R.string.notify_popup), getString(R.string.notify_popup_body), Notify.POPUP);
+        SettingRows.choice(system, getString(R.string.notify_join_time), null, getResources().getStringArray(R.array.notify_join_times), Notify.index(store, Notify.JOIN_TIME, Notify.JOIN_TIMES.length, 0), i -> store.putSetting(Notify.JOIN_TIME, String.valueOf(i)));
+        String alerts = SmartJoin.alertsTitle(c);
+        if (alerts != null) notifySwitch(system, alerts, SmartJoin.alertsBody(c), Notify.SMART_ALERTS);
+        notifySwitch(system, getString(R.string.notify_track_game), getString(R.string.notify_track_game_body), Notify.TRACK_GAME);
+
+        LinearLayout inApp = SettingRows.section(root, getString(R.string.notify_in_app));
+        caption(inApp, R.string.notify_in_app_body);
+        SettingRows.choice(inApp, getString(R.string.notify_length), null, getResources().getStringArray(R.array.notify_lengths), Notify.index(store, Notify.LENGTH, Notify.LENGTHS.length, Notify.DEFAULT_LENGTH), i -> store.putSetting(Notify.LENGTH, String.valueOf(i)));
+        notifySwitch(inApp, getString(R.string.notify_launch), getString(R.string.notify_launch_body), Notify.LAUNCH);
+        if (SmartJoin.available()) notifySwitch(inApp, getString(R.string.notify_smart, SmartJoin.title(c)), getString(R.string.notify_smart_body), Notify.SMART);
+        notifySwitch(inApp, getString(R.string.notify_flags), getString(R.string.notify_flags_body), Notify.FLAGS);
+        notifySwitch(inApp, getString(R.string.notify_mods), getString(R.string.notify_mods_body), Notify.MODS);
+        notifySwitch(inApp, getString(R.string.notify_library), getString(R.string.notify_library_body), Notify.LIBRARY);
+        notifySwitch(inApp, getString(R.string.notify_shortcuts), getString(R.string.notify_shortcuts_body), Notify.SHORTCUTS);
+        notifySwitch(inApp, getString(R.string.notify_copy), getString(R.string.notify_copy_body), Notify.COPY);
+        notifySwitch(inApp, getString(R.string.notify_general), getString(R.string.notify_general_body), Notify.GENERAL);
+    }
+
+    private TextView caption(LinearLayout parent, int text) {
+        Context c = parent.getContext();
+        TextView t = new TextView(c);
+        t.setTextAppearance(R.style.TextAppearance_Voidstrap_Caption);
+        t.setText(text);
+        t.setPadding(Ui.dp(c, 16), Ui.dp(c, 8), Ui.dp(c, 16), Ui.dp(c, 4));
+        parent.addView(t);
+        return t;
+    }
+
+    private void notifySwitch(LinearLayout parent, String title, String body, String key) {
+        MaterialSwitch toggle = new MaterialSwitch(requireContext());
+        toggle.setChecked(Notify.on(store, key));
+        toggle.setContentDescription(title);
+        toggle.setTag(key);
+        SettingRows.row(parent, title, body, toggle).setOnClickListener(x -> toggle.toggle());
+        toggle.setOnCheckedChangeListener((b, on) -> {
+            if (Notify.on(store, key) == on) return;
+            Notify.set(store, key, on);
+            if (on && Integrations.NOTIFY.equals(key) && Build.VERSION.SDK_INT >= 33 && !NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()) notifyPermission.launch(android.Manifest.permission.POST_NOTIFICATIONS);
+        });
+        notifySwitches.add(toggle);
+    }
+
+    private void openNotificationSettings() {
+        Context c = requireContext();
+        ActivityService.channels(c);
+        Intent details = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", c.getPackageName(), null));
+        Intent intent = Build.VERSION.SDK_INT >= 26 ? new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, c.getPackageName()) : details;
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            try {
+                startActivity(details);
+            } catch (ActivityNotFoundException ignored) {
+                Ui.say(host(), R.string.launch_failed);
+            }
+        }
+    }
+
+    private void bindNotifications() {
+        if (notifyStatus == null) return;
+        notifyStatus.setText(NotificationManagerCompat.from(requireContext()).areNotificationsEnabled() ? R.string.notify_allowed : R.string.notify_blocked);
+        trackingOff.setVisibility(Integrations.on(store, Integrations.TRACKING) ? View.GONE : View.VISIBLE);
+        for (MaterialSwitch s : notifySwitches) {
+            boolean on = Notify.on(store, (String) s.getTag());
+            if (s.isChecked() != on) s.setChecked(on);
+        }
     }
 
     private void rootToggle(LinearLayout parent) {
@@ -205,7 +304,7 @@ public final class SettingsFragment extends Page {
                     if (!isAdded()) return;
                     toggle.setEnabled(true);
                     if (r != FlagWriter.OK) toggle.setChecked(false);
-                    if (r == FlagWriter.OK) Ui.say(host(), R.string.settings_root_ready);
+                    if (r == FlagWriter.OK) Notify.say(host(), Notify.GENERAL, R.string.settings_root_ready);
                     else rootFailed();
                 });
             });
@@ -228,6 +327,7 @@ public final class SettingsFragment extends Page {
     protected void refresh() {
         Actions.bindTarget(target, true);
         if (helperDetail != null) helperDetail.setText(FlagSync.status(requireContext()));
+        bindNotifications();
     }
 
     private String diagnostics() {
@@ -289,7 +389,7 @@ public final class SettingsFragment extends Page {
         copy.setIconResource(R.drawable.ic_copy);
         copy.setOnClickListener(x -> {
             Ui.copy(requireContext(), getString(R.string.settings_diagnostics), report);
-            Ui.say(host(), R.string.diagnostics_copied);
+            Notify.say(host(), Notify.COPY, R.string.diagnostics_copied);
         });
         com.google.android.material.button.MaterialButton share = new com.google.android.material.button.MaterialButton(requireContext(), null, com.google.android.material.R.attr.materialButtonOutlinedStyle);
         share.setText(R.string.common_share);
@@ -326,7 +426,7 @@ public final class SettingsFragment extends Page {
         store.work.execute(() -> {
             int error = Ui.writeText(app, uri, json);
             store.main.post(() -> {
-                if (isAdded()) Ui.say(host(), error == 0 ? R.string.backup_exported : error);
+                if (isAdded()) Notify.say(host(), error == 0 ? Notify.GENERAL : null, error == 0 ? R.string.backup_exported : error);
             });
         });
     }
@@ -358,7 +458,7 @@ public final class SettingsFragment extends Page {
                         .setPositiveButton(R.string.common_import, (d, w) -> {
                             try {
                                 store.restore(backup);
-                                Ui.say(host(), R.string.backup_imported);
+                                Notify.say(host(), Notify.GENERAL, R.string.backup_imported);
                                 ThemeFade.restart(requireActivity(), R.id.nav_settings);
                             } catch (JSONException e) {
                                 Ui.say(host(), R.string.backup_invalid_title);

@@ -103,7 +103,7 @@ public final class Ui {
     public static Snackbar make(Activity a, CharSequence text) {
         View anchor = a.findViewById(R.id.snackbar_anchor);
         if (anchor == null) anchor = a.findViewById(android.R.id.content);
-        Snackbar bar = Snackbar.make(anchor, text, Snackbar.LENGTH_LONG);
+        Snackbar bar = Snackbar.make(anchor, text, Snackbar.LENGTH_LONG).setDuration(Notify.length(Store.get(a)));
         View v = bar.getView();
         ViewGroup.LayoutParams lp = v.getLayoutParams();
         lp.width = ViewGroup.LayoutParams.WRAP_CONTENT;

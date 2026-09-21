@@ -214,7 +214,7 @@ public final class FlagsFragment extends Page {
     private void copyJson() {
         try {
             Ui.copy(requireContext(), getString(R.string.flags_title), store.flags.active().valuesJson().toString(2));
-            Ui.say(host(), R.string.flags_json_copied);
+            Notify.say(host(), Notify.COPY, R.string.flags_json_copied);
         } catch (JSONException e) {
             Ui.say(host(), R.string.export_failed);
         }
@@ -369,7 +369,7 @@ public final class FlagsFragment extends Page {
                     store.saveFlags();
                     store.changed();
                 }
-                if (isAdded()) Ui.say(host(), error == 0 ? R.string.flags_exported : error);
+                if (isAdded()) Notify.say(host(), error == 0 ? Notify.FLAGS : null, error == 0 ? R.string.flags_exported : error);
             });
         });
     }
@@ -470,7 +470,7 @@ public final class FlagsFragment extends Page {
             store.flags.profiles.add(created);
             store.flags.current = created.id;
             save(created);
-            Ui.say(host(), done);
+            Notify.say(host(), Notify.FLAGS, done);
         });
         sheet[0] = Ui.surface(host(), getString(R.string.flags_import_title), msg, list, null);
         sheet[0].show();

@@ -44,8 +44,8 @@ public final class Launcher {
                 busy = false;
                 if (track) ActivityService.startNow(app);
                 Result r = start(app, target, pkg);
-                if (flagIssue != 0 && r == Result.HANDED_OFF) android.widget.Toast.makeText(app, flagIssue, android.widget.Toast.LENGTH_LONG).show();
-                else if (!mods && r == Result.HANDED_OFF) android.widget.Toast.makeText(app, R.string.mods_launch_not_applied, android.widget.Toast.LENGTH_LONG).show();
+                if (flagIssue != 0 && r == Result.HANDED_OFF) Notify.toast(app, Notify.LAUNCH, flagIssue);
+                else if (!mods && r == Result.HANDED_OFF) Notify.toast(app, Notify.LAUNCH, R.string.mods_launch_not_applied);
                 done.run(finish(app, destination, name, pkg, r));
             });
         });

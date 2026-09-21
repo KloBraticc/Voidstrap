@@ -166,7 +166,7 @@ final class ModsLibraryTab {
         }
         m.add(R.drawable.ic_copy, R.string.mods_library_copy_id, () -> {
             Ui.copy(c, c.getString(R.string.mods_library_copy_id), e.record.id);
-            Ui.say(host.host(), R.string.mods_library_id_copied);
+            Notify.say(host.host(), Notify.COPY, R.string.mods_library_id_copied);
         });
         m.separator();
         m.add(R.drawable.ic_delete, R.string.common_remove, () -> remove(e));
@@ -191,7 +191,7 @@ final class ModsLibraryTab {
                     try {
                         ManagedMods.delete(c, e.record.id);
                         ModVariants.delete(c, e.record.id);
-                        Ui.say(host.host(), c.getString(R.string.mods_removed, e.record.name));
+                        Notify.say(host.host(), Notify.MODS, c.getString(R.string.mods_removed, e.record.name));
                     } catch (IOException ex) {
                         Ui.say(host.host(), R.string.mods_remove_failed);
                     }
@@ -257,7 +257,7 @@ final class ModsLibraryTab {
                 host.store().main.post(() -> {
                     if (!host.isAdded()) return;
                     d.dismiss();
-                    Ui.say(host.host(), c.getResources().getQuantityString(R.plurals.mods_options_saved, changed, changed));
+                    Notify.say(host.host(), Notify.MODS, c.getResources().getQuantityString(R.plurals.mods_options_saved, changed, changed));
                     host.changed();
                 });
             });

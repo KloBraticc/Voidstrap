@@ -319,7 +319,7 @@ public final class HomeFragment extends Page {
             play.setOnClickListener(x -> Actions.launch(host(), Deeplink.place(g.placeId, null, null), g.name));
             card.findViewById(R.id.game_copy).setOnClickListener(x -> {
                 Ui.copy(requireContext(), g.name, "https://www.roblox.com/games/" + g.placeId);
-                Ui.say(host(), R.string.game_link_copied);
+                Notify.say(host(), Notify.COPY, R.string.game_link_copied);
             });
             cells.add(card);
         }

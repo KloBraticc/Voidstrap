@@ -109,7 +109,7 @@ public final class FlagSync {
             step(a, start, R.drawable.ic_play, R.string.setup_run, 0, running, true, () -> {
                 if (command == null) return;
                 Ui.copy(a, a.getString(R.string.setup_run), command);
-                Ui.say(a, R.string.setup_copied);
+                Notify.say(a, Notify.COPY, R.string.setup_copied);
             });
             start.detail.setText(running ? a.getString(R.string.setup_run_done)
                     : command == null ? a.getString(R.string.setup_run_unavailable) : a.getString(R.string.setup_run_body, command));
@@ -182,8 +182,8 @@ public final class FlagSync {
             store.main.post(() -> {
                 if (a.isFinishing() || a.isDestroyed()) return;
                 if (r == FlagWriter.OK && !readable) Ui.say(a, R.string.flags_sync_unreadable);
-                else if (r == FlagWriter.OK && count == 0) Ui.say(a, R.string.flags_sync_removed);
-                else if (r == FlagWriter.OK) Ui.say(a, a.getResources().getQuantityString(quiet ? R.plurals.flags_sync_saved : R.plurals.flags_sync_applied, count, count));
+                else if (r == FlagWriter.OK && count == 0) Notify.say(a, Notify.FLAGS, R.string.flags_sync_removed);
+                else if (r == FlagWriter.OK) Notify.say(a, Notify.FLAGS, a.getResources().getQuantityString(quiet ? R.plurals.flags_sync_saved : R.plurals.flags_sync_applied, count, count));
                 else report(a, r, 0);
                 if (done != null) done.run(true);
             });
@@ -192,7 +192,7 @@ public final class FlagSync {
 
     private static void report(AppCompatActivity a, int result, int okText) {
         if (a.isFinishing() || a.isDestroyed()) return;
-        if (result == FlagWriter.OK) Ui.say(a, okText);
+        if (result == FlagWriter.OK) Notify.say(a, Notify.FLAGS, okText);
         else if (result == FlagWriter.DENIED) Ui.say(a, R.string.flags_sync_denied);
         else Ui.say(a, R.string.flags_sync_failed);
     }

@@ -71,7 +71,7 @@ public final class SignInActivity extends AppCompatActivity {
         CookieManager.getInstance().flush();
         RobloxLogin.invalidate();
         Store.get(this).changed();
-        Ui.say(this, R.string.matchmaker_signed_in);
+        Notify.say(this, Notify.GENERAL, R.string.matchmaker_signed_in);
         finish();
     }
 

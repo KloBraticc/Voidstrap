@@ -64,7 +64,7 @@ public final class IntegrationsFragment extends Page {
     }
 
     private String shape() {
-        return Integrations.on(store, Integrations.TRACKING) + " " + Integrations.on(store, Integrations.RPC) + " " + Integrations.playerLogs(store) + " " + Integrations.on(store, Integrations.NAME);
+        return Integrations.on(store, Integrations.TRACKING) + " " + Integrations.on(store, Integrations.RPC) + " " + Integrations.playerLogs(store) + " " + Integrations.on(store, Integrations.NAME) + " " + Integrations.on(store, Integrations.NOTIFY) + " " + Integrations.on(store, Integrations.LOCATION);
     }
 
     @Override

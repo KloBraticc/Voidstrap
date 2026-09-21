@@ -31,7 +31,7 @@ public final class Actions {
             case BUSY:
                 return;
             case NOT_INSTALLED:
-                Ui.say(a, a.getString(d == null ? R.string.install_opening_plain : R.string.install_opening_pending, appName));
+                Notify.say(a, Notify.LAUNCH, a.getString(d == null ? R.string.install_opening_plain : R.string.install_opening_pending, appName));
                 Launcher.openStore(a, pkg);
                 return;
             case DISABLED:
@@ -69,7 +69,7 @@ public final class Actions {
             }
         }
         if (!Targets.resolve(a, pkg).installed) {
-            Ui.say(a, a.getString(R.string.install_opening_plain, a.getString(Targets.nameRes(pkg))));
+            Notify.say(a, Notify.LAUNCH, a.getString(R.string.install_opening_plain, a.getString(Targets.nameRes(pkg))));
             Launcher.openStore(a, pkg);
             return;
         }

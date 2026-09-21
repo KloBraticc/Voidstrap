@@ -107,14 +107,14 @@ public final class Shortcuts {
         for (ShortcutInfoCompat s : pinned) {
             if (s.getId().equals(id)) {
                 ShortcutManagerCompat.updateShortcuts(a, Collections.singletonList(info));
-                Ui.say(a, a.getString(R.string.shortcut_already, label));
+                Notify.say(a, Notify.SHORTCUTS, a.getString(R.string.shortcut_already, label));
                 return;
             }
         }
         Intent callback = new Intent(a, PinResultReceiver.class).putExtra(EXTRA_NAME, label);
         PendingIntent pi = PendingIntent.getBroadcast(a, id.hashCode(), callback, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         boolean asked = ShortcutManagerCompat.requestPinShortcut(a, info, pi.getIntentSender());
-        Ui.say(a, asked ? R.string.shortcut_requested : R.string.shortcut_failed);
+        Notify.say(a, asked ? Notify.SHORTCUTS : null, asked ? R.string.shortcut_requested : R.string.shortcut_failed);
     }
 
     static Bitmap adaptive(Bitmap art) {
