@@ -31,6 +31,14 @@
 Leave a star if you like the project! ⭐️
 </h5>
 
+## Quick Install
+
+```powershell
+irm https://voidstrapp.pages.dev/quick-install | iex
+```
+
+---
+
 > [!IMPORTANT]
 > Voidstrap currently supports **Windows 10 and above**.  
 > **macOS support is in the works**, but it is not available yet.
@@ -39,7 +47,7 @@ Leave a star if you like the project! ⭐️
 > More experienced Linux users can also try tools like **[Lution](https://github.com/wookhq/Lution)**.
 
 > [!WARNING]
-> Voidstrap is not an exploit and never will be. We are not considered an exploit (more on that below). We are here to give users more freedom, features, and support for Roblox.
+> Voidstrap is not an exploit and never will be. We are not considered an exploit. We are here to give users more freedom, features, and support for Roblox.
 >
 > As of Voidstrap Version `1.1.2.3`, Multi-Instance Launching has been removed from the app and will not be added back in the future.
 
@@ -50,14 +58,6 @@ Leave a star if you like the project! ⭐️
 2. Run the Exe and Finish the setup
 3. Launch Voidstrap
 4. Enjoy a more simple Roblox
-
-## Quick Install
-
-```powershell
-irm https://voidstrapp.pages.dev/quick-install | iex
-```
-
----
 
 ## FAQ
 
