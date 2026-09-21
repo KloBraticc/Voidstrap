@@ -69,7 +69,7 @@ public final class ModVariants {
         Matcher m = SUFFIX.matcher(stem);
         if (!m.matches()) return null;
         String dir = relative.contains("/") ? relative.substring(0, relative.lastIndexOf('/') + 1) : "";
-        return ContentPlacer.resolve(c, dir + m.group("base").trim() + "." + ext);
+        return ContentPlacer.resolve(c, dir + m.group(1).trim() + "." + ext);
     }
 
     public static int capture(Context c, String id, File archive, AtomicBoolean cancel) throws IOException {

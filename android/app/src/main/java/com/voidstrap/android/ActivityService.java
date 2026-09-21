@@ -207,6 +207,7 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
     }
 
     private void channels() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
         NotificationManager nm = getSystemService(NotificationManager.class);
         NotificationChannel tracking = new NotificationChannel(CHANNEL_TRACKING, getString(R.string.activity_channel), NotificationManager.IMPORTANCE_MIN);
         tracking.setShowBadge(false);

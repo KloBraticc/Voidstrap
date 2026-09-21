@@ -219,7 +219,7 @@ public final class HelperServer {
         try {
             java.lang.Process p = new ProcessBuilder("pm", "path", pkg).redirectErrorStream(true).start();
             byte[] out = readAll(p.getInputStream());
-            p.waitFor(20, TimeUnit.SECONDS);
+            FlagWriter.awaitExit(p, 20);
             return new String(out, StandardCharsets.UTF_8).contains("package:");
         } catch (IOException e) {
             return true;
@@ -291,7 +291,7 @@ public final class HelperServer {
         try {
             java.lang.Process p = new ProcessBuilder("pidof", target).redirectErrorStream(true).start();
             String out = new String(readAll(p.getInputStream()), StandardCharsets.UTF_8).trim();
-            p.waitFor(5, TimeUnit.SECONDS);
+            FlagWriter.awaitExit(p, 5);
             if (out.isEmpty()) return null;
             String first = out.split("\\s+")[0];
             return first.matches("[0-9]+") ? first : null;
@@ -303,15 +303,28 @@ public final class HelperServer {
         }
     }
 
+    private static void discard(java.lang.Process p) {
+        Thread sink = new Thread(() -> {
+            byte[] buf = new byte[4096];
+            try (java.io.InputStream in = p.getInputStream()) {
+                while (in.read(buf) > 0) {
+                }
+            } catch (IOException ignored) {
+            }
+        });
+        sink.setDaemon(true);
+        sink.start();
+    }
+
     private static synchronized boolean canPreFilter() {
         if (regexSupported == null) {
             regexSupported = Boolean.FALSE;
             try {
                 java.lang.Process p = new ProcessBuilder("logcat", "-e", STREAM_REGEX, "-d", "-t", "1")
                         .redirectErrorStream(true)
-                        .redirectOutput(ProcessBuilder.Redirect.to(new File("/dev/null")))
                         .start();
-                regexSupported = p.waitFor(10, TimeUnit.SECONDS) && p.exitValue() == 0;
+                discard(p);
+                regexSupported = FlagWriter.awaitExit(p, 10) && p.exitValue() == 0;
             } catch (IOException ignored) {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -322,7 +335,7 @@ public final class HelperServer {
 
     private static void stopTail() {
         java.lang.Process p = tail.getAndSet(null);
-        if (p != null) p.destroyForcibly();
+        if (p != null) FlagWriter.kill(p);
     }
 
     private static boolean alive(String pid, String target) {
@@ -382,7 +395,7 @@ public final class HelperServer {
                 }
             } finally {
                 tail.compareAndSet(log, null);
-                log.destroyForcibly();
+                FlagWriter.kill(log);
             }
             if (failed.get()) throw new IOException("client closed");
             send(out, STREAM_EXIT);
@@ -394,8 +407,8 @@ public final class HelperServer {
         try {
             p = new ProcessBuilder("sh")
                     .redirectErrorStream(true)
-                    .redirectOutput(ProcessBuilder.Redirect.to(new File("/dev/null")))
                     .start();
+            discard(p);
         } catch (IOException e) {
             return 1;
         }
@@ -406,23 +419,22 @@ public final class HelperServer {
             return 2;
         }
         try {
-            if (!p.waitFor(timeoutSeconds, TimeUnit.SECONDS)) {
-                p.destroyForcibly();
+            if (!FlagWriter.awaitExit(p, timeoutSeconds)) {
+                FlagWriter.kill(p);
                 return 2;
             }
             return p.exitValue();
         } catch (InterruptedException e) {
-            p.destroyForcibly();
+            FlagWriter.kill(p);
             return 2;
         }
     }
 
     private static synchronized void relaunch() {
         try {
-            new ProcessBuilder("sh", "-c", "sleep 1\n" + launchLine(pkg, allowedUid, token))
+            discard(new ProcessBuilder("sh", "-c", "sleep 1\n" + launchLine(pkg, allowedUid, token))
                     .redirectErrorStream(true)
-                    .redirectOutput(ProcessBuilder.Redirect.to(new File("/dev/null")))
-                    .start();
+                    .start());
         } catch (IOException e) {
             return;
         }

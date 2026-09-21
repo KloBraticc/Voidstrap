@@ -1,6 +1,7 @@
 package com.voidstrap.android;
 
 import android.content.Context;
+import android.os.Build;
 
 import java.io.File;
 import java.io.IOException;
@@ -138,7 +139,7 @@ public final class FlagWriter {
             return null;
         }
         try {
-            if (!p.waitFor(timeoutSeconds, TimeUnit.SECONDS)) {
+            if (!awaitExit(p, timeoutSeconds)) {
                 p.destroy();
                 return null;
             }
@@ -151,6 +152,29 @@ public final class FlagWriter {
         synchronized (out) {
             return out.toString();
         }
+    }
+
+    static void kill(Process p) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) p.destroyForcibly();
+        else p.destroy();
+    }
+
+    static boolean awaitExit(Process p, long timeoutSeconds) throws InterruptedException {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) return p.waitFor(timeoutSeconds, TimeUnit.SECONDS);
+        Thread waiter = new Thread(() -> {
+            try {
+                p.waitFor();
+            } catch (InterruptedException ignored) {
+            }
+        });
+        waiter.setDaemon(true);
+        waiter.start();
+        waiter.join(timeoutSeconds * 1000L);
+        if (waiter.isAlive()) {
+            waiter.interrupt();
+            return false;
+        }
+        return true;
     }
 
     public static Mode mode(Context c) {
@@ -286,7 +310,7 @@ public final class FlagWriter {
             return -1;
         }
         try {
-            if (!p.waitFor(timeoutSeconds, TimeUnit.SECONDS)) {
+            if (!awaitExit(p, timeoutSeconds)) {
                 p.destroy();
                 return -1;
             }

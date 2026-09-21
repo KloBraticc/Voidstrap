@@ -60,7 +60,7 @@ public final class Mods {
     }
 
     static boolean lowSpace(android.os.storage.StorageManager storage, File dir, long need) {
-        if (storage != null) {
+        if (storage != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             try {
                 return storage.getAllocatableBytes(storage.getUuidForPath(dir)) < need + SPACE_MARGIN;
             } catch (IOException | RuntimeException ignored) {

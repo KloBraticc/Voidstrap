@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.voidstrap.android"
-        minSdk = 26
+        minSdk = 24
         targetSdk = 36
         versionCode = mainVersionCode
         versionName = mainVersion
@@ -62,6 +62,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
     }
 
     lint {
@@ -78,4 +79,5 @@ dependencies {
     implementation(libs.junrar)
     implementation(libs.commons.compress)
     implementation(libs.xz)
+    coreLibraryDesugaring(libs.desugar.jdk.libs.nio)
 }

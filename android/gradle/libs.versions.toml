@@ -7,6 +7,7 @@ constraintlayout = "2.2.2"
 junrar = "8.1.1"
 commonsCompress = "1.28.0"
 xz = "1.12"
+desugar = "2.1.5"
 
 [libraries]
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -16,6 +17,7 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 junrar = { group = "com.github.junrar", name = "junrar", version.ref = "junrar" }
 commons-compress = { group = "org.apache.commons", name = "commons-compress", version.ref = "commonsCompress" }
 xz = { group = "org.tukaani", name = "xz", version.ref = "xz" }
+desugar-jdk-libs-nio = { group = "com.android.tools", name = "desugar_jdk_libs_nio", version.ref = "desugar" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

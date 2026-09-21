@@ -26,6 +26,10 @@ public final class ThemeFade {
             relaunch(a, tab);
             return;
         }
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+            relaunch(a, tab);
+            return;
+        }
         float scale = Math.min(1f, MAX_SIZE / (float) Math.max(w, h));
         Bitmap bitmap = Bitmap.createBitmap(Math.max(1, Math.round(w * scale)), Math.max(1, Math.round(h * scale)), Bitmap.Config.ARGB_8888);
         try {
