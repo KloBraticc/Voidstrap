@@ -40,11 +40,13 @@ irm https://voidstrapp.pages.dev/quick-install | iex
 ---
 
 > [!IMPORTANT]
-> Voidstrap currently supports **Windows 10 and above**.  
-> **macOS support is in the works**, but it is not available yet.
+> Voidstrap currently supports **Windows 10 and above** and **Android**.
+> **macOS and Linux support are currently in development** and will be available in a future release.
 >
-> In the meantime, you can use **[AppleBlox](https://github.com/AppleBlox/appleblox)** *(for macOS)* or **[Sober](https://sober.vinegarhq.org/)** *(for Linux)*.  
-> More experienced Linux users can also try tools like **[Lution](https://github.com/wookhq/Lution)**.
+> If you're looking for a Bootstrapper for other platforms in the meantime:
+> - **macOS:** [AppleBlox](https://github.com/AppleBlox/appleblox)
+> - **Linux:** [Sober](https://sober.vinegarhq.org/)
+> - **Linux:** [Lution](https://github.com/wookhq/Lution)
 
 > [!WARNING]
 > Voidstrap is not an exploit and never will be. We are not considered an exploit. We are here to give users more freedom, features, and support for Roblox.
