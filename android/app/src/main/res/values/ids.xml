@@ -3,4 +3,6 @@
     <item name="nav_smart" type="id" />
     <item name="tag_image" type="id" />
     <item name="vs_no_translate" type="id" />
+    <item name="app_font" type="id" />
+    <item name="app_font_root" type="id" />
 </resources>

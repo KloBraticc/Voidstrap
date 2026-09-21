@@ -153,6 +153,7 @@ final class Dropdown {
         root.addView(surface, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         PopupWindow w = new PopupWindow(root, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        AppFont.watch(root);
         window = w;
         w.setBackgroundDrawable(new ColorDrawable(0));
         w.setOutsideTouchable(true);

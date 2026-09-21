@@ -1,13 +1,11 @@
 package com.voidstrap.android;
 
 import android.app.ActivityManager;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,6 +44,8 @@ public final class SettingsFragment extends Page {
     private ActivityResultLauncher<String> exportLauncher;
     private ActivityResultLauncher<String[]> importLauncher;
     private ActivityResultLauncher<String> notifyPermission;
+    private ActivityResultLauncher<String[]> fontLauncher;
+    private LinearLayout appearance;
     private final List<MaterialSwitch> notifySwitches = new ArrayList<>();
     private TextView notifyStatus;
     private View trackingOff;
@@ -59,6 +59,7 @@ public final class SettingsFragment extends Page {
         super.onCreate(saved);
         exportLauncher = registerForActivityResult(new ActivityResultContracts.CreateDocument("application/json"), this::onExport);
         importLauncher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), this::onImport);
+        fontLauncher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), this::onFont);
         notifyPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
             if (!isAdded()) return;
             bindNotifications();
@@ -95,38 +96,8 @@ public final class SettingsFragment extends Page {
         });
         target = v.findViewById(R.id.settings_target);
         target.setOnClickListener(x -> Actions.targetSheet(host()));
-        LinearLayout appearance = v.findViewById(R.id.appearance_rows);
-        String currentTheme = store.setting("theme", "system");
-        SettingRows.choice(appearance, getString(R.string.settings_theme), null, getResources().getStringArray(R.array.settings_themes), VoidstrapApp.themeIndex(currentTheme), i -> {
-            String value = VoidstrapApp.THEMES[i];
-            if (value.equals(store.setting("theme", "system"))) return;
-            store.putSetting("theme", value);
-            ThemeFade.restart(requireActivity(), R.id.nav_settings);
-        });
-        if (!VoidstrapApp.colorTheme(currentTheme)) {
-            boolean dynamic = Build.VERSION.SDK_INT >= 31;
-            String[] accents = dynamic
-                    ? new String[]{getString(R.string.settings_accent_system), getString(R.string.settings_accent_brand)}
-                    : new String[]{getString(R.string.settings_accent_brand)};
-            int accentIndex = dynamic && !"brand".equals(store.setting("accent", "system")) ? 0 : accents.length - 1;
-            SettingRows.choice(appearance, getString(R.string.settings_accent), dynamic ? null : getString(R.string.settings_accent_note), accents, accentIndex, i -> {
-                String value = dynamic && i == 0 ? "system" : "brand";
-                if (value.equals(store.setting("accent", "system"))) return;
-                store.putSetting("accent", value);
-                ThemeFade.restart(requireActivity(), R.id.nav_settings);
-            });
-        }
-        SettingRows.choice(appearance, getString(R.string.settings_language), getString(R.string.settings_language_body), Translator.NAMES, Translator.indexOf(Translator.language(store)), i -> {
-            String code = Translator.CODES[i];
-            if (code.equals(Translator.language(store))) return;
-            store.putSetting(Translator.SETTING, code);
-            LiveTranslator.apply(requireActivity());
-        });
-        com.google.android.material.materialswitch.MaterialSwitch voidRpc = new com.google.android.material.materialswitch.MaterialSwitch(requireContext());
-        voidRpc.setChecked(AppPresence.enabled(store));
-        voidRpc.setContentDescription(getString(R.string.settings_void_rpc));
-        SettingRows.row(appearance, getString(R.string.settings_void_rpc), getString(R.string.settings_void_rpc_body), voidRpc).setOnClickListener(x -> voidRpc.toggle());
-        voidRpc.setOnCheckedChangeListener((b, on) -> store.putSetting(AppPresence.SETTING, on ? "1" : "0"));
+        appearance = v.findViewById(R.id.appearance_rows);
+        buildAppearance();
         notifications(v.findViewById(R.id.notification_sections));
         LinearLayout roblox = v.findViewById(R.id.roblox_rows);
         Row helper = Row.inflate(roblox);
@@ -136,7 +107,7 @@ public final class SettingsFragment extends Page {
         helper.view.setOnClickListener(x -> FlagSync.setup(host()));
         helperDetail = helper.detail;
         roblox.addView(helper.view);
-        rootToggle(roblox);
+        FlagSync.rootRow(roblox, host());
         if (!Ui.wide(requireContext())) row(roblox, R.drawable.ic_add, R.string.nav_integrations, R.string.integrations_open_body, () -> ((MainActivity) host()).select(R.id.nav_integrations));
         if (!Ui.wide(requireContext()) && SmartJoin.available()) row(roblox, R.drawable.ic_globe, SmartJoin.title(requireContext()), SmartJoin.openBody(requireContext()), () -> ((MainActivity) host()).select(R.id.nav_smart));
         row(roblox, R.drawable.ic_history, R.string.settings_clear_history, R.string.settings_clear_history_body, () ->
@@ -182,6 +153,54 @@ public final class SettingsFragment extends Page {
         row.chevron.setVisibility(View.VISIBLE);
         row.view.setOnClickListener(x -> r.run());
         parent.addView(row.view);
+    }
+
+    private void buildAppearance() {
+        appearance.removeAllViews();
+        SettingRows.appearance(appearance, requireActivity(), R.id.nav_settings);
+        String[] names = getResources().getStringArray(R.array.settings_fonts);
+        CharSequence[] labels = new CharSequence[names.length];
+        for (int i = 0; i < names.length; i++) {
+            String family = AppFont.FAMILIES[i].isEmpty() ? "sans-serif" : AppFont.FAMILIES[i];
+            android.text.SpannableString label = new android.text.SpannableString(names[i]);
+            if (!AppFont.CUSTOM.equals(family)) label.setSpan(new android.text.style.TypefaceSpan(family), 0, label.length(), android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            labels[i] = label;
+        }
+        SettingRows.choice(appearance, getString(R.string.settings_font), getString(R.string.settings_font_body), labels, AppFont.index(store), i -> {
+            if (AppFont.CUSTOM.equals(AppFont.FAMILIES[i])) {
+                fontLauncher.launch(AppFont.TYPES);
+                return;
+            }
+            store.putSetting(AppFont.SETTING, AppFont.FAMILIES[i]);
+            ThemeFade.restart(requireActivity(), R.id.nav_settings);
+        });
+        MaterialSwitch voidRpc = new MaterialSwitch(requireContext());
+        voidRpc.setChecked(AppPresence.enabled(store));
+        voidRpc.setContentDescription(getString(R.string.settings_void_rpc));
+        SettingRows.row(appearance, getString(R.string.settings_void_rpc), getString(R.string.settings_void_rpc_body), voidRpc).setOnClickListener(x -> voidRpc.toggle());
+        voidRpc.setOnCheckedChangeListener((b, on) -> store.putSetting(AppPresence.SETTING, on ? "1" : "0"));
+    }
+
+    private void onFont(Uri uri) {
+        if (uri == null) {
+            if (getView() != null) buildAppearance();
+            return;
+        }
+        Context app = requireContext().getApplicationContext();
+        store.work.execute(() -> {
+            boolean ok = AppFont.install(app, uri);
+            store.main.post(() -> {
+                if (!isAdded() || getView() == null) return;
+                if (!ok) {
+                    buildAppearance();
+                    Ui.say(host(), R.string.settings_font_invalid);
+                    return;
+                }
+                AppFont.reload();
+                store.putSetting(AppFont.SETTING, AppFont.CUSTOM);
+                ThemeFade.restart(requireActivity(), R.id.nav_settings);
+            });
+        });
     }
 
     private void notifications(LinearLayout root) {
@@ -242,19 +261,7 @@ public final class SettingsFragment extends Page {
     }
 
     private void openNotificationSettings() {
-        Context c = requireContext();
-        ActivityService.channels(c);
-        Intent details = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", c.getPackageName(), null));
-        Intent intent = Build.VERSION.SDK_INT >= 26 ? new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, c.getPackageName()) : details;
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            try {
-                startActivity(details);
-            } catch (ActivityNotFoundException ignored) {
-                Ui.say(host(), R.string.launch_failed);
-            }
-        }
+        Notify.openSettings(host());
     }
 
     private void bindNotifications() {
@@ -265,62 +272,6 @@ public final class SettingsFragment extends Page {
             boolean on = Notify.on(store, (String) s.getTag());
             if (s.isChecked() != on) s.setChecked(on);
         }
-    }
-
-    private void rootToggle(LinearLayout parent) {
-        Context c = requireContext();
-        boolean rooted = FlagWriter.rootAvailable();
-        boolean enabled = FlagWriter.rootEnabled(c);
-        com.google.android.material.materialswitch.MaterialSwitch toggle = new com.google.android.material.materialswitch.MaterialSwitch(c);
-        toggle.setChecked(enabled);
-        toggle.setContentDescription(getString(R.string.settings_root));
-        int summary = enabled ? R.string.settings_root_on : rooted ? R.string.settings_root_body : R.string.settings_root_untested;
-        LinearLayout row = SettingRows.row(parent, getString(R.string.settings_root), getString(summary), toggle);
-        row.setOnClickListener(x -> {
-            if (toggle.isEnabled()) toggle.toggle();
-        });
-        toggle.setOnCheckedChangeListener((b, on) -> {
-            if (!on) {
-                FlagWriter.setRootEnabled(c, false);
-                store.changed();
-                return;
-            }
-            if (FlagWriter.rootEnabled(c)) return;
-            toggle.setEnabled(false);
-            com.google.android.material.snackbar.Snackbar waiting = Ui.make(host(), getString(R.string.settings_root_waiting));
-            waiting.setDuration(com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE);
-            waiting.show();
-            Context app = c.getApplicationContext();
-            store.work.execute(() -> {
-                int r = FlagWriter.testRoot();
-                if (r == FlagWriter.OK) {
-                    FlagWriter.setRootEnabled(app, true);
-                    Helper.keepRootHelper(app);
-                }
-                store.main.post(() -> {
-                    if (r != FlagWriter.OK) FlagWriter.setRootEnabled(app, false);
-                    waiting.dismiss();
-                    store.changed();
-                    if (!isAdded()) return;
-                    toggle.setEnabled(true);
-                    if (r != FlagWriter.OK) toggle.setChecked(false);
-                    if (r == FlagWriter.OK) Notify.say(host(), Notify.GENERAL, R.string.settings_root_ready);
-                    else rootFailed();
-                });
-            });
-        });
-    }
-
-    private void rootFailed() {
-        boolean rooted = FlagWriter.rootAvailable();
-        boolean helper = FlagWriter.mode(requireContext()) != FlagWriter.Mode.NONE;
-        int message = rooted ? R.string.settings_root_denied : helper ? R.string.settings_root_missing_helper : R.string.settings_root_missing;
-        com.google.android.material.dialog.MaterialAlertDialogBuilder b = Ui.alert(requireContext())
-                .setTitle(R.string.settings_root_denied_title)
-                .setMessage(message)
-                .setPositiveButton(R.string.common_ok, null);
-        if (!rooted && !helper) b.setNeutralButton(R.string.compat_setup, (d, w) -> FlagSync.setup(host()));
-        b.show();
     }
 
     @Override

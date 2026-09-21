@@ -196,4 +196,61 @@ public final class FlagSync {
         else if (result == FlagWriter.DENIED) Ui.say(a, R.string.flags_sync_denied);
         else Ui.say(a, R.string.flags_sync_failed);
     }
+
+    public static void rootRow(LinearLayout parent, AppCompatActivity a) {
+        Context c = a;
+        Store store = Store.get(a);
+        boolean rooted = FlagWriter.rootAvailable();
+        boolean enabled = FlagWriter.rootEnabled(c);
+        com.google.android.material.materialswitch.MaterialSwitch toggle = new com.google.android.material.materialswitch.MaterialSwitch(c);
+        toggle.setChecked(enabled);
+        toggle.setContentDescription(c.getString(R.string.settings_root));
+        int summary = enabled ? R.string.settings_root_on : rooted ? R.string.settings_root_body : R.string.settings_root_untested;
+        LinearLayout row = SettingRows.row(parent, c.getString(R.string.settings_root), c.getString(summary), toggle);
+        row.setOnClickListener(x -> {
+            if (toggle.isEnabled()) toggle.toggle();
+        });
+        toggle.setOnCheckedChangeListener((b, on) -> {
+            if (!on) {
+                FlagWriter.setRootEnabled(c, false);
+                store.changed();
+                return;
+            }
+            if (FlagWriter.rootEnabled(c)) return;
+            toggle.setEnabled(false);
+            com.google.android.material.snackbar.Snackbar waiting = Ui.make(a, c.getString(R.string.settings_root_waiting));
+            waiting.setDuration(com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE);
+            waiting.show();
+            Context app = c.getApplicationContext();
+            store.work.execute(() -> {
+                int r = FlagWriter.testRoot();
+                if (r == FlagWriter.OK) {
+                    FlagWriter.setRootEnabled(app, true);
+                    Helper.keepRootHelper(app);
+                }
+                store.main.post(() -> {
+                    if (r != FlagWriter.OK) FlagWriter.setRootEnabled(app, false);
+                    waiting.dismiss();
+                    store.changed();
+                    if (a.isFinishing() || a.isDestroyed()) return;
+                    toggle.setEnabled(true);
+                    if (r != FlagWriter.OK) toggle.setChecked(false);
+                    if (r == FlagWriter.OK) Notify.say(a, Notify.GENERAL, R.string.settings_root_ready);
+                    else rootFailed(a);
+                });
+            });
+        });
+    }
+
+    private static void rootFailed(AppCompatActivity a) {
+        boolean rooted = FlagWriter.rootAvailable();
+        boolean helper = FlagWriter.mode(a) != FlagWriter.Mode.NONE;
+        int message = rooted ? R.string.settings_root_denied : helper ? R.string.settings_root_missing_helper : R.string.settings_root_missing;
+        com.google.android.material.dialog.MaterialAlertDialogBuilder b = Ui.alert(a)
+                .setTitle(R.string.settings_root_denied_title)
+                .setMessage(message)
+                .setPositiveButton(R.string.common_ok, null);
+        if (!rooted && !helper) b.setNeutralButton(R.string.compat_setup, (d, w) -> setup(a));
+        b.show();
+    }
 }

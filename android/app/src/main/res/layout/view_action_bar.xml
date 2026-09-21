@@ -43,16 +43,21 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:minHeight="40dp"
-        android:maxLines="2"
+        android:maxLines="1"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:text="@string/bar_save_launch" />
+        android:text="@string/bar_save_launch"
+        app:autoSizeMaxTextSize="14sp"
+        app:autoSizeMinTextSize="9sp"
+        app:autoSizeStepGranularity="1sp"
+        app:autoSizeTextType="uniform" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bar_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minHeight="40dp"
+        android:maxLines="1"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:text="@string/bar_save" />

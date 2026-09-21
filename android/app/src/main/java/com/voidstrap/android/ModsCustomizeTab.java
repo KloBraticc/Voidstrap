@@ -558,6 +558,7 @@ final class ModsCustomizeTab {
             sample.setBackgroundResource(R.drawable.vs_icon_tile);
             try {
                 sample.setTypeface(Typeface.createFromFile(previewFile));
+                AppFont.keep(sample);
             } catch (RuntimeException ignored) {
             }
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

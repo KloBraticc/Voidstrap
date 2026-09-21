@@ -59,6 +59,10 @@
         </activity>
 
         <activity
+            android:name=".OnboardingActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".ShortcutActivity"
             android:exported="false"
             android:excludeFromRecents="true"

@@ -80,7 +80,7 @@ public final class SettingRows {
         return row;
     }
 
-    public static void choice(LinearLayout parent, CharSequence title, CharSequence summary, String[] labels, int selected, IntChoice change) {
+    public static void choice(LinearLayout parent, CharSequence title, CharSequence summary, CharSequence[] labels, int selected, IntChoice change) {
         Context c = parent.getContext();
         int[] current = {selected};
         LinearLayout row = row(parent, title, value(labels[selected], summary), null);
@@ -103,7 +103,37 @@ public final class SettingRows {
         });
     }
 
-    private static String value(String label, CharSequence summary) {
-        return summary == null || summary.length() == 0 ? label : label + " \u00b7 " + summary;
+    public static void appearance(LinearLayout parent, android.app.Activity a, int tab) {
+        Store store = Store.get(a);
+        String currentTheme = store.setting("theme", "system");
+        choice(parent, a.getString(R.string.settings_theme), null, a.getResources().getStringArray(R.array.settings_themes), VoidstrapApp.themeIndex(currentTheme), i -> {
+            String value = VoidstrapApp.THEMES[i];
+            if (value.equals(store.setting("theme", "system"))) return;
+            store.putSetting("theme", value);
+            ThemeFade.restart(a, tab);
+        });
+        if (!VoidstrapApp.colorTheme(currentTheme)) {
+            boolean dynamic = android.os.Build.VERSION.SDK_INT >= 31;
+            String[] accents = dynamic
+                    ? new String[]{a.getString(R.string.settings_accent_system), a.getString(R.string.settings_accent_brand)}
+                    : new String[]{a.getString(R.string.settings_accent_brand)};
+            int accentIndex = dynamic && !"brand".equals(store.setting("accent", "system")) ? 0 : accents.length - 1;
+            choice(parent, a.getString(R.string.settings_accent), dynamic ? null : a.getString(R.string.settings_accent_note), accents, accentIndex, i -> {
+                String value = dynamic && i == 0 ? "system" : "brand";
+                if (value.equals(store.setting("accent", "system"))) return;
+                store.putSetting("accent", value);
+                ThemeFade.restart(a, tab);
+            });
+        }
+        choice(parent, a.getString(R.string.settings_language), a.getString(R.string.settings_language_body), Translator.NAMES, Translator.indexOf(Translator.language(store)), i -> {
+            String code = Translator.CODES[i];
+            if (code.equals(Translator.language(store))) return;
+            store.putSetting(Translator.SETTING, code);
+            LiveTranslator.apply(a);
+        });
+    }
+
+    private static String value(CharSequence label, CharSequence summary) {
+        return summary == null || summary.length() == 0 ? label.toString() : label + " \u00b7 " + summary;
     }
 }

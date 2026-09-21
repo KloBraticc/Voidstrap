@@ -2,7 +2,6 @@ package com.voidstrap.android;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,25 +41,20 @@ public class MainActivity extends AppCompatActivity {
     private View barSave;
     private View barSaveLaunch;
     private boolean saving;
+    private String styled;
     private final Runnable barRefresh = this::updateBar;
     private final Runnable presenceRefresh = AppPresence::update;
 
     @Override
     protected void onCreate(Bundle saved) {
         store = Store.get(this);
-        String theme = store.setting("theme", "system");
-        setTheme(useBrandAccent() ? R.style.Theme_Voidstrap_Brand : R.style.Theme_Voidstrap);
-        int overlay = VoidstrapApp.overlay(theme);
-        if (overlay != 0) getTheme().applyStyle(overlay, true);
-        getDelegate().setLocalNightMode(VoidstrapApp.nightMode(theme));
+        styled = VoidstrapApp.styleKey(store);
+        VoidstrapApp.style(this);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         super.onCreate(saved);
         setContentView(R.layout.activity_main);
         ThemeFade.play(this);
-        boolean night = (getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES;
-        androidx.core.view.WindowInsetsControllerCompat bars = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
-        bars.setAppearanceLightStatusBars(!night);
-        bars.setAppearanceLightNavigationBars(!night);
+        VoidstrapApp.bars(this);
         if (saved != null) current = saved.getInt(EXTRA_TAB, R.id.nav_home);
         nav = findViewById(R.id.nav);
         sidebarItems = findViewById(R.id.sidebar_items);
@@ -81,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, editorBack);
         select(current);
         if (saved == null && (getIntent().getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0) handle(getIntent());
+        if (saved == null && Intent.ACTION_MAIN.equals(getIntent().getAction()) && OnboardingActivity.due(this)) {
+            startActivity(new Intent(this, OnboardingActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+        }
     }
 
     @Override
@@ -102,10 +99,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean dispatchGenericMotionEvent(android.view.MotionEvent ev) {
         Flyout.track(ev);
         return super.dispatchGenericMotionEvent(ev);
-    }
-
-    private boolean useBrandAccent() {
-        return Build.VERSION.SDK_INT < 31 || "brand".equals(store.setting("accent", "system"));
     }
 
     @Override
@@ -150,6 +143,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         if (isFinishing()) AppPresence.hidden();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (!styled.equals(VoidstrapApp.styleKey(store))) recreate();
     }
 
     @Override

@@ -31,7 +31,10 @@ public final class Ui {
             public androidx.appcompat.app.AlertDialog show() {
                 androidx.appcompat.app.AlertDialog dialog = super.show();
                 android.view.Window w = dialog.getWindow();
-                if (w != null) w.getDecorView().post(() -> LiveTranslator.translateTree(w.getDecorView()));
+                if (w != null) {
+                    AppFont.watch(w.getDecorView());
+                    w.getDecorView().post(() -> LiveTranslator.translateTree(w.getDecorView()));
+                }
                 return dialog;
             }
         };
@@ -188,7 +191,10 @@ public final class Ui {
             sheet.getBehavior().setSkipCollapsed(true);
             d = sheet;
         }
-        d.setOnShowListener(x -> LiveTranslator.translateTree(frame));
+        d.setOnShowListener(x -> {
+            AppFont.watch(d.getWindow() == null ? frame : d.getWindow().getDecorView());
+            LiveTranslator.translateTree(frame);
+        });
         View close = frame.findViewById(R.id.sheet_close);
         close.setOnClickListener(v -> d.dismiss());
         if (a instanceof androidx.lifecycle.LifecycleOwner) {

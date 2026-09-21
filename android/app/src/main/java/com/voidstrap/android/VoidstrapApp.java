@@ -20,16 +20,17 @@ public final class VoidstrapApp extends Application {
         Translator.load(this);
         Helper.token(this);
         Helper.onChanged = () -> Store.get(this).changed();
-        registerActivityLifecycleCallbacks(new TranslationCallbacks());
+        registerActivityLifecycleCallbacks(new WindowCallbacks());
     }
 
-    private static final class TranslationCallbacks implements ActivityLifecycleCallbacks {
+    private static final class WindowCallbacks implements ActivityLifecycleCallbacks {
         @Override
         public void onActivityCreated(android.app.Activity a, android.os.Bundle saved) {
         }
 
         @Override
         public void onActivityStarted(android.app.Activity a) {
+            AppFont.watch(a.getWindow().getDecorView());
         }
 
         @Override
@@ -94,6 +95,27 @@ public final class VoidstrapApp extends Application {
         if ("light".equals(value)) return AppCompatDelegate.MODE_NIGHT_NO;
         if ("system".equals(value) || index(value) == 0) return AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
         return AppCompatDelegate.MODE_NIGHT_YES;
+    }
+
+    static String styleKey(Store store) {
+        return store.setting("theme", "system") + "|" + store.setting("accent", "system");
+    }
+
+    static void style(androidx.appcompat.app.AppCompatActivity a) {
+        Store store = Store.get(a);
+        String theme = store.setting("theme", "system");
+        boolean brand = android.os.Build.VERSION.SDK_INT < 31 || "brand".equals(store.setting("accent", "system"));
+        a.setTheme(brand ? R.style.Theme_Voidstrap_Brand : R.style.Theme_Voidstrap);
+        int overlay = overlay(theme);
+        if (overlay != 0) a.getTheme().applyStyle(overlay, true);
+        a.getDelegate().setLocalNightMode(nightMode(theme));
+    }
+
+    static void bars(android.app.Activity a) {
+        boolean night = (a.getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES;
+        androidx.core.view.WindowInsetsControllerCompat c = androidx.core.view.WindowCompat.getInsetsController(a.getWindow(), a.getWindow().getDecorView());
+        c.setAppearanceLightStatusBars(!night);
+        c.setAppearanceLightNavigationBars(!night);
     }
 
     public static void applyTheme(String value) {

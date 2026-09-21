@@ -124,6 +124,7 @@ final class Flyout {
         root.addView(surface, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         PopupWindow window = new PopupWindow(root, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        AppFont.watch(root);
         window.setBackgroundDrawable(new ColorDrawable(0));
         window.setOutsideTouchable(true);
         window.setAnimationStyle(0);

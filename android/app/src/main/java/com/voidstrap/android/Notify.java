@@ -1,7 +1,12 @@
 package com.voidstrap.android;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.widget.Toast;
 
 public final class Notify {
@@ -63,6 +68,21 @@ public final class Notify {
     public static void toast(Context c, String key, CharSequence text) {
         Store s = Store.get(c);
         if (on(s, key)) Toast.makeText(c.getApplicationContext(), text, length(s) > LENGTHS[0] ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
+    }
+
+    public static void openSettings(Activity a) {
+        ActivityService.channels(a);
+        Intent details = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", a.getPackageName(), null));
+        Intent intent = Build.VERSION.SDK_INT >= 26 ? new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, a.getPackageName()) : details;
+        try {
+            a.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            try {
+                a.startActivity(details);
+            } catch (ActivityNotFoundException ignored) {
+                Ui.say(a, R.string.launch_failed);
+            }
+        }
     }
 
     public static void toast(Context c, String key, int res) {

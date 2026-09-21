@@ -954,4 +954,43 @@
     <string name="notify_copy_body">Confirms when something is copied to the clipboard.</string>
     <string name="notify_general">Other messages</string>
     <string name="notify_general_body">Confirms saves, backups, sign in and other actions.</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_back">Back</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_start">Get started</string>
+    <string name="onboarding_finish">Start using Voidstrap</string>
+    <string name="onboarding_step">Step %1$d of %2$d</string>
+    <string name="onboarding_welcome">Welcome to Voidstrap</string>
+    <string name="onboarding_welcome_body">A few quick choices and you are ready to play. Every step is optional, and you can change all of it later in Settings.</string>
+    <string name="onboarding_appearance_body">Pick how Voidstrap looks and which language it uses.</string>
+    <string name="onboarding_roblox">Set up Roblox</string>
+    <string name="onboarding_roblox_body">Choose the Roblox app Voidstrap opens. Giving Voidstrap access lets your FastFlags and mods apply to Roblox, and you can do it later too.</string>
+    <string name="onboarding_alerts_body">Voidstrap can tell you which game and server you joined. There are more options in Settings, Notifications.</string>
+    <string name="onboarding_done">You\'re all set</string>
+    <string name="onboarding_done_body">Voidstrap is ready. Everything you picked here can be changed in Settings at any time.</string>
+    <string name="onboarding_launch">Launch %1$s</string>
+    <string name="onboarding_launch_body">Jump straight into Roblox now</string>
+    <string name="onboarding_root">Root access</string>
+    <string name="onboarding_root_body">Voidstrap for Android is built around root. Android locks Roblox\'s files away from every other app, and root is what lets Voidstrap write to them, so most features depend on it.</string>
+    <string name="onboarding_root_mods">Mods</string>
+    <string name="onboarding_root_mods_body">Swaps Roblox\'s own files for your mods. This only works with root.</string>
+    <string name="onboarding_root_flags">FastFlags</string>
+    <string name="onboarding_root_flags_body">Writes your flags to the file Roblox reads every time it starts.</string>
+    <string name="onboarding_root_activity">Activity and Discord</string>
+    <string name="onboarding_root_activity_body">Sees which game you join, for your Discord status, join notifications and your library.</string>
+    <string name="onboarding_root_note">No root? The Voidstrap helper can be started once from a computer on the next step. It runs FastFlags and activity tracking until the phone restarts, but mods always need root. Voidstrap only uses root for these things and never reads other apps\' data.</string>
+    <string name="settings_font">App font</string>
+    <string name="settings_font_body">Changes the font across the whole app.</string>
+    <string name="settings_font_invalid">That file is not a font Android can use. Pick a .ttf or .otf file.</string>
+    <string-array name="settings_fonts">
+        <item>Default</item>
+        <item>Condensed</item>
+        <item>Serif</item>
+        <item>Casual</item>
+        <item>Cursive</item>
+        <item>Small caps</item>
+        <item>Typewriter</item>
+        <item>Monospace</item>
+        <item>Custom font file</item>
+    </string-array>
 </resources>
