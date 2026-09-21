@@ -148,13 +148,6 @@ final class ModsCustomizeTab {
             return app.getString(on ? R.string.mods_nogui_on : R.string.mods_nogui_off);
         }));
 
-        g = section(rows, R.string.mods_section_sounds);
-        toggle(g, R.string.mods_old_sounds, s.oldSounds, on -> work(R.string.mods_working, (app, cancel) -> {
-            ModPresets.setPreset(app, ModPresets.OLD_SOUNDS, on);
-            return app.getString(on ? R.string.mods_preset_on : R.string.mods_preset_off, app.getString(R.string.mods_old_sounds));
-        }));
-        nav(g, c.getString(R.string.mods_death), c.getString(s.deathSound ? R.string.mods_value_custom : R.string.mods_value_default), R.string.mods_death_body, this::fillDeath);
-
         g = section(rows, R.string.mods_section_appearance);
         toggle(g, R.string.mods_old_avatar, s.oldAvatar, on -> work(R.string.mods_working, (app, cancel) -> {
             ModPresets.setPreset(app, ModPresets.OLD_AVATAR, on);

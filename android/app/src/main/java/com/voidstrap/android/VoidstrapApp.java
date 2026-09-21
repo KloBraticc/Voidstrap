@@ -14,6 +14,7 @@ public final class VoidstrapApp extends Application {
         Store.get(this).work.execute(() -> {
             java.io.File ext = getExternalFilesDir(null);
             if (ext != null) new java.io.File(ext, "start.sh").delete();
+            ModMigration.dropSoundMods(this);
         });
         Shortcuts.watch(this);
         Translator.load(this);

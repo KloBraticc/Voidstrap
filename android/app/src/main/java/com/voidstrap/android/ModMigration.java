@@ -8,8 +8,21 @@ import java.util.Locale;
 
 final class ModMigration {
     private static final String KEY = "modsMigrated";
+    private static final String SOUNDS_KEY = "soundModsDropped";
 
     private ModMigration() {
+    }
+
+    static void dropSoundMods(Context c) {
+        Store store = Store.get(c);
+        if ("1".equals(store.setting(SOUNDS_KEY, null))) return;
+        try {
+            ModPresets.setPreset(c, ModPresets.OLD_SOUNDS, false);
+        } catch (IOException | RuntimeException ignored) {
+        }
+        ModPresets.removeDeathSound(c);
+        store.putSetting(SOUNDS_KEY, "1");
+        ModLog.add("sound mods removed, Roblox for Android ships no audio files to replace");
     }
 
     static void run(Context c) {

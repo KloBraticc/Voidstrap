@@ -201,6 +201,7 @@ public final class ModEngine {
         update(md, "v" + FORMAT + "\n" + pkg + "\n" + identity(c, pkg) + "\n");
         Map<String, File> files = collect(c);
         Map<String, File> resolved = new TreeMap<>();
+        List<String> unknown = new ArrayList<>();
         for (Map.Entry<String, File> e : files.entrySet()) {
             String asset = assetPath(e.getKey());
             if (asset == null) {
@@ -210,8 +211,12 @@ public final class ModEngine {
             String existing = lower.get(asset.toLowerCase(Locale.ROOT));
             String name = existing != null ? existing : asset;
             resolved.put(name, e.getValue());
-            if (existing != null) plan.replaced++;
-            else plan.added++;
+            if (existing != null) {
+                plan.replaced++;
+            } else {
+                plan.added++;
+                if (unknown.size() < 10) unknown.add(e.getKey());
+            }
         }
         for (Map.Entry<String, File> e : resolved.entrySet()) {
             File f = e.getValue();
@@ -219,6 +224,8 @@ public final class ModEngine {
             plan.changes.put(e.getKey(), new ApkPatcher.FileSource(f));
         }
         plan.fingerprint = hex(md.digest());
+        ModLog.add("plan for " + pkg + ": replaces " + plan.replaced + ", adds " + plan.added + ", unmapped " + plan.skipped.size());
+        if (!unknown.isEmpty()) ModLog.add("added, replacing nothing in Roblox, so only useful if something references them: " + unknown);
         return plan;
     }
 
