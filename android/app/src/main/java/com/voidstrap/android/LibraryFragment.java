@@ -64,6 +64,10 @@ public final class LibraryFragment extends Page {
     private String query = "";
     private String loadedSignature = "";
     private int loadSeq;
+    private int retries;
+    private final Runnable retry = () -> {
+        if (getView() != null) load(true);
+    };
     private final Runnable applySearch = this::render;
 
     private final androidx.activity.OnBackPressedCallback closeDetail = new androidx.activity.OnBackPressedCallback(false) {
@@ -129,6 +133,7 @@ public final class LibraryFragment extends Page {
     @Override
     public void onDestroyView() {
         store.main.removeCallbacks(applySearch);
+        store.main.removeCallbacks(retry);
         super.onDestroyView();
     }
 
@@ -157,7 +162,9 @@ public final class LibraryFragment extends Page {
         StringBuilder sig = new StringBuilder();
         for (LibraryData.Game g : base) sig.append(g.placeId).append(g.pinned ? 'p' : 'h').append(',');
         if (!force && sig.toString().equals(loadedSignature)) return;
+        if (!sig.toString().equals(loadedSignature)) retries = 0;
         loadedSignature = sig.toString();
+        store.main.removeCallbacks(retry);
         int seq = ++loadSeq;
         loading.setVisibility(View.VISIBLE);
         Context app = requireContext().getApplicationContext();
@@ -184,6 +191,9 @@ public final class LibraryFragment extends Page {
                 loading.setVisibility(View.GONE);
                 savePinMeta();
                 render();
+                boolean missing = false;
+                for (LibraryData.Game g : copy) missing |= g.name.isEmpty() || g.iconUrl == null;
+                if (missing && retries < 3) store.main.postDelayed(retry, 5000L << (2 * retries++));
             });
         });
     }
@@ -816,12 +826,16 @@ public final class LibraryFragment extends Page {
 
     private final class SideAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private List<Object> rows = new ArrayList<>();
+        private List<String> keys = new ArrayList<>();
         private int pinnedCount;
         private int allCount;
         private long boundSelected;
 
         void set(List<Object> next, int pinned, int all) {
             List<Object> prev = rows;
+            List<String> prevKeys = keys;
+            List<String> nextKeys = new ArrayList<>(next.size());
+            for (Object r : next) nextKeys.add(r instanceof LibraryData.Game ? key((LibraryData.Game) r) : "");
             int oldPinned = pinnedCount;
             int oldAll = allCount;
             long oldSel = boundSelected;
@@ -852,17 +866,19 @@ public final class LibraryFragment extends Page {
                     if (a instanceof Boolean) return (Boolean) a ? oldPinned == pinned : oldAll == all;
                     LibraryData.Game ga = (LibraryData.Game) a;
                     LibraryData.Game gb = (LibraryData.Game) b;
-                    return ga.pinned == gb.pinned
-                            && ga.title().equals(gb.title())
-                            && java.util.Objects.equals(ga.iconUrl, gb.iconUrl)
-                            && (ga.placeId == oldSel) == (gb.placeId == newSel);
+                    return prevKeys.get(o).equals(nextKeys.get(n)) && (ga.placeId == oldSel) == (gb.placeId == newSel);
                 }
             });
             rows = next;
+            keys = nextKeys;
             pinnedCount = pinned;
             allCount = all;
             boundSelected = newSel;
             diff.dispatchUpdatesTo(this);
+        }
+
+        private String key(LibraryData.Game g) {
+            return g.pinned + "|" + g.title() + "|" + g.iconUrl;
         }
 
         @Override

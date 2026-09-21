@@ -115,6 +115,10 @@ public final class Net {
         }
     }
 
+    public static void forget(Context c, String url) {
+        new File(new File(c.getCacheDir(), "feeds"), sha1(url) + ".json").delete();
+    }
+
     static JSONObject json(String url) throws IOException, JSONException {
         return new JSONObject(new String(get(url, MAX_JSON), StandardCharsets.UTF_8));
     }

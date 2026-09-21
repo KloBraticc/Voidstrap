@@ -981,6 +981,15 @@
     <string name="onboarding_root_activity">Activity and Discord</string>
     <string name="onboarding_root_activity_body">Sees which game you join, for your Discord status, join notifications and your library.</string>
     <string name="onboarding_root_note">No root? The Voidstrap helper can be started once from a computer on the next step. It runs FastFlags and activity tracking until the phone restarts, but mods always need root. Voidstrap only uses root for these things and never reads other apps\' data.</string>
+    <string name="launch_version">Version %1$s</string>
+    <string name="launch_about">About Voidstrap</string>
+    <string name="launch_donate">Donate</string>
+    <string name="launch_github" translatable="false">GitHub</string>
+    <string name="launch_github_body">Releases, source and issues.</string>
+    <string name="launch_open">Open Voidstrap</string>
+    <string name="launch_settings_body">Theme, notifications, root and more</string>
+    <string name="launch_about_body">Version, licenses and diagnostics</string>
+    <string name="launch_donate_body">Support Voidstrap on GitHub Sponsors</string>
     <string name="settings_font">App font</string>
     <string name="settings_font_body">Changes the font across the whole app.</string>
     <string name="settings_font_invalid">That file is not a font Android can use. Pick a .ttf or .otf file.</string>

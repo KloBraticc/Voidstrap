@@ -34,6 +34,8 @@ import java.util.Locale;
 
 public final class SettingsFragment extends Page {
     private static final String STATE_SECTION = "settingsSection";
+    static final int SECTION_ABOUT = 4;
+    static int pendingSection = -1;
 
     private View target;
     private TextView helperDetail;
@@ -276,6 +278,11 @@ public final class SettingsFragment extends Page {
 
     @Override
     protected void refresh() {
+        if (pendingSection >= 0 && tabs != null) {
+            TabLayout.Tab tab = tabs.getTabAt(pendingSection);
+            pendingSection = -1;
+            if (tab != null) tab.select();
+        }
         Actions.bindTarget(target, true);
         if (helperDetail != null) helperDetail.setText(FlagSync.status(requireContext()));
         bindNotifications();

@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean saving;
     private String styled;
     private final Runnable barRefresh = this::updateBar;
+    private final androidx.activity.result.ActivityResultLauncher<Intent> launchPage = registerForActivityResult(
+            new androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult(), r -> onLaunchPage(r.getResultCode()));
     private final Runnable presenceRefresh = AppPresence::update;
 
     @Override
@@ -75,8 +77,9 @@ public class MainActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, editorBack);
         select(current);
         if (saved == null && (getIntent().getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0) handle(getIntent());
-        if (saved == null && Intent.ACTION_MAIN.equals(getIntent().getAction()) && OnboardingActivity.due(this)) {
-            startActivity(new Intent(this, OnboardingActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+        if (saved == null && LaunchMenuActivity.due(getIntent())) {
+            if (OnboardingActivity.due(this)) startActivity(new Intent(this, OnboardingActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+            else launchPage.launch(new Intent(this, LaunchMenuActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         }
     }
 
@@ -143,6 +146,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         if (isFinishing()) AppPresence.hidden();
         super.onDestroy();
+    }
+
+    private void onLaunchPage(int code) {
+        if (code == LaunchMenuActivity.LAUNCH) {
+            Actions.launch(this, null, getString(Targets.nameRes(Targets.selected(this))));
+        } else if (code == LaunchMenuActivity.SETTINGS) {
+            select(R.id.nav_settings);
+        } else if (code == LaunchMenuActivity.ABOUT) {
+            SettingsFragment.pendingSection = SettingsFragment.SECTION_ABOUT;
+            select(R.id.nav_settings);
+        }
     }
 
     @Override

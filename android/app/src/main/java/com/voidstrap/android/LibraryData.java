@@ -101,10 +101,12 @@ final class LibraryData {
     static void enrich(Context c, List<Game> games) {
         for (Game g : games) {
             if (g.universeId > 0) continue;
+            String url = "https://apis.roblox.com/universes/v1/places/" + g.placeId + "/universe";
             try {
-                g.universeId = Net.cachedJson(c, "https://apis.roblox.com/universes/v1/places/" + g.placeId + "/universe", 7 * 24 * 60 * MINUTE).optLong("universeId", 0);
+                g.universeId = Net.cachedJson(c, url, 7 * 24 * 60 * MINUTE).optLong("universeId", 0);
             } catch (IOException | JSONException ignored) {
             }
+            if (g.universeId <= 0) Net.forget(c, url);
         }
         Map<Long, List<Game>> byUniverse = new LinkedHashMap<>();
         for (Game g : games) {
@@ -116,8 +118,10 @@ final class LibraryData {
         List<Long> ids = new ArrayList<>(byUniverse.keySet());
         for (int i = 0; i < ids.size(); i += 50) {
             String chunk = join(ids.subList(i, Math.min(ids.size(), i + 50)));
+            String gamesUrl = "https://games.roblox.com/v1/games?universeIds=" + chunk;
+            String iconsUrl = "https://thumbnails.roblox.com/v1/games/icons?universeIds=" + chunk + "&returnPolicy=PlaceHolder&size=256x256&format=Png&isCircular=false";
             try {
-                JSONArray d = Net.cachedJson(c, "https://games.roblox.com/v1/games?universeIds=" + chunk, 5 * MINUTE).optJSONArray("data");
+                JSONArray d = Net.cachedJson(c, gamesUrl, 5 * MINUTE).optJSONArray("data");
                 for (int k = 0; d != null && k < d.length(); k++) {
                     JSONObject o = d.getJSONObject(k);
                     List<Game> list = byUniverse.get(o.optLong("id"));
@@ -151,7 +155,7 @@ final class LibraryData {
             } catch (IOException | JSONException ignored) {
             }
             try {
-                JSONArray d = Net.cachedJson(c, "https://thumbnails.roblox.com/v1/games/icons?universeIds=" + chunk + "&returnPolicy=PlaceHolder&size=256x256&format=Png&isCircular=false", 24 * 60 * MINUTE).optJSONArray("data");
+                JSONArray d = Net.cachedJson(c, iconsUrl, 24 * 60 * MINUTE).optJSONArray("data");
                 for (int k = 0; d != null && k < d.length(); k++) {
                     JSONObject o = d.getJSONObject(k);
                     List<Game> list = byUniverse.get(o.optLong("targetId"));
@@ -159,6 +163,12 @@ final class LibraryData {
                     if (list != null && url.startsWith("https://")) for (Game g : list) g.iconUrl = url;
                 }
             } catch (IOException | JSONException ignored) {
+            }
+            for (long id : ids.subList(i, Math.min(ids.size(), i + 50))) {
+                for (Game g : byUniverse.get(id)) {
+                    if (g.name.isEmpty()) Net.forget(c, gamesUrl);
+                    if (g.iconUrl == null) Net.forget(c, iconsUrl);
+                }
             }
             try {
                 JSONArray d = Net.cachedJson(c, "https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=" + chunk + "&countPerUniverse=1&defaults=true&size=768x432&format=Png&isCircular=false", 24 * 60 * MINUTE).optJSONArray("data");
