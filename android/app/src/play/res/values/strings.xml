@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_smart">Smart Join</string>
+    <string name="smart_title">Smart Join</string>
+    <string name="smart_open_body">Pick a server before Roblox opens.</string>
+    <string name="smart_page_body">Chooses a server from the public server list so Roblox does not drop you into a random one.</string>
+    <string name="smart_section">Server choice</string>
+    <string name="smart_enable">Smart Join</string>
+    <string name="smart_enable_body">When you launch a game, Voidstrap reads the public server list and picks the server with the best reported ping and frame rate. It never signs in to Roblox.</string>
+    <string name="smart_prefer">Prefer</string>
+    <string name="smart_prefer_quiet">Quieter servers</string>
+    <string name="smart_prefer_busy">Busier servers</string>
+    <string name="smart_finding">Finding a server</string>
+    <string name="smart_joining">Joining a server reporting %1$d ms ping.</string>
+    <string name="smart_joining_plain">Joining the best server we found.</string>
+    <string name="smart_fallback">No server matched, letting Roblox choose.</string>
+</resources>
