@@ -630,13 +630,18 @@ public final class ModPresets {
             if (!enabled || name.equalsIgnoreCase("Default")) {
                 Mods.delete(target);
                 deleteAndPrune(c, target);
+                ModLog.add("skybox turned off, faces removed from the workspace");
             } else {
                 File source = name.equals(CUSTOM_SKY) ? customSky(c) : ensurePack(c, name, cancel);
                 for (String f : SKY_FACES) {
                     File face = new File(source, f);
-                    if (!face.isFile()) throw new IOException("The selected skybox is incomplete.");
+                    if (!face.isFile()) {
+                        ModLog.add("skybox " + name + " incomplete, missing " + f);
+                        throw new IOException("The selected skybox is incomplete.");
+                    }
                 }
                 for (String f : SKY_FACES) copy(new File(source, f), new File(target, f));
+                ModLog.add("skybox " + name + " copied " + SKY_FACES.length + " faces into the workspace");
             }
             Store s = Store.get(c);
             s.putSetting("skyboxName", name.equals("Default") ? null : name);
@@ -924,16 +929,23 @@ public final class ModPresets {
             try {
                 if (!hasFont(c)) {
                     removeGeneratedFamilies(c);
+                    ModLog.add("no custom font set, generated font families removed");
                     return;
                 }
                 File base = ModEngine.originalApk(c, pkg);
                 if (base == null) base = ModEngine.baseApk(c, pkg);
-                if (base == null) return;
+                if (base == null) {
+                    ModLog.add("font families skipped, no readable apk for " + pkg);
+                    return;
+                }
                 ApkPatcher.Directory dir = ApkPatcher.read(base);
                 String prefix = "assets/content/fonts/families/";
                 File families = ws(c, FAMILIES);
+                int written = 0;
+                int seen = 0;
                 for (ApkPatcher.Entry e : dir.entries.values()) {
                     if (!e.name.startsWith(prefix) || !e.name.endsWith(".json") || e.name.indexOf('/', prefix.length()) >= 0) continue;
+                    seen++;
                     File target = new File(families, e.name.substring(prefix.length()));
                     if (target.isFile() && !generatedFamily(target)) continue;
                     try {
@@ -945,10 +957,14 @@ public final class ModPresets {
                             if (face != null) face.put("assetId", FONT_ASSET);
                         }
                         write(target, family.toString(2).getBytes(StandardCharsets.UTF_8));
-                    } catch (IOException | JSONException ignored) {
+                        written++;
+                    } catch (IOException | JSONException ex) {
+                        ModLog.add("font family " + e.name + " failed, " + ex);
                     }
                 }
-            } catch (IOException | RuntimeException ignored) {
+                ModLog.add("font families rewritten " + written + " of " + seen + " from " + base.getName());
+            } catch (IOException | RuntimeException e) {
+                ModLog.add("font families failed, " + e);
             }
         }
     }

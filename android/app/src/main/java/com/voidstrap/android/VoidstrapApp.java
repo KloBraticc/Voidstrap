@@ -8,6 +8,7 @@ public final class VoidstrapApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ModLog.init(getFilesDir());
         applyTheme(Store.get(this).setting("theme", "system"));
         auditFlags(Store.get(this));
         Store.get(this).work.execute(() -> {

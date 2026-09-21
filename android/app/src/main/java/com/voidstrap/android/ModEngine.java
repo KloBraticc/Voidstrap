@@ -262,8 +262,13 @@ public final class ModEngine {
         synchronized (APPLY) {
             if (!safePkg(pkg)) return Result.FAILED;
             FlagWriter.Mode mode = FlagWriter.rootMode(c);
-            if (mode == FlagWriter.Mode.NONE) return Result.NO_ROOT;
+            if (mode == FlagWriter.Mode.NONE) {
+                ModLog.add("apply skipped for " + pkg + ", no root");
+                return Result.NO_ROOT;
+            }
+            ModLog.add("apply started for " + pkg + " via " + mode + ", workspace files " + collect(c).size());
             Result r = applyFiles(c, pkg, restart, cancel, progress, mode);
+            ModLog.add("apply files result " + r);
             if (r != Result.APPLIED && r != Result.UNCHANGED && r != Result.REMOVED) return r;
             boolean pending = ModAssetCache.pending(c, pkg);
             int code = ModAssetCache.sync(c, pkg, mode, false);
@@ -438,12 +443,21 @@ public final class ModEngine {
     }
 
     private static void convertSky(Plan plan) throws IOException {
+        int faces = 0;
+        int kept = 0;
+        int converted = 0;
+        int rejected = 0;
         for (Map.Entry<String, ApkPatcher.Source> e : new ArrayList<>(plan.changes.entrySet())) {
             String name = e.getKey();
             if (!name.startsWith(SKY_PREFIX) || !name.toLowerCase(Locale.ROOT).endsWith(".tex")) continue;
+            faces++;
             if (!(e.getValue() instanceof ApkPatcher.FileSource)) continue;
             File f = ((ApkPatcher.FileSource) e.getValue()).file;
-            if (f.length() < 8 || f.length() > 64L * 1024 * 1024) continue;
+            if (f.length() < 8 || f.length() > 64L * 1024 * 1024) {
+                rejected++;
+                ModLog.add("skybox face " + f.getName() + " rejected, size " + f.length());
+                continue;
+            }
             byte[] head = new byte[4];
             try (InputStream in = new FileInputStream(f)) {
                 if (in.read(head) != 4) continue;
@@ -451,10 +465,20 @@ public final class ModEngine {
             boolean dds = head[0] == 'D' && head[1] == 'D' && head[2] == 'S' && head[3] == ' ';
             boolean png = (head[0] & 0xFF) == 0x89 && head[1] == 'P' && head[2] == 'N' && head[3] == 'G';
             boolean ktx = (head[0] & 0xFF) == 0xAB && head[1] == 'K' && head[2] == 'T' && head[3] == 'X';
-            if (dds || png || ktx) continue;
-            byte[] converted = toPng(f);
-            if (converted != null) plan.changes.put(name, new ApkPatcher.BytesSource(converted));
+            if (dds || png || ktx) {
+                kept++;
+                continue;
+            }
+            byte[] encoded = toPng(f);
+            if (encoded != null) {
+                plan.changes.put(name, new ApkPatcher.BytesSource(encoded));
+                converted++;
+            } else {
+                rejected++;
+                ModLog.add("skybox face " + f.getName() + " could not be decoded as an image");
+            }
         }
+        if (faces > 0) ModLog.add("skybox faces in plan " + faces + ", kept " + kept + ", converted " + converted + ", rejected " + rejected);
     }
 
     static byte[] toPng(File f) {

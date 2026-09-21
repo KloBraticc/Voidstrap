@@ -266,6 +266,7 @@ public final class SettingsFragment extends Page {
             Store.Launch l = store.history.get(0);
             sb.append("Last launch ").append(l.result).append(" via ").append(l.target).append(' ').append(Ui.ago(c, l.time)).append('\n');
         }
+        sb.append("Mod activity\n").append(ModLog.dump());
         return sb.toString();
     }
 
