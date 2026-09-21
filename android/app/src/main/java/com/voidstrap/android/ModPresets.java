@@ -927,6 +927,7 @@ public final class ModPresets {
                     return;
                 }
                 File base = ModEngine.originalApk(c, pkg);
+                if (base == null) base = ModEngine.baseApk(c, pkg);
                 if (base == null) return;
                 ApkPatcher.Directory dir = ApkPatcher.read(base);
                 String prefix = "assets/content/fonts/families/";

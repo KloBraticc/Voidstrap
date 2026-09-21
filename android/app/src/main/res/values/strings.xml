@@ -69,6 +69,7 @@
     <string name="bar_save">Save</string>
     <string name="bar_save_launch">Save and Launch</string>
     <string name="bar_saved">Settings saved</string>
+    <string name="bar_saved_no_root">Settings saved. Mods and fonts need root to reach Roblox.</string>
     <string name="bar_target_description">Launch target: %1$s, %2$s. Double tap to change.</string>
     <string name="save_failed_title">Settings not saved</string>
     <string name="save_failed_body">Voidstrap could not write your settings to storage. Free up some space and try again.</string>

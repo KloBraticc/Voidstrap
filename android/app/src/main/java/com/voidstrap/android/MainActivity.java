@@ -1,5 +1,6 @@
 package com.voidstrap.android;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -214,8 +215,49 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             if (launch) Actions.launch(this, null, getString(Targets.nameRes(Targets.selected(this))));
-            else Ui.say(this, R.string.bar_saved);
+            else applySavedMods();
         });
+    }
+
+    private void applySavedMods() {
+        Context app = getApplicationContext();
+        if (!ModEngine.enabled(app) || !ModEngine.hasMods(app)) {
+            Ui.say(this, R.string.bar_saved);
+            return;
+        }
+        if (FlagWriter.rootMode(app) == FlagWriter.Mode.NONE) {
+            Ui.say(this, R.string.bar_saved_no_root);
+            return;
+        }
+        String pkg = Targets.selected(app);
+        store.work.execute(() -> {
+            ModEngine.Result r = ModEngine.apply(app, pkg, false, null, null);
+            store.main.post(() -> {
+                if (isFinishing() || isDestroyed()) return;
+                Ui.say(this, modsResult(r));
+            });
+        });
+    }
+
+    private int modsResult(ModEngine.Result r) {
+        switch (r) {
+            case APPLIED:
+                return R.string.mods_result_applied;
+            case UNCHANGED:
+                return R.string.mods_result_unchanged;
+            case REMOVED:
+                return R.string.mods_result_removed;
+            case NO_ROOT:
+                return R.string.mods_result_no_root;
+            case NOT_INSTALLED:
+                return R.string.launch_not_installed;
+            case NO_SPACE:
+                return R.string.mods_error_space_full;
+            case CANCELLED:
+                return R.string.mods_error_cancelled_full;
+            default:
+                return R.string.mods_result_failed;
+        }
     }
 
     @Override
