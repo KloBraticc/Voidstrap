@@ -28,8 +28,23 @@
 </div>
 
 <h5 align="center">
-Leave a star if you like the project! ⭐️
+  Leave a star if you like the project! ⭐️
 </h5>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/windows8/windows8-original.svg" alt="Windows" width="32" height="32"/>
+  &nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/android/android-original.svg" alt="Android" width="32" height="32"/>
+
+  <!-- Linux
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="Linux" width="32" height="32"/>
+  &nbsp;&nbsp;
+  -->
+
+  <!-- macOS
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/apple/apple-original.svg" alt="macOS" width="32" height="32"/>
+  -->
+</p>
 
 ## Quick Install
 
