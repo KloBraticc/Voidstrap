@@ -340,7 +340,7 @@ public class Bootstrapper
             {
                 return true;
             }
-            return GetMissingCriticalFile() != null;
+            return GetMissingCriticalFile() != null || CountMissingInstalledFiles() > 0;
         }
     }
 
@@ -2153,19 +2153,8 @@ public class Bootstrapper
 			Frontend.ShowMessageBox("No startup log file is available.", MessageBoxImage.Warning);
 			return;
 		}
-		try
-		{
-			using Process? opened = Process.Start(new ProcessStartInfo
-			{
-				FileName = logFile,
-				UseShellExecute = true
-			});
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Bootstrapper::OpenStartupCrashLog", "The startup log could not be opened: " + ex.Message);
-			Frontend.ShowMessageBox("The startup log could not be opened.", MessageBoxImage.Warning);
-		}
+		if (!Utilities.OpenTextFile(logFile))
+			Frontend.ShowMessageBox("The startup log could not be opened. It is saved at:\n" + logFile, MessageBoxImage.Warning);
 	}
 
 	private void TerminateFailedLaunchProcess()
@@ -2944,7 +2933,7 @@ public class Bootstrapper
             {
                 foreach (string staleFile in Directory.GetFiles(Paths.Downloads))
                 {
-                    if ((staleFile.EndsWith(".part", StringComparison.OrdinalIgnoreCase) || staleFile.EndsWith(".meta", StringComparison.OrdinalIgnoreCase)) && (DateTime.UtcNow - File.GetLastWriteTimeUtc(staleFile)).TotalHours >= 24.0)
+                    if ((staleFile.EndsWith(".part", StringComparison.OrdinalIgnoreCase) || staleFile.EndsWith(".meta", StringComparison.OrdinalIgnoreCase) || staleFile.EndsWith(".meta.bak", StringComparison.OrdinalIgnoreCase)) && (DateTime.UtcNow - File.GetLastWriteTimeUtc(staleFile)).TotalHours >= 24.0)
                     {
                         File.Delete(staleFile);
                         App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "Deleted stale partial download older than 24 hours: " + Path.GetFileName(staleFile));
@@ -2958,6 +2947,16 @@ public class Bootstrapper
             {
                 await StopRobloxPlayersAsync(ct).ConfigureAwait(continueOnCapturedContext: false);
             }
+			DeleteAbandonedStagingDirectories(AppData.VersionsRoot, stagingDirectory);
+			foreach (string blockingPath in new[] { stagingDirectory, _latestVersionDirectory })
+			{
+				if (File.Exists(blockingPath))
+				{
+					File.SetAttributes(blockingPath, FileAttributes.Normal);
+					File.Delete(blockingPath);
+					App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "Removed a file that was blocking the installation folder: " + Path.GetFileName(blockingPath));
+				}
+			}
 			if (Directory.Exists(stagingDirectory))
             {
 				await SafeDeleteDirectoryAsync(stagingDirectory, "Bootstrapper::UpgradeRoblox", ct).ConfigureAwait(continueOnCapturedContext: false);
@@ -3071,8 +3070,10 @@ public class Bootstrapper
                 SetStatus(Strings.Bootstrapper_Status_Configuring);
             }
 			await WithRetryAsync(() => File.WriteAllTextAsync(Path.Combine(stagingDirectory, "AppSettings.xml"), AppSettingsXml, ct), "Bootstrapper::UpgradeRoblox::Write(AppSettings.xml)", 3, 600, ex6 => (ex6 is IOException || ex6 is UnauthorizedAccessException), ct).ConfigureAwait(continueOnCapturedContext: false);
+			List<string> installedFiles = VerifyExtractedPackages(stagingDirectory);
 			ValidateStagedInstallation(stagingDirectory);
 			File.WriteAllText(Path.Combine(stagingDirectory, VersionOwnershipFileName), AppData.BinaryType, new UTF8Encoding(false));
+			File.WriteAllLines(Path.Combine(stagingDirectory, InstalledFilesListName), installedFiles, new UTF8Encoding(false));
 			if (!PathsEqual(AppData.VersionsRoot, Paths.Versions) && Directory.Exists(_latestVersionDirectory) &&
 				!string.Equals(AppData.State.VersionGuid, _latestVersionGuid, StringComparison.Ordinal) && !IsOwnedVersionDirectory(_latestVersionDirectory))
 			{
@@ -3145,10 +3146,49 @@ public class Bootstrapper
         finally
         {
 			_packageExtractionDirectory = null;
+			if (ct.IsCancellationRequested && Directory.Exists(stagingDirectory))
+			{
+				try
+				{
+					await SafeDeleteDirectoryAsync(stagingDirectory, "Bootstrapper::UpgradeRoblox", CancellationToken.None).ConfigureAwait(continueOnCapturedContext: false);
+					App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "Removed the unfinished installation after the upgrade stopped");
+				}
+				catch (Exception cleanupException)
+				{
+					App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "The unfinished installation could not be removed: " + cleanupException.Message);
+				}
+			}
             Interlocked.Exchange(ref _isInstalling, 0);
             _installationStopped.TrySetResult();
         }
     }
+
+	private static void DeleteAbandonedStagingDirectories(string versionsRoot, string currentStagingDirectory)
+	{
+		try
+		{
+			foreach (string directory in Directory.GetDirectories(versionsRoot, "version-*.installing"))
+			{
+				if (string.Equals(directory, currentStagingDirectory, StringComparison.OrdinalIgnoreCase)
+					|| DateTime.UtcNow - Directory.GetLastWriteTimeUtc(directory) < AbandonedStagingAge)
+					continue;
+				try
+				{
+					Directory.Delete(directory, recursive: true);
+					App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "Deleted an abandoned unfinished installation: " + Path.GetFileName(directory));
+				}
+				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+				{
+					App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "Could not delete the abandoned installation " + Path.GetFileName(directory) + ": " + ex.Message);
+				}
+			}
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+		}
+	}
+
+	private static readonly TimeSpan AbandonedStagingAge = TimeSpan.FromHours(6);
 
 	private static void ApplyOptimizedDownloadDefaults()
 	{
@@ -3304,6 +3344,90 @@ public class Bootstrapper
 	}
 
 	private List<string> _stagedCriticalFiles = [];
+
+	private const string InstalledFilesListName = ".voidstrap-files";
+
+	private List<string> VerifyExtractedPackages(string stagingDirectory)
+	{
+		List<string> installedFiles = [];
+		List<string> damaged = [];
+		foreach (Package package in _versionPackageManifest ?? [])
+		{
+			if (FindMissingPackageFiles(package, stagingDirectory, installedFiles, out int missing) && missing > 0)
+			{
+				App.Logger.WriteLine("Bootstrapper::VerifyExtractedPackages", $"{package.Name} is missing {missing} files after extraction, extracting it again");
+				ExtractPackage(package);
+				List<string> ignored = [];
+				FindMissingPackageFiles(package, stagingDirectory, ignored, out missing);
+				if (missing > 0)
+					damaged.Add($"{package.Name} ({missing} files)");
+			}
+		}
+		if (damaged.Count > 0)
+		{
+			throw new InvalidDataException("Files disappeared from the Roblox installation while it was being installed: " + string.Join(", ", damaged) + ". Your antivirus most likely removed them. Add the Roblox versions folder to your antivirus exclusions, then launch again.");
+		}
+		App.Logger.WriteLine("Bootstrapper::VerifyExtractedPackages", $"Verified {installedFiles.Count} installed files");
+		return installedFiles;
+	}
+
+	private bool FindMissingPackageFiles(Package package, string stagingDirectory, List<string> installedFiles, out int missing)
+	{
+		missing = 0;
+		string? target = AppData.PackageDirectoryMap.GetValueOrDefault(package.Name);
+		if (target == null || !File.Exists(package.DownloadPath))
+			return false;
+		using System.IO.Compression.ZipArchive archive = System.IO.Compression.ZipFile.OpenRead(package.DownloadPath);
+		foreach (System.IO.Compression.ZipArchiveEntry entry in archive.Entries)
+		{
+			string name = entry.FullName.Replace('/', '\\');
+			if (name.Length == 0 || name.EndsWith('\\'))
+				continue;
+			string relative = Path.Combine(target, name);
+			installedFiles.Add(relative);
+			FileInfo info = new(Path.Combine(stagingDirectory, relative));
+			if (!info.Exists || info.Length != entry.Length)
+				missing++;
+		}
+		return true;
+	}
+
+	private int _missingInstalledFiles = -1;
+
+	private int CountMissingInstalledFiles()
+	{
+		if (_missingInstalledFiles >= 0)
+			return _missingInstalledFiles;
+		string listPath = Path.Combine(AppData.Directory, InstalledFilesListName);
+		int missing = 0;
+		string? first = null;
+		try
+		{
+			if (File.Exists(listPath))
+			{
+				string root = Path.GetFullPath(AppData.Directory);
+				foreach (string relative in File.ReadLines(listPath))
+				{
+					if (string.IsNullOrWhiteSpace(relative))
+						continue;
+					string full = Path.GetFullPath(Path.Combine(root, relative));
+					if (full.StartsWith(root, StringComparison.OrdinalIgnoreCase) && !File.Exists(full))
+					{
+						missing++;
+						first ??= relative;
+					}
+				}
+			}
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			App.Logger.WriteLine("Bootstrapper::MustUpgrade", "The installed file list could not be read: " + ex.Message);
+		}
+		if (missing > 0)
+			App.Logger.WriteLine("Bootstrapper::MustUpgrade", $"{missing} installed Roblox files are missing, a repair is required, first: {first}");
+		_missingInstalledFiles = missing;
+		return missing;
+	}
 
 	private void VerifyCommittedInstallation()
 	{
@@ -3981,7 +4105,7 @@ public class Bootstrapper
 
 	private static void WriteJsonAtomic<T>(string path, T value)
 	{
-		JsonFile.SerializeAtomic(path, value);
+		JsonFile.SerializeAtomic(path, value, createBackup: false);
 	}
 
     private void ExtractPackage(Package package, List<string>? files = null)

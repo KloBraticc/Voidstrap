@@ -175,7 +175,7 @@ public partial class ExceptionDialog : WpfUiWindow{
 	{
 		if (App.Logger.Initialized && !string.IsNullOrEmpty(App.Logger.FileLocation))
 		{
-			Utilities.ShellExecute(App.Logger.FileLocation);
+			Utilities.OpenTextFile(App.Logger.FileLocation);
 		}
 		else
 		{

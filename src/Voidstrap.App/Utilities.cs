@@ -42,6 +42,32 @@ public static class Utilities
 		Frontend.ShowMessageBox("Windows has no app set up to open this link. Copy it into your browser instead:" + Environment.NewLine + website, System.Windows.MessageBoxImage.Warning);
 	}
 
+	public static bool OpenTextFile(string path)
+	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+			return Voidstrap.Utility.PlatformShell.TryOpenUrl(path);
+		try
+		{
+			using Process? opened = Process.Start(new ProcessStartInfo { FileName = path, UseShellExecute = true });
+			return true;
+		}
+		catch (Win32Exception)
+		{
+		}
+		try
+		{
+			ProcessStartInfo notepad = new() { FileName = Path.Combine(Environment.SystemDirectory, "notepad.exe"), UseShellExecute = false };
+			notepad.ArgumentList.Add(path);
+			using Process? opened = Process.Start(notepad);
+			return true;
+		}
+		catch (Exception ex) when (ex is Win32Exception or InvalidOperationException)
+		{
+			App.Logger?.WriteLine("Utilities::OpenTextFile", "Windows could not open " + path + ": " + ex.Message);
+			return false;
+		}
+	}
+
 	public static Version? GetVersionFromString(string? version)
 	{
 		if (string.IsNullOrWhiteSpace(version))
