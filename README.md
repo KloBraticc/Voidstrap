@@ -95,14 +95,9 @@ irm https://voidstrapp.pages.dev/quick-install | iex
 
 ## Built With
 
-* [![C#][shield-csharp]][link-csharp]
-* [![.NET][shield-dotnet]][link-dotnet]
-* [![WPF][shield-wpf]][link-wpf]
-* [![WPF UI][shield-wpfui]][link-wpfui]
-* [![WebView2][shield-webview2]][link-webview2]
-* [![Java][shield-java]][link-java]
-* [![Rust][shield-rust]][link-rust]
-* [![Android][shield-android]][link-android]
+[![C#][shield-csharp]][link-csharp] [![.NET][shield-dotnet]][link-dotnet] [![WPF][shield-wpf]][link-wpf] [![WPF UI][shield-wpfui]][link-wpfui] [![WebView2][shield-webview2]][link-webview2]
+
+[![Java][shield-java]][link-java] [![Rust][shield-rust]][link-rust] [![Android][shield-android]][link-android]
 
 <!-- Removed build will prob show how to do that in a later date im lazy for rn -->
 ## Forking
