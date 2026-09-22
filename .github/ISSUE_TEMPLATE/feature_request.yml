@@ -1,0 +1,54 @@
+name: Feature request
+description: Suggest an idea for Voidstrap.
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for suggesting a feature. Explaining the problem it solves helps the most.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you start
+      options:
+        - label: I searched the [existing issues](https://github.com/KloBraticc/Voidstrap/issues) and this feature is not requested yet.
+          required: true
+        - label: This is not a cheat, exploit or anything else that breaks Roblox's rules.
+          required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Windows
+        - Android
+        - Both
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe what you are trying to do and why it is hard today.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: What should Voidstrap do?
+      description: Describe the feature you would like.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you have tried
+      description: Optional. Other tools or workarounds you have used.
+  - type: checkboxes
+    id: conduct
+    attributes:
+      label: Code of Conduct
+      options:
+        - label: I agree to follow the [Code of Conduct](https://github.com/KloBraticc/Voidstrap/blob/main/CODE_OF_CONDUCT.md).
+          required: true

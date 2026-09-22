@@ -1,0 +1,74 @@
+name: Bug report
+description: Report something in Voidstrap that is not working.
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to report a bug. The more detail you give, the faster it can be fixed.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you start
+      options:
+        - label: I searched the [existing issues](https://github.com/KloBraticc/Voidstrap/issues) and this bug is not reported yet.
+          required: true
+        - label: I am using the [latest version](https://github.com/KloBraticc/Voidstrap/releases/latest) of Voidstrap.
+          required: true
+  - type: input
+    id: version
+    attributes:
+      label: Voidstrap version
+      description: You can find it on the About page in Voidstrap.
+      placeholder: 1.1.2.3
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Windows
+        - Android
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system version
+      placeholder: Windows 11 24H2, or Android 14
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected to happen instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open Voidstrap
+        2. Click Launch Roblox
+        3. See the error
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Log file
+      description: On Windows, drag the newest log file from %LOCALAPPDATA%\Voidstrap\Logs into this box. Read it first and remove anything you do not want to share.
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or videos
+      description: Optional. Drag them into this box.
+  - type: checkboxes
+    id: conduct
+    attributes:
+      label: Code of Conduct
+      options:
+        - label: I agree to follow the [Code of Conduct](https://github.com/KloBraticc/Voidstrap/blob/main/CODE_OF_CONDUCT.md).
+          required: true

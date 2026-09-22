@@ -99,7 +99,76 @@ irm https://voidstrapp.pages.dev/quick-install | iex
 
 [![Java][shield-java]][link-java] [![Rust][shield-rust]][link-rust] [![Android][shield-android]][link-android]
 
-<!-- Removed build will prob show how to do that in a later date im lazy for rn -->
+## Building
+
+The Windows app can only be built on Windows. The Android app can be built on Windows, Linux or macOS.
+
+### Requirements
+
+**Windows app**
+
+* Windows 10 or 11 (x64)
+* [.NET SDK 10.0.300](https://dotnet.microsoft.com/download/dotnet/10.0) or newer
+
+**Android app**
+
+* [JDK 17](https://adoptium.net/temurin/releases/?version=17)
+* [Android SDK](https://developer.android.com/studio) with SDK Platform 37, Build Tools 37.0.0 and NDK 29.0.14206865, installed from the SDK Manager in Android Studio
+* [Rust](https://rustup.rs/) 1.85 or newer, installed with rustup
+
+### Get the source
+
+Clone the repository with [Git](https://git-scm.com/downloads):
+
+```bash
+git clone https://github.com/KloBraticc/Voidstrap.git
+cd Voidstrap
+```
+
+> [!TIP]
+> On Windows, clone into a short folder such as `C:\src\Voidstrap`. Windows limits file paths to 260 characters, so a clone inside a deeply nested folder can fail with `Filename too long`, or fail to build with `CS0234` errors about `Windows.Security`.
+
+### Windows app
+
+```powershell
+dotnet build Voidstrap.sln -c Release
+```
+
+The app is written to `src\Voidstrap.App\bin\Release\net10.0-windows\win-x64\Voidstrap.exe`.
+
+To build the single `Voidstrap.exe` that releases ship, run the publish script:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only windows
+```
+
+It is written to `PublishedBuilds\Windows\Voidstrap.exe`. Like the releases, it needs the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) to run.
+
+### Android app
+
+Add the Rust targets once:
+
+```bash
+rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android
+```
+
+Gradle finds the JDK through `JAVA_HOME` and the Android SDK through `ANDROID_HOME`, so set both before building. Then build the debug APKs:
+
+```bash
+cd android
+./gradlew assembleDebug
+```
+
+On Windows, run `.\gradlew.bat assembleDebug` instead. The APKs are written to `android/app/build/outputs/apk/`, one per flavor: `play` is the Google Play version, and `direct` is the GitHub download, which updates itself and includes the server matchmaker.
+
+Release APKs are signed with your own keystore. Add `voidstrap.storeFile`, `voidstrap.storePassword`, `voidstrap.keyAlias` and `voidstrap.keyPassword` to `~/.gradle/gradle.properties`, then run the publish script from the repository root:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only android
+```
+
+The signed APKs are written to `PublishedBuilds\Android`. Each run of the publish script clears `PublishedBuilds` first, so add `-NoClean` to keep the output of an earlier run.
+
 ## Forking
 
 To create your own copy of Voidstrap:

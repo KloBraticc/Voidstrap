@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and help
+    url: https://discord.gg/5tJBqBH8ck
+    about: Ask questions and get help from the community on the Voidstrap Discord server.
+  - name: Report a security problem
+    url: https://github.com/KloBraticc/Voidstrap/security/advisories/new
+    about: Report security problems privately. Do not open a public issue for them.
+  - name: Documentation
+    url: https://voidstrapp.pages.dev/pages/documentation
+    about: Guides and answers to common questions.
