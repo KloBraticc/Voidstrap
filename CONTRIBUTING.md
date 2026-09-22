@@ -54,7 +54,7 @@ Android app, from the `android` folder (on Windows, use `.\gradlew.bat`):
 ### Code style
 
 * Match the style of the code around your change.
-* Do not add code comments. Use clear names instead.
+* Do not add code comments. Use clear names instead to keep the code clean, and please keep profanity out.
 * The build must have zero warnings. Fix warnings instead of suppressing them.
 * Put text that users see in `src/Voidstrap.App/Resources/Strings.resx` instead of hardcoding it, and do not use dashes in UI text or log messages.
 * Use named methods for event handlers and unsubscribe them when the object is cleaned up. Stop and dispose timers the same way.
