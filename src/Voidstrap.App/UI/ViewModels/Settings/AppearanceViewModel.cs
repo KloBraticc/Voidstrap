@@ -56,8 +56,74 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         public bool DisplayEverywhere { get; set; }
     }
 
+    public sealed class SidebarItemEditor : NotifyPropertyChangedViewModel
+    {
+        private readonly Action<SidebarItemEditor> _changed;
+
+        private string _name;
+
+        private bool _isVisible;
+
+        public string Key { get; }
+
+        public string DefaultName { get; }
+
+        public string Section { get; }
+
+        public bool CanHide { get; }
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                string normalized = MainWindow.NormalizeSidebarName(value, DefaultName);
+                if (_name == normalized)
+                {
+                    return;
+                }
+                _name = normalized;
+                OnPropertyChanged();
+                _changed(this);
+            }
+        }
+
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                bool visible = !CanHide || value;
+                if (_isVisible == visible)
+                {
+                    return;
+                }
+                _isVisible = visible;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(VisibilityLabel));
+                _changed(this);
+            }
+        }
+
+        public string VisibilityLabel => IsVisible ? "Shown" : "Hidden";
+
+        public SidebarItemEditor(MainWindow.SidebarItemDefinition definition, string name, bool isVisible, Action<SidebarItemEditor> changed)
+        {
+            Key = definition.Key;
+            DefaultName = definition.DefaultName;
+            Section = definition.Section;
+            CanHide = definition.CanHide;
+            _name = MainWindow.NormalizeSidebarName(name, DefaultName);
+            _isVisible = !CanHide || isVisible;
+            _changed = changed;
+        }
+
+    }
+
 
     public int[] ZoomOptions { get; } = new int[] { 50, 67, 75, 80, 90, 100, 110, 125, 150, 175, 200 };
+
+    public ObservableCollection<SidebarItemEditor> SidebarItems { get; } = new ObservableCollection<SidebarItemEditor>();
 
     public int UiZoomPercent
     {
@@ -153,6 +219,14 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
     public ICommand RemoveStartupAudioCommand { get; }
 
     public ICommand ManageAppFontCommand => new RelayCommand(ManageAppFont);
+
+    public ICommand MoveSidebarItemUpCommand { get; }
+
+    public ICommand MoveSidebarItemDownCommand { get; }
+
+    public ICommand ToggleSidebarItemVisibilityCommand { get; }
+
+    public ICommand ResetSidebarCommand { get; }
 
     public Visibility ChooseAppFontVisibility
     {
@@ -774,12 +848,17 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         RemoveBackgroundCommand = new RelayCommand(RemoveBackground);
         ImportStartupAudioCommand = new RelayCommand(ImportStartupAudio);
         RemoveStartupAudioCommand = new RelayCommand(RemoveStartupAudio);
+        MoveSidebarItemUpCommand = new RelayCommand<SidebarItemEditor>(item => MoveSidebarItem(item, -1));
+        MoveSidebarItemDownCommand = new RelayCommand<SidebarItemEditor>(item => MoveSidebarItem(item, 1));
+        ToggleSidebarItemVisibilityCommand = new RelayCommand<SidebarItemEditor>(ToggleSidebarItemVisibility);
+        ResetSidebarCommand = new RelayCommand(ResetSidebar);
         _settings = LoadSettings();
         SharedGradientOpacity = _settings.GradientOpacity;
         ImportBackgroundCommand2 = new RelayCommand<object>(ImportFile);
         RemoveBackgroundCommand2 = new RelayCommand<object>(RemoveFile);
         RebuildIcons();
         PopulateCustomThemes();
+        LoadSidebarItems();
     }
 
     private static string GetInitialAutoTranslateLanguageName()
@@ -823,9 +902,136 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
                 }
             }
         }
-        catch
+        catch (Exception ex)
         {
+            App.Logger?.WriteLine("AppearanceViewModel::ApplyToMainWindow", "Could not apply appearance changes: " + ex.Message);
         }
+    }
+
+    private void LoadSidebarItems()
+    {
+        Dictionary<string, string> names = App.Settings.Prop.SidebarNames ??= new Dictionary<string, string>();
+        List<string> hidden = App.Settings.Prop.SidebarHiddenItems ??= new List<string>();
+        List<string> savedOrder = App.Settings.Prop.SidebarOrder ??= new List<string>();
+        Dictionary<string, int> ranks = savedOrder
+            .Where(key => !string.IsNullOrWhiteSpace(key))
+            .Distinct(StringComparer.Ordinal)
+            .Select((key, index) => (key, index))
+            .ToDictionary(pair => pair.key, pair => pair.index, StringComparer.Ordinal);
+        Dictionary<string, int> defaults = MainWindow.SidebarCustomizationItems
+            .Select((item, index) => (item.Key, index))
+            .ToDictionary(pair => pair.Key, pair => pair.index, StringComparer.Ordinal);
+        SidebarItems.Clear();
+        foreach (MainWindow.SidebarItemDefinition definition in MainWindow.SidebarCustomizationItems
+            .Where(item => MainWindow.IsSidebarItemAvailable(item.Key))
+            .OrderBy(item => SectionRank(item.Section))
+            .ThenBy(item => ranks.TryGetValue(item.Key, out int rank) ? rank : int.MaxValue)
+            .ThenBy(item => defaults[item.Key]))
+        {
+            string name = names.TryGetValue(definition.Key, out string? customName) ? customName : definition.DefaultName;
+            bool visible = !hidden.Contains(definition.Key, StringComparer.Ordinal);
+            SidebarItems.Add(new SidebarItemEditor(definition, name, visible, SaveSidebarItem));
+        }
+    }
+
+    private static int SectionRank(string section)
+    {
+        return section switch
+        {
+            "Core" => 0,
+            "Configuration" => 1,
+            "More" => 2,
+            _ => 3
+        };
+    }
+
+    private void SaveSidebarItem(SidebarItemEditor item)
+    {
+        Dictionary<string, string> names = App.Settings.Prop.SidebarNames ??= new Dictionary<string, string>();
+        if (item.Name == item.DefaultName)
+        {
+            names.Remove(item.Key);
+        }
+        else
+        {
+            names[item.Key] = item.Name;
+        }
+        List<string> hidden = App.Settings.Prop.SidebarHiddenItems ??= new List<string>();
+        hidden.RemoveAll(key => string.Equals(key, item.Key, StringComparison.Ordinal));
+        if (!item.IsVisible && item.CanHide)
+        {
+            hidden.Add(item.Key);
+        }
+        SaveAndApplySidebar();
+    }
+
+    private void MoveSidebarItem(SidebarItemEditor? item, int direction)
+    {
+        if (item == null)
+        {
+            return;
+        }
+        int index = SidebarItems.IndexOf(item);
+        int target = index + direction;
+        if (index < 0 || target < 0 || target >= SidebarItems.Count || SidebarItems[target].Section != item.Section)
+        {
+            return;
+        }
+        SidebarItems.Move(index, target);
+        PersistSidebarOrder();
+        SaveAndApplySidebar();
+    }
+
+    private static void ToggleSidebarItemVisibility(SidebarItemEditor? item)
+    {
+        if (item == null || !item.CanHide)
+        {
+            return;
+        }
+        item.IsVisible = !item.IsVisible;
+    }
+
+    private void PersistSidebarOrder()
+    {
+        List<string> existing = App.Settings.Prop.SidebarOrder ??= new List<string>();
+        Dictionary<string, int> ranks = existing
+            .Where(key => !string.IsNullOrWhiteSpace(key))
+            .Distinct(StringComparer.Ordinal)
+            .Select((key, index) => (key, index))
+            .ToDictionary(pair => pair.key, pair => pair.index, StringComparer.Ordinal);
+        List<string> merged = new List<string>();
+        foreach (string section in new[] { "Core", "Configuration", "More", "Footer" })
+        {
+            List<MainWindow.SidebarItemDefinition> definitions = MainWindow.SidebarCustomizationItems
+                .Where(item => item.Section == section)
+                .Select((item, index) => (item, index))
+                .OrderBy(pair => ranks.TryGetValue(pair.item.Key, out int rank) ? rank : int.MaxValue)
+                .ThenBy(pair => pair.index)
+                .Select(pair => pair.item)
+                .ToList();
+            Queue<string> available = new Queue<string>(SidebarItems.Where(item => item.Section == section).Select(item => item.Key));
+            foreach (MainWindow.SidebarItemDefinition definition in definitions)
+            {
+                merged.Add(MainWindow.IsSidebarItemAvailable(definition.Key) && available.Count > 0 ? available.Dequeue() : definition.Key);
+            }
+        }
+        App.Settings.Prop.SidebarOrder = merged;
+    }
+
+    private void ResetSidebar()
+    {
+        App.Settings.Prop.SidebarNames = new Dictionary<string, string>();
+        App.Settings.Prop.SidebarOrder = new List<string>();
+        App.Settings.Prop.SidebarHiddenItems = new List<string>();
+        App.Settings.SaveDeferred();
+        LoadSidebarItems();
+        ApplyToMainWindow(window => window.ApplySidebarCustomization());
+    }
+
+    private static void SaveAndApplySidebar()
+    {
+        App.Settings.SaveDeferred();
+        ApplyToMainWindow(window => window.ApplySidebarCustomization());
     }
 
     private void ImportFile(object? _)

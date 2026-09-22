@@ -48,6 +48,54 @@ namespace Voidstrap.UI.Elements.Settings;
 
 public partial class MainWindow : WpfUiWindow, INavigationWindow
 {
+    public sealed record SidebarItemDefinition(string Key, string DefaultName, string Section, bool CanHide = true);
+
+    public static IReadOnlyList<SidebarItemDefinition> SidebarCustomizationItems { get; } = new SidebarItemDefinition[]
+    {
+        new("HomeNavItem", "Home", "Core", false),
+        new("IntegrationsNavItem", "Integrations", "Core"),
+        new("DeploymentNavItem", "Deployment", "Core"),
+        new("AppearanceNavItem", "Appearance", "Core", false),
+        new("FastFlagSettingsNavItem", "FastFlag Settings", "Configuration"),
+        new("FastFlagEditorNavItem", "FastFlag Editor", "Configuration"),
+        new("ModsNavItem", "Mods", "Configuration"),
+        new("MoreNavItem", "More", "Configuration"),
+        new("GlobalNavItem", "Global", "More"),
+        new("ShortcutsNavItem", "Shortcuts", "More"),
+        new("NewsNavItem", "News", "More"),
+        new("ExtensionsNavItem", "Extensions", "Footer"),
+        new("ManagerNavItem", "Manager", "Footer"),
+        new("SettingsNavItem", "Settings", "Footer"),
+        new("SoberNavItem", "Sober", "Footer"),
+        new("AboutNavItem", "About", "Footer")
+    };
+
+    public static bool IsSidebarItemAvailable(string key)
+    {
+        return Voidstrap.Utility.Platform.IsLinux
+            ? key is not "ExtensionsNavItem" and not "ManagerNavItem"
+            : key != "SoberNavItem";
+    }
+
+    public static string NormalizeSidebarName(string? value, string fallback)
+    {
+        string normalized = Regex.Replace(value ?? "", "\\s+", " ").Trim();
+        if (normalized.Length == 0)
+        {
+            return fallback;
+        }
+        return normalized.Length > 48 ? normalized[..48] : normalized;
+    }
+
+    [Conditional("DEBUG")]
+    private static void VerifySidebarCustomization()
+    {
+        Debug.Assert(SidebarCustomizationItems.Select(item => item.Key).Distinct(StringComparer.Ordinal).Count() == SidebarCustomizationItems.Count);
+        Debug.Assert(SidebarCustomizationItems.All(item => item.Section is "Core" or "Configuration" or "More" or "Footer"));
+        Debug.Assert(SidebarCustomizationItems.Where(item => item.Key is "HomeNavItem" or "AppearanceNavItem").All(item => !item.CanHide));
+        Debug.Assert(NormalizeSidebarName("  My\nPage  ", "Page") == "My Page");
+    }
+
     private sealed partial class PageSearchTarget
     {
         public FrameworkElement Element { get; init; } = null!;
@@ -327,6 +375,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool _navigationInitialized;
 
+    private INavigationControl[]? _defaultMainSidebarItems;
+
+    private INavigationControl[]? _defaultFooterSidebarItems;
+
+    private Dictionary<string, object?>? _defaultSidebarContent;
+
     private Page? _lastPage;
 
     private const double MaxOffset = 0.04;
@@ -514,6 +568,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ExtensionsNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
         ShortcutsNavItem.Visibility = Visibility.Visible;
         ManagerNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
+        VerifySidebarCustomization();
+        ApplySidebarCustomization();
         SettingChangeNotifier.Failed += OnSettingChangeFailed;
         RestartNotificationService.Changed += OnRestartRequirementsChanged;
         if (Voidstrap.Utility.Platform.IsLinux)
@@ -552,7 +608,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void VisibilityTimer_Tick(object? sender, EventArgs e)
     {
-        UpdateFastFlagEditorVisibility();
         UpdateDiscordPresence();
         if (++_notificationReloadTicks >= 12)
         {
@@ -869,6 +924,116 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         return RootNavigation.Items.OfType<NavigationItem>()
             .Concat(RootNavigation.Footer.OfType<NavigationItem>())
             .ToArray();
+    }
+
+    public void ApplySidebarCustomization()
+    {
+        if (RootNavigation == null)
+        {
+            return;
+        }
+        _defaultMainSidebarItems ??= RootNavigation.Items.ToArray();
+        _defaultFooterSidebarItems ??= RootNavigation.Footer.ToArray();
+        INavigationControl[] controls = _defaultMainSidebarItems.Concat(_defaultFooterSidebarItems).ToArray();
+        Dictionary<string, NavigationItem> items = controls
+            .OfType<NavigationItem>()
+            .Where(item => !string.IsNullOrEmpty(item.Name))
+            .ToDictionary(item => item.Name, StringComparer.Ordinal);
+        _defaultSidebarContent ??= items.ToDictionary(pair => pair.Key, pair => (object?)pair.Value.Content, StringComparer.Ordinal);
+        Dictionary<string, string> names = App.Settings.Prop.SidebarNames ??= new Dictionary<string, string>();
+        List<string> hidden = App.Settings.Prop.SidebarHiddenItems ??= new List<string>();
+        List<string> savedOrder = App.Settings.Prop.SidebarOrder ??= new List<string>();
+        Dictionary<string, int> ranks = savedOrder
+            .Where(key => !string.IsNullOrWhiteSpace(key))
+            .Distinct(StringComparer.Ordinal)
+            .Select((key, index) => (key, index))
+            .ToDictionary(pair => pair.key, pair => pair.index, StringComparer.Ordinal);
+        Dictionary<string, int> defaults = SidebarCustomizationItems
+            .Select((item, index) => (item.Key, index))
+            .ToDictionary(pair => pair.Key, pair => pair.index, StringComparer.Ordinal);
+        foreach (SidebarItemDefinition definition in SidebarCustomizationItems)
+        {
+            if (!items.TryGetValue(definition.Key, out NavigationItem? item))
+            {
+                continue;
+            }
+            item.Content = names.TryGetValue(definition.Key, out string? customName)
+                ? NormalizeSidebarName(customName, definition.DefaultName)
+                : _defaultSidebarContent[definition.Key];
+            bool isHidden = definition.CanHide && hidden.Contains(definition.Key, StringComparer.Ordinal);
+            item.Visibility = IsSidebarItemAvailable(definition.Key) && !isHidden ? Visibility.Visible : Visibility.Collapsed;
+        }
+        IEnumerable<SidebarItemDefinition> Ordered(string section)
+        {
+            return SidebarCustomizationItems
+                .Where(item => item.Section == section && items.ContainsKey(item.Key))
+                .OrderBy(item => ranks.TryGetValue(item.Key, out int rank) ? rank : int.MaxValue)
+                .ThenBy(item => defaults[item.Key]);
+        }
+        NavigationItem coreHeader = _defaultMainSidebarItems.OfType<NavigationItem>().First(item => !item.IsEnabled && string.Equals(item.Content?.ToString(), "Core", StringComparison.Ordinal));
+        NavigationItem configurationHeader = _defaultMainSidebarItems.OfType<NavigationItem>().First(item => !item.IsEnabled && string.Equals(item.Content?.ToString(), "Configuration", StringComparison.Ordinal));
+        Wpf.Ui.Controls.Navigation.NavigationSeparator separator = _defaultMainSidebarItems.OfType<Wpf.Ui.Controls.Navigation.NavigationSeparator>().First();
+        bool hasConfigurationItems = Ordered("Configuration").Any(definition => items[definition.Key].Visibility == Visibility.Visible);
+        configurationHeader.Visibility = hasConfigurationItems ? Visibility.Visible : Visibility.Collapsed;
+        separator.Visibility = configurationHeader.Visibility;
+        List<INavigationControl> main = new List<INavigationControl> { coreHeader };
+        main.AddRange(Ordered("Core").Select(item => items[item.Key]));
+        main.Add(separator);
+        main.Add(configurationHeader);
+        foreach (SidebarItemDefinition definition in Ordered("Configuration"))
+        {
+            main.Add(items[definition.Key]);
+            if (definition.Key == "MoreNavItem")
+            {
+                main.AddRange(Ordered("More").Select(item => items[item.Key]));
+            }
+        }
+        foreach (NavigationItem item in items.Values.Where(item => RootNavigation.Items.Contains(item)).ToArray())
+        {
+            RootNavigation.Items.Remove(item);
+        }
+        int coreIndex = RootNavigation.Items.IndexOf(coreHeader) + 1;
+        foreach (INavigationControl item in main.Skip(1).TakeWhile(item => !ReferenceEquals(item, separator)))
+        {
+            RootNavigation.Items.Insert(coreIndex++, item);
+        }
+        int configurationIndex = RootNavigation.Items.IndexOf(configurationHeader) + 1;
+        foreach (INavigationControl item in main.SkipWhile(item => !ReferenceEquals(item, configurationHeader)).Skip(1))
+        {
+            RootNavigation.Items.Insert(configurationIndex++, item);
+        }
+        foreach (NavigationItem item in items.Values.Where(item => RootNavigation.Footer.Contains(item)).ToArray())
+        {
+            RootNavigation.Footer.Remove(item);
+        }
+        int footerIndex = 0;
+        foreach (SidebarItemDefinition definition in Ordered("Footer"))
+        {
+            RootNavigation.Footer.Insert(footerIndex++, items[definition.Key]);
+        }
+        if (!string.IsNullOrEmpty(_latestNewsKey) && App.Settings.Prop.LastSeenNewsKey != _latestNewsKey)
+        {
+            ShowNewsBadge();
+        }
+        if (IsLoaded)
+        {
+            SynchronizeCurrentSidebarSelection();
+            PopulateTopSearch();
+        }
+    }
+
+    private string GetSidebarDisplayName(string key, string fallback)
+    {
+        Dictionary<string, string> names = App.Settings.Prop.SidebarNames ??= new Dictionary<string, string>();
+        if (names.TryGetValue(key, out string? customName))
+        {
+            return NormalizeSidebarName(customName, fallback);
+        }
+        if (_defaultSidebarContent != null && _defaultSidebarContent.TryGetValue(key, out object? content) && content is string text)
+        {
+            return text;
+        }
+        return fallback;
     }
 
     private void SynchronizeCurrentSidebarSelection()
@@ -3005,10 +3170,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 return;
             }
-            NewsNavItem.Content = BuildBadgedLabel("News");
+            NewsNavItem.Content = BuildBadgedLabel(GetSidebarDisplayName("NewsNavItem", "News"));
             if (MoreNavItem != null)
             {
-                MoreNavItem.Content = BuildBadgedLabel("More");
+                MoreNavItem.Content = BuildBadgedLabel(GetSidebarDisplayName("MoreNavItem", "More"));
             }
         }
         catch (Exception ex)
@@ -3038,11 +3203,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             if (NewsNavItem != null && NewsNavItem.Content is not string)
             {
-                NewsNavItem.Content = "News";
+                NewsNavItem.Content = GetSidebarDisplayName("NewsNavItem", "News");
             }
             if (MoreNavItem != null && MoreNavItem.Content is not string)
             {
-                MoreNavItem.Content = "More";
+                MoreNavItem.Content = GetSidebarDisplayName("MoreNavItem", "More");
             }
             if (!string.IsNullOrEmpty(_latestNewsKey) && App.Settings.Prop.LastSeenNewsKey != _latestNewsKey)
             {
@@ -3321,14 +3486,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         catch (Exception ex)
         {
             App.Logger.WriteLine("DiscordRPC", "SetPresence failed: " + ex.Message);
-        }
-    }
-
-    private void UpdateFastFlagEditorVisibility()
-    {
-        if (FastFlagEditorNavItem != null && FastFlagEditorNavItem.Visibility != Visibility.Visible)
-        {
-            FastFlagEditorNavItem.Visibility = Visibility.Visible;
         }
     }
 

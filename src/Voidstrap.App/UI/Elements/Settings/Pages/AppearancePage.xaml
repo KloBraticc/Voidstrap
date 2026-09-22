@@ -105,6 +105,72 @@
               </ItemsControl.ItemTemplate>
             </ComboBox>
           </controls:OptionControl>
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+            <HeaderedContentControl.Header>
+              <StackPanel>
+                <TextBlock FontSize="14" Text="Sidebar layout" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Rename, show, hide, and reorder sidebar pages." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              </StackPanel>
+            </HeaderedContentControl.Header>
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <DataGrid Grid.Row="0" MaxHeight="420" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" HeadersVisibility="Column" GridLinesVisibility="None" RowHeaderWidth="0" RowHeight="42" Background="#00FFFFFF" BorderThickness="0" AlternatingRowBackground="{DynamicResource SubtleFillColorTertiaryBrush}" ItemsSource="{Binding SidebarItems}">
+                <DataGrid.Columns>
+                  <DataGridTemplateColumn Header="Name" Width="*" MinWidth="160">
+                    <DataGridTemplateColumn.CellTemplate>
+                      <DataTemplate>
+                        <ui:TextBox Margin="4,3" MaxLength="48" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                      </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
+                  <DataGridTextColumn Header="Section" Width="130" IsReadOnly="True" Binding="{Binding Section}" />
+                  <DataGridTemplateColumn Header="Show" Width="90" CanUserSort="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                      <DataTemplate>
+                        <ui:Button MinWidth="74" Height="30" Padding="10,0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding VisibilityLabel}" ToolTip="Change sidebar visibility" IsEnabled="{Binding CanHide}" Command="{Binding DataContext.ToggleSidebarItemVisibilityCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                          <ui:Button.Style>
+                            <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                              <Setter Property="Appearance" Value="Secondary" />
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                                  <Setter Property="Appearance" Value="Primary" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </ui:Button.Style>
+                        </ui:Button>
+                      </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
+                  <DataGridTemplateColumn Header="Move" Width="86" CanUserSort="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                      <DataTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                          <ui:Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" ToolTip="Move up" AutomationProperties.Name="Move up" Command="{Binding DataContext.MoveSidebarItemUpCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                            <ui:SymbolIcon Symbol="ChevronUp24" FontSize="16" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                          </ui:Button>
+                          <ui:Button Width="34" Height="30" Padding="0" ToolTip="Move down" AutomationProperties.Name="Move down" Command="{Binding DataContext.MoveSidebarItemDownCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                            <ui:SymbolIcon Symbol="ChevronDown24" FontSize="16" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                          </ui:Button>
+                        </StackPanel>
+                      </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
+                </DataGrid.Columns>
+              </DataGrid>
+              <Grid Grid.Row="1" Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Home and Appearance stay visible so customization is always reachable." TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <ui:Button Grid.Column="1" Margin="12,0,0,0" Icon="ArrowReset24" Content="Reset sidebar" Command="{Binding ResetSidebarCommand}" />
+              </Grid>
+            </Grid>
+          </ui:CardExpander>
         </StackPanel>
       </TabItem>
       <TabItem>

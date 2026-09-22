@@ -810,15 +810,15 @@
           </ui:NavigationFluent.Template>
           <ui:NavigationBase.Items>
             <ui:NavigationItem Content="Core" IsEnabled="False" Opacity="0.6" />
-            <ui:NavigationItem Cache="True" Content="Home" Icon="Home24" Tag="Home20" PageType="{x:Type pages:HomePage}" />
-            <ui:NavigationItem Cache="True" Content="{x:Static resources:Strings.Menu_Integrations_Title}" Icon="Add12" Tag="Add16" PageType="{x:Type pages:IntegrationsPage}" />
-            <ui:NavigationItem Cache="True" Content="Deployment" Icon="PlaySettings20" Tag="Play20" PageType="{x:Type pages:BehaviourPage}" />
-            <ui:NavigationItem Cache="True" Content="{x:Static resources:Strings.Menu_Appearance_Title}" Icon="Color24" Tag="Color20" PageType="{x:Type pages:AppearancePage}" />
+            <ui:NavigationItem Cache="True" Name="HomeNavItem" Content="Home" Icon="Home24" Tag="Home20" PageType="{x:Type pages:HomePage}" />
+            <ui:NavigationItem Cache="True" Name="IntegrationsNavItem" Content="{x:Static resources:Strings.Menu_Integrations_Title}" Icon="Add12" Tag="Add16" PageType="{x:Type pages:IntegrationsPage}" />
+            <ui:NavigationItem Cache="True" Name="DeploymentNavItem" Content="Deployment" Icon="PlaySettings20" Tag="Play20" PageType="{x:Type pages:BehaviourPage}" />
+            <ui:NavigationItem Cache="True" Name="AppearanceNavItem" Content="{x:Static resources:Strings.Menu_Appearance_Title}" Icon="Color24" Tag="Color20" PageType="{x:Type pages:AppearancePage}" />
             <ui:NavigationSeparator />
             <ui:NavigationItem Content="Configuration" IsEnabled="False" Opacity="0.6" />
-            <ui:NavigationItem Cache="True" Content="FastFlag Settings" Icon="Settings28" Tag="SettingsChat24" PageType="{x:Type pages:FastFlagsPage}" />
+            <ui:NavigationItem Cache="True" Name="FastFlagSettingsNavItem" Content="FastFlag Settings" Icon="Settings28" Tag="SettingsChat24" PageType="{x:Type pages:FastFlagsPage}" />
             <ui:NavigationItem Cache="True" Name="FastFlagEditorNavItem" Content="FastFlag Editor" Icon="Flag28" Tag="Flag20" PageType="{x:Type pages:FastFlagEditorPage}" />
-            <ui:NavigationItem Cache="True" Content="{x:Static resources:Strings.Menu_Mods_Title}" Icon="WrenchScrewdriver20" Tag="Wrench24" PageType="{x:Type pages:ModsPage}" />
+            <ui:NavigationItem Cache="True" Name="ModsNavItem" Content="{x:Static resources:Strings.Menu_Mods_Title}" Icon="WrenchScrewdriver20" Tag="Wrench24" PageType="{x:Type pages:ModsPage}" />
             <ui:NavigationItem Cache="True" Name="MoreNavItem" Content="More" Icon="MoreHorizontal24" Tag="MoreHorizontal20" PageType="{x:Type pages:MorePage}" vscontrols:SidebarGroup.IsHeader="True" />
             <ui:NavigationItem Cache="True" Name="GlobalNavItem" Margin="0" Content="Global" Icon="GlobeLocation20" Tag="Globe20" PageType="{x:Type pages:GBSEditorPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
             <ui:NavigationItem Cache="True" Name="ShortcutsNavItem" Margin="0" Content="{x:Static resources:Strings.Common_Shortcuts}" Icon="Apps32" Tag="Apps24" PageType="{x:Type pages:ShortcutsPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
@@ -829,7 +829,7 @@
             <ui:NavigationItem Cache="True" Name="ManagerNavItem" Content="Manager" Icon="ArrowDownload24" Tag="ArrowDownload20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:DownloadsPage}" />
             <ui:NavigationItem Cache="True" Name="SettingsNavItem" Content="Settings" Icon="Settings28" Tag="Settings20" PageType="{x:Type pages:ChannelPage}" />
             <ui:NavigationItem Cache="True" Name="SoberNavItem" Content="{x:Static resources:Strings.Menu_Sober_Title}" Icon="Empty" Image="pack://application:,,,/Resources/SoberIcon.png" Tag="Settings20" PageType="{x:Type pages:SoberPage}" />
-            <ui:NavigationItem Content="{x:Static resources:Strings.Menu_About_Title}" Icon="QuestionCircle32" Tag="QuestionCircle48" Command="{Binding OpenAboutCommand, Mode=OneTime}" />
+            <ui:NavigationItem Name="AboutNavItem" Content="{x:Static resources:Strings.Menu_About_Title}" Icon="QuestionCircle32" Tag="QuestionCircle48" Command="{Binding OpenAboutCommand, Mode=OneTime}" />
           </ui:NavigationBase.Footer>
         </ui:NavigationFluent>
         <Border Name="SidebarResizer" Width="8" HorizontalAlignment="Right" Background="Transparent" Cursor="SizeWE" ToolTip="Drag to resize, double click to reset" MouseLeftButtonDown="SidebarResizer_MouseLeftButtonDown" MouseMove="SidebarResizer_MouseMove" MouseLeftButtonUp="SidebarResizer_MouseLeftButtonUp" />
