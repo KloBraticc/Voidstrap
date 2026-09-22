@@ -25,7 +25,9 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: 10.0.300
-      - run: sudo apt-get update && sudo apt-get install -y appstream desktop-file-utils flatpak flatpak-builder rpm
+      - run: sudo apt-get update && sudo apt-get install -y appstream desktop-file-utils flatpak flatpak-builder rpm qemu-user-static binfmt-support
+      - name: Check that aarch64 binaries can run for the arm64 Flatpak
+        run: grep -q '^flags:.*F' /proc/sys/fs/binfmt_misc/qemu-aarch64
       - run: flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
       - run: curl --fail --location --retry 5 --output "$RUNNER_TEMP/appimagetool" https://github.com/AppImage/appimagetool/releases/download/1.9.1/appimagetool-x86_64.AppImage && echo 'ed4ce84f0d9caff66f50bcca6ff6f35aae54ce8135408b3fa33abfc3cb384eb0  '"$RUNNER_TEMP/appimagetool" | sha256sum --check && chmod 755 "$RUNNER_TEMP/appimagetool"
       - name: Validate release version

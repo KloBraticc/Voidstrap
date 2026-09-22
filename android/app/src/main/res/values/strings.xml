@@ -500,6 +500,21 @@
     <string name="setup_run_done">The helper is running. FastFlags apply every time Voidstrap launches Roblox.</string>
     <string name="setup_run_unavailable">Shared storage is not available, so the start script could not be created.</string>
     <string name="setup_copied">Start command copied</string>
+    <string name="setup_device">Run on this device</string>
+    <string name="setup_device_body">In aShell, LADB or Termux with rish, run this exactly, without quotes. In Termux with adb, first pair it in Developer options, Wireless debugging (adb pair, then adb connect), then use the computer command above. Start with Shizuku is easier. Tap to copy it.
+%1$s</string>
+    <string name="setup_shizuku">Start with Shizuku</string>
+    <string name="setup_shizuku_ready">No computer needed. Tap to start the helper through Shizuku.</string>
+    <string name="setup_shizuku_permission">No computer needed. Tap, then allow Voidstrap in the Shizuku prompt.</string>
+    <string name="setup_shizuku_not_running">Shizuku is installed but not running. Tap to open Shizuku and start it, then come back and tap again.</string>
+    <string name="setup_shizuku_install">No computer needed with Shizuku. Tap to get Shizuku, start it, then come back and tap again.</string>
+    <string name="shizuku_starting">Starting the helper through Shizuku</string>
+    <string name="shizuku_started">The helper started through Shizuku. After a restart, start Shizuku and Voidstrap starts the helper again by itself.</string>
+    <string name="shizuku_failed">Shizuku could not start the helper. Open Shizuku, make sure it is running, and try again.</string>
+    <string name="shizuku_denied">Voidstrap was not allowed in Shizuku, so the helper was not started.</string>
+    <string name="shizuku_not_running">Start Shizuku, then come back and tap Start with Shizuku again.</string>
+    <string name="shizuku_not_installed">Install Shizuku and start it, then come back and tap Start with Shizuku again.</string>
+    <string name="shizuku_too_old">This Shizuku version is too old. Update Shizuku and try again.</string>
     <string name="settings_root">Use root</string>
     <string name="settings_void_rpc">Voidstrap RPC</string>
     <string name="settings_void_rpc_body">Displays Voidstrap\'s Discord RPC.</string>
@@ -513,7 +528,7 @@
     <string name="settings_root_ready">Root access is ready. FastFlags apply every time Voidstrap launches Roblox.</string>
     <string name="settings_root_denied">Your root manager did not grant Voidstrap access. Open it, allow Voidstrap, then try again.</string>
     <string name="setup_title">Set up FastFlags</string>
-    <string name="setup_body">Roblox reads FastFlags from a system folder that apps cannot write to by themselves. The Voidstrap helper runs with adb access and writes them for Voidstrap. Start it once from a computer and your flags apply every time you launch Roblox. Start it again after your device restarts.</string>
+    <string name="setup_body">Roblox reads FastFlags from a system folder that apps cannot write to by themselves. The Voidstrap helper runs with adb access and writes them for Voidstrap. Start it with Shizuku, or once from a computer, and your flags apply every time you launch Roblox. With Shizuku, Voidstrap starts it again by itself whenever Shizuku is running.</string>
     <string name="flags_short_root">Applies automatically with root</string>
     <string name="flags_short_stopped">Start the Voidstrap helper to apply changes</string>
     <string name="flags_short_none">Set up the Voidstrap helper to apply flags</string>

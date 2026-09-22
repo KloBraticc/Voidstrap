@@ -640,6 +640,11 @@ public class Bootstrapper
     {
         Stopwatch launchTimer = Stopwatch.StartNew();
         App.Logger.WriteLine("Bootstrapper::Run", "Running bootstrapper");
+        _safeMode = _launchMode == LaunchMode.Player && App.State.Prop.SafeLaunchPending;
+        if (_safeMode)
+        {
+            App.Logger.WriteLine("Bootstrapper::Run", "Safe launch: this launch skips mods, FastFlags, AssetWarp, the matchmaker, launch integrations and process changes to test whether one of them makes Roblox crash");
+        }
         Dialog?.CancelEnabled = true;
         SetStatus(Strings.Bootstrapper_Status_Connecting);
         ApplyForcedReinstall();
@@ -763,7 +768,9 @@ public class Bootstrapper
 				App.FastFlags.ApplyPreloadFlags();
 				App.FastFlags.SaveDeferred();
 			}
-			if (!_noConnection)
+			if (_safeMode)
+				ModAutoFixer.UnlockOtaPatchBackups();
+			else if (!_noConnection)
 				await ApplyModifications();
         }
         if (IsStudioLaunch)
@@ -1666,7 +1673,10 @@ public class Bootstrapper
     {
 		Stopwatch startTimer = Stopwatch.StartNew();
         SetStatus("Starting Roblox");
-        await MaybeApplyVoidstrapMatchmakerAsync(ct);
+        if (_safeMode)
+            _safeLaunch = true;
+        else
+            await MaybeApplyVoidstrapMatchmakerAsync(ct);
         if (!Voidstrap.Utility.Platform.SupportsWindowsClient)
         {
             if (await TryLaunchNonWindowsClientAsync(_launchCommandLine, _launchMode, ct))
@@ -1689,9 +1699,11 @@ public class Bootstrapper
             {
 				AssetPreloadCache.SwitchSession(assetPreloadPlaceId);
             }
-            if (_launchMode == LaunchMode.Player)
+            if (_safeMode)
+                AssetProxyServer.Stop();
+            else if (_launchMode == LaunchMode.Player)
                 await StartAssetProxyIfEnabled(ct);
-            if (AssetProxyRouting.ConsumeCacheCleared())
+            if (!_safeMode && AssetProxyRouting.ConsumeCacheCleared())
                 await RestoreStoragePatchesAsync(ct);
             if (_launchMode == LaunchMode.Player && (!App.Settings.Prop.AssetWarpEnabled || !App.Settings.Prop.AssetWarpPreloadEnabled))
             {
@@ -1708,7 +1720,8 @@ public class Bootstrapper
                     App.Logger.WriteLine("Bootstrapper::StartRoblox", "Telemetry block entries are missing and Voidstrap is not elevated, skipping reassert");
                 }
             }
-            await LaunchCustomIntegrations("Bootstrapper::StartRoblox", preLaunch: true, ct);
+            if (!_safeMode)
+                await LaunchCustomIntegrations("Bootstrapper::StartRoblox", preLaunch: true, ct);
 			App.Logger.WriteLine("Bootstrapper::StartRoblox", "Process preparation completed in " + startTimer.ElapsedMilliseconds + " ms");
             ProcessStartInfo startInfo = BuildStartInfo();
             if (_launchMode == LaunchMode.StudioAuth)
@@ -1720,6 +1733,15 @@ public class Bootstrapper
             Directory.CreateDirectory(text);
             string? logFileName = await WaitForLogFileAsync(text, startInfo, ct);
 			App.Logger.WriteLine("Bootstrapper::StartRoblox", "Process start and readiness completed in " + startTimer.ElapsedMilliseconds + " ms");
+            if (_safeMode && App.State.Prop.SafeLaunchPending && !string.IsNullOrEmpty(logFileName))
+            {
+                App.State.Prop.SafeLaunchPending = false;
+                App.State.Save();
+                const string safeWorked = "Roblox started once Voidstrap launched it without your mods, FastFlags, AssetWarp, matchmaker and launch integrations, so one of those made Roblox crash while starting. They are all back on for your next launch. If Roblox crashes again, turn your mods off in My Mods first, then reset your FastFlags, then turn off AssetWarp, until it starts.";
+                App.Logger.WriteLine("Bootstrapper::StartRoblox", "Safe launch reached the Roblox renderer, the crash comes from something Voidstrap adds");
+                Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchworked", "Roblox started in a safe launch", safeWorked);
+                Frontend.ShowMessageBox(safeWorked, MessageBoxImage.Information);
+            }
             if (string.IsNullOrEmpty(logFileName))
             {
                 App.Logger.WriteLine("Bootstrapper::StartRoblox", "Unable to identify log file.");
@@ -2049,6 +2071,8 @@ public class Bootstrapper
 
 	private bool _safeLaunch;
 
+	private bool _safeMode;
+
 	private static readonly TimeSpan StartupCrashReinstallCooldown = TimeSpan.FromHours(6);
 
 	private const string RendererReadyMarker = "shaders from pack";
@@ -2107,10 +2131,21 @@ public class Bootstrapper
 	private static void ReportRepeatedStartupCrash(string? robloxLogFile)
 	{
 		App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Roblox crashed before its renderer started on every attempt, giving up");
+		if (App.State.Prop.SafeLaunchPending)
+		{
+			App.State.Prop.SafeLaunchPending = false;
+			App.State.Save();
+			const string outside = "Roblox still crashes while starting with a fresh install and everything Voidstrap adds turned off: no mods, no FastFlags, no AssetWarp, no matchmaker and no launch integrations. The crash is inside the Roblox client or this PC, not in your Voidstrap setup. Update your graphics driver, close overlays and antivirus tools that inject into games, and try launching Roblox without Voidstrap to confirm.";
+			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Safe launch also crashed, the crash is outside anything Voidstrap adds");
+			Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchcrashed", "Roblox crashes even in a safe launch", outside);
+			Frontend.ShowMessageBox(outside, MessageBoxImage.Warning);
+			return;
+		}
 		ModCrashGuard.BeginSession();
 		IReadOnlyList<string> disabled = ModCrashGuard.HandleCrash();
 		if (DateTime.UtcNow - App.State.Prop.LastStartupCrashReinstallUtc > StartupCrashReinstallCooldown)
 		{
+			App.State.Prop.SafeLaunchPending = true;
 			App.State.Prop.LastStartupCrashReinstallUtc = DateTime.UtcNow;
 			App.State.Save();
 			App.Settings.Prop.ForceRobloxReinstall = true;

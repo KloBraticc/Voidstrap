@@ -6,6 +6,7 @@ core = "1.19.0"
 constraintlayout = "2.2.2"
 desugar = "2.1.5"
 appupdate = "2.1.0"
+shizuku = "13.1.5"
 
 [libraries]
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -14,6 +15,8 @@ core = { group = "androidx.core", name = "core", version.ref = "core" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 desugar-jdk-libs-nio = { group = "com.android.tools", name = "desugar_jdk_libs_nio", version.ref = "desugar" }
 app-update = { group = "com.google.android.play", name = "app-update", version.ref = "appupdate" }
+shizuku-api = { group = "dev.rikka.shizuku", name = "api", version.ref = "shizuku" }
+shizuku-provider = { group = "dev.rikka.shizuku", name = "provider", version.ref = "shizuku" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

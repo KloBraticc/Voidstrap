@@ -51,9 +51,14 @@ public final class HelperServer {
     }
 
     public static void main(String[] args) {
-        if (args.length < 3 || !args[0].matches("[A-Za-z0-9_.]+") || !args[1].matches("[0-9]{1,9}") || !args[2].matches("[0-9a-f]{32}")) return;
+        if (args.length < 3) return;
+        start(args[0], args[1], args[2]);
+    }
+
+    static int start(String pkg, String uid, String token) {
+        if (pkg == null || uid == null || token == null || !pkg.matches("[A-Za-z0-9_.]+") || !uid.matches("[0-9]{1,9}") || !token.matches("[0-9a-f]{32}")) return -1;
         try {
-            Process p = new ProcessBuilder("sh", "-c", launchLine(args[0], Integer.parseInt(args[1]), args[2]))
+            Process p = new ProcessBuilder("sh", "-c", launchLine(pkg, Integer.parseInt(uid), token))
                     .redirectErrorStream(true)
                     .start();
             byte[] buf = new byte[4096];
@@ -61,8 +66,12 @@ public final class HelperServer {
                 while (out.read(buf) > 0) {
                 }
             }
-            p.waitFor();
-        } catch (IOException | InterruptedException ignored) {
+            return p.waitFor();
+        } catch (IOException e) {
+            return -1;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return -1;
         }
     }
 }

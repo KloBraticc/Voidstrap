@@ -320,6 +320,7 @@ public class MainActivity extends AppCompatActivity {
             android.content.Context app = getApplicationContext();
             store.work.execute(() -> {
                 Helper.keepRootHelper(app);
+                Crash.run("shizuku helper", () -> ShizukuHelper.keepHelper(app));
                 LibraryData.importJoins(app);
             });
         }

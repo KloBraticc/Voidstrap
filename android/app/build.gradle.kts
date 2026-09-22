@@ -165,6 +165,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.core)
     implementation(libs.constraintlayout)
+    implementation(libs.shizuku.api)
+    implementation(libs.shizuku.provider)
     "playImplementation"(libs.app.update)
     coreLibraryDesugaring(libs.desugar.jdk.libs.nio)
 }

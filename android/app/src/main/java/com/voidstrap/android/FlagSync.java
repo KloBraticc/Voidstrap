@@ -102,10 +102,16 @@ public final class FlagSync {
         String command = Helper.command(a);
         LinearLayout list = new LinearLayout(a);
         list.setOrientation(LinearLayout.VERTICAL);
+        String device = Helper.deviceCommand(a);
+        Row shizuku = Row.inflate(list);
         Row debugging = Row.inflate(list);
         Row start = Row.inflate(list);
+        Row onDevice = Row.inflate(list);
+        list.addView(shizuku.view);
         list.addView(debugging.view);
         list.addView(start.view);
+        list.addView(onDevice.view);
+        boolean[] shizukuBusy = new boolean[1];
         Dialog[] sheet = new Dialog[1];
         Runnable bind = () -> {
             boolean running = Helper.uidNow() >= 0;
@@ -118,7 +124,30 @@ public final class FlagSync {
             });
             start.detail.setText(running ? a.getString(R.string.setup_run_done)
                     : command == null ? a.getString(R.string.setup_run_unavailable) : a.getString(R.string.setup_run_body, command));
+            start.detail.setMaxLines(Integer.MAX_VALUE);
             start.detail.setVisibility(View.VISIBLE);
+            step(a, onDevice, R.drawable.ic_play, R.string.setup_device, 0, running, true, () -> {
+                Ui.copy(a, a.getString(R.string.setup_device), device);
+                Notify.say(a, Notify.COPY, R.string.setup_copied);
+            });
+            onDevice.detail.setText(running ? a.getString(R.string.setup_run_done) : a.getString(R.string.setup_device_body, device));
+            onDevice.detail.setMaxLines(Integer.MAX_VALUE);
+            onDevice.detail.setVisibility(View.VISIBLE);
+            ShizukuHelper.State shizukuState = ShizukuHelper.state(a);
+            step(a, shizuku, R.drawable.ic_shield_checkmark, R.string.setup_shizuku, 0, running, !shizukuBusy[0], () -> {
+                if (shizukuBusy[0]) return;
+                shizukuBusy[0] = true;
+                shizuku.detail.setText(R.string.shizuku_starting);
+                ShizukuHelper.start(a, (started, message) -> {
+                    shizukuBusy[0] = false;
+                    if (a.isFinishing() || a.isDestroyed()) return;
+                    if (started) Notify.say(a, Notify.GENERAL, message);
+                    else Ui.say(a, message);
+                    Helper.uidNow();
+                });
+            });
+            if (!shizukuBusy[0]) shizuku.detail.setText(running ? a.getString(R.string.setup_run_done) : a.getString(shizukuDetail(shizukuState)));
+            shizuku.detail.setVisibility(View.VISIBLE);
             if (running && sheet[0] != null && sheet[0].isShowing()) {
                 store.putSetting("helperSeen", "1");
                 store.changed();
@@ -134,6 +163,16 @@ public final class FlagSync {
         sheet[0] = Ui.surface(a, R.string.setup_title, R.string.setup_body, list, () -> store.main.removeCallbacks(poll[0]));
         sheet[0].show();
         store.main.postDelayed(poll[0], SETUP_POLL_MS);
+    }
+
+    private static int shizukuDetail(ShizukuHelper.State state) {
+        switch (state) {
+            case READY: return R.string.setup_shizuku_ready;
+            case NEEDS_PERMISSION: return R.string.setup_shizuku_permission;
+            case NOT_RUNNING: return R.string.setup_shizuku_not_running;
+            case TOO_OLD: return R.string.shizuku_too_old;
+            default: return R.string.setup_shizuku_install;
+        }
     }
 
     private static void step(Context c, Row row, int icon, int title, int body, boolean done, boolean available, Runnable action) {

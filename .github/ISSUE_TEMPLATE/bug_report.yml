@@ -21,7 +21,7 @@ body:
     attributes:
       label: Voidstrap version
       description: You can find it on the About page in Voidstrap.
-      placeholder: 1.1.2.3
+      placeholder: 1.1.2.4
     validations:
       required: true
   - type: dropdown

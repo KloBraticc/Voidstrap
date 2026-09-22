@@ -37,7 +37,11 @@ public final class Helper {
     }
 
     public static String command(Context c) {
-        return "adb shell \"content read --uri content://" + StartScriptProvider.authority(c.getPackageName()) + "/" + StartScriptProvider.PATH + " | sh\"";
+        return "adb shell \"" + deviceCommand(c) + "\"";
+    }
+
+    public static String deviceCommand(Context c) {
+        return "content read --uri content://" + StartScriptProvider.authority(c.getPackageName()) + "/" + StartScriptProvider.PATH + " | sh";
     }
 
     public static void keepRootHelper(Context c) {

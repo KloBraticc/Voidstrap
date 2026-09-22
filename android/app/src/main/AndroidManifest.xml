@@ -13,6 +13,7 @@
         <package android:name="com.roblox.client" />
         <package android:name="com.roblox.client.vnggames" />
         <package android:name="com.discord" />
+        <package android:name="moe.shizuku.privileged.api" />
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="market" />
@@ -74,6 +75,14 @@
             android:noHistory="true"
             android:taskAffinity=""
             android:theme="@style/Theme.Voidstrap.Trampoline" />
+
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="${applicationId}.shizuku"
+            android:multiprocess="false"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
         <provider
             android:name=".StartScriptProvider"
