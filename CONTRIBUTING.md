@@ -60,7 +60,6 @@ Android app, from the `android` folder (on Windows, use `.\gradlew.bat`):
 * Use named methods for event handlers and unsubscribe them when the object is cleaned up. Stop and dispose timers the same way.
 * Reuse a single static `HttpClient`, pass a `CancellationToken` to background loops, and use `await Task.Delay` instead of `Thread.Sleep`.
 * Use `[LibraryImport]` for native calls, not `[DllImport]`.
-* Never launch Roblox through the web browser.
 
 ### Android changes
 
