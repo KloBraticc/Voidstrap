@@ -79,13 +79,18 @@ public final class FlagSync {
     }
 
     public static void ask(androidx.fragment.app.Fragment f) {
-        if (asked) return;
-        Store.get(f.requireContext()).main.postDelayed(() -> {
-            if (asked || !f.isResumed() || f.isHidden()) return;
+        Store store = Store.get(f.requireContext());
+        if (asked || "1".equals(store.setting(AUTO_ASKED, "0"))) return;
+        store.main.postDelayed(() -> {
+            if (asked || !f.isAdded() || !f.isResumed() || f.isHidden() || "1".equals(store.setting(AUTO_ASKED, "0"))) return;
             FlagWriter.Mode m = FlagWriter.mode(f.requireContext());
-            if (m == FlagWriter.Mode.NONE) setup((AppCompatActivity) f.requireActivity());
+            if (m != FlagWriter.Mode.NONE) return;
+            store.putSetting(AUTO_ASKED, "1");
+            setup((AppCompatActivity) f.requireActivity());
         }, 800);
     }
+
+    private static final String AUTO_ASKED = "helperSetupOffered";
 
     public static void setup(AppCompatActivity a) {
         asked = true;

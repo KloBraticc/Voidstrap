@@ -322,6 +322,12 @@
     <string name="update_channel_releases">Voidstrap releases</string>
     <string name="update_channel_play">Google Play</string>
     <string name="update_check">Check now</string>
+    <string name="update_local">Install from APK</string>
+    <string name="update_local_body">Choose a newer Voidstrap APK saved on this device</string>
+    <string name="update_local_reading">Checking the selected APK</string>
+    <string name="update_local_missing">No APK file was provided</string>
+    <string name="update_local_too_large">The selected APK is too large</string>
+    <string name="update_local_ready">APK checked, installing</string>
     <string name="update_checking">Checking for a new version</string>
     <string name="update_current">Voidstrap %1$s, the newest build</string>
     <string name="update_never_checked">Voidstrap %1$s, not checked yet</string>
@@ -341,10 +347,10 @@
     <string name="update_needs_permission">Voidstrap needs permission to install app updates</string>
     <string name="update_permission_failed">This device has no screen for installing unknown apps</string>
     <string name="update_error_size">The download did not match the published size</string>
-    <string name="update_error_not_apk">The download is not a readable Android package</string>
-    <string name="update_error_other_app">The download belongs to %1$s, not to Voidstrap</string>
-    <string name="update_error_version">The download is version %1$s but the release said %2$s</string>
-    <string name="update_error_older">The download is not newer than the installed build</string>
+    <string name="update_error_not_apk">The APK is not a readable Android package</string>
+    <string name="update_error_other_app">The APK belongs to %1$s, not to Voidstrap</string>
+    <string name="update_error_version">The APK is version %1$s but the release said %2$s</string>
+    <string name="update_error_older">The APK is not newer than the installed build</string>
     <string name="update_error_cancelled">The install was cancelled</string>
     <string name="update_error_blocked">The device blocked the install</string>
     <string name="update_error_conflict">The installed Voidstrap was signed with a different key, so uninstall it first</string>
@@ -989,6 +995,9 @@
     <string name="notify_copy_body">Confirms when something is copied to the clipboard.</string>
     <string name="notify_general">Other messages</string>
     <string name="notify_general_body">Confirms saves, backups, sign in and other actions.</string>
+    <string name="testing_notice_title">Android support is in testing</string>
+    <string name="testing_notice_body">Voidstrap for Android is still being tested. Expect errors, and some features may not work, or may not work as well as they do on Windows. If something breaks, please report it.</string>
+    <string name="testing_notice_ok">Got it</string>
     <string name="onboarding_skip">Skip</string>
     <string name="onboarding_back">Back</string>
     <string name="onboarding_next">Next</string>

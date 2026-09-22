@@ -47,6 +47,7 @@ public final class SettingsFragment extends Page {
     private ActivityResultLauncher<String[]> importLauncher;
     private ActivityResultLauncher<String> notifyPermission;
     private ActivityResultLauncher<String[]> fontLauncher;
+    private ActivityResultLauncher<String[]> updateLauncher;
     private LinearLayout appearance;
     private final List<MaterialSwitch> notifySwitches = new ArrayList<>();
     private TextView notifyStatus;
@@ -63,6 +64,9 @@ public final class SettingsFragment extends Page {
         exportLauncher = registerForActivityResult(new ActivityResultContracts.CreateDocument("application/json"), this::onExport);
         importLauncher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), this::onImport);
         fontLauncher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), this::onFont);
+        updateLauncher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), uri -> {
+            if (uri != null && isAdded()) Updater.openLocal(host(), uri);
+        });
         notifyPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
             if (!isAdded()) return;
             bindNotifications();
@@ -132,6 +136,8 @@ public final class SettingsFragment extends Page {
         row(about, R.drawable.ic_globe, R.string.settings_website, R.string.settings_website_body, () -> Ui.openWeb(requireContext(), getString(R.string.url_website)));
         buildUpdates(about);
         if (BuildConfig.DIRECT_UPDATES) {
+            row(about, R.drawable.ic_arrow_import, R.string.update_local, R.string.update_local_body,
+                    () -> updateLauncher.launch(new String[]{"application/vnd.android.package-archive", "application/x-android-package-archive", "application/octet-stream"}));
             row(about, R.drawable.ic_globe, R.string.settings_updates, R.string.settings_updates_body, () -> Ui.openWeb(requireContext(), getString(R.string.url_releases)));
         }
         ((TextView) v.findViewById(R.id.version)).setText(getString(R.string.settings_version, BuildConfig.VERSION_NAME, getString(BuildConfig.DIRECT_UPDATES ? R.string.edition_direct : R.string.edition_play)));
@@ -324,7 +330,7 @@ public final class SettingsFragment extends Page {
         String title;
         String detail;
         if (s == Updater.State.CHECKING) {
-            title = getString(R.string.update_checking);
+            title = Updater.problem().isEmpty() ? getString(R.string.update_checking) : Updater.problem();
             detail = Updater.channel(c);
         } else if (s == Updater.State.DOWNLOADING) {
             title = getString(R.string.update_downloading, Updater.progress());

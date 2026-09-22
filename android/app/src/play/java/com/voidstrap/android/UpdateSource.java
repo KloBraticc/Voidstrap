@@ -1,6 +1,7 @@
 package com.voidstrap.android;
 
 import android.content.Context;
+import android.net.Uri;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,6 +30,10 @@ final class UpdateSource {
     }
 
     static boolean selfInstalls() {
+        return false;
+    }
+
+    static boolean localActive() {
         return false;
     }
 
@@ -157,5 +162,8 @@ final class UpdateSource {
                 }
             }
         })));
+    }
+
+    static void openLocal(AppCompatActivity a, Uri uri) {
     }
 }

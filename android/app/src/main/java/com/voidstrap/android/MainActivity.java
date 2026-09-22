@@ -2,6 +2,7 @@ package com.voidstrap.android;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +29,9 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_TAB = "tab";
     public static final String EXTRA_PROBLEM = "problem";
+    private static final String TESTING_NOTICE = "androidTestingNoticeSeen";
+
+    private boolean testingNoticeOpen;
 
     private static final int[] TABS = {R.id.nav_home, R.id.nav_library, R.id.nav_mods, R.id.nav_flags, R.id.nav_flag_editor, R.id.nav_integrations, R.id.nav_smart, R.id.nav_settings};
 
@@ -121,6 +125,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void handle(Intent intent) {
         if (intent == null) return;
+        if (Updater.selfInstalls() && (Intent.ACTION_VIEW.equals(intent.getAction()) || Intent.ACTION_SEND.equals(intent.getAction()))
+                && ("application/vnd.android.package-archive".equals(intent.getType()) || "application/x-android-package-archive".equals(intent.getType()))) {
+            Uri uri = Intent.ACTION_VIEW.equals(intent.getAction()) ? intent.getData() : Crash.call("shared apk", () -> androidx.core.content.IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri.class), null);
+            intent.setAction(null);
+            Updater.openLocal(this, uri);
+            return;
+        }
         if (Intent.ACTION_SEND.equals(intent.getAction())) {
             CharSequence text = Crash.call("shared text", () -> intent.getCharSequenceExtra(Intent.EXTRA_TEXT), null);
             if (text != null) {
@@ -130,12 +141,12 @@ public class MainActivity extends AppCompatActivity {
             }
             intent.setAction(null);
         }
-        int tab = intent.getIntExtra(EXTRA_TAB, 0);
+        int tab = Crash.call("intent tab", () -> intent.getIntExtra(EXTRA_TAB, 0), 0);
         if (tab != 0 && java.util.Arrays.stream(TABS).anyMatch(t -> t == tab)) {
             select(tab);
             intent.removeExtra(EXTRA_TAB);
         }
-        int problem = intent.getIntExtra(EXTRA_PROBLEM, 0);
+        int problem = Crash.call("intent problem", () -> intent.getIntExtra(EXTRA_PROBLEM, 0), 0);
         if (problem != 0 && isString(problem)) {
             intent.removeExtra(EXTRA_PROBLEM);
             View content = findViewById(R.id.content);
@@ -208,6 +219,23 @@ public class MainActivity extends AppCompatActivity {
         barSaveLaunch.setLayoutParams(lp);
         View space = findViewById(R.id.bar_space);
         if (space != null) space.setVisibility(View.GONE);
+        barSaveLaunch.post(() -> Crash.run("action bar compact", this::compactSaveLaunch));
+    }
+
+    private void compactSaveLaunch() {
+        if (!(barSaveLaunch instanceof com.google.android.material.button.MaterialButton)) return;
+        com.google.android.material.button.MaterialButton button = (com.google.android.material.button.MaterialButton) barSaveLaunch;
+        CharSequence label = button.getText();
+        if (label == null || label.length() == 0) return;
+        int room = button.getWidth() - button.getPaddingLeft() - button.getPaddingRight();
+        if (room <= 0 || button.getPaint().measureText(label.toString()) <= room) return;
+        button.setText(null);
+        button.setContentDescription(label);
+        androidx.appcompat.widget.TooltipCompat.setTooltipText(button, label);
+        button.setIconResource(R.drawable.ic_play);
+        button.setIconGravity(com.google.android.material.button.MaterialButton.ICON_GRAVITY_TEXT_START);
+        button.setIconPadding(0);
+        button.setPaddingRelative(Ui.dp(this, 12), button.getPaddingTop(), Ui.dp(this, 12), button.getPaddingBottom());
     }
 
     private void updateBar() {
@@ -285,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
         Crash.run("update resume", () -> Updater.resume(this));
         Crash.run("update check", () -> Updater.auto(this));
         offerPendingLaunch();
+        offerTestingNotice();
         long now = android.os.SystemClock.elapsedRealtime();
         if (now - lastJoinImport > 15_000) {
             lastJoinImport = now;
@@ -325,6 +354,18 @@ public class MainActivity extends AppCompatActivity {
             t.remove(f);
         }
         if (t != null) t.commitNowAllowingStateLoss();
+    }
+
+    private void offerTestingNotice() {
+        if (testingNoticeOpen || isFinishing() || "1".equals(store.setting(TESTING_NOTICE, "0")) || OnboardingActivity.due(this)) return;
+        testingNoticeOpen = true;
+        Ui.alert(this)
+                .setTitle(R.string.testing_notice_title)
+                .setMessage(R.string.testing_notice_body)
+                .setCancelable(false)
+                .setPositiveButton(R.string.testing_notice_ok, (dialog, which) -> store.putSetting(TESTING_NOTICE, "1"))
+                .setOnDismissListener(dialog -> testingNoticeOpen = false)
+                .show();
     }
 
     private void offerPendingLaunch() {

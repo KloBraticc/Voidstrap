@@ -37,8 +37,7 @@ public partial class NvidiaFastFlagsPage : UiPage{
 		try
 		{
 			System.Collections.Generic.List<Voidstrap.Models.NvidiaEditorEntry> staged = _viewModel.StageEntries();
-			if (await NvidiaApplyFlow.RunAsync(staged))
-				_viewModel.ReloadFromDriver();
+			await NvidiaApplyFlow.RunAsync(staged);
 		}
 		catch (Exception ex)
 		{

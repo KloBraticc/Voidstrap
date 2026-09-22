@@ -3070,10 +3070,10 @@ public class Bootstrapper
                 SetStatus(Strings.Bootstrapper_Status_Configuring);
             }
 			await WithRetryAsync(() => File.WriteAllTextAsync(Path.Combine(stagingDirectory, "AppSettings.xml"), AppSettingsXml, ct), "Bootstrapper::UpgradeRoblox::Write(AppSettings.xml)", 3, 600, ex6 => (ex6 is IOException || ex6 is UnauthorizedAccessException), ct).ConfigureAwait(continueOnCapturedContext: false);
-			List<string> installedFiles = VerifyExtractedPackages(stagingDirectory);
+			List<InstallManifest.Entry> installedFiles = VerifyExtractedPackages(stagingDirectory);
 			ValidateStagedInstallation(stagingDirectory);
 			File.WriteAllText(Path.Combine(stagingDirectory, VersionOwnershipFileName), AppData.BinaryType, new UTF8Encoding(false));
-			File.WriteAllLines(Path.Combine(stagingDirectory, InstalledFilesListName), installedFiles, new UTF8Encoding(false));
+			InstallManifest.Write(stagingDirectory, installedFiles);
 			if (!PathsEqual(AppData.VersionsRoot, Paths.Versions) && Directory.Exists(_latestVersionDirectory) &&
 				!string.Equals(AppData.State.VersionGuid, _latestVersionGuid, StringComparison.Ordinal) && !IsOwnedVersionDirectory(_latestVersionDirectory))
 			{
@@ -3345,11 +3345,11 @@ public class Bootstrapper
 
 	private List<string> _stagedCriticalFiles = [];
 
-	private const string InstalledFilesListName = ".voidstrap-files";
+	private static string InstalledFilesListName => InstallManifest.FileName;
 
-	private List<string> VerifyExtractedPackages(string stagingDirectory)
+	private List<InstallManifest.Entry> VerifyExtractedPackages(string stagingDirectory)
 	{
-		List<string> installedFiles = [];
+		List<InstallManifest.Entry> installedFiles = [];
 		List<string> damaged = [];
 		foreach (Package package in _versionPackageManifest ?? [])
 		{
@@ -3357,7 +3357,7 @@ public class Bootstrapper
 			{
 				App.Logger.WriteLine("Bootstrapper::VerifyExtractedPackages", $"{package.Name} is missing {missing} files after extraction, extracting it again");
 				ExtractPackage(package);
-				List<string> ignored = [];
+				List<InstallManifest.Entry> ignored = [];
 				FindMissingPackageFiles(package, stagingDirectory, ignored, out missing);
 				if (missing > 0)
 					damaged.Add($"{package.Name} ({missing} files)");
@@ -3371,7 +3371,7 @@ public class Bootstrapper
 		return installedFiles;
 	}
 
-	private bool FindMissingPackageFiles(Package package, string stagingDirectory, List<string> installedFiles, out int missing)
+	private bool FindMissingPackageFiles(Package package, string stagingDirectory, List<InstallManifest.Entry> installedFiles, out int missing)
 	{
 		missing = 0;
 		string? target = AppData.PackageDirectoryMap.GetValueOrDefault(package.Name);
@@ -3384,7 +3384,7 @@ public class Bootstrapper
 			if (name.Length == 0 || name.EndsWith('\\'))
 				continue;
 			string relative = Path.Combine(target, name);
-			installedFiles.Add(relative);
+			installedFiles.Add(new InstallManifest.Entry(relative, entry.Length, entry.Crc32));
 			FileInfo info = new(Path.Combine(stagingDirectory, relative));
 			if (!info.Exists || info.Length != entry.Length)
 				missing++;
@@ -3406,10 +3406,11 @@ public class Bootstrapper
 			if (File.Exists(listPath))
 			{
 				string root = Path.GetFullPath(AppData.Directory);
-				foreach (string relative in File.ReadLines(listPath))
+				foreach (string line in File.ReadLines(listPath))
 				{
-					if (string.IsNullOrWhiteSpace(relative))
+					if (string.IsNullOrWhiteSpace(line))
 						continue;
+					string relative = InstallManifest.PathOf(line);
 					string full = Path.GetFullPath(Path.Combine(root, relative));
 					if (full.StartsWith(root, StringComparison.OrdinalIgnoreCase) && !File.Exists(full))
 					{

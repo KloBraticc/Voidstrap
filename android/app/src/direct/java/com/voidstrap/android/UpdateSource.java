@@ -21,13 +21,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 final class UpdateSource {
     static final String ACTION_STATUS = "com.voidstrap.android.UPDATE_STATUS";
     private static final String DIR = "updates";
+    private static final String PENDING_LOCAL = "pendingLocalUpdate";
+    private static final long MAX_LOCAL_BYTES = 256L * 1024 * 1024;
     private static final int REQUEST = 8412;
+    private static boolean localBusy;
 
     private UpdateSource() {
     }
 
     static boolean selfInstalls() {
         return true;
+    }
+
+    static boolean localActive() {
+        return localBusy;
     }
 
     static String label(Context c) {
@@ -52,6 +59,7 @@ final class UpdateSource {
     }
 
     static void askForPermission(AppCompatActivity a) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
         Intent i = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + a.getPackageName()));
         try {
             a.startActivity(i);
@@ -112,6 +120,120 @@ final class UpdateSource {
     }
 
     static void resume(AppCompatActivity a) {
+        if (a == null || localBusy || !canInstall(a)) return;
+        Store store = Store.get(a);
+        if (!"1".equals(store.setting(PENDING_LOCAL, "0"))) return;
+        File apk = local(a);
+        if (!apk.isFile()) {
+            store.putSetting(PENDING_LOCAL, null);
+            return;
+        }
+        localBusy = true;
+        store.work.execute(() -> {
+            String failure = verify(a.getApplicationContext(), apk, 0);
+            store.main.post(() -> {
+                if (failure != null) {
+                    localBusy = false;
+                    store.putSetting(PENDING_LOCAL, null);
+                    failLocal(a, failure);
+                } else {
+                    installLocal(a, apk);
+                }
+            });
+        });
+    }
+
+    static void openLocal(AppCompatActivity a, Uri uri) {
+        if (a == null || localBusy) return;
+        if (uri == null || !("content".equals(uri.getScheme()) || "file".equals(uri.getScheme()))) {
+            failLocal(a, a.getString(R.string.update_local_missing));
+            return;
+        }
+        localBusy = true;
+        Context app = a.getApplicationContext();
+        Store store = Store.get(app);
+        store.putSetting(PENDING_LOCAL, null);
+        Updater.report(Updater.State.CHECKING, app.getString(R.string.update_local_reading));
+        Updater.changed(app);
+        store.work.execute(() -> {
+            File apk = local(app);
+            String failure = null;
+            try {
+                copy(app, uri, apk);
+                failure = verify(app, apk, 0);
+            } catch (IOException | RuntimeException e) {
+                failure = Crash.describe(e);
+            }
+            String result = failure;
+            store.main.post(() -> {
+                if (result != null) {
+                    localBusy = false;
+                    apk.delete();
+                    failLocal(a, result);
+                    return;
+                }
+                store.putSetting(PENDING_LOCAL, "1");
+                if (!canInstall(a)) {
+                    localBusy = false;
+                    Updater.report(Updater.State.FAILED, a.getString(R.string.update_needs_permission));
+                    Updater.changed(app);
+                    askForPermission(a);
+                    return;
+                }
+                installLocal(a, apk);
+            });
+        });
+    }
+
+    private static File local(Context c) {
+        return new File(new File(c.getCacheDir(), DIR), "local.apk");
+    }
+
+    private static void copy(Context app, Uri uri, File apk) throws IOException {
+        File dir = apk.getParentFile();
+        if (dir != null) Net.ensureDir(dir, "mkdir");
+        File part = new File(dir, "local.apk.part");
+        apk.delete();
+        try {
+            try (InputStream in = app.getContentResolver().openInputStream(uri)) {
+                if (in == null) throw new IOException(app.getString(R.string.update_local_missing));
+                try (OutputStream out = new java.io.FileOutputStream(part)) {
+                    byte[] buf = new byte[65536];
+                    long total = 0;
+                    int n;
+                    while ((n = in.read(buf)) != -1) {
+                        total += n;
+                        if (total > MAX_LOCAL_BYTES) throw new IOException(app.getString(R.string.update_local_too_large));
+                        out.write(buf, 0, n);
+                    }
+                }
+            }
+            if (!part.renameTo(apk)) throw new IOException(app.getString(R.string.update_error_storage));
+        } finally {
+            part.delete();
+        }
+    }
+
+    private static void installLocal(AppCompatActivity a, File apk) {
+        Context app = a.getApplicationContext();
+        Store store = Store.get(app);
+        store.putSetting(PENDING_LOCAL, null);
+        Updater.report(Updater.State.INSTALLING, "");
+        Updater.changed(app);
+        Ui.say(a, R.string.update_local_ready);
+        store.work.execute(() -> {
+            String failure = commit(app, apk);
+            store.main.post(() -> {
+                localBusy = false;
+                if (failure != null) failLocal(a, failure);
+            });
+        });
+    }
+
+    private static void failLocal(AppCompatActivity a, String message) {
+        Updater.report(Updater.State.FAILED, message);
+        Updater.changed(a);
+        Ui.say(a, a.getString(R.string.update_failed, message));
     }
 
     private static boolean ready(File apk, Updater.Release r) {
@@ -141,11 +263,15 @@ final class UpdateSource {
     }
 
     static String verify(Context app, File apk, Updater.Release r) {
+        return verify(app, apk, r.code);
+    }
+
+    private static String verify(Context app, File apk, long expectedCode) {
         android.content.pm.PackageInfo info = app.getPackageManager().getPackageArchiveInfo(apk.getPath(), 0);
         if (info == null) return app.getString(R.string.update_error_not_apk);
         if (!app.getPackageName().equals(info.packageName)) return app.getString(R.string.update_error_other_app, String.valueOf(info.packageName));
         long code = androidx.core.content.pm.PackageInfoCompat.getLongVersionCode(info);
-        if (code != r.code) return app.getString(R.string.update_error_version, String.valueOf(code), String.valueOf(r.code));
+        if (expectedCode > 0 && code != expectedCode) return app.getString(R.string.update_error_version, String.valueOf(code), String.valueOf(expectedCode));
         if (code <= Updater.installedCode()) return app.getString(R.string.update_error_older);
         return null;
     }
@@ -190,7 +316,7 @@ final class UpdateSource {
     }
 
     private static android.content.IntentSender statusSender(Context app, int id) {
-        Intent intent = new Intent(ACTION_STATUS).setPackage(app.getPackageName());
+        Intent intent = new Intent(app, UpdateInstallReceiver.class).setAction(ACTION_STATUS);
         int flags = PendingIntent.FLAG_UPDATE_CURRENT;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) flags |= PendingIntent.FLAG_MUTABLE;
         return PendingIntent.getBroadcast(app, REQUEST + id, intent, flags).getIntentSender();

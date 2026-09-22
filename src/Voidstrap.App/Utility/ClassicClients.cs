@@ -514,6 +514,47 @@ namespace Voidstrap.Utility
             }
         }
 
+        public static bool EngineNeedsRepair()
+        {
+            return !File.Exists(WebServerPath) || !File.Exists(Path.Combine(Root, "data", "PrivateKey.pem"));
+        }
+
+        public static List<string> CheckLaunchFiles(string client)
+        {
+            List<string> problems = [];
+            if (!IsSupportedClientCode(client))
+            {
+                problems.Add("The client code is invalid");
+                return problems;
+            }
+            ClassicClientConfig? config = GetInstalledConfig(client);
+            if (config == null)
+            {
+                problems.Add("The client configuration is missing or unreadable");
+                return problems;
+            }
+            List<ClientLaunchType> types = [ClientLaunchType.Play];
+            if (!string.IsNullOrWhiteSpace(config.Server.Directory) && !string.IsNullOrWhiteSpace(config.Server.ExecutableName))
+                types.Add(ClientLaunchType.Host);
+            if (HasStudio(config))
+                types.Add(ClientLaunchType.Studio);
+            foreach (ClientLaunchType type in types)
+            {
+                try
+                {
+                    ValidateLaunchFiles(client, config, type);
+                }
+                catch (Exception ex) when (ex is IOException or InvalidOperationException)
+                {
+                    if (!problems.Contains(ex.Message))
+                        problems.Add(ex.Message);
+                }
+            }
+            return problems;
+        }
+
+        public static string ClientDirectory(string client) => ResolvePathWithin(ClientsDir, client);
+
         public static ClassicClientConfig? GetInstalledConfig(string client)
         {
             try
@@ -902,6 +943,7 @@ namespace Voidstrap.Utility
                 await Task.Run(() => CopyTree(localClient, stagedClient, null, progress, ct), ct).ConfigureAwait(false);
                 NormalizeClientHelpers(stagedClient);
                 ValidateClient(stagedClient);
+                InstallManifest.Write(stagedClient, InstallManifest.Capture(stagedClient, ct));
                 CommitDirectory(stagedClient, target);
                 progress?.Invoke(100, "Done");
             }
@@ -943,6 +985,7 @@ namespace Voidstrap.Utility
                     string stagedClient = ResolvePathWithin(stagedRoot, "data", "clients", client);
                     NormalizeClientHelpers(stagedClient);
                     ValidateClient(stagedClient);
+                    InstallManifest.Write(stagedClient, InstallManifest.Capture(stagedClient, ct));
                     CommitDirectory(stagedClient, ResolvePathWithin(ClientsDir, client));
                 }
                 else

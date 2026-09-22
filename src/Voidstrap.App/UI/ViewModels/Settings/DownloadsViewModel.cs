@@ -87,6 +87,13 @@ namespace Voidstrap.UI.ViewModels.Settings
             public ICommand OpenFolderCommand { get; }
             public ICommand CancelCommand { get; }
             public ICommand ChangeLocationCommand { get; }
+            public ICommand VerifyCommand { get; }
+
+            public string VerifyText { get; private set; } = "";
+            public bool HasVerifyText => VerifyText.Length > 0;
+            public bool CanVerify => IsInstalled && !IsBusy;
+
+            private CancellationTokenSource? _verifyCts;
 
             internal DownloadItem(DownloadsViewModel parent, IAppData appData, string title, string subtitle, string iconSource, string binaryType, LaunchMode launchMode, string processName, bool showFleasionAddon)
             {
@@ -105,7 +112,102 @@ namespace Voidstrap.UI.ViewModels.Settings
                 SelectCommand = new RelayCommand(SelectSelf);
                 CancelCommand = new RelayCommand(Cancel);
                 ChangeLocationCommand = new AsyncRelayCommand(ChangeLocationAsync);
+                VerifyCommand = new AsyncRelayCommand(() => VerifyAsync(true));
                 Refresh();
+            }
+
+            private async Task VerifyAsync(bool interactive)
+            {
+                if (!IsInstalled || IsBusy)
+                    return;
+                if (!_parent.TryBeginOperation())
+                {
+                    Frontend.ShowMessageBox("Wait for the current operation to finish.", MessageBoxImage.Warning);
+                    return;
+                }
+                string root = _appData.Directory;
+                HashSet<string> modified = new(StringComparer.OrdinalIgnoreCase);
+                foreach (string file in _appData.State.ModManifest ?? [])
+                    modified.Add(file);
+                foreach (List<string> files in (_appData.State.ManagedModManifest ?? []).Values)
+                    foreach (string file in files)
+                        modified.Add(file);
+                IsBusy = true;
+                Progress = 0;
+                StatusText = "Verifying";
+                ProgressDetail = "Reading the install record";
+                RaiseAll();
+                _verifyCts = new CancellationTokenSource();
+                CancellationToken token = _verifyCts.Token;
+                InstallManifest.Result? result = null;
+                bool canceled = false;
+                try
+                {
+                    result = await Task.Run(() =>
+                    {
+                        List<InstallManifest.Entry>? entries = InstallManifest.Read(root);
+                        return entries == null || entries.Count == 0
+                            ? null
+                            : InstallManifest.Verify(root, entries, modified, OnVerifyProgress, token);
+                    }, token).ConfigureAwait(true);
+                }
+                catch (OperationCanceledException)
+                {
+                    canceled = true;
+                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                {
+                    App.Logger?.WriteLine("DownloadsViewModel::Verify", $"{Title} verification failed: {ex.Message}");
+                    result = new InstallManifest.Result(0, 0, [], [ex.Message], true);
+                }
+                finally
+                {
+                    _verifyCts.Dispose();
+                    _verifyCts = null;
+                    IsBusy = false;
+                    Progress = 0;
+                    ProgressDetail = "";
+                    _parent.EndOperation();
+                    Refresh();
+                }
+                if (canceled)
+                {
+                    SetVerifyText("Verification canceled");
+                    return;
+                }
+                bool repair = PresentVerifyResult(Title, result, [], interactive, out string summary);
+                SetVerifyText(summary);
+                if (repair)
+                    await RepairAsync().ConfigureAwait(true);
+            }
+
+            private async Task RepairAsync()
+            {
+                App.Settings.Prop.ForceRobloxReinstall = true;
+                App.Settings.Save();
+                App.Logger?.WriteLine("DownloadsViewModel::Repair", $"Repairing {Title}");
+                if (await InstallOrUpdateAsync().ConfigureAwait(true))
+                    await VerifyAsync(false).ConfigureAwait(true);
+            }
+
+            private void OnVerifyProgress(int done, int total)
+            {
+                Application.Current?.Dispatcher.BeginInvoke((Action)delegate
+                {
+                    Progress = total == 0 ? 100 : done * 100.0 / total;
+                    ProgressDetail = $"Checked {done:N0} of {total:N0} files";
+                    StatusText = $"Verifying {Progress:0}%";
+                    OnPropertyChanged(nameof(Progress));
+                    OnPropertyChanged(nameof(ProgressDetail));
+                    OnPropertyChanged(nameof(StatusText));
+                });
+            }
+
+            private void SetVerifyText(string text)
+            {
+                VerifyText = text;
+                OnPropertyChanged(nameof(VerifyText));
+                OnPropertyChanged(nameof(HasVerifyText));
             }
 
             public void Refresh()
@@ -186,6 +288,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 OnPropertyChanged(nameof(PrimaryButtonText));
                 OnPropertyChanged(nameof(CanUninstall));
                 OnPropertyChanged(nameof(CanPrimary));
+                OnPropertyChanged(nameof(CanVerify));
                 OnPropertyChanged(nameof(Progress));
                 OnPropertyChanged(nameof(ProgressDetail));
             }
@@ -209,21 +312,22 @@ namespace Voidstrap.UI.ViewModels.Settings
                 }
             }
 
-            private async Task InstallOrUpdateAsync()
+            private async Task<bool> InstallOrUpdateAsync()
             {
                 if (IsBusy)
-                    return;
+                    return false;
                 if (IsProcessRunning(_processName))
                 {
                     Frontend.ShowMessageBox($"Close {Title} before installing or updating it.", MessageBoxImage.Warning);
-                    return;
+                    return false;
                 }
                 if (!_parent.TryBeginOperation())
                 {
                     Frontend.ShowMessageBox("Wait for the current operation to finish.", MessageBoxImage.Warning);
-                    return;
+                    return false;
                 }
 
+                _parent.SelectedItem = this;
                 IsBusy = true;
                 Progress = 0;
                 ProgressDetail = "Preparing...";
@@ -259,6 +363,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                     if (ok)
                         await CheckUpdateAsync().ConfigureAwait(true);
                 }
+                return ok;
             }
 
             private void OnProgress(CoreBootstrapper.DownloadProgressInfo info)
@@ -281,6 +386,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 try
                 {
+                    _verifyCts?.Cancel();
                     _activeBootstrapper?.Cancel();
                 }
                 catch
@@ -594,6 +700,11 @@ namespace Voidstrap.UI.ViewModels.Settings
             public ICommand OpenFolderCommand { get; }
             public ICommand ChangeLocationCommand { get; }
             public ICommand SelectCommand { get; }
+            public ICommand VerifyCommand { get; }
+
+            public string VerifyText { get; private set; } = "";
+            public bool HasVerifyText => VerifyText.Length > 0;
+            public bool CanVerify => IsInstalled && !IsBusy;
 
             internal ClientItem(DownloadsViewModel parent, ClassicCatalogEntry entry)
             {
@@ -608,6 +719,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 OpenFolderCommand = new RelayCommand(OpenFolder);
                 ChangeLocationCommand = new AsyncRelayCommand(InstallOrReinstallAsync);
                 SelectCommand = new RelayCommand(Select);
+                VerifyCommand = new AsyncRelayCommand(() => VerifyAsync(true));
                 _iconImage = ClientImages.Get(Code);
                 _ = LoadIconAsync();
                 Refresh();
@@ -719,11 +831,87 @@ namespace Voidstrap.UI.ViewModels.Settings
                 OnPropertyChanged(nameof(IsBusy));
                 OnPropertyChanged(nameof(HasStudio));
                 OnPropertyChanged(nameof(StatusText));
+                OnPropertyChanged(nameof(VersionText));
+                OnPropertyChanged(nameof(LocationText));
                 OnPropertyChanged(nameof(SizeText));
                 OnPropertyChanged(nameof(Progress));
                 OnPropertyChanged(nameof(PrimaryButtonText));
                 OnPropertyChanged(nameof(CanInstall));
                 OnPropertyChanged(nameof(CanUninstall));
+                OnPropertyChanged(nameof(CanPrimary));
+                OnPropertyChanged(nameof(CanVerify));
+            }
+
+            private async Task VerifyAsync(bool interactive)
+            {
+                if (!IsInstalled || IsBusy)
+                    return;
+                if (!_parent.TryBeginOperation())
+                {
+                    Frontend.ShowMessageBox("Wait for the current operation to finish.", MessageBoxImage.Warning);
+                    return;
+                }
+                SetBusy(true, "Verifying");
+                _cts = new CancellationTokenSource();
+                CancellationToken token = _cts.Token;
+                InstallManifest.Result? result = null;
+                List<string> problems = [];
+                bool canceled = false;
+                try
+                {
+                    (result, problems) = await Task.Run(() =>
+                    {
+                        List<string> launchProblems = ClassicClients.CheckLaunchFiles(Code);
+                        string root = ClassicClients.ClientDirectory(Code);
+                        List<InstallManifest.Entry>? entries = InstallManifest.Read(root);
+                        InstallManifest.Result? checkedFiles = entries == null || entries.Count == 0
+                            ? null
+                            : InstallManifest.Verify(root, entries, new HashSet<string>(StringComparer.OrdinalIgnoreCase), OnVerifyProgress, token);
+                        return (checkedFiles, checkedFiles?.ProblemCount > 0 ? [] : launchProblems);
+                    }, token).ConfigureAwait(true);
+                }
+                catch (OperationCanceledException)
+                {
+                    canceled = true;
+                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
+                {
+                    App.Logger?.WriteLine("DownloadsViewModel::ClassicVerify", $"{Code} verification failed: {ex.Message}");
+                    problems.Add(ex.Message);
+                }
+                finally
+                {
+                    _cts?.Dispose();
+                    _cts = null;
+                    SetBusy(false, "");
+                    _parent.EndOperation();
+                    Refresh();
+                }
+                if (canceled)
+                {
+                    SetVerifyText("Verification canceled");
+                    return;
+                }
+                bool repair = PresentVerifyResult(Title, result, problems, interactive, out string summary);
+                SetVerifyText(summary);
+                if (repair)
+                {
+                    await InstallOrReinstallAsync(confirm: false).ConfigureAwait(true);
+                    if (IsInstalled)
+                        await VerifyAsync(false).ConfigureAwait(true);
+                }
+            }
+
+            private void OnVerifyProgress(int done, int total)
+            {
+                ReportProgress(total == 0 ? 100 : done * 100.0 / total, $"Checked {done:N0} of {total:N0} files");
+            }
+
+            private void SetVerifyText(string text)
+            {
+                VerifyText = text;
+                OnPropertyChanged(nameof(VerifyText));
+                OnPropertyChanged(nameof(HasVerifyText));
             }
 
             private void SetBusy(bool busy, string status)
@@ -761,7 +949,9 @@ namespace Voidstrap.UI.ViewModels.Settings
                 catch { }
             }
 
-            private async Task InstallOrReinstallAsync()
+            private Task InstallOrReinstallAsync() => InstallOrReinstallAsync(confirm: true);
+
+            private async Task InstallOrReinstallAsync(bool confirm)
             {
                 if (IsBusy)
                     return;
@@ -770,15 +960,18 @@ namespace Voidstrap.UI.ViewModels.Settings
                     Frontend.ShowMessageBox("Wait for the current operation to finish.", MessageBoxImage.Warning);
                     return;
                 }
-                if (Frontend.ShowMessageBox("These are a WIP and may not work all entirely yet and may produce errors, I will still continue to work on these fixes.", MessageBoxImage.Warning, MessageBoxButton.OKCancel, MessageBoxResult.OK) != MessageBoxResult.OK)
+                if (confirm && Frontend.ShowMessageBox("These are a WIP and may not work all entirely yet and may produce errors, I will still continue to work on these fixes.", MessageBoxImage.Warning, MessageBoxButton.OKCancel, MessageBoxResult.OK) != MessageBoxResult.OK)
                 {
                     _parent.EndOperation();
                     return;
                 }
+                _parent.SelectedItem = this;
                 SetBusy(true, "Preparing");
                 _cts = new CancellationTokenSource();
                 try
                 {
+                    if (!confirm && ClassicClients.EngineNeedsRepair())
+                        await ClassicClients.InstallEngineAsync(ReportProgress, _cts.Token).ConfigureAwait(true);
                     await ClassicClients.InstallClientAsync(Code, ReportProgress, _cts.Token).ConfigureAwait(true);
                 }
                 catch (OperationCanceledException)
@@ -869,6 +1062,41 @@ namespace Voidstrap.UI.ViewModels.Settings
         private const int MaxSamples = 90;
         private const double GraphWidth = 1000.0;
         private const double GraphHeight = 100.0;
+
+        internal static bool PresentVerifyResult(string title, InstallManifest.Result? result, IReadOnlyList<string> launchProblems, bool interactive, out string summary)
+        {
+            int problemCount = (result?.ProblemCount ?? 0) + launchProblems.Count;
+            if (problemCount > 0)
+            {
+                List<string> lines = [.. launchProblems];
+                if (result != null)
+                {
+                    lines.AddRange(result.Missing.Select(path => "Missing: " + path));
+                    lines.AddRange(result.Damaged.Select(path => "Damaged: " + path));
+                }
+                summary = problemCount == 1 ? "1 problem found, repair recommended" : $"{problemCount:N0} problems found, repair recommended";
+                App.Logger?.WriteLine("DownloadsViewModel::Verify", $"{title}: {summary}. " + string.Join("; ", lines.Take(40)));
+                string shown = string.Join("\n", lines.Take(8).Select(line => "  " + line)) + (lines.Count > 8 ? $"\n  and {lines.Count - 8:N0} more" : "");
+                string heading = problemCount == 1 ? "1 problem" : $"{problemCount:N0} problems";
+                return Frontend.ShowMessageBox($"{title} has {heading}:\n\n{shown}\n\nRepair it now? Voidstrap reinstalls {title} and checks it again.", MessageBoxImage.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+            }
+            if (result == null)
+            {
+                summary = "No install record to check against yet";
+                return interactive && Frontend.ShowMessageBox($"{title} was installed before Voidstrap recorded installs, so there is nothing to check its files against yet.\n\nRepair it now? Voidstrap reinstalls {title} and records every file so future checks are complete.", MessageBoxImage.Question, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+            }
+            string skipped = result.Skipped > 0 ? $", {result.Skipped:N0} changed by your mods" : "";
+            if (!result.HasChecksums)
+            {
+                summary = $"All {result.Checked:N0} files are present{skipped}, repair once to enable full checks";
+                return interactive && Frontend.ShowMessageBox($"All {result.Checked:N0} files of {title} are present, but this install only recorded file names, so their contents could not be checked.\n\nRepair it now to record full checksums?", MessageBoxImage.Information, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+            }
+            summary = $"Verified {result.Checked:N0} files, no problems found{skipped}";
+            App.Logger?.WriteLine("DownloadsViewModel::Verify", $"{title}: {summary}");
+            if (interactive)
+                Frontend.ShowMessageBox($"{title} is intact. Voidstrap checked {result.Checked:N0} files{skipped} and found no problems.", MessageBoxImage.Information);
+            return false;
+        }
 
         public ICommand OpenRootCommand { get; }
         public ICommand RefreshCommand { get; }

@@ -52,6 +52,8 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 
 	private int _backgroundFrameRateLimit;
 
+	private bool _loading;
+
 	public ObservableCollection<string> CplLowLatencyModes { get; } = ["Off", "On", "Ultra"];
 
 	public ObservableCollection<string> BenchMarkOverlayModes { get; } = new ObservableCollection<string>(BenchmarkOverlayMap.Keys);
@@ -162,6 +164,19 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 
 	private void Load()
 	{
+		_loading = true;
+		try
+		{
+			LoadValues();
+		}
+		finally
+		{
+			_loading = false;
+		}
+	}
+
+	private void LoadValues()
+	{
 		List<NvidiaEditorEntry> entries = LoadNormalized();
 		SelectedCplLowLatencyMode = ReadEnum(entries, "390467", CplLowLatencyModes, 0);
 		BenchMarkOverlayMode = BenchmarkOverlayMap.FirstOrDefault(x => x.Value == ReadInt(entries, "2945366", 0)).Key ?? "Disabled";
@@ -223,20 +238,16 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 		return entries;
 	}
 
-	public void ReloadFromDriver()
+	private void SaveChoices()
 	{
 		try
 		{
-			List<NvidiaEditorEntry> entries = LoadNormalized();
-			if (NvidiaProfileManager.RefreshValuesFromDriver(entries) > 0)
-				NvidiaProfileManager.SaveToNip(NipPath, entries);
+			StageEntries();
 		}
-		catch (Exception ex)
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
 		{
-			App.Logger.WriteLine("NvidiaFastFlagsViewModel", "Driver read-back failed: " + ex.Message);
+			App.Logger.WriteLine("NvidiaFastFlagsViewModel", "Could not save the NVIDIA choices: " + ex.Message);
 		}
-
-		Load();
 	}
 
 	private static void Set(List<NvidiaEditorEntry> entries, string name, string id, string newValue)
@@ -325,6 +336,8 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 		{
 			field = value;
 			OnPropertyChanged(name);
+			if (!_loading)
+				SaveChoices();
 		}
 	}
 

@@ -1,6 +1,7 @@
 package com.voidstrap.android;
 
 import android.content.Context;
+import android.net.Uri;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -103,6 +104,7 @@ public final class Updater {
 
     public static void auto(Context c) {
         if (c == null) return;
+        if (UpdateSource.localActive()) return;
         Context app = c.getApplicationContext();
         Store s = Store.get(app);
         if (!autoOn(s)) return;
@@ -118,7 +120,7 @@ public final class Updater {
     }
 
     public static void check(Context c, boolean userAsked) {
-        if (c == null || busy) return;
+        if (c == null || busy || UpdateSource.localActive()) return;
         Context app = c.getApplicationContext();
         Store s = Store.get(app);
         busy = true;
@@ -145,11 +147,13 @@ public final class Updater {
             ModLog.add("update result " + next + (message.isEmpty() ? "" : ", " + message)
                     + (release == null ? "" : ", " + release.version + " (" + release.code + ") " + release.size + " bytes"));
             s.putSetting(CHECKED_AT, String.valueOf(System.currentTimeMillis()));
-            found = release;
+            Release resultRelease = release;
             State result = next;
             String text = message;
             s.main.post(() -> {
                 busy = false;
+                if (UpdateSource.localActive()) return;
+                found = resultRelease;
                 report(result, text);
                 changed(app);
                 if (result == State.AVAILABLE && !userAsked) announce(app);
@@ -175,13 +179,17 @@ public final class Updater {
 
     public static void start(AppCompatActivity a) {
         Release r = found;
-        if (a == null || r == null || busy) return;
+        if (a == null || r == null || busy || UpdateSource.localActive()) return;
         busy = true;
         UpdateSource.start(a, r, () -> busy = false);
     }
 
     public static void resume(AppCompatActivity a) {
         UpdateSource.resume(a);
+    }
+
+    public static void openLocal(AppCompatActivity a, Uri uri) {
+        UpdateSource.openLocal(a, uri);
     }
 
     public static String sizeText(Context c, long bytes) {
