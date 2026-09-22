@@ -183,7 +183,35 @@ Voidstrap is built on [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by
 
 ## License
 
-[MIT License](https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP)
+[![License][shield-license]][link-license]
+
+Voidstrap is released under the [MIT License](LICENSE.VOIDSTRAP). It is built on Bloxstrap and Fishstrap, and their licenses are kept alongside it:
+
+| Project | License | Copyright | File |
+| --- | --- | --- | --- |
+| Voidstrap | MIT | © 2026 Bratic | [LICENSE.VOIDSTRAP](LICENSE.VOIDSTRAP) |
+| Bloxstrap | MIT | © 2022 pizzaboxer | [LICENSE.BLOXSTRAP](LICENSE.BLOXSTRAP) |
+| Fishstrap | MIT | © 2025 returnrqt | [LICENSE.FISHSTRAP](LICENSE.FISHSTRAP) |
+
+### Third party licenses
+
+Components included in this repository keep their own licenses:
+
+| Component | Used in | License | File |
+| --- | --- | --- | --- |
+| [WPF UI](https://github.com/lepoco/wpfui) | Windows app | MIT | [License](external/wpfui/LICENSE) |
+| WPF UI docs template by Singulink | WPF UI docs | MIT | [License](external/wpfui/docs/templates/LICENSE) |
+| Fluent System Icons by Microsoft | Windows app | MIT | [License](external/wpfui/src/Wpf.Ui/License%20-%20Fluent%20System%20Icons.txt) |
+| Segoe Fluent Icons by Microsoft | Windows app | Microsoft font license | [License](external/wpfui/src/Wpf.Ui/License%20-%20Segoe%20Fluent%20Icons.txt) |
+| VirtualizingWrapPanel | Windows app | MIT | [License](external/wpfui/src/Wpf.Ui/License%20-%20VirtualizingWrapPanel.txt) |
+| Fira Code font | Windows app | SIL Open Font License 1.1 | [License](external/wpfui/src/Wpf.Ui/License%20-%20Fira%20Code.txt) |
+| Inter font | Windows app | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Inter.txt) |
+| Selawik font by Microsoft | Windows app | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Selawik.txt) |
+| Montserrat font | Windows app | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Montserrat.txt) |
+| Noto Sans Thai font | Windows app | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-NotoSansThai.txt) |
+| Rubik font | Windows app | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Rubik.txt) |
+| [Bibata Modern Ice cursors](https://github.com/ful1e5/Bibata_Cursor) | Windows and Android apps | GPL 3.0 | [License](src/Voidstrap.App/Resources/Mods/Cursor/BibataModernIce/LICENSE.txt) |
+| ppmd-rust | Android app | CC0 1.0 or MIT No Attribution | [CC0](android/rust/vendor/ppmd-rust/LICENSE-CC0.md), [MIT-0](android/rust/vendor/ppmd-rust/LICENSE-MIT-0.md) |
 
 ---
 
@@ -221,6 +249,9 @@ Voidstrap is built on [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by
 [repo-stargazers]:        https://github.com/KloBraticc/Voidstrap/stargazers
 [discord-invite]:         https://discord.gg/dfA9PdWgcV
 [sponsor-link]:           https://github.com/sponsors/KloBraticc
+
+[shield-license]:         https://img.shields.io/github/license/KloBraticc/Voidstrap?style=for-the-badge
+[link-license]:           LICENSE.VOIDSTRAP
 
 [shield-csharp]:          https://img.shields.io/badge/C%23-239120?style=for-the-badge
 [shield-dotnet]:          https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white
