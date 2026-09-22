@@ -189,8 +189,14 @@ final class Flyout {
             return true;
         });
         window.setOnDismissListener(() -> surface.animate().cancel());
-        window.showAtLocation(host, Gravity.NO_GRAVITY, popupLeft, popupTop);
-        animateIn(surface, anchor, placedLeft, placedTop, surfaceWidth, surfaceHeight);
+        if (host.getWindowToken() == null) return;
+        try {
+            window.showAtLocation(host, Gravity.NO_GRAVITY, popupLeft, popupTop);
+        } catch (RuntimeException e) {
+            Crash.report("menu", e);
+            return;
+        }
+        Crash.run("menu animation", () -> animateIn(surface, anchor, placedLeft, placedTop, surfaceWidth, surfaceHeight));
     }
 
     static float pivot(float anchorCenter, int surfaceStart, int surfaceSize) {

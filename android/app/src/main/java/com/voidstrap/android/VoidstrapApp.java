@@ -8,19 +8,21 @@ public final class VoidstrapApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ModLog.init(getFilesDir());
-        applyTheme(Store.get(this).setting("theme", "system"));
-        auditFlags(Store.get(this));
-        Store.get(this).work.execute(() -> {
+        Crash.install();
+        Crash.run("mod log", () -> ModLog.init(getFilesDir()));
+        Crash.run("theme", () -> applyTheme(Store.get(this).setting("theme", "system")));
+        Crash.run("flag audit", () -> auditFlags(Store.get(this)));
+        Crash.run("startup cleanup", () -> Store.get(this).work.execute(() -> {
             java.io.File ext = getExternalFilesDir(null);
             if (ext != null) new java.io.File(ext, "start.sh").delete();
             ModMigration.dropSoundMods(this);
-        });
-        Shortcuts.watch(this);
-        Translator.load(this);
-        Helper.token(this);
+        }));
+        Crash.run("shortcuts", () -> Shortcuts.watch(this));
+        Crash.run("translations", () -> Translator.load(this));
+        Crash.run("helper token", () -> Helper.token(this));
         Helper.onChanged = () -> Store.get(this).changed();
-        registerActivityLifecycleCallbacks(new WindowCallbacks());
+        Crash.run("lifecycle callbacks", () -> registerActivityLifecycleCallbacks(new WindowCallbacks()));
+        Crash.guardMainLoop();
     }
 
     private static final class WindowCallbacks implements ActivityLifecycleCallbacks {
@@ -30,12 +32,12 @@ public final class VoidstrapApp extends Application {
 
         @Override
         public void onActivityStarted(android.app.Activity a) {
-            AppFont.watch(a.getWindow().getDecorView());
+            Crash.run("font watch", () -> AppFont.watch(a.getWindow().getDecorView()));
         }
 
         @Override
         public void onActivityResumed(android.app.Activity a) {
-            LiveTranslator.apply(a);
+            Crash.run("live translation", () -> LiveTranslator.apply(a));
         }
 
         @Override

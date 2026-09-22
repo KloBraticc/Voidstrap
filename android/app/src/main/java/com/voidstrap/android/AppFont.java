@@ -58,7 +58,7 @@ public final class AppFont {
         if (root == null || base(root.getContext()) == null) return;
         if (root.getTag(R.id.app_font_root) == null) {
             root.setTag(R.id.app_font_root, Boolean.TRUE);
-            root.getViewTreeObserver().addOnGlobalLayoutListener(() -> apply(root));
+            root.getViewTreeObserver().addOnGlobalLayoutListener(() -> Crash.run("font pass", () -> apply(root)));
         }
         apply(root);
     }

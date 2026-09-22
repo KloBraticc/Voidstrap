@@ -5,3 +5,4 @@ local.properties
 *.keystore
 .idea/
 *.iml
+rust/target/

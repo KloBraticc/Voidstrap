@@ -1,16 +1,11 @@
 package com.voidstrap.android;
 
 import android.content.Context;
-import android.os.Build;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 public final class FlagWriter {
     public static final int OK = 0;
@@ -19,6 +14,7 @@ public final class FlagWriter {
 
     public static final String PATH = "/data/local/tmp/ClientAppSettings.json";
     private static final String REFRESH_BACKUP = "/data/local/tmp/voidstrap_refresh_backup";
+    static final String GAME_FPS_CAP = "debug.graphics.game_default_frame_rate.disabled";
 
     public enum Mode { HELPER, ROOT, NONE }
 
@@ -47,8 +43,6 @@ public final class FlagWriter {
     }
 
     private static final long SU_CACHE_MS = 10000;
-    private static final String ROOT_PROBE = "echo SHELL_TEST\nid\n";
-    private static final int ROOT_PROBE_SECONDS = 30;
 
     private static Boolean su;
     private static long suCheckedAt;
@@ -60,13 +54,9 @@ public final class FlagWriter {
     private static boolean hasSu() {
         long now = android.os.SystemClock.elapsedRealtime();
         if (su != null && now - suCheckedAt < SU_CACHE_MS) return su;
-        boolean found = false;
-        String path = System.getenv("PATH");
-        String dirs = (path == null ? "" : path) + ":/system/bin:/system/xbin";
-        for (String d : dirs.split(":")) if (!d.isEmpty() && new File(d, "su").exists()) found = true;
-        su = found;
+        su = Core.flag("shell.hasSu", Core.args());
         suCheckedAt = now;
-        return found;
+        return su;
     }
 
     private static void forgetSu() {
@@ -94,86 +84,9 @@ public final class FlagWriter {
     }
 
     private static boolean openRootShell() {
-        String out = capture(ROOT_PROBE, ROOT_PROBE_SECONDS);
-        if (out == null) return false;
-        boolean shell = false;
-        for (String line : out.split("\n")) {
-            if (!shell) {
-                if (line.contains("SHELL_TEST")) shell = true;
-                continue;
-            }
-            if (line.contains("uid=0")) {
-                rootConfirmed = true;
-                forgetSu();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static String capture(String script, int timeoutSeconds) {
-        Process p;
-        try {
-            p = new ProcessBuilder("su").redirectErrorStream(true).start();
-        } catch (IOException | RuntimeException e) {
-            return null;
-        }
-        StringBuilder out = new StringBuilder();
-        Thread reader = new Thread(() -> {
-            try (java.io.BufferedReader r = new java.io.BufferedReader(new java.io.InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8))) {
-                String line;
-                while ((line = r.readLine()) != null) {
-                    synchronized (out) {
-                        out.append(line).append('\n');
-                    }
-                }
-            } catch (IOException ignored) {
-            }
-        });
-        reader.setDaemon(true);
-        reader.start();
-        try (OutputStream in = p.getOutputStream()) {
-            in.write(script.getBytes(StandardCharsets.UTF_8));
-        } catch (IOException | RuntimeException e) {
-            p.destroy();
-            return null;
-        }
-        try {
-            if (!awaitExit(p, timeoutSeconds)) {
-                p.destroy();
-                return null;
-            }
-            reader.join(2000);
-        } catch (InterruptedException e) {
-            p.destroy();
-            Thread.currentThread().interrupt();
-            return null;
-        }
-        synchronized (out) {
-            return out.toString();
-        }
-    }
-
-    static void kill(Process p) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) p.destroyForcibly();
-        else p.destroy();
-    }
-
-    static boolean awaitExit(Process p, long timeoutSeconds) throws InterruptedException {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) return p.waitFor(timeoutSeconds, TimeUnit.SECONDS);
-        Thread waiter = new Thread(() -> {
-            try {
-                p.waitFor();
-            } catch (InterruptedException ignored) {
-            }
-        });
-        waiter.setDaemon(true);
-        waiter.start();
-        waiter.join(timeoutSeconds * 1000L);
-        if (waiter.isAlive()) {
-            waiter.interrupt();
-            return false;
-        }
+        if (!Core.flag("shell.rootProbe", Core.args())) return false;
+        rootConfirmed = true;
+        forgetSu();
         return true;
     }
 
@@ -184,34 +97,24 @@ public final class FlagWriter {
     }
 
     public static boolean readable(String json) {
-        java.io.File f = new java.io.File(PATH);
-        if ("{}".equals(json)) return !f.exists();
-        try {
-            byte[] b = java.nio.file.Files.readAllBytes(f.toPath());
-            String on = new String(b, StandardCharsets.UTF_8);
-            return on.equals(json) || on.equals(json + "\n");
-        } catch (IOException | SecurityException e) {
-            return false;
-        }
+        return Core.flag("shell.readable", Core.args("json", json));
     }
 
     public static boolean tooLarge(String json) {
         return json.length() > Flags.MAX_BYTES;
     }
 
-    private static final String FLAGS_DELIMITER = "VOIDSTRAP_FLAGS_END";
-
     static boolean safeForHeredoc(String json) {
-        for (String line : json.split("\n", -1)) if (line.trim().equals(FLAGS_DELIMITER)) return false;
-        return true;
+        return Core.flag("shell.safeForHeredoc", Core.args("json", json));
     }
 
-    private static String writeScript(String json) {
-        String tmp = PATH + ".new";
-        return "rm -f " + tmp + "\n"
-                + "cat > " + tmp + " <<'VOIDSTRAP_FLAGS_END' || exit 2\n" + json + "\nVOIDSTRAP_FLAGS_END\n"
-                + "if cmp -s " + tmp + " " + PATH + "; then rm -f " + tmp + "; else mv -f " + tmp + " " + PATH + " || exit 2; fi\n"
-                + "chmod 0644 " + PATH + " || exit 2\n";
+    private static String script(String op, Object... kv) {
+        try {
+            String s = Core.text("shell." + op, Core.args(kv));
+            return s == null ? "exit 2\n" : s;
+        } catch (IOException e) {
+            return "exit 2\n";
+        }
     }
 
     public static int shell(Context c, String script, int timeoutSeconds) {
@@ -220,11 +123,11 @@ public final class FlagWriter {
 
     public static int write(Mode mode, String json) {
         if (!safeForHeredoc(json)) return FAILED;
-        return run(mode, writeScript(json) + "exit 0\n", 60);
+        return run(mode, script("writeScript", "json", json), 60);
     }
 
     public static int remove(Mode mode) {
-        return run(mode, "rm -f " + PATH + " || exit 2\nexit 0\n", 60);
+        return run(mode, script("removeScript"), 60);
     }
 
     static final String RESTORE_REFRESH = "if [ -e " + REFRESH_BACKUP + " ]; then\n"
@@ -236,7 +139,7 @@ public final class FlagWriter {
             + "if [ \"$v\" = null ]; then settings delete system min_refresh_rate >/dev/null 2>&1; else settings put system min_refresh_rate \"$v\"; fi;;\n"
             + "esac\n"
             + "done < " + REFRESH_BACKUP + "\n"
-            + "setprop debug.graphics.game_default_frame_rate.disabled false\n"
+            + "setprop " + GAME_FPS_CAP + " false\n"
             + "rm -f " + REFRESH_BACKUP + "\n"
             + "fi\n";
 
@@ -248,24 +151,14 @@ public final class FlagWriter {
         return max;
     }
 
-    public static int syncForLaunch(Context c, String pkg, String json) {
+    public static int syncForLaunch(Context c, String pkg, String json, boolean unlocked) {
         if (tooLarge(json)) return R.string.flags_too_large;
         if (!safeForHeredoc(json)) return R.string.flags_launch_not_applied;
         Mode mode = mode(c);
         if (mode != Mode.HELPER && mode != Mode.ROOT) return readable(json) ? 0 : R.string.flags_launch_not_applied;
         if (!pkg.matches("[A-Za-z0-9_.]+")) return 0;
-        String running = RESTORE_REFRESH + "p=$(pidof " + pkg + ")\np=${p%% *}\n";
-        String script;
-        if ("{}".equals(json)) {
-            script = "c=0\nif [ -e " + PATH + " ]; then rm -f " + PATH + "; c=1; fi\n"
-                    + running
-                    + "if [ -n \"$p\" ] && [ $c = 1 ]; then am force-stop " + pkg + "; fi\nexit 0\n";
-        } else {
-            script = writeScript(json)
-                    + running
-                    + "if [ -n \"$p\" ] && [ " + PATH + " -nt /proc/$p ]; then am force-stop " + pkg + "; fi\nexit 0\n";
-        }
-        return run(mode, script, 15) == OK ? 0 : R.string.flags_launch_not_applied;
+        String s = script("launchScript", "json", json, "unlocked", unlocked, "pkg", pkg, "restore", RESTORE_REFRESH);
+        return run(mode, s, 15) == OK ? 0 : R.string.flags_launch_not_applied;
     }
 
     private static int run(Mode mode, String script, int timeoutSeconds) {
@@ -286,41 +179,15 @@ public final class FlagWriter {
             return r == null ? -1 : r;
         }
         if (mode != Mode.ROOT) return -1;
-        Process p;
         try {
-            p = new ProcessBuilder("su").redirectErrorStream(true).start();
-        } catch (IOException | RuntimeException e) {
-            forgetSu();
-            return -1;
-        }
-        Thread drain = new Thread(() -> {
-            try (java.io.InputStream out = p.getInputStream()) {
-                byte[] b = new byte[4096];
-                while (out.read(b) >= 0) {
-                }
-            } catch (IOException ignored) {
-            }
-        });
-        drain.setDaemon(true);
-        drain.start();
-        try (OutputStream in = p.getOutputStream()) {
-            in.write(script.getBytes(StandardCharsets.UTF_8));
-        } catch (IOException | RuntimeException e) {
-            p.destroy();
-            return -1;
-        }
-        try {
-            if (!awaitExit(p, timeoutSeconds)) {
-                p.destroy();
+            Object v = Core.value("shell.su", Core.args("script", script, "timeout", timeoutSeconds));
+            int code = v instanceof Number ? ((Number) v).intValue() : -1;
+            if (code == -2) {
+                forgetSu();
                 return -1;
             }
-            return p.exitValue();
-        } catch (InterruptedException e) {
-            p.destroy();
-            Thread.currentThread().interrupt();
-            return FAILED;
-        } catch (RuntimeException e) {
-            p.destroy();
+            return code;
+        } catch (IOException e) {
             return FAILED;
         }
     }

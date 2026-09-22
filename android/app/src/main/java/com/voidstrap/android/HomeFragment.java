@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.json.JSONException;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -165,7 +164,7 @@ public final class HomeFragment extends Page {
             List<HomeFeed.News> news = null;
             try {
                 news = HomeFeed.latestNews(app, 2);
-            } catch (IOException | JSONException | RuntimeException e) {
+            } catch (IOException | RuntimeException e) {
                 android.util.Log.w("Voidstrap", "News feed failed", e);
             }
             List<HomeFeed.News> n = news;
@@ -184,7 +183,7 @@ public final class HomeFragment extends Page {
             List<HomeFeed.Item> items = null;
             try {
                 items = HomeFeed.catalog(app);
-            } catch (IOException | JSONException | RuntimeException e) {
+            } catch (IOException | RuntimeException e) {
                 android.util.Log.w("Voidstrap", "Catalog feed failed", e);
             }
             List<HomeFeed.Item> it = items;
@@ -343,7 +342,7 @@ public final class HomeFragment extends Page {
             List<HomeFeed.News> news = null;
             try {
                 news = HomeFeed.allNews(app);
-            } catch (IOException | JSONException | RuntimeException ignored) {
+            } catch (IOException | RuntimeException ignored) {
             }
             List<HomeFeed.News> n = news;
             store.main.post(() -> {

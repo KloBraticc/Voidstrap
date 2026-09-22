@@ -1,0 +1,12 @@
+[workspace]
+members = ["helper", "core"]
+resolver = "3"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
+
+[patch.crates-io]
+ppmd-rust = { path = "vendor/ppmd-rust" }

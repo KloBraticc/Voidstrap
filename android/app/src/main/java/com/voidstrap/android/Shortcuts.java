@@ -68,7 +68,9 @@ public final class Shortcuts {
     private static void publish(Context app, List<Store.Game> games) {
         List<ShortcutInfoCompat> list = new ArrayList<>();
         for (Store.Game g : games) {
-            list.add(builder(app, Deeplink.place(g.placeId, null, null), g.title(), art(app, g.iconUrl)).setRank(list.size()).build());
+            Deeplink d = Deeplink.place(g.placeId, null, null);
+            if (d == null) continue;
+            list.add(builder(app, d, g.title(), art(app, g.iconUrl)).setRank(list.size()).build());
         }
         try {
             ShortcutManagerCompat.setDynamicShortcuts(app, list);
@@ -78,7 +80,8 @@ public final class Shortcuts {
     }
 
     private static Bitmap art(Context app, String iconUrl) {
-        return iconUrl == null || iconUrl.isEmpty() ? null : Net.loadBitmap(app, iconUrl, 256);
+        if (iconUrl == null || iconUrl.isEmpty()) return null;
+        return Crash.call("shortcut art", () -> Net.loadBitmap(app, iconUrl, 256), null);
     }
 
     private static String label(Context c, String name) {
@@ -91,7 +94,8 @@ public final class Shortcuts {
                 .setAction(Intent.ACTION_VIEW)
                 .putExtra(EXTRA_LINK, d.toUri().toString())
                 .putExtra(EXTRA_NAME, label);
-        IconCompat icon = art != null ? IconCompat.createWithAdaptiveBitmap(adaptive(art)) : IconCompat.createWithResource(c, R.mipmap.ic_launcher);
+        Bitmap shaped = art == null ? null : Crash.call("shortcut icon", () -> adaptive(art), null);
+        IconCompat icon = shaped != null ? IconCompat.createWithAdaptiveBitmap(shaped) : IconCompat.createWithResource(c, R.mipmap.ic_launcher);
         return new ShortcutInfoCompat.Builder(c, d.stableId())
                 .setShortLabel(Store.clip(label, 25))
                 .setLongLabel(Store.clip(label, 50))
@@ -113,11 +117,12 @@ public final class Shortcuts {
         }
         Intent callback = new Intent(a, PinResultReceiver.class).putExtra(EXTRA_NAME, label);
         PendingIntent pi = PendingIntent.getBroadcast(a, id.hashCode(), callback, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-        boolean asked = ShortcutManagerCompat.requestPinShortcut(a, info, pi.getIntentSender());
+        boolean asked = Boolean.TRUE.equals(Crash.call("pin shortcut", () -> ShortcutManagerCompat.requestPinShortcut(a, info, pi.getIntentSender()), Boolean.FALSE));
         Notify.say(a, asked ? Notify.SHORTCUTS : null, asked ? R.string.shortcut_requested : R.string.shortcut_failed);
     }
 
     static Bitmap adaptive(Bitmap art) {
+        if (art == null || art.getWidth() <= 0 || art.getHeight() <= 0) return null;
         int size = 216;
         int inner = 144;
         Bitmap out = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);

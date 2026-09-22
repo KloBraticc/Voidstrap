@@ -3,12 +3,11 @@ package com.voidstrap.android;
 import android.content.Context;
 import android.os.SystemClock;
 
+import org.json.JSONObject;
+
 final class AppPresence {
     static final String SETTING = "voidRpc";
     private static final long THROTTLE_MS = 1500;
-    private static final String DOWNLOAD = "https://github.com/KloBraticc/Voidstrap/releases";
-    private static final String DISCORD = "https://discord.gg/bzdbHHytFR";
-    private static final String GITHUB = "https://github.com/KloBraticc/Voidstrap";
 
     private static final class Scene {
         final int owner;
@@ -39,6 +38,8 @@ final class AppPresence {
     private static boolean scheduled;
     private static boolean suppressed;
     private static String lastSignature = "";
+    private static JSONObject avatar;
+    private static long avatarFor;
 
     private AppPresence() {
     }
@@ -105,6 +106,7 @@ final class AppPresence {
             }
             return;
         }
+        fetchAvatar(s);
         Integrations.Presence p = build();
         String signature = p.signature();
         if (signature.equals(lastSignature)) return;
@@ -126,48 +128,26 @@ final class AppPresence {
 
     private static Integrations.Presence build() {
         Scene ctx = scene != null && scene.owner == page ? scene : null;
-        String details;
-        String state;
-        if (ctx != null) {
-            details = ctx.details;
-            state = ctx.state;
-        } else {
-            String[] info = pageInfo(page);
-            details = info[0];
-            state = info[1];
-        }
-        details = clip(details);
-        state = clip(state);
-        if (details.length() < 2) details = "Voidstrap";
-        if (state.length() < 2) state = "Exploring Voidstrap";
-        String version = "Voidstrap Android v" + BuildConfig.VERSION_NAME;
-        String image = ctx != null && ctx.image.startsWith("https://") ? ctx.image : "";
-        String buttonUrl = ctx != null && ctx.buttonUrl.startsWith("https://") ? ctx.buttonUrl : "";
-        Integrations.Presence p = new Integrations.Presence();
-        p.details = details;
-        p.state = state;
-        p.detailsStatus = true;
-        p.start = sessionStart;
-        if (!image.isEmpty()) {
-            p.largeImage = image;
-            p.largeText = clip(ctx.imageText.isEmpty() ? details : ctx.imageText);
-        } else {
-            p.largeImage = DiscordRpc.VOIDSTRAP_LOGO;
-            p.largeText = version;
-        }
-        if (!buttonUrl.isEmpty()) {
-            String label = ctx.buttonLabel.isEmpty() ? "Open" : ctx.buttonLabel;
-            p.buttons.add(new String[]{label.length() > 32 ? label.substring(0, 32) : label, buttonUrl});
-            p.buttons.add(new String[]{"Get Voidstrap", DOWNLOAD});
-        } else {
-            p.buttons.add(new String[]{"Discord", DISCORD});
-            p.buttons.add(new String[]{"Github", GITHUB});
-        }
-        return p;
+        String[] info = ctx != null ? new String[]{ctx.details, ctx.state} : pageInfo(page);
+        JSONObject args = Core.args("scene", ctx != null, "details", info[0], "state", info[1], "version", BuildConfig.VERSION_NAME, "start", sessionStart);
+        if (ctx != null) args = Core.merge(args, Core.args("image", ctx.image, "imageText", ctx.imageText, "buttonLabel", ctx.buttonLabel, "buttonUrl", ctx.buttonUrl));
+        if (avatar != null) args = Core.merge(args, Core.args("avatar", avatar));
+        return Integrations.presence("presence.app", args);
     }
 
-    private static String clip(String value) {
-        String t = (value == null ? "" : value).replace('\r', ' ').replace('\n', ' ').trim().replaceAll(" {2,}", " ");
-        return t.length() > 128 ? t.substring(0, 125).trim() + "..." : t;
+    private static void fetchAvatar(Store s) {
+        String saved = s.setting(Integrations.USER_ID, "");
+        long userId = saved.matches("[0-9]{1,18}") ? Long.parseLong(saved) : 0;
+        if (userId <= 0 || userId == avatarFor) return;
+        avatarFor = userId;
+        s.work.execute(() -> {
+            JSONObject found = Integrations.account(app, userId, true);
+            if (found == null) return;
+            s.main.post(() -> {
+                avatar = found;
+                lastSignature = "";
+                update();
+            });
+        });
     }
 }

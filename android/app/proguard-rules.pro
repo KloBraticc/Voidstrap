@@ -1,2 +1,5 @@
 -dontobfuscate
 -keep class com.voidstrap.android.HelperServer { public static void main(java.lang.String[]); }
+-keep class com.voidstrap.android.Http { static java.lang.Object[] request(java.lang.String, java.lang.String, java.lang.String[], byte[], int, int, boolean); static java.lang.String html(java.lang.String, boolean); }
+-keep interface com.voidstrap.android.Helper$LineSink { void line(java.lang.String); }
+-keepclassmembers class * implements com.voidstrap.android.Helper$LineSink { void line(java.lang.String); }

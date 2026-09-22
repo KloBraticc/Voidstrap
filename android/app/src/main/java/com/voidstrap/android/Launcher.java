@@ -21,6 +21,7 @@ public final class Launcher {
     }
 
     public static void launch(Context c, Deeplink destination, String name, Done done) {
+        if (c == null || done == null) return;
         if (busy || SystemClock.elapsedRealtime() - lastHandoff < REPEAT_GUARD_MS) {
             done.run(Result.BUSY);
             return;
@@ -35,26 +36,34 @@ public final class Launcher {
         }
         busy = true;
         String flags = store.flags.active().valuesJson().toString();
+        boolean unlocked = FlagPresets.targetFps(store.flags.active().values) > 60;
         store.work.execute(() -> {
-            int flagIssue = FlagWriter.syncForLaunch(app, pkg, flags);
-            boolean mods = ModEngine.syncForLaunch(app, pkg);
-            boolean track = Integrations.on(store, Integrations.TRACKING) && ActivityService.available(app);
-            Deeplink target = SmartJoin.rewrite(app, destination);
-            store.main.post(() -> {
-                busy = false;
-                if (track) ActivityService.startNow(app);
-                Result r = start(app, target, pkg);
-                if (flagIssue != 0 && r == Result.HANDED_OFF) Notify.toast(app, Notify.LAUNCH, flagIssue);
-                else if (!mods && r == Result.HANDED_OFF) Notify.toast(app, Notify.LAUNCH, R.string.mods_launch_not_applied);
-                done.run(finish(app, destination, name, pkg, r));
-            });
+            try {
+                int flagIssue = FlagWriter.syncForLaunch(app, pkg, flags, unlocked);
+                boolean mods = ModEngine.syncForLaunch(app, pkg);
+                boolean track = Integrations.on(store, Integrations.TRACKING) && ActivityService.available(app);
+                Deeplink target = SmartJoin.rewrite(app, destination);
+                store.main.post(() -> {
+                    busy = false;
+                    if (track) ActivityService.startNow(app);
+                    Result r = start(app, target, pkg);
+                    if (flagIssue != 0 && r == Result.HANDED_OFF) Notify.toast(app, Notify.LAUNCH, flagIssue);
+                    else if (!mods && r == Result.HANDED_OFF) Notify.toast(app, Notify.LAUNCH, R.string.mods_launch_not_applied);
+                    done.run(finish(app, destination, name, pkg, r));
+                });
+            } catch (RuntimeException e) {
+                store.main.post(() -> {
+                    busy = false;
+                    done.run(finish(app, destination, name, pkg, Result.FAILED));
+                });
+            }
         });
     }
 
     private static Result start(Context app, Deeplink destination, String pkg) {
-        Intent intent = destination == null
+        Intent intent = Crash.call("launch intent", () -> destination == null
                 ? app.getPackageManager().getLaunchIntentForPackage(pkg)
-                : new Intent(Intent.ACTION_VIEW, destination.toUri()).setPackage(pkg).addCategory(Intent.CATEGORY_BROWSABLE);
+                : new Intent(Intent.ACTION_VIEW, destination.toUri()).setPackage(pkg).addCategory(Intent.CATEGORY_BROWSABLE), null);
         if (intent == null) return Result.NO_HANDLER;
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
@@ -63,7 +72,8 @@ public final class Launcher {
             return Result.HANDED_OFF;
         } catch (ActivityNotFoundException e) {
             return destination == null ? Result.NO_HANDLER : Result.DESTINATION_UNSUPPORTED;
-        } catch (SecurityException e) {
+        } catch (RuntimeException e) {
+            Crash.report("launch", e);
             return Result.FAILED;
         }
     }
@@ -91,10 +101,11 @@ public final class Launcher {
     }
 
     public static void openStore(Context c, String pkg) {
+        if (c == null || pkg == null) return;
         Intent market = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + pkg)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
             c.startActivity(market);
-        } catch (ActivityNotFoundException e) {
+        } catch (RuntimeException e) {
             Ui.openWeb(c, "https://play.google.com/store/apps/details?id=" + pkg);
         }
     }

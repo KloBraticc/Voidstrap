@@ -27,9 +27,9 @@ public final class Store {
 
     private static Store instance;
 
-    public final Handler main = new Handler(Looper.getMainLooper());
-    public final ExecutorService work = pool(3);
-    private final ExecutorService writer = pool(1);
+    public final Handler main = new Crash.SafeHandler(Looper.getMainLooper(), "main thread task");
+    public final ExecutorService work = pool(3, "background task");
+    private final ExecutorService writer = pool(1, "settings writer");
     private final CopyOnWriteArrayList<Runnable> listeners = new CopyOnWriteArrayList<>();
     private final File dir;
     private final java.util.concurrent.atomic.AtomicBoolean writeFailed = new java.util.concurrent.atomic.AtomicBoolean();
@@ -40,8 +40,19 @@ public final class Store {
     public final List<Launch> history = new ArrayList<>();
     public final Flags flags;
 
-    private static ExecutorService pool(int threads) {
-        ThreadPoolExecutor p = new ThreadPoolExecutor(threads, threads, 15, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+    private static ExecutorService pool(int threads, String where) {
+        ThreadPoolExecutor p = new ThreadPoolExecutor(threads, threads, 15, TimeUnit.SECONDS, new LinkedBlockingQueue<>()) {
+            @Override
+            public void execute(Runnable command) {
+                super.execute(Crash.wrap(where, command));
+            }
+
+            @Override
+            protected void afterExecute(Runnable r, Throwable t) {
+                super.afterExecute(r, t);
+                if (t != null) Crash.report(where, t);
+            }
+        };
         p.allowCoreThreadTimeOut(true);
         return p;
     }
@@ -54,17 +65,22 @@ public final class Store {
     private Store(Context context) {
         dir = context.getFilesDir();
         settings = read("settings.json");
-        JSONArray games = read("library.json").optJSONArray("games");
-        if (games != null) for (int i = 0; i < games.length(); i++) {
-            Game g = Game.from(games.optJSONObject(i));
-            if (g != null) library.add(g);
-        }
-        JSONArray launches = read("history.json").optJSONArray("launches");
-        if (launches != null) for (int i = 0; i < launches.length() && i < HISTORY_LIMIT; i++) {
-            Launch l = Launch.from(launches.optJSONObject(i));
-            if (l != null) history.add(l);
-        }
-        flags = Flags.from(read("flags.json"));
+        Crash.run("library load", () -> {
+            JSONArray games = read("library.json").optJSONArray("games");
+            if (games != null) for (int i = 0; i < games.length(); i++) {
+                Game g = Game.from(games.optJSONObject(i));
+                if (g != null) library.add(g);
+            }
+        });
+        Crash.run("history load", () -> {
+            JSONArray launches = read("history.json").optJSONArray("launches");
+            if (launches != null) for (int i = 0; i < launches.length() && i < HISTORY_LIMIT; i++) {
+                Launch l = Launch.from(launches.optJSONObject(i));
+                if (l != null) history.add(l);
+            }
+        });
+        Flags loaded = Crash.call("flags load", () -> Flags.from(read("flags.json")), null);
+        flags = loaded == null || loaded.profiles.isEmpty() ? Flags.empty() : loaded;
     }
 
     public void observe(Runnable r) {
@@ -81,11 +97,13 @@ public final class Store {
             return;
         }
         queued.set(false);
-        for (Runnable r : listeners) r.run();
+        for (Runnable r : listeners) Crash.run("store listener", r);
     }
 
     public String setting(String key, String fallback) {
-        return settings.optString(key, fallback);
+        if (key == null) return fallback;
+        String v = settings.optString(key, fallback);
+        return v == null ? fallback : v;
     }
 
     public void putSetting(String key, String value) {
@@ -236,10 +254,10 @@ public final class Store {
     }
 
     private JSONObject read(String name) {
-        AtomicFile f = new AtomicFile(new File(dir, name));
         try {
+            AtomicFile f = new AtomicFile(new File(dir, name));
             return new JSONObject(new String(f.readFully(), StandardCharsets.UTF_8));
-        } catch (IOException | JSONException e) {
+        } catch (IOException | JSONException | RuntimeException | OutOfMemoryError e) {
             return new JSONObject();
         }
     }
@@ -252,9 +270,10 @@ public final class Store {
                 out = f.startWrite();
                 out.write(json.getBytes(StandardCharsets.UTF_8));
                 f.finishWrite(out);
-            } catch (IOException e) {
+            } catch (IOException | RuntimeException e) {
                 writeFailed.set(true);
-                if (out != null) f.failWrite(out);
+                FileOutputStream started = out;
+                if (started != null) Crash.run("settings rollback", () -> f.failWrite(started));
             }
         });
     }
@@ -278,7 +297,8 @@ public final class Store {
             if (o == null) return null;
             long id = o.optLong("placeId", 0);
             if (id <= 0) return null;
-            return new Game(id, o.optLong("universeId", 0), clip(o.optString("name", ""), 200), clip(o.optString("iconUrl", ""), 1024), o.optLong("added", 0));
+            String icon = clip(o.optString("iconUrl", ""), 1024);
+            return new Game(id, o.optLong("universeId", 0), clip(o.optString("name", ""), 200), icon.startsWith("https://") ? icon : "", o.optLong("added", 0));
         }
 
         JSONObject toJson() {

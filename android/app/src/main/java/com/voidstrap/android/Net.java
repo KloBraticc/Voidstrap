@@ -7,8 +7,6 @@ import android.graphics.BitmapFactory;
 import android.util.LruCache;
 import android.widget.ImageView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -22,7 +20,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
@@ -32,7 +29,6 @@ public final class Net {
     private static final int TIMEOUT_MS = 8000;
 
     private static LruCache<String, Bitmap> memory;
-    private static final ConcurrentHashMap<Long, Store.Game> metaCache = new ConcurrentHashMap<>();
 
     private Net() {
     }
@@ -49,78 +45,26 @@ public final class Net {
         return store.work.submit(() -> {
             Meta m = null;
             try {
-                m = fetchMeta(placeId);
-            } catch (IOException | JSONException ignored) {
+                Object v = Core.value("feed.meta", Core.feed(c, "place", placeId));
+                if (v instanceof JSONObject) {
+                    JSONObject o = (JSONObject) v;
+                    m = new Meta();
+                    m.placeId = placeId;
+                    m.universeId = o.optLong("universeId");
+                    m.name = Core.opt(o, "name");
+                    m.iconUrl = Core.opt(o, "iconUrl");
+                }
+            } catch (IOException ignored) {
             }
             Meta result = m;
             if (!Thread.currentThread().isInterrupted()) store.main.post(() -> done.accept(result));
         });
     }
 
-    public static Meta fetchMeta(long placeId) throws IOException, JSONException {
-        Store.Game cached = metaCache.get(placeId);
-        Meta m = new Meta();
-        m.placeId = placeId;
-        if (cached != null) {
-            m.universeId = cached.universeId;
-            m.name = cached.name;
-            m.iconUrl = cached.iconUrl;
-            return m;
-        }
-        JSONObject u = json("https://apis.roblox.com/universes/v1/places/" + placeId + "/universe");
-        m.universeId = u.optLong("universeId", 0);
-        if (m.universeId <= 0) return null;
-        JSONArray games = json("https://games.roblox.com/v1/games?universeIds=" + m.universeId).optJSONArray("data");
-        if (games != null && games.length() > 0) m.name = Store.clip(games.getJSONObject(0).optString("name", ""), 200);
-        try {
-            JSONArray icons = json("https://thumbnails.roblox.com/v1/games/icons?universeIds=" + m.universeId + "&returnPolicy=PlaceHolder&size=256x256&format=Png&isCircular=false").optJSONArray("data");
-            if (icons != null && icons.length() > 0) {
-                String url = icons.getJSONObject(0).optString("imageUrl", "");
-                if (url.startsWith("https://")) m.iconUrl = url;
-            }
-        } catch (IOException | JSONException ignored) {
-        }
-        metaCache.put(placeId, new Store.Game(placeId, m.universeId, m.name, m.iconUrl, 0));
-        return m;
-    }
-
     static void ensureDir(File dir, String label) throws IOException {
         if (dir.isDirectory()) return;
         dir.mkdirs();
         if (!dir.isDirectory()) throw new IOException(label);
-    }
-
-    public static JSONObject cachedJson(Context c, String url, long maxAgeMs) throws IOException, JSONException {
-        File dir = new File(c.getCacheDir(), "feeds");
-        ensureDir(dir, "cache");
-        File f = new File(dir, sha1(url) + ".json");
-        if (f.isFile() && System.currentTimeMillis() - f.lastModified() < maxAgeMs) {
-            try {
-                return new JSONObject(new String(java.nio.file.Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8));
-            } catch (IOException | JSONException ignored) {
-            }
-        }
-        try {
-            byte[] data = get(url, MAX_JSON);
-            JSONObject parsed = new JSONObject(new String(data, StandardCharsets.UTF_8));
-            File tmp = new File(dir, f.getName() + ".tmp");
-            try (FileOutputStream out = new FileOutputStream(tmp)) {
-                out.write(data);
-            }
-            if (!tmp.renameTo(f)) tmp.delete();
-            return parsed;
-        } catch (IOException | JSONException e) {
-            if (f.isFile()) return new JSONObject(new String(java.nio.file.Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8));
-            throw e;
-        }
-    }
-
-    public static void forget(Context c, String url) {
-        new File(new File(c.getCacheDir(), "feeds"), sha1(url) + ".json").delete();
-    }
-
-    static JSONObject json(String url) throws IOException, JSONException {
-        return new JSONObject(new String(get(url, MAX_JSON), StandardCharsets.UTF_8));
     }
 
     private static void requireHttps(String url) throws IOException {
@@ -161,7 +105,15 @@ public final class Net {
         return new String(get(url, limit), StandardCharsets.UTF_8);
     }
 
+    public interface Progress {
+        void at(int percent);
+    }
+
     public static void download(String url, File dest, long limit, java.util.concurrent.atomic.AtomicBoolean cancel) throws IOException {
+        downloadTracked(url, dest, limit, cancel, null);
+    }
+
+    public static void downloadTracked(String url, File dest, long limit, java.util.concurrent.atomic.AtomicBoolean cancel, Progress progress) throws IOException {
         requireHttps(url);
         HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
         con.setConnectTimeout(15000);
@@ -180,11 +132,19 @@ public final class Net {
                 byte[] buf = new byte[65536];
                 long total = 0;
                 int n;
+                int last = -1;
                 while ((n = in.read(buf)) > 0) {
                     total += n;
                     if (total > limit) throw new IOException("too large");
                     if ((cancel != null && cancel.get()) || Thread.currentThread().isInterrupted()) throw new IOException("cancelled");
                     out.write(buf, 0, n);
+                    if (progress != null && declared > 0) {
+                        int percent = (int) Math.min(100, total * 100 / declared);
+                        if (percent != last) {
+                            last = percent;
+                            progress.at(percent);
+                        }
+                    }
                 }
                 out.getFD().sync();
             }
@@ -216,6 +176,7 @@ public final class Net {
     }
 
     public static void image(ImageView view, String url, int fallback, int px) {
+        if (view == null) return;
         Context c = view.getContext().getApplicationContext();
         view.setTag(R.id.tag_image, url);
         if (url == null || url.isEmpty()) {
@@ -233,18 +194,19 @@ public final class Net {
         store.work.execute(() -> {
             Bitmap b = memory(c).get(key);
             if (b == null) {
-                b = loadBitmap(c, url, px);
+                b = Crash.call("image load", () -> loadBitmap(c, url, px), null);
                 if (b == null) return;
                 memory(c).put(key, b);
             }
             Bitmap ready = b;
             store.main.post(() -> {
-                if (url.equals(view.getTag(R.id.tag_image))) view.setImageBitmap(ready);
+                if (!ready.isRecycled() && url.equals(view.getTag(R.id.tag_image))) view.setImageBitmap(ready);
             });
         });
     }
 
     public static Bitmap loadBitmap(Context c, String url, int px) {
+        if (c == null || url == null || url.isEmpty()) return null;
         try {
             if (url.startsWith("file:")) {
                 int hash = url.indexOf('#');
@@ -263,18 +225,24 @@ public final class Net {
                 if (!tmp.renameTo(f)) return null;
             }
             return decode(f, px);
-        } catch (IOException | OutOfMemoryError e) {
+        } catch (IOException | RuntimeException | OutOfMemoryError e) {
             return null;
         }
     }
 
     public static Bitmap decode(File f, int px) {
+        if (f == null || !f.isFile()) return null;
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(f.getPath(), o);
+        try {
+            BitmapFactory.decodeFile(f.getPath(), o);
+        } catch (RuntimeException | OutOfMemoryError e) {
+            return null;
+        }
         if (o.outWidth <= 0 || o.outHeight <= 0) return null;
         int sample = 1;
-        while (o.outWidth / (sample * 2) >= px && o.outHeight / (sample * 2) >= px) sample *= 2;
+        int wanted = Math.max(1, px);
+        while (sample < 1 << 12 && o.outWidth / (sample * 2) >= wanted && o.outHeight / (sample * 2) >= wanted) sample *= 2;
         BitmapFactory.Options d = new BitmapFactory.Options();
         d.inSampleSize = sample;
         int shortSide = Math.min(o.outWidth, o.outHeight) / sample;
@@ -285,7 +253,7 @@ public final class Net {
         }
         try {
             return BitmapFactory.decodeFile(f.getPath(), d);
-        } catch (OutOfMemoryError e) {
+        } catch (RuntimeException | OutOfMemoryError e) {
             return null;
         }
     }

@@ -1,0 +1,2 @@
+[build]
+target-dir = "../app/build/rust/target"

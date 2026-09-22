@@ -30,7 +30,7 @@ final class LiveTranslator {
 
     static void apply(Activity activity) {
         if (activity == null || activity.isFinishing() || activity.getWindow() == null) return;
-        translateTree(activity.getWindow().getDecorView());
+        Crash.run("translation", () -> translateTree(activity.getWindow().getDecorView()));
     }
 
     static void translateTree(View root) {
@@ -45,33 +45,13 @@ final class LiveTranslator {
         List<String> missing = new ArrayList<>();
         walk(root, lang, missing);
         if (missing.isEmpty()) return;
-        Translator.fetch(root.getContext(), store, lang, missing, () -> {
+        Translator.fetch(root.getContext(), store, lang, missing, () -> Crash.run("translation pass", () -> {
             if (root.isAttachedToWindow()) walk(root, lang, null);
-        });
+        }));
     }
 
     private static boolean same(CharSequence a, CharSequence b) {
         return a == null ? b == null : b != null && a.toString().equals(b.toString());
-    }
-
-    private static CharSequence swap(Map<?, Slot> table, Slot slot, CharSequence current, String lang, List<String> missing) {
-        if (slot.applied != null && !same(current, slot.applied)) {
-            slot.original = current;
-            slot.applied = null;
-        }
-        if (slot.original == null) slot.original = current;
-        if (slot.original == null || Translator.skip(slot.original)) return null;
-        String hit = Translator.cached(lang, slot.original.toString());
-        if (hit == null) {
-            if (missing != null) missing.add(slot.original.toString());
-            return null;
-        }
-        if (same(current, hit)) {
-            slot.applied = hit;
-            return null;
-        }
-        slot.applied = hit;
-        return hit;
     }
 
     private static CharSequence revert(Slot slot, CharSequence current) {
@@ -82,36 +62,71 @@ final class LiveTranslator {
         return original;
     }
 
-    private static void walk(View v, String lang, List<String> missing) {
+    private interface Setter {
+        void set(CharSequence value);
+    }
+
+    private static final class Item {
+        final Slot slot;
+        final CharSequence current;
+        final Setter setter;
+
+        Item(Slot slot, CharSequence current, Setter setter) {
+            this.slot = slot;
+            this.current = current;
+            this.setter = setter;
+        }
+    }
+
+    private static void walk(View root, String lang, List<String> missing) {
+        List<Item> items = new ArrayList<>();
+        collect(root, items);
+        List<String> originals = new ArrayList<>();
+        for (Item it : items) {
+            Slot slot = it.slot;
+            if (slot.applied != null && !same(it.current, slot.applied)) {
+                slot.original = it.current;
+                slot.applied = null;
+            }
+            if (slot.original == null) slot.original = it.current;
+            originals.add(slot.original == null ? null : slot.original.toString());
+        }
+        Object[] hits = Translator.lookup(lang, originals);
+        for (int i = 0; i < items.size(); i++) {
+            Object h = hits[i];
+            if (Boolean.FALSE.equals(h)) continue;
+            Item it = items.get(i);
+            if (!(h instanceof String)) {
+                if (missing != null) missing.add(originals.get(i));
+                continue;
+            }
+            String hit = (String) h;
+            it.slot.applied = hit;
+            if (!same(it.current, hit)) it.setter.set(hit);
+        }
+    }
+
+    private static void collect(View v, List<Item> items) {
         if (v == null || v.getTag(R.id.vs_no_translate) != null) return;
         if (v instanceof TextInputLayout) {
             TextInputLayout layout = (TextInputLayout) v;
-            Slot slot = slot(layoutHints, layout);
-            CharSequence next = swap(layoutHints, slot, layout.getHint(), lang, missing);
-            if (next != null) layout.setHint(next);
+            items.add(new Item(slot(layoutHints, layout), layout.getHint(), layout::setHint));
         }
         if (v instanceof TabLayout) {
             TabLayout group = (TabLayout) v;
             for (int i = 0; i < group.getTabCount(); i++) {
                 TabLayout.Tab tab = group.getTabAt(i);
-                if (tab == null) continue;
-                Slot slot = slot(tabs, tab);
-                CharSequence next = swap(tabs, slot, tab.getText(), lang, missing);
-                if (next != null) tab.setText(next);
+                if (tab != null) items.add(new Item(slot(tabs, tab), tab.getText(), tab::setText));
             }
         }
         if (v instanceof TextView) {
             TextView t = (TextView) v;
-            Slot textSlot = slot(texts, t);
-            CharSequence next = swap(texts, textSlot, t.getText(), lang, missing);
-            if (next != null) t.setText(next);
-            Slot hintSlot = slot(hints, t);
-            CharSequence nextHint = swap(hints, hintSlot, t.getHint(), lang, missing);
-            if (nextHint != null) t.setHint(nextHint);
+            items.add(new Item(slot(texts, t), t.getText(), t::setText));
+            items.add(new Item(slot(hints, t), t.getHint(), t::setHint));
         }
         if (v instanceof ViewGroup) {
             ViewGroup g = (ViewGroup) v;
-            for (int i = 0; i < g.getChildCount(); i++) walk(g.getChildAt(i), lang, missing);
+            for (int i = 0; i < g.getChildCount(); i++) collect(g.getChildAt(i), items);
         }
     }
 

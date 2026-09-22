@@ -1,61 +1,23 @@
 package com.voidstrap.android;
 
-import android.os.Process;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.concurrent.TimeUnit;
+import java.io.InputStream;
 
 public final class HelperServer {
     static final String PORT_FILE = "/data/local/tmp/voidstrap_helper_port";
-    static final int NONCE_BYTES = 16;
-    static final int PROOF_BYTES = 32;
-    static final int VERSION = 8;
-    static final int PING = -1;
-    static final int STOP = -2;
-    static final int STALE = -3;
-    static final int STREAM = -4;
-    static final String STREAM_START = "\u0001START";
-    static final String STREAM_EXIT = "\u0001EXIT";
-    static final String STREAM_IDLE = "\u0001IDLE";
-    static final String[] STREAM_MARKERS = {
-            "! Joining game",
-            "game_join_loadtime",
-            "UDMUX Address",
-            "[FLog::Network] serverId:",
-            "Time to disconnect replication data",
-            "leaveUGCGameInternal",
-            "doTeleport: joinScriptUrl",
-            "[VoidstrapRPC]",
-            "[BloxstrapRPC]",
-            "ExpChat/mountClientApp",
-            "SocialCounterpartyManager",
-            "setStage: (stage:"
-    };
-    static final String STREAM_REGEX = "Joining game|game_join_loadtime|UDMUX Address|serverId:"
-            + "|Time to disconnect|leaveUGCGameInternal|doTeleport|VoidstrapRPC|BloxstrapRPC"
-            + "|ExpChat|SocialCounterpartyManager|setStage";
-    private static final long ALIVE_POLL_MS = 3000;
-    private static final int KEEPALIVE_TICKS = 10;
-    private static Boolean regexSupported;
-    static final int MAX_SCRIPT = 8 * 1024 * 1024;
+    static final String BINARY = "/data/local/tmp/voidstrap_helper";
+    static final String LIBRARY = "libvoidstrap_helper.so";
+    static final int VERSION = BuildConfig.VERSION_CODE;
+    static final String STREAM_START = "START";
+    static final String STREAM_EXIT = "EXIT";
+    static final String STREAM_IDLE = "IDLE";
     static final int SHELL_UID = 2000;
     static final String CACHE_LIST = "/data/local/tmp/voidstrap_cache_";
+    private static final String CLEANUP_END = "VOIDSTRAP_CLEANUP_END";
     static final String CLEANUP = "K=0\n"
             + "for f in " + FlagWriter.PATH + " " + FlagWriter.PATH + ".new " + LibraryData.JOINS + "; do [ -e \"$f\" ] && K=1; rm -f \"$f\"; done\n"
             + FlagWriter.RESTORE_REFRESH
+            + "setprop " + FlagWriter.GAME_FPS_CAP + " false\n"
             + "NS=''\n"
             + "if nsenter -t 1 -m -- true 2>/dev/null; then NS='nsenter -t 1 -m --'; fi\n"
             + "grep /voidstrap_mods/ /proc/1/mountinfo | while read -r a b c r m rest; do $NS umount -l \"$m\" 2>/dev/null; done\n"
@@ -66,397 +28,41 @@ public final class HelperServer {
             + "  while read -r h; do [ -n \"$h\" ] && rm -f \"/data/data/$p/cache/rbx-storage/${h%${h#??}}/$h\"; done < \"$f\"\n"
             + "  rm -f \"$f\"; K=1\n"
             + "done\n"
-            + "rm -f " + PORT_FILE + "\n"
+            + "rm -f " + PORT_FILE + " " + BINARY + "\n"
             + "rm -rf " + ModEngine.REMOTE_DIR + "\n"
             + "if [ $K = 1 ]; then for p in " + Targets.GLOBAL + " " + Targets.VN + "; do am force-stop $p 2>/dev/null; done; fi\n"
             + "exit 0\n";
 
-    private static String pkg;
-    private static int allowedUid;
-    private static String token;
-    private static ServerSocket server;
-    private static final java.util.concurrent.atomic.AtomicReference<java.lang.Process> tail = new java.util.concurrent.atomic.AtomicReference<>();
-
     private HelperServer() {
     }
 
-    static byte[] proof(String token, byte[] nonce) {
-        return proof(token, nonce, (byte) 0);
-    }
-
-    static byte[] serverProof(String token, byte[] nonce) {
-        return proof(token, nonce, (byte) 1);
-    }
-
-    private static byte[] proof(String token, byte[] nonce, byte side) {
-        try {
-            MessageDigest d = MessageDigest.getInstance("SHA-256");
-            d.update(token.getBytes(StandardCharsets.UTF_8));
-            d.update(nonce);
-            d.update(side);
-            return d.digest();
-        } catch (NoSuchAlgorithmException e) {
-            return new byte[PROOF_BYTES];
-        }
-    }
-
     static String launchLine(String pkg, int uid, String token) {
-        return "p=$(pm path " + pkg + " | sed -n 's/^package://p' | grep base.apk | head -n 1)\n"
+        return "TMPDIR=/data/local/tmp\nexport TMPDIR\n"
+                + "p=$(pm path " + pkg + " | sed -n 's/^package://p' | grep base.apk | head -n 1)\n"
                 + "[ -z \"$p\" ] && p=$(pm path " + pkg + " | sed -n '1s/^package://p')\n"
                 + "[ -z \"$p\" ] && { echo 'Voidstrap is not installed'; exit 1; }\n"
-                + "CLASSPATH=\"$p\" nohup app_process /system/bin --nice-name=voidstrap_helper "
-                + HelperServer.class.getName() + " " + pkg + " " + uid + " " + token + " </dev/null >/dev/null 2>&1 &\n";
+                + "b=$(ls \"${p%/*}\"/lib/*/" + LIBRARY + " 2>/dev/null | head -n 1)\n"
+                + "[ -z \"$b\" ] && { echo 'The Voidstrap helper is missing from this install'; exit 1; }\n"
+                + "rm -f " + BINARY + "\n"
+                + "cp \"$b\" " + BINARY + " && chmod 0700 " + BINARY + " || { echo 'The Voidstrap helper could not be copied'; exit 1; }\n"
+                + "nohup " + BINARY + " " + pkg + " " + uid + " " + token + " \"$p\" >/dev/null 2>&1 <<'" + CLEANUP_END + "' &\n"
+                + CLEANUP
+                + CLEANUP_END + "\n";
     }
 
     public static void main(String[] args) {
-        if (args.length < 3) return;
-        pkg = args[0];
+        if (args.length < 3 || !args[0].matches("[A-Za-z0-9_.]+") || !args[1].matches("[0-9]{1,9}") || !args[2].matches("[0-9a-f]{32}")) return;
         try {
-            allowedUid = Integer.parseInt(args[1]);
-        } catch (NumberFormatException e) {
-            return;
-        }
-        token = args[2];
-        if (token.isEmpty()) return;
-        server = bind();
-        if (server == null) {
-            System.out.println("The Voidstrap helper could not listen");
-            return;
-        }
-        System.out.println("The Voidstrap helper started");
-        Runtime.getRuntime().addShutdownHook(new Thread(HelperServer::stopTail, "tail-stop"));
-        Thread watch = new Thread(HelperServer::watch, "watch");
-        watch.setDaemon(true);
-        watch.start();
-        while (true) {
-            Socket client;
-            try {
-                client = server.accept();
-            } catch (IOException e) {
-                System.exit(0);
-                return;
-            }
-            new Thread(() -> serve(client), "request").start();
-        }
-    }
-
-    private static ServerSocket bind() {
-        stopOld();
-        for (int i = 0; i < 20; i++) {
-            try {
-                ServerSocket s = new ServerSocket(0, 50, InetAddress.getLoopbackAddress());
-                publish(s.getLocalPort());
-                return s;
-            } catch (IOException e) {
-                sleep(250);
-            }
-        }
-        return null;
-    }
-
-    private static void publish(int port) throws IOException {
-        File f = new File(PORT_FILE);
-        f.delete();
-        try (OutputStream o = new FileOutputStream(f)) {
-            o.write(String.valueOf(port).getBytes(StandardCharsets.UTF_8));
-        }
-        try {
-            android.system.Os.chmod(PORT_FILE, 0644);
-        } catch (android.system.ErrnoException e) {
-            throw new IOException("port file mode");
-        }
-    }
-
-    private static int publishedPort() {
-        try {
-            byte[] b = java.nio.file.Files.readAllBytes(new File(PORT_FILE).toPath());
-            return Integer.parseInt(new String(b, StandardCharsets.UTF_8).trim());
-        } catch (IOException | RuntimeException e) {
-            return 0;
-        }
-    }
-
-    private static void stopOld() {
-        int port = publishedPort();
-        if (port <= 0) return;
-        try (Socket s = new Socket()) {
-            s.connect(new InetSocketAddress(InetAddress.getLoopbackAddress(), port), 2000);
-            s.setSoTimeout(2000);
-            DataInputStream in = new DataInputStream(s.getInputStream());
-            byte[] nonce = new byte[NONCE_BYTES];
-            in.readFully(nonce);
-            DataOutputStream out = new DataOutputStream(s.getOutputStream());
-            out.write(proof(token, nonce));
-            out.flush();
-            byte[] answer = new byte[PROOF_BYTES];
-            in.readFully(answer);
-            if (!MessageDigest.isEqual(answer, serverProof(token, nonce))) return;
-            out.writeInt(VERSION);
-            out.writeInt(STOP);
-            out.flush();
-            in.readInt();
-        } catch (IOException ignored) {
-        }
-    }
-
-    private static void watch() {
-        String apk = System.getenv("CLASSPATH");
-        if (apk == null) return;
-        byte[] cleanup = CLEANUP.getBytes(StandardCharsets.UTF_8);
-        while (true) {
-            sleep(TimeUnit.SECONDS.toMillis(5));
-            if (new File(apk).exists()) continue;
-            if (installed()) {
-                relaunch();
-                return;
-            }
-            run(cleanup, 120);
-            System.exit(0);
-        }
-    }
-
-    private static boolean installed() {
-        try {
-            java.lang.Process p = new ProcessBuilder("pm", "path", pkg).redirectErrorStream(true).start();
-            byte[] out = readAll(p.getInputStream());
-            FlagWriter.awaitExit(p, 20);
-            return new String(out, StandardCharsets.UTF_8).contains("package:");
-        } catch (IOException e) {
-            return true;
-        } catch (InterruptedException e) {
-            return true;
-        }
-    }
-
-    private static void serve(Socket client) {
-        try (Socket s = client) {
-            s.setSoTimeout(10_000);
-            DataInputStream in = new DataInputStream(s.getInputStream());
-            DataOutputStream out = new DataOutputStream(s.getOutputStream());
-            byte[] nonce = new byte[NONCE_BYTES];
-            new SecureRandom().nextBytes(nonce);
-            out.write(nonce);
-            out.flush();
-            byte[] offered = new byte[PROOF_BYTES];
-            in.readFully(offered);
-            if (!MessageDigest.isEqual(offered, proof(token, nonce))) return;
-            out.write(serverProof(token, nonce));
-            out.flush();
-            int version = in.readInt();
-            int timeout = in.readInt();
-            if (timeout == STOP) {
-                out.writeInt(0);
-                out.flush();
-                new File(PORT_FILE).delete();
-                System.exit(0);
-                return;
-            }
-            if (timeout == PING) {
-                out.writeInt(Process.myUid());
-                out.flush();
-                if (version != VERSION) relaunch();
-                return;
-            }
-            if (version != VERSION) {
-                out.writeInt(STALE);
-                out.flush();
-                relaunch();
-                return;
-            }
-            if (timeout == STREAM) {
-                String target = in.readUTF();
-                if (!target.equals(Targets.GLOBAL) && !target.equals(Targets.VN)) return;
-                out.writeInt(0);
-                out.flush();
-                s.setSoTimeout(0);
-                stream(target, out);
-                return;
-            }
-            int length = in.readInt();
-            if (length < 0 || length > MAX_SCRIPT) return;
-            byte[] script = new byte[length];
-            in.readFully(script);
-            out.writeInt(run(script, Math.max(1, Math.min(timeout, 600))));
-            out.flush();
-        } catch (IOException ignored) {
-        }
-    }
-
-    static boolean wanted(String line) {
-        for (String m : STREAM_MARKERS) if (line.contains(m)) return true;
-        return false;
-    }
-
-    private static String pidOf(String target) {
-        try {
-            java.lang.Process p = new ProcessBuilder("pidof", target).redirectErrorStream(true).start();
-            String out = new String(readAll(p.getInputStream()), StandardCharsets.UTF_8).trim();
-            FlagWriter.awaitExit(p, 5);
-            if (out.isEmpty()) return null;
-            String first = out.split("\\s+")[0];
-            return first.matches("[0-9]+") ? first : null;
-        } catch (IOException e) {
-            return null;
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return null;
-        }
-    }
-
-    private static void discard(java.lang.Process p) {
-        Thread sink = new Thread(() -> {
+            Process p = new ProcessBuilder("sh", "-c", launchLine(args[0], Integer.parseInt(args[1]), args[2]))
+                    .redirectErrorStream(true)
+                    .start();
             byte[] buf = new byte[4096];
-            try (java.io.InputStream in = p.getInputStream()) {
-                while (in.read(buf) > 0) {
+            try (InputStream out = p.getInputStream()) {
+                while (out.read(buf) > 0) {
                 }
-            } catch (IOException ignored) {
             }
-        });
-        sink.setDaemon(true);
-        sink.start();
-    }
-
-    private static synchronized boolean canPreFilter() {
-        if (regexSupported == null) {
-            regexSupported = Boolean.FALSE;
-            try {
-                java.lang.Process p = new ProcessBuilder("logcat", "-e", STREAM_REGEX, "-d", "-t", "1")
-                        .redirectErrorStream(true)
-                        .start();
-                discard(p);
-                regexSupported = FlagWriter.awaitExit(p, 10) && p.exitValue() == 0;
-            } catch (IOException ignored) {
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-        return regexSupported;
-    }
-
-    private static void stopTail() {
-        java.lang.Process p = tail.getAndSet(null);
-        if (p != null) FlagWriter.kill(p);
-    }
-
-    private static boolean alive(String pid, String target) {
-        try {
-            String name = new String(java.nio.file.Files.readAllBytes(new File("/proc/" + pid + "/cmdline").toPath()), StandardCharsets.UTF_8);
-            int end = name.indexOf((char) 0);
-            return (end < 0 ? name : name.substring(0, end)).equals(target);
-        } catch (IOException | RuntimeException e) {
-            return false;
-        }
-    }
-
-    private static void send(DataOutputStream out, String line) throws IOException {
-        synchronized (out) {
-            out.writeUTF(line.length() > 8000 ? line.substring(0, 8000) : line);
-            out.flush();
-        }
-    }
-
-    private static void stream(String target, DataOutputStream out) throws IOException {
-        while (true) {
-            String pid = pidOf(target);
-            if (pid == null) {
-                send(out, STREAM_IDLE);
-                sleep(2000);
-                continue;
-            }
-            send(out, STREAM_START + " " + pid);
-            java.util.List<String> argv = new java.util.ArrayList<>(java.util.Arrays.asList("logcat", "-v", "raw", "--pid=" + pid, "-s", "Roblox:I"));
-            if (canPreFilter()) {
-                argv.add("-e");
-                argv.add(STREAM_REGEX);
-            }
-            java.lang.Process log = new ProcessBuilder(argv)
-                    .redirectErrorStream(true)
-                    .start();
-            tail.set(log);
-            java.util.concurrent.atomic.AtomicBoolean failed = new java.util.concurrent.atomic.AtomicBoolean();
-            Thread reader = new Thread(() -> {
-                try (java.io.BufferedReader r = new java.io.BufferedReader(new java.io.InputStreamReader(log.getInputStream(), StandardCharsets.UTF_8))) {
-                    String line;
-                    while ((line = r.readLine()) != null) {
-                        if (wanted(line)) send(out, line);
-                    }
-                } catch (IOException e) {
-                    failed.set(true);
-                }
-            }, "logcat");
-            reader.setDaemon(true);
-            reader.start();
-            try {
-                int ticks = 0;
-                while (!failed.get()) {
-                    sleep(ALIVE_POLL_MS);
-                    if (!alive(pid, target)) break;
-                    if (++ticks % KEEPALIVE_TICKS == 0) send(out, "");
-                }
-            } finally {
-                tail.compareAndSet(log, null);
-                FlagWriter.kill(log);
-            }
-            if (failed.get()) throw new IOException("client closed");
-            send(out, STREAM_EXIT);
-        }
-    }
-
-    private static int run(byte[] script, int timeoutSeconds) {
-        java.lang.Process p;
-        try {
-            p = new ProcessBuilder("sh")
-                    .redirectErrorStream(true)
-                    .start();
-            discard(p);
-        } catch (IOException e) {
-            return 1;
-        }
-        try (OutputStream in = p.getOutputStream()) {
-            in.write(script);
-        } catch (IOException e) {
-            p.destroy();
-            return 2;
-        }
-        try {
-            if (!FlagWriter.awaitExit(p, timeoutSeconds)) {
-                FlagWriter.kill(p);
-                return 2;
-            }
-            return p.exitValue();
-        } catch (InterruptedException e) {
-            FlagWriter.kill(p);
-            return 2;
-        }
-    }
-
-    private static synchronized void relaunch() {
-        try {
-            discard(new ProcessBuilder("sh", "-c", "sleep 1\n" + launchLine(pkg, allowedUid, token))
-                    .redirectErrorStream(true)
-                    .start());
-        } catch (IOException e) {
-            return;
-        }
-        try {
-            server.close();
-        } catch (IOException ignored) {
-        }
-        System.exit(0);
-    }
-
-    private static byte[] readAll(java.io.InputStream in) throws IOException {
-        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
-        byte[] buf = new byte[4096];
-        int n;
-        while ((n = in.read(buf)) > 0) out.write(buf, 0, n);
-        return out.toByteArray();
-    }
-
-    private static void sleep(long ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException ignored) {
+            p.waitFor();
+        } catch (IOException | InterruptedException ignored) {
         }
     }
 }

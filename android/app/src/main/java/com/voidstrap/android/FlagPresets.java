@@ -123,29 +123,23 @@ public final class FlagPresets {
         else values().put(key, value);
     }
 
-    static boolean setFps(Map<String, Object> v, long fps) {
-        boolean unlocked = fps > 60;
+    static void setFps(Map<String, Object> v, long fps) {
         if (fps <= 0) v.remove(TARGET_FPS);
         else v.put(TARGET_FPS, fps);
-        if (unlocked) v.put(VSYNC, Boolean.FALSE);
+        if (fps > 60) v.put(VSYNC, Boolean.FALSE);
         else v.remove(VSYNC);
         if (fps > 240) v.put(LIMIT_240, Boolean.FALSE);
         else v.remove(LIMIT_240);
-        if (!unlocked || Boolean.TRUE.equals(v.get(OPENGL))) return false;
-        v.remove(VULKAN);
-        v.remove(D3D11);
-        v.put(OPENGL, Boolean.TRUE);
-        return true;
     }
 
-    static boolean fixFps(Map<String, Object> v) {
+    static long targetFps(Map<String, Object> v) {
         Object t = v.get(TARGET_FPS);
-        long fps = t instanceof Number ? ((Number) t).longValue() : 0;
-        if (fps <= 60) return false;
-        boolean ready = Boolean.FALSE.equals(v.get(VSYNC)) && Boolean.TRUE.equals(v.get(OPENGL)) && (fps <= 240 || Boolean.FALSE.equals(v.get(LIMIT_240)));
-        if (ready) return false;
-        setFps(v, fps);
-        return true;
+        return t instanceof Number ? ((Number) t).longValue() : 0;
+    }
+
+    static void fixFps(Map<String, Object> v) {
+        long fps = targetFps(v);
+        if (fps > 60) setFps(v, fps);
     }
 
     private int pick(long[] options, String key) {
@@ -180,7 +174,6 @@ public final class FlagPresets {
             put(OPENGL, i == 2 ? Boolean.TRUE : null);
             put(NO_D3D11, null);
             commit.run();
-            if (i != 2 && num(TARGET_FPS, 0) > 60) Ui.say(a, R.string.presets_fps_needs_opengl);
         });
         toggle(graphics, R.string.presets_gray_sky, R.string.presets_gray_sky_short, on(SKY), checked -> {
             put(SKY, checked ? Boolean.TRUE : null);
@@ -203,15 +196,13 @@ public final class FlagPresets {
 
         LinearLayout performance = section(R.string.presets_performance);
         choice(performance, R.string.presets_fps_limit, R.string.presets_fps_limit_short, labels(R.array.presets_fps_limit), pick(FPS_VALUES, TARGET_FPS), TARGET_FPS, i -> {
-            boolean switched = setFps(values(), FPS_VALUES[i]);
+            setFps(values(), FPS_VALUES[i]);
             commit.run();
             if (FPS_VALUES[i] > 240) {
                 Ui.alert(a)
                         .setMessage(R.string.presets_fps_high)
                         .setPositiveButton(R.string.common_ok, null)
                         .show();
-            } else if (switched) {
-                Notify.say(a, Notify.FLAGS, R.string.presets_fps_opengl);
             }
             build();
         });

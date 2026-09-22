@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     private void handle(Intent intent) {
         if (intent == null) return;
         if (Intent.ACTION_SEND.equals(intent.getAction())) {
-            CharSequence text = intent.getCharSequenceExtra(Intent.EXTRA_TEXT);
+            CharSequence text = Crash.call("shared text", () -> intent.getCharSequenceExtra(Intent.EXTRA_TEXT), null);
             if (text != null) {
                 LibraryFragment.incoming = Store.clip(text.toString().trim(), Deeplink.MAX_INPUT);
                 select(R.id.nav_library);
@@ -138,7 +138,8 @@ public class MainActivity extends AppCompatActivity {
         int problem = intent.getIntExtra(EXTRA_PROBLEM, 0);
         if (problem != 0 && isString(problem)) {
             intent.removeExtra(EXTRA_PROBLEM);
-            findViewById(R.id.content).post(() -> Ui.say(this, problem));
+            View content = findViewById(R.id.content);
+            if (content != null) content.post(() -> Ui.say(this, problem));
         }
     }
 
@@ -184,29 +185,33 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupBar() {
         View bar = findViewById(R.id.action_bar);
-        bar.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> fitBar((ViewGroup) v));
+        if (bar != null) bar.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> Crash.run("action bar layout", () -> fitBar((ViewGroup) v)));
         barTarget = findViewById(R.id.bar_target);
         barSave = findViewById(R.id.bar_save);
         barSaveLaunch = findViewById(R.id.bar_save_launch);
-        barTarget.setOnClickListener(v -> Actions.targetSheet(this));
-        barSave.setOnClickListener(v -> save(false));
-        barSaveLaunch.setOnClickListener(v -> save(true));
+        if (barTarget != null) barTarget.setOnClickListener(v -> Actions.targetSheet(this));
+        if (barSave != null) barSave.setOnClickListener(v -> save(false));
+        if (barSaveLaunch != null) barSaveLaunch.setOnClickListener(v -> save(true));
     }
 
     private void fitBar(ViewGroup bar) {
+        if (bar == null || barSaveLaunch == null) return;
         View last = null;
         for (int i = 0; i < bar.getChildCount(); i++) if (bar.getChildAt(i).getVisibility() == View.VISIBLE) last = bar.getChildAt(i);
         if (last == null || last.getRight() <= bar.getWidth() - bar.getPaddingEnd()) return;
+        if (!(barSaveLaunch.getLayoutParams() instanceof LinearLayout.LayoutParams)) return;
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) barSaveLaunch.getLayoutParams();
         if (lp.weight > 0) return;
         lp.width = 0;
         lp.weight = 1;
         lp.setMarginStart(Ui.dp(this, 8));
         barSaveLaunch.setLayoutParams(lp);
-        findViewById(R.id.bar_space).setVisibility(View.GONE);
+        View space = findViewById(R.id.bar_space);
+        if (space != null) space.setVisibility(View.GONE);
     }
 
     private void updateBar() {
+        if (barTarget == null) return;
         String pkg = Targets.selected(this);
         String name = getString(Targets.nameRes(pkg));
         barTarget.setText(name);
@@ -277,6 +282,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         store.changed();
+        Crash.run("update resume", () -> Updater.resume(this));
+        Crash.run("update check", () -> Updater.auto(this));
         offerPendingLaunch();
         long now = android.os.SystemClock.elapsedRealtime();
         if (now - lastJoinImport > 15_000) {
@@ -309,6 +316,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void releaseHiddenTabs() {
         FragmentManager fm = getSupportFragmentManager();
+        if (fm.isStateSaved() && fm.isDestroyed()) return;
         FragmentTransaction t = null;
         for (int tab : TABS) {
             Fragment f = fm.findFragmentByTag("tab" + tab);
@@ -370,13 +378,14 @@ public class MainActivity extends AppCompatActivity {
                 t.hide(f);
             }
         }
-        t.commitNow();
+        Crash.run("tab switch", t::commitNowAllowingStateLoss);
         if (id != current) {
             Fragment shown = fm.findFragmentByTag("tab" + id);
             if (shown != null && shown.getView() != null) enter(shown.getView());
         }
         current = id;
-        findViewById(R.id.content).post(() -> LiveTranslator.apply(this));
+        View content = findViewById(R.id.content);
+        if (content != null) content.post(() -> Crash.run("translate tab", () -> LiveTranslator.apply(this)));
         AppPresence.page(id);
         editorBack.setEnabled(parent(id) != id && nav != null && nav.getMenu().findItem(id) == null);
         if (nav != null && nav.getMenu().findItem(id) == null) {

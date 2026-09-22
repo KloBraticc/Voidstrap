@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,32 +18,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
 
 public final class ModPresets {
     public static final String DEATH = "content/sounds/oof.ogg";
     public static final String AVATAR = "ExtraContent/places/Mobile.rbxl";
     public static final String EMOJI = "content/fonts/TwemojiMozilla.ttf";
     public static final String FONT = "content/fonts/CustomFont.ttf";
-    public static final String FAMILIES = "content/fonts/families";
     public static final String SKY = "PlatformContent/pc/textures/sky";
-    public static final String CURSOR_DIR = "content/textures/Cursors/KeyboardMouse";
     public static final String SHIFTLOCK = "content/textures/MouseLockedCursor.png";
-    public static final String FONT_ASSET = "rbxasset://fonts/CustomFont.ttf";
 
     public static final String[][] OLD_SOUNDS = {
             {"content/sounds/action_footsteps_plastic.mp3", "Sounds/OldWalk.mp3"},
@@ -117,70 +106,26 @@ public final class ModPresets {
         return new File(ModEngine.stateDir(c), name);
     }
 
-    static byte[] resource(Context c, String name) throws IOException {
-        try (InputStream in = c.getAssets().open("mods/" + name)) {
-            return ModEngine.readAll(in);
-        }
-    }
-
-    static boolean same(File f, byte[] data) {
-        if (!f.isFile() || f.length() != data.length) return false;
-        try (InputStream in = new FileInputStream(f)) {
-            return Arrays.equals(ModEngine.readAll(in), data);
-        } catch (IOException e) {
-            return false;
-        }
+    private static JSONObject pairs(String[][] map) {
+        JSONArray a = new JSONArray();
+        for (String[] e : map) a.put(new JSONArray(Arrays.asList(e)));
+        return Core.args("pairs", a);
     }
 
     static void write(File f, byte[] data) throws IOException {
-        if (same(f, data)) return;
-        File parent = f.getParentFile();
-        if (parent != null && !parent.isDirectory() && !parent.mkdirs()) throw new IOException("mkdir");
-        File tmp = new File(f.getPath() + ".vs" + System.nanoTime());
-        try (FileOutputStream out = new FileOutputStream(tmp)) {
-            out.write(data);
-            out.getFD().sync();
-        }
-        if (!tmp.renameTo(f)) {
-            tmp.delete();
-            throw new IOException("move");
-        }
+        Core.run("mods.writeFile", Core.args("path", f), data, -1, null);
     }
 
     static void copy(File from, File to) throws IOException {
-        try (InputStream in = new FileInputStream(from)) {
-            write(to, ModEngine.readAll(in));
-        }
-    }
-
-    static void deleteAndPrune(Context c, File f) {
-        f.delete();
-        File root = Mods.root(c);
-        File d = f.getParentFile();
-        while (d != null && !d.equals(root) && Mods.inside(root, d)) {
-            String[] kids = d.list();
-            if (kids == null || kids.length > 0 || !d.delete()) break;
-            d = d.getParentFile();
-        }
+        Core.run("mods.copyFile", Core.args("from", from, "to", to));
     }
 
     public static boolean presetOn(Context c, String[][] map) {
-        try {
-            for (String[] e : map) if (same(ws(c, e[0]), resource(c, e[1]))) return true;
-        } catch (IOException ignored) {
-        }
-        return false;
+        return Core.flag("mods.presetOn", Core.merge(Core.roots(c), pairs(map)));
     }
 
     public static void setPreset(Context c, String[][] map, boolean on) throws IOException {
-        synchronized (LOCK) {
-            for (String[] e : map) {
-                byte[] data = resource(c, e[1]);
-                File f = ws(c, e[0]);
-                if (on) write(f, data);
-                else if (same(f, data)) deleteAndPrune(c, f);
-            }
-        }
+        Core.run("mods.setPreset", Core.merge(Core.roots(c, "on", on), pairs(map)));
     }
 
     public static File deathSource(Context c) {
@@ -253,8 +198,10 @@ public final class ModPresets {
 
     public static void removeDeathSound(Context c) {
         synchronized (LOCK) {
-            deathSource(c).delete();
-            deleteAndPrune(c, ws(c, DEATH));
+            try {
+                Core.run("mods.removeDeath", Core.roots(c));
+            } catch (IOException ignored) {
+            }
         }
     }
 
@@ -271,7 +218,7 @@ public final class ModPresets {
             File f = ws(c, EMOJI);
             int current = emoji(c);
             if (type <= 0) {
-                if (current > 0) deleteAndPrune(c, f);
+                if (current > 0) Core.run("mods.deleteAndPrune", Core.roots(c, "path", f));
                 return;
             }
             if (current == type) return;
@@ -297,10 +244,6 @@ public final class ModPresets {
         }
     }
 
-    public static String cursorFolder(int style) {
-        return CURSOR_FOLDERS.get(style);
-    }
-
     static File working(Context c, int slot) {
         return new File(state(c, "CursorCustom"), slotPath(slot));
     }
@@ -313,32 +256,15 @@ public final class ModPresets {
         return slot == SLOT_SHIFTLOCK ? ws(c, SHIFTLOCK) : working(c, slot);
     }
 
-    public static void applyCursorStyle(Context c, int style) throws IOException {
-        synchronized (LOCK) {
-            for (int s = 0; s < SLOT_FILES.length; s++) deleteAndPrune(c, ws(c, CURSOR_DIR + "/" + SLOT_FILES[s]));
-            if (style == CURSOR_CUSTOM) {
-                for (int s = 0; s < SLOT_FILES.length; s++) copyWorking(c, s);
-            } else if (CURSOR_FOLDERS.containsKey(style)) {
-                String folder = CURSOR_FOLDERS.get(style);
-                for (String name : SLOT_FILES) {
-                    byte[] data;
-                    try {
-                        data = resource(c, "Cursor/" + folder + "/" + name);
-                    } catch (IOException e) {
-                        continue;
-                    }
-                    write(ws(c, CURSOR_DIR + "/" + name), data);
-                }
-            }
-            Store.get(c).putSetting("cursorType", style == CURSOR_DEFAULT ? null : String.valueOf(style));
-        }
+    private static void cursorSetting(Context c, int style) {
+        Store.get(c).putSetting("cursorType", style == CURSOR_DEFAULT ? null : String.valueOf(style));
     }
 
-    private static void copyWorking(Context c, int slot) throws IOException {
-        File w = working(c, slot);
-        File dest = ws(c, CURSOR_DIR + "/" + SLOT_FILES[slot]);
-        if (w.isFile()) copy(w, dest);
-        else deleteAndPrune(c, dest);
+    public static void applyCursorStyle(Context c, int style) throws IOException {
+        synchronized (LOCK) {
+            Core.run("mods.applyCursor", Core.roots(c, "style", style));
+            cursorSetting(c, style);
+        }
     }
 
     public static byte[] encodePng(Context c, Uri uri) throws IOException {
@@ -376,86 +302,66 @@ public final class ModPresets {
     }
 
     public static boolean hasCustomCursor(Context c) {
-        for (int s = SLOT_ARROW; s <= SLOT_TEXT; s++) if (working(c, s).isFile()) return true;
-        return false;
+        return Core.flag("mods.hasCustomCursor", Core.roots(c));
     }
 
     public static void setCustomCursor(Context c, Uri uri) throws IOException {
         byte[] png = encodePng(c, uri);
         synchronized (LOCK) {
-            for (int s = SLOT_ARROW; s <= SLOT_TEXT; s++) write(working(c, s), png);
+            Core.run("mods.setCustomCursor", Core.roots(c), png, -1, null);
+            cursorSetting(c, CURSOR_CUSTOM);
         }
-        applyCursorStyle(c, CURSOR_CUSTOM);
     }
 
     public static void removeCustomCursor(Context c) throws IOException {
         synchronized (LOCK) {
-            for (int s = SLOT_ARROW; s <= SLOT_TEXT; s++) working(c, s).delete();
+            Object style = Core.value("mods.removeCustomCursor", Core.roots(c, "current", cursorStyle(c)));
+            if (style instanceof Number) cursorSetting(c, ((Number) style).intValue());
         }
-        if (cursorStyle(c) == CURSOR_CUSTOM) applyCursorStyle(c, working(c, SLOT_DRAG).isFile() ? CURSOR_CUSTOM : CURSOR_DEFAULT);
     }
 
     public static void setShiftLock(Context c, Uri uri) throws IOException {
         byte[] png = encodePng(c, uri);
-        synchronized (LOCK) {
-            write(ws(c, SHIFTLOCK), png);
-        }
+        Core.run("mods.setShiftLock", Core.roots(c), png, -1, null);
     }
 
     public static void removeShiftLock(Context c) {
-        synchronized (LOCK) {
-            deleteAndPrune(c, ws(c, SHIFTLOCK));
+        try {
+            Core.run("mods.removeShiftLock", Core.roots(c));
+        } catch (IOException ignored) {
         }
-    }
-
-    public static File setsFolder(Context c) {
-        File d = state(c, "CursorSets");
-        if (!d.isDirectory()) d.mkdirs();
-        return d;
     }
 
     public static List<String> cursorSets(Context c) {
-        List<String> out = new ArrayList<>();
-        File[] dirs = setsFolder(c).listFiles();
-        if (dirs != null) for (File d : dirs) if (d.isDirectory()) out.add(d.getName());
-        Collections.sort(out, String.CASE_INSENSITIVE_ORDER);
-        return out;
+        try {
+            return Core.strings(Core.value("mods.cursorSets", Core.roots(c)));
+        } catch (IOException e) {
+            return new ArrayList<>();
+        }
     }
 
     public static String validSetName(String requested) {
-        String n = requested == null ? "" : requested.trim();
-        while (n.endsWith(".")) n = n.substring(0, n.length() - 1).trim();
-        if (n.isEmpty() || n.length() > 64) return null;
-        for (int i = 0; i < n.length(); i++) {
-            char ch = n.charAt(i);
-            if (Character.isISOControl(ch) || "/\\<>:\"|?*".indexOf(ch) >= 0) return null;
+        try {
+            return Core.text("mods.validSetName", Core.args("name", requested));
+        } catch (IOException e) {
+            return null;
         }
-        return n;
     }
 
     public static String uniqueSetName(Context c, String base) {
-        String name = base;
-        for (int i = 2; new File(setsFolder(c), name).exists(); i++) name = base + " " + i;
-        return name;
-    }
-
-    public static File setFolder(Context c, String name) throws IOException {
-        String n = validSetName(name);
-        if (n == null) throw new IOException("That cursor set name is not valid");
-        return new File(setsFolder(c), n);
+        try {
+            return Core.text("mods.uniqueSetName", Core.roots(c, "base", base));
+        } catch (IOException e) {
+            return base;
+        }
     }
 
     public static String createSet(Context c, String requested) throws IOException {
-        String n = validSetName(requested);
-        if (n == null) throw new IOException("That name cannot be used for a folder. Try a different name.");
-        File f = new File(setsFolder(c), n);
-        if (f.exists()) throw new IOException("A cursor set named " + n + " already exists.");
-        if (!f.mkdirs()) throw new IOException("mkdir");
-        return n;
+        return Core.text("mods.createSet", Core.roots(c, "name", requested));
     }
 
     public static File setSlot(Context c, String set, int slot) throws IOException {
-        return new File(setFolder(c, set), slotPath(slot));
+        return new File(Core.text("mods.setSlot", Core.roots(c, "set", set, "slot", slot)));
     }
 
     public static void setSetImage(Context c, String set, int slot, Uri uri) throws IOException {
@@ -468,99 +374,52 @@ public final class ModPresets {
     }
 
     public static void copyCurrentToSet(Context c, String set) throws IOException {
-        synchronized (LOCK) {
-            for (int s = 0; s < SLOT_FILES.length; s++) copyOrDelete(working(c, s), setSlot(c, set, s));
-            copyOrDelete(ws(c, SHIFTLOCK), setSlot(c, set, SLOT_SHIFTLOCK));
-        }
+        Core.run("mods.copyCurrentToSet", Core.roots(c, "set", set));
     }
 
     public static void useSet(Context c, String set) throws IOException {
         synchronized (LOCK) {
-            for (int s = 0; s < SLOT_FILES.length; s++) copyOrDelete(setSlot(c, set, s), working(c, s));
-            File shift = setSlot(c, set, SLOT_SHIFTLOCK);
-            if (shift.isFile()) copy(shift, ws(c, SHIFTLOCK));
+            Core.run("mods.useSet", Core.roots(c, "set", set));
+            cursorSetting(c, CURSOR_CUSTOM);
         }
-        applyCursorStyle(c, CURSOR_CUSTOM);
-    }
-
-    private static void copyOrDelete(File from, File to) throws IOException {
-        if (from.isFile()) copy(from, to);
-        else to.delete();
     }
 
     public static String renameSet(Context c, String old, String requested) throws IOException {
-        File folder = setFolder(c, old);
-        String n = validSetName(requested);
-        if (n == null) throw new IOException("That name cannot be used for a folder. Try a different name.");
-        if (n.equals(old)) return n;
-        File dest = new File(setsFolder(c), n);
-        if (!n.equalsIgnoreCase(old) && dest.exists()) throw new IOException("A cursor set named " + n + " already exists.");
-        File tmp = new File(setsFolder(c), n + "." + System.nanoTime());
-        if (!folder.renameTo(tmp) || !tmp.renameTo(dest)) throw new IOException("rename");
-        return n;
+        return Core.text("mods.renameSet", Core.roots(c, "old", old, "name", requested));
     }
 
     public static void deleteSet(Context c, String set) throws IOException {
-        Mods.delete(setFolder(c, set));
+        Core.run("mods.deleteSet", Core.roots(c, "set", set));
     }
 
     public static void exportSet(Context c, String set, Uri target) throws IOException {
-        File folder = setFolder(c, set);
-        try (OutputStream out = c.getContentResolver().openOutputStream(target, "wt")) {
-            if (out == null) throw new IOException("stream");
-            try (ZipOutputStream zip = new ZipOutputStream(out)) {
-                for (String rel : ManagedMods.files(folder)) {
-                    zip.putNextEntry(new ZipEntry(rel));
-                    try (InputStream in = new FileInputStream(new File(folder, rel))) {
-                        byte[] buf = new byte[65536];
-                        int n;
-                        while ((n = in.read(buf)) > 0) zip.write(buf, 0, n);
-                    }
-                    zip.closeEntry();
-                }
-            }
+        try (ParcelFileDescriptor pfd = c.getContentResolver().openFileDescriptor(target, "wt")) {
+            if (pfd == null) throw new IOException("stream");
+            Core.run("mods.exportSet", Core.roots(c, "set", set), null, pfd.detachFd(), null);
         }
     }
 
     public static String importSet(Context c, Uri uri) throws IOException {
         String display = Mods.displayName(c.getContentResolver(), uri);
-        String base = display == null ? "Imported cursor set" : display.replaceAll("(?i)\\.zip$", "");
-        String clean = validSetName(base.replaceAll("[/\\\\<>:\"|?*]", " ").trim());
-        String name = uniqueSetName(c, clean == null ? "Imported cursor set" : clean);
-        File folder = new File(setsFolder(c), name);
-        int copied = 0;
-        try (InputStream raw = c.getContentResolver().openInputStream(uri)) {
-            if (raw == null) throw new IOException("stream");
-            if (!folder.mkdirs()) throw new IOException("mkdir");
-            Set<String> wanted = new HashSet<>();
-            for (String s : SLOT_FILES) wanted.add(s.toLowerCase(Locale.ROOT));
-            wanted.add("mouselockedcursor.png");
-            try (ZipInputStream zip = new ZipInputStream(raw)) {
-                ZipEntry e;
-                int entries = 0;
-                while ((e = zip.getNextEntry()) != null) {
-                    if (++entries > 256) break;
-                    if (e.isDirectory()) continue;
-                    String n = e.getName().replace('\\', '/');
-                    String file = n.substring(n.lastIndexOf('/') + 1);
-                    if (!wanted.contains(file.toLowerCase(Locale.ROOT))) continue;
-                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                    byte[] buf = new byte[65536];
-                    int r;
-                    while ((r = zip.read(buf)) > 0) {
-                        if (bytes.size() + r > 64 * 1024 * 1024) throw new IOException("too large");
-                        bytes.write(buf, 0, r);
-                    }
-                    int slot = SLOT_SHIFTLOCK;
-                    for (int s = 0; s < SLOT_FILES.length; s++) if (SLOT_FILES[s].equalsIgnoreCase(file)) slot = s;
-                    write(new File(folder, slotPath(slot)), encodePng(bytes.toByteArray()));
-                    copied++;
+        JSONObject r;
+        try (ParcelFileDescriptor pfd = c.getContentResolver().openFileDescriptor(uri, "r")) {
+            if (pfd == null) throw new IOException("stream");
+            r = Core.run("mods.importSet", Core.roots(c, "display", display), null, pfd.detachFd(), null);
+        }
+        String name = r.optString("name");
+        JSONArray convert = r.optJSONArray("convert");
+        try {
+            if (convert != null) for (int i = 0; i < convert.length(); i++) {
+                File f = new File(convert.getString(i));
+                byte[] raw;
+                try (InputStream in = new FileInputStream(f)) {
+                    raw = ModEngine.readAll(in);
                 }
+                write(f, encodePng(raw));
             }
-            if (copied == 0) throw new IOException("That zip does not contain any cursor images.");
             return name;
-        } catch (IOException | RuntimeException e) {
-            Mods.delete(folder);
+        } catch (IOException | JSONException | RuntimeException e) {
+            Core.run("mods.deleteSet", Core.roots(c, "set", name));
             throw e instanceof IOException ? (IOException) e : new IOException(e);
         }
     }
@@ -582,8 +441,7 @@ public final class ModPresets {
     }
 
     public static boolean hasCustomSky(Context c) {
-        for (String f : SKY_FACES) if (!new File(customSky(c), f).isFile()) return false;
-        return true;
+        return Core.flag("mods.hasCustomSky", Core.roots(c));
     }
 
     static boolean safeSkyName(String n) {
@@ -591,58 +449,30 @@ public final class ModPresets {
     }
 
     public static List<String> loadSkyPacks(Context c) {
-        List<String> names = new ArrayList<>();
-        boolean online = false;
+        String online;
         try {
-            JSONArray arr = new JSONArray(Net.text(SKY_API, 2 * 1024 * 1024));
-            for (int i = 0; i < arr.length(); i++) {
-                JSONObject o = arr.optJSONObject(i);
-                if (o == null || !"dir".equals(o.optString("type"))) continue;
-                String n = o.optString("name");
-                if (safeSkyName(n) && !names.contains(n)) names.add(n);
-            }
-            online = !names.isEmpty();
-        } catch (IOException | JSONException ignored) {
+            online = Net.text(SKY_API, 2 * 1024 * 1024);
+        } catch (IOException e) {
+            online = null;
         }
-        if (!online) {
-            File[] dirs = skyPacks(c).listFiles();
-            if (dirs != null) for (File d : dirs) if (d.isDirectory() && safeSkyName(d.getName())) names.add(d.getName());
+        try {
+            return Core.strings(Core.value("mods.skyNames", Core.roots(c, "online", online, "saved", skyName(c))));
+        } catch (IOException e) {
+            List<String> names = new ArrayList<>();
+            names.add("Default");
+            return names;
         }
-        Collections.sort(names, (a, b) -> {
-            if (a.equalsIgnoreCase("Default")) return -1;
-            if (b.equalsIgnoreCase("Default")) return 1;
-            return a.compareToIgnoreCase(b);
-        });
-        if (hasCustomSky(c) && !names.contains(CUSTOM_SKY)) {
-            int at = names.indexOf("Default");
-            names.add(at >= 0 ? at + 1 : 0, CUSTOM_SKY);
-        }
-        String saved = skyName(c);
-        if (safeSkyName(saved) && !names.contains(saved)) names.add(saved);
-        if (!names.contains("Default")) names.add(0, "Default");
-        return names;
     }
 
     public static void setSky(Context c, String name, boolean enabled, AtomicBoolean cancel) throws IOException {
         if (!safeSkyName(name)) throw new IOException("The selected skybox name is invalid.");
         synchronized (LOCK) {
-            File target = ws(c, SKY);
-            if (!enabled || name.equalsIgnoreCase("Default")) {
-                Mods.delete(target);
-                deleteAndPrune(c, target);
-                ModLog.add("skybox turned off, faces removed from the workspace");
-            } else {
-                File source = name.equals(CUSTOM_SKY) ? customSky(c) : ensurePack(c, name, cancel);
-                for (String f : SKY_FACES) {
-                    File face = new File(source, f);
-                    if (!face.isFile()) {
-                        ModLog.add("skybox " + name + " incomplete, missing " + f);
-                        throw new IOException("The selected skybox is incomplete.");
-                    }
-                }
-                for (String f : SKY_FACES) copy(new File(source, f), new File(target, f));
-                ModLog.add("skybox " + name + " copied " + SKY_FACES.length + " faces into the workspace");
-            }
+            File source = null;
+            if (enabled && !name.equalsIgnoreCase("Default") && !name.equals(CUSTOM_SKY)) source = ensurePack(c, name, cancel);
+            JSONObject r = Core.run("mods.applySky", Core.roots(c, "name", name, "enabled", enabled, "source", source));
+            JSONArray log = r.optJSONArray("log");
+            if (log != null) for (int i = 0; i < log.length(); i++) ModLog.add(log.optString(i));
+            if (r.has("error")) throw new IOException(r.optString("error"));
             Store s = Store.get(c);
             s.putSetting("skyboxName", name.equals("Default") ? null : name);
             s.putSetting("skyboxEnabled", enabled ? "1" : null);
@@ -696,11 +526,6 @@ public final class ModPresets {
         for (int i = 0; i < SKY_FACES.length; i++) write(customFace(c, i), data);
     }
 
-    public static boolean customPickComplete(Context c) {
-        for (int i = 0; i < SKY_FACES.length; i++) if (!customFace(c, i).isFile()) return false;
-        return true;
-    }
-
     private static byte[] readSkyImage(Context c, Uri uri) throws IOException {
         byte[] raw;
         try (InputStream in = c.getContentResolver().openInputStream(uri)) {
@@ -743,26 +568,12 @@ public final class ModPresets {
     }
 
     public static void saveCustomSky(Context c) throws IOException {
-        if (!customPickComplete(c)) throw new IOException("Choose an image for every skybox face");
-        synchronized (LOCK) {
-            File dest = customSky(c);
-            File staging = new File(dest.getPath() + ".new." + System.nanoTime());
-            try {
-                for (int i = 0; i < SKY_FACES.length; i++) copy(customFace(c, i), new File(staging, SKY_FACES[i]));
-                Mods.delete(dest);
-                if (!staging.renameTo(dest)) throw new IOException("move");
-            } finally {
-                Mods.delete(staging);
-            }
-        }
+        Core.run("mods.saveCustomSky", Core.roots(c));
         setSky(c, CUSTOM_SKY, true, null);
     }
 
     public static void removeCustomSky(Context c) throws IOException {
-        synchronized (LOCK) {
-            Mods.delete(customSky(c));
-            Mods.delete(state(c, "CustomSkyboxPick"));
-        }
+        Core.run("mods.removeCustomSky", Core.roots(c));
         if (CUSTOM_SKY.equals(skyName(c))) setSky(c, "Default", false, null);
     }
 
@@ -794,25 +605,11 @@ public final class ModPresets {
         }
         try {
             byte[] data = Net.fetch(FONT_CATALOG, 8 * 1024 * 1024);
-            String text = new String(data, StandardCharsets.UTF_8);
-            int start = text.indexOf('{');
-            if (start < 0) throw new IOException("json");
-            JSONArray families = new JSONObject(text.substring(start)).optJSONArray("familyMetadataList");
-            List<String> names = new ArrayList<>();
-            Set<String> seen = new HashSet<>();
-            if (families != null) for (int i = 0; i < families.length(); i++) {
-                JSONObject f = families.optJSONObject(i);
-                String n = f == null ? "" : f.optString("family").trim();
-                if (!n.isEmpty() && n.length() <= 128 && seen.add(n.toLowerCase(Locale.ROOT))) names.add(n);
-            }
-            Collections.sort(names, String.CASE_INSENSITIVE_ORDER);
-            if (names.size() > 3000) names = new ArrayList<>(names.subList(0, 3000));
+            List<String> names = Core.strings(Core.value("mods.fontCatalog", Core.args("text", new String(data, StandardCharsets.UTF_8))));
             if (names.isEmpty()) throw new IOException("empty");
-            File dir = cache.getParentFile();
-            if (dir != null) dir.mkdirs();
             write(cache, new JSONArray(names).toString().getBytes(StandardCharsets.UTF_8));
             return names;
-        } catch (IOException | JSONException e) {
+        } catch (IOException e) {
             List<String> cached = readCatalog(cache);
             return cached.isEmpty() ? new ArrayList<>(Arrays.asList(STARTER_FONTS)) : cached;
         }
@@ -830,11 +627,10 @@ public final class ModPresets {
 
     public static File downloadGoogleFont(Context c, String family, AtomicBoolean cancel) throws IOException {
         String css = Net.text("https://fonts.googleapis.com/css2?family=" + Uri.encode(family).replace("%20", "+") + "&display=swap", 256 * 1024);
-        java.util.regex.Matcher m = java.util.regex.Pattern.compile("https://fonts\\.gstatic\\.com/[^)'\"\\s]+\\.ttf", java.util.regex.Pattern.CASE_INSENSITIVE).matcher(css);
-        if (!m.find()) throw new IOException("No compatible font file was found");
-        String url = m.group();
+        String url = Core.text("mods.gstaticUrl", Core.args("css", css));
+        if (url == null) throw new IOException("No compatible font file was found");
         File dir = new File(new File(c.getCacheDir(), "fonts"), "files");
-        File dest = new File(dir, sha256(family + "|" + url).substring(0, 20) + ".ttf");
+        File dest = new File(dir, Core.text("mods.fontFileName", Core.args("family", family, "url", url)) + ".ttf");
         if (validFont(dest)) return dest;
         Net.download(url, dest, MAX_FONT, cancel);
         if (!validFont(dest)) {
@@ -875,21 +671,12 @@ public final class ModPresets {
     }
 
     static boolean validFont(File f) {
-        if (!f.isFile() || f.length() < 12 || f.length() > MAX_FONT) return false;
-        byte[] h = new byte[4];
-        try (InputStream in = new FileInputStream(f)) {
-            if (in.read(h) != 4) return false;
-        } catch (IOException e) {
-            return false;
-        }
-        int tag = (h[0] & 0xFF) << 24 | (h[1] & 0xFF) << 16 | (h[2] & 0xFF) << 8 | (h[3] & 0xFF);
-        return tag == 0x00010000 || tag == 0x4F54544F || tag == 0x74727565;
+        return Core.flag("mods.validFont", Core.args("path", f));
     }
 
     public static void useFont(Context c, File source, String name) throws IOException {
         synchronized (LOCK) {
-            copyRaw(source, fontSource(c));
-            writeFont(c);
+            Core.run("mods.useFont", Core.roots(c, "source", source, "scale", fontScale(c)));
             Store.get(c).putSetting("customFontName", name == null || name.isEmpty() ? null : name);
         }
     }
@@ -897,97 +684,28 @@ public final class ModPresets {
     public static void setFontScale(Context c, int percent) throws IOException {
         Store.get(c).putSetting("fontScale", percent == 100 ? null : String.valueOf(percent));
         synchronized (LOCK) {
-            if (fontSource(c).isFile()) writeFont(c);
+            Core.run("mods.setFontScale", Core.roots(c, "scale", fontScale(c)));
         }
-    }
-
-    private static void writeFont(Context c) throws IOException {
-        byte[] data;
-        try (InputStream in = new FileInputStream(fontSource(c))) {
-            data = ModEngine.readAll(in);
-        }
-        write(ws(c, FONT), FontScaler.scale(data, Math.max(0.01, fontScale(c) / 100.0)));
     }
 
     public static void removeFont(Context c) {
         synchronized (LOCK) {
-            deleteAndPrune(c, ws(c, FONT));
-            fontSource(c).delete();
-            removeGeneratedFamilies(c);
+            try {
+                Core.run("mods.removeFont", Core.roots(c));
+            } catch (IOException ignored) {
+            }
             Store.get(c).putSetting("customFontName", null);
         }
     }
 
-    private static void copyRaw(File from, File to) throws IOException {
-        try (InputStream in = new FileInputStream(from)) {
-            write(to, ModEngine.readAll(in));
-        }
-    }
-
     public static void prepareForApply(Context c, String pkg) {
-        synchronized (LOCK) {
-            try {
-                if (!hasFont(c)) {
-                    removeGeneratedFamilies(c);
-                    ModLog.add("no custom font set, generated font families removed");
-                    return;
-                }
-                File base = ModEngine.originalApk(c, pkg);
-                if (base == null) base = ModEngine.baseApk(c, pkg);
-                if (base == null) {
-                    ModLog.add("font families skipped, no readable apk for " + pkg);
-                    return;
-                }
-                ApkPatcher.Directory dir = ApkPatcher.read(base);
-                String prefix = "assets/content/fonts/families/";
-                File families = ws(c, FAMILIES);
-                int written = 0;
-                int seen = 0;
-                for (ApkPatcher.Entry e : dir.entries.values()) {
-                    if (!e.name.startsWith(prefix) || !e.name.endsWith(".json") || e.name.indexOf('/', prefix.length()) >= 0) continue;
-                    seen++;
-                    File target = new File(families, e.name.substring(prefix.length()));
-                    if (target.isFile() && !generatedFamily(target)) continue;
-                    try {
-                        JSONObject family = new JSONObject(new String(ApkPatcher.readEntry(base, e), StandardCharsets.UTF_8));
-                        JSONArray faces = family.optJSONArray("faces");
-                        if (faces == null || faces.length() == 0) continue;
-                        for (int i = 0; i < faces.length(); i++) {
-                            JSONObject face = faces.optJSONObject(i);
-                            if (face != null) face.put("assetId", FONT_ASSET);
-                        }
-                        write(target, family.toString(2).getBytes(StandardCharsets.UTF_8));
-                        written++;
-                    } catch (IOException | JSONException ex) {
-                        ModLog.add("font family " + e.name + " failed, " + ex);
-                    }
-                }
-                ModLog.add("font families rewritten " + written + " of " + seen + " from " + base.getName());
-            } catch (IOException | RuntimeException e) {
-                ModLog.add("font families failed, " + e);
-            }
-        }
-    }
-
-    static void removeGeneratedFamilies(Context c) {
-        File families = ws(c, FAMILIES);
-        File[] files = families.listFiles();
-        if (files == null) return;
-        for (File f : files) if (f.getName().endsWith(".json") && generatedFamily(f)) f.delete();
-        deleteAndPrune(c, new File(families, ".none"));
-    }
-
-    static boolean generatedFamily(File f) {
+        File base = ModEngine.originalApk(c, pkg);
+        if (base == null) base = ModEngine.baseApk(c, pkg);
         try {
-            JSONArray faces = new JSONObject(readText(f)).optJSONArray("faces");
-            if (faces == null || faces.length() == 0) return false;
-            for (int i = 0; i < faces.length(); i++) {
-                JSONObject face = faces.optJSONObject(i);
-                if (face == null || !FONT_ASSET.equals(face.optString("assetId"))) return false;
-            }
-            return true;
-        } catch (IOException | JSONException e) {
-            return false;
+            JSONArray log = Core.run("mods.prepareForApply", Core.roots(c, "pkg", pkg, "base", base)).optJSONArray("log");
+            if (log != null) for (int i = 0; i < log.length(); i++) ModLog.add(log.optString(i));
+        } catch (IOException | RuntimeException e) {
+            ModLog.add("font families failed, " + e);
         }
     }
 
@@ -998,28 +716,11 @@ public final class ModPresets {
     }
 
     static String sha256(File f) {
-        try (InputStream in = new FileInputStream(f)) {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] buf = new byte[65536];
-            int n;
-            while ((n = in.read(buf)) > 0) md.update(buf, 0, n);
-            return hex(md.digest());
-        } catch (IOException | NoSuchAlgorithmException e) {
+        try {
+            String h = Core.text("mods.sha256File", Core.args("path", f));
+            return h == null ? "" : h;
+        } catch (IOException e) {
             return "";
         }
-    }
-
-    static String sha256(String s) {
-        try {
-            return hex(MessageDigest.getInstance("SHA-256").digest(s.getBytes(StandardCharsets.UTF_8)));
-        } catch (NoSuchAlgorithmException e) {
-            return Integer.toHexString(s.hashCode());
-        }
-    }
-
-    static String hex(byte[] b) {
-        StringBuilder sb = new StringBuilder();
-        for (byte x : b) sb.append(String.format(Locale.ROOT, "%02X", x));
-        return sb.toString();
     }
 }

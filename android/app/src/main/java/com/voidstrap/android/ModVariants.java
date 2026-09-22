@@ -2,28 +2,21 @@ package com.voidstrap.android;
 
 import android.content.Context;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public final class ModVariants {
-    private static final String INSTALLED = "Installed";
-    static final Set<String> SLOT_EXTENSIONS = new HashSet<>(Arrays.asList("png", "jpg", "jpeg", "bmp", "tga", "dds", "ktx", "webp", "tex", "ogg", "mp3", "wav", "flac", "mesh", "ttf", "otf", "gif"));
     static final Set<String> PREVIEW_EXTENSIONS = new HashSet<>(Arrays.asList("png", "jpg", "jpeg", "bmp", "gif", "webp"));
-    private static final Pattern SUFFIX = Pattern.compile("^(?<base>.+?)(?:\\s*\\(\\d+\\)|\\s+copy(?:\\s*\\d+)?|[\\s_-]+(?:v?\\d{1,2}|alt\\d*|variant\\d*|version\\d*))$", Pattern.CASE_INSENSITIVE);
 
     public static final class Option {
         public final String label;
@@ -53,140 +46,53 @@ public final class ModVariants {
     }
 
     public static boolean hasSlots(Context c, String id) {
-        File s = sources(c, id);
-        for (String rel : ManagedMods.files(s)) if (!rel.startsWith(INSTALLED + "/")) return true;
-        for (String rel : ManagedMods.files(ManagedMods.folder(c, id))) if (SLOT_EXTENSIONS.contains(Mods.extension(rel))) return true;
-        return false;
-    }
-
-    static String resolveSlot(Context c, String relative) {
-        String ext = Mods.extension(relative);
-        if (!SLOT_EXTENSIONS.contains(ext)) return null;
-        String direct = ContentPlacer.resolve(c, relative);
-        if (direct != null) return direct;
-        String file = relative.substring(relative.lastIndexOf('/') + 1);
-        String stem = file.contains(".") ? file.substring(0, file.lastIndexOf('.')) : file;
-        Matcher m = SUFFIX.matcher(stem);
-        if (!m.matches()) return null;
-        String dir = relative.contains("/") ? relative.substring(0, relative.lastIndexOf('/') + 1) : "";
-        return ContentPlacer.resolve(c, dir + m.group(1).trim() + "." + ext);
+        return Core.flag("mods.hasSlots", Core.args("managed", ManagedMods.root(c), "id", id));
     }
 
     public static int capture(Context c, String id, File archive, AtomicBoolean cancel) throws IOException {
-        File root = sources(c, id);
-        String canonical = root.getCanonicalPath();
-        int[] written = {0};
-        long[] total = {0};
-        ModArchives.read(archive, (name, size, data) -> {
-            String n = ModArchives.normalize(name);
-            if (!SLOT_EXTENSIONS.contains(Mods.extension(n)) || ModArchives.inspectPath(c, n) != null) return;
-            File out = new File(root, n);
-            if (!out.getCanonicalPath().startsWith(canonical + File.separator)) return;
-            File parent = out.getParentFile();
-            if (parent != null && !parent.isDirectory() && !parent.mkdirs()) return;
-            try (OutputStream os = new FileOutputStream(out)) {
-                byte[] buf = new byte[65536];
-                int r;
-                while ((r = data.read(buf)) > 0) {
-                    total[0] += r;
-                    if (total[0] > ModArchives.MAX_EXTRACTED) throw new IOException("too large");
-                    os.write(buf, 0, r);
-                }
-            }
-            written[0]++;
-        }, cancel);
-        return written[0];
+        JSONObject args = Core.indexed(c, "managed", ManagedMods.root(c), "id", id, "archive", archive);
+        return Core.run("mods.capture", args, null, -1, cancel).optInt("v");
     }
 
     public static List<Slot> build(Context c, String id) {
-        File mod = ManagedMods.folder(c, id);
-        File src = sources(c, id);
-        captureInstalled(mod, src);
-        Map<String, List<File>> groups = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-        for (String rel : ManagedMods.files(src)) {
-            String slot = rel.startsWith(INSTALLED + "/") ? rel.substring(INSTALLED.length() + 1) : resolveSlot(c, rel);
-            if (slot == null || !SLOT_EXTENSIONS.contains(Mods.extension(slot))) continue;
-            List<File> files = groups.get(slot);
-            if (files == null) groups.put(slot, files = new ArrayList<>());
-            files.add(new File(src, rel));
-        }
         List<Slot> out = new ArrayList<>();
-        for (Map.Entry<String, List<File>> g : groups.entrySet()) {
-            Slot slot = new Slot(g.getKey());
-            slot.options.add(new Option(null, null));
-            Map<String, File> seen = new HashMap<>();
-            List<File> ordered = new ArrayList<>(g.getValue());
-            ordered.sort((a, b) -> {
-                int ia = installedCopy(src, a) ? 1 : 0;
-                int ib = installedCopy(src, b) ? 1 : 0;
-                return ia != ib ? ia - ib : a.getName().compareToIgnoreCase(b.getName());
-            });
-            for (File f : ordered) {
-                String hash = ModPresets.sha256(f);
-                if (hash.isEmpty() || seen.containsKey(hash)) continue;
-                seen.put(hash, f);
-                String label = installedCopy(src, f) ? "" : f.getName();
-                for (Option o : slot.options) {
-                    if (label.equals(o.label)) {
-                        File parent = f.getParentFile();
-                        label += " (" + (parent == null ? "" : parent.getName()) + ")";
-                        break;
-                    }
+        try {
+            Object v = Core.value("mods.buildSlots", Core.indexed(c, "managed", ManagedMods.root(c), "id", id));
+            JSONArray a = v instanceof JSONArray ? (JSONArray) v : new JSONArray();
+            for (int i = 0; i < a.length(); i++) {
+                JSONObject o = a.optJSONObject(i);
+                if (o == null) continue;
+                Slot slot = new Slot(o.optString("target"));
+                JSONArray opts = o.optJSONArray("options");
+                if (opts != null) for (int k = 0; k < opts.length(); k++) {
+                    JSONObject p = opts.optJSONObject(k);
+                    if (p == null) continue;
+                    String label = p.isNull("label") ? null : p.optString("label");
+                    String source = p.isNull("source") ? null : p.optString("source");
+                    slot.options.add(new Option(label, source == null ? null : new File(source)));
                 }
-                slot.options.add(new Option(label, f));
+                slot.selected = o.optInt("selected");
+                out.add(slot);
             }
-            File installed = new File(mod, slot.target);
-            if (installed.isFile()) {
-                File match = seen.get(ModPresets.sha256(installed));
-                for (int i = 0; i < slot.options.size(); i++) if (match != null && match.equals(slot.options.get(i).source)) slot.selected = i;
-            }
-            out.add(slot);
+        } catch (IOException ignored) {
         }
         return out;
     }
 
     public static int apply(Context c, String id, List<Slot> slots) {
-        File mod = ManagedMods.folder(c, id);
-        int changed = 0;
+        JSONArray a = new JSONArray();
         for (Slot s : slots) {
-            File target = new File(mod, s.target);
-            if (!Mods.inside(mod, target)) continue;
             File source = s.options.get(s.selected).source;
-            try {
-                if (source == null) {
-                    if (target.isFile() && target.delete()) changed++;
-                    continue;
-                }
-                if (target.isFile() && ModPresets.sha256(target).equals(ModPresets.sha256(source))) continue;
-                ModPresets.copy(source, target);
-                changed++;
-            } catch (IOException ignored) {
-            }
+            a.put(Core.args("target", s.target, "source", source));
         }
-        return changed;
+        try {
+            return Core.run("mods.applySlots", Core.args("managed", ManagedMods.root(c), "id", id, "slots", a)).optInt("v");
+        } catch (IOException e) {
+            return 0;
+        }
     }
 
     public static void delete(Context c, String id) {
         Mods.delete(sources(c, id));
-    }
-
-    private static void captureInstalled(File mod, File src) {
-        Set<String> known = new HashSet<>();
-        for (String rel : ManagedMods.files(src)) known.add(ModPresets.sha256(new File(src, rel)));
-        for (String rel : ManagedMods.files(mod)) {
-            if (!SLOT_EXTENSIONS.contains(Mods.extension(rel))) continue;
-            File f = new File(mod, rel);
-            String hash = ModPresets.sha256(f);
-            if (hash.isEmpty() || known.contains(hash)) continue;
-            try {
-                ModPresets.copy(f, new File(new File(src, INSTALLED), rel));
-                known.add(hash);
-            } catch (IOException ignored) {
-            }
-        }
-    }
-
-    private static boolean installedCopy(File src, File f) {
-        return f.getPath().startsWith(new File(src, INSTALLED).getPath() + File.separator);
     }
 }

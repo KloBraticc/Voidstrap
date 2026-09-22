@@ -7,29 +7,21 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 
-import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class ModEngine {
-    public static final int FORMAT = 1;
     public static final String REMOTE_DIR = "/data/local/tmp/voidstrap_mods";
     public static final String SKY_PREFIX = "assets/android/textures/sky/";
 
@@ -37,28 +29,31 @@ public final class ModEngine {
 
     public enum Result { APPLIED, UNCHANGED, REMOVED, NO_ROOT, NOT_INSTALLED, NO_SPACE, CANCELLED, FAILED }
 
-    public static final class Plan {
-        public final String pkg;
-        public final File base;
-        public final String target;
-        public final boolean pristine;
-        public final Map<String, ApkPatcher.Source> changes = new TreeMap<>();
-        public final List<String> skipped = new ArrayList<>();
-        public int added;
-        public int replaced;
-        public String fingerprint;
+    private static final class Plan {
+        final String target;
+        final File base;
+        final boolean pristine;
+        final Map<String, ApkPatcher.Source> changes = new TreeMap<>();
+        final String fingerprint;
 
-        Plan(String pkg, File target, File original) {
-            this.pkg = pkg;
-            this.base = original;
-            this.target = target.getAbsolutePath();
-            this.pristine = original != null;
+        Plan(JSONObject o) {
+            target = o.optString("target");
+            String b = o.isNull("base") ? null : o.optString("base");
+            base = b == null ? null : new File(b);
+            pristine = o.optBoolean("pristine");
+            fingerprint = o.optString("fingerprint");
+            JSONArray c = o.optJSONArray("changes");
+            if (c != null) for (int i = 0; i < c.length(); i++) {
+                JSONArray p = c.optJSONArray(i);
+                if (p == null || p.length() < 2) continue;
+                changes.put(p.optString(0), new ApkPatcher.FileSource(new File(p.optString(1))));
+            }
+            JSONArray log = o.optJSONArray("log");
+            if (log != null) for (int i = 0; i < log.length(); i++) ModLog.add(log.optString(i));
         }
     }
 
     private static final Object APPLY = new Object();
-    private static final String[] VERSION_LOCKED = {"content/configs/", "extracontent/models/", "extracontent/translations/"};
-    private static final String[] PACKAGE_ART = {".png", ".jpg", ".jpeg", ".dds", ".ktx", ".webp", ".ttf", ".otf"};
 
     private ModEngine() {
     }
@@ -72,68 +67,30 @@ public final class ModEngine {
     }
 
     public static boolean ignored(String relative) {
-        String n = relative.replace('\\', '/');
-        String lower = n.toLowerCase(Locale.ROOT);
-        if (lower.endsWith(".lua") || lower.endsWith(".luau") || lower.endsWith(".lock")) return true;
-        if (lower.startsWith("extracontent/luapackages/")) {
-            for (String e : PACKAGE_ART) if (lower.endsWith(e)) return duplicate(n);
-            return true;
-        }
-        for (String f : VERSION_LOCKED) if (lower.startsWith(f)) return true;
-        return duplicate(n);
-    }
-
-    static boolean duplicate(String relative) {
-        String name = relative.substring(relative.lastIndexOf('/') + 1);
-        int dot = name.lastIndexOf('.');
-        if (dot > 0) name = name.substring(0, dot);
-        int open = name.lastIndexOf(" (");
-        if (open <= 0 || !name.endsWith(")") || name.length() - open <= 3) return false;
-        for (int i = open + 2; i < name.length() - 1; i++) if (!Character.isDigit(name.charAt(i))) return false;
-        return true;
+        return Core.flag("mods.ignored", Core.args("rel", relative));
     }
 
     public static String assetPath(String relative) {
-        String n = relative.replace('\\', '/');
-        while (n.startsWith("/")) n = n.substring(1);
-        int slash = n.indexOf('/');
-        if (slash <= 0) return null;
-        String head = n.substring(0, slash);
-        String rest = n.substring(slash + 1);
-        if (rest.isEmpty()) return null;
-        if (head.equalsIgnoreCase("content")) return "assets/content/" + rest;
-        if (head.equalsIgnoreCase("ExtraContent")) return "assets/ExtraContent/" + rest;
-        if (head.equalsIgnoreCase("PlatformContent")) {
-            int s2 = rest.indexOf('/');
-            if (s2 <= 0) return null;
-            String platform = rest.substring(0, s2);
-            if (!platform.equalsIgnoreCase("pc") && !platform.equalsIgnoreCase("android")) return null;
-            String tail = rest.substring(s2 + 1);
-            return tail.isEmpty() ? null : "assets/android/" + tail;
+        try {
+            return Core.text("mods.assetPath", Core.args("rel", relative));
+        } catch (IOException e) {
+            return null;
         }
-        return null;
     }
 
     public static Map<String, File> collect(Context c) {
         Map<String, File> out = new LinkedHashMap<>();
-        Map<String, String> keys = new HashMap<>();
-        File root = Mods.root(c);
-        for (String rel : ManagedMods.files(root)) {
-            if (ignored(rel) || assetPath(rel) == null) continue;
-            put(out, keys, rel, new File(root, rel));
-        }
-        for (ManagedMods.ModFile f : ManagedMods.enabledFiles(c)) {
-            if (assetPath(f.relative) == null) continue;
-            put(out, keys, f.relative, f.source);
+        try {
+            Object v = Core.value("mods.collect", Core.roots(c));
+            JSONArray a = v instanceof JSONArray ? (JSONArray) v : new JSONArray();
+            for (int i = 0; i < a.length(); i++) {
+                JSONArray p = a.optJSONArray(i);
+                if (p == null || p.length() < 2) continue;
+                out.put(p.optString(0), new File(p.optString(1)));
+            }
+        } catch (IOException ignored) {
         }
         return out;
-    }
-
-    private static void put(Map<String, File> out, Map<String, String> keys, String rel, File f) {
-        String key = rel.toLowerCase(Locale.ROOT);
-        String old = keys.put(key, rel);
-        if (old != null) out.remove(old);
-        out.put(rel, f);
     }
 
     public static File baseApk(Context c, String pkg) {
@@ -161,76 +118,34 @@ public final class ModEngine {
         }
     }
 
-    public static File originalFile(String pkg) {
-        return new File(REMOTE_DIR, pkg + ".orig.apk");
-    }
-
     public static File originalApk(Context c, String pkg) {
         File target = baseApk(c, pkg);
         if (target == null) return null;
-        if (!mountedFor(pkg, target.getAbsolutePath())) return target;
-        File o = originalFile(pkg);
-        JSONObject stamp = stamp(c, pkg);
-        long size = stamp == null ? -1 : stamp.optLong("original", -1);
-        return exposes(o.getAbsolutePath()) && o.canRead() && o.length() == size ? o : null;
-    }
-
-    private static boolean exposes(String path) {
-        for (String[] f : mounts()) if (f.length > 4 && f[4].equals(path)) return true;
-        return false;
-    }
-
-    private static java.util.List<String[]> mounts() {
-        java.util.List<String[]> out = new ArrayList<>();
-        try (InputStream in = new FileInputStream("/proc/self/mountinfo")) {
-            for (String line : new String(readAll(in), StandardCharsets.UTF_8).split("\n")) out.add(line.split(" "));
-        } catch (IOException | RuntimeException ignored) {
+        try {
+            String o = Core.text("mods.originalApk", Core.roots(c, "pkg", pkg, "target", target));
+            return o == null ? null : new File(o);
+        } catch (IOException e) {
+            return null;
         }
-        return out;
     }
 
-    public static Plan plan(Context c, String pkg) throws IOException {
+    private static Plan plan(Context c, String pkg) throws IOException {
         File target = baseApk(c, pkg);
-        if (target == null) return null;
-        File original = originalApk(c, pkg);
-        Plan plan = new Plan(pkg, target, original);
-        ApkPatcher.Directory dir = ApkPatcher.read(original != null ? original : target);
-        Map<String, String> lower = new HashMap<>();
-        for (String name : dir.entries.keySet()) lower.put(name.toLowerCase(Locale.ROOT), name);
-        MessageDigest md = sha();
-        update(md, "v" + FORMAT + "\n" + pkg + "\n" + identity(c, pkg) + "\n");
-        Map<String, File> files = collect(c);
-        Map<String, File> resolved = new TreeMap<>();
-        List<String> unknown = new ArrayList<>();
-        for (Map.Entry<String, File> e : files.entrySet()) {
-            String asset = assetPath(e.getKey());
-            if (asset == null) {
-                plan.skipped.add(e.getKey());
-                continue;
-            }
-            String existing = lower.get(asset.toLowerCase(Locale.ROOT));
-            String name = existing != null ? existing : asset;
-            resolved.put(name, e.getValue());
-            if (existing != null) {
-                plan.replaced++;
-            } else {
-                plan.added++;
-                if (unknown.size() < 10) unknown.add(e.getKey());
-            }
-        }
-        for (Map.Entry<String, File> e : resolved.entrySet()) {
-            File f = e.getValue();
-            update(md, e.getKey() + "\t" + f.getAbsolutePath() + "\t" + f.length() + "\t" + f.lastModified() + "\n");
-            plan.changes.put(e.getKey(), new ApkPatcher.FileSource(f));
-        }
-        plan.fingerprint = hex(md.digest());
-        ModLog.add("plan for " + pkg + ": replaces " + plan.replaced + ", adds " + plan.added + ", unmapped " + plan.skipped.size());
-        if (!unknown.isEmpty()) ModLog.add("added, replacing nothing in Roblox, so only useful if something references them: " + unknown);
-        return plan;
+        JSONObject o = Core.run("mods.plan", Core.roots(c, "pkg", pkg, "identity", identity(c, pkg), "target", target));
+        return o.optBoolean("none") ? null : new Plan(o);
     }
 
     public static boolean hasMods(Context c) {
         return !collect(c).isEmpty() || !ModAssetCache.wanted(c).isEmpty();
+    }
+
+    private static String fingerprint(Context c, String pkg) {
+        try {
+            Object s = Core.value("mods.stamp", Core.roots(c, "pkg", pkg));
+            return s instanceof JSONObject ? ((JSONObject) s).optString("fingerprint") : null;
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     public static State state(Context c, String pkg) {
@@ -248,8 +163,8 @@ public final class ModEngine {
         if (cache) return State.PENDING;
         try {
             Plan p = plan(c, pkg);
-            JSONObject stamp = stamp(c, pkg);
-            boolean same = p != null && stamp != null && p.fingerprint.equals(stamp.optString("fingerprint"));
+            String stamp = fingerprint(c, pkg);
+            boolean same = p != null && stamp != null && p.fingerprint.equals(stamp);
             return same && mounted ? State.APPLIED : State.PENDING;
         } catch (IOException e) {
             return State.PENDING;
@@ -257,8 +172,7 @@ public final class ModEngine {
     }
 
     public static boolean mountedFor(String pkg, String target) {
-        for (String[] f : mounts()) if (f.length > 4 && f[4].equals(target) && f[3].endsWith("/voidstrap_mods/" + pkg + ".apk")) return true;
-        return false;
+        return Core.flag("mods.mountedFor", Core.args("pkg", pkg, "target", target));
     }
 
     public interface Progress {
@@ -284,8 +198,16 @@ public final class ModEngine {
         }
     }
 
+    private static String script(String pkg, String target, String build, boolean restart) throws IOException {
+        return Core.text("mods.script", Core.args("pkg", pkg, "target", target, "build", build, "restart", restart));
+    }
+
+    private static String removeScript(String pkg, String target, boolean restart) throws IOException {
+        return Core.text("mods.removeScript", Core.args("pkg", pkg, "target", target, "restart", restart));
+    }
+
     private static Result applyFiles(Context c, String pkg, boolean restart, AtomicBoolean cancel, Progress progress, FlagWriter.Mode mode) {
-        {
+        try {
             if (!enabled(c) || collect(c).isEmpty()) return remove(c, pkg, restart, mode);
             Plan plan;
             try {
@@ -296,8 +218,8 @@ public final class ModEngine {
                 return Result.FAILED;
             }
             if (plan == null) return Result.NOT_INSTALLED;
-            JSONObject stamp = stamp(c, pkg);
-            boolean same = stamp != null && plan.fingerprint.equals(stamp.optString("fingerprint"));
+            String stamp = fingerprint(c, pkg);
+            boolean same = stamp != null && plan.fingerprint.equals(stamp);
             if (same) {
                 if (mountedFor(pkg, plan.target)) return Result.UNCHANGED;
                 if (progress != null) progress.on(2);
@@ -337,8 +259,11 @@ public final class ModEngine {
             int code = FlagWriter.raw(mode, script(pkg, plan.target, build.getAbsolutePath(), restart), 120);
             build.delete();
             if (code != 0) return code < 0 ? Result.NO_ROOT : Result.FAILED;
-            saveStamp(c, pkg, plan, originalSize);
+            Core.run("mods.saveStamp", Core.roots(c, "pkg", pkg, "fingerprint", plan.fingerprint, "target", plan.target,
+                    "original", originalSize, "files", plan.changes.size()));
             return Result.APPLIED;
+        } catch (IOException e) {
+            return Result.FAILED;
         }
     }
 
@@ -354,15 +279,22 @@ public final class ModEngine {
         }
     }
 
+    private static boolean stamped(Context c, String pkg) {
+        return Core.flag("mods.stampExists", Core.roots(c, "pkg", pkg));
+    }
+
     private static Result remove(Context c, String pkg, boolean restart, FlagWriter.Mode mode) {
         if (!safePkg(pkg)) return Result.FAILED;
         File base = baseApk(c, pkg);
         String target = base == null ? "" : base.getAbsolutePath();
-        File stampFile = stampFile(c, pkg);
-        if (!stampFile.isFile() && (base == null || !mountedFor(pkg, target))) return Result.UNCHANGED;
-        int code = FlagWriter.raw(mode, removeScript(pkg, target, restart), 60);
-        if (code != 0) return code < 0 ? Result.NO_ROOT : Result.FAILED;
-        stampFile.delete();
+        if (!stamped(c, pkg) && (base == null || !mountedFor(pkg, target))) return Result.UNCHANGED;
+        try {
+            int code = FlagWriter.raw(mode, removeScript(pkg, target, restart), 60);
+            if (code != 0) return code < 0 ? Result.NO_ROOT : Result.FAILED;
+            Core.run("mods.deleteStamp", Core.roots(c, "pkg", pkg));
+        } catch (IOException e) {
+            return Result.FAILED;
+        }
         return Result.REMOVED;
     }
 
@@ -381,7 +313,7 @@ public final class ModEngine {
     public static void onBoot(Context c) {
         if (FlagWriter.rootMode(c) == FlagWriter.Mode.NONE || !enabled(c)) return;
         for (String pkg : Targets.ALL) {
-            if (stampFile(c, pkg).isFile() || ModAssetCache.pending(c, pkg)) apply(c, pkg, false, null, null);
+            if (stamped(c, pkg) || ModAssetCache.pending(c, pkg)) apply(c, pkg, false, null, null);
         }
     }
 
@@ -391,66 +323,6 @@ public final class ModEngine {
 
     private static boolean safePkg(String pkg) {
         return pkg != null && pkg.matches("[A-Za-z0-9_.]+");
-    }
-
-    private static String common(String pkg, String target) {
-        return "P=" + quote(pkg) + "\n"
-                + "T=" + quote(target) + "\n"
-                + "R=" + REMOTE_DIR + "\n"
-                + "D=$R/$P.apk\n"
-                + "O=$R/$P.orig.apk\n"
-                + "NS=''\n"
-                + "if nsenter -t 1 -m -- true 2>/dev/null; then NS='nsenter -t 1 -m --'; fi\n"
-                + "ours() { grep \" $T \" /proc/1/mountinfo | grep -q \"/voidstrap_mods/$P.apk \"; }\n"
-                + "any() { grep -q \" $T \" /proc/1/mountinfo; }\n"
-                + "unmount_all() {\n"
-                + "  M=$(cat /proc/1/mountinfo)\n"
-                + "  echo \"$M\" | while read -r a b c r m rest; do\n"
-                + "    case \"$r\" in */voidstrap_mods/\"$P\".apk) $NS umount -l \"$m\" 2>/dev/null;; esac\n"
-                + "    if [ \"$m\" = \"$T\" ] || [ \"$m\" = \"$O\" ]; then $NS umount -l \"$m\" 2>/dev/null; fi\n"
-                + "  done\n"
-                + "}\n"
-                + "stop() { if [ \"$K\" = 1 ] && [ -n \"$(pidof $P)\" ]; then am force-stop $P; fi; }\n";
-    }
-
-    static String script(String pkg, String target, String build, boolean restart) {
-        StringBuilder sb = new StringBuilder(common(pkg, target));
-        sb.append("K=").append(restart ? 1 : 0).append('\n');
-        sb.append("[ -e \"$T\" ] || exit 4\n");
-        if (build != null) {
-            sb.append("B=").append(quote(build)).append('\n');
-            sb.append("[ -f \"$B\" ] || exit 2\n");
-            sb.append("mkdir -p $R && chmod 755 $R || exit 2\n");
-            sb.append("unmount_all\n");
-            sb.append("rm -f \"$D\"\n");
-            sb.append("mv -f \"$B\" \"$D\" 2>/dev/null || { cp -f \"$B\" \"$D\" && rm -f \"$B\"; } || exit 2\n");
-        } else {
-            sb.append("[ -f \"$D\" ] || exit 3\n");
-            sb.append("if ours; then exit 0; fi\n");
-            sb.append("unmount_all\n");
-        }
-        sb.append("[ -f \"$O\" ] || touch \"$O\" || exit 2\n");
-        sb.append("chmod 644 \"$O\"\n");
-        sb.append("$NS mount -o bind \"$T\" \"$O\" || exit 2\n");
-        sb.append("$NS mount -o private none \"$O\" 2>/dev/null\n");
-        sb.append("chown 1000:1000 \"$D\"; chmod 644 \"$D\" || exit 2\n");
-        sb.append("chcon u:object_r:apk_data_file:s0 \"$D\" || exit 2\n");
-        sb.append("$NS mount -o bind \"$D\" \"$T\" || exit 2\n");
-        sb.append("ours || exit 5\n");
-        sb.append("stop\n");
-        sb.append("exit 0\n");
-        return sb.toString();
-    }
-
-    static String removeScript(String pkg, String target, boolean restart) {
-        return common(pkg, target)
-                + "K=" + (restart ? 1 : 0) + "\n"
-                + "W=0\n"
-                + "if [ -n \"$T\" ] && any; then W=1; fi\n"
-                + "unmount_all\n"
-                + "rm -f \"$D\" \"$O\"\n"
-                + "if [ $W = 1 ]; then stop; fi\n"
-                + "exit 0\n";
     }
 
     private static void convertSky(Plan plan) throws IOException {
@@ -464,19 +336,14 @@ public final class ModEngine {
             faces++;
             if (!(e.getValue() instanceof ApkPatcher.FileSource)) continue;
             File f = ((ApkPatcher.FileSource) e.getValue()).file;
-            if (f.length() < 8 || f.length() > 64L * 1024 * 1024) {
+            String kind = Core.text("mods.skyKind", Core.args("path", f));
+            if ("reject".equals(kind)) {
                 rejected++;
                 ModLog.add("skybox face " + f.getName() + " rejected, size " + f.length());
                 continue;
             }
-            byte[] head = new byte[4];
-            try (InputStream in = new FileInputStream(f)) {
-                if (in.read(head) != 4) continue;
-            }
-            boolean dds = head[0] == 'D' && head[1] == 'D' && head[2] == 'S' && head[3] == ' ';
-            boolean png = (head[0] & 0xFF) == 0x89 && head[1] == 'P' && head[2] == 'N' && head[3] == 'G';
-            boolean ktx = (head[0] & 0xFF) == 0xAB && head[1] == 'K' && head[2] == 'T' && head[3] == 'X';
-            if (dds || png || ktx) {
+            if ("skip".equals(kind)) continue;
+            if ("keep".equals(kind)) {
                 kept++;
                 continue;
             }
@@ -517,31 +384,13 @@ public final class ModEngine {
         return d;
     }
 
-    private static File stampFile(Context c, String pkg) {
-        return new File(stateDir(c), "applied_" + pkg + ".json");
-    }
-
-    private static JSONObject stamp(Context c, String pkg) {
-        File f = stampFile(c, pkg);
-        if (!f.isFile()) return null;
-        try (InputStream in = new FileInputStream(f)) {
-            return new JSONObject(new String(readAll(in), StandardCharsets.UTF_8));
-        } catch (IOException | JSONException e) {
-            return null;
-        }
-    }
-
-    private static void saveStamp(Context c, String pkg, Plan plan, long originalSize) {
-        try (FileOutputStream out = new FileOutputStream(stampFile(c, pkg))) {
-            out.write(new JSONObject().put("fingerprint", plan.fingerprint).put("target", plan.target).put("original", originalSize)
-                    .put("files", plan.changes.size()).put("time", System.currentTimeMillis()).toString().getBytes(StandardCharsets.UTF_8));
-        } catch (IOException | JSONException ignored) {
-        }
-    }
-
     public static long appliedAt(Context c, String pkg) {
-        JSONObject s = stamp(c, pkg);
-        return s == null ? 0 : s.optLong("time");
+        try {
+            Object s = Core.value("mods.stamp", Core.roots(c, "pkg", pkg));
+            return s instanceof JSONObject ? ((JSONObject) s).optLong("time") : 0;
+        } catch (IOException e) {
+            return 0;
+        }
     }
 
     static byte[] readAll(InputStream in) throws IOException {
@@ -550,23 +399,5 @@ public final class ModEngine {
         int n;
         while ((n = in.read(b)) > 0) out.write(b, 0, n);
         return out.toByteArray();
-    }
-
-    private static MessageDigest sha() {
-        try {
-            return MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    private static void update(MessageDigest md, String s) {
-        md.update(s.getBytes(StandardCharsets.UTF_8));
-    }
-
-    private static String hex(byte[] b) {
-        StringBuilder sb = new StringBuilder();
-        for (byte x : b) sb.append(String.format(Locale.ROOT, "%02x", x));
-        return sb.toString();
     }
 }

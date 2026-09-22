@@ -198,7 +198,9 @@ public final class FlagsFragment extends Page {
 
     private void changed(Flags.Profile p, LinkedHashMap<String, Object> before, CharSequence message) {
         save(p);
-        Ui.make(host(), message).setDuration(6000).setAction(R.string.common_undo, x -> {
+        com.google.android.material.snackbar.Snackbar bar = Ui.make(host(), message);
+        if (bar == null) return;
+        bar.setDuration(6000).setAction(R.string.common_undo, x -> {
             p.values.clear();
             p.values.putAll(before);
             save(p);
@@ -591,6 +593,7 @@ public final class FlagsFragment extends Page {
                 .setMessage(getString(R.string.flags_profile_delete_body, p.name, p.values.size()))
                 .setPositiveButton(R.string.common_delete, (d, w) -> {
                     store.flags.profiles.remove(p);
+                    if (store.flags.profiles.isEmpty()) store.flags.profiles.add(new Flags.Profile(java.util.UUID.randomUUID().toString(), "Default"));
                     store.flags.current = store.flags.profiles.get(0).id;
                     store.saveFlags();
                     store.changed();

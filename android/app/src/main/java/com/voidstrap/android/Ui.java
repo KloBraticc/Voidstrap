@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -31,20 +30,22 @@ public final class Ui {
             public androidx.appcompat.app.AlertDialog show() {
                 androidx.appcompat.app.AlertDialog dialog = super.show();
                 android.view.Window w = dialog.getWindow();
-                if (w != null) {
+                if (w != null) Crash.run("dialog decoration", () -> {
                     AppFont.watch(w.getDecorView());
-                    w.getDecorView().post(() -> LiveTranslator.translateTree(w.getDecorView()));
-                }
+                    w.getDecorView().post(() -> Crash.run("dialog translation", () -> LiveTranslator.translateTree(w.getDecorView())));
+                });
                 return dialog;
             }
         };
     }
 
     public static int attr(Context c, int attr) {
-        return com.google.android.material.color.MaterialColors.getColor(c, attr, 0);
+        if (c == null) return 0;
+        return Crash.call("theme attribute", () -> com.google.android.material.color.MaterialColors.getColor(c, attr, 0), 0);
     }
 
     public static int dp(Context c, float v) {
+        if (c == null) return Math.round(v);
         return Math.round(v * c.getResources().getDisplayMetrics().density);
     }
 
@@ -86,35 +87,68 @@ public final class Ui {
     }
 
     public static boolean wide(Context c) {
-        return c.getResources().getConfiguration().screenWidthDp >= 600;
+        return c != null && c.getResources().getConfiguration().screenWidthDp >= 600;
     }
 
     public static void openWeb(Context c, String url) {
+        if (c == null) return;
+        if (url == null || !url.startsWith("https://")) {
+            noBrowser(c);
+            return;
+        }
         try {
             c.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)).addCategory(Intent.CATEGORY_BROWSABLE).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(c, R.string.error_no_browser, Toast.LENGTH_LONG).show();
+            noBrowser(c);
+        } catch (RuntimeException e) {
+            Crash.report("open link", e);
+            noBrowser(c);
         }
+    }
+
+    private static void noBrowser(Context c) {
+        Notify.toast(c, null, R.string.error_no_browser);
     }
 
     public static Snackbar say(Activity a, CharSequence text) {
         Snackbar bar = make(a, text);
-        bar.show();
+        if (bar != null) Crash.run("snackbar", bar::show);
         return bar;
     }
 
+    private static View anchor(Activity a) {
+        if (a == null || a.isFinishing()) return null;
+        View v = a.findViewById(R.id.snackbar_anchor);
+        if (v == null) v = a.findViewById(android.R.id.content);
+        if (v == null && a.getWindow() != null) v = a.getWindow().getDecorView();
+        return v;
+    }
+
     public static Snackbar make(Activity a, CharSequence text) {
-        View anchor = a.findViewById(R.id.snackbar_anchor);
-        if (anchor == null) anchor = a.findViewById(android.R.id.content);
-        Snackbar bar = Snackbar.make(anchor, text, Snackbar.LENGTH_LONG).setDuration(Notify.length(Store.get(a)));
+        View parent = anchor(a);
+        if (parent == null) return null;
+        Snackbar bar;
+        try {
+            bar = Snackbar.make(parent, text == null ? "" : text, Snackbar.LENGTH_LONG).setDuration(Notify.length(Store.get(a)));
+        } catch (RuntimeException e) {
+            Crash.report("snackbar", e);
+            return null;
+        }
+        Crash.run("snackbar style", () -> style(a, bar));
+        return bar;
+    }
+
+    private static void style(Activity a, Snackbar bar) {
         View v = bar.getView();
         ViewGroup.LayoutParams lp = v.getLayoutParams();
-        lp.width = ViewGroup.LayoutParams.WRAP_CONTENT;
-        v.setMinimumWidth(0);
-        if (lp instanceof androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams) {
-            ((androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams) lp).gravity = android.view.Gravity.CENTER_HORIZONTAL | android.view.Gravity.BOTTOM;
-        } else if (lp instanceof android.widget.FrameLayout.LayoutParams) {
-            ((android.widget.FrameLayout.LayoutParams) lp).gravity = android.view.Gravity.CENTER_HORIZONTAL | android.view.Gravity.BOTTOM;
+        if (lp != null) {
+            lp.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            v.setMinimumWidth(0);
+            if (lp instanceof androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams) {
+                ((androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams) lp).gravity = android.view.Gravity.CENTER_HORIZONTAL | android.view.Gravity.BOTTOM;
+            } else if (lp instanceof android.widget.FrameLayout.LayoutParams) {
+                ((android.widget.FrameLayout.LayoutParams) lp).gravity = android.view.Gravity.CENTER_HORIZONTAL | android.view.Gravity.BOTTOM;
+            }
         }
         TextView label = v.findViewById(com.google.android.material.R.id.snackbar_text);
         android.graphics.drawable.Drawable logo = androidx.core.content.ContextCompat.getDrawable(a, R.drawable.vs_logo);
@@ -124,21 +158,27 @@ public final class Ui {
             label.setCompoundDrawablesRelative(logo, null, null, null);
             label.setCompoundDrawablePadding(dp(a, 12));
         }
-        return bar;
     }
 
     public static void replaced(androidx.recyclerview.widget.RecyclerView.Adapter<?> adapter, int oldCount) {
-        adapter.notifyItemRangeRemoved(0, oldCount);
-        adapter.notifyItemRangeInserted(0, adapter.getItemCount());
+        if (adapter == null) return;
+        Crash.run("list refresh", () -> {
+            adapter.notifyItemRangeRemoved(0, Math.max(0, oldCount));
+            adapter.notifyItemRangeInserted(0, adapter.getItemCount());
+        });
     }
 
     public static Snackbar say(Activity a, int res) {
-        return say(a, a.getString(res));
+        if (a == null || res == 0) return null;
+        return say(a, Crash.call("string " + res, () -> a.getString(res), ""));
     }
 
     public static void copy(Context c, String label, String text) {
-        ClipboardManager cm = (ClipboardManager) c.getSystemService(Context.CLIPBOARD_SERVICE);
-        if (cm != null) cm.setPrimaryClip(ClipData.newPlainText(label, text));
+        if (c == null || text == null) return;
+        Crash.run("clipboard", () -> {
+            ClipboardManager cm = (ClipboardManager) c.getSystemService(Context.CLIPBOARD_SERVICE);
+            if (cm != null) cm.setPrimaryClip(ClipData.newPlainText(label == null ? "" : label, text));
+        });
     }
 
     public static CharSequence ago(Context c, long time) {

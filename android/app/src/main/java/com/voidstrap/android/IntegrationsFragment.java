@@ -35,6 +35,9 @@ public final class IntegrationsFragment extends Page {
     private LinearLayout root;
     private TextView discordStatus;
     private ShapeableImageView previewLarge;
+    private ShapeableImageView previewSmall;
+    private String previewAccountUser = "";
+    private org.json.JSONObject previewAccount;
     private TextView previewDetails;
     private TextView previewState;
     private String shape = "";
@@ -108,6 +111,7 @@ public final class IntegrationsFragment extends Page {
         discordStatus = (TextView) ((LinearLayout) statusRow.getChildAt(0)).getChildAt(1);
         statusRow.setOnClickListener(x -> openDiscord());
         toggle(discord, R.string.integrations_discord_rpc, R.string.integrations_discord_rpc_body, Integrations.RPC, tracking, null);
+        toggle(discord, R.string.integrations_discord_account, R.string.integrations_discord_account_body, Integrations.ACCOUNT, rpc, null);
         toggle(discord, R.string.integrations_discord_join, R.string.integrations_discord_join_body, Integrations.JOINING, rpc, null);
 
         LinearLayout custom = SettingRows.section(root, getString(R.string.integrations_custom_rpc));
@@ -246,7 +250,20 @@ public final class IntegrationsFragment extends Page {
         previewLarge.setScaleType(ImageView.ScaleType.CENTER_CROP);
         previewLarge.setShapeAppearanceModel(ShapeAppearanceModel.builder().setAllCornerSizes(Ui.dp(c, 8)).build());
         art.addView(previewLarge, new android.widget.FrameLayout.LayoutParams(size, size));
-        line.addView(art, new LinearLayout.LayoutParams(size, size));
+        int badge = Ui.dp(c, 28);
+        int ring = Ui.dp(c, 3);
+        android.widget.FrameLayout badgeRing = new android.widget.FrameLayout(c);
+        android.graphics.drawable.GradientDrawable dot = new android.graphics.drawable.GradientDrawable();
+        dot.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+        dot.setColor(Ui.attr(c, R.attr.vsInput));
+        badgeRing.setBackground(dot);
+        badgeRing.setPadding(ring, ring, ring, ring);
+        previewSmall = new ShapeableImageView(c);
+        previewSmall.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        previewSmall.setShapeAppearanceModel(ShapeAppearanceModel.builder().setAllCornerSizes(new com.google.android.material.shape.RelativeCornerSize(0.5f)).build());
+        badgeRing.addView(previewSmall, new android.widget.FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        art.addView(badgeRing, new android.widget.FrameLayout.LayoutParams(badge, badge, Gravity.BOTTOM | Gravity.END));
+        line.addView(art, new LinearLayout.LayoutParams(size + Ui.dp(c, 6), size + Ui.dp(c, 6)));
         LinearLayout texts = new LinearLayout(c);
         texts.setOrientation(LinearLayout.VERTICAL);
         texts.setPadding(Ui.dp(c, 12), 0, 0, 0);
@@ -279,7 +296,7 @@ public final class IntegrationsFragment extends Page {
     }
 
     private void bindPreview() {
-        if (previewDetails == null) return;
+        if (previewDetails == null || !isAdded()) return;
         ActivityWatcher.Data d = new ActivityWatcher.Data();
         d.placeId = 1;
         d.jobId = "preview";
@@ -288,7 +305,26 @@ public final class IntegrationsFragment extends Page {
         g.name = getString(R.string.integrations_preview_game);
         g.creator = getString(R.string.integrations_preview_creator);
         g.location = getString(R.string.integrations_preview_location);
-        Integrations.Presence p = Integrations.game(store, d, g, store.flags.active().values.size());
+        String user = Integrations.on(store, Integrations.ACCOUNT) ? store.setting(Integrations.USER_ID, "") : "";
+        if (!user.equals(previewAccountUser)) {
+            previewAccountUser = user;
+            previewAccount = null;
+            long id = user.matches("[0-9]{1,18}") ? Long.parseLong(user) : 0;
+            if (id > 0) {
+                android.content.Context app = requireContext().getApplicationContext();
+                store.work.execute(() -> {
+                    org.json.JSONObject found = Integrations.account(app, id, false);
+                    store.main.post(() -> {
+                        if (!user.equals(previewAccountUser) || found == null) return;
+                        previewAccount = found;
+                        bindPreview();
+                    });
+                });
+            }
+        }
+        Integrations.Presence p = Integrations.game(store, d, g, previewAccount, store.flags.active().values.size());
+        previewSmall.setContentDescription(p.smallText);
+        Net.image(previewSmall, p.smallImage, R.mipmap.ic_launcher, Ui.dp(requireContext(), 28));
         previewDetails.setText(p.details);
         previewDetails.setVisibility(p.details.isEmpty() ? View.GONE : View.VISIBLE);
         previewState.setText(p.state);

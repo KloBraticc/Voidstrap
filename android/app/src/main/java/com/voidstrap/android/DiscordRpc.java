@@ -20,7 +20,6 @@ import java.util.UUID;
 
 final class DiscordRpc {
     static final String PACKAGE = "com.discord";
-    static final String VOIDSTRAP_LOGO = "https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/src/Voidstrap.App/Voidstrap.png";
     static final DiscordRpc ROBLOX = new DiscordRpc(1005469189907173486L, "Roblox");
     static final DiscordRpc VOIDSTRAP = new DiscordRpc(1459679943498661910L, "Voidstrap Android");
 
@@ -69,7 +68,7 @@ final class DiscordRpc {
 
     private void post(Runnable r) {
         Handler h = handler;
-        if (h != null) h.post(r);
+        if (h != null) h.post(Crash.wrap("discord task", r));
     }
 
     private final Binder callback = new Binder() {
@@ -83,7 +82,7 @@ final class DiscordRpc {
                 data.enforceInterface(CALLBACK);
                 String frame = data.readString();
                 if (reply != null) reply.writeNoException();
-                onFrame(frame);
+                Crash.run("discord frame", () -> onFrame(frame));
                 return true;
             }
             if (code == ON_CLOSE) {
@@ -93,7 +92,7 @@ final class DiscordRpc {
                 if (reply != null) reply.writeNoException();
                 status = message == null || message.isEmpty() ? "Closed (" + reason + ")" : message;
                 post(() -> connection = null);
-                changed();
+                Crash.run("discord close", DiscordRpc.this::changed);
                 return true;
             }
             return super.onTransact(code, data, reply, flags);
@@ -130,13 +129,13 @@ final class DiscordRpc {
     }
 
     synchronized void update(Integrations.Presence p) {
-        if (handler == null) return;
+        if (handler == null || p == null) return;
         JSONObject activity = activity(p);
-        handler.post(() -> send(activity));
+        post(() -> send(activity));
     }
 
     synchronized void clear() {
-        if (handler != null) handler.post(() -> send(null));
+        post(() -> send(null));
     }
 
     synchronized void stop() {
@@ -260,6 +259,8 @@ final class DiscordRpc {
             JSONObject assets = new JSONObject();
             if (!p.largeImage.isEmpty()) assets.put("large_image", p.largeImage);
             if (!p.largeText.isEmpty()) assets.put("large_text", clip(p.largeText));
+            if (!p.smallImage.isEmpty()) assets.put("small_image", p.smallImage);
+            if (!p.smallText.isEmpty()) assets.put("small_text", clip(p.smallText));
             if (assets.length() > 0) a.put("assets", assets);
             if (!p.buttons.isEmpty()) {
                 JSONArray buttons = new JSONArray();
@@ -273,6 +274,7 @@ final class DiscordRpc {
     }
 
     private static String clip(String s) {
+        if (s == null) return "  ";
         String t = s.length() > 128 ? s.substring(0, 128) : s;
         return t.length() < 2 ? t + "  " : t;
     }

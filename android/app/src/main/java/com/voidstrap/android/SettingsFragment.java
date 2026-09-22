@@ -51,6 +51,7 @@ public final class SettingsFragment extends Page {
     private final List<MaterialSwitch> notifySwitches = new ArrayList<>();
     private TextView notifyStatus;
     private View trackingOff;
+    private Row updateRow;
 
     public SettingsFragment() {
         super(R.layout.fragment_settings);
@@ -65,7 +66,8 @@ public final class SettingsFragment extends Page {
         notifyPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
             if (!isAdded()) return;
             bindNotifications();
-            if (!granted) Ui.make(host(), getString(R.string.integrations_notify_blocked)).setAction(R.string.notify_open, x -> openNotificationSettings()).show();
+            com.google.android.material.snackbar.Snackbar bar = granted ? null : Ui.make(host(), getString(R.string.integrations_notify_blocked));
+            if (bar != null) bar.setAction(R.string.notify_open, x -> openNotificationSettings()).show();
         });
     }
 
@@ -128,8 +130,9 @@ public final class SettingsFragment extends Page {
         row(about, R.drawable.ic_bug, R.string.settings_diagnostics, R.string.settings_diagnostics_body, this::showDiagnostics);
         row(about, R.drawable.ic_document, R.string.settings_licenses, R.string.settings_licenses_body, this::showLicenses);
         row(about, R.drawable.ic_globe, R.string.settings_website, R.string.settings_website_body, () -> Ui.openWeb(requireContext(), getString(R.string.url_website)));
+        buildUpdates(about);
         if (BuildConfig.DIRECT_UPDATES) {
-            row(about, R.drawable.ic_arrow_sync, R.string.settings_updates, R.string.settings_updates_body, () -> Ui.openWeb(requireContext(), getString(R.string.url_releases)));
+            row(about, R.drawable.ic_globe, R.string.settings_updates, R.string.settings_updates_body, () -> Ui.openWeb(requireContext(), getString(R.string.url_releases)));
         }
         ((TextView) v.findViewById(R.id.version)).setText(getString(R.string.settings_version, BuildConfig.VERSION_NAME, getString(BuildConfig.DIRECT_UPDATES ? R.string.edition_direct : R.string.edition_play)));
     }
@@ -286,6 +289,74 @@ public final class SettingsFragment extends Page {
         Actions.bindTarget(target, true);
         if (helperDetail != null) helperDetail.setText(FlagSync.status(requireContext()));
         bindNotifications();
+        bindUpdate();
+    }
+
+    private void buildUpdates(LinearLayout about) {
+        updateRow = Row.inflate(about);
+        updateRow.chevron.setVisibility(View.VISIBLE);
+        updateRow.view.setOnClickListener(x -> onUpdateRow());
+        about.addView(updateRow.view);
+        MaterialSwitch auto = new MaterialSwitch(requireContext());
+        auto.setChecked(Updater.autoOn(store));
+        auto.setContentDescription(getString(R.string.update_auto));
+        SettingRows.row(about, getString(R.string.update_auto), getString(R.string.update_auto_body), auto).setOnClickListener(x -> auto.toggle());
+        auto.setOnCheckedChangeListener((b, on) -> {
+            if (Updater.autoOn(store) == on) return;
+            Updater.setAuto(requireContext(), on);
+            if (on) Updater.auto(requireContext());
+        });
+        bindUpdate();
+    }
+
+    private void onUpdateRow() {
+        Updater.State s = Updater.state();
+        if (s == Updater.State.CHECKING || s == Updater.State.DOWNLOADING || s == Updater.State.INSTALLING) return;
+        if (Updater.available() != null) Updater.start(host());
+        else Updater.check(requireContext(), true);
+    }
+
+    private void bindUpdate() {
+        if (updateRow == null || !isAdded()) return;
+        Context c = requireContext();
+        Updater.State s = Updater.state();
+        Updater.Release r = Updater.available();
+        String title;
+        String detail;
+        if (s == Updater.State.CHECKING) {
+            title = getString(R.string.update_checking);
+            detail = Updater.channel(c);
+        } else if (s == Updater.State.DOWNLOADING) {
+            title = getString(R.string.update_downloading, Updater.progress());
+            detail = r == null ? Updater.channel(c) : r.version;
+        } else if (s == Updater.State.INSTALLING) {
+            title = getString(R.string.update_installing);
+            detail = r == null ? Updater.channel(c) : r.version;
+        } else if (s == Updater.State.READY) {
+            title = getString(R.string.update_restart);
+            detail = r == null ? Updater.channel(c) : r.version;
+        } else if (r != null) {
+            title = getString(R.string.update_ready_title, r.version);
+            detail = getString(R.string.update_ready_body, Updater.sizeText(c, r.size), Updater.channel(c));
+        } else if (s == Updater.State.FAILED) {
+            title = getString(R.string.update_check);
+            detail = getString(R.string.update_failed, Updater.problem());
+        } else {
+            title = getString(R.string.update_check);
+            detail = lastChecked(c);
+        }
+        updateRow.set(R.drawable.ic_arrow_sync, title, detail);
+    }
+
+    private String lastChecked(Context c) {
+        long at = 0;
+        try {
+            at = Long.parseLong(store.setting(Updater.CHECKED_AT, "0"));
+        } catch (NumberFormatException ignored) {
+        }
+        if (Updater.state() == Updater.State.UP_TO_DATE) return getString(R.string.update_current, Updater.installedVersion());
+        if (at <= 0) return getString(R.string.update_never_checked, Updater.installedVersion());
+        return getString(R.string.update_checked_ago, Updater.installedVersion(), Ui.ago(c, at));
     }
 
     private String diagnostics() {
@@ -312,7 +383,8 @@ public final class SettingsFragment extends Page {
         sb.append("Root ").append(FlagWriter.rootAvailable()).append(", use root ").append(FlagWriter.rootEnabled(c)).append(", flag mode ").append(FlagWriter.mode(c)).append('\n');
         java.io.File flagFile = new java.io.File(FlagWriter.PATH);
         sb.append("Flags file ").append(flagFile.exists() ? flagFile.length() + " bytes, readable " + flagFile.canRead() + ", matches profile " + FlagWriter.readable(store.flags.active().valuesJson().toString()) : "absent").append('\n');
-        android.view.Display disp = c.getSystemService(android.hardware.display.DisplayManager.class).getDisplay(android.view.Display.DEFAULT_DISPLAY);
+        android.hardware.display.DisplayManager dm = c.getSystemService(android.hardware.display.DisplayManager.class);
+        android.view.Display disp = dm == null ? null : dm.getDisplay(android.view.Display.DEFAULT_DISPLAY);
         sb.append("Display refresh ").append(disp == null ? 0 : disp.getRefreshRate()).append(" Hz, max ").append(FlagWriter.maxRefresh(c)).append(" Hz\n");
         sb.append("Pinned games ").append(store.library.size()).append('\n');
         sb.append("Flag profiles ").append(store.flags.profiles.size()).append(", active entries ").append(store.flags.active().values.size()).append('\n');
@@ -324,6 +396,12 @@ public final class SettingsFragment extends Page {
             Store.Launch l = store.history.get(0);
             sb.append("Last launch ").append(l.result).append(" via ").append(l.target).append(' ').append(Ui.ago(c, l.time)).append('\n');
         }
+        sb.append("Updates ").append(Updater.autoOn(store) ? "automatic" : "manual").append(" via ").append(Updater.channel(c))
+                .append(", state ").append(Updater.state());
+        Updater.Release pending = Updater.available();
+        if (pending != null) sb.append(", offered ").append(pending.version);
+        if (!Updater.problem().isEmpty()) sb.append(", last problem ").append(Updater.problem());
+        sb.append('\n');
         sb.append("Mod activity\n").append(ModLog.dump());
         return sb.toString();
     }

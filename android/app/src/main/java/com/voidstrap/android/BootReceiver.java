@@ -13,12 +13,13 @@ public final class BootReceiver extends BroadcastReceiver {
         PendingResult pending = goAsync();
         Thread t = new Thread(() -> {
             try {
-                Helper.keepRootHelper(app);
-                ModEngine.onBoot(app);
+                Crash.run("boot helper", () -> Helper.keepRootHelper(app));
+                Crash.run("boot mods", () -> ModEngine.onBoot(app));
             } finally {
-                pending.finish();
+                Crash.run("boot finish", pending::finish);
             }
         }, "voidstrap-mods-boot");
+        t.setDaemon(true);
         t.start();
     }
 }

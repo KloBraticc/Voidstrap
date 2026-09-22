@@ -234,7 +234,14 @@ final class Dropdown {
             chevron.animate().rotation(0f).setDuration(375).setInterpolator(QUARTIC_OUT).start();
             boxState();
         });
-        w.showAtLocation(view, Gravity.NO_GRAVITY, popupLeft, popupTop);
+        if (view.getWindowToken() == null) return;
+        try {
+            w.showAtLocation(view, Gravity.NO_GRAVITY, popupLeft, popupTop);
+        } catch (RuntimeException e) {
+            Crash.report("dropdown", e);
+            window = null;
+            return;
+        }
 
         if (contentH > limit) {
             View sel = items[selected].view;

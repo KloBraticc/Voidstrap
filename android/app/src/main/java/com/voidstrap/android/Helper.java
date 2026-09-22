@@ -3,18 +3,15 @@ package com.voidstrap.android;
 import android.content.Context;
 import android.os.SystemClock;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.nio.charset.StandardCharsets;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class Helper {
+    static {
+        Core.load();
+    }
+
     private static final long CACHE_MS = 2000;
-    private static final long UPGRADE_WAIT_MS = 8000;
 
     private static volatile int uid = -1;
     private static volatile long checkedAt;
@@ -24,6 +21,7 @@ public final class Helper {
     }
 
     public static synchronized String token(Context c) {
+        if (c == null) return token;
         Store store = Store.get(c);
         String saved = store.setting("helperToken", "");
         if (saved.length() != 32) {
@@ -51,7 +49,7 @@ public final class Helper {
 
     public static Runnable onChanged;
 
-    private static final java.util.concurrent.atomic.AtomicBoolean refreshing = new java.util.concurrent.atomic.AtomicBoolean();
+    private static final AtomicBoolean refreshing = new AtomicBoolean();
 
     public static int uid() {
         long now = SystemClock.elapsedRealtime();
@@ -70,10 +68,10 @@ public final class Helper {
         Thread t = new Thread(() -> {
             try {
                 int before = uid;
-                uid = ping();
+                uid = Crash.call("helper ping", Helper::ping, -1);
                 checkedAt = SystemClock.elapsedRealtime();
                 Runnable notify = onChanged;
-                if (before != uid && notify != null) notify.run();
+                if (before != uid && notify != null) Crash.run("helper state", notify);
             } finally {
                 refreshing.set(false);
             }
@@ -91,57 +89,10 @@ public final class Helper {
         return uid() >= 0;
     }
 
-    private static int publishedPort() throws IOException {
-        File f = new File(HelperServer.PORT_FILE);
-        int owner;
-        try {
-            owner = android.system.Os.stat(f.getPath()).st_uid;
-        } catch (android.system.ErrnoException e) {
-            throw new IOException("no helper");
-        }
-        if (owner != 0 && owner != HelperServer.SHELL_UID) throw new IOException("untrusted");
-        int port;
-        try {
-            port = Integer.parseInt(new String(java.nio.file.Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8).trim());
-        } catch (RuntimeException e) {
-            throw new IOException("bad port");
-        }
-        if (port < 1 || port > 65535) throw new IOException("bad port");
-        return port;
-    }
-
-    private static Socket connect() throws IOException {
-        String secret = token;
-        if (secret.isEmpty()) throw new IOException("no token");
-        Socket s = new Socket();
-        try {
-            s.connect(new InetSocketAddress(InetAddress.getLoopbackAddress(), publishedPort()), 2000);
-            s.setSoTimeout(2000);
-            byte[] nonce = new byte[HelperServer.NONCE_BYTES];
-            DataInputStream in = new DataInputStream(s.getInputStream());
-            in.readFully(nonce);
-            s.getOutputStream().write(HelperServer.proof(secret, nonce));
-            s.getOutputStream().flush();
-            byte[] answer = new byte[HelperServer.PROOF_BYTES];
-            in.readFully(answer);
-            if (!java.security.MessageDigest.isEqual(answer, HelperServer.serverProof(secret, nonce))) {
-                throw new IOException("untrusted helper");
-            }
-            return s;
-        } catch (IOException | RuntimeException e) {
-            s.close();
-            throw new IOException("handshake failed");
-        }
-    }
-
     private static int ping() {
-        try (Socket s = connect()) {
-            s.setSoTimeout(1500);
-            DataOutputStream out = new DataOutputStream(s.getOutputStream());
-            out.writeInt(HelperServer.VERSION);
-            out.writeInt(HelperServer.PING);
-            out.flush();
-            return new DataInputStream(s.getInputStream()).readInt();
+        try {
+            Object v = Core.value("shell.ping", Core.args("token", token, "version", HelperServer.VERSION));
+            return v instanceof Number ? ((Number) v).intValue() : -1;
         } catch (IOException e) {
             return -1;
         }
@@ -151,49 +102,27 @@ public final class Helper {
         void line(String line);
     }
 
-    public static void stream(String target, LineSink sink, java.util.concurrent.atomic.AtomicReference<Socket> handle) throws IOException {
-        try (Socket s = connect()) {
-            handle.set(s);
-            s.setSoTimeout(10000);
-            DataOutputStream out = new DataOutputStream(s.getOutputStream());
-            out.writeInt(HelperServer.VERSION);
-            out.writeInt(HelperServer.STREAM);
-            out.writeUTF(target);
-            out.flush();
-            DataInputStream in = new DataInputStream(s.getInputStream());
-            if (in.readInt() != 0) throw new IOException("stale");
-            s.setSoTimeout(0);
-            while (true) sink.line(in.readUTF());
-        } finally {
-            handle.set(null);
+    public static void stream(String target, LineSink sink, AtomicBoolean cancel) throws IOException {
+        if (!Core.loaded()) throw new IOException(Core.UNAVAILABLE);
+        try {
+            streamNative(token, HelperServer.VERSION, target, sink, cancel);
+        } catch (IOException e) {
+            throw e;
+        } catch (RuntimeException | LinkageError e) {
+            throw new IOException(Crash.describe(e));
         }
     }
 
     public static Integer run(String script, int timeoutSeconds) {
-        byte[] body = script.getBytes(StandardCharsets.UTF_8);
-        if (body.length > HelperServer.MAX_SCRIPT) return FlagWriter.FAILED;
-        long giveUp = SystemClock.elapsedRealtime() + UPGRADE_WAIT_MS;
-        while (true) {
-            int r;
-            try (Socket s = connect()) {
-                s.setSoTimeout((timeoutSeconds + 10) * 1000);
-                DataOutputStream out = new DataOutputStream(s.getOutputStream());
-                out.writeInt(HelperServer.VERSION);
-                out.writeInt(timeoutSeconds);
-                out.writeInt(body.length);
-                out.write(body);
-                out.flush();
-                r = new DataInputStream(s.getInputStream()).readInt();
-            } catch (IOException e) {
-                r = HelperServer.STALE;
-                if (SystemClock.elapsedRealtime() > giveUp || uid < 0) {
-                    checkedAt = 0;
-                    return null;
-                }
-            }
-            if (r != HelperServer.STALE) return r;
-            if (SystemClock.elapsedRealtime() > giveUp) return null;
-            SystemClock.sleep(400);
+        if (script == null) return null;
+        try {
+            Object v = Core.value("shell.run", Core.args("token", token, "version", HelperServer.VERSION, "script", script, "timeout", timeoutSeconds, "uid", uid));
+            if (v instanceof Number) return ((Number) v).intValue();
+        } catch (IOException ignored) {
         }
+        checkedAt = 0;
+        return null;
     }
+
+    private static native void streamNative(String token, int version, String target, LineSink sink, AtomicBoolean cancel) throws IOException;
 }

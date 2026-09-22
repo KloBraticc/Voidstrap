@@ -58,16 +58,26 @@ public final class Notify {
     }
 
     public static void say(Activity a, String key, CharSequence text) {
+        if (a == null || a.isFinishing() || text == null) return;
         if (on(Store.get(a), key)) Ui.say(a, text);
     }
 
     public static void say(Activity a, String key, int res) {
-        say(a, key, a.getString(res));
+        if (a == null || res == 0) return;
+        say(a, key, Crash.call("string " + res, () -> a.getString(res), ""));
     }
 
     public static void toast(Context c, String key, CharSequence text) {
+        if (c == null || text == null || text.length() == 0) return;
         Store s = Store.get(c);
-        if (on(s, key)) Toast.makeText(c.getApplicationContext(), text, length(s) > LENGTHS[0] ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
+        if (!on(s, key)) return;
+        Context app = c.getApplicationContext();
+        int length = length(s) > LENGTHS[0] ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
+        if (!Crash.onMain()) {
+            s.main.post(() -> Crash.run("toast", () -> Toast.makeText(app, text, length).show()));
+            return;
+        }
+        Crash.run("toast", () -> Toast.makeText(app, text, length).show());
     }
 
     public static void openSettings(Activity a) {
@@ -86,6 +96,7 @@ public final class Notify {
     }
 
     public static void toast(Context c, String key, int res) {
-        toast(c, key, c.getString(res));
+        if (c == null || res == 0) return;
+        toast(c, key, Crash.call("string " + res, () -> c.getString(res), ""));
     }
 }

@@ -8,7 +8,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ServiceInfo;
-import java.net.Socket;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -17,15 +16,13 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.ServiceCompat;
 import androidx.core.content.ContextCompat;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class ActivityService extends Service implements ActivityWatcher.Listener {
     private static final String CHANNEL_TRACKING = "activity";
@@ -56,7 +53,7 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
     private static volatile String nowPlaying = "";
 
     private final ActivityWatcher watcher = new ActivityWatcher(this);
-    private final AtomicReference<Socket> socket = new AtomicReference<>();
+    private final AtomicBoolean streamClosed = new AtomicBoolean();
     private Store store;
     private Thread worker;
     private volatile boolean stopping;
@@ -65,6 +62,8 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
     private long sessionStart;
     private Integrations.Presence presence;
     private Integrations.Presence original;
+    private JSONObject account;
+    private final ArrayDeque<String[]> rpcQueue = new ArrayDeque<>();
     private String lastSignature = "";
     private int generation;
 
@@ -117,12 +116,21 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
         super.onCreate();
         store = Store.get(this);
         running = true;
-        channels(this);
+        Crash.run("notification channels", () -> channels(this));
         int type = Build.VERSION.SDK_INT >= 34 ? ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE : 0;
-        ServiceCompat.startForeground(this, ID_TRACKING, tracking(getString(R.string.activity_waiting)), type);
+        Boolean foreground = Crash.call("foreground service", () -> {
+            ServiceCompat.startForeground(this, ID_TRACKING, tracking(getString(R.string.activity_waiting)), type);
+            return Boolean.TRUE;
+        }, Boolean.FALSE);
+        if (!Boolean.TRUE.equals(foreground)) {
+            running = false;
+            stopSelf();
+            return;
+        }
         sessionStart = System.currentTimeMillis();
         String target = Targets.selected(this);
-        worker = new Thread(() -> loop(target), "activity");
+        worker = new Thread(() -> Crash.run("activity watcher", () -> loop(target)), "activity");
+        worker.setDaemon(true);
         worker.start();
     }
 
@@ -142,19 +150,15 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
         running = false;
         nowPlaying = "";
         closeSocket();
-        if (worker != null) worker.interrupt();
-        stopDiscord();
-        store.changed();
+        if (worker != null) Crash.run("watcher stop", worker::interrupt);
+        Crash.run("discord stop", this::stopDiscord);
+        Crash.run("watcher release", watcher::release);
+        if (store != null) store.changed();
         super.onDestroy();
     }
 
     private void closeSocket() {
-        Socket s = socket.get();
-        if (s == null) return;
-        try {
-            s.close();
-        } catch (IOException ignored) {
-        }
+        streamClosed.set(true);
     }
 
     private void loop(String target) {
@@ -162,7 +166,7 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
         while (!stopping) {
             if (!Helper.running()) Helper.keepRootHelper(this);
             try {
-                Helper.stream(target, this::line, socket);
+                Helper.stream(target, this::line, streamClosed);
             } catch (IOException e) {
                 if (stopping) return;
             }
@@ -178,6 +182,7 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
     }
 
     private void line(String line) {
+        if (line == null) return;
         if (line.startsWith(HelperServer.STREAM_START)) {
             if (!sawRoblox) {
                 sawRoblox = true;
@@ -241,7 +246,8 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
 
     private void updateTracking(String text) {
         NotificationManager nm = getSystemService(NotificationManager.class);
-        if (nm != null && !stopping) nm.notify(ID_TRACKING, tracking(text));
+        if (nm == null || stopping) return;
+        Crash.run("tracking notification", () -> nm.notify(ID_TRACKING, tracking(text)));
     }
 
     private boolean canNotify() {
@@ -258,10 +264,13 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
         store.work.execute(() -> SmartJoin.onJoined(this, data, this::joinAlert));
         store.work.execute(() -> {
             Integrations.Game g = fetch(data);
+            JSONObject who = data.userId > 0 && Integrations.on(store, Integrations.ACCOUNT) ? Integrations.account(this, data.userId, false) : null;
             store.main.post(() -> {
                 synchronized (this) {
                     if (gen != generation || stopping) return;
                 }
+                if (who != null) account = who;
+                if (data.userId > 0 && !String.valueOf(data.userId).equals(store.setting(Integrations.USER_ID, ""))) store.putSetting(Integrations.USER_ID, String.valueOf(data.userId));
                 String shown = Integrations.shownName(store, g);
                 nowPlaying = shown;
                 store.changed();
@@ -269,7 +278,11 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
                 if (Integrations.on(store, Integrations.NOTIFY) && canNotify()) joinNotification(shown, Integrations.on(store, Integrations.LOCATION) ? g.location : "");
                 if (discord) {
                     int flags = store.flags.active().values.size();
-                    setPresence(Integrations.game(store, data, g, flags));
+                    setPresence(Integrations.game(store, data, g, account, flags));
+                    while (!rpcQueue.isEmpty()) {
+                        String[] queued = rpcQueue.poll();
+                        rpc(queued[0], queued[1]);
+                    }
                 }
             });
         });
@@ -296,14 +309,14 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .build();
         NotificationManager nm = getSystemService(NotificationManager.class);
-        if (nm != null) nm.notify(ID_JOIN_ALERT, n);
+        if (nm != null) Crash.run("join alert", () -> nm.notify(ID_JOIN_ALERT, n));
     }
 
     private void joinNotification(String game, String location) {
         String text = location.isEmpty() ? getString(R.string.activity_join_body) : getString(R.string.activity_join_location, location);
         Notification n = alert(getString(R.string.activity_join_title, game), text, 8000).build();
         NotificationManager nm = getSystemService(NotificationManager.class);
-        if (nm != null) nm.notify(ID_JOIN, n);
+        if (nm != null) Crash.run("join notification", () -> nm.notify(ID_JOIN, n));
     }
 
     @Override
@@ -336,22 +349,29 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
     @Override
     public void onRpc(String command, String json) {
         store.main.post(() -> {
-            if (!discord || presence == null || original == null || !watcher.inGame()) return;
-            if (command.equals("SetLaunchData")) {
-                ActivityWatcher.Data d = watcher.current();
-                if (d == null) return;
-                Integrations.Presence p = presence.copy();
-                p.buttons.clear();
-                Integrations.Presence rebuilt = Integrations.game(store, d, new Integrations.Game(), 0);
-                p.buttons.addAll(rebuilt.buttons);
-                push(p);
+            if (!discord || !watcher.inGame()) return;
+            if (presence == null || original == null) {
+                while (rpcQueue.size() >= 64) rpcQueue.poll();
+                rpcQueue.add(new String[]{command, json});
                 return;
             }
-            try {
-                push(Integrations.applyRpc(presence, original, new JSONObject(json)));
-            } catch (JSONException ignored) {
-            }
+            rpc(command, json);
         });
+    }
+
+    private void rpc(String command, String json) {
+        if (command.equals("SetLaunchData")) {
+            ActivityWatcher.Data d = watcher.current();
+            if (d == null) return;
+            Integrations.Presence p = presence.copy();
+            p.buttons.clear();
+            Integrations.Presence rebuilt = Integrations.game(store, d, new Integrations.Game(), account, 0);
+            p.buttons.addAll(rebuilt.buttons);
+            push(p);
+            return;
+        }
+        Integrations.Presence p = Integrations.applyRpc(presence, original, json);
+        if (p != null) push(p);
     }
 
     private void startDiscord() {
@@ -372,7 +392,19 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
 
     private void idle() {
         if (!discord) return;
-        setPresence(Integrations.idle(store, sessionStart));
+        rpcQueue.clear();
+        long userId = watcher.userId();
+        if (account != null || userId <= 0 || !Integrations.on(store, Integrations.ACCOUNT)) {
+            setPresence(Integrations.idle(store, sessionStart, account));
+            return;
+        }
+        store.work.execute(() -> {
+            JSONObject who = Integrations.account(this, userId, false);
+            store.main.post(() -> {
+                if (who != null) account = who;
+                if (discord && !watcher.inGame()) setPresence(Integrations.idle(store, sessionStart, account));
+            });
+        });
     }
 
     private void setPresence(Integrations.Presence p) {
@@ -390,34 +422,17 @@ public final class ActivityService extends Service implements ActivityWatcher.Li
 
     private Integrations.Game fetch(ActivityWatcher.Data d) {
         Integrations.Game g = new Integrations.Game();
-        long universe = d.universeId;
-        try {
-            if (universe <= 0) universe = Net.json("https://apis.roblox.com/universes/v1/places/" + d.placeId + "/universe").optLong("universeId", 0);
-            if (universe > 0) {
-                JSONArray games = Net.json("https://games.roblox.com/v1/games?universeIds=" + universe).optJSONArray("data");
-                JSONObject game = games == null ? null : games.optJSONObject(0);
-                if (game != null) {
-                    g.name = Store.clip(game.optString("name", ""), 200);
-                    g.description = Store.clip(game.optString("description", ""), 1000);
-                    JSONObject creator = game.optJSONObject("creator");
-                    if (creator != null) {
-                        g.creator = Store.clip(creator.optString("name", ""), 100);
-                        g.verified = creator.optBoolean("hasVerifiedBadge");
-                    }
-                }
-                JSONArray icons = Net.json("https://thumbnails.roblox.com/v1/games/icons?universeIds=" + universe + "&returnPolicy=PlaceHolder&size=512x512&format=Png&isCircular=false").optJSONArray("data");
-                JSONObject icon = icons == null ? null : icons.optJSONObject(0);
-                String url = icon == null ? "" : icon.optString("imageUrl", "");
-                if (url.startsWith("https://")) g.icon = url;
-            }
-        } catch (IOException | JSONException ignored) {
-        }
         boolean wantLocation = Integrations.on(store, Integrations.LOCATION) || Integrations.on(store, Integrations.RPC_LOCATION);
-        if (wantLocation && d.serverAddress.matches("[0-9.]{7,15}")) {
-            try {
-                g.location = Integrations.location(Net.json("https://ipinfo.io/" + d.serverAddress + "/json"));
-            } catch (IOException | JSONException ignored) {
-            }
+        try {
+            JSONObject o = Core.run("feed.game", Core.feed(this, "place", d.placeId, "universe", d.universeId, "address", d.serverAddress, "location", wantLocation));
+            g.name = o.optString("name", g.name);
+            g.description = o.optString("description", g.description);
+            g.creator = o.optString("creator", g.creator);
+            g.verified = o.optBoolean("verified");
+            g.icon = o.optString("icon", g.icon);
+            JSONObject info = o.optJSONObject("info");
+            if (info != null) g.location = Integrations.location(info);
+        } catch (IOException ignored) {
         }
         return g;
     }

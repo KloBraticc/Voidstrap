@@ -37,7 +37,9 @@ public final class StartScriptProvider extends ContentProvider {
         int caller = Binder.getCallingUid();
         if (caller != HelperServer.SHELL_UID && caller != 0) throw new SecurityException("Only adb can read the start script");
         if (!"r".equals(mode) || !PATH.equals(uri.getLastPathSegment())) throw new FileNotFoundException(uri.toString());
-        byte[] body = script(getContext().getPackageName(), android.os.Process.myUid(), Helper.token(getContext())).getBytes(StandardCharsets.UTF_8);
+        android.content.Context c = getContext();
+        if (c == null) throw new FileNotFoundException(uri.toString());
+        byte[] body = script(c.getPackageName(), android.os.Process.myUid(), Helper.token(c)).getBytes(StandardCharsets.UTF_8);
         try {
             ParcelFileDescriptor[] pipe = ParcelFileDescriptor.createPipe();
             try (OutputStream out = new ParcelFileDescriptor.AutoCloseOutputStream(pipe[1])) {

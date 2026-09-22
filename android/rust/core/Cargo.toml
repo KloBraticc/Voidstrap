@@ -1,0 +1,20 @@
+[package]
+name = "voidstrap_core"
+version = "1.0.0"
+edition = "2024"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+matchmaker = []
+updates = []
+
+[dependencies]
+crc32fast = "1"
+jni-sys = "0.3"
+miniz_oxide = "0.9.1"
+ppmd-rust = "1.5"
+serde_json = { version = "1.0.151", features = ["preserve_order"] }
+sevenz-rust2 = { version = "0.23.0", default-features = false, features = ["bzip2", "deflate", "ppmd"] }

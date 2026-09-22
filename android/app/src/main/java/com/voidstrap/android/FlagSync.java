@@ -219,8 +219,10 @@ public final class FlagSync {
             if (FlagWriter.rootEnabled(c)) return;
             toggle.setEnabled(false);
             com.google.android.material.snackbar.Snackbar waiting = Ui.make(a, c.getString(R.string.settings_root_waiting));
-            waiting.setDuration(com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE);
-            waiting.show();
+            if (waiting != null) {
+                waiting.setDuration(com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE);
+                waiting.show();
+            }
             Context app = c.getApplicationContext();
             store.work.execute(() -> {
                 int r = FlagWriter.testRoot();
@@ -230,7 +232,7 @@ public final class FlagSync {
                 }
                 store.main.post(() -> {
                     if (r != FlagWriter.OK) FlagWriter.setRootEnabled(app, false);
-                    waiting.dismiss();
+                    if (waiting != null) waiting.dismiss();
                     store.changed();
                     if (a.isFinishing() || a.isDestroyed()) return;
                     toggle.setEnabled(true);

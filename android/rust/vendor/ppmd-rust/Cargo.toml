@@ -1,0 +1,28 @@
+[package]
+edition = "2021"
+rust-version = "1.82"
+name = "ppmd-rust"
+version = "1.5.0"
+build = false
+exclude = ["tests/fixtures"]
+autolib = false
+autobins = false
+autoexamples = false
+autotests = false
+autobenches = false
+description = "PPMd compression / decompression"
+homepage = "https://github.com/hasenbanck/ppmd-rust"
+readme = "README.md"
+keywords = ["ppmd"]
+license = "CC0-1.0 OR MIT-0"
+repository = "https://github.com/hasenbanck/ppmd-rust"
+
+[features]
+default = []
+unstable-tagged-offsets = []
+
+[lib]
+name = "ppmd_rust"
+path = "src/lib.rs"
+
+[dependencies]
