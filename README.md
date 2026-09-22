@@ -136,7 +136,7 @@ Voidstrap is built on [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by
 
 <p align="center">
   <a href="https://discord.gg/5tJBqBH8ck">
-    <img src="https://invidget.switchblade.xyz/5tJBqBH8ck" alt="Join the Voidstrap Discord Bro">
+    <img src="https://discord.com/api/guilds/1327967202015580223/widget.png?style=banner2" alt="Join the Voidstrap Discord Bro">
   </a>
 </p>
 
