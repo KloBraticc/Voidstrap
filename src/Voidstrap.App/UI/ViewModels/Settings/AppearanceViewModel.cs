@@ -118,6 +118,36 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
         public string VisibilityLabel => IsVisible ? "Shown" : "Hidden";
 
+        private bool _canMoveUp;
+
+        private bool _canMoveDown;
+
+        public bool CanMoveUp
+        {
+            get => _canMoveUp;
+            internal set
+            {
+                if (_canMoveUp != value)
+                {
+                    _canMoveUp = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool CanMoveDown
+        {
+            get => _canMoveDown;
+            internal set
+            {
+                if (_canMoveDown != value)
+                {
+                    _canMoveDown = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public SymbolRegular Icon => _icon;
 
         public bool UsesImagePreview => _previewImage != null;
@@ -972,7 +1002,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             SymbolRegular customIcon = definition.DefaultIcon;
             bool hasCustomSymbol = icons.TryGetValue(definition.Key, out string? iconName)
                 && Enum.TryParse(iconName, out customIcon)
-                && customIcon != SymbolRegular.Empty;
+                && Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.CanRender(customIcon);
             string? customImagePath = iconImages.TryGetValue(definition.Key, out string? imagePath) ? imagePath : null;
             SidebarItems.Add(new SidebarItemEditor(
                 definition,
@@ -982,6 +1012,17 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
                 hasCustomSymbol,
                 customImagePath,
                 SaveSidebarItem));
+        }
+        RefreshSidebarMoveState();
+    }
+
+    private void RefreshSidebarMoveState()
+    {
+        for (int i = 0; i < SidebarItems.Count; i++)
+        {
+            SidebarItemEditor item = SidebarItems[i];
+            item.CanMoveUp = i > 0 && SidebarItems[i - 1].Section == item.Section;
+            item.CanMoveDown = i < SidebarItems.Count - 1 && SidebarItems[i + 1].Section == item.Section;
         }
     }
 
@@ -1029,6 +1070,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             return;
         }
         SidebarItems.Move(index, target);
+        RefreshSidebarMoveState();
         PersistSidebarOrder();
         SaveAndApplySidebar();
     }

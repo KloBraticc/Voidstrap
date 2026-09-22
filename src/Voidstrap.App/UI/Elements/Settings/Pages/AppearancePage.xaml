@@ -117,7 +117,30 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
               </Grid.RowDefinitions>
-              <DataGrid Grid.Row="0" MaxHeight="420" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" HeadersVisibility="Column" GridLinesVisibility="None" RowHeaderWidth="0" RowHeight="42" Background="#00FFFFFF" BorderThickness="0" AlternatingRowBackground="{DynamicResource SubtleFillColorTertiaryBrush}" ItemsSource="{Binding SidebarItems}">
+              <DataGrid x:Name="SidebarGrid" Grid.Row="0" AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="Cell" PreviewMouseWheel="SidebarGrid_PreviewMouseWheel" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" HeadersVisibility="Column" GridLinesVisibility="None" RowHeaderWidth="0" RowHeight="42" Background="#00FFFFFF" BorderThickness="0" AlternatingRowBackground="{DynamicResource SubtleFillColorTertiaryBrush}" ItemsSource="{Binding SidebarItems}">
+                <DataGrid.CellStyle>
+                  <Style TargetType="DataGridCell" BasedOn="{StaticResource VoidstrapDataGridCellStyle}">
+                    <Setter Property="Cursor" Value="Arrow" />
+                    <Setter Property="Padding" Value="4,0" />
+                    <Setter Property="Focusable" Value="False" />
+                    <Style.Triggers>
+                      <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="#00FFFFFF" />
+                        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.Resources>
+                  <Style x:Key="SidebarMoveIconStyle" TargetType="ui:SymbolIcon" BasedOn="{StaticResource {x:Type ui:SymbolIcon}}">
+                    <Setter Property="FontSize" Value="16" />
+                    <Style.Triggers>
+                      <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.3" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
                   <DataGridTemplateColumn Header="Name" Width="*" MinWidth="160">
                     <DataGridTemplateColumn.CellTemplate>
@@ -134,7 +157,7 @@
                             <Grid Width="22" Height="22">
                               <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="18" Foreground="{DynamicResource TextFillColorPrimaryBrush}">
                                 <ui:SymbolIcon.Style>
-                                  <Style TargetType="ui:SymbolIcon">
+                                  <Style TargetType="ui:SymbolIcon" BasedOn="{StaticResource {x:Type ui:SymbolIcon}}">
                                     <Setter Property="Visibility" Value="Visible" />
                                     <Style.Triggers>
                                       <DataTrigger Binding="{Binding UsesImagePreview}" Value="True">
@@ -186,11 +209,11 @@
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                          <ui:Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" ToolTip="Move up" AutomationProperties.Name="Move up" Command="{Binding DataContext.MoveSidebarItemUpCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
-                            <ui:SymbolIcon Symbol="ChevronUp24" FontSize="16" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                          <ui:Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" ToolTip="Move up" AutomationProperties.Name="Move up" IsEnabled="{Binding CanMoveUp}" Command="{Binding DataContext.MoveSidebarItemUpCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                            <ui:SymbolIcon Symbol="ChevronUp24" Style="{StaticResource SidebarMoveIconStyle}" />
                           </ui:Button>
-                          <ui:Button Width="34" Height="30" Padding="0" ToolTip="Move down" AutomationProperties.Name="Move down" Command="{Binding DataContext.MoveSidebarItemDownCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
-                            <ui:SymbolIcon Symbol="ChevronDown24" FontSize="16" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                          <ui:Button Width="34" Height="30" Padding="0" ToolTip="Move down" AutomationProperties.Name="Move down" IsEnabled="{Binding CanMoveDown}" Command="{Binding DataContext.MoveSidebarItemDownCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                            <ui:SymbolIcon Symbol="ChevronDown24" Style="{StaticResource SidebarMoveIconStyle}" />
                           </ui:Button>
                         </StackPanel>
                       </DataTemplate>

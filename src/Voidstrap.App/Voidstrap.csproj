@@ -104,6 +104,7 @@
 		<Resource Include="Resources\VinegarIcon.png" />
 		<Resource Include="Resources\Fonts\NotoSansThai-VariableFont_wdth,wght.ttf" />
 		<Resource Include="Resources\Fonts\Rubik-VariableFont_wght.ttf" />
+		<Resource Include="..\..\external\wpfui\src\Wpf.Ui\Fonts\Source\FluentSystemIcons-Regular.ttf" Link="Resources\Fonts\SymbolIcons\FluentSystemIcons-Regular.ttf" Visible="false" />
 		<Resource Include="Resources\BootstrapperStyles\ByfronDialog\ByfronLogoDark.jpg" />
 		<Resource Include="Resources\BootstrapperStyles\ByfronDialog\ByfronLogoLight.jpg" />
 		<Resource Include="Resources\BootstrapperStyles\ByfronDialog\Matt.png" />

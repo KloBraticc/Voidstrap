@@ -34,6 +34,7 @@ public partial class AppearancePage : UiPage
 		_appearanceViewModel = new AppearanceViewModel();
 		base.DataContext = _appearanceViewModel;
 		InitializeComponent();
+		SidebarGrid.Resources[SidebarIconPickerDialog.IconFontResourceKey] = SidebarIconPickerDialog.FullIconFont;
 		Loaded += OnAppearancePageLoaded;
 		Unloaded += OnAppearancePageUnloaded;
 		_ = DownloadCustomThemeAsync();
@@ -60,6 +61,20 @@ public partial class AppearancePage : UiPage
 		if (_backdropSelectionReady
 			&& sender is ComboBox { SelectedItem: Voidstrap.Models.BackdropType backdrop })
 			_appearanceViewModel.SelectedBackdrop = backdrop;
+	}
+
+	private void SidebarGrid_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+	{
+		if (e.Handled || sender is not FrameworkElement { Parent: UIElement parent })
+		{
+			return;
+		}
+		e.Handled = true;
+		parent.RaiseEvent(new System.Windows.Input.MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+		{
+			RoutedEvent = UIElement.MouseWheelEvent,
+			Source = sender
+		});
 	}
 
 	private void SidebarIconButton_Click(object sender, RoutedEventArgs e)

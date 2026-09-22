@@ -958,6 +958,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Dictionary<string, string> iconImages = App.Settings.Prop.SidebarIconImages ??= new Dictionary<string, string>();
         List<string> hidden = App.Settings.Prop.SidebarHiddenItems ??= new List<string>();
         List<string> savedOrder = App.Settings.Prop.SidebarOrder ??= new List<string>();
+        bool needsFullIconFont = false;
         Dictionary<string, int> ranks = savedOrder
             .Where(key => !string.IsNullOrWhiteSpace(key))
             .Distinct(StringComparer.Ordinal)
@@ -986,13 +987,22 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             }
             else if (icons.TryGetValue(definition.Key, out string? iconName)
                 && Enum.TryParse(iconName, out SymbolRegular customIcon)
-                && customIcon != SymbolRegular.Empty)
+                && Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.CanRender(customIcon))
             {
                 item.SetValue(NavigationItem.ImageProperty, null);
                 item.Icon = customIcon;
+                needsFullIconFont = true;
             }
             bool isHidden = definition.CanHide && hidden.Contains(definition.Key, StringComparer.Ordinal);
             item.Visibility = IsSidebarItemAvailable(definition.Key) && !isHidden ? Visibility.Visible : Visibility.Collapsed;
+        }
+        if (needsFullIconFont)
+        {
+            RootNavigation.Resources[Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.IconFontResourceKey] = Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.FullIconFont;
+        }
+        else
+        {
+            RootNavigation.Resources.Remove(Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.IconFontResourceKey);
         }
         IEnumerable<SidebarItemDefinition> Ordered(string section)
         {

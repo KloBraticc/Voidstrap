@@ -112,6 +112,9 @@
 		<Resource Visible="false" Include="..\Voidstrap.App\Resources\Fonts\NotoSansThai-VariableFont_wdth,wght.ttf;..\Voidstrap.App\Resources\Fonts\Rubik-VariableFont_wght.ttf">
 			<Link>Resources\Fonts\%(Filename)%(Extension)</Link>
 		</Resource>
+		<Resource Visible="false" Include="..\..\external\wpfui\src\Wpf.Ui\Fonts\Source\FluentSystemIcons-Regular.ttf">
+			<Link>Resources\Fonts\SymbolIcons\FluentSystemIcons-Regular.ttf</Link>
+		</Resource>
 		<Resource Visible="false" Include="..\Voidstrap.App\Resources\MessageBox\Error.png;..\Voidstrap.App\Resources\MessageBox\Information.png;..\Voidstrap.App\Resources\MessageBox\Question.png;..\Voidstrap.App\Resources\MessageBox\Warning.png">
 			<Link>Resources\MessageBox\%(Filename)%(Extension)</Link>
 		</Resource>

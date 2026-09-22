@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using Voidstrap.UI.Elements.Base;
 using Wpf.Ui.Common;
 
@@ -22,11 +23,49 @@ public partial class SidebarIconPickerDialog : WpfUiWindow
 
     public sealed record SymbolOption(string Name, SymbolRegular Icon);
 
-    private static readonly List<SymbolOption> AllSymbols = Enum.GetNames<SymbolRegular>()
+    private static readonly Lazy<HashSet<int>?> FontCodepoints = new Lazy<HashSet<int>?>(LoadFontCodepoints);
+
+    private static readonly Lazy<List<SymbolOption>> RenderableSymbols = new Lazy<List<SymbolOption>>(() => Enum.GetNames<SymbolRegular>()
         .Where(name => name != nameof(SymbolRegular.Empty))
-        .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
         .Select(name => new SymbolOption(name, Enum.Parse<SymbolRegular>(name)))
-        .ToList();
+        .Where(option => CanRender(option.Icon))
+        .OrderBy(option => option.Name, StringComparer.OrdinalIgnoreCase)
+        .ToList());
+
+    private static List<SymbolOption> AllSymbols => RenderableSymbols.Value;
+
+    public static bool CanRender(SymbolRegular icon)
+    {
+        if (icon == SymbolRegular.Empty)
+        {
+            return false;
+        }
+        HashSet<int>? codepoints = FontCodepoints.Value;
+        return codepoints == null || codepoints.Contains((int)icon);
+    }
+
+    public const string IconFontResourceKey = "FluentSystemIcons";
+
+    public static System.Windows.Media.FontFamily FullIconFont { get; } = new System.Windows.Media.FontFamily(new Uri("pack://application:,,,/Resources/Fonts/SymbolIcons/"), "./#FluentSystemIcons-Regular");
+
+    private static HashSet<int>? LoadFontCodepoints()
+    {
+        try
+        {
+            foreach (Typeface typeface in FullIconFont.GetTypefaces())
+            {
+                if (typeface.TryGetGlyphTypeface(out GlyphTypeface glyphs))
+                {
+                    return new HashSet<int>(glyphs.CharacterToGlyphMap.Keys);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine("SidebarIconPickerDialog", "The icon font could not be read: " + ex.Message);
+        }
+        return null;
+    }
 
     private readonly ListCollectionView _symbols = new ListCollectionView(AllSymbols);
 
@@ -38,10 +77,11 @@ public partial class SidebarIconPickerDialog : WpfUiWindow
 
     public SidebarIconPickerDialog(SymbolRegular currentIcon)
     {
+        Resources[IconFontResourceKey] = FullIconFont;
         InitializeComponent();
         _symbols.Filter = FilterSymbol;
         IconList.ItemsSource = _symbols;
-        IconList.SelectedItem = AllSymbols.FirstOrDefault(item => item.Icon == currentIcon) ?? AllSymbols[0];
+        IconList.SelectedItem = AllSymbols.FirstOrDefault(item => item.Icon == currentIcon) ?? AllSymbols.FirstOrDefault();
     }
 
     private bool FilterSymbol(object item)
