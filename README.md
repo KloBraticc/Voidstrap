@@ -93,16 +93,19 @@ irm https://voidstrapp.pages.dev/quick-install | iex
   You can review the complete source code [here](https://github.com/KloBraticc/Voidstrap).
 </details>
 
+## Built With
+
+* [![C#][shield-csharp]][link-csharp]
+* [![.NET][shield-dotnet]][link-dotnet]
+* [![WPF][shield-wpf]][link-wpf]
+* [![WPF UI][shield-wpfui]][link-wpfui]
+* [![WebView2][shield-webview2]][link-webview2]
+* [![Java][shield-java]][link-java]
+* [![Rust][shield-rust]][link-rust]
+* [![Android][shield-android]][link-android]
+
 <!-- Removed build will prob show how to do that in a later date im lazy for rn -->
 ## Forking
-
-Voidstrap is built with **C#** and **.NET**.
-
-<p align="left">
-  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg" alt="C#" width="40" height="40"/>
-  &nbsp;&nbsp;
-  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/dot-net/dot-net-original.svg" alt=".NET" width="40" height="40"/>
-</p>
 
 To create your own copy of Voidstrap:
 
@@ -154,3 +157,21 @@ Voidstrap is built on [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by
 [repo-stargazers]:        https://github.com/KloBraticc/Voidstrap/stargazers
 [discord-invite]:         https://discord.gg/dfA9PdWgcV
 [sponsor-link]:           https://github.com/sponsors/KloBraticc
+
+[shield-csharp]:          https://img.shields.io/badge/C%23-239120?style=for-the-badge
+[shield-dotnet]:          https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white
+[shield-wpf]:             https://img.shields.io/badge/WPF-0078D4?style=for-the-badge
+[shield-wpfui]:           https://img.shields.io/badge/WPF%20UI-24292F?style=for-the-badge
+[shield-webview2]:        https://img.shields.io/badge/WebView2-0C59A4?style=for-the-badge
+[shield-java]:            https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
+[shield-rust]:            https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white
+[shield-android]:         https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white
+
+[link-csharp]:            https://learn.microsoft.com/dotnet/csharp/
+[link-dotnet]:            https://dotnet.microsoft.com/
+[link-wpf]:               https://github.com/dotnet/wpf
+[link-wpfui]:             https://github.com/lepoco/wpfui
+[link-webview2]:          https://developer.microsoft.com/microsoft-edge/webview2/
+[link-java]:              https://openjdk.org/
+[link-rust]:              https://www.rust-lang.org/
+[link-android]:           https://developer.android.com/
