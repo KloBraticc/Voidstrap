@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 public final class FlagSync {
     private static final long SETUP_POLL_MS = 1000;
+    private static final String PLATFORM_TOOLS = "https://developer.android.com/tools/releases/platform-tools";
     private static boolean asked;
 
     public interface Done {
@@ -105,10 +106,12 @@ public final class FlagSync {
         String device = Helper.deviceCommand(a);
         Row shizuku = Row.inflate(list);
         Row debugging = Row.inflate(list);
+        Row getAdb = Row.inflate(list);
         Row start = Row.inflate(list);
         Row onDevice = Row.inflate(list);
         list.addView(shizuku.view);
         list.addView(debugging.view);
+        list.addView(getAdb.view);
         list.addView(start.view);
         list.addView(onDevice.view);
         boolean[] shizukuBusy = new boolean[1];
@@ -117,6 +120,8 @@ public final class FlagSync {
             boolean running = Helper.uidNow() >= 0;
             boolean adb = running || debuggingOn(a);
             step(a, debugging, R.drawable.ic_bug, R.string.setup_debugging, R.string.setup_debugging_body, adb, true, () -> openDeveloperOptions(a));
+            step(a, getAdb, R.drawable.ic_arrow_download, R.string.setup_get_adb, R.string.setup_get_adb_body, running, true, () -> Ui.openWeb(a, PLATFORM_TOOLS));
+            getAdb.detail.setMaxLines(Integer.MAX_VALUE);
             step(a, start, R.drawable.ic_play, R.string.setup_run, 0, running, true, () -> {
                 if (command == null) return;
                 Ui.copy(a, a.getString(R.string.setup_run), command);

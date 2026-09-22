@@ -769,7 +769,14 @@ public class Bootstrapper
 				App.FastFlags.SaveDeferred();
 			}
 			if (_safeMode)
-				ModAutoFixer.UnlockOtaPatchBackups();
+			{
+				RobloxLocalReset.MakeCacheWritable();
+				if (App.State.Prop.CacheResetPending)
+				{
+					App.State.Prop.LastCacheBackup = RobloxLocalReset.MoveCacheAside() ?? string.Empty;
+					App.State.Save();
+				}
+			}
 			else if (!_noConnection)
 				await ApplyModifications();
         }
@@ -1733,9 +1740,21 @@ public class Bootstrapper
             Directory.CreateDirectory(text);
             string? logFileName = await WaitForLogFileAsync(text, startInfo, ct);
 			App.Logger.WriteLine("Bootstrapper::StartRoblox", "Process start and readiness completed in " + startTimer.ElapsedMilliseconds + " ms");
+            if (_safeMode && App.State.Prop.SafeLaunchPending && App.State.Prop.CacheResetPending && !string.IsNullOrEmpty(logFileName))
+            {
+                App.State.Prop.SafeLaunchPending = false;
+                App.State.Prop.CacheResetPending = false;
+                App.State.Prop.LastSafeLaunchResult = SafeLaunchCache;
+                App.State.Save();
+                string cacheWorked = "Roblox started once Voidstrap reset Roblox's local cache in " + RobloxLocalReset.Root + ", so a damaged cache there made Roblox crash while starting. Your login and graphics settings were kept, and Roblox rebuilds the cache by itself." + (string.IsNullOrEmpty(App.State.Prop.LastCacheBackup) ? "" : " The old cache was saved to " + App.State.Prop.LastCacheBackup + ", you can delete it.");
+                App.Logger.WriteLine("Bootstrapper::StartRoblox", "Safe launch with a reset Roblox cache reached the renderer, the crash came from the Roblox local cache");
+                Voidstrap.Utility.AppNotifications.RecordInfo("roblox:cacheresetworked", "Roblox started after a cache reset", cacheWorked);
+                Frontend.ShowMessageBox(cacheWorked, MessageBoxImage.Information);
+            }
             if (_safeMode && App.State.Prop.SafeLaunchPending && !string.IsNullOrEmpty(logFileName))
             {
                 App.State.Prop.SafeLaunchPending = false;
+                App.State.Prop.LastSafeLaunchResult = SafeLaunchWorked;
                 App.State.Save();
                 const string safeWorked = "Roblox started once Voidstrap launched it without your mods, FastFlags, AssetWarp, matchmaker and launch integrations, so one of those made Roblox crash while starting. They are all back on for your next launch. If Roblox crashes again, turn your mods off in My Mods first, then reset your FastFlags, then turn off AssetWarp, until it starts.";
                 App.Logger.WriteLine("Bootstrapper::StartRoblox", "Safe launch reached the Roblox renderer, the crash comes from something Voidstrap adds");
@@ -2073,6 +2092,12 @@ public class Bootstrapper
 
 	private bool _safeMode;
 
+	private const string SafeLaunchWorked = "worked";
+
+	private const string SafeLaunchCrashed = "crashed";
+
+	private const string SafeLaunchCache = "cache";
+
 	private static readonly TimeSpan StartupCrashReinstallCooldown = TimeSpan.FromHours(6);
 
 	private const string RendererReadyMarker = "shaders from pack";
@@ -2131,11 +2156,24 @@ public class Bootstrapper
 	private static void ReportRepeatedStartupCrash(string? robloxLogFile)
 	{
 		App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Roblox crashed before its renderer started on every attempt, giving up");
+		if (App.State.Prop.SafeLaunchPending && !App.State.Prop.CacheResetPending)
+		{
+			App.State.Prop.CacheResetPending = true;
+			App.State.Save();
+			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Safe launch crashed, trying once more with Roblox's local cache moved aside");
+			Voidstrap.Utility.AppNotifications.RecordInfo("roblox:cachereset", "Resetting the Roblox cache", "Roblox crashed in a safe launch too, so Voidstrap is moving Roblox's local cache aside and trying once more. Your login and graphics settings are kept.");
+			if (App.RestartApplication(App.LaunchSettings.Args))
+				return;
+			App.State.Prop.CacheResetPending = false;
+			App.State.Save();
+		}
 		if (App.State.Prop.SafeLaunchPending)
 		{
+			App.State.Prop.CacheResetPending = false;
 			App.State.Prop.SafeLaunchPending = false;
+			App.State.Prop.LastSafeLaunchResult = SafeLaunchCrashed;
 			App.State.Save();
-			const string outside = "Roblox still crashes while starting with a fresh install and everything Voidstrap adds turned off: no mods, no FastFlags, no AssetWarp, no matchmaker and no launch integrations. The crash is inside the Roblox client or this PC, not in your Voidstrap setup. Update your graphics driver, close overlays and antivirus tools that inject into games, and try launching Roblox without Voidstrap to confirm.";
+			const string outside = "Roblox still crashes while starting with a fresh install, a reset Roblox cache and everything Voidstrap adds turned off: no mods, no FastFlags, no AssetWarp, no matchmaker and no launch integrations. The crash is inside the Roblox client or this PC, not in your Voidstrap setup. Update your graphics driver, close overlays and antivirus tools that inject into games, and try launching Roblox without Voidstrap to confirm.";
 			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Safe launch also crashed, the crash is outside anything Voidstrap adds");
 			Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchcrashed", "Roblox crashes even in a safe launch", outside);
 			Frontend.ShowMessageBox(outside, MessageBoxImage.Warning);
@@ -2143,10 +2181,11 @@ public class Bootstrapper
 		}
 		ModCrashGuard.BeginSession();
 		IReadOnlyList<string> disabled = ModCrashGuard.HandleCrash();
-		if (DateTime.UtcNow - App.State.Prop.LastStartupCrashReinstallUtc > StartupCrashReinstallCooldown)
+		if (DateTime.UtcNow - App.State.Prop.LastSafeLaunchUtc > StartupCrashReinstallCooldown)
 		{
 			App.State.Prop.SafeLaunchPending = true;
-			App.State.Prop.LastStartupCrashReinstallUtc = DateTime.UtcNow;
+			App.State.Prop.LastSafeLaunchUtc = DateTime.UtcNow;
+			App.State.Prop.LastSafeLaunchResult = string.Empty;
 			App.State.Save();
 			App.Settings.Prop.ForceRobloxReinstall = true;
 			App.Settings.Prop.UpdateRoblox = true;
@@ -2157,6 +2196,22 @@ public class Bootstrapper
 				return;
 			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "The automatic reinstall could not restart Voidstrap");
 		}
+		if (App.State.Prop.LastSafeLaunchResult == SafeLaunchCrashed)
+		{
+			const string confirmed = "Roblox crashed while starting again. A safe launch in the last few hours already crashed the same way with a fresh Roblox install, a reset Roblox cache and nothing from Voidstrap turned on, so this crash is inside the Roblox client or this PC, not your Voidstrap setup. Update your graphics driver from your GPU maker's website, close overlays and antivirus tools that inject into games, and check whether Roblox starts from the official Roblox launcher.";
+			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Skipping another reinstall, the last safe launch already crashed");
+			Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchcrashed", "Roblox crashes even in a safe launch", confirmed);
+			Frontend.ShowMessageBox(confirmed, MessageBoxImage.Warning);
+			return;
+		}
+		if (App.State.Prop.LastSafeLaunchResult == SafeLaunchWorked)
+		{
+			const string modsCause = "Roblox crashed while starting again. A safe launch in the last few hours worked once your mods, FastFlags, AssetWarp and launch integrations were turned off, so one of those makes Roblox crash. Turn your mods off in My Mods first, then reset your FastFlags, then turn off AssetWarp, until Roblox starts.";
+			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Skipping another reinstall, the last safe launch worked so the cause is a Voidstrap addition");
+			Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchworked", "Roblox started in a safe launch", modsCause);
+			Frontend.ShowMessageBox(modsCause, MessageBoxImage.Warning);
+			return;
+		}
 		string message = disabled.Count == 0
 			? "Roblox kept crashing while starting, so Voidstrap exhausted every retry. You can install a fresh copy of Roblox, open the startup log, or close this message."
 			: "Roblox crashed while loading your mods, so Voidstrap turned these off:\n\n" + string.Join("\n", disabled.Select(name => "  " + name)) + "\n\nYou can turn them back on in My Mods. You can also install a fresh copy of Roblox or open the startup log.";
@@ -2164,6 +2219,9 @@ public class Bootstrapper
 		MessageBoxResult result = Frontend.ShowMessageBox(message, MessageBoxImage.Warning, "Uninstall Roblox and Restart", "Open Log File", "Close");
 		if (result == MessageBoxResult.Yes)
 		{
+			App.State.Prop.SafeLaunchPending = true;
+			App.State.Prop.LastSafeLaunchUtc = DateTime.UtcNow;
+			App.State.Save();
 			App.Settings.Prop.ForceRobloxReinstall = true;
 			App.Settings.Prop.UpdateRoblox = true;
 			App.Settings.Save();
@@ -4163,6 +4221,14 @@ public class Bootstrapper
         App.Logger.WriteLine("Bootstrapper::ExtractPackage", "Done: " + package.Name);
     }
 
+    private static readonly string[] NativeCodeExtensions = [".dll", ".exe", ".asi", ".sys", ".drv", ".ocx", ".cpl", ".scr", ".com", ".efi"];
+
+    private static bool IsNativeCodeModFile(string relative)
+    {
+        string extension = Path.GetExtension(relative);
+        return NativeCodeExtensions.Any(native => string.Equals(native, extension, StringComparison.OrdinalIgnoreCase));
+    }
+
     private bool ModsAllowedForThisLaunch()
     {
         Voidstrap.Enums.ModApplyTarget target = App.Settings.Prop.ModApplyTarget;
@@ -4464,6 +4530,17 @@ public class Bootstrapper
             App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Managed mods could not be indexed: " + ex.Message);
             nextManagedManifest = GetPreviousManagedModManifest().ToDictionary(item => item.Key, item => new List<string>(item.Value), StringComparer.OrdinalIgnoreCase);
             preservedManagedPaths.UnionWith(GetPreviousModManifest());
+        }
+        List<string> nativeCode = [.. selectedMods.Keys.Where(IsNativeCodeModFile)];
+        foreach (string relative in nativeCode)
+        {
+            selectedMods.Remove(relative);
+        }
+        if (nativeCode.Count > 0)
+        {
+            string names = string.Join(", ", nativeCode.Take(12)) + (nativeCode.Count > 12 ? " and " + (nativeCode.Count - 12) + " more" : "");
+            App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Skipped " + nativeCode.Count + " mod files that are programs or DLLs, Roblox closes itself when it finds these in its folder: " + names);
+            Voidstrap.Utility.AppNotifications.RecordInfo("mods:nativecode", "Some mod files were skipped", "Roblox closes itself as soon as it finds programs or DLL files, like the dxgi.dll that ReShade installs, in its folder. Voidstrap skipped these mod files so Roblox can start: " + names);
         }
         if (ignoredModFiles > 0)
         {

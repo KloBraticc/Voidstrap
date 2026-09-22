@@ -495,6 +495,8 @@
     <string name="settings_helper">Voidstrap helper</string>
     <string name="setup_debugging">Turn on USB debugging</string>
     <string name="setup_debugging_body">In Developer options, turn on USB debugging and connect this device to a computer that has adb. Tap to open Developer options.</string>
+    <string name="setup_get_adb">Get adb on your computer</string>
+    <string name="setup_get_adb_body">No adb yet? Tap to open Google\'s SDK Platform Tools page, download it for your computer and unzip it. Open a terminal in the unzipped platform-tools folder and run the start command there. In PowerShell, type .\\adb instead of adb.</string>
     <string name="setup_run">Run the start command</string>
     <string name="setup_run_body">Run this on the computer. Tap to copy it.\n%1$s</string>
     <string name="setup_run_done">The helper is running. FastFlags apply every time Voidstrap launches Roblox.</string>

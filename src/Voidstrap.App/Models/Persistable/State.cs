@@ -39,7 +39,13 @@ public class State
 
 	public DateTime LastLauncherUpdateCheckUtc { get; set; }
 
-	public DateTime LastStartupCrashReinstallUtc { get; set; }
+	public DateTime LastSafeLaunchUtc { get; set; }
+
+	public string LastSafeLaunchResult { get; set; } = string.Empty;
+
+	public bool CacheResetPending { get; set; }
+
+	public string LastCacheBackup { get; set; } = string.Empty;
 
 	public bool SafeLaunchPending { get; set; }
 }
