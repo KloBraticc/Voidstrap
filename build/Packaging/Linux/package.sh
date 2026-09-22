@@ -248,7 +248,7 @@ cleanup() {
 }
 
 trap cleanup EXIT
-STAGE="$(mktemp -d "$OUTPUT/.voidstrap-linux.XXXXXX")"
+STAGE="$(mktemp -d "${TMPDIR:-/tmp}/voidstrap-linux.XXXXXX")"
 PUBLISH="$STAGE/publish"
 mkdir -p "$PUBLISH"
 if [ -n "$PUBLISHED_EXECUTABLE" ]; then
@@ -265,6 +265,14 @@ if [ "$(find "$PUBLISH" -mindepth 1 | wc -l)" -ne 1 ]; then
   exit 1
 fi
 chmod 755 "$PUBLISH/Voidstrap"
+SOURCES="$STAGE/sources"
+mkdir -p "$SOURCES"
+cp "$DESKTOP_FILE" "$ICON_FILE" "$METAINFO_FILE" "$LICENSE_FILE" "$SOURCES/"
+chmod 644 "$SOURCES/"*
+DESKTOP_FILE="$SOURCES/$(basename "$DESKTOP_FILE")"
+ICON_FILE="$SOURCES/$(basename "$ICON_FILE")"
+METAINFO_FILE="$SOURCES/$(basename "$METAINFO_FILE")"
+LICENSE_FILE="$SOURCES/$(basename "$LICENSE_FILE")"
 
 case "$FORMAT" in
   deb)
@@ -367,6 +375,7 @@ APPRUN
     ;;
   tar)
     TARGET="$STAGE/Voidstrap_${VERSION}_${RID}.tar.gz"
+    UNCOMPRESSED="$STAGE/Voidstrap_${VERSION}_${RID}.tar"
     BUNDLE="$STAGE/Voidstrap"
     mkdir -p "$BUNDLE/share/applications" "$BUNDLE/share/icons/hicolor/256x256/apps" "$BUNDLE/share/metainfo" "$BUNDLE/share/licenses/voidstrap"
     cp "$PUBLISH/Voidstrap" "$BUNDLE/Voidstrap"
@@ -376,7 +385,9 @@ APPRUN
     cp "$METAINFO_FILE" "$BUNDLE/share/metainfo/$APPLICATION_ID.metainfo.xml"
     cp "$LICENSE_FILE" "$BUNDLE/share/licenses/voidstrap/LICENSE"
     chmod -R go-w "$BUNDLE"
-    tar --sort=name --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner -C "$STAGE" -czf "$TARGET" Voidstrap
+    tar --sort=name --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --exclude="Voidstrap/Voidstrap" -C "$STAGE" -cf "$UNCOMPRESSED" Voidstrap
+    tar --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --mode=0755 -C "$STAGE" -rf "$UNCOMPRESSED" Voidstrap/Voidstrap
+    gzip -n -f "$UNCOMPRESSED"
     ;;
 esac
 

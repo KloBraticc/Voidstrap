@@ -4,6 +4,7 @@ ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 RID="${1:?A macOS runtime identifier is required}"
 VERSION="${2:?A version is required}"
 OUTPUT="${3:?An output directory is required}"
+PUBLISHED_EXECUTABLE="${4:-}"
 
 case "$RID" in
   osx-x64|osx-arm64) ;;
@@ -20,8 +21,9 @@ OUTPUT="$(cd "$OUTPUT" && pwd)"
 APPLICATION_TARGET="$OUTPUT/Voidstrap.app"
 DMG_TARGET="$OUTPUT/Voidstrap-$RID.dmg"
 ARCHIVE_TARGET="$OUTPUT/Voidstrap-$RID.zip"
+TARBALL_TARGET="$OUTPUT/Voidstrap-$RID.tar.gz"
 
-if [ -e "$APPLICATION_TARGET" ] || [ -e "$DMG_TARGET" ] || [ -e "$ARCHIVE_TARGET" ]; then
+if [ -e "$APPLICATION_TARGET" ] || [ -e "$DMG_TARGET" ] || [ -e "$ARCHIVE_TARGET" ] || [ -e "$TARBALL_TARGET" ]; then
   echo "The requested output already exists"
   exit 1
 fi
@@ -41,7 +43,7 @@ cleanup() {
 }
 
 trap cleanup EXIT
-STAGE="$(mktemp -d "$OUTPUT/.voidstrap-macos.XXXXXX")"
+STAGE="$(mktemp -d "${TMPDIR:-/tmp}/voidstrap-macos.XXXXXX")"
 PUBLISH="$STAGE/publish"
 APPLICATION="$STAGE/Voidstrap.app"
 DMG="$STAGE/Voidstrap-$RID.dmg"
@@ -56,7 +58,12 @@ commit_artifact() {
 }
 
 mkdir -p "$PUBLISH"
-dotnet publish "$ROOT/src/Voidstrap.Cross/Voidstrap.Cross.csproj" -c Release -r "$RID" --self-contained true -o "$PUBLISH" -p:Version="$VERSION" -p:DebugType=none -p:DebugSymbols=false
+if [ -n "$PUBLISHED_EXECUTABLE" ]; then
+  [ -f "$PUBLISHED_EXECUTABLE" ] && [ -s "$PUBLISHED_EXECUTABLE" ] || { echo "The published Voidstrap executable is unavailable"; exit 1; }
+  cp "$PUBLISHED_EXECUTABLE" "$PUBLISH/Voidstrap"
+else
+  dotnet publish "$ROOT/src/Voidstrap.Cross/Voidstrap.Cross.csproj" -c Release -r "$RID" --self-contained true -o "$PUBLISH" -p:Version="$VERSION" -p:DebugType=none -p:DebugSymbols=false
+fi
 mkdir -p "$APPLICATION/Contents/MacOS" "$APPLICATION/Contents/Resources"
 cp -R "$PUBLISH/." "$APPLICATION/Contents/MacOS/"
 NOTICES="$APPLICATION/Contents/MacOS/LibreWPF/Notices"
@@ -69,6 +76,19 @@ if [ -d "$NOTICES" ]; then
   done < <(find "$NOTICES" -depth -type d)
 fi
 cp "$ROOT/build/Packaging/MacOS/Info.plist" "$APPLICATION/Contents/Info.plist"
+
+if [ "$(uname -s)" != "Darwin" ]; then
+  sed -i -e "/<key>CFBundleShortVersionString<\/key>/{n;s|<string>[^<]*</string>|<string>$VERSION</string>|}" -e "/<key>CFBundleVersion<\/key>/{n;s|<string>[^<]*</string>|<string>$VERSION</string>|}" "$APPLICATION/Contents/Info.plist"
+  chmod 644 "$APPLICATION/Contents/Info.plist"
+  chmod -R go-w "$APPLICATION"
+  TARBALL="$STAGE/Voidstrap-$RID.tar"
+  tar --sort=name --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --exclude="Voidstrap.app/Contents/MacOS/Voidstrap" -C "$STAGE" -cf "$TARBALL" Voidstrap.app
+  tar --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --mode=0755 -C "$STAGE" -rf "$TARBALL" Voidstrap.app/Contents/MacOS/Voidstrap
+  gzip -n -f "$TARBALL"
+  commit_artifact "$TARBALL.gz" "$TARBALL_TARGET"
+  exit 0
+fi
+
 /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" "$APPLICATION/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $VERSION" "$APPLICATION/Contents/Info.plist"
 

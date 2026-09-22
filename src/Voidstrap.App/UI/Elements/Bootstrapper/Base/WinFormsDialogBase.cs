@@ -159,6 +159,14 @@ public class WinFormsDialogBase : Form, IBootstrapperDialog
 		}
 		set
 		{
+			if (base.InvokeRequired)
+			{
+				Invoke(delegate
+				{
+					TaskbarProgressState = value;
+				});
+				return;
+			}
 			_taskbarProgressState = value;
 			TaskbarProgress.SetProgressState(Process.GetCurrentProcess().MainWindowHandle, value);
 		}
@@ -173,6 +181,14 @@ public class WinFormsDialogBase : Form, IBootstrapperDialog
 		}
 		set
 		{
+			if (base.InvokeRequired)
+			{
+				Invoke(delegate
+				{
+					TaskbarProgressValue = value;
+				});
+				return;
+			}
 			_taskbarProgressValue = value;
 			TaskbarProgress.SetProgressValue(Process.GetCurrentProcess().MainWindowHandle, (int)value, 100);
 		}

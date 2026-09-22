@@ -212,6 +212,8 @@ public class Bootstrapper
 
     private long _totalDownloadedBytes;
 
+    private int _progressDisplayFailed;
+
     private double _progressIncrement;
 
     private double _taskbarProgressIncrement;
@@ -514,7 +516,11 @@ public class Bootstrapper
 
     private void UpdateProgressBar()
     {
-        if (Dialog != null)
+        if (Dialog == null)
+        {
+            return;
+        }
+        try
         {
             InvokeOnDialog(delegate
             {
@@ -524,6 +530,13 @@ public class Bootstrapper
                 double taskbarProgressValue = Math.Clamp(_taskbarProgressIncrement * (double)num, 0.0, 100.0);
                 Dialog.TaskbarProgressValue = taskbarProgressValue;
             });
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            if (Interlocked.Exchange(ref _progressDisplayFailed, 1) == 0)
+            {
+                App.Logger.WriteException("Bootstrapper::UpdateProgressBar", ex);
+            }
         }
     }
 

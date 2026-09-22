@@ -1,0 +1,2 @@
+*.sh text eol=lf
+build/Packaging/** text eol=lf

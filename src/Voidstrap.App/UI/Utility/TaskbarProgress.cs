@@ -23,26 +23,33 @@ internal static unsafe partial class TaskbarProgress
 	[LibraryImport("ole32.dll")]
 	private static partial int CoCreateInstance(in Guid rclsid, nint pUnkOuter, uint dwClsContext, in Guid riid, out nint ppv);
 
-	private static readonly Lock _lock = new();
-
+	[ThreadStatic]
 	private static nint _taskbar;
+
+	private static int _failureLogged;
 
 	private static nint GetTaskbar()
 	{
-		lock (_lock)
+		if (_taskbar == 0)
 		{
-			if (_taskbar == 0)
+			Marshal.ThrowExceptionForHR(CoCreateInstance(in TaskbarClassId, 0, 1, in TaskbarInterfaceId, out nint instance));
+			int hr = ((delegate* unmanaged[Stdcall]<nint, int>)(*(nint**)instance)[3])(instance);
+			if (hr < 0)
 			{
-				Marshal.ThrowExceptionForHR(CoCreateInstance(in TaskbarClassId, 0, 1, in TaskbarInterfaceId, out nint instance));
-				int hr = ((delegate* unmanaged[Stdcall]<nint, int>)(*(nint**)instance)[3])(instance);
-				if (hr < 0)
-				{
-					Marshal.Release(instance);
-					Marshal.ThrowExceptionForHR(hr);
-				}
-				_taskbar = instance;
+				Marshal.Release(instance);
+				Marshal.ThrowExceptionForHR(hr);
 			}
-			return _taskbar;
+			_taskbar = instance;
+		}
+		return _taskbar;
+	}
+
+	private static void OnFailure(Exception ex)
+	{
+		Dispose();
+		if (Interlocked.Exchange(ref _failureLogged, 1) == 0)
+		{
+			App.Logger.WriteLine("TaskbarProgress", "Taskbar progress is unavailable: " + ex.Message);
 		}
 	}
 
@@ -61,25 +68,36 @@ internal static unsafe partial class TaskbarProgress
 
 	public static void SetProgressState(nint windowHandle, TaskbarItemProgressState state)
 	{
-		nint taskbar = GetTaskbar();
-		Marshal.ThrowExceptionForHR(((delegate* unmanaged[Stdcall]<nint, nint, int, int>)(*(nint**)taskbar)[10])(taskbar, windowHandle, (int)ConvertEnum(state)));
+		try
+		{
+			nint taskbar = GetTaskbar();
+			Marshal.ThrowExceptionForHR(((delegate* unmanaged[Stdcall]<nint, nint, int, int>)(*(nint**)taskbar)[10])(taskbar, windowHandle, (int)ConvertEnum(state)));
+		}
+		catch (Exception ex) when (ex is not OutOfMemoryException)
+		{
+			OnFailure(ex);
+		}
 	}
 
 	public static void SetProgressValue(nint windowHandle, int value, int maximum)
 	{
-		nint taskbar = GetTaskbar();
-		Marshal.ThrowExceptionForHR(((delegate* unmanaged[Stdcall]<nint, nint, ulong, ulong, int>)(*(nint**)taskbar)[9])(taskbar, windowHandle, (ulong)value, (ulong)maximum));
+		try
+		{
+			nint taskbar = GetTaskbar();
+			Marshal.ThrowExceptionForHR(((delegate* unmanaged[Stdcall]<nint, nint, ulong, ulong, int>)(*(nint**)taskbar)[9])(taskbar, windowHandle, (ulong)value, (ulong)maximum));
+		}
+		catch (Exception ex) when (ex is not OutOfMemoryException)
+		{
+			OnFailure(ex);
+		}
 	}
 
 	public static void Dispose()
 	{
-		lock (_lock)
+		if (_taskbar != 0)
 		{
-			if (_taskbar != 0)
-			{
-				Marshal.Release(_taskbar);
-				_taskbar = 0;
-			}
+			Marshal.Release(_taskbar);
+			_taskbar = 0;
 		}
 	}
 }

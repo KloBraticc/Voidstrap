@@ -46,7 +46,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-STAGE="$(mktemp -d "$OUTPUT/.voidstrap-flatpak.XXXXXX")"
+STAGE="$(mktemp -d "${TMPDIR:-/tmp}/voidstrap-flatpak.XXXXXX")"
 ARCHIVE_DIRECTORY="$STAGE/archive"
 mkdir -p "$ARCHIVE_DIRECTORY"
 bash "$ROOT/build/Packaging/Linux/package.sh" "$RID" "$VERSION" tar "$ARCHIVE_DIRECTORY" "$PUBLISHED_EXECUTABLE"
