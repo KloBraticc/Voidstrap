@@ -48,26 +48,26 @@ namespace Voidstrap.UI.Elements.Settings;
 
 public partial class MainWindow : WpfUiWindow, INavigationWindow
 {
-    public sealed record SidebarItemDefinition(string Key, string DefaultName, string Section, bool CanHide = true);
+    public sealed record SidebarItemDefinition(string Key, string DefaultName, string Section, SymbolRegular DefaultIcon, bool CanHide = true);
 
     public static IReadOnlyList<SidebarItemDefinition> SidebarCustomizationItems { get; } = new SidebarItemDefinition[]
     {
-        new("HomeNavItem", "Home", "Core", false),
-        new("IntegrationsNavItem", "Integrations", "Core"),
-        new("DeploymentNavItem", "Deployment", "Core"),
-        new("AppearanceNavItem", "Appearance", "Core", false),
-        new("FastFlagSettingsNavItem", "FastFlag Settings", "Configuration"),
-        new("FastFlagEditorNavItem", "FastFlag Editor", "Configuration"),
-        new("ModsNavItem", "Mods", "Configuration"),
-        new("MoreNavItem", "More", "Configuration"),
-        new("GlobalNavItem", "Global", "More"),
-        new("ShortcutsNavItem", "Shortcuts", "More"),
-        new("NewsNavItem", "News", "More"),
-        new("ExtensionsNavItem", "Extensions", "Footer"),
-        new("ManagerNavItem", "Manager", "Footer"),
-        new("SettingsNavItem", "Settings", "Footer"),
-        new("SoberNavItem", "Sober", "Footer"),
-        new("AboutNavItem", "About", "Footer")
+        new("HomeNavItem", "Home", "Core", SymbolRegular.Home24, false),
+        new("IntegrationsNavItem", "Integrations", "Core", SymbolRegular.Add12),
+        new("DeploymentNavItem", "Deployment", "Core", SymbolRegular.PlaySettings20),
+        new("AppearanceNavItem", "Appearance", "Core", SymbolRegular.Color24, false),
+        new("FastFlagSettingsNavItem", "FastFlag Settings", "Configuration", SymbolRegular.Settings28),
+        new("FastFlagEditorNavItem", "FastFlag Editor", "Configuration", SymbolRegular.Flag28),
+        new("ModsNavItem", "Mods", "Configuration", SymbolRegular.WrenchScrewdriver20),
+        new("MoreNavItem", "More", "Configuration", SymbolRegular.MoreHorizontal24),
+        new("GlobalNavItem", "Global", "More", SymbolRegular.GlobeLocation20),
+        new("ShortcutsNavItem", "Shortcuts", "More", SymbolRegular.Apps32),
+        new("NewsNavItem", "News", "More", SymbolRegular.News16),
+        new("ExtensionsNavItem", "Extensions", "Footer", SymbolRegular.CubeAdd20),
+        new("ManagerNavItem", "Manager", "Footer", SymbolRegular.ArrowDownload24),
+        new("SettingsNavItem", "Settings", "Footer", SymbolRegular.Settings28),
+        new("SoberNavItem", "Sober", "Footer", SymbolRegular.Empty),
+        new("AboutNavItem", "About", "Footer", SymbolRegular.QuestionCircle32)
     };
 
     public static bool IsSidebarItemAvailable(string key)
@@ -391,6 +391,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private readonly Dictionary<NavigationItem, SymbolRegular> _defaultIcons = new Dictionary<NavigationItem, SymbolRegular>();
 
+    private Dictionary<string, SymbolRegular>? _defaultSidebarIcons;
+
+    private Dictionary<string, BitmapSource?>? _defaultSidebarImages;
+
     private readonly List<Type> _pagesToHideSearchBox = new List<Type>
     {
         typeof(HomePage),
@@ -618,8 +622,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void RegisterHoverIcons()
     {
+        foreach (NavigationItem item in _defaultIcons.Keys.ToArray())
+        {
+            item.MouseEnter -= NavigationItem_MouseEnter;
+            item.MouseLeave -= NavigationItem_MouseLeave;
+        }
+        _defaultIcons.Clear();
+        Dictionary<string, string> customIcons = App.Settings.Prop.SidebarIcons ??= new Dictionary<string, string>();
         foreach (NavigationItem item in from i in RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>())
-                                        where i.Tag != null && i.Image == null
+                                        where i.Tag != null && i.Image == null && !customIcons.ContainsKey(i.Name)
                                         select i)
         {
             SymbolRegular defaultIcon = item.Icon;
@@ -940,7 +951,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             .Where(item => !string.IsNullOrEmpty(item.Name))
             .ToDictionary(item => item.Name, StringComparer.Ordinal);
         _defaultSidebarContent ??= items.ToDictionary(pair => pair.Key, pair => (object?)pair.Value.Content, StringComparer.Ordinal);
+        _defaultSidebarIcons ??= items.ToDictionary(pair => pair.Key, pair => pair.Value.Icon, StringComparer.Ordinal);
+        _defaultSidebarImages ??= items.ToDictionary(pair => pair.Key, pair => (BitmapSource?)pair.Value.Image, StringComparer.Ordinal);
         Dictionary<string, string> names = App.Settings.Prop.SidebarNames ??= new Dictionary<string, string>();
+        Dictionary<string, string> icons = App.Settings.Prop.SidebarIcons ??= new Dictionary<string, string>();
+        Dictionary<string, string> iconImages = App.Settings.Prop.SidebarIconImages ??= new Dictionary<string, string>();
         List<string> hidden = App.Settings.Prop.SidebarHiddenItems ??= new List<string>();
         List<string> savedOrder = App.Settings.Prop.SidebarOrder ??= new List<string>();
         Dictionary<string, int> ranks = savedOrder
@@ -960,6 +975,22 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             item.Content = names.TryGetValue(definition.Key, out string? customName)
                 ? NormalizeSidebarName(customName, definition.DefaultName)
                 : _defaultSidebarContent[definition.Key];
+            item.Icon = _defaultSidebarIcons[definition.Key];
+            BitmapSource? defaultImage = _defaultSidebarImages[definition.Key];
+            item.SetValue(NavigationItem.ImageProperty, defaultImage);
+            if (iconImages.TryGetValue(definition.Key, out string? imagePath)
+                && SafeImaging.FromFile(imagePath, 48) is BitmapSource customImage)
+            {
+                item.Icon = SymbolRegular.Empty;
+                item.Image = customImage;
+            }
+            else if (icons.TryGetValue(definition.Key, out string? iconName)
+                && Enum.TryParse(iconName, out SymbolRegular customIcon)
+                && customIcon != SymbolRegular.Empty)
+            {
+                item.SetValue(NavigationItem.ImageProperty, null);
+                item.Icon = customIcon;
+            }
             bool isHidden = definition.CanHide && hidden.Contains(definition.Key, StringComparer.Ordinal);
             item.Visibility = IsSidebarItemAvailable(definition.Key) && !isHidden ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -1011,6 +1042,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             RootNavigation.Footer.Insert(footerIndex++, items[definition.Key]);
         }
+        RegisterHoverIcons();
         if (!string.IsNullOrEmpty(_latestNewsKey) && App.Settings.Prop.LastSeenNewsKey != _latestNewsKey)
         {
             ShowNewsBadge();

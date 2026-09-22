@@ -1893,21 +1893,33 @@ public class Bootstrapper
 		string blockedFlagsPath = Path.Combine(Paths.Cache, "BlockedFastFlags.txt");
 		TrySuppressKnownBlockedFastFlags(clientSettingsPath, blockedFlagsPath);
 		(string? logFile, bool timedOut, bool startupCrash) = await LaunchAndWaitForLogFileAsync(rbxLogDir, existingLogs, launchStartedUtc, startInfo, ct).ConfigureAwait(false);
-		for (int relaunch = 1; startupCrash && relaunch <= StartupCrashRelaunchLimit && !ct.IsCancellationRequested; relaunch++)
+		if (startupCrash && !ct.IsCancellationRequested)
 		{
-			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", $"Roblox crashed before its renderer started, relaunching ({relaunch} of {StartupCrashRelaunchLimit})");
+			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Roblox crashed before its renderer started, relaunching once as is");
 			Voidstrap.Utility.AppNotifications.RecordInfo("roblox:startupcrash", "Roblox crashed while starting", "Roblox crashed before it finished loading, so Voidstrap relaunched it automatically.");
 			SetStatus("Roblox crashed while starting, trying again");
 			existingLogs = GetExistingLogFiles(rbxLogDir);
 			(logFile, timedOut, startupCrash) = await LaunchAndWaitForLogFileAsync(rbxLogDir, existingLogs, DateTime.UtcNow, startInfo, ct).ConfigureAwait(false);
 		}
-		if (startupCrash && !ct.IsCancellationRequested)
+		if (startupCrash && !ct.IsCancellationRequested && _launchMode == LaunchMode.Player)
 		{
-			ReportRepeatedStartupCrash();
+			_safeLaunch = true;
+			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Roblox crashed again, relaunching without the process priority, memory limit and throttling changes");
+			SetStatus("Roblox crashed while starting, trying a safe launch");
+			existingLogs = GetExistingLogFiles(rbxLogDir);
+			(logFile, timedOut, startupCrash) = await LaunchAndWaitForLogFileAsync(rbxLogDir, existingLogs, DateTime.UtcNow, startInfo, ct).ConfigureAwait(false);
+			if (!startupCrash && !string.IsNullOrEmpty(logFile))
+				App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Roblox started once the launch time process changes were skipped");
+		}
+		if (startupCrash && !ct.IsCancellationRequested && (_launchMode != LaunchMode.Player || !File.Exists(clientSettingsPath)))
+		{
+			ReportRepeatedStartupCrash(logFile);
 			return null;
 		}
-		if (!timedOut || !string.IsNullOrEmpty(logFile) || ct.IsCancellationRequested)
+		if (!startupCrash && (!timedOut || !string.IsNullOrEmpty(logFile) || ct.IsCancellationRequested))
 			return logFile;
+		if (ct.IsCancellationRequested)
+			return null;
 		if (_launchMode != LaunchMode.Player || !File.Exists(clientSettingsPath))
 		{
 			TerminateFailedLaunchProcess();
@@ -1924,8 +1936,8 @@ public class Bootstrapper
 			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Roblox did not become ready, retrying once without the installed FastFlag file");
 			existingLogs = GetExistingLogFiles(rbxLogDir);
 			launchStartedUtc = DateTime.UtcNow;
-			(logFile, _, _) = await LaunchAndWaitForLogFileAsync(rbxLogDir, existingLogs, launchStartedUtc, startInfo, ct).ConfigureAwait(false);
-			if (!string.IsNullOrEmpty(logFile))
+			(logFile, _, bool recoveryStartupCrash) = await LaunchAndWaitForLogFileAsync(rbxLogDir, existingLogs, launchStartedUtc, startInfo, ct).ConfigureAwait(false);
+			if (!string.IsNullOrEmpty(logFile) && !recoveryStartupCrash)
 			{
 				if (!string.IsNullOrEmpty(blockedHash))
 				{
@@ -1938,6 +1950,8 @@ public class Bootstrapper
 			if (!File.Exists(clientSettingsPath) && File.Exists(disabledPath))
 				File.Move(disabledPath, clientSettingsPath, overwrite: true);
 			TerminateFailedLaunchProcess();
+			if ((startupCrash || recoveryStartupCrash) && !ct.IsCancellationRequested)
+				ReportRepeatedStartupCrash(logFile);
 			return null;
 		}
 		catch (Exception ex)
@@ -1980,7 +1994,8 @@ public class Bootstrapper
             {
                 AudioDucker.NotifyRobloxLaunched(_appPid);
             }
-            RobloxProcessOptimizer.ApplyLaunchProfile(_robloxProcess);
+            if (!_safeLaunch)
+                RobloxProcessOptimizer.ApplyLaunchProfile(_robloxProcess);
         }
         catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
         {
@@ -2032,7 +2047,9 @@ public class Bootstrapper
         }
     }
 
-	private const int StartupCrashRelaunchLimit = 5;
+	private bool _safeLaunch;
+
+	private static readonly TimeSpan StartupCrashReinstallCooldown = TimeSpan.FromHours(6);
 
 	private const string RendererReadyMarker = "shaders from pack";
 
@@ -2059,7 +2076,12 @@ public class Bootstrapper
 					tail = text.Length > RendererReadyMarker.Length ? text[^RendererReadyMarker.Length..] : text;
 				}
 				if (process.HasExited)
-					return IsCrashExitCode(process.ExitCode);
+				{
+					int exitCode = process.ExitCode;
+					bool crashed = IsCrashExitCode(exitCode);
+					App.Logger.WriteLine("Bootstrapper::WaitForLogFile", $"Roblox exited before renderer readiness, code 0x{(uint)exitCode:X8}, classified as crash: {crashed}, log: {Path.GetFileName(logFile) ?? "none"}");
+					return crashed;
+				}
 				TimeSpan remaining = deadline - DateTime.UtcNow;
 				if (remaining <= TimeSpan.Zero)
 				{
@@ -2082,16 +2104,68 @@ public class Bootstrapper
 		return (uint)exitCode is >= 0xC0000000u and < 0xFFFFFFFFu;
 	}
 
-	private static void ReportRepeatedStartupCrash()
+	private static void ReportRepeatedStartupCrash(string? robloxLogFile)
 	{
 		App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Roblox crashed before its renderer started on every attempt, giving up");
 		ModCrashGuard.BeginSession();
 		IReadOnlyList<string> disabled = ModCrashGuard.HandleCrash();
+		if (DateTime.UtcNow - App.State.Prop.LastStartupCrashReinstallUtc > StartupCrashReinstallCooldown)
+		{
+			App.State.Prop.LastStartupCrashReinstallUtc = DateTime.UtcNow;
+			App.State.Save();
+			App.Settings.Prop.ForceRobloxReinstall = true;
+			App.Settings.Prop.UpdateRoblox = true;
+			App.Settings.Save();
+			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Installing a fresh copy of Roblox automatically after repeated startup crashes");
+			Voidstrap.Utility.AppNotifications.RecordInfo("roblox:startupcrashreinstall", "Roblox kept crashing while starting", "Voidstrap installed a fresh copy of Roblox because the installed one kept crashing while starting.");
+			if (App.RestartApplication(App.LaunchSettings.Args))
+				return;
+			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "The automatic reinstall could not restart Voidstrap");
+		}
 		string message = disabled.Count == 0
-			? $"Roblox crashed while starting {StartupCrashRelaunchLimit + 1} times in a row, so Voidstrap stopped retrying. The crash happens inside the Roblox client before it finishes loading. Launch again, and if it keeps happening, update your graphics driver or reinstall Roblox from Settings."
-			: "Roblox crashed while loading your mods, so Voidstrap turned these off:\n\n" + string.Join("\n", disabled.Select(name => "  " + name)) + "\n\nYou can turn them back on in My Mods. Launch Roblox again to try without them.";
+			? "Roblox kept crashing while starting, so Voidstrap exhausted every retry. You can install a fresh copy of Roblox, open the startup log, or close this message."
+			: "Roblox crashed while loading your mods, so Voidstrap turned these off:\n\n" + string.Join("\n", disabled.Select(name => "  " + name)) + "\n\nYou can turn them back on in My Mods. You can also install a fresh copy of Roblox or open the startup log.";
 		Voidstrap.Utility.AppNotifications.RecordInfo("roblox:startupcrashrepeated", "Roblox kept crashing while starting", message);
-		Frontend.ShowMessageBox(message, MessageBoxImage.Warning);
+		MessageBoxResult result = Frontend.ShowMessageBox(message, MessageBoxImage.Warning, "Uninstall Roblox and Restart", "Open Log File", "Close");
+		if (result == MessageBoxResult.Yes)
+		{
+			App.Settings.Prop.ForceRobloxReinstall = true;
+			App.Settings.Prop.UpdateRoblox = true;
+			App.Settings.Save();
+			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "A fresh Roblox installation was requested after repeated startup crashes");
+			if (!App.RestartApplication(App.LaunchSettings.Args))
+				Frontend.ShowMessageBox("Voidstrap could not restart. Launch it again to reinstall Roblox.", MessageBoxImage.Error);
+		}
+		else if (result == MessageBoxResult.No)
+		{
+			OpenStartupCrashLog(robloxLogFile);
+		}
+	}
+
+	private static void OpenStartupCrashLog(string? robloxLogFile)
+	{
+		App.Logger.Flush();
+		string? logFile = !string.IsNullOrWhiteSpace(robloxLogFile) && File.Exists(robloxLogFile)
+			? robloxLogFile
+			: App.Logger.FileLocation;
+		if (string.IsNullOrWhiteSpace(logFile) || !File.Exists(logFile))
+		{
+			Frontend.ShowMessageBox("No startup log file is available.", MessageBoxImage.Warning);
+			return;
+		}
+		try
+		{
+			using Process? opened = Process.Start(new ProcessStartInfo
+			{
+				FileName = logFile,
+				UseShellExecute = true
+			});
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("Bootstrapper::OpenStartupCrashLog", "The startup log could not be opened: " + ex.Message);
+			Frontend.ShowMessageBox("The startup log could not be opened.", MessageBoxImage.Warning);
+		}
 	}
 
 	private void TerminateFailedLaunchProcess()

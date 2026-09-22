@@ -38,4 +38,6 @@ public class State
 	public int PendingLaunchMode { get; set; }
 
 	public DateTime LastLauncherUpdateCheckUtc { get; set; }
+
+	public DateTime LastStartupCrashReinstallUtc { get; set; }
 }

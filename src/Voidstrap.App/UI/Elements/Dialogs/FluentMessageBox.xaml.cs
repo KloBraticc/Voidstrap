@@ -111,6 +111,15 @@ public partial class FluentMessageBox : WpfUiWindow{
 		base.Closed += OnClosed;
 	}
 
+	public FluentMessageBox(string message, MessageBoxImage image, string primaryButtonText, string secondaryButtonText, string closeButtonText)
+		: this(message, image, MessageBoxButton.YesNoCancel)
+	{
+		ButtonOne.Content = primaryButtonText;
+		ButtonTwo.Content = secondaryButtonText;
+		ButtonThree.Content = closeButtonText;
+		base.Width = Math.Max(base.Width, 560.0);
+	}
+
 	private static string GetTextForResult(MessageBoxResult result)
 	{
 		return result switch

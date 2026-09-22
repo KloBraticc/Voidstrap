@@ -340,6 +340,8 @@ namespace Voidstrap.Models.Persistable
         public bool StudioRpcShowState { get; set; } = true;
         public double SidebarWidth { get; set; } = 225;
         public Dictionary<string, string> SidebarNames { get; set; } = [];
+        public Dictionary<string, string> SidebarIcons { get; set; } = [];
+        public Dictionary<string, string> SidebarIconImages { get; set; } = [];
         public List<string> SidebarOrder { get; set; } = [];
         public List<string> SidebarHiddenItems { get; set; } = [];
 

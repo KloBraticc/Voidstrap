@@ -24,6 +24,26 @@ internal static class Frontend
 		return ShowFluentMessageBox(message, icon, buttons);
 	}
 
+	public static MessageBoxResult ShowMessageBox(string message, MessageBoxImage icon, string primaryButtonText, string secondaryButtonText, string closeButtonText)
+	{
+		App.Logger.WriteLine("Frontend::ShowMessageBox", message);
+		if (IsSilent)
+		{
+			return MessageBoxResult.Cancel;
+		}
+		Dispatcher? dispatcher = UiDispatcher;
+		if (dispatcher == null)
+		{
+			return MessageBoxResult.Cancel;
+		}
+		return dispatcher.Invoke<MessageBoxResult>(() =>
+		{
+			FluentMessageBox fluentMessageBox = new(message, icon, primaryButtonText, secondaryButtonText, closeButtonText);
+			fluentMessageBox.ShowOwnedDialog();
+			return fluentMessageBox.Result;
+		});
+	}
+
 	public static void ShowPlayerErrorDialog(bool _ = false)
 	{
 	}

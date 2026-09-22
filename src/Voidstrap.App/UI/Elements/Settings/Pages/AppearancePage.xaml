@@ -109,7 +109,7 @@
             <HeaderedContentControl.Header>
               <StackPanel>
                 <TextBlock FontSize="14" Text="Sidebar layout" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Rename, show, hide, and reorder sidebar pages." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Rename, choose icons or custom images, show, hide, and reorder sidebar pages." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <Grid>
@@ -123,6 +123,43 @@
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
                         <ui:TextBox Margin="4,3" MaxLength="48" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                      </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
+                  <DataGridTemplateColumn Header="Icon" Width="138" CanUserSort="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                      <DataTemplate>
+                        <ui:Button Height="30" Margin="4,3" Padding="8,0" HorizontalContentAlignment="Left" ToolTip="Change sidebar icon" Tag="{Binding}" Click="SidebarIconButton_Click">
+                          <StackPanel Orientation="Horizontal">
+                            <Grid Width="22" Height="22">
+                              <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="18" Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+                                <ui:SymbolIcon.Style>
+                                  <Style TargetType="ui:SymbolIcon">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Style.Triggers>
+                                      <DataTrigger Binding="{Binding UsesImagePreview}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                      </DataTrigger>
+                                    </Style.Triggers>
+                                  </Style>
+                                </ui:SymbolIcon.Style>
+                              </ui:SymbolIcon>
+                              <Image Source="{Binding PreviewImage}" Width="20" Height="20" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality">
+                                <Image.Style>
+                                  <Style TargetType="Image">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                      <DataTrigger Binding="{Binding UsesImagePreview}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                      </DataTrigger>
+                                    </Style.Triggers>
+                                  </Style>
+                                </Image.Style>
+                              </Image>
+                            </Grid>
+                            <TextBlock Margin="7,0,0,0" MaxWidth="82" VerticalAlignment="Center" Text="{Binding IconLabel}" TextTrimming="CharacterEllipsis" />
+                          </StackPanel>
+                        </ui:Button>
                       </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                   </DataGridTemplateColumn>

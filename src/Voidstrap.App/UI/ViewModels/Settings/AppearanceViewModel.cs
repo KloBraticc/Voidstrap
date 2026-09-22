@@ -26,6 +26,7 @@ using Voidstrap.UI.Elements.Editor;
 using Voidstrap.UI.Elements.Settings;
 using Voidstrap.UI;
 using Voidstrap.Utility;
+using SymbolRegular = Wpf.Ui.Common.SymbolRegular;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
@@ -64,6 +65,14 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
         private bool _isVisible;
 
+        private SymbolRegular _icon;
+
+        private bool _hasCustomSymbol;
+
+        private string? _customImagePath;
+
+        private BitmapSource? _previewImage;
+
         public string Key { get; }
 
         public string DefaultName { get; }
@@ -71,6 +80,8 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         public string Section { get; }
 
         public bool CanHide { get; }
+
+        public SymbolRegular DefaultIcon { get; }
 
         public string Name
         {
@@ -107,17 +118,43 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
         public string VisibilityLabel => IsVisible ? "Shown" : "Hidden";
 
-        public SidebarItemEditor(MainWindow.SidebarItemDefinition definition, string name, bool isVisible, Action<SidebarItemEditor> changed)
+        public SymbolRegular Icon => _icon;
+
+        public bool UsesImagePreview => _previewImage != null;
+
+        public BitmapSource? PreviewImage => _previewImage;
+
+        public string IconLabel => _customImagePath != null ? "Image" : _hasCustomSymbol ? _icon.ToString() : "Default";
+
+        public SidebarItemEditor(MainWindow.SidebarItemDefinition definition, string name, bool isVisible, SymbolRegular icon, bool hasCustomSymbol, string? customImagePath, Action<SidebarItemEditor> changed)
         {
             Key = definition.Key;
             DefaultName = definition.DefaultName;
             Section = definition.Section;
             CanHide = definition.CanHide;
+            DefaultIcon = definition.DefaultIcon;
             _name = MainWindow.NormalizeSidebarName(name, DefaultName);
             _isVisible = !CanHide || isVisible;
             _changed = changed;
+            SetIcon(icon, hasCustomSymbol, customImagePath);
         }
 
+        internal void SetIcon(SymbolRegular icon, bool hasCustomSymbol, string? customImagePath)
+        {
+            BitmapSource? image = string.IsNullOrWhiteSpace(customImagePath)
+                ? null
+                : SafeImaging.FromFile(customImagePath, 48);
+            _icon = icon;
+            _hasCustomSymbol = hasCustomSymbol && image == null;
+            _customImagePath = image == null ? null : customImagePath;
+            _previewImage = image ?? (Key == "SoberNavItem" && !_hasCustomSymbol
+                ? SafeImaging.FromPack("pack://application:,,,/Resources/SoberIcon.png", 48)
+                : null);
+            OnPropertyChanged(nameof(Icon));
+            OnPropertyChanged(nameof(UsesImagePreview));
+            OnPropertyChanged(nameof(PreviewImage));
+            OnPropertyChanged(nameof(IconLabel));
+        }
     }
 
 
@@ -911,6 +948,8 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
     private void LoadSidebarItems()
     {
         Dictionary<string, string> names = App.Settings.Prop.SidebarNames ??= new Dictionary<string, string>();
+        Dictionary<string, string> icons = App.Settings.Prop.SidebarIcons ??= new Dictionary<string, string>();
+        Dictionary<string, string> iconImages = App.Settings.Prop.SidebarIconImages ??= new Dictionary<string, string>();
         List<string> hidden = App.Settings.Prop.SidebarHiddenItems ??= new List<string>();
         List<string> savedOrder = App.Settings.Prop.SidebarOrder ??= new List<string>();
         Dictionary<string, int> ranks = savedOrder
@@ -930,7 +969,19 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         {
             string name = names.TryGetValue(definition.Key, out string? customName) ? customName : definition.DefaultName;
             bool visible = !hidden.Contains(definition.Key, StringComparer.Ordinal);
-            SidebarItems.Add(new SidebarItemEditor(definition, name, visible, SaveSidebarItem));
+            SymbolRegular customIcon = definition.DefaultIcon;
+            bool hasCustomSymbol = icons.TryGetValue(definition.Key, out string? iconName)
+                && Enum.TryParse(iconName, out customIcon)
+                && customIcon != SymbolRegular.Empty;
+            string? customImagePath = iconImages.TryGetValue(definition.Key, out string? imagePath) ? imagePath : null;
+            SidebarItems.Add(new SidebarItemEditor(
+                definition,
+                name,
+                visible,
+                hasCustomSymbol ? customIcon : definition.DefaultIcon,
+                hasCustomSymbol,
+                customImagePath,
+                SaveSidebarItem));
         }
     }
 
@@ -1018,9 +1069,41 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         App.Settings.Prop.SidebarOrder = merged;
     }
 
+    public void SetSidebarSymbol(SidebarItemEditor item, SymbolRegular icon)
+    {
+        Dictionary<string, string> icons = App.Settings.Prop.SidebarIcons ??= new Dictionary<string, string>();
+        Dictionary<string, string> images = App.Settings.Prop.SidebarIconImages ??= new Dictionary<string, string>();
+        icons[item.Key] = icon.ToString();
+        images.Remove(item.Key);
+        item.SetIcon(icon, true, null);
+        SaveAndApplySidebar();
+    }
+
+    public void SetSidebarImage(SidebarItemEditor item, string path)
+    {
+        Dictionary<string, string> icons = App.Settings.Prop.SidebarIcons ??= new Dictionary<string, string>();
+        Dictionary<string, string> images = App.Settings.Prop.SidebarIconImages ??= new Dictionary<string, string>();
+        icons.Remove(item.Key);
+        images[item.Key] = path;
+        item.SetIcon(item.DefaultIcon, false, path);
+        SaveAndApplySidebar();
+    }
+
+    public void ResetSidebarIcon(SidebarItemEditor item)
+    {
+        Dictionary<string, string> icons = App.Settings.Prop.SidebarIcons ??= new Dictionary<string, string>();
+        Dictionary<string, string> images = App.Settings.Prop.SidebarIconImages ??= new Dictionary<string, string>();
+        icons.Remove(item.Key);
+        images.Remove(item.Key);
+        item.SetIcon(item.DefaultIcon, false, null);
+        SaveAndApplySidebar();
+    }
+
     private void ResetSidebar()
     {
         App.Settings.Prop.SidebarNames = new Dictionary<string, string>();
+        App.Settings.Prop.SidebarIcons = new Dictionary<string, string>();
+        App.Settings.Prop.SidebarIconImages = new Dictionary<string, string>();
         App.Settings.Prop.SidebarOrder = new List<string>();
         App.Settings.Prop.SidebarHiddenItems = new List<string>();
         App.Settings.SaveDeferred();

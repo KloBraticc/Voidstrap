@@ -473,7 +473,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                         return null;
                     foreach (var dir in Directory.GetDirectories(root, "version-*"))
                     {
-                        if (File.Exists(Path.Combine(dir, _appData.ExecutableName)))
+                        if (!Path.GetFileName(dir).Contains('.') && File.Exists(Path.Combine(dir, _appData.ExecutableName)))
                             return Path.GetFileName(dir);
                     }
                 }

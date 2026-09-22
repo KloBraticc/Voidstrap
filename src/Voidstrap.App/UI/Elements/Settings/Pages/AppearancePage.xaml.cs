@@ -9,9 +9,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
+using Microsoft.Win32;
 using Voidstrap.UI.Elements.ContextMenu;
 using Voidstrap.UI.Elements.Controls;
+using Voidstrap.UI.Elements.Dialogs;
 using Voidstrap.UI.ViewModels.Settings;
+using Voidstrap.Utility;
 using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
@@ -57,6 +60,81 @@ public partial class AppearancePage : UiPage
 		if (_backdropSelectionReady
 			&& sender is ComboBox { SelectedItem: Voidstrap.Models.BackdropType backdrop })
 			_appearanceViewModel.SelectedBackdrop = backdrop;
+	}
+
+	private void SidebarIconButton_Click(object sender, RoutedEventArgs e)
+	{
+		if (sender is not Wpf.Ui.Controls.Button { Tag: AppearanceViewModel.SidebarItemEditor item })
+		{
+			return;
+		}
+		using SidebarIconPickerDialog dialog = new SidebarIconPickerDialog(item.Icon)
+		{
+			Owner = Window.GetWindow(this)
+		};
+		if (dialog.ShowDialog() != true)
+		{
+			return;
+		}
+		switch (dialog.Choice)
+		{
+			case SidebarIconPickerDialog.PickerChoice.Symbol:
+				_appearanceViewModel.SetSidebarSymbol(item, dialog.SelectedIcon);
+				break;
+			case SidebarIconPickerDialog.PickerChoice.Image:
+				ChooseSidebarImage(item);
+				break;
+			case SidebarIconPickerDialog.PickerChoice.Default:
+				_appearanceViewModel.ResetSidebarIcon(item);
+				break;
+		}
+	}
+
+	private void ChooseSidebarImage(AppearanceViewModel.SidebarItemEditor item)
+	{
+		OpenFileDialog picker = new OpenFileDialog
+		{
+			Title = "Choose sidebar image",
+			Filter = "Image files|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.ico;*.webp",
+			CheckFileExists = true,
+			Multiselect = false
+		};
+		if (picker.ShowDialog(Window.GetWindow(this)) != true)
+		{
+			return;
+		}
+		string extension = Path.GetExtension(picker.FileName).ToLowerInvariant();
+		if (extension is not ".png" and not ".jpg" and not ".jpeg" and not ".bmp" and not ".gif" and not ".ico" and not ".webp"
+			|| SafeImaging.FromFile(picker.FileName, 48) == null)
+		{
+			ShowSidebarImageError("The selected image could not be loaded. Choose a PNG, JPEG, BMP, GIF, ICO, or WebP file.");
+			return;
+		}
+		try
+		{
+			string directory = Path.Combine(Paths.Data, "SidebarIcons");
+			Directory.CreateDirectory(directory);
+			string target = Path.Combine(directory, item.Key + extension);
+			if (!string.Equals(Path.GetFullPath(picker.FileName), Path.GetFullPath(target), StringComparison.OrdinalIgnoreCase))
+			{
+				File.Copy(picker.FileName, target, true);
+			}
+			_appearanceViewModel.SetSidebarImage(item, target);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("AppearancePage::ChooseSidebarImage", "Could not save the sidebar image: " + ex.Message);
+			ShowSidebarImageError("The selected image could not be saved. Choose another image and try again.");
+		}
+	}
+
+	private void ShowSidebarImageError(string message)
+	{
+		using FluentMessageBox messageBox = new FluentMessageBox(message, MessageBoxImage.Error, MessageBoxButton.OK)
+		{
+			Owner = Window.GetWindow(this)
+		};
+		messageBox.ShowDialog();
 	}
 
 	private void OnLiveBackgroundChanged(GlobalBackground.State state)
