@@ -1487,12 +1487,6 @@ Sulje kaikki sovellukset, jotka saattavat käyttää Robloxin tiedostoja, ja kä
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Kanava</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Sallii useamman kuin yhden Roblox-pelin asiakkaan avoinna olemisen samanaikaisesti. Voi aiheuttaa ongelmia työpöytäsovelluksen kanssa.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Useiden ilmentymien käynnistys</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Optimaalisen suorituskyvyn saavuttamiseksi tarvitaan tuettu näytönohjain.
 Tämä toiminto on välttämätön varjostimien toiminnalle.</value>

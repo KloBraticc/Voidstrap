@@ -1489,12 +1489,6 @@ Xin hãy đóng các ứng dụng đang sử dụng các tập tin của Roblox,
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Kênh</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Cho phép mở nhiều phiên bản client Roblox cùng lúc. Có thể gây sự cố với ứng dụng máy tính.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Khởi chạy nhiều phiên bản</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Để có hiệu suất tối ưu, cần card đồ họa được hỗ trợ.
 Tính năng này cần thiết để shader hoạt động đúng cách.</value>

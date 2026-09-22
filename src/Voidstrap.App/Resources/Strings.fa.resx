@@ -1494,12 +1494,6 @@
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>کانال</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>اجازه می‌دهد بیش از یک نسخه از کلاینت بازی Roblox به طور همزمان باز باشد. ممکن است باعث ایجاد مشکل با برنامه دسکتاپ شود.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>اجرای چند نمونه</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>برای عملکرد بهینه، یک کارت گرافیک پشتیبانی شده لازم است.
 این ویژگی برای عملکرد صحیح شیدرها ضروری است.</value>

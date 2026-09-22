@@ -1493,12 +1493,6 @@ Sluit alstublieft alle applicaties die mogelijk de bestanden van Roblox gebruike
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Kanaal</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Maakt het mogelijk meer dan één Roblox-spelclient gelijktijdig open te hebben. Kan problemen veroorzaken met de desktop-app.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Multi-instance starten</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Voor optimale prestaties is een ondersteunde grafische kaart vereist.
 Deze functie is essentieel voor het correct functioneren van shaders.</value>

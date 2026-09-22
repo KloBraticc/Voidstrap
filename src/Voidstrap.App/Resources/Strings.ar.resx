@@ -1485,12 +1485,6 @@
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>القناة</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>يسمح بفتح أكثر من نسخة من عميل لعبة Roblox في وقت واحد. قد يسبب مشكلات مع تطبيق سطح المكتب.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>تشغيل متعدد</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>للأداء الأمثل، يلزم وجود بطاقة رسوميات مدعومة.
 هذه الميزة ضرورية لعمل الشيدرز بشكل صحيح.</value>

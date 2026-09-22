@@ -492,11 +492,6 @@ public static class LaunchHandler
 			App.Terminate(ErrorCode.ERROR_FILE_NOT_FOUND);
 			return;
 		}
-		bool multiInstance = Voidstrap.Utility.MultiInstanceLock.Enabled;
-		if (multiInstance)
-		{
-			Voidstrap.Utility.MultiInstanceLock.Acquire();
-		}
 		bool flag = false;
 		Mutex? result;
 		try
@@ -522,13 +517,13 @@ public static class LaunchHandler
 				flag = false;
 			}
 		}
-		if (App.Settings.Prop.ConfirmLaunches && flag && !multiInstance && !App.LaunchSettings.MatchmakerRejoinFlag.Active && (!App.Settings.Prop.IsGameEnabled || string.IsNullOrWhiteSpace(App.Settings.Prop.LaunchGameID)) && Frontend.ShowMessageBox(Strings.Bootstrapper_ConfirmLaunch, MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		if (App.Settings.Prop.ConfirmLaunches && flag && !App.LaunchSettings.MatchmakerRejoinFlag.Active && (!App.Settings.Prop.IsGameEnabled || string.IsNullOrWhiteSpace(App.Settings.Prop.LaunchGameID)) && Frontend.ShowMessageBox(Strings.Bootstrapper_ConfirmLaunch, MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
 		{
 			App.Terminate();
 			return;
 		}
 		bool flag2 = string.Equals(Environment.GetEnvironmentVariable("VOIDSTRAP_FORCE_NATIVE"), "1", StringComparison.Ordinal);
-		if (!flag2 && !multiInstance)
+		if (!flag2)
 		{
 			CloseOtherInstances();
 		}
@@ -1303,11 +1298,6 @@ public static class LaunchHandler
 
 	internal static void CloseOtherInstances()
 	{
-		if (Voidstrap.Utility.MultiInstanceLock.Enabled)
-		{
-			App.Logger.WriteLine("LaunchHandler::CloseOtherInstances", "Multi instance launching is on, the other Voidstrap windows are left alone");
-			return;
-		}
 		try
 		{
 			int processId = Environment.ProcessId;

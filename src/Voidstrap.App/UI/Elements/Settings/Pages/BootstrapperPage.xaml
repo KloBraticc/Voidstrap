@@ -14,9 +14,6 @@
           <controls:OptionControl x:Name="ConfirmLaunchOption" Header="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Title}" Description="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Description}">
             <ui:ToggleSwitch IsChecked="{Binding ConfirmLaunches, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Multi instance launching" Description="Lets several Roblox Clients run at once, Manage them from the instances button in the title bar." Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-            <ui:ToggleSwitch IsChecked="{Binding MultiInstanceLaunching, Mode=TwoWay}" />
-          </controls:OptionControl>
           <controls:OptionControl Description="Disables Background Window when Launching Roblox" Header="Disable Background Window" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding BackgroundWindow, Mode=TwoWay}" />
           </controls:OptionControl>

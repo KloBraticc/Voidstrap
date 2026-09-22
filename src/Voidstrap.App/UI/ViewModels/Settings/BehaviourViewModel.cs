@@ -875,23 +875,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public bool MultiInstanceLaunching
-	{
-		get
-		{
-			return App.Settings.Prop.MultiInstanceLaunching;
-		}
-		set
-		{
-			App.Settings.Prop.MultiInstanceLaunching = value;
-			App.Settings.SaveDeferred();
-			if (!value)
-			{
-				Voidstrap.Utility.MultiInstanceLock.Release();
-			}
-		}
-	}
-
 
 
 	public bool LaunchRobloxWebsite

@@ -89,7 +89,6 @@ namespace Voidstrap.Models.Persistable
 		public int DownloadBufferKb { get; set; } = 2048;
 		public int DownloadPipelineVersion { get; set; } = 3;
         public bool ConfirmLaunches { get; set; } = true;
-        public bool MultiInstanceLaunching { get; set; }
         public bool CompressRobloxInstalls { get; set; }
         public bool LaunchWithoutVoidstrap { get; set; }
         public string VoidstrapMatchmakerPresetUrl { get; set; } = "";

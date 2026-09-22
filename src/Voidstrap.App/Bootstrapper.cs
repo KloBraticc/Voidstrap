@@ -1840,16 +1840,6 @@ public class Bootstrapper
         string args = _launchCommandLine ?? string.Empty;
         string executablePath = AppData.ExecutablePath;
         string workingDirectory = AppData.Directory;
-        if (Voidstrap.Utility.MultiInstanceLock.Enabled)
-        {
-            string? instanceDirectory = Voidstrap.Utility.InstanceDirectory.Prepare(AppData.Directory, AppData.ExecutableName);
-            if (instanceDirectory != null)
-            {
-                executablePath = Path.Combine(instanceDirectory, AppData.ExecutableName);
-                workingDirectory = instanceDirectory;
-                App.Logger.WriteLine("Bootstrapper::BuildStartInfo", "Starting this instance from " + instanceDirectory);
-            }
-        }
         ProcessStartInfo processStartInfo = new()
         {
             FileName = executablePath,

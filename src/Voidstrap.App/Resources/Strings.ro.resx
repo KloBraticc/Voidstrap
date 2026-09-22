@@ -1487,12 +1487,6 @@ Vă rugăm să închideți orice aplicație care poate folosi fișierele Roblox,
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Canal</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Permite să ai mai mult de o instanță a clientului de joc Roblox deschisă simultan. Poate cauza probleme cu aplicația desktop.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Lansare multi-instanță</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Pentru performanță optimă este necesar un placă grafică suportată.
 Această funcție este esențială pentru funcționarea corectă a shaderelor.</value>

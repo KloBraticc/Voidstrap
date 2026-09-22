@@ -1487,12 +1487,6 @@ Bitte schließe alle Anwendungen, die möglicherweise auf die Dateien von Roblox
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Kanal</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Erlaubt das gleichzeitige Öffnen mehrerer Roblox-Spielclient-Instanzen. Kann zu Problemen mit der Desktop-App führen.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Starten mehrerer Instanzen</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Für optimale Leistung ist eine unterstützte Grafikkarte erforderlich.
 Diese Funktion ist für die korrekte Funktion von Shadern essenziell.</value>

@@ -1485,12 +1485,6 @@ Kérjük, zárjon be minden olyan alkalmazást, amely a Roblox fájljait haszná
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Csatorna</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Lehetővé teszi több Roblox játékkliens egyidejű megnyitását. Problémát okozhat az asztali alkalmazással.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Több példányos indítás</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Az optimális teljesítményhez támogatott grafikus kártya szükséges.
 Ez a funkció elengedhetetlen a shaderek megfelelő működéséhez.</value>

@@ -1494,12 +1494,6 @@ Roblox의 파일을 사용 중인 프로그램을 모두 종료하고, 다시 �
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>채널</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Roblox 게임 클라이언트의 인스턴스를 둘 이상 동시에 열 수 있습니다. 데스크톱 앱에 문제가 발생할 수 있습니다.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>다중 인스턴스 실행</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>최적의 성능을 위해 지원되는 그래픽 카드가 필요합니다.
 이 기능은 셰이더가 제대로 작동하는 데 필수적입니다.</value>

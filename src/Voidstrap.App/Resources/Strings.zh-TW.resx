@@ -1489,12 +1489,6 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>頻道</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>允許同時開啟多個 Roblox 遊戲用戶端執行個體。可能會導致桌面應用程式出現問題。</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>多執行個體啟動</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>為獲得最佳效能，需要支援的顯示卡。
 此功能對於著色器正常運作至關重要。</value>

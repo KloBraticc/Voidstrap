@@ -1284,7 +1284,7 @@ public partial class App : Application
 		}
 		if (!LaunchSettings.WatcherFlag.Active && !LaunchSettings.IsHelperInvocation)
 		{
-			_ = Voidstrap.Utility.RobloxInstanceManager.EnsureCurrentAccountSavedAsync(_lifetimeCancellation.Token);
+			_ = Voidstrap.Utility.SavedAccounts.EnsureCurrentAccountSavedAsync(_lifetimeCancellation.Token);
 			TryStartup("ORC updater", () => _ = Task.Run(async delegate
 			{
 				Voidstrap.Integrations.ClassicHostRedirect.CleanStaleRedirect();
@@ -1604,7 +1604,6 @@ public partial class App : Application
 		TryShutdown(Voidstrap.UI.LiveLanguageRefresher.Shutdown);
 		TryShutdown(Voidstrap.UI.Utility.WindowScaling.Shutdown);
 		TryShutdown(Voidstrap.Utility.SystemAccent.Shutdown);
-		TryShutdown(Voidstrap.Utility.MultiInstanceLock.Release);
 		TryShutdown(Voidstrap.Utility.TranslationService.Shutdown);
 		TryShutdown(Voidstrap.UI.GlobalBackground.ClearCache);
 		TryShutdown(Voidstrap.Utility.DynamicRenderSystem.ClearCache);

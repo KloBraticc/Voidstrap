@@ -1487,12 +1487,6 @@ Feche quaisquer aplicativos que possam estar usando os arquivos do Roblox e rein
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Canal</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Permite ter mais de uma instância do cliente Roblox aberta ao mesmo tempo. Pode causar problemas com o app de desktop.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Inicialização de várias instâncias</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Para desempenho ideal, é necessária uma placa gráfica compatível.
 Este recurso é essencial para o funcionamento correto dos shaders.</value>

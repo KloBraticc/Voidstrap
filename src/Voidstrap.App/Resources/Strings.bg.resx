@@ -1486,12 +1486,6 @@ Voidstrap е инсталиран на „{1}“.</value>
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Канал</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Позволява да имате повече от една активна инстанция на клиента на Roblox едновременно. Може да причини проблеми с настолното приложение.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Стартиране на множество инстанции</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>За оптимална производителност е необходима поддържана видеокарта.
 Тази функция е необходима за правилно функциониране на шейдърите.</value>

@@ -1485,12 +1485,6 @@ Molimo zatvorite bilo koju aplikaciju koja bi mogla koristiti Robloxove datoteke
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Kanal</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Omogućuje istovremeno otvaranje više od jedne instance Roblox klijenta. Može uzrokovati probleme s desktop aplikacijom.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Pokretanje više instanci</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Za optimalne performanse potrebna je podržana grafička kartica.
 Ova značajka je ključna za pravilno funkcioniranje shadera.</value>

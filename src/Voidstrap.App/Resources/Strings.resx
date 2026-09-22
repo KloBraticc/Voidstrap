@@ -1596,12 +1596,6 @@ Please close any applications that may be using Roblox's files, and relaunch.</v
   <data name="Menu.Appearance.BootstrapperDownloading.Description" xml:space="preserve">
     <value>Change downloading string. {0} is package name, {1} is downloaded packages size and {2} is total size of packages.</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Multi-instance launching</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Allows for having more than one Roblox game client instance open simultaneously. May cause issues with desktop app.</value>
-  </data>
   <data name="Menu.FastFlags.Presets.Telemetry.Title" xml:space="preserve">
     <value>Disable Roblox telemetry</value>
   </data>

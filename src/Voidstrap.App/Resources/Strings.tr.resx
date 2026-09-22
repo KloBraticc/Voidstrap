@@ -1484,12 +1484,6 @@ Lütfen Roblox'un dosyalarını kullanabilecek olan uygulamaları kapatın, ve t
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Kanal</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Birden fazla Roblox oyun istemcisinin aynı anda açık olmasına izin verir. Masaüstü uygulamasıyla sorunlara neden olabilir.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Çoklu örnek başlatma</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Optimum performans için desteklenen bir ekran kartı gereklidir.
 Bu özellik, shader'ların düzgün çalışması için gereklidir.</value>

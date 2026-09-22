@@ -1494,12 +1494,6 @@ Silakan tutup aplikasi apa pun yang dapat menggunakan berkas Roblox, lalu luncur
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Channel</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Memungkinkan untuk membuka lebih dari satu instance klien game Roblox secara bersamaan. Dapat menyebabkan masalah dengan aplikasi desktop.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Peluncuran multi-instance</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Untuk kinerja optimal, diperlukan kartu grafis yang didukung.
 Fitur ini penting agar shader berfungsi dengan baik.</value>

@@ -1481,12 +1481,6 @@ Voidstrap จะติดตั้งไว้ที่ "{1}"</value>
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>ช่อง</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>อนุญาตให้เปิดไคลเอนต์เกม Roblox ได้มากกว่าหนึ่งอินสแตนซ์พร้อมกัน อาจทำให้เกิดปัญหากับแอปเดสก์ท็อป</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>เปิดหลายอินสแตนซ์</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>เพื่อประสิทธิภาพสูงสุด ต้องใช้กราฟิกการ์ดที่รองรับ
 คุณสมบัตินี้จำเป็นสำหรับการทำงานของ shader อย่างถูกต้อง</value>

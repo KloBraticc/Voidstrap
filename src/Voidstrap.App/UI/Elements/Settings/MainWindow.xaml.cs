@@ -251,12 +251,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private int _robloxCheckRunning;
 
-    private readonly DispatcherTimer _instanceCountTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2.5) };
-
-    private static readonly string[] InstanceProcessNames = ["RobloxPlayerBeta", "RobloxStudioBeta"];
-
-    private readonly List<System.Windows.Controls.MenuItem> _instanceMenuItems = new List<System.Windows.Controls.MenuItem>();
-
 
     private static readonly Dictionary<string, (string Details, string State)> _voidRpcPageDescriptions = new Dictionary<string, (string, string)>
     {
@@ -539,8 +533,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _visibilityTimer.Interval = TimeSpan.FromSeconds(0.8);
         _visibilityTimer.Tick += VisibilityTimer_Tick;
         _visibilityTimer.Start();
-        _instanceCountTimer.Tick += InstanceCountTimer_Tick;
-        _instanceCountTimer.Start();
         base.SizeChanged += MainWindow_SizeChanged;
         base.LocationChanged += MainWindow_LocationChanged;
         base.StateChanged += MainWindow_StateChanged;
@@ -550,22 +542,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         CommandPalettePopup.Closed += OverlayPopup_Closed;
         AppMenuPopup.Closing += AppMenuPopup_Closing;
         AppMenuPopup.Closed += OverlayPopup_Closed;
-        InstancesPopup.Closed += OverlayPopup_Closed;
         App.Logger.WriteLine("MainWindow", "Initializing settings window");
         if (showAlreadyRunningWarning)
         {
             _ = ShowAlreadyRunningSnackbarAsync();
         }
         RefreshRestartNotification();
-        RefreshInstanceCount();
-    }
-
-    private void InstanceCountTimer_Tick(object? sender, EventArgs e)
-    {
-        if (WindowState != System.Windows.WindowState.Minimized)
-        {
-            RefreshInstanceCount();
-        }
     }
 
     private void VisibilityTimer_Tick(object? sender, EventArgs e)
@@ -1974,269 +1956,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private Voidstrap.UI.Elements.ContextMenu.InstanceManager? _instanceManager;
-
-    private void InstancesButton_Click(object sender, RoutedEventArgs e)
-    {
-        CloseOverlayPopups();
-        if (InstancesPopup.IsOpen)
-        {
-            InstancesPopup.IsOpen = false;
-        }
-        if (_instanceManager != null)
-        {
-            _instanceManager.Activate();
-            return;
-        }
-        _instanceManager = new Voidstrap.UI.Elements.ContextMenu.InstanceManager
-        {
-            Owner = this
-        };
-        _instanceManager.Closed += InstanceManager_Closed;
-        _instanceManager.Show();
-    }
-
-    private void InstanceManager_Closed(object? sender, EventArgs e)
-    {
-        if (_instanceManager != null)
-        {
-            _instanceManager.Closed -= InstanceManager_Closed;
-            _instanceManager = null;
-        }
-        RefreshInstanceCount();
-    }
-
-    private int _instanceCountRunning;
-
-    private void RefreshInstanceCount()
-    {
-        if (Interlocked.Exchange(ref _instanceCountRunning, 1) != 0)
-        {
-            return;
-        }
-        _ = RefreshInstanceCountAsync();
-    }
-
-    private async Task RefreshInstanceCountAsync()
-    {
-        try
-        {
-            int count = await Task.Run(CountRunningInstances);
-            if (!_isClosed)
-            {
-                RefreshInstanceCount(count);
-            }
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteLine("MainWindow::RefreshInstanceCount", ex.Message);
-        }
-        finally
-        {
-            Interlocked.Exchange(ref _instanceCountRunning, 0);
-        }
-    }
-
-    private void RefreshInstanceCount(int count)
-    {
-        if (InstancesCountText != null)
-        {
-            InstancesCountText.Text = count.ToString();
-        }
-        if (InstancesLabelText != null)
-        {
-            InstancesLabelText.Text = count == 1 ? " Instance Running" : " Instances Running";
-        }
-    }
-
-    private static int CountRunningInstances()
-    {
-        int count = 0;
-        foreach (string name in InstanceProcessNames)
-        {
-            try
-            {
-                Process[] processes = Process.GetProcessesByName(name);
-                count += processes.Length;
-                foreach (Process process in processes)
-                {
-                    process.Dispose();
-                }
-            }
-            catch
-            {
-            }
-        }
-        return count;
-    }
-
-    private void PopulateInstanceMenu()
-    {
-        ClearInstanceMenu();
-        int count = 0;
-        foreach (string name in InstanceProcessNames)
-        {
-            Process[] processes;
-            try
-            {
-                processes = Process.GetProcessesByName(name);
-            }
-            catch
-            {
-                continue;
-            }
-            foreach (Process process in processes)
-            {
-                using (process)
-                {
-                    string product = name == "RobloxStudioBeta" ? "Roblox Studio" : "Roblox";
-                    string uptime = "";
-                    try
-                    {
-                        TimeSpan elapsed = DateTime.Now - process.StartTime;
-                        uptime = elapsed.TotalHours >= 1 ? $"{(int)elapsed.TotalHours}h {elapsed.Minutes}m" : $"{Math.Max(1, (int)elapsed.TotalMinutes)}m";
-                    }
-                    catch
-                    {
-                    }
-                    AddInstanceMenuItem(uptime.Length == 0 ? product : product + "   " + uptime, process.Id, true);
-                    count++;
-                }
-            }
-        }
-        if (count == 0)
-        {
-            AddInstanceMenuItem("No instances running", null, false);
-            AddInstanceMenuItem("Launch Roblox", "Launch", true);
-        }
-        else
-        {
-            InstancesPopupItems.Children.Add(new Separator { Style = (Style)FindResource("TopBarMenuSeparatorStyle") });
-            AddInstanceMenuItem("Close All Instances", "CloseAll", true);
-        }
-        RefreshInstanceCount(count);
-    }
-
-    private void AddInstanceMenuItem(string header, object? action, bool enabled)
-    {
-        System.Windows.Controls.MenuItem item = new System.Windows.Controls.MenuItem
-        {
-            Header = header,
-            Tag = action,
-            IsEnabled = enabled
-        };
-        if (action != null)
-        {
-            item.Click += InstanceMenuItem_Click;
-            _instanceMenuItems.Add(item);
-        }
-        item.Style = (Style)FindResource("TopBarMenuItemStyle");
-        InstancesPopupItems.Children.Add(item);
-    }
-
-    private async void InstanceMenuItem_Click(object sender, RoutedEventArgs e)
-    {
-        InstancesPopup.IsOpen = false;
-        if (sender is not System.Windows.Controls.MenuItem item)
-        {
-            return;
-        }
-        if (item.Tag is int processId)
-        {
-            FocusInstance(processId);
-            return;
-        }
-        if (item.Tag as string == "Launch" && DataContext is MainWindowViewModel viewModel)
-        {
-            await viewModel.SaveAndLaunchSettingsAsync();
-            return;
-        }
-        if (item.Tag as string == "CloseAll")
-        {
-            CloseAllInstances();
-        }
-    }
-
-    private void ClearInstanceMenu()
-    {
-        foreach (System.Windows.Controls.MenuItem item in _instanceMenuItems)
-        {
-            item.Click -= InstanceMenuItem_Click;
-        }
-        _instanceMenuItems.Clear();
-        InstancesPopupItems?.Children.Clear();
-    }
-
-    private void CloseAllInstances()
-    {
-        if (Frontend.ShowMessageBox("Close every running Roblox instance? Unsaved progress in those sessions will be lost.", MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
-        {
-            return;
-        }
-        foreach (string name in InstanceProcessNames)
-        {
-            try
-            {
-                foreach (Process process in Process.GetProcessesByName(name))
-                {
-                    using (process)
-                    {
-                        try
-                        {
-                            process.Kill();
-                        }
-                        catch (Exception ex)
-                        {
-                            App.Logger.WriteLine("MainWindow::CloseInstances", "Could not close " + name + ": " + ex.Message);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("MainWindow::CloseInstances", "Could not inspect " + name + ": " + ex.Message);
-            }
-        }
-        RefreshInstanceCount();
-    }
-
-    private static void FocusInstance(int processId)
-    {
-        if (!OperatingSystem.IsWindows())
-        {
-            return;
-        }
-        try
-        {
-            using Process process = Process.GetProcessById(processId);
-            IntPtr handle = process.MainWindowHandle;
-            if (handle == IntPtr.Zero)
-            {
-                return;
-            }
-            if (IsIconic(handle))
-            {
-                ShowWindow(handle, 9);
-            }
-            SetForegroundWindow(handle);
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteLine("MainWindow::FocusInstance", "Could not focus the instance: " + ex.Message);
-        }
-    }
-
-    [LibraryImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool SetForegroundWindow(IntPtr hWnd);
 
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-    [LibraryImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool IsIconic(IntPtr hWnd);
 
     private void NavigateTopNav(Type pageType)
     {
@@ -4434,10 +4157,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             AppMenuPopup.IsOpen = false;
         }
-        if (InstancesPopup != null)
-        {
-            InstancesPopup.IsOpen = false;
-        }
         if (NotificationPopup != null)
         {
             NotificationPopup.IsOpen = false;
@@ -4451,7 +4170,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             return;
         }
-        if (_launchTargetOverlayOpen || CommandPalettePopup?.IsOpen == true || AppMenuPopup?.IsOpen == true || InstancesPopup?.IsOpen == true || NotificationPopup?.IsOpen == true)
+        if (_launchTargetOverlayOpen || CommandPalettePopup?.IsOpen == true || AppMenuPopup?.IsOpen == true || NotificationPopup?.IsOpen == true)
         {
             return;
         }
@@ -4591,7 +4310,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             SnowCanvas?.SetActive(true);
         }
-        RefreshInstanceCount();
         try
         {
             _visibilityTimer.Start();
@@ -5095,7 +4813,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         MainWindowViewModel? closingViewModel = DataContext as MainWindowViewModel;
 		Interlocked.Increment(ref _topSearchNavigationGeneration);
         CloseCommandPalette();
-        ClearInstanceMenu();
         ReleaseZoomIndicator();
         _backgroundGeneration++;
         foreach (TaskCompletionSource<bool> waiter in _backgroundAnimationWaiters.Values)
@@ -5117,7 +4834,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         CommandPalettePopup.Closed -= OverlayPopup_Closed;
         AppMenuPopup.Closing -= AppMenuPopup_Closing;
         AppMenuPopup.Closed -= OverlayPopup_Closed;
-        InstancesPopup.Closed -= OverlayPopup_Closed;
         RootNavigation.NavigationFailed -= OnNavigationFailed;
         RootNavigation.Navigated -= SaveNavigation;
         RootNavigation.Navigated -= RootNavigation_RpcNavigated;
@@ -5127,8 +4843,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             _visibilityTimer.Stop();
             _visibilityTimer.Tick -= VisibilityTimer_Tick;
-            _instanceCountTimer.Stop();
-            _instanceCountTimer.Tick -= InstanceCountTimer_Tick;
             if (_logsSubmenuCloseTimer != null)
             {
                 _logsSubmenuCloseTimer.Stop();

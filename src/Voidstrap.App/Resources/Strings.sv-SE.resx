@@ -1487,12 +1487,6 @@ Var vänlig och stäng applikationer som kan använda Roblox filer, och starta s
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Kanal</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Tillåter att ha mer än en Roblox-spelklientinstans öppen samtidigt. Kan orsaka problem med skrivbordsappen.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Multi-instans-start</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>För optimal prestanda krävs ett grafikkort som stöds.
 Den här funktionen är nödvändig för att shaders ska fungera korrekt.</value>

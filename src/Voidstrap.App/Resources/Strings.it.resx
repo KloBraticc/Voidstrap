@@ -1488,12 +1488,6 @@ Si prega di chiudere tutte le applicazioni che potrebbero usare i file di Roblox
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Canale</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Permette di avere più di un'istanza del client di gioco Roblox aperta contemporaneamente. Potrebbe causare problemi con l'app desktop.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Avvio multi-istanza</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Per prestazioni ottimali è necessaria una scheda grafica supportata.
 Questa funzionalità è essenziale per il corretto funzionamento degli shader.</value>

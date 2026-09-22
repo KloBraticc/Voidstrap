@@ -1484,12 +1484,6 @@ Voidstrap встановлено на "{1}".</value>
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Канал</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Дозволяє мати відкритими більше одного екземпляра ігрового клієнта Roblox одночасно. Може спричинити проблеми з настільним додатком.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Запуск декількох екземплярів</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Для оптимальної продуктивності потрібна підтримувана відеокарта.
 Ця функція необхідна для правильної роботи шейдерів.</value>

@@ -3069,24 +3069,6 @@ namespace Voidstrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Allows for having more than one Roblox game client instance open simultaneously. May cause issues with desktop app..
-        /// </summary>
-        public static string Menu_Behaviour_MultiInstances_Description {
-            get {
-                return ResourceManager.GetString("Menu.Behaviour.MultiInstances.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Multi-instance launching.
-        /// </summary>
-        public static string Menu_Behaviour_MultiInstances_Title {
-            get {
-                return ResourceManager.GetString("Menu.Behaviour.MultiInstances.Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to For optimal performance, a supported graphics card is required.
         ///This feature is essential for shaders to function properly..
         /// </summary>

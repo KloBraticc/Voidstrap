@@ -1487,12 +1487,6 @@ Uždarykite visas programas, kurios gali naudoti „Roblox“ failus, ir paleisk
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Kanalas</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Leidžia turėti atvirą daugiau nei vieną „Roblox“ žaidimo kliento egzempliorių vienu metu. Gali sukelti problemų su darbalaukio programėle.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Kelių egzempliorių paleidimas</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Optimaliam veikimui reikalinga palaikoma vaizdo plokštė.
 Ši funkcija būtina, kad šešėliuotuvai veiktų tinkamai.</value>

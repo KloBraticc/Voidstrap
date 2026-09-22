@@ -1477,12 +1477,6 @@ Sila tutup sebarang aplikasi yang mungkin menggunakan fail Roblox, dan cuba lagi
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Saluran</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Membenarkan lebih daripada satu instance klien permainan Roblox dibuka serentak. Mungkin menyebabkan isu dengan aplikasi desktop.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Pelancaran berbilang-instance</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Untuk prestasi optimum, kad grafik yang disokong diperlukan.
 Ciri ini penting untuk shader berfungsi dengan baik.</value>

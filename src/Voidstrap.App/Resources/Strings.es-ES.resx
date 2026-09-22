@@ -1486,12 +1486,6 @@ Por favor cierre las aplicaciones que estén usando los archivos de Roblox, y vu
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Canal</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Permite abrir más de una instancia del cliente del juego Roblox simultáneamente. Puede causar problemas con la app de escritorio.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Inicio de múltiples instancias</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Para un rendimiento óptimo, se requiere una tarjeta gráfica compatible.
 Esta función es esencial para que los shaders funcionen correctamente.</value>

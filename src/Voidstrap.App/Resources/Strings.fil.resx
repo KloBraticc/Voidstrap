@@ -1487,12 +1487,6 @@ Isarado muna ang kahit anong application na maaaring gamitin ang mga file ng Rob
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Channel</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Pinapayagan ang higit sa isang instance ng Roblox game client na bukas nang sabay-sabay. Maaaring magdulot ng isyu sa desktop app.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Multi-instance launching</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Para sa pinakamainam na performance, kailangan ng suportadong graphics card.
 Mahalaga ang feature na ito para sa wastong paggana ng shaders.</value>

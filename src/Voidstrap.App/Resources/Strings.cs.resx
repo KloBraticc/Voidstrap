@@ -1487,12 +1487,6 @@ Zavřete všechny aplikace, které mohou používat soubory Robloxu, a znovu spu
   <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
     <value>Kanál</value>
   </data>
-  <data name="Menu.Behaviour.MultiInstances.Description" xml:space="preserve">
-    <value>Umožňuje mít otevřeno více než jednu instanci klienta hry Roblox současně. Může způsobit problémy s desktopovou aplikací.</value>
-  </data>
-  <data name="Menu.Behaviour.MultiInstances.Title" xml:space="preserve">
-    <value>Spuštění více instancí</value>
-  </data>
   <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
     <value>Pro optimální výkon je vyžadována podporovaná grafická karta.
 Tato funkce je nezbytná pro správné fungování shaderů.</value>
