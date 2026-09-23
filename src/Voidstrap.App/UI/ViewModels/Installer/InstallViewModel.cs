@@ -216,7 +216,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 		{
 			ProcessStartInfo startInfo = new ProcessStartInfo
 			{
-				FileName = "explorer.exe",
+				FileName = Voidstrap.Utility.PlatformShell.WindowsTool("explorer.exe"),
 				UseShellExecute = true
 			};
 			startInfo.ArgumentList.Add(Paths.Base);

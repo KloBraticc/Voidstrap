@@ -37,7 +37,7 @@ internal static class PlatformShell
         {
             if (Platform.IsWindows)
             {
-                using Process? process = Process.Start(new ProcessStartInfo("explorer.exe", "/select,\"" + file + "\"") { UseShellExecute = false });
+                using Process? process = Process.Start(new ProcessStartInfo(WindowsTool("explorer.exe"), "/select,\"" + file + "\"") { UseShellExecute = false });
                 return process is not null;
             }
 
@@ -84,6 +84,14 @@ internal static class PlatformShell
         }
     }
 
+    internal static string WindowsTool(string name)
+    {
+        Environment.SpecialFolder folder = string.Equals(name, "explorer.exe", StringComparison.OrdinalIgnoreCase)
+            ? Environment.SpecialFolder.Windows
+            : Environment.SpecialFolder.System;
+        return Path.Combine(Environment.GetFolderPath(folder), name);
+    }
+
     private static readonly string[] TextExtensions =
     [
         ".log", ".txt", ".json", ".xml", ".ini", ".cfg", ".conf", ".yml", ".yaml", ".md", ".csv", ".xshd"
@@ -93,10 +101,10 @@ internal static class PlatformShell
     {
         bool isWeb = Uri.TryCreate(target, UriKind.Absolute, out Uri? uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
         (string file, string arguments)[] attempts = isWeb
-            ? [("rundll32.exe", "url.dll,FileProtocolHandler " + target), ("explorer.exe", target)]
+            ? [(WindowsTool("explorer.exe"), "\"" + uri!.AbsoluteUri + "\"")]
             : File.Exists(target) && TextExtensions.Contains(Path.GetExtension(target), StringComparer.OrdinalIgnoreCase)
-                ? [("notepad.exe", "\"" + target + "\"")]
-                : [("explorer.exe", "\"" + target + "\"")];
+                ? [(WindowsTool("notepad.exe"), "\"" + target + "\"")]
+                : [(WindowsTool("explorer.exe"), "\"" + target + "\"")];
         foreach ((string file, string arguments) in attempts)
         {
             try

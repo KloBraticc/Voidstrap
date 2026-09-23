@@ -1762,7 +1762,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             {
                 using Process? process = Process.Start(new ProcessStartInfo
                 {
-                    FileName = "explorer.exe",
+                    FileName = Voidstrap.Utility.PlatformShell.WindowsTool("explorer.exe"),
                     Arguments = "/select,\"" + saveFileDialog.FileName + "\"",
                     UseShellExecute = true
                 });

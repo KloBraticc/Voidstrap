@@ -461,14 +461,21 @@ namespace Voidstrap.UI.ViewModels
                     Status = "Switching to " + account.Username + "...";
                     if (File.Exists(_liveCookiePath))
                     {
-                        string safety = Path.Combine(_folder, "_previous_session.dat");
-                        await CopyWithRetryAsync(_liveCookiePath, safety, overwrite: true).ConfigureAwait(true);
-                        backedUp = true;
-                        SwitcherAccount? outgoing = _currentUserId == 0 ? null : Accounts.FirstOrDefault(a => a.UserId == _currentUserId && a != account);
-                        if (outgoing != null && !string.IsNullOrWhiteSpace(outgoing.DatFile))
+                        try
                         {
-                            await CopyWithRetryAsync(_liveCookiePath, Path.Combine(_folder, outgoing.DatFile), overwrite: true).ConfigureAwait(true);
-                            App.Logger?.WriteLine("AccountSwitcher", "Saved the latest login for " + outgoing.Username + " before switching");
+                            string safety = Path.Combine(_folder, "_previous_session.dat");
+                            await CopyWithRetryAsync(_liveCookiePath, safety, overwrite: true).ConfigureAwait(true);
+                            backedUp = true;
+                            SwitcherAccount? outgoing = _currentUserId == 0 ? null : Accounts.FirstOrDefault(a => a.UserId == _currentUserId && a != account);
+                            if (outgoing != null && !string.IsNullOrWhiteSpace(outgoing.DatFile))
+                            {
+                                await CopyWithRetryAsync(_liveCookiePath, Path.Combine(_folder, outgoing.DatFile), overwrite: true).ConfigureAwait(true);
+                                App.Logger?.WriteLine("AccountSwitcher", "Saved the latest login for " + outgoing.Username + " before switching");
+                            }
+                        }
+                        catch (InvalidDataException)
+                        {
+                            App.Logger?.WriteLine("AccountSwitcher", "The current Roblox login file is damaged, switching without saving it");
                         }
                     }
                     await ReplaceLiveCookieAsync(datPath).ConfigureAwait(true);
@@ -801,12 +808,7 @@ namespace Voidstrap.UI.ViewModels
             {
                 try
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
-                    using var s = new FileStream(src, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    using var d = new FileStream(dest, overwrite ? FileMode.Create : FileMode.CreateNew, FileAccess.Write, FileShare.None);
-                    await s.CopyToAsync(d).ConfigureAwait(false);
-                    if (Voidstrap.Utility.Platform.IsLinux)
-                        File.SetUnixFileMode(dest, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+                    Voidstrap.Utility.SavedAccounts.CopyLoginFile(src, dest, overwrite);
                     return;
                 }
                 catch (IOException) when (i < retries - 1)

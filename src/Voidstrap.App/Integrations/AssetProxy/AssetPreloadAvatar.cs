@@ -185,7 +185,7 @@ internal static class AssetPreloadAvatar
 		try
 		{
 			string? cookie = RobloxCookie.Get();
-			if (!string.IsNullOrEmpty(cookie))
+			if (!string.IsNullOrEmpty(cookie) && RobloxCookie.IsRobloxUrl(req.RequestUri))
 			{
 				req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
 			}

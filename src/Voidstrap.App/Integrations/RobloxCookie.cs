@@ -99,6 +99,12 @@ public static partial class RobloxCookie
 		}
 	}
 
+	public static bool IsRobloxUrl(Uri? uri)
+	{
+		return uri is not null && uri.Scheme == Uri.UriSchemeHttps
+			&& (uri.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase) || uri.Host.EndsWith(".roblox.com", StringComparison.OrdinalIgnoreCase));
+	}
+
 	public static string? Get()
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
@@ -177,7 +183,7 @@ public static partial class RobloxCookie
 	public static async Task<string?> GetAuthenticatedStringAsync(string url, CancellationToken ct = default(CancellationToken))
 	{
 		string? cookie = Get();
-		if (string.IsNullOrEmpty(cookie))
+		if (string.IsNullOrEmpty(cookie) || !IsRobloxUrl(Uri.TryCreate(url, UriKind.Absolute, out Uri? target) ? target : null))
 		{
 			return null;
 		}

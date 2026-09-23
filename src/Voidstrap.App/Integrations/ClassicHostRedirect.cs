@@ -115,7 +115,7 @@ public static class ClassicHostRedirect
 	{
 		try
 		{
-			using Process? process = Process.Start(new ProcessStartInfo("netsh", "http show urlacl url=" + ServerPrefix)
+			using Process? process = Process.Start(new ProcessStartInfo(Voidstrap.Utility.PlatformShell.WindowsTool("netsh.exe"), "http show urlacl url=" + ServerPrefix)
 			{
 				CreateNoWindow = true,
 				UseShellExecute = false,
@@ -146,7 +146,7 @@ public static class ClassicHostRedirect
 				return;
 			}
 			string user = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-			using Process? process = Process.Start(new ProcessStartInfo("netsh", "http add urlacl url=" + ServerPrefix + " user=\"" + user + "\"")
+			using Process? process = Process.Start(new ProcessStartInfo(Voidstrap.Utility.PlatformShell.WindowsTool("netsh.exe"), "http add urlacl url=" + ServerPrefix + " user=\"" + user + "\"")
 			{
 				CreateNoWindow = true,
 				UseShellExecute = false,
@@ -426,7 +426,7 @@ public static class ClassicHostRedirect
 	{
 		try
 		{
-			using Process? process = Process.Start(new ProcessStartInfo("ipconfig", "/flushdns")
+			using Process? process = Process.Start(new ProcessStartInfo(Voidstrap.Utility.PlatformShell.WindowsTool("ipconfig.exe"), "/flushdns")
 			{
 				CreateNoWindow = true,
 				UseShellExecute = false,

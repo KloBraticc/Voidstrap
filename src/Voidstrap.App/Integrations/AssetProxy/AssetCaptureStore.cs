@@ -1114,7 +1114,7 @@ public static partial class AssetCaptureStore
 		try
 		{
 			string? text = RobloxCookie.Get();
-			if (!string.IsNullOrEmpty(text))
+			if (!string.IsNullOrEmpty(text) && RobloxCookie.IsRobloxUrl(req.RequestUri))
 			{
 				req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + text);
 			}

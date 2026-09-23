@@ -1486,6 +1486,8 @@ public class Bootstrapper
             }
             if (!_safeMode)
                 await LaunchCustomIntegrations("Bootstrapper::StartRoblox", preLaunch: true, ct);
+            if (_launchMode == LaunchMode.Player && !_noConnection)
+                await WarmRobloxSettingsDnsAsync(ct);
 			App.Logger.WriteLine("Bootstrapper::StartRoblox", "Process preparation completed in " + startTimer.ElapsedMilliseconds + " ms");
             ProcessStartInfo startInfo = BuildStartInfo();
             if (_launchMode == LaunchMode.StudioAuth)
@@ -1545,6 +1547,27 @@ public class Bootstrapper
         {
             App.Logger.WriteLine("Bootstrapper::StartRoblox", $"Unexpected error in StartRoblox: {value}");
             Frontend.ShowPlayerErrorDialog();
+        }
+    }
+
+    private async Task WarmRobloxSettingsDnsAsync(CancellationToken ct)
+    {
+        for (int attempt = 1; attempt <= 6; attempt++)
+        {
+            try
+            {
+                await Dns.GetHostAddressesAsync("clientsettingscdn.roblox.com", ct).ConfigureAwait(false);
+                if (attempt > 1)
+                    App.Logger.WriteLine("Bootstrapper::StartRoblox", "Roblox's settings server resolved on attempt " + attempt);
+                return;
+            }
+            catch (SocketException ex)
+            {
+                App.Logger.WriteLine("Bootstrapper::StartRoblox", $"Roblox's settings server did not resolve ({ex.SocketErrorCode}), waiting for DNS before starting Roblox");
+                if (attempt == 1)
+                    SetStatus("Waiting for your network");
+                await Task.Delay(1000, ct).ConfigureAwait(false);
+            }
         }
     }
 

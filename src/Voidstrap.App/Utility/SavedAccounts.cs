@@ -36,6 +36,30 @@ public static class SavedAccounts
 
 	private static string LiveCookiePath => Platform.IsLinux ? RobloxCookie.SoberCookiePath : App.RobloxCookiesFilePath;
 
+	internal static void CopyLoginFile(string source, string destination, bool overwrite = true)
+	{
+		byte[] data = File.ReadAllBytes(source);
+		if (data.Length == 0 || data.Length > 1048576 || Array.IndexOf(data, (byte)0) >= 0)
+			throw new InvalidDataException("The Roblox login file is damaged, so it was not copied");
+		Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+		string temporary = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
+		try
+		{
+			using (FileStream stream = new(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+			{
+				stream.Write(data);
+				stream.Flush(true);
+			}
+			if (Platform.IsLinux)
+				File.SetUnixFileMode(temporary, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+			File.Move(temporary, destination, overwrite);
+		}
+		finally
+		{
+			File.Delete(temporary);
+		}
+	}
+
 	public static async Task<bool> EnsureCurrentAccountSavedAsync(CancellationToken token = default)
 	{
 		string live = LiveCookiePath;
@@ -72,7 +96,7 @@ public static class SavedAccounts
 			string datName = existing != null && !string.IsNullOrWhiteSpace(existing.DatFile)
 				? existing.DatFile
 				: "acc_" + account.UserId + "_" + Guid.NewGuid().ToString("N")[..8] + ".dat";
-			File.Copy(live, Path.Combine(Paths.AccountBackups, datName), overwrite: true);
+			CopyLoginFile(live, Path.Combine(Paths.AccountBackups, datName));
 			if (existing != null)
 			{
 				existing.Username = account.Username;

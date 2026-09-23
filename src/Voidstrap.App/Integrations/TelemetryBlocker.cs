@@ -307,7 +307,7 @@ public static class TelemetryBlocker
 	{
 		try
 		{
-			using Process? process = Process.Start(new ProcessStartInfo("ipconfig", "/flushdns")
+			using Process? process = Process.Start(new ProcessStartInfo(Voidstrap.Utility.PlatformShell.WindowsTool("ipconfig.exe"), "/flushdns")
 			{
 				CreateNoWindow = true,
 				UseShellExecute = false,

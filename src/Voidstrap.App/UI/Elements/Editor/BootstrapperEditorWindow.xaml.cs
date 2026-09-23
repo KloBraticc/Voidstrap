@@ -2112,7 +2112,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			if (Voidstrap.Utility.Platform.IsLinux)
 				Voidstrap.Utility.PlatformShell.TryRevealFile(file.FullPath);
 			else
-				using (Process? process = Process.Start("explorer.exe", "/select,\"" + file.FullPath + "\"")) { }
+				using (Process? process = Process.Start(Voidstrap.Utility.PlatformShell.WindowsTool("explorer.exe"), "/select,\"" + file.FullPath + "\"")) { }
 		}
 		catch (Exception ex)
 		{
