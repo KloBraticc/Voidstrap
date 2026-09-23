@@ -108,20 +108,49 @@ public partial class FastFlagsPage : UiPage{
 
 	private static async Task<Dictionary<string, string>> LoadAllowlistCoreAsync()
 	{
-		string payload = await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, AllowlistJsonUrl).ConfigureAwait(continueOnCapturedContext: false);
-		using JsonDocument document = JsonDocument.Parse(payload);
-		string cooked = document.RootElement
-			.GetProperty("post_stream")
-			.GetProperty("posts")[0]
-			.GetProperty("cooked")
-			.GetString() ?? string.Empty;
-		Dictionary<string, string> parsed = ParseOfficialAllowlist(cooked);
-		if (parsed.Count == 0)
+		for (int attempt = 0; ; attempt++)
 		{
-			throw new InvalidOperationException("Roblox's allowlist post did not contain any flags.");
+			string payload = await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, AllowlistJsonUrl).ConfigureAwait(continueOnCapturedContext: false);
+			Dictionary<string, string>? parsed = ParseAllowlistPayload(payload);
+			if (parsed is not null)
+			{
+				_allowlistCache = parsed;
+				return parsed;
+			}
+			if (attempt > 0)
+			{
+				throw new InvalidDataException("Roblox's allowlist post was empty or unreadable.");
+			}
+			await Task.Delay(1500).ConfigureAwait(continueOnCapturedContext: false);
 		}
-		_allowlistCache = parsed;
-		return parsed;
+	}
+
+	private static Dictionary<string, string>? ParseAllowlistPayload(string payload)
+	{
+		if (string.IsNullOrWhiteSpace(payload))
+			return null;
+
+		try
+		{
+			using JsonDocument document = JsonDocument.Parse(payload);
+			if (document.RootElement.ValueKind != JsonValueKind.Object
+				|| !document.RootElement.TryGetProperty("post_stream", out JsonElement stream)
+				|| stream.ValueKind != JsonValueKind.Object
+				|| !stream.TryGetProperty("posts", out JsonElement posts)
+				|| posts.ValueKind != JsonValueKind.Array
+				|| posts.GetArrayLength() == 0
+				|| posts[0].ValueKind != JsonValueKind.Object
+				|| !posts[0].TryGetProperty("cooked", out JsonElement cooked)
+				|| cooked.ValueKind != JsonValueKind.String)
+				return null;
+
+			Dictionary<string, string> parsed = ParseOfficialAllowlist(cooked.GetString() ?? string.Empty);
+			return parsed.Count == 0 ? null : parsed;
+		}
+		catch (JsonException)
+		{
+			return null;
+		}
 	}
 
 	private static Dictionary<string, string> ParseOfficialAllowlist(string cooked)
@@ -242,7 +271,7 @@ public partial class FastFlagsPage : UiPage{
 		catch (Exception ex)
 		{
 			_allowlistTask = null;
-			App.Logger.WriteException("FastFlagsPage::LoadFFlagsAsync", ex);
+			App.Logger.WriteLine("FastFlagsPage::LoadFFlagsAsync", "Using the built in allowlist, the online one could not be loaded: " + ex.GetType().Name + ": " + ex.Message);
 			dict = RobloxFastFlagAllowlist.Flags.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal);
 		}
 
