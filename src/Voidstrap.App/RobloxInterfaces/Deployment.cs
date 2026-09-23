@@ -63,8 +63,7 @@ public static class Deployment
 			{ "https://setup.rbxcdn.com", 0 },
 			{ "https://setup-aws.rbxcdn.com", 2 },
 			{ "https://setup-ak.rbxcdn.com", 2 },
-			{ "https://s3.amazonaws.com/setup.roblox.com", 4 },
-			{ "https://roblox-setup.cachefly.net", 5 }
+			{ "https://s3.amazonaws.com/setup.roblox.com", 4 }
 		};
 		SharedHttp = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(30L));
 		SharedHttp.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "VoidstrapUpdater/2.0");
@@ -290,21 +289,8 @@ public static class Deployment
 		}
 	}
 
-	public static string GetLocation(string resource, string? channel = null)
+	public static IReadOnlyList<string> GetLocations(string resource)
 	{
-		string effectiveChannel = string.IsNullOrWhiteSpace(channel) ? App.Settings.Prop.Channel : channel;
-		string text = BaseUrl;
-		if (!string.Equals(effectiveChannel, DefaultChannel, StringComparison.OrdinalIgnoreCase))
-		{
-			string text2 = ApplicationSettings.GetSettings("PCClientBootstrapper", effectiveChannel).Get<bool>("FFlagReplaceChannelNameForDownload") ? "common" : effectiveChannel.ToLowerInvariant();
-			text = text + "/channel/" + Uri.EscapeDataString(text2);
-		}
-		return text + resource;
-	}
-
-	public static IReadOnlyList<string> GetLocations(string resource, string? channel = null)
-	{
-		string effectiveChannel = string.IsNullOrWhiteSpace(channel) ? App.Settings.Prop.Channel : channel;
 		List<string> hosts = [];
 		if (!string.IsNullOrEmpty(BaseUrl))
 		{
@@ -318,41 +304,6 @@ public static class Deployment
 			}
 		}
 		hosts = hosts.OrderBy(host => IsMirrorHealthy(host) ? 0 : 1).ToList();
-		List<string> urls = [];
-		if (!string.Equals(effectiveChannel, DefaultChannel, StringComparison.OrdinalIgnoreCase))
-		{
-			string channelName;
-			try
-			{
-				channelName = ApplicationSettings.GetSettings("PCClientBootstrapper", effectiveChannel).Get<bool>("FFlagReplaceChannelNameForDownload") ? "common" : effectiveChannel.ToLowerInvariant();
-			}
-			catch
-			{
-				channelName = effectiveChannel.ToLowerInvariant();
-			}
-			string alternate = channelName == "common" ? effectiveChannel.ToLowerInvariant() : "common";
-			channelName = Uri.EscapeDataString(channelName);
-			alternate = Uri.EscapeDataString(alternate);
-			foreach (string host in hosts)
-			{
-				urls.Add(host + "/channel/" + channelName + resource);
-			}
-			foreach (string host in hosts)
-			{
-				urls.Add(host + "/channel/" + alternate + resource);
-			}
-			foreach (string host in hosts)
-			{
-				urls.Add(host + resource);
-			}
-		}
-		else
-		{
-			foreach (string host in hosts)
-			{
-				urls.Add(host + resource);
-			}
-		}
-		return urls;
+		return [.. hosts.Select(host => host + "/channel/common" + resource), .. hosts.Select(host => host + resource)];
 	}
 }

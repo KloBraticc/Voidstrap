@@ -1436,7 +1436,7 @@ public class Bootstrapper
 			_versionPackageManifest = new PackageManifest();
 			return;
 		}
-        IReadOnlyList<string> manifestUrls = Deployment.GetLocations("/" + _latestVersionGuid + "-rbxPkgManifest.txt", _deploymentChannel);
+        IReadOnlyList<string> manifestUrls = Deployment.GetLocations("/" + _latestVersionGuid + "-rbxPkgManifest.txt");
         string? manifestBody = null;
         foreach (string manifestUrl in manifestUrls)
         {
@@ -3546,7 +3546,7 @@ public class Bootstrapper
 		ct.ThrowIfCancellationRequested();
 		PackageProgressTracker progress = new(this);
         Directory.CreateDirectory(Paths.Downloads);
-        IReadOnlyList<string> packageUrls = Deployment.GetLocations("/" + _latestVersionGuid + "-" + package.Name, _deploymentChannel);
+        IReadOnlyList<string> packageUrls = Deployment.GetLocations("/" + _latestVersionGuid + "-" + package.Name);
         if (packageUrls.Count == 0)
         {
             throw new InvalidOperationException("No download location is available for package " + package.Name + ".");
@@ -3697,7 +3697,9 @@ public class Bootstrapper
                 else
                 {
                     response.Dispose();
-					await DownloadMultipartAsync(packageUrls, urlIndex, tempFile, contentLength.Value, bufferSize, maxParallelSegments, updating, logIdent, progress, ct).ConfigureAwait(continueOnCapturedContext: false);
+					bool common = packageUrl.Contains("/channel/", StringComparison.Ordinal);
+					List<string> segmentUrls = [.. packageUrls.Where(url => url.Contains("/channel/", StringComparison.Ordinal) == common)];
+					await DownloadMultipartAsync(segmentUrls, segmentUrls.IndexOf(packageUrl), tempFile, contentLength.Value, bufferSize, maxParallelSegments, updating, logIdent, progress, ct).ConfigureAwait(continueOnCapturedContext: false);
                 }
                 string text2 = MD5Hash.FromFile(tempFile);
                 if (!text2.Equals(package.Signature, StringComparison.OrdinalIgnoreCase))
