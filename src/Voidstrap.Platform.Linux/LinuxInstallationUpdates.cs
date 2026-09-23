@@ -340,8 +340,10 @@ public static partial class LinuxInstallationUpdates
 	private static async Task<OperationResult> UpdateArchSourceAsync(IProcessService processes, string packageName, CancellationToken cancellationToken)
 	{
 		List<ProcessCommand> commands = [];
-		AddCommand(processes, commands, "paru", ["--sync", "--needed", "--noconfirm", packageName]);
-		AddCommand(processes, commands, "yay", ["--sync", "--needed", "--noconfirm", packageName]);
+		string? pkexec = processes.FindExecutable("pkexec");
+		string[] escalation = string.IsNullOrWhiteSpace(pkexec) ? [] : ["--sudo", pkexec];
+		AddCommand(processes, commands, "paru", ["--sync", "--needed", "--noconfirm", "--skipreview", .. escalation, packageName]);
+		AddCommand(processes, commands, "yay", ["--sync", "--needed", "--noconfirm", .. escalation, packageName]);
 		AddCommand(processes, commands, "pamac", ["build", "--no-confirm", packageName]);
 		OperationResult helperResult = await ExecuteCommandsAsync(processes, commands, cancellationToken).ConfigureAwait(false);
 		if (helperResult.Succeeded)

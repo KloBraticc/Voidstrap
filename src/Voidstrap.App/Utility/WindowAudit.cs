@@ -3759,7 +3759,7 @@ internal static class WindowAudit
 			Voidstrap.Enums.BootstrapperStyle.ProgressDialog => "LinuxProgressDialog",
 			Voidstrap.Enums.BootstrapperStyle.ClassicFluentDialog => "ClassicFluentDialog",
 			Voidstrap.Enums.BootstrapperStyle.ByfronDialog => "ByfronDialog",
-			Voidstrap.Enums.BootstrapperStyle.CustomDialog => "CustomDialog",
+			Voidstrap.Enums.BootstrapperStyle.CustomDialog => App.Settings.Prop.SelectedCustomTheme == null ? "FluentDialog" : "CustomDialog",
 			_ => "FluentDialog"
 		};
 
@@ -5861,7 +5861,7 @@ internal static class WindowAudit
 
 	private static void AuditAboutHeaderText(Voidstrap.UI.Elements.About.MainWindow window)
 	{
-		const string subtitleSource = "A Simple yet Advanced, Bloxstrap Fork.";
+		const string subtitleSource = "A simple yet advanced Bloxstrap fork.";
 		window.Navigate(typeof(Voidstrap.UI.Elements.About.Pages.AboutPage));
 		Pump();
 		Pump();
@@ -6446,9 +6446,7 @@ internal static class WindowAudit
 			System.Diagnostics.Stopwatch elapsed = System.Diagnostics.Stopwatch.StartNew();
 			while (elapsed.ElapsedMilliseconds < milliseconds)
 			{
-				DispatcherFrame frame = new DispatcherFrame();
-				dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => frame.Continue = false));
-				Dispatcher.PushFrame(frame);
+				PushBoundedFrame(dispatcher);
 				int remaining = milliseconds - (int)elapsed.ElapsedMilliseconds;
 				if (remaining > 0)
 					System.Threading.Thread.Sleep(Math.Min(4, remaining));
@@ -6459,11 +6457,25 @@ internal static class WindowAudit
 		}
 	}
 
+	private static void PushBoundedFrame(Dispatcher dispatcher)
+	{
+		DispatcherFrame frame = new();
+		DispatcherTimer limit = new(DispatcherPriority.Normal, dispatcher)
+		{
+			Interval = TimeSpan.FromMilliseconds(50)
+		};
+		limit.Tick += (_, _) => frame.Continue = false;
+		dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => frame.Continue = false));
+		limit.Start();
+		Dispatcher.PushFrame(frame);
+		limit.Stop();
+	}
+
 	private static bool PumpOneRender(int timeoutMilliseconds)
 	{
 		DispatcherFrame frame = new();
 		bool rendered = false;
-		DispatcherTimer timeout = new(DispatcherPriority.Background, Dispatcher.CurrentDispatcher)
+		DispatcherTimer timeout = new(DispatcherPriority.Normal, Dispatcher.CurrentDispatcher)
 		{
 			Interval = TimeSpan.FromMilliseconds(timeoutMilliseconds)
 		};
@@ -6525,9 +6537,7 @@ internal static class WindowAudit
 		int consecutive = 0;
 		while (Environment.TickCount64 < deadline)
 		{
-			DispatcherFrame frame = new();
-			dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => frame.Continue = false));
-			Dispatcher.PushFrame(frame);
+			PushBoundedFrame(dispatcher);
 			if (predicate())
 			{
 				consecutive++;

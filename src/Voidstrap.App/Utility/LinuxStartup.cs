@@ -70,23 +70,42 @@ internal static partial class LinuxStartup
 			return;
 		}
 		TextFontInstaller.Install();
-		string stage = ChooseStage(out bool confirmed);
-		string? executable = Environment.ProcessPath;
-		if (!string.IsNullOrEmpty(executable))
+		try
 		{
-			if (confirmed || Environment.GetEnvironmentVariable(ForceGpuFlag) == "1")
+			bool headless = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY"))
+				&& string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"));
+			if (headless)
 			{
-				ReplaceProcess(CreateStartInfo(executable, CurrentArguments(), stage, "pid:" + Environment.ProcessId));
+				WriteError("Voidstrap needs a desktop session with X11 or Wayland, but no display was found. Start it from your desktop instead of a text console or SSH session.");
+				if (CurrentArguments().Length == 0)
+				{
+					Environment.Exit(1);
+				}
 			}
-			else
+			string stage = ChooseStage(out bool confirmed);
+			_activeStage = stage;
+			string? executable = Environment.ProcessPath;
+			if (!string.IsNullOrEmpty(executable) && !headless)
 			{
-				Supervise(executable, stage);
+				if (confirmed || Environment.GetEnvironmentVariable(ForceGpuFlag) == "1")
+				{
+					ReplaceProcess(CreateStartInfo(executable, CurrentArguments(), stage, "pid:" + Environment.ProcessId));
+				}
+				else
+				{
+					Supervise(executable, stage);
+				}
+			}
+			foreach (KeyValuePair<string, string?> entry in CreateStartInfo(executable ?? ApplicationName, [], stage, "pid:" + Environment.ProcessId).Environment)
+			{
+				if (entry.Key.Length > 0 && !entry.Key.Contains('='))
+				{
+					Environment.SetEnvironmentVariable(entry.Key, entry.Value);
+				}
 			}
 		}
-		_activeStage = stage;
-		foreach (KeyValuePair<string, string?> entry in CreateStartInfo(executable ?? ApplicationName, [], stage, "pid:" + Environment.ProcessId).Environment)
+		catch (Exception)
 		{
-			Environment.SetEnvironmentVariable(entry.Key, entry.Value);
 		}
 	}
 
@@ -295,11 +314,14 @@ internal static partial class LinuxStartup
 				return null;
 			}
 			Directory.CreateDirectory(directory);
-			string link = Path.Combine(directory, "libEGL.so.1");
-			if (!string.Equals(new FileInfo(link).LinkTarget, library, StringComparison.Ordinal))
+			foreach (string name in new[] { "libEGL.so.1", "libEGL.so" })
 			{
-				File.Delete(link);
-				File.CreateSymbolicLink(link, library);
+				string link = Path.Combine(directory, name);
+				if (!string.Equals(new FileInfo(link).LinkTarget, library, StringComparison.Ordinal))
+				{
+					File.Delete(link);
+					File.CreateSymbolicLink(link, library);
+				}
 			}
 			return directory;
 		}

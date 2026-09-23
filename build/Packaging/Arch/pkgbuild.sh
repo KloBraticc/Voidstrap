@@ -50,8 +50,9 @@ pkgdesc='Customize and launch Roblox through Sober on Linux'
 arch=('x86_64' 'aarch64')
 url='$PROJECT_URL'
 license=('MIT')
-depends=('glibc' 'gcc-libs' 'zlib' 'vulkan-icd-loader' 'vulkan-driver' 'libx11' 'libxext' 'libxrender' 'libxrandr' 'libxi' 'libxcursor' 'libxfixes' 'libice' 'libsm' 'fontconfig' 'freetype2' 'libxkbcommon' 'libxkbcommon-x11' 'wayland' 'dbus' 'libglvnd' 'openssl' 'ca-certificates' 'flatpak' 'hicolor-icon-theme' 'desktop-file-utils')
-optdepends=('xdg-utils: desktop protocol registration tools'
+depends=('glibc' 'gcc-libs' 'zlib' 'vulkan-icd-loader' 'vulkan-driver' 'libx11' 'libxext' 'libxrender' 'libxrandr' 'libxi' 'libxcursor' 'libxfixes' 'libice' 'libsm' 'fontconfig' 'freetype2' 'libxkbcommon' 'libxkbcommon-x11' 'wayland' 'dbus' 'libglvnd' 'openssl' 'ca-certificates' 'flatpak' 'hicolor-icon-theme')
+optdepends=('vulkan-swrast: software rendering when no GPU Vulkan driver works'
+            'xdg-utils: desktop protocol registration tools'
             'libnotify: desktop notifications'
             'libsecret: credential storage'
             'gstreamer: image and video playback'
@@ -74,6 +75,7 @@ package() {
     ln -s /usr/lib/voidstrap/Voidstrap "\$pkgdir/usr/bin/voidstrap"
     install -dm755 "\$pkgdir/usr/share"
     cp -a "\$srcdir/Voidstrap/share/." "\$pkgdir/usr/share/"
+    mv "\$pkgdir/usr/share/licenses/voidstrap" "\$pkgdir/usr/share/licenses/\$pkgname"
 }
 PKGBUILD
 
@@ -114,7 +116,7 @@ pkgbase = voidstrap-bin
 	depends = ca-certificates
 	depends = flatpak
 	depends = hicolor-icon-theme
-	depends = desktop-file-utils
+	optdepends = vulkan-swrast: software rendering when no GPU Vulkan driver works
 	optdepends = xdg-utils: desktop protocol registration tools
 	optdepends = libnotify: desktop notifications
 	optdepends = libsecret: credential storage

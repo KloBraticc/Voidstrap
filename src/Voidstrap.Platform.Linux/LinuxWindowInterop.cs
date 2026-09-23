@@ -1838,6 +1838,7 @@ public static partial class LinuxWindowInterop
 
 			_ = XUnmapWindow(display, window);
 			_ = XSync(display, 0);
+			ReparentToRoot(display, window);
 			XChangeWindowAttributes(display, window, CwOverrideRedirect, ref attributes);
 			_ = XSync(display, 0);
 			_ = XMapWindow(display, window);
@@ -1848,6 +1849,18 @@ public static partial class LinuxWindowInterop
 		{
 			return false;
 		}
+	}
+
+	private static void ReparentToRoot(nint display, nint window)
+	{
+		if (!XQueryTree(display, window, out nint root, out nint parent, out nint children, out _))
+			return;
+		if (children != 0)
+			_ = XFree(children);
+		if (parent == 0 || parent == root || XTranslateCoordinates(display, window, root, 0, 0, out int rootX, out int rootY, out _) == 0)
+			return;
+		_ = XReparentWindow(display, window, root, rootX, rootY);
+		_ = XSync(display, 0);
 	}
 
 	public static bool TryPrepareOverlayWindow(nint window)
@@ -2635,6 +2648,21 @@ public static partial class LinuxWindowInterop
 		return 0;
 	}
 
+	public static void KeepIgnoringXErrors()
+	{
+		try
+		{
+			_errorHandler ??= IgnoreError;
+			XSetErrorHandler(_errorHandler);
+		}
+		catch (DllNotFoundException)
+		{
+		}
+		catch (EntryPointNotFoundException)
+		{
+		}
+	}
+
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 	private delegate int XErrorHandler(nint display, nint errorEvent);
 
@@ -2739,6 +2767,9 @@ public static partial class LinuxWindowInterop
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XMapWindow(nint display, nint window);
+
+	[LibraryImport("libX11.so.6")]
+	private static partial int XReparentWindow(nint display, nint window, nint parent, int x, int y);
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XSync(nint display, int discard);

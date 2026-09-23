@@ -91,6 +91,7 @@ internal sealed class LinuxWebPanel : FrameworkElement, IDisposable
 					int argc = 0;
 					IntPtr argv = IntPtr.Zero;
 					_gtkReady = gtk_init_check(ref argc, ref argv);
+					Voidstrap.Platform.Linux.LinuxWindowInterop.KeepIgnoringXErrors();
 					_display = XOpenDisplay(null);
 					started.Set();
 					if (_gtkReady)
