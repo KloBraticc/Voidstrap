@@ -155,7 +155,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 {
                     canceled = true;
                 }
-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException)
                 {
                     App.Logger?.WriteLine("DownloadsViewModel::Verify", $"{Title} verification failed: {ex.Message}");
                     result = new InstallManifest.Result(0, 0, [], [ex.Message], true);
@@ -874,7 +874,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 {
                     canceled = true;
                 }
-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException or InvalidDataException)
                 {
                     App.Logger?.WriteLine("DownloadsViewModel::ClassicVerify", $"{Code} verification failed: {ex.Message}");
                     problems.Add(ex.Message);

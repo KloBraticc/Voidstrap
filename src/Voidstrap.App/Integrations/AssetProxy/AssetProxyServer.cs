@@ -839,8 +839,7 @@ public static class AssetProxyServer
 			}
 			if (AssetProxyRouting.HasInstalledEntries())
 			{
-				App.Logger?.WriteLine(LogIdent, "Leftover AssetWarp routing is present in the hosts file, asking the recovery task to clear it");
-				AssetProxyRouting.TryRunRecoveryTask(waitForCompletion: false);
+				App.Logger?.WriteLine(LogIdent, "Leftover AssetWarp routing is present in the hosts file, it is cleared on the next launch with administrator access");
 			}
 			if (App.Settings.Prop.AssetWarpEnabled && !App.Settings.Prop.AssetWarpCertificateApproved)
 			{

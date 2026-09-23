@@ -162,6 +162,12 @@ public static class StudioBridge
 	private static async Task HandleRequestAsync(HttpListenerContext context, CancellationToken token)
 	{
 		string text = context.Request.Url?.AbsolutePath ?? "";
+		if (!IsTrustedCaller(context.Request.Headers["Origin"], context.Request.Headers["Sec-Fetch-Site"], context.Request.Headers["Host"]))
+		{
+			context.Response.StatusCode = 403;
+			context.Response.Close();
+			return;
+		}
 		if (text.Equals("/ping", StringComparison.OrdinalIgnoreCase))
 		{
 			WriteJson(context, BuildReply());
@@ -270,6 +276,12 @@ public static class StudioBridge
 					return;
 				}
 
+				if (!IsTrustedCaller(ReadHeader(head, "Origin"), ReadHeader(head, "Sec-Fetch-Site"), ReadHeader(head, "Host")))
+				{
+					await WriteFallbackAsync(stream, 403, "{}", timeoutCts.Token).ConfigureAwait(continueOnCapturedContext: false);
+					return;
+				}
+
 				string requestLine = head.Split('\n')[0].Trim();
 				string[] parts = requestLine.Split(' ');
 				string method = parts.Length > 0 ? parts[0] : "";
@@ -328,24 +340,31 @@ public static class StudioBridge
 
 	private static int ReadContentLength(string headers)
 	{
+		return int.TryParse(ReadHeader(headers, "Content-Length"), out int value) && value >= 0 && value <= MaxRequestCharacters ? value : 0;
+	}
+
+	private static string? ReadHeader(string headers, string name)
+	{
 		foreach (string line in headers.Split('\n'))
 		{
 			int separator = line.IndexOf(':');
-			if (separator <= 0)
+			if (separator > 0 && line.AsSpan(0, separator).Trim().Equals(name, StringComparison.OrdinalIgnoreCase))
 			{
-				continue;
+				return line[(separator + 1)..].Trim();
 			}
-			if (!line.AsSpan(0, separator).Trim().Equals("Content-Length", StringComparison.OrdinalIgnoreCase))
-			{
-				continue;
-			}
-			if (int.TryParse(line.AsSpan(separator + 1).Trim(), out int value) && value >= 0 && value <= MaxRequestCharacters)
-			{
-				return value;
-			}
-			return 0;
 		}
-		return 0;
+		return null;
+	}
+
+	private static bool IsTrustedCaller(string? origin, string? fetchSite, string? host)
+	{
+		if (!string.IsNullOrEmpty(origin) || !string.IsNullOrEmpty(fetchSite))
+		{
+			return false;
+		}
+		return string.IsNullOrEmpty(host)
+			|| host.Equals("127.0.0.1:" + Port, StringComparison.OrdinalIgnoreCase)
+			|| host.Equals("localhost:" + Port, StringComparison.OrdinalIgnoreCase);
 	}
 
 	private static async Task WriteFallbackAsync(NetworkStream stream, int status, string json, CancellationToken token)

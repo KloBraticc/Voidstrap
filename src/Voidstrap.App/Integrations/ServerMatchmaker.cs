@@ -22,7 +22,9 @@ public sealed class ServerMatchmaker : IDisposable
 
 	private const double AcceptablePingMs = 60.0;
 
-	private const int JoinSettleDelayMs = 2000;
+	private static readonly TimeSpan MoveWindow = TimeSpan.FromSeconds(10.0);
+
+	private static readonly TimeSpan PrefetchLimit = TimeSpan.FromSeconds(25.0);
 
 	private const int HandoffPollIntervalMs = 500;
 
@@ -56,6 +58,12 @@ public sealed class ServerMatchmaker : IDisposable
 
 	private CancellationTokenSource? _currentCts;
 
+	private CancellationTokenSource? _prefetchCts;
+
+	private Task<MatchmakerCandidate?>? _prefetch;
+
+	private string? _prefetchJobId;
+
 	private string? _linuxRejoinTarget;
 
 	private long _linuxRejoinPlaceId;
@@ -68,7 +76,58 @@ public sealed class ServerMatchmaker : IDisposable
 	{
 		_activityWatcher = activityWatcher ?? throw new ArgumentNullException(nameof(activityWatcher));
 		_watcher = watcher ?? throw new ArgumentNullException(nameof(watcher));
+		_activityWatcher.OnGameJoining += OnGameJoining;
 		_activityWatcher.OnGameJoin += OnGameJoin;
+	}
+
+	private void OnGameJoining(object? sender, EventArgs e)
+	{
+		CancelPrefetch();
+		ActivityData? data = _activityWatcher.Data;
+		if (_disposed || data == null || data.PlaceId == 0L || data.ServerType == ServerType.Reserved || IsExcluded(data.PlaceId)
+			|| (!App.Settings.Prop.VoidstrapMatchmakerEnabled && !HasPerGamePreference(data.PlaceId)))
+			return;
+
+		HashSet<string> tried = GetTriedJobIds(data.PlaceId);
+		if (!string.IsNullOrEmpty(data.JobId))
+			tried.Add(data.JobId);
+		CancellationTokenSource cts = new(PrefetchLimit);
+		_prefetchCts = cts;
+		_prefetchJobId = data.JobId;
+		_prefetch = PrefetchAsync(data.PlaceId, tried, ResolvePreferredDatacenterKey(data.PlaceId), cts);
+		App.Logger.WriteLine(LOG_IDENT, $"Joining place {data.PlaceId}, searching for a better server while Roblox loads");
+	}
+
+	private static async Task<MatchmakerCandidate?> PrefetchAsync(long placeId, HashSet<string> tried, string preferredKey, CancellationTokenSource cts)
+	{
+		try
+		{
+			return await VoidstrapMatchmaker
+				.PickBestJobIdAsync(placeId, tried, VoidstrapMatchmaker.ResolveEffectiveCandidateCount(), preferredKey, cts.Token)
+				.ConfigureAwait(false);
+		}
+		catch (OperationCanceledException)
+		{
+			return null;
+		}
+		finally
+		{
+			cts.Dispose();
+		}
+	}
+
+	private void CancelPrefetch()
+	{
+		CancellationTokenSource? cts = Interlocked.Exchange(ref _prefetchCts, null);
+		_prefetch = null;
+		_prefetchJobId = null;
+		try
+		{
+			cts?.Cancel();
+		}
+		catch (ObjectDisposedException)
+		{
+		}
 	}
 
 	private void OnGameJoin(object? sender, EventArgs e)
@@ -248,18 +307,27 @@ public sealed class ServerMatchmaker : IDisposable
 		if (_linuxRejoinTarget != null && _linuxRejoinPlaceId != data.PlaceId)
 			ClearLinuxRejoin();
 
+		Task<MatchmakerCandidate?>? prefetch = string.Equals(_prefetchJobId, data.JobId, StringComparison.OrdinalIgnoreCase) ? _prefetch : null;
+		using CancellationTokenSource window = CancellationTokenSource.CreateLinkedTokenSource(token);
+		window.CancelAfter(MoveWindow);
 		try
 		{
-			await Task.Delay(JoinSettleDelayMs, token).ConfigureAwait(false);
+			await DecideAsync(data, prefetch, window.Token, token).ConfigureAwait(false);
 		}
-		catch (OperationCanceledException)
+		catch (OperationCanceledException) when (window.IsCancellationRequested && !token.IsCancellationRequested)
 		{
-			return;
+			App.Logger.WriteLine(LOG_IDENT, $"No better server was ready within {MoveWindow.TotalSeconds:0}s of joining, staying so you are not pulled out mid game");
+			ClearLinuxRejoin();
+			ClearAttempt(data.PlaceId);
 		}
-		if (_disposed || token.IsCancellationRequested)
+	}
+
+	private async Task DecideAsync(ActivityData data, Task<MatchmakerCandidate?>? prefetch, CancellationToken decideBy, CancellationToken token)
+	{
+		if (_disposed || decideBy.IsCancellationRequested)
 			return;
 
-		UserGeo? geo = await VoidstrapMatchmaker.GetUserGeoAsync(token).ConfigureAwait(false);
+		UserGeo? geo = await VoidstrapMatchmaker.GetUserGeoAsync(decideBy).ConfigureAwait(false);
 		if (geo == null)
 		{
 			App.Logger.WriteLine(LOG_IDENT, "No user location available, staying put");
@@ -268,7 +336,7 @@ public sealed class ServerMatchmaker : IDisposable
 		}
 
 		RobloxDatacenter? currentDc = RobloxDatacenterMap.Map(data.MachineAddress)
-			?? await VoidstrapMatchmaker.LookupUnknownIpAsync(data.MachineAddress, token).ConfigureAwait(false);
+			?? await VoidstrapMatchmaker.LookupUnknownIpAsync(data.MachineAddress, decideBy).ConfigureAwait(false);
 		if (currentDc == null)
 		{
 			App.Logger.WriteLine(LOG_IDENT, "Current datacenter could not be resolved, staying put instead of hopping blind");
@@ -318,13 +386,20 @@ public sealed class ServerMatchmaker : IDisposable
 			return;
 		}
 
-		HashSet<string> tried = GetTriedJobIds(data.PlaceId);
-		if (!string.IsNullOrEmpty(data.JobId))
-			tried.Add(data.JobId);
-
-		MatchmakerCandidate? best = await VoidstrapMatchmaker
-			.PickBestJobIdAsync(data.PlaceId, tried, VoidstrapMatchmaker.ResolveEffectiveCandidateCount(), preferredKey, token)
-			.ConfigureAwait(false);
+		MatchmakerCandidate? best;
+		if (prefetch != null)
+		{
+			best = await prefetch.WaitAsync(decideBy).ConfigureAwait(false);
+		}
+		else
+		{
+			HashSet<string> tried = GetTriedJobIds(data.PlaceId);
+			if (!string.IsNullOrEmpty(data.JobId))
+				tried.Add(data.JobId);
+			best = await VoidstrapMatchmaker
+				.PickBestJobIdAsync(data.PlaceId, tried, VoidstrapMatchmaker.ResolveEffectiveCandidateCount(), preferredKey, decideBy)
+				.ConfigureAwait(false);
+		}
 
 		if (best == null)
 		{
@@ -399,10 +474,10 @@ public sealed class ServerMatchmaker : IDisposable
 		ShowAlert($"Moving you to {best.Datacenter?.City ?? "the best server"}, about {best.EstimatedPingMs}ms{attemptNote}{blockedNote}", 8);
 
 		_lastHopUtc = DateTime.UtcNow;
-		await TriggerRejoinAsync(data.PlaceId, attempt, best.JobId, best.Datacenter?.City, token).ConfigureAwait(false);
+		await TriggerRejoinAsync(data.PlaceId, attempt, best.JobId, best.Datacenter?.City, decideBy, token).ConfigureAwait(false);
 	}
 
-	private async Task TriggerRejoinAsync(long placeId, int attemptNumber, string? explicitJobId, string? targetName, CancellationToken token)
+	private async Task TriggerRejoinAsync(long placeId, int attemptNumber, string? explicitJobId, string? targetName, CancellationToken decideBy, CancellationToken token)
 	{
 		if (_disposed || token.IsCancellationRequested)
 			return;
@@ -410,14 +485,15 @@ public sealed class ServerMatchmaker : IDisposable
 		string? authUri = null;
 		try
 		{
-			authUri = await RobloxAuthLauncher.BuildRobloxPlayerUriAsync(placeId, explicitJobId, token).ConfigureAwait(false);
+			authUri = await RobloxAuthLauncher.BuildRobloxPlayerUriAsync(placeId, explicitJobId, decideBy).ConfigureAwait(false);
 		}
-		catch (Exception ex)
+		catch (Exception ex) when (!decideBy.IsCancellationRequested)
 		{
 			App.Logger.WriteLine(LOG_IDENT, "Auth URI build failed: " + ex.Message);
 		}
 		if (_disposed || token.IsCancellationRequested)
 			return;
+		decideBy.ThrowIfCancellationRequested();
 
 		string launchUri = !string.IsNullOrEmpty(authUri)
 			? authUri
@@ -746,11 +822,13 @@ public sealed class ServerMatchmaker : IDisposable
 		CompleteLinuxRejoinLease();
 		try
 		{
+			_activityWatcher.OnGameJoining -= OnGameJoining;
 			_activityWatcher.OnGameJoin -= OnGameJoin;
 		}
 		catch
 		{
 		}
+		CancelPrefetch();
 		try
 		{
 			CancellationTokenSource? current = Interlocked.Exchange(ref _currentCts, null);

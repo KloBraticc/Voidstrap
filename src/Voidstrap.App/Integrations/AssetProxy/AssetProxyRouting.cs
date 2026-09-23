@@ -264,7 +264,6 @@ internal static class AssetProxyRouting
 		FlushDns();
 		VerifyEntries(requested, includeIpv6);
 		StartCleanupGuard();
-		ArmRecoveryTask();
 	}
 
 	public static bool Cleanup(TimeSpan? budget = null)
@@ -569,65 +568,9 @@ internal static class AssetProxyRouting
 		}
 	}
 
-	private static void ArmRecoveryTask()
-	{
-		try
-		{
-			string executable = Paths.LaunchExecutable;
-			if (string.IsNullOrEmpty(executable) || !File.Exists(executable))
-			{
-				return;
-			}
-			bool created = RunScheduler([
-				"/Create",
-				"/TN", RecoveryTaskName,
-				"/TR", "\"" + executable + "\" -assetwarpcleanup",
-				"/SC", "ONLOGON",
-				"/RL", "HIGHEST",
-				"/F"
-			]);
-			App.Logger?.WriteLine("AssetProxyRouting", created
-				? "Armed the AssetWarp recovery task, leftover routing will clear itself without another administrator prompt"
-				: "Could not arm the AssetWarp recovery task, leftover routing will need administrator access to clear");
-		}
-		catch (Exception ex)
-		{
-			App.Logger?.WriteLine("AssetProxyRouting", "Arming the AssetWarp recovery task failed: " + ex.Message);
-		}
-	}
-
 	private static void DisarmRecoveryTask()
 	{
 		RunScheduler(["/Delete", "/TN", RecoveryTaskName, "/F"], 5000);
-	}
-
-	public static bool TryRunRecoveryTask(bool waitForCompletion)
-	{
-		if (!Voidstrap.Utility.Platform.IsWindows || !HasInstalledEntries())
-		{
-			return true;
-		}
-		if (!RunScheduler(["/Run", "/TN", RecoveryTaskName], 5000))
-		{
-			App.Logger?.WriteLine("AssetProxyRouting", "The AssetWarp recovery task is not available, leftover routing needs administrator access to clear");
-			return false;
-		}
-		if (!waitForCompletion)
-		{
-			App.Logger?.WriteLine("AssetProxyRouting", "Started the AssetWarp recovery task to clear leftover routing in the background");
-			return false;
-		}
-		for (int attempt = 0; attempt < 12; attempt++)
-		{
-			Task.Delay(150).GetAwaiter().GetResult();
-			if (!HasInstalledEntries())
-			{
-				FlushDns();
-				App.Logger?.WriteLine("AssetProxyRouting", "The AssetWarp recovery task cleared the leftover routing");
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public static async Task RunCleanupGuardAsync(string? encodedPayload)

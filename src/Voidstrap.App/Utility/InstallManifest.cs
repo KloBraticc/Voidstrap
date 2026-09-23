@@ -60,15 +60,19 @@ public static class InstallManifest
 			: entry.Path;
 	}
 
-	public static string PathOf(string line)
-	{
-		int tab = line.IndexOf('\t');
-		return tab < 0 ? line : line[..tab];
-	}
-
 	public static void Write(string root, IEnumerable<Entry> entries)
 	{
-		File.WriteAllLines(System.IO.Path.Combine(root, FileName), entries.Select(Format), new UTF8Encoding(false));
+		string path = System.IO.Path.Combine(root, FileName);
+		string temporary = path + ".tmp";
+		using (FileStream stream = new(temporary, FileMode.Create, FileAccess.Write, FileShare.None))
+		using (StreamWriter writer = new(stream, new UTF8Encoding(false)))
+		{
+			foreach (Entry entry in entries)
+				writer.WriteLine(Format(entry));
+			writer.Flush();
+			stream.Flush(true);
+		}
+		File.Move(temporary, path, true);
 	}
 
 	public static List<Entry>? Read(string root)
@@ -79,6 +83,8 @@ public static class InstallManifest
 		List<Entry> entries = [];
 		foreach (string line in File.ReadLines(path))
 		{
+			if (line.Contains('\0'))
+				throw new InvalidDataException("The installed file list is damaged");
 			if (string.IsNullOrWhiteSpace(line))
 				continue;
 			string[] parts = line.Split('\t');

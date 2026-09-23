@@ -22,6 +22,8 @@ public partial class ExceptionDialog : WpfUiWindow{
 	private static readonly int MaxGitHubUrlLength = 8192;
 
 	private static readonly int MaxLogLength = 7000;
+
+	private static readonly int MaxDetailsLength = 2000;
 	private readonly string _issueUrl;
 	private readonly string _backupIssueUrl;
 
@@ -36,14 +38,33 @@ public partial class ExceptionDialog : WpfUiWindow{
 		string text = "https://github.com/KloBraticc/Voidstrap";
 		string wikiUrl = App.ProjectHelpLink;
 		string text2 = HttpUtility.UrlEncode($"[BUG] {exception.GetType()}: {exception.Message}");
-		string value = HttpUtility.UrlEncode((App.Logger.AsDocument.Length > MaxLogLength) ? App.Logger.AsDocument.Substring(0, MaxLogLength) : App.Logger.AsDocument);
-		_issueUrl = $"{text}/issues/new?template=bug_report.yaml&title={text2}&log={value}";
+		string details = exception.ToString();
+		if (!string.IsNullOrEmpty(Paths.UserProfile))
+		{
+			details = details.Replace(Paths.UserProfile, "%UserProfile%", StringComparison.OrdinalIgnoreCase);
+		}
+		if (details.Length > MaxDetailsLength)
+		{
+			details = details.Substring(0, MaxDetailsLength);
+		}
+		string baseIssueUrl = $"{text}/issues/new?template=bug_report.yml&title={text2}&version={HttpUtility.UrlEncode(App.Version)}&what-happened={HttpUtility.UrlEncode(details)}";
+		string log = App.Logger.AsDocument;
+		_issueUrl = baseIssueUrl;
+		for (int take = Math.Min(log.Length, MaxLogLength); take > 0; take /= 2)
+		{
+			string candidate = baseIssueUrl + "&log=" + HttpUtility.UrlEncode(log.Substring(log.Length - take));
+			if (candidate.Length <= MaxGitHubUrlLength)
+			{
+				_issueUrl = candidate;
+				break;
+			}
+		}
 		if (_issueUrl.Length > MaxGitHubUrlLength)
 		{
-			_issueUrl = text + "/issues/new?template=bug_report.yaml&title=" + text2;
+			_issueUrl = text + "/issues/new?template=bug_report.yml&title=" + text2;
 			if (_issueUrl.Length > MaxGitHubUrlLength)
 			{
-				_issueUrl = text + "/issues/new?template=bug_report.yaml";
+				_issueUrl = text + "/issues/new?template=bug_report.yml";
 			}
 		}
 		HelpMessageMDTextBlock.MarkdownText = GetHelpMessage(wikiUrl, _issueUrl);

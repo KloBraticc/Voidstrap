@@ -136,6 +136,8 @@ public partial class ActivityWatcher : IDisposable
 			return logs.OrderBy(item => item.Key).Select(item => item.Value).ToArray();
 	}
 
+	public event EventHandler? OnGameJoining;
+
 	public event EventHandler? OnGameJoin;
 
 	public event EventHandler? OnGameLeave;
@@ -619,6 +621,7 @@ public partial class ActivityWatcher : IDisposable
 				App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", message);
 				PublishLaunchStatus(message);
 				FrameGeneration.FrameGenManager.OnGameJoinStarting();
+				RaiseEvent(OnGameJoining, "OnGameJoining");
 			}
 		}
 		else if (!InGame && Data.PlaceId != 0L)

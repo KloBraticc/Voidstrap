@@ -131,19 +131,11 @@ public class Bootstrapper
 		}
 	}
 
-    private const int ProgressBarMaximum = 10000;
-
-    private const double TaskbarProgressMaximumWpf = 1.0;
-
-    private const int TaskbarProgressMaximumWinForms = 100;
-
     private const string ProcRobloxPlayer = "RobloxPlayerBeta";
 
     private const string ProcRobloxCrash = "RobloxCrashHandler";
 
     private const string ProcRobloxStudio = "RobloxStudioBeta";
-
-    private const string ProcEuroTrucks = "eurotrucks2.exe";
 
     private const string ProcRobloxExe = "RobloxPlayerBeta.exe";
 
@@ -283,10 +275,6 @@ public class Bootstrapper
     public IBootstrapperDialog? Dialog;
 
     private static readonly string? _launchStatusFile = Environment.GetEnvironmentVariable("VOIDSTRAP_STATUS_FILE");
-
-    private static readonly string[] RobloxLeaveMarkers = ["[FLog::SingleSurfaceApp] leaveUGCGameInternal", "[FLog::Network] Time to disconnect replication data:"];
-
-    private const string RobloxRejoinMarker = "[FLog::Output] ! Joining game";
 
     private Watcher? _inProcessWatcher;
 
@@ -488,14 +476,6 @@ public class Bootstrapper
         catch
         {
         }
-    }
-
-    private void SetProgressValue(int value)
-    {
-        InvokeOnDialog(delegate
-        {
-            Dialog!.ProgressValue = value;
-        });
     }
 
     private void SetProgressMaximum(int max)
@@ -888,144 +868,6 @@ public class Bootstrapper
         return installLock;
     }
 
-    private async Task WaitForRobloxToFullyCloseAsync()
-    {
-        string processName = "RobloxPlayerBeta".Split('.')[0];
-        try
-        {
-            for (int i = 0; i < 360; i++)
-            {
-                if (_cancelTokenSource.IsCancellationRequested)
-                {
-                    break;
-                }
-                if (IsProcessRunning(processName))
-                {
-                    break;
-                }
-                await Task.Delay(500, _cancelTokenSource.Token);
-            }
-            App.Logger.WriteLine("Bootstrapper::WaitForRobloxClose", "Watching " + processName + ".exe - exiting when every Roblox instance is closed.");
-            int goneStreak = 0;
-            while (!_cancelTokenSource.IsCancellationRequested)
-            {
-                if (IsProcessRunning(processName))
-                {
-                    goneStreak = 0;
-                }
-                else
-                {
-                    goneStreak++;
-                    if (goneStreak >= 6)
-                    {
-                        App.Logger.WriteLine("Bootstrapper::WaitForRobloxClose", "Every Roblox instance is closed.");
-                        break;
-                    }
-                }
-                await Task.Delay(1000, _cancelTokenSource.Token);
-            }
-        }
-        catch (OperationCanceledException)
-        {
-        }
-        catch (Exception ex2)
-        {
-            App.Logger.WriteLine("Bootstrapper::WaitForRobloxClose", "Watch failed: " + ex2.Message);
-        }
-    }
-
-    private async Task WaitForRobloxGameAsync()
-    {
-        string proc = "RobloxPlayerBeta".Split('.')[0];
-        try
-        {
-            bool started = false;
-            for (int i = 0; i < 360; i++)
-            {
-                if (_cancelTokenSource.IsCancellationRequested)
-                {
-                    break;
-                }
-                if (IsProcessRunning(proc))
-                {
-                    started = true;
-                    break;
-                }
-                await Task.Delay(500, _cancelTokenSource.Token);
-            }
-            if (!started)
-            {
-                App.Logger.WriteLine("Bootstrapper::WaitForRobloxGame", "Roblox process never started.");
-                return;
-            }
-            App.Logger.WriteLine("Bootstrapper::WaitForRobloxGame", "Roblox process detected - watching for leave.");
-            string? currentLog = null;
-            long position = 0L;
-            bool leaving = false;
-            DateTime leaveAt = DateTime.MinValue;
-            while (!_cancelTokenSource.IsCancellationRequested)
-            {
-                string? text = FindNewestPlayerLog();
-                if (!string.Equals(text, currentLog, StringComparison.OrdinalIgnoreCase))
-                {
-                    currentLog = text;
-                    position = 0L;
-                }
-                string text2 = ((currentLog != null) ? ReadNewLogText(currentLog, ref position) : "");
-                bool num = IsProcessRunning(proc);
-                bool flag = text2.Contains("[FLog::Output] ! Joining game", StringComparison.Ordinal);
-                bool flag2 = !num || RobloxLeaveMarkers.Any(m => text2.Contains(m, StringComparison.Ordinal));
-                if (flag)
-                {
-                    if (leaving)
-                    {
-                        leaving = false;
-                        App.Logger.WriteLine("Bootstrapper::WaitForRobloxGame", "Rejoin/teleport detected - staying with the game.");
-                    }
-                }
-                else if (flag2 && !leaving)
-                {
-                    leaving = true;
-                    leaveAt = DateTime.UtcNow;
-                    App.Logger.WriteLine("Bootstrapper::WaitForRobloxGame", "Leave signal detected - confirming it is not a matchmaker rejoin.");
-                }
-                if (leaving && (DateTime.UtcNow - leaveAt).TotalMilliseconds > 6000.0)
-                {
-                    App.Logger.WriteLine("Bootstrapper::WaitForRobloxGame", "Confirmed leave - closing Roblox and returning to the built-in browser.");
-                    break;
-                }
-                await Task.Delay(300, _cancelTokenSource.Token);
-            }
-        }
-        catch (OperationCanceledException)
-        {
-        }
-        catch (Exception ex2)
-        {
-            App.Logger.WriteLine("Bootstrapper::WaitForRobloxGame", "Watch failed: " + ex2.Message);
-        }
-    }
-
-    private static string? FindNewestPlayerLog()
-    {
-        try
-        {
-            string path = Path.Combine(Paths.LocalAppData, "Roblox", "logs");
-            if (!Directory.Exists(path))
-            {
-                return null;
-            }
-            return (from f in new DirectoryInfo(path).GetFiles()
-                    where f.Name.Contains("Player", StringComparison.OrdinalIgnoreCase)
-                    orderby f.LastWriteTime descending
-                    select f).FirstOrDefault()?.FullName;
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
     private static string ReadNewLogText(string path, ref long position)
     {
         try
@@ -1044,70 +886,6 @@ public class Bootstrapper
         catch
         {
             return "";
-        }
-    }
-
-    private static bool IsProcessRunning(string processName)
-    {
-        try
-        {
-            Process[] processesByName = Process.GetProcessesByName(processName);
-            bool result = processesByName.Length != 0;
-            Process[] array = processesByName;
-            foreach (Process process in array)
-            {
-                try
-                {
-                    process.Dispose();
-                }
-                catch
-                {
-                }
-            }
-            return result;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    private static void EnsureRobloxClosed()
-    {
-        string[] array =
-        [
-            "RobloxPlayerBeta".Split('.')[0],
-            "RobloxCrashHandler"
-        ];
-        foreach (string processName in array)
-        {
-            try
-            {
-                Process[] processesByName = Process.GetProcessesByName(processName);
-                foreach (Process process in processesByName)
-                {
-                    try
-                    {
-                        if (!process.HasExited)
-                        {
-                            process.Kill();
-                        }
-                    }
-                    catch
-                    {
-                    }
-                    try
-                    {
-                        process.Dispose();
-                    }
-                    catch
-                    {
-                    }
-                }
-            }
-            catch
-            {
-            }
         }
     }
 
@@ -1427,7 +1205,7 @@ public class Bootstrapper
 		}
 		if (!forceManifest && AppData.State.VersionGuid == _latestVersionGuid && !MustUpgrade && !App.Settings.Prop.ForceRobloxReinstall)
         {
-            App.Logger.WriteLine("Bootstrapper::GetLatestVersionInfo", "Already up to date - skipping package manifest fetch.");
+            App.Logger.WriteLine("Bootstrapper::GetLatestVersionInfo", "Already up to date, skipping package manifest fetch.");
             _versionPackageManifest = new PackageManifest();
             return;
         }
@@ -1480,27 +1258,6 @@ public class Bootstrapper
         }
         _versionPackageManifest = new PackageManifest(manifestBody);
         App.Logger.WriteLine("Bootstrapper::GetLatestVersionInfo", $"Manifest: {_versionPackageManifest.Count} entries.");
-    }
-
-    private static bool HasGameLaunchTarget(string? args)
-    {
-        if (string.IsNullOrWhiteSpace(args))
-        {
-            return false;
-        }
-        if (LaunchInterceptor.ExtractPlaceId(args) != 0L)
-        {
-            return true;
-        }
-        string[] markers = ["placelauncherurl", "gameInstanceId", "experiences/start", "games/start", "accessCode"];
-        foreach (string marker in markers)
-        {
-            if (args.Contains(marker, StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     internal static async Task<RuntimeInstallation> EnsureSoberInstalledAsync(
@@ -2662,19 +2419,20 @@ public class Bootstrapper
                         _inProcessWatcher = new Watcher(watcherData);
                     });
                 }
-                if (_inProcessWatcher != null)
+                Watcher? watcher = _inProcessWatcher;
+                if (watcher != null)
                 {
-                    Task.Run(() => _inProcessWatcher.Run(), ct).ContinueWith(delegate
+                    Task.Run(() => watcher.Run(), ct).ContinueWith(delegate
                     {
                         try
                         {
-                            _inProcessWatcher.Dispose();
+                            watcher.Dispose();
                         }
                         catch
                         {
                         }
                         Watcher.ForceShutdownAfterRobloxExit("Bootstrapper::LaunchWatcherIfNeeded");
-                    }, ct);
+                    }, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.Default);
                 }
                 App.Logger.WriteLine("Bootstrapper::LaunchWatcherIfNeeded", "Running the watcher in-process for AssetWarp so no second Voidstrap process is needed.");
                 return Task.CompletedTask;
@@ -2767,7 +2525,7 @@ public class Bootstrapper
             using RegistryKey? registryKey = root.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers");
             if (registryKey != null)
             {
-                string? obj = (string?)registryKey.GetValue(AppData.ExecutablePath);
+                string? obj = registryKey.GetValue(AppData.ExecutablePath) as string;
                 if (obj != null && obj.Contains("RUNASADMIN", StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
@@ -3002,7 +2760,7 @@ public class Bootstrapper
 		string stagingDirectory = _latestVersionDirectory + ".installing";
         if (Interlocked.Exchange(ref _isInstalling, 1) == 1)
         {
-            App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "Upgrade already in progress - skipping.");
+            App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "Upgrade already in progress, skipping.");
             return;
         }
         try
@@ -3491,27 +3249,26 @@ public class Bootstrapper
 	{
 		if (_missingInstalledFiles >= 0)
 			return _missingInstalledFiles;
-		string listPath = Path.Combine(AppData.Directory, InstalledFilesListName);
 		int missing = 0;
 		string? first = null;
 		try
 		{
-			if (File.Exists(listPath))
+			string root = Path.GetFullPath(AppData.Directory);
+			foreach (InstallManifest.Entry entry in InstallManifest.Read(root) ?? [])
 			{
-				string root = Path.GetFullPath(AppData.Directory);
-				foreach (string line in File.ReadLines(listPath))
+				string full = Path.GetFullPath(Path.Combine(root, entry.Path));
+				if (full.StartsWith(root, StringComparison.OrdinalIgnoreCase) && !File.Exists(full))
 				{
-					if (string.IsNullOrWhiteSpace(line))
-						continue;
-					string relative = InstallManifest.PathOf(line);
-					string full = Path.GetFullPath(Path.Combine(root, relative));
-					if (full.StartsWith(root, StringComparison.OrdinalIgnoreCase) && !File.Exists(full))
-					{
-						missing++;
-						first ??= relative;
-					}
+					missing++;
+					first ??= entry.Path;
 				}
 			}
+		}
+		catch (InvalidDataException ex)
+		{
+			App.Logger.WriteLine("Bootstrapper::MustUpgrade", ex.Message + ", the last install was cut off, repairing Roblox");
+			missing = 1;
+			first = InstalledFilesListName;
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 		{

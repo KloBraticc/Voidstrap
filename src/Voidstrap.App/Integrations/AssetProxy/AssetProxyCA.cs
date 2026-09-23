@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Formats.Asn1;
 using System.IO;
 using System.Net;
 using System.Security.Cryptography;
@@ -136,7 +137,7 @@ internal static partial class AssetProxyCA
 					CryptographicOperations.ZeroMemory(stored);
 				}
 				DateTime now = DateTime.UtcNow;
-				if (!_rootCa!.HasPrivateKey || now < _rootCa.NotBefore.ToUniversalTime() || now >= _rootCa.NotAfter.ToUniversalTime() || !string.Equals(_rootCa.Subject, CA_SUBJECT, StringComparison.OrdinalIgnoreCase))
+				if (!_rootCa!.HasPrivateKey || now < _rootCa.NotBefore.ToUniversalTime() || now >= _rootCa.NotAfter.ToUniversalTime() || !string.Equals(_rootCa.Subject, CA_SUBJECT, StringComparison.OrdinalIgnoreCase) || _rootCa.Extensions[NameConstraintsOid] == null)
 				{
 					SetRootCa(null);
 					throw new InvalidDataException("Existing AssetWarp CA is invalid");
@@ -164,6 +165,7 @@ internal static partial class AssetProxyCA
 		req.CertificateExtensions.Add(new X509KeyUsageExtension(
 			X509KeyUsageFlags.KeyCertSign | X509KeyUsageFlags.CrlSign, true));
 		req.CertificateExtensions.Add(new X509SubjectKeyIdentifierExtension(req.PublicKey, false));
+		req.CertificateExtensions.Add(BuildNameConstraints());
 
 		X509Certificate2 cert = req.CreateSelfSigned(CaNotBefore, CaNotAfter);
 
@@ -184,6 +186,39 @@ internal static partial class AssetProxyCA
 		ImportToRootStore(cert);
 
 		App.Logger?.WriteLine(LOG_IDENT, "Generated new CA certificate");
+	}
+
+	private const string NameConstraintsOid = "2.5.29.30";
+
+	private static readonly string[] PermittedDomains = ["roblox.com", "rbxcdn.com"];
+
+	private static X509Extension BuildNameConstraints()
+	{
+		AsnWriter writer = new(AsnEncodingRules.DER);
+		using (writer.PushSequence())
+		{
+			using (writer.PushSequence(new Asn1Tag(TagClass.ContextSpecific, 0)))
+			{
+				foreach (string domain in PermittedDomains)
+				{
+					using (writer.PushSequence())
+					{
+						writer.WriteCharacterString(UniversalTagNumber.IA5String, domain, new Asn1Tag(TagClass.ContextSpecific, 2));
+					}
+				}
+			}
+			using (writer.PushSequence(new Asn1Tag(TagClass.ContextSpecific, 1)))
+			{
+				foreach (int length in new[] { 8, 32 })
+				{
+					using (writer.PushSequence())
+					{
+						writer.WriteOctetString(new byte[length], new Asn1Tag(TagClass.ContextSpecific, 7));
+					}
+				}
+			}
+		}
+		return new X509Extension(NameConstraintsOid, writer.Encode(), true);
 	}
 
 	private static void WriteProtectedPfx(byte[] pfx)

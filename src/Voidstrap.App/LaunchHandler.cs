@@ -393,14 +393,10 @@ public static class LaunchHandler
 			{
 				AssetProxyRouting.Cleanup();
 			}
-			if (AssetProxyRouting.HasInstalledEntries())
-			{
-				AssetProxyRouting.TryRunRecoveryTask(waitForCompletion: true);
-			}
 			needsAssetWarpCleanup = AssetProxyRouting.HasInstalledEntries();
 			if (!needsAssetWarpCleanup)
 			{
-				App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Leftover AssetWarp routing was cleared without administrator access");
+				App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Leftover AssetWarp routing was cleared");
 			}
 		}
 		string? elevationReason = null;
