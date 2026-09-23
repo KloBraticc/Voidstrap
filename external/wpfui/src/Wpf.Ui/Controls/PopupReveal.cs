@@ -12,7 +12,7 @@ namespace Wpf.Ui.Controls
     {
         private static readonly IEasingFunction FadeEase = Freeze(new QuarticEase { EasingMode = EasingMode.EaseInOut });
 
-        private static readonly IEasingFunction RevealEase = Freeze(new QuinticEase { EasingMode = EasingMode.EaseOut });
+        private static readonly IEasingFunction RevealEase = Freeze(new CubicEase { EasingMode = EasingMode.EaseOut });
 
         private static EasingFunctionBase Freeze(EasingFunctionBase ease)
         {
@@ -289,7 +289,8 @@ namespace Wpf.Ui.Controls
             target = double.IsInfinity(maximum) ? target : Math.Min(target, maximum);
             from = Math.Min(from, target);
 
-            RectangleGeometry revealClip = new(new Rect(-32d, -32d, width + 64d, target + 64d));
+            Rect expanded = new(-32d, -32d, width + 64d, target + 64d);
+            RectangleGeometry revealClip = new(expanded);
             element.Clip = revealClip;
 
             DoubleAnimation fadeIn = new()
@@ -301,28 +302,86 @@ namespace Wpf.Ui.Controls
                 FillBehavior = FillBehavior.Stop
             };
 
-            element.BeginAnimation(UIElement.OpacityProperty, fadeIn);
-
-            if (target <= 0 || Math.Abs(target - from) < 0.5)
+            RectAnimation? animation = null;
+            if (target > 0 && Math.Abs(target - from) >= 0.5)
             {
+                Rect collapsed = OpensUpward(element)
+                    ? new Rect(-32d, target - from, width + 64d, from + 32d)
+                    : new Rect(-32d, -32d, width + 64d, from + 32d);
+                revealClip.Rect = collapsed;
+                animation = new RectAnimation
+                {
+                    From = collapsed,
+                    To = expanded,
+                    Duration = GetDuration(element),
+                    EasingFunction = RevealEase,
+                    FillBehavior = FillBehavior.Stop
+                };
+            }
+
+            if (!OperatingSystem.IsWindows())
+            {
+                StartReveal(element, revealClip, fadeIn, animation, expanded);
                 return;
             }
 
-            Rect collapsed = OpensUpward(element)
-                ? new Rect(-32d, target - from, width + 64d, from + 32d)
-                : new Rect(-32d, -32d, width + 64d, from + 32d);
+            element.Opacity = PrerenderOpacity;
+            fadeIn.From = PrerenderOpacity;
+            new FirstFrameReveal(element, revealClip, fadeIn, animation, expanded).Arm();
+        }
 
-            RectAnimation animation = new()
+        private static void StartReveal(FrameworkElement element, RectangleGeometry revealClip, DoubleAnimation fadeIn, RectAnimation? animation, Rect expanded)
+        {
+            element.Opacity = 1d;
+            element.BeginAnimation(UIElement.OpacityProperty, fadeIn);
+            if (animation is null)
             {
-                From = collapsed,
-                To = new Rect(-32d, -32d, width + 64d, target + 64d),
-                Duration = GetDuration(element),
-                EasingFunction = RevealEase,
-                FillBehavior = FillBehavior.Stop
-            };
+                revealClip.Rect = expanded;
+                return;
+            }
 
+            revealClip.Rect = expanded;
             revealClip.BeginAnimation(RectangleGeometry.RectProperty, animation);
         }
+
+        private sealed class FirstFrameReveal
+        {
+            private readonly FrameworkElement _element;
+            private readonly RectangleGeometry _clip;
+            private readonly DoubleAnimation _fadeIn;
+            private readonly RectAnimation? _animation;
+            private readonly Rect _expanded;
+            private int _frames;
+
+            internal FirstFrameReveal(FrameworkElement element, RectangleGeometry clip, DoubleAnimation fadeIn, RectAnimation? animation, Rect expanded)
+            {
+                _element = element;
+                _clip = clip;
+                _fadeIn = fadeIn;
+                _animation = animation;
+                _expanded = expanded;
+            }
+
+            internal void Arm() => CompositionTarget.Rendering += OnRendering;
+
+            private void OnRendering(object? sender, EventArgs e)
+            {
+                if (++_frames < 2)
+                {
+                    return;
+                }
+
+                CompositionTarget.Rendering -= OnRendering;
+                if (!_element.IsVisible || !ReferenceEquals(_element.Clip, _clip))
+                {
+                    return;
+                }
+
+                StartReveal(_element, _clip, _fadeIn, _animation, _expanded);
+            }
+        }
+
+        private const double PrerenderOpacity = 0.004d;
 
         private const System.Windows.Threading.DispatcherPriority DispatcherPriorityLoaded =
             System.Windows.Threading.DispatcherPriority.Loaded;

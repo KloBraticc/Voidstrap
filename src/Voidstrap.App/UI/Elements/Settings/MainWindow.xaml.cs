@@ -304,8 +304,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         ["HomePage"] = ("Home", "On the home screen"),
         ["GamePage"] = ("Game Details", "Viewing a game"),
-        ["MobilePage"] = ("Mobile", "Setting up Roblox on mobile"),
-        ["MobilePageExplain"] = ("Mobile", "Reading the mobile guide"),
         ["NvidaEditor"] = ("NVIDIA Editor", "Tweaking NVIDIA GPU settings"),
         ["HistoryPage"] = ("Continue Playing", "Browsing recent games"),
         ["IntegrationsPage"] = ("Integrations", "Setting up integrations"),

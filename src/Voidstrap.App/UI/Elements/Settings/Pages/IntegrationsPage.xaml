@@ -191,20 +191,7 @@
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <TextBlock FontSize="20" FontWeight="Medium" Text="Mobile support" />
-          <ui:CardAction Icon="PhoneAdd24" Margin="0,8,0,0" Click="OpenCustomEditor_Click">
-            <StackPanel>
-              <TextBlock FontSize="14" Text="Mobile Setup" />
-              <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" Text="Edit Mobile settings and setup Mobile Support for Windows." />
-            </StackPanel>
-          </ui:CardAction>
-          <ui:CardAction Icon="ChatHelp20" Margin="0,8,0,0" Click="OpenMobileExplain_Click">
-            <StackPanel>
-              <TextBlock FontSize="14" Text="Mobile Setup Explanation" />
-              <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" Text="Learn what Remote Access for Mobile Support does and how to set it up correctly." />
-            </StackPanel>
-          </ui:CardAction>
-          <TextBlock Margin="0,12,0,0" FontSize="20" FontWeight="Medium" Text="Music" />
+          <TextBlock FontSize="20" FontWeight="Medium" Text="Music" />
           <controls:OptionControl Header="View Music Player" Description="View and listen to your music, or manage from the tray menu.">
             <Button Content="View" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding MusicWindowCommand}" />
           </controls:OptionControl>

@@ -86,14 +86,4 @@ public partial class IntegrationsPage : UiPage{
 	private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
 	{
 	}
-
-	private void OpenCustomEditor_Click(object sender, RoutedEventArgs e)
-	{
-		base.NavigationService.Navigate(new MobilePage());
-	}
-
-	private void OpenMobileExplain_Click(object sender, RoutedEventArgs e)
-	{
-		base.NavigationService.Navigate(new MobilePageExplain());
-	}
 }

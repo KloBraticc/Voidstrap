@@ -40,8 +40,6 @@ public static class DesktopPageCatalog
 		new("Friends", "Friends", "Secondary", "Roblox friend activity.", FeatureId.EmbeddedBrowser, false),
 		new("History", "History", "Secondary", "Recently played Roblox experiences.", FeatureId.RobloxPlayer, false),
 		new("Library", "Library", "Secondary", "Saved and discovered Roblox experiences.", FeatureId.EmbeddedBrowser, false),
-		new("MobileSupport", "Mobile Support", "Secondary", "Roblox mobile support information.", null, false),
-		new("MobileExplanation", "Mobile Explanation", "Secondary", "Roblox mobile support guidance.", null, false),
 		new("Releases", "Releases", "Secondary", "Application release history.", null, false),
 		new("Help", "Help", "Secondary", "Help and support resources.", null, false),
 		new("Donation", "Support", "Secondary", "Community support information.", null, false),

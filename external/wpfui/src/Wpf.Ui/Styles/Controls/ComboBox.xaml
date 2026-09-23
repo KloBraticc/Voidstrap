@@ -27,7 +27,7 @@
     <system:Double x:Key="ComboBoxPopupMinHeight">46.0</system:Double>
     <system:Double x:Key="ComboBoxPopupMaxHeight">300.0</system:Double>
 
-    <Duration x:Key="ComboBoxPopupDuration">0:0:0.667</Duration>
+    <Duration x:Key="ComboBoxPopupDuration">0:0:0.350</Duration>
     <Duration x:Key="ComboBoxPopupFadeDuration">0:0:0.070</Duration>
     <Duration x:Key="ComboBoxPopupCloseDuration">0:0:0.150</Duration>
     <Duration x:Key="ComboBoxAppearanceDuration">0:0:0.187</Duration>
@@ -141,14 +141,18 @@
                             <Border
                                 x:Name="AccentPill"
                                 Width="3"
-                                Height="5"
+                                Height="16"
                                 Margin="3,0,0,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Background="{DynamicResource AccentFillColorDefaultBrush}"
                                 CornerRadius="1.5"
                                 Opacity="0"
-                                SnapsToDevicePixels="True" />
+                                RenderTransformOrigin="0.5,0.5">
+                                <Border.RenderTransform>
+                                    <ScaleTransform ScaleY="0.3125" />
+                                </Border.RenderTransform>
+                            </Border>
                             <ContentPresenter
                                 Margin="{TemplateBinding Padding}"
                                 VerticalAlignment="Center"
@@ -172,8 +176,8 @@
                                             Duration="0:0:0.12" />
                                         <DoubleAnimation
                                             Storyboard.TargetName="AccentPill"
-                                            Storyboard.TargetProperty="Height"
-                                            To="16"
+                                            Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                            To="1"
                                             Duration="0:0:0.22">
                                             <DoubleAnimation.EasingFunction>
                                                 <PowerEase EasingMode="EaseOut" Power="3" />
@@ -192,8 +196,8 @@
                                             Duration="0:0:0.10" />
                                         <DoubleAnimation
                                             Storyboard.TargetName="AccentPill"
-                                            Storyboard.TargetProperty="Height"
-                                            To="5"
+                                            Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                            To="0.3125"
                                             Duration="0:0:0.10" />
                                     </Storyboard>
                                 </BeginStoryboard>

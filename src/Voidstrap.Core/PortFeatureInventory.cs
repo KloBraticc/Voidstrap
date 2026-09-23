@@ -61,8 +61,6 @@ public static class PortFeatureInventory
 		Page("About", "About", "AboutPage", null),
 		Page("History", "History", "HistoryPage", FeatureId.RobloxPlayer),
 		Page("Library", "Library", "LibraryPage", FeatureId.RobloxPlayer),
-		Page("MobileSupport", "Mobile Support", "MobilePage", null),
-		Page("MobileExplanation", "Mobile Explanation", "MobilePageExplain", null),
 		Page("Releases", "Releases", "ReleasesPage", null),
 		Page("Help", "Help", "HelpPage", null),
 		Page("Donation", "Support", "DonoPage", null),
