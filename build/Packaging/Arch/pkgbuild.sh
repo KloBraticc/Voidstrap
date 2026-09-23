@@ -5,6 +5,7 @@ VERSION="${1:-}"
 OUTPUT="${2:?An output directory is required}"
 X64_CHECKSUM_SOURCE="${3:?An x86_64 archive or SHA256 checksum is required}"
 ARM64_CHECKSUM_SOURCE="${4:?An aarch64 archive or SHA256 checksum is required}"
+METADATA_ARCHIVE="${5:-}"
 PROJECT_URL="https://github.com/KloBraticc/Voidstrap"
 
 if [ -z "$VERSION" ]; then
@@ -140,3 +141,10 @@ SRCINFO
 fi
 
 echo "Wrote $PKGBUILD_TARGET and $SRCINFO_TARGET"
+
+if [ -n "$METADATA_ARCHIVE" ]; then
+  mkdir -p "$(dirname "$METADATA_ARCHIVE")"
+  METADATA_ARCHIVE="$(cd "$(dirname "$METADATA_ARCHIVE")" && pwd)/$(basename "$METADATA_ARCHIVE")"
+  tar --sort=name --mtime='UTC 1970-01-01' --owner=0 --group=0 --numeric-owner -C "$OUTPUT" -czf "$METADATA_ARCHIVE" PKGBUILD .SRCINFO
+  echo "Wrote $METADATA_ARCHIVE"
+fi

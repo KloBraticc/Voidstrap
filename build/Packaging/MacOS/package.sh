@@ -18,12 +18,11 @@ fi
 
 mkdir -p "$OUTPUT"
 OUTPUT="$(cd "$OUTPUT" && pwd)"
-APPLICATION_TARGET="$OUTPUT/Voidstrap.app"
 DMG_TARGET="$OUTPUT/Voidstrap-$RID.dmg"
 ARCHIVE_TARGET="$OUTPUT/Voidstrap-$RID.zip"
 TARBALL_TARGET="$OUTPUT/Voidstrap-$RID.tar.gz"
 
-if [ -e "$APPLICATION_TARGET" ] || [ -e "$DMG_TARGET" ] || [ -e "$ARCHIVE_TARGET" ] || [ -e "$TARBALL_TARGET" ]; then
+if [ -e "$DMG_TARGET" ] || [ -e "$ARCHIVE_TARGET" ] || [ -e "$TARBALL_TARGET" ]; then
   echo "The requested output already exists"
   exit 1
 fi
@@ -121,6 +120,5 @@ if [ -n "${MACOS_NOTARY_PROFILE:-}" ] && [ -n "${MACOS_SIGN_IDENTITY:-}" ]; then
   xcrun stapler validate "$DMG"
 fi
 
-commit_artifact "$APPLICATION" "$APPLICATION_TARGET"
 commit_artifact "$ARCHIVE" "$ARCHIVE_TARGET"
 commit_artifact "$DMG" "$DMG_TARGET"

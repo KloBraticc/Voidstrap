@@ -46,10 +46,7 @@ jobs:
           APPIMAGE_EXTRACT_AND_RUN: "1"
           VOIDSTRAP_APPIMAGE_SYSROOT_DIR: ${{ runner.temp }}/appimage-sysroots
         run: ./publish-all.ps1 -Only linux-x64,linux-arm64,linux-musl-x64,linux-musl-arm64 -LinuxPackages -SkipSolutionBuild -Parallel
-      - name: Prepare AUR metadata
-        shell: bash
-        run: tar --sort=name --mtime='UTC 1970-01-01' --owner=0 --group=0 --numeric-owner -C PublishedBuilds/LinuxPackages/AUR -czf PublishedBuilds/LinuxPackages/Voidstrap_AUR_metadata.tar.gz PKGBUILD .SRCINFO
       - name: Upload release packages
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "$RELEASE_TAG" PublishedBuilds/LinuxPackages/*.AppImage PublishedBuilds/LinuxPackages/*.zsync PublishedBuilds/LinuxPackages/*.deb PublishedBuilds/LinuxPackages/*.rpm PublishedBuilds/LinuxPackages/*.flatpak PublishedBuilds/LinuxPackages/*.tar.gz --clobber
+        run: gh release upload "$RELEASE_TAG" PublishedBuilds/Linux/*.AppImage PublishedBuilds/Linux/*.zsync PublishedBuilds/Linux/*.deb PublishedBuilds/Linux/*.rpm PublishedBuilds/Linux/*.flatpak PublishedBuilds/Linux/*.tar.gz --clobber

@@ -28,6 +28,9 @@ $PathComparison = if ($IsWindowsHost) {
 
 $Root      = [System.IO.Path]::GetFullPath($PSScriptRoot)
 $Out       = [System.IO.Path]::GetFullPath((Join-Path $Root 'PublishedBuilds'))
+$Staging   = Join-Path $Out '.staging'
+$LinuxOut  = Join-Path $Out 'Linux'
+$MacOut    = Join-Path $Out 'macOS'
 $ArtifactDir = [System.IO.Path]::GetFullPath((Join-Path ([System.IO.Path]::GetTempPath()) 'Voidstrap-publish-artifacts'))
 $WinProj   = [System.IO.Path]::GetFullPath((Join-Path $Root 'src/Voidstrap.App/Voidstrap.csproj'))
 $CrossProj = [System.IO.Path]::GetFullPath((Join-Path $Root 'src/Voidstrap.Cross/Voidstrap.Cross.csproj'))
@@ -887,12 +890,12 @@ $PubOpts = @(
 
 $AllTargets = @(
     [pscustomobject]@{ Name='Windows-x64';       Key='windows';          Kind='windows'; Rid='win-x64';          OutDir=(Join-Path $Out 'Windows');          Executable='Voidstrap.exe' }
-    [pscustomobject]@{ Name='Linux-x64';         Key='linux-x64';        Kind='cross';   Rid='linux-x64';        OutDir=(Join-Path $Out 'Linux-x64');        Executable='Voidstrap' }
-    [pscustomobject]@{ Name='Linux-arm64';       Key='linux-arm64';      Kind='cross';   Rid='linux-arm64';      OutDir=(Join-Path $Out 'Linux-arm64');      Executable='Voidstrap' }
-    [pscustomobject]@{ Name='Linux-musl-x64';    Key='linux-musl-x64';   Kind='cross';   Rid='linux-musl-x64';   OutDir=(Join-Path $Out 'Linux-musl-x64');   Executable='Voidstrap' }
-    [pscustomobject]@{ Name='Linux-musl-arm64';  Key='linux-musl-arm64'; Kind='cross';   Rid='linux-musl-arm64'; OutDir=(Join-Path $Out 'Linux-musl-arm64'); Executable='Voidstrap' }
-    [pscustomobject]@{ Name='macOS-x64';         Key='osx-x64';          Kind='cross';   Rid='osx-x64';          OutDir=(Join-Path $Out 'macOS-x64');        Executable='Voidstrap' }
-    [pscustomobject]@{ Name='macOS-arm64';       Key='osx-arm64';        Kind='cross';   Rid='osx-arm64';        OutDir=(Join-Path $Out 'macOS-arm64');      Executable='Voidstrap' }
+    [pscustomobject]@{ Name='Linux-x64';         Key='linux-x64';        Kind='cross';   Rid='linux-x64';        OutDir=(Join-Path $Staging 'Linux-x64');    Executable='Voidstrap' }
+    [pscustomobject]@{ Name='Linux-arm64';       Key='linux-arm64';      Kind='cross';   Rid='linux-arm64';      OutDir=(Join-Path $Staging 'Linux-arm64');  Executable='Voidstrap' }
+    [pscustomobject]@{ Name='Linux-musl-x64';    Key='linux-musl-x64';   Kind='cross';   Rid='linux-musl-x64';   OutDir=(Join-Path $Staging 'Linux-musl-x64'); Executable='Voidstrap' }
+    [pscustomobject]@{ Name='Linux-musl-arm64';  Key='linux-musl-arm64'; Kind='cross';   Rid='linux-musl-arm64'; OutDir=(Join-Path $Staging 'Linux-musl-arm64'); Executable='Voidstrap' }
+    [pscustomobject]@{ Name='macOS-x64';         Key='osx-x64';          Kind='cross';   Rid='osx-x64';          OutDir=(Join-Path $Staging 'macOS-x64');    Executable='Voidstrap' }
+    [pscustomobject]@{ Name='macOS-arm64';       Key='osx-arm64';        Kind='cross';   Rid='osx-arm64';        OutDir=(Join-Path $Staging 'macOS-arm64');  Executable='Voidstrap' }
 )
 
 $RequestedAll = $Only -contains 'all'
@@ -1200,7 +1203,7 @@ try {
         if (-not $shell -or -not ($IsWindowsHost -or $IsLinuxHost)) {
             $PackageNotes.Add('Linux packages need a Linux host, or Windows with a WSL distro or Git Bash.')
         } else {
-            $packageOutput = Join-Path $Out 'LinuxPackages'
+            $packageOutput = $LinuxOut
             Reset-OutputDirectory $packageOutput
             $packageOutputPath = Get-RootRelativePath $packageOutput
             $toolFormats = [ordered]@{ 'dpkg-deb' = 'deb'; 'rpmbuild' = 'rpm' }
@@ -1238,13 +1241,15 @@ try {
             $x64Archive = Join-Path $packageOutput "Voidstrap_${packageVersion}_linux-x64.tar.gz"
             $arm64Archive = Join-Path $packageOutput "Voidstrap_${packageVersion}_linux-arm64.tar.gz"
             if ((Test-Path -LiteralPath $x64Archive -PathType Leaf) -and (Test-Path -LiteralPath $arm64Archive -PathType Leaf)) {
-                $aurArgs = @($aurScript, $packageVersion, (Get-RootRelativePath (Join-Path $packageOutput 'AUR')), (Get-RootRelativePath $x64Archive), (Get-RootRelativePath $arm64Archive))
+                $aurStage = Join-Path $Staging 'AUR'
+                Reset-OutputDirectory $aurStage
+                $aurArgs = @($aurScript, $packageVersion, (Get-RootRelativePath $aurStage), (Get-RootRelativePath $x64Archive), (Get-RootRelativePath $arm64Archive), (Get-RootRelativePath (Join-Path $packageOutput 'Voidstrap_AUR_metadata.tar.gz')))
                 Invoke-PackagingScript $shell 'AUR metadata' $aurArgs -BestEffort:(-not $StrictLinuxPackages)
             }
         }
     }
     elseif ($wantAppImageOnly) {
-        $appImageOutput = Join-Path $Out 'AppImage'
+        $appImageOutput = $LinuxOut
         Reset-OutputDirectory $appImageOutput
         foreach ($job in @($linuxJobs | Where-Object { $_.Target.Rid -in @('linux-x64', 'linux-arm64') })) {
             Invoke-PackagingScript $shell "$($job.Target.Name) AppImage" @($linuxScript, $job.Target.Rid, $packageVersion, 'appimage', (Get-RootRelativePath $appImageOutput), (Get-RootRelativePath $job.Expected))
@@ -1262,12 +1267,27 @@ try {
         if (-not $shell) {
             $PackageNotes.Add('macOS app bundles were skipped: they need bash, which Git for Windows provides.')
         } else {
-            $macOutput = Join-Path $Out 'macOSPackages'
+            $macOutput = $MacOut
             Reset-OutputDirectory $macOutput
             foreach ($job in $macJobs) {
-                $macArgs = @($macScript, $job.Target.Rid, $packageVersion, (Get-RootRelativePath (Join-Path $macOutput $job.Target.Rid)), (Get-RootRelativePath $job.Expected))
+                $macArgs = @($macScript, $job.Target.Rid, $packageVersion, (Get-RootRelativePath $macOutput), (Get-RootRelativePath $job.Expected))
                 Invoke-PackagingScript $shell "$($job.Target.Name) app" $macArgs -BestEffort
             }
+        }
+    }
+
+    foreach ($job in @($linuxJobs) + @($macJobs)) {
+        $platformOutput = if ($job.Target.Rid.StartsWith('osx-', [System.StringComparison]::Ordinal)) { $MacOut } else { $LinuxOut }
+        New-Item -ItemType Directory -Path $platformOutput -Force | Out-Null
+        $tokens = switch ($job.Target.Rid) {
+            'linux-x64' { @('linux-x64', '_x86_64.') }
+            'linux-arm64' { @('linux-arm64', '_aarch64.') }
+            default { @($job.Target.Rid) }
+        }
+        $packaged = @(Get-ChildItem -LiteralPath $platformOutput -File | Where-Object { $name = $_.Name; @($tokens | Where-Object { $name.Contains($_) }).Count -gt 0 })
+        if ($packaged.Count -eq 0) {
+            Copy-Item -LiteralPath $job.Expected -Destination (Join-Path $platformOutput "Voidstrap_$(Get-VoidstrapVersion)_$($job.Target.Rid)") -Force
+            $PackageNotes.Add("$($job.Target.Name): no package could be built, so the plain executable was copied instead.")
         }
     }
 }
@@ -1276,6 +1296,13 @@ catch {
 }
 finally {
     Remove-PublishManifests
+    if (-not $packageFailure -and -not $NoClean -and (Test-Path -LiteralPath $Staging)) {
+        try {
+            Remove-BuildDirectory $Staging
+        } catch {
+            Write-Host "Warning: could not remove the staging folder: $($_.Exception.Message)" -ForegroundColor DarkYellow
+        }
+    }
     if (-not $packageFailure -and -not $NoClean -and (Test-Path -LiteralPath $ArtifactDir)) {
         try {
             Remove-BuildDirectory $ArtifactDir
