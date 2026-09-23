@@ -603,6 +603,13 @@ internal static class LinuxDesktopEntry
 	{
 		RunQuiet("update-desktop-database", ApplicationsDirectory);
 		RunQuiet("gtk-update-icon-cache", "-f", "-t", IconRootDirectory);
+		try
+		{
+			Directory.CreateDirectory(ResolveXdgDirectory("XDG_CONFIG_HOME", ".config"));
+		}
+		catch
+		{
+		}
 		RunQuiet("xdg-mime", "default", EntryFileName, "x-scheme-handler/roblox");
 		RunQuiet("xdg-mime", "default", EntryFileName, "x-scheme-handler/voidstrap");
 		RunQuiet("xdg-mime", "default", EntryFileName, "x-scheme-handler/roblox-player");
@@ -652,12 +659,18 @@ internal static class LinuxDesktopEntry
 			ProcessStartInfo startInfo = new(executable)
 			{
 				UseShellExecute = false,
-				CreateNoWindow = true
+				CreateNoWindow = true,
+				RedirectStandardOutput = true,
+				RedirectStandardError = true
 			};
 			foreach (string argument in arguments)
 				startInfo.ArgumentList.Add(argument);
 			using Process? process = Process.Start(startInfo);
-			process?.WaitForExit(5000);
+			if (process is null)
+				return;
+			process.BeginOutputReadLine();
+			process.BeginErrorReadLine();
+			process.WaitForExit(5000);
 		}
 		catch
 		{

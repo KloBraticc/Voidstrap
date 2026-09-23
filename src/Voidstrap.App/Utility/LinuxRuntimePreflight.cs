@@ -21,13 +21,6 @@ public static class LinuxRuntimePreflight
 		("libEGL.so.1", "hardware accelerated drawing")
 	};
 
-	private static readonly (string Library, string Purpose)[] OptionalLibraries =
-	{
-		("libwebkit2gtk-4.1.so.0", "the in app Roblox browser"),
-		("libgdiplus.so.0", "a few legacy image helpers"),
-		("libdbus-1.so.3", "desktop notifications and tray integration")
-	};
-
 	private static readonly string[] Families = { "debian", "fedora", "arch", "suse", "alpine" };
 
 	private static readonly (string Installer, string[] Packages)[] FamilyPackages =
@@ -78,16 +71,6 @@ public static class LinuxRuntimePreflight
 		if (!hasRenderer)
 			missing.Add((RenderLibraries[0].Library, RenderLibraries[0].Purpose));
 
-		List<string> optional = new();
-		foreach ((string library, string purpose) in OptionalLibraries)
-		{
-			if (!CanLoad(library))
-				optional.Add(library + " for " + purpose);
-		}
-
-		if (optional.Count > 0)
-			Report("Voidstrap is missing optional libraries, some features stay disabled: " + string.Join(", ", optional), false);
-
 		if (missing.Count == 0)
 			return true;
 
@@ -109,7 +92,7 @@ public static class LinuxRuntimePreflight
 			message.AppendLine("Install the matching runtime packages for your distribution.");
 		}
 
-		Report(message.ToString(), true);
+		Report(message.ToString());
 		return false;
 	}
 
@@ -307,7 +290,7 @@ public static class LinuxRuntimePreflight
 		return string.Empty;
 	}
 
-	private static void Report(string message, bool fatal)
+	private static void Report(string message)
 	{
 		try
 		{
@@ -323,7 +306,7 @@ public static class LinuxRuntimePreflight
 			string directory = ResolveReportDirectory();
 			Directory.CreateDirectory(directory);
 			File.WriteAllText(
-				Path.Combine(directory, fatal ? "startup-requirements.log" : "startup-warnings.log"),
+				Path.Combine(directory, "startup-requirements.log"),
 				DateTime.UtcNow.ToString("u", System.Globalization.CultureInfo.InvariantCulture)
 					+ Environment.NewLine
 					+ message
