@@ -1407,7 +1407,7 @@ public partial class App : Application
 		TryStartup("Linux editor compatibility", Voidstrap.UI.LinuxEditorCompat.Install);
 		TryStartup("Smooth scrolling", () =>
 		{
-			Wpf.Ui.Controls.SmoothScroll.SetGlobalEnabled(Settings.Prop.SmooothBARRyesirikikthxlucipook);
+			Wpf.Ui.Controls.SmoothScroll.SetGlobalEnabled(!Voidstrap.Utility.Platform.IsLinux && Settings.Prop.SmooothBARRyesirikikthxlucipook);
 			Wpf.Ui.Controls.SmoothScroll.Register();
 		});
 		TryStartup("Global background", GlobalBackground.Register);

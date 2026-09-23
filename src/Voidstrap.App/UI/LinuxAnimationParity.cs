@@ -17,7 +17,6 @@ internal static class LinuxAnimationParity
 		("_toolTipAnimation", "ToolTipAnimation"),
 		("_tooltipFade", "ToolTipFade"),
 		("_selectionFade", "SelectionFade"),
-		("_listBoxSmoothScrolling", "ListBoxSmoothScrolling"),
 		("_hotTracking", "HotTracking"),
 		("_dropShadow", "DropShadow")
 	};

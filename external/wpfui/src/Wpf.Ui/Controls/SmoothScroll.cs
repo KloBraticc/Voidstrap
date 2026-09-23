@@ -190,6 +190,8 @@ namespace Wpf.Ui.Controls
             public Driver(ScrollViewer sv)
             {
                 _sv = sv;
+                _target = sv.VerticalOffset;
+                _current = _target;
                 sv.ScrollChanged += OnScrollChanged;
                 sv.Unloaded += OnUnloaded;
             }
@@ -215,6 +217,21 @@ namespace Wpf.Ui.Controls
 
             public void Wheel(int delta, bool enhancedMotion)
             {
+                if (!enhancedMotion)
+                {
+                    Unhook();
+                    _overshoot = 0;
+                    if (_transform != null)
+                        _transform.Y = 0;
+                    double wheelUnit = _sv.CanContentScroll
+                        ? Math.Max(1, SystemParameters.WheelScrollLines)
+                        : WheelStepPixels;
+                    _target = Math.Clamp(_target - delta / 120d * wheelUnit, 0, _sv.ScrollableHeight);
+                    _current = _target;
+                    ApplyVerticalOffset(_target);
+                    return;
+                }
+
                 if (!_hooked)
                 {
                     _target = ReadVerticalOffset();

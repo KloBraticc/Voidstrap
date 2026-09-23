@@ -699,7 +699,7 @@
                 </Style>
               </Border.Style>
               <StackPanel HorizontalAlignment="Center">
-                <StackPanel Width="300" HorizontalAlignment="Center" IsHitTestVisible="False" CacheMode="BitmapCache">
+                <StackPanel x:Name="ManagedModsEmptyPreview" Width="300" HorizontalAlignment="Center" IsHitTestVisible="False" CacheMode="BitmapCache">
                   <StackPanel.Effect>
                     <BlurEffect Radius="8" KernelType="Gaussian" RenderingBias="Performance" />
                   </StackPanel.Effect>

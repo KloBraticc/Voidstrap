@@ -43,12 +43,12 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 		List<Type> pages =
 		[
 			typeof(InstallPage),
-			typeof(ChannelPage),
-			typeof(InstallerModsPage),
-			typeof(InstallerAppearancePage)
+			typeof(ChannelPage)
 		];
 		if (!Voidstrap.Utility.Platform.IsLinux)
 		{
+			pages.Add(typeof(InstallerModsPage));
+			pages.Add(typeof(InstallerAppearancePage));
 			pages.Add(typeof(Voidstrap.UI.Elements.Settings.Pages.DownloadsPage));
 			pages.Add(typeof(Voidstrap.UI.Elements.Settings.Pages.ExtensionPage));
 		}

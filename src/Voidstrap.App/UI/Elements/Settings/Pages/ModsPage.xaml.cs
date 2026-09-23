@@ -43,6 +43,11 @@ public partial class ModsPage : UiPage{
 		ViewModel = new ModsViewModel();
 		base.DataContext = ViewModel;
 		InitializeComponent();
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			ManagedModsEmptyPreview.Effect = null;
+			ManagedModsEmptyPreview.CacheMode = null;
+		}
 		_fgWarningTimer = new System.Windows.Threading.DispatcherTimer
 		{
 			Interval = TimeSpan.FromSeconds(2.0),

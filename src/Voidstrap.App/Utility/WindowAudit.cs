@@ -5011,7 +5011,7 @@ internal static class WindowAudit
 			bool handled = wheelHandler != null
 				&& wheelHandler.Invoke(null, new object?[] { viewer.Content, -120 }) is true;
 			Pump(40);
-			double gliding = ReadScrollOffset(viewer);
+			double firstOffset = ReadScrollOffset(viewer);
 			double settled = WaitForScrollRest(viewer, 2000);
 			Pump(120);
 			double stable = ReadScrollOffset(viewer);
@@ -5027,18 +5027,19 @@ internal static class WindowAudit
 			Pump(120);
 			double burstStable = ReadScrollOffset(viewer);
 			bool passed = handled
-				&& gliding > 0
-				&& settled > gliding
+				&& firstOffset > 0
+				&& Math.Abs(settled - firstOffset) < 0.5
 				&& Math.Abs(stable - settled) < 0.5
 				&& settled <= viewer.ScrollableHeight
 				&& burstHandled
 				&& burst.ElapsedMilliseconds < 100
 				&& burstSettled > settled
+				&& Math.Abs(burstSettled - viewer.ScrollableHeight) < 0.5
 				&& burstSettled <= viewer.ScrollableHeight
 				&& Math.Abs(burstStable - burstSettled) < 0.5;
 			Emit(passed
-				? $"scroll wheel audit: PASS, glided through {gliding:F1} then rested at {settled:F1} of {viewer.ScrollableHeight:F1}, 100-event burst {burst.ElapsedMilliseconds}ms rested at {burstSettled:F1}"
-				: $"scroll wheel audit: FAIL, handled {handled}, range {viewer.ScrollableHeight:F1}, gliding {gliding:F1}, settled {settled:F1}/{stable:F1}, burst {burst.ElapsedMilliseconds}ms/{burstSettled:F1}/{burstStable:F1}");
+				? $"scroll wheel audit: PASS, moved to {firstOffset:F1} and remained at {settled:F1} of {viewer.ScrollableHeight:F1}, 100 event burst {burst.ElapsedMilliseconds}ms rested at {burstSettled:F1}"
+				: $"scroll wheel audit: FAIL, handled {handled}, range {viewer.ScrollableHeight:F1}, first offset {firstOffset:F1}, settled {settled:F1}/{stable:F1}, burst {burst.ElapsedMilliseconds}ms/{burstSettled:F1}/{burstStable:F1}");
 		}
 		catch (Exception ex)
 		{
