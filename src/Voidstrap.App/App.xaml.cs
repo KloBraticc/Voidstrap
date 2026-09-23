@@ -752,6 +752,7 @@ public partial class App : Application
 		TryStartup("Text guard", Voidstrap.UI.LinuxTextGuard.Install);
 		TryStartup("Hyperlink routing", Voidstrap.UI.LinuxInlineText.Install);
 		TryStartup("Dropdown lifecycle", Voidstrap.UI.LinuxComboBoxGuard.Install);
+		TryStartup("Pointer hit testing", Voidstrap.UI.LinuxPointerHitTest.Install);
 		TryStartup("Grid scrolling", Voidstrap.UI.LinuxDataGridScroll.Install);
 		TryStartup("Image guard", Voidstrap.Utility.DynamicRenderSystem.InstallLinuxImageGuard);
 		TryStartup("Progress bar motion", Voidstrap.UI.SmoothProgress.Install);
