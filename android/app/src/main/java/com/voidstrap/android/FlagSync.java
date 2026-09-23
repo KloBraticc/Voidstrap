@@ -299,11 +299,14 @@ public final class FlagSync {
         Context c = a;
         Store store = Store.get(a);
         boolean rooted = FlagWriter.rootAvailable();
-        boolean enabled = FlagWriter.rootEnabled(c);
+        boolean directRoot = FlagWriter.rootEnabled(c);
+        boolean helperRoot = !directRoot && Helper.uid() == 0;
+        boolean enabled = directRoot || helperRoot;
         com.google.android.material.materialswitch.MaterialSwitch toggle = new com.google.android.material.materialswitch.MaterialSwitch(c);
         toggle.setChecked(enabled);
+        toggle.setEnabled(!helperRoot);
         toggle.setContentDescription(c.getString(R.string.settings_root));
-        int summary = enabled ? R.string.settings_root_on : rooted ? R.string.settings_root_body : R.string.settings_root_untested;
+        int summary = helperRoot ? R.string.settings_root_helper : enabled ? R.string.settings_root_on : rooted ? R.string.settings_root_body : R.string.settings_root_untested;
         LinearLayout row = SettingRows.row(parent, c.getString(R.string.settings_root), c.getString(summary), toggle);
         row.setOnClickListener(x -> {
             if (toggle.isEnabled()) toggle.toggle();

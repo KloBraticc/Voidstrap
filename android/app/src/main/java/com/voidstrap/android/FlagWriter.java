@@ -65,7 +65,7 @@ public final class FlagWriter {
     }
 
     public static boolean rootAvailable() {
-        return rootConfirmed || hasSu();
+        return Helper.uid() == 0 || rootConfirmed || hasSu();
     }
 
     public static boolean rootEnabled(Context c) {

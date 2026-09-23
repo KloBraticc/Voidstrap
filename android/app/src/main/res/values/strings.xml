@@ -529,6 +529,7 @@
     <string name="settings_root_missing_helper">Voidstrap ran su and nothing answered, so this device has no root. An app that only grants adb or shell access is not root, and Voidstrap does not use one. The Voidstrap helper is already running, so FastFlags and activity tracking work here. Only mods need root. If you really are rooted, open your root manager, make sure it is running, then try again.</string>
     <string name="settings_root_untested">Apply FastFlags and mods with root. Turn this on to ask your root manager for permission.</string>
     <string name="settings_root_on">Root access is in use. Turn this off to stop using root.</string>
+    <string name="settings_root_helper">Root access is provided by the Voidstrap helper.</string>
     <string name="settings_root_waiting">Waiting for your root manager. Approve the Voidstrap prompt.</string>
     <string name="settings_root_denied_title">Root was not granted</string>
     <string name="settings_root_ready">Root access is ready. FastFlags apply every time Voidstrap launches Roblox.</string>
