@@ -4,6 +4,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.net.ConnectivityManager;
+import android.net.LinkAddress;
+import android.net.LinkProperties;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -12,6 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONObject;
+
+import java.net.Inet4Address;
 
 public final class FlagSync {
     private static final long SETUP_POLL_MS = 1000;
@@ -79,6 +88,37 @@ public final class FlagSync {
         }
     }
 
+    private static void openWirelessDebugging(AppCompatActivity a) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            openDeveloperOptions(a);
+            return;
+        }
+        Bundle args = new Bundle();
+        args.putString(":settings:fragment_args_key", "toggle_adb_wireless");
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS)
+                .putExtra(":settings:fragment_args_key", "toggle_adb_wireless")
+                .putExtra(":settings:show_fragment_args", args);
+        try {
+            a.startActivity(intent);
+        } catch (RuntimeException e) {
+            openDeveloperOptions(a);
+        }
+    }
+
+    @Nullable
+    private static String wifiAddress(Context c) {
+        ConnectivityManager cm = c.getSystemService(ConnectivityManager.class);
+        Network network = cm == null ? null : cm.getActiveNetwork();
+        NetworkCapabilities caps = network == null ? null : cm.getNetworkCapabilities(network);
+        LinkProperties link = network == null ? null : cm.getLinkProperties(network);
+        if (caps == null || link == null || !caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) return null;
+        for (LinkAddress address : link.getLinkAddresses()) {
+            if (address.getAddress() instanceof Inet4Address && !address.getAddress().isLoopbackAddress())
+                return address.getAddress().getHostAddress();
+        }
+        return null;
+    }
+
     public static void ask(androidx.fragment.app.Fragment f) {
         Store store = Store.get(f.requireContext());
         if (asked || "1".equals(store.setting(AUTO_ASKED, "0"))) return;
@@ -106,11 +146,13 @@ public final class FlagSync {
         String device = Helper.deviceCommand(a);
         Row shizuku = Row.inflate(list);
         Row debugging = Row.inflate(list);
+        Row wireless = Row.inflate(list);
         Row getAdb = Row.inflate(list);
         Row start = Row.inflate(list);
         Row onDevice = Row.inflate(list);
         list.addView(shizuku.view);
         list.addView(debugging.view);
+        list.addView(wireless.view);
         list.addView(getAdb.view);
         list.addView(start.view);
         list.addView(onDevice.view);
@@ -120,6 +162,13 @@ public final class FlagSync {
             boolean running = Helper.uidNow() >= 0;
             boolean adb = running || debuggingOn(a);
             step(a, debugging, R.drawable.ic_bug, R.string.setup_debugging, R.string.setup_debugging_body, adb, true, () -> openDeveloperOptions(a));
+            String ip = wifiAddress(a);
+            step(a, wireless, R.drawable.ic_wifi, R.string.setup_wireless, 0, running, ip != null, () -> openWirelessDebugging(a));
+            wireless.detail.setText(running ? a.getString(R.string.setup_run_done)
+                    : ip == null ? a.getString(R.string.setup_wireless_no_wifi)
+                    : a.getString(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R ? R.string.setup_wireless_body : R.string.setup_wireless_legacy, ip));
+            wireless.detail.setMaxLines(Integer.MAX_VALUE);
+            wireless.detail.setVisibility(View.VISIBLE);
             step(a, getAdb, R.drawable.ic_arrow_download, R.string.setup_get_adb, R.string.setup_get_adb_body, running, true, () -> Ui.openWeb(a, PLATFORM_TOOLS));
             getAdb.detail.setMaxLines(Integer.MAX_VALUE);
             step(a, start, R.drawable.ic_play, R.string.setup_run, 0, running, true, () -> {

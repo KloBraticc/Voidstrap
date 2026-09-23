@@ -495,6 +495,10 @@
     <string name="settings_helper">Voidstrap helper</string>
     <string name="setup_debugging">Turn on USB debugging</string>
     <string name="setup_debugging_body">In Developer options, turn on USB debugging and connect this device to a computer that has adb. Tap to open Developer options.</string>
+    <string name="setup_wireless">Or connect without a cable</string>
+    <string name="setup_wireless_body">Use WiFi instead of a cable. Turn on Wireless debugging and tap Pair device with pairing code. On the computer, run these with the ports and code from that screen, then run the start command below. Tap to open Developer options.\nadb pair %1$s:PORT CODE\nadb connect %1$s:PORT</string>
+    <string name="setup_wireless_legacy">Use WiFi instead of a cable. This Android version has no Wireless debugging, so plug in the cable once and run adb tcpip 5555, unplug it, then run this and the start command below.\nadb connect %1$s:5555</string>
+    <string name="setup_wireless_no_wifi">Connect this device to WiFi to use adb without a cable. The computer must be on the same network.</string>
     <string name="setup_get_adb">Get adb on your computer</string>
     <string name="setup_get_adb_body">No adb yet? Tap to open Google\'s SDK Platform Tools page, download it for your computer and unzip it. Open a terminal in the unzipped platform-tools folder and run the start command there. In PowerShell, type .\\adb instead of adb.</string>
     <string name="setup_run">Run the start command</string>
