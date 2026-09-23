@@ -965,13 +965,18 @@ public static class LaunchHandler
 						"Roblox is not downloaded yet, fetching it before applying settings and mods");
 
 					bool downloaded = await Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider
-						.TryDownloadRobloxPackageAsync(CancellationToken.None);
+						.TryDownloadRobloxPackageAsync(CancellationToken.None, SetPortableLaunchStatus);
 
 					App.Logger.WriteLine(
 						"LaunchHandler::FirstRun",
 						downloaded
 							? "Roblox downloaded, settings and mods will apply on this launch"
-							: "Roblox did not finish downloading, continuing anyway");
+							: "Roblox did not finish downloading in Sober");
+					if (!downloaded)
+					{
+						ShowPortableLaunchFailure("Sober has not finished downloading Roblox yet. Finish the setup in the Sober window, then launch again.");
+						return;
+					}
 				}
 
 				SetPortableLaunchStatus(Strings.Bootstrapper_Status_Configuring);
@@ -1251,6 +1256,12 @@ public static class LaunchHandler
 		IBootstrapperDialog? dialog = _portableDialog;
 		if (dialog is null)
 		{
+			return;
+		}
+
+		if (dialog is System.Windows.Threading.DispatcherObject owner && !owner.CheckAccess())
+		{
+			owner.Dispatcher.BeginInvoke(new Action<string>(SetPortableLaunchStatus), message);
 			return;
 		}
 

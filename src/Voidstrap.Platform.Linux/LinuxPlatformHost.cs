@@ -994,16 +994,32 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		return false;
 	}
 
+	private static string SoberDataDirectory => Path.Combine(
+		Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+		".var", "app", SoberApplicationId, "data", "sober");
+
 	public static bool IsRobloxPackageInstalled()
 	{
 		try
 		{
-			string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-			string package = Path.Combine(
-				home, ".var", "app", SoberApplicationId, "data", "sober",
-				"packages", "x86_64", "com.roblox.client", "base.apk");
+			string state = Path.Combine(SoberDataDirectory, "state");
+			if (File.Exists(state))
+			{
+				using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(File.ReadAllText(state));
+				if (document.RootElement.ValueKind == System.Text.Json.JsonValueKind.Object
+					&& document.RootElement.TryGetProperty("v1", out System.Text.Json.JsonElement v1)
+					&& v1.ValueKind == System.Text.Json.JsonValueKind.Object
+					&& v1.TryGetProperty("app_version", out System.Text.Json.JsonElement version))
+				{
+					return version.ValueKind == System.Text.Json.JsonValueKind.String && !string.IsNullOrWhiteSpace(version.GetString());
+				}
+			}
 
-			return File.Exists(package);
+			return File.Exists(Path.Combine(SoberDataDirectory, "packages", "x86_64", "com.roblox.client", "base.apk"));
+		}
+		catch (Exception ex) when (ex is System.Text.Json.JsonException or IOException)
+		{
+			return false;
 		}
 		catch (Exception)
 		{
@@ -1011,12 +1027,32 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		}
 	}
 
-	public static async Task<bool> TryDownloadRobloxPackageAsync(CancellationToken cancellationToken)
+	private static long DownloadedRobloxBytes()
+	{
+		try
+		{
+			string packages = Path.Combine(SoberDataDirectory, "packages");
+			if (!Directory.Exists(packages))
+				return 0;
+
+			long total = 0;
+			foreach (string file in Directory.EnumerateFiles(packages, "*.apk", SearchOption.AllDirectories))
+				total += new FileInfo(file).Length;
+			return total;
+		}
+		catch (Exception)
+		{
+			return 0;
+		}
+	}
+
+	public static async Task<bool> TryDownloadRobloxPackageAsync(CancellationToken cancellationToken, Action<string>? report = null)
 	{
 		if (IsRobloxPackageInstalled())
 			return true;
 
 		System.Diagnostics.Process? process = null;
+		bool installed = false;
 
 		try
 		{
@@ -1024,28 +1060,41 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 			if (process is null)
 				return false;
 
-			for (int attempt = 0; attempt < 600; attempt++)
+			for (int attempt = 0; attempt < 1800; attempt++)
 			{
+				long downloaded = DownloadedRobloxBytes();
+				report?.Invoke(downloaded == 0
+					? "Click Continue in the Sober window so Sober can download Roblox"
+					: "Sober is downloading Roblox, " + (downloaded / (1024 * 1024)).ToString(CultureInfo.InvariantCulture) + " MB so far");
+
 				await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
 
 				if (IsRobloxPackageInstalled())
+				{
+					installed = true;
+					await Task.Delay(2000, cancellationToken).ConfigureAwait(false);
 					return true;
+				}
 
 				if (process is { HasExited: true })
-					return IsRobloxPackageInstalled();
+				{
+					installed = IsRobloxPackageInstalled();
+					return installed;
+				}
 			}
 
 			return false;
 		}
 		catch (Exception)
 		{
-			return false;
+			return installed;
 		}
 		finally
 		{
 			try
 			{
-				TryCloseSober();
+				if (installed)
+					TryCloseSober();
 				process?.Dispose();
 			}
 			catch (Exception)

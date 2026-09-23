@@ -1293,10 +1293,19 @@ public class Bootstrapper
         }
 
         App.Logger.WriteLine(logIdent, "Sober is not installed, installing it from Flathub");
-        report?.Invoke("Installing Sober, this can take a while");
         try
         {
-            OperationResult installed = await new LinuxSoberInstaller(host.Processes).InstallAsync(cancellationToken);
+            Task<OperationResult> install = new LinuxSoberInstaller(host.Processes).InstallAsync(cancellationToken);
+            Stopwatch elapsed = Stopwatch.StartNew();
+            while (!install.IsCompleted)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                report?.Invoke("Installing Sober from Flathub, this can take a few minutes ("
+                    + (int)elapsed.Elapsed.TotalMinutes + ":" + elapsed.Elapsed.Seconds.ToString("00", CultureInfo.InvariantCulture) + ")");
+                await Task.WhenAny(install, Task.Delay(1000, cancellationToken));
+            }
+
+            OperationResult installed = await install;
             if (!installed.Succeeded)
             {
                 App.Logger.WriteLine(logIdent, installed.Failure?.Message ?? "Sober could not be installed");

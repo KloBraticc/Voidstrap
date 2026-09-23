@@ -19,6 +19,9 @@ public sealed class LinuxSoberInstaller
 
 	private readonly IProcessService _processes;
 
+	private static readonly object InstallGate = new();
+	private static Task<OperationResult>? _activeInstall;
+
 	public LinuxSoberInstaller(IProcessService processes)
 	{
 		_processes = processes ?? throw new ArgumentNullException(nameof(processes));
@@ -53,12 +56,67 @@ public sealed class LinuxSoberInstaller
 			string.IsNullOrWhiteSpace(version) ? "Sober is installed" : "Sober " + version + " is installed");
 	}
 
-	public async Task<OperationResult> InstallAsync(CancellationToken cancellationToken = default)
+	public Task<OperationResult> InstallAsync(CancellationToken cancellationToken = default)
+	{
+		lock (InstallGate)
+		{
+			if (_activeInstall is { IsCompleted: false })
+				return _activeInstall.WaitAsync(cancellationToken);
+
+			_activeInstall = InstallOnceAsync(cancellationToken);
+			return _activeInstall;
+		}
+	}
+
+	public static bool IsInstallRunningElsewhere()
+	{
+		try
+		{
+			foreach (string directory in Directory.EnumerateDirectories("/proc"))
+			{
+				if (!int.TryParse(Path.GetFileName(directory), out int processId) || processId == Environment.ProcessId)
+					continue;
+
+				string commandLine;
+				try
+				{
+					commandLine = File.ReadAllText(Path.Combine(directory, "cmdline"));
+				}
+				catch (Exception)
+				{
+					continue;
+				}
+
+				if (commandLine.Contains("flatpak", StringComparison.Ordinal)
+					&& commandLine.Contains("\0install\0", StringComparison.Ordinal)
+					&& (commandLine.Contains(SoberApplicationId, StringComparison.Ordinal) || commandLine.Contains(ReferenceUrl, StringComparison.Ordinal)))
+				{
+					return true;
+				}
+			}
+		}
+		catch (Exception)
+		{
+		}
+
+		return false;
+	}
+
+	private async Task<OperationResult> InstallOnceAsync(CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		if (!LinuxFlatpakHost.TryCreateCommand(_processes, [], out _))
 		{
 			return OperationResult.Fail("FlatpakMissing", FlatpakMissingMessage, CapabilityState.RequiresExternalRuntime);
+		}
+
+		if (IsInstallRunningElsewhere())
+		{
+			while (IsInstallRunningElsewhere())
+				await Task.Delay(2000, cancellationToken).ConfigureAwait(false);
+
+			if ((await DetectAsync(cancellationToken).ConfigureAwait(false)).Status == SoberInstallationStatus.Installed)
+				return OperationResult.Success();
 		}
 
 		OperationResult remote = await RunAsync(
