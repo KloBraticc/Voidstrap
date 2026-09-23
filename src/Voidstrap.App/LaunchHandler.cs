@@ -911,6 +911,10 @@ public static class LaunchHandler
 			{
 				Bootstrapper bootstrapper = new(launchMode);
 				ShowPortableLaunchDialog(bootstrapper);
+				if (await bootstrapper.TryUpdateLauncherAsync())
+				{
+					return;
+				}
 				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
 				{
 					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session = Voidstrap.Integrations.Overlays.OverlaySettings.RequiresLinuxX11Session

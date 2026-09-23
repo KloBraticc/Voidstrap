@@ -31,6 +31,8 @@ public static class GithubUpdater
         try
         {
             cancellationToken.ThrowIfCancellationRequested();
+            if (OperatingSystem.IsLinux())
+                return await GetLatestLinuxVersionTagAsync(cancellationToken).ConfigureAwait(false);
             if (App.AllowPreReleaseUpdates)
             {
                 var releases = await Voidstrap.Utility.GitHubCache.GetJsonWithFallbackAsync<List<Voidstrap.Models.APIs.GitHub.GithubRelease>>(
@@ -108,45 +110,17 @@ public static class GithubUpdater
                 return false;
             }
 
-            LinuxInstallationInfo? linuxInstallation = OperatingSystem.IsLinux()
-                ? await LinuxInstallationUpdates.DetectAsync(new Voidstrap.Core.SystemProcessService(), Environment.ProcessPath, cancellationToken).ConfigureAwait(false)
-                : null;
-            string? expectedAssetName = linuxInstallation is null
-                ? "Voidstrap.exe"
-                : GetLinuxAssetName(tag, linuxInstallation.Kind);
+            if (OperatingSystem.IsLinux())
+                return await InstallLinuxReleaseAsync(release, tag, cancellationToken).ConfigureAwait(false);
 
             foreach (var asset in release.Assets ?? [])
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                string name = asset.Name ?? "";
-                string downloadUrl = asset.BrowserDownloadUrl ?? "";
-                string digest = asset.Digest ?? "";
-                string state = asset.State ?? "";
-
-                bool assetNameMatches = expectedAssetName is not null && string.Equals(name, expectedAssetName, OperatingSystem.IsLinux() ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
-                if (assetNameMatches &&
-                    string.Equals(state, "uploaded", StringComparison.OrdinalIgnoreCase) &&
-                    Uri.TryCreate(downloadUrl, UriKind.Absolute, out Uri? uri) &&
-                    uri.Scheme == Uri.UriSchemeHttps &&
-                    uri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase))
-                    return OperatingSystem.IsLinux()
-                        ? linuxInstallation!.Kind switch
-                        {
-                            LinuxInstallationKind.AppImage => await UpdateLinuxAppImage(downloadUrl, name, digest, linuxInstallation.ExecutablePath, cancellationToken),
-                            LinuxInstallationKind.PortableBundle => await UpdateLinuxBundle(downloadUrl, name, digest, cancellationToken),
-                            LinuxInstallationKind.Flatpak or LinuxInstallationKind.Debian or LinuxInstallationKind.Rpm => await UpdateLinuxPackage(downloadUrl, name, digest, linuxInstallation, cancellationToken),
-                            _ => await UpdateLinuxPackageSource(linuxInstallation, tag, cancellationToken)
-                        }
-                        : await UpdateExe(downloadUrl, name, digest, tag, cancellationToken);
+                if (asset != null && string.Equals(asset.Name, "Voidstrap.exe", StringComparison.OrdinalIgnoreCase) && IsInstallableAsset(asset))
+                    return await UpdateExe(asset.BrowserDownloadUrl, asset.Name, asset.Digest ?? "", tag, cancellationToken);
             }
 
-            if (linuxInstallation is not null && linuxInstallation.Kind is LinuxInstallationKind.Flatpak or LinuxInstallationKind.Debian or LinuxInstallationKind.Rpm or LinuxInstallationKind.Arch)
-            {
-                App.Logger.WriteLine("GitHubUpdater", "The matching GitHub package is unavailable, trying the installed package source");
-                return await UpdateLinuxPackageSource(linuxInstallation, tag, cancellationToken).ConfigureAwait(false);
-            }
-
-            App.Logger.WriteLine("GitHubUpdater", OperatingSystem.IsLinux() ? "No valid Linux update asset was found" : "No valid Voidstrap executable asset found.");
+            App.Logger.WriteLine("GitHubUpdater", "No valid Voidstrap executable asset found.");
             return false;
         }
         catch (OperationCanceledException)
@@ -160,17 +134,193 @@ public static class GithubUpdater
         }
     }
 
+    private static bool IsInstallableAsset(GithubReleaseAsset asset)
+    {
+        string digest = asset.Digest ?? "";
+        return string.Equals(asset.State, "uploaded", StringComparison.OrdinalIgnoreCase)
+            && digest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase)
+            && digest.Length == 71
+            && Uri.TryCreate(asset.BrowserDownloadUrl, UriKind.Absolute, out Uri? uri)
+            && uri.Scheme == Uri.UriSchemeHttps
+            && uri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase);
+    }
+
     private static string? GetLinuxAssetName(string tag, LinuxInstallationKind kind)
     {
-        return kind switch
+        try
         {
-            LinuxInstallationKind.AppImage => LinuxBundleInstaller.GetAppImageAssetName(tag),
-            LinuxInstallationKind.PortableBundle => LinuxBundleInstaller.GetAssetName(tag, LinuxBundleInstaller.GetCurrentRuntimeIdentifier()),
-            LinuxInstallationKind.Flatpak => LinuxBundleInstaller.GetFlatpakAssetName(tag),
-            LinuxInstallationKind.Debian => LinuxBundleInstaller.GetDebianAssetName(tag),
-            LinuxInstallationKind.Rpm => LinuxBundleInstaller.GetRpmAssetName(tag),
-            _ => null
+            return kind switch
+            {
+                LinuxInstallationKind.AppImage => LinuxBundleInstaller.GetAppImageAssetName(tag),
+                LinuxInstallationKind.PortableBundle => LinuxBundleInstaller.GetAssetName(tag, LinuxBundleInstaller.GetCurrentRuntimeIdentifier()),
+                LinuxInstallationKind.Flatpak => LinuxBundleInstaller.GetFlatpakAssetName(tag),
+                LinuxInstallationKind.Debian => LinuxBundleInstaller.GetDebianAssetName(tag),
+                LinuxInstallationKind.Rpm => LinuxBundleInstaller.GetRpmAssetName(tag),
+                LinuxInstallationKind.Arch => LinuxInstallationUpdates.ArchRecipeAssetName,
+                _ => null
+            };
+        }
+        catch (Exception ex) when (ex is ArgumentException or PlatformNotSupportedException)
+        {
+            return null;
+        }
+    }
+
+    private static GithubReleaseAsset? FindLinuxAsset(Voidstrap.Models.APIs.GitHub.GithubRelease release, LinuxInstallationKind kind)
+    {
+        string? expected = GetLinuxAssetName(release.TagName ?? "", kind);
+        if (expected is null)
+            return null;
+        return release.Assets?.FirstOrDefault(asset => asset != null && string.Equals(asset.Name, expected, StringComparison.Ordinal) && IsInstallableAsset(asset));
+    }
+
+    private static Task<LinuxInstallationInfo> DetectLinuxInstallationAsync(CancellationToken cancellationToken)
+    {
+        return LinuxInstallationUpdates.DetectAsync(new Voidstrap.Core.SystemProcessService(), Environment.ProcessPath, cancellationToken);
+    }
+
+    private static async Task<string?> GetLatestLinuxVersionTagAsync(CancellationToken cancellationToken)
+    {
+        LinuxInstallationInfo installation = await DetectLinuxInstallationAsync(cancellationToken).ConfigureAwait(false);
+        var releases = await Voidstrap.Utility.GitHubCache.GetJsonWithFallbackAsync<List<Voidstrap.Models.APIs.GitHub.GithubRelease>>(
+            App.ProjectReleaseListApi,
+            App.ProjectFallbackReleaseListApi,
+            TimeSpan.Zero,
+            cancellationToken).ConfigureAwait(false);
+        cancellationToken.ThrowIfCancellationRequested();
+        if (releases == null)
+            return null;
+
+        Version? newest = null;
+        string? newestTag = null;
+        foreach (var release in releases)
+        {
+            if (release == null || release.Draft || (release.Prerelease && !App.AllowPreReleaseUpdates) || string.IsNullOrEmpty(release.TagName))
+                continue;
+            if (!Version.TryParse(release.TagName.TrimStart('v', 'V'), out Version? version) || (newest != null && version <= newest))
+                continue;
+            if (FindLinuxAsset(release, installation.Kind) == null)
+                continue;
+            newest = version;
+            newestTag = release.TagName;
+        }
+
+        if (newestTag != null)
+            return newestTag;
+        App.Logger.WriteLine("GitHubUpdater", "No release has a " + installation.Kind + " build for this computer yet");
+        return "v" + (typeof(GithubUpdater).Assembly.GetName().Version?.ToString() ?? "0.0.0.0");
+    }
+
+    private static async Task<bool> InstallLinuxReleaseAsync(Voidstrap.Models.APIs.GitHub.GithubRelease release, string tag, CancellationToken cancellationToken)
+    {
+        LinuxInstallationInfo installation = await DetectLinuxInstallationAsync(cancellationToken).ConfigureAwait(false);
+        GithubReleaseAsset? asset = FindLinuxAsset(release, installation.Kind);
+        if (asset == null)
+        {
+            App.Logger.WriteLine("GitHubUpdater", "The release " + tag + " has no " + installation.Kind + " build for this computer");
+            return false;
+        }
+        if (installation.Kind is LinuxInstallationKind.AppImage or LinuxInstallationKind.PortableBundle
+            && !LinuxBundleInstaller.CanUpdateInPlace(installation.ExecutablePath))
+        {
+            App.Logger.WriteLine("GitHubUpdater", "The folder holding Voidstrap is not writable, so the update was skipped: " + installation.ExecutablePath);
+            return false;
+        }
+
+        string digest = asset.Digest ?? "";
+        return installation.Kind switch
+        {
+            LinuxInstallationKind.AppImage => await UpdateLinuxAppImage(asset.BrowserDownloadUrl, asset.Name, digest, installation.ExecutablePath, cancellationToken).ConfigureAwait(false),
+            LinuxInstallationKind.PortableBundle => await UpdateLinuxBundle(asset.BrowserDownloadUrl, asset.Name, digest, installation.ExecutablePath, cancellationToken).ConfigureAwait(false),
+            LinuxInstallationKind.Arch => await UpdateLinuxArch(asset.BrowserDownloadUrl, asset.Name, digest, installation, tag, cancellationToken).ConfigureAwait(false),
+            _ => await UpdateLinuxPackage(asset.BrowserDownloadUrl, asset.Name, digest, installation, tag, cancellationToken).ConfigureAwait(false)
         };
+    }
+
+    private static async Task<bool> FinishLinuxPackageUpdateAsync(
+        Voidstrap.Platform.OperationResult result,
+        LinuxInstallationInfo installation,
+        string tag,
+        CancellationToken cancellationToken)
+    {
+        if (!result.Succeeded)
+        {
+            if (result.Failure?.Code == LinuxInstallationUpdates.AuthorizationCancelledCode)
+            {
+                App.State.Prop.DeclinedLinuxUpdateTag = tag;
+                App.State.Save();
+            }
+            App.Logger.WriteLine("GitHubUpdater", "The " + installation.Kind + " update could not be installed: " + (result.Failure?.Message ?? "Unknown package error"));
+            return false;
+        }
+        if (!await LinuxInstallationUpdates.HasExpectedVersionAsync(new Voidstrap.Core.SystemProcessService(), installation, tag, cancellationToken).ConfigureAwait(false))
+        {
+            App.Logger.WriteLine("GitHubUpdater", "The package manager finished but " + installation.PackageName + " is still older than " + tag);
+            return false;
+        }
+        App.Logger.WriteLine("GitHubUpdater", "The " + installation.Kind + " package update to " + tag + " completed");
+        return true;
+    }
+
+    private static async Task<bool> UpdateLinuxArch(
+        string url,
+        string name,
+        string digest,
+        LinuxInstallationInfo installation,
+        string tag,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        using Voidstrap.Utility.InterProcessLock updateLock = new("AutoUpdater", TimeSpan.FromSeconds(5));
+        if (!updateLock.IsAcquired)
+            throw new IOException("Another update is already in progress");
+
+        string temporaryDirectory = Path.Combine(Path.GetTempPath(), "Voidstrap_Update_" + Guid.NewGuid().ToString("N"));
+        string recipeDirectory = Path.Combine(temporaryDirectory, "recipe");
+        Directory.CreateDirectory(recipeDirectory);
+        try
+        {
+            string archivePath = Path.Combine(temporaryDirectory, name);
+            await DownloadToFileAsync(url, archivePath, digest, cancellationToken).ConfigureAwait(false);
+            await ExtractArchRecipeAsync(archivePath, recipeDirectory, cancellationToken).ConfigureAwait(false);
+            Voidstrap.Platform.OperationResult result = await LinuxInstallationUpdates.InstallArchRecipeAsync(
+                new Voidstrap.Core.SystemProcessService(),
+                recipeDirectory,
+                cancellationToken).ConfigureAwait(false);
+            return await FinishLinuxPackageUpdateAsync(result, installation, tag, cancellationToken).ConfigureAwait(false);
+        }
+        finally
+        {
+            try
+            {
+                if (Directory.Exists(temporaryDirectory))
+                    Directory.Delete(temporaryDirectory, true);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("GitHubUpdater", "Temporary update cleanup failed: " + ex.Message);
+            }
+        }
+    }
+
+    private static async Task ExtractArchRecipeAsync(string archivePath, string recipeDirectory, CancellationToken cancellationToken)
+    {
+        bool hasRecipe = false;
+        await using FileStream archive = new(archivePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        await using System.IO.Compression.GZipStream gzip = new(archive, System.IO.Compression.CompressionMode.Decompress);
+        using System.Formats.Tar.TarReader reader = new(gzip);
+        while (await reader.GetNextEntryAsync(false, cancellationToken).ConfigureAwait(false) is System.Formats.Tar.TarEntry entry)
+        {
+            string entryName = entry.Name.StartsWith("./", StringComparison.Ordinal) ? entry.Name[2..] : entry.Name;
+            if (entryName is not ("PKGBUILD" or ".SRCINFO")
+                || entry.EntryType is not (System.Formats.Tar.TarEntryType.RegularFile or System.Formats.Tar.TarEntryType.V7RegularFile)
+                || entry.Length > 1048576)
+                continue;
+            await entry.ExtractToFileAsync(Path.Combine(recipeDirectory, entryName), true, cancellationToken).ConfigureAwait(false);
+            hasRecipe |= entryName == "PKGBUILD";
+        }
+        if (!hasRecipe)
+            throw new InvalidDataException("The Arch package recipe is missing from the release");
     }
 
     private static async Task<bool> UpdateLinuxPackage(
@@ -178,6 +328,7 @@ public static class GithubUpdater
         string name,
         string digest,
         LinuxInstallationInfo installation,
+        string tag,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -200,14 +351,7 @@ public static class GithubUpdater
                 installation,
                 packagePath,
                 cancellationToken).ConfigureAwait(false);
-            if (!result.Succeeded)
-            {
-                App.Logger.WriteLine("GitHubUpdater", "The downloaded Linux package could not be installed: " + (result.Failure?.Message ?? "Unknown package error"));
-                return false;
-            }
-
-            App.Logger.WriteLine("GitHubUpdater", "The " + installation.Kind + " package update completed");
-            return true;
+            return await FinishLinuxPackageUpdateAsync(result, installation, tag, cancellationToken).ConfigureAwait(false);
         }
         finally
         {
@@ -235,34 +379,7 @@ public static class GithubUpdater
         return directory;
     }
 
-    private static async Task<bool> UpdateLinuxPackageSource(LinuxInstallationInfo installation, string expectedVersionTag, CancellationToken cancellationToken)
-    {
-        using Voidstrap.Utility.InterProcessLock updateLock = new("AutoUpdater", TimeSpan.FromSeconds(5));
-        if (!updateLock.IsAcquired)
-            throw new IOException("Another update is already in progress");
-        return await UpdateLinuxPackageSourceCore(installation, expectedVersionTag, cancellationToken).ConfigureAwait(false);
-    }
-
-    private static async Task<bool> UpdateLinuxPackageSourceCore(LinuxInstallationInfo installation, string? expectedVersionTag, CancellationToken cancellationToken)
-    {
-        if (string.IsNullOrWhiteSpace(expectedVersionTag))
-            return false;
-        Voidstrap.Platform.OperationResult result = await LinuxInstallationUpdates.UpdateFromPackageSourceAsync(
-            new Voidstrap.Core.SystemProcessService(),
-            installation,
-            expectedVersionTag,
-            cancellationToken).ConfigureAwait(false);
-        if (!result.Succeeded)
-        {
-            App.Logger.WriteLine("GitHubUpdater", "The Linux package source fallback could not update Voidstrap: " + (result.Failure?.Message ?? "Unknown package error"));
-            return false;
-        }
-
-        App.Logger.WriteLine("GitHubUpdater", "The " + installation.Kind + " package source update completed");
-        return true;
-    }
-
-    private static async Task<bool> UpdateLinuxBundle(string url, string name, string digest, CancellationToken cancellationToken)
+    private static async Task<bool> UpdateLinuxBundle(string url, string name, string digest, string currentExecutable, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         using Voidstrap.Utility.InterProcessLock updateLock = new("AutoUpdater", TimeSpan.FromSeconds(5));
@@ -277,7 +394,6 @@ public static class GithubUpdater
             string archivePath = Path.Combine(tempDirectory, name);
             await DownloadToFileAsync(url, archivePath, digest, cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
-            string currentExecutable = Environment.ProcessPath ?? throw new InvalidOperationException("The current executable path is unavailable");
             await LinuxBundleInstaller.InstallAsync(archivePath, currentExecutable, cancellationToken);
             return true;
         }

@@ -26,7 +26,7 @@ Requires: fontconfig
 Requires: freetype
 Requires: libxkbcommon
 Requires: libxkbcommon-x11
-Requires: wayland-libs
+Requires: libwayland-client.so.0()(64bit)
 Requires: dbus-libs
 Requires: mesa-libGL
 Requires: mesa-libEGL

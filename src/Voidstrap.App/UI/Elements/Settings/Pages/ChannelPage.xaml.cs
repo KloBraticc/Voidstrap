@@ -275,8 +275,9 @@ public partial class ChannelPage : UiPage{
 		{
 			string currentVersion = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
 			CancellationToken token = _versionCts?.Token ?? CancellationToken.None;
-			var release = await App.GetLatestRelease(true) ?? throw new InvalidDataException("Release information is unavailable");
-			string text = release.TagName;
+			string text = (Voidstrap.Utility.Platform.IsLinux
+				? await Voidstrap.Extensions.GithubUpdater.GetLatestVersionTagAsync(token)
+				: (await App.GetLatestRelease(true))?.TagName) ?? throw new InvalidDataException("Release information is unavailable");
 				if (!TryCompareVersions(text, currentVersion, out bool newer))
 				{
 					Frontend.ShowMessageBox("Could not compare versions. This build reports " + currentVersion + " and the latest release is tagged " + text + ".");
@@ -285,7 +286,7 @@ public partial class ChannelPage : UiPage{
 				if (newer)
 			{
 				Frontend.ShowMessageBox("A new version (" + text + ") is available!");
-				if (!await Voidstrap.Extensions.GithubUpdater.DownloadAndInstallUpdate(release.TagName))
+				if (!await Voidstrap.Extensions.GithubUpdater.DownloadAndInstallUpdate(text))
 				{
 					throw new InvalidDataException("The update could not be installed");
 				}

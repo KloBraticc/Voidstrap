@@ -39,6 +39,8 @@ public class State
 
 	public DateTime LastLauncherUpdateCheckUtc { get; set; }
 
+	public string? DeclinedLinuxUpdateTag { get; set; }
+
 	public DateTime LastSafeLaunchUtc { get; set; }
 
 	public string LastSafeLaunchResult { get; set; } = string.Empty;

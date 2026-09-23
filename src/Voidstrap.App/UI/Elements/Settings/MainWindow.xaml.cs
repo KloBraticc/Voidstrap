@@ -1998,20 +1998,22 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         try
         {
             string currentText = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0";
-            var release = await App.GetLatestRelease(true) ?? throw new InvalidDataException("Release information is unavailable");
-            if (!Version.TryParse(currentText, out Version? current) || !Version.TryParse(release.TagName.TrimStart('v', 'V'), out Version? latest))
+            string latestTag = (Voidstrap.Utility.Platform.IsLinux
+                ? await GithubUpdater.GetLatestVersionTagAsync(_lifetimeCts.Token)
+                : (await App.GetLatestRelease(true))?.TagName) ?? throw new InvalidDataException("Release information is unavailable");
+            if (!Version.TryParse(currentText, out Version? current) || !Version.TryParse(latestTag.TrimStart('v', 'V'), out Version? latest))
             {
                 Frontend.ShowMessageBox("Could not compare this build with the latest release.");
                 return;
             }
-            App.Logger.WriteLine("MainWindow::CheckForUpdates", "Local: " + currentText + " | Remote: " + release.TagName);
+            App.Logger.WriteLine("MainWindow::CheckForUpdates", "Local: " + currentText + " | Remote: " + latestTag);
             if (latest <= current)
             {
                 Frontend.ShowMessageBox("You are already running the latest version of Voidstrap (" + currentText + ").");
                 return;
             }
-            App.Logger.WriteLine("MainWindow::CheckForUpdates", "Installing " + release.TagName + " requested from the app menu");
-            if (!await GithubUpdater.DownloadAndInstallUpdate(release.TagName, _lifetimeCts.Token))
+            App.Logger.WriteLine("MainWindow::CheckForUpdates", "Installing " + latestTag + " requested from the app menu");
+            if (!await GithubUpdater.DownloadAndInstallUpdate(latestTag, _lifetimeCts.Token))
             {
                 throw new InvalidDataException("The update could not be installed");
             }

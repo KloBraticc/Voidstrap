@@ -33,6 +33,10 @@ public static partial class LinuxInstallationUpdates
 {
 	public const string ApplicationId = "io.github.KloBraticc.Voidstrap";
 
+	public const string AuthorizationCancelledCode = "AuthorizationCancelled";
+
+	public const string ArchRecipeAssetName = "Voidstrap_AUR_metadata.tar.gz";
+
 	private static readonly HashSet<string> PackageNames = new(StringComparer.Ordinal)
 	{
 		"voidstrap",
@@ -110,32 +114,6 @@ public static partial class LinuxInstallationUpdates
 		};
 	}
 
-	public static async Task<OperationResult> UpdateFromPackageSourceAsync(
-		IProcessService processes,
-		LinuxInstallationInfo installation,
-		string expectedVersionTag,
-		CancellationToken cancellationToken = default)
-	{
-		ArgumentNullException.ThrowIfNull(processes);
-		ArgumentNullException.ThrowIfNull(installation);
-		cancellationToken.ThrowIfCancellationRequested();
-
-		OperationResult updateResult = installation.Kind switch
-		{
-			LinuxInstallationKind.Flatpak => await UpdateFlatpakSourceAsync(processes, installation, cancellationToken).ConfigureAwait(false),
-			LinuxInstallationKind.Debian => await UpdateDebianSourceAsync(processes, installation.PackageName, cancellationToken).ConfigureAwait(false),
-			LinuxInstallationKind.Rpm => await UpdateRpmSourceAsync(processes, installation.PackageName, cancellationToken).ConfigureAwait(false),
-			LinuxInstallationKind.Arch => await UpdateArchSourceAsync(processes, installation.PackageName, cancellationToken).ConfigureAwait(false),
-			LinuxInstallationKind.ManagedUnknown => OperationResult.Fail("UnknownPackageManager", "The package manager that owns this Voidstrap installation could not be identified"),
-			_ => OperationResult.Fail("NoPackageSource", "This Voidstrap installation has no package source update path")
-		};
-		if (!updateResult.Succeeded)
-			return updateResult;
-		return await HasExpectedVersionAsync(processes, installation, expectedVersionTag, cancellationToken).ConfigureAwait(false)
-			? OperationResult.Success()
-			: OperationResult.Fail("PackageSourceBehind", "The installed package source does not contain this Voidstrap release yet");
-	}
-
 	public static async Task<bool> HasExpectedVersionAsync(
 		IProcessService processes,
 		LinuxInstallationInfo installation,
@@ -153,8 +131,10 @@ public static partial class LinuxInstallationUpdates
 		OperationResult<ProcessExecution> result = await processes.ExecuteAsync(command, cancellationToken).ConfigureAwait(false);
 		if (!result.Succeeded || result.Value is not { ExitCode: 0 } execution)
 			return false;
-		MatchCollection matches = VersionNumberPattern.Matches(execution.StandardOutput);
-		foreach (Match match in matches)
+		string output = installation.Kind == LinuxInstallationKind.Flatpak
+			? string.Join('\n', execution.StandardOutput.Split('\n').Where(line => line.Split(['\t', ' '], StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() == installation.PackageName))
+			: execution.StandardOutput;
+		foreach (Match match in VersionNumberPattern.Matches(output))
 		{
 			if (Version.TryParse(match.Groups[1].Value, out Version? installedVersion) && installedVersion >= expectedVersion)
 				return true;
@@ -188,9 +168,8 @@ public static partial class LinuxInstallationUpdates
 	{
 		if (installation.Kind == LinuxInstallationKind.Flatpak)
 		{
-			List<string> flatpakArguments = ["info"];
+			List<string> flatpakArguments = ["list", "--app", "--columns=application,version"];
 			flatpakArguments.Add(installation.Scope == LinuxPackageScope.System ? "--system" : "--user");
-			flatpakArguments.AddRange(["--show-version", installation.PackageName]);
 			return LinuxFlatpakHost.TryCreateCommand(processes, flatpakArguments, out ProcessCommand command) ? command : null;
 		}
 
@@ -271,19 +250,6 @@ public static partial class LinuxInstallationUpdates
 		return await RunFlatpakResultAsync(processes, arguments, cancellationToken).ConfigureAwait(false);
 	}
 
-	private static async Task<OperationResult> UpdateFlatpakSourceAsync(
-		IProcessService processes,
-		LinuxInstallationInfo installation,
-		CancellationToken cancellationToken)
-	{
-		if (installation.Scope == LinuxPackageScope.Unknown)
-			return OperationResult.Fail("FlatpakScopeUnknown", "The current Flatpak installation scope could not be identified");
-		List<string> arguments = ["update"];
-		arguments.Add(installation.Scope == LinuxPackageScope.System ? "--system" : "--user");
-		arguments.AddRange(["--noninteractive", "--assumeyes", installation.PackageName]);
-		return await RunFlatpakResultAsync(processes, arguments, cancellationToken).ConfigureAwait(false);
-	}
-
 	private static async Task<bool> RunFlatpakAsync(IProcessService processes, IReadOnlyList<string> arguments, CancellationToken cancellationToken)
 	{
 		OperationResult result = await RunFlatpakResultAsync(processes, arguments, cancellationToken).ConfigureAwait(false);
@@ -306,14 +272,6 @@ public static partial class LinuxInstallationUpdates
 		return await ExecuteCommandsAsync(processes, commands, cancellationToken).ConfigureAwait(false);
 	}
 
-	private static async Task<OperationResult> UpdateDebianSourceAsync(IProcessService processes, string packageName, CancellationToken cancellationToken)
-	{
-		List<ProcessCommand> commands = [];
-		AddElevatedCommand(processes, commands, "apt-get", ["install", "--only-upgrade", "--yes", "--no-remove", packageName]);
-		AddElevatedCommand(processes, commands, "apt", ["install", "--only-upgrade", "--yes", packageName]);
-		return await ExecuteCommandsAsync(processes, commands, cancellationToken).ConfigureAwait(false);
-	}
-
 	private static async Task<OperationResult> InstallRpmAsync(IProcessService processes, string packagePath, CancellationToken cancellationToken)
 	{
 		List<ProcessCommand> commands = [];
@@ -327,62 +285,41 @@ public static partial class LinuxInstallationUpdates
 		return await ExecuteCommandsAsync(processes, commands, cancellationToken).ConfigureAwait(false);
 	}
 
-	private static async Task<OperationResult> UpdateRpmSourceAsync(IProcessService processes, string packageName, CancellationToken cancellationToken)
+	public static async Task<OperationResult> InstallArchRecipeAsync(
+		IProcessService processes,
+		string recipeDirectory,
+		CancellationToken cancellationToken = default)
 	{
-		List<ProcessCommand> commands = [];
-		AddElevatedCommand(processes, commands, "dnf5", ["upgrade", "--assumeyes", packageName]);
-		AddElevatedCommand(processes, commands, "dnf", ["upgrade", "--assumeyes", packageName]);
-		AddElevatedCommand(processes, commands, "yum", ["update", "--assumeyes", packageName]);
-		AddElevatedCommand(processes, commands, "zypper", ["--non-interactive", "update", packageName]);
-		return await ExecuteCommandsAsync(processes, commands, cancellationToken).ConfigureAwait(false);
-	}
+		ArgumentNullException.ThrowIfNull(processes);
+		ArgumentException.ThrowIfNullOrWhiteSpace(recipeDirectory);
+		cancellationToken.ThrowIfCancellationRequested();
 
-	private static async Task<OperationResult> UpdateArchSourceAsync(IProcessService processes, string packageName, CancellationToken cancellationToken)
-	{
-		List<ProcessCommand> commands = [];
-		string? pkexec = processes.FindExecutable("pkexec");
-		string[] escalation = string.IsNullOrWhiteSpace(pkexec) ? [] : ["--sudo", pkexec];
-		AddCommand(processes, commands, "paru", ["--sync", "--needed", "--noconfirm", "--skipreview", .. escalation, packageName]);
-		AddCommand(processes, commands, "yay", ["--sync", "--needed", "--noconfirm", .. escalation, packageName]);
-		AddCommand(processes, commands, "pamac", ["build", "--no-confirm", packageName]);
-		OperationResult helperResult = await ExecuteCommandsAsync(processes, commands, cancellationToken).ConfigureAwait(false);
-		if (helperResult.Succeeded)
-			return helperResult;
-
-		string? git = processes.FindExecutable("git");
+		string? env = processes.FindExecutable("env");
 		string? makepkg = processes.FindExecutable("makepkg");
-		if (string.IsNullOrWhiteSpace(git) || string.IsNullOrWhiteSpace(makepkg))
-			return helperResult;
+		if (string.IsNullOrWhiteSpace(env) || string.IsNullOrWhiteSpace(makepkg))
+			return OperationResult.Fail("PackageToolUnavailable", "makepkg is unavailable, install the base-devel group so Voidstrap can update itself");
 
-		string temporaryRoot = Path.Combine(Path.GetTempPath(), "Voidstrap_Aur_Update_" + Guid.NewGuid().ToString("N"));
-		string checkout = Path.Combine(temporaryRoot, packageName);
-		Directory.CreateDirectory(temporaryRoot);
-		try
-		{
-			OperationResult<ProcessExecution> clone = await processes.ExecuteAsync(
-				new ProcessCommand(git, ["clone", "--depth", "1", "https://aur.archlinux.org/" + packageName + ".git", checkout]),
-				cancellationToken).ConfigureAwait(false);
-			if (!clone.Succeeded || clone.Value is not { ExitCode: 0 })
-				return FailureFromExecution("AurCheckoutFailed", "The AUR update recipe could not be downloaded", clone);
+		string directory = Path.GetFullPath(recipeDirectory);
+		string output = Path.Combine(directory, "packages");
+		Directory.CreateDirectory(output);
+		OperationResult<ProcessExecution> build = await processes.ExecuteAsync(
+			new ProcessCommand(
+				env,
+				["PKGDEST=" + output, "SRCDEST=" + directory, "BUILDDIR=" + directory, makepkg, "--force", "--clean", "--nodeps", "--noconfirm"],
+				StandardInput: string.Empty,
+				WorkingDirectory: directory),
+			cancellationToken).ConfigureAwait(false);
+		if (!build.Succeeded || build.Value is not { ExitCode: 0 })
+			return FailureFromExecution("ArchBuildFailed", "The Voidstrap package could not be built", build);
 
-			OperationResult<ProcessExecution> build = await processes.ExecuteAsync(
-				new ProcessCommand(makepkg, ["--syncdeps", "--install", "--needed", "--noconfirm", "--clean"], WorkingDirectory: checkout),
-				cancellationToken).ConfigureAwait(false);
-			return build.Succeeded && build.Value is { ExitCode: 0 }
-				? OperationResult.Success()
-				: FailureFromExecution("AurUpdateFailed", "The AUR package update did not complete", build);
-		}
-		finally
-		{
-			try
-			{
-				if (Directory.Exists(temporaryRoot))
-					Directory.Delete(temporaryRoot, true);
-			}
-			catch
-			{
-			}
-		}
+		string? package = Directory.EnumerateFiles(output, "*.pkg.tar*")
+			.FirstOrDefault(path => !path.EndsWith(".sig", StringComparison.Ordinal));
+		if (package is null)
+			return OperationResult.Fail("ArchBuildFailed", "makepkg finished without producing a Voidstrap package");
+
+		List<ProcessCommand> commands = [];
+		AddElevatedCommand(processes, commands, "pacman", ["--upgrade", "--noconfirm", package]);
+		return await ExecuteCommandsAsync(processes, commands, cancellationToken).ConfigureAwait(false);
 	}
 
 	private static void AddElevatedCommand(IProcessService processes, List<ProcessCommand> commands, string name, IReadOnlyList<string> arguments)
@@ -395,34 +332,15 @@ public static partial class LinuxInstallationUpdates
 			commands.Add(new ProcessCommand(executable, arguments));
 			return;
 		}
-		string? elevation = processes.FindExecutable("pkexec");
-		if (!string.IsNullOrWhiteSpace(elevation))
+		foreach ((string elevator, string flag) in new[] { ("sudo", "--non-interactive"), ("doas", "-n"), ("pkexec", "") })
 		{
-			List<string> elevatedArguments = [executable];
+			string? elevation = processes.FindExecutable(elevator);
+			if (string.IsNullOrWhiteSpace(elevation))
+				continue;
+			List<string> elevatedArguments = flag.Length == 0 ? [executable] : [flag, executable];
 			elevatedArguments.AddRange(arguments);
 			commands.Add(new ProcessCommand(elevation, elevatedArguments));
 		}
-		string? sudo = processes.FindExecutable("sudo");
-		if (!string.IsNullOrWhiteSpace(sudo))
-		{
-			List<string> sudoArguments = ["--non-interactive", executable];
-			sudoArguments.AddRange(arguments);
-			commands.Add(new ProcessCommand(sudo, sudoArguments));
-		}
-		string? doas = processes.FindExecutable("doas");
-		if (!string.IsNullOrWhiteSpace(doas))
-		{
-			List<string> doasArguments = ["-n", executable];
-			doasArguments.AddRange(arguments);
-			commands.Add(new ProcessCommand(doas, doasArguments));
-		}
-	}
-
-	private static void AddCommand(IProcessService processes, List<ProcessCommand> commands, string name, IReadOnlyList<string> arguments)
-	{
-		string? executable = processes.FindExecutable(name);
-		if (!string.IsNullOrWhiteSpace(executable))
-			commands.Add(new ProcessCommand(executable, arguments));
 	}
 
 	private static async Task<OperationResult> ExecuteCommandsAsync(
@@ -434,14 +352,22 @@ public static partial class LinuxInstallationUpdates
 			return OperationResult.Fail("PackageToolUnavailable", "No compatible Linux package tool is available");
 
 		OperationResult<ProcessExecution>? lastResult = null;
+		OperationResult<ProcessExecution>? refusedPrompt = null;
 		foreach (ProcessCommand command in commands)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
+			bool prompts = Path.GetFileName(command.FileName) == "pkexec";
+			if (prompts && refusedPrompt is not null)
+				continue;
 			lastResult = await processes.ExecuteAsync(command, cancellationToken).ConfigureAwait(false);
 			if (lastResult.Succeeded && lastResult.Value is { ExitCode: 0 })
 				return OperationResult.Success();
+			if (prompts && lastResult.Value is { ExitCode: 126 or 127 })
+				refusedPrompt = lastResult;
 		}
-		return FailureFromExecution("PackageUpdateFailed", "The Linux package manager could not complete the update", lastResult);
+		if (refusedPrompt?.Value is { ExitCode: 126 })
+			return OperationResult.Fail(AuthorizationCancelledCode, "The administrator password prompt was cancelled");
+		return FailureFromExecution("PackageUpdateFailed", "The Linux package manager could not complete the update", refusedPrompt ?? lastResult);
 	}
 
 	private static OperationResult FailureFromExecution(

@@ -675,10 +675,7 @@ public class Bootstrapper
             SetStatus("You are offline, launching the installed Roblox");
         }
         Task versionInfoTask = Voidstrap.Utility.Platform.SupportsWindowsClient && !_noConnection ? GetLatestVersionInfo(false) : Task.CompletedTask;
-        bool updateCheckFresh = DateTime.UtcNow - App.State.Prop.LastLauncherUpdateCheckUtc < TimeSpan.FromMinutes(2);
-        Task<bool> launcherUpdateTask = App.Settings.Prop.CheckForUpdates && !App.LaunchSettings.UpgradeFlag.Active && !InstallOnly && !updateCheckFresh && !_noConnection
-            ? CheckAndApplyUpdate("Bootstrapper::Run")
-            : Task.FromResult(false);
+        Task<bool> launcherUpdateTask = _noConnection ? Task.FromResult(false) : TryUpdateLauncherAsync();
         if (await launcherUpdateTask)
         {
             Observe(versionInfoTask);
@@ -935,6 +932,23 @@ public class Bootstrapper
         }
     }
 
+    internal async Task<bool> TryUpdateLauncherAsync()
+    {
+        bool updateCheckFresh = DateTime.UtcNow - App.State.Prop.LastLauncherUpdateCheckUtc < TimeSpan.FromMinutes(2);
+        if (!App.Settings.Prop.CheckForUpdates || App.LaunchSettings.UpgradeFlag.Active || InstallOnly || updateCheckFresh)
+            return false;
+        try
+        {
+            return await Voidstrap.Utility.Connectivity.IsOnlineAsync(_cancelTokenSource.Token)
+                && await CheckAndApplyUpdate("Bootstrapper::TryUpdateLauncher");
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            App.Logger.WriteLine("Bootstrapper::TryUpdateLauncher", "The launcher update check failed: " + ex.Message);
+            return false;
+        }
+    }
+
     private async Task<bool> CheckAndApplyUpdate(string logIdent)
     {
         string? text = await GithubUpdater.GetLatestVersionTagAsync();
@@ -949,6 +963,11 @@ public class Bootstrapper
         App.Logger.WriteLine(logIdent, "Local: " + text3 + " | Remote: " + text2);
         if (IsNewerVersion(text2))
         {
+            if (Voidstrap.Utility.Platform.IsLinux && string.Equals(App.State.Prop.DeclinedLinuxUpdateTag, text, StringComparison.OrdinalIgnoreCase))
+            {
+                App.Logger.WriteLine(logIdent, "Skipping " + text + " because its password prompt was cancelled, Check for updates still installs it");
+                return false;
+            }
             SetStatus("Updating to v" + text2 + "...");
 			if (await GithubUpdater.DownloadAndInstallUpdate(text))
             {

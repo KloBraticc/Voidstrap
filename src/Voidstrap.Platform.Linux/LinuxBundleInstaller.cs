@@ -157,6 +157,30 @@ public static partial class LinuxBundleInstaller
 		}
 
 		EnsureWritable(targetDirectory);
+		await ReplaceFileAsync(sourcePath, targetPath, LinuxAppImageHost.HasValidHeader, cancellationToken).ConfigureAwait(false);
+	}
+
+	public static bool CanUpdateInPlace(string executablePath)
+	{
+		try
+		{
+			string directory = Path.GetDirectoryName(Path.GetFullPath(executablePath)) ?? string.Empty;
+			if (directory.Length == 0)
+			{
+				return false;
+			}
+			EnsureWritable(directory);
+			return true;
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
+		{
+			return false;
+		}
+	}
+
+	private static async Task ReplaceFileAsync(string sourcePath, string targetPath, Func<string, bool> isValid, CancellationToken cancellationToken)
+	{
+		string targetDirectory = Path.GetDirectoryName(targetPath) ?? throw new InvalidOperationException("The update folder is unavailable");
 		string stagedPath = targetPath + AppImageUpdateSuffix;
 		try
 		{
@@ -164,7 +188,7 @@ public static partial class LinuxBundleInstaller
 			{
 				if (IsLink(stagedPath))
 				{
-					throw new IOException("The AppImage update slot is unsafe");
+					throw new IOException("The update slot is unsafe");
 				}
 				File.Delete(stagedPath);
 			}
@@ -180,11 +204,12 @@ public static partial class LinuxBundleInstaller
 			UnixFileMode currentMode = File.GetUnixFileMode(targetPath);
 			UnixFileMode executableMode = currentMode | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute;
 			File.SetUnixFileMode(stagedPath, executableMode);
-			if (new FileInfo(stagedPath).Length != new FileInfo(sourcePath).Length || !LinuxAppImageHost.HasValidHeader(stagedPath))
+			if (new FileInfo(stagedPath).Length != new FileInfo(sourcePath).Length || !isValid(stagedPath))
 			{
-				throw new InvalidDataException("The staged AppImage update is invalid");
+				throw new InvalidDataException("The staged update is invalid");
 			}
 
+			cancellationToken.ThrowIfCancellationRequested();
 			File.Move(stagedPath, targetPath, true);
 			try
 			{
@@ -200,6 +225,65 @@ public static partial class LinuxBundleInstaller
 			{
 				File.Delete(stagedPath);
 			}
+		}
+	}
+
+	private static bool IsBundleDirectory(string installDirectory, string executablePath)
+	{
+		if (!Path.GetFileName(executablePath).Equals(ExecutableName, StringComparison.Ordinal))
+		{
+			return false;
+		}
+		return Directory.EnumerateFileSystemEntries(installDirectory)
+			.Select(Path.GetFileName)
+			.All(name => name is ExecutableName or "share" || (name ?? string.Empty).StartsWith(".voidstrap.", StringComparison.Ordinal));
+	}
+
+	private static bool IsWritable(string directory)
+	{
+		try
+		{
+			EnsureWritable(directory);
+			return true;
+		}
+		catch (UnauthorizedAccessException)
+		{
+			return false;
+		}
+	}
+
+	private static async Task ReplaceExecutableAsync(string archivePath, string executablePath, CancellationToken cancellationToken)
+	{
+		string installDirectory = Path.GetDirectoryName(executablePath) ?? throw new InvalidOperationException("The installation directory is unavailable");
+		EnsureWritable(installDirectory);
+		string stageDirectory = Path.Combine(Path.GetTempPath(), "voidstrap.stage." + Guid.NewGuid().ToString("N"));
+		try
+		{
+			Directory.CreateDirectory(stageDirectory);
+			UnixFileMode? executableMode = await ExtractBundleAsync(archivePath, stageDirectory, null, cancellationToken).ConfigureAwait(false);
+			cancellationToken.ThrowIfCancellationRequested();
+			ValidateCandidate(stageDirectory, executableMode);
+			await ReplaceFileAsync(Path.Combine(stageDirectory, ExecutableName), executablePath, IsValidElfExecutable, cancellationToken).ConfigureAwait(false);
+		}
+		finally
+		{
+			if (Directory.Exists(stageDirectory) && !IsLink(stageDirectory))
+			{
+				Directory.Delete(stageDirectory, true);
+			}
+		}
+	}
+
+	private static bool IsValidElfExecutable(string path)
+	{
+		try
+		{
+			ValidateElfExecutable(path);
+			return true;
+		}
+		catch (Exception ex) when (ex is InvalidDataException or IOException or OverflowException)
+		{
+			return false;
 		}
 	}
 
@@ -294,6 +378,11 @@ public static partial class LinuxBundleInstaller
 		if (!File.Exists(archivePath))
 		{
 			throw new FileNotFoundException("The update bundle is unavailable", archivePath);
+		}
+		if (!IsBundleDirectory(installDirectory, executablePath) || !IsWritable(parentDirectory))
+		{
+			await ReplaceExecutableAsync(archivePath, executablePath, cancellationToken).ConfigureAwait(false);
+			return;
 		}
 
 		EnsureWritable(parentDirectory);
