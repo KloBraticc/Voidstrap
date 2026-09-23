@@ -12,6 +12,7 @@ import android.os.SystemClock;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import rikka.shizuku.Shizuku;
@@ -99,7 +100,8 @@ public final class ShizukuHelper {
 
     private static void launch(Context app, Store store, Result result) {
         store.work.execute(() -> {
-            boolean ok = startBlocking(app);
+            int expectedUid = serverUid();
+            boolean ok = validUid(expectedUid) && startBlocking(app, expectedUid);
             if (ok) store.putSetting(USED, "1");
             store.main.post(() -> result.done(ok, ok ? R.string.shizuku_started : R.string.shizuku_failed));
         });
@@ -107,18 +109,30 @@ public final class ShizukuHelper {
 
     public static void keepHelper(Context c) {
         Context app = c.getApplicationContext();
-        if (!"1".equals(Store.get(app).setting(USED, "0")) || Helper.uidNow() >= 0) return;
+        if (!"1".equals(Store.get(app).setting(USED, "0")) || FlagWriter.rootEnabled(app)) return;
         if (state(app) != State.READY) return;
-        startBlocking(app);
+        int expectedUid = serverUid();
+        if (!validUid(expectedUid) || Helper.uidNow() == expectedUid) return;
+        startBlocking(app, expectedUid);
     }
 
-    private static boolean startBlocking(Context app) {
+    private static int serverUid() {
+        return Crash.call("shizuku uid", Shizuku::getUid, -1);
+    }
+
+    private static boolean validUid(int uid) {
+        return uid == 0 || uid == HelperServer.SHELL_UID;
+    }
+
+    private static synchronized boolean startBlocking(Context app, int expectedUid) {
+        if (Helper.uidNow() == expectedUid) return true;
         Shizuku.UserServiceArgs args = new Shizuku.UserServiceArgs(new ComponentName(app.getPackageName(), ShizukuStarter.class.getName()))
                 .daemon(false)
                 .processNameSuffix("starter")
                 .debuggable(BuildConfig.DEBUG)
                 .version(BuildConfig.VERSION_CODE);
         AtomicReference<IBinder> binder = new AtomicReference<>();
+        AtomicBoolean bindRequested = new AtomicBoolean();
         CountDownLatch connected = new CountDownLatch(1);
         ServiceConnection connection = new ServiceConnection() {
             @Override
@@ -129,16 +143,25 @@ public final class ShizukuHelper {
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
+                connected.countDown();
             }
         };
         try {
-            Store.get(app).main.post(() -> Crash.run("shizuku bind", () -> Shizuku.bindUserService(args, connection)));
+            Store.get(app).main.post(() -> {
+                try {
+                    bindRequested.set(true);
+                    Shizuku.bindUserService(args, connection);
+                } catch (RuntimeException e) {
+                    Crash.report("shizuku bind", e);
+                    connected.countDown();
+                }
+            });
             if (!connected.await(START_TIMEOUT_MS, TimeUnit.MILLISECONDS) || binder.get() == null) return false;
             int exit = transact(binder.get(), app);
             if (exit != 0) return false;
             long deadline = SystemClock.elapsedRealtime() + 8000;
             while (SystemClock.elapsedRealtime() < deadline) {
-                if (Helper.uidNow() >= 0) return true;
+                if (Helper.uidNow() == expectedUid) return true;
                 SystemClock.sleep(400);
             }
             return false;
@@ -146,7 +169,7 @@ public final class ShizukuHelper {
             Thread.currentThread().interrupt();
             return false;
         } finally {
-            Store.get(app).main.post(() -> Crash.run("shizuku unbind", () -> Shizuku.unbindUserService(args, connection, true)));
+            if (bindRequested.get()) Store.get(app).main.post(() -> Crash.run("shizuku unbind", () -> Shizuku.unbindUserService(args, connection, true)));
         }
     }
 
