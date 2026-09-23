@@ -127,7 +127,7 @@ namespace Voidstrap.UI.ViewModels.Dialogs
                     {
                         try
                         {
-                            var info = await Deployment.GetInfo(channel);
+                            var info = await Deployment.GetInfo(channel, fallbackToProduction: false);
                             lock (tempCache)
                                 tempCache[channel] = info;
                         }

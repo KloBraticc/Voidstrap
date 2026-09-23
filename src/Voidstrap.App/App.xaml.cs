@@ -241,10 +241,39 @@ public partial class App : Application
 
 	private static void OnLinuxExitMarkRenderer(object sender, ExitEventArgs e)
 	{
-		Voidstrap.Utility.LinuxStartup.MarkRendererHealthy();
+		StopLinuxRendererTimer();
+		Voidstrap.Utility.LinuxStartup.MarkRendererHealthy(requireRenderer: false);
 	}
 
 	private static int _linuxRendererConfirmed;
+
+	private static DispatcherTimer? _linuxRendererTimer;
+
+	private static int _linuxRendererChecks;
+
+	private static void OnLinuxRendererTimerTick(object? sender, EventArgs e)
+	{
+		if (Voidstrap.Utility.LinuxStartup.MarkRendererHealthy(requireRenderer: true))
+		{
+			Volatile.Write(ref _linuxRendererConfirmed, 1);
+			StopLinuxRendererTimer();
+		}
+		else if (++_linuxRendererChecks >= 120)
+		{
+			StopLinuxRendererTimer();
+		}
+	}
+
+	private static void StopLinuxRendererTimer()
+	{
+		DispatcherTimer? timer = _linuxRendererTimer;
+		_linuxRendererTimer = null;
+		if (timer != null)
+		{
+			timer.Stop();
+			timer.Tick -= OnLinuxRendererTimerTick;
+		}
+	}
 
 	private static void OnLinuxWindowLoaded(object sender, RoutedEventArgs e)
 	{
@@ -262,8 +291,14 @@ public partial class App : Application
 		{
 			window.ContentRendered -= OnLinuxWindowContentRendered;
 		}
-		Volatile.Write(ref _linuxRendererConfirmed, 1);
-		Voidstrap.Utility.LinuxStartup.MarkRendererHealthy();
+		if (Volatile.Read(ref _linuxRendererConfirmed) != 0 || _linuxRendererTimer != null)
+		{
+			return;
+		}
+		_linuxRendererTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
+		_linuxRendererTimer.Tick += OnLinuxRendererTimerTick;
+		_linuxRendererTimer.Start();
+		OnLinuxRendererTimerTick(null, EventArgs.Empty);
 	}
 
 	private static void ShutdownApplication(int exitCodeNum)
@@ -725,18 +760,6 @@ public partial class App : Application
 			base.Exit += OnLinuxExitMarkRenderer;
 			Voidstrap.Utility.LinuxStartup.BeginRendererProbe();
 			EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnLinuxWindowLoaded));
-			_ = Task.Run(async delegate
-			{
-				try
-				{
-					await Task.Delay(TimeSpan.FromSeconds(8.0), _lifetimeCancellation.Token).ConfigureAwait(false);
-				}
-				catch (OperationCanceledException)
-				{
-					return;
-				}
-				Voidstrap.Utility.LinuxStartup.MarkRendererHealthy();
-			});
 		}
 
 		LaunchSettings = new LaunchSettings(args);
@@ -1424,8 +1447,7 @@ public partial class App : Application
 			Logger.WriteLine("App::OnStartup", "Linux session: " + (Environment.GetEnvironmentVariable("XDG_SESSION_TYPE") ?? "unknown")
 				+ ", windowing: " + (Environment.GetEnvironmentVariable("PROGPU_WPF_LINUX_WINDOWING") ?? "auto")
 				+ ", renderer stage: " + (Environment.GetEnvironmentVariable("VOIDSTRAP_GPU_RETRY") ?? "default")
-				+ ", backend: " + (Environment.GetEnvironmentVariable("VOIDSTRAP_RENDER_BACKEND") ?? "Auto")
-				+ " (" + (Environment.GetEnvironmentVariable("WGPU_BACKEND") ?? "unset") + ")");
+				+ ", backend: " + (Environment.GetEnvironmentVariable("VOIDSTRAP_RENDER_BACKEND") ?? "Auto"));
 		}
 	}
 

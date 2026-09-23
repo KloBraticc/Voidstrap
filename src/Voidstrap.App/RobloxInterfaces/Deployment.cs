@@ -120,7 +120,7 @@ public static class Deployment
 		throw lastError ?? new HttpRequestException("Roblox deployment services are unavailable");
 	}
 
-	public static async Task<ClientVersion> GetInfo(string? inputChannel = null, IEnumerable<string>? cycleChannels = null, string binaryType = "WindowsPlayer", Action<string>? resolvedChannel = null, CancellationToken cancellationToken = default)
+	public static async Task<ClientVersion> GetInfo(string? inputChannel = null, IEnumerable<string>? cycleChannels = null, string binaryType = "WindowsPlayer", Action<string>? resolvedChannel = null, CancellationToken cancellationToken = default, bool fallbackToProduction = true)
 	{
 		ValidateBinaryType(binaryType);
 		string channel = string.IsNullOrEmpty(inputChannel) ? App.Settings.Prop.Channel : inputChannel;
@@ -140,7 +140,7 @@ public static class Deployment
 			resolvedChannel?.Invoke(channel);
 			return clientVersion;
 		}
-		catch (HttpRequestException ex) when (!isDefault && BadChannelCodes.Contains(ex.StatusCode))
+		catch (HttpRequestException ex) when (!isDefault && fallbackToProduction && BadChannelCodes.Contains(ex.StatusCode))
 		{
 			App.Logger.WriteLine("Deployment::GetInfo", $"Channel {channel} failed ({ex.StatusCode}).");
 			if (cycleChannels != null)
