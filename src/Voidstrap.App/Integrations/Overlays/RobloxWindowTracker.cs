@@ -447,6 +447,13 @@ namespace Voidstrap.Integrations.Overlays
             {
                 _hwnd = IntPtr.Zero;
                 _pid = 0;
+                if (OverlayHub.InGame
+                    && Voidstrap.Platform.Linux.LinuxPointerLockAssist.IsXWaylandSession
+                    && Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPrimaryMonitorBounds(out int monitorLeft, out int monitorTop, out int monitorWidth, out int monitorHeight))
+                {
+                    bool nativeWindowActive = Voidstrap.Platform.Linux.LinuxWindowInterop.GetActiveTopLevelWindow() == 0;
+                    return new RobloxWindowRect(IntPtr.Zero, monitorLeft, monitorTop, monitorWidth, monitorHeight, true, nativeWindowActive);
+                }
                 return new RobloxWindowRect(IntPtr.Zero, 0, 0, 0, 0, false, false);
             }
 

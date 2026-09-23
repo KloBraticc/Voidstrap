@@ -1401,6 +1401,54 @@ public static partial class LinuxWindowInterop
 		}
 	}
 
+	public static bool TryGetPrimaryMonitorBounds(out int left, out int top, out int width, out int height)
+	{
+		left = 0;
+		top = 0;
+		width = 0;
+		height = 0;
+		nint display = Display;
+		if (display == 0)
+			return false;
+
+		nint monitors = 0;
+		try
+		{
+			monitors = XRRGetMonitors(display, XDefaultRootWindow(display), 1, out int count);
+			if (monitors == 0 || count <= 0)
+				return false;
+
+			int chosen = 0;
+			for (int index = 0; index < count; index++)
+			{
+				nint entry = monitors + index * MonitorInfoSize;
+				if (Marshal.ReadInt32(entry, 8) != 0)
+				{
+					chosen = index;
+					break;
+				}
+				if (Marshal.ReadInt32(entry, 20) == 0 && Marshal.ReadInt32(entry, 24) == 0)
+					chosen = index;
+			}
+
+			nint monitor = monitors + chosen * MonitorInfoSize;
+			left = Marshal.ReadInt32(monitor, 20);
+			top = Marshal.ReadInt32(monitor, 24);
+			width = Marshal.ReadInt32(monitor, 28);
+			height = Marshal.ReadInt32(monitor, 32);
+			return width > 0 && height > 0;
+		}
+		catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
+		{
+			return false;
+		}
+		finally
+		{
+			if (monitors != 0)
+				XRRFreeMonitors(monitors);
+		}
+	}
+
 	public static bool TryGetScreenBounds(out int width, out int height)
 	{
 		width = 0;
@@ -2967,6 +3015,14 @@ public static partial class LinuxWindowInterop
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XDeleteProperty(nint display, nint window, nint property);
+
+	private const int MonitorInfoSize = 56;
+
+	[LibraryImport("libXrandr.so.2")]
+	private static partial nint XRRGetMonitors(nint display, nint window, int getActive, out int count);
+
+	[LibraryImport("libXrandr.so.2")]
+	private static partial void XRRFreeMonitors(nint monitors);
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XQueryPointer(

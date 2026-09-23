@@ -1406,7 +1406,7 @@ public class Bootstrapper
                     && !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
                 if (LinuxSoberRuntimeProvider.ForceX11Session)
                 {
-                    App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", "Overlays are on, starting Sober on X11 so the overlay can track its window");
+                    App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", "Fake fullscreen or the homepage background is on, starting Sober on X11 so Voidstrap can control its window");
                 }
 
                 LinuxRuntimeConfiguration configuration = LinuxRuntimeConfiguration.CreateDefault(Paths.Mods, host.Processes);

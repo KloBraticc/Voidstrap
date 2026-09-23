@@ -31,12 +31,8 @@ namespace Voidstrap.Integrations.Overlays
         public static bool AnyEnabled => OverlayHub.InGame ? GameEffectsEnabled : HomepageBackgroundEnabled;
 
 		public static bool RequiresLinuxX11Session => Voidstrap.Utility.Platform.IsLinux
-			&& (App.Settings.Prop.OverlaysEnabled
-				|| App.Settings.Prop.Crosshair
-				|| App.Settings.Prop.NotificationWindowShow
-				|| App.Settings.Prop.FakeExclusiveFullscreen
+			&& (App.Settings.Prop.FakeExclusiveFullscreen
 				|| App.Settings.Prop.FakeBorderlessFullscreen
-				|| HomepageBackgroundEnabled
-				|| GameEffectsEnabled);
+				|| HomepageBackgroundEnabled);
     }
 }
