@@ -7,7 +7,7 @@ using NAudio.Wave.SampleProviders;
 
 namespace Voidstrap.UI.ViewModels.ContextMenu;
 
-public sealed class PlaybackService : IDisposable
+public sealed class PlaybackService : IMusicPlayback
 {
     public static readonly float[] Bands = { 31f, 62f, 125f, 250f, 500f, 1000f, 2000f, 4000f, 8000f, 16000f };
 
@@ -24,6 +24,8 @@ public sealed class PlaybackService : IDisposable
     public bool IsPlaying { get; private set; }
 
     public bool HasTrack => _reader != null;
+
+    public Exception? LastError { get; private set; }
 
     public TimeSpan Duration => _reader?.TotalTime ?? TimeSpan.Zero;
 
@@ -88,6 +90,7 @@ public sealed class PlaybackService : IDisposable
     public bool Load(string path)
     {
         Stop();
+        LastError = null;
         if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
             return false;
         try
@@ -103,8 +106,9 @@ public sealed class PlaybackService : IDisposable
             _output.Init(_volumeProvider);
             return true;
         }
-        catch
+        catch (Exception ex)
         {
+            LastError = ex;
             TeardownOutput();
             return false;
         }
@@ -138,6 +142,7 @@ public sealed class PlaybackService : IDisposable
 
     private void Output_PlaybackStopped(object? sender, StoppedEventArgs e)
     {
+        LastError = e.Exception;
         IsPlaying = false;
         PlaybackEnded?.Invoke(this, EventArgs.Empty);
     }
@@ -159,6 +164,12 @@ public sealed class PlaybackService : IDisposable
         _equalizer = null;
         _volumeProvider = null;
         IsPlaying = false;
+    }
+
+    public static TimeSpan ProbeDuration(string path)
+    {
+        using var reader = new MediaFoundationReader(path);
+        return reader.TotalTime;
     }
 
     public void Dispose()

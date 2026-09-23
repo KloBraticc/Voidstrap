@@ -132,8 +132,12 @@ public partial class ModsPage : UiPage{
 		Voidstrap.Integrations.CommunityMods.CommunityModEntry? mod = ViewModel.CommunityMods.SelectedMod;
 		if (mod != null && ReferenceEquals(ModsTabs.SelectedItem, ModPacksTab))
 		{
-			string byline = string.IsNullOrWhiteSpace(mod.Author) ? mod.SourceName : "by " + mod.Author;
-			string state = string.IsNullOrWhiteSpace(mod.Summary) ? byline : mod.Summary;
+			string byline = string.IsNullOrWhiteSpace(mod.Author)
+				? (string.IsNullOrWhiteSpace(mod.SourceName) ? "" : "from " + mod.SourceName)
+				: "by " + mod.Author;
+			string state = !string.IsNullOrWhiteSpace(mod.Summary)
+				? mod.Summary
+				: byline.Length > 0 ? (string.IsNullOrWhiteSpace(mod.Author) ? "Mod pack " : "Made ") + byline : "A community mod pack";
 			Voidstrap.Integrations.VoidstrapPresence.Set(new Voidstrap.Integrations.VoidstrapPresenceContext(
 				nameof(ModsPage),
 				"Viewing " + mod.Name,
@@ -153,11 +157,11 @@ public partial class ModsPage : UiPage{
 			"Mod Packs" => "Browsing community mod packs",
 			"My Mods" => "Managing installed mods",
 			"Overlays" => "Setting up game overlays",
-			_ => "Cursors, sounds, overlays, skyboxes"
+			_ => "Customizing cursors, sounds, overlays and skyboxes"
 		};
 		Voidstrap.Integrations.VoidstrapPresence.Set(new Voidstrap.Integrations.VoidstrapPresenceContext(
 			nameof(ModsPage),
-			tab.Length > 0 ? "Mods, " + tab : "Mods",
+			tab.Length > 0 ? "Mods: " + tab : "Mods",
 			activity));
 	}
 

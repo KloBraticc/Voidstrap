@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [ValidateSet('windows','linux-x64','linux-arm64','linux-musl-x64','linux-musl-arm64','osx-x64','osx-arm64','android','all')]
-    [string[]]$Only = @('windows','android'),
+    [string[]]$Only = @('all'),
 
     [ValidateSet('Debug','Release')]
     [string]$Configuration = 'Release',

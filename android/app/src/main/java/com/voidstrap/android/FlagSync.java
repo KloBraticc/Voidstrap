@@ -3,12 +3,14 @@ package com.voidstrap.android;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.net.ConnectivityManager;
 import android.net.LinkAddress;
 import android.net.LinkProperties;
 import android.net.Network;
 import android.net.NetworkCapabilities;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -25,6 +27,8 @@ import java.net.Inet4Address;
 public final class FlagSync {
     private static final long SETUP_POLL_MS = 1000;
     private static final String PLATFORM_TOOLS = "https://developer.android.com/tools/releases/platform-tools";
+    private static final String USB_DRIVERS = "https://developer.android.com/studio/run/oem-usb";
+    private static final String USB_STATE = "android.hardware.usb.action.USB_STATE";
     private static boolean asked;
 
     public interface Done {
@@ -75,6 +79,56 @@ public final class FlagSync {
     private static boolean debuggingOn(Context c) {
         return Settings.Global.getInt(c.getContentResolver(), Settings.Global.ADB_ENABLED, 0) == 1
                 || Settings.Global.getInt(c.getContentResolver(), "adb_wifi_enabled", 0) == 1;
+    }
+
+    private enum UsbLink { DEBUGGING_OFF, UNPLUGGED, CHARGE_ONLY, NO_ADB, READY }
+
+    private static UsbLink usbLink(Context c) {
+        if (Settings.Global.getInt(c.getContentResolver(), Settings.Global.ADB_ENABLED, 0) != 1) return UsbLink.DEBUGGING_OFF;
+        Intent battery = sticky(c, Intent.ACTION_BATTERY_CHANGED);
+        boolean usbPower = battery != null && battery.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) == BatteryManager.BATTERY_PLUGGED_USB;
+        Intent usb = sticky(c, USB_STATE);
+        if (usb == null) return usbPower ? UsbLink.READY : UsbLink.UNPLUGGED;
+        if (!usb.getBooleanExtra("connected", false)) return usbPower ? UsbLink.CHARGE_ONLY : UsbLink.UNPLUGGED;
+        return usb.getBooleanExtra("adb", false) ? UsbLink.READY : UsbLink.NO_ADB;
+    }
+
+    @Nullable
+    private static Intent sticky(Context c, String action) {
+        try {
+            return androidx.core.content.ContextCompat.registerReceiver(c, null, new IntentFilter(action), androidx.core.content.ContextCompat.RECEIVER_EXPORTED);
+        } catch (RuntimeException e) {
+            return null;
+        }
+    }
+
+    private static int usbText(UsbLink link) {
+        switch (link) {
+            case DEBUGGING_OFF: return R.string.setup_usb_debugging_off;
+            case UNPLUGGED: return R.string.setup_usb_unplugged;
+            case CHARGE_ONLY: return R.string.setup_usb_charge_only;
+            case NO_ADB: return R.string.setup_usb_no_adb;
+            default: return R.string.setup_usb_ready;
+        }
+    }
+
+    private static void usbStep(AppCompatActivity a, Row row, boolean running) {
+        UsbLink link = running ? UsbLink.READY : usbLink(a);
+        boolean ok = link == UsbLink.READY;
+        row.set(ok ? R.drawable.ic_checkmark_circle : R.drawable.ic_usb, a.getString(R.string.setup_usb),
+                a.getString(running ? R.string.setup_run_done : usbText(link)));
+        row.icon.setImageTintList(ColorStateList.valueOf(a.getColor(ok ? R.color.vs_success : R.color.vs_caution)));
+        boolean actionable = !running && (link == UsbLink.READY || link == UsbLink.NO_ADB || link == UsbLink.DEBUGGING_OFF);
+        row.detail.setMaxLines(Integer.MAX_VALUE);
+        row.detail.setVisibility(View.VISIBLE);
+        row.chevron.setVisibility(actionable ? View.VISIBLE : View.GONE);
+        row.view.setOnClickListener(v -> {
+            if (link == UsbLink.READY) Ui.openWeb(a, USB_DRIVERS);
+            else openDeveloperOptions(a);
+        });
+        row.view.setClickable(actionable);
+        row.view.setFocusable(actionable);
+        row.view.setAlpha(1f);
     }
 
     private static void openDeveloperOptions(AppCompatActivity a) {
@@ -146,12 +200,14 @@ public final class FlagSync {
         String device = Helper.deviceCommand(a);
         Row shizuku = Row.inflate(list);
         Row debugging = Row.inflate(list);
+        Row usb = Row.inflate(list);
         Row wireless = Row.inflate(list);
         Row getAdb = Row.inflate(list);
         Row start = Row.inflate(list);
         Row onDevice = Row.inflate(list);
         list.addView(shizuku.view);
         list.addView(debugging.view);
+        list.addView(usb.view);
         list.addView(wireless.view);
         list.addView(getAdb.view);
         list.addView(start.view);
@@ -162,6 +218,7 @@ public final class FlagSync {
             boolean running = Helper.uidNow() >= 0;
             boolean adb = running || debuggingOn(a);
             step(a, debugging, R.drawable.ic_bug, R.string.setup_debugging, R.string.setup_debugging_body, adb, true, () -> openDeveloperOptions(a));
+            usbStep(a, usb, running);
             String ip = wifiAddress(a);
             step(a, wireless, R.drawable.ic_wifi, R.string.setup_wireless, 0, running, ip != null, () -> openWirelessDebugging(a));
             wireless.detail.setText(running ? a.getString(R.string.setup_run_done)

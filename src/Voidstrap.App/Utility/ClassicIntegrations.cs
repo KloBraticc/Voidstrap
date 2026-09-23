@@ -270,8 +270,8 @@ namespace Voidstrap.Utility
                 rpc.Initialize();
                 rpc.SetPresenceSafe(new DiscordRPC.RichPresence
                 {
-                    Details = PlaceName(map, clientName),
-                    State = string.IsNullOrWhiteSpace(clientName) ? "Classic Roblox" : clientName,
+                    Details = DiscordPresenceGuard.Text(PlaceName(map, clientName)),
+                    State = DiscordPresenceGuard.Text(string.IsNullOrWhiteSpace(clientName) ? "Classic Roblox" : clientName),
                     Timestamps = new Timestamps { Start = DateTime.UtcNow },
                     Assets = new Assets
                     {

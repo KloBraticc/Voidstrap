@@ -302,34 +302,34 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private static readonly Dictionary<string, (string Details, string State)> _voidRpcPageDescriptions = new Dictionary<string, (string, string)>
     {
-        ["HomePage"] = ("Home", "On the Voidstrap home screen"),
-        ["GamePage"] = ("Game Details", "Looking at a game"),
-        ["MobilePage"] = ("Mobile", "Roblox on mobile setup"),
+        ["HomePage"] = ("Home", "On the home screen"),
+        ["GamePage"] = ("Game Details", "Viewing a game"),
+        ["MobilePage"] = ("Mobile", "Setting up Roblox on mobile"),
         ["MobilePageExplain"] = ("Mobile", "Reading the mobile guide"),
-        ["NvidaEditor"] = ("NVIDIA Editor", "GPU specific tweaks"),
+        ["NvidaEditor"] = ("NVIDIA Editor", "Tweaking NVIDIA GPU settings"),
         ["HistoryPage"] = ("Continue Playing", "Browsing recent games"),
-        ["IntegrationsPage"] = ("Integrations", "Advanced integrations"),
-        ["BehaviourPage"] = ("Deployment", "Channels, cleaner, matchmaker"),
-        ["FastFlagsPage"] = ("FastFlag Settings", "Tweaking flag presets"),
-        ["FastFlagEditorPage"] = ("FastFlag Editor", "Editing fast flags"),
-        ["FastFlagEditorWarningPage"] = ("FastFlag Editor", "Reading the warning"),
-        ["GBSEditorPage"] = ("Global Settings", "Editing GBS config"),
-        ["ModsPage"] = ("Mods", "Cursors, sounds, overlays, skyboxes"),
-        ["NewsPage"] = ("News", "What's new in Voidstrap"),
+        ["IntegrationsPage"] = ("Integrations", "Setting up integrations"),
+        ["BehaviourPage"] = ("Deployment", "Configuring channels, the cleaner and the matchmaker"),
+        ["FastFlagsPage"] = ("FastFlag Settings", "Tweaking FastFlag presets"),
+        ["FastFlagEditorPage"] = ("FastFlag Editor", "Editing FastFlags"),
+        ["FastFlagEditorWarningPage"] = ("FastFlag Editor", "Reading the FastFlag warning"),
+        ["GBSEditorPage"] = ("Global Settings", "Editing the global Roblox settings"),
+        ["ModsPage"] = ("Mods", "Customizing cursors, sounds, overlays and skyboxes"),
+        ["NewsPage"] = ("News", "Reading what's new"),
         ["DownloadsPage"] = ("Downloads", "Managing Roblox installs"),
-        ["ExtensionPage"] = ("Extensions", "Plugins & integrations"),
-        ["ShortcutsPage"] = ("Shortcuts", "Game launch shortcuts"),
-        ["ChannelPage"] = ("Settings", "App settings & updates"),
-        ["ReleasesPage"] = ("Releases", "Voidstrap release history"),
+        ["ExtensionPage"] = ("Extensions", "Browsing plugins and integrations"),
+        ["ShortcutsPage"] = ("Shortcuts", "Setting up game shortcuts"),
+        ["ChannelPage"] = ("Settings", "Adjusting app settings and updates"),
+        ["ReleasesPage"] = ("Releases", "Reading the release history"),
         ["DonoPage"] = ("Support Voidstrap", "Considering a donation"),
         ["HelpPage"] = ("Help", "Reading the help guides"),
-        ["AppearancePage"] = ("Appearance", "Themes and backgrounds"),
-        ["BootstrapperPage"] = ("Bootstrapper", "Launch window settings"),
+        ["AppearancePage"] = ("Appearance", "Customizing themes and backgrounds"),
+        ["BootstrapperPage"] = ("Bootstrapper", "Customizing the launch window"),
         ["LibraryPage"] = ("Library", "Browsing the game library"),
-        ["SoberPage"] = ("Sober", "Roblox on Linux settings"),
-        ["Releases"] = ("Releases", "Voidstrap release history"),
-        ["ServerBrowserPage"] = ("Server Browser", "Looking for a server"),
-        ["NvidiaFastFlagsPage"] = ("NVIDIA FFlags", "GPU specific tweaks")
+        ["SoberPage"] = ("Sober", "Setting up Roblox on Linux"),
+        ["Releases"] = ("Releases", "Reading the release history"),
+        ["ServerBrowserPage"] = ("Server Browser", "Searching for a server"),
+        ["NvidiaFastFlagsPage"] = ("NVIDIA FastFlags", "Tweaking NVIDIA GPU settings")
     };
 
     private AppearanceViewModel.BackgroundSettings _backgroundSettings;
@@ -2949,7 +2949,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             Level = LogLevel.Warning
         };
-        DiscordRpcClient client = new DiscordRpcClient("1459679943498661910", pipe, logger, true, null);
+        DiscordRpcClient client = new DiscordRpcClient("1459679943498661910", pipe, logger, true, new NamedActivityPipe("Voidstrap " + VoidstrapPresence.PlatformName));
         client.OnReady += DiscordClient_OnReady;
         client.OnError += DiscordClient_OnError;
         client.OnConnectionFailed += DiscordClient_OnConnectionFailed;
@@ -3413,24 +3413,24 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         else if (!string.IsNullOrWhiteSpace(text2))
         {
             details = text2;
-            state = "Exploring Voidstrap";
+            state = "Exploring the app";
         }
         else
         {
             details = "Idle";
-            state = "Configuring Voidstrap";
+            state = "Browsing the app";
         }
-        details = VoidstrapPresence.Clip(details, 128);
-        state = VoidstrapPresence.Clip(state, 128);
+        details = DiscordPresenceGuard.Text(details);
+        state = DiscordPresenceGuard.Text(state);
         if (details.Length < 2)
         {
             details = "Voidstrap";
         }
         if (state.Length < 2)
         {
-            state = "Exploring Voidstrap";
+            state = "Exploring the app";
         }
-        string imageUrl = context != null && VoidstrapPresence.IsWebUrl(context.ImageUrl) ? context.ImageUrl : "";
+        string imageUrl = context != null && VoidstrapPresence.IsWebUrl(context.ImageUrl) ? DiscordPresenceGuard.Key(context.ImageUrl) : "";
         string buttonUrl = context != null && VoidstrapPresence.IsWebUrl(context.ButtonUrl) ? context.ButtonUrl : "";
         string extra = imageUrl + "|" + buttonUrl;
         if (details == _lastVoidRpcDetails && state == _lastVoidRpcState && extra == _lastVoidRpcExtra)
@@ -3454,7 +3454,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 ? new Assets
                 {
                     LargeImageKey = imageUrl,
-                    LargeImageText = VoidstrapPresence.Clip(context!.ImageText.Length > 0 ? context.ImageText : details, 128),
+                    LargeImageText = DiscordPresenceGuard.Text(context!.ImageText.Length > 0 ? context.ImageText : details),
                     SmallImageKey = VoidstrapLogo,
                     SmallImageText = versionText
                 }
@@ -3462,15 +3462,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 {
                     LargeImageKey = VoidstrapLogo,
                     LargeImageText = versionText,
-                    SmallImageKey = _voidRpcSmallImageUrl,
-                    SmallImageText = string.IsNullOrEmpty(_voidRpcSmallImageUrl) ? string.Empty : (_voidRpcSmallImageText.Length > 0 ? _voidRpcSmallImageText : "Roblox")
+                    SmallImageKey = DiscordPresenceGuard.Key(_voidRpcSmallImageUrl),
+                    SmallImageText = string.IsNullOrEmpty(_voidRpcSmallImageUrl) ? string.Empty : DiscordPresenceGuard.Text(_voidRpcSmallImageText.Length > 0 ? _voidRpcSmallImageText : "Roblox")
                 };
             DiscordRPC.Button[] buttons = buttonUrl.Length > 0
                 ? new DiscordRPC.Button[2]
                 {
                     new DiscordRPC.Button
                     {
-                        Label = VoidstrapPresence.Clip(context!.ButtonLabel.Length > 0 ? context.ButtonLabel : "Open", 32),
+                        Label = DiscordPresenceGuard.Label(context!.ButtonLabel, "Open"),
                         Url = buttonUrl
                     },
                     new DiscordRPC.Button
@@ -3483,13 +3483,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 {
                     new DiscordRPC.Button
                     {
-                        Label = "Discord",
-                        Url = "https://discord.gg/bzdbHHytFR"
+                        Label = "Get Voidstrap",
+                        Url = App.ProjectDownloadLink
                     },
                     new DiscordRPC.Button
                     {
-                        Label = "Github",
-                        Url = Voidstrap.Utility.GitHubCache.PreferredRepository
+                        Label = "Join the Discord",
+                        Url = "https://discord.gg/bzdbHHytFR"
                     }
                 };
             _discordClient.SetPresenceSafe(new DiscordRPC.RichPresence

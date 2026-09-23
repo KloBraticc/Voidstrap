@@ -84,8 +84,6 @@ public partial class DiscordRichPresence : IDisposable
 
 	private bool _disposed;
 
-	private long? _previousPlaceId;
-
 	private DateTime _lastPresenceUpdate = DateTime.MinValue;
 
 	private DiscordRPC.RichPresence? _pendingPresence;
@@ -359,11 +357,8 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			return original;
 		}
-		if (newValue.Length > maxLength)
-		{
-			return current;
-		}
-		return newValue;
+		string fitted = Voidstrap.Utility.DiscordPresenceGuard.Text(newValue, maxLength);
+		return fitted.Length == 0 ? current : fitted;
 	}
 
 	private static void UpdateAssets(Assets current, OriginalSnapshot original, RichPresenceImage? data, bool small)
@@ -398,15 +393,16 @@ public partial class DiscordRichPresence : IDisposable
 			}
 			return;
 		}
-		if (!string.IsNullOrEmpty(data.CustomKey))
+		string customKey = Voidstrap.Utility.DiscordPresenceGuard.Key(data.CustomKey);
+		if (customKey.Length > 0)
 		{
 			if (small)
 			{
-				current.SmallImageKey = data.CustomKey;
+				current.SmallImageKey = customKey;
 			}
 			else
 			{
-				current.LargeImageKey = data.CustomKey;
+				current.LargeImageKey = customKey;
 			}
 			return;
 		}
@@ -422,15 +418,16 @@ public partial class DiscordRichPresence : IDisposable
 				current.LargeImageKey = text;
 			}
 		}
-		if (!string.IsNullOrEmpty(data.HoverText))
+		string hoverText = Voidstrap.Utility.DiscordPresenceGuard.Text(data.HoverText);
+		if (hoverText.Length > 0)
 		{
 			if (small)
 			{
-				current.SmallImageText = data.HoverText;
+				current.SmallImageText = hoverText;
 			}
 			else
 			{
-				current.LargeImageText = data.HoverText;
+				current.LargeImageText = hoverText;
 			}
 		}
 	}
@@ -645,34 +642,17 @@ public partial class DiscordRichPresence : IDisposable
 			shownName = App.Settings.Prop.CustomGameName;
 		(string cleanName, string? betaTag) = ExtractBetaTag(shownName, universe?.Data?.Description);
 		string reservedName = ExtractReservedServerName(activity.RPCLaunchData);
-		string serverName = activity.ServerType switch
-		{
-			ServerType.Private => "Private Server",
-			ServerType.Reserved when reservedName.Length > 0 => "Reserved Server: " + reservedName,
-			ServerType.Reserved => "Reserved Server",
-			_ => "Public Server"
-		};
-
-		var details = new List<string>();
-		if (App.Settings.Prop.GameNameChecked)
-			details.Add(cleanName);
-		if (App.Settings.Prop.GameStatusChecked)
-			details.Add(serverName);
-		if (App.Settings.Prop.ServerLocationGame)
-		{
-			string? location = await activity.QueryServerLocation().ConfigureAwait(false);
-			if (!string.IsNullOrWhiteSpace(location))
-				details.Add(location);
-		}
-		string detailText = string.Join(" | ", details);
-		if (!string.IsNullOrWhiteSpace(betaTag))
-			detailText = detailText.Length == 0 ? betaTag : detailText + " " + betaTag;
-
+		string? location = App.Settings.Prop.ServerLocationGame
+			? await activity.QueryServerLocation().ConfigureAwait(false)
+			: null;
 		string creator = universe?.Data?.Creator?.Name ?? string.Empty;
 		bool verified = universe?.Data?.Creator?.HasVerifiedBadge ?? false;
-		string stateText = App.Settings.Prop.GameCreatorChecked && creator.Length > 0 ? "by " + creator + (verified ? " ☑️" : string.Empty) : string.Empty;
-		if (App.Settings.Prop.FFlagRPCDisplayer)
-			stateText = stateText.Length == 0 ? $"FFlags: {totalFlags}" : $"{stateText} | FFlags: {totalFlags}";
+
+		string detailText = App.Settings.Prop.GameNameChecked ? cleanName : string.Empty;
+		if (!string.IsNullOrWhiteSpace(betaTag))
+			detailText = detailText.Length == 0 ? betaTag : detailText + " " + betaTag;
+		detailText = Voidstrap.Utility.DiscordPresenceGuard.Text(detailText);
+		string stateText = BuildStateText(activity.ServerType, reservedName, location, App.Settings.Prop.GameCreatorChecked ? creator : string.Empty, verified, totalFlags);
 
 		(string smallImage, string smallText) = await GetSmallImageAsync(activity).ConfigureAwait(false);
 		string largeImage = !string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon) ? App.Settings.Prop.UseCustomIcon : App.Settings.Prop.GameIconChecked ? universe?.Thumbnail?.ImageUrl ?? string.Empty : string.Empty;
@@ -680,7 +660,10 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			largeImage = await FetchPlaceIconAsync(activity.PlaceId).ConfigureAwait(false);
 		}
-		string largeText = string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon) && App.Settings.Prop.GameIconChecked ? shownName : string.Empty;
+		largeImage = Voidstrap.Utility.DiscordPresenceGuard.Key(largeImage);
+		string largeText = string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon) && App.Settings.Prop.GameIconChecked
+			? Voidstrap.Utility.DiscordPresenceGuard.Text(creator.Length > 0 ? shownName + " by " + creator : shownName)
+			: string.Empty;
 		_currentPresence = new DiscordRPC.RichPresence
 		{
 			Details = detailText,
@@ -808,166 +791,33 @@ public partial class DiscordRichPresence : IDisposable
 		return string.Empty;
 	}
 
-	private async Task<bool> SetCurrentGameLegacy()
+	private static string BuildStateText(ServerType serverType, string reservedName, string? location, string creator, bool verified, int totalFlags)
 	{
-		if (_disposed)
-		{
-			return false;
-		}
-		if (!_activityWatcher.InGame)
-		{
-			await SetIdlePresenceAsync().ConfigureAwait(continueOnCapturedContext: false);
-			return true;
-		}
-		ActivityData activity = _activityWatcher.Data;
-		if (activity == null)
-		{
-			App.Logger.WriteLine("DiscordRichPresence", "Activity data is null, skipping presence update.");
-			return false;
-		}
-		DateTime timeStarted = activity.RootActivity?.TimeJoined ?? activity.TimeJoined;
-		long placeId = activity.PlaceId;
-		bool teleported = _previousPlaceId.HasValue && _previousPlaceId.Value != placeId;
-		_previousPlaceId = placeId;
-		int totalFlags = 0;
-		if (App.Settings.Prop.FFlagRPCDisplayer)
-		{
-			totalFlags = LoadFlags();
-		}
-		if (activity.UniverseDetails == null)
-		{
-			try
-			{
-				using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken);
-				timeout.CancelAfter(TimeSpan.FromSeconds(15L));
-				await UniverseDetails.FetchSingle(activity.UniverseId, timeout.Token).ConfigureAwait(continueOnCapturedContext: false);
-				activity.UniverseDetails = UniverseDetails.LoadFromCache(activity.UniverseId);
-			}
-			catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-			{
-				return false;
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("DiscordRichPresence", "Failed to fetch universe details: " + ex.Message);
-			}
-		}
-		UniverseDetails? universe = activity.UniverseDetails;
-		if (universe?.Data == null)
-		{
-			App.Logger.WriteLine("DiscordRichPresence", "Universe details unavailable, using private experience fallback for place " + placeId);
-			return await SetPrivateExperiencePresenceAsync(activity, placeId, totalFlags).ConfigureAwait(continueOnCapturedContext: false);
-		}
-		(string, string) tuple = await GetSmallImageAsync(activity).ConfigureAwait(continueOnCapturedContext: false);
-		string smallImage = tuple.Item1;
-		string smallText = tuple.Item2;
-		string serverPrivacy = activity.ServerType switch
-		{
-			ServerType.Private => "Private Server", 
-			ServerType.Reserved => "Reserved Server", 
-			_ => "Public Server", 
-		};
-		(string, string?) tuple2 = ExtractBetaTag(universe.Data.Name, universe.Data.Description);
-		string item = tuple2.Item1;
-		string? betaTag = tuple2.Item2;
-		string universeName = ((!string.IsNullOrWhiteSpace(App.Settings.Prop.CustomGameName)) ? App.Settings.Prop.CustomGameName : ((item.Length < 2) ? (item + "⠀⠀⠀") : item));
-		if (teleported)
-		{
-			universeName = "Teleported to " + universeName;
-		}
-		string? text = string.Empty;
-		if (App.Settings.Prop.ServerLocationGame)
-		{
-			try
-			{
-				text = await activity.QueryServerLocation().ConfigureAwait(continueOnCapturedContext: false);
-			}
-			catch
-			{
-				text = "Unknown Location";
-			}
-		}
-		List<string> list = new List<string>();
-		if (App.Settings.Prop.GameNameChecked && !string.IsNullOrWhiteSpace(universeName))
-		{
-			list.Add(universeName);
-		}
+		List<string> parts = new List<string>();
 		if (App.Settings.Prop.GameStatusChecked)
 		{
-			list.Add(serverPrivacy);
+			string server = serverType switch
+			{
+				ServerType.Private => "Private server",
+				ServerType.Reserved when reservedName.Length > 0 => "Reserved server: " + reservedName,
+				ServerType.Reserved => "Reserved server",
+				_ => "Public server"
+			};
+			parts.Add(string.IsNullOrWhiteSpace(location) ? server : server + " in " + location);
 		}
-		if (App.Settings.Prop.ServerLocationGame && !string.IsNullOrWhiteSpace(text))
+		else if (!string.IsNullOrWhiteSpace(location))
 		{
-			list.Add(text);
+			parts.Add("Playing in " + location);
 		}
-		string text2 = string.Join(" • ", list);
-		if (!string.IsNullOrEmpty(betaTag))
+		if (creator.Length > 0)
 		{
-			text2 = (string.IsNullOrEmpty(text2) ? betaTag : (text2 + " " + betaTag));
+			parts.Add("by " + creator + (verified ? " \u2611\ufe0f" : string.Empty));
 		}
-		string text3 = universe.Data.Creator?.Name ?? "";
-		bool flag = universe.Data.Creator?.HasVerifiedBadge ?? false;
-		string text4 = ((App.Settings.Prop.GameCreatorChecked && !string.IsNullOrEmpty(text3)) ? ("by " + text3 + (flag ? " ☑\ufe0f" : "")) : "");
 		if (App.Settings.Prop.FFlagRPCDisplayer)
 		{
-			text4 = (string.IsNullOrWhiteSpace(text4) ? $"FFlags: {totalFlags}" : $"{text4} • FFlags: {totalFlags}");
+			parts.Add(totalFlags == 1 ? "1 FFlag" : totalFlags + " FFlags");
 		}
-		string largeImageKey = ((!string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon)) ? App.Settings.Prop.UseCustomIcon : ((!App.Settings.Prop.GameIconChecked) ? "" : (universe.Thumbnail?.ImageUrl ?? "")));
-		string largeImageText = ((!string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon)) ? "" : ((App.Settings.Prop.GameIconChecked && App.Settings.Prop.GameNameChecked) ? (universe.Data.Name ?? "") : ""));
-		if (_currentPresence != null)
-		{
-			_currentPresence.Details = text2;
-			_currentPresence.State = text4;
-			_currentPresence.Assets.LargeImageKey = largeImageKey;
-			_currentPresence.Assets.LargeImageText = largeImageText;
-			_currentPresence.Assets.SmallImageKey = smallImage;
-			_currentPresence.Assets.SmallImageText = smallText ?? string.Empty;
-			_currentPresence.Buttons = GetButtons();
-			_currentPresence.Timestamps.Start = timeStarted.ToUniversalTime();
-		}
-		else
-		{
-			_currentPresence = new DiscordRPC.RichPresence
-			{
-				Details = text2,
-				State = text4,
-				StatusDisplay = string.IsNullOrWhiteSpace(text2) ? DiscordRPC.StatusDisplayType.Name : DiscordRPC.StatusDisplayType.Details,
-				Timestamps = new Timestamps
-				{
-					Start = timeStarted.ToUniversalTime()
-				},
-				Buttons = GetButtons(),
-				Assets = new Assets
-				{
-					LargeImageKey = largeImageKey ?? string.Empty,
-					LargeImageText = largeImageText ?? string.Empty,
-					SmallImageKey = smallImage ?? string.Empty,
-					SmallImageText = smallText ?? string.Empty
-				}
-			};
-		}
-		_originalSnapshot = new OriginalSnapshot
-		{
-			Details = text2,
-			State = text4,
-			LargeImageKey = largeImageKey ?? string.Empty,
-			LargeImageText = largeImageText ?? string.Empty,
-			SmallImageKey = smallImage ?? string.Empty,
-			SmallImageText = smallText ?? string.Empty
-		};
-		Message? result;
-		while (_messageQueue.TryDequeue(out result))
-		{
-			ProcessRPCMessage(result, implicitUpdate: false);
-		}
-		UpdatePresence(force: true);
-		string message = $"Updated presence for {text2} with FFlags: {totalFlags}";
-		App.Logger.WriteLine("DiscordRichPresence", message);
-		if (Interlocked.Exchange(ref _joinPresenceUpdatePending, 0) == 1)
-		{
-			PublishLaunchStatus(message);
-		}
-		return true;
+		return Voidstrap.Utility.DiscordPresenceGuard.Text(string.Join(" \u00b7 ", parts));
 	}
 
 	private async Task SetIdlePresenceAsync()
@@ -975,7 +825,6 @@ public partial class DiscordRichPresence : IDisposable
 		try
 		{
 			_messageQueue.Clear();
-			_previousPlaceId = null;
 			string smallImage = "voidstrap";
 			string smallText = "Voidstrap";
 			try
@@ -1101,23 +950,8 @@ public partial class DiscordRichPresence : IDisposable
 		string shownName = !string.IsNullOrWhiteSpace(App.Settings.Prop.CustomGameName)
 			? App.Settings.Prop.CustomGameName
 			: "Private experience";
-		string serverPrivacy = activity.ServerType switch
-		{
-			ServerType.Private => "Private Server",
-			ServerType.Reserved => "Reserved Server",
-			_ => "Public Server",
-		};
-
-		List<string> stateParts = new List<string>();
-		if (App.Settings.Prop.GameStatusChecked)
-		{
-			stateParts.Add(serverPrivacy);
-		}
-		if (App.Settings.Prop.FFlagRPCDisplayer)
-		{
-			stateParts.Add("FFlags: " + totalFlags);
-		}
-		string stateText = string.Join(" | ", stateParts);
+		shownName = Voidstrap.Utility.DiscordPresenceGuard.Text(shownName);
+		string stateText = BuildStateText(activity.ServerType, string.Empty, null, string.Empty, false, totalFlags);
 
 		string largeImage = string.Empty;
 		if (!string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon))
@@ -1128,6 +962,7 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			largeImage = await FetchPlaceIconAsync(placeId).ConfigureAwait(continueOnCapturedContext: false);
 		}
+		largeImage = Voidstrap.Utility.DiscordPresenceGuard.Key(largeImage);
 		if (string.IsNullOrWhiteSpace(largeImage))
 		{
 			largeImage = "voidstrap";
@@ -1254,7 +1089,8 @@ public partial class DiscordRichPresence : IDisposable
 			{
 				return (key: "voidstrap", text: "Voidstrap");
 			}
-			return (key: userDetails.Thumbnail?.ImageUrl ?? "voidstrap", text: userDetails.Data.DisplayName + " (@" + userDetails.Data.Name + ")");
+			string avatar = Voidstrap.Utility.DiscordPresenceGuard.Key(userDetails.Thumbnail?.ImageUrl);
+			return (key: avatar.Length > 0 ? avatar : "voidstrap", text: Voidstrap.Utility.DiscordPresenceGuard.Text(userDetails.Data.DisplayName + " (@" + userDetails.Data.Name + ")"));
 		}
 		catch
 		{
@@ -1284,7 +1120,7 @@ public partial class DiscordRichPresence : IDisposable
 					text = null;
 				}
 			}
-			if (!string.IsNullOrEmpty(text))
+			if (!string.IsNullOrEmpty(text) && text.Length <= 512 && Uri.TryCreate(text, UriKind.Absolute, out _))
 			{
 				list.Add(new Button
 				{
@@ -1295,7 +1131,7 @@ public partial class DiscordRichPresence : IDisposable
 		}
 		list.Add(new Button
 		{
-			Label = "Game Page",
+			Label = "View game",
 			Url = $"https://www.roblox.com/games/{data.PlaceId}"
 		});
 		return list.ToArray();

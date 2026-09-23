@@ -95,9 +95,12 @@ public class TrackItem : INotifyPropertyChanged
 			{
 				_duration = value;
 				OnPropertyChanged("Duration");
+				OnPropertyChanged("DurationString");
 			}
 		}
 	}
+
+	public string DurationString => _duration.TotalSeconds >= 0.5 ? MusicPlayerViewModel.FormatTime(_duration.TotalSeconds) : string.Empty;
 
 	public ImageSource? Icon
 	{

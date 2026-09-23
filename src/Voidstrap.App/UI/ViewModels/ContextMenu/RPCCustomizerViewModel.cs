@@ -331,7 +331,17 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 
 	private async void OnReconnectTimerTick(object? sender, EventArgs e)
 	{
-		await CheckReconnectAsync().ConfigureAwait(continueOnCapturedContext: false);
+		try
+		{
+			await CheckReconnectAsync().ConfigureAwait(continueOnCapturedContext: false);
+		}
+		catch (Exception ex)
+		{
+			if (!_disposed)
+			{
+				App.Logger.WriteLine("RPCCustomizer", "The reconnect check failed: " + ex.Message);
+			}
+		}
 	}
 
 	private void OnProcessExit(object? sender, EventArgs e)
@@ -654,13 +664,13 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 		{
 			DiscordRPC.RichPresence richPresence = new DiscordRPC.RichPresence
 			{
-				Details = (string.IsNullOrWhiteSpace(Details) ? "Using Voidstrap" : Details),
-				State = State,
+				Details = DiscordPresenceGuard.Text(string.IsNullOrWhiteSpace(Details) ? "Using Voidstrap" : Details),
+				State = DiscordPresenceGuard.Text(State),
 				Assets = new Assets
 				{
-					LargeImageKey = (string.IsNullOrWhiteSpace(LargeImageKey) ? null : LargeImageKey),
-					LargeImageText = AppName,
-					SmallImageKey = (string.IsNullOrWhiteSpace(SmallImageKey) ? null : SmallImageKey),
+					LargeImageKey = (string.IsNullOrWhiteSpace(LargeImageKey) ? null : DiscordPresenceGuard.Key(LargeImageKey)),
+					LargeImageText = DiscordPresenceGuard.Text(AppName),
+					SmallImageKey = (string.IsNullOrWhiteSpace(SmallImageKey) ? null : DiscordPresenceGuard.Key(SmallImageKey)),
 					SmallImageText = "Voidstrap RPC"
 				}
 			};
@@ -688,7 +698,7 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 		{
 			list.Add(new Button
 			{
-				Label = (string.IsNullOrWhiteSpace(Button1Label) ? "Link" : Button1Label),
+				Label = DiscordPresenceGuard.Label(Button1Label, "Link"),
 				Url = Button1Url
 			});
 		}
@@ -696,7 +706,7 @@ public class RPCCustomizerViewModel : INotifyPropertyChanged, IDisposable
 		{
 			list.Add(new Button
 			{
-				Label = (string.IsNullOrWhiteSpace(Button2Label) ? "Link" : Button2Label),
+				Label = DiscordPresenceGuard.Label(Button2Label, "Link"),
 				Url = Button2Url
 			});
 		}

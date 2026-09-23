@@ -151,7 +151,7 @@ public partial class ExtensionPage : UiPage
 		Voidstrap.Integrations.VoidstrapPresence.Set(new Voidstrap.Integrations.VoidstrapPresenceContext(
 			nameof(ExtensionPage),
 			"Viewing " + asset.Name,
-			string.IsNullOrWhiteSpace(asset.Summary) ? "Extension by " + asset.Author : asset.Summary,
+			!string.IsNullOrWhiteSpace(asset.Summary) ? asset.Summary : string.IsNullOrWhiteSpace(asset.Author) ? "A Voidstrap extension" : "Made by " + asset.Author,
 			asset.Icon,
 			asset.Name + (string.IsNullOrWhiteSpace(asset.Author) ? "" : " by " + asset.Author),
 			"View extension",

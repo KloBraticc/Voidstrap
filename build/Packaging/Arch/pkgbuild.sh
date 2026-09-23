@@ -56,9 +56,9 @@ optdepends=('vulkan-swrast: software rendering when no GPU Vulkan driver works'
             'xdg-utils: desktop protocol registration tools'
             'libnotify: desktop notifications'
             'libsecret: credential storage'
-            'gstreamer: image and video playback'
+            'gstreamer: music player, image and video playback'
             'gst-plugins-base: common media codecs'
-            'gst-plugins-good: additional media codecs'
+            'gst-plugins-good: music player equalizer and additional media codecs'
             'gst-plugins-bad: additional media codecs'
             'gst-libav: FFmpeg backed media codecs'
             'webkit2gtk-4.1: embedded web views')
@@ -121,9 +121,9 @@ pkgbase = voidstrap-bin
 	optdepends = xdg-utils: desktop protocol registration tools
 	optdepends = libnotify: desktop notifications
 	optdepends = libsecret: credential storage
-	optdepends = gstreamer: image and video playback
+	optdepends = gstreamer: music player, image and video playback
 	optdepends = gst-plugins-base: common media codecs
-	optdepends = gst-plugins-good: additional media codecs
+	optdepends = gst-plugins-good: music player equalizer and additional media codecs
 	optdepends = gst-plugins-bad: additional media codecs
 	optdepends = gst-libav: FFmpeg backed media codecs
 	optdepends = webkit2gtk-4.1: embedded web views
