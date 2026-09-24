@@ -17,7 +17,7 @@ internal static partial class ClassicTopBarNative
 
 	public static void MakeNonActivating(IntPtr hwnd)
 	{
-		if (hwnd == IntPtr.Zero)
+		if (hwnd == IntPtr.Zero || !OperatingSystem.IsWindows())
 		{
 			return;
 		}

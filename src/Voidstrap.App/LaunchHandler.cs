@@ -50,6 +50,7 @@ public static class LaunchHandler
 
 	private static void RunWindowAudit()
 	{
+		Dictionary<string, byte[]> configuration = SnapshotConfiguration();
 		try
 		{
 			Voidstrap.Utility.WindowAudit.Run();
@@ -58,7 +59,49 @@ public static class LaunchHandler
 		{
 			App.Logger.WriteLine("WindowAudit", "audit harness failed: " + auditEx);
 		}
+		RestoreConfiguration(configuration);
 		App.Terminate();
+	}
+
+	private static Dictionary<string, byte[]> SnapshotConfiguration()
+	{
+		Dictionary<string, byte[]> files = new(StringComparer.OrdinalIgnoreCase);
+		try
+		{
+			if (Directory.Exists(Paths.Config))
+			{
+				foreach (string file in Directory.GetFiles(Paths.Config))
+					files[file] = File.ReadAllBytes(file);
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("WindowAudit", "Could not snapshot the configuration: " + ex.Message);
+		}
+		return files;
+	}
+
+	private static void RestoreConfiguration(Dictionary<string, byte[]> files)
+	{
+		if (files.Count == 0)
+			return;
+		try
+		{
+			foreach (string file in Directory.GetFiles(Paths.Config))
+			{
+				if (!files.ContainsKey(file))
+					File.Delete(file);
+			}
+			foreach (KeyValuePair<string, byte[]> entry in files)
+				File.WriteAllBytes(entry.Key, entry.Value);
+			App.Settings.Load(false);
+			App.State.Load(false);
+			App.Logger.WriteLine("WindowAudit", "Restored the configuration from before the audit");
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("WindowAudit", "Could not restore the configuration: " + ex.Message);
+		}
 	}
 
 	public static void ProcessLaunchArgs()

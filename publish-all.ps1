@@ -967,7 +967,7 @@ if ($IsWindowsHost -and @($Targets | Where-Object { $_.Key -eq 'windows' }).Coun
     }
 }
 
-if (-not $NoClean -and (Test-Path -LiteralPath $Out)) {
+if (-not $NoClean -and $RequestedAll -and (Test-Path -LiteralPath $Out)) {
     Write-Host 'Cleaning previous published output...' -ForegroundColor DarkGray
     Stop-ProcessesUsingPath $Out
     Remove-BuildDirectory $Out
@@ -1022,6 +1022,10 @@ $unexpectedFailure = $null
 
 try {
     foreach ($t in $Targets) {
+        if (-not $NoClean -and -not $RequestedAll) {
+            Stop-ProcessesUsingPath $t.OutDir
+            Reset-OutputDirectory $t.OutDir
+        }
         New-Item -ItemType Directory -Path $t.OutDir -Force | Out-Null
 
         $targetArtifacts = Join-Path $ArtifactDir $t.Key
