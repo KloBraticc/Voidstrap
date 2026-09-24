@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -52,6 +52,19 @@ internal static class SmoothProgress
 		}
 		_installed = true;
 		EventManager.RegisterClassHandler(typeof(ProgressBar), FrameworkElement.SizeChangedEvent, new SizeChangedEventHandler(OnSizeChanged));
+		EventManager.RegisterClassHandler(typeof(ProgressBar), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnLoaded));
+	}
+
+	private static void OnLoaded(object sender, RoutedEventArgs e)
+	{
+		if (sender is not ProgressBar bar)
+		{
+			return;
+		}
+		BarState state = EnsureAttached(bar);
+		state.RestartAttempts = 0;
+		state.MarqueeWidth = -1.0;
+		StartMarquee(bar, state);
 	}
 
 	private static BarState EnsureAttached(ProgressBar bar)

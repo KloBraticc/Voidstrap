@@ -164,6 +164,7 @@ internal static class WindowAudit
 		AuditLinuxAccountStorage();
 		AuditLibraryLoading();
 		AuditTextFlowScenarios();
+		AuditProgressMarquee();
 		PrepareFixtures();
 
 		foreach (Type type in windowTypes)
@@ -1003,6 +1004,50 @@ internal static class WindowAudit
 			}
 		}
 		Emit($"view model audit complete: {failed} platform failure(s)");
+	}
+
+	private static void AuditProgressMarquee()
+	{
+		Window? window = null;
+		try
+		{
+			System.Windows.Controls.ProgressBar bar = new() { IsIndeterminate = true, Width = 300, Height = 4 };
+			window = new Window
+			{
+				Title = "Voidstrap progress marquee audit",
+				Width = 360,
+				Height = 120,
+				WindowStyle = WindowStyle.None,
+				ShowInTaskbar = false,
+				ShowActivated = false,
+				Content = bar
+			};
+			window.Show();
+			Pump(600);
+			double first = GlowOffset(bar);
+			Pump(400);
+			double second = GlowOffset(bar);
+			bool moving = !double.IsNaN(first) && !double.IsNaN(second) && Math.Abs(second - first) > 1.0;
+			Emit(moving
+				? $"progress marquee audit: PASS, glow moved from {first:0} to {second:0}"
+				: $"progress marquee audit: FAIL, glow stayed at {first:0} then {second:0}");
+		}
+		catch (Exception ex)
+		{
+			Emit("progress marquee audit: FAIL, " + ex.GetType().Name + ": " + ex.Message);
+		}
+		finally
+		{
+			window?.Close();
+			Pump(80);
+		}
+	}
+
+	private static double GlowOffset(System.Windows.Controls.ProgressBar bar)
+	{
+		return bar.Template?.FindName("GlowRect", bar) is FrameworkElement glow && glow.RenderTransform is TranslateTransform transform
+			? transform.X
+			: double.NaN;
 	}
 
 	private static void AuditLibraryLoading()
