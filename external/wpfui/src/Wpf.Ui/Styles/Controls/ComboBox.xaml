@@ -476,6 +476,7 @@
                         <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
                             <Setter Property="VirtualizingPanel.ScrollUnit" Value="Item" />
                             <Setter TargetName="DropDownShadow" Property="CacheMode" Value="{x:Null}" />
+                            <Setter TargetName="DropDownShadow" Property="Effect" Value="{x:Null}" />
                             <Setter TargetName="DropDownBorder" Property="Margin" Value="16,16,16,24" />
                             <Setter TargetName="Popup" Property="VerticalOffset" Value="-12" />
                             <Setter TargetName="Popup" Property="HorizontalOffset" Value="-16" />

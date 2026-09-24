@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -20,6 +21,7 @@ public static class LinuxPointerHitTest
 #if CROSSPLAT
 	private static readonly ConditionalWeakTable<IPortablePresentationSourceHost, object> Released = new();
 	private static readonly object Marker = new();
+	private static readonly HashSet<string> LoggedRootTypes = [];
 	private static bool _installed;
 
 	private static void OnPostProcessInput(object sender, ProcessInputEventArgs e)
@@ -37,7 +39,9 @@ public static class LinuxPointerHitTest
 		if (!Released.TryGetValue(source, out _))
 		{
 			Released.Add(source, Marker);
-			App.Logger.WriteLine("LinuxPointerHitTest::Release", "Pointer hit testing for " + source.RootVisual?.GetType().Name + " now runs on the UI thread");
+			string rootType = source.RootVisual?.GetType().Name ?? "window";
+			if (LoggedRootTypes.Add(rootType))
+				App.Logger.WriteLine("LinuxPointerHitTest::Release", "Pointer hit testing for " + rootType + " now runs on the UI thread");
 		}
 	}
 #endif

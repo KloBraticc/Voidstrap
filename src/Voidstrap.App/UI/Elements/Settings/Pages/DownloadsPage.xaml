@@ -71,10 +71,11 @@
                             <MouseBinding MouseAction="LeftClick" Command="{Binding SelectCommand}" />
                         </Border.InputBindings>
                         <Grid>
-                            <Border CornerRadius="10" Margin="1">
+                            <Border CornerRadius="10" Margin="1" ClipToBounds="True">
                                 <Border.Background>
                                     <ImageBrush ImageSource="{Binding IconImage}" Stretch="UniformToFill" />
                                 </Border.Background>
+                                <Image Source="{Binding IconImage}" Stretch="UniformToFill" Visibility="{x:Static fx:PlatformFeatureVisibility.LinuxIntegration}" />
                             </Border>
                             <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="7,2" CornerRadius="6" Background="#CC1E1E24" Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <StackPanel Orientation="Horizontal">

@@ -92,6 +92,7 @@ namespace Voidstrap.Utility
             if (d is not ImageBrush brush)
                 return;
             brush.ImageSource = null;
+            PresentLinuxBrushImage(brush, null);
             string? uri = e.NewValue as string;
             if (string.IsNullOrWhiteSpace(uri))
             {
@@ -104,6 +105,7 @@ namespace Voidstrap.Utility
             {
                 SetIsBrushLoading(brush, false);
                 brush.ImageSource = cached;
+                PresentLinuxBrushImage(brush, cached);
                 return;
             }
             SetIsBrushLoading(brush, true);
@@ -120,7 +122,54 @@ namespace Voidstrap.Utility
             }
             if (host.ReadLocalValue(BrushDecodeWidthProperty) != DependencyProperty.UnsetValue)
                 SetBrushDecodeWidth(brush, GetBrushDecodeWidth(host));
+            if (Platform.IsLinux)
+                BrushImageHosts.AddOrUpdate(brush, host);
             SetBrushImageSource(brush, GetBrushImageSource(host));
+        }
+
+        private static readonly ConditionalWeakTable<ImageBrush, System.Windows.Controls.Border> BrushImageHosts = new();
+        private static readonly object BrushImageMarker = new();
+
+        private static void PresentLinuxBrushImage(ImageBrush brush, ImageSource? image)
+        {
+            if (!Platform.IsLinux || !BrushImageHosts.TryGetValue(brush, out System.Windows.Controls.Border? host))
+                return;
+
+            Image? view = host.Child switch
+            {
+                Image existing when ReferenceEquals(existing.Tag, BrushImageMarker) => existing,
+                Grid grid when grid.Children.Count > 0 && grid.Children[0] is Image first && ReferenceEquals(first.Tag, BrushImageMarker) => first,
+                _ => null
+            };
+            if (view == null && image == null)
+                return;
+            if (view == null)
+            {
+                view = new Image
+                {
+                    Tag = BrushImageMarker,
+                    Stretch = brush.Stretch,
+                    RenderTransform = brush.RelativeTransform,
+                    RenderTransformOrigin = new Point(0.5, 0.5),
+                    IsHitTestVisible = false
+                };
+                RenderOptions.SetBitmapScalingMode(view, RenderOptions.GetBitmapScalingMode(host));
+                UIElement? placeholder = host.Child;
+                if (placeholder == null)
+                {
+                    host.Child = view;
+                }
+                else
+                {
+                    host.Child = null;
+                    Grid layers = new();
+                    layers.Children.Add(view);
+                    layers.Children.Add(placeholder);
+                    host.Child = layers;
+                }
+                host.ClipToBounds = true;
+            }
+            view.Source = image;
         }
 
         private static void OnBrushHostLoaded(object sender, RoutedEventArgs e)
@@ -144,7 +193,10 @@ namespace Voidstrap.Utility
                     if (!string.Equals(GetBrushImageSource(brush), uri, StringComparison.Ordinal))
                         return;
                     if (image != null)
+                    {
                         brush.ImageSource = image;
+                        PresentLinuxBrushImage(brush, image);
+                    }
                     SetIsBrushLoading(brush, false);
                 }, DispatcherPriority.Background);
             }

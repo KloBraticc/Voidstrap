@@ -879,7 +879,6 @@ $PubOpts = @(
     '-p:PublishSingleFile=true',
     '-p:UseAppHost=true',
     '-p:IncludeNativeLibrariesForSelfExtract=true',
-    '-p:IncludeAllContentForSelfExtract=true',
     '-p:DebugType=none',
     '-p:DebugSymbols=false',
     '-p:TreatWarningsAsErrors=true',
@@ -1037,6 +1036,7 @@ try {
                 '--self-contained', 'false',
                 '-p:PublishProfile=FolderProfile',
                 '-p:PublishReadyToRun=false',
+                '-p:IncludeAllContentForSelfExtract=false',
                 '-p:EnableWindowsTargeting=true'
             ) + $PubOpts
         } else {
@@ -1047,6 +1047,7 @@ try {
                 '-o', $t.OutDir,
                 '--artifacts-path', $targetArtifacts,
                 '--self-contained', 'true',
+                '-p:IncludeAllContentForSelfExtract=true',
                 '-p:EnableCompressionInSingleFile=true'
             ) + $PubOpts
         }

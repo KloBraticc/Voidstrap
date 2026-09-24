@@ -273,6 +273,8 @@ namespace Wpf.Ui.Controls
             }
 
             element.Opacity = 1d;
+            if (!OperatingSystem.IsWindows())
+                element.UpdateLayout();
 
             double from = GetFromHeight(element);
             double maximum = GetMaximumHeight(element);
@@ -336,11 +338,17 @@ namespace Wpf.Ui.Controls
             element.BeginAnimation(UIElement.OpacityProperty, fadeIn);
             if (animation is null)
             {
-                revealClip.Rect = expanded;
+                if (ReferenceEquals(element.Clip, revealClip))
+                    element.Clip = null;
                 return;
             }
 
             revealClip.Rect = expanded;
+            animation.Completed += (_, _) =>
+            {
+                if (ReferenceEquals(element.Clip, revealClip))
+                    element.Clip = null;
+            };
             revealClip.BeginAnimation(RectangleGeometry.RectProperty, animation);
         }
 

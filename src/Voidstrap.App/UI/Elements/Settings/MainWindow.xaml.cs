@@ -1975,7 +1975,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             Owner = this
         };
-        window.ShowDialog();
+        window.ShowOwnedDialog();
     }
 
     private async void AppMenuUpdates_Click(object sender, RoutedEventArgs e)
@@ -5315,7 +5315,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             download.Refresh();
         downloads.RefreshClassic();
 
-        List<object> entries = [.. downloads.Items, .. downloads.ClientItems];
+        List<object> entries = Voidstrap.Utility.Platform.IsLinux ? [.. downloads.Items] : [.. downloads.Items, .. downloads.ClientItems];
         object? current = null;
         if (base.DataContext is MainWindowViewModel vm)
         {

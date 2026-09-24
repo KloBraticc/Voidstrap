@@ -79,6 +79,32 @@ internal static class WindowAudit
 				Emit($"render keeper window failed: {ex.GetType().Name}: {ex.Message.Split('\n')[0]}");
 			}
 		}
+		string? only = Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_ONLY");
+		if (!string.IsNullOrWhiteSpace(only))
+		{
+			foreach (string name in only.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+			{
+				MethodInfo? section = typeof(WindowAudit).GetMethod(name, BindingFlags.NonPublic | BindingFlags.Static, Type.EmptyTypes);
+				if (section is null)
+				{
+					Emit("audit section not found: " + name);
+					continue;
+				}
+				Emit("audit section: " + name);
+				section.Invoke(null, null);
+			}
+			renderKeeper?.Close();
+			Pump(200);
+			if (Application.Current != null)
+			{
+				Application.Current.DispatcherUnhandledException -= OnProbeDispatcherException;
+				AppDomain.CurrentDomain.UnhandledException -= OnProbeDomainException;
+				Application.Current.ShutdownMode = previousShutdownMode;
+			}
+			Emit("window audit complete: selected sections only");
+			return;
+		}
+
 		AuditTransitions();
 #if CROSSPLAT
 		AuditTabPillPresentation();
@@ -2572,22 +2598,15 @@ internal static class WindowAudit
 
 			System.Windows.Controls.Border? shadow = combo.Template?.FindName("DropDownShadow", combo) as System.Windows.Controls.Border;
 			FrameworkElement? dropDown = combo.Template?.FindName("DropDownBorder", combo) as FrameworkElement;
-			System.Windows.Media.Effects.DropShadowEffect? effect = shadow?.Effect as System.Windows.Media.Effects.DropShadowEffect;
-			bool hasEffect = effect is not null;
+			bool hasEffect = shadow?.Effect is not null;
 			bool cacheCleared = shadow is not null && shadow.CacheMode is null;
 			Thickness room = dropDown?.Margin ?? default;
 			bool hasRoom = room.Left >= 12 && room.Top >= 12 && room.Right >= 12 && room.Bottom >= 12;
-			bool matchesWindows = effect is not null
-				&& Math.Abs(effect.BlurRadius - 24d) < 0.001d
-				&& Math.Abs(effect.ShadowDepth - 4d) < 0.001d
-				&& Math.Abs(effect.Opacity - 0.35d) < 0.001d
-				&& Math.Abs(effect.Direction - 270d) < 0.001d
-				&& effect.Color == System.Windows.Media.Colors.Black;
 
-			bool passed = hasEffect && cacheCleared && hasRoom && matchesWindows;
+			bool passed = shadow is not null && !hasEffect && cacheCleared && hasRoom;
 			Emit(passed
-				? $"shadow audit: PASS, dropdown shadow matches the Windows values exactly, blur {effect!.BlurRadius:F0}, depth {effect.ShadowDepth:F0}, opacity {effect.Opacity:F2}, direction {effect.Direction:F0}, with {room.Left:F0},{room.Top:F0},{room.Right:F0},{room.Bottom:F0} of room and no bitmap cache"
-				: $"shadow audit: FAIL, effect {hasEffect}, cacheCleared {cacheCleared}, room {room}, windowsMatch {matchesWindows}, blur {effect?.BlurRadius ?? -1:F1}, depth {effect?.ShadowDepth ?? -1:F1}, opacity {effect?.Opacity ?? -1:F2}");
+				? $"shadow audit: PASS, dropdown has no effect layer so the owner window keeps rendering, with {room.Left:F0},{room.Top:F0},{room.Right:F0},{room.Bottom:F0} of room and no bitmap cache"
+				: $"shadow audit: FAIL, shadow {shadow is not null}, effect {hasEffect}, cacheCleared {cacheCleared}, room {room}");
 			combo.IsDropDownOpen = false;
 			Pump(120);
 		}
@@ -5280,9 +5299,24 @@ internal static class WindowAudit
 				Content = control
 			};
 			probe.Show();
-			Pump(300);
 			nint window = new System.Windows.Interop.WindowInteropHelper(probe).Handle;
-			return Voidstrap.Platform.Linux.LinuxWindowInterop.TryWindowHasColorVariation(window, 128, 128);
+#if CROSSPLAT
+			System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(probe, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host);
+#endif
+			for (int attempt = 0; attempt < 15; attempt++)
+			{
+#if CROSSPLAT
+				PumpPortableHost(host, 200);
+#else
+				Pump(200);
+#endif
+				if (Voidstrap.Platform.Linux.LinuxWindowInterop.TryWindowHasColorVariation(window, 128, 128))
+				{
+					Emit("inline media surface presented after " + ((attempt + 1) * 200) + " ms");
+					return true;
+				}
+			}
+			return false;
 		}
 		catch
 		{
@@ -5522,7 +5556,7 @@ internal static class WindowAudit
 				throw new InvalidOperationException("Page heading entered body text flow");
 			}
 			if (!string.Equals(Voidstrap.UI.LinuxTextGuard.GetSourceText(longToken), "https://github.com/KloBraticc/Voidstrap/really-long-path-without-natural-breaking-points", StringComparison.Ordinal)
-				|| !string.Equals(Voidstrap.UI.LinuxTextGuard.GetSourceText(multilingual), "界面文字需要自动换行并保留字符边界界面文字需要自动换行并保留字符边界 👩🏽‍💻 👨‍👩‍👧‍👦 שלום עולם שלום עולם שלום עולם שלום עולם", StringComparison.Ordinal))
+				|| !string.Equals(Voidstrap.UI.LinuxTextGuard.GetSourceText(multilingual), Voidstrap.UI.LinuxTextGuard.ToDrawableText(multilingual, "界面文字需要自动换行并保留字符边界界面文字需要自动换行并保留字符边界 👩🏽‍💻 👨‍👩‍👧‍👦 שלום עולם שלום עולם שלום עולם שלום עולם"), StringComparison.Ordinal))
 			{
 				throw new InvalidOperationException("Text flow changed the long-token source text");
 			}

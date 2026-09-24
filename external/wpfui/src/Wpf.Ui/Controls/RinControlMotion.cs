@@ -250,12 +250,12 @@ public static class RinControlMotion
             IsMouseOverDescriptor.RemoveValueChanged(element, OnControlStateChanged);
             IsPressedDescriptor.RemoveValueChanged(element, OnControlStateChanged);
             IsEnabledDescriptor.RemoveValueChanged(element, OnControlStateChanged);
-            state.Root?.ClearValue(Border.BackgroundProperty);
+            ClearMotionBackground(state.Root);
         }
         else if (state.Kind == MotionKind.Surface)
         {
             DetachSurface(element);
-            state.Root?.ClearValue(Border.BackgroundProperty);
+            ClearMotionBackground(state.Root);
         }
         else if (state.Kind == MotionKind.Button && element is ButtonBase button)
         {
@@ -730,6 +730,16 @@ public static class RinControlMotion
         };
         root.Background = animated;
         animated.BeginAnimation(SolidColorBrush.ColorProperty, animation);
+    }
+
+    private static void ClearMotionBackground(Border? root)
+    {
+        if (root is null || root.ReadLocalValue(Border.BackgroundProperty) is Expression)
+        {
+            return;
+        }
+
+        root.ClearValue(Border.BackgroundProperty);
     }
 
     private static void SetRestBrush(Border root, string key)

@@ -121,6 +121,10 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				return SelectedLaunchModeIndex == 1 ? "Vinegar" : "Sober";
+			}
 			string code = SelectedLaunchClient;
 			if (!string.IsNullOrEmpty(code) && ClassicClients.IsClientInstalled(code))
 			{
@@ -139,7 +143,7 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 
 	private void OpenAbout()
 	{
-		new Voidstrap.UI.Elements.About.MainWindow().ShowDialog();
+		new Voidstrap.UI.Elements.About.MainWindow().ShowOwnedDialog();
 	}
 
 	private void CloseWindow()

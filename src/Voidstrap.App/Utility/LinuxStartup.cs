@@ -23,6 +23,16 @@ internal static partial class LinuxStartup
 
 	private const string OwnedKeysFlag = "VOIDSTRAP_RENDER_OWNED";
 
+	private const string SafeModeFlag = "VOIDSTRAP_SAFE_MODE";
+
+	private const string PlainSurfacesFlag = "VOIDSTRAP_PLAIN_SURFACES";
+
+	private const int SafeLaunchCount = 5;
+
+	private static int _safeLaunches;
+
+	private static bool _safeMode;
+
 	private const string DefaultStage = "default";
 
 	private const string HardwareGlStage = "gl";
@@ -49,6 +59,8 @@ internal static partial class LinuxStartup
 
 	public static string ActiveStage => _activeStage;
 
+	public static bool SafeMode => _safeMode;
+
 	[ModuleInitializer]
 	internal static void Initialize()
 	{
@@ -66,6 +78,7 @@ internal static partial class LinuxStartup
 		{
 			_activeStage = NormaliseStage(Environment.GetEnvironmentVariable(GpuRetryFlag));
 			_supervised = Environment.GetEnvironmentVariable(SupervisedFlag) == "1";
+			_safeMode = DecideSafeMode();
 			RestoreChildEnvironment();
 			return;
 		}
@@ -84,6 +97,7 @@ internal static partial class LinuxStartup
 			}
 			string stage = ChooseStage(out bool confirmed);
 			_activeStage = stage;
+			_safeMode = DecideSafeMode();
 			string? executable = Environment.ProcessPath;
 			if (!string.IsNullOrEmpty(executable) && !headless)
 			{
@@ -159,6 +173,18 @@ internal static partial class LinuxStartup
 		return stage;
 	}
 
+	private static bool DecideSafeMode()
+	{
+		string? forced = Environment.GetEnvironmentVariable(SafeModeFlag);
+		if (forced == "0")
+		{
+			return false;
+		}
+		ReadRendererMarker(out string recorded, out bool confirmed, out int attempts, out int safeLaunches);
+		_safeLaunches = recorded.Length > 0 && !confirmed && attempts > 0 ? SafeLaunchCount : safeLaunches;
+		return forced == "1" || _safeLaunches > 0;
+	}
+
 	private static string[] CurrentArguments()
 	{
 		return Environment.GetCommandLineArgs().Skip(1).ToArray();
@@ -229,6 +255,13 @@ internal static partial class LinuxStartup
 			}
 			environment[key] = value;
 		}
+		void SetIfMissing(string key, string value)
+		{
+			if (!environment.ContainsKey(key))
+			{
+				Set(key, value);
+			}
+		}
 		environment[ConfiguredFlag] = configuredFor;
 		environment[GpuRetryFlag] = stage;
 		Set("RESOURCE_NAME", ApplicationName);
@@ -265,6 +298,13 @@ internal static partial class LinuxStartup
 				Set("VK_ICD_FILENAMES", string.Join(':', lavapipe));
 				Set("LP_NUM_THREADS", SoftwareThreadCount.ToString(CultureInfo.InvariantCulture));
 			}
+		}
+		if (backend != "Software" && Environment.GetEnvironmentVariable(PlainSurfacesFlag) != "0")
+		{
+			SetIfMissing("MESA_VK_WSI_DEBUG", "linear");
+			SetIfMissing("AMD_DEBUG", "nodcc");
+			SetIfMissing("RADV_DEBUG", "nodcc");
+			SetIfMissing("INTEL_DEBUG", "noccs");
 		}
 		if (libraryPath.Length == 0)
 		{
@@ -448,9 +488,15 @@ internal static partial class LinuxStartup
 
 	private static void ReadRendererMarker(out string stage, out bool confirmed, out int attempts)
 	{
+		ReadRendererMarker(out stage, out confirmed, out attempts, out _);
+	}
+
+	private static void ReadRendererMarker(out string stage, out bool confirmed, out int attempts, out int safeLaunches)
+	{
 		stage = string.Empty;
 		confirmed = false;
 		attempts = 0;
+		safeLaunches = 0;
 		try
 		{
 			string path = RendererMarkerPath;
@@ -475,12 +521,18 @@ internal static partial class LinuxStartup
 			{
 				attempts = parsed;
 			}
+
+			if (parts.Length > 3 && int.TryParse(parts[3].Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out int safe))
+			{
+				safeLaunches = Math.Clamp(safe, 0, SafeLaunchCount);
+			}
 		}
 		catch (Exception)
 		{
 			stage = string.Empty;
 			confirmed = false;
 			attempts = 0;
+			safeLaunches = 0;
 		}
 	}
 
@@ -495,7 +547,8 @@ internal static partial class LinuxStartup
 				Directory.CreateDirectory(directory);
 			}
 
-			File.WriteAllText(path, stage + "|" + (confirmed ? "ok" : "pending") + "|" + attempts.ToString(CultureInfo.InvariantCulture));
+			int safeLaunches = confirmed ? Math.Max(_safeLaunches - 1, 0) : _safeLaunches;
+			File.WriteAllText(path, stage + "|" + (confirmed ? "ok" : "pending") + "|" + attempts.ToString(CultureInfo.InvariantCulture) + "|" + safeLaunches.ToString(CultureInfo.InvariantCulture));
 		}
 		catch (Exception)
 		{
@@ -516,6 +569,15 @@ internal static partial class LinuxStartup
 		ReadRendererMarker(out string recordedStage, out bool confirmed, out int attempts);
 		int nextAttempt = !confirmed && recordedStage == _activeStage ? attempts + 1 : 1;
 		WriteRendererMarker(_activeStage, false, nextAttempt);
+	}
+
+	public static bool IsRendererActive()
+	{
+#if CROSSPLAT
+		return ProGPU.Backend.WgpuContext.TryGetFirstActiveContext(out _);
+#else
+		return true;
+#endif
 	}
 
 	public static bool MarkRendererHealthy(bool requireRenderer)

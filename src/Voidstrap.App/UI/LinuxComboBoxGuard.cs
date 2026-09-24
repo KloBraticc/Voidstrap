@@ -113,6 +113,7 @@ public static class LinuxComboBoxGuard
 			_attached = false;
 			_generation++;
 			StopWatchdog();
+			RestoreGrownOwner();
 			_box.DropDownOpened -= OnDropDownOpened;
 			_box.DropDownClosed -= OnDropDownClosed;
 			_box.PreviewKeyDown -= OnPreviewKeyDown;
@@ -180,14 +181,153 @@ public static class LinuxComboBoxGuard
 			_logicalRecoveryQueued = false;
 			_presented = false;
 			BindPopup();
+			if (GrowOwnerBeforeOpen())
+				return;
+			FitToWindow();
 			RestoreInput();
 			EnsureCapture();
 			ArmWatchdog(_generation);
 			QueueVerification(_generation, DispatcherPriority.Render);
 		}
 
+		private double _naturalDropDownHeight = double.NaN;
+
+		private void FitToWindow()
+		{
+			if (_popup is null || Window.GetWindow(_box) is not Window owner || owner.ActualHeight <= 0)
+				return;
+
+			Point top;
+			try
+			{
+				top = _box.TranslatePoint(new Point(0, 0), owner);
+			}
+			catch (InvalidOperationException)
+			{
+				return;
+			}
+
+			if (double.IsNaN(_naturalDropDownHeight))
+				_naturalDropDownHeight = _box.MaxDropDownHeight;
+
+			const double Margin = 12;
+			double below = owner.ActualHeight - top.Y - _box.ActualHeight - Margin;
+			double above = top.Y - Margin;
+			double needed = Math.Min(_naturalDropDownHeight, _box.Items.Count * 36d + 24d);
+			bool openUp = below < needed && above > below;
+			double room = Math.Max(48, openUp ? above : below);
+			_popup.Placement = openUp ? PlacementMode.Top : PlacementMode.Bottom;
+			_box.SetCurrentValue(ComboBox.MaxDropDownHeightProperty, Math.Min(_naturalDropDownHeight, room));
+		}
+
+		private Window? _grownOwner;
+		private double _grownOwnerMinHeight;
+		private bool _reopenAfterGrow;
+		private DispatcherTimer? _growTimer;
+
+		private bool GrowOwnerBeforeOpen()
+		{
+			if (_grownOwner is not null || _popup is null || Window.GetWindow(_box) is not Window owner
+				|| owner.ActualHeight <= 0 || owner.SizeToContent == SizeToContent.Manual)
+				return false;
+
+			Point top;
+			try
+			{
+				top = _box.TranslatePoint(new Point(0, 0), owner);
+			}
+			catch (InvalidOperationException)
+			{
+				return false;
+			}
+
+			if (double.IsNaN(_naturalDropDownHeight))
+				_naturalDropDownHeight = _box.MaxDropDownHeight;
+
+			const double Margin = 12;
+			double below = owner.ActualHeight - top.Y - _box.ActualHeight - Margin;
+			double above = top.Y - Margin;
+			double needed = Math.Min(_naturalDropDownHeight, _box.Items.Count * 36d + 24d);
+			if (below >= needed || above >= needed)
+				return false;
+
+			_grownOwner = owner;
+			_grownOwnerMinHeight = owner.MinHeight;
+			_reopenAfterGrow = true;
+			owner.SizeChanged += OnGrownOwnerSizeChanged;
+			_growTimer = new DispatcherTimer(DispatcherPriority.Background, _box.Dispatcher)
+			{
+				Interval = PresentationTimeout
+			};
+			_growTimer.Tick += OnGrowTimer;
+			_growTimer.Start();
+			owner.MinHeight = owner.ActualHeight + (needed - below);
+			_ = _box.Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(CloseForGrow));
+			return true;
+		}
+
+		private void CloseForGrow()
+		{
+			if (_attached && _reopenAfterGrow && _box.IsDropDownOpen)
+				_box.SetCurrentValue(ComboBox.IsDropDownOpenProperty, false);
+		}
+
+		private void OnGrownOwnerSizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			if (_reopenAfterGrow)
+				_ = _box.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(ReopenAfterGrow));
+		}
+
+		private void OnGrowTimer(object? sender, EventArgs e)
+		{
+			ReopenAfterGrow();
+		}
+
+		private void ReopenAfterGrow()
+		{
+			StopGrowTimer();
+			if (!_reopenAfterGrow)
+				return;
+
+			_reopenAfterGrow = false;
+			if (_attached && CanPresent())
+				_box.SetCurrentValue(ComboBox.IsDropDownOpenProperty, true);
+			else
+				RestoreGrownOwner();
+		}
+
+		private void StopGrowTimer()
+		{
+			if (_growTimer is null)
+				return;
+			_growTimer.Stop();
+			_growTimer.Tick -= OnGrowTimer;
+			_growTimer = null;
+		}
+
+		private void RestoreGrownOwner()
+		{
+			_reopenAfterGrow = false;
+			StopGrowTimer();
+			if (_grownOwner is null)
+				return;
+			_grownOwner.SizeChanged -= OnGrownOwnerSizeChanged;
+			_grownOwner.MinHeight = _grownOwnerMinHeight;
+			_grownOwner = null;
+		}
+
 		private void OnDropDownClosed(object? sender, EventArgs e)
 		{
+			if (_reopenAfterGrow)
+			{
+				_requestedOpen = false;
+				_presented = false;
+				_generation++;
+				StopWatchdog();
+				return;
+			}
+
+			RestoreGrownOwner();
 			if (_requestedOpen
 				&& !_closeRequested
 				&& _popup is { IsOpen: false }

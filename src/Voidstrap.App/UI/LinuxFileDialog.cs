@@ -20,7 +20,7 @@ namespace Voidstrap.UI
         {
         }
 #else
-        private static readonly string[] CandidateTools = { "zenity", "qarma", "yad" };
+        private static readonly string[] CandidateTools = { "zenity", "qarma", "yad", "kdialog" };
 
         private static readonly TimeSpan PickerLifetime = TimeSpan.FromMinutes(10);
 
@@ -37,10 +37,7 @@ namespace Voidstrap.UI
 
             _tool = ResolveTool();
             if (_tool is null)
-            {
-                App.Logger.WriteLine("LinuxFileDialog::Install", "No portable file picker was found, file dialogs stay unavailable");
-                return;
-            }
+                App.Logger.WriteLine("LinuxFileDialog::Install", "No portable file picker was found, file dialogs will ask for zenity or kdialog");
 
             _installed = true;
             PortableWpfServiceRegistry.FileDialogServiceRegistered += OnFileDialogServiceRegistered;
@@ -51,7 +48,8 @@ namespace Voidstrap.UI
             if (PortableWpfServiceRegistry.TryGetFileDialogService(PortableWpfServiceKey.WinForms, out IPortableFileDialogServiceRegistrar winForms))
                 Attach(winForms);
 
-            App.Logger.WriteLine("LinuxFileDialog::Install", $"Registered the {Path.GetFileName(_tool)} file picker");
+            if (_tool is not null)
+                App.Logger.WriteLine("LinuxFileDialog::Install", $"Registered the {Path.GetFileName(_tool)} file picker");
         }
 
         public static void Uninstall()
@@ -112,8 +110,14 @@ namespace Voidstrap.UI
 
         private static PortableFileDialogResult? Show(PortableFileDialogRequest request)
         {
-            if (_tool is null || request is null)
+            if (request is null)
                 return null;
+
+            if (_tool is null)
+            {
+                Frontend.ShowMessageBox("Voidstrap needs a file picker to choose files on Linux. Install zenity or kdialog with your package manager, then try again.", System.Windows.MessageBoxImage.Information);
+                return null;
+            }
 
             try
             {
@@ -126,7 +130,8 @@ namespace Voidstrap.UI
                     CreateNoWindow = true
                 };
 
-                foreach (string argument in BuildArguments(request))
+                bool kdialog = string.Equals(Path.GetFileName(_tool), "kdialog", StringComparison.Ordinal);
+                foreach (string argument in kdialog ? BuildKDialogArguments(request) : BuildArguments(request))
                     startInfo.ArgumentList.Add(argument);
 
                 using Process? picker = Process.Start(startInfo);
@@ -196,6 +201,67 @@ namespace Voidstrap.UI
                 arguments.Add(filter);
 
             return arguments;
+        }
+
+        private static List<string> BuildKDialogArguments(PortableFileDialogRequest request)
+        {
+            List<string> arguments = new();
+            if (!string.IsNullOrWhiteSpace(request.Title))
+            {
+                arguments.Add("--title");
+                arguments.Add(request.Title);
+            }
+
+            string start = ResolveStartPath(request);
+            if (start.Length == 0)
+                start = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+            if (string.Equals(request.Kind, "OpenFolder", StringComparison.Ordinal))
+            {
+                arguments.Add("--getexistingdirectory");
+                arguments.Add(start);
+                return arguments;
+            }
+
+            if (string.Equals(request.Kind, "SaveFile", StringComparison.Ordinal))
+            {
+                arguments.Add("--getsavefilename");
+            }
+            else
+            {
+                if (request.AllowMultipleSelection)
+                {
+                    arguments.Add("--multiple");
+                    arguments.Add("--separate-output");
+                }
+
+                arguments.Add("--getopenfilename");
+            }
+
+            arguments.Add(start);
+            string filter = BuildKDialogFilter(request.Filter);
+            if (filter.Length > 0)
+                arguments.Add(filter);
+
+            return arguments;
+        }
+
+        private static string BuildKDialogFilter(string filter)
+        {
+            if (string.IsNullOrWhiteSpace(filter))
+                return string.Empty;
+
+            List<string> entries = new();
+            string[] parts = filter.Split('|');
+            for (int i = 0; i + 1 < parts.Length; i += 2)
+            {
+                string label = parts[i].Trim();
+                string patterns = string.Join(' ', parts[i + 1].Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+                if (label.Length > 0 && patterns.Length > 0)
+                    entries.Add(patterns + "|" + label.Replace('|', ' '));
+            }
+
+            return string.Join('\n', entries);
         }
 
         private static string ResolveStartPath(PortableFileDialogRequest request)

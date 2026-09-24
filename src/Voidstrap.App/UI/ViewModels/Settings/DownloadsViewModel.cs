@@ -39,7 +39,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             private CoreBootstrapper? _activeBootstrapper;
 
             public string Title { get; }
-            public string Subtitle { get; }
+            public string Subtitle { get; private set; }
+            public bool CanChangeLocation => !Voidstrap.Utility.Platform.IsLinux;
             public ImageSource? IconImage { get; }
             public LaunchMode LaunchMode => _launchMode;
             public bool ShowFleasionAddon { get; }
@@ -212,6 +213,11 @@ namespace Voidstrap.UI.ViewModels.Settings
 
             public void Refresh()
             {
+                if (Voidstrap.Utility.Platform.IsLinux)
+                {
+                    RefreshLinuxRuntime();
+                    return;
+                }
                 bool exeExists = !string.IsNullOrEmpty(_appData.State.VersionGuid) && (File.Exists(_appData.ExecutablePath) || Voidstrap.Utility.RobloxInstallCompression.IsCompressed(_appData));
                 if (!exeExists)
                 {
@@ -273,6 +279,29 @@ namespace Voidstrap.UI.ViewModels.Settings
                     }
                 }
 
+                RaiseAll();
+            }
+
+            private void RefreshLinuxRuntime()
+            {
+                bool player = _launchMode == LaunchMode.Player;
+                IsInstalled = player
+                    ? Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.IsInstalled()
+                    : Voidstrap.Platform.Linux.LinuxVinegarStudioRuntimeProvider.IsInstalled();
+                string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                LocationText = Path.Combine(home, ".var", "app", player ? "org.vinegarhq.Sober" : "org.vinegarhq.Vinegar");
+                string? robloxVersion = player && IsInstalled ? Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.GetInstalledRobloxVersion() : null;
+                if (!IsInstalled)
+                    Subtitle = player ? "Not installed yet, Voidstrap installs Sober when you launch" : "Not installed yet, Voidstrap installs Vinegar when you launch Studio";
+                else if (player)
+                    Subtitle = robloxVersion is null ? "Roblox is not downloaded yet, it downloads on your first launch" : "Roblox " + robloxVersion + " is ready to play";
+                else
+                    Subtitle = "Runs Roblox Studio on Linux";
+                VersionText = robloxVersion ?? (IsInstalled ? "Installed" : "Not installed yet");
+                StatusText = IsInstalled ? "Installed" : "Not installed";
+                PrimaryButtonText = IsInstalled ? "Installed" : "Install";
+                SizeText = "";
+                OnPropertyChanged(nameof(Subtitle));
                 RaiseAll();
             }
 
@@ -1146,8 +1175,16 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public DownloadsViewModel()
         {
-            Items.Add(new DownloadItem(this, new RobloxPlayerData(), "Roblox Player", "The Roblox client for playing experiences", "pack://application:,,,/Resources/RobloxPlayerIcon.png", "WindowsPlayer", LaunchMode.Player, "RobloxPlayerBeta", true));
-            Items.Add(new DownloadItem(this, new RobloxStudioData(), "Roblox Studio", "Create and edit experiences", "pack://application:,,,/Resources/RobloxStudioIcon.png", "WindowsStudio64", LaunchMode.Studio, "RobloxStudioBeta", false));
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                Items.Add(new DownloadItem(this, new RobloxPlayerData(), "Sober", "Plays Roblox on Linux", "pack://application:,,,/Resources/SoberIcon.png", "WindowsPlayer", LaunchMode.Player, "sober", false));
+                Items.Add(new DownloadItem(this, new RobloxStudioData(), "Vinegar", "Runs Roblox Studio on Linux", "pack://application:,,,/Resources/VinegarIcon.png", "WindowsStudio64", LaunchMode.Studio, "vinegar", false));
+            }
+            else
+            {
+                Items.Add(new DownloadItem(this, new RobloxPlayerData(), "Roblox Player", "The Roblox client for playing experiences", "pack://application:,,,/Resources/RobloxPlayerIcon.png", "WindowsPlayer", LaunchMode.Player, "RobloxPlayerBeta", true));
+                Items.Add(new DownloadItem(this, new RobloxStudioData(), "Roblox Studio", "Create and edit experiences", "pack://application:,,,/Resources/RobloxStudioIcon.png", "WindowsStudio64", LaunchMode.Studio, "RobloxStudioBeta", false));
+            }
             OpenRootCommand = new RelayCommand(OpenRoot);
             RefreshCommand = new RelayCommand(RefreshAll);
             SelectCommand = new RelayCommand<DownloadItem>(Select);

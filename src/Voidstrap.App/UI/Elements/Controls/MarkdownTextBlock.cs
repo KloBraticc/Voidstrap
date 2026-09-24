@@ -20,11 +20,20 @@ internal class MarkdownTextBlock : TextBlock
 
 	private static readonly SolidColorBrush HighlightBrush = CreateHighlightBrush();
 
-	private static readonly System.Buffers.SearchValues<char> MarkdownSyntax = System.Buffers.SearchValues.Create("*_=[]<>`#\\&!|~\r\n");
+	private static readonly System.Buffers.SearchValues<char> MarkdownSyntax = System.Buffers.SearchValues.Create("*_=[]<>`#\\&!|~");
 
 	private static bool IsPlainText(string text)
 	{
-		return text.Length == 0 || char.IsLetter(text[0]) && !char.IsWhiteSpace(text[^1]) && text.AsSpan().IndexOfAny(MarkdownSyntax) < 0;
+		if (text.Length == 0)
+			return true;
+		if (text.AsSpan().IndexOfAny(MarkdownSyntax) >= 0)
+			return false;
+		foreach (string line in text.Replace("\r\n", "\n").Split('\n'))
+		{
+			if (line.Length > 0 && (!char.IsLetter(line[0]) || char.IsWhiteSpace(line[^1])))
+				return false;
+		}
+		return true;
 	}
 
 	private static SolidColorBrush CreateHighlightBrush()

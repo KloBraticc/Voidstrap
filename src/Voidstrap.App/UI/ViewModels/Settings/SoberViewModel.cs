@@ -37,7 +37,10 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 
 	private bool _uninstalling;
 	private bool _installed;
+	private bool _downloadingRoblox;
+	private string? _robloxVersion;
 	private string _status = "Checking for Sober...";
+	private string _robloxStatus = "Checking for Roblox...";
 
 	public SoberViewModel()
 	{
@@ -61,6 +64,81 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 		get => !_uninstalling && _installed;
 	}
 
+	public string RobloxStatus
+	{
+		get => _robloxStatus;
+		private set
+		{
+			if (string.Equals(_robloxStatus, value, StringComparison.Ordinal))
+				return;
+			_robloxStatus = value;
+			OnPropertyChanged(nameof(RobloxStatus));
+		}
+	}
+
+	public bool CanDownloadRoblox => _installed && !_uninstalling && !_downloadingRoblox && _robloxVersion is null;
+
+	public string RobloxActionLabel => _downloadingRoblox ? "Downloading" : _robloxVersion is not null ? "Downloaded" : "Download now";
+
+	public ICommand DownloadRobloxCommand => new RelayCommand(DownloadRoblox);
+
+	private void RefreshRobloxState()
+	{
+		_robloxVersion = _installed ? LinuxSoberRuntimeProvider.GetInstalledRobloxVersion() : null;
+		if (!_downloadingRoblox)
+		{
+			RobloxStatus = !_installed
+				? "Install Sober first, Voidstrap does this on your first launch"
+				: _robloxVersion is not null
+					? "Roblox " + _robloxVersion + " is downloaded and ready to play"
+					: "Roblox has not been downloaded inside Sober yet. It downloads on your first launch, or download it now";
+		}
+		OnPropertyChanged(nameof(CanDownloadRoblox));
+		OnPropertyChanged(nameof(RobloxActionLabel));
+	}
+
+	private void DownloadRoblox()
+	{
+		if (!CanDownloadRoblox)
+			return;
+		_downloadingRoblox = true;
+		RobloxStatus = "Opening Sober to download Roblox";
+		RefreshRobloxState();
+		_ = RunRobloxDownloadAsync();
+	}
+
+	private async Task RunRobloxDownloadAsync()
+	{
+		bool downloaded = false;
+		try
+		{
+			downloaded = await LinuxSoberRuntimeProvider.TryDownloadRobloxPackageAsync(CancellationToken.None, ReportRobloxDownload).ConfigureAwait(true);
+			App.Logger.WriteLine("SoberViewModel::DownloadRoblox", downloaded ? "Roblox finished downloading in Sober" : "Roblox did not finish downloading in Sober");
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("SoberViewModel::DownloadRoblox", ex);
+		}
+		finally
+		{
+			_downloadingRoblox = false;
+			RefreshRobloxState();
+			if (!downloaded && _robloxVersion is null)
+				RobloxStatus = "Roblox did not finish downloading. Finish the setup in the Sober window, then try again";
+		}
+	}
+
+	private void ReportRobloxDownload(string message)
+	{
+		Application.Current?.Dispatcher.BeginInvoke(new Action<string>(SetRobloxStatus), message);
+	}
+
+	private void SetRobloxStatus(string message)
+	{
+		if (_downloadingRoblox)
+			RobloxStatus = message;
+	}
+
 	public string UninstallDescription => InstallationStatus;
 
 	private async Task RefreshInstallationAsync()
@@ -73,6 +151,7 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 
 			_installed = state.Status == SoberInstallationStatus.Installed;
 			InstallationStatus = state.Message;
+			RefreshRobloxState();
 		}
 		catch (Exception ex)
 		{

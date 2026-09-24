@@ -69,43 +69,147 @@ public static class StudioProjects
 	public static List<StudioProject> GetLocalFiles()
 	{
 		List<StudioProject> list = [];
-		if (!OperatingSystem.IsWindows())
-			return list;
-		try
+		HashSet<string> seen = new(StringComparer.OrdinalIgnoreCase);
+		foreach (StudioHistoryKey key in ReadStudioKeys(name => name.EndsWith("rbxRecentFiles_v03", StringComparison.Ordinal)))
 		{
-			using RegistryKey? root = Registry.CurrentUser.OpenSubKey(StudioKey);
-			if (root == null)
-				return list;
-			HashSet<string> seen = new(StringComparer.OrdinalIgnoreCase);
-			foreach (string subName in root.GetSubKeyNames().Where(n => n.EndsWith("rbxRecentFiles_v03", StringComparison.Ordinal)))
+			for (int i = 0; key.Values.TryGetValue(i + "name", out string? path); i++)
 			{
-				using RegistryKey? sub = root.OpenSubKey(subName);
-				if (sub == null)
+				string? full = ToLocalPath(path, key.Prefix);
+				if (full == null || !File.Exists(full) || !seen.Add(full))
 					continue;
-				for (int i = 0; sub.GetValue(i + "name") is string path; i++)
+				list.Add(new StudioProject
 				{
-					string full = path.Replace('/', Path.DirectorySeparatorChar);
-					if (!File.Exists(full) || !seen.Add(full))
-						continue;
-					list.Add(new StudioProject
-					{
-						Name = Path.GetFileNameWithoutExtension(full),
-						CreatorName = Path.GetDirectoryName(full) ?? "",
-						Updated = File.GetLastWriteTimeUtc(full),
-						FilePath = full
-					});
-				}
+					Name = Path.GetFileNameWithoutExtension(full),
+					CreatorName = Path.GetDirectoryName(full) ?? "",
+					Updated = File.GetLastWriteTimeUtc(full),
+					FilePath = full
+				});
 			}
-		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Security.SecurityException)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Local files read failed: " + ex.Message);
 		}
 		return list.OrderByDescending(p => p.Updated).ToList();
 	}
 
+	private sealed record StudioHistoryKey(string Name, Dictionary<string, string> Values, string? Prefix);
+
+	private static List<StudioHistoryKey> ReadStudioKeys(Func<string, bool> filter)
+	{
+		List<StudioHistoryKey> keys = [];
+		try
+		{
+			if (OperatingSystem.IsWindows())
+			{
+				using RegistryKey? root = Registry.CurrentUser.OpenSubKey(StudioKey);
+				if (root == null)
+					return keys;
+				foreach (string subName in root.GetSubKeyNames().Where(filter))
+				{
+					using RegistryKey? sub = root.OpenSubKey(subName);
+					if (sub == null)
+						continue;
+					Dictionary<string, string> values = new(StringComparer.Ordinal);
+					foreach (string valueName in sub.GetValueNames())
+					{
+						if (sub.GetValue(valueName) is string value)
+							values[valueName] = value;
+					}
+					keys.Add(new StudioHistoryKey(subName, values, null));
+				}
+			}
+			else if (OperatingSystem.IsLinux())
+			{
+				foreach (string prefix in VinegarPrefixes())
+					keys.AddRange(ReadWineStudioKeys(prefix, filter));
+			}
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Security.SecurityException)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "Studio history read failed: " + ex.Message);
+		}
+		return keys;
+	}
+
+	private static IEnumerable<string> VinegarPrefixes()
+	{
+		string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+		string? dataHome = Environment.GetEnvironmentVariable("XDG_DATA_HOME");
+		string[] roots =
+		[
+			Path.Combine(home, ".var", "app", "org.vinegarhq.Vinegar", "data", "vinegar", "prefixes"),
+			Path.Combine(string.IsNullOrWhiteSpace(dataHome) ? Path.Combine(home, ".local", "share") : dataHome, "vinegar", "prefixes")
+		];
+		foreach (string root in roots.Distinct(StringComparer.Ordinal))
+		{
+			if (!Directory.Exists(root))
+				continue;
+			foreach (string prefix in Directory.EnumerateDirectories(root))
+			{
+				if (File.Exists(Path.Combine(prefix, "user.reg")))
+					yield return prefix;
+			}
+		}
+	}
+
+	private static List<StudioHistoryKey> ReadWineStudioKeys(string prefix, Func<string, bool> filter)
+	{
+		const string rootName = "Software\\Roblox\\RobloxStudio\\";
+		List<StudioHistoryKey> keys = [];
+		Dictionary<string, string>? current = null;
+		foreach (string raw in File.ReadLines(Path.Combine(prefix, "user.reg")))
+		{
+			string line = raw.Trim();
+			if (line.StartsWith('['))
+			{
+				current = null;
+				int close = line.IndexOf(']');
+				if (close < 1)
+					continue;
+				string name = UnescapeWine(line[1..close]);
+				if (!name.StartsWith(rootName, StringComparison.OrdinalIgnoreCase))
+					continue;
+				string subName = name[rootName.Length..];
+				if (subName.Contains('\\') || !filter(subName))
+					continue;
+				current = new Dictionary<string, string>(StringComparer.Ordinal);
+				keys.Add(new StudioHistoryKey(subName, current, prefix));
+				continue;
+			}
+			if (current == null || !line.StartsWith('"'))
+				continue;
+			int split = line.IndexOf("\"=\"", StringComparison.Ordinal);
+			if (split < 1 || !line.EndsWith('"'))
+				continue;
+			current[UnescapeWine(line[1..split])] = UnescapeWine(line[(split + 3)..^1]);
+		}
+		return keys;
+	}
+
+	private static string UnescapeWine(string value)
+	{
+		return value.Replace("\\\\", "\u0001", StringComparison.Ordinal)
+			.Replace("\\\"", "\"", StringComparison.Ordinal)
+			.Replace("\u0001", "\\", StringComparison.Ordinal);
+	}
+
+	private static string? ToLocalPath(string path, string? prefix)
+	{
+		if (prefix == null)
+			return path.Replace('/', Path.DirectorySeparatorChar);
+		string windows = path.Replace('/', '\\');
+		if (windows.Length < 3 || windows[1] != ':' || windows[2] != '\\')
+			return null;
+		string drive = Path.Combine(prefix, "dosdevices", char.ToLowerInvariant(windows[0]) + ":");
+		return Path.Combine(drive, windows[3..].Replace('\\', '/'));
+	}
+
 	public static void Open(StudioProject project)
 	{
+		if (OperatingSystem.IsLinux() && project.FilePath is string localFile)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "Opening a local file in Vinegar: " + project.Name);
+			if (!Voidstrap.Platform.Linux.LinuxVinegarStudioRuntimeProvider.TryOpenFile(localFile, out string error))
+				Frontend.ShowMessageBox("Studio could not open this file through Vinegar: " + error, System.Windows.MessageBoxImage.Warning);
+			return;
+		}
 		string target = project.FilePath ?? project.StudioUri;
 		App.Logger.WriteLine(LOG_IDENT, "Opening in Studio: " + (project.IsLocalFile ? project.Name : project.PlaceId.ToString(CultureInfo.InvariantCulture)));
 		Launch("-studio \"" + target + "\"");
@@ -136,31 +240,16 @@ public static class StudioProjects
 	private static List<long> ReadRecentUniverseIds(long? userId)
 	{
 		List<long> ids = [];
-		if (!OperatingSystem.IsWindows())
-			return ids;
-		try
+		List<StudioHistoryKey> keys = ReadStudioKeys(n => n.StartsWith("rbxRecentRobloxApiGames_v02_", StringComparison.Ordinal));
+		if (userId is long id && keys.Any(k => k.Name == "rbxRecentRobloxApiGames_v02_" + id))
+			keys = keys.Where(k => k.Name == "rbxRecentRobloxApiGames_v02_" + id).ToList();
+		foreach (StudioHistoryKey key in keys)
 		{
-			using RegistryKey? root = Registry.CurrentUser.OpenSubKey(StudioKey);
-			if (root == null)
-				return ids;
-			IEnumerable<string> keys = root.GetSubKeyNames().Where(n => n.StartsWith("rbxRecentRobloxApiGames_v02_", StringComparison.Ordinal));
-			if (userId is long id && keys.Contains("rbxRecentRobloxApiGames_v02_" + id))
-				keys = ["rbxRecentRobloxApiGames_v02_" + id];
-			foreach (string subName in keys.ToList())
+			for (int i = 0; key.Values.TryGetValue("d" + i + "gameId", out string? raw); i++)
 			{
-				using RegistryKey? sub = root.OpenSubKey(subName);
-				if (sub == null)
-					continue;
-				for (int i = 0; sub.GetValue("d" + i + "gameId") is string raw; i++)
-				{
-					if (long.TryParse(raw, NumberStyles.Integer, CultureInfo.InvariantCulture, out long universeId) && !ids.Contains(universeId))
-						ids.Add(universeId);
-				}
+				if (long.TryParse(raw, NumberStyles.Integer, CultureInfo.InvariantCulture, out long universeId) && !ids.Contains(universeId))
+					ids.Add(universeId);
 			}
-		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Security.SecurityException)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Recent games read failed: " + ex.Message);
 		}
 		return ids;
 	}

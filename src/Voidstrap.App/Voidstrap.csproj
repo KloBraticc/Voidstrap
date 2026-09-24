@@ -37,6 +37,7 @@
 		<SelfContained>false</SelfContained>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+		<IncludeAllContentForSelfExtract>false</IncludeAllContentForSelfExtract>
 
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
 		<InvariantGlobalization>false</InvariantGlobalization>

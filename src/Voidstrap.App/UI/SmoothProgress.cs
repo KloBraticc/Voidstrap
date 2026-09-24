@@ -64,6 +64,7 @@ internal static class SmoothProgress
 		bar.SetValue(StateProperty, state);
 		bar.ValueChanged += OnValueChanged;
 		bar.IsVisibleChanged += OnIsVisibleChanged;
+		bar.Unloaded += OnUnloaded;
 		HookIndeterminate(bar, state);
 		return state;
 	}
@@ -182,9 +183,23 @@ internal static class SmoothProgress
 		return transform;
 	}
 
+	private static void OnUnloaded(object sender, RoutedEventArgs e)
+	{
+		if (sender is not ProgressBar bar || bar.GetValue(StateProperty) is not BarState state)
+		{
+			return;
+		}
+		StopMarquee(bar);
+		UnhookIndeterminate(bar, state);
+		bar.ValueChanged -= OnValueChanged;
+		bar.IsVisibleChanged -= OnIsVisibleChanged;
+		bar.Unloaded -= OnUnloaded;
+		bar.ClearValue(StateProperty);
+	}
+
 	private static void StartMarquee(ProgressBar bar, BarState state)
 	{
-		if (!bar.IsIndeterminate)
+		if (!bar.IsIndeterminate || !bar.IsVisible || !bar.IsLoaded)
 		{
 			StopMarquee(bar);
 			state.MarqueeWidth = -1.0;

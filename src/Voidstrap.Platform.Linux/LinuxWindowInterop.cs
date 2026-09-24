@@ -1303,6 +1303,72 @@ public static partial class LinuxWindowInterop
 		return current;
 	}
 
+	public static bool TrySetWindowOpacity(nint window, double opacity)
+	{
+		nint display = Display;
+		if (display == 0 || window == 0)
+			return false;
+
+		try
+		{
+			nint atom = XInternAtom(display, "_NET_WM_WINDOW_OPACITY", false);
+			if (atom == 0)
+				return false;
+
+			if (opacity >= 1.0)
+			{
+				_ = XDeleteProperty(display, window, atom);
+			}
+			else
+			{
+				nint cardinal = XInternAtom(display, "CARDINAL", false);
+				nint value = (nint)(uint)Math.Round(Math.Clamp(opacity, 0.0, 1.0) * uint.MaxValue);
+				XChangeProperty(display, window, atom, cardinal, 32, 0, [value], 1);
+			}
+
+			_ = XFlush(display);
+			return true;
+		}
+		catch (DllNotFoundException)
+		{
+			return false;
+		}
+		catch (EntryPointNotFoundException)
+		{
+			return false;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	public static bool TrySetWindowBackground(nint window, uint rgb)
+	{
+		nint display = Display;
+		if (display == 0 || window == 0)
+			return false;
+
+		try
+		{
+			_ = XSetWindowBackground(display, window, (nuint)(rgb & 0xFFFFFF));
+			_ = XFlush(display);
+			return true;
+		}
+		catch (DllNotFoundException)
+		{
+			return false;
+		}
+		catch (EntryPointNotFoundException)
+		{
+			return false;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
 	public static bool TrySetUndecorated(nint window)
 	{
 		nint display = Display;
@@ -2304,6 +2370,9 @@ public static partial class LinuxWindowInterop
 				if (!string.IsNullOrWhiteSpace(windowClass) && !MatchesWindowClass(display, window, windowClass))
 					continue;
 
+				if (IsOverrideRedirectWindow(window))
+					continue;
+
 				if (HasWindowState(display, window, state, skipTaskbar) == hidden)
 					continue;
 
@@ -3015,6 +3084,9 @@ public static partial class LinuxWindowInterop
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XDeleteProperty(nint display, nint window, nint property);
+
+	[LibraryImport("libX11.so.6")]
+	private static partial int XSetWindowBackground(nint display, nint window, nuint pixel);
 
 	private const int MonitorInfoSize = 56;
 

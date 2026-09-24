@@ -251,9 +251,14 @@ public partial class App : Application
 
 	private static int _linuxRendererChecks;
 
+	private static int _linuxRendererActiveTicks;
+
+	private const int LinuxRendererSettleTicks = 8;
+
 	private static void OnLinuxRendererTimerTick(object? sender, EventArgs e)
 	{
-		if (Voidstrap.Utility.LinuxStartup.MarkRendererHealthy(requireRenderer: true))
+		_linuxRendererActiveTicks = Voidstrap.Utility.LinuxStartup.IsRendererActive() ? _linuxRendererActiveTicks + 1 : 0;
+		if (_linuxRendererActiveTicks >= LinuxRendererSettleTicks && Voidstrap.Utility.LinuxStartup.MarkRendererHealthy(requireRenderer: true))
 		{
 			Volatile.Write(ref _linuxRendererConfirmed, 1);
 			StopLinuxRendererTimer();
@@ -342,6 +347,11 @@ public partial class App : Application
 		Exception ex = UnwrapException(e.Exception);
 		if (Dispatcher.HasShutdownStarted && ex is System.ComponentModel.Win32Exception { NativeErrorCode: 1400 })
 		{
+			return;
+		}
+		if (Voidstrap.Utility.RenderAcceleration.TryRecoverFromRenderFailure(ex))
+		{
+			Logger.WriteException("App::GlobalExceptionHandler", ex);
 			return;
 		}
 		Logger.WriteLine("App::GlobalExceptionHandler", "An exception occurred");
@@ -459,6 +469,7 @@ public partial class App : Application
 			if (e.ExceptionObject is Exception ex)
 			{
 				Logger.WriteException("App::DomainUnhandledException", ex);
+				Voidstrap.Utility.RenderAcceleration.TryRecoverFromRenderFailure(ex);
 				if (e.IsTerminating)
 				{
 					Voidstrap.Utility.AppNotifications.RecordCrash("App::DomainUnhandledException", ex);
@@ -743,6 +754,9 @@ public partial class App : Application
 
 	private async Task StartAsync(string[] args)
 	{
+		TryStartup("Shared GPU device", Voidstrap.UI.LinuxSharedGpuDevice.Install);
+		TryStartup("Subpixel text", Voidstrap.UI.LinuxSubpixelText.Install);
+		TryStartup("Font catalog order", Voidstrap.UI.LinuxFontCatalog.Install);
 		TryStartup("Focus style", DisableFocusVisuals);
 		TryStartup("Portable popups", EmbedPortablePopups);
 		TryStartup("Portable tooltips", DisablePortableToolTips);
@@ -760,6 +774,8 @@ public partial class App : Application
 		{
 			base.Exit += OnLinuxExitMarkRenderer;
 			Voidstrap.Utility.LinuxStartup.BeginRendererProbe();
+			if (Voidstrap.Utility.LinuxStartup.SafeMode)
+				Logger.WriteLine("App::OnStartup", "Safe mode is on after an unstable launch, subpixel text, the shared GPU device and hidden window reveal are off");
 			EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnLinuxWindowLoaded));
 		}
 
@@ -1399,6 +1415,10 @@ public partial class App : Application
 				EventManager.RegisterClassHandler(typeof(System.Windows.Controls.Image), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyLinuxImageScaling));
 			});
 		}
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			TryStartup("Smooth font edges", () => EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplySmoothFontEdges)));
+		}
 		if (Settings.Prop.ClearFont)
 		{
 			TryStartup("Clear font", () => EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyClearFont)));
@@ -1421,6 +1441,21 @@ public partial class App : Application
 		if (sender is Window window)
 		{
 			Wpf.Ui.Animations.RenderReady.Warm(window);
+		}
+	}
+
+	private static void ApplySmoothFontEdges(object sender, RoutedEventArgs e)
+	{
+		if (sender is not Window window)
+			return;
+		try
+		{
+			TextOptions.SetTextRenderingMode(window, TextRenderingMode.ClearType);
+			RenderOptions.SetClearTypeHint(window, ClearTypeHint.Enabled);
+		}
+		catch (Exception ex)
+		{
+			Logger.WriteLine("App::ApplySmoothFontEdges", "Smooth font edges could not be applied: " + ex.Message);
 		}
 	}
 

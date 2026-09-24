@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using Voidstrap.Integrations.Overlays;
 using Voidstrap.UI.Elements.Crosshair;
@@ -9,6 +10,8 @@ namespace Voidstrap.UI;
 
 internal static class LinuxDialogOwnership
 {
+	private static readonly List<Window> OpenDialogs = [];
+
 	public static void Adopt(Window window)
 	{
 		if (!Voidstrap.Utility.Platform.IsLinux || window.Owner is not null || IsStandalone(window))
@@ -33,11 +36,26 @@ internal static class LinuxDialogOwnership
 	public static bool? ShowOwnedDialog(this Window window)
 	{
 		Adopt(window);
-		return window.ShowDialog();
+		OpenDialogs.Add(window);
+		try
+		{
+			return window.ShowDialog();
+		}
+		finally
+		{
+			OpenDialogs.Remove(window);
+		}
 	}
 
 	private static Window? ResolveOwner(Window window)
 	{
+		for (int index = OpenDialogs.Count - 1; index >= 0; index--)
+		{
+			Window dialog = OpenDialogs[index];
+			if (!ReferenceEquals(dialog, window) && dialog.IsVisible)
+				return dialog;
+		}
+
 		Window? fallback = null;
 
 		foreach (Window candidate in Application.Current.Windows)

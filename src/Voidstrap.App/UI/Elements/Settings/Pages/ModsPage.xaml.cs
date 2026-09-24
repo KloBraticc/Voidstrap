@@ -127,6 +127,11 @@ public partial class ModsPage : UiPage{
 		}
 		App.Settings.Prop.ModPacksNoticeShown = true;
 		App.Settings.Save();
+		_ = Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.ApplicationIdle, new Action(ShowModPacksNotice));
+	}
+
+	private static void ShowModPacksNotice()
+	{
 		Frontend.ShowMessageBox(
 			"I don't vouch for any mod packs here, and neither does my team. If any bad mod packs show up here, there isn't much we can do about it.\n\nMy team and I have tried our best to limit the amount of bad content here.",
 			MessageBoxImage.Information);

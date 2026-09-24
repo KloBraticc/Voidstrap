@@ -1027,6 +1027,29 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		}
 	}
 
+	public static string? GetInstalledRobloxVersion()
+	{
+		try
+		{
+			string state = Path.Combine(SoberDataDirectory, "state");
+			if (!File.Exists(state))
+				return null;
+			using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(File.ReadAllText(state));
+			return document.RootElement.ValueKind == System.Text.Json.JsonValueKind.Object
+				&& document.RootElement.TryGetProperty("v1", out System.Text.Json.JsonElement v1)
+				&& v1.ValueKind == System.Text.Json.JsonValueKind.Object
+				&& v1.TryGetProperty("app_version", out System.Text.Json.JsonElement version)
+				&& version.ValueKind == System.Text.Json.JsonValueKind.String
+				&& !string.IsNullOrWhiteSpace(version.GetString())
+				? version.GetString()
+				: null;
+		}
+		catch (Exception)
+		{
+			return null;
+		}
+	}
+
 	private static long DownloadedRobloxBytes()
 	{
 		try
@@ -1553,7 +1576,10 @@ public sealed partial class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimePr
 		}
 
 		bool native = string.Equals(installation.Provider, "Vinegar Native", StringComparison.Ordinal);
-		IReadOnlyList<string> arguments = native ? [deeplink.AbsoluteUri] : ["run", VinegarApplicationId, deeplink.AbsoluteUri];
+		bool bareLaunch = string.Equals(deeplink.AbsoluteUri.TrimEnd('/'), "roblox-studio://launch", StringComparison.OrdinalIgnoreCase);
+		IReadOnlyList<string> arguments = bareLaunch
+			? (native ? [] : ["run", VinegarApplicationId])
+			: (native ? [deeplink.AbsoluteUri] : ["run", VinegarApplicationId, deeplink.AbsoluteUri]);
 		ProcessCommand launchCommand;
 		if (native)
 		{
@@ -1593,6 +1619,58 @@ public sealed partial class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimePr
 			location,
 			dataDirectory,
 			new CapabilityDescriptor(FeatureId.RobloxStudio, CapabilityState.Experimental, "Vinegar is available", null, true));
+	}
+
+	public static string ToWinePath(string path)
+	{
+		return "Z:" + Path.GetFullPath(path).Replace('/', '\\');
+	}
+
+	public static bool TryOpenFile(string path, out string error)
+	{
+		error = string.Empty;
+		try
+		{
+			if (!File.Exists(path))
+			{
+				error = "The Studio file no longer exists";
+				return false;
+			}
+
+			string full = Path.GetFullPath(path);
+			string winePath = ToWinePath(full);
+			string? native = new SystemProcessService().FindExecutable("vinegar");
+			System.Diagnostics.Process? process;
+			if (native is not null && !LinuxFlatpakHost.IsSandboxed)
+			{
+				System.Diagnostics.ProcessStartInfo startInfo = new(native)
+				{
+					UseShellExecute = false,
+					CreateNoWindow = true
+				};
+				startInfo.ArgumentList.Add(winePath);
+				process = System.Diagnostics.Process.Start(startInfo);
+			}
+			else
+			{
+				string folder = Path.GetDirectoryName(full) ?? full;
+				process = LinuxFlatpakHost.Start(["run", "--filesystem=" + folder, VinegarApplicationId, winePath]);
+			}
+
+			if (process is null)
+			{
+				error = "Vinegar is not installed";
+				return false;
+			}
+
+			process.Dispose();
+			return true;
+		}
+		catch (Exception ex)
+		{
+			error = ex.Message;
+			return false;
+		}
 	}
 
 	private static RuntimeInstallation MissingInstallation(string reason)

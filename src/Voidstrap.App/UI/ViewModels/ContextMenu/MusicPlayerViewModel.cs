@@ -1267,6 +1267,9 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
 
     private static BitmapSource? ExtractFileIcon(string path)
     {
+        if (!OperatingSystem.IsWindows())
+            return null;
+
         try
         {
             using Icon? icon = Icon.ExtractAssociatedIcon(path);

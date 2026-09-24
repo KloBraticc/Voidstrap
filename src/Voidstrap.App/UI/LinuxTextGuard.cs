@@ -203,6 +203,8 @@ public static class LinuxTextGuard
 			return;
 		}
 
+		RemoveUndrawableCharacters(block);
+
 		FlowState state = FlowStates.GetValue(block, static _ => new FlowState());
 		Initialize(block, state);
 		Window? owner = FindTextOwner(block);
@@ -251,6 +253,7 @@ public static class LinuxTextGuard
 	{
 		if (sender is TextBlock block)
 		{
+			RemoveUndrawableCharacters(block);
 			FlowState state = FlowStates.GetValue(block, static _ => new FlowState());
 			Initialize(block, state);
 			if (state.OwnsFontSize && Math.Abs(block.FontSize - state.AppliedFontSize) > Tolerance)
@@ -266,6 +269,80 @@ public static class LinuxTextGuard
 
 			QueueCorrection(block);
 		}
+	}
+
+	private static void RemoveUndrawableCharacters(TextBlock block)
+	{
+		InlineCollection inlines = block.Inlines;
+		if (inlines.Count <= 1 && inlines.FirstInline is null or Run)
+		{
+			string text = block.Text;
+			string drawable = ToDrawableText(text, block.FontFamily, block.FontStyle, block.FontWeight, block.FontStretch);
+			if (!ReferenceEquals(text, drawable))
+				block.SetCurrentValue(TextBlock.TextProperty, drawable);
+			return;
+		}
+
+		foreach (Inline inline in inlines)
+			RemoveUndrawableCharacters(inline);
+	}
+
+	private static void RemoveUndrawableCharacters(Inline inline)
+	{
+		switch (inline)
+		{
+			case Run run:
+				string text = run.Text;
+				string drawable = ToDrawableText(text, run.FontFamily, run.FontStyle, run.FontWeight, run.FontStretch);
+				if (!ReferenceEquals(text, drawable))
+					run.SetCurrentValue(Run.TextProperty, drawable);
+				break;
+			case Span span:
+				foreach (Inline child in span.Inlines)
+					RemoveUndrawableCharacters(child);
+				break;
+		}
+	}
+
+	private static string ToDrawableText(string text, System.Windows.Media.FontFamily family, FontStyle style, FontWeight weight, FontStretch stretch)
+	{
+		if (string.IsNullOrEmpty(text) || text.AsSpan().IndexOfAnyExceptInRange('\u0000', '\u024F') < 0)
+			return text;
+
+		if (!new Typeface(family, style, weight, stretch).TryGetGlyphTypeface(out GlyphTypeface glyphs))
+			return text;
+
+		IDictionary<int, ushort> map = glyphs.CharacterToGlyphMap;
+		System.Text.StringBuilder? builder = null;
+		int index = 0;
+		while (index < text.Length)
+		{
+			int length = char.IsHighSurrogate(text[index]) && index + 1 < text.Length && char.IsLowSurrogate(text[index + 1]) ? 2 : 1;
+			int codePoint = length == 2 ? char.ConvertToUtf32(text[index], text[index + 1]) : text[index];
+			bool drawable = !IsSymbolOrEmoji(codePoint) || (!char.IsSurrogate((char)codePoint) || codePoint > 0xFFFF) && map.ContainsKey(codePoint);
+			if (drawable)
+				builder?.Append(text, index, length);
+			else
+				builder ??= new System.Text.StringBuilder(text.Length).Append(text, 0, index);
+			index += length;
+		}
+
+		return builder?.ToString() ?? text;
+	}
+
+	internal static string ToDrawableText(TextBlock block, string text)
+	{
+		return ToDrawableText(text, block.FontFamily, block.FontStyle, block.FontWeight, block.FontStretch);
+	}
+
+	private static bool IsSymbolOrEmoji(int codePoint)
+	{
+		return codePoint is >= 0x2190 and <= 0x2BFF
+			or 0x200D
+			or >= 0xFE00 and <= 0xFE0F
+			or >= 0x1F000 and <= 0x1FAFF
+			or >= 0xE0020 and <= 0xE007F
+			|| char.IsSurrogate((char)codePoint) && codePoint <= 0xFFFF;
 	}
 
 	private static void Initialize(TextBlock block, FlowState state)
@@ -645,6 +722,7 @@ public static class LinuxTextGuard
 
 	private static void Correct(TextBlock block, FlowState state, bool ownerAttached = false)
 	{
+		RemoveUndrawableCharacters(block);
 		if (!ownerAttached && !CanCorrect(block, state))
 		{
 			return;
@@ -740,6 +818,9 @@ public static class LinuxTextGuard
 
 	private static bool IsCompactOwner(DependencyObject element)
 	{
+		if (element is Wpf.Ui.Controls.CardControl or Wpf.Ui.Controls.CardAction or TabControl)
+			return false;
+
 		return element is ButtonBase
 			or System.Windows.Controls.Primitives.Selector
 			or ComboBoxItem
@@ -826,7 +907,7 @@ public static class LinuxTextGuard
 			return;
 		}
 
-		double target = Math.Max(MinimumLimit, limit - WrapSafety);
+		double target = Math.Max(MinimumLimit, limit - Math.Max(WrapSafety, limit * 0.02));
 		if (HasFiniteWidth(state.OriginalMaxWidth))
 		{
 			target = Math.Min(target, state.OriginalMaxWidth);
