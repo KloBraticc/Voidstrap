@@ -1592,6 +1592,7 @@ public partial class App : Application
 			await Task.Delay(TimeSpan.FromMinutes(1), cancellationToken).ConfigureAwait(false);
 			Installer.CleanupStaleBundleExtractions();
 			Installer.CleanupUpdateBackups();
+			Installer.CleanupOldHelpers();
 		}
 		catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
 		{

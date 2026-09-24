@@ -29,7 +29,6 @@ internal partial class Installer
 		public string Target { get; set; } = "";
 		public bool DeleteDirectory { get; set; }
 		public string MarkerName { get; set; } = "";
-		public string Token { get; set; } = "";
 	}
 
 	private const bool OpenReleaseNotes = false;
@@ -685,10 +684,8 @@ internal partial class Installer
 			if (!IsOwnedInstallRoot(root) || (!deleteDirectory && !string.Equals(fullTarget, Path.Combine(root, Path.GetFileName(Paths.Application)), StringComparison.OrdinalIgnoreCase)))
 				throw new InvalidOperationException("The deferred cleanup target is not an owned install path");
 
-			string token = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
 			string markerName = ".Voidstrap.cleanup." + Guid.NewGuid().ToString("N");
 			string markerPath = Path.Combine(root, markerName);
-			File.WriteAllText(markerPath, token, new UTF8Encoding(false));
 			using Process current = Process.GetCurrentProcess();
 			var payload = new DeferredCleanupPayload
 			{
@@ -696,25 +693,22 @@ internal partial class Installer
 				ProcessStartTicks = current.StartTime.ToUniversalTime().Ticks,
 				Target = fullTarget,
 				DeleteDirectory = deleteDirectory,
-				MarkerName = markerName,
-				Token = token
+				MarkerName = markerName
 			};
-			string encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(payload)));
-			string helperDirectory = Path.Combine(Path.GetTempPath(), "VoidstrapCleanup");
+			File.WriteAllText(markerPath, JsonSerializer.Serialize(payload), new UTF8Encoding(false));
+			CleanupOldHelpers();
+			string helperDirectory = Path.Combine(CleanupHelperRoot, Guid.NewGuid().ToString("N"));
 			Directory.CreateDirectory(helperDirectory);
-			CleanupOldHelpers(helperDirectory);
-			string helperPath = Path.Combine(helperDirectory, "VoidstrapCleanup." + Guid.NewGuid().ToString("N") + Path.GetExtension(Paths.Process));
+			string helperPath = Path.Combine(helperDirectory, Path.GetFileName(Paths.Application));
 			File.Copy(Paths.Process, helperPath, false);
 			InstallRecord.MakeExecutable(helperPath);
 			var start = new ProcessStartInfo
 			{
 				FileName = helperPath,
-				CreateNoWindow = true,
-				UseShellExecute = false,
-				WindowStyle = ProcessWindowStyle.Hidden
+				UseShellExecute = false
 			};
 			start.ArgumentList.Add("-deferredcleanup");
-			start.ArgumentList.Add(encoded);
+			start.ArgumentList.Add(markerPath);
 			using Process? helper = Process.Start(start);
 			if (helper == null)
 				throw new InvalidOperationException("The deferred cleanup helper did not start");
@@ -726,23 +720,25 @@ internal partial class Installer
 		}
 	}
 
-	internal static async Task RunDeferredCleanupAsync(string? encodedPayload)
+	internal static async Task RunDeferredCleanupAsync(string? markerArgument)
 	{
-		if (string.IsNullOrWhiteSpace(encodedPayload) || encodedPayload.Length > 32768)
+		if (string.IsNullOrWhiteSpace(markerArgument) || markerArgument.Length > 4096)
 			return;
 		DeferredCleanupPayload? payload;
 		try
 		{
-			byte[] serialized = Convert.FromBase64String(encodedPayload);
-			if (serialized.Length > 16384)
+			FileInfo marker = new(Path.GetFullPath(markerArgument));
+			if (!marker.Exists || marker.Length > 16384 || !marker.Name.StartsWith(".Voidstrap.cleanup.", StringComparison.Ordinal))
 				return;
-			payload = JsonSerializer.Deserialize<DeferredCleanupPayload>(serialized);
+			payload = JsonSerializer.Deserialize<DeferredCleanupPayload>(File.ReadAllBytes(marker.FullName));
+			if (payload == null || !string.Equals(payload.MarkerName, marker.Name, StringComparison.Ordinal))
+				return;
 		}
 		catch
 		{
 			return;
 		}
-		if (payload == null || payload.ProcessId <= 0 || payload.ProcessStartTicks <= 0 || payload.Token.Length != 64 || !payload.Token.All(Uri.IsHexDigit))
+		if (payload.ProcessId <= 0 || payload.ProcessStartTicks <= 0)
 			return;
 
 		string fullTarget;
@@ -761,7 +757,7 @@ internal partial class Installer
 					return;
 			}
 			markerPath = Path.Combine(root, payload.MarkerName);
-			if (!File.Exists(markerPath) || !CryptographicOperations.FixedTimeEquals(Encoding.UTF8.GetBytes(File.ReadAllText(markerPath)), Encoding.UTF8.GetBytes(payload.Token)))
+			if (!string.Equals(Path.GetFullPath(markerPath), Path.GetFullPath(markerArgument), StringComparison.OrdinalIgnoreCase))
 				return;
 		}
 		catch
@@ -793,7 +789,7 @@ internal partial class Installer
 		{
 			try
 			{
-				if (!File.Exists(markerPath) || File.ReadAllText(markerPath) != payload.Token)
+				if (!File.Exists(markerPath))
 					return;
 				if (payload.DeleteDirectory)
 				{
@@ -832,14 +828,23 @@ internal partial class Installer
 		return File.Exists(Path.Combine(fullRoot, "Voidstrap.exe")) || File.Exists(Path.Combine(fullRoot, "Voidstrap"));
 	}
 
-	private static void CleanupOldHelpers(string directory)
+	private static string CleanupHelperRoot => Path.Combine(Path.GetTempPath(), "VoidstrapCleanup");
+
+	internal static void CleanupOldHelpers()
 	{
-		foreach (string file in Directory.EnumerateFiles(directory, "VoidstrapCleanup.*"))
+		string root = CleanupHelperRoot;
+		if (!Directory.Exists(root))
+			return;
+		foreach (string entry in Directory.EnumerateFileSystemEntries(root))
 		{
 			try
 			{
-				if (DateTime.UtcNow - File.GetLastWriteTimeUtc(file) > TimeSpan.FromDays(1))
-					File.Delete(file);
+				if (DateTime.UtcNow - Directory.GetLastWriteTimeUtc(entry) < TimeSpan.FromHours(1))
+					continue;
+				if (Directory.Exists(entry))
+					Directory.Delete(entry, true);
+				else
+					File.Delete(entry);
 			}
 			catch
 			{
@@ -947,21 +952,16 @@ internal partial class Installer
 
 	private static void TryRemoveCleanupHelper()
 	{
+		if (Voidstrap.Utility.Platform.IsWindows)
+			return;
 		try
 		{
-			if (Voidstrap.Utility.Platform.IsWindows)
-				MoveFileEx(Paths.Process, null, 4);
-			else
-				File.Delete(Paths.Process);
+			File.Delete(Paths.Process);
 		}
 		catch
 		{
 		}
 	}
-
-	[LibraryImport("kernel32.dll", EntryPoint = "MoveFileExW", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
-	[return: MarshalAs(UnmanagedType.Bool)]
-	private static partial bool MoveFileEx(string existingFileName, string? newFileName, uint flags);
 
 
 	public static async Task HandleUpgradeAsync()
