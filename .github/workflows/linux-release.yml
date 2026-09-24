@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   packages:
+    if: vars.VOIDSTRAP_RELEASE_LINUX == 'true'
     runs-on: ubuntu-latest
     env:
       RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
