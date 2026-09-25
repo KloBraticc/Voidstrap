@@ -16,12 +16,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 final class UpdateSource {
     static final String ACTION_STATUS = "com.voidstrap.android.UPDATE_STATUS";
     private static final String DIR = "updates";
     private static final String PENDING_LOCAL = "pendingLocalUpdate";
+    private static final String PERMISSION_PROMPTED = "updateInstallPermissionPrompted";
     private static final long MAX_LOCAL_BYTES = 256L * 1024 * 1024;
     private static final int REQUEST = 8412;
     private static boolean localBusy;
@@ -48,6 +50,7 @@ final class UpdateSource {
                 "installed", Updater.installedCode(),
                 "prerelease", false));
         ModLog.add("update check: " + r.optInt("seen") + " releases, newest tag " + r.optString("newestTag", "none") + ", " + r.optString("reason", ""));
+        if (r.optBoolean("failed")) throw new IOException(app.getString(R.string.update_error_check));
         if (!r.optBoolean("found")) return null;
         JSONObject release = r.optJSONObject("release");
         return release == null ? null : new Updater.Release(release);
@@ -60,9 +63,31 @@ final class UpdateSource {
 
     static void askForPermission(AppCompatActivity a) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
-        Intent i = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + a.getPackageName()));
         try {
-            a.startActivity(i);
+            Ui.alert(a)
+                    .setTitle(R.string.update_permission_title)
+                    .setMessage(R.string.update_permission_body)
+                    .setPositiveButton(R.string.update_open_permission, (dialog, which) -> openPermissionSettings(a))
+                    .setNegativeButton(R.string.common_cancel, null)
+                    .show();
+        } catch (RuntimeException e) {
+            Crash.report("install permission", e);
+            Ui.say(a, R.string.update_permission_failed);
+        }
+    }
+
+    private static void openPermissionSettings(AppCompatActivity a) {
+        Uri packageUri = Uri.parse("package:" + a.getPackageName());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            try {
+                a.startActivity(new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageUri));
+                return;
+            } catch (RuntimeException e) {
+                Crash.report("install permission", e);
+            }
+        }
+        try {
+            a.startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageUri));
         } catch (RuntimeException e) {
             Crash.report("install permission", e);
             Ui.say(a, R.string.update_permission_failed);
@@ -71,19 +96,13 @@ final class UpdateSource {
 
     static File staged(Context c, Updater.Release r) {
         File dir = new File(c.getCacheDir(), DIR);
-        return new File(dir, "voidstrap-" + r.version + ".apk");
+        return new File(dir, "voidstrap-" + r.code + ".apk");
     }
 
-    static void start(AppCompatActivity a, Updater.Release r, Runnable done) {
+    static void start(AppCompatActivity a, Updater.Release r, Runnable done, boolean automatic) {
         Context app = a.getApplicationContext();
         Store store = Store.get(app);
-        if (!canInstall(a)) {
-            done.run();
-            Updater.report(Updater.State.AVAILABLE, a.getString(R.string.update_needs_permission));
-            Updater.changed(app);
-            askForPermission(a);
-            return;
-        }
+        WeakReference<AppCompatActivity> activity = new WeakReference<>(a);
         Updater.report(Updater.State.DOWNLOADING, "");
         Updater.setProgress(0);
         Updater.changed(app);
@@ -91,7 +110,10 @@ final class UpdateSource {
             File apk = staged(app, r);
             String failure = null;
             try {
-                if (!ready(apk, r)) download(app, r, apk);
+                if (!ready(apk, r) || verify(app, apk, r) != null) {
+                    apk.delete();
+                    download(app, r, apk);
+                }
             } catch (IOException | RuntimeException e) {
                 failure = Crash.describe(e);
             }
@@ -101,6 +123,24 @@ final class UpdateSource {
                     done.run();
                     Updater.report(Updater.State.FAILED, message);
                     Updater.changed(app);
+                    return;
+                }
+                AppCompatActivity active = activity.get();
+                if (active == null || active.isFinishing() || active.isDestroyed()
+                        || !active.getLifecycle().getCurrentState().isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                    done.run();
+                    Updater.report(Updater.State.READY, "");
+                    Updater.changed(app);
+                    return;
+                }
+                if (!canInstall(active)) {
+                    done.run();
+                    Updater.report(Updater.State.READY, app.getString(R.string.update_needs_permission));
+                    Updater.changed(app);
+                    if (!automatic || !r.version.equals(store.setting(PERMISSION_PROMPTED, ""))) {
+                        store.putSetting(PERMISSION_PROMPTED, r.version);
+                        askForPermission(active);
+                    }
                     return;
                 }
                 Updater.report(Updater.State.INSTALLING, "");
@@ -120,7 +160,9 @@ final class UpdateSource {
     }
 
     static void resume(AppCompatActivity a) {
-        if (a == null || localBusy || !canInstall(a)) return;
+        if (a == null) return;
+        UpdateInstallReceiver.resume(a);
+        if (localBusy || !canInstall(a)) return;
         Store store = Store.get(a);
         if (!"1".equals(store.setting(PENDING_LOCAL, "0"))) return;
         File apk = local(a);
@@ -280,7 +322,7 @@ final class UpdateSource {
         if (dir == null) return;
         File[] files = dir.listFiles();
         if (files == null) return;
-        for (File f : files) if (!f.getName().equals(keep)) f.delete();
+        for (File f : files) if (f.getName().startsWith("voidstrap-") && !f.getName().equals(keep)) f.delete();
     }
 
     private static String commit(Context app, File apk) {

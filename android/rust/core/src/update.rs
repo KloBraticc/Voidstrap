@@ -95,10 +95,11 @@ pub struct Report {
     pub seen: usize,
     pub newest_tag: String,
     pub reason: &'static str,
+    pub failed: bool,
 }
 
 pub fn newest(client: &Client, flavor: &str, installed: i64, allow_prerelease: bool) -> Report {
-    let mut report = Report { release: None, seen: 0, newest_tag: String::new(), reason: "the releases feed could not be read" };
+    let mut report = Report { release: None, seen: 0, newest_tag: String::new(), reason: "the releases feed could not be read", failed: true };
     let Some(body) = client.get(RELEASES, MAX_BODY) else {
         return report;
     };
@@ -110,6 +111,7 @@ pub fn newest(client: &Client, flavor: &str, installed: i64, allow_prerelease: b
         report.reason = "the releases feed was not a list";
         return report;
     };
+    report.failed = false;
     report.seen = list.len();
     report.reason = "no release is newer than the installed build";
     let mut newer = false;
@@ -178,8 +180,8 @@ pub fn call(op: &str, a: &Value) -> Result<Value, crate::archive::Error> {
             let pre = opt_bool(a, "prerelease", false);
             let report = newest(&client, &flavor, installed, pre);
             match &report.release {
-                Some(r) => json!({"found": true, "release": to_json(r), "seen": report.seen, "newestTag": report.newest_tag, "reason": report.reason}),
-                None => json!({"found": false, "seen": report.seen, "newestTag": report.newest_tag, "reason": report.reason}),
+                Some(r) => json!({"found": true, "release": to_json(r), "seen": report.seen, "newestTag": report.newest_tag, "reason": report.reason, "failed": report.failed}),
+                None => json!({"found": false, "seen": report.seen, "newestTag": report.newest_tag, "reason": report.reason, "failed": report.failed}),
             }
         }
         _ => return Err(crate::archive::Error::Io(format!("unknown op update.{op}"))),

@@ -85,7 +85,7 @@ final class UpdateSource {
         return sb.toString();
     }
 
-    static void start(AppCompatActivity a, Updater.Release r, Runnable done) {
+    static void start(AppCompatActivity a, Updater.Release r, Runnable done, boolean automatic) {
         Context app = a.getApplicationContext();
         Store store = Store.get(app);
         store.work.execute(() -> {

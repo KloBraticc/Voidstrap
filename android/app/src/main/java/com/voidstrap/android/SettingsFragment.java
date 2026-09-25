@@ -305,12 +305,13 @@ public final class SettingsFragment extends Page {
         about.addView(updateRow.view);
         MaterialSwitch auto = new MaterialSwitch(requireContext());
         auto.setChecked(Updater.autoOn(store));
-        auto.setContentDescription(getString(R.string.update_auto));
-        SettingRows.row(about, getString(R.string.update_auto), getString(R.string.update_auto_body), auto).setOnClickListener(x -> auto.toggle());
+        auto.setContentDescription(getString(BuildConfig.DIRECT_UPDATES ? R.string.update_auto_direct : R.string.update_auto));
+        SettingRows.row(about, getString(BuildConfig.DIRECT_UPDATES ? R.string.update_auto_direct : R.string.update_auto),
+                getString(BuildConfig.DIRECT_UPDATES ? R.string.update_auto_direct_body : R.string.update_auto_body), auto).setOnClickListener(x -> auto.toggle());
         auto.setOnCheckedChangeListener((b, on) -> {
             if (Updater.autoOn(store) == on) return;
             Updater.setAuto(requireContext(), on);
-            if (on) Updater.auto(requireContext());
+            if (on) Updater.auto(host());
         });
         bindUpdate();
     }
@@ -319,7 +320,7 @@ public final class SettingsFragment extends Page {
         Updater.State s = Updater.state();
         if (s == Updater.State.CHECKING || s == Updater.State.DOWNLOADING || s == Updater.State.INSTALLING) return;
         if (Updater.available() != null) Updater.start(host());
-        else Updater.check(requireContext(), true);
+        else Updater.check(host(), true);
     }
 
     private void bindUpdate() {
@@ -339,8 +340,8 @@ public final class SettingsFragment extends Page {
             title = getString(R.string.update_installing);
             detail = r == null ? Updater.channel(c) : r.version;
         } else if (s == Updater.State.READY) {
-            title = getString(R.string.update_restart);
-            detail = r == null ? Updater.channel(c) : r.version;
+            title = getString(BuildConfig.DIRECT_UPDATES ? R.string.update_ready_to_install : R.string.update_restart);
+            detail = Updater.problem().isEmpty() ? (r == null ? Updater.channel(c) : r.version) : Updater.problem();
         } else if (r != null) {
             title = getString(R.string.update_ready_title, r.version);
             detail = getString(R.string.update_ready_body, Updater.sizeText(c, r.size), Updater.channel(c));

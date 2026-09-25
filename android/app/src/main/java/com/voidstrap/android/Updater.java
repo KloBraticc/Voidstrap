@@ -4,8 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
 
 import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
 
 public final class Updater {
     public static final String AUTO = "autoUpdate";
@@ -45,6 +48,8 @@ public final class Updater {
     private static volatile String problem = "";
     private static volatile int progress;
     private static volatile boolean busy;
+    private static boolean checkedThisProcess;
+    private static WeakReference<AppCompatActivity> foreground = new WeakReference<>(null);
 
     private Updater() {
     }
@@ -81,6 +86,20 @@ public final class Updater {
         Store.get(c).putSetting(AUTO, on ? null : "0");
     }
 
+    public static void resumed(AppCompatActivity a) {
+        foreground = new WeakReference<>(a);
+    }
+
+    public static void paused(AppCompatActivity a) {
+        if (foreground.get() == a) foreground.clear();
+    }
+
+    static AppCompatActivity foreground() {
+        AppCompatActivity a = foreground.get();
+        return a != null && !a.isFinishing() && !a.isDestroyed()
+                && a.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED) ? a : null;
+    }
+
     public static long installedCode() {
         return BuildConfig.VERSION_CODE;
     }
@@ -102,27 +121,33 @@ public final class Updater {
         Store.get(c).changed();
     }
 
-    public static void auto(Context c) {
-        if (c == null) return;
+    public static void auto(AppCompatActivity a) {
+        if (a == null) return;
         if (UpdateSource.localActive()) return;
-        Context app = c.getApplicationContext();
+        Context app = a.getApplicationContext();
         Store s = Store.get(app);
         if (!autoOn(s)) return;
         if (state == State.CHECKING || state == State.DOWNLOADING || state == State.INSTALLING) return;
+        if (selfInstalls() && available() != null) {
+            if (!found.version.equals(s.setting(SKIPPED, ""))) start(a, true);
+            return;
+        }
         long last = 0;
         try {
             last = Long.parseLong(s.setting(CHECKED_AT, "0"));
         } catch (NumberFormatException ignored) {
         }
         long now = System.currentTimeMillis();
-        if (last > 0 && now - last < AUTO_INTERVAL_MS && now >= last) return;
-        check(app, false);
+        if (checkedThisProcess && last > 0 && now - last < (state == State.FAILED ? 15 * 60 * 1000L : AUTO_INTERVAL_MS) && now >= last) return;
+        check(a, false);
     }
 
-    public static void check(Context c, boolean userAsked) {
-        if (c == null || busy || UpdateSource.localActive()) return;
-        Context app = c.getApplicationContext();
+    public static void check(AppCompatActivity a, boolean userAsked) {
+        if (a == null || busy || UpdateSource.localActive()) return;
+        Context app = a.getApplicationContext();
         Store s = Store.get(app);
+        WeakReference<AppCompatActivity> activity = new WeakReference<>(a);
+        checkedThisProcess = true;
         busy = true;
         report(State.CHECKING, "");
         setProgress(0);
@@ -156,7 +181,11 @@ public final class Updater {
                 found = resultRelease;
                 report(result, text);
                 changed(app);
-                if (result == State.AVAILABLE && !userAsked) announce(app);
+                if (result == State.AVAILABLE && selfInstalls() && autoOn(s) && !resultRelease.version.equals(s.setting(SKIPPED, ""))) {
+                    AppCompatActivity active = activity.get();
+                    if (active != null && !active.isFinishing() && !active.isDestroyed()
+                            && active.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) start(active, true);
+                } else if (result == State.AVAILABLE && !userAsked) announce(app);
             });
         });
     }
@@ -178,10 +207,14 @@ public final class Updater {
     }
 
     public static void start(AppCompatActivity a) {
+        start(a, false);
+    }
+
+    private static void start(AppCompatActivity a, boolean automatic) {
         Release r = found;
         if (a == null || r == null || busy || UpdateSource.localActive()) return;
         busy = true;
-        UpdateSource.start(a, r, () -> busy = false);
+        UpdateSource.start(a, r, () -> busy = false, automatic);
     }
 
     public static void resume(AppCompatActivity a) {

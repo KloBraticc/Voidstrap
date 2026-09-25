@@ -319,6 +319,8 @@
     <string name="update_section">Updates</string>
     <string name="update_auto">Check automatically</string>
     <string name="update_auto_body">Looks for a new Voidstrap a few times a day</string>
+    <string name="update_auto_direct">Update automatically</string>
+    <string name="update_auto_direct_body">Downloads new releases and opens any Android approval needed to install them</string>
     <string name="update_channel_releases">Voidstrap releases</string>
     <string name="update_channel_play">Google Play</string>
     <string name="update_check">Check now</string>
@@ -339,12 +341,20 @@
     <string name="update_downloading">Downloading %1$d%%</string>
     <string name="update_installing">Installing</string>
     <string name="update_restart">Restart to finish</string>
+    <string name="update_ready_to_install">Update ready to install</string>
     <string name="update_skip">Skip this version</string>
     <string name="update_notes">What changed</string>
     <string name="update_available_toast">Voidstrap %1$s is available</string>
     <string name="update_failed_toast">The update failed, %1$s</string>
     <string name="update_failed">The update could not be completed, %1$s</string>
     <string name="update_needs_permission">Voidstrap needs permission to install app updates</string>
+    <string name="update_permission_title">Allow app updates</string>
+    <string name="update_permission_body">The update is downloaded. Android needs your approval to let Voidstrap install APK updates. You can allow it in system settings or cancel and install later.</string>
+    <string name="update_open_permission">Open settings</string>
+    <string name="update_channel_notification">App updates</string>
+    <string name="update_confirm_title">Finish installing Voidstrap</string>
+    <string name="update_confirm_body">Tap to approve the Android install</string>
+    <string name="update_open_to_install">Open Voidstrap to approve the install</string>
     <string name="update_permission_failed">This device has no screen for installing unknown apps</string>
     <string name="update_error_size">The download did not match the published size</string>
     <string name="update_error_not_apk">The APK is not a readable Android package</string>
@@ -359,6 +369,7 @@
     <string name="update_error_storage">There is not enough storage for the update</string>
     <string name="update_error_generic">The install did not finish</string>
     <string name="update_error_no_prompt">The device did not offer the install screen</string>
+    <string name="update_error_check">Could not check for updates. Check your connection and try again</string>
     <string name="update_error_play">Google Play could not be reached for updates</string>
     <string name="settings_version">Voidstrap for Android %1$s · %2$s</string>
     <string name="edition_play">Play edition</string>

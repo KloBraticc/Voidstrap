@@ -309,6 +309,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Updater.resumed(this);
         store.changed();
         Crash.run("update resume", () -> Updater.resume(this));
         Crash.run("update check", () -> Updater.auto(this));
@@ -324,6 +325,12 @@ public class MainActivity extends AppCompatActivity {
                 LibraryData.importJoins(app);
             });
         }
+    }
+
+    @Override
+    protected void onPause() {
+        Updater.paused(this);
+        super.onPause();
     }
 
     @Override
