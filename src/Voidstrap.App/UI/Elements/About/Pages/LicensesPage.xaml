@@ -1,9 +1,9 @@
 <ui:UiPage x:Class="Voidstrap.UI.Elements.About.Pages.LicensesPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:data="clr-namespace:Voidstrap.Models" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="AboutPage" Scrollable="True" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.About.Pages">
   <ui:UiPage.Resources>
     <DataTemplate x:Key="LicenseCardTemplate">
-      <ui:CardAction Margin="0,0,8,8" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="{Binding Url}">
+      <ui:CardAction Margin="0,0,8,8" VerticalAlignment="Stretch" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="{Binding Url}">
         <StackPanel>
-          <TextBlock FontSize="14" Text="{Binding Name}" />
+          <TextBlock FontSize="14" TextWrapping="Wrap" Text="{Binding Name}" />
           <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding License}" />
         </StackPanel>
       </ui:CardAction>

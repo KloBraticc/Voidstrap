@@ -48,6 +48,7 @@ internal static class LinuxWindowMode
 		window.PreviewKeyDown += OnPreviewKeyDown;
 		window.Loaded += OnLoaded;
 		window.StateChanged += OnStateChanged;
+		window.SizeChanged += OnSizeChanged;
 		window.Closed += OnClosed;
 	}
 
@@ -140,8 +141,49 @@ internal static class LinuxWindowMode
 
 	private static void OnLoaded(object sender, RoutedEventArgs e)
 	{
-		if (sender is Window window)
-			RequestMaximizeSynchronization(window);
+		if (sender is not Window window)
+			return;
+		ApplySizeLimits(window);
+		RequestMaximizeSynchronization(window);
+	}
+
+	private static void OnSizeChanged(object sender, SizeChangedEventArgs e)
+	{
+		if (sender is not Window window || !States.TryGetValue(window, out WindowModeState? state) || state.Fullscreen || state.ApplyingManagedState)
+			return;
+		LinuxTitleBar.RefreshMaximized(window, IsMaximized(window));
+	}
+
+	private static void ApplySizeLimits(Window window)
+	{
+#if CROSSPLAT
+		try
+		{
+			if (!System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(window, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host)
+				|| host?.SilkWindow?.Native?.Glfw is not { } handle
+				|| handle == 0)
+				return;
+			double scale = GetScale(window);
+			unsafe
+			{
+				Silk.NET.GLFW.Glfw.GetApi().SetWindowSizeLimits(
+					(Silk.NET.GLFW.WindowHandle*)handle,
+					SizeLimit(window.MinWidth, scale),
+					SizeLimit(window.MinHeight, scale),
+					SizeLimit(window.MaxWidth, scale),
+					SizeLimit(window.MaxHeight, scale));
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxWindowMode::ApplySizeLimits", "Window size limits could not be applied: " + ex.Message);
+		}
+#endif
+	}
+
+	private static int SizeLimit(double value, double scale)
+	{
+		return double.IsNaN(value) || double.IsInfinity(value) || value <= 0.0 ? -1 : (int)Math.Round(value * scale);
 	}
 
 	private static void OnStateChanged(object? sender, EventArgs e)
@@ -279,12 +321,7 @@ internal static class LinuxWindowMode
 		if (!workArea.IsUsable)
 			return;
 		state.MaximizeFallback = true;
-		double scale = GetScale(window);
-		window.Left = workArea.Left / scale;
-		window.Top = workArea.Top / scale;
-		window.Width = workArea.Width / scale;
-		window.Height = workArea.Height / scale;
-		LinuxWindowInterop.TryMoveResize(nativeWindow, workArea.Left, workArea.Top, workArea.Width, workArea.Height);
+		LinuxWindowInterop.TryRequestGeometry(nativeWindow, workArea.Left, workArea.Top, workArea.Width, workArea.Height);
 		LinuxTitleBar.RefreshMaximized(window, true);
 		RoundedWindowChrome.Refresh(window);
 	}
@@ -293,12 +330,7 @@ internal static class LinuxWindowMode
 	{
 		if (!state.NormalGeometryValid)
 			return;
-		double scale = GetScale(window);
-		window.Left = state.NormalLeft / scale;
-		window.Top = state.NormalTop / scale;
-		window.Width = state.NormalWidth / scale;
-		window.Height = state.NormalHeight / scale;
-		LinuxWindowInterop.TryMoveResize(nativeWindow, state.NormalLeft, state.NormalTop, state.NormalWidth, state.NormalHeight);
+		LinuxWindowInterop.TryRequestGeometry(nativeWindow, state.NormalLeft, state.NormalTop, state.NormalWidth, state.NormalHeight);
 		LinuxTitleBar.RefreshMaximized(window, false);
 	}
 
@@ -447,13 +479,18 @@ internal static class LinuxWindowMode
 		if (!bounds.IsUsable)
 			return;
 		window.WindowState = System.Windows.WindowState.Normal;
-		double scale = GetScale(window);
-		window.Left = bounds.Left / scale;
-		window.Top = bounds.Top / scale;
-		window.Width = bounds.Width / scale;
-		window.Height = bounds.Height / scale;
 		if (state.NativeWindow != 0)
-			LinuxWindowInterop.TryMoveResize(state.NativeWindow, bounds.Left, bounds.Top, bounds.Width, bounds.Height);
+		{
+			LinuxWindowInterop.TryRequestGeometry(state.NativeWindow, bounds.Left, bounds.Top, bounds.Width, bounds.Height);
+		}
+		else
+		{
+			double scale = GetScale(window);
+			window.Left = bounds.Left / scale;
+			window.Top = bounds.Top / scale;
+			window.Width = bounds.Width / scale;
+			window.Height = bounds.Height / scale;
+		}
 		RoundedWindowChrome.Refresh(window);
 	}
 
@@ -484,21 +521,22 @@ internal static class LinuxWindowMode
 		}
 		if (state.RestoreBounds.IsEmpty)
 			return;
-		window.Left = state.RestoreBounds.Left;
-		window.Top = state.RestoreBounds.Top;
-		window.Width = state.RestoreBounds.Width;
-		window.Height = state.RestoreBounds.Height;
 		if (nativeWindow != 0)
 		{
 			double scale = GetScale(window);
 			LinuxWindowInterop.TrySetMaximized(nativeWindow, false);
-			LinuxWindowInterop.TryMoveResize(
+			LinuxWindowInterop.TryRequestGeometry(
 				nativeWindow,
 				(int)Math.Round(state.RestoreBounds.Left * scale),
 				(int)Math.Round(state.RestoreBounds.Top * scale),
 				(int)Math.Round(state.RestoreBounds.Width * scale),
 				(int)Math.Round(state.RestoreBounds.Height * scale));
+			return;
 		}
+		window.Left = state.RestoreBounds.Left;
+		window.Top = state.RestoreBounds.Top;
+		window.Width = state.RestoreBounds.Width;
+		window.Height = state.RestoreBounds.Height;
 	}
 
 	private static void CaptureFullscreenGeometry(WindowModeState state)
@@ -516,12 +554,7 @@ internal static class LinuxWindowMode
 	{
 		if (!state.FullscreenGeometryValid)
 			return;
-		double scale = GetScale(window);
-		window.Left = state.FullscreenLeft / scale;
-		window.Top = state.FullscreenTop / scale;
-		window.Width = state.FullscreenWidth / scale;
-		window.Height = state.FullscreenHeight / scale;
-		LinuxWindowInterop.TryMoveResize(nativeWindow, state.FullscreenLeft, state.FullscreenTop, state.FullscreenWidth, state.FullscreenHeight);
+		LinuxWindowInterop.TryRequestGeometry(nativeWindow, state.FullscreenLeft, state.FullscreenTop, state.FullscreenWidth, state.FullscreenHeight);
 	}
 
 	private static bool MatchesFullscreenGeometry(nint nativeWindow, WindowModeState state)
@@ -563,8 +596,14 @@ internal static class LinuxWindowMode
 		return scale > 0.0 && !double.IsNaN(scale) ? scale : 1.0;
 	}
 
-	private static nint ResolveNativeWindow(Window window)
+	internal static nint ResolveNativeWindow(Window window)
 	{
+#if CROSSPLAT
+		if (System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(window, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host)
+			&& host?.SilkWindow?.Native?.X11 is { } x11
+			&& x11.Window != 0)
+			return (nint)x11.Window;
+#endif
 		string title = window.Title ?? string.Empty;
 		return title.Length == 0 ? 0 : LinuxWindowInterop.FindOwnWindowByTitle(title);
 	}
@@ -597,6 +636,7 @@ internal static class LinuxWindowMode
 		window.PreviewKeyDown -= OnPreviewKeyDown;
 		window.Loaded -= OnLoaded;
 		window.StateChanged -= OnStateChanged;
+		window.SizeChanged -= OnSizeChanged;
 		window.Closed -= OnClosed;
 		States.Remove(window);
 	}

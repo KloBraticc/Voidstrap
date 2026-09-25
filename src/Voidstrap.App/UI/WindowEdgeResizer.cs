@@ -151,6 +151,12 @@ internal sealed class WindowEdgeResizer
 		{
 			return;
 		}
+		if (Voidstrap.Utility.Platform.IsLinux && TryBeginWindowManagerResize(edge))
+		{
+			Mouse.OverrideCursor = null;
+			e.Handled = true;
+			return;
+		}
 		_edge = edge;
 		_resizing = true;
 		_startCursor = ScreenLogical(e);
@@ -202,8 +208,8 @@ internal sealed class WindowEdgeResizer
 	{
 		double deltaX = cursor2.X - _startCursor.X;
 		double deltaY = cursor2.Y - _startCursor.Y;
-		double minWidth = double.IsNaN(_window.MinWidth) || _window.MinWidth <= 0.0 ? 800.0 : Math.Max(_window.MinWidth, 800.0);
-		double minHeight = double.IsNaN(_window.MinHeight) || _window.MinHeight <= 0.0 ? 500.0 : Math.Max(_window.MinHeight, 500.0);
+		double minWidth = double.IsNaN(_window.MinWidth) || _window.MinWidth <= 0.0 ? 320.0 : _window.MinWidth;
+		double minHeight = double.IsNaN(_window.MinHeight) || _window.MinHeight <= 0.0 ? 240.0 : _window.MinHeight;
 		double maxWidth = double.IsNaN(_window.MaxWidth) || _window.MaxWidth <= 0.0 ? double.PositiveInfinity : _window.MaxWidth;
 		double maxHeight = double.IsNaN(_window.MaxHeight) || _window.MaxHeight <= 0.0 ? double.PositiveInfinity : _window.MaxHeight;
 		minWidth = Math.Min(minWidth, maxWidth);
@@ -232,6 +238,35 @@ internal sealed class WindowEdgeResizer
 		CommitNativeGeometry();
 	}
 
+	private bool TryBeginWindowManagerResize(ResizeEdge edge)
+	{
+#if CROSSPLAT
+		int direction = edge switch
+		{
+			ResizeEdge.Left | ResizeEdge.Top => 0,
+			ResizeEdge.Top => 1,
+			ResizeEdge.Right | ResizeEdge.Top => 2,
+			ResizeEdge.Right => 3,
+			ResizeEdge.Right | ResizeEdge.Bottom => 4,
+			ResizeEdge.Bottom => 5,
+			ResizeEdge.Left | ResizeEdge.Bottom => 6,
+			ResizeEdge.Left => 7,
+			_ => -1
+		};
+		if (direction < 0
+			|| !System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(_window, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host)
+			|| host?.SilkWindow?.Native?.X11 is not { } x11
+			|| x11.Display == 0
+			|| x11.Window == 0)
+		{
+			return false;
+		}
+		return Voidstrap.Platform.Linux.LinuxWindowInterop.TryBeginInteractiveResize(x11.Display, (nint)x11.Window, direction);
+#else
+		return false;
+#endif
+	}
+
 	private nint ResolveNativeWindow()
 	{
 		if (!Voidstrap.Utility.Platform.IsLinux)
@@ -241,8 +276,7 @@ internal sealed class WindowEdgeResizer
 
 		try
 		{
-			string title = _window.Title ?? string.Empty;
-			return title.Length == 0 ? 0 : Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(title);
+			return LinuxWindowMode.ResolveNativeWindow(_window);
 		}
 		catch (Exception ex)
 		{

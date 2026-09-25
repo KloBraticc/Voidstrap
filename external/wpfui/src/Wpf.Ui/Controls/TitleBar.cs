@@ -490,6 +490,7 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
         if (_mainGrid != null)
         {
             _mainGrid.MouseLeftButtonDown -= OnMainGridMouseLeftButtonDown;
+            _mainGrid.RemoveHandler(UIElement.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(OnMainGridPreviewMouseLeftButtonDown));
             _mainGrid.MouseMove -= OnMainGridMouseMove;
             _mainGrid.MouseLeftButtonUp -= OnMainGridMouseLeftButtonUp;
             _mainGrid.LostMouseCapture -= OnMainGridLostMouseCapture;
@@ -503,6 +504,7 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
 
             if (!System.OperatingSystem.IsWindows())
             {
+                _mainGrid.AddHandler(UIElement.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(OnMainGridPreviewMouseLeftButtonDown), true);
                 _mainGrid.MouseLeftButtonUp += OnMainGridMouseLeftButtonUp;
                 _mainGrid.LostMouseCapture += OnMainGridLostMouseCapture;
             }
@@ -816,6 +818,19 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
         if (e.LeftButton != MouseButtonState.Pressed || ParentWindow == null)
             return;
 
+        if (!System.OperatingSystem.IsWindows())
+        {
+            if (!_portableDragArmed)
+                return;
+
+            Point current = e.GetPosition(this);
+            if (Math.Abs(current.X - _portablePressPoint.X) < SystemParameters.MinimumHorizontalDragDistance
+                && Math.Abs(current.Y - _portablePressPoint.Y) < SystemParameters.MinimumVerticalDragDistance)
+                return;
+
+            _portableDragArmed = false;
+        }
+
         // prevent firing from double clicking when the mouse never actually moved
         if (System.OperatingSystem.IsWindows())
         {
@@ -879,6 +894,16 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
 
     private bool _portableDragStarted;
 
+    private bool _portableDragArmed;
+
+    private Point _portablePressPoint;
+
+    private void OnMainGridPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        _portableDragArmed = e.ClickCount == 1;
+        _portablePressPoint = e.GetPosition(this);
+    }
+
     private void OnMainGridMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (!System.OperatingSystem.IsWindows())
@@ -896,11 +921,13 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
     private void OnMainGridMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
         _portableDragStarted = false;
+        _portableDragArmed = false;
     }
 
     private void OnMainGridLostMouseCapture(object sender, MouseEventArgs e)
     {
         _portableDragStarted = false;
+        _portableDragArmed = false;
     }
 
     private void OnTemplateButtonClick(TitleBar sender, object parameter)

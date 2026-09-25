@@ -1253,6 +1253,86 @@ public static partial class LinuxWindowInterop
 		}
 	}
 
+	public static bool TryRequestGeometry(nint window, int x, int y, int width, int height)
+	{
+		nint display = Display;
+		if (display == 0 || window == 0 || width <= 0 || height <= 0)
+			return false;
+
+		try
+		{
+			_ = XMoveResizeWindow(display, window, x, y, (uint)width, (uint)height);
+			_ = XFlush(display);
+			return true;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	public static bool TryBeginInteractiveResize(nint display, nint window, int direction)
+	{
+		if (display == 0 || window == 0 || direction < 0 || direction > 7)
+			return false;
+
+		try
+		{
+			nint root = XDefaultRootWindow(display);
+			nint moveResize = XInternAtom(display, "_NET_WM_MOVERESIZE", false);
+			if (root == 0 || moveResize == 0 || !IsWindowManagerFeatureSupported(display, root, moveResize))
+				return false;
+			if (XQueryPointer(display, root, out _, out _, out int rootX, out int rootY, out _, out _, out _) == 0)
+				return false;
+
+			_ = XUngrabPointer(display, 0);
+			XClientMessage message = new()
+			{
+				type = ClientMessage,
+				serial = 0,
+				send_event = 1,
+				display = display,
+				window = window,
+				message_type = moveResize,
+				format = 32,
+				data0 = rootX,
+				data1 = rootY,
+				data2 = direction,
+				data3 = 1,
+				data4 = 1
+			};
+			bool sent = XSendEvent(display, root, false, SubstructureRedirectMask | SubstructureNotifyMask, ref message) != 0;
+			_ = XFlush(display);
+			return sent;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	private static bool IsWindowManagerFeatureSupported(nint display, nint root, nint feature)
+	{
+		nint data = 0;
+		try
+		{
+			nint supported = XInternAtom(display, "_NET_SUPPORTED", true);
+			if (supported == 0 || !TryGetProperty(display, root, supported, out data, out ulong count, out int format) || format != 32)
+				return false;
+			for (ulong i = 0; i < count; i++)
+			{
+				if (Marshal.ReadIntPtr(data, (int)i * IntPtr.Size) == feature)
+					return true;
+			}
+			return false;
+		}
+		finally
+		{
+			if (data != 0)
+				_ = XFree(data);
+		}
+	}
+
 	public static nint GetFrameWindow(nint window)
 	{
 		nint display = Display;
@@ -3039,6 +3119,9 @@ public static partial class LinuxWindowInterop
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XMoveResizeWindow(nint display, nint window, int x, int y, uint width, uint height);
+
+	[LibraryImport("libX11.so.6")]
+	private static partial int XUngrabPointer(nint display, nint time);
 
 	private const int ClientMessage = 33;
 
