@@ -396,6 +396,8 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
     /// </summary>
     public Action<TitleBar, System.Windows.Window> MinimizeActionOverride { get; set; } = null;
 
+    public Func<TitleBar, System.Windows.Window, Point, bool> DragRestoreOverride { get; set; } = null;
+
     /// <summary>
     /// Window containing the TitleBar.
     /// </summary>
@@ -840,7 +842,11 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
                 return;
         }
 
-        if (IsMaximized)
+        bool restoredForDrag = !System.OperatingSystem.IsWindows()
+            && DragRestoreOverride != null
+            && DragRestoreOverride(this, ParentWindow, e.GetPosition(ParentWindow));
+
+        if (IsMaximized && !restoredForDrag)
         {
             double horizontalRatio = ParentWindow.ActualWidth > 0
                 ? Math.Clamp(e.GetPosition(ParentWindow).X / ParentWindow.ActualWidth, 0.0, 1.0)

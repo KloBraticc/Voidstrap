@@ -142,6 +142,12 @@ internal static class LinuxTitleBar
 	private static void OverrideMaximizeAction(TitleBar titleBar)
 	{
 		titleBar.MaximizeActionOverride = OnTitleBarMaximizeRequested;
+		titleBar.DragRestoreOverride = OnTitleBarDragRestore;
+	}
+
+	private static bool OnTitleBarDragRestore(TitleBar titleBar, Window window, Point pointer)
+	{
+		return window != null && LinuxWindowMode.RestoreForDrag(window, pointer);
 	}
 
 	private static void OnTitleBarMaximizeRequested(TitleBar titleBar, Window window)

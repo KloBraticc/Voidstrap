@@ -4661,6 +4661,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void InitializeWindowState()
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            DiscardOversizedLinuxState();
+        }
         if (_state.LeftUpdateV2 > SystemParameters.VirtualScreenWidth || _state.TopUpdateV2 > SystemParameters.VirtualScreenHeight)
         {
             _state.LeftUpdateV2 = 0.0;
@@ -4686,6 +4690,25 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
 
     }
+
+    private static void DiscardOversizedLinuxState()
+    {
+        Rect work = Voidstrap.Utility.ScreenMetrics.WorkArea;
+        if (work.Width <= 0.0 || work.Height <= 0.0)
+        {
+            return;
+        }
+        if (_state.WidthUpdateV2 < work.Width - LinuxScreenMargin && _state.HeightUpdateV2 < work.Height - LinuxScreenMargin)
+        {
+            return;
+        }
+        _state.WidthUpdateV2 = 0.0;
+        _state.HeightUpdateV2 = 0.0;
+        _state.LeftUpdateV2 = 0.0;
+        _state.TopUpdateV2 = 0.0;
+    }
+
+    private const double LinuxScreenMargin = 24.0;
 
     private void InitializeNavigation()
     {
@@ -5230,6 +5253,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _state.HeightUpdateV2 = fullscreenBounds.Height;
             _state.TopUpdateV2 = fullscreenBounds.Top;
             _state.LeftUpdateV2 = fullscreenBounds.Left;
+            App.State.Save();
+            return;
+        }
+        if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.UI.LinuxWindowMode.IsCompositorMaximized(this))
+        {
+            _state.MaximizedUpdateV2 = true;
             App.State.Save();
             return;
         }
