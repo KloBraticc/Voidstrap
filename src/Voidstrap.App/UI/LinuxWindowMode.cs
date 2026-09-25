@@ -52,6 +52,11 @@ internal static class LinuxWindowMode
 		window.Closed += OnClosed;
 	}
 
+	public static bool IsManaged(Window window)
+	{
+		return States.TryGetValue(window, out _);
+	}
+
 	public static bool IsFullscreen(Window? window)
 	{
 		return window != null && States.TryGetValue(window, out WindowModeState? state) && state.Fullscreen;
@@ -170,8 +175,8 @@ internal static class LinuxWindowMode
 					(Silk.NET.GLFW.WindowHandle*)handle,
 					SizeLimit(window.MinWidth, scale),
 					SizeLimit(window.MinHeight, scale),
-					SizeLimit(window.MaxWidth, scale),
-					SizeLimit(window.MaxHeight, scale));
+					MaxSizeLimit(window.MaxWidth, scale),
+					MaxSizeLimit(window.MaxHeight, scale));
 			}
 		}
 		catch (Exception ex)
@@ -179,6 +184,12 @@ internal static class LinuxWindowMode
 			App.Logger?.WriteLine("LinuxWindowMode::ApplySizeLimits", "Window size limits could not be applied: " + ex.Message);
 		}
 #endif
+	}
+
+	private static int MaxSizeLimit(double value, double scale)
+	{
+		int limit = SizeLimit(value, scale);
+		return limit < 0 ? (int)LinuxSharedGpuDevice.MaxSurfaceSize : Math.Min(limit, (int)LinuxSharedGpuDevice.MaxSurfaceSize);
 	}
 
 	private static int SizeLimit(double value, double scale)
@@ -217,6 +228,8 @@ internal static class LinuxWindowMode
 			CaptureNormalGeometry(window, state);
 			state.MaximizeFallback = false;
 		}
+		if (maximized && state.NativeWindow != 0)
+			LinuxWindowInterop.TryClearShape(state.NativeWindow);
 		state.ApplyingManagedState = true;
 		try
 		{
@@ -235,7 +248,8 @@ internal static class LinuxWindowMode
 		int generation = state.MaximizeGeneration;
 		_ = SynchronizeMaximizeAsync(window, state, generation, maximized);
 		LinuxTitleBar.RefreshMaximized(window, maximized);
-		RoundedWindowChrome.Refresh(window);
+		if (!maximized)
+			RoundedWindowChrome.Refresh(window);
 	}
 
 	private static async Task SynchronizeMaximizeAsync(Window window, WindowModeState state, int generation, bool maximized)

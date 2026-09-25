@@ -36,6 +36,7 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 	];
 
 	private bool _uninstalling;
+	private bool _installing;
 	private bool _installed;
 	private bool _downloadingRoblox;
 	private string? _robloxVersion;
@@ -59,9 +60,63 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public bool CanUninstall
+	public bool CanRunAction => !_uninstalling && !_installing && !_downloadingRoblox;
+
+	public string ActionLabel => _installing ? "Installing" : _uninstalling ? "Removing" : _installed ? "Uninstall" : "Install";
+
+	public Wpf.Ui.Common.ControlAppearance ActionAppearance => _installed
+		? Wpf.Ui.Common.ControlAppearance.Danger
+		: Wpf.Ui.Common.ControlAppearance.Primary;
+
+	public ICommand RunActionCommand => new RelayCommand(RunAction);
+
+	private void RunAction()
 	{
-		get => !_uninstalling && _installed;
+		if (!CanRunAction)
+			return;
+		if (_installed)
+			UninstallSober();
+		else
+			_ = InstallSoberAsync(false);
+	}
+
+	private async Task<bool> InstallSoberAsync(bool thenDownloadRoblox)
+	{
+		if (_installing)
+			return false;
+
+		_installing = true;
+		RefreshUninstallState();
+		InstallationStatus = "Installing Sober, this can take a few minutes...";
+		bool installed = false;
+		try
+		{
+			Voidstrap.Platform.OperationResult result = await new Voidstrap.Platform.Linux.LinuxSoberInstaller(new Voidstrap.Core.SystemProcessService())
+				.InstallAsync()
+				.ConfigureAwait(true);
+			installed = result.Succeeded;
+			App.Logger.WriteLine("SoberViewModel::Install", installed ? "Sober was installed" : "Sober could not be installed: " + result.Failure?.Message);
+			if (!installed)
+			{
+				Frontend.ShowMessageBox(
+					result.Failure?.Message ?? "Sober could not be installed",
+					MessageBoxImage.Error,
+					MessageBoxButton.OK);
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("SoberViewModel::Install", ex);
+		}
+		finally
+		{
+			_installing = false;
+			await RefreshInstallationAsync().ConfigureAwait(true);
+		}
+
+		if (installed && _installed && (thenDownloadRoblox || _robloxVersion is null))
+			DownloadRoblox();
+		return installed;
 	}
 
 	public string RobloxStatus
@@ -76,7 +131,7 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public bool CanDownloadRoblox => _installed && !_uninstalling && !_downloadingRoblox && _robloxVersion is null;
+	public bool CanDownloadRoblox => !_uninstalling && !_installing && !_downloadingRoblox && _robloxVersion is null;
 
 	public string RobloxActionLabel => _downloadingRoblox ? "Downloading" : _robloxVersion is not null ? "Downloaded" : "Download now";
 
@@ -88,7 +143,7 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 		if (!_downloadingRoblox)
 		{
 			RobloxStatus = !_installed
-				? "Install Sober first, Voidstrap does this on your first launch"
+				? "Sober is not installed yet. Download now installs Sober and then Roblox"
 				: _robloxVersion is not null
 					? "Roblox " + _robloxVersion + " is downloaded and ready to play"
 					: "Roblox has not been downloaded inside Sober yet. It downloads on your first launch, or download it now";
@@ -101,7 +156,13 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 	{
 		if (!CanDownloadRoblox)
 			return;
+		if (!_installed)
+		{
+			_ = InstallSoberAsync(true);
+			return;
+		}
 		_downloadingRoblox = true;
+		RefreshUninstallState();
 		RobloxStatus = "Opening Sober to download Roblox";
 		RefreshRobloxState();
 		_ = RunRobloxDownloadAsync();
@@ -122,6 +183,7 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 		finally
 		{
 			_downloadingRoblox = false;
+			RefreshUninstallState();
 			RefreshRobloxState();
 			if (!downloaded && _robloxVersion is null)
 				RobloxStatus = "Roblox did not finish downloading. Finish the setup in the Sober window, then try again";
@@ -160,18 +222,18 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 		}
 		finally
 		{
-			OnPropertyChanged(nameof(CanUninstall));
-			OnPropertyChanged(nameof(UninstallDescription));
+			RefreshUninstallState();
 		}
 	}
 
 	private void RefreshUninstallState()
 	{
-		OnPropertyChanged(nameof(CanUninstall));
+		OnPropertyChanged(nameof(CanRunAction));
+		OnPropertyChanged(nameof(ActionLabel));
+		OnPropertyChanged(nameof(ActionAppearance));
 		OnPropertyChanged(nameof(UninstallDescription));
+		OnPropertyChanged(nameof(CanDownloadRoblox));
 	}
-
-	public ICommand UninstallSoberCommand => new RelayCommand(UninstallSober);
 
 	private void UninstallSober()
 	{

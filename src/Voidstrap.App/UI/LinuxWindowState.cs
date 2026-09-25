@@ -90,6 +90,9 @@ internal static class LinuxWindowState
 
 	private static void Apply(Window window)
 	{
+		if (LinuxWindowMode.IsManaged(window))
+			return;
+
 		Rect work = LinuxScreenMetrics.WorkArea;
 
 		if (work.Width < 1d || work.Height < 1d)

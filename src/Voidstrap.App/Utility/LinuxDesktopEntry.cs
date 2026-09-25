@@ -668,9 +668,15 @@ internal static class LinuxDesktopEntry
 			using Process? process = Process.Start(startInfo);
 			if (process is null)
 				return;
-			process.BeginOutputReadLine();
-			process.BeginErrorReadLine();
-			process.WaitForExit(5000);
+			Task[] drains =
+			[
+				process.StandardOutput.BaseStream.CopyToAsync(Stream.Null),
+				process.StandardError.BaseStream.CopyToAsync(Stream.Null)
+			];
+			foreach (Task drain in drains)
+				_ = drain.ContinueWith(static task => _ = task.Exception, TaskContinuationOptions.OnlyOnFaulted);
+			if (!process.WaitForExit(5000))
+				process.Kill(true);
 		}
 		catch
 		{

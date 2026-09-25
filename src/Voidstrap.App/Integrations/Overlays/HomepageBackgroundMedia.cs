@@ -487,6 +487,8 @@ namespace Voidstrap.Integrations.Overlays
 					{
 						if (!process.HasExited)
 							process.Kill(true);
+						if (process.WaitForExit(2000))
+							process.WaitForExit();
 					}
 					catch
 					{

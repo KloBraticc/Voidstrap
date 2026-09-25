@@ -47,6 +47,8 @@ public static class LinuxSharedGpuDevice
 	private static bool _shareDevice;
 #endif
 
+	internal const uint MaxSurfaceSize = 8192;
+
 	public static void Install()
 	{
 #if CROSSPLAT
@@ -82,7 +84,7 @@ public static class LinuxSharedGpuDevice
 	private static System.Windows.Media.ProGPU.ProGpuWpfWindowHost CreateTunedHost(object window)
 	{
 		System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options = System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window);
-		ApplySoftwareRendererOptions(options);
+		ApplyCompositorOptions(options);
 		if (_shareDevice)
 		{
 			try
@@ -102,18 +104,22 @@ public static class LinuxSharedGpuDevice
 		return host;
 	}
 
-	private static void ApplySoftwareRendererOptions(System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options)
+	private static void ApplyCompositorOptions(System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options)
 	{
-		if (CompositorOptionsProperty is null || !IsSoftwareRenderer())
+		if (CompositorOptionsProperty is null)
 			return;
 
 		try
 		{
-			CompositorOptionsProperty.SetValue(options, ProGPU.Scene.CompositorOptions.Default with { PrimarySampleCount = 1 });
+			ProGPU.Scene.CompositorOptions current = CompositorOptionsProperty.GetValue(options) as ProGPU.Scene.CompositorOptions ?? ProGPU.Scene.CompositorOptions.Default;
+			ProGPU.Scene.CompositorOptions tuned = current with { PathAtlasSize = Math.Max(current.PathAtlasSize, MaxSurfaceSize) };
+			if (IsSoftwareRenderer())
+				tuned = tuned with { PrimarySampleCount = 1 };
+			CompositorOptionsProperty.SetValue(options, tuned);
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine("LinuxSharedGpuDevice", "Could not lighten software rendering: " + ex.Message);
+			App.Logger.WriteLine("LinuxSharedGpuDevice", "Could not tune the window renderer: " + ex.Message);
 		}
 	}
 

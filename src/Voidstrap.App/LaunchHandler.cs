@@ -266,8 +266,7 @@ public static class LaunchHandler
 			{
 				if (new LanguageSelectorDialog().ShowOwnedDialog() != true)
 				{
-					App.Terminate(ErrorCode.ERROR_INSTALL_USEREXIT);
-					return;
+					App.Logger.WriteLine("LaunchHandler::LaunchInstaller", "The language picker was closed without a choice, setup continues in the current language");
 				}
 				Voidstrap.UI.Elements.Installer.MainWindow mainWindow = new Voidstrap.UI.Elements.Installer.MainWindow();
 				mainWindow.ShowOwnedDialog();

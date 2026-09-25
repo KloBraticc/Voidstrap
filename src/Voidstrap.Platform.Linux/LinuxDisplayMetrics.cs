@@ -201,6 +201,15 @@ public static class LinuxDisplayMetrics
 		bounds = default;
 		workArea = default;
 
+		if (LinuxWindowInterop.TryGetPrimaryScreen(out int screenLeft, out int screenTop, out int screenWidth, out int screenHeight, out int primaryLeft, out int primaryTop, out int primaryWidth, out int primaryHeight)
+			&& screenWidth >= MinimumWidth
+			&& screenHeight >= MinimumHeight)
+		{
+			bounds = new LinuxDisplayBounds(screenLeft, screenTop, screenWidth, screenHeight);
+			workArea = new LinuxDisplayBounds(primaryLeft, primaryTop, primaryWidth, primaryHeight);
+			return true;
+		}
+
 		if (!LinuxWindowInterop.TryGetRootBounds(out int width, out int height))
 			return false;
 

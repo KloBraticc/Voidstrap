@@ -275,14 +275,14 @@ public static class RoundedWindowChrome
 			}
 			else
 			{
-				(double screenWidth, double screenHeight) = Voidstrap.Utility.ScreenMetrics.GetPrimary();
-				left = (screenWidth - width) / 2.0;
-				top = (screenHeight - height) / 2.0;
+				Rect centerArea = Voidstrap.Utility.ScreenMetrics.WorkArea;
+				left = centerArea.Left + (centerArea.Width - width) / 2.0;
+				top = centerArea.Top + (centerArea.Height - height) / 2.0;
 			}
 
-			(double boundsWidth, double boundsHeight) = Voidstrap.Utility.ScreenMetrics.GetPrimary();
-			left = Math.Max(0.0, Math.Min(left, boundsWidth - width));
-			top = Math.Max(0.0, Math.Min(top, boundsHeight - height));
+			Rect area = Voidstrap.Utility.ScreenMetrics.WorkArea;
+			left = Math.Max(area.Left, Math.Min(left, area.Right - width));
+			top = Math.Max(area.Top, Math.Min(top, area.Bottom - height));
 
 			window.Left = left;
 			window.Top = top;
@@ -394,10 +394,13 @@ public static class RoundedWindowChrome
 
 		try
 		{
-			double width = window.ActualWidth;
-			double height = window.ActualHeight;
+			double scale = PresentationSource.FromVisual(window)?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
+			if (scale <= 0.0 || double.IsNaN(scale))
+				scale = 1.0;
+			double width = window.ActualWidth * scale;
+			double height = window.ActualHeight * scale;
 
-			nint handle = Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(window.Title ?? string.Empty);
+			nint handle = LinuxWindowMode.ResolveNativeWindow(window);
 
 			if (handle == 0)
 			{
@@ -422,7 +425,7 @@ public static class RoundedWindowChrome
 				handle,
 				(int)Math.Round(width),
 				(int)Math.Round(height),
-				(int)Math.Round(CornerRadius));
+				(int)Math.Round(CornerRadius * scale));
 
 			if (report)
 			{

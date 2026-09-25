@@ -911,6 +911,8 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 	public static bool ForceX11Session { get; set; }
 
+	public static Func<CancellationToken, Task<bool>>? OnboardingAssist { get; set; }
+
 	private static System.Diagnostics.Process? StartSoberKill()
 	{
 		return LinuxFlatpakHost.Start(["kill", SoberApplicationId]);
@@ -1050,7 +1052,7 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		}
 	}
 
-	private static long DownloadedRobloxBytes()
+	public static long DownloadedRobloxBytes()
 	{
 		try
 		{
@@ -1076,19 +1078,28 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 		System.Diagnostics.Process? process = null;
 		bool installed = false;
+		Func<CancellationToken, Task<bool>>? assist = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY")) ? null : OnboardingAssist;
+		using CancellationTokenSource assistStop = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+		Task<bool>? assisting = null;
 
 		try
 		{
-			process = LinuxFlatpakHost.Start(["run", SoberApplicationId]);
+			process = LinuxFlatpakHost.Start(assist is null
+				? ["run", SoberApplicationId]
+				: ["run", "--nosocket=wayland", "--socket=x11", SoberApplicationId]);
 			if (process is null)
 				return false;
+
+			assisting = assist?.Invoke(assistStop.Token);
 
 			for (int attempt = 0; attempt < 1800; attempt++)
 			{
 				long downloaded = DownloadedRobloxBytes();
-				report?.Invoke(downloaded == 0
-					? "Click Continue in the Sober window so Sober can download Roblox"
-					: "Sober is downloading Roblox, " + (downloaded / (1024 * 1024)).ToString(CultureInfo.InvariantCulture) + " MB so far");
+				report?.Invoke(downloaded > 0
+					? "Sober is downloading Roblox, " + (downloaded / (1024 * 1024)).ToString(CultureInfo.InvariantCulture) + " MB so far"
+					: assisting is null || assisting is { IsCompleted: true, Result: false }
+						? "Click Continue in the Sober window so Sober can download Roblox"
+						: "Getting Sober ready to download Roblox");
 
 				await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
 
@@ -1118,6 +1129,7 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 			{
 				if (installed)
 					TryCloseSober();
+				assistStop.Cancel();
 				process?.Dispose();
 			}
 			catch (Exception)

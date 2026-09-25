@@ -478,6 +478,28 @@ public static partial class LinuxWindowInterop
 		return found;
 	}
 
+	public static IReadOnlyList<nint> FindSoberWindows()
+	{
+		nint display = Display;
+		if (display == 0)
+			return Array.Empty<nint>();
+
+		List<nint> found = new();
+		try
+		{
+			foreach (nint window in EnumerateClientWindows(display))
+			{
+				if (IsSoberWindow(display, window))
+					found.Add(window);
+			}
+		}
+		catch (Exception)
+		{
+		}
+
+		return found;
+	}
+
 	private const int MaxWindowTreeDepth = 6;
 
 	private static nint FindOwnWindowInTree(nint display, nint parent, string title, int processId, int depth)
@@ -1596,6 +1618,36 @@ public static partial class LinuxWindowInterop
 		}
 	}
 
+	public static bool TryGetPrimaryScreen(out int left, out int top, out int width, out int height, out int workLeft, out int workTop, out int workWidth, out int workHeight)
+	{
+		workLeft = 0;
+		workTop = 0;
+		workWidth = 0;
+		workHeight = 0;
+		if (!TryGetPrimaryMonitorBounds(out left, out top, out width, out height))
+			return false;
+
+		workLeft = left;
+		workTop = top;
+		workWidth = width;
+		workHeight = height;
+		if (TryGetWorkArea(out int areaLeft, out int areaTop, out int areaWidth, out int areaHeight))
+		{
+			int right = Math.Min(left + width, areaLeft + areaWidth);
+			int bottom = Math.Min(top + height, areaTop + areaHeight);
+			int clippedLeft = Math.Max(left, areaLeft);
+			int clippedTop = Math.Max(top, areaTop);
+			if (right - clippedLeft >= width / 2 && bottom - clippedTop >= height / 2)
+			{
+				workLeft = clippedLeft;
+				workTop = clippedTop;
+				workWidth = right - clippedLeft;
+				workHeight = bottom - clippedTop;
+			}
+		}
+		return true;
+	}
+
 	public static bool TryGetScreenBounds(out int width, out int height)
 	{
 		width = 0;
@@ -1838,6 +1890,10 @@ public static partial class LinuxWindowInterop
 			int middleHeight = height - radius * 2;
 			if (middleHeight > 0)
 				rectangles.Add(new XRectangle(0, (short)radius, (ushort)width, (ushort)middleHeight));
+			if (width < short.MaxValue)
+				rectangles.Add(new XRectangle((short)width, 0, (ushort)(short.MaxValue - width), (ushort)short.MaxValue));
+			if (height < short.MaxValue)
+				rectangles.Add(new XRectangle(0, (short)height, (ushort)width, (ushort)(short.MaxValue - height)));
 
 			if (rectangles.Count == 0)
 				return false;

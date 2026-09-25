@@ -123,6 +123,13 @@ internal static class LinuxScreenMetrics
 		workWidth = 0;
 		workHeight = 0;
 
+		if (Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPrimaryScreen(out _, out _, out width, out height, out workLeft, out workTop, out workWidth, out workHeight)
+			&& width > 0
+			&& height > 0
+			&& workWidth > 0
+			&& workHeight > 0)
+			return true;
+
 		if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetScreenBounds(out width, out height) || width <= 0 || height <= 0)
 			return false;
 

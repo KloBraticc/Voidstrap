@@ -10,8 +10,8 @@
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10" DataContext="{Binding Sober, Mode=OneWay}">
-          <controls:OptionControl x:Name="UninstallSoberOption" Header="Sober" Description="{Binding InstallationStatus, Mode=OneWay}" IsEnabled="{Binding CanUninstall, Mode=OneWay}">
-            <ui:Button Content="Uninstall" Appearance="Danger" Command="{Binding UninstallSoberCommand}" />
+          <controls:OptionControl x:Name="UninstallSoberOption" Header="Sober" Description="{Binding InstallationStatus, Mode=OneWay}" IsEnabled="{Binding CanRunAction, Mode=OneWay}">
+            <ui:Button Content="{Binding ActionLabel, Mode=OneWay}" Appearance="{Binding ActionAppearance, Mode=OneWay}" Command="{Binding RunActionCommand}" />
           </controls:OptionControl>
           <controls:OptionControl x:Name="SoberRobloxOption" Margin="0,0,0,8" Header="Roblox" Description="{Binding RobloxStatus, Mode=OneWay}">
             <ui:Button Content="{Binding RobloxActionLabel, Mode=OneWay}" Appearance="Primary" IsEnabled="{Binding CanDownloadRoblox, Mode=OneWay}" Command="{Binding DownloadRobloxCommand}" />

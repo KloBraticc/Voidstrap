@@ -153,6 +153,10 @@ public partial class ActivityWatcher : IDisposable
 
 	public event EventHandler<Message>? OnRPCMessage;
 
+	private readonly DateTime _createdUtc = DateTime.UtcNow;
+
+	private long _nextLogScan;
+
 	public ActivityWatcher(string? logFile = null)
 	{
 		if (!string.IsNullOrEmpty(logFile))
@@ -435,7 +439,16 @@ public partial class ActivityWatcher : IDisposable
 	{
 		CancellationToken token = _playerLifetimeCts.Token;
 		FileInfo? logFileInfo = null;
-		if (string.IsNullOrEmpty(LogLocation))
+		if (string.IsNullOrEmpty(LogLocation) && OperatingSystem.IsLinux())
+		{
+			logFileInfo = await WaitForLinuxLogAsync(token);
+			if (logFileInfo == null)
+			{
+				return;
+			}
+			LogLocation = logFileInfo.FullName;
+		}
+		else if (string.IsNullOrEmpty(LogLocation))
 		{
 			string[] logDirectories = GetClientLogDirectories();
 			if (logDirectories.Length == 0)
@@ -487,9 +500,9 @@ public partial class ActivityWatcher : IDisposable
 		App.Logger.WriteLine("ActivityWatcher::Start", "Opened " + LogLocation);
 		StartLogWatcher(logFileInfo);
 		RaiseEvent(OnLogOpen, "OnLogOpen");
-		using (fileStream)
+		StreamReader streamReader = new StreamReader(fileStream);
+		try
 		{
-			using StreamReader streamReader = new StreamReader(fileStream);
 			while (!IsDisposed && !token.IsCancellationRequested)
 			{
 				string? text;
@@ -508,6 +521,32 @@ public partial class ActivityWatcher : IDisposable
 				}
 				if (text == null)
 				{
+					if (fileStream.Length < fileStream.Position)
+					{
+						fileStream.Seek(0, SeekOrigin.Begin);
+						streamReader.DiscardBufferedData();
+						App.Logger.WriteLine("ActivityWatcher::Start", "The Roblox log started over, reading it again from the top");
+						continue;
+					}
+					if (NewerLinuxLog(fileStream) is FileInfo replacement)
+					{
+						try
+						{
+							FileStream reopened = replacement.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+							streamReader.Dispose();
+							fileStream = reopened;
+							streamReader = new StreamReader(fileStream);
+							LogLocation = replacement.FullName;
+							StopLogWatcher();
+							StartLogWatcher(replacement);
+							App.Logger.WriteLine("ActivityWatcher::Start", "Sober started a new log, now reading " + LogLocation);
+							continue;
+						}
+						catch (Exception ex)
+						{
+							App.Logger.WriteLine("ActivityWatcher::Start", "Could not open the new Sober log: " + ex.Message);
+						}
+					}
 					try
 					{
 						await _logSignal.WaitAsync(TimeSpan.FromSeconds(5), token);
@@ -530,6 +569,125 @@ public partial class ActivityWatcher : IDisposable
 				}
 			}
 		}
+		finally
+		{
+			streamReader.Dispose();
+		}
+	}
+
+	private async Task<FileInfo?> WaitForLinuxLogAsync(CancellationToken token)
+	{
+		DateTime threshold = _createdUtc.AddSeconds(-5);
+		bool reported = false;
+		App.Logger.WriteLine("ActivityWatcher::Start", "Opening Roblox log file...");
+		while (!IsDisposed && !token.IsCancellationRequested)
+		{
+			FileInfo? newest = FindNewestLinuxLog(threshold, out _);
+			if (newest != null)
+			{
+				return newest;
+			}
+			if (!reported)
+			{
+				reported = true;
+				App.Logger.WriteLine("ActivityWatcher::Start", "Waiting for Sober to write its log");
+			}
+			if (!await WaitAsync(1500, token))
+			{
+				return null;
+			}
+		}
+		return null;
+	}
+
+	private static FileInfo ResolveLogTarget(FileInfo file)
+	{
+		try
+		{
+			if (file.LinkTarget != null && file.ResolveLinkTarget(true) is FileInfo target)
+			{
+				return target;
+			}
+		}
+		catch (IOException)
+		{
+		}
+		return file;
+	}
+
+	private static FileInfo? FindNewestLinuxLog(DateTime threshold, out bool fromSober)
+	{
+		FileInfo? newest = null;
+		fromSober = false;
+		foreach (string directory in GetClientLogDirectories())
+		{
+			bool soberDirectory = IsSoberLogDirectory(directory);
+			foreach (FileInfo file in new DirectoryInfo(directory).EnumerateFiles())
+			{
+				if (!IsClientLogFile(file))
+				{
+					continue;
+				}
+				FileInfo target = ResolveLogTarget(file);
+				if (!target.Exists || target.LastWriteTimeUtc < threshold)
+				{
+					continue;
+				}
+				bool better = newest == null
+					|| soberDirectory && !fromSober
+					|| soberDirectory == fromSober && target.LastWriteTimeUtc > newest.LastWriteTimeUtc;
+				if (better)
+				{
+					newest = target;
+					fromSober = soberDirectory;
+				}
+			}
+		}
+		return newest;
+	}
+
+	private static bool IsSoberLogDirectory(string? directory)
+	{
+		return string.Equals(Path.GetFileName(directory), "sober_logs", StringComparison.Ordinal);
+	}
+
+	private FileInfo? NewerLinuxLog(FileStream stream)
+	{
+		if (!OperatingSystem.IsLinux() || Environment.TickCount64 < _nextLogScan)
+		{
+			return null;
+		}
+		_nextLogScan = Environment.TickCount64 + 2000;
+		try
+		{
+			FileInfo? best = FindNewestLinuxLog(_createdUtc.AddSeconds(-5), out bool fromSober);
+			if (best == null)
+			{
+				return null;
+			}
+			bool differs = !string.Equals(best.FullName, LogLocation, StringComparison.Ordinal);
+			if (differs && fromSober && !IsSoberLogDirectory(Path.GetDirectoryName(LogLocation)))
+			{
+				return best;
+			}
+			return best.LastWriteTimeUtc - File.GetLastWriteTimeUtc(stream.SafeFileHandle) > TimeSpan.FromSeconds(2) ? best : null;
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			return null;
+		}
+	}
+
+	private void StopLogWatcher()
+	{
+		if (_logWatcher == null)
+		{
+			return;
+		}
+		_logWatcher.EnableRaisingEvents = false;
+		_logWatcher.Changed -= OnLogChanged;
+		_logWatcher.Dispose();
+		_logWatcher = null;
 	}
 
 	private void StartLogWatcher(FileInfo logFileInfo)
@@ -675,7 +833,7 @@ public partial class ActivityWatcher : IDisposable
 					PublishLaunchStatus("Joining Server (" + (Data.MachineAddressValid ? Data.MachineAddress : udmuxAddress) + ")");
 				}
 			}
-			else if (entry.Contains("[FLog::Network] serverId:"))
+			else if (entry.Contains("[FLog::Network] serverId:") || (entry.Contains("\"type\":\"game_loaded\"") && !entry.Contains("\"place_id\":\"0\"")))
 			{
 				string message2 = "Confirmed game join (JobId = " + Data.JobId + ")";
 				App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", message2);
@@ -996,13 +1154,7 @@ public partial class ActivityWatcher : IDisposable
 		}
 		IsDisposed = true;
 		_playerLifetimeCts.Cancel();
-		if (_logWatcher != null)
-		{
-			_logWatcher.EnableRaisingEvents = false;
-			_logWatcher.Changed -= OnLogChanged;
-			_logWatcher.Dispose();
-			_logWatcher = null;
-		}
+		StopLogWatcher();
         RestoreOriginalResolution();
 		OnGameJoin = null;
 		OnGameLeave = null;

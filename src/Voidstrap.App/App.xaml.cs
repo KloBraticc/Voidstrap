@@ -766,6 +766,9 @@ public partial class App : Application
 		TryStartup("Subpixel text", Voidstrap.UI.LinuxSubpixelText.Install);
 		TryStartup("Font catalog order", Voidstrap.UI.LinuxFontCatalog.Install);
 		TryStartup("Text fallback", Voidstrap.UI.LinuxTextFallback.Install);
+#if CROSSPLAT
+		TryStartup("Sober setup assist", Voidstrap.Integrations.SoberOnboarding.Install);
+#endif
 		TryStartup("Focus style", DisableFocusVisuals);
 		TryStartup("Portable popups", EmbedPortablePopups);
 		TryStartup("Portable tooltips", DisablePortableToolTips);
