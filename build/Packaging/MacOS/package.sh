@@ -107,7 +107,21 @@ if [ -n "${MACOS_NOTARY_PROFILE:-}" ] && [ -n "${MACOS_SIGN_IDENTITY:-}" ]; then
   ditto -c -k --keepParent "$APPLICATION" "$ARCHIVE"
 fi
 
-hdiutil create -volname Voidstrap -srcfolder "$APPLICATION" -ov -format UDZO "$DMG"
+create_disk_image() {
+  local attempt
+  for attempt in 1 2 3 4 5 6; do
+    if hdiutil create -volname Voidstrap -srcfolder "$APPLICATION" -ov -format UDZO "$DMG"; then
+      return 0
+    fi
+    echo "hdiutil create failed on attempt $attempt, retrying"
+    rm -f "$DMG"
+    sleep $((attempt * 5))
+  done
+  echo "The disk image could not be created"
+  return 1
+}
+
+create_disk_image
 
 if [ -n "${MACOS_SIGN_IDENTITY:-}" ]; then
   codesign --force --sign "$MACOS_SIGN_IDENTITY" "$DMG"

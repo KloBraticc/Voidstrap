@@ -287,18 +287,16 @@ internal static class WindowAudit
 				PumpUntil(() => !window.IsVisible, 3000);
 
 			window.ShowNotification("Game join icon audit\nDallas • 1 player", icon, 3);
-			System.Windows.Controls.Border? imageSurface = null;
-			ImageBrush? brush = null;
+			System.Windows.Controls.Image? imageSurface = null;
 			bool prepared = PumpUntil(() =>
 			{
-				imageSurface = window.FindName("NotificationImage") as System.Windows.Controls.Border;
-				brush = imageSurface?.Background as ImageBrush;
+				imageSurface = window.FindName("NotificationImage") as System.Windows.Controls.Image;
 				return window.IsVisible
 					&& imageSurface?.Visibility == Visibility.Visible
 					&& imageSurface.ActualWidth >= 39
 					&& imageSurface.ActualHeight >= 39
-					&& ReferenceEquals(brush?.ImageSource, icon)
-					&& brush.Stretch == Stretch.Uniform;
+					&& ReferenceEquals(imageSurface.Source, icon)
+					&& imageSurface.Stretch == Stretch.Uniform;
 			}, 3500);
 
 			bool nativePixels = false;
@@ -382,22 +380,21 @@ internal static class WindowAudit
 				window.ShowNotification("Game join icon audit\nDallas • 1 player", decoded, 0.5, flag);
 				decodedPrepared = PumpUntil(() =>
 				{
-					imageSurface = window.FindName("NotificationImage") as System.Windows.Controls.Border;
-					brush = imageSurface?.Background as ImageBrush;
+					imageSurface = window.FindName("NotificationImage") as System.Windows.Controls.Image;
 					return window.IsVisible
 						&& imageSurface?.Visibility == Visibility.Visible
 						&& imageSurface.ActualWidth >= 39
 						&& imageSurface.ActualHeight >= 39
-						&& ReferenceEquals(brush?.ImageSource, decoded);
+						&& ReferenceEquals(imageSurface.Source, decoded);
 				}, 3500);
 			}
 
 			bool passed = prepared && decodedPrepared && (!nativeCaptureAvailable || nativePixels);
 			string surfaceProof = nativeCaptureAvailable
 				? "native icon pixels verified"
-				: "native surface capture returned no drawn content, brush state only";
+				: "native surface capture returned no drawn content, image state only";
 			Emit(passed
-				? $"join notification icon audit: PASS, prewarmed image brush, decoded thumbnail reuse, {surfaceProof}"
+				? $"join notification icon audit: PASS, prewarmed image, decoded thumbnail reuse, {surfaceProof}"
 				: $"join notification icon audit: FAIL, prepared {prepared}, decoded {decodedPrepared}, capture {nativeCaptureAvailable}, native pixels {nativePixels}");
 		}
 		catch (Exception ex)

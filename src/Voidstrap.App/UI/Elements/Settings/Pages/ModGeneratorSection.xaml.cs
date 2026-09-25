@@ -334,7 +334,7 @@ public partial class ModGeneratorSection : UserControl
 			for (int step = 0; step < 40 && glyphs.Count < 9 && count > 1; step++)
 			{
 				ushort glyph = (ushort)(1 + (long)step * (count - 2) / 40);
-				if (glyphs.Contains(glyph) || typeface.GetGlyphOutline(glyph, size, size).Bounds.IsEmpty)
+				if (glyphs.Contains(glyph) || typeface.AdvanceWidths[glyph] - typeface.LeftSideBearings[glyph] - typeface.RightSideBearings[glyph] <= 0.0)
 				{
 					continue;
 				}

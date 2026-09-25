@@ -22,7 +22,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
           </Grid.ColumnDefinitions>
-          <Border Name="NotificationImage" Grid.Column="0" Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center" Visibility="Collapsed" SnapsToDevicePixels="True" />
+          <Image Name="NotificationImage" Grid.Column="0" Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center" Visibility="Collapsed" Stretch="Uniform" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality" />
           <StackPanel Grid.Column="1" VerticalAlignment="Center">
             <TextBlock Name="NotificationText" Foreground="#FFFFFFFF" FontFamily="Inter 18pt, Selawik, Segoe UI Variable, Segoe UI, Ubuntu, Cantarell, Noto Sans, DejaVu Sans, Liberation Sans" FontWeight="SemiBold" FontSize="13" LineStackingStrategy="MaxHeight" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxHeight="42" />
             <Border Margin="0,8,0,0" CornerRadius="2" Height="3" Background="#22FFFFFF" ClipToBounds="True">

@@ -5253,13 +5253,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _state.HeightUpdateV2 = fullscreenBounds.Height;
             _state.TopUpdateV2 = fullscreenBounds.Top;
             _state.LeftUpdateV2 = fullscreenBounds.Left;
-            App.State.Save();
+            SaveSanitizedWindowState();
             return;
         }
         if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.UI.LinuxWindowMode.IsCompositorMaximized(this))
         {
             _state.MaximizedUpdateV2 = true;
-            App.State.Save();
+            SaveSanitizedWindowState();
             return;
         }
         bool maximized = base.WindowState == System.Windows.WindowState.Maximized;
@@ -5291,7 +5291,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _state.TopUpdateV2 = base.Top;
             _state.LeftUpdateV2 = base.Left;
         }
+        SaveSanitizedWindowState();
+    }
+
+    private static void SaveSanitizedWindowState()
+    {
+        _state.WidthUpdateV2 = FiniteOrZero(_state.WidthUpdateV2);
+        _state.HeightUpdateV2 = FiniteOrZero(_state.HeightUpdateV2);
+        _state.LeftUpdateV2 = FiniteOrZero(_state.LeftUpdateV2);
+        _state.TopUpdateV2 = FiniteOrZero(_state.TopUpdateV2);
         App.State.Save();
+    }
+
+    private static double FiniteOrZero(double value)
+    {
+        return double.IsFinite(value) ? value : 0.0;
     }
 
     private void SaveNavigation(INavigation sender, RoutedNavigationEventArgs e)

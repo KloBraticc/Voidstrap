@@ -45,6 +45,14 @@ public static class LinuxSharedGpuDevice
 	private static bool _keeperUnavailable;
 
 	private static bool _shareDevice;
+
+	private static readonly PropertyInfo? ImageAdapterProperty = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).GetProperty("WpfImageSourceAdapter", InstanceMembers);
+
+	private static readonly Type? BitmapAdapterType = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).Assembly.GetType("System.Windows.Media.ProGPU.Composition.Mil.WpfBitmapSourceImageAdapter", false);
+
+	private static readonly PropertyInfo? ReplayRegistrationProperty = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).GetProperty("RenderDataSinkProviderRegistrationFactory", InstanceMembers);
+
+	private static bool _imageAdapterFailed;
 #endif
 
 	internal const uint MaxSurfaceSize = 8192;
@@ -77,7 +85,7 @@ public static class LinuxSharedGpuDevice
 		{
 			App.Logger.WriteLine("LinuxSharedGpuDevice", "The tuned window host failed, falling back to the default host: " + ex.Message);
 			_shareDevice = false;
-			return new System.Windows.Media.ProGPU.ProGpuWpfWindowHost(System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window));
+			return WithOwnImageContext(new System.Windows.Media.ProGPU.ProGpuWpfWindowHost(System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window)));
 		}
 	}
 
@@ -99,9 +107,85 @@ public static class LinuxSharedGpuDevice
 			}
 		}
 
-		System.Windows.Media.ProGPU.ProGpuWpfWindowHost host = new(options);
+		System.Windows.Media.ProGPU.ProGpuWpfWindowHost host = WithOwnImageContext(new(options));
 		LinuxWindowReveal.Prepare(window, host);
 		return host;
+	}
+
+	private static System.Windows.Media.ProGPU.ProGpuWpfWindowHost WithOwnImageContext(System.Windows.Media.ProGPU.ProGpuWpfWindowHost host)
+	{
+		if (ImageAdapterProperty is null || BitmapAdapterType is null || _imageAdapterFailed)
+			return host;
+		try
+		{
+			object adapter = DispatchProxy.Create(ImageAdapterProperty.PropertyType, typeof(HostImageAdapter));
+			((HostImageAdapter)adapter).Attach(host, Activator.CreateInstance(BitmapAdapterType)!);
+			ImageAdapterProperty.SetValue(host, adapter);
+			if (ReplayRegistrationProperty?.GetValue(host) is Delegate registration)
+			{
+				Type[] types = ReplayRegistrationProperty.PropertyType.GetGenericArguments();
+				MethodInfo wrap = typeof(LinuxSharedGpuDevice).GetMethod(nameof(WrapReplay), BindingFlags.NonPublic | BindingFlags.Static)!.MakeGenericMethod(types[0], types[1]);
+				ReplayRegistrationProperty.SetValue(host, wrap.Invoke(null, [registration, host]));
+			}
+		}
+		catch (Exception ex)
+		{
+			_imageAdapterFailed = true;
+			App.Logger.WriteLine("LinuxSharedGpuDevice", "Images keep the default texture context: " + ex.Message);
+		}
+		return host;
+	}
+
+	private static Func<TFrame, TAdapter, IDisposable?> WrapReplay<TFrame, TAdapter>(Func<TFrame, TAdapter, IDisposable?> registration, System.Windows.Media.ProGPU.ProGpuWpfWindowHost host)
+	{
+		return (frame, adapter) =>
+		{
+			ProGPU.Backend.WgpuContext? context = host.CompositionTarget?.Context;
+			if (context is null || context.IsDisposed)
+				return registration(frame, adapter);
+			ProGPU.Backend.WgpuContext.CurrentContextScope scope = ProGPU.Backend.WgpuContext.PushCurrent(context);
+			try
+			{
+				return new ReplayScope(registration(frame, adapter), scope);
+			}
+			catch
+			{
+				scope.Dispose();
+				throw;
+			}
+		};
+	}
+
+	private sealed class ReplayScope(IDisposable? registration, ProGPU.Backend.WgpuContext.CurrentContextScope scope) : IDisposable
+	{
+		public void Dispose()
+		{
+			registration?.Dispose();
+			scope.Dispose();
+		}
+	}
+
+	public class HostImageAdapter : DispatchProxy
+	{
+		private System.Windows.Media.ProGPU.ProGpuWpfWindowHost? _host;
+		private object? _inner;
+
+		internal void Attach(System.Windows.Media.ProGPU.ProGpuWpfWindowHost host, object inner)
+		{
+			_host = host;
+			_inner = inner;
+		}
+
+		protected override object? Invoke(MethodInfo? targetMethod, object?[]? args)
+		{
+			if (targetMethod is null || _inner is null)
+				return null;
+			ProGPU.Backend.WgpuContext? context = _host?.CompositionTarget?.Context;
+			if (context is null || context.IsDisposed)
+				return targetMethod.Invoke(_inner, args);
+			using (ProGPU.Backend.WgpuContext.PushCurrent(context))
+				return targetMethod.Invoke(_inner, args);
+		}
 	}
 
 	private static void ApplyCompositorOptions(System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options)

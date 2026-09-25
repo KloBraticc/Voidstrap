@@ -220,20 +220,12 @@ namespace Voidstrap.UI.Elements.Overlay
 		{
 			if (image == null)
 			{
-				NotificationImage.Background = null;
+				NotificationImage.Source = null;
 				NotificationImage.Visibility = Visibility.Collapsed;
 				return;
 			}
 
-			ImageBrush brush = new(image)
-			{
-				AlignmentX = AlignmentX.Center,
-				AlignmentY = AlignmentY.Center,
-				Stretch = Stretch.Uniform
-			};
-			if (brush.CanFreeze)
-				brush.Freeze();
-			NotificationImage.Background = brush;
+			NotificationImage.Source = image;
 			NotificationImage.Visibility = Visibility.Visible;
 			NotificationImage.InvalidateMeasure();
 			NotificationImage.InvalidateArrange();
