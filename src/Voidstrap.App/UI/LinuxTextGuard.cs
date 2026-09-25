@@ -96,6 +96,7 @@ public static class LinuxTextGuard
 	private sealed class TraversalState
 	{
 		public int Pending;
+		public int InitialPassCompleted;
 		public int AlignmentPending;
 		public int OwnerPending;
 		public int OwnerGeneration;
@@ -141,23 +142,20 @@ public static class LinuxTextGuard
 		EventManager.RegisterClassHandler(typeof(Wpf.Ui.Controls.UiPage), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnPageLoaded));
 		EventManager.RegisterClassHandler(typeof(Wpf.Ui.Controls.UiPage), FrameworkElement.SizeChangedEvent, new SizeChangedEventHandler(OnPageResized));
 		EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnWindowLoaded));
-		EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.SizeChangedEvent, new SizeChangedEventHandler(OnWindowResized));
 	}
 
 	private static void OnWindowLoaded(object sender, RoutedEventArgs e)
 	{
-		if (sender is Window window)
+		if (sender is not Window window)
+			return;
+		TraversalState state = WindowStates.GetValue(window, static _ => new TraversalState());
+		if (Interlocked.Exchange(ref state.Pending, 1) != 0)
+			return;
+		window.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
 		{
-			QueueWindowCorrection(window);
-		}
-	}
-
-	private static void OnWindowResized(object sender, SizeChangedEventArgs e)
-	{
-		if (e.WidthChanged && sender is Window window)
-		{
-			QueueWindowCorrection(window);
-		}
+			Volatile.Write(ref state.Pending, 0);
+			QueueDescendants(window, window, true);
+		}));
 	}
 
 	private static void OnPageLoaded(object sender, RoutedEventArgs e)
@@ -207,13 +205,31 @@ public static class LinuxTextGuard
 
 		FlowState state = FlowStates.GetValue(block, static _ => new FlowState());
 		Initialize(block, state);
+		Wpf.Ui.Controls.UiPage? page = FindTextPage(block);
+		if (page != null && Volatile.Read(ref PageStates.GetValue(page, static _ => new TraversalState()).InitialPassCompleted) == 0)
+		{
+			Subscribe(block, state);
+			return;
+		}
 		Window? owner = FindTextOwner(block);
 		if (owner != null)
 		{
 			state.Owner = new WeakReference<Window>(owner);
 		}
 		Subscribe(block, state);
-		QueueCorrection(block);
+		QueueCorrection(block, DispatcherPriority.Loaded);
+	}
+
+	private static Wpf.Ui.Controls.UiPage? FindTextPage(TextBlock block)
+	{
+		DependencyObject? current = block;
+		while (current != null)
+		{
+			if (current is Wpf.Ui.Controls.UiPage page)
+				return page;
+			current = VisualTreeHelper.GetParent(current) ?? LogicalTreeHelper.GetParent(current);
+		}
+		return null;
 	}
 
 	private static Window? FindTextOwner(TextBlock block)
@@ -243,7 +259,7 @@ public static class LinuxTextGuard
 
 	private static void OnTextResized(object sender, SizeChangedEventArgs e)
 	{
-		if (e.WidthChanged && sender is TextBlock block)
+		if (e.WidthChanged && Math.Abs(e.NewSize.Width - e.PreviousSize.Width) >= WrapSafety && sender is TextBlock block)
 		{
 			QueueCorrection(block);
 		}
@@ -419,6 +435,8 @@ public static class LinuxTextGuard
 		{
 			PageOwners.GetValue(page, static _ => new OwnerState()).Owner = new WeakReference<Window>(owner);
 			TraversalState state = PageStates.GetValue(page, static _ => new TraversalState());
+			if (Volatile.Read(ref state.InitialPassCompleted) == 0)
+				return;
 			Interlocked.Increment(ref state.OwnerGeneration);
 			QueueOwnedPageCorrection(page, state, owner);
 			return;
@@ -474,7 +492,7 @@ public static class LinuxTextGuard
 		}
 	}
 
-	private static void QueueCorrection(TextBlock block)
+	private static void QueueCorrection(TextBlock block, DispatcherPriority priority = DispatcherPriority.Background)
 	{
 		if (Wpf.Ui.Animations.RenderReady.IsLayoutMotionActive)
 		{
@@ -509,7 +527,7 @@ public static class LinuxTextGuard
 			return;
 		}
 
-		block.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+		block.Dispatcher.BeginInvoke(priority, new Action(() =>
 		{
 			try
 			{
@@ -525,15 +543,21 @@ public static class LinuxTextGuard
 	private static void QueuePageCorrection(Wpf.Ui.Controls.UiPage page)
 	{
 		TraversalState state = PageStates.GetValue(page, static _ => new TraversalState());
-		if (Interlocked.Exchange(ref state.Pending, 1) == 0)
+		if (Volatile.Read(ref state.InitialPassCompleted) == 0 && Interlocked.Exchange(ref state.Pending, 1) == 0)
 		{
-			page.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() =>
+			page.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
 			{
-				Volatile.Write(ref state.Pending, 0);
-				QueueDescendants(page, FindPageOwner(page));
+				try
+				{
+					QueueDescendants(page, FindPageOwner(page));
+				}
+				finally
+				{
+					Volatile.Write(ref state.InitialPassCompleted, 1);
+					Volatile.Write(ref state.Pending, 0);
+				}
 			}));
 		}
-
 		if (Interlocked.Exchange(ref state.AlignmentPending, 1) == 0)
 		{
 			page.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -550,33 +574,15 @@ public static class LinuxTextGuard
 		}
 	}
 
-	private static void QueueWindowCorrection(Window window)
-	{
-		TraversalState state = WindowStates.GetValue(window, static _ => new TraversalState());
-		QueueTraversal(window, state);
-	}
-
-	private static void QueueTraversal(FrameworkElement root, TraversalState state)
-	{
-		if (Interlocked.Exchange(ref state.Pending, 1) != 0)
-		{
-			return;
-		}
-
-		root.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
-		{
-			Volatile.Write(ref state.Pending, 0);
-			QueueDescendants(root, root as Window);
-		}));
-	}
-
-	private static void QueueDescendants(DependencyObject root, Window? owner)
+	private static void QueueDescendants(DependencyObject root, Window? owner, bool skipPages = false)
 	{
 		Stack<DependencyObject> pending = new();
 		pending.Push(root);
 		while (pending.Count > 0)
 		{
 			DependencyObject current = pending.Pop();
+			if (skipPages && current is Wpf.Ui.Controls.UiPage)
+				continue;
 			if (current is TextBlock block)
 			{
 				if (owner != null)
@@ -585,7 +591,7 @@ public static class LinuxTextGuard
 					flow.Owner = new WeakReference<Window>(owner);
 				}
 
-				QueueCorrection(block);
+				QueueCorrection(block, DispatcherPriority.Loaded);
 			}
 
 			int children = VisualTreeHelper.GetChildrenCount(current);

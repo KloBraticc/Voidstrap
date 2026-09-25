@@ -69,11 +69,19 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
 			RootFrame.SizeChanged += RootFrame_SizeChanged;
+			Voidstrap.UI.LinuxUiPerformance.ReducedMotionChanged += OnLinuxReducedMotionChanged;
+			if (Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
+				RootNavigation.TransitionDuration = 0;
 		}
 		base.Closed += MainWindow_Closed;
 		_viewModel.SetStep(0, HeadingFor(typeof(InstallPage)));
 		PaintSteps(0);
 		ApplyChrome(typeof(InstallPage));
+	}
+
+	private void OnLinuxReducedMotionChanged(object? sender, EventArgs e)
+	{
+		RootNavigation.TransitionDuration = 0;
 	}
 
 	private void OnCloseWindowRequest(object? sender, EventArgs e)
@@ -99,6 +107,7 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 
 	private void MainWindow_Closed(object? sender, EventArgs e)
 	{
+		Voidstrap.UI.LinuxUiPerformance.ReducedMotionChanged -= OnLinuxReducedMotionChanged;
 		base.Closing -= MainWindow_Closing;
 		base.Closed -= MainWindow_Closed;
 		_viewModel.CloseWindowRequest -= OnCloseWindowRequest;

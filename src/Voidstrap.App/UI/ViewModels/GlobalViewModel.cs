@@ -11,7 +11,7 @@ public static class GlobalViewModel
 	{
 		if (location != null)
 		{
-			Utilities.ShellExecute(location);
+			Utilities.OpenWebLink(location);
 		}
 	}
 }

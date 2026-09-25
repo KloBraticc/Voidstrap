@@ -553,6 +553,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public MainWindow(bool showAlreadyRunningWarning)
     {
+        long constructorStarted = System.Diagnostics.Stopwatch.GetTimestamp();
         //IL_0017: Unknown result type (might be due to invalid IL or missing references)
         //IL_0021: Expected O, but got Unknown
         //IL_00d0: Unknown result type (might be due to invalid IL or missing references)
@@ -564,6 +565,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         //IL_01cc: Unknown result type (might be due to invalid IL or missing references)
         //IL_01de: Expected O, but got Unknown
         InitializeComponent();
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            IntroOverlay.Visibility = Visibility.Collapsed;
+            Voidstrap.UI.LinuxUiPerformance.ReducedMotionChanged += OnLinuxReducedMotionChanged;
+            if (Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
+                RootNavigation.TransitionDuration = 0;
+        }
         CommandPaletteResultsList.ItemsSource = _commandPaletteRows;
         PrepareLinuxRestartNotificationInput();
         SoberNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
@@ -606,6 +614,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _ = ShowAlreadyRunningSnackbarAsync();
         }
         RefreshRestartNotification();
+        Voidstrap.UI.LinuxUiPerformance.Duration("Settings window constructor", constructorStarted);
+    }
+
+    private void OnLinuxReducedMotionChanged(object? sender, EventArgs e)
+    {
+        CompositionTarget.Rendering -= CompositionTarget_Rendering;
+        SnowCanvas?.SetActive(false);
+        RootNavigation.TransitionDuration = 0;
     }
 
     private void VisibilityTimer_Tick(object? sender, EventArgs e)
@@ -2873,7 +2889,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void StartGradientRendering()
     {
-        if (App.Settings.Prop.GRADmentFR && base.IsActive)
+        if (App.Settings.Prop.GRADmentFR && base.IsActive && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
         {
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
             CompositionTarget.Rendering += CompositionTarget_Rendering;
@@ -2882,6 +2898,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void CompositionTarget_Rendering(object? sender, EventArgs e)
     {
+        if (Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
+        {
+            CompositionTarget.Rendering -= CompositionTarget_Rendering;
+            return;
+        }
         //IL_0002: Unknown result type (might be due to invalid IL or missing references)
         //IL_0008: Unknown result type (might be due to invalid IL or missing references)
         //IL_000e: Unknown result type (might be due to invalid IL or missing references)
@@ -3288,7 +3309,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     public void ApplyGradientMovement(bool enabled)
     {
         CompositionTarget.Rendering -= CompositionTarget_Rendering;
-        if (enabled)
+        if (enabled && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
         {
             CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
@@ -3298,7 +3319,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            SnowCanvas?.SetActive(enabled && IsActive);
+            SnowCanvas?.SetActive(enabled && IsActive && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion);
         }
         catch (Exception ex)
         {
@@ -3510,8 +3531,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private async void MainWindow_Loaded(object? sender, RoutedEventArgs e)
     {
+        long loadedStarted = System.Diagnostics.Stopwatch.GetTimestamp();
         InitializeNavigation();
-        PopulateTopSearch();
         ApplyUiZoom();
         LoadSidebarWidth();
         ApplyLinuxWindowSize();
@@ -3523,12 +3544,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Voidstrap.Utility.AppNotifications.Changed += OnAppNotificationsChanged;
         Voidstrap.Utility.AppNotifications.Reload();
         ApplyNotificationUnread(Voidstrap.Utility.AppNotifications.UnreadCount);
-        if (App.Settings.Prop.GRADmentFR)
+        if (App.Settings.Prop.GRADmentFR && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
         {
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
             CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
-        if (App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw)
+        if (App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
         {
             SnowCanvas?.SetActive(IsActive);
         }
@@ -3536,6 +3557,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             SnowCanvas.SetActive(false);
         }
+        Voidstrap.UI.LinuxUiPerformance.Duration("Settings window loaded work", loadedStarted);
         await ((DispatcherObject)this).Dispatcher.InvokeAsync((Action)delegate
         {
         }, (DispatcherPriority)6);
@@ -4155,6 +4177,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
         _introPlayed = true;
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            FinishIntro(null);
+            return;
+        }
         Storyboard? storyboard = TryFindResource("IntroStoryboard") as Storyboard;
         if (storyboard == null)
         {
@@ -4481,14 +4508,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         base.OnActivated(e);
         UpdateButtonContent();
-        if (App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw)
+        if (App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
         {
             SnowCanvas?.SetActive(true);
         }
         try
         {
             _visibilityTimer.Start();
-            if (App.Settings.Prop.GRADmentFR)
+            if (App.Settings.Prop.GRADmentFR && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
             {
                 CompositionTarget.Rendering -= CompositionTarget_Rendering;
                 CompositionTarget.Rendering += CompositionTarget_Rendering;
@@ -5013,6 +5040,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RootNavigation.Navigated -= SaveNavigation;
         RootNavigation.Navigated -= RootNavigation_RpcNavigated;
         GlobalBackground.Changed -= OnGlobalBackgroundChanged;
+        Voidstrap.UI.LinuxUiPerformance.ReducedMotionChanged -= OnLinuxReducedMotionChanged;
         RestartNotificationService.Changed -= OnRestartRequirementsChanged;
         try
         {

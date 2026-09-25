@@ -252,7 +252,7 @@ public partial class FastFlagsPage : UiPage{
 
 	private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
 	{
-		Utilities.ShellExecute(e.Uri.AbsoluteUri);
+		Utilities.OpenWebLink(e.Uri.AbsoluteUri);
 		e.Handled = true;
 	}
 

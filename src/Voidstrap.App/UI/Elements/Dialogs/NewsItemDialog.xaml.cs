@@ -33,7 +33,7 @@ namespace Voidstrap.UI.Elements.Dialogs
 
         private void TagButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button { Content: string url } && Uri.IsWellFormedUriString(url, UriKind.Absolute))
+            if (sender is Button { Content: string url } && Utilities.IsWebLink(url))
             {
                 try
                 {

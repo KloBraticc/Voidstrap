@@ -2,11 +2,14 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Voidstrap.Utility;
 
 internal static class TextFontInstaller
 {
+	private static string? _pendingFontCache;
 	private static readonly string[] FontFiles = new[]
 	{
 		"Inter_18pt-Light.ttf",
@@ -56,12 +59,13 @@ internal static class TextFontInstaller
 			{
 				string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 				string fontDirectory = Path.Combine(home, ".local", "share", "fonts", "voidstrap");
+				string refreshMarker = Path.Combine(fontDirectory, "cache-refresh-pending");
 				bool wroteFonts = ExtractFonts(fontDirectory);
 				bool wroteConfig = WriteAliasConfig(home);
 				if (wroteFonts || wroteConfig)
-				{
-					RefreshFontCache(fontDirectory);
-				}
+					File.WriteAllText(refreshMarker, string.Empty);
+				if (File.Exists(refreshMarker))
+					_pendingFontCache = fontDirectory;
 			}
 			else if (OperatingSystem.IsMacOS())
 			{
@@ -124,21 +128,43 @@ internal static class TextFontInstaller
 		}
 	}
 
-	private static void RefreshFontCache(string fontDirectory)
+	public static async Task RefreshPendingAsync(CancellationToken token)
 	{
+		string? fontDirectory = Interlocked.Exchange(ref _pendingFontCache, null);
+		if (fontDirectory == null)
+			return;
 		try
 		{
 			ProcessStartInfo startInfo = new ProcessStartInfo
 			{
 				FileName = "fc-cache",
 				UseShellExecute = false,
-				RedirectStandardOutput = true,
-				RedirectStandardError = true
+				CreateNoWindow = true
 			};
 			startInfo.ArgumentList.Add("-f");
 			startInfo.ArgumentList.Add(fontDirectory);
 			using Process? process = Process.Start(startInfo);
-			process?.WaitForExit(10000);
+			if (process != null)
+			{
+				using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
+				timeout.CancelAfter(TimeSpan.FromSeconds(10));
+				try
+				{
+					await process.WaitForExitAsync(timeout.Token).ConfigureAwait(false);
+					if (process.ExitCode == 0)
+						File.Delete(Path.Combine(fontDirectory, "cache-refresh-pending"));
+				}
+				catch (OperationCanceledException)
+				{
+					if (!process.HasExited)
+						process.Kill(entireProcessTree: true);
+					if (token.IsCancellationRequested)
+						throw;
+				}
+			}
+		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested)
+		{
 		}
 		catch
 		{

@@ -23,7 +23,12 @@
       </Border>
     </StackPanel>
     <Border Grid.Row="2" Margin="24,0,24,18" CornerRadius="8" BorderThickness="1" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-      <FlowDocumentScrollViewer x:Name="NotesViewer" Margin="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" IsToolBarVisible="False" />
+      <Grid>
+        <FlowDocumentScrollViewer x:Name="NotesViewer" Margin="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" IsToolBarVisible="False" />
+        <ScrollViewer x:Name="NotesScroll" Margin="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="Collapsed">
+          <StackPanel x:Name="NotesPanel" Margin="18,14,18,14" />
+        </ScrollViewer>
+      </Grid>
     </Border>
     <Border Grid.Row="3" Padding="16,12" Background="{DynamicResource PrimaryBackgroundColor}">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

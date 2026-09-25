@@ -249,7 +249,7 @@ public partial class ExtensionPage : UiPage
 	private void OpenRelease_Click(object sender, RoutedEventArgs e)
 	{
 		if (sender is FrameworkElement { Tag: string url } && url.Length > 0)
-			Utilities.ShellExecute(url);
+			Utilities.OpenWebLink(url);
 	}
 
 	private void FillChips(WrapPanel panel, IEnumerable<string> values)
@@ -325,7 +325,7 @@ public partial class ExtensionPage : UiPage
 	private void OpenSource_Click(object sender, RoutedEventArgs e)
 	{
 		if (_detailItem is ExtensionEntry { HasSource: true } asset)
-			Utilities.ShellExecute(asset.Source);
+			Utilities.OpenWebLink(asset.Source);
 	}
 
 	private static void OpenFleasion()

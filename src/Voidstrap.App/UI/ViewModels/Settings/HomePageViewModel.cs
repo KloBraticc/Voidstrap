@@ -855,7 +855,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                 return;
             try
             {
-                Utilities.ShellExecute(entry.Url);
+                Utilities.OpenWebLink(entry.Url);
             }
             catch (Exception ex)
             {
@@ -925,7 +925,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                 return;
             try
             {
-                Utilities.ShellExecute(entry.CatalogUrl);
+                Utilities.OpenWebLink(entry.CatalogUrl);
             }
             catch (Exception ex)
             {

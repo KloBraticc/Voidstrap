@@ -52,7 +52,7 @@ public partial class MainWindow
 
     private void StartPageWarmup()
     {
-        if (_pageWarmupStarted || _isClosed)
+        if (_pageWarmupStarted || _isClosed || Voidstrap.Utility.Platform.IsLinux)
         {
             return;
         }

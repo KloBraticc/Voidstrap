@@ -27,6 +27,7 @@
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
 		<EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+		<PublishReadyToRun Condition="'$(PublishReadyToRun)' == ''">true</PublishReadyToRun>
 		<LinuxProGpuWpfAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\ProGPU.Wpf.dll</LinuxProGpuWpfAssembly>
 		<LinuxPresentationCoreAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\PresentationCore.dll</LinuxPresentationCoreAssembly>
 		<LinuxPresentationFrameworkAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\PresentationFramework.dll</LinuxPresentationFrameworkAssembly>
@@ -248,7 +249,17 @@
 		</ItemGroup>
 	</Target>
 
-	<Target Name="ReplaceLinuxProGpuWpfBundle" AfterTargets="_ComputeFilesToBundle" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(PublishSingleFile)' == 'true'">
+	<Target Name="PrepareLinuxReadyToRunInputs" BeforeTargets="_PrepareForReadyToRunCompilation" DependsOnTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(PublishReadyToRun)' == 'true'">
+		<ItemGroup>
+			<_VoidstrapReadyToRunDuplicate Include="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'System.Private.Windows.Core.dll' And $([System.String]::Copy('%(ResolvedFileToPublish.Identity)').Contains('librewpf.transport'))" />
+			<ResolvedFileToPublish Remove="@(_VoidstrapReadyToRunDuplicate)" />
+			<ResolvedFileToPublish Condition="'%(ResolvedFileToPublish.Extension)' == '.dll' And '%(ResolvedFileToPublish.PostprocessAssembly)' != 'true' And '%(ResolvedFileToPublish.RelativePath)' == '%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' And !$([System.String]::Copy('%(ResolvedFileToPublish.Filename)').EndsWith('.resources'))">
+				<PostprocessAssembly>true</PostprocessAssembly>
+			</ResolvedFileToPublish>
+		</ItemGroup>
+	</Target>
+
+	<Target Name="ReplaceLinuxProGpuWpfBundle" AfterTargets="_ComputeFilesToBundle" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(PublishSingleFile)' == 'true' And '$(PublishReadyToRun)' != 'true'">
 		<ItemGroup>
 			<_FilesToBundle Remove="@(_FilesToBundle)" Condition="'%(_FilesToBundle.Filename)%(_FilesToBundle.Extension)' == 'ProGPU.Wpf.dll'" />
 			<_FilesToBundle Remove="@(_FilesToBundle)" Condition="'%(_FilesToBundle.Filename)%(_FilesToBundle.Extension)' == 'PresentationCore.dll'" />

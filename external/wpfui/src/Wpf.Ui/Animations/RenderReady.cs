@@ -22,6 +22,8 @@ namespace Wpf.Ui.Animations
 
         public static bool IsPortable => Portable;
 
+        public static bool ReducedMotion { get; set; }
+
         private static long _layoutMotionUntil;
 
         public static bool IsLayoutMotionActive => Environment.TickCount64 < Interlocked.Read(ref _layoutMotionUntil);

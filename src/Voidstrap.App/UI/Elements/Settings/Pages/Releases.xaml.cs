@@ -278,9 +278,12 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             try
             {
                 e.Handled = true;
+                Uri? uri = e.Uri;
+                if (uri == null || !Utilities.IsWebLink(uri.AbsoluteUri))
+                    return;
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = e.Uri.AbsoluteUri,
+                    FileName = uri.AbsoluteUri,
                     UseShellExecute = true
                 });
             }

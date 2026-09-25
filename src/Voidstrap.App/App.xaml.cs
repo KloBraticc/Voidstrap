@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -100,6 +101,9 @@ public partial class App : Application
 	private static bool _portableToolTipsDisabled;
 
 	private readonly CancellationTokenSource _lifetimeCancellation = new();
+
+	private int _linuxDeferredStarted;
+	private int _linuxDeferredFallbackQueued;
 
 	public static DiscordRpcClient? DiscordClient { get; set; }
 
@@ -296,6 +300,8 @@ public partial class App : Application
 		{
 			window.ContentRendered -= OnLinuxWindowContentRendered;
 		}
+		if (Current is App application && Volatile.Read(ref application._linuxDeferredStarted) == 0 && Interlocked.Exchange(ref application._linuxDeferredFallbackQueued, 1) == 0)
+			_ = application.StartLinuxDeferredFallbackAsync(application._lifetimeCancellation.Token);
 		if (Volatile.Read(ref _linuxRendererConfirmed) != 0 || _linuxRendererTimer != null)
 		{
 			return;
@@ -733,6 +739,7 @@ public partial class App : Application
 
 	protected override async void OnStartup(StartupEventArgs e)
 	{
+		LinuxUiPerformance.Mark("Startup entered");
 		RegisterExceptionHandlers();
 		if (!Voidstrap.Utility.LinuxRuntimePreflight.Verify())
 		{
@@ -754,6 +761,7 @@ public partial class App : Application
 
 	private async Task StartAsync(string[] args)
 	{
+		LinuxUiPerformance.Install();
 		TryStartup("Shared GPU device", Voidstrap.UI.LinuxSharedGpuDevice.Install);
 		TryStartup("Subpixel text", Voidstrap.UI.LinuxSubpixelText.Install);
 		TryStartup("Font catalog order", Voidstrap.UI.LinuxFontCatalog.Install);
@@ -869,6 +877,7 @@ public partial class App : Application
 		}
 
 		Logger.Initialize(LaunchSettings.UninstallFlag.Active);
+		LinuxUiPerformance.Mark("Logger ready");
 		if (!Logger.Initialized && !Logger.NoWriteMode)
 		{
 			Logger.WriteLine("App::OnStartup", "Possible duplicate launch detected, terminating.");
@@ -900,7 +909,9 @@ public partial class App : Application
 		{
 			TryStartup("Cloud folder handling", PrepareCloudSyncedInstall);
 		}
+		long persistentStateStarted = Stopwatch.GetTimestamp();
 		LoadPersistentState();
+		LinuxUiPerformance.Duration("Persistent state", persistentStateStarted);
 		if (!portableLinux)
 		{
 			TryStartup("Install location repair", () => InstallLocationResolver.Repair(Paths.Base));
@@ -933,9 +944,15 @@ public partial class App : Application
 			return;
 		}
 
+		long servicesStarted = Stopwatch.GetTimestamp();
 		InitializeServices();
+		LinuxUiPerformance.Duration("Services", servicesStarted);
+		long appearanceStarted = Stopwatch.GetTimestamp();
 		InitializeAppearance();
+		LinuxUiPerformance.Duration("Appearance", appearanceStarted);
+		long languageStarted = Stopwatch.GetTimestamp();
 		InitializeLanguage();
+		LinuxUiPerformance.Duration("Language", languageStarted);
 		if (!portableLinux && !LaunchSettings.BypassUpdateCheck)
 		{
 			try
@@ -946,13 +963,6 @@ public partial class App : Application
 			{
 				Logger.WriteException("App::OnStartup::Upgrade", ex);
 			}
-		}
-		if (Voidstrap.Utility.Platform.IsLinux
-			&& !Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed
-			&& !headlessLaunch
-			&& !LaunchSettings.UninstallFlag.Active)
-		{
-			TryStartup("Linux desktop integration", () => Voidstrap.Utility.LinuxDesktopEntry.EnsureInstalled(Paths.Application));
 		}
 		TryStartup("API registration", WindowsRegistry.RegisterApis);
 		TryStartup("Theme protocol cleanup", () => WindowsRegistry.Unregister("voidstrap"));
@@ -1320,30 +1330,98 @@ public partial class App : Application
 		if (!LaunchSettings.WatcherFlag.Active)
 		{
 			TryStartup("Rojo updater", Voidstrap.Integrations.Rojo.RojoManager.AutoUpdate);
-			_ = RefreshRemoteDataAsync(_lifetimeCancellation.Token);
+			if (!Voidstrap.Utility.Platform.IsLinux)
+				_ = RefreshRemoteDataAsync(_lifetimeCancellation.Token);
 		}
 		if (!LaunchSettings.WatcherFlag.Active && !LaunchSettings.IsHelperInvocation)
 		{
-			_ = Voidstrap.Utility.SavedAccounts.EnsureCurrentAccountSavedAsync(_lifetimeCancellation.Token);
-			TryStartup("ORC updater", () => _ = Task.Run(async delegate
+			if (!Voidstrap.Utility.Platform.IsLinux)
 			{
-				Voidstrap.Integrations.ClassicHostRedirect.CleanStaleRedirect();
-				try
+				_ = Voidstrap.Utility.SavedAccounts.EnsureCurrentAccountSavedAsync(_lifetimeCancellation.Token);
+				TryStartup("ORC updater", () => _ = Task.Run(async delegate
 				{
-					await Voidstrap.Utility.ClassicClients.AutoUpdateAllAsync(_lifetimeCancellation.Token).ConfigureAwait(false);
-				}
-				catch (Exception ex)
-				{
-					Logger?.WriteLine("App::OrcAutoUpdate", "Auto update failed: " + ex.Message);
-				}
-			}));
-			_ = CleanupTempAsync(_lifetimeCancellation.Token);
+					Voidstrap.Integrations.ClassicHostRedirect.CleanStaleRedirect();
+					try
+					{
+						await Voidstrap.Utility.ClassicClients.AutoUpdateAllAsync(_lifetimeCancellation.Token).ConfigureAwait(false);
+					}
+					catch (Exception ex)
+					{
+						Logger?.WriteLine("App::OrcAutoUpdate", "Auto update failed: " + ex.Message);
+					}
+				}));
+				_ = CleanupTempAsync(_lifetimeCancellation.Token);
+			}
 			if (LaunchSettings.RobloxLaunchMode == LaunchMode.None && Settings.Prop.CompressRobloxInstalls && Voidstrap.Utility.RobloxInstallCompression.Supported)
 				_ = CompressIdleInstallsAsync(_lifetimeCancellation.Token);
 		}
 		TryStartup("CPU core limiter", CpuCoreLimiter.ApplyConfiguredLimit);
-		TryStartup("GPU inventory warmup", () => Task.Run(() => _ = Voidstrap.Utility.GpuInventory.HasNvidia));
+		if (!Voidstrap.Utility.Platform.IsLinux)
+			TryStartup("GPU inventory warmup", () => Task.Run(() => _ = Voidstrap.Utility.GpuInventory.HasNvidia));
 		TryStartup("Custom RPC", StartCustomRpcIfEnabled);
+	}
+
+	internal void StartLinuxDeferredServices()
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux || LaunchSettings.WindowAuditFlag.Active || Interlocked.Exchange(ref _linuxDeferredStarted, 1) != 0)
+			return;
+		_ = RunLinuxDeferredServicesAsync(_lifetimeCancellation.Token);
+	}
+
+	private async Task StartLinuxDeferredFallbackAsync(CancellationToken token)
+	{
+		try
+		{
+			await Task.Delay(1500, token).ConfigureAwait(false);
+			StartLinuxDeferredServices();
+		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested)
+		{
+		}
+	}
+
+	private async Task RunLinuxDeferredServicesAsync(CancellationToken token)
+	{
+		try
+		{
+			await Task.Delay(750, token).ConfigureAwait(false);
+			_ = TextFontInstaller.RefreshPendingAsync(token);
+			if (!Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed && !LaunchSettings.UninstallFlag.Active)
+				_ = Task.Run(() => TryStartup("Linux desktop integration", () => Voidstrap.Utility.LinuxDesktopEntry.EnsureInstalled(Paths.Application)), token);
+			if (LaunchSettings.WatcherFlag.Active)
+				return;
+			_ = RefreshRemoteDataAsync(token);
+			if (LaunchSettings.IsHelperInvocation)
+				return;
+			_ = Voidstrap.Utility.SavedAccounts.EnsureCurrentAccountSavedAsync(token);
+			_ = CleanupTempAsync(token);
+			_ = Task.Run(() => _ = Voidstrap.Utility.GpuInventory.HasNvidia, token);
+			_ = RunLinuxOrcUpdaterAsync(token);
+		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested)
+		{
+		}
+		catch (Exception ex)
+		{
+			Logger.WriteLine("App::LinuxDeferredServices", "Background startup work failed: " + ex.Message);
+		}
+	}
+
+	private static async Task RunLinuxOrcUpdaterAsync(CancellationToken token)
+	{
+		try
+		{
+			await Task.Delay(3000, token).ConfigureAwait(false);
+			await Task.Run(Voidstrap.Integrations.ClassicHostRedirect.CleanStaleRedirect, token).ConfigureAwait(false);
+			await Voidstrap.Utility.ClassicClients.AutoUpdateAllAsync(token).ConfigureAwait(false);
+		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested)
+		{
+		}
+		catch (Exception ex)
+		{
+			Logger.WriteLine("App::OrcAutoUpdate", "Auto update failed: " + ex.Message);
+		}
 	}
 
 	private static async Task CompressIdleInstallsAsync(CancellationToken token)
@@ -1622,6 +1700,7 @@ public partial class App : Application
 
 	private static void TryStartup(string component, Action action)
 	{
+		long started = Stopwatch.GetTimestamp();
 		try
 		{
 			action();
@@ -1630,11 +1709,16 @@ public partial class App : Application
 		{
 			Logger.WriteException("App::OnStartup::" + component, ex);
 		}
+		finally
+		{
+			LinuxUiPerformance.Duration(component, started);
+		}
 	}
 
 
 	protected override void OnExit(ExitEventArgs e)
 	{
+		LinuxUiPerformance.Shutdown();
 		UnregisterExceptionHandlers();
 		TryShutdown(VpnHttpClient.Shutdown);
 		TryShutdown(_lifetimeCancellation.Cancel);

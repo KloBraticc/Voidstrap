@@ -12,6 +12,21 @@ namespace Voidstrap;
 
 public static class Utilities
 {
+	public static bool IsWebLink(string? url)
+	{
+		return Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) && (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp);
+	}
+
+	public static void OpenWebLink(string? url)
+	{
+		if (!IsWebLink(url))
+		{
+			App.Logger?.WriteLine("Utilities::OpenWebLink", "Blocked a link that is not http or https");
+			return;
+		}
+		ShellExecute(url!);
+	}
+
 	public static void ShellExecute(string website)
 	{
 		if (Voidstrap.Utility.Platform.IsLinux)

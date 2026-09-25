@@ -69,6 +69,7 @@ internal static class LinuxWindowReveal
 		private DispatcherTimer? _deadline;
 		private readonly System.Diagnostics.Stopwatch _elapsed = System.Diagnostics.Stopwatch.StartNew();
 		private bool _done;
+		private bool _revealQueued;
 
 		internal Pending(Window window, System.Windows.Media.ProGPU.ProGpuWpfWindowHost host, nint handle)
 		{
@@ -90,8 +91,11 @@ internal static class LinuxWindowReveal
 		{
 			try
 			{
-				if (_host.PresentedFrameCount > 0)
+				if (!_revealQueued && _host.PresentedFrameCount > 0)
+				{
+					_revealQueued = true;
 					_ = _window.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(RevealAfterFrame));
+				}
 			}
 			catch (Exception ex)
 			{
@@ -134,6 +138,7 @@ internal static class LinuxWindowReveal
 				return;
 			}
 			App.Logger.WriteLine("LinuxWindowReveal", "Showed " + _window.GetType().Name + " after " + _elapsed.ElapsedMilliseconds + " ms on " + reason);
+			LinuxUiPerformance.FirstPresented(_window, _elapsed.ElapsedMilliseconds);
 		}
 
 		private void Finish()

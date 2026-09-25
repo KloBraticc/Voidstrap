@@ -154,7 +154,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 return;
             try
             {
-                Utilities.ShellExecute(entry.Url);
+                Utilities.OpenWebLink(entry.Url);
             }
             catch (Exception ex)
             {

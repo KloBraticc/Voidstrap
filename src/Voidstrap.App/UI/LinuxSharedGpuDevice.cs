@@ -123,6 +123,7 @@ public static class LinuxSharedGpuDevice
 		{
 			string adapter = context.AdapterName ?? string.Empty;
 			bool software = Array.Exists(SoftwareAdapters, name => adapter.Contains(name, StringComparison.OrdinalIgnoreCase));
+			LinuxUiPerformance.Renderer(adapter, software);
 			if (_softwareRenderer != software)
 			{
 				_softwareRenderer = software;
@@ -136,6 +137,8 @@ public static class LinuxSharedGpuDevice
 			return known;
 
 		bool guess = Voidstrap.Utility.LinuxStartup.ActiveStage == "software" || !HasRenderNode();
+		if (guess && Voidstrap.Utility.LinuxStartup.ActiveStage == "software")
+			LinuxUiPerformance.Renderer("software fallback", true);
 		if (guess)
 			App.Logger.WriteLine("LinuxSharedGpuDevice", "No GPU render node was found, windows skip multisampling to stay responsive");
 		return guess;

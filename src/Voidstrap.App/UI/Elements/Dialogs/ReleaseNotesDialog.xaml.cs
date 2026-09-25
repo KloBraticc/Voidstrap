@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ using DocumentInline = System.Windows.Documents.Inline;
 using DocumentList = System.Windows.Documents.List;
 using MarkdownBlock = Markdig.Syntax.Block;
 using MarkdownInline = Markdig.Syntax.Inlines.Inline;
+using WpfControls = System.Windows.Controls;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 
@@ -34,7 +36,15 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 
 	private static readonly System.Windows.Media.FontFamily CodeFont = new System.Windows.Media.FontFamily("Cascadia Mono, Consolas, Courier New");
 
+	private static readonly bool UseNativeBlocks = !Voidstrap.Utility.Platform.IsWindows;
+
+	private const int MaxLinksPerBlock = 8;
+
 	private readonly CancellationTokenSource _lifetime = new CancellationTokenSource();
+
+	private readonly List<WpfControls.Button> _linkButtons = new List<WpfControls.Button>();
+
+	private bool _textFlowQueued;
 
 	private string _releaseUrl = App.ProjectDownloadLink;
 
@@ -139,7 +149,14 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 			FallbackNoticeText.Text = "Voidstrap " + App.Version + " has no published release notes, so the notes for the latest release are shown instead.";
 			FallbackNotice.Visibility = Visibility.Visible;
 		}
-		NotesViewer.Document = BuildDocument(release.Body);
+		if (UseNativeBlocks)
+		{
+			ShowNativeNotes(release.Body);
+		}
+		else
+		{
+			NotesViewer.Document = BuildDocument(release.Body);
+		}
 		if (!string.IsNullOrWhiteSpace(release.HtmlUrl))
 		{
 			_releaseUrl = release.HtmlUrl;
@@ -387,9 +404,318 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 		};
 	}
 
+	private void ShowNativeNotes(string? markdown)
+	{
+		NotesViewer.Visibility = Visibility.Collapsed;
+		NotesScroll.Visibility = Visibility.Visible;
+		ClearLinkButtons();
+		NotesPanel.Children.Clear();
+		string text = string.IsNullOrWhiteSpace(markdown) ? "This release does not include any notes." : markdown;
+		foreach (MarkdownBlock block in Markdown.Parse(text, Pipeline))
+		{
+			AddNativeBlock(NotesPanel.Children, block, 0, false, "TextFillColorPrimaryBrush");
+		}
+		NotesScroll.SizeChanged -= OnNotesSizeChanged;
+		NotesScroll.SizeChanged += OnNotesSizeChanged;
+		QueueNativeTextFlow();
+	}
+
+	private void OnNotesSizeChanged(object sender, SizeChangedEventArgs e)
+	{
+		if (e.WidthChanged)
+		{
+			QueueNativeTextFlow();
+		}
+	}
+
+	private void QueueNativeTextFlow()
+	{
+		if (_textFlowQueued)
+		{
+			return;
+		}
+		_textFlowQueued = true;
+		Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.ContextIdle, new Action(ApplyNativeTextFlow));
+	}
+
+	private void ApplyNativeTextFlow()
+	{
+		_textFlowQueued = false;
+		if (_lifetime.IsCancellationRequested)
+		{
+			return;
+		}
+		Voidstrap.UI.LinuxTextGuard.CorrectOwner(NotesPanel, this);
+	}
+
+	private void AddNativeBlock(WpfControls.UIElementCollection target, MarkdownBlock block, int depth, bool compact, string brushKey)
+	{
+		switch (block)
+		{
+			case HeadingBlock heading:
+			{
+				List<(string Text, string Url)> links = new List<(string, string)>();
+				double size = heading.Level switch { 1 => 22.0, 2 => 19.0, 3 => 16.5, _ => 15.0 };
+				target.Add(CreateText(Flatten(heading.Inline, links), size, FontWeights.SemiBold, new Thickness(0, target.Count == 0 ? 0 : 16, 0, 6), brushKey, double.NaN));
+				AddLinkButtons(target, links, compact);
+				break;
+			}
+			case ParagraphBlock paragraphBlock:
+			{
+				List<(string Text, string Url)> links = new List<(string, string)>();
+				target.Add(CreateText(Flatten(paragraphBlock.Inline, links), 14, FontWeights.Normal, new Thickness(0, 0, 0, compact ? 2 : 10), brushKey, 22));
+				AddLinkButtons(target, links, compact);
+				break;
+			}
+			case ListBlock listBlock:
+			{
+				WpfControls.StackPanel list = new WpfControls.StackPanel { Margin = new Thickness(0, compact ? 2 : 0, 0, compact ? 2 : 10) };
+				int number = listBlock.IsOrdered && int.TryParse(listBlock.OrderedStart, out int start) && start > 0 ? start : 1;
+				foreach (MarkdownBlock item in listBlock)
+				{
+					string marker = listBlock.IsOrdered ? number++ + "." : depth % 2 == 0 ? "•" : "◦";
+					WpfControls.Grid row = new WpfControls.Grid { Margin = new Thickness(0, 0, 0, 2) };
+					row.ColumnDefinitions.Add(new WpfControls.ColumnDefinition { Width = new GridLength(24) });
+					row.ColumnDefinitions.Add(new WpfControls.ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+					row.Children.Add(CreateText(marker, 14, FontWeights.Normal, new Thickness(0), brushKey, 22));
+					WpfControls.StackPanel content = new WpfControls.StackPanel();
+					WpfControls.Grid.SetColumn(content, 1);
+					if (item is ContainerBlock itemBlocks)
+					{
+						foreach (MarkdownBlock child in itemBlocks)
+						{
+							AddNativeBlock(content.Children, child, depth + 1, true, brushKey);
+						}
+					}
+					row.Children.Add(content);
+					list.Children.Add(row);
+				}
+				target.Add(list);
+				break;
+			}
+			case QuoteBlock quote:
+			{
+				WpfControls.Border border = new WpfControls.Border
+				{
+					BorderThickness = new Thickness(3, 0, 0, 0),
+					Padding = new Thickness(12, 2, 0, 2),
+					Margin = new Thickness(0, 0, 0, compact ? 2 : 10)
+				};
+				border.SetResourceReference(WpfControls.Border.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
+				WpfControls.StackPanel content = new WpfControls.StackPanel();
+				foreach (MarkdownBlock child in quote)
+				{
+					AddNativeBlock(content.Children, child, depth, true, "TextFillColorSecondaryBrush");
+				}
+				border.Child = content;
+				target.Add(border);
+				break;
+			}
+			case CodeBlock code:
+			{
+				WpfControls.Border border = new WpfControls.Border
+				{
+					CornerRadius = new CornerRadius(4),
+					Padding = new Thickness(12, 9, 12, 9),
+					Margin = new Thickness(0, 0, 0, compact ? 4 : 10)
+				};
+				border.SetResourceReference(WpfControls.Border.BackgroundProperty, "ControlFillColorSecondaryBrush");
+				WpfControls.TextBlock text = CreateText(code.Lines.ToString().TrimEnd(), 13, FontWeights.Normal, new Thickness(0), brushKey, 19);
+				text.FontFamily = CodeFont;
+				border.Child = text;
+				target.Add(border);
+				break;
+			}
+			case HtmlBlock html:
+			{
+				string plain = WebUtility.HtmlDecode(HtmlTags.Replace(html.Lines.ToString(), string.Empty)).Trim();
+				if (plain.Length > 0)
+				{
+					target.Add(CreateText(plain, 14, FontWeights.Normal, new Thickness(0, 0, 0, compact ? 2 : 10), brushKey, 22));
+				}
+				break;
+			}
+			case ThematicBreakBlock:
+			{
+				WpfControls.Border divider = new WpfControls.Border { Height = 1, Margin = new Thickness(0, 6, 0, 14) };
+				divider.SetResourceReference(WpfControls.Border.BackgroundProperty, "ControlStrokeColorDefaultBrush");
+				target.Add(divider);
+				break;
+			}
+			case LeafBlock leaf when leaf.Inline != null:
+			{
+				List<(string Text, string Url)> links = new List<(string, string)>();
+				target.Add(CreateText(Flatten(leaf.Inline, links), 14, FontWeights.Normal, new Thickness(0, 0, 0, compact ? 2 : 10), brushKey, 22));
+				AddLinkButtons(target, links, compact);
+				break;
+			}
+			case ContainerBlock container:
+			{
+				foreach (MarkdownBlock child in container)
+				{
+					AddNativeBlock(target, child, depth, compact, brushKey);
+				}
+				break;
+			}
+		}
+	}
+
+	private static WpfControls.TextBlock CreateText(string text, double size, FontWeight weight, Thickness margin, string brushKey, double lineHeight)
+	{
+		WpfControls.TextBlock block = new WpfControls.TextBlock
+		{
+			Text = text,
+			FontSize = size,
+			FontWeight = weight,
+			Margin = margin,
+			TextWrapping = TextWrapping.Wrap,
+			LineHeight = lineHeight
+		};
+		block.SetResourceReference(WpfControls.TextBlock.ForegroundProperty, brushKey);
+		return block;
+	}
+
+	private static string Flatten(ContainerInline? container, List<(string Text, string Url)> links)
+	{
+		StringBuilder builder = new StringBuilder();
+		AppendFlattened(builder, container, links);
+		return builder.ToString().Trim();
+	}
+
+	private static void AppendFlattened(StringBuilder builder, ContainerInline? container, List<(string Text, string Url)> links)
+	{
+		if (container == null)
+		{
+			return;
+		}
+		foreach (MarkdownInline inline in container)
+		{
+			switch (inline)
+			{
+				case LiteralInline literal:
+					builder.Append(literal.Content.ToString());
+					break;
+				case LineBreakInline:
+					builder.Append('\n');
+					break;
+				case CodeInline code:
+					builder.Append(code.Content.ToString());
+					break;
+				case HtmlEntityInline entity:
+					builder.Append(entity.Transcoded.ToString());
+					break;
+				case AutolinkInline autolink:
+					builder.Append(autolink.Url);
+					if (!autolink.IsEmail)
+					{
+						AddLink(links, autolink.Url, autolink.Url);
+					}
+					break;
+				case LinkInline link:
+				{
+					int before = builder.Length;
+					AppendFlattened(builder, link, links);
+					string label = builder.ToString(before, builder.Length - before).Trim();
+					if (!link.IsImage)
+					{
+						AddLink(links, label, link.Url);
+					}
+					break;
+				}
+				case ContainerInline nested:
+					AppendFlattened(builder, nested, links);
+					break;
+			}
+		}
+	}
+
+	private static void AddLink(List<(string Text, string Url)> links, string label, string? url)
+	{
+		string target = (url ?? string.Empty).Trim();
+		if (target.StartsWith('/'))
+		{
+			target = "https://github.com" + target;
+		}
+		if (!Utilities.IsWebLink(target) || links.Count >= MaxLinksPerBlock || links.Exists(link => string.Equals(link.Url, target, StringComparison.OrdinalIgnoreCase)))
+		{
+			return;
+		}
+		links.Add((label, target));
+	}
+
+	private void AddLinkButtons(WpfControls.UIElementCollection target, List<(string Text, string Url)> links, bool compact)
+	{
+		if (links.Count == 0)
+		{
+			return;
+		}
+		WpfControls.WrapPanel panel = new WpfControls.WrapPanel { Margin = new Thickness(0, -4, 0, compact ? 4 : 10) };
+		foreach ((string text, string url) in links)
+		{
+			WpfControls.Button button = new WpfControls.Button
+			{
+				Content = LinkLabel(text, url),
+				Tag = url,
+				ToolTip = url,
+				Padding = new Thickness(8, 3, 8, 3),
+				Margin = new Thickness(0, 4, 6, 0),
+				FontSize = 12,
+				BorderThickness = new Thickness(1),
+				Cursor = System.Windows.Input.Cursors.Hand
+			};
+			button.SetResourceReference(WpfControls.Control.ForegroundProperty, "AccentFillColorPrimaryBrush");
+			button.SetResourceReference(WpfControls.Control.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
+			button.SetResourceReference(WpfControls.Control.BorderBrushProperty, "AccentFillColorPrimaryBrush");
+			button.Click += OnLinkButtonClick;
+			_linkButtons.Add(button);
+			panel.Children.Add(button);
+		}
+		target.Add(panel);
+	}
+
+	private static string LinkLabel(string text, string url)
+	{
+		if (text.Length > 0 && !string.Equals(text, url, StringComparison.OrdinalIgnoreCase))
+		{
+			return text.Length > 60 ? text.Substring(0, 57) + "..." : text;
+		}
+		if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri))
+		{
+			return url;
+		}
+		string[] segments = uri.AbsolutePath.Trim('/').Split('/');
+		if (uri.Host.EndsWith("github.com", StringComparison.OrdinalIgnoreCase) && segments.Length >= 4 && (segments[2] == "pull" || segments[2] == "issues"))
+		{
+			return "#" + segments[3];
+		}
+		if (uri.Host.EndsWith("github.com", StringComparison.OrdinalIgnoreCase) && segments.Length >= 4 && segments[2] == "compare")
+		{
+			return "Changes " + segments[3];
+		}
+		string shortened = uri.Host + uri.AbsolutePath.TrimEnd('/');
+		return shortened.Length > 60 ? shortened.Substring(0, 57) + "..." : shortened;
+	}
+
+	private void OnLinkButtonClick(object sender, RoutedEventArgs e)
+	{
+		if (sender is FrameworkElement { Tag: string url })
+		{
+			Utilities.OpenWebLink(url);
+		}
+	}
+
+	private void ClearLinkButtons()
+	{
+		foreach (WpfControls.Button button in _linkButtons)
+		{
+			button.Click -= OnLinkButtonClick;
+		}
+		_linkButtons.Clear();
+	}
+
 	private void OnGitHubButtonClick(object sender, RoutedEventArgs e)
 	{
-		Utilities.ShellExecute(_releaseUrl);
+		Utilities.OpenWebLink(_releaseUrl);
 	}
 
 	private void OnCloseButtonClick(object sender, RoutedEventArgs e)
@@ -403,6 +729,8 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 		Loaded -= OnLoaded;
 		GitHubButton.Click -= OnGitHubButtonClick;
 		CloseButton.Click -= OnCloseButtonClick;
+		NotesScroll.SizeChanged -= OnNotesSizeChanged;
+		ClearLinkButtons();
 		_lifetime.Cancel();
 		_lifetime.Dispose();
 	}

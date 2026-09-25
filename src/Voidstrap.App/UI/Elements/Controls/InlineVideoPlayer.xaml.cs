@@ -200,6 +200,8 @@ public partial class InlineVideoPlayer : UserControl, IDisposable
 
     private static void Launch(string url)
     {
+        if (!Utilities.IsWebLink(url))
+            return;
         try
         {
             Process.Start(new ProcessStartInfo(url)

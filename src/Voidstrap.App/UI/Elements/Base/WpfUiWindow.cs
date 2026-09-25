@@ -46,6 +46,7 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 
 	protected WpfUiWindow()
 	{
+		LinuxUiPerformance.WindowConstructed(this);
 		Voidstrap.UI.AppFont.Apply(this);
 		Voidstrap.UI.RoundedWindowChrome.Prepare(this);
 		Voidstrap.UI.LinuxWindowMode.Attach(this);

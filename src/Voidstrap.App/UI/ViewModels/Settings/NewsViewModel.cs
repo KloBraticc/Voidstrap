@@ -75,7 +75,7 @@ namespace Voidstrap.UI.ViewModels.Settings
         [RelayCommand]
         private static void OpenUrl(string? url)
         {
-            if (string.IsNullOrWhiteSpace(url) || !Uri.IsWellFormedUriString(url, UriKind.Absolute))
+            if (!Utilities.IsWebLink(url))
                 return;
 
             try

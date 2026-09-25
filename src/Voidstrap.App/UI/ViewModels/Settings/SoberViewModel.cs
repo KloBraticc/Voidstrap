@@ -145,8 +145,8 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 	{
 		try
 		{
-			SoberInstallationState state = await new Voidstrap.Platform.Linux.LinuxSoberInstaller(new Voidstrap.Core.SystemProcessService())
-				.DetectAsync()
+			SoberInstallationState state = await Task.Run(() => new Voidstrap.Platform.Linux.LinuxSoberInstaller(new Voidstrap.Core.SystemProcessService())
+				.DetectAsync())
 				.ConfigureAwait(true);
 
 			_installed = state.Status == SoberInstallationStatus.Installed;

@@ -543,6 +543,7 @@ public static class RinControlMotion
 
     private static void Update(FrameworkElement element, bool animate)
     {
+        animate &= !Wpf.Ui.Animations.RenderReady.ReducedMotion;
         MotionState? state = GetState(element);
         if (state?.Root is null)
         {

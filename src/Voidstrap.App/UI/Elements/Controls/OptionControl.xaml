@@ -14,7 +14,7 @@
             </Hyperlink>
           </TextBlock>
         </Grid>
-        <local:MarkdownTextBlock x:Name="DescriptionTextBlock" Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Visibility="Collapsed" />
+        <local:MarkdownTextBlock x:Name="DescriptionTextBlock" Margin="0,2,0,0" HorizontalAlignment="Left" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Visibility="Collapsed" />
       </StackPanel>
     </ui:CardControl.Header>
     <ContentControl.Content>

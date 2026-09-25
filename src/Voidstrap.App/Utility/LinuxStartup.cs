@@ -64,6 +64,7 @@ internal static partial class LinuxStartup
 	[ModuleInitializer]
 	internal static void Initialize()
 	{
+		Voidstrap.UI.LinuxUiPerformance.Mark("Module initializer entered");
 		AppDomain.CurrentDomain.UnhandledException += OnFatalException;
 		_subscribed = true;
 		if (OperatingSystem.IsMacOS())
@@ -82,7 +83,9 @@ internal static partial class LinuxStartup
 			RestoreChildEnvironment();
 			return;
 		}
+		long fontStarted = Stopwatch.GetTimestamp();
 		TextFontInstaller.Install();
+		Voidstrap.UI.LinuxUiPerformance.Duration("Font setup", fontStarted);
 		try
 		{
 			bool headless = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY"))
@@ -95,7 +98,9 @@ internal static partial class LinuxStartup
 					Environment.Exit(1);
 				}
 			}
+			long rendererStarted = Stopwatch.GetTimestamp();
 			string stage = ChooseStage(out bool confirmed);
+			Voidstrap.UI.LinuxUiPerformance.Duration("Renderer selection", rendererStarted);
 			_activeStage = stage;
 			_safeMode = DecideSafeMode();
 			string? executable = Environment.ProcessPath;

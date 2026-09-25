@@ -32,10 +32,13 @@ public sealed class VinegarViewModel : NotifyPropertyChangedViewModel
 	private bool _busy;
 	private bool _installed;
 	private string _status = "Checking for Vinegar...";
+	private IReadOnlyList<Choice<string>> _gpuChoices = [];
 
 	public VinegarViewModel()
 	{
+		_gpuChoices = BuildGpuChoices([]);
 		_ = RefreshInstallationAsync();
+		_ = LoadGpuChoicesAsync();
 	}
 
 	public string InstallationStatus
@@ -84,8 +87,8 @@ public sealed class VinegarViewModel : NotifyPropertyChangedViewModel
 	{
 		try
 		{
-			VinegarInstallationState state = await new LinuxVinegarInstaller(new SystemProcessService())
-				.DetectAsync()
+			VinegarInstallationState state = await Task.Run(() => new LinuxVinegarInstaller(new SystemProcessService())
+				.DetectAsync())
 				.ConfigureAwait(true);
 
 			IsInstalled = state.Status == VinegarInstallationStatus.Installed;
@@ -199,38 +202,53 @@ public sealed class VinegarViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public IReadOnlyList<Choice<string>> GpuChoices
+	private async Task LoadGpuChoicesAsync()
 	{
-		get
+		try
 		{
-			List<Choice<string>> choices = [new Choice<string>(string.Empty, "Automatic")];
-			foreach (LinuxGpuCard card in LinuxGpuCatalog.Cards)
-				choices.Add(new Choice<string>(card.Address, card.DisplayName));
-
-			string stored = App.Settings.Prop.VinegarGpu;
-			if (stored.Length > 0 && !choices.Any(choice => string.Equals(choice.Value, stored, StringComparison.OrdinalIgnoreCase)))
-				choices.Add(new Choice<string>(stored, stored + " (not detected)"));
-
-			return choices;
+			LinuxGpuCard[] cards = await Task.Run(() => LinuxGpuCatalog.Cards.ToArray()).ConfigureAwait(true);
+			_gpuChoices = BuildGpuChoices(cards);
+			OnPropertyChanged(nameof(GpuChoices));
+			OnPropertyChanged(nameof(GpuChoice));
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("VinegarViewModel", "GPU choices could not be loaded: " + ex.Message);
 		}
 	}
+
+	private static IReadOnlyList<Choice<string>> BuildGpuChoices(IEnumerable<LinuxGpuCard> cards)
+	{
+		List<Choice<string>> choices = [new Choice<string>(string.Empty, "Automatic")];
+		foreach (LinuxGpuCard card in cards)
+			choices.Add(new Choice<string>(card.Address, card.DisplayName));
+
+		string stored = App.Settings.Prop.VinegarGpu;
+		if (stored.Length > 0 && !choices.Any(choice => string.Equals(choice.Value, stored, StringComparison.OrdinalIgnoreCase)))
+			choices.Add(new Choice<string>(stored, stored + " (not detected)"));
+		return choices;
+	}
+
+	public IReadOnlyList<Choice<string>> GpuChoices => _gpuChoices;
 
 	public Choice<string> GpuChoice
 	{
 		get
 		{
 			string stored = App.Settings.Prop.VinegarGpu;
-			foreach (Choice<string> choice in GpuChoices)
+			foreach (Choice<string> choice in _gpuChoices)
 			{
 				if (string.Equals(choice.Value, stored, StringComparison.OrdinalIgnoreCase))
 					return choice;
 			}
 
-			return GpuChoices[0];
+			return _gpuChoices[0];
 		}
 		set
 		{
-			string resolved = value?.Value ?? string.Empty;
+			if (value is null)
+				return;
+			string resolved = value.Value;
 			if (string.Equals(App.Settings.Prop.VinegarGpu, resolved, StringComparison.Ordinal))
 				return;
 			App.Settings.Prop.VinegarGpu = resolved;

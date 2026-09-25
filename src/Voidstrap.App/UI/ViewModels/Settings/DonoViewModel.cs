@@ -18,7 +18,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         {
             if (parameter is string url)
             {
-                Utilities.ShellExecute(url);
+                Utilities.OpenWebLink(url);
             }
         }
     }
