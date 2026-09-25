@@ -772,6 +772,7 @@
                         <Setter TargetName="Label" Property="Visibility" Value="Collapsed" />
                         <Setter TargetName="InnerGrid" Property="HorizontalAlignment" Value="Center" />
                         <Setter TargetName="ItemIcon" Property="Margin" Value="0" />
+                        <Setter TargetName="ItemImage" Property="Margin" Value="0" />
                         <Setter TargetName="GroupChevron" Property="Visibility" Value="Collapsed" />
                       </DataTrigger>
                     </ControlTemplate.Triggers>

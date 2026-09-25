@@ -56,7 +56,7 @@ internal static class LinuxTitleBar
 	{
 		titleBar.ApplyTemplate();
 		OverrideMaximizeAction(titleBar);
-		EnableFullWidthDrag(titleBar);
+		EnableDoubleClickMaximize(titleBar);
 		Window? window = Window.GetWindow(titleBar);
 		if (window != null)
 			ApplyMaximizedVisual(titleBar, LinuxWindowMode.IsMaximized(window));
@@ -80,7 +80,7 @@ internal static class LinuxTitleBar
 	}
 
 
-	private static void EnableFullWidthDrag(TitleBar titleBar)
+	private static void EnableDoubleClickMaximize(TitleBar titleBar)
 	{
 		titleBar.PreviewMouseLeftButtonDown -= OnTitleBarPressed;
 		titleBar.PreviewMouseLeftButtonDown += OnTitleBarPressed;
@@ -108,27 +108,6 @@ internal static class LinuxTitleBar
 		{
 			ToggleMaximize(window);
 			e.Handled = true;
-			return;
-		}
-
-		if (LinuxWindowMode.IsFullscreen(window) || LinuxWindowMode.IsCompositorMaximized(window))
-		{
-			return;
-		}
-		if (window.WindowState == System.Windows.WindowState.Maximized)
-			window.WindowState = System.Windows.WindowState.Normal;
-
-		try
-		{
-			window.DragMove();
-			e.Handled = true;
-		}
-		catch (InvalidOperationException)
-		{
-		}
-		catch (Exception ex)
-		{
-			App.Logger?.WriteLine("LinuxTitleBar::OnTitleBarPressed", "The window could not be moved: " + ex.Message);
 		}
 	}
 
