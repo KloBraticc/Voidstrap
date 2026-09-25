@@ -100,6 +100,7 @@ internal sealed class ClassicTopBarWindow : Window
 	public ClassicTopBarWindow()
 	{
 		Title = "Voidstrap Classic TopBar";
+		LinuxOverlaySurface.ReleaseMainWindowClaim(this);
 		WindowStyle = WindowStyle.None;
 		AllowsTransparency = true;
 		Background = Brushes.Transparent;
@@ -310,6 +311,7 @@ internal sealed class ClassicMenuWindow : Window
 	public ClassicMenuWindow()
 	{
 		Title = "Voidstrap Classic Menu";
+		LinuxOverlaySurface.ReleaseMainWindowClaim(this);
 		WindowStyle = WindowStyle.None;
 		AllowsTransparency = true;
 		Background = Brushes.Transparent;

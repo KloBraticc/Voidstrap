@@ -23,7 +23,7 @@ internal static class VoidstrapDefaultCursor
 
 		foreach ((string relativePath, string resourceName) in Files)
 		{
-			string destination = Path.Combine(Paths.Mods, relativePath);
+			string destination = Path.Combine(Paths.Mods, relativePath.Replace('\\', Path.DirectorySeparatorChar));
 			try
 			{
 				byte[] resource = Resource.Get(resourceName);

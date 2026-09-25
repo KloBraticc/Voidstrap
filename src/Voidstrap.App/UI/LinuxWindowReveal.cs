@@ -26,9 +26,38 @@ internal static class LinuxWindowReveal
 		App.Logger.WriteLine("LinuxWindowReveal", "Showing windows right away for the rest of this session: " + reason);
 	}
 
+	private static bool _overlayReported;
+
+	private static bool PrepareOverlay(Window window, System.Windows.Media.ProGPU.ProGpuWpfWindowHost host)
+	{
+		if (InitializeHidden is null || !Voidstrap.Integrations.Overlays.LinuxOverlaySurface.IsOverlayWindow(window))
+			return false;
+
+		try
+		{
+			InitializeHidden.Invoke(host, null);
+			nint handle = host.SilkWindow?.Native?.X11 is { } x11 ? (nint)x11.Window : 0;
+			if (handle == 0 || !Voidstrap.Platform.Linux.LinuxWindowInterop.TryPrepareUnmappedOverlayWindow(handle))
+				return true;
+			if (!_overlayReported)
+			{
+				_overlayReported = true;
+				App.Logger.WriteLine("LinuxWindowReveal", "Overlay windows open unmanaged so they never take focus from the game, first one is " + window.Title);
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LinuxWindowReveal", "Could not prepare the overlay window " + window.Title + ": " + ex.Message);
+		}
+		return true;
+	}
+
 	internal static void Prepare(object window, System.Windows.Media.ProGPU.ProGpuWpfWindowHost host)
 	{
-		if (Disabled || _sessionDisabled || Voidstrap.Utility.LinuxStartup.SafeMode || InitializeHidden is null || window is not Window wpf || wpf.AllowsTransparency)
+		if (window is Window overlay && PrepareOverlay(overlay, host))
+			return;
+
+		if (Disabled || _sessionDisabled || Voidstrap.Utility.LinuxStartup.SafeMode || InitializeHidden is null || window is not Window wpf || wpf.AllowsTransparency || wpf.WindowState == System.Windows.WindowState.Minimized)
 			return;
 
 		nint handle = 0;

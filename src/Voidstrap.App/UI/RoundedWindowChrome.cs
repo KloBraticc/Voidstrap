@@ -135,6 +135,8 @@ public static class RoundedWindowChrome
 
 	private static bool IsOverlaySurface(Window window)
 	{
+		if (Voidstrap.Integrations.Overlays.LinuxOverlaySurface.IsOverlayWindow(window))
+			return true;
 		string name = window.GetType().Name;
 		string area = window.GetType().Namespace ?? string.Empty;
 		return area.Contains(".Overlay", System.StringComparison.Ordinal)

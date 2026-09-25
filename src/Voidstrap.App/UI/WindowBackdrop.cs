@@ -163,7 +163,8 @@ public static partial class WindowBackdrop
         }
         if (Voidstrap.Utility.Platform.IsLinux)
         {
-            ApplyLinuxSurface(window);
+            if (!Voidstrap.Integrations.Overlays.LinuxOverlaySurface.IsOverlayWindow(window))
+                ApplyLinuxSurface(window);
             return;
         }
         if (window.AllowsTransparency)

@@ -79,6 +79,7 @@ namespace Voidstrap.UI.Elements.Overlay
         {
 			_activityWatcher = activityWatcher;
 			_fullSurface = Math.Abs(_brightness - DefaultBrightness) > 0.01;
+			LinuxOverlaySurface.ReleaseMainWindowClaim(this);
             Title = "Voidstrap Overlay";
             AllowsTransparency = true;
             Background = Brushes.Transparent;

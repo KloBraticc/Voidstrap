@@ -322,7 +322,7 @@ public static class LinuxTextGuard
 
 	private static string ToDrawableText(string text, System.Windows.Media.FontFamily family, FontStyle style, FontWeight weight, FontStretch stretch)
 	{
-		if (string.IsNullOrEmpty(text) || text.AsSpan().IndexOfAnyExceptInRange('\u0000', '\u024F') < 0)
+		if (LinuxTextFallback.Active || string.IsNullOrEmpty(text) || text.AsSpan().IndexOfAnyExceptInRange('\u0000', '\u024F') < 0)
 			return text;
 
 		if (!new Typeface(family, style, weight, stretch).TryGetGlyphTypeface(out GlyphTypeface glyphs))

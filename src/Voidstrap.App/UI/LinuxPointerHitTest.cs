@@ -26,9 +26,12 @@ public static class LinuxPointerHitTest
 
 	private static void OnPostProcessInput(object sender, ProcessInputEventArgs e)
 	{
-		if (Mouse.PrimaryDevice.ActiveSource is not IPortablePresentationSourceHost source)
-			return;
+		if (Mouse.PrimaryDevice.ActiveSource is IPortablePresentationSourceHost source)
+			Release(source, null);
+	}
 
+	private static void Release(IPortablePresentationSourceHost source, string? label)
+	{
 		if (source.HitTestOverride is not null)
 			source.HitTestOverride = null!;
 		if (source.HitTestAllOverride is not null)
@@ -39,10 +42,18 @@ public static class LinuxPointerHitTest
 		if (!Released.TryGetValue(source, out _))
 		{
 			Released.Add(source, Marker);
-			string rootType = source.RootVisual?.GetType().Name ?? "window";
+			string rootType = label ?? source.RootVisual?.GetType().Name ?? "window";
 			if (LoggedRootTypes.Add(rootType))
 				App.Logger.WriteLine("LinuxPointerHitTest::Release", "Pointer hit testing for " + rootType + " now runs on the UI thread");
 		}
 	}
 #endif
+
+	public static void ReleasePopupSource(object source)
+	{
+#if CROSSPLAT
+		if (source is IPortablePresentationSourceHost host)
+			Release(host, "popup");
+#endif
+	}
 }

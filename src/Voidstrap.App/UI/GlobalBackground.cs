@@ -374,7 +374,8 @@ public static class GlobalBackground
 
 	private static bool IsProtectedLinuxOverlay(Window window)
 	{
-		return Voidstrap.Utility.Platform.IsLinux
+		return Voidstrap.Integrations.Overlays.LinuxOverlaySurface.IsOverlayWindow(window)
+			|| Voidstrap.Utility.Platform.IsLinux
 			&& window is Voidstrap.Integrations.Overlays.LinuxHomepageOverlayWindow;
 	}
 

@@ -50,7 +50,7 @@
             <TextBlock Margin="0,2,0,0" FontSize="12" Text="{x:Static resources:Strings.Menu_Mods_OpenModsFolder_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
           </StackPanel>
         </ui:CardAction>
-        <ui:CardAction Margin="4,0,0,0" Icon="DocumentSearch24" Command="{Binding ToggleModExplorerCommand}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+        <ui:CardAction Margin="4,0,0,0" Icon="DocumentSearch24" Command="{Binding ToggleModExplorerCommand}">
           <StackPanel>
             <TextBlock FontSize="14" Text="Mod Explorer" FontWeight="Medium" />
             <TextBlock Margin="0,2,0,0" FontSize="12" Text="View and manage files in your Roblox installation." Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />

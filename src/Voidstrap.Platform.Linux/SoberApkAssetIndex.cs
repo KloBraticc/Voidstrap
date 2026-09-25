@@ -33,6 +33,12 @@ public sealed record SoberApkAssetIndexPaths(
 public sealed class SoberApkAssetIndex
 {
 	private const string PlatformContentRoot = "PlatformContent/";
+	private const string AndroidPlatformRoot = "android";
+	private static readonly string[][] InterchangeableExtensions =
+	[
+		[".dds", ".ktx", ".tex", ".png"],
+		[".ogg", ".mp3", ".wav"]
+	];
 
 	private readonly Dictionary<string, string> _canonicalPaths;
 	private readonly Dictionary<string, List<string>> _byFileName;
@@ -88,7 +94,7 @@ public sealed class SoberApkAssetIndex
 		if (_canonicalPaths.TryGetValue(requested, out string? canonical))
 			return OperationResult<string>.Success(canonical);
 
-		string? remapped = ResolveAcrossPlatformSegments(requested) ?? ResolveByUniqueTail(requested);
+		string? remapped = ResolveAcrossPlatformSegments(requested) ?? ResolveByUniqueTail(requested) ?? ResolveBySiblingExtension(requested);
 		return remapped is null
 			? OperationResult<string>.Fail("SoberAssetNotInPackage", "The modification does not match an asset in the installed Sober Roblox package")
 			: OperationResult<string>.Success(remapped);
@@ -111,7 +117,79 @@ public sealed class SoberApkAssetIndex
 				return canonical;
 		}
 
+		return _canonicalPaths.TryGetValue(AndroidPlatformRoot + tail, out string? android) ? android : null;
+	}
+
+	private string? ResolveBySiblingExtension(string requested)
+	{
+		string extension = Path.GetExtension(requested);
+		string[]? family = InterchangeableExtensions.FirstOrDefault(set => set.Contains(extension, StringComparer.OrdinalIgnoreCase));
+		if (family is null)
+			return null;
+
+		string stem = requested[..^extension.Length];
+		foreach (string sibling in family)
+		{
+			if (string.Equals(sibling, extension, StringComparison.OrdinalIgnoreCase))
+				continue;
+
+			string candidate = stem + sibling;
+			if (_canonicalPaths.TryGetValue(candidate, out string? canonical))
+				return canonical;
+			string? remapped = ResolveAcrossPlatformSegments(candidate) ?? ResolveByUniqueTail(candidate);
+			if (remapped is not null)
+				return remapped;
+		}
+
 		return null;
+	}
+
+	public async Task<OperationResult<int>> ExtractClientTreeAsync(string destinationDirectory, CancellationToken cancellationToken = default)
+	{
+		int extracted = 0;
+		try
+		{
+			string root = Path.GetFullPath(destinationDirectory);
+			Directory.CreateDirectory(root);
+			using ZipArchive archive = ZipFile.OpenRead(PackageFile);
+			foreach (ZipArchiveEntry entry in archive.Entries)
+			{
+				cancellationToken.ThrowIfCancellationRequested();
+				string fullName = entry.FullName.Normalize(NormalizationForm.FormC);
+				if (!fullName.StartsWith("assets/", StringComparison.Ordinal) || fullName.EndsWith('/'))
+					continue;
+
+				OperationResult<string> normalized = Normalize(fullName["assets/".Length..]);
+				if (!normalized.Succeeded || normalized.Value is null)
+					continue;
+
+				string relative = normalized.Value;
+				if (relative.StartsWith(AndroidPlatformRoot + "/", StringComparison.Ordinal))
+					relative = PlatformContentRoot + "pc" + relative[AndroidPlatformRoot.Length..];
+				else if (!relative.StartsWith("content/", StringComparison.Ordinal) && !relative.StartsWith("ExtraContent/", StringComparison.Ordinal))
+					continue;
+
+				string destination = Path.GetFullPath(Path.Combine(root, relative.Replace('/', Path.DirectorySeparatorChar)));
+				if (!destination.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.Ordinal))
+					continue;
+
+				Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+				await using FileStream output = new(destination, FileMode.Create, FileAccess.Write, FileShare.None);
+				await using Stream input = entry.Open();
+				await input.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
+				extracted++;
+			}
+		}
+		catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+		{
+			throw;
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException)
+		{
+			return OperationResult<int>.Fail("SoberApkExtractFailed", "The installed Sober Roblox package could not be read: " + ex.Message);
+		}
+
+		return OperationResult<int>.Success(extracted);
 	}
 
 	private string? ResolveByUniqueTail(string requested)

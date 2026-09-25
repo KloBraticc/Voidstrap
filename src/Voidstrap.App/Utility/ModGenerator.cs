@@ -758,6 +758,12 @@ public static class ModGenerator
 
 	private static (string Folder, string Guid) ResolveInstall(RobloxPlayerData data)
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			(string ClientDirectory, string VersionGuid)? sober = Task.Run(() => Bootstrapper.PrepareSoberClientTreeAsync(CancellationToken.None)).GetAwaiter().GetResult();
+			if (sober is { } tree)
+				return (tree.ClientDirectory, tree.VersionGuid);
+		}
 		RobloxInstallCompression.EnsureExtracted(data);
 		string folder = data.Directory;
 		string guid = data.State.VersionGuid;

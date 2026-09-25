@@ -765,6 +765,7 @@ public partial class App : Application
 		TryStartup("Shared GPU device", Voidstrap.UI.LinuxSharedGpuDevice.Install);
 		TryStartup("Subpixel text", Voidstrap.UI.LinuxSubpixelText.Install);
 		TryStartup("Font catalog order", Voidstrap.UI.LinuxFontCatalog.Install);
+		TryStartup("Text fallback", Voidstrap.UI.LinuxTextFallback.Install);
 		TryStartup("Focus style", DisableFocusVisuals);
 		TryStartup("Portable popups", EmbedPortablePopups);
 		TryStartup("Portable tooltips", DisablePortableToolTips);
@@ -1073,7 +1074,12 @@ public partial class App : Application
 		}
 		ParameterExpression[] parameters = [.. invoke.GetParameters()
 			.Select(parameter => LinqExpression.Parameter(parameter.ParameterType, parameter.Name))];
-		Delegate embeddedFactory = LinqExpression.Lambda(factory.PropertyType, LinqExpression.Default(invoke.ReturnType), parameters).Compile();
+		MethodInfo release = typeof(Voidstrap.UI.LinuxPointerHitTest).GetMethod(nameof(Voidstrap.UI.LinuxPointerHitTest.ReleasePopupSource))!;
+		LinqExpression body = LinqExpression.Default(invoke.ReturnType);
+		ParameterExpression? popupSource = parameters.FirstOrDefault(parameter => parameter.Type.Name == "IPortablePresentationSourceHost");
+		if (popupSource != null)
+			body = LinqExpression.Block(LinqExpression.Call(release, LinqExpression.Convert(popupSource, typeof(object))), body);
+		Delegate embeddedFactory = LinqExpression.Lambda(factory.PropertyType, body, parameters).Compile();
 		factory.SetValue(null, embeddedFactory);
 	}
 

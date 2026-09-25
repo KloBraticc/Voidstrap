@@ -24,6 +24,7 @@ public static partial class LinuxWindowInterop
 	private const int Unsorted = 0;
 	private const int AnyPropertyType = 0;
 	private const int Success = 0;
+	private const int IsUnmapped = 0;
 	private const int IsViewable = 2;
 	private const int ZPixmap = 2;
 	private const int LsbFirst = 0;
@@ -2057,6 +2058,64 @@ public static partial class LinuxWindowInterop
 		_ = XSync(display, 0);
 	}
 
+	public static bool TryPrepareUnmappedOverlayWindow(nint window)
+	{
+		nint display = Display;
+		if (display == 0 || window == 0)
+			return false;
+
+		try
+		{
+			if (XGetWindowAttributes(display, window, out XWindowAttributes current) == 0 || current.MapState != IsUnmapped)
+				return false;
+
+			XSetWindowAttributes attributes = default;
+			attributes.OverrideRedirect = 1;
+			XChangeWindowAttributes(display, window, CwOverrideRedirect, ref attributes);
+
+			nint wmHints = XInternAtom(display, "WM_HINTS", false);
+			if (wmHints != 0)
+			{
+				nint[] hints = new nint[9];
+				if (TryGetProperty(display, window, wmHints, out nint data, out ulong count, out int format) && format == 32)
+				{
+					for (int i = 0; i < (int)Math.Min(count, 9UL); i++)
+						hints[i] = Marshal.ReadIntPtr(data, i * IntPtr.Size);
+				}
+				if (data != 0)
+					_ = XFree(data);
+				hints[0] |= 1;
+				hints[1] = 0;
+				XChangeProperty(display, window, wmHints, wmHints, 32, 0, hints, hints.Length);
+			}
+
+			nint type = XInternAtom(display, "_NET_WM_WINDOW_TYPE", false);
+			nint notification = XInternAtom(display, "_NET_WM_WINDOW_TYPE_NOTIFICATION", false);
+			if (type != 0 && notification != 0)
+				XChangeProperty(display, window, type, 4, 32, 0, [notification], 1);
+
+			nint state = XInternAtom(display, "_NET_WM_STATE", false);
+			nint above = XInternAtom(display, "_NET_WM_STATE_ABOVE", false);
+			nint skipTaskbar = XInternAtom(display, "_NET_WM_STATE_SKIP_TASKBAR", false);
+			nint skipPager = XInternAtom(display, "_NET_WM_STATE_SKIP_PAGER", false);
+			if (state != 0 && above != 0 && skipTaskbar != 0 && skipPager != 0)
+				XChangeProperty(display, window, state, 4, 32, 0, [above, skipTaskbar, skipPager], 3);
+
+			_ = XSync(display, 0);
+			bool prepared = IsOverrideRedirectWindow(window);
+			if (prepared)
+			{
+				lock (Sync)
+					PreparedOverlayWindows.Add(window);
+			}
+			return prepared;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
 	public static bool TryPrepareOverlayWindow(nint window)
 	{
 		nint display = Display;
@@ -2456,6 +2515,13 @@ public static partial class LinuxWindowInterop
 				if (HasWindowState(display, window, state, skipTaskbar) == hidden)
 					continue;
 
+				if (XGetWindowAttributes(display, window, out XWindowAttributes attributes) != 0 && attributes.MapState == IsUnmapped)
+				{
+					SetWithdrawnWindowStates(display, window, state, hidden, skipTaskbar, skipPager);
+					changed.Add("0x" + window.ToString("x") + " " + GetWindowTitle(display, window));
+					continue;
+				}
+
 				foreach (nint hint in new[] { skipTaskbar, skipPager })
 				{
 					XClientMessage message = new()
@@ -2525,6 +2591,27 @@ public static partial class LinuxWindowInterop
 		}
 	}
 
+	private static void SetWithdrawnWindowStates(nint display, nint window, nint state, bool add, params nint[] hints)
+	{
+		List<nint> atoms = [];
+		if (TryGetProperty(display, window, state, out nint data, out ulong count, out int format) && format == 32)
+		{
+			for (ulong i = 0; i < count; i++)
+				atoms.Add(Marshal.ReadIntPtr(data, (int)i * IntPtr.Size));
+		}
+		if (data != 0)
+			_ = XFree(data);
+
+		foreach (nint hint in hints)
+		{
+			atoms.Remove(hint);
+			if (add)
+				atoms.Add(hint);
+		}
+
+		XChangeProperty(display, window, state, 4, 32, 0, [.. atoms], atoms.Count);
+	}
+
 	private static bool HasWindowState(nint display, nint window, nint state, nint hint)
 	{
 		if (!TryGetProperty(display, window, state, out nint data, out ulong count, out int format) || format != 32)
@@ -2581,13 +2668,17 @@ public static partial class LinuxWindowInterop
 	{
 		nint root = XDefaultRootWindow(display);
 		nint atom = XInternAtom(display, "_NET_CLIENT_LIST", true);
-		if (atom == 0)
-			yield break;
-
-		if (!TryGetProperty(display, root, atom, out nint data, out ulong count, out int format) || format != 32)
+		nint data = 0;
+		ulong count = 0;
+		int format = 0;
+		if (atom == 0 || !TryGetProperty(display, root, atom, out data, out count, out format) || format != 32)
 		{
 			if (data != 0)
 				_ = XFree(data);
+			List<nint> clients = [];
+			CollectTreeClients(display, root, XInternAtom(display, "WM_STATE", true), clients, 0);
+			foreach (nint client in clients)
+				yield return client;
 			yield break;
 		}
 
@@ -2603,6 +2694,35 @@ public static partial class LinuxWindowInterop
 		finally
 		{
 			_ = XFree(data);
+		}
+	}
+
+	private static void CollectTreeClients(nint display, nint parent, nint wmState, List<nint> clients, int depth)
+	{
+		if (depth > 3 || !XQueryTree(display, parent, out _, out _, out nint children, out uint count) || children == 0)
+			return;
+
+		try
+		{
+			for (uint i = 0; i < count; i++)
+			{
+				nint window = Marshal.ReadIntPtr(children, (int)i * IntPtr.Size);
+				if (window == 0)
+					continue;
+
+				nint stateData = 0;
+				bool managed = wmState != 0 && TryGetProperty(display, window, wmState, out stateData, out _, out _);
+				if (stateData != 0)
+					_ = XFree(stateData);
+				if (managed || depth == 0 && TryGetClassHint(display, window, out _, out _))
+					clients.Add(window);
+				else
+					CollectTreeClients(display, window, wmState, clients, depth + 1);
+			}
+		}
+		finally
+		{
+			_ = XFree(children);
 		}
 	}
 

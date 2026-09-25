@@ -33,6 +33,7 @@ namespace Voidstrap.Integrations.Overlays
 		public static bool RequiresLinuxX11Session => Voidstrap.Utility.Platform.IsLinux
 			&& (App.Settings.Prop.FakeExclusiveFullscreen
 				|| App.Settings.Prop.FakeBorderlessFullscreen
+				|| App.Settings.Prop.ClassicTopBarEnabled
 				|| HomepageBackgroundEnabled);
     }
 }

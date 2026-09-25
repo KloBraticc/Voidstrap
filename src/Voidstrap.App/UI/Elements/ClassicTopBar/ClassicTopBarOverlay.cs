@@ -315,6 +315,11 @@ internal static class ClassicTopBarOverlay
 
 	private static void InstallHook()
 	{
+		if (!OperatingSystem.IsWindows())
+		{
+			Voidstrap.Platform.Linux.LinuxClassicKeys.Start(OnLinuxEscape, OnLinuxKeyDown, OnLinuxKeysLog);
+			return;
+		}
 		if (_hook is { IsInvalid: false })
 		{
 			return;
@@ -336,8 +341,28 @@ internal static class ClassicTopBarOverlay
 		}
 	}
 
+	private static void OnLinuxEscape()
+	{
+		Post(ToggleMenu);
+	}
+
+	private static void OnLinuxKeyDown(ushort key)
+	{
+		OnKeyDown(key);
+	}
+
+	private static void OnLinuxKeysLog(string message)
+	{
+		App.Logger?.WriteLine(LogIdent, message);
+	}
+
 	private static void RemoveHook()
 	{
+		if (!OperatingSystem.IsWindows())
+		{
+			Voidstrap.Platform.Linux.LinuxClassicKeys.Stop();
+			return;
+		}
 		UnhookWindowsHookExSafeHandle? hook = _hook;
 		_hook = null;
 		_hookProc = null;

@@ -2053,7 +2053,10 @@ public ICommand PickCursorColorCommand { get; }
 		ModExplorerVisible = !ModExplorerVisible;
 		if (ModExplorerVisible)
 		{
-			await Task.Run(() => Voidstrap.Utility.RobloxInstallCompression.EnsureExtracted(new RobloxPlayerData()));
+			if (Voidstrap.Utility.Platform.IsLinux)
+				await Task.Run(() => global::Voidstrap.Bootstrapper.PrepareSoberClientTreeAsync(CancellationToken.None));
+			else
+				await Task.Run(() => Voidstrap.Utility.RobloxInstallCompression.EnsureExtracted(new RobloxPlayerData()));
 			CurrentExplorerPath = ResolveRobloxPlayerDir(forceRefresh: true);
 			RefreshModFiles();
 		}
@@ -4038,6 +4041,8 @@ public ICommand PickCursorColorCommand { get; }
 
 	private static string GetRobloxPlayerDir()
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+			return GetSoberClientDir();
 		RobloxPlayerData playerData = new RobloxPlayerData();
 		string versionsRoot = Path.GetFullPath(playerData.VersionsRoot);
 		if (Voidstrap.AppData.CommonAppData.IsVersionGuidValid(playerData.State.VersionGuid))
@@ -4068,6 +4073,28 @@ public ICommand PickCursorColorCommand { get; }
 			}
 		}
 		return versionsRoot;
+	}
+
+	private static string GetSoberClientDir()
+	{
+		string root = global::Voidstrap.Bootstrapper.SoberClientRoot;
+		try
+		{
+			if (Directory.Exists(root))
+			{
+				string? newest = Directory.GetDirectories(root)
+					.Where(directory => File.Exists(directory + ".complete"))
+					.OrderByDescending(Directory.GetLastWriteTimeUtc)
+					.FirstOrDefault();
+				if (newest != null)
+					return newest;
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("ModsViewModel::GetSoberClientDir", "The unpacked Sober files could not be listed: " + ex.Message);
+		}
+		return root;
 	}
 
 	public void ShowFileDetails()

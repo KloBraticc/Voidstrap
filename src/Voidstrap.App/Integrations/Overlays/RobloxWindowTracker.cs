@@ -649,6 +649,7 @@ namespace Voidstrap.Integrations.Overlays
 		private readonly object _applySync = new object();
         private IntPtr _hwnd;
         private bool _disposed;
+		private bool _sourceReady;
 		private RobloxWindowRect _pendingRect;
 		private int _applyPending;
 
@@ -677,6 +678,7 @@ namespace Voidstrap.Integrations.Overlays
 
         private void OnSourceInitialized(object? sender, EventArgs e)
         {
+			_sourceReady = true;
             _hwnd = new WindowInteropHelper(_window).Handle;
             OverlayDiagnostics.RegisterOverlayHandle(_hwnd);
             Apply(RobloxWindowTracker.Current);
@@ -726,7 +728,7 @@ namespace Voidstrap.Integrations.Overlays
 
         private void Apply(RobloxWindowRect rect)
         {
-            if (_disposed || _window.Dispatcher.HasShutdownStarted || _window.Dispatcher.HasShutdownFinished)
+            if (_disposed || !_sourceReady || _window.Dispatcher.HasShutdownStarted || _window.Dispatcher.HasShutdownFinished)
                 return;
 
             if (_hwnd == IntPtr.Zero && !Voidstrap.Utility.Platform.IsLinux)
@@ -855,6 +857,7 @@ namespace Voidstrap.Integrations.Overlays
 
 			if (Voidstrap.Platform.Linux.LinuxWindowInterop.TryMoveResize(handle, LinuxParkedPosition, LinuxParkedPosition, 1, 1))
 			{
+				SyncLinuxWindowBounds(LinuxParkedPosition, LinuxParkedPosition, 0, 0, false);
 				_linuxParked = true;
 				StopLinuxRetry();
 				return;
@@ -934,11 +937,26 @@ namespace Voidstrap.Integrations.Overlays
 				return;
 			}
 			Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetAlwaysOnTop(handle);
+			SyncLinuxWindowBounds(left, top, width, height, _placement is RobloxOverlayPlacement.Fill or RobloxOverlayPlacement.TopStrip);
 			ReportLinuxGeometry(handle, left, top, width, height);
 			_linuxParked = false;
 			StopLinuxRetry();
 			if (_window is Voidstrap.UI.Elements.Crosshair.CrosshairWindow crosshair)
 				crosshair.SetLinuxPresentation(true);
+		}
+
+		private void SyncLinuxWindowBounds(int left, int top, int width, int height, bool size)
+		{
+			if (!(Math.Abs(_window.Left - left) <= 0.5))
+				_window.Left = left;
+			if (!(Math.Abs(_window.Top - top) <= 0.5))
+				_window.Top = top;
+			if (!size)
+				return;
+			if (!(Math.Abs(_window.Width - width) <= 0.5))
+				_window.Width = width;
+			if (!(Math.Abs(_window.Height - height) <= 0.5))
+				_window.Height = height;
 		}
 
 		private long _lastGeometryReport;

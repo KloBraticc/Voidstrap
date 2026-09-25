@@ -66,6 +66,11 @@ internal static partial class ClassicTopBarInput
 		}
 		try
 		{
+			if (!OperatingSystem.IsWindows())
+			{
+				Voidstrap.Platform.Linux.LinuxWindowInterop.TryActivateWindow(hwnd);
+				return;
+			}
 			SetForegroundWindow(hwnd);
 		}
 		catch (Exception ex)
@@ -113,6 +118,11 @@ internal static partial class ClassicTopBarInput
 
 	private static void Write(ushort key, bool down)
 	{
+		if (!OperatingSystem.IsWindows())
+		{
+			Voidstrap.Platform.Linux.LinuxClassicKeys.Write(key, down);
+			return;
+		}
 		uint scan = MapVirtualKey(key, MapVirtualKeyToScan);
 		uint flags = KeyEventScanCode;
 		if (IsExtended(key))

@@ -963,7 +963,7 @@ public static class LaunchHandler
 					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session = Voidstrap.Integrations.Overlays.OverlaySettings.RequiresLinuxX11Session
 						&& !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
 					App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session
-						? "Fake fullscreen or the homepage background is on, starting Sober on X11"
+						? "Fake fullscreen, the homepage background or the classic topbar is on, starting Sober on X11"
 						: "Starting Sober in its default display mode");
 					await PrepareLinuxEffectLayersAsync();
 					SetPortableLaunchStatus("Closing the current Roblox session");

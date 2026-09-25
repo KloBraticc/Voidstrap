@@ -47,6 +47,7 @@ namespace Voidstrap.UI.Elements.Overlay
 			_linuxSurface = Voidstrap.Utility.Platform.IsLinux;
 			if (_linuxSurface)
 			{
+				Voidstrap.Integrations.Overlays.LinuxOverlaySurface.ReleaseMainWindowClaim(this);
 				Thickness margin = NotificationRoot.Margin;
 				_linuxHorizontalInset = margin.Right;
 				_linuxVerticalInset = margin.Top;
