@@ -157,7 +157,7 @@
 		<PackageReference Include="OggVorbisEncoder" Version="1.2.2" />
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
 		<PackageReference Include="SharpZipLib" Version="1.4.2" />
-		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="4.1.2" />
 		<PackageReference Include="System.Drawing.Common" Version="10.0.12" />
 		<PackageReference Include="System.Management" Version="10.0.12" />
 		<PackageReference Include="System.Resources.Extensions" Version="10.0.10" />
