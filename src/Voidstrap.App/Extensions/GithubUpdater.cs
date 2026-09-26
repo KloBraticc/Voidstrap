@@ -243,6 +243,13 @@ public static class GithubUpdater
         string tag,
         CancellationToken cancellationToken)
     {
+        if (!result.Succeeded && result.Failure?.Code == LinuxInstallationUpdates.RestartRequiredCode)
+        {
+            App.State.Prop.StagedLinuxUpdateTag = tag;
+            App.State.Save();
+            App.Logger.WriteLine("GitHubUpdater", "The " + installation.Kind + " update to " + tag + " is staged, restart the computer to finish installing it");
+            return false;
+        }
         if (!result.Succeeded)
         {
             if (result.Failure?.Code == LinuxInstallationUpdates.AuthorizationCancelledCode)

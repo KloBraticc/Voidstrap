@@ -150,7 +150,7 @@ internal static class LinuxDesktopEntry
 
 	private static string BuildDesktopEntry(string executablePath)
 	{
-		return string.Join('\n',
+		string entry = string.Join('\n',
 			"[Desktop Entry]",
 			"Type=Application",
 			"Name=Voidstrap",
@@ -179,6 +179,10 @@ internal static class LinuxDesktopEntry
 			"Name=Voidstrap Settings",
 			"Exec=" + EscapeExecArgument(executablePath) + " -settings",
 			"");
+		if (!CanRemainUnquoted(executablePath))
+			return entry;
+		string execLine = "Exec=" + EscapeExecArgument(executablePath) + " %u\n";
+		return entry.Replace(execLine, execLine + "TryExec=" + executablePath + "\n", StringComparison.Ordinal);
 	}
 
 	private static bool IconIsCurrent(string iconPath)
@@ -204,6 +208,33 @@ internal static class LinuxDesktopEntry
 		catch
 		{
 			return false;
+		}
+	}
+
+	internal static string ResolveLaunchPath(string executablePath)
+	{
+		return EnsureLauncher(executablePath);
+	}
+
+	internal static byte[]? ReadIconPng()
+	{
+		byte[]? selected = ReadSelectedIconPng();
+		if (selected != null)
+			return selected;
+		try
+		{
+			StreamResourceInfo? info = Application.GetResourceStream(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute));
+			if (info?.Stream == null)
+				return null;
+			using Stream source = info.Stream;
+			using MemoryStream buffer = new();
+			source.CopyTo(buffer);
+			return buffer.ToArray();
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::ReadIconPng", "Could not read the application icon: " + ex.Message);
+			return null;
 		}
 	}
 
@@ -317,6 +348,8 @@ internal static class LinuxDesktopEntry
 			string target = Path.GetFullPath(executablePath);
 			if (string.Equals(target, LauncherPath, StringComparison.Ordinal) || !File.Exists(target))
 				return target;
+			if (LinuxBundleInstaller.IsPackageManagedLocation(Path.GetDirectoryName(target) ?? "/"))
+				return ResolvePackagedLauncher(target);
 
 			Directory.CreateDirectory(Path.GetDirectoryName(LauncherPath)!);
 			FileInfo existing = new(LauncherPath);
@@ -342,6 +375,29 @@ internal static class LinuxDesktopEntry
 			App.Logger?.WriteLine("LinuxDesktopEntry::EnsureLauncher", "Could not refresh the stable launcher: " + ex.Message);
 			return executablePath;
 		}
+	}
+
+	private static string ResolvePackagedLauncher(string target)
+	{
+		foreach (string candidate in new[] { "/usr/bin/voidstrap", "/usr/local/bin/voidstrap" })
+		{
+			try
+			{
+				FileInfo link = new(candidate);
+				if (!link.Exists)
+					continue;
+				string resolved = Path.GetFullPath(link.ResolveLinkTarget(true)?.FullName ?? link.FullName);
+				if (string.Equals(resolved, target, StringComparison.Ordinal))
+					return candidate;
+			}
+			catch (IOException)
+			{
+			}
+			catch (UnauthorizedAccessException)
+			{
+			}
+		}
+		return target;
 	}
 
 	private static void RepairManagedShortcuts(string executablePath)

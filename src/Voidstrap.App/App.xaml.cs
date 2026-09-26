@@ -1050,7 +1050,7 @@ public partial class App : Application
 
 	private static void DisablePortableToolTips()
 	{
-		if (Voidstrap.Utility.Platform.IsWindows || _portableToolTipsDisabled)
+		if (Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux || _portableToolTipsDisabled)
 		{
 			return;
 		}
@@ -1501,6 +1501,11 @@ public partial class App : Application
 			{
 				EventManager.RegisterClassHandler(typeof(System.Windows.Controls.Image), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyLinuxImageScaling));
 			});
+			TryStartup("Linux tooltip placement", () =>
+			{
+				EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.ToolTipOpeningEvent, new System.Windows.Controls.ToolTipEventHandler(ApplyLinuxToolTipPlacement), true);
+				EventManager.RegisterClassHandler(typeof(FrameworkContentElement), FrameworkContentElement.ToolTipOpeningEvent, new System.Windows.Controls.ToolTipEventHandler(ApplyLinuxToolTipPlacement), true);
+			});
 		}
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
@@ -1571,6 +1576,9 @@ public partial class App : Application
 				+ ", windowing: " + (Environment.GetEnvironmentVariable("PROGPU_WPF_LINUX_WINDOWING") ?? "auto")
 				+ ", renderer stage: " + (Environment.GetEnvironmentVariable("VOIDSTRAP_GPU_RETRY") ?? "default")
 				+ ", backend: " + (Environment.GetEnvironmentVariable("VOIDSTRAP_RENDER_BACKEND") ?? "Auto"));
+			Voidstrap.Platform.Linux.LinuxSteamOSInfo steamOS = Voidstrap.Platform.Linux.LinuxSteamOS.Current;
+			if (steamOS.IsSteamOSLike || steamOS.IsGamescopeSession)
+				Logger.WriteLine("App::OnStartup", "Running " + steamOS.Describe());
 		}
 	}
 
@@ -1578,6 +1586,15 @@ public partial class App : Application
 	{
 		if (sender is System.Windows.Controls.Image image)
 			RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.Linear);
+	}
+
+	private static void ApplyLinuxToolTipPlacement(object sender, System.Windows.Controls.ToolTipEventArgs e)
+	{
+		if (sender is not DependencyObject owner)
+			return;
+		System.Windows.Controls.Primitives.PlacementMode placement = System.Windows.Controls.ToolTipService.GetPlacement(owner);
+		if (placement is System.Windows.Controls.Primitives.PlacementMode.Mouse or System.Windows.Controls.Primitives.PlacementMode.MousePoint)
+			System.Windows.Controls.ToolTipService.SetPlacement(owner, System.Windows.Controls.Primitives.PlacementMode.Bottom);
 	}
 
 	private static void InitializeLanguage()

@@ -985,6 +985,16 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public Visibility BypassEmulationOverheadVisibility => Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
 
+	public string PrioritizeRobloxDescription => Voidstrap.Utility.Platform.IsLinux
+		? "Gives Roblox a larger CPU share while it is in the foreground. A custom Roblox Priority choice takes precedence."
+		: "Uses safe Above Normal scheduling while Roblox is in the foreground. A custom Roblox Priority choice takes precedence.";
+
+	public string ReduceResourcesDescription => Voidstrap.Utility.Platform.IsLinux
+		? "Lowers Roblox's CPU share while another app is active, then restores it when you return."
+		: "Lowers Roblox's Windows scheduling priority while another app is active, then restores it when you return.";
+
+	public Visibility CleanRobloxCacheVisibility => Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
+
 
 
 	public bool ReduceMemoryOutOfFocus
@@ -1521,23 +1531,26 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	private async Task CleanRobloxCacheAsync()
 	{
+		bool linux = Voidstrap.Utility.Platform.IsLinux;
 		List<Process> list = new List<Process>();
-		if (!string.IsNullOrEmpty(App.State.Prop.Player.VersionGuid))
+		if (!linux && !string.IsNullOrEmpty(App.State.Prop.Player.VersionGuid))
 		{
 			list.AddRange(Process.GetProcessesByName("RobloxPlayerBeta"));
 		}
-		if (App.IsStudioVisible)
+		if (!linux && App.IsStudioVisible)
 		{
 			list.AddRange(Process.GetProcessesByName("RobloxStudioBeta"));
 		}
-		if (list.Count != 0)
+		if (list.Count != 0 || linux && Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow())
 		{
 			Frontend.ShowMessageBox("Close Roblox before cleaning the cache.", MessageBoxImage.Hand);
 			return;
 		}
-		string path = Path.Combine(Path.GetTempPath(), "Roblox");
-		string path2 = Path.Combine(Paths.LocalAppData, "Roblox", "rbx-storage");
-		string dbFile = Path.Combine(Paths.LocalAppData, "Roblox", "rbx-storage.db");
+		string soberRoot = Path.Combine(Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".var", "app", "org.vinegarhq.Sober");
+		string soberAppData = Path.Combine(soberRoot, "data", "sober", "appData");
+		string path = linux ? Path.Combine(soberRoot, "cache", "sober") : Path.Combine(Path.GetTempPath(), "Roblox");
+		string path2 = linux ? Path.Combine(soberAppData, "rbx-storage") : Path.Combine(Paths.LocalAppData, "Roblox", "rbx-storage");
+		string dbFile = linux ? Path.Combine(soberAppData, "rbx-storage.db") : Path.Combine(Paths.LocalAppData, "Roblox", "rbx-storage.db");
 		List<string> dirs = new List<string>();
 		try
 		{
@@ -1566,6 +1579,16 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (hasDb && !TryDeleteFile(dbFile))
 			{
 				num2++;
+			}
+			if (linux && hasDb && !File.Exists(dbFile))
+			{
+				foreach (string companion in new[] { dbFile + "-wal", dbFile + "-shm" })
+				{
+					if (File.Exists(companion) && !TryDeleteFile(companion))
+					{
+						num2++;
+					}
+				}
 			}
 			foreach (string item in dirs)
 			{
@@ -2266,7 +2289,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public bool ShowExclusiveFullscreenWarning => RobloxFullscreenMode == 2;
+	public bool ShowExclusiveFullscreenWarning => RobloxFullscreenMode == 2 && !Voidstrap.Utility.Platform.IsLinux;
 
 	public bool FakeBorderlessFullscreen
 	{

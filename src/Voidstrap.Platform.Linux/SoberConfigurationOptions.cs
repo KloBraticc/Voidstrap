@@ -55,11 +55,67 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 
 	private const string SoberProcessName = "sober";
 
+	public static bool IsRunningNow()
+	{
+		return GetSandboxProcessIds().Count > 0;
+	}
+
+	public static IReadOnlyList<int> GetSandboxProcessIds()
+	{
+		List<int> processIds = [];
+		string[] directories;
+		try
+		{
+			directories = Directory.GetDirectories("/proc");
+		}
+		catch (Exception)
+		{
+			return processIds;
+		}
+
+		foreach (string directory in directories)
+		{
+			string name = Path.GetFileName(directory);
+			if (name.Length == 0
+				|| !char.IsAsciiDigit(name[0])
+				|| !int.TryParse(name, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out int processId))
+				continue;
+
+			try
+			{
+				if (File.ReadAllText(Path.Combine(directory, "cgroup")).Contains(SoberApplicationId, StringComparison.OrdinalIgnoreCase))
+				{
+					processIds.Add(processId);
+					continue;
+				}
+			}
+			catch (IOException)
+			{
+			}
+			catch (UnauthorizedAccessException)
+			{
+			}
+			try
+			{
+				if (string.Equals(File.ReadAllText(Path.Combine(directory, "comm")).Trim(), SoberProcessName, StringComparison.OrdinalIgnoreCase))
+					processIds.Add(processId);
+			}
+			catch (IOException)
+			{
+			}
+			catch (UnauthorizedAccessException)
+			{
+			}
+		}
+
+		return processIds;
+	}
+
 	public async Task<bool> IsRunningAsync(CancellationToken cancellationToken = default)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 
-		if (HasLocalProcess())
+		if (IsRunningNow())
 			return true;
 
 		if (!LinuxFlatpakHost.TryCreateCommand(_processes, ["ps", "--columns=application"], out ProcessCommand command))
@@ -75,38 +131,6 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 		{
 			if (string.Equals(line.Trim(), SoberApplicationId, StringComparison.Ordinal))
 				return true;
-		}
-
-		return false;
-	}
-
-	private static bool HasLocalProcess()
-	{
-		try
-		{
-			foreach (string directory in Directory.EnumerateDirectories("/proc"))
-			{
-				string name = Path.GetFileName(directory);
-				if (name.Length == 0 || !char.IsAsciiDigit(name[0]))
-					continue;
-
-				string commandFile = Path.Combine(directory, "comm");
-
-				try
-				{
-					if (string.Equals(File.ReadAllText(commandFile).Trim(), SoberProcessName, StringComparison.Ordinal))
-						return true;
-				}
-				catch (IOException)
-				{
-				}
-				catch (UnauthorizedAccessException)
-				{
-				}
-			}
-		}
-		catch (Exception)
-		{
 		}
 
 		return false;

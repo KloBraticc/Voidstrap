@@ -137,6 +137,10 @@ jobs:
           dotnet-version: 10.0.x
       - run: sudo apt-get update && sudo apt-get install -y binutils cpio desktop-file-utils file rpm
       - run: bash build/Packaging/Linux/package.sh ${{ matrix.rid }} '' rpm artifacts/packages
+      - if: matrix.rid == 'linux-x64'
+        run: docker run --rm -v "$PWD/artifacts/packages:/packages:ro" registry.fedoraproject.org/fedora:latest bash -c 'dnf install -y /packages/*.rpm && rpm -V voidstrap && test "$(readlink -f /usr/bin/voidstrap)" = /usr/lib64/voidstrap/Voidstrap'
+      - if: matrix.rid == 'linux-x64'
+        run: docker run --rm -v "$PWD/artifacts/packages:/packages:ro" registry.opensuse.org/opensuse/tumbleweed:latest bash -c 'zypper --non-interactive install --allow-unsigned-rpm /packages/*.rpm && rpm -V voidstrap && test "$(readlink -f /usr/bin/voidstrap)" = /usr/lib64/voidstrap/Voidstrap'
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: ${{ matrix.rid }}-rpm

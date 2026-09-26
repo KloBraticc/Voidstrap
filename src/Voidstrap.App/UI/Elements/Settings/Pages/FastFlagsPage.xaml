@@ -210,7 +210,7 @@
     </StackPanel>
         </StackPanel>
       </TabItem>
-      <TabItem>
+      <TabItem Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Wrench24" Margin="0,0,6,0" />

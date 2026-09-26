@@ -42,7 +42,9 @@ public static class TelemetryBlocker
 		"analytics.tiktok.com"
 	};
 
-	private static string HostsPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "drivers", "etc", "hosts");
+	private static string HostsPath => Voidstrap.Utility.Platform.IsLinux
+		? Voidstrap.Platform.Linux.LinuxHostsBlock.HostsPath
+		: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "drivers", "etc", "hosts");
 
 	public static void SyncSettingFromState()
 	{
@@ -168,6 +170,10 @@ public static class TelemetryBlocker
 			{
 				return true;
 			}
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				return await SetLinuxAsync(enable, cancellationToken).ConfigureAwait(false);
+			}
 			if (ProcessElevation.IsAdministrator())
 			{
 				return await Task.Run(() => enable ? Apply() : Remove(), cancellationToken).ConfigureAwait(false);
@@ -232,6 +238,36 @@ public static class TelemetryBlocker
 			App.Logger?.WriteLine(LOG_IDENT, "Remove failed: " + ex.Message);
 			return false;
 		}
+	}
+
+	public static string? LastLinuxFailure { get; private set; }
+
+	private static async Task<bool> SetLinuxAsync(bool enable, CancellationToken cancellationToken)
+	{
+		LastLinuxFailure = null;
+		List<string> lines = new List<string>();
+		if (enable)
+		{
+			foreach (string domain in Domains)
+			{
+				lines.Add("0.0.0.0 " + domain + " " + Marker);
+				lines.Add(":: " + domain + " " + Marker);
+			}
+		}
+		App.Logger?.WriteLine(LOG_IDENT, "Asking for administrator approval to " + (enable ? "add" : "remove") + " the telemetry block in /etc/hosts");
+		Voidstrap.Platform.OperationResult result = await Voidstrap.Platform.Linux.LinuxHostsBlock.WriteAsync(Marker, lines, cancellationToken).ConfigureAwait(false);
+		if (!result.Succeeded)
+		{
+			LastLinuxFailure = result.Failure?.Message ?? "The hosts file could not be changed";
+			App.Logger?.WriteLine(LOG_IDENT, LastLinuxFailure);
+			return false;
+		}
+		App.Logger?.WriteLine(LOG_IDENT, enable ? $"Blocked {Domains.Length} telemetry domains at the DNS level" : "Removed telemetry block entries");
+		if (enable)
+		{
+			Verify();
+		}
+		return IsApplied() == enable;
 	}
 
 	private static List<string> ReadHostsWithoutBlock()

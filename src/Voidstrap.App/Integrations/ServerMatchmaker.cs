@@ -88,6 +88,13 @@ public sealed class ServerMatchmaker : IDisposable
 			|| (!App.Settings.Prop.VoidstrapMatchmakerEnabled && !HasPerGamePreference(data.PlaceId)))
 			return;
 
+		MatchmakerCandidate? launchPick = VoidstrapMatchmaker.FindLaunchPick(data.JobId);
+		if (launchPick != null)
+		{
+			App.Logger.WriteLine(LOG_IDENT, $"Joining the server the matchmaker picked in {launchPick.Datacenter?.City ?? "?"}, no second search needed");
+			return;
+		}
+
 		HashSet<string> tried = GetTriedJobIds(data.PlaceId);
 		if (!string.IsNullOrEmpty(data.JobId))
 			tried.Add(data.JobId);
@@ -114,6 +121,12 @@ public sealed class ServerMatchmaker : IDisposable
 		{
 			cts.Dispose();
 		}
+	}
+
+	private void CancelLinuxPrefetch()
+	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+			CancelPrefetch();
 	}
 
 	private void CancelPrefetch()
@@ -148,6 +161,7 @@ public sealed class ServerMatchmaker : IDisposable
 			if (data == null)
 			{
 				App.Logger.WriteLine(LOG_IDENT, "Activity data unavailable, skipping");
+				CancelLinuxPrefetch();
 				return;
 			}
 			if (!data.MachineAddressValid)
@@ -162,12 +176,14 @@ public sealed class ServerMatchmaker : IDisposable
 			{
 				App.Logger.WriteLine(LOG_IDENT, $"Place {data.PlaceId} is excluded from the matchmaker, staying put");
 				ClearAttempt(data.PlaceId);
+				CancelLinuxPrefetch();
 				return;
 			}
 
 			if (!App.Settings.Prop.VoidstrapMatchmakerEnabled && !HasPerGamePreference(data.PlaceId))
 			{
 				App.Logger.WriteLine(LOG_IDENT, "Matchmaker is turned off and this place has no per game preference, staying put");
+				CancelLinuxPrefetch();
 				return;
 			}
 
@@ -175,6 +191,18 @@ public sealed class ServerMatchmaker : IDisposable
 			{
 				App.Logger.WriteLine(LOG_IDENT, $"Server is {data.ServerType}, the matchmaker only reroutes from public servers");
 				ClearAttempt(data.PlaceId);
+				CancelLinuxPrefetch();
+				return;
+			}
+
+			MatchmakerCandidate? launchPick = VoidstrapMatchmaker.FindLaunchPick(data.JobId);
+			if (launchPick != null && _linuxRejoinTarget == null)
+			{
+				string city = launchPick.Datacenter?.City ?? "the picked datacenter";
+				App.Logger.WriteLine(LOG_IDENT, $"Joined the server the matchmaker picked before launch in {city} ({launchPick.EstimatedPingMs}ms), staying put");
+				ClearAttempt(data.PlaceId);
+				CancelLinuxPrefetch();
+				ShowAlert($"Connected to {city}, about {launchPick.EstimatedPingMs}ms", 6);
 				return;
 			}
 
@@ -319,6 +347,10 @@ public sealed class ServerMatchmaker : IDisposable
 			App.Logger.WriteLine(LOG_IDENT, $"No better server was ready within {MoveWindow.TotalSeconds:0}s of joining, staying so you are not pulled out mid game");
 			ClearLinuxRejoin();
 			ClearAttempt(data.PlaceId);
+		}
+		finally
+		{
+			CancelLinuxPrefetch();
 		}
 	}
 
@@ -474,6 +506,7 @@ public sealed class ServerMatchmaker : IDisposable
 		ShowAlert($"Moving you to {best.Datacenter?.City ?? "the best server"}, about {best.EstimatedPingMs}ms{attemptNote}{blockedNote}", 8);
 
 		_lastHopUtc = DateTime.UtcNow;
+		VoidstrapMatchmaker.RememberLaunchPick(best);
 		await TriggerRejoinAsync(data.PlaceId, attempt, best.JobId, best.Datacenter?.City, decideBy, token).ConfigureAwait(false);
 	}
 
@@ -483,13 +516,16 @@ public sealed class ServerMatchmaker : IDisposable
 			return;
 
 		string? authUri = null;
-		try
+		if (!Voidstrap.Utility.Platform.IsLinux)
 		{
-			authUri = await RobloxAuthLauncher.BuildRobloxPlayerUriAsync(placeId, explicitJobId, decideBy).ConfigureAwait(false);
-		}
-		catch (Exception ex) when (!decideBy.IsCancellationRequested)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Auth URI build failed: " + ex.Message);
+			try
+			{
+				authUri = await RobloxAuthLauncher.BuildRobloxPlayerUriAsync(placeId, explicitJobId, decideBy).ConfigureAwait(false);
+			}
+			catch (Exception ex) when (!decideBy.IsCancellationRequested)
+			{
+				App.Logger.WriteLine(LOG_IDENT, "Auth URI build failed: " + ex.Message);
+			}
 		}
 		if (_disposed || token.IsCancellationRequested)
 			return;

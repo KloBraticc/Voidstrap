@@ -54,6 +54,31 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public ICommand AccountWindowCommand { get; }
 
+	public ICommand GrantSnapTapAccessCommand { get; }
+
+	public ICommand AddToSteamCommand { get; }
+
+	private bool _addingToSteam;
+
+	public Visibility SteamShortcutVisibility => Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxSteamIntegration.IsSteamInstalled
+		? Visibility.Visible
+		: Visibility.Collapsed;
+
+	public string SteamShortcutDescription => Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode
+		? "Switch to Desktop Mode to add Roblox and Voidstrap to your Steam library, Steam has to close for a moment while its library is updated."
+		: "Adds Roblox and Voidstrap to your Steam library with artwork, so they open from Game Mode on SteamOS and the Steam Deck.";
+
+	private Voidstrap.Platform.Linux.LinuxInputAccessState _snapTapAccess = Voidstrap.Platform.Linux.LinuxInputAccessState.Ready;
+
+	private bool _enableSnapTapAfterGrant;
+
+	public Visibility SnapTapAccessVisibility => Voidstrap.Utility.Platform.IsLinux && _snapTapAccess != Voidstrap.Platform.Linux.LinuxInputAccessState.Ready
+		? Visibility.Visible
+		: Visibility.Collapsed;
+
+	public string SnapTapAccessDescription => Voidstrap.KeyRouting.LinuxSnapTap.DescribeAccess(_snapTapAccess)
+		+ ". Grant access once so Snap Tap can take over the keyboard while Sober is focused.";
+
 	public bool DuckRobloxAudio
 	{
 		get
@@ -146,6 +171,26 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 			if (App.Settings.Prop.SnapTapEnabled == value)
 			{
 				return;
+			}
+			if (value && Voidstrap.Utility.Platform.IsLinux)
+			{
+				RefreshSnapTapAccess();
+				if (_snapTapAccess != Voidstrap.Platform.Linux.LinuxInputAccessState.Ready)
+				{
+					OnPropertyChanged(nameof(SnapTapEnabled));
+					MessageBoxResult answer = Frontend.ShowMessageBox(
+						"Snap Tap on Linux needs permission to read your keyboard and to create a virtual keyboard. "
+							+ Voidstrap.KeyRouting.LinuxSnapTap.DescribeAccess(_snapTapAccess)
+							+ ".\n\nGrant keyboard access now? Your password is asked once.",
+						MessageBoxImage.Question,
+						MessageBoxButton.YesNo);
+					if (answer == MessageBoxResult.Yes)
+					{
+						_enableSnapTapAfterGrant = true;
+						GrantSnapTapAccessCommand.Execute(null);
+					}
+					return;
+				}
 			}
 			App.Settings.Prop.SnapTapEnabled = value;
 			App.Settings.Save();
@@ -708,6 +753,8 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool IsCustomIntegrationSelected => SelectedCustomIntegration != null;
 
+	public string CustomIntegrationLocationPlaceholder => Voidstrap.Utility.Platform.IsLinux ? "/usr/bin/obs" : @"C:\Windows\System32\cmd.exe";
+
 	public IntegrationsViewModel(ActivityWatcher watcher, bool ownsWatcher = false)
 	{
 		_watcher = watcher;
@@ -717,6 +764,84 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		MusicWindowCommand = new RelayCommand(MusicPlayerWindow);
 		RPCWindowCommand = new RelayCommand(RPCUIWindow);
 		AccountWindowCommand = new RelayCommand(AccountWindow);
+		GrantSnapTapAccessCommand = new AsyncRelayCommand(GrantSnapTapAccessAsync);
+		AddToSteamCommand = new AsyncRelayCommand(AddToSteamAsync);
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			_snapTapAccess = Voidstrap.KeyRouting.LinuxSnapTap.Access;
+		}
+	}
+
+	private void RefreshSnapTapAccess()
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux)
+		{
+			return;
+		}
+		_snapTapAccess = Voidstrap.KeyRouting.LinuxSnapTap.Access;
+		OnPropertyChanged(nameof(SnapTapAccessVisibility));
+		OnPropertyChanged(nameof(SnapTapAccessDescription));
+	}
+
+	private async Task GrantSnapTapAccessAsync()
+	{
+		Voidstrap.Platform.Linux.LinuxInputAccessResult result = await Voidstrap.Platform.Linux.LinuxInputAccess.GrantAsync();
+		RefreshSnapTapAccess();
+		bool enable = _enableSnapTapAfterGrant;
+		_enableSnapTapAfterGrant = false;
+		if (!result.Success)
+		{
+			Frontend.ShowMessageBox(result.Message, MessageBoxImage.Warning);
+			return;
+		}
+		if (result.RestartRequired)
+		{
+			Frontend.ShowMessageBox(result.Message, MessageBoxImage.Information);
+		}
+		if (_snapTapAccess == Voidstrap.Platform.Linux.LinuxInputAccessState.Ready && (enable || App.Settings.Prop.SnapTapEnabled))
+		{
+			if (App.Settings.Prop.SnapTapEnabled)
+			{
+				Voidstrap.KeyRouting.SnapTapHook.Start();
+			}
+			else
+			{
+				SnapTapEnabled = true;
+			}
+		}
+	}
+
+	private async Task AddToSteamAsync()
+	{
+		if (_addingToSteam)
+			return;
+		if (Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode)
+		{
+			Frontend.ShowMessageBox("Switch to Desktop Mode first. Steam has to close for a moment while Voidstrap updates its library, and Game Mode cannot run without Steam.", MessageBoxImage.Information);
+			return;
+		}
+		bool closeSteam = false;
+		if (Voidstrap.Platform.Linux.LinuxSteamLibrary.IsSteamRunning())
+		{
+			MessageBoxResult answer = Frontend.ShowMessageBox("Steam has to close for a moment while Voidstrap adds Roblox and Voidstrap to your library. Close Steam now and open it again afterwards?", MessageBoxImage.Question, MessageBoxButton.YesNo);
+			if (answer != MessageBoxResult.Yes)
+				return;
+			closeSteam = true;
+		}
+		_addingToSteam = true;
+		try
+		{
+			byte[]? icon = Voidstrap.Utility.LinuxDesktopEntry.ReadIconPng();
+			string message = await Task.Run(() => Voidstrap.Utility.LinuxSteamIntegration.AddToSteamAsync(icon, closeSteam, _lifetimeCts.Token));
+			Frontend.ShowMessageBox(message, MessageBoxImage.Information);
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		finally
+		{
+			_addingToSteam = false;
+		}
 	}
 
 	private void AddIntegration()
@@ -810,7 +935,10 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 				}
 				_blockTelemetry = !value;
 				OnPropertyChanged(nameof(BlockTelemetry));
-				Frontend.ShowMessageBox(value ? "Voidstrap could not enable the telemetry blocker. Administrator approval is required to edit the hosts file." : "Voidstrap could not disable the telemetry blocker. Administrator approval is required to edit the hosts file.", MessageBoxImage.Warning);
+				string reason = Voidstrap.Utility.Platform.IsLinux && !string.IsNullOrWhiteSpace(TelemetryBlocker.LastLinuxFailure)
+					? TelemetryBlocker.LastLinuxFailure + "."
+					: "Administrator approval is required to edit the hosts file.";
+				Frontend.ShowMessageBox((value ? "Voidstrap could not enable the telemetry blocker. " : "Voidstrap could not disable the telemetry blocker. ") + reason, MessageBoxImage.Warning);
 			});
 		}
 		catch (OperationCanceledException)

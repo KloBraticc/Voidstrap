@@ -225,10 +225,10 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                         </ui:CardControl>
-                        <controls:OptionControl Header="Efficiency mode" Description="Runs Roblox in Windows efficiency mode. This lowers its priority and power use, which helps battery life and background play but reduces performance in game" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+                        <controls:OptionControl Header="Efficiency mode" Description="{Binding EfficiencyModeDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
             <ui:ToggleSwitch IsChecked="{Binding RobloxEfficiencyMode, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Roblox Priority" Description="Choose a safe Windows scheduling priority for Roblox. Realtime is intentionally unavailable." Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+          <controls:OptionControl Header="Roblox Priority" Description="{Binding RobloxPriorityDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
             <ComboBox Grid.Column="1" Margin="8,0,8,0" Padding="10,5,10,5" Width="200" ItemsSource="{Binding PriorityOptions}" SelectedItem="{Binding SelectedPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
 

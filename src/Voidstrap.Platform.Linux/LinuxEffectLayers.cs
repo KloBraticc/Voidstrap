@@ -13,6 +13,7 @@ namespace Voidstrap.Platform.Linux;
 public sealed record LinuxEffectOptions(
 	bool Enabled = false,
 	string? AntiAliasing = null,
+	bool AntiAliasingUltra = false,
 	bool Sharpening = false,
 	float SharpnessAmount = 0.4f,
 	string? GradingShader = null,
@@ -128,12 +129,6 @@ public static class LinuxEffectLayers
 			Directory.CreateDirectory(ConfigDirectory);
 			List<string> effects = [];
 
-			if (!string.IsNullOrWhiteSpace(options.GradingShader))
-			{
-				File.WriteAllText(GradingShaderFile, options.GradingShader);
-				effects.Add("voidstrapGrade");
-			}
-
 			if (!string.IsNullOrWhiteSpace(options.HomepageShader))
 			{
 				File.WriteAllText(HomepageShaderFile, options.HomepageShader);
@@ -147,6 +142,12 @@ public static class LinuxEffectLayers
 					File.Copy(options.HomepageMediaPath, HomepageMediaFile(options.HomepageMediaPath), true);
 				}
 				effects.Add("voidstrapHomepage");
+			}
+
+			if (!string.IsNullOrWhiteSpace(options.GradingShader))
+			{
+				File.WriteAllText(GradingShaderFile, options.GradingShader);
+				effects.Add("voidstrapGrade");
 			}
 
 			if (!string.IsNullOrWhiteSpace(options.AntiAliasing))
@@ -163,6 +164,20 @@ public static class LinuxEffectLayers
 			builder.AppendLine("reshadeIncludePath = " + ConfigDirectory);
 			builder.AppendLine("reshadeTexturePath = " + ConfigDirectory);
 			builder.AppendLine("casSharpness = " + options.SharpnessAmount.ToString("0.00", CultureInfo.InvariantCulture));
+			if (string.Equals(options.AntiAliasing, "smaa", StringComparison.Ordinal))
+			{
+				builder.AppendLine("smaaEdgeDetection = luma");
+				builder.AppendLine("smaaThreshold = " + (options.AntiAliasingUltra ? "0.05" : "0.1"));
+				builder.AppendLine("smaaMaxSearchSteps = " + (options.AntiAliasingUltra ? "32" : "16"));
+				builder.AppendLine("smaaMaxSearchStepsDiag = " + (options.AntiAliasingUltra ? "16" : "8"));
+				builder.AppendLine("smaaCornerRounding = 25");
+			}
+			else if (string.Equals(options.AntiAliasing, "fxaa", StringComparison.Ordinal))
+			{
+				builder.AppendLine("fxaaQualitySubpix = " + (options.AntiAliasingUltra ? "1.00" : "0.75"));
+				builder.AppendLine("fxaaQualityEdgeThreshold = " + (options.AntiAliasingUltra ? "0.063" : "0.125"));
+				builder.AppendLine("fxaaQualityEdgeThresholdMin = 0.0312");
+			}
 			if (!string.IsNullOrWhiteSpace(options.GradingShader))
 				builder.AppendLine("voidstrapGrade = " + GradingShaderFile);
 			if (!string.IsNullOrWhiteSpace(options.HomepageShader))

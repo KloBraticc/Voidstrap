@@ -24,6 +24,11 @@ public static partial class LinuxWindowInterop
 	private const int Unsorted = 0;
 	private const int AnyPropertyType = 0;
 	private const int Success = 0;
+	private const nint WmNameAtom = 39;
+	private const long MaxIconLongs = 1 << 20;
+	private const nint WsExLayered = 0x80000;
+	private const nint WsExTransparent = 0x20;
+	private static readonly Version MinimumDecorationGamescope = new(3, 16, 26);
 	private const int IsUnmapped = 0;
 	private const int IsViewable = 2;
 	private const int ZPixmap = 2;
@@ -34,6 +39,10 @@ public static partial class LinuxWindowInterop
 
 	private static readonly string[] RuntimeClassMarkers = ["sober", "vinegarhq", "roblox"];
 	private static readonly object Sync = new();
+	private static readonly object SandboxProcessSync = new();
+	private const long SandboxProcessScanInterval = 3000;
+	private static HashSet<int> _soberSandboxProcessIds = [];
+	private static long _soberSandboxScannedAt;
 
 	private static nint _display;
 	private static bool _initialized;
@@ -53,6 +62,8 @@ public static partial class LinuxWindowInterop
 	private static int _sharedDepth;
 	private static XErrorHandler? _errorHandler;
 	private static readonly HashSet<nint> PreparedOverlayWindows = [];
+	private static readonly HashSet<nint> GamescopeDecorationWindows = [];
+	private static int _gamescopeDecorationSupport = -1;
 
 	public static bool IsAvailable
 	{
@@ -106,6 +117,117 @@ public static partial class LinuxWindowInterop
 	{
 		lock (Sync)
 			return TrySetApplicationIdentityCore(window, resourceName, resourceClass, iconData);
+	}
+
+	public static string ReadWindowTitle(nint window)
+	{
+		lock (Sync)
+		{
+			nint display = Display;
+			if (display == 0 || window == 0)
+				return string.Empty;
+			try
+			{
+				return GetWindowTitle(display, window);
+			}
+			catch (Exception)
+			{
+				return string.Empty;
+			}
+		}
+	}
+
+	public static bool TrySetWindowTitle(nint window, string title)
+	{
+		lock (Sync)
+		{
+			nint display = Display;
+			if (display == 0 || window == 0)
+				return false;
+			try
+			{
+				byte[] bytes = Encoding.UTF8.GetBytes(title ?? string.Empty);
+				nint utf8 = XInternAtom(display, "UTF8_STRING", false);
+				nint netName = XInternAtom(display, "_NET_WM_NAME", false);
+				if (utf8 == 0 || netName == 0)
+					return false;
+				_ = XChangePropertyBytes(display, window, netName, utf8, 8, 0, bytes, bytes.Length);
+				_ = XChangePropertyBytes(display, window, WmNameAtom, utf8, 8, 0, bytes, bytes.Length);
+				_ = XFlush(display);
+				return true;
+			}
+			catch (DllNotFoundException)
+			{
+				return false;
+			}
+			catch (EntryPointNotFoundException)
+			{
+				return false;
+			}
+		}
+	}
+
+	public static nint[] ReadWindowIcon(nint window)
+	{
+		lock (Sync)
+		{
+			nint display = Display;
+			if (display == 0 || window == 0)
+				return [];
+			nint data = 0;
+			try
+			{
+				nint iconAtom = XInternAtom(display, "_NET_WM_ICON", true);
+				if (iconAtom == 0)
+					return [];
+				int status = XGetWindowProperty(display, window, iconAtom, 0, MaxIconLongs, false, AnyPropertyType, out _, out int format, out ulong count, out _, out data);
+				if (status != Success || data == 0 || count == 0 || format != 32)
+					return [];
+				nint[] icon = new nint[(int)count];
+				Marshal.Copy(data, icon, 0, icon.Length);
+				return icon;
+			}
+			catch (Exception)
+			{
+				return [];
+			}
+			finally
+			{
+				if (data != 0)
+					_ = XFree(data);
+			}
+		}
+	}
+
+	public static bool TrySetWindowIcon(nint window, nint[] iconData)
+	{
+		lock (Sync)
+		{
+			nint display = Display;
+			if (display == 0 || window == 0)
+				return false;
+			try
+			{
+				nint iconAtom = XInternAtom(display, "_NET_WM_ICON", false);
+				nint cardinalAtom = XInternAtom(display, "CARDINAL", false);
+				if (iconAtom == 0 || cardinalAtom == 0)
+					return false;
+				if (iconData.Length > 2)
+					_ = XChangeProperty(display, window, iconAtom, cardinalAtom, 32, 0, iconData, iconData.Length);
+				else
+					_ = XDeleteProperty(display, window, iconAtom);
+				_ = XFlush(display);
+				return true;
+			}
+			catch (DllNotFoundException)
+			{
+				return false;
+			}
+			catch (EntryPointNotFoundException)
+			{
+				return false;
+			}
+		}
 	}
 
 	private static bool TrySetApplicationIdentityCore(nint window, string resourceName, string resourceClass, nint[] iconData)
@@ -269,6 +391,22 @@ public static partial class LinuxWindowInterop
 		return score;
 	}
 
+	public static bool IsRuntimeWindowActive()
+	{
+		nint display = Display;
+		if (display == 0)
+			return false;
+		try
+		{
+			nint active = GetActiveWindow(display);
+			return active != 0 && IsRuntimeWindow(display, active);
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
 	public static bool IsSoberRuntimeWindow(nint window)
 	{
 		nint display = Display;
@@ -296,7 +434,7 @@ public static partial class LinuxWindowInterop
 		if (!title.Contains("Sober", StringComparison.OrdinalIgnoreCase)
 			&& !title.Contains("Roblox", StringComparison.OrdinalIgnoreCase))
 			return false;
-		return IsSoberProcessIdentity(GetWindowProcessId(display, window));
+		return IsSoberWindowProcess(display, window);
 	}
 
 	public static nint GetFocusedWindow()
@@ -2157,6 +2295,7 @@ public static partial class LinuxWindowInterop
 			if (state != 0 && above != 0 && skipTaskbar != 0 && skipPager != 0)
 				XChangeProperty(display, window, state, 4, 32, 0, [above, skipTaskbar, skipPager], 3);
 
+			MarkGamescopeOverlay(display, window);
 			_ = XSync(display, 0);
 			bool prepared = IsOverrideRedirectWindow(window);
 			if (prepared)
@@ -2199,6 +2338,7 @@ public static partial class LinuxWindowInterop
 			if (state != 0 && above != 0 && skipTaskbar != 0 && skipPager != 0)
 				XChangeProperty(display, window, state, 4, 32, 0, [above, skipTaskbar, skipPager], 3);
 
+			MarkGamescopeOverlay(display, window);
 			_ = XRaiseWindow(display, window);
 			_ = XFlush(display);
 			lock (Sync)
@@ -2209,6 +2349,21 @@ public static partial class LinuxWindowInterop
 		{
 			return false;
 		}
+	}
+
+	private static void MarkGamescopeOverlay(nint display, nint window)
+	{
+		if (!LinuxSteamOS.Current.IsGamescopeSession)
+			return;
+		lock (Sync)
+		{
+			if (GamescopeDecorationWindows.Contains(window))
+				return;
+		}
+		nint overlay = XInternAtom(display, "GAMESCOPE_EXTERNAL_OVERLAY", false);
+		nint cardinal = XInternAtom(display, "CARDINAL", false);
+		if (overlay != 0 && cardinal != 0)
+			_ = XChangeProperty(display, window, overlay, cardinal, 32, 0, [1], 1);
 	}
 
 	public static bool IsPreparedOverlayWindow(nint window)
@@ -2232,7 +2387,130 @@ public static partial class LinuxWindowInterop
 		if (window == 0)
 			return;
 		lock (Sync)
+		{
 			PreparedOverlayWindows.Remove(window);
+			GamescopeDecorationWindows.Remove(window);
+		}
+	}
+
+	public static bool IsGamescopeDecoration(nint window)
+	{
+		lock (Sync)
+			return GamescopeDecorationWindows.Contains(window);
+	}
+
+	public static bool TryPromoteGamescopeDecoration(nint window)
+	{
+		if (window == 0 || !LinuxSteamOS.Current.IsGameMode)
+			return false;
+		nint display = Display;
+		if (display == 0)
+			return false;
+		try
+		{
+			if (!GamescopeSupportsDecorations(display))
+				return false;
+			lock (Sync)
+			{
+				if (GamescopeDecorationWindows.Contains(window))
+					return false;
+				if (XGetWindowAttributes(display, window, out XWindowAttributes attributes) == 0 || attributes.MapState != IsViewable)
+					return false;
+				nint focusedApp = ReadRootCardinal(display, "GAMESCOPE_FOCUSED_APP");
+				if (focusedApp == 0)
+					return false;
+				nint external = XInternAtom(display, "GAMESCOPE_EXTERNAL_OVERLAY", false);
+				nint steamGame = XInternAtom(display, "STEAM_GAME", false);
+				nint exStyle = XInternAtom(display, "_WINE_HWND_EXSTYLE", false);
+				nint cardinal = XInternAtom(display, "CARDINAL", false);
+				if (external == 0 || steamGame == 0 || exStyle == 0 || cardinal == 0)
+					return false;
+				_ = XDeleteProperty(display, window, external);
+				_ = XChangeProperty(display, window, steamGame, cardinal, 32, 0, [focusedApp], 1);
+				_ = XChangeProperty(display, window, exStyle, cardinal, 32, 0, [WsExLayered | WsExTransparent], 1);
+				_ = XFlush(display);
+				GamescopeDecorationWindows.Add(window);
+				return true;
+			}
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	private static bool GamescopeSupportsDecorations(nint display)
+	{
+		if (_gamescopeDecorationSupport >= 0)
+			return _gamescopeDecorationSupport == 1;
+		string? forced = Environment.GetEnvironmentVariable("VOIDSTRAP_GAMESCOPE_DECORATIONS");
+		bool supported;
+		if (forced is "0" or "1")
+			supported = forced == "1";
+		else
+			supported = ReadGamescopeVersion((int)ReadRootCardinal(display, "GAMESCOPE_PID")) is Version version && version >= MinimumDecorationGamescope;
+		_gamescopeDecorationSupport = supported ? 1 : 0;
+		return supported;
+	}
+
+	private static Version? ReadGamescopeVersion(int processId)
+	{
+		if (processId <= 0)
+			return null;
+		try
+		{
+			FileSystemInfo? target = new FileInfo("/proc/" + processId.ToString(System.Globalization.CultureInfo.InvariantCulture) + "/exe").ResolveLinkTarget(false);
+			if (target is null || !target.Name.Contains("gamescope", StringComparison.OrdinalIgnoreCase) || !File.Exists(target.FullName))
+				return null;
+			System.Diagnostics.ProcessStartInfo info = new(target.FullName)
+			{
+				UseShellExecute = false,
+				RedirectStandardOutput = true,
+				RedirectStandardError = true,
+				CreateNoWindow = true
+			};
+			info.ArgumentList.Add("--version");
+			using System.Diagnostics.Process? process = System.Diagnostics.Process.Start(info);
+			if (process is null)
+				return null;
+			Task<string> output = process.StandardOutput.ReadToEndAsync();
+			Task<string> error = process.StandardError.ReadToEndAsync();
+			if (!process.WaitForExit(3000))
+			{
+				try
+				{
+					process.Kill();
+				}
+				catch (InvalidOperationException)
+				{
+				}
+				return null;
+			}
+			System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(output.Result + error.Result, @"version\s+(\d+\.\d+(?:\.\d+)?)");
+			return match.Success && Version.TryParse(match.Groups[1].Value, out Version? version) ? version : null;
+		}
+		catch (Exception)
+		{
+			return null;
+		}
+	}
+
+	private static nint ReadRootCardinal(nint display, string name)
+	{
+		nint atom = XInternAtom(display, name, true);
+		if (atom == 0)
+			return 0;
+		nint root = XDefaultRootWindow(display);
+		if (!TryGetProperty(display, root, atom, out nint data, out ulong count, out int format))
+			return 0;
+		try
+		{
+			return format == 32 && count > 0 ? (nint)(uint)Marshal.ReadIntPtr(data) : 0;
+		}
+		finally
+		{
+			_ = XFree(data);
+		}
 	}
 
 	public static bool IsOverrideRedirectWindow(nint window)
@@ -2798,7 +3076,88 @@ public static partial class LinuxWindowInterop
 		if (!title.Contains("Roblox", StringComparison.OrdinalIgnoreCase)
 			&& !title.Contains("Sober", StringComparison.OrdinalIgnoreCase))
 			return false;
-		return IsSoberProcessIdentity(GetWindowProcessId(display, window));
+		return IsSoberWindowProcess(display, window);
+	}
+
+	private static bool IsSoberWindowProcess(nint display, nint window)
+	{
+		int processId = GetWindowProcessId(display, window);
+		if (IsSoberProcessIdentity(processId))
+			return true;
+		return IsNestedCompositorWindow(display, window) && IsSoberSandboxProcessId(processId);
+	}
+
+	private static bool IsNestedCompositorWindow(nint display, nint window)
+	{
+		return TryGetClassHint(display, window, out string name, out string className)
+			&& (name.Contains("gamescope", StringComparison.OrdinalIgnoreCase)
+				|| className.Contains("gamescope", StringComparison.OrdinalIgnoreCase));
+	}
+
+	private static bool IsSoberSandboxProcessId(int sandboxProcessId)
+	{
+		if (sandboxProcessId <= 0)
+			return false;
+		lock (SandboxProcessSync)
+		{
+			long now = Environment.TickCount64;
+			if (_soberSandboxScannedAt == 0 || now - _soberSandboxScannedAt >= SandboxProcessScanInterval)
+			{
+				_soberSandboxProcessIds = ScanSoberSandboxProcessIds();
+				_soberSandboxScannedAt = now;
+			}
+			return _soberSandboxProcessIds.Contains(sandboxProcessId);
+		}
+	}
+
+	private static HashSet<int> ScanSoberSandboxProcessIds()
+	{
+		HashSet<int> processIds = [];
+		IEnumerable<string> directories;
+		try
+		{
+			directories = Directory.EnumerateDirectories("/proc");
+		}
+		catch (Exception)
+		{
+			return processIds;
+		}
+
+		foreach (string directory in directories)
+		{
+			string entry = Path.GetFileName(directory);
+			if (entry.Length == 0 || !char.IsAsciiDigit(entry[0]))
+				continue;
+			try
+			{
+				string cgroup = File.ReadAllText(Path.Combine(directory, "cgroup"));
+				if (!cgroup.Contains("org.vinegarhq.Sober", StringComparison.OrdinalIgnoreCase))
+					continue;
+				int nested = ReadInnermostProcessId(Path.Combine(directory, "status"));
+				if (nested > 0)
+					processIds.Add(nested);
+			}
+			catch (Exception)
+			{
+			}
+		}
+		return processIds;
+	}
+
+	private static int ReadInnermostProcessId(string statusPath)
+	{
+		foreach (string line in File.ReadLines(statusPath))
+		{
+			if (!line.StartsWith("NSpid:", StringComparison.Ordinal))
+				continue;
+			string[] values = line[6..].Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
+			if (values.Length < 2)
+				return 0;
+			return int.TryParse(values[^1], System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out int nested)
+				? nested
+				: 0;
+		}
+		return 0;
 	}
 
 	private static bool IsSoberProcessIdentity(int processId)
@@ -3343,6 +3702,9 @@ public static partial class LinuxWindowInterop
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XDeleteProperty(nint display, nint window, nint property);
+
+	[LibraryImport("libX11.so.6", EntryPoint = "XChangeProperty")]
+	private static partial int XChangePropertyBytes(nint display, nint window, nint property, nint type, int format, int mode, [In] byte[] data, int count);
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XSetWindowBackground(nint display, nint window, nuint pixel);

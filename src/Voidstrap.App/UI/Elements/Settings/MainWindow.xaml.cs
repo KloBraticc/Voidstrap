@@ -3353,7 +3353,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            _robloxRunningCached = AnyProcessRunning("RobloxPlayerBeta") || AnyProcessRunning("RobloxStudioBeta");
+            _robloxRunningCached = Voidstrap.Utility.Platform.IsLinux
+                ? Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow()
+                : AnyProcessRunning("RobloxPlayerBeta") || AnyProcessRunning("RobloxStudioBeta");
         }
         catch
         {

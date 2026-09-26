@@ -381,6 +381,8 @@ public partial class MenuContainer : WpfUiWindow
 
     private static long ReadRobloxMemory()
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+            return ReadSoberMemory();
         long total = 0;
         foreach (Process process in Process.GetProcessesByName("RobloxPlayerBeta"))
         {
@@ -393,6 +395,26 @@ public partial class MenuContainer : WpfUiWindow
                 catch
                 {
                 }
+            }
+        }
+        return total;
+    }
+
+    private static long ReadSoberMemory()
+    {
+        long total = 0;
+        foreach (int processId in Voidstrap.Platform.Linux.LinuxSoberProcessProbe.GetSandboxProcessIds())
+        {
+            try
+            {
+                using Process process = Process.GetProcessById(processId);
+                total += process.WorkingSet64;
+            }
+            catch (ArgumentException)
+            {
+            }
+            catch (InvalidOperationException)
+            {
             }
         }
         return total;

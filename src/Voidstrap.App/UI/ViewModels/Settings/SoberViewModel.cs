@@ -92,7 +92,7 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 		try
 		{
 			Voidstrap.Platform.OperationResult result = await new Voidstrap.Platform.Linux.LinuxSoberInstaller(new Voidstrap.Core.SystemProcessService())
-				.InstallAsync()
+				.InstallAsync(report: ReportSoberInstall)
 				.ConfigureAwait(true);
 			installed = result.Succeeded;
 			App.Logger.WriteLine("SoberViewModel::Install", installed ? "Sober was installed" : "Sober could not be installed: " + result.Failure?.Message);
@@ -117,6 +117,17 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 		if (installed && _installed && (thenDownloadRoblox || _robloxVersion is null))
 			DownloadRoblox();
 		return installed;
+	}
+
+	private void ReportSoberInstall(string message)
+	{
+		Application.Current?.Dispatcher.BeginInvoke(new Action<string>(SetSoberInstallStatus), message);
+	}
+
+	private void SetSoberInstallStatus(string message)
+	{
+		if (_installing)
+			InstallationStatus = message;
 	}
 
 	public string RobloxStatus

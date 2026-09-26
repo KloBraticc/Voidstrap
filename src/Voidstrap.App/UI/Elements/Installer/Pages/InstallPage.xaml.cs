@@ -32,12 +32,17 @@ public partial class InstallPage : UiPage{
 		if (Window.GetWindow((DependencyObject)(object)this) is MainWindow mainWindow)
 		{
 			mainWindow.SetNextButtonText(Strings.Common_Navigation_Install);
-			mainWindow.NextPageCallback = (Func<bool>)Delegate.Combine(mainWindow.NextPageCallback, new Func<bool>(NextPageCallback));
+			mainWindow.NextPageAsyncCallback = NextPageCallbackAsync;
 		}
 	}
 
-	public bool NextPageCallback()
+	public System.Threading.Tasks.Task<bool> NextPageCallbackAsync()
 	{
-		return _viewModel.DoInstall();
+		return _viewModel.DoInstallAsync(ReportSoberInstall);
+	}
+
+	private void ReportSoberInstall(string message)
+	{
+		Dispatcher.BeginInvoke(new Action<string>(_viewModel.SetSoberInstallStatus), message);
 	}
 }

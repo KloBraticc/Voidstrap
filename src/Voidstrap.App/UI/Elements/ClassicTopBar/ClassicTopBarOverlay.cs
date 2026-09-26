@@ -91,7 +91,7 @@ internal static class ClassicTopBarOverlay
 	private static void ReconcileCore()
 	{
 		Interlocked.Exchange(ref _reconcilePending, 0);
-		if (!App.Settings.Prop.ClassicTopBarEnabled || !ClassicTopBarMod.AssetsReady)
+		if (Voidstrap.Utility.Platform.IsLinux || !App.Settings.Prop.ClassicTopBarEnabled || !ClassicTopBarMod.AssetsReady)
 		{
 			CloseAll();
 			return;
@@ -317,7 +317,6 @@ internal static class ClassicTopBarOverlay
 	{
 		if (!OperatingSystem.IsWindows())
 		{
-			Voidstrap.Platform.Linux.LinuxClassicKeys.Start(OnLinuxEscape, OnLinuxKeyDown, OnLinuxKeysLog);
 			return;
 		}
 		if (_hook is { IsInvalid: false })
@@ -341,26 +340,10 @@ internal static class ClassicTopBarOverlay
 		}
 	}
 
-	private static void OnLinuxEscape()
-	{
-		Post(ToggleMenu);
-	}
-
-	private static void OnLinuxKeyDown(ushort key)
-	{
-		OnKeyDown(key);
-	}
-
-	private static void OnLinuxKeysLog(string message)
-	{
-		App.Logger?.WriteLine(LogIdent, message);
-	}
-
 	private static void RemoveHook()
 	{
 		if (!OperatingSystem.IsWindows())
 		{
-			Voidstrap.Platform.Linux.LinuxClassicKeys.Stop();
 			return;
 		}
 		UnhookWindowsHookExSafeHandle? hook = _hook;

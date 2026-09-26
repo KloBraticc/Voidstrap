@@ -23,6 +23,7 @@ if [[ ! "$VERSION" =~ ^[0-9]+([.][0-9]+){1,3}$ ]]; then
 fi
 
 command -v flatpak >/dev/null 2>&1 || { echo "Flatpak is unavailable"; exit 1; }
+flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 if [ "$ARCH" != "$(uname -m)" ] && [ ! -e "/proc/sys/fs/binfmt_misc/qemu-$ARCH" ]; then
   echo "Building the $ARCH Flatpak on $(uname -m) needs QEMU user emulation, install qemu-user-static"
   exit 1

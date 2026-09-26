@@ -148,7 +148,7 @@
             </ui:CardExpander>
 
             <TextBlock Margin="2,24,0,0" FontSize="16" FontWeight="SemiBold" Text="Interface" />
-            <controls:OptionControl Header="Old Roblox TopBar UI" Description="The 2014 to 2015 topbar and game menu, as an overlay.">
+            <controls:OptionControl Header="Old Roblox TopBar UI" Description="The 2014 to 2015 topbar and game menu, as an overlay." Visibility="{Binding ClassicTopBarVisibility}">
               <StackPanel Orientation="Horizontal">
                 <ui:ProgressRing Width="20" Height="20" Margin="0,0,10,0" IsIndeterminate="True" Visibility="{Binding ClassicTopBarBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <ui:ToggleSwitch IsChecked="{Binding ClassicTopBarEnabled, Mode=TwoWay}" IsEnabled="{Binding ClassicTopBarReady}" />
@@ -518,7 +518,7 @@
                     <WrapPanel Margin="0,10,0,0">
                       <ui:Button Height="36" Margin="0,0,8,0" Padding="16,0" Appearance="Primary" Icon="ArrowDownload24" Content="Apply to My Mods" IsEnabled="{Binding CanInstall}" Command="{Binding InstallCommand}" Visibility="{Binding ManagedInstallVisibility}" />
                       <ui:Button Height="36" Margin="0,0,8,0" Padding="16,0" Appearance="Primary" Icon="ArrowDownload24" Content="Apply for Voidstrap" IsEnabled="{Binding CanInstall}" Command="{Binding InstallAssetWarpCommand}" Visibility="{Binding ReplacementInstallVisibility}" />
-                      <ui:Button Height="36" Padding="16,0" Icon="ArrowDownload24" Content="Apply for Fleasion" IsEnabled="{Binding CanInstall}" Command="{Binding InstallFleasionCommand}" Visibility="{Binding ReplacementInstallVisibility}" />
+                      <ui:Button Height="36" Padding="16,0" Icon="ArrowDownload24" Content="Apply for Fleasion" IsEnabled="{Binding CanInstall}" Command="{Binding InstallFleasionCommand}" Visibility="{Binding FleasionInstallVisibility}" />
                     </WrapPanel>
                   </StackPanel>
                 </Border>
@@ -939,7 +939,7 @@
                     <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding ContrastDisplay}" />
                   </StackPanel>
                 </controls:OptionControl>
-                <controls:OptionControl Header="Warmth" Description="Negative is cooler, positive is warmer." Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+                <controls:OptionControl Header="Warmth" Description="Negative is cooler, positive is warmer.">
                   <StackPanel Orientation="Horizontal">
                     <Slider Width="200" Minimum="-100" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" Value="{Binding ColorTemperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding ColorTemperatureDisplay}" />
@@ -948,13 +948,13 @@
               </StackPanel>
             </StackPanel>
 
-            <StackPanel Margin="0,14,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+            <StackPanel Margin="0,14,0,0">
               <TextBlock Margin="2,0,0,0" FontSize="14" FontWeight="Medium" Text="Smoothing and frames" />
               <StackPanel>
                 <controls:OptionControl Header="Anti aliasing" Description="Smooths jagged edges using your GPU.">
                   <ComboBox Padding="10,5,10,5" MinWidth="140" ItemsSource="{Binding AntiAliasingMethodNames, Mode=OneTime}" SelectedIndex="{Binding AntiAliasingMethodIndex, Mode=TwoWay}" />
                 </controls:OptionControl>
-                <controls:OptionControl Header="Motion blur" Description="Adds a motion trail to movement, masked to moving areas so the interface stays sharp.">
+                <controls:OptionControl Header="Motion blur" Description="Adds a motion trail to movement, masked to moving areas so the interface stays sharp." Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
                   <ComboBox Padding="10,5,10,5" MinWidth="140" ItemsSource="{Binding MotionBlurStrengthNames, Mode=OneTime}" SelectedIndex="{Binding MotionBlurStrengthIndex, Mode=TwoWay}" />
                 </controls:OptionControl>
                 <controls:OptionControl Header="Frame generation" Description="Adds generated frames between real ones. Adds a little input delay." Visibility="{x:Static platform:PlatformFeatureVisibility.FrameGeneration}">
@@ -971,7 +971,7 @@
               </StackPanel>
             </StackPanel>
 
-            <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+            <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
               <HeaderedContentControl.Header>
                 <Grid>
                   <Grid.ColumnDefinitions>

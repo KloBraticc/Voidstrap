@@ -466,7 +466,7 @@ function New-PackagingShell {
 
     $tools = @()
     if ($Linux) {
-        $probe = 'for t in dpkg-deb rpmbuild flatpak; do command -v $t >/dev/null 2>&1 && echo $t; done; true'
+        $probe = 'for t in dpkg-deb rpmbuild flatpak flatpak-builder; do command -v $t >/dev/null 2>&1 && echo $t; done; true'
         $probeArgs = @($Prefix) + @('-c', $probe)
         $previousPreference = $ErrorActionPreference
         $ErrorActionPreference = 'Continue'
@@ -907,7 +907,6 @@ if ($RequestedAll) {
 
 $AndroidExplicit = $Only -contains 'android'
 $BuildAndroid = $AndroidExplicit -or $RequestedAll
-$StrictLinuxPackages = $LinuxPackages -and $IsLinuxHost
 $PackageNotes = [System.Collections.Generic.List[string]]::new()
 
 if ($Targets.Count -eq 0 -and -not $BuildAndroid) {
@@ -938,6 +937,35 @@ if ($AppImage -and $appImageTargets.Count -eq 0) {
     throw 'AppImage packaging requires a linux x64 or linux arm64 target.'
 }
 $ShouldBuildAppImage = ($IsLinuxHost -or $AppImage) -and -not $SkipAppImage -and $appImageTargets.Count -gt 0
+$selectedLinuxTargets = @($Targets | Where-Object { $_.Rid.StartsWith('linux-', [System.StringComparison]::Ordinal) })
+$glibcLinuxTargets = @($selectedLinuxTargets | Where-Object { -not $_.Rid.StartsWith('linux-musl-', [System.StringComparison]::Ordinal) })
+$wantLinuxPackages = $LinuxPackages -or ($selectedLinuxTargets.Count -gt 0 -and -not $AppImage)
+if ($LinuxPackages -and $selectedLinuxTargets.Count -eq 0) {
+    throw 'Select at least one Linux target when requesting Linux packages.'
+}
+$packagingShell = $null
+if ($wantLinuxPackages -or $ShouldBuildAppImage -or @($Targets | Where-Object { $_.Rid.StartsWith('osx-', [System.StringComparison]::Ordinal) }).Count -gt 0) {
+    $packagingShell = Resolve-PackagingShell
+}
+if ($wantLinuxPackages -and -not $packagingShell) {
+    throw 'Linux packages require bash on this host.'
+}
+if ($wantLinuxPackages -and $glibcLinuxTargets.Count -gt 0 -and -not $packagingShell.Linux) {
+    throw 'Linux packages require a Linux host, or Windows with a WSL distro.'
+}
+if ($wantLinuxPackages -and $glibcLinuxTargets.Count -gt 0) {
+    $missingTools = @('dpkg-deb', 'rpmbuild', 'flatpak', 'flatpak-builder') | Where-Object { $packagingShell.Tools -notcontains $_ }
+    if ($missingTools) {
+        throw "Linux packaging needs these tools in $($packagingShell.Name): $($missingTools -join ', ')."
+    }
+}
+if ($ShouldBuildAppImage -and -not ($packagingShell -and $packagingShell.Linux)) {
+    throw 'AppImage packaging requires a Linux host, or Windows with a WSL distro.'
+}
+$appImageTool = $null
+if ($packagingShell -and $packagingShell.Linux -and -not $SkipAppImage -and $appImageTargets.Count -gt 0 -and ($wantLinuxPackages -or $ShouldBuildAppImage)) {
+    $appImageTool = Resolve-AppImageTool
+}
 $UseParallel = -not $Sequential -and ($Parallel -or $Targets.Count -gt 1)
 if ($UseParallel) {
     $PubOpts += '-m:1'
@@ -1164,22 +1192,10 @@ try {
 
     $linuxJobs = @($jobs | Where-Object { $_.Status -eq 'Done' -and $_.Target.Rid.StartsWith('linux-', [System.StringComparison]::Ordinal) })
     $macJobs = @($jobs | Where-Object { $_.Status -eq 'Done' -and $_.Target.Rid.StartsWith('osx-', [System.StringComparison]::Ordinal) })
-    $wantLinuxPackages = $LinuxPackages -or ($RequestedAll -and $linuxJobs.Count -gt 0)
     $wantAppImageOnly = $ShouldBuildAppImage -and -not $wantLinuxPackages
-
-    if ($LinuxPackages -and $linuxJobs.Count -eq 0) {
-        throw 'Select at least one Linux target when requesting Linux packages.'
-    }
-
-    $shell = $null
-    if ($wantLinuxPackages -or $wantAppImageOnly -or $macJobs.Count -gt 0) {
-        $shell = Resolve-PackagingShell
-        if ($shell) {
-            Write-Host "Packaging with $($shell.Name)" -ForegroundColor DarkGray
-        }
-    }
-    if ($wantAppImageOnly -and -not ($shell -and $shell.Linux)) {
-        throw 'AppImage packaging requires a Linux host, or Windows with a WSL distro.'
+    $shell = $packagingShell
+    if ($shell) {
+        Write-Host "Packaging with $($shell.Name)" -ForegroundColor DarkGray
     }
 
     $linuxScript = 'build/Packaging/Linux/package.sh'
@@ -1188,69 +1204,41 @@ try {
     $macScript = 'build/Packaging/MacOS/package.sh'
     $packageVersion = if ($shell) { Get-VoidstrapVersion } else { $null }
 
-    $appImageTool = $null
-    if ($shell -and $shell.Linux -and -not $SkipAppImage -and ($wantLinuxPackages -or $wantAppImageOnly)) {
-        try {
-            $appImageTool = Resolve-AppImageTool
-        } catch {
-            if ($StrictLinuxPackages -or $wantAppImageOnly) { throw }
-            $PackageNotes.Add("AppImage: the packaging tool is unavailable. $($_.Exception.Message)")
-        }
-        if ($appImageTool) {
-            $env:APPIMAGETOOL = $appImageTool
-            if ($shell.Wsl -and $env:WSLENV -notmatch '(^|:)APPIMAGETOOL/') {
-                $env:WSLENV = (@($env:WSLENV, 'APPIMAGETOOL/p') | Where-Object { $_ }) -join ':'
-            }
+    if ($appImageTool) {
+        $env:APPIMAGETOOL = $appImageTool
+        if ($shell.Wsl -and $env:WSLENV -notmatch '(^|:)APPIMAGETOOL/') {
+            $env:WSLENV = (@($env:WSLENV, 'APPIMAGETOOL/p') | Where-Object { $_ }) -join ':'
         }
     }
 
     if ($wantLinuxPackages) {
-        if (-not $shell -or -not ($IsWindowsHost -or $IsLinuxHost)) {
-            $PackageNotes.Add('Linux packages need a Linux host, or Windows with a WSL distro or Git Bash.')
-        } else {
-            $packageOutput = $LinuxOut
-            Reset-OutputDirectory $packageOutput
-            $packageOutputPath = Get-RootRelativePath $packageOutput
-            $toolFormats = [ordered]@{ 'dpkg-deb' = 'deb'; 'rpmbuild' = 'rpm' }
-
-            foreach ($job in $linuxJobs) {
-                $rid = $job.Target.Rid
-                $executablePath = Get-RootRelativePath $job.Expected
-                $glibc = -not $rid.StartsWith('linux-musl-', [System.StringComparison]::Ordinal)
-                $formats = @('tar')
-                if ($glibc) {
-                    foreach ($tool in $toolFormats.Keys) {
-                        if ($StrictLinuxPackages -or $shell.Tools -contains $tool) { $formats += $toolFormats[$tool] }
-                    }
-                    if ($appImageTool) { $formats += 'appimage' }
-                }
-                foreach ($format in $formats) {
-                    Invoke-PackagingScript $shell "$($job.Target.Name) $format" @($linuxScript, $rid, $packageVersion, $format, $packageOutputPath, $executablePath) -BestEffort:(-not $StrictLinuxPackages)
-                }
-                if ($glibc -and ($StrictLinuxPackages -or $shell.Tools -contains 'flatpak')) {
-                    Invoke-PackagingScript $shell "$($job.Target.Name) Flatpak" @($flatpakScript, $rid, $packageVersion, $packageOutputPath, $executablePath) -BestEffort:(-not $StrictLinuxPackages)
-                }
+        $packageOutput = $LinuxOut
+        Reset-OutputDirectory $packageOutput
+        $packageOutputPath = Get-RootRelativePath $packageOutput
+        foreach ($job in $linuxJobs) {
+            $rid = $job.Target.Rid
+            $executablePath = Get-RootRelativePath $job.Expected
+            $glibc = -not $rid.StartsWith('linux-musl-', [System.StringComparison]::Ordinal)
+            $formats = @('tar')
+            if ($glibc) {
+                $formats += 'deb', 'rpm'
+                if ($appImageTool) { $formats += 'appimage' }
             }
-
-            if (-not $StrictLinuxPackages -and @($linuxJobs | Where-Object { -not $_.Target.Rid.StartsWith('linux-musl-', [System.StringComparison]::Ordinal) }).Count -gt 0) {
-                if (-not $shell.Linux) {
-                    $PackageNotes.Add("deb, rpm, AppImage and Flatpak were skipped: $($shell.Name) can only build tarballs. Install a WSL distro to build them on Windows.")
-                } else {
-                    $absentTools = @(@('dpkg-deb', 'rpmbuild', 'flatpak') | Where-Object { $shell.Tools -notcontains $_ })
-                    if ($absentTools.Count -gt 0) {
-                        $PackageNotes.Add("Some Linux formats were skipped: $($absentTools -join ', ') is not installed in $($shell.Name).")
-                    }
-                }
+            foreach ($format in $formats) {
+                Invoke-PackagingScript $shell "$($job.Target.Name) $format" @($linuxScript, $rid, $packageVersion, $format, $packageOutputPath, $executablePath)
             }
-
-            $x64Archive = Join-Path $packageOutput "Voidstrap_${packageVersion}_linux-x64.tar.gz"
-            $arm64Archive = Join-Path $packageOutput "Voidstrap_${packageVersion}_linux-arm64.tar.gz"
-            if ((Test-Path -LiteralPath $x64Archive -PathType Leaf) -and (Test-Path -LiteralPath $arm64Archive -PathType Leaf)) {
-                $aurStage = Join-Path $Staging 'AUR'
-                Reset-OutputDirectory $aurStage
-                $aurArgs = @($aurScript, $packageVersion, (Get-RootRelativePath $aurStage), (Get-RootRelativePath $x64Archive), (Get-RootRelativePath $arm64Archive), (Get-RootRelativePath (Join-Path $packageOutput 'Voidstrap_AUR_metadata.tar.gz')))
-                Invoke-PackagingScript $shell 'AUR metadata' $aurArgs -BestEffort:(-not $StrictLinuxPackages)
+            if ($glibc) {
+                Invoke-PackagingScript $shell "$($job.Target.Name) Flatpak" @($flatpakScript, $rid, $packageVersion, $packageOutputPath, $executablePath)
             }
+        }
+
+        $x64Archive = Join-Path $packageOutput "Voidstrap_${packageVersion}_linux-x64.tar.gz"
+        $arm64Archive = Join-Path $packageOutput "Voidstrap_${packageVersion}_linux-arm64.tar.gz"
+        if ((Test-Path -LiteralPath $x64Archive -PathType Leaf) -and (Test-Path -LiteralPath $arm64Archive -PathType Leaf)) {
+            $aurStage = Join-Path $Staging 'AUR'
+            Reset-OutputDirectory $aurStage
+            $aurArgs = @($aurScript, $packageVersion, (Get-RootRelativePath $aurStage), (Get-RootRelativePath $x64Archive), (Get-RootRelativePath $arm64Archive), (Get-RootRelativePath (Join-Path $packageOutput 'Voidstrap_AUR_metadata.tar.gz')))
+            Invoke-PackagingScript $shell 'AUR metadata' $aurArgs
         }
     }
     elseif ($wantAppImageOnly) {

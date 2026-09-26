@@ -27,6 +27,10 @@ internal static class FleasionModInstaller
 
 	public static bool IsInstalled => File.Exists(Path.Combine(Paths.Fleasion, "Fleasion.exe"));
 
+	private static string PackageLabel => Voidstrap.Utility.Platform.IsLinux ? "replacement" : "Fleasion";
+
+	private static string ReplacementLabel => Voidstrap.Utility.Platform.IsLinux ? "replacement" : "Fleasion replacement";
+
 	private static readonly string[] ReplacementHints = { "fleasion", "assetwarp", "asset warp" };
 
 	public static bool LooksRequired(CommunityModEntry entry)
@@ -123,7 +127,7 @@ internal static class FleasionModInstaller
 	{
 		await using FileStream stream = new FileStream(packagePath, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
 		JsonObject config = await ReadConfigAsync(stream, token).ConfigureAwait(false)
-			?? throw new InvalidDataException("The JSON file is not a Fleasion replacement config.");
+			?? throw new InvalidDataException("The JSON file is not a " + ReplacementLabel + " config.");
 		RewriteLocalPaths(config, Array.Empty<string>(), "", new HashSet<string>(StringComparer.OrdinalIgnoreCase));
 		string name = BuildConfigName(entry, suffix);
 		await WriteConfigAsync(name, config, GetConfigsFolder(target), token).ConfigureAwait(false);
@@ -288,7 +292,7 @@ internal static class FleasionModInstaller
 	{
 		if (archive.Entries.Count == 0 || archive.Entries.Count > CommunityModGuard.MaxArchiveEntries)
 		{
-			throw new InvalidDataException("The Fleasion package has an invalid number of files.");
+			throw new InvalidDataException("The " + PackageLabel + " package has an invalid number of files.");
 		}
 		long compressed = 0;
 		long extracted = 0;
@@ -308,12 +312,12 @@ internal static class FleasionModInstaller
 			extracted += entry.Length;
 			if (extracted > CommunityModGuard.MaxExtractedBytes)
 			{
-				throw new InvalidDataException("The Fleasion package expands beyond the allowed size.");
+				throw new InvalidDataException("The " + PackageLabel + " package expands beyond the allowed size.");
 			}
 		}
 		if (compressed > 0 && extracted > CommunityModGuard.ZipBombFloorBytes && extracted / compressed > CommunityModGuard.MaxCompressionRatio)
 		{
-			throw new InvalidDataException("The Fleasion package expands far beyond its download size.");
+			throw new InvalidDataException("The " + PackageLabel + " package expands far beyond its download size.");
 		}
 	}
 
@@ -462,7 +466,7 @@ internal static class FleasionModInstaller
 		{
 			if (node is not JsonObject rule)
 			{
-				throw new InvalidDataException("The Fleasion config contains an invalid replacement rule.");
+				throw new InvalidDataException("The " + PackageLabel + " config contains an invalid replacement rule.");
 			}
 			if (rule["children"] is JsonArray children)
 			{
@@ -477,12 +481,12 @@ internal static class FleasionModInstaller
 			string? asset = FindAsset(requested, availableAssets);
 			if (asset == null)
 			{
-				throw new InvalidDataException("A local Fleasion replacement file is missing from the package.");
+				throw new InvalidDataException("A local " + ReplacementLabel + " file is missing from the package.");
 			}
 			string destinationRelative = assetRoot + "/" + asset.Replace('\\', '/');
 			if (destinationRelative.Split('/', StringSplitOptions.RemoveEmptyEntries).Length - 1 > 10)
 			{
-				throw new InvalidDataException("The Fleasion package nests its replacement files too deeply.");
+				throw new InvalidDataException("The " + PackageLabel + " package nests its replacement files too deeply.");
 			}
 			rule["local_path"] = usePortablePaths ? "/" + destinationRelative : destinationRelative;
 			usedAssets.Add(asset);
@@ -651,7 +655,7 @@ internal static class FleasionModInstaller
 		string path = Path.GetFullPath(Path.Combine(fullRoot, relative.Replace('/', Path.DirectorySeparatorChar)));
 		if (!path.StartsWith(fullRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
 		{
-			throw new InvalidDataException("The Fleasion package tried to write outside its config folder.");
+			throw new InvalidDataException("The " + PackageLabel + " package tried to write outside its config folder.");
 		}
 		return path;
 	}

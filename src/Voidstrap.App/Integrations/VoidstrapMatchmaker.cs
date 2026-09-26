@@ -53,6 +53,16 @@ public static class VoidstrapMatchmaker
 
 	private const int EarlyExitClosestMatches = 6;
 
+	private const int LinuxSettleMs = 6000;
+
+	private static readonly TimeSpan LaunchPickLifetime = TimeSpan.FromMinutes(3.0);
+
+	private static readonly object _launchPickLock = new object();
+
+	private static MatchmakerCandidate? _launchPick;
+
+	private static DateTime _launchPickUtc;
+
 	private static readonly TimeSpan OverallDeadline = TimeSpan.FromSeconds(25.0);
 
 	private static readonly TimeSpan GeoCacheTtl = TimeSpan.FromHours(6.0);
@@ -475,6 +485,29 @@ public static class VoidstrapMatchmaker
 			_ipLookupFailUtc.TryRemove(oldest, out _);
 	}
 
+	internal static void RememberLaunchPick(MatchmakerCandidate candidate)
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux || string.IsNullOrEmpty(candidate.JobId))
+			return;
+		lock (_launchPickLock)
+		{
+			_launchPick = candidate;
+			_launchPickUtc = DateTime.UtcNow;
+		}
+	}
+
+	internal static MatchmakerCandidate? FindLaunchPick(string? jobId)
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux || string.IsNullOrEmpty(jobId))
+			return null;
+		lock (_launchPickLock)
+		{
+			if (_launchPick == null || DateTime.UtcNow - _launchPickUtc > LaunchPickLifetime)
+				return null;
+			return string.Equals(_launchPick.JobId, jobId, StringComparison.OrdinalIgnoreCase) ? _launchPick : null;
+		}
+	}
+
 	public static double NearestDatacenterKm(UserGeo geo)
 	{
 		double best = double.PositiveInfinity;
@@ -748,11 +781,23 @@ public static class VoidstrapMatchmaker
 		using CancellationTokenSource earlyCts = CancellationTokenSource.CreateLinkedTokenSource(token);
 		CancellationToken localToken = earlyCts.Token;
 		ConcurrentQueue<ServerListItem> queue = new ConcurrentQueue<ServerListItem>(servers);
+		System.Diagnostics.Stopwatch probeClock = System.Diagnostics.Stopwatch.StartNew();
+		int settled = 0;
 
 		async Task WorkerAsync()
 		{
 			while (!localToken.IsCancellationRequested && queue.TryDequeue(out ServerListItem? sv))
 			{
+				if (Voidstrap.Utility.Platform.IsLinux
+					&& Volatile.Read(ref goodEnough) >= 1
+					&& probeClock.ElapsedMilliseconds >= LinuxSettleMs)
+				{
+					if (Interlocked.Exchange(ref settled, 1) == 0)
+						App.Logger.WriteLine(LOG_IDENT, $"A good server was found and {LinuxSettleMs / 1000}s passed, settling with {Volatile.Read(ref resultCount)} results");
+					earlyCts.Cancel();
+					return;
+				}
+
 				(string Ip, int Port)? resolved;
 				try
 				{

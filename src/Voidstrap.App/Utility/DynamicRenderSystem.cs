@@ -168,8 +168,57 @@ namespace Voidstrap.Utility
                     host.Child = layers;
                 }
                 host.ClipToBounds = true;
+                ApplyBrushHostClip(host);
+                host.SizeChanged -= OnBrushHostSizeChanged;
+                host.SizeChanged += OnBrushHostSizeChanged;
             }
             view.Source = image;
+        }
+
+        private static void OnBrushHostSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (sender is System.Windows.Controls.Border host)
+                ApplyBrushHostClip(host);
+        }
+
+        private static void ApplyBrushHostClip(System.Windows.Controls.Border host)
+        {
+            CornerRadius radius = host.CornerRadius;
+            double width = host.ActualWidth;
+            double height = host.ActualHeight;
+            if (width <= 0.0 || height <= 0.0)
+                return;
+            if (radius.TopLeft <= 0.0 && radius.TopRight <= 0.0 && radius.BottomRight <= 0.0 && radius.BottomLeft <= 0.0)
+            {
+                host.Clip = null;
+                return;
+            }
+
+            Rect bounds = new(0.0, 0.0, width, height);
+            Geometry clip;
+            if (radius.TopLeft == radius.TopRight && radius.TopLeft == radius.BottomRight && radius.TopLeft == radius.BottomLeft)
+            {
+                clip = new RectangleGeometry(bounds, radius.TopLeft, radius.TopLeft);
+            }
+            else
+            {
+                StreamGeometry path = new();
+                using (StreamGeometryContext context = path.Open())
+                {
+                    context.BeginFigure(new Point(radius.TopLeft, 0.0), true, true);
+                    context.LineTo(new Point(width - radius.TopRight, 0.0), true, false);
+                    context.ArcTo(new Point(width, radius.TopRight), new Size(radius.TopRight, radius.TopRight), 0.0, false, SweepDirection.Clockwise, true, false);
+                    context.LineTo(new Point(width, height - radius.BottomRight), true, false);
+                    context.ArcTo(new Point(width - radius.BottomRight, height), new Size(radius.BottomRight, radius.BottomRight), 0.0, false, SweepDirection.Clockwise, true, false);
+                    context.LineTo(new Point(radius.BottomLeft, height), true, false);
+                    context.ArcTo(new Point(0.0, height - radius.BottomLeft), new Size(radius.BottomLeft, radius.BottomLeft), 0.0, false, SweepDirection.Clockwise, true, false);
+                    context.LineTo(new Point(0.0, radius.TopLeft), true, false);
+                    context.ArcTo(new Point(radius.TopLeft, 0.0), new Size(radius.TopLeft, radius.TopLeft), 0.0, false, SweepDirection.Clockwise, true, false);
+                }
+                clip = path;
+            }
+            clip.Freeze();
+            host.Clip = clip;
         }
 
         private static void OnBrushHostLoaded(object sender, RoutedEventArgs e)

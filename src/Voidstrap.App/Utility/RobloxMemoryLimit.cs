@@ -60,10 +60,36 @@ internal static partial class RobloxMemoryLimit
 
 	public static (int TotalMb, int AvailableMb) SystemMemory()
 	{
+		if (Platform.IsLinux && TryReadLinuxMemory(out int totalMb, out int availableMb))
+			return (totalMb, availableMb);
 		MemoryStatusEx status = new() { Length = (uint)Marshal.SizeOf<MemoryStatusEx>() };
 		if (!Platform.IsWindows || !GlobalMemoryStatusEx(ref status))
 			return (16384, 8192);
 		return ((int)(status.TotalPhys / 1048576UL), (int)(status.AvailPhys / 1048576UL));
+	}
+
+	private static bool TryReadLinuxMemory(out int totalMb, out int availableMb)
+	{
+		totalMb = 0;
+		availableMb = 0;
+		try
+		{
+			foreach (string line in System.IO.File.ReadLines("/proc/meminfo"))
+			{
+				string[] parts = line.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
+				if (parts.Length < 2 || !long.TryParse(parts[1], System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out long kilobytes))
+					continue;
+				if (parts[0] == "MemTotal:")
+					totalMb = (int)(kilobytes / 1024);
+				else if (parts[0] == "MemAvailable:")
+					availableMb = (int)(kilobytes / 1024);
+			}
+		}
+		catch (Exception ex) when (ex is System.IO.IOException or UnauthorizedAccessException)
+		{
+			return false;
+		}
+		return totalMb > 0 && availableMb > 0;
 	}
 
 	public static int MaximumMb => Math.Max(MinimumMb, SystemMemory().TotalMb / StepMb * StepMb);

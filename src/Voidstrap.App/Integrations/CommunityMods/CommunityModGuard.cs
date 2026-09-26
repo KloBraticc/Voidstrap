@@ -289,7 +289,7 @@ public static class CommunityModGuard
 		}
 		if (!InstallablePackageExtensions.Contains(extension))
 		{
-			return CommunityModVerdict.Block("Only zip, rar and 7z packages and Fleasion JSON configs can be installed, this one is " + extension + ".");
+			return CommunityModVerdict.Block("Only zip, rar and 7z packages and " + (Voidstrap.Utility.Platform.IsLinux ? "replacement" : "Fleasion") + " JSON configs can be installed, this one is " + extension + ".");
 		}
 		if (MarketplaceCatalog.IsMarketplaceUrl(file.DownloadUrl))
 		{

@@ -83,6 +83,7 @@ public static partial class LaunchInterceptor
 				return null;
 			}
 			App.Logger.WriteLine("LaunchInterceptor", $"Rewrote launch for {matchmakerCandidate.Datacenter?.City ?? "?"}, {matchmakerCandidate.DistanceKm:F0}km away");
+			VoidstrapMatchmaker.RememberLaunchPick(matchmakerCandidate);
 			return text;
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)

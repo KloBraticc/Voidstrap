@@ -144,6 +144,51 @@ public static class LinuxTextGuard
 		EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnWindowLoaded));
 	}
 
+	internal static void PrepareWindow(Window window)
+	{
+		if (!_installed || window.SizeToContent == SizeToContent.Manual || GetPreserveCompactLayout(window))
+			return;
+
+		try
+		{
+			Stack<DependencyObject> pending = new();
+			pending.Push(window);
+			while (pending.Count > 0)
+			{
+				DependencyObject current = pending.Pop();
+				if (current is TextBlock block)
+					PrepareLineHeight(block);
+				foreach (object child in LogicalTreeHelper.GetChildren(current))
+				{
+					if (child is DependencyObject node)
+						pending.Push(node);
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxTextGuard::PrepareWindow", "Text could not be prepared before the first layout: " + ex.Message);
+		}
+	}
+
+	private static void PrepareLineHeight(TextBlock block)
+	{
+		if (block.TextWrapping == TextWrapping.NoWrap
+			|| (!double.IsNaN(block.LineHeight) && block.LineHeight > 0.0)
+			|| ReadText(block).Length == 0
+			|| IsCompactText(block))
+			return;
+
+		FlowState state = FlowStates.GetValue(block, static _ => new FlowState());
+		if (state.OwnsLineHeight)
+			return;
+		Initialize(block, state);
+		double lineHeight = Math.Ceiling(block.FontSize * 1.45 * 2.0) / 2.0;
+		block.SetCurrentValue(TextBlock.LineHeightProperty, lineHeight);
+		state.OwnsLineHeight = true;
+		state.AppliedLineHeight = lineHeight;
+	}
+
 	private static void OnWindowLoaded(object sender, RoutedEventArgs e)
 	{
 		if (sender is not Window window)
@@ -261,6 +306,11 @@ public static class LinuxTextGuard
 	{
 		if (e.WidthChanged && Math.Abs(e.NewSize.Width - e.PreviousSize.Width) >= WrapSafety && sender is TextBlock block)
 		{
+			if (!block.IsLoaded && (IsClampCandidate(block) || IsInPopup(block)))
+			{
+				QueueWhenLoaded(block, 5);
+				return;
+			}
 			QueueCorrection(block);
 		}
 	}
@@ -389,6 +439,55 @@ public static class LinuxTextGuard
 		}
 
 		state.Subscribed = true;
+	}
+
+	private static bool IsClampCandidate(TextBlock block)
+	{
+		return block.TextWrapping != TextWrapping.NoWrap
+			&& block.TextTrimming != TextTrimming.None
+			&& HasFiniteWidth(block.MaxHeight)
+			&& block.MaxHeight > 0.0
+			&& !GetPreserveCompactLayout(block);
+	}
+
+	private static double ResolveClampLimit(TextBlock block, FlowState state)
+	{
+		double padding = block.Padding.Left + block.Padding.Right;
+		double limit = LayoutInformation.GetLayoutSlot(block).Width - block.Margin.Left - block.Margin.Right - padding;
+		if (HasFiniteWidth(block.Width))
+		{
+			limit = Math.Min(limit, block.Width - padding);
+		}
+		if (HasFiniteWidth(state.OriginalMaxWidth))
+		{
+			limit = Math.Min(limit, state.OriginalMaxWidth - padding);
+		}
+		return limit;
+	}
+
+	private static bool IsInPopup(DependencyObject element)
+	{
+		DependencyObject current = element;
+		while (VisualTreeHelper.GetParent(current) is DependencyObject parent)
+		{
+			current = parent;
+		}
+		return LogicalTreeHelper.GetParent(current) is System.Windows.Controls.Primitives.Popup;
+	}
+
+	private static void QueueWhenLoaded(TextBlock block, int attempts)
+	{
+		block.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+		{
+			if (block.IsLoaded)
+			{
+				QueueCorrection(block);
+			}
+			else if (attempts > 1)
+			{
+				QueueWhenLoaded(block, attempts - 1);
+			}
+		}));
 	}
 
 	private static void Unsubscribe(TextBlock block, FlowState state)
@@ -637,7 +736,7 @@ public static class LinuxTextGuard
 	{
 		foreach (ScrollViewer viewer in FindDescendants<ScrollViewer>(root))
 		{
-			double available = viewer.ViewportHeight > 0.0 ? viewer.ViewportHeight : viewer.ActualHeight;
+			double available = viewer.CanContentScroll || viewer.ViewportHeight <= 0.0 ? viewer.ActualHeight : viewer.ViewportHeight;
 			if (available <= 0.0)
 			{
 				continue;
@@ -744,7 +843,10 @@ public static class LinuxTextGuard
 
 			if (IsCompactText(block))
 			{
-				RestoreOriginalFlow(block, state);
+				if (!TryApplyClampedFlow(block, state))
+				{
+					RestoreOriginalFlow(block, state);
+				}
 				return;
 			}
 
@@ -792,6 +894,11 @@ public static class LinuxTextGuard
 			if (current is FrameworkElement element && element.TemplatedParent is DependencyObject templatedParent && IsCompactOwner(templatedParent))
 			{
 				return true;
+			}
+
+			if (current is System.Windows.Controls.Primitives.Popup popup && popup.Child is not System.Windows.Controls.ToolTip)
+			{
+				return false;
 			}
 
 			current = VisualTreeHelper.GetParent(current) ?? LogicalTreeHelper.GetParent(current);
@@ -884,6 +991,94 @@ public static class LinuxTextGuard
 			state.AppliedFontSize = double.NaN;
 			block.SetCurrentValue(TextElement.FontSizeProperty, state.OriginalFontSize);
 		}
+	}
+
+	private static bool TryApplyClampedFlow(TextBlock block, FlowState state)
+	{
+		if (!IsClampCandidate(block) || LinuxInlineText.HasRichInlines(block))
+		{
+			return false;
+		}
+
+		string current = ReadText(block);
+		if (current.Length == 0)
+		{
+			return false;
+		}
+		if (!string.Equals(current, state.Rendered, StringComparison.Ordinal))
+		{
+			state.Source = RemoveBreakOpportunities(current);
+			state.Rendered = string.Empty;
+		}
+		else if (state.Source.Length == 0)
+		{
+			state.Source = RemoveBreakOpportunities(current);
+		}
+
+		double limit = ResolveClampLimit(block, state);
+		if (limit < MinimumLimit)
+		{
+			return true;
+		}
+
+		double lineHeight = HasFiniteWidth(block.LineHeight) && block.LineHeight > 0.0
+			? block.LineHeight
+			: block.FontSize * block.FontFamily.LineSpacing;
+		int maxLines = Math.Max(1, (int)Math.Floor((block.MaxHeight - block.Padding.Top - block.Padding.Bottom + Tolerance) / lineHeight));
+		string[] lines = AddBreakOpportunities(block, state.Source, limit).Split('\n');
+		string rendered;
+		if (lines.Length <= maxLines)
+		{
+			rendered = string.Join("\n", lines);
+		}
+		else
+		{
+			string[] kept = new string[maxLines];
+			Array.Copy(lines, kept, maxLines - 1);
+			kept[maxLines - 1] = Ellipsize(block, string.Join(" ", lines, maxLines - 1, lines.Length - maxLines + 1), limit);
+			rendered = string.Join("\n", kept);
+		}
+
+		state.Rendered = rendered;
+		if (!string.Equals(current, rendered, StringComparison.Ordinal))
+		{
+			block.SetCurrentValue(TextBlock.TextProperty, rendered);
+			state.Corrections++;
+			state.CorrectedAtTicks = Environment.TickCount64;
+		}
+		return true;
+	}
+
+	private static string Ellipsize(TextBlock block, string text, double limit)
+	{
+		const string Ellipsis = "\u2026";
+		if (LinuxInlineText.MeasureCached(block, text) <= limit)
+		{
+			return text;
+		}
+
+		List<string> elements = new();
+		TextElementEnumerator enumerator = StringInfo.GetTextElementEnumerator(text);
+		while (enumerator.MoveNext())
+		{
+			elements.Add(enumerator.GetTextElement());
+		}
+
+		int low = 0;
+		int high = elements.Count;
+		while (low < high)
+		{
+			int middle = (low + high + 1) / 2;
+			if (LinuxInlineText.MeasureCached(block, string.Concat(elements.GetRange(0, middle)).TrimEnd() + Ellipsis) <= limit)
+			{
+				low = middle;
+			}
+			else
+			{
+				high = middle - 1;
+			}
+		}
+		return string.Concat(elements.GetRange(0, low)).TrimEnd() + Ellipsis;
 	}
 
 	private static void ApplyBodyFlow(TextBlock block, FlowState state)

@@ -968,6 +968,11 @@ public class Bootstrapper
                 App.Logger.WriteLine(logIdent, "Skipping " + text + " because its password prompt was cancelled, Check for updates still installs it");
                 return false;
             }
+            if (Voidstrap.Utility.Platform.IsLinux && string.Equals(App.State.Prop.StagedLinuxUpdateTag, text, StringComparison.OrdinalIgnoreCase))
+            {
+                App.Logger.WriteLine(logIdent, "Skipping " + text + " because it is already staged, restart the computer to finish installing it");
+                return false;
+            }
             SetStatus("Updating to v" + text2 + "...");
 			if (await GithubUpdater.DownloadAndInstallUpdate(text))
             {
@@ -1292,15 +1297,20 @@ public class Bootstrapper
             return installation;
         }
 
-        App.Logger.WriteLine(logIdent, "Sober is not installed, installing it from Flathub");
+        App.Logger.WriteLine(logIdent, "Preparing Sober installation");
         try
         {
-            Task<OperationResult> install = new LinuxSoberInstaller(host.Processes).InstallAsync(cancellationToken);
+            string stage = "Installing Sober";
+            Task<OperationResult> install = new LinuxSoberInstaller(host.Processes).InstallAsync(cancellationToken, message =>
+            {
+                stage = message;
+                report?.Invoke(message);
+            });
             Stopwatch elapsed = Stopwatch.StartNew();
             while (!install.IsCompleted)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                report?.Invoke("Installing Sober from Flathub, this can take a few minutes ("
+                report?.Invoke(stage + ", this can take a few minutes ("
                     + (int)elapsed.Elapsed.TotalMinutes + ":" + elapsed.Elapsed.Seconds.ToString("00", CultureInfo.InvariantCulture) + ")");
                 await Task.WhenAny(install, Task.Delay(1000, cancellationToken));
             }
@@ -1309,7 +1319,7 @@ public class Bootstrapper
             if (!installed.Succeeded)
             {
                 App.Logger.WriteLine(logIdent, installed.Failure?.Message ?? "Sober could not be installed");
-                return installation;
+                return installation with { Capability = installation.Capability with { Reason = installed.Failure?.Message ?? "Sober could not be installed" } };
             }
 
             App.Logger.WriteLine(logIdent, "Sober installed");
@@ -1323,7 +1333,7 @@ public class Bootstrapper
         catch (Exception ex)
         {
             App.Logger.WriteLine(logIdent, "Sober could not be installed: " + ex.Message);
-            return installation;
+            return installation with { Capability = installation.Capability with { Reason = "Sober could not be installed: " + ex.Message } };
         }
     }
 
@@ -1406,7 +1416,7 @@ public class Bootstrapper
                     && !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
                 if (LinuxSoberRuntimeProvider.ForceX11Session)
                 {
-                    App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", "Fake fullscreen or the homepage background is on, starting Sober on X11 so Voidstrap can control its window");
+                    App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", "Window controls or effects are on, starting Sober on X11 so Voidstrap can control its window");
                 }
 
                 LinuxRuntimeConfiguration configuration = LinuxRuntimeConfiguration.CreateDefault(Paths.Mods, host.Processes);

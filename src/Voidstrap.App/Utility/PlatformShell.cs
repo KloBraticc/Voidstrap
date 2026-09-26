@@ -46,6 +46,11 @@ internal static class PlatformShell
                 using Process? process = Process.Start(new ProcessStartInfo("open", "-R \"" + file + "\"") { UseShellExecute = false });
                 return process is not null;
             }
+
+            if (Platform.IsLinux && TryRevealFileLinux(file))
+            {
+                return true;
+            }
         }
         catch (Exception ex)
         {
@@ -122,6 +127,55 @@ internal static class PlatformShell
             }
         }
         return false;
+    }
+
+    private static bool TryRevealFileLinux(string file)
+    {
+        string? gdbus = new SystemProcessService().FindExecutable("gdbus");
+        if (string.IsNullOrWhiteSpace(gdbus) || !File.Exists(file))
+        {
+            return false;
+        }
+
+        ProcessStartInfo startInfo = new(gdbus)
+        {
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true
+        };
+        foreach (string argument in new[]
+        {
+            "call", "--session",
+            "--dest", "org.freedesktop.FileManager1",
+            "--object-path", "/org/freedesktop/FileManager1",
+            "--method", "org.freedesktop.FileManager1.ShowItems",
+            "['" + new Uri(Path.GetFullPath(file)).AbsoluteUri.Replace("'", "%27") + "']",
+            ""
+        })
+        {
+            startInfo.ArgumentList.Add(argument);
+        }
+
+        using Process? process = Process.Start(startInfo);
+        if (process is null)
+        {
+            return false;
+        }
+
+        if (!process.WaitForExit(3000))
+        {
+            try
+            {
+                process.Kill();
+            }
+            catch (Exception)
+            {
+            }
+            return false;
+        }
+
+        return process.ExitCode == 0;
     }
 
     private static bool TryStartLinux(string target)

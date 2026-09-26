@@ -60,12 +60,12 @@
               <controls:OptionControl Header="Voidstrap logs" Description="Voidstrap logs will be deleted.">
                 <ui:ToggleSwitch IsChecked="{Binding CleanerVoidstrap, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Clean Roblox cache" Description="Deletes all files in Roblox's cache directories to free up disk space. Games will temporarily load slower after this!" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+              <controls:OptionControl Header="Clean Roblox cache" Description="Deletes all files in Roblox's cache directories to free up disk space. Games will temporarily load slower after this!" Visibility="{Binding CleanRobloxCacheVisibility, Mode=OneWay}">
                 <ui:Button Icon="Delete48" Content="Clean" Appearance="Danger" Command="{Binding CleanRobloxCacheCommand}" />
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
-          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
             <HeaderedContentControl.Header>
               <StackPanel>
                 <TextBlock FontSize="14" Text="Resource controls" />
@@ -79,7 +79,7 @@
               <controls:OptionControl Header="Trim memory when Roblox is unfocused" Description="After Roblox remains unfocused, unused working set is released. It does not trim memory while you are playing." Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
                 <ui:ToggleSwitch IsChecked="{Binding MultiAccount, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Prioritize Roblox while focused" Description="Uses safe Above Normal scheduling while Roblox is in the foreground. A custom Roblox Priority choice takes precedence." Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+              <controls:OptionControl Header="Prioritize Roblox while focused" Description="{Binding PrioritizeRobloxDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
                 <ui:ToggleSwitch IsChecked="{Binding OptimizeRoblox, Mode=TwoWay}" />
               </controls:OptionControl>
               <controls:OptionControl Header="Bypass Windows emulation overhead" Description="Strips compatibility and CPU emulation layers from the Roblox build, drops any compatibility layer Voidstrap inherited, and stops Windows from power throttling Roblox. Your elevation and fullscreen optimisation choices are kept, and everything is restored when you turn this off." Visibility="{Binding BypassEmulationOverheadVisibility, Mode=OneWay}">
@@ -87,7 +87,7 @@
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
-          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
             <HeaderedContentControl.Header>
               <StackPanel>
                 <TextBlock FontSize="14" Text="Background resource use" />
@@ -95,7 +95,7 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl Header="Reduce resources when Roblox is unfocused" Description="Lowers Roblox's Windows scheduling priority while another app is active, then restores it when you return." Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+              <controls:OptionControl Header="Reduce resources when Roblox is unfocused" Description="{Binding ReduceResourcesDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
                 <ui:ToggleSwitch IsChecked="{Binding ReduceMemoryOutOfFocus, Mode=TwoWay}" />
               </controls:OptionControl>
             </StackPanel>
@@ -272,7 +272,7 @@
           </ui:CardExpander>
         </StackPanel>
       </TabItem>
-      <TabItem Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+      <TabItem>
         <HeaderedContentControl.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Settings24" Margin="0,0,6,0" />
@@ -284,16 +284,16 @@
             <ComboBox Width="240" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" ItemsSource="{Binding FullscreenModes}" SelectedValue="{Binding RobloxFullscreenMode, Mode=TwoWay}" />
           </controls:OptionControl>
           <ui:InfoBar Padding="8" Margin="0,4,0,0" IsClosable="False" IsOpen="True" Severity="Warning" Title="Overlays are hidden in exclusive fullscreen" Message="Your Windows mouse cursor and every overlay are hidden" Visibility="{Binding ShowExclusiveFullscreenWarning, Converter={StaticResource BooleanToVisibilityConverter}}" />
-          <controls:OptionControl Header="Title" Description="Leave blank to keep the title Roblox sets" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="Title" Description="Leave blank to keep the title Roblox sets">
             <ui:TextBox Width="220" PlaceholderText="Voidstrap" Text="{Binding RobloxTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Add the game name" Description="Shows the experience you are playing in the title bar" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="Add the game name" Description="Shows the experience you are playing in the title bar">
             <ui:ToggleSwitch IsChecked="{Binding CycleTitleWithGameName, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Use the game icon" Description="Shows the experience icon on the Roblox window and taskbar button" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="Use the game icon" Description="Shows the experience icon on the Roblox window and taskbar button">
             <ui:ToggleSwitch IsChecked="{Binding UseGameIconForRobloxWindow, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Add the server info" Description="Shows the server region and player count in the title bar" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="Add the server info" Description="Shows the server region and player count in the title bar">
             <ui:ToggleSwitch IsChecked="{Binding ShowServerInfoInTitle, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Header="Window backdrop" Description="Backdrop material to Roblox's window frame. Requires Windows 11" IsEnabled="{Binding IsWindows11}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">

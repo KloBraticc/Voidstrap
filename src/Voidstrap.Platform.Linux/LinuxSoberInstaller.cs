@@ -13,9 +13,9 @@ public sealed class LinuxSoberInstaller
 {
 	private const string SoberApplicationId = "org.vinegarhq.Sober";
 	private const string RemoteName = "flathub";
-	private const string RemoteUrl = "https://flathub.org/repo/flathub.flatpakrepo";
+	private const string RemoteUrl = "https://dl.flathub.org/repo/flathub.flatpakrepo";
 	private const string ReferenceUrl = "https://sober.vinegarhq.org/sober.flatpakref";
-	private const string FlatpakMissingMessage = "Flatpak is not installed. Install Flatpak with your package manager, then try again.";
+	private const string FlatpakMissingMessage = "Flatpak is not installed. Installing Sober will set it up automatically.";
 
 	private readonly IProcessService _processes;
 
@@ -56,14 +56,14 @@ public sealed class LinuxSoberInstaller
 			string.IsNullOrWhiteSpace(version) ? "Sober is installed" : "Sober " + version + " is installed");
 	}
 
-	public Task<OperationResult> InstallAsync(CancellationToken cancellationToken = default)
+	public Task<OperationResult> InstallAsync(CancellationToken cancellationToken = default, Action<string>? report = null)
 	{
 		lock (InstallGate)
 		{
 			if (_activeInstall is { IsCompleted: false })
 				return _activeInstall.WaitAsync(cancellationToken);
 
-			_activeInstall = InstallOnceAsync(cancellationToken);
+			_activeInstall = InstallOnceAsync(cancellationToken, report);
 			return _activeInstall;
 		}
 	}
@@ -102,12 +102,15 @@ public sealed class LinuxSoberInstaller
 		return false;
 	}
 
-	private async Task<OperationResult> InstallOnceAsync(CancellationToken cancellationToken)
+	private async Task<OperationResult> InstallOnceAsync(CancellationToken cancellationToken, Action<string>? report)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		if (!LinuxFlatpakHost.TryCreateCommand(_processes, [], out _))
 		{
-			return OperationResult.Fail("FlatpakMissing", FlatpakMissingMessage, CapabilityState.RequiresExternalRuntime);
+			report?.Invoke("Installing Flatpak");
+			OperationResult flatpak = await LinuxInstallationUpdates.InstallFlatpakPrerequisiteAsync(_processes, cancellationToken).ConfigureAwait(false);
+			if (!flatpak.Succeeded)
+				return flatpak;
 		}
 
 		if (IsInstallRunningElsewhere())
@@ -119,6 +122,7 @@ public sealed class LinuxSoberInstaller
 				return OperationResult.Success();
 		}
 
+		report?.Invoke("Adding Flathub");
 		OperationResult remote = await RunAsync(
 			["remote-add", "--if-not-exists", "--user", RemoteName, RemoteUrl],
 			"FlathubRemoteFailed",
@@ -127,16 +131,19 @@ public sealed class LinuxSoberInstaller
 
 		if (remote.Succeeded)
 		{
+			report?.Invoke("Installing Sober from Flathub");
 			OperationResult fromRemote = await InstallTargetAsync([RemoteName, SoberApplicationId], cancellationToken).ConfigureAwait(false);
 			if (fromRemote.Succeeded)
 			{
 				return fromRemote;
 			}
 
+			report?.Invoke("Trying the Sober download reference");
 			OperationResult fromReference = await InstallTargetAsync([ReferenceUrl], cancellationToken).ConfigureAwait(false);
 			return fromReference.Succeeded ? fromReference : fromRemote;
 		}
 
+		report?.Invoke("Installing Sober from its download reference");
 		OperationResult referenceOnly = await InstallTargetAsync([ReferenceUrl], cancellationToken).ConfigureAwait(false);
 		return referenceOnly.Succeeded ? referenceOnly : remote;
 	}
@@ -189,12 +196,14 @@ public sealed class LinuxSoberInstaller
 		string failureMessage,
 		CancellationToken cancellationToken)
 	{
+		cancellationToken.ThrowIfCancellationRequested();
 		if (!LinuxFlatpakHost.TryCreateCommand(_processes, arguments, out ProcessCommand command))
 			return OperationResult.Fail("FlatpakMissing", FlatpakMissingMessage, CapabilityState.RequiresExternalRuntime);
 
 		OperationResult<ProcessExecution> result = await _processes
 			.ExecuteAsync(command, cancellationToken)
 			.ConfigureAwait(false);
+		cancellationToken.ThrowIfCancellationRequested();
 		if (!result.Succeeded || result.Value is null)
 		{
 			return result.Failure is null

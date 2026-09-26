@@ -87,7 +87,7 @@ namespace Voidstrap.Utility
         {
             if (Voidstrap.Utility.Platform.IsLinux)
             {
-                Voidstrap.Integrations.LinuxLiveColor.Schedule();
+                Voidstrap.Integrations.LinuxLiveColor.ScheduleConfigured();
                 return;
             }
 
@@ -176,6 +176,12 @@ namespace Voidstrap.Utility
 
         public static void Reset()
         {
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                Voidstrap.Integrations.LinuxLiveColor.ScheduleNeutral();
+                return;
+            }
+
             if (!Voidstrap.Utility.Platform.IsWindows)
                 return;
 

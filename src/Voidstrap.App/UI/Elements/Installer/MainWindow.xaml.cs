@@ -33,6 +33,8 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 	private DependencyObject? _linuxTextContent;
 
 	public Func<bool>? NextPageCallback;
+	public Func<System.Threading.Tasks.Task<bool>>? NextPageAsyncCallback;
+	private bool _navigating;
 
 	public NextAction CloseAction;
 
@@ -89,13 +91,13 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 		CloseWindow();
 	}
 
-	private void OnPageRequest(object? sender, string type)
+	private async void OnPageRequest(object? sender, string type)
 	{
-		if (!(DateTimeOffset.Now.Subtract(_lastNavigation).TotalMilliseconds < 500.0))
+		if (!_navigating && !(DateTimeOffset.Now.Subtract(_lastNavigation).TotalMilliseconds < 500.0))
 		{
 			if (type == "next")
 			{
-				NextPage();
+				await NextPageAsync();
 			}
 			else if (type == "back")
 			{
@@ -117,17 +119,33 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 		_linuxTextContent = null;
 		RootFrame.Content = null;
 		NextPageCallback = null;
+		NextPageAsyncCallback = null;
 		DataContext = null;
 	}
 
-	private void NextPage()
+	private async System.Threading.Tasks.Task NextPageAsync()
 	{
-		if ((NextPageCallback == null || NextPageCallback()) && !(_currentPage == _pages.Last()))
+		if (_currentPage == _pages.Last())
+			return;
+		_navigating = true;
+		SetButtonEnabled("next", false);
+		SetButtonEnabled("back", false);
+		try
 		{
+			bool proceed = NextPageAsyncCallback is not null
+				? await NextPageAsyncCallback()
+				: NextPageCallback?.Invoke() ?? true;
+			if (!proceed)
+				return;
 			Type type = _pages[_pages.IndexOf(_currentPage) + 1];
 			Navigate(type);
 			SetButtonEnabled("next", type != _pages.Last());
-			SetButtonEnabled("back", state: true);
+			SetButtonEnabled("back", type != _pages.Last());
+		}
+		finally
+		{
+			_navigating = false;
+			SetButtonEnabled("back", _currentPage != _pages.First() && _currentPage != _pages.Last());
 		}
 	}
 
@@ -178,6 +196,7 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 	{
 		_currentPage = pageType;
 		NextPageCallback = null;
+		NextPageAsyncCallback = null;
 		int index = _pages.IndexOf(pageType);
 		if (index < 0)
 			index = 0;

@@ -224,6 +224,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 			OnPropertyChanged(nameof(CreatorVisibility));
 			OnPropertyChanged(nameof(ManagedInstallVisibility));
 			OnPropertyChanged(nameof(ReplacementInstallVisibility));
+			OnPropertyChanged(nameof(FleasionInstallVisibility));
 		}
 	}
 
@@ -241,6 +242,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 			OnPropertyChanged(nameof(CanInstall));
 			OnPropertyChanged(nameof(ManagedInstallVisibility));
 			OnPropertyChanged(nameof(ReplacementInstallVisibility));
+			OnPropertyChanged(nameof(FleasionInstallVisibility));
 			OnPropertyChanged(nameof(InstallTargetHint));
 		}
 	}
@@ -363,10 +365,18 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 		? Visibility.Visible
 		: Visibility.Collapsed;
 
+	public Visibility FleasionInstallVisibility => Voidstrap.Utility.Platform.IsLinux
+		? Visibility.Collapsed
+		: ReplacementInstallVisibility;
+
 	public string InstallTargetHint => IsReplacementPackage(SelectedMod, SelectedFile)
-		? "Replacement config for Voidstrap AssetWarp and Fleasion"
+		? Voidstrap.Utility.Platform.IsLinux
+			? "Replacement config for Voidstrap AssetWarp"
+			: "Replacement config for Voidstrap AssetWarp and Fleasion"
 		: InstallButtonsFor(SelectedMod, SelectedFile) is (false, true)
-			? "This file is for replacement configs, pick Voidstrap or Fleasion"
+			? Voidstrap.Utility.Platform.IsLinux
+				? "This file is a replacement config, it applies through Voidstrap AssetWarp"
+				: "This file is for replacement configs, pick Voidstrap or Fleasion"
 			: "Verified before install, the target is detected from the package";
 
 	public async Task InitializeAsync()
@@ -699,7 +709,9 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 
 	private Task InstallFleasionAsync()
 	{
-		return InstallAsync(CommunityModInstallTarget.Fleasion);
+		return InstallAsync(Voidstrap.Utility.Platform.IsLinux
+			? CommunityModInstallTarget.AssetWarp
+			: CommunityModInstallTarget.Fleasion);
 	}
 
 	private Task InstallAsync(CommunityModInstallTarget target)

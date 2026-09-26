@@ -100,6 +100,18 @@ public static unsafe partial class SnapTapHook
 
 	public static bool Start()
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			Config linuxConfig = ReadConfig();
+			if (linuxConfig.Groups.Count == 0)
+			{
+				App.Logger?.WriteLine(LOG_IDENT, "No valid key groups configured, Snap Tap stays off");
+				LinuxSnapTap.Stop();
+				return false;
+			}
+			return LinuxSnapTap.Start(linuxConfig.Groups, linuxConfig.Priority);
+		}
+
 		if (!Voidstrap.Utility.Platform.SupportsInputHooks)
 			return false;
 
@@ -144,6 +156,12 @@ public static unsafe partial class SnapTapHook
 
 	public static void Stop()
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			LinuxSnapTap.Stop();
+			return;
+		}
+
 		Session? session;
 		lock (_gate)
 		{

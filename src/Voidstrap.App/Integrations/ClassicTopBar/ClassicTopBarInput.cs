@@ -120,7 +120,6 @@ internal static partial class ClassicTopBarInput
 	{
 		if (!OperatingSystem.IsWindows())
 		{
-			Voidstrap.Platform.Linux.LinuxClassicKeys.Write(key, down);
 			return;
 		}
 		uint scan = MapVirtualKey(key, MapVirtualKeyToScan);

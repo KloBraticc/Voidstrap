@@ -15,8 +15,21 @@ namespace Voidstrap.Integrations
 
         private static CancellationTokenSource? _pending;
         private static string? _lastPushed;
+        private static volatile bool _forcedNeutral;
 
-        public static void Schedule()
+        public static void ScheduleNeutral()
+        {
+            _forcedNeutral = true;
+            Schedule();
+        }
+
+        public static void ScheduleConfigured()
+        {
+            _forcedNeutral = false;
+            Schedule();
+        }
+
+        private static void Schedule()
         {
             if (!Voidstrap.Utility.Platform.IsLinux)
                 return;
@@ -77,9 +90,11 @@ namespace Voidstrap.Integrations
 
         private static CancellationTokenSource? _tracking;
 
+        private static bool SessionOwnsCompositor => LinuxSteamOS.Current.IsGamescopeSession && !LinuxSoberRuntimeProvider.UseCompositor;
+
         public static void BeginTracking()
         {
-            if (!Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.IsLinux || SessionOwnsCompositor)
                 return;
 
             StopTracking();
@@ -174,6 +189,9 @@ namespace Voidstrap.Integrations
 
         private static float[]? BuildCurrentMatrix()
         {
+            if (_forcedNeutral || !Voidstrap.Integrations.Overlays.OverlayHub.InGame)
+                return null;
+
             return ScreenColorEffect.BuildMatrix(
                 App.Settings.Prop.Saturation,
                 App.Settings.Prop.Contrast,
@@ -186,7 +204,7 @@ namespace Voidstrap.Integrations
 
         public static async Task ApplyAsync(CancellationToken cancellationToken = default)
         {
-            if (!Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.IsLinux || SessionOwnsCompositor)
                 return;
 
             float[]? matrix = BuildCurrentMatrix();
@@ -214,7 +232,9 @@ namespace Voidstrap.Integrations
             if (!string.Equals(_lastPushed, signature, StringComparison.Ordinal))
             {
                 _lastPushed = signature;
-                App.Logger?.WriteLine("LinuxLiveColor::ApplyAsync", "Colour effects applied live");
+                App.Logger?.WriteLine("LinuxLiveColor::ApplyAsync", matrix is null
+                    ? "Colour effects set to neutral outside of a game"
+                    : "Colour effects applied live for the current game");
             }
         }
 

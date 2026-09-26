@@ -46,6 +46,8 @@ public partial class Watcher : IDisposable
 
 	private WindowManipulation? _windowManipulation;
 
+	private Voidstrap.Integrations.LinuxRobloxWindow? _linuxRobloxWindow;
+
 	private FileSystemWatcher? _settingsWatcher;
 
 	private Timer? _settingsReloadTimer;
@@ -60,6 +62,8 @@ public partial class Watcher : IDisposable
 	private RobloxProcessOptimizer? _runtimeOptimizer;
 
 	private TasxOptimizer? _tasxOptimizer;
+
+	private LinuxRobloxResourceOptimizer? _linuxResourceOptimizer;
 
 	private Task? _windowManipulationTask;
 
@@ -279,6 +283,11 @@ public partial class Watcher : IDisposable
 		{
 			return;
 		}
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			UpdateLinuxResourceOptimizer();
+			return;
+		}
 		UpdateTasxOptimizer();
 		if (!RobloxProcessOptimizer.ShouldRun(App.Settings.Prop))
 		{
@@ -288,6 +297,18 @@ public partial class Watcher : IDisposable
 		}
 		_runtimeOptimizer ??= new RobloxProcessOptimizer(_watcherData.ProcessId);
 		_runtimeOptimizer.Start();
+	}
+
+	private void UpdateLinuxResourceOptimizer()
+	{
+		if (!LinuxRobloxResourceOptimizer.ShouldRun(App.Settings.Prop))
+		{
+			_linuxResourceOptimizer?.Dispose();
+			_linuxResourceOptimizer = null;
+			return;
+		}
+		_linuxResourceOptimizer ??= new LinuxRobloxResourceOptimizer();
+		_linuxResourceOptimizer.Start();
 	}
 
 	private void UpdateTasxOptimizer()
@@ -1029,6 +1050,18 @@ public partial class Watcher : IDisposable
 
 	private void StartWindowManipulation()
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			if (ActivityWatcher != null && Voidstrap.Integrations.LinuxRobloxWindow.IsEnabled)
+			{
+				lock (_lifecycleGate)
+				{
+					if (!_disposed)
+						_linuxRobloxWindow = Voidstrap.Integrations.LinuxRobloxWindow.Start(ActivityWatcher);
+				}
+			}
+			return;
+		}
 		if (_watcherData == null || !IsWindowManipulationEnabled())
 		{
 			return;
@@ -1141,8 +1174,18 @@ public partial class Watcher : IDisposable
 		}
 		try
 		{
+			_linuxResourceOptimizer?.Dispose();
+			_linuxResourceOptimizer = null;
+		}
+		catch
+		{
+		}
+		try
+		{
 			_windowManipulation?.Dispose();
 			_windowManipulation = null;
+			_linuxRobloxWindow?.Dispose();
+			_linuxRobloxWindow = null;
 		}
 		catch
 		{

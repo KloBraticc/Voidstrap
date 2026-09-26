@@ -2252,6 +2252,71 @@ internal static class WindowAudit
 		}
 	}
 
+	private static void AuditTextOverlaps()
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux)
+			return;
+
+		int windows = 0;
+		int overlaps = 0;
+		PrepareFixtures();
+		try
+		{
+			foreach (Type type in typeof(WindowAudit).Assembly.GetTypes()
+				.Where(t => !t.IsAbstract && typeof(Window).IsAssignableFrom(t) && !Skipped.Contains(t.Name))
+				.OrderBy(t => t.FullName, StringComparer.Ordinal))
+			{
+				ConstructorInfo? ctor = type.GetConstructor(Type.EmptyTypes);
+				object?[]? args = null;
+				if (ctor == null)
+					ctor = PickConstructor(type, out args);
+				if (ctor == null)
+					continue;
+
+				Window? window = null;
+				try
+				{
+					window = (Window)ctor.Invoke(args);
+					window.ShowInTaskbar = false;
+					window.Show();
+					Pump();
+					window.UpdateLayout();
+					Pump();
+					windows++;
+					overlaps += ReportTextOverlaps(window, type.Name);
+					if (type == typeof(Voidstrap.UI.Elements.Settings.MainWindow))
+						overlaps += NavigationProbe(window);
+				}
+				catch (Exception ex)
+				{
+					Exception root = ex;
+					while (root.InnerException != null)
+						root = root.InnerException;
+					Emit($"text overlap audit: SKIP {type.Name}, {root.GetType().Name}: {root.Message.Split('\n')[0]}");
+				}
+				finally
+				{
+					try
+					{
+						window?.Close();
+						Pump();
+					}
+					catch (Exception)
+					{
+					}
+				}
+			}
+		}
+		finally
+		{
+			RemoveFixtures();
+		}
+
+		Emit(overlaps == 0
+			? $"text overlap audit: PASS, no overlapping text in {windows} windows and their pages"
+			: $"text overlap audit: FAIL, {overlaps} overlapping text pairs across {windows} windows and their pages");
+	}
+
 	private static void AuditMessageBoxButtons()
 	{
 		if (!Voidstrap.Utility.Platform.IsLinux)
@@ -4800,7 +4865,7 @@ internal static class WindowAudit
 				if (ReferenceEquals(hit, toggle))
 					return true;
 
-				hit = VisualTreeHelper.GetParent(hit);
+				hit = HitTestParent(hit);
 			}
 		}
 		catch (InvalidOperationException)
@@ -4906,10 +4971,17 @@ internal static class WindowAudit
 			if (ReferenceEquals(current, element))
 				return true;
 
-			current = VisualTreeHelper.GetParent(current);
+			current = HitTestParent(current);
 		}
 
 		return false;
+	}
+
+	private static DependencyObject? HitTestParent(DependencyObject element)
+	{
+		return element is Visual
+			? VisualTreeHelper.GetParent(element)
+			: LogicalTreeHelper.GetParent(element);
 	}
 
 	private static void SendKey(UIElement target, System.Windows.Input.Key key)
@@ -5652,6 +5724,7 @@ internal static class WindowAudit
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
 			AuditWindowsCaptionControls(window);
+			ReportTextOverlaps(window, window.GetType().Name);
 		}
         if (Voidstrap.Utility.Platform.IsLinux && window is Voidstrap.UI.Elements.Installer.MainWindow installer)
         {
@@ -6092,6 +6165,80 @@ internal static class WindowAudit
 		return Math.Max(1, (int)Math.Ceiling((block.ActualHeight - 0.5) / lineHeight));
 	}
 
+	private static int ReportTextOverlaps(Window window, string label)
+	{
+		List<(System.Windows.Controls.TextBlock Block, Rect Bounds)> texts = new();
+		foreach (System.Windows.Controls.TextBlock block in FindVisualDescendants<System.Windows.Controls.TextBlock>(window))
+		{
+			if (block.GetType() != typeof(System.Windows.Controls.TextBlock)
+				|| !block.IsVisible
+				|| (block.Text ?? string.Empty).Count(char.IsLetterOrDigit) < 2)
+				continue;
+			if (VisibleTextBounds(block, window) is Rect bounds)
+				texts.Add((block, bounds));
+		}
+
+		int found = 0;
+		for (int first = 0; first < texts.Count; first++)
+		{
+			for (int second = first + 1; second < texts.Count; second++)
+			{
+				Rect overlap = Rect.Intersect(texts[first].Bounds, texts[second].Bounds);
+				if (overlap.IsEmpty || overlap.Width < 3.0 || overlap.Height < 3.0)
+					continue;
+				found++;
+				if (found <= 8)
+					Emit($"  TEXT OVERLAP {label}: \"{Shorten(texts[first].Block.Text)}\" and \"{Shorten(texts[second].Block.Text)}\" share {overlap.Width:F0}x{overlap.Height:F0} at {overlap.X:F0},{overlap.Y:F0}");
+			}
+		}
+		return found;
+	}
+
+	private static string Shorten(string? text)
+	{
+		string value = (text ?? string.Empty).Replace('\n', ' ');
+		return value.Length > 40 ? value[..40] : value;
+	}
+
+	private static Rect? VisibleTextBounds(System.Windows.Controls.TextBlock block, Window window)
+	{
+		double opacity = 1.0;
+		Rect visible = new(0.0, 0.0, window.ActualWidth, window.ActualHeight);
+		DependencyObject? current = block;
+		while (current != null && !ReferenceEquals(current, window))
+		{
+			if (current is UIElement element)
+			{
+				opacity *= element.Opacity;
+				if (!ReferenceEquals(current, block)
+					&& current is FrameworkElement frame
+					&& (frame.ClipToBounds || frame is System.Windows.Controls.ScrollContentPresenter)
+					&& frame.ActualWidth > 0.0
+					&& frame.ActualHeight > 0.0)
+					visible.Intersect(BoundsInWindow(frame, window));
+			}
+			current = VisualTreeHelper.GetParent(current);
+		}
+		if (opacity < 0.05 || visible.IsEmpty)
+			return null;
+
+		Thickness margin = block.Margin;
+		double width = Math.Min(block.ActualWidth, Math.Max(0.0, block.DesiredSize.Width - margin.Left - margin.Right));
+		double height = Math.Min(block.ActualHeight, Math.Max(0.0, block.DesiredSize.Height - margin.Top - margin.Bottom));
+		if (width < 1.0 || height < 1.0)
+			return null;
+
+		double left = block.TextAlignment switch
+		{
+			TextAlignment.Center => (block.ActualWidth - width) / 2.0,
+			TextAlignment.Right => block.ActualWidth - width,
+			_ => 0.0
+		};
+		Rect ink = new(block.TranslatePoint(new Point(left, 0.0), window), new Size(width, height));
+		ink.Intersect(visible);
+		return ink.IsEmpty ? null : ink;
+	}
+
 	private static Rect BoundsInWindow(FrameworkElement element, Window window)
 	{
 		Point origin = element.TranslatePoint(new Point(0.0, 0.0), window);
@@ -6121,8 +6268,9 @@ internal static class WindowAudit
 		return found;
 	}
 
-	private static void AuditTabs(Window window, string label)
+	private static int AuditTabs(Window window, string label)
 	{
+		int overlaps = 0;
 		foreach (System.Windows.Controls.TabControl tabs in FindVisualDescendants<System.Windows.Controls.TabControl>(window))
 		{
 			int count = tabs.Items.Count;
@@ -6150,6 +6298,7 @@ internal static class WindowAudit
 					else
 					{
 						Emit($"  TAB OK   {label}/{header}");
+						overlaps += ReportTextOverlaps(window, label + "/" + header);
 					}
 				}
 				catch (Exception ex)
@@ -6170,11 +6319,13 @@ internal static class WindowAudit
 			{
 			}
 		}
+		return overlaps;
 	}
 
-	private static void NavigationProbe(Window window)
+	private static int NavigationProbe(Window window)
 	{
 		Emit("navigation audit:");
+		int overlaps = 0;
 		object? navigation = null;
 		try
 		{
@@ -6187,7 +6338,7 @@ internal static class WindowAudit
 		if (navigation is not Wpf.Ui.Controls.Interfaces.INavigation nav)
 		{
 			Emit("  navigation control not found");
-			return;
+			return 0;
 		}
 
 		List<string> tags = new List<string>();
@@ -6236,7 +6387,8 @@ internal static class WindowAudit
 				else
 				{
 					Emit($"  NAV OK   {label}{render}");
-					AuditTabs(window, label);
+					overlaps += ReportTextOverlaps(window, label);
+					overlaps += AuditTabs(window, label);
 				}
 			}
 			catch (Exception ex)
@@ -6274,6 +6426,7 @@ internal static class WindowAudit
 				}
 			}
 		}
+		return overlaps;
 	}
 
 	public static void RenderProbe(Window window, string label)

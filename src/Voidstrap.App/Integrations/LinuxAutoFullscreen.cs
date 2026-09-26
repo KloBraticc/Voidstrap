@@ -6,25 +6,25 @@ namespace Voidstrap.Integrations
 {
     public sealed class LinuxAutoFullscreen : IDisposable
     {
-        private const int MaxAttempts = 90;
-
         private readonly DispatcherTimer _timer;
 
-        private const int MinimumTicksBeforeApply = 12;
-        private const int RequiredStableTicks = 3;
+        private const int RequiredStableTicks = 1;
+        private const long StartupRetryMilliseconds = 5000;
 
-        private int _attempts;
-        private bool _applied;
         private bool _disposed;
+        private bool _handled;
+        private bool _requested;
         private int _stableTicks;
         private int _lastWidth;
         private int _lastHeight;
+        private nint _window;
+        private long _firstRequestAt;
 
         public LinuxAutoFullscreen()
         {
             _timer = new DispatcherTimer(DispatcherPriority.Background)
             {
-                Interval = TimeSpan.FromMilliseconds(1000)
+                Interval = TimeSpan.FromMilliseconds(500)
             };
 
             _timer.Tick += OnTick;
@@ -36,6 +36,7 @@ namespace Voidstrap.Integrations
                 return;
 
             _timer.Start();
+            OnTick(this, EventArgs.Empty);
         }
 
         private void OnTick(object? sender, EventArgs e)
@@ -45,10 +46,7 @@ namespace Voidstrap.Integrations
 
             try
             {
-                _attempts++;
-
-                if (Apply() || _attempts >= MaxAttempts)
-                    _timer.Stop();
+                Apply();
             }
             catch (Exception ex)
             {
@@ -57,24 +55,46 @@ namespace Voidstrap.Integrations
             }
         }
 
-        private bool Apply()
+        private void Apply()
         {
-            if (_applied)
-                return true;
+            LinuxWindowGeometry geometry = LinuxWindowInterop.FindRuntimeWindow(_window);
 
-            LinuxWindowGeometry geometry = LinuxWindowInterop.FindRuntimeWindow();
-
-            if (geometry.Window == 0)
+            if (geometry.Window == 0 || !LinuxWindowInterop.IsSoberRuntimeWindow(geometry.Window))
             {
+                _window = 0;
+                _handled = false;
+                _requested = false;
                 _stableTicks = 0;
-                return false;
+                _timer.Interval = TimeSpan.FromMilliseconds(500);
+                return;
             }
+
+            if (_window != geometry.Window)
+            {
+                _window = geometry.Window;
+                _handled = false;
+                _requested = false;
+                _stableTicks = 0;
+                _lastWidth = geometry.Width;
+                _lastHeight = geometry.Height;
+                _timer.Interval = TimeSpan.FromMilliseconds(500);
+            }
+
+            if (_handled)
+                return;
 
             if (LinuxWindowInterop.IsFullscreen(geometry.Window))
             {
-                _applied = true;
-                App.Logger.WriteLine("LinuxAutoFullscreen", "Roblox is already fullscreen, leaving it alone");
-                return true;
+                if (!_requested)
+                    App.Logger.WriteLine("LinuxAutoFullscreen", "Roblox is already fullscreen, leaving it alone");
+                if (!_requested || Environment.TickCount64 - _firstRequestAt >= StartupRetryMilliseconds)
+                {
+                    _handled = true;
+                    _timer.Interval = TimeSpan.FromSeconds(1);
+                    if (_requested)
+                        App.Logger.WriteLine("LinuxAutoFullscreen", "Put the Roblox window into fullscreen");
+                }
+                return;
             }
 
             if (geometry.Width == _lastWidth && geometry.Height == _lastHeight && geometry.Width > 0)
@@ -85,19 +105,27 @@ namespace Voidstrap.Integrations
             _lastWidth = geometry.Width;
             _lastHeight = geometry.Height;
 
-            if (_attempts < MinimumTicksBeforeApply || _stableTicks < RequiredStableTicks)
-                return false;
+            if (_stableTicks < RequiredStableTicks)
+                return;
 
             if (!LinuxWindowInterop.TrySetFullscreen(geometry.Window))
-                return false;
+                return;
 
-            _applied = true;
-            App.Logger.WriteLine("LinuxAutoFullscreen", "Put the Roblox window into fullscreen");
-            return true;
+            if (!_requested)
+            {
+                _requested = true;
+                _firstRequestAt = Environment.TickCount64;
+            }
         }
 
         public void Dispose()
         {
+            if (!_timer.Dispatcher.CheckAccess())
+            {
+                _timer.Dispatcher.Invoke(Dispose);
+                return;
+            }
+
             if (_disposed)
                 return;
 

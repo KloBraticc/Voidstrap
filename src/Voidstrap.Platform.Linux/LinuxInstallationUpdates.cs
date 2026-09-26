@@ -35,7 +35,97 @@ public static partial class LinuxInstallationUpdates
 
 	public const string AuthorizationCancelledCode = "AuthorizationCancelled";
 
+	public const string RestartRequiredCode = "RestartRequired";
+
+	public static bool IsOstreeSystem => File.Exists("/run/ostree-booted");
+
 	public const string ArchRecipeAssetName = "Voidstrap_AUR_metadata.tar.gz";
+
+	public static async Task<OperationResult> InstallFlatpakPrerequisiteAsync(IProcessService processes, CancellationToken cancellationToken = default)
+	{
+		ArgumentNullException.ThrowIfNull(processes);
+		cancellationToken.ThrowIfCancellationRequested();
+		if (LinuxFlatpakHost.TryCreateCommand(processes, [], out _))
+			return OperationResult.Success();
+		if (LinuxFlatpakHost.IsSandboxed)
+			return OperationResult.Fail("FlatpakUnavailable", "Voidstrap could not reach Flatpak on the host");
+		if (IsOstreeSystem)
+		{
+			List<ProcessCommand> stagedCommands = [];
+			AddElevatedCommand(processes, stagedCommands, "rpm-ostree", ["install", "flatpak"]);
+			OperationResult staged = await ExecuteCommandsAsync(processes, stagedCommands, cancellationToken).ConfigureAwait(false);
+			cancellationToken.ThrowIfCancellationRequested();
+			return staged.Succeeded
+				? OperationResult.Fail(RestartRequiredCode, "Flatpak is staged, restart the computer to finish installing it")
+				: OperationResult.Fail("FlatpakInstallFailed", "Flatpak could not be installed: " + staged.Failure?.Message);
+		}
+
+		string[] distributionIds = [];
+		try
+		{
+			string path = File.Exists("/etc/os-release") ? "/etc/os-release" : "/usr/lib/os-release";
+			Dictionary<string, string> release = LinuxSteamOS.ParseOsRelease(File.ReadAllText(path));
+			distributionIds = (release.GetValueOrDefault("ID", string.Empty) + " " + release.GetValueOrDefault("ID_LIKE", string.Empty))
+				.ToLowerInvariant().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+		}
+		catch (IOException)
+		{
+		}
+		catch (UnauthorizedAccessException)
+		{
+		}
+
+		string? manager = null;
+		if (distributionIds.Contains("debian") || distributionIds.Contains("ubuntu"))
+			manager = "apt-get";
+		else if (distributionIds.Contains("suse") || distributionIds.Contains("opensuse"))
+			manager = "zypper";
+		else if (distributionIds.Contains("arch"))
+			manager = "pacman";
+		else if (distributionIds.Contains("alpine"))
+			manager = "apk";
+		else if (distributionIds.Contains("fedora") || distributionIds.Contains("rhel"))
+			manager = "dnf";
+		if (manager == "dnf" && processes.FindExecutable("dnf5") is not null)
+			manager = "dnf5";
+		if (manager is null || processes.FindExecutable(manager) is null)
+			manager = new[] { "apt-get", "dnf5", "dnf", "yum", "zypper", "pacman", "apk" }
+				.FirstOrDefault(name => processes.FindExecutable(name) is not null);
+		if (manager is null)
+			return OperationResult.Fail("PackageToolUnavailable", "No supported Linux package manager is available to install Flatpak");
+
+		List<ProcessCommand> commands = [];
+		switch (manager)
+		{
+			case "apt-get":
+				AddElevatedCommand(processes, commands, manager, ["install", "--yes", "--no-remove", "flatpak"]);
+				break;
+			case "dnf5":
+			case "dnf":
+			case "yum":
+				AddElevatedCommand(processes, commands, manager, ["install", "--assumeyes", "flatpak"]);
+				break;
+			case "zypper":
+				AddElevatedCommand(processes, commands, manager, ["--non-interactive", "install", "flatpak"]);
+				break;
+			case "pacman":
+				AddElevatedCommand(processes, commands, manager, ["--sync", "--needed", "--noconfirm", "flatpak"]);
+				break;
+			case "apk":
+				AddElevatedCommand(processes, commands, manager, ["add", "flatpak"]);
+				break;
+		}
+		if (commands.Count == 0)
+			return OperationResult.Fail("AuthorizationUnavailable", "Installing Flatpak requires administrator access, but no authorization tool is available");
+
+		OperationResult installed = await ExecuteCommandsAsync(processes, commands, cancellationToken).ConfigureAwait(false);
+		cancellationToken.ThrowIfCancellationRequested();
+		if (!installed.Succeeded)
+			return OperationResult.Fail("FlatpakInstallFailed", "Flatpak could not be installed: " + installed.Failure?.Message);
+		return LinuxFlatpakHost.TryCreateCommand(processes, [], out _)
+			? OperationResult.Success()
+			: OperationResult.Fail("FlatpakUnavailable", "Flatpak was installed but its command could not be found");
+	}
 
 	private static readonly HashSet<string> PackageNames = new(StringComparer.Ordinal)
 	{
@@ -109,7 +199,7 @@ public static partial class LinuxInstallationUpdates
 		{
 			LinuxInstallationKind.Flatpak => await InstallFlatpakAsync(processes, installation, fullPackagePath, cancellationToken).ConfigureAwait(false),
 			LinuxInstallationKind.Debian => await InstallDebianAsync(processes, fullPackagePath, cancellationToken).ConfigureAwait(false),
-			LinuxInstallationKind.Rpm => await InstallRpmAsync(processes, fullPackagePath, cancellationToken).ConfigureAwait(false),
+			LinuxInstallationKind.Rpm => await InstallRpmAsync(processes, installation, fullPackagePath, cancellationToken).ConfigureAwait(false),
 			_ => OperationResult.Fail("UnsupportedPackage", "The detected Linux installation cannot use this package")
 		};
 	}
@@ -272,17 +362,36 @@ public static partial class LinuxInstallationUpdates
 		return await ExecuteCommandsAsync(processes, commands, cancellationToken).ConfigureAwait(false);
 	}
 
-	private static async Task<OperationResult> InstallRpmAsync(IProcessService processes, string packagePath, CancellationToken cancellationToken)
+	private static async Task<OperationResult> InstallRpmAsync(IProcessService processes, LinuxInstallationInfo installation, string packagePath, CancellationToken cancellationToken)
 	{
+		if (IsOstreeSystem)
+			return await InstallRpmOstreeAsync(processes, installation, packagePath, cancellationToken).ConfigureAwait(false);
+
 		List<ProcessCommand> commands = [];
 		AddElevatedCommand(processes, commands, "dnf5", ["install", "--assumeyes", packagePath]);
 		AddElevatedCommand(processes, commands, "dnf", ["install", "--assumeyes", packagePath]);
 		AddElevatedCommand(processes, commands, "yum", ["install", "--assumeyes", packagePath]);
+		AddElevatedCommand(processes, commands, "zypper", ["--non-interactive", "install", "--allow-unsigned-rpm", packagePath]);
 		AddElevatedCommand(processes, commands, "zypper", ["--non-interactive", "install", packagePath]);
 		AddElevatedCommand(processes, commands, "dnf5", ["install", "--assumeyes", "--nogpgcheck", packagePath]);
 		AddElevatedCommand(processes, commands, "dnf", ["install", "--assumeyes", "--nogpgcheck", packagePath]);
 		AddElevatedCommand(processes, commands, "rpm", ["--upgrade", "--replacepkgs", packagePath]);
 		return await ExecuteCommandsAsync(processes, commands, cancellationToken).ConfigureAwait(false);
+	}
+
+	private static async Task<OperationResult> InstallRpmOstreeAsync(IProcessService processes, LinuxInstallationInfo installation, string packagePath, CancellationToken cancellationToken)
+	{
+		string? rpmOstree = processes.FindExecutable("rpm-ostree");
+		if (string.IsNullOrWhiteSpace(rpmOstree))
+			return OperationResult.Fail("PackageToolUnavailable", "This is an image based system but rpm-ostree is unavailable");
+
+		string packageName = string.IsNullOrWhiteSpace(installation.PackageName) ? "voidstrap" : installation.PackageName;
+		OperationResult<ProcessExecution> result = await processes.ExecuteAsync(
+			new ProcessCommand(rpmOstree, ["uninstall", packageName, "--install", packagePath]),
+			cancellationToken).ConfigureAwait(false);
+		if (!result.Succeeded || result.Value is not { ExitCode: 0 })
+			return FailureFromExecution("PackageUpdateFailed", "rpm-ostree could not stage the Voidstrap update", result);
+		return OperationResult.Fail(RestartRequiredCode, "The update is staged, restart the computer to finish installing it");
 	}
 
 	public static async Task<OperationResult> InstallArchRecipeAsync(

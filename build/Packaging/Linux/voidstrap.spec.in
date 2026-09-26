@@ -11,36 +11,48 @@ Version: @VERSION@
 Release: 1
 Summary: Customize and launch Roblox through Sober on Linux
 License: MIT
-Requires: vulkan-loader
-Requires: mesa-vulkan-drivers
-Requires: libX11
-Requires: libXext
-Requires: libXrender
-Requires: libXrandr
-Requires: libXi
-Requires: libXcursor
-Requires: libXfixes
-Requires: libICE
-Requires: libSM
-Requires: fontconfig
-Requires: freetype
-Requires: libxkbcommon
-Requires: libxkbcommon-x11
+URL: https://github.com/KloBraticc/Voidstrap
+ExclusiveArch: x86_64 aarch64
+Requires: libvulkan.so.1()(64bit)
+Requires: libX11.so.6()(64bit)
+Requires: libXext.so.6()(64bit)
+Requires: libXrender.so.1()(64bit)
+Requires: libXrandr.so.2()(64bit)
+Requires: libXi.so.6()(64bit)
+Requires: libXcursor.so.1()(64bit)
+Requires: libXfixes.so.3()(64bit)
+Requires: libXcomposite.so.1()(64bit)
+Requires: libXdamage.so.1()(64bit)
+Requires: libICE.so.6()(64bit)
+Requires: libSM.so.6()(64bit)
+Requires: libfontconfig.so.1()(64bit)
+Requires: libfreetype.so.6()(64bit)
+Requires: libxkbcommon.so.0()(64bit)
+Requires: libxkbcommon-x11.so.0()(64bit)
 Requires: libwayland-client.so.0()(64bit)
-Requires: dbus-libs
-Requires: mesa-libGL
-Requires: mesa-libEGL
+Requires: libdbus-1.so.3()(64bit)
+Requires: libGL.so.1()(64bit)
+Requires: libEGL.so.1()(64bit)
+Requires: libssl.so.3()(64bit)
 Requires: ca-certificates
 Requires: flatpak
+Recommends: (mesa-vulkan-drivers or libvulkan_radeon or libvulkan_intel or libvulkan_lvp)
 Recommends: xdg-utils
-Recommends: libnotify
-Recommends: libsecret
-Recommends: gstreamer1
-Recommends: gstreamer1-plugins-base
-Recommends: gstreamer1-plugins-good
-Recommends: gstreamer1-plugins-bad-free
-Recommends: gstreamer1-plugin-libav
-Recommends: webkit2gtk4.1
+Recommends: (zenity or kdialog)
+Recommends: /usr/bin/pkexec
+Recommends: /usr/bin/gio
+Recommends: /usr/bin/notify-send
+Recommends: /usr/bin/secret-tool
+Recommends: /usr/bin/xrandr
+Recommends: /usr/bin/pw-dump
+Recommends: /usr/bin/wpctl
+Recommends: /usr/bin/update-desktop-database
+Recommends: libgstreamer-1.0.so.0()(64bit)
+Recommends: libgstpbutils-1.0.so.0()(64bit)
+Recommends: (gstreamer1-plugins-good or gstreamer-plugins-good)
+Recommends: (gstreamer1-plugins-bad-free or gstreamer-plugins-bad)
+Recommends: (gstreamer1-plugin-libav or gstreamer-plugins-libav)
+Recommends: libwebkit2gtk-4.1.so.0()(64bit)
 Source0: publish
 Source1: io.github.KloBraticc.Voidstrap.desktop
 Source2: io.github.KloBraticc.Voidstrap.png
@@ -56,7 +68,8 @@ and desktop integrations together in one customizable app.
 %install
 mkdir -p %{buildroot}%{_libdir}/voidstrap %{buildroot}%{_bindir}
 cp -a %{_sourcedir}/publish/. %{buildroot}%{_libdir}/voidstrap/
-ln -s %{_libdir}/voidstrap/Voidstrap %{buildroot}%{_bindir}/voidstrap
+chmod 0755 %{buildroot}%{_libdir}/voidstrap %{buildroot}%{_libdir}/voidstrap/Voidstrap
+ln -s ../%{_lib}/voidstrap/Voidstrap %{buildroot}%{_bindir}/voidstrap
 install -Dm644 %{_sourcedir}/io.github.KloBraticc.Voidstrap.desktop %{buildroot}%{_datadir}/applications/io.github.KloBraticc.Voidstrap.desktop
 install -Dm644 %{_sourcedir}/io.github.KloBraticc.Voidstrap.png %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/io.github.KloBraticc.Voidstrap.png
 install -Dm644 %{_sourcedir}/io.github.KloBraticc.Voidstrap.metainfo.xml %{buildroot}%{_datadir}/metainfo/io.github.KloBraticc.Voidstrap.metainfo.xml
@@ -71,9 +84,14 @@ command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database %{
 command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f -t %{_datadir}/icons/hicolor || true
 
 %files
-%{_libdir}/voidstrap
+%dir %{_libdir}/voidstrap
+%{_libdir}/voidstrap/Voidstrap
 %{_bindir}/voidstrap
 %{_datadir}/applications/io.github.KloBraticc.Voidstrap.desktop
 %{_datadir}/icons/hicolor/256x256/apps/io.github.KloBraticc.Voidstrap.png
 %{_datadir}/metainfo/io.github.KloBraticc.Voidstrap.metainfo.xml
 %license %{_licensedir}/voidstrap/LICENSE
+
+%changelog
+* @DATE@ Voidstrap - @VERSION@-1
+- Voidstrap @VERSION@

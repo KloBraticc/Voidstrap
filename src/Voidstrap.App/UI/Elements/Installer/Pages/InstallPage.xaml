@@ -71,6 +71,7 @@
       <controls:OptionControl Margin="0,4,0,4" Header="Create a desktop launcher">
         <ui:ToggleSwitch IsChecked="{Binding CreateDesktopShortcuts, Mode=TwoWay}" />
       </controls:OptionControl>
+      <TextBlock Margin="0,12,0,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding SoberInstallStatus, Mode=OneWay}" TextWrapping="Wrap" />
     </StackPanel>
   </StackPanel>
 </ui:UiPage>

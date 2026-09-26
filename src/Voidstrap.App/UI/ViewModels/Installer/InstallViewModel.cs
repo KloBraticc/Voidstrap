@@ -12,6 +12,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 	private readonly Voidstrap.Installer installer = new Voidstrap.Installer();
 
 	private readonly string _originalInstallLocation;
+	private string _soberInstallStatus = string.Empty;
 
 	public EventHandler<bool>? SetCanContinueEvent;
 
@@ -47,6 +48,21 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 	}
 
 	public string ErrorMessage => installer.InstallLocationError;
+
+	public string SoberInstallStatus
+	{
+		get => _soberInstallStatus;
+		private set
+		{
+			_soberInstallStatus = value;
+			OnPropertyChanged(nameof(SoberInstallStatus));
+		}
+	}
+
+	public void SetSoberInstallStatus(string message)
+	{
+		SoberInstallStatus = message;
+	}
 
 	public bool CreateDesktopShortcuts
 	{
@@ -131,7 +147,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 		_originalInstallLocation = installer.InstallLocation;
 	}
 
-	public bool DoInstall()
+	public async System.Threading.Tasks.Task<bool> DoInstallAsync(Action<string>? report = null)
 	{
 		if (!installer.CheckInstallLocation())
 		{
@@ -142,7 +158,6 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 		try
 		{
 			installer.DoInstall();
-			StartSoberInstall();
 		}
 		catch (Exception ex)
 		{
@@ -151,26 +166,24 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 			SetCanContinueEvent?.Invoke(this, e: true);
 			return false;
 		}
-		return true;
-	}
-
-	private static void StartSoberInstall()
-	{
-		if (!Voidstrap.Utility.Platform.IsLinux)
-			return;
-
-		_ = System.Threading.Tasks.Task.Run(async () =>
+		if (Voidstrap.Utility.Platform.IsLinux)
 		{
+			SoberInstallStatus = "Installing Sober";
 			try
 			{
-				Voidstrap.Platform.OperationResult result = await new Voidstrap.Platform.Linux.LinuxSoberInstaller(new Voidstrap.Core.SystemProcessService()).InstallAsync();
-				App.Logger.WriteLine("InstallViewModel::StartSoberInstall", result.Succeeded ? "Sober installed" : (result.Failure?.Message ?? "Sober could not be installed"));
+				Voidstrap.Platform.OperationResult result = await new Voidstrap.Platform.Linux.LinuxSoberInstaller(new Voidstrap.Core.SystemProcessService())
+					.InstallAsync(report: report);
+				App.Logger.WriteLine("InstallViewModel::DoInstall", result.Succeeded ? "Sober installed" : (result.Failure?.Message ?? "Sober could not be installed"));
+				if (!result.Succeeded)
+					Frontend.ShowMessageBox(result.Failure?.Message ?? "Sober could not be installed", MessageBoxImage.Error, MessageBoxButton.OK);
 			}
 			catch (Exception ex)
 			{
-				App.Logger.WriteLine("InstallViewModel::StartSoberInstall", "Sober install failed: " + ex.Message);
+				App.Logger.WriteException("InstallViewModel::DoInstall", ex);
+				Frontend.ShowMessageBox("Sober could not be installed: " + ex.Message, MessageBoxImage.Error, MessageBoxButton.OK);
 			}
-		});
+		}
+		return true;
 	}
 
 	private void BrowseInstallLocation()

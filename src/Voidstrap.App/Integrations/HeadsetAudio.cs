@@ -45,6 +45,8 @@ public static partial class HeadsetAudio
 
 	public static void ApplyFromSettings()
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+			return;
 		if (App.Settings.Prop.EnableHeadsetLoudness)
 			Start();
 		else
@@ -53,6 +55,8 @@ public static partial class HeadsetAudio
 
 	public static bool Start()
 	{
+		if (Voidstrap.Utility.Platform.IsLinux)
+			return false;
 		lock (_gate)
 		{
 			if (IsRunning)

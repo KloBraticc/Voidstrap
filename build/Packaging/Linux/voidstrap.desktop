@@ -12,8 +12,16 @@ Keywords=roblox;voidstrap;bootstrapper;sober;
 StartupNotify=true
 StartupWMClass=voidstrap
 X-GNOME-WMClass=voidstrap
-MimeType=x-scheme-handler/roblox;x-scheme-handler/roblox-player;x-scheme-handler/roblox-studio;x-scheme-handler/roblox-studio-auth;
-Actions=Settings;
+MimeType=x-scheme-handler/roblox;x-scheme-handler/roblox-player;x-scheme-handler/roblox-studio;x-scheme-handler/roblox-studio-auth;x-scheme-handler/voidstrap;
+Actions=LaunchRoblox;LaunchRobloxStudio;Settings;
+
+[Desktop Action LaunchRoblox]
+Name=Launch Roblox
+Exec=voidstrap -player
+
+[Desktop Action LaunchRobloxStudio]
+Name=Launch Roblox Studio
+Exec=voidstrap -studio
 
 [Desktop Action Settings]
 Name=Voidstrap Settings

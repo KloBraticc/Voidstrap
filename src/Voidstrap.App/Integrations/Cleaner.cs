@@ -104,7 +104,60 @@ public class Cleaner
 				}
 			}
 		}
+		if (Voidstrap.Utility.Platform.IsLinux && App.Settings.Prop.CleanerDirectories.Contains("RobloxLogs"))
+		{
+			CleanSoberLogs(threshold);
+		}
 		App.Logger.WriteLine("Cleaner::DoCleaning", "Cleaner finished");
+	}
+
+	private static void CleanSoberLogs(DateTime threshold)
+	{
+		string? soberData = Path.GetDirectoryName(Path.GetDirectoryName(Paths.RobloxLogs) ?? string.Empty);
+		if (string.IsNullOrEmpty(soberData))
+		{
+			return;
+		}
+		string folder = Path.Combine(soberData, "sober_logs");
+		if (!Directory.Exists(folder))
+		{
+			return;
+		}
+		string? active = null;
+		try
+		{
+			active = new FileInfo(Path.Combine(folder, "latest.log")).ResolveLinkTarget(true)?.FullName;
+		}
+		catch (IOException)
+		{
+		}
+		bool soberRunning = Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow();
+		int removed = 0;
+		int kept = 0;
+		foreach (string file in Directory.EnumerateFiles(folder, "*.log"))
+		{
+			if (string.Equals(Path.GetFileName(file), "latest.log", StringComparison.Ordinal)
+				|| (soberRunning && string.Equals(file, active, StringComparison.Ordinal)))
+			{
+				kept++;
+				continue;
+			}
+			try
+			{
+				if (!VerifyFile(file, threshold))
+				{
+					kept++;
+					continue;
+				}
+				File.Delete(file);
+				removed++;
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("Cleaner::DoCleaning", "Unable to delete " + Path.GetFileName(file) + ": " + ex.Message);
+			}
+		}
+		App.Logger.WriteLine("Cleaner::DoCleaning", $"Running cleaner in SoberLogs, removed {removed} and kept {kept}");
 	}
 
 	private static bool IsLiveVoidstrapLog(string file)
@@ -157,7 +210,8 @@ public class Cleaner
 		{
 			return false;
 		}
-		if (!file.Contains("Roblox") && !file.Contains("Voidstrap") && !file.Contains(Paths.Base))
+		if (!file.Contains("Roblox") && !file.Contains("Voidstrap") && !file.Contains(Paths.Base)
+			&& !(Voidstrap.Utility.Platform.IsLinux && file.Contains("/org.vinegarhq.Sober/", StringComparison.Ordinal)))
 		{
 			throw new Exception(file + " was in disallowed directory");
 		}

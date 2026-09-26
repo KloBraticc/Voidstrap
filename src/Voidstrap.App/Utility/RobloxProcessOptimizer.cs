@@ -473,7 +473,7 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 		}
 	}
 
-	private static ProcessPriorityClass ResolvePriority(AppSettings settings)
+	internal static ProcessPriorityClass ResolvePriority(AppSettings settings)
 	{
 		string priority = settings.PriorityLimit?.Trim() ?? "Normal";
 		if (priority.Equals("Realtime", StringComparison.OrdinalIgnoreCase))
@@ -499,7 +499,7 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 		return settings.OptimizeRoblox ? ProcessPriorityClass.AboveNormal : ProcessPriorityClass.Normal;
 	}
 
-	private static int? GetCpuLimit(string? selection)
+	internal static int? GetCpuLimit(string? selection)
 	{
 		if (IsAutomaticCpuLimit(selection))
 		{

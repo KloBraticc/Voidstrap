@@ -30,6 +30,7 @@ namespace Voidstrap.UI.Elements.Overlay
 		private readonly bool _fullSurface;
 
         private const double DefaultBrightness = 50;
+		private const double LinuxReadoutMaxWidth = 520;
         private double _brightness = App.Settings.Prop.Brightness;
         private double _lastAppliedBrightness = App.Settings.Prop.Brightness;
 
@@ -143,11 +144,16 @@ namespace Voidstrap.UI.Elements.Overlay
 			if (Voidstrap.Utility.Platform.IsLinux && !_fullSurface)
 			{
 				SizeToContent = SizeToContent.WidthAndHeight;
-				MaxWidth = 360;
+				MaxWidth = LinuxReadoutMaxWidth;
 				_readoutBorder.HorizontalAlignment = HorizontalAlignment.Stretch;
 				_readoutBorder.VerticalAlignment = VerticalAlignment.Stretch;
-				_readoutBorder.MaxWidth = 360;
+				_readoutBorder.MaxWidth = LinuxReadoutMaxWidth;
 				_readoutBorder.Background = new SolidColorBrush(Color.FromRgb(12, 13, 16));
+				foreach (UIElement child in _readoutPanel.Children)
+				{
+					if (child is TextBlock readout)
+						readout.TextTrimming = TextTrimming.CharacterEllipsis;
+				}
 			}
 
 			if (_showLocation || _showTime)

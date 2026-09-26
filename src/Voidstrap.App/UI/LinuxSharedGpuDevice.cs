@@ -77,6 +77,8 @@ public static class LinuxSharedGpuDevice
 #if CROSSPLAT
 	private static System.Windows.Media.ProGPU.ProGpuWpfWindowHost CreateHost(object window)
 	{
+		if (window is System.Windows.Window wpf && !RoundedWindowChrome.IsOverlaySurface(wpf))
+			LinuxTextGuard.PrepareWindow(wpf);
 		try
 		{
 			return CreateTunedHost(window);

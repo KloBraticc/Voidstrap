@@ -154,6 +154,8 @@ namespace Voidstrap.Integrations.Overlays
 			private int _attempts;
 			private int _started;
 			private int _cornerRadius;
+			private System.Windows.Threading.DispatcherTimer? _promotionTimer;
+			private int _promotionAttempts;
 
 			public PassivePreparation(Window window, int cornerRadius)
 			{
@@ -171,6 +173,8 @@ namespace Voidstrap.Integrations.Overlays
 				if (Interlocked.Exchange(ref _started, 1) != 0)
 					return;
 				_window.Closed += OnClosed;
+				if (LinuxSteamOS.Current.IsGameMode)
+					_window.IsVisibleChanged += OnVisibleChanged;
 				if (TryApply())
 					return;
 				_timer = new System.Windows.Threading.DispatcherTimer
@@ -205,9 +209,47 @@ namespace Voidstrap.Integrations.Overlays
 				return true;
 			}
 
+			private void OnVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+			{
+				if (e.NewValue is not true)
+					return;
+				_promotionAttempts = 0;
+				if (_promotionTimer != null)
+					return;
+				_promotionTimer = new System.Windows.Threading.DispatcherTimer
+				{
+					Interval = TimeSpan.FromMilliseconds(100)
+				};
+				_promotionTimer.Tick += OnPromotionTick;
+				_promotionTimer.Start();
+			}
+
+			private void OnPromotionTick(object? sender, EventArgs e)
+			{
+				_promotionAttempts++;
+				nint handle = _handle != 0 ? _handle : ResolveHandle(_window);
+				bool promoted = handle != 0 && LinuxWindowInterop.TryPromoteGamescopeDecoration(handle);
+				if (promoted)
+					App.Logger?.WriteLine("LinuxOverlaySurface", _window.Title + " is drawn by gamescope as a game decoration, so it never takes input");
+				if (!promoted && !LinuxWindowInterop.IsGamescopeDecoration(handle) && _promotionAttempts < 20)
+					return;
+				StopPromotionTimer();
+			}
+
+			private void StopPromotionTimer()
+			{
+				if (_promotionTimer == null)
+					return;
+				_promotionTimer.Stop();
+				_promotionTimer.Tick -= OnPromotionTick;
+				_promotionTimer = null;
+			}
+
 			private void OnClosed(object? sender, EventArgs e)
 			{
 				StopTimer();
+				StopPromotionTimer();
+				_window.IsVisibleChanged -= OnVisibleChanged;
 				_window.Closed -= OnClosed;
 				if (_handle != 0)
 					OverlayDiagnostics.UnregisterOverlayHandle(_handle);
@@ -239,6 +281,8 @@ namespace Voidstrap.Integrations.Overlays
 					return false;
 				OverlayDiagnostics.RegisterOverlayHandle(handle);
                 LinuxWindowInterop.TrySetAlwaysOnTop(handle);
+				if (LinuxWindowInterop.TryPromoteGamescopeDecoration(handle))
+					App.Logger?.WriteLine("LinuxOverlaySurface", window.Title + " is drawn by gamescope as a game decoration, so it never takes input");
 				App.Logger?.WriteLine("LinuxOverlaySurface", "Input passthrough applied to " + window.Title);
                 return true;
             }

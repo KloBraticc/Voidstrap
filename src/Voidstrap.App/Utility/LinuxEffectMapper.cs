@@ -16,6 +16,8 @@ namespace Voidstrap.Utility;
 
 internal static class LinuxEffectMapper
 {
+	public const int SupportedAntiAliasingMethods = 5;
+
 	public static LinuxEffectOptions CreateOptions()
 	{
 		RiShadeSettings shade = RiShadeSettings.Current;
@@ -23,7 +25,8 @@ internal static class LinuxEffectMapper
 
 		int soberSharpness = Math.Clamp(App.Settings.Prop.SoberSharpness, 0, 100);
 		bool soberSharpen = soberSharpness > 0;
-		bool colorGrade = HasColorGrade();
+		bool liveColor = LinuxSoberRuntimeProvider.UseCompositor;
+		bool colorGrade = !liveColor && HasLiveColorEffect();
 		bool shadeSharpen = shadeOn && shade.SharpenEnabled;
 		HomepageMedia? homepageMedia = ResolveHomepageMedia();
 		string? homepageShader = BuildHomepageShader(homepageMedia);
@@ -35,9 +38,10 @@ internal static class LinuxEffectMapper
 		return new LinuxEffectOptions(
 			Enabled: shadeOn || colorGrade || soberSharpen || MapAntiAliasing() is not null || MapFrameGenMultiplier() > 1 || homepageShader is not null,
 			AntiAliasing: MapAntiAliasing(),
+			AntiAliasingUltra: AntiAliasingSettings.MethodIndex is 2 or 4,
 			Sharpening: shadeSharpen || soberSharpen,
 			SharpnessAmount: sharpnessAmount,
-			GradingShader: shadeOn || colorGrade ? BuildGradingShader(shade) : null,
+			GradingShader: shadeOn || colorGrade ? BuildGradingShader(shade, !liveColor) : null,
 			HomepageShader: homepageShader,
 			HomepageMediaPath: homepageMedia?.Path,
 			FrameGenMultiplier: MapFrameGenMultiplier());
@@ -229,7 +233,7 @@ internal static class LinuxEffectMapper
 
 	public static bool IsAntiAliasingSupported()
 	{
-		return AntiAliasingSettings.MethodIndex is 0 or 1 or 2 or 3 or 4;
+		return AntiAliasingSettings.MethodIndex < SupportedAntiAliasingMethods;
 	}
 
 	private static int MapFrameGenMultiplier()
@@ -277,10 +281,18 @@ internal static class LinuxEffectMapper
 			|| Math.Abs(App.Settings.Prop.Contrast - NeutralColorLevel) > 0.5;
 	}
 
-	private static string BuildGradingShader(RiShadeSettings shade)
+	private static string BuildGradingShader(RiShadeSettings shade, bool includeColorLevels)
 	{
-		float saturation = Math.Clamp((float)(App.Settings.Prop.Saturation / NeutralColorLevel), 0f, 2f);
-		float contrast = Math.Clamp((float)(App.Settings.Prop.Contrast / NeutralColorLevel), 0f, 2f);
+		float[]? colorMatrix = includeColorLevels
+			? ScreenColorEffect.BuildMatrix(
+				App.Settings.Prop.Saturation,
+				App.Settings.Prop.Contrast,
+				App.Settings.Prop.ColorTemperature,
+				App.Settings.Prop.ColorBlindnessEnabled,
+				(ScreenColorEffect.ColorBlindnessType)App.Settings.Prop.ColorBlindnessType,
+				App.Settings.Prop.ColorBlindnessSeverity / 100.0,
+				App.Settings.Prop.ColorBlindnessSimulate)
+			: null;
 
 		float brightness = shade.GradeEnabled ? shade.Brightness : 0f;
 		float gamma = shade.GradeEnabled ? Math.Clamp(shade.Gamma, 0.1f, 5f) : 1f;
@@ -317,9 +329,14 @@ internal static class LinuxEffectMapper
 			shader.AppendLine("    color = lerp(color, color * falloff, " + F(vignette) + ");");
 		}
 
-		shader.AppendLine("    float luma = dot(color, float3(0.2126, 0.7152, 0.0722));");
-		shader.AppendLine("    color = lerp(float3(luma, luma, luma), color, " + F(saturation) + ");");
-		shader.AppendLine("    color = saturate(((color - 0.5) * " + F(contrast) + ") + 0.5);");
+		if (colorMatrix is { Length: >= 23 })
+		{
+			shader.AppendLine("    color = saturate(color);");
+			shader.AppendLine("    color = float3(");
+			shader.AppendLine("        dot(color, float3(" + F(colorMatrix[0]) + ", " + F(colorMatrix[5]) + ", " + F(colorMatrix[10]) + ")) + " + F(colorMatrix[20]) + ",");
+			shader.AppendLine("        dot(color, float3(" + F(colorMatrix[1]) + ", " + F(colorMatrix[6]) + ", " + F(colorMatrix[11]) + ")) + " + F(colorMatrix[21]) + ",");
+			shader.AppendLine("        dot(color, float3(" + F(colorMatrix[2]) + ", " + F(colorMatrix[7]) + ", " + F(colorMatrix[12]) + ")) + " + F(colorMatrix[22]) + ");");
+		}
 		shader.AppendLine("    return saturate(color);");
 		shader.AppendLine("}");
 		shader.AppendLine();

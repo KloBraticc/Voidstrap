@@ -765,7 +765,7 @@ public static class LaunchHandler
 
 	private const int SoberStartupAttempts = 60;
 
-	private const int SoberExitConfirmations = 3;
+	private const int SoberExitConfirmations = 5;
 
 	private static async Task<bool> WaitForSoberExitAsync(CancellationToken cancellationToken)
 	{
@@ -822,7 +822,7 @@ public static class LaunchHandler
 
 				App.Logger.WriteLine(
 					"LaunchHandler::WaitForSoberExitAsync",
-					"Roblox was not visible on check " + missed + " of " + SoberExitConfirmations + ", waiting before deciding it closed");
+					"Sober was not found on process check " + missed + " of " + SoberExitConfirmations + ", waiting before deciding it closed");
 			}
 
 			await Task.Delay(2000, cancellationToken);
@@ -831,7 +831,7 @@ public static class LaunchHandler
 		return false;
 	}
 
-	private static bool StartResidentWatcher(int processId)
+	private static bool StartResidentWatcher(int processId, bool isSoberPlayer)
 	{
 		try
 		{
@@ -844,7 +844,7 @@ public static class LaunchHandler
 			Watcher resident = new(watcherData);
 			Voidstrap.Integrations.LinuxAutoFullscreen? autoFullscreen = null;
 
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (Voidstrap.Utility.Platform.IsLinux && isSoberPlayer)
 			{
 				System.Windows.Application? application = System.Windows.Application.Current;
 
@@ -891,9 +891,21 @@ public static class LaunchHandler
 					App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "The watcher could not be disposed: " + ex.Message);
 				}
 
+				if (App.Settings.Prop.CleanerOptions != CleanerOptions.Never)
+				{
+					try
+					{
+						Cleaner.DoCleaning();
+					}
+					catch (Exception ex)
+					{
+						App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "The cleaner could not finish: " + ex.Message);
+					}
+				}
+
 				Volatile.Write(ref _residentActive, 0);
 				PortableSessionEnded.TrySetResult(true);
-				App.SoftTerminate();
+				App.Terminate();
 			});
 
 			Volatile.Write(ref _residentActive, 1);
@@ -938,6 +950,14 @@ public static class LaunchHandler
 					? "roblox://experiences/start"
 					: "roblox-studio://launch";
 			}
+			Bootstrapper? linuxBootstrapper = null;
+			if (OperatingSystem.IsLinux())
+			{
+				linuxBootstrapper = new(launchMode);
+				ShowPortableLaunchDialog(linuxBootstrapper);
+				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player && App.Settings.Prop.VoidstrapMatchmakerEnabled)
+					SetPortableLaunchStatus("Finding the closest server");
+			}
 			string rewrittenTarget = await Bootstrapper.RewriteVoidstrapMatchmakerBeforeDispatchAsync(
 				launchTarget,
 				launchMode,
@@ -949,10 +969,9 @@ public static class LaunchHandler
 			}
 			assetPreloadPlaceId = LaunchInterceptor.ExtractPlaceId(launchTarget);
 
-			if (OperatingSystem.IsLinux())
+			if (OperatingSystem.IsLinux() && linuxBootstrapper is not null)
 			{
-				Bootstrapper bootstrapper = new(launchMode);
-				ShowPortableLaunchDialog(bootstrapper);
+				Bootstrapper bootstrapper = linuxBootstrapper;
 				if (await bootstrapper.TryUpdateLauncherAsync())
 				{
 					return;
@@ -962,7 +981,7 @@ public static class LaunchHandler
 					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session = Voidstrap.Integrations.Overlays.OverlaySettings.RequiresLinuxX11Session
 						&& !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
 					App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session
-						? "Fake fullscreen, the homepage background or the classic topbar is on, starting Sober on X11"
+						? "Window controls or effects are on, starting Sober on X11"
 						: "Starting Sober in its default display mode");
 					await PrepareLinuxEffectLayersAsync();
 					SetPortableLaunchStatus("Closing the current Roblox session");
@@ -1088,7 +1107,7 @@ public static class LaunchHandler
 			}
 
 			ClosePortableLaunchDialog();
-			if (OperatingSystem.IsLinux() && StartResidentWatcher(result.Value.ProcessId))
+			if (OperatingSystem.IsLinux() && StartResidentWatcher(result.Value.ProcessId, runtimeKind == Voidstrap.Platform.RuntimeKind.Player))
 			{
 				stayResident = true;
 				Voidstrap.UI.LinuxTaskbarPresence.HideWhileSessionRuns();
@@ -1171,6 +1190,11 @@ public static class LaunchHandler
 	private static async Task PrepareLinuxCompositorAsync()
 	{
 		bool wanted = Voidstrap.Utility.LinuxEffectMapper.HasLiveColorEffect();
+		if (wanted && Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGamescopeSession)
+		{
+			App.Logger.WriteLine("LaunchHandler::PrepareLinuxCompositorAsync", "Running inside the Steam gamescope session, colour effects use the Vulkan shader instead of a second compositor");
+			wanted = false;
+		}
 		Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.UseCompositor = wanted;
 
 		if (!wanted)

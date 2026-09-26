@@ -14,7 +14,7 @@
     </Grid.RowDefinitions>
     <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Padding="8" Title="BetterBlox Datacenters" ShowMinimize="True" ShowMaximize="False" CanMaximize="False" KeyboardNavigation.TabNavigation="None" Icon="pack://application:,,,/Voidstrap.png" />
     <TextBlock Grid.Row="1" Margin="16,8,16,0" Text="Displays all active Roblox datacenters from BetterBlox API." TextWrapping="Wrap" />
-    <TextBlock Grid.Row="2" Margin="16,8,16,0" Foreground="#FFFF0000" TextWrapping="Wrap" Text="{Binding ErrorMessage, Mode=OneWay}">
+    <TextBlock x:Name="ErrorText" Grid.Row="2" Margin="16,8,16,0" Foreground="#FFFF0000" TextWrapping="Wrap" Text="{Binding ErrorMessage, Mode=OneWay}">
       <FrameworkElement.Style>
         <Style TargetType="{x:Type TextBlock}">
           <Style.Triggers>
@@ -26,7 +26,7 @@
         </Style>
       </FrameworkElement.Style>
     </TextBlock>
-    <Border Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Border x:Name="LoadingIndicator" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
       <FrameworkElement.Style>
         <Style TargetType="{x:Type Border}">
           <Style.Triggers>

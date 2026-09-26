@@ -370,6 +370,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 			OnPropertyChanged(nameof(ClassicTopBarEnabled));
 			OnPropertyChanged(nameof(ClassicTopBarHideAllCoreGui));
 			OnPropertyChanged(nameof(ClassicTopBarCoreGuiEditable));
+			OnPropertyChanged(nameof(ClassicTopBarVisibility));
 			_ = ApplyClassicTopBarAsync(value);
 		}
 	}
@@ -445,6 +446,10 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public bool ClassicTopBarCoreGuiEditable => !_classicTopBarBusy && !App.Settings.Prop.ClassicTopBarEnabled;
 
+	public Visibility ClassicTopBarVisibility => !Voidstrap.Utility.Platform.IsLinux || App.Settings.Prop.ClassicTopBarEnabled
+		? Visibility.Visible
+		: Visibility.Collapsed;
+
 	private Task ApplyClassicTopBarAsync(bool enabled)
 	{
 		return RunClassicTopBarAsync(
@@ -474,6 +479,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 		OnPropertyChanged(nameof(ClassicTopBarEnabled));
 		OnPropertyChanged(nameof(ClassicTopBarHideAllCoreGui));
 		OnPropertyChanged(nameof(ClassicTopBarCoreGuiEditable));
+		OnPropertyChanged(nameof(ClassicTopBarVisibility));
 	}
 
 	private void RollbackHideCoreGui(bool enabled)
@@ -1543,19 +1549,23 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public string[] AntiAliasingMethodNames => Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodNames;
+	public string[] AntiAliasingMethodNames => Voidstrap.Utility.Platform.IsLinux
+		? Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodNames[..Voidstrap.Utility.LinuxEffectMapper.SupportedAntiAliasingMethods]
+		: Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodNames;
 
 	public int AntiAliasingMethodIndex
 	{
 		get
 		{
-			return Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodIndex;
+			int index = Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodIndex;
+			return Voidstrap.Utility.Platform.IsLinux && index >= Voidstrap.Utility.LinuxEffectMapper.SupportedAntiAliasingMethods ? 0 : index;
 		}
 		set
 		{
 			if (value < 0)
 				return;
 			Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.SetMethod(value);
+			Voidstrap.Utility.LinuxEffectMapper.RefreshConfiguration();
 			OnPropertyChanged(nameof(AntiAliasingMethodIndex));
 		}
 	}

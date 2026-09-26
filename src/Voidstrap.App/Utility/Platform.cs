@@ -24,10 +24,10 @@ namespace Voidstrap.Utility
 
         public static bool SupportsOverlays => IsWindows;
         public static bool SupportsWebBrowser => IsWindows;
-        public static bool SupportsInputHooks => IsWindows;
+        public static bool SupportsInputHooks => IsWindows || IsLinux;
         public static bool SupportsRegistry => IsWindows;
         public static bool SupportsTrayIcon => IsWindows || IsLinux;
-        public static bool SupportsAudioDucking => IsWindows;
+        public static bool SupportsAudioDucking => IsWindows || IsLinux;
         public static bool SupportsWindowsClient => IsWindows;
 
         private static IPlatformHost? CreateRuntimeHost()

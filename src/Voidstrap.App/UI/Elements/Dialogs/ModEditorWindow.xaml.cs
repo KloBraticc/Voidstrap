@@ -138,7 +138,9 @@ public partial class ModEditorWindow : WpfUiWindow
 	private async Task LoadConfigsAsync()
 	{
 		SetBusy(true, "Reading the replacement config");
-		ModHint.Text = "Turn rules on or off and change what each one replaces. AssetWarp picks up saved changes within a few seconds, Fleasion on its next start.";
+		ModHint.Text = Voidstrap.Utility.Platform.IsLinux
+			? "Turn rules on or off and change what each one replaces. AssetWarp picks up saved changes within a few seconds."
+			: "Turn rules on or off and change what each one replaces. AssetWarp picks up saved changes within a few seconds, Fleasion on its next start.";
 		List<ReplacementConfigFile> files = await Task.Run(() => ExternalModConfigs.GetConfigFiles(_recordId), _lifetime.Token);
 		SetBusy(false, "");
 		if (files.Count == 0)

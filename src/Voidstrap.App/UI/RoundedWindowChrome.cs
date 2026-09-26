@@ -133,7 +133,7 @@ public static class RoundedWindowChrome
 		}
 	}
 
-	private static bool IsOverlaySurface(Window window)
+	internal static bool IsOverlaySurface(Window window)
 	{
 		if (Voidstrap.Integrations.Overlays.LinuxOverlaySurface.IsOverlayWindow(window))
 			return true;
@@ -185,6 +185,14 @@ public static class RoundedWindowChrome
 
 	private static readonly ConditionalWeakTable<Window, object> LinuxIdentityApplied = new();
 
+	private static readonly ConditionalWeakTable<Window, StrongBox<nint>> ShadowHandles = new();
+
+	private static readonly ConditionalWeakTable<Window, System.Windows.Threading.DispatcherTimer> ShapeSyncTimers = new();
+
+	private const int ShapeSyncAttempts = 20;
+
+	private static readonly TimeSpan ShapeSyncInterval = TimeSpan.FromMilliseconds(30);
+
 	private static bool ApplyLinuxIdentity(Window window)
 	{
 		if (LinuxIdentityApplied.TryGetValue(window, out _))
@@ -207,7 +215,50 @@ public static class RoundedWindowChrome
 		if (sender is Window window)
 		{
 			QueueContentWidth(window);
+			QueueNativeShapeSync(window);
 		}
+	}
+
+	private static void QueueNativeShapeSync(Window window)
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux
+			|| window.Dispatcher.HasShutdownStarted
+			|| window.Dispatcher.HasShutdownFinished
+			|| ShapeSyncTimers.TryGetValue(window, out _))
+		{
+			return;
+		}
+
+		int attempts = 0;
+		System.Windows.Threading.DispatcherTimer timer = new(System.Windows.Threading.DispatcherPriority.Background, window.Dispatcher)
+		{
+			Interval = ShapeSyncInterval
+		};
+		timer.Tick += (_, _) =>
+		{
+			if (!NativeSizeMatches(window) && ++attempts < ShapeSyncAttempts)
+			{
+				return;
+			}
+			timer.Stop();
+			ShapeSyncTimers.Remove(window);
+			ApplyNativeRounding(window);
+		};
+		ShapeSyncTimers.Add(window, timer);
+		timer.Start();
+	}
+
+	private static bool NativeSizeMatches(Window window)
+	{
+		nint handle = LinuxWindowMode.ResolveNativeWindow(window);
+		if (handle == 0 || !Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(handle, out _, out _, out int width, out int height))
+		{
+			return true;
+		}
+		double scale = PresentationSource.FromVisual(window)?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
+		if (scale <= 0.0 || double.IsNaN(scale))
+			scale = 1.0;
+		return Math.Abs(width - window.ActualWidth * scale) <= 1.0 && Math.Abs(height - window.ActualHeight * scale) <= 1.0;
 	}
 
 	private static void OnWindowStateChanged(object? sender, EventArgs e)
@@ -242,6 +293,11 @@ public static class RoundedWindowChrome
 		window.Activated -= OnLinuxWindowReady;
 		window.ContentRendered -= OnLinuxWindowReady;
 		LinuxIdentityRetries.Remove(window);
+		if (ShadowHandles.TryGetValue(window, out StrongBox<nint>? shadow))
+		{
+			Voidstrap.Platform.Linux.LinuxWindowShadow.Forget(shadow.Value);
+			ShadowHandles.Remove(window);
+		}
 		window.Closed -= OnWindowClosed;
 	}
 
@@ -418,14 +474,17 @@ public static class RoundedWindowChrome
 			if (IsMaximizedOrFullscreen(window) || width <= 0.0 || height <= 0.0)
 			{
 				Voidstrap.Platform.Linux.LinuxWindowInterop.TryClearShape(handle);
+				TrackShadow(window, handle, 0, scale, true);
 				return;
 			}
 
+			int radius = (int)Math.Round(CornerRadius * scale);
 			bool rounded = Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(
 				handle,
 				(int)Math.Round(width),
 				(int)Math.Round(height),
-				(int)Math.Round(CornerRadius * scale));
+				radius);
+			TrackShadow(window, handle, rounded ? radius : 0, scale, false);
 
 			if (report)
 			{
@@ -438,6 +497,34 @@ public static class RoundedWindowChrome
 		{
 			App.Logger?.WriteLine("RoundedWindowChrome::ApplyNativeRounding", "Native rounding failed: " + ex.Message);
 		}
+	}
+
+	private static void TrackShadow(Window window, nint handle, int radius, double scale, bool suppressed)
+	{
+		if (Voidstrap.Utility.LinuxStartup.SafeMode)
+		{
+			return;
+		}
+
+		if (ShadowHandles.TryGetValue(window, out StrongBox<nint>? tracked))
+		{
+			if (tracked.Value != handle)
+			{
+				Voidstrap.Platform.Linux.LinuxWindowShadow.Forget(tracked.Value);
+				tracked.Value = handle;
+			}
+		}
+		else
+		{
+			ShadowHandles.Add(window, new StrongBox<nint>(handle));
+		}
+
+		Voidstrap.Platform.Linux.LinuxWindowShadow.Track(handle, radius, scale, suppressed, ReportShadow);
+	}
+
+	private static void ReportShadow(string message)
+	{
+		App.Logger?.WriteLine("LinuxWindowShadow", message);
 	}
 
 	private static void ApplyClip(Window? window)

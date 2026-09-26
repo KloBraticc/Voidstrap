@@ -805,7 +805,7 @@ public static partial class WindowBackdrop
     {
         if (Voidstrap.Utility.Platform.IsLinux)
         {
-            return CreateLinuxSurfaceBrush();
+            return CreateOpaqueSurfaceBrush(element);
         }
         if (EffectiveBackdrop(element as Window) == BackdropType.Aero)
         {
@@ -976,7 +976,7 @@ public static partial class WindowBackdrop
 
     private static void ApplyLinuxSurface(Window window)
     {
-        window.Background = CreateLinuxSurfaceBrush();
+        window.Background = CreateSurfaceBrush(window);
         if (window is Voidstrap.UI.Elements.Settings.MainWindow mainWindow)
         {
             mainWindow.ApplyBackdropSurface();
@@ -991,6 +991,11 @@ public static partial class WindowBackdrop
 
     internal static Color CreateSurfaceColor(BackdropType backdrop)
     {
+        if (Voidstrap.Utility.Platform.IsLinux
+            && Application.Current?.TryFindResource("WindowBackgroundColorPrimary") is Color surface)
+        {
+            return Color.FromRgb(surface.R, surface.G, surface.B);
+        }
         Theme theme = App.Settings.Prop.Theme2.GetFinal();
         if (theme == Theme.Light)
         {

@@ -761,6 +761,8 @@ namespace Voidstrap.UI.ViewModels
 
         private static bool IsRobloxRunning()
         {
+            if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow())
+                return true;
             IEnumerable<string> processNames = Voidstrap.Utility.Platform.IsLinux
                 ? RobloxProcessNames.Concat(LinuxRobloxProcessNames)
                 : RobloxProcessNames;

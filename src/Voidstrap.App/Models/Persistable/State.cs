@@ -41,6 +41,8 @@ public class State
 
 	public string? DeclinedLinuxUpdateTag { get; set; }
 
+	public string? StagedLinuxUpdateTag { get; set; }
+
 	public DateTime LastSafeLaunchUtc { get; set; }
 
 	public string LastSafeLaunchResult { get; set; } = string.Empty;

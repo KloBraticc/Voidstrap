@@ -540,6 +540,7 @@ public partial class ActivityWatcher : IDisposable
 							StopLogWatcher();
 							StartLogWatcher(replacement);
 							App.Logger.WriteLine("ActivityWatcher::Start", "Sober started a new log, now reading " + LogLocation);
+							CloseSessionForNewLinuxLog();
 							continue;
 						}
 						catch (Exception ex)
@@ -676,6 +677,38 @@ public partial class ActivityWatcher : IDisposable
 		{
 			return null;
 		}
+	}
+
+	private void CloseSessionForNewLinuxLog()
+	{
+		_teleportMarker = false;
+		_reservedTeleportMarker = false;
+		if (Data.PlaceId == 0L)
+		{
+			return;
+		}
+		if (!InGame)
+		{
+			App.Logger.WriteLine("ActivityWatcher::Start", "Sober restarted before the join finished (" + Data.JobId + "), waiting for the next join");
+			ResetData();
+			FrameGeneration.FrameGenManager.OnGameLeave();
+			return;
+		}
+		App.Logger.WriteLine("ActivityWatcher::Start", "Sober restarted during the game, closing the previous session (" + Data.JobId + ")");
+		RestoreOriginalResolution();
+		Data.TimeLeft = DateTime.Now;
+		lock (History)
+		{
+			History.Insert(0, Data);
+			while (History.Count > MaxHistoryEntries)
+			{
+				History.RemoveAt(History.Count - 1);
+			}
+		}
+		InGame = false;
+		ResetData();
+		FrameGeneration.FrameGenManager.OnGameLeave();
+		RaiseEvent(OnGameLeave, "OnGameLeave");
 	}
 
 	private void StopLogWatcher()

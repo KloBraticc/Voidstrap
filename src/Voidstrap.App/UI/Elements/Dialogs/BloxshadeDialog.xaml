@@ -24,7 +24,7 @@
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
       <TextBlock Grid.Row="0" Text="{x:Static resources:Strings.Dialog_Bloxshade_ThankYou}" FontSize="16" FontWeight="SemiBold" Margin="24,16,0,0" HorizontalAlignment="Left" />
-      <TextBlock Text="{x:Static resources:Strings.Dialog_Bloxshade_Setting}" FontSize="14" Margin="73,37,0,12" Padding="3" HorizontalAlignment="Left" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Grid.RowSpan="2" />
+      <TextBlock x:Name="SettingText" Text="{x:Static resources:Strings.Dialog_Bloxshade_Setting}" FontSize="14" Margin="73,37,0,12" Padding="3" HorizontalAlignment="Left" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Grid.RowSpan="2" />
       <Border Grid.Row="2" Margin="0,15,0,0" Background="{DynamicResource PrimaryBackgroundColor}" Padding="10" Grid.ColumnSpan="2">
         <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" HorizontalAlignment="Center">
           <Button MinWidth="100" Content="{x:Static resources:Strings.Common_Close}" Width="230" Click="Close_Click" />

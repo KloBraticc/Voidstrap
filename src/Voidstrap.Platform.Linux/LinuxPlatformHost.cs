@@ -50,7 +50,7 @@ public sealed partial class LinuxPlatformHost : IPlatformHost
 		AudioSession = new CapabilityOnlyPlatformFeatureService(CreateAudioSessionCapability());
 		ResourceOptimization = new UnixResourceOptimizationService(
 			Processes,
-			new CapabilityDescriptor(FeatureId.ResourceOptimization, CapabilityState.Unavailable, "Resource optimization requires direct access to the Sober process"),
+			CreateResourceOptimizationCapability(),
 			true);
 		Capabilities = new CapabilitySet(
 			PlatformId.Linux,
@@ -111,11 +111,11 @@ public sealed partial class LinuxPlatformHost : IPlatformHost
 		yield return protocolRegistration;
 		yield return updater;
 		yield return notifications;
-		yield return new CapabilityDescriptor(FeatureId.Tray, CapabilityState.Unavailable, "The native tray adapter has not been ported to the shared desktop host");
+		yield return new CapabilityDescriptor(FeatureId.Tray, CapabilityState.Experimental, "The tray icon uses StatusNotifierItem when the desktop provides a status notifier host", null, true);
 		yield return overlay;
 		yield return input;
 		yield return audioSession;
-		yield return new CapabilityDescriptor(FeatureId.ResourceOptimization, CapabilityState.Unavailable, "Resource optimization requires direct access to the Sober process");
+		yield return CreateResourceOptimizationCapability();
 		yield return CreateAssetInjectionCapability(playerPrerequisite, studioPrerequisite);
 		yield return new CapabilityDescriptor(FeatureId.FrameGeneration, CapabilityState.Unavailable, "Windows frame generation is not available on Linux");
 		yield return new CapabilityDescriptor(FeatureId.VirtualController, CapabilityState.Unavailable, "Windows virtual controller support is not available on Linux");
@@ -197,14 +197,25 @@ public sealed partial class LinuxPlatformHost : IPlatformHost
 			: new CapabilityDescriptor(FeatureId.Overlay, CapabilityState.RequiresExternalRuntime, "Overlays require an X11 or XWayland session", "Start the desktop session on X11, or run Voidstrap with DISPLAY set");
 	}
 
+	private static CapabilityDescriptor CreateResourceOptimizationCapability()
+	{
+		return LinuxSoberResources.IsSupported
+			? new CapabilityDescriptor(FeatureId.ResourceOptimization, CapabilityState.Experimental, "Resource controls adjust the Sober sandbox through systemd and CPU affinity", null, true)
+			: new CapabilityDescriptor(FeatureId.ResourceOptimization, CapabilityState.Unavailable, "Resource controls need systemd and cgroup v2 outside a Flatpak sandbox");
+	}
+
 	private static CapabilityDescriptor CreateInputCapability()
 	{
-		return new CapabilityDescriptor(FeatureId.GlobalInput, CapabilityState.Unavailable, "The X11 and Wayland input adapters have not been ported to the shared desktop host");
+		return LinuxKeyboardInterceptor.CheckAccess() == LinuxInputAccessState.Ready
+			? new CapabilityDescriptor(FeatureId.GlobalInput, CapabilityState.Experimental, "Snap Tap reads the keyboard through evdev and replays it through a uinput keyboard while Sober is focused", null, true)
+			: new CapabilityDescriptor(FeatureId.GlobalInput, CapabilityState.RequiresPermission, "Snap Tap needs access to the keyboard and to /dev/uinput", "Use Grant keyboard access in Voidstrap, or add your user to the input group");
 	}
 
 	private static CapabilityDescriptor CreateAudioSessionCapability()
 	{
-		return new CapabilityDescriptor(FeatureId.AudioSession, CapabilityState.Unavailable, "The PipeWire and PulseAudio adapters have not been ported to the shared desktop host");
+		return LinuxAudioSessions.IsAvailable
+			? new CapabilityDescriptor(FeatureId.AudioSession, CapabilityState.Experimental, "Sober audio is lowered through PipeWire while Sober is not focused", null, true)
+			: new CapabilityDescriptor(FeatureId.AudioSession, CapabilityState.Unavailable, "Lowering Sober audio needs the PipeWire pw-dump and wpctl tools");
 	}
 }
 
