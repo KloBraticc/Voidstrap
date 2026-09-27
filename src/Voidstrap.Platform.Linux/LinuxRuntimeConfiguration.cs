@@ -201,6 +201,8 @@ public sealed partial class LinuxRuntimeConfiguration
 
 	public IReadOnlyList<string> AddedAssets { get; private set; } = [];
 
+	public IReadOnlyList<string> ConflictingAssets { get; private set; } = [];
+
 	private readonly LinuxRuntimeConfigurationPaths _paths;
 	private readonly ISoberProcessProbe? _soberProcessProbe;
 	private readonly SoberApkAssetIndexProvider? _soberAssetIndexProvider;
@@ -1042,6 +1044,9 @@ public sealed partial class LinuxRuntimeConfiguration
 		IReadOnlyList<LinuxModSource>? additionalSources = null)
 	{
 		List<StagedAsset> staged = [];
+		SkippedAssets = [];
+		AddedAssets = [];
+		ConflictingAssets = [];
 		try
 		{
 			cancellationToken.ThrowIfCancellationRequested();
@@ -1094,7 +1099,8 @@ public sealed partial class LinuxRuntimeConfiguration
 				sourceAssets = mappedResult.Value;
 			}
 
-			HashSet<string> current = new(sourceAssets.Select(asset => asset.RelativePath), StringComparer.Ordinal);
+			List<SourceAsset> applicableAssets = [];
+			List<string> conflictingAssets = [];
 			List<SourceAsset> changedAssets = [];
 
 			foreach (SourceAsset asset in sourceAssets)
@@ -1107,13 +1113,20 @@ public sealed partial class LinuxRuntimeConfiguration
 				OperationResult destinationSafety = ValidateDestinationFileSafety(targetRoot, destination);
 				if (!destinationSafety.Succeeded)
 					return destinationSafety;
-				if (Directory.Exists(destination))
-					return OperationResult.Fail("LinuxAssetDestinationInvalid", "A managed asset path conflicts with an existing directory");
-				if (File.Exists(destination) && !previous.Contains(asset.RelativePath))
-					return OperationResult.Fail("LinuxAssetConflict", "A user owned overlay file conflicts with a managed modification");
-				if (!File.Exists(destination) || !previous.Contains(asset.RelativePath) || !await FilesEqualAsync(asset.SourcePath, destination, cancellationToken).ConfigureAwait(false))
+				if (Directory.Exists(destination) || (File.Exists(destination) && !previous.Contains(asset.RelativePath)))
+				{
+					conflictingAssets.Add(asset.RelativePath);
+					continue;
+				}
+				applicableAssets.Add(asset);
+				if (!File.Exists(destination) || !await FilesEqualAsync(asset.SourcePath, destination, cancellationToken).ConfigureAwait(false))
 					changedAssets.Add(asset);
 			}
+			sourceAssets = applicableAssets;
+			ConflictingAssets = conflictingAssets;
+			if (conflictingAssets.Count > 0)
+				AddedAssets = AddedAssets.Except(conflictingAssets, StringComparer.Ordinal).ToArray();
+			HashSet<string> current = new(sourceAssets.Select(asset => asset.RelativePath), StringComparer.Ordinal);
 
 			foreach (string staleRelativePath in previous.Except(current, StringComparer.Ordinal))
 			{

@@ -1440,6 +1440,13 @@ public class Bootstrapper
                         configuration.SkippedAssets.Count + " mod files have no matching asset in the installed Sober Roblox package and were not applied: "
                             + string.Join(", ", configuration.SkippedAssets.Take(20)));
                 }
+                if (configuration.ConflictingAssets.Count > 0)
+                {
+                    App.Logger.WriteLine(
+                        "Bootstrapper::TryLaunchNonWindowsClient",
+                        configuration.ConflictingAssets.Count + " mod files were skipped because an overlay path already exists: "
+                            + string.Join(", ", configuration.ConflictingAssets.Take(20)));
+                }
             }
 
             SettingsDocument? settings = null;
