@@ -46,7 +46,9 @@ public partial class SidebarIconPickerDialog : WpfUiWindow
 
     public const string IconFontResourceKey = "FluentSystemIcons";
 
-    public static System.Windows.Media.FontFamily FullIconFont { get; } = new System.Windows.Media.FontFamily(new Uri("pack://application:,,,/Resources/Fonts/SymbolIcons/"), "./#FluentSystemIcons-Regular");
+    public static System.Windows.Media.FontFamily FullIconFont { get; } = Voidstrap.Utility.Platform.IsLinux
+        ? Voidstrap.Utility.IconFontLoader.Resolve("FluentSystemIcons-Regular") ?? new System.Windows.Media.FontFamily(new Uri("pack://application:,,,/Resources/Fonts/SymbolIcons/"), "./#FluentSystemIcons-Regular")
+        : new System.Windows.Media.FontFamily(new Uri("pack://application:,,,/Resources/Fonts/SymbolIcons/"), "./#FluentSystemIcons-Regular");
 
     private static HashSet<int>? LoadFontCodepoints()
     {

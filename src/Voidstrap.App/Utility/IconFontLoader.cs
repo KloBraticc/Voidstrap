@@ -8,10 +8,10 @@ namespace Voidstrap.Utility;
 
 internal static class IconFontLoader
 {
-	private static readonly (string ResourceKey, string FileName, string FamilyName)[] Fonts = new[]
+	private static readonly (string ResourceKey, string FileName, string FamilyName, string ResourcePath)[] Fonts = new[]
 	{
-		("FluentSystemIcons", "FluentSystemIcons-Regular.ttf", "FluentSystemIcons-Regular"),
-		("FluentSystemIconsFilled", "FluentSystemIcons-Filled.ttf", "FluentSystemIcons-Filled")
+		("FluentSystemIcons", "FluentSystemIcons-Regular.ttf", "FluentSystemIcons-Regular", "pack://application:,,,/Resources/Fonts/SymbolIcons/FluentSystemIcons-Regular.ttf"),
+		("FluentSystemIconsFilled", "FluentSystemIcons-Filled.ttf", "FluentSystemIcons-Filled", "pack://application:,,,/Wpf.Ui;component/Fonts/FluentSystemIcons-Filled.ttf")
 	};
 
 	public static void Install()
@@ -32,18 +32,15 @@ internal static class IconFontLoader
 			return;
 		}
 
-		foreach ((string resourceKey, string fileName, string familyName) in Fonts)
+		foreach ((string resourceKey, string fileName, string familyName, string resourcePath) in Fonts)
 		{
 			try
 			{
 				string path = Path.Combine(directory, fileName);
-				if (!File.Exists(path) || new FileInfo(path).Length == 0)
+				if (!Extract(resourcePath, path))
 				{
-					if (!Extract(fileName, path))
-					{
-						App.Logger?.WriteLine("IconFontLoader::Install", "Could not extract " + fileName);
-						continue;
-					}
+					App.Logger?.WriteLine("IconFontLoader::Install", "Could not extract " + fileName);
+					continue;
 				}
 				System.Windows.Media.FontFamily family = new System.Windows.Media.FontFamily(new Uri(directory + Path.DirectorySeparatorChar), "./#" + familyName);
 				if (!HasGlyphs(family))
@@ -61,23 +58,45 @@ internal static class IconFontLoader
 		}
 	}
 
-	private static bool Extract(string fileName, string destination)
+	private static bool Extract(string resourcePath, string destination)
 	{
+		string? temporary = null;
 		try
 		{
-			StreamResourceInfo? info = Application.GetResourceStream(new Uri("pack://application:,,,/Wpf.Ui;component/Fonts/" + fileName, UriKind.Absolute));
+			StreamResourceInfo? info = Application.GetResourceStream(new Uri(resourcePath, UriKind.Absolute));
 			if (info?.Stream == null)
 			{
 				return false;
 			}
 			using Stream source = info.Stream;
-			using FileStream target = File.Create(destination);
-			source.CopyTo(target);
+			using MemoryStream content = new MemoryStream();
+			source.CopyTo(content);
+			byte[] current = content.ToArray();
+			if (File.Exists(destination) && File.ReadAllBytes(destination).AsSpan().SequenceEqual(current))
+			{
+				return true;
+			}
+			temporary = destination + "." + Guid.NewGuid().ToString("N");
+			File.WriteAllBytes(temporary, current);
+			File.Move(temporary, destination, true);
 			return true;
 		}
 		catch
 		{
 			return false;
+		}
+		finally
+		{
+			try
+			{
+				if (temporary != null && File.Exists(temporary))
+				{
+					File.Delete(temporary);
+				}
+			}
+			catch
+			{
+			}
 		}
 	}
 

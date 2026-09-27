@@ -221,6 +221,75 @@
                   </DataGridTemplateColumn>
                 </DataGrid.Columns>
               </DataGrid>
+              <ItemsControl x:Name="LinuxSidebarList" Grid.Row="0" Visibility="Collapsed" ItemsSource="{Binding SidebarItems}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Border Margin="0,0,0,6" Padding="10" CornerRadius="6" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
+                      <StackPanel>
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+                          <ui:TextBox Grid.Column="0" MinWidth="120" Height="32" MaxLength="48" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                          <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{Binding Section}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        </Grid>
+                        <WrapPanel Margin="0,8,0,0">
+                          <ui:Button Width="136" Height="32" Margin="0,0,6,4" Padding="8,0" HorizontalContentAlignment="Left" ToolTip="Change sidebar icon" Tag="{Binding}" Click="SidebarIconButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                              <Grid Width="22" Height="22">
+                                <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="18" Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+                                  <ui:SymbolIcon.Style>
+                                    <Style TargetType="ui:SymbolIcon" BasedOn="{StaticResource {x:Type ui:SymbolIcon}}">
+                                      <Setter Property="Visibility" Value="Visible" />
+                                      <Style.Triggers>
+                                        <DataTrigger Binding="{Binding UsesImagePreview}" Value="True">
+                                          <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                      </Style.Triggers>
+                                    </Style>
+                                  </ui:SymbolIcon.Style>
+                                </ui:SymbolIcon>
+                                <Image Source="{Binding PreviewImage}" Width="20" Height="20" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality">
+                                  <Image.Style>
+                                    <Style TargetType="Image">
+                                      <Setter Property="Visibility" Value="Collapsed" />
+                                      <Style.Triggers>
+                                        <DataTrigger Binding="{Binding UsesImagePreview}" Value="True">
+                                          <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                      </Style.Triggers>
+                                    </Style>
+                                  </Image.Style>
+                                </Image>
+                              </Grid>
+                              <TextBlock Margin="7,0,0,0" MaxWidth="86" VerticalAlignment="Center" Text="{Binding IconLabel}" TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                          </ui:Button>
+                          <ui:Button MinWidth="76" Height="32" Margin="0,0,6,4" Padding="8,0" Content="{Binding VisibilityLabel}" ToolTip="Change sidebar visibility" IsEnabled="{Binding CanHide}" Command="{Binding DataContext.ToggleSidebarItemVisibilityCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
+                            <ui:Button.Style>
+                              <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                                <Setter Property="Appearance" Value="Secondary" />
+                                <Style.Triggers>
+                                  <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                                    <Setter Property="Appearance" Value="Primary" />
+                                  </DataTrigger>
+                                </Style.Triggers>
+                              </Style>
+                            </ui:Button.Style>
+                          </ui:Button>
+                          <ui:Button Width="34" Height="32" Margin="0,0,4,4" Padding="0" ToolTip="Move up" AutomationProperties.Name="Move up" IsEnabled="{Binding CanMoveUp}" Command="{Binding DataContext.MoveSidebarItemUpCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
+                            <ui:SymbolIcon Symbol="ChevronUp24" FontSize="16" />
+                          </ui:Button>
+                          <ui:Button Width="34" Height="32" Margin="0,0,0,4" Padding="0" ToolTip="Move down" AutomationProperties.Name="Move down" IsEnabled="{Binding CanMoveDown}" Command="{Binding DataContext.MoveSidebarItemDownCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
+                            <ui:SymbolIcon Symbol="ChevronDown24" FontSize="16" />
+                          </ui:Button>
+                        </WrapPanel>
+                      </StackPanel>
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
               <Grid Grid.Row="1" Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="*" />
