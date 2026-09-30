@@ -72,7 +72,7 @@ namespace Voidstrap.Integrations.MotionBlur
                 CreatePipeline();
                 _flow = new FrameGenPipeline();
                 _flow.Attach(device, context);
-                _flow.SetQuality(1);
+                _flow.SetQuality(0);
                 _flow.EnsureSize(_width, _height);
             }
             catch

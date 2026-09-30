@@ -1586,6 +1586,29 @@ public ICommand PickCursorColorCommand { get; }
 				return;
 			Voidstrap.Integrations.MotionBlur.MotionBlurManager.SetStrength(value);
 			OnPropertyChanged(nameof(MotionBlurStrengthIndex));
+			OnPropertyChanged(nameof(MotionBlurCustomOpen));
+		}
+	}
+
+	public bool MotionBlurCustomOpen => Voidstrap.Integrations.MotionBlur.MotionBlurSettings.StrengthIndex == Voidstrap.Integrations.MotionBlur.MotionBlurSettings.CustomIndex;
+
+	public int MotionBlurCustomMin => Voidstrap.Integrations.MotionBlur.MotionBlurSettings.MinCustomAmount;
+
+	public int MotionBlurCustomMax => Voidstrap.Integrations.MotionBlur.MotionBlurSettings.MaxCustomAmount;
+
+	public double MotionBlurCustomAmount
+	{
+		get
+		{
+			return Voidstrap.Integrations.MotionBlur.MotionBlurSettings.CustomAmount;
+		}
+		set
+		{
+			int amount = (int)Math.Round(value);
+			if (amount == Voidstrap.Integrations.MotionBlur.MotionBlurSettings.CustomAmount)
+				return;
+			Voidstrap.Integrations.MotionBlur.MotionBlurManager.SetCustomAmount(amount);
+			OnPropertyChanged(nameof(MotionBlurCustomAmount));
 		}
 	}
 

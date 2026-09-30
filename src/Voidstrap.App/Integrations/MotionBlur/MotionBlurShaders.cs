@@ -24,8 +24,6 @@ Texture2D tex1 : register(t1);
 Texture2D tex2 : register(t2);
 SamplerState smp : register(s0);
 
-static const int Taps = 16;
-
 float4 PSPass(VSOut inp) : SV_Target
 {
     return float4(tex0.Sample(smp, inp.uv).rgb, 1.0);
@@ -53,21 +51,15 @@ float4 PSBlur(VSOut inp) : SV_Target
     if (lenV < 0.5)
         return float4(center, 1.0);
 
+    int taps = (int)clamp(ceil(lenV * 0.4), 4.0, 32.0);
+    float jitter = frac(52.9829189 * frac(dot(inp.pos.xy, float2(0.06711056, 0.00583715)))) - 0.5;
     float3 sum = center;
-    float weight = 1.0;
-    [unroll] for (int i = 0; i < Taps; i++)
+    [loop] for (int i = 0; i < taps; i++)
     {
-        float t = ((i + 0.5) / Taps) - 0.5;
-        float2 offsetPx = v * t;
-        float2 uv = inp.uv + offsetPx * dims.zw;
-        float dist = length(offsetPx);
-        float lenS = length(motionAt(uv));
-        float reach = max(saturate(lenV * 0.5 - dist + 1.0), saturate(lenS * 0.5 - dist + 1.0));
-        float w = reach;
-        sum += tex0.SampleLevel(smp, uv, 0).rgb * w;
-        weight += w;
+        float t = ((i + 0.5 + jitter) / taps) - 0.5;
+        sum += tex0.SampleLevel(smp, inp.uv + v * t * dims.zw, 0).rgb;
     }
-    return float4(sum / weight, 1.0);
+    return float4(sum / (taps + 1), 1.0);
 }
 ";
     }

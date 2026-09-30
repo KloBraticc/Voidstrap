@@ -318,7 +318,7 @@ namespace Voidstrap.Integrations.FrameGeneration
         {
             _coarseRange = searchRange;
             SetState();
-            ComputeFlowDirection(1, currSet, prevSet);
+            ComputeFlowDirection(1, currSet, prevSet, false);
             _historyValid = true;
         }
 
@@ -326,7 +326,7 @@ namespace Voidstrap.Integrations.FrameGeneration
 
         public ID3D11ShaderResourceView PreviousBackwardFlowSrv => _flowSmoothSrv[1, _smoothIdx[1] ^ 1]!;
 
-        private void ComputeFlowDirection(int dir, int aSet, int bSet)
+        private void ComputeFlowDirection(int dir, int aSet, int bSet, bool global = true)
         {
             int coarse = PyramidLevels - 1;
             ID3D11PixelShader coarsePs = _quality == 0 ? _psFlowCoarseFast! : _psFlowCoarse!;
@@ -358,6 +358,8 @@ namespace Voidstrap.Integrations.FrameGeneration
                 SetPass(_levelW[flowLevel], _levelH[flowLevel], 0f, temporal);
                 DrawPass(smoothPs, _flowSmoothRtv[dir, sNow]!, _flowSrv[flowLevel], _lumaSrv[aSet, flowLevel], _flowSmoothSrv[dir, sPrev]);
             }
+            if (!global)
+                return;
             int gPrev = _globalIdx[dir];
             _globalIdx[dir] ^= 1;
             float blend = _historyValid && _coarseRange < 36f ? Math.Clamp(0.45f * 12f / Math.Max(12f, _coarseRange), 0.18f, 0.45f) : 0f;

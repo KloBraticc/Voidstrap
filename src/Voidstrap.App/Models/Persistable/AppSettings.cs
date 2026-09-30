@@ -19,6 +19,7 @@ namespace Voidstrap.Models.Persistable
         public bool RiShadeEnabled { get; set; } = false;
         public int AntiAliasingMethodIndex { get; set; } = 0;
         public int MotionBlurStrengthIndex { get; set; } = 0;
+        public int MotionBlurCustomAmount { get; set; } = 100;
         public int FrameGenModeIndex { get; set; } = 0;
         public bool FrameGenOverlayShow { get; set; } = false;
         public int FrameGenResumeIndex { get; set; } = 0;

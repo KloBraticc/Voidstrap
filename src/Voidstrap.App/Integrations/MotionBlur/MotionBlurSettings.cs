@@ -4,16 +4,26 @@ namespace Voidstrap.Integrations.MotionBlur
 {
     public static class MotionBlurSettings
     {
-        public static readonly string[] StrengthNames = new string[] { "Off", "Subtle", "Normal", "Strong", "Extreme" };
+        public static readonly string[] StrengthNames = new string[] { "Off", "Subtle", "Normal", "Strong", "Extreme", "Custom" };
 
-        private static readonly float[] Shutter = new float[] { 0f, 0.25f, 0.5f, 0.75f, 1.0f };
+        public const int CustomIndex = 5;
 
-        private static readonly float[] MaxBlurPixels = new float[] { 0f, 24f, 40f, 56f, 72f };
+        public const int MinCustomAmount = 10;
+
+        public const int MaxCustomAmount = 500;
+
+        private static readonly int[] PresetAmount = new int[] { 0, 50, 100, 150, 200 };
 
         public static int StrengthIndex => Math.Clamp(App.Settings.Prop.MotionBlurStrengthIndex, 0, StrengthNames.Length - 1);
 
-        public static float ShutterFor(int strengthIndex) => Shutter[Math.Clamp(strengthIndex, 0, Shutter.Length - 1)];
+        public static int CustomAmount => Math.Clamp(App.Settings.Prop.MotionBlurCustomAmount, MinCustomAmount, MaxCustomAmount);
 
-        public static float MaxBlurPixelsFor(int strengthIndex) => MaxBlurPixels[Math.Clamp(strengthIndex, 0, MaxBlurPixels.Length - 1)];
+        public static int AmountFor(int strengthIndex) => strengthIndex == CustomIndex ? CustomAmount : PresetAmount[Math.Clamp(strengthIndex, 0, PresetAmount.Length - 1)];
+
+        public static float ShutterFor(int strengthIndex) => AmountFor(strengthIndex) * 0.006f;
+
+        public static float MaxBlurPixelsFor(int strengthIndex) => AmountFor(strengthIndex) * 0.48f;
+
+        public static string Describe() => StrengthIndex == CustomIndex ? "Custom at " + CustomAmount : StrengthNames[StrengthIndex];
     }
 }

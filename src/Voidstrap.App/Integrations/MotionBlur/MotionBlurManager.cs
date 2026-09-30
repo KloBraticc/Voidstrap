@@ -12,7 +12,7 @@ namespace Voidstrap.Integrations.MotionBlur
             if (_installed)
                 return;
             _installed = true;
-            App.Logger.WriteLine("MotionBlur", "Installed, strength is " + MotionBlurSettings.StrengthNames[MotionBlurSettings.StrengthIndex]);
+            App.Logger.WriteLine("MotionBlur", "Installed, strength is " + MotionBlurSettings.Describe());
             OverlayHub.Refresh();
         }
 
@@ -21,8 +21,14 @@ namespace Voidstrap.Integrations.MotionBlur
             Install();
             App.Settings.Prop.MotionBlurStrengthIndex = Math.Clamp(strengthIndex, 0, MotionBlurSettings.StrengthNames.Length - 1);
             App.Settings.SaveDeferred();
-            App.Logger.WriteLine("MotionBlur", "Strength set to " + MotionBlurSettings.StrengthNames[MotionBlurSettings.StrengthIndex]);
+            App.Logger.WriteLine("MotionBlur", "Strength set to " + MotionBlurSettings.Describe());
             OverlayHub.Refresh();
+        }
+
+        public static void SetCustomAmount(int amount)
+        {
+            App.Settings.Prop.MotionBlurCustomAmount = Math.Clamp(amount, MotionBlurSettings.MinCustomAmount, MotionBlurSettings.MaxCustomAmount);
+            App.Settings.SaveDeferred();
         }
 
         public static void OnGameJoin()
