@@ -88,6 +88,85 @@ irm https://voidstrapp.pages.dev/quick-install | iex
 3. Launch Voidstrap.
 4. Enjoy a simpler Roblox!
 
+<details>
+  <summary><strong>Android setup</strong></summary>
+
+Voidstrap for Android needs Android 7 or newer. Download `Voidstrap-Android-direct-<version>.apk` from the [latest release](https://github.com/KloBraticc/Voidstrap/releases/latest) and install it.
+
+Android doesn't let apps change Roblox's files by themselves, so Voidstrap needs extra access to apply your FastFlags. There are three ways to give it that access. You can start any of them from **Settings > Voidstrap helper** in the app, which also shows your exact command with a copy button.
+
+| Method | Needs a computer | After your phone restarts |
+| --- | --- | --- |
+| Shizuku (easiest) | No | Start Shizuku again, and Voidstrap takes care of the rest |
+| ADB | Yes | Run the start command again |
+| Root | No | Nothing, it keeps working |
+
+Mods only work with root.
+
+<details>
+  <summary><strong>Shizuku</strong></summary>
+
+1. Install [Shizuku](https://shizuku.rikka.app/) and start it by following its own guide.
+2. In Voidstrap, open **Settings > Voidstrap helper** and tap **Start with Shizuku**.
+3. Allow Voidstrap when Shizuku asks.
+
+</details>
+
+<details>
+  <summary><strong>ADB with a USB cable</strong></summary>
+
+1. Turn on Developer options: open **Settings > About phone** and tap **Build number** seven times. On some phones, Build number is inside **Software information**, or is called **OS version** instead.
+2. Open **Developer options** (usually under **Settings > System**) and turn on **USB debugging**.
+3. On your computer, download Google's [SDK Platform Tools](https://developer.android.com/tools/releases/platform-tools) and unzip it.
+4. Open a terminal inside the unzipped `platform-tools` folder.
+5. Plug your phone into the computer with a USB cable, then run:
+
+   ```bash
+   adb devices
+   ```
+
+6. Unlock your phone and tap **Allow** on the USB debugging prompt.
+7. Run the start command:
+
+   ```bash
+   adb shell "content read --uri content://com.voidstrap.android.direct.start/start.sh | sh"
+   ```
+
+In PowerShell, type `.\adb` instead of `adb`. If `adb devices` shows nothing, try another cable, since some cables can only charge.
+
+</details>
+
+<details>
+  <summary><strong>ADB over WiFi (Android 11 or newer)</strong></summary>
+
+1. Follow steps 1 to 4 of the USB cable guide.
+2. Connect your phone and your computer to the same WiFi network.
+3. In **Developer options**, turn on **Wireless debugging**, open it, and tap **Pair device with pairing code**.
+4. Pair using the IP address, port and code shown in that popup:
+
+   ```bash
+   adb pair IP:PORT CODE
+   ```
+
+5. Connect using the IP address and port shown on the main Wireless debugging screen. This port is different from the pairing port.
+
+   ```bash
+   adb connect IP:PORT
+   ```
+
+6. Run the start command from step 7 of the USB cable guide.
+
+</details>
+
+<details>
+  <summary><strong>Root</strong></summary>
+
+In Voidstrap, open **Settings**, turn on **Use root**, and allow Voidstrap in your root manager.
+
+</details>
+
+</details>
+
 ### Gentoo Linux
 
 Voidstrap is packaged for Gentoo in the [Voidstrap overlay](https://github.com/Pedrodroks34/voidstrap-overlay), maintained by [@Pedrodroks34](https://github.com/Pedrodroks34). It builds the latest code from the `main` branch and needs an amd64 system on a Gentoo desktop profile. Run these commands as root:
