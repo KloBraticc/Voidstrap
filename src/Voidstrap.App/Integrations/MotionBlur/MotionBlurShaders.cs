@@ -37,9 +37,8 @@ float2 motionAt(float2 uv)
     float agreement = saturate(1.5 - 1.5 * length(current - previous) / (length(current) + length(previous) + 1.0));
     float confidence = saturate(1.0 - f.z * 2.8) * agreement;
     float2 px = current * mb.x * confidence;
+    px *= saturate((length(px) - mb.z) / max(mb.z, 0.001));
     float len = length(px);
-    if (len < mb.z)
-        return float2(0.0, 0.0);
     return len > mb.y ? px * (mb.y / len) : px;
 }
 

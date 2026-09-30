@@ -1952,7 +1952,7 @@ namespace Voidstrap.Integrations.Overlays
                 }
             }
 
-            LogChain(riOn && _riAttached, aaOn && _aaAttached, fgOn && _fgAttached);
+            LogChain(riOn && _riAttached, aaOn && _aaAttached, mbOn && _mbAttached, fgOn && _fgAttached);
 
             if (!(fgOn && _fgAttached))
             {
@@ -2743,9 +2743,9 @@ namespace Voidstrap.Integrations.Overlays
             _frucLive = false;
         }
 
-        private void LogChain(bool ri, bool aa, bool fg)
+        private void LogChain(bool ri, bool aa, bool mb, bool fg)
         {
-            string chain = (ri ? "RiShade" : "") + (aa ? (ri ? "+AA" : "AA") : "") + (fg ? ((ri || aa) ? "+FrameGen" : "FrameGen") : "");
+            string chain = string.Join("+", new[] { ri ? "RiShade" : "", aa ? "AA" : "", mb ? "MotionBlur " + MotionBlurSettings.Describe() : "", fg ? "FrameGen" : "" }.Where(stage => stage.Length > 0));
             if (chain == _lastChainLog)
                 return;
             _lastChainLog = chain;

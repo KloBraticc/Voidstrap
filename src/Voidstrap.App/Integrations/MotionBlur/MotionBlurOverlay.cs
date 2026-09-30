@@ -22,6 +22,7 @@ namespace Voidstrap.Integrations.MotionBlur
         private const string LOG_IDENT = "MotionBlur";
         private const float DeadZonePixels = 1.5f;
         private const double ResyncGapMs = 250.0;
+        private const double ReferenceFps = 60.0;
 
         private static int _prepareStarted;
         private static int _prepareFailureLogged;
@@ -214,6 +215,9 @@ namespace Voidstrap.Integrations.MotionBlur
 
             double fps = _intervalEmaMs > 0.5 ? 1000.0 / _intervalEmaMs : 60.0;
             float searchRange = (float)Math.Clamp(12.0 * (55.0 / fps), 6.0, 28.0);
+            float rateScale = (float)Math.Clamp(fps / ReferenceFps, 0.5, 5.0);
+            float resolutionScale = Math.Clamp(_height / 1080f, 0.5f, 3f);
+            float deadZone = DeadZonePixels * resolutionScale * MathF.Sqrt(Math.Max(1f, rateScale));
             _flow.ComputeBackwardFlow(_set, current, searchRange);
             _set = current;
 
@@ -221,7 +225,7 @@ namespace Voidstrap.Integrations.MotionBlur
             _context!.UpdateSubresource(new MotionBlurParams
             {
                 Dims = new Vector4(_width, _height, 1f / _width, 1f / _height),
-                Mb = new Vector4(MotionBlurSettings.ShutterFor(strength), MotionBlurSettings.MaxBlurPixelsFor(strength), DeadZonePixels, 0f),
+                Mb = new Vector4(MotionBlurSettings.ShutterFor(strength) * rateScale, MotionBlurSettings.MaxBlurPixelsFor(strength) * resolutionScale, deadZone, 0f),
             }, _cbuffer!);
             DrawPass(_psBlur!, output, input, _flow.BackwardFlowSrv, _flow.PreviousBackwardFlowSrv);
         }
