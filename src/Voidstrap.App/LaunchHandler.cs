@@ -144,6 +144,24 @@ public static class LaunchHandler
 			App.Terminate(applied ? ErrorCode.ERROR_SUCCESS : ErrorCode.ERROR_INSTALL_FAILURE);
 			return;
 		}
+		if (App.LaunchSettings.NvResetFlag.Active)
+		{
+			bool reset = false;
+			try
+			{
+				Voidstrap.Integrations.Nvidia.NvidiaApplyResult result = Voidstrap.Integrations.Nvidia.NvidiaProfileInspector.ResetAll();
+				reset = result.Ok;
+				foreach (string failure in result.Failures)
+					App.Logger.WriteLine("LaunchHandler::ProcessLaunchArgs", "  " + failure);
+			}
+			catch (Exception nvEx)
+			{
+				App.Logger.WriteLine("LaunchHandler::ProcessLaunchArgs", "NVIDIA reset threw: " + nvEx.Message);
+			}
+			Environment.ExitCode = reset ? 0 : 1;
+			App.Terminate(reset ? ErrorCode.ERROR_SUCCESS : ErrorCode.ERROR_INSTALL_FAILURE);
+			return;
+		}
 		if (App.LaunchSettings.TelemetryBlockFlag.Active)
 		{
 			bool enable = !string.Equals(App.LaunchSettings.TelemetryBlockFlag.Data, "off", StringComparison.OrdinalIgnoreCase);

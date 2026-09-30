@@ -245,14 +245,40 @@ namespace Voidstrap.Integrations
 
             try
             {
+                return await RunElevatedAsync(["-nvapply", payload], "Applied to the driver as administrator.", "The elevated apply reported a problem. Check the log for details.").ConfigureAwait(false);
+            }
+            finally
+            {
+                try
+                {
+                    if (File.Exists(payload))
+                        File.Delete(payload);
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        public static Task<NvidiaApplyResult> ResetDriverAsync()
+        {
+            return Voidstrap.Utility.ProcessElevation.IsAdministrator()
+                ? Task.Run(() => NvidiaProfileInspector.ResetAll())
+                : RunElevatedAsync(["-nvreset"], "Every NVIDIA setting for Roblox was reset to the driver default.", "The elevated reset reported a problem. Check the log for details.");
+        }
+
+        private static async Task<NvidiaApplyResult> RunElevatedAsync(string[] arguments, string successMessage, string failureMessage)
+        {
+            try
+            {
                 ProcessStartInfo start = new ProcessStartInfo
                 {
                     FileName = Environment.ProcessPath ?? Paths.Application,
                     UseShellExecute = true,
                     Verb = "runas",
                 };
-                start.ArgumentList.Add("-nvapply");
-                start.ArgumentList.Add(payload);
+                foreach (string argument in arguments)
+                    start.ArgumentList.Add(argument);
 
                 using Process? child = Process.Start(start);
                 if (child == null)
@@ -266,8 +292,8 @@ namespace Voidstrap.Integrations
 
                 await child.WaitForExitAsync().ConfigureAwait(continueOnCapturedContext: false);
                 return child.ExitCode == 0
-                    ? new NvidiaApplyResult { Ok = true, Message = "Applied to the driver as administrator." }
-                    : new NvidiaApplyResult { Ok = false, Message = "The elevated apply reported a problem. Check the log for details." };
+                    ? new NvidiaApplyResult { Ok = true, Message = successMessage }
+                    : new NvidiaApplyResult { Ok = false, Message = failureMessage };
             }
             catch (Win32Exception)
             {
@@ -279,23 +305,12 @@ namespace Voidstrap.Integrations
             }
             catch (Exception ex)
             {
-                App.Logger.WriteLine("NvidiaProfileManager::ApplyElevatedAsync", "Elevated apply failed: " + ex.Message);
+                App.Logger.WriteLine("NvidiaProfileManager::RunElevatedAsync", "Elevated helper failed: " + ex.Message);
                 return new NvidiaApplyResult
                 {
                     Ok = false,
-                    Message = "Could not run the elevated apply.",
+                    Message = "Could not run the elevated helper.",
                 };
-            }
-            finally
-            {
-                try
-                {
-                    if (File.Exists(payload))
-                        File.Delete(payload);
-                }
-                catch
-                {
-                }
             }
         }
 

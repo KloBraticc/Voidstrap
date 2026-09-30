@@ -577,38 +577,57 @@ public partial class NvidiaFFlagEditorPage : UiPage
         }
     }
 
-    private void ResetNipFile_Click(object sender, RoutedEventArgs e)
+    private async void ResetNipFile_Click(object sender, RoutedEventArgs e)
     {
-        if (Entries.Count == 0)
+        if (_applying)
+            return;
+
+        bool driverAvailable = NvidiaProfileInspector.IsAvailable;
+        if (Entries.Count == 0 && !driverAvailable)
         {
             ShowInfoMessage("There are no NVIDIA flags to reset.");
             return;
         }
 
-        if (Frontend.ShowMessageBox("Are you sure you want to reset every NVIDIA flag?", MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+        string question = driverAvailable
+            ? "Reset every NVIDIA flag? This clears your list and puts every NVIDIA driver setting for Roblox back to the driver default."
+            : "Reset every NVIDIA flag? This clears your list.";
+        if (Frontend.ShowMessageBox(question, MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
             return;
 
-        List<NvidiaEditorEntry> snapshot = SnapshotEntries();
+        _applying = true;
+        Control? button = sender as Control;
+        if (button != null)
+            button.IsEnabled = false;
+
         try
         {
-            List<uint> ids = ParseSettingIds(Entries.Select(entry => entry.SettingId));
-            Entries.Clear();
-            RecreateNipFile();
-            SaveEntries();
-
-            if (NvidiaProfileInspector.IsAvailable && ids.Count > 0)
+            NvidiaApplyResult? result = null;
+            if (driverAvailable)
             {
-                NvidiaApplyResult result = NvidiaProfileInspector.Reset(ids);
+                result = await NvidiaProfileManager.ResetDriverAsync();
                 if (!result.Ok)
-                    Frontend.ShowMessageBox(result.Message, MessageBoxImage.Warning);
+                {
+                    Frontend.ShowMessageBox(NvidiaApplyFlow.Describe(result) + "\n\nYour flag list was kept, so you can try again.", MessageBoxImage.Warning);
+                    return;
+                }
             }
 
+            List<NvidiaEditorEntry> snapshot = SnapshotEntries();
+            Entries.Clear();
+            SaveEntries();
             RecordHistory("Reset every NVIDIA flag", snapshot);
+            ShowInfoMessage(result != null ? NvidiaApplyFlow.Describe(result) : "Your NVIDIA flag list was cleared.");
         }
         catch (Exception ex)
         {
-            RestoreSnapshot(snapshot);
-            Frontend.ShowMessageBox("Error while resetting NIP file: " + ex.Message);
+            Frontend.ShowMessageBox("Error while resetting NVIDIA flags: " + ex.Message, MessageBoxImage.Error);
+        }
+        finally
+        {
+            _applying = false;
+            if (button != null)
+                button.IsEnabled = true;
         }
     }
 

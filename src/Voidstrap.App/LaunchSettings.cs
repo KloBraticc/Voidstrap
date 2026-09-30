@@ -29,6 +29,8 @@ public class LaunchSettings
 
 	public LaunchFlag NvApplyFlag { get; } = new LaunchFlag("nvapply");
 
+	public LaunchFlag NvResetFlag { get; } = new LaunchFlag("nvreset");
+
 	public LaunchFlag NoGPUFlag { get; } = new LaunchFlag("nogpu");
 
 	public LaunchFlag UpgradeFlag { get; } = new LaunchFlag("upgrade");
@@ -57,6 +59,7 @@ public class LaunchSettings
 
 	public bool IsHelperInvocation =>
 		NvApplyFlag.Active
+		|| NvResetFlag.Active
 		|| WindowAuditFlag.Active
 		|| TelemetryBlockFlag.Active
 		|| OrcRedirectFlag.Active

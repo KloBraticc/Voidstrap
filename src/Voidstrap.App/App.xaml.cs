@@ -830,7 +830,7 @@ public partial class App : Application
 			RunFactoryReset(LaunchSettings.FactoryResetFlag.Data);
 			return;
 		}
-		bool headlessLaunch = LaunchSettings.NvApplyFlag.Active || LaunchSettings.WindowAuditFlag.Active || LaunchSettings.TelemetryBlockFlag.Active;
+		bool headlessLaunch = LaunchSettings.NvApplyFlag.Active || LaunchSettings.NvResetFlag.Active || LaunchSettings.WindowAuditFlag.Active || LaunchSettings.TelemetryBlockFlag.Active;
 		bool portableLinux = Voidstrap.Utility.Platform.IsLinux;
 		string? installLocation;
 		if (portableLinux)
@@ -902,7 +902,7 @@ public partial class App : Application
 			Terminate();
 			return;
 		}
-		if (LaunchSettings.NvApplyFlag.Active || LaunchSettings.TelemetryBlockFlag.Active)
+		if (LaunchSettings.NvApplyFlag.Active || LaunchSettings.NvResetFlag.Active || LaunchSettings.TelemetryBlockFlag.Active)
 		{
 			LaunchHandler.ProcessLaunchArgs();
 			return;

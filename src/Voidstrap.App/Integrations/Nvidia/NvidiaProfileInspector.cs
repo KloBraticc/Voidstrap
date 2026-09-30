@@ -233,7 +233,7 @@ public static class NvidiaProfileInspector
         return result;
     }
 
-    public static NvidiaApplyResult Reset(IEnumerable<uint> settingIds, string? profileName = null)
+    public static NvidiaApplyResult ResetAll(string? profileName = null)
     {
         using Session? session = Open(out string error);
         if (session == null)
@@ -241,12 +241,15 @@ public static class NvidiaProfileInspector
 
         IntPtr profile = ResolveTargetProfile(session.Handle, profileName, create: false, out string _, out NvStatus _);
         if (profile == IntPtr.Zero)
-            return new NvidiaApplyResult { Ok = true, Message = "There was no profile to reset" };
+            return new NvidiaApplyResult { Ok = true, Message = "Roblox had no NVIDIA driver settings to reset" };
 
         List<string> rejected = new List<string>();
         int cleared = 0;
-        foreach (uint id in settingIds ?? Array.Empty<uint>())
+        foreach (NvidiaSetting setting in Enumerate(session.Handle, profile))
         {
+            if (setting.IsPredefined)
+                continue;
+            uint id = setting.Id;
             NvStatus status = NvApi.DeleteSetting(session.Handle, profile, id);
             if (status == NvStatus.Ok)
             {
@@ -269,10 +272,11 @@ public static class NvidiaProfileInspector
             Ok = save == NvStatus.Ok,
             Applied = cleared,
             Message = save == NvStatus.Ok
-                ? "Reset " + cleared + " setting(s) to the driver default"
+                ? "Reset " + cleared + " NVIDIA setting(s) for Roblox to the driver default"
                 : "The driver rejected the save (" + save + ")",
         };
         result.Failures.AddRange(rejected);
+        App.Logger?.WriteLine("NvidiaProfileInspector", result.Message);
         return result;
     }
 
