@@ -1,6 +1,5 @@
 [CmdletBinding()]
 param(
-    [ValidateSet('windows','linux-x64','linux-arm64','linux-musl-x64','linux-musl-arm64','osx-x64','osx-arm64','android','all')]
     [string[]]$Only = @('all'),
 
     [ValidateSet('Debug','Release')]
@@ -11,7 +10,7 @@ param(
     [switch]$Parallel,
     [switch]$Sequential,
     [ValidateRange(1,32)]
-    [int]$MaxParallel = [Math]::Min(3, [Math]::Max(1, [Environment]::ProcessorCount)),
+    [int]$MaxParallel = [Math]::Min(5, [Math]::Max(1, [int][Math]::Floor([Environment]::ProcessorCount / 2))),
     [switch]$BuildSolution,
     [switch]$SkipSolutionBuild,
     [switch]$AppImage,
@@ -38,9 +37,13 @@ function Wait-BeforeClose {
 function Exit-Script {
     param([int]$Code)
 
-    if ($Code -ne 0) {
-        Wait-BeforeClose
+    if (Get-Command Stop-AndroidBuild -ErrorAction SilentlyContinue) {
+        Stop-AndroidBuild
     }
+    if (Get-Command Remove-PublishManifests -ErrorAction SilentlyContinue) {
+        Remove-PublishManifests
+    }
+    Wait-BeforeClose
     exit $Code
 }
 
@@ -56,6 +59,13 @@ trap {
         Write-Host $failure.ScriptStackTrace -ForegroundColor DarkGray
     }
     Exit-Script 1
+}
+
+$validOnly = @('windows', 'linux-x64', 'linux-arm64', 'linux-musl-x64', 'linux-musl-arm64', 'osx-x64', 'osx-arm64', 'android', 'all')
+$Only = @($Only | ForEach-Object { $_ -split ',' } | ForEach-Object { $_.Trim().ToLowerInvariant() } | Where-Object { $_ })
+$invalidOnly = @($Only | Where-Object { $validOnly -notcontains $_ })
+if ($Only.Count -eq 0 -or $invalidOnly.Count -gt 0) {
+    throw "Unknown -Only value: $($invalidOnly -join ', '). Use one or more of: $($validOnly -join ', ')"
 }
 
 $IsWindowsHost = $env:OS -eq 'Windows_NT'
@@ -110,18 +120,19 @@ function Assert-BuildDirectory {
 }
 
 function Stop-ProcessesUsingPath {
-    param([Parameter(Mandatory)] [string]$Path)
+    param([Parameter(Mandatory)] [string[]]$Path)
 
-    $normalized = $Path.TrimEnd([System.IO.Path]::DirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
+    $prefixes = @($Path | ForEach-Object { $_.TrimEnd([System.IO.Path]::DirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar })
     $stopped = 0
 
     foreach ($proc in (Get-Process -ErrorAction SilentlyContinue)) {
         $exe = $null
         try { $exe = $proc.Path } catch { $exe = $null }
         if ([string]::IsNullOrWhiteSpace($exe)) { continue }
-        if (-not $exe.StartsWith($normalized, $PathComparison)) { continue }
+        $owner = $prefixes | Where-Object { $exe.StartsWith($_, $PathComparison) } | Select-Object -First 1
+        if (-not $owner) { continue }
 
-        Write-Host "  Stopping $($proc.ProcessName) (pid $($proc.Id)) which is running from $Path" -ForegroundColor DarkYellow
+        Write-Host "  Stopping $($proc.ProcessName) (pid $($proc.Id)) which is running from $owner" -ForegroundColor DarkYellow
         try {
             $proc.Kill()
             $null = $proc.WaitForExit(5000)
@@ -311,9 +322,9 @@ function Test-AndroidToolchain {
     return @(Get-MissingAndroidSigningProperties (Get-AndroidGradlePropertiesPath)).Count -eq 0
 }
 
-function Invoke-AndroidPublish {
-    param([Parameter(Mandatory)] [string]$Version)
+$script:AndroidBuild = $null
 
+function Start-AndroidBuild {
     $androidRoot = Join-Path $Root 'android'
     if (-not (Test-Path -LiteralPath $androidRoot -PathType Container)) {
         throw "The Android project folder is missing: $androidRoot"
@@ -338,30 +349,72 @@ Add these to $gradleProperties :
 "@
     }
 
-    Write-Host 'Building the Android release APKs...' -ForegroundColor Cyan
+    [System.IO.Directory]::CreateDirectory($ArtifactDir) | Out-Null
+    $log = Join-Path $ArtifactDir 'android.log'
+    $errorLog = Join-Path $ArtifactDir 'android.errors.log'
+    $gradleArgs = @('assemblePlayRelease', 'assembleDirectRelease', '--console=plain', '--build-cache')
+    Write-Host '  Starting Android...' -ForegroundColor DarkGray
     $previousJavaHome = $env:JAVA_HOME
     $previousAndroidHome = $env:ANDROID_HOME
     try {
         $env:JAVA_HOME = $jdk
         $env:ANDROID_HOME = $sdk
-        Push-Location -LiteralPath $androidRoot
-        try {
-            if ($IsWindowsHost) {
-                & $gradlew 'assemblePlayRelease' 'assembleDirectRelease' '--console=plain' '--build-cache'
-            } else {
-                & sh $gradlew 'assemblePlayRelease' 'assembleDirectRelease' '--console=plain' '--build-cache'
-            }
-            if ($LASTEXITCODE -ne 0) {
-                throw "The Android build failed with exit code $LASTEXITCODE."
-            }
-        } finally {
-            Pop-Location
+        if ($IsWindowsHost) {
+            $process = Start-Process -FilePath $gradlew -ArgumentList $gradleArgs -WorkingDirectory $androidRoot -NoNewWindow -PassThru -RedirectStandardOutput $log -RedirectStandardError $errorLog
+        } else {
+            $process = Start-Process -FilePath 'sh' -ArgumentList (@($gradlew) + $gradleArgs) -WorkingDirectory $androidRoot -NoNewWindow -PassThru -RedirectStandardOutput $log -RedirectStandardError $errorLog
         }
+        $null = $process.Handle
     } finally {
         $env:JAVA_HOME = $previousJavaHome
         $env:ANDROID_HOME = $previousAndroidHome
     }
 
+    $script:AndroidBuild = [pscustomobject]@{
+        Process          = $process
+        StartTime        = Get-Date
+        Root             = $androidRoot
+        ApkSigner        = $apkSigner
+        GradleProperties = $gradleProperties
+        Log              = $log
+        ErrorLog         = $errorLog
+    }
+}
+
+function Stop-AndroidBuild {
+    $build = $script:AndroidBuild
+    if (-not $build -or $build.Process.HasExited) {
+        return
+    }
+    if ($IsWindowsHost) {
+        & taskkill.exe /T /F /PID $build.Process.Id 2>$null | Out-Null
+    } else {
+        try { $build.Process.Kill() } catch { }
+    }
+}
+
+function Complete-AndroidPublish {
+    param([Parameter(Mandatory)] [string]$Version)
+
+    $build = $script:AndroidBuild
+    while (-not $build.Process.WaitForExit(1000)) {
+        Write-Heartbeat
+    }
+    $elapsed = [int](New-TimeSpan -Start $build.StartTime).TotalSeconds
+    if ($build.Process.ExitCode -ne 0) {
+        Write-Host "  Android: Failed (${elapsed}s)" -ForegroundColor Red
+        foreach ($logPath in @($build.ErrorLog, $build.Log)) {
+            if (Test-Path -LiteralPath $logPath -PathType Leaf) {
+                Get-Content -LiteralPath $logPath -Tail 25 | ForEach-Object { Write-Host "    $_" }
+            }
+        }
+        throw "The Android build failed with exit code $($build.Process.ExitCode). Full log: $($build.Log)"
+    }
+    Write-Host "  Android: Done (${elapsed}s)" -ForegroundColor Green
+
+    $androidRoot = $build.Root
+    $apkSigner = $build.ApkSigner
+    $gradleProperties = $build.GradleProperties
     $androidOutput = Join-Path $Out 'Android'
     Reset-OutputDirectory $androidOutput
 
@@ -430,7 +483,13 @@ function Assert-AndroidFlavourSplit {
     }
 }
 
+$script:ManifestsRemoved = $false
+
 function Remove-PublishManifests {
+    if ($script:ManifestsRemoved) {
+        return
+    }
+    $script:ManifestsRemoved = $true
     Get-ChildItem -LiteralPath $Root -Recurse -File -Force -Filter 'PublishOutputs.*.txt' -ErrorAction SilentlyContinue |
         Remove-Item -Force -ErrorAction SilentlyContinue
 }
@@ -525,6 +584,34 @@ function Resolve-GitBashPath {
     return $null
 }
 
+function Invoke-NativeWithTimeout {
+    param(
+        [Parameter(Mandatory)] [string]$FilePath,
+        [string[]]$Arguments = @(),
+        [Parameter(Mandatory)] [int]$TimeoutSeconds
+    )
+
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = $FilePath
+    $psi.Arguments = (($Arguments | ForEach-Object { ConvertTo-CommandLineArgument ([string]$_) }) -join ' ')
+    $psi.UseShellExecute = $false
+    $psi.CreateNoWindow = $true
+    $psi.RedirectStandardOutput = $true
+    $psi.RedirectStandardError = $true
+    $process = [System.Diagnostics.Process]::Start($psi)
+    try {
+        $output = $process.StandardOutput.ReadToEndAsync()
+        $null = $process.StandardError.ReadToEndAsync()
+        if (-not $process.WaitForExit($TimeoutSeconds * 1000)) {
+            try { $process.Kill() } catch { }
+            return $null
+        }
+        return [pscustomobject]@{ ExitCode = $process.ExitCode; Output = [string]$output.GetAwaiter().GetResult() }
+    } finally {
+        $process.Dispose()
+    }
+}
+
 function New-PackagingShell {
     param(
         [Parameter(Mandatory)] [string]$Name,
@@ -537,16 +624,13 @@ function New-PackagingShell {
     $tools = @()
     if ($Linux) {
         $probe = 'for t in ' + ($LinuxPackagingTools -join ' ') + '; do command -v $t >/dev/null 2>&1 && echo $t; done; true'
-        $probeArgs = @($Prefix) + @('-c', $probe)
-        $previousPreference = $ErrorActionPreference
-        $ErrorActionPreference = 'Continue'
-        try {
-            $tools = @(& $Command @probeArgs 2>$null | ForEach-Object { ([string]$_).Trim() } | Where-Object { $_ })
-            $exitCode = $LASTEXITCODE
-        } finally {
-            $ErrorActionPreference = $previousPreference
+        $result = Invoke-NativeWithTimeout -FilePath $Command -Arguments (@($Prefix) + @('-c', $probe)) -TimeoutSeconds 30
+        if (-not $result) {
+            Write-Host "  $Name did not answer within 30 seconds, skipping it." -ForegroundColor DarkYellow
+            return $null
         }
-        if ($exitCode -ne 0) { return $null }
+        if ($result.ExitCode -ne 0) { return $null }
+        $tools = @(($result.Output -split '\r?\n') | ForEach-Object { $_.Trim() } | Where-Object { $_ })
     }
 
     return [pscustomobject]@{
@@ -568,17 +652,15 @@ function Resolve-PackagingShell {
 
     $wsl = Get-Command wsl.exe -ErrorAction SilentlyContinue
     if ($wsl) {
-        $previousPreference = $ErrorActionPreference
-        $ErrorActionPreference = 'Continue'
-        try {
-            $listed = @(& $wsl.Source --list --quiet 2>$null)
-            $listExit = $LASTEXITCODE
-        } finally {
-            $ErrorActionPreference = $previousPreference
+        Write-Host 'Checking WSL for Linux packaging...' -ForegroundColor DarkGray
+        $listed = Invoke-NativeWithTimeout -FilePath $wsl.Source -Arguments @('--list', '--quiet') -TimeoutSeconds 15
+        if (-not $listed) {
+            Write-Host '  WSL did not answer within 15 seconds. Run "wsl --shutdown" and try again to get Linux packages.' -ForegroundColor DarkYellow
+            $PackageNotes.Add('WSL did not answer. Run "wsl --shutdown", then publish again to build the Linux packages.')
         }
-        if ($listExit -eq 0) {
-            $distros = @($listed |
-                ForEach-Object { ([string]$_).Replace([string][char]0, '').Trim() } |
+        elseif ($listed.ExitCode -eq 0) {
+            $distros = @(($listed.Output.Replace([string][char]0, '') -split '\r?\n') |
+                ForEach-Object { $_.Trim() } |
                 Where-Object { $_ -and $_ -notmatch '^docker-desktop' })
             $fallback = $null
             foreach ($distro in $distros) {
@@ -795,6 +877,9 @@ function Finish-PublishJob {
         return
     }
 
+    while (-not $Job.Process.WaitForExit(1000)) {
+        Write-Heartbeat @($Job)
+    }
     $Job.Process.WaitForExit()
 
     $Job.StdOut = [string]$Job.StdOutTask.GetAwaiter().GetResult()
@@ -881,10 +966,31 @@ function Get-VoidstrapVersion {
     return $match.Groups[1].Value
 }
 
+$script:HeartbeatClock = [System.Diagnostics.Stopwatch]::StartNew()
+
+function Write-Heartbeat {
+    param([object[]]$Jobs = @())
+
+    if ($script:HeartbeatClock.Elapsed.TotalSeconds -lt 15) {
+        return
+    }
+    $script:HeartbeatClock.Restart()
+    $running = @($Jobs | Where-Object { $_.Status -eq 'Building' } | ForEach-Object {
+        "$($_.Target.Name) $([int](New-TimeSpan -Start $_.StartTime).TotalSeconds)s"
+    })
+    $android = $script:AndroidBuild
+    if ($android -and -not $android.Process.HasExited) {
+        $running += "Android $([int](New-TimeSpan -Start $android.StartTime).TotalSeconds)s"
+    }
+    if ($running.Count -gt 0) {
+        Write-Host "  Still building: $($running -join ', ')" -ForegroundColor DarkGray
+    }
+}
+
 function Wait-ForPublishJobs {
     param(
         [Parameter(Mandatory)] [object[]]$Jobs,
-        [int]$PollMilliseconds = 500,
+        [int]$PollMilliseconds = 250,
         [switch]$WaitForSlot
     )
 
@@ -898,6 +1004,7 @@ function Wait-ForPublishJobs {
             return
         }
         if (@($Jobs | Where-Object { $_.Status -eq 'Building' }).Count -gt 0) {
+            Write-Heartbeat $Jobs
             Start-Sleep -Milliseconds $PollMilliseconds
         }
     }
@@ -963,7 +1070,8 @@ function Test-DotNetSatisfiesSdk {
         Pop-Location
         $ErrorActionPreference = $previousPreference
     }
-    return $exitCode -eq 0 -and ([string]$selected).Trim() -match '^\d+\.\d+\.\d+(?:-.+)?$'
+    $script:DotNetVersion = ([string]$selected).Trim()
+    return $exitCode -eq 0 -and $script:DotNetVersion -match '^\d+\.\d+\.\d+(?:-.+)?$'
 }
 
 $dotnetCandidates = [System.Collections.Generic.List[string]]::new()
@@ -1010,6 +1118,12 @@ if (($env:PATH -split [regex]::Escape($pathSeparator)) -notcontains $dotnetDirec
 }
 $script:DotNetPath = $dotnetPath
 
+Write-Host 'Voidstrap Build' -ForegroundColor Cyan
+Write-Host "Root:   $Root"
+Write-Host "Output: $Out"
+Write-Host "SDK:    $script:DotNetVersion"
+Write-Host ''
+
 Assert-FileExists $Sln 'Solution'
 Assert-FileExists $WinProj 'Windows project'
 Assert-FileExists $CrossProj 'Cross platform project'
@@ -1040,7 +1154,7 @@ $AllTargets = @(
 $RequestedAll = $Only -contains 'all'
 
 if ($RequestedAll) {
-    $Targets = @($AllTargets)
+    $Targets = @($AllTargets | Where-Object { -not $_.Rid.StartsWith('osx-', [System.StringComparison]::Ordinal) })
 } else {
     $Targets = @($AllTargets | Where-Object { $Only -contains $_.Key })
 }
@@ -1119,12 +1233,6 @@ if ($UseParallel) {
     $PubOpts += '-m'
 }
 
-Write-Host 'Voidstrap Build' -ForegroundColor Cyan
-Write-Host "Root:   $Root"
-Write-Host "Output: $Out"
-Write-Host "SDK:    $(& $script:DotNetPath --version)"
-Write-Host ''
-
 if ($SkippedHostTargets.Count -gt 0) {
     foreach ($skipped in $SkippedHostTargets) {
         Write-Host "Skipping $($skipped.Name): Windows WPF/CsWinRT publishing requires a Windows host." -ForegroundColor DarkYellow
@@ -1171,16 +1279,14 @@ if ($BuildSolution -and $Targets.Count -gt 0) {
         Write-Host '      Each selected cross platform publish will restore and build what it needs.' -ForegroundColor DarkGray
         Write-Host ''
     }
-} else {
-    Write-Host '[1/2] Publishing builds each selected project and its dependencies.' -ForegroundColor DarkGray
-    Write-Host ''
 }
 
+$buildNames = @($Targets | ForEach-Object { $_.Name })
+if ($BuildAndroid) { $buildNames += 'Android' }
 if ($UseParallel) {
-    Write-Host "[2/2] Publishing $($Targets.Count) target(s), up to $MaxParallel at once..." -ForegroundColor Cyan
-    Write-Host '      Each target uses an isolated .NET artifacts tree to avoid parallel build collisions.' -ForegroundColor DarkGray
+    Write-Host "Building $($buildNames -join ', '), up to $MaxParallel at once" -ForegroundColor Cyan
 } else {
-    Write-Host "[2/2] Publishing $($Targets.Count) target(s)..." -ForegroundColor Cyan
+    Write-Host "Building $($buildNames -join ', ')" -ForegroundColor Cyan
 }
 Write-Host ''
 
@@ -1188,11 +1294,22 @@ $jobs = @()
 $unexpectedFailure = $null
 
 try {
+    if ($BuildAndroid) {
+        if ($AndroidExplicit -or (Test-AndroidToolchain)) {
+            Start-AndroidBuild
+        } else {
+            Write-Host '  Skipping Android APKs: no Android JDK, SDK, or signing keystore is configured on this host.' -ForegroundColor DarkYellow
+            $PackageNotes.Add('Android APKs: configure the JDK, SDK and signing keystore, or run with -Only android to see the exact error.')
+        }
+    }
+    if ($Targets.Count -gt 0) {
+        Stop-ProcessesUsingPath @($Targets | ForEach-Object { $_.OutDir })
+    }
+    $script:HeartbeatClock.Restart()
     foreach ($t in $Targets) {
         if ($UseParallel -and @($jobs | Where-Object { $_.Status -eq 'Building' }).Count -ge $MaxParallel) {
             Wait-ForPublishJobs -Jobs $jobs -WaitForSlot
         }
-        Stop-ProcessesUsingPath $t.OutDir
         Reset-OutputDirectory $t.OutDir
 
         $targetArtifacts = Join-Path $ArtifactDir $t.Key
@@ -1326,13 +1443,8 @@ if ($Failed.Count -gt 0) {
 
 $packageFailure = $null
 try {
-    if ($BuildAndroid) {
-        if ($AndroidExplicit -or (Test-AndroidToolchain)) {
-            Invoke-AndroidPublish (Get-VoidstrapVersion)
-        } else {
-            Write-Host 'Skipping Android APKs: no Android JDK, SDK, or signing keystore is configured on this host.' -ForegroundColor DarkYellow
-            $PackageNotes.Add('Android APKs: configure the JDK, SDK and signing keystore, or run with -Only android to see the exact error.')
-        }
+    if ($script:AndroidBuild) {
+        Complete-AndroidPublish (Get-VoidstrapVersion)
     }
 
     $linuxJobs = @($jobs | Where-Object { $_.Status -eq 'Done' -and $_.Target.Rid.StartsWith('linux-', [System.StringComparison]::Ordinal) })
@@ -1497,11 +1609,24 @@ if ($PackageNotes.Count -gt 0) {
 }
 Write-Host "Output: $Out"
 Write-Host "Time:   $($sw.Elapsed.ToString('mm\:ss'))"
-Get-ChildItem -LiteralPath $Out -Directory -ErrorAction SilentlyContinue |
-    Sort-Object Name |
-    ForEach-Object { Write-Host "  $($_.Name)" }
+Write-Host ''
+$runStarted = (Get-Date).AddSeconds(-$sw.Elapsed.TotalSeconds - 5)
+foreach ($folder in @(Get-ChildItem -LiteralPath $Out -Directory -ErrorAction SilentlyContinue | Where-Object { -not $_.Name.StartsWith('.') } | Sort-Object Name)) {
+    $files = @(Get-ChildItem -LiteralPath $folder.FullName -File -ErrorAction SilentlyContinue | Where-Object { -not $_.Name.StartsWith('.') } | Sort-Object Name)
+    if ($files.Count -eq 0) { continue }
+    Write-Host "  $($folder.Name)" -ForegroundColor Cyan
+    foreach ($file in $files) {
+        $size = if ($file.Length -ge 1MB) { '{0:0.0} MB' -f ($file.Length / 1MB) } else { '{0:0} KB' -f [Math]::Max(1, $file.Length / 1KB) }
+        $line = '    {0,-48} {1,9}' -f $file.Name, $size
+        if ($file.LastWriteTime -ge $runStarted) {
+            Write-Host $line
+        } else {
+            Write-Host "$line  (from an earlier run)" -ForegroundColor DarkGray
+        }
+    }
+}
 
-exit 0
+Exit-Script 0
 } finally {
     Remove-PublishManifests
     $env:DOTNET_ROOT = $originalDotnetRoot
