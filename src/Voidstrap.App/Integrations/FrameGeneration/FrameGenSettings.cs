@@ -45,9 +45,7 @@ namespace Voidstrap.Integrations.FrameGeneration
             if (modeIndex == 1 && !uncap)
             {
                 double slots = frameMs * refreshHz / 1000.0;
-                int stableTotal = slots < 1.25
-                    ? 1
-                    : (int)Math.Ceiling(slots - 0.02);
+                int stableTotal = (int)Math.Floor(slots + 0.02);
                 phase = 0;
                 return Math.Clamp(stableTotal, 1, maximum);
             }
