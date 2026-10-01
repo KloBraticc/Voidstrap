@@ -60,6 +60,7 @@ internal static class WindowAudit
 			Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 		}
 		Window? renderKeeper = null;
+#if CROSSPLAT
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
 			try
@@ -91,6 +92,7 @@ internal static class WindowAudit
 				Emit($"render keeper window: FAIL, {ex.GetType().Name}: {ex.Message.Split('\n')[0]}");
 			}
 		}
+#endif
 		string? only = Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_ONLY");
 		if (!string.IsNullOrWhiteSpace(only))
 		{
