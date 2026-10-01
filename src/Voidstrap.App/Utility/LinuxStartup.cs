@@ -49,6 +49,12 @@ internal static partial class LinuxStartup
 
 	private const string MissingVulkanDriver = "/nonexistent/voidstrap-no-vulkan.json";
 
+	private const string VulkanVendorFileName = "vulkan-vendor";
+
+	private static readonly string[] UserVulkanDriverKeys = ["VK_DRIVER_FILES", "VK_ICD_FILENAMES", "VK_ADD_DRIVER_FILES", "VK_LOADER_DRIVERS_SELECT", "VK_LOADER_DRIVERS_DISABLE"];
+
+	private static bool _driverFilterAllowed;
+
 	private const int RendererFailedExitCode = 86;
 
 	private static readonly int SoftwareThreadCount = Math.Clamp((Environment.ProcessorCount + 1) / 2, 1, 8);
@@ -70,6 +76,9 @@ internal static partial class LinuxStartup
 	public static string ActiveStage => _activeStage;
 
 	public static bool SafeMode => _safeMode;
+
+	internal static bool UsesOpenGl => _activeStage == HardwareGlStage
+		|| (_activeStage == SoftwareStage && LavapipeDrivers().Length == 0);
 
 	public static bool OpaqueWindows => _activeStage is OpaqueStage or SoftwareStage
 		|| Environment.GetEnvironmentVariable(OpaqueWindowsFlag) == "1";
@@ -119,6 +128,9 @@ internal static partial class LinuxStartup
 			}
 			long rendererStarted = Stopwatch.GetTimestamp();
 			string stage = ChooseStage(out bool confirmed);
+			_driverFilterAllowed = confirmed;
+			if (!confirmed)
+				DeleteVulkanVendor();
 			Voidstrap.UI.LinuxUiPerformance.Duration("Renderer selection", rendererStarted);
 			_activeStage = stage;
 			_safeMode = DecideSafeMode();
@@ -192,6 +204,10 @@ internal static partial class LinuxStartup
 			string? blockDirectory = EglBlockDirectory();
 			string stripped = string.Join(':', libraryPath.Split(':', StringSplitOptions.RemoveEmptyEntries).Where(entry => entry != blockDirectory));
 			Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", stripped.Length == 0 ? null : stripped);
+			if (stripped.Length == 0)
+				_ = UnsetNativeEnvironment("LD_LIBRARY_PATH");
+			else
+				_ = SetNativeEnvironment("LD_LIBRARY_PATH", stripped, 1);
 		}
 		foreach (string key in new[] { ConfiguredFlag, SupervisedFlag, OwnedKeysFlag })
 		{
@@ -538,6 +554,10 @@ internal static partial class LinuxStartup
 				Set("VK_ICD_FILENAMES", string.Join(':', lavapipe));
 				Set("LP_NUM_THREADS", SoftwareThreadCount.ToString(CultureInfo.InvariantCulture));
 			}
+			else if (_driverFilterAllowed && !UserVulkanDriverKeys.Any(environment.ContainsKey) && VulkanDriverSelection() is string selection)
+			{
+				Set("VK_LOADER_DRIVERS_SELECT", selection);
+			}
 		}
 		if (backend != "Software" && Environment.GetEnvironmentVariable(PlainSurfacesFlag) != "0")
 		{
@@ -747,8 +767,10 @@ internal static partial class LinuxStartup
 
 	private static void ApplyStageLibraries()
 	{
-		bool softwareGl = _activeStage == SoftwareStage && LavapipeDrivers().Length == 0;
-		if ((_activeStage != HardwareGlStage && !softwareGl) || !File.Exists(OpenGlWgpuLibrary))
+		if (!UsesOpenGl || !HasOpenGlBackend())
+			return;
+		string library = File.Exists(OpenGlWgpuLibrary) ? OpenGlWgpuLibrary : Path.Combine(AppContext.BaseDirectory, "libwgpu_native.so");
+		if (!File.Exists(library))
 			return;
 		try
 		{
@@ -756,7 +778,6 @@ internal static partial class LinuxStartup
 			object? resolver = resolverType?.GetProperty("Default", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)?.GetValue(null);
 			if (resolver?.GetType().GetProperty("Resolvers", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)?.GetValue(resolver) is not List<Func<string, IEnumerable<string>>> resolvers)
 				return;
-			string library = OpenGlWgpuLibrary;
 			resolvers.Insert(0, name => name.Contains("wgpu_native", StringComparison.Ordinal) ? [library] : []);
 		}
 		catch (Exception)
@@ -955,8 +976,117 @@ internal static partial class LinuxStartup
 		if (Interlocked.Exchange(ref _confirmed, 1) == 0)
 		{
 			WriteRendererMarker(_activeStage, true, 0);
+			RecordVulkanVendor();
 		}
 		return true;
+	}
+
+	private static string VulkanVendorPath => Path.Combine(Path.GetDirectoryName(RendererMarkerPath) ?? string.Empty, VulkanVendorFileName);
+
+	private static void RecordVulkanVendor()
+	{
+#if CROSSPLAT
+		try
+		{
+			string? vendor = null;
+			if (ProGPU.Backend.WgpuContext.TryGetFirstActiveContext(out ProGPU.Backend.WgpuContext? context)
+				&& string.Equals(context.AdapterBackendType.ToString(), "Vulkan", StringComparison.OrdinalIgnoreCase))
+			{
+				vendor = VulkanVendorForAdapter(context.AdapterName ?? string.Empty);
+			}
+
+			if (vendor == null)
+			{
+				DeleteVulkanVendor();
+				return;
+			}
+
+			string path = VulkanVendorPath;
+			if (File.Exists(path) && string.Equals(File.ReadAllText(path).Trim(), vendor, StringComparison.Ordinal))
+				return;
+			Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+			File.WriteAllText(path, vendor);
+		}
+		catch (Exception)
+		{
+		}
+#endif
+	}
+
+	private static string? VulkanVendorForAdapter(string adapter)
+	{
+		if (adapter.Contains("llvmpipe", StringComparison.OrdinalIgnoreCase) || adapter.Contains("lavapipe", StringComparison.OrdinalIgnoreCase) || adapter.Contains("swiftshader", StringComparison.OrdinalIgnoreCase))
+			return null;
+		if (adapter.Contains("(NVK", StringComparison.OrdinalIgnoreCase))
+			return "nouveau";
+		if (adapter.Contains("NVIDIA", StringComparison.OrdinalIgnoreCase))
+			return "nvidia";
+		if (adapter.Contains("(RADV", StringComparison.OrdinalIgnoreCase))
+			return "radeon";
+		if (adapter.Contains("AMD", StringComparison.OrdinalIgnoreCase) || adapter.Contains("Radeon", StringComparison.OrdinalIgnoreCase))
+			return "amd";
+		if (adapter.Contains("Intel", StringComparison.OrdinalIgnoreCase))
+			return "intel";
+		return null;
+	}
+
+	private static string? VulkanDriverSelection()
+	{
+		try
+		{
+			string path = VulkanVendorPath;
+			if (!File.Exists(path))
+				return null;
+
+			(string pattern, string pciVendor)? choice = File.ReadAllText(path).Trim() switch
+			{
+				"nvidia" => ("*nvidia*", "0x10de"),
+				"nouveau" => ("*nouveau*", "0x10de"),
+				"radeon" => ("*radeon*", "0x1002"),
+				"amd" => ("*amd*,*radeon*", "0x1002"),
+				"intel" => ("*intel*", "0x8086"),
+				_ => null
+			};
+			if (choice is not { } selected || !HasGpuFromVendor(selected.pciVendor))
+			{
+				DeleteVulkanVendor();
+				return null;
+			}
+
+			return selected.pattern;
+		}
+		catch (Exception)
+		{
+			return null;
+		}
+	}
+
+	private static bool HasGpuFromVendor(string pciVendor)
+	{
+		try
+		{
+			foreach (string card in Directory.EnumerateDirectories("/sys/class/drm", "card*"))
+			{
+				string vendorFile = Path.Combine(card, "device", "vendor");
+				if (File.Exists(vendorFile) && string.Equals(File.ReadAllText(vendorFile).Trim(), pciVendor, StringComparison.OrdinalIgnoreCase))
+					return true;
+			}
+		}
+		catch (Exception)
+		{
+		}
+		return false;
+	}
+
+	private static void DeleteVulkanVendor()
+	{
+		try
+		{
+			File.Delete(VulkanVendorPath);
+		}
+		catch (Exception)
+		{
+		}
 	}
 
 	public static void Shutdown()
@@ -1080,6 +1210,12 @@ internal static partial class LinuxStartup
 
 	[LibraryImport("libc", EntryPoint = "execve", SetLastError = true)]
 	private static partial int Execve(nint path, nint[] argv, nint[] envp);
+
+	[LibraryImport("libc", EntryPoint = "setenv", StringMarshalling = StringMarshalling.Utf8)]
+	private static partial int SetNativeEnvironment(string name, string value, int overwrite);
+
+	[LibraryImport("libc", EntryPoint = "unsetenv", StringMarshalling = StringMarshalling.Utf8)]
+	private static partial int UnsetNativeEnvironment(string name);
 
 	[LibraryImport("libc", EntryPoint = "getppid")]
 	private static partial int GetParentProcessId();

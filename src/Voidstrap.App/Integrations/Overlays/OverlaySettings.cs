@@ -41,6 +41,7 @@ namespace Voidstrap.Integrations.Overlays
 				|| LinuxCustomCursorNeedsX11);
 
 		public static bool LinuxCustomCursorNeedsX11 => Voidstrap.Utility.Platform.IsLinux
-			&& App.Settings.Prop.CursorType is not Voidstrap.Enums.CursorType.Default and not Voidstrap.Enums.CursorType.VoidstrapDefault;
+			&& App.Settings.Prop.CursorType != Voidstrap.Enums.CursorType.Default
+			&& App.Settings.Prop.ModApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Player;
     }
 }

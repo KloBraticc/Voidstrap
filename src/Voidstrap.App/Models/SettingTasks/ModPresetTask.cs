@@ -32,6 +32,29 @@ public class ModPresetTask : BoolBaseTask
 		}
 	}
 
+	public override async Task ExecuteAsync()
+	{
+		bool changed = Changed;
+		bool original = OriginalState;
+		bool desired = NewState;
+		Execute();
+		if (!changed || !Voidstrap.Utility.Platform.IsLinux || Name is not ("ModPreset.OldCharacterSounds" or "ModPreset.OldDeathSound"))
+			return;
+		if (Changed)
+			throw new IOException("The sound preset files could not be updated.");
+		try
+		{
+			SoberBuiltinContent.RequestCacheReset();
+			await Task.Run(SoberBuiltinContent.ApplyFromSettings);
+		}
+		catch
+		{
+			OriginalState = original;
+			NewState = desired;
+			throw;
+		}
+	}
+
 	public override void Execute()
 	{
 		if (NewState == OriginalState)

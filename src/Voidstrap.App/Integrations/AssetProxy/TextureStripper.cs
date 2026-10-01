@@ -267,12 +267,53 @@ public static class TextureStripper
 	internal static bool TryGetLocalAsset(string host, string path, out AssetWarpRoute? route)
 	{
 		route = null;
-		if (!host.Equals(BatchHost, StringComparison.OrdinalIgnoreCase) || !path.StartsWith(LocalAssetPathPrefix, StringComparison.OrdinalIgnoreCase))
+		if (!host.Equals(BatchHost, StringComparison.OrdinalIgnoreCase))
 		{
 			return false;
 		}
+		if (!path.StartsWith(LocalAssetPathPrefix, StringComparison.OrdinalIgnoreCase))
+		{
+			return TryGetDirectAssetRoute(path, out route);
+		}
 		string token = path[LocalAssetPathPrefix.Length..].Split('?', 2)[0];
 		return LocalAssets.TryGetValue(token, out route);
+	}
+
+	private static bool TryGetDirectAssetRoute(string path, out AssetWarpRoute? route)
+	{
+		route = null;
+		if (!App.Settings.Prop.AssetWarpEnabled
+			|| !path.StartsWith("/v1/asset", StringComparison.OrdinalIgnoreCase)
+			|| path.StartsWith("/v1/assets", StringComparison.OrdinalIgnoreCase))
+		{
+			return false;
+		}
+		int query = path.IndexOf('?');
+		if (query < 0)
+		{
+			return false;
+		}
+		string id = "";
+		foreach (string pair in path[(query + 1)..].Split('&', StringSplitOptions.RemoveEmptyEntries))
+		{
+			int separator = pair.IndexOf('=');
+			if (separator > 0 && pair[..separator].Equals("id", StringComparison.OrdinalIgnoreCase))
+			{
+				id = Uri.UnescapeDataString(pair[(separator + 1)..]).Trim().ToLowerInvariant();
+				break;
+			}
+		}
+		if (id.Length == 0)
+		{
+			return false;
+		}
+		RuleSet rules = GetRules();
+		if (rules.Routes.TryGetValue(id, out AssetWarpRoute? found) && found.Kind == AssetWarpRouteKind.Local)
+		{
+			route = found;
+			return true;
+		}
+		return false;
 	}
 
 	internal static void ObserveBatchResponse(AssetBatchContext? context, byte[] body)

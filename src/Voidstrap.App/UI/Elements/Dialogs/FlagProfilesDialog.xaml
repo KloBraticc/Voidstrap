@@ -50,8 +50,20 @@
           </StackPanel>
         </TabItem.Header>
         <Grid Margin="10">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
           <ListView Name="LoadBackup" MinHeight="180" MaxHeight="260" DisplayMemberPath="Name" SelectionChanged="LoadBackup_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Auto" />
           <TextBlock Name="EmptyProfiles" Margin="18,14,0,0" Foreground="#FFA9A9A9" IsHitTestVisible="False" Text="No saved profiles" />
+          <Grid Name="LinuxProfileActions" Grid.Row="1" Margin="0,8,0,0" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Name="RenameProfileName" Height="32" MaxLength="48" VerticalContentAlignment="Center" TextChanged="RenameProfileName_TextChanged" />
+            <Button Name="RenameButton" Grid.Column="1" Width="90" Margin="8,0,0,0" Content="Rename" Click="RenameButton_Click" />
+          </Grid>
         </Grid>
       </TabItem>
     </TabControl>

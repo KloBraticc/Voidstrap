@@ -14,7 +14,7 @@ internal static class LinuxDialogOwnership
 
 	public static void Adopt(Window window)
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux || window.Owner is not null || IsStandalone(window))
+		if (!Voidstrap.Utility.Platform.IsLinux || window.Owner is not null || IsStandalone(window) || RoundedWindowChrome.IsOverlaySurface(window))
 			return;
 
 		Window? owner = ResolveOwner(window);
@@ -36,6 +36,16 @@ internal static class LinuxDialogOwnership
 	public static bool? ShowOwnedDialog(this Window window)
 	{
 		Adopt(window);
+		return ShowTracked(window);
+	}
+
+	public static bool? ShowTopLevelDialog(this Window window)
+	{
+		return ShowTracked(window);
+	}
+
+	private static bool? ShowTracked(Window window)
+	{
 		OpenDialogs.Add(window);
 		try
 		{
@@ -52,7 +62,7 @@ internal static class LinuxDialogOwnership
 		for (int index = OpenDialogs.Count - 1; index >= 0; index--)
 		{
 			Window dialog = OpenDialogs[index];
-			if (!ReferenceEquals(dialog, window) && dialog.IsVisible)
+			if (!ReferenceEquals(dialog, window) && CanOwn(dialog))
 				return dialog;
 		}
 
@@ -60,7 +70,7 @@ internal static class LinuxDialogOwnership
 
 		foreach (Window candidate in Application.Current.Windows)
 		{
-			if (ReferenceEquals(candidate, window) || IsStandalone(candidate) || !candidate.IsVisible)
+			if (ReferenceEquals(candidate, window) || !CanOwn(candidate))
 				continue;
 
 			if (candidate.IsActive)
@@ -72,6 +82,13 @@ internal static class LinuxDialogOwnership
 		return fallback;
 	}
 
+	private static bool CanOwn(Window window) =>
+		window.IsVisible
+		&& window.WindowState != System.Windows.WindowState.Minimized
+		&& (window.ShowInTaskbar || window.Owner is not null)
+		&& !IsStandalone(window)
+		&& !RoundedWindowChrome.IsOverlaySurface(window);
+
 	private static bool IsStandalone(Window window) =>
-		window is OverlayWindow or CrosshairWindow or LinuxHomepageOverlayWindow;
+		window is OverlayWindow or CrosshairWindow or LinuxHomepageOverlayWindow or NotificationWindow or Voidstrap.UI.Elements.ContextMenu.MenuContainer;
 }

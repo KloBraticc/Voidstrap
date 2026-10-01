@@ -36,6 +36,18 @@ internal static class AssetWarpAutoEnable
 				}
 				LegacyMaterialTextures.RemoveGenerated();
 			}
+			else if (Voidstrap.Utility.Platform.IsLinux && App.Settings.Prop.ModApplyTarget != Voidstrap.Enums.ModApplyTarget.Studio)
+			{
+				if (SoberBuiltinContent.HasRedirects())
+				{
+					return true;
+				}
+				IReadOnlyList<string> folders = [.. ManagedModStore.EnabledFoldersByPriority(), Paths.Mods];
+				if (LegacyMaterialTextures.HasSources(folders))
+				{
+					return true;
+				}
+			}
 		}
 		catch (Exception ex)
 		{

@@ -51,17 +51,12 @@ pkgdesc='Customize and launch Roblox through Sober on Linux'
 arch=('x86_64' 'aarch64')
 url='$PROJECT_URL'
 license=('MIT')
-depends=('glibc' 'gcc-libs' 'zlib' 'vulkan-icd-loader' 'vulkan-driver' 'libx11' 'libxext' 'libxrender' 'libxrandr' 'libxi' 'libxcursor' 'libxfixes' 'libice' 'libsm' 'fontconfig' 'freetype2' 'libxkbcommon' 'libxkbcommon-x11' 'wayland' 'dbus' 'libglvnd' 'openssl' 'ca-certificates' 'flatpak' 'hicolor-icon-theme')
+depends=('glibc' 'gcc-libs' 'zlib' 'vulkan-icd-loader' 'vulkan-driver' 'libx11' 'libxext' 'libxrender' 'libxrandr' 'libxi' 'libxcursor' 'libxfixes' 'libice' 'libsm' 'fontconfig' 'freetype2' 'libxkbcommon' 'libxkbcommon-x11' 'wayland' 'dbus' 'libglvnd' 'openssl' 'ca-certificates' 'flatpak' 'hicolor-icon-theme' 'xdg-utils' 'desktop-file-utils' 'glib2' 'libnotify' 'libsecret' 'gstreamer' 'gst-plugins-base' 'gst-plugins-good' 'gst-plugins-bad' 'gst-libav' 'webkit2gtk-4.1')
 optdepends=('vulkan-swrast: software rendering when no GPU Vulkan driver works'
-            'xdg-utils: desktop protocol registration tools'
-            'libnotify: desktop notifications'
-            'libsecret: credential storage'
-            'gstreamer: music player, image and video playback'
-            'gst-plugins-base: common media codecs'
-            'gst-plugins-good: music player equalizer and additional media codecs'
-            'gst-plugins-bad: additional media codecs'
-            'gst-libav: FFmpeg backed media codecs'
-            'webkit2gtk-4.1: embedded web views')
+            'polkit: administrator authorization for system updates and host integrations'
+            'pipewire: Roblox audio session controls'
+            'wireplumber: Roblox audio session controls'
+            'xorg-xrandr: display refresh rate detection')
 provides=('voidstrap')
 conflicts=('voidstrap')
 options=('!strip' '!debug')
@@ -117,16 +112,22 @@ pkgbase = voidstrap-bin
 	depends = ca-certificates
 	depends = flatpak
 	depends = hicolor-icon-theme
+	depends = xdg-utils
+	depends = desktop-file-utils
+	depends = glib2
+	depends = libnotify
+	depends = libsecret
+	depends = gstreamer
+	depends = gst-plugins-base
+	depends = gst-plugins-good
+	depends = gst-plugins-bad
+	depends = gst-libav
+	depends = webkit2gtk-4.1
 	optdepends = vulkan-swrast: software rendering when no GPU Vulkan driver works
-	optdepends = xdg-utils: desktop protocol registration tools
-	optdepends = libnotify: desktop notifications
-	optdepends = libsecret: credential storage
-	optdepends = gstreamer: music player, image and video playback
-	optdepends = gst-plugins-base: common media codecs
-	optdepends = gst-plugins-good: music player equalizer and additional media codecs
-	optdepends = gst-plugins-bad: additional media codecs
-	optdepends = gst-libav: FFmpeg backed media codecs
-	optdepends = webkit2gtk-4.1: embedded web views
+	optdepends = polkit: administrator authorization for system updates and host integrations
+	optdepends = pipewire: Roblox audio session controls
+	optdepends = wireplumber: Roblox audio session controls
+	optdepends = xorg-xrandr: display refresh rate detection
 	provides = voidstrap
 	conflicts = voidstrap
 	options = !strip

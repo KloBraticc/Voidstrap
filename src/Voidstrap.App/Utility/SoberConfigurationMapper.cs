@@ -14,7 +14,8 @@ internal static class SoberConfigurationMapper
 			ApplyVirtualMachineProfile(CreateNativeOptions(settings)),
 			modsAllowed,
 			modsAllowed ? CollectManagedModSources() : null,
-			ModAutoFixer.IsIgnoredModFile);
+			ModAutoFixer.IsIgnoredModFile,
+			CursorManager.GetPresetAssetHashes());
 	}
 
 	private static List<LinuxModSource> CollectManagedModSources()

@@ -1,8 +1,12 @@
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.TextFormatting;
@@ -13,6 +17,8 @@ namespace Voidstrap.UI;
 internal static class LinuxTextFallback
 {
 	private const int MaxCachedLookups = 8192;
+
+	private const int MaxUncoveredCodePoints = 4096;
 
 	private static readonly string[] PreferredFamilies =
 	[
@@ -42,6 +48,49 @@ internal static class LinuxTextFallback
 
 	private static List<FontFamily>? _candidates;
 
+	private static readonly HashSet<int> Uncovered = new();
+
+	private static readonly HashSet<string> PreferredNames = new(PreferredFamilies, StringComparer.OrdinalIgnoreCase);
+
+#if CROSSPLAT
+	private static Dictionary<string, ProGPU.Text.FontInfo>? _fontFiles;
+#endif
+
+	private const string EmojiFontResource = "Voidstrap.Resources.Fonts.VoidstrapEmoji.ttf";
+
+	private const string EmojiMapResource = "Voidstrap.Resources.Fonts.VoidstrapEmoji.map";
+
+	private const string EmojiFileName = "VoidstrapEmoji.ttf";
+
+	private const string EmojiFamilyName = "Voidstrap Emoji";
+
+	private const char EmojiPad = '\uE000';
+
+	private const int EmojiPreparationWaitMilliseconds = 2000;
+
+	private static readonly (int First, int Last)[] EmojiPresentationRanges =
+	[
+		(0x231A, 0x231B), (0x23E9, 0x23EC), (0x23F0, 0x23F0), (0x23F3, 0x23F3), (0x25FD, 0x25FE),
+		(0x2614, 0x2615), (0x2648, 0x2653), (0x267F, 0x267F), (0x2693, 0x2693), (0x26A1, 0x26A1),
+		(0x26AA, 0x26AB), (0x26BD, 0x26BE), (0x26C4, 0x26C5), (0x26CE, 0x26CE), (0x26D4, 0x26D4),
+		(0x26EA, 0x26EA), (0x26F2, 0x26F3), (0x26F5, 0x26F5), (0x26FA, 0x26FA), (0x26FD, 0x26FD),
+		(0x2705, 0x2705), (0x270A, 0x270B), (0x2728, 0x2728), (0x274C, 0x274C), (0x274E, 0x274E),
+		(0x2753, 0x2755), (0x2757, 0x2757), (0x2795, 0x2797), (0x27B0, 0x27B0), (0x27BF, 0x27BF),
+		(0x2B1B, 0x2B1C), (0x2B50, 0x2B50), (0x2B55, 0x2B55)
+	];
+
+	private static Task? _emojiPreparation;
+
+	private static string? _emojiDirectory;
+
+	private static Dictionary<string, char>? _emojiSequences;
+
+	private static HashSet<int>? _emojiStarts;
+
+	private static bool _emojiAttempted;
+
+	private static EmojiTables? _emoji;
+
 	public static bool Active { get; private set; }
 
 	public static void Install()
@@ -59,6 +108,205 @@ internal static class LinuxTextFallback
 		hook.SetValue(null, new Func<TextRun, string, TextRun?>(Split));
 		Active = true;
 		App.Logger.WriteLine("LinuxTextFallback", "Characters outside the primary font now use installed fallback fonts");
+		_emojiPreparation = Task.Run(PrepareEmoji);
+	}
+
+	private static void PrepareEmoji()
+	{
+		try
+		{
+			Assembly assembly = typeof(LinuxTextFallback).Assembly;
+			using Stream? font = assembly.GetManifestResourceStream(EmojiFontResource);
+			using Stream? map = assembly.GetManifestResourceStream(EmojiMapResource);
+			if (font == null || map == null)
+			{
+				App.Logger.WriteLine("LinuxTextFallback", "This build has no bundled emoji font, emoji stay hidden");
+				return;
+			}
+
+			Dictionary<string, char> sequences = new(StringComparer.Ordinal);
+			HashSet<int> starts = new();
+			using (StreamReader reader = new(map))
+			{
+				StringBuilder key = new();
+				string? line;
+				while ((line = reader.ReadLine()) != null)
+				{
+					int tab = line.IndexOf('\t');
+					if (tab <= 0
+						|| !int.TryParse(line.AsSpan(tab + 1).Trim(), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int mapped)
+						|| mapped is <= EmojiPad or > 0xF8FF)
+						continue;
+
+					key.Clear();
+					int first = -1;
+					foreach (string part in line[..tab].Split(' ', StringSplitOptions.RemoveEmptyEntries))
+					{
+						if (!int.TryParse(part, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int point) || !Rune.IsValid(point))
+						{
+							key.Clear();
+							break;
+						}
+						if (first < 0)
+							first = point;
+						key.Append(char.ConvertFromUtf32(point));
+					}
+
+					if (key.Length == 0)
+						continue;
+					sequences.TryAdd(key.ToString(), (char)mapped);
+					starts.Add(first);
+				}
+			}
+
+			byte[] content;
+			using (MemoryStream buffer = new())
+			{
+				font.CopyTo(buffer);
+				content = buffer.ToArray();
+			}
+
+			string directory = EmojiCacheDirectory();
+			Directory.CreateDirectory(directory);
+			string path = Path.Combine(directory, EmojiFileName);
+			if (!File.Exists(path) || new FileInfo(path).Length != content.Length || !File.ReadAllBytes(path).AsSpan().SequenceEqual(content))
+			{
+				string temporary = path + "." + Guid.NewGuid().ToString("N");
+				File.WriteAllBytes(temporary, content);
+				File.Move(temporary, path, true);
+			}
+
+			lock (Gate)
+			{
+				_emojiSequences = sequences;
+				_emojiStarts = starts;
+				_emojiDirectory = directory;
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LinuxTextFallback", "The emoji font could not be prepared: " + ex.Message);
+		}
+	}
+
+	private static string EmojiCacheDirectory()
+	{
+		string? cache = Environment.GetEnvironmentVariable("XDG_CACHE_HOME");
+		if (string.IsNullOrWhiteSpace(cache) || !Path.IsPathRooted(cache))
+		{
+			string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+			if (string.IsNullOrWhiteSpace(home) || !Path.IsPathRooted(home))
+				return Path.Combine(Path.GetTempPath(), "Voidstrap", "Fonts");
+			cache = Path.Combine(home, ".cache");
+		}
+
+		return Path.Combine(cache, "voidstrap", "fonts");
+	}
+
+	private static EmojiTables? Emoji()
+	{
+		Task? preparation = _emojiPreparation;
+		if (preparation is { IsCompleted: false })
+			SpinWait.SpinUntil(() => preparation.IsCompleted, EmojiPreparationWaitMilliseconds);
+
+		lock (Gate)
+		{
+			if (_emojiAttempted || _emojiDirectory == null || _emojiSequences == null || _emojiStarts == null)
+				return _emoji;
+
+			_emojiAttempted = true;
+			try
+			{
+				FontFamily family = new(new Uri(_emojiDirectory + Path.DirectorySeparatorChar), "./#" + EmojiFamilyName);
+				Typeface typeface = new(family, FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
+				if (typeface.TryGetGlyphTypeface(out GlyphTypeface glyphs) && glyphs.CharacterToGlyphMap.ContainsKey(EmojiPad))
+				{
+					_emoji = new EmojiTables(typeface, _emojiSequences, _emojiStarts);
+					App.Logger.WriteLine("LinuxTextFallback", "Emoji now render in color, " + _emojiSequences.Count + " emoji sequences are available");
+				}
+				else
+				{
+					App.Logger.WriteLine("LinuxTextFallback", "The bundled emoji font could not be read, emoji stay hidden");
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("LinuxTextFallback", "The bundled emoji font could not be loaded: " + ex.Message);
+			}
+
+			return _emoji;
+		}
+	}
+
+	private static bool IsEmojiPresentation(int codePoint)
+	{
+		if (codePoint < 0x231A || codePoint > 0x2B55)
+			return false;
+		foreach ((int first, int last) in EmojiPresentationRanges)
+		{
+			if (codePoint < first)
+				return false;
+			if (codePoint <= last)
+				return true;
+		}
+		return false;
+	}
+
+	private static bool StartsEmoji(string text, int index)
+	{
+		char value = text[index];
+		if (char.IsSurrogate(value))
+			return true;
+		if (index + 1 < text.Length && text[index + 1] is '\uFE0F' or '\u20E3' or '\u200D')
+			return true;
+		if (index + 2 < text.Length && text[index + 1] == '\uD83C' && text[index + 2] is >= '\uDFFB' and <= '\uDFFF')
+			return true;
+		return IsEmojiPresentation(value);
+	}
+
+	private static bool TryMapEmoji(ReadOnlySpan<char> cluster, IDictionary<int, ushort> primaryMap, EmojiTables emoji, out char mapped)
+	{
+		mapped = '\0';
+		if (Rune.DecodeFromUtf16(cluster, out Rune first, out int firstLength) != OperationStatus.Done)
+			return false;
+
+		int codePoint = first.Value;
+		if (!emoji.Starts.Contains(codePoint) || cluster.Contains('\uFE0E'))
+			return false;
+		if (codePoint < 0x80 && !cluster.Contains('\u20E3'))
+			return false;
+		if (cluster.Length == firstLength && codePoint < 0x10000 && !IsEmojiPresentation(codePoint) && primaryMap.ContainsKey(codePoint))
+			return false;
+
+		string key = cluster.ToString();
+		if (emoji.Sequences.TryGetValue(key, out mapped))
+			return true;
+		return key.Contains('\uFE0F') && emoji.Sequences.TryGetValue(key.Replace("\uFE0F", "", StringComparison.Ordinal), out mapped);
+	}
+
+	private static TextRun? EmojiRun(string text, TextRunProperties properties, IDictionary<int, ushort> primaryMap)
+	{
+		EmojiTables? emoji = Emoji();
+		if (emoji == null)
+			return null;
+
+		StringBuilder? translated = null;
+		int consumed = 0;
+		while (consumed < text.Length)
+		{
+			int cluster = StringInfo.GetNextTextElementLength(text.AsSpan(consumed));
+			if (cluster <= 0 || !TryMapEmoji(text.AsSpan(consumed, cluster), primaryMap, emoji, out char mapped))
+				break;
+			translated ??= new StringBuilder(text.Length);
+			translated.Append(mapped);
+			translated.Append(EmojiPad, cluster - 1);
+			consumed += cluster;
+		}
+
+		if (translated == null)
+			return null;
+		string value = translated.ToString();
+		return new TextCharacters(value, 0, value.Length, new FallbackProperties(properties, emoji.Typeface));
 	}
 
 	internal static TextRun? Split(TextRun run, string text)
@@ -73,6 +321,13 @@ internal static class LinuxTextFallback
 
 		IDictionary<int, ushort> primaryMap = primaryGlyphs.CharacterToGlyphMap;
 		char first = text[0];
+		if (StartsEmoji(text, 0) || !primaryMap.ContainsKey(first))
+		{
+			TextRun? emoji = EmojiRun(text, properties, primaryMap);
+			if (emoji != null)
+				return emoji;
+		}
+
 		if (char.IsSurrogate(first))
 			return Supplementary(text, properties, primary, primaryMap);
 
@@ -161,6 +416,8 @@ internal static class LinuxTextFallback
 			char next = text[length];
 			if (char.IsSurrogate(next) || !map.ContainsKey(next) || preferred != null && preferred.ContainsKey(next))
 				break;
+			if (_emoji != null && _emoji.Starts.Contains(next) && StartsEmoji(text, length))
+				break;
 			length++;
 		}
 
@@ -174,14 +431,23 @@ internal static class LinuxTextFallback
 
 	private static Typeface? Resolve(Typeface primary, int codePoint)
 	{
+		if (IsPrivateUse(codePoint))
+			return null;
+
 		lock (Gate)
 		{
 			if (Lookups.TryGetValue((primary, codePoint), out Typeface? cached))
 				return cached;
+			if (Uncovered.Contains(codePoint))
+				return null;
 
 			Typeface? found = null;
 			foreach (FontFamily family in Candidates())
 			{
+				bool? covers = Covers(family, codePoint);
+				if (covers == false || (covers == null && !PreferredNames.Contains(family.Source)))
+					continue;
+
 				Typeface candidate = new(family, primary.Style, primary.Weight, primary.Stretch);
 				if (candidate.TryGetGlyphTypeface(out GlyphTypeface glyphs) && glyphs.CharacterToGlyphMap.ContainsKey(codePoint))
 				{
@@ -190,12 +456,65 @@ internal static class LinuxTextFallback
 				}
 			}
 
+			if (found == null)
+			{
+				if (Uncovered.Count >= MaxUncoveredCodePoints)
+					Uncovered.Clear();
+				Uncovered.Add(codePoint);
+			}
+
 			if (Lookups.Count >= MaxCachedLookups)
 				Lookups.Clear();
 			Lookups[(primary, codePoint)] = found;
 			return found;
 		}
 	}
+
+	private static bool IsPrivateUse(int codePoint)
+	{
+		return codePoint is >= 0xE000 and <= 0xF8FF or >= 0xF0000;
+	}
+
+	private static bool? Covers(FontFamily family, int codePoint)
+	{
+#if CROSSPLAT
+		try
+		{
+			Dictionary<string, ProGPU.Text.FontInfo>? files = _fontFiles;
+			if (files == null)
+			{
+				files = new Dictionary<string, ProGPU.Text.FontInfo>(StringComparer.OrdinalIgnoreCase);
+				foreach (ProGPU.Text.FontInfo font in ProGPU.Text.FontApi.GetSystemFonts())
+				{
+					if (string.IsNullOrWhiteSpace(font.FamilyName) || string.IsNullOrWhiteSpace(font.FilePath))
+						continue;
+					if (!files.TryGetValue(font.FamilyName, out ProGPU.Text.FontInfo? known) || IsRegularFace(font) && !IsRegularFace(known))
+						files[font.FamilyName] = font;
+				}
+				_fontFiles = files;
+			}
+
+			return files.TryGetValue(family.Source, out ProGPU.Text.FontInfo? info)
+				? ProGPU.Text.FontApi.ContainsGlyph(info, (uint)codePoint)
+				: null;
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LinuxTextFallback", "Font coverage could not be read, checking fonts directly: " + ex.Message);
+			_fontFiles = new Dictionary<string, ProGPU.Text.FontInfo>(StringComparer.OrdinalIgnoreCase);
+			return null;
+		}
+#else
+		return null;
+#endif
+	}
+
+#if CROSSPLAT
+	private static bool IsRegularFace(ProGPU.Text.FontInfo font)
+	{
+		return font.Weight == 400 && !font.IsItalic && font.Width == 5;
+	}
+#endif
 
 	private static List<FontFamily> Candidates()
 	{
@@ -235,6 +554,8 @@ internal static class LinuxTextFallback
 		_candidates = ordered;
 		return ordered;
 	}
+
+	private sealed record EmojiTables(Typeface Typeface, Dictionary<string, char> Sequences, HashSet<int> Starts);
 
 	private sealed class FallbackProperties : TextRunProperties
 	{

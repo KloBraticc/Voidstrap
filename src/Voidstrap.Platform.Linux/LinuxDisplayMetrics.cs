@@ -403,6 +403,11 @@ public static class LinuxDisplayMetrics
 	private static string RunTool(string fileName, string arguments)
 	{
 		System.Diagnostics.Process? process = null;
+		if (LinuxFlatpakHost.IsSandboxed)
+		{
+			arguments = "--host --directory=/ " + fileName + " " + arguments;
+			fileName = "flatpak-spawn";
+		}
 		try
 		{
 			process = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(fileName, arguments)

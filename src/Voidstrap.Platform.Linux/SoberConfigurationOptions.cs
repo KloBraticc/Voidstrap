@@ -71,7 +71,8 @@ public sealed record LinuxPlayerPreparationOptions(
 	SoberNativeConfigurationOptions? NativeConfiguration = null,
 	bool ApplyModifications = true,
 	IReadOnlyList<LinuxModSource>? AdditionalModSources = null,
-	Func<string, bool>? IgnoreModFile = null);
+	Func<string, bool>? IgnoreModFile = null,
+	IReadOnlyDictionary<string, IReadOnlyList<string>>? RecoverableAssetHashes = null);
 
 public interface ISoberProcessProbe
 {
@@ -91,9 +92,58 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 
 	private const string SoberProcessName = "sober";
 
+	private const long HostProbeInterval = 2000;
+
+	private static readonly object HostProbeSync = new();
+
+	private static long _hostProbedAt = long.MinValue;
+
+	private static bool _hostProbeRunning;
+
 	public static bool IsRunningNow()
 	{
-		return GetSandboxProcessIds().Count > 0;
+		if (GetSandboxProcessIds().Count > 0)
+			return true;
+		return LinuxFlatpakHost.IsSandboxed && IsRunningOnHost();
+	}
+
+	private static bool IsRunningOnHost()
+	{
+		lock (HostProbeSync)
+		{
+			if (_hostProbedAt != long.MinValue && Environment.TickCount64 - _hostProbedAt < HostProbeInterval)
+				return _hostProbeRunning;
+
+			bool running = false;
+			try
+			{
+				Voidstrap.Core.SystemProcessService processes = new();
+				if (LinuxFlatpakHost.TryCreateCommand(processes, ["ps", "--columns=application"], out ProcessCommand command))
+				{
+					using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(2));
+					OperationResult<ProcessExecution> result = Task.Run(() => processes.ExecuteAsync(command, timeout.Token)).GetAwaiter().GetResult();
+					running = result.Succeeded && result.Value is { ExitCode: 0 } && ListsSober(result.Value.StandardOutput);
+				}
+			}
+			catch (Exception)
+			{
+				running = false;
+			}
+
+			_hostProbeRunning = running;
+			_hostProbedAt = Environment.TickCount64;
+			return running;
+		}
+	}
+
+	private static bool ListsSober(string output)
+	{
+		foreach (string line in output.Split('\n'))
+		{
+			if (string.Equals(line.Trim(), SoberApplicationId, StringComparison.Ordinal))
+				return true;
+		}
+		return false;
 	}
 
 	public static IReadOnlyList<int> GetSandboxProcessIds()
@@ -151,7 +201,7 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 
-		if (IsRunningNow())
+		if (GetSandboxProcessIds().Count > 0)
 			return true;
 
 		if (!LinuxFlatpakHost.TryCreateCommand(_processes, ["ps", "--columns=application"], out ProcessCommand command))
@@ -163,12 +213,6 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 		if (!result.Succeeded || result.Value is null || result.Value.ExitCode != 0)
 			return false;
 
-		foreach (string line in result.Value.StandardOutput.Split('\n'))
-		{
-			if (string.Equals(line.Trim(), SoberApplicationId, StringComparison.Ordinal))
-				return true;
-		}
-
-		return false;
+		return ListsSober(result.Value.StandardOutput);
 	}
 }

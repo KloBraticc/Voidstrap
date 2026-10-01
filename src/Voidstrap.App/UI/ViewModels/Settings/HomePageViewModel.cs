@@ -29,6 +29,8 @@ namespace Voidstrap.UI.ViewModels.Pages
 
     internal class HistoryGameEntry : NotifyPropertyChangedViewModel
     {
+        internal static bool RebuildingDatacenterOptions;
+
         private readonly ObservableCollection<DatacenterOption> _datacenterOptions;
         private DatacenterOption? _selectedDatacenter;
         private string _likePercent = "--";
@@ -105,7 +107,13 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public bool ExcludedFromMatchmaker => Voidstrap.Integrations.ServerMatchmaker.IsExcluded(PlaceId);
 
-        public bool MatchmakerEnabledForGame => !ExcludedFromMatchmaker;
+        public bool MatchmakerEnabledForGame => App.Settings.Prop.VoidstrapMatchmakerEnabled && !ExcludedFromMatchmaker;
+
+        public string DatacenterToolTip => !App.Settings.Prop.VoidstrapMatchmakerEnabled
+            ? "Turn on the Voidstrap Matchmaker in Settings to pick a server for this game"
+            : ExcludedFromMatchmaker
+                ? "The matchmaker is skipped for this game"
+                : "Preferred server for rejoining this game";
 
         public string SkipMatchmakerLabel => ExcludedFromMatchmaker ? "Matchmaker skipped" : "Skip matchmaker";
 
@@ -124,6 +132,7 @@ namespace Voidstrap.UI.ViewModels.Pages
             Voidstrap.Integrations.ServerMatchmaker.SetExcluded(PlaceId, !ExcludedFromMatchmaker);
             OnPropertyChanged(nameof(ExcludedFromMatchmaker));
             OnPropertyChanged(nameof(MatchmakerEnabledForGame));
+            OnPropertyChanged(nameof(DatacenterToolTip));
             OnPropertyChanged(nameof(SkipMatchmakerLabel));
             OnPropertyChanged(nameof(SkipMatchmakerIcon));
             OnPropertyChanged(nameof(SkipMatchmakerTooltip));
@@ -134,7 +143,7 @@ namespace Voidstrap.UI.ViewModels.Pages
             get => _selectedDatacenter;
             set
             {
-                if (value == null || _selectedDatacenter == value) return;
+                if (value == null || _selectedDatacenter == value || RebuildingDatacenterOptions) return;
                 _selectedDatacenter = value;
                 OnPropertyChanged(nameof(SelectedDatacenter));
 
@@ -491,9 +500,17 @@ namespace Voidstrap.UI.ViewModels.Pages
                 {
                     if (DatacenterOptions.Select(o => o.Key).SequenceEqual(built.Select(o => o.Key), StringComparer.OrdinalIgnoreCase))
                         return;
-                    DatacenterOptions.Clear();
-                    foreach (var o in built)
-                        DatacenterOptions.Add(o);
+                    HistoryGameEntry.RebuildingDatacenterOptions = true;
+                    try
+                    {
+                        DatacenterOptions.Clear();
+                        foreach (var o in built)
+                            DatacenterOptions.Add(o);
+                    }
+                    finally
+                    {
+                        HistoryGameEntry.RebuildingDatacenterOptions = false;
+                    }
                     foreach (var entry in _gameHistory)
                         entry.ResolveDatacenter();
                 });

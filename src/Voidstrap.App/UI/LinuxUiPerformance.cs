@@ -47,13 +47,13 @@ internal static class LinuxUiPerformance
 
 	internal static void Mark(string stage)
 	{
-		if (TraceEnabled)
+		if (OperatingSystem.IsLinux())
 			App.Logger.WriteLine("LinuxUiPerformance", stage + " at " + (int)Stopwatch.GetElapsedTime(Started).TotalMilliseconds + " ms");
 	}
 
 	internal static void Duration(string stage, long started)
 	{
-		if (TraceEnabled)
+		if (OperatingSystem.IsLinux())
 			App.Logger.WriteLine("LinuxUiPerformance", stage + " took " + (int)Stopwatch.GetElapsedTime(started).TotalMilliseconds + " ms");
 	}
 
@@ -65,7 +65,7 @@ internal static class LinuxUiPerformance
 
 	internal static void FirstPresented(Window window, long elapsedMilliseconds)
 	{
-		if (TraceEnabled)
+		if (OperatingSystem.IsLinux())
 			App.Logger.WriteLine("LinuxUiPerformance", window.GetType().Name + " first presented frame after " + elapsedMilliseconds + " ms");
 		if (Application.Current is App application)
 			application.StartLinuxDeferredServices();

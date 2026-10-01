@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -10,6 +11,9 @@ internal static class LinuxWindowReveal
 {
 #if CROSSPLAT
 	private static readonly TimeSpan RevealDeadline = TimeSpan.FromSeconds(8);
+	private static readonly ConditionalWeakTable<Window, Pending> PendingWindows = new();
+
+	internal static bool IsPending(Window window) => PendingWindows.TryGetValue(window, out _);
 
 	private static readonly MethodInfo? InitializeHidden = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost)
 		.GetMethod("InitializeHidden", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -135,6 +139,7 @@ internal static class LinuxWindowReveal
 
 		internal void Start()
 		{
+			PendingWindows.Add(_window, this);
 			CompositionTarget.Rendering += OnRendering;
 			_window.Closed += OnClosed;
 			_deadline = new DispatcherTimer(DispatcherPriority.Background, _window.Dispatcher) { Interval = RevealDeadline };
@@ -167,6 +172,9 @@ internal static class LinuxWindowReveal
 
 		private void RevealAfterFrame()
 		{
+			if (_done)
+				return;
+			LinuxGraphicsWarmup.Prepare(_host);
 			Reveal("its first frame");
 		}
 
@@ -199,6 +207,7 @@ internal static class LinuxWindowReveal
 		private void Finish()
 		{
 			_done = true;
+			PendingWindows.Remove(_window);
 			CompositionTarget.Rendering -= OnRendering;
 			_window.Closed -= OnClosed;
 			if (_deadline is null)

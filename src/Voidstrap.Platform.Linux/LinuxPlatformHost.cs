@@ -978,6 +978,21 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 	public static bool StartedInThisProcess { get; private set; }
 
+	public static IDisposable? TryAcquireLaunchLease()
+	{
+		string directory = Path.Combine(LinuxPaths.GetHomeDirectory(), ".var", "app", LinuxFlatpakHost.DefaultApplicationId, "cache", "voidstrap");
+		Directory.CreateDirectory(directory);
+		try
+		{
+			return new FileStream(Path.Combine(directory, "sober-launch.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+		}
+		catch (IOException)
+		{
+			return null;
+		}
+	}
+
+
 	public static Func<CancellationToken, Task<bool>>? OnboardingAssist { get; set; }
 
 	private static System.Diagnostics.Process? StartSoberKill()
@@ -1150,7 +1165,7 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 	private static async Task<bool> WaitForSoberStartedAsync(DateTime launchedUtc, IReadOnlyCollection<int> previousOwners, CancellationToken cancellationToken)
 	{
 		using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-		timeout.CancelAfter(TimeSpan.FromSeconds(12));
+		timeout.CancelAfter(TimeSpan.FromSeconds(45));
 		int runningChecks = 0;
 
 		try
@@ -1196,40 +1211,89 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 	{
 		try
 		{
-			string state = Path.Combine(SoberDataDirectory, "state");
-			if (File.Exists(state))
-			{
-				using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(File.ReadAllText(state));
-				if (document.RootElement.ValueKind == System.Text.Json.JsonValueKind.Object
-					&& document.RootElement.TryGetProperty("v1", out System.Text.Json.JsonElement v1)
-					&& v1.ValueKind == System.Text.Json.JsonValueKind.Object
-					&& v1.TryGetProperty("app_version", out System.Text.Json.JsonElement version))
-				{
-					return version.ValueKind == System.Text.Json.JsonValueKind.String && !string.IsNullOrWhiteSpace(version.GetString());
-				}
-			}
-
 			return HasCompleteRobloxPackage();
 		}
-		catch (Exception ex) when (ex is System.Text.Json.JsonException or IOException)
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 		{
 			return false;
 		}
-		catch (Exception)
-		{
+	}
+
+	public static async Task<bool> NeedsSandboxRefreshAsync(CancellationToken cancellationToken = default)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		if (!LinuxFlatpakHost.IsSandboxed)
+			return false;
+		string root = Path.GetDirectoryName(Path.GetDirectoryName(SoberDataDirectory))!;
+		SystemProcessService processes = new();
+		if (!LinuxFlatpakHost.TryCreateHostCommand(processes, "stat", ["-Lc", "%d:%i", "--", root], out ProcessCommand command))
+			return false;
+		using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+		timeout.CancelAfter(TimeSpan.FromSeconds(5));
+		OperationResult<ProcessExecution> result = await processes.ExecuteAsync(command, timeout.Token).ConfigureAwait(false);
+		cancellationToken.ThrowIfCancellationRequested();
+		if (!result.Succeeded || result.Value is not { ExitCode: 0 })
+			return false;
+		if (GetSoberPackageStatus(CurrentDirectoryDescriptor, root, 0, StatusInodeMask, out SoberPackageStatus status) != 0)
 			return true;
-		}
+		ulong major = status.DeviceMajor;
+		ulong minor = status.DeviceMinor;
+		ulong device = (minor & 0xff) | ((major & 0xfff) << 8) | ((minor & ~0xffUL) << 12) | ((major & ~0xfffUL) << 32);
+		string identity = device.ToString(CultureInfo.InvariantCulture) + ":" + status.Inode.ToString(CultureInfo.InvariantCulture);
+		return !string.Equals(result.Value.StandardOutput.Trim(), identity, StringComparison.Ordinal);
+	}
+
+	public static async Task<bool> IsRobloxPackageInstalledAsync(CancellationToken cancellationToken = default)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		if (!LinuxFlatpakHost.IsSandboxed)
+			return IsRobloxPackageInstalled();
+
+		const string probe = """
+			for directory in "$1"/packages/*/com.roblox.client; do
+			    [ -f "$directory/base.apk" ] || continue
+			    complete=1
+			    for package in "$directory"/*.apk; do
+			        tail -c 65557 -- "$package" | od -An -v -tu1 | awk '
+			            { for (i = 1; i <= NF; i++) bytes[++count] = $i }
+			            END {
+			                for (i = count - 21; i >= 1; i--)
+			                    if (bytes[i] == 80 && bytes[i+1] == 75 && bytes[i+2] == 5 && bytes[i+3] == 6 && i + 21 + bytes[i+20] + 256 * bytes[i+21] == count)
+			                        exit 0
+			                exit 1
+			            }' || { complete=0; break; }
+			    done
+			    [ "$complete" = 1 ] && exit 0
+			done
+			exit 1
+			""";
+		SystemProcessService processes = new();
+		if (!LinuxFlatpakHost.TryCreateHostCommand(processes, "sh", ["-c", probe, "voidstrap", SoberDataDirectory], out ProcessCommand command))
+			return false;
+		using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+		timeout.CancelAfter(TimeSpan.FromSeconds(5));
+		OperationResult<ProcessExecution> result = await processes.ExecuteAsync(command, timeout.Token).ConfigureAwait(false);
+		cancellationToken.ThrowIfCancellationRequested();
+		return result.Succeeded && result.Value?.ExitCode == 0;
 	}
 
 	private static bool HasCompleteRobloxPackage()
 	{
-		string directory = RobloxPackageDirectory;
-		if (!Directory.Exists(directory))
+		string root = Path.Combine(SoberDataDirectory, "packages");
+		if (!Directory.Exists(root))
 			return false;
 
-		string[] packages = Directory.GetFiles(directory, "*.apk");
-		return packages.Any(static package => string.Equals(Path.GetFileName(package), "base.apk", StringComparison.Ordinal))
-			&& packages.All(IsCompleteArchive);
+		foreach (string architecture in Directory.EnumerateDirectories(root))
+		{
+			string directory = Path.Combine(architecture, "com.roblox.client");
+			if (!Directory.Exists(directory))
+				continue;
+			string[] packages = Directory.GetFiles(directory, "*.apk");
+			if (packages.Any(static package => string.Equals(Path.GetFileName(package), "base.apk", StringComparison.Ordinal))
+				&& packages.All(IsCompleteArchive))
+				return true;
+		}
+		return false;
 	}
 
 	private static bool IsCompleteArchive(string path)
@@ -1246,7 +1310,8 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 			stream.ReadExactly(tail);
 			for (int index = size - 22; index >= 0; index--)
 			{
-				if (tail[index] == 0x50 && tail[index + 1] == 0x4b && tail[index + 2] == 0x05 && tail[index + 3] == 0x06)
+				if (tail[index] == 0x50 && tail[index + 1] == 0x4b && tail[index + 2] == 0x05 && tail[index + 3] == 0x06
+					&& index + 22 + tail[index + 20] + (tail[index + 21] << 8) == size)
 					return true;
 			}
 
@@ -1320,10 +1385,14 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		}
 	}
 
-	public static async Task<bool> TryDownloadRobloxPackageAsync(CancellationToken cancellationToken, Action<string>? report = null)
+	public static async Task<bool> TryDownloadRobloxPackageAsync(CancellationToken cancellationToken, Action<string>? report = null, Action? onPackageReady = null)
 	{
-		if (IsRobloxPackageInstalled())
+		cancellationToken.ThrowIfCancellationRequested();
+		if (await IsRobloxPackageInstalledAsync(cancellationToken).ConfigureAwait(false))
+		{
+			onPackageReady?.Invoke();
 			return true;
+		}
 
 		if (!await IsSoberRunningAsync(cancellationToken).ConfigureAwait(false))
 			RemoveInterruptedRobloxPackage();
@@ -1336,10 +1405,13 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 		try
 		{
+			report?.Invoke("Downloading Sober");
 			StartedInThisProcess = true;
-			process = LinuxFlatpakHost.Start(assist is null
-				? ["run", SoberApplicationId]
-				: ["run", "--nosocket=wayland", "--socket=x11", SoberApplicationId]);
+			process = assist is null
+				? LinuxFlatpakHost.Start(["run", SoberApplicationId])
+				: LinuxFlatpakHost.Start(
+					["run", "--nosocket=wayland", "--socket=x11", SoberApplicationId],
+					new Dictionary<string, string> { ["DISPLAY"] = Environment.GetEnvironmentVariable("DISPLAY") ?? string.Empty });
 			if (process is null)
 				return false;
 
@@ -1347,27 +1419,25 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 			for (int attempt = 0; attempt < 1800; attempt++)
 			{
-				long downloaded = DownloadedRobloxBytes();
-				report?.Invoke(downloaded > 0
-					? "Sober is downloading Roblox, " + (downloaded / (1024 * 1024)).ToString(CultureInfo.InvariantCulture) + " MB so far"
-					: assisting is null || assisting is { IsCompleted: true, Result: false }
-						? "Click Continue in the Sober window so Sober can download Roblox"
-						: "Getting Sober ready to download Roblox");
-
-				await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
-
-				if (IsRobloxPackageInstalled())
+				cancellationToken.ThrowIfCancellationRequested();
+				if (await IsRobloxPackageInstalledAsync(cancellationToken).ConfigureAwait(false))
 				{
 					installed = true;
+					onPackageReady?.Invoke();
 					await Task.Delay(2000, cancellationToken).ConfigureAwait(false);
 					return true;
 				}
 
-				if (process is { HasExited: true })
+				if (process is { HasExited: true }
+					&& !await IsSoberRunningAsync(cancellationToken).ConfigureAwait(false))
 				{
-					installed = IsRobloxPackageInstalled();
+					installed = await IsRobloxPackageInstalledAsync(cancellationToken).ConfigureAwait(false);
+					if (installed)
+						onPackageReady?.Invoke();
 					return installed;
 				}
+
+				await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
 			}
 
 			return false;
@@ -1387,6 +1457,8 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 				if (installed)
 					TryCloseSober();
 				assistStop.Cancel();
+				if (assisting is not null)
+					await assisting.WaitAsync(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
 				process?.Dispose();
 			}
 			catch (Exception)
@@ -1612,36 +1684,18 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		if (!LinuxFlatpakHost.TryCreateCommand(_processes, arguments, out ProcessCommand launchCommand, false))
 			return OperationResult<LaunchSession>.Fail("FlatpakMissing", "Flatpak is not installed", CapabilityState.RequiresExternalRuntime);
 
-		OperationResult<ProcessStartResult>? result = null;
+		List<int> previousOwners = SoberInstanceLockOwners();
+		DateTime launchedUtc = DateTime.UtcNow;
 		StartedInThisProcess = true;
-		for (int attempt = 0; attempt < 2; attempt++)
-		{
-			List<int> previousOwners = SoberInstanceLockOwners();
-			DateTime launchedUtc = DateTime.UtcNow;
-			result = await _processes.StartAsync(launchCommand, cancellationToken);
-			ThrowIfCanceled(result.Failure, cancellationToken);
-			if (result.Succeeded && result.Value is not null
-				&& await WaitForSoberStartedAsync(launchedUtc, previousOwners, cancellationToken).ConfigureAwait(false))
-			{
-				return OperationResult<LaunchSession>.Success(new LaunchSession(
-					RuntimeKind.Player,
-					"Sober",
-					result.Value.ProcessId,
-					DateTimeOffset.UtcNow,
-					installation,
-					false));
-			}
+		OperationResult<ProcessStartResult> result = await _processes.StartAsync(launchCommand, cancellationToken).ConfigureAwait(false);
+		ThrowIfCanceled(result.Failure, cancellationToken);
+		if (!result.Succeeded || result.Value is null)
+			return OperationResult<LaunchSession>.Fail(result.Failure?.Code ?? "SoberLaunchFailed", result.Failure?.Message ?? "Sober could not start", CapabilityState.Experimental);
+		if (!await WaitForSoberStartedAsync(launchedUtc, previousOwners, cancellationToken).ConfigureAwait(false))
+			return OperationResult<LaunchSession>.Fail("SoberLaunchFailed", "Sober did not finish starting. Check the Sober window before trying again.", CapabilityState.Experimental);
+		return OperationResult<LaunchSession>.Success(new LaunchSession(
+			RuntimeKind.Player, "Sober", result.Value.ProcessId, DateTimeOffset.UtcNow, installation, false));
 
-			if (attempt == 0)
-			{
-				await TryCloseSoberAsync(cancellationToken).ConfigureAwait(false);
-				await Task.Delay(300, cancellationToken).ConfigureAwait(false);
-			}
-		}
-
-		return result?.Failure is null
-			? OperationResult<LaunchSession>.Fail("SoberLaunchFailed", "Sober did not stay running after two launch attempts", CapabilityState.Experimental)
-			: OperationResult<LaunchSession>.Fail(result.Failure.Code, result.Failure.Message, result.Failure.State);
 	}
 
 	private static RuntimeInstallation MissingInstallation(string reason)
@@ -1718,7 +1772,7 @@ public sealed partial class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimePr
 				?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
 			if (LinuxFlatpakHost.IsSandboxed)
-				return Directory.Exists(Path.Combine(home, ".var", "app", VinegarApplicationId));
+				return Directory.Exists(Path.Combine(home, ".var", "app", VinegarApplicationId)) || HasNativeVinegar();
 
 			string[] roots =
 			[
@@ -1742,6 +1796,11 @@ public sealed partial class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimePr
 
 	private static bool HasNativeVinegar()
 	{
+		if (LinuxFlatpakHost.IsSandboxed)
+		{
+			using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(3));
+			return LinuxFlatpakHost.FindExecutableAsync(new SystemProcessService(), "vinegar", timeout.Token).GetAwaiter().GetResult() is not null;
+		}
 		string? search = Environment.GetEnvironmentVariable("PATH");
 		if (string.IsNullOrEmpty(search))
 			return false;
@@ -1772,7 +1831,7 @@ public sealed partial class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimePr
 			return UnsupportedInstallation(_prerequisiteCapability);
 		}
 
-		string? vinegar = _processes.FindExecutable("vinegar");
+		string? vinegar = await LinuxFlatpakHost.FindExecutableAsync(_processes, "vinegar", cancellationToken).ConfigureAwait(false);
 		if (vinegar is not null)
 		{
 			return CreateInstallation(
@@ -1836,7 +1895,8 @@ public sealed partial class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimePr
 		ProcessCommand launchCommand;
 		if (native)
 		{
-			launchCommand = new ProcessCommand(installation.Location, arguments, CaptureOutput: false);
+			if (!LinuxFlatpakHost.TryCreateHostCommand(_processes, installation.Location, arguments, out launchCommand, false))
+				return OperationResult<LaunchSession>.Fail("VinegarLaunchFailed", "The native Vinegar launcher is unavailable", CapabilityState.RequiresExternalRuntime);
 		}
 		else if (!LinuxFlatpakHost.TryCreateCommand(_processes, arguments, out launchCommand, false))
 		{
@@ -1892,16 +1952,19 @@ public sealed partial class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimePr
 
 			string full = Path.GetFullPath(path);
 			string winePath = ToWinePath(full);
-			string? native = new SystemProcessService().FindExecutable("vinegar");
+			SystemProcessService processes = new();
+			using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(3));
+			string? native = LinuxFlatpakHost.FindExecutableAsync(processes, "vinegar", timeout.Token).GetAwaiter().GetResult();
 			System.Diagnostics.Process? process;
-			if (native is not null && !LinuxFlatpakHost.IsSandboxed)
+			if (native is not null && LinuxFlatpakHost.TryCreateHostCommand(processes, native, [winePath], out ProcessCommand nativeCommand, false))
 			{
-				System.Diagnostics.ProcessStartInfo startInfo = new(native)
+				System.Diagnostics.ProcessStartInfo startInfo = new(nativeCommand.FileName)
 				{
 					UseShellExecute = false,
 					CreateNoWindow = true
 				};
-				startInfo.ArgumentList.Add(winePath);
+				foreach (string argument in nativeCommand.Arguments)
+					startInfo.ArgumentList.Add(argument);
 				process = System.Diagnostics.Process.Start(startInfo);
 			}
 			else
@@ -1959,7 +2022,7 @@ public sealed partial class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimePr
 
 	private static string GetNativeDataDirectory()
 	{
-		return Path.Combine(LinuxPaths.GetXdgDataHome(), "vinegar");
+		return Path.Combine(LinuxFlatpakHost.GetHostXdgDirectory("XDG_DATA_HOME", ".local", "share"), "vinegar");
 	}
 
 	private static string GetFlatpakDataDirectory()

@@ -337,6 +337,9 @@ public static partial class LinuxInstallationUpdates
 		List<string> arguments = ["install"];
 		arguments.Add(installation.Scope == LinuxPackageScope.System ? "--system" : "--user");
 		arguments.AddRange(["--bundle", "--or-update", "--noninteractive", "--assumeyes", packagePath]);
+		if (installation.Scope == LinuxPackageScope.System
+			&& LinuxFlatpakHost.TryCreateHostCommand(processes, "pkexec", ["/usr/bin/flatpak", .. arguments], out ProcessCommand command))
+			return await ExecuteCommandsAsync(processes, [command], cancellationToken).ConfigureAwait(false);
 		return await RunFlatpakResultAsync(processes, arguments, cancellationToken).ConfigureAwait(false);
 	}
 
@@ -465,7 +468,8 @@ public static partial class LinuxInstallationUpdates
 		foreach (ProcessCommand command in commands)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			bool prompts = Path.GetFileName(command.FileName) == "pkexec";
+			bool prompts = Path.GetFileName(command.FileName) == "pkexec"
+				|| command.Arguments.Contains("pkexec", StringComparer.Ordinal);
 			if (prompts && refusedPrompt is not null)
 				continue;
 			lastResult = await processes.ExecuteAsync(command, cancellationToken).ConfigureAwait(false);

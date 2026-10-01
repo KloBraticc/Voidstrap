@@ -828,8 +828,8 @@
           <ui:NavigationBase.Footer>
             <ui:NavigationItem Cache="True" Name="ExtensionsNavItem" Content="Extensions" Icon="CubeAdd20" Tag="CubeLink20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:ExtensionPage}" />
             <ui:NavigationItem Cache="True" Name="ManagerNavItem" Content="Manager" Icon="ArrowDownload24" Tag="ArrowDownload20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:DownloadsPage}" />
-            <ui:NavigationItem Cache="True" Name="SettingsNavItem" Content="Settings" Icon="Settings28" Tag="Settings20" PageType="{x:Type pages:ChannelPage}" />
             <ui:NavigationItem Cache="True" Name="SoberNavItem" Content="{x:Static resources:Strings.Menu_Sober_Title}" Icon="Empty" Image="pack://application:,,,/Resources/SoberIcon.png" Tag="Settings20" PageType="{x:Type pages:SoberPage}" />
+            <ui:NavigationItem Cache="True" Name="SettingsNavItem" Content="Settings" Icon="Settings28" Tag="Settings20" PageType="{x:Type pages:ChannelPage}" />
             <ui:NavigationItem Name="AboutNavItem" Content="{x:Static resources:Strings.Menu_About_Title}" Icon="QuestionCircle32" Tag="QuestionCircle48" Command="{Binding OpenAboutCommand, Mode=OneTime}" />
           </ui:NavigationBase.Footer>
         </ui:NavigationFluent>

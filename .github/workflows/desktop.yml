@@ -112,7 +112,7 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: 10.0.x
-      - run: sudo apt-get update && sudo apt-get install -y binutils desktop-file-utils file
+      - run: sudo apt-get update && sudo apt-get install -y build-essential gcc-aarch64-linux-gnu binutils desktop-file-utils file
       - run: bash build/Packaging/Linux/package.sh ${{ matrix.rid }} '' ${{ matrix.format }} artifacts/packages
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
@@ -135,7 +135,7 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: 10.0.x
-      - run: sudo apt-get update && sudo apt-get install -y binutils cpio desktop-file-utils file rpm
+      - run: sudo apt-get update && sudo apt-get install -y build-essential gcc-aarch64-linux-gnu binutils cpio desktop-file-utils file rpm
       - run: bash build/Packaging/Linux/package.sh ${{ matrix.rid }} '' rpm artifacts/packages
       - if: matrix.rid == 'linux-x64'
         run: docker run --rm -v "$PWD/artifacts/packages:/packages:ro" registry.fedoraproject.org/fedora:latest bash -c 'dnf install -y --setopt=install_weak_deps=False /packages/*.rpm && rpm -V voidstrap && test "$(readlink -f /usr/bin/voidstrap)" = /usr/lib64/voidstrap/Voidstrap'
@@ -161,7 +161,7 @@ jobs:
       - if: steps.tool.outputs.available == 'false'
         run: echo 'AppImage package validation was not run because appimagetool is unavailable' >> "$GITHUB_STEP_SUMMARY"
       - if: steps.tool.outputs.available == 'true'
-        run: sudo apt-get update && sudo apt-get install -y binutils desktop-file-utils file
+        run: sudo apt-get update && sudo apt-get install -y build-essential gcc-aarch64-linux-gnu binutils desktop-file-utils file
       - if: steps.tool.outputs.available == 'true'
         run: bash build/Packaging/Linux/package.sh linux-x64 '' appimage artifacts/packages
       - if: steps.tool.outputs.available == 'true'

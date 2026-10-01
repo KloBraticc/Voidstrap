@@ -192,6 +192,7 @@ public static class LinuxAudioSessions
 		{
 			fileName = Processes.FindExecutable("flatpak-spawn");
 			commandArguments.Add("--host");
+			commandArguments.Add("--directory=/");
 			commandArguments.Add(tool);
 		}
 		else

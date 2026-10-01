@@ -773,6 +773,7 @@ public partial class App : Application
 		LinuxUiPerformance.Install();
 		TryStartup("Interface scale", Voidstrap.UI.LinuxInterfaceScale.Install);
 		TryStartup("Shared GPU device", Voidstrap.UI.LinuxSharedGpuDevice.Install);
+		TryStartup("Window GL context", Voidstrap.UI.LinuxWindowGlContext.Install);
 		TryStartup("Subpixel text", Voidstrap.UI.LinuxSubpixelText.Install);
 		TryStartup("Image filtering", Voidstrap.UI.LinuxImageFiltering.Install);
 		TryStartup("System clipboard", Voidstrap.UI.LinuxClipboardBridge.Install);
@@ -1321,12 +1322,19 @@ public partial class App : Application
 
 	private static void LoadPersistentState()
 	{
-		DownloadStats.Load();
-		State.Load();
-		RobloxState.Load();
-		Settings.Load();
+		TimedLoad("Download stats", () => DownloadStats.Load());
+		TimedLoad("State", () => State.Load());
+		TimedLoad("Roblox state", () => RobloxState.Load());
+		TimedLoad("Settings", () => Settings.Load());
 		ResetWindowBackdropOnce();
-		FastFlags.Load(alertFailure: false);
+		TimedLoad("FastFlags", () => FastFlags.Load(alertFailure: false));
+	}
+
+	private static void TimedLoad(string name, Action load)
+	{
+		long started = Stopwatch.GetTimestamp();
+		load();
+		LinuxUiPerformance.Duration(name + " load", started);
 	}
 
 	private const int WindowBackdropResetVersion = 1;
@@ -1352,7 +1360,7 @@ public partial class App : Application
 			TryStartup("Headset audio", Voidstrap.Integrations.HeadsetAudio.ApplyFromSettings);
 		}
 		if (!LaunchSettings.IsHelperInvocation)
-			TryStartup("Snap Tap", Voidstrap.KeyRouting.SnapTapHook.ApplyFromSettings);
+			TryStartup("Snap Tap", ApplySnapTapFromSettings);
 		if (!LaunchSettings.WatcherFlag.Active)
 		{
 			TryStartup("Rojo updater", Voidstrap.Integrations.Rojo.RojoManager.AutoUpdate);
@@ -1414,6 +1422,12 @@ public partial class App : Application
 			_ = TextFontInstaller.RefreshPendingAsync(token);
 			if (!Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed && !LaunchSettings.UninstallFlag.Active)
 				_ = Task.Run(() => TryStartup("Linux desktop integration", () => Voidstrap.Utility.LinuxDesktopEntry.EnsureInstalled(Paths.Application)), token);
+			else if (!LaunchSettings.UninstallFlag.Active)
+				_ = Task.Run(() => TryStartup("Linux desktop integration", () =>
+				{
+					Voidstrap.Utility.LinuxDesktopEntry.EnsureInstalled(Paths.Application);
+					Voidstrap.Utility.LinuxDesktopEntry.RegisterSandboxSchemeHandlers();
+				}), token);
 			if (LaunchSettings.WatcherFlag.Active)
 				return;
 			_ = RefreshRemoteDataAsync(token);
@@ -1476,7 +1490,7 @@ public partial class App : Application
 			TryStartup("Audio ducking", Voidstrap.Integrations.AudioDucker.ApplyFromSettings);
 			TryStartup("Headset audio", Voidstrap.Integrations.HeadsetAudio.ApplyFromSettings);
 		}
-		TryStartup("Snap Tap", Voidstrap.KeyRouting.SnapTapHook.ApplyFromSettings);
+		TryStartup("Snap Tap", ApplySnapTapFromSettings);
 	}
 
 	private static void InstallEnabledOverlays()
@@ -1555,8 +1569,8 @@ public partial class App : Application
 			return;
 		try
 		{
-			TextOptions.SetTextRenderingMode(window, TextRenderingMode.ClearType);
-			RenderOptions.SetClearTypeHint(window, ClearTypeHint.Enabled);
+			TextOptions.SetTextRenderingMode(window, OperatingSystem.IsLinux() ? TextRenderingMode.Grayscale : TextRenderingMode.ClearType);
+			RenderOptions.SetClearTypeHint(window, OperatingSystem.IsLinux() ? ClearTypeHint.Auto : ClearTypeHint.Enabled);
 		}
 		catch (Exception ex)
 		{
@@ -1570,11 +1584,11 @@ public partial class App : Application
 		{
 			return;
 		}
-		TextOptions.SetTextRenderingMode(window, TextRenderingMode.ClearType);
+		TextOptions.SetTextRenderingMode(window, OperatingSystem.IsLinux() ? TextRenderingMode.Grayscale : TextRenderingMode.ClearType);
 		TextOptions.SetTextFormattingMode(window, TextFormattingMode.Display);
 		window.UseLayoutRounding = true;
 		window.SnapsToDevicePixels = true;
-		RenderOptions.SetClearTypeHint(window, ClearTypeHint.Enabled);
+		RenderOptions.SetClearTypeHint(window, OperatingSystem.IsLinux() ? ClearTypeHint.Auto : ClearTypeHint.Enabled);
 	}
 
 	private static void LogRenderMode()
@@ -1594,6 +1608,13 @@ public partial class App : Application
 			Voidstrap.Platform.Linux.LinuxSteamOSInfo steamOS = Voidstrap.Platform.Linux.LinuxSteamOS.Current;
 			if (steamOS.IsSteamOSLike || steamOS.IsGamescopeSession)
 				Logger.WriteLine("App::OnStartup", "Running " + steamOS.Describe());
+			if (Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed)
+			{
+				bool hasX11 = !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
+				Logger.WriteLine("App::OnStartup", hasX11
+					? "Running inside the Flatpak sandbox with X11 access"
+					: "Running inside the Flatpak sandbox without X11 access, so windows cannot be dragged, snapped or shaped. Allow the X11 socket for " + Voidstrap.Platform.Linux.LinuxFlatpakHost.CurrentApplicationId + " in Flatseal or with flatpak override, then restart Voidstrap");
+			}
 		}
 	}
 
@@ -1814,6 +1835,32 @@ public partial class App : Application
 			Logger.WriteLine("App::StartCustomRpcIfEnabled", "Recovered the last valid RPC configuration backup");
 		if (failure != null && config.ValueKind == JsonValueKind.Undefined)
 			Logger.WriteLine("App::StartCustomRpcIfEnabled", "RPC configuration is invalid: " + failure.Message);
+	}
+
+	private static void ApplySnapTapFromSettings()
+	{
+		if (!Voidstrap.Utility.Platform.IsLinux || !Settings.Prop.SnapTapEnabled)
+		{
+			Voidstrap.KeyRouting.SnapTapHook.ApplyFromSettings();
+			return;
+		}
+
+		_ = Task.Run(() =>
+		{
+			long started = Stopwatch.GetTimestamp();
+			try
+			{
+				Voidstrap.KeyRouting.SnapTapHook.ApplyFromSettings();
+			}
+			catch (Exception ex)
+			{
+				Logger.WriteException("App::OnStartup::Snap Tap", ex);
+			}
+			finally
+			{
+				LinuxUiPerformance.Duration("Snap Tap in the background", started);
+			}
+		});
 	}
 
 	private static void TryStartup(string component, Action action)

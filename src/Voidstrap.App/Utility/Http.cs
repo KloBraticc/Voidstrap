@@ -224,7 +224,7 @@ internal static class Http
 		return delta.Value > MaxRateLimitCooldown ? MaxRateLimitCooldown : delta.Value;
 	}
 
-	private sealed class RateLimitedException : Exception
+	internal sealed class RateLimitedException : Exception
 	{
 		public RateLimitedException()
 			: base("The server returned HTTP 429.")

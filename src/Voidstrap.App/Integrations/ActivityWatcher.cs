@@ -327,7 +327,101 @@ public partial class ActivityWatcher : IDisposable
 		return 0;
 	}
 
-	public async Task<ServerInfo?> GetCurrentServerInfoAsync()
+	private static readonly TimeSpan ServerFoundLifetime = TimeSpan.FromSeconds(20);
+
+	private static readonly TimeSpan ServerMissingLifetime = TimeSpan.FromMinutes(2);
+
+	private static readonly TimeSpan ServerListBackoff = TimeSpan.FromSeconds(90);
+
+	private static readonly object ServerListLock = new object();
+
+	private static DateTime _serverListBackoffUntilUtc = DateTime.MinValue;
+
+	private readonly object _serverLookupLock = new object();
+
+	private string? _serverLookupJobId;
+
+	private Task<ServerInfo?>? _serverLookupTask;
+
+	private ServerInfo? _serverLookupResult;
+
+	private DateTime _serverLookupUtc = DateTime.MinValue;
+
+	public static bool ServerListRateLimited
+	{
+		get
+		{
+			lock (ServerListLock)
+				return DateTime.UtcNow < _serverListBackoffUntilUtc;
+		}
+	}
+
+	public static void NoteServerListRateLimited(TimeSpan? retryAfter = null)
+	{
+		TimeSpan wait = retryAfter is { } value && value > TimeSpan.Zero && value < TimeSpan.FromMinutes(10) ? value : ServerListBackoff;
+		lock (ServerListLock)
+		{
+			DateTime until = DateTime.UtcNow + wait;
+			if (until <= _serverListBackoffUntilUtc)
+				return;
+			_serverListBackoffUntilUtc = until;
+		}
+		App.Logger.WriteLine("ActivityWatcher::ServerList", $"Roblox is rate limiting the server list, pausing lookups for {(int)wait.TotalSeconds} seconds");
+	}
+
+	public bool CurrentServerUnlisted
+	{
+		get
+		{
+			lock (_serverLookupLock)
+				return _serverLookupTask is { IsCompleted: true } && _serverLookupResult == null && string.Equals(_serverLookupJobId, Data.JobId, StringComparison.Ordinal);
+		}
+	}
+
+	public Task<ServerInfo?> GetCurrentServerInfoAsync()
+	{
+		string jobId = Data.JobId;
+		lock (_serverLookupLock)
+		{
+			bool sameServer = string.Equals(_serverLookupJobId, jobId, StringComparison.Ordinal);
+			if (sameServer && _serverLookupTask is { IsCompleted: false } pending)
+				return pending;
+			if (sameServer && _serverLookupTask != null && DateTime.UtcNow - _serverLookupUtc < (_serverLookupResult != null ? ServerFoundLifetime : ServerMissingLifetime))
+				return Task.FromResult(_serverLookupResult);
+			if (ServerListRateLimited)
+				return Task.FromResult(sameServer ? _serverLookupResult : null);
+			if (!sameServer)
+				_serverLookupResult = null;
+			_serverLookupJobId = jobId;
+			Task<ServerInfo?> lookup = LookupCurrentServerAsync(jobId);
+			_serverLookupTask = lookup;
+			return lookup;
+		}
+	}
+
+	private async Task<ServerInfo?> LookupCurrentServerAsync(string jobId)
+	{
+		ServerInfo? result = null;
+		try
+		{
+			result = await FindCurrentServerAsync().ConfigureAwait(continueOnCapturedContext: false);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("ActivityWatcher::ServerList", "The server list could not be searched: " + ex.Message);
+		}
+		lock (_serverLookupLock)
+		{
+			if (string.Equals(_serverLookupJobId, jobId, StringComparison.Ordinal))
+			{
+				_serverLookupResult = result;
+				_serverLookupUtc = DateTime.UtcNow;
+			}
+		}
+		return result;
+	}
+
+	private async Task<ServerInfo?> FindCurrentServerAsync()
 	{
 		long placeId = Data.PlaceId;
 		string jobId = Data.JobId;
@@ -343,7 +437,7 @@ public partial class ActivityWatcher : IDisposable
 		bool[] exhausted = new bool[orders.Length];
 		for (int request = 0; request < 6; request++)
 		{
-			if (cts.IsCancellationRequested || (exhausted[0] && exhausted[1]))
+			if (cts.IsCancellationRequested || (exhausted[0] && exhausted[1]) || ServerListRateLimited)
 			{
 				break;
 			}
@@ -358,6 +452,16 @@ public partial class ActivityWatcher : IDisposable
 			try
 			{
 				serverListResponse = JsonSerializer.Deserialize<ServerListResponse>(await Voidstrap.Utility.Http.GetString(text2, cts.Token).ConfigureAwait(continueOnCapturedContext: false), JsonOptions.CaseInsensitive);
+			}
+			catch (System.Net.Http.HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+			{
+				NoteServerListRateLimited();
+				return null;
+			}
+			catch (Voidstrap.Utility.Http.RateLimitedException)
+			{
+				NoteServerListRateLimited(TimeSpan.FromSeconds(60));
+				return null;
 			}
 			catch
 			{

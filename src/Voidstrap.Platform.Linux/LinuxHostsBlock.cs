@@ -34,6 +34,7 @@ public static class LinuxHostsBlock
 		if (sandboxed)
 		{
 			arguments.Add("--host");
+			arguments.Add("--directory=/");
 			arguments.Add("pkexec");
 		}
 		arguments.Add("/bin/sh");

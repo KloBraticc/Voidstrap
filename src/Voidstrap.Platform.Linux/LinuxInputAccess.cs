@@ -70,6 +70,7 @@ public static class LinuxInputAccess
 				return null;
 			fileName = spawn;
 			arguments.Add("--host");
+			arguments.Add("--directory=/");
 			arguments.Add("pkexec");
 		}
 		else

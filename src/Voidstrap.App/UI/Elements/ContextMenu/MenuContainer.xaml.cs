@@ -181,11 +181,97 @@ public partial class MenuContainer : WpfUiWindow
             CurrentGameMenuItem.Visibility = Visibility.Collapsed;
             CurrentGameIcon.Source = null;
             CurrentGameNameTextBlock.Text = "";
+            RequestTrayRefresh();
             return;
         }
         CurrentGameMenuItem.Visibility = Visibility.Visible;
         CurrentGameIcon.Source = gameIcon;
         CurrentGameNameTextBlock.Text = TrimWithThreeDots(gameName);
+        RequestTrayRefresh();
+    }
+
+    private void RequestTrayRefresh()
+    {
+#if CROSSPLAT
+        if (!_closed && Voidstrap.Utility.Platform.IsLinux)
+            Voidstrap.UI.Tray.LinuxTray.RequestMenuRefresh();
+#endif
+    }
+
+    private static bool OverlayHelpAvailable()
+    {
+        if (!PlatformFeatureVisibility.IsSupported(Voidstrap.Platform.FeatureId.Overlay))
+            return false;
+        var prop = App.Settings.Prop;
+        return prop.OverlaysEnabled || prop.Crosshair || Voidstrap.Integrations.Overlays.OverlaySettings.AnyEnabled;
+    }
+
+    private void SyncMenuState()
+    {
+        if (_closed)
+            return;
+        bool inGame = _activityWatcher?.InGame == true;
+        bool transitioning = _activityWatcher?.IsTeleporting == true;
+        DiscordRichPresence? richPresence = _watcher.RichPresence;
+        RichPresenceMenuItem.Visibility = richPresence != null ? Visibility.Visible : Visibility.Collapsed;
+        if (richPresence != null)
+            RichPresenceMenuItem.IsChecked = richPresence.IsUserVisible;
+        GameHistoryMenuItem.Visibility = _activityWatcher != null && !App.Settings.Prop.UseDisableAppPatch ? Visibility.Visible : Visibility.Collapsed;
+        MusicMenuItem.Visibility = _activityWatcher != null ? Visibility.Visible : Visibility.Collapsed;
+        bool frameGen = PlatformFeatureVisibility.IsSupported(Voidstrap.Platform.FeatureId.FrameGeneration)
+            && (Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex > 0 || App.Settings.Prop.FrameGenResumeIndex > 0);
+        FrameGenParentMenuItem.Visibility = frameGen ? Visibility.Visible : Visibility.Collapsed;
+        if (frameGen)
+        {
+            FrameGenMenuItem.IsChecked = Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex > 0;
+            FrameGenOverlayMenuItem.IsChecked = App.Settings.Prop.FrameGenOverlayShow;
+            FrameGenSplitMenuItem.IsChecked = App.Settings.Prop.FrameGenSplitCompare;
+        }
+        CantSeeOverlaysMenuItem.Visibility = OverlayHelpAvailable() ? Visibility.Visible : Visibility.Collapsed;
+        LogTracerMenuItem.Visibility = !string.IsNullOrEmpty(_activityWatcher?.LogLocation) ? Visibility.Visible : Visibility.Collapsed;
+        OutputConsoleMenuItem.Visibility = inGame && ActivityWatcher.PlayerLoggingEnabled ? Visibility.Visible : Visibility.Collapsed;
+        if (inGame)
+        {
+            BrightnessTrackerLog.Visibility = App.Settings.Prop.OverlaysEnabled ? Visibility.Visible : Visibility.Collapsed;
+            ColorsTrackerLog.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : BrightnessTrackerLog.Visibility;
+        }
+        else if (!transitioning)
+        {
+            InviteDeeplinkMenuItem.Visibility = Visibility.Collapsed;
+            ServerDetailsMenuItem.Visibility = Visibility.Collapsed;
+            GamePassDetailsMenuItem.Visibility = Visibility.Collapsed;
+            JoinClosestServerMenuItem.Visibility = Visibility.Collapsed;
+            BrightnessTrackerLog.Visibility = Visibility.Collapsed;
+            ColorsTrackerLog.Visibility = Visibility.Collapsed;
+            CurrentGameMenuItem.Visibility = Visibility.Collapsed;
+        }
+        if (base.ContextMenu != null)
+            UpdateSeparators(base.ContextMenu.Items);
+    }
+
+    private static void UpdateSeparators(ItemCollection items)
+    {
+        Separator? pending = null;
+        bool anyVisible = false;
+        foreach (object? entry in items)
+        {
+            if (entry is Separator separator)
+            {
+                separator.Visibility = Visibility.Collapsed;
+                if (anyVisible && pending == null)
+                    pending = separator;
+                continue;
+            }
+            if (entry is UIElement element && element.Visibility == Visibility.Visible)
+            {
+                if (pending != null)
+                {
+                    pending.Visibility = Visibility.Visible;
+                    pending = null;
+                }
+                anyVisible = true;
+            }
+        }
     }
 
     private CancellationToken StartSession()
@@ -304,12 +390,18 @@ public partial class MenuContainer : WpfUiWindow
 
     private async Task<ServerInfo?> FetchClosestServerAsync(long placeId, CancellationToken token)
     {
+        if (ActivityWatcher.ServerListRateLimited)
+        {
+            _closestServerBackoffUntilUtc = DateTime.UtcNow + TimeSpan.FromMinutes(1);
+            return null;
+        }
         using CancellationTokenSource timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token, _lifetimeCts.Token);
         timeoutCts.CancelAfter(TimeSpan.FromSeconds(15));
         using HttpResponseMessage response = await App.HttpClient.GetAsync($"https://games.roblox.com/v1/games/{placeId}/servers/Public?limit=100", HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token);
         if (response.StatusCode == HttpStatusCode.TooManyRequests)
         {
             _closestServerBackoffUntilUtc = DateTime.UtcNow + TimeSpan.FromMinutes(2);
+            ActivityWatcher.NoteServerListRateLimited(TimeSpan.FromMinutes(2));
             return null;
         }
         response.EnsureSuccessStatusCode();
@@ -359,19 +451,37 @@ public partial class MenuContainer : WpfUiWindow
 
     private async void MemoryTimer_Tick(object? sender, EventArgs e)
     {
+        await UpdateRobloxMemoryAsync();
+    }
+
+    private async Task UpdateRobloxMemoryAsync()
+    {
         if (_closed || Interlocked.Exchange(ref _memoryUpdateActive, 1) != 0)
             return;
         try
         {
-            long robloxMemory = await Task.Run(ReadRobloxMemory, _lifetimeCts.Token);
-            if (!_closed && _activityWatcher?.InGame == true)
-                MemoryTextBlock.Text = "Roblox: " + FormatBytes(robloxMemory);
+#if CROSSPLAT
+            _trayInfoRefreshedUtc = DateTime.UtcNow;
+#endif
+            long? robloxMemory = Voidstrap.Utility.Platform.IsLinux
+                ? await Voidstrap.Platform.Linux.LinuxSoberMemory.ReadAsync(new Voidstrap.Core.SystemProcessService(), _lifetimeCts.Token)
+                : await Task.Run(ReadRobloxMemory, _lifetimeCts.Token);
+            if (!_closed && (Voidstrap.Utility.Platform.IsLinux || _activityWatcher?.InGame == true))
+            {
+                string text = "Roblox: " + (robloxMemory.HasValue ? FormatBytes(robloxMemory.Value) : "N/A");
+                if (MemoryTextBlock.Text != text)
+                {
+                    MemoryTextBlock.Text = text;
+                    RequestTrayRefresh();
+                }
+            }
         }
         catch (OperationCanceledException)
         {
         }
-        catch
+        catch (Exception ex)
         {
+            App.Logger.WriteLine("MenuContainer::RefreshTrayInfo", "Roblox memory could not be read: " + ex.Message);
         }
         finally
         {
@@ -381,8 +491,6 @@ public partial class MenuContainer : WpfUiWindow
 
     private static long ReadRobloxMemory()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
-            return ReadSoberMemory();
         long total = 0;
         foreach (Process process in Process.GetProcessesByName("RobloxPlayerBeta"))
         {
@@ -395,26 +503,6 @@ public partial class MenuContainer : WpfUiWindow
                 catch
                 {
                 }
-            }
-        }
-        return total;
-    }
-
-    private static long ReadSoberMemory()
-    {
-        long total = 0;
-        foreach (int processId in Voidstrap.Platform.Linux.LinuxSoberProcessProbe.GetSandboxProcessIds())
-        {
-            try
-            {
-                using Process process = Process.GetProcessById(processId);
-                total += process.WorkingSet64;
-            }
-            catch (ArgumentException)
-            {
-            }
-            catch (InvalidOperationException)
-            {
             }
         }
         return total;
@@ -505,7 +593,10 @@ public partial class MenuContainer : WpfUiWindow
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(delegate
             {
                 if (!_closed)
+                {
                     LogTracerMenuItem.Visibility = Visibility.Visible;
+                    RequestTrayRefresh();
+                }
             }));
         }
         catch (InvalidOperationException)
@@ -669,6 +760,7 @@ public partial class MenuContainer : WpfUiWindow
 			OutputConsoleMenuItem.Visibility = trace ? Visibility.Visible : Visibility.Collapsed;
             BrightnessTrackerLog.Visibility = App.Settings.Prop.OverlaysEnabled ? Visibility.Visible : Visibility.Collapsed;
             ColorsTrackerLog.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : BrightnessTrackerLog.Visibility;
+            RequestTrayRefresh();
         }
         catch (OperationCanceledException)
         {
@@ -684,7 +776,8 @@ public partial class MenuContainer : WpfUiWindow
     {
         if (_activityWatcher?.InGame == true)
             return;
-		_memoryTimer.Stop();
+		if (!Voidstrap.Utility.Platform.IsLinux)
+			_memoryTimer.Stop();
 		_playTimer.Stop();
         InviteDeeplinkMenuItem.Visibility = Visibility.Collapsed;
         ServerDetailsMenuItem.Visibility = Visibility.Collapsed;
@@ -697,7 +790,9 @@ public partial class MenuContainer : WpfUiWindow
         _serverInformationWindow?.Close();
         UpdateCurrentGameInfo(string.Empty, null);
         UpdatePlayTime(TimeSpan.Zero);
-		MemoryTextBlock.Text = "Roblox: 0 MB";
+		if (!Voidstrap.Utility.Platform.IsLinux)
+			MemoryTextBlock.Text = "Roblox: 0 MB";
+        RequestTrayRefresh();
     }
 
     public void ActivityWatcher_OnGameJoin(object? sender, EventArgs e)
@@ -767,19 +862,23 @@ public partial class MenuContainer : WpfUiWindow
     }
 
 #if CROSSPLAT
+    private Func<Task<List<Voidstrap.UI.Tray.LinuxTrayMenuItem>>>? _trayMenuProvider;
+
+    private DateTime _trayInfoRefreshedUtc = DateTime.MinValue;
+
+    private DateTime _trayFlagsRefreshedUtc = DateTime.MinValue;
+
     internal void AttachTrayMenuProvider()
     {
+        if (_closed)
+            return;
         try
         {
-            Voidstrap.UI.Tray.DbusMenuObject? menu = Voidstrap.UI.Tray.LinuxTray.Menu;
-            if (menu is null)
-            {
-                return;
-            }
-
-            menu.MenuProvider = BuildTrayMenu;
-            menu.Rebuild();
-            App.Logger.WriteLine("MenuContainer::AttachTrayMenuProvider", "Tray menu is now served over D-Bus");
+            bool first = _trayMenuProvider == null;
+            _trayMenuProvider ??= BuildTrayMenuAsync;
+            Voidstrap.UI.Tray.LinuxTray.SetMenuProvider(_trayMenuProvider);
+            if (first)
+                App.Logger.WriteLine("MenuContainer::AttachTrayMenuProvider", "Tray menu is now served over D-Bus");
         }
         catch (Exception ex)
         {
@@ -787,33 +886,104 @@ public partial class MenuContainer : WpfUiWindow
         }
     }
 
-    private List<Voidstrap.UI.Tray.LinuxTrayMenuItem> BuildTrayMenu()
+    private void DetachTrayMenuProvider()
     {
-        if (!Dispatcher.CheckAccess())
+        Func<Task<List<Voidstrap.UI.Tray.LinuxTrayMenuItem>>>? provider = _trayMenuProvider;
+        if (provider == null)
+            return;
+        try
         {
-            return Dispatcher.Invoke(BuildTrayMenu);
+            Voidstrap.UI.Tray.LinuxTray.ClearMenuProvider(provider);
         }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MenuContainer::DetachTrayMenuProvider", "The tray menu could not be released: " + ex.Message);
+        }
+    }
 
+    private Task<List<Voidstrap.UI.Tray.LinuxTrayMenuItem>> BuildTrayMenuAsync()
+    {
+        if (_closed || Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished)
+            return Task.FromResult(new List<Voidstrap.UI.Tray.LinuxTrayMenuItem>());
+        return Dispatcher.InvokeAsync(BuildTrayMenuOnDispatcherAsync, DispatcherPriority.Normal).Task.Unwrap();
+    }
+
+    private async Task<List<Voidstrap.UI.Tray.LinuxTrayMenuItem>> BuildTrayMenuOnDispatcherAsync()
+    {
         List<Voidstrap.UI.Tray.LinuxTrayMenuItem> items = [];
-        if (base.ContextMenu is not null)
-        {
-            AppendTrayItems(base.ContextMenu.Items, items);
-        }
+        if (_closed || base.ContextMenu is null)
+            return items;
 
+        await RefreshTrayInfoAsync();
+        if (_closed)
+            return items;
+        SyncMenuState();
+        AppendTrayItems(base.ContextMenu.Items, items);
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            for (int index = 0; index < items.Count; index++)
+            {
+                List<Voidstrap.UI.Tray.LinuxTrayMenuItem> children = items[index].Children;
+                for (int childIndex = 0; childIndex < children.Count; childIndex++)
+                {
+                    Voidstrap.UI.Tray.LinuxTrayMenuItem child = children[childIndex];
+                    if (child.Label != PlayTimeTextBlock.Text)
+                        continue;
+                    children.RemoveAt(childIndex);
+                    items.Insert(index + 1, child);
+                    return items;
+                }
+            }
+        }
         return items;
+    }
+
+    private async Task RefreshTrayInfoAsync()
+    {
+        if (DateTime.UtcNow - _trayFlagsRefreshedUtc > TimeSpan.FromSeconds(5))
+        {
+            _trayFlagsRefreshedUtc = DateTime.UtcNow;
+            LoadFlags();
+        }
+        if (_activityWatcher?.InGame != true)
+        {
+            UpdatePlayTime(TimeSpan.Zero);
+            if (!Voidstrap.Utility.Platform.IsLinux)
+            {
+                MemoryTextBlock.Text = "Roblox: 0 MB";
+                return;
+            }
+        }
+        else
+        {
+            PlayTimer_Tick(null, EventArgs.Empty);
+        }
+        if (Voidstrap.Utility.Platform.IsLinux)
+            _memoryTimer.Start();
+        if (DateTime.UtcNow - _trayInfoRefreshedUtc < TimeSpan.FromSeconds(2))
+            return;
+        await UpdateRobloxMemoryAsync();
     }
 
     private void AppendTrayItems(ItemCollection source, List<Voidstrap.UI.Tray.LinuxTrayMenuItem> target)
     {
         foreach (object? entry in source)
         {
-            if (entry is Separator)
+            if (entry is Separator separator)
             {
-                target.Add(new Voidstrap.UI.Tray.LinuxTrayMenuItem { IsSeparator = true });
+                if (separator.Visibility == Visibility.Visible)
+                    target.Add(new Voidstrap.UI.Tray.LinuxTrayMenuItem { IsSeparator = true });
                 continue;
             }
 
-            if (entry is not MenuItem menuItem || menuItem.Visibility != Visibility.Visible)
+            if (entry is not MenuItem menuItem)
+            {
+                if (entry is DependencyObject content)
+                    AppendInfoLines(content, target);
+                continue;
+            }
+
+            if (menuItem.Visibility != Visibility.Visible)
             {
                 continue;
             }
@@ -829,6 +999,8 @@ public partial class MenuContainer : WpfUiWindow
             if (menuItem.Items.Count > 0)
             {
                 AppendTrayItems(menuItem.Items, item.Children);
+                if (item.Children.Count == 0)
+                    continue;
             }
             else if (!Voidstrap.Utility.Platform.IsWindows && ContainsSlider(menuItem))
             {
@@ -841,6 +1013,26 @@ public partial class MenuContainer : WpfUiWindow
             }
 
             target.Add(item);
+        }
+    }
+
+    private static void AppendInfoLines(DependencyObject node, List<Voidstrap.UI.Tray.LinuxTrayMenuItem> target)
+    {
+        if (node is UIElement element && element.Visibility != Visibility.Visible)
+            return;
+
+        if (node is TextBlock textBlock)
+        {
+            string text = textBlock.Text?.Trim() ?? string.Empty;
+            if (text.Length > 0)
+                target.Add(new Voidstrap.UI.Tray.LinuxTrayMenuItem { Label = text, Enabled = false });
+            return;
+        }
+
+        foreach (object child in LogicalTreeHelper.GetChildren(node))
+        {
+            if (child is DependencyObject dependencyObject)
+                AppendInfoLines(dependencyObject, target);
         }
     }
 #endif
@@ -917,8 +1109,12 @@ public partial class MenuContainer : WpfUiWindow
     {
         Dispatcher.BeginInvoke(new Action(delegate
         {
+            if (_closed || !menuItem.IsEnabled || menuItem.Visibility != Visibility.Visible)
+                return;
             try
             {
+                if (menuItem.IsCheckable)
+                    menuItem.IsChecked = !menuItem.IsChecked;
                 menuItem.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
             }
             catch (Exception ex)
@@ -977,6 +1173,7 @@ public partial class MenuContainer : WpfUiWindow
 
 	private void ContextMenu_Opened(object sender, RoutedEventArgs e)
 	{
+		SyncMenuState();
 		if (_activityWatcher?.InGame == true)
 		{
 			_memoryTimer.Start();
@@ -995,7 +1192,8 @@ public partial class MenuContainer : WpfUiWindow
 
 	private void ContextMenu_Closed(object sender, RoutedEventArgs e)
 	{
-		_memoryTimer.Stop();
+		if (!Voidstrap.Utility.Platform.IsLinux)
+			_memoryTimer.Stop();
 		_playTimer.Stop();
 	}
 
@@ -1004,6 +1202,9 @@ public partial class MenuContainer : WpfUiWindow
         if (_closed)
             return;
         _closed = true;
+#if CROSSPLAT
+        DetachTrayMenuProvider();
+#endif
         _lifetimeCts.Cancel();
         CancelSession();
         _memoryTimer.Stop();
@@ -1079,6 +1280,7 @@ public partial class MenuContainer : WpfUiWindow
         if (sender is Window window)
         {
             window.Closed -= ChildWindow_Closed;
+            Voidstrap.UI.LinuxWindowMemory.ReleaseAfterClose(window, compact: false);
         }
         if (ReferenceEquals(sender, _serverInformationWindow))
             _serverInformationWindow = null;

@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using CommunityToolkit.Mvvm.Input;
 using Voidstrap.Extensions;
 using Voidstrap.Integrations;
@@ -25,6 +26,8 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 	private readonly EventHandler _onGameJoin;
 
 	private readonly EventHandler _onGameLeave;
+
+	private readonly Dispatcher? _dispatcher;
 
 	private bool _disposed;
 
@@ -44,9 +47,19 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	private string _playerCount = Strings.Common_Loading;
 
-	private string _friendsInServer = string.Empty;
+	private const int MaxVisibleFriends = 5;
+
+	private IReadOnlyList<ServerFriend> _friends = [];
+
+	private string _friendsHeader = "Friends in this server";
+
+	private string _friendsStatus = string.Empty;
 
 	private Visibility _friendsVisibility = Visibility.Collapsed;
+
+	private string _playerCountHint = string.Empty;
+
+	private int _friendsRefreshActive;
 
 	private string _serverLocation = Strings.Common_Loading;
 
@@ -127,21 +140,87 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		}
 	}
 
-	public string FriendsInServer
+	public IReadOnlyList<ServerFriend> Friends
 	{
 		get
 		{
-			return _friendsInServer;
+			return _friends;
 		}
 		private set
 		{
-			if (_friendsInServer != value)
+			_friends = value ?? [];
+			OnPropertyChanged(nameof(Friends));
+			OnPropertyChanged(nameof(VisibleFriends));
+			OnPropertyChanged(nameof(FriendsListVisibility));
+			OnPropertyChanged(nameof(MoreFriendsText));
+			OnPropertyChanged(nameof(MoreFriendsToolTip));
+			OnPropertyChanged(nameof(MoreFriendsVisibility));
+		}
+	}
+
+	public IReadOnlyList<ServerFriend> VisibleFriends => _friends.Count > MaxVisibleFriends ? _friends.Take(MaxVisibleFriends).ToList() : _friends;
+
+	public Visibility FriendsListVisibility => _friends.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+	public string MoreFriendsText => _friends.Count > MaxVisibleFriends ? "+" + (_friends.Count - MaxVisibleFriends) : string.Empty;
+
+	public string MoreFriendsToolTip => _friends.Count > MaxVisibleFriends ? string.Join(", ", _friends.Skip(MaxVisibleFriends).Select(friend => friend.ToolTipText)) : string.Empty;
+
+	public Visibility MoreFriendsVisibility => _friends.Count > MaxVisibleFriends ? Visibility.Visible : Visibility.Collapsed;
+
+	public string FriendsHeader
+	{
+		get
+		{
+			return _friendsHeader;
+		}
+		private set
+		{
+			if (_friendsHeader != value)
 			{
-				_friendsInServer = value;
-				OnPropertyChanged(nameof(FriendsInServer));
+				_friendsHeader = value;
+				OnPropertyChanged(nameof(FriendsHeader));
 			}
 		}
 	}
+
+	public string FriendsStatus
+	{
+		get
+		{
+			return _friendsStatus;
+		}
+		private set
+		{
+			if (_friendsStatus != value)
+			{
+				_friendsStatus = value;
+				OnPropertyChanged(nameof(FriendsStatus));
+				OnPropertyChanged(nameof(FriendsStatusVisibility));
+			}
+		}
+	}
+
+	public Visibility FriendsStatusVisibility => string.IsNullOrEmpty(_friendsStatus) ? Visibility.Collapsed : Visibility.Visible;
+
+	public string PlayerCountHint
+	{
+		get
+		{
+			return _playerCountHint;
+		}
+		private set
+		{
+			if (_playerCountHint != value)
+			{
+				_playerCountHint = value;
+				OnPropertyChanged(nameof(PlayerCountHint));
+				OnPropertyChanged(nameof(PlayerCountHintVisibility));
+			}
+		}
+	}
+
+	public Visibility PlayerCountHintVisibility => string.IsNullOrEmpty(_playerCountHint) ? Visibility.Collapsed : Visibility.Visible;
 
 	public Visibility FriendsVisibility
 	{
@@ -182,19 +261,48 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 	public ServerInformationViewModel(Watcher watcher)
 	{
 		_activityWatcher = watcher?.ActivityWatcher ?? throw new ArgumentNullException(nameof(watcher));
+		_dispatcher = Application.Current?.Dispatcher;
 		CopyInstanceIdCommand = new RelayCommand(CopyInstanceId);
 		RefreshServerLocationCommand = new AsyncRelayCommand(QueryServerLocationAsync);
 		_onGameJoin = delegate
 		{
-			_ = RefreshAllAsync();
+			RunOnDispatcher(delegate
+			{
+				_ = RefreshAllAsync();
+			});
 		};
 		_onGameLeave = delegate
 		{
-			ResetForNoGame();
+			RunOnDispatcher(ResetForNoGame);
 		};
 		_activityWatcher.OnGameJoin += _onGameJoin;
 		_activityWatcher.OnGameLeave += _onGameLeave;
 		_ = InitializeAsync();
+	}
+
+	private void RunOnDispatcher(Action action)
+	{
+		if (_disposed)
+			return;
+		Dispatcher? dispatcher = _dispatcher;
+		if (dispatcher == null || dispatcher.CheckAccess())
+		{
+			action();
+			return;
+		}
+		if (dispatcher.HasShutdownStarted || dispatcher.HasShutdownFinished)
+			return;
+		try
+		{
+			dispatcher.BeginInvoke(new Action(delegate
+			{
+				if (!_disposed)
+					action();
+			}));
+		}
+		catch (InvalidOperationException)
+		{
+		}
 	}
 
 	private async Task InitializeAsync()
@@ -229,6 +337,12 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		_gameTotal = 0;
 		_lastApiFetch = DateTime.MinValue;
 		_lastFriendsFetch = DateTime.MinValue;
+		Friends = [];
+		FriendsHeader = "Friends in this server";
+		FriendsStatus = "Checking your friends";
+		FriendsVisibility = Visibility.Visible;
+		PlayerCount = Strings.Common_Loading;
+		PlayerCountHint = string.Empty;
 		OnPropertyChanged(nameof(InstanceId));
 		OnPropertyChanged(nameof(ServerType));
 		OnPropertyChanged(nameof(ServerLocationVisibility));
@@ -254,8 +368,10 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		_gameTotal = 0;
 		_lastApiFetch = DateTime.MinValue;
 		_lastFriendsFetch = DateTime.MinValue;
-		FriendsInServer = string.Empty;
+		Friends = [];
+		FriendsStatus = string.Empty;
 		FriendsVisibility = Visibility.Collapsed;
+		PlayerCountHint = string.Empty;
 		GameName = Strings.Common_NotAvailable;
 		GameIcon = null;
 		Username = Strings.Common_NotAvailable;
@@ -369,54 +485,75 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		try
 		{
 			ActivityData? data = _activityWatcher.Data;
-			if (data == null || data.PlaceId == 0L)
+			if (data == null || data.PlaceId == 0L || !_activityWatcher.InGame)
 			{
 				PlayerCount = Strings.Common_NotAvailable;
+				PlayerCountHint = string.Empty;
 				return;
 			}
-			int num;
+			bool tracking = ActivityWatcher.PlayerLoggingEnabled;
+			int current;
 			if (_maxPlayers <= 0 || _gameTotal <= 0 || (DateTime.UtcNow - _lastApiFetch).TotalSeconds >= 15.0)
 			{
 				_lastApiFetch = DateTime.UtcNow;
-				(int, int, int, bool) tuple = await _activityWatcher.GetServerPlayerStatsAsync();
-				if (tuple.Item2 > 0)
+				(int Current, int Max, int GameTotal, bool ServerFound) stats = await _activityWatcher.GetServerPlayerStatsAsync();
+				if (stats.Max > 0)
 				{
-					_maxPlayers = tuple.Item2;
+					_maxPlayers = stats.Max;
 				}
-				if (tuple.Item3 > 0)
+				if (stats.GameTotal > 0)
 				{
-					_gameTotal = tuple.Item3;
+					_gameTotal = stats.GameTotal;
 				}
-				(num, _, _, _) = tuple;
+				current = stats.Current;
 			}
 			else
 			{
-				if (!ActivityWatcher.PlayerLoggingEnabled)
+				if (!tracking)
 				{
 					return;
 				}
-				num = _activityWatcher.GetPlayerCountFromLogs();
-				if (_activityWatcher.InGame && num < 1)
+				current = _activityWatcher.GetPlayerCountFromLogs();
+				if (current < 1)
 				{
-					num = 1;
+					current = 1;
 				}
-				if (_maxPlayers > 0 && num > _maxPlayers)
+				if (_maxPlayers > 0 && current > _maxPlayers)
 				{
-					num = _maxPlayers;
+					current = _maxPlayers;
 				}
 			}
-			string text = ((_maxPlayers > 0 && num > 0) ? $"{num}/{_maxPlayers}" : ((num > 0) ? num.ToString() : Strings.Common_NotAvailable));
-			PlayerCount = ((_gameTotal > 0) ? $"{text}  •  {_gameTotal:N0} in game" : text);
+			string count = current > 0
+				? (_maxPlayers > 0 ? $"{current}/{_maxPlayers}" : current.ToString())
+				: (_maxPlayers > 0 ? $"Unknown of {_maxPlayers}" : "Unknown");
+			PlayerCount = _gameTotal > 0 ? $"{count}  •  {_gameTotal:N0} in game" : count;
+			if (current > 0)
+			{
+				PlayerCountHint = string.Empty;
+			}
+			else if (ActivityWatcher.ServerListRateLimited)
+			{
+				PlayerCountHint = "Roblox is limiting server lookups right now, the count tries again shortly.";
+			}
+			else if (data.ServerType != Voidstrap.Enums.ServerType.Public)
+			{
+				PlayerCountHint = "Private and reserved servers are not listed publicly. Turn on Player and Message logs in Integrations for a live count.";
+			}
+			else
+			{
+				PlayerCountHint = "This server is not in the part of the public server list Roblox shares. Turn on Player and Message logs in Integrations for a live count.";
+			}
 		}
 		catch
 		{
 			PlayerCount = Strings.Common_ErrorFetchingPlayerCount;
+			PlayerCountHint = string.Empty;
 		}
 	}
 
 	private async Task RefreshFriendsInServerAsync()
 	{
-		if ((DateTime.UtcNow - _lastFriendsFetch).TotalSeconds < 25.0)
+		if ((DateTime.UtcNow - _lastFriendsFetch).TotalSeconds < 25.0 || Interlocked.Exchange(ref _friendsRefreshActive, 1) != 0)
 		{
 			return;
 		}
@@ -424,26 +561,75 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		try
 		{
 			ActivityData? data = _activityWatcher.Data;
-			if (data == null || string.IsNullOrEmpty(data.JobId) || !RobloxCookie.Exists)
+			if (data == null || string.IsNullOrEmpty(data.JobId) || !_activityWatcher.InGame)
 			{
-				FriendsInServer = string.Empty;
+				Friends = [];
+				FriendsStatus = string.Empty;
 				FriendsVisibility = Visibility.Collapsed;
 				return;
 			}
-			List<ServerFriend> list = await RobloxPresence.GetFriendsInServerAsync(data.UserId, data.JobId, _cts.Token);
-			if (list.Count == 0)
-			{
-				FriendsInServer = string.Empty;
-				FriendsVisibility = Visibility.Collapsed;
-				return;
-			}
-			FriendsInServer = string.Join(", ", list.Select((ServerFriend f) => f.Label));
 			FriendsVisibility = Visibility.Visible;
+			if (data.UserId <= 0)
+			{
+				Friends = [];
+				FriendsHeader = "Friends in this server";
+				FriendsStatus = "Waiting for Roblox to report your account";
+				_lastFriendsFetch = DateTime.UtcNow - TimeSpan.FromSeconds(20.0);
+				return;
+			}
+			string jobId = data.JobId;
+			FriendsInServerResult result = await RobloxPresence.GetFriendsInServerAsync(data.UserId, jobId, _cts.Token);
+			if (_disposed || !string.Equals(_activityWatcher.Data?.JobId, jobId, StringComparison.Ordinal))
+			{
+				_lastFriendsFetch = DateTime.MinValue;
+				return;
+			}
+			switch (result.Status)
+			{
+			case FriendsInServerStatus.NotSignedIn:
+				Friends = [];
+				FriendsHeader = "Friends in this server";
+				FriendsStatus = "Sign in to your Roblox account in Voidstrap to see which friends are here.";
+				break;
+			case FriendsInServerStatus.SignInExpired:
+				Friends = [];
+				FriendsHeader = "Friends in this server";
+				FriendsStatus = "Your saved Roblox sign in has expired. Sign in again in Voidstrap to see which friends are here.";
+				break;
+			case FriendsInServerStatus.NoFriends:
+				Friends = [];
+				FriendsHeader = "Friends in this server";
+				FriendsStatus = "Your Roblox account has no friends to look for yet.";
+				break;
+			case FriendsInServerStatus.Unavailable:
+				if (_friends.Count == 0)
+				{
+					FriendsHeader = "Friends in this server";
+					FriendsStatus = "Roblox did not answer, checking again shortly.";
+				}
+				_lastFriendsFetch = DateTime.UtcNow - TimeSpan.FromSeconds(10.0);
+				break;
+			default:
+				Friends = result.Friends;
+				FriendsHeader = result.Friends.Count > 0 ? $"Friends in this server ({result.Friends.Count})" : "Friends in this server";
+				FriendsStatus = result.Friends.Count > 0 ? string.Empty : $"None of your {result.FriendCount:N0} friends are in this server.";
+				break;
+			}
 		}
-		catch
+		catch (OperationCanceledException)
 		{
-			FriendsInServer = string.Empty;
-			FriendsVisibility = Visibility.Collapsed;
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("ServerInformationViewModel", "Friends in this server could not be refreshed: " + ex.Message);
+			if (_friends.Count == 0)
+			{
+				FriendsStatus = "Roblox did not answer, checking again shortly.";
+			}
+		}
+		finally
+		{
+			Interlocked.Exchange(ref _friendsRefreshActive, 0);
 		}
 	}
 

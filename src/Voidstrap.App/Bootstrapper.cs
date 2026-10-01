@@ -1481,6 +1481,12 @@ public class Bootstrapper
                 }
             }
 
+            if (Voidstrap.Utility.Platform.IsLinux && runtimeKind == RuntimeKind.Player)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                SoberBuiltinContent.PrepareLaunchCache();
+            }
+
             SettingsDocument? settings = null;
             OperationResult<SettingsLoadResult> settingsResult = await new PortableSettingsStore(host.Paths).LoadAsync(cancellationToken);
             if (settingsResult.Succeeded)
@@ -1673,16 +1679,20 @@ public class Bootstrapper
             return launchCommandLine;
         }
 		long placeId = LaunchInterceptor.ExtractPlaceId(launchCommandLine);
+		if (placeId == 0 || !ServerMatchmaker.IsEnabled())
+		{
+			return launchCommandLine;
+		}
 		if (ServerMatchmaker.IsExcluded(placeId))
 		{
 			App.Logger.WriteLine("Bootstrapper::MaybeApplyVoidstrapMatchmakerAsync", $"Place {placeId} is excluded from the matchmaker, launching with the original URL.");
 			return launchCommandLine;
 		}
-		if (placeId == 0 || (!App.Settings.Prop.VoidstrapMatchmakerEnabled && !ServerMatchmaker.HasPerGamePreference(placeId)) || LaunchInterceptor.ContainsSpecificGameInstance(launchCommandLine))
+		if (LaunchInterceptor.ContainsSpecificGameInstance(launchCommandLine))
 		{
 			return launchCommandLine;
 		}
-        App.Logger.WriteLine("Bootstrapper::MaybeApplyVoidstrapMatchmakerAsync", "Checking the launch for an enabled matchmaker or game datacenter preference, maximum 30 seconds");
+        App.Logger.WriteLine("Bootstrapper::MaybeApplyVoidstrapMatchmakerAsync", "Checking the launch for the Voidstrap Matchmaker, maximum 30 seconds");
         onSearching?.Invoke();
         MatchmakerDispatchTarget result = await ResolveMatchmakerDispatchTargetAsync(
             launchCommandLine,
@@ -2572,6 +2582,11 @@ public class Bootstrapper
 
     internal static async Task StartAssetProxyIfEnabled(CancellationToken ct)
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            ct.ThrowIfCancellationRequested();
+            SoberBuiltinContent.PrepareLaunchCache();
+        }
         if (!AssetProxyServer.IsRequired)
         {
             AssetProxyRouting.InvalidateCache();
@@ -4198,6 +4213,7 @@ public class Bootstrapper
 
         if (!ModsAllowedForThisLaunch())
         {
+            SoberBuiltinContent.RemoveGenerated();
             App.Logger.WriteLine(logIdent, $"Mods are set to {App.Settings.Prop.ModApplyTarget}, so this Sober launch runs unmodded. Mod files are kept on disk.");
             return;
         }
@@ -4230,6 +4246,7 @@ public class Bootstrapper
         FileModManager.ApplyFromSettings(client?.ClientDirectory, client?.VersionGuid);
         if (client is not { } tree)
         {
+            SoberBuiltinContent.ApplyFromSettings();
             return;
         }
 
@@ -4274,6 +4291,16 @@ public class Bootstrapper
         {
             App.Logger.WriteLine(logIdent, "The generated UI mod could not be refreshed: " + ex.Message);
         }
+
+        try
+        {
+            SoberBuiltinContent.ApplyFromSettings();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(logIdent, "Mods for content Sober downloads could not be prepared: " + ex.Message);
+        }
+
     }
 
     private static readonly string[] CanonicalModRoots = ["content", "ExtraContent", "PlatformContent"];

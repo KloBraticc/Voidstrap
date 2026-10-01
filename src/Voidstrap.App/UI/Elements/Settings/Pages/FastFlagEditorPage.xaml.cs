@@ -887,6 +887,8 @@ public partial class FastFlagEditorPage : UiPage
 			foreach (KeyValuePair<string, string> flag in dialog.AppliedFlags)
 				App.FastFlags.SetValue(flag.Key, flag.Value);
 			RecordHistory(FlagHistoryAction.Imported, dialog.AppliedFlags.Count + " flags from profile '" + dialog.AppliedProfileName + "'", null, null, snapshot);
+			if (Voidstrap.Utility.Platform.IsLinux)
+				App.FastFlags.Save();
 		}
 		catch (Exception ex)
 		{

@@ -365,6 +365,7 @@ Components included in this repository keep their own licenses:
 | Montserrat font | Windows app | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Montserrat.txt) |
 | Noto Sans Thai font | Windows app | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-NotoSansThai.txt) |
 | Rubik font | Windows app | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Rubik.txt) |
+| Voidstrap Emoji font, built from [Twemoji Mozilla](https://github.com/mozilla/twemoji-colr) 0.7.0 by `build/Packaging/Linux/build-emoji-font.py`, art by [Twemoji](https://github.com/twitter/twemoji) | Linux app | CC BY 4.0 art, Apache 2.0 build code | [License](src/Voidstrap.App/Resources/Fonts/LICENSE-TwemojiMozilla.txt) |
 | [Bibata Modern Ice cursors](https://github.com/ful1e5/Bibata_Cursor) | Windows and Android apps | GPL 3.0 | [License](src/Voidstrap.App/Resources/Mods/Cursor/BibataModernIce/LICENSE.txt) |
 | ppmd-rust | Android app | CC0 1.0 or MIT No Attribution | [CC0](android/rust/vendor/ppmd-rust/LICENSE-CC0.md), [MIT-0](android/rust/vendor/ppmd-rust/LICENSE-MIT-0.md) |
 

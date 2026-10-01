@@ -62,6 +62,8 @@ internal static class TextFontInstaller
 				string refreshMarker = Path.Combine(fontDirectory, "cache-refresh-pending");
 				bool wroteFonts = ExtractFonts(fontDirectory);
 				bool wroteConfig = WriteAliasConfig(home);
+				if (Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed)
+					LinkHostFonts(Path.GetDirectoryName(fontDirectory)!);
 				if (wroteFonts || wroteConfig)
 					File.WriteAllText(refreshMarker, string.Empty);
 				if (File.Exists(refreshMarker))
@@ -106,6 +108,30 @@ internal static class TextFontInstaller
 			}
 		}
 		return wroteAny;
+	}
+
+	private static void LinkHostFonts(string fontsRoot)
+	{
+		foreach ((string name, string target) in new[] { ("voidstrap-host", "/run/host/fonts"), ("voidstrap-host-user", "/run/host/user-fonts") })
+		{
+			try
+			{
+				string link = Path.Combine(fontsRoot, name);
+				if (!Directory.Exists(target) || Directory.Exists(link) || File.Exists(link))
+				{
+					continue;
+				}
+				FileInfo stale = new FileInfo(link);
+				if (stale.LinkTarget != null)
+				{
+					stale.Delete();
+				}
+				Directory.CreateSymbolicLink(link, target);
+			}
+			catch
+			{
+			}
+		}
 	}
 
 	private static bool WriteAliasConfig(string home)

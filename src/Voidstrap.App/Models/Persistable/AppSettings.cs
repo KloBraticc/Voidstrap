@@ -139,6 +139,7 @@ namespace Voidstrap.Models.Persistable
         public SoberTouchMode? SoberTouchMode { get; set; }
         public bool? SoberUseConsoleExperience { get; set; }
         public bool? SoberUseLibsecret { get; set; }
+        public string SoberTermsAccepted { get; set; } = "";
         public bool? SoberUseOpenGl { get; set; }
         public VinegarRenderer? VinegarRenderer { get; set; }
         public bool? VinegarEnableGameMode { get; set; }

@@ -426,6 +426,8 @@ public partial class DiscordRichPresence : IDisposable
 		}
 	}
 
+	public bool IsUserVisible => _userVisible;
+
 	public void SetVisibility(bool visible)
 	{
 		_userVisible = visible;

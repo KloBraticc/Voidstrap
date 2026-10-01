@@ -337,7 +337,7 @@ internal static partial class LegacyMaterialTextures
 		return current;
 	}
 
-	private static string? FindSoberNativePackage()
+	internal static string? FindSoberNativePackage()
 	{
 		string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 		string packages = Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "data", "sober", "packages");
@@ -372,7 +372,7 @@ internal static partial class LegacyMaterialTextures
 		return entry.FullName.StartsWith("lib/", StringComparison.Ordinal) && entry.FullName.EndsWith("/libroblox.so", StringComparison.Ordinal);
 	}
 
-	private static byte[] ReadClientBinary(string path)
+	internal static byte[] ReadClientBinary(string path)
 	{
 		if (!path.EndsWith(".apk", StringComparison.OrdinalIgnoreCase))
 		{

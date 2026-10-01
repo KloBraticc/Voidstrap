@@ -177,13 +177,28 @@ public class NotifyIconWrapper : IDisposable
 		{
 			return;
 		}
+		Dispatcher? dispatcher = System.Windows.Application.Current?.Dispatcher;
+		if (_disposed || dispatcher == null || dispatcher.HasShutdownStarted || dispatcher.HasShutdownFinished)
+		{
+			return;
+		}
 		try
 		{
-			System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+			dispatcher.BeginInvoke((Action)delegate
 			{
-				MenuContainer menu = EnsureMenuContainer();
-				menu.Activate();
-				menu.ContextMenu.IsOpen = true;
+				try
+				{
+					if (_disposed)
+						return;
+					MenuContainer menu = EnsureMenuContainer();
+					menu.Activate();
+					if (menu.ContextMenu != null)
+						menu.ContextMenu.IsOpen = true;
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteException("NotifyIconWrapper::NotifyIcon_MouseClick", ex);
+				}
 			});
 		}
 		catch (Exception ex)
@@ -194,11 +209,24 @@ public class NotifyIconWrapper : IDisposable
 
 	private void ShowServerInformationAlertClicked(object? sender, EventArgs e)
 	{
+		Dispatcher? dispatcher = System.Windows.Application.Current?.Dispatcher;
+		if (_disposed || dispatcher == null || dispatcher.HasShutdownStarted || dispatcher.HasShutdownFinished)
+		{
+			return;
+		}
 		try
 		{
-			System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+			dispatcher.BeginInvoke((Action)delegate
 			{
-				EnsureMenuContainer().ShowServerInformationWindow();
+				try
+				{
+					if (!_disposed)
+						EnsureMenuContainer().ShowServerInformationWindow();
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteException("NotifyIconWrapper::ShowServerInformationAlertClicked", ex);
+				}
 			});
 		}
 		catch (Exception ex)

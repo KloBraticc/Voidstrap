@@ -27,12 +27,13 @@
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
 		<EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
-		<PublishReadyToRun Condition="'$(PublishReadyToRun)' == ''">false</PublishReadyToRun>
+		<PublishReadyToRun Condition="'$(PublishReadyToRun)' == ''">true</PublishReadyToRun>
 		<TieredPGO>false</TieredPGO>
 		<LinuxProGpuWpfAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\ProGPU.Wpf.dll</LinuxProGpuWpfAssembly>
 		<LinuxPresentationCoreAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\PresentationCore.dll</LinuxPresentationCoreAssembly>
 		<LinuxPresentationFrameworkAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\PresentationFramework.dll</LinuxPresentationFrameworkAssembly>
 		<LinuxWgpuLibrary>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libwgpu_native.so</LinuxWgpuLibrary>
+		<LinuxGlfwLibrary>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libglfw.so.3</LinuxGlfwLibrary>
 	</PropertyGroup>
 
 	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) And Exists('$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libwgpu_native_gl.so')">
@@ -43,8 +44,23 @@
 		</None>
 	</ItemGroup>
 
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<LinuxEditorCompatLibrary>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\libvoidstrapeditorcompat.so</LinuxEditorCompatLibrary>
+		<LinuxEditorCompatLibrary Condition="$(RuntimeIdentifier.EndsWith('-arm64'))">$(MSBuildProjectDirectory)\..\..\external\LibreWPF\linux-arm64\libvoidstrapeditorcompat.so</LinuxEditorCompatLibrary>
+		<LinuxEditorCompatLibrary Condition="$([MSBuild]::IsOSPlatform('Linux'))">$(BaseIntermediateOutputPath)editorcompat/$(RuntimeIdentifier)/libvoidstrapeditorcompat.so</LinuxEditorCompatLibrary>
+	</PropertyGroup>
+
+	<Target Name="BuildLinuxEditorCompat" BeforeTargets="PrepareForBuild" Condition="$(RuntimeIdentifier.StartsWith('linux')) And $([MSBuild]::IsOSPlatform('Linux'))" Inputs="$(MSBuildProjectDirectory)/../../build/Packaging/Linux/editor-compat.c;$(MSBuildProjectDirectory)/../../build/Packaging/Linux/build-native-compat.sh" Outputs="$(LinuxEditorCompatLibrary)">
+		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/Linux/build-native-compat.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(LinuxEditorCompatLibrary)&quot;" />
+	</Target>
+
 	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
-		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\libvoidstrapeditorcompat.so">
+		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\GLFW-LICENSE.txt" Condition="Exists('$(LinuxGlfwLibrary)')">
+			<Link>GLFW-LICENSE.txt</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+		<None Include="$(LinuxEditorCompatLibrary)">
 			<Link>libvoidstrapeditorcompat.so</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -280,6 +296,17 @@
 			<_FilesToBundle Include="$(LinuxProGpuWpfAssembly)" RelativePath="ProGPU.Wpf.dll" />
 			<_FilesToBundle Include="$(LinuxPresentationCoreAssembly)" RelativePath="PresentationCore.dll" />
 			<_FilesToBundle Include="$(LinuxPresentationFrameworkAssembly)" RelativePath="PresentationFramework.dll" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="UseVendoredLinuxGlfw" AfterTargets="ResolvePackageAssets" Condition="$(RuntimeIdentifier.StartsWith('linux')) And Exists('$(LinuxGlfwLibrary)')">
+		<ItemGroup>
+			<_VoidstrapPackagedGlfwRuntime Include="@(RuntimeCopyLocalItems)" Condition="'%(RuntimeCopyLocalItems.Filename)%(RuntimeCopyLocalItems.Extension)' == 'libglfw.so.3'" />
+			<RuntimeCopyLocalItems Remove="@(_VoidstrapPackagedGlfwRuntime)" />
+			<RuntimeCopyLocalItems Include="@(_VoidstrapPackagedGlfwRuntime->'$(LinuxGlfwLibrary)')" />
+			<_VoidstrapPackagedGlfwNative Include="@(NativeCopyLocalItems)" Condition="'%(NativeCopyLocalItems.Filename)%(NativeCopyLocalItems.Extension)' == 'libglfw.so.3'" />
+			<NativeCopyLocalItems Remove="@(_VoidstrapPackagedGlfwNative)" />
+			<NativeCopyLocalItems Include="@(_VoidstrapPackagedGlfwNative->'$(LinuxGlfwLibrary)')" />
 		</ItemGroup>
 	</Target>
 

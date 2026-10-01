@@ -85,7 +85,7 @@ internal static class LinuxSteamIntegration
 			{
 				executable = Quote("/usr/bin/flatpak-spawn");
 				startDirectory = Quote(Path.GetDirectoryName(path) ?? "/");
-				prefix = "--host " + Quote(path);
+				prefix = "--host --directory=/ " + Quote(path);
 			}
 			else
 			{
@@ -227,7 +227,10 @@ internal static class LinuxSteamIntegration
 				CreateNoWindow = true
 			};
 			if (sandboxed)
+			{
 				info.ArgumentList.Add("--host");
+				info.ArgumentList.Add("--directory=/");
+			}
 			else
 				info.ArgumentList.Add("-f");
 			info.ArgumentList.Add(command);

@@ -100,7 +100,7 @@ internal static class AssetProxyRouting
 		return Interlocked.Exchange(ref _cacheCleared, 0) == 1;
 	}
 
-	public static void ClearRobloxCache()
+	public static bool ClearRobloxCache()
 	{
 		string roblox;
 		string[] files;
@@ -130,8 +130,9 @@ internal static class AssetProxyRouting
 		}
 		else
 		{
-			return;
+			return true;
 		}
+		bool cleared = true;
 		foreach (string file in files)
 		{
 			try
@@ -144,6 +145,7 @@ internal static class AssetProxyRouting
 			}
 			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 			{
+				cleared = false;
 				App.Logger?.WriteLine("AssetProxyRouting", "Roblox cache file is locked: " + Path.GetFileName(file));
 			}
 		}
@@ -175,6 +177,7 @@ internal static class AssetProxyRouting
 			}
 		}
 
+		cleared &= !Directory.Exists(storage);
 		if (trash.Count > 0)
 		{
 			string[] pending = [.. trash];
@@ -188,6 +191,7 @@ internal static class AssetProxyRouting
 		}
 		Interlocked.Exchange(ref _cacheCleared, 1);
 		App.Logger?.WriteLine("AssetProxyRouting", "Roblox asset cache cleared");
+		return cleared;
 	}
 
 	private static void DeleteTree(string folder)

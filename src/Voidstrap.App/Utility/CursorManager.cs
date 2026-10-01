@@ -107,6 +107,14 @@ internal static class CursorManager
 		}
 	}
 
+	internal static IReadOnlyDictionary<string, IReadOnlyList<string>> GetPresetAssetHashes()
+	{
+		return PresetHashes.Value.ToDictionary(
+			pair => pair.Key.Replace('\\', '/'),
+			pair => (IReadOnlyList<string>)pair.Value.Select(hash => Convert.ToHexString(hash)).ToArray(),
+			StringComparer.Ordinal);
+	}
+
 	internal static void ApplyStyle(CursorType style)
 	{
 		foreach (CursorSlot slot in PointerSlots)

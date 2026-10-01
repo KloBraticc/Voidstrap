@@ -18,7 +18,7 @@ internal static class Paths
 
 	public static string LocalAppData => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-	public static string Desktop => Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+	public static string Desktop => Voidstrap.Utility.Platform.IsLinux ? Voidstrap.Utility.LinuxDesktopEntry.DesktopFolder : Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 
 	public static string WindowsStartMenu => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs");
 

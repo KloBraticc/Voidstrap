@@ -23,6 +23,8 @@ public class ShortcutTask : BoolBaseTask
 		if (NewState)
 		{
 			Shortcut.Create(Paths.Application, _exeFlags, _shortcutPath);
+			if (Voidstrap.Utility.Platform.IsLinux && !File.Exists(_shortcutPath))
+				throw new IOException("The desktop shortcut could not be created");
 		}
 		else if (File.Exists(_shortcutPath))
 		{

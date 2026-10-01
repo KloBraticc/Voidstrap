@@ -65,8 +65,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         new("NewsNavItem", "News", "More", SymbolRegular.News16),
         new("ExtensionsNavItem", "Extensions", "Footer", SymbolRegular.CubeAdd20),
         new("ManagerNavItem", "Manager", "Footer", SymbolRegular.ArrowDownload24),
-        new("SettingsNavItem", "Settings", "Footer", SymbolRegular.Settings28),
         new("SoberNavItem", "Sober", "Footer", SymbolRegular.Empty),
+        new("SettingsNavItem", "Settings", "Footer", SymbolRegular.Settings28),
         new("AboutNavItem", "About", "Footer", SymbolRegular.QuestionCircle32)
     };
 
@@ -491,7 +491,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
         Brush surface = Voidstrap.UI.WindowBackdrop.CreateSurfaceBrush(this);
-        if (BackgroundGradientTransform != null && !Voidstrap.Utility.Platform.IsLinux)
+        if (BackgroundGradientTransform != null)
         {
             if (surface.IsFrozen)
             {
@@ -569,6 +569,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             IntroOverlay.Visibility = Visibility.Collapsed;
             Voidstrap.UI.LinuxUiPerformance.ReducedMotionChanged += OnLinuxReducedMotionChanged;
+            PreviewMouseMove += OnLinuxGradientMouseMove;
+            MouseLeave += RootGrid_MouseLeave;
             if (Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
                 RootNavigation.TransitionDuration = 0;
         }
@@ -626,6 +628,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void VisibilityTimer_Tick(object? sender, EventArgs e)
     {
+        CheckLinuxGradientPointer();
         UpdateDiscordPresence();
         if (++_notificationReloadTicks >= 12)
         {
@@ -2861,8 +2864,42 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
+    private void CheckLinuxGradientPointer()
+    {
+        if (!Voidstrap.Utility.Platform.IsLinux || !App.Settings.Prop.GRADmentFR || !IsActive
+            || _targetOffset.LengthSquared == 0 || !RootGrid.IsVisible)
+            return;
+        if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPointerPosition(out int x, out int y))
+            return;
+        Point position = RootGrid.PointFromScreen(new Point(x, y));
+        if (position.X >= 0 && position.Y >= 0 && position.X <= RootGrid.ActualWidth && position.Y <= RootGrid.ActualHeight)
+            return;
+        _targetOffset = new Vector(0, 0);
+        _targetRotation = 0;
+        StartGradientRendering();
+    }
+
+    private void OnLinuxGradientMouseMove(object sender, MouseEventArgs e)
+    {
+        if (RootGrid.ActualWidth <= 0 || RootGrid.ActualHeight <= 0)
+            return;
+        Point position = e.GetPosition(RootGrid);
+        if (position.X < 0 || position.Y < 0 || position.X > RootGrid.ActualWidth || position.Y > RootGrid.ActualHeight)
+        {
+            RootGrid_MouseLeave(sender, e);
+            return;
+        }
+        double x = (position.X / RootGrid.ActualWidth - 0.5) * 2;
+        double y = (position.Y / RootGrid.ActualHeight - 0.5) * 2;
+        _targetOffset = new Vector(x * 0.04, y * 0.04);
+        _targetRotation = x * 5;
+        StartGradientRendering();
+    }
+
     private void RootGrid_MouseMove(object sender, MouseEventArgs e)
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+            return;
         //IL_000d: Unknown result type (might be due to invalid IL or missing references)
         //IL_0012: Unknown result type (might be due to invalid IL or missing references)
         //IL_0070: Unknown result type (might be due to invalid IL or missing references)
@@ -2889,11 +2926,58 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void StartGradientRendering()
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            if (App.Settings.Prop.GRADmentFR && IsActive && IsVisible && WindowState != System.Windows.WindowState.Minimized)
+                StartLinuxGradientAnimation();
+            return;
+        }
         if (App.Settings.Prop.GRADmentFR && base.IsActive && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
         {
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
             CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
+    }
+
+    private void StartLinuxGradientAnimation()
+    {
+        TimeSpan duration = TimeSpan.FromMilliseconds(1400);
+        AnimateGradientProperty(BackgroundGradientTranslate, TranslateTransform.XProperty, _targetOffset.X, duration);
+        AnimateGradientProperty(BackgroundGradientTranslate, TranslateTransform.YProperty, _targetOffset.Y, duration);
+        AnimateGradientProperty(BackgroundGradientRotate, RotateTransform.AngleProperty, _targetRotation, duration);
+        Wpf.Ui.Animations.RenderReady.Hold(this, duration);
+    }
+
+    private static void AnimateGradientProperty(Animatable target, DependencyProperty property, double value, TimeSpan duration)
+    {
+        double current = (double)target.GetValue(property);
+        target.BeginAnimation(property, null);
+        target.SetValue(property, value);
+        if (Math.Abs(current - value) < 0.000001)
+            return;
+        target.BeginAnimation(property, new DoubleAnimation
+        {
+            From = current,
+            To = value,
+            Duration = duration,
+            EasingFunction = new ExponentialEase { Exponent = 5, EasingMode = EasingMode.EaseOut },
+            FillBehavior = FillBehavior.Stop
+        });
+    }
+
+    private void StopLinuxGradientAnimation(bool reset)
+    {
+        if (!Voidstrap.Utility.Platform.IsLinux)
+            return;
+        double x = reset ? 0 : BackgroundGradientTranslate.X;
+        double y = reset ? 0 : BackgroundGradientTranslate.Y;
+        double angle = reset ? 0 : BackgroundGradientRotate.Angle;
+        BackgroundGradientTranslate.BeginAnimation(TranslateTransform.XProperty, null);
+        BackgroundGradientTranslate.BeginAnimation(TranslateTransform.YProperty, null);
+        BackgroundGradientRotate.BeginAnimation(RotateTransform.AngleProperty, null);
+        BackgroundGradientTranslate.X = x;
+        BackgroundGradientTranslate.Y = y;
+        BackgroundGradientRotate.Angle = angle;
     }
 
     private void CompositionTarget_Rendering(object? sender, EventArgs e)
@@ -3330,6 +3414,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public void ApplyGradientMovement(bool enabled)
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            StopLinuxGradientAnimation(reset: !enabled);
+            if (enabled)
+                StartGradientRendering();
+            return;
+        }
         CompositionTarget.Rendering -= CompositionTarget_Rendering;
         if (enabled && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
         {
@@ -3568,7 +3659,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Voidstrap.Utility.AppNotifications.Changed += OnAppNotificationsChanged;
         Voidstrap.Utility.AppNotifications.Reload();
         ApplyNotificationUnread(Voidstrap.Utility.AppNotifications.UnreadCount);
-        if (App.Settings.Prop.GRADmentFR && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
+        if (Voidstrap.Utility.Platform.IsLinux)
+            StartGradientRendering();
+        else if (App.Settings.Prop.GRADmentFR && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
         {
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
             CompositionTarget.Rendering += CompositionTarget_Rendering;
@@ -4519,6 +4612,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void MainWindow_StateChanged(object? sender, EventArgs e)
     {
+        if (WindowState == System.Windows.WindowState.Minimized)
+            StopLinuxGradientAnimation(reset: false);
         CloseTopBarMenus();
     }
 
@@ -4539,7 +4634,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         try
         {
             _visibilityTimer.Start();
-            if (App.Settings.Prop.GRADmentFR && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
+            if (Voidstrap.Utility.Platform.IsLinux)
+                StartGradientRendering();
+            else if (App.Settings.Prop.GRADmentFR && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
             {
                 CompositionTarget.Rendering -= CompositionTarget_Rendering;
                 CompositionTarget.Rendering += CompositionTarget_Rendering;
@@ -4572,6 +4669,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             _visibilityTimer.Stop();
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
+            StopLinuxGradientAnimation(reset: false);
             if (BackgroundMedia != null && BackgroundMedia.Visibility == Visibility.Visible)
             {
                 BackgroundMedia?.Pause();
@@ -5070,6 +5168,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _backgroundAnimationWaiters.Clear();
         _lifetimeCts.Cancel();
         CompositionTarget.Rendering -= CompositionTarget_Rendering;
+        StopLinuxGradientAnimation(reset: false);
         PreviewKeyDown -= MainWindow_PreviewKeyDown;
         base.SizeChanged -= MainWindow_SizeChanged;
         base.LocationChanged -= MainWindow_LocationChanged;
@@ -5089,6 +5188,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RootNavigation.Navigated -= RootNavigation_RpcNavigated;
         GlobalBackground.Changed -= OnGlobalBackgroundChanged;
         Voidstrap.UI.LinuxUiPerformance.ReducedMotionChanged -= OnLinuxReducedMotionChanged;
+        PreviewMouseMove -= OnLinuxGradientMouseMove;
+        MouseLeave -= RootGrid_MouseLeave;
         RestartNotificationService.Changed -= OnRestartRequirementsChanged;
         try
         {

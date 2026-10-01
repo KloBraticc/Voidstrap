@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,9 +30,40 @@ public static class LinuxEffectLayers
 
 	public const string FrameGenLayerId = "org.freedesktop.Platform.VulkanLayer.lsfgvk";
 
-	public const string LayerBranch = "25.08";
+	public const string DefaultLayerBranch = "25.08";
 
-	private const string Architecture = "x86_64";
+	private const string SoberApplicationId = "org.vinegarhq.Sober";
+
+	private const string VulkanLayerExtension = "org.freedesktop.Platform.VulkanLayer";
+
+	private const string RemoteName = "flathub";
+
+	private const string RemoteUrl = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+
+	private static readonly object BranchGate = new();
+
+	private static string? _layerBranch;
+
+	public static string LayerBranch
+	{
+		get
+		{
+			lock (BranchGate)
+			{
+				if (_layerBranch is not null)
+					return _layerBranch;
+
+				string? resolved = ResolveLayerBranch();
+				if (resolved is null)
+					return DefaultLayerBranch;
+
+				_layerBranch = resolved;
+				return resolved;
+			}
+		}
+	}
+
+	private static string FlatpakArchitecture => RuntimeInformation.OSArchitecture == Architecture.Arm64 ? "aarch64" : "x86_64";
 
 	public static string ConfigDirectory
 	{
@@ -62,20 +94,24 @@ public static class LinuxEffectLayers
 
 		try
 		{
+			string branch = LayerBranch;
 			if (LinuxFlatpakHost.IsSandboxed)
 			{
 				SystemProcessService processes = new();
-				if (!LinuxFlatpakHost.TryCreateCommand(processes, ["info", "--runtime", layerId + "//" + LayerBranch], out ProcessCommand command))
+				if (!LinuxFlatpakHost.TryCreateCommand(processes, ["info", layerId + "//" + branch], out ProcessCommand command))
 					return false;
 				OperationResult<ProcessExecution> result = processes.ExecuteAsync(command).GetAwaiter().GetResult();
 				return result.Succeeded && result.Value is { ExitCode: 0 };
 			}
 
 			string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+			string userInstallation = Environment.GetEnvironmentVariable("FLATPAK_USER_DIR") is { Length: > 0 } custom
+				? custom
+				: Path.Combine(home, ".local", "share", "flatpak");
 			string[] roots =
 			[
-				Path.Combine(home, ".local", "share", "flatpak", "runtime", layerId, Architecture, LayerBranch),
-				Path.Combine("/var", "lib", "flatpak", "runtime", layerId, Architecture, LayerBranch)
+				Path.Combine(userInstallation, "runtime", layerId, FlatpakArchitecture, branch),
+				Path.Combine("/var", "lib", "flatpak", "runtime", layerId, FlatpakArchitecture, branch)
 			];
 
 			foreach (string root in roots)
@@ -103,7 +139,10 @@ public static class LinuxEffectLayers
 		if (IsInstalled(layerId))
 			return OperationResult.Success();
 
-		if (!LinuxFlatpakHost.TryCreateCommand(processes, ["install", "--user", "--noninteractive", "flathub", layerId + "//" + LayerBranch], out ProcessCommand command))
+		if (LinuxFlatpakHost.TryCreateCommand(processes, ["remote-add", "--if-not-exists", "--user", RemoteName, RemoteUrl], out ProcessCommand remote))
+			await processes.ExecuteAsync(remote, cancellationToken).ConfigureAwait(false);
+
+		if (!LinuxFlatpakHost.TryCreateCommand(processes, ["install", "--user", "--noninteractive", RemoteName, layerId + "//" + LayerBranch], out ProcessCommand command))
 			return OperationResult.Fail("FlatpakMissing", "Flatpak is not installed");
 
 		OperationResult<ProcessExecution> result = await processes
@@ -113,12 +152,75 @@ public static class LinuxEffectLayers
 		if (!result.Succeeded || result.Value is null)
 			return OperationResult.Fail("EffectLayerInstallFailed", result.Failure?.Message ?? "The effect layer could not be installed");
 
-		if (result.Value.ExitCode != 0)
-			return OperationResult.Fail("EffectLayerInstallFailed", "The effect layer installer reported an error");
+		if (result.Value.ExitCode != 0 && !IsInstalled(layerId))
+			return OperationResult.Fail("EffectLayerInstallFailed", "The effect layer installer reported an error: " + LastLine(result.Value.StandardError));
 
 		return IsInstalled(layerId)
 			? OperationResult.Success()
 			: OperationResult.Fail("EffectLayerInstallFailed", "The effect layer did not appear after installing");
+	}
+
+	private static string? ResolveLayerBranch()
+	{
+		try
+		{
+			SystemProcessService processes = new();
+			string? runtime = ReadMetadataValue(processes, SoberApplicationId, "Application", "runtime");
+			if (string.IsNullOrWhiteSpace(runtime))
+				return null;
+
+			string? version = ReadMetadataValue(processes, SoberApplicationId, "Extension " + VulkanLayerExtension, "version")
+				?? ReadMetadataValue(processes, runtime, "Extension " + VulkanLayerExtension, "version");
+			return string.IsNullOrWhiteSpace(version) ? null : version;
+		}
+		catch (Exception)
+		{
+			return null;
+		}
+	}
+
+	private static string? ReadMetadataValue(IProcessService processes, string reference, string section, string key)
+	{
+		if (!LinuxFlatpakHost.TryCreateCommand(processes, ["info", "--show-metadata", reference], out ProcessCommand command))
+			return null;
+
+		OperationResult<ProcessExecution> result = processes.ExecuteAsync(command).GetAwaiter().GetResult();
+		if (!result.Succeeded || result.Value is not { ExitCode: 0 } execution)
+			return null;
+
+		string? current = null;
+		string? listed = null;
+		foreach (string raw in execution.StandardOutput.Split('\n'))
+		{
+			string line = raw.Trim();
+			if (line.StartsWith('[') && line.EndsWith(']'))
+			{
+				current = line[1..^1];
+				continue;
+			}
+
+			if (!string.Equals(current, section, StringComparison.Ordinal))
+				continue;
+
+			int separator = line.IndexOf('=');
+			if (separator <= 0)
+				continue;
+
+			string name = line[..separator].Trim();
+			string value = line[(separator + 1)..].Trim();
+			if (string.Equals(name, key, StringComparison.Ordinal) && value.Length > 0)
+				return value;
+			if (string.Equals(name, key + "s", StringComparison.Ordinal))
+				listed ??= value.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) is { Length: > 0 } entries ? entries[0] : null;
+		}
+
+		return listed;
+	}
+
+	private static string LastLine(string text)
+	{
+		string[] lines = (text ?? string.Empty).Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+		return lines.Length == 0 ? "no details" : lines[^1];
 	}
 
 	public static OperationResult WriteConfiguration(LinuxEffectOptions options)

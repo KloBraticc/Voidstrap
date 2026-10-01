@@ -22,8 +22,14 @@ internal static class WindowAudit
 		"ImageRecolorWindow"
 	};
 
-	public static void Run()
+	private static readonly List<string> FailedChecks = new();
+
+	private static readonly List<IDisposable> FixtureResources = new();
+
+	public static bool Run()
 	{
+		FailedChecks.Clear();
+		_probeErrors.Clear();
 		int passed = 0;
 		int failed = 0;
 		int skipped = 0;
@@ -36,7 +42,7 @@ internal static class WindowAudit
 		catch (ReflectionTypeLoadException ex)
 		{
 			allTypes = ex.Types.Where(t => t != null).Select(t => t!).ToArray();
-			Emit($"partial type load: {allTypes.Length} usable, {ex.LoaderExceptions.Length} load errors");
+			Emit($"partial type load: FAIL, {allTypes.Length} usable, {ex.LoaderExceptions.Length} load errors");
 		}
 
 		List<Type> windowTypes = allTypes
@@ -71,12 +77,18 @@ internal static class WindowAudit
 				};
 				renderKeeper.Show();
 				Pump(60);
+				System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(renderKeeper, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? keeperHost);
+				System.Diagnostics.Stopwatch keeperWarmup = System.Diagnostics.Stopwatch.StartNew();
+				while (keeperWarmup.ElapsedMilliseconds < 8000 && UI.LinuxWindowReveal.IsPending(renderKeeper))
+					PumpPortableHost(keeperHost, 16);
+				if (UI.LinuxWindowReveal.IsPending(renderKeeper))
+					Emit("render keeper window: FAIL, graphics preparation did not finish");
 				Emit("render keeper window opened so the portable render loop stays alive for the motion audits");
 			}
 			catch (Exception ex)
 			{
 				renderKeeper = null;
-				Emit($"render keeper window failed: {ex.GetType().Name}: {ex.Message.Split('\n')[0]}");
+				Emit($"render keeper window: FAIL, {ex.GetType().Name}: {ex.Message.Split('\n')[0]}");
 			}
 		}
 		string? only = Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_ONLY");
@@ -87,11 +99,18 @@ internal static class WindowAudit
 				MethodInfo? section = typeof(WindowAudit).GetMethod(name, BindingFlags.NonPublic | BindingFlags.Static, Type.EmptyTypes);
 				if (section is null)
 				{
-					Emit("audit section not found: " + name);
+					Emit("audit section: FAIL, not found: " + name);
 					continue;
 				}
 				Emit("audit section: " + name);
-				section.Invoke(null, null);
+				try
+				{
+					section.Invoke(null, null);
+				}
+				catch (Exception ex)
+				{
+					Emit("audit section: FAIL, " + name + ": " + ex.GetBaseException().Message.Split('\n')[0]);
+				}
 			}
 			renderKeeper?.Close();
 			Pump(200);
@@ -101,8 +120,8 @@ internal static class WindowAudit
 				AppDomain.CurrentDomain.UnhandledException -= OnProbeDomainException;
 				Application.Current.ShutdownMode = previousShutdownMode;
 			}
-			Emit("window audit complete: selected sections only");
-			return;
+			Emit($"window audit complete: selected sections, {FailedChecks.Count} failed checks");
+			return FailedChecks.Count == 0;
 		}
 
 		AuditTransitions();
@@ -137,17 +156,6 @@ internal static class WindowAudit
 		AuditAnimatedGif();
 		AuditBootstrapperIcons();
 		AuditThemeEditorWindow();
-		if (renderKeeper != null)
-		{
-			try
-			{
-				renderKeeper.Close();
-				Pump(200);
-			}
-			catch (Exception)
-			{
-			}
-		}
 		AuditPlacement();
 		AuditLinuxWindowModes();
 		try
@@ -243,6 +251,8 @@ internal static class WindowAudit
 		AuditCustomThemes();
 		AuditJoinNotificationIcon();
 		RemoveFixtures();
+		renderKeeper?.Close();
+		Pump(200);
 
 		if (Application.Current != null)
 		{
@@ -250,7 +260,8 @@ internal static class WindowAudit
 			AppDomain.CurrentDomain.UnhandledException -= OnProbeDomainException;
 			Application.Current.ShutdownMode = previousShutdownMode;
 		}
-		Emit($"window audit complete: {passed} passed, {failed} failed, {skipped} skipped");
+		Emit($"window audit complete: {passed} passed, {failed} failed windows, {FailedChecks.Count} failed checks, {skipped} skipped");
+		return failed == 0 && FailedChecks.Count == 0;
 	}
 
 	private static void AuditJoinNotificationIcon()
@@ -1557,6 +1568,14 @@ internal static class WindowAudit
 			bool hostAvailable = System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(
 				probe,
 				out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host);
+			System.Diagnostics.Stopwatch warmup = System.Diagnostics.Stopwatch.StartNew();
+			while (warmup.ElapsedMilliseconds < 2500 && (host?.HasPresentedFrame != true || !body.IsLoaded || !body.IsVisible || UI.LinuxWindowReveal.IsPending(probe)))
+				PumpPortableHost(host, 16);
+			if (host?.HasPresentedFrame != true || !body.IsLoaded || !body.IsVisible || UI.LinuxWindowReveal.IsPending(probe))
+			{
+				Emit($"  reveal {label}: FAIL, the collapsed control was not ready for input, loaded {body.IsLoaded}, visible {body.IsVisible}, presented {host?.HasPresentedFrame}");
+				return;
+			}
 			PumpPortableHost(host, 40);
 			long openingPresentedBefore = host?.PresentedFrameCount ?? 0;
 			expander.IsExpanded = true;
@@ -5641,6 +5660,13 @@ internal static class WindowAudit
 #else
 				Pump(200);
 #endif
+
+#if CROSSPLAT
+				if (host?.SilkWindow?.Native?.X11 is { } native)
+					window = (nint)native.Window;
+#endif
+				if (window == 0)
+					window = Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(probe.Title);
 				if (Voidstrap.Platform.Linux.LinuxWindowInterop.TryWindowHasColorVariation(window, 128, 128))
 				{
 					Emit("inline media surface presented after " + ((attempt + 1) * 200) + " ms");
@@ -5712,7 +5738,9 @@ internal static class WindowAudit
 				break;
 			}
 		}
-		_probeErrors.Add($"{root.GetType().Name}: {root.Message.Split('\n')[0]}{frame}");
+		string failure = $"{root.GetType().Name}: {root.Message.Split('\n')[0]}{frame}";
+		_probeErrors.Add(failure);
+		Emit("audit exception: FAIL, " + failure);
 	}
 
 	private static string ForceRender(Window window)
@@ -6595,7 +6623,7 @@ internal static class WindowAudit
 				Pump();
 				if (_probeErrors.Count > 0)
 				{
-					Emit($"  NAV DEFER {label}: {_probeErrors.Count} background failure(s)");
+					Emit($"  NAV FAIL {label}: {_probeErrors.Count} background failure(s)");
 					foreach (string deferred in _probeErrors)
 					{
 						Emit($"           {deferred}");
@@ -6765,7 +6793,7 @@ internal static class WindowAudit
 		}
 		catch (Exception ex)
 		{
-			Emit("custom theme audit failed: " + ex.Message);
+			Emit("custom theme audit: FAIL, " + ex.Message);
 		}
 	}
 
@@ -6791,6 +6819,9 @@ internal static class WindowAudit
 
 	private static void RemoveFixtures()
 	{
+		foreach (IDisposable resource in FixtureResources)
+			resource.Dispose();
+		FixtureResources.Clear();
 		try
 		{
 			if (string.Equals(App.Settings.Prop.SelectedCustomTheme, FixtureThemeName, StringComparison.Ordinal))
@@ -6813,7 +6844,7 @@ internal static class WindowAudit
 	private static ConstructorInfo? PickConstructor(Type type, out object?[]? arguments)
 	{
 		arguments = null;
-		foreach (ConstructorInfo candidate in type.GetConstructors().OrderBy(c => c.GetParameters().Length))
+		foreach (ConstructorInfo candidate in type.GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).OrderBy(c => c.GetParameters().Length))
 		{
 			ParameterInfo[] parameters = candidate.GetParameters();
 			object?[] values = new object?[parameters.Length];
@@ -6847,6 +6878,20 @@ internal static class WindowAudit
 		if (t == typeof(string))
 		{
 			value = "audit";
+			return true;
+		}
+		if (t == typeof(IReadOnlyList<ExternalEditorInfo>))
+		{
+			value = new[] { new ExternalEditorInfo { Name = "Text Editor", Path = "/usr/bin/xdg-open" } };
+			return true;
+		}
+		if (t == typeof(Watcher))
+		{
+			Voidstrap.Integrations.ActivityWatcher activity = new();
+			FixtureResources.Add(activity);
+			Watcher watcher = (Watcher)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(Watcher));
+			watcher.ActivityWatcher = activity;
+			value = watcher;
 			return true;
 		}
 		if (t.IsEnum)
@@ -7002,6 +7047,8 @@ internal static class WindowAudit
 
 	private static void Emit(string line)
 	{
+		if (line.Contains("FAIL", StringComparison.Ordinal))
+			FailedChecks.Add(line);
 		App.Logger.WriteLine("WindowAudit", line);
 	}
 }

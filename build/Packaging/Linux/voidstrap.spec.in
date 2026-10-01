@@ -37,22 +37,22 @@ Requires: libssl.so.3()(64bit)
 Requires: ca-certificates
 Requires: flatpak
 Recommends: (mesa-vulkan-drivers or libvulkan_radeon or libvulkan_intel or libvulkan_lvp)
-Recommends: xdg-utils
+Requires: xdg-utils
 Recommends: (zenity or kdialog)
 Recommends: /usr/bin/pkexec
-Recommends: /usr/bin/gio
-Recommends: /usr/bin/notify-send
-Recommends: /usr/bin/secret-tool
+Requires: /usr/bin/gio
+Requires: /usr/bin/notify-send
+Requires: /usr/bin/secret-tool
 Recommends: /usr/bin/xrandr
 Recommends: /usr/bin/pw-dump
 Recommends: /usr/bin/wpctl
-Recommends: /usr/bin/update-desktop-database
-Recommends: libgstreamer-1.0.so.0()(64bit)
-Recommends: libgstpbutils-1.0.so.0()(64bit)
-Recommends: (gstreamer1-plugins-good or gstreamer-plugins-good)
-Recommends: (gstreamer1-plugins-bad-free or gstreamer-plugins-bad)
-Recommends: (gstreamer1-plugin-libav or gstreamer-plugins-libav)
-Recommends: libwebkit2gtk-4.1.so.0()(64bit)
+Requires: /usr/bin/update-desktop-database
+Requires: libgstreamer-1.0.so.0()(64bit)
+Requires: libgstpbutils-1.0.so.0()(64bit)
+Requires: (gstreamer1-plugins-good or gstreamer-plugins-good)
+Requires: (gstreamer1-plugins-bad-free or gstreamer-plugins-bad)
+Requires: (gstreamer1-plugin-libav or gstreamer-plugins-libav)
+Requires: libwebkit2gtk-4.1.so.0()(64bit)
 Source0: publish
 Source1: io.github.KloBraticc.Voidstrap.desktop
 Source2: io.github.KloBraticc.Voidstrap.png

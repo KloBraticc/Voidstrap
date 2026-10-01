@@ -1,4 +1,4 @@
-<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.ContextMenu.ServerInformation" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Voidstrap.UI.Elements.ContextMenu" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels.ContextMenu" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:appUi="clr-namespace:Voidstrap.UI" Title="{x:Static resources:Strings.ContextMenu_ServerInformation_Title}" MinWidth="440" MinHeight="200" Width="460" SizeToContent="Height" ResizeMode="NoResize" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.ContextMenu.ServerInformation" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Voidstrap.UI.Elements.ContextMenu" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels.ContextMenu" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:appUi="clr-namespace:Voidstrap.UI" xmlns:util="clr-namespace:Voidstrap.Utility" Title="{x:Static resources:Strings.ContextMenu_ServerInformation_Title}" MinWidth="440" MinHeight="200" Width="460" SizeToContent="Height" ResizeMode="NoResize" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
   <Grid>
     <Panel.Background>
       <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
@@ -40,6 +40,7 @@
             <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding PlayerCount, Mode=OneWay}" />
           </StackPanel>
         </Border>
+        <TextBlock MaxWidth="380" Margin="0,6,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding PlayerCountHint, Mode=OneWay}" Visibility="{Binding PlayerCountHintVisibility, Mode=OneWay}" />
       </StackPanel>
       <Border Grid.Row="1" Padding="16,14">
         <Grid>
@@ -59,9 +60,34 @@
           <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" HorizontalAlignment="Right" TextAlignment="Right" TextTrimming="CharacterEllipsis" Text="{Binding ServerLocation}" Visibility="{Binding ServerLocationVisibility}" />
           <TextBlock Grid.Row="2" Grid.Column="0" Text="Instance ID" Margin="0,0,16,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
           <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right" TextTrimming="CharacterEllipsis" Text="{Binding InstanceId, Mode=OneWay}" />
-          <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,12,0,0" Visibility="{Binding FriendsVisibility}">
-            <TextBlock Text="Friends in this server" Margin="0,0,0,4" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-            <TextBlock TextWrapping="Wrap" Text="{Binding FriendsInServer, Mode=OneWay}" />
+          <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,12,0,0" Visibility="{Binding FriendsVisibility, Mode=OneWay}">
+            <TextBlock Margin="0,0,0,6" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding FriendsHeader, Mode=OneWay}" />
+            <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding FriendsStatus, Mode=OneWay}" Visibility="{Binding FriendsStatusVisibility, Mode=OneWay}" />
+            <StackPanel Orientation="Horizontal" Visibility="{Binding FriendsListVisibility, Mode=OneWay}">
+              <ItemsControl ItemsSource="{Binding VisibleFriends, Mode=OneWay}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <StackPanel Width="58" Margin="0,0,6,0" Background="Transparent" ToolTip="{Binding ToolTipText, Mode=OneWay}">
+                      <Border Width="40" Height="40" HorizontalAlignment="Center" CornerRadius="8" ClipToBounds="True" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                        <Image Width="40" Height="40" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding HeadshotUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" util:DynamicRenderSystem.LinuxImageSource="{Binding HeadshotUrl}" />
+                      </Border>
+                      <TextBlock Margin="0,4,0,0" MaxWidth="58" HorizontalAlignment="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" FontSize="11" FontWeight="SemiBold" Text="{Binding Label, Mode=OneWay}" />
+                    </StackPanel>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <StackPanel Width="56" Background="Transparent" ToolTip="{Binding MoreFriendsToolTip, Mode=OneWay}" Visibility="{Binding MoreFriendsVisibility, Mode=OneWay}">
+                <Border Width="40" Height="40" HorizontalAlignment="Center" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}">
+                  <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding MoreFriendsText, Mode=OneWay}" />
+                </Border>
+                <TextBlock Margin="0,4,0,0" HorizontalAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="more" />
+              </StackPanel>
+            </StackPanel>
           </StackPanel>
         </Grid>
       </Border>

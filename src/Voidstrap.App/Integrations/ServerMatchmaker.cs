@@ -84,8 +84,7 @@ public sealed class ServerMatchmaker : IDisposable
 	{
 		CancelPrefetch();
 		ActivityData? data = _activityWatcher.Data;
-		if (_disposed || data == null || data.PlaceId == 0L || data.ServerType == ServerType.Reserved || IsExcluded(data.PlaceId)
-			|| (!App.Settings.Prop.VoidstrapMatchmakerEnabled && !HasPerGamePreference(data.PlaceId)))
+		if (_disposed || data == null || data.PlaceId == 0L || data.ServerType == ServerType.Reserved || !IsEnabled() || IsExcluded(data.PlaceId))
 			return;
 
 		MatchmakerCandidate? launchPick = VoidstrapMatchmaker.FindLaunchPick(data.JobId);
@@ -172,17 +171,17 @@ public sealed class ServerMatchmaker : IDisposable
 
 			_ = RecordLearningAsync(data);
 
-			if (IsExcluded(data.PlaceId))
+			if (!IsEnabled())
 			{
-				App.Logger.WriteLine(LOG_IDENT, $"Place {data.PlaceId} is excluded from the matchmaker, staying put");
-				ClearAttempt(data.PlaceId);
+				App.Logger.WriteLine(LOG_IDENT, "Matchmaker is turned off, staying put");
 				CancelLinuxPrefetch();
 				return;
 			}
 
-			if (!App.Settings.Prop.VoidstrapMatchmakerEnabled && !HasPerGamePreference(data.PlaceId))
+			if (IsExcluded(data.PlaceId))
 			{
-				App.Logger.WriteLine(LOG_IDENT, "Matchmaker is turned off and this place has no per game preference, staying put");
+				App.Logger.WriteLine(LOG_IDENT, $"Place {data.PlaceId} is excluded from the matchmaker, staying put");
+				ClearAttempt(data.PlaceId);
 				CancelLinuxPrefetch();
 				return;
 			}
@@ -301,17 +300,16 @@ public sealed class ServerMatchmaker : IDisposable
 		}
 	}
 
-	public static bool HasPerGamePreference(long placeId)
+	public static bool IsEnabled()
 	{
-		if (placeId == 0L)
-			return false;
 		try
 		{
-			Dictionary<long, string>? map = App.Settings.Prop.PerGamePreferredDatacenters;
-			return map != null && map.TryGetValue(placeId, out string? key) && !string.IsNullOrWhiteSpace(key);
+			App.Settings.RefreshFromDisk();
+			return App.Settings.Prop.VoidstrapMatchmakerEnabled;
 		}
-		catch
+		catch (Exception ex)
 		{
+			App.Logger.WriteLine(LOG_IDENT, "Could not read the matchmaker setting, treating it as off: " + ex.Message);
 			return false;
 		}
 	}
@@ -514,6 +512,13 @@ public sealed class ServerMatchmaker : IDisposable
 	{
 		if (_disposed || token.IsCancellationRequested)
 			return;
+
+		if (!IsEnabled() || IsExcluded(placeId))
+		{
+			App.Logger.WriteLine(LOG_IDENT, "The matchmaker was turned off or this game was skipped before moving servers, staying put");
+			ClearAttempt(placeId);
+			return;
+		}
 
 		string? authUri = null;
 		if (!Voidstrap.Utility.Platform.IsLinux)

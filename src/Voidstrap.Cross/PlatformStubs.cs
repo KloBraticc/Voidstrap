@@ -441,7 +441,15 @@ namespace System.Windows.Forms
 		{
 		}
 
+		private readonly object _trayGate = new object();
+
 		private bool _visible;
+
+		private bool _disposed;
+
+		private Voidstrap.UI.Tray.StatusNotifierItemObject? _attachedItem;
+
+		private EventHandler? _balloonTipClicked;
 
 		public System.Drawing.Icon? Icon { get; set; }
 		public string Text { get; set; } = "Voidstrap";
@@ -451,7 +459,7 @@ namespace System.Windows.Forms
 			get => _visible;
 			set
 			{
-				if (_visible == value)
+				if (_visible == value || (value && _disposed))
 				{
 					return;
 				}
@@ -459,6 +467,7 @@ namespace System.Windows.Forms
 				_visible = value;
 				if (value)
 				{
+					Voidstrap.UI.Tray.LinuxTray.Started += OnTrayStarted;
 					if (Voidstrap.UI.Tray.LinuxTray.TryStart(Text))
 					{
 						AttachTrayHandlers();
@@ -466,27 +475,56 @@ namespace System.Windows.Forms
 					return;
 				}
 
+				Voidstrap.UI.Tray.LinuxTray.Started -= OnTrayStarted;
+				DetachTrayHandlers();
 				Voidstrap.UI.Tray.LinuxTray.Stop();
+			}
+		}
+
+		private void OnTrayStarted()
+		{
+			if (_visible && !_disposed)
+			{
+				AttachTrayHandlers();
 			}
 		}
 
 		private void AttachTrayHandlers()
 		{
-			Voidstrap.UI.Tray.StatusNotifierItemObject? item = Voidstrap.UI.Tray.LinuxTray.Item;
+			lock (_trayGate)
+			{
+				Voidstrap.UI.Tray.StatusNotifierItemObject? item = Voidstrap.UI.Tray.LinuxTray.Item;
+				if (item == null || ReferenceEquals(item, _attachedItem))
+				{
+					return;
+				}
+
+				DetachTrayHandlersLocked();
+				item.SecondaryActivated += OnTraySecondaryActivated;
+				item.ContextMenuRequested += OnTrayContextMenu;
+				_attachedItem = item;
+			}
+		}
+
+		private void DetachTrayHandlers()
+		{
+			lock (_trayGate)
+			{
+				DetachTrayHandlersLocked();
+			}
+		}
+
+		private void DetachTrayHandlersLocked()
+		{
+			Voidstrap.UI.Tray.StatusNotifierItemObject? item = _attachedItem;
 			if (item == null)
 			{
 				return;
 			}
 
-			item.Activated += OnTrayActivated;
-			item.SecondaryActivated += OnTraySecondaryActivated;
-			item.ContextMenuRequested += OnTrayContextMenu;
-		}
-
-		private void OnTrayActivated()
-		{
-			Click?.Invoke(this, EventArgs.Empty);
-			MouseClick?.Invoke(this, new MouseEventArgs { Button = MouseButtons.Left, Clicks = 1 });
+			item.SecondaryActivated -= OnTraySecondaryActivated;
+			item.ContextMenuRequested -= OnTrayContextMenu;
+			_attachedItem = null;
 		}
 
 		private void OnTraySecondaryActivated()
@@ -504,26 +542,64 @@ namespace System.Windows.Forms
 		public ToolTipIcon BalloonTipIcon { get; set; }
 
 		public event EventHandler? DoubleClick { add { } remove { } }
-		public event EventHandler? Click;
-		public event EventHandler? BalloonTipClicked { add { } remove { } }
+		public event EventHandler? Click { add { } remove { } }
+		public event EventHandler? BalloonTipClicked
+		{
+			add => _balloonTipClicked += value;
+			remove => _balloonTipClicked -= value;
+		}
 		public event EventHandler? BalloonTipClosed { add { } remove { } }
 		public event MouseEventHandler? MouseClick;
 		public event MouseEventHandler? MouseDoubleClick { add { } remove { } }
 
 		public void ShowBalloonTip(int timeout)
 		{
-			Voidstrap.UI.Tray.LinuxTray.Notify(BalloonTipTitle, BalloonTipText);
+			ShowBalloon(BalloonTipTitle, BalloonTipText, timeout);
 		}
 
 		public void ShowBalloonTip(int timeout, string title, string message, ToolTipIcon icon)
 		{
-			Voidstrap.UI.Tray.LinuxTray.Notify(title, message);
+			ShowBalloon(title, message, timeout);
+		}
+
+		private void ShowBalloon(string title, string message, int timeout)
+		{
+			if (_disposed)
+			{
+				return;
+			}
+
+			EventHandler? handler = _balloonTipClicked;
+			Action? clicked = null;
+			if (handler != null)
+			{
+				clicked = delegate
+				{
+					if (!_disposed)
+					{
+						handler(this, EventArgs.Empty);
+					}
+				};
+			}
+			Voidstrap.UI.Tray.LinuxTray.Notify(title, message, clicked, timeout > 0 && timeout < 1000 ? timeout * 1000 : timeout);
 		}
 
 		public void Dispose()
 		{
-			Voidstrap.UI.Tray.LinuxTray.Stop();
-			Click = null;
+			if (_disposed)
+			{
+				return;
+			}
+
+			_disposed = true;
+			Voidstrap.UI.Tray.LinuxTray.Started -= OnTrayStarted;
+			DetachTrayHandlers();
+			if (_visible)
+			{
+				_visible = false;
+				Voidstrap.UI.Tray.LinuxTray.Stop();
+			}
+			_balloonTipClicked = null;
 			MouseClick = null;
 			GC.SuppressFinalize(this);
 		}

@@ -726,14 +726,22 @@ internal static class LinuxWindowMode
 
 	internal static nint ResolveNativeWindow(Window window)
 	{
+		nint exact = ResolveExactNativeWindow(window);
+		if (exact != 0)
+			return exact;
+		string title = window.Title ?? string.Empty;
+		return title.Length == 0 ? 0 : LinuxWindowInterop.FindOwnWindowByTitle(title);
+	}
+
+	internal static nint ResolveExactNativeWindow(Window window)
+	{
 #if CROSSPLAT
 		if (System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(window, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host)
 			&& host?.SilkWindow?.Native?.X11 is { } x11
 			&& x11.Window != 0)
 			return (nint)x11.Window;
 #endif
-		string title = window.Title ?? string.Empty;
-		return title.Length == 0 ? 0 : LinuxWindowInterop.FindOwnWindowByTitle(title);
+		return 0;
 	}
 
 	private static void CollectTitleBars(DependencyObject root, List<(TitleBar, Visibility)> output)

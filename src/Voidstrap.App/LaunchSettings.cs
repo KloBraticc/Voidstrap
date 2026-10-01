@@ -37,6 +37,8 @@ public class LaunchSettings
 
 	public LaunchFlag PlayerFlag { get; } = new LaunchFlag("player");
 
+	public LaunchFlag SoberRefreshFlag { get; } = new LaunchFlag("soberrefresh");
+
 	public LaunchFlag StudioFlag { get; } = new LaunchFlag("studio");
 
 	public LaunchFlag VersionFlag { get; } = new LaunchFlag("version");

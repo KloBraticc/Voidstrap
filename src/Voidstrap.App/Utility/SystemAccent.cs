@@ -112,12 +112,20 @@ internal static partial class SystemAccent
 		{
 			App.Logger?.WriteLine(LogIdent, "The accent brushes could not be applied: " + ex.Message);
 		}
-		if (_subscribed || !Platform.IsWindows)
+		if (_subscribed)
 		{
 			return;
 		}
-		SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
-		_subscribed = true;
+		if (Platform.IsWindows)
+		{
+			SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+			_subscribed = true;
+		}
+		else if (OperatingSystem.IsLinux())
+		{
+			LinuxAppearancePortal.WatchAccent(OnLinuxAccentChanged);
+			_subscribed = true;
+		}
 	}
 
 	public static void Shutdown()
@@ -126,9 +134,46 @@ internal static partial class SystemAccent
 		{
 			return;
 		}
-		SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+		if (Platform.IsWindows)
+		{
+			SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+		}
+		else if (OperatingSystem.IsLinux())
+		{
+			LinuxAppearancePortal.StopWatching();
+		}
 		_subscribed = false;
 	}
+
+	private static void OnLinuxAccentChanged(Color color)
+	{
+		Application? application = Application.Current;
+		if (application == null)
+		{
+			return;
+		}
+		application.Dispatcher.BeginInvoke(new Action(delegate
+		{
+			if (_cached == color)
+			{
+				return;
+			}
+			_cached = color;
+			App.Logger?.WriteLine(LogIdent, "System accent changed to " + Describe(color));
+			try
+			{
+				Wpf.Ui.Appearance.ThemeType theme = Wpf.Ui.Appearance.Theme.GetAppTheme();
+				Wpf.Ui.Appearance.Accent.Apply(color, theme == Wpf.Ui.Appearance.ThemeType.Light ? Wpf.Ui.Appearance.ThemeType.Light : Wpf.Ui.Appearance.ThemeType.Dark);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine(LogIdent, "The new accent could not be applied: " + ex.Message);
+			}
+			ApplyResources();
+		}));
+	}
+
+	private static string Describe(Color color) => "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
 
 	private static void OnUserPreferenceChanged(object? sender, UserPreferenceChangedEventArgs e)
 	{
@@ -221,6 +266,17 @@ internal static partial class SystemAccent
 
 	private static Color? GetLinuxAccent()
 	{
+		Color? portal = LinuxAppearancePortal.ReadAccent();
+		if (portal.HasValue)
+		{
+			App.Logger?.WriteLine(LogIdent, "System accent " + Describe(portal.Value) + " from the desktop portal");
+			return portal;
+		}
+		if (Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed)
+		{
+			App.Logger?.WriteLine(LogIdent, "The desktop portal has no accent color, using the Voidstrap accent");
+			return null;
+		}
 		string accent = ShellQuery.Run("gsettings", "get org.gnome.desktop.interface accent-color").Trim().Trim('\'', '"');
 		Color? named = FromGnomeName(accent);
 		if (named.HasValue)
@@ -231,7 +287,7 @@ internal static partial class SystemAccent
 		return FromGnomeName(theme);
 	}
 
-	private static Color? FromGnomeName(string name)
+	internal static Color? FromGnomeName(string name)
 	{
 		if (string.IsNullOrWhiteSpace(name))
 		{

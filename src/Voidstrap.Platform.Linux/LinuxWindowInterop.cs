@@ -37,7 +37,7 @@ public static partial class LinuxWindowInterop
 	private const int OwnerReadWrite = 384;
 	private const int IpcRemove = 0;
 
-	private static readonly string[] RuntimeClassMarkers = ["sober", "vinegarhq", "roblox"];
+	private static readonly string[] RuntimeClassMarkers = ["sober", "roblox"];
 	private static readonly object Sync = new();
 	private static readonly object SandboxProcessSync = new();
 	private const long SandboxProcessScanInterval = 3000;
@@ -356,7 +356,7 @@ public static partial class LinuxWindowInterop
 		int processId = GetWindowProcessId(display, window);
 		if (XGetWindowAttributes(display, window, out XWindowAttributes attributes) == 0
 			|| attributes.MapState != IsViewable
-			|| processId == Environment.ProcessId
+			|| processId == Environment.ProcessId && !(LinuxFlatpakHost.IsSandboxed && IsSoberWindow(display, window))
 			|| !IsRuntimeWindow(display, window)
 			|| !TryGetGeometry(display, window, out int left, out int top, out int width, out int height))
 			return false;
@@ -437,13 +437,18 @@ public static partial class LinuxWindowInterop
 		}
 	}
 
-	private static bool IsStudioWindow(string name, string className, string title)
+	private static bool IsStudioOrVinegarWindow(string name, string className, string title)
 	{
-		return name.Contains("studio", StringComparison.OrdinalIgnoreCase)
-			|| className.Contains("studio", StringComparison.OrdinalIgnoreCase)
-			|| name.Contains("org.vinegarhq.vinegar", StringComparison.OrdinalIgnoreCase)
-			|| className.Contains("org.vinegarhq.vinegar", StringComparison.OrdinalIgnoreCase)
+		return IsStudioOrVinegarClass(name)
+			|| IsStudioOrVinegarClass(className)
 			|| title.EndsWith("Roblox Studio", StringComparison.OrdinalIgnoreCase);
+	}
+
+	private static bool IsStudioOrVinegarClass(string value)
+	{
+		return value.Contains("studio", StringComparison.OrdinalIgnoreCase)
+			|| value.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
+			|| value.Contains("vinegar", StringComparison.OrdinalIgnoreCase) && !value.Contains("sober", StringComparison.OrdinalIgnoreCase);
 	}
 
 	public static string FindStudioWindowTitle()
@@ -471,16 +476,21 @@ public static partial class LinuxWindowInterop
 		return string.Empty;
 	}
 
+	private static bool HasVoidstrapClass(nint display, nint window)
+	{
+		return TryGetClassHint(display, window, out string name, out string className)
+			&& (name.Contains("voidstrap", StringComparison.OrdinalIgnoreCase)
+				|| className.Contains("voidstrap", StringComparison.OrdinalIgnoreCase));
+	}
+
 	private static bool IsSoberWindow(nint display, nint window)
 	{
 		bool hasClass = TryGetClassHint(display, window, out string name, out string className);
-		if (hasClass && IsStudioWindow(name, className, GetWindowTitle(display, window)))
+		if (hasClass && IsStudioOrVinegarWindow(name, className, GetWindowTitle(display, window)))
 			return false;
 		if (hasClass
 			&& (name.Contains("sober", StringComparison.OrdinalIgnoreCase)
-				|| className.Contains("sober", StringComparison.OrdinalIgnoreCase)
-				|| name.Contains("vinegar", StringComparison.OrdinalIgnoreCase)
-				|| className.Contains("vinegar", StringComparison.OrdinalIgnoreCase)))
+				|| className.Contains("sober", StringComparison.OrdinalIgnoreCase)))
 			return true;
 		string title = GetWindowTitle(display, window);
 		if (!title.Contains("Sober", StringComparison.OrdinalIgnoreCase)
@@ -594,6 +604,51 @@ public static partial class LinuxWindowInterop
 		}
 	}
 
+	public static bool TryRaiseVoidstrapWindow(string title)
+	{
+		nint display = Display;
+		if (display == 0 || string.IsNullOrWhiteSpace(title))
+			return false;
+
+		try
+		{
+			nint active = XInternAtom(display, "_NET_ACTIVE_WINDOW", false);
+			nint root = XDefaultRootWindow(display);
+			if (active == 0 || root == 0)
+				return false;
+
+			foreach (nint window in EnumerateClientWindows(display))
+			{
+				if (!HasVoidstrapClass(display, window) || !string.Equals(GetWindowTitle(display, window), title, StringComparison.Ordinal))
+					continue;
+
+				XClientMessage message = new()
+				{
+					type = ClientMessage,
+					serial = 0,
+					send_event = 1,
+					display = display,
+					window = window,
+					message_type = active,
+					format = 32,
+					data0 = 2,
+					data1 = 0,
+					data2 = 0,
+					data3 = 0,
+					data4 = 0
+				};
+				XSendEvent(display, root, false, SubstructureRedirectMask | SubstructureNotifyMask, ref message);
+				_ = XFlush(display);
+				return true;
+			}
+		}
+		catch (Exception)
+		{
+		}
+
+		return false;
+	}
+
 	public static nint FindOwnWindowByTitle(string title)
 	{
 		nint display = Display;
@@ -655,9 +710,11 @@ public static partial class LinuxWindowInterop
 		List<nint> found = new();
 		try
 		{
+			bool sandboxed = LinuxFlatpakHost.IsSandboxed;
 			foreach (nint window in EnumerateClientWindows(display))
 			{
-				if (GetWindowProcessId(display, window) == processId)
+				if (GetWindowProcessId(display, window) == processId
+					&& (!sandboxed || HasVoidstrapClass(display, window)))
 					found.Add(window);
 			}
 		}
@@ -3363,7 +3420,7 @@ public static partial class LinuxWindowInterop
 		string windowTitle = GetWindowTitle(display, window);
 		if (TryGetClassHint(display, window, out string name, out string className))
 		{
-			if (IsStudioWindow(name, className, windowTitle))
+			if (IsStudioOrVinegarWindow(name, className, windowTitle))
 				return false;
 			foreach (string marker in RuntimeClassMarkers)
 			{

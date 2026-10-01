@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Tmds.DBus;
 
@@ -51,6 +52,10 @@ public interface IStatusNotifierWatcher : IDBusObject
 public interface IFreedesktopNotifications : IDBusObject
 {
     Task<uint> NotifyAsync(string AppName, uint ReplacesId, string AppIcon, string Summary, string Body, string[] Actions, IDictionary<string, object> Hints, int ExpireTimeout);
+
+    Task<IDisposable> WatchActionInvokedAsync(Action<(uint id, string actionKey)> handler, Action<Exception>? onError = null);
+
+    Task<IDisposable> WatchNotificationClosedAsync(Action<(uint id, uint reason)> handler, Action<Exception>? onError = null);
 }
 
 public sealed class StatusNotifierItemObject : IStatusNotifierItem
@@ -103,10 +108,8 @@ public sealed class StatusNotifierItemObject : IStatusNotifierItem
         lock (_gate)
         {
             _properties.IconPixmap = pixmaps;
-            _properties.ToolTip = (_properties.ToolTip.Item1, pixmaps, _properties.ToolTip.Item3, _properties.ToolTip.Item4);
         }
         Raise(_newIconHandlers);
-        Raise(_newToolTipHandlers);
     }
 
     private void Raise(List<Action> handlers)
@@ -131,20 +134,44 @@ public sealed class StatusNotifierItemObject : IStatusNotifierItem
 
     public Task ActivateAsync(int X, int Y)
     {
-        Activated?.Invoke();
+        if (Activated is null)
+            throw new DBusException("org.freedesktop.DBus.Error.UnknownMethod", "Voidstrap opens its menu when the icon is clicked");
+
+        RaiseOffBus(Activated);
         return Task.CompletedTask;
     }
 
     public Task SecondaryActivateAsync(int X, int Y)
     {
-        SecondaryActivated?.Invoke();
+        RaiseOffBus(SecondaryActivated);
         return Task.CompletedTask;
     }
 
     public Task ContextMenuAsync(int X, int Y)
     {
-        ContextMenuRequested?.Invoke();
+        if (LinuxTray.ServesMenu)
+            return Task.CompletedTask;
+
+        RaiseOffBus(ContextMenuRequested);
         return Task.CompletedTask;
+    }
+
+    private static void RaiseOffBus(Action? handler)
+    {
+        if (handler is null)
+            return;
+
+        _ = Task.Run(() =>
+        {
+            try
+            {
+                handler();
+            }
+            catch (Exception ex)
+            {
+                Voidstrap.App.Logger?.WriteLine("LinuxTray::Click", "The tray click could not be handled: " + ex.Message);
+            }
+        });
     }
 
     public Task ScrollAsync(int Delta, string Orientation)
@@ -235,7 +262,24 @@ public sealed class StatusNotifierItemObject : IStatusNotifierItem
     {
         lock (_gate)
         {
-            return Task.FromResult(_properties);
+            return Task.FromResult(new StatusNotifierItemProperties
+            {
+                Category = _properties.Category,
+                Id = _properties.Id,
+                Title = _properties.Title,
+                Status = _properties.Status,
+                IconName = _properties.IconName,
+                IconPixmap = _properties.IconPixmap,
+                IconThemePath = _properties.IconThemePath,
+                AttentionIconName = _properties.AttentionIconName,
+                AttentionIconPixmap = _properties.AttentionIconPixmap,
+                OverlayIconName = _properties.OverlayIconName,
+                OverlayIconPixmap = _properties.OverlayIconPixmap,
+                ToolTip = _properties.ToolTip,
+                ItemIsMenu = _properties.ItemIsMenu,
+                WindowId = _properties.WindowId,
+                Menu = _properties.Menu
+            });
         }
     }
 
@@ -255,6 +299,8 @@ public static class LinuxTray
 
     private static readonly object Gate = new();
 
+    private static readonly Dictionary<uint, Action> NotificationActions = [];
+
     private static Connection? _connection;
 
     private static StatusNotifierItemObject? _item;
@@ -263,13 +309,25 @@ public static class LinuxTray
 
     private static IDisposable? _watcherSubscription;
 
+    private static readonly List<IDisposable> NotificationSubscriptions = [];
+
+    private static Task? _startTask;
+
+    private static int _generation;
+
     private static string _busName = string.Empty;
 
     private static bool _started;
 
     private static bool _registered;
 
+    private static uint _lastNotificationId;
+
     private static string _notificationIcon = "voidstrap";
+
+    private static Func<Task<List<LinuxTrayMenuItem>>>? _menuProvider;
+
+    public static event Action? Started;
 
     public static StatusNotifierItemObject? Item => _item;
 
@@ -277,7 +335,53 @@ public static class LinuxTray
 
     public static bool IsActive => _started;
 
+    public static bool ServesMenu
+    {
+        get
+        {
+            lock (Gate)
+                return _started && _menuProvider != null;
+        }
+    }
+
     private static readonly TimeSpan TrayOperationTimeout = TimeSpan.FromSeconds(5.0);
+
+    public static void SetMenuProvider(Func<Task<List<LinuxTrayMenuItem>>>? provider)
+    {
+        DbusMenuObject? menu;
+        lock (Gate)
+        {
+            _menuProvider = provider;
+            menu = _menu;
+            if (menu != null)
+                menu.MenuProvider = provider;
+        }
+
+        menu?.Rebuild();
+    }
+
+    public static void ClearMenuProvider(Func<Task<List<LinuxTrayMenuItem>>> provider)
+    {
+        lock (Gate)
+        {
+            if (_menuProvider is null || !_menuProvider.Equals(provider))
+                return;
+            _menuProvider = null;
+            if (_menu != null)
+                _menu.MenuProvider = null;
+        }
+    }
+
+    public static void RequestMenuRefresh()
+    {
+        DbusMenuObject? menu;
+        lock (Gate)
+        {
+            menu = _menu;
+        }
+
+        menu?.Rebuild();
+    }
 
     public static bool TryStart(string title)
     {
@@ -292,26 +396,53 @@ public static class LinuxTray
             {
                 return true;
             }
-        }
 
-        byte[]? icon = ReadIcon();
-        _notificationIcon = ResolveNotificationIcon(icon);
-
-        try
-        {
-            Task<bool> start = Task.Run(() => StartAsync(title, icon));
-            if (!start.Wait(TrayOperationTimeout))
+            if (_startTask is { IsCompleted: false })
             {
-                Voidstrap.App.Logger?.WriteLine("LinuxTray::TryStart", "The tray icon did not register in time, continuing without it");
                 return false;
             }
 
-            return start.Result;
+            int generation = ++_generation;
+            _startTask = Task.Run(() => StartGuardedAsync(title, generation));
+        }
+
+        return false;
+    }
+
+    private static async Task StartGuardedAsync(string title, int generation)
+    {
+        try
+        {
+            byte[]? icon = ReadIcon();
+            _notificationIcon = ResolveNotificationIcon(icon);
+            Task<bool> start = StartAsync(title, icon, generation);
+            if (await Task.WhenAny(start, Task.Delay(TrayOperationTimeout)).ConfigureAwait(false) != start)
+                Voidstrap.App.Logger?.WriteLine("LinuxTray::TryStart", "The desktop has not answered yet, the tray icon appears as soon as it does");
+            if (await start.ConfigureAwait(false))
+                RaiseStarted();
         }
         catch (Exception ex)
         {
             Voidstrap.App.Logger?.WriteLine("LinuxTray::TryStart", "The tray icon could not be created: " + ex.GetBaseException().Message);
-            return false;
+        }
+    }
+
+    private static void RaiseStarted()
+    {
+        Action? handlers = Started;
+        if (handlers is null)
+            return;
+
+        foreach (Action handler in handlers.GetInvocationList().Cast<Action>())
+        {
+            try
+            {
+                handler();
+            }
+            catch (Exception ex)
+            {
+                Voidstrap.App.Logger?.WriteLine("LinuxTray::Started", "A tray listener failed: " + ex.Message);
+            }
         }
     }
 
@@ -418,53 +549,87 @@ public static class LinuxTray
         }
     }
 
-    private static async Task<bool> StartAsync(string title, byte[]? icon)
+    private static async Task<bool> StartAsync(string title, byte[]? icon, int generation)
     {
         Connection connection = new(Address.Session);
-        await connection.ConnectAsync().ConfigureAwait(false);
-
-        StatusNotifierItemObject item = new();
-        item.SetTitle(title);
-        item.SetIcon(BuildPixmaps(icon));
-
-        DbusMenuObject menu = new();
-        await connection.RegisterObjectAsync(item).ConfigureAwait(false);
-        await connection.RegisterObjectAsync(menu).ConfigureAwait(false);
-
-        string busName = "org.kde.StatusNotifierItem-" + Environment.ProcessId + "-1";
-        await connection.RegisterServiceAsync(busName).ConfigureAwait(false);
-
-        lock (Gate)
-        {
-            _connection = connection;
-            _item = item;
-            _menu = menu;
-            _busName = busName;
-            _started = true;
-        }
-
-        bool registered = await RegisterWithWatcherAsync(connection, busName).ConfigureAwait(false);
-        lock (Gate)
-        {
-            _registered = registered;
-        }
         try
         {
-            IDisposable subscription = await connection.ResolveServiceOwnerAsync(WatcherService, OnWatcherOwnerChanged).ConfigureAwait(false);
+            ConnectionInfo info = await connection.ConnectAsync().ConfigureAwait(false);
+
+            StatusNotifierItemObject item = new();
+            item.SetTitle(title);
+            item.SetIcon(BuildPixmaps(icon));
+
+            DbusMenuObject menu = new();
             lock (Gate)
             {
-                _watcherSubscription = subscription;
+                menu.MenuProvider = _menuProvider;
             }
-        }
-        catch (Exception ex)
-        {
-            Voidstrap.App.Logger?.WriteLine("LinuxTray::Start", "Tray host changes cannot be followed: " + ex.Message);
-        }
+            await connection.RegisterObjectAsync(item).ConfigureAwait(false);
+            await connection.RegisterObjectAsync(menu).ConfigureAwait(false);
 
-        Voidstrap.App.Logger?.WriteLine("LinuxTray::Start", registered
-            ? "Registered the tray icon as " + busName
-            : "No tray host is running yet, the tray icon appears as soon as one starts");
-        return true;
+            string busName = "org.kde.StatusNotifierItem-" + Environment.ProcessId + "-" + generation;
+            try
+            {
+                await connection.RegisterServiceAsync(busName).ConfigureAwait(false);
+            }
+            catch (Exception ex) when (ex is DBusException or InvalidOperationException && !string.IsNullOrEmpty(info.LocalName))
+            {
+                Voidstrap.App.Logger?.WriteLine("LinuxTray::Start", "The tray name " + busName + " is not available here, the icon registers under " + info.LocalName + " instead");
+                busName = info.LocalName;
+            }
+
+            lock (Gate)
+            {
+                if (generation != _generation)
+                {
+                    connection.Dispose();
+                    Voidstrap.App.Logger?.WriteLine("LinuxTray::Start", "The tray was closed while it was starting, the late icon was discarded");
+                    return false;
+                }
+
+                _connection = connection;
+                _item = item;
+                _menu = menu;
+                _busName = busName;
+                _started = true;
+            }
+
+            menu.Rebuild();
+
+            bool registered = await RegisterWithWatcherAsync(connection, busName).ConfigureAwait(false);
+            lock (Gate)
+            {
+                _registered = registered;
+            }
+            try
+            {
+                IDisposable subscription = await connection.ResolveServiceOwnerAsync(WatcherService, OnWatcherOwnerChanged).ConfigureAwait(false);
+                bool keep;
+                lock (Gate)
+                {
+                    keep = generation == _generation;
+                    if (keep)
+                        _watcherSubscription = subscription;
+                }
+                if (!keep)
+                    subscription.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Voidstrap.App.Logger?.WriteLine("LinuxTray::Start", "Tray host changes cannot be followed: " + ex.Message);
+            }
+
+            Voidstrap.App.Logger?.WriteLine("LinuxTray::Start", registered
+                ? "Registered the tray icon as " + busName
+                : "No tray host is running yet, the tray icon appears as soon as one starts");
+            return true;
+        }
+        catch
+        {
+            connection.Dispose();
+            throw;
+        }
     }
 
     private static async Task<bool> RegisterWithWatcherAsync(Connection connection, string busName)
@@ -512,25 +677,33 @@ public static class LinuxTray
                 return;
             lock (Gate)
             {
+                if (!ReferenceEquals(connection, _connection))
+                    return;
                 _registered = true;
             }
             Voidstrap.App.Logger?.WriteLine("LinuxTray::HostChanged", "The tray host started, the tray icon is registered with it");
         });
     }
 
-    public static void Notify(string title, string body)
+    public static void Notify(string title, string body, Action? clicked = null, int timeoutMilliseconds = 5000)
     {
         if (!OperatingSystem.IsLinux())
         {
             return;
         }
 
+        _ = NotifyGuardedAsync(title, body, clicked, timeoutMilliseconds);
+    }
+
+    private static async Task NotifyGuardedAsync(string title, string body, Action? clicked, int timeoutMilliseconds)
+    {
         try
         {
-            if (!Task.Run(() => NotifyAsync(title, body)).Wait(TrayOperationTimeout))
-            {
-                Voidstrap.App.Logger?.WriteLine("LinuxTray::Notify", "The notification timed out");
-            }
+            await NotifyAsync(title, body, clicked, timeoutMilliseconds).WaitAsync(TrayOperationTimeout).ConfigureAwait(false);
+        }
+        catch (TimeoutException)
+        {
+            Voidstrap.App.Logger?.WriteLine("LinuxTray::Notify", "The notification timed out");
         }
         catch (Exception ex)
         {
@@ -538,12 +711,14 @@ public static class LinuxTray
         }
     }
 
-    private static async Task NotifyAsync(string title, string body)
+    private static async Task NotifyAsync(string title, string body, Action? clicked, int timeoutMilliseconds)
     {
         Connection? connection;
+        uint replaces;
         lock (Gate)
         {
             connection = _connection;
+            replaces = _lastNotificationId;
         }
 
         bool temporary = connection == null;
@@ -551,6 +726,7 @@ public static class LinuxTray
         {
             connection = new Connection(Address.Session);
             await connection.ConnectAsync().ConfigureAwait(false);
+            replaces = 0u;
         }
 
         try
@@ -559,20 +735,40 @@ public static class LinuxTray
                 NotificationsService,
                 new ObjectPath("/org/freedesktop/Notifications"));
 
+            bool clickable = clicked != null && !temporary;
+            if (clickable)
+                await EnsureNotificationSignalsAsync(connection, notifications).ConfigureAwait(false);
+
             Dictionary<string, object> hints = new()
             {
                 ["desktop-entry"] = Voidstrap.Utility.LinuxDesktopEntry.DesktopEntryId
             };
 
-            await notifications.NotifyAsync(
+            uint id = await notifications.NotifyAsync(
                 "Voidstrap",
-                0u,
+                replaces,
                 _notificationIcon,
                 title,
                 body,
-                [],
+                clickable ? ["default", "Open"] : [],
                 hints,
-                5000).ConfigureAwait(false);
+                Math.Clamp(timeoutMilliseconds, 3000, 30000)).ConfigureAwait(false);
+
+            if (temporary)
+                return;
+
+            lock (Gate)
+            {
+                if (!ReferenceEquals(connection, _connection))
+                    return;
+                if (replaces != 0u && replaces != id)
+                    NotificationActions.Remove(replaces);
+                _lastNotificationId = id;
+                if (clickable)
+                    NotificationActions[id] = clicked!;
+                else
+                    NotificationActions.Remove(id);
+            }
         }
         finally
         {
@@ -581,25 +777,94 @@ public static class LinuxTray
         }
     }
 
+    private static async Task EnsureNotificationSignalsAsync(Connection connection, IFreedesktopNotifications notifications)
+    {
+        lock (Gate)
+        {
+            if (NotificationSubscriptions.Count > 0 || !ReferenceEquals(connection, _connection))
+                return;
+        }
+
+        IDisposable invoked = await notifications.WatchActionInvokedAsync(OnNotificationAction).ConfigureAwait(false);
+        IDisposable closed = await notifications.WatchNotificationClosedAsync(OnNotificationClosed).ConfigureAwait(false);
+        bool keep;
+        lock (Gate)
+        {
+            keep = ReferenceEquals(connection, _connection) && NotificationSubscriptions.Count == 0;
+            if (keep)
+            {
+                NotificationSubscriptions.Add(invoked);
+                NotificationSubscriptions.Add(closed);
+            }
+        }
+
+        if (!keep)
+        {
+            invoked.Dispose();
+            closed.Dispose();
+        }
+    }
+
+    private static void OnNotificationAction((uint id, string actionKey) signal)
+    {
+        Action? action;
+        lock (Gate)
+        {
+            if (!NotificationActions.Remove(signal.id, out action))
+                return;
+        }
+
+        _ = Task.Run(() =>
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                Voidstrap.App.Logger?.WriteLine("LinuxTray::Notify", "The notification click could not be handled: " + ex.Message);
+            }
+        });
+    }
+
+    private static void OnNotificationClosed((uint id, uint reason) signal)
+    {
+        lock (Gate)
+        {
+            NotificationActions.Remove(signal.id);
+            if (_lastNotificationId == signal.id)
+                _lastNotificationId = 0u;
+        }
+    }
+
     public static void Stop()
     {
         Connection? connection;
         IDisposable? subscription;
+        IDisposable[] notificationSubscriptions;
         lock (Gate)
         {
+            _generation++;
             connection = _connection;
             subscription = _watcherSubscription;
+            notificationSubscriptions = [.. NotificationSubscriptions];
+            NotificationSubscriptions.Clear();
+            NotificationActions.Clear();
             _connection = null;
             _watcherSubscription = null;
             _item = null;
             _menu = null;
+            _startTask = null;
             _busName = string.Empty;
             _started = false;
             _registered = false;
+            _lastNotificationId = 0u;
         }
 
         try
         {
+            foreach (IDisposable notificationSubscription in notificationSubscriptions)
+                notificationSubscription.Dispose();
             subscription?.Dispose();
             connection?.Dispose();
         }

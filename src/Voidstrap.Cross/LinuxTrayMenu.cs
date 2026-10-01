@@ -64,53 +64,87 @@ public sealed class DbusMenuObject : IDbusMenu
 {
     public static readonly ObjectPath Path = new("/MenuBar");
 
+    private const int MaxRememberedKeys = 2048;
+
+    private static readonly TimeSpan RefreshTimeout = TimeSpan.FromSeconds(2.0);
+
+    private static readonly TimeSpan RefreshReuseWindow = TimeSpan.FromMilliseconds(400.0);
+
+    private static readonly TimeSpan ClickRefreshDelay = TimeSpan.FromMilliseconds(250.0);
+
     private readonly object _gate = new();
 
     private readonly DbusMenuProperties _properties = new();
 
     private readonly Dictionary<int, LinuxTrayMenuItem> _index = [];
 
+    private readonly Dictionary<LinuxTrayMenuItem, int> _idsByItem = new(ReferenceEqualityComparer.Instance);
+
+    private readonly Dictionary<string, int> _idsByKey = new(StringComparer.Ordinal);
+
     private List<LinuxTrayMenuItem> _items = [];
 
     private uint _revision = 1u;
 
-    public ObjectPath ObjectPath => Path;
+    private int _nextId = 1;
 
-    public Func<List<LinuxTrayMenuItem>>? MenuProvider { get; set; }
+    private string _signature = string.Empty;
+
+    private Task<bool>? _refreshTask;
+
+    private DateTime _lastRefreshUtc = DateTime.MinValue;
+
+    private bool _timeoutLogged;
 
     private Action<(uint revision, int parent)>? _layoutUpdated;
 
-    private string _signature = string.Empty;
+    public ObjectPath ObjectPath => Path;
+
+    public Func<Task<List<LinuxTrayMenuItem>>>? MenuProvider { get; set; }
 
     public Task<IDisposable> WatchLayoutUpdatedAsync(Action<(uint revision, int parent)> handler, Action<Exception>? onError = null)
     {
         _layoutUpdated = handler;
-        return Task.FromResult<IDisposable>(new LayoutSubscription(this));
+        return Task.FromResult<IDisposable>(new LayoutSubscription(this, handler));
     }
 
     private sealed class LayoutSubscription : IDisposable
     {
         private readonly DbusMenuObject _owner;
 
-        internal LayoutSubscription(DbusMenuObject owner) => _owner = owner;
+        private readonly Action<(uint revision, int parent)> _handler;
 
-        public void Dispose() => _owner._layoutUpdated = null;
+        internal LayoutSubscription(DbusMenuObject owner, Action<(uint revision, int parent)> handler)
+        {
+            _owner = owner;
+            _handler = handler;
+        }
+
+        public void Dispose()
+        {
+            if (ReferenceEquals(_owner._layoutUpdated, _handler))
+                _owner._layoutUpdated = null;
+        }
     }
 
-    public void SetItems(List<LinuxTrayMenuItem> items)
+    public bool SetItems(List<LinuxTrayMenuItem> items)
     {
+        List<LinuxTrayMenuItem> normalized = Normalize(items ?? []);
         uint revision;
 
         lock (_gate)
         {
-            _items = items ?? [];
+            _items = normalized;
             _index.Clear();
+            _idsByItem.Clear();
+            if (_idsByKey.Count > MaxRememberedKeys)
+                _idsByKey.Clear();
             Index(_items, string.Empty);
 
             string signature = BuildSignature(_items);
 
             if (string.Equals(signature, _signature, StringComparison.Ordinal))
-                return;
+                return false;
 
             _signature = signature;
             _revision++;
@@ -118,6 +152,39 @@ public sealed class DbusMenuObject : IDbusMenu
         }
 
         NotifyLayoutUpdated(revision);
+        return true;
+    }
+
+    private static List<LinuxTrayMenuItem> Normalize(List<LinuxTrayMenuItem> items)
+    {
+        List<LinuxTrayMenuItem> result = [];
+
+        foreach (LinuxTrayMenuItem item in items)
+        {
+            if (item is null || !item.Visible)
+                continue;
+
+            if (item.IsSeparator)
+            {
+                if (result.Count > 0 && !result[^1].IsSeparator)
+                    result.Add(item);
+                continue;
+            }
+
+            if (item.Children.Count > 0)
+            {
+                List<LinuxTrayMenuItem> children = Normalize(item.Children);
+                item.Children.Clear();
+                item.Children.AddRange(children);
+            }
+
+            result.Add(item);
+        }
+
+        while (result.Count > 0 && result[^1].IsSeparator)
+            result.RemoveAt(result.Count - 1);
+
+        return result;
     }
 
     private void NotifyLayoutUpdated(uint revision)
@@ -145,7 +212,6 @@ public sealed class DbusMenuObject : IDbusMenu
         {
             builder.Append(item.IsSeparator ? "|sep" : "|" + item.Label);
             builder.Append(item.Enabled ? "+e" : "-e");
-            builder.Append(item.Visible ? "+v" : "-v");
 
             if (item.IsCheckable)
                 builder.Append(item.IsChecked ? "+c" : "-c");
@@ -159,16 +225,26 @@ public sealed class DbusMenuObject : IDbusMenu
         }
     }
 
-    private readonly Dictionary<string, int> _idsByKey = new(StringComparer.Ordinal);
-
-    private int _nextId = 1;
-
     private void Index(List<LinuxTrayMenuItem> items, string prefix)
     {
+        HashSet<string> used = new(StringComparer.Ordinal);
+        string previous = "start";
+
         for (int position = 0; position < items.Count; position++)
         {
             LinuxTrayMenuItem item = items[position];
-            string key = BuildKey(prefix, item, position);
+            string own = item.IsSeparator
+                ? "sep:" + previous
+                : string.IsNullOrEmpty(item.Label) ? "#" + position.ToString(System.Globalization.CultureInfo.InvariantCulture) : "item:" + item.Label;
+
+            string key = prefix + "/" + own;
+            if (!used.Add(key))
+            {
+                int copy = 2;
+                while (!used.Add(key + "~" + copy.ToString(System.Globalization.CultureInfo.InvariantCulture)))
+                    copy++;
+                key = key + "~" + copy.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            }
 
             if (!_idsByKey.TryGetValue(key, out int id))
             {
@@ -177,51 +253,52 @@ public sealed class DbusMenuObject : IDbusMenu
             }
 
             _index[id] = item;
+            _idsByItem[item] = id;
+
+            if (!item.IsSeparator)
+                previous = item.Label;
+
             Index(item.Children, key);
         }
     }
 
-    private static string BuildKey(string prefix, LinuxTrayMenuItem item, int position)
-    {
-        string own = item.IsSeparator || string.IsNullOrEmpty(item.Label)
-            ? "#" + position.ToString(System.Globalization.CultureInfo.InvariantCulture)
-            : item.Label;
-
-        return prefix + "/" + own;
-    }
-
     private int IdOf(LinuxTrayMenuItem item)
     {
-        foreach ((int id, LinuxTrayMenuItem candidate) in _index)
-        {
-            if (ReferenceEquals(candidate, item))
-                return id;
-        }
-
-        return 0;
+        return _idsByItem.TryGetValue(item, out int id) ? id : -1;
     }
 
-    private static Dictionary<string, object> BuildProperties(LinuxTrayMenuItem item)
+    private static Dictionary<string, object> BuildProperties(LinuxTrayMenuItem item, string[]? names = null)
     {
         Dictionary<string, object> properties = new(StringComparer.Ordinal);
         if (item.IsSeparator)
         {
             properties["type"] = "separator";
-            properties["visible"] = item.Visible;
-            return properties;
+            properties["visible"] = true;
         }
-
-        properties["label"] = item.Label;
-        properties["enabled"] = item.Enabled;
-        properties["visible"] = item.Visible;
-        if (item.IsCheckable)
+        else
         {
-            properties["toggle-type"] = "checkmark";
-            properties["toggle-state"] = item.IsChecked ? 1 : 0;
+            properties["label"] = item.Label.Replace("_", "__", StringComparison.Ordinal);
+            properties["enabled"] = item.Enabled;
+            properties["visible"] = true;
+
+            if (item.IsCheckable)
+            {
+                properties["toggle-type"] = "checkmark";
+                properties["toggle-state"] = item.IsChecked ? 1 : 0;
+            }
+
+            if (item.Children.Count > 0)
+                properties["children-display"] = "submenu";
         }
 
-        if (item.Children.Count > 0)
-            properties["children-display"] = "submenu";
+        if (names is { Length: > 0 })
+        {
+            foreach (string key in properties.Keys.ToArray())
+            {
+                if (Array.IndexOf(names, key) < 0)
+                    properties.Remove(key);
+            }
+        }
 
         return properties;
     }
@@ -230,78 +307,120 @@ public sealed class DbusMenuObject : IDbusMenu
     {
         object[] children = depth == 0 || item.Children.Count == 0
             ? []
-            : [.. item.Children.Select(child => (object)BuildLayout(IdOf(child), child, depth - 1))];
+            : [.. item.Children.Select(child => (object)BuildLayout(IdOf(child), child, depth < 0 ? -1 : depth - 1))];
 
         return (id, BuildProperties(item), children);
     }
 
-    public void Rebuild() => Refresh();
+    public void Rebuild() => _ = RefreshAsync(force: true);
 
-    private void Refresh()
+    public Task<bool> RefreshAsync(bool force = false)
     {
-        Func<List<LinuxTrayMenuItem>>? provider = MenuProvider;
+        lock (_gate)
+        {
+            if (_refreshTask is { IsCompleted: false } pending)
+                return pending;
+
+            if (!force && _refreshTask != null && DateTime.UtcNow - _lastRefreshUtc < RefreshReuseWindow)
+                return Task.FromResult(false);
+
+            Task<bool> refresh = RefreshCoreAsync();
+            _refreshTask = refresh;
+            return refresh;
+        }
+    }
+
+    private async Task<bool> RefreshCoreAsync()
+    {
+        await Task.Yield();
+        Func<Task<List<LinuxTrayMenuItem>>>? provider = MenuProvider;
         if (provider is null)
-            return;
+            return false;
 
         try
         {
-            SetItems(provider());
+            List<LinuxTrayMenuItem> items = await provider().WaitAsync(RefreshTimeout).ConfigureAwait(false);
+            _timeoutLogged = false;
+            return SetItems(items);
+        }
+        catch (TimeoutException)
+        {
+            if (!_timeoutLogged)
+            {
+                _timeoutLogged = true;
+                Voidstrap.App.Logger?.WriteLine("LinuxTrayMenu::Refresh", "The interface was busy, the tray shows the last menu until it answers");
+            }
+            return false;
         }
         catch (Exception ex)
         {
             Voidstrap.App.Logger?.WriteLine("LinuxTrayMenu::Refresh", "The tray menu could not be rebuilt: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            lock (_gate)
+            {
+                _lastRefreshUtc = DateTime.UtcNow;
+            }
         }
     }
 
-    public Task<(uint revision, (int, IDictionary<string, object>, object[]) layout)> GetLayoutAsync(int ParentId, int RecursionDepth, string[] PropertyNames)
+    public async Task<(uint revision, (int, IDictionary<string, object>, object[]) layout)> GetLayoutAsync(int ParentId, int RecursionDepth, string[] PropertyNames)
     {
-        Refresh();
+        await RefreshAsync().ConfigureAwait(false);
         lock (_gate)
         {
-            int depth = RecursionDepth < 0 ? 16 : RecursionDepth;
             if (ParentId == 0)
             {
-                object[] children = [.. _items.Select(item => (object)BuildLayout(IdOf(item), item, depth - 1))];
+                object[] children = RecursionDepth == 0
+                    ? []
+                    : [.. _items.Select(item => (object)BuildLayout(IdOf(item), item, RecursionDepth < 0 ? -1 : RecursionDepth - 1))];
                 Dictionary<string, object> rootProperties = new(StringComparer.Ordinal)
                 {
                     ["children-display"] = "submenu"
                 };
-                return Task.FromResult((_revision, (0, (IDictionary<string, object>)rootProperties, children)));
+                return (_revision, (0, rootProperties, children));
             }
 
             if (_index.TryGetValue(ParentId, out LinuxTrayMenuItem? parent))
-                return Task.FromResult((_revision, BuildLayout(ParentId, parent, depth)));
+                return (_revision, BuildLayout(ParentId, parent, RecursionDepth));
 
-            return Task.FromResult((_revision, (ParentId, (IDictionary<string, object>)new Dictionary<string, object>(StringComparer.Ordinal), Array.Empty<object>())));
+            return (_revision, (ParentId, new Dictionary<string, object>(StringComparer.Ordinal), Array.Empty<object>()));
         }
     }
 
-    public Task<(int, IDictionary<string, object>)[]> GetGroupPropertiesAsync(int[] Ids, string[] PropertyNames)
+    public async Task<(int, IDictionary<string, object>)[]> GetGroupPropertiesAsync(int[] Ids, string[] PropertyNames)
     {
-        Refresh();
+        await RefreshAsync().ConfigureAwait(false);
         lock (_gate)
         {
             IEnumerable<KeyValuePair<int, LinuxTrayMenuItem>> selected = Ids is { Length: > 0 }
                 ? _index.Where(pair => Ids.Contains(pair.Key))
                 : _index;
-            return Task.FromResult(selected.Select(pair => (pair.Key, (IDictionary<string, object>)BuildProperties(pair.Value))).ToArray());
+            return selected.Select(pair => (pair.Key, (IDictionary<string, object>)BuildProperties(pair.Value, PropertyNames))).ToArray();
         }
     }
 
     public Task<object> GetPropertyAsync(int Id, string Name)
     {
-        Refresh();
         lock (_gate)
         {
             if (_index.TryGetValue(Id, out LinuxTrayMenuItem? item) && BuildProperties(item).TryGetValue(Name, out object? value))
                 return Task.FromResult(value);
         }
 
-        return Task.FromResult<object>(string.Empty);
+        throw new DBusException("com.canonical.dbusmenu.UnknownProperty", "The menu item has no property " + Name);
     }
 
     public Task EventAsync(int Id, string EventId, object Data, uint Timestamp)
     {
+        if (string.Equals(EventId, "opened", StringComparison.Ordinal))
+        {
+            _ = RefreshAsync();
+            return Task.CompletedTask;
+        }
+
         if (!string.Equals(EventId, "clicked", StringComparison.Ordinal))
             return Task.CompletedTask;
 
@@ -311,7 +430,7 @@ public sealed class DbusMenuObject : IDbusMenu
             _index.TryGetValue(Id, out item);
         }
 
-        if (item?.Activated is null)
+        if (item is null || item.IsSeparator || !item.Enabled || item.Activated is null)
             return Task.CompletedTask;
 
         try
@@ -323,27 +442,61 @@ public sealed class DbusMenuObject : IDbusMenu
             Voidstrap.App.Logger?.WriteLine("LinuxTrayMenu::Event", "The tray menu action failed: " + ex.Message);
         }
 
+        _ = RefreshAfterClickAsync();
         return Task.CompletedTask;
+    }
+
+    private async Task RefreshAfterClickAsync()
+    {
+        try
+        {
+            await Task.Delay(ClickRefreshDelay).ConfigureAwait(false);
+            await RefreshAsync(force: true).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            Voidstrap.App.Logger?.WriteLine("LinuxTrayMenu::Event", "The tray menu could not refresh after a click: " + ex.Message);
+        }
     }
 
     public Task<int[]> EventGroupAsync((int, string, object, uint)[] Events)
     {
+        List<int> missing = [];
         foreach ((int id, string eventId, object data, uint timestamp) in Events ?? [])
-            EventAsync(id, eventId, data, timestamp);
+        {
+            bool known;
+            lock (_gate)
+            {
+                known = _index.ContainsKey(id) || id == 0;
+            }
 
-        return Task.FromResult(Array.Empty<int>());
+            if (!known)
+            {
+                missing.Add(id);
+                continue;
+            }
+
+            _ = EventAsync(id, eventId, data, timestamp);
+        }
+
+        return Task.FromResult(missing.ToArray());
     }
 
-    public Task<bool> AboutToShowAsync(int Id)
+    public async Task<bool> AboutToShowAsync(int Id)
     {
-        Refresh();
-        return Task.FromResult(true);
+        return await RefreshAsync(force: Id == 0).ConfigureAwait(false);
     }
 
-    public Task<(int[] updatesNeeded, int[] idErrors)> AboutToShowGroupAsync(int[] Ids)
+    public async Task<(int[] updatesNeeded, int[] idErrors)> AboutToShowGroupAsync(int[] Ids)
     {
-        Refresh();
-        return Task.FromResult((Ids ?? [], Array.Empty<int>()));
+        bool changed = await RefreshAsync(force: true).ConfigureAwait(false);
+        int[] requested = Ids ?? [];
+        lock (_gate)
+        {
+            int[] errors = [.. requested.Where(id => id != 0 && !_index.ContainsKey(id))];
+            int[] updates = changed ? [.. requested.Where(id => id == 0 || _index.ContainsKey(id))] : [];
+            return (updates, errors);
+        }
     }
 
     public Task<object> GetAsync(string prop)

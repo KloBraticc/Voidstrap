@@ -83,6 +83,14 @@ public sealed class LinuxVinegarProcessProbe : IVinegarProcessProbe
 
 		if (HasStudioProcess())
 			return true;
+		if (LinuxFlatpakHost.IsSandboxed && LinuxFlatpakHost.TryCreateHostCommand(_processes, "sh",
+			["-c", "for file in /proc/[0-9]*/comm; do IFS= read -r name 2>/dev/null < \"$file\" || continue; case \"$name\" in [Rr][Oo][Bb][Ll][Oo][Xx][Ss][Tt][Uu][Dd][Ii][Oo]*) exit 0;; esac; done; exit 1"], out ProcessCommand hostProbe))
+		{
+			OperationResult<ProcessExecution> hostResult = await _processes.ExecuteAsync(hostProbe, cancellationToken).ConfigureAwait(false);
+			cancellationToken.ThrowIfCancellationRequested();
+			if (hostResult.Succeeded && hostResult.Value?.ExitCode == 0)
+				return true;
+		}
 
 		if (!LinuxFlatpakHost.TryCreateCommand(_processes, ["ps", "--columns=application"], out ProcessCommand command))
 			return false;

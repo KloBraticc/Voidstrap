@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Windows;
 using Voidstrap.Resources;
@@ -45,6 +49,8 @@ public class JsonManager<T> where T : class, new()
 			Prop = loaded;
 			Interlocked.Increment(ref _revision);
 			LastFileHash = SafeGetFileHash(FileLocation);
+			_baseline = null;
+			_baselineSource = SupportsMerge ? SafeReadBytes(FileLocation) : null;
 			App.Logger.WriteLine(identifier, recovered ? "Recovered from the last valid backup" : "Loaded successfully");
 			if (recovered)
 				Voidstrap.Utility.AppNotifications.RecordInfo("recovered:" + ClassName, ClassName + " was restored", ClassName + " contained invalid data and was restored from the last valid backup.");
@@ -139,8 +145,15 @@ public class JsonManager<T> where T : class, new()
 		{
 			try
 			{
+				if (SupportsMerge)
+					AdoptExternalChanges(identifier);
 				JsonFile.SerializeAtomic(FileLocation, Prop, JsonOptions.Indented);
 				LastFileHash = SafeGetFileHash(FileLocation);
+				if (SupportsMerge)
+				{
+					_baseline = Snapshot(Prop);
+					_baselineSource = null;
+				}
 			}
 			catch (Exception ex)
 			{
@@ -161,6 +174,141 @@ public class JsonManager<T> where T : class, new()
 			}
 		}
 		catch
+		{
+			return null;
+		}
+	}
+
+	private static readonly bool SupportsMerge = !typeof(System.Collections.IDictionary).IsAssignableFrom(typeof(T));
+
+	private static readonly PropertyInfo[] MergeableProperties = typeof(T)
+		.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+		.Where(property => property.CanRead
+			&& property.GetSetMethod() is not null
+			&& property.GetIndexParameters().Length == 0
+			&& property.GetCustomAttribute<JsonIgnoreAttribute>() is null)
+		.ToArray();
+
+	private JsonObject? _baseline;
+
+	private byte[]? _baselineSource;
+
+	private JsonObject? Baseline
+	{
+		get
+		{
+			if (_baseline is null && _baselineSource is not null)
+			{
+				byte[] source = _baselineSource;
+				_baselineSource = null;
+				try
+				{
+					T? loaded = JsonSerializer.Deserialize<T>(source, JsonOptions.Tolerant);
+					_baseline = loaded is null ? null : Snapshot(loaded);
+				}
+				catch (Exception ex) when (ex is JsonException or NotSupportedException)
+				{
+					_baseline = null;
+				}
+			}
+			return _baseline;
+		}
+	}
+
+	private static byte[]? SafeReadBytes(string path)
+	{
+		try
+		{
+			return File.ReadAllBytes(path);
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			return null;
+		}
+	}
+
+	public bool RefreshFromDisk()
+	{
+		if (!SupportsMerge)
+			return false;
+		lock (_saveLock)
+			return AdoptExternalChanges(LOG_IDENT_CLASS + "::RefreshFromDisk");
+	}
+
+	private bool AdoptExternalChanges(string identifier)
+	{
+		try
+		{
+			return TryAdoptExternalChanges(identifier);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(identifier, "Changes saved by another Voidstrap process could not be merged: " + ex.Message);
+			return false;
+		}
+	}
+
+	private bool TryAdoptExternalChanges(string identifier)
+	{
+		if ((_baseline is null && _baselineSource is null) || !File.Exists(FileLocation) || !HasFileOnDiskChanged())
+			return false;
+
+		JsonObject? baseline = Baseline;
+		if (baseline is null)
+			return false;
+
+		byte[] bytes;
+		T? disk;
+		try
+		{
+			bytes = File.ReadAllBytes(FileLocation);
+			disk = JsonSerializer.Deserialize<T>(bytes, JsonOptions.Tolerant);
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or NotSupportedException)
+		{
+			return false;
+		}
+
+		JsonObject? diskSnapshot = disk is null ? null : Snapshot(disk);
+		JsonObject? current = Snapshot(Prop);
+		if (disk is null || diskSnapshot is null || current is null)
+			return false;
+
+		List<string> adopted = [];
+		foreach (PropertyInfo property in MergeableProperties)
+		{
+			string name = property.GetCustomAttribute<JsonPropertyNameAttribute>()?.Name ?? property.Name;
+			JsonNode? mine = current[name];
+			if (!JsonNode.DeepEquals(mine, baseline[name]) || JsonNode.DeepEquals(mine, diskSnapshot[name]))
+				continue;
+			try
+			{
+				property.SetValue(Prop, property.GetValue(disk));
+				adopted.Add(name);
+			}
+			catch (Exception ex) when (ex is TargetInvocationException or ArgumentException or MethodAccessException)
+			{
+			}
+		}
+
+		_baseline = diskSnapshot;
+		_baselineSource = null;
+		LastFileHash = MD5Hash.FromBytes(bytes);
+		if (adopted.Count > 0)
+		{
+			Interlocked.Increment(ref _revision);
+			App.Logger.WriteLine(identifier, $"Kept {adopted.Count} change(s) another Voidstrap process saved: " + string.Join(", ", adopted.Take(12)));
+		}
+		return adopted.Count > 0;
+	}
+
+	private static JsonObject? Snapshot(T value)
+	{
+		try
+		{
+			return JsonSerializer.SerializeToNode(value, JsonOptions.Compact) as JsonObject;
+		}
+		catch (Exception ex) when (ex is JsonException or NotSupportedException or InvalidOperationException)
 		{
 			return null;
 		}

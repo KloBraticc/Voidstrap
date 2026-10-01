@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Voidstrap.Core;
+using Voidstrap.Platform.Linux;
 
 namespace Voidstrap.Utility;
 
@@ -131,20 +132,12 @@ internal static class PlatformShell
 
     private static bool TryRevealFileLinux(string file)
     {
-        string? gdbus = new SystemProcessService().FindExecutable("gdbus");
-        if (string.IsNullOrWhiteSpace(gdbus) || !File.Exists(file))
+        if (!File.Exists(file))
         {
             return false;
         }
 
-        ProcessStartInfo startInfo = new(gdbus)
-        {
-            UseShellExecute = false,
-            CreateNoWindow = true,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true
-        };
-        foreach (string argument in new[]
+        string[] arguments =
         {
             "call", "--session",
             "--dest", "org.freedesktop.FileManager1",
@@ -152,10 +145,18 @@ internal static class PlatformShell
             "--method", "org.freedesktop.FileManager1.ShowItems",
             "['" + new Uri(Path.GetFullPath(file)).AbsoluteUri.Replace("'", "%27") + "']",
             ""
-        })
+        };
+        if (!LinuxFlatpakHost.TryCreateHostCommand(new SystemProcessService(), "gdbus", arguments, out var command))
+            return false;
+        ProcessStartInfo startInfo = new(command.FileName)
         {
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true
+        };
+        foreach (string argument in command.Arguments)
             startInfo.ArgumentList.Add(argument);
-        }
 
         using Process? process = Process.Start(startInfo);
         if (process is null)

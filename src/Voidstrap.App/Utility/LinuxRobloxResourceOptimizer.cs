@@ -137,18 +137,18 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 				App.Logger.WriteLine(LogIdent, "Sober resource controls could not be applied: " + error);
 			}
 		}
-		ApplyCpuLimit(settings);
+		ApplyCpuLimit(settings, scope);
 		ApplyTrim(settings, focused, scope);
 	}
 
-	private void ApplyCpuLimit(AppSettings settings)
+	private void ApplyCpuLimit(AppSettings settings, LinuxSoberScope scope)
 	{
 		int? limit = RobloxProcessOptimizer.GetCpuLimit(settings.SelectedCpuPriority);
 		if (limit.HasValue && limit.Value >= ProcessorCount)
 		{
 			limit = null;
 		}
-		IReadOnlyList<int> processIds = LinuxSoberProcessProbe.GetSandboxProcessIds();
+		IReadOnlyList<int> processIds = LinuxSoberResources.GetProcessIds(scope);
 		if (limit.HasValue)
 		{
 			if (_originalAffinity == null && processIds.Count > 0)
@@ -223,7 +223,7 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 		}
 		if (_appliedCpuLimit.HasValue)
 		{
-			RestoreAffinity(LinuxSoberProcessProbe.GetSandboxProcessIds());
+			RestoreAffinity(LinuxSoberResources.GetProcessIds(scope));
 		}
 		ResetApplied();
 	}

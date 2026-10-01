@@ -15,6 +15,8 @@ internal static class LinuxTaskbarPresence
 
 	private static bool _hidden;
 
+	private static readonly HashSet<nint> HiddenNativeHelpers = [];
+
 	public static void HideWhileSessionRuns()
 	{
 		if (!Voidstrap.Utility.Platform.IsLinux)
@@ -73,7 +75,9 @@ internal static class LinuxTaskbarPresence
 			return;
 
 		_hidden = false;
-		IReadOnlyList<string> restored = Sweep();
+		nint[] helpers = HiddenNativeHelpers.Where(Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow).ToArray();
+		HiddenNativeHelpers.Clear();
+		IReadOnlyList<string> restored = Voidstrap.Platform.Linux.LinuxWindowInterop.ApplyTaskbarVisibility(helpers, string.Empty, false);
 		if (restored.Count > 0)
 			App.Logger.WriteLine("LinuxTaskbarPresence::RestoreAfterSession", "Voidstrap is back on the taskbar: " + string.Join(", ", restored));
 	}
@@ -95,6 +99,7 @@ internal static class LinuxTaskbarPresence
 
 		StopTimer();
 		_hidden = false;
+		HiddenNativeHelpers.Clear();
 	}
 
 	private static void StopTimer()
@@ -120,24 +125,38 @@ internal static class LinuxTaskbarPresence
 		try
 		{
 			Application? application = Application.Current;
-			if (application is null)
+			if (application is null || !_hidden)
 				return Array.Empty<string>();
 
-			HashSet<nint> handles = new(Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnManagedWindows());
+			HashSet<nint> known = [];
+			HashSet<string> taskbarTitles = new(StringComparer.Ordinal);
+			List<nint> helpers = [];
 			foreach (Window window in application.Windows.OfType<Window>())
 			{
-				nint handle = ResolveHandle(window);
-				if (handle != 0)
-					handles.Add(handle);
+				if (window.ShowInTaskbar && !string.IsNullOrWhiteSpace(window.Title))
+					taskbarTitles.Add(window.Title);
 
-				if (!string.IsNullOrWhiteSpace(window.Title))
+				nint handle = ResolveHandle(window);
+				if (handle == 0 || !known.Add(handle))
+					continue;
+
+				if (!window.ShowInTaskbar)
+					helpers.Add(handle);
+			}
+
+			if (!Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed)
+			{
+				foreach (nint native in Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnManagedWindows())
 				{
-					foreach (nint native in Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnManagedWindowsByTitle(window.Title))
-						handles.Add(native);
+					if (!known.Add(native) || taskbarTitles.Contains(Voidstrap.Platform.Linux.LinuxWindowInterop.ReadWindowTitle(native)))
+						continue;
+
+					helpers.Add(native);
+					HiddenNativeHelpers.Add(native);
 				}
 			}
 
-			return Voidstrap.Platform.Linux.LinuxWindowInterop.ApplyTaskbarVisibility(handles.ToArray(), string.Empty, _hidden);
+			return Voidstrap.Platform.Linux.LinuxWindowInterop.ApplyTaskbarVisibility(helpers, string.Empty, true);
 		}
 		catch (Exception ex)
 		{
@@ -150,6 +169,10 @@ internal static class LinuxTaskbarPresence
 	{
 		try
 		{
+			nint native = LinuxWindowMode.ResolveExactNativeWindow(window);
+			if (native != 0 && Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(native))
+				return native;
+
 			nint handle = new WindowInteropHelper(window).Handle;
 			if (handle != 0 && Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(handle))
 				return handle;
@@ -158,8 +181,6 @@ internal static class LinuxTaskbarPresence
 		{
 		}
 
-		return string.IsNullOrWhiteSpace(window.Title)
-			? 0
-			: Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(window.Title);
+		return 0;
 	}
 }

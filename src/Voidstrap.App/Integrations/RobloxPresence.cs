@@ -10,6 +10,24 @@ using System.Threading.Tasks;
 
 namespace Voidstrap.Integrations;
 
+public enum FriendsInServerStatus
+{
+	Ready,
+	NotSignedIn,
+	SignInExpired,
+	NoFriends,
+	Unavailable
+}
+
+public sealed class FriendsInServerResult
+{
+	public FriendsInServerStatus Status { get; init; }
+
+	public IReadOnlyList<ServerFriend> Friends { get; init; } = [];
+
+	public int FriendCount { get; init; }
+}
+
 public static class RobloxPresence
 {
 	private sealed class PresenceEntry
@@ -19,10 +37,42 @@ public static class RobloxPresence
 		public string? GameId { get; set; }
 	}
 
+	private sealed class FriendList
+	{
+		public long UserId { get; init; }
+
+		public DateTime FetchedUtc { get; init; }
+
+		public List<long> Ids { get; init; } = [];
+	}
+
 	private const string LOG_IDENT = "RobloxPresence";
+
 	private const int MaxApiResponseBytes = 4 * 1024 * 1024;
 
+	private const int FriendsPageSize = 50;
+
+	private const int MaxFriendPages = 40;
+
+	private const int PresenceBatchSize = 50;
+
+	private static readonly TimeSpan FriendListLifetime = TimeSpan.FromMinutes(5);
+
+	private static readonly TimeSpan ProfileLifetime = TimeSpan.FromMinutes(30);
+
 	private static readonly HttpClient SharedClient = CreateSharedClient();
+
+	private static readonly SemaphoreSlim FriendListGate = new SemaphoreSlim(1, 1);
+
+	private static readonly object ProfileLock = new object();
+
+	private static readonly Dictionary<long, (ServerFriend Friend, DateTime FetchedUtc)> Profiles = new Dictionary<long, (ServerFriend, DateTime)>();
+
+	private static FriendList? _friendList;
+
+	private static (int CookieHash, bool Valid, DateTime CheckedUtc)? _signIn;
+
+	private static string _csrf = string.Empty;
 
 	private static HttpClient CreateSharedClient()
 	{
@@ -36,162 +86,333 @@ public static class RobloxPresence
 		return client;
 	}
 
-	public static async Task<List<ServerFriend>> GetFriendsInServerAsync(long localUserId, string jobId, CancellationToken token = default(CancellationToken))
+	public static async Task<FriendsInServerResult> GetFriendsInServerAsync(long localUserId, string jobId, CancellationToken token = default(CancellationToken))
 	{
-		List<ServerFriend> result = new List<ServerFriend>();
-		if (string.IsNullOrEmpty(jobId))
-		{
-			return result;
-		}
+		if (string.IsNullOrEmpty(jobId) || localUserId <= 0)
+			return new FriendsInServerResult { Status = FriendsInServerStatus.Unavailable };
+
 		string? cookie = RobloxCookie.Get();
 		if (string.IsNullOrEmpty(cookie))
-		{
-			return result;
-		}
-		if (localUserId <= 0)
-		{
-			return result;
-		}
+			return new FriendsInServerResult { Status = FriendsInServerStatus.NotSignedIn };
+
 		try
 		{
-			HttpClient client = SharedClient;
-			List<ServerFriend> friends = await GetFriendsAsync(client, cookie, localUserId, token).ConfigureAwait(continueOnCapturedContext: false);
-			if (friends.Count == 0)
+			if (await IsSignInValidAsync(cookie, token).ConfigureAwait(false) == false)
+				return new FriendsInServerResult { Status = FriendsInServerStatus.SignInExpired };
+
+			List<long>? friendIds = await GetFriendIdsAsync(cookie, localUserId, token).ConfigureAwait(false);
+			if (friendIds == null)
+				return new FriendsInServerResult { Status = FriendsInServerStatus.Unavailable };
+			if (friendIds.Count == 0)
+				return new FriendsInServerResult { Status = FriendsInServerStatus.NoFriends };
+
+			HashSet<long> present = new HashSet<long>();
+			bool anyAnswered = false;
+			foreach (List<long> batch in Chunk(friendIds, PresenceBatchSize))
 			{
-				return result;
-			}
-			Dictionary<long, ServerFriend> byId = friends.ToDictionary((ServerFriend f) => f.UserId);
-			string csrf = await GetCsrfTokenAsync(client, cookie, token).ConfigureAwait(continueOnCapturedContext: false);
-			foreach (List<long> item in Chunk(friends.Select((ServerFriend f) => f.UserId).ToList(), 90))
-			{
-				if (token.IsCancellationRequested)
+				token.ThrowIfCancellationRequested();
+				List<PresenceEntry>? presences = await GetPresencesAsync(cookie, batch, token).ConfigureAwait(false);
+				if (presences == null)
+					continue;
+				anyAnswered = true;
+				foreach (PresenceEntry presence in presences)
 				{
-					break;
+					if (presence.UserId > 0 && presence.UserId != localUserId && string.Equals(presence.GameId, jobId, StringComparison.OrdinalIgnoreCase))
+						present.Add(presence.UserId);
 				}
-				foreach (PresenceEntry item2 in await GetPresencesAsync(client, cookie, csrf, item, token).ConfigureAwait(continueOnCapturedContext: false))
+			}
+
+			if (!anyAnswered)
+				return new FriendsInServerResult { Status = FriendsInServerStatus.Unavailable, FriendCount = friendIds.Count };
+
+			List<ServerFriend> friends = await ResolveProfilesAsync(present.ToList(), token).ConfigureAwait(false);
+			return new FriendsInServerResult
+			{
+				Status = FriendsInServerStatus.Ready,
+				FriendCount = friendIds.Count,
+				Friends = friends.OrderBy(friend => friend.Label, StringComparer.OrdinalIgnoreCase).ToList()
+			};
+		}
+		catch (OperationCanceledException)
+		{
+			throw;
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "Friends in this server could not be checked: " + ex.Message);
+			return new FriendsInServerResult { Status = FriendsInServerStatus.Unavailable };
+		}
+	}
+
+	private static async Task<bool?> IsSignInValidAsync(string cookie, CancellationToken token)
+	{
+		int hash = StringComparer.Ordinal.GetHashCode(cookie);
+		var cached = _signIn;
+		if (cached is { } known && known.CookieHash == hash && DateTime.UtcNow - known.CheckedUtc < (known.Valid ? TimeSpan.FromMinutes(10) : TimeSpan.FromMinutes(1)))
+			return known.Valid;
+
+		try
+		{
+			using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "https://users.roblox.com/v1/users/authenticated");
+			request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+			using HttpResponseMessage response = await SharedClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+			if (response.IsSuccessStatusCode)
+			{
+				_signIn = (hash, true, DateTime.UtcNow);
+				return true;
+			}
+			if (response.StatusCode is HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden)
+			{
+				_signIn = (hash, false, DateTime.UtcNow);
+				App.Logger.WriteLine(LOG_IDENT, "The saved Roblox sign in was rejected, friends in this server need a fresh sign in");
+				return false;
+			}
+		}
+		catch (OperationCanceledException)
+		{
+			throw;
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "The Roblox sign in could not be checked: " + ex.Message);
+		}
+
+		return null;
+	}
+
+	private static async Task<List<long>?> GetFriendIdsAsync(string cookie, long userId, CancellationToken token)
+	{
+		await FriendListGate.WaitAsync(token).ConfigureAwait(false);
+		try
+		{
+			FriendList? cached = _friendList;
+			if (cached != null && cached.UserId == userId && DateTime.UtcNow - cached.FetchedUtc < FriendListLifetime)
+				return cached.Ids;
+
+			List<long>? ids = await FetchFriendIdsPagedAsync(cookie, userId, token).ConfigureAwait(false)
+				?? await FetchFriendIdsLegacyAsync(cookie, userId, token).ConfigureAwait(false);
+			if (ids == null)
+				return cached != null && cached.UserId == userId ? cached.Ids : null;
+
+			_friendList = new FriendList { UserId = userId, FetchedUtc = DateTime.UtcNow, Ids = ids };
+			App.Logger.WriteLine(LOG_IDENT, $"Loaded {ids.Count} friends to look for in this server");
+			return ids;
+		}
+		finally
+		{
+			FriendListGate.Release();
+		}
+	}
+
+	private static async Task<List<long>?> FetchFriendIdsPagedAsync(string cookie, long userId, CancellationToken token)
+	{
+		List<long> ids = new List<long>();
+		string? cursor = null;
+		for (int page = 0; page < MaxFriendPages; page++)
+		{
+			string url = $"https://friends.roblox.com/v1/users/{userId}/friends/find?limit={FriendsPageSize}";
+			if (!string.IsNullOrEmpty(cursor))
+				url += "&cursor=" + Uri.EscapeDataString(cursor);
+
+			using JsonDocument? document = await GetJsonAsync(url, cookie, token).ConfigureAwait(false);
+			if (document == null || !document.RootElement.TryGetProperty("PageItems", out JsonElement items) || items.ValueKind != JsonValueKind.Array)
+				return page == 0 ? null : ids;
+
+			foreach (JsonElement item in items.EnumerateArray())
+			{
+				if (item.TryGetProperty("id", out JsonElement id) && id.TryGetInt64(out long value) && value > 0)
+					ids.Add(value);
+			}
+
+			cursor = document.RootElement.TryGetProperty("NextCursor", out JsonElement next) && next.ValueKind == JsonValueKind.String ? next.GetString() : null;
+			if (string.IsNullOrEmpty(cursor))
+				break;
+		}
+
+		return ids.Distinct().ToList();
+	}
+
+	private static async Task<List<long>?> FetchFriendIdsLegacyAsync(string cookie, long userId, CancellationToken token)
+	{
+		using JsonDocument? document = await GetJsonAsync($"https://friends.roblox.com/v1/users/{userId}/friends", cookie, token).ConfigureAwait(false);
+		if (document == null || !document.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
+			return null;
+
+		List<long> ids = new List<long>();
+		foreach (JsonElement item in data.EnumerateArray())
+		{
+			if (item.TryGetProperty("id", out JsonElement id) && id.TryGetInt64(out long value) && value > 0)
+				ids.Add(value);
+		}
+
+		return ids.Distinct().ToList();
+	}
+
+	private static async Task<List<ServerFriend>> ResolveProfilesAsync(List<long> userIds, CancellationToken token)
+	{
+		List<ServerFriend> resolved = new List<ServerFriend>();
+		List<long> missing = new List<long>();
+		lock (ProfileLock)
+		{
+			foreach (long id in userIds)
+			{
+				if (Profiles.TryGetValue(id, out var entry) && DateTime.UtcNow - entry.FetchedUtc < ProfileLifetime)
+					resolved.Add(entry.Friend);
+				else
+					missing.Add(id);
+			}
+		}
+
+		if (missing.Count == 0)
+			return resolved;
+
+		Dictionary<long, ServerFriend> fetched = missing.ToDictionary(id => id, id => new ServerFriend { UserId = id });
+		try
+		{
+			string payload = JsonSerializer.Serialize(new { userIds = missing, excludeBannedUsers = false });
+			using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://users.roblox.com/v1/users")
+			{
+				Content = new StringContent(payload, Encoding.UTF8, "application/json")
+			};
+			using HttpResponseMessage response = await SharedClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+			if (response.IsSuccessStatusCode)
+			{
+				using JsonDocument document = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(response.Content, MaxApiResponseBytes, token).ConfigureAwait(false));
+				if (document.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
 				{
-					if (!string.IsNullOrEmpty(item2.GameId) && string.Equals(item2.GameId, jobId, StringComparison.OrdinalIgnoreCase) && byId.TryGetValue(item2.UserId, out var value))
+					foreach (JsonElement item in data.EnumerateArray())
 					{
-						result.Add(value);
+						if (!item.TryGetProperty("id", out JsonElement id) || !id.TryGetInt64(out long value) || !fetched.TryGetValue(value, out ServerFriend? friend))
+							continue;
+						friend.Username = item.TryGetProperty("name", out JsonElement name) ? name.GetString() ?? string.Empty : string.Empty;
+						friend.DisplayName = item.TryGetProperty("displayName", out JsonElement displayName) ? displayName.GetString() ?? string.Empty : string.Empty;
 					}
 				}
 			}
 		}
+		catch (OperationCanceledException)
+		{
+			throw;
+		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine("RobloxPresence", "GetFriendsInServerAsync failed: " + ex.Message);
+			App.Logger.WriteLine(LOG_IDENT, "Friend names could not be loaded: " + ex.Message);
 		}
-		return (from f in result
-			group f by f.UserId into g
-			select g.First()).OrderBy<ServerFriend, string>((ServerFriend f) => f.Label, StringComparer.OrdinalIgnoreCase).ToList();
-	}
 
-	private static async Task<List<ServerFriend>> GetFriendsAsync(HttpClient client, string cookie, long userId, CancellationToken token)
-	{
-		List<ServerFriend> list = new List<ServerFriend>();
-		using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, $"https://friends.roblox.com/v1/users/{userId}/friends");
-		req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
-		using HttpResponseMessage res = await client.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(continueOnCapturedContext: false);
-		if (!res.IsSuccessStatusCode)
+		await ResolveHeadshotsAsync(fetched, token).ConfigureAwait(false);
+
+		lock (ProfileLock)
 		{
-			return list;
-		}
-		using JsonDocument jsonDocument = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, token).ConfigureAwait(continueOnCapturedContext: false));
-		if (!jsonDocument.RootElement.TryGetProperty("data", out var value) || value.ValueKind != JsonValueKind.Array)
-		{
-			return list;
-		}
-		foreach (JsonElement item in value.EnumerateArray())
-		{
-			JsonElement value2;
-			long value3;
-			long num = ((item.TryGetProperty("id", out value2) && value2.TryGetInt64(out value3)) ? value3 : 0);
-			if (num > 0)
+			foreach (ServerFriend friend in fetched.Values)
 			{
-				list.Add(new ServerFriend
-				{
-					UserId = num,
-					Username = (item.TryGetProperty("name", out var value4) ? (value4.GetString() ?? "") : ""),
-					DisplayName = (item.TryGetProperty("displayName", out var value5) ? (value5.GetString() ?? "") : "")
-				});
+				if (!string.IsNullOrWhiteSpace(friend.Username))
+					Profiles[friend.UserId] = (friend, DateTime.UtcNow);
 			}
 		}
-		return list;
+
+		resolved.AddRange(fetched.Values);
+		return resolved;
 	}
 
-	private static async Task<string> GetCsrfTokenAsync(HttpClient client, string cookie, CancellationToken token)
+	private static async Task ResolveHeadshotsAsync(Dictionary<long, ServerFriend> friends, CancellationToken token)
 	{
+		if (friends.Count == 0)
+			return;
+
 		try
 		{
-			using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, "https://auth.roblox.com/v2/logout");
-			req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
-			using HttpResponseMessage httpResponseMessage = await client.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(continueOnCapturedContext: false);
-			if (httpResponseMessage.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
+			string ids = string.Join(",", friends.Keys);
+			using JsonDocument? document = await GetJsonAsync($"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={ids}&size=48x48&format=Png&isCircular=false", null, token).ConfigureAwait(false);
+			if (document == null || !document.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
+				return;
+
+			foreach (JsonElement item in data.EnumerateArray())
 			{
-				return values.FirstOrDefault() ?? "";
+				if (item.TryGetProperty("targetId", out JsonElement target) && target.TryGetInt64(out long id)
+					&& friends.TryGetValue(id, out ServerFriend? friend)
+					&& item.TryGetProperty("imageUrl", out JsonElement url) && url.ValueKind == JsonValueKind.String)
+				{
+					friend.HeadshotUrl = url.GetString() ?? string.Empty;
+				}
 			}
+		}
+		catch (OperationCanceledException)
+		{
+			throw;
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine("RobloxPresence", "GetCsrfTokenAsync failed: " + ex.Message);
+			App.Logger.WriteLine(LOG_IDENT, "Friend pictures could not be loaded: " + ex.Message);
 		}
-		return "";
 	}
 
-	private static async Task<List<PresenceEntry>> GetPresencesAsync(HttpClient client, string cookie, string csrf, List<long> userIds, CancellationToken token)
+	private static async Task<JsonDocument?> GetJsonAsync(string url, string? cookie, CancellationToken token)
 	{
-		List<PresenceEntry> list = new List<PresenceEntry>();
-		string payload = JsonSerializer.Serialize(new { userIds });
-		for (int attempt = 0; attempt < 2; attempt++)
+		using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
+		if (!string.IsNullOrEmpty(cookie))
+			request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+		using HttpResponseMessage response = await SharedClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+		if (!response.IsSuccessStatusCode)
 		{
-			using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, "https://presence.roblox.com/v1/presence/users");
-			req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
-			if (!string.IsNullOrEmpty(csrf))
-			{
-				req.Headers.TryAddWithoutValidation("X-CSRF-TOKEN", csrf);
-			}
-			req.Content = new StringContent(payload, Encoding.UTF8, "application/json");
-			using HttpResponseMessage res = await client.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(continueOnCapturedContext: false);
-			if (res.StatusCode != HttpStatusCode.Forbidden || !res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
-			{
-				goto IL_01ae;
-			}
-			string? text = values.FirstOrDefault();
-			if (string.IsNullOrEmpty(text) || !(text != csrf))
-			{
-				goto IL_01ae;
-			}
-			csrf = text;
-			goto end_IL_0156;
-			IL_01ae:
-			if (!res.IsSuccessStatusCode)
-			{
-				return list;
-			}
-			using (JsonDocument jsonDocument = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, token).ConfigureAwait(continueOnCapturedContext: false)))
-			{
-				if (!jsonDocument.RootElement.TryGetProperty("userPresences", out var value) || value.ValueKind != JsonValueKind.Array)
-				{
-					return list;
-				}
-				foreach (JsonElement item in value.EnumerateArray())
-				{
-					JsonElement value2;
-					long value3;
-					long userId = ((item.TryGetProperty("userId", out value2) && value2.TryGetInt64(out value3)) ? value3 : 0);
-					JsonElement value4;
-					string? gameId = ((item.TryGetProperty("gameId", out value4) && value4.ValueKind == JsonValueKind.String) ? value4.GetString() : null);
-					list.Add(new PresenceEntry
-					{
-						UserId = userId,
-						GameId = gameId
-					});
-				}
-				return list;
-			}
-			end_IL_0156:;
+			App.Logger.WriteLine(LOG_IDENT, $"{new Uri(url).Host} answered {(int)response.StatusCode} {response.StatusCode}");
+			return null;
 		}
-		return list;
+
+		return JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(response.Content, MaxApiResponseBytes, token).ConfigureAwait(false));
+	}
+
+	private static async Task<List<PresenceEntry>?> GetPresencesAsync(string cookie, List<long> userIds, CancellationToken token)
+	{
+		string payload = JsonSerializer.Serialize(new { userIds });
+		for (int attempt = 0; attempt < 3; attempt++)
+		{
+			using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://presence.roblox.com/v1/presence/users")
+			{
+				Content = new StringContent(payload, Encoding.UTF8, "application/json")
+			};
+			request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+			string csrf = _csrf;
+			if (!string.IsNullOrEmpty(csrf))
+				request.Headers.TryAddWithoutValidation("X-CSRF-TOKEN", csrf);
+
+			using HttpResponseMessage response = await SharedClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+			if (response.StatusCode == HttpStatusCode.Forbidden
+				&& response.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values)
+				&& values.FirstOrDefault() is { Length: > 0 } fresh
+				&& !string.Equals(fresh, csrf, StringComparison.Ordinal))
+			{
+				_csrf = fresh;
+				continue;
+			}
+
+			if ((int)response.StatusCode == 429)
+			{
+				App.Logger.WriteLine(LOG_IDENT, "Roblox is rate limiting presence checks, trying again later");
+				return null;
+			}
+
+			if (!response.IsSuccessStatusCode)
+			{
+				App.Logger.WriteLine(LOG_IDENT, $"Presence check answered {(int)response.StatusCode} {response.StatusCode}");
+				return null;
+			}
+
+			using JsonDocument document = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(response.Content, MaxApiResponseBytes, token).ConfigureAwait(false));
+			if (!document.RootElement.TryGetProperty("userPresences", out JsonElement presences) || presences.ValueKind != JsonValueKind.Array)
+				return null;
+
+			List<PresenceEntry> list = new List<PresenceEntry>();
+			foreach (JsonElement item in presences.EnumerateArray())
+			{
+				long userId = item.TryGetProperty("userId", out JsonElement id) && id.TryGetInt64(out long value) ? value : 0;
+				string? gameId = item.TryGetProperty("gameId", out JsonElement game) && game.ValueKind == JsonValueKind.String ? game.GetString() : null;
+				list.Add(new PresenceEntry { UserId = userId, GameId = gameId });
+			}
+
+			return list;
+		}
+
+		return null;
 	}
 
 	private static IEnumerable<List<T>> Chunk<T>(List<T> source, int size)

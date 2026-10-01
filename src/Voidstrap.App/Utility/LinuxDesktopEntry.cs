@@ -24,7 +24,9 @@ internal static class LinuxDesktopEntry
 
 	private static string ApplicationsDirectory => Path.Combine(DataHome, "applications");
 
-	private static string IconRootDirectory => Path.Combine(DataHome, "icons", "hicolor");
+	private static string IconRootDirectory => Path.Combine(LinuxFlatpakHost.IsSandboxed ? HostDataHome : DataHome, "icons", "hicolor");
+
+	private static string HostDataHome => ResolveXdgDirectory("HOST_XDG_DATA_HOME", ".local", "share");
 
 	private static string IconDirectory => Path.Combine(IconRootDirectory, "256x256", "apps");
 
@@ -49,8 +51,25 @@ internal static class LinuxDesktopEntry
 
 	public static void EnsureInstalled(string executablePath)
 	{
-		if (!Platform.IsLinux || LinuxFlatpakHost.IsSandboxed || string.IsNullOrEmpty(executablePath))
+		if (!Platform.IsLinux || string.IsNullOrEmpty(executablePath))
 		{
+			return;
+		}
+		if (LinuxFlatpakHost.IsSandboxed)
+		{
+			try
+			{
+				RepairManagedShortcuts(executablePath);
+				string entryPath = Path.Combine(ApplicationsDirectory, EntryFileName);
+				string contents = BuildDesktopEntry(executablePath);
+				if (File.Exists(entryPath))
+					WriteAtomic(entryPath, contents);
+				RepairCanonicalDesktopShortcut(contents);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine("LinuxDesktopEntry::EnsureInstalled", "Could not repair desktop shortcuts: " + ex.Message);
+			}
 			return;
 		}
 		try
@@ -172,7 +191,7 @@ internal static class LinuxDesktopEntry
 			"Name=Voidstrap",
 			"GenericName=Roblox Bootstrapper",
 			"Comment=Customize and launch Roblox through Sober on Linux",
-			"Exec=" + EscapeExecArgument(executablePath) + " %u",
+			"Exec=" + BuildExecValue(executablePath, "") + " %u",
 			"Icon=" + IconName,
 			"Terminal=false",
 			"Categories=Game;",
@@ -185,17 +204,17 @@ internal static class LinuxDesktopEntry
 			"",
 			"[Desktop Action LaunchRoblox]",
 			"Name=Launch Roblox",
-			"Exec=" + EscapeExecArgument(executablePath) + " -player",
+			"Exec=" + BuildExecValue(executablePath, "-player"),
 			"",
 			"[Desktop Action LaunchRobloxStudio]",
 			"Name=Launch Roblox Studio",
-			"Exec=" + EscapeExecArgument(executablePath) + " -studio",
+			"Exec=" + BuildExecValue(executablePath, "-studio"),
 			"",
 			"[Desktop Action Settings]",
 			"Name=Voidstrap Settings",
-			"Exec=" + EscapeExecArgument(executablePath) + " -settings",
+			"Exec=" + BuildExecValue(executablePath, "-settings"),
 			"");
-		if (!CanRemainUnquoted(executablePath))
+		if (LinuxFlatpakHost.IsSandboxed || !CanRemainUnquoted(executablePath))
 			return entry;
 		string execLine = "Exec=" + EscapeExecArgument(executablePath) + " %u\n";
 		return entry.Replace(execLine, execLine + "TryExec=" + executablePath + "\n", StringComparison.Ordinal);
@@ -351,7 +370,7 @@ internal static class LinuxDesktopEntry
 		if (Platform.IsLinux)
 			Voidstrap.UI.Tray.LinuxTray.UpdateIcon(ReadTrayIconPng());
 #endif
-		if (!Platform.IsLinux || LinuxFlatpakHost.IsSandboxed)
+		if (!Platform.IsLinux)
 			return;
 
 		byte[]? encoded = ReadSelectedIconPng();
@@ -381,6 +400,8 @@ internal static class LinuxDesktopEntry
 
 	public static string ApplicationsFolder => ApplicationsDirectory;
 
+	public static string DesktopFolder => ResolveDesktopDirectory();
+
 	public static string DefaultIconName => IconName;
 
 	public static string IconFilePath => Path.Combine(IconDirectory, IconName + ".png");
@@ -394,17 +415,18 @@ internal static class LinuxDesktopEntry
 
 		try
 		{
-			executablePath = EnsureLauncher(executablePath);
+			if (!LinuxFlatpakHost.IsSandboxed)
+				executablePath = EnsureLauncher(executablePath);
 			string? folder = Path.GetDirectoryName(filePath);
 			if (!string.IsNullOrEmpty(folder))
 				Directory.CreateDirectory(folder);
 
 			WriteAtomic(filePath, BuildShortcutEntry(name, executablePath, arguments, iconPath));
 			MakeExecutable(filePath);
-			RunQuiet("gio", "set", filePath, "metadata::trusted", "true");
+			RunQuiet("gio", "set", HostVisiblePath(filePath), "metadata::trusted", "true");
 
 			if (!string.IsNullOrEmpty(folder) && string.Equals(Path.GetFullPath(folder), Path.GetFullPath(ApplicationsDirectory), StringComparison.Ordinal))
-				RunQuiet("update-desktop-database", ApplicationsDirectory);
+				RunQuiet("update-desktop-database", HostVisiblePath(ApplicationsDirectory));
 
 			return File.Exists(filePath);
 		}
@@ -540,7 +562,9 @@ internal static class LinuxDesktopEntry
 
 	private static string BuildExecValue(string executablePath, string arguments)
 	{
-		System.Text.StringBuilder builder = new(EscapeExecArgument(executablePath));
+		System.Text.StringBuilder builder = new(LinuxFlatpakHost.IsSandboxed
+			? "/usr/bin/flatpak run --command=voidstrap " + EscapeExecArgument(LinuxFlatpakHost.CurrentApplicationId)
+			: EscapeExecArgument(executablePath));
 		foreach (string token in SplitArguments(arguments))
 			builder.Append(' ').Append(EscapeExecArgument(token));
 		return builder.ToString();
@@ -626,7 +650,7 @@ internal static class LinuxDesktopEntry
 					File.Delete(shortcutPath);
 				}
 			}
-			RunQuiet("update-desktop-database", ApplicationsDirectory);
+			RunQuiet("update-desktop-database", HostVisiblePath(ApplicationsDirectory));
 			RunQuiet("gtk-update-icon-cache", "-f", "-t", IconRootDirectory);
 		}
 		catch (Exception ex)
@@ -757,7 +781,7 @@ internal static class LinuxDesktopEntry
 
 	private static void Refresh()
 	{
-		RunQuiet("update-desktop-database", ApplicationsDirectory);
+		RunQuiet("update-desktop-database", HostVisiblePath(ApplicationsDirectory));
 		RunQuiet("gtk-update-icon-cache", "-f", "-t", IconRootDirectory);
 		try
 		{
@@ -766,11 +790,36 @@ internal static class LinuxDesktopEntry
 		catch
 		{
 		}
-		RunQuiet("xdg-mime", "default", EntryFileName, "x-scheme-handler/roblox");
-		RunQuiet("xdg-mime", "default", EntryFileName, "x-scheme-handler/voidstrap");
-		RunQuiet("xdg-mime", "default", EntryFileName, "x-scheme-handler/roblox-player");
-		RunQuiet("xdg-mime", "default", EntryFileName, "x-scheme-handler/roblox-studio");
-		RunQuiet("xdg-mime", "default", EntryFileName, "x-scheme-handler/roblox-studio-auth");
+		foreach (string scheme in SchemeHandlers)
+			RunQuiet("xdg-mime", "default", EntryFileName, scheme);
+	}
+
+	private static readonly string[] SchemeHandlers =
+	[
+		"x-scheme-handler/roblox",
+		"x-scheme-handler/voidstrap",
+		"x-scheme-handler/roblox-player",
+		"x-scheme-handler/roblox-studio",
+		"x-scheme-handler/roblox-studio-auth"
+	];
+
+	public static void RegisterSandboxSchemeHandlers()
+	{
+		if (!Platform.IsLinux || !LinuxFlatpakHost.IsSandboxed)
+			return;
+
+		foreach (string scheme in SchemeHandlers)
+			RunQuiet("xdg-mime", "default", EntryFileName, scheme);
+		App.Logger?.WriteLine("LinuxDesktopEntry::RegisterSandboxSchemeHandlers", "Asked the desktop to open Roblox links with the Voidstrap Flatpak");
+	}
+
+	private static string HostVisiblePath(string path)
+	{
+		if (LinuxFlatpakHost.IsSandboxed && string.Equals(Path.GetFullPath(path), Path.GetFullPath(ApplicationsDirectory), StringComparison.Ordinal))
+			return Path.Combine(HostDataHome, "applications");
+		if (LinuxFlatpakHost.IsSandboxed && string.Equals(Path.GetDirectoryName(Path.GetFullPath(path)), Path.GetFullPath(ApplicationsDirectory), StringComparison.Ordinal))
+			return Path.Combine(HostDataHome, "applications", Path.GetFileName(path));
+		return path;
 	}
 
 	private static string DesktopPathValue(string value)
@@ -809,17 +858,16 @@ internal static class LinuxDesktopEntry
 	{
 		try
 		{
-			string? executable = new SystemProcessService().FindExecutable(fileName);
-			if (string.IsNullOrWhiteSpace(executable))
+			if (!LinuxFlatpakHost.TryCreateHostCommand(new SystemProcessService(), fileName, arguments, out var command))
 				return;
-			ProcessStartInfo startInfo = new(executable)
+			ProcessStartInfo startInfo = new(command.FileName)
 			{
 				UseShellExecute = false,
 				CreateNoWindow = true,
 				RedirectStandardOutput = true,
 				RedirectStandardError = true
 			};
-			foreach (string argument in arguments)
+			foreach (string argument in command.Arguments)
 				startInfo.ArgumentList.Add(argument);
 			using Process? process = Process.Start(startInfo);
 			if (process is null)

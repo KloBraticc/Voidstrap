@@ -49,9 +49,9 @@ public static class LinuxSubpixelText
 			return;
 
 		_installed = true;
-		if (Environment.GetEnvironmentVariable("VOIDSTRAP_SUBPIXEL_TEXT") == "0")
+		if (Environment.GetEnvironmentVariable("VOIDSTRAP_SUBPIXEL_TEXT") != "1")
 		{
-			App.Logger.WriteLine(LogIdent, "Subpixel text is turned off by VOIDSTRAP_SUBPIXEL_TEXT");
+			App.Logger.WriteLine(LogIdent, "Using grayscale text rendering");
 			return;
 		}
 		if (Voidstrap.Utility.LinuxStartup.SafeMode)

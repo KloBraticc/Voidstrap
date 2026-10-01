@@ -29,6 +29,7 @@
       <data:LicenseEntry Name="Nvidia Profile Inspector" Url="https://github.com/Orbmu2k/nvidiaProfileInspector/blob/master/LICENSE.txt" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
       <data:LicenseEntry Name="NewtonsoftJSON" Url="https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
 	  <data:LicenseEntry Name="Bibata Cursor" Url="https://github.com/ful1e5/Bibata_Cursor/blob/v2.0.7/LICENSE" License="GPL 3.0" />
+      <data:LicenseEntry Name="Twemoji Mozilla" Url="https://github.com/mozilla/twemoji-colr/blob/master/LICENSE.md" License="CC BY 4.0" />
     </ItemsControl>
   </StackPanel>
 </ui:UiPage>

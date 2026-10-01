@@ -1,4 +1,4 @@
-﻿<Project>
+<Project>
 
 	<PropertyGroup Condition="'$(MSBuildRuntimeType)' == 'Full'">
 		<AlwaysCompileMarkupFilesInSeparateDomain>true</AlwaysCompileMarkupFilesInSeparateDomain>
@@ -10,5 +10,21 @@
 		<Compile Remove="obj-*/**/*AssemblyInfo.cs" />
 		<Compile Remove="obj-*/**/*AssemblyAttributes.cs" />
 	</ItemGroup>
+
+	<PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux')) And '$(VoidstrapLinuxPackagingRoot)' != ''">
+		<ProGpuWpfEnableWin32CompatShim>false</ProGpuWpfEnableWin32CompatShim>
+	</PropertyGroup>
+
+	<Target Name="BuildLinuxWin32Compatibility" BeforeTargets="CoreCompile" Condition="$(RuntimeIdentifier.StartsWith('linux')) And $([MSBuild]::IsOSPlatform('Linux')) And '$(ProGpuWpfUsePortableFrameworkReferences)' == 'true' And Exists('$(_ProGpuWpfWin32CompatSource)')">
+		<PropertyGroup>
+			<_VoidstrapWin32CompatDirectory>$(BaseIntermediateOutputPath)win32compat/$(RuntimeIdentifier)/</_VoidstrapWin32CompatDirectory>
+			<_VoidstrapWin32CompatLibrary>$(_VoidstrapWin32CompatDirectory)libwin32compat.so</_VoidstrapWin32CompatLibrary>
+		</PropertyGroup>
+		<Exec Command="bash &quot;$(MSBuildThisFileDirectory)build/Packaging/Linux/build-native-compat.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(_VoidstrapWin32CompatLibrary)&quot; &quot;$(_ProGpuWpfWin32CompatSource)&quot;" />
+		<ItemGroup>
+			<_VoidstrapWin32CompatAlias Include="kernel32.dll.so;libkernel32.dll.so;user32.dll.so;libuser32.dll.so;gdi32.dll.so;libgdi32.dll.so;dwmapi.dll.so;libdwmapi.dll.so;uxtheme.dll.so;libuxtheme.dll.so;shell32.dll.so;libshell32.dll.so;gdiplus.dll.so;libgdiplus.dll.so;comdlg32.dll.so;libcomdlg32.dll.so" />
+		</ItemGroup>
+		<Copy SourceFiles="@(_VoidstrapWin32CompatAlias->'$(_VoidstrapWin32CompatLibrary)')" DestinationFiles="@(_VoidstrapWin32CompatAlias->'$(TargetDir)%(Identity)')" SkipUnchangedFiles="true" />
+	</Target>
 
 </Project>

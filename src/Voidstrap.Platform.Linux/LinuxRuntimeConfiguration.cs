@@ -54,8 +54,8 @@ public sealed record LinuxRuntimeConfigurationPaths(
 			throw new ArgumentException("The modifications directory is required", nameof(modsDirectory));
 
 		string home = GetHomeDirectory();
-		string configHome = GetXdgDirectory("XDG_CONFIG_HOME", home, ".config");
-		string dataHome = GetXdgDirectory("XDG_DATA_HOME", home, ".local", "share");
+		string configHome = LinuxFlatpakHost.GetHostXdgDirectory("XDG_CONFIG_HOME", ".config");
+		string dataHome = LinuxFlatpakHost.GetHostXdgDirectory("XDG_DATA_HOME", ".local", "share");
 		string stateHome = GetXdgDirectory("XDG_STATE_HOME", home, ".local", "state");
 		string runtimeState = Path.Combine(stateHome, "voidstrap", "runtime");
 		string soberRoot = Path.Combine(home, ".var", "app", "org.vinegarhq.Sober");
@@ -314,7 +314,8 @@ public sealed partial class LinuxRuntimeConfiguration
 				cancellationToken,
 				assetIndex: assetIndex,
 				includeSourceDirectory: options.ApplyModifications,
-				additionalSources: options.ApplyModifications ? options.AdditionalModSources : null).ConfigureAwait(false);
+				additionalSources: options.ApplyModifications ? options.AdditionalModSources : null,
+				recoverableAssetHashes: options.RecoverableAssetHashes).ConfigureAwait(false);
 		}
 		finally
 		{
@@ -1049,7 +1050,8 @@ public sealed partial class LinuxRuntimeConfiguration
 		string? vinegarVersionsDirectory = null,
 		SoberApkAssetIndex? assetIndex = null,
 		bool includeSourceDirectory = true,
-		IReadOnlyList<LinuxModSource>? additionalSources = null)
+		IReadOnlyList<LinuxModSource>? additionalSources = null,
+		IReadOnlyDictionary<string, IReadOnlyList<string>>? recoverableAssetHashes = null)
 	{
 		List<StagedAsset> staged = [];
 		SkippedAssets = [];
@@ -1085,6 +1087,28 @@ public sealed partial class LinuxRuntimeConfiguration
 			if (!previousResult.Succeeded || previousResult.Value is null)
 				return OperationResult.Fail(previousResult.Failure!.Code, previousResult.Failure.Message, previousResult.Failure.State);
 			HashSet<string> previous = previousResult.Value;
+			bool recoveredAssets = false;
+			if (recoverableAssetHashes is not null)
+			{
+				foreach ((string relativePath, IReadOnlyList<string> hashes) in recoverableAssetHashes)
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+					if (previous.Contains(relativePath))
+						continue;
+					OperationResult<string> candidate = ResolveContainedPath(targetRoot, relativePath);
+					if (!candidate.Succeeded || candidate.Value is null)
+						return OperationResult.Fail(candidate.Failure!.Code, candidate.Failure.Message, candidate.Failure.State);
+					OperationResult safety = ValidateDestinationFileSafety(targetRoot, candidate.Value);
+					if (!safety.Succeeded)
+						return safety;
+					if (!File.Exists(candidate.Value))
+						continue;
+					await using FileStream stream = new(candidate.Value, FileMode.Open, FileAccess.Read, FileShare.Read);
+					string hash = Convert.ToHexString(await SHA256.HashDataAsync(stream, cancellationToken).ConfigureAwait(false));
+					if (hashes.Contains(hash, StringComparer.OrdinalIgnoreCase))
+						recoveredAssets |= previous.Add(relativePath);
+				}
+			}
 
 			OperationResult<List<SourceAsset>> sourceResult = includeSourceDirectory
 				? EnumerateSourceAssets(sourceRoot, exclude, cancellationToken)
@@ -1165,7 +1189,7 @@ public sealed partial class LinuxRuntimeConfiguration
 					return deployments;
 			}
 
-			if (changedAssets.Count == 0 && previous.SetEquals(current))
+			if (!recoveredAssets && changedAssets.Count == 0 && previous.SetEquals(current))
 				return OperationResult.Success();
 
 			foreach (SourceAsset asset in changedAssets)

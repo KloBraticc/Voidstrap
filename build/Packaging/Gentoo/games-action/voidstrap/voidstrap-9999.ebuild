@@ -16,15 +16,28 @@ RESTRICT="mirror network-sandbox strip"
 BDEPEND=">=dev-dotnet/dotnet-sdk-bin-10.0.300:10.0"
 RDEPEND="
 	app-misc/ca-certificates
+	dev-libs/glib
+	app-crypt/libsecret
 	dev-libs/openssl:0
 	dev-libs/wayland
 	media-libs/fontconfig
 	media-libs/freetype
+	media-libs/gstreamer:1.0
+	media-libs/gst-plugins-base:1.0
+	media-libs/gst-plugins-good:1.0
+	media-libs/gst-plugins-bad:1.0
+	media-plugins/gst-plugins-meta:1.0[ffmpeg,flac,mp3,opus,pulseaudio,vorbis,vpx]
+	net-libs/webkit-gtk:4.1
+	sys-auth/polkit
 	media-libs/vulkan-loader
 	sys-apps/dbus
 	sys-apps/flatpak
 	sys-libs/zlib
 	virtual/opengl
+	x11-misc/xdg-utils
+	x11-misc/xdg-user-dirs
+	dev-util/desktop-file-utils
+	x11-libs/libnotify
 	x11-libs/libICE
 	x11-libs/libSM
 	x11-libs/libX11
@@ -61,13 +74,14 @@ src_compile() {
 
 	local dotnet
 	dotnet=$(type -P dotnet-bin-10.0 || type -P dotnet) || die "The .NET 10 SDK was not found"
-	mkdir -p "${DOTNET_CLI_HOME}" || die
+	mkdir -p "${DOTNET_CLI_HOME}" "${T}/publish" || die
 
 	"${dotnet}" publish src/Voidstrap.Cross/Voidstrap.Cross.csproj \
 		-c Release \
 		-r "linux-${rid}" \
 		--self-contained true \
-		-o "${S}/publish" \
+		-o "${T}/publish" \
+		-p:VoidstrapLinuxPackagingRoot="${T}/build/" \
 		-p:DebugType=none \
 		-p:DebugSymbols=false \
 		-p:ContinuousIntegrationBuild=true \
@@ -76,7 +90,7 @@ src_compile() {
 
 src_install() {
 	dodir /usr/lib/voidstrap
-	cp -R publish/. "${ED}/usr/lib/voidstrap/" || die
+	cp -R "${T}/publish/." "${ED}/usr/lib/voidstrap/" || die
 	fperms 0755 /usr/lib/voidstrap/Voidstrap
 	dosym -r /usr/lib/voidstrap/Voidstrap /usr/bin/voidstrap
 

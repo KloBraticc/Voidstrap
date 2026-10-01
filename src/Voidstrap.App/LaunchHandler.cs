@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using Voidstrap.Enums;
 using Voidstrap.Extensions;
@@ -51,16 +52,17 @@ public static class LaunchHandler
 	private static void RunWindowAudit()
 	{
 		Dictionary<string, byte[]> configuration = SnapshotConfiguration();
+		bool passed = false;
 		try
 		{
-			Voidstrap.Utility.WindowAudit.Run();
+			passed = Voidstrap.Utility.WindowAudit.Run();
 		}
 		catch (Exception auditEx)
 		{
 			App.Logger.WriteLine("WindowAudit", "audit harness failed: " + auditEx);
 		}
 		RestoreConfiguration(configuration);
-		App.Terminate();
+		App.Terminate(passed ? ErrorCode.ERROR_SUCCESS : ErrorCode.ERROR_INSTALL_FAILURE);
 	}
 
 	private static Dictionary<string, byte[]> SnapshotConfiguration()
@@ -282,12 +284,12 @@ public static class LaunchHandler
 			}
 			else
 			{
-				if (new LanguageSelectorDialog().ShowOwnedDialog() != true)
+				if (new LanguageSelectorDialog().ShowTopLevelDialog() != true)
 				{
 					App.Logger.WriteLine("LaunchHandler::LaunchInstaller", "The language picker was closed without a choice, setup continues in the current language");
 				}
 				Voidstrap.UI.Elements.Installer.MainWindow mainWindow = new Voidstrap.UI.Elements.Installer.MainWindow();
-				mainWindow.ShowOwnedDialog();
+				mainWindow.ShowTopLevelDialog();
 				interProcessLock.Dispose();
 				ProcessNextAction(mainWindow.CloseAction, !mainWindow.Finished);
 			}
@@ -326,7 +328,7 @@ public static class LaunchHandler
 		else
 		{
 			UninstallerDialog uninstallerDialog = new UninstallerDialog();
-			uninstallerDialog.ShowOwnedDialog();
+			uninstallerDialog.ShowTopLevelDialog();
 			flag = uninstallerDialog.Confirmed;
 			keepData = uninstallerDialog.KeepData;
 		}
@@ -357,7 +359,7 @@ public static class LaunchHandler
 			}
 			try
 			{
-				window.ShowOwnedDialog();
+				window.ShowTopLevelDialog();
 			}
 			finally
 			{
@@ -367,6 +369,13 @@ public static class LaunchHandler
 			return;
 		}
 		App.Logger.WriteLine("LaunchHandler::LaunchSettings", "Found an already existing menu window");
+		if (OperatingSystem.IsLinux())
+		{
+			bool raised = Voidstrap.Platform.Linux.LinuxWindowInterop.TryRaiseVoidstrapWindow(Strings.Menu_Title);
+			App.Logger.WriteLine("LaunchHandler::LaunchSettings", raised ? "Brought the open Voidstrap window to the front" : "The open Voidstrap window could not be found on this desktop");
+			App.Terminate();
+			return;
+		}
 		Process[] processesSafe = Utilities.GetProcessesSafe();
 		try
 		{
@@ -423,7 +432,7 @@ public static class LaunchHandler
 	public static void LaunchMenu()
 	{
 		LaunchMenuDialog launchMenuDialog = new LaunchMenuDialog();
-		launchMenuDialog.ShowOwnedDialog();
+		launchMenuDialog.ShowTopLevelDialog();
 		ProcessNextAction(launchMenuDialog.CloseAction);
 	}
 
@@ -707,6 +716,7 @@ public static class LaunchHandler
 				{
 					App.Logger.WriteLine("LaunchHandler::CloseSettingsWindows", "Closing the Voidstrap window so the session runs from the tray");
 					settings.Close();
+					Voidstrap.UI.LinuxWindowMemory.ReleaseAfterClose(settings, compact: true);
 				}
 			}
 		}
@@ -1052,10 +1062,11 @@ public static class LaunchHandler
 		if (Interlocked.CompareExchange(ref _portableLaunchActive, 1, 0) != 0)
 		{
 			ShowPortableLaunchFailure("A Roblox launch is already in progress.");
-			PortableSessionEnded.TrySetResult(true);
 			return;
 		}
 
+		IDisposable? soberLaunchLease = null;
+		bool restarting = false;
 		bool stayResident = false;
 		long assetPreloadPlaceId = 0;
 		CancellationToken cancellation = CancellationToken.None;
@@ -1073,6 +1084,15 @@ public static class LaunchHandler
 			Voidstrap.Platform.RuntimeKind runtimeKind = launchMode == LaunchMode.Player
 				? Voidstrap.Platform.RuntimeKind.Player
 				: Voidstrap.Platform.RuntimeKind.Studio;
+			if (OperatingSystem.IsLinux() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+			{
+				soberLaunchLease = Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.TryAcquireLaunchLease();
+				if (soberLaunchLease is null)
+				{
+					ShowPortableLaunchFailure("Another Voidstrap process is already starting Sober. Wait for that launch to finish.");
+					return;
+				}
+			}
 			string launchTarget = App.LaunchSettings.RobloxLaunchArgs;
 			if (string.IsNullOrWhiteSpace(launchTarget))
 			{
@@ -1184,15 +1204,15 @@ public static class LaunchHandler
 				}
 
 				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player
-					&& !Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.IsRobloxPackageInstalled())
+					&& !await Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.IsRobloxPackageInstalledAsync(cancellation))
 				{
-					SetPortableLaunchStatus("Downloading Roblox for the first time, this can take a few minutes");
+					SetPortableLaunchStatus("Downloading Sober");
 					App.Logger.WriteLine(
 						"LaunchHandler::FirstRun",
 						"Roblox is not downloaded yet, fetching it before applying settings and mods");
 
 					bool downloaded = await Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider
-						.TryDownloadRobloxPackageAsync(cancellation, SetPortableLaunchStatus);
+						.TryDownloadRobloxPackageAsync(cancellation, SetPortableLaunchStatus, ClosePortableLaunchDialog);
 
 					App.Logger.WriteLine(
 						"LaunchHandler::FirstRun",
@@ -1203,6 +1223,36 @@ public static class LaunchHandler
 					if (!downloaded)
 					{
 						ShowPortableLaunchFailure("Sober has not finished downloading Roblox yet. Finish the setup in the Sober window, then launch again.");
+						return;
+					}
+				}
+
+				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player
+					&& await Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.NeedsSandboxRefreshAsync(cancellation))
+				{
+					if (App.LaunchSettings.SoberRefreshFlag.Active)
+					{
+						ShowPortableLaunchFailure("Sober's folder is unavailable in this Flatpak session. Check Sober filesystem permissions and restart Voidstrap.");
+						return;
+					}
+					App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "Refreshing Flatpak filesystem access after Sober installation");
+					ClosePortableLaunchDialog();
+					soberLaunchLease?.Dispose();
+					soberLaunchLease = null;
+					List<string> resumeArguments = ["-soberrefresh", "-player", launchTarget];
+					if (App.LaunchSettings.QuietFlag.Active)
+						resumeArguments.Add("-quiet");
+					if (!(restarting = App.RestartApplication(resumeArguments, closeRuntime: false)))
+						ShowPortableLaunchFailure("Voidstrap could not refresh access to Sober. Close Voidstrap and launch it again.");
+					return;
+				}
+
+				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player && !File.Exists(App.GlobalSettings.FileLocation))
+				{
+					App.GlobalSettings.Load();
+					if (!App.GlobalSettings.Save())
+					{
+						ShowPortableLaunchFailure("Roblox's settings file could not be created. Check write access to Sober's data folder.");
 						return;
 					}
 				}
@@ -1270,7 +1320,7 @@ public static class LaunchHandler
 			cancellation.ThrowIfCancellationRequested();
 			SetPortableLaunchStatus(Strings.Bootstrapper_Status_Starting);
 			Voidstrap.Core.RuntimeLaunchCoordinator coordinator = new(host.PlayerRuntime, host.StudioRuntime);
-			Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result = await coordinator.LaunchAsync(runtimeKind, launchTarget);
+			Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result = await coordinator.LaunchAsync(runtimeKind, launchTarget, cancellation);
 			if (!result.Succeeded || result.Value == null)
 			{
 				ShowPortableLaunchFailure(result.Failure?.Message ?? "The Roblox runtime did not accept the launch request.");
@@ -1302,8 +1352,9 @@ public static class LaunchHandler
 		finally
 		{
 			cancelRequested.Dispose();
+			soberLaunchLease?.Dispose();
 			Interlocked.Exchange(ref _portableLaunchActive, 0);
-			if (!stayResident)
+			if (!stayResident && !restarting)
 			{
 				AssetProxyServer.Stop();
 				PortableSessionEnded.TrySetResult(true);
@@ -1313,6 +1364,49 @@ public static class LaunchHandler
 	}
 
 	private static IBootstrapperDialog? _portableDialog;
+	private static PortableDownloadStatus? _portableDownloadStatus;
+
+	private sealed class PortableDownloadStatus : Animatable, IDisposable
+	{
+		private static readonly DependencyProperty MessageProperty = DependencyProperty.Register(
+			"Message", typeof(string), typeof(PortableDownloadStatus),
+			new PropertyMetadata(string.Empty, OnMessageChanged));
+
+		private IBootstrapperDialog? _dialog;
+
+		public PortableDownloadStatus(IBootstrapperDialog dialog)
+		{
+			_dialog = dialog;
+			StringAnimationUsingKeyFrames animation = new()
+			{
+				Duration = TimeSpan.FromMilliseconds(1500),
+				RepeatBehavior = RepeatBehavior.Forever
+			};
+			animation.KeyFrames.Add(new DiscreteStringKeyFrame("Downloading Sober.", KeyTime.FromTimeSpan(TimeSpan.Zero)));
+			animation.KeyFrames.Add(new DiscreteStringKeyFrame("Downloading Sober..", KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(500))));
+			animation.KeyFrames.Add(new DiscreteStringKeyFrame("Downloading Sober...", KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(1000))));
+			dialog.Message = "Downloading Sober.";
+			BeginAnimation(MessageProperty, animation);
+		}
+
+		private PortableDownloadStatus()
+		{
+		}
+
+		protected override Freezable CreateInstanceCore() => new PortableDownloadStatus();
+
+		private static void OnMessageChanged(DependencyObject owner, DependencyPropertyChangedEventArgs args)
+		{
+			if (((PortableDownloadStatus)owner)._dialog is { } dialog)
+				dialog.Message = (string)args.NewValue;
+		}
+
+		public void Dispose()
+		{
+			_dialog = null;
+			BeginAnimation(MessageProperty, null);
+		}
+	}
     private static readonly char[] anyOf = new[] { '/', '?', '#', '&' };
 
 	private static void OnPortableLaunchCancelRequested()
@@ -1485,14 +1579,22 @@ public static class LaunchHandler
 			return;
 		}
 
-		if (dialog is System.Windows.Threading.DispatcherObject owner && !owner.CheckAccess())
+		Dispatcher? dispatcher = (dialog as DispatcherObject)?.Dispatcher ?? Application.Current?.Dispatcher;
+		if (dispatcher is not null && !dispatcher.CheckAccess())
 		{
-			owner.Dispatcher.BeginInvoke(new Action<string>(SetPortableLaunchStatus), message);
+			dispatcher.BeginInvoke(new Action<string>(SetPortableLaunchStatus), message);
 			return;
 		}
 
 		try
 		{
+			if (message == "Downloading Sober")
+			{
+				_portableDownloadStatus ??= new PortableDownloadStatus(dialog);
+				return;
+			}
+			_portableDownloadStatus?.Dispose();
+			_portableDownloadStatus = null;
 			dialog.Message = FormatLaunchStatus(message);
 		}
 		catch (Exception ex)
@@ -1511,7 +1613,17 @@ public static class LaunchHandler
 
 		try
 		{
-			dialog.CloseBootstrapper();
+			void close()
+			{
+				_portableDownloadStatus?.Dispose();
+				_portableDownloadStatus = null;
+				dialog.CloseBootstrapper();
+			}
+			Dispatcher? dispatcher = (dialog as DispatcherObject)?.Dispatcher ?? Application.Current?.Dispatcher;
+			if (dispatcher is not null && !dispatcher.CheckAccess())
+				dispatcher.Invoke(close);
+			else
+				close();
 		}
 		catch (Exception ex)
 		{
@@ -1612,7 +1724,7 @@ public static class LaunchHandler
 	public static void LaunchBloxshadeConfig()
 	{
 		App.Logger.WriteLine("LaunchHandler::LaunchBloxshade", "Showing unsupported warning");
-		new BloxshadeDialog().ShowOwnedDialog();
+		new BloxshadeDialog().ShowTopLevelDialog();
 		App.SoftTerminate();
 	}
 }

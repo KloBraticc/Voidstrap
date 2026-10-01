@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 #if CROSSPLAT
+using System.Threading.Tasks;
 using ProGPU.Wpf.Interop;
+using Tmds.DBus;
 #endif
 
 namespace Voidstrap.UI
@@ -35,9 +37,9 @@ namespace Voidstrap.UI
             if (_installed || !Voidstrap.Utility.Platform.IsLinux)
                 return;
 
-            _tool = ResolveTool();
+            _tool = Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed ? null : ResolveTool();
             if (_tool is null)
-                App.Logger.WriteLine("LinuxFileDialog::Install", "No portable file picker was found, file dialogs will ask for zenity or kdialog");
+                App.Logger.WriteLine("LinuxFileDialog::Install", "File dialogs use the desktop file chooser portal");
 
             _installed = true;
             PortableWpfServiceRegistry.FileDialogServiceRegistered += OnFileDialogServiceRegistered;
@@ -115,6 +117,10 @@ namespace Voidstrap.UI
 
             if (_tool is null)
             {
+                PortableFileDialogResult? chosen = ShowPortal(request, out bool portalReached);
+                if (portalReached)
+                    return chosen;
+
                 Frontend.ShowMessageBox("Voidstrap needs a file picker to choose files on Linux. Install zenity or kdialog with your package manager, then try again.", System.Windows.MessageBoxImage.Information);
                 return null;
             }
@@ -168,6 +174,159 @@ namespace Voidstrap.UI
                 App.Logger.WriteLine("LinuxFileDialog::Show", $"The picker failed: {ex.Message}");
                 return null;
             }
+        }
+
+        private const string PortalService = "org.freedesktop.portal.Desktop";
+
+        private static readonly ObjectPath PortalPath = new("/org/freedesktop/portal/desktop");
+
+        private static PortableFileDialogResult? ShowPortal(PortableFileDialogRequest request, out bool reached)
+        {
+            reached = false;
+            try
+            {
+                Task<(bool Reached, string[]? Paths)> pick = Task.Run(() => PickWithPortalAsync(request));
+                if (!pick.Wait(PickerLifetime))
+                {
+                    reached = true;
+                    return null;
+                }
+
+                (bool portalReached, string[]? paths) = pick.Result;
+                reached = portalReached;
+                if (paths is null || paths.Length == 0)
+                    return null;
+
+                return request.AllowMultipleSelection
+                    ? new PortableFileDialogResult(paths)
+                    : new PortableFileDialogResult(paths[0]);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("LinuxFileDialog::ShowPortal", $"The file chooser portal failed: {ex.GetBaseException().Message}");
+                return null;
+            }
+        }
+
+        private static async Task<(bool Reached, string[]? Paths)> PickWithPortalAsync(PortableFileDialogRequest request)
+        {
+            using Connection connection = new(Address.Session);
+            ConnectionInfo info = await connection.ConnectAsync().ConfigureAwait(false);
+
+            string token = "voidstrap" + Guid.NewGuid().ToString("N");
+            string sender = info.LocalName.TrimStart(':').Replace('.', '_');
+            ObjectPath expected = new("/org/freedesktop/portal/desktop/request/" + sender + "/" + token);
+            TaskCompletionSource<(uint Response, IDictionary<string, object> Results)> completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            IPortalRequest pending = connection.CreateProxy<IPortalRequest>(PortalService, expected);
+            IDisposable watch = await pending.WatchResponseAsync(
+                value => completion.TrySetResult(value),
+                error => completion.TrySetException(error)).ConfigureAwait(false);
+
+            try
+            {
+                IFileChooserPortal chooser = connection.CreateProxy<IFileChooserPortal>(PortalService, PortalPath);
+                string title = string.IsNullOrWhiteSpace(request.Title) ? "Voidstrap" : request.Title;
+                Dictionary<string, object> options = BuildPortalOptions(request, token);
+                ObjectPath handle;
+                try
+                {
+                    handle = string.Equals(request.Kind, "SaveFile", StringComparison.Ordinal)
+                        ? await chooser.SaveFileAsync(string.Empty, title, options).ConfigureAwait(false)
+                        : await chooser.OpenFileAsync(string.Empty, title, options).ConfigureAwait(false);
+                }
+                catch (DBusException ex) when (ex.ErrorName.StartsWith("org.freedesktop.DBus.Error.", StringComparison.Ordinal))
+                {
+                    App.Logger.WriteLine("LinuxFileDialog::PickWithPortal", $"The file chooser portal is unavailable: {ex.ErrorName}");
+                    return (false, null);
+                }
+
+                if (handle.ToString() != expected.ToString())
+                {
+                    watch.Dispose();
+                    watch = await connection.CreateProxy<IPortalRequest>(PortalService, handle).WatchResponseAsync(
+                        value => completion.TrySetResult(value),
+                        error => completion.TrySetException(error)).ConfigureAwait(false);
+                }
+
+                (uint response, IDictionary<string, object> results) = await completion.Task.ConfigureAwait(false);
+                if (response != 0 || !results.TryGetValue("uris", out object? value) || value is not string[] uris)
+                    return (true, null);
+
+                List<string> paths = new();
+                foreach (string uri in uris)
+                {
+                    if (Uri.TryCreate(uri, UriKind.Absolute, out Uri? parsed) && parsed.IsFile)
+                        paths.Add(parsed.LocalPath);
+                }
+
+                return (true, paths.ToArray());
+            }
+            finally
+            {
+                watch.Dispose();
+            }
+        }
+
+        private static Dictionary<string, object> BuildPortalOptions(PortableFileDialogRequest request, string token)
+        {
+            Dictionary<string, object> options = new()
+            {
+                ["handle_token"] = token,
+                ["modal"] = true
+            };
+
+            bool save = string.Equals(request.Kind, "SaveFile", StringComparison.Ordinal);
+            if (string.Equals(request.Kind, "OpenFolder", StringComparison.Ordinal))
+                options["directory"] = true;
+            else if (!save && request.AllowMultipleSelection)
+                options["multiple"] = true;
+
+            if (save && !string.IsNullOrWhiteSpace(request.SuggestedItemName))
+                options["current_name"] = Path.GetFileName(request.SuggestedItemName);
+
+            string directory = string.IsNullOrWhiteSpace(request.InitialDirectory) ? request.DefaultDirectory : request.InitialDirectory;
+            if (!string.IsNullOrWhiteSpace(directory) && Directory.Exists(directory))
+            {
+                byte[] encoded = Encoding.UTF8.GetBytes(Path.GetFullPath(directory));
+                byte[] terminated = new byte[encoded.Length + 1];
+                encoded.CopyTo(terminated, 0);
+                options["current_folder"] = terminated;
+            }
+
+            List<(string, (uint, string)[])> filters = BuildPortalFilters(request.Filter);
+            if (filters.Count > 0 && !string.Equals(request.Kind, "OpenFolder", StringComparison.Ordinal))
+            {
+                options["filters"] = filters.ToArray();
+                int selected = request.FilterIndex - 1;
+                if (selected >= 0 && selected < filters.Count)
+                    options["current_filter"] = filters[selected];
+            }
+
+            return options;
+        }
+
+        private static List<(string, (uint, string)[])> BuildPortalFilters(string filter)
+        {
+            List<(string, (uint, string)[])> filters = new();
+            if (string.IsNullOrWhiteSpace(filter))
+                return filters;
+
+            string[] parts = filter.Split('|');
+            for (int i = 0; i + 1 < parts.Length; i += 2)
+            {
+                string label = parts[i].Trim();
+                string[] patterns = parts[i + 1].Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                if (label.Length == 0 || patterns.Length == 0)
+                    continue;
+
+                (uint, string)[] globs = new (uint, string)[patterns.Length];
+                for (int p = 0; p < patterns.Length; p++)
+                    globs[p] = (0u, patterns[p]);
+                filters.Add((label, globs));
+            }
+
+            return filters;
         }
 
         private static List<string> BuildArguments(PortableFileDialogRequest request)
@@ -310,4 +469,20 @@ namespace Voidstrap.UI
         }
 #endif
     }
+
+#if CROSSPLAT
+    [DBusInterface("org.freedesktop.portal.FileChooser")]
+    public interface IFileChooserPortal : IDBusObject
+    {
+        Task<ObjectPath> OpenFileAsync(string parentWindow, string title, IDictionary<string, object> options);
+
+        Task<ObjectPath> SaveFileAsync(string parentWindow, string title, IDictionary<string, object> options);
+    }
+
+    [DBusInterface("org.freedesktop.portal.Request")]
+    public interface IPortalRequest : IDBusObject
+    {
+        Task<IDisposable> WatchResponseAsync(Action<(uint Response, IDictionary<string, object> Results)> handler, Action<Exception>? onError = null);
+    }
+#endif
 }

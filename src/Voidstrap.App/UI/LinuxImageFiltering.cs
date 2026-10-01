@@ -114,9 +114,13 @@ fn sample_minified(uv: vec2<f32>, dx: vec2<f32>, dy: vec2<f32>, taps: vec2<u32>)
 			return;
 		}
 
+		string functions = Normalize(FootprintFunctions);
+		if (Voidstrap.Utility.LinuxStartup.UsesOpenGl)
+			functions = functions.Replace("textureNumLevels(texTexture) > 1u", "false", StringComparison.Ordinal);
+
 		string patched = normalized
 			.Replace(sampling, Normalize(FootprintSampling), StringComparison.Ordinal)
-			.Replace(entry, Normalize(FootprintFunctions) + entry, StringComparison.Ordinal);
+			.Replace(entry, functions + entry, StringComparison.Ordinal);
 		DynamicMethod setter = new("SetTextureShaderSource", null, [typeof(string)], shaders.Module, true);
 		ILGenerator il = setter.GetILGenerator();
 		il.Emit(OpCodes.Ldarg_0);
