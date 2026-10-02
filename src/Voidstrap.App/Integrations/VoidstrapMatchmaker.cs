@@ -1068,6 +1068,129 @@ public static class VoidstrapMatchmaker
 		App.Logger.WriteLine(LOG_IDENT, "Server probe returned HTTP " + (int)status + ", " + hint);
 	}
 
+	public static async Task<ServerStartLookup> GetServerStartAsync(long placeId, string? jobId, CancellationToken token = default)
+	{
+		if (placeId <= 0 || string.IsNullOrWhiteSpace(jobId))
+			return new ServerStartLookup(ServerStartStatus.Unavailable, default);
+		string? cookie = RobloxAuthLauncher.TryGetRobloxSecurityCookie();
+		if (string.IsNullOrEmpty(cookie))
+			return new ServerStartLookup(ServerStartStatus.NotSignedIn, default);
+		try
+		{
+			await PrimeCsrfAsync(placeId, cookie, token).ConfigureAwait(false);
+			ServerStartLookup first = await AttemptServerStartAsync(true, placeId, jobId, cookie, token).ConfigureAwait(false);
+			if (first.Status is ServerStartStatus.Found or ServerStartStatus.Full)
+				return first;
+			ServerStartLookup second = await AttemptServerStartAsync(false, placeId, jobId, cookie, token).ConfigureAwait(false);
+			return second.Status == ServerStartStatus.Unavailable ? first : second;
+		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested)
+		{
+			throw;
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "Server uptime lookup failed: " + ex.Message);
+			return new ServerStartLookup(ServerStartStatus.Unavailable, default);
+		}
+	}
+
+	private static async Task<ServerStartLookup> AttemptServerStartAsync(bool useV2, long placeId, string jobId, string cookie, CancellationToken token)
+	{
+		string api = useV2 ? "v2" : "v1";
+		for (int attempt = 0; attempt < 2; attempt++)
+		{
+			try
+			{
+				await WaitForJoinBackoffAsync(token).ConfigureAwait(false);
+				using HttpRequestMessage req = BuildJoinRequest(useV2, placeId, jobId, cookie, _csrfToken);
+				using CancellationTokenSource timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token);
+				timeoutCts.CancelAfter(JoinTimeoutMs);
+				using HttpResponseMessage res = await _joinClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token).ConfigureAwait(false);
+				if (res.StatusCode == HttpStatusCode.Forbidden && res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
+				{
+					_csrfToken = values.FirstOrDefault();
+					continue;
+				}
+				if (res.StatusCode == HttpStatusCode.TooManyRequests)
+				{
+					SetJoinBackoff(res.Headers.RetryAfter?.Delta ?? TimeSpan.FromSeconds(1.5));
+					return new ServerStartLookup(ServerStartStatus.Unavailable, default);
+				}
+				if (res.StatusCode == HttpStatusCode.Unauthorized)
+					return new ServerStartLookup(ServerStartStatus.NotSignedIn, default);
+				if (!res.IsSuccessStatusCode)
+				{
+					App.Logger.WriteLine(LOG_IDENT, $"Server uptime lookup through gamejoin {api} answered {(int)res.StatusCode}");
+					return new ServerStartLookup(ServerStartStatus.Unavailable, default);
+				}
+				DateTimeOffset? serverDate = res.Headers.Date;
+				using JsonDocument? doc = await ReadJoinResponseAsync(res, timeoutCts.Token).ConfigureAwait(false);
+				if (doc == null)
+					return new ServerStartLookup(ServerStartStatus.Unavailable, default);
+				JsonElement root = doc.RootElement;
+				JsonElement? joinScript = TryGetObject(root, "joinScript");
+				if (!joinScript.HasValue)
+				{
+					int? status = TryGetInt(root, "status");
+					App.Logger.WriteLine(LOG_IDENT, $"Server uptime lookup through gamejoin {api} had no join data, status {status?.ToString(CultureInfo.InvariantCulture) ?? "unknown"}");
+					return new ServerStartLookup(status == 6 ? ServerStartStatus.Full : ServerStartStatus.Unavailable, default);
+				}
+				DateTimeOffset? started = ParseServerClaimedTime(joinScript.Value, serverDate);
+				if (!started.HasValue)
+				{
+					App.Logger.WriteLine(LOG_IDENT, $"Server uptime lookup through gamejoin {api} returned join data without ServerClaimedTime, fields: " + string.Join(", ", joinScript.Value.EnumerateObject().Select(property => property.Name)));
+					return new ServerStartLookup(ServerStartStatus.Unavailable, default);
+				}
+				App.Logger.WriteLine(LOG_IDENT, $"Server {jobId} has been up since {started.Value.UtcDateTime:yyyy'/'MM'/'dd HH:mm:ss} UTC, from gamejoin {api} ServerClaimedTime");
+				return new ServerStartLookup(ServerStartStatus.Found, started.Value);
+			}
+			catch (OperationCanceledException) when (token.IsCancellationRequested)
+			{
+				throw;
+			}
+			catch (OperationCanceledException)
+			{
+				return new ServerStartLookup(ServerStartStatus.Unavailable, default);
+			}
+			catch (Exception ex) when (ex is HttpRequestException or IOException or JsonException)
+			{
+				App.Logger.WriteLine(LOG_IDENT, $"Server uptime lookup through gamejoin {api} failed: " + ex.Message);
+				return new ServerStartLookup(ServerStartStatus.Unavailable, default);
+			}
+		}
+		return new ServerStartLookup(ServerStartStatus.Unavailable, default);
+	}
+
+	internal static DateTimeOffset? ParseServerClaimedTime(JsonElement joinScript, DateTimeOffset? serverDate)
+	{
+		if (joinScript.ValueKind != JsonValueKind.Object || !joinScript.TryGetProperty("ServerClaimedTime", out JsonElement value))
+			return null;
+		double raw = value.ValueKind switch
+		{
+			JsonValueKind.Number => value.GetDouble(),
+			JsonValueKind.String => double.TryParse(value.GetString(), NumberStyles.Float, CultureInfo.InvariantCulture, out double parsed) ? parsed : 0,
+			_ => 0
+		};
+		if (raw <= 0 || double.IsNaN(raw) || double.IsInfinity(raw))
+			return null;
+		if (raw < 100000000000)
+			raw *= 1000;
+		if (raw > DateTimeOffset.MaxValue.ToUnixTimeMilliseconds())
+			return null;
+		DateTimeOffset claimed = DateTimeOffset.FromUnixTimeMilliseconds((long)raw);
+		if (serverDate.HasValue)
+		{
+			TimeSpan skew = DateTimeOffset.UtcNow - serverDate.Value;
+			if (skew.Duration() > TimeSpan.FromSeconds(2))
+				claimed += skew;
+		}
+		if (claimed.Year < 2006)
+			return null;
+		DateTimeOffset now = DateTimeOffset.UtcNow;
+		return claimed > now ? now : claimed;
+	}
+
 	private static async Task<ResolveAttempt> AttemptResolveAsync(bool useV2, long placeId, string jobId, string cookie, CancellationToken token)
 	{
 		for (int attempt = 0; attempt < 2; attempt++)
@@ -1442,3 +1565,13 @@ public static class VoidstrapMatchmaker
 		return false;
 	}
 }
+
+public enum ServerStartStatus
+{
+	Found,
+	NotSignedIn,
+	Full,
+	Unavailable
+}
+
+public readonly record struct ServerStartLookup(ServerStartStatus Status, DateTimeOffset StartedUtc);

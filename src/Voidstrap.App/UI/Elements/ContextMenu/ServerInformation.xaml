@@ -53,14 +53,17 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
           <TextBlock Grid.Row="0" Grid.Column="0" Text="Type" Margin="0,0,16,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
           <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,0,0,10" HorizontalAlignment="Right" TextAlignment="Right" Text="{Binding ServerType, Mode=OneWay}" />
           <TextBlock Grid.Row="1" Grid.Column="0" Text="Location" Margin="0,0,16,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="{Binding ServerLocationVisibility}" />
           <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" HorizontalAlignment="Right" TextAlignment="Right" TextTrimming="CharacterEllipsis" Text="{Binding ServerLocation}" Visibility="{Binding ServerLocationVisibility}" />
-          <TextBlock Grid.Row="2" Grid.Column="0" Text="Instance ID" Margin="0,0,16,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-          <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right" TextTrimming="CharacterEllipsis" Text="{Binding InstanceId, Mode=OneWay}" />
-          <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,12,0,0" Visibility="{Binding FriendsVisibility, Mode=OneWay}">
+          <TextBlock Grid.Row="2" Grid.Column="0" Text="Uptime" Margin="0,0,16,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" ToolTip="{Binding UptimeToolTip, Mode=OneWay}" />
+          <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" HorizontalAlignment="Right" TextAlignment="Right" TextTrimming="CharacterEllipsis" Typography.NumeralAlignment="Tabular" Text="{Binding Uptime, Mode=OneWay}" ToolTip="{Binding UptimeToolTip, Mode=OneWay}" />
+          <TextBlock Grid.Row="3" Grid.Column="0" Text="Instance ID" Margin="0,0,16,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right" TextTrimming="CharacterEllipsis" Text="{Binding InstanceId, Mode=OneWay}" />
+          <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,12,0,0" Visibility="{Binding FriendsVisibility, Mode=OneWay}">
             <TextBlock Margin="0,0,0,6" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding FriendsHeader, Mode=OneWay}" />
             <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding FriendsStatus, Mode=OneWay}" Visibility="{Binding FriendsStatusVisibility, Mode=OneWay}" />
             <StackPanel Orientation="Horizontal" Visibility="{Binding FriendsListVisibility, Mode=OneWay}">

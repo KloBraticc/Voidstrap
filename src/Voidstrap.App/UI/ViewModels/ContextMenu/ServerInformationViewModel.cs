@@ -63,6 +63,22 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	private string _serverLocation = Strings.Common_Loading;
 
+	private const string DefaultUptimeToolTip = "How long this Roblox server has been running, from the time Roblox started it";
+
+	private readonly DispatcherTimer? _uptimeTimer;
+
+	private DateTimeOffset? _serverStartedUtc;
+
+	private string? _uptimeJobId;
+
+	private DateTime _lastUptimeFetch = DateTime.MinValue;
+
+	private int _uptimeFetchActive;
+
+	private string _uptime = Strings.Common_Loading;
+
+	private string _uptimeToolTip = DefaultUptimeToolTip;
+
 	public string InstanceId => _activityWatcher?.Data?.JobId ?? Strings.Common_NotAvailable;
 
 	public string ServerType => _activityWatcher?.Data?.ServerType.ToTranslatedString() ?? Strings.Common_NotAvailable;
@@ -254,6 +270,38 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		}
 	}
 
+	public string Uptime
+	{
+		get
+		{
+			return _uptime;
+		}
+		private set
+		{
+			if (_uptime != value)
+			{
+				_uptime = value;
+				OnPropertyChanged(nameof(Uptime));
+			}
+		}
+	}
+
+	public string UptimeToolTip
+	{
+		get
+		{
+			return _uptimeToolTip;
+		}
+		private set
+		{
+			if (_uptimeToolTip != value)
+			{
+				_uptimeToolTip = value;
+				OnPropertyChanged(nameof(UptimeToolTip));
+			}
+		}
+	}
+
 	public ICommand CopyInstanceIdCommand { get; }
 
 	public ICommand RefreshServerLocationCommand { get; }
@@ -277,6 +325,14 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		};
 		_activityWatcher.OnGameJoin += _onGameJoin;
 		_activityWatcher.OnGameLeave += _onGameLeave;
+		if (_dispatcher != null)
+		{
+			_uptimeTimer = new DispatcherTimer(DispatcherPriority.Background, _dispatcher)
+			{
+				Interval = TimeSpan.FromSeconds(1.0)
+			};
+			_uptimeTimer.Tick += OnUptimeTick;
+		}
 		_ = InitializeAsync();
 	}
 
@@ -321,6 +377,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 				await Task.Delay(5000, token);
 				await RefreshPlayerCountAsync();
 				await RefreshFriendsInServerAsync();
+				await RefreshServerUptimeAsync();
 			}
 		}
 		catch (OperationCanceledException)
@@ -354,12 +411,8 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		{
 			ServerLocation = Strings.Common_NotAvailable;
 		}
-		InlineArray4<Task> buffer = default(InlineArray4<Task>);
-		buffer[0] = FetchUsernameAsync();
-		buffer[1] = FetchGameInfoAsync();
-		buffer[2] = RefreshPlayerCountAsync();
-		buffer[3] = RefreshFriendsInServerAsync();
-		await Task.WhenAll(buffer);
+		ResetUptime(Strings.Common_Loading);
+		await Task.WhenAll(FetchUsernameAsync(), FetchGameInfoAsync(), RefreshPlayerCountAsync(), RefreshFriendsInServerAsync(), RefreshServerUptimeAsync());
 	}
 
 	private void ResetForNoGame()
@@ -377,8 +430,104 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		Username = Strings.Common_NotAvailable;
 		PlayerCount = Strings.Common_NotAvailable;
 		ServerLocation = Strings.Common_NotAvailable;
+		ResetUptime(Strings.Common_NotAvailable);
 		OnPropertyChanged(nameof(InstanceId));
 		OnPropertyChanged(nameof(ServerType));
+	}
+
+	private void ResetUptime(string text)
+	{
+		_uptimeTimer?.Stop();
+		_serverStartedUtc = null;
+		_uptimeJobId = null;
+		_lastUptimeFetch = DateTime.MinValue;
+		Uptime = text;
+		UptimeToolTip = DefaultUptimeToolTip;
+	}
+
+	private async Task RefreshServerUptimeAsync()
+	{
+		ActivityData? data = _activityWatcher.Data;
+		if (data == null || data.PlaceId <= 0 || string.IsNullOrEmpty(data.JobId) || !_activityWatcher.InGame)
+		{
+			if (_serverStartedUtc == null)
+				Uptime = Strings.Common_NotAvailable;
+			return;
+		}
+		string jobId = data.JobId;
+		if (_serverStartedUtc.HasValue && string.Equals(_uptimeJobId, jobId, StringComparison.Ordinal))
+			return;
+		if ((DateTime.UtcNow - _lastUptimeFetch).TotalSeconds < 30.0 || Interlocked.Exchange(ref _uptimeFetchActive, 1) != 0)
+			return;
+		_lastUptimeFetch = DateTime.UtcNow;
+		try
+		{
+			ServerStartLookup lookup = await VoidstrapMatchmaker.GetServerStartAsync(data.PlaceId, jobId, _cts.Token);
+			if (_disposed || !string.Equals(_activityWatcher.Data?.JobId, jobId, StringComparison.Ordinal))
+			{
+				_lastUptimeFetch = DateTime.MinValue;
+				return;
+			}
+			bool isPublic = data.ServerType == Voidstrap.Enums.ServerType.Public;
+			switch (lookup.Status)
+			{
+			case ServerStartStatus.Found:
+				_serverStartedUtc = lookup.StartedUtc;
+				_uptimeJobId = jobId;
+				UptimeToolTip = "Up since " + lookup.StartedUtc.ToLocalTime().ToString("MMM d, h:mm:ss tt", System.Globalization.CultureInfo.CurrentCulture) + ", the time Roblox started this server";
+				UpdateUptimeText();
+				_uptimeTimer?.Start();
+				break;
+			case ServerStartStatus.NotSignedIn:
+				Uptime = "Sign in to Voidstrap to see this";
+				UptimeToolTip = "Roblox only shares when a server started with a signed in account. Sign in to your Roblox account in Voidstrap.";
+				break;
+			case ServerStartStatus.Full:
+				Uptime = "Server is full, retrying";
+				UptimeToolTip = "Roblox only shares when a server started while it has room for another player. Voidstrap checks again every 30 seconds.";
+				break;
+			default:
+				Uptime = isPublic ? "Not available, retrying" : "Not available for this server";
+				UptimeToolTip = isPublic
+					? "Roblox did not share when this server started. Voidstrap checks again every 30 seconds."
+					: "Roblox does not share when private and reserved servers started.";
+				break;
+			}
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("ServerInformationViewModel", "Server uptime could not be refreshed: " + ex.Message);
+		}
+		finally
+		{
+			Interlocked.Exchange(ref _uptimeFetchActive, 0);
+		}
+	}
+
+	private void OnUptimeTick(object? sender, EventArgs e)
+	{
+		UpdateUptimeText();
+	}
+
+	private void UpdateUptimeText()
+	{
+		if (_serverStartedUtc is not DateTimeOffset started)
+			return;
+		Uptime = FormatUptime(DateTimeOffset.UtcNow - started);
+	}
+
+	internal static string FormatUptime(TimeSpan elapsed)
+	{
+		if (elapsed < TimeSpan.Zero)
+			elapsed = TimeSpan.Zero;
+		if (elapsed.TotalDays >= 1.0)
+			return $"{(int)elapsed.TotalDays}d {elapsed.Hours}h {elapsed.Minutes:00}m {elapsed.Seconds:00}s";
+		if (elapsed.TotalHours >= 1.0)
+			return $"{elapsed.Hours}h {elapsed.Minutes:00}m {elapsed.Seconds:00}s";
+		return $"{elapsed.Minutes}m {elapsed.Seconds:00}s";
 	}
 
 	private async Task FetchUsernameAsync()
@@ -671,6 +820,11 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 			return;
 		}
 		_disposed = true;
+		if (_uptimeTimer != null)
+		{
+			_uptimeTimer.Stop();
+			_uptimeTimer.Tick -= OnUptimeTick;
+		}
 		try
 		{
 			_cts.Cancel();
