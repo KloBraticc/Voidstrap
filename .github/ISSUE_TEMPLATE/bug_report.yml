@@ -30,6 +30,7 @@ body:
       label: Platform
       options:
         - Windows
+        - Linux
         - Android
     validations:
       required: true
@@ -37,7 +38,8 @@ body:
     id: os
     attributes:
       label: Operating system version
-      placeholder: Windows 11 24H2, or Android 14
+      description: On Linux, include your distro and how you installed Voidstrap (AppImage, Flatpak, deb, rpm, AUR, Gentoo or tar.gz).
+      placeholder: Windows 11 24H2, Ubuntu 24.04 (AppImage), or Android 14
   - type: textarea
     id: what-happened
     attributes:
@@ -59,7 +61,7 @@ body:
     id: log
     attributes:
       label: Log file
-      description: On Windows, drag the newest log file from %LOCALAPPDATA%\Voidstrap\Logs into this box. Read it first and remove anything you do not want to share.
+      description: On Windows, drag the newest log file from %LOCALAPPDATA%\Voidstrap\Logs into this box. On Linux, it is in ~/.local/state/voidstrap/logs, or ~/.var/app/io.github.KloBraticc.Voidstrap/.local/state/voidstrap/logs for the Flatpak. Read it first and remove anything you do not want to share.
   - type: textarea
     id: screenshots
     attributes:

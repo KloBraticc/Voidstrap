@@ -22,8 +22,9 @@ body:
       label: Platform
       options:
         - Windows
+        - Linux
         - Android
-        - Both
+        - All
     validations:
       required: true
   - type: textarea
