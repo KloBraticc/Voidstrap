@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Voidstrap.Core;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Platform.Linux;
 
@@ -20,8 +21,6 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 
 	private const string NoMemoryLimit = "infinity";
 
-	private static readonly int ProcessorCount = Environment.ProcessorCount;
-
 	private readonly CancellationTokenSource _cancellation = new CancellationTokenSource();
 
 	private Task? _loopTask;
@@ -36,7 +35,7 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 
 	private string? _appliedMemoryHigh;
 
-	private int? _appliedCpuLimit;
+	private string? _appliedCpus;
 
 	private byte[]? _originalAffinity;
 
@@ -151,29 +150,27 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 	private void ApplyCpuLimit(AppSettings settings, LinuxSoberScope scope)
 	{
 		int? limit = RobloxProcessOptimizer.GetCpuLimit(settings.SelectedCpuPriority);
-		if (limit.HasValue && limit.Value >= ProcessorCount)
-		{
-			limit = null;
-		}
 		IReadOnlyList<int> processIds = LinuxSoberResources.GetProcessIds(scope);
 		if (limit.HasValue)
 		{
+			IReadOnlyList<int> cpus = CpuTopology.Select(limit.Value);
 			if (_originalAffinity == null && processIds.Count > 0)
 			{
 				_originalAffinity = LinuxSoberResources.TryReadAffinity(processIds[0]);
 			}
-			int threads = LinuxSoberResources.ApplyAffinity(processIds, LinuxSoberResources.CreateAffinity(limit.Value));
-			if (_appliedCpuLimit != limit)
+			int threads = LinuxSoberResources.ApplyAffinity(processIds, LinuxSoberResources.CreateAffinity(cpus));
+			string applied = string.Join(", ", cpus);
+			if (_appliedCpus != applied)
 			{
-				_appliedCpuLimit = limit;
-				App.Logger.WriteLine(LogIdent, "Roblox CPU limit set to " + limit.Value + " logical processors across " + threads + " Sober threads");
+				_appliedCpus = applied;
+				App.Logger.WriteLine(LogIdent, "Roblox CPU limit set to " + cpus.Count + " logical processors, CPUs " + applied + ", across " + threads + " Sober threads");
 			}
 			return;
 		}
-		if (_appliedCpuLimit.HasValue)
+		if (_appliedCpus != null)
 		{
 			RestoreAffinity(processIds);
-			_appliedCpuLimit = null;
+			_appliedCpus = null;
 			App.Logger.WriteLine(LogIdent, "Roblox CPU limit removed");
 		}
 	}
@@ -205,7 +202,7 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 
 	private void RestoreAffinity(IReadOnlyList<int> processIds)
 	{
-		LinuxSoberResources.ApplyAffinity(processIds, _originalAffinity ?? LinuxSoberResources.CreateAffinity(int.MaxValue));
+		LinuxSoberResources.ApplyAffinity(processIds, _originalAffinity ?? LinuxSoberResources.CreateAffinity(CpuTopology.OnlineCpus));
 		_originalAffinity = null;
 	}
 
@@ -228,7 +225,7 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 		{
 			App.Logger.WriteLine(LogIdent, "Sober resource controls could not be restored: " + error);
 		}
-		if (_appliedCpuLimit.HasValue)
+		if (_appliedCpus != null)
 		{
 			RestoreAffinity(LinuxSoberResources.GetProcessIds(scope));
 		}
@@ -239,7 +236,7 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 	{
 		_appliedWeight = null;
 		_appliedMemoryHigh = null;
-		_appliedCpuLimit = null;
+		_appliedCpus = null;
 		_originalAffinity = null;
 		_unfocusedSince = 0;
 		_trimmed = false;

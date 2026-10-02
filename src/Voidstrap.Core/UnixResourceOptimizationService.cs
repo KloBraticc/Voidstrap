@@ -9,8 +9,6 @@ namespace Voidstrap.Core;
 
 public sealed class UnixResourceOptimizationService : IResourceOptimizationService
 {
-	private static readonly int ProcessorCount = Environment.ProcessorCount;
-
 	private readonly IProcessService _processes;
 	private readonly bool _supportsCpuAffinity;
 
@@ -57,7 +55,7 @@ public sealed class UnixResourceOptimizationService : IResourceOptimizationServi
 		}
 
 		bool cpuApplied = false;
-		if (request.CpuLimit is int cpuLimit && cpuLimit < ProcessorCount)
+		if (request.CpuLimit is int cpuLimit)
 		{
 			OperationResult tasksetResult = await ApplyCpuAffinityAsync(request.ProcessId, cpuLimit, cancellationToken);
 			if (!tasksetResult.Succeeded)
@@ -94,7 +92,7 @@ public sealed class UnixResourceOptimizationService : IResourceOptimizationServi
 			return OperationResult.Fail("ProcessIdInvalid", "A valid Roblox process is required");
 		}
 
-		if (request.CpuLimit is int cpuLimit && (cpuLimit < 1 || cpuLimit > ProcessorCount))
+		if (request.CpuLimit is int cpuLimit && (cpuLimit < 1 || cpuLimit > CpuTopology.OnlineCpus.Count))
 		{
 			return OperationResult.Fail("CpuLimitInvalid", "The CPU limit is outside the available processor range");
 		}
@@ -115,9 +113,9 @@ public sealed class UnixResourceOptimizationService : IResourceOptimizationServi
 			return OperationResult.Fail("TasksetUnavailable", "The taskset utility is unavailable", CapabilityState.RequiresExternalRuntime);
 		}
 
-		string cores = "0" + (cpuLimit > 1 ? "-" + (cpuLimit - 1).ToString(CultureInfo.InvariantCulture) : string.Empty);
+		string cores = string.Join(',', CpuTopology.Select(cpuLimit));
 		OperationResult<ProcessExecution> result = await _processes.ExecuteAsync(
-			new ProcessCommand(taskset, ["--cpu-list", cores, "--pid", processId.ToString(CultureInfo.InvariantCulture)]),
+			new ProcessCommand(taskset, ["--all-tasks", "--cpu-list", cores, "--pid", processId.ToString(CultureInfo.InvariantCulture)]),
 			cancellationToken);
 		return ConvertCommandResult(result, "CpuAffinityFailed");
 	}

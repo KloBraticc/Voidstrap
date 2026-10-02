@@ -11,8 +11,6 @@ public sealed record ResourceOptimizationProfile(ResourcePriority Priority, int?
 
 public static class ResourceOptimizationProfileResolver
 {
-	private static readonly int ProcessorCount = Environment.ProcessorCount;
-
 	public static ResourceOptimizationProfile Resolve(SettingsDocument settings)
 	{
         ArgumentNullException.ThrowIfNull(settings);
@@ -57,6 +55,6 @@ public static class ResourceOptimizationProfileResolver
 			return null;
 		}
 
-		return Math.Min(parsed, ProcessorCount);
+		return Math.Min(parsed, CpuTopology.OnlineCpus.Count);
 	}
 }
