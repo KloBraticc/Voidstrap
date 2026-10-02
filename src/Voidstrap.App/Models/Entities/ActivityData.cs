@@ -90,8 +90,6 @@ public class ActivityData
 
 	public DateTimeOffset? ServerStartedUtc { get; set; }
 
-	public bool ServerStartIsLowerBound { get; set; }
-
 	public bool MachineAddressValid
 	{
 		get

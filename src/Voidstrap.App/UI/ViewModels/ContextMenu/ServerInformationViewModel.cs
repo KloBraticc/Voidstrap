@@ -67,8 +67,6 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	private DateTimeOffset? _serverStartedUtc;
 
-	private bool _uptimeIsLowerBound;
-
 	private string? _uptimeJobId;
 
 	private DateTime _nextUptimeFetch = DateTime.MinValue;
@@ -423,7 +421,6 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 	{
 		_uptimeTimer?.Stop();
 		_serverStartedUtc = null;
-		_uptimeIsLowerBound = false;
 		_uptimeJobId = null;
 		_nextUptimeFetch = DateTime.MinValue;
 		Uptime = string.Empty;
@@ -440,7 +437,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 			return;
 		if (data.ServerStartedUtc is DateTimeOffset fromServerLog)
 		{
-			ApplyServerStart(jobId, fromServerLog, data.ServerStartIsLowerBound);
+			ApplyServerStart(jobId, fromServerLog);
 			return;
 		}
 		if (DateTime.UtcNow < _nextUptimeFetch || Interlocked.Exchange(ref _uptimeFetchActive, 1) != 0)
@@ -456,7 +453,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 			}
 			if (lookup.Status != ServerStartStatus.Found || _serverStartedUtc.HasValue)
 				return;
-			ApplyServerStart(jobId, lookup.StartedUtc, false);
+			ApplyServerStart(jobId, lookup.StartedUtc);
 		}
 		catch (OperationCanceledException)
 		{
@@ -471,10 +468,9 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		}
 	}
 
-	private void ApplyServerStart(string jobId, DateTimeOffset started, bool lowerBound)
+	private void ApplyServerStart(string jobId, DateTimeOffset started)
 	{
 		_serverStartedUtc = started;
-		_uptimeIsLowerBound = lowerBound;
 		_uptimeJobId = jobId;
 		UpdateUptimeText();
 		OnPropertyChanged(nameof(UptimeVisibility));
@@ -490,8 +486,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 	{
 		if (_serverStartedUtc is not DateTimeOffset started)
 			return;
-		string elapsed = FormatUptime(DateTimeOffset.UtcNow - started);
-		Uptime = _uptimeIsLowerBound ? "At least " + elapsed : elapsed;
+		Uptime = FormatUptime(DateTimeOffset.UtcNow - started);
 	}
 
 	internal static string FormatUptime(TimeSpan elapsed)

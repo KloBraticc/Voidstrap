@@ -89,11 +89,6 @@ public partial class ActivityWatcher : IDisposable
 		started = value > now ? now : value;
 		return true;
 	}
-
-	internal static bool IsHourlyLogRotation(DateTimeOffset prefixTime)
-	{
-		return prefixTime.Minute * 60 + prefixTime.Second < 120;
-	}
 	[GeneratedRegex("\\[VoidstrapRPC\\] (.*)", RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern6 { get; }
 	[GeneratedRegex("(added|removed): (.*) ([0-9]+)\\s*$", RegexOptions.CultureInvariant)]
@@ -903,6 +898,17 @@ public partial class ActivityWatcher : IDisposable
 		}
 	}
 
+	private void RecordServerPrefix(string entry)
+	{
+		if (!TryParseServerStart(entry, out DateTimeOffset serverStarted))
+		{
+			App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "Server log prefix did not contain a start time: " + entry.Trim());
+			return;
+		}
+		Data.ServerStartedUtc = serverStarted;
+		App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", $"Server {Data.JobId} process started at {serverStarted.UtcDateTime:yyyy'/'MM'/'dd HH:mm:ss} UTC, from the server log prefix");
+	}
+
 	private void ReadLogEntry(string entry)
 	{
 		if (entry.Contains("[FLog::SingleSurfaceApp] leaveUGCGameInternal"))
@@ -916,6 +922,11 @@ public partial class ActivityWatcher : IDisposable
 				ResetData();
 				FrameGeneration.FrameGenManager.OnGameLeave();
 			}
+		}
+		if (Data.PlaceId != 0L && entry.Contains("[FLog::Output] Server Prefix: "))
+		{
+			RecordServerPrefix(entry);
+			return;
 		}
 		if (!InGame && Data.PlaceId == 0L)
 		{
@@ -1019,23 +1030,7 @@ public partial class ActivityWatcher : IDisposable
 			{
 				return;
 			}
-			if (entry.Contains("[FLog::Output] Server Prefix: "))
-			{
-				if (TryParseServerStart(entry, out DateTimeOffset serverStarted))
-				{
-					bool rotation = IsHourlyLogRotation(serverStarted);
-					Data.ServerStartedUtc = serverStarted;
-					Data.ServerStartIsLowerBound = rotation;
-					App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", rotation
-						? $"Server {Data.JobId} log began at {serverStarted.UtcDateTime:yyyy'/'MM'/'dd HH:mm:ss} UTC on the hourly rotation, so it has been up at least since then"
-						: $"Server {Data.JobId} process started at {serverStarted.UtcDateTime:yyyy'/'MM'/'dd HH:mm:ss} UTC, from the server log prefix");
-				}
-				else
-				{
-					App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "Server log prefix did not contain a start time: " + entry.Trim());
-				}
-			}
-			else if (entry.Contains("[FLog::Network] Time to disconnect replication data:"))
+			if (entry.Contains("[FLog::Network] Time to disconnect replication data:"))
 			{
 				App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "Disconnected from Game (" + Data.JobId + ")");
                 RestoreOriginalResolution();
