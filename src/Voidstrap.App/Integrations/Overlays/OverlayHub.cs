@@ -231,7 +231,6 @@ namespace Voidstrap.Integrations.Overlays
 		{
 			if (!Voidstrap.Utility.Platform.IsLinux || (_shutdown && active))
 				return false;
-			Voidstrap.Platform.Linux.LinuxPointerLockAssist.SetActive(active, LogPointerLockAssist);
 			lock (_linuxGameplayLeaseGate)
 			{
 				if (!active && _linuxGameplayLeaseThread == null)
@@ -390,14 +389,8 @@ namespace Voidstrap.Integrations.Overlays
 			}
 		}
 
-		private static void LogPointerLockAssist(string message)
-		{
-			App.Logger?.WriteLine("LinuxPointerLockAssist", message);
-		}
-
 		private static void ShutdownLinuxGameplayLease()
 		{
-			Voidstrap.Platform.Linux.LinuxPointerLockAssist.SetActive(false);
 			Thread? thread;
 			lock (_linuxGameplayLeaseGate)
 			{

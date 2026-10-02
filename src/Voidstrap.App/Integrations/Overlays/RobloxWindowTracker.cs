@@ -448,7 +448,8 @@ namespace Voidstrap.Integrations.Overlays
                 _hwnd = IntPtr.Zero;
                 _pid = 0;
                 if (OverlayHub.InGame
-                    && Voidstrap.Platform.Linux.LinuxPointerLockAssist.IsXWaylandSession
+                    && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"))
+                    && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY"))
                     && Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPrimaryMonitorBounds(out int monitorLeft, out int monitorTop, out int monitorWidth, out int monitorHeight))
                 {
                     bool nativeWindowActive = Voidstrap.Platform.Linux.LinuxWindowInterop.GetActiveTopLevelWindow() == 0;
