@@ -39,7 +39,9 @@ internal static class LinuxWindowMode
 		public object? NativeStateSource;
 		public Delegate? NativeStateHandler;
 		public DispatcherTimer? MinimizedWatch;
+#if CROSSPLAT
 		public bool NativeSeenMinimized;
+#endif
 	}
 
 	private static readonly ConditionalWeakTable<Window, WindowModeState> States = new();
