@@ -232,6 +232,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         private bool _isSelected;
 
+        public bool IsHeader { get; init; }
+
+        public string TitleBefore { get; init; } = "";
+
+        public string TitleMatch { get; init; } = "";
+
+        public string TitleAfter { get; init; } = "";
+
         public string Title { get; init; } = "";
 
         public string Detail { get; init; } = "";
@@ -364,6 +372,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private readonly ObservableCollection<CommandPaletteRow> _commandPaletteRows = new ObservableCollection<CommandPaletteRow>();
 
     private int _commandPaletteSelected = -1;
+
+    private const int CommandPaletteMaxSettings = 30;
+
+    private int _commandPaletteSearchGeneration;
+
+    private int _commandPaletteAppliedGeneration;
+
+    private CancellationTokenSource? _commandPaletteSearchCts;
+
+    private sealed record CommandPalettePage(Type PageType, string Name, SymbolRegular Icon, string Shortcut, Action Open);
+
+    private sealed record CommandPaletteSnapshot(string Query, IReadOnlyList<CommandPalettePage> Pages, IReadOnlyDictionary<Type, string> PageNames, IReadOnlyDictionary<Type, SymbolRegular> PageIcons, TopSearchEntry[] Entries);
 
     private readonly Dictionary<string, (WeakReference<FrameworkElement> Element, bool Visible)> _searchTargetStates = new Dictionary<string, (WeakReference<FrameworkElement>, bool)>(StringComparer.Ordinal);
 
@@ -1288,6 +1308,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 _topSearchEntriesList.Add(entry);
                 _topSearchEntries.Add(entry.DisplayText, entry);
             }
+            _indexedSearchPages.Clear();
+            if (!_isClosed && RootFrame?.Content is Page currentPage && _indexedSearchPages.TryAdd(currentPage, currentPage))
+            {
+                IndexDynamicPageSearchEntries(currentPage);
+            }
+            if (CommandPalettePopup?.IsOpen == true && !CommandPalettePopup.IsClosing)
+            {
+                RefreshCommandPaletteResults();
+            }
         }
         catch (Exception ex)
         {
@@ -1814,74 +1843,242 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void CloseCommandPalette()
     {
+        CancelCommandPaletteSearch();
         if (CommandPalettePopup != null)
         {
             CommandPalettePopup.IsOpen = false;
         }
     }
 
+    private void CancelCommandPaletteSearch()
+    {
+        Interlocked.Increment(ref _commandPaletteSearchGeneration);
+        CancellationTokenSource? cts = _commandPaletteSearchCts;
+        _commandPaletteSearchCts = null;
+        if (cts == null)
+        {
+            return;
+        }
+        cts.Cancel();
+        cts.Dispose();
+    }
+
     private void RefreshCommandPaletteResults()
     {
-        string query = CommandPaletteSearchBox.Text?.Trim() ?? "";
-        _commandPaletteRows.Clear();
-        _commandPaletteSelected = -1;
-        if (query.Length > 0)
+        CancelCommandPaletteSearch();
+        int generation = Volatile.Read(ref _commandPaletteSearchGeneration);
+        CommandPaletteSnapshot snapshot = CaptureCommandPaletteSnapshot();
+        List<CommandPalettePage> pages = MatchCommandPalettePages(snapshot);
+        if (snapshot.Query.Length == 0)
         {
-            string normalizedQuery = NormalizeSearchText(query);
-            Dictionary<Type, string> pageNames = GetSidebarPageNames();
-            Dictionary<Type, SymbolRegular> pageIcons = new Dictionary<Type, SymbolRegular>();
-            List<CommandPaletteRow> pageRows = new List<CommandPaletteRow>();
-            foreach (NavigationItem item in GetNavigationItemsInServiceOrder())
+            ApplyCommandPaletteResults(generation, snapshot, pages, new List<TopSearchEntry>());
+            return;
+        }
+        ApplyCommandPaletteResults(generation, snapshot, pages, null);
+        CancellationTokenSource cts = new CancellationTokenSource();
+        _commandPaletteSearchCts = cts;
+        _ = RankCommandPaletteSettingsAsync(generation, snapshot, pages, cts.Token);
+    }
+
+    private CommandPaletteSnapshot CaptureCommandPaletteSnapshot()
+    {
+        string query = CommandPaletteSearchBox.Text?.Trim() ?? "";
+        Dictionary<Type, string> pageNames = GetSidebarPageNames();
+        Dictionary<Type, SymbolRegular> pageIcons = new Dictionary<Type, SymbolRegular>();
+        List<CommandPalettePage> pages = new List<CommandPalettePage>();
+        foreach (NavigationItem item in GetNavigationItemsInServiceOrder())
+        {
+            if (item.PageType == null || !pageNames.TryGetValue(item.PageType, out string? pageName) || pageIcons.ContainsKey(item.PageType))
             {
-                if (item.PageType == null || !pageNames.TryGetValue(item.PageType, out string? pageName))
-                {
-                    continue;
-                }
-                SymbolRegular icon = item.Icon == SymbolRegular.Empty ? SymbolRegular.Document24 : item.Icon;
-                pageIcons.TryAdd(item.PageType, icon);
-                Type pageType = item.PageType;
-                AddCommandPalettePage(pageRows, pageName, icon, query, () => NavigateTopNav(pageType));
+                continue;
             }
-            AddCommandPalettePage(pageRows, "Library", SymbolRegular.Apps24, query, () => TopNavLibrary_Click(this, new RoutedEventArgs()));
-            foreach (CommandPaletteRow row in pageRows.OrderBy(row => NormalizeSearchText(row.Title).StartsWith(normalizedQuery, StringComparison.Ordinal) ? 0 : 1))
+            SymbolRegular icon = item.Icon == SymbolRegular.Empty ? SymbolRegular.Document24 : item.Icon;
+            pageIcons.Add(item.PageType, icon);
+            Type pageType = item.PageType;
+            pages.Add(new CommandPalettePage(pageType, pageName, icon, GetNavShortcutLabel(pageType), () => NavigateTopNav(pageType)));
+        }
+        pages.Add(new CommandPalettePage(typeof(Page), "Library", SymbolRegular.Apps24, "", () => TopNavLibrary_Click(this, new RoutedEventArgs())));
+        return new CommandPaletteSnapshot(query, pages, pageNames, pageIcons, _topSearchEntriesList.ToArray());
+    }
+
+    private static string GetNavShortcutLabel(Type pageType)
+    {
+        foreach (var shortcut in NavShortcuts)
+        {
+            if (shortcut.Page == pageType)
             {
-                _commandPaletteRows.Add(row);
-            }
-            IEnumerable<TopSearchEntry> settings = _topSearchEntriesList
-                .Where(entry => pageNames.ContainsKey(entry.PageType) && !string.Equals(entry.NormalizedTargetText, NormalizeSearchText(pageNames[entry.PageType]), StringComparison.Ordinal))
-                .Select(entry => (Entry: entry, Score: ScoreTopSearchEntry(entry, query)))
-                .Where(item => item.Score < int.MaxValue)
-                .OrderBy(item => item.Score)
-                .ThenBy(item => item.Entry.DisplayText.Length)
-                .Select(item => item.Entry)
-                .Where(IsSearchEntryShown)
-                .DistinctBy(entry => (entry.PageType, entry.NormalizedTargetText))
-                .Take(30);
-            foreach (TopSearchEntry entry in settings)
-            {
-                TopSearchEntry captured = entry;
-                _commandPaletteRows.Add(new CommandPaletteRow
-                {
-                    Title = entry.TargetText ?? pageNames[entry.PageType],
-                    Detail = pageNames[entry.PageType],
-                    Icon = pageIcons.GetValueOrDefault(entry.PageType, SymbolRegular.Document24),
-                    Open = () => QueueTopSearchNavigation(captured)
-                });
+                return shortcut.Label.Replace("+", " ", StringComparison.Ordinal);
             }
         }
-        CommandPaletteResultsArea.Visibility = query.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
-        CommandPaletteEmpty.Visibility = query.Length > 0 && _commandPaletteRows.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-        CommandPaletteResultsScroll.Visibility = _commandPaletteRows.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+        return "";
+    }
+
+    private static List<CommandPalettePage> MatchCommandPalettePages(CommandPaletteSnapshot snapshot)
+    {
+        if (snapshot.Query.Length == 0)
+        {
+            return snapshot.Pages.ToList();
+        }
+        string normalizedQuery = NormalizeSearchText(snapshot.Query);
+        return snapshot.Pages
+            .Where(page => IsFuzzyMatch(page.Name, snapshot.Query))
+            .OrderBy(page => NormalizeSearchText(page.Name).StartsWith(normalizedQuery, StringComparison.Ordinal) ? 0 : 1)
+            .ToList();
+    }
+
+    private static List<TopSearchEntry> RankCommandPaletteSettings(CommandPaletteSnapshot snapshot, CancellationToken token)
+    {
+        string normalizedQuery = NormalizeSearchText(snapshot.Query);
+        List<(TopSearchEntry Entry, int Score)> scored = new List<(TopSearchEntry, int)>();
+        for (int index = 0; index < snapshot.Entries.Length; index++)
+        {
+            if ((index & 63) == 0)
+            {
+                token.ThrowIfCancellationRequested();
+            }
+            TopSearchEntry entry = snapshot.Entries[index];
+            if (!snapshot.PageNames.TryGetValue(entry.PageType, out string? pageName)
+                || string.Equals(entry.NormalizedTargetText, NormalizeSearchText(pageName), StringComparison.Ordinal))
+            {
+                continue;
+            }
+            int score = ScoreTopSearchEntry(entry, normalizedQuery);
+            if (score < int.MaxValue)
+            {
+                scored.Add((entry, score));
+            }
+        }
+        token.ThrowIfCancellationRequested();
+        return scored
+            .OrderBy(item => item.Score)
+            .ThenBy(item => item.Entry.DisplayText.Length)
+            .Select(item => item.Entry)
+            .Take(CommandPaletteMaxSettings * 4)
+            .ToList();
+    }
+
+    private async Task RankCommandPaletteSettingsAsync(int generation, CommandPaletteSnapshot snapshot, List<CommandPalettePage> pages, CancellationToken token)
+    {
+        List<TopSearchEntry> ranked;
+        try
+        {
+            ranked = await Task.Run(() => RankCommandPaletteSettings(snapshot, token), token);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MainWindow::Search", "Could not rank search results: " + ex.Message);
+            return;
+        }
+        if (_isClosed || token.IsCancellationRequested || generation != Volatile.Read(ref _commandPaletteSearchGeneration) || !CommandPalettePopup.IsOpen)
+        {
+            return;
+        }
+        ApplyCommandPaletteResults(generation, snapshot, pages, ranked);
+    }
+
+    private void ApplyCommandPaletteResults(int generation, CommandPaletteSnapshot snapshot, List<CommandPalettePage> pages, List<TopSearchEntry>? rankedSettings)
+    {
+        CommandPaletteRow? previous = _commandPaletteSelected >= 0 && _commandPaletteSelected < _commandPaletteRows.Count ? _commandPaletteRows[_commandPaletteSelected] : null;
+        string? keepTitle = rankedSettings != null && previous != null && !previous.IsHeader ? previous.Title + "\n" + previous.Detail : null;
+        _commandPaletteRows.Clear();
+        _commandPaletteSelected = -1;
+        int results = 0;
+        if (pages.Count > 0)
+        {
+            _commandPaletteRows.Add(new CommandPaletteRow { IsHeader = true, Title = snapshot.Query.Length == 0 ? "Jump to" : "Pages" });
+            foreach (CommandPalettePage page in pages)
+            {
+                _commandPaletteRows.Add(CreateCommandPaletteRow(page.Name, page.Shortcut, page.Icon, snapshot.Query, page.Open));
+                results++;
+            }
+        }
+        if (rankedSettings != null && rankedSettings.Count > 0)
+        {
+            List<TopSearchEntry> shown = rankedSettings
+                .Where(IsSearchEntryShown)
+                .DistinctBy(entry => (entry.PageType, entry.NormalizedTargetText))
+                .Take(CommandPaletteMaxSettings)
+                .ToList();
+            if (shown.Count > 0)
+            {
+                _commandPaletteRows.Add(new CommandPaletteRow { IsHeader = true, Title = "Settings" });
+                foreach (TopSearchEntry entry in shown)
+                {
+                    TopSearchEntry captured = entry;
+                    string pageName = snapshot.PageNames.GetValueOrDefault(entry.PageType, "");
+                    _commandPaletteRows.Add(CreateCommandPaletteRow(entry.TargetText ?? pageName, pageName, snapshot.PageIcons.GetValueOrDefault(entry.PageType, SymbolRegular.Document24), snapshot.Query, () => QueueTopSearchNavigation(captured)));
+                    results++;
+                }
+            }
+        }
+        if (rankedSettings != null)
+        {
+            _commandPaletteAppliedGeneration = generation;
+        }
+        bool searching = rankedSettings == null && snapshot.Query.Length > 0;
+        CommandPaletteEmpty.Visibility = !searching && results == 0 ? Visibility.Visible : Visibility.Collapsed;
+        CommandPaletteEmptyText.Text = "No results for \u201C" + snapshot.Query + "\u201D";
+        CommandPaletteResultsScroll.Visibility = results == 0 ? Visibility.Collapsed : Visibility.Visible;
+        CommandPaletteCount.Text = snapshot.Query.Length == 0 ? "" : searching ? "Searching" : results == 1 ? "1 result" : results + " results";
+        int keep = keepTitle == null ? -1 : _commandPaletteRows.ToList().FindIndex(row => !row.IsHeader && row.Title + "\n" + row.Detail == keepTitle);
+        if (keep >= 0)
+        {
+            SelectCommandPaletteRow(keep);
+            return;
+        }
         CommandPaletteResultsScroll.ScrollToTop();
         MoveCommandPaletteSelection(1);
     }
 
-    private static void AddCommandPalettePage(List<CommandPaletteRow> rows, string title, SymbolRegular icon, string query, Action open)
+    private static CommandPaletteRow CreateCommandPaletteRow(string title, string detail, SymbolRegular icon, string query, Action open)
     {
-        if (IsFuzzyMatch(title, query))
+        (string before, string match, string after) = SplitCommandPaletteMatch(title, query);
+        return new CommandPaletteRow { Title = title, TitleBefore = before, TitleMatch = match, TitleAfter = after, Detail = detail, Icon = icon, Open = open };
+    }
+
+    internal static (string Before, string Match, string After) SplitCommandPaletteMatch(string title, string query)
+    {
+        string trimmed = query.Trim();
+        if (title.Length == 0 || trimmed.Length == 0)
         {
-            rows.Add(new CommandPaletteRow { Title = title, Icon = icon, Open = open });
+            return (title, "", "");
         }
+        int position = FindCommandPaletteMatch(title, trimmed);
+        int length = trimmed.Length;
+        if (position < 0)
+        {
+            foreach (string term in trimmed.Split(' ', StringSplitOptions.RemoveEmptyEntries).OrderByDescending(term => term.Length))
+            {
+                position = FindCommandPaletteMatch(title, term);
+                if (position >= 0)
+                {
+                    length = term.Length;
+                    break;
+                }
+            }
+        }
+        if (position < 0)
+        {
+            return (title, "", "");
+        }
+        return (title[..position], title.Substring(position, length), title[(position + length)..]);
+    }
+
+    private static int FindCommandPaletteMatch(string title, string term)
+    {
+        int first = title.IndexOf(term, StringComparison.OrdinalIgnoreCase);
+        for (int position = first; position >= 0; position = title.IndexOf(term, position + 1, StringComparison.OrdinalIgnoreCase))
+        {
+            if (position == 0 || !char.IsLetterOrDigit(title[position - 1]) || (char.IsUpper(title[position]) && char.IsLower(title[position - 1])))
+            {
+                return position;
+            }
+        }
+        return first;
     }
 
     private void CommandPaletteSearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -1895,31 +2092,94 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void CommandPaletteSearchBox_PreviewKeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key == Key.Down)
+        switch (e.Key)
         {
+        case Key.Down:
             MoveCommandPaletteSelection(1);
             e.Handled = true;
-        }
-        else if (e.Key == Key.Up)
-        {
+            break;
+        case Key.Up:
             MoveCommandPaletteSelection(-1);
             e.Handled = true;
-        }
-        else if (e.Key == Key.Enter)
-        {
+            break;
+        case Key.Tab:
+            MoveCommandPaletteSelection(Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) ? -1 : 1);
+            e.Handled = true;
+            break;
+        case Key.PageDown:
+            MoveCommandPaletteSelection(8);
+            e.Handled = true;
+            break;
+        case Key.PageUp:
+            MoveCommandPaletteSelection(-8);
+            e.Handled = true;
+            break;
+        case Key.Enter:
             OpenSelectedCommandPaletteRow();
             e.Handled = true;
+            break;
         }
     }
 
     private void MoveCommandPaletteSelection(int direction)
     {
         int count = _commandPaletteRows.Count;
-        if (count == 0)
+        if (count == 0 || direction == 0)
         {
             return;
         }
-        SelectCommandPaletteRow(((_commandPaletteSelected + direction) % count + count) % count);
+        int step = Math.Sign(direction);
+        if (Math.Abs(direction) == 1)
+        {
+            int index = _commandPaletteSelected;
+            for (int tries = 0; tries < count; tries++)
+            {
+                index = ((index + step) % count + count) % count;
+                if (!_commandPaletteRows[index].IsHeader)
+                {
+                    SelectCommandPaletteRow(index);
+                    return;
+                }
+            }
+            return;
+        }
+        int target = Math.Clamp((_commandPaletteSelected < 0 ? 0 : _commandPaletteSelected) + direction, 0, count - 1);
+        while (target >= 0 && target < count && _commandPaletteRows[target].IsHeader)
+        {
+            target += step;
+        }
+        if (target < 0 || target >= count)
+        {
+            target = step > 0 ? LastSelectableCommandPaletteRow() : FirstSelectableCommandPaletteRow();
+        }
+        if (target >= 0)
+        {
+            SelectCommandPaletteRow(target);
+        }
+    }
+
+    private int FirstSelectableCommandPaletteRow()
+    {
+        for (int index = 0; index < _commandPaletteRows.Count; index++)
+        {
+            if (!_commandPaletteRows[index].IsHeader)
+            {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    private int LastSelectableCommandPaletteRow()
+    {
+        for (int index = _commandPaletteRows.Count - 1; index >= 0; index--)
+        {
+            if (!_commandPaletteRows[index].IsHeader)
+            {
+                return index;
+            }
+        }
+        return -1;
     }
 
     private void SelectCommandPaletteRow(int index)
@@ -1929,19 +2189,32 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _commandPaletteRows[_commandPaletteSelected].IsSelected = false;
         }
         _commandPaletteSelected = index;
-        if (index < 0 || index >= _commandPaletteRows.Count)
+        if (index < 0 || index >= _commandPaletteRows.Count || _commandPaletteRows[index].IsHeader)
         {
+            _commandPaletteSelected = -1;
             return;
         }
         _commandPaletteRows[index].IsSelected = true;
+        int reveal = index > 0 && _commandPaletteRows[index - 1].IsHeader ? index - 1 : index;
         if (CommandPaletteResultsList.ItemContainerGenerator.ContainerFromIndex(index) is FrameworkElement container)
         {
             container.BringIntoView();
+        }
+        if (reveal != index && CommandPaletteResultsList.ItemContainerGenerator.ContainerFromIndex(reveal) is FrameworkElement header)
+        {
+            header.BringIntoView();
         }
     }
 
     private void OpenSelectedCommandPaletteRow()
     {
+        if (_commandPaletteAppliedGeneration != Volatile.Read(ref _commandPaletteSearchGeneration) && CommandPaletteSearchBox.Text.Trim().Length > 0)
+        {
+            CancelCommandPaletteSearch();
+            int generation = Volatile.Read(ref _commandPaletteSearchGeneration);
+            CommandPaletteSnapshot snapshot = CaptureCommandPaletteSnapshot();
+            ApplyCommandPaletteResults(generation, snapshot, MatchCommandPalettePages(snapshot), RankCommandPaletteSettings(snapshot, CancellationToken.None));
+        }
         if (_commandPaletteSelected < 0 || _commandPaletteSelected >= _commandPaletteRows.Count)
         {
             return;
@@ -1957,7 +2230,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void CommandPaletteRow_MouseEnter(object sender, MouseEventArgs e)
     {
-        if (sender is FrameworkElement { DataContext: CommandPaletteRow row })
+        if (sender is FrameworkElement { DataContext: CommandPaletteRow row } && !row.IsHeader)
         {
             int index = _commandPaletteRows.IndexOf(row);
             if (index >= 0 && index != _commandPaletteSelected)
@@ -1969,10 +2242,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void CommandPaletteRow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (sender is FrameworkElement { DataContext: CommandPaletteRow row })
+        if (sender is FrameworkElement { DataContext: CommandPaletteRow row } && !row.IsHeader)
         {
-            SelectCommandPaletteRow(_commandPaletteRows.IndexOf(row));
-            OpenSelectedCommandPaletteRow();
+            int index = _commandPaletteRows.IndexOf(row);
+            if (index < 0)
+            {
+                return;
+            }
+            SelectCommandPaletteRow(index);
+            Action? open = row.Open;
+            if (open == null)
+            {
+                return;
+            }
+            CloseCommandPalette();
+            open();
         }
     }
 
@@ -2424,9 +2708,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         flashTimer.Start();
     }
 
-	private static int ScoreTopSearchEntry(TopSearchEntry entry, string query)
+	private static int ScoreTopSearchEntry(TopSearchEntry entry, string normalizedQuery)
 	{
-		string normalizedQuery = NormalizeSearchText(query);
 		if (normalizedQuery.Length == 0)
 		{
 			return 0;
@@ -2448,7 +2731,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 		{
 			return 20 + Math.Min(position, 20);
 		}
-		return IsFuzzyMatch(entry.SearchText, query) ? 100 + Math.Abs(entry.NormalizedTargetText.Length - normalizedQuery.Length) : int.MaxValue;
+		return IsFuzzyMatch(entry.SearchText, normalizedQuery) ? 100 + Math.Abs(entry.NormalizedTargetText.Length - normalizedQuery.Length) : int.MaxValue;
 	}
 
 	private static string NormalizeSearchText(string value)
@@ -4455,6 +4738,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         else if (ReferenceEquals(sender, CommandPalettePopup))
         {
+            CancelCommandPaletteSearch();
             CommandPaletteSearchBox.Text = "";
             _commandPaletteRows.Clear();
             _commandPaletteSelected = -1;
