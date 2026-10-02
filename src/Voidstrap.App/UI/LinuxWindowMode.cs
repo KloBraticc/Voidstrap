@@ -36,11 +36,20 @@ internal static class LinuxWindowMode
 		public int FullscreenWidth;
 		public int FullscreenHeight;
 		public readonly List<(TitleBar TitleBar, Visibility Visibility)> TitleBars = [];
+		public object? NativeStateSource;
+		public Delegate? NativeStateHandler;
+		public DispatcherTimer? MinimizedWatch;
+		public bool NativeSeenMinimized;
 	}
 
 	private static readonly ConditionalWeakTable<Window, WindowModeState> States = new();
 
 	private const long MinimizeSettleMilliseconds = 1000;
+
+	private const long MinimizeWatchGraceMilliseconds = 3000;
+
+	private static readonly System.ComponentModel.DependencyPropertyDescriptor? WindowStateDescriptor =
+		System.ComponentModel.DependencyPropertyDescriptor.FromProperty(Window.WindowStateProperty, typeof(Window));
 
 	public static void Attach(Window window)
 	{
@@ -54,6 +63,18 @@ internal static class LinuxWindowMode
 		window.StateChanged += OnStateChanged;
 		window.SizeChanged += OnSizeChanged;
 		window.Closed += OnClosed;
+		WindowStateDescriptor?.AddValueChanged(window, OnWindowStateValueChanged);
+	}
+
+	private static void OnWindowStateValueChanged(object? sender, EventArgs e)
+	{
+		if (sender is not Window window || !States.TryGetValue(window, out WindowModeState? state))
+			return;
+		HookNativeState(window);
+		if (window.WindowState != System.Windows.WindowState.Minimized)
+			return;
+		state.MinimizeRequestedAt = Environment.TickCount64;
+		StartMinimizedWatch(window, state);
 	}
 
 	public static bool IsManaged(Window window)
@@ -159,6 +180,8 @@ internal static class LinuxWindowMode
 
 	private static void OnActivated(object? sender, EventArgs e)
 	{
+		if (sender is Window hooked)
+			HookNativeState(hooked);
 		if (sender is Window activated && !activated.IsKeyboardFocusWithin)
 			Keyboard.Focus(activated);
 		if (sender is not Window window
@@ -222,6 +245,7 @@ internal static class LinuxWindowMode
 		if (sender is not Window window)
 			return;
 		ApplySizeLimits(window);
+		HookNativeState(window);
 		RequestMaximizeSynchronization(window);
 	}
 
@@ -274,10 +298,141 @@ internal static class LinuxWindowMode
 	{
 		if (sender is not Window window)
 			return;
+		HookNativeState(window);
 		if (window.WindowState == System.Windows.WindowState.Minimized && States.TryGetValue(window, out WindowModeState? state))
+		{
 			state.MinimizeRequestedAt = Environment.TickCount64;
+			StartMinimizedWatch(window, state);
+		}
 		if (!IsFullscreen(window))
 			RequestMaximizeSynchronization(window);
+	}
+
+	private static void HookNativeState(Window window)
+	{
+#if CROSSPLAT
+		if (!States.TryGetValue(window, out WindowModeState? state) || state.NativeStateSource is not null)
+			return;
+		try
+		{
+			if (!System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(window, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host)
+				|| host?.SilkWindow is not { } silk)
+				return;
+			Action<Silk.NET.Windowing.WindowState> handler = nativeState =>
+			{
+				if (window.Dispatcher.HasShutdownStarted)
+					return;
+				window.Dispatcher.BeginInvoke(new Action(() => SyncFromNative(window, nativeState)));
+			};
+			silk.StateChanged += handler;
+			state.NativeStateSource = silk;
+			state.NativeStateHandler = handler;
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxWindowMode", "The native window state could not be followed for " + window.Title + ": " + ex.Message);
+		}
+#endif
+	}
+
+#if CROSSPLAT
+	private static void SyncFromNative(Window window, Silk.NET.Windowing.WindowState nativeState)
+	{
+		if (!States.TryGetValue(window, out WindowModeState? state) || !window.IsVisible)
+			return;
+		if (nativeState == Silk.NET.Windowing.WindowState.Minimized)
+		{
+			state.NativeSeenMinimized = true;
+			if (window.WindowState != System.Windows.WindowState.Minimized && !state.Fullscreen)
+			{
+				state.ApplyingManagedState = true;
+				try
+				{
+					window.WindowState = System.Windows.WindowState.Minimized;
+				}
+				finally
+				{
+					state.ApplyingManagedState = false;
+				}
+			}
+			return;
+		}
+		if (window.WindowState != System.Windows.WindowState.Minimized)
+			return;
+		RestoreFromNative(window, state, nativeState == Silk.NET.Windowing.WindowState.Maximized);
+	}
+
+	private static void RestoreFromNative(Window window, WindowModeState state, bool maximized)
+	{
+		StopMinimizedWatch(state);
+		state.NativeSeenMinimized = false;
+		nint nativeWindow = ResolveNativeWindow(window);
+		if (!maximized && nativeWindow != 0)
+			maximized = IsMaximizedSurface(nativeWindow);
+		state.ApplyingManagedState = true;
+		try
+		{
+			window.WindowState = maximized ? System.Windows.WindowState.Maximized : System.Windows.WindowState.Normal;
+		}
+		finally
+		{
+			state.ApplyingManagedState = false;
+		}
+		LinuxTitleBar.RefreshMaximized(window, maximized);
+		RoundedWindowChrome.Refresh(window);
+		window.UpdateLayout();
+		window.InvalidateVisual();
+		App.Logger?.WriteLine("LinuxWindowMode", window.Title + " was restored from outside Voidstrap, drawing resumed");
+	}
+#endif
+
+	private static void StartMinimizedWatch(Window window, WindowModeState state)
+	{
+#if CROSSPLAT
+		if (state.MinimizedWatch is not null)
+			return;
+		state.NativeSeenMinimized = false;
+		DispatcherTimer timer = new(DispatcherPriority.Background, window.Dispatcher) { Interval = TimeSpan.FromMilliseconds(250) };
+		timer.Tick += (_, _) =>
+		{
+			if (window.WindowState != System.Windows.WindowState.Minimized || !States.TryGetValue(window, out WindowModeState? current))
+			{
+				StopMinimizedWatch(state);
+				return;
+			}
+			HookNativeState(window);
+			if (!System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(window, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host)
+				|| host?.SilkWindow is not { } silk)
+				return;
+			Silk.NET.Windowing.WindowState nativeState;
+			try
+			{
+				nativeState = silk.WindowState;
+			}
+			catch (Exception)
+			{
+				return;
+			}
+			if (nativeState == Silk.NET.Windowing.WindowState.Minimized)
+			{
+				current.NativeSeenMinimized = true;
+				return;
+			}
+			if (current.NativeSeenMinimized || Environment.TickCount64 - current.MinimizeRequestedAt > MinimizeWatchGraceMilliseconds)
+				RestoreFromNative(window, current, nativeState == Silk.NET.Windowing.WindowState.Maximized);
+		};
+		state.MinimizedWatch = timer;
+		timer.Start();
+#endif
+	}
+
+	private static void StopMinimizedWatch(WindowModeState state)
+	{
+		DispatcherTimer? timer = state.MinimizedWatch;
+		if (timer is null)
+			return;
+		state.MinimizedWatch = null;
+		timer.Stop();
 	}
 
 	private static void RequestMaximizeSynchronization(Window window)
@@ -775,6 +930,25 @@ internal static class LinuxWindowMode
 		window.StateChanged -= OnStateChanged;
 		window.SizeChanged -= OnSizeChanged;
 		window.Closed -= OnClosed;
+		WindowStateDescriptor?.RemoveValueChanged(window, OnWindowStateValueChanged);
+		if (state is not null)
+		{
+			StopMinimizedWatch(state);
+#if CROSSPLAT
+			if (state.NativeStateSource is Silk.NET.Windowing.IWindow silk && state.NativeStateHandler is Action<Silk.NET.Windowing.WindowState> handler)
+			{
+				try
+				{
+					silk.StateChanged -= handler;
+				}
+				catch (Exception)
+				{
+				}
+			}
+#endif
+			state.NativeStateSource = null;
+			state.NativeStateHandler = null;
+		}
 		States.Remove(window);
 	}
 }

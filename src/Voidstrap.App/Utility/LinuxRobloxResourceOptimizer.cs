@@ -42,6 +42,8 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 
 	private long _unfocusedSince;
 
+	private bool _foregroundLimitExplained;
+
 	private bool _trimmed;
 
 	private string? _lastFailure;
@@ -103,9 +105,14 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 		AppSettings settings = App.Settings.Prop;
 		bool focused = IsFocused();
 		int weight = ResolveWeight(settings, focused);
-		string memoryHigh = settings.RobloxMemoryLimitEnabled
+		string memoryHigh = settings.RobloxMemoryLimitEnabled && !focused
 			? RobloxMemoryLimit.Clamp(settings.RobloxMemoryLimitMb) + "M"
 			: NoMemoryLimit;
+		if (settings.RobloxMemoryLimitEnabled && focused && !_foregroundLimitExplained)
+		{
+			_foregroundLimitExplained = true;
+			App.Logger.WriteLine(LogIdent, "The Roblox memory limit only applies while Sober is in the background, a Linux memory cap makes the kernel stall the game when it gets close");
+		}
 		List<string> assignments = new List<string>();
 		if (_appliedWeight != weight)
 		{

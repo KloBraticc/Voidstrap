@@ -8,6 +8,8 @@ public static partial class LinuxPointerLockAssist
 	private const int XIAllMasterDevices = 1;
 	private const int XIRawButtonPress = 15;
 	private const int XIRawButtonRelease = 16;
+	private const int XIRawMotion = 17;
+	private const long HoldCheckInterval = 8;
 	private const int XFixesCursorNotify = 1;
 	private const ulong XFixesDisplayCursorNotifyMask = 1;
 	private const int RightButton = 3;
@@ -60,6 +62,16 @@ public static partial class LinuxPointerLockAssist
 		public bool CursorBlank;
 		public int RightClickEngagements;
 		public int HiddenCursorEngagements;
+		public int Locks;
+		public bool Holding;
+		public int AnchorX;
+		public int AnchorY;
+		public int Left;
+		public int Top;
+		public int Width;
+		public int Height;
+		public long LastHoldCheck;
+		public int Recenters;
 	}
 
 	private static void Run(object? state)
@@ -89,7 +101,7 @@ public static partial class LinuxPointerLockAssist
 			maskBuffer = Marshal.AllocHGlobal(3);
 			Marshal.WriteByte(maskBuffer, 0, 0);
 			Marshal.WriteByte(maskBuffer, 1, (byte)(1 << (XIRawButtonPress & 7)));
-			Marshal.WriteByte(maskBuffer, 2, (byte)(1 << (XIRawButtonRelease & 7)));
+			Marshal.WriteByte(maskBuffer, 2, (byte)((1 << (XIRawButtonRelease & 7)) | (1 << (XIRawMotion & 7))));
 			XIEventMask mask = new() { DeviceId = XIAllMasterDevices, MaskLength = 3, Mask = maskBuffer };
 			if (XISelectEvents(display, session.Root, ref mask, 1) != 0)
 				return;
@@ -130,6 +142,12 @@ public static partial class LinuxPointerLockAssist
 				try
 				{
 					int eventType = Marshal.ReadInt32(eventBuffer, 36);
+					if (eventType == XIRawMotion)
+					{
+						KeepInside(session);
+						continue;
+					}
+
 					nint data = Marshal.ReadIntPtr(eventBuffer, 48);
 					if (data == 0 || Marshal.ReadInt32(data, 56) != RightButton)
 						continue;
@@ -180,13 +198,15 @@ public static partial class LinuxPointerLockAssist
 			int total = session.RightClickEngagements + session.HiddenCursorEngagements;
 			if (total > 0)
 				_log?.Invoke("Camera lock assist stopped after locking the cursor " + total + " times, "
-					+ session.RightClickEngagements + " for right click and " + session.HiddenCursorEngagements + " for a hidden Sober cursor");
+					+ session.RightClickEngagements + " for right click and " + session.HiddenCursorEngagements + " for a hidden Sober cursor, "
+					+ session.Locks + " held inside the window");
 		}
 	}
 
 	private static void Evaluate(Session session)
 	{
-		bool focused = IsSoberFocused();
+		nint sober = FindFocusedSober();
+		bool focused = sober != 0;
 		bool blank = focused && IsCurrentCursorBlank(session);
 		bool wanted = focused && (session.RightHeld || blank);
 		if (wanted == session.Hidden)
@@ -195,6 +215,13 @@ public static partial class LinuxPointerLockAssist
 		SetHidden(session, wanted);
 		if (!wanted)
 			return;
+
+		if (LockInPlace(session, sober))
+		{
+			session.Locks++;
+			if (session.Locks <= LoggedEngagements)
+				_log?.Invoke("Locked the cursor inside Sober so it cannot drift out of the window while the camera turns (" + session.Locks + ")");
+		}
 
 		int count;
 		string reason;
@@ -215,6 +242,8 @@ public static partial class LinuxPointerLockAssist
 
 	private static void SetHidden(Session session, bool hidden)
 	{
+		if (!hidden)
+			session.Holding = false;
 		if (hidden)
 			XFixesHideCursor(session.Display, session.Root);
 		else
@@ -261,14 +290,73 @@ public static partial class LinuxPointerLockAssist
 			&& (buttons & Button3Mask) != 0;
 	}
 
-	private static bool IsSoberFocused()
+	private static nint FindFocusedSober()
 	{
 		nint active = LinuxWindowInterop.GetActiveTopLevelWindow();
 		if (active != 0 && LinuxWindowInterop.IsSoberRuntimeWindow(active))
-			return true;
+			return active;
 
 		nint focused = LinuxWindowInterop.GetFocusedWindow();
-		return focused != 0 && LinuxWindowInterop.IsSoberRuntimeWindow(focused);
+		return focused != 0 && LinuxWindowInterop.IsSoberRuntimeWindow(focused) ? focused : 0;
+	}
+
+	private static bool LockInPlace(Session session, nint sober)
+	{
+		_ = XSync(session.Display, 0);
+		if (XQueryPointer(session.Display, session.Root, out _, out nint child, out int rootX, out int rootY, out _, out _, out _) == 0 || child == 0)
+			return false;
+
+		if (!LinuxWindowInterop.IsSameOrDescendantWindow(sober, child) && !LinuxWindowInterop.IsSameOrDescendantWindow(child, sober))
+			return false;
+
+		_ = XWarpPointer(session.Display, 0, session.Root, 0, 0, 0, 0, rootX, rootY);
+		_ = XFlush(session.Display);
+		if (LinuxWindowInterop.TryGetWindowGeometry(sober, out int left, out int top, out int width, out int height))
+		{
+			session.Holding = true;
+			session.AnchorX = rootX;
+			session.AnchorY = rootY;
+			session.Left = left;
+			session.Top = top;
+			session.Width = width;
+			session.Height = height;
+		}
+		return true;
+	}
+
+	private static void KeepInside(Session session)
+	{
+		if (!session.Holding || !session.Hidden)
+			return;
+
+		long now = Environment.TickCount64;
+		if (now - session.LastHoldCheck < HoldCheckInterval)
+			return;
+		session.LastHoldCheck = now;
+
+		if (XQueryPointer(session.Display, session.Root, out _, out _, out int x, out int y, out _, out _, out _) == 0)
+			return;
+
+		int margin = Math.Max(8, Math.Min(64, Math.Min(session.Width, session.Height) / 4));
+		if (IsInside(session, x, y, margin))
+			return;
+
+		bool anchorSafe = IsInside(session, session.AnchorX, session.AnchorY, margin * 2);
+		int targetX = anchorSafe ? session.AnchorX : session.Left + session.Width / 2;
+		int targetY = anchorSafe ? session.AnchorY : session.Top + session.Height / 2;
+		_ = XWarpPointer(session.Display, 0, session.Root, 0, 0, 0, 0, targetX, targetY);
+		_ = XFlush(session.Display);
+		session.Recenters++;
+		if (session.Recenters <= LoggedEngagements)
+			_log?.Invoke("Kept the hidden cursor inside Sober while the camera turned (" + session.Recenters + ")");
+	}
+
+	private static bool IsInside(Session session, int x, int y, int margin)
+	{
+		return x >= session.Left + margin
+			&& y >= session.Top + margin
+			&& x < session.Left + session.Width - margin
+			&& y < session.Top + session.Height - margin;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -301,6 +389,12 @@ public static partial class LinuxPointerLockAssist
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XFlush(nint display);
+
+	[LibraryImport("libX11.so.6")]
+	private static partial int XSync(nint display, int discard);
+
+	[LibraryImport("libX11.so.6")]
+	private static partial int XWarpPointer(nint display, nint sourceWindow, nint destinationWindow, int sourceX, int sourceY, uint sourceWidth, uint sourceHeight, int destinationX, int destinationY);
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XFree(nint data);
