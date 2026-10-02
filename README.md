@@ -169,7 +169,16 @@ In Voidstrap, open **Settings**, turn on **Use root**, and allow Voidstrap in yo
 
 ### Gentoo Linux
 
-Voidstrap is packaged for Gentoo in the [Voidstrap overlay](https://github.com/Pedrodroks34/voidstrap-overlay), maintained by [@Pedrodroks34](https://github.com/Pedrodroks34). It builds the latest code from the `main` branch and needs an amd64 system on a Gentoo desktop profile. Run these commands as root:
+Voidstrap is packaged for Gentoo in the [Voidstrap overlay](https://github.com/Pedrodroks34/voidstrap-overlay), maintained by [@Pedrodroks34](https://github.com/Pedrodroks34).
+
+The overlay provides two ebuilds:
+
+- `games-action/voidstrap`: builds the latest stable release from source.
+- `games-action/voidstrap-9999`: builds the latest code from the upstream `main` branch.
+
+The versioned package is recommended for normal installations. The `9999` live ebuild is only needed if you want to test the latest development code; it is **not required** for installing Voidstrap.
+
+Run these commands as root:
 
 1. Add the overlay:
 
@@ -179,14 +188,15 @@ Voidstrap is packaged for Gentoo in the [Voidstrap overlay](https://github.com/P
    emaint sync --repo Voidstrap-Overlay
    ```
 
-2. Allow the live package and the .NET SDK it is built with:
+2. Allow Voidstrap and its .NET SDK dependency:
 
    ```bash
    mkdir -p /etc/portage/package.accept_keywords
-   printf '%s\n' 'games-action/voidstrap **' 'dev-dotnet/dotnet-sdk-bin ~amd64' > /etc/portage/package.accept_keywords/voidstrap
+   echo 'games-action/voidstrap ~amd64' > /etc/portage/package.accept_keywords/voidstrap
+   echo 'dev-dotnet/dotnet-sdk-bin ~amd64' > /etc/portage/package.accept_keywords/dotnet-sdk-bin
    ```
 
-   If `/etc/portage/package.accept_keywords` is a file on your system, add those two lines to it instead.
+   If `/etc/portage/package.accept_keywords` is a file on your system, add both lines to that file instead.
 
 3. Build and install Voidstrap:
 
@@ -194,7 +204,25 @@ Voidstrap is packaged for Gentoo in the [Voidstrap overlay](https://github.com/P
    emerge --ask games-action/voidstrap
    ```
 
-To update to the latest code, run step 3 again.
+To update to a newer stable release, sync the overlay and run step 3 again:
+
+```bash
+emaint sync --repo Voidstrap-Overlay
+emerge --ask games-action/voidstrap
+```
+
+#### Live version
+
+The `games-action/voidstrap-9999` ebuild tracks the upstream `main` branch. It is intended for testing the latest development changes and is **not necessary for normal installation**.
+
+To use the live version:
+
+```bash
+echo 'games-action/voidstrap **' > /etc/portage/package.accept_keywords/voidstrap
+emerge --ask =games-action/voidstrap-9999
+```
+
+The live ebuild may contain unreleased changes and can require newer dependencies than the latest stable release.
 
 ## Built With
 
