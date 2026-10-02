@@ -63,21 +63,19 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	private string _serverLocation = Strings.Common_Loading;
 
-	private const string DefaultUptimeToolTip = "How long this Roblox server has been running, from the time Roblox started it";
-
 	private readonly DispatcherTimer? _uptimeTimer;
 
 	private DateTimeOffset? _serverStartedUtc;
 
+	private bool _uptimeIsLowerBound;
+
 	private string? _uptimeJobId;
 
-	private DateTime _lastUptimeFetch = DateTime.MinValue;
+	private DateTime _nextUptimeFetch = DateTime.MinValue;
 
 	private int _uptimeFetchActive;
 
-	private string _uptime = Strings.Common_Loading;
-
-	private string _uptimeToolTip = DefaultUptimeToolTip;
+	private string _uptime = string.Empty;
 
 	public string InstanceId => _activityWatcher?.Data?.JobId ?? Strings.Common_NotAvailable;
 
@@ -286,21 +284,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		}
 	}
 
-	public string UptimeToolTip
-	{
-		get
-		{
-			return _uptimeToolTip;
-		}
-		private set
-		{
-			if (_uptimeToolTip != value)
-			{
-				_uptimeToolTip = value;
-				OnPropertyChanged(nameof(UptimeToolTip));
-			}
-		}
-	}
+	public Visibility UptimeVisibility => _serverStartedUtc.HasValue ? Visibility.Visible : Visibility.Collapsed;
 
 	public ICommand CopyInstanceIdCommand { get; }
 
@@ -411,7 +395,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		{
 			ServerLocation = Strings.Common_NotAvailable;
 		}
-		ResetUptime(Strings.Common_Loading);
+		ResetUptime();
 		await Task.WhenAll(FetchUsernameAsync(), FetchGameInfoAsync(), RefreshPlayerCountAsync(), RefreshFriendsInServerAsync(), RefreshServerUptimeAsync());
 	}
 
@@ -430,69 +414,49 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		Username = Strings.Common_NotAvailable;
 		PlayerCount = Strings.Common_NotAvailable;
 		ServerLocation = Strings.Common_NotAvailable;
-		ResetUptime(Strings.Common_NotAvailable);
+		ResetUptime();
 		OnPropertyChanged(nameof(InstanceId));
 		OnPropertyChanged(nameof(ServerType));
 	}
 
-	private void ResetUptime(string text)
+	private void ResetUptime()
 	{
 		_uptimeTimer?.Stop();
 		_serverStartedUtc = null;
+		_uptimeIsLowerBound = false;
 		_uptimeJobId = null;
-		_lastUptimeFetch = DateTime.MinValue;
-		Uptime = text;
-		UptimeToolTip = DefaultUptimeToolTip;
+		_nextUptimeFetch = DateTime.MinValue;
+		Uptime = string.Empty;
+		OnPropertyChanged(nameof(UptimeVisibility));
 	}
 
 	private async Task RefreshServerUptimeAsync()
 	{
 		ActivityData? data = _activityWatcher.Data;
 		if (data == null || data.PlaceId <= 0 || string.IsNullOrEmpty(data.JobId) || !_activityWatcher.InGame)
-		{
-			if (_serverStartedUtc == null)
-				Uptime = Strings.Common_NotAvailable;
 			return;
-		}
 		string jobId = data.JobId;
 		if (_serverStartedUtc.HasValue && string.Equals(_uptimeJobId, jobId, StringComparison.Ordinal))
 			return;
-		if ((DateTime.UtcNow - _lastUptimeFetch).TotalSeconds < 30.0 || Interlocked.Exchange(ref _uptimeFetchActive, 1) != 0)
+		if (data.ServerStartedUtc is DateTimeOffset fromServerLog)
+		{
+			ApplyServerStart(jobId, fromServerLog, data.ServerStartIsLowerBound);
 			return;
-		_lastUptimeFetch = DateTime.UtcNow;
+		}
+		if (DateTime.UtcNow < _nextUptimeFetch || Interlocked.Exchange(ref _uptimeFetchActive, 1) != 0)
+			return;
+		_nextUptimeFetch = DateTime.UtcNow.AddMinutes(2.0);
 		try
 		{
 			ServerStartLookup lookup = await VoidstrapMatchmaker.GetServerStartAsync(data.PlaceId, jobId, _cts.Token);
 			if (_disposed || !string.Equals(_activityWatcher.Data?.JobId, jobId, StringComparison.Ordinal))
 			{
-				_lastUptimeFetch = DateTime.MinValue;
+				_nextUptimeFetch = DateTime.MinValue;
 				return;
 			}
-			bool isPublic = data.ServerType == Voidstrap.Enums.ServerType.Public;
-			switch (lookup.Status)
-			{
-			case ServerStartStatus.Found:
-				_serverStartedUtc = lookup.StartedUtc;
-				_uptimeJobId = jobId;
-				UptimeToolTip = "Up since " + lookup.StartedUtc.ToLocalTime().ToString("MMM d, h:mm:ss tt", System.Globalization.CultureInfo.CurrentCulture) + ", the time Roblox started this server";
-				UpdateUptimeText();
-				_uptimeTimer?.Start();
-				break;
-			case ServerStartStatus.NotSignedIn:
-				Uptime = "Sign in to Voidstrap to see this";
-				UptimeToolTip = "Roblox only shares when a server started with a signed in account. Sign in to your Roblox account in Voidstrap.";
-				break;
-			case ServerStartStatus.Full:
-				Uptime = "Server is full, retrying";
-				UptimeToolTip = "Roblox only shares when a server started while it has room for another player. Voidstrap checks again every 30 seconds.";
-				break;
-			default:
-				Uptime = isPublic ? "Not available, retrying" : "Not available for this server";
-				UptimeToolTip = isPublic
-					? "Roblox did not share when this server started. Voidstrap checks again every 30 seconds."
-					: "Roblox does not share when private and reserved servers started.";
-				break;
-			}
+			if (lookup.Status != ServerStartStatus.Found || _serverStartedUtc.HasValue)
+				return;
+			ApplyServerStart(jobId, lookup.StartedUtc, false);
 		}
 		catch (OperationCanceledException)
 		{
@@ -507,6 +471,16 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		}
 	}
 
+	private void ApplyServerStart(string jobId, DateTimeOffset started, bool lowerBound)
+	{
+		_serverStartedUtc = started;
+		_uptimeIsLowerBound = lowerBound;
+		_uptimeJobId = jobId;
+		UpdateUptimeText();
+		OnPropertyChanged(nameof(UptimeVisibility));
+		_uptimeTimer?.Start();
+	}
+
 	private void OnUptimeTick(object? sender, EventArgs e)
 	{
 		UpdateUptimeText();
@@ -516,7 +490,8 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 	{
 		if (_serverStartedUtc is not DateTimeOffset started)
 			return;
-		Uptime = FormatUptime(DateTimeOffset.UtcNow - started);
+		string elapsed = FormatUptime(DateTimeOffset.UtcNow - started);
+		Uptime = _uptimeIsLowerBound ? "At least " + elapsed : elapsed;
 	}
 
 	internal static string FormatUptime(TimeSpan elapsed)

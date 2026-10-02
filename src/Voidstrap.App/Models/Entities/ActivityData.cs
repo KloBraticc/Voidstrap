@@ -88,6 +88,10 @@ public class ActivityData
 
 	public string MachineAddress { get; set; } = string.Empty;
 
+	public DateTimeOffset? ServerStartedUtc { get; set; }
+
+	public bool ServerStartIsLowerBound { get; set; }
+
 	public bool MachineAddressValid
 	{
 		get

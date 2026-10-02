@@ -105,6 +105,14 @@ public static class VoidstrapMatchmaker
 
 	private static string? _csrfToken;
 
+	private const int MaxKnownServerStarts = 4000;
+
+	private static readonly ConcurrentDictionary<string, DateTimeOffset> _knownServerStarts = new ConcurrentDictionary<string, DateTimeOffset>(StringComparer.OrdinalIgnoreCase);
+
+	private static int _claimedTimeSeen;
+
+	private static int _claimedTimeSet;
+
 	private static readonly SemaphoreSlim _csrfLock = new SemaphoreSlim(1, 1);
 
 	private readonly record struct ResolvedServerCacheEntry(string Ip, int Port, DateTime ResolvedUtc);
@@ -634,6 +642,8 @@ public static class VoidstrapMatchmaker
 		List<MatchmakerCandidate> probed;
 		try
 		{
+			Interlocked.Exchange(ref _claimedTimeSeen, 0);
+			Interlocked.Exchange(ref _claimedTimeSet, 0);
 			probed = await ProbeAsync(placeId, probeList, cookie, geo, preferred, blocked, preferEmpty, floorMs, token).ConfigureAwait(false);
 		}
 		catch (OperationCanceledException) when (!outerToken.IsCancellationRequested)
@@ -649,6 +659,7 @@ public static class VoidstrapMatchmaker
 		}
 
 		App.Logger.WriteLine(LOG_IDENT, $"Probed {probed.Count} of {probeList.Count} servers in {stageClock.ElapsedMilliseconds - listReadyMs}ms, {stageClock.ElapsedMilliseconds}ms total so far");
+		App.Logger.WriteLine(LOG_IDENT, $"ServerClaimedTime was set for {Volatile.Read(ref _claimedTimeSet)} of {Volatile.Read(ref _claimedTimeSeen)} probed servers, {_knownServerStarts.Count} server start times known");
 
 		MatchmakerCandidate? closestOverall = probed.OrderBy(c => c.DistanceKm).FirstOrDefault();
 		App.Logger.WriteLine(LOG_IDENT, "Datacenters seen: " + string.Join(", ", probed
@@ -1073,6 +1084,8 @@ public static class VoidstrapMatchmaker
 		if (placeId <= 0 || string.IsNullOrWhiteSpace(jobId))
 			return new ServerStartLookup(ServerStartStatus.Unavailable, default);
 		string? cookie = RobloxAuthLauncher.TryGetRobloxSecurityCookie();
+		if (_knownServerStarts.TryGetValue(jobId, out DateTimeOffset known))
+			return new ServerStartLookup(ServerStartStatus.Found, known);
 		if (string.IsNullOrEmpty(cookie))
 			return new ServerStartLookup(ServerStartStatus.NotSignedIn, default);
 		try
@@ -1082,7 +1095,9 @@ public static class VoidstrapMatchmaker
 			if (first.Status is ServerStartStatus.Found or ServerStartStatus.Full)
 				return first;
 			ServerStartLookup second = await AttemptServerStartAsync(false, placeId, jobId, cookie, token).ConfigureAwait(false);
-			return second.Status == ServerStartStatus.Unavailable ? first : second;
+			if (second.Status == ServerStartStatus.Found)
+				return second;
+			return first.Status == ServerStartStatus.Unavailable ? second : first;
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{
@@ -1139,9 +1154,10 @@ public static class VoidstrapMatchmaker
 				DateTimeOffset? started = ParseServerClaimedTime(joinScript.Value, serverDate);
 				if (!started.HasValue)
 				{
-					App.Logger.WriteLine(LOG_IDENT, $"Server uptime lookup through gamejoin {api} returned join data without ServerClaimedTime, fields: " + string.Join(", ", joinScript.Value.EnumerateObject().Select(property => property.Name)));
-					return new ServerStartLookup(ServerStartStatus.Unavailable, default);
+					App.Logger.WriteLine(LOG_IDENT, $"Server uptime lookup through gamejoin {api} could not read ServerClaimedTime, value was {DescribeServerClaimedTime(joinScript.Value)}");
+					return new ServerStartLookup(IsEmptyClaimedTime(joinScript.Value) ? ServerStartStatus.NotShared : ServerStartStatus.Unavailable, default);
 				}
+				RememberServerStart(jobId, started.Value);
 				App.Logger.WriteLine(LOG_IDENT, $"Server {jobId} has been up since {started.Value.UtcDateTime:yyyy'/'MM'/'dd HH:mm:ss} UTC, from gamejoin {api} ServerClaimedTime");
 				return new ServerStartLookup(ServerStartStatus.Found, started.Value);
 			}
@@ -1166,29 +1182,163 @@ public static class VoidstrapMatchmaker
 	{
 		if (joinScript.ValueKind != JsonValueKind.Object || !joinScript.TryGetProperty("ServerClaimedTime", out JsonElement value))
 			return null;
-		double raw = value.ValueKind switch
-		{
-			JsonValueKind.Number => value.GetDouble(),
-			JsonValueKind.String => double.TryParse(value.GetString(), NumberStyles.Float, CultureInfo.InvariantCulture, out double parsed) ? parsed : 0,
-			_ => 0
-		};
-		if (raw <= 0 || double.IsNaN(raw) || double.IsInfinity(raw))
+		DateTimeOffset? claimed = ReadTimestamp(value);
+		if (!claimed.HasValue)
 			return null;
-		if (raw < 100000000000)
-			raw *= 1000;
-		if (raw > DateTimeOffset.MaxValue.ToUnixTimeMilliseconds())
-			return null;
-		DateTimeOffset claimed = DateTimeOffset.FromUnixTimeMilliseconds((long)raw);
 		if (serverDate.HasValue)
 		{
 			TimeSpan skew = DateTimeOffset.UtcNow - serverDate.Value;
 			if (skew.Duration() > TimeSpan.FromSeconds(2))
 				claimed += skew;
 		}
-		if (claimed.Year < 2006)
+		DateTimeOffset now = DateTimeOffset.UtcNow;
+		return claimed.Value > now ? now : claimed.Value;
+	}
+
+	private static bool IsEmptyClaimedTime(JsonElement joinScript)
+	{
+		if (joinScript.ValueKind != JsonValueKind.Object || !joinScript.TryGetProperty("ServerClaimedTime", out JsonElement value))
+			return true;
+		return value.ValueKind switch
+		{
+			JsonValueKind.Null => true,
+			JsonValueKind.Number => value.GetDouble() == 0,
+			JsonValueKind.String => string.IsNullOrWhiteSpace(value.GetString()) || value.GetString()!.Trim() == "0",
+			_ => false
+		};
+	}
+
+	private static void RememberServerStart(string jobId, DateTimeOffset started)
+	{
+		if (string.IsNullOrWhiteSpace(jobId))
+			return;
+		if (_knownServerStarts.Count >= MaxKnownServerStarts)
+			_knownServerStarts.Clear();
+		_knownServerStarts[jobId] = started;
+	}
+
+	private static void RecordProbeClaimedTime(string jobId, JsonElement root, DateTimeOffset? serverDate)
+	{
+		JsonElement? joinScript = TryGetObject(root, "joinScript");
+		if (!joinScript.HasValue)
+			return;
+		Interlocked.Increment(ref _claimedTimeSeen);
+		DateTimeOffset? started = ParseServerClaimedTime(joinScript.Value, serverDate);
+		if (!started.HasValue)
+			return;
+		Interlocked.Increment(ref _claimedTimeSet);
+		RememberServerStart(jobId, started.Value);
+	}
+
+	internal static string DescribeServerClaimedTime(JsonElement joinScript)
+	{
+		if (joinScript.ValueKind != JsonValueKind.Object || !joinScript.TryGetProperty("ServerClaimedTime", out JsonElement value))
+			return "missing";
+		string raw = value.GetRawText();
+		if (raw.Length > 120)
+			raw = raw[..120];
+		return value.ValueKind + " " + raw;
+	}
+
+	private static DateTimeOffset? ReadTimestamp(JsonElement value)
+	{
+		switch (value.ValueKind)
+		{
+		case JsonValueKind.Number:
+			if (value.TryGetInt64(out long whole))
+				return FromEpochNumber(whole);
+			return FromEpochNumber(value.GetDouble());
+		case JsonValueKind.String:
+			return FromTimestampText(value.GetString());
+		case JsonValueKind.Object:
+			double? seconds = ReadNumberProperty(value, "seconds") ?? ReadNumberProperty(value, "Seconds");
+			if (!seconds.HasValue)
+				return null;
+			double nanos = ReadNumberProperty(value, "nanos") ?? ReadNumberProperty(value, "Nanos") ?? 0;
+			return Plausible(DateTimeOffset.UnixEpoch.AddSeconds(seconds.Value).AddTicks((long)(nanos / 100)));
+		default:
+			return null;
+		}
+	}
+
+	private static double? ReadNumberProperty(JsonElement element, string name)
+	{
+		if (!element.TryGetProperty(name, out JsonElement property))
+			return null;
+		if (property.ValueKind == JsonValueKind.Number)
+			return property.GetDouble();
+		if (property.ValueKind == JsonValueKind.String && double.TryParse(property.GetString(), NumberStyles.Float, CultureInfo.InvariantCulture, out double parsed))
+			return parsed;
+		return null;
+	}
+
+	private static DateTimeOffset? FromTimestampText(string? text)
+	{
+		if (string.IsNullOrWhiteSpace(text))
+			return null;
+		text = text.Trim();
+		if (text.StartsWith("/Date(", StringComparison.OrdinalIgnoreCase))
+		{
+			int close = text.IndexOf(')');
+			string inner = close > 6 ? text[6..close] : "";
+			int zone = inner.IndexOfAny(['+', '-'], 1);
+			if (zone > 0)
+				inner = inner[..zone];
+			return long.TryParse(inner, NumberStyles.Integer, CultureInfo.InvariantCulture, out long dateMs) ? FromEpochNumber(dateMs) : null;
+		}
+		if (long.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out long whole))
+			return FromEpochNumber(whole);
+		if (double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out double number))
+			return FromEpochNumber(number);
+		if (DateTimeOffset.TryParse(text, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out DateTimeOffset parsedDate))
+			return Plausible(parsedDate);
+		return null;
+	}
+
+	private static DateTimeOffset? FromEpochNumber(double raw)
+	{
+		if (raw <= 0 || double.IsNaN(raw) || double.IsInfinity(raw))
+			return null;
+		if (raw >= 1e18)
+			return FromUnixMilliseconds(raw / 1e6);
+		if (raw >= 5e17)
+			return Plausible(SafeTicks(raw));
+		if (raw >= 1e14)
+			return FromUnixMilliseconds(raw / 1e3);
+		if (raw >= 1e11)
+			return FromUnixMilliseconds(raw);
+		return FromUnixMilliseconds(raw * 1e3);
+	}
+
+	private static DateTimeOffset? FromEpochNumber(long raw)
+	{
+		if (raw >= 500000000000000000L && raw < 1000000000000000000L)
+			return Plausible(SafeTicks(raw));
+		return FromEpochNumber((double)raw);
+	}
+
+	private static DateTimeOffset? SafeTicks(double ticks)
+	{
+		if (ticks <= DateTime.MinValue.Ticks || ticks >= DateTime.MaxValue.Ticks)
+			return null;
+		return new DateTimeOffset((long)ticks, TimeSpan.Zero);
+	}
+
+	private static DateTimeOffset? FromUnixMilliseconds(double ms)
+	{
+		if (ms <= 0 || ms >= DateTimeOffset.MaxValue.ToUnixTimeMilliseconds())
+			return null;
+		return Plausible(DateTimeOffset.UnixEpoch.AddMilliseconds(ms));
+	}
+
+	private static DateTimeOffset? Plausible(DateTimeOffset? value)
+	{
+		if (!value.HasValue)
 			return null;
 		DateTimeOffset now = DateTimeOffset.UtcNow;
-		return claimed > now ? now : claimed;
+		if (value.Value.Year < 2006 || value.Value > now.AddDays(1))
+			return null;
+		return value;
 	}
 
 	private static async Task<ResolveAttempt> AttemptResolveAsync(bool useV2, long placeId, string jobId, string cookie, CancellationToken token)
@@ -1222,9 +1372,11 @@ public static class VoidstrapMatchmaker
 					return new ResolveAttempt("", 0, false, alternate);
 				}
 
+				DateTimeOffset? probeDate = res.Headers.Date;
 				using JsonDocument? doc = await ReadJoinResponseAsync(res, timeoutCts.Token).ConfigureAwait(false);
 				if (doc == null || !HasJoinScript(doc.RootElement))
 					return new ResolveAttempt("", 0, false, true);
+				RecordProbeClaimedTime(jobId, doc.RootElement, probeDate);
 				(string ip, int port) = ParseJoinResponse(doc.RootElement);
 				if (string.IsNullOrEmpty(ip) || IsPrivateIp(ip))
 					return new ResolveAttempt("", 0, false, true);
@@ -1571,6 +1723,7 @@ public enum ServerStartStatus
 	Found,
 	NotSignedIn,
 	Full,
+	NotShared,
 	Unavailable
 }
 
