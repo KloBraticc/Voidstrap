@@ -140,7 +140,7 @@ jobs:
       - if: matrix.rid == 'linux-x64'
         run: |
           for attempt in 1 2 3 4 5; do docker pull fedora:latest && break; sleep $((attempt * 15)); done
-          docker run --rm -v "$PWD/artifacts/packages:/packages:ro" fedora:latest bash -c 'dnf install -y --setopt=install_weak_deps=False /packages/*.rpm && rpm -V voidstrap && test "$(readlink -f /usr/bin/voidstrap)" = /usr/lib64/voidstrap/Voidstrap'
+          docker run --rm -v "$PWD/artifacts/packages:/packages:ro" fedora:latest bash -c 'dnf install -y --setopt=install_weak_deps=False --setopt=zchunk=False /packages/*.rpm && rpm -V voidstrap && test "$(readlink -f /usr/bin/voidstrap)" = /usr/lib64/voidstrap/Voidstrap'
       - if: matrix.rid == 'linux-x64'
         run: |
           for attempt in 1 2 3 4 5; do docker pull opensuse/tumbleweed:latest && break; sleep $((attempt * 15)); done
