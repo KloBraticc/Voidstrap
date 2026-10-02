@@ -64,7 +64,7 @@ internal static class LinuxDesktopEntry
 				string contents = BuildDesktopEntry(executablePath);
 				if (File.Exists(entryPath))
 					WriteAtomic(entryPath, contents);
-				RepairCanonicalDesktopShortcut(contents);
+				MoveLegacyDesktopShortcut(executablePath);
 			}
 			catch (Exception ex)
 			{
@@ -95,8 +95,14 @@ internal static class LinuxDesktopEntry
 
 	public static void Install(string executablePath, bool createDesktopShortcut = false, bool replaceInstalledLauncher = true)
 	{
-		if (!Platform.IsLinux || LinuxFlatpakHost.IsSandboxed || string.IsNullOrEmpty(executablePath))
+		if (!Platform.IsLinux || string.IsNullOrEmpty(executablePath))
 		{
+			return;
+		}
+		if (LinuxFlatpakHost.IsSandboxed)
+		{
+			if (createDesktopShortcut)
+				WriteDesktopShortcut(executablePath);
 			return;
 		}
 		try
@@ -115,9 +121,9 @@ internal static class LinuxDesktopEntry
 			MakeExecutable(entryPath);
 			RemoveSupersededEntries();
 			if (createDesktopShortcut)
-				WriteDesktopShortcut(contents);
+				WriteDesktopShortcut(launchPath);
 			else
-				RepairCanonicalDesktopShortcut(contents);
+				MoveLegacyDesktopShortcut(launchPath);
 			RepairManagedShortcuts(launchPath);
 			Refresh();
 
@@ -622,7 +628,12 @@ internal static class LinuxDesktopEntry
 
 	public static void Remove()
 	{
-		if (!Platform.IsLinux || LinuxFlatpakHost.IsSandboxed)
+		if (!Platform.IsLinux)
+		{
+			return;
+		}
+		RemoveDesktopShortcuts();
+		if (LinuxFlatpakHost.IsSandboxed)
 		{
 			return;
 		}
@@ -641,15 +652,6 @@ internal static class LinuxDesktopEntry
 			FileInfo launcher = new(LauncherPath);
 			if (launcher.Exists && launcher.LinkTarget != null)
 				File.Delete(LauncherPath);
-			string desktop = ResolveDesktopDirectory();
-			if (!string.IsNullOrEmpty(desktop))
-			{
-				string shortcutPath = Path.Combine(desktop, EntryFileName);
-				if (File.Exists(shortcutPath))
-				{
-					File.Delete(shortcutPath);
-				}
-			}
 			RunQuiet("update-desktop-database", HostVisiblePath(ApplicationsDirectory));
 			RunQuiet("gtk-update-icon-cache", "-f", "-t", IconRootDirectory);
 		}
@@ -684,7 +686,7 @@ internal static class LinuxDesktopEntry
 		}
 	}
 
-	private static void WriteDesktopShortcut(string contents)
+	private static void WriteDesktopShortcut(string executablePath)
 	{
 		try
 		{
@@ -693,18 +695,12 @@ internal static class LinuxDesktopEntry
 			{
 				return;
 			}
-			if (File.Exists(Path.Combine(desktop, "Voidstrap.desktop")))
-			{
-				string duplicatePath = Path.Combine(desktop, EntryFileName);
-				if (File.Exists(duplicatePath))
-					File.Delete(duplicatePath);
-				return;
-			}
-			string shortcutPath = Path.Combine(desktop, EntryFileName);
-			WriteAtomic(shortcutPath, contents);
-			MakeExecutable(shortcutPath);
-			RunQuiet("gio", "set", shortcutPath, "metadata::trusted", "true");
-			App.Logger?.WriteLine("LinuxDesktopEntry::WriteDesktopShortcut", "Desktop shortcut written to " + shortcutPath);
+			string legacyPath = Path.Combine(desktop, EntryFileName);
+			if (File.Exists(legacyPath))
+				File.Delete(legacyPath);
+			string shortcutPath = Path.Combine(desktop, "Voidstrap.desktop");
+			if (CreateShortcut(shortcutPath, "Voidstrap", executablePath, "", IconFilePath))
+				App.Logger?.WriteLine("LinuxDesktopEntry::WriteDesktopShortcut", "Desktop shortcut written to " + shortcutPath);
 		}
 		catch (Exception ex)
 		{
@@ -712,20 +708,31 @@ internal static class LinuxDesktopEntry
 		}
 	}
 
-	private static void RepairCanonicalDesktopShortcut(string contents)
+	private static void MoveLegacyDesktopShortcut(string executablePath)
 	{
 		string desktop = ResolveDesktopDirectory();
-		if (string.IsNullOrEmpty(desktop))
-			return;
+		if (!string.IsNullOrEmpty(desktop) && File.Exists(Path.Combine(desktop, EntryFileName)))
+			WriteDesktopShortcut(executablePath);
+	}
 
-		string shortcutPath = Path.Combine(desktop, EntryFileName);
-		if (File.Exists(Path.Combine(desktop, "Voidstrap.desktop")))
+	private static void RemoveDesktopShortcuts()
+	{
+		try
 		{
-			if (File.Exists(shortcutPath))
+			string desktop = ResolveDesktopDirectory();
+			if (string.IsNullOrEmpty(desktop))
+				return;
+			string legacyPath = Path.Combine(desktop, EntryFileName);
+			if (File.Exists(legacyPath))
+				File.Delete(legacyPath);
+			string shortcutPath = Path.Combine(desktop, "Voidstrap.desktop");
+			if (File.Exists(shortcutPath) && File.ReadAllText(shortcutPath).Contains("X-Voidstrap-Managed=true", StringComparison.Ordinal))
 				File.Delete(shortcutPath);
 		}
-		else if (File.Exists(shortcutPath))
-			WriteDesktopShortcut(contents);
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::RemoveDesktopShortcuts", "Could not remove the desktop shortcut: " + ex.Message);
+		}
 	}
 
 	private static void WriteIcon(string iconPath)
