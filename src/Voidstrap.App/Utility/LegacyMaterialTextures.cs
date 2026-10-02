@@ -171,6 +171,21 @@ internal static partial class LegacyMaterialTextures
 		return slash > 0 && !NonMaterialFolders.Contains(rest[..slash]);
 	}
 
+	internal static bool HasVerifiedRedirects(IReadOnlyList<string> modFoldersByPriority)
+	{
+		Sources sources = CollectSources(modFoldersByPriority);
+		if (sources.IsEmpty || !File.Exists(SignaturePath))
+			return false;
+		if (Platform.IsLinux)
+		{
+			string? package = FindSoberNativePackage();
+			if (package == null || !string.Equals(File.ReadAllText(SignaturePath), BuildSignature(sources, package), StringComparison.Ordinal))
+				return false;
+		}
+		return Voidstrap.Integrations.AssetProxy.TextureStripper.HasVerifiedReplacement(ConfigPath, (rule, local) =>
+			local != null && Path.GetFullPath(local).StartsWith(Path.GetFullPath(AssetFolder) + Path.DirectorySeparatorChar, StringComparison.Ordinal));
+	}
+
 	public static bool HasSources(IReadOnlyList<string> modFoldersByPriority)
 	{
 		return !CollectSources(modFoldersByPriority).IsEmpty;

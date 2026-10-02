@@ -94,6 +94,46 @@ internal static class SoberBuiltinContent
 		}
 	}
 
+	internal static bool HasUserRedirects(IReadOnlyList<string> modFoldersByPriority)
+	{
+		if (!HasRedirects())
+			return false;
+		string? package = LegacyMaterialTextures.FindSoberNativePackage();
+		if (package == null)
+			return false;
+		Dictionary<string, long> map = LoadMap(package);
+		Dictionary<string, string> sources = CollectContentFiles(modFoldersByPriority)
+			.ToDictionary(file => file.Relative, file => file.Source, StringComparer.OrdinalIgnoreCase);
+		return Voidstrap.Integrations.AssetProxy.TextureStripper.HasVerifiedReplacement(ConfigPath, (rule, local) =>
+		{
+			if (local == null || !Path.GetFullPath(local).StartsWith(Path.GetFullPath(AssetFolder) + Path.DirectorySeparatorChar, StringComparison.Ordinal)
+				|| !rule.TryGetProperty("name", out JsonElement nameElement) || nameElement.ValueKind != JsonValueKind.String)
+				return false;
+			string name = nameElement.GetString()!;
+			int separator = name.LastIndexOf(" for ", StringComparison.Ordinal);
+			if (separator <= 0)
+				return false;
+			string relative = name[..separator], key = name[(separator + 5)..];
+			if (!sources.TryGetValue(relative, out string? source) || VoidstrapDefaultCursor.IsImplicitDefaultFile(relative, source)
+				|| !map.TryGetValue(key, out long mappedId) || mappedId <= 0)
+				return false;
+			string expected = relative["content/".Length..];
+			if (!string.Equals(key, expected, StringComparison.OrdinalIgnoreCase)
+				&& (!SiblingExtensions.Contains(Path.GetExtension(expected), StringComparer.OrdinalIgnoreCase)
+					|| !string.Equals(StripExtension(key), StripExtension(expected), StringComparison.OrdinalIgnoreCase)
+					|| map.Keys.Count(candidate => string.Equals(StripExtension(candidate), StripExtension(expected), StringComparison.OrdinalIgnoreCase)) != 1))
+				return false;
+			JsonElement ids = rule.GetProperty("replace_ids");
+			if (ids.GetArrayLength() != 1 || !ids[0].TryGetInt64(out long configuredId) || configuredId != mappedId)
+				return false;
+			FileInfo original = new(source), replacement = new(local);
+			if (original.Length != replacement.Length)
+				return false;
+			using FileStream originalStream = File.OpenRead(source), replacementStream = File.OpenRead(local);
+			return System.Security.Cryptography.SHA256.HashData(originalStream).AsSpan().SequenceEqual(System.Security.Cryptography.SHA256.HashData(replacementStream));
+		});
+	}
+
 	public static void RemoveGenerated()
 	{
 		try

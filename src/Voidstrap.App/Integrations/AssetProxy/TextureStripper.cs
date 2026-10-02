@@ -472,6 +472,81 @@ public static class TextureStripper
 		return files;
 	}
 
+	internal static bool HasVerifiedReplacement(string path, Func<JsonElement, string?, bool>? matchesSource = null)
+	{
+		try
+		{
+			FileInfo info = new(path);
+			if (!info.Exists || info.Length <= 0 || info.Length > MaxRuleFileBytes)
+				return false;
+			using JsonDocument document = JsonDocument.Parse(File.ReadAllBytes(path), new JsonDocumentOptions { MaxDepth = 32 });
+			JsonElement rules = document.RootElement;
+			if (rules.ValueKind == JsonValueKind.Object && rules.TryGetProperty("replacement_rules", out JsonElement nested))
+				rules = nested;
+			if (rules.ValueKind != JsonValueKind.Array)
+				return false;
+			List<string> files = GetRuleFiles();
+			if (!files.Contains(path, StringComparer.Ordinal))
+				return false;
+			RuleSet owned = new(), effective = new();
+			LoadRules(path, owned);
+			foreach (string file in files)
+				LoadRules(file, effective);
+			foreach (JsonElement rule in EnumerateRules(rules))
+			{
+				if (rule.TryGetProperty("enabled", out JsonElement enabled) && enabled.ValueKind != JsonValueKind.True)
+					continue;
+				if (!rule.TryGetProperty("replace_ids", out JsonElement ids) || ids.ValueKind != JsonValueKind.Array
+					|| !rule.TryGetProperty("mode", out JsonElement modeElement) || modeElement.ValueKind != JsonValueKind.String)
+					continue;
+				string mode = modeElement.GetString()!.ToLowerInvariant();
+				string? local = null;
+				if (mode == "local")
+				{
+					if (!rule.TryGetProperty("local_path", out JsonElement value) || value.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(value.GetString()))
+						continue;
+					local = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(path)!, value.GetString()!));
+					FileInfo replacement = new(local);
+					if (!replacement.Exists || replacement.Length <= 0 || replacement.LinkTarget != null)
+						continue;
+					using FileStream readable = File.OpenRead(local);
+				}
+				else if (mode == "cdn")
+				{
+					if (!rule.TryGetProperty("cdn_url", out JsonElement value) || value.ValueKind != JsonValueKind.String
+						|| !Uri.TryCreate(value.GetString(), UriKind.Absolute, out Uri? uri) || uri.Scheme is not ("http" or "https") || string.IsNullOrWhiteSpace(uri.Host))
+						continue;
+				}
+				else if (mode == "id")
+				{
+					if (!(rule.TryGetProperty("with_id", out JsonElement value) || rule.TryGetProperty("replace_with", out value))
+						|| !long.TryParse(NormalizeKey(value), out long replacement) || replacement <= 1)
+						continue;
+				}
+				else if (mode != "remove")
+					continue;
+				foreach (JsonElement id in ids.EnumerateArray())
+				{
+					string key = NormalizeKey(id);
+					if (!long.TryParse(key, out long asset) || asset <= 0)
+						continue;
+					bool active = mode == "remove" ? effective.Removals.Contains(key)
+						: mode == "id" ? owned.IdReplacements.TryGetValue(key, out string? replacementId) && replacementId != key
+							&& effective.IdReplacements.TryGetValue(key, out string? activeId) && activeId == replacementId
+						: owned.Routes.TryGetValue(key, out AssetWarpRoute? ownRoute) && effective.Routes.TryGetValue(key, out AssetWarpRoute? route)
+							&& ownRoute == route && (local == null || route.Value == local);
+					if (active && (matchesSource == null || matchesSource(rule, local)))
+						return true;
+				}
+			}
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or InvalidOperationException or ArgumentException or NotSupportedException)
+		{
+			return false;
+		}
+		return false;
+	}
+
 	private static void LoadRules(string path, RuleSet target)
 	{
 		try

@@ -14,6 +14,23 @@ internal static class VoidstrapDefaultCursor
 		{ "content\\textures\\Cursors\\KeyboardMouse\\IBeamCursor.png", "Cursor.BibataModernIce.IBeamCursor.png" }
 	};
 
+	internal static bool IsImplicitDefaultFile(string relative, string source)
+	{
+		if (App.Settings.Prop.CursorType != CursorType.VoidstrapDefault)
+			return false;
+		foreach ((string path, string resourceName) in Files)
+		{
+			if (!string.Equals(path.Replace('\\', '/'), relative, StringComparison.OrdinalIgnoreCase))
+				continue;
+			string expectedPath = Path.GetFullPath(Path.Combine(Paths.Mods, path.Replace('\\', Path.DirectorySeparatorChar)));
+			if (!string.Equals(expectedPath, Path.GetFullPath(source), StringComparison.Ordinal))
+				return false;
+			byte[] resource = Resource.Get(resourceName);
+			return new FileInfo(source).Length == resource.Length && File.ReadAllBytes(source).SequenceEqual(resource);
+		}
+		return false;
+	}
+
 	internal static void Apply()
 	{
 		EnsureSelection();

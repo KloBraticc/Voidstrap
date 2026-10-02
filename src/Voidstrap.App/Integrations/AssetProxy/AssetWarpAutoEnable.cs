@@ -13,7 +13,8 @@ internal static class AssetWarpAutoEnable
 
 	public static bool ModsNeedAssetWarp()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows && !Voidstrap.Utility.Platform.IsLinux)
+		if ((!Voidstrap.Utility.Platform.IsWindows && !Voidstrap.Utility.Platform.IsLinux)
+			|| App.Settings.Prop.ModApplyTarget == Voidstrap.Enums.ModApplyTarget.Studio)
 		{
 			return false;
 		}
@@ -30,7 +31,7 @@ internal static class AssetWarpAutoEnable
 			{
 				IReadOnlyList<string> folders = [.. ManagedModStore.EnabledFoldersByPriority(), Paths.Mods];
 				bool playerMods = App.Settings.Prop.ModApplyTarget != Voidstrap.Enums.ModApplyTarget.Studio;
-				if (playerMods && LegacyMaterialTextures.HasSources(folders))
+				if (playerMods && LegacyMaterialTextures.HasVerifiedRedirects(folders))
 				{
 					return true;
 				}
@@ -38,12 +39,12 @@ internal static class AssetWarpAutoEnable
 			}
 			else if (Voidstrap.Utility.Platform.IsLinux && App.Settings.Prop.ModApplyTarget != Voidstrap.Enums.ModApplyTarget.Studio)
 			{
-				if (SoberBuiltinContent.HasRedirects())
+				IReadOnlyList<string> folders = [.. ManagedModStore.EnabledFoldersByPriority(), Paths.Mods];
+				if (SoberBuiltinContent.HasUserRedirects(folders))
 				{
 					return true;
 				}
-				IReadOnlyList<string> folders = [.. ManagedModStore.EnabledFoldersByPriority(), Paths.Mods];
-				if (LegacyMaterialTextures.HasSources(folders))
+				if (LegacyMaterialTextures.HasVerifiedRedirects(folders))
 				{
 					return true;
 				}
