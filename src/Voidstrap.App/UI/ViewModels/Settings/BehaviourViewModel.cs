@@ -145,6 +145,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 		public string Key => City + "|" + Country;
 
+		public string BlockKey => Voidstrap.Integrations.VoidstrapMatchmaker.BlockKey(City, Country);
+
 		public string Location => string.IsNullOrWhiteSpace(Region) || string.Equals(Region, City, StringComparison.OrdinalIgnoreCase)
 			? City + ", " + Country
 			: City + ", " + Region + ", " + Country;
@@ -1775,7 +1777,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		try
 		{
 			MigrateKickListIntoBlocklist();
-			HashSet<string> hashSet = new HashSet<string>(App.Settings.Prop.VoidstrapMatchmakerDisabledDatacenters ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
+			HashSet<string> hashSet = VoidstrapMatchmaker.GetBlockedDatacenters();
 			Datacenters.Clear();
 			Dictionary<string, List<LearnedServerEntry>> dictionary = new Dictionary<string, List<LearnedServerEntry>>(StringComparer.OrdinalIgnoreCase);
 			List<LearnedServerEntry> entries = ServerFetchStore.AllEntries();
@@ -1787,7 +1789,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			{
 				if (!string.IsNullOrWhiteSpace(item.City) && (item.Lat != 0.0 || item.Lon != 0.0))
 				{
-					string key = item.City + "|" + item.Country;
+					string key = VoidstrapMatchmaker.BlockKey(item.City, item.Country);
 					if (!dictionary.TryGetValue(key, out var value))
 					{
 						value = (dictionary[key] = new List<LearnedServerEntry>());
@@ -1978,14 +1980,14 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	private void OnDatacenterToggled(DatacenterItem item)
 	{
-		string key = item.Key;
+		string blockKey = item.BlockKey;
 		AppSettings prop = App.Settings.Prop;
 		List<string> blocked = prop.VoidstrapMatchmakerDisabledDatacenters ??= new List<string>();
-		bool listed = blocked.Contains(key, StringComparer.OrdinalIgnoreCase);
+		bool listed = blocked.Any(x => string.Equals(VoidstrapMatchmaker.StoredBlockKey(x), blockKey, StringComparison.OrdinalIgnoreCase));
 		if (item.IsBlocked && !listed)
-			blocked.Add(key);
+			blocked.Add(item.Key);
 		else if (!item.IsBlocked && listed)
-			blocked.RemoveAll(x => string.Equals(x, key, StringComparison.OrdinalIgnoreCase));
+			blocked.RemoveAll(x => string.Equals(VoidstrapMatchmaker.StoredBlockKey(x), blockKey, StringComparison.OrdinalIgnoreCase));
 		try
 		{
 			App.Settings.SaveDeferred();

@@ -198,13 +198,29 @@ public static class VoidstrapMatchmaker
 		return string.Equals(NormalizeCountryCode(country), NormalizeCountryCode(dc.Country), StringComparison.OrdinalIgnoreCase);
 	}
 
+	public static string BlockKey(string? city, string? country)
+	{
+		string iso = CountryToIso2(country);
+		return (city ?? "").Trim() + "|" + (iso.Length == 2 ? iso : (country ?? "").Trim());
+	}
+
+	public static string BlockKey(RobloxDatacenter? dc) => dc == null ? "" : BlockKey(dc.City, dc.Country);
+
+	public static string StoredBlockKey(string? key)
+	{
+		if (string.IsNullOrWhiteSpace(key))
+			return "";
+		int sep = key.IndexOf('|');
+		return sep < 0 ? BlockKey(key, null) : BlockKey(key[..sep], key[(sep + 1)..]);
+	}
+
 	public static HashSet<string> GetBlockedDatacenters()
 	{
 		HashSet<string> blocked = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 		foreach (string key in App.Settings.Prop.VoidstrapMatchmakerDisabledDatacenters ?? new List<string>())
 		{
 			if (!string.IsNullOrWhiteSpace(key))
-				blocked.Add(key.Trim());
+				blocked.Add(StoredBlockKey(key));
 		}
 		return blocked;
 	}
@@ -639,7 +655,7 @@ public static class VoidstrapMatchmaker
 			.GroupBy(c => DatacenterKey(c.Datacenter))
 			.Select(g => $"{g.First().Datacenter?.City}({EstimatePingMs(g.Min(c => c.DistanceKm))}ms x{g.Count()})")));
 
-		List<MatchmakerCandidate> allowed = probed.Where(c => !blocked.Contains(DatacenterKey(c.Datacenter))).ToList();
+		List<MatchmakerCandidate> allowed = probed.Where(c => !blocked.Contains(BlockKey(c.Datacenter))).ToList();
 		if (allowed.Count == 0)
 		{
 			App.Logger.WriteLine(LOG_IDENT, "Every probed server was in a blocked datacenter, nothing to pick");
@@ -648,7 +664,7 @@ public static class VoidstrapMatchmaker
 
 		string? blockedClosestCity = null;
 		double blockedClosestKm = 0.0;
-		if (closestOverall?.Datacenter != null && blocked.Contains(DatacenterKey(closestOverall.Datacenter)))
+		if (closestOverall?.Datacenter != null && blocked.Contains(BlockKey(closestOverall.Datacenter)))
 		{
 			blockedClosestCity = closestOverall.Datacenter.City;
 			blockedClosestKm = closestOverall.DistanceKm;
@@ -859,7 +875,7 @@ public static class VoidstrapMatchmaker
 				});
 				Interlocked.Increment(ref resultCount);
 
-				bool usable = !blocked.Contains(DatacenterKey(dc));
+				bool usable = !blocked.Contains(BlockKey(dc));
 				bool onTarget = preferred.Length > 0 ? MatchesPreferredDc(dc, preferred) : EstimateRttMs(km) <= floorMs + ClosestDatacenterBandMs;
 				bool populated = preferEmpty || sv.Playing >= 4 || sv.MaxPlayers > 0 && sv.Playing >= Math.Ceiling(sv.MaxPlayers * 0.15);
 				int requiredMatches = preferred.Length > 0 ? 3 : EarlyExitClosestMatches;

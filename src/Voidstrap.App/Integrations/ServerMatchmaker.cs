@@ -378,7 +378,7 @@ public sealed class ServerMatchmaker : IDisposable
 		double currentKm = VoidstrapMatchmaker.HaversineKm(geo.Lat, geo.Lon, currentDc.Lat, currentDc.Lon);
 		int currentPing = VoidstrapMatchmaker.EstimatePingMs(currentKm);
 		string currentKey = VoidstrapMatchmaker.DatacenterKey(currentDc);
-		bool currentIsBlocked = VoidstrapMatchmaker.GetBlockedDatacenters().Contains(currentKey);
+		bool currentIsBlocked = VoidstrapMatchmaker.GetBlockedDatacenters().Contains(VoidstrapMatchmaker.BlockKey(currentDc));
 
 		string preferredKey = ResolvePreferredDatacenterKey(data.PlaceId);
 		bool hasPreferred = preferredKey.Length > 0;

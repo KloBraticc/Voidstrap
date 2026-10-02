@@ -28,7 +28,7 @@ internal static class CountryFlag
         { "Turkey", "TR" }, { "Turkiye", "TR" }, { "Ivory Coast", "CI" }, { "Cape Verde", "CV" },
         { "Macedonia", "MK" }, { "Swaziland", "SZ" }, { "Burma", "MM" }, { "East Timor", "TL" },
         { "Congo Kinshasa", "CD" }, { "Congo Brazzaville", "CG" }, { "Palestine", "PS" },
-        { "Hong Kong SAR", "HK" }, { "Macau", "MO" }, { "Bolivia", "BO" }, { "Laos", "LA" },
+        { "Hong Kong SAR", "HK" }, { "Hong Kong", "HK" }, { "Macau", "MO" }, { "Bolivia", "BO" }, { "Laos", "LA" },
         { "Syria", "SY" }, { "Iran", "IR" }, { "Tanzania", "TZ" }, { "Moldova", "MD" },
         { "Brunei", "BN" }, { "Venezuela", "VE" }, { "South Korea", "KR" }, { "North Korea", "KP" },
     };
