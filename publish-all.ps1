@@ -1154,7 +1154,7 @@ $AllTargets = @(
 $RequestedAll = $Only -contains 'all'
 
 if ($RequestedAll) {
-    $Targets = @($AllTargets | Where-Object { -not $_.Rid.StartsWith('osx-', [System.StringComparison]::Ordinal) })
+    $Targets = @($AllTargets)
 } else {
     $Targets = @($AllTargets | Where-Object { $Only -contains $_.Key })
 }
@@ -1287,6 +1287,35 @@ if ($UseParallel) {
     Write-Host "Building $($buildNames -join ', '), up to $MaxParallel at once" -ForegroundColor Cyan
 } else {
     Write-Host "Building $($buildNames -join ', ')" -ForegroundColor Cyan
+}
+$plannedPackages = [System.Collections.Generic.List[string]]::new()
+if (@($Targets | Where-Object { $_.Kind -eq 'windows' }).Count -gt 0) { $plannedPackages.Add('Windows: Voidstrap.exe') }
+if ($selectedLinuxTargets.Count -gt 0) {
+    if ($wantLinuxPackages) {
+        $plannedFormats = @('tar.gz')
+        if ($glibcLinuxTargets.Count -gt 0) {
+            $plannedFormats += 'deb', 'rpm'
+            if ($appImageTool) { $plannedFormats += 'AppImage' }
+            $plannedFormats += 'Flatpak'
+        }
+        if ($glibcLinuxTargets.Count -eq 2) { $plannedFormats += 'AUR metadata' }
+        $plannedPackages.Add("Linux: $($plannedFormats -join ', ')")
+    } elseif ($ShouldBuildAppImage) {
+        $plannedPackages.Add('Linux: AppImage')
+    } else {
+        $plannedPackages.Add('Linux: plain executables')
+    }
+}
+if (@($Targets | Where-Object { $_.Rid.StartsWith('osx-', [System.StringComparison]::Ordinal) }).Count -gt 0) {
+    $plannedPackages.Add($(if ($packagingShell) { 'macOS: Voidstrap.app archives' } else { 'macOS: plain executables' }))
+}
+if ($BuildAndroid) { $plannedPackages.Add('Android: play and direct APKs') }
+Write-Host 'Packages:' -ForegroundColor Cyan
+foreach ($planned in $plannedPackages) {
+    Write-Host "  $planned" -ForegroundColor Cyan
+}
+foreach ($note in $PackageNotes) {
+    Write-Host "  Skipping: $note" -ForegroundColor DarkYellow
 }
 Write-Host ''
 
