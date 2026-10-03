@@ -216,7 +216,7 @@ internal static class AssetProxyRouting
 	}
 
 
-	public static async Task<IReadOnlyDictionary<string, string>> PrepareAsync(IEnumerable<string> hosts, CancellationToken ct, bool resolveEndpoints = true)
+	public static async Task<IReadOnlyDictionary<string, string>> PrepareAsync(IEnumerable<string> hosts, CancellationToken ct, bool resolveEndpoints = true, bool removeEntries = true)
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
 			return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -225,7 +225,7 @@ internal static class AssetProxyRouting
 			.Select(host => host.Trim().ToLowerInvariant())
 			.Distinct(StringComparer.OrdinalIgnoreCase)];
 
-		if (RemoveEntries(requested))
+		if (removeEntries && RemoveEntries(requested))
 		{
 			FlushDns();
 		}

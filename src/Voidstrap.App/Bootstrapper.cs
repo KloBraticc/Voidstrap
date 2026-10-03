@@ -1890,10 +1890,17 @@ public class Bootstrapper
 	{
 		bool retainForRecovery = false;
 		DateTime launchStartedUtc = DateTime.UtcNow;
-		using var logWaiter = new RobloxLogWaiter(rbxLogDir, existingLogs, launchStartedUtc);
         try
         {
             _robloxProcess = Process.Start(startInfo) ?? throw new InvalidOperationException("Failed to start Roblox process.");
+            int initialProcessId = _robloxProcess.Id;
+            if (_launchMode == LaunchMode.Player && FleasionBridge.ManagesPlayerLaunch)
+                _robloxProcess = await FleasionBridge.FollowPlayerAsync(_robloxProcess, AppData.ExecutablePath, ct).ConfigureAwait(false);
+            if (_robloxProcess.Id != initialProcessId)
+            {
+                launchStartedUtc = _robloxProcess.StartTime.ToUniversalTime();
+                ExcludeLogsBeforeProcess(rbxLogDir, existingLogs, launchStartedUtc);
+            }
             _appPid = _robloxProcess.Id;
             _robloxLaunchUtc = launchStartedUtc;
             if (_launchMode == LaunchMode.Player)
@@ -1907,6 +1914,7 @@ public class Bootstrapper
         {
 			return (null, false, false);
         }
+		using var logWaiter = new RobloxLogWaiter(rbxLogDir, existingLogs, launchStartedUtc);
         try
         {
             DateTime deadline = launchStartedUtc.AddSeconds(45);
@@ -2250,6 +2258,21 @@ public class Bootstrapper
         }
     }
 
+    internal static void ExcludeLogsBeforeProcess(string logDirectory, HashSet<string> existingLogs, DateTime processStartedUtc)
+    {
+        foreach (string path in GetExistingLogFiles(logDirectory))
+        {
+            try
+            {
+                if (File.GetCreationTimeUtc(path) < processStartedUtc)
+                    existingLogs.Add(path);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+            }
+        }
+    }
+
     private static string? FindNewLogFile(string logDirectory, HashSet<string> existingLogs, DateTime launchStartedUtc)
     {
         try
@@ -2270,7 +2293,7 @@ public class Bootstrapper
 
     private static void LaunchFleasion(string logIdent)
     {
-        if (App.Settings.Prop?.Fleasion != true)
+        if (App.Settings.Prop?.Fleasion != true || FleasionBridge.IsActive || !Voidstrap.Utility.Platform.IsWindows)
         {
             return;
         }
@@ -2593,7 +2616,7 @@ public class Bootstrapper
             AssetProxyServer.ReconcileRuntimeState();
             return;
         }
-        if (Voidstrap.Utility.Platform.IsWindows && !ProcessElevation.IsAdministrator())
+        if (Voidstrap.Utility.Platform.IsWindows && !AssetProxyServer.UsesExplicitProxy && !ProcessElevation.IsAdministrator())
         {
             AssetProxyRouting.InvalidateCache();
             App.Logger.WriteLine("Bootstrapper::StartAssetProxyIfEnabled", "AssetWarp requires administrator access, continuing without AssetWarp");

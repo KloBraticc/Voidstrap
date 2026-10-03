@@ -109,13 +109,13 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         public ExtensionViewModel()
         {
             OnProgressChanged += RelayProgress;
-            if (App.Settings.Prop.Fleasion)
+            if (Voidstrap.Utility.Platform.IsWindows && App.Settings.Prop.Fleasion)
             {
                 string exePath = Path.Combine(fleasionDir, "Fleasion.exe");
                 if (!File.Exists(exePath))
                     _ = DownloadFleasionAsync();
             }
-            else
+            else if (Voidstrap.Utility.Platform.IsWindows)
             {
                 _ = UninstallFleasionAsync();
             }
@@ -713,6 +713,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         private async Task DebounceFleasionAsync()
         {
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return;
             int rev = Interlocked.Increment(ref _fleasionRev);
             if (!App.Settings.Prop.Fleasion)
                 StopAllDownloads();

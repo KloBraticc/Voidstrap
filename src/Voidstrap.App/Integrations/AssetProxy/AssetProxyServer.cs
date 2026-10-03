@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
@@ -335,7 +335,7 @@ public static class AssetProxyServer
 
 	public static int Port => ListenPort;
 
-	public static bool UsesExplicitProxy => Voidstrap.Utility.Platform.IsLinux;
+	public static bool UsesExplicitProxy => Voidstrap.Utility.Platform.IsLinux || ExplicitPort > 0 || FleasionBridge.IsRequested;
 
 	public static int ExplicitPort => Volatile.Read(ref _explicitPort);
 
@@ -402,6 +402,8 @@ public static class AssetProxyServer
 		lock (Gate)
 			_ownershipLock = ownership;
 
+		bool useFleasion = FleasionBridge.IsRequested;
+		bool useExplicitProxy = Voidstrap.Utility.Platform.IsLinux || useFleasion;
 		List<string> hostList = [];
 		if (TextureStripper.IsEnabled || TextureStripper.HasConfiguredRules || App.Settings.Prop.AssetWarpPreloadEnabled)
 		{
@@ -439,8 +441,12 @@ public static class AssetProxyServer
 		UpstreamConnector.ConnectorType = Enum.IsDefined(typeof(UpstreamConnectorType), App.Settings.Prop.ProxyConnectorType) ? (UpstreamConnectorType)App.Settings.Prop.ProxyConnectorType : UpstreamConnectorType.DirectIp;
 		UpstreamConnector.HttpConnectProxyHost = App.Settings.Prop.ProxyHttpConnectHost ?? "";
 		UpstreamConnector.HttpConnectProxyPort = App.Settings.Prop.ProxyHttpConnectPort > 0 ? App.Settings.Prop.ProxyHttpConnectPort : 3128;
+		UpstreamConnector.HttpConnectProxyUsername = "";
+		UpstreamConnector.HttpConnectProxyPassword = "";
 		UpstreamConnector.Socks5ProxyHost = App.Settings.Prop.ProxySocks5Host ?? "";
 		UpstreamConnector.Socks5ProxyPort = App.Settings.Prop.ProxySocks5Port > 0 ? App.Settings.Prop.ProxySocks5Port : 1080;
+		UpstreamConnector.Socks5ProxyUsername = "";
+		UpstreamConnector.Socks5ProxyPassword = "";
 		string cacheSignature = TextureStripper.CacheSignature;
 		if (TextureStripper.RequiresCacheReset)
 		{
@@ -460,9 +466,9 @@ public static class AssetProxyServer
 				}
 			}
 		}
-		AssetProxyCA.Initialize(requireTrustBundle: !UsesExplicitProxy);
-		bool resolveEndpoints = UpstreamConnector.ConnectorType is not UpstreamConnectorType.HttpConnect and not UpstreamConnectorType.Socks5;
-		IReadOnlyDictionary<string, string> endpoints = await AssetProxyRouting.PrepareAsync(hosts, ct, resolveEndpoints).ConfigureAwait(false);
+		AssetProxyCA.Initialize(requireTrustBundle: Voidstrap.Utility.Platform.IsWindows);
+		bool resolveEndpoints = !useExplicitProxy && UpstreamConnector.ConnectorType is not UpstreamConnectorType.HttpConnect and not UpstreamConnectorType.Socks5;
+		IReadOnlyDictionary<string, string> endpoints = await AssetProxyRouting.PrepareAsync(hosts, ct, resolveEndpoints, removeEntries: !useExplicitProxy).ConfigureAwait(false);
 		CancellationTokenSource linked = new();
 		using CancellationTokenRegistration startupRegistration = ct.Register(linked.Cancel);
 		List<TcpListener> listeners = [];
@@ -470,7 +476,7 @@ public static class AssetProxyServer
 
 		try
 		{
-			if (UsesExplicitProxy)
+			if (useExplicitProxy)
 			{
 				TcpListener forward = new(IPAddress.Loopback, 0);
 				forward.Server.ExclusiveAddressUse = true;
@@ -517,23 +523,30 @@ public static class AssetProxyServer
 				_hosts = hosts;
 				foreach (TcpListener listener in listeners)
 				{
-					loops.Add(AcceptLoopAsync(listener, UsesExplicitProxy, linked.Token));
+					loops.Add(AcceptLoopAsync(listener, useExplicitProxy, linked.Token));
 				}
 				_acceptLoops = loops;
 			}
 
 			Volatile.Write(ref _lastTlsFailure, "");
-			if (UsesExplicitProxy)
+			if (useExplicitProxy)
 			{
 				Uri? address = ExplicitProxyAddress;
 				if (address is null)
 				{
 					throw new InvalidOperationException("The AssetWarp proxy port was not assigned");
 				}
-				Voidstrap.Platform.OperationResult enabled = await LinuxAssetWarpBridge.EnableAsync(address, linked.Token).ConfigureAwait(false);
-				if (!enabled.Succeeded)
+				if (useFleasion)
 				{
-					throw new InvalidOperationException(enabled.Failure?.Message ?? "AssetWarp could not be enabled on this system");
+					using CancellationTokenSource deadline = CancellationTokenSource.CreateLinkedTokenSource(linked.Token);
+					deadline.CancelAfter(TimeSpan.FromSeconds(10));
+					await FleasionBridge.EnableAsync(address, deadline.Token).ConfigureAwait(false);
+				}
+				else
+				{
+					Voidstrap.Platform.OperationResult enabled = await LinuxAssetWarpBridge.EnableAsync(address, linked.Token).ConfigureAwait(false);
+					if (!enabled.Succeeded)
+						throw new InvalidOperationException(enabled.Failure?.Message ?? "AssetWarp could not be enabled on this system");
 				}
 			}
 			else
@@ -542,7 +555,8 @@ public static class AssetProxyServer
 			}
 			try
 			{
-				AssetProxyRouting.InstallEntries(hosts, listeners.Count > 1);
+				if (!useExplicitProxy)
+					AssetProxyRouting.InstallEntries(hosts, listeners.Count > 1);
 			}
 			catch (IOException ex)
 			{
@@ -555,19 +569,20 @@ public static class AssetProxyServer
 			}
 			Voidstrap.Utility.MemoryManager.LeaveQuietModeForLiveTraffic();
 			AssetProxyRouting.RecordCache(cacheSignature);
-			App.Logger?.WriteLine(LogIdent, UsesExplicitProxy
+			App.Logger?.WriteLine(LogIdent, useExplicitProxy
 				? "AssetWarp forward proxy active on local port " + ExplicitPort.ToString(CultureInfo.InvariantCulture)
 				: "AssetWarp TLS proxy active on local port 443");
 		}
 		catch
 		{
+			FleasionBridge.Restore();
 			linked.Cancel();
 			foreach (TcpListener listener in listeners)
 			{
 				listener.Stop();
 			}
 			AssetProxyRouting.Cleanup();
-			if (UsesExplicitProxy)
+			if (useExplicitProxy)
 			{
 				LinuxAssetWarpBridge.DisableBlocking();
 			}
@@ -727,7 +742,7 @@ public static class AssetProxyServer
 				StopInternal();
 				if (!App.Settings.Prop.AssetWarpEnabled || !App.Settings.Prop.AssetWarpCertificateApproved)
 					CleanupStaleState();
-				if (restart && IsRequired && (!Voidstrap.Utility.Platform.IsWindows || ProcessElevation.IsAdministrator()))
+				if (restart && IsRequired && (!Voidstrap.Utility.Platform.IsWindows || UsesExplicitProxy || ProcessElevation.IsAdministrator()))
 					await StartAsync(next.Token).ConfigureAwait(false);
 			}
 			catch (OperationCanceledException) when (next.IsCancellationRequested)
@@ -747,6 +762,8 @@ public static class AssetProxyServer
 
 	private static void StopCore(long deadline)
 	{
+		if (_ownershipLock != null)
+			FleasionBridge.Restore();
 		TextureStripper.InvalidateRuntimeState();
 		CancellationTokenSource? cancellation;
 		Task[] loops;
@@ -821,6 +838,7 @@ public static class AssetProxyServer
 		}
 		using (ownership)
 		{
+			FleasionBridge.Restore();
 			if (Voidstrap.Utility.Platform.IsLinux)
 			{
 				LinuxAssetWarpBridge.DisableBlocking(TimeSpan.FromSeconds(3));
@@ -1285,6 +1303,11 @@ public static class AssetProxyServer
 			}
 
 			HttpHead request = ParseHead(headerBytes);
+			if (!FleasionBridge.IsAuthorized(request.Get("Proxy-Authorization")))
+			{
+				await WriteProxyStatusAsync(transport, "407 Proxy Authentication Required", ct).ConfigureAwait(false);
+				return;
+			}
 			string[] parts = request.FirstLine.Split(' ', 3, StringSplitOptions.RemoveEmptyEntries);
 			if (parts.Length < 2)
 			{
@@ -1293,6 +1316,11 @@ public static class AssetProxyServer
 
 			string method = parts[0];
 			bool isConnect = string.Equals(method, "CONNECT", StringComparison.OrdinalIgnoreCase);
+			if (FleasionBridge.IsActive && !isConnect)
+			{
+				await WriteProxyStatusAsync(transport, "405 Method Not Allowed", ct).ConfigureAwait(false);
+				return;
+			}
 			if (!Voidstrap.Core.AssetProxy.ProxyRequestTarget.TryResolve(parts[1], request.Get("Host"), isConnect, out string host, out int port))
 			{
 				await WriteProxyStatusAsync(transport, "400 Bad Request", ct).ConfigureAwait(false);
@@ -1353,15 +1381,25 @@ public static class AssetProxyServer
 
 	private static async Task TunnelAsync(Stream client, string host, int port, byte[]? preface, CancellationToken ct)
 	{
-		using TcpClient remote = new();
+		TcpClient? remote = null;
 		try
 		{
 			using CancellationTokenSource deadline = CancellationTokenSource.CreateLinkedTokenSource(ct);
 			deadline.CancelAfter(TimeSpan.FromSeconds(15));
-			await remote.ConnectAsync(host, port, deadline.Token).ConfigureAwait(false);
+			if (FleasionBridge.IsActive)
+			{
+				remote = await UpstreamConnector.ConnectTunnelAsync(host, port, deadline.Token).ConfigureAwait(false)
+					?? throw new IOException("The upstream proxy did not accept the tunnel");
+			}
+			else
+			{
+				remote = new TcpClient();
+				await remote.ConnectAsync(host, port, deadline.Token).ConfigureAwait(false);
+			}
 		}
 		catch (Exception ex)
 		{
+			remote?.Dispose();
 			App.Logger?.WriteLine(LogIdent, "Tunnel to " + host + " failed: " + ex.Message);
 			if (preface is null)
 			{
@@ -1371,6 +1409,7 @@ public static class AssetProxyServer
 		}
 
 		remote.NoDelay = true;
+		using TcpClient ownedRemote = remote;
 		NetworkStream remoteStream = remote.GetStream();
 		if (preface is null)
 		{

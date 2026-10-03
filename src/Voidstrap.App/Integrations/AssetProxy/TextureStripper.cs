@@ -505,7 +505,9 @@ public static class TextureStripper
 				{
 					if (!rule.TryGetProperty("local_path", out JsonElement value) || value.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(value.GetString()))
 						continue;
-					local = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(path)!, value.GetString()!));
+					local = ResolveLocalPath(value.GetString()!, Path.GetDirectoryName(path)!);
+					if (local == null)
+						continue;
 					FileInfo replacement = new(local);
 					if (!replacement.Exists || replacement.Length <= 0 || replacement.LinkTarget != null)
 						continue;
@@ -575,7 +577,9 @@ public static class TextureStripper
 				{
 					continue;
 				}
-				string mode = rule.TryGetProperty("mode", out JsonElement modeElement) ? modeElement.GetString()?.ToLowerInvariant() ?? "id" : "id";
+				string mode = rule.TryGetProperty("mode", out JsonElement modeElement) && modeElement.ValueKind == JsonValueKind.String
+					? modeElement.GetString()?.ToLowerInvariant() ?? "id"
+					: rule.TryGetProperty("remove", out JsonElement remove) && remove.ValueKind == JsonValueKind.True ? "remove" : "id";
 				foreach (JsonElement id in ids.EnumerateArray())
 				{
 					string key = NormalizeKey(id);
@@ -647,16 +651,31 @@ public static class TextureStripper
 		}
 		if (mode == "local" && rule.TryGetProperty("local_path", out JsonElement localElement))
 		{
-			string value = localElement.GetString() ?? "";
-			if (!Path.IsPathRooted(value))
-			{
-				value = Path.GetFullPath(Path.Combine(baseDirectory, value));
-			}
-			if (File.Exists(value))
+			string? value = localElement.ValueKind == JsonValueKind.String ? ResolveLocalPath(localElement.GetString() ?? "", baseDirectory) : null;
+			if (value != null)
 			{
 				target.Routes[key] = new AssetWarpRoute(AssetWarpRouteKind.Local, value);
 			}
 		}
+	}
+
+	internal static string? ResolveLocalPath(string value, string baseDirectory)
+	{
+		value = value.Trim();
+		if (value.Length == 0)
+			return null;
+		if (value.StartsWith('/') && !value.StartsWith("//", StringComparison.Ordinal) && !value.Contains('\\'))
+		{
+			string[] parts = value[1..].Split('/');
+			if (parts.Length is >= 2 and <= 11 && parts.All(part => part.Length > 0 && part is not "." and not ".."))
+			{
+				string portable = Path.Combine(baseDirectory, Path.Combine(parts));
+				if (File.Exists(portable))
+					return Path.GetFullPath(portable);
+			}
+		}
+		string path = Path.IsPathRooted(value) ? value : Path.Combine(baseDirectory, value.Replace('\\', Path.DirectorySeparatorChar));
+		return File.Exists(path) ? Path.GetFullPath(path) : null;
 	}
 
 	private static string NormalizeKey(JsonNode? node)

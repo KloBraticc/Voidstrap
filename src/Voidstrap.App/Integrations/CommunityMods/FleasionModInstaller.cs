@@ -25,7 +25,7 @@ internal static class FleasionModInstaller
 
 	private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions { WriteIndented = true };
 
-	public static bool IsInstalled => File.Exists(Path.Combine(Paths.Fleasion, "Fleasion.exe"));
+	public static bool IsInstalled => FleasionBridge.ResolveExecutable() != null;
 
 	private static string PackageLabel => Voidstrap.Utility.Platform.IsLinux ? "replacement" : "Fleasion";
 
@@ -608,7 +608,7 @@ internal static class FleasionModInstaller
 	private static string GetConfigsFolder(InstallTarget target)
 	{
 		return target == InstallTarget.Fleasion
-			? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "FleasionNT", "configs")
+			? Path.Combine(FleasionBridge.ConfigDirectory, "configs")
 			: Path.Combine(Paths.AssetProxy, "Configs");
 	}
 

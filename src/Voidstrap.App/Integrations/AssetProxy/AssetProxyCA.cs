@@ -329,6 +329,8 @@ internal static partial class AssetProxyCA
 		HashSet<string> directories = new(StringComparer.OrdinalIgnoreCase);
 		AddVersionDirectories(directories, Paths.Versions);
 		AddVersionDirectories(directories, Path.Combine(Paths.LocalAppData, "Roblox", "Versions"));
+		if (Voidstrap.Utility.Platform.IsWindows)
+			directories.Add(new Voidstrap.AppData.RobloxPlayerData().Directory);
 
 		int patched = 0;
 		int failed = 0;
@@ -578,6 +580,8 @@ internal static partial class AssetProxyCA
 		HashSet<string> directories = new(StringComparer.OrdinalIgnoreCase);
 		AddVersionDirectories(directories, Paths.Versions);
 		AddVersionDirectories(directories, Path.Combine(Paths.LocalAppData, "Roblox", "Versions"));
+		if (Voidstrap.Utility.Platform.IsWindows)
+			directories.Add(new Voidstrap.AppData.RobloxPlayerData().Directory);
 		foreach (string directory in directories)
 		{
 			string bundle = Path.Combine(directory, "ssl", "cacert.pem");

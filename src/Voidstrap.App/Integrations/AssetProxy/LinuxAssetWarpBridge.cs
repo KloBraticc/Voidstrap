@@ -127,7 +127,7 @@ internal static class LinuxAssetWarpBridge
 
 	public static async Task DisableAsync(CancellationToken ct = default)
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsLinux || !NeedsCleanup())
 		{
 			return;
 		}

@@ -49,9 +49,13 @@ namespace Voidstrap.Integrations.AssetProxy
 
         public static string HttpConnectProxyHost { get; set; } = "";
         public static int HttpConnectProxyPort { get; set; } = 3128;
+        internal static string HttpConnectProxyUsername { get; set; } = "";
+        internal static string HttpConnectProxyPassword { get; set; } = "";
 
         public static string Socks5ProxyHost { get; set; } = "";
         public static int Socks5ProxyPort { get; set; } = 1080;
+        internal static string Socks5ProxyUsername { get; set; } = "";
+        internal static string Socks5ProxyPassword { get; set; } = "";
 
         public static async Task<UpstreamConnection?> ConnectAsync(string host, int port, CancellationToken ct = default)
 		{
@@ -146,6 +150,11 @@ namespace Voidstrap.Integrations.AssetProxy
 
         private static async Task<UpstreamConnection?> HttpConnectAsync(string targetHost, int targetPort, CancellationToken ct)
         {
+            return await AuthenticateTunnelAsync(await HttpConnectSocketAsync(targetHost, targetPort, ct).ConfigureAwait(false), targetHost, ct).ConfigureAwait(false);
+        }
+
+        private static async Task<TcpClient?> HttpConnectSocketAsync(string targetHost, int targetPort, CancellationToken ct)
+        {
             string proxyHost = HttpConnectProxyHost;
             int proxyPort = HttpConnectProxyPort;
 
@@ -153,7 +162,6 @@ namespace Voidstrap.Integrations.AssetProxy
                 return null;
 
 			TcpClient? tcp = null;
-			SslStream? ssl = null;
 			try
             {
 				tcp = new TcpClient();
@@ -162,7 +170,10 @@ namespace Voidstrap.Integrations.AssetProxy
 
                 var raw = tcp.GetStream();
 
-                string connectReq = $"CONNECT {targetHost}:{targetPort} HTTP/1.1\r\nHost: {targetHost}:{targetPort}\r\n\r\n";
+                string authorization = HttpConnectProxyUsername.Length > 0 || HttpConnectProxyPassword.Length > 0
+                    ? "Proxy-Authorization: Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(HttpConnectProxyUsername + ":" + HttpConnectProxyPassword)) + "\r\n"
+                    : "";
+                string connectReq = $"CONNECT {targetHost}:{targetPort} HTTP/1.1\r\nHost: {targetHost}:{targetPort}\r\n{authorization}\r\n";
                 byte[] reqBytes = Encoding.ASCII.GetBytes(connectReq);
                 await raw.WriteAsync(reqBytes, ct).ConfigureAwait(false);
                 await raw.FlushAsync(ct).ConfigureAwait(false);
@@ -205,16 +216,8 @@ namespace Voidstrap.Integrations.AssetProxy
                     return null;
                 }
 
-				ssl = new SslStream(raw, false, _validateCertificate);
-                await ssl.AuthenticateAsClientAsync(new SslClientAuthenticationOptions
-                {
-                    TargetHost = targetHost,
-                    EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13,
-                }, ct).ConfigureAwait(false);
-
-				UpstreamConnection result = new(tcp, ssl);
+				TcpClient result = tcp;
 				tcp = null;
-				ssl = null;
 				return result;
             }
 			catch (OperationCanceledException) when (ct.IsCancellationRequested)
@@ -228,12 +231,16 @@ namespace Voidstrap.Integrations.AssetProxy
             }
 			finally
 			{
-				ssl?.Dispose();
 				tcp?.Dispose();
 			}
         }
 
         private static async Task<UpstreamConnection?> Socks5ConnectAsync(string targetHost, int targetPort, CancellationToken ct)
+        {
+            return await AuthenticateTunnelAsync(await Socks5SocketAsync(targetHost, targetPort, ct).ConfigureAwait(false), targetHost, ct).ConfigureAwait(false);
+        }
+
+        private static async Task<TcpClient?> Socks5SocketAsync(string targetHost, int targetPort, CancellationToken ct)
         {
             string proxyHost = Socks5ProxyHost;
             int proxyPort = Socks5ProxyPort;
@@ -242,7 +249,6 @@ namespace Voidstrap.Integrations.AssetProxy
                 return null;
 
 			TcpClient? tcp = null;
-			SslStream? ssl = null;
 			try
             {
 				tcp = new TcpClient();
@@ -251,7 +257,8 @@ namespace Voidstrap.Integrations.AssetProxy
 
                 var raw = tcp.GetStream();
 
-                byte[] greeting = [5, 1, 0];
+                bool authenticated = Socks5ProxyUsername.Length > 0 || Socks5ProxyPassword.Length > 0;
+                byte[] greeting = authenticated ? [5, 2, 0, 2] : [5, 1, 0];
                 await raw.WriteAsync(greeting, ct).ConfigureAwait(false);
                 await raw.FlushAsync(ct).ConfigureAwait(false);
 
@@ -268,10 +275,27 @@ namespace Voidstrap.Integrations.AssetProxy
                     got += r;
                 }
 
-                if (resp[0] != 5 || resp[1] != 0)
+                if (resp[0] != 5 || resp[1] != 0 && (!authenticated || resp[1] != 2))
                 {
                     tcp.Dispose();
                     return null;
+                }
+
+                if (resp[1] == 2)
+                {
+                    byte[] username = Encoding.UTF8.GetBytes(Socks5ProxyUsername);
+                    byte[] password = Encoding.UTF8.GetBytes(Socks5ProxyPassword);
+                    if (username.Length is 0 or > 255 || password.Length is 0 or > 255)
+                        return null;
+                    byte[] authentication = new byte[3 + username.Length + password.Length];
+                    authentication[0] = 1;
+                    authentication[1] = (byte)username.Length;
+                    username.CopyTo(authentication, 2);
+                    authentication[username.Length + 2] = (byte)password.Length;
+                    password.CopyTo(authentication, username.Length + 3);
+                    await raw.WriteAsync(authentication, ct).ConfigureAwait(false);
+                    if (!await ReadExactAsync(raw, resp, ct).ConfigureAwait(false) || resp[0] != 1 || resp[1] != 0)
+                        return null;
                 }
 
                 byte[] addrBytes = Encoding.ASCII.GetBytes(targetHost);
@@ -328,16 +352,8 @@ namespace Voidstrap.Integrations.AssetProxy
 					return null;
 				}
 
-				ssl = new SslStream(raw, false, _validateCertificate);
-                await ssl.AuthenticateAsClientAsync(new SslClientAuthenticationOptions
-                {
-                    TargetHost = targetHost,
-                    EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13,
-                }, ct).ConfigureAwait(false);
-
-				UpstreamConnection result = new(tcp, ssl);
+				TcpClient result = tcp;
 				tcp = null;
-				ssl = null;
 				return result;
             }
 			catch (OperationCanceledException) when (ct.IsCancellationRequested)
@@ -351,9 +367,72 @@ namespace Voidstrap.Integrations.AssetProxy
             }
 			finally
 			{
-				ssl?.Dispose();
 				tcp?.Dispose();
 			}
+        }
+
+        private static async Task<UpstreamConnection?> AuthenticateTunnelAsync(TcpClient? tcp, string host, CancellationToken ct)
+        {
+            if (tcp == null)
+                return null;
+            SslStream? ssl = null;
+            try
+            {
+                ssl = new SslStream(tcp.GetStream(), false, _validateCertificate);
+                await ssl.AuthenticateAsClientAsync(new SslClientAuthenticationOptions
+                {
+                    TargetHost = host,
+                    EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13
+                }, ct).ConfigureAwait(false);
+                UpstreamConnection result = new(tcp, ssl);
+                tcp = null;
+                ssl = null;
+                return result;
+            }
+            catch (OperationCanceledException) when (ct.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "Upstream TLS failed for " + host + ": " + ex.Message);
+                return null;
+            }
+            finally
+            {
+                ssl?.Dispose();
+                tcp?.Dispose();
+            }
+        }
+
+        internal static async Task<TcpClient?> ConnectTunnelAsync(string host, int port, CancellationToken ct)
+        {
+            if (ConnectorType == UpstreamConnectorType.HttpConnect)
+                return await HttpConnectSocketAsync(host, port, ct).ConfigureAwait(false);
+            if (ConnectorType == UpstreamConnectorType.Socks5)
+                return await Socks5SocketAsync(host, port, ct).ConfigureAwait(false);
+            TcpClient direct = new();
+            try
+            {
+                string? address = await DnsResolver.ResolveDirectAsync(host, ct).ConfigureAwait(false);
+                if (address == null || !IPAddress.TryParse(address, out IPAddress? parsed) || IPAddress.IsLoopback(parsed))
+                    throw new IOException("The tunnel destination could not be resolved directly");
+                await direct.ConnectAsync(address, port, ct).ConfigureAwait(false);
+                return direct;
+            }
+            catch (OperationCanceledException) when (ct.IsCancellationRequested)
+            {
+                direct.Dispose();
+                throw;
+            }
+            catch
+            {
+                direct.Dispose();
+                if (ConnectorType != UpstreamConnectorType.Auto)
+                    throw;
+                return await HttpConnectSocketAsync(host, port, ct).ConfigureAwait(false)
+                    ?? await Socks5SocketAsync(host, port, ct).ConfigureAwait(false);
+            }
         }
 
 		private static async Task<bool> ReadExactAsync(Stream stream, Memory<byte> buffer, CancellationToken ct)
