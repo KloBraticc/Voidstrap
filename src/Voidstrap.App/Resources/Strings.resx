@@ -2124,4 +2124,19 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
     <value>Copy selected as JSON</value>
   </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>Accent color</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>Choose a color for the app controls and background tint.</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>Choose color</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>Use system color</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>Choose accent color</value>
+  </data>
 </root>

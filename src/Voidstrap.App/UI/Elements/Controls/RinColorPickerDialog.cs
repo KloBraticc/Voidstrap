@@ -12,13 +12,15 @@ public class RinColorPickerDialog : WpfUiWindow
 {
 	private readonly RinColorPicker _picker;
 
+	private readonly Button _ok;
+
 	public Color SelectedColor => _picker.SelectedColor;
 
 	internal RinColorPicker Picker => _picker;
 
-	public RinColorPickerDialog(Color? initial = null, bool alphaEnabled = false)
+	public RinColorPickerDialog(Color? initial = null, bool alphaEnabled = false, string? title = null)
 	{
-		Title = "Pick a colour";
+		Title = title ?? "Pick a colour";
 		SizeToContent = SizeToContent.WidthAndHeight;
 		ResizeMode = ResizeMode.NoResize;
 		WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -34,17 +36,18 @@ public class RinColorPickerDialog : WpfUiWindow
 
 		var ok = new Button
 		{
-			Content = "OK",
+			Content = Voidstrap.Resources.Strings.Common_OK,
 			MinWidth = 120,
 			Margin = new Thickness(0, 0, 8, 0),
 			IsDefault = true
 		};
 		ok.SetResourceReference(StyleProperty, typeof(Button));
+		_ok = ok;
 		ok.Click += OnOkClick;
 
 		var cancel = new Button
 		{
-			Content = "Cancel",
+			Content = Voidstrap.Resources.Strings.Common_Cancel,
 			MinWidth = 120,
 			IsCancel = true
 		};
@@ -63,7 +66,7 @@ public class RinColorPickerDialog : WpfUiWindow
 		body.Children.Add(_picker);
 		body.Children.Add(buttons);
 
-		Content = DialogChrome.Host(DialogChrome.TitleBar("Pick a colour"), body);
+		Content = DialogChrome.Host(DialogChrome.TitleBar(Title), body);
 		if (Voidstrap.Utility.Platform.IsLinux && Application.Current != null)
 		{
 			Window? active = Application.Current.Windows
@@ -85,5 +88,11 @@ public class RinColorPickerDialog : WpfUiWindow
 	{
 		DialogResult = true;
 		Close();
+	}
+
+	protected override void OnClosed(EventArgs e)
+	{
+		_ok.Click -= OnOkClick;
+		base.OnClosed(e);
 	}
 }

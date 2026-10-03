@@ -72,8 +72,8 @@ namespace Voidstrap.UI.Elements.Overlay
 				NotificationRoot.Margin = new Thickness(0);
 				SizeChanged += Window_SizeChanged;
 			}
-            AccentStripe.Fill = Voidstrap.Utility.SystemAccent.GetGlassBrush();
-            ProgressBar.Fill = Voidstrap.Utility.SystemAccent.GetGlassBrush();
+            AccentStripe.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "SystemAccentColorBrush");
+            ProgressBar.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "SystemAccentColorBrush");
 
             SourceInitialized += Window_SourceInitialized;
             Closed += Window_Closed;

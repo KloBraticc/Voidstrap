@@ -47,6 +47,7 @@ namespace Voidstrap.Models.Persistable
         public string BootstrapperTitle { get; set; } = App.ProjectName;
         public string BootstrapperIconCustomLocation { get; set; } = "";
         public Theme Theme2 { get; set; } = Theme.Dark;
+        public string? CustomAccentColor { get; set; }
         public BackdropType WindowBackdrop { get; set; } = DefaultWindowBackdrop;
         public int WindowBackdropResetVersion { get; set; }
 

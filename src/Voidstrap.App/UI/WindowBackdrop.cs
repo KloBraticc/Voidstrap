@@ -316,6 +316,9 @@ public static partial class WindowBackdrop
         }
         if (_contextMenuHandle == handle && _contextMenuBackdrop == backgroundType && contextMenu.Background != null)
         {
+            contextMenu.Background = backgroundType == Wpf.Ui.Appearance.BackgroundType.None
+                ? CreateOpaqueSurfaceBrush(contextMenu)
+                : CreateSurfaceBrush(contextMenu);
             return;
         }
         _contextMenuHandle = IntPtr.Zero;
@@ -576,6 +579,64 @@ public static partial class WindowBackdrop
         }
     }
 
+    internal static void RefreshTheme(Window window)
+    {
+        InvalidateSurfaceCache();
+        _appliedBackdrops.Remove(window);
+        ApplyBackdrop(window);
+    }
+
+    internal static void RefreshAccentTint()
+    {
+        Application? application = Application.Current;
+        if (application == null || application.Dispatcher.HasShutdownStarted || application.Dispatcher.HasShutdownFinished)
+            return;
+        InvalidateSurfaceCache();
+        foreach (Window window in application.Windows.Cast<Window>().ToArray())
+        {
+            try
+            {
+                RefreshTint(window);
+                if (window is Voidstrap.UI.Elements.ContextMenu.MenuContainer menu)
+                    menu.ApplyBackdrop();
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine("WindowBackdrop::RefreshAccentTint", "The window tint could not be refreshed: " + ex.Message);
+            }
+        }
+    }
+
+    internal static void RefreshTint(Window window)
+    {
+        if (!window.IsLoaded || window.Dispatcher.HasShutdownStarted || window.Dispatcher.HasShutdownFinished)
+            return;
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            if (!Voidstrap.Integrations.Overlays.LinuxOverlaySurface.IsOverlayWindow(window))
+                ApplyLinuxSurface(window);
+            return;
+        }
+        if (window.AllowsTransparency)
+            return;
+        Wpf.Ui.Appearance.BackgroundType backdrop = _appliedBackdrops.TryGetValue(window, out _)
+            ? Resolve(EffectiveBackdrop(window))
+            : Wpf.Ui.Appearance.BackgroundType.None;
+        if (backdrop == Wpf.Ui.Appearance.BackgroundType.Aero)
+        {
+            IntPtr handle = new WindowInteropHelper(window).Handle;
+            if (handle != IntPtr.Zero)
+            {
+                Color tint = CreateSurfaceColor(EffectiveBackdrop(window));
+                int color = unchecked((int)((uint)tint.A << 24 | (uint)tint.B << 16 | (uint)tint.G << 8 | tint.R));
+                int state = OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17134)
+                    ? AccentEnableAcrylicBlurBehind : AccentEnableBlurBehind;
+                SetAccentPolicy(handle, state, AccentFlagUseGradientColor, color);
+            }
+        }
+        ApplySurface(window, backdrop);
+    }
+
     public static void ApplyGradientOpacityChange()
     {
         Application application = Application.Current;
@@ -658,7 +719,8 @@ public static partial class WindowBackdrop
 
     private static Color Vibrant(Color color, BackdropType backdrop)
     {
-        if (backdrop == BackdropType.None || !Voidstrap.Utility.Platform.IsWindows)
+        bool customAccent = Voidstrap.Utility.SystemAccent.TryGetCustomColor(out _);
+        if (!customAccent && (backdrop == BackdropType.None || !Voidstrap.Utility.Platform.IsWindows))
         {
             return color;
         }
@@ -673,7 +735,7 @@ public static partial class WindowBackdrop
         }
         ToHsl(color, out double hue, out double saturation, out double lightness);
         ToHsl(accent, out double accentHue, out double accentSaturation, out _);
-        if (accentSaturation >= MinimumAccentSaturation)
+        if (customAccent || accentSaturation >= MinimumAccentSaturation)
         {
             hue = accentHue;
             saturation += (accentSaturation - saturation) * MicaAccentTint;
@@ -695,13 +757,14 @@ public static partial class WindowBackdrop
     private static Color ResolveAccentColor()
     {
         long now = Environment.TickCount64;
-        if (now - Volatile.Read(ref _accentReadTicks) < AccentCacheMs)
+        long lastRead = Volatile.Read(ref _accentReadTicks);
+        if (lastRead != long.MinValue && now - lastRead < AccentCacheMs)
         {
             return _accentColor;
         }
         try
         {
-            _accentColor = SystemParameters.WindowGlassColor;
+            _accentColor = Voidstrap.Utility.SystemAccent.GetGlassColor();
         }
         catch (Exception ex)
         {

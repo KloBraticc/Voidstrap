@@ -263,6 +263,36 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
     public ICommand PreviewBootstrapperCommand => new RelayCommand(PreviewBootstrapper);
 
+    public ICommand ChooseAccentCommand => new RelayCommand(ChooseAccent);
+
+    public ICommand ResetAccentCommand => new RelayCommand(ResetAccent);
+
+    private void ChooseAccent()
+    {
+        using var dialog = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(SystemAccent.Get(), title: Strings.Menu_Appearance_Accent_Picker);
+        Window? owner = Application.Current?.Windows.OfType<Window>().LastOrDefault(window => window.IsActive && window != dialog);
+        if (owner != null)
+            dialog.Owner = owner;
+        if (dialog.ShowDialog() != true)
+            return;
+        Color color = dialog.SelectedColor;
+        string value = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+        if (string.Equals(App.Settings.Prop.CustomAccentColor, value, StringComparison.OrdinalIgnoreCase))
+            return;
+        App.Settings.Prop.CustomAccentColor = value;
+        App.Settings.SaveDeferred();
+        SystemAccent.Refresh();
+    }
+
+    private static void ResetAccent()
+    {
+        if (App.Settings.Prop.CustomAccentColor == null)
+            return;
+        App.Settings.Prop.CustomAccentColor = null;
+        App.Settings.SaveDeferred();
+        SystemAccent.Refresh();
+    }
+
     public ICommand BrowseCustomIconLocationCommand => new RelayCommand(BrowseCustomIconLocation);
 
     public ICommand AddCustomThemeCommand => new RelayCommand(AddCustomTheme);

@@ -63,14 +63,6 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 			try
 			{
 				_themeService.SetTheme(theme);
-				if (Voidstrap.Utility.Platform.IsWindows)
-				{
-					_themeService.SetSystemAccent();
-				}
-				else
-				{
-					Wpf.Ui.Appearance.Accent.Apply(Voidstrap.Utility.SystemAccent.Get(), theme);
-				}
 			}
 			catch (Exception ex)
 			{
@@ -92,7 +84,8 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 				_lastAppliedTheme = final;
 			}
 		}
-		WindowBackdrop.ApplyThemeToAllOpenWindows();
+		if (IsLoaded)
+			WindowBackdrop.RefreshTheme(this);
 	}
 
 	private static ResourceDictionary? LoadCustomThemeDict()
@@ -150,7 +143,7 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 			return;
 		}
 		Collection<ResourceDictionary> mergedDictionaries = Application.Current.Resources.MergedDictionaries;
-		if (_lastAppliedDict != null && mergedDictionaries.Contains(_lastAppliedDict))
+		if (_lastAppliedDict != null && !ReferenceEquals(_lastAppliedDict, newDict) && mergedDictionaries.Contains(_lastAppliedDict))
 		{
 			mergedDictionaries.Remove(_lastAppliedDict);
 		}
@@ -172,7 +165,8 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 				mergedDictionaries.RemoveAt(num);
 			}
 		}
-		mergedDictionaries.Add(newDict);
+		if (!mergedDictionaries.Contains(newDict))
+			mergedDictionaries.Add(newDict);
 		_lastAppliedDict = newDict;
 	}
 

@@ -21,11 +21,21 @@ internal static partial class SystemAccent
 
 	private static bool _subscribed;
 
+	private static Color? _appliedColor;
+
+	private static Wpf.Ui.Appearance.ThemeType? _appliedTheme;
+
+	private static int _refreshPending;
+
+	private static System.Windows.Threading.DispatcherOperation? _refreshOperation;
+
 	[LibraryImport("dwmapi.dll", EntryPoint = "DwmGetColorizationColor")]
 	private static partial int DwmGetColorizationColor(out uint colorizationColor, [MarshalAs(UnmanagedType.Bool)] out bool opaqueBlend);
 
 	public static Color GetGlassColor()
 	{
+		if (TryGetCustomColor(out Color custom))
+			return custom;
 		if (Platform.IsWindows)
 		{
 			try
@@ -41,7 +51,7 @@ internal static partial class SystemAccent
 
 	public static Brush GetGlassBrush()
 	{
-		if (Platform.IsWindows)
+		if (Platform.IsWindows && !TryGetCustomColor(out _))
 		{
 			try
 			{
@@ -62,6 +72,8 @@ internal static partial class SystemAccent
 
 	public static Color Get()
 	{
+		if (TryGetCustomColor(out Color custom))
+			return custom;
 		if (_cached.HasValue)
 		{
 			return _cached.Value;
@@ -89,24 +101,34 @@ internal static partial class SystemAccent
 		return result;
 	}
 
-	public static void ApplyResources()
+	public static bool ApplyResources()
 	{
 		Application? application = Application.Current;
 		if (application == null)
 		{
-			return;
+			return false;
 		}
+		bool changed = false;
 		try
 		{
-			Color fill = ResolveFill(application);
-			SolidColorBrush fillBrush = new SolidColorBrush(fill);
-			fillBrush.Freeze();
-			SolidColorBrush textBrush = new SolidColorBrush(ReadableOn(fill));
-			textBrush.Freeze();
-			application.Resources["AccentFillColorPrimary"] = fill;
-			application.Resources["AccentFillColorPrimaryBrush"] = fillBrush;
-			application.Resources["TextOnAccentFillColorPrimary"] = textBrush.Color;
-			application.Resources["TextOnAccentFillColorPrimaryBrush"] = textBrush;
+			Wpf.Ui.Appearance.ThemeType theme = Wpf.Ui.Appearance.Theme.GetAppTheme();
+			Color color = Get();
+			if (_appliedColor != color || _appliedTheme != theme || application.Resources["SystemAccentColor"] is not Color current || current != color)
+			{
+				Wpf.Ui.Appearance.Accent.Apply(color, theme == Wpf.Ui.Appearance.ThemeType.Light ? Wpf.Ui.Appearance.ThemeType.Light : Wpf.Ui.Appearance.ThemeType.Dark);
+				Color fill = ResolveFill(application);
+				SolidColorBrush fillBrush = new SolidColorBrush(fill);
+				fillBrush.Freeze();
+				SolidColorBrush textBrush = new SolidColorBrush(ReadableOn(fill));
+				textBrush.Freeze();
+				application.Resources["AccentFillColorPrimary"] = fill;
+				application.Resources["AccentFillColorPrimaryBrush"] = fillBrush;
+				application.Resources["TextOnAccentFillColorPrimary"] = textBrush.Color;
+				application.Resources["TextOnAccentFillColorPrimaryBrush"] = textBrush;
+				_appliedColor = color;
+				_appliedTheme = theme;
+				changed = true;
+			}
 		}
 		catch (Exception ex)
 		{
@@ -114,7 +136,7 @@ internal static partial class SystemAccent
 		}
 		if (_subscribed)
 		{
-			return;
+			return changed;
 		}
 		if (Platform.IsWindows)
 		{
@@ -126,10 +148,53 @@ internal static partial class SystemAccent
 			LinuxAppearancePortal.WatchAccent(OnLinuxAccentChanged);
 			_subscribed = true;
 		}
+		return changed;
+	}
+
+	internal static bool TryGetCustomColor(out Color color)
+	{
+		color = default;
+		string? value = App.Settings?.Prop.CustomAccentColor;
+		if (value == null || value.Length != 7 || value[0] != '#'
+			|| !uint.TryParse(value.AsSpan(1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out uint rgb))
+			return false;
+		color = Color.FromRgb((byte)(rgb >> 16), (byte)(rgb >> 8), (byte)rgb);
+		return true;
+	}
+
+	public static void Refresh()
+	{
+		Application? application = Application.Current;
+		if (application == null || application.Dispatcher.HasShutdownStarted || application.Dispatcher.HasShutdownFinished)
+			return;
+		if (System.Threading.Interlocked.Exchange(ref _refreshPending, 1) != 0)
+			return;
+		try
+		{
+			_refreshOperation = application.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(RefreshCore));
+		}
+		catch (InvalidOperationException)
+		{
+			System.Threading.Interlocked.Exchange(ref _refreshPending, 0);
+		}
+	}
+
+	private static void RefreshCore()
+	{
+		_refreshOperation = null;
+		System.Threading.Interlocked.Exchange(ref _refreshPending, 0);
+		Application? application = Application.Current;
+		if (application == null || application.Dispatcher.HasShutdownStarted || application.Dispatcher.HasShutdownFinished)
+			return;
+		if (ApplyResources())
+			Voidstrap.UI.WindowBackdrop.RefreshAccentTint();
 	}
 
 	public static void Shutdown()
 	{
+		_refreshOperation?.Abort();
+		_refreshOperation = null;
+		System.Threading.Interlocked.Exchange(ref _refreshPending, 0);
 		if (!_subscribed)
 		{
 			return;
@@ -148,7 +213,7 @@ internal static partial class SystemAccent
 	private static void OnLinuxAccentChanged(Color color)
 	{
 		Application? application = Application.Current;
-		if (application == null)
+		if (application == null || application.Dispatcher.HasShutdownStarted || application.Dispatcher.HasShutdownFinished)
 		{
 			return;
 		}
@@ -160,16 +225,8 @@ internal static partial class SystemAccent
 			}
 			_cached = color;
 			App.Logger?.WriteLine(LogIdent, "System accent changed to " + Describe(color));
-			try
-			{
-				Wpf.Ui.Appearance.ThemeType theme = Wpf.Ui.Appearance.Theme.GetAppTheme();
-				Wpf.Ui.Appearance.Accent.Apply(color, theme == Wpf.Ui.Appearance.ThemeType.Light ? Wpf.Ui.Appearance.ThemeType.Light : Wpf.Ui.Appearance.ThemeType.Dark);
-			}
-			catch (Exception ex)
-			{
-				App.Logger?.WriteLine(LogIdent, "The new accent could not be applied: " + ex.Message);
-			}
-			ApplyResources();
+			if (!TryGetCustomColor(out _))
+				Refresh();
 		}));
 	}
 
@@ -183,11 +240,12 @@ internal static partial class SystemAccent
 		}
 		_cached = null;
 		Application? application = Application.Current;
-		if (application == null)
+		if (application == null || application.Dispatcher.HasShutdownStarted || application.Dispatcher.HasShutdownFinished)
 		{
 			return;
 		}
-		application.Dispatcher.BeginInvoke(new Action(ApplyResources));
+		if (!TryGetCustomColor(out _))
+			application.Dispatcher.BeginInvoke(new Action(Refresh));
 	}
 
 	private static Color ResolveFill(Application application)

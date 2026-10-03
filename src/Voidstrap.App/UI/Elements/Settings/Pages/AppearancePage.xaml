@@ -19,6 +19,15 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
+              <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Accent_Title}" Description="{x:Static resources:Strings.Menu_Appearance_Accent_Description}">
+                <StackPanel>
+                  <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                    <Border Width="24" Height="24" CornerRadius="4" Background="{DynamicResource SystemAccentColorBrush}" Margin="0,0,8,0" />
+                    <ui:Button Content="{x:Static resources:Strings.Menu_Appearance_Accent_Choose}" Command="{Binding ChooseAccentCommand}" />
+                  </StackPanel>
+                  <ui:Button Content="{x:Static resources:Strings.Menu_Appearance_Accent_System}" Command="{Binding ResetAccentCommand}" />
+                </StackPanel>
+              </controls:OptionControl>
               <controls:OptionControl Description="Adds Snow to Voidstraps background" Header="Background Snow">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding Snowww, Mode=TwoWay}" />
               </controls:OptionControl>
