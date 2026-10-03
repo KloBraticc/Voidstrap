@@ -424,35 +424,40 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                   </Grid.RowDefinitions>
-                  <Grid Margin="18,14,12,8">
+                  <Grid Margin="18,14,14,10">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
                     <TextBlock Text="Notifications" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" />
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                      <ui:Button x:Name="NotificationMarkAllButton" Width="32" Height="32" Padding="0" Appearance="Transparent" Icon="CheckboxChecked24" ToolTip="Mark all as read" Click="NotificationMarkAll_Click" />
-                      <ui:Button x:Name="NotificationClearButton" Width="32" Height="32" Margin="2,0,0,0" Padding="0" Appearance="Transparent" Icon="Delete24" ToolTip="Clear all" Click="NotificationClear_Click" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="12,0,0,0">
+                      <Button x:Name="NotificationMarkAllButton" Style="{StaticResource TopBarIconButtonStyle}" Width="32" Height="32" Focusable="True" ToolTip="Mark all as read" AutomationProperties.Name="Mark all as read" Click="NotificationMarkAll_Click">
+                        <ui:SymbolIcon Symbol="Checkmark24" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                      </Button>
+                      <Button x:Name="NotificationClearButton" Style="{StaticResource TopBarIconButtonStyle}" Width="32" Height="32" Margin="4,0,0,0" Focusable="True" ToolTip="Clear all" AutomationProperties.Name="Clear all notifications" Click="NotificationClear_Click">
+                        <ui:SymbolIcon Symbol="Delete24" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                      </Button>
                     </StackPanel>
                   </Grid>
-                  <Grid Grid.Row="1" MinHeight="176">
-                    <StackPanel x:Name="NotificationEmpty" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="24,0,24,18">
+                  <Grid Grid.Row="1">
+                    <StackPanel x:Name="NotificationEmpty" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="24,30,24,36">
                       <ui:SymbolIcon Symbol="Alert24" FontSize="28" Foreground="{StaticResource LauncherTextTertiaryBrush}" HorizontalAlignment="Center" />
                       <TextBlock x:Name="NotificationEmptyTitle" Text="You're all caught up" FontSize="14" FontWeight="SemiBold" Margin="0,10,0,0" HorizontalAlignment="Center" />
                       <TextBlock x:Name="NotificationEmptySubtitle" Text="Crashes, errors and important updates from Voidstrap show up here." FontSize="12" Foreground="{StaticResource LauncherTextTertiaryBrush}" Margin="0,3,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
                     </StackPanel>
                     <ScrollViewer x:Name="NotificationScroll" MaxHeight="430" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="Collapsed">
-                      <ItemsControl x:Name="NotificationList" Margin="6,0,6,8">
+                      <ItemsControl x:Name="NotificationList" Margin="6,0,6,10">
                         <ItemsControl.ItemTemplate>
                           <DataTemplate>
-                            <Border x:Name="NotificationRow" Background="Transparent" CornerRadius="8" Padding="12,10" Cursor="Hand" ToolTip="Open the log for this entry" MouseLeftButtonUp="NotificationItem_MouseLeftButtonUp">
+                            <Border x:Name="NotificationRow" Background="Transparent" CornerRadius="8" Padding="12,12" Margin="0,2,0,0" Cursor="Hand" MouseLeftButtonUp="NotificationItem_MouseLeftButtonUp">
                               <Grid>
                                 <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
                                 <Border Width="40" Height="40" VerticalAlignment="Top" CornerRadius="8" Background="#14FFFFFF">
                                   <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="20" Foreground="{Binding IconBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 </Border>
-                                <StackPanel Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center">
-                                  <TextBlock Text="{Binding Title}" FontSize="13" FontWeight="Bold" TextWrapping="Wrap" />
-                                  <TextBlock Text="{Binding Text}" FontSize="12" LineHeight="17" Margin="0,2,0,0" MaxHeight="68" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
-                                  <TextBlock Text="{Binding TimeAgo}" FontSize="11.5" Margin="0,3,0,0" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
+                                <StackPanel Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Top">
+                                  <TextBlock Text="{Binding Title}" FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap" />
+                                  <TextBlock Text="{Binding Text}" FontSize="12" LineHeight="18" Margin="0,4,0,0" MaxHeight="54" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text}" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
+                                  <TextBlock Text="{Binding TimeAgo}" FontSize="11" Margin="0,6,0,0" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
                                 </StackPanel>
-                                <Ellipse Grid.Column="2" Width="8" Height="8" Fill="#FF00FF65" VerticalAlignment="Top" Margin="0,6,2,0" Visibility="{Binding UnreadVisibility}" />
+                                <Ellipse Grid.Column="2" Width="6" Height="6" Fill="{DynamicResource SystemAccentBrush}" VerticalAlignment="Top" Margin="0,6,2,0" Visibility="{Binding UnreadVisibility}" />
                               </Grid>
                             </Border>
                             <DataTemplate.Triggers>

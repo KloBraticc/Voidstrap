@@ -183,6 +183,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 _ => (SymbolRegular.Info24, InfoBrush)
             };
             string text = source.Text.Trim();
+            if (source.Key.StartsWith("upgrade:", StringComparison.Ordinal))
+            {
+                string version = source.Key["upgrade:".Length..];
+                int metadata = version.IndexOf('+');
+                if (metadata > 0)
+                    text = text.Replace(version, version[..metadata], StringComparison.Ordinal);
+            }
             if (source.Count > 1)
             {
                 text += (text.Length > 0 ? Environment.NewLine : "") + "Happened " + source.Count.ToString("N0") + " times";

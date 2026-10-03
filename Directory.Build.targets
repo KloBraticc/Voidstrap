@@ -1,5 +1,13 @@
 <Project>
 
+	<Target Name="InvalidateStaleVersionMetadata" BeforeTargets="CoreGenerateAssemblyInfo" Condition="'$(GenerateAssemblyInfo)' == 'true' And Exists('$(GeneratedAssemblyInfoFile)')">
+		<PropertyGroup>
+			<_VoidstrapVersionMetadataStale>!$([System.IO.File]::ReadAllText('$(GeneratedAssemblyInfoFile)').Contains('AssemblyFileVersionAttribute(&quot;$(FileVersion)&quot;)'))</_VoidstrapVersionMetadataStale>
+		</PropertyGroup>
+		<Delete Files="$(GeneratedAssemblyInfoFile);@(IntermediateAssembly)" Condition="$(_VoidstrapVersionMetadataStale)" />
+		<Delete Files="$(AppHostIntermediatePath);$(TargetDir)$(TargetName)$(_NativeExecutableExtension)" Condition="$(_VoidstrapVersionMetadataStale) And '$(UseAppHost)' == 'true'" />
+	</Target>
+
 	<PropertyGroup Condition="'$(MSBuildRuntimeType)' == 'Full'">
 		<AlwaysCompileMarkupFilesInSeparateDomain>true</AlwaysCompileMarkupFilesInSeparateDomain>
 	</PropertyGroup>
