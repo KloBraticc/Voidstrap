@@ -525,7 +525,7 @@ public partial class FastFlagEditorPage : UiPage
 	{
 		int total = App.FastFlags.Prop.Count;
 		TotalFlagsTextBlock.Text = "Flags added: " + total;
-		double val = Math.Min((double)total * 0.2, 100.0);
+		double val = Math.Min((double)total * 5.0, 100.0);
 		string text = ((val % 1.0 == 0.0) ? val.ToString("0") : val.ToString("0.##"));
 		CrashRateTextBlock.Text = "Bloat: " + text + "%";
 	}
