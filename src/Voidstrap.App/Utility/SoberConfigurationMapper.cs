@@ -10,7 +10,7 @@ internal static class SoberConfigurationMapper
 		ArgumentNullException.ThrowIfNull(settings);
 		bool modsAllowed = settings.ModApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Player;
 		return new LinuxPlayerPreparationOptions(
-			settings.UseFastFlagManager,
+			settings.UseFastFlagManager && settings.FastFlagApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Player,
 			ApplyVirtualMachineProfile(CreateNativeOptions(settings)),
 			modsAllowed,
 			modsAllowed ? CollectManagedModSources() : null,

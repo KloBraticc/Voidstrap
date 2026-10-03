@@ -578,6 +578,20 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
+	public IEnumerable<Voidstrap.Enums.ModApplyTarget> FastFlagApplyTargets { get; } = Enum.GetValues<Voidstrap.Enums.ModApplyTarget>();
+
+	public Voidstrap.Enums.ModApplyTarget FastFlagApplyTarget
+	{
+		get => App.Settings.Prop.FastFlagApplyTarget;
+		set
+		{
+			if (App.Settings.Prop.FastFlagApplyTarget == value)
+				return;
+			App.Settings.Prop.FastFlagApplyTarget = value;
+			OnPropertyChanged(nameof(FastFlagApplyTarget));
+		}
+	}
+
 	public int FramerateLimit
 	{
 		get

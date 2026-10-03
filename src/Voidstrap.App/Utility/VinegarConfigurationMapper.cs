@@ -10,7 +10,7 @@ internal static class VinegarConfigurationMapper
 		ArgumentNullException.ThrowIfNull(settings);
 		bool modsAllowed = settings.ModApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Studio;
 		return new LinuxStudioPreparationOptions(
-			settings.VinegarApplyFastFlags && settings.UseFastFlagManager,
+			settings.VinegarApplyFastFlags && settings.UseFastFlagManager && settings.FastFlagApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Studio,
 			ApplyVirtualMachineProfile(CreateNativeOptions(settings)),
 			modsAllowed,
 			modsAllowed ? CollectManagedModSources() : null,

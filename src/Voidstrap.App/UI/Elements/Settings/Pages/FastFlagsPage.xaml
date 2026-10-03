@@ -28,6 +28,15 @@
     <controls:OptionControl Height="73" Description="{x:Static resources:Strings.Menu_FastFlags_ManagerEnabled_Description}" Header="{x:Static resources:Strings.Menu_FastFlags_ManagerEnabled_Title}">
       <ui:ToggleSwitch IsChecked="{Binding UseFastFlagManager, Mode=TwoWay}" />
     </controls:OptionControl>
+    <controls:OptionControl Description="Choose whether your Fast Flags are applied to the Roblox player, Roblox Studio, or both." Header="Apply Fast Flags to">
+      <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding FastFlagApplyTargets, Mode=OneTime}" SelectedItem="{Binding FastFlagApplyTarget, Mode=TwoWay}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+    </controls:OptionControl>
     <controls:OptionControl Header="{x:Static resources:Strings.Menu_FastFlags_Reset_Title}">
       <ui:ToggleSwitch IsChecked="{Binding ResetConfiguration, Mode=TwoWay}" />
     </controls:OptionControl>

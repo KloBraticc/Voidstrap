@@ -4101,6 +4101,18 @@ public class Bootstrapper
         return NativeCodeExtensions.Any(native => string.Equals(native, extension, StringComparison.OrdinalIgnoreCase));
     }
 
+    private bool FastFlagsAllowedForThisLaunch()
+    {
+        if (!App.Settings.Prop.UseFastFlagManager)
+            return false;
+        Voidstrap.Enums.ModApplyTarget target = App.Settings.Prop.FastFlagApplyTarget;
+        if (target == Voidstrap.Enums.ModApplyTarget.Both)
+            return true;
+        return IsStudioLaunch
+            ? target == Voidstrap.Enums.ModApplyTarget.Studio
+            : target == Voidstrap.Enums.ModApplyTarget.Player;
+    }
+
     private bool ModsAllowedForThisLaunch()
     {
         Voidstrap.Enums.ModApplyTarget target = App.Settings.Prop.ModApplyTarget;
@@ -4565,9 +4577,14 @@ public class Bootstrapper
             App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Custom font failed: " + ex.Message);
         }
         bool modsAllowed = ModsAllowedForThisLaunch();
+        bool fastFlagsAllowed = FastFlagsAllowedForThisLaunch();
         if (!modsAllowed)
         {
             App.Logger.WriteLine("Bootstrapper::ApplyModifications", $"Mods are set to {App.Settings.Prop.ModApplyTarget}, so this {(IsStudioLaunch ? "Studio" : "Player")} launch runs unmodded. Mod files are kept on disk.");
+        }
+        if (App.Settings.Prop.UseFastFlagManager && !fastFlagsAllowed)
+        {
+            App.Logger.WriteLine("Bootstrapper::ApplyModifications", $"Fast Flags are set to {App.Settings.Prop.FastFlagApplyTarget}, so this {(IsStudioLaunch ? "Studio" : "Player")} launch runs without them. Your Fast Flags are kept.");
         }
 		else
 		{
@@ -4626,7 +4643,12 @@ public class Bootstrapper
             {
                 ignoredModFiles++;
             }
-            else if (modsAllowed && !text2.EndsWith(".lock") && (App.Settings.Prop.UseFastFlagManager || !string.Equals(text2, "ClientSettings\\ClientAppSettings.json", StringComparison.OrdinalIgnoreCase)) && (!IsStudioLaunch || !text2.StartsWith("PlatformContent\\pc\\textures\\sky", StringComparison.OrdinalIgnoreCase)))
+            else if (string.Equals(text2, "ClientSettings\\ClientAppSettings.json", StringComparison.OrdinalIgnoreCase))
+            {
+                if (fastFlagsAllowed)
+                    selectedMods[text2] = text;
+            }
+            else if (modsAllowed && !text2.EndsWith(".lock") && (!IsStudioLaunch || !text2.StartsWith("PlatformContent\\pc\\textures\\sky", StringComparison.OrdinalIgnoreCase)))
             {
                 selectedMods[text2] = text;
             }
@@ -4658,7 +4680,7 @@ public class Bootstrapper
                     return;
                 if (file.Relative.EndsWith(".lock", StringComparison.OrdinalIgnoreCase))
                     continue;
-                if (!App.Settings.Prop.UseFastFlagManager && string.Equals(file.Relative, "ClientSettings\\ClientAppSettings.json", StringComparison.OrdinalIgnoreCase))
+                if (!fastFlagsAllowed && string.Equals(file.Relative, "ClientSettings\\ClientAppSettings.json", StringComparison.OrdinalIgnoreCase))
                     continue;
                 if (IsStudioLaunch && file.Relative.StartsWith("PlatformContent\\pc\\textures\\sky", StringComparison.OrdinalIgnoreCase))
                     continue;

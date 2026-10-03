@@ -378,6 +378,7 @@ namespace Voidstrap.Models.Persistable
         public bool WebCategorizeWearing { get; set; } = true;
         public bool WebCurrentlyPlayingLink { get; set; } = true;
         public Voidstrap.Enums.ModApplyTarget ModApplyTarget { get; set; } = Voidstrap.Enums.ModApplyTarget.Both;
+        public Voidstrap.Enums.ModApplyTarget FastFlagApplyTarget { get; set; } = Voidstrap.Enums.ModApplyTarget.Both;
 
         public bool WebCustomBackgroundBlur { get; set; } = false;
         public bool WebCustomBackgroundEnabled { get; set; } = false;
