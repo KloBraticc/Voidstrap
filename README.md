@@ -67,13 +67,13 @@ irm https://voidstrapp.pages.dev/quick-install | iex
 ## FAQ
 
 <details>
-  <summary><strong>Can Voidstrap get me banned?</strong></summary>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/faq-banned-dark.svg"><img src="assets/readme/faq-banned-light.svg" alt="Can Voidstrap get me banned?" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
   Voidstrap does not inject cheats, exploit Roblox, or bypass Roblox security. It functions as a launcher and configuration manager.
 </details>
 
 <details>
-  <summary><strong>Is Voidstrap a virus?</strong></summary>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/faq-virus-dark.svg"><img src="assets/readme/faq-virus-light.svg" alt="Is Voidstrap a virus?" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
   Voidstrap is fully open source, allowing anyone to inspect and review its source code.
   If your antivirus flags Voidstrap, it's a false positive caused by how Windows detects and handles unsigned applications.
@@ -89,7 +89,7 @@ irm https://voidstrapp.pages.dev/quick-install | iex
 4. Enjoy a simpler Roblox!
 
 <details>
-  <summary><strong>Android setup</strong></summary>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/android-setup-dark.svg"><img src="assets/readme/android-setup-light.svg" alt="Android setup" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 Voidstrap for Android needs Android 7 or newer. Download `Voidstrap-Android-direct-<version>.apk` from the [latest release](https://github.com/KloBraticc/Voidstrap/releases/latest) and install it.
 
@@ -104,7 +104,7 @@ Android doesn't let apps change Roblox's files by themselves, so Voidstrap needs
 Mods only work with root.
 
 <details>
-  <summary><strong>Shizuku</strong></summary>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/android-shizuku-dark.svg"><img src="assets/readme/android-shizuku-light.svg" alt="Shizuku" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 1. Install [Shizuku](https://shizuku.rikka.app/) and start it by following its own guide.
 2. In Voidstrap, open **Settings > Voidstrap helper** and tap **Start with Shizuku**.
@@ -113,7 +113,7 @@ Mods only work with root.
 </details>
 
 <details>
-  <summary><strong>ADB with a USB cable</strong></summary>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/android-adb-usb-dark.svg"><img src="assets/readme/android-adb-usb-light.svg" alt="ADB with a USB cable" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 1. Turn on Developer options: open **Settings > About phone** and tap **Build number** seven times. On some phones, Build number is inside **Software information**, or is called **OS version** instead.
 2. Open **Developer options** (usually under **Settings > System**) and turn on **USB debugging**.
@@ -137,7 +137,7 @@ In PowerShell, type `.\adb` instead of `adb`. If `adb devices` shows nothing, tr
 </details>
 
 <details>
-  <summary><strong>ADB over WiFi (Android 11 or newer)</strong></summary>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/android-adb-wifi-dark.svg"><img src="assets/readme/android-adb-wifi-light.svg" alt="ADB over WiFi (Android 11 or newer)" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 1. Follow steps 1 to 4 of the USB cable guide.
 2. Connect your phone and your computer to the same WiFi network.
@@ -159,7 +159,7 @@ In PowerShell, type `.\adb` instead of `adb`. If `adb devices` shows nothing, tr
 </details>
 
 <details>
-  <summary><strong>Root</strong></summary>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/android-root-dark.svg"><img src="assets/readme/android-root-light.svg" alt="Root" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 In Voidstrap, open **Settings**, turn on **Use root**, and allow Voidstrap in your root manager.
 
