@@ -132,7 +132,6 @@ public static class PortFeatureInventory
 		Dialog("ImageAdjust", "Image adjust window", "ContextMenu/ImageAdjustWindow"),
 		Dialog("ImageRecolor", "Image recolor window", "ContextMenu/ImageRecolorWindow"),
 		Dialog("MeshViewer", "Mesh viewer window", "ContextMenu/MeshViewerWindow"),
-		Dialog("RichPresence", "Rich presence window", "ContextMenu/RPCWindow"),
 		Dialog("Overlay", "Overlay window", "ContextMenu/UIWindow"),
 		Native(FeatureId.DesktopShell),
 		Native(FeatureId.EmbeddedBrowser),

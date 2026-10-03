@@ -47,9 +47,6 @@
           <controls:OptionControl Description="{x:Static resources:Strings.Menu_Integrations_AllowActivityJoining_Description}" Header="{x:Static resources:Strings.Menu_Integrations_AllowActivityJoining_Title}" IsEnabled="{Binding DiscordActivityEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DiscordActivityJoinEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Custom RPC" Margin="0,0,0,4" Description="Make/Edit a custom RPC for Discord.">
-            <Button Content="View" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding RPCWindowCommand}" />
-          </controls:OptionControl>
             <Border CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" Margin="0,4,0,10" Padding="14">
               <StackPanel>
                 <Grid Margin="0,0,0,10">

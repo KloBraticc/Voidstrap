@@ -1392,7 +1392,6 @@ public partial class App : Application
 		TryStartup("CPU core limiter", CpuCoreLimiter.ApplyConfiguredLimit);
 		if (!Voidstrap.Utility.Platform.IsLinux)
 			TryStartup("GPU inventory warmup", () => Task.Run(() => _ = Voidstrap.Utility.GpuInventory.HasNvidia));
-		TryStartup("Custom RPC", StartCustomRpcIfEnabled);
 	}
 
 	internal void StartLinuxDeferredServices()
@@ -1820,23 +1819,6 @@ public partial class App : Application
 		}
 	}
 
-	private static void StartCustomRpcIfEnabled()
-	{
-		string configPath = Path.Combine(Paths.UserData, "discord-rpc.json");
-		if (!File.Exists(configPath))
-		{
-			return;
-		}
-		if (JsonFile.TryLoad<JsonElement>(configPath, JsonOptions.Tolerant, out JsonElement config, out bool recovered, out Exception? failure, 4194304) && config.TryGetProperty("AutoStartRpc", out JsonElement autoStart) && autoStart.ValueKind == JsonValueKind.True)
-		{
-			_ = RPCCustomizerViewModel.Shared;
-		}
-		if (recovered)
-			Logger.WriteLine("App::StartCustomRpcIfEnabled", "Recovered the last valid RPC configuration backup");
-		if (failure != null && config.ValueKind == JsonValueKind.Undefined)
-			Logger.WriteLine("App::StartCustomRpcIfEnabled", "RPC configuration is invalid: " + failure.Message);
-	}
-
 	private static void ApplySnapTapFromSettings()
 	{
 		if (!Voidstrap.Utility.Platform.IsLinux || !Settings.Prop.SnapTapEnabled)
@@ -1885,7 +1867,6 @@ public partial class App : Application
 	{
 		LinuxUiPerformance.Shutdown();
 		UnregisterExceptionHandlers();
-		TryShutdown(StopCustomRpc);
 		TryShutdown(DisposeDiscordClient);
 		TryShutdown(DisposeMusicPlayer);
 		TryShutdown(VpnHttpClient.Shutdown);
@@ -1949,11 +1930,6 @@ public partial class App : Application
 			{
 			}
 		}
-	}
-
-	internal static void StopCustomRpc()
-	{
-		RPCCustomizerViewModel.SharedOrNull?.Dispose();
 	}
 
 	private static void DisposeDiscordClient()

@@ -691,7 +691,6 @@ public static class LaunchHandler
 			application.MainWindow = window;
 			Voidstrap.UI.LinuxHiddenWindow.Hide(LaunchKeepAliveTitle);
 			CloseSettingsWindows(application);
-			StopAppPresence();
 			App.Logger.WriteLine("LaunchHandler::KeepAliveUntilPortableSessionEnds", "Holding the session open while Roblox starts");
 		}
 		catch (Exception ex)
@@ -723,19 +722,6 @@ public static class LaunchHandler
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine("LaunchHandler::CloseSettingsWindows", "The Voidstrap window could not be closed: " + ex.Message);
-		}
-	}
-
-	private static void StopAppPresence()
-	{
-		try
-		{
-			App.StopCustomRpc();
-			App.Logger.WriteLine("LaunchHandler::StopAppPresence", "Voidstrap presence stopped so the Roblox presence is the only one shown");
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("LaunchHandler::StopAppPresence", "The Voidstrap presence could not be stopped: " + ex.Message);
 		}
 	}
 
