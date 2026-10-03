@@ -60,6 +60,9 @@ public static class RinControlMotion
     private static readonly DependencyPropertyDescriptor IsMouseOverDescriptor =
         DependencyPropertyDescriptor.FromProperty(UIElement.IsMouseOverProperty, typeof(UIElement));
 
+    private static readonly DependencyPropertyDescriptor IsHighlightedDescriptor =
+        DependencyPropertyDescriptor.FromProperty(ComboBoxItem.IsHighlightedProperty, typeof(ComboBoxItem));
+
     private static readonly DependencyPropertyDescriptor IsEnabledDescriptor =
         DependencyPropertyDescriptor.FromProperty(UIElement.IsEnabledProperty, typeof(UIElement));
 
@@ -436,8 +439,9 @@ public static class RinControlMotion
         item.Unselected += OnItemSelectionChanged;
         item.GotKeyboardFocus += OnItemFocusChanged;
         item.LostKeyboardFocus += OnItemFocusChanged;
-        item.MouseEnter += OnItemMouseEnter;
-        item.MouseLeave += OnItemMouseLeave;
+        item.AddHandler(UIElement.MouseEnterEvent, new MouseEventHandler(OnItemMouseEnter), true);
+        item.AddHandler(UIElement.MouseLeaveEvent, new MouseEventHandler(OnItemMouseLeave), true);
+        IsHighlightedDescriptor.AddValueChanged(item, OnControlStateChanged);
         item.PreviewMouseLeftButtonDown += OnItemMouseDown;
         item.PreviewMouseLeftButtonUp += OnItemMouseUp;
         item.LostMouseCapture += OnItemLostMouseCapture;
@@ -452,8 +456,9 @@ public static class RinControlMotion
         item.Unselected -= OnItemSelectionChanged;
         item.GotKeyboardFocus -= OnItemFocusChanged;
         item.LostKeyboardFocus -= OnItemFocusChanged;
-        item.MouseEnter -= OnItemMouseEnter;
-        item.MouseLeave -= OnItemMouseLeave;
+        item.RemoveHandler(UIElement.MouseEnterEvent, new MouseEventHandler(OnItemMouseEnter));
+        item.RemoveHandler(UIElement.MouseLeaveEvent, new MouseEventHandler(OnItemMouseLeave));
+        IsHighlightedDescriptor.RemoveValueChanged(item, OnControlStateChanged);
         item.PreviewMouseLeftButtonDown -= OnItemMouseDown;
         item.PreviewMouseLeftButtonUp -= OnItemMouseUp;
         item.LostMouseCapture -= OnItemLostMouseCapture;
