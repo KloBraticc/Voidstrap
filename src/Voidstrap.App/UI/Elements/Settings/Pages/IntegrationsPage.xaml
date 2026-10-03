@@ -47,7 +47,7 @@
           <controls:OptionControl Description="{x:Static resources:Strings.Menu_Integrations_AllowActivityJoining_Description}" Header="{x:Static resources:Strings.Menu_Integrations_AllowActivityJoining_Title}" IsEnabled="{Binding DiscordActivityEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DiscordActivityJoinEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-            <Border CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" Margin="0,4,0,10" Padding="14">
+            <Border CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" Margin="0,8,0,10" Padding="14">
               <StackPanel>
                 <Grid Margin="0,0,0,10">
                   <TextBlock x:Name="RpcPreviewHeader" Text="Playing Roblox" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextFillColorTertiaryBrush}" VerticalAlignment="Center" />

@@ -34,7 +34,7 @@
         <Setter Property="Margin" Value="0" />
         <Setter Property="HasDropShadow" Value="False" />
         <Setter Property="Grid.IsSharedSizeScope" Value="True" />
-        <Setter Property="Popup.PopupAnimation" Value="Fade" />
+        <Setter Property="Popup.PopupAnimation" Value="None" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
@@ -46,6 +46,7 @@
                         </Grid.RenderTransform>
                         <Border
                             x:Name="SurfaceLayer"
+                            CacheMode="BitmapCache"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="1"
@@ -66,34 +67,35 @@
                         <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
                             <Setter TargetName="Border" Property="Margin" Value="16" />
                         </Trigger>
-                        <Trigger Property="IsOpen" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
+                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                <BeginStoryboard x:Name="ContextMenuEntrance" HandoffBehavior="SnapshotAndReplace">
+                                    <Storyboard Timeline.DesiredFrameRate="60" FillBehavior="Stop">
                                         <DoubleAnimation
                                             Storyboard.TargetName="Border"
                                             Storyboard.TargetProperty="Opacity"
                                             From="0"
                                             To="1"
-                                            Duration="00:00:00.07">
+                                            Duration="00:00:00.15">
                                             <DoubleAnimation.EasingFunction>
-                                                <QuarticEase EasingMode="EaseInOut" />
+                                                <CubicEase EasingMode="EaseOut" />
                                             </DoubleAnimation.EasingFunction>
                                         </DoubleAnimation>
                                         <DoubleAnimation
                                             Storyboard.TargetName="Border"
                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                            From="0.35"
+                                            From="0.85"
                                             To="1"
-                                            Duration="00:00:00.26">
+                                            Duration="00:00:00.20">
                                             <DoubleAnimation.EasingFunction>
-                                                <QuinticEase EasingMode="EaseOut" />
+                                                <CubicEase EasingMode="EaseOut" />
                                             </DoubleAnimation.EasingFunction>
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </Trigger.EnterActions>
-                        </Trigger>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="FrameworkElement.Unloaded">
+                                <RemoveStoryboard BeginStoryboardName="ContextMenuEntrance" />
+                        </EventTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

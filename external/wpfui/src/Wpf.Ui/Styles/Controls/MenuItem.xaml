@@ -1,4 +1,4 @@
-﻿<!--
+<!--
     This Source Code Form is subject to the terms of the MIT License.
     If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
     Copyright (C) Leszek Pomianowski and WPF UI Contributors.
@@ -216,14 +216,19 @@
                 <Border
                     x:Name="AccentPill"
                     Width="3"
-                    Height="5"
+                    Height="16"
                     Margin="3,0,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Background="{DynamicResource AccentFillColorDefaultBrush}"
                     CornerRadius="1.5"
                     Opacity="0"
-                    SnapsToDevicePixels="True" />
+                    RenderTransformOrigin="0.5,0.5"
+                    SnapsToDevicePixels="True">
+                    <Border.RenderTransform>
+                        <ScaleTransform ScaleY="0.3125" />
+                    </Border.RenderTransform>
+                </Border>
                 <Grid x:Name="ItemContent" Margin="8,6,8,6">
                     <Grid.RenderTransform>
                         <TranslateTransform X="0" />
@@ -309,20 +314,20 @@
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="True">
                 <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="HighlightSurface" Storyboard.TargetProperty="Opacity" To="0.16" Duration="00:00:00.12">
+                    <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
+                        <Storyboard Timeline.DesiredFrameRate="60">
+                            <DoubleAnimation Storyboard.TargetName="HighlightSurface" Storyboard.TargetProperty="Opacity" To="0.16" Duration="00:00:00.09">
                                 <DoubleAnimation.EasingFunction>
                                     <CubicEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="ItemContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="3" Duration="00:00:00.14">
+                            <DoubleAnimation Storyboard.TargetName="ItemContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="3" Duration="00:00:00.10">
                                 <DoubleAnimation.EasingFunction>
                                     <CubicEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="AccentPill" Storyboard.TargetProperty="Opacity" To="1" Duration="00:00:00.12" />
-                            <DoubleAnimation Storyboard.TargetName="AccentPill" Storyboard.TargetProperty="Height" To="16" Duration="00:00:00.22">
+                            <DoubleAnimation Storyboard.TargetName="AccentPill" Storyboard.TargetProperty="Opacity" To="1" Duration="00:00:00.09" />
+                            <DoubleAnimation Storyboard.TargetName="AccentPill" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="00:00:00.12">
                                 <DoubleAnimation.EasingFunction>
                                     <PowerEase EasingMode="EaseOut" Power="3" />
                                 </DoubleAnimation.EasingFunction>
@@ -331,12 +336,12 @@
                     </BeginStoryboard>
                 </Trigger.EnterActions>
                 <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="HighlightSurface" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.14" />
-                            <DoubleAnimation Storyboard.TargetName="ItemContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="0" Duration="00:00:00.14" />
+                    <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
+                        <Storyboard Timeline.DesiredFrameRate="60" FillBehavior="Stop">
+                            <DoubleAnimation Storyboard.TargetName="HighlightSurface" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.10" />
+                            <DoubleAnimation Storyboard.TargetName="ItemContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="0" Duration="00:00:00.10" />
                             <DoubleAnimation Storyboard.TargetName="AccentPill" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.10" />
-                            <DoubleAnimation Storyboard.TargetName="AccentPill" Storyboard.TargetProperty="Height" To="5" Duration="00:00:00.10" />
+                            <DoubleAnimation Storyboard.TargetName="AccentPill" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="0.3125" Duration="00:00:00.10" />
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.ExitActions>
