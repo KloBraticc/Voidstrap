@@ -5201,5 +5201,50 @@ namespace Voidstrap.Resources {
             }
         }
 
+        public static string FlagSearch_Label1 => ResourceManager.GetString("FlagSearch.Label1", resourceCulture);
+        public static string FlagSearch_Label2 => ResourceManager.GetString("FlagSearch.Label2", resourceCulture);
+        public static string FlagSearch_Label3 => ResourceManager.GetString("FlagSearch.Label3", resourceCulture);
+        public static string FlagSearch_Label4 => ResourceManager.GetString("FlagSearch.Label4", resourceCulture);
+        public static string FlagSearch_Label5 => ResourceManager.GetString("FlagSearch.Label5", resourceCulture);
+        public static string FlagSearch_Label6 => ResourceManager.GetString("FlagSearch.Label6", resourceCulture);
+        public static string FlagSearch_Label7 => ResourceManager.GetString("FlagSearch.Label7", resourceCulture);
+        public static string FlagSearch_Label8 => ResourceManager.GetString("FlagSearch.Label8", resourceCulture);
+        public static string FlagSearch_Label9 => ResourceManager.GetString("FlagSearch.Label9", resourceCulture);
+        public static string FlagSearch_Label10 => ResourceManager.GetString("FlagSearch.Label10", resourceCulture);
+        public static string FlagSearch_Label11 => ResourceManager.GetString("FlagSearch.Label11", resourceCulture);
+        public static string FlagSearch_Label12 => ResourceManager.GetString("FlagSearch.Label12", resourceCulture);
+        public static string FlagSearch_Label13 => ResourceManager.GetString("FlagSearch.Label13", resourceCulture);
+        public static string FlagSearch_Label14 => ResourceManager.GetString("FlagSearch.Label14", resourceCulture);
+        public static string FlagSearch_Label15 => ResourceManager.GetString("FlagSearch.Label15", resourceCulture);
+        public static string FlagSearch_Label16 => ResourceManager.GetString("FlagSearch.Label16", resourceCulture);
+        public static string FlagSearch_Label17 => ResourceManager.GetString("FlagSearch.Label17", resourceCulture);
+        public static string FlagSearch_Label18 => ResourceManager.GetString("FlagSearch.Label18", resourceCulture);
+        public static string FlagSearch_Label19 => ResourceManager.GetString("FlagSearch.Label19", resourceCulture);
+        public static string FlagSearch_Label20 => ResourceManager.GetString("FlagSearch.Label20", resourceCulture);
+        public static string FlagSearch_Label21 => ResourceManager.GetString("FlagSearch.Label21", resourceCulture);
+        public static string FlagSearch_Label22 => ResourceManager.GetString("FlagSearch.Label22", resourceCulture);
+        public static string FlagSearch_Label23 => ResourceManager.GetString("FlagSearch.Label23", resourceCulture);
+        public static string FlagSearch_Label24 => ResourceManager.GetString("FlagSearch.Label24", resourceCulture);
+        public static string FlagSearch_Label25 => ResourceManager.GetString("FlagSearch.Label25", resourceCulture);
+        public static string FlagSearch_Label26 => ResourceManager.GetString("FlagSearch.Label26", resourceCulture);
+        public static string FlagSearch_Label27 => ResourceManager.GetString("FlagSearch.Label27", resourceCulture);
+        public static string FlagSearch_Label28 => ResourceManager.GetString("FlagSearch.Label28", resourceCulture);
+        public static string FlagSearch_Label29 => ResourceManager.GetString("FlagSearch.Label29", resourceCulture);
+        public static string FlagSearch_Label30 => ResourceManager.GetString("FlagSearch.Label30", resourceCulture);
+        public static string FlagSearch_Label31 => ResourceManager.GetString("FlagSearch.Label31", resourceCulture);
+        public static string FlagSearch_Label32 => ResourceManager.GetString("FlagSearch.Label32", resourceCulture);
+        public static string FlagSearch_Label33 => ResourceManager.GetString("FlagSearch.Label33", resourceCulture);
+        public static string FlagSearch_Label34 => ResourceManager.GetString("FlagSearch.Label34", resourceCulture);
+        public static string FlagSearch_Label35 => ResourceManager.GetString("FlagSearch.Label35", resourceCulture);
+        public static string FlagSearch_Label36 => ResourceManager.GetString("FlagSearch.Label36", resourceCulture);
+        public static string FlagSearch_Label37 => ResourceManager.GetString("FlagSearch.Label37", resourceCulture);
+        public static string FlagSearch_Label38 => ResourceManager.GetString("FlagSearch.Label38", resourceCulture);
+        public static string FlagSearch_Label39 => ResourceManager.GetString("FlagSearch.Label39", resourceCulture);
+        public static string FlagSearch_Label40 => ResourceManager.GetString("FlagSearch.Label40", resourceCulture);
+        public static string FlagSearch_Label41 => ResourceManager.GetString("FlagSearch.Label41", resourceCulture);
+        public static string FlagSearch_Label42 => ResourceManager.GetString("FlagSearch.Label42", resourceCulture);
+        public static string FlagSearch_Label43 => ResourceManager.GetString("FlagSearch.Label43", resourceCulture);
+        public static string FlagSearch_Label44 => ResourceManager.GetString("FlagSearch.Label44", resourceCulture);
+        public static string FlagSearch_Label45 => ResourceManager.GetString("FlagSearch.Label45", resourceCulture);
     }
 }

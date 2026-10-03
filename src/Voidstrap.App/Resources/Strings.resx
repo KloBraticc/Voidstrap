@@ -2319,4 +2319,94 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
     <value>Yes</value>
   </data>
   <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve"><value>Native GPU compositor window</value></data>
+  <data name="FlagSearch.Loading" xml:space="preserve"><value>Loading sources…</value></data>
+  <data name="FlagSearch.Loaded" xml:space="preserve"><value>Loaded</value></data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve"><value>Unavailable</value></data>
+  <data name="FlagSearch.Pending" xml:space="preserve"><value>Pending</value></data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve"><value>{0:N0} unique names loaded from {1} of {2} sources. See Data sources for details.</value></data>
+  <data name="FlagSearch.LoadError" xml:space="preserve"><value>Source loading failed. See the log for details.</value></data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve"><value>Flag JSON must contain an object.</value></data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve"><value>The source did not return recognized flag names.</value></data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve"><value>Showing {0:N0} of {1:N0} matches</value></data>
+  <data name="FlagSearch.SearchError" xml:space="preserve"><value>Search failed. See the log for details.</value></data>
+  <data name="FlagSearch.Validating" xml:space="preserve"><value>Checking flag names and input values…</value></data>
+  <data name="FlagSearch.Found" xml:space="preserve"><value>Found</value></data>
+  <data name="FlagSearch.ValueError" xml:space="preserve"><value>Value error</value></data>
+  <data name="FlagSearch.NotFound" xml:space="preserve"><value>Not found</value></data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve"><value>Found in loaded sources. Local override support is not verified.</value></data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve"><value>Absent from loaded sources, this does not prove the flag is invalid.</value></data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve"><value>Checked {0:N0} flags, {1:N0} inputs matched a source and expected value type.</value></data>
+  <data name="FlagSearch.NameError" xml:space="preserve"><value>Use a recognized Fast Flag name without spaces.</value></data>
+  <data name="FlagSearch.TooMany" xml:space="preserve"><value>The input contains too many flags.</value></data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve"><value>Flag values must be strings, numbers or booleans.</value></data>
+  <data name="FlagSearch.LineError" xml:space="preserve"><value>Each text line must use name=value.</value></data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve"><value>No flag entries were found.</value></data>
+  <data name="FlagSearch.Label1" xml:space="preserve"><value>Find Fast Flags</value></data>
+  <data name="FlagSearch.Label2" xml:space="preserve"><value>Find Fast Flags</value></data>
+  <data name="FlagSearch.Label3" xml:space="preserve"><value>Fast Flag Search &amp; Validation</value></data>
+  <data name="FlagSearch.Label4" xml:space="preserve"><value>Search, validate, and discover Fast Flags from multiple sources</value></data>
+  <data name="FlagSearch.Label5" xml:space="preserve"><value>Refresh sources</value></data>
+  <data name="FlagSearch.Label6" xml:space="preserve"><value>Ready</value></data>
+  <data name="FlagSearch.Label7" xml:space="preserve"><value>Live Search</value></data>
+  <data name="FlagSearch.Label8" xml:space="preserve"><value>Live Flag Search</value></data>
+  <data name="FlagSearch.Label9" xml:space="preserve"><value>Search full names or keywords. Exact matches appear first. Export includes all matching known values.</value></data>
+  <data name="FlagSearch.Label10" xml:space="preserve"><value>Enter flag name or keyword...</value></data>
+  <data name="FlagSearch.Label11" xml:space="preserve"><value>Export Results</value></data>
+  <data name="FlagSearch.Label12" xml:space="preserve"><value>All values</value></data>
+  <data name="FlagSearch.Label13" xml:space="preserve"><value>True values</value></data>
+  <data name="FlagSearch.Label14" xml:space="preserve"><value>False values</value></data>
+  <data name="FlagSearch.Label15" xml:space="preserve"><value>Flag Name</value></data>
+  <data name="FlagSearch.Label16" xml:space="preserve"><value>Value</value></data>
+  <data name="FlagSearch.Label17" xml:space="preserve"><value>Source</value></data>
+  <data name="FlagSearch.Label18" xml:space="preserve"><value>No matches. Try a different name or value filter.</value></data>
+  <data name="FlagSearch.Label19" xml:space="preserve"><value>0 results</value></data>
+  <data name="FlagSearch.Label20" xml:space="preserve"><value>Bulk Validation</value></data>
+  <data name="FlagSearch.Label21" xml:space="preserve"><value>Bulk Flag Validation</value></data>
+  <data name="FlagSearch.Label22" xml:space="preserve"><value>Check source membership and value types. A match does not guarantee that Roblox allows the local override.</value></data>
+  <data name="FlagSearch.Label23" xml:space="preserve"><value>Load File</value></data>
+  <data name="FlagSearch.Label24" xml:space="preserve"><value>Validate</value></data>
+  <data name="FlagSearch.Label25" xml:space="preserve"><value>Clear</value></data>
+  <data name="FlagSearch.Label26" xml:space="preserve"><value>Paste</value></data>
+  <data name="FlagSearch.Label27" xml:space="preserve"><value>Ctrl+V</value></data>
+  <data name="FlagSearch.Label28" xml:space="preserve"><value>Select All</value></data>
+  <data name="FlagSearch.Label29" xml:space="preserve"><value>Ctrl+A</value></data>
+  <data name="FlagSearch.Label30" xml:space="preserve"><value>Clear</value></data>
+  <data name="FlagSearch.Label31" xml:space="preserve"><value>Validation Results</value></data>
+  <data name="FlagSearch.Label32" xml:space="preserve"><value>Flag Name</value></data>
+  <data name="FlagSearch.Label33" xml:space="preserve"><value>Input Value</value></data>
+  <data name="FlagSearch.Label34" xml:space="preserve"><value>Status</value></data>
+  <data name="FlagSearch.Label35" xml:space="preserve"><value>Source Value</value></data>
+  <data name="FlagSearch.Label36" xml:space="preserve"><value>Notes</value></data>
+  <data name="FlagSearch.Label37" xml:space="preserve"><value>Export Checked Input</value></data>
+  <data name="FlagSearch.Label38" xml:space="preserve"><value>0 results</value></data>
+  <data name="FlagSearch.Label39" xml:space="preserve"><value>Data sources</value></data>
+  <data name="FlagSearch.Label40" xml:space="preserve"><value>Live source availability and retrieval times. Source membership does not establish that Roblox accepts a local override. Recent change dates are not supplied by these sources.</value></data>
+  <data name="FlagSearch.Label41" xml:space="preserve"><value>Source</value></data>
+  <data name="FlagSearch.Label42" xml:space="preserve"><value>Status</value></data>
+  <data name="FlagSearch.Label43" xml:space="preserve"><value>Flags</value></data>
+  <data name="FlagSearch.Label44" xml:space="preserve"><value>Retrieved</value></data>
+  <data name="FlagSearch.Label45" xml:space="preserve"><value>Close</value></data>
+  <data name="FlagSearch.Message1" xml:space="preserve"><value>Please enter flags to validate.</value></data>
+  <data name="FlagSearch.Message2" xml:space="preserve"><value>No Input</value></data>
+  <data name="FlagSearch.Message3" xml:space="preserve"><value>That flag input is too large to validate.</value></data>
+  <data name="FlagSearch.Message4" xml:space="preserve"><value>Input Too Large</value></data>
+  <data name="FlagSearch.Message5" xml:space="preserve"><value>Duplicate flags found in input: </value></data>
+  <data name="FlagSearch.Message6" xml:space="preserve"><value>Duplicates Detected</value></data>
+  <data name="FlagSearch.Message7" xml:space="preserve"><value>Error validating flags</value></data>
+  <data name="FlagSearch.Message8" xml:space="preserve"><value>Error validating flags: </value></data>
+  <data name="FlagSearch.Message9" xml:space="preserve"><value>Validation Error</value></data>
+  <data name="FlagSearch.Message10" xml:space="preserve"><value>Select flag file to validate</value></data>
+  <data name="FlagSearch.Message11" xml:space="preserve"><value>Error loading file: </value></data>
+  <data name="FlagSearch.Message12" xml:space="preserve"><value>File Error</value></data>
+  <data name="FlagSearch.Message13" xml:space="preserve"><value>The flag file size is invalid</value></data>
+  <data name="FlagSearch.Message14" xml:space="preserve"><value>The flag file changed while it was being read</value></data>
+  <data name="FlagSearch.Message15" xml:space="preserve"><value>The flag input is too large</value></data>
+  <data name="FlagSearch.Message16" xml:space="preserve"><value>Exported {flags.Count} flags to {dialog.FileName}</value></data>
+  <data name="FlagSearch.Message17" xml:space="preserve"><value>Export Complete</value></data>
+  <data name="FlagSearch.Message18" xml:space="preserve"><value>Error exporting flags: </value></data>
+  <data name="FlagSearch.Message19" xml:space="preserve"><value>Export Error</value></data>
+  <data name="FlagSearch.Message20" xml:space="preserve"><value>Error pasting from clipboard: </value></data>
+  <data name="FlagSearch.Message21" xml:space="preserve"><value>Paste Error</value></data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve"><value>Exported {0:N0} flags to {1}</value></data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve"><value>The input value does not match the flag name type. Boolean flags require true or false, integer flags require a whole 32 bit number.</value></data>
 </root>

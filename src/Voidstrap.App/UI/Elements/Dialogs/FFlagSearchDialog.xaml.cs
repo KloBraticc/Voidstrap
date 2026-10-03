@@ -23,6 +23,9 @@ using Wpf.Ui.Controls;
 namespace Voidstrap.UI.Elements.Dialogs;
 
 public partial class FFlagSearchDialog : WpfUiWindow{
+	private static string Text(string key) => Voidstrap.Resources.Strings.ResourceManager.GetString("FlagSearch." + key, Voidstrap.Resources.Strings.Culture) ?? key;
+	private static string Format(string key, params object[] values) => string.Format(System.Globalization.CultureInfo.CurrentCulture, Text(key), values);
+
 	private static readonly JsonSerializerOptions ExportJsonOptions = new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }; 	
 
 	private const int MaximumValidationFileBytes = 4 * 1024 * 1024;
@@ -37,11 +40,15 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	private const int MaximumValidationCharacters = 4_000_000;
 
-	private readonly ObservableCollection<FlagSearchResult> _searchResults = new ObservableCollection<FlagSearchResult>();
+
 
 	private readonly ObservableCollection<FlagValidationResult> _validationResults = new ObservableCollection<FlagValidationResult>();
 
-	private readonly ObservableCollection<FlagSearchResult> _recentFlags = new ObservableCollection<FlagSearchResult>();
+	private CancellationTokenSource? _searchCancellation;
+	private readonly CancellationToken _lifetimeToken;
+	private bool _closed;
+	private bool _loading;
+	private int _validationGeneration;
 
 	private readonly ObservableCollection<DataSourceInfo> _dataSources = new ObservableCollection<DataSourceInfo>();
 
@@ -61,10 +68,17 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	public FFlagSearchDialog()
 	{
+		_lifetimeToken = _lifetimeCancellation.Token;
 		InitializeComponent();
 		InitializeDataSources();
 		SetupDataGrids();
-		_ = LoadDataAsync(_lifetimeCancellation.Token);
+		Loaded += OnDialogLoaded;
+	}
+
+	private async void OnDialogLoaded(object sender, RoutedEventArgs e)
+	{
+		Loaded -= OnDialogLoaded;
+		await LoadDataAsync(_lifetimeToken);
 	}
 
 	private void InitializeDataSources()
@@ -75,31 +89,31 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 			{
 				Name = "PCClientBootstrapper",
 				Url = "https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCClientBootstrapper.json",
-				Status = "Pending"
+				Status = Text("Pending")
 			},
 			new DataSourceInfo
 			{
 				Name = "PCStudioApp",
 				Url = "https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCStudioApp.json",
-				Status = "Pending"
+				Status = Text("Pending")
 			},
 			new DataSourceInfo
 			{
 				Name = "PCDesktopClient",
 				Url = "https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCDesktopClient.json",
-				Status = "Pending"
+				Status = Text("Pending")
 			},
 			new DataSourceInfo
 			{
 				Name = "FVariables.txt",
 				Url = "https://raw.githubusercontent.com/MaximumADHD/Roblox-Client-Tracker/refs/heads/roblox/FVariables.txt",
-				Status = "Pending"
+				Status = Text("Pending")
 			},
 			new DataSourceInfo
 			{
 				Name = "Roblox ClientSettings",
 				Url = "https://clientsettings.roblox.com/v2/settings/application/PCDesktopClient",
-				Status = "Pending"
+				Status = Text("Pending")
 			}
 		};
 		foreach (DataSourceInfo item in array)
@@ -110,259 +124,186 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	private void SetupDataGrids()
 	{
-		SearchResultsDataGrid.ItemsSource = _searchResults;
+		SearchResultsDataGrid.ItemsSource = Array.Empty<FlagSearchResult>();
 		ValidationResultsDataGrid.ItemsSource = _validationResults;
-		RecentFlagsDataGrid.ItemsSource = _recentFlags;
+		SourcesDataGrid.ItemsSource = _dataSources;
 	}
 
 	private async Task LoadDataAsync(CancellationToken token)
 	{
-		await UpdateStatusAsync("Loading flags...");
-		ShowProgress(show: true);
+		if (_loading || _closed) return;
+		_loading = true;
+		RefreshSourcesButton.IsEnabled = false;
+		ValidateButton.IsEnabled = false;
+		await UpdateStatusAsync(Text("Loading"));
+		ShowProgress(true);
 		try
 		{
-			Dictionary<string, object> allFlags = new Dictionary<string, object>();
-			Dictionary<string, FlagMetadata> flagMetadata = new Dictionary<string, FlagMetadata>();
-			foreach (DataSourceInfo source in _dataSources)
+			var allFlags = new Dictionary<string, object>(StringComparer.Ordinal);
+			var metadata = new Dictionary<string, FlagMetadata>(StringComparer.Ordinal);
+			var ordered = _dataSources.OrderBy(source => source.Name == "Roblox ClientSettings" ? 0 : source.Name == "PCDesktopClient" ? 1 : source.Name == "FVariables.txt" ? 4 : 2).ToArray();
+			var fetched = await Task.WhenAll(ordered.Select(source => FetchSourceDataAsync(source, token)));
+			int successes = 0;
+			for (int index = 0; index < ordered.Length; index++)
 			{
 				token.ThrowIfCancellationRequested();
-				try
+				var flags = fetched[index];
+				if (flags == null) continue;
+				successes++;
+				foreach (var flag in flags)
 				{
-					source.Status = "Loading...";
-					Dictionary<string, object> dictionary = await FetchFlagsFromSourceAsync(source.Url, source.Name, token);
-					foreach (KeyValuePair<string, object> item in dictionary)
-					{
-						if (allFlags.Count >= MaximumTotalFlags)
-							break;
-						if (item.Key.Length is > 0 and <= 512 && !allFlags.ContainsKey(item.Key))
-						{
-							allFlags[item.Key] = item.Value;
-							flagMetadata[item.Key] = new FlagMetadata
-							{
-								Source = source.Name,
-								DateAdded = DateTime.Now
-							};
-						}
-					}
-					source.Status = "✓ Success";
-					source.FlagCount = dictionary.Count;
-					source.LastUpdated = DateTime.Now.ToString("HH:mm:ss");
-				}
-				catch (OperationCanceledException) when (token.IsCancellationRequested)
-				{
-					throw;
-				}
-				catch (Exception ex)
-				{
-					source.Status = "❌ Error";
-					App.Logger.WriteException("FFlagSearch", ex);
+					if (allFlags.Count >= MaximumTotalFlags) break;
+					if (allFlags.TryAdd(flag.Key, flag.Value)) metadata[flag.Key] = new FlagMetadata { Source = ordered[index].Name };
 				}
 			}
+			if (_closed) return;
 			_allFlags = allFlags;
-			_flagMetadata = flagMetadata;
-			await UpdateStatusAsync($"Done: {allFlags.Count} flags loaded!");
-			UpdateTotalFlagsCount();
+			_flagMetadata = metadata;
+			StatusText.Text = Format("LoadedSummary", allFlags.Count, successes, _dataSources.Count);
+			QueueSearch();
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+		catch (Exception ex)
 		{
-		}
-		catch (Exception ex2)
-		{
-			await UpdateStatusAsync("Error loading flag data");
-			App.Logger.WriteException("FFlagSearch", ex2);
+			if (!_closed) StatusText.Text = Text("LoadError");
+			App.Logger.WriteException("FFlagSearch", ex);
 		}
 		finally
 		{
-			ShowProgress(show: false);
+			_loading = false;
+			if (!_closed)
+			{
+				RefreshSourcesButton.IsEnabled = true;
+				ValidateButton.IsEnabled = _allFlags.Count > 0;
+				ShowProgress(false);
+			}
+		}
+	}
+
+	private async Task<Dictionary<string, object>?> FetchSourceDataAsync(DataSourceInfo source, CancellationToken token)
+	{
+		source.Status = Text("Loading");
+		source.FlagCount = 0;
+		try
+		{
+			using var deadline = CancellationTokenSource.CreateLinkedTokenSource(token);
+			deadline.CancelAfter(TimeSpan.FromSeconds(15));
+			var flags = await FetchFlagsFromSourceAsync(source.Url, source.Name, deadline.Token);
+			if (_closed) return null;
+			source.Status = Text("Loaded");
+			source.FlagCount = flags.Count;
+			source.LastUpdated = DateTime.Now.ToString("T", System.Globalization.CultureInfo.CurrentCulture);
+			return flags;
+		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { throw; }
+		catch (Exception ex)
+		{
+			if (!_closed)
+			{
+				source.Status = Text("Unavailable") + ": " + ex.Message;
+				source.LastUpdated = string.Empty;
+			}
+			App.Logger.WriteException("FFlagSearch", ex);
+			return null;
 		}
 	}
 
 	private static async Task<Dictionary<string, object>> FetchFlagsFromSourceAsync(string url, string sourceName, CancellationToken token)
 	{
-		Dictionary<string, object> flags = new Dictionary<string, object>();
-		string response = string.Empty;
-		try
+		string response = await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, url, token: token).ConfigureAwait(false);
+		return await Task.Run(() => ParseSource(response, url.EndsWith(".txt", StringComparison.OrdinalIgnoreCase), token), token).ConfigureAwait(false);
+	}
+
+	private static Dictionary<string, object> ParseSource(string response, bool namesOnly, CancellationToken token)
+	{
+		var flags = new Dictionary<string, object>(StringComparer.Ordinal);
+		if (namesOnly)
 		{
-			response = await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, url, token: token);
-			if (url.EndsWith(".json") || url.Contains("clientsettings.roblox.com"))
+			foreach (string line in response.Split('\n'))
 			{
-				using JsonDocument jsonDocument = JsonDocument.Parse(response);
-				if (jsonDocument.RootElement.ValueKind == JsonValueKind.Object)
-				{
-					foreach (JsonProperty item in jsonDocument.RootElement.EnumerateObject())
-					{
-						if (flags.Count >= MaximumFlagsPerSource)
-							break;
-						Dictionary<string, object> dictionary = flags;
-						string name = item.Name;
-						dictionary[name] = item.Value.ValueKind switch
-						{
-							JsonValueKind.String => item.Value.GetString() ?? "", 
-							JsonValueKind.Number => item.Value.TryGetInt32(out var value) ? ((double)value) : item.Value.GetDouble(), 
-							JsonValueKind.True => true, 
-							JsonValueKind.False => false, 
-							_ => item.Value.GetRawText(), 
-						};
-					}
-				}
-			}
-			else if (url.EndsWith(".txt"))
-			{
-				string[] array = response.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-				for (int i = 0; i < array.Length; i++)
-				{
-					if (flags.Count >= MaximumFlagsPerSource)
-						break;
-					string[] array2 = array[i].Split('=', 2);
-					if (array2.Length == 2)
-					{
-						string key = array2[0].Trim();
-						string text = array2[1].Trim();
-						int result2;
-						double result3;
-						if (bool.TryParse(text, out var result))
-						{
-							flags[key] = result;
-						}
-						else if (int.TryParse(text, out result2))
-						{
-							flags[key] = result2;
-						}
-						else if (double.TryParse(text, out result3))
-						{
-							flags[key] = result3;
-						}
-						else
-						{
-							flags[key] = text;
-						}
-					}
-				}
-			}
-			else
-			{
-				using JsonDocument document = JsonDocument.Parse(response);
-				foreach (JsonProperty item2 in document.RootElement.EnumerateObject())
-				{
-					if (flags.Count >= MaximumFlagsPerSource)
-						break;
-					Dictionary<string, object> dictionary = flags;
-					string name = item2.Name;
-					dictionary[name] = item2.Value.ValueKind switch
-					{
-						JsonValueKind.String => item2.Value.GetString() ?? "", 
-						JsonValueKind.Number => item2.Value.TryGetInt32(out var value2) ? ((double)value2) : item2.Value.GetDouble(), 
-						JsonValueKind.True => true, 
-						JsonValueKind.False => false, 
-						_ => item2.Value.GetRawText(), 
-					};
-				}
+				token.ThrowIfCancellationRequested();
+				string name = line.Trim();
+				if (name.StartsWith("[", StringComparison.Ordinal) && name.IndexOf(']') is int end && end >= 0) name = name[(end + 1)..].Trim();
+				if (IsFlagName(name)) flags.TryAdd(name, string.Empty);
+				if (flags.Count >= MaximumFlagsPerSource) break;
 			}
 		}
-		catch (JsonException)
+		else
 		{
-			if (!string.IsNullOrEmpty(response))
+			using var document = JsonDocument.Parse(response);
+			JsonElement root = document.RootElement;
+			if (root.ValueKind != JsonValueKind.Object) throw new JsonException(Text("ObjectRequired"));
+			if (root.TryGetProperty("applicationSettings", out JsonElement settings)) root = settings;
+			if (root.ValueKind != JsonValueKind.Object) throw new JsonException(Text("ObjectRequired"));
+			foreach (JsonProperty flag in root.EnumerateObject())
 			{
-				string[] array = response.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-				for (int i = 0; i < array.Length; i++)
-				{
-					if (flags.Count >= MaximumFlagsPerSource)
-						break;
-					string[] array3 = array[i].Split('=', 2);
-					if (array3.Length == 2)
-					{
-						flags[array3[0].Trim()] = array3[1].Trim();
-					}
-				}
+				token.ThrowIfCancellationRequested();
+				if (IsFlagName(flag.Name) && flag.Value.ValueKind is not (JsonValueKind.Object or JsonValueKind.Array or JsonValueKind.Null))
+					flags[flag.Name] = flag.Value.ValueKind == JsonValueKind.String ? flag.Value.GetString() ?? string.Empty : flag.Value.GetRawText();
+				if (flags.Count >= MaximumFlagsPerSource) break;
 			}
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-			throw;
-		}
-		catch (HttpRequestException ex2)
-		{
-			App.Logger.WriteLine("FFlagSearch", "Failed to fetch from " + sourceName + ": " + ex2.Message);
-			throw;
-		}
+		if (flags.Count == 0) throw new InvalidDataException(Text("EmptySource"));
 		return flags;
 	}
 
-	private async void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
-	{
-		int generation = Interlocked.Increment(ref _searchGeneration);
-		string? searchTerm = SearchTextBox.Text?.Trim();
-		if (string.IsNullOrEmpty(searchTerm))
-		{
-			_searchResults.Clear();
-			_lastSearchResults.Clear();
-			ExportSearchResultsButton.IsEnabled = false;
-			UpdateSearchResultsCount();
-			return;
-		}
-		try
-		{
-			await Task.Delay(300, _lifetimeCancellation.Token);
-			if (SearchTextBox.Text?.Trim() == searchTerm)
-				await PerformSearchAsync(searchTerm, generation, _lifetimeCancellation.Token);
-		}
-		catch (OperationCanceledException) when (_lifetimeCancellation.IsCancellationRequested)
-		{
-		}
-	}
+	private static bool IsFlagName(string name) => name.Length is > 4 and <= 512
+		&& name.All(c => char.IsAsciiLetterOrDigit(c) || c == '_')
+		&& (name.StartsWith("FFlag", StringComparison.Ordinal) || name.StartsWith("DFFlag", StringComparison.Ordinal)
+		|| name.StartsWith("SFFlag", StringComparison.Ordinal) || name.StartsWith("FInt", StringComparison.Ordinal)
+		|| name.StartsWith("DFInt", StringComparison.Ordinal) || name.StartsWith("SFInt", StringComparison.Ordinal)
+		|| name.StartsWith("FString", StringComparison.Ordinal) || name.StartsWith("DFString", StringComparison.Ordinal)
+		|| name.StartsWith("SFString", StringComparison.Ordinal) || name.StartsWith("FLog", StringComparison.Ordinal)
+		|| name.StartsWith("DFLog", StringComparison.Ordinal) || name.StartsWith("SFLog", StringComparison.Ordinal));
 
-	private async Task PerformSearchAsync(string searchTerm, int generation, CancellationToken token)
+	private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e) => QueueSearch();
+
+	private void SearchFilter_SelectionChanged(object sender, SelectionChangedEventArgs e) => QueueSearch();
+
+	private async void QueueSearch()
 	{
-		bool trueFlagsOnly = TrueFlagsOnlyCheckBox.IsChecked == true;
-		bool falseFlagsOnly = FalseFlagsOnlyCheckBox.IsChecked == true;
-		Dictionary<string, object> flags = _allFlags;
-		Dictionary<string, FlagMetadata> metadata = _flagMetadata;
-		List<FlagSearchResult> results;
+		if (_closed || SearchResultsDataGrid == null || ValueFilter == null) return;
+		_searchCancellation?.Cancel();
+		_searchCancellation?.Dispose();
+		_searchCancellation = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken);
+		CancellationToken token = _searchCancellation.Token;
+		int generation = ++_searchGeneration;
+		string term = SearchTextBox.Text.Trim();
+		int filter = ValueFilter.SelectedIndex;
+		var flags = _allFlags;
+		var metadata = _flagMetadata;
 		try
 		{
-			results = await Task.Run(delegate
+			await Task.Delay(200, token);
+			var results = await Task.Run(() =>
 			{
-				List<FlagSearchResult> matches = new List<FlagSearchResult>();
-				int scanned = 0;
-				foreach (KeyValuePair<string, object> allFlag in flags)
+				var matches = new List<FlagSearchResult>();
+				foreach (var flag in flags)
 				{
-					if ((scanned++ & 1023) == 0)
-						token.ThrowIfCancellationRequested();
-					if (allFlag.Key.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
-					{
-						FlagMetadata? value;
-						FlagMetadata flagMetadata = (metadata.TryGetValue(allFlag.Key, out value) ? value : new FlagMetadata());
-						if ((!trueFlagsOnly || IsTrueValue(allFlag.Value)) && (!falseFlagsOnly || IsFalseValue(allFlag.Value)))
-						{
-							matches.Add(new FlagSearchResult
-							{
-								Name = allFlag.Key,
-								Value = (allFlag.Value?.ToString() ?? "null"),
-								Source = (flagMetadata.Source ?? "Unknown")
-							});
-						}
-					}
+					token.ThrowIfCancellationRequested();
+					if (!flag.Key.Contains(term, StringComparison.OrdinalIgnoreCase)) continue;
+					if (filter == 1 && !IsTrueValue(flag.Value) || filter == 2 && !IsFalseValue(flag.Value)) continue;
+					matches.Add(new FlagSearchResult { Name = flag.Key, Value = flag.Value.ToString() ?? string.Empty,
+						Source = metadata.TryGetValue(flag.Key, out var info) ? info.Source : string.Empty });
 				}
-				return matches;
+				return matches.OrderBy(r => !r.Name.Equals(term, StringComparison.OrdinalIgnoreCase))
+					.ThenBy(r => !r.Name.StartsWith(term, StringComparison.OrdinalIgnoreCase)).ThenBy(r => r.Name, StringComparer.Ordinal).ToList();
 			}, token);
+			await Dispatcher.InvokeAsync(() =>
+			{
+				if (_closed || token.IsCancellationRequested || generation != _searchGeneration) return;
+				_lastSearchResults = results;
+				SearchResultsDataGrid.ItemsSource = results.Take(MaximumVisibleResults).ToArray();
+				SearchResultsCount.Text = Format("ResultCount", Math.Min(results.Count, MaximumVisibleResults), results.Count);
+				SearchEmptyText.Visibility = results.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+				ExportSearchResultsButton.IsEnabled = results.Any(r => r.Source != "FVariables.txt");
+			});
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+		catch (Exception ex)
 		{
-			return;
-		}
-		if (token.IsCancellationRequested || generation != Volatile.Read(ref _searchGeneration))
-			return;
-		_lastSearchResults = results;
-		_searchResults.Clear();
-		foreach (FlagSearchResult item in results.Take(1000))
-		{
-			_searchResults.Add(item);
-		}
-		UpdateSearchResultsCount();
-		ExportSearchResultsButton.IsEnabled = results.Count > 0;
-		if (results.Count > 1000)
-		{
-			StatusText.Text = $"Showing first 1000 of {results.Count} results. Use export to get all results.";
+			await Dispatcher.InvokeAsync(() => { if (!_closed) StatusText.Text = Text("SearchError"); });
+			App.Logger.WriteException("FFlagSearch", ex);
 		}
 	}
 
@@ -371,11 +312,11 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 		string? text = ValidationInputTextBox.Text?.Trim();
 		if (string.IsNullOrEmpty(text))
 		{
-			System.Windows.MessageBox.Show("Please enter flags to validate.", "No Input", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+			System.Windows.MessageBox.Show(Text("Message1"), Text("Message2"), MessageBoxButton.OK, MessageBoxImage.Exclamation);
 		}
 		else if (text.Length > MaximumValidationCharacters)
 		{
-			System.Windows.MessageBox.Show("That flag input is too large to validate.", "Input Too Large", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+			System.Windows.MessageBox.Show(Text("Message3"), Text("Message4"), MessageBoxButton.OK, MessageBoxImage.Exclamation);
 		}
 		else
 		{
@@ -385,15 +326,18 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	private async Task ValidateFlagsAsync(string input)
 	{
-		await UpdateStatusAsync("Validating flags...");
+		int generation = ++_validationGeneration;
+		ValidateButton.IsEnabled = false;
+		await UpdateStatusAsync(Text("Validating"));
 		ShowProgress(show: true);
 		try
 		{
-			CancellationToken token = _lifetimeCancellation.Token;
+			CancellationToken token = _lifetimeToken;
 			(Dictionary<string, object> dictionary, HashSet<string> duplicates) = await Task.Run(() => ParseValidationInput(input, token), token);
+			if (_closed || generation != _validationGeneration) return;
 			if (duplicates.Count > 0)
 			{
-				System.Windows.MessageBox.Show("Duplicate flags found in input: " + string.Join(", ", duplicates.Take(25)), "Duplicates Detected", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+				System.Windows.MessageBox.Show(Text("Message5") + string.Join(", ", duplicates.Take(25)), Text("Message6"), MessageBoxButton.OK, MessageBoxImage.Exclamation);
 			}
 			Dictionary<string, object> knownFlags = _allFlags;
 			List<FlagValidationResult> list = await Task.Run(() =>
@@ -405,151 +349,105 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 					FlagValidationResult result = new FlagValidationResult
 					{
 						Name = item.Key,
-						InputValue = item.Value?.ToString() ?? "null"
+						InputValue = item.Value?.ToString() ?? string.Empty
 					};
 					if (knownFlags.TryGetValue(item.Key, out object? value))
 					{
-						result.Status = "✓ Valid";
-						result.ValidValue = value?.ToString() ?? "null";
-						result.Notes = "Flag exists in database";
+						result.CanExport = IsValidInput(item.Key, result.InputValue);
+						result.Status = Text(result.CanExport ? "Found" : "ValueError");
+						result.ValidValue = value?.ToString() ?? string.Empty;
+						result.Notes = Text(result.CanExport ? "FoundNote" : "ValueNote");
 					}
 					else
 					{
-						result.Status = "❌ Invalid";
-						result.ValidValue = "N/A";
-						result.Notes = "Flag not found in any data source";
+						result.Status = Text("NotFound");
+						result.ValidValue = string.Empty;
+						result.Notes = Text("NotFoundNote");
 					}
 					results.Add(result);
 				}
 				return results;
 			}, token);
+			if (_closed || generation != _validationGeneration) return;
 			_lastValidationResults = list;
-			_validationResults.Clear();
-			foreach (FlagValidationResult item in list.Take(MaximumVisibleResults))
-			{
-				_validationResults.Add(item);
-			}
-			ValidationResultsCount.Text = $"{list.Count} results";
-			ExportValidResultsButton.IsEnabled = list.Any((FlagValidationResult r) => r.Status == "✓ Valid");
-			await UpdateStatusAsync($"Validated {list.Count} flags. {list.Count((FlagValidationResult r) => r.Status == "✓ Valid")} valid, {list.Count((FlagValidationResult r) => r.Status == "❌ Invalid")} invalid.");
+			ValidationResultsDataGrid.ItemsSource = list.Take(MaximumVisibleResults).ToArray();
+			ValidationResultsCount.Text = Format("ResultCount", Math.Min(list.Count, MaximumVisibleResults), list.Count);
+			ExportValidResultsButton.IsEnabled = list.Any(r => r.CanExport);
+			await UpdateStatusAsync(Format("ValidationSummary", list.Count, list.Count(r => r.CanExport)));
 		}
 		catch (OperationCanceledException) when (_lifetimeCancellation.IsCancellationRequested)
 		{
 		}
 		catch (Exception ex2)
 		{
-			await UpdateStatusAsync("Error validating flags");
-			System.Windows.MessageBox.Show("Error validating flags: " + ex2.Message, "Validation Error", MessageBoxButton.OK, MessageBoxImage.Hand);
+			await UpdateStatusAsync(Text("Message7"));
+			if (!_closed) System.Windows.MessageBox.Show(Text("Message8") + ex2.Message, Text("Message9"), MessageBoxButton.OK, MessageBoxImage.Hand);
 		}
 		finally
 		{
-			ShowProgress(show: false);
+			if (!_closed) { ShowProgress(false); ValidateButton.IsEnabled = !_loading && _allFlags.Count > 0; }
 		}
 	}
 
 	private static (Dictionary<string, object> Flags, HashSet<string> Duplicates) ParseValidationInput(string input, CancellationToken token)
 	{
-		Dictionary<string, object> flags = new Dictionary<string, object>();
-		HashSet<string> duplicates = new HashSet<string>();
-		try
+		var flags = new Dictionary<string, object>(StringComparer.Ordinal);
+		var duplicates = new HashSet<string>(StringComparer.Ordinal);
+		void Add(string name, object value)
 		{
-			using JsonDocument document = JsonDocument.Parse(input);
-			if (document.RootElement.ValueKind != JsonValueKind.Object)
-				throw new JsonException("Flag input must be an object");
-			foreach (JsonProperty item in document.RootElement.EnumerateObject())
+			token.ThrowIfCancellationRequested();
+			name = name.Trim();
+			if (!IsFlagName(name)) throw new InvalidDataException(Text("NameError"));
+			if (flags.Count >= MaximumValidationFlags) throw new InvalidDataException(Text("TooMany"));
+			if (!flags.TryAdd(name, value)) { duplicates.Add(name); flags[name] = value; }
+		}
+		if (input.TrimStart().StartsWith("{", StringComparison.Ordinal) || input.TrimStart().StartsWith("[", StringComparison.Ordinal))
+		{
+			using var document = JsonDocument.Parse(input);
+			if (document.RootElement.ValueKind != JsonValueKind.Object) throw new JsonException(Text("ObjectRequired"));
+			foreach (var flag in document.RootElement.EnumerateObject())
 			{
-				token.ThrowIfCancellationRequested();
-				if (flags.Count >= MaximumValidationFlags)
-					throw new InvalidDataException("The flag input contains too many values");
-				string name = item.Name.Trim();
-				if (name.Length is 0 or > 512)
-					continue;
-				object value = item.Value.ValueKind switch
-				{
-					JsonValueKind.String => item.Value.GetString() ?? "",
-					JsonValueKind.Number => item.Value.TryGetInt32(out int number) ? number : item.Value.GetDouble(),
-					JsonValueKind.True => true,
-					JsonValueKind.False => false,
-					_ => item.Value.GetRawText()
-				};
-				if (!flags.TryAdd(name, value))
-				{
-					duplicates.Add(name);
-					flags[name] = value;
-				}
+				if (flag.Value.ValueKind is JsonValueKind.Object or JsonValueKind.Array or JsonValueKind.Null) throw new JsonException(Text("ScalarRequired"));
+				Add(flag.Name, flag.Value.ValueKind == JsonValueKind.String ? flag.Value.GetString() ?? string.Empty : flag.Value.GetRawText());
 			}
 		}
-		catch (JsonException)
+		else
 		{
 			foreach (string line in input.Split('\n', StringSplitOptions.RemoveEmptyEntries))
 			{
-				token.ThrowIfCancellationRequested();
-				if (flags.Count >= MaximumValidationFlags)
-					throw new InvalidDataException("The flag input contains too many values");
+				if (string.IsNullOrWhiteSpace(line)) continue;
 				string[] pair = line.Split('=', 2);
-				if (pair.Length != 2)
-					continue;
-				string name = pair[0].Trim();
-				if (name.Length is 0 or > 512)
-					continue;
-				if (!flags.TryAdd(name, pair[1].Trim()))
-				{
-					duplicates.Add(name);
-					flags[name] = pair[1].Trim();
-				}
+				if (pair.Length != 2) throw new InvalidDataException(Text("LineError"));
+				Add(pair[0], pair[1].Trim());
 			}
 		}
+		if (flags.Count == 0) throw new InvalidDataException(Text("EmptyInput"));
 		return (flags, duplicates);
 	}
 
-	private async void FetchRecentButton_Click(object sender, RoutedEventArgs e)
+	private static bool IsValidInput(string name, string value)
 	{
-		await UpdateStatusAsync("Fetching recent flags...");
-		ShowProgress(show: true);
-		try
-		{
-			List<FlagSearchResult> list = (from flag in _allFlags.Take(100)
-				select new FlagSearchResult
-				{
-					Name = flag.Key,
-					Value = (flag.Value?.ToString() ?? "null"),
-					Source = (_flagMetadata.TryGetValue(flag.Key, out FlagMetadata? value) ? value.Source : "Unknown"),
-					DateAdded = DateTime.Now.AddHours(-Random.Shared.Next(0, 24)).ToString("yyyy-MM-dd HH:mm")
-				}).ToList();
-			_recentFlags.Clear();
-			foreach (FlagSearchResult item in list)
-			{
-				_recentFlags.Add(item);
-			}
-			UpdateRecentFlagsCount();
-			DownloadAllRecentButton.IsEnabled = list.Count != 0;
-			DownloadTrueRecentButton.IsEnabled = list.Count != 0;
-			DownloadFalseRecentButton.IsEnabled = list.Count != 0;
-			await UpdateStatusAsync($"Found {list.Count} recent flags");
-		}
-		catch (Exception ex)
-		{
-			await UpdateStatusAsync("Error fetching recent flags");
-			App.Logger.WriteException("FFlagSearch", ex);
-		}
-		finally
-		{
-			ShowProgress(show: false);
-		}
+		if (name.StartsWith("D", StringComparison.Ordinal) || name.StartsWith("S", StringComparison.Ordinal)) name = name[1..];
+		if (name.StartsWith("FFlag", StringComparison.Ordinal)) return bool.TryParse(value, out _);
+		if (name.StartsWith("FInt", StringComparison.Ordinal) || name.StartsWith("FLog", StringComparison.Ordinal))
+			return int.TryParse(value, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out _);
+		return true;
 	}
+
+	private async void RefreshSourcesButton_Click(object sender, RoutedEventArgs e) => await LoadDataAsync(_lifetimeToken);
 
 	private async void LoadFileButton_Click(object sender, RoutedEventArgs e)
 	{
 		OpenFileDialog openFileDialog = new OpenFileDialog
 		{
 			Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt|All files (*.*)|*.*",
-			Title = "Select flag file to validate"
+			Title = Text("Message10")
 		};
 		if (openFileDialog.ShowDialog() == true)
 		{
 			try
 			{
-				string text = await ReadValidationFileAsync(openFileDialog.FileName, _lifetimeCancellation.Token);
+				string text = await ReadValidationFileAsync(openFileDialog.FileName, _lifetimeToken);
 				ValidationInputTextBox.Text = text;
 			}
 			catch (OperationCanceledException) when (_lifetimeCancellation.IsCancellationRequested)
@@ -557,7 +455,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 			}
 			catch (Exception ex)
 			{
-				System.Windows.MessageBox.Show("Error loading file: " + ex.Message, "File Error", MessageBoxButton.OK, MessageBoxImage.Hand);
+				System.Windows.MessageBox.Show(Text("Message11") + ex.Message, Text("Message12"), MessageBoxButton.OK, MessageBoxImage.Hand);
 			}
 		}
 	}
@@ -566,7 +464,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 	{
 		await using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
 		if (stream.Length <= 0 || stream.Length > MaximumValidationFileBytes)
-			throw new InvalidDataException("The flag file size is invalid");
+			throw new InvalidDataException(Text("Message13"));
 		byte[] data = new byte[checked((int)stream.Length)];
 		int offset = 0;
 		while (offset < data.Length)
@@ -577,18 +475,20 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 			offset += read;
 		}
 		if (await stream.ReadAsync(new byte[1], token) != 0)
-			throw new InvalidDataException("The flag file changed while it was being read");
+			throw new InvalidDataException(Text("Message14"));
 		using MemoryStream memory = new MemoryStream(data, writable: false);
 		using StreamReader reader = new StreamReader(memory, System.Text.Encoding.UTF8, true);
 		string text = await reader.ReadToEndAsync(token);
 		if (text.Length > MaximumValidationCharacters)
-			throw new InvalidDataException("The flag input is too large");
+			throw new InvalidDataException(Text("Message15"));
 		return text;
 	}
 
 	private void ClearValidationButton_Click(object sender, RoutedEventArgs e)
 	{
+		++_validationGeneration;
 		ValidationInputTextBox.Clear();
+		ValidationResultsDataGrid.ItemsSource = Array.Empty<FlagValidationResult>();
 		_validationResults.Clear();
 		_lastValidationResults.Clear();
 		UpdateValidationResultsCount();
@@ -597,31 +497,16 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	private async void ExportSearchResultsButton_Click(object sender, RoutedEventArgs e)
 	{
-		await ExportFlagsAsync(_lastSearchResults.ToDictionary((FlagSearchResult r) => r.Name, (FlagSearchResult r) => ParseValue(r.Value)), "search_results");
+		await ExportFlagsAsync(_lastSearchResults.Where(r => r.Source != "FVariables.txt").ToDictionary(r => r.Name, r => ParseFlagValue(r.Name, r.Value)), "search_results");
 	}
 
 	private async void ExportValidResultsButton_Click(object sender, RoutedEventArgs e)
 	{
-		Dictionary<string, object> flags = _lastValidationResults.Where((FlagValidationResult r) => r.Status == "✓ Valid").ToDictionary((FlagValidationResult r) => r.Name, (FlagValidationResult r) => ParseValue(r.ValidValue));
+		Dictionary<string, object> flags = _lastValidationResults.Where(r => r.CanExport).ToDictionary(r => r.Name, r => ParseFlagValue(r.Name, r.InputValue));
 		await ExportFlagsAsync(flags, "valid_flags");
 	}
 
-	private async void DownloadAllRecentButton_Click(object sender, RoutedEventArgs e)
-	{
-		await ExportFlagsAsync(_recentFlags.ToDictionary((FlagSearchResult r) => r.Name, (FlagSearchResult r) => ParseValue(r.Value)), "recent_flags_all");
-	}
 
-	private async void DownloadTrueRecentButton_Click(object sender, RoutedEventArgs e)
-	{
-		Dictionary<string, object> flags = _recentFlags.Where((FlagSearchResult r) => IsTrueValue(ParseValue(r.Value))).ToDictionary((FlagSearchResult r) => r.Name, (FlagSearchResult r) => ParseValue(r.Value));
-		await ExportFlagsAsync(flags, "recent_flags_true");
-	}
-
-	private async void DownloadFalseRecentButton_Click(object sender, RoutedEventArgs e)
-	{
-		Dictionary<string, object> flags = _recentFlags.Where((FlagSearchResult r) => IsFalseValue(ParseValue(r.Value))).ToDictionary((FlagSearchResult r) => r.Name, (FlagSearchResult r) => ParseValue(r.Value));
-		await ExportFlagsAsync(flags, "recent_flags_false");
-	}
 
 	private static async Task ExportFlagsAsync(Dictionary<string, object> flags, string defaultName)
 	{
@@ -634,13 +519,13 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 		{
 			try
 			{
-				string contents = JsonSerializer.Serialize(flags, ExportJsonOptions);
+				string contents = await Task.Run(() => JsonSerializer.Serialize(flags, ExportJsonOptions));
 				await File.WriteAllTextAsync(dialog.FileName, contents);
-				System.Windows.MessageBox.Show($"Exported {flags.Count} flags to {dialog.FileName}", "Export Complete", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+				System.Windows.MessageBox.Show(Format("ExportSummary", flags.Count, dialog.FileName), Text("Message17"), MessageBoxButton.OK, MessageBoxImage.Asterisk);
 			}
 			catch (Exception ex)
 			{
-				System.Windows.MessageBox.Show("Error exporting flags: " + ex.Message, "Export Error", MessageBoxButton.OK, MessageBoxImage.Hand);
+				System.Windows.MessageBox.Show(Text("Message18") + ex.Message, Text("Message19"), MessageBoxButton.OK, MessageBoxImage.Hand);
 			}
 		}
 	}
@@ -652,70 +537,31 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	private async Task UpdateStatusAsync(string status)
 	{
+		if (_closed) return;
 		await ((DispatcherObject)this).Dispatcher.InvokeAsync<string>((Func<string>)(() => StatusText.Text = status));
 	}
 
 	private void ShowProgress(bool show)
 	{
+		if (_closed) return;
 		((DispatcherObject)this).Dispatcher.Invoke<Visibility>((Func<Visibility>)(() => LoadingProgress.Visibility = ((!show) ? Visibility.Collapsed : Visibility.Visible)));
 	}
 
 	private void UpdateSearchResultsCount()
 	{
-		SearchResultsCount.Text = $"{_searchResults.Count} results";
+		SearchResultsCount.Text = Format("ResultCount", 0, 0);
 	}
 
 	private void UpdateValidationResultsCount()
 	{
-		ValidationResultsCount.Text = $"{_validationResults.Count} results";
+		ValidationResultsCount.Text = Format("ResultCount", 0, 0);
 	}
 
-	private void UpdateRecentFlagsCount()
-	{
-		RecentFlagsCount.Text = $"{_recentFlags.Count} recent flags";
-	}
 
-	private void UpdateTotalFlagsCount()
-	{
-		if (_allFlags.Count > 0)
-		{
-			StatusText.Text = $"Done: {_allFlags.Count} flags loaded!";
-		}
-	}
 
-	private static bool IsTrueValue(object? value)
-	{
-		if (!(value is bool result))
-		{
-			if (!(value is string text))
-			{
-				if (value is int num)
-				{
-					return num != 0;
-				}
-				return false;
-			}
-			return text.Equals("true", StringComparison.OrdinalIgnoreCase);
-		}
-		return result;
-	}
-
-	private static bool IsFalseValue(object? value)
-	{
-		if (!(value is bool flag))
-		{
-			if (!(value is string text))
-			{
-				if (value is int num)
-				{
-					return num == 0;
-				}
-				return false;
-			}
-			return text.Equals("false", StringComparison.OrdinalIgnoreCase);
-		}
-		return !flag;
-	}
+	private static bool IsTrueValue(object? value) => bool.TryParse(value?.ToString(), out bool result) && result;
+	private static bool IsFalseValue(object? value) => bool.TryParse(value?.ToString(), out bool result) && !result;
+	private static object ParseFlagValue(string name, string value) => (name.StartsWith("FString", StringComparison.Ordinal) || name.StartsWith("DFString", StringComparison.Ordinal) || name.StartsWith("SFString", StringComparison.Ordinal)) ? value : ParseValue(value);
 
 	private static object ParseValue(string value)
 	{
@@ -727,7 +573,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 		{
 			return result2;
 		}
-		if (double.TryParse(value, out var result3))
+		if (double.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var result3))
 		{
 			return result3;
 		}
@@ -736,31 +582,19 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	protected override void OnClosed(EventArgs e)
 	{
-		Interlocked.Increment(ref _searchGeneration);
+		_closed = true;
+		Loaded -= OnDialogLoaded;
+		++_searchGeneration;
+		++_validationGeneration;
+		_searchCancellation?.Cancel();
+		_searchCancellation?.Dispose();
+		_searchCancellation = null;
 		_lifetimeCancellation.Cancel();
 		_lifetimeCancellation.Dispose();
 		base.OnClosed(e);
 	}
 
-	private void TrueFlagsOnlyCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
-	{
-		string? text = SearchTextBox.Text?.Trim();
-		if (!string.IsNullOrEmpty(text))
-		{
-			int generation = Interlocked.Increment(ref _searchGeneration);
-			_ = PerformSearchAsync(text, generation, _lifetimeCancellation.Token);
-		}
-	}
 
-	private void FalseFlagsOnlyCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
-	{
-		string? text = SearchTextBox.Text?.Trim();
-		if (!string.IsNullOrEmpty(text))
-		{
-			int generation = Interlocked.Increment(ref _searchGeneration);
-			_ = PerformSearchAsync(text, generation, _lifetimeCancellation.Token);
-		}
-	}
 
 	private void PasteMenuItem_Click(object sender, RoutedEventArgs e)
 	{
@@ -783,7 +617,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 		}
 		catch (Exception ex)
 		{
-			System.Windows.MessageBox.Show("Error pasting from clipboard: " + ex.Message, "Paste Error", MessageBoxButton.OK, MessageBoxImage.Hand);
+			System.Windows.MessageBox.Show(Text("Message20") + ex.Message, Text("Message21"), MessageBoxButton.OK, MessageBoxImage.Hand);
 		}
 	}
 
