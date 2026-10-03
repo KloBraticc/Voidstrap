@@ -77,6 +77,7 @@
 		<CsWinRTIncludes>Windows.Foundation;Windows.Graphics.Capture;Windows.Graphics.DirectX;Windows.Graphics.SizeInt32;Windows.Graphics.RectInt32;Windows.Graphics.DisplayId;Windows.UI.WindowId;Windows.Security.Authorization.AppCapabilityAccess.AppCapabilityAccessStatus</CsWinRTIncludes>
 		<CsWinRTExcludes>Windows.Foundation.Diagnostics</CsWinRTExcludes>
 		<CsWinRTWindowsMetadata>10.0.26100.0</CsWinRTWindowsMetadata>
+		<WindowsProjectionMetadataVersion>10.0.26100.57</WindowsProjectionMetadataVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -185,6 +186,7 @@
 		<PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.30.0" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
+		<PackageDownload Include="Microsoft.Windows.SDK.NET.Ref" Version="[$(WindowsProjectionMetadataVersion)]" />
 		<!-- <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" /> -->
 
 		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.335">
@@ -253,6 +255,14 @@
 			<CsWin32InputMetadataPaths>@(ProjectionMetadataWinmd->'%(FullPath)','|')</CsWin32InputMetadataPaths>
 			<CsWin32InputDocPaths>@(ProjectionDocs->'%(FullPath)','|')</CsWin32InputDocPaths>
 		</PropertyGroup>
+	</Target>
+
+	<Target Name="ResolveWindowsProjectionMetadata" BeforeTargets="CsWinRTGenerateProjection" Condition="'$(CsWinRTEnabled)' == 'true' And '$(CsWinRTWindowsMetadata)' == '10.0.26100.0'">
+		<PropertyGroup>
+			<WindowsProjectionMetadataDirectory>$(NuGetPackageRoot)microsoft.windows.sdk.net.ref\$(WindowsProjectionMetadataVersion)\winmd</WindowsProjectionMetadataDirectory>
+			<CsWinRTWindowsMetadata>&quot;$(WindowsProjectionMetadataDirectory)&quot;</CsWinRTWindowsMetadata>
+		</PropertyGroup>
+		<Error Condition="!Exists('$(WindowsProjectionMetadataDirectory)\Windows.Foundation.FoundationContract.winmd')" Text="Windows projection metadata is missing. Run dotnet restore before building." />
 	</Target>
 
 	<Target Name="PrepareWindowsProjectionForMarkup" BeforeTargets="GenerateTemporaryTargetAssembly;CoreCompile" DependsOnTargets="CsWinRTIncludeProjection" Condition="'$(CsWinRTEnabled)' == 'true'" />

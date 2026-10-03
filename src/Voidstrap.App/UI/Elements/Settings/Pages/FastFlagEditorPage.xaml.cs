@@ -918,6 +918,7 @@ public partial class FastFlagEditorPage : UiPage
 		{
 			string oldName = fastFlag.Name;
 			string newName = text.Trim();
+			textBox.Text = newName;
 			if (newName == oldName)
 			{
 				return;
@@ -1003,12 +1004,13 @@ public partial class FastFlagEditorPage : UiPage
 
 	private void DeleteButton_Click(object sender, RoutedEventArgs e)
 	{
+		if (!CommitFlagEdit())
+			return;
 		List<FastFlag> selected = DataGrid.SelectedItems.OfType<FastFlag>().ToList();
 		if (selected.Count == 0)
 		{
 			return;
 		}
-		CancelPendingEdit();
 		foreach (FastFlag item in selected)
 		{
 			RecordHistory(FlagHistoryAction.Deleted, item.Name, App.FastFlags.GetValue(item.Name), null);
@@ -1017,6 +1019,79 @@ public partial class FastFlagEditorPage : UiPage
 		}
 		UpdateCounters();
 		UpdateEmptyState();
+	}
+
+	private bool CommitFlagEdit()
+	{
+		return DataGrid.CommitEdit(DataGridEditingUnit.Cell, exitEditingMode: true)
+			&& DataGrid.CommitEdit(DataGridEditingUnit.Row, exitEditingMode: true);
+	}
+
+	private void DataGrid_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+	{
+		if (e.OriginalSource is not DependencyObject source
+			|| ItemsControl.ContainerFromElement(DataGrid, source) is not DataGridRow row
+			|| row.Item is not FastFlag flag)
+			return;
+
+		e.Handled = true;
+		if (!CommitFlagEdit())
+			return;
+		if (!DataGrid.SelectedItems.Contains(flag))
+			DataGrid.SelectedItem = flag;
+		DataGrid.Focus();
+	}
+
+	private void DataGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+	{
+		if (DataGrid.SelectedItems.Count == 0
+			|| (e.CursorLeft >= 0 && (e.OriginalSource is not DependencyObject source
+				|| ItemsControl.ContainerFromElement(DataGrid, source) is not DataGridRow))
+			|| !CommitFlagEdit())
+		{
+			e.Handled = true;
+			return;
+		}
+		bool single = DataGrid.SelectedItems.Count == 1;
+		RenameFlagMenuItem.IsEnabled = single;
+		EditFlagValueMenuItem.IsEnabled = single;
+	}
+
+	private void RenameFlagMenuItem_Click(object sender, RoutedEventArgs e)
+	{
+		BeginFlagEdit(NameColumn);
+	}
+
+	private void EditFlagValueMenuItem_Click(object sender, RoutedEventArgs e)
+	{
+		BeginFlagEdit(ValueColumn);
+	}
+
+	private void BeginFlagEdit(DataGridColumn column)
+	{
+		if (DataGrid.SelectedItems.Count != 1 || DataGrid.SelectedItem is not FastFlag flag)
+			return;
+		Dispatcher.BeginInvoke(new Action(() =>
+		{
+			if (!IsLoaded || !_allFlags.Contains(flag) || _view?.Contains(flag) != true || !CommitFlagEdit())
+				return;
+			DataGrid.SelectedItem = flag;
+			DataGrid.ScrollIntoView(flag, column);
+			DataGrid.CurrentCell = new DataGridCellInfo(flag, column);
+			DataGrid.Focus();
+			DataGrid.BeginEdit();
+		}), DispatcherPriority.Input);
+	}
+
+	private void CopySelectedFlagsMenuItem_Click(object sender, RoutedEventArgs e)
+	{
+		if (!CommitFlagEdit())
+			return;
+		Dictionary<string, string> selected = DataGrid.SelectedItems.OfType<FastFlag>()
+			.Where(flag => App.FastFlags.Prop.ContainsKey(flag.Name))
+			.ToDictionary(flag => flag.Name, flag => App.FastFlags.GetValue(flag.Name) ?? flag.Value);
+		if (selected.Count > 0)
+			TrySetClipboard(JsonSerializer.Serialize(selected, _indentedJson));
 	}
 
 	private void DeleteAllButton_Click(object sender, RoutedEventArgs e)

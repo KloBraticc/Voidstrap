@@ -2115,4 +2115,13 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="Mtu.Error" xml:space="preserve">
     <value>MTU operation failed. Refresh to check the current value.</value>
   </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>Edit value</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>Copy selected as JSON</value>
+  </data>
 </root>

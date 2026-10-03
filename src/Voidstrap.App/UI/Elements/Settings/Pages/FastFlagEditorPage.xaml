@@ -96,7 +96,19 @@
                 ScrollViewer.CanContentScroll="True"
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                PreviewMouseRightButtonDown="DataGrid_PreviewMouseRightButtonDown"
+                ContextMenuOpening="DataGrid_ContextMenuOpening"
                 CellEditEnding="DataGrid_CellEditEnding">
+        <DataGrid.ContextMenu>
+          <ContextMenu>
+            <MenuItem x:Name="RenameFlagMenuItem" Header="{x:Static resources:Strings.Menu_FastFlagEditor_Rename}" Click="RenameFlagMenuItem_Click" />
+            <MenuItem x:Name="EditFlagValueMenuItem" Header="{x:Static resources:Strings.Menu_FastFlagEditor_EditValue}" Click="EditFlagValueMenuItem_Click" />
+            <Separator />
+            <MenuItem Header="{x:Static resources:Strings.Menu_FastFlagEditor_CopySelected}" Click="CopySelectedFlagsMenuItem_Click" />
+            <Separator />
+            <MenuItem Header="{x:Static resources:Strings.Menu_FastFlagEditor_DeleteSelected}" Click="DeleteButton_Click" />
+          </ContextMenu>
+        </DataGrid.ContextMenu>
         <DataGrid.Columns>
           <DataGridTemplateColumn Header="Tags" Width="230" IsReadOnly="True" CanUserSort="False">
             <DataGridTemplateColumn.CellTemplate>
