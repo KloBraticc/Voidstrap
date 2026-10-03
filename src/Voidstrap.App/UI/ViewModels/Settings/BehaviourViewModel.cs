@@ -2155,7 +2155,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		try
 		{
 			CpuOptions.Clear();
-			int processorCount = Environment.ProcessorCount;
+			int processorCount = Voidstrap.Utility.Platform.IsLinux ? Voidstrap.Core.CpuTopology.OnlineCpus.Count : Environment.ProcessorCount;
 			int physicalCoreCount = GetPhysicalCoreCount();
 			string text = Voidstrap.Utility.CpuInfo.GetModelName() ?? "Unknown CPU";
 			if (Voidstrap.Utility.Platform.IsWindows)
@@ -2175,12 +2175,16 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 			CpuModelName = text;
 			CpuSummary = $"{text}, {physicalCoreCount} physical cores, {processorCount} logical processors. Automatic uses every available processor.";
-			if (processorCount > IntPtr.Size * 8)
+			if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Core.CpuTopology.IsolatedCpus.Count > 0)
+			{
+				CpuSummary = $"{text}, {physicalCoreCount} physical cores, {processorCount} logical processors. CPUs {string.Join(", ", Voidstrap.Core.CpuTopology.IsolatedCpus)} are isolated by the kernel. Automatic keeps Sober on the CPUs Voidstrap started with, a core count moves Sober onto the isolated CPUs first.";
+			}
+			if (!Voidstrap.Utility.Platform.IsLinux && processorCount > IntPtr.Size * 8)
 			{
 				CpuSummary += " Manual limits are unavailable because this system uses processor groups.";
 			}
 			CpuOptions.Add("Automatic");
-			if (processorCount <= IntPtr.Size * 8)
+			if (Voidstrap.Utility.Platform.IsLinux || processorCount <= IntPtr.Size * 8)
 			{
 				for (int i = 1; i <= processorCount; i++)
 				{

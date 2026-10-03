@@ -16,6 +16,10 @@ public static class CpuCoreLimiter
 
 	public static void SetCpuCoreLimit(int coreCount)
 	{
+		if (OperatingSystem.IsLinux())
+		{
+			Voidstrap.Platform.Linux.LinuxSoberResources.CaptureStartupAffinity();
+		}
 		int processorCount = Environment.ProcessorCount;
 		if (processorCount > IntPtr.Size * 8)
 		{
@@ -36,7 +40,16 @@ public static class CpuCoreLimiter
 					process.ProcessorAffinity = _originalAffinity.Value;
 					return;
 				}
-				ulong mask = ((1UL << coreCount) - 1UL) << (processorCount - coreCount);
+				ulong original = unchecked((ulong)(long)_originalAffinity.Value);
+				ulong mask = 0;
+				for (int bit = 63, taken = 0; bit >= 0 && taken < coreCount; bit--)
+				{
+					if ((original & (1UL << bit)) != 0)
+					{
+						mask |= 1UL << bit;
+						taken++;
+					}
+				}
 				process.ProcessorAffinity = new IntPtr(unchecked((long)mask));
 				App.Logger.WriteLine("CpuCoreLimiter", "Voidstrap CPU limit set to the top " + coreCount + " logical processors");
 			}

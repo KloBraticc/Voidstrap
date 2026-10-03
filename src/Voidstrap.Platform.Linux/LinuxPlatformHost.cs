@@ -1684,6 +1684,11 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		if (!LinuxFlatpakHost.TryCreateCommand(_processes, arguments, out ProcessCommand launchCommand, false))
 			return OperationResult<LaunchSession>.Fail("FlatpakMissing", "Flatpak is not installed", CapabilityState.RequiresExternalRuntime);
 
+		string flatpak = LinuxFlatpakHost.IsSandboxed ? "flatpak" : launchCommand.FileName;
+		if (LinuxSoberResources.TryGetLaunchCpuList(out string cpuList)
+			&& LinuxFlatpakHost.TryCreateHostCommand(_processes, "taskset", ["--cpu-list", cpuList, flatpak, .. arguments], out ProcessCommand pinnedCommand, false))
+			launchCommand = pinnedCommand;
+
 		List<int> previousOwners = SoberInstanceLockOwners();
 		DateTime launchedUtc = DateTime.UtcNow;
 		StartedInThisProcess = true;

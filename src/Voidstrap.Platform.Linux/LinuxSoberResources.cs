@@ -22,6 +22,10 @@ public static partial class LinuxSoberResources
 
 	private static readonly Lazy<bool> HostSupport = new(() => RunHost(["sh", "-c", "test -f /sys/fs/cgroup/cgroup.controllers && command -v systemctl >/dev/null && command -v taskset >/dev/null"], out _, 3000));
 
+	private static readonly Lazy<bool> HostTaskset = new(() => RunHost(["sh", "-c", "command -v taskset >/dev/null"], out _, 3000));
+
+	private static int[]? _startupCpus;
+
 	private static readonly object HostScopeSync = new();
 
 	private static LinuxSoberScope? _hostScope;
@@ -272,13 +276,43 @@ public static partial class LinuxSoberResources
 		return sched_getaffinity(processId, (nuint)mask.Length, mask) == 0 ? mask : null;
 	}
 
-	public static byte[] CreateAffinity(int processorCount)
+	public static byte[] CreateAffinity(IEnumerable<int> cpus)
 	{
 		byte[] mask = new byte[CpuSetBytes];
-		int count = Math.Clamp(processorCount, 1, CpuSetBytes * 8);
-		for (int cpu = 0; cpu < count; cpu++)
-			mask[cpu / 8] |= (byte)(1 << (cpu % 8));
+		foreach (int cpu in cpus)
+		{
+			if (cpu >= 0 && cpu < CpuSetBytes * 8)
+				mask[cpu / 8] |= (byte)(1 << (cpu % 8));
+		}
 		return mask;
+	}
+
+	public static void CaptureStartupAffinity()
+	{
+		int[] cpus = ReadOwnAffinity();
+		if (cpus.Length > 0)
+			Interlocked.CompareExchange(ref _startupCpus, cpus, null);
+	}
+
+	public static bool TryGetLaunchCpuList(out string cpuList)
+	{
+		cpuList = "";
+		if (!OperatingSystem.IsLinux())
+			return false;
+		CaptureStartupAffinity();
+		int[]? startup = _startupCpus;
+		if (startup is null || LinuxFlatpakHost.IsSandboxed && !HostTaskset.Value)
+			return false;
+		cpuList = string.Join(',', startup);
+		return true;
+	}
+
+	private static int[] ReadOwnAffinity()
+	{
+		byte[] mask = new byte[CpuSetBytes];
+		if (sched_getaffinity(0, (nuint)mask.Length, mask) != 0)
+			return [];
+		return Enumerable.Range(0, CpuSetBytes * 8).Where(cpu => (mask[cpu / 8] & (1 << (cpu % 8))) != 0).ToArray();
 	}
 
 	public static int ApplyAffinity(IReadOnlyList<int> processIds, byte[] mask)
