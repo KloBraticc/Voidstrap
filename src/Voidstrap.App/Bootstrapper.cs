@@ -2501,11 +2501,11 @@ public class Bootstrapper
         }
         bool flag = !string.IsNullOrEmpty(_launchStatusFile);
         bool shouldOptimize = RobloxProcessOptimizer.ShouldRun(App.Settings?.Prop);
-		bool shouldTrackLinuxHomepage = Voidstrap.Utility.Platform.IsLinux
-			&& Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled;
+		bool shouldTrackOverlays = Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled
+			|| Voidstrap.Integrations.Overlays.OverlaySettings.GameEffectsEnabled;
 		bool shouldKeepSnapTap = _launchMode == LaunchMode.Player && Voidstrap.Utility.Platform.SupportsInputHooks && (App.Settings?.Prop.SnapTapEnabled ?? false);
 		bool shouldCompressAfterExit = RobloxInstallCompression.Supported && (App.Settings?.Prop.CompressRobloxInstalls ?? false);
-		if (!((App.Settings?.Prop.EnableActivityTracking ?? false) || flag || shouldOptimize || shouldTrackLinuxHomepage || shouldKeepSnapTap || shouldCompressAfterExit) && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
+		if (!((App.Settings?.Prop.EnableActivityTracking ?? false) || flag || shouldOptimize || shouldTrackOverlays || shouldKeepSnapTap || shouldCompressAfterExit) && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
         {
             return Task.CompletedTask;
         }

@@ -424,6 +424,9 @@ namespace Voidstrap.Integrations.Overlays
                         break;
                     }
 
+                    if (!OverlayHub.HomepageBackgroundActive)
+                        ReleaseHomepageResources();
+
                     if (!OverlaySettings.AnyEnabled)
                     {
                         App.Logger.WriteLine(LOG_IDENT, "All overlays turned off, closing the compositor");
@@ -727,7 +730,6 @@ namespace Voidstrap.Integrations.Overlays
             _psPass = CompilePs("PSPass");
             _psCropSrgb = CompilePs("PSCropSrgb");
             _psOverlay = CompilePs("PSOverlay");
-            _psHomeBackground = CompilePs("PSHomeBackground");
 
             _hudBlend = _device!.CreateBlendState(new BlendDescription(Blend.SourceAlpha, Blend.InverseSourceAlpha, Blend.One, Blend.InverseSourceAlpha));
             _hud.Init(_device!);
@@ -1463,6 +1465,7 @@ namespace Voidstrap.Integrations.Overlays
 
 		private void DrawHomepage(ID3D11RenderTargetView target, ID3D11ShaderResourceView input, ID3D11ShaderResourceView? media)
 		{
+			_psHomeBackground ??= CompilePs("PSHomeBackground");
 			_context!.VSSetShader(_vs);
 			_context.PSSetConstantBuffer(0, _cbuffer);
 			_context.PSSetSampler(0, _sampler);
@@ -1641,6 +1644,22 @@ namespace Voidstrap.Integrations.Overlays
 			_homepageMediaHeight = 0;
 			_homepageMediaVersion = 0;
 			_homepageRepaintDue = true;
+		}
+
+		private void ReleaseHomepageResources()
+		{
+			if (_homepageVideo == null && _homepageMedia == null && _homepageMediaSrv == null
+				&& _homepageMediaTexture == null && _psHomeBackground == null)
+				return;
+			_context?.PSSetShaderResources(0, _nullSrvs);
+			_context?.PSSetShader(null);
+			ReleaseHomepageMedia();
+			_psHomeBackground?.Dispose();
+			_psHomeBackground = null;
+			_homepageMediaPath = "";
+			_homepageMediaResolvedPath = "";
+			_homepageMediaRequestedPath = "";
+			_homepageMediaProbeMs = 0;
 		}
 
         private void ResetFrameGenState()
@@ -3140,13 +3159,6 @@ namespace Voidstrap.Integrations.Overlays
                 return;
             _lastSettingsCheckSec = nowSec;
             _wgc?.SetTargetFps(CaptureTargetFps());
-            if (_homepageMedia != null && !OverlayHub.HomepageBackgroundActive)
-            {
-                ReleaseHomepageMedia();
-                _homepageMediaPath = "";
-                _homepageMediaResolvedPath = "";
-                _homepageMediaProbeMs = 0;
-            }
             try
             {
                 string path = App.Settings.FileLocation;
@@ -3445,7 +3457,7 @@ namespace Voidstrap.Integrations.Overlays
                     _fg.Dispose();
                 _fruc?.Dispose();
                 _fruc = null;
-				ReleaseHomepageMedia();
+				ReleaseHomepageResources();
                 _wgc?.Dispose();
                 _duplication?.Dispose();
                 ReleaseSizedResources();

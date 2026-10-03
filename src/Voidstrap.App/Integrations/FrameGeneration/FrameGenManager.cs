@@ -13,6 +13,8 @@ namespace Voidstrap.Integrations.FrameGeneration
 		private static int _gameTransitionActive;
 		private static int _transitionGeneration;
 		private const int TransitionTimeoutMs = 60000;
+		private static readonly object _transitionGate = new();
+		private static CancellationTokenSource? _transitionTimeout;
 
         public static void Install()
         {
@@ -99,48 +101,86 @@ namespace Voidstrap.Integrations.FrameGeneration
 
 		public static void OnGameJoinStarting()
 		{
-			if (Interlocked.Exchange(ref _gameTransitionActive, 1) != 0)
-				return;
-			if (FrameGenSettings.ModeIndex > 0)
-				App.Logger.WriteLine("FrameGen", "Game transition started, destroying frame generation until the server is ready");
-			OverlayHub.OnGameTransitionStarted();
-			_ = ExpireTransitionAsync(Interlocked.Increment(ref _transitionGeneration));
+			lock (_transitionGate)
+			{
+				if (_gameTransitionActive != 0)
+					return;
+				_gameTransitionActive = 1;
+				if (FrameGenSettings.ModeIndex > 0)
+					App.Logger.WriteLine("FrameGen", "Game transition started, destroying frame generation until the server is ready");
+				OverlayHub.OnGameTransitionStarted();
+				_transitionTimeout = new CancellationTokenSource();
+				_ = ExpireTransitionAsync(++_transitionGeneration, _transitionTimeout.Token);
+			}
 		}
 
-		private static async Task ExpireTransitionAsync(int generation)
+		private static async Task ExpireTransitionAsync(int generation, CancellationToken token)
 		{
-			await Task.Delay(TransitionTimeoutMs).ConfigureAwait(false);
-			if (Volatile.Read(ref _transitionGeneration) != generation || Interlocked.Exchange(ref _gameTransitionActive, 0) == 0)
+			try
+			{
+				await Task.Delay(TransitionTimeoutMs, token).ConfigureAwait(false);
+			}
+			catch (OperationCanceledException) when (token.IsCancellationRequested)
+			{
 				return;
-			App.Logger.WriteLine("FrameGen", "No server join was confirmed within 60 seconds, the join or teleport likely failed, so the overlays are restored");
-			OverlayHub.OnGameTransitionCompleted();
+			}
+			lock (_transitionGate)
+			{
+				if (_transitionGeneration != generation || _gameTransitionActive == 0)
+					return;
+				_gameTransitionActive = 0;
+				CancelTransitionTimeout();
+				App.Logger.WriteLine("FrameGen", "No server join was confirmed within 60 seconds, resuming game effects while the homepage stays disabled until Roblox returns home");
+				OverlayHub.OnGameTransitionCompleted();
+			}
+		}
+
+		private static void CancelTransitionTimeout()
+		{
+			_transitionTimeout?.Cancel();
+			_transitionTimeout?.Dispose();
+			_transitionTimeout = null;
 		}
 
 		public static void OnGameJoinConfirmed()
 		{
-			if (Interlocked.Exchange(ref _gameTransitionActive, 0) != 0)
+			lock (_transitionGate)
 			{
-				if (FrameGenSettings.ModeIndex > 0)
-					App.Logger.WriteLine("FrameGen", "Server join confirmed, rebuilding frame generation with fresh capture history");
-				OverlayHub.OnGameTransitionCompleted();
+				bool transitioning = _gameTransitionActive != 0;
+				_gameTransitionActive = 0;
+				CancelTransitionTimeout();
+				if (transitioning)
+				{
+					if (FrameGenSettings.ModeIndex > 0)
+						App.Logger.WriteLine("FrameGen", "Server join confirmed, rebuilding frame generation with fresh capture history");
+					OverlayHub.OnGameTransitionCompleted();
+				}
+				else
+				{
+					OverlayHub.OnGameJoin();
+				}
 			}
-			else
-			{
-				OverlayHub.OnGameJoin();
-			}
-        }
+		}
 
         public static void OnGameLeave()
         {
-			Interlocked.Exchange(ref _gameTransitionActive, 0);
-            OverlayHub.OnGameLeave();
+			lock (_transitionGate)
+			{
+				_gameTransitionActive = 0;
+				CancelTransitionTimeout();
+				OverlayHub.OnGameLeave();
+			}
         }
 
         public static void Shutdown()
         {
-			Interlocked.Exchange(ref _gameTransitionActive, 0);
-			_installed = false;
-            OverlayHub.Shutdown();
+			lock (_transitionGate)
+			{
+				_gameTransitionActive = 0;
+				CancelTransitionTimeout();
+				_installed = false;
+				OverlayHub.Shutdown();
+			}
         }
     }
 }

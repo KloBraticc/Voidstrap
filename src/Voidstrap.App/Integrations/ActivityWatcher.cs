@@ -39,7 +39,7 @@ public partial class ActivityWatcher : IDisposable
 	private const string GameMessageLogEntry = "[ExpChat/mountClientApp (Debug)] - Incoming MessageReceived Status: ";
 	private const string GamePlayerDiscoveryEntry = "[DFLog::SocialCounterpartyManager]";
 
-	private const string GameJoiningEntryPattern = "! Joining game '([0-9a-f\\-]{36})' place ([0-9]+) at ([0-9\\.]+)";
+	private const string GameJoiningEntryPattern = "! Joining game '([0-9a-fA-F\\-]{36})' place ([0-9]+)(?: at ([^\\s]+))?";
 
 	private const string GameJoinReferralPattern = "referral_page:([^,]+)";
 
@@ -58,7 +58,7 @@ public partial class ActivityWatcher : IDisposable
 	private const string GamePlayerJoinLeavePattern = "(added|removed): (.*) ([0-9]+)\\s*$";
 
 	private const string GameMessageLogPattern = "Success Text: (.*)";
-	[GeneratedRegex("! Joining game '([0-9a-f\\-]{36})' place ([0-9]+) at ([0-9\\.]+)", RegexOptions.CultureInvariant)]
+	[GeneratedRegex(GameJoiningEntryPattern, RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern1 { get; }
 	[GeneratedRegex("referral_page:([^,]+)", RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern2 { get; }
@@ -840,6 +840,29 @@ public partial class ActivityWatcher : IDisposable
 		RaiseEvent(OnGameLeave, "OnGameLeave");
 	}
 
+	private void CompleteGameLeave()
+	{
+		bool wasInGame = InGame;
+		RestoreOriginalResolution();
+		if (wasInGame)
+		{
+			App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "Disconnected from Game (" + Data.JobId + ")");
+			Data.TimeLeft = DateTime.Now;
+			lock (History)
+			{
+				History.Insert(0, Data);
+				while (History.Count > MaxHistoryEntries)
+					History.RemoveAt(History.Count - 1);
+			}
+		}
+		InGame = false;
+		ResetData();
+		if (!_teleportMarker)
+			FrameGeneration.FrameGenManager.OnGameLeave();
+		if (wasInGame)
+			RaiseEvent(OnGameLeave, "OnGameLeave");
+	}
+
 	private void StopLogWatcher()
 	{
 		if (_logWatcher == null)
@@ -914,14 +937,17 @@ public partial class ActivityWatcher : IDisposable
 		if (entry.Contains("[FLog::SingleSurfaceApp] leaveUGCGameInternal"))
 		{
 			App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "User is back into the desktop app");
-            RestoreOriginalResolution();
+			_teleportMarker = false;
+			_reservedTeleportMarker = false;
+			CompleteGameLeave();
 			RaiseEvent(OnAppClose, "OnAppClose");
-			if (Data.PlaceId != 0L && !InGame)
-			{
-				App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "User appears to be leaving from a cancelled/errored join");
-				ResetData();
-				FrameGeneration.FrameGenManager.OnGameLeave();
-			}
+			return;
+		}
+		if (entry.Contains(GameDisconnectedEntry))
+		{
+			if (InGame)
+				CompleteGameLeave();
+			return;
 		}
 		if (Data.PlaceId != 0L && entry.Contains("[FLog::Output] Server Prefix: "))
 		{
@@ -935,10 +961,10 @@ public partial class ActivityWatcher : IDisposable
 				return;
 			}
 			Match match = LogPattern1.Match(entry);
-			if (match.Groups.Count == 4)
+			if (match.Success && long.TryParse(match.Groups[2].Value, out long placeId) && placeId > 0)
 			{
 				InGame = false;
-				Data.PlaceId = long.Parse(match.Groups[2].Value);
+				Data.PlaceId = placeId;
 				AssetProxy.AssetPreloadCache.SwitchSession(Data.PlaceId);
 				Data.JobId = match.Groups[1].Value;
 				string joinAddress = match.Groups[3].Value;
@@ -1030,27 +1056,7 @@ public partial class ActivityWatcher : IDisposable
 			{
 				return;
 			}
-			if (entry.Contains("[FLog::Network] Time to disconnect replication data:"))
-			{
-				App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "Disconnected from Game (" + Data.JobId + ")");
-                RestoreOriginalResolution();
-				Data.TimeLeft = DateTime.Now;
-				lock (History)
-				{
-					History.Insert(0, Data);
-					while (History.Count > MaxHistoryEntries)
-					{
-						History.RemoveAt(History.Count - 1);
-					}
-				}
-				InGame = false;
-				_ = Data;
-				ResetData();
-				if (!_teleportMarker)
-					FrameGeneration.FrameGenManager.OnGameLeave();
-				RaiseEvent(OnGameLeave, "OnGameLeave");
-			}
-			else if (entry.Contains("[FLog::UgcExperienceController] UgcExperienceController: doTeleport: joinScriptUrl"))
+			if (entry.Contains("[FLog::UgcExperienceController] UgcExperienceController: doTeleport: joinScriptUrl"))
 			{
 				_teleportMarker = true;
 				App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "Initiating teleport (" + Data.JobId + ")");
@@ -1335,6 +1341,7 @@ public partial class ActivityWatcher : IDisposable
 		StopLogWatcher();
         RestoreOriginalResolution();
 		OnGameJoin = null;
+		OnGameJoining = null;
 		OnGameLeave = null;
 		OnLogOpen = null;
 		OnAppClose = null;

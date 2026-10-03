@@ -426,7 +426,8 @@ public partial class Watcher : IDisposable
 	private void SynchronizeLinuxGameState()
 	{
 		if (Voidstrap.Utility.Platform.IsLinux && ActivityWatcher != null)
-			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(ActivityWatcher.InGame);
+			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(
+				ActivityWatcher.InGame || ActivityWatcher.IsTeleporting || ActivityWatcher.Data.PlaceId != 0);
 	}
 
 	private void OnActivityAppClose(object? sender, EventArgs e)
@@ -460,14 +461,15 @@ public partial class Watcher : IDisposable
 	private void OnRuntimeGameLeave(object? sender, EventArgs e)
 	{
 		Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition();
-		if (Voidstrap.Utility.Platform.IsLinux)
+		bool teleporting = ActivityWatcher?.IsTeleporting == true;
+		if (Voidstrap.Utility.Platform.IsLinux && !teleporting)
 			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false);
 		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameLeave, "FullscreenLeave");
-		RunRuntimeAction(Voidstrap.Integrations.RiShade.RiShadeManager.OnGameLeave, "RiShadeLeave");
-		RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameLeave, "AntiAliasingLeave");
-		RunRuntimeAction(Voidstrap.Integrations.FrameGeneration.FrameGenManager.OnGameLeave, "FrameGenerationLeave");
-		if (ActivityWatcher?.IsTeleporting != true)
+		if (!teleporting)
 		{
+			RunRuntimeAction(Voidstrap.Integrations.RiShade.RiShadeManager.OnGameLeave, "RiShadeLeave");
+			RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameLeave, "AntiAliasingLeave");
+			RunRuntimeAction(Voidstrap.Integrations.FrameGeneration.FrameGenManager.OnGameLeave, "FrameGenerationLeave");
 			RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
 		}
 	}
@@ -875,7 +877,9 @@ public partial class Watcher : IDisposable
 		{
 			return;
 		}
+		Voidstrap.Integrations.Overlays.OverlayHub.MarkHostProcess();
 		ActivityWatcher?.Start();
+		Voidstrap.Integrations.Overlays.OverlayHub.Refresh();
 		StartWindowManipulation();
 		StartRuntimeOptimizer();
 		DateTime sessionStartedUtc = ModCrashGuard.BeginSession();
