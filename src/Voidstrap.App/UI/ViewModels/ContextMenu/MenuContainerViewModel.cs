@@ -19,14 +19,10 @@ namespace Voidstrap.UI.Chat
                 if (SetProperty(ref _brightness, clamped))
                 {
                     App.Settings.Prop.Brightness = clamped;
+                    App.Settings.SaveDeferred();
                     if (Voidstrap.Utility.Platform.IsLinux)
                     {
-                        App.Settings.SaveDeferred();
                         Voidstrap.Watcher.Current?.ApplyBrightnessLive();
-                    }
-                    else
-                    {
-                        App.Settings.Save();
                     }
                     OnPropertyChanged(nameof(BrightnessDisplay));
                     Voidstrap.Utility.ScreenColorEffect.ApplyConfigured();
@@ -54,7 +50,7 @@ namespace Voidstrap.UI.Chat
                 if (SetProperty(ref _saturation, clamped))
                 {
                     App.Settings.Prop.Saturation = clamped;
-                    App.Settings.Save();
+                    App.Settings.SaveDeferred();
                     OnPropertyChanged(nameof(SaturationDisplay));
                     Voidstrap.Utility.ScreenColorEffect.ApplyConfigured();
                 }
@@ -75,7 +71,7 @@ namespace Voidstrap.UI.Chat
                 if (SetProperty(ref _contrast, clamped))
                 {
                     App.Settings.Prop.Contrast = clamped;
-                    App.Settings.Save();
+                    App.Settings.SaveDeferred();
                     OnPropertyChanged(nameof(ContrastDisplay));
                     Voidstrap.Utility.ScreenColorEffect.ApplyConfigured();
                 }
@@ -96,7 +92,7 @@ namespace Voidstrap.UI.Chat
                 if (SetProperty(ref _colorTemperature, clamped))
                 {
                     App.Settings.Prop.ColorTemperature = clamped;
-                    App.Settings.Save();
+                    App.Settings.SaveDeferred();
                     OnPropertyChanged(nameof(ColorTemperatureDisplay));
                     Voidstrap.Utility.ScreenColorEffect.ApplyConfigured();
                 }

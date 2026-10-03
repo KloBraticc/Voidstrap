@@ -167,150 +167,177 @@ namespace Voidstrap.Integrations.Overlays
                 || name.Contains("Cursor");
         }
 
-        public static string BuildReport()
+        public static string BuildReport(ActivityWatcher? activity = null)
         {
-            using IDisposable? lease = TryAcquireTracker();
+            var app = Application.Current;
+            if (app != null && !app.Dispatcher.CheckAccess())
+                throw new InvalidOperationException(Text("DispatcherRequired"));
 
             var sb = new StringBuilder();
             var prop = App.Settings.Prop;
-
-            bool fpsOverlay = prop.OverlaysEnabled;
-            bool crosshair = prop.Crosshair;
-            bool gpuCompositor = OverlaySettings.AnyEnabled;
-            bool fakeExclusive = prop.FakeExclusiveFullscreen;
-            bool fakeBorderless = prop.FakeBorderlessFullscreen;
-
             RobloxWindowRect roblox = ResolveRobloxRect();
-            bool inGame = roblox.Valid;
-
-            sb.AppendLine("Voidstrap overlay diagnostics");
+            sb.AppendLine(Text("Title"));
+            sb.AppendLine(string.Format(System.Globalization.CultureInfo.CurrentCulture, Text("Sample"), DateTimeOffset.Now));
+            sb.AppendLine(Text("Scope"));
             sb.AppendLine();
-
-            if (!fpsOverlay && !crosshair && !gpuCompositor)
-            {
-                sb.AppendLine("CAUSE: Every overlay is turned off.");
-                sb.AppendLine();
-                sb.AppendLine("Nothing is set to show. Turn on what you want:");
-                sb.AppendLine("  Stats overlay: Extensions page, Overlays.");
-                sb.AppendLine("  Crosshair: Mods page, Crosshair.");
-                sb.AppendLine("  RiShade, Anti Aliasing, Frame Generation: Extensions page.");
-                return sb.ToString();
-            }
-
-            sb.AppendLine("What is turned on:");
-            sb.AppendLine("  Stats overlay (FPS, ping, memory): " + OnOff(fpsOverlay));
-            sb.AppendLine("  Crosshair: " + OnOff(crosshair));
-            sb.AppendLine("  GPU compositor (RiShade, Anti Aliasing, Frame Generation): " + OnOff(gpuCompositor));
-            sb.AppendLine("  Fake Exclusive Fullscreen: " + OnOff(fakeExclusive));
-            sb.AppendLine("  Fake Borderless Fullscreen: " + OnOff(fakeBorderless));
-            sb.AppendLine("  Roblox detected in a game: " + OnOff(inGame));
+            sb.AppendLine(Text("Configuration"));
+            AppendValue(sb, "Stats", OnOff(prop.OverlaysEnabled));
+            AppendValue(sb, "Crosshair", OnOff(prop.Crosshair));
+            AppendValue(sb, "GameEffects", OnOff(OverlaySettings.GameEffectsEnabled));
+            AppendValue(sb, "Homepage", OnOff(OverlaySettings.HomepageBackgroundEnabled));
+            AppendValue(sb, "FakeExclusive", OnOff(prop.FakeExclusiveFullscreen));
+            AppendValue(sb, "FakeBorderless", OnOff(prop.FakeBorderlessFullscreen));
             sb.AppendLine();
-
-            if (!inGame)
+            sb.AppendLine(Text("Runtime"));
+            AppendValue(sb, "GameSession", activity == null ? Text("Unavailable") : OnOff(activity.InGame));
+            AppendValue(sb, "Place", activity?.Data.PlaceId.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? Text("Unavailable"));
+            AppendValue(sb, "Teleporting", activity == null ? Text("Unavailable") : OnOff(activity.IsTeleporting));
+            AppendValue(sb, "GameSignal", OnOff(OverlayHub.InGame));
+            AppendValue(sb, "Transition", OnOff(OverlayHub.GameTransition));
+            AppendValue(sb, "Worker", OnOff(OverlayHub.WorkerRunning));
+            AppendValue(sb, "Compositor", OnOff(OverlayHub.CompositorLive));
+            AppendValue(sb, "CompositeCrosshair", OnOff(OverlayHub.CompositorCrosshairActive));
+            if (Voidstrap.Utility.Platform.IsLinux)
             {
-                sb.AppendLine("CAUSE: Roblox is not in a game right now.");
-                sb.AppendLine("Overlays only draw while a Roblox game window is open and focused. Join a game, then check again.");
-                return sb.ToString();
+                AppendValue(sb, "X11", OnOff(Voidstrap.Platform.Linux.LinuxWindowInterop.IsAvailable));
+                AppendValue(sb, "X11Compositor", OnOff(Voidstrap.Platform.Linux.LinuxWindowInterop.HasActiveX11Compositor));
+                AppendValue(sb, "HomepageWorker", OnOff(OverlayHub.LinuxHomepageRunning));
+                AppendValue(sb, "GameLease", OnOff(OverlayHub.LinuxGameplayLeaseOperational));
             }
-
-            bool likelyRobloxFullscreen = IsRobloxOwnFullscreen(roblox, fakeExclusive, fakeBorderless);
-
-            sb.AppendLine("Most likely cause, in order:");
             sb.AppendLine();
-
-            int n = 1;
-
-            if (likelyRobloxFullscreen)
+            sb.AppendLine(Text("RobloxWindow"));
+            AppendValue(sb, "UsableRect", OnOff(roblox.Valid));
+            AppendValue(sb, "Handle", FormatHandle(roblox.Hwnd));
+            if (roblox.Hwnd != IntPtr.Zero && IsLiveHandle(roblox.Hwnd))
             {
-                sb.AppendLine(n++ + ". Roblox is in its own Fullscreen display mode (exclusive fullscreen).");
-                sb.AppendLine("   Windows gives an exclusive fullscreen game the whole screen and will not draw ANY external overlay on top of it, including Voidstrap's. This is the number one reason overlays vanish once you are in first person.");
-                sb.AppendLine("   FIX: In Roblox, press Esc, open Settings, set Display Mode to Windowed. Or enable Fake Borderless Fullscreen in Voidstrap so Roblox runs borderless (overlays can draw over borderless, never over exclusive fullscreen).");
-                sb.AppendLine();
+                AppendValue(sb, "Foreground", OnOff(roblox.Foreground));
+                AppendValue(sb, "Bounds", $"{roblox.Width} × {roblox.Height}, {roblox.Left}, {roblox.Top}");
+                if (Voidstrap.Utility.Platform.IsWindows)
+                {
+                    AppendValue(sb, "NativeVisible", OnOff(NativeIsWindowVisible(roblox.Hwnd)));
+                    AppendValue(sb, "Minimized", OnOff(NativeIsIconic(roblox.Hwnd)));
+                    AppendValue(sb, "MonitorCoverage", OnOff(IsBorderlessMonitorWindow(roblox)));
+                }
             }
-
-            if (fakeExclusive)
+            sb.AppendLine(Text("FullscreenUnknown"));
+            sb.AppendLine();
+            sb.AppendLine(Text("Windows"));
+            int statsCount = 0;
+            int crosshairCount = 0;
+            IntPtr[] registered = Volatile.Read(ref _overlayHandles);
+            var observed = new System.Collections.Generic.HashSet<IntPtr>();
+            if (app != null)
             {
-                sb.AppendLine(n++ + ". Fake Exclusive Fullscreen is ON.");
-                sb.AppendLine("   It presents Roblox through a black fullscreen backdrop window that sits on top of everything. Voidstrap now re raises the overlays above that backdrop automatically, but if an overlay still does not show, this backdrop is the cause.");
-                sb.AppendLine("   FIX: Turn off Fake Exclusive Fullscreen (Deployment page) and test again. If the overlay comes back, leave it off, or use Fake Borderless Fullscreen instead.");
-                sb.AppendLine();
+                foreach (Window window in app.Windows)
+                {
+                    if (!IsOverlayWindow(window))
+                        continue;
+                    if (window is Voidstrap.UI.Elements.Overlay.OverlayWindow)
+                        statsCount++;
+                    if (window is Voidstrap.UI.Elements.Crosshair.CrosshairWindow)
+                        crosshairCount++;
+                    IntPtr handle = new WindowInteropHelper(window).Handle;
+                    observed.Add(handle);
+                    sb.AppendLine(window.GetType().Name + ": " + FormatHandle(handle));
+                    AppendValue(sb, "Visible", OnOff(window.IsVisible));
+                    AppendValue(sb, "Opacity", window.Opacity.ToString("0.###", System.Globalization.CultureInfo.CurrentCulture));
+                    AppendValue(sb, "WpfTopmost", OnOff(window.Topmost));
+                    AppendNativeWindow(sb, handle, roblox);
+                }
             }
-
-            if (gpuCompositor && fpsOverlay)
+            IntPtr compositor = OverlayHub.CompositorWindow;
+            if (compositor != IntPtr.Zero)
             {
-                sb.AppendLine(n++ + ". The GPU compositor and the stats overlay can fight for the top layer.");
-                sb.AppendLine("   RiShade, Anti Aliasing and Frame Generation draw a full screen GPU layer over Roblox and paint their own on screen readout. The separate stats overlay window can end up underneath that GPU layer.");
-                sb.AppendLine("   FIX: Use the GPU compositor's built in readout, or turn the GPU compositor off if you only want the plain stats overlay.");
-                sb.AppendLine();
+                observed.Add(compositor);
+                sb.AppendLine(Text("NativeCompositor") + ": " + FormatHandle(compositor));
+                AppendNativeWindow(sb, compositor, roblox);
             }
-
-            if (fpsOverlay && !OverlayWindowExists("Overlay"))
+            foreach (IntPtr handle in registered)
             {
-                sb.AppendLine(n++ + ". The stats overlay is enabled but its window is not open.");
-                sb.AppendLine("   It failed to create, or the game was already running when you turned it on. FIX: rejoin the game, or toggle the overlay off and on.");
-                sb.AppendLine();
+                if (observed.Contains(handle))
+                    continue;
+                sb.AppendLine(Text("RegisteredWindow") + ": " + FormatHandle(handle));
+                AppendNativeWindow(sb, handle, roblox);
             }
-
-            if (crosshair && !OverlayWindowExists("Crosshair") && !OverlayWindowExists("Cursor"))
-            {
-                sb.AppendLine(n++ + ". The crosshair is enabled but its window is not open.");
-                sb.AppendLine("   FIX: rejoin the game, or toggle the crosshair off and on.");
-                sb.AppendLine();
-            }
-
-            if (n == 1)
-            {
-                sb.AppendLine("Everything looks correctly set up and the overlay windows are open.");
-                sb.AppendLine("If you still cannot see them, Roblox is almost certainly running in its own exclusive Fullscreen display mode. Press Esc in Roblox, open Settings and set Display Mode to Windowed, or enable Fake Borderless Fullscreen in Voidstrap.");
-            }
-
+            if (observed.Count == 0 && registered.Length == 0)
+                sb.AppendLine(Text("NoWindows"));
+            sb.AppendLine();
+            sb.AppendLine(Text("Findings"));
+            if (!prop.OverlaysEnabled && !prop.Crosshair && !OverlaySettings.GameEffectsEnabled && !OverlaySettings.HomepageBackgroundEnabled)
+                sb.AppendLine(Text("Disabled"));
+            if (!roblox.Valid)
+                sb.AppendLine(Text("NoUsableWindow"));
+            else if (!roblox.Foreground)
+                sb.AppendLine(Text("Unfocused"));
+            if (prop.OverlaysEnabled && statsCount == 0)
+                sb.AppendLine(Text("MissingStats"));
+            if (prop.Crosshair && crosshairCount == 0 && !OverlayHub.CompositorCrosshairActive)
+                sb.AppendLine(Text("MissingCrosshair"));
+            if (OverlayHub.InGame && OverlayHub.LinuxHomepageRunning)
+                sb.AppendLine(Text("HomepageInGame"));
+            if (Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Platform.Linux.LinuxWindowInterop.IsAvailable)
+                sb.AppendLine(Text("X11Unavailable"));
+            sb.AppendLine(Text("PixelsUnknown"));
             return sb.ToString();
         }
 
-        private static IDisposable? TryAcquireTracker()
+        private static string Text(string key) => Voidstrap.Resources.Strings.ResourceManager.GetString("OverlayDiagnostics." + key, Voidstrap.Resources.Strings.Culture) ?? key;
+
+        private static void AppendValue(StringBuilder sb, string key, string value) => sb.AppendLine("  " + Text(key) + ": " + value);
+
+        private static string FormatHandle(IntPtr handle) => "0x" + handle.ToInt64().ToString("X", System.Globalization.CultureInfo.InvariantCulture);
+
+        private static void AppendNativeWindow(StringBuilder sb, IntPtr handle, RobloxWindowRect roblox)
         {
-            try
+            if (Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Platform.Linux.LinuxWindowInterop.IsAvailable)
             {
-                return RobloxWindowTracker.Acquire();
+                AppendValue(sb, "NativeLive", Text("Unavailable"));
+                AppendValue(sb, "NativeVisible", Text("Unavailable"));
+                AppendValue(sb, "NativeTopmost", Text("Unavailable"));
+                return;
             }
-            catch (Exception ex)
+            bool live = Voidstrap.Utility.Platform.IsLinux
+                ? Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(handle)
+                : IsLiveHandle(handle);
+            AppendValue(sb, "NativeLive", OnOff(live));
+            if (!live)
+                return;
+            if (!Voidstrap.Utility.Platform.IsWindows)
             {
-                App.Logger.WriteLine("OverlayDiagnostics", "Window tracker unavailable: " + ex.Message);
-                return null;
+                AppendValue(sb, "NativeVisible", Text("Unavailable"));
+                AppendValue(sb, "NativeTopmost", Text("Unavailable"));
+                return;
+            }
+            AppendValue(sb, "NativeVisible", OnOff(NativeIsWindowVisible(handle)));
+            AppendValue(sb, "Minimized", OnOff(NativeIsIconic(handle)));
+            int? style = GetWindowLong(handle, GWL_EXSTYLE);
+            AppendValue(sb, "NativeTopmost", OnOff(style.HasValue ? (style.Value & WS_EX_TOPMOST) != 0 : null));
+            if (AntiAliasingInterop.GetWindowRect(handle, out AntiAliasingInterop.RECT rect))
+            {
+                AppendValue(sb, "Bounds", $"{rect.Right - rect.Left} × {rect.Bottom - rect.Top}, {rect.Left}, {rect.Top}");
+                if (roblox.Valid)
+                    AppendValue(sb, "Intersects", OnOff(rect.Right > roblox.Left && rect.Bottom > roblox.Top
+                        && rect.Left < roblox.Left + roblox.Width && rect.Top < roblox.Top + roblox.Height));
             }
         }
-
         private static RobloxWindowRect ResolveRobloxRect()
         {
             RobloxWindowRect tracked = RobloxWindowTracker.Current;
-            if (tracked.Valid)
+            if (!tracked.Valid)
                 return tracked;
-
-            try
-            {
-                IntPtr handle = RobloxLightingOverlay.RobloxWindow.GetHandle();
-                if (handle == IntPtr.Zero || !RobloxLightingOverlay.RobloxWindow.TryGet(out RobloxLightingOverlay.RECT rect))
-                    return tracked;
-                bool foreground = AntiAliasingInterop.GetForegroundWindow() == handle;
-                return new RobloxWindowRect(handle, rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top, true, foreground);
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("OverlayDiagnostics", "Direct window lookup failed: " + ex.Message);
-                return tracked;
-            }
+            bool live = Voidstrap.Utility.Platform.IsLinux
+                ? Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(tracked.Hwnd)
+                : IsLiveHandle(tracked.Hwnd) && NativeIsWindowVisible(tracked.Hwnd) && !NativeIsIconic(tracked.Hwnd);
+            return live ? tracked : new RobloxWindowRect(tracked.Hwnd, 0, 0, 0, 0, false, false);
         }
-
-        private static bool IsRobloxOwnFullscreen(RobloxWindowRect roblox, bool fakeExclusive, bool fakeBorderless)
+        private static bool? IsBorderlessMonitorWindow(RobloxWindowRect roblox)
         {
-            if (fakeExclusive || fakeBorderless)
-                return false;
             if (roblox.Hwnd == IntPtr.Zero)
-                return false;
+                return null;
             try
             {
                 if (!TryGetMonitorBounds(roblox.Hwnd, out int mLeft, out int mTop, out int mRight, out int mBottom))
-                    return false;
+                    return null;
 
                 bool coversMonitor = roblox.Left <= mLeft + 1 && roblox.Top <= mTop + 1
                     && roblox.Left + roblox.Width >= mRight - 1
@@ -318,32 +345,16 @@ namespace Voidstrap.Integrations.Overlays
                 if (!coversMonitor)
                     return false;
 
-                int style = GetWindowLong(roblox.Hwnd, GWL_STYLE);
-                bool borderless = (style & (WS_CAPTION | WS_THICKFRAME)) == 0;
-                return borderless;
+                int? style = GetWindowLong(roblox.Hwnd, GWL_STYLE);
+                return style.HasValue ? (style.Value & (WS_CAPTION | WS_THICKFRAME)) == 0 : null;
             }
             catch
             {
-                return false;
+                return null;
             }
         }
 
-        private static bool OverlayWindowExists(string marker)
-        {
-            var app = Application.Current;
-            if (app == null)
-                return false;
-            foreach (Window window in app.Windows)
-            {
-                if (window == null)
-                    continue;
-                if (window.GetType().Name.Contains(marker) || (window.GetType().Namespace ?? "").Contains(marker))
-                    return true;
-            }
-            return false;
-        }
-
-        private static string OnOff(bool value) => value ? "ON" : "off";
+        private static string OnOff(bool? value) => Text(value.HasValue ? value.Value ? "Yes" : "No" : "Unavailable");
 
         private static bool TryGetMonitorBounds(IntPtr hwnd, out int left, out int top, out int right, out int bottom)
         {
@@ -361,7 +372,15 @@ namespace Voidstrap.Integrations.Overlays
             return true;
         }
 
-        [LibraryImport("user32.dll", EntryPoint = "GetWindowLongA")]
+        [LibraryImport("user32.dll", EntryPoint = "IsWindowVisible")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool NativeIsWindowVisible(IntPtr hwnd);
+
+        [LibraryImport("user32.dll", EntryPoint = "IsIconic")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool NativeIsIconic(IntPtr hwnd);
+
+        [LibraryImport("user32.dll", EntryPoint = "GetWindowLongA", SetLastError = true)]
         private static partial int NativeGetWindowLong(IntPtr hwnd, int index);
 
         [LibraryImport("user32.dll", EntryPoint = "SetWindowPos")]
@@ -372,9 +391,13 @@ namespace Voidstrap.Integrations.Overlays
         [return: MarshalAs(UnmanagedType.Bool)]
         private static partial bool NativeIsWindow(IntPtr hwnd);
 
-        private static int GetWindowLong(IntPtr hwnd, int index)
+        private static int? GetWindowLong(IntPtr hwnd, int index)
         {
-            return Voidstrap.Utility.Platform.IsWindows ? NativeGetWindowLong(hwnd, index) : 0;
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return null;
+            Marshal.SetLastPInvokeError(0);
+            int value = NativeGetWindowLong(hwnd, index);
+            return value != 0 || Marshal.GetLastPInvokeError() == 0 ? value : null;
         }
 
         private static bool SetWindowPos(IntPtr hwnd, IntPtr insertAfter, int x, int y, int cx, int cy, uint flags)

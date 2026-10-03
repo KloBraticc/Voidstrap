@@ -79,6 +79,19 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 	}
 
 
+	public bool LaunchDropdownOnRight
+	{
+		get => App.Settings.Prop.LaunchDropdownOnRight;
+		set
+		{
+			if (App.Settings.Prop.LaunchDropdownOnRight == value)
+				return;
+			App.Settings.Prop.LaunchDropdownOnRight = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged(nameof(LaunchDropdownOnRight));
+		}
+	}
+
 	public int SelectedLaunchModeIndex
 	{
 		get

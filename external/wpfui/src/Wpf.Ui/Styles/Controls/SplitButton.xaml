@@ -34,6 +34,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource SplitButtonBorderThemeThickness}" />
         <Setter Property="Padding" Value="{StaticResource SplitButtonPadding}" />
+        <Setter Property="MinHeight" Value="34" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -52,33 +53,74 @@
                         Height="{TemplateBinding Height}"
                         MinWidth="{TemplateBinding MinWidth}"
                         MinHeight="{TemplateBinding MinHeight}"
-                        Padding="{TemplateBinding Padding}"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding Border.CornerRadius}">
-                        <ContentPresenter
+                        <DockPanel LastChildFill="True">
+                            <Button x:Name="PART_DropDownButton" DockPanel.Dock="Left" Width="34" Padding="0" Margin="0" VerticalAlignment="Stretch"
+                                    Background="Transparent" Foreground="{TemplateBinding Foreground}"
+                                    ToolTip="{TemplateBinding DropDownToolTip}" AutomationProperties.Name="{TemplateBinding DropDownToolTip}">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="DropDownSurface" Background="Transparent" CornerRadius="{DynamicResource ControlCornerRadius}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="DropDownSurface" Property="Background" Value="#20FFFFFF" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="DropDownSurface" Property="Background" Value="#30FFFFFF" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                                <controls:SymbolIcon x:Name="DropDownChevron" Symbol="ChevronDown24" FontSize="12" Foreground="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
+                                    <controls:SymbolIcon.RenderTransform><RotateTransform Angle="0" /></controls:SymbolIcon.RenderTransform>
+                                </controls:SymbolIcon>
+                            </Button>
+                            <Border x:Name="Divider" DockPanel.Dock="Left" Width="1" Margin="0,5" Background="{TemplateBinding Foreground}" Opacity="0.25" />
+                            <ContentPresenter
                             x:Name="ContentPresenter"
+                            Margin="{TemplateBinding Padding}"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                             Content="{TemplateBinding Content}"
-                            TextElement.Foreground="{TemplateBinding Foreground}" />
+                            TextElement.Foreground="{TemplateBinding Foreground}" RecognizesAccessKey="True" />
+                        </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="DropDownOnRight" Value="True">
+                            <Setter TargetName="PART_DropDownButton" Property="DockPanel.Dock" Value="Right" />
+                            <Setter TargetName="Divider" Property="DockPanel.Dock" Value="Right" />
+                        </Trigger>
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard HandoffBehavior="SnapshotAndReplace"><Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="DropDownChevron" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" To="180" Duration="0:0:0.375">
+                                        <DoubleAnimation.EasingFunction><QuarticEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard></BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard HandoffBehavior="SnapshotAndReplace"><Storyboard FillBehavior="Stop">
+                                    <DoubleAnimation Storyboard.TargetName="DropDownChevron" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" To="0" Duration="0:0:0.375">
+                                        <DoubleAnimation.EasingFunction><QuarticEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard></BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                            <Setter TargetName="ContentBorder" Property="Opacity" Value="0.95" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource ControlFillColorDisabledBrush}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
-                            <Setter TargetName="ContentPresenter" Property="TextElement.Foreground" Value="{DynamicResource TextFillColorDisabledBrush}" />
+                            <Setter TargetName="ContentBorder" Property="Opacity" Value="0.45" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource ControlFillColorTertiaryBrush}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
-                            <Setter TargetName="ContentPresenter" Property="TextElement.Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+                            <Setter TargetName="ContentBorder" Property="Opacity" Value="0.85" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

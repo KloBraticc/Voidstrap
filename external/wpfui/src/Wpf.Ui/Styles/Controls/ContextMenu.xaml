@@ -12,7 +12,7 @@
     xmlns:controls="clr-namespace:Wpf.Ui.Controls"
     x:ClassModifier="public">
 
-    <Style x:Key="UiContextMenu" TargetType="{x:Type ContextMenu}">
+    <Style x:Key="UiStaticContextMenu" TargetType="{x:Type ContextMenu}">
         <Setter Property="TextElement.Foreground">
             <Setter.Value>
                 <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
@@ -67,39 +67,43 @@
                         <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
                             <Setter TargetName="Border" Property="Margin" Value="16" />
                         </Trigger>
-                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                                <BeginStoryboard x:Name="ContextMenuEntrance" HandoffBehavior="SnapshotAndReplace">
-                                    <Storyboard Timeline.DesiredFrameRate="60" FillBehavior="Stop">
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="Border"
-                                            Storyboard.TargetProperty="Opacity"
-                                            From="0"
-                                            To="1"
-                                            Duration="00:00:00.15">
-                                            <DoubleAnimation.EasingFunction>
-                                                <CubicEase EasingMode="EaseOut" />
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="Border"
-                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                            From="0.85"
-                                            To="1"
-                                            Duration="00:00:00.20">
-                                            <DoubleAnimation.EasingFunction>
-                                                <CubicEase EasingMode="EaseOut" />
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="FrameworkElement.Unloaded">
-                                <RemoveStoryboard BeginStoryboardName="ContextMenuEntrance" />
-                        </EventTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="UiContextMenu" BasedOn="{StaticResource UiStaticContextMenu}" TargetType="{x:Type ContextMenu}">
+        <Setter Property="RenderTransformOrigin" Value="0.5,0" />
+        <Setter Property="RenderTransform">
+            <Setter.Value><ScaleTransform ScaleY="1" /></Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
+                    <Storyboard Timeline.DesiredFrameRate="60" FillBehavior="Stop">
+                        <DoubleAnimation
+                            Storyboard.TargetProperty="Opacity"
+                            From="0"
+                            To="1"
+                            Duration="00:00:00.15">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation
+                            Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                            From="0.85"
+                            To="1"
+                            Duration="00:00:00.20">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style BasedOn="{StaticResource UiContextMenu}" TargetType="{x:Type ContextMenu}" />

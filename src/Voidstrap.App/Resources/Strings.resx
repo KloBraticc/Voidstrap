@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -2150,4 +2150,173 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
     <value>Choose a valid icon or image smaller than 8 MB.</value>
   </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>Place the version dropdown on the right</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>Size and screen position</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>The current sample could not be collected: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>Compositor crosshair active</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>Compositor initialized</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>Configured features, these switches do not prove rendering</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>Crosshair</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>All checked overlay features are disabled in settings.</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>Overlay diagnostics must run on the window dispatcher.</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>Fake Borderless Fullscreen</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>Fake Exclusive Fullscreen</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>Checks and limitations</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox or its overlay has focus</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>Exclusive fullscreen is unverified. Window size and border style cannot establish the presentation mode.</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>Game effects</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Linux game lease acknowledged</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>Activity watcher game session</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>Overlay hub game signal</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>Window handle</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>Homepage background</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>The overlay hub reports a game session while the Linux homepage worker is still alive. A worker can be alive without drawing.</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Linux homepage worker alive</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>Rectangle intersects Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>Native window minimized</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>Crosshair is configured, but neither a crosshair window nor an active compositor crosshair was found in this process.</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>Stats are configured, but no stats window was found in this process. This does not establish a creation failure or rule out another Voidstrap process.</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>Borderless client covers its monitor</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>Native handle valid</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>Native topmost flag</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>Native window visible</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>No usable Roblox client rectangle was measured. Roblox may be closed, minimized, hidden, starting, or inaccessible.</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>No overlay windows were found in this process.</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>WPF opacity</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>Visibility, opacity and topmost flags do not prove pixels are being presented, unobstructed or visible to the user. GPU frame delivery and occlusion are not verified by this report.</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>Activity watcher place ID</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>Registered native overlay</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>Observed Roblox window</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>Observed runtime state</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>Sampled {0:HH:mm:ss.fff zzz}, refreshed every second and on window changes</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>These readings describe this Voidstrap process. Windows owned by another process may not be listed.</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>Stats overlay</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>Activity watcher teleport in progress</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>Overlay diagnostics</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>Game transition</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>Unavailable</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>Roblox does not currently have focus. Overlays may intentionally hide while another window is active, including this diagnostics window.</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>Usable tracked client rectangle</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>WPF visible</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>Observed overlay windows</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>Compositor worker thread alive</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>WPF topmost requested</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>X11 connection available</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>X11 compositor detected</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>No X11 connection is available. Native window inspection is unavailable; Wayland restrictions or sandbox permissions may be involved.</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve"><value>Native GPU compositor window</value></data>
 </root>

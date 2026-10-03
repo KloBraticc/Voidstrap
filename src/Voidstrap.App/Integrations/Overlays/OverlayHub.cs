@@ -19,6 +19,20 @@ namespace Voidstrap.Integrations.Overlays
 
 		public static bool InGame => _inGame;
 
+		internal static bool GameTransition => _gameTransition;
+		internal static bool CompositorLive => _compositorLive;
+		private static IntPtr _compositorWindow;
+		internal static IntPtr CompositorWindow => Volatile.Read(ref _compositorWindow);
+		internal static void SetCompositorWindow(IntPtr handle) => Volatile.Write(ref _compositorWindow, handle);
+		internal static bool WorkerRunning
+		{
+			get
+			{
+				lock (_lock)
+					return _thread is { IsAlive: true };
+			}
+		}
+
 		public static void MarkHostProcess()
 		{
 			_hostProcess = true;

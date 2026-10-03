@@ -5181,6 +5181,8 @@ namespace Voidstrap.Resources {
         public static string Mtu_Cancelled => ResourceManager.GetString("Mtu.Cancelled", resourceCulture);
 
         public static string Mtu_Error => ResourceManager.GetString("Mtu.Error", resourceCulture);
+        public static string Menu_LaunchDropdownOnRight => ResourceManager.GetString("Menu.LaunchDropdownOnRight", resourceCulture);
+
         public static string Menu_FastFlagEditor_Rename {
             get {
                 return ResourceManager.GetString("Menu_FastFlagEditor_Rename", resourceCulture);

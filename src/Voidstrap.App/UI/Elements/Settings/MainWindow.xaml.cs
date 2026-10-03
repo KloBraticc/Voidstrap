@@ -5031,9 +5031,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 content = (studio ? (installed ? "Save and Launch Studio" : "Install Studio") : (installed ? "Save and Launch" : "Install"));
             }
         }
-        if (!object.Equals(InstallLaunchButton.Content, content))
+        if (!object.Equals(LaunchActionText.Text, content))
         {
-            InstallLaunchButton.Content = content;
+            LaunchActionText.Text = content;
         }
     }
 
@@ -5868,6 +5868,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         CloseTopBarMenus();
         PopulateLaunchTargets();
         _launchTargetOverlayOpen = true;
+        InstallLaunchButton.IsDropDownOpen = true;
         int generation = ++_launchTargetOverlayGeneration;
         LaunchTargetOverlay.Visibility = Visibility.Visible;
         LaunchTargetOverlay.IsHitTestVisible = true;
@@ -5891,6 +5892,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (!_launchTargetOverlayOpen)
             return;
         _launchTargetOverlayOpen = false;
+        InstallLaunchButton.IsDropDownOpen = false;
         int generation = ++_launchTargetOverlayGeneration;
         LaunchTargetOverlay.IsHitTestVisible = false;
         AnimateLaunchTargetOverlay(0.0, 28.0, 0.0, TimeSpan.FromMilliseconds(200), LaunchTargetEaseIn, generation, true);
@@ -5904,7 +5906,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         LaunchTargetOverlay.BeginAnimation(OpacityProperty, fade, HandoffBehavior.SnapshotAndReplace);
         LaunchTargetPanelTranslate.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(offsetY, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
         _launchTargetBlur?.BeginAnimation(System.Windows.Media.Effects.BlurEffect.RadiusProperty, new DoubleAnimation(blurRadius, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
-        LaunchTargetChevronRotate.BeginAnimation(RotateTransform.AngleProperty, new DoubleAnimation(finishClose ? 0.0 : 180.0, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
     }
 
     private void FinishLaunchTargetClose(int generation)

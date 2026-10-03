@@ -92,6 +92,18 @@
                     PopupAnimation="Slide"
                     VerticalOffset="1">
                     <Grid>
+                        <Border x:Name="SubmenuShadow" Margin="12,0,12,18" CornerRadius="7" CacheMode="BitmapCache" IsHitTestVisible="False">
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
+                            </Border.Background>
+                            <Border.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="24"
+                                    Direction="270"
+                                    Opacity="0.14"
+                                    ShadowDepth="8" />
+                            </Border.Effect>
+                        </Border>
                         <Border
                             x:Name="SubmenuBorder"
                             Margin="12,0,12,18"
@@ -106,13 +118,6 @@
                             <ScrollViewer CanContentScroll="True" Style="{StaticResource UiMenuItemScrollViewer}">
                                 <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                             </ScrollViewer>
-                            <Border.Effect>
-                                <DropShadowEffect
-                                    BlurRadius="24"
-                                    Direction="270"
-                                    Opacity="0.14"
-                                    ShadowDepth="8" />
-                            </Border.Effect>
                         </Border>
                     </Grid>
                 </Popup>
@@ -480,6 +485,18 @@
                 PopupAnimation="Slide"
                 VerticalOffset="-20">
                 <Grid>
+                    <Border x:Name="SubmenuShadow" Margin="12,10,12,18" CornerRadius="7" CacheMode="BitmapCache" IsHitTestVisible="False">
+                        <Border.Background>
+                            <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
+                        </Border.Background>
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="24"
+                                Direction="270"
+                                Opacity="0.14"
+                                ShadowDepth="8" />
+                        </Border.Effect>
+                    </Border>
                     <Border
                         x:Name="SubmenuBorder"
                         Margin="12,10,12,18"
@@ -494,13 +511,6 @@
                         <ScrollViewer CanContentScroll="True" Style="{StaticResource UiMenuItemScrollViewer}">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                         </ScrollViewer>
-                        <Border.Effect>
-                            <DropShadowEffect
-                                BlurRadius="24"
-                                Direction="270"
-                                Opacity="0.14"
-                                ShadowDepth="8" />
-                        </Border.Effect>
                     </Border>
                 </Grid>
             </Popup>
@@ -645,6 +655,18 @@
                     PopupAnimation="Slide"
                     VerticalOffset="1">
                     <Grid>
+                        <Border x:Name="SubmenuShadow" Margin="12,0,12,18" CornerRadius="7" CacheMode="BitmapCache" IsHitTestVisible="False">
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
+                            </Border.Background>
+                            <Border.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="24"
+                                    Direction="270"
+                                    Opacity="0.14"
+                                    ShadowDepth="8" />
+                            </Border.Effect>
+                        </Border>
                         <Border
                             x:Name="SubmenuBorder"
                             Margin="12,0,12,18"
@@ -659,13 +681,6 @@
                             <ScrollViewer CanContentScroll="True" Style="{StaticResource UiMenuItemScrollViewer}">
                                 <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                             </ScrollViewer>
-                            <Border.Effect>
-                                <DropShadowEffect
-                                    BlurRadius="24"
-                                    Direction="270"
-                                    Opacity="0.14"
-                                    ShadowDepth="8" />
-                            </Border.Effect>
                         </Border>
                     </Grid>
                 </Popup>
@@ -1014,6 +1029,18 @@
                 PopupAnimation="Slide"
                 VerticalOffset="-20">
                 <Grid>
+                    <Border x:Name="SubmenuShadow" Margin="12,10,12,18" CornerRadius="7" CacheMode="BitmapCache" IsHitTestVisible="False">
+                        <Border.Background>
+                            <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
+                        </Border.Background>
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="24"
+                                Direction="270"
+                                Opacity="0.14"
+                                ShadowDepth="8" />
+                        </Border.Effect>
+                    </Border>
                     <Border
                         x:Name="SubmenuBorder"
                         Margin="12,10,12,18"
@@ -1028,13 +1055,6 @@
                         <ScrollViewer CanContentScroll="True" Style="{StaticResource UiMenuItemScrollViewer}">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                         </ScrollViewer>
-                        <Border.Effect>
-                            <DropShadowEffect
-                                BlurRadius="24"
-                                Direction="270"
-                                Opacity="0.14"
-                                ShadowDepth="8" />
-                        </Border.Effect>
                     </Border>
                 </Grid>
             </Popup>

@@ -97,6 +97,8 @@ namespace Voidstrap.Models.Persistable
         public bool LaunchWithoutVoidstrap { get; set; }
         public string VoidstrapMatchmakerPresetUrl { get; set; } = "";
         public int LaunchSelectionIndex { get; set; }
+
+        public bool LaunchDropdownOnRight { get; set; }
         public bool LaunchRobloxWebsite
         {
             get => false;

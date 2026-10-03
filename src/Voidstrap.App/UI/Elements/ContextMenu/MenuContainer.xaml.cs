@@ -44,6 +44,7 @@ public partial class MenuContainer : WpfUiWindow
     private ServerInfo? _lastClosestServer;
     private long _lastClosestPlaceId;
     private int _memoryUpdateActive;
+    private DateTime _lastMemoryRefreshUtc = DateTime.MinValue;
     private int _joinClosestActive;
 
     private ServerInformation? _serverInformationWindow;
@@ -55,6 +56,8 @@ public partial class MenuContainer : WpfUiWindow
     private GamePassConsole? _gamePassWindow;
 
     private OutputConsole? _outputConsole;
+
+    private DiagnosticsWindow? _diagnosticsWindow;
 
     private CancellationTokenSource? _sessionCts;
 
@@ -456,10 +459,12 @@ public partial class MenuContainer : WpfUiWindow
 
     private async Task UpdateRobloxMemoryAsync()
     {
-        if (_closed || Interlocked.Exchange(ref _memoryUpdateActive, 1) != 0)
+        if (_closed || DateTime.UtcNow - _lastMemoryRefreshUtc < TimeSpan.FromSeconds(10)
+            || Interlocked.Exchange(ref _memoryUpdateActive, 1) != 0)
             return;
         try
         {
+            _lastMemoryRefreshUtc = DateTime.UtcNow;
 #if CROSSPLAT
             _trayInfoRefreshedUtc = DateTime.UtcNow;
 #endif
@@ -1255,6 +1260,7 @@ public partial class MenuContainer : WpfUiWindow
             _gameHistoryWindow,
             _musicPlayerWindow,
             _gamePassWindow,
+            _diagnosticsWindow,
             _outputConsole
         }.OfType<Window>().ToArray();
         foreach (Window window in windows)
@@ -1273,6 +1279,7 @@ public partial class MenuContainer : WpfUiWindow
         _musicPlayerWindow = null;
         _gamePassWindow = null;
         _outputConsole = null;
+        _diagnosticsWindow = null;
     }
 
     private void ChildWindow_Closed(object? sender, EventArgs e)
@@ -1292,6 +1299,8 @@ public partial class MenuContainer : WpfUiWindow
             _gamePassWindow = null;
         else if (ReferenceEquals(sender, _outputConsole))
             _outputConsole = null;
+        else if (ReferenceEquals(sender, _diagnosticsWindow))
+            _diagnosticsWindow = null;
     }
 
     private void RichPresenceMenuItem_Click(object sender, RoutedEventArgs e)
@@ -1352,9 +1361,15 @@ public partial class MenuContainer : WpfUiWindow
     {
         try
         {
-            Voidstrap.Integrations.Overlays.OverlayDiagnostics.RaiseOverlayWindows();
-            string report = Voidstrap.Integrations.Overlays.OverlayDiagnostics.BuildReport();
-            Frontend.ShowMessageBox(report, MessageBoxImage.Information);
+            if (_closed)
+                return;
+            if (_diagnosticsWindow == null)
+            {
+                _diagnosticsWindow = new DiagnosticsWindow(_activityWatcher);
+                _diagnosticsWindow.Closed += ChildWindow_Closed;
+            }
+            _diagnosticsWindow.Show();
+            _diagnosticsWindow.Activate();
         }
         catch (Exception ex)
         {

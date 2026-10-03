@@ -472,6 +472,7 @@ namespace Voidstrap.Integrations.Overlays
 
                 int exStyle = Interop.WS_EX_NOACTIVATE | Interop.WS_EX_TOOLWINDOW | Interop.WS_EX_TRANSPARENT | Interop.WS_EX_TOPMOST | Interop.WS_EX_LAYERED | Interop.WS_EX_NOREDIRECTIONBITMAP;
                 _hwnd = Interop.CreateWindowExW(exStyle, new IntPtr(_classAtom), CaptureWindowName, Interop.WS_POPUP, _rectLeft, _rectTop, _width, _height, IntPtr.Zero, IntPtr.Zero, _hInstance, IntPtr.Zero);
+                OverlayHub.SetCompositorWindow(_hwnd);
 
                 Interop.SetLayeredWindowAttributes(_hwnd, 0, 255, Interop.LWA_ALPHA);
                 Interop.SetWindowPos(_hwnd, Interop.HWND_TOPMOST, _rectLeft, _rectTop, _width, _height, Interop.SWP_NOACTIVATE | Interop.SWP_SHOWWINDOW);
@@ -3515,6 +3516,7 @@ namespace Voidstrap.Integrations.Overlays
             {
             }
             _hwnd = IntPtr.Zero;
+            OverlayHub.SetCompositorWindow(IntPtr.Zero);
             _classAtom = 0;
             OverlayHub.SetCompositorLive(false);
             App.Logger.WriteLine(LOG_IDENT, "Compositor session cleaned up");

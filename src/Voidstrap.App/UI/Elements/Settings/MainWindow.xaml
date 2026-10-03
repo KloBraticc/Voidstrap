@@ -938,17 +938,14 @@
           </StackPanel>
         </StatusBarItem>
         <StatusBarItem Grid.Column="2" Padding="0,0,8,0">
-          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-            <Grid VerticalAlignment="Center" Margin="0,0,8,0">
-              <ui:Button Name="LaunchTargetButton" Height="34" Padding="10,0" Appearance="Secondary" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="LaunchTargetButton_Click">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                  <TextBlock VerticalAlignment="Center" Margin="0,0,6,0" FontWeight="Medium" Text="{Binding SelectedLaunchTargetName, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
-                  <ui:SymbolIcon FontSize="11" VerticalAlignment="Center" Symbol="ChevronUp24" RenderTransformOrigin="0.5,0.5"><ui:SymbolIcon.RenderTransform><RotateTransform x:Name="LaunchTargetChevronRotate" Angle="0" /></ui:SymbolIcon.RenderTransform></ui:SymbolIcon>
-                </StackPanel>
-              </ui:Button>
-            </Grid>
-            <ui:Button Name="InstallLaunchButton" HorizontalAlignment="Center" Appearance="Primary" Background="{DynamicResource SystemAccentBrush}" Content="Install" Command="{Binding SaveAndLaunchSettingsCommand, Mode=OneWay}" />
-          </StackPanel>
+          <ui:SplitButton Name="InstallLaunchButton" Height="34" HorizontalAlignment="Center"
+                          Background="{DynamicResource AccentFillColorPrimaryBrush}" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
+                          AutomationProperties.Name="{Binding Text, ElementName=LaunchActionText}"
+                          Command="{Binding SaveAndLaunchSettingsCommand, Mode=OneWay}"
+                          DropDownOnRight="{Binding LaunchDropdownOnRight, Mode=OneWay}"
+                          DropDownToolTip="{Binding SelectedLaunchTargetName, Mode=OneWay}" DropDownClick="LaunchTargetButton_Click">
+            <TextBlock x:Name="LaunchActionText" Text="Install" />
+          </ui:SplitButton>
         </StatusBarItem>
         <StatusBarItem Grid.Column="3" Padding="0,0,9,0">
 		  <ui:Button MinWidth="56.587" Appearance="Primary" Background="{DynamicResource SystemAccentBrush}" Content="{x:Static resources:Strings.Menu_Save}" Command="{Binding SaveSettingsCommand, Mode=OneWay}" Click="Button_Click_1" />
@@ -969,6 +966,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
           <Grid>
             <Grid.ColumnDefinitions>
@@ -980,6 +978,8 @@
           </Grid>
           <TextBlock Grid.Row="1" Margin="0,6,0,16" FontSize="13" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="Select what Save and Launch should start." TextWrapping="Wrap" />
           <vscontrols:RobloxVersionList x:Name="LaunchTargetList" Grid.Row="2" MaxHeight="470" ItemChosen="LaunchTargetList_ItemChosen" />
+          <ui:ToggleSwitch Grid.Row="3" Margin="0,14,0,0" Content="{x:Static resources:Strings.Menu_LaunchDropdownOnRight}"
+                           IsChecked="{Binding LaunchDropdownOnRight, Mode=TwoWay}" />
         </Grid>
       </Border>
     </Grid>
