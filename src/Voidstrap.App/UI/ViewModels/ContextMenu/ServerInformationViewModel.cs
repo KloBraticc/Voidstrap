@@ -656,11 +656,11 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 			}
 			else if (data.ServerType != Voidstrap.Enums.ServerType.Public)
 			{
-				PlayerCountHint = "Private and reserved servers are not listed publicly. Turn on Player and Message logs in Integrations for a live count.";
+				PlayerCountHint = "Private and reserved servers are not listed publicly.";
 			}
 			else
 			{
-				PlayerCountHint = "This server is not in the part of the public server list Roblox shares. Turn on Player and Message logs in Integrations for a live count.";
+				PlayerCountHint = "This server is not in the part of the public server list Roblox shares.";
 			}
 		}
 		catch

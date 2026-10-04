@@ -1519,13 +1519,6 @@
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>اجرا در یک بازی خاص</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>گزارش بازیکنان و پیام‌ها</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>بازیکنانی که می‌پیوندند/ترک می‌کنند و پیام‌های ارسالی را نشان می‌دهد.
-		فقط با [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837) کار می‌کند.</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>وضعیت دانلود bootstrapper</value>
   </data>

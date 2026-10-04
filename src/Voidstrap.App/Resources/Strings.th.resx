@@ -1518,13 +1518,6 @@ Voidstrap จะติดตั้งไว้ที่ "{1}"</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>เรียกใช้ในเกมที่ระบุ</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>บันทึกผู้เล่นและข้อความ</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>แสดงผู้เล่นที่กำลังเข้า/ออกและข้อความที่ส่ง
-		ใช้งานได้กับ [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837) เท่านั้น</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>สถานะการดาวน์โหลด bootstrapper</value>
   </data>

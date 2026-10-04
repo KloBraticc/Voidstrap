@@ -505,20 +505,6 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		}
 	}
 
-	public bool PlayerLogsEnabled
-	{
-		get
-		{
-			return ActivityWatcher.PlayerLoggingEnabled;
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Players.EventLog", value ? "7" : null);
-			App.FastFlags.SetPreset("Players.LogLevel", value ? "trace" : null);
-			App.FastFlags.SetPreset("Players.LogPattern", value ? "ExpChat/mountClientApp" : null);
-		}
-	}
-
 	public bool DiscordActivityEnabled
 	{
 		get

@@ -1537,13 +1537,6 @@ Robloxのアプリファイルを使用している可能性のあるアプリ�
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>特定のゲームで実行</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>プレイヤーとメッセージのログ</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>参加/退出するプレイヤーと送信されるメッセージを表示します。
-		[text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837) でのみ動作します。</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>ブートストラッパーのダウンロード状態</value>
   </data>

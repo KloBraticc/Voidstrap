@@ -1514,13 +1514,6 @@ Ciri ini penting untuk shader berfungsi dengan baik.</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>Jalankan dalam permainan tertentu</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>Log pemain dan mesej</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>Menunjukkan pemain yang menyertai/meninggalkan dan mesej yang dihantar.
-		Hanya berfungsi dengan [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837).</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Status muat turun bootstrapper</value>
   </data>

@@ -1521,13 +1521,6 @@ Voidstrap встановлено на "{1}".</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>Запускати у певній грі</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>Журнали гравців і повідомлень</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>Показує гравців, що приєднуються/виходять, і надіслані повідомлення.
-		Працює лише з [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837).</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Статус завантаження bootstrapper</value>
   </data>

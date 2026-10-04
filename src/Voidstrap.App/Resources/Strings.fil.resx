@@ -1512,13 +1512,6 @@ Mahalaga ang feature na ito para sa wastong paggana ng shaders.</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>Patakbuhin sa partikular na laro</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>Player at Message logs</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>Ipinapakita sa iyo ang mga manlalarong sumasali/lumalabas at mga ipinapadalang mensahe.
-		Gumagana lang sa [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837).</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Bootstrapper downloading status</value>
   </data>

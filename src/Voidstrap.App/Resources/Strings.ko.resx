@@ -1515,13 +1515,6 @@ Roblox의 파일을 사용 중인 프로그램을 모두 종료하고, 다시 �
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>특정 게임에서 실행</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>플레이어 및 메시지 로그</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>들어오고 나가는 플레이어와 보내진 메시지를 표시합니다.
-		[text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837) 에서만 작동합니다.</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>부트스트래퍼 다운로드 상태</value>
   </data>

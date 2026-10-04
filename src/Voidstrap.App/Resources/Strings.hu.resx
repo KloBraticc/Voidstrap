@@ -1522,13 +1522,6 @@ Ez a funkció elengedhetetlen a shaderek megfelelő működéséhez.</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>Futtatás meghatározott játékon</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>Játékos- és üzenetnaplók</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>Megmutatja a csatlakozó/kilépő játékosokat és a küldött üzeneteket.
-		Csak a [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837) szolgáltatással működik.</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Bootstrapper letöltési állapota</value>
   </data>

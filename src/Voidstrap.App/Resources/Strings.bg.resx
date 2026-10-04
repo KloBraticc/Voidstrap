@@ -1523,13 +1523,6 @@ Voidstrap е инсталиран на „{1}“.</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>Стартирай в конкретна игра</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>Логове на играчи и съобщения</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>Показва ви играчи, които се присъединяват/напускат и съобщения, които се изпращат.
-		Работи само с [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837).</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Статус на сваляне на bootstrapper</value>
   </data>

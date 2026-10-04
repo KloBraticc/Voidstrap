@@ -1523,13 +1523,6 @@ Cette fonctionnalité est essentielle au bon fonctionnement des shaders.</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>Exécuter sur un jeu spécifique</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>Journaux des joueurs et des messages</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>Vous montre les joueurs rejoignant/quittant et les messages envoyés.
-		Fonctionne uniquement avec [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837).</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>État du téléchargement du bootstrapper</value>
   </data>

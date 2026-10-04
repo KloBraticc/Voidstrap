@@ -1524,13 +1524,6 @@ Tato funkce je nezbytná pro správné fungování shaderů.</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>Spustit v konkrétní hře</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>Záznamy hráčů a zpráv</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>Zobrazuje hráče vstupující/opouštějící a odesílané zprávy.
-		Funguje pouze s [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837).</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Stav stahování bootstrapperu</value>
   </data>

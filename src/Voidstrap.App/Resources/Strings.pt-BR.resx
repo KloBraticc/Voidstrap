@@ -1524,13 +1524,6 @@ Este recurso é essencial para o funcionamento correto dos shaders.</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>Executar em um jogo específico</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>Logs de jogadores e mensagens</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>Mostra jogadores entrando/saindo e mensagens sendo enviadas.
-		Funciona apenas com [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837).</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Status de download do bootstrapper</value>
   </data>

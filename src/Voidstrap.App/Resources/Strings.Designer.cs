@@ -4359,25 +4359,6 @@ namespace Voidstrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Shows you players joining/leaving and messages being sent.
-        ///		Only works with [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837)..
-        /// </summary>
-        public static string Menu_Integrations_PlayerMessageLogs_Description {
-            get {
-                return ResourceManager.GetString("Menu.Integrations.PlayerMessageLogs.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Player and Message logs.
-        /// </summary>
-        public static string Menu_Integrations_PlayerMessageLogs_Title {
-            get {
-                return ResourceManager.GetString("Menu.Integrations.PlayerMessageLogs.Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to When in-game, you&apos;ll be able to see where your server is located via [ipinfo.io]({0})..
         /// </summary>
         public static string Menu_Integrations_QueryServerLocation_Description {

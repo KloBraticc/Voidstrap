@@ -1524,13 +1524,6 @@ Această funcție este esențială pentru funcționarea corectă a shaderelor.</
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>Rulează într-un joc anume</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>Jurnale jucători și mesaje</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>Îți arată jucătorii care intră/ies și mesajele trimise.
-		Funcționează doar cu [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837).</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Status descărcare bootstrapper</value>
   </data>

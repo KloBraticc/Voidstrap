@@ -1524,13 +1524,6 @@ Tämä toiminto on välttämätön varjostimien toiminnalle.</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>Suorita tietyssä pelissä</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>Pelaaja- ja viestilokit</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>Näyttää pelaajat, jotka liittyvät/poistuvat, ja lähetetyt viestit.
-		Toimii vain [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837) -palvelun kanssa.</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Bootstrapperin lataustila</value>
   </data>

@@ -1526,13 +1526,6 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>在特定遊戲上執行</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>玩家與訊息日誌</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>顯示加入/離開的玩家以及發送的訊息。
-		僅適用於 [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837)。</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Bootstrapper 下載狀態</value>
   </data>

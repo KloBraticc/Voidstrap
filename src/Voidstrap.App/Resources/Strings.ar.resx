@@ -1522,13 +1522,6 @@
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>تشغيل على لعبة محددة</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>سجلات اللاعبين والرسائل</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>يظهر لك اللاعبين الذين ينضمون/يغادرون والرسائل التي يتم إرسالها.
-		يعمل فقط مع [خدمة دردشة النص](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837).</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>حالة تنزيل المحمل</value>
   </data>

@@ -1521,13 +1521,6 @@ Bu özellik, shader'ların düzgün çalışması için gereklidir.</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>Belirli bir oyunda çalıştır</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>Oyuncu ve mesaj günlükleri</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>Katılan/ayrılan oyuncuları ve gönderilen mesajları gösterir.
-		Yalnızca [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837) ile çalışır.</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Bootstrapper indirme durumu</value>
   </data>

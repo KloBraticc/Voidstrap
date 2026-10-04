@@ -1522,13 +1522,6 @@ Voidstrap был установлен по адресу "{1}".</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>Запускать в определённой игре</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>Логи игроков и сообщений</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>Показывает игроков, входящих/покидающих, и отправляемые сообщения.
-		Работает только с [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837).</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Статус загрузки bootstrapper</value>
   </data>

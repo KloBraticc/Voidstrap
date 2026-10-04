@@ -1522,13 +1522,6 @@ Ova značajka je ključna za pravilno funkcioniranje shadera.</value>
   <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
     <value>Pokreni u određenoj igri</value>
   </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Title" xml:space="preserve">
-    <value>Zapisi igrača i poruka</value>
-  </data>
-  <data name="Menu.Integrations.PlayerMessageLogs.Description" xml:space="preserve">
-    <value>Prikazuje vam igrače koji se pridružuju/napuštaju i poruke koje se šalju.
-		Radi samo s [text chat service](https://devforum.roblox.com/t/new-in-experience-text-chat-system-public-release/1848837).</value>
-  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Status preuzimanja bootstrappera</value>
   </data>
