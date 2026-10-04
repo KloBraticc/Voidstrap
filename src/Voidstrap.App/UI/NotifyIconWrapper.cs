@@ -99,9 +99,9 @@ public class NotifyIconWrapper : IDisposable
 		try
 		{
 			ActivityWatcher? watcher = ActivityWatcher;
-			if (watcher != null && App.Settings.Prop.NotificationWindowShow)
+			if (watcher != null && App.Settings.Prop.VoidNotify && App.Settings.Prop.NotifyGameJoins && App.Settings.Prop.NotificationWindowShow)
 				EnsureMenuContainerAsync();
-			bool wanted = watcher != null && App.Settings.Prop.ShowServerDetails && !App.Settings.Prop.NotificationWindowShow;
+			bool wanted = watcher != null && App.Settings.Prop.VoidNotify && App.Settings.Prop.NotifyGameJoins && App.Settings.Prop.ShowServerDetails && !App.Settings.Prop.NotificationWindowShow;
 			ActivityWatcher? desired = wanted ? watcher : null;
 			if (ReferenceEquals(desired, _subscribedWatcher))
 				return;
@@ -237,7 +237,7 @@ public class NotifyIconWrapper : IDisposable
 
 	public async Task OnGameJoinAsync(object? sender, EventArgs e)
 	{
-		if (ActivityWatcher == null)
+		if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || ActivityWatcher == null)
 		{
 			return;
 		}
@@ -258,7 +258,7 @@ public class NotifyIconWrapper : IDisposable
 			ServerType.Reserved => Strings.ContextMenu_ServerInformation_Notification_Title_Reserved, 
 			_ => string.Empty, 
 		};
-		if (EnableAppNotifications)
+		if (App.Settings.Prop.NotifyGameJoins && EnableAppNotifications)
 		{
 			ShowAlert(caption, string.Format(Strings.ContextMenu_ServerInformation_Notification_Text, text), 10, ShowServerInformationAlertClicked);
 		}

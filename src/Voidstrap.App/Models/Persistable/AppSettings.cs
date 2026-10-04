@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json.Serialization;
 using Voidstrap.Enums;
@@ -163,6 +163,11 @@ namespace Voidstrap.Models.Persistable
         public bool SmooothBARRyesirikikthxlucipook { get; set; } = false; // wanna keep this on false so people may not be annoyed by it being on
         public bool HasLaunchedGame { get; set; } = false;
         public bool NotificationWindowShow { get; set; } = true;
+        public bool NotifyUpdates { get; set; } = true;
+        public bool NotifyRoblox { get; set; } = true;
+        public bool NotifyRecovery { get; set; } = true;
+        public bool NotifyErrors { get; set; } = true;
+        public bool NotifyGameJoins { get; set; } = true;
         public bool BackgroundWindow { get; set; } = true;
         public bool UsePlaceId { get; set; } = false;
         public bool ClearFont { get; set; } = false;

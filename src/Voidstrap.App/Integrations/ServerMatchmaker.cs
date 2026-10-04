@@ -843,6 +843,8 @@ public sealed class ServerMatchmaker : IDisposable
 
 	private void ShowAlert(string text, int durationSeconds)
 	{
+		if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyRoblox)
+			return;
 		try
 		{
 			NotifyIconWrapper? icon = NotifyIconResolver?.Invoke();

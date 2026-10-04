@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
 using System.Runtime.InteropServices;
 
 namespace Voidstrap.Integrations.Nvidia;
@@ -114,7 +117,7 @@ public static class NvidiaProfileInspector
         return values;
     }
 
-    private static List<NvidiaSetting> Enumerate(IntPtr session, IntPtr profile)
+    private static List<NvidiaSetting> Enumerate(IntPtr session, IntPtr profile, bool strict = false)
     {
         List<NvidiaSetting> results = new List<NvidiaSetting>();
         const int chunk = 128;
@@ -127,8 +130,19 @@ public static class NvidiaProfileInspector
                 uint count = chunk;
                 for (int i = 0; i < chunk; i++)
                     NvApi.WriteSettingVersion(buffer, i);
-                if (NvApi.EnumSettings(session, profile, index, ref count, buffer) != NvStatus.Ok || count == 0u)
+                NvStatus status = NvApi.EnumSettings(session, profile, index, ref count, buffer);
+                if (status == NvStatus.EndEnumeration)
                     break;
+                if (status != NvStatus.Ok)
+                {
+                    if (strict)
+                        throw new InvalidOperationException("Could not enumerate NVIDIA settings (" + status + ")");
+                    break;
+                }
+                if (count == 0u)
+                    break;
+                if (count > chunk)
+                    throw new InvalidOperationException("The NVIDIA driver returned an invalid setting count");
                 for (int i = 0; i < count; i++)
                 {
                     NvSettingType type = NvApi.ReadSettingType(buffer, i);
@@ -149,6 +163,8 @@ public static class NvidiaProfileInspector
         catch (Exception ex)
         {
             App.Logger?.WriteLine("NvidiaProfileInspector", "Enumeration failed: " + ex.Message);
+            if (strict)
+                throw;
         }
         finally
         {
@@ -157,7 +173,154 @@ public static class NvidiaProfileInspector
         return results;
     }
 
+    public sealed class AppliedSetting
+    {
+        public string Profile { get; set; } = string.Empty;
+        public uint Id { get; set; }
+        public uint? Original { get; set; }
+        public uint Value { get; set; }
+    }
+
+    private static string AppliedSettingsPath => Path.Combine(Paths.NipProfiles, "AppliedSettings.json");
+
+    internal static bool HasSettingsToRestore => LoadAppliedSettings().Count > 0
+        || (!File.Exists(AppliedSettingsPath) && File.Exists(Path.Combine(Paths.NipProfiles, "Voidstrap.nip")));
+
+    private static List<AppliedSetting> LoadAppliedSettings()
+    {
+        if (!File.Exists(AppliedSettingsPath))
+            return [];
+        return JsonSerializer.Deserialize<List<AppliedSetting>>(File.ReadAllText(AppliedSettingsPath))
+            ?? throw new InvalidDataException("The NVIDIA settings backup is invalid");
+    }
+
+    private static void SaveAppliedSettings(List<AppliedSetting> settings)
+    {
+        Directory.CreateDirectory(Paths.NipProfiles);
+        string temporary = AppliedSettingsPath + ".tmp";
+        try
+        {
+            File.WriteAllText(temporary, JsonSerializer.Serialize(settings));
+            File.Move(temporary, AppliedSettingsPath, true);
+        }
+        finally
+        {
+            if (File.Exists(temporary))
+                File.Delete(temporary);
+        }
+    }
+
+    private static List<AppliedSetting> LoadSettingsBackup(IntPtr session)
+    {
+        List<AppliedSetting> settings = LoadAppliedSettings();
+        if (!File.Exists(AppliedSettingsPath) && File.Exists(Path.Combine(Paths.NipProfiles, "Voidstrap.nip")))
+        {
+            IntPtr legacyProfile = ResolveTargetProfile(session, null, false, out string name, out NvStatus status);
+            if (legacyProfile == IntPtr.Zero && status != NvStatus.ProfileNotFound)
+                throw new InvalidOperationException("Could not resolve the NVIDIA profile (" + status + ")");
+            if (legacyProfile != IntPtr.Zero)
+            {
+                Dictionary<uint, NvidiaSetting> live = Enumerate(session, legacyProfile, true).ToDictionary(setting => setting.Id);
+                foreach (Models.NvidiaEditorEntry entry in Integrations.NvidiaProfileManager.LoadFromNip(Path.Combine(Paths.NipProfiles, "Voidstrap.nip")))
+                {
+                    if (!Integrations.NvidiaProfileManager.TryParseSettingId(entry.SettingId, out uint id)
+                        || !Integrations.NvidiaProfileManager.TryParseSettingValue(entry.Value, entry.ValueType, out uint value)
+                        || !live.TryGetValue(id, out NvidiaSetting? current)
+                        || current.Type != NvSettingType.Dword || current.IsPredefined || current.Value != value)
+                        continue;
+                    settings.Add(new AppliedSetting { Profile = name, Id = id, Value = value });
+                }
+            }
+        }
+        return settings;
+    }
+
+    public static NvidiaApplyResult RestoreAppliedSettings()
+    {
+        using Utility.InterProcessLock operation = new("NvidiaSettings");
+        if (!operation.IsAcquired)
+            return Failure("Another NVIDIA settings operation is running");
+        try
+        {
+            return RestoreAppliedSettingsCore();
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteException("NvidiaProfileInspector", ex);
+            return Failure(ex.Message);
+        }
+    }
+
+    private static NvidiaApplyResult RestoreAppliedSettingsCore()
+    {
+        using Session? session = Open(out string error);
+        if (session == null)
+            return Failure(error);
+        List<AppliedSetting> settings = LoadSettingsBackup(session.Handle);
+        int restored = 0;
+        foreach (IGrouping<string, AppliedSetting> group in settings.GroupBy(setting => setting.Profile))
+        {
+            NvStatus status = NvApi.FindProfileByName(session.Handle, group.Key, out IntPtr profile);
+            if (status == NvStatus.ProfileNotFound)
+                continue;
+            if (status != NvStatus.Ok || profile == IntPtr.Zero)
+                return Failure("Could not read the NVIDIA profile (" + status + ")");
+            Dictionary<uint, NvidiaSetting> live = Enumerate(session.Handle, profile, true).ToDictionary(setting => setting.Id);
+            List<AppliedSetting> changed = [];
+            foreach (AppliedSetting setting in group)
+            {
+                if (!live.TryGetValue(setting.Id, out NvidiaSetting? current) || current.IsPredefined
+                    || current.Type != NvSettingType.Dword || current.Value != setting.Value)
+                    continue;
+                status = setting.Original is uint original
+                    ? NvApi.SetDwordSetting(session.Handle, profile, setting.Id, original)
+                    : NvApi.DeleteSetting(session.Handle, profile, setting.Id);
+                if (status != NvStatus.Ok && status != NvStatus.SettingNotFound)
+                    return Failure(status == NvStatus.InvalidUserPrivilege ? NeedsElevationMessage : "Could not restore NVIDIA setting " + setting.Id + ": " + status);
+                restored++;
+                changed.Add(setting);
+            }
+            if (changed.Count > 0)
+            {
+                Dictionary<uint, NvidiaSetting> checkedSettings = Enumerate(session.Handle, profile, true).ToDictionary(setting => setting.Id);
+                foreach (AppliedSetting setting in changed)
+                {
+                    bool found = checkedSettings.TryGetValue(setting.Id, out NvidiaSetting? current);
+                    bool restoredValue = setting.Original is uint original
+                        ? found && current!.Type == NvSettingType.Dword && current.Value == original
+                        : !found || current!.IsPredefined;
+                    if (!restoredValue)
+                        return Failure("The NVIDIA driver did not restore setting " + setting.Id);
+                }
+            }
+        }
+        if (restored > 0)
+        {
+            NvStatus status = NvApi.SaveSettings(session.Handle);
+            if (status != NvStatus.Ok)
+                return Failure(status == NvStatus.InvalidUserPrivilege ? NeedsElevationMessage : "Could not save the NVIDIA cleanup: " + status);
+        }
+        SaveAppliedSettings([]);
+        return new NvidiaApplyResult { Ok = true, Applied = restored, Message = "Restored " + restored + " NVIDIA settings applied by Voidstrap" };
+    }
+
     public static NvidiaApplyResult Apply(IEnumerable<KeyValuePair<uint, uint>> settings, string? profileName = null)
+    {
+        using Utility.InterProcessLock operation = new("NvidiaSettings");
+        if (!operation.IsAcquired)
+            return Failure("Another NVIDIA settings operation is running");
+        try
+        {
+            return ApplyCore(settings, profileName);
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteException("NvidiaProfileInspector", ex);
+            return Failure(ex.Message);
+        }
+    }
+
+    private static NvidiaApplyResult ApplyCore(IEnumerable<KeyValuePair<uint, uint>> settings, string? profileName)
     {
         if (settings == null)
             return Failure("No settings were supplied");
@@ -170,16 +333,30 @@ public static class NvidiaProfileInspector
         if (profile == IntPtr.Zero)
             return Failure("Could not resolve a driver profile for Roblox (" + status + ")");
 
+        NvStatus namedStatus = NvApi.FindProfileByName(session.Handle, targetName, out IntPtr namedProfile);
+        if (namedStatus != NvStatus.Ok || namedProfile != profile)
+            return Failure("Could not identify the NVIDIA profile for the settings backup");
+
+        List<AppliedSetting> backup = LoadSettingsBackup(session.Handle);
+        string originalBackup = JsonSerializer.Serialize(backup);
+        List<NvidiaSetting> previous = Enumerate(session.Handle, profile, true);
         List<string> rejected = new List<string>();
+        Dictionary<uint, uint> accepted = new();
         Dictionary<uint, uint> requested = new Dictionary<uint, uint>();
         int applied = 0;
         foreach (KeyValuePair<uint, uint> setting in settings)
         {
+            if (previous.Exists(item => item.Id == setting.Key && item.Type != NvSettingType.Dword))
+            {
+                rejected.Add("0x" + setting.Key.ToString("X8", CultureInfo.InvariantCulture) + ": this setting is not a DWORD value");
+                continue;
+            }
             NvStatus set = NvApi.SetDwordSetting(session.Handle, profile, setting.Key, setting.Value);
             if (set == NvStatus.Ok)
             {
                 applied++;
                 requested[setting.Key] = setting.Value;
+                accepted[setting.Key] = setting.Value;
                 continue;
             }
             if (set == NvStatus.InvalidUserPrivilege)
@@ -187,7 +364,7 @@ public static class NvidiaProfileInspector
             rejected.Add("0x" + setting.Key.ToString("X8", CultureInfo.InvariantCulture) + " -> " + set);
         }
 
-        foreach (NvidiaSetting live in Enumerate(session.Handle, profile))
+        foreach (NvidiaSetting live in Enumerate(session.Handle, profile, true))
         {
             if (!requested.TryGetValue(live.Id, out uint wanted))
                 continue;
@@ -195,15 +372,35 @@ public static class NvidiaProfileInspector
             if (live.Type != NvSettingType.Dword || live.Value == wanted)
                 continue;
             applied--;
+            accepted.Remove(live.Id);
             rejected.Add("0x" + live.Id.ToString("X8", CultureInfo.InvariantCulture) + " -> the driver stored " + live.Value + " instead of " + wanted);
         }
         foreach (uint missing in requested.Keys)
         {
             applied--;
+            accepted.Remove(missing);
             rejected.Add("0x" + missing.ToString("X8", CultureInfo.InvariantCulture) + " -> the driver did not keep this setting");
         }
 
+        foreach (KeyValuePair<uint, uint> setting in accepted)
+        {
+            AppliedSetting? tracked = backup.Find(item => item.Profile == targetName && item.Id == setting.Key);
+            NvidiaSetting? original = previous.Find(item => item.Id == setting.Key);
+            if (tracked == null)
+            {
+                tracked = new AppliedSetting { Profile = targetName, Id = setting.Key, Original = original is { IsPredefined: false, Type: NvSettingType.Dword } ? original.Value : null };
+                backup.Add(tracked);
+            }
+            else if (original == null || original.IsPredefined)
+                tracked.Original = null;
+            else if (original.Type == NvSettingType.Dword && original.Value != tracked.Value)
+                tracked.Original = original.Value;
+            tracked.Value = setting.Value;
+        }
+        SaveAppliedSettings(backup);
         NvStatus save = NvApi.SaveSettings(session.Handle);
+        if (save != NvStatus.Ok)
+            SaveAppliedSettings(JsonSerializer.Deserialize<List<AppliedSetting>>(originalBackup)!);
         if (save == NvStatus.InvalidUserPrivilege)
             return Failure(NeedsElevationMessage);
         if (save != NvStatus.Ok)

@@ -331,6 +331,71 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		OnPropertyChanged(nameof(MemoryFreeText));
 	}
 
+	public bool NotifyUpdates
+	{
+		get => App.Settings.Prop.NotifyUpdates;
+		set
+		{
+			if (App.Settings.Prop.NotifyUpdates == value)
+				return;
+			App.Settings.Prop.NotifyUpdates = value;
+			OnPropertyChanged(nameof(NotifyUpdates));
+			App.Settings.SaveDeferred();
+		}
+	}
+
+	public bool NotifyRoblox
+	{
+		get => App.Settings.Prop.NotifyRoblox;
+		set
+		{
+			if (App.Settings.Prop.NotifyRoblox == value)
+				return;
+			App.Settings.Prop.NotifyRoblox = value;
+			OnPropertyChanged(nameof(NotifyRoblox));
+			App.Settings.SaveDeferred();
+		}
+	}
+
+	public bool NotifyRecovery
+	{
+		get => App.Settings.Prop.NotifyRecovery;
+		set
+		{
+			if (App.Settings.Prop.NotifyRecovery == value)
+				return;
+			App.Settings.Prop.NotifyRecovery = value;
+			OnPropertyChanged(nameof(NotifyRecovery));
+			App.Settings.SaveDeferred();
+		}
+	}
+
+	public bool NotifyErrors
+	{
+		get => App.Settings.Prop.NotifyErrors;
+		set
+		{
+			if (App.Settings.Prop.NotifyErrors == value)
+				return;
+			App.Settings.Prop.NotifyErrors = value;
+			OnPropertyChanged(nameof(NotifyErrors));
+			App.Settings.SaveDeferred();
+		}
+	}
+
+	public bool NotifyGameJoins
+	{
+		get => App.Settings.Prop.NotifyGameJoins;
+		set
+		{
+			if (App.Settings.Prop.NotifyGameJoins == value)
+				return;
+			App.Settings.Prop.NotifyGameJoins = value;
+			OnPropertyChanged(nameof(NotifyGameJoins));
+			App.Settings.SaveDeferred();
+		}
+	}
+
 	public ObservableCollection<string> PriorityOptions { get; set; }
 
 	public string SelectedPriority
@@ -541,7 +606,11 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		}
 		set
 		{
+			if (App.Settings.Prop.VoidNotify == value)
+				return;
 			App.Settings.Prop.VoidNotify = value;
+			OnPropertyChanged(nameof(VoidNotify));
+			App.Settings.SaveDeferred();
 		}
 	}
 

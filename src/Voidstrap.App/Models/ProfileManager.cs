@@ -260,6 +260,29 @@ namespace Voidstrap.Integrations
             }
         }
 
+        public static async Task<NvidiaApplyResult> RestoreForUninstallAsync()
+        {
+            if (!Utility.Platform.IsWindows)
+                return new NvidiaApplyResult { Ok = true };
+            try
+            {
+                if (!NvidiaProfileInspector.HasSettingsToRestore)
+                    return new NvidiaApplyResult { Ok = true };
+                if (!NvidiaProfileInspector.IsAvailable)
+                    return new NvidiaApplyResult { Ok = false, Message = NvidiaProfileInspector.UnavailableReason };
+                NvidiaApplyResult result = await Task.Run(() => NvidiaProfileInspector.RestoreAppliedSettings()).ConfigureAwait(false);
+                if (!result.Ok && result.Message == NvidiaProfileInspector.NeedsElevationMessage)
+                    result = await RunElevatedAsync(["-nvreset", "uninstall"], "NVIDIA settings restored", "NVIDIA cleanup failed. Check the log for details.").ConfigureAwait(false);
+                App.Logger.WriteLine("NvidiaProfileManager::RestoreForUninstallAsync", result.Message);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException("NvidiaProfileManager::RestoreForUninstallAsync", ex);
+                return new NvidiaApplyResult { Ok = false, Message = ex.Message };
+            }
+        }
+
         public static Task<NvidiaApplyResult> ResetDriverAsync()
         {
             return Voidstrap.Utility.ProcessElevation.IsAdministrator()
@@ -337,7 +360,7 @@ namespace Voidstrap.Integrations
             }
         }
 
-        private static bool TryParseSettingId(string? raw, out uint id)
+        internal static bool TryParseSettingId(string? raw, out uint id)
         {
             id = 0u;
             string text = (raw ?? string.Empty).Trim();
@@ -348,7 +371,7 @@ namespace Voidstrap.Integrations
             return uint.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out id);
         }
 
-        private static bool TryParseSettingValue(string? raw, string? valueType, out uint value)
+        internal static bool TryParseSettingValue(string? raw, string? valueType, out uint value)
         {
             value = 0u;
             string text = (raw ?? string.Empty).Trim();

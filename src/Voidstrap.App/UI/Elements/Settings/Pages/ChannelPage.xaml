@@ -101,9 +101,6 @@
                             <controls:OptionControl Header="Hardware acceleration" Description="Uses the GPU to render Voidstrap. Turn this off for compatibility or lower video memory usage.">
                                 <ui:ToggleSwitch IsChecked="{Binding HWAccelEnabled, Mode=TwoWay}" />
                             </controls:OptionControl>
-                            <controls:OptionControl Description="Displays Voidstrap notifications, joined servers, and more." Header="App Notifications">
-                                <ui:ToggleSwitch IsChecked="{Binding VoidNotify, Mode=TwoWay}" />
-                            </controls:OptionControl>
                             <controls:OptionControl Description="Displays Voidstraps discord RPC." Header="Voidstrap RPC">
                                 <ui:ToggleSwitch IsChecked="{Binding VoidRPC, Mode=TwoWay}" />
                             </controls:OptionControl>
@@ -368,6 +365,37 @@
           <controls:OptionControl x:Name="RenderBackendOption" Visibility="{x:Static platform:PlatformFeatureVisibility.LinuxIntegration}" Header="Renderer backend" Description="Chooses the graphics backend Voidstrap draws itself with. Automatic picks the fastest one your system supports. Changing this takes effect the next time Voidstrap starts.">
             <ComboBox Width="230" ItemsSource="{Binding RenderBackendChoices}" DisplayMemberPath="Display" SelectedItem="{Binding RenderBackendChoice, Mode=TwoWay}" />
           </controls:OptionControl>
+        </StackPanel>
+      </TabItem>
+
+      <TabItem x:Name="NotificationsTab">
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Alert24" Margin="0,0,6,0" />
+            <TextBlock Text="{x:Static resources:Strings.Notifications_Title}" />
+          </StackPanel>
+        </TabItem.Header>
+        <StackPanel Margin="10">
+          <controls:OptionControl Header="{x:Static resources:Strings.Notifications_App}" Description="{x:Static resources:Strings.Notifications_AppDescription}">
+            <ui:ToggleSwitch IsChecked="{Binding VoidNotify, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <StackPanel IsEnabled="{Binding VoidNotify}">
+            <controls:OptionControl Header="{x:Static resources:Strings.Notifications_Updates}">
+              <ui:ToggleSwitch IsChecked="{Binding NotifyUpdates, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{x:Static resources:Strings.Notifications_Roblox}">
+              <ui:ToggleSwitch IsChecked="{Binding NotifyRoblox, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{x:Static resources:Strings.Notifications_Recovery}">
+              <ui:ToggleSwitch IsChecked="{Binding NotifyRecovery, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{x:Static resources:Strings.Notifications_Errors}">
+              <ui:ToggleSwitch IsChecked="{Binding NotifyErrors, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{x:Static resources:Strings.Notifications_GameJoins}">
+              <ui:ToggleSwitch IsChecked="{Binding NotifyGameJoins, Mode=TwoWay}" />
+            </controls:OptionControl>
+          </StackPanel>
         </StackPanel>
       </TabItem>
 

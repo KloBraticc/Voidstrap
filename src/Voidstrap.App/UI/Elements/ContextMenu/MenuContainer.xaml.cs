@@ -158,7 +158,7 @@ public partial class MenuContainer : WpfUiWindow
 
     private void PrewarmJoinNotification()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || _activityWatcher == null || !App.Settings.Prop.NotificationWindowShow)
+        if (!Voidstrap.Utility.Platform.IsLinux || _activityWatcher == null || !App.Settings.Prop.NotificationWindowShow || !App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins)
             return;
 
         try
@@ -619,7 +619,7 @@ public partial class MenuContainer : WpfUiWindow
 
     private async Task ShowJoinNotification(ActivityData data, Task<(string Name, BitmapSource? Icon)> presentationTask, CancellationToken token)
     {
-        if (!App.Settings.Prop.NotificationWindowShow || _activityWatcher == null)
+        if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || !App.Settings.Prop.NotificationWindowShow || _activityWatcher == null)
         {
             return;
         }
@@ -659,7 +659,7 @@ public partial class MenuContainer : WpfUiWindow
 		{
 			return;
 		}
-        if (!IsCurrentSession(data, token))
+        if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || !App.Settings.Prop.NotificationWindowShow || !IsCurrentSession(data, token))
             return;
 		Task<(int Current, int Max, int GameTotal, bool ServerFound)> statsTask = _activityWatcher.GetServerPlayerStatsAsync();
         string serverLocation = "Server location unavailable";
@@ -689,7 +689,7 @@ public partial class MenuContainer : WpfUiWindow
 		{
 			App.Logger.WriteException("MenuContainer::GetServerPlayerStats", ex);
 		}
-        if (!IsCurrentSession(data, token))
+        if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || !App.Settings.Prop.NotificationWindowShow || !IsCurrentSession(data, token))
             return;
         string text2 = tuple.Item1 > 0 && tuple.Item2 > 0
             ? $" • {tuple.Item1}/{tuple.Item2} players"
@@ -719,7 +719,7 @@ public partial class MenuContainer : WpfUiWindow
         {
             await Dispatcher.InvokeAsync(delegate
             {
-                if (!IsCurrentSession(data, token))
+                if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || !App.Settings.Prop.NotificationWindowShow || !IsCurrentSession(data, token))
                     return;
                 try
                 {

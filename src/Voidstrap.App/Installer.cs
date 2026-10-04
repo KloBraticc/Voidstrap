@@ -495,7 +495,21 @@ internal partial class Installer
 		}
 	}
 
-	public static void DoUninstall(bool keepData)
+	public static async Task<bool> DoUninstallAsync(bool keepData)
+	{
+		try
+		{
+			return await DoUninstallCoreAsync(keepData);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("Installer::DoUninstall", ex);
+			Frontend.ShowExceptionDialog(ex);
+			return false;
+		}
+	}
+
+	private static async Task<bool> DoUninstallCoreAsync(bool keepData)
 	{
 		List<Process> list = [];
 		try
@@ -511,7 +525,7 @@ internal partial class Installer
 			if (list.Count > 0 && Frontend.ShowMessageBox(Strings.Bootstrapper_Uninstall_RobloxRunning, MessageBoxImage.Asterisk, MessageBoxButton.OKCancel, MessageBoxResult.OK) != MessageBoxResult.OK)
 			{
 				App.Terminate(ErrorCode.ERROR_CANCELLED);
-				return;
+				return false;
 			}
 			foreach (Process item in list)
 			{
@@ -532,6 +546,12 @@ internal partial class Installer
 				item.Dispose();
 			}
 		}
+		Voidstrap.Integrations.Nvidia.NvidiaApplyResult cleanup = await Voidstrap.Integrations.NvidiaProfileManager.RestoreForUninstallAsync();
+		if (!cleanup.Ok)
+		{
+			Frontend.ShowMessageBox(string.Format(Strings.Bootstrapper_Uninstall_NvidiaFailed, cleanup.Message), MessageBoxImage.Error);
+			return false;
+		}
 		Voidstrap.Integrations.AssetProxy.AssetProxyServer.Stop();
 		Voidstrap.Integrations.AssetProxy.AssetProxyServer.CleanupStaleState();
 		Voidstrap.Integrations.AssetProxy.AssetProxyServer.RemoveCertificates();
@@ -549,7 +569,7 @@ internal partial class Installer
 			{
 				Paths.ResetUserData();
 			}
-			return;
+			return true;
 		}
 		if (Voidstrap.Utility.Platform.IsWindows)
 		{
@@ -707,6 +727,7 @@ internal partial class Installer
 		{
 			ScheduleDeferredCleanup(Paths.Base, Paths.Application, flag3);
 		}
+		return true;
 	}
 
 	private static void ScheduleDeferredCleanup(string basePath, string appPath, bool deleteFolder)

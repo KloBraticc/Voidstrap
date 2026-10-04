@@ -402,6 +402,8 @@ namespace Voidstrap.Resources {
             }
         }
         
+        public static string Bootstrapper_Uninstall_NvidiaFailed => ResourceManager.GetString("Bootstrapper.Uninstall.NvidiaFailed", resourceCulture)!;
+
         /// <summary>
         ///   Looks up a localized string similar to Voidstrap has successfully uninstalled.
         /// </summary>
@@ -5246,5 +5248,13 @@ namespace Voidstrap.Resources {
         public static string FlagSearch_Label43 => ResourceManager.GetString("FlagSearch.Label43", resourceCulture);
         public static string FlagSearch_Label44 => ResourceManager.GetString("FlagSearch.Label44", resourceCulture);
         public static string FlagSearch_Label45 => ResourceManager.GetString("FlagSearch.Label45", resourceCulture);
+        public static string Notifications_Title => ResourceManager.GetString("Notifications.Title", resourceCulture);
+        public static string Notifications_Updates => ResourceManager.GetString("Notifications.Updates", resourceCulture);
+        public static string Notifications_Roblox => ResourceManager.GetString("Notifications.Roblox", resourceCulture);
+        public static string Notifications_Recovery => ResourceManager.GetString("Notifications.Recovery", resourceCulture);
+        public static string Notifications_Errors => ResourceManager.GetString("Notifications.Errors", resourceCulture);
+        public static string Notifications_GameJoins => ResourceManager.GetString("Notifications.GameJoins", resourceCulture);
+        public static string Notifications_App => ResourceManager.GetString("Notifications.App", resourceCulture);
+        public static string Notifications_AppDescription => ResourceManager.GetString("Notifications.AppDescription", resourceCulture);
     }
 }

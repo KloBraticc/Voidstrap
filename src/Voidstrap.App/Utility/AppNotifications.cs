@@ -101,7 +101,7 @@ public static class AppNotifications
 
 	public static void RecordError(string source, Exception? ex)
 	{
-		if (ex == null || _busy || !Paths.Initialized || IsNoise(ex))
+		if (ex == null || _busy || !Paths.Initialized || !App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyErrors || IsNoise(ex))
 			return;
 		_busy = true;
 		try
@@ -129,7 +129,7 @@ public static class AppNotifications
 
 	public static void RecordCrash(string source, Exception? ex)
 	{
-		if (ex == null || _busy || !Paths.Initialized)
+		if (ex == null || _busy || !Paths.Initialized || !App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyErrors)
 			return;
 		_busy = true;
 		try
@@ -229,10 +229,11 @@ public static class AppNotifications
 		{
 			if (Pending.Count == 0)
 				return;
-			batch = Pending.Values.ToList();
+			batch = Pending.Values.Where(item => IsEnabled(item.Kind, item.Key)).ToList();
 			Pending.Clear();
 		}
-		Update(items => Merge(items, batch));
+		if (batch.Count > 0)
+			Update(items => Merge(items, batch));
 	}
 
 	public static void Shutdown()
@@ -247,8 +248,26 @@ public static class AppNotifications
 		Flush();
 	}
 
+	internal static bool IsEnabled(string kind, string key)
+	{
+		var settings = App.Settings.Prop;
+		if (!settings.VoidNotify)
+			return false;
+		if (kind is KindError or KindCrash)
+			return settings.NotifyErrors;
+		if (key.StartsWith("info:upgrade:", StringComparison.Ordinal))
+			return settings.NotifyUpdates;
+		if (key.StartsWith("info:roblox:", StringComparison.Ordinal) || key.StartsWith("info:mods:", StringComparison.Ordinal))
+			return settings.NotifyRoblox;
+		if (key.StartsWith("info:recovered:", StringComparison.Ordinal) || key.StartsWith("info:reset:", StringComparison.Ordinal))
+			return settings.NotifyRecovery;
+		return true;
+	}
+
 	private static void Stage(string key, string kind, string title, string text, string source, bool flushNow)
 	{
+		if (!IsEnabled(kind, key))
+			return;
 		long now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 		string logPath = App.Logger.FileLocation ?? "";
 		lock (Sync)

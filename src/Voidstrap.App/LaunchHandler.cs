@@ -151,8 +151,11 @@ public static class LaunchHandler
 			bool reset = false;
 			try
 			{
-				Voidstrap.Integrations.Nvidia.NvidiaApplyResult result = Voidstrap.Integrations.Nvidia.NvidiaProfileInspector.ResetAll();
+				Voidstrap.Integrations.Nvidia.NvidiaApplyResult result = App.LaunchSettings.NvResetFlag.Data == "uninstall"
+					? Voidstrap.Integrations.Nvidia.NvidiaProfileInspector.RestoreAppliedSettings()
+					: Voidstrap.Integrations.Nvidia.NvidiaProfileInspector.ResetAll();
 				reset = result.Ok;
+				App.Logger.WriteLine("LaunchHandler::ProcessLaunchArgs", result.Message);
 				foreach (string failure in result.Failures)
 					App.Logger.WriteLine("LaunchHandler::ProcessLaunchArgs", "  " + failure);
 			}
@@ -300,7 +303,7 @@ public static class LaunchHandler
 		}
 	}
 
-	public static void LaunchUninstaller()
+	public static async void LaunchUninstaller()
 	{
 		if (Voidstrap.Utility.Platform.IsWindows && !ProcessElevation.IsAdministrator())
 		{
@@ -337,7 +340,11 @@ public static class LaunchHandler
 			App.Terminate();
 			return;
 		}
-		Installer.DoUninstall(keepData);
+		if (!await Installer.DoUninstallAsync(keepData))
+		{
+			App.Terminate(ErrorCode.ERROR_INSTALL_FAILURE);
+			return;
+		}
 		Frontend.ShowMessageBox(Strings.Bootstrapper_SuccessfullyUninstalled, MessageBoxImage.Asterisk);
 		App.Terminate();
 	}

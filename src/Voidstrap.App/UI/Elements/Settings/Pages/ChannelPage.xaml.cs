@@ -325,14 +325,15 @@ public partial class ChannelPage : UiPage{
 		}
 	}
 
-	private void UninstallButton_Click(object sender, RoutedEventArgs e)
+	private async void UninstallButton_Click(object sender, RoutedEventArgs e)
 	{
 		UninstallerDialog uninstallerDialog = new UninstallerDialog();
 		uninstallerDialog.Owner = Window.GetWindow((DependencyObject)(object)this);
 		uninstallerDialog.ShowOwnedDialog();
 		if (uninstallerDialog.Confirmed)
 		{
-			Voidstrap.Installer.DoUninstall(uninstallerDialog.KeepData);
+			if (!await Voidstrap.Installer.DoUninstallAsync(uninstallerDialog.KeepData))
+				return;
 			Frontend.ShowMessageBox(Strings.Bootstrapper_SuccessfullyUninstalled, MessageBoxImage.Asterisk);
 			App.Terminate();
 		}
