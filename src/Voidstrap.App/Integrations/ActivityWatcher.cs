@@ -102,6 +102,8 @@ public partial class ActivityWatcher : IDisposable
 
 	private bool _reservedTeleportMarker;
 
+	private bool _teleportDisconnectPending;
+
 	private static AppSettings.ResolutionSetting? _originalResolution;
 
 	private static bool _resolutionApplied = false;
@@ -679,7 +681,7 @@ public partial class ActivityWatcher : IDisposable
 					}
 					try
 					{
-						await _logSignal.WaitAsync(TimeSpan.FromSeconds(5), token);
+						await _logSignal.WaitAsync(TimeSpan.FromSeconds(1), token);
 					}
 					catch (OperationCanceledException) when (token.IsCancellationRequested)
 					{
@@ -812,6 +814,7 @@ public partial class ActivityWatcher : IDisposable
 	{
 		_teleportMarker = false;
 		_reservedTeleportMarker = false;
+		_teleportDisconnectPending = false;
 		if (Data.PlaceId == 0L)
 		{
 			return;
@@ -843,6 +846,7 @@ public partial class ActivityWatcher : IDisposable
 	private void CompleteGameLeave()
 	{
 		bool wasInGame = InGame;
+		bool wasJoining = Data.PlaceId > 0;
 		RestoreOriginalResolution();
 		if (wasInGame)
 		{
@@ -859,7 +863,7 @@ public partial class ActivityWatcher : IDisposable
 		ResetData();
 		if (!_teleportMarker)
 			FrameGeneration.FrameGenManager.OnGameLeave();
-		if (wasInGame)
+		if (wasInGame || wasJoining)
 			RaiseEvent(OnGameLeave, "OnGameLeave");
 	}
 
@@ -939,16 +943,40 @@ public partial class ActivityWatcher : IDisposable
 			App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "User is back into the desktop app");
 			_teleportMarker = false;
 			_reservedTeleportMarker = false;
+			_teleportDisconnectPending = false;
 			CompleteGameLeave();
 			RaiseEvent(OnAppClose, "OnAppClose");
 			return;
 		}
 		if (entry.Contains(GameDisconnectedEntry))
 		{
-			if (InGame)
+			if (_teleportDisconnectPending)
+			{
+				_teleportDisconnectPending = false;
+				return;
+			}
+			if (InGame || Data.PlaceId > 0)
 				CompleteGameLeave();
 			return;
 		}
+		if (entry.Contains(GameJoiningEntry, StringComparison.Ordinal))
+		{
+			Match joining = LogPattern1.Match(entry);
+			if (!joining.Success || !long.TryParse(joining.Groups[2].Value, out long nextPlace) || nextPlace <= 0)
+				return;
+			if (Data.PlaceId == nextPlace && string.Equals(Data.JobId, joining.Groups[1].Value, StringComparison.OrdinalIgnoreCase))
+				return;
+			if (InGame)
+			{
+				_teleportMarker = true;
+				_teleportDisconnectPending = true;
+				CompleteGameLeave();
+			}
+			else if (Data.PlaceId > 0)
+				ResetData();
+		}
+		if (entry.Contains("[FLog::Network] Join snapshot timer:", StringComparison.Ordinal))
+			_teleportDisconnectPending = false;
 		if (Data.PlaceId != 0L && entry.Contains("[FLog::Output] Server Prefix: "))
 		{
 			RecordServerPrefix(entry);
@@ -1001,12 +1029,13 @@ public partial class ActivityWatcher : IDisposable
 				}
 				Match match3 = LogPattern3.Match(entry);
 				Match match3User = LogPattern3User.Match(entry);
-				if (!match3.Success || !match3User.Success)
+				if (!match3.Success || !long.TryParse(match3.Groups[1].Value, out long universeId) || universeId <= 0)
 				{
 					return;
 				}
-				Data.UniverseId = long.Parse(match3.Groups[1].Value);
-				Data.UserId = long.Parse(match3User.Groups[1].Value);
+				Data.UniverseId = universeId;
+				if (match3User.Success && long.TryParse(match3User.Groups[1].Value, out long userId))
+					Data.UserId = userId;
 				lock (History)
 				{
 					if (History.Count > 0)
@@ -1022,7 +1051,7 @@ public partial class ActivityWatcher : IDisposable
 			else if (entry.Contains("[FLog::Network] UDMUX Address = "))
 			{
 				Match match4 = LogPattern4.Match(entry);
-				if (match4.Groups.Count == 3)
+				if (match4.Success)
 				{
 					string udmuxAddress = match4.Groups[1].Value;
 					string rccAddress = match4.Groups[2].Value;
@@ -1037,7 +1066,7 @@ public partial class ActivityWatcher : IDisposable
 					PublishLaunchStatus("Joining Server (" + (Data.MachineAddressValid ? Data.MachineAddress : udmuxAddress) + ")");
 				}
 			}
-			else if (entry.Contains("[FLog::Network] serverId:") || (entry.Contains("\"type\":\"game_loaded\"") && !entry.Contains("\"place_id\":\"0\"")))
+			else if (entry.Contains("[FLog::Network] serverId:") || entry.Contains("[FLog::Network] Join snapshot timer:") || (entry.Contains("\"type\":\"game_loaded\"") && !entry.Contains("\"place_id\":\"0\"")))
 			{
 				string message2 = "Confirmed game join (JobId = " + Data.JobId + ")";
 				App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", message2);

@@ -162,6 +162,29 @@ public class UiWindow : System.Windows.Window
 
     #region Protected methods
 
+    private void RemoveNativeWindowBorder()
+    {
+        if (!OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
+            return;
+        IntPtr handle = new WindowInteropHelper(this).Handle;
+        if (handle == IntPtr.Zero)
+            return;
+        int color = unchecked((int)0xFFFFFFFE);
+        _ = Dwmapi.DwmSetWindowAttribute(handle, Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_BORDER_COLOR, ref color, sizeof(int));
+    }
+
+    protected override void OnActivated(EventArgs e)
+    {
+        base.OnActivated(e);
+        RemoveNativeWindowBorder();
+    }
+
+    protected override void OnDeactivated(EventArgs e)
+    {
+        base.OnDeactivated(e);
+        RemoveNativeWindowBorder();
+    }
+
     /// <inheritdoc />
     protected override void OnSourceInitialized(EventArgs e)
     {
@@ -170,6 +193,7 @@ public class UiWindow : System.Windows.Window
         ApplyWindowCornerPreferenceInternal(WindowCornerPreference);
         ApplyWindowBackdropInternal(WindowBackdropType);
         ExtendsContentIntoTitleBarInternal(ExtendsContentIntoTitleBar);
+        RemoveNativeWindowBorder();
     }
 
     /// <summary>

@@ -32,7 +32,6 @@ public class ClientAreaBorder : System.Windows.Controls.Border, IThemeControl
 
     private Window? _oldWindow;
 
-    private Color _lastAccentColor;
     private static readonly SolidColorBrush InactiveBorderLight = CreateFrozen(Color.FromArgb(255, 200, 200, 200));
     private static readonly SolidColorBrush InactiveBorderDark = CreateFrozen(Color.FromArgb(255, 58, 58, 58));
 
@@ -42,8 +41,6 @@ public class ClientAreaBorder : System.Windows.Controls.Border, IThemeControl
         brush.Freeze();
         return brush;
     }
-
-    private bool _isActive;
 
     private static Thickness? _paddedBorderThickness;
 
@@ -109,7 +106,6 @@ public class ClientAreaBorder : System.Windows.Controls.Border, IThemeControl
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         Theme = Appearance.Theme.GetAppTheme();
-        _lastAccentColor = Accent.SystemAccent;
         Appearance.Theme.Changed -= OnThemeChanged;
         Appearance.Theme.Changed += OnThemeChanged;
     }
@@ -129,7 +125,6 @@ public class ClientAreaBorder : System.Windows.Controls.Border, IThemeControl
     private void OnThemeChanged(ThemeType currentTheme, Color systemAccent)
     {
         Theme = currentTheme;
-        _lastAccentColor = systemAccent;
 
         ApplyDefaultWindowBorder();
     }
@@ -155,9 +150,6 @@ public class ClientAreaBorder : System.Windows.Controls.Border, IThemeControl
             newWindow.Activated += OnWindowActivated;
             newWindow.Deactivated -= OnWindowDeactivated;
             newWindow.Deactivated += OnWindowDeactivated;
-
-            _lastAccentColor = Accent.SystemAccent;
-            _isActive = newWindow.IsActive;
         }
 
         _oldWindow = newWindow;
@@ -179,13 +171,11 @@ public class ClientAreaBorder : System.Windows.Controls.Border, IThemeControl
 
     private void OnWindowActivated(object? sender, EventArgs e)
     {
-        _isActive = true;
         ApplyDefaultWindowBorder();
     }
 
     private void OnWindowDeactivated(object? sender, EventArgs e)
     {
-        _isActive = false;
         ApplyDefaultWindowBorder();
     }
 
@@ -208,16 +198,7 @@ public class ClientAreaBorder : System.Windows.Controls.Border, IThemeControl
         if (uiWindow.DefaultBorderThemeOverwrite != ThemeType.Unknown)
             theme = uiWindow.DefaultBorderThemeOverwrite;
 
-        if (_isActive)
-        {
-            SolidColorBrush accentBrush = new SolidColorBrush(_lastAccentColor);
-            accentBrush.Freeze();
-            BorderBrush = accentBrush;
-        }
-        else
-        {
-            BorderBrush = theme == ThemeType.Light ? InactiveBorderLight : InactiveBorderDark;
-        }
+        BorderBrush = theme == ThemeType.Light ? InactiveBorderLight : InactiveBorderDark;
 
         BorderThickness = new Thickness(1);
     }

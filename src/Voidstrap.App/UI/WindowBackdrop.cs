@@ -167,6 +167,15 @@ public static partial class WindowBackdrop
                 ApplyLinuxSurface(window);
             return;
         }
+        if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
+        {
+            IntPtr borderHandle = new WindowInteropHelper(window).Handle;
+            if (borderHandle != IntPtr.Zero)
+            {
+                int borderColor = unchecked((int)0xFFFFFFFE);
+                _ = DwmSetWindowAttribute(borderHandle, 34, ref borderColor, sizeof(int));
+            }
+        }
         if (window.AllowsTransparency)
         {
             return;

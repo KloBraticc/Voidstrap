@@ -70,7 +70,9 @@ internal static class Http
 
 	public static async Task<string> GetStringBoundedAsync(HttpClient client, string url, int maxBytes = DefaultMaxResponseBytes, CancellationToken token = default)
 	{
+		ThrowIfRateLimited(url);
 		using HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+		ThrowIfShouldNotRetry(response, url);
 		response.EnsureSuccessStatusCode();
 		return await ReadStringBoundedAsync(response.Content, maxBytes, token).ConfigureAwait(false);
 	}
@@ -193,12 +195,15 @@ internal static class Http
 		}
 	}
 
-	private static void ThrowIfShouldNotRetry(HttpResponseMessage response)
+	private static void ThrowIfShouldNotRetry(HttpResponseMessage response, string? url = null)
 	{
 		int statusCode = (int)response.StatusCode;
 		if (statusCode == 429)
 		{
-			if (response.RequestMessage?.RequestUri is Uri uri)
+			Uri? uri = response.RequestMessage?.RequestUri;
+			if (uri == null && url != null)
+				Uri.TryCreate(url, UriKind.Absolute, out uri);
+			if (uri != null)
 			{
 				RateLimitedUntil[RateLimitKey(uri)] = Environment.TickCount64 + (long)ReadRetryAfter(response).TotalMilliseconds;
 			}

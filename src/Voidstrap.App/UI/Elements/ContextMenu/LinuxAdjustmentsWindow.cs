@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace Voidstrap.UI.Elements.ContextMenu
 {
-    public sealed class LinuxAdjustmentsWindow : Window
+    public sealed class LinuxAdjustmentsWindow : Voidstrap.UI.Elements.Base.WpfUiWindow
     {
         private const string WindowTitle = "Voidstrap Adjustments";
 

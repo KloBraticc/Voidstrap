@@ -72,7 +72,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter x:Name="ContentPresenter" />
+                            <ContentPresenter x:Name="ContentPresenter" ClipToBounds="True" />
                         </controls:ClientAreaBorder>
                     </AdornerDecorator>
                 </ControlTemplate>

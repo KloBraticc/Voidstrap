@@ -1381,7 +1381,7 @@ Every person here is ranked by their overall pledge.</value>
     <value>Your current game will not show on your Discord presence because an error occurred when loading the game information.</value>
   </data>
   <data name="ContextMenu.GameHistory.Description" xml:space="preserve">
-    <value>Game history is only recorded for your current Roblox session. Games will appear here as you leave them or teleport within them. Not all servers will be rejoinable.</value>
+    <value>Your last 5 days of game history. Some servers may no longer be available.</value>
   </data>
   <data name="ActivityWatcher.LocationQueryFailed" xml:space="preserve">
     <value>The server location could not be queried. You may be joining games too quickly.</value>
@@ -2437,5 +2437,59 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
     <value>NVIDIA cleanup failed. Uninstall anyway? Any remaining NVIDIA settings will stay applied.
 
 {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>Latest</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>Oldest</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>Longest visits</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>Name, ascending</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>Name, descending</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>All servers</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>Reserved</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>Not recorded</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>Copy link</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>Could not load history.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>No visits to show.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>Checked: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Could not launch Roblox.</value>
   </data>
 </root>

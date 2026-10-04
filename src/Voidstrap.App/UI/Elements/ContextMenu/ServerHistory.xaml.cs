@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Linq;
 using System.Windows.Markup;
 using Voidstrap.Integrations;
 using Voidstrap.UI.Elements.Base;
@@ -21,6 +22,12 @@ public partial class ServerHistory : WpfUiWindow{
 		base.DataContext = _viewModel;
 		InitializeComponent();
 		base.Closed += ServerHistory_Closed;
+		Window? owner = Application.Current.Windows.Cast<Window>().Where(window => window != this && window.IsVisible && window.ShowInTaskbar).OrderByDescending(window => window.IsActive).FirstOrDefault();
+		if (owner != null)
+		{
+			Owner = owner;
+			WindowStartupLocation = WindowStartupLocation.CenterOwner;
+		}
 	}
 
 	private void ViewModel_RequestClose(object? sender, EventArgs e)

@@ -242,6 +242,8 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 	protected override void OnSourceInitialized(EventArgs e)
 	{
 		base.OnSourceInitialized(e);
+		SetCurrentValue(BorderBrushProperty, System.Windows.Media.Brushes.Transparent);
+		SetCurrentValue(BorderThicknessProperty, new Thickness(0));
 		if (Icon == null)
 		{
 			try

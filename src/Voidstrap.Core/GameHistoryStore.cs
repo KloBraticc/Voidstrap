@@ -186,8 +186,8 @@ public sealed class GameHistoryStore
 		Dictionary<string, GameHistoryEntry> unique = new(StringComparer.Ordinal);
 		foreach (GameHistoryEntry entry in entries)
 		{
-			string key = entry.PlaceId.ToString(CultureInfo.InvariantCulture) + "\u001F" + entry.JobId + "\u001F" + entry.AccessCode;
-			if (!unique.TryGetValue(key, out GameHistoryEntry? existing) || GetSortValue(entry) > GetSortValue(existing))
+			string key = entry.PlaceId.ToString(CultureInfo.InvariantCulture) + "\u001F" + entry.JobId + "\u001F" + entry.AccessCode + "\u001F" + (entry.JoinedAt?.UtcTicks.ToString(CultureInfo.InvariantCulture) ?? string.Empty);
+			if (!unique.TryGetValue(key, out GameHistoryEntry? existing) || GetSortValue(entry) > GetSortValue(existing) || GetSortValue(entry) == GetSortValue(existing) && (entry.LeftAt ?? DateTimeOffset.MinValue) > (existing.LeftAt ?? DateTimeOffset.MinValue))
 			{
 				unique[key] = entry;
 			}

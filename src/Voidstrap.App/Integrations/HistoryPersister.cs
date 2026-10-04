@@ -280,16 +280,13 @@ public sealed class HistoryPersister : IDisposable
 	{
 		if (activity == null)
 			return false;
-		DateTime latest = activity.TimeLeft ?? activity.TimeJoined;
-		return latest != default && latest >= DateTime.Now.Subtract(DesktopHistoryRetention);
+		DateTime latest = (activity.TimeLeft ?? activity.TimeJoined).ToLocalTime();
+		return activity.PlaceId > 0 && activity.TimeJoined != default && latest >= DateTime.Now.Subtract(DesktopHistoryRetention) && activity.TimeJoined.ToLocalTime() <= DateTime.Now.AddMinutes(5) && latest <= DateTime.Now.AddMinutes(5);
 	}
 
 	private void OnActivityChanged(object? sender, EventArgs e)
 	{
-		if (!_activityWatcher.InGame)
-		{
-			_ = SaveHistoryAsync(_lifetimeToken);
-		}
+		_ = SaveHistoryAsync(_lifetimeToken);
 	}
 
 	private void OnLiveTick(object? state)
@@ -332,7 +329,8 @@ public sealed class HistoryPersister : IDisposable
 		{
 			await _saveLock.WaitAsync(token).ConfigureAwait(continueOnCapturedContext: false);
 			acquired = true;
-			await SaveHistoryCoreAsync(token).ConfigureAwait(continueOnCapturedContext: false);
+			token.ThrowIfCancellationRequested();
+			await Task.Run(() => SaveHistoryCoreAsync(token), token).ConfigureAwait(false);
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{
@@ -377,25 +375,25 @@ public sealed class HistoryPersister : IDisposable
 			}
 	}
 
-	private async Task<List<ActivityData>> LoadExistingAsync(CancellationToken token)
+	private Task<List<ActivityData>> LoadExistingAsync(CancellationToken token)
 	{
 		try
 		{
 			if (!File.Exists(_historyFilePath))
 			{
-				return new List<ActivityData>();
+				return Task.FromResult(new List<ActivityData>());
 			}
 			if (new FileInfo(_historyFilePath).Length > 16777216)
 			{
-				return new List<ActivityData>();
+				return Task.FromResult(new List<ActivityData>());
 			}
 			token.ThrowIfCancellationRequested();
 			List<ActivityData> entries = JsonFile.Deserialize<List<ActivityData>>(_historyFilePath, JsonOptions.Tolerant, 16777216);
-			foreach (ActivityData entry in entries)
+			foreach (ActivityData entry in entries.Where(IsWithinDesktopRetention))
 			{
 				TrimLogs(entry);
 			}
-			return entries.Where(IsWithinDesktopRetention).OrderByDescending((ActivityData x) => x.TimeJoined).Take(MaxHistoryEntries).ToList();
+			return Task.FromResult(entries.Where(IsWithinDesktopRetention).OrderByDescending((ActivityData x) => x.TimeJoined).Take(MaxHistoryEntries).ToList());
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{
@@ -404,67 +402,29 @@ public sealed class HistoryPersister : IDisposable
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("HistoryPersister", ex);
-			return new List<ActivityData>();
+			return Task.FromResult(new List<ActivityData>());
 		}
 	}
 
-	private static List<ActivityData> Merge(IEnumerable<ActivityData> existing, IEnumerable<ActivityData> incoming)
+	internal static List<ActivityData> Merge(IEnumerable<ActivityData> existing, IEnumerable<ActivityData> incoming)
 	{
-		Dictionary<string, ActivityData> dictionary = new Dictionary<string, ActivityData>();
-		foreach (ActivityData item in existing.Where(IsWithinDesktopRetention))
+		Dictionary<string, ActivityData> sessions = new(StringComparer.Ordinal);
+		foreach (ActivityData item in existing.Concat(incoming).Where(IsWithinDesktopRetention))
 		{
-			if (item != null)
+			string key = PlayTimeStore.GetSessionKey(item);
+			if (sessions.TryGetValue(key, out ActivityData? previous))
 			{
-				TrimLogs(item);
-				string key = $"{item.PlaceId}_{item.JobId}";
-				dictionary[key] = item;
+				if (previous.TimeLeft.HasValue && (!item.TimeLeft.HasValue || previous.TimeLeft > item.TimeLeft))
+					continue;
+				item.UniverseDetails ??= previous.UniverseDetails;
+				if (item.UniverseId <= 0)
+					item.UniverseId = previous.UniverseId;
+				if (string.IsNullOrWhiteSpace(item.AccessCode))
+					item.AccessCode = previous.AccessCode;
 			}
+			sessions[key] = item;
 		}
-		foreach (ActivityData item2 in incoming.Where(IsWithinDesktopRetention))
-		{
-			if (item2 == null)
-			{
-				continue;
-			}
-			string key2 = $"{item2.PlaceId}_{item2.JobId}";
-			if (dictionary.TryGetValue(key2, out var value))
-			{
-				if (value.TimeJoined > item2.TimeJoined && item2.TimeJoined != default(DateTime))
-				{
-					value.TimeJoined = item2.TimeJoined;
-				}
-				if (item2.TimeLeft.HasValue && (!value.TimeLeft.HasValue || value.TimeLeft.Value < item2.TimeLeft.Value))
-				{
-					value.TimeLeft = item2.TimeLeft;
-				}
-				if (value.UniverseId == 0 && item2.UniverseId != 0)
-				{
-					value.UniverseId = item2.UniverseId;
-				}
-				if (value.RootActivity == null && item2.RootActivity != null)
-				{
-					value.RootActivity = item2.RootActivity;
-				}
-				if (value.UniverseDetails == null && item2.UniverseDetails != null)
-				{
-					value.UniverseDetails = item2.UniverseDetails;
-				}
-				foreach (KeyValuePair<int, ActivityData.UserLog> playerLog in item2.PlayerLogs)
-				{
-					value.PlayerLogs[playerLog.Key] = playerLog.Value;
-				}
-				foreach (KeyValuePair<int, ActivityData.UserMessage> messageLog in item2.MessageLogs)
-				{
-					value.MessageLogs[messageLog.Key] = messageLog.Value;
-				}
-				TrimLogs(value);
-			}
-			else
-			{
-				dictionary[key2] = item2;
-			}
-		}
-		return dictionary.Values.Where(IsWithinDesktopRetention).OrderByDescending((ActivityData x) => x.TimeJoined).Take(MaxHistoryEntries).ToList();
+		return sessions.Values.OrderByDescending(item => item.TimeJoined).Take(MaxHistoryEntries).ToList();
 	}
 
 	private static void TrimLogs(ActivityData activity)
@@ -514,6 +474,8 @@ public sealed class HistoryPersister : IDisposable
 		try
 		{
 			acquired = _saveLock.Wait(TimeSpan.FromSeconds(2));
+			if (acquired)
+				SaveHistoryCoreAsync(CancellationToken.None).ConfigureAwait(false).GetAwaiter().GetResult();
 		}
 		catch (Exception ex)
 		{

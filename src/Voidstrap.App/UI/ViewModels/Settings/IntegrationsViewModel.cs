@@ -847,7 +847,11 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	private void OpenHistoryWindow()
 	{
-		new ServerHistory(_watcher).Show();
+		ServerHistory? existing = Application.Current.Windows.OfType<ServerHistory>().FirstOrDefault();
+		if (existing != null)
+			existing.Activate();
+		else
+			new ServerHistory(_watcher).Show();
 	}
 
 	private void MusicPlayerWindow()

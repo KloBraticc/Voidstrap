@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -22,7 +23,7 @@ using Voidstrap.Utility;
 
 namespace Voidstrap.Models.Entities;
 
-public class ActivityData
+public class ActivityData : INotifyPropertyChanged
 {
 	public class UserLog
 	{
@@ -72,11 +73,31 @@ public class ActivityData
 		}
 	}
 
+	[JsonIgnore]
 	public string DisplayTimeJoined { get; private set; } = "Unknown";
 
+	[JsonIgnore]
 	public string DisplayTimeLeft { get; private set; } = "Unknown";
 
-	public string ServerStatus { get; private set; } = "Offline";
+	public event PropertyChangedEventHandler? PropertyChanged;
+
+	[JsonIgnore]
+	public bool? ServerOnline { get; private set; }
+
+	[JsonIgnore]
+	public string ServerStatus { get; private set; } = Strings.ResourceManager.GetString("ContextMenu.GameHistory.StatusUnknown", Locale.CurrentCulture) ?? string.Empty;
+
+	[JsonIgnore]
+	public string ServerStatusCheckedAt { get; private set; } = string.Empty;
+
+	public void SetServerStatus(bool? online)
+	{
+		ServerOnline = online;
+		ServerStatus = Strings.ResourceManager.GetString("ContextMenu.GameHistory." + (online.HasValue ? online.Value ? "Online" : "Offline" : "StatusUnknown"), Locale.CurrentCulture) ?? string.Empty;
+		ServerStatusCheckedAt = string.Format(Locale.CurrentCulture, Strings.ResourceManager.GetString("ContextMenu.GameHistory.CheckedAt", Locale.CurrentCulture) ?? "{0}", DateTime.Now.ToString("T", Locale.CurrentCulture));
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ServerStatus)));
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ServerStatusCheckedAt)));
+	}
 
 	public long PlaceId { get; set; }
 
@@ -90,6 +111,7 @@ public class ActivityData
 
 	public DateTimeOffset? ServerStartedUtc { get; set; }
 
+	[JsonIgnore]
 	public bool MachineAddressValid
 	{
 		get
@@ -110,6 +132,7 @@ public class ActivityData
 
 	public UniverseDetails? UniverseDetails { get; set; }
 
+	[JsonIgnore]
 	public string GameName
 	{
 		get
@@ -133,16 +156,12 @@ public class ActivityData
 	[JsonIgnore]
 	public Dictionary<int, UserMessage> MessageLogs { get; internal set; } = new Dictionary<int, UserMessage>();
 
+	[JsonIgnore]
 	public string GameHistoryDescription
 	{
 		get
 		{
-			InlineArray4<object?> buffer = default(InlineArray4<object?>);
-			buffer[0] = UniverseDetails?.Data?.Creator?.Name ?? "Unknown creator";
-			buffer[1] = TimeJoined.ToString("t");
-			buffer[2] = (Locale.CurrentCulture.Name.StartsWith("ja") ? '~' : '-');
-			buffer[3] = TimeLeft?.ToString("t") ?? "?";
-			string text = string.Format("{0} • {1} {2} {3}", (ReadOnlySpan<object?>)buffer);
+			string text = UniverseDetails?.Data?.Creator?.Name ?? string.Empty;
 			if (ServerType != ServerType.Public)
 			{
 				text = text + " • " + ServerType.ToTranslatedString();
@@ -151,20 +170,19 @@ public class ActivityData
 		}
 	}
 
+	[JsonIgnore]
 	public ICommand RejoinServerCommand => new RelayCommand(RejoinServer);
 
 	public void ComputeDisplayTimes()
 	{
-		DisplayTimeJoined = ((TimeJoined != default(DateTime)) ? TimeJoined.ToString("yyyy-MM-dd HH:mm:ss") : "Unknown");
-		bool flag = !TimeLeft.HasValue || (DateTime.Now - TimeLeft.Value).TotalHours < 24.0;
-		DisplayTimeLeft = (TimeLeft.HasValue ? TimeLeft.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Still Online");
-		ServerStatus = (flag ? "Online" : "Offline");
+		DisplayTimeJoined = TimeJoined != default ? TimeJoined.ToString("g", Locale.CurrentCulture) : string.Empty;
+		DisplayTimeLeft = TimeLeft?.ToString("g", Locale.CurrentCulture) ?? Voidstrap.Resources.Strings.ResourceManager.GetString("ContextMenu.GameHistory.EndUnknown", Locale.CurrentCulture) ?? string.Empty;
 	}
 
 	public string GetInviteDeeplink(bool launchData = true)
 	{
 		string text = $"https://www.roblox.com/games/start?placeId={PlaceId}";
-		text = ((ServerType != ServerType.Private) ? (text + "&gameInstanceId=" + JobId) : (text + "&accessCode=" + AccessCode));
+		text = ((ServerType != ServerType.Private) ? (text + "&gameInstanceId=" + Uri.EscapeDataString(JobId ?? string.Empty)) : (text + "&accessCode=" + Uri.EscapeDataString(AccessCode ?? string.Empty)));
 		if (launchData && !string.IsNullOrEmpty(RPCLaunchData))
 		{
 			text = text + "&launchData=" + HttpUtility.UrlEncode(RPCLaunchData);

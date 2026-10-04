@@ -83,8 +83,15 @@ public sealed class ServerMatchmaker : IDisposable
 	private void OnGameJoining(object? sender, EventArgs e)
 	{
 		CancelPrefetch();
+		try
+		{
+			Interlocked.Exchange(ref _currentCts, null)?.Cancel();
+		}
+		catch (ObjectDisposedException)
+		{
+		}
 		ActivityData? data = _activityWatcher.Data;
-		if (_disposed || data == null || data.PlaceId == 0L || data.ServerType == ServerType.Reserved || !IsEnabled() || IsExcluded(data.PlaceId))
+		if (_disposed || data == null || data.PlaceId == 0L || data.IsTeleport || data.ServerType == ServerType.Reserved || !IsEnabled() || IsExcluded(data.PlaceId))
 			return;
 
 		MatchmakerCandidate? launchPick = VoidstrapMatchmaker.FindLaunchPick(data.JobId);
@@ -170,6 +177,12 @@ public sealed class ServerMatchmaker : IDisposable
 			}
 
 			_ = RecordLearningAsync(data);
+
+			if (data.IsTeleport)
+			{
+				CancelPrefetch();
+				return;
+			}
 
 			if (!IsEnabled())
 			{

@@ -48,10 +48,13 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 	private readonly CancellationTokenSource _lifetimeCts = new CancellationTokenSource();
 
 	private bool _disposed;
+	private readonly CancellationToken _lifetimeToken;
+	private readonly SemaphoreSlim _statusGate = new(1, 1);
+	private int _nextStatusPlace;
+	private readonly DispatcherTimer _statusTimer = new() { Interval = TimeSpan.FromSeconds(60) };
 
 	private readonly string _historyFilePath = Paths.ServerHistory;
 
-	private const int MaxHistoryEntries = 100;
 	private const int MaxLoadedHistoryEntries = 500;
 	private const long MaxHistoryFileBytes = 8L * 1024 * 1024;
 
@@ -63,6 +66,10 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 
 	public string Error { get; private set; } = string.Empty;
 
+	public string EmptyText => HistoryText("Empty");
+
+	public string CopyLinkText => HistoryText("CopyLink");
+
 	public ICommand CloseWindowCommand { get; }
 
 	public ICommand CopyDeeplinkCommand { get; }
@@ -71,19 +78,19 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 
 	public ObservableCollection<SortByOption> SortOptions { get; } = new ObservableCollection<SortByOption>
 	{
-		new SortByOption { Display = "Latest", Value = ServerHistorySortBy.Latest },
-		new SortByOption { Display = "Oldest", Value = ServerHistorySortBy.Oldest },
-		new SortByOption { Display = "Most Played", Value = ServerHistorySortBy.MostPlayed },
-		new SortByOption { Display = "Game Name (A-Z)", Value = ServerHistorySortBy.NameAZ },
-		new SortByOption { Display = "Game Name (Z-A)", Value = ServerHistorySortBy.NameZA }
+		new SortByOption { Display = HistoryText("Latest"), Value = ServerHistorySortBy.Latest },
+		new SortByOption { Display = HistoryText("Oldest"), Value = ServerHistorySortBy.Oldest },
+		new SortByOption { Display = HistoryText("MostPlayed"), Value = ServerHistorySortBy.MostPlayed },
+		new SortByOption { Display = HistoryText("NameAscending"), Value = ServerHistorySortBy.NameAZ },
+		new SortByOption { Display = HistoryText("NameDescending"), Value = ServerHistorySortBy.NameZA }
 	};
 
 	public ObservableCollection<ServerTypeFilterOption> ServerTypeFilters { get; } = new ObservableCollection<ServerTypeFilterOption>
 	{
-		new ServerTypeFilterOption { Display = "All Servers", Value = null },
-		new ServerTypeFilterOption { Display = "Public", Value = ServerType.Public },
-		new ServerTypeFilterOption { Display = "Private", Value = ServerType.Private },
-		new ServerTypeFilterOption { Display = "VIP / Reserved", Value = ServerType.Reserved }
+		new ServerTypeFilterOption { Display = HistoryText("AllServers"), Value = null },
+		new ServerTypeFilterOption { Display = HistoryText("Public"), Value = ServerType.Public },
+		new ServerTypeFilterOption { Display = HistoryText("Private"), Value = ServerType.Private },
+		new ServerTypeFilterOption { Display = HistoryText("Reserved"), Value = ServerType.Reserved }
 	};
 
 	public SortByOption SelectedSort
@@ -125,42 +132,38 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 	{
 		_activityWatcher = activityWatcher ?? throw new ArgumentNullException(nameof(activityWatcher));
 		CloseWindowCommand = new RelayCommand(RequestClose);
-		CopyDeeplinkCommand = new RelayCommand<ActivityData>(CopyDeeplinkToClipboard);
-		LaunchDeeplinkCommand = new RelayCommand<ActivityData>(LaunchDeeplink);
+		CopyDeeplinkCommand = new RelayCommand<ActivityData>(CopyDeeplinkToClipboard, CanCopyLink);
+		LaunchDeeplinkCommand = new RelayCommand<ActivityData>(LaunchDeeplink, CanRejoin);
 		_selectedSort = SortOptions[0];
 		_selectedServerTypeFilter = ServerTypeFilters[0];
-		LoadHistoryFromFile();
+		_lifetimeToken = _lifetimeCts.Token;
 		_activityWatcher.OnGameLeave += OnGameLeave;
-		_ = LoadDataAsync(_lifetimeCts.Token);
+		_statusTimer.Tick += OnStatusTick;
+		_statusTimer.Start();
+		_ = LoadDataAsync(_lifetimeToken);
 	}
 
 	private async void OnGameLeave(object? sender, EventArgs e)
 	{
-		await LoadDataAsync(_lifetimeCts.Token);
+		await LoadDataAsync(_lifetimeToken);
 	}
 
-	private void LoadHistoryFromFile()
+	private List<ActivityData> LoadHistoryFromFile()
 	{
 		try
 		{
-			if (File.Exists(_historyFilePath))
-			{
-				FileInfo file = new FileInfo(_historyFilePath);
-				if (file.Length <= 0 || file.Length > MaxHistoryFileBytes)
-					return;
-				List<ActivityData> list = JsonFile.Deserialize<List<ActivityData>>(_historyFilePath, JsonOptions.Tolerant, MaxHistoryFileBytes).Where(HistoryPersister.IsWithinDesktopRetention).ToList();
-				if (list != null && list.Count != 0)
-				{
-					if (list.Count > MaxLoadedHistoryEntries)
-						list = list.Take(MaxLoadedHistoryEntries).ToList();
-					MergeAndConsolidateHistory(list);
-					NotifyHistoryChanged();
-				}
-			}
+			if (!File.Exists(_historyFilePath))
+				return new();
+			FileInfo file = new(_historyFilePath);
+			if (file.Length <= 0 || file.Length > MaxHistoryFileBytes)
+				return new();
+			return JsonFile.Deserialize<List<ActivityData>>(_historyFilePath, JsonOptions.Tolerant, MaxHistoryFileBytes)
+				.Where(HistoryPersister.IsWithinDesktopRetention).OrderByDescending(item => item.TimeJoined).Take(MaxLoadedHistoryEntries).ToList();
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ServerHistoryViewModel::LoadHistoryFromFile", ex);
+			return new();
 		}
 	}
 
@@ -169,14 +172,28 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		bool gateHeld = false;
 		try
 		{
-			await _loadGate.WaitAsync(token);
+			if (!await _loadGate.WaitAsync(0, token))
+				return;
 			gateHeld = true;
 			token.ThrowIfCancellationRequested();
 			SetLoadingState();
-			List<ActivityData> history = _activityWatcher.History.ToList();
+			List<ActivityData> stored = await Task.Run(LoadHistoryFromFile, token);
+			List<ActivityData> history;
+			lock (_activityWatcher.History)
+				history = _activityWatcher.History.ToList();
+			await Application.Current.Dispatcher.InvokeAsync(() =>
+			{
+				if (_disposed || token.IsCancellationRequested)
+					return;
+				MergeAndConsolidateHistory(stored.Concat(history));
+				NotifyHistoryChanged();
+				SetSuccessState();
+			}, DispatcherPriority.Background, token);
 			try
 			{
-				await UniverseDetails.FetchForEntriesAsync(GameHistory.Concat(history), token);
+				using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
+				timeout.CancelAfter(TimeSpan.FromSeconds(20));
+				await UniverseDetails.FetchForEntriesAsync(GameHistory.ToArray(), timeout.Token);
 			}
 			catch (OperationCanceledException) when (token.IsCancellationRequested)
 			{
@@ -191,15 +208,10 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 			{
 				if (token.IsCancellationRequested || _disposed)
 					return;
+				lock (_activityWatcher.History)
+					history = _activityWatcher.History.ToList();
 				MergeAndConsolidateHistory(history);
-				foreach (ActivityData item in GameHistory)
-					item.ComputeDisplayTimes();
 			}, DispatcherPriority.Background, token);
-			token.ThrowIfCancellationRequested();
-			await Task.Run(delegate
-			{
-				SaveHistoryToFile();
-			}, token);
 			token.ThrowIfCancellationRequested();
 			await Application.Current.Dispatcher.InvokeAsync((Action)delegate
 			{
@@ -224,63 +236,127 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		}
 	}
 
-	private void MergeAndConsolidateHistory(IEnumerable<ActivityData> incoming)
+	private async void OnStatusTick(object? sender, EventArgs e)
 	{
-		Dictionary<string, ActivityData> dictionary = GameHistory.Where(HistoryPersister.IsWithinDesktopRetention).ToDictionary((ActivityData x) => $"{x.PlaceId}_{x.JobId}", (ActivityData x) => x);
-		foreach (ActivityData item in incoming.Where(HistoryPersister.IsWithinDesktopRetention))
-		{
-			string key = $"{item.PlaceId}_{item.JobId}";
-			if (dictionary.TryGetValue(key, out var value))
-			{
-				if (item.TimeJoined != default && value.TimeJoined > item.TimeJoined)
-				{
-					value.TimeJoined = item.TimeJoined;
-				}
-				if (item.TimeLeft.HasValue && (!value.TimeLeft.HasValue || value.TimeLeft.Value < item.TimeLeft.Value))
-				{
-					value.TimeLeft = item.TimeLeft;
-				}
-				if (value.RootActivity == null && item.RootActivity != null)
-				{
-					value.RootActivity = item.RootActivity;
-				}
-				if (value.UniverseDetails == null && item.UniverseDetails != null)
-				{
-					value.UniverseDetails = item.UniverseDetails;
-				}
-				foreach (KeyValuePair<int, ActivityData.UserLog> playerLog in item.PlayerLogs)
-				{
-					value.PlayerLogs[playerLog.Key] = playerLog.Value;
-				}
-				foreach (KeyValuePair<int, ActivityData.UserMessage> messageLog in item.MessageLogs)
-				{
-					value.MessageLogs[messageLog.Key] = messageLog.Value;
-				}
-			}
-			else
-			{
-				dictionary[key] = item;
-			}
-		}
-		GameHistory = dictionary.Values.Where(HistoryPersister.IsWithinDesktopRetention).OrderByDescending((ActivityData x) => x.TimeJoined).Take(MaxHistoryEntries).ToList();
+		if (Application.Current.Windows.OfType<Voidstrap.UI.Elements.ContextMenu.ServerHistory>().Any(window => window.IsVisible && window.WindowState != System.Windows.WindowState.Minimized))
+			await RefreshServerStatusesAsync();
 	}
 
-	private void SaveHistoryToFile()
+	private async Task RefreshServerStatusesAsync()
 	{
+		bool acquired = false;
 		try
 		{
-			Directory.CreateDirectory(Paths.Data);
-			JsonFile.SerializeAtomic(_historyFilePath, GameHistory, JsonOptions.Indented);
+			if (_disposed || !await _statusGate.WaitAsync(0, _lifetimeToken))
+				return;
+			acquired = true;
+			var places = FilteredGameHistory.Where(item => item.ServerType == ServerType.Public && !string.IsNullOrWhiteSpace(item.JobId)).GroupBy(item => item.PlaceId).ToArray();
+			if (places.Length == 0)
+				return;
+			int start = (int)((uint)_nextStatusPlace % (uint)places.Length);
+			places = places.Skip(start).Concat(places.Take(start)).Take(2).ToArray();
+			using CancellationTokenSource deadline = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken);
+			deadline.CancelAfter(TimeSpan.FromSeconds(20));
+			await Parallel.ForEachAsync(places, new ParallelOptions { MaxDegreeOfParallelism = 1, CancellationToken = deadline.Token }, async (place, token) =>
+			{
+				Interlocked.Increment(ref _nextStatusPlace);
+				Dictionary<string, bool?> statuses = await QueryServerStatusesAsync(App.HttpClient, place.Key, place.Select(item => item.JobId), token);
+				await Application.Current.Dispatcher.InvokeAsync(() =>
+				{
+					if (_disposed)
+						return;
+					foreach (ActivityData item in GameHistory.Where(item => item.PlaceId == place.Key && item.ServerType == ServerType.Public && !string.IsNullOrWhiteSpace(item.JobId)))
+						item.SetServerStatus(statuses.GetValueOrDefault(item.JobId));
+					((IRelayCommand)LaunchDeeplinkCommand).NotifyCanExecuteChanged();
+				}, DispatcherPriority.Background, _lifetimeToken);
+			});
+		}
+		catch (OperationCanceledException)
+		{
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteException("ServerHistoryViewModel::SaveHistoryToFile", ex);
+			if (!_disposed)
+				App.Logger.WriteException("ServerHistoryViewModel::RefreshServerStatuses", ex);
 		}
+		finally
+		{
+			if (acquired)
+				_statusGate.Release();
+		}
+	}
+
+	private static async Task<Dictionary<string, bool?>> QueryServerStatusesAsync(System.Net.Http.HttpClient client, long placeId, IEnumerable<string> jobIds, CancellationToken token)
+	{
+		Dictionary<string, bool?> statuses = jobIds.Distinct(StringComparer.OrdinalIgnoreCase).ToDictionary(job => job, _ => (bool?)null, StringComparer.OrdinalIgnoreCase);
+		string cursor = string.Empty;
+		HashSet<string> cursors = new(StringComparer.Ordinal);
+		try
+		{
+			using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
+			timeout.CancelAfter(TimeSpan.FromSeconds(10));
+			for (int page = 0; page < 10; page++)
+			{
+				string url = $"https://games.roblox.com/v1/games/{placeId}/servers/Public?excludeFullGames=false&limit=100&sortOrder=Desc&cursor={Uri.EscapeDataString(cursor)}";
+				string json = await Http.GetStringBoundedAsync(client, url, 1024 * 1024, timeout.Token).ConfigureAwait(false);
+				using JsonDocument document = JsonDocument.Parse(json);
+				JsonElement root = document.RootElement;
+				if (!root.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array || !root.TryGetProperty("nextPageCursor", out JsonElement next))
+					return statuses;
+				foreach (JsonElement server in data.EnumerateArray())
+				{
+					if (!server.TryGetProperty("id", out JsonElement id) || id.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(id.GetString()))
+						return statuses;
+					string jobId = id.GetString()!;
+					if (statuses.ContainsKey(jobId))
+						statuses[jobId] = true;
+				}
+				if (statuses.Values.All(value => value == true))
+					return statuses;
+				if (next.ValueKind == JsonValueKind.Null)
+				{
+					foreach (string job in statuses.Keys.ToArray())
+						statuses[job] ??= false;
+					return statuses;
+				}
+				if (next.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(next.GetString()) || !cursors.Add(next.GetString()!))
+					return statuses;
+				cursor = next.GetString()!;
+			}
+		}
+		catch (OperationCanceledException) when (!token.IsCancellationRequested)
+		{
+		}
+		catch (OperationCanceledException)
+		{
+			throw;
+		}
+		catch (Http.RateLimitedException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("ServerHistoryViewModel::QueryServerStatuses", ex);
+		}
+		return statuses;
+	}
+
+	private static string HistoryText(string key) => Voidstrap.Resources.Strings.ResourceManager.GetString("ContextMenu.GameHistory." + key, Voidstrap.Resources.Strings.Culture) ?? key;
+
+	private static bool CanCopyLink(ActivityData? data) => data is { PlaceId: > 0 } && data.ServerType != ServerType.Reserved && (data.ServerType != ServerType.Private || !string.IsNullOrWhiteSpace(data.AccessCode));
+
+	private static bool CanRejoin(ActivityData? data) => CanCopyLink(data) && data?.ServerOnline != false;
+
+	private void MergeAndConsolidateHistory(IEnumerable<ActivityData> incoming)
+	{
+		GameHistory = HistoryPersister.Merge(GameHistory, incoming);
+		foreach (ActivityData item in GameHistory)
+			item.ComputeDisplayTimes();
 	}
 
 	private void LaunchDeeplink(ActivityData? data)
 	{
-		if (data == null || data.PlaceId == 0L)
+		if (!CanRejoin(data) || data == null)
 		{
 			return;
 		}
@@ -296,17 +372,20 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 			};
 			startInfo.ArgumentList.Add("-player");
 			startInfo.ArgumentList.Add(data.GetNativeJoinUri());
-			Process.Start(startInfo);
+			using Process? process = Process.Start(startInfo);
+			if (process != null)
+				RequestClose();
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ServerHistoryViewModel::LaunchDeeplink", ex);
+			Voidstrap.UI.Frontend.ShowMessageBox(HistoryText("LaunchFailed"), MessageBoxImage.Error);
 		}
 	}
 
 	private void CopyDeeplinkToClipboard(ActivityData? data)
 	{
-		if (data == null)
+		if (!CanCopyLink(data) || data == null)
 		{
 			return;
 		}
@@ -338,13 +417,15 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		source = (_selectedSort?.Value) switch
 		{
 			ServerHistorySortBy.Oldest => source.OrderBy((ActivityData x) => x.TimeJoined),
-			ServerHistorySortBy.MostPlayed => source.OrderByDescending((ActivityData x) => (x.TimeLeft ?? DateTime.Now) - x.TimeJoined),
+			ServerHistorySortBy.MostPlayed => source.OrderByDescending((ActivityData x) => (x.TimeLeft ?? x.TimeJoined).ToUniversalTime() - x.TimeJoined.ToUniversalTime()),
 			ServerHistorySortBy.NameAZ => source.OrderBy((ActivityData x) => x.GameName),
 			ServerHistorySortBy.NameZA => source.OrderByDescending((ActivityData x) => x.GameName),
 			_ => source.OrderByDescending((ActivityData x) => x.TimeJoined),
 		};
 		FilteredGameHistory = source.ToList();
 		OnPropertyChanged(nameof(FilteredGameHistory));
+		if (!_disposed)
+			_ = RefreshServerStatusesAsync();
 	}
 
 	private void SetLoadingState()
@@ -370,7 +451,7 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		App.Logger.WriteException("ServerHistoryViewModel::HandleError", ex);
 		RunOnUi(delegate
 		{
-			Error = "Failed to load history: " + ex.Message;
+			Error = HistoryText("LoadFailed");
 			LoadState = GenericTriState.Failed;
 			OnPropertyChanged(nameof(Error));
 			OnPropertyChanged(nameof(LoadState));
@@ -391,6 +472,18 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		this.RequestCloseEvent?.Invoke(this, EventArgs.Empty);
 	}
 
+	private async Task DisposeStatusGateAsync()
+	{
+		await _statusGate.WaitAsync().ConfigureAwait(false);
+		_statusGate.Dispose();
+	}
+
+	private async Task DisposeLoadGateAsync()
+	{
+		await _loadGate.WaitAsync().ConfigureAwait(false);
+		_loadGate.Dispose();
+	}
+
 	public void Dispose()
 	{
 		if (_disposed)
@@ -399,8 +492,12 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		}
 		_disposed = true;
 		_activityWatcher.OnGameLeave -= OnGameLeave;
+		_statusTimer.Stop();
+		_statusTimer.Tick -= OnStatusTick;
 		_lifetimeCts.Cancel();
 		_lifetimeCts.Dispose();
+		_ = DisposeLoadGateAsync();
+		_ = DisposeStatusGateAsync();
 		GameHistory.Clear();
 		FilteredGameHistory.Clear();
 		RequestCloseEvent = null;
