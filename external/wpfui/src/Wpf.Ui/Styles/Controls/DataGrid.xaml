@@ -1,4 +1,4 @@
-﻿<!--
+<!--
     Copyright (c) Microsoft. All rights reserved.
     This code is licensed under the MIT License (MIT).
     THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -555,62 +555,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DefaultDragIndicatorStyleStyle" TargetType="{x:Type ContentControl}">
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ContentControl">
-                    <Grid Background="{TemplateBinding Background}">
-                        <Grid
-                            Margin="{TemplateBinding Padding}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" MinWidth="32" />
-                            </Grid.ColumnDefinitions>
 
-                            <ContentPresenter Content="{TemplateBinding Content}" />
-
-                            <controls:SymbolIcon
-                                x:Name="SortIcon"
-                                Grid.Column="1"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                Opacity="0"
-                                Symbol="TextSortAscending24" />
-                        </Grid>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="SortStates">
-                                <VisualState x:Name="Unsorted" />
-                                <VisualState x:Name="SortAscending">
-                                    <Storyboard>
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="SortIcon"
-                                            Storyboard.TargetProperty="Opacity"
-                                            To="1"
-                                            Duration="0" />
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="SortDescending">
-                                    <Storyboard>
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="SortIcon"
-                                            Storyboard.TargetProperty="Opacity"
-                                            To="1"
-                                            Duration="0" />
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 
     <Style x:Key="TextBoxStyle" TargetType="TextBox">
         <Setter Property="Margin" Value="3" />
@@ -657,7 +602,7 @@
         <Setter Property="RowHeaderStyle" Value="{StaticResource DefaultDataGridRowHeaderStyle}" />
         <Setter Property="CellStyle" Value="{StaticResource DefaultDataGridCellStyle}" />
         <Setter Property="ColumnHeaderStyle" Value="{StaticResource DefaultDataGridColumnHeaderStyle}" />
-        <Setter Property="DragIndicatorStyle" Value="{StaticResource DefaultDragIndicatorStyleStyle}" />
+
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
