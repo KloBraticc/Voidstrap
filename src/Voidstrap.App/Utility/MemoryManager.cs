@@ -16,10 +16,6 @@ namespace Voidstrap.Utility
             Deep
         }
 
-        [LibraryImport("psapi.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static partial bool EmptyWorkingSet(IntPtr hProcess);
-
         [LibraryImport("user32.dll")]
         private static partial IntPtr GetForegroundWindow();
 
@@ -69,13 +65,11 @@ namespace Voidstrap.Utility
 
         private const int LightMs = 10000;
         private const int DeepMs = 60000;
-        private const int MinTrimIntervalMs = 8000;
         private const int BackgroundLoopMs = 60000;
         private const int GameplayLoopMs = 30000;
         private const int StartupDelayMs = 20000;
 
         private static readonly object _sync = new();
-        private static long _lastTrimTicks;
         private static volatile MemoryTier _currentTier = MemoryTier.Active;
         private static bool _bgModeSet;
 
@@ -83,8 +77,6 @@ namespace Voidstrap.Utility
         private static CancellationTokenSource? _loopCts;
         private static Task? _escalationTask;
         private static Task? _loopTask;
-        private static Task? _trimTask;
-        private static int _trimRunning;
         private static int _gameplayActive;
         private static bool _efficiencyModeSet;
         private static bool _idlePrioritySet;
@@ -110,7 +102,6 @@ namespace Voidstrap.Utility
             CancellationTokenSource? escalationCts;
             Task? loopTask;
             Task? escalationTask;
-            Task? trimTask;
             lock (_sync)
             {
                 loopCts = _loopCts;
@@ -121,15 +112,12 @@ namespace Voidstrap.Utility
                 _escalationCts = null;
                 escalationTask = _escalationTask;
                 _escalationTask = null;
-                trimTask = _trimTask;
-                _trimTask = null;
             }
 
             Cancel(loopCts);
             Cancel(escalationCts);
             Wait(loopTask);
             Wait(escalationTask);
-            Wait(trimTask);
             loopCts?.Dispose();
             escalationCts?.Dispose();
             SetEfficiencyMode(false);
@@ -270,20 +258,17 @@ namespace Voidstrap.Utility
             switch (tier)
             {
                 case MemoryTier.Light:
-                    GC.Collect(2, GCCollectionMode.Optimized, blocking: false);
                     break;
 
                 case MemoryTier.Medium:
                     TryTrimImageCache(2L * 1024 * 1024);
                     GC.Collect(2, GCCollectionMode.Optimized, blocking: false);
-                    Trim();
                     BeginBackgroundMode();
                     break;
 
                 case MemoryTier.Deep:
                     TryTrimImageCache(0L);
                     GC.Collect(2, GCCollectionMode.Optimized, blocking: false);
-                    Trim();
                     BeginBackgroundMode();
                     break;
             }
@@ -428,7 +413,6 @@ namespace Voidstrap.Utility
                     else if (gameplay)
                     {
                         EnterQuietMode();
-                        Trim();
                     }
                     else if (_currentTier == MemoryTier.Active)
                     {
@@ -446,55 +430,6 @@ namespace Voidstrap.Utility
                 {
                     return;
                 }
-            }
-        }
-
-        private static void Trim()
-        {
-            if (ServesLiveTraffic)
-                return;
-            long now = Environment.TickCount64;
-            if (now - Interlocked.Read(ref _lastTrimTicks) < MinTrimIntervalMs)
-                return;
-            if (Interlocked.CompareExchange(ref _trimRunning, 1, 0) != 0)
-                return;
-            Interlocked.Exchange(ref _lastTrimTicks, now);
-
-            Task task = Task.Run(() =>
-            {
-                try
-                {
-                    if (Platform.IsWindows)
-                    {
-                        using Process process = Process.GetCurrentProcess();
-                        EmptyWorkingSet(process.Handle);
-                    }
-                    else
-                    {
-                        ReleaseUnusedMemory();
-                    }
-                }
-                catch
-                {
-                }
-                finally
-                {
-                    Volatile.Write(ref _trimRunning, 0);
-                }
-            });
-            lock (_sync)
-                _trimTask = task;
-        }
-
-        private static void ReleaseUnusedMemory()
-        {
-            try
-            {
-                System.Runtime.GCSettings.LargeObjectHeapCompactionMode = System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce;
-                GC.Collect(2, GCCollectionMode.Forced, blocking: true, compacting: true);
-            }
-            catch
-            {
             }
         }
 

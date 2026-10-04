@@ -4597,7 +4597,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 IntroOverlay.Visibility = Visibility.Collapsed;
             }
             LiftTopNav();
-            StartPageWarmup();
             return;
         }
         EventHandler? onCompleted = null;
@@ -4691,7 +4690,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             IntroOverlay.Visibility = Visibility.Collapsed;
         }
         LiftTopNav();
-        StartPageWarmup();
     }
 
     private void LiftTopNav()
@@ -5448,7 +5446,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (_isClosed)
             return;
         _isClosed = true;
-        StopPageWarmup();
         MainWindowViewModel? closingViewModel = DataContext as MainWindowViewModel;
 		Interlocked.Increment(ref _topSearchNavigationGeneration);
         CloseCommandPalette();
@@ -5643,6 +5640,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _lastPage = null;
         try
         {
+            RootNavigation.ClearCache();
             RootFrame.NavigationService?.StopLoading();
             RootFrame.Content = null;
             while (RootFrame.NavigationService?.RemoveBackEntry() != null)

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Reflection;
-using System.Runtime;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,8 +16,6 @@ internal static partial class LinuxWindowMemory
 	private const string LogIdent = "LinuxWindowMemory";
 
 	private const BindingFlags PrivateInstance = BindingFlags.Instance | BindingFlags.NonPublic;
-
-	private static readonly TimeSpan[] CompactDelays = [TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(10)];
 
 	private static readonly MethodInfo? ChangeMouseOverMethod = typeof(MouseDevice).GetMethod("ChangeMouseOver", PrivateInstance);
 
@@ -116,18 +113,10 @@ internal static partial class LinuxWindowMemory
 	{
 		try
 		{
-			long before = Environment.WorkingSet;
-			foreach (TimeSpan delay in CompactDelays)
-			{
-				await Task.Delay(delay).ConfigureAwait(false);
-				GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
-				GC.Collect(2, GCCollectionMode.Forced, blocking: true, compacting: true);
-				GC.WaitForPendingFinalizers();
-				GC.Collect(2, GCCollectionMode.Forced, blocking: true, compacting: true);
-				TrimNativeHeap();
-			}
-			long after = Environment.WorkingSet;
-			App.Logger.WriteLine(LogIdent, $"Released {Math.Max(0, before - after) / 1048576} MB after closing {windowName}, {after / 1048576} MB now in use");
+			await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
+			GC.Collect(2, GCCollectionMode.Optimized, blocking: false);
+			TrimNativeHeap();
+			App.Logger.WriteLine(LogIdent, $"Closed {windowName}, managed memory {GC.GetTotalMemory(false) / 1048576} MB, resident memory {Environment.WorkingSet / 1048576} MB");
 		}
 		catch (Exception ex)
 		{

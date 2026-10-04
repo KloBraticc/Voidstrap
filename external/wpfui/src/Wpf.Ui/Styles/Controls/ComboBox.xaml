@@ -255,7 +255,7 @@
         <Setter Property="Border.CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Popup.PopupAnimation" Value="None" />
         <!--  WPF doesn't like centering, the animation is ugly and the mouse button sometimes clicks right away.  -->
-        <Setter Property="Popup.Placement" Value="Bottom" />
+        <Setter Property="Popup.Placement" Value="Custom" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -371,7 +371,8 @@
                                     VerticalAlignment="Center"
                                     AllowsTransparency="True"
                                     Focusable="False"
-                                    HorizontalOffset="-12"
+                                    HorizontalOffset="0"
+                                    controls:PopupReveal.PlacementGap="4"
                                     controls:PopupReveal.CloseTarget="{TemplateBinding IsDropDownOpen}"
                                     controls:PopupReveal.CloseDuration="{StaticResource ComboBoxPopupCloseDuration}"
                                     IsOpen="{Binding Path=(controls:PopupReveal.EffectiveIsOpen), RelativeSource={RelativeSource Self}, Mode=OneWay}"
@@ -379,7 +380,7 @@
                                     PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                     PopupAnimation="None"
                                     StaysOpen="False"
-                                    VerticalOffset="4">
+                                    VerticalOffset="0">
                                     <Grid>
                                     <Grid
                                         x:Name="DropDownBorder"
@@ -478,8 +479,6 @@
                             <Setter TargetName="DropDownShadow" Property="CacheMode" Value="{x:Null}" />
                             <Setter TargetName="DropDownShadow" Property="Effect" Value="{x:Null}" />
                             <Setter TargetName="DropDownBorder" Property="Margin" Value="16,16,16,24" />
-                            <Setter TargetName="Popup" Property="VerticalOffset" Value="-12" />
-                            <Setter TargetName="Popup" Property="HorizontalOffset" Value="-16" />
                         </Trigger>
                         <Trigger Property="IsDropDownOpen" Value="True">
                             <Trigger.EnterActions>

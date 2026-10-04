@@ -10,6 +10,41 @@ namespace Wpf.Ui.Controls
 {
     public static class PopupReveal
     {
+        public static readonly DependencyProperty PlacementGapProperty = DependencyProperty.RegisterAttached(
+            "PlacementGap",
+            typeof(double),
+            typeof(PopupReveal),
+            new PropertyMetadata(double.NaN, OnPlacementGapChanged));
+
+        public static void SetPlacementGap(DependencyObject element, double value) => element.SetValue(PlacementGapProperty, value);
+
+        public static double GetPlacementGap(DependencyObject element) => (double)element.GetValue(PlacementGapProperty);
+
+        private static void OnPlacementGapChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is not Popup popup)
+                return;
+
+            popup.CustomPopupPlacementCallback = double.IsFinite((double)e.NewValue)
+                ? (popupSize, targetSize, offset) => PlaceAtEdge(popup, popupSize, targetSize)
+                : null;
+        }
+
+        private static CustomPopupPlacement[] PlaceAtEdge(Popup popup, Size popupSize, Size targetSize)
+        {
+            FrameworkElement? surface = popup.Child as FrameworkElement;
+            if (surface is Panel panel && panel.Children.Count == 1)
+                surface = panel.Children[0] as FrameworkElement;
+
+            Thickness margin = surface?.Margin ?? default;
+            double gap = GetPlacementGap(popup);
+            return new[]
+            {
+                new CustomPopupPlacement(new Point(-margin.Left, targetSize.Height + gap - margin.Top), PopupPrimaryAxis.Vertical),
+                new CustomPopupPlacement(new Point(-margin.Left, -popupSize.Height - gap + margin.Bottom), PopupPrimaryAxis.Vertical)
+            };
+        }
+
         private static readonly IEasingFunction FadeEase = Freeze(new QuarticEase { EasingMode = EasingMode.EaseInOut });
 
         private static readonly IEasingFunction RevealEase = Freeze(new CubicEase { EasingMode = EasingMode.EaseOut });
