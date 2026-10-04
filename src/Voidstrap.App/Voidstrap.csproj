@@ -184,7 +184,7 @@
 		<PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
 		<PackageReference Include="Markdig" Version="1.4.0" />
 		<PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.30.0" />
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4258.31" />
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
 		<PackageDownload Include="Microsoft.Windows.SDK.NET.Ref" Version="[$(WindowsProjectionMetadataVersion)]" />
 		<!-- <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" /> -->
