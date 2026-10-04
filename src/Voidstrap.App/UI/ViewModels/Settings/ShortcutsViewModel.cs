@@ -49,11 +49,11 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 
 	public ShortcutTask StartMenuIconTask { get; } = new ShortcutTask("StartMenu", ApplicationsFolder, "Voidstrap" + ShortcutSuffix);
 
-	public ShortcutTask PlayerIconTask { get; } = new ShortcutTask("RobloxPlayer", Paths.Desktop, Strings.LaunchMenu_LaunchRoblox + ShortcutSuffix, "-player");
+	public ShortcutTask PlayerIconTask { get; } = new ShortcutTask("RobloxPlayer", Paths.Desktop, Strings.LaunchMenu_LaunchRoblox + ShortcutSuffix, "-player", true);
 
-	public ShortcutTask StudioIconTask { get; } = new ShortcutTask("RobloxStudio", Paths.Desktop, Strings.LaunchMenu_LaunchRobloxStudio + ShortcutSuffix, "-studio");
+	public ShortcutTask StudioIconTask { get; } = new ShortcutTask("RobloxStudio", Paths.Desktop, Strings.LaunchMenu_LaunchRobloxStudio + ShortcutSuffix, "-studio", true);
 
-	public ShortcutTask SettingsIconTask { get; } = new ShortcutTask("Settings", Paths.Desktop, Strings.Menu_Title + ShortcutSuffix, "-settings");
+	public ShortcutTask SettingsIconTask { get; } = new ShortcutTask("Settings", Paths.Desktop, Strings.Menu_Title + ShortcutSuffix, "-settings", true);
 
 	public ExtractIconsTask ExtractIconsTask { get; } = new ExtractIconsTask();
 

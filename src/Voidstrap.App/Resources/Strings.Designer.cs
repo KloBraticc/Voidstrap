@@ -73,6 +73,18 @@ namespace Voidstrap.Resources {
 
         public static string Menu_Appearance_Accent_Picker => ResourceManager.GetString("Menu.Appearance.Accent.Picker", resourceCulture);
 
+        public static string Menu_Shortcuts_Customize => ResourceManager.GetString("Menu.Shortcuts.Customize", resourceCulture);
+
+        public static string Menu_Shortcuts_InvalidName => ResourceManager.GetString("Menu.Shortcuts.InvalidName", resourceCulture);
+
+        public static string Menu_Shortcuts_NameExists => ResourceManager.GetString("Menu.Shortcuts.NameExists", resourceCulture);
+
+        public static string Menu_Shortcuts_ChooseIcon => ResourceManager.GetString("Menu.Shortcuts.ChooseIcon", resourceCulture);
+
+        public static string Menu_Shortcuts_IconFilter => ResourceManager.GetString("Menu.Shortcuts.IconFilter", resourceCulture);
+
+        public static string Menu_Shortcuts_InvalidIcon => ResourceManager.GetString("Menu.Shortcuts.InvalidIcon", resourceCulture);
+
         public static string Common_ErrorFetchingPlayerCount {
             get {
                 return ResourceManager.GetString("Common_ErrorFetchingPlayerCount", resourceCulture);

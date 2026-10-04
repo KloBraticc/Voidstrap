@@ -2139,4 +2139,22 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
     <value>Choose accent color</value>
   </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>Name and icon</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>Use a valid shortcut name with no slashes or reserved file names.</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>A shortcut with this name already exists. Choose a different name.</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>Choose a shortcut icon</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>Icon and image files|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>Choose a valid icon or image smaller than 8 MB.</value>
+  </data>
 </root>

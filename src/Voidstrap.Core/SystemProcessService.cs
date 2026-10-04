@@ -15,8 +15,7 @@ public sealed partial class SystemProcessService : IProcessService
 {
 	private const int MaxCapturedCharacters = 4 * 1024 * 1024;
 	private const int LinuxCurrentWorkingDirectory = -100;
-	private const int LinuxDoNotFollowLinks = 0x100;
-	private const uint LinuxFileTypeMaskRequest = 0x1;
+	private const uint LinuxFileStatusMaskRequest = 0x3;
 	private const ushort LinuxFileTypeMask = 0xf000;
 	private const ushort LinuxRegularFileType = 0x8000;
 	private static bool ContinueOnCapturedContext => !OperatingSystem.IsLinux();
@@ -90,19 +89,20 @@ public sealed partial class SystemProcessService : IProcessService
 
 		try
 		{
-			if (OperatingSystem.IsLinux()
-				&& (GetLinuxFileStatus(
+			const UnixFileMode executeBits = UnixFileMode.UserExecute | UnixFileMode.GroupExecute | UnixFileMode.OtherExecute;
+			if (OperatingSystem.IsLinux())
+			{
+				if (GetLinuxFileStatus(
 					LinuxCurrentWorkingDirectory,
 					Path.GetFullPath(path),
-					LinuxDoNotFollowLinks,
-					LinuxFileTypeMaskRequest,
+					0,
+					LinuxFileStatusMaskRequest,
 					out LinuxFileStatus status) != 0
-					|| (status.Mode & LinuxFileTypeMask) != LinuxRegularFileType))
-			{
-				return false;
+					|| (status.Mode & LinuxFileTypeMask) != LinuxRegularFileType)
+					return false;
+				return (status.Mode & (ushort)executeBits) != 0;
 			}
 			UnixFileMode mode = File.GetUnixFileMode(path);
-			const UnixFileMode executeBits = UnixFileMode.UserExecute | UnixFileMode.GroupExecute | UnixFileMode.OtherExecute;
 			return (mode & executeBits) != 0;
 		}
 		catch (Exception)

@@ -1633,16 +1633,30 @@ public static class LaunchHandler
 
 	private static void ShowPortableLaunchFailure(string message)
 	{
-		ClosePortableLaunchDialog();
+		bool keepDialogOpen = OperatingSystem.IsLinux();
+		if (!keepDialogOpen)
+			ClosePortableLaunchDialog();
 		App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", message);
+		void show()
+		{
+			try
+			{
+				Frontend.ShowMessageBox(message, MessageBoxImage.Hand);
+			}
+			finally
+			{
+				if (keepDialogOpen)
+					ClosePortableLaunchDialog();
+			}
+		}
 		Application? application = Application.Current;
 		if (application == null || application.Dispatcher.CheckAccess())
 		{
-			Frontend.ShowMessageBox(message, MessageBoxImage.Hand);
+			show();
 			return;
 		}
 
-		application.Dispatcher.Invoke(() => Frontend.ShowMessageBox(message, MessageBoxImage.Hand));
+		application.Dispatcher.Invoke(show);
 	}
 
 	internal static void CloseOtherInstances()

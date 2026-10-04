@@ -2,6 +2,29 @@
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+      <DataTemplate x:Key="ShortcutAppearanceTemplate">
+        <StackPanel>
+          <TextBlock Text="{x:Static resources:Strings.Common_Name}" Margin="0,0,0,4" />
+          <ui:TextBox MaxLength="100" Text="{Binding ShortcutName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          <TextBlock Text="{Binding ValidationMessage}" Foreground="{DynamicResource SystemFillColorCriticalBrush}" TextWrapping="Wrap" FontSize="12" />
+          <TextBlock Text="{x:Static resources:Strings.Menu_Appearance_Icon_Title}" Margin="0,8,0,4" />
+          <ComboBox ItemsSource="{Binding Icons}" SelectedValuePath="IconType" SelectedValue="{Binding SelectedIcon, Mode=TwoWay}" Padding="10,5">
+            <ComboBox.ItemTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                  <Image Width="16" Height="16" Source="{Binding ImageSource}" Margin="0,0,8,0" />
+                  <TextBlock Text="{Binding IconType, Converter={StaticResource EnumNameConverter}}" />
+                </StackPanel>
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+          <StackPanel Visibility="{Binding CustomIconVisibility}" Margin="0,8,0,0">
+            <TextBlock Text="{Binding CustomIconPath}" TextTrimming="CharacterEllipsis" ToolTip="{Binding CustomIconPath}" Margin="0,0,0,4" />
+            <ui:Button Content="{x:Static resources:Strings.Common_Browse}" Icon="Folder24" Command="{Binding BrowseIconCommand}" />
+          </StackPanel>
+        </StackPanel>
+      </DataTemplate>
+
     </ResourceDictionary>
   </FrameworkElement.Resources>
   <StackPanel Margin="0,0,14,14">
@@ -31,15 +54,30 @@
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
-      <controls:OptionControl Grid.Column="0" Margin="0" Header="{x:Static resources:Strings.LaunchMenu_LaunchRoblox}">
-        <ui:ToggleSwitch IsChecked="{Binding PlayerIconTask.NewState, Mode=TwoWay}" />
-      </controls:OptionControl>
-      <controls:OptionControl Grid.Column="1" Margin="0" Header="{x:Static resources:Strings.LaunchMenu_LaunchRobloxStudio}">
-        <ui:ToggleSwitch IsChecked="{Binding StudioIconTask.NewState, Mode=TwoWay}" />
-      </controls:OptionControl>
-      <controls:OptionControl Grid.Column="2" Margin="0" Header="{x:Static resources:Strings.Menu_Title}">
-        <ui:ToggleSwitch IsChecked="{Binding SettingsIconTask.NewState, Mode=TwoWay}" />
-      </controls:OptionControl>
+      <StackPanel Grid.Column="0" Margin="0,0,8,0">
+        <controls:OptionControl Margin="0" Header="{x:Static resources:Strings.LaunchMenu_LaunchRoblox}">
+          <ui:ToggleSwitch IsChecked="{Binding PlayerIconTask.NewState, Mode=TwoWay}" />
+        </controls:OptionControl>
+        <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{x:Static resources:Strings.Menu_Shortcuts_Customize}">
+          <ContentControl Content="{Binding PlayerIconTask}" ContentTemplate="{StaticResource ShortcutAppearanceTemplate}" />
+        </ui:CardExpander>
+      </StackPanel>
+      <StackPanel Grid.Column="1" Margin="0,0,8,0">
+        <controls:OptionControl Margin="0" Header="{x:Static resources:Strings.LaunchMenu_LaunchRobloxStudio}">
+          <ui:ToggleSwitch IsChecked="{Binding StudioIconTask.NewState, Mode=TwoWay}" />
+        </controls:OptionControl>
+        <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{x:Static resources:Strings.Menu_Shortcuts_Customize}">
+          <ContentControl Content="{Binding StudioIconTask}" ContentTemplate="{StaticResource ShortcutAppearanceTemplate}" />
+        </ui:CardExpander>
+      </StackPanel>
+      <StackPanel Grid.Column="2" Margin="0,0,0,0">
+        <controls:OptionControl Margin="0" Header="{x:Static resources:Strings.Menu_Title}">
+          <ui:ToggleSwitch IsChecked="{Binding SettingsIconTask.NewState, Mode=TwoWay}" />
+        </controls:OptionControl>
+        <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{x:Static resources:Strings.Menu_Shortcuts_Customize}">
+          <ContentControl Content="{Binding SettingsIconTask}" ContentTemplate="{StaticResource ShortcutAppearanceTemplate}" />
+        </ui:CardExpander>
+      </StackPanel>
     </Grid>
     <ui:CardExpander Margin="0,12,0,0" IsExpanded="False">
       <HeaderedContentControl.Header>

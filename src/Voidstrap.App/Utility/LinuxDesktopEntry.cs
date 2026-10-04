@@ -534,12 +534,26 @@ internal static class LinuxDesktopEntry
 		if (!string.IsNullOrEmpty(desktop))
 		{
 			RepairShortcutIfPresent(Path.Combine(desktop, "Voidstrap.desktop"), "Voidstrap", executablePath, "");
-			RepairShortcutIfPresent(Path.Combine(desktop, Strings.Menu_Title + ".desktop"), Strings.Menu_Title, executablePath, "-settings");
-			RepairShortcutIfPresent(Path.Combine(desktop, Strings.LaunchMenu_LaunchRoblox + ".desktop"), Strings.LaunchMenu_LaunchRoblox, executablePath, "-player");
-			RepairShortcutIfPresent(Path.Combine(desktop, Strings.LaunchMenu_LaunchRobloxStudio + ".desktop"), Strings.LaunchMenu_LaunchRobloxStudio, executablePath, "-studio");
+			RepairConfiguredShortcut(desktop, "Settings", Strings.Menu_Title, executablePath, "-settings");
+			RepairConfiguredShortcut(desktop, "RobloxPlayer", Strings.LaunchMenu_LaunchRoblox, executablePath, "-player");
+			RepairConfiguredShortcut(desktop, "RobloxStudio", Strings.LaunchMenu_LaunchRobloxStudio, executablePath, "-studio");
 		}
 
 		RepairShortcutIfPresent(Path.Combine(ApplicationsDirectory, "Voidstrap.desktop"), "Voidstrap", executablePath, "");
+	}
+
+	private static void RepairConfiguredShortcut(string desktop, string key, string defaultName, string executablePath, string arguments)
+	{
+		if (App.Settings.Prop.ShortcutAppearances != null
+			&& App.Settings.Prop.ShortcutAppearances.TryGetValue(key, out var appearance)
+			&& appearance != null && Models.SettingTasks.ShortcutTask.IsValidName(appearance.Name))
+		{
+			string path = Path.Combine(desktop, appearance.Name + ".desktop");
+			if (File.Exists(path))
+				CreateShortcut(path, appearance.Name, executablePath, arguments, appearance.IconFilePath);
+			return;
+		}
+		RepairShortcutIfPresent(Path.Combine(desktop, defaultName + ".desktop"), defaultName, executablePath, arguments);
 	}
 
 	private static void RepairShortcutIfPresent(string path, string name, string executablePath, string arguments)

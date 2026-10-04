@@ -1143,26 +1143,107 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		}
 	}
 
-	private static bool SoberRefusedSecondInstance(DateTime launchedUtc)
+	private sealed record SoberStartupLogSnapshot(ulong Inode, uint DeviceMajor, uint DeviceMinor, long Length, byte[] Prefix, byte[] Tail);
+
+	private static SoberStartupLogSnapshot? CaptureSoberStartupLog()
+	{
+		try
+		{
+			string path = Path.Combine(SoberDataDirectory, "sober_logs", "latest.log");
+			if (GetSoberPackageStatus(CurrentDirectoryDescriptor, path, 0, StatusInodeMask, out SoberPackageStatus status) != 0)
+				return null;
+			using FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+			long length = stream.Length;
+			byte[] prefix = new byte[(int)Math.Min(length, 256)];
+			int read = stream.ReadAtLeast(prefix, prefix.Length, false);
+			byte[] tail = new byte[(int)Math.Min(length, 65536)];
+			stream.Seek(length - tail.Length, SeekOrigin.Begin);
+			int tailRead = stream.ReadAtLeast(tail, tail.Length, false);
+			return new SoberStartupLogSnapshot(status.Inode, status.DeviceMajor, status.DeviceMinor, length, prefix[..read], tail[..tailRead]);
+		}
+		catch (Exception)
+		{
+			return null;
+		}
+	}
+
+	private static OperationFailure? ReadSoberStartupFailure(DateTime launchedUtc, SoberStartupLogSnapshot? previousLog)
 	{
 		try
 		{
 			FileInfo log = new(Path.Combine(SoberDataDirectory, "sober_logs", "latest.log"));
 			if (!log.Exists || log.LastWriteTimeUtc < launchedUtc)
-				return false;
-
+				return null;
 			using FileStream stream = new(log.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-			byte[] buffer = new byte[(int)Math.Min(stream.Length, 65536)];
-			int read = stream.ReadAtLeast(buffer, buffer.Length, false);
-			return Encoding.UTF8.GetString(buffer, 0, read).Contains(SoberInstanceRunningMessage, StringComparison.Ordinal);
+			long offset = 0;
+			if (previousLog is not null
+				&& stream.Length >= previousLog.Length
+				&& GetSoberPackageStatus(CurrentDirectoryDescriptor, log.FullName, 0, StatusInodeMask, out SoberPackageStatus status) == 0
+				&& status.Inode == previousLog.Inode
+				&& status.DeviceMajor == previousLog.DeviceMajor
+				&& status.DeviceMinor == previousLog.DeviceMinor)
+			{
+				byte[] prefix = new byte[previousLog.Prefix.Length];
+				int read = stream.ReadAtLeast(prefix, prefix.Length, false);
+				if (read == prefix.Length && prefix.AsSpan().SequenceEqual(previousLog.Prefix))
+				{
+					byte[] tail = new byte[previousLog.Tail.Length];
+					stream.Seek(previousLog.Length - tail.Length, SeekOrigin.Begin);
+					int tailRead = stream.ReadAtLeast(tail, tail.Length, false);
+					if (tailRead == tail.Length && tail.AsSpan().SequenceEqual(previousLog.Tail))
+						offset = previousLog.Length;
+				}
+			}
+			offset = Math.Max(offset, stream.Length - 65536);
+			stream.Seek(offset, SeekOrigin.Begin);
+			byte[] buffer = new byte[(int)Math.Min(stream.Length - offset, 65536)];
+			int count = stream.ReadAtLeast(buffer, buffer.Length, false);
+			foreach (string line in Encoding.UTF8.GetString(buffer, 0, count).Split('\n'))
+			{
+				const string marker = "FATAL: Crash:";
+				string text = line.TrimStart();
+				if (text.StartsWith("ERROR: window: SDL_INIT_VIDEO failed.", StringComparison.OrdinalIgnoreCase))
+					return new OperationFailure("SoberDisplayUnavailable", "Sober could not open a window. Start Voidstrap from your desktop session and check that Sober has access to its Wayland or X11 socket.", CapabilityState.Experimental);
+				if (!text.StartsWith(marker, StringComparison.OrdinalIgnoreCase))
+					continue;
+				string detail = text[marker.Length..].Trim();
+				if (detail.Length == 0
+					|| detail.StartsWith("Previous error is fatal", StringComparison.OrdinalIgnoreCase)
+					|| detail.StartsWith("Aborting", StringComparison.OrdinalIgnoreCase))
+					continue;
+				if (detail.Contains(SoberInstanceRunningMessage, StringComparison.OrdinalIgnoreCase))
+					return new OperationFailure("SoberInstanceRunning", "Another Sober instance is already running. Close it before trying again.", CapabilityState.Experimental);
+				if (detail.Contains("SDL_INIT_VIDEO", StringComparison.OrdinalIgnoreCase)
+					|| detail.Contains("wayland", StringComparison.OrdinalIgnoreCase)
+					|| detail.Contains("x11", StringComparison.OrdinalIgnoreCase)
+					|| detail.Contains("video driver", StringComparison.OrdinalIgnoreCase)
+					|| detail.Contains("video subsystem", StringComparison.OrdinalIgnoreCase))
+					return new OperationFailure("SoberDisplayUnavailable", "Sober could not open a window. Start Voidstrap from your desktop session and check that Sober has access to its Wayland or X11 socket.", CapabilityState.Experimental);
+				detail = new string(detail.Where(character => !char.IsControl(character)).Take(256).ToArray());
+				return new OperationFailure("SoberStartupCrash", "Sober stopped while starting: " + detail, CapabilityState.Experimental);
+			}
 		}
 		catch (Exception)
+		{
+		}
+		return null;
+	}
+
+	private static async Task<bool> ProbeSoberStartupAsync(CancellationToken cancellationToken)
+	{
+		using CancellationTokenSource probeTimeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+		probeTimeout.CancelAfter(TimeSpan.FromSeconds(2));
+		try
+		{
+			return await IsSoberRunningAsync(probeTimeout.Token).ConfigureAwait(false);
+		}
+		catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
 		{
 			return false;
 		}
 	}
 
-	private static async Task<bool> WaitForSoberStartedAsync(DateTime launchedUtc, IReadOnlyCollection<int> previousOwners, CancellationToken cancellationToken)
+	private static async Task<OperationResult> WaitForSoberStartedAsync(DateTime launchedUtc, SoberStartupLogSnapshot? previousLog, IReadOnlyCollection<int> previousOwners, CancellationToken cancellationToken)
 	{
 		using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 		timeout.CancelAfter(TimeSpan.FromSeconds(45));
@@ -1172,23 +1253,36 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		{
 			while (!timeout.IsCancellationRequested)
 			{
-				if (SoberRefusedSecondInstance(launchedUtc))
-					return false;
+				OperationFailure? failure = ReadSoberStartupFailure(launchedUtc, previousLog);
+				cancellationToken.ThrowIfCancellationRequested();
+				if (failure is not null)
+					return OperationResult.Fail(failure.Code, failure.Message, failure.State);
 
-				if (await IsSoberRunningAsync(timeout.Token).ConfigureAwait(false))
+				bool running = await ProbeSoberStartupAsync(timeout.Token).ConfigureAwait(false);
+				failure = ReadSoberStartupFailure(launchedUtc, previousLog);
+				cancellationToken.ThrowIfCancellationRequested();
+				if (failure is not null)
+					return OperationResult.Fail(failure.Code, failure.Message, failure.State);
+				if (running)
 				{
 					runningChecks++;
 					if (runningChecks >= 2 && IsSoberInstanceHeldByNewProcess(previousOwners))
-						return true;
+					{
+						cancellationToken.ThrowIfCancellationRequested();
+						return OperationResult.Success();
+					}
 					if (runningChecks >= 3 && DateTime.UtcNow - launchedUtc >= SoberUnlockedStartGrace)
-						return true;
+					{
+						cancellationToken.ThrowIfCancellationRequested();
+						return OperationResult.Success();
+					}
 				}
 				else
 				{
 					runningChecks = 0;
 				}
 
-				await Task.Delay(300, timeout.Token).ConfigureAwait(false);
+				await Task.Delay(500, timeout.Token).ConfigureAwait(false);
 			}
 		}
 		catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
@@ -1196,7 +1290,7 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		}
 
 		cancellationToken.ThrowIfCancellationRequested();
-		return false;
+		return OperationResult.Fail("SoberLaunchFailed", "Sober did not finish starting. Check Sober's latest log and its display socket permissions before trying again.", CapabilityState.Experimental);
 	}
 
 	private static readonly TimeSpan SoberUnlockedStartGrace = TimeSpan.FromSeconds(4);
@@ -1406,12 +1500,16 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		try
 		{
 			report?.Invoke("Downloading Sober");
+			SystemProcessService processes = new();
+			await LinuxFlatpakHost.PrepareSessionEnvironmentAsync(processes, cancellationToken).ConfigureAwait(false);
+			OperationResult<SoberFlatpakSelection> discovered = await FindSoberInstallationAsync(processes, cancellationToken).ConfigureAwait(false);
+			if (!discovered.Succeeded || discovered.Value is null)
+				return false;
+			SoberFlatpakSelection selection = discovered.Value;
 			StartedInThisProcess = true;
 			process = assist is null
-				? LinuxFlatpakHost.Start(["run", SoberApplicationId])
-				: LinuxFlatpakHost.Start(
-					["run", "--nosocket=wayland", "--socket=x11", SoberApplicationId],
-					new Dictionary<string, string> { ["DISPLAY"] = Environment.GetEnvironmentVariable("DISPLAY") ?? string.Empty });
+				? LinuxFlatpakHost.Start(["run", selection.Scope, selection.Reference])
+				: LinuxFlatpakHost.Start(["run", selection.Scope, "--nosocket=wayland", "--socket=x11", selection.Reference]);
 			if (process is null)
 				return false;
 
@@ -1596,41 +1694,70 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 	public CapabilityDescriptor PrerequisiteCapability => _prerequisiteCapability;
 
-	public async Task<RuntimeInstallation> FindInstallationAsync(CancellationToken cancellationToken = default)
+	private sealed record SoberFlatpakSelection(RuntimeInstallation Installation, string Scope, string Reference);
+
+	private static async Task<OperationResult<SoberFlatpakSelection>> FindSoberInstallationAsync(IProcessService processes, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		if (!_prerequisiteCapability.IsAvailable)
-		{
-			return UnsupportedInstallation(_prerequisiteCapability);
-		}
-
-		if (!LinuxFlatpakHost.TryCreateCommand(_processes, ["info", SoberApplicationId], out ProcessCommand infoCommand))
-		{
-			return MissingInstallation("Flatpak is not installed");
-		}
-
-		OperationResult<ProcessExecution> result = await _processes.ExecuteAsync(
-			infoCommand,
-			cancellationToken);
+		if (!LinuxFlatpakHost.TryCreateCommand(processes, ["info", SoberApplicationId], out ProcessCommand infoCommand))
+			return OperationResult<SoberFlatpakSelection>.Fail("FlatpakMissing", "Flatpak is not installed", CapabilityState.RequiresExternalRuntime);
+		string flatpak = LinuxFlatpakHost.IsSandboxed ? "flatpak" : infoCommand.FileName;
+		if (!LinuxFlatpakHost.TryCreateHostCommand(processes, "env", ["LC_ALL=C", flatpak, "info", SoberApplicationId], out ProcessCommand localizedCommand))
+			return OperationResult<SoberFlatpakSelection>.Fail("SoberDiscoveryFailed", "Sober's Flatpak installation could not be queried", CapabilityState.Experimental);
+		OperationResult<ProcessExecution> result = await processes.ExecuteAsync(localizedCommand, cancellationToken).ConfigureAwait(false);
 		ThrowIfCanceled(result.Failure, cancellationToken);
-
-		if (!result.Succeeded)
+		if (!result.Succeeded || result.Value is null)
+			return OperationResult<SoberFlatpakSelection>.Fail(result.Failure?.Code ?? "SoberDiscoveryFailed", result.Failure?.Message ?? "Sober discovery did not complete", CapabilityState.Experimental);
+		if (result.Value.ExitCode != 0)
+			return OperationResult<SoberFlatpakSelection>.Fail("SoberUnavailable", "Sober is not installed", CapabilityState.RequiresExternalRuntime);
+		string? scope = null, reference = null;
+		foreach (string line in result.Value.StandardOutput.Split('\n'))
 		{
-			return MissingInstallation(result.Failure?.Message ?? "Sober discovery did not complete");
+			string value = line.Trim();
+			if (value.StartsWith("Installation:", StringComparison.Ordinal))
+			{
+				string name = value["Installation:".Length..].Trim();
+				if (name == "user")
+					scope = "--user";
+				else if (name == "system")
+					scope = "--system";
+				else if (name.StartsWith("system (", StringComparison.Ordinal) && name.EndsWith(')'))
+				{
+					string id = name["system (".Length..^1];
+					if (id.Length is > 0 and <= 255 && !id.Any(char.IsControl))
+						scope = "--installation=" + id;
+				}
+			}
+			else if (value.StartsWith("Ref:", StringComparison.Ordinal))
+			{
+				string candidate = value["Ref:".Length..].Trim();
+				string[] parts = candidate.Split('/');
+				if (candidate.Length <= 512 && parts.Length == 4 && parts[0] == "app" && parts[1] == SoberApplicationId
+					&& parts.Skip(2).All(part => part.Length > 0 && part.All(character => char.IsAsciiLetterOrDigit(character) || character is '.' or '_' or '-')))
+					reference = candidate;
+			}
 		}
-
-		if (result.Value is null || result.Value.ExitCode != 0)
-		{
-			return MissingInstallation("Sober is not installed");
-		}
-
-		return new RuntimeInstallation(
+		if (scope is null || reference is null)
+			return OperationResult<SoberFlatpakSelection>.Fail("SoberDiscoveryFailed", "Sober's Flatpak installation could not be identified", CapabilityState.Experimental);
+		RuntimeInstallation installation = new(
 			RuntimeKind.Player,
 			"Sober",
 			FlatpakApplicationInfo.ParseVersion(result.Value.StandardOutput) ?? string.Empty,
 			infoCommand.FileName,
 			GetSoberDataDirectory(),
 			new CapabilityDescriptor(FeatureId.RobloxPlayer, CapabilityState.Experimental, "Sober is available", null, true));
+		return OperationResult<SoberFlatpakSelection>.Success(new SoberFlatpakSelection(installation, scope, reference));
+	}
+
+	public async Task<RuntimeInstallation> FindInstallationAsync(CancellationToken cancellationToken = default)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		if (!_prerequisiteCapability.IsAvailable)
+			return UnsupportedInstallation(_prerequisiteCapability);
+		OperationResult<SoberFlatpakSelection> result = await FindSoberInstallationAsync(_processes, cancellationToken).ConfigureAwait(false);
+		return result.Succeeded && result.Value is not null
+			? result.Value.Installation
+			: MissingInstallation(result.Failure?.Message ?? "Sober discovery did not complete");
 	}
 
 	public async Task<OperationResult<LaunchSession>> LaunchAsync(LaunchRequest request, CancellationToken cancellationToken = default)
@@ -1644,16 +1771,16 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 			return OperationResult<LaunchSession>.Fail("RuntimeKindMismatch", "The requested runtime does not match the Sober provider");
 		}
 
-		RuntimeInstallation installation = await FindInstallationAsync(cancellationToken);
-		if (!installation.Capability.IsAvailable || string.IsNullOrWhiteSpace(installation.Location))
-		{
-			return OperationResult<LaunchSession>.Fail(
-				"SoberUnavailable",
-				installation.Capability.Reason,
-				installation.Capability.State);
-		}
+		if (!_prerequisiteCapability.IsAvailable)
+			return OperationResult<LaunchSession>.Fail("SoberUnavailable", _prerequisiteCapability.Reason, _prerequisiteCapability.State);
+		OperationResult<SoberFlatpakSelection> discovered = await FindSoberInstallationAsync(_processes, cancellationToken).ConfigureAwait(false);
+		if (!discovered.Succeeded || discovered.Value is null)
+			return OperationResult<LaunchSession>.Fail(discovered.Failure?.Code ?? "SoberUnavailable", discovered.Failure?.Message ?? "Sober discovery did not complete", discovered.Failure?.State ?? CapabilityState.Experimental);
+		SoberFlatpakSelection selection = discovered.Value;
+		RuntimeInstallation installation = selection.Installation;
 
-		List<string> arguments = ["run"];
+		await LinuxFlatpakHost.PrepareSessionEnvironmentAsync(_processes, cancellationToken).ConfigureAwait(false);
+		List<string> arguments = ["run", selection.Scope];
 		if (ForceX11Session)
 		{
 			arguments.Add("--nosocket=wayland");
@@ -1667,7 +1794,7 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		foreach (string argument in ProxyArguments)
 			arguments.Add(argument);
 
-		arguments.Add(SoberApplicationId);
+		arguments.Add(selection.Reference);
 
 		Uri soberLink = SoberLaunchLink.Normalize(deeplink);
 		if (!SoberLaunchLink.IsHomeLaunch(soberLink))
@@ -1690,14 +1817,16 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 			launchCommand = pinnedCommand;
 
 		List<int> previousOwners = SoberInstanceLockOwners();
+		SoberStartupLogSnapshot? previousLog = CaptureSoberStartupLog();
 		DateTime launchedUtc = DateTime.UtcNow;
 		StartedInThisProcess = true;
 		OperationResult<ProcessStartResult> result = await _processes.StartAsync(launchCommand, cancellationToken).ConfigureAwait(false);
 		ThrowIfCanceled(result.Failure, cancellationToken);
 		if (!result.Succeeded || result.Value is null)
 			return OperationResult<LaunchSession>.Fail(result.Failure?.Code ?? "SoberLaunchFailed", result.Failure?.Message ?? "Sober could not start", CapabilityState.Experimental);
-		if (!await WaitForSoberStartedAsync(launchedUtc, previousOwners, cancellationToken).ConfigureAwait(false))
-			return OperationResult<LaunchSession>.Fail("SoberLaunchFailed", "Sober did not finish starting. Check the Sober window before trying again.", CapabilityState.Experimental);
+		OperationResult started = await WaitForSoberStartedAsync(launchedUtc, previousLog, previousOwners, cancellationToken).ConfigureAwait(false);
+		if (!started.Succeeded)
+			return OperationResult<LaunchSession>.Fail(started.Failure?.Code ?? "SoberLaunchFailed", started.Failure?.Message ?? "Sober could not start", CapabilityState.Experimental);
 		return OperationResult<LaunchSession>.Success(new LaunchSession(
 			RuntimeKind.Player, "Sober", result.Value.ProcessId, DateTimeOffset.UtcNow, installation, false));
 

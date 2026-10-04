@@ -16,11 +16,11 @@ internal static class Shortcut
 		Create(exePath, exeArgs, lnkPath, exePath);
 	}
 
-	public static void Create(string exePath, string exeArgs, string lnkPath, string iconPath)
+	public static bool Create(string exePath, string exeArgs, string lnkPath, string iconPath, bool overwrite = false)
 	{
-		if (!Platform.IsLinux && File.Exists(lnkPath))
+		if (!Platform.IsLinux && !overwrite && File.Exists(lnkPath))
 		{
-			return;
+			return true;
 		}
 		try
 		{
@@ -31,12 +31,23 @@ internal static class Shortcut
 			}
 			else
 			{
-				ShellLink.Shortcut.CreateShortcut(exePath, exeArgs, iconPath, 0).WriteToFile(lnkPath);
+				string temporary = lnkPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+				try
+				{
+					ShellLink.Shortcut.CreateShortcut(exePath, exeArgs, iconPath, 0).WriteToFile(temporary);
+					File.Move(temporary, lnkPath, overwrite);
+				}
+				finally
+				{
+					if (File.Exists(temporary))
+						File.Delete(temporary);
+				}
 			}
 			if (_loadStatus != GenericTriState.Successful)
 			{
 				_loadStatus = GenericTriState.Successful;
 			}
+			return true;
 		}
 		catch (Exception ex)
 		{
@@ -47,6 +58,7 @@ internal static class Shortcut
 				_loadStatus = GenericTriState.Failed;
 				Frontend.ShowMessageBox(Strings.Dialog_CannotCreateShortcuts, MessageBoxImage.Asterisk);
 			}
+			return false;
 		}
 	}
 }
