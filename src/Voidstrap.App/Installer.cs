@@ -549,8 +549,9 @@ internal partial class Installer
 		Voidstrap.Integrations.Nvidia.NvidiaApplyResult cleanup = await Voidstrap.Integrations.NvidiaProfileManager.RestoreForUninstallAsync();
 		if (!cleanup.Ok)
 		{
-			Frontend.ShowMessageBox(string.Format(Strings.Bootstrapper_Uninstall_NvidiaFailed, cleanup.Message), MessageBoxImage.Error);
-			return false;
+			if (Frontend.ShowMessageBox(string.Format(Strings.Bootstrapper_Uninstall_NvidiaFailed, cleanup.Message), MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+				return false;
+			App.Logger.WriteLine("Installer::DoUninstall", "Continuing uninstall without NVIDIA cleanup");
 		}
 		Voidstrap.Integrations.AssetProxy.AssetProxyServer.Stop();
 		Voidstrap.Integrations.AssetProxy.AssetProxyServer.CleanupStaleState();

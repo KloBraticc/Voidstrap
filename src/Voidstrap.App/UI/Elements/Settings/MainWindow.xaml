@@ -941,9 +941,7 @@
           <ui:SplitButton Name="InstallLaunchButton" Height="34" HorizontalAlignment="Center"
                           Background="{DynamicResource AccentFillColorPrimaryBrush}" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
                           AutomationProperties.Name="{Binding Text, ElementName=LaunchActionText}"
-                          Command="{Binding SaveAndLaunchSettingsCommand, Mode=OneWay}"
-                          DropDownOnRight="{Binding LaunchDropdownOnRight, Mode=OneWay}"
-                          DropDownToolTip="{Binding SelectedLaunchTargetName, Mode=OneWay}" DropDownClick="LaunchTargetButton_Click">
+                          Command="{Binding SaveAndLaunchSettingsCommand, Mode=OneWay}">
             <TextBlock x:Name="LaunchActionText" Text="Install" />
           </ui:SplitButton>
         </StatusBarItem>

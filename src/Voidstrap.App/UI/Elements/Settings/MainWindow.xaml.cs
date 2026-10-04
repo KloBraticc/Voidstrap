@@ -592,6 +592,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         //IL_01cc: Unknown result type (might be due to invalid IL or missing references)
         //IL_01de: Expected O, but got Unknown
         InitializeComponent();
+        InstallLaunchButton.SetBinding(SplitButton.DropDownOnRightProperty, new System.Windows.Data.Binding(nameof(MainWindowViewModel.LaunchDropdownOnRight)) { Mode = System.Windows.Data.BindingMode.OneWay });
+        InstallLaunchButton.SetBinding(SplitButton.DropDownToolTipProperty, new System.Windows.Data.Binding(nameof(MainWindowViewModel.SelectedLaunchTargetName)) { Mode = System.Windows.Data.BindingMode.OneWay });
+        InstallLaunchButton.DropDownClick += LaunchTargetButton_Click;
         if (Voidstrap.Utility.Platform.IsLinux)
         {
             IntroOverlay.Visibility = Visibility.Collapsed;
@@ -5446,6 +5449,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (_isClosed)
             return;
         _isClosed = true;
+        InstallLaunchButton.DropDownClick -= LaunchTargetButton_Click;
         MainWindowViewModel? closingViewModel = DataContext as MainWindowViewModel;
 		Interlocked.Increment(ref _topSearchNavigationGeneration);
         CloseCommandPalette();

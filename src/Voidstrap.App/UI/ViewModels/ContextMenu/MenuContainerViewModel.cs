@@ -20,10 +20,7 @@ namespace Voidstrap.UI.Chat
                 {
                     App.Settings.Prop.Brightness = clamped;
                     App.Settings.SaveDeferred();
-                    if (Voidstrap.Utility.Platform.IsLinux)
-                    {
-                        Voidstrap.Watcher.Current?.ApplyBrightnessLive();
-                    }
+                    Voidstrap.Watcher.Current?.ApplyBrightnessLive();
                     OnPropertyChanged(nameof(BrightnessDisplay));
                     Voidstrap.Utility.ScreenColorEffect.ApplyConfigured();
                 }

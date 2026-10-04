@@ -509,8 +509,8 @@ namespace Voidstrap.UI.Elements.Overlay
         private const int WS_EX_TOOLWINDOW = 0x80;
         private const int WS_EX_NOACTIVATE = 0x08000000;
 
-        [System.Runtime.InteropServices.LibraryImport("user32.dll")] private static partial int GetWindowLong(IntPtr hWnd, int nIndex);
-        [System.Runtime.InteropServices.LibraryImport("user32.dll")] private static partial int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        [System.Runtime.InteropServices.LibraryImport("user32.dll", EntryPoint = "GetWindowLongW", SetLastError = true)] private static partial int GetWindowLong(IntPtr hWnd, int nIndex);
+        [System.Runtime.InteropServices.LibraryImport("user32.dll", EntryPoint = "SetWindowLongW", SetLastError = true)] private static partial int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name)

@@ -1146,7 +1146,12 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
+			if (App.Settings.Prop.OverlaysEnabled == value)
+				return;
 			App.Settings.Prop.OverlaysEnabled = value;
+			App.Settings.SaveDeferred();
+			Voidstrap.Watcher.Current?.ApplyBrightnessLive();
+			OnPropertyChanged(nameof(OverlaysEnabled));
 		}
 	}
 
@@ -1737,6 +1742,8 @@ public ICommand PickCursorColorCommand { get; }
 			if (App.Settings.Prop.Brightness != num)
 			{
 				App.Settings.Prop.Brightness = num;
+				App.Settings.SaveDeferred();
+				Voidstrap.Watcher.Current?.ApplyBrightnessLive();
 				OnPropertyChanged(nameof(Brightness));
 				OnPropertyChanged(nameof(BrightnessDisplay));
 			}

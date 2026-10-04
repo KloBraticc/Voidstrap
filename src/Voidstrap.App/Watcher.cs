@@ -76,7 +76,6 @@ public partial class Watcher : IDisposable
 			App.Logger.WriteLine("Watcher", "Watcher instance already exists");
 			return;
 		}
-		Current = this;
 		string? data = App.LaunchSettings.WatcherFlag.Data;
 		if (string.IsNullOrEmpty(data))
 		{
@@ -110,6 +109,7 @@ public partial class Watcher : IDisposable
 		{
 			return;
 		}
+		Current = this;
 		MemoryManager.SetGameplayActive(true);
 		StartSettingsWatcher();
 		bool enableActivityTracking = App.Settings.Prop.EnableActivityTracking;
@@ -402,7 +402,9 @@ public partial class Watcher : IDisposable
 
 	private static bool OverlaysNeedGameState()
 	{
-		return Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled
+		return (App.Settings.Prop.OverlaysEnabled && OverlayWindow.SurfaceRequired)
+			|| App.Settings.Prop.Crosshair
+			|| Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled
 			|| (!Voidstrap.Utility.Platform.IsLinux && Voidstrap.Integrations.Overlays.OverlaySettings.GameEffectsEnabled);
 	}
 
@@ -541,8 +543,22 @@ public partial class Watcher : IDisposable
 
 	internal void ApplyBrightnessLive()
 	{
+		Application? application = Application.Current;
+		if (application == null || application.Dispatcher.HasShutdownStarted)
+			return;
+		if (!application.Dispatcher.CheckAccess())
+		{
+			RunOnApplicationDispatcher(ApplyBrightnessLive);
+			return;
+		}
 		if (_disposed || ActivityWatcher?.InGame != true)
 		{
+			return;
+		}
+
+		if (!App.Settings.Prop.OverlaysEnabled)
+		{
+			ReconcileRuntimeSessionWindows();
 			return;
 		}
 
@@ -578,6 +594,7 @@ public partial class Watcher : IDisposable
 		{
 			if (required && existing.IsLoaded && existing.MatchesCurrentSettings())
 			{
+				existing.TryApplyLiveBrightness();
 				return;
 			}
 			RunRuntimeAction(existing.Close, "RefreshOverlay");

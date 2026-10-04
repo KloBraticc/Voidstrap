@@ -2434,6 +2434,8 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
     <value>Show app notifications.</value>
   </data>
   <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
-    <value>Uninstall stopped. NVIDIA settings could not be restored. {0}</value>
+    <value>NVIDIA cleanup failed. Uninstall anyway? Any remaining NVIDIA settings will stay applied.
+
+{0}</value>
   </data>
 </root>
