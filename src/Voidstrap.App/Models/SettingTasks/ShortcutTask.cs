@@ -30,6 +30,8 @@ public sealed record ShortcutIconEntry(BootstrapperIcon IconType, ImageSource? I
 
 public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 {
+	private readonly bool _stageOnly;
+	private bool _stagedState;
 	private readonly string _key;
 	private readonly string _folder;
 	private readonly string _defaultName;
@@ -47,6 +49,38 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 			: LoadPreset(icon, 32))).ToArray());
 
 	public event PropertyChangedEventHandler? PropertyChanged;
+
+	public override bool NewState
+	{
+		get => _stageOnly ? _stagedState : base.NewState;
+		set
+		{
+			if (_stageOnly)
+				_stagedState = value;
+			else
+				base.NewState = value;
+		}
+	}
+
+	internal void ValidateAppearance(bool createShortcut)
+	{
+		if (!IsValidName(ResolvedName))
+			throw new IOException(Strings.Menu_Shortcuts_InvalidName);
+		if (createShortcut && SelectedIcon == BootstrapperIcon.IconCustom
+			&& (!File.Exists(_customIconPath) || new FileInfo(_customIconPath).Length > 8 * 1024 * 1024 || SafeImaging.FromFile(_customIconPath, 256) == null))
+			throw new IOException(Strings.Menu_Shortcuts_InvalidIcon);
+	}
+
+	internal void StoreAppearance()
+	{
+		if (!IsValidName(ResolvedName))
+			throw new IOException(Strings.Menu_Shortcuts_InvalidName);
+		App.Settings.Prop.ShortcutAppearances ??= new();
+		App.Settings.Prop.ShortcutAppearances[_key] = new ShortcutAppearance
+		{
+			Name = ResolvedName, Icon = SelectedIcon, CustomIconPath = _customIconPath
+		};
+	}
 
 	public ShortcutIconEntry[] Icons => Presets.Value;
 
@@ -91,9 +125,10 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 
 	public override bool Changed => base.Changed || (_customizable && AppearanceChanged);
 
-	public ShortcutTask(string name, string lnkFolder, string lnkName, string exeFlags = "", bool customizable = false)
+	public ShortcutTask(string name, string lnkFolder, string lnkName, string exeFlags = "", bool customizable = false, bool stageOnly = false)
 		: base("Shortcut", name)
 	{
+		_stageOnly = stageOnly;
 		_key = name;
 		_folder = lnkFolder;
 		_defaultName = Path.GetFileNameWithoutExtension(lnkName);

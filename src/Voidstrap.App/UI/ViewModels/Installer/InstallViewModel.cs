@@ -18,6 +18,15 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 
 	public EventHandler<bool>? SetCanContinueEvent;
 
+	public Voidstrap.Models.SettingTasks.ShortcutTask PlayerIconTask { get; }
+	public Voidstrap.Models.SettingTasks.ShortcutTask StudioIconTask { get; }
+	public Voidstrap.Models.SettingTasks.ShortcutTask SettingsIconTask { get; }
+
+	internal void SetImport(Voidstrap.Utility.BootstrapperImportPlan? plan)
+	{
+		installer.PendingImport = plan;
+	}
+
 	public string InstallLocation
 	{
 		get
@@ -147,6 +156,11 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 	public InstallViewModel()
 	{
 		_originalInstallLocation = installer.InstallLocation;
+		string suffix = Voidstrap.Utility.Platform.IsLinux ? ".desktop" : ".lnk";
+		PlayerIconTask = new("RobloxPlayer", Paths.Desktop, Voidstrap.Resources.Strings.LaunchMenu_LaunchRoblox + suffix, "-player", true, true);
+		StudioIconTask = new("RobloxStudio", Paths.Desktop, Voidstrap.Resources.Strings.LaunchMenu_LaunchRobloxStudio + suffix, "-studio", true, true);
+		SettingsIconTask = new("Settings", Paths.Desktop, Voidstrap.Resources.Strings.Menu_Title + suffix, "-settings", true, true);
+		installer.FunctionShortcutTasks = [PlayerIconTask, StudioIconTask, SettingsIconTask];
 	}
 
 	public async System.Threading.Tasks.Task<bool> DoInstallAsync(Action<string>? report = null)
@@ -159,6 +173,9 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 		}
 		try
 		{
+			PlayerIconTask.ValidateAppearance(CreatePlayerShortcut);
+			StudioIconTask.ValidateAppearance(CreateStudioShortcut);
+			SettingsIconTask.ValidateAppearance(CreateSettingsShortcut);
 			installer.DoInstall();
 		}
 		catch (Exception ex)

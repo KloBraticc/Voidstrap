@@ -151,7 +151,7 @@ public partial class Watcher : IDisposable
 			_settingsReloadTimer = new Timer(SettingsReloadTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
 			_settingsWatcher = new FileSystemWatcher(Paths.Config, "AppSettings.json")
 			{
-				NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.CreationTime
+				NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.CreationTime | NotifyFilters.FileName
 			};
 			_settingsWatcher.Changed += SettingsFileChanged;
 			_settingsWatcher.Created += SettingsFileChanged;

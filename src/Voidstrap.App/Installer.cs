@@ -47,6 +47,9 @@ internal partial class Installer
 
 	public bool CreateSettingsShortcut;
 
+	internal BootstrapperImportPlan? PendingImport { get; set; }
+	internal Voidstrap.Models.SettingTasks.ShortcutTask[]? FunctionShortcutTasks { get; set; }
+
 	public bool EnableAnalytics = true;
 
 	public bool VoidstrapRPCReal = true;
@@ -133,6 +136,22 @@ internal partial class Installer
 			TrySafe("player registration", WindowsRegistry.RegisterPlayer);
 			TrySafe("studio protocol registration", () => WindowsRegistry.RegisterStudioProtocol(Paths.Application, "-studio \"%1\""));
 		}
+		App.Settings.Load(alertFailure: false);
+		App.State.Load(alertFailure: false);
+		TrySafe("install location repair", () => InstallLocationResolver.Repair(Paths.Base));
+		App.FastFlags.Load(alertFailure: false);
+		if (PendingImport != null)
+			BootstrapperSettingsImport.Apply(PendingImport, App.Settings, App.FastFlags);
+		if (FunctionShortcutTasks != null)
+			foreach (var task in FunctionShortcutTasks)
+				task.StoreAppearance();
+		if (PendingImport?.Settings.ContainsKey(nameof(EnableAnalytics)) != true)
+			App.Settings.Prop.EnableAnalytics = EnableAnalytics;
+		App.Settings.SaveChecked();
+		if (App.IsStudioVisible)
+		{
+			TrySafe("studio registration", WindowsRegistry.RegisterStudio);
+		}
 		if (Voidstrap.Utility.Platform.IsWindows)
 		{
 			if (CreateDesktopShortcuts)
@@ -143,20 +162,18 @@ internal partial class Installer
 			{
 				TrySafe("start menu shortcut", () => Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut));
 			}
-			TrySafe("function shortcuts", CreateFunctionShortcuts);
+			if (FunctionShortcutTasks != null)
+				CreateFunctionShortcuts();
+			else
+				TrySafe("function shortcuts", CreateFunctionShortcuts);
 		}
 		else
 		{
 			TrySafe("desktop entry", () => Voidstrap.Utility.LinuxDesktopEntry.Install(Paths.Application, CreateDesktopShortcuts));
-		}
-		App.Settings.Load(alertFailure: false);
-		App.State.Load(alertFailure: false);
-		TrySafe("install location repair", () => InstallLocationResolver.Repair(Paths.Base));
-		App.FastFlags.Load(alertFailure: false);
-		App.Settings.Prop.EnableAnalytics = EnableAnalytics;
-		if (App.IsStudioVisible)
-		{
-			TrySafe("studio registration", WindowsRegistry.RegisterStudio);
+			if (FunctionShortcutTasks != null)
+				CreateFunctionShortcuts();
+			else
+				TrySafe("function shortcuts", CreateFunctionShortcuts);
 		}
 		App.Settings.Save();
 		App.Logger.WriteLine("Installer::DoInstall", "Installation finished");
@@ -216,9 +233,25 @@ internal partial class Installer
 
 	private void CreateFunctionShortcuts()
 	{
-		TryCreateShortcut(CreatePlayerShortcut, "-player", Strings.LaunchMenu_LaunchRoblox);
-		TryCreateShortcut(CreateStudioShortcut, "-studio", Strings.LaunchMenu_LaunchRobloxStudio);
-		TryCreateShortcut(CreateSettingsShortcut, "-settings", Strings.Menu_Title);
+		if (FunctionShortcutTasks != null)
+		{
+			bool[] wanted = [CreatePlayerShortcut, CreateStudioShortcut, CreateSettingsShortcut];
+			for (int index = 0; index < FunctionShortcutTasks.Length; index++)
+			{
+				if (!wanted[index])
+					continue;
+				var task = FunctionShortcutTasks[index];
+				task.NewState = true;
+				task.Execute();
+			}
+			App.Settings.FlushDeferred();
+		}
+		else
+		{
+			TryCreateShortcut(CreatePlayerShortcut, "-player", Strings.LaunchMenu_LaunchRoblox);
+			TryCreateShortcut(CreateStudioShortcut, "-studio", Strings.LaunchMenu_LaunchRobloxStudio);
+			TryCreateShortcut(CreateSettingsShortcut, "-settings", Strings.Menu_Title);
+		}
 		if (!ExtractRobloxIcons)
 		{
 			return;

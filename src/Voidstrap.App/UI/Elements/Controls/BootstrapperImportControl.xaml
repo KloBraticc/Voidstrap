@@ -1,0 +1,11 @@
+<UserControl x:Class="Voidstrap.UI.Elements.Controls.BootstrapperImportControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" Unloaded="OnUnloaded">
+  <controls:OptionControl Header="Apply From">
+    <StackPanel Orientation="Horizontal">
+      <ComboBox Width="150" Margin="0,0,8,0" SelectedIndex="0">
+        <ComboBoxItem Content="Bloxstrap" Tag="Bloxstrap" />
+        <ComboBoxItem Content="Fishstrap" Tag="Fishstrap" />
+      </ComboBox>
+      <Button Content="Apply" Click="ApplyFrom_Click" />
+    </StackPanel>
+  </controls:OptionControl>
+</UserControl>

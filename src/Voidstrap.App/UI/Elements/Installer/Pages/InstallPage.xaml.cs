@@ -39,6 +39,7 @@ public partial class InstallPage : UiPage{
 
 	public System.Threading.Tasks.Task<bool> NextPageCallbackAsync()
 	{
+		_viewModel.SetImport(ImportControl.PendingPlan);
 		return _viewModel.DoInstallAsync(ReportSoberInstall);
 	}
 

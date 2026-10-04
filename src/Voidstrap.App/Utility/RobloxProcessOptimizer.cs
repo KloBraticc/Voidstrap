@@ -42,7 +42,8 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 
 	private bool _trimmedWhileMinimized;
 
-	private ProcessPriorityClass? _lastPriority;
+	private ProcessPriorityClass? _lastRequestedPriority;
+	private bool _priorityFailureLogged;
 
 	private int? _lastCpuLimit;
 
@@ -173,10 +174,6 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 		{
 			EmulationBypassService.ApplyProcessBypass(process);
 		}
-		if (!ShouldRun(settings) || settings.TasxOptimization)
-		{
-			return;
-		}
 		TryApplyPriority(process, ResolvePriority(settings));
 	}
 
@@ -228,12 +225,12 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 			return;
 		}
 		bool focused = IsProcessFocused();
-		ProcessPriorityClass desiredPriority = !focused && settings.RobloxEfficiencyMode ? ProcessPriorityClass.Idle : (!focused && settings.ReduceMemoryOutOfFocus ? ProcessPriorityClass.BelowNormal : ResolvePriority(settings));
-		if (_lastPriority != desiredPriority)
-		{
-			TryApplyPriority(process, desiredPriority);
-			_lastPriority = desiredPriority;
-		}
+		ProcessPriorityClass desiredPriority = ResolveRuntimePriority(settings, focused);
+		if (_lastRequestedPriority != desiredPriority)
+			_priorityFailureLogged = false;
+		bool priorityApplied = TryApplyPriority(process, desiredPriority, !_priorityFailureLogged);
+		_priorityFailureLogged = !priorityApplied;
+		_lastRequestedPriority = desiredPriority;
 		if (settings.OptimizeRoblox && !_originalPriorityBoostEnabled.HasValue)
 		{
 			try
@@ -406,18 +403,26 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 		}
 	}
 
-	private static void TryApplyPriority(Process process, ProcessPriorityClass priority)
+	internal static bool TryApplyPriority(Process process, ProcessPriorityClass priority, bool logFailure = true)
 	{
 		try
 		{
+			process.Refresh();
 			if (process.PriorityClass != priority)
 			{
 				process.PriorityClass = priority;
+				process.Refresh();
+				if (process.PriorityClass != priority)
+					throw new InvalidOperationException("Windows did not retain the requested Roblox priority");
+				App.Logger.WriteLine("RobloxProcessOptimizer", "Roblox priority applied: " + priority);
 			}
+			return true;
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine("RobloxProcessOptimizer", "Priority change failed: " + ex.Message);
+			if (logFailure)
+				App.Logger.WriteLine("RobloxProcessOptimizer", "Priority change failed: " + ex.Message);
+			return false;
 		}
 	}
 
@@ -496,7 +501,17 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 		{
 			return ProcessPriorityClass.Idle;
 		}
-		return settings.OptimizeRoblox ? ProcessPriorityClass.AboveNormal : ProcessPriorityClass.Normal;
+		return ProcessPriorityClass.Normal;
+	}
+
+	internal static ProcessPriorityClass ResolveRuntimePriority(AppSettings settings, bool focused)
+	{
+		ProcessPriorityClass selected = ResolvePriority(settings);
+		if (!focused && settings.RobloxEfficiencyMode)
+			return ProcessPriorityClass.Idle;
+		if (!focused && (settings.ReduceMemoryOutOfFocus || settings.TasxOptimization))
+			return selected == ProcessPriorityClass.Idle ? selected : ProcessPriorityClass.BelowNormal;
+		return selected;
 	}
 
 	internal static int? GetCpuLimit(string? selection)

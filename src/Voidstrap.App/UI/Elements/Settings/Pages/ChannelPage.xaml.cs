@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -195,77 +195,11 @@ public partial class ChannelPage : UiPage{
 		return Encoding.UTF8.GetString(bytes);
 	}
 
-	private void ApplyNow_Click(object sender, RoutedEventArgs e)
+	private void OnSettingsImported(object? sender, EventArgs e)
 	{
-		try
-		{
-			string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-			string sourcePath = App.Settings.FileLocation;
-			string sourcePath2 = Paths.Mods;
-			foreach (string item in (from d in Directory.GetDirectories(folderPath)
-				where d.EndsWith("strap", StringComparison.OrdinalIgnoreCase) && !d.EndsWith("Voidstrap", StringComparison.OrdinalIgnoreCase)
-				select d).ToList())
-			{
-				string text = Path.Combine(item, "Settings.json");
-				string text2 = Path.Combine(item, "Modifications");
-                BackupIfExists(text);
-                BackupIfExists(text2);
-                SafeCopy(sourcePath, text);
-                SafeCopy(sourcePath2, text2);
-			}
-			Frontend.ShowMessageBox("Voidstrap Settings/Mods Synced");
-		}
-		catch (Exception ex)
-		{
-			Frontend.ShowMessageBox("Error: " + ex.Message);
-		}
-	}
-
-	private static void SafeCopy(string sourcePath, string destPath)
-	{
-		if (File.Exists(sourcePath))
-		{
-			Directory.CreateDirectory(Path.GetDirectoryName(destPath)!);
-			File.Copy(sourcePath, destPath, overwrite: true);
-		}
-		else if (Directory.Exists(sourcePath))
-		{
-            CopyDirectory(sourcePath, destPath);
-		}
-	}
-
-	private static void CopyDirectory(string sourceDir, string destDir)
-	{
-		Directory.CreateDirectory(destDir);
-		string[] files = Directory.GetFiles(sourceDir);
-		foreach (string text in files)
-		{
-			string destFileName = Path.Combine(destDir, Path.GetFileName(text));
-			File.Copy(text, destFileName, overwrite: true);
-		}
-		files = Directory.GetDirectories(sourceDir);
-		foreach (string text2 in files)
-		{
-			string destDir2 = Path.Combine(destDir, Path.GetFileName(text2));
-            CopyDirectory(text2, destDir2);
-		}
-	}
-
-	private static void BackupIfExists(string path)
-	{
-		if (File.Exists(path))
-		{
-			File.Move(path, path + ".bak", overwrite: true);
-		}
-		else if (Directory.Exists(path))
-		{
-			string text = path + "_bak";
-			if (Directory.Exists(text))
-			{
-				Directory.Delete(text, recursive: true);
-			}
-			Directory.Move(path, text);
-		}
+		if (base.DataContext is ChannelViewModel previous)
+			previous.Dispose();
+		base.DataContext = new ChannelViewModel();
 	}
 
 	private async void Check_Click(object sender, RoutedEventArgs e)

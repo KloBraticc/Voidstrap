@@ -250,24 +250,7 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 
 	private static int ResolveWeight(AppSettings settings, bool focused)
 	{
-		if (settings.TasxOptimization)
-		{
-			return focused ? 400 : 50;
-		}
-		if (!focused && settings.RobloxEfficiencyMode)
-		{
-			return 10;
-		}
-		if (!focused && settings.ReduceMemoryOutOfFocus)
-		{
-			return 50;
-		}
-		string choice = settings.PriorityLimit?.Trim() ?? "";
-		if (choice.Length == 0 || choice.Equals("Normal", StringComparison.OrdinalIgnoreCase))
-		{
-			return settings.OptimizeRoblox && focused ? 200 : DefaultWeight;
-		}
-		return RobloxProcessOptimizer.ResolvePriority(settings) switch
+		return RobloxProcessOptimizer.ResolveRuntimePriority(settings, focused) switch
 		{
 			ProcessPriorityClass.Idle => 10,
 			ProcessPriorityClass.BelowNormal => 50,

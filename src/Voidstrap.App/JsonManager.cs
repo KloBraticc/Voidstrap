@@ -139,27 +139,31 @@ public class JsonManager<T> where T : class, new()
 
 	public virtual void Save()
 	{
+		try
+		{
+			SaveChecked();
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LOG_IDENT_CLASS + "::Save", "Failed to save");
+			App.Logger.WriteException(LOG_IDENT_CLASS + "::Save", ex);
+			Frontend.ShowMessageBox(string.Format(Strings.Bootstrapper_JsonManagerSaveFailed, ClassName, ex.Message), MessageBoxImage.Exclamation);
+		}
+	}
+
+	public void SaveChecked(bool createBackup = true)
+	{
 		Interlocked.Increment(ref _revision);
-		string identifier = LOG_IDENT_CLASS + "::Save";
 		lock (_saveLock)
 		{
-			try
+			if (SupportsMerge)
+				AdoptExternalChanges(LOG_IDENT_CLASS + "::Save");
+			JsonFile.SerializeAtomic(FileLocation, Prop, JsonOptions.Indented, createBackup);
+			LastFileHash = SafeGetFileHash(FileLocation);
+			if (SupportsMerge)
 			{
-				if (SupportsMerge)
-					AdoptExternalChanges(identifier);
-				JsonFile.SerializeAtomic(FileLocation, Prop, JsonOptions.Indented);
-				LastFileHash = SafeGetFileHash(FileLocation);
-				if (SupportsMerge)
-				{
-					_baseline = Snapshot(Prop);
-					_baselineSource = null;
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine(identifier, "Failed to save");
-				App.Logger.WriteException(identifier, ex);
-				Frontend.ShowMessageBox(string.Format(Strings.Bootstrapper_JsonManagerSaveFailed, ClassName, ex.Message), MessageBoxImage.Exclamation);
+				_baseline = Snapshot(Prop);
+				_baselineSource = null;
 			}
 		}
 	}

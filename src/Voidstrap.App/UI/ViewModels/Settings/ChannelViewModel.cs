@@ -256,8 +256,8 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		: "Runs Roblox in Windows efficiency mode. This lowers its priority and power use, which helps battery life and background play but reduces performance in game";
 
 	public string RobloxPriorityDescription => Voidstrap.Utility.Platform.IsLinux
-		? "Choose how much CPU share Roblox gets compared to your other apps. Realtime is intentionally unavailable."
-		: "Choose a safe Windows scheduling priority for Roblox. Realtime is intentionally unavailable.";
+		? "Choose how much CPU share Roblox gets compared to your other apps. Background efficiency settings can lower it while unfocused. Realtime is intentionally unavailable."
+		: "Choose a safe Windows scheduling priority for Roblox. Background efficiency settings can lower it while unfocused. Realtime is intentionally unavailable.";
 
 	public bool RobloxEfficiencyMode
 	{
@@ -341,11 +341,12 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		}
 		set
 		{
-			if (_selectedPriority != value)
+			string normalized = NormalizePriority(value);
+			if (_selectedPriority != normalized)
 			{
-				_selectedPriority = value;
+				_selectedPriority = normalized;
 				OnPropertyChanged(nameof(SelectedPriority));
-				App.Settings.Prop.PriorityLimit = value;
+				App.Settings.Prop.PriorityLimit = normalized;
 				App.Settings.SaveDeferred();
 			}
 		}

@@ -18,10 +18,6 @@ internal sealed partial class TasxOptimizer : IDisposable
 
 	private const int ScanEveryTicks = 4;
 
-	private const ProcessPriorityClass FocusedPriority = ProcessPriorityClass.High;
-
-	private const ProcessPriorityClass UnfocusedPriority = ProcessPriorityClass.BelowNormal;
-
 	private const bool MinimizedMemoryTrimming = true;
 
 	private const int ProcessPowerThrottling = 4;
@@ -54,6 +50,10 @@ internal sealed partial class TasxOptimizer : IDisposable
 		public ProcessPriorityClass OriginalPriority { get; set; } = ProcessPriorityClass.Normal;
 
 		public bool? Focused { get; set; }
+
+		public ProcessPriorityClass? AppliedPriority { get; set; }
+
+		public string? PriorityError { get; set; }
 
 		public bool WasEverFocused { get; set; }
 
@@ -112,7 +112,7 @@ internal sealed partial class TasxOptimizer : IDisposable
 				{
 					Scan();
 				}
-				ApplyFocusState();
+				ApplyFocusState(tick % ScanEveryTicks == 0);
 				tick++;
 				await Task.Delay(TickIntervalMs, token).ConfigureAwait(false);
 			}
@@ -202,7 +202,7 @@ internal sealed partial class TasxOptimizer : IDisposable
 		return ex is System.ComponentModel.Win32Exception win32 && win32.NativeErrorCode == AccessDenied;
 	}
 
-	private void ApplyFocusState()
+	private void ApplyFocusState(bool refreshPriority)
 	{
 		uint foregroundProcessId = GetForegroundProcessId();
 		List<int>? exited = null;
@@ -224,10 +224,22 @@ internal sealed partial class TasxOptimizer : IDisposable
 				continue;
 			}
 			bool alive = true;
-			if (instance.Focused != focused)
+			if (instance.Focused != focused || (refreshPriority && instance.AppliedPriority != RobloxProcessOptimizer.ResolveRuntimePriority(App.Settings.Prop, focused)))
 			{
 				instance.Focused = focused;
 				alive = Apply(instance, focused);
+			}
+			if (alive && refreshPriority && !instance.Hardened)
+			{
+				bool denied = false;
+				ProcessPriorityClass priority = RobloxProcessOptimizer.ResolveRuntimePriority(App.Settings.Prop, focused);
+				string? error = SetPriority(instance.Process, priority, ref denied);
+				if (error != null && error != instance.PriorityError)
+					App.Logger.WriteLine(LogIdent, error);
+				instance.PriorityError = error;
+				if (error == null)
+					instance.AppliedPriority = priority;
+				instance.Hardened |= denied;
 			}
 			if (alive && MinimizedMemoryTrimming && instance.WasEverFocused)
 			{
@@ -250,7 +262,12 @@ internal sealed partial class TasxOptimizer : IDisposable
 		}
 		List<string> errors = new List<string>(3);
 		bool denied = false;
-		AddError(errors, SetPriority(process, focused ? FocusedPriority : UnfocusedPriority, ref denied));
+		ProcessPriorityClass priority = RobloxProcessOptimizer.ResolveRuntimePriority(App.Settings.Prop, focused);
+		string? priorityError = SetPriority(process, priority, ref denied);
+		AddError(errors, priorityError);
+		instance.PriorityError = priorityError;
+		if (priorityError == null)
+			instance.AppliedPriority = priority;
 		AddError(errors, SetFullSpeed(process, keep: true, ref denied));
 		if (!RobloxProcessOptimizer.SetMemoryPriority(process, low: !focused))
 		{
@@ -327,9 +344,13 @@ internal sealed partial class TasxOptimizer : IDisposable
 	{
 		try
 		{
+			process.Refresh();
 			if (process.PriorityClass != priority)
 			{
 				process.PriorityClass = priority;
+				process.Refresh();
+				if (process.PriorityClass != priority)
+					throw new InvalidOperationException("Windows did not retain the requested Roblox priority");
 			}
 			return null;
 		}
