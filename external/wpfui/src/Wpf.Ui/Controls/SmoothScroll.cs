@@ -60,16 +60,23 @@ namespace Wpf.Ui.Controls
             {
                 if (e.Handled || sender is not ScrollViewer sv)
                     return;
-                bool enhancedMotion = GetIsEnabled(sv) || _globalEnabled;
-                if (!enhancedMotion)
-                    return;
-                if (sv.VerticalScrollBarVisibility == ScrollBarVisibility.Disabled)
-                    return;
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+                    return;
+                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) &&
+                    FindHorizontalScroller(sv, e.OriginalSource as DependencyObject) is ScrollViewer row)
+                {
+                    e.Handled = true;
+                    row.ScrollToHorizontalOffset(Math.Clamp(row.HorizontalOffset - e.Delta, 0, row.ScrollableWidth));
+                    return;
+                }
+                bool enhancedMotion = GetIsEnabled(sv) || _globalEnabled;
+                if (sv.VerticalScrollBarVisibility == ScrollBarVisibility.Disabled)
                     return;
                 if (sv.ScrollableHeight <= 0)
                     return;
                 if (HasInnerScrollable(sv, e.OriginalSource as DependencyObject, e.Delta))
+                    return;
+                if (!enhancedMotion && !IsInsideNonVerticalScroller(sv, e.OriginalSource as DependencyObject))
                     return;
 
                 e.Handled = true;
@@ -143,6 +150,61 @@ namespace Wpf.Ui.Controls
             }
 
             return fallback;
+        }
+
+        private static bool IsInsideNonVerticalScroller(ScrollViewer outer, DependencyObject? source)
+        {
+            try
+            {
+                var node = source;
+                int depth = 0;
+                while (node != null && node != outer && depth < 64)
+                {
+                    if (node is ScrollViewer inner && inner != outer &&
+                        (inner.VerticalScrollBarVisibility == ScrollBarVisibility.Disabled || inner.ScrollableHeight <= 0))
+                    {
+                        return true;
+                    }
+
+                    node = node is Visual or System.Windows.Media.Media3D.Visual3D
+                        ? VisualTreeHelper.GetParent(node)
+                        : LogicalTreeHelper.GetParent(node);
+                    depth++;
+                }
+            }
+            catch
+            {
+            }
+            return false;
+        }
+
+        private static ScrollViewer? FindHorizontalScroller(ScrollViewer outer, DependencyObject? source)
+        {
+            try
+            {
+                var node = source;
+                int depth = 0;
+                while (node != null && depth < 64)
+                {
+                    if (node is ScrollViewer viewer &&
+                        viewer.HorizontalScrollBarVisibility != ScrollBarVisibility.Disabled &&
+                        viewer.ScrollableWidth > 0)
+                    {
+                        return viewer;
+                    }
+                    if (node == outer)
+                        break;
+
+                    node = node is Visual or System.Windows.Media.Media3D.Visual3D
+                        ? VisualTreeHelper.GetParent(node)
+                        : LogicalTreeHelper.GetParent(node);
+                    depth++;
+                }
+            }
+            catch
+            {
+            }
+            return null;
         }
 
         private static bool HasInnerScrollable(ScrollViewer outer, DependencyObject? source, int delta)

@@ -407,8 +407,8 @@
                         <TextBlock Margin="0,12,0,0" MaxWidth="380" FontSize="14" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Your library is empty. Play a game through Voidstrap or add one by PlaceId from the sidebar." />
           </StackPanel>
 
-          <StackPanel Visibility="{Binding EventsVisibility}" Margin="0,0,0,18">
-            <TextBlock Margin="2,0,0,8" FontSize="18" FontWeight="SemiBold" Text="Events" />
+          <StackPanel Visibility="{Binding EventsVisibility}" Margin="0,4,0,24">
+            <TextBlock Margin="2,0,0,10" FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="Events" />
             <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly">
               <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding Events}">
                 <ItemsControl.ItemsPanel>
@@ -418,40 +418,34 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
-                    <Border Width="246" Margin="0,0,10,6" CornerRadius="8" ClipToBounds="True"
-                            Background="{DynamicResource ControlFillColorDefaultBrush}"
-                            BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                            BorderThickness="1">
+                    <Button Style="{StaticResource ShelfCardButton}" Width="246" Margin="0,0,12,8" ToolTip="View event"
+                            Command="{Binding DataContext.OpenEventCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                            CommandParameter="{Binding}">
                       <StackPanel>
-                        <Grid Height="138">
+                        <Grid Height="138" ClipToBounds="True">
                           <Image util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
                           <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8"
                                   CornerRadius="10" Padding="8,3"
-                                  Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}">
-                            <TextBlock Text="{Binding StartDisplay}" FontSize="11" FontWeight="SemiBold"
-                                       Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                                  Background="#CC101010">
+                            <TextBlock Text="{Binding StartDisplay}" FontSize="11" FontWeight="SemiBold" Foreground="White" />
                           </Border>
                         </Grid>
                         <StackPanel Margin="10,8,10,10">
                           <TextBlock FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
-                                     Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Title}" />
+                                     Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Title}" ToolTip="{Binding Title}" />
                           <TextBlock Margin="0,2,0,0" FontSize="11" TextTrimming="CharacterEllipsis"
                                      Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding SubtitleDisplay}" />
-                          <ui:Button Margin="0,8,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
-                                     Appearance="Secondary" Content="View event"
-                                     Command="{Binding DataContext.OpenEventCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                     CommandParameter="{Binding}" />
                         </StackPanel>
                       </StackPanel>
-                    </Border>
+                    </Button>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
             </ui:DynamicScrollViewer>
           </StackPanel>
 
-          <StackPanel Visibility="{Binding WhatsNewVisibility}">
-            <TextBlock Margin="2,0,0,8" FontSize="18" FontWeight="SemiBold" Text="What's New" />
+          <StackPanel Visibility="{Binding WhatsNewVisibility}" Margin="0,0,0,24">
+            <TextBlock Margin="2,0,0,10" FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="What's New" />
             <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly">
               <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding WhatsNew}">
                 <ItemsControl.ItemsPanel>
@@ -461,13 +455,13 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
-                    <Button Style="{StaticResource ShelfCardButton}" Width="246" Margin="0,0,10,6" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource GameContextMenu}" Command="{Binding DataContext.SelectGameCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
+                    <Button Style="{StaticResource ShelfCardButton}" Width="246" Margin="0,0,12,8" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource GameContextMenu}" Command="{Binding DataContext.SelectGameCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
                       <StackPanel>
                         <Border Height="138" ClipToBounds="True">
                           <Image util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
                         </Border>
                         <StackPanel Margin="10,8,10,10">
-                          <TextBlock FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+                          <TextBlock FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
                           <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding UpdatedAgoDisplay}" />
                         </StackPanel>
                       </StackPanel>
@@ -478,8 +472,8 @@
             </ui:DynamicScrollViewer>
           </StackPanel>
 
-          <StackPanel Margin="0,14,0,0" Visibility="{Binding RecentVisibility}">
-            <TextBlock Margin="2,0,0,8" FontSize="18" FontWeight="SemiBold" Text="Recent Games" />
+          <StackPanel Margin="0,0,0,24" Visibility="{Binding RecentVisibility}">
+            <TextBlock Margin="2,0,0,10" FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="Recent Games" />
             <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly">
               <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding RecentGames}">
                 <ItemsControl.ItemsPanel>
@@ -489,13 +483,13 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
-                    <Button Style="{StaticResource ShelfCardButton}" Width="246" Margin="0,0,10,6" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource GameContextMenu}" Command="{Binding DataContext.SelectGameCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
+                    <Button Style="{StaticResource ShelfCardButton}" Width="246" Margin="0,0,12,8" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource GameContextMenu}" Command="{Binding DataContext.SelectGameCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
                       <StackPanel>
                         <Border Height="138" ClipToBounds="True">
                           <Image util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
                         </Border>
                         <StackPanel Margin="10,8,10,10">
-                          <TextBlock FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+                          <TextBlock FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
                           <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding LastPlayedDisplay}" />
                         </StackPanel>
                       </StackPanel>
@@ -506,9 +500,9 @@
             </ui:DynamicScrollViewer>
           </StackPanel>
 
-          <StackPanel Margin="0,14,0,0">
-            <Grid Margin="2,0,4,8">
-              <TextBlock FontSize="18" FontWeight="SemiBold" Text="{Binding AllGamesHeader}" />
+          <StackPanel>
+            <Grid Margin="2,0,4,10">
+              <TextBlock FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding AllGamesHeader}" />
               <TextBlock HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding TotalPlayTimeDisplay}" />
             </Grid>
             <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding AllGames}">
