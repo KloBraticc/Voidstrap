@@ -47,12 +47,20 @@
                                 <TextBlock x:Name="PrivacyText" Text="{Binding PrivacyLabel}" FontSize="11.5" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Border>
-                        <ui:Button HorizontalAlignment="Right"
-                                   Width="26" Height="26" Padding="0"
-                                   Appearance="Transparent"
-                                   Icon="MoreVertical24"
-                                   ToolTip="More options"
-                                   Click="StudioMore_Click"/>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                            <ui:Button Width="26" Height="26" Padding="0"
+                                       Appearance="Transparent"
+                                       Icon="Star24"
+                                       IconFilled="{Binding IsFavorite}"
+                                       ToolTip="{Binding FavoriteTooltip}"
+                                       Command="{Binding DataContext.ToggleStudioFavoriteCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                       CommandParameter="{Binding}"/>
+                            <ui:Button Width="26" Height="26" Padding="0"
+                                       Appearance="Transparent"
+                                       Icon="MoreVertical24"
+                                       ToolTip="More options"
+                                       Click="StudioMore_Click"/>
+                        </StackPanel>
                     </Grid>
                     <TextBlock Text="{Binding Name}"
                                Margin="0,6,0,0"
@@ -394,9 +402,29 @@
                 </ItemsControl>
 
 
-                <TextBlock Text="New on the Catalog"
-                           FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                           Margin="0,8,0,8"/>
+                <Grid Margin="0,8,10,8">
+                    <TextBlock Text="New on the Catalog"
+                               FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                               VerticalAlignment="Center"/>
+                    <ui:Button HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Appearance="Transparent"
+                               Padding="6,3"
+                               ToolTip="See every new item on the Roblox catalog"
+                               Click="CatalogSeeMore_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="See more"
+                                       FontSize="13.5"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource AccentColorSecondaryBrush}"/>
+                            <ui:SymbolIcon Symbol="ChevronRight24"
+                                           FontSize="11"
+                                           Margin="6,1,0,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource AccentColorSecondaryBrush}"/>
+                        </StackPanel>
+                    </ui:Button>
+                </Grid>
 
                 <TextBlock Text="{Binding CatalogError}"
                            Foreground="Red"
@@ -544,10 +572,39 @@
                 </ItemsControl>
 
 
-                <TextBlock Text="Continue Playing"
-                           FontSize="20"
-                           FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                           Margin="0,8,0,8"/>
+                <Grid Margin="0,8,10,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Continue Playing"
+                               FontSize="20"
+                               FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                               VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{Binding GlobalDatacenterToolTip}" ToolTipService.ShowOnDisabled="True">
+                        <TextBlock Text="Server for every game"
+                                   FontSize="12.5"
+                                   Margin="0,0,8,0"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                        <ComboBox Width="210"
+                                  Padding="8,4,8,4"
+                                  FontSize="12"
+                                  IsEnabled="{Binding MatchmakerEnabled}"
+                                  ItemsSource="{Binding GlobalDatacenterOptions}"
+                                  SelectedItem="{Binding GlobalDatacenter, Mode=TwoWay}"
+                                  DisplayMemberPath="Display"/>
+                    </StackPanel>
+                    <ui:Button Grid.Column="2"
+                               Margin="8,0,0,0"
+                               FontSize="12"
+                               Icon="ArrowSync24"
+                               Content="Use for all games"
+                               ToolTip="Clear the server picked on each game so every game uses the server for every game"
+                               IsEnabled="{Binding MatchmakerEnabled}"
+                               Command="{Binding UseGlobalForAllCommand}"/>
+                </Grid>
 
                 <Border Margin="0,4,0,18"
                         Padding="0,34,0,34"
@@ -723,6 +780,8 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="6"/>
                                             <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="6"/>
+                                            <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
                                         <ui:Button Grid.Column="0"
@@ -744,6 +803,13 @@
                                                    Command="{Binding DataContext.CopyLinkCommand,
                                                        RelativeSource={RelativeSource AncestorType=Page}}"
                                                    CommandParameter="{Binding}"/>
+
+                                        <ui:Button Grid.Column="4"
+                                                   Icon="Star24"
+                                                   IconFilled="{Binding IsFavorite}"
+                                                   Appearance="Secondary"
+                                                   ToolTip="{Binding FavoriteTooltip}"
+                                                   Command="{Binding ToggleFavoriteCommand}"/>
                                     </Grid>
 
                                     <ComboBox Margin="12,8,12,0"
@@ -792,6 +858,11 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
+
+                <StackPanel Visibility="{Binding StudioFavoritesVisibility}">
+                    <TextBlock Text="Favourites" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <ItemsControl ItemsSource="{Binding StudioFavorites}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
+                </StackPanel>
 
                 <StackPanel Visibility="{Binding StudioRecentVisibility}">
                     <TextBlock Text="My Recent Experiences" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>

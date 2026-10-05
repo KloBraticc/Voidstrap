@@ -700,6 +700,41 @@ function Reset-OutputDirectory {
     New-Item -ItemType Directory -Path $Path -Force | Out-Null
 }
 
+function Repair-FutureTimestamps {
+    $now = Get-Date
+    $limit = $now.AddMinutes(1)
+    $past = $now.AddHours(-2)
+    $outputs = 0
+    $sources = 0
+    foreach ($name in @('src', 'external', 'artifacts')) {
+        $dir = Join-Path $Root $name
+        if (-not (Test-Path -LiteralPath $dir)) { continue }
+        $files = $null
+        try {
+            $files = [System.IO.Directory]::EnumerateFiles($dir, '*', [System.IO.SearchOption]::AllDirectories)
+            foreach ($file in $files) {
+                if ([System.IO.File]::GetLastWriteTime($file) -le $limit) { continue }
+                $isOutput = $name -eq 'artifacts' -or $file -match '[\\/](bin|obj)([-_][^\\/]*)?[\\/]'
+                try {
+                    if ($isOutput) {
+                        [System.IO.File]::SetLastWriteTime($file, $past)
+                        $outputs++
+                    } else {
+                        [System.IO.File]::SetLastWriteTime($file, $now)
+                        $sources++
+                    }
+                } catch {
+                }
+            }
+        } catch {
+            Write-Host "  Could not check file dates under ${name}: $($_.Exception.Message)" -ForegroundColor DarkYellow
+        }
+    }
+    if ($outputs -gt 0 -or $sources -gt 0) {
+        Write-Host "  The system clock ran ahead (often after booting Linux): reset $outputs build files and $sources source files dated in the future so every page and resource rebuilds." -ForegroundColor DarkYellow
+    }
+}
+
 function Get-PackageFiles {
     param([Parameter(Mandatory)] $Job)
 
@@ -1318,6 +1353,8 @@ foreach ($note in $PackageNotes) {
     Write-Host "  Skipping: $note" -ForegroundColor DarkYellow
 }
 Write-Host ''
+
+Repair-FutureTimestamps
 
 $jobs = @()
 $unexpectedFailure = $null

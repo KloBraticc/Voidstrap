@@ -328,6 +328,9 @@ namespace Voidstrap.Models.Persistable
         public bool FakeBorderlessFullscreen { get; set; } = false;
         public bool FakeExclusiveFullscreen { get; set; } = false;
         public Dictionary<long, string> PerGamePreferredDatacenters { get; set; } = [];
+        public List<long> FavoriteGamePlaceIds { get; set; } = [];
+        public List<long> FavoriteStudioUniverseIds { get; set; } = [];
+        public bool MatchmakerAskBeforeMoving { get; set; } = true;
         public List<long> MatchmakerExcludedPlaceIds { get; set; } = [];
         public int ProxyConnectorType { get; set; } = 0;
         public string? ProxyHttpConnectHost { get; set; } = null;

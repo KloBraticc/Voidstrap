@@ -506,19 +506,100 @@ public sealed class ServerMatchmaker : IDisposable
 			return;
 		}
 
-		RecordTriedJobId(data.PlaceId, data.JobId);
-		RecordTriedJobId(data.PlaceId, best.JobId);
-		App.Logger.WriteLine(LOG_IDENT, $"Rerouting from {currentDc.City} ({currentPing}ms) to {best.DatacenterName} ({best.EstimatedPingMs}ms), {reason}");
+		CancellationTokenSource? moveBy = null;
+		try
+		{
+			if (App.Settings.Prop.MatchmakerAskBeforeMoving && !App.LaunchSettings.QuietFlag.Active)
+			{
+				string targetCity = best.Datacenter?.City ?? "a better location";
+				string question = wantsOtherDc && bestIsPreferred
+					? $"Voidstrap found a server in your preferred location {targetCity}, about {best.EstimatedPingMs}ms.\n\nYou are in {currentDc.City} right now, about {currentPing}ms. Move to {targetCity}? You will leave your current server."
+					: $"Voidstrap found a better server in {targetCity}, about {best.EstimatedPingMs}ms.\n\nYou are in {currentDc.City} right now, about {currentPing}ms. Move to {targetCity}? You will leave your current server.";
+				App.Logger.WriteLine(LOG_IDENT, $"Asking before moving from {currentDc.City} to {targetCity}");
+				if (!await AskToMoveAsync(question, token).ConfigureAwait(false))
+				{
+					App.Logger.WriteLine(LOG_IDENT, $"You chose to stay in {currentDc.City}");
+					ClearLinuxRejoin();
+					ClearAttempt(data.PlaceId);
+					return;
+				}
+				if (_disposed || token.IsCancellationRequested || _activityWatcher.Data?.JobId != data.JobId)
+				{
+					App.Logger.WriteLine(LOG_IDENT, "The server changed while you were deciding, staying put");
+					ClearLinuxRejoin();
+					ClearAttempt(data.PlaceId);
+					return;
+				}
+				moveBy = CancellationTokenSource.CreateLinkedTokenSource(token);
+				moveBy.CancelAfter(MoveWindow);
+				decideBy = moveBy.Token;
+			}
 
-		string blockedNote = string.IsNullOrEmpty(best.BlockedClosestCity)
-			? ""
-			: $"\n{best.BlockedClosestCity} is closer but you blocked it";
-		string attemptNote = attempt > 1 ? $" Attempt {attempt} of {maxRetries}" : "";
-		ShowAlert($"Moving you to {best.Datacenter?.City ?? "the best server"}, about {best.EstimatedPingMs}ms{attemptNote}{blockedNote}", 8);
+			RecordTriedJobId(data.PlaceId, data.JobId);
+			RecordTriedJobId(data.PlaceId, best.JobId);
+			App.Logger.WriteLine(LOG_IDENT, $"Rerouting from {currentDc.City} ({currentPing}ms) to {best.DatacenterName} ({best.EstimatedPingMs}ms), {reason}");
 
-		_lastHopUtc = DateTime.UtcNow;
-		VoidstrapMatchmaker.RememberLaunchPick(best);
-		await TriggerRejoinAsync(data.PlaceId, attempt, best.JobId, best.Datacenter?.City, decideBy, token).ConfigureAwait(false);
+			string blockedNote = string.IsNullOrEmpty(best.BlockedClosestCity)
+				? ""
+				: $"\n{best.BlockedClosestCity} is closer but you blocked it";
+			string attemptNote = attempt > 1 ? $" Attempt {attempt} of {maxRetries}" : "";
+			ShowAlert($"Moving you to {best.Datacenter?.City ?? "the best server"}, about {best.EstimatedPingMs}ms{attemptNote}{blockedNote}", 8);
+
+			_lastHopUtc = DateTime.UtcNow;
+			VoidstrapMatchmaker.RememberLaunchPick(best);
+			await TriggerRejoinAsync(data.PlaceId, attempt, best.JobId, best.Datacenter?.City, decideBy, token).ConfigureAwait(false);
+		}
+		finally
+		{
+			moveBy?.Dispose();
+		}
+	}
+
+	private static readonly TimeSpan MovePromptTimeout = TimeSpan.FromSeconds(20);
+
+	private static async Task<bool> AskToMoveAsync(string message, CancellationToken token)
+	{
+		System.Windows.Threading.Dispatcher? dispatcher = System.Windows.Application.Current?.Dispatcher;
+		if (dispatcher == null || dispatcher.HasShutdownStarted || token.IsCancellationRequested)
+			return false;
+		try
+		{
+			return await dispatcher.InvokeAsync(() => ShowMovePrompt(message, token)).Task.ConfigureAwait(false);
+		}
+		catch (Exception ex) when (ex is InvalidOperationException or TaskCanceledException)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "The move prompt could not be shown, staying put: " + ex.Message);
+			return false;
+		}
+	}
+
+	private static bool ShowMovePrompt(string message, CancellationToken token)
+	{
+		Voidstrap.UI.Elements.Dialogs.FluentMessageBox box = new(message, System.Windows.MessageBoxImage.Question, System.Windows.MessageBoxButton.YesNo)
+		{
+			Topmost = true,
+			ShowActivated = true
+		};
+		System.Windows.Threading.DispatcherTimer timer = new() { Interval = MovePromptTimeout };
+		void CloseBox(object? sender, EventArgs e)
+		{
+			timer.Stop();
+			if (box.IsVisible)
+				box.Close();
+		}
+		timer.Tick += CloseBox;
+		using CancellationTokenRegistration registration = token.Register(() => box.Dispatcher.BeginInvoke(() => CloseBox(null, EventArgs.Empty)));
+		timer.Start();
+		try
+		{
+			box.ShowTopLevelDialog();
+		}
+		finally
+		{
+			timer.Stop();
+			timer.Tick -= CloseBox;
+		}
+		return box.Result == System.Windows.MessageBoxResult.Yes;
 	}
 
 	private async Task TriggerRejoinAsync(long placeId, int attemptNumber, string? explicitJobId, string? targetName, CancellationToken decideBy, CancellationToken token)

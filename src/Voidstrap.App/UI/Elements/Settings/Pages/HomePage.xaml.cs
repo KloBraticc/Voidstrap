@@ -31,6 +31,11 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 Utilities.ShellExecute(Voidstrap.Integrations.RobloxNews.FeedPageUrl);
         }
 
+        private void CatalogSeeMore_Click(object sender, RoutedEventArgs e)
+        {
+            Utilities.OpenWebLink("https://www.roblox.com/catalog?Category=1&SortType=3");
+        }
+
         private void HomeTab_Click(object sender, RoutedEventArgs e)
         {
             if (sender is FrameworkElement { Tag: string tab })

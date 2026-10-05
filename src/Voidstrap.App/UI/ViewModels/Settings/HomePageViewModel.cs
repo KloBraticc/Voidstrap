@@ -36,11 +36,31 @@ namespace Voidstrap.UI.ViewModels.Pages
         private string _likePercent = "--";
         private string _playerCount = "--";
 
-        public HistoryGameEntry(ActivityData data, ObservableCollection<DatacenterOption> datacenterOptions)
+        private readonly Action<HistoryGameEntry>? _favoriteChanged;
+
+        public HistoryGameEntry(ActivityData data, ObservableCollection<DatacenterOption> datacenterOptions, Action<HistoryGameEntry>? favoriteChanged = null)
         {
             Data = data;
             _datacenterOptions = datacenterOptions;
+            _favoriteChanged = favoriteChanged;
             _selectedDatacenter = FindSavedDatacenter();
+        }
+
+        public bool IsFavorite => App.Settings.Prop.FavoriteGamePlaceIds?.Contains(PlaceId) == true;
+
+        public string FavoriteTooltip => IsFavorite ? "Remove from favourites" : "Add to favourites, favourites stay at the top";
+
+        public ICommand ToggleFavoriteCommand => new RelayCommand(ToggleFavorite);
+
+        private void ToggleFavorite()
+        {
+            List<long> favorites = App.Settings.Prop.FavoriteGamePlaceIds ??= new List<long>();
+            if (!favorites.Remove(PlaceId))
+                favorites.Add(PlaceId);
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(IsFavorite));
+            OnPropertyChanged(nameof(FavoriteTooltip));
+            _favoriteChanged?.Invoke(this);
         }
 
         private DatacenterOption? FindSavedDatacenter()
@@ -277,6 +297,8 @@ namespace Voidstrap.UI.ViewModels.Pages
                 if (_filteredHistory is null)
                 {
                     _filteredHistory = CollectionViewSource.GetDefaultView(_gameHistory);
+                    _filteredHistory.SortDescriptions.Add(new SortDescription(nameof(HistoryGameEntry.IsFavorite), ListSortDirection.Descending));
+                    _filteredHistory.SortDescriptions.Add(new SortDescription(nameof(HistoryGameEntry.TimeJoined), ListSortDirection.Descending));
                     _filteredHistory.Filter = obj =>
                     {
                         if (string.IsNullOrWhiteSpace(_searchText)) return true;
@@ -289,6 +311,52 @@ namespace Voidstrap.UI.ViewModels.Pages
                 }
                 return _filteredHistory;
             }
+        }
+
+        private void OnFavoriteChanged(HistoryGameEntry entry)
+        {
+            try { FilteredHistory.Refresh(); } catch { }
+        }
+
+        public ObservableCollection<DatacenterOption> GlobalDatacenterOptions { get; } = new();
+
+        public bool MatchmakerEnabled => App.Settings.Prop.VoidstrapMatchmakerEnabled;
+
+        public string GlobalDatacenterToolTip => MatchmakerEnabled
+            ? "The server every game joins unless you pick a different one on its card"
+            : "Turn on the Voidstrap Matchmaker in Settings to pick a server for every game";
+
+        public DatacenterOption? GlobalDatacenter
+        {
+            get
+            {
+                string key = App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "";
+                return GlobalDatacenterOptions.FirstOrDefault(o => string.Equals(o.Key, key, StringComparison.OrdinalIgnoreCase))
+                    ?? GlobalDatacenterOptions.FirstOrDefault();
+            }
+            set
+            {
+                if (value == null || HistoryGameEntry.RebuildingDatacenterOptions)
+                    return;
+                if (string.Equals(App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "", value.Key, StringComparison.OrdinalIgnoreCase))
+                    return;
+                App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter = value.Key;
+                App.Settings.SaveDeferred();
+                OnPropertyChanged(nameof(GlobalDatacenter));
+            }
+        }
+
+        public ICommand UseGlobalForAllCommand => new RelayCommand(UseGlobalForAll);
+
+        private void UseGlobalForAll()
+        {
+            if (App.Settings.Prop.PerGamePreferredDatacenters is { Count: > 0 } perGame)
+            {
+                perGame.Clear();
+                App.Settings.SaveDeferred();
+            }
+            foreach (HistoryGameEntry entry in _gameHistory)
+                entry.ResolveDatacenter();
         }
 
         private string _searchText = "";
@@ -359,6 +427,7 @@ namespace Voidstrap.UI.ViewModels.Pages
             OpenCatalogItemCommand = new RelayCommand<CatalogItemEntry>(OpenCatalogItem);
             OpenNewsCardCommand = new RelayCommand<NewsCardEntry>(OpenNewsCard);
             OpenStudioProjectCommand = new RelayCommand<StudioProject>(p => { if (p != null) StudioProjects.Open(p); });
+            ToggleStudioFavoriteCommand = new RelayCommand<StudioProject>(ToggleStudioFavorite);
             LaunchStudioCommand = new RelayCommand(StudioProjects.LaunchStudio);
             RefreshStudioCommand = new AsyncRelayCommand(LoadStudioAsync);
         }
@@ -368,12 +437,14 @@ namespace Voidstrap.UI.ViewModels.Pages
         private bool _isStudioLoading;
         private string _studioStatus = string.Empty;
 
+        public ObservableCollection<StudioProject> StudioFavorites { get; } = new();
         public ObservableCollection<StudioProject> StudioRecent { get; } = new();
         public ObservableCollection<StudioProject> StudioOwned { get; } = new();
         public ObservableCollection<StudioProject> StudioLocalFiles { get; } = new();
         public ObservableCollection<StudioProject> StudioTemplates { get; } = new();
 
         public ICommand OpenStudioProjectCommand { get; }
+        public ICommand ToggleStudioFavoriteCommand { get; }
         public ICommand LaunchStudioCommand { get; }
         public ICommand RefreshStudioCommand { get; }
 
@@ -415,6 +486,7 @@ namespace Voidstrap.UI.ViewModels.Pages
             private set { _studioStatus = value; OnPropertyChanged(nameof(StudioStatus)); }
         }
 
+        public Visibility StudioFavoritesVisibility => StudioFavorites.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         public Visibility StudioRecentVisibility => StudioRecent.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         public Visibility StudioOwnedVisibility => StudioOwned.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         public Visibility StudioLocalFilesVisibility => StudioLocalFiles.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -438,6 +510,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                 Fill(StudioOwned, ownedTask.Result);
                 Fill(StudioLocalFiles, localTask.Result);
                 Fill(StudioTemplates, templatesTask.Result);
+                RebuildStudioFavorites();
 
                 StudioStatus = StudioRecent.Count == 0 && StudioOwned.Count == 0 && !RobloxCookie.Exists
                     ? "Sign in to Roblox to see your experiences here."
@@ -465,13 +538,65 @@ namespace Voidstrap.UI.ViewModels.Pages
             }
         }
 
+        private void ToggleStudioFavorite(StudioProject? project)
+        {
+            if (project == null || project.UniverseId <= 0)
+                return;
+            List<long> favorites = App.Settings.Prop.FavoriteStudioUniverseIds ??= new List<long>();
+            if (!favorites.Remove(project.UniverseId))
+                favorites.Add(project.UniverseId);
+            App.Settings.SaveDeferred();
+            RebuildStudioFavorites();
+        }
+
+        private void RebuildStudioFavorites()
+        {
+            HashSet<long> favorites = new(App.Settings.Prop.FavoriteStudioUniverseIds ?? new List<long>());
+            List<StudioProject> picked = new();
+            HashSet<long> seen = new();
+            foreach (StudioProject project in StudioRecent.Concat(StudioOwned))
+            {
+                project.IsFavorite = favorites.Contains(project.UniverseId);
+                if (project.IsFavorite && seen.Add(project.UniverseId))
+                    picked.Add(project);
+            }
+            StudioFavorites.Clear();
+            foreach (StudioProject project in picked)
+                StudioFavorites.Add(project);
+            OnPropertyChanged(nameof(StudioFavoritesVisibility));
+        }
+
+        private void RebuildGlobalDatacenterOptions(List<DatacenterOption> built)
+        {
+            List<DatacenterOption> global = [new DatacenterOption { Key = "", Display = "Closest server (Auto)" }, .. built.Where(o => o.Key.Length > 0)];
+            string saved = (App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "").Trim();
+            if (saved.Length > 0 && !global.Any(o => string.Equals(o.Key, saved, StringComparison.OrdinalIgnoreCase)))
+                global.Add(new DatacenterOption { Key = saved, Display = saved.Replace("|", ", ") });
+            if (GlobalDatacenterOptions.Select(o => o.Key).SequenceEqual(global.Select(o => o.Key), StringComparer.OrdinalIgnoreCase))
+                return;
+            HistoryGameEntry.RebuildingDatacenterOptions = true;
+            try
+            {
+                GlobalDatacenterOptions.Clear();
+                foreach (DatacenterOption option in global)
+                    GlobalDatacenterOptions.Add(option);
+            }
+            finally
+            {
+                HistoryGameEntry.RebuildingDatacenterOptions = false;
+            }
+            OnPropertyChanged(nameof(GlobalDatacenter));
+            OnPropertyChanged(nameof(MatchmakerEnabled));
+            OnPropertyChanged(nameof(GlobalDatacenterToolTip));
+        }
+
         private async Task LoadDatacenterOptionsAsync()
         {
             try
             {
                 var built = await Task.Run(() =>
                 {
-                    var list = new List<DatacenterOption> { new DatacenterOption { Key = "", Display = "Preferred Server (Auto)" } };
+                    var list = new List<DatacenterOption> { new DatacenterOption { Key = "", Display = "Same as every game" } };
 
                     var bestByKey = new Dictionary<string, LearnedServerEntry>(StringComparer.OrdinalIgnoreCase);
                     foreach (var entry in ServerFetchStore.AllEntries())
@@ -498,6 +623,7 @@ namespace Voidstrap.UI.ViewModels.Pages
 
                 await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
+                    RebuildGlobalDatacenterOptions(built);
                     if (DatacenterOptions.Select(o => o.Key).SequenceEqual(built.Select(o => o.Key), StringComparer.OrdinalIgnoreCase))
                         return;
                     HistoryGameEntry.RebuildingDatacenterOptions = true;
@@ -637,7 +763,7 @@ namespace Voidstrap.UI.ViewModels.Pages
             {
                 _gameHistory.Clear();
                 foreach (var entry in entries)
-                    _gameHistory.Add(new HistoryGameEntry(entry, DatacenterOptions));
+                    _gameHistory.Add(new HistoryGameEntry(entry, DatacenterOptions, OnFavoriteChanged));
 
                 NotifyCollectionsChanged();
             });

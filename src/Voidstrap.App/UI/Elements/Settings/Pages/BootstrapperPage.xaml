@@ -134,6 +134,9 @@
           <controls:OptionControl Header="What to join" Description="How Voidstrap chooses between the servers it finds">
             <ComboBox Width="280" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" ItemsSource="{Binding MatchmakerModes}" SelectedValue="{Binding MatchmakerMode, Mode=TwoWay}" />
           </controls:OptionControl>
+          <controls:OptionControl Header="Ask before moving servers" Description="When a better server is found after you join, ask first instead of moving you right away. No answer within 20 seconds keeps you where you are.">
+            <ui:ToggleSwitch IsEnabled="{Binding VoidstrapMatchmakerEnabled}" IsChecked="{Binding MatchmakerAskBeforeMoving, Mode=TwoWay}" />
+          </controls:OptionControl>
           <StackPanel Margin="0,12,0,0" Visibility="{Binding ShowPreferredDatacenterPicker, Converter={StaticResource BooleanToVisibilityConverter}}">
             <TextBlock FontSize="14" Text="Which datacenter" />
             <TextBlock Margin="0,2,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Click a pin to pick a datacenter. Drag to pan, scroll to zoom, hover for details." />
@@ -301,6 +304,7 @@
             <ComboBox Width="240" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" ItemsSource="{Binding FullscreenModes}" SelectedValue="{Binding RobloxFullscreenMode, Mode=TwoWay}" />
           </controls:OptionControl>
           <ui:InfoBar Padding="8" Margin="0,4,0,0" IsClosable="False" IsOpen="True" Severity="Warning" Title="Overlays are hidden in exclusive fullscreen" Message="Your Windows mouse cursor and every overlay are hidden" Visibility="{Binding ShowExclusiveFullscreenWarning, Converter={StaticResource BooleanToVisibilityConverter}}" />
+          <ui:InfoBar Padding="8" Margin="0,4,0,4" IsClosable="False" IsOpen="True" Severity="Informational" Title="Needs XWayland on Linux" Message="The title, game name, game icon and server info only apply on Wayland when Run Roblox through XWayland is on in the Sober page." Visibility="{Binding LinuxTitleNeedsXWayland, Converter={StaticResource BooleanToVisibilityConverter}}" />
           <controls:OptionControl Header="Title" Description="Leave blank to keep the title Roblox sets">
             <ui:TextBox Width="220" PlaceholderText="Voidstrap" Text="{Binding RobloxTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>

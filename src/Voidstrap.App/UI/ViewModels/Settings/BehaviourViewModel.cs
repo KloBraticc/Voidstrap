@@ -2376,6 +2376,22 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
+	public bool LinuxTitleNeedsXWayland => Voidstrap.Utility.Platform.IsLinux
+		&& Voidstrap.Integrations.Overlays.OverlaySettings.LinuxSessionIsWayland
+		&& !App.Settings.Prop.SoberPreferXWayland;
+
+	public bool MatchmakerAskBeforeMoving
+	{
+		get => App.Settings.Prop.MatchmakerAskBeforeMoving;
+		set
+		{
+			if (App.Settings.Prop.MatchmakerAskBeforeMoving == value)
+				return;
+			App.Settings.Prop.MatchmakerAskBeforeMoving = value;
+			OnPropertyChanged(nameof(MatchmakerAskBeforeMoving));
+		}
+	}
+
 	public bool ShowServerInfoInTitle
 	{
 		get

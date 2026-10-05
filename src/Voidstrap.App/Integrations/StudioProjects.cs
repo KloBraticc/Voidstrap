@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -11,8 +12,27 @@ using Microsoft.Win32;
 
 namespace Voidstrap.Integrations;
 
-public sealed class StudioProject
+public sealed class StudioProject : INotifyPropertyChanged
 {
+	private bool _isFavorite;
+
+	public event PropertyChangedEventHandler? PropertyChanged;
+
+	public bool IsFavorite
+	{
+		get => _isFavorite;
+		set
+		{
+			if (_isFavorite == value)
+				return;
+			_isFavorite = value;
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsFavorite)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FavoriteTooltip)));
+		}
+	}
+
+	public string FavoriteTooltip => IsFavorite ? "Remove from favourites" : "Add to favourites";
+
 	public long UniverseId { get; init; }
 
 	public long PlaceId { get; init; }
