@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -16,6 +18,10 @@ internal static class LinuxWebImageSource
 	private const string LogIdent = "LinuxWebImageSource";
 
 	private static bool _installed;
+
+	private static readonly HashSet<DrawingImage> _presented = new(ReferenceEqualityComparer.Instance);
+
+	private static bool _refreshQueued;
 
 	public static void Install()
 	{
@@ -73,7 +79,7 @@ internal static class LinuxWebImageSource
 		Task<BitmapSource?> load = Voidstrap.Utility.DynamicRenderSystem.LoadWebImageAsync(uri.AbsoluteUri);
 		if (load.IsCompletedSuccessfully)
 		{
-			Present(content, load.Result);
+			Present(image, content, load.Result);
 			return image;
 		}
 
@@ -82,17 +88,64 @@ internal static class LinuxWebImageSource
 			BitmapSource? bitmap = task.IsCompletedSuccessfully ? task.Result : null;
 			if (bitmap == null || dispatcher.HasShutdownStarted)
 				return;
-			dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => Present(content, bitmap)));
+			dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+			{
+				if (Present(image, content, bitmap))
+					QueueLayoutRefresh(dispatcher);
+			}));
 		}, TaskScheduler.Default);
 		return image;
 	}
 
-	private static void Present(DrawingGroup content, BitmapSource? bitmap)
+	private static bool Present(DrawingImage image, DrawingGroup content, BitmapSource? bitmap)
 	{
 		if (bitmap == null || content.IsFrozen || bitmap.Width <= 0 || bitmap.Height <= 0)
-			return;
+			return false;
 		content.Children.Clear();
 		content.Children.Add(new ImageDrawing(bitmap, new Rect(0, 0, bitmap.Width, bitmap.Height)));
+		_presented.Add(image);
+		return true;
+	}
+
+	private static void QueueLayoutRefresh(Dispatcher dispatcher)
+	{
+		if (_refreshQueued)
+			return;
+		_refreshQueued = true;
+		dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(RefreshPresentedImages));
+	}
+
+	private static void RefreshPresentedImages()
+	{
+		_refreshQueued = false;
+		if (_presented.Count == 0)
+			return;
+		try
+		{
+			Application? application = Application.Current;
+			if (application != null)
+			{
+				foreach (Window window in application.Windows)
+					InvalidatePresented(window);
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LogIdent, "Loaded web images could not update their layout: " + ex.Message);
+		}
+		finally
+		{
+			_presented.Clear();
+		}
+	}
+
+	private static void InvalidatePresented(DependencyObject element)
+	{
+		if (element is Image target && target.Source is DrawingImage source && _presented.Contains(source))
+			target.InvalidateMeasure();
+		int count = VisualTreeHelper.GetChildrenCount(element);
+		for (int index = 0; index < count; index++)
+			InvalidatePresented(VisualTreeHelper.GetChild(element, index));
 	}
 
 	private sealed class Converter : ImageSourceConverter

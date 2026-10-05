@@ -210,7 +210,7 @@ namespace Voidstrap.UI
 
         private static async Task<(bool Reached, string[]? Paths)> PickWithPortalAsync(PortableFileDialogRequest request)
         {
-            using Connection connection = new(Address.Session);
+            using Connection connection = new(Voidstrap.Utility.LinuxSessionBus.RequireAddress());
             ConnectionInfo info = await connection.ConnectAsync().ConfigureAwait(false);
 
             string token = "voidstrap" + Guid.NewGuid().ToString("N");

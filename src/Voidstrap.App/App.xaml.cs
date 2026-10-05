@@ -790,6 +790,7 @@ public partial class App : Application
 		TryStartup("Icon font", Voidstrap.Utility.IconFontLoader.Install);
 		TryStartup("Rounded window chrome", Voidstrap.UI.RoundedWindowChrome.Install);
 		TryStartup("Text guard", Voidstrap.UI.LinuxTextGuard.Install);
+		TryStartup("Text selection highlight", Voidstrap.UI.LinuxTextSelectionHighlight.Install);
 		TryStartup("Hyperlink routing", Voidstrap.UI.LinuxInlineText.Install);
 		TryStartup("Dropdown lifecycle", Voidstrap.UI.LinuxComboBoxGuard.Install);
 		TryStartup("Pointer hit testing", Voidstrap.UI.LinuxPointerHitTest.Install);
@@ -1427,6 +1428,8 @@ public partial class App : Application
 					Voidstrap.Utility.LinuxDesktopEntry.EnsureInstalled(Paths.Application);
 					Voidstrap.Utility.LinuxDesktopEntry.RegisterSandboxSchemeHandlers();
 				}), token);
+			if (Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed)
+				_ = Voidstrap.Utility.LinuxFlatpakScope.ReleaseLauncherAsync(token);
 			if (LaunchSettings.WatcherFlag.Active)
 				return;
 			_ = RefreshRemoteDataAsync(token);

@@ -85,6 +85,16 @@ public static class AppFont
 				Apply(window);
 			}
 		});
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			EventManager.RegisterClassHandler(typeof(Page), FrameworkElement.LoadedEvent, (RoutedEventHandler)delegate(object sender, RoutedEventArgs _)
+			{
+				if (sender is Page page)
+				{
+					ApplyToPage(page);
+				}
+			});
+		}
 	}
 
 	private static void Load()
@@ -101,6 +111,22 @@ public static class AppFont
 		catch
 		{
 			_current = null;
+		}
+	}
+
+	private static void ApplyToPage(Page page)
+	{
+		try
+		{
+			FontFamily family = CurrentFontFamily;
+			if (!string.Equals(page.FontFamily?.Source, family.Source, StringComparison.OrdinalIgnoreCase))
+			{
+				page.SetCurrentValue(Page.FontFamilyProperty, family);
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("AppFont", "The page font could not be applied: " + ex.Message);
 		}
 	}
 
@@ -136,6 +162,24 @@ public static class AppFont
 		foreach (Window window in current.Windows)
 		{
 			Apply(window);
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				ApplyToPages(window);
+			}
+		}
+	}
+
+	private static void ApplyToPages(DependencyObject root)
+	{
+		int count = VisualTreeHelper.GetChildrenCount(root);
+		for (int index = 0; index < count; index++)
+		{
+			DependencyObject child = VisualTreeHelper.GetChild(root, index);
+			if (child is Page page)
+			{
+				ApplyToPage(page);
+			}
+			ApplyToPages(child);
 		}
 	}
 

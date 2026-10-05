@@ -15,7 +15,7 @@ internal static class DiscordIpc
 {
 	internal static readonly TimeSpan PollInterval = TimeSpan.FromSeconds(5);
 
-	internal static readonly TimeSpan RetryDelay = TimeSpan.FromSeconds(30);
+	internal static readonly TimeSpan RetryDelay = TimeSpan.FromSeconds(5);
 
 	private static readonly ConditionalWeakTable<DiscordRpcClient, DiscordActivityPipe> Pipes = new();
 

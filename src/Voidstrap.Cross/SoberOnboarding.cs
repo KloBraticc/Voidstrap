@@ -268,11 +268,11 @@ internal static class SoberOnboarding
     private static async Task<List<string>> CandidateAddressesAsync()
     {
         List<string> addresses = [];
-        if (!LinuxFlatpakHost.IsSandboxed && !string.IsNullOrEmpty(Address.Session))
+        if (!LinuxFlatpakHost.IsSandboxed && Voidstrap.Utility.LinuxSessionBus.Address is not null)
         {
             try
             {
-                using Connection session = new(Address.Session);
+                using Connection session = new(Voidstrap.Utility.LinuxSessionBus.RequireAddress());
                 await session.ConnectAsync().ConfigureAwait(false);
                 string address = await session.CreateProxy<IAccessibilityBus>("org.a11y.Bus", "/org/a11y/bus")
                     .GetAddressAsync()

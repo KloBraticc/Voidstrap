@@ -118,9 +118,40 @@ public partial class DiscordRichPresence : IDisposable
 	private CancellationTokenSource? _gameCancellation;
 	private int _activityRevision;
 
+	private const int MaxGameMessages = 64;
+
+	private const ulong MaxUnixSeconds = 32503680000UL;
+
+	private readonly List<Message> _gameMessages = new List<Message>();
+
+	private bool _gamePresenceActive;
+
+	private ActivityData? _enrichedActivity;
+
+	private string? _enrichedLocation;
+
+	private string _enrichedLargeImage = string.Empty;
+
+	private string? _enrichedSmallKey;
+
+	private string? _enrichedSmallText;
+
+	private volatile bool _linuxStudioRunning;
+
+	private int _linuxStudioProbeActive;
+
+	private void ClearGameMessages()
+	{
+		lock (_activityGate)
+		{
+			_gameMessages.Clear();
+			_messageQueue.Clear();
+		}
+	}
+
 	private void OnGameJoining(object? sender, EventArgs e)
 	{
-		_messageQueue.Clear();
+		ClearGameMessages();
 		ResetGameRequests();
 		PublishLoadingPresence();
 		_ = Task.Run(SetCurrentGameAsync, _lifetimeToken);
@@ -135,7 +166,7 @@ public partial class DiscordRichPresence : IDisposable
 
 	private void OnGameLeft(object? sender, EventArgs e)
 	{
-		_messageQueue.Clear();
+		ClearGameMessages();
 		ResetGameRequests();
 		if (_activityWatcher.IsTeleporting)
 		{
@@ -171,6 +202,7 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			if (_disposed || _activityWatcher.InGame)
 				return;
+			_gamePresenceActive = false;
 			_currentPresence = new DiscordRPC.RichPresence
 			{
 				Details = "Roblox",
@@ -369,40 +401,65 @@ public partial class DiscordRichPresence : IDisposable
 
 	public void ProcessRPCMessage(Message message, bool implicitUpdate = true)
 	{
-
 		lock (_activityGate)
-		{			if (message.Command != "SetRichPresence" && message.Command != "SetLaunchData")
-			{
+		{
+			if (_disposed || (message.Command != "SetRichPresence" && message.Command != "SetLaunchData"))
 				return;
-			}
-			if (_currentPresence == null || _originalSnapshot == null)
-			{
-				while (_messageQueue.Count >= MaxQueuedMessages)
-				{
-					_messageQueue.TryDequeue(out _);
-				}
-				_messageQueue.Enqueue(message);
+			while (_gameMessages.Count >= MaxGameMessages)
+				_gameMessages.RemoveAt(0);
+			_gameMessages.Add(message);
+			if (!_gamePresenceActive || _currentPresence == null || _originalSnapshot == null)
 				return;
-			}
-			if (message.Command == "SetLaunchData")
-			{
-				_currentPresence.Buttons = GetButtons();
-			}
-			else if (message.Command == "SetRichPresence")
-			{
-				if (!TryDeserializePresence(message.Data, out Voidstrap.Models.VoidstrapRPC.RichPresence? presence) || presence == null)
-				{
-					return;
-				}
-				_currentPresence.Details = UpdateField(_currentPresence.Details, presence.Details, _originalSnapshot.Details, 128);
-				_currentPresence.State = UpdateField(_currentPresence.State, presence.State, _originalSnapshot.State, 128);
-				UpdateAssets(_currentPresence.Assets, _originalSnapshot, presence.SmallImage, small: true);
-				UpdateAssets(_currentPresence.Assets, _originalSnapshot, presence.LargeImage, small: false);
-			}
-			if (implicitUpdate)
-			{
+			if (ApplyRPCMessage(message) && implicitUpdate)
 				UpdatePresence();
-			}
+		}
+	}
+
+	private void ReplayGameMessages()
+	{
+		foreach (Message message in _gameMessages)
+			ApplyRPCMessage(message);
+	}
+
+	private bool ApplyRPCMessage(Message message)
+	{
+		if (_currentPresence == null || _originalSnapshot == null)
+			return false;
+		if (message.Command == "SetLaunchData")
+		{
+			_currentPresence.Buttons = GetButtons();
+			return true;
+		}
+		if (message.Command != "SetRichPresence"
+			|| !TryDeserializePresence(message.Data, out Voidstrap.Models.VoidstrapRPC.RichPresence? presence) || presence == null)
+			return false;
+		_currentPresence.Details = UpdateField(_currentPresence.Details, presence.Details, _originalSnapshot.Details, 128);
+		_currentPresence.State = UpdateField(_currentPresence.State, presence.State, _originalSnapshot.State, 128);
+		_currentPresence.Assets ??= new Assets();
+		UpdateAssets(_currentPresence.Assets, _originalSnapshot, presence.SmallImage, small: true);
+		UpdateAssets(_currentPresence.Assets, _originalSnapshot, presence.LargeImage, small: false);
+		ApplyTimestamps(_currentPresence, presence);
+		return true;
+	}
+
+	private static void ApplyTimestamps(DiscordRPC.RichPresence target, Voidstrap.Models.VoidstrapRPC.RichPresence presence)
+	{
+		if (presence.TimestampStart is null && presence.TimestampEnd is null)
+			return;
+		target.Timestamps ??= new Timestamps();
+		if (presence.TimestampStart is ulong start)
+		{
+			if (start == 0)
+				target.Timestamps.Start = null;
+			else if (start <= MaxUnixSeconds)
+				target.Timestamps.Start = DateTimeOffset.FromUnixTimeSeconds((long)start).UtcDateTime;
+		}
+		if (presence.TimestampEnd is ulong end)
+		{
+			if (end == 0)
+				target.Timestamps.End = null;
+			else if (end <= MaxUnixSeconds)
+				target.Timestamps.End = DateTimeOffset.FromUnixTimeSeconds((long)end).UtcDateTime;
 		}
 	}
 
@@ -552,24 +609,32 @@ public partial class DiscordRichPresence : IDisposable
 				UpdatePresence();
 		}
 		bool studioRunning;
-		try
+		if (Voidstrap.Utility.Platform.IsLinux)
 		{
-			Process[] processes = Process.GetProcessesByName("RobloxStudioBeta");
-			studioRunning = processes.Length != 0;
-			foreach (Process process in processes)
+			QueueLinuxStudioProbe();
+			studioRunning = _linuxStudioRunning;
+		}
+		else
+		{
+			try
 			{
-				try
+				Process[] processes = Process.GetProcessesByName("RobloxStudioBeta");
+				studioRunning = processes.Length != 0;
+				foreach (Process process in processes)
 				{
-					process.Dispose();
-				}
-				catch
-				{
+					try
+					{
+						process.Dispose();
+					}
+					catch
+					{
+					}
 				}
 			}
-		}
-		catch
-		{
-			return;
+			catch
+			{
+				return;
+			}
 		}
 		if (_studioSuppressed == studioRunning)
 		{
@@ -585,6 +650,31 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			App.Logger.WriteException("DiscordRichPresence::OnStudioWatch", ex);
 		}
+	}
+
+	private void QueueLinuxStudioProbe()
+	{
+		if (Interlocked.Exchange(ref _linuxStudioProbeActive, 1) == 1)
+			return;
+		_ = Task.Run(async () =>
+		{
+			try
+			{
+				Voidstrap.Platform.Linux.LinuxVinegarProcessProbe probe = new(new Voidstrap.Core.SystemProcessService());
+				_linuxStudioRunning = await probe.IsRunningAsync(_lifetimeToken).ConfigureAwait(false);
+			}
+			catch (OperationCanceledException)
+			{
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine(LOG_IDENT, "Roblox Studio check failed: " + ex.Message);
+			}
+			finally
+			{
+				Interlocked.Exchange(ref _linuxStudioProbeActive, 0);
+			}
+		});
 	}
 
 	private async Task SetCurrentGameAsync()
@@ -737,12 +827,28 @@ public partial class DiscordRichPresence : IDisposable
 		string creator = universe?.Data?.Creator?.Name ?? string.Empty;
 		bool verified = universe?.Data?.Creator?.HasVerifiedBadge ?? false;
 		string detailText = BuildDetailText(cleanName, betaTag, creator, verified);
-		string stateText = BuildStateText(activity.ServerType, reservedName, null, totalFlags);
+		bool sameActivity;
+		string? knownLocation;
+		string knownLargeImage;
+		string? knownSmallKey;
+		string? knownSmallText;
+		lock (_activityGate)
+		{
+			sameActivity = ReferenceEquals(_enrichedActivity, activity);
+			knownLocation = sameActivity && App.Settings.Prop.ServerLocationGame ? _enrichedLocation : null;
+			knownLargeImage = sameActivity ? _enrichedLargeImage : string.Empty;
+			knownSmallKey = sameActivity ? _enrichedSmallKey : null;
+			knownSmallText = sameActivity ? _enrichedSmallText : null;
+		}
+		string stateText = BuildStateText(activity.ServerType, reservedName, knownLocation, totalFlags);
 		string largeImage = !string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon) ? App.Settings.Prop.UseCustomIcon : App.Settings.Prop.GameIconChecked ? universe?.Thumbnail?.ImageUrl ?? string.Empty : string.Empty;
 		largeImage = Voidstrap.Utility.DiscordPresenceGuard.Key(largeImage);
+		if (largeImage.Length == 0 && App.Settings.Prop.GameIconChecked && string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon))
+			largeImage = knownLargeImage;
 		string largeText = BuildLargeImageText(shownName, creator);
-		string smallImage = "voidstrap";
-		string smallText = "Voidstrap";
+		bool showAccount = App.Settings.Prop.ShowAccountOnRichPresence && activity.UserId > 0;
+		string smallImage = showAccount && !string.IsNullOrEmpty(knownSmallKey) ? knownSmallKey : "voidstrap";
+		string smallText = showAccount && !string.IsNullOrEmpty(knownSmallKey) ? knownSmallText ?? "Voidstrap" : "Voidstrap";
 		DiscordRPC.RichPresence gamePresence;
 		OriginalSnapshot original;
 		lock (_activityGate)
@@ -773,8 +879,8 @@ public partial class DiscordRichPresence : IDisposable
 				SmallImageKey = smallImage ?? string.Empty,
 				SmallImageText = smallText ?? string.Empty
 			};
-			while (_messageQueue.TryDequeue(out Message? queued))
-				ProcessRPCMessage(queued, implicitUpdate: false);
+			_gamePresenceActive = true;
+			ReplayGameMessages();
 			gamePresence = _currentPresence;
 			original = _originalSnapshot;
 			bool joined = Interlocked.Exchange(ref _joinPresenceUpdatePending, 0) == 1;
@@ -792,7 +898,7 @@ public partial class DiscordRichPresence : IDisposable
 		enrichmentTimeout.CancelAfter(TimeSpan.FromSeconds(5));
 		CancellationToken enrichmentToken = enrichmentTimeout.Token;
 		Task<string?> locationTask = App.Settings.Prop.ServerLocationGame
-			? activity.QueryServerLocation(enrichmentToken)
+			? (knownLocation != null ? Task.FromResult<string?>(knownLocation) : activity.QueryServerLocation(enrichmentToken))
 			: Task.FromResult<string?>(null);
 		Task<(string key, string text)> smallImageTask = GetSmallImageAsync(activity, enrichmentToken);
 		Task<string> iconTask = string.IsNullOrWhiteSpace(largeImage) && App.Settings.Prop.GameIconChecked && string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon)
@@ -824,6 +930,23 @@ public partial class DiscordRichPresence : IDisposable
 				gamePresence.Assets.SmallImageKey = original.SmallImageKey = smallImageTask.Result.key;
 				if (gamePresence.Assets.SmallImageText == original.SmallImageText)
 					gamePresence.Assets.SmallImageText = original.SmallImageText = smallImageTask.Result.text;
+			}
+			if (!sameActivity)
+			{
+				_enrichedLocation = null;
+				_enrichedLargeImage = string.Empty;
+				_enrichedSmallKey = null;
+				_enrichedSmallText = null;
+			}
+			_enrichedActivity = activity;
+			if (locationTask.IsCompletedSuccessfully && !string.IsNullOrWhiteSpace(locationTask.Result))
+				_enrichedLocation = locationTask.Result;
+			if (iconTask.IsCompletedSuccessfully && !string.IsNullOrWhiteSpace(iconTask.Result))
+				_enrichedLargeImage = Voidstrap.Utility.DiscordPresenceGuard.Key(iconTask.Result);
+			if (smallImageTask.IsCompletedSuccessfully && smallImageTask.Result.key != "voidstrap")
+			{
+				_enrichedSmallKey = smallImageTask.Result.key;
+				_enrichedSmallText = smallImageTask.Result.text;
 			}
 			_lastPresenceSignature = BuildPresenceSignature(gamePresence);
 			UpdatePresence();
@@ -981,7 +1104,7 @@ public partial class DiscordRichPresence : IDisposable
 			CancellationToken idleToken;
 			lock (_activityGate)
 				idleToken = _gameCancellation?.Token ?? _lifetimeToken;
-			_messageQueue.Clear();
+			ClearGameMessages();
 			string smallImage = "voidstrap";
 			string smallText = "Voidstrap";
 			try
@@ -1013,6 +1136,8 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			if (_disposed || _activityWatcher.InGame || _activityWatcher.Data.PlaceId > 0 || _activityWatcher.IsTeleporting)
 				return;
+			_gamePresenceActive = false;
+			_enrichedActivity = null;
 			string idleIconUrl = GetIdleIconUrl();
 			if (_currentPresence == null)
 			{
@@ -1169,9 +1294,10 @@ public partial class DiscordRichPresence : IDisposable
 			SmallImageKey = smallImage ?? string.Empty,
 			SmallImageText = smallText ?? string.Empty,
 		};
-		while (_messageQueue.TryDequeue(out Message? queued))
+		lock (_activityGate)
 		{
-			ProcessRPCMessage(queued, implicitUpdate: false);
+			_gamePresenceActive = true;
+			ReplayGameMessages();
 		}
 		UpdatePresence(force: true);
 		App.Logger.WriteLine(LOG_IDENT, "Updated presence for private experience " + placeId);
@@ -1487,6 +1613,8 @@ public partial class DiscordRichPresence : IDisposable
 				ReleaseClient(client);
 			}
 			_messageQueue.Clear();
+			lock (_activityGate)
+				_gameMessages.Clear();
 			_currentPresence = null;
 			_pendingPresence = null;
 			_originalSnapshot = null;

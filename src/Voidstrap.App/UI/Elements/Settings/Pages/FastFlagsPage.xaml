@@ -219,7 +219,7 @@
     </StackPanel>
         </StackPanel>
       </TabItem>
-      <TabItem Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+      <TabItem>
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Wrench24" Margin="0,0,6,0" />
@@ -326,7 +326,7 @@
           </controls:OptionControl>
         </StackPanel>
       </TabItem>
-      <TabItem IsEnabled="{Binding HasNvidiaGpu}" ToolTip="{Binding NvidiaTabUnavailableReason}" Visibility="{Binding IsWindows, Converter={StaticResource BooleanToVisibilityConverter}}">
+      <TabItem IsEnabled="{Binding HasNvidiaGpu}" ToolTip="{Binding NvidiaTabUnavailableReason}" Visibility="{Binding NvidiaTabSupported, Converter={StaticResource BooleanToVisibilityConverter}}">
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Flag48" Margin="0,0,6,0" />

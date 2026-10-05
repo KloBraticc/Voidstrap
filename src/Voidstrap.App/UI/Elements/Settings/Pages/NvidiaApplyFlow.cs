@@ -12,6 +12,9 @@ namespace Voidstrap.UI.Elements.Settings.Pages
     {
         public static async Task<bool> RunAsync(List<NvidiaEditorEntry> entries)
         {
+            if (OperatingSystem.IsLinux())
+                return await RunLinuxAsync();
+
             if (!NvidiaProfileInspector.IsAvailable)
             {
                 Frontend.ShowMessageBox(
@@ -28,6 +31,34 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 Describe(result),
                 result.Ok ? MessageBoxImage.Asterisk : MessageBoxImage.Exclamation);
             return result.Ok;
+        }
+
+        private static async Task<bool> RunLinuxAsync()
+        {
+            Voidstrap.Utility.LinuxNvidiaSettings.Choices choices = Voidstrap.Utility.LinuxNvidiaSettings.Read();
+            string layer = Voidstrap.Platform.Linux.LinuxEffectLayers.MangoHudLayerId;
+            if (Voidstrap.Utility.LinuxNvidiaSettings.OverlayConfiguration(choices.Overlay) is not null
+                && !await Task.Run(() => Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(layer)))
+            {
+                if (Voidstrap.Utility.Platform.RuntimeHost is not { } host)
+                {
+                    Frontend.ShowMessageBox("The benchmark overlay needs the MangoHud Vulkan layer, which could not be installed from here.", MessageBoxImage.Exclamation);
+                    return false;
+                }
+
+                if (Frontend.ShowMessageBox("The benchmark overlay needs the MangoHud Vulkan layer. Install it now?", MessageBoxImage.Question, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    Voidstrap.Platform.OperationResult installed = await Voidstrap.Platform.Linux.LinuxEffectLayers.InstallAsync(host.Processes, layer);
+                    if (!installed.Succeeded)
+                    {
+                        Frontend.ShowMessageBox("The MangoHud layer could not be installed.\n\n" + (installed.Failure?.Message ?? "The installation did not complete"), MessageBoxImage.Exclamation);
+                        return false;
+                    }
+                }
+            }
+
+            Frontend.ShowMessageBox("The NVIDIA settings were saved. They apply the next time Roblox starts.", MessageBoxImage.Asterisk);
+            return true;
         }
 
         public static string Describe(NvidiaApplyResult result)

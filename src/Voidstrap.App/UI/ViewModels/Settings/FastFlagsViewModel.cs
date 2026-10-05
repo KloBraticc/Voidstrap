@@ -1837,6 +1837,8 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool IsWindows => Voidstrap.Utility.Platform.IsWindows;
 
+	public bool NvidiaTabSupported => Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux;
+
 	public bool HasNvidiaGpu => Voidstrap.Utility.GpuInventory.HasNvidia;
 
 	public string NvidiaTabUnavailableReason => Voidstrap.Utility.GpuInventory.HasNvidia
@@ -2393,7 +2395,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			if (pixels is null)
 			{
 				_waterPreviewFrames = null;
-				_waterPreviewStatus = style == 5 ? "Choose images to see a preview" : "The Roblox water textures could not be read. Start Roblox once and try again";
+				_waterPreviewStatus = style == 5 ? "Choose images to see a preview" : Voidstrap.Utility.Platform.IsLinux ? (Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow() ? "Close Roblox to load the water preview, Sober's files are read while it is closed" : "The Sober water textures could not be read. Make sure Sober has downloaded Roblox, then try again") : "The Roblox water textures could not be read. Start Roblox once and try again";
 			}
 			else
 			{

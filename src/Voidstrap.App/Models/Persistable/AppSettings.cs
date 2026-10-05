@@ -160,6 +160,10 @@ namespace Voidstrap.Models.Persistable
         public int SoberSharpness { get; set; } = 0;
 
         public bool SoberAutoFullscreen { get; set; } = false;
+
+        public bool SoberPreferXWayland { get; set; } = false;
+
+        public string SoberLauncher { get; set; } = "";
         public bool SmooothBARRyesirikikthxlucipook { get; set; } = false; // wanna keep this on false so people may not be annoyed by it being on
         public bool HasLaunchedGame { get; set; } = false;
         public bool NotificationWindowShow { get; set; } = true;

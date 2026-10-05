@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Voidstrap.Integrations;
 using Voidstrap.Models;
+using Voidstrap.Utility;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
@@ -15,7 +16,17 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 {
 	private static readonly string NipPath = Path.Combine(Paths.NipProfiles, "Voidstrap.nip");
 
-	private static readonly Dictionary<string, int> BenchmarkOverlayMap = new()
+	private static readonly bool IsLinux = OperatingSystem.IsLinux();
+
+	private static readonly Dictionary<string, int> LinuxBenchmarkOverlayMap = new()
+	{
+		{ "Disabled", LinuxNvidiaSettings.OverlayOff },
+		{ "FPS counter", LinuxNvidiaSettings.OverlayFps },
+		{ "FPS and frame time graph", LinuxNvidiaSettings.OverlayGraph },
+		{ "Full performance overlay", LinuxNvidiaSettings.OverlayFull }
+	};
+
+	private static readonly Dictionary<string, int> WindowsBenchmarkOverlayMap = new()
 	{
 		{ "Disabled", 0 },
 		{ "GRAPH_FLIP_FPS - FPS graph, measured on display hw flip", 1 },
@@ -25,6 +36,8 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 		{ "DISPLAY_APP_THREAD_WAIT - Add app thread wait time indiator bars to the GRAPH_APP_PRESENT_FPS graph", 16 },
 		{ "Enabled - Enable everything", 511 }
 	};
+
+	private static Dictionary<string, int> BenchmarkOverlayMap => IsLinux ? LinuxBenchmarkOverlayMap : WindowsBenchmarkOverlayMap;
 
 	private string _cplLatency = "Off";
 
@@ -54,7 +67,7 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 
 	private bool _loading;
 
-	public ObservableCollection<string> CplLowLatencyModes { get; } = ["Off", "On", "Ultra"];
+	public ObservableCollection<string> CplLowLatencyModes { get; } = IsLinux ? ["Off", "On"] : ["Off", "On", "Ultra"];
 
 	public ObservableCollection<string> BenchMarkOverlayModes { get; } = new ObservableCollection<string>(BenchmarkOverlayMap.Keys);
 
@@ -154,6 +167,26 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 		}
 	}
 
+	public string ApplyDescription => IsLinux
+		? "Save the NVIDIA settings. They apply the next time Roblox starts."
+		: "Apply only the modified NVIDIA FastFlags to the driver.";
+
+	public string FxaaDescription => IsLinux
+		? "Smooths jagged edges across the entire frame with minimal performance impact through the vkBasalt layer. Used when no other anti aliasing method is selected."
+		: "Smooths jagged edges (jaggies) across the entire frame with minimal performance impact. FXAA can make edges and fine details appear slightly blurry.";
+
+	public string BenchmarkOverlayDescription => IsLinux
+		? "Shows a performance overlay with FPS and frame time graphs through the MangoHud layer. Sober runs slightly slower while it is shown."
+		: "Displays NVIDIA driver-level performance overlays such as FPS graphs and present timing data.";
+
+	public string FrameRateLimitDescription => IsLinux
+		? "Limits the maximum frames per second through Roblox's own frame cap each time Roblox starts. 0 leaves the cap unchanged."
+		: "Limits the maximum frames per second using the NVIDIA driver. This does not uncap Roblox FPS use the FPS Unlocker on the Integrations page instead.";
+
+	public string CplLowLatencyDescription => IsLinux
+		? "Makes the NVIDIA driver queue only one frame. Works when Sober uses the OpenGL renderer."
+		: "Limits CPU-rendered frames queued by the NVIDIA Control Panel.";
+
 	public event PropertyChangedEventHandler? PropertyChanged;
 
 	public NvidiaFastFlagsViewModel()
@@ -179,7 +212,10 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 	{
 		List<NvidiaEditorEntry> entries = LoadNormalized();
 		SelectedCplLowLatencyMode = ReadEnum(entries, "390467", CplLowLatencyModes, 0);
-		BenchMarkOverlayMode = BenchmarkOverlayMap.FirstOrDefault(x => x.Value == ReadInt(entries, "2945366", 0)).Key ?? "Disabled";
+		int overlay = ReadInt(entries, "2945366", 0);
+		if (IsLinux)
+			overlay = LinuxNvidiaSettings.NormalizeOverlay(overlay);
+		BenchMarkOverlayMode = BenchmarkOverlayMap.FirstOrDefault(x => x.Value == overlay).Key ?? "Disabled";
 		SelectedFrlLowLatencyMode = ReadEnum(entries, "277041152", FrlLowLatencyModes, 0);
 		SelectedSilkSmoothness = ReadSilk(entries);
 		EnableRbar = ReadBool(entries, "549198379");
@@ -294,8 +330,10 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 
 	private static string ReadEnum(List<NvidiaEditorEntry> e, string id, ObservableCollection<string> v, int d)
 	{
-		if (!int.TryParse(e.FirstOrDefault(x => x.SettingId == id)?.Value, out int result) || result < 0 || result >= v.Count)
+		if (!int.TryParse(e.FirstOrDefault(x => x.SettingId == id)?.Value, out int result) || result < 0)
 			return v[d];
+		if (result >= v.Count)
+			return IsLinux ? v[^1] : v[d];
 		return v[result];
 	}
 

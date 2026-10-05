@@ -234,9 +234,21 @@ internal static partial class LinuxStartup
 		}
 		else if (string.IsNullOrEmpty(requested) && !(markerConfirmed && recorded == stage) && stage is DefaultStage or OpaqueStage)
 			stage = AdjustForVulkan(stage);
+		if (string.IsNullOrEmpty(requested) && stage == SoftwareStage && CanUseHardwareGl() && ProbeVulkan() == VulkanSupport.SoftwareOnly && _leakyLavapipe)
+		{
+			WriteError("This Mesa release's software Vulkan driver keeps growing in memory, so Voidstrap switches to OpenGL software rendering.");
+			WriteProbeFallbackNote();
+			stage = HardwareGlStage;
+		}
 		confirmed = markerConfirmed && recorded == stage;
 		return stage;
 	}
+
+	private const uint MesaVendorId = 0x10005;
+
+	private const uint FirstStableLavapipeMajor = 23;
+
+	private static bool _leakyLavapipe;
 
 	private enum VulkanSupport
 	{
@@ -250,6 +262,12 @@ internal static partial class LinuxStartup
 		VulkanSupport support = ProbeVulkan();
 		if (support == VulkanSupport.Hardware)
 			return stage;
+		if (support == VulkanSupport.SoftwareOnly && _leakyLavapipe && CanUseHardwareGl())
+		{
+			WriteError("No graphics card is available through Vulkan and this Mesa release's software Vulkan driver keeps growing in memory, so Voidstrap starts with OpenGL software rendering. Install or update your graphics drivers for full speed.");
+			WriteProbeFallbackNote();
+			return HardwareGlStage;
+		}
 		if (support == VulkanSupport.SoftwareOnly && SoftwareRendererAvailable())
 		{
 			WriteError("No graphics card is available through Vulkan, so Voidstrap starts with software rendering. Install or update your graphics drivers for full speed.");
@@ -296,7 +314,15 @@ internal static partial class LinuxStartup
 		}
 	}
 
-	private static unsafe VulkanSupport ProbeVulkan()
+	private static VulkanSupport? _probedSupport;
+
+	private static VulkanSupport ProbeVulkan()
+	{
+		_probedSupport ??= ProbeVulkanOnce();
+		return _probedSupport.Value;
+	}
+
+	private static unsafe VulkanSupport ProbeVulkanOnce()
 	{
 		nint instance = 0;
 		try
@@ -326,6 +352,8 @@ internal static partial class LinuxStartup
 				int deviceType = *(int*)(properties + 16);
 				if (deviceType is 1 or 2 or 3)
 					hardware = true;
+				else if (deviceType == 4 && *(uint*)(properties + 8) == MesaVendorId && (*(uint*)(properties + 4) >> 22) < FirstStableLavapipeMajor)
+					_leakyLavapipe = true;
 			}
 			if (!CanCreateWindowInstance())
 				return VulkanSupport.None;

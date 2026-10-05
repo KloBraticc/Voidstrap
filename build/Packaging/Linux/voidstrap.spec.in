@@ -27,6 +27,7 @@ Requires: libICE.so.6()(64bit)
 Requires: libSM.so.6()(64bit)
 Requires: libfontconfig.so.1()(64bit)
 Requires: libfreetype.so.6()(64bit)
+Requires: (dejavu-sans-fonts or dejavu-fonts or google-noto-sans-fonts or noto-sans-fonts or adwaita-sans-fonts)
 Requires: libxkbcommon.so.0()(64bit)
 Requires: libxkbcommon-x11.so.0()(64bit)
 Requires: libwayland-client.so.0()(64bit)
@@ -49,10 +50,10 @@ Recommends: /usr/bin/wpctl
 Requires: /usr/bin/update-desktop-database
 Requires: libgstreamer-1.0.so.0()(64bit)
 Requires: libgstpbutils-1.0.so.0()(64bit)
-Requires: (gstreamer1-plugins-good or gstreamer-plugins-good)
-Requires: (gstreamer1-plugins-bad-free or gstreamer-plugins-bad)
-Requires: (gstreamer1-plugin-libav or gstreamer-plugins-libav)
-Requires: libwebkit2gtk-4.1.so.0()(64bit)
+Recommends: (gstreamer1-plugins-good or gstreamer-plugins-good)
+Recommends: (gstreamer1-plugins-bad-free or gstreamer-plugins-bad)
+Recommends: (gstreamer1-plugin-libav or gstreamer-plugins-libav)
+Recommends: libwebkit2gtk-4.1.so.0()(64bit)
 Source0: publish
 Source1: io.github.KloBraticc.Voidstrap.desktop
 Source2: io.github.KloBraticc.Voidstrap.png

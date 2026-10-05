@@ -20,6 +20,10 @@ public partial class ActivityWatcher : IDisposable
 {
 	private const string GameMessageEntry = "[FLog::Output] [VoidstrapRPC]";
 
+	private const string SdkGameMessageEntry = "[FLog::Output] [BloxstrapRPC]";
+
+	private const int MaxRPCMessagesPerSecond = 10;
+
 	private const string GameJoiningEntry = "[FLog::Output] ! Joining game";
 
 	private const string GameTeleportEntry = "[FLog::UgcExperienceController] UgcExperienceController: doTeleport: joinScriptUrl";
@@ -53,7 +57,7 @@ public partial class ActivityWatcher : IDisposable
 
 	private const string GameJoinedEntryPattern = "serverId:\\s*([0-9a-f\\-]{36})";
 
-	private const string GameMessageEntryPattern = "\\[VoidstrapRPC\\] (.*)";
+	private const string GameMessageEntryPattern = "\\[(?:Bloxstrap|Voidstrap)RPC\\] (.*)";
 
 	private const string GamePlayerJoinLeavePattern = "(added|removed): (.*) ([0-9]+)\\s*$";
 
@@ -89,7 +93,7 @@ public partial class ActivityWatcher : IDisposable
 		started = value > now ? now : value;
 		return true;
 	}
-	[GeneratedRegex("\\[VoidstrapRPC\\] (.*)", RegexOptions.CultureInvariant)]
+	[GeneratedRegex(GameMessageEntryPattern, RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern6 { get; }
 	[GeneratedRegex("(added|removed): (.*) ([0-9]+)\\s*$", RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern7 { get; }
@@ -111,6 +115,8 @@ public partial class ActivityWatcher : IDisposable
 	private DateTime _lastRejoinAttempt = DateTime.MinValue;
 
 	private DateTime LastRPCRequest;
+
+	private int _rpcMessagesInWindow;
 
 	public string LogLocation = null!;
 
@@ -1101,15 +1107,21 @@ public partial class ActivityWatcher : IDisposable
 					}
 				}
 			}
-			else if (entry.Contains("[FLog::Output] [VoidstrapRPC]"))
+			else if (entry.Contains(SdkGameMessageEntry, StringComparison.Ordinal) || entry.Contains(GameMessageEntry, StringComparison.Ordinal))
 			{
 				Match match6 = LogPattern6.Match(entry);
-				if (match6.Groups.Count != 2)
+				if (!match6.Success || match6.Groups.Count != 2)
 				{
 					return;
 				}
-				string value2 = match6.Groups[1].Value;
-				if ((DateTime.Now - LastRPCRequest).TotalSeconds <= 1.0)
+				string value2 = match6.Groups[1].Value.Trim();
+				DateTime now = DateTime.Now;
+				if ((now - LastRPCRequest).TotalSeconds >= 1.0)
+				{
+					LastRPCRequest = now;
+					_rpcMessagesInWindow = 0;
+				}
+				if (++_rpcMessagesInWindow > MaxRPCMessagesPerSecond)
 				{
 					return;
 				}
@@ -1128,14 +1140,22 @@ public partial class ActivityWatcher : IDisposable
 				}
 				if (message3.Command == "SetLaunchData")
 				{
-					string? text = message3.Data.Deserialize<string>();
-					if (text != null && text.Length <= 200)
+					if (message3.Data.ValueKind != JsonValueKind.String)
 					{
-						Data.RPCLaunchData = text;
+						return;
 					}
+					string? text = message3.Data.GetString();
+					if (text == null || text.Length > 200)
+					{
+						return;
+					}
+					Data.RPCLaunchData = text;
+				}
+				else if (message3.Command != "SetRichPresence" || message3.Data.ValueKind != JsonValueKind.Object)
+				{
+					return;
 				}
 				RaiseEvent(OnRPCMessage, message3, "OnRPCMessage");
-				LastRPCRequest = DateTime.Now;
 			}
 			else if (entry.Contains(GamePlayerDiscoveryEntry, StringComparison.Ordinal))
 			{

@@ -53,6 +53,7 @@ public partial class ConnectivityDialog : WpfUiWindow{
 		TitleTextBlock.Text = title;
 		DescriptionTextBlock.MarkdownText = description;
 		AddException(exception);
+		Voidstrap.UI.LinuxRichTextFallback.Apply(ErrorRichTextBox);
 		CloseButton.Click += OnCloseButtonClick;
 		Voidstrap.Utility.SafeSystemSounds.Play(systemSound);
 		base.Loaded += OnLoaded;

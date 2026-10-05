@@ -32,6 +32,14 @@ internal static class LinuxWindowUpdatePump
 
 	private static readonly TimeSpan FallbackInterval = TimeSpan.FromMilliseconds(16);
 
+	private static readonly FieldInfo? NativeLoopRunningField = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost)
+		.GetField("_isNativeLoopRunning", BindingFlags.Instance | BindingFlags.NonPublic);
+
+	private static bool RunsNativeLoop(System.Windows.Media.ProGPU.ProGpuWpfWindowHost host)
+	{
+		return NativeLoopRunningField is null || NativeLoopRunningField.GetValue(host) is true;
+	}
+
 	private sealed class Pump
 	{
 		private readonly Window _window;
@@ -88,13 +96,25 @@ internal static class LinuxWindowUpdatePump
 				if (application is null)
 					return;
 
+				for (int index = _owners.Count - 1; index >= 0; index--)
+				{
+					if (RunsNativeLoop(_owners[index]))
+						continue;
+					RemoveUpdateTick.Invoke(_owners[index], [_ownerTick]);
+					_owners.RemoveAt(index);
+				}
+
+				if (NativeLoopRunningField is not null && RunsNativeLoop(_host))
+					return;
+
 				foreach (Window other in application.Windows)
 				{
 					if (ReferenceEquals(other, _window)
 						|| !System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(other, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? owner)
 						|| owner is null
 						|| ReferenceEquals(owner, _host)
-						|| _owners.Contains(owner))
+						|| _owners.Contains(owner)
+						|| !RunsNativeLoop(owner))
 						continue;
 
 					AddUpdateTick.Invoke(owner, [_ownerTick]);

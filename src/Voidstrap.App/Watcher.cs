@@ -473,6 +473,7 @@ public partial class Watcher : IDisposable
 			RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameLeave, "AntiAliasingLeave");
 			RunRuntimeAction(Voidstrap.Integrations.FrameGeneration.FrameGenManager.OnGameLeave, "FrameGenerationLeave");
 			RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
+			Voidstrap.UI.LinuxWindowMemory.CompactAfterGame();
 		}
 	}
 
@@ -1106,7 +1107,7 @@ public partial class Watcher : IDisposable
 	{
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
-			if (ActivityWatcher != null && Voidstrap.Integrations.LinuxRobloxWindow.IsEnabled)
+			if (ActivityWatcher != null && Voidstrap.Integrations.LinuxRobloxWindow.IsEnabled && Voidstrap.Integrations.Overlays.OverlaySettings.SoberHasX11Window)
 			{
 				lock (_lifecycleGate)
 				{

@@ -48,6 +48,41 @@ internal static class BootstrapperSettingsImport
         "IconLate2015", "Icon2017", "Icon2019", "Icon2022", "IconCustom", "IconBloxstrapClassic"
     ];
 
+    public static async Task<string?> FindSettingsAsync(string source, CancellationToken token)
+    {
+        ValidateSource(source);
+        if (Platform.IsLinux)
+            return await LinuxBootstrapperSources.FindSettingsAsync(source, token).ConfigureAwait(false);
+        return FindSettings(source);
+    }
+
+    public static Task<string> ResolvePickedPathAsync(string path)
+    {
+        return Platform.IsLinux ? LinuxBootstrapperSources.ResolvePickedPathAsync(path) : Task.FromResult(path);
+    }
+
+    private static Task<string> ReadSourceTextAsync(string path, long maximumBytes, CancellationToken token)
+    {
+        if (Platform.IsLinux && LinuxBootstrapperSources.NeedsHostRead(path))
+            return ReadHostSourceTextAsync(path, maximumBytes, token);
+        return JsonFile.ReadTextAsync(path, maximumBytes, token);
+    }
+
+    private static async Task<string> ReadHostSourceTextAsync(string path, long maximumBytes, CancellationToken token)
+    {
+        return await LinuxBootstrapperSources.ReadHostTextAsync(path, maximumBytes, token).ConfigureAwait(false)
+            ?? throw new FileNotFoundException("The source file could not be read", path);
+    }
+
+    private static bool IsUsableIntegrationPath(string location)
+    {
+        if (Platform.IsWindows)
+            return true;
+        bool windowsPath = location.Length >= 3 && char.IsAsciiLetter(location[0]) && location[1] == ':' && location[2] is '\\' or '/'
+            || location.Contains('\\');
+        return !windowsPath && Path.IsPathRooted(location) && File.Exists(location);
+    }
+
     public static string? FindSettings(string source)
     {
         ValidateSource(source);
@@ -68,7 +103,7 @@ internal static class BootstrapperSettingsImport
     public static async Task<BootstrapperImportPlan> ReadAsync(string source, string settingsPath, CancellationToken token)
     {
         ValidateSource(source);
-        string text = await JsonFile.ReadTextAsync(settingsPath, 4 * 1024 * 1024, token).ConfigureAwait(false);
+        string text = await ReadSourceTextAsync(settingsPath, 4 * 1024 * 1024, token).ConfigureAwait(false);
         JsonObject original = JsonNode.Parse(text, documentOptions: new JsonDocumentOptions { AllowTrailingCommas = true, CommentHandling = JsonCommentHandling.Skip }) as JsonObject
             ?? throw new InvalidDataException("The source settings must be a JSON object");
         JsonObject settings = new();
@@ -144,6 +179,11 @@ internal static class BootstrapperSettingsImport
                 {
                     if (item is not JsonObject integration || string.IsNullOrWhiteSpace(integration["Location"]?.GetValue<string>()))
                         throw new InvalidDataException("A source custom integration is invalid");
+                    if (!IsUsableIntegrationPath(integration["Location"]!.GetValue<string>()))
+                    {
+                        skipped++;
+                        continue;
+                    }
                     JsonObject imported = new();
                     foreach (string field in new[] { "Name", "Location", "LaunchArgs", "AutoClose", "Delay", "PreLaunch" })
                         if (integration.TryGetPropertyValue(field, out JsonNode? entry))
@@ -153,7 +193,8 @@ internal static class BootstrapperSettingsImport
                         throw new InvalidDataException("A source custom integration is invalid");
                     importedIntegrations.Add(JsonSerializer.SerializeToNode(parsed));
                 }
-                settings[name] = importedIntegrations;
+                if (importedIntegrations.Count > 0)
+                    settings[name] = importedIntegrations;
             }
             else if (name is "BootstrapperIconCustomLocation" or "RobloxIconCustomLocation")
             {
@@ -168,7 +209,7 @@ internal static class BootstrapperSettingsImport
         string? flagText = null;
         try
         {
-            flagText = await JsonFile.ReadTextAsync(flagPath, 8 * 1024 * 1024, token).ConfigureAwait(false);
+            flagText = await ReadSourceTextAsync(flagPath, 8 * 1024 * 1024, token).ConfigureAwait(false);
         }
         catch (Exception ex) when (ex is FileNotFoundException or DirectoryNotFoundException)
         {

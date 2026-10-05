@@ -31,6 +31,7 @@ public partial class ExceptionDialog : WpfUiWindow{
 	{
 		InitializeComponent();
 		AddExceptionToTextBox(exception);
+		Voidstrap.UI.LinuxRichTextFallback.Apply(ErrorRichTextBox);
 		if (!App.Logger.Initialized)
 		{
 			LocateLogFileButton.Content = Strings.Dialog_Exception_CopyLogContents;

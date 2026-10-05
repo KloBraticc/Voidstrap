@@ -6256,6 +6256,19 @@ internal static class WindowAudit
 		Emit("colour picker input audit: PASS, exact endpoints, spectrum geometry, and 1000 rapid updates settled");
 	}
 
+	private static string DescribeAncestors(DependencyObject element)
+	{
+		List<string> parts = [];
+		DependencyObject? current = element;
+		for (int depth = 0; current is not null && depth < 40; depth++)
+		{
+			if (current is FrameworkElement framework && (framework.Visibility != Visibility.Visible || framework.ActualWidth <= 0.0 || depth < 3))
+				parts.Add(framework.GetType().Name + ":" + framework.Visibility + ":" + framework.ActualWidth.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
+			current = System.Windows.Media.VisualTreeHelper.GetParent(current) ?? (current as FrameworkElement)?.Parent;
+		}
+		return string.Join(" > ", parts);
+	}
+
 	private static void AuditAboutHeaderText(Voidstrap.UI.Elements.About.MainWindow window)
 	{
 		const string subtitleSource = "A simple yet advanced Bloxstrap fork.";
@@ -6264,7 +6277,9 @@ internal static class WindowAudit
 		Pump();
 		window.UpdateLayout();
 		System.Windows.Controls.TextBlock? subtitle = FindVisualDescendants<System.Windows.Controls.TextBlock>(window)
-			.FirstOrDefault(block => string.Equals(Voidstrap.UI.LinuxTextGuard.GetSourceText(block), subtitleSource, StringComparison.Ordinal));
+			.Where(block => string.Equals(Voidstrap.UI.LinuxTextGuard.GetSourceText(block), subtitleSource, StringComparison.Ordinal))
+			.OrderByDescending(block => block.IsVisible)
+			.FirstOrDefault();
 		if (subtitle == null)
 		{
 			throw new InvalidOperationException("About header subtitle was unavailable");
@@ -6278,10 +6293,16 @@ internal static class WindowAudit
 			throw new InvalidOperationException("About header subtitle was split or altered");
 		}
 
+		for (int attempt = 0; attempt < 30 && subtitle.ActualWidth <= 0.0; attempt++)
+		{
+			Pump(100);
+			window.UpdateLayout();
+		}
+
 		double requiredWidth = Voidstrap.UI.LinuxInlineText.MeasureCached(subtitle, subtitleSource);
 		if (subtitle.ActualWidth + 1.0 < requiredWidth)
 		{
-			throw new InvalidOperationException("About header subtitle is narrower than its complete sentence");
+			throw new InvalidOperationException("About header subtitle is narrower than its complete sentence, " + subtitle.ActualWidth.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " of " + requiredWidth.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " px in " + subtitle.FontFamily.Source + ", desired " + subtitle.DesiredSize + ", width " + subtitle.Width + ", max " + subtitle.MaxWidth + ", measured " + subtitle.IsMeasureValid + ", arranged " + subtitle.IsArrangeValid + ", wrapping " + subtitle.TextWrapping + ", " + DescribeAncestors(subtitle));
 		}
 
 		List<Voidstrap.UI.Elements.Controls.Expander> expanders = FindVisualDescendants<Voidstrap.UI.Elements.Controls.Expander>(window);

@@ -598,6 +598,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (Voidstrap.Utility.Platform.IsLinux)
         {
             IntroOverlay.Visibility = Visibility.Collapsed;
+            MatchLaunchButtonToFooter();
             Voidstrap.UI.LinuxUiPerformance.ReducedMotionChanged += OnLinuxReducedMotionChanged;
             PreviewMouseMove += OnLinuxGradientMouseMove;
             MouseLeave += RootGrid_MouseLeave;
@@ -3311,6 +3312,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             RootNavigation.Navigated += RootNavigation_RpcNavigated;
         }
         Activated += MainWindow_ActivatedRpc;
+        AddHandler(System.Windows.Controls.Primitives.Selector.SelectionChangedEvent, new System.Windows.Controls.SelectionChangedEventHandler(OnRpcTabSelectionChanged), true);
         Closed += MainWindow_ClosedRpc;
         Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.AnyProgressChanged += OnExtensionProgressChanged;
         _ = CheckForNewNewsAsync();
@@ -3424,6 +3426,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void MainWindow_ClosedRpc(object? sender, EventArgs e)
     {
         Activated -= MainWindow_ActivatedRpc;
+        RemoveHandler(System.Windows.Controls.Primitives.Selector.SelectionChangedEvent, new System.Windows.Controls.SelectionChangedEventHandler(OnRpcTabSelectionChanged));
         Closed -= MainWindow_ClosedRpc;
     }
 
@@ -3660,6 +3663,131 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
+    private readonly System.Runtime.CompilerServices.ConditionalWeakTable<object, RpcTabCache> _rpcTabCaches = new System.Runtime.CompilerServices.ConditionalWeakTable<object, RpcTabCache>();
+
+    private static readonly TimeSpan RpcTabRescanInterval = TimeSpan.FromSeconds(10);
+
+    private const int RpcTabDepth = 2;
+
+    private sealed class RpcTabCache
+    {
+        public WeakReference<System.Windows.Controls.TabControl>? Tabs;
+
+        public DateTime ScannedUtc;
+    }
+
+    private string GetSelectedTabPath()
+    {
+        if (RootFrame?.Content is not DependencyObject page)
+        {
+            return string.Empty;
+        }
+        RpcTabCache cache = _rpcTabCaches.GetValue(page, static _ => new RpcTabCache());
+        System.Windows.Controls.TabControl? tabs = null;
+        if (cache.Tabs != null && cache.Tabs.TryGetTarget(out System.Windows.Controls.TabControl? cached) && cached.IsVisible)
+        {
+            tabs = cached;
+        }
+        else if (DateTime.UtcNow - cache.ScannedUtc >= RpcTabRescanInterval || cache.Tabs != null)
+        {
+            cache.ScannedUtc = DateTime.UtcNow;
+            tabs = FindVisibleTabControl(page);
+            cache.Tabs = tabs != null ? new WeakReference<System.Windows.Controls.TabControl>(tabs) : null;
+        }
+        List<string> names = new List<string>();
+        for (int depth = 0; depth < RpcTabDepth && tabs != null; depth++)
+        {
+            if (tabs.SelectedItem is not System.Windows.Controls.TabItem item)
+            {
+                break;
+            }
+            string name = ReadTabHeader(item.Header);
+            if (name.Length == 0)
+            {
+                break;
+            }
+            names.Add(name);
+            tabs = tabs.SelectedContent is DependencyObject content ? FindVisibleTabControl(content) : null;
+        }
+        return string.Join(" \u00b7 ", names);
+    }
+
+    private static System.Windows.Controls.TabControl? FindVisibleTabControl(DependencyObject root)
+    {
+        Queue<DependencyObject> pending = new Queue<DependencyObject>();
+        pending.Enqueue(root);
+        int visited = 0;
+        while (pending.Count > 0 && visited++ < 4000)
+        {
+            DependencyObject current = pending.Dequeue();
+            if (current is UIElement { IsVisible: false })
+            {
+                continue;
+            }
+            if (!ReferenceEquals(current, root) && current is System.Windows.Controls.TabControl tabControl && tabControl.Items.Count > 0)
+            {
+                return tabControl;
+            }
+            int count;
+            try
+            {
+                count = VisualTreeHelper.GetChildrenCount(current);
+            }
+            catch (InvalidOperationException)
+            {
+                continue;
+            }
+            for (int i = 0; i < count; i++)
+            {
+                pending.Enqueue(VisualTreeHelper.GetChild(current, i));
+            }
+        }
+        return null;
+    }
+
+    private static string ReadTabHeader(object? header)
+    {
+        switch (header)
+        {
+            case null:
+                return string.Empty;
+            case string text:
+                return CleanTabName(text);
+            case System.Windows.Controls.TextBlock block:
+                return CleanTabName(block.Text);
+            case DependencyObject element:
+                foreach (object child in LogicalTreeHelper.GetChildren(element))
+                {
+                    string name = ReadTabHeader(child);
+                    if (name.Length > 0)
+                    {
+                        return name;
+                    }
+                }
+                return string.Empty;
+            default:
+                return CleanTabName(header.ToString());
+        }
+    }
+
+    private static string CleanTabName(string? text)
+    {
+        string name = (text ?? string.Empty).Trim();
+        if (name.Length == 0 || name.All(static c => char.IsWhiteSpace(c) || c is >= '\uE000' and <= '\uF8FF' || char.IsSurrogate(c) && !char.IsLetterOrDigit(c)))
+        {
+            return string.Empty;
+        }
+        return name;
+    }
+
+    private void OnRpcTabSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (e.OriginalSource is System.Windows.Controls.TabControl)
+        {
+            UpdateDiscordPresence();
+        }
+    }
+
     private (string PageKey, string Display) GetCurrentPageInfo()
     {
         string text = "";
@@ -3836,10 +3964,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         else if (!string.IsNullOrEmpty(text) && _voidRpcPageDescriptions.TryGetValue(text, out (string, string) value))
         {
             (details, state) = value;
+            string tabPath = GetSelectedTabPath();
+            if (tabPath.Length > 0)
+            {
+                details = details + ": " + tabPath;
+            }
         }
         else if (!string.IsNullOrWhiteSpace(text2))
         {
-            details = text2;
+            string tabPath = GetSelectedTabPath();
+            details = tabPath.Length > 0 ? text2 + ": " + tabPath : text2;
             state = "Exploring the app";
         }
         else
@@ -4580,6 +4714,30 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
+    private const double LinuxFooterButtonHeight = 32;
+
+    private void MatchLaunchButtonToFooter()
+    {
+        FooterSaveButton.MinHeight = LinuxFooterButtonHeight;
+        FooterCloseButton.MinHeight = LinuxFooterButtonHeight;
+        InstallLaunchButton.MinHeight = 0;
+        InstallLaunchButton.SetBinding(FrameworkElement.HeightProperty, new System.Windows.Data.Binding(nameof(FrameworkElement.ActualHeight))
+        {
+            Source = FooterSaveButton,
+            Mode = System.Windows.Data.BindingMode.OneWay
+        });
+        InstallLaunchButton.VerticalAlignment = VerticalAlignment.Center;
+        InstallLaunchButton.ApplyTemplate();
+        if (InstallLaunchButton.Template?.FindName("PART_DropDownButton", InstallLaunchButton) is FrameworkElement dropDown)
+        {
+            dropDown.SetBinding(FrameworkElement.WidthProperty, new System.Windows.Data.Binding(nameof(FrameworkElement.ActualHeight))
+            {
+                RelativeSource = new System.Windows.Data.RelativeSource(System.Windows.Data.RelativeSourceMode.Self),
+                Mode = System.Windows.Data.BindingMode.OneWay
+            });
+        }
+    }
+
     private void PlayIntro()
     {
         if (_introPlayed)
@@ -4693,6 +4851,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             IntroOverlay.Visibility = Visibility.Collapsed;
         }
         LiftTopNav();
+        ScheduleLaunchTargetWarmup();
     }
 
     private void LiftTopNav()
@@ -5804,7 +5963,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         DownloadsViewModel downloads = DownloadsViewModel.Shared;
         foreach (DownloadsViewModel.DownloadItem download in downloads.Items)
             download.Refresh();
-        downloads.RefreshClassic();
+        if (!Voidstrap.Utility.Platform.IsLinux)
+            downloads.RefreshClassic();
 
         List<object> entries = Voidstrap.Utility.Platform.IsLinux ? [.. downloads.Items] : [.. downloads.Items, .. downloads.ClientItems];
         object? current = null;
@@ -5874,19 +6034,84 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         int generation = ++_launchTargetOverlayGeneration;
         LaunchTargetOverlay.Visibility = Visibility.Visible;
         LaunchTargetOverlay.IsHitTestVisible = true;
-        _launchTargetBlur ??= new System.Windows.Media.Effects.BlurEffect
+        bool staticBlur = Voidstrap.Utility.Platform.IsLinux;
         {
-            Radius = 0,
-            KernelType = System.Windows.Media.Effects.KernelType.Gaussian,
-            RenderingBias = System.Windows.Media.Effects.RenderingBias.Performance
-        };
-        foreach (UIElement target in LaunchTargetBlurTargets)
-        {
-            if (target.Effect == null)
-                target.Effect = _launchTargetBlur;
+            _launchTargetBlur ??= new System.Windows.Media.Effects.BlurEffect
+            {
+                Radius = staticBlur ? LaunchTargetBlurRadius : 0,
+                KernelType = System.Windows.Media.Effects.KernelType.Gaussian,
+                RenderingBias = System.Windows.Media.Effects.RenderingBias.Performance
+            };
+            foreach (UIElement target in LaunchTargetBlurTargets)
+            {
+                if (target.Effect == null)
+                    target.Effect = _launchTargetBlur;
+            }
         }
-        AnimateLaunchTargetOverlay(1.0, 0.0, 8.0, TimeSpan.FromMilliseconds(260), LaunchTargetEaseOut, generation, false);
+        AnimateLaunchTargetOverlay(1.0, 0.0, staticBlur ? -1 : LaunchTargetBlurRadius, TimeSpan.FromMilliseconds(260), LaunchTargetEaseOut, generation, false);
         LaunchTargetList.FocusList();
+    }
+
+    private const double LaunchTargetBlurRadius = 8.0;
+
+    private bool _launchTargetsWarmed;
+
+    private void ScheduleLaunchTargetWarmup()
+    {
+        if (!Voidstrap.Utility.Platform.IsLinux || _launchTargetsWarmed)
+            return;
+        DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
+        {
+            Interval = TimeSpan.FromSeconds(2)
+        };
+        timer.Tick += (_, _) =>
+        {
+            timer.Stop();
+            WarmLaunchTargets();
+        };
+        timer.Start();
+    }
+
+    private void WarmLaunchTargets()
+    {
+        if (_launchTargetsWarmed || _launchTargetOverlayOpen || _isClosed || LaunchTargetOverlay == null)
+            return;
+        _launchTargetsWarmed = true;
+        try
+        {
+            PopulateLaunchTargets();
+            LaunchTargetOverlay.IsHitTestVisible = false;
+            LaunchTargetOverlay.Opacity = LaunchTargetWarmOpacity;
+            LaunchTargetOverlay.Visibility = Visibility.Visible;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MainWindow::WarmLaunchTargets", "The version picker could not be prepared: " + ex.Message);
+            FinishLaunchTargetWarmup();
+            return;
+        }
+        DispatcherTimer settle = new DispatcherTimer(DispatcherPriority.ContextIdle)
+        {
+            Interval = LaunchTargetWarmDuration
+        };
+        settle.Tick += (_, _) =>
+        {
+            settle.Stop();
+            FinishLaunchTargetWarmup();
+        };
+        settle.Start();
+    }
+
+    private const double LaunchTargetWarmOpacity = 0.01;
+
+    private static readonly TimeSpan LaunchTargetWarmDuration = TimeSpan.FromMilliseconds(400);
+
+    private void FinishLaunchTargetWarmup()
+    {
+        if (_launchTargetOverlayOpen || LaunchTargetOverlay == null)
+            return;
+        LaunchTargetOverlay.Visibility = Visibility.Collapsed;
+        LaunchTargetOverlay.Opacity = 0;
     }
 
     private void CloseLaunchTargetOverlay()
@@ -5897,7 +6122,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         InstallLaunchButton.IsDropDownOpen = false;
         int generation = ++_launchTargetOverlayGeneration;
         LaunchTargetOverlay.IsHitTestVisible = false;
-        AnimateLaunchTargetOverlay(0.0, 28.0, 0.0, TimeSpan.FromMilliseconds(200), LaunchTargetEaseIn, generation, true);
+        AnimateLaunchTargetOverlay(0.0, 28.0, Voidstrap.Utility.Platform.IsLinux ? -1 : 0.0, TimeSpan.FromMilliseconds(200), LaunchTargetEaseIn, generation, true);
     }
 
     private void AnimateLaunchTargetOverlay(double opacity, double offsetY, double blurRadius, TimeSpan duration, IEasingFunction ease, int generation, bool finishClose)
@@ -5907,7 +6132,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             fade.Completed += (_, _) => FinishLaunchTargetClose(generation);
         LaunchTargetOverlay.BeginAnimation(OpacityProperty, fade, HandoffBehavior.SnapshotAndReplace);
         LaunchTargetPanelTranslate.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(offsetY, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
-        _launchTargetBlur?.BeginAnimation(System.Windows.Media.Effects.BlurEffect.RadiusProperty, new DoubleAnimation(blurRadius, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
+        if (blurRadius >= 0)
+            _launchTargetBlur?.BeginAnimation(System.Windows.Media.Effects.BlurEffect.RadiusProperty, new DoubleAnimation(blurRadius, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
     }
 
     private void FinishLaunchTargetClose(int generation)

@@ -41,7 +41,7 @@ internal static class LinuxEffectMapper
 		{
 			1 or 2 => "fxaa",
 			3 or 4 => "smaa",
-			_ => null
+			_ => LinuxNvidiaSettings.Read().Fxaa ? "fxaa" : null
 		};
 	}
 

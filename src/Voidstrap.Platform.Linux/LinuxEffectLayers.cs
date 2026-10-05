@@ -30,9 +30,9 @@ public static class LinuxEffectLayers
 
 	public const string FrameGenLayerId = "org.freedesktop.Platform.VulkanLayer.lsfgvk";
 
-	public const string DefaultLayerBranch = "25.08";
+	public const string MangoHudLayerId = "org.freedesktop.Platform.VulkanLayer.MangoHud";
 
-	private const string SoberApplicationId = "org.vinegarhq.Sober";
+	public const string DefaultLayerBranch = "25.08";
 
 	private const string VulkanLayerExtension = "org.freedesktop.Platform.VulkanLayer";
 
@@ -89,6 +89,11 @@ public static class LinuxEffectLayers
 
 	public static bool IsInstalled(string layerId)
 	{
+		return IsNativeInstalled(layerId);
+	}
+
+	private static bool IsNativeInstalled(string layerId)
+	{
 		if (string.IsNullOrWhiteSpace(layerId))
 			return false;
 
@@ -116,7 +121,7 @@ public static class LinuxEffectLayers
 
 			foreach (string root in roots)
 			{
-				if (Directory.Exists(root))
+				if (Directory.Exists(Path.Combine(root, "active", "files")))
 					return true;
 			}
 
@@ -128,6 +133,13 @@ public static class LinuxEffectLayers
 		}
 	}
 
+	public static void RefreshState()
+	{
+		lock (BranchGate)
+			_layerBranch = null;
+		LinuxEffectLayerFallback.RemoveLegacyCopies();
+	}
+
 	public static LinuxEffectLayerState GetState()
 	{
 		return new LinuxEffectLayerState(IsInstalled(ShaderLayerId), IsInstalled(FrameGenLayerId));
@@ -136,8 +148,12 @@ public static class LinuxEffectLayers
 	public static async Task<OperationResult> InstallAsync(IProcessService processes, string layerId, CancellationToken cancellationToken = default)
 	{
 		ArgumentNullException.ThrowIfNull(processes);
+		cancellationToken.ThrowIfCancellationRequested();
 		if (IsInstalled(layerId))
+		{
+			cancellationToken.ThrowIfCancellationRequested();
 			return OperationResult.Success();
+		}
 
 		if (LinuxFlatpakHost.TryCreateCommand(processes, ["remote-add", "--if-not-exists", "--user", RemoteName, RemoteUrl], out ProcessCommand remote))
 			await processes.ExecuteAsync(remote, cancellationToken).ConfigureAwait(false);
@@ -148,12 +164,18 @@ public static class LinuxEffectLayers
 		OperationResult<ProcessExecution> result = await processes
 			.ExecuteAsync(command, cancellationToken)
 			.ConfigureAwait(false);
+		cancellationToken.ThrowIfCancellationRequested();
 
 		if (!result.Succeeded || result.Value is null)
 			return OperationResult.Fail("EffectLayerInstallFailed", result.Failure?.Message ?? "The effect layer could not be installed");
 
 		if (result.Value.ExitCode != 0 && !IsInstalled(layerId))
-			return OperationResult.Fail("EffectLayerInstallFailed", "The effect layer installer reported an error: " + LastLine(result.Value.StandardError));
+		{
+			OperationResult fallback = await LinuxEffectLayerFallback.PrepareAsync(processes, layerId, cancellationToken).ConfigureAwait(false);
+			return fallback.Succeeded
+				? fallback
+				: OperationResult.Fail("EffectLayerInstallFailed", "The " + LayerBranch + " effect layer could not be installed: " + LastLine(result.Value.StandardError) + "\n" + fallback.Failure?.Message);
+		}
 
 		return IsInstalled(layerId)
 			? OperationResult.Success()
@@ -165,11 +187,15 @@ public static class LinuxEffectLayers
 		try
 		{
 			SystemProcessService processes = new();
-			string? runtime = ReadMetadataValue(processes, SoberApplicationId, "Application", "runtime");
+			OperationResult<LinuxSoberRuntimeProvider.SoberFlatpakSelection> sober = LinuxSoberRuntimeProvider.FindSoberInstallationAsync(processes, CancellationToken.None).GetAwaiter().GetResult();
+			if (!sober.Succeeded || sober.Value is null)
+				return null;
+			string? runtime = ReadMetadataValue(processes, sober.Value.Reference, "Application", "runtime", sober.Value.Scope);
 			if (string.IsNullOrWhiteSpace(runtime))
 				return null;
 
-			string? version = ReadMetadataValue(processes, SoberApplicationId, "Extension " + VulkanLayerExtension, "version")
+			string? version = ReadMetadataValue(processes, sober.Value.Reference, "Extension " + VulkanLayerExtension, "version", sober.Value.Scope)
+				?? ReadMetadataValue(processes, runtime, "Extension " + VulkanLayerExtension, "version", sober.Value.Scope)
 				?? ReadMetadataValue(processes, runtime, "Extension " + VulkanLayerExtension, "version");
 			return string.IsNullOrWhiteSpace(version) ? null : version;
 		}
@@ -179,9 +205,13 @@ public static class LinuxEffectLayers
 		}
 	}
 
-	private static string? ReadMetadataValue(IProcessService processes, string reference, string section, string key)
+	private static string? ReadMetadataValue(IProcessService processes, string reference, string section, string key, string? scope = null)
 	{
-		if (!LinuxFlatpakHost.TryCreateCommand(processes, ["info", "--show-metadata", reference], out ProcessCommand command))
+		List<string> arguments = ["info", "--show-metadata"];
+		if (scope is not null)
+			arguments.Add(scope);
+		arguments.Add(reference);
+		if (!LinuxFlatpakHost.TryCreateCommand(processes, arguments, out ProcessCommand command))
 			return null;
 
 		OperationResult<ProcessExecution> result = processes.ExecuteAsync(command).GetAwaiter().GetResult();

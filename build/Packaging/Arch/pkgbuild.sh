@@ -51,7 +51,7 @@ pkgdesc='Customize and launch Roblox through Sober on Linux'
 arch=('x86_64' 'aarch64')
 url='$PROJECT_URL'
 license=('MIT')
-depends=('glibc' 'gcc-libs' 'zlib' 'vulkan-icd-loader' 'vulkan-driver' 'libx11' 'libxext' 'libxrender' 'libxrandr' 'libxi' 'libxcursor' 'libxfixes' 'libice' 'libsm' 'fontconfig' 'freetype2' 'libxkbcommon' 'libxkbcommon-x11' 'wayland' 'dbus' 'libglvnd' 'openssl' 'ca-certificates' 'flatpak' 'hicolor-icon-theme' 'xdg-utils' 'desktop-file-utils' 'glib2' 'libnotify' 'libsecret' 'gstreamer' 'gst-plugins-base' 'gst-plugins-good' 'gst-plugins-bad' 'gst-libav' 'webkit2gtk-4.1')
+depends=('glibc' 'gcc-libs' 'zlib' 'vulkan-icd-loader' 'vulkan-driver' 'libx11' 'libxext' 'libxrender' 'libxrandr' 'libxi' 'libxcursor' 'libxfixes' 'libice' 'libsm' 'fontconfig' 'freetype2' 'ttf-font' 'libxkbcommon' 'libxkbcommon-x11' 'wayland' 'dbus' 'libglvnd' 'openssl' 'ca-certificates' 'flatpak' 'hicolor-icon-theme' 'xdg-utils' 'desktop-file-utils' 'glib2' 'libnotify' 'libsecret' 'gstreamer' 'gst-plugins-base' 'gst-plugins-good' 'gst-plugins-bad' 'gst-libav' 'webkit2gtk-4.1')
 optdepends=('vulkan-swrast: software rendering when no GPU Vulkan driver works'
             'polkit: administrator authorization for system updates and host integrations'
             'pipewire: Roblox audio session controls'

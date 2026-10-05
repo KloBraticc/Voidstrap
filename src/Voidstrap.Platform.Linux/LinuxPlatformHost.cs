@@ -976,6 +976,8 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 	public static bool ForceX11Session { get; set; }
 
+	public static IReadOnlyList<string> LauncherPrefix { get; set; } = [];
+
 	public static bool StartedInThisProcess { get; private set; }
 
 	public static IDisposable? TryAcquireLaunchLease()
@@ -1243,11 +1245,13 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		}
 	}
 
-	private static async Task<OperationResult> WaitForSoberStartedAsync(DateTime launchedUtc, SoberStartupLogSnapshot? previousLog, IReadOnlyCollection<int> previousOwners, CancellationToken cancellationToken)
+	private static async Task<OperationResult> WaitForSoberStartedAsync(DateTime launchedUtc, SoberStartupLogSnapshot? previousLog, IReadOnlyCollection<int> previousOwners, int launcherProcessId, CancellationToken cancellationToken)
 	{
 		using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 		timeout.CancelAfter(TimeSpan.FromSeconds(45));
 		int runningChecks = 0;
+		int stoppedChecks = 0;
+		DateTime? runningSince = null;
 
 		try
 		{
@@ -1266,12 +1270,14 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 				if (running)
 				{
 					runningChecks++;
-					if (runningChecks >= 2 && IsSoberInstanceHeldByNewProcess(previousOwners))
+					runningSince ??= DateTime.UtcNow;
+					stoppedChecks = 0;
+					if (runningChecks >= 2 && DateTime.UtcNow - runningSince.Value >= SoberUnlockedStartGrace && IsSoberInstanceHeldByNewProcess(previousOwners))
 					{
 						cancellationToken.ThrowIfCancellationRequested();
 						return OperationResult.Success();
 					}
-					if (runningChecks >= 3 && DateTime.UtcNow - launchedUtc >= SoberUnlockedStartGrace)
+					if (runningChecks >= 3 && DateTime.UtcNow - runningSince.Value >= SoberUnlockedStartGrace)
 					{
 						cancellationToken.ThrowIfCancellationRequested();
 						return OperationResult.Success();
@@ -1280,6 +1286,9 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 				else
 				{
 					runningChecks = 0;
+					runningSince = null;
+					if (!IsLauncherProcessAlive(launcherProcessId) && ++stoppedChecks >= 3)
+						return OperationResult.Fail("SoberStartupExited", "Sober stopped during startup before Roblox could finish opening.", CapabilityState.Experimental);
 				}
 
 				await Task.Delay(500, timeout.Token).ConfigureAwait(false);
@@ -1293,7 +1302,18 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		return OperationResult.Fail("SoberLaunchFailed", "Sober did not finish starting. Check Sober's latest log and its display socket permissions before trying again.", CapabilityState.Experimental);
 	}
 
-	private static readonly TimeSpan SoberUnlockedStartGrace = TimeSpan.FromSeconds(4);
+	private static bool IsLauncherProcessAlive(int processId)
+	{
+		try
+		{
+			using System.Diagnostics.Process process = System.Diagnostics.Process.GetProcessById(processId);
+			return !process.HasExited;
+		}
+		catch (ArgumentException) { return false; }
+		catch (InvalidOperationException) { return false; }
+	}
+
+	private static readonly TimeSpan SoberUnlockedStartGrace = TimeSpan.FromSeconds(6);
 
 	private static string SoberDataDirectory => Path.Combine(
 		Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
@@ -1608,7 +1628,11 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		}
 	}
 
+	public static Action<string>? StartupStatus { get; set; }
+
 	public static IReadOnlyList<string> EffectLayerArguments { get; set; } = [];
+
+	public static IReadOnlyList<string> NvidiaArguments { get; set; } = [];
 
 	public static IReadOnlyList<string> ProxyArguments { get; set; } = [];
 
@@ -1694,9 +1718,9 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 	public CapabilityDescriptor PrerequisiteCapability => _prerequisiteCapability;
 
-	private sealed record SoberFlatpakSelection(RuntimeInstallation Installation, string Scope, string Reference);
+	internal sealed record SoberFlatpakSelection(RuntimeInstallation Installation, string Scope, string Reference);
 
-	private static async Task<OperationResult<SoberFlatpakSelection>> FindSoberInstallationAsync(IProcessService processes, CancellationToken cancellationToken)
+	internal static async Task<OperationResult<SoberFlatpakSelection>> FindSoberInstallationAsync(IProcessService processes, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		if (!LinuxFlatpakHost.TryCreateCommand(processes, ["info", SoberApplicationId], out ProcessCommand infoCommand))
@@ -1791,6 +1815,9 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		foreach (string argument in EffectLayerArguments)
 			arguments.Add(argument);
 
+		foreach (string argument in NvidiaArguments)
+			arguments.Add(argument);
+
 		foreach (string argument in ProxyArguments)
 			arguments.Add(argument);
 
@@ -1812,9 +1839,14 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 			return OperationResult<LaunchSession>.Fail("FlatpakMissing", "Flatpak is not installed", CapabilityState.RequiresExternalRuntime);
 
 		string flatpak = LinuxFlatpakHost.IsSandboxed ? "flatpak" : launchCommand.FileName;
-		if (LinuxSoberResources.TryGetLaunchCpuList(out string cpuList)
-			&& LinuxFlatpakHost.TryCreateHostCommand(_processes, "taskset", ["--cpu-list", cpuList, flatpak, .. arguments], out ProcessCommand pinnedCommand, false))
-			launchCommand = pinnedCommand;
+		List<string> wrapped = [flatpak, .. arguments];
+		if (LinuxSoberResources.TryGetLaunchCpuList(out string cpuList))
+			wrapped = ["taskset", "--cpu-list", cpuList, .. wrapped];
+		if (LauncherPrefix.Count > 0)
+			wrapped = [.. LauncherPrefix, .. wrapped];
+		if (wrapped.Count > arguments.Count + 1
+			&& LinuxFlatpakHost.TryCreateHostCommand(_processes, wrapped[0], wrapped.GetRange(1, wrapped.Count - 1), out ProcessCommand wrappedCommand, false))
+			launchCommand = wrappedCommand;
 
 		List<int> previousOwners = SoberInstanceLockOwners();
 		SoberStartupLogSnapshot? previousLog = CaptureSoberStartupLog();
@@ -1824,7 +1856,37 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		ThrowIfCanceled(result.Failure, cancellationToken);
 		if (!result.Succeeded || result.Value is null)
 			return OperationResult<LaunchSession>.Fail(result.Failure?.Code ?? "SoberLaunchFailed", result.Failure?.Message ?? "Sober could not start", CapabilityState.Experimental);
-		OperationResult started = await WaitForSoberStartedAsync(launchedUtc, previousLog, previousOwners, cancellationToken).ConfigureAwait(false);
+		OperationResult started = await WaitForSoberStartedAsync(launchedUtc, previousLog, previousOwners, result.Value.ProcessId, cancellationToken).ConfigureAwait(false);
+		if (!started.Succeeded && started.Failure?.Code == "SoberStartupExited" && (EffectLayerArguments.Count > 0 || NvidiaArguments.Count > 0))
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			StartupStatus?.Invoke("Sober stopped with Vulkan effects enabled. Restarting Roblox without effects for this session");
+			if (!await TryCloseSoberAsync(cancellationToken).ConfigureAwait(false))
+				return OperationResult<LaunchSession>.Fail("SoberCloseFailed", "Sober could not be closed before retrying without effects", CapabilityState.Experimental);
+			List<string> retryArguments = ["run", selection.Scope];
+			if (ForceX11Session)
+				retryArguments.AddRange(["--nosocket=wayland", "--socket=x11", "--env=SDL_VIDEODRIVER=x11"]);
+			retryArguments.AddRange(["--env=ENABLE_VKBASALT=0", "--env=DISABLE_VKBASALT=1", "--env=ENABLE_LSFG=0", "--env=MANGOHUD=0", "--env=DISABLE_MANGOHUD=1"]);
+			retryArguments.AddRange(ProxyArguments);
+			retryArguments.Add(selection.Reference);
+			if (!SoberLaunchLink.IsHomeLaunch(soberLink))
+				retryArguments.Add(soberLink.AbsoluteUri);
+			List<string> retryWrapped = [flatpak, .. retryArguments];
+			if (LinuxSoberResources.TryGetLaunchCpuList(out string retryCpuList))
+				retryWrapped = ["taskset", "--cpu-list", retryCpuList, .. retryWrapped];
+			if (LauncherPrefix.Count > 0)
+				retryWrapped = [.. LauncherPrefix, .. retryWrapped];
+			if (!LinuxFlatpakHost.TryCreateHostCommand(_processes, retryWrapped[0], retryWrapped.GetRange(1, retryWrapped.Count - 1), out ProcessCommand retryCommand, false))
+				return OperationResult<LaunchSession>.Fail("SoberLaunchFailed", "Sober could not be restarted without effects", CapabilityState.Experimental);
+			previousOwners = SoberInstanceLockOwners();
+			previousLog = CaptureSoberStartupLog();
+			launchedUtc = DateTime.UtcNow;
+			result = await _processes.StartAsync(retryCommand, cancellationToken).ConfigureAwait(false);
+			ThrowIfCanceled(result.Failure, cancellationToken);
+			if (!result.Succeeded || result.Value is null)
+				return OperationResult<LaunchSession>.Fail(result.Failure?.Code ?? "SoberLaunchFailed", result.Failure?.Message ?? "Sober could not restart", CapabilityState.Experimental);
+			started = await WaitForSoberStartedAsync(launchedUtc, previousLog, previousOwners, result.Value.ProcessId, cancellationToken).ConfigureAwait(false);
+		}
 		if (!started.Succeeded)
 			return OperationResult<LaunchSession>.Fail(started.Failure?.Code ?? "SoberLaunchFailed", started.Failure?.Message ?? "Sober could not start", CapabilityState.Experimental);
 		return OperationResult<LaunchSession>.Success(new LaunchSession(

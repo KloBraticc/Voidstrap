@@ -1444,13 +1444,9 @@ public class Bootstrapper
 
                 LinuxSoberRuntimeProvider.ForceX11Session = Voidstrap.Integrations.Overlays.OverlaySettings.RequiresLinuxX11Session
                     && !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
-                if (LinuxSoberRuntimeProvider.ForceX11Session)
-                {
-                    App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", Voidstrap.Integrations.Overlays.OverlaySettings.LinuxCustomCursorNeedsX11
-                        ? "Window controls, effects or a custom cursor are on, starting Sober on X11 because Sober only draws Roblox cursor textures there"
-                        : "Window controls or effects are on, starting Sober on X11 so Voidstrap can control its window");
-                }
+                App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", Voidstrap.Integrations.Overlays.OverlaySettings.DescribeLinuxSoberSession(LinuxSoberRuntimeProvider.ForceX11Session));
 
+                LinuxSoberRuntimeProvider.LauncherPrefix = await Voidstrap.Utility.SoberLauncherCommand.ResolveAsync(App.Settings.Prop.SoberLauncher, cancellationToken);
                 LinuxRuntimeConfiguration configuration = LinuxRuntimeConfiguration.CreateDefault(Paths.Mods, host.Processes);
                 OperationResult prepared = await configuration.PrepareAsync(
                     installation,

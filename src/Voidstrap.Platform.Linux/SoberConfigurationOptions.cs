@@ -102,7 +102,7 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 
 	public static bool IsRunningNow()
 	{
-		if (GetSandboxProcessIds().Count > 0)
+		if (HasLiveSoberProcess())
 			return true;
 		return LinuxFlatpakHost.IsSandboxed && IsRunningOnHost();
 	}
@@ -118,11 +118,11 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 			try
 			{
 				Voidstrap.Core.SystemProcessService processes = new();
-				if (LinuxFlatpakHost.TryCreateCommand(processes, ["ps", "--columns=application"], out ProcessCommand command))
+				if (LinuxFlatpakHost.TryCreateHostCommand(processes, "sh", ["-c", LiveSoberProbe], out ProcessCommand command))
 				{
 					using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(2));
 					OperationResult<ProcessExecution> result = Task.Run(() => processes.ExecuteAsync(command, timeout.Token)).GetAwaiter().GetResult();
-					running = result.Succeeded && result.Value is { ExitCode: 0 } && ListsSober(result.Value.StandardOutput);
+					running = result.Succeeded && result.Value is { ExitCode: 0 } && string.Equals(result.Value.StandardOutput.Trim(), "running", StringComparison.Ordinal);
 				}
 			}
 			catch (Exception)
@@ -136,12 +136,46 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 		}
 	}
 
-	private static bool ListsSober(string output)
+	private const string LiveSoberProbe = """
+		for file in /proc/[0-9]*/comm; do
+			IFS= read -r name < "$file" 2>/dev/null || continue
+			if [ "$name" != sober ]; then
+				matched=
+				while IFS= read -r group; do
+					case "$group" in *org.vinegarhq.Sober*) matched=1; break ;; esac
+				done < "${file%/comm}/cgroup" 2>/dev/null
+				[ "$matched" = 1 ] || continue
+				[ "$(readlink "${file%/comm}/exe" 2>/dev/null)" = /app/bin/sober ] || continue
+			fi
+			IFS= read -r status < "${file%/comm}/stat" 2>/dev/null || continue
+			case "${status##*) }" in Z*|X*) continue ;; esac
+			printf 'running\n'
+			exit 0
+		done
+		""";
+
+	private static bool HasLiveSoberProcess()
 	{
-		foreach (string line in output.Split('\n'))
+		foreach (int processId in GetSandboxProcessIds())
 		{
-			if (string.Equals(line.Trim(), SoberApplicationId, StringComparison.Ordinal))
-				return true;
+			try
+			{
+				string directory = Path.Combine("/proc", processId.ToString(System.Globalization.CultureInfo.InvariantCulture));
+				if (!string.Equals(File.ReadAllText(Path.Combine(directory, "comm")).Trim(), SoberProcessName, StringComparison.Ordinal)
+					&& !(string.Equals(new FileInfo(Path.Combine(directory, "exe")).LinkTarget, "/app/bin/sober", StringComparison.Ordinal)
+						&& File.ReadAllText(Path.Combine(directory, "cgroup")).Contains(SoberApplicationId, StringComparison.OrdinalIgnoreCase)))
+					continue;
+				string status = File.ReadAllText(Path.Combine(directory, "stat"));
+				int state = status.LastIndexOf(')') + 2;
+				if (state >= 2 && state < status.Length && status[state] is not ('Z' or 'X'))
+					return true;
+			}
+			catch (IOException)
+			{
+			}
+			catch (UnauthorizedAccessException)
+			{
+			}
 		}
 		return false;
 	}
@@ -201,10 +235,10 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 
-		if (GetSandboxProcessIds().Count > 0)
+		if (HasLiveSoberProcess())
 			return true;
 
-		if (!LinuxFlatpakHost.TryCreateCommand(_processes, ["ps", "--columns=application"], out ProcessCommand command))
+		if (!LinuxFlatpakHost.TryCreateHostCommand(_processes, "sh", ["-c", LiveSoberProbe], out ProcessCommand command))
 			return false;
 
 		OperationResult<ProcessExecution> result = await _processes
@@ -213,6 +247,6 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 		if (!result.Succeeded || result.Value is null || result.Value.ExitCode != 0)
 			return false;
 
-		return ListsSober(result.Value.StandardOutput);
+		return string.Equals(result.Value.StandardOutput.Trim(), "running", StringComparison.Ordinal);
 	}
 }

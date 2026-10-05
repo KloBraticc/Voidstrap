@@ -303,6 +303,33 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
+	public bool PreferXWayland
+	{
+		get => App.Settings.Prop.SoberPreferXWayland;
+		set
+		{
+			if (App.Settings.Prop.SoberPreferXWayland == value)
+				return;
+
+			App.Settings.Prop.SoberPreferXWayland = value;
+			OnPropertyChanged(nameof(PreferXWayland));
+		}
+	}
+
+	public string Launcher
+	{
+		get => App.Settings.Prop.SoberLauncher;
+		set
+		{
+			string resolved = (value ?? string.Empty).Trim();
+			if (string.Equals(App.Settings.Prop.SoberLauncher, resolved, StringComparison.Ordinal))
+				return;
+
+			App.Settings.Prop.SoberLauncher = resolved;
+			OnPropertyChanged(nameof(Launcher));
+		}
+	}
+
 	public IReadOnlyList<Choice<int>> SharpnessChoices { get; } =
 	[
 		new Choice<int>(0, "Off"),

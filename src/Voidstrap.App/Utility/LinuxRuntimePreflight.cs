@@ -155,8 +155,6 @@ public static class LinuxRuntimePreflight
 		{
 			if (NativeLibrary.TryLoad(library, out nint handle))
 			{
-				if (handle != 0)
-					NativeLibrary.Free(handle);
 				return true;
 			}
 		}
@@ -174,8 +172,6 @@ public static class LinuxRuntimePreflight
 
 				if (NativeLibrary.TryLoad(candidate, out nint bundled))
 				{
-					if (bundled != 0)
-						NativeLibrary.Free(bundled);
 					return true;
 				}
 			}

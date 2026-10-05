@@ -44,7 +44,7 @@ internal static class LinuxAppearancePortal
 
 	public static Color? ReadAccent()
 	{
-		string? address = Address.Session;
+		string? address = Voidstrap.Utility.LinuxSessionBus.Address;
 		if (string.IsNullOrEmpty(address))
 			return null;
 		try
@@ -63,7 +63,7 @@ internal static class LinuxAppearancePortal
 
 	public static void WatchAccent(Action<Color> changed)
 	{
-		string? address = Address.Session;
+		string? address = Voidstrap.Utility.LinuxSessionBus.Address;
 		if (string.IsNullOrEmpty(address))
 			return;
 		lock (WatchGate)

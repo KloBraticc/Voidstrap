@@ -24,6 +24,13 @@ public static class RoundedWindowChrome
 		}
 		_installed = true;
 		EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnWindowLoaded));
+		if (Voidstrap.Utility.Platform.IsLinux)
+			Wpf.Ui.Controls.ClientAreaBorder.PortableCornerRadiusProvider = ClientAreaCornerRadius;
+	}
+
+	private static double ClientAreaCornerRadius(Window window)
+	{
+		return IsOverlaySurface(window) || IsMaximizedOrFullscreen(window) ? 0.0 : CornerRadius;
 	}
 
 	public static void Prepare(Window window)
@@ -119,7 +126,10 @@ public static class RoundedWindowChrome
 		ConstrainContentWidth(window);
 		ApplyStartupLocation(window);
 		if (Voidstrap.Utility.Platform.IsLinux)
+		{
 			LinuxPointerRefresh.Attach(window);
+			LinuxWindowUpdatePump.Attach(window);
+		}
 		ApplyClip(window);
 		EnsureLinuxIdentity(window);
 		LinuxTitleBar.Apply(window);
@@ -538,6 +548,8 @@ public static class RoundedWindowChrome
 		{
 			return;
 		}
+		if (Voidstrap.Utility.Platform.IsLinux)
+			Wpf.Ui.Controls.ClientAreaBorder.Refresh(window);
 		if (!window.AllowsTransparency)
 		{
 			window.Clip = null;

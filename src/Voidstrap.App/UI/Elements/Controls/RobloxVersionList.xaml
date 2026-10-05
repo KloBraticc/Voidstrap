@@ -65,8 +65,8 @@
             <TextBlock FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource LauncherTextPrimaryBrush}" Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
             <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource LauncherTextSecondaryBrush}" Text="{Binding Subtitle}" TextTrimming="CharacterEllipsis" />
           </StackPanel>
-          <Border Grid.Column="2" Width="22" Height="22" VerticalAlignment="Center" CornerRadius="11" Background="{DynamicResource SystemAccentBrush}" Visibility="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Converter={StaticResource BoolToVisibility}}">
-            <ui:SymbolIcon Symbol="Checkmark16" FontSize="13" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          <Border Grid.Column="2" Width="22" Height="22" VerticalAlignment="Center" CornerRadius="11" Background="{DynamicResource AccentFillColorPrimaryBrush}" Visibility="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Converter={StaticResource BoolToVisibility}}">
+            <ui:SymbolIcon Symbol="Checkmark16" FontSize="13" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Border>
           <Border Grid.Row="1" Grid.ColumnSpan="3" Margin="0,14,0,0" Padding="10,8" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" ToolTip="{Binding LocationText}">
             <Grid>

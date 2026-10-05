@@ -22,6 +22,9 @@
               <controls:OptionControl x:Name="CloseOnLeaveOption" Header="{x:Static resources:Strings.Menu_Sober_CloseOnLeave_Title}" Description="{x:Static resources:Strings.Menu_Sober_CloseOnLeave_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding CloseOnLeaveChoice, Mode=TwoWay}" />
               </controls:OptionControl>
+              <controls:OptionControl x:Name="SoberLauncherOption" Header="Launcher" Description="Command placed in front of Sober, for example prime-run on laptops with two graphics cards, gamemoderun or mangohud.">
+                <ui:TextBox Width="230" Text="{Binding Launcher, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="None" />
+              </controls:OptionControl>
             </StackPanel>
           </Expander>
 
@@ -38,6 +41,9 @@
               </controls:OptionControl>
               <controls:OptionControl x:Name="ConsoleExperienceOption" Header="{x:Static resources:Strings.Menu_Sober_ConsoleExperience_Title}" Description="{x:Static resources:Strings.Menu_Sober_ConsoleExperience_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding UseConsoleExperienceChoice, Mode=TwoWay}" />
+              </controls:OptionControl>
+              <controls:OptionControl x:Name="PreferXWaylandOption" Header="Run Roblox through XWayland" Description="Only needed for custom Roblox cursors and the game name or icon on the Roblox window under Wayland. While it is on, turning the camera with right click can let the mouse drift onto other monitors.">
+                <ui:ToggleSwitch IsChecked="{Binding PreferXWayland, Mode=TwoWay}" />
               </controls:OptionControl>
             </StackPanel>
           </Expander>

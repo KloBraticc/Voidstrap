@@ -17,6 +17,8 @@ public partial class BootstrapperImportControl : UserControl
 	public BootstrapperImportControl()
 	{
 		InitializeComponent();
+		if (Voidstrap.Utility.Platform.IsLinux)
+			Visibility = Visibility.Collapsed;
 	}
 
 	private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -40,7 +42,8 @@ public partial class BootstrapperImportControl : UserControl
 		bool ownerDisabled = false;
 		try
 		{
-			string? settingsPath = Voidstrap.Utility.BootstrapperSettingsImport.FindSettings(source);
+			string? settingsPath = await Voidstrap.Utility.BootstrapperSettingsImport.FindSettingsAsync(source, cts.Token);
+			cts.Token.ThrowIfCancellationRequested();
 			if (settingsPath == null)
 			{
 				var picker = new Microsoft.Win32.OpenFileDialog
@@ -53,7 +56,7 @@ public partial class BootstrapperImportControl : UserControl
 				};
 				if (picker.ShowDialog(Window.GetWindow(this)) != true)
 					return;
-				settingsPath = picker.FileName;
+				settingsPath = await Voidstrap.Utility.BootstrapperSettingsImport.ResolvePickedPathAsync(picker.FileName);
 			}
 
 			if (owner != null && ownerEnabled)

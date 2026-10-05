@@ -66,6 +66,8 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
                             <Setter TargetName="Border" Property="Margin" Value="16" />
+                            <Setter TargetName="SurfaceLayer" Property="Effect" Value="{x:Null}" />
+                            <Setter TargetName="SurfaceLayer" Property="CacheMode" Value="{x:Null}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

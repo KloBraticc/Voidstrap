@@ -70,6 +70,14 @@ public static class FileModManager
 		.Select(static index => "PlatformContent/pc/textures/water/normal_" + index.ToString("00", CultureInfo.InvariantCulture) + ".dds")
 		.ToArray();
 
+	private static readonly string[] WaterKtxFiles = WaterFiles.Select(static rel => Path.ChangeExtension(rel, ".ktx")).ToArray();
+
+	private static bool UsesKtxWater => OperatingSystem.IsLinux();
+
+	private static string[] WaterTargets => UsesKtxWater ? WaterKtxFiles : WaterFiles;
+
+	private static byte[] OriginalWaterToDds(byte[] original) => UsesKtxWater ? EtcKtxCodec.ToWaterDds(original) : original;
+
 	private static readonly string[] TextureKeys = ["texture", "texture_top", "texture_side", "texture_bottom"];
 
 	private static readonly string[] RetiredFiles =
@@ -129,13 +137,13 @@ public static class FileModManager
 			if (style is 0 or 1 or 3 or 4)
 			{
 				(string? directory, string? guid) = FindPlayerVersion();
-				originals = new List<byte[]>(WaterFiles.Length);
-				foreach (string rel in WaterFiles)
+				originals = new List<byte[]>(WaterTargets.Length);
+				foreach (string rel in WaterTargets)
 				{
 					byte[]? original = PeekOriginal(directory, guid, rel);
 					if (original == null)
 						return null;
-					originals.Add(original);
+					originals.Add(OriginalWaterToDds(original));
 				}
 			}
 			List<byte[]>? heights = null;
@@ -169,6 +177,8 @@ public static class FileModManager
 
 	private static (string? Directory, string? Guid) FindPlayerVersion()
 	{
+		if (OperatingSystem.IsLinux())
+			return FindUnpackedSoberClient();
 		try
 		{
 			Voidstrap.AppData.RobloxPlayerData player = new Voidstrap.AppData.RobloxPlayerData();
@@ -182,6 +192,61 @@ public static class FileModManager
 			App.Logger?.WriteLine("FileModManager::FindPlayerVersion", "Could not find the Roblox install: " + ex.Message);
 		}
 		return (null, null);
+	}
+
+	private static readonly object UnpackGate = new object();
+
+	private static (string? Directory, string? Guid) FindUnpackedSoberClient()
+	{
+		(string? directory, string? guid) = FindExistingSoberClient();
+		if (directory is not null)
+			return (directory, guid);
+		lock (UnpackGate)
+		{
+			(directory, guid) = FindExistingSoberClient();
+			if (directory is not null)
+				return (directory, guid);
+			if (Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow())
+			{
+				App.Logger?.WriteLine("FileModManager::FindPlayerVersion", "Sober is running, its Roblox files are unpacked after it closes");
+				return (null, null);
+			}
+			try
+			{
+				(string ClientDirectory, string VersionGuid)? tree = Task.Run(() => Bootstrapper.PrepareSoberClientTreeAsync(CancellationToken.None)).GetAwaiter().GetResult();
+				if (tree is { } unpacked)
+					return (unpacked.ClientDirectory, unpacked.VersionGuid);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine("FileModManager::FindPlayerVersion", "Could not unpack the Sober Roblox files: " + ex.Message);
+			}
+			return (null, null);
+		}
+	}
+
+	private static (string? Directory, string? Guid) FindExistingSoberClient()
+	{
+		try
+		{
+			string root = Bootstrapper.SoberClientRoot;
+			if (!Directory.Exists(root))
+				return (null, null);
+			string? newest = Directory.GetFiles(root, "version-*.complete")
+				.Select(static marker => marker[..^".complete".Length])
+				.Where(Directory.Exists)
+				.OrderByDescending(Directory.GetLastWriteTimeUtc)
+				.FirstOrDefault();
+			if (newest is null)
+				return (null, null);
+			string guid = Path.GetFileName(newest);
+			return Voidstrap.AppData.CommonAppData.IsVersionGuidValid(guid) ? (newest, guid) : (null, null);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("FileModManager::FindPlayerVersion", "Could not find the unpacked Sober Roblox files: " + ex.Message);
+			return (null, null);
+		}
 	}
 
 	private static byte[]? PeekOriginal(string? versionDirectory, string? versionGuid, string rel)
@@ -328,9 +393,15 @@ public static class FileModManager
 	private static void ApplyWater(Dictionary<string, string> owned, string? versionDirectory, string? versionGuid, int style, int strength, int speed, int frozenFrame, int glitch)
 	{
 		style = Math.Clamp(style, 0, 5);
-		if (style == 0 || (style == 5 && CountWaterFrames() == 0))
+		string[] targets = WaterTargets;
+		if (UsesKtxWater)
 		{
 			foreach (string rel in WaterFiles)
+				Sync(owned, rel, null);
+		}
+		if (style == 0 || (style == 5 && CountWaterFrames() == 0))
+		{
+			foreach (string rel in targets)
 				Sync(owned, rel, null);
 			return;
 		}
@@ -339,19 +410,28 @@ public static class FileModManager
 			List<byte[]>? originals = null;
 			if (style is 1 or 3 or 4)
 			{
-				originals = new List<byte[]>(WaterFiles.Length);
-				foreach (string rel in WaterFiles)
+				originals = new List<byte[]>(targets.Length);
+				foreach (string rel in targets)
 				{
 					byte[]? original = GetOriginal(owned, versionDirectory, versionGuid, rel);
 					if (original == null)
 						return;
-					originals.Add(original);
+					originals.Add(OriginalWaterToDds(original));
 				}
 			}
 			List<byte[]>? heights = style == 5 ? LoadWaterFrames() : null;
 			byte[][] frames = DdsTextureCodec.BuildWaterFrames(style, strength, speed, frozenFrame, glitch, originals, heights);
-			for (int index = 0; index < WaterFiles.Length; index++)
-				Sync(owned, WaterFiles[index], frames[index]);
+			Dictionary<byte[], byte[]> encoded = new(ReferenceEqualityComparer.Instance);
+			for (int index = 0; index < targets.Length; index++)
+			{
+				byte[] frame = frames[index];
+				if (UsesKtxWater && !encoded.TryGetValue(frame, out byte[]? converted))
+				{
+					converted = EtcKtxCodec.FromWaterDds(frame);
+					encoded[frame] = converted;
+				}
+				Sync(owned, targets[index], UsesKtxWater ? encoded[frame] : frame);
+			}
 		}
 		catch (Exception ex)
 		{

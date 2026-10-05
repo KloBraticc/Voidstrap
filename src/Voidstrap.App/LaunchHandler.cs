@@ -705,6 +705,9 @@ public static class LaunchHandler
 			App.Logger.WriteLine("LaunchHandler::KeepAliveUntilPortableSessionEnds", "The session could not be held open: " + ex.Message);
 		}
 
+		if (OperatingSystem.IsLinux())
+			Voidstrap.UI.LinuxWindowMemory.KeepSessionTrimmed(application.Dispatcher, PortableSessionEnded.Task);
+
 		PortableSessionEnded.Task.ContinueWith(
 			delegate { ReleaseLaunchKeepAlive(); },
 			CancellationToken.None,
@@ -1131,12 +1134,10 @@ public static class LaunchHandler
 					cancellation.ThrowIfCancellationRequested();
 					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session = Voidstrap.Integrations.Overlays.OverlaySettings.RequiresLinuxX11Session
 						&& !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
-					App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session
-						? (Voidstrap.Integrations.Overlays.OverlaySettings.LinuxCustomCursorNeedsX11
-							? "Window controls, effects or a custom cursor are on, starting Sober on X11 because Sober only draws Roblox cursor textures there"
-							: "Window controls or effects are on, starting Sober on X11")
-						: "Starting Sober in its default display mode");
+					App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", Voidstrap.Integrations.Overlays.OverlaySettings.DescribeLinuxSoberSession(Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session));
+					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.LauncherPrefix = await Voidstrap.Utility.SoberLauncherCommand.ResolveAsync(App.Settings.Prop.SoberLauncher, cancellation);
 					await PrepareLinuxEffectLayersAsync();
+					Voidstrap.Utility.LinuxNvidiaSettings.Choices nvidiaChoices = await PrepareLinuxNvidiaSettingsAsync();
 					cancellation.ThrowIfCancellationRequested();
 					SetPortableLaunchStatus("Closing the current Roblox session");
 					if (!await Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.TryCloseSoberAsync(cancellation))
@@ -1145,6 +1146,7 @@ public static class LaunchHandler
 						ShowPortableLaunchFailure("The current Sober session could not be closed. Close Sober and try joining again.");
 						return;
 					}
+					Voidstrap.Utility.LinuxNvidiaSettings.ApplyFrameRateLimit(nvidiaChoices);
 					try
 					{
 						SetPortableLaunchStatus(Strings.Bootstrapper_Status_Configuring);
@@ -1312,6 +1314,12 @@ public static class LaunchHandler
 
 			cancellation.ThrowIfCancellationRequested();
 			SetPortableLaunchStatus(Strings.Bootstrapper_Status_Starting);
+			if (OperatingSystem.IsLinux())
+				Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.StartupStatus = message =>
+				{
+					App.Logger.WriteLine("LaunchHandler::SoberStartup", message);
+					SetPortableLaunchStatus(message);
+				};
 			Voidstrap.Core.RuntimeLaunchCoordinator coordinator = new(host.PlayerRuntime, host.StudioRuntime);
 			Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result = await coordinator.LaunchAsync(runtimeKind, launchTarget, cancellation);
 			if (!result.Succeeded || result.Value == null)
@@ -1344,6 +1352,8 @@ public static class LaunchHandler
 		}
 		finally
 		{
+			if (OperatingSystem.IsLinux())
+				Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.StartupStatus = null;
 			cancelRequested.Dispose();
 			soberLaunchLease?.Dispose();
 			Interlocked.Exchange(ref _portableLaunchActive, 0);
@@ -1466,6 +1476,7 @@ public static class LaunchHandler
 	{
 		try
 		{
+			Voidstrap.Platform.Linux.LinuxEffectLayers.RefreshState();
 			Voidstrap.Platform.Linux.LinuxEffectOptions options = Voidstrap.Utility.LinuxEffectMapper.CreateOptions();
 			if (!options.Enabled)
 			{
@@ -1500,6 +1511,38 @@ public static class LaunchHandler
 			App.Logger.WriteLine("LaunchHandler::PrepareLinuxEffectLayers", "The effect layers could not be prepared: " + ex.Message);
 			Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.EffectLayerArguments = [];
 			Voidstrap.Integrations.Overlays.OverlayHub.SetLinuxHomepageNativeShaderActive(false);
+		}
+	}
+
+	private static async Task<Voidstrap.Utility.LinuxNvidiaSettings.Choices> PrepareLinuxNvidiaSettingsAsync()
+	{
+		Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.NvidiaArguments = [];
+		try
+		{
+			Voidstrap.Utility.LinuxNvidiaSettings.Choices choices = Voidstrap.Utility.LinuxNvidiaSettings.Read();
+			bool wantsOverlay = Voidstrap.Utility.LinuxNvidiaSettings.OverlayConfiguration(choices.Overlay) is not null;
+			string overlayLayer = Voidstrap.Platform.Linux.LinuxEffectLayers.MangoHudLayerId;
+			if (wantsOverlay && !Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(overlayLayer)
+				&& Voidstrap.Utility.Platform.RuntimeHost is { } host && !App.LaunchSettings.QuietFlag.Active)
+			{
+				await PromptInstallEffectLayerAsync(host, overlayLayer, "The NVIDIA benchmark overlay needs the MangoHud Vulkan layer. Install it now?");
+			}
+
+			bool overlayInstalled = wantsOverlay && Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(overlayLayer);
+			IReadOnlyList<string> arguments = Voidstrap.Utility.LinuxNvidiaSettings.BuildLaunchArguments(choices, overlayInstalled);
+			Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.NvidiaArguments = arguments;
+			if (arguments.Count > 0 || choices.FrameRateLimit > 0)
+			{
+				App.Logger.WriteLine(
+					"LaunchHandler::PrepareLinuxNvidiaSettings",
+					"Applying the NVIDIA settings: " + arguments.Count + " launch arguments, frame rate limit " + choices.FrameRateLimit);
+			}
+			return choices;
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::PrepareLinuxNvidiaSettings", "The NVIDIA settings could not be prepared: " + ex.Message);
+			return Voidstrap.Utility.LinuxNvidiaSettings.Choices.None;
 		}
 	}
 
@@ -1549,7 +1592,7 @@ public static class LaunchHandler
 			"LaunchHandler::EffectLayers",
 			result.Succeeded ? layerId + " installed" : (result.Failure?.Message ?? "The effect layer could not be installed"));
 		if (!result.Succeeded)
-			Frontend.ShowMessageBox("The effect layer could not be installed, Roblox will start without those effects.", MessageBoxImage.Warning);
+			Frontend.ShowMessageBox("The " + (layerId == Voidstrap.Platform.Linux.LinuxEffectLayers.ShaderLayerId ? "vkBasalt" : layerId == Voidstrap.Platform.Linux.LinuxEffectLayers.MangoHudLayerId ? "MangoHud" : "LSFG") + " effect layer could not be prepared.\n\n" + (result.Failure?.Message ?? "The installation did not complete") + "\n\nRoblox will start without those effects.", MessageBoxImage.Warning);
 	}
 
 	private static string FormatLaunchStatus(string message)
@@ -1634,6 +1677,14 @@ public static class LaunchHandler
 		{
 			try
 			{
+				if (keepDialogOpen && _portableDialog is { } failedDialog)
+				{
+					failedDialog.Message = "Roblox could not start";
+					failedDialog.ProgressStyle = System.Windows.Forms.ProgressBarStyle.Continuous;
+					failedDialog.ProgressValue = 0;
+					failedDialog.TaskbarProgressState = System.Windows.Shell.TaskbarItemProgressState.Error;
+					failedDialog.CancelEnabled = false;
+				}
 				Frontend.ShowMessageBox(message, MessageBoxImage.Hand);
 			}
 			finally

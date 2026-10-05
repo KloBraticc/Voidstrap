@@ -161,6 +161,7 @@ public static class LinuxComboBoxGuard
 			if (_popup is null)
 				return;
 
+			RestorePlacement(_popup);
 			_popup.Opened -= OnPopupOpened;
 			_popup.Closed -= OnPopupClosed;
 			_popup = null;
@@ -210,14 +211,93 @@ public static class LinuxComboBoxGuard
 			if (double.IsNaN(_naturalDropDownHeight))
 				_naturalDropDownHeight = _box.MaxDropDownHeight;
 
-			const double Margin = 12;
-			double below = owner.ActualHeight - top.Y - _box.ActualHeight - Margin;
-			double above = top.Y - Margin;
-			double needed = Math.Min(_naturalDropDownHeight, _box.Items.Count * 36d + 24d);
+			Thickness margin = SurfaceMargin();
+			double gap = PlacementGap();
+			double below = owner.ActualHeight - top.Y - _box.ActualHeight - gap - margin.Bottom - WindowEdge;
+			double above = top.Y - gap - margin.Top - WindowEdge;
+			double needed = NeededSurfaceHeight();
 			bool openUp = below < needed && above > below;
-			double room = Math.Max(48, openUp ? above : below);
-			_popup.Placement = openUp ? PlacementMode.Top : PlacementMode.Bottom;
+			double room = Math.Max(MinimumSurfaceHeight, openUp ? above : below) - SurfaceChrome;
+			PlaceAtEdge(openUp);
 			_box.SetCurrentValue(ComboBox.MaxDropDownHeightProperty, Math.Min(_naturalDropDownHeight, room));
+		}
+
+		private const double WindowEdge = 4;
+
+		private const double SurfaceChrome = 6;
+
+		private const double MinimumSurfaceHeight = 54;
+
+		private CustomPopupPlacementCallback? _templatePlacementCallback;
+
+		private PlacementMode _templatePlacement;
+
+		private bool _placementCaptured;
+
+		private double NeededSurfaceHeight()
+		{
+			return Math.Min(_naturalDropDownHeight + SurfaceChrome, _box.Items.Count * 36d + 24d);
+		}
+
+		private FrameworkElement? Surface()
+		{
+			FrameworkElement? surface = _popup?.Child as FrameworkElement;
+			if (surface is Panel panel && panel.Children.Count == 1)
+				surface = panel.Children[0] as FrameworkElement;
+			return surface;
+		}
+
+		private Thickness SurfaceMargin()
+		{
+			return Surface()?.Margin ?? default;
+		}
+
+		private double PlacementGap()
+		{
+			if (_popup is null)
+				return 0;
+			double gap = Wpf.Ui.Controls.PopupReveal.GetPlacementGap(_popup);
+			return double.IsFinite(gap) && gap > 0 ? gap : 0;
+		}
+
+		private void CapturePlacement()
+		{
+			if (_placementCaptured || _popup is null)
+				return;
+			_placementCaptured = true;
+			_templatePlacement = _popup.Placement;
+			_templatePlacementCallback = _popup.CustomPopupPlacementCallback;
+		}
+
+		private void RestorePlacement(Popup popup)
+		{
+			if (!_placementCaptured)
+				return;
+			_placementCaptured = false;
+			popup.Placement = _templatePlacement;
+			popup.CustomPopupPlacementCallback = _templatePlacementCallback;
+			_templatePlacementCallback = null;
+		}
+
+		private void PlaceAtEdge(bool openUp)
+		{
+			if (_popup is null)
+				return;
+			CapturePlacement();
+			_popup.CustomPopupPlacementCallback = openUp ? PlaceAbove : PlaceBelow;
+			_popup.Placement = PlacementMode.Custom;
+		}
+
+		private CustomPopupPlacement[] PlaceBelow(Size popupSize, Size targetSize, Point offset)
+		{
+			Thickness margin = SurfaceMargin();
+			return [new CustomPopupPlacement(new Point(-margin.Left, targetSize.Height + PlacementGap() - margin.Top), PopupPrimaryAxis.Vertical)];
+		}
+
+		private CustomPopupPlacement[] PlaceAbove(Size popupSize, Size targetSize, Point offset)
+		{
+			Thickness margin = SurfaceMargin();
+			return [new CustomPopupPlacement(new Point(-margin.Left, -popupSize.Height - PlacementGap() + margin.Bottom), PopupPrimaryAxis.Vertical)];
 		}
 
 		private Window? _grownOwner;
@@ -244,10 +324,11 @@ public static class LinuxComboBoxGuard
 			if (double.IsNaN(_naturalDropDownHeight))
 				_naturalDropDownHeight = _box.MaxDropDownHeight;
 
-			const double Margin = 12;
-			double below = owner.ActualHeight - top.Y - _box.ActualHeight - Margin;
-			double above = top.Y - Margin;
-			double needed = Math.Min(_naturalDropDownHeight, _box.Items.Count * 36d + 24d);
+			Thickness margin = SurfaceMargin();
+			double gap = PlacementGap();
+			double below = owner.ActualHeight - top.Y - _box.ActualHeight - gap - margin.Bottom - WindowEdge;
+			double above = top.Y - gap - margin.Top - WindowEdge;
+			double needed = NeededSurfaceHeight();
 			if (below >= needed || above >= needed)
 				return false;
 
