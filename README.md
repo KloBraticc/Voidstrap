@@ -23,7 +23,6 @@
 [![Latest Release][shield-repo-latest]][repo-latest]
 [![Discord][shield-discord-server]][discord-invite]
 [![Stars][shield-repo-stars]][repo-stargazers]
-[![Sponsors][shield-repo-sponsors]][sponsor-link]
 
 </div>
 
@@ -429,13 +428,11 @@ Components included in this repository keep their own licenses:
 [shield-repo-latest]:     https://img.shields.io/github/v/release/KloBraticc/Voidstrap?color=7a39fb
 [shield-repo-stars]:      https://img.shields.io/github/stars/KloBraticc/Voidstrap?color=ffd700
 [shield-discord-server]:  https://img.shields.io/discord/1327967202015580223?logo=discord&logoColor=white&label=Discord&color=4d3dff
-[shield-repo-sponsors]:   https://img.shields.io/github/sponsors/KloBraticc?logo=githubsponsors&logoColor=white&label=Sponsors&color=ea4aaa
 
 [repo-releases]:          https://github.com/KloBraticc/Voidstrap/releases
 [repo-latest]:            https://github.com/KloBraticc/Voidstrap/releases/latest
 [repo-stargazers]:        https://github.com/KloBraticc/Voidstrap/stargazers
 [discord-invite]:         https://discord.gg/dfA9PdWgcV
-[sponsor-link]:           https://github.com/sponsors/KloBraticc
 
 [shield-license]:         https://img.shields.io/github/license/KloBraticc/Voidstrap?style=for-the-badge
 [link-license]:           LICENSE.VOIDSTRAP
