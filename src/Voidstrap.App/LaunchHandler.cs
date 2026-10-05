@@ -352,10 +352,13 @@ public static class LaunchHandler
 	public static void LaunchSettings()
 	{
 		WaitForElevationPredecessor();
+		if (OperatingSystem.IsWindows())
+			Voidstrap.UI.TaskbarJumpList.Apply();
 		using InterProcessLock interProcessLock = new InterProcessLock("Settings");
 		if (interProcessLock.IsAcquired)
 		{
 			Voidstrap.UI.Elements.Settings.MainWindow window = new(Process.GetProcessesByName("Voidstrap").Length > 1);
+			window.RequestStartupView(App.LaunchSettings.MenuFlag.Data);
 			Application? application = Application.Current;
 			Window? previousMainWindow = null;
 			bool ownsLinuxMainWindow = Voidstrap.Utility.Platform.IsLinux && application != null;
@@ -390,6 +393,8 @@ public static class LaunchHandler
 			if (process != null && process.MainWindowHandle != IntPtr.Zero)
 			{
 				Windows.Win32.PInvoke.SetForegroundWindow(new HWND(process.MainWindowHandle));
+				if (Voidstrap.UI.TaskbarJumpList.PostOpenView(process.MainWindowHandle, App.LaunchSettings.MenuFlag.Data))
+					App.Logger.WriteLine("LaunchHandler::LaunchSettings", "Asked the open window to show " + App.LaunchSettings.MenuFlag.Data);
 			}
 		}
 		finally

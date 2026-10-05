@@ -3,7 +3,7 @@
     <local:RobloxVersionSelectableConverter x:Key="SelectableConverter" />
     <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
   </UserControl.Resources>
-  <ListBox x:Name="VersionsListBox" Background="Transparent" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" SelectionMode="Single" SelectionChanged="VersionsListBox_SelectionChanged" PreviewKeyDown="VersionsListBox_PreviewKeyDown">
+  <ListBox x:Name="VersionsListBox" Background="Transparent" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.ScrollUnit="Pixel" VirtualizingPanel.CacheLength="2,2" VirtualizingPanel.CacheLengthUnit="Item" SelectionMode="Single" SelectionChanged="VersionsListBox_SelectionChanged" PreviewKeyDown="VersionsListBox_PreviewKeyDown">
     <ListBox.ItemContainerStyle>
       <Style TargetType="{x:Type ListBoxItem}">
         <Setter Property="OverridesDefaultStyle" Value="True" />

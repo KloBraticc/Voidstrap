@@ -953,11 +953,12 @@
         </StatusBarItem>
       </StatusBar>
     </Border>
-    <Grid x:Name="LaunchTargetOverlay" Grid.RowSpan="3" Panel.ZIndex="1100" Visibility="Collapsed" Opacity="0">
+    <Grid x:Name="LaunchTargetOverlay" Grid.RowSpan="3" Panel.ZIndex="1100" Visibility="Hidden" Opacity="0" IsHitTestVisible="False">
+      <Image x:Name="LaunchTargetBackdrop" Stretch="Fill" IsHitTestVisible="False" SnapsToDevicePixels="False" RenderOptions.BitmapScalingMode="HighQuality" />
       <Border Background="#99000000" MouseLeftButtonDown="LaunchTargetScrim_MouseLeftButtonDown" />
-      <Border x:Name="LaunchTargetPanel" Width="600" Margin="32" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="20,18,20,14" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" SnapsToDevicePixels="True">
+      <Border x:Name="LaunchTargetPanel" RenderTransformOrigin="0.5,0.5" Width="600" Margin="32" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="20,18,20,14" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" SnapsToDevicePixels="True">
         <Border.RenderTransform>
-          <TranslateTransform x:Name="LaunchTargetPanelTranslate" Y="28" />
+          <TranslateTransform x:Name="LaunchTargetPanelTranslate" Y="16" />
         </Border.RenderTransform>
         <Grid>
           <Grid.RowDefinitions>

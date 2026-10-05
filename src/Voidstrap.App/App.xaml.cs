@@ -808,6 +808,11 @@ public partial class App : Application
 		}
 
 		LaunchSettings = new LaunchSettings(args);
+		if (OperatingSystem.IsWindows() && LaunchSettings.MenuFlag.Active && Voidstrap.UI.TaskbarJumpList.TryForwardToOpenWindow(LaunchSettings.MenuFlag.Data))
+		{
+			Shutdown(0);
+			return;
+		}
 		if (LaunchSettings.DeferredCleanupFlag.Active)
 		{
 			await Installer.RunDeferredCleanupAsync(LaunchSettings.DeferredCleanupFlag.Data);

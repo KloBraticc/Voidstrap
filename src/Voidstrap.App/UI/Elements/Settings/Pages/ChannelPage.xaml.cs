@@ -38,8 +38,19 @@ public partial class ChannelPage : UiPage{
 		SettingsTabs.SelectedIndex = 0;
 	}
 
+	internal static bool PendingNotificationsTab;
+
+	internal void ShowNotificationsTab()
+	{
+		PendingNotificationsTab = false;
+		if (NotificationsTab.Visibility == Visibility.Visible)
+			SettingsTabs.SelectedItem = NotificationsTab;
+	}
+
 	private void OnChannelPageLoaded(object sender, RoutedEventArgs e)
 	{
+		if (PendingNotificationsTab)
+			ShowNotificationsTab();
 		if (base.DataContext is ChannelViewModel viewModel)
 		{
 			viewModel.Resume();
