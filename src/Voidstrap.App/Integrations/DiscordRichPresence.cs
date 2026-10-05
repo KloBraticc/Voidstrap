@@ -811,7 +811,14 @@ public partial class DiscordRichPresence : IDisposable
 		if (!IsCurrentActivity(activity, revision))
 			return false;
 		string placeName = await placeNameTask.ConfigureAwait(false);
-		string shownName = string.IsNullOrWhiteSpace(placeName) ? rootName : placeName;
+		string shownName = string.IsNullOrWhiteSpace(rootName) ? placeName : rootName;
+		long rootPlaceId = universe?.Data?.RootPlaceId ?? 0;
+		string subplaceName = !string.IsNullOrWhiteSpace(rootName)
+			&& !string.IsNullOrWhiteSpace(placeName)
+			&& (rootPlaceId <= 0 || rootPlaceId != activity.PlaceId)
+			&& !string.Equals(placeName.Trim(), rootName.Trim(), StringComparison.OrdinalIgnoreCase)
+				? placeName.Trim()
+				: string.Empty;
 		bool unlistedExperience = string.IsNullOrWhiteSpace(shownName);
 		if (unlistedExperience)
 		{
@@ -819,7 +826,10 @@ public partial class DiscordRichPresence : IDisposable
 			App.Logger.WriteLine(LOG_IDENT, "Game name unavailable for universe " + activity.UniverseId);
 		}
 		if (!string.IsNullOrWhiteSpace(App.Settings.Prop.CustomGameName))
+		{
 			shownName = App.Settings.Prop.CustomGameName;
+			subplaceName = string.Empty;
+		}
 		(string cleanName, string? betaTag) = ExtractBetaTag(shownName, universe?.Data?.Description);
 		string reservedName = ExtractReservedServerName(activity.RPCLaunchData);
 		if (!IsCurrentActivity(activity, revision))
@@ -845,7 +855,7 @@ public partial class DiscordRichPresence : IDisposable
 		largeImage = Voidstrap.Utility.DiscordPresenceGuard.Key(largeImage);
 		if (largeImage.Length == 0 && App.Settings.Prop.GameIconChecked && string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon))
 			largeImage = knownLargeImage;
-		string largeText = BuildLargeImageText(shownName, creator);
+		string largeText = BuildLargeImageText(subplaceName.Length > 0 ? shownName + " · " + subplaceName : shownName, creator);
 		bool showAccount = App.Settings.Prop.ShowAccountOnRichPresence && activity.UserId > 0;
 		string smallImage = showAccount && !string.IsNullOrEmpty(knownSmallKey) ? knownSmallKey : "voidstrap";
 		string smallText = showAccount && !string.IsNullOrEmpty(knownSmallKey) ? knownSmallText ?? "Voidstrap" : "Voidstrap";
