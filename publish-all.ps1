@@ -22,6 +22,7 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $sw = [System.Diagnostics.Stopwatch]::StartNew()
+$script:WallClockStart = [DateTime]::UtcNow
 
 function Wait-BeforeClose {
     if ($NoPause -or $env:CI -or [Console]::IsInputRedirected) {
@@ -706,7 +707,7 @@ function Repair-FutureTimestamps {
     $past = $now.AddHours(-2)
     $outputs = 0
     $sources = 0
-    foreach ($name in @('src', 'external', 'artifacts')) {
+    foreach ($name in @('src', 'external', 'artifacts', 'android')) {
         $dir = Join-Path $Root $name
         if (-not (Test-Path -LiteralPath $dir)) { continue }
         $files = $null
@@ -714,7 +715,8 @@ function Repair-FutureTimestamps {
             $files = [System.IO.Directory]::EnumerateFiles($dir, '*', [System.IO.SearchOption]::AllDirectories)
             foreach ($file in $files) {
                 if ([System.IO.File]::GetLastWriteTime($file) -le $limit) { continue }
-                $isOutput = $name -eq 'artifacts' -or $file -match '[\\/](bin|obj)([-_][^\\/]*)?[\\/]'
+                $isOutput = $name -eq 'artifacts' -or $file -match '[\\/](bin|obj)([-_][^\\/]*)?[\\/]' -or
+                    ($name -eq 'android' -and $file -match '[\\/]android[\\/]((app[\\/])?(build|\.cxx)|\.gradle|rust[\\/]target)[\\/]')
                 try {
                     if ($isOutput) {
                         [System.IO.File]::SetLastWriteTime($file, $past)
@@ -733,6 +735,55 @@ function Repair-FutureTimestamps {
     if ($outputs -gt 0 -or $sources -gt 0) {
         Write-Host "  The system clock ran ahead (often after booting Linux): reset $outputs build files and $sources source files dated in the future so every page and resource rebuilds." -ForegroundColor DarkYellow
     }
+}
+
+function Get-ClockJumpSeconds {
+    return (([DateTime]::UtcNow - $script:WallClockStart) - $sw.Elapsed).TotalSeconds
+}
+
+function Get-NetworkClockOffsetSeconds {
+    foreach ($url in @('https://www.google.com', 'https://www.cloudflare.com', 'https://github.com')) {
+        try {
+            $sent = [DateTime]::UtcNow
+            $response = Invoke-WebRequest -Uri $url -Method Head -UseBasicParsing -TimeoutSec 5 -ErrorAction Stop
+            $received = [DateTime]::UtcNow
+            $header = $response.Headers['Date']
+            if ($header -is [array]) { $header = $header[0] }
+            if (-not $header) { continue }
+            $server = [DateTime]::Parse($header, [System.Globalization.CultureInfo]::InvariantCulture, [System.Globalization.DateTimeStyles]::AdjustToUniversal -bor [System.Globalization.DateTimeStyles]::AssumeUniversal)
+            $local = $sent.AddTicks(($received - $sent).Ticks / 2)
+            return ($local - $server).TotalSeconds
+        } catch {
+        }
+    }
+    return $null
+}
+
+function Test-SystemClock {
+    $offset = Get-NetworkClockOffsetSeconds
+    if ($null -eq $offset -or [Math]::Abs($offset) -le 120) { return }
+    $direction = if ($offset -gt 0) { 'ahead of' } else { 'behind' }
+    $minutes = [Math]::Round([Math]::Abs($offset) / 60)
+    Write-Host "  The system clock is about $minutes minutes $direction internet time (often after booting Linux). Asking Windows to resync it..." -ForegroundColor DarkYellow
+    if ($IsWindowsHost) {
+        try { & w32tm /resync /force 2>&1 | Out-Null } catch { }
+    }
+    $after = Get-NetworkClockOffsetSeconds
+    if ($null -ne $after -and [Math]::Abs($after) -le 120) {
+        Write-Host '  The clock is correct again.' -ForegroundColor DarkYellow
+        $script:WallClockStart = [DateTime]::UtcNow - $sw.Elapsed
+        return
+    }
+    Write-Host '  The clock could not be resynced from here, so the build continues anyway. Every file is still rebuilt correctly, and if Windows fixes the clock during the build, the affected targets rebuild automatically.' -ForegroundColor DarkYellow
+}
+
+function Get-OutputSnapshot {
+    $snapshot = @{}
+    if (-not (Test-Path -LiteralPath $Out)) { return $snapshot }
+    foreach ($file in @(Get-ChildItem -LiteralPath $Out -File -Recurse -ErrorAction SilentlyContinue)) {
+        $snapshot[$file.FullName] = '{0}|{1}' -f $file.LastWriteTimeUtc.Ticks, $file.Length
+    }
+    return $snapshot
 }
 
 function Get-PackageFiles {
@@ -1354,7 +1405,9 @@ foreach ($note in $PackageNotes) {
 }
 Write-Host ''
 
+Test-SystemClock
 Repair-FutureTimestamps
+$script:OutputSnapshot = Get-OutputSnapshot
 
 $jobs = @()
 $unexpectedFailure = $null
@@ -1451,6 +1504,26 @@ try {
             Restart-PublishJob $job
         }
         Wait-ForPublishJobs -Jobs $jobs
+    }
+
+    $jump = Get-ClockJumpSeconds
+    if ($jobs.Count -gt 0 -and [Math]::Abs($jump) -gt 120) {
+        $minutes = [Math]::Round([Math]::Abs($jump) / 60)
+        Write-Host "  The system clock changed by about $minutes minutes during the build, so files from before and after the change could mix. Rebuilding every target once so nothing stale ships..." -ForegroundColor DarkYellow
+        Repair-FutureTimestamps
+        $script:WallClockStart = [DateTime]::UtcNow - $sw.Elapsed
+        foreach ($job in $jobs) {
+            if ($UseParallel -and @($jobs | Where-Object { $_.Status -eq 'Building' }).Count -ge $MaxParallel) {
+                Wait-ForPublishJobs -Jobs $jobs -WaitForSlot
+            }
+            Restart-PublishJob $job
+            if (-not $UseParallel) {
+                Finish-PublishJob $job
+            }
+        }
+        if ($UseParallel) {
+            Wait-ForPublishJobs -Jobs $jobs
+        }
     }
 }
 catch {
@@ -1676,7 +1749,7 @@ if ($PackageNotes.Count -gt 0) {
 Write-Host "Output: $Out"
 Write-Host "Time:   $($sw.Elapsed.ToString('mm\:ss'))"
 Write-Host ''
-$runStarted = (Get-Date).AddSeconds(-$sw.Elapsed.TotalSeconds - 5)
+$previousOutputs = if ($script:OutputSnapshot) { $script:OutputSnapshot } else { @{} }
 foreach ($folder in @(Get-ChildItem -LiteralPath $Out -Directory -ErrorAction SilentlyContinue | Where-Object { -not $_.Name.StartsWith('.') } | Sort-Object Name)) {
     $files = @(Get-ChildItem -LiteralPath $folder.FullName -File -ErrorAction SilentlyContinue | Where-Object { -not $_.Name.StartsWith('.') } | Sort-Object Name)
     if ($files.Count -eq 0) { continue }
@@ -1684,7 +1757,8 @@ foreach ($folder in @(Get-ChildItem -LiteralPath $Out -Directory -ErrorAction Si
     foreach ($file in $files) {
         $size = if ($file.Length -ge 1MB) { '{0:0.0} MB' -f ($file.Length / 1MB) } else { '{0:0} KB' -f [Math]::Max(1, $file.Length / 1KB) }
         $line = '    {0,-48} {1,9}' -f $file.Name, $size
-        if ($file.LastWriteTime -ge $runStarted) {
+        $before = $previousOutputs[$file.FullName]
+        if ($null -eq $before -or $before -ne ('{0}|{1}' -f $file.LastWriteTimeUtc.Ticks, $file.Length)) {
             Write-Host $line
         } else {
             Write-Host "$line  (from an earlier run)" -ForegroundColor DarkGray
