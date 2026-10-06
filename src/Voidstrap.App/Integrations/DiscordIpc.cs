@@ -26,7 +26,16 @@ internal static class DiscordIpc
 
 	internal static DiscordRpcClient CreateClient(string applicationId, int pipe, ILogger? logger = null, string? activityName = null)
 	{
-		DiscordActivityPipe transport = new(activityName);
+		return CreateClient(applicationId, pipe, new DiscordActivityPipe(activityName), logger);
+	}
+
+	internal static DiscordRpcClient CreateClient(string applicationId, int pipe, Func<string?> activityName, ILogger? logger = null)
+	{
+		return CreateClient(applicationId, pipe, new DiscordActivityPipe(activityName), logger);
+	}
+
+	private static DiscordRpcClient CreateClient(string applicationId, int pipe, DiscordActivityPipe transport, ILogger? logger)
+	{
 		DiscordRpcClient client = new(applicationId, pipe, logger, true, transport);
 		Pipes.AddOrUpdate(client, transport);
 		return client;

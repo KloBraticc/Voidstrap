@@ -62,6 +62,8 @@ internal static class Branding
 
 	public static bool RenameActive => CustomName.Length > 0;
 
+	public static string RpcLogoUrl => App.ProjectLogoUrl;
+
 	public static bool HasCustomIcon
 	{
 		get

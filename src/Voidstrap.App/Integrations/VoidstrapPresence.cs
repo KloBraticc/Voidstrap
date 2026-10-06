@@ -202,7 +202,7 @@ internal sealed class DiscordActivityPipe : INamedPipeClient
 
 	private readonly object _gate = new();
 
-	private readonly string? _activityName;
+	private readonly Func<string?>? _activityName;
 
 	private bool _sealed;
 
@@ -211,6 +211,11 @@ internal sealed class DiscordActivityPipe : INamedPipeClient
 	private long _activityPid = Environment.ProcessId;
 
 	public DiscordActivityPipe(string? activityName = null)
+	{
+		_activityName = activityName == null ? null : () => activityName;
+	}
+
+	public DiscordActivityPipe(Func<string?> activityName)
 	{
 		_activityName = activityName;
 	}
@@ -306,9 +311,10 @@ internal sealed class DiscordActivityPipe : INamedPipeClient
 				if (arguments["pid"] is JsonValue pid && pid.TryGetValue(out long value))
 					_activityPid = value;
 				_hasActivity = arguments["activity"] is JsonObject;
-				if (_activityName != null && arguments["activity"] is JsonObject activity)
+				string? activityName = _activityName?.Invoke();
+				if (!string.IsNullOrWhiteSpace(activityName) && arguments["activity"] is JsonObject activity)
 				{
-					activity["name"] = _activityName;
+					activity["name"] = activityName;
 					frame.Message = payload.ToJsonString();
 				}
 			}

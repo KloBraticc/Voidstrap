@@ -919,7 +919,7 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 State = "Nothing playing",
                 Assets = new Assets
                 {
-                    LargeImageKey = App.ProjectLogoUrl,
+                    LargeImageKey = Voidstrap.Utility.Branding.RpcLogoUrl,
                     LargeImageText = "Voidstrap Music Player"
                 }
             };
@@ -940,7 +940,7 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 State = DiscordPresenceGuard.Text(state),
                 Assets = new Assets
                 {
-                    LargeImageKey = App.ProjectLogoUrl,
+                    LargeImageKey = Voidstrap.Utility.Branding.RpcLogoUrl,
                     LargeImageText = "Voidstrap Music Player",
                     SmallImageKey = _isPlaying ? "play_icon" : "pause_icon",
                     SmallImageText = _isPlaying ? "Playing" : "Paused"

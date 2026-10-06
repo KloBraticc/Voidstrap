@@ -3415,7 +3415,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             Level = LogLevel.Warning
         };
-        DiscordRpcClient client = DiscordIpc.CreateClient("1459679943498661910", pipe, logger, Voidstrap.Utility.Branding.Name + " " + VoidstrapPresence.PlatformName);
+        DiscordRpcClient client = DiscordIpc.CreateClient("1459679943498661910", pipe, static () => Voidstrap.Utility.Branding.Name + " " + VoidstrapPresence.PlatformName, logger);
         client.OnReady += DiscordClient_OnReady;
         client.OnError += DiscordClient_OnError;
         client.OnConnectionFailed += DiscordClient_OnConnectionFailed;
@@ -4061,7 +4061,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         string imageUrl = context != null && VoidstrapPresence.IsWebUrl(context.ImageUrl) ? DiscordPresenceGuard.Key(context.ImageUrl) : "";
         string buttonUrl = context != null && VoidstrapPresence.IsWebUrl(context.ButtonUrl) ? context.ButtonUrl : "";
-        string extra = imageUrl + "|" + buttonUrl;
+        string extra = imageUrl + "|" + buttonUrl + "|" + Voidstrap.Utility.Branding.Name + "|" + Voidstrap.Utility.Branding.RpcLogoUrl;
         if (details == _lastVoidRpcDetails && state == _lastVoidRpcState && extra == _lastVoidRpcExtra)
         {
             return;
@@ -4076,7 +4076,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             text3 = "";
         }
         string versionText = string.IsNullOrWhiteSpace(text3) ? Voidstrap.Utility.Branding.Name : Voidstrap.Utility.Branding.Name + " v" + text3;
-        const string VoidstrapLogo = App.ProjectLogoUrl;
+        string VoidstrapLogo = Voidstrap.Utility.Branding.RpcLogoUrl;
         try
         {
             Assets assets = imageUrl.Length > 0

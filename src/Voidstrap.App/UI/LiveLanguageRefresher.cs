@@ -62,6 +62,8 @@ internal static class LiveLanguageRefresher
 		}
 		_loadedHandlerRegistered = true;
 		EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.LoadedEvent, (RoutedEventHandler)OnElementLoaded);
+		EventManager.RegisterClassHandler(typeof(TextBlock), FrameworkElement.SizeChangedEvent, (SizeChangedEventHandler)OnTextSizeChanged);
+		EventManager.RegisterClassHandler(typeof(AccessText), FrameworkElement.SizeChangedEvent, (SizeChangedEventHandler)OnTextSizeChanged);
 	}
 
 	public static void Shutdown()
@@ -98,6 +100,18 @@ internal static class LiveLanguageRefresher
 		{
 			return;
 		}
+		if (App.Settings?.Prop?.AutoTranslate != true)
+		{
+			if (sender is DependencyObject node)
+			{
+				TranslateNode(node, IsActive, "");
+				if (sender is Visual loadedVisual && PresentationSource.FromVisual(loadedVisual)?.RootVisual is DependencyObject loadedRoot && loadedRoot is not Window)
+				{
+					TrackDetachedRoot(loadedRoot);
+				}
+			}
+			return;
+		}
 		if (sender is not Visual visual)
 		{
 			return;
@@ -113,6 +127,18 @@ internal static class LiveLanguageRefresher
 		{
 		}
 		ScheduleCoalescedWalk();
+	}
+
+	private static void OnTextSizeChanged(object sender, SizeChangedEventArgs e)
+	{
+		if (App.Settings?.Prop?.AutoTranslate == true || (!Branding.RenameActive && !_touched))
+		{
+			return;
+		}
+		if (sender is DependencyObject node)
+		{
+			TranslateNode(node, IsActive, "");
+		}
 	}
 
 	private static void TrackDetachedRoot(DependencyObject root)
@@ -650,13 +676,60 @@ internal static class LiveLanguageRefresher
 		{
 			return;
 		}
-		app.Dispatcher.BeginInvoke((Action)delegate
+		app.Dispatcher.BeginInvoke((Action)ApplyBrandingNow, DispatcherPriority.Background);
+	}
+
+	private static void ApplyBrandingNow()
+	{
+		Application app = Application.Current;
+		if (app == null)
 		{
-			UpdateSweepTimer();
-			EnsureLoadedHandler();
-			_walkHidden = true;
-			ScheduleCoalescedWalk();
-		}, DispatcherPriority.Background);
+			return;
+		}
+		UpdateSweepTimer();
+		EnsureLoadedHandler();
+		foreach (Window window in app.Windows)
+		{
+			try
+			{
+				TranslateWindow(window);
+			}
+			catch
+			{
+			}
+		}
+		WalkDetachedRoots();
+	}
+
+	private static DispatcherTimer? _brandNameTimer;
+
+	private static string _pendingBrandName = "";
+
+	public static void SetBrandName(string name)
+	{
+		_pendingBrandName = name;
+		if (_brandNameTimer == null)
+		{
+			_brandNameTimer = new DispatcherTimer(DispatcherPriority.Background)
+			{
+				Interval = TimeSpan.FromMilliseconds(450.0)
+			};
+			_brandNameTimer.Tick += BrandNameTick;
+		}
+		_brandNameTimer.Stop();
+		_brandNameTimer.Start();
+	}
+
+	private static void BrandNameTick(object? sender, EventArgs e)
+	{
+		_brandNameTimer?.Stop();
+		if (App.Settings?.Prop == null || string.Equals(App.Settings.Prop.BrandName ?? "", _pendingBrandName, StringComparison.Ordinal))
+		{
+			return;
+		}
+		App.Settings.Prop.BrandName = _pendingBrandName;
+		App.Settings.SaveDeferred();
+		ApplyBrandingNow();
 	}
 
 	private static void ApplyFlowDirection(Window window)

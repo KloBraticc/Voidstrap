@@ -332,11 +332,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             string trimmed = text.Trim();
             if (trimmed.Length > 0 && !Branding.IsValidName(trimmed))
                 return;
-            if (string.Equals(App.Settings.Prop.BrandName ?? "", trimmed, StringComparison.Ordinal))
-                return;
-            App.Settings.Prop.BrandName = trimmed;
-            App.Settings.SaveDeferred();
-            LiveLanguageRefresher.ApplyBranding();
+            LiveLanguageRefresher.SetBrandName(trimmed);
         }
     }
 
