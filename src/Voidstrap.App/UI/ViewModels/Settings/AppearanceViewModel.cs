@@ -317,6 +317,37 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
     public ICommand ManageAppFontCommand => new RelayCommand(ManageAppFont);
 
+    public IReadOnlyList<WindowCornerStyle> WindowCornerStyles { get; } = Enum.GetValues<WindowCornerStyle>();
+
+    public WindowCornerStyle WindowCornerStyle
+    {
+        get => App.Settings.Prop.WindowCornerStyle;
+        set
+        {
+            if (App.Settings.Prop.WindowCornerStyle == value)
+                return;
+            App.Settings.Prop.WindowCornerStyle = value;
+            App.Settings.SaveDeferred();
+            CornerStyle.ApplyWindowCorners();
+            OnPropertyChanged(nameof(WindowCornerStyle));
+        }
+    }
+
+    public double UiCornerScale
+    {
+        get => CornerStyle.ControlScale;
+        set
+        {
+            double scale = double.IsFinite(value) ? Math.Round(Math.Clamp(value, CornerStyle.MinScale, CornerStyle.MaxScale), 2) : 1.0;
+            if (App.Settings.Prop.UiCornerScale == scale)
+                return;
+            App.Settings.Prop.UiCornerScale = scale;
+            App.Settings.SaveDeferred();
+            CornerStyle.ApplyControlScale();
+            OnPropertyChanged(nameof(UiCornerScale));
+        }
+    }
+
     private string _brandNameText = App.Settings.Prop.BrandName ?? "";
 
     public string BrandName

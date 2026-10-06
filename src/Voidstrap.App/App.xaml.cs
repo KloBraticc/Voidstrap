@@ -789,6 +789,7 @@ public partial class App : Application
 		TryStartup("Locale", Locale.Initialize);
 		TryStartup("Icon font", Voidstrap.Utility.IconFontLoader.Install);
 		TryStartup("Rounded window chrome", Voidstrap.UI.RoundedWindowChrome.Install);
+		TryStartup("Corner style", Voidstrap.UI.CornerStyle.Install);
 		TryStartup("Text guard", Voidstrap.UI.LinuxTextGuard.Install);
 		TryStartup("Text selection highlight", Voidstrap.UI.LinuxTextSelectionHighlight.Install);
 		TryStartup("Hyperlink routing", Voidstrap.UI.LinuxInlineText.Install);

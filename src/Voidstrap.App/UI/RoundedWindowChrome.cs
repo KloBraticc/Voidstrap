@@ -7,7 +7,7 @@ namespace Voidstrap.UI;
 
 public static class RoundedWindowChrome
 {
-	public const double CornerRadius = 8.0;
+	public static double CornerRadius => CornerStyle.WindowRadius(8.0);
 
 	private const double ContentWidthTolerance = 0.5;
 

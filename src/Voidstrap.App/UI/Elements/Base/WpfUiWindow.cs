@@ -360,7 +360,7 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 		{
 			if (IsWindows11OrNewer)
 			{
-				Wpf.Ui.Interop.UnsafeNativeMethods.ApplyWindowCornerPreference(this, WindowCornerPreference.Round);
+				Wpf.Ui.Interop.UnsafeNativeMethods.ApplyWindowCornerPreference(this, Voidstrap.UI.CornerStyle.WindowPreference);
 				return;
 			}
 			if (AllowsTransparency)
@@ -375,6 +375,19 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 		}
 		catch
 		{
+		}
+	}
+
+	public void RefreshCornerStyle()
+	{
+		if (IsWindows11OrNewer)
+		{
+			Wpf.Ui.Interop.UnsafeNativeMethods.ApplyWindowCornerPreference(this, Voidstrap.UI.CornerStyle.WindowPreference);
+			return;
+		}
+		if (!AllowsTransparency)
+		{
+			ApplyWin10RoundRegion();
 		}
 	}
 
@@ -403,7 +416,8 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 			surface.A = byte.MaxValue;
 			hwndSource.CompositionTarget.BackgroundColor = surface;
 		}
-		if (base.WindowState == System.Windows.WindowState.Maximized)
+		double radius = Voidstrap.UI.CornerStyle.WindowRadius(16.0);
+		if (base.WindowState == System.Windows.WindowState.Maximized || radius <= 0.0)
 		{
 			_ = SetWindowRgn(handle, IntPtr.Zero, bRedraw: true);
 			return;
@@ -413,7 +427,7 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 		int h = (int)Math.Ceiling(base.ActualHeight * m.M22);
 		if (w > 0 && h > 0)
 		{
-			int r = Math.Max(2, (int)Math.Round(16.0 * m.M11));
+			int r = Math.Max(2, (int)Math.Round(radius * m.M11));
 			IntPtr rgn = CreateRoundRectRgn(0, 0, w + 1, h + 1, r, r);
 			if (rgn != IntPtr.Zero)
 			{

@@ -176,6 +176,10 @@ namespace Voidstrap.Models.Persistable
         public bool UsePlaceId { get; set; } = false;
         public bool ClearFont { get; set; } = false;
 
+        public WindowCornerStyle WindowCornerStyle { get; set; } = WindowCornerStyle.Rounded;
+
+        public double UiCornerScale { get; set; } = 1.0;
+
         public bool Fleasion { get; set; } = false;
         public bool RojoEnabled { get; set; } = false;
         public string RojoProjectPath { get; set; } = "";
