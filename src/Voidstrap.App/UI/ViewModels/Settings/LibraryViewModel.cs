@@ -466,6 +466,10 @@ public class LibraryViewModel : INotifyPropertyChanged
 				GamePasses.Clear();
 				GamePassStatus = "";
 				GamePassesLoading = false;
+                if (value == null)
+                    Voidstrap.Integrations.VoidstrapPresence.Clear("LibraryPage");
+                else
+                    Voidstrap.Integrations.VoidstrapPresence.SetGame("LibraryPage", value.Name, value.CreatorName, value.UniverseId, value.PlaceId);
                 if (value != null)
                 {
 					value.RefreshAll();

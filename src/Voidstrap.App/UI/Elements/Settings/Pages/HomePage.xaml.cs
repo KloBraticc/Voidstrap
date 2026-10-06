@@ -20,6 +20,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         private void OnHomePageLoaded(object sender, RoutedEventArgs e)
         {
+            _viewModel.RefreshMatchmakerState();
             _ = _viewModel.LoadAsync();
         }
 

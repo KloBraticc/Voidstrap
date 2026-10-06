@@ -32,7 +32,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         }
 
         private static string fleasionDir => Paths.Fleasion;
-        private const string ApiDumpSha256 = "C79D898BCEA32693BDB96100DE01F47F9CD018A0CCB8346C038E92DC2A1F6FB8";
+        private const string ApiDumpRawUrl = "https://raw.githubusercontent.com/MaximumADHD/Roblox-API-Dump-Tool/main/RobloxAPIDumpTool.exe";
         private const long MaxDownloadBytes = 268435456L;
 
         private static string apiDumpDir => Paths.ApiDumpTool;
@@ -689,7 +689,12 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     }
 
                     var download = await ResolveApiDumpUrlsAsync(ct);
-                    bool ok = await DownloadToFileAsync(download.Urls, outputPath, "Downloading Roblox API Dump Tool", ct, download.Digest);
+                    bool ok = await DownloadToFileAsync(download.Urls, outputPath, "Downloading Roblox API Dump Tool", ct);
+                    if (ok && !VerifyApiDumpTool(outputPath, download.BlobSha))
+                    {
+                        TryDeleteFile(outputPath);
+                        throw new InvalidDataException("The downloaded file did not match the official GitHub copy, it was removed.");
+                    }
                     if (ok)
                     {
                         OnProgressChanged?.Invoke("Roblox API Dump Tool ready", 1.0, true);
@@ -948,41 +953,54 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             return (urls.Distinct().ToList(), digest);
         }
 
-        private static async Task<(IReadOnlyList<string> Urls, string Digest)> ResolveApiDumpUrlsAsync(CancellationToken ct)
+        private static async Task<(IReadOnlyList<string> Urls, string BlobSha)> ResolveApiDumpUrlsAsync(CancellationToken ct)
         {
-            var urls = new List<string>();
-            string digest = ApiDumpSha256;
             try
             {
-                using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(client, "https://api.github.com/repos/MaximumADHD/Roblox-API-Dump-Tool/releases/latest", token: ct));
-                foreach (JsonElement asset in doc.RootElement.GetProperty("assets").EnumerateArray())
-                {
-                    string name = asset.GetProperty("name").GetString() ?? "";
-                    if (name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
-                    {
-                        string? url = asset.GetProperty("browser_download_url").GetString();
-                        string assetDigest = asset.TryGetProperty("digest", out JsonElement digestElement) ? digestElement.GetString() ?? "" : "";
-                        if (!string.IsNullOrEmpty(url) && assetDigest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase) && assetDigest.Length == 71)
-                        {
-                            urls.Add(url);
-                            digest = assetDigest.Substring(7);
-                        }
-                    }
-                }
+                using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(client, "https://api.github.com/repos/MaximumADHD/Roblox-API-Dump-Tool/contents/RobloxAPIDumpTool.exe", token: ct));
+                string sha = doc.RootElement.TryGetProperty("sha", out JsonElement shaElement) ? shaElement.GetString() ?? "" : "";
+                string url = doc.RootElement.TryGetProperty("download_url", out JsonElement urlElement) ? urlElement.GetString() ?? "" : "";
+                if (sha.Length == 40 && sha.All(Uri.IsHexDigit)
+                    && Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) && uri.Scheme == Uri.UriSchemeHttps
+                    && uri.Host.Equals("raw.githubusercontent.com", StringComparison.OrdinalIgnoreCase)
+                    && uri.AbsolutePath.StartsWith("/MaximumADHD/Roblox-API-Dump-Tool/", StringComparison.OrdinalIgnoreCase))
+                    return ([url, ApiDumpRawUrl], sha);
             }
             catch (OperationCanceledException)
             {
                 throw;
             }
-            catch
+            catch (Exception ex)
             {
+                App.Logger.WriteLine("ExtensionViewModel::ResolveApiDumpUrls", "GitHub file info was unavailable: " + ex.Message);
             }
-            if (urls.Count == 0)
+            return ([ApiDumpRawUrl], "");
+        }
+
+        private static bool VerifyApiDumpTool(string path, string blobSha)
+        {
+            byte[] data = File.ReadAllBytes(path);
+            if (data.Length < 2 || data[0] != (byte)'M' || data[1] != (byte)'Z')
+                return false;
+            if (blobSha.Length == 0)
+                return true;
+            byte[] header = System.Text.Encoding.ASCII.GetBytes("blob " + data.Length + (char)0);
+            using System.Security.Cryptography.IncrementalHash sha1 = System.Security.Cryptography.IncrementalHash.CreateHash(System.Security.Cryptography.HashAlgorithmName.SHA1);
+            sha1.AppendData(header);
+            sha1.AppendData(data);
+            return Convert.ToHexString(sha1.GetHashAndReset()).Equals(blobSha, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static void TryDeleteFile(string path)
+        {
+            try
             {
-                urls.Add("https://raw.githubusercontent.com/MaximumADHD/Roblox-API-Dump-Tool/master/RobloxAPIDumpTool.exe");
-                digest = ApiDumpSha256;
+                File.Delete(path);
             }
-            return (urls.Distinct().ToList(), digest);
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("ExtensionViewModel::TryDeleteFile", ex.Message);
+            }
         }
 
         private async Task DownloadFleasionAsync()

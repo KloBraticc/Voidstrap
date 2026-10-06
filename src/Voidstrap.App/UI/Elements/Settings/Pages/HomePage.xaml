@@ -582,7 +582,7 @@
                                FontSize="20"
                                FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                                VerticalAlignment="Center"/>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{Binding GlobalDatacenterToolTip}" ToolTipService.ShowOnDisabled="True">
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{Binding GlobalDatacenterToolTip}">
                         <TextBlock Text="Server for every game"
                                    FontSize="12.5"
                                    Margin="0,0,8,0"
@@ -591,7 +591,6 @@
                         <ComboBox Width="210"
                                   Padding="8,4,8,4"
                                   FontSize="12"
-                                  IsEnabled="{Binding MatchmakerEnabled}"
                                   ItemsSource="{Binding GlobalDatacenterOptions}"
                                   SelectedItem="{Binding GlobalDatacenter, Mode=TwoWay}"
                                   DisplayMemberPath="Display"/>
@@ -602,7 +601,6 @@
                                Icon="ArrowSync24"
                                Content="Use for all games"
                                ToolTip="Clear the server picked on each game so every game uses the server for every game"
-                               IsEnabled="{Binding MatchmakerEnabled}"
                                Command="{Binding UseGlobalForAllCommand}"/>
                 </Grid>
 

@@ -19,7 +19,7 @@ using Voidstrap.Utility;
 
 namespace Voidstrap.UI.ViewModels.Pages
 {
-    internal class DatacenterOption
+    public sealed class DatacenterOption
     {
         public string Key { get; init; } = "";
         public string Display { get; init; } = "";
@@ -127,11 +127,19 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public bool ExcludedFromMatchmaker => Voidstrap.Integrations.ServerMatchmaker.IsExcluded(PlaceId);
 
-        public bool MatchmakerEnabledForGame => App.Settings.Prop.VoidstrapMatchmakerEnabled && !ExcludedFromMatchmaker;
+        public bool MatchmakerEnabledForGame => !ExcludedFromMatchmaker;
 
-        public string DatacenterToolTip => !App.Settings.Prop.VoidstrapMatchmakerEnabled
-            ? "Turn on the Voidstrap Matchmaker in Settings to pick a server for this game"
-            : ExcludedFromMatchmaker
+        public void RefreshMatchmaker()
+        {
+            OnPropertyChanged(nameof(ExcludedFromMatchmaker));
+            OnPropertyChanged(nameof(MatchmakerEnabledForGame));
+            OnPropertyChanged(nameof(DatacenterToolTip));
+            OnPropertyChanged(nameof(SkipMatchmakerLabel));
+            OnPropertyChanged(nameof(SkipMatchmakerIcon));
+            OnPropertyChanged(nameof(SkipMatchmakerTooltip));
+        }
+
+        public string DatacenterToolTip => ExcludedFromMatchmaker
                 ? "The matchmaker is skipped for this game"
                 : "Preferred server for rejoining this game";
 
@@ -150,12 +158,7 @@ namespace Voidstrap.UI.ViewModels.Pages
         private void ToggleSkipMatchmaker()
         {
             Voidstrap.Integrations.ServerMatchmaker.SetExcluded(PlaceId, !ExcludedFromMatchmaker);
-            OnPropertyChanged(nameof(ExcludedFromMatchmaker));
-            OnPropertyChanged(nameof(MatchmakerEnabledForGame));
-            OnPropertyChanged(nameof(DatacenterToolTip));
-            OnPropertyChanged(nameof(SkipMatchmakerLabel));
-            OnPropertyChanged(nameof(SkipMatchmakerIcon));
-            OnPropertyChanged(nameof(SkipMatchmakerTooltip));
+            RefreshMatchmaker();
         }
 
         public DatacenterOption? SelectedDatacenter
@@ -320,11 +323,18 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public ObservableCollection<DatacenterOption> GlobalDatacenterOptions { get; } = new();
 
-        public bool MatchmakerEnabled => App.Settings.Prop.VoidstrapMatchmakerEnabled;
+        public void RefreshMatchmakerState()
+        {
+            OnPropertyChanged(nameof(GlobalDatacenterToolTip));
+            OnPropertyChanged(nameof(GlobalDatacenter));
+            foreach (HistoryGameEntry entry in _gameHistory)
+            {
+                entry.ResolveDatacenter();
+                entry.RefreshMatchmaker();
+            }
+        }
 
-        public string GlobalDatacenterToolTip => MatchmakerEnabled
-            ? "The server every game joins unless you pick a different one on its card"
-            : "Turn on the Voidstrap Matchmaker in Settings to pick a server for every game";
+        public string GlobalDatacenterToolTip => "The server every game joins unless you pick a different one on its card";
 
         public DatacenterOption? GlobalDatacenter
         {
@@ -586,7 +596,6 @@ namespace Voidstrap.UI.ViewModels.Pages
                 HistoryGameEntry.RebuildingDatacenterOptions = false;
             }
             OnPropertyChanged(nameof(GlobalDatacenter));
-            OnPropertyChanged(nameof(MatchmakerEnabled));
             OnPropertyChanged(nameof(GlobalDatacenterToolTip));
         }
 
@@ -599,11 +608,14 @@ namespace Voidstrap.UI.ViewModels.Pages
                     var list = new List<DatacenterOption> { new DatacenterOption { Key = "", Display = "Same as every game" } };
 
                     var bestByKey = new Dictionary<string, LearnedServerEntry>(StringComparer.OrdinalIgnoreCase);
-                    foreach (var entry in ServerFetchStore.AllEntries())
+                    IEnumerable<LearnedServerEntry> learned = ServerFetchStore.AllEntries();
+                    IEnumerable<LearnedServerEntry> seeds = RobloxDatacenterMap.AllSeedEntries()
+                        .Select(seed => new LearnedServerEntry { Cidr = seed.Cidr, City = seed.City, Region = seed.Region, Country = seed.Country, Lat = seed.Lat, Lon = seed.Lon });
+                    foreach (var entry in learned.Concat(seeds))
                     {
                         if (string.IsNullOrWhiteSpace(entry.City)) continue;
                         if (entry.Lat == 0 && entry.Lon == 0) continue;
-                        string key = $"{entry.City}|{entry.Country}";
+                        string key = VoidstrapMatchmaker.BlockKey(entry.City, entry.Country);
                         if (!bestByKey.TryGetValue(key, out var existing) || entry.SeenCount > existing.SeenCount)
                             bestByKey[key] = entry;
                     }
@@ -1098,12 +1110,15 @@ namespace Voidstrap.UI.ViewModels.Pages
             try
             {
                 string uri = $"roblox://experiences/start?placeId={entry.PlaceId}";
+                App.Settings.FlushDeferred();
+                App.State.FlushDeferred();
+                App.FastFlags.FlushDeferred();
 
                 string voidstrapPath = Paths.LaunchExecutable;
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = voidstrapPath,
-                    Arguments = $"-player \"{uri}\"",
+                    Arguments = $"-player \"{uri}\" -homematchmaker",
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? ""

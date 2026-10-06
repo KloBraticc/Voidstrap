@@ -53,6 +53,8 @@ public class LaunchSettings
 
 	public LaunchFlag MatchmakerAttemptFlag { get; } = new LaunchFlag("matchmakerattempt");
 
+	public LaunchFlag HomeMatchmakerFlag { get; } = new LaunchFlag("homematchmaker");
+
 	public LaunchFlag MatchmakerTargetFlag { get; } = new LaunchFlag("matchmakertarget");
 
 	public LaunchFlag TelemetryBlockFlag { get; } = new LaunchFlag("telemetryblock");

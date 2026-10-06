@@ -53,6 +53,63 @@ internal static class VoidstrapPresence
 		}
 	}
 
+	public static void SetGame(string owner, string name, string? creator, string? iconUrl, long placeId)
+	{
+		if (string.IsNullOrWhiteSpace(name))
+		{
+			Clear(owner);
+			return;
+		}
+		string byline = string.IsNullOrWhiteSpace(creator) ? "" : "By " + creator.Trim();
+		Set(new VoidstrapPresenceContext(
+			owner,
+			"Viewing " + name.Trim(),
+			byline.Length > 0 ? byline : "Looking at a Roblox game",
+			iconUrl ?? "",
+			name.Trim() + (string.IsNullOrWhiteSpace(creator) ? "" : " by " + creator.Trim()),
+			placeId > 0 ? "View game" : "",
+			placeId > 0 ? "https://www.roblox.com/games/" + placeId : ""));
+	}
+
+	public static void SetGame(string owner, string name, string? creator, long universeId, long placeId)
+	{
+		SetGame(owner, name, creator, (string?)null, placeId);
+		if (universeId <= 0)
+			return;
+		_ = ResolveGameIconAsync(owner, name, creator, universeId, placeId);
+	}
+
+	private static async System.Threading.Tasks.Task ResolveGameIconAsync(string owner, string name, string? creator, long universeId, long placeId)
+	{
+		try
+		{
+			UniverseDetails? details = UniverseDetails.LoadFromCache(universeId);
+			if (string.IsNullOrEmpty(details?.Thumbnail?.ImageUrl))
+			{
+				await UniverseDetails.FetchSingle(universeId).ConfigureAwait(false);
+				details = UniverseDetails.LoadFromCache(universeId);
+			}
+			string? icon = details?.Thumbnail?.ImageUrl;
+			if (!IsWebUrl(icon))
+				return;
+			lock (Sync)
+			{
+				if (_context == null || !string.Equals(_context.Owner, owner, StringComparison.Ordinal) || !string.Equals(_context.Details, "Viewing " + name.Trim(), StringComparison.Ordinal))
+					return;
+			}
+			SetGame(owner, name, creator, icon, placeId);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("VoidstrapPresence::ResolveGameIcon", "The game icon could not be loaded: " + ex.Message);
+		}
+	}
+
+	public static string WebIcon(string? icon, string fallback)
+	{
+		return IsWebUrl(icon) ? icon! : fallback;
+	}
+
 	public static string Clip(string? value, int maxBytes)
 	{
 		string text = (value ?? "").Replace('\r', ' ').Replace('\n', ' ').Trim();

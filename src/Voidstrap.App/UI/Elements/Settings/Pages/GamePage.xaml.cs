@@ -38,6 +38,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             _cts?.Dispose();
             _cts = null;
             BannerImage.Source = null;
+            Voidstrap.Integrations.VoidstrapPresence.Clear(nameof(GamePage));
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -57,11 +58,14 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             {
                 string uri = $"roblox://experiences/start?placeId={_placeId}";
                 string voidstrapPath = Paths.LaunchExecutable;
+                App.Settings.FlushDeferred();
+                App.State.FlushDeferred();
+                App.FastFlags.FlushDeferred();
 
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = voidstrapPath,
-                    Arguments = $"-player \"{uri}\"",
+                    Arguments = $"-player \"{uri}\" -homematchmaker",
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? ""
@@ -146,6 +150,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 					if (token.IsCancellationRequested)
 						return;
                     _gameName = name;
+                    Voidstrap.Integrations.VoidstrapPresence.SetGame(nameof(GamePage), string.IsNullOrEmpty(name) ? $"Place {_placeId}" : name, creator, _universeId, _placeId);
                     GameTitleText.Text = string.IsNullOrEmpty(name) ? $"Place {_placeId}" : name;
                     CreatorText.Text = string.IsNullOrEmpty(creator) ? "" : $"By {creator}{(verified ? " ☑️" : "")}";
                     GenreText.Text = string.IsNullOrEmpty(genre) ? "" : genre;

@@ -152,7 +152,7 @@ public partial class ModsPage : UiPage{
 				nameof(ModsPage),
 				"Viewing " + mod.Name,
 				state,
-				mod.IconUrl,
+				Voidstrap.Integrations.VoidstrapPresence.WebIcon(mod.IconUrl, App.ProjectLogoUrl),
 				mod.Name + (byline.Length > 0 ? " " + byline : ""),
 				"View mod",
 				mod.ProfileUrl));

@@ -165,7 +165,7 @@ public partial class ExtensionPage : UiPage
 			nameof(ExtensionPage),
 			"Viewing " + asset.Name,
 			!string.IsNullOrWhiteSpace(asset.Summary) ? asset.Summary : string.IsNullOrWhiteSpace(asset.Author) ? "A Voidstrap extension" : "Made by " + asset.Author,
-			asset.Icon,
+			Voidstrap.Integrations.VoidstrapPresence.WebIcon(asset.Icon, asset.Id == "swifttunnel" ? "https://github.com/Swift-tunnel.png" : App.ProjectLogoUrl),
 			asset.Name + (string.IsNullOrWhiteSpace(asset.Author) ? "" : " by " + asset.Author),
 			"View extension",
 			asset.Source));

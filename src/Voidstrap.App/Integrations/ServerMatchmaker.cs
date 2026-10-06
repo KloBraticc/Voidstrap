@@ -315,6 +315,8 @@ public sealed class ServerMatchmaker : IDisposable
 
 	public static bool IsEnabled()
 	{
+		if (App.LaunchSettings.HomeMatchmakerFlag.Active)
+			return true;
 		try
 		{
 			App.Settings.RefreshFromDisk();
