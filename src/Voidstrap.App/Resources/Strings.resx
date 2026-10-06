@@ -2492,4 +2492,43 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
     <value>Could not launch Roblox.</value>
   </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>Max {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>{0:N0} in game</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>Updated {0} ago.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox is limiting server lookups, trying again in {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox is limiting server lookups. Showing the count from {0} ago, updating again in {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>This server is not in the part of the public server list Roblox shares, checking again in {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>Last seen {0} ago. This server is not in the part of the public server list Roblox shares right now.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>This private server is not in the server list your account can see, so its player count can't be read.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox only shares private server player counts with a signed in account. Sign in to Roblox in Voidstrap to see it.</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Roblox does not list reserved servers, used for teleports and parties, so their player count can't be read.</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Could not reach Roblox, trying again in {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Could not reach Roblox. Showing the count from {0} ago, trying again in {1}.</value>
+  </data>
 </root>

@@ -85,6 +85,32 @@ namespace Voidstrap.Resources {
 
         public static string Menu_Shortcuts_InvalidIcon => ResourceManager.GetString("Menu.Shortcuts.InvalidIcon", resourceCulture);
 
+        public static string ServerInfo_PlayerCount_MaxOnly => ResourceManager.GetString("ServerInfo.PlayerCount.MaxOnly", resourceCulture);
+
+        public static string ServerInfo_PlayerCount_Unknown => ResourceManager.GetString("ServerInfo.PlayerCount.Unknown", resourceCulture);
+
+        public static string ServerInfo_PlayerCount_InGame => ResourceManager.GetString("ServerInfo.PlayerCount.InGame", resourceCulture);
+
+        public static string ServerInfo_Hint_Updated => ResourceManager.GetString("ServerInfo.Hint.Updated", resourceCulture);
+
+        public static string ServerInfo_Hint_RateLimited => ResourceManager.GetString("ServerInfo.Hint.RateLimited", resourceCulture);
+
+        public static string ServerInfo_Hint_RateLimitedStale => ResourceManager.GetString("ServerInfo.Hint.RateLimitedStale", resourceCulture);
+
+        public static string ServerInfo_Hint_NotListed => ResourceManager.GetString("ServerInfo.Hint.NotListed", resourceCulture);
+
+        public static string ServerInfo_Hint_NotListedStale => ResourceManager.GetString("ServerInfo.Hint.NotListedStale", resourceCulture);
+
+        public static string ServerInfo_Hint_PrivateNotListed => ResourceManager.GetString("ServerInfo.Hint.PrivateNotListed", resourceCulture);
+
+        public static string ServerInfo_Hint_PrivateSignedOut => ResourceManager.GetString("ServerInfo.Hint.PrivateSignedOut", resourceCulture);
+
+        public static string ServerInfo_Hint_Reserved => ResourceManager.GetString("ServerInfo.Hint.Reserved", resourceCulture);
+
+        public static string ServerInfo_Hint_Unavailable => ResourceManager.GetString("ServerInfo.Hint.Unavailable", resourceCulture);
+
+        public static string ServerInfo_Hint_UnavailableStale => ResourceManager.GetString("ServerInfo.Hint.UnavailableStale", resourceCulture);
+
         public static string Common_ErrorFetchingPlayerCount {
             get {
                 return ResourceManager.GetString("Common_ErrorFetchingPlayerCount", resourceCulture);

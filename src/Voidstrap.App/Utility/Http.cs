@@ -2,6 +2,7 @@ using System;
 using System.Buffers;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
@@ -180,9 +181,13 @@ internal static class Http
 
 	private static string RateLimitKey(Uri uri)
 	{
-		string path = uri.AbsolutePath;
-		int end = path.IndexOf('/', 1);
-		return uri.Host + (end > 0 ? path.Substring(0, end) : path);
+		string[] segments = uri.AbsolutePath.Split('/');
+		for (int index = 0; index < segments.Length; index++)
+		{
+			if (segments[index].Length > 0 && segments[index].All(char.IsAsciiDigit))
+				segments[index] = "*";
+		}
+		return uri.Host + string.Join('/', segments).TrimEnd('/');
 	}
 
 	private static void ThrowIfRateLimited(string url)

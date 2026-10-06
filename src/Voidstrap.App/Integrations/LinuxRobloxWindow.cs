@@ -30,6 +30,7 @@ internal sealed class LinuxRobloxWindow : IDisposable
 	private int _appliedIconVersion = -1;
 	private bool _titleReported;
 	private bool _disposed;
+	private RobloxWindowTitle? _titleUpdater;
 
 	private LinuxRobloxWindow(ActivityWatcher activityWatcher)
 	{
@@ -55,6 +56,8 @@ internal sealed class LinuxRobloxWindow : IDisposable
 		LinuxRobloxWindow window = new(activityWatcher);
 		activityWatcher.OnGameJoin += window.OnGameJoin;
 		activityWatcher.OnGameLeave += window.OnGameLeave;
+		if (RobloxWindowTitle.WantsUpdates)
+			window._titleUpdater = new RobloxWindowTitle(activityWatcher, window.SetTitle);
 		if (activityWatcher.InGame && activityWatcher.Data?.UniverseId > 0)
 			_ = window.RefreshForGameAsync(activityWatcher.Data.UniverseId);
 		_ = Task.Run(() => window.LoopAsync(window._cts.Token));
@@ -66,6 +69,7 @@ internal sealed class LinuxRobloxWindow : IDisposable
 	{
 		try
 		{
+			_titleUpdater?.Refresh();
 			long universeId = _activityWatcher.Data?.UniverseId ?? 0;
 			if (universeId > 0)
 				await RefreshForGameAsync(universeId).ConfigureAwait(false);
@@ -84,7 +88,14 @@ internal sealed class LinuxRobloxWindow : IDisposable
 			_gameIcon = [];
 			_iconVersion++;
 		}
+		_titleUpdater?.Refresh();
 		App.Logger?.WriteLine(LOG_IDENT, "Left the game, reverting the Sober window title to '" + BaseTitle + "'");
+	}
+
+	private void SetTitle(string title)
+	{
+		lock (_gate)
+			_title = title;
 	}
 
 	private async Task RefreshForGameAsync(long universeId)
@@ -97,24 +108,6 @@ internal sealed class LinuxRobloxWindow : IDisposable
 		}
 		if (_disposed)
 			return;
-
-		if (App.Settings.Prop.CycleTitleWithGameName)
-		{
-			string gameName = details?.Data?.Name ?? string.Empty;
-			if (!string.IsNullOrWhiteSpace(gameName))
-			{
-				string title = BaseTitle + ": " + gameName;
-				if (App.Settings.Prop.ShowServerInfoInTitle)
-				{
-					long playing = details?.Data?.Playing ?? 0;
-					if (playing > 0)
-						title += $" ({playing:N0} playing)";
-				}
-				lock (_gate)
-					_title = title;
-				App.Logger?.WriteLine(LOG_IDENT, "Updating the Sober window title to '" + title + "'");
-			}
-		}
 
 		string? iconUrl = details?.Thumbnail?.ImageUrl;
 		if (App.Settings.Prop.UseGameIconForRobloxWindow && !string.IsNullOrWhiteSpace(iconUrl))
@@ -239,6 +232,8 @@ internal sealed class LinuxRobloxWindow : IDisposable
 		_disposed = true;
 		_activityWatcher.OnGameJoin -= OnGameJoin;
 		_activityWatcher.OnGameLeave -= OnGameLeave;
+		_titleUpdater?.Dispose();
+		_titleUpdater = null;
 		try
 		{
 			_cts.Cancel();

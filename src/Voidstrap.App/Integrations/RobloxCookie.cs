@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -204,6 +205,55 @@ public static partial class RobloxCookie
 		{
 			App.Logger?.WriteLine("RobloxCookie", "Authenticated GET failed: " + ex.Message);
 			return null;
+		}
+	}
+
+	public static async Task<RobloxApiResponse> SendGetAsync(string url, CancellationToken ct = default(CancellationToken))
+	{
+		if (!IsRobloxUrl(Uri.TryCreate(url, UriKind.Absolute, out Uri? target) ? target : null))
+		{
+			return new RobloxApiResponse(0, null, null);
+		}
+		string? cookie = Get();
+		try
+		{
+			using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, url);
+			if (!string.IsNullOrEmpty(cookie))
+			{
+				req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+			}
+			req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
+			req.Headers.TryAddWithoutValidation("Accept", "application/json");
+			using HttpResponseMessage res = await _authClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
+			int status = (int)res.StatusCode;
+			TimeSpan? retryAfter = res.Headers.RetryAfter?.Delta;
+			if (!retryAfter.HasValue && res.Headers.RetryAfter?.Date is DateTimeOffset date)
+			{
+				retryAfter = date - DateTimeOffset.UtcNow;
+			}
+			if (!retryAfter.HasValue && res.Headers.TryGetValues("x-ratelimit-reset", out IEnumerable<string>? reset)
+				&& double.TryParse(reset.FirstOrDefault(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double seconds) && seconds > 0)
+			{
+				retryAfter = TimeSpan.FromSeconds(Math.Min(seconds, 600));
+			}
+			if (!res.IsSuccessStatusCode)
+			{
+				if (status != 429)
+				{
+					App.Logger?.WriteLine("RobloxCookie", "GET " + target!.Host + target.AbsolutePath + " returned " + status);
+				}
+				return new RobloxApiResponse(status, null, retryAfter);
+			}
+			return new RobloxApiResponse(status, await Utility.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct).ConfigureAwait(continueOnCapturedContext: false), retryAfter);
+		}
+		catch (OperationCanceledException) when (ct.IsCancellationRequested)
+		{
+			throw;
+		}
+		catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException or IOException)
+		{
+			App.Logger?.WriteLine("RobloxCookie", "GET " + target!.Host + target.AbsolutePath + " failed: " + ex.Message);
+			return new RobloxApiResponse(0, null, null);
 		}
 	}
 

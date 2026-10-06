@@ -5609,6 +5609,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         _isClosed = true;
         InstallLaunchButton.DropDownClick -= LaunchTargetButton_Click;
+        StopLaunchTargetWarmupTimer();
         MainWindowViewModel? closingViewModel = DataContext as MainWindowViewModel;
 		Interlocked.Increment(ref _topSearchNavigationGeneration);
         CloseCommandPalette();
@@ -5961,12 +5962,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
 
         DownloadsViewModel downloads = DownloadsViewModel.Shared;
-        foreach (DownloadsViewModel.DownloadItem download in downloads.Items)
-            download.Refresh();
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.IsLinux && downloads.ClientItems.Count == 0)
             downloads.RefreshClassic();
 
         List<object> entries = Voidstrap.Utility.Platform.IsLinux ? [.. downloads.Items] : [.. downloads.Items, .. downloads.ClientItems];
+        if (LaunchTargetList.ItemsSource is not IList<object> shown || !shown.SequenceEqual(entries))
+            LaunchTargetList.ItemsSource = entries;
         object? current = null;
         if (base.DataContext is MainWindowViewModel vm)
         {
@@ -5976,8 +5977,23 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             Voidstrap.Enums.LaunchMode mode = vm.SelectedLaunchModeIndex == 1 ? Voidstrap.Enums.LaunchMode.Studio : Voidstrap.Enums.LaunchMode.Player;
             current ??= downloads.Items.FirstOrDefault(download => download.LaunchMode == mode);
         }
-        LaunchTargetList.ItemsSource = entries;
-        LaunchTargetList.SelectedItem = current;
+        if (!ReferenceEquals(LaunchTargetList.SelectedItem, current))
+            LaunchTargetList.SelectedItem = current;
+    }
+
+    private void RefreshLaunchTargetStates()
+    {
+        if (!_launchTargetOverlayOpen || _isClosed)
+            return;
+        DownloadsViewModel downloads = DownloadsViewModel.Shared;
+        foreach (DownloadsViewModel.DownloadItem download in downloads.Items)
+            download.RefreshInstallState();
+        if (!Voidstrap.Utility.Platform.IsLinux)
+        {
+            foreach (DownloadsViewModel.ClientItem client in downloads.ClientItems)
+                client.RefreshInstallState();
+        }
+        PopulateLaunchTargets();
     }
 
     private void LaunchTargetList_ItemChosen(object? sender, object item)
@@ -6010,8 +6026,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private int _launchTargetOverlayGeneration;
 
-    private System.Windows.Media.Effects.BlurEffect? _launchTargetBlur;
-
     private static readonly CubicEase LaunchTargetEaseOut = CreateLaunchTargetEase(EasingMode.EaseOut);
 
     private static readonly CubicEase LaunchTargetEaseIn = CreateLaunchTargetEase(EasingMode.EaseIn);
@@ -6023,8 +6037,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         return ease;
     }
 
-    private UIElement[] LaunchTargetBlurTargets => [BackgroundLayer, RootGrid, StatusBarHost, TopNavPanel, RootTitleBar];
-
     private void OpenLaunchTargetOverlay()
     {
         CloseTopBarMenus();
@@ -6034,42 +6046,41 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         int generation = ++_launchTargetOverlayGeneration;
         LaunchTargetOverlay.Visibility = Visibility.Visible;
         LaunchTargetOverlay.IsHitTestVisible = true;
-        bool staticBlur = Voidstrap.Utility.Platform.IsLinux;
-        {
-            _launchTargetBlur ??= new System.Windows.Media.Effects.BlurEffect
-            {
-                Radius = staticBlur ? LaunchTargetBlurRadius : 0,
-                KernelType = System.Windows.Media.Effects.KernelType.Gaussian,
-                RenderingBias = System.Windows.Media.Effects.RenderingBias.Performance
-            };
-            foreach (UIElement target in LaunchTargetBlurTargets)
-            {
-                if (target.Effect == null)
-                    target.Effect = _launchTargetBlur;
-            }
-        }
-        AnimateLaunchTargetOverlay(1.0, 0.0, staticBlur ? -1 : LaunchTargetBlurRadius, TimeSpan.FromMilliseconds(260), LaunchTargetEaseOut, generation, false);
+        if (!Voidstrap.Utility.Platform.IsLinux)
+            LaunchTargetPanel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
+        AnimateLaunchTargetOverlay(1.0, 0.0, TimeSpan.FromMilliseconds(200), LaunchTargetEaseOut, generation, false);
         LaunchTargetList.FocusList();
     }
 
-    private const double LaunchTargetBlurRadius = 8.0;
-
     private bool _launchTargetsWarmed;
+
+    private DispatcherTimer? _launchTargetWarmupTimer;
 
     private void ScheduleLaunchTargetWarmup()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || _launchTargetsWarmed)
+        if (_launchTargetsWarmed || _launchTargetWarmupTimer != null)
             return;
-        DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
+        _launchTargetWarmupTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
         {
             Interval = TimeSpan.FromSeconds(2)
         };
-        timer.Tick += (_, _) =>
-        {
-            timer.Stop();
-            WarmLaunchTargets();
-        };
-        timer.Start();
+        _launchTargetWarmupTimer.Tick += LaunchTargetWarmupTimer_Tick;
+        _launchTargetWarmupTimer.Start();
+    }
+
+    private void LaunchTargetWarmupTimer_Tick(object? sender, EventArgs e)
+    {
+        StopLaunchTargetWarmupTimer();
+        WarmLaunchTargets();
+    }
+
+    private void StopLaunchTargetWarmupTimer()
+    {
+        if (_launchTargetWarmupTimer == null)
+            return;
+        _launchTargetWarmupTimer.Stop();
+        _launchTargetWarmupTimer.Tick -= LaunchTargetWarmupTimer_Tick;
+        _launchTargetWarmupTimer = null;
     }
 
     private void WarmLaunchTargets()
@@ -6083,28 +6094,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             LaunchTargetOverlay.IsHitTestVisible = false;
             LaunchTargetOverlay.Opacity = LaunchTargetWarmOpacity;
             LaunchTargetOverlay.Visibility = Visibility.Visible;
+            LaunchTargetOverlay.UpdateLayout();
         }
         catch (Exception ex)
         {
             App.Logger.WriteLine("MainWindow::WarmLaunchTargets", "The version picker could not be prepared: " + ex.Message);
-            FinishLaunchTargetWarmup();
-            return;
         }
-        DispatcherTimer settle = new DispatcherTimer(DispatcherPriority.ContextIdle)
-        {
-            Interval = LaunchTargetWarmDuration
-        };
-        settle.Tick += (_, _) =>
-        {
-            settle.Stop();
-            FinishLaunchTargetWarmup();
-        };
-        settle.Start();
+        FinishLaunchTargetWarmup();
     }
 
     private const double LaunchTargetWarmOpacity = 0.01;
-
-    private static readonly TimeSpan LaunchTargetWarmDuration = TimeSpan.FromMilliseconds(400);
 
     private void FinishLaunchTargetWarmup()
     {
@@ -6122,30 +6121,39 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         InstallLaunchButton.IsDropDownOpen = false;
         int generation = ++_launchTargetOverlayGeneration;
         LaunchTargetOverlay.IsHitTestVisible = false;
-        AnimateLaunchTargetOverlay(0.0, 28.0, Voidstrap.Utility.Platform.IsLinux ? -1 : 0.0, TimeSpan.FromMilliseconds(200), LaunchTargetEaseIn, generation, true);
+        if (!Voidstrap.Utility.Platform.IsLinux)
+            LaunchTargetPanel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
+        AnimateLaunchTargetOverlay(0.0, 28.0, TimeSpan.FromMilliseconds(160), LaunchTargetEaseIn, generation, true);
     }
 
-    private void AnimateLaunchTargetOverlay(double opacity, double offsetY, double blurRadius, TimeSpan duration, IEasingFunction ease, int generation, bool finishClose)
+    private void AnimateLaunchTargetOverlay(double opacity, double offsetY, TimeSpan duration, IEasingFunction ease, int generation, bool finishClose)
     {
         DoubleAnimation fade = new DoubleAnimation(opacity, duration) { EasingFunction = ease };
-        if (finishClose)
-            fade.Completed += (_, _) => FinishLaunchTargetClose(generation);
+        fade.Completed += (_, _) =>
+        {
+            if (finishClose)
+                FinishLaunchTargetClose(generation);
+            else
+                FinishLaunchTargetOpen(generation);
+        };
         LaunchTargetOverlay.BeginAnimation(OpacityProperty, fade, HandoffBehavior.SnapshotAndReplace);
         LaunchTargetPanelTranslate.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(offsetY, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
-        if (blurRadius >= 0)
-            _launchTargetBlur?.BeginAnimation(System.Windows.Media.Effects.BlurEffect.RadiusProperty, new DoubleAnimation(blurRadius, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
+    }
+
+    private void FinishLaunchTargetOpen(int generation)
+    {
+        if (generation != _launchTargetOverlayGeneration || !_launchTargetOverlayOpen)
+            return;
+        LaunchTargetPanel.CacheMode = null;
+        Dispatcher.BeginInvoke(DispatcherPriority.Background, RefreshLaunchTargetStates);
     }
 
     private void FinishLaunchTargetClose(int generation)
     {
         if (generation != _launchTargetOverlayGeneration || _launchTargetOverlayOpen)
             return;
+        LaunchTargetPanel.CacheMode = null;
         LaunchTargetOverlay.Visibility = Visibility.Collapsed;
-        foreach (UIElement target in LaunchTargetBlurTargets)
-        {
-            if (ReferenceEquals(target.Effect, _launchTargetBlur))
-                target.Effect = null;
-        }
         ReleaseOrphanedCapture();
     }
 

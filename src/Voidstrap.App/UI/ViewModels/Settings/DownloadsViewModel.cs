@@ -239,6 +239,21 @@ namespace Voidstrap.UI.ViewModels.Settings
                 OnPropertyChanged(nameof(HasVerifyText));
             }
 
+            internal void RefreshInstallState()
+            {
+                if (IsBusy)
+                    return;
+                if (Voidstrap.Utility.Platform.IsLinux)
+                {
+                    Refresh();
+                    return;
+                }
+                bool exeExists = !string.IsNullOrEmpty(_appData.State.VersionGuid) && (File.Exists(_appData.ExecutablePath) || Voidstrap.Utility.RobloxInstallCompression.IsCompressed(_appData));
+                string location = exeExists ? _appData.Directory : _appData.VersionsRoot;
+                if (exeExists != IsInstalled || !string.Equals(location, LocationText, StringComparison.OrdinalIgnoreCase))
+                    Refresh();
+            }
+
             public void Refresh()
             {
                 if (Voidstrap.Utility.Platform.IsLinux)
@@ -822,6 +837,14 @@ namespace Voidstrap.UI.ViewModels.Settings
                 catch
                 {
                 }
+            }
+
+            internal void RefreshInstallState()
+            {
+                if (IsBusy)
+                    return;
+                if ((ClassicClients.EngineInstalled && ClassicClients.IsClientInstalled(Code)) != IsInstalled)
+                    Refresh();
             }
 
             public void Refresh()

@@ -260,7 +260,7 @@ public partial class ActivityWatcher : IDisposable
 
 	public async Task<int> GetPlayerCount()
 	{
-		return (await GetServerPlayerCountAsync().ConfigureAwait(continueOnCapturedContext: false)).Item1;
+		return (await GetServerPlayerSnapshotAsync().ConfigureAwait(continueOnCapturedContext: false)).Playing;
 	}
 
 	public int GetPlayerCountFromLogs()
@@ -291,43 +291,14 @@ public partial class ActivityWatcher : IDisposable
 
 	public async Task<(int Current, int Max)> GetServerPlayerCountAsync()
 	{
-		(int, int, int, bool) tuple = await GetServerPlayerStatsAsync().ConfigureAwait(continueOnCapturedContext: false);
-		return (Current: tuple.Item1, Max: tuple.Item2);
+		ServerPlayerSnapshot snapshot = await GetServerPlayerSnapshotAsync().ConfigureAwait(continueOnCapturedContext: false);
+		return (Current: snapshot.Playing, Max: snapshot.MaxPlayers);
 	}
 
 	public async Task<(int Current, int Max, int GameTotal, bool ServerFound)> GetServerPlayerStatsAsync()
 	{
-		int max = await GetMaxPlayers().ConfigureAwait(continueOnCapturedContext: false);
-		int logCount = CountPlayersFromLogs();
-		int gameTotal = await GetGameTotalPlayingAsync().ConfigureAwait(continueOnCapturedContext: false);
-		int apiCurrent = 0;
-		bool serverFound = false;
-		try
-		{
-			ServerInfo? serverInfo = await GetCurrentServerInfoAsync().ConfigureAwait(continueOnCapturedContext: false);
-			if (serverInfo != null)
-			{
-				apiCurrent = serverInfo.Playing;
-				serverFound = true;
-				if (serverInfo.MaxPlayers > 0)
-				{
-					max = serverInfo.MaxPlayers;
-				}
-			}
-		}
-		catch
-		{
-		}
-		int num = serverFound ? apiCurrent : PlayerLoggingEnabled ? logCount : 0;
-		if ((serverFound || PlayerLoggingEnabled) && InGame && num < 1)
-		{
-			num = 1;
-		}
-		if (max > 0 && num > max)
-		{
-			num = max;
-		}
-		return (Current: num, Max: max, GameTotal: gameTotal, ServerFound: serverFound);
+		ServerPlayerSnapshot snapshot = await GetServerPlayerSnapshotAsync().ConfigureAwait(continueOnCapturedContext: false);
+		return (Current: snapshot.Playing, Max: snapshot.MaxPlayers, GameTotal: snapshot.GameTotal, ServerFound: snapshot.State == ServerPlayerCountState.Live);
 	}
 
 	public async Task<int> GetGameTotalPlayingAsync()
@@ -337,6 +308,12 @@ public partial class ActivityWatcher : IDisposable
 		{
 			return 0;
 		}
+		lock (_serverLookupLock)
+		{
+			if (_gameTotalUniverseId == universeId && DateTime.UtcNow - _gameTotalUtc < GameTotalLifetime)
+				return _gameTotal;
+		}
+		int total = 0;
 		try
 		{
 			using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(6L));
@@ -344,34 +321,75 @@ public partial class ActivityWatcher : IDisposable
 			using JsonDocument jsonDocument = JsonDocument.Parse(await Voidstrap.Utility.Http.GetString(requestUri, cts.Token).ConfigureAwait(continueOnCapturedContext: false));
 			if (jsonDocument.RootElement.TryGetProperty("data", out var value) && value.GetArrayLength() > 0 && value[0].TryGetProperty("playing", out var value2) && value2.TryGetInt64(out var value3))
 			{
-				return (int)Math.Max(0L, value3);
+				total = (int)Math.Clamp(value3, 0L, int.MaxValue);
 			}
 		}
 		catch
 		{
 		}
-		return 0;
+		lock (_serverLookupLock)
+		{
+			if (total > 0 || _gameTotalUniverseId != universeId)
+			{
+				_gameTotalUniverseId = universeId;
+				_gameTotal = total;
+			}
+			_gameTotalUtc = DateTime.UtcNow;
+			return _gameTotal;
+		}
 	}
 
-	private static readonly TimeSpan ServerFoundLifetime = TimeSpan.FromSeconds(20);
+	private static readonly TimeSpan ServerFoundLifetime = TimeSpan.FromSeconds(30);
 
-	private static readonly TimeSpan ServerMissingLifetime = TimeSpan.FromMinutes(2);
+	private static readonly TimeSpan ServerMissingLifetime = TimeSpan.FromSeconds(90);
 
-	private static readonly TimeSpan ServerListBackoff = TimeSpan.FromSeconds(90);
+	private static readonly TimeSpan ServerErrorLifetime = TimeSpan.FromSeconds(30);
+
+	private static readonly TimeSpan GameTotalLifetime = TimeSpan.FromSeconds(60);
+
+	private static readonly TimeSpan ServerPageSpacing = TimeSpan.FromMilliseconds(1200);
+
+	private static readonly TimeSpan ServerListMinimumBackoff = TimeSpan.FromSeconds(10);
+
+	private static readonly TimeSpan ServerListMaximumBackoff = TimeSpan.FromMinutes(5);
+
+	private const int MaxPublicServerPages = 8;
+
+	private const int MaxPrivateServerPages = 3;
 
 	private static readonly object ServerListLock = new object();
 
 	private static DateTime _serverListBackoffUntilUtc = DateTime.MinValue;
 
+	private static int _serverListStrikes;
+
 	private readonly object _serverLookupLock = new object();
 
 	private string? _serverLookupJobId;
 
-	private Task<ServerInfo?>? _serverLookupTask;
+	private Task<ServerPlayerSnapshot>? _serverLookupTask;
 
-	private ServerInfo? _serverLookupResult;
+	private ServerPlayerSnapshot? _serverSnapshot;
 
-	private DateTime _serverLookupUtc = DateTime.MinValue;
+	private DateTime _serverNextLookupUtc = DateTime.MinValue;
+
+	private (string Order, string? Cursor)? _serverPageHint;
+
+	private long _gameTotalUniverseId;
+
+	private int _gameTotal;
+
+	private DateTime _gameTotalUtc = DateTime.MinValue;
+
+	private enum ServerLookupOutcome
+	{
+		Found,
+		NotListed,
+		SignedOut,
+		Reserved,
+		RateLimited,
+		Failed
+	}
 
 	public static bool ServerListRateLimited
 	{
@@ -382,140 +400,298 @@ public partial class ActivityWatcher : IDisposable
 		}
 	}
 
+	public static DateTime ServerListRetryUtc
+	{
+		get
+		{
+			lock (ServerListLock)
+				return _serverListBackoffUntilUtc;
+		}
+	}
+
 	public static void NoteServerListRateLimited(TimeSpan? retryAfter = null)
 	{
-		TimeSpan wait = retryAfter is { } value && value > TimeSpan.Zero && value < TimeSpan.FromMinutes(10) ? value : ServerListBackoff;
+		TimeSpan wait;
 		lock (ServerListLock)
 		{
+			int strikes = Math.Min(_serverListStrikes, 4);
+			wait = retryAfter is { } value && value > TimeSpan.Zero ? value : TimeSpan.FromSeconds(30 * (1 << strikes));
+			if (wait < ServerListMinimumBackoff)
+				wait = ServerListMinimumBackoff;
+			if (wait > ServerListMaximumBackoff)
+				wait = ServerListMaximumBackoff;
 			DateTime until = DateTime.UtcNow + wait;
 			if (until <= _serverListBackoffUntilUtc)
 				return;
 			_serverListBackoffUntilUtc = until;
+			_serverListStrikes++;
 		}
-		App.Logger.WriteLine("ActivityWatcher::ServerList", $"Roblox is rate limiting the server list, pausing lookups for {(int)wait.TotalSeconds} seconds");
+		App.Logger.WriteLine("ActivityWatcher::ServerList", $"Roblox is rate limiting the server list, pausing lookups for {(int)Math.Ceiling(wait.TotalSeconds)} seconds");
 	}
 
-	public bool CurrentServerUnlisted
+	private static void NoteServerListAnswered()
 	{
-		get
-		{
-			lock (_serverLookupLock)
-				return _serverLookupTask is { IsCompleted: true } && _serverLookupResult == null && string.Equals(_serverLookupJobId, Data.JobId, StringComparison.Ordinal);
-		}
+		lock (ServerListLock)
+			_serverListStrikes = 0;
 	}
 
-	public Task<ServerInfo?> GetCurrentServerInfoAsync()
+	public Task<ServerPlayerSnapshot> GetServerPlayerSnapshotAsync()
 	{
-		string jobId = Data.JobId;
+		ActivityData data = Data;
+		string jobId = data.JobId;
+		if (!InGame || data.PlaceId == 0L || string.IsNullOrEmpty(jobId))
+			return Task.FromResult(ServerPlayerSnapshot.NotInGame);
 		lock (_serverLookupLock)
 		{
-			bool sameServer = string.Equals(_serverLookupJobId, jobId, StringComparison.Ordinal);
-			if (sameServer && _serverLookupTask is { IsCompleted: false } pending)
+			if (!string.Equals(_serverLookupJobId, jobId, StringComparison.Ordinal))
+			{
+				_serverLookupJobId = jobId;
+				_serverLookupTask = null;
+				_serverSnapshot = null;
+				_serverPageHint = null;
+				_serverNextLookupUtc = DateTime.MinValue;
+			}
+			if (_serverLookupTask is { IsCompleted: false } pending)
 				return pending;
-			if (sameServer && _serverLookupTask != null && DateTime.UtcNow - _serverLookupUtc < (_serverLookupResult != null ? ServerFoundLifetime : ServerMissingLifetime))
-				return Task.FromResult(_serverLookupResult);
-			if (ServerListRateLimited)
-				return Task.FromResult(sameServer ? _serverLookupResult : null);
-			if (!sameServer)
-				_serverLookupResult = null;
-			_serverLookupJobId = jobId;
-			Task<ServerInfo?> lookup = LookupCurrentServerAsync(jobId);
+			if (_serverSnapshot is { } cached && DateTime.UtcNow < _serverNextLookupUtc)
+				return Task.FromResult(WithLogCount(cached));
+			Task<ServerPlayerSnapshot> lookup = RefreshServerSnapshotAsync(data, jobId);
 			_serverLookupTask = lookup;
 			return lookup;
 		}
 	}
 
-	private async Task<ServerInfo?> LookupCurrentServerAsync(string jobId)
+	private ServerPlayerSnapshot WithLogCount(ServerPlayerSnapshot snapshot)
 	{
-		ServerInfo? result = null;
+		if (snapshot.State is ServerPlayerCountState.Live or ServerPlayerCountState.NotInGame || !PlayerLoggingEnabled)
+			return snapshot;
+		int logged = CountPlayersFromLogs();
+		if (logged < 1)
+			return snapshot;
+		if (snapshot.MaxPlayers > 0)
+			logged = Math.Min(logged, snapshot.MaxPlayers);
+		return snapshot with { State = ServerPlayerCountState.Live, Playing = logged, UpdatedUtc = DateTime.UtcNow, RetryUtc = null };
+	}
+
+	private async Task<ServerPlayerSnapshot> RefreshServerSnapshotAsync(ActivityData data, string jobId)
+	{
+		ServerPlayerSnapshot? previous;
+		lock (_serverLookupLock)
+			previous = _serverSnapshot;
+		int max = 0;
+		int gameTotal = 0;
+		ServerLookupOutcome outcome;
+		ServerInfo? server = null;
 		try
 		{
-			result = await FindCurrentServerAsync().ConfigureAwait(continueOnCapturedContext: false);
+			Task<int> maxTask = GetMaxPlayers();
+			Task<int> totalTask = GetGameTotalPlayingAsync();
+			(outcome, server) = data.ServerType switch
+			{
+				ServerType.Public => await FindPublicServerAsync(data.PlaceId, jobId, data.MachineAddress, data.MachineAddressValid, previous).ConfigureAwait(false),
+				ServerType.Private => await FindPrivateServerAsync(data.PlaceId, jobId).ConfigureAwait(false),
+				_ => (ServerLookupOutcome.Reserved, null)
+			};
+			max = await maxTask.ConfigureAwait(false);
+			gameTotal = await totalTask.ConfigureAwait(false);
+		}
+		catch (OperationCanceledException) when (_playerLifetimeCts.IsCancellationRequested)
+		{
+			return ServerPlayerSnapshot.NotInGame;
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine("ActivityWatcher::ServerList", "The server list could not be searched: " + ex.Message);
+			App.Logger.WriteLine("ActivityWatcher::ServerList", "The player count could not be read: " + ex.Message);
+			outcome = ServerLookupOutcome.Failed;
+		}
+		if (server is { MaxPlayers: > 0 })
+			max = server.MaxPlayers;
+		if (max <= 0)
+			max = previous?.MaxPlayers ?? 0;
+		if (gameTotal <= 0)
+			gameTotal = previous?.GameTotal ?? 0;
+		DateTime now = DateTime.UtcNow;
+		int stalePlaying = previous?.Playing ?? 0;
+		DateTime? staleUpdated = previous?.UpdatedUtc;
+		ServerPlayerSnapshot snapshot;
+		DateTime next;
+		switch (outcome)
+		{
+			case ServerLookupOutcome.Found when server != null:
+				int playing = Math.Max(1, server.Playing);
+				if (max > 0)
+					playing = Math.Min(playing, max);
+				snapshot = new ServerPlayerSnapshot(ServerPlayerCountState.Live, playing, max, gameTotal, now, null);
+				next = now + ServerFoundLifetime;
+				break;
+			case ServerLookupOutcome.NotListed:
+				next = now + ServerMissingLifetime;
+				snapshot = new ServerPlayerSnapshot(data.ServerType == ServerType.Private ? ServerPlayerCountState.PrivateNotListed : ServerPlayerCountState.NotListed, stalePlaying, max, gameTotal, staleUpdated, next);
+				break;
+			case ServerLookupOutcome.SignedOut:
+				next = now + ServerMissingLifetime;
+				snapshot = new ServerPlayerSnapshot(ServerPlayerCountState.PrivateSignedOut, 0, max, gameTotal, null, null);
+				break;
+			case ServerLookupOutcome.Reserved:
+				next = now + TimeSpan.FromMinutes(10);
+				snapshot = new ServerPlayerSnapshot(ServerPlayerCountState.Reserved, 0, max, gameTotal, null, null);
+				break;
+			case ServerLookupOutcome.RateLimited:
+				next = ServerListRetryUtc;
+				if (next <= now)
+					next = now + ServerListMinimumBackoff;
+				snapshot = new ServerPlayerSnapshot(ServerPlayerCountState.RateLimited, stalePlaying, max, gameTotal, staleUpdated, next);
+				break;
+			default:
+				next = now + ServerErrorLifetime;
+				snapshot = new ServerPlayerSnapshot(ServerPlayerCountState.Unavailable, stalePlaying, max, gameTotal, staleUpdated, next);
+				break;
 		}
 		lock (_serverLookupLock)
 		{
 			if (string.Equals(_serverLookupJobId, jobId, StringComparison.Ordinal))
 			{
-				_serverLookupResult = result;
-				_serverLookupUtc = DateTime.UtcNow;
+				_serverSnapshot = snapshot;
+				_serverNextLookupUtc = next;
 			}
 		}
-		return result;
+		return WithLogCount(snapshot);
 	}
 
-	private async Task<ServerInfo?> FindCurrentServerAsync()
+	private async Task<(ServerLookupOutcome Outcome, ServerInfo? Server)> FindPublicServerAsync(long placeId, string jobId, string machineAddress, bool machineValid, ServerPlayerSnapshot? previous)
 	{
-		long placeId = Data.PlaceId;
-		string jobId = Data.JobId;
-		string machineAddress = Data.MachineAddress;
-		bool machineValid = Data.MachineAddressValid;
-		if (placeId == 0L || string.IsNullOrEmpty(jobId) || Data.ServerType != ServerType.Public)
+		if (ServerListRateLimited)
+			return (ServerLookupOutcome.RateLimited, null);
+		using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.Token);
+		cts.CancelAfter(TimeSpan.FromSeconds(25L));
+		string baseUrl = $"https://games.roblox.com/v1/games/{placeId}/servers/Public?limit=100&excludeFullGames=false&sortOrder=";
+		int requests = 0;
+		bool anyAnswered = false;
+		async Task<(bool Limited, ServerListResponse? Page)> FetchAsync(string order, string? cursor)
 		{
-			return null;
+			if (requests > 0)
+				await Task.Delay(ServerPageSpacing, cts.Token).ConfigureAwait(false);
+			requests++;
+			string url = baseUrl + order + (string.IsNullOrEmpty(cursor) ? string.Empty : "&cursor=" + Uri.EscapeDataString(cursor));
+			RobloxApiResponse response = await RobloxCookie.SendGetAsync(url, cts.Token).ConfigureAwait(false);
+			if (response.RateLimited)
+			{
+				NoteServerListRateLimited(response.RetryAfter);
+				return (true, null);
+			}
+			if (!response.Succeeded || string.IsNullOrEmpty(response.Body))
+				return (false, null);
+			anyAnswered = true;
+			NoteServerListAnswered();
+			try
+			{
+				return (false, JsonSerializer.Deserialize<ServerListResponse>(response.Body, JsonOptions.CaseInsensitive));
+			}
+			catch (JsonException)
+			{
+				return (false, null);
+			}
 		}
-		using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(8L));
-		string[] orders = ["Desc", "Asc"];
+		ServerInfo? Match(ServerListResponse? page)
+		{
+			ServerInfo? found = page?.Data?.FirstOrDefault(s => string.Equals(s.Id, jobId, StringComparison.OrdinalIgnoreCase));
+			if (found is { Ping: > 0 } && machineValid)
+				ServerFetchStore.RecordPing(machineAddress, found.Ping);
+			return found;
+		}
+		void Remember(string order, string? cursor)
+		{
+			lock (_serverLookupLock)
+			{
+				if (string.Equals(_serverLookupJobId, jobId, StringComparison.Ordinal))
+					_serverPageHint = (order, cursor);
+			}
+		}
+		(string Order, string? Cursor)? hint;
+		lock (_serverLookupLock)
+			hint = _serverPageHint;
+		if (hint is { } known && !string.IsNullOrEmpty(known.Cursor))
+		{
+			(bool limited, ServerListResponse? page) = await FetchAsync(known.Order, known.Cursor).ConfigureAwait(false);
+			if (limited)
+				return (ServerLookupOutcome.RateLimited, null);
+			if (Match(page) is { } server)
+				return (ServerLookupOutcome.Found, server);
+		}
+		string[] orders = previous is { Playing: > 0, MaxPlayers: > 0 } last && last.Playing * 2 < last.MaxPlayers ? ["Asc", "Desc"] : ["Desc", "Asc"];
 		string?[] cursors = new string?[orders.Length];
 		bool[] exhausted = new bool[orders.Length];
-		for (int request = 0; request < 6; request++)
+		for (int page = 0; page < MaxPublicServerPages && !(exhausted[0] && exhausted[1]); page++)
 		{
-			if (cts.IsCancellationRequested || (exhausted[0] && exhausted[1]) || ServerListRateLimited)
+			int order = exhausted[page % 2] ? 1 - page % 2 : page % 2;
+			string? cursor = cursors[order];
+			(bool limited, ServerListResponse? result) = await FetchAsync(orders[order], cursor).ConfigureAwait(false);
+			if (limited)
+				return (ServerLookupOutcome.RateLimited, null);
+			if (result?.Data == null)
+			{
+				exhausted[order] = true;
+				continue;
+			}
+			if (Match(result) is { } server)
+			{
+				Remember(orders[order], cursor);
+				return (ServerLookupOutcome.Found, server);
+			}
+			if (string.IsNullOrEmpty(result.NextPageCursor) || result.Data.Count == 0)
+				exhausted[order] = true;
+			else
+				cursors[order] = result.NextPageCursor;
+		}
+		lock (_serverLookupLock)
+			_serverPageHint = null;
+		return (anyAnswered ? ServerLookupOutcome.NotListed : ServerLookupOutcome.Failed, null);
+	}
+
+	private async Task<(ServerLookupOutcome Outcome, ServerInfo? Server)> FindPrivateServerAsync(long placeId, string jobId)
+	{
+		if (string.IsNullOrEmpty(RobloxCookie.Get()))
+			return (ServerLookupOutcome.SignedOut, null);
+		if (ServerListRateLimited)
+			return (ServerLookupOutcome.RateLimited, null);
+		using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.Token);
+		cts.CancelAfter(TimeSpan.FromSeconds(20L));
+		string? cursor = null;
+		bool anyAnswered = false;
+		for (int page = 0; page < MaxPrivateServerPages; page++)
+		{
+			if (page > 0)
+				await Task.Delay(ServerPageSpacing, cts.Token).ConfigureAwait(false);
+			string url = $"https://games.roblox.com/v1/games/{placeId}/private-servers?limit=100" + (string.IsNullOrEmpty(cursor) ? string.Empty : "&cursor=" + Uri.EscapeDataString(cursor));
+			RobloxApiResponse response = await RobloxCookie.SendGetAsync(url, cts.Token).ConfigureAwait(false);
+			if (response.RateLimited)
+			{
+				NoteServerListRateLimited(response.RetryAfter);
+				return (ServerLookupOutcome.RateLimited, null);
+			}
+			if (response.StatusCode is 401 or 403)
+				return (anyAnswered ? ServerLookupOutcome.NotListed : ServerLookupOutcome.SignedOut, null);
+			if (!response.Succeeded || string.IsNullOrEmpty(response.Body))
+				break;
+			anyAnswered = true;
+			NoteServerListAnswered();
+			ServerListResponse? result;
+			try
+			{
+				result = JsonSerializer.Deserialize<ServerListResponse>(response.Body, JsonOptions.CaseInsensitive);
+			}
+			catch (JsonException)
 			{
 				break;
 			}
-			int order = exhausted[request % 2] ? 1 - request % 2 : request % 2;
-			string text2 = $"https://games.roblox.com/v1/games/{placeId}/servers/Public?limit=100&sortOrder={orders[order]}";
-			string? cursor = cursors[order];
-			if (!string.IsNullOrEmpty(cursor))
-			{
-				text2 = text2 + "&cursor=" + Uri.EscapeDataString(cursor);
-			}
-			ServerListResponse? serverListResponse;
-			try
-			{
-				serverListResponse = JsonSerializer.Deserialize<ServerListResponse>(await Voidstrap.Utility.Http.GetString(text2, cts.Token).ConfigureAwait(continueOnCapturedContext: false), JsonOptions.CaseInsensitive);
-			}
-			catch (System.Net.Http.HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
-			{
-				NoteServerListRateLimited();
-				return null;
-			}
-			catch (Voidstrap.Utility.Http.RateLimitedException)
-			{
-				NoteServerListRateLimited(TimeSpan.FromSeconds(60));
-				return null;
-			}
-			catch
-			{
-				exhausted[order] = true;
-				continue;
-			}
-			if (serverListResponse?.Data == null || serverListResponse.Data.Count == 0)
-			{
-				exhausted[order] = true;
-				continue;
-			}
-			ServerInfo? serverInfo = serverListResponse.Data.FirstOrDefault((ServerInfo s) => s.Id == jobId);
-			if (serverInfo != null)
-			{
-				if (serverInfo.Ping > 0 && machineValid)
-				{
-					ServerFetchStore.RecordPing(machineAddress, serverInfo.Ping);
-				}
-				return serverInfo;
-			}
-			if (string.IsNullOrEmpty(serverListResponse.NextPageCursor))
-			{
-				exhausted[order] = true;
-				continue;
-			}
-			cursors[order] = serverListResponse.NextPageCursor;
+			ServerInfo? found = result?.Data?.FirstOrDefault(s => string.Equals(s.Id, jobId, StringComparison.OrdinalIgnoreCase));
+			if (found != null)
+				return (ServerLookupOutcome.Found, found);
+			cursor = result?.NextPageCursor;
+			if (string.IsNullOrEmpty(cursor))
+				break;
 		}
-		return null;
+		return (anyAnswered ? ServerLookupOutcome.NotListed : ServerLookupOutcome.Failed, null);
 	}
 
 	private int CountPlayersFromLogs()

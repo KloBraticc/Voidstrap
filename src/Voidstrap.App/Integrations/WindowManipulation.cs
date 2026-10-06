@@ -48,6 +48,8 @@ namespace Voidstrap.Integrations
         private int _titleRestorePending;
         private static readonly TimeSpan TitleSetThrottle = TimeSpan.FromMilliseconds(100);
 
+        private RobloxWindowTitle? _titleUpdater;
+
         public WindowManipulation(long windowHandle, long robloxProcessId, ActivityWatcher? activityWatcher = null)
         {
             const string LOG_IDENT = "WindowManipulation";
@@ -73,21 +75,18 @@ namespace Voidstrap.Integrations
 
             bool useGameIcon = App.Settings.Prop.UseGameIconForRobloxWindow;
 
-            if (_activityWatcher != null && (App.Settings.Prop.CycleTitleWithGameName || useGameIcon))
+            if (_activityWatcher != null && RobloxWindowTitle.WantsUpdates)
+                _titleUpdater = new RobloxWindowTitle(_activityWatcher, ApplyTitle);
+
+            if (_activityWatcher != null && (_titleUpdater != null || useGameIcon))
             {
                 _activityWatcher.OnGameJoin += OnGameJoin;
                 _activityWatcher.OnGameLeave += OnGameLeave;
 
-                if (_activityWatcher.InGame && _activityWatcher.Data?.UniverseId > 0)
+                if (useGameIcon && _activityWatcher.InGame && _activityWatcher.Data?.UniverseId > 0)
                 {
                     long universeId = _activityWatcher.Data.UniverseId;
-                    _ = Task.Run(async () =>
-                    {
-                        if (useGameIcon)
-                            await ApplyGameIconAsync(universeId);
-                        if (App.Settings.Prop.CycleTitleWithGameName)
-                            await UpdateTitleWithGameNameAsync(universeId);
-                    });
+                    _ = Task.Run(() => ApplyGameIconAsync(universeId));
                 }
             }
         }
@@ -197,11 +196,10 @@ namespace Voidstrap.Integrations
                 if (universeId <= 0)
                     return;
 
+                _titleUpdater?.Refresh();
+
                 if (App.Settings.Prop.UseGameIconForRobloxWindow)
                     await ApplyGameIconAsync(universeId);
-
-                if (App.Settings.Prop.CycleTitleWithGameName)
-                    await UpdateTitleWithGameNameAsync(universeId);
             }
             catch (Exception ex)
             {
@@ -217,68 +215,15 @@ namespace Voidstrap.Integrations
             if (App.Settings.Prop.UseGameIconForRobloxWindow)
                 ApplyBaseIcon();
 
-            if (!App.Settings.Prop.CycleTitleWithGameName)
-                return;
-
-            string baseTitle = string.IsNullOrWhiteSpace(App.Settings.Prop.RobloxTitle)
-                ? "Voidstrap"
-                : App.Settings.Prop.RobloxTitle;
-            App.Logger.WriteLine("WindowManipulation::OnGameLeave", $"Reverting title to '{baseTitle}'");
-
-            _currentDesiredTitle = baseTitle;
-            SetTitleSafe(baseTitle);
+            _titleUpdater?.Refresh();
         }
 
-        private async Task UpdateTitleWithGameNameAsync(long universeId)
+        private void ApplyTitle(string title)
         {
-            const string LOG_IDENT = "WindowManipulation::UpdateTitleWithGameName";
-
-            try
-            {
-                string baseTitle = string.IsNullOrWhiteSpace(App.Settings.Prop.RobloxTitle)
-                    ? "Voidstrap"
-                    : App.Settings.Prop.RobloxTitle;
-
-                App.Logger.WriteLine(LOG_IDENT, $"Fetching game name for universe {universeId}");
-
-                var details = UniverseDetails.LoadFromCache(universeId);
-                if (details == null)
-                {
-                    await UniverseDetails.FetchSingle(universeId).ConfigureAwait(false);
-                    details = UniverseDetails.LoadFromCache(universeId);
-                }
-
-                if (_disposed)
-                    return;
-
-                string gameName = details?.Data?.Name ?? string.Empty;
-
-                if (string.IsNullOrWhiteSpace(gameName))
-                {
-                    App.Logger.WriteLine(LOG_IDENT, "Game name is empty, keeping base title");
-                    return;
-                }
-
-                string newTitle = string.IsNullOrEmpty(baseTitle)
-                    ? gameName
-                    : $"{baseTitle}: {gameName}";
-
-                if (App.Settings.Prop.ShowServerInfoInTitle)
-                {
-                    long playing = details?.Data?.Playing ?? 0;
-                    if (playing > 0)
-                        newTitle += $" ({playing:N0} playing)";
-                }
-
-                App.Logger.WriteLine(LOG_IDENT, $"Updating window title to '{newTitle}'");
-                _currentDesiredTitle = newTitle;
-
-                SetTitleSafe(newTitle);
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteException(LOG_IDENT, ex);
-            }
+            if (_disposed)
+                return;
+            _currentDesiredTitle = title;
+            SetTitleSafe(title);
         }
 
         private void SetTitleSafe(string title)
@@ -752,6 +697,9 @@ namespace Voidstrap.Integrations
                 return;
 
             _disposed = true;
+
+            _titleUpdater?.Dispose();
+            _titleUpdater = null;
 
             try
             {

@@ -31,12 +31,6 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	private bool _disposed;
 
-	private int _maxPlayers;
-
-	private int _gameTotal;
-
-	private DateTime _lastApiFetch = DateTime.MinValue;
-
 	private DateTime _lastFriendsFetch = DateTime.MinValue;
 
 	private string _gameName = Strings.Common_Loading;
@@ -372,9 +366,6 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	private async Task RefreshAllAsync()
 	{
-		_maxPlayers = 0;
-		_gameTotal = 0;
-		_lastApiFetch = DateTime.MinValue;
 		_lastFriendsFetch = DateTime.MinValue;
 		Friends = [];
 		FriendsHeader = "Friends in this server";
@@ -399,9 +390,6 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	private void ResetForNoGame()
 	{
-		_maxPlayers = 0;
-		_gameTotal = 0;
-		_lastApiFetch = DateTime.MinValue;
 		_lastFriendsFetch = DateTime.MinValue;
 		Friends = [];
 		FriendsStatus = string.Empty;
@@ -603,71 +591,56 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 	{
 		try
 		{
-			ActivityData? data = _activityWatcher.Data;
-			if (data == null || data.PlaceId == 0L || !_activityWatcher.InGame)
+			ServerPlayerSnapshot snapshot = await _activityWatcher.GetServerPlayerSnapshotAsync();
+			if (_disposed)
+				return;
+			if (snapshot.State == ServerPlayerCountState.NotInGame)
 			{
 				PlayerCount = Strings.Common_NotAvailable;
 				PlayerCountHint = string.Empty;
 				return;
 			}
-			bool tracking = ActivityWatcher.PlayerLoggingEnabled;
-			int current;
-			if (_maxPlayers <= 0 || _gameTotal <= 0 || (DateTime.UtcNow - _lastApiFetch).TotalSeconds >= 15.0)
-			{
-				_lastApiFetch = DateTime.UtcNow;
-				(int Current, int Max, int GameTotal, bool ServerFound) stats = await _activityWatcher.GetServerPlayerStatsAsync();
-				if (stats.Max > 0)
-				{
-					_maxPlayers = stats.Max;
-				}
-				if (stats.GameTotal > 0)
-				{
-					_gameTotal = stats.GameTotal;
-				}
-				current = stats.Current;
-			}
-			else
-			{
-				if (!tracking)
-				{
-					return;
-				}
-				current = _activityWatcher.GetPlayerCountFromLogs();
-				if (current < 1)
-				{
-					current = 1;
-				}
-				if (_maxPlayers > 0 && current > _maxPlayers)
-				{
-					current = _maxPlayers;
-				}
-			}
-			string count = current > 0
-				? (_maxPlayers > 0 ? $"{current}/{_maxPlayers}" : current.ToString())
-				: (_maxPlayers > 0 ? $"Unknown of {_maxPlayers}" : "Unknown");
-			PlayerCount = _gameTotal > 0 ? $"{count}  •  {_gameTotal:N0} in game" : count;
-			if (current > 0)
-			{
-				PlayerCountHint = string.Empty;
-			}
-			else if (ActivityWatcher.ServerListRateLimited)
-			{
-				PlayerCountHint = "Roblox is limiting server lookups right now, the count tries again shortly.";
-			}
-			else if (data.ServerType != Voidstrap.Enums.ServerType.Public)
-			{
-				PlayerCountHint = "Private and reserved servers are not listed publicly.";
-			}
-			else
-			{
-				PlayerCountHint = "This server is not in the part of the public server list Roblox shares.";
-			}
+			string count = snapshot.Playing > 0
+				? (snapshot.MaxPlayers > 0 ? $"{snapshot.Playing}/{snapshot.MaxPlayers}" : snapshot.Playing.ToString())
+				: (snapshot.MaxPlayers > 0 ? string.Format(Strings.ServerInfo_PlayerCount_MaxOnly, snapshot.MaxPlayers) : Strings.ServerInfo_PlayerCount_Unknown);
+			PlayerCount = snapshot.GameTotal > 0 ? count + "  •  " + string.Format(Strings.ServerInfo_PlayerCount_InGame, snapshot.GameTotal) : count;
+			PlayerCountHint = BuildPlayerCountHint(snapshot);
 		}
-		catch
+		catch (Exception ex)
 		{
+			App.Logger.WriteLine("ServerInformationViewModel::RefreshPlayerCount", "The player count could not be shown: " + ex.Message);
 			PlayerCount = Strings.Common_ErrorFetchingPlayerCount;
 			PlayerCountHint = string.Empty;
 		}
+	}
+
+	private static string BuildPlayerCountHint(ServerPlayerSnapshot snapshot)
+	{
+		DateTime now = DateTime.UtcNow;
+		bool stale = snapshot.Playing > 0 && snapshot.UpdatedUtc.HasValue;
+		string age = snapshot.UpdatedUtc is { } updated ? FormatDuration(now - updated) : string.Empty;
+		string retry = FormatDuration((snapshot.RetryUtc ?? now) - now);
+		return snapshot.State switch
+		{
+			ServerPlayerCountState.Live => snapshot.UpdatedUtc is { } live && now - live >= TimeSpan.FromMinutes(1) ? string.Format(Strings.ServerInfo_Hint_Updated, age) : string.Empty,
+			ServerPlayerCountState.RateLimited => stale ? string.Format(Strings.ServerInfo_Hint_RateLimitedStale, age, retry) : string.Format(Strings.ServerInfo_Hint_RateLimited, retry),
+			ServerPlayerCountState.NotListed => stale ? string.Format(Strings.ServerInfo_Hint_NotListedStale, age) : string.Format(Strings.ServerInfo_Hint_NotListed, retry),
+			ServerPlayerCountState.PrivateNotListed => Strings.ServerInfo_Hint_PrivateNotListed,
+			ServerPlayerCountState.PrivateSignedOut => Strings.ServerInfo_Hint_PrivateSignedOut,
+			ServerPlayerCountState.Reserved => Strings.ServerInfo_Hint_Reserved,
+			ServerPlayerCountState.Unavailable => stale ? string.Format(Strings.ServerInfo_Hint_UnavailableStale, age, retry) : string.Format(Strings.ServerInfo_Hint_Unavailable, retry),
+			_ => string.Empty
+		};
+	}
+
+	private static string FormatDuration(TimeSpan span)
+	{
+		int seconds = Math.Max(1, (int)Math.Ceiling(span.TotalSeconds));
+		if (seconds < 60)
+			return seconds + "s";
+		int minutes = seconds / 60;
+		int rest = seconds % 60;
+		return rest == 0 || minutes >= 10 ? minutes + "m" : minutes + "m " + rest + "s";
 	}
 
 	private async Task RefreshFriendsInServerAsync()
