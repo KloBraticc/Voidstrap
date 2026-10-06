@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -366,6 +366,8 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 				ex);
 		}
 	}
+
+	public void Reload() => OnPropertyChanged(string.Empty);
 
 	private int _suspendedVersion = -1;
 

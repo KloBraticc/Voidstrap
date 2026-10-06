@@ -23,21 +23,25 @@ internal static class SettingsProfiles
 		public Dictionary<string, object>? FastFlags { get; set; }
 	}
 
-	public static string[] List()
+	public static string[] List() => List(DirectoryPath);
+
+	public static string[] List(string directory)
 	{
-		return Directory.Exists(DirectoryPath)
-			? Directory.EnumerateFiles(DirectoryPath, "*.json").Select(Path.GetFileNameWithoutExtension)
+		return Directory.Exists(directory)
+			? Directory.EnumerateFiles(directory, "*.json").Select(Path.GetFileNameWithoutExtension)
 				.OfType<string>().OrderBy(name => name, StringComparer.CurrentCultureIgnoreCase).ToArray()
 			: [];
 	}
 
-	public static string GetPath(string name)
+	public static string GetPath(string name) => GetPath(DirectoryPath, name);
+
+	public static string GetPath(string directory, string name)
 	{
 		name = name.Trim();
 		if (name.Length is 0 or > 80 || name.EndsWith('.') || name.Any(character => char.IsControl(character) || "<>:\"/\\|?*".Contains(character))
 			|| Regex.IsMatch(name, @"^(CON|PRN|AUX|NUL|COM[1-9¹²³]|LPT[1-9¹²³])($|\.)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
 			throw new ArgumentException(Strings.SettingsProfiles_InvalidName);
-		return Path.Combine(DirectoryPath, name + ".json");
+		return Path.Combine(directory, name + ".json");
 	}
 
 	public static void Save(string name)
@@ -104,9 +108,11 @@ internal static class SettingsProfiles
 		}
 	}
 
-	public static void Delete(string name)
+	public static void Delete(string name) => Delete(DirectoryPath, name);
+
+	public static void Delete(string directory, string name)
 	{
-		string path = GetPath(name);
+		string path = GetPath(directory, name);
 		File.Delete(path);
 		File.Delete(path + ".bak");
 	}

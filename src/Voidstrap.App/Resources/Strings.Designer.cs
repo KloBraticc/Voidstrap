@@ -5320,6 +5320,10 @@ namespace Voidstrap.Resources {
         public static string SettingsProfiles_DeleteConfirm => ResourceManager.GetString("SettingsProfiles.DeleteConfirm", resourceCulture);
         public static string SettingsProfiles_Deleted => ResourceManager.GetString("SettingsProfiles.Deleted", resourceCulture);
         public static string SettingsProfiles_Error => ResourceManager.GetString("SettingsProfiles.Error", resourceCulture);
+        public static string GlobalProfiles_Title => ResourceManager.GetString("GlobalProfiles.Title", resourceCulture);
+        public static string GlobalProfiles_ApplyConfirm => ResourceManager.GetString("GlobalProfiles.ApplyConfirm", resourceCulture);
+        public static string GlobalProfiles_Applied => ResourceManager.GetString("GlobalProfiles.Applied", resourceCulture);
+        public static string GlobalProfiles_SaveFailed => ResourceManager.GetString("GlobalProfiles.SaveFailed", resourceCulture);
         public static string AssetWarp_RemoveTexturesDescription => ResourceManager.GetString("AssetWarp.RemoveTexturesDescription", resourceCulture);
         public static string AssetWarp_RemoveDecalsDescription => ResourceManager.GetString("AssetWarp.RemoveDecalsDescription", resourceCulture);
         public static string AssetWarp_RemoveImagesDescription => ResourceManager.GetString("AssetWarp.RemoveImagesDescription", resourceCulture);
