@@ -1,4 +1,4 @@
-<ui:UiPage x:Class="Voidstrap.UI.Elements.Installer.Pages.InstallerAppearancePage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:enums="clr-namespace:Voidstrap.Enums" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="{x:Static resources:Strings.Menu_Appearance_Title}" Scrollable="True" Loaded="UiPage_Loaded">
+﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Installer.Pages.InstallerAppearancePage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:enums="clr-namespace:Voidstrap.Enums" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="{x:Static resources:Strings.Menu_Appearance_Title}" Scrollable="True" Loaded="UiPage_Loaded">
   <StackPanel Margin="0,0,14,14">
     <TextBlock FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.Menu_Appearance_Description}" TextWrapping="Wrap" />
     <ui:CardExpander Margin="0,16,0,0" IsExpanded="False">
@@ -72,12 +72,25 @@
         </controls:OptionControl>
       </StackPanel>
     </ui:CardExpander>
-    <controls:OptionControl Margin="0,4,0,0" Header="{x:Static resources:Strings.Menu_Appearance_Global_Theme_Title}" Description="{x:Static resources:Strings.Installer_Appearance_Theme_Description}">
-      <StackPanel Width="200">
-        <ComboBox Padding="10,5" ItemsSource="{Binding BindableThemes, Mode=OneTime}" SelectedItem="{Binding Theme, Mode=TwoWay}">
+    <controls:OptionControl Margin="0,4,0,0" Header="{x:Static resources:Strings.Menu_Appearance_Global_Theme_Title}" Description="Check out some of our built-in custom themes!">
+      <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+        <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding BindableThemes}" SelectedItem="{Binding Theme, Mode=TwoWay}">
+          <ComboBox.Resources>
+            <platform:ThemeSwatchConverter x:Key="ThemeSwatchConverter" />
+          </ComboBox.Resources>
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <TextBlock Text="{Binding Converter={StaticResource EnumNameConverter}}" />
+              <StackPanel Orientation="Horizontal">
+                <Image Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality">
+                  <Image.Source>
+                    <MultiBinding Converter="{StaticResource ThemeSwatchConverter}">
+                      <Binding />
+                      <Binding Path="Revision" Source="{x:Static platform:ThemeSwatchSource.Instance}" />
+                    </MultiBinding>
+                  </Image.Source>
+                </Image>
+                <TextBlock VerticalAlignment="Center" Text="{Binding Converter={StaticResource EnumNameConverter}}" />
+              </StackPanel>
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ComboBox>
