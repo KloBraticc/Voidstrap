@@ -23,6 +23,8 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $sw = [System.Diagnostics.Stopwatch]::StartNew()
 $script:WallClockStart = [DateTime]::UtcNow
+$script:ClockWasWrong = $false
+$script:OutputSnapshot = @{}
 
 function Wait-BeforeClose {
     if ($NoPause -or $env:CI -or [Console]::IsInputRedirected) {
