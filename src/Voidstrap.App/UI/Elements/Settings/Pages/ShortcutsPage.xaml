@@ -1,4 +1,4 @@
-<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.ShortcutsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:appUi="clr-namespace:Voidstrap.UI" Title="ShortcutsPage" Scrollable="True">
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.ShortcutsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:appUi="clr-namespace:Voidstrap.UI" Title="ShortcutsPage" Scrollable="True" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -66,7 +66,7 @@
           <TextBlock Margin="0,2,0,0" FontSize="12" Text="Launch a game now or create a reusable desktop shortcut" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
         </StackPanel>
       </HeaderedContentControl.Header>
-      <Grid>
+      <Grid x:Name="GameShortcutPanel">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="140" />
           <ColumnDefinition Width="*" />
@@ -90,28 +90,60 @@
           <TextBlock Margin="0,2,0,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Use the place ID from the Roblox game URL." TextWrapping="Wrap" />
           <TextBlock Text="Game ID" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
           <ui:TextBox Margin="0,4,0,0" PlaceholderText="Example: 1818" Text="{Binding GameID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-          <Grid Margin="0,12,0,0">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel>
-              <TextBlock FontWeight="Medium" Text="Private server" />
-              <TextBlock Margin="0,2,12,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Use a private server share link or access code" TextWrapping="Wrap" />
-            </StackPanel>
-            <ui:ToggleSwitch Grid.Column="1" VerticalAlignment="Center" AutomationProperties.Name="Private server" IsChecked="{Binding IsPrivateServer, Mode=TwoWay}" />
-          </Grid>
-          <StackPanel Margin="0,10,0,0" Visibility="{Binding IsPrivateServer, Converter={StaticResource BoolToVisibilityConverter}}">
-            <TextBlock Text="Share link or access code" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-            <ui:TextBox Margin="0,4,0,0" PlaceholderText="Paste the complete private server link" Text="{Binding PrivateServerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-          </StackPanel>
+          <TabControl Margin="0,12,0,0">
+            <TabItem Header="{x:Static resources:Strings.Shortcuts_GameTab}">
+              <StackPanel Margin="16">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <StackPanel>
+                    <TextBlock FontWeight="Medium" Text="Private server" />
+                    <TextBlock Margin="0,2,12,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Use a private server share link or access code" TextWrapping="Wrap" />
+                  </StackPanel>
+                  <ui:ToggleSwitch Grid.Column="1" VerticalAlignment="Center" AutomationProperties.Name="Private server" IsChecked="{Binding IsPrivateServer, Mode=TwoWay}" />
+                </Grid>
+                <StackPanel Margin="0,10,0,0" Visibility="{Binding IsPrivateServer, Converter={StaticResource BoolToVisibilityConverter}}">
+                  <TextBlock Text="Share link or access code" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                  <ui:TextBox Margin="0,4,0,0" PlaceholderText="Paste the complete private server link" Text="{Binding PrivateServerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+              </StackPanel>
+            </TabItem>
+            <TabItem Header="{x:Static resources:Strings.Shortcuts_SubplaceTab}" IsSelected="{Binding IsSubplaceMode, Mode=TwoWay}">
+              <StackPanel Margin="16">
+                <TextBlock Text="{x:Static resources:Strings.Shortcuts_SubplaceDescription}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <TextBlock Margin="0,8,0,0" Text="{Binding SubplaceStatus}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <ComboBox Margin="0,8,0,0" HorizontalAlignment="Stretch" ItemsSource="{Binding Subplaces}" SelectedItem="{Binding SelectedSubplace, Mode=TwoWay}" IsEnabled="{Binding CanLoadSubplaces}" AutomationProperties.Name="{x:Static resources:Strings.Shortcuts_SubplaceTab}" ToolTip="{Binding SelectedSubplace.DisplayName}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                      <Grid Margin="0,2,16,2">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Width="32" Height="32" CornerRadius="4" ClipToBounds="True" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                          <Grid>
+                            <ui:SymbolIcon Symbol="Games24" FontSize="20" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                            <Image util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl}" Stretch="UniformToFill" />
+                          </Grid>
+                        </Border>
+                        <TextBlock Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center" Text="{Binding DisplayName}" TextTrimming="CharacterEllipsis" />
+                      </Grid>
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Margin="0,8,0,0" FontSize="12" Text="{x:Static resources:Strings.Shortcuts_SubplaceAccess}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              </StackPanel>
+            </TabItem>
+          </TabControl>
           <StackPanel Margin="0,10,0,0">
             <TextBlock Text="Server instance ID" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
             <ui:TextBox Margin="0,4,0,0" PlaceholderText="Optional public server instance" IsEnabled="{Binding IsPublicServer}" Text="{Binding GameInstanceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </StackPanel>
           <StackPanel Margin="0,16,0,0" Orientation="Horizontal">
-            <ui:Button x:Name="LaunchGameButton" Appearance="Primary" Icon="Play24" Content="Launch game" Click="BtnLaunchGame_Click" />
-            <ui:Button x:Name="CreateGameShortcutButton" Margin="8,0,0,0" Icon="Desktop24" Content="Create desktop shortcut" Click="BtnCreateShortcut_Click" />
+            <ui:Button x:Name="LaunchGameButton" Appearance="Primary" Icon="Play24" Content="Launch game" IsEnabled="{Binding CanLaunchGame}" Click="BtnLaunchGame_Click" />
+            <ui:Button x:Name="CreateGameShortcutButton" Margin="8,0,0,0" Icon="Desktop24" Content="Create desktop shortcut" IsEnabled="{Binding CanLaunchGame}" Click="BtnCreateShortcut_Click" />
           </StackPanel>
         </StackPanel>
       </Grid>

@@ -14,6 +14,7 @@ using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Voidstrap.Models.Entities;
+using Voidstrap.Resources;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Utility;
 
@@ -274,6 +275,113 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     private CancellationTokenSource? _loadCts;
 
+    private CancellationTokenSource? _subplaceLoadCts;
+    private IReadOnlyList<RobloxSubplaces.Place> _subplaces = Array.Empty<RobloxSubplaces.Place>();
+    private string _subplaceStatus = "";
+    private bool _subplacesLoading;
+    private bool _isSubplacesTabSelected;
+    private bool _subplaceViewActive;
+
+    public IReadOnlyList<RobloxSubplaces.Place> Subplaces
+    {
+        get => _subplaces;
+        private set { _subplaces = value; OnPropertyChanged(nameof(Subplaces)); }
+    }
+
+    public string SubplaceStatus
+    {
+        get => _subplaceStatus;
+        private set { _subplaceStatus = value; OnPropertyChanged(nameof(SubplaceStatus)); }
+    }
+
+    public bool SubplacesLoading
+    {
+        get => _subplacesLoading;
+        private set { _subplacesLoading = value; OnPropertyChanged(nameof(SubplacesLoading)); }
+    }
+
+    public bool IsSubplacesTabSelected
+    {
+        get => _isSubplacesTabSelected;
+        set
+        {
+            if (_isSubplacesTabSelected == value)
+                return;
+            _isSubplacesTabSelected = value;
+            OnPropertyChanged(nameof(IsSubplacesTabSelected));
+            if (value)
+                _ = LoadSubplacesAsync();
+        }
+    }
+
+    public void CancelSubplaceLoading()
+    {
+        CancellationTokenSource? previous = _subplaceLoadCts;
+        _subplaceLoadCts = null;
+        previous?.Cancel();
+        previous?.Dispose();
+        SubplacesLoading = false;
+    }
+
+    public void SetSubplaceViewActive(bool active)
+    {
+        _subplaceViewActive = active;
+        if (active)
+            _ = LoadSubplacesAsync();
+        else
+            CancelSubplaceLoading();
+    }
+
+    public async Task LoadSubplacesAsync()
+    {
+        if (!_subplaceViewActive || _subplaceLoadCts != null)
+            return;
+        LibraryGameEntry? game = SelectedGame;
+        Subplaces = Array.Empty<RobloxSubplaces.Place>();
+        SubplaceStatus = "";
+        if (game == null)
+            return;
+        using CancellationTokenSource current = new(TimeSpan.FromSeconds(30));
+        _subplaceLoadCts = current;
+        CancellationToken token = current.Token;
+        SubplacesLoading = true;
+        SubplaceStatus = Strings.Shortcuts_SubplaceLoading;
+        try
+        {
+            IReadOnlyList<RobloxSubplaces.Place> places = await RobloxSubplaces.GetAsync(_http, game.PlaceId, token, game.UniverseId);
+            if (!ReferenceEquals(_subplaceLoadCts, current) || !ReferenceEquals(SelectedGame, game))
+                return;
+            Subplaces = places;
+            SubplaceStatus = places.Count == 0 ? Strings.Shortcuts_SubplaceEmpty : "";
+        }
+        catch (OperationCanceledException)
+        {
+            if (ReferenceEquals(_subplaceLoadCts, current))
+                SubplaceStatus = Strings.Shortcuts_SubplaceTimeout;
+        }
+        catch (InvalidDataException)
+        {
+            if (ReferenceEquals(_subplaceLoadCts, current))
+                SubplaceStatus = Strings.Shortcuts_SubplaceFailed;
+        }
+        catch (Exception ex)
+        {
+            if (ReferenceEquals(_subplaceLoadCts, current))
+            {
+                SubplaceStatus = Strings.Shortcuts_SubplaceFailed;
+                App.Logger.WriteException("LibraryViewModel::LoadSubplaces", ex);
+            }
+        }
+        finally
+        {
+            if (ReferenceEquals(_subplaceLoadCts, current))
+            {
+                _subplaceLoadCts = null;
+                SubplacesLoading = false;
+            }
+        }
+    }
+
     private long _gamePassLoadVersion;
 
     public bool HasLoaded { get; private set; }
@@ -343,6 +451,8 @@ public class LibraryViewModel : INotifyPropertyChanged
             if (_selectedGame != value)
             {
                 _selectedGame = value;
+                CancelSubplaceLoading();
+                _ = LoadSubplacesAsync();
                 OnPropertyChanged(nameof(SelectedGame));
                 OnPropertyChanged(nameof(DashboardVisibility));
                 OnPropertyChanged(nameof(DetailVisibility));

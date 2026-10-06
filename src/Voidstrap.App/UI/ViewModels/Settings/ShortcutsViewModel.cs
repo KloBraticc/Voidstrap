@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Voidstrap.Models.SettingTasks;
 using Voidstrap.Resources;
+using Voidstrap.Utility;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
@@ -36,6 +39,133 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 	private bool _isIconVisible;
 
 	private string _displayGameName = "Enter a valid Game ID";
+	private bool _isSubplaceMode;
+	private bool _isLoadingSubplaces;
+	private CancellationTokenSource? _subplaceRequest;
+	private IReadOnlyList<RobloxSubplaces.Place> _subplaces = Array.Empty<RobloxSubplaces.Place>();
+	private RobloxSubplaces.Place? _selectedSubplace;
+	private string _subplaceStatus = Strings.Shortcuts_SubplaceInitial;
+
+	public bool IsSubplaceMode
+	{
+		get => _isSubplaceMode;
+		set
+		{
+			if (_isSubplaceMode == value)
+				return;
+			_isSubplaceMode = value;
+			GameInstanceId = null;
+			OnPropertyChanged();
+			OnPropertyChanged(nameof(IsPublicServer));
+			OnPropertyChanged(nameof(CanLaunchGame));
+			if (value)
+				_ = LoadSubplacesAsync();
+			else if (!value)
+				CancelSubplaceLoading();
+		}
+	}
+
+	public IReadOnlyList<RobloxSubplaces.Place> Subplaces
+	{
+		get => _subplaces;
+		private set { _subplaces = value; OnPropertyChanged(); }
+	}
+
+	public RobloxSubplaces.Place? SelectedSubplace
+	{
+		get => _selectedSubplace;
+		set
+		{
+			if (_selectedSubplace == value)
+				return;
+			_selectedSubplace = value;
+			GameInstanceId = null;
+			OnPropertyChanged();
+			OnPropertyChanged(nameof(CanLaunchGame));
+		}
+	}
+
+	public string SubplaceStatus
+	{
+		get => _subplaceStatus;
+		private set { _subplaceStatus = value; OnPropertyChanged(); }
+	}
+
+	public bool IsLoadingSubplaces
+	{
+		get => _isLoadingSubplaces;
+		private set { _isLoadingSubplaces = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanLoadSubplaces)); OnPropertyChanged(nameof(CanLaunchGame)); }
+	}
+
+	public bool CanLoadSubplaces => !IsLoadingSubplaces;
+	public bool CanLaunchGame => !IsSubplaceMode || (!IsLoadingSubplaces && SelectedSubplace != null);
+
+	public void CancelSubplaceLoading()
+	{
+		if (_subplaceRequest == null)
+			return;
+		_subplaceRequest.Cancel();
+		_subplaceRequest.Dispose();
+		_subplaceRequest = null;
+		IsLoadingSubplaces = false;
+		SubplaceStatus = Strings.Shortcuts_SubplaceRetry;
+	}
+
+	public async Task LoadSubplacesAsync(int delayMilliseconds = 0)
+	{
+		if (IsLoadingSubplaces)
+			return;
+		CancelSubplaceLoading();
+		SelectedSubplace = null;
+		Subplaces = Array.Empty<RobloxSubplaces.Place>();
+		string gameId = GameID?.Trim() ?? "";
+		if (!long.TryParse(gameId, NumberStyles.None, CultureInfo.InvariantCulture, out long placeId) || placeId <= 0)
+		{
+			SubplaceStatus = Strings.Shortcuts_SubplaceInvalidId;
+			return;
+		}
+		using CancellationTokenSource request = new(TimeSpan.FromSeconds(30));
+		_subplaceRequest = request;
+		CancellationToken token = request.Token;
+		IsLoadingSubplaces = true;
+		SubplaceStatus = Strings.Shortcuts_SubplaceLoading;
+		try
+		{
+			if (delayMilliseconds > 0)
+				await Task.Delay(delayMilliseconds, token);
+			IReadOnlyList<RobloxSubplaces.Place> places = await RobloxSubplaces.GetAsync(_httpClient, placeId, token);
+			if (!ReferenceEquals(_subplaceRequest, request) || !IsCurrentGame(gameId))
+				return;
+			Subplaces = places;
+			SubplaceStatus = places.Count == 0 ? Strings.Shortcuts_SubplaceEmpty : Strings.Shortcuts_SubplaceChoose;
+		}
+		catch (OperationCanceledException)
+		{
+			if (ReferenceEquals(_subplaceRequest, request))
+				SubplaceStatus = Strings.Shortcuts_SubplaceTimeout;
+		}
+		catch (InvalidDataException)
+		{
+			if (ReferenceEquals(_subplaceRequest, request))
+				SubplaceStatus = Strings.Shortcuts_SubplaceFailed;
+		}
+		catch (Exception ex)
+		{
+			if (ReferenceEquals(_subplaceRequest, request))
+			{
+				SubplaceStatus = Strings.Shortcuts_SubplaceFailed;
+				App.Logger.WriteException("Shortcuts::LoadSubplaces", ex);
+			}
+		}
+		finally
+		{
+			if (ReferenceEquals(_subplaceRequest, request))
+			{
+				_subplaceRequest = null;
+				IsLoadingSubplaces = false;
+			}
+		}
+	}
 
 	public bool IsStudioOptionVisible => App.IsStudioVisible;
 
@@ -74,7 +204,7 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public bool IsPublicServer => !IsPrivateServer;
+	public bool IsPublicServer => IsSubplaceMode || !IsPrivateServer;
 
 	public string PrivateServerCode
 	{
@@ -119,9 +249,16 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 			if (_gameID != value)
 			{
 				_gameID = value;
+				CancelSubplaceLoading();
+				SelectedSubplace = null;
+				Subplaces = Array.Empty<RobloxSubplaces.Place>();
+				SubplaceStatus = Strings.Shortcuts_SubplaceReload;
+				GameInstanceId = null;
 				App.Settings.Prop.LaunchGameID = value;
 				OnPropertyChanged(nameof(GameID));
 				_ = LoadGameIconAsync(value);
+				if (IsSubplaceMode)
+					_ = LoadSubplacesAsync(500);
 			}
 		}
 	}

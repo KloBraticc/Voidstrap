@@ -1,4 +1,4 @@
-﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.LibraryPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" Title="Library" Scrollable="False" Loaded="Page_Loaded">
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.LibraryPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="Library" Scrollable="False" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -650,6 +650,40 @@
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
+              </StackPanel>
+            </TabItem>
+            <TabItem IsSelected="{Binding IsSubplacesTabSelected, Mode=TwoWay}">
+              <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                  <ui:SymbolIcon Symbol="Games24" Margin="0,0,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                  <TextBlock Text="{x:Static resources:Strings.Library_SubplacesTab}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                </StackPanel>
+              </TabItem.Header>
+              <StackPanel Margin="16">
+                <ProgressBar Height="4" Margin="0,0,0,12" IsIndeterminate="True" Visibility="{Binding SubplacesLoading, Converter={StaticResource BoolToVis}}" />
+                <TextBlock Margin="0,0,0,12" Text="{Binding SubplaceStatus}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <ItemsControl ItemsSource="{Binding Subplaces}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Border Padding="12" Margin="0,0,0,8" CornerRadius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                          </Grid.ColumnDefinitions>
+                          <Border Width="48" Height="48" CornerRadius="6" ClipToBounds="True" Background="{DynamicResource ControlFillColorDefaultBrush}">
+                            <Grid>
+                              <ui:SymbolIcon Symbol="Games24" FontSize="24" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                              <Image util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl}" Stretch="UniformToFill" />
+                            </Grid>
+                          </Border>
+                          <TextBlock Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding DisplayName}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                        </Grid>
+                      </Border>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <TextBlock Margin="0,8,0,0" FontSize="12" Text="{x:Static resources:Strings.Shortcuts_SubplaceAccess}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </TabItem>
           </TabControl>

@@ -5284,5 +5284,21 @@ namespace Voidstrap.Resources {
         public static string Notifications_GameJoins => ResourceManager.GetString("Notifications.GameJoins", resourceCulture);
         public static string Notifications_App => ResourceManager.GetString("Notifications.App", resourceCulture);
         public static string Notifications_AppDescription => ResourceManager.GetString("Notifications.AppDescription", resourceCulture);
+        public static string Shortcuts_GameTab => ResourceManager.GetString("Shortcuts.GameTab", resourceCulture);
+        public static string Library_SubplacesTab => ResourceManager.GetString("Library.SubplacesTab", resourceCulture);
+        public static string Shortcuts_SubplaceTab => ResourceManager.GetString("Shortcuts.SubplaceTab", resourceCulture);
+        public static string Shortcuts_SubplaceDescription => ResourceManager.GetString("Shortcuts.SubplaceDescription", resourceCulture);
+        public static string Shortcuts_LoadSubplaces => ResourceManager.GetString("Shortcuts.LoadSubplaces", resourceCulture);
+        public static string Shortcuts_SubplaceAccess => ResourceManager.GetString("Shortcuts.SubplaceAccess", resourceCulture);
+        public static string Shortcuts_SubplaceInitial => ResourceManager.GetString("Shortcuts.SubplaceInitial", resourceCulture);
+        public static string Shortcuts_SubplaceRetry => ResourceManager.GetString("Shortcuts.SubplaceRetry", resourceCulture);
+        public static string Shortcuts_SubplaceInvalidId => ResourceManager.GetString("Shortcuts.SubplaceInvalidId", resourceCulture);
+        public static string Shortcuts_SubplaceLoading => ResourceManager.GetString("Shortcuts.SubplaceLoading", resourceCulture);
+        public static string Shortcuts_SubplaceEmpty => ResourceManager.GetString("Shortcuts.SubplaceEmpty", resourceCulture);
+        public static string Shortcuts_SubplaceChoose => ResourceManager.GetString("Shortcuts.SubplaceChoose", resourceCulture);
+        public static string Shortcuts_SubplaceTimeout => ResourceManager.GetString("Shortcuts.SubplaceTimeout", resourceCulture);
+        public static string Shortcuts_SubplaceFailed => ResourceManager.GetString("Shortcuts.SubplaceFailed", resourceCulture);
+        public static string Shortcuts_SubplaceReload => ResourceManager.GetString("Shortcuts.SubplaceReload", resourceCulture);
+        public static string Shortcuts_SubplaceRequired => ResourceManager.GetString("Shortcuts.SubplaceRequired", resourceCulture);
     }
 }

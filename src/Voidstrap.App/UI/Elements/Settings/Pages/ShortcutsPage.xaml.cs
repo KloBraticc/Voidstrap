@@ -73,6 +73,8 @@ public partial class ShortcutsPage : UiPage{
 			startInfo.ArgumentList.Add("-player");
 			startInfo.ArgumentList.Add(launch.Value.LaunchUrl);
 			using Process? process = Process.Start(startInfo);
+			if (process == null)
+				throw new InvalidOperationException("The launcher could not be started.");
 			Application.Current.Shutdown();
 		}
 		catch (Exception ex)
@@ -95,7 +97,7 @@ public partial class ShortcutsPage : UiPage{
 		if (launch is null)
 			return;
 		SaveGameSettings();
-		string displayName = SafeShortcutName(shortcutsViewModel.DisplayGameName);
+		string displayName = SafeShortcutName(shortcutsViewModel.IsSubplaceMode ? shortcutsViewModel.SelectedSubplace?.DisplayName : shortcutsViewModel.DisplayGameName);
 		string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 		string shortcutPath = Path.Combine(folderPath, displayName + (Voidstrap.Utility.Platform.IsLinux ? ".desktop" : ".lnk"));
 		string executable = File.Exists(Paths.Application) ? Paths.Application : Paths.LaunchExecutable;
@@ -139,7 +141,16 @@ public partial class ShortcutsPage : UiPage{
 	{
 		ShortcutsViewModel viewModel = (ShortcutsViewModel)base.DataContext;
 		string gameId = viewModel.GameID?.Trim() ?? "";
-		if (viewModel.IsPrivateServer)
+		if (viewModel.IsSubplaceMode)
+		{
+			if (viewModel.IsLoadingSubplaces || viewModel.SelectedSubplace == null || !viewModel.Subplaces.Contains(viewModel.SelectedSubplace))
+			{
+				Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Shortcuts_SubplaceRequired);
+				return null;
+			}
+			gameId = viewModel.SelectedSubplace.Id.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		}
+		if (viewModel.IsPrivateServer && !viewModel.IsSubplaceMode)
 		{
 			(string placeId, string code) = await ResolvePrivateServerAsync(gameId, viewModel.PrivateServerCode);
 			if (string.IsNullOrEmpty(placeId) || string.IsNullOrEmpty(code))
@@ -201,8 +212,19 @@ public partial class ShortcutsPage : UiPage{
 
 	private void SetGameActionsEnabled(bool enabled)
 	{
-		LaunchGameButton.IsEnabled = enabled;
-		CreateGameShortcutButton.IsEnabled = enabled;
+		GameShortcutPanel.IsEnabled = enabled;
+	}
+
+	private async void Page_Loaded(object sender, RoutedEventArgs e)
+	{
+		ShortcutsViewModel viewModel = (ShortcutsViewModel)DataContext;
+		if (viewModel.IsSubplaceMode)
+			await viewModel.LoadSubplacesAsync();
+	}
+
+	private void Page_Unloaded(object sender, RoutedEventArgs e)
+	{
+		((ShortcutsViewModel)DataContext).CancelSubplaceLoading();
 	}
 
 	private static string Describe(Exception ex)

@@ -2534,4 +2534,20 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="ServerInfo.Hint.Full" xml:space="preserve">
     <value>This server is full. Roblox leaves full servers out of the public server list, so the count is shown as full until a spot opens.</value>
   </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve"><value>Game</value></data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve"><value>Subplace</value></data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve"><value>Find the other places in this experience.</value></data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve"><value>Load subplaces</value></data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve"><value>The creator must allow direct joins. Some subplaces require an in game teleport.</value></data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve"><value>Enter a Game ID to load its subplaces automatically.</value></data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve"><value>Reopen this tab to try again.</value></data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve"><value>Enter a valid numeric Game ID.</value></data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve"><value>Loading subplaces...</value></data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve"><value>This experience has no listed subplaces.</value></data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve"><value>Choose a subplace below.</value></data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve"><value>The request timed out. Reopen this tab to try again.</value></data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve"><value>Subplaces could not be loaded. Check the Game ID and connection, then try again.</value></data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve"><value>Subplaces load automatically when you enter a valid Game ID.</value></data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve"><value>Wait for the subplaces to load, then choose one before continuing.</value></data>
+  <data name="Library.SubplacesTab" xml:space="preserve"><value>Subplaces</value></data>
 </root>
