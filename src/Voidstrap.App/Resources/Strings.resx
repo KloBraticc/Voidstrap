@@ -2531,4 +2531,7 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
     <value>Could not reach Roblox. Showing the count from {0} ago, trying again in {1}.</value>
   </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>This server is full. Roblox leaves full servers out of the public server list, so the count is shown as full until a spot opens.</value>
+  </data>
 </root>

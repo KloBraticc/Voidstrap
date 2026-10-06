@@ -623,6 +623,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		return snapshot.State switch
 		{
 			ServerPlayerCountState.Live => snapshot.UpdatedUtc is { } live && now - live >= TimeSpan.FromMinutes(1) ? string.Format(Strings.ServerInfo_Hint_Updated, age) : string.Empty,
+			ServerPlayerCountState.Full => Strings.ServerInfo_Hint_Full,
 			ServerPlayerCountState.RateLimited => stale ? string.Format(Strings.ServerInfo_Hint_RateLimitedStale, age, retry) : string.Format(Strings.ServerInfo_Hint_RateLimited, retry),
 			ServerPlayerCountState.NotListed => stale ? string.Format(Strings.ServerInfo_Hint_NotListedStale, age) : string.Format(Strings.ServerInfo_Hint_NotListed, retry),
 			ServerPlayerCountState.PrivateNotListed => Strings.ServerInfo_Hint_PrivateNotListed,

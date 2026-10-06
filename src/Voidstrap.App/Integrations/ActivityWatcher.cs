@@ -343,11 +343,13 @@ public partial class ActivityWatcher : IDisposable
 
 	private static readonly TimeSpan ServerMissingLifetime = TimeSpan.FromSeconds(90);
 
+	private static readonly TimeSpan ServerFullLifetime = TimeSpan.FromSeconds(60);
+
 	private static readonly TimeSpan ServerErrorLifetime = TimeSpan.FromSeconds(30);
 
 	private static readonly TimeSpan GameTotalLifetime = TimeSpan.FromSeconds(60);
 
-	private static readonly TimeSpan ServerPageSpacing = TimeSpan.FromMilliseconds(1200);
+	private static readonly TimeSpan ServerPageSpacing = TimeSpan.FromMilliseconds(2000);
 
 	private static readonly TimeSpan ServerListMinimumBackoff = TimeSpan.FromSeconds(10);
 
@@ -384,6 +386,7 @@ public partial class ActivityWatcher : IDisposable
 	private enum ServerLookupOutcome
 	{
 		Found,
+		Full,
 		NotListed,
 		SignedOut,
 		Reserved,
@@ -524,6 +527,10 @@ public partial class ActivityWatcher : IDisposable
 				snapshot = new ServerPlayerSnapshot(ServerPlayerCountState.Live, playing, max, gameTotal, now, null);
 				next = now + ServerFoundLifetime;
 				break;
+			case ServerLookupOutcome.Full:
+				next = now + ServerFullLifetime;
+				snapshot = new ServerPlayerSnapshot(ServerPlayerCountState.Full, max, max, gameTotal, now, next);
+				break;
 			case ServerLookupOutcome.NotListed:
 				next = now + ServerMissingLifetime;
 				snapshot = new ServerPlayerSnapshot(data.ServerType == ServerType.Private ? ServerPlayerCountState.PrivateNotListed : ServerPlayerCountState.NotListed, stalePlaying, max, gameTotal, staleUpdated, next);
@@ -563,7 +570,7 @@ public partial class ActivityWatcher : IDisposable
 		if (ServerListRateLimited)
 			return (ServerLookupOutcome.RateLimited, null);
 		using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.Token);
-		cts.CancelAfter(TimeSpan.FromSeconds(25L));
+		cts.CancelAfter(TimeSpan.FromSeconds(40L));
 		string baseUrl = $"https://games.roblox.com/v1/games/{placeId}/servers/Public?limit=100&excludeFullGames=false&sortOrder=";
 		int requests = 0;
 		bool anyAnswered = false;
@@ -619,29 +626,37 @@ public partial class ActivityWatcher : IDisposable
 				return (ServerLookupOutcome.Found, server);
 		}
 		string[] orders = previous is { Playing: > 0, MaxPlayers: > 0 } last && last.Playing * 2 < last.MaxPlayers ? ["Asc", "Desc"] : ["Desc", "Asc"];
-		string?[] cursors = new string?[orders.Length];
-		bool[] exhausted = new bool[orders.Length];
-		for (int page = 0; page < MaxPublicServerPages && !(exhausted[0] && exhausted[1]); page++)
+		int budget = MaxPublicServerPages;
+		foreach (string order in orders)
 		{
-			int order = exhausted[page % 2] ? 1 - page % 2 : page % 2;
-			string? cursor = cursors[order];
-			(bool limited, ServerListResponse? result) = await FetchAsync(orders[order], cursor).ConfigureAwait(false);
-			if (limited)
-				return (ServerLookupOutcome.RateLimited, null);
-			if (result?.Data == null)
+			string? cursor = null;
+			bool complete = false;
+			while (budget > 0)
 			{
-				exhausted[order] = true;
-				continue;
+				budget--;
+				(bool limited, ServerListResponse? result) = await FetchAsync(order, cursor).ConfigureAwait(false);
+				if (limited)
+					return (ServerLookupOutcome.RateLimited, null);
+				if (result?.Data == null)
+					break;
+				if (Match(result) is { } server)
+				{
+					Remember(order, cursor);
+					return (ServerLookupOutcome.Found, server);
+				}
+				if (string.IsNullOrEmpty(result.NextPageCursor) || result.Data.Count == 0)
+				{
+					complete = true;
+					break;
+				}
+				cursor = result.NextPageCursor;
 			}
-			if (Match(result) is { } server)
+			if (complete)
 			{
-				Remember(orders[order], cursor);
-				return (ServerLookupOutcome.Found, server);
+				lock (_serverLookupLock)
+					_serverPageHint = null;
+				return (ServerLookupOutcome.Full, null);
 			}
-			if (string.IsNullOrEmpty(result.NextPageCursor) || result.Data.Count == 0)
-				exhausted[order] = true;
-			else
-				cursors[order] = result.NextPageCursor;
 		}
 		lock (_serverLookupLock)
 			_serverPageHint = null;

@@ -1328,6 +1328,7 @@ public partial class App : Application
 		TimedLoad("Roblox state", () => RobloxState.Load());
 		TimedLoad("Settings", () => Settings.Load());
 		ResetWindowBackdropOnce();
+		ResetServerInfoInTitleOnce();
 		TimedLoad("FastFlags", () => FastFlags.Load(alertFailure: false));
 	}
 
@@ -1348,6 +1349,18 @@ public partial class App : Application
 		Settings.Prop.WindowBackdropResetVersion = WindowBackdropResetVersion;
 		Settings.Save();
 		Logger.WriteLine("App::ResetWindowBackdropOnce", "Window backdrop reset to the default " + Settings.Prop.WindowBackdrop);
+	}
+
+	private const int ServerInfoInTitleResetVersion = 1;
+
+	private static void ResetServerInfoInTitleOnce()
+	{
+		if (Settings.Prop.ServerInfoInTitleResetVersion >= ServerInfoInTitleResetVersion)
+			return;
+		Settings.Prop.ShowServerInfoInTitle = false;
+		Settings.Prop.ServerInfoInTitleResetVersion = ServerInfoInTitleResetVersion;
+		Settings.Save();
+		Logger.WriteLine("App::ResetServerInfoInTitleOnce", "Add the server info for the Roblox window title reset to off");
 	}
 
 	private void InitializeServices()

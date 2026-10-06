@@ -341,7 +341,8 @@ namespace Voidstrap.Models.Persistable
         public bool RpcAutoTranslate { get; set; } = false;
         public string? RpcIdleIcon { get; set; } = "blue";
         public int ServerMatchmakerMaxRetries { get; set; } = 3;
-        public bool ShowServerInfoInTitle { get; set; } = true;
+        public bool ShowServerInfoInTitle { get; set; } = false;
+        public int ServerInfoInTitleResetVersion { get; set; }
         public bool SpoofOthersApplyIngame { get; set; } = false;
         public string SpoofOthersName { get; set; } = "";
         public bool SpoofOthersVerified { get; set; } = false;

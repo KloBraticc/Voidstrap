@@ -91,6 +91,8 @@ namespace Voidstrap.Resources {
 
         public static string ServerInfo_PlayerCount_InGame => ResourceManager.GetString("ServerInfo.PlayerCount.InGame", resourceCulture);
 
+        public static string ServerInfo_Hint_Full => ResourceManager.GetString("ServerInfo.Hint.Full", resourceCulture);
+
         public static string ServerInfo_Hint_Updated => ResourceManager.GetString("ServerInfo.Hint.Updated", resourceCulture);
 
         public static string ServerInfo_Hint_RateLimited => ResourceManager.GetString("ServerInfo.Hint.RateLimited", resourceCulture);

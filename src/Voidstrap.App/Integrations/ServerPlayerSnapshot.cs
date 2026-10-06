@@ -6,6 +6,7 @@ public enum ServerPlayerCountState
 {
 	NotInGame,
 	Live,
+	Full,
 	NotListed,
 	PrivateNotListed,
 	PrivateSignedOut,
