@@ -1965,6 +1965,16 @@ public partial class App : Application
 		{
 			action();
 		}
+		catch (Exception ex) when (ex is System.IO.FileNotFoundException or System.IO.FileLoadException)
+		{
+			try
+			{
+				Logger.WriteLine("App::OnExit", "Skipped a shutdown step because a library could not be loaded, usually because Voidstrap was just updated while running: " + ex.Message);
+			}
+			catch
+			{
+			}
+		}
 		catch (Exception ex)
 		{
 			try

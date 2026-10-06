@@ -479,10 +479,40 @@ public static class GithubUpdater
             }
         }
         File.Copy(exePath, replacementExe, true);
+        LoadBundledAssemblies();
         File.Replace(replacementExe, currentExe, backupExe, true);
         UpdateInstalledMetadata(tag);
 
         return true;
+    }
+
+    private static void LoadBundledAssemblies()
+    {
+        System.Reflection.Assembly? entry = System.Reflection.Assembly.GetEntryAssembly();
+        if (entry == null)
+            return;
+        HashSet<string> seen = new(StringComparer.OrdinalIgnoreCase);
+        Queue<System.Reflection.Assembly> pending = new();
+        pending.Enqueue(entry);
+        int loaded = 0;
+        while (pending.Count > 0)
+        {
+            System.Reflection.Assembly assembly = pending.Dequeue();
+            foreach (System.Reflection.AssemblyName reference in assembly.GetReferencedAssemblies())
+            {
+                if (reference.Name == null || !seen.Add(reference.Name))
+                    continue;
+                try
+                {
+                    pending.Enqueue(System.Reflection.Assembly.Load(reference));
+                    loaded++;
+                }
+                catch (Exception ex) when (ex is FileNotFoundException or FileLoadException or BadImageFormatException)
+                {
+                }
+            }
+        }
+        App.Logger.WriteLine("GitHubUpdater", "Loaded " + loaded + " libraries before replacing the running file, so shutting down after the update cannot fail");
     }
 
     private static void UpdateInstalledMetadata(string tag)
