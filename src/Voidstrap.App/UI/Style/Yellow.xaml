@@ -1,17 +1,27 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base">
-  <SolidColorBrush x:Key="NewTextEditorBackground" Color="#E6221E08" />
-  <SolidColorBrush x:Key="NewTextEditorForeground" Color="#FFF6F1DD" />
-  <SolidColorBrush x:Key="NewTextEditorLink" Color="#FFE8C83A" />
-  <SolidColorBrush x:Key="PrimaryBackgroundColor" Color="#E61A1606" />
-  <SolidColorBrush x:Key="PrimaryForegroundBrush" Color="#FFF6F1DD" />
-  <Color x:Key="ControlFillColorDefault">#E61A1606</Color>
-  <Color x:Key="WindowBackgroundColorPrimary">#E6221E08</Color>
-  <Color x:Key="ComboBoxPopupAcrylicBackground">#FF221E08</Color>
-  <Color x:Key="WindowBackgroundColorSecondary">#E6544A10</Color>
-  <Color x:Key="WindowBackgroundColorThird">#E61A1606</Color>
-  <Color x:Key="WindowBackgroundColorTertiary">#E61A1606</Color>
-  <Color x:Key="WindowBackgroundColorPrimaryWithOpacity">#80221E08</Color>
-  <Color x:Key="WindowBackgroundColorSecondaryWithOpacity">#80544A10</Color>
-  <Color x:Key="WindowBackgroundColorThirdWithOpacity">#801A1606</Color>
-  <Color x:Key="WindowBackgroundColorTertiaryWithOpacity">#801A1606</Color>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <SolidColorBrush x:Key="NewTextEditorBackground" Color="#E66D5509" />
+  <SolidColorBrush x:Key="NewTextEditorForeground" Color="#FFFBF8EE" />
+  <SolidColorBrush x:Key="NewTextEditorLink" Color="#FFF4D571" />
+  <SolidColorBrush x:Key="PrimaryBackgroundColor" Color="#E65A4607" />
+  <SolidColorBrush x:Key="PrimaryForegroundBrush" Color="#FFFBF8EE" />
+  <Color x:Key="ControlFillColorDefault">#16F7E3A1</Color>
+  <Color x:Key="WindowBackgroundColorPrimary">#E66D5509</Color>
+  <Color x:Key="ComboBoxPopupAcrylicBackground">#F55C4A0F</Color>
+  <Color x:Key="WindowBackgroundColorSecondary">#E6B68D07</Color>
+  <Color x:Key="WindowBackgroundColorThird">#E6554307</Color>
+  <Color x:Key="WindowBackgroundColorTertiary">#E6554307</Color>
+  <Color x:Key="WindowBackgroundColorPrimaryWithOpacity">#806D5509</Color>
+  <Color x:Key="WindowBackgroundColorSecondaryWithOpacity">#80B68D07</Color>
+  <Color x:Key="WindowBackgroundColorThirdWithOpacity">#80554307</Color>
+  <Color x:Key="WindowBackgroundColorTertiaryWithOpacity">#80554307</Color>
+  <SolidColorBrush x:Key="TextFillColorPrimaryBrush" Color="#FFFBF8EE" />
+  <SolidColorBrush x:Key="TextFillColorSecondaryBrush" Color="#D0EDE7D4" />
+  <SolidColorBrush x:Key="TextFillColorTertiaryBrush" Color="#99DBD4BD" />
+  <SolidColorBrush x:Key="ControlFillColorDefaultBrush" Color="#14F7E3A1" />
+  <SolidColorBrush x:Key="ControlFillColorSecondaryBrush" Color="#22F8E6AA" />
+  <SolidColorBrush x:Key="SubtleFillColorSecondaryBrush" Color="#14F8E6AA" />
+  <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush" Color="#1CF9EAB8" />
+  <SolidColorBrush x:Key="CardBackgroundFillColorDefaultBrush" Color="#10F7E3A1" />
+  <SolidColorBrush x:Key="CardStrokeColorDefaultBrush" Color="#30181302" />
+  <SolidColorBrush x:Key="ControlElevationBorderBrush" Color="#22F9EAB8" />
 </ResourceDictionary>
