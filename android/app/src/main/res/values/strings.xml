@@ -540,6 +540,15 @@
     <string name="shizuku_too_old">This Shizuku version is too old. Update Shizuku and try again.</string>
     <string name="settings_root">Use root</string>
     <string name="settings_void_rpc">Voidstrap RPC</string>
+    <string name="settings_background">Background</string>
+    <string name="settings_background_body">Shows your own image behind every page.</string>
+    <string name="settings_background_none">None</string>
+    <string name="settings_background_custom">Custom image</string>
+    <string name="settings_background_change">Change image</string>
+    <string name="settings_background_change_body">Pick a different image from your photos.</string>
+    <string name="settings_background_dim">Background dim</string>
+    <string name="settings_background_dim_body">Fades the image so text stays easy to read.</string>
+    <string name="settings_background_invalid">That image could not be used. Pick a JPG, PNG or WEBP photo.</string>
     <string name="settings_void_rpc_body">Displays Voidstrap\'s Discord RPC.</string>
     <string name="settings_root_body">Apply FastFlags with root. Your root manager asks for permission when you turn this on.</string>
     <string name="settings_root_missing">Voidstrap ran su and nothing answered, so this device has no root. An app that only grants adb or shell access is not root, and Voidstrap does not use one. Only mods need root. FastFlags and activity tracking do not, so set up the Voidstrap helper instead. If you really are rooted, open your root manager, make sure it is running, then try again.</string>

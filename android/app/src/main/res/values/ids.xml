@@ -5,4 +5,5 @@
     <item name="vs_no_translate" type="id" />
     <item name="app_font" type="id" />
     <item name="app_font_root" type="id" />
+    <item name="app_background" type="id" />
 </resources>

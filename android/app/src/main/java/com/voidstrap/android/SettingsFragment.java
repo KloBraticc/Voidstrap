@@ -48,6 +48,7 @@ public final class SettingsFragment extends Page {
     private ActivityResultLauncher<String> notifyPermission;
     private ActivityResultLauncher<String[]> fontLauncher;
     private ActivityResultLauncher<String[]> updateLauncher;
+    private ActivityResultLauncher<androidx.activity.result.PickVisualMediaRequest> backgroundLauncher;
     private LinearLayout appearance;
     private final List<MaterialSwitch> notifySwitches = new ArrayList<>();
     private TextView notifyStatus;
@@ -64,6 +65,7 @@ public final class SettingsFragment extends Page {
         exportLauncher = registerForActivityResult(new ActivityResultContracts.CreateDocument("application/json"), this::onExport);
         importLauncher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), this::onImport);
         fontLauncher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), this::onFont);
+        backgroundLauncher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), this::onBackground);
         updateLauncher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), uri -> {
             if (uri != null && isAdded()) Updater.openLocal(host(), uri);
         });
@@ -185,11 +187,75 @@ public final class SettingsFragment extends Page {
             store.putSetting(AppFont.SETTING, AppFont.FAMILIES[i]);
             ThemeFade.restart(requireActivity(), R.id.nav_settings);
         });
+        buildBackground();
         MaterialSwitch voidRpc = new MaterialSwitch(requireContext());
         voidRpc.setChecked(AppPresence.enabled(store));
         voidRpc.setContentDescription(getString(R.string.settings_void_rpc));
         SettingRows.row(appearance, getString(R.string.settings_void_rpc), getString(R.string.settings_void_rpc_body), voidRpc).setOnClickListener(x -> voidRpc.toggle());
         voidRpc.setOnCheckedChangeListener((b, on) -> store.putSetting(AppPresence.SETTING, on ? "1" : "0"));
+    }
+
+    private void buildBackground() {
+        boolean on = AppBackground.enabled(requireContext());
+        CharSequence[] labels = {getString(R.string.settings_background_none), getString(R.string.settings_background_custom)};
+        SettingRows.choice(appearance, getString(R.string.settings_background), getString(R.string.settings_background_body), labels, on ? 1 : 0, i -> {
+            if (i == 1) {
+                pickBackground();
+                return;
+            }
+            store.putSetting(AppBackground.SETTING, "");
+            AppBackground.remove(requireContext());
+            AppBackground.apply(requireActivity());
+            buildAppearance();
+        });
+        if (!on) return;
+        SettingRows.row(appearance, getString(R.string.settings_background_change), getString(R.string.settings_background_change_body), null).setOnClickListener(x -> pickBackground());
+        com.google.android.material.slider.Slider dim = new com.google.android.material.slider.Slider(requireContext());
+        dim.setValueFrom(0f);
+        dim.setValueTo(90f);
+        dim.setStepSize(5f);
+        dim.setValue(Math.round(AppBackground.dim(requireContext()) / 5f) * 5f);
+        dim.setLabelFormatter(value -> Math.round(value) + "%");
+        dim.setContentDescription(getString(R.string.settings_background_dim));
+        dim.setMinimumWidth(Ui.dp(requireContext(), 200));
+        dim.addOnChangeListener((slider, value, fromUser) -> {
+            if (fromUser) AppBackground.setDim(requireActivity(), Math.round(value));
+        });
+        dim.addOnSliderTouchListener(new com.google.android.material.slider.Slider.OnSliderTouchListener() {
+            @Override
+            public void onStartTrackingTouch(@NonNull com.google.android.material.slider.Slider slider) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(@NonNull com.google.android.material.slider.Slider slider) {
+                store.putSetting(AppBackground.DIM, String.valueOf(Math.round(slider.getValue())));
+            }
+        });
+        SettingRows.row(appearance, getString(R.string.settings_background_dim), getString(R.string.settings_background_dim_body), dim);
+    }
+
+    private void pickBackground() {
+        backgroundLauncher.launch(new androidx.activity.result.PickVisualMediaRequest.Builder()
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                .build());
+    }
+
+    private void onBackground(Uri uri) {
+        if (uri == null) {
+            if (getView() != null) buildAppearance();
+            return;
+        }
+        Context app = requireContext().getApplicationContext();
+        store.work.execute(() -> {
+            boolean ok = AppBackground.install(app, uri);
+            store.main.post(() -> {
+                if (!isAdded() || getView() == null) return;
+                if (ok) store.putSetting(AppBackground.SETTING, AppBackground.CUSTOM);
+                else Ui.say(host(), R.string.settings_background_invalid);
+                AppBackground.apply(requireActivity());
+                buildAppearance();
+            });
+        });
     }
 
     private void onFont(Uri uri) {

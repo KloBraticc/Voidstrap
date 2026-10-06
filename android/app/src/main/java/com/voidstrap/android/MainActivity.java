@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         if (titleLibrary != null) titleLibrary.setOnClickListener(v -> show(R.id.nav_library));
         setupBar();
         applyInsets();
+        AppBackground.apply(this);
         getOnBackPressedDispatcher().addCallback(this, editorBack);
         select(current);
         if (saved == null && (getIntent().getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0) handle(getIntent());
