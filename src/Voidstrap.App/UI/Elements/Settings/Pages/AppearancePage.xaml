@@ -386,6 +386,9 @@
           <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Language_AutoTranslateLanguage}" Description="{x:Static resources:Strings.Menu_Appearance_Language_AutoTranslateLanguage_Description}" Visibility="{Binding AutoTranslateVisibility, Mode=OneWay}">
             <ComboBox Width="200" Padding="10,5,10,5" ItemsSource="{Binding AutoTranslateLanguages, Mode=OneTime}" SelectedItem="{Binding SelectedAutoTranslateLanguage, Mode=TwoWay}" />
           </controls:OptionControl>
+          <controls:OptionControl Header="Discord status language" Description="Translates your Discord status into another language. Game names, creators and places stay as they are.">
+            <ComboBox Width="200" Padding="10,5,10,5" ItemsSource="{Binding DiscordRpcLanguages, Mode=OneTime}" SelectedItem="{Binding SelectedDiscordRpcLanguage, Mode=TwoWay}" />
+          </controls:OptionControl>
         </StackPanel>
       </TabItem>
       <TabItem>

@@ -276,7 +276,7 @@ namespace Voidstrap.Utility
                     Assets = new Assets
                     {
                         LargeImageKey = icon,
-                        LargeImageText = "Voidstrap"
+                        LargeImageText = Voidstrap.Utility.Branding.Name
                     }
                 });
                 lock (Sync)

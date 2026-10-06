@@ -621,7 +621,7 @@ public sealed partial class StudioRichPresence : IDisposable
 		List<string> parts = [];
 		if (settings.StudioRpcShowState && _mode.Length > 0 && !details.Contains(_mode, StringComparison.OrdinalIgnoreCase))
 		{
-			parts.Add(_mode);
+			parts.Add(Voidstrap.Utility.RpcText.Mark(_mode));
 		}
 		if (settings.StudioRpcShowScript && _script.Length > 0)
 		{
@@ -629,11 +629,11 @@ public sealed partial class StudioRichPresence : IDisposable
 		}
 		if (parts.Count == 0)
 		{
-			parts.Add(startPage
+			parts.Add(Voidstrap.Utility.RpcText.Mark(startPage
 				? "On the start page"
 				: linux
 					? _mode == "Playtesting" || _mode == "Testing" ? "Testing the experience" : "Building the experience"
-					: _script.Length == 0 ? "Editing UI" : "In Roblox Studio");
+					: _script.Length == 0 ? "Editing UI" : "In Roblox Studio"));
 		}
 		string state = string.Join(", ", parts);
 		string largeImage = showPlace && _iconUrl.Length > 0 ? _iconUrl : StudioIconUrl;
@@ -641,10 +641,10 @@ public sealed partial class StudioRichPresence : IDisposable
 		List<DiscordRPC.Button> buttons = [];
 		if (showPlace && _placeId > 0)
 		{
-			buttons.Add(new DiscordRPC.Button { Label = "View Game", Url = $"https://www.roblox.com/games/{_placeId}" });
+			buttons.Add(new DiscordRPC.Button { Label = Voidstrap.Utility.RpcText.Mark("View game"), Url = $"https://www.roblox.com/games/{_placeId}" });
 		}
-		buttons.Add(new DiscordRPC.Button { Label = "Get Voidstrap", Url = App.ProjectDownloadLink });
-		string signature = string.Join("|", details, state, largeImage, largeText, _placeId);
+		buttons.Add(new DiscordRPC.Button { Label = Voidstrap.Utility.RpcText.Mark("Get") + " " + Voidstrap.Utility.Branding.Name, Url = App.ProjectDownloadLink });
+		string signature = string.Join("|", Voidstrap.Utility.RpcText.Render(details), Voidstrap.Utility.RpcText.Render(state), largeImage, largeText, _placeId);
 		if (signature == _lastSignature)
 		{
 			return;
@@ -678,10 +678,10 @@ public sealed partial class StudioRichPresence : IDisposable
 	{
 		return mode switch
 		{
-			"Playtesting" => "Playtesting " + place,
-			"Testing" => "Testing " + place,
-			"Team Create" => "Editing " + place + " in Team Create",
-			_ => "Editing " + place
+			"Playtesting" => Voidstrap.Utility.RpcText.Mark("Playtesting") + " " + place,
+			"Testing" => Voidstrap.Utility.RpcText.Mark("Testing") + " " + place,
+			"Team Create" => Voidstrap.Utility.RpcText.Mark("Editing") + " " + place + " " + Voidstrap.Utility.RpcText.Mark("in Team Create"),
+			_ => Voidstrap.Utility.RpcText.Mark("Editing") + " " + place
 		};
 	}
 

@@ -163,11 +163,11 @@ public partial class ExtensionPage : UiPage
 		OpenDetail();
 		Voidstrap.Integrations.VoidstrapPresence.Set(new Voidstrap.Integrations.VoidstrapPresenceContext(
 			nameof(ExtensionPage),
-			"Viewing " + asset.Name,
-			!string.IsNullOrWhiteSpace(asset.Summary) ? asset.Summary : string.IsNullOrWhiteSpace(asset.Author) ? "A Voidstrap extension" : "Made by " + asset.Author,
+			Voidstrap.Utility.RpcText.Mark("Viewing") + " " + asset.Name,
+			!string.IsNullOrWhiteSpace(asset.Summary) ? Voidstrap.Utility.RpcText.Mark(asset.Summary) : string.IsNullOrWhiteSpace(asset.Author) ? Voidstrap.Utility.RpcText.Mark("A Voidstrap extension") : Voidstrap.Utility.RpcText.Mark("Made by") + " " + asset.Author,
 			Voidstrap.Integrations.VoidstrapPresence.WebIcon(asset.Icon, asset.Id == "swifttunnel" ? "https://github.com/Swift-tunnel.png" : Voidstrap.Utility.Branding.RpcLogoUrl),
-			asset.Name + (string.IsNullOrWhiteSpace(asset.Author) ? "" : " by " + asset.Author),
-			"View extension",
+			asset.Name + (string.IsNullOrWhiteSpace(asset.Author) ? "" : " " + Voidstrap.Utility.RpcText.Mark("by") + " " + asset.Author),
+			Voidstrap.Utility.RpcText.Mark("View extension"),
 			asset.Source));
 	}
 

@@ -785,6 +785,25 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
     public List<string> AutoTranslateLanguages => TranslationService.AvailableLanguages.Values.OrderBy((string x) => x).ToList();
 
+    private const string DiscordLanguageOff = "System Default";
+
+    public List<string> DiscordRpcLanguages => [DiscordLanguageOff, .. TranslationService.AvailableLanguages.Values.OrderBy((string x) => x)];
+
+    public string SelectedDiscordRpcLanguage
+    {
+        get => TranslationService.AvailableLanguages.TryGetValue(App.Settings.Prop.DiscordRpcLanguage ?? "", out string? name) ? name : DiscordLanguageOff;
+        set
+        {
+            string code = TranslationService.AvailableLanguages.FirstOrDefault((KeyValuePair<string, string> kv) => kv.Value == value).Key ?? "";
+            if (string.Equals(App.Settings.Prop.DiscordRpcLanguage ?? "", code, StringComparison.Ordinal))
+                return;
+            App.Settings.Prop.DiscordRpcLanguage = code;
+            App.Settings.SaveDeferred();
+            RpcText.Prewarm();
+            OnPropertyChanged(nameof(SelectedDiscordRpcLanguage));
+        }
+    }
+
     public string SelectedAutoTranslateLanguage
     {
         get => _selectedAutoTranslateLanguage;

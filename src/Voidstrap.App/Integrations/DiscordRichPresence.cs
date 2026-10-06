@@ -39,8 +39,12 @@ public partial class DiscordRichPresence : IDisposable
 
 	private const string IdleDetails = "Inside Voidstrap";
 
+	private static string IdleDetailsText => Voidstrap.Utility.RpcText.Mark("Inside") + " " + Voidstrap.Utility.Branding.Name;
+
+	private static string IdleStateText => Voidstrap.Utility.RpcText.Mark("Browsing Roblox");
+
 	private const string IdleState = "Browsing Roblox";
-	private const string LoadingState = "Loading game";
+	private static readonly string LoadingState = Voidstrap.Utility.RpcText.Mark("Loading game");
 
 	private static readonly string? LaunchStatusFile = Environment.GetEnvironmentVariable("VOIDSTRAP_STATUS_FILE");
 
@@ -233,6 +237,7 @@ public partial class DiscordRichPresence : IDisposable
 	public DiscordRichPresence(ActivityWatcher activityWatcher)
 	{
 		_lifetimeToken = _lifetimeCancellation.Token;
+		Voidstrap.Utility.RpcText.Prewarm();
 		_gameCancellation = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken);
 		_activityWatcher = activityWatcher ?? throw new ArgumentNullException(nameof(activityWatcher));
 		_onGameJoinHandler = OnGameJoined;
@@ -899,7 +904,7 @@ public partial class DiscordRichPresence : IDisposable
 				return true;
 			_lastPresenceSignature = signature;
 			UpdatePresence(force: joined);
-			string status = "Updated presence for " + detailText;
+			string status = "Updated presence for " + Voidstrap.Utility.RpcText.Render(detailText);
 			App.Logger.WriteLine(LOG_IDENT, status);
 			if (joined)
 				PublishLaunchStatus(status);
@@ -1076,7 +1081,7 @@ public partial class DiscordRichPresence : IDisposable
 			detail = detail.Length == 0 ? betaTag : detail + " " + betaTag;
 		if (App.Settings.Prop.GameCreatorChecked && !string.IsNullOrWhiteSpace(creator))
 		{
-			string byline = "by " + creator + (verified ? " \u2611\ufe0f" : string.Empty);
+			string byline = Voidstrap.Utility.RpcText.Mark("by") + " " + creator + (verified ? " \u2611\ufe0f" : string.Empty);
 			detail = detail.Length == 0 ? byline : detail + " \u00b7 " + byline;
 		}
 		return Voidstrap.Utility.DiscordPresenceGuard.Text(detail);
@@ -1089,20 +1094,20 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			string server = serverType switch
 			{
-				ServerType.Private => "Private server",
-				ServerType.Reserved when reservedName.Length > 0 => "Reserved server: " + reservedName,
-				ServerType.Reserved => "Reserved server",
-				_ => "Public server"
+				ServerType.Private => Voidstrap.Utility.RpcText.Mark("Private server"),
+				ServerType.Reserved when reservedName.Length > 0 => Voidstrap.Utility.RpcText.Mark("Reserved server") + ": " + reservedName,
+				ServerType.Reserved => Voidstrap.Utility.RpcText.Mark("Reserved server"),
+				_ => Voidstrap.Utility.RpcText.Mark("Public server")
 			};
-			parts.Add(string.IsNullOrWhiteSpace(location) ? server : server + " in " + location);
+			parts.Add(string.IsNullOrWhiteSpace(location) ? server : server + " " + Voidstrap.Utility.RpcText.Mark("in") + " " + location);
 		}
 		else if (!string.IsNullOrWhiteSpace(location))
 		{
-			parts.Add("Playing in " + location);
+			parts.Add(Voidstrap.Utility.RpcText.Mark("Playing in") + " " + location);
 		}
 		if (App.Settings.Prop.FFlagRPCDisplayer)
 		{
-			parts.Add(totalFlags == 1 ? "1 FFlag" : totalFlags + " FFlags");
+			parts.Add(totalFlags + " " + Voidstrap.Utility.RpcText.Mark(totalFlags == 1 ? "FFlag" : "FFlags"));
 		}
 		return Voidstrap.Utility.DiscordPresenceGuard.Text(string.Join(" \u00b7 ", parts));
 	}
@@ -1153,8 +1158,8 @@ public partial class DiscordRichPresence : IDisposable
 			{
 				_currentPresence = new DiscordRPC.RichPresence
 				{
-					Details = "Inside Voidstrap",
-					State = "Browsing Roblox",
+					Details = IdleDetailsText,
+					State = IdleStateText,
 					Timestamps = new Timestamps
 					{
 						Start = _sessionStart
@@ -1171,8 +1176,8 @@ public partial class DiscordRichPresence : IDisposable
 			}
 			else
 			{
-				_currentPresence.Details = "Inside Voidstrap";
-				_currentPresence.State = "Browsing Roblox";
+				_currentPresence.Details = IdleDetailsText;
+				_currentPresence.State = IdleStateText;
 				_currentPresence.Assets.LargeImageKey = idleIconUrl;
 				_currentPresence.Assets.LargeImageText = "Roblox";
 				_currentPresence.Assets.SmallImageKey = smallImage;
@@ -1186,8 +1191,8 @@ public partial class DiscordRichPresence : IDisposable
 			_currentPresence.StatusDisplay = StatusDisplayType.Name;
 			_originalSnapshot = new OriginalSnapshot
 			{
-				Details = "Inside Voidstrap",
-				State = "Browsing Roblox",
+				Details = IdleDetailsText,
+				State = IdleStateText,
 				LargeImageKey = idleIconUrl ?? string.Empty,
 				LargeImageText = "Roblox",
 				SmallImageKey = smallImage ?? string.Empty,
@@ -1258,7 +1263,7 @@ public partial class DiscordRichPresence : IDisposable
 		}
 		string shownName = !string.IsNullOrWhiteSpace(App.Settings.Prop.CustomGameName)
 			? App.Settings.Prop.CustomGameName
-			: "Private experience";
+			: Voidstrap.Utility.RpcText.Mark("Private experience");
 		shownName = Voidstrap.Utility.DiscordPresenceGuard.Text(shownName);
 		string stateText = BuildStateText(activity.ServerType, string.Empty, null, totalFlags);
 
@@ -1413,7 +1418,7 @@ public partial class DiscordRichPresence : IDisposable
 	internal static string BuildLargeImageText(string shownName, string creator)
 	{
 		return string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon) && App.Settings.Prop.GameIconChecked
-			? Voidstrap.Utility.DiscordPresenceGuard.Text(creator.Length > 0 ? shownName + " by " + creator : shownName)
+			? Voidstrap.Utility.DiscordPresenceGuard.Text(creator.Length > 0 ? shownName + " " + Voidstrap.Utility.RpcText.Mark("by") + " " + creator : shownName)
 			: string.Empty;
 	}
 
@@ -1463,14 +1468,14 @@ public partial class DiscordRichPresence : IDisposable
 			{
 				list.Add(new Button
 				{
-					Label = "Join server",
+					Label = Voidstrap.Utility.RpcText.Mark("Join server"),
 					Url = text
 				});
 			}
 		}
 		list.Add(new Button
 		{
-			Label = "View game",
+			Label = Voidstrap.Utility.RpcText.Mark("View game"),
 			Url = $"https://www.roblox.com/games/{data.PlaceId}"
 		});
 		return list.ToArray();
@@ -1487,12 +1492,12 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			Connected = _rpcClient?.IsInitialized == true,
 			Active = true,
-			Details = presence.Details ?? string.Empty,
-			State = presence.State ?? string.Empty,
+			Details = Voidstrap.Utility.RpcText.Render(presence.Details),
+			State = Voidstrap.Utility.RpcText.Render(presence.State),
 			LargeImageKey = presence.Assets?.LargeImageKey ?? string.Empty,
-			LargeImageText = presence.Assets?.LargeImageText ?? string.Empty,
+			LargeImageText = Voidstrap.Utility.RpcText.Render(presence.Assets?.LargeImageText),
 			SmallImageKey = presence.Assets?.SmallImageKey ?? string.Empty,
-			SmallImageText = presence.Assets?.SmallImageText ?? string.Empty,
+			SmallImageText = Voidstrap.Utility.RpcText.Render(presence.Assets?.SmallImageText),
 			Start = presence.Timestamps?.Start,
 			End = presence.Timestamps?.End,
 			PartySize = presence.Party?.Size ?? 0,
@@ -1506,7 +1511,7 @@ public partial class DiscordRichPresence : IDisposable
 			{
 				continue;
 			}
-			snapshot.Buttons.Add(new Voidstrap.Models.PresenceButton { Label = button.Label ?? string.Empty, Url = button.Url ?? string.Empty });
+			snapshot.Buttons.Add(new Voidstrap.Models.PresenceButton { Label = Voidstrap.Utility.RpcText.Render(button.Label), Url = button.Url ?? string.Empty });
 		}
 		return snapshot;
 	}

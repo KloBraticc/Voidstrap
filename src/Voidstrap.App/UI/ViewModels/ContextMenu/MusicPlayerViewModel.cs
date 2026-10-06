@@ -915,12 +915,12 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         {
             presence = new RichPresence
             {
-                Details = "Idle",
-                State = "Nothing playing",
+                Details = Voidstrap.Utility.RpcText.Mark("Idle"),
+                State = Voidstrap.Utility.RpcText.Mark("Nothing playing"),
                 Assets = new Assets
                 {
                     LargeImageKey = Voidstrap.Utility.Branding.RpcLogoUrl,
-                    LargeImageText = "Voidstrap Music Player"
+                    LargeImageText = Voidstrap.Utility.Branding.Name + " " + Voidstrap.Utility.RpcText.Mark("Music Player")
                 }
             };
         }
@@ -928,12 +928,12 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         {
             double pos = Math.Max(0.0, PositionSeconds);
             double dur = Math.Max(1.0, track.Duration.TotalSeconds);
-            string artist = string.IsNullOrWhiteSpace(track.Artist) ? string.Empty : "by " + track.Artist;
+            string artist = string.IsNullOrWhiteSpace(track.Artist) ? string.Empty : Voidstrap.Utility.RpcText.Mark("by") + " " + track.Artist;
             string state = _isPlaying
-                ? (artist.Length > 0 ? artist : "Playing")
-                : "Paused at " + FormatTime(pos) + " of " + FormatTime(dur);
+                ? (artist.Length > 0 ? artist : Voidstrap.Utility.RpcText.Mark("Playing"))
+                : Voidstrap.Utility.RpcText.Mark("Paused at") + " " + FormatTime(pos) + " " + Voidstrap.Utility.RpcText.Mark("of") + " " + FormatTime(dur);
             if (IsLooping)
-                state += " \u00b7 On repeat";
+                state += " \u00b7 " + Voidstrap.Utility.RpcText.Mark("On repeat");
             presence = new RichPresence
             {
                 Details = DiscordPresenceGuard.Text(track.Title),
@@ -941,9 +941,9 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 Assets = new Assets
                 {
                     LargeImageKey = Voidstrap.Utility.Branding.RpcLogoUrl,
-                    LargeImageText = "Voidstrap Music Player",
+                    LargeImageText = Voidstrap.Utility.Branding.Name + " " + Voidstrap.Utility.RpcText.Mark("Music Player"),
                     SmallImageKey = _isPlaying ? "play_icon" : "pause_icon",
-                    SmallImageText = _isPlaying ? "Playing" : "Paused"
+                    SmallImageText = Voidstrap.Utility.RpcText.Mark(_isPlaying ? "Playing" : "Paused")
                 }
             };
             if (_isPlaying && dur > 1.0)

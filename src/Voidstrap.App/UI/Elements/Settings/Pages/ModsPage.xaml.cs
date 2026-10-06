@@ -143,18 +143,18 @@ public partial class ModsPage : UiPage{
 		if (mod != null && ReferenceEquals(ModsTabs.SelectedItem, ModPacksTab))
 		{
 			string byline = string.IsNullOrWhiteSpace(mod.Author)
-				? (string.IsNullOrWhiteSpace(mod.SourceName) ? "" : "from " + mod.SourceName)
-				: "by " + mod.Author;
+				? (string.IsNullOrWhiteSpace(mod.SourceName) ? "" : Voidstrap.Utility.RpcText.Mark("from") + " " + mod.SourceName)
+				: Voidstrap.Utility.RpcText.Mark("by") + " " + mod.Author;
 			string state = !string.IsNullOrWhiteSpace(mod.Summary)
 				? mod.Summary
-				: byline.Length > 0 ? (string.IsNullOrWhiteSpace(mod.Author) ? "Mod pack " : "Made ") + byline : "A community mod pack";
+				: byline.Length > 0 ? Voidstrap.Utility.RpcText.Mark(string.IsNullOrWhiteSpace(mod.Author) ? "Mod pack" : "Made") + " " + byline : Voidstrap.Utility.RpcText.Mark("A community mod pack");
 			Voidstrap.Integrations.VoidstrapPresence.Set(new Voidstrap.Integrations.VoidstrapPresenceContext(
 				nameof(ModsPage),
-				"Viewing " + mod.Name,
+				Voidstrap.Utility.RpcText.Mark("Viewing") + " " + mod.Name,
 				state,
 				Voidstrap.Integrations.VoidstrapPresence.WebIcon(mod.IconUrl, Voidstrap.Utility.Branding.RpcLogoUrl),
 				mod.Name + (byline.Length > 0 ? " " + byline : ""),
-				"View mod",
+				Voidstrap.Utility.RpcText.Mark("View mod"),
 				mod.ProfileUrl));
 			return;
 		}
@@ -171,8 +171,8 @@ public partial class ModsPage : UiPage{
 		};
 		Voidstrap.Integrations.VoidstrapPresence.Set(new Voidstrap.Integrations.VoidstrapPresenceContext(
 			nameof(ModsPage),
-			tab.Length > 0 ? "Mods: " + tab : "Mods",
-			activity));
+			tab.Length > 0 ? Voidstrap.Utility.RpcText.Mark("Mods") + ": " + Voidstrap.Utility.RpcText.Mark(tab) : Voidstrap.Utility.RpcText.Mark("Mods"),
+			Voidstrap.Utility.RpcText.Mark(activity)));
 	}
 
 	private void OnModPackViewRequested(object? sender, EventArgs e)

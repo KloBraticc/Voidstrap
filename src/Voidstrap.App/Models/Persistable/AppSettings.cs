@@ -309,6 +309,8 @@ namespace Voidstrap.Models.Persistable
         public string AutoTranslateLanguage { get; set; } = "";
 
         public string BrandName { get; set; } = "";
+
+        public string DiscordRpcLanguage { get; set; } = "";
         public bool CycleTitleWithGameName { get; set; } = true;
         public bool UseGameIconForRobloxWindow { get; set; } = true;
         public string DMMouseLeft { get; set; } = "A";

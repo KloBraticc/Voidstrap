@@ -4031,37 +4031,38 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         else if (!string.IsNullOrEmpty(text) && _voidRpcPageDescriptions.TryGetValue(text, out (string, string) value))
         {
-            (details, state) = value;
+            details = Voidstrap.Utility.RpcText.Mark(value.Item1);
+            state = Voidstrap.Utility.RpcText.Mark(value.Item2);
             string tabPath = GetSelectedTabPath();
             if (tabPath.Length > 0)
             {
-                details = details + ": " + tabPath;
+                details = details + ": " + Voidstrap.Utility.RpcText.Mark(tabPath);
             }
         }
         else if (!string.IsNullOrWhiteSpace(text2))
         {
             string tabPath = GetSelectedTabPath();
-            details = tabPath.Length > 0 ? text2 + ": " + tabPath : text2;
-            state = "Exploring the app";
+            details = tabPath.Length > 0 ? Voidstrap.Utility.RpcText.Mark(text2) + ": " + Voidstrap.Utility.RpcText.Mark(tabPath) : Voidstrap.Utility.RpcText.Mark(text2);
+            state = Voidstrap.Utility.RpcText.Mark("Exploring the app");
         }
         else
         {
-            details = "Idle";
-            state = "Browsing the app";
+            details = Voidstrap.Utility.RpcText.Mark("Idle");
+            state = Voidstrap.Utility.RpcText.Mark("Browsing the app");
         }
         details = DiscordPresenceGuard.Text(details);
         state = DiscordPresenceGuard.Text(state);
         if (details.Length < 2)
         {
-            details = "Voidstrap";
+            details = Voidstrap.Utility.Branding.Name;
         }
         if (state.Length < 2)
         {
-            state = "Exploring the app";
+            state = Voidstrap.Utility.RpcText.Mark("Exploring the app");
         }
         string imageUrl = context != null && VoidstrapPresence.IsWebUrl(context.ImageUrl) ? DiscordPresenceGuard.Key(context.ImageUrl) : "";
         string buttonUrl = context != null && VoidstrapPresence.IsWebUrl(context.ButtonUrl) ? context.ButtonUrl : "";
-        string extra = imageUrl + "|" + buttonUrl + "|" + Voidstrap.Utility.Branding.Name + "|" + Voidstrap.Utility.Branding.RpcLogoUrl;
+        string extra = imageUrl + "|" + buttonUrl + "|" + Voidstrap.Utility.Branding.Name + "|" + Voidstrap.Utility.RpcText.Render(details) + "|" + Voidstrap.Utility.RpcText.Render(state);
         if (details == _lastVoidRpcDetails && state == _lastVoidRpcState && extra == _lastVoidRpcExtra)
         {
             return;
@@ -4104,7 +4105,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     },
                     new DiscordRPC.Button
                     {
-                        Label = DiscordPresenceGuard.Label("Get " + Voidstrap.Utility.Branding.Name, "Get Voidstrap"),
+                        Label = Voidstrap.Utility.RpcText.Mark("Get") + " " + Voidstrap.Utility.Branding.Name,
                         Url = App.ProjectDownloadLink
                     }
                 }
@@ -4112,7 +4113,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 {
                     new DiscordRPC.Button
                     {
-                        Label = DiscordPresenceGuard.Label("Get " + Voidstrap.Utility.Branding.Name, "Get Voidstrap"),
+                        Label = Voidstrap.Utility.RpcText.Mark("Get") + " " + Voidstrap.Utility.Branding.Name,
                         Url = App.ProjectDownloadLink
                     },
                     new DiscordRPC.Button

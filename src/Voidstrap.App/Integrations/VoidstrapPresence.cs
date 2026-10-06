@@ -60,14 +60,14 @@ internal static class VoidstrapPresence
 			Clear(owner);
 			return;
 		}
-		string byline = string.IsNullOrWhiteSpace(creator) ? "" : "By " + creator.Trim();
+		string byline = string.IsNullOrWhiteSpace(creator) ? "" : Voidstrap.Utility.RpcText.Mark("By") + " " + creator.Trim();
 		Set(new VoidstrapPresenceContext(
 			owner,
-			"Viewing " + name.Trim(),
-			byline.Length > 0 ? byline : "Looking at a Roblox game",
+			Voidstrap.Utility.RpcText.Mark("Viewing") + " " + name.Trim(),
+			byline.Length > 0 ? byline : Voidstrap.Utility.RpcText.Mark("Looking at a Roblox game"),
 			iconUrl ?? "",
-			name.Trim() + (string.IsNullOrWhiteSpace(creator) ? "" : " by " + creator.Trim()),
-			placeId > 0 ? "View game" : "",
+			name.Trim() + (string.IsNullOrWhiteSpace(creator) ? "" : " " + Voidstrap.Utility.RpcText.Mark("by") + " " + creator.Trim()),
+			placeId > 0 ? Voidstrap.Utility.RpcText.Mark("View game") : "",
 			placeId > 0 ? "https://www.roblox.com/games/" + placeId : ""));
 	}
 
@@ -94,7 +94,7 @@ internal static class VoidstrapPresence
 				return;
 			lock (Sync)
 			{
-				if (_context == null || !string.Equals(_context.Owner, owner, StringComparison.Ordinal) || !string.Equals(_context.Details, "Viewing " + name.Trim(), StringComparison.Ordinal))
+				if (_context == null || !string.Equals(_context.Owner, owner, StringComparison.Ordinal) || !string.Equals(_context.Details, Voidstrap.Utility.RpcText.Mark("Viewing") + " " + name.Trim(), StringComparison.Ordinal))
 					return;
 			}
 			SetGame(owner, name, creator, icon, placeId);
