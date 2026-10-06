@@ -106,6 +106,27 @@
                             </controls:OptionControl>
                         </StackPanel>
                     </Expander>
+          <Expander Header="{x:Static resources:Strings.SettingsProfiles_Title}" IsExpanded="False" Margin="0,8,0,0" Expanded="OnProfilesExpanded">
+            <StackPanel x:Name="ProfilesPanel" Margin="0,8,0,0">
+              <TextBlock Text="{x:Static resources:Strings.SettingsProfiles_Name}" Margin="0,0,0,4" />
+              <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ui:TextBox x:Name="ProfileName" MaxLength="80" PlaceholderText="{x:Static resources:Strings.SettingsProfiles_NameHint}" VerticalContentAlignment="Center" TextChanged="OnProfileNameChanged" />
+                <ui:Button x:Name="SaveProfileButton" Grid.Column="1" Margin="8,0,0,0" Padding="16,8" Content="{x:Static resources:Strings.SettingsProfiles_Save}" Click="SaveProfile_Click" IsEnabled="False" />
+              </Grid>
+              <TextBlock Text="{x:Static resources:Strings.SettingsProfiles_Saved}" Margin="0,0,0,4" />
+              <ComboBox x:Name="ProfileSelector" MinHeight="34" HorizontalAlignment="Stretch" SelectionChanged="OnProfileSelectionChanged" />
+              <WrapPanel Margin="0,8,0,0">
+                <ui:Button x:Name="ApplyProfileButton" Padding="16,8" Margin="0,0,8,8" Appearance="Primary" Content="{x:Static resources:Strings.SettingsProfiles_Apply}" Click="ApplyProfile_Click" IsEnabled="False" />
+                <ui:Button x:Name="DeleteProfileButton" Padding="16,8" Margin="0,0,8,8" Content="{x:Static resources:Strings.Common_Delete}" Click="DeleteProfile_Click" IsEnabled="False" />
+                <ui:Button Padding="16,8" Margin="0,0,0,8" Content="{x:Static resources:Strings.SettingsProfiles_Folder}" Click="OpenProfilesFolder_Click" />
+              </WrapPanel>
+              <TextBlock x:Name="ProfileStatus" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.SettingsProfiles_Empty}" />
+            </StackPanel>
+          </Expander>
                     <StackPanel Orientation="Horizontal">
             <ui:Button Content="Factory reset" Appearance="Danger" Margin="0,8,8,0" Icon="ArrowReset24" Click="ResetSettingsButton_Click" />
             <ui:Button Content="Donate" Icon="Heart24" Margin="0,8,8,0" Click="DonateButton_Click" />

@@ -17,6 +17,7 @@ using Voidstrap.Resources;
 using Voidstrap.UI.Elements.Controls;
 using Voidstrap.UI.Elements.Dialogs;
 using Voidstrap.UI.ViewModels.Settings;
+using Voidstrap.Utility;
 using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
@@ -25,6 +26,7 @@ public partial class ChannelPage : UiPage{
 	private CancellationTokenSource? _versionCts = null!;
 	private bool _resetInProgress;
 	private Window? _ownerWindow;
+	private bool _profileBusy;
 
 	public ChannelPage()
 	{
@@ -211,6 +213,165 @@ public partial class ChannelPage : UiPage{
 		if (base.DataContext is ChannelViewModel previous)
 			previous.Dispose();
 		base.DataContext = new ChannelViewModel();
+	}
+
+	private void OnProfilesExpanded(object sender, RoutedEventArgs e)
+	{
+		if (!ReferenceEquals(sender, e.OriginalSource) || _profileBusy)
+			return;
+		try
+		{
+			RefreshProfiles(ProfileSelector.SelectedItem as string);
+		}
+		catch (Exception ex)
+		{
+			ShowProfileError(ex);
+		}
+	}
+
+	private void RefreshProfiles(string? selectedName = null)
+	{
+		string[] names = SettingsProfiles.List();
+		ProfileSelector.ItemsSource = names;
+		ProfileSelector.SelectedItem = names.FirstOrDefault(name => string.Equals(name, selectedName, StringComparison.OrdinalIgnoreCase));
+		if (ProfileSelector.SelectedIndex < 0 && names.Length > 0)
+			ProfileSelector.SelectedIndex = 0;
+		ProfileSelector.IsEnabled = names.Length > 0;
+		ProfileStatus.Text = names.Length == 0 ? Strings.SettingsProfiles_Empty : string.Format(Strings.SettingsProfiles_Location, SettingsProfiles.DirectoryPath);
+	}
+
+	private void OnProfileNameChanged(object sender, TextChangedEventArgs e)
+	{
+		if (SaveProfileButton != null)
+			SaveProfileButton.IsEnabled = !string.IsNullOrWhiteSpace(ProfileName.Text);
+	}
+
+	private void OnProfileSelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		if (ApplyProfileButton == null || DeleteProfileButton == null)
+			return;
+		bool selected = ProfileSelector.SelectedItem is string;
+		ApplyProfileButton.IsEnabled = selected;
+		DeleteProfileButton.IsEnabled = selected;
+		if (ProfileSelector.SelectedItem is string name)
+			ProfileName.Text = name;
+	}
+
+	private async void SaveProfile_Click(object sender, RoutedEventArgs e)
+	{
+		if (_profileBusy)
+			return;
+		Window? owner = Window.GetWindow(this);
+		try
+		{
+			string name = ProfileName.Text.Trim();
+			string path = SettingsProfiles.GetPath(name);
+			if (File.Exists(path) && Frontend.ShowMessageBox(string.Format(Strings.SettingsProfiles_Overwrite, name), MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+				return;
+			_profileBusy = true;
+			ProfilesPanel.IsEnabled = false;
+			if (owner != null)
+				owner.IsEnabled = false;
+			if (owner?.DataContext is MainWindowViewModel mainViewModel && !await mainViewModel.TrySaveSettingsAsync(false))
+				return;
+			App.Settings.RefreshFromDisk();
+			SettingsProfiles.Save(name);
+			RefreshProfiles(name);
+			ProfileStatus.Text = string.Format(Strings.SettingsProfiles_SavedStatus, name);
+		}
+		catch (Exception ex)
+		{
+			if (owner != null)
+				owner.IsEnabled = true;
+			ShowProfileError(ex);
+		}
+		finally
+		{
+			if (owner != null)
+				owner.IsEnabled = true;
+			ProfilesPanel.IsEnabled = true;
+			_profileBusy = false;
+		}
+	}
+
+	private async void ApplyProfile_Click(object sender, RoutedEventArgs e)
+	{
+		if (_profileBusy || ProfileSelector.SelectedItem is not string name)
+			return;
+		Window? owner = Window.GetWindow(this);
+		try
+		{
+			if (Frontend.ShowMessageBox(string.Format(Strings.SettingsProfiles_ApplyConfirm, name), MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+				return;
+			_profileBusy = true;
+			ProfilesPanel.IsEnabled = false;
+			if (owner != null)
+				owner.IsEnabled = false;
+			SettingsProfiles.Profile profile = await Task.Run(() => SettingsProfiles.Read(name));
+			if (!IsLoaded)
+				return;
+			SettingsProfiles.Apply(profile);
+			App.PendingSettingTasks.Clear();
+			RestartNotificationService.ClearAll();
+			OnSettingsImported(this, EventArgs.Empty);
+			if (!App.RestartApplication(["-settings", "-elevatedwait", Environment.ProcessId.ToString()], closeRuntime: false))
+			{
+				RestartNotificationService.Require("settingsProfile", Strings.SettingsProfiles_Title, Strings.SettingsProfiles_RestartFailed, Strings.SettingsProfiles_Restart, RestartTarget.Application);
+				ProfileStatus.Text = Strings.SettingsProfiles_RestartFailed;
+			}
+		}
+		catch (Exception ex)
+		{
+			if (owner != null)
+				owner.IsEnabled = true;
+			ShowProfileError(ex);
+		}
+		finally
+		{
+			if (owner != null)
+				owner.IsEnabled = true;
+			ProfilesPanel.IsEnabled = true;
+			_profileBusy = false;
+		}
+	}
+
+	private void DeleteProfile_Click(object sender, RoutedEventArgs e)
+	{
+		if (_profileBusy || ProfileSelector.SelectedItem is not string name)
+			return;
+		try
+		{
+			if (Frontend.ShowMessageBox(string.Format(Strings.SettingsProfiles_DeleteConfirm, name), MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+				return;
+			SettingsProfiles.Delete(name);
+			ProfileName.Text = string.Empty;
+			RefreshProfiles();
+			ProfileStatus.Text = string.Format(Strings.SettingsProfiles_Deleted, name);
+		}
+		catch (Exception ex)
+		{
+			ShowProfileError(ex);
+		}
+	}
+
+	private void OpenProfilesFolder_Click(object sender, RoutedEventArgs e)
+	{
+		try
+		{
+			Directory.CreateDirectory(SettingsProfiles.DirectoryPath);
+			Process.Start(new ProcessStartInfo(SettingsProfiles.DirectoryPath) { UseShellExecute = true });
+		}
+		catch (Exception ex)
+		{
+			ShowProfileError(ex);
+		}
+	}
+
+	private void ShowProfileError(Exception ex)
+	{
+		App.Logger.WriteException("SettingsProfiles", ex);
+		ProfileStatus.Text = string.Format(Strings.SettingsProfiles_Error, ex.Message);
+		Frontend.ShowMessageBox(ProfileStatus.Text, MessageBoxImage.Warning);
 	}
 
 	private async void Check_Click(object sender, RoutedEventArgs e)

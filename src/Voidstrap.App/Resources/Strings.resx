@@ -2550,4 +2550,24 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="Shortcuts.SubplaceReload" xml:space="preserve"><value>Subplaces load automatically when you enter a valid Game ID.</value></data>
   <data name="Shortcuts.SubplaceRequired" xml:space="preserve"><value>Wait for the subplaces to load, then choose one before continuing.</value></data>
   <data name="Library.SubplacesTab" xml:space="preserve"><value>Subplaces</value></data>
+  <data name="SettingsProfiles.Title" xml:space="preserve"><value>Settings profiles</value></data>
+  <data name="SettingsProfiles.Name" xml:space="preserve"><value>Profile name</value></data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve"><value>Example: VoidstrapProfile</value></data>
+  <data name="SettingsProfiles.Save" xml:space="preserve"><value>Save profile</value></data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve"><value>Saved profiles</value></data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve"><value>Apply profile</value></data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve"><value>Open folder</value></data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve"><value>No profiles yet. Enter a name and choose Save profile.</value></data>
+  <data name="SettingsProfiles.Location" xml:space="preserve"><value>Saved in {0}</value></data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve"><value>Use a name with 1 to 80 characters, without file name symbols or a reserved device name.</value></data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve"><value>This profile is invalid or uses an unsupported format.</value></data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve"><value>The profile could not be applied and the previous settings could not be restored.</value></data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve"><value>Replace the saved profile "{0}" with your current settings?</value></data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve"><value>Saved "{0}"</value></data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve"><value>Apply "{0}"? This replaces your current Voidstrap settings and FastFlags, then reopens Voidstrap settings.</value></data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve"><value>The profile was applied. Restart Voidstrap to refresh all settings pages.</value></data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve"><value>Restart now</value></data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve"><value>Delete the saved profile "{0}"? Your current settings will stay as they are.</value></data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve"><value>Deleted "{0}".</value></data>
+  <data name="SettingsProfiles.Error" xml:space="preserve"><value>The profile action could not be completed: {0}</value></data>
 </root>

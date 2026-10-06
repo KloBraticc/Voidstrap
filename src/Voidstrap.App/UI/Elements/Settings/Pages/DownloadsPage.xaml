@@ -297,7 +297,7 @@
                                     <TextBlock Grid.Column="0" Text="Addons" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
                                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                                         <Button x:Name="FleasionAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="Fleasion, open in Extensions" Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                            <ui:SymbolIcon Symbol="CubeLink20" FontSize="18" />
+                                            <Image Width="20" Height="20" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Voidstrap;component/Resources/AppImages/ext-fleasion.png" />
                                         </Button>
                                         <Button x:Name="RiShadeAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="RiShade, open in Extensions" Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <Image Width="20" Height="20" util:DynamicRenderSystem.LazyImageSource="https://raw.githubusercontent.com/KloBraticc/RiShade/main/Images/RiShde.png" />

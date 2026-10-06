@@ -5300,5 +5300,25 @@ namespace Voidstrap.Resources {
         public static string Shortcuts_SubplaceFailed => ResourceManager.GetString("Shortcuts.SubplaceFailed", resourceCulture);
         public static string Shortcuts_SubplaceReload => ResourceManager.GetString("Shortcuts.SubplaceReload", resourceCulture);
         public static string Shortcuts_SubplaceRequired => ResourceManager.GetString("Shortcuts.SubplaceRequired", resourceCulture);
+        public static string SettingsProfiles_Title => ResourceManager.GetString("SettingsProfiles.Title", resourceCulture);
+        public static string SettingsProfiles_Name => ResourceManager.GetString("SettingsProfiles.Name", resourceCulture);
+        public static string SettingsProfiles_NameHint => ResourceManager.GetString("SettingsProfiles.NameHint", resourceCulture);
+        public static string SettingsProfiles_Save => ResourceManager.GetString("SettingsProfiles.Save", resourceCulture);
+        public static string SettingsProfiles_Saved => ResourceManager.GetString("SettingsProfiles.Saved", resourceCulture);
+        public static string SettingsProfiles_Apply => ResourceManager.GetString("SettingsProfiles.Apply", resourceCulture);
+        public static string SettingsProfiles_Folder => ResourceManager.GetString("SettingsProfiles.Folder", resourceCulture);
+        public static string SettingsProfiles_Empty => ResourceManager.GetString("SettingsProfiles.Empty", resourceCulture);
+        public static string SettingsProfiles_Location => ResourceManager.GetString("SettingsProfiles.Location", resourceCulture);
+        public static string SettingsProfiles_InvalidName => ResourceManager.GetString("SettingsProfiles.InvalidName", resourceCulture);
+        public static string SettingsProfiles_InvalidFile => ResourceManager.GetString("SettingsProfiles.InvalidFile", resourceCulture);
+        public static string SettingsProfiles_RestoreFailed => ResourceManager.GetString("SettingsProfiles.RestoreFailed", resourceCulture);
+        public static string SettingsProfiles_Overwrite => ResourceManager.GetString("SettingsProfiles.Overwrite", resourceCulture);
+        public static string SettingsProfiles_SavedStatus => ResourceManager.GetString("SettingsProfiles.SavedStatus", resourceCulture);
+        public static string SettingsProfiles_ApplyConfirm => ResourceManager.GetString("SettingsProfiles.ApplyConfirm", resourceCulture);
+        public static string SettingsProfiles_RestartFailed => ResourceManager.GetString("SettingsProfiles.RestartFailed", resourceCulture);
+        public static string SettingsProfiles_Restart => ResourceManager.GetString("SettingsProfiles.Restart", resourceCulture);
+        public static string SettingsProfiles_DeleteConfirm => ResourceManager.GetString("SettingsProfiles.DeleteConfirm", resourceCulture);
+        public static string SettingsProfiles_Deleted => ResourceManager.GetString("SettingsProfiles.Deleted", resourceCulture);
+        public static string SettingsProfiles_Error => ResourceManager.GetString("SettingsProfiles.Error", resourceCulture);
     }
 }
