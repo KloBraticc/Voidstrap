@@ -37,7 +37,7 @@ internal sealed class RobloxWindowTitle : IDisposable
 		_ = Task.Run(() => LoopAsync(token));
 	}
 
-	public static string BaseTitle => string.IsNullOrWhiteSpace(App.Settings.Prop.RobloxTitle) ? DefaultTitle : App.Settings.Prop.RobloxTitle;
+	public static string BaseTitle => Voidstrap.Utility.Branding.Apply(string.IsNullOrWhiteSpace(App.Settings.Prop.RobloxTitle) ? DefaultTitle : App.Settings.Prop.RobloxTitle);
 
 	public static bool WantsUpdates => App.Settings.Prop.CycleTitleWithGameName || App.Settings.Prop.ShowServerInfoInTitle;
 

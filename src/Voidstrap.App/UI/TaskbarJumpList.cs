@@ -105,23 +105,24 @@ internal static partial class TaskbarJumpList
 		try
 		{
 			bool useGameIcon = libraryIcon != null && File.Exists(libraryIcon);
+			string appIcon = Voidstrap.Utility.Branding.HasCustomIcon ? Voidstrap.Utility.Branding.IconIcoPath : executable;
 			JumpList list = new JumpList { ShowFrequentCategory = false, ShowRecentCategory = false };
 			list.JumpItems.Add(new JumpTask
 			{
 				Title = "Library",
-				Description = useGameIcon && !string.IsNullOrWhiteSpace(gameName) ? "Open your library, last played: " + gameName : "Open your Roblox library in Voidstrap",
+				Description = useGameIcon && !string.IsNullOrWhiteSpace(gameName) ? "Open your library, last played: " + gameName : "Open your Roblox library",
 				ApplicationPath = executable,
 				Arguments = "-settings " + LibraryView,
-				IconResourcePath = useGameIcon ? libraryIcon : executable,
+				IconResourcePath = useGameIcon ? libraryIcon : appIcon,
 				IconResourceIndex = 0
 			});
 			list.JumpItems.Add(new JumpTask
 			{
 				Title = "Notifications",
-				Description = "Open your Voidstrap notification settings",
+				Description = "Open your notification settings",
 				ApplicationPath = executable,
 				Arguments = "-settings " + NotificationsView,
-				IconResourcePath = executable,
+				IconResourcePath = appIcon,
 				IconResourceIndex = 0
 			});
 			JumpList.SetJumpList(application, list);
@@ -158,7 +159,7 @@ internal static partial class TaskbarJumpList
 					return;
 				}
 				byte[] image = await DownloadAsync(url, timeout.Token).ConfigureAwait(false);
-				if (image.Length == 0 || !WriteIcon(image, directory, iconPath))
+				if (image.Length == 0 || !WriteIcon(image, iconPath))
 					return;
 			}
 			CleanIconCache(iconPath);
@@ -247,56 +248,20 @@ internal static partial class TaskbarJumpList
 		}
 	}
 
-	private static bool WriteIcon(byte[] image, string directory, string iconPath)
+	private static bool WriteIcon(byte[] image, string iconPath)
 	{
-		List<byte[]> frames = new List<byte[]>(IconSizes.Length);
 		DecoderOptions options = new DecoderOptions { TargetSize = new SixLabors.ImageSharp.Size(512, 512), MaxFrames = 1 };
-		using (Image<Rgba32> source = Image.Load<Rgba32>(options, image))
-		{
-			if (source.Width < 8 || source.Height < 8)
-				return false;
-			foreach (int size in IconSizes)
-			{
-				using Image<Rgba32> frame = source.Clone(context => context.Resize(new ResizeOptions { Size = new SixLabors.ImageSharp.Size(size, size), Mode = SixLabors.ImageSharp.Processing.ResizeMode.Crop, Sampler = KnownResamplers.Lanczos3 }));
-				using MemoryStream png = new MemoryStream();
-				frame.SaveAsPng(png, new PngEncoder { ColorType = PngColorType.RgbWithAlpha });
-				frames.Add(png.ToArray());
-			}
-		}
-		Directory.CreateDirectory(directory);
-		string temp = iconPath + "." + Environment.ProcessId + ".tmp";
+		using Image<Rgba32> source = Image.Load<Rgba32>(options, image);
+		if (source.Width < 8 || source.Height < 8)
+			return false;
 		try
 		{
-			using (FileStream stream = new FileStream(temp, FileMode.Create, FileAccess.Write, FileShare.None))
-			using (BinaryWriter writer = new BinaryWriter(stream))
-			{
-				writer.Write((ushort)0);
-				writer.Write((ushort)1);
-				writer.Write((ushort)frames.Count);
-				int offset = 6 + 16 * frames.Count;
-				for (int index = 0; index < frames.Count; index++)
-				{
-					int size = IconSizes[index];
-					writer.Write((byte)(size >= 256 ? 0 : size));
-					writer.Write((byte)(size >= 256 ? 0 : size));
-					writer.Write((byte)0);
-					writer.Write((byte)0);
-					writer.Write((ushort)1);
-					writer.Write((ushort)32);
-					writer.Write(frames[index].Length);
-					writer.Write(offset);
-					offset += frames[index].Length;
-				}
-				foreach (byte[] frame in frames)
-					writer.Write(frame);
-			}
-			File.Move(temp, iconPath, overwrite: true);
+			Voidstrap.Utility.IconFile.Write(source, iconPath, IconSizes, SixLabors.ImageSharp.Processing.ResizeMode.Crop);
 			return true;
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 		{
 			App.Logger.WriteLine(LogIdent, "The game icon file could not be written: " + ex.Message);
-			TryDelete(temp);
 			return IsUsableIcon(iconPath);
 		}
 	}

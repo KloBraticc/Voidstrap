@@ -53,11 +53,11 @@ public class NotifyIconWrapper : IDisposable
 		_watcher = watcher ?? throw new ArgumentNullException(nameof(watcher));
 		_notifyIcon = new NotifyIcon(new Container())
 		{
-			Text = "Voidstrap"
+			Text = Voidstrap.Utility.Branding.Name
 		};
 		if (Voidstrap.Utility.Platform.IsWindows)
 		{
-			_notifyIcon.Icon = Voidstrap.Properties.Resources.IconVoidstrap;
+			_notifyIcon.Icon = Voidstrap.Utility.Branding.CreateDrawingIcon() ?? Voidstrap.Properties.Resources.IconVoidstrap;
 		}
 		if (!Voidstrap.Utility.Platform.IsWindows)
 		{

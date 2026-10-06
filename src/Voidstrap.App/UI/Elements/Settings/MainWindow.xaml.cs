@@ -3415,7 +3415,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             Level = LogLevel.Warning
         };
-        DiscordRpcClient client = DiscordIpc.CreateClient("1459679943498661910", pipe, logger, "Voidstrap " + VoidstrapPresence.PlatformName);
+        DiscordRpcClient client = DiscordIpc.CreateClient("1459679943498661910", pipe, logger, Voidstrap.Utility.Branding.Name + " " + VoidstrapPresence.PlatformName);
         client.OnReady += DiscordClient_OnReady;
         client.OnError += DiscordClient_OnError;
         client.OnConnectionFailed += DiscordClient_OnConnectionFailed;
@@ -4075,7 +4075,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             text3 = "";
         }
-        string versionText = (string.IsNullOrWhiteSpace(text3) ? "Voidstrap" : ("Voidstrap v" + text3));
+        string versionText = string.IsNullOrWhiteSpace(text3) ? Voidstrap.Utility.Branding.Name : Voidstrap.Utility.Branding.Name + " v" + text3;
         const string VoidstrapLogo = App.ProjectLogoUrl;
         try
         {
@@ -4104,7 +4104,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     },
                     new DiscordRPC.Button
                     {
-                        Label = "Get Voidstrap",
+                        Label = DiscordPresenceGuard.Label("Get " + Voidstrap.Utility.Branding.Name, "Get Voidstrap"),
                         Url = App.ProjectDownloadLink
                     }
                 }
@@ -4112,7 +4112,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 {
                     new DiscordRPC.Button
                     {
-                        Label = "Get Voidstrap",
+                        Label = DiscordPresenceGuard.Label("Get " + Voidstrap.Utility.Branding.Name, "Get Voidstrap"),
                         Url = App.ProjectDownloadLink
                     },
                     new DiscordRPC.Button

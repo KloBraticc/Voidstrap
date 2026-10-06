@@ -183,8 +183,8 @@ internal static class LinuxApplicationIdentity
 
 	private static void EnsureCurrent()
 	{
-		BootstrapperIcon selected = App.Settings.Prop.ActiveBootstrapperIcon;
-		string custom = App.Settings.Prop.BootstrapperIconCustomLocation ?? string.Empty;
+		BootstrapperIcon selected = Voidstrap.Utility.Branding.HasCustomIcon ? BootstrapperIcon.IconVoidstrap : App.Settings.Prop.ActiveBootstrapperIcon;
+		string custom = (App.Settings.Prop.BootstrapperIconCustomLocation ?? string.Empty) + "|" + Voidstrap.Utility.Branding.IconStamp;
 
 		lock (Sync)
 		{

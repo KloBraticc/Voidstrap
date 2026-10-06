@@ -48,6 +48,15 @@ public static class IconEx
 			icon = BootstrapperIcon.IconVoidstrap;
 		}
 
+		if (icon == BootstrapperIcon.IconVoidstrap)
+		{
+			BitmapSource? branded = Voidstrap.Utility.Branding.LoadIcon(decodeWidth);
+			if (branded != null)
+			{
+				return branded;
+			}
+		}
+
 		string assembly = typeof(IconEx).Assembly.GetName().Name ?? "Voidstrap";
 		foreach (string candidate in new[]
 		{

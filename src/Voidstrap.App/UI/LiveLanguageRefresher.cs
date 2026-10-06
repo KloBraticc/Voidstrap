@@ -14,7 +14,24 @@ namespace Voidstrap.UI;
 
 internal static class LiveLanguageRefresher
 {
-	private static readonly ConditionalWeakTable<DependencyObject, Dictionary<DependencyProperty, string>> _dependencyPropertyOriginals = [];
+	private sealed record TextEntry(string Original, string Written);
+
+	private sealed class ImageEntry
+	{
+		public object? Original { get; init; }
+
+		public object? Written { get; set; }
+	}
+
+	private static readonly ConditionalWeakTable<DependencyObject, Dictionary<DependencyProperty, TextEntry>> _dependencyPropertyOriginals = [];
+
+	private static readonly ConditionalWeakTable<DependencyObject, ImageEntry> _imageOriginals = [];
+
+	private static bool IsActive => App.Settings?.Prop?.AutoTranslate == true || Branding.Active;
+
+	private static bool _touched;
+
+	private static bool _walkHidden;
 
 	private static readonly List<WeakReference<DependencyObject>> _detachedRoots = [];
 
@@ -77,7 +94,7 @@ internal static class LiveLanguageRefresher
 
 	private static void OnElementLoaded(object sender, RoutedEventArgs e)
 	{
-		if (App.Settings?.Prop?.AutoTranslate != true)
+		if (!IsActive && !_touched)
 		{
 			return;
 		}
@@ -119,7 +136,7 @@ internal static class LiveLanguageRefresher
 
 	private static void SweepTick(object? sender, EventArgs e) // bratick
 	{
-		if (App.Settings?.Prop?.AutoTranslate != true)
+		if (!IsActive)
 		{
 			return;
 		}
@@ -140,7 +157,7 @@ internal static class LiveLanguageRefresher
 
 	private static void UpdateSweepTimer()
 	{
-		if (App.Settings?.Prop?.AutoTranslate != true)
+		if (!IsActive)
 		{
 			StopTimer(ref _sweepTimer, SweepTick);
 			return;
@@ -148,12 +165,10 @@ internal static class LiveLanguageRefresher
 		EnsureLoadedHandler();
 		if (_sweepTimer == null)
 		{
-			_sweepTimer = new DispatcherTimer(DispatcherPriority.Background)
-			{
-				Interval = TimeSpan.FromMilliseconds(5000.0)
-			};
+			_sweepTimer = new DispatcherTimer(DispatcherPriority.Background);
 			_sweepTimer.Tick += SweepTick;
 		}
+		_sweepTimer.Interval = TimeSpan.FromMilliseconds(Branding.RenameActive ? 2000.0 : 5000.0);
 		if (!_sweepTimer.IsEnabled)
 		{
 			_sweepTimer.Start();
@@ -187,7 +202,7 @@ internal static class LiveLanguageRefresher
 
 	public static void RestoreAllOpenWindows()
 	{
-		StopTimer(ref _sweepTimer, SweepTick);
+		UpdateSweepTimer();
 		Application app = Application.Current;
 		if (app == null)
 		{
@@ -201,8 +216,7 @@ internal static class LiveLanguageRefresher
 				{
 					ApplyFlowDirection(window);
 					RefreshWindow(window);
-					TranslateNode(window, false, "");
-					Walk(window, false, "");
+					TranslateWindow(window);
 				}
 				catch
 				{
@@ -252,11 +266,13 @@ internal static class LiveLanguageRefresher
 		{
 			return;
 		}
+		bool includeHidden = _walkHidden;
+		_walkHidden = false;
 		foreach (Window window in app.Windows)
 		{
 			try
 			{
-				if (!window.IsVisible)
+				if (!window.IsVisible && !includeHidden)
 				{
 					continue;
 				}
@@ -272,7 +288,7 @@ internal static class LiveLanguageRefresher
 
 	private static void WalkDetachedRoots()
 	{
-		bool on = App.Settings?.Prop?.AutoTranslate == true;
+		bool on = IsActive;
 		string lang = App.Settings?.Prop?.AutoTranslateLanguage ?? "";
 		if (on && string.IsNullOrEmpty(lang))
 		{
@@ -312,7 +328,7 @@ internal static class LiveLanguageRefresher
 
 	private static void TranslateWindow(Window window)
 	{
-		bool on = App.Settings?.Prop?.AutoTranslate == true;
+		bool on = IsActive;
 		string lang = App.Settings?.Prop?.AutoTranslateLanguage ?? "";
 		if (on && string.IsNullOrEmpty(lang))
 		{
@@ -348,6 +364,12 @@ internal static class LiveLanguageRefresher
 			if (node is Window window)
 			{
 				ApplyDependencyText(window, Window.TitleProperty, on, lang);
+				ApplyBrandImage(window, Window.IconProperty);
+			}
+			if (node is Image image)
+			{
+				ApplyBrandImage(image, Image.SourceProperty);
+				return;
 			}
 			if (node is FrameworkElement fe)
 			{
@@ -455,7 +477,7 @@ internal static class LiveLanguageRefresher
 			{
 				ApplyDependencyText(headered, HeaderedContentControl.HeaderProperty, on, lang);
 			}
-			if (node is ContentControl content && content.Content is string)
+			if (node is ContentControl content && content.Content is string && node is not (ComboBoxItem or ListBoxItem))
 			{
 				ApplyDependencyText(content, ContentControl.ContentProperty, on, lang);
 			}
@@ -532,18 +554,29 @@ internal static class LiveLanguageRefresher
 		}
 	}
 
+	private static string Transform(string source, bool translate, string lang)
+	{
+		return Branding.Apply(translate ? TranslationService.Translate(source, lang) : source);
+	}
+
 	private static void ApplyDependencyText(DependencyObject target, DependencyProperty property, bool on, string lang)
 	{
 		if (target.GetValue(property) is not string current)
 		{
 			return;
 		}
-		_dependencyPropertyOriginals.TryGetValue(target, out Dictionary<DependencyProperty, string>? originals);
+		_dependencyPropertyOriginals.TryGetValue(target, out Dictionary<DependencyProperty, TextEntry>? entries);
+		TextEntry? entry = null;
+		entries?.TryGetValue(property, out entry);
 		if (!on)
 		{
-			if (originals != null && originals.Remove(property, out string? restore) && current != restore)
+			if (entry != null)
 			{
-				target.SetCurrentValue(property, restore);
+				entries!.Remove(property);
+				if (current == entry.Written && current != entry.Original)
+				{
+					target.SetCurrentValue(property, entry.Original);
+				}
 			}
 			return;
 		}
@@ -551,31 +584,79 @@ internal static class LiveLanguageRefresher
 		{
 			return;
 		}
-		if (originals != null && originals.TryGetValue(property, out string? stored))
+		bool translate = App.Settings?.Prop?.AutoTranslate == true;
+		string source;
+		if (entry != null && (current == entry.Written || current == entry.Original))
 		{
-			string expected = TranslationService.Translate(stored, lang);
-			if (current != expected && current != stored && !TranslationService.IsTranslated(current, lang))
-			{
-				originals[property] = current;
-				expected = TranslationService.Translate(current, lang);
-			}
-			if (current != expected)
-			{
-				target.SetCurrentValue(property, expected);
-			}
+			source = entry.Original;
+		}
+		else if (translate && TranslationService.TryGetOriginal(current, lang, out string original))
+		{
+			source = original;
+		}
+		else
+		{
+			source = current;
+		}
+		string expected = Transform(source, translate, lang);
+		if (entry == null && expected == source && source == current)
+		{
 			return;
 		}
-		if (TranslationService.TryGetOriginal(current, lang, out string source))
+		if (current != expected)
 		{
-			_dependencyPropertyOriginals.GetOrCreateValue(target)[property] = source;
+			target.SetCurrentValue(property, expected);
+		}
+		entries ??= _dependencyPropertyOriginals.GetOrCreateValue(target);
+		entries[property] = new TextEntry(source, expected);
+		_touched = true;
+	}
+
+	internal static void ApplyBrandImage(DependencyObject target, DependencyProperty property)
+	{
+		object? current = target.GetValue(property);
+		ImageSource? branded = Branding.Icon;
+		if (_imageOriginals.TryGetValue(target, out ImageEntry? entry))
+		{
+			if (ReferenceEquals(current, entry.Written))
+			{
+				if (branded == null)
+				{
+					_imageOriginals.Remove(target);
+					target.SetCurrentValue(property, entry.Original);
+				}
+				else if (!ReferenceEquals(branded, entry.Written))
+				{
+					entry.Written = branded;
+					target.SetCurrentValue(property, branded);
+				}
+				return;
+			}
+			_imageOriginals.Remove(target);
+		}
+		if (branded == null || !Branding.IsDefaultLogo(current))
+		{
 			return;
 		}
-		string translated = TranslationService.Translate(current, lang);
-		if (translated != current)
+		_imageOriginals.Add(target, new ImageEntry { Original = current, Written = branded });
+		target.SetCurrentValue(property, branded);
+		_touched = true;
+	}
+
+	public static void ApplyBranding()
+	{
+		Application app = Application.Current;
+		if (app == null)
 		{
-			_dependencyPropertyOriginals.GetOrCreateValue(target)[property] = current;
-			target.SetCurrentValue(property, translated);
+			return;
 		}
+		app.Dispatcher.BeginInvoke((Action)delegate
+		{
+			UpdateSweepTimer();
+			EnsureLoadedHandler();
+			_walkHidden = true;
+			ScheduleCoalescedWalk();
+		}, DispatcherPriority.Background);
 	}
 
 	private static void ApplyFlowDirection(Window window)

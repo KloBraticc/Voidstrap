@@ -317,6 +317,84 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
     public ICommand ManageAppFontCommand => new RelayCommand(ManageAppFont);
 
+    private string _brandNameText = App.Settings.Prop.BrandName ?? "";
+
+    public string BrandName
+    {
+        get => _brandNameText;
+        set
+        {
+            string text = value ?? "";
+            if (text == _brandNameText)
+                return;
+            _brandNameText = text;
+            OnPropertyChanged(nameof(BrandName));
+            string trimmed = text.Trim();
+            if (trimmed.Length > 0 && !Branding.IsValidName(trimmed))
+                return;
+            if (string.Equals(App.Settings.Prop.BrandName ?? "", trimmed, StringComparison.Ordinal))
+                return;
+            App.Settings.Prop.BrandName = trimmed;
+            App.Settings.SaveDeferred();
+            LiveLanguageRefresher.ApplyBranding();
+        }
+    }
+
+    public ImageSource? AppIconPreview => Branding.Icon ?? SafeImaging.FromPack("pack://application:,,,/Voidstrap.png", 64);
+
+    public Visibility ResetAppIconVisibility => Branding.HasCustomIcon ? Visibility.Visible : Visibility.Collapsed;
+
+    public ICommand ChooseAppIconCommand => new RelayCommand(ChooseAppIcon);
+
+    public ICommand ResetAppIconCommand => new RelayCommand(ResetAppIcon);
+
+    private void ChooseAppIcon()
+    {
+        OpenFileDialog dialog = new OpenFileDialog
+        {
+            Title = "Choose an app icon",
+            Filter = "Images|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.tga;*.ico|All files|*.*"
+        };
+        if (dialog.ShowDialog() != true)
+            return;
+        try
+        {
+            Branding.ImportIcon(dialog.FileName);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("AppearanceViewModel::ChooseAppIcon", ex);
+            Frontend.ShowMessageBox("The icon could not be used: " + ex.Message, MessageBoxImage.Warning);
+            return;
+        }
+        RefreshAppIcon();
+    }
+
+    private void ResetAppIcon()
+    {
+        try
+        {
+            Branding.RemoveIcon();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("AppearanceViewModel::ResetAppIcon", ex);
+            Frontend.ShowMessageBox("The custom icon could not be removed: " + ex.Message, MessageBoxImage.Warning);
+        }
+        RefreshAppIcon();
+    }
+
+    private void RefreshAppIcon()
+    {
+        OnPropertyChanged(nameof(AppIconPreview));
+        OnPropertyChanged(nameof(ResetAppIconVisibility));
+        LiveLanguageRefresher.ApplyBranding();
+        if (Voidstrap.Utility.Platform.IsLinux)
+            LinuxApplicationIdentity.Refresh();
+        else
+            TaskbarJumpList.Apply();
+    }
+
     public ICommand MoveSidebarItemUpCommand { get; }
 
     public ICommand MoveSidebarItemDownCommand { get; }

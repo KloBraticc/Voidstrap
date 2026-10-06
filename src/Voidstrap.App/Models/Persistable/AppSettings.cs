@@ -307,6 +307,8 @@ namespace Voidstrap.Models.Persistable
         public string AppFontPath { get; set; } = "";
         public bool AutoTranslate { get; set; } = false;
         public string AutoTranslateLanguage { get; set; } = "";
+
+        public string BrandName { get; set; } = "";
         public bool CycleTitleWithGameName { get; set; } = true;
         public bool UseGameIconForRobloxWindow { get; set; } = true;
         public string DMMouseLeft { get; set; } = "A";

@@ -48,7 +48,7 @@ internal static class BootstrapperIconEx
 			return icon2 ?? Voidstrap.Properties.Resources.IconVoidstrap;
 		}
 		case BootstrapperIcon.IconVoidstrap:
-			return Voidstrap.Properties.Resources.IconVoidstrap;
+			return Voidstrap.Utility.Branding.CreateDrawingIcon() ?? Voidstrap.Properties.Resources.IconVoidstrap;
 		case BootstrapperIcon.Icon2008:
 			return Voidstrap.Properties.Resources.Icon2008;
 		case BootstrapperIcon.Icon2011:

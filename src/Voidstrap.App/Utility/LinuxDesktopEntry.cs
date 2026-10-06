@@ -286,7 +286,7 @@ internal static class LinuxDesktopEntry
 			if (App.Settings?.Prop == null)
 				return null;
 
-			System.Windows.Media.Imaging.BitmapSource? source = Voidstrap.Extensions.IconEx.LoadPortableIcon(App.Settings.Prop.ActiveBootstrapperIcon, 256);
+			System.Windows.Media.Imaging.BitmapSource? source = Voidstrap.Extensions.IconEx.LoadPortableIcon(Voidstrap.Utility.Branding.HasCustomIcon ? Voidstrap.Enums.BootstrapperIcon.IconVoidstrap : App.Settings.Prop.ActiveBootstrapperIcon, 256);
 			if (source == null)
 				return null;
 

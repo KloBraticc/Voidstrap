@@ -216,8 +216,8 @@ internal static class Frontend
 		}
 		NotifyIcon notifyIcon = new()
 		{
-			Icon = Voidstrap.Properties.Resources.IconVoidstrap,
-			Text = "Voidstrap",
+			Icon = Voidstrap.Utility.Branding.CreateDrawingIcon() ?? Voidstrap.Properties.Resources.IconVoidstrap,
+			Text = Voidstrap.Utility.Branding.Name,
 			Visible = true
 		};
 		notifyIcon.BalloonTipClosed += BalloonTip_Finished;

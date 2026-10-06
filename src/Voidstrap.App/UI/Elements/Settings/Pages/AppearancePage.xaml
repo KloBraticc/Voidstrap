@@ -135,6 +135,28 @@
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
+                <TextBlock FontSize="14" Text="App identity" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Give the app your own name and icon." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              </StackPanel>
+            </HeaderedContentControl.Header>
+            <StackPanel>
+              <controls:OptionControl Header="App name" Description="Replaces the app name everywhere it is shown. Leave it empty to use the original name.">
+                <ui:TextBox Width="220" MaxLength="32" PlaceholderText="Voidstrap" Text="{Binding BrandName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              </controls:OptionControl>
+              <controls:OptionControl Header="App icon">
+                <StackPanel Orientation="Horizontal">
+                  <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                    <Image Width="28" Height="28" Source="{Binding AppIconPreview}" RenderOptions.BitmapScalingMode="HighQuality" />
+                  </Border>
+                  <ui:Button Content="Choose image" Icon="ImageAdd24" Command="{Binding ChooseAppIconCommand}" />
+                  <ui:Button Margin="8,0,0,0" Content="Reset" Icon="ArrowReset24" Appearance="Secondary" Visibility="{Binding ResetAppIconVisibility}" Command="{Binding ResetAppIconCommand}" />
+                </StackPanel>
+              </controls:OptionControl>
+            </StackPanel>
+          </ui:CardExpander>
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+            <HeaderedContentControl.Header>
+              <StackPanel>
                 <TextBlock FontSize="14" Text="Sidebar layout" />
                 <TextBlock Margin="0,2,0,0" FontSize="12" Text="Rename, choose icons or custom images, show, hide, and reorder sidebar pages." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>

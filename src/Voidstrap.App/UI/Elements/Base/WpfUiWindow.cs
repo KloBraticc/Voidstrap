@@ -329,6 +329,7 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 				App.Logger?.WriteLine("WpfUiWindow::OnSourceInitialized", "Failed to set window icon: " + ex.Message);
 			}
 		}
+		Voidstrap.UI.LiveLanguageRefresher.ApplyBrandImage(this, IconProperty);
 		if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
 		{
 			if (ResizeMode == ResizeMode.CanResize || ResizeMode == ResizeMode.CanResizeWithGrip)
