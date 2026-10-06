@@ -71,7 +71,10 @@ public final class SettingRows {
         } else {
             row.addView(texts, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
             if (control != null) {
-                LinearLayout.LayoutParams cp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                int width = control instanceof com.google.android.material.slider.Slider
+                        ? Math.max(control.getMeasuredWidth(), Ui.dp(c, 260))
+                        : ViewGroup.LayoutParams.WRAP_CONTENT;
+                LinearLayout.LayoutParams cp = new LinearLayout.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT);
                 cp.setMarginStart(Ui.dp(c, 12));
                 row.addView(control, cp);
             }
