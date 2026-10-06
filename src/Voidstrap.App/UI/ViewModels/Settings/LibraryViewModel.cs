@@ -406,6 +406,8 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     public ICommand LaunchCommand { get; }
 
+    public ICommand LaunchSubplaceCommand { get; }
+
     public ICommand TogglePinCommand { get; }
 
     public ICommand AddGameCommand { get; }
@@ -422,6 +424,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         OpenEventCommand = new RelayCommand<LibraryEventEntry>(OpenEvent);
         GoHomeCommand = new RelayCommand(GoHome);
         LaunchCommand = new AsyncRelayCommand<LibraryGameEntry>(LaunchGameAsync);
+        LaunchSubplaceCommand = new AsyncRelayCommand<RobloxSubplaces.Place>(LaunchSubplaceAsync);
         TogglePinCommand = new RelayCommand<LibraryGameEntry>(TogglePin);
         AddGameCommand = new AsyncRelayCommand(AddGameFromTextAsync);
         RefreshCommand = new RelayCommand(Refresh);
@@ -1462,6 +1465,13 @@ public class LibraryViewModel : INotifyPropertyChanged
     private void Refresh()
     {
         _ = LoadAsync(true);
+    }
+
+    private Task LaunchSubplaceAsync(RobloxSubplaces.Place? place)
+    {
+        if (place == null || SubplacesLoading || !Subplaces.Contains(place))
+            return Task.CompletedTask;
+        return LaunchGameAsync(new LibraryGameEntry { PlaceId = place.Id });
     }
 
     private async Task LaunchGameAsync(LibraryGameEntry? game)

@@ -665,8 +665,8 @@
                 <ItemsControl ItemsSource="{Binding Subplaces}">
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                      <Border Padding="12" Margin="0,0,0,8" CornerRadius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}">
-                        <Grid>
+                      <Button Style="{StaticResource ShelfCardButton}" Margin="0,0,0,8" AutomationProperties.Name="{Binding DisplayName}" Command="{Binding DataContext.LaunchSubplaceCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
+                        <Grid Margin="12">
                           <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -679,7 +679,7 @@
                           </Border>
                           <TextBlock Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding DisplayName}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
                         </Grid>
-                      </Border>
+                      </Button>
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
