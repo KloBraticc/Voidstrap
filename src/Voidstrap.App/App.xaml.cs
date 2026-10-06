@@ -1332,6 +1332,7 @@ public partial class App : Application
 		TimedLoad("State", () => State.Load());
 		TimedLoad("Roblox state", () => RobloxState.Load());
 		TimedLoad("Settings", () => Settings.Load());
+		ResetHardwareAccelerationOnce();
 		ResetWindowBackdropOnce();
 		ResetServerInfoInTitleOnce();
 		TimedLoad("FastFlags", () => FastFlags.Load(alertFailure: false));
@@ -1342,6 +1343,27 @@ public partial class App : Application
 		long started = Stopwatch.GetTimestamp();
 		load();
 		LinuxUiPerformance.Duration(name + " load", started);
+	}
+
+	private const int HardwareAccelerationResetVersion = 1;
+
+	private static void ResetHardwareAccelerationOnce()
+	{
+		if (Settings.LastFileHash is null || State.LastFileHash is null || State.Prop.HardwareAccelerationResetVersion >= HardwareAccelerationResetVersion)
+			return;
+		Settings.Prop.WPFSoftwareRender = false;
+		try
+		{
+			Settings.SaveChecked();
+			State.Prop.HardwareAccelerationResetVersion = HardwareAccelerationResetVersion;
+			State.SaveChecked();
+			Logger.WriteLine("App::ResetHardwareAccelerationOnce", "Hardware acceleration reset to on");
+		}
+		catch (Exception ex)
+		{
+			State.Prop.HardwareAccelerationResetVersion = 0;
+			Logger.WriteException("App::ResetHardwareAccelerationOnce", ex);
+		}
 	}
 
 	private const int WindowBackdropResetVersion = 1;

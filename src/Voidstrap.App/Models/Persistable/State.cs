@@ -19,6 +19,8 @@ public class State
 
 	public int SidebarLayoutVersion { get; set; }
 
+	public int HardwareAccelerationResetVersion { get; set; }
+
 	public AppState Player { get; set; } = new AppState();
 
 	public AppState VngPlayer { get; set; } = new AppState();

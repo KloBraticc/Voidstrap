@@ -92,25 +92,13 @@
                     PopupAnimation="Slide"
                     VerticalOffset="1">
                     <Grid>
-                        <Border x:Name="SubmenuShadow" Margin="12,0,12,18" CornerRadius="7" CacheMode="BitmapCache" IsHitTestVisible="False">
-                            <Border.Background>
-                                <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
-                            </Border.Background>
-                            <Border.Effect>
-                                <DropShadowEffect
-                                    BlurRadius="24"
-                                    Direction="270"
-                                    Opacity="0.14"
-                                    ShadowDepth="8" />
-                            </Border.Effect>
-                        </Border>
                         <Border
                             x:Name="SubmenuBorder"
                             Margin="12,0,12,18"
                             Padding="0,3,0,3"
                             BorderBrush="{DynamicResource MenuBorderColorDefaultBrush}"
                             BorderThickness="1"
-                            CornerRadius="7"
+                            CornerRadius="8"
                             SnapsToDevicePixels="True">
                             <Border.Background>
                                 <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
@@ -118,6 +106,13 @@
                             <ScrollViewer CanContentScroll="True" Style="{StaticResource UiMenuItemScrollViewer}">
                                 <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                             </ScrollViewer>
+                            <Border.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="20"
+                                    Direction="270"
+                                    Opacity="0.25"
+                                    ShadowDepth="6" />
+                            </Border.Effect>
                         </Border>
                     </Grid>
                 </Popup>
@@ -125,8 +120,7 @@
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
-                <Setter TargetName="SubmenuShadow" Property="Effect" Value="{x:Null}" />
-                <Setter TargetName="SubmenuShadow" Property="CacheMode" Value="{x:Null}" />
+                <Setter TargetName="SubmenuBorder" Property="Effect" Value="{x:Null}" />
             </Trigger>
             <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
@@ -214,144 +208,77 @@
             Margin="4,1,4,1"
             Background="Transparent"
             CornerRadius="{DynamicResource ControlCornerRadius}">
-            <Grid>
+            <Grid Margin="8,6,8,6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
+                </Grid.ColumnDefinitions>
+
                 <Border
-                    x:Name="HighlightSurface"
-                    Background="{DynamicResource SystemAccentColorSecondaryBrush}"
-                    CornerRadius="{DynamicResource ControlCornerRadius}"
-                    Opacity="0" />
-                <Border
-                    x:Name="AccentPill"
-                    Width="3"
-                    Height="16"
-                    Margin="3,0,0,0"
-                    HorizontalAlignment="Left"
+                    x:Name="CheckBoxIconBorder"
+                    Grid.Column="0"
+                    Width="20"
+                    Height="20"
+                    Margin="0,0,6,0"
                     VerticalAlignment="Center"
-                    Background="{DynamicResource AccentFillColorDefaultBrush}"
-                    CornerRadius="1.5"
-                    Opacity="0"
-                    RenderTransformOrigin="0.5,0.5"
-                    SnapsToDevicePixels="True">
-                    <Border.RenderTransform>
-                        <ScaleTransform ScaleY="0.3125" />
-                    </Border.RenderTransform>
+                    BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Visibility="Collapsed">
+                    <Border.Background>
+                        <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                    </Border.Background>
+                    <TextBlock
+                        x:Name="CheckBoxIcon"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="{DynamicResource FluentSystemIcons}"
+                        FontSize="16"
+                        Text=""
+                        TextAlignment="Center" />
                 </Border>
-                <Grid x:Name="ItemContent" Margin="8,6,8,6">
-                    <Grid.RenderTransform>
-                        <TranslateTransform X="0" />
-                    </Grid.RenderTransform>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
-                    </Grid.ColumnDefinitions>
 
-                    <Border
-                        x:Name="CheckBoxIconBorder"
-                        Grid.Column="0"
-                        Width="20"
-                        Height="20"
-                        Margin="0,0,6,0"
-                        VerticalAlignment="Center"
-                        BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                        BorderThickness="1"
-                        CornerRadius="4"
-                        Visibility="Collapsed">
-                        <Border.Background>
-                            <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
-                        </Border.Background>
-                        <Grid>
-                            <Border
-                                x:Name="CheckBoxFill"
-                                CornerRadius="3"
-                                Opacity="0"
-                                RenderTransformOrigin="0.5,0.5">
-                                <Border.Background>
-                                    <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
-                                </Border.Background>
-                                <Border.RenderTransform>
-                                    <ScaleTransform ScaleX="0.4" ScaleY="0.4" />
-                                </Border.RenderTransform>
-                            </Border>
-                            <TextBlock
-                                x:Name="CheckBoxIcon"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontFamily="{DynamicResource FluentSystemIcons}"
-                                FontSize="16"
-                                Foreground="#FFFFFFFF"
-                                Opacity="0"
-                                RenderTransformOrigin="0.5,0.5"
-                                Text="&#xF294;"
-                                TextAlignment="Center">
-                                <TextBlock.RenderTransform>
-                                    <ScaleTransform ScaleX="0.2" ScaleY="0.2" />
-                                </TextBlock.RenderTransform>
-                            </TextBlock>
-                        </Grid>
-                    </Border>
+                <ContentPresenter
+                    x:Name="Icon"
+                    Grid.Column="1"
+                    Margin="0,0,6,0"
+                    VerticalAlignment="Center"
+                    Content="{TemplateBinding Icon}" />
 
-                    <ContentPresenter
-                        x:Name="Icon"
-                        Grid.Column="1"
-                        Margin="0,0,6,0"
-                        VerticalAlignment="Center"
-                        Content="{TemplateBinding Icon}" />
+                <ContentPresenter
+                    Grid.Column="2"
+                    ContentSource="Header"
+                    RecognizesAccessKey="True"
+                    VerticalAlignment="Center"
+                    TextElement.Foreground="{TemplateBinding Foreground}" />
 
-                    <ContentPresenter
-                        Grid.Column="2"
-                        ContentSource="Header"
-                        RecognizesAccessKey="True"
-                        VerticalAlignment="Center"
-                        TextElement.Foreground="{TemplateBinding Foreground}" />
-
+                <Border
+                    x:Name="InputGestureBadge"
+                    Grid.Column="3"
+                    Margin="25,0,0,0"
+                    Padding="6,2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                    CornerRadius="3">
                     <TextBlock
                         x:Name="InputGestureText"
-                        Grid.Column="3"
-                        Margin="25,0,0,0"
-                        VerticalAlignment="Bottom"
-                        DockPanel.Dock="Right"
+                        VerticalAlignment="Center"
                         FontSize="11"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{TemplateBinding Foreground}"
                         Text="{TemplateBinding InputGestureText}" />
-                </Grid>
+                </Border>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="True">
-                <Trigger.EnterActions>
-                    <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
-                        <Storyboard Timeline.DesiredFrameRate="60">
-                            <DoubleAnimation Storyboard.TargetName="HighlightSurface" Storyboard.TargetProperty="Opacity" To="0.16" Duration="00:00:00.09">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="ItemContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="3" Duration="00:00:00.10">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="AccentPill" Storyboard.TargetProperty="Opacity" To="1" Duration="00:00:00.09" />
-                            <DoubleAnimation Storyboard.TargetName="AccentPill" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="00:00:00.12">
-                                <DoubleAnimation.EasingFunction>
-                                    <PowerEase EasingMode="EaseOut" Power="3" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-                <Trigger.ExitActions>
-                    <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
-                        <Storyboard Timeline.DesiredFrameRate="60" FillBehavior="Stop">
-                            <DoubleAnimation Storyboard.TargetName="HighlightSurface" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.10" />
-                            <DoubleAnimation Storyboard.TargetName="ItemContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="0" Duration="00:00:00.10" />
-                            <DoubleAnimation Storyboard.TargetName="AccentPill" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.10" />
-                            <DoubleAnimation Storyboard.TargetName="AccentPill" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="0.3125" Duration="00:00:00.10" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
+                <Setter TargetName="Border" Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{DynamicResource SubtleFillColorSecondary}" />
+                    </Setter.Value>
+                </Setter>
             </Trigger>
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
@@ -360,54 +287,7 @@
                 <Setter TargetName="CheckBoxIconBorder" Property="Visibility" Value="Visible" />
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxFill" Storyboard.TargetProperty="Opacity" To="1" Duration="00:00:00.12" />
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxFill" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="00:00:00.20">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxFill" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="00:00:00.20">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxIcon" Storyboard.TargetProperty="Opacity" BeginTime="00:00:00.05" To="1" Duration="00:00:00.10" />
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxIcon" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" BeginTime="00:00:00.05" To="1" Duration="00:00:00.26">
-                                <DoubleAnimation.EasingFunction>
-                                    <BackEase Amplitude="0.6" EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxIcon" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" BeginTime="00:00:00.05" To="1" Duration="00:00:00.26">
-                                <DoubleAnimation.EasingFunction>
-                                    <BackEase Amplitude="0.6" EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxIcon" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.09" />
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxIcon" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="0.2" Duration="00:00:00.12">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseIn" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxIcon" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="0.2" Duration="00:00:00.12">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseIn" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxFill" Storyboard.TargetProperty="Opacity" BeginTime="00:00:00.04" To="0" Duration="00:00:00.12" />
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxFill" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" BeginTime="00:00:00.04" To="0.4" Duration="00:00:00.14" />
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxFill" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" BeginTime="00:00:00.04" To="0.4" Duration="00:00:00.14" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
+                <Setter TargetName="CheckBoxIcon" Property="Text" Value="&#xF294;" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground">
@@ -417,7 +297,10 @@
                 </Setter>
             </Trigger>
             <Trigger Property="InputGestureText" Value="">
-                <Setter TargetName="InputGestureText" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="InputGestureBadge" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <Trigger Property="InputGestureText" Value="{x:Null}">
+                <Setter TargetName="InputGestureBadge" Property="Visibility" Value="Collapsed" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -436,42 +319,32 @@
                 Margin="4,1,4,1"
                 BorderThickness="1"
                 CornerRadius="{DynamicResource ControlCornerRadius}">
-                <Grid>
-                    <Border
-                        x:Name="HighlightSurface"
-                        Background="{DynamicResource SystemAccentColorSecondaryBrush}"
-                        CornerRadius="{DynamicResource ControlCornerRadius}"
-                        Opacity="0" />
-                    <Grid x:Name="MenuItemContent" Margin="8,6,8,6">
-                        <Grid.RenderTransform>
-                            <TranslateTransform X="0" />
-                        </Grid.RenderTransform>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <ContentPresenter
-                            x:Name="Icon"
-                            Grid.Column="0"
-                            Margin="0,0,6,0"
+                <Grid x:Name="MenuItemContent" Margin="8,6,8,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ContentPresenter
+                        x:Name="Icon"
+                        Grid.Column="0"
+                        Margin="0,0,6,0"
+                        VerticalAlignment="Center"
+                        Content="{TemplateBinding Icon}" />
+
+                    <ContentPresenter
+                        x:Name="HeaderHost"
+                        Grid.Column="1"
+                        ContentSource="Header"
+                        RecognizesAccessKey="True" />
+
+                    <Grid Grid.Column="2">
+                        <controls:SymbolIcon
+                            x:Name="Chevron"
+                            Margin="0,3,0,0"
                             VerticalAlignment="Center"
-                            Content="{TemplateBinding Icon}" />
-
-                        <ContentPresenter
-                            x:Name="HeaderHost"
-                            Grid.Column="1"
-                            ContentSource="Header"
-                            RecognizesAccessKey="True" />
-
-                        <Grid Grid.Column="2">
-                            <controls:SymbolIcon
-                                x:Name="Chevron"
-                                Margin="0,3,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="{TemplateBinding FontSize}"
-                                Symbol="ChevronRight20" />
-                        </Grid>
+                            FontSize="{TemplateBinding FontSize}"
+                            Symbol="ChevronRight20" />
                     </Grid>
                 </Grid>
             </Border>
@@ -487,25 +360,13 @@
                 PopupAnimation="Slide"
                 VerticalOffset="-20">
                 <Grid>
-                    <Border x:Name="SubmenuShadow" Margin="12,10,12,18" CornerRadius="7" CacheMode="BitmapCache" IsHitTestVisible="False">
-                        <Border.Background>
-                            <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
-                        </Border.Background>
-                        <Border.Effect>
-                            <DropShadowEffect
-                                BlurRadius="24"
-                                Direction="270"
-                                Opacity="0.14"
-                                ShadowDepth="8" />
-                        </Border.Effect>
-                    </Border>
                     <Border
                         x:Name="SubmenuBorder"
                         Margin="12,10,12,18"
                         Padding="0,3,0,3"
                         BorderBrush="{DynamicResource MenuBorderColorDefaultBrush}"
                         BorderThickness="1"
-                        CornerRadius="7"
+                        CornerRadius="8"
                         SnapsToDevicePixels="True">
                         <Border.Background>
                             <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
@@ -513,44 +374,31 @@
                         <ScrollViewer CanContentScroll="True" Style="{StaticResource UiMenuItemScrollViewer}">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                         </ScrollViewer>
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="20"
+                                Direction="270"
+                                Opacity="0.5"
+                                ShadowDepth="6" />
+                        </Border.Effect>
                     </Border>
                 </Grid>
             </Popup>
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
-                <Setter TargetName="SubmenuShadow" Property="Effect" Value="{x:Null}" />
-                <Setter TargetName="SubmenuShadow" Property="CacheMode" Value="{x:Null}" />
+                <Setter TargetName="SubmenuBorder" Property="Effect" Value="{x:Null}" />
             </Trigger>
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="Icon" Property="Margin" Value="0" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="HighlightSurface" Storyboard.TargetProperty="Opacity" To="0.16" Duration="00:00:00.12">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="MenuItemContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="3" Duration="00:00:00.14">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="HighlightSurface" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.14" />
-                            <DoubleAnimation Storyboard.TargetName="MenuItemContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="0" Duration="00:00:00.14" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
+                <Setter TargetName="Border" Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{DynamicResource SubtleFillColorSecondary}" />
+                    </Setter.Value>
+                </Setter>
             </Trigger>
             <!--<Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="4" />
@@ -572,6 +420,7 @@
     </ControlTemplate>
 
     <Style x:Key="UiMenuItem" TargetType="{x:Type MenuItem}">
+        <Setter Property="controls:RinControlMotion.Enabled" Value="True" />
         <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}" />
         <Setter Property="KeyboardNavigation.IsTabStop" Value="True" />
         <Setter Property="Focusable" Value="True" />
@@ -659,25 +508,13 @@
                     PopupAnimation="Slide"
                     VerticalOffset="1">
                     <Grid>
-                        <Border x:Name="SubmenuShadow" Margin="12,0,12,18" CornerRadius="7" CacheMode="BitmapCache" IsHitTestVisible="False">
-                            <Border.Background>
-                                <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
-                            </Border.Background>
-                            <Border.Effect>
-                                <DropShadowEffect
-                                    BlurRadius="24"
-                                    Direction="270"
-                                    Opacity="0.14"
-                                    ShadowDepth="8" />
-                            </Border.Effect>
-                        </Border>
                         <Border
                             x:Name="SubmenuBorder"
                             Margin="12,0,12,18"
                             Padding="0,3,0,3"
                             BorderBrush="{DynamicResource MenuBorderColorDefaultBrush}"
                             BorderThickness="1"
-                            CornerRadius="7"
+                            CornerRadius="8"
                             SnapsToDevicePixels="True">
                             <Border.Background>
                                 <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
@@ -685,6 +522,13 @@
                             <ScrollViewer CanContentScroll="True" Style="{StaticResource UiMenuItemScrollViewer}">
                                 <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                             </ScrollViewer>
+                            <Border.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="20"
+                                    Direction="270"
+                                    Opacity="0.25"
+                                    ShadowDepth="6" />
+                            </Border.Effect>
                         </Border>
                     </Grid>
                 </Popup>
@@ -692,8 +536,7 @@
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
-                <Setter TargetName="SubmenuShadow" Property="Effect" Value="{x:Null}" />
-                <Setter TargetName="SubmenuShadow" Property="CacheMode" Value="{x:Null}" />
+                <Setter TargetName="SubmenuBorder" Property="Effect" Value="{x:Null}" />
             </Trigger>
             <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
@@ -801,7 +644,7 @@
             x:Name="Border"
             Margin="4,1,4,1"
             Background="Transparent"
-            CornerRadius="4">
+            CornerRadius="{DynamicResource ControlCornerRadius}">
             <Grid Margin="8,6,8,6">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -825,35 +668,14 @@
                     <Border.Background>
                         <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
                     </Border.Background>
-                    <Grid>
-                        <Border
-                            x:Name="CheckBoxFill"
-                            CornerRadius="3"
-                            Opacity="0"
-                            RenderTransformOrigin="0.5,0.5">
-                            <Border.Background>
-                                <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
-                            </Border.Background>
-                            <Border.RenderTransform>
-                                <ScaleTransform ScaleX="0.4" ScaleY="0.4" />
-                            </Border.RenderTransform>
-                        </Border>
-                        <TextBlock
-                            x:Name="CheckBoxIcon"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontFamily="{DynamicResource FluentSystemIcons}"
-                            FontSize="16"
-                            Foreground="#FFFFFFFF"
-                            Opacity="0"
-                            RenderTransformOrigin="0.5,0.5"
-                            Text="&#xF294;"
-                            TextAlignment="Center">
-                            <TextBlock.RenderTransform>
-                                <ScaleTransform ScaleX="0.2" ScaleY="0.2" />
-                            </TextBlock.RenderTransform>
-                        </TextBlock>
-                    </Grid>
+                    <TextBlock
+                        x:Name="CheckBoxIcon"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="{DynamicResource FluentSystemIcons}"
+                        FontSize="16"
+                        Text=""
+                        TextAlignment="Center" />
                 </Border>
 
                 <ContentPresenter
@@ -877,15 +699,22 @@
                     RecognizesAccessKey="True"
                     TextElement.Foreground="{TemplateBinding Foreground}" />
 
-                <TextBlock
-                    x:Name="InputGestureText"
+                <Border
+                    x:Name="InputGestureBadge"
                     Grid.Column="4"
                     Margin="25,0,0,0"
-                    VerticalAlignment="Bottom"
-                    DockPanel.Dock="Right"
-                    FontSize="11"
-                    Foreground="{DynamicResource TextFillColorDisabledBrush}"
-                    Text="{TemplateBinding InputGestureText}" />
+                    Padding="6,2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                    CornerRadius="3">
+                    <TextBlock
+                        x:Name="InputGestureText"
+                        VerticalAlignment="Center"
+                        FontSize="11"
+                        Foreground="{TemplateBinding Foreground}"
+                        Text="{TemplateBinding InputGestureText}" />
+                </Border>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
@@ -908,54 +737,7 @@
                 <Setter TargetName="CheckBoxIconBorder" Property="Margin" Value="0,0,6,0" />
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxFill" Storyboard.TargetProperty="Opacity" To="1" Duration="00:00:00.12" />
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxFill" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="00:00:00.20">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxFill" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="00:00:00.20">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxIcon" Storyboard.TargetProperty="Opacity" BeginTime="00:00:00.05" To="1" Duration="00:00:00.10" />
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxIcon" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" BeginTime="00:00:00.05" To="1" Duration="00:00:00.26">
-                                <DoubleAnimation.EasingFunction>
-                                    <BackEase Amplitude="0.6" EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxIcon" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" BeginTime="00:00:00.05" To="1" Duration="00:00:00.26">
-                                <DoubleAnimation.EasingFunction>
-                                    <BackEase Amplitude="0.6" EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxIcon" Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:00.09" />
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxIcon" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="0.2" Duration="00:00:00.12">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseIn" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxIcon" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="0.2" Duration="00:00:00.12">
-                                <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseIn" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxFill" Storyboard.TargetProperty="Opacity" BeginTime="00:00:00.04" To="0" Duration="00:00:00.12" />
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxFill" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" BeginTime="00:00:00.04" To="0.4" Duration="00:00:00.14" />
-                            <DoubleAnimation Storyboard.TargetName="CheckBoxFill" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" BeginTime="00:00:00.04" To="0.4" Duration="00:00:00.14" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
+                <Setter TargetName="CheckBoxIcon" Property="Text" Value="&#xF294;" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground">
@@ -965,7 +747,10 @@
                 </Setter>
             </Trigger>
             <Trigger Property="InputGestureText" Value="">
-                <Setter TargetName="InputGestureText" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="InputGestureBadge" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <Trigger Property="InputGestureText" Value="{x:Null}">
+                <Setter TargetName="InputGestureBadge" Property="Visibility" Value="Collapsed" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -983,7 +768,7 @@
                 Grid.Row="1"
                 Margin="4,1,4,1"
                 BorderThickness="1"
-                CornerRadius="4">
+                CornerRadius="{DynamicResource ControlCornerRadius}">
                 <Grid x:Name="MenuItemContent" Margin="8,6,8,6">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -1035,25 +820,13 @@
                 PopupAnimation="Slide"
                 VerticalOffset="-20">
                 <Grid>
-                    <Border x:Name="SubmenuShadow" Margin="12,10,12,18" CornerRadius="7" CacheMode="BitmapCache" IsHitTestVisible="False">
-                        <Border.Background>
-                            <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
-                        </Border.Background>
-                        <Border.Effect>
-                            <DropShadowEffect
-                                BlurRadius="24"
-                                Direction="270"
-                                Opacity="0.14"
-                                ShadowDepth="8" />
-                        </Border.Effect>
-                    </Border>
                     <Border
                         x:Name="SubmenuBorder"
                         Margin="12,10,12,18"
                         Padding="0,3,0,3"
                         BorderBrush="{DynamicResource MenuBorderColorDefaultBrush}"
                         BorderThickness="1"
-                        CornerRadius="7"
+                        CornerRadius="8"
                         SnapsToDevicePixels="True">
                         <Border.Background>
                             <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
@@ -1061,14 +834,20 @@
                         <ScrollViewer CanContentScroll="True" Style="{StaticResource UiMenuItemScrollViewer}">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                         </ScrollViewer>
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="20"
+                                Direction="270"
+                                Opacity="0.5"
+                                ShadowDepth="6" />
+                        </Border.Effect>
                     </Border>
                 </Grid>
             </Popup>
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
-                <Setter TargetName="SubmenuShadow" Property="Effect" Value="{x:Null}" />
-                <Setter TargetName="SubmenuShadow" Property="CacheMode" Value="{x:Null}" />
+                <Setter TargetName="SubmenuBorder" Property="Effect" Value="{x:Null}" />
             </Trigger>
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
@@ -1106,6 +885,7 @@
 
     <!--  MenuItem Style  -->
     <Style x:Key="WpfUiMenuItem" TargetType="{x:Type controls:MenuItem}">
+        <Setter Property="controls:RinControlMotion.Enabled" Value="True" />
         <Setter Property="SymbolIcon" Value="Empty" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}" />
