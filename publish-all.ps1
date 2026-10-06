@@ -733,7 +733,7 @@ function Repair-FutureTimestamps {
         }
     }
     if ($outputs -gt 0 -or $sources -gt 0) {
-        Write-Host "  The system clock ran ahead (often after booting Linux): reset $outputs build files and $sources source files dated in the future so every page and resource rebuilds." -ForegroundColor DarkYellow
+        Write-Host "  Found $outputs build files and $sources source files dated in the future, left over from a build made while the clock was ahead (usually right after booting Linux). Reset them so everything rebuilds correctly." -ForegroundColor DarkYellow
     }
 }
 
@@ -775,6 +775,7 @@ function Test-SystemClock {
         return
     }
     Write-Host '  The clock could not be resynced from here, so the build continues anyway. Every file is still rebuilt correctly, and if Windows fixes the clock during the build, the affected targets rebuild automatically.' -ForegroundColor DarkYellow
+    $script:ClockWasWrong = $true
 }
 
 function Get-OutputSnapshot {
@@ -1748,6 +1749,9 @@ if ($PackageNotes.Count -gt 0) {
 }
 Write-Host "Output: $Out"
 Write-Host "Time:   $($sw.Elapsed.ToString('mm\:ss'))"
+if ($script:ClockWasWrong) {
+    Write-Host 'Note:   this build ran while the clock was wrong, so its files carry wrong dates. The builds themselves are correct, and the next run fixes the dates automatically.' -ForegroundColor DarkYellow
+}
 Write-Host ''
 $previousOutputs = if ($script:OutputSnapshot) { $script:OutputSnapshot } else { @{} }
 foreach ($folder in @(Get-ChildItem -LiteralPath $Out -Directory -ErrorAction SilentlyContinue | Where-Object { -not $_.Name.StartsWith('.') } | Sort-Object Name)) {
