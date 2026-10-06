@@ -68,9 +68,6 @@
                                    HorizontalAlignment="Stretch"
                                    Appearance="Primary"
                                    Icon="Play24"
-                                  
-                                   IconForeground="White"
-                                   Foreground="White"
                                    FontSize="22"
                                    Click="PlayButton_Click" />
 

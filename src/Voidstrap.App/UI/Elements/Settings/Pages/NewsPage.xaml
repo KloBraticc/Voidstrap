@@ -37,7 +37,7 @@
                   <StackPanel Margin="0,0,0,10" Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Date, StringFormat={}{0:MMMM dd, yyyy}}" />
                     <Border Margin="8,0,0,0" Padding="6,1" VerticalAlignment="Center" CornerRadius="4" Background="{DynamicResource AccentFillColorPrimaryBrush}" Visibility="{Binding IsNew, Converter={StaticResource BoolToVis}}">
-                      <TextBlock FontSize="10" FontWeight="Bold" VerticalAlignment="Center" Foreground="#FFFFFFFF" Text="{Binding AgeLabel}" />
+                      <TextBlock FontSize="10" FontWeight="Bold" VerticalAlignment="Center" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" Text="{Binding AgeLabel}" />
                     </Border>
                   </StackPanel>
                   <Image Height="200" Margin="0,0,0,10" Stretch="UniformToFill" SnapsToDevicePixels="True" Source="{Binding Image, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Visibility="{Binding Image, Converter={StaticResource NullToVisibilityConverter}}">

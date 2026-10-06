@@ -250,7 +250,7 @@
                                     KeyboardNavigation.IsTabStop="True"
                                     MouseOverBackground="{TemplateBinding ButtonsBackground}"
                                     Style="{StaticResource UiTitlebarButton}"
-                                    ToolTip="Maximize"
+                                    ToolTip="Restore"
                                     Visibility="Collapsed" />
                                 <controls:Button
                                     Grid.Column="4"

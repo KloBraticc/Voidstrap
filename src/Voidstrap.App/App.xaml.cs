@@ -1569,6 +1569,7 @@ public partial class App : Application
 			Wpf.Ui.Controls.SmoothScroll.SetGlobalEnabled(!Voidstrap.Utility.Platform.IsLinux && Settings.Prop.SmooothBARRyesirikikthxlucipook);
 			Wpf.Ui.Controls.SmoothScroll.Register();
 		});
+		TryStartup("Tooltip behavior", Voidstrap.UI.ToolTipBehavior.Install);
 		TryStartup("Global background", GlobalBackground.Register);
 		TryStartup("Application font", AppFont.Initialize);
 		TryStartup("Memory manager", Voidstrap.Utility.MemoryManager.Start);

@@ -786,9 +786,6 @@
 
                                         <ui:Button Grid.Column="0"
                                                    Icon="Play24"
-                                                  
-                                                   IconForeground="White"
-                                                   Foreground="White"
                                                    Appearance="Primary"
                                                    ToolTip="{Binding Name, StringFormat='Play {0}'}"
                                                    HorizontalAlignment="Stretch"

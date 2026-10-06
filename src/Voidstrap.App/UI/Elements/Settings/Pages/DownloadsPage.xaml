@@ -362,7 +362,7 @@
                         </Grid.ColumnDefinitions>
                         <ui:Button Grid.Column="0" Width="42" Height="42" Padding="0" Appearance="Secondary" Icon="FolderOpen24" FontSize="18" ToolTip="Open install folder" Command="{Binding OpenFolderCommand}" />
                         <ui:Button Grid.Column="2" Width="42" Height="42" Padding="0" Appearance="Secondary" Icon="DocumentSearch24" FontSize="18" ToolTip="Verify files" AutomationProperties.Name="Verify files" IsEnabled="{Binding CanVerify}" Command="{Binding VerifyCommand}" />
-                        <ui:Button Grid.Column="4" Height="42" Icon="ArrowDownload24" IconForeground="White" Foreground="White" FontSize="15" FontWeight="SemiBold" Appearance="Primary" Content="{Binding PrimaryButtonText}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
+                        <ui:Button Grid.Column="4" Height="42" Icon="ArrowDownload24" FontSize="15" FontWeight="SemiBold" Appearance="Primary" Content="{Binding PrimaryButtonText}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
                         <ui:Button Grid.Column="6" Width="42" Height="42" Padding="0" Appearance="Danger" Icon="Delete24" FontSize="18" ToolTip="Uninstall" IsEnabled="{Binding CanUninstall}" Command="{Binding UninstallCommand}" />
                     </Grid>
                 </Grid>
