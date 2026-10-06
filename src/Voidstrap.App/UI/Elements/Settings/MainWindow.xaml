@@ -912,11 +912,8 @@
         <ui:Button Height="30" Margin="10,0,0,0" Padding="12,0" Content="Reset" Click="ZoomReset_Click" />
       </StackPanel>
     </Border>
-    <Border x:Name="StatusBarHost" Grid.Row="2" VerticalAlignment="Bottom" Height="52" CornerRadius="0" Padding="16,0" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="{ui:ThemeResource ControlFillColorDefaultBrush}">
-      <StatusBar Name="RootStatusBar" Padding="14,10" BorderThickness="0,1,0,0">
-        <Control.Background>
-          <SolidColorBrush Opacity="0" Color="{ui:ThemeResource ApplicationBackgroundColor}" />
-        </Control.Background>
+    <Border x:Name="StatusBarHost" Grid.Row="2" VerticalAlignment="Bottom" MinHeight="52" CornerRadius="0" Padding="16,0" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="{ui:ThemeResource ControlFillColorDefaultBrush}">
+      <StatusBar Name="RootStatusBar" Padding="14,10" BorderThickness="0" Background="Transparent">
         <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
             <Grid>
@@ -938,7 +935,7 @@
           </StackPanel>
         </StatusBarItem>
         <StatusBarItem Grid.Column="2" Padding="0,0,8,0">
-          <ui:SplitButton Name="InstallLaunchButton" Height="34" HorizontalAlignment="Center"
+          <ui:SplitButton Name="InstallLaunchButton" Height="{Binding ActualHeight, ElementName=FooterSaveButton}" MinHeight="0" HorizontalAlignment="Center"
                           Background="{DynamicResource AccentFillColorPrimaryBrush}" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
                           AutomationProperties.Name="{Binding Text, ElementName=LaunchActionText}"
                           Command="{Binding SaveAndLaunchSettingsCommand, Mode=OneWay}">
@@ -949,7 +946,7 @@
 		  <ui:Button x:Name="FooterSaveButton" MinWidth="56.587" Appearance="Primary" Background="{DynamicResource SystemAccentBrush}" Content="{x:Static resources:Strings.Menu_Save}" Command="{Binding SaveSettingsCommand, Mode=OneWay}" Click="Button_Click_1" />
         </StatusBarItem>
         <StatusBarItem Grid.Column="4" Padding="0,0,8,0">
-		  <ui:Button x:Name="FooterCloseButton" MinWidth="56.587" HorizontalAlignment="Center" Appearance="Secondary" Content="{x:Static resources:Strings.Common_Close}" Command="{Binding CloseWindowCommand, Mode=OneTime}" Click="Button_Click_2" />
+		  <ui:Button x:Name="FooterCloseButton" MinWidth="56.587" Height="{Binding ActualHeight, ElementName=FooterSaveButton}" MinHeight="0" HorizontalAlignment="Center" Appearance="Secondary" Content="{x:Static resources:Strings.Common_Close}" Command="{Binding CloseWindowCommand, Mode=OneTime}" Click="Button_Click_2" />
         </StatusBarItem>
       </StatusBar>
     </Border>

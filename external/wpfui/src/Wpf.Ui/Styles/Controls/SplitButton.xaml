@@ -60,7 +60,7 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding Border.CornerRadius}">
                         <DockPanel LastChildFill="True">
-                            <Button x:Name="PART_DropDownButton" DockPanel.Dock="Left" Width="34" Padding="0" Margin="0" VerticalAlignment="Stretch"
+                            <Button x:Name="PART_DropDownButton" Style="{x:Null}" DockPanel.Dock="Left" Width="34" MinWidth="0" MinHeight="0" Padding="0" Margin="0" VerticalAlignment="Stretch"
                                     Background="Transparent" Foreground="{TemplateBinding Foreground}"
                                     ToolTip="{TemplateBinding DropDownToolTip}" AutomationProperties.Name="{TemplateBinding DropDownToolTip}">
                                 <Button.Template>
