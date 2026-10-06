@@ -2570,4 +2570,9 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve"><value>Delete the saved profile "{0}"? Your current settings will stay as they are.</value></data>
   <data name="SettingsProfiles.Deleted" xml:space="preserve"><value>Deleted "{0}".</value></data>
   <data name="SettingsProfiles.Error" xml:space="preserve"><value>The profile action could not be completed: {0}</value></data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve"><value>Blocks texture and texture pack asset downloads</value></data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve"><value>Blocks decal asset downloads</value></data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve"><value>Blocks image asset downloads. Roblox also uses images for textures and decals</value></data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve"><value>Blocks animation asset downloads. Games without an animation fallback may stop working correctly</value></data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve"><value>Blocks mesh and meshpart asset downloads. Mesh geometry will be invisible</value></data>
 </root>

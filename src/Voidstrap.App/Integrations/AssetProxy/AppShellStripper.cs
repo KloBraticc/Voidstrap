@@ -13,9 +13,7 @@ public static class AppShellStripper
 
 	public static bool IsEnabled =>
 		App.Settings.Prop.AssetWarpEnabled &&
-		(App.Settings.Prop.AssetWarpDisableAllImages ||
-		App.Settings.Prop.AssetWarpDisableAllTextures ||
-		App.Settings.Prop.AssetWarpDisableAllDecals);
+		App.Settings.Prop.AssetWarpDisableAllImages;
 
 	public static bool CanProcessResponse(string host, string path, string? userAgent)
 	{

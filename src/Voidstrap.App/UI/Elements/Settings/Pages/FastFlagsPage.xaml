@@ -350,19 +350,19 @@
                     <ui:ToggleSwitch IsChecked="{Binding AssetWarpEnabled, Mode=TwoWay}" />
                   </controls:OptionControl>
                   <StackPanel IsEnabled="{Binding AssetWarpEnabled}">
-                    <controls:OptionControl Header="Remove All Textures" Description="Removes only texture and texture pack entries from Roblox asset batches">
+                    <controls:OptionControl Header="Remove All Textures" Description="{x:Static resources:Strings.AssetWarp_RemoveTexturesDescription}">
             <ui:ToggleSwitch IsChecked="{Binding DisableAllTextures, Mode=TwoWay}" />
           </controls:OptionControl>
-		  <controls:OptionControl Header="Remove All Decals" Description="Removes only decal entries from Roblox asset batches">
+		  <controls:OptionControl Header="Remove All Decals" Description="{x:Static resources:Strings.AssetWarp_RemoveDecalsDescription}">
 			<ui:ToggleSwitch IsChecked="{Binding DisableAllDecals, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Remove All Images" Description="Removes only image entries from Roblox asset batches">
+		  <controls:OptionControl Header="Remove All Images" Description="{x:Static resources:Strings.AssetWarp_RemoveImagesDescription}">
 			<ui:ToggleSwitch IsChecked="{Binding DisableAllImages, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Remove All Animations" Description="Removes only animation entries from Roblox asset batches, This breaks games with 0 animation fallback">
+		  <controls:OptionControl Header="Remove All Animations" Description="{x:Static resources:Strings.AssetWarp_RemoveAnimationsDescription}">
 			<ui:ToggleSwitch IsChecked="{Binding DisableAllAnimations, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Remove All Meshes" Description="Removes mesh and meshpart entries from Roblox asset batches, This makes all 3D geometry invisible">
+		  <controls:OptionControl Header="Remove All Meshes" Description="{x:Static resources:Strings.AssetWarp_RemoveMeshesDescription}">
 			<ui:ToggleSwitch IsChecked="{Binding DisableAllMeshes, Mode=TwoWay}" />
 		  </controls:OptionControl>
 		  <controls:OptionControl Header="Presence Spoofer" Description="Changes what others see online, in studio, or offline">
