@@ -81,20 +81,14 @@
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ComboBox>
-        <ui:Button Margin="0,8,0,0" HorizontalAlignment="Right" Content="{x:Static resources:Strings.Installer_Appearance_Theme_Customize}" Icon="Color24" Click="OpenCustomThemeEditor_Click">
-          <ui:Button.Style>
-            <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
-              <Setter Property="Visibility" Value="Collapsed" />
-              <Style.Triggers>
-                <DataTrigger Binding="{Binding Theme}" Value="{x:Static enums:Theme.Custom}">
-                  <Setter Property="Visibility" Value="Visible" />
-                </DataTrigger>
-              </Style.Triggers>
-            </Style>
-          </ui:Button.Style>
-        </ui:Button>
       </StackPanel>
     </controls:OptionControl>
+    <Border Margin="0,4,0,0" Padding="16,13,16,14" CornerRadius="{DynamicResource ControlCornerRadius}" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Visibility="{Binding CustomThemeEditorVisibility}">
+      <Border.Background>
+        <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+      </Border.Background>
+      <controls:CustomThemePanel />
+    </Border>
     <controls:OptionControl Margin="0,4,0,0" Header="{x:Static resources:Strings.Installer_Appearance_Backdrop_Title}" Description="{x:Static resources:Strings.Installer_Appearance_Backdrop_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.DesktopBackdrop}">
       <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding BackdropOptions, Mode=OneTime}" SelectedItem="{Binding SelectedBackdrop, Mode=TwoWay}">
         <ItemsControl.ItemTemplate>

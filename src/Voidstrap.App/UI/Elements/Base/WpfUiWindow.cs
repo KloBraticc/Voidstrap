@@ -31,9 +31,13 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 
 	private static readonly Dictionary<Voidstrap.Enums.Theme, ResourceDictionary> _builtInThemeCache = new Dictionary<Voidstrap.Enums.Theme, ResourceDictionary>();
 
-	private Voidstrap.Enums.Theme? _lastAppliedTheme;
+	private static Voidstrap.Enums.Theme? _activeTheme;
 
-	private ResourceDictionary? _lastAppliedDict;
+	private static ResourceDictionary? _activeThemeDict;
+
+	private static ResourceDictionary? _customThemeCache;
+
+	private static (DateTime Written, long Length)? _customThemeStamp;
 
 	private bool _disposed;
 
@@ -55,37 +59,73 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 
 	public void ApplyTheme()
 	{
-		Voidstrap.Enums.Theme final = App.Settings.Prop.Theme2.GetFinal();
-		bool flag = final == Voidstrap.Enums.Theme.Custom;
-		if (flag || _lastAppliedTheme != final)
-		{
-			ThemeType theme = ((final != Voidstrap.Enums.Theme.Light) ? ThemeType.Dark : ThemeType.Light);
-			try
-			{
-				_themeService.SetTheme(theme);
-			}
-			catch (Exception ex)
-			{
-				App.Logger?.WriteLine("WpfUiWindow::ApplyTheme", "Wpf.Ui theme service failed: " + ex.Message);
-			}
-			Voidstrap.Utility.SystemAccent.ApplyResources();
-			ResourceDictionary? resourceDictionary = null;
-			if (flag)
-			{
-				resourceDictionary = LoadCustomThemeDict();
-			}
-			if (resourceDictionary == null)
-			{
-				resourceDictionary = LoadBuiltInThemeDict(final);
-			}
-			if (resourceDictionary != null)
-			{
-				ReplaceThemeDictionary(resourceDictionary);
-				_lastAppliedTheme = final;
-			}
-		}
+		EnsureThemeDictionary();
 		if (IsLoaded)
 			WindowBackdrop.RefreshTheme(this);
+	}
+
+	internal static void EnsureThemeDictionary()
+	{
+		if (Application.Current == null)
+			return;
+		try
+		{
+			Voidstrap.Enums.Theme final = App.Settings.Prop.Theme2.GetFinal();
+			bool themeChanged = _activeTheme != final;
+			if (themeChanged)
+			{
+				ThemeType theme = final != Voidstrap.Enums.Theme.Light ? ThemeType.Dark : ThemeType.Light;
+				try
+				{
+					_themeService.SetTheme(theme);
+				}
+				catch (Exception ex)
+				{
+					App.Logger?.WriteLine("WpfUiWindow::ApplyTheme", "Wpf.Ui theme service failed: " + ex.Message);
+				}
+				Voidstrap.Utility.SystemAccent.ApplyResources();
+			}
+			ResourceDictionary? resourceDictionary = final == Voidstrap.Enums.Theme.Custom ? GetCustomThemeDict() : null;
+			resourceDictionary ??= LoadBuiltInThemeDict(final);
+			if (resourceDictionary == null)
+				return;
+			if (!ReferenceEquals(resourceDictionary, _activeThemeDict) || !Application.Current.Resources.MergedDictionaries.Contains(resourceDictionary))
+				ReplaceThemeDictionary(resourceDictionary);
+			_activeTheme = final;
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("WpfUiWindow::ApplyTheme", "The theme could not be applied: " + ex.Message);
+		}
+	}
+
+	internal static void InvalidateCustomTheme()
+	{
+		_customThemeCache = null;
+		_customThemeStamp = null;
+	}
+
+	private static ResourceDictionary? GetCustomThemeDict()
+	{
+		(DateTime, long) stamp;
+		try
+		{
+			System.IO.FileInfo file = new System.IO.FileInfo(Paths.CustomThemeXaml);
+			stamp = file.Exists ? (file.LastWriteTimeUtc, file.Length) : (DateTime.MinValue, -1);
+		}
+		catch (Exception)
+		{
+			stamp = (DateTime.MinValue, -1);
+		}
+		if (_customThemeCache != null && _customThemeStamp == stamp)
+			return _customThemeCache;
+		ResourceDictionary? loaded = LoadCustomThemeDict();
+		if (loaded != null)
+		{
+			_customThemeCache = loaded;
+			_customThemeStamp = stamp;
+		}
+		return loaded;
 	}
 
 	private static ResourceDictionary? LoadCustomThemeDict()
@@ -136,16 +176,19 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 		}
 	}
 
-	private void ReplaceThemeDictionary(ResourceDictionary newDict)
+	private static void ReplaceThemeDictionary(ResourceDictionary newDict)
 	{
 		if (Application.Current == null)
 		{
 			return;
 		}
 		Collection<ResourceDictionary> mergedDictionaries = Application.Current.Resources.MergedDictionaries;
-		if (_lastAppliedDict != null && !ReferenceEquals(_lastAppliedDict, newDict) && mergedDictionaries.Contains(_lastAppliedDict))
+		int insertAt = -1;
+		if (_activeThemeDict != null && !ReferenceEquals(_activeThemeDict, newDict))
 		{
-			mergedDictionaries.Remove(_lastAppliedDict);
+			insertAt = mergedDictionaries.IndexOf(_activeThemeDict);
+			if (insertAt >= 0)
+				mergedDictionaries.RemoveAt(insertAt);
 		}
 		for (int num = mergedDictionaries.Count - 1; num >= 0; num--)
 		{
@@ -163,11 +206,40 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 			if (!SharedStyleDictionaries.Contains(fileName))
 			{
 				mergedDictionaries.RemoveAt(num);
+				if (insertAt > num)
+					insertAt--;
 			}
 		}
 		if (!mergedDictionaries.Contains(newDict))
-			mergedDictionaries.Add(newDict);
-		_lastAppliedDict = newDict;
+		{
+			if (insertAt >= 0 && insertAt <= mergedDictionaries.Count)
+				mergedDictionaries.Insert(insertAt, newDict);
+			else
+				mergedDictionaries.Add(newDict);
+		}
+		_activeThemeDict = newDict;
+		RefreshDerivedBrushes(mergedDictionaries);
+	}
+
+	private static readonly Uri DerivedBrushDictionary = new Uri("pack://application:,,,/UI/Style/RinUI.xaml", UriKind.Absolute);
+
+	private static void RefreshDerivedBrushes(Collection<ResourceDictionary> mergedDictionaries)
+	{
+		for (int index = 0; index < mergedDictionaries.Count; index++)
+		{
+			string? source = mergedDictionaries[index].Source?.OriginalString;
+			if (source == null || !source.EndsWith("UI/Style/RinUI.xaml", StringComparison.OrdinalIgnoreCase))
+				continue;
+			try
+			{
+				mergedDictionaries[index] = new ResourceDictionary { Source = DerivedBrushDictionary };
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine("WpfUiWindow::RefreshDerivedBrushes", "The shared brushes could not be refreshed: " + ex.Message);
+			}
+			return;
+		}
 	}
 
 	[LibraryImport("gdi32.dll")]
@@ -460,7 +532,6 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 			_hwndSource.RemoveHook(WindowProc);
 			_hwndSource = null;
 		}
-		_lastAppliedDict = null;
 		GC.SuppressFinalize(this);
 	}
 }

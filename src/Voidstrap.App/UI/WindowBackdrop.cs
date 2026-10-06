@@ -26,6 +26,8 @@ public static partial class WindowBackdrop
 
     private const double MinimumAccentSaturation = 0.12;
 
+    private const double MinimumThemeSaturation = 0.12;
+
     private const int AccentCacheMs = 5000;
 
     private const int FlatGradientTolerance = 3;
@@ -578,7 +580,9 @@ public static partial class WindowBackdrop
             application.Dispatcher.BeginInvoke((Action)ApplyThemeToAllOpenWindows);
             return;
         }
+        Voidstrap.UI.Elements.Base.WpfUiWindow.EnsureThemeDictionary();
         InvalidateSurfaceCache();
+        ThemeSwatch.Refresh();
         foreach (Window window in application.Windows.Cast<Window>().ToArray())
         {
             _appliedBackdrops.Remove(window);
@@ -723,13 +727,46 @@ public static partial class WindowBackdrop
     public static Color GetSurfaceColor(Color color)
     {
         Color vibrant = Vibrant(color, EffectiveBackdrop(null));
-        return Color.FromArgb(GetSurfaceOpacity(), vibrant.R, vibrant.G, vibrant.B);
+        byte alpha = IsThemedColor(color) ? GetThemedOpacity(App.Settings.Prop.WindowBackdrop, color.A) : GetSurfaceOpacity();
+        return Color.FromArgb(alpha, vibrant.R, vibrant.G, vibrant.B);
+    }
+
+    private static bool IsCustomThemeActive()
+    {
+        try
+        {
+            return App.Settings.Prop.Theme2.GetFinal() == Theme.Custom;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    private static bool IsThemedColor(Color color)
+    {
+        if (IsCustomThemeActive())
+            return true;
+        ToHsl(color, out _, out double saturation, out _);
+        return saturation >= MinimumThemeSaturation;
+    }
+
+    private static byte GetThemedOpacity(BackdropType backdrop, byte themeAlpha)
+    {
+        if (Voidstrap.Utility.Platform.IsLinux || backdrop == BackdropType.None)
+            return byte.MaxValue;
+        if (backdrop != BackdropType.Aero && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
+            return byte.MaxValue;
+        double baseAlpha = themeAlpha == 0 ? 204 : themeAlpha;
+        double gradientOpacity = Math.Clamp(Voidstrap.UI.ViewModels.Settings.AppearanceViewModel.SharedGradientOpacity, 0.0, 1.0);
+        double scaled = baseAlpha * (0.55 + (gradientOpacity * 0.45));
+        return (byte)Math.Clamp(Math.Round(scaled), 40.0, byte.MaxValue);
     }
 
     private static Color Vibrant(Color color, BackdropType backdrop)
     {
         bool customAccent = Voidstrap.Utility.SystemAccent.TryGetCustomColor(out _);
-        if (!customAccent && (backdrop == BackdropType.None || !Voidstrap.Utility.Platform.IsWindows))
+        if (IsCustomThemeActive() || (!customAccent && (backdrop == BackdropType.None || !Voidstrap.Utility.Platform.IsWindows)))
         {
             return color;
         }
@@ -743,6 +780,14 @@ public static partial class WindowBackdrop
             }
         }
         ToHsl(color, out double hue, out double saturation, out double lightness);
+        if (saturation >= MinimumThemeSaturation)
+        {
+            lock (_surfaceGate)
+            {
+                _vibrantCache[cacheKey] = color;
+            }
+            return color;
+        }
         ToHsl(accent, out double accentHue, out double accentSaturation, out _);
         if (customAccent || accentSaturation >= MinimumAccentSaturation)
         {
@@ -873,13 +918,48 @@ public static partial class WindowBackdrop
         return (byte)Math.Clamp(Math.Round(value * 255.0), 0.0, 255.0);
     }
 
+    private static Brush? CreateCustomGradientBrush(FrameworkElement element, bool opaque)
+    {
+        try
+        {
+            if (element.TryFindResource(Voidstrap.Utility.CustomTheme.WindowGradientKey) is not GradientBrush source || source.GradientStops.Count < 2)
+                return null;
+            GradientBrush gradient = source.CloneCurrentValue();
+            gradient.RelativeTransform = Transform.Identity;
+            foreach (GradientStop stop in gradient.GradientStops)
+            {
+                Color color = stop.Color;
+                if (opaque)
+                {
+                    stop.Color = Color.FromRgb(color.R, color.G, color.B);
+                    continue;
+                }
+                Color surface = GetSurfaceColor(color);
+                stop.Color = Color.FromArgb((byte)Math.Round(surface.A * (color.A / 255.0)), surface.R, surface.G, surface.B);
+            }
+            if (gradient.CanFreeze)
+                gradient.Freeze();
+            return gradient;
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine("WindowBackdrop::CreateCustomGradientBrush", "The custom gradient could not be drawn: " + ex.Message);
+            return null;
+        }
+    }
+
     public static Brush CreateSurfaceBrush(FrameworkElement element)
     {
         if (Voidstrap.Utility.Platform.IsLinux)
         {
             return CreateOpaqueSurfaceBrush(element);
         }
-        if (EffectiveBackdrop(element as Window) == BackdropType.Aero)
+        if (CreateCustomGradientBrush(element, opaque: false) is Brush customGradient)
+        {
+            return customGradient;
+        }
+        if (EffectiveBackdrop(element as Window) == BackdropType.Aero
+            && !IsThemedColor(ResolveColor(element, "WindowBackgroundColorPrimary", CreateSurfaceColor())))
         {
             return Brushes.Transparent;
         }
@@ -935,6 +1015,10 @@ public static partial class WindowBackdrop
 
     internal static Brush CreateOpaqueSurfaceBrush(FrameworkElement element)
     {
+        if (CreateCustomGradientBrush(element, opaque: true) is Brush customGradient)
+        {
+            return customGradient;
+        }
         Color fallback = CreateSurfaceColor(BackdropType.None);
         fallback.A = byte.MaxValue;
         Color primary = ResolveColor(element, "WindowBackgroundColorPrimary", fallback);
@@ -1067,6 +1151,10 @@ public static partial class WindowBackdrop
             && Application.Current?.TryFindResource("WindowBackgroundColorPrimary") is Color surface)
         {
             return Color.FromRgb(surface.R, surface.G, surface.B);
+        }
+        if (Application.Current?.TryFindResource("WindowBackgroundColorPrimary") is Color themed && IsThemedColor(themed))
+        {
+            return Color.FromArgb(GetThemedOpacity(backdrop, themed.A), themed.R, themed.G, themed.B);
         }
         Theme theme = App.Settings.Prop.Theme2.GetFinal();
         if (theme == Theme.Light)

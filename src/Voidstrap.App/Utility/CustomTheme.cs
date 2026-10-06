@@ -22,6 +22,91 @@ namespace Voidstrap.Utility
         public bool IsBrush { get; init; }
 
         public string Fallback { get; init; } = "#FF202020";
+
+        public bool Optional { get; init; }
+    }
+
+    public sealed class ThemeGradientStop
+    {
+        public Color Color { get; set; }
+
+        public double Offset { get; set; }
+    }
+
+    public sealed class ThemeGradient
+    {
+        public const int MaximumStops = 8;
+
+        public bool Radial { get; set; }
+
+        public double Angle { get; set; } = 45;
+
+        public double Radius { get; set; } = 0.75;
+
+        public double CenterX { get; set; } = 0.5;
+
+        public double CenterY { get; set; } = 0.5;
+
+        public List<ThemeGradientStop> Stops { get; } = new List<ThemeGradientStop>();
+
+        public GradientBrush ToBrush()
+        {
+            GradientStopCollection stops = new GradientStopCollection();
+            foreach (ThemeGradientStop stop in Stops.OrderBy(s => s.Offset))
+                stops.Add(new GradientStop(stop.Color, Math.Clamp(stop.Offset, 0, 1)));
+            if (Radial)
+            {
+                Point center = new Point(Math.Clamp(CenterX, 0, 1), Math.Clamp(CenterY, 0, 1));
+                return new RadialGradientBrush(stops) { Center = center, GradientOrigin = center, RadiusX = Math.Clamp(Radius, 0.05, 2), RadiusY = Math.Clamp(Radius, 0.05, 2) };
+            }
+            (Point start, Point end) = PointsForAngle(Angle);
+            return new LinearGradientBrush(stops, start, end);
+        }
+
+        public static (Point Start, Point End) PointsForAngle(double angle)
+        {
+            double radians = angle * Math.PI / 180.0;
+            double dx = Math.Cos(radians) / 2.0;
+            double dy = Math.Sin(radians) / 2.0;
+            return (new Point(Math.Round(0.5 - dx, 4), Math.Round(0.5 - dy, 4)), new Point(Math.Round(0.5 + dx, 4), Math.Round(0.5 + dy, 4)));
+        }
+
+        public static ThemeGradient? FromBrush(object? value)
+        {
+            if (value is not GradientBrush brush || brush.GradientStops.Count < 2)
+                return null;
+            ThemeGradient gradient = new ThemeGradient();
+            foreach (GradientStop stop in brush.GradientStops.Take(MaximumStops))
+                gradient.Stops.Add(new ThemeGradientStop { Color = stop.Color, Offset = Math.Clamp(stop.Offset, 0, 1) });
+            if (brush is RadialGradientBrush radial)
+            {
+                gradient.Radial = true;
+                gradient.Radius = Math.Clamp(Math.Max(radial.RadiusX, radial.RadiusY), 0.05, 2);
+                gradient.CenterX = Math.Clamp(radial.Center.X, 0, 1);
+                gradient.CenterY = Math.Clamp(radial.Center.Y, 0, 1);
+            }
+            else if (brush is LinearGradientBrush linear)
+            {
+                double angle = Math.Atan2(linear.EndPoint.Y - linear.StartPoint.Y, linear.EndPoint.X - linear.StartPoint.X) * 180.0 / Math.PI;
+                gradient.Angle = Math.Round((angle + 360) % 360);
+            }
+            return gradient;
+        }
+
+        public ThemeGradient Clone()
+        {
+            ThemeGradient copy = new ThemeGradient { Radial = Radial, Angle = Angle, Radius = Radius, CenterX = CenterX, CenterY = CenterY };
+            foreach (ThemeGradientStop stop in Stops)
+                copy.Stops.Add(new ThemeGradientStop { Color = stop.Color, Offset = stop.Offset });
+            return copy;
+        }
+    }
+
+    public sealed class ThemeModel
+    {
+        public Dictionary<string, Color> Colors { get; } = new Dictionary<string, Color>(StringComparer.Ordinal);
+
+        public ThemeGradient? Gradient { get; set; }
     }
 
     public sealed class ThemeValidationResult
@@ -40,6 +125,10 @@ namespace Voidstrap.Utility
     public static class CustomTheme
     {
         private const string LOG_IDENT = "CustomTheme";
+
+        public const string WindowGradientKey = "VoidstrapWindowGradient";
+
+        private const int MaximumProfileNameLength = 40;
 
         private const int MaximumXamlCharacters = 200000;
 
@@ -87,7 +176,17 @@ namespace Voidstrap.Utility
             new ThemeKeyInfo { Key = "ComboBoxPopupAcrylicBackground", Label = "Dropdown background", Group = "Surfaces", IsBrush = false, Fallback = "#F0202020" },
             new ThemeKeyInfo { Key = "NewTextEditorBackground", Label = "Editor background", Group = "Code editor", IsBrush = true, Fallback = "#CC202020" },
             new ThemeKeyInfo { Key = "NewTextEditorForeground", Label = "Editor text", Group = "Code editor", IsBrush = true, Fallback = "#FFE9EAEC" },
-            new ThemeKeyInfo { Key = "NewTextEditorLink", Label = "Editor link", Group = "Code editor", IsBrush = true, Fallback = "#FF3897E8" }
+            new ThemeKeyInfo { Key = "NewTextEditorLink", Label = "Editor link", Group = "Code editor", IsBrush = true, Fallback = "#FF3897E8" },
+            new ThemeKeyInfo { Key = "TextFillColorPrimaryBrush", Label = "Primary text", Group = "Text", IsBrush = true, Fallback = "#FFFFFFFF", Optional = true },
+            new ThemeKeyInfo { Key = "TextFillColorSecondaryBrush", Label = "Secondary text", Group = "Text", IsBrush = true, Fallback = "#C5FFFFFF", Optional = true },
+            new ThemeKeyInfo { Key = "TextFillColorTertiaryBrush", Label = "Hint text", Group = "Text", IsBrush = true, Fallback = "#87FFFFFF", Optional = true },
+            new ThemeKeyInfo { Key = "ControlFillColorDefaultBrush", Label = "Control background", Group = "Controls", IsBrush = true, Fallback = "#0FFFFFFF", Optional = true },
+            new ThemeKeyInfo { Key = "ControlFillColorSecondaryBrush", Label = "Control hover", Group = "Controls", IsBrush = true, Fallback = "#15FFFFFF", Optional = true },
+            new ThemeKeyInfo { Key = "SubtleFillColorSecondaryBrush", Label = "Subtle hover", Group = "Controls", IsBrush = true, Fallback = "#0FFFFFFF", Optional = true },
+            new ThemeKeyInfo { Key = "ControlStrokeColorDefaultBrush", Label = "Control outline", Group = "Controls", IsBrush = true, Fallback = "#12FFFFFF", Optional = true },
+            new ThemeKeyInfo { Key = "CardBackgroundFillColorDefaultBrush", Label = "Card background", Group = "Cards and borders", IsBrush = true, Fallback = "#0DFFFFFF", Optional = true },
+            new ThemeKeyInfo { Key = "CardStrokeColorDefaultBrush", Label = "Card outline", Group = "Cards and borders", IsBrush = true, Fallback = "#19000000", Optional = true },
+            new ThemeKeyInfo { Key = "ControlElevationBorderBrush", Label = "Raised border", Group = "Cards and borders", IsBrush = true, Fallback = "#18FFFFFF", Optional = true }
         };
 
         public static ThemeValidationResult Validate(string xaml)
@@ -190,11 +289,20 @@ namespace Voidstrap.Utility
                 return result;
             }
 
+            if (parsed.Contains(WindowGradientKey))
+            {
+                if (parsed[WindowGradientKey] is not GradientBrush gradientBrush)
+                    result.Errors.Add("The window gradient (" + WindowGradientKey + ") must be a LinearGradientBrush or RadialGradientBrush.");
+                else if (gradientBrush.GradientStops.Count < 2 || gradientBrush.GradientStops.Count > 16)
+                    result.Errors.Add("The window gradient needs between 2 and 16 colour stops.");
+            }
+
             foreach (ThemeKeyInfo info in Schema)
             {
                 if (!parsed.Contains(info.Key))
                 {
-                    result.Warnings.Add(info.Label + " is not set, the built in colour will be used.");
+                    if (!info.Optional)
+                        result.Warnings.Add(info.Label + " is not set, the built in colour will be used.");
                     continue;
                 }
                 object value = parsed[info.Key];
@@ -245,7 +353,7 @@ namespace Voidstrap.Utility
 
             foreach (ThemeKeyInfo info in Schema)
             {
-                if (merged.Contains(info.Key))
+                if (info.Optional || merged.Contains(info.Key))
                     continue;
                 try
                 {
@@ -325,23 +433,163 @@ namespace Voidstrap.Utility
 
         public static string BuildXaml(IEnumerable<KeyValuePair<string, Color>> values)
         {
-            Dictionary<string, Color> map = new Dictionary<string, Color>(StringComparer.Ordinal);
+            ThemeModel model = new ThemeModel();
             foreach (KeyValuePair<string, Color> pair in values)
-                map[pair.Key] = pair.Value;
+                model.Colors[pair.Key] = pair.Value;
+            return BuildXaml(model);
+        }
 
+        public static string BuildXaml(ThemeModel model)
+        {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("<ResourceDictionary xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"");
             sb.AppendLine("                    xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">");
             foreach (ThemeKeyInfo info in Schema)
             {
-                string hex = map.TryGetValue(info.Key, out Color c) ? ToHex(c) : info.Fallback;
+                bool present = model.Colors.TryGetValue(info.Key, out Color c);
+                if (!present && info.Optional)
+                    continue;
+                string hex = present ? ToHex(c) : info.Fallback;
                 if (info.IsBrush)
                     sb.AppendLine("  <SolidColorBrush x:Key=\"" + info.Key + "\" Color=\"" + hex + "\" />");
                 else
                     sb.AppendLine("  <Color x:Key=\"" + info.Key + "\">" + hex + "</Color>");
             }
+            if (model.Gradient is { Stops.Count: >= 2 } gradient)
+            {
+                string stops = string.Concat(gradient.Stops
+                    .OrderBy(stop => stop.Offset)
+                    .Take(ThemeGradient.MaximumStops)
+                    .Select(stop => "    <GradientStop Color=\"" + ToHex(stop.Color) + "\" Offset=\"" + Math.Clamp(stop.Offset, 0, 1).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture) + "\" />" + Environment.NewLine));
+                System.Globalization.CultureInfo invariant = System.Globalization.CultureInfo.InvariantCulture;
+                if (gradient.Radial)
+                {
+                    string center = Math.Clamp(gradient.CenterX, 0, 1).ToString("0.###", invariant) + "," + Math.Clamp(gradient.CenterY, 0, 1).ToString("0.###", invariant);
+                    string radius = Math.Clamp(gradient.Radius, 0.05, 2).ToString("0.###", invariant);
+                    sb.AppendLine("  <RadialGradientBrush x:Key=\"" + WindowGradientKey + "\" Center=\"" + center + "\" GradientOrigin=\"" + center + "\" RadiusX=\"" + radius + "\" RadiusY=\"" + radius + "\">");
+                    sb.Append(stops);
+                    sb.AppendLine("  </RadialGradientBrush>");
+                }
+                else
+                {
+                    (Point start, Point end) = ThemeGradient.PointsForAngle(gradient.Angle);
+                    sb.AppendLine("  <LinearGradientBrush x:Key=\"" + WindowGradientKey + "\" StartPoint=\"" + start.X.ToString("0.####", invariant) + "," + start.Y.ToString("0.####", invariant) + "\" EndPoint=\"" + end.X.ToString("0.####", invariant) + "," + end.Y.ToString("0.####", invariant) + "\">");
+                    sb.Append(stops);
+                    sb.AppendLine("  </LinearGradientBrush>");
+                }
+            }
             sb.Append("</ResourceDictionary>");
             return sb.ToString();
+        }
+
+        public static ThemeModel ReadModel(ResourceDictionary? dictionary)
+        {
+            ThemeModel model = new ThemeModel();
+            if (dictionary == null)
+                return model;
+            foreach (ThemeKeyInfo info in Schema)
+            {
+                if (!dictionary.Contains(info.Key))
+                    continue;
+                object value = dictionary[info.Key];
+                if (value is Color color)
+                    model.Colors[info.Key] = color;
+                else if (value is SolidColorBrush brush)
+                    model.Colors[info.Key] = brush.Color;
+            }
+            if (dictionary.Contains(WindowGradientKey))
+                model.Gradient = ThemeGradient.FromBrush(dictionary[WindowGradientKey]);
+            return model;
+        }
+
+        public static string? BuiltInXaml(string themeName)
+        {
+            try
+            {
+                ResourceDictionary dictionary = new ResourceDictionary { Source = new Uri("pack://application:,,,/UI/Style/" + themeName + ".xaml", UriKind.Absolute) };
+                return BuildXaml(ReadModel(dictionary));
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "Could not read the " + themeName + " theme: " + ex.Message);
+                return null;
+            }
+        }
+
+        public static string ProfilesDirectory => Path.Combine(Paths.Themes, "Profiles");
+
+        public static bool IsValidProfileName(string? name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+            string trimmed = name.Trim();
+            if (trimmed.Length > MaximumProfileNameLength || trimmed.StartsWith('.') || trimmed.EndsWith('.'))
+                return false;
+            foreach (char ch in trimmed)
+            {
+                if (!(char.IsLetterOrDigit(ch) || ch == ' ' || ch == '_' || ch == '-' || ch == '\'' || ch == '(' || ch == ')'))
+                    return false;
+            }
+            string upper = trimmed.ToUpperInvariant();
+            return upper is not ("CON" or "PRN" or "AUX" or "NUL") && !(upper.Length == 4 && (upper.StartsWith("COM") || upper.StartsWith("LPT")) && char.IsDigit(upper[3]));
+        }
+
+        public static string ProfilePath(string name)
+        {
+            if (!IsValidProfileName(name))
+                throw new ArgumentException("That profile name is not allowed", nameof(name));
+            return Path.Combine(ProfilesDirectory, name.Trim() + ".xaml");
+        }
+
+        public static IReadOnlyList<string> ListProfiles()
+        {
+            try
+            {
+                if (!Directory.Exists(ProfilesDirectory))
+                    return Array.Empty<string>();
+                return Directory.EnumerateFiles(ProfilesDirectory, "*.xaml")
+                    .Select(Path.GetFileNameWithoutExtension)
+                    .Where(name => IsValidProfileName(name))
+                    .Select(name => name!)
+                    .OrderBy(name => name, StringComparer.CurrentCultureIgnoreCase)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "Could not list theme profiles: " + ex.Message);
+                return Array.Empty<string>();
+            }
+        }
+
+        public static string ReadProfile(string name)
+        {
+            return ReadFile(ProfilePath(name));
+        }
+
+        public static void SaveProfile(string name, string xaml)
+        {
+            ThemeValidationResult result = Validate(xaml);
+            if (!result.Ok)
+                throw new InvalidDataException(result.Errors.FirstOrDefault() ?? "That theme is not valid");
+            WriteFile(ProfilePath(name), xaml);
+        }
+
+        public static void DeleteProfile(string name)
+        {
+            string path = ProfilePath(name);
+            if (File.Exists(path))
+                File.Delete(path);
+        }
+
+        public static void RenameProfile(string oldName, string newName)
+        {
+            string source = ProfilePath(oldName);
+            string target = ProfilePath(newName);
+            if (string.Equals(source, target, StringComparison.OrdinalIgnoreCase))
+                return;
+            if (File.Exists(target))
+                throw new IOException("A profile with that name already exists");
+            File.Move(source, target);
         }
 
         public static string ToHex(Color c) => $"#{c.A:X2}{c.R:X2}{c.G:X2}{c.B:X2}";

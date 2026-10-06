@@ -48,6 +48,7 @@ public partial class AppearancePage : UiPage
 	private void OnAppearancePageLoaded(object sender, RoutedEventArgs e)
 	{
 		_appearanceViewModel.OnPropertyChanged(nameof(AppearanceViewModel.SelectedBackdrop));
+		_appearanceViewModel.OnPropertyChanged(nameof(AppearanceViewModel.UiZoomPercent));
 		Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.ContextIdle, new Action(() => _backdropSelectionReady = true));
 		GlobalBackground.Changed -= OnLiveBackgroundChanged;
 		GlobalBackground.Changed += OnLiveBackgroundChanged;
@@ -188,32 +189,6 @@ public partial class AppearancePage : UiPage
 		}
 	}
 
-	private void OptionControl_Loaded(object sender, RoutedEventArgs e)
-	{
-		DependencyObject parent = (DependencyObject)sender;
-		ComboBox? combo = FindChild<ComboBox>(parent);
-		System.Windows.Controls.Button? button = FindChild<System.Windows.Controls.Button>(parent);
-		if (combo != null && button != null)
-		{
-			combo.SelectionChanged -= CustomThemeComboBox_SelectionChanged;
-			combo.SelectionChanged += CustomThemeComboBox_SelectionChanged;
-			button.Visibility = combo.SelectedItem?.ToString() == "Custom" ? Visibility.Visible : Visibility.Collapsed;
-		}
-	}
-
-	private void CustomThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-	{
-		if (sender is not ComboBox combo)
-			return;
-
-		DependencyObject? parent = combo;
-		while (parent != null && parent is not OptionControl)
-			parent = VisualTreeHelper.GetParent(parent);
-
-		if (parent != null && FindChild<System.Windows.Controls.Button>(parent) is { } button)
-			button.Visibility = combo.SelectedItem?.ToString() == "Custom" ? Visibility.Visible : Visibility.Collapsed;
-	}
-
 	private static T? FindChild<T>(DependencyObject parent) where T : DependencyObject
 	{
 		for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
@@ -231,13 +206,6 @@ public partial class AppearancePage : UiPage
 			}
 		}
 		return default(T);
-	}
-
-	private void OpenCustomThemeEditor_Click(object sender, RoutedEventArgs e)
-	{
-		CustomThemeEditor customThemeEditor = new CustomThemeEditor();
-		customThemeEditor.Owner = Window.GetWindow((DependencyObject)(object)this);
-		customThemeEditor.ShowOwnedDialog();
 	}
 
 	private static async Task DownloadCustomThemeAsync()

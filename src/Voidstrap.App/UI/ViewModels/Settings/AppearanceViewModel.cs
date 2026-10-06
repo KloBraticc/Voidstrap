@@ -205,7 +205,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
                 return;
             }
             App.Settings.Prop.UiZoomPercent = value;
-            App.Settings.Save();
+            App.Settings.SaveDeferred();
             OnPropertyChanged(nameof(UiZoomPercent));
             Voidstrap.UI.Elements.Settings.MainWindow.ApplyUiZoomToOpenWindows();
         }
@@ -625,6 +625,8 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         }
     }
 
+    public Visibility CustomThemeEditorVisibility => App.Settings.Prop.Theme2 == Theme.Custom ? Visibility.Visible : Visibility.Collapsed;
+
     public Theme Theme
     {
         get
@@ -640,6 +642,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             App.Settings.Prop.Theme2 = value;
             App.Settings.SaveDeferred();
             OnPropertyChanged(nameof(Theme));
+            OnPropertyChanged(nameof(CustomThemeEditorVisibility));
             if (Application.Current == null)
                 return;
             foreach (Voidstrap.UI.Elements.Base.WpfUiWindow window in Application.Current.Windows.OfType<Voidstrap.UI.Elements.Base.WpfUiWindow>().ToArray())

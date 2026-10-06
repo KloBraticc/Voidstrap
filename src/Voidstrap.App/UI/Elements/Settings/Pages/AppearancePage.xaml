@@ -78,18 +78,36 @@
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
-          <controls:OptionControl Loaded="OptionControl_Loaded" Header="{x:Static resources:Strings.Menu_Appearance_Global_Theme_Title}" Description="Check out some of our built-in custom themes!">
-            <StackPanel VerticalAlignment="Center" Orientation="Vertical" Margin="0,5,0,0">
-              <ComboBox Width="200" Padding="10,5" Margin="0,0,0,10" ItemsSource="{Binding BindableThemes}" SelectedItem="{Binding Theme, Mode=TwoWay}" SelectionChanged="ThemeComboBox_SelectionChanged">
+          <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Global_Theme_Title}" Description="Check out some of our built-in custom themes!">
+            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+              <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding BindableThemes}" SelectedItem="{Binding Theme, Mode=TwoWay}" SelectionChanged="ThemeComboBox_SelectionChanged">
+                <ComboBox.Resources>
+                  <platform:ThemeSwatchConverter x:Key="ThemeSwatchConverter" />
+                </ComboBox.Resources>
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
-                    <TextBlock Text="{Binding Converter={StaticResource EnumNameConverter}}" />
+                    <StackPanel Orientation="Horizontal">
+                      <Image Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality">
+                        <Image.Source>
+                          <MultiBinding Converter="{StaticResource ThemeSwatchConverter}">
+                            <Binding />
+                            <Binding Path="Revision" Source="{x:Static platform:ThemeSwatchSource.Instance}" />
+                          </MultiBinding>
+                        </Image.Source>
+                      </Image>
+                      <TextBlock VerticalAlignment="Center" Text="{Binding Converter={StaticResource EnumNameConverter}}" />
+                    </StackPanel>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ComboBox>
-              <ui:Button Content="Editor" HorizontalAlignment="Right" Click="OpenCustomThemeEditor_Click" />
             </StackPanel>
           </controls:OptionControl>
+          <Border Margin="0,4,0,0" Padding="16,13,16,14" CornerRadius="{DynamicResource ControlCornerRadius}" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Visibility="{Binding CustomThemeEditorVisibility}">
+            <Border.Background>
+              <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+            </Border.Background>
+            <controls:CustomThemePanel />
+          </Border>
           <controls:OptionControl Header="Window Backdrop" Description="Choose the material behind Voidstrap windows." Visibility="{x:Static platform:PlatformFeatureVisibility.DesktopBackdrop}">
             <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding BackdropOptions}" SelectedItem="{Binding SelectedBackdrop, Mode=OneWay}" SelectionChanged="BackdropComboBox_SelectionChanged">
               <ItemsControl.ItemTemplate>

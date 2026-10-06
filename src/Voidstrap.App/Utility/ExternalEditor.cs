@@ -39,10 +39,80 @@ namespace Voidstrap.Utility
 
         private static List<ExternalEditorInfo>? _cache;
 
+        private const string LinuxDefaultApp = "default";
+
+        private static readonly (string Name, string Command)[] LinuxCandidates =
+        {
+            ("Visual Studio Code", "code"),
+            ("VSCodium", "codium"),
+            ("Zed", "zeditor"),
+            ("Zed", "zed"),
+            ("Sublime Text", "subl"),
+            ("GNOME Text Editor", "gnome-text-editor"),
+            ("gedit", "gedit"),
+            ("Kate", "kate"),
+            ("KWrite", "kwrite"),
+            ("Mousepad", "mousepad"),
+            ("Xed", "xed"),
+            ("Pluma", "pluma")
+        };
+
+        private static List<ExternalEditorInfo> DetectLinux()
+        {
+            List<ExternalEditorInfo> found = new() { new ExternalEditorInfo { Name = "Default text editor", Path = LinuxDefaultApp } };
+            try
+            {
+                if (Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed)
+                    return found;
+                Voidstrap.Core.SystemProcessService processes = new();
+                foreach ((string name, string command) in LinuxCandidates)
+                {
+                    string? resolved = processes.FindExecutable(command);
+                    if (string.IsNullOrWhiteSpace(resolved) || found.Any(e => string.Equals(e.Name, name, StringComparison.OrdinalIgnoreCase)))
+                        continue;
+                    found.Add(new ExternalEditorInfo { Name = name, Path = resolved });
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "Editor detection failed: " + ex.Message);
+            }
+            return found;
+        }
+
+        private static bool OpenLinux(ExternalEditorInfo editor, string filePath)
+        {
+            if (editor.Path == LinuxDefaultApp)
+                return PlatformShell.TryOpenUrl(filePath);
+            try
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo(editor.Path)
+                {
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WorkingDirectory = System.IO.Path.GetDirectoryName(filePath) ?? Environment.CurrentDirectory
+                };
+                startInfo.ArgumentList.Add(filePath);
+                using Process? process = Process.Start(startInfo);
+                return process != null;
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "Could not open " + editor.Name + ": " + ex.Message);
+                return PlatformShell.TryOpenUrl(filePath);
+            }
+        }
+
         public static IReadOnlyList<ExternalEditorInfo> Detect()
         {
             if (_cache != null)
                 return _cache;
+
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                _cache = DetectLinux();
+                return _cache;
+            }
 
             List<ExternalEditorInfo> found = new();
             void Add(string name, string path)
@@ -120,6 +190,8 @@ namespace Voidstrap.Utility
 
         public static bool Open(ExternalEditorInfo editor, string filePath)
         {
+            if (Voidstrap.Utility.Platform.IsLinux)
+                return OpenLinux(editor, filePath);
             try
             {
                 Process.Start(new ProcessStartInfo

@@ -4391,8 +4391,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (App.Settings.Prop.UiZoomPercent != percent)
         {
             App.Settings.Prop.UiZoomPercent = percent;
-            App.Settings.Save();
+            App.Settings.SaveDeferred();
             ApplyUiZoomToOpenWindows();
+            if (RootFrame?.Content is Pages.AppearancePage { DataContext: Voidstrap.UI.ViewModels.Settings.AppearanceViewModel appearance })
+                appearance.OnPropertyChanged(nameof(Voidstrap.UI.ViewModels.Settings.AppearanceViewModel.UiZoomPercent));
         }
 
         ShowZoomIndicator(percent);

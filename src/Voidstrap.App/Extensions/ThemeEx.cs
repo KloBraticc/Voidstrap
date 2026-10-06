@@ -11,18 +11,18 @@ public static class ThemeEx
 		Theme.Default,
 		Theme.Custom,
 		Theme.Dark,
+		Theme.UltraGray,
 		Theme.Light,
 		Theme.Voidstrap,
-		Theme.UltraGray,
-		Theme.Blue,
-		Theme.Cyan,
-		Theme.Green,
-		Theme.Orange,
-		Theme.Pink,
-		Theme.Purple,
-		Theme.Berry,
 		Theme.Red,
-		Theme.Yellow
+		Theme.Orange,
+		Theme.Yellow,
+		Theme.Green,
+		Theme.Cyan,
+		Theme.Blue,
+		Theme.Purple,
+		Theme.Pink,
+		Theme.Berry
 	};
 
 	public static Theme GetFinal(this Theme dialogTheme)
