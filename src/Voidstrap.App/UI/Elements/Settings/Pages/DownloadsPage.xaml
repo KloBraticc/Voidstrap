@@ -302,6 +302,9 @@
                                         <Button x:Name="RiShadeAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="RiShade, open in Extensions" Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <Image Width="20" Height="20" util:DynamicRenderSystem.LazyImageSource="https://raw.githubusercontent.com/KloBraticc/RiShade/main/Images/RiShde.png" />
                                         </Button>
+                                        <Button Style="{StaticResource AddonChipStyle}" Click="Addon_Click" Tag="swifttunnel" ToolTip="SwiftTunnel" Visibility="{Binding ShowSwiftTunnel, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <Image Width="20" Height="20" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Voidstrap;component/Resources/AppImages/ext-swifttunnel.png" />
+                                        </Button>
                                         <Button x:Name="RojoAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="Rojo, open in Extensions" Visibility="{Binding ShowStudioAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <Image Width="20" Height="20" util:DynamicRenderSystem.LazyImageSource="https://github.com/rojo-rbx.png" />
                                         </Button>

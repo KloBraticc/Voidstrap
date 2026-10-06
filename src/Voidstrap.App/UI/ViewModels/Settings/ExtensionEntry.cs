@@ -10,15 +10,18 @@ public sealed class ExtensionEntry : NotifyPropertyChangedViewModel
 
 	private readonly Action<bool> _setEnabled;
 
+	private readonly Func<bool>? _isBusy;
+
 	private string _openLabel = "Open";
 
 	private bool _visible = true;
 
-	public ExtensionEntry(string id, Func<bool> getEnabled, Action<bool> setEnabled)
+	public ExtensionEntry(string id, Func<bool> getEnabled, Action<bool> setEnabled, Func<bool>? isBusy = null)
 	{
 		Id = id;
 		_getEnabled = getEnabled;
 		_setEnabled = setEnabled;
+		_isBusy = isBusy;
 	}
 
 	public string Id { get; }
@@ -96,16 +99,18 @@ public sealed class ExtensionEntry : NotifyPropertyChangedViewModel
 		get => _getEnabled();
 		set
 		{
-			if (_getEnabled() == value)
+			if (!CanChange || _getEnabled() == value)
 				return;
 			_setEnabled(value);
 			RefreshEnabled();
 		}
 	}
 
-	public string EnableLabel => IsEnabled ? "Disable" : "Enable";
+	public bool CanChange => _isBusy?.Invoke() != true;
 
-	public string StatusLabel => IsEnabled ? "Enabled" : "Not enabled";
+	public string EnableLabel => Id == "swifttunnel" ? Voidstrap.Utility.SwiftTunnel.Text(!CanChange ? "Working" : IsEnabled ? "Uninstall" : "Install") : IsEnabled ? "Disable" : "Enable";
+
+	public string StatusLabel => Id == "swifttunnel" ? Voidstrap.Utility.SwiftTunnel.Text(IsEnabled ? "Installed" : "NotInstalled") : IsEnabled ? "Enabled" : "Not enabled";
 
 	public string OpenLabel
 	{
@@ -149,6 +154,7 @@ public sealed class ExtensionEntry : NotifyPropertyChangedViewModel
 	public void RefreshEnabled()
 	{
 		OnPropertyChanged(nameof(IsEnabled));
+		OnPropertyChanged(nameof(CanChange));
 		OnPropertyChanged(nameof(EnableLabel));
 		OnPropertyChanged(nameof(StatusLabel));
 	}

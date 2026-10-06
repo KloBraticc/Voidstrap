@@ -48,6 +48,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             public bool ShowStudioAddons => _launchMode == LaunchMode.Studio;
             public bool HasAddons => ShowFleasionAddon || ShowStudioAddons;
             public bool ShowFleasion => ShowFleasionAddon;
+            public bool ShowSwiftTunnel => Voidstrap.Utility.Platform.IsWindows && ShowFleasionAddon;
             public bool ShowCommunityContent => false;
 
             public bool IsVng => _appData is RobloxPlayerData { UseVng: true };
@@ -876,6 +877,7 @@ namespace Voidstrap.UI.ViewModels.Settings
 
             public bool HasAddons => false;
             public bool ShowFleasion => false;
+            public bool ShowSwiftTunnel => false;
             public bool ShowCommunityContent => false;
 
             private void Select()

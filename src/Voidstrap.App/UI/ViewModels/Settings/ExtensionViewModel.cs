@@ -44,6 +44,80 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         private string _selectedExtensionType = TypeAll;
 
         private int _fleasionRev;
+        private bool _swiftTunnelInstalled = SwiftTunnel.FindInstallation() != null;
+        public bool SwiftTunnelBusy { get; private set; }
+
+        public bool SwiftTunnelInstalled
+        {
+            get => _swiftTunnelInstalled;
+            set => _ = SetSwiftTunnelInstalledAsync(value);
+        }
+
+        public void RefreshSwiftTunnel()
+        {
+            _swiftTunnelInstalled = SwiftTunnel.FindInstallation() != null;
+            OnPropertyChanged(nameof(SwiftTunnelInstalled));
+        }
+
+        private async Task SetSwiftTunnelInstalledAsync(bool install)
+        {
+            if (!Voidstrap.Utility.Platform.IsWindows || SwiftTunnelBusy || install == _swiftTunnelInstalled)
+                return;
+            SwiftTunnelBusy = true;
+            OnPropertyChanged(nameof(SwiftTunnelBusy));
+            var (cts, ct) = BeginOperation();
+            bool locked = false;
+            try
+            {
+                await _gate.WaitAsync(ct);
+                locked = true;
+                string argument;
+                if (install)
+                {
+                    var download = await SwiftTunnel.GetLatestInstallerAsync(client, ct);
+                    string directory = Path.Combine(Paths.Cache, "SwiftTunnel");
+                    Directory.CreateDirectory(directory);
+                    string installer = Path.Combine(directory, download.Name);
+                    await DownloadToFileAsync([download.Url], installer, SwiftTunnel.Text("Downloading"), ct, download.Digest);
+                    argument = "/i \"" + installer + "\" /norestart";
+                }
+                else
+                {
+                    var installation = SwiftTunnel.FindInstallation();
+                    if (installation == null)
+                        return;
+                    await SwiftTunnel.UninstallAsync(installation.Value, ct);
+                    return;
+                }
+                ct.ThrowIfCancellationRequested();
+                OnProgressChanged?.Invoke("", -1.0, false);
+                using Process? installerProcess = Process.Start(new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, "msiexec.exe"), argument) { UseShellExecute = true });
+                if (installerProcess == null)
+                    throw new InvalidOperationException(SwiftTunnel.Text("InstallerFailed"));
+                await installerProcess.WaitForExitAsync();
+                if (installerProcess.ExitCode is not (0 or 1602 or 1641 or 3010))
+                    throw new InvalidOperationException(string.Format(SwiftTunnel.Text("InstallerExit"), installerProcess.ExitCode));
+                if (installerProcess.ExitCode != 1602 && SwiftTunnel.FindInstallation() != null)
+                    SwiftTunnel.Open();
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception ex)
+            {
+                Frontend.ShowMessageBox(string.Format(SwiftTunnel.Text("Error"), ex.Message), MessageBoxImage.Error);
+            }
+            finally
+            {
+                if (locked)
+                    _gate.Release();
+                EndOperation(cts);
+                OnProgressChanged?.Invoke("", -1.0, false);
+                SwiftTunnelBusy = false;
+                RefreshSwiftTunnel();
+                OnPropertyChanged(nameof(SwiftTunnelBusy));
+            }
+        }
         private int _communityRev;
         private int _apiDumpRev;
         private const int ToggleDebounceMs = 450;
@@ -191,7 +265,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         private bool StudioPluginVisible => ShowType(TypeStudio) && MatchesSearch("Voidstrap Studio plugin panel Discord rich presence rpc place script mode selection Roblox Studio Extensions");
 
-        private bool AnyCardVisible => FleasionVisible || RiShadeVisible || CommunityVisible || ApiDumpVisible || RojoVisible || StudioPluginVisible;
+        private bool AnyCardVisible => FleasionVisible || RiShadeVisible || CommunityVisible || ApiDumpVisible || RojoVisible || StudioPluginVisible || (Voidstrap.Utility.Platform.IsWindows && ShowType(TypeExtensions) && MatchesSearch("SwiftTunnel Swift Tunnel game network latency routing split tunneling Windows"));
 
         public Visibility FleasionVisibility => FleasionVisible ? Visibility.Visible : Visibility.Collapsed;
 

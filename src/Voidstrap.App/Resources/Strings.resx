@@ -2575,4 +2575,25 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve"><value>Blocks image asset downloads. Roblox also uses images for textures and decals</value></data>
   <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve"><value>Blocks animation asset downloads. Games without an animation fallback may stop working correctly</value></data>
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve"><value>Blocks mesh and meshpart asset downloads. Mesh geometry will be invisible</value></data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve"><value>Route Roblox traffic through SwiftTunnel while other apps use your normal connection</value></data>
+  <data name="SwiftTunnel.Description" xml:space="preserve"><value>SwiftTunnel is a Windows game connection optimizer with split tunneling and regional relay selection</value></data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve"><value>Install downloads the latest official SwiftTunnel release and opens the desktop app after setup. Sign in and choose your connection there. Network optimization may require administrator access</value></data>
+  <data name="SwiftTunnel.Network" xml:space="preserve"><value>Network</value></data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve"><value>Routing</value></data>
+  <data name="SwiftTunnel.Install" xml:space="preserve"><value>Install</value></data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve"><value>Uninstall</value></data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve"><value>Installed</value></data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve"><value>Not installed</value></data>
+  <data name="SwiftTunnel.Working" xml:space="preserve"><value>Working</value></data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve"><value>Downloading SwiftTunnel</value></data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve"><value>Could not open SwiftTunnel setup</value></data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve"><value>SwiftTunnel setup returned code {0}</value></data>
+  <data name="SwiftTunnel.Error" xml:space="preserve"><value>Could not complete the SwiftTunnel action: {0}</value></data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve"><value>The SwiftTunnel uninstall entry is incomplete. Remove SwiftTunnel from Windows Settings, Apps instead</value></data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve"><value>SwiftTunnel could not restore its network settings. Its files were kept so cleanup can be retried</value></data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve"><value>SwiftTunnel removal could not finish. Close SwiftTunnel and retry with administrator access</value></data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve"><value>SwiftTunnel is installed in a shared or unrecognized folder. Move it to its own SwiftTunnel folder before using complete removal</value></data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve"><value>SwiftTunnel is not installed. Install it from Extensions first</value></data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve"><value>SwiftTunnel is registered but its app files are missing. Uninstall and install it again to repair it</value></data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve"><value>The latest SwiftTunnel release has no verified Windows installer for this computer</value></data>
 </root>

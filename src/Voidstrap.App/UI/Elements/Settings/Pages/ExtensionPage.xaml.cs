@@ -19,6 +19,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class ExtensionPage : UiPage
 {
+	internal static string RequestedExtension { get; set; } = "";
 	private readonly ExtensionViewModel _vm;
 
 	private readonly List<ExtensionEntry> _assets;
@@ -40,6 +41,7 @@ public partial class ExtensionPage : UiPage
 
 	private void ExtensionPage_Loaded(object sender, RoutedEventArgs e)
 	{
+		_vm.RefreshSwiftTunnel();
 		_vm.PropertyChanged -= Vm_PropertyChanged;
 		_vm.PropertyChanged += Vm_PropertyChanged;
 		Voidstrap.Integrations.RiShade.RiShadePanel.OpenChanged -= RiShadePanel_OpenChanged;
@@ -48,7 +50,14 @@ public partial class ExtensionPage : UiPage
 		DynamicRenderSystem.Prefetch(_assets.Select(a => a.Icon).Where(i => i.Length > 0), 128);
 		foreach (ExtensionEntry asset in _assets)
 			asset.RefreshEnabled();
+		if (_detailItem is ExtensionEntry current)
+			RefreshDetailButtons(current);
 		ApplyAssetFilter();
+		if (RequestedExtension.Length > 0)
+		{
+			ShowExtension(RequestedExtension);
+			RequestedExtension = "";
+		}
 		_ = PrefetchVersionsAsync();
 	}
 
@@ -56,6 +65,8 @@ public partial class ExtensionPage : UiPage
 	{
 		_vm.PropertyChanged -= Vm_PropertyChanged;
 		Voidstrap.Integrations.RiShade.RiShadePanel.OpenChanged -= RiShadePanel_OpenChanged;
+		if (_detailItem is ExtensionEntry asset)
+			asset.PropertyChanged -= Asset_PropertyChanged;
 		Voidstrap.Integrations.VoidstrapPresence.Clear(nameof(ExtensionPage));
 	}
 
@@ -80,7 +91,7 @@ public partial class ExtensionPage : UiPage
 			ApplyAssetFilter();
 			return;
 		}
-		if (e.PropertyName is "fleasionenabler" or "rishadeenabler" or "apidumpenabler" or "communitycontentenabler" or "rojoenabler" or "studiopluginenabler")
+		if (e.PropertyName is "fleasionenabler" or "rishadeenabler" or "apidumpenabler" or "communitycontentenabler" or "rojoenabler" or "studiopluginenabler" or nameof(ExtensionViewModel.SwiftTunnelInstalled) or nameof(ExtensionViewModel.SwiftTunnelBusy))
 		{
 			foreach (ExtensionEntry asset in _assets)
 				asset.RefreshEnabled();
@@ -128,6 +139,8 @@ public partial class ExtensionPage : UiPage
 
 	private void ShowAssetDetail(ExtensionEntry asset)
 	{
+		if (_detailItem is ExtensionEntry previous)
+			previous.PropertyChanged -= Asset_PropertyChanged;
 		_detailItem = asset;
 		SetDetailImage(DetailIcon, asset.Icon, 192);
 		DetailName.Text = asset.Name;
@@ -165,10 +178,10 @@ public partial class ExtensionPage : UiPage
 			DetailPrimaryButton.Content = asset.EnableLabel;
 			DetailPrimaryButton.Icon = asset.IsEnabled ? SymbolRegular.Dismiss24 : SymbolRegular.Checkmark24;
 			DetailPrimaryButton.Appearance = asset.IsEnabled ? ControlAppearance.Danger : ControlAppearance.Primary;
-			DetailPrimaryButton.IsEnabled = true;
+			DetailPrimaryButton.IsEnabled = asset.CanChange;
 			bool hasAction = asset.CanOpen || asset.Id == "community";
 			DetailOpenButton.Visibility = hasAction ? Visibility.Visible : Visibility.Collapsed;
-			DetailOpenButton.IsEnabled = asset.IsEnabled;
+			DetailOpenButton.IsEnabled = asset.IsEnabled && asset.CanChange;
 			DetailOpenButton.Content = asset.Id switch
 			{
 				"rishade" => _vm.RiShadeOpenLabel,
@@ -307,6 +320,9 @@ public partial class ExtensionPage : UiPage
 			return;
 		switch (asset.Id)
 		{
+			case "swifttunnel":
+				SwiftTunnel.Open();
+				break;
 			case "fleasion":
 				OpenFleasion();
 				break;
@@ -326,6 +342,13 @@ public partial class ExtensionPage : UiPage
 	{
 		if (_detailItem is ExtensionEntry { HasSource: true } asset)
 			Utilities.OpenWebLink(asset.Source);
+	}
+
+	private void ShowExtension(string id)
+	{
+		ExtensionEntry? asset = _assets.Find(entry => entry.Id == id);
+		if (asset != null)
+			ShowAssetDetail(asset);
 	}
 
 	private static void OpenFleasion()

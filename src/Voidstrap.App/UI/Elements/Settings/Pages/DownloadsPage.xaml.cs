@@ -127,7 +127,11 @@ public partial class DownloadsPage : UiPage
         try
         {
             if (Window.GetWindow(this) is MainWindow mainWindow)
+            {
+                if (sender is FrameworkElement { Tag: "swifttunnel" })
+                    ExtensionPage.RequestedExtension = "swifttunnel";
                 mainWindow.RootNavigation?.Navigate(typeof(ExtensionPage));
+            }
         }
         catch
         {

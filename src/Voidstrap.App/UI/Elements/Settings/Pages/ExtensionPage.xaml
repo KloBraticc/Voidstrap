@@ -90,7 +90,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
               <ui:Button Content="View" Appearance="Secondary" MinWidth="76" Margin="0,0,8,0" Tag="{Binding}" Click="ViewAsset_Click" />
-              <ui:Button Content="{Binding EnableLabel}" Appearance="Primary" MinWidth="84" Tag="{Binding}" Click="ToggleAsset_Click" />
+              <ui:Button Content="{Binding EnableLabel}" IsEnabled="{Binding CanChange}" Appearance="Primary" MinWidth="84" Tag="{Binding}" Click="ToggleAsset_Click" />
             </StackPanel>
           </StackPanel>
         </Grid>

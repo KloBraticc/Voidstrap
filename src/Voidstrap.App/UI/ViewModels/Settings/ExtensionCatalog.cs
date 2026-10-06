@@ -20,7 +20,7 @@ public static class ExtensionCatalog
 
 	public static List<ExtensionEntry> Build(ExtensionViewModel vm)
 	{
-		return new List<ExtensionEntry>
+		var entries = new List<ExtensionEntry>
 		{
 			new ExtensionEntry("fleasion", () => vm.fleasionenabler, value => vm.fleasionenabler = value)
 			{
@@ -132,5 +132,22 @@ public static class ExtensionCatalog
 				SearchText = "Voidstrap Studio plugin panel Discord rich presence rpc place script"
 			}
 		};
+		if (Voidstrap.Utility.Platform.IsWindows)
+			entries.Insert(1, new ExtensionEntry("swifttunnel", () => vm.SwiftTunnelInstalled, value => vm.SwiftTunnelInstalled = value, () => vm.SwiftTunnelBusy)
+			{
+				Name = "SwiftTunnel",
+				Author = "SwiftTunnel",
+				AuthorIcon = Voidstrap.Utility.SwiftTunnel.Icon,
+				Icon = Voidstrap.Utility.SwiftTunnel.Icon,
+				Type = ExtensionViewModel.TypeExtensions,
+				WorksWith = ["Roblox Player"],
+				Tags = [Voidstrap.Utility.SwiftTunnel.Text("Network"), Voidstrap.Utility.SwiftTunnel.Text("Routing"), "Windows"],
+				Summary = Voidstrap.Utility.SwiftTunnel.Text("Summary"),
+				Description = [Voidstrap.Utility.SwiftTunnel.Text("Description"), Voidstrap.Utility.SwiftTunnel.Text("Setup")],
+                Source = "https://github.com/Swift-tunnel/swifttunnel-app",
+				CanOpen = true,
+				SearchText = "SwiftTunnel Swift Tunnel game network latency routing split tunneling Windows"
+			});
+		return entries;
 	}
 }
