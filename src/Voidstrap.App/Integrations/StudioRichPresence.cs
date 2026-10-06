@@ -649,10 +649,9 @@ public sealed partial class StudioRichPresence : IDisposable
 		{
 			return;
 		}
-		_lastSignature = signature;
 		try
 		{
-			_client.SetPresenceSafe(new DiscordRPC.RichPresence
+			if (_client.SetPresenceSafe(new DiscordRPC.RichPresence
 			{
 				Details = Trim(details, 128),
 				State = Trim(state, 128),
@@ -666,7 +665,10 @@ public sealed partial class StudioRichPresence : IDisposable
 					SmallImageText = linux && _linuxLog.Version.Length > 0 ? "Roblox Studio " + _linuxLog.Version + " on Linux" : "Roblox Studio"
 				},
 				Buttons = buttons.ToArray()
-			});
+			}))
+			{
+				_lastSignature = signature;
+			}
 		}
 		catch (Exception ex)
 		{

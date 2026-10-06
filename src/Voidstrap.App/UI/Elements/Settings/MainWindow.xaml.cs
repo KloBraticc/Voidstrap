@@ -3460,6 +3460,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         client.OnError -= DiscordClient_OnError;
         client.OnConnectionFailed -= DiscordClient_OnConnectionFailed;
         DiscordIpc.Close(client);
+        App.Logger.WriteLine("DiscordRPC", "Cleared the Voidstrap status and closed the connection");
     }
 
     private void DiscordClient_OnReady(object sender, ReadyMessage e)
@@ -3943,6 +3944,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool IsRobloxRunning()
     {
+        if (_lastRobloxCheck == DateTime.MinValue && Interlocked.Exchange(ref _robloxCheckRunning, 1) == 0)
+        {
+            _lastRobloxCheck = DateTime.UtcNow;
+            RefreshRobloxRunning();
+            return _robloxRunningCached;
+        }
         if ((DateTime.UtcNow - _lastRobloxCheck).TotalMilliseconds >= 1000.0 && Interlocked.Exchange(ref _robloxCheckRunning, 1) == 0)
         {
             _lastRobloxCheck = DateTime.UtcNow;
@@ -4004,6 +4011,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 {
                 }
                 _voidRpcSuppressed = true;
+                App.Logger.WriteLine("DiscordRPC", "Roblox is running, hid the Voidstrap status so the game status shows");
                 _lastVoidRpcDetails = null;
                 _lastVoidRpcState = null;
                 _lastVoidRpcExtra = null;
@@ -4122,14 +4130,17 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                         Url = "https://discord.gg/bzdbHHytFR"
                     }
                 };
-            _discordClient.SetPresenceSafe(new DiscordRPC.RichPresence
+            if (!_discordClient.SetPresenceSafe(new DiscordRPC.RichPresence
             {
                 Details = details,
                 State = state,
                 Timestamps = new Timestamps(_voidRpcSessionStart),
                 Assets = assets,
                 Buttons = buttons
-            });
+            }))
+            {
+                return;
+            }
             _lastVoidRpcDetails = details;
             _lastVoidRpcState = state;
             _lastVoidRpcExtra = extra;

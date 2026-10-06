@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using DiscordRPC;
@@ -19,11 +20,32 @@ internal static class DiscordPresenceGuard
 
 	private const string Pad = "⠀";
 
+	private const int UpdatesPerWindow = 4;
+
+	private static readonly TimeSpan UpdateWindow = TimeSpan.FromSeconds(20);
+
+	private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<DiscordRpcClient, Queue<DateTime>> RecentUpdates = new();
+
+	private static bool TryReserveUpdate(DiscordRpcClient client)
+	{
+		Queue<DateTime> recent = RecentUpdates.GetOrCreateValue(client);
+		lock (recent)
+		{
+			DateTime now = DateTime.UtcNow;
+			while (recent.Count > 0 && now - recent.Peek() >= UpdateWindow)
+				recent.Dequeue();
+			if (recent.Count >= UpdatesPerWindow)
+				return false;
+			recent.Enqueue(now);
+			return true;
+		}
+	}
+
 	public static bool SetPresenceSafe(this DiscordRpcClient client, RichPresence? presence)
 	{
 		try
 		{
-			if (client.IsDisposed)
+			if (client.IsDisposed || !TryReserveUpdate(client))
 				return false;
 			client.SetPresence(Complete(presence));
 			return true;
