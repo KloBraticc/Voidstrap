@@ -15,6 +15,7 @@ namespace Voidstrap.UI.ViewModels.Settings
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsNew))]
         [NotifyPropertyChangedFor(nameof(AgeLabel))]
+        [NotifyPropertyChangedFor(nameof(DateText))]
         public partial DateTime Date { get; set; }
 
         [ObservableProperty]
@@ -33,6 +34,7 @@ namespace Voidstrap.UI.ViewModels.Settings
         {
             GenerateTags(value);
             OnPropertyChanged(nameof(DisplayContent));
+            OnPropertyChanged(nameof(Summary));
         }
 
         private void GenerateTags(string? text)
@@ -58,8 +60,12 @@ namespace Voidstrap.UI.ViewModels.Settings
                 ? string.Empty
                 : UrlStripRegex.Replace(Content, "").Trim();
 
+        public string Summary => WhitespaceRegex.Replace(DisplayContent, " ");
+
+        public string DateText => Date == DateTime.MinValue ? string.Empty : Date.ToString("MMMM d, yyyy");
+
         public bool IsNew =>
-            (DateTime.Now - Date).TotalDays <= 3;
+            Date != DateTime.MinValue && (DateTime.Now - Date).TotalDays <= 3;
 
         public string AgeLabel => "NEW";
 
@@ -67,5 +73,7 @@ namespace Voidstrap.UI.ViewModels.Settings
         private static partial Regex UrlRegex { get; }
         [GeneratedRegex(@"https?://[^\s]+", RegexOptions.IgnoreCase, "en-US")]
         private static partial Regex UrlStripRegex { get; }
+        [GeneratedRegex(@"\s+")]
+        private static partial Regex WhitespaceRegex { get; }
     }
 }

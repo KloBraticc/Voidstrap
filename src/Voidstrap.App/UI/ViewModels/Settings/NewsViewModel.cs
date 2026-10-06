@@ -50,7 +50,31 @@ namespace Voidstrap.UI.ViewModels.Settings
         [ObservableProperty]
         public partial string LastUpdatedText { get; set; } = "Loading...";
 
-        [ObservableProperty] public partial bool IsLoading { get; set; } = true;
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(ShowLoader))]
+        [NotifyPropertyChangedFor(nameof(ShowEmpty))]
+        public partial bool IsLoading { get; set; } = true;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(ShowLoader))]
+        [NotifyPropertyChangedFor(nameof(ShowEmpty))]
+        public partial NewsItem? FeaturedItem { get; set; }
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(HasMoreItems))]
+        public partial ObservableCollection<NewsItem> MoreItems { get; set; } = new();
+
+        public bool HasMoreItems => MoreItems.Count > 0;
+
+        public bool HasError => ErrorText != null;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(HasError))]
+        public partial string? ErrorText { get; set; }
+
+        public bool ShowLoader => IsLoading && FeaturedItem == null;
+
+        public bool ShowEmpty => !IsLoading && FeaturedItem == null;
 
         private static HttpClient CreateHttpClient()
         {
@@ -75,21 +99,8 @@ namespace Voidstrap.UI.ViewModels.Settings
         [RelayCommand]
         private static void OpenUrl(string? url)
         {
-            if (!Utilities.IsWebLink(url))
-                return;
-
-            try
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = url,
-                    UseShellExecute = true
-                });
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"[OpenUrl ERROR] {ex}");
-            }
+            if (Utilities.IsWebLink(url))
+                Utilities.OpenWebLink(url);
         }
 
         private async Task SafeRefreshAsync()
@@ -116,7 +127,12 @@ namespace Voidstrap.UI.ViewModels.Settings
         {
             try
             {
-                await SetLoadingAsync(true, "Loading...");
+                await OnUiAsync(() =>
+                {
+                    IsLoading = true;
+                    ErrorText = null;
+                    LastUpdatedText = "Checking for updates";
+                });
 
                 string? json = null;
                 bool fromCache = false;
@@ -169,7 +185,7 @@ namespace Voidstrap.UI.ViewModels.Settings
 
                 if (!hasNewContent && fromCache)
                 {
-                    await SetLoadingAsync(false, $"Last updated: {DateTime.Now:G} (no new items)");
+                    await SetLoadingAsync(false, $"Up to date, checked {DateTime.Now:t}");
                     return;
                 }
 
@@ -185,15 +201,14 @@ namespace Voidstrap.UI.ViewModels.Settings
                     if (!Uri.TryCreate(item.ImageUrl, UriKind.Absolute, out var uri))
                         return;
 
-                    var fileName = SanitizeFileName(Path.GetFileName(uri.LocalPath) ?? $"img_{Guid.NewGuid():N}.bin");
-                    var localPath = Path.Combine(BasePath, fileName);
+                    var localPath = Path.Combine(BasePath, "news_" + Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(uri.AbsoluteUri)))[..24].ToLowerInvariant() + ".img");
 
                     await imageGate.WaitAsync(ct);
                     try
                     {
                         if (Volatile.Read(ref retainedImageBytes) >= MaxRetainedImageBytes)
                             return;
-                        if (!File.Exists(localPath) || !fromCache)
+                        if (!File.Exists(localPath))
                         {
                             using HttpRequestMessage imageRequest = new HttpRequestMessage(HttpMethod.Get, uri);
                             using HttpResponseMessage imageResponse = await _http.SendAsync(imageRequest, HttpCompletionOption.ResponseHeadersRead, ct);
@@ -235,8 +250,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                     NewsItems.Clear();
                     foreach (var n in items.OrderByDescending(i => i.Date))
                         NewsItems.Add(n);
-
-                    LastUpdatedText = $"Last updated: {DateTime.Now:G}";
+                    PublishItems();
+                    LastUpdatedText = fromCache ? $"Showing saved news, checked {DateTime.Now:t}" : $"Updated {DateTime.Now:t}";
                     IsLoading = false;
                 });
             }
@@ -246,14 +261,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                 Debug.WriteLine($"[LoadNewsAsync ERROR] {ex}");
                 await OnUiAsync(() =>
                 {
-                    NewsItems.Clear();
-                    NewsItems.Add(new NewsItem
-                    {
-                        Title = "Failed to load news",
-                        Date = DateTime.Now,
-                        Content = ex.Message
-                    });
-                    LastUpdatedText = $"Last checked: {DateTime.Now:G} (failed)";
+                    ErrorText = "News could not be loaded. Check your connection and try again.";
+                    LastUpdatedText = $"Last checked {DateTime.Now:t}";
                     IsLoading = false;
                 });
             }
@@ -299,10 +308,10 @@ namespace Voidstrap.UI.ViewModels.Settings
             }
         }
 
-        private static string SanitizeFileName(string fileName)
+        private void PublishItems()
         {
-            var invalid = Path.GetInvalidFileNameChars();
-            return string.Concat(fileName.Select(c => invalid.Contains(c) ? '_' : c));
+            FeaturedItem = NewsItems.FirstOrDefault();
+            MoreItems = new ObservableCollection<NewsItem>(NewsItems.Skip(1));
         }
 
         private static async Task<string> SafeReadAllTextAsync(string path, int maxBytes, CancellationToken ct)
@@ -386,6 +395,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             _cts.Cancel();
             _cts.Dispose();
             NewsItems.Clear();
+            MoreItems.Clear();
+            FeaturedItem = null;
             GC.SuppressFinalize(this);
         }
     }

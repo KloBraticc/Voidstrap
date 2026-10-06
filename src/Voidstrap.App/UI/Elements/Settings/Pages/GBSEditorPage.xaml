@@ -10,6 +10,9 @@
     <TextBlock Margin="0,0,0,2" FontSize="14" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="These are Roblox's own in game settings" />
 
     <controls:ProfilesExpander Kind="Global" />
+    <controls:OptionControl Margin="0,-4,0,0" Header="Reset to Default Settings" Description="Restore all preferences to default.">
+      <Button Content="Reset" Width="120" Command="{Binding ResetToDefaultsCommand}" />
+    </controls:OptionControl>
 
     <TextBlock Style="{StaticResource SectionHeading}" Text="Settings File" />
     <controls:OptionControl Header="Lock settings file" Description="Marks the Roblox settings file read only so Roblox cannot overwrite your changes">
@@ -129,9 +132,6 @@
     </controls:OptionControl>
     <controls:OptionControl Header="On Screen Profiler" Description="Show FPS and performance overlay.">
       <ui:ToggleSwitch IsChecked="{Binding OnScreenProfilerEnabled, Mode=TwoWay}" />
-    </controls:OptionControl>
-    <controls:OptionControl Header="Reset to Default Settings" Description="Restore all preferences to default.">
-      <Button Content="Reset" Width="120" Command="{Binding ResetToDefaultsCommand}" />
     </controls:OptionControl>
   </StackPanel>
 </ui:UiPage>

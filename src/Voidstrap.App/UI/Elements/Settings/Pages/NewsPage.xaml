@@ -1,81 +1,95 @@
-<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.NewsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:conv="clr-namespace:Voidstrap.UI.Converters" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:appUi="clr-namespace:Voidstrap.UI" xmlns:vm="clr-namespace:Voidstrap.UI.ViewModels.Settings" Title="News" Scrollable="True">
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.NewsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:conv="clr-namespace:Voidstrap.UI.Converters" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:appUi="clr-namespace:Voidstrap.UI" Title="News" Scrollable="True">
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
       <BooleanToVisibilityConverter x:Key="BoolToVis" />
-      <conv:InvertBooleanToVisibilityConverter x:Key="InvertBoolToVis" />
+      <DataTemplate x:Key="NewBadge">
+        <Border Margin="8,0,0,0" Padding="6,1" VerticalAlignment="Center" CornerRadius="4" Background="{DynamicResource AccentFillColorPrimaryBrush}" Visibility="{Binding IsNew, Converter={StaticResource BoolToVis}}" appUi:LinuxTextGuard.PreserveCompactLayout="True">
+          <TextBlock FontSize="10" FontWeight="Bold" VerticalAlignment="Center" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" Text="{Binding AgeLabel}" />
+        </Border>
+      </DataTemplate>
     </ResourceDictionary>
   </FrameworkElement.Resources>
-  <StackPanel Margin="0,0,20,0">
-    <StackPanel>
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-          <TextBlock Text="{x:Static resources:Strings.Menu_News_LatestUpdates}" Margin="0,0,0,4" FontSize="14" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-          <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding LastUpdatedText}" />
-        </StackPanel>
-        <ui:Button Grid.Column="1" Content="{x:Static resources:Strings.Common_Refresh}" Icon="ArrowSync24" VerticalAlignment="Top" Command="{Binding RefreshCommand}" />
-      </Grid>
-      <StackPanel Margin="0,40,0,0" HorizontalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}">
-        <ProgressBar Width="220" Height="10" Margin="0,0,0,12" IsIndeterminate="True" />
-        <TextBlock Text="{x:Static resources:Strings.Menu_News_Loading}" FontSize="14" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+  <StackPanel Margin="0,0,20,20">
+    <Grid Margin="0,0,0,16">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <StackPanel>
+        <TextBlock Text="{x:Static resources:Strings.Menu_News_LatestUpdates}" FontSize="22" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+        <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding LastUpdatedText}" />
       </StackPanel>
-      <ItemsControl ItemsSource="{Binding NewsItems}" Visibility="{Binding IsLoading, Converter={StaticResource InvertBoolToVis}}">
-        <ItemsControl.ItemTemplate>
-          <DataTemplate>
-            <ui:Card Margin="0,0,0,14" Padding="14">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
-                  <TextBlock Margin="0,0,0,4" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Title}" />
-                  <StackPanel Margin="0,0,0,10" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Date, StringFormat={}{0:MMMM dd, yyyy}}" />
-                    <Border Margin="8,0,0,0" Padding="6,1" VerticalAlignment="Center" CornerRadius="4" Background="{DynamicResource AccentFillColorPrimaryBrush}" Visibility="{Binding IsNew, Converter={StaticResource BoolToVis}}">
-                      <TextBlock FontSize="10" FontWeight="Bold" VerticalAlignment="Center" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" Text="{Binding AgeLabel}" />
-                    </Border>
-                  </StackPanel>
-                  <Image Height="200" Margin="0,0,0,10" Stretch="UniformToFill" SnapsToDevicePixels="True" Source="{Binding Image, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Visibility="{Binding Image, Converter={StaticResource NullToVisibilityConverter}}">
-                    <FrameworkElement.Style>
-                      <Style TargetType="{x:Type Image}">
-                        <Setter Property="UIElement.Opacity" Value="0" />
-                        <Style.Triggers>
-                          <EventTrigger RoutedEvent="Image.Loaded">
-                            <BeginStoryboard>
-                              <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.3" FillBehavior="HoldEnd" />
-                              </Storyboard>
-                            </BeginStoryboard>
-                          </EventTrigger>
-                        </Style.Triggers>
-                      </Style>
-                    </FrameworkElement.Style>
-                  </Image>
-                  <TextBlock Margin="0,0,0,10" FontSize="13" TextWrapping="Wrap" MaxHeight="120" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding DisplayContent}" />
-                  <ItemsControl Margin="0,4,0,0" ItemsSource="{Binding Tags}" appUi:LinuxTextGuard.PreserveCompactLayout="True">
-                    <ItemsControl.ItemsPanel>
-                      <ItemsPanelTemplate>
-                        <WrapPanel />
-                      </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                      <DataTemplate>
-                        <Button Margin="0,4,6,0" Padding="8,3" FontSize="12" Cursor="Hand" Foreground="{DynamicResource AccentFillColorPrimaryBrush}" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource AccentFillColorPrimaryBrush}" BorderThickness="1" Content="{Binding}" Command="{Binding DataContext.OpenUrlCommand, RelativeSource={RelativeSource AncestorType={x:Type ui:UiPage}}}" CommandParameter="{Binding}" />
-                      </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                  </ItemsControl>
-                </StackPanel>
-                <ui:Button Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Top" Content="{x:Static resources:Strings.Common_Open}" Icon="OpenFolder24" Appearance="Primary" Click="OpenItemButton_Click" />
-              </Grid>
-            </ui:Card>
-          </DataTemplate>
-        </ItemsControl.ItemTemplate>
-      </ItemsControl>
+      <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+        <ui:ProgressRing Width="16" Height="16" Margin="0,0,10,0" IsIndeterminate="True" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
+        <ui:Button Content="{x:Static resources:Strings.Common_Refresh}" Icon="ArrowSync24" Appearance="Secondary" Command="{Binding RefreshCommand}" />
+      </StackPanel>
+    </Grid>
+
+    <ui:InfoBar Margin="0,0,0,12" Severity="Warning" IsClosable="False" IsOpen="{Binding HasError}" Message="{Binding ErrorText}" Visibility="{Binding HasError, Converter={StaticResource BoolToVis}}" />
+
+    <StackPanel Margin="0,48,0,0" HorizontalAlignment="Center" Visibility="{Binding ShowLoader, Converter={StaticResource BoolToVis}}">
+      <ui:ProgressRing Width="36" Height="36" IsIndeterminate="True" />
+      <TextBlock Margin="0,12,0,0" Text="{x:Static resources:Strings.Menu_News_Loading}" FontSize="13" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
     </StackPanel>
+
+    <StackPanel Margin="0,48,0,0" HorizontalAlignment="Center" Visibility="{Binding ShowEmpty, Converter={StaticResource BoolToVis}}">
+      <ui:SymbolIcon Symbol="News24" FontSize="40" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+      <TextBlock Margin="0,10,0,0" Text="No news yet" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+      <TextBlock Margin="0,4,0,0" Text="New Voidstrap updates and announcements will show up here" FontSize="12" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+    </StackPanel>
+
+    <ui:CardAction Padding="0" IsChevronVisible="False" HorizontalContentAlignment="Stretch" DataContext="{Binding FeaturedItem}" Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" Click="OpenItem_Click">
+      <StackPanel>
+        <Border Height="240" CornerRadius="8,8,0,0" Visibility="{Binding Image, Converter={StaticResource NullToVisibilityConverter}}">
+          <Border.Background>
+            <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill" />
+          </Border.Background>
+        </Border>
+        <StackPanel Margin="18,16,18,18">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding DateText}" />
+            <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource NewBadge}" />
+          </StackPanel>
+          <TextBlock Margin="0,6,0,0" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Title}" />
+          <TextBlock Margin="0,8,0,0" FontSize="13" LineHeight="20" TextWrapping="Wrap" MaxHeight="80" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Summary}" />
+          <TextBlock Margin="0,12,0,0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" Text="Read more" />
+        </StackPanel>
+      </StackPanel>
+    </ui:CardAction>
+
+    <TextBlock Margin="0,24,0,10" FontSize="15" FontWeight="SemiBold" Text="Earlier" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Visibility="{Binding HasMoreItems, Converter={StaticResource BoolToVis}}" />
+    <ItemsControl ItemsSource="{Binding MoreItems}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <ui:CardAction Margin="0,0,0,8" Padding="12" IsChevronVisible="True" HorizontalContentAlignment="Stretch" Click="OpenItem_Click">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Border Width="112" Height="64" Margin="0,0,14,0" CornerRadius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                <Grid>
+                  <ui:SymbolIcon Symbol="News24" FontSize="22" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                  <Border CornerRadius="6" Visibility="{Binding Image, Converter={StaticResource NullToVisibilityConverter}}">
+                    <Border.Background>
+                      <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill" />
+                    </Border.Background>
+                  </Border>
+                </Grid>
+              </Border>
+              <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Title}" />
+                  <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource NewBadge}" />
+                </StackPanel>
+                <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding DateText}" />
+                <TextBlock Margin="0,4,0,0" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Summary}" />
+              </StackPanel>
+            </Grid>
+          </ui:CardAction>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
   </StackPanel>
 </ui:UiPage>

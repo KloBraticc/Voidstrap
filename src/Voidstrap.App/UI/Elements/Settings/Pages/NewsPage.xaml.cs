@@ -56,7 +56,7 @@ public partial class NewsPage : UiPage{
 		_viewModel.Dispose();
 	}
 
-	private void OpenItemButton_Click(object sender, RoutedEventArgs e)
+	private void OpenItem_Click(object sender, RoutedEventArgs e)
 	{
 		try
 		{
@@ -67,8 +67,9 @@ public partial class NewsPage : UiPage{
 				newsItemDialog.ShowOwnedDialog();
 			}
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
+			App.Logger.WriteException("NewsPage::OpenItem", ex);
 		}
 	}
 }
