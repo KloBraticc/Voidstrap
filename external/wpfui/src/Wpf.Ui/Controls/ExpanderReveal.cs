@@ -83,7 +83,7 @@ namespace Wpf.Ui.Controls
                 return;
             }
 
-            if (!ExpanderMotion.GetUseLinuxAnimationClock(element))
+            if (!ExpanderMotion.GetUseLinuxAnimationClock(element) || OperatingSystem.IsMacOS())
             {
                 AnimateLegacyLinux(element, generation, (bool)e.NewValue);
                 return;
@@ -541,7 +541,9 @@ namespace Wpf.Ui.Controls
             private readonly IEasingFunction _easing;
             private readonly Action _settle;
             private readonly DispatcherTimer _watchdog;
-            private readonly long _started;
+            private const double MaximumFrameStep = 34d;
+            private long _lastFrame;
+            private double _elapsed;
             private bool _running;
 
             private Tween(FrameworkElement element, int generation, double fromHeight, double toHeight, double fromOpacity, double toOpacity, Duration height, Duration fade, IEasingFunction easing, Action settle)
@@ -556,10 +558,10 @@ namespace Wpf.Ui.Controls
                 _fadeMilliseconds = fade.HasTimeSpan ? fade.TimeSpan.TotalMilliseconds : 180d;
                 _easing = easing;
                 _settle = settle;
-                _started = Environment.TickCount64;
+                _lastFrame = Environment.TickCount64;
                 _watchdog = new DispatcherTimer(DispatcherPriority.Background, element.Dispatcher)
                 {
-                    Interval = Extent(height, fade)
+                    Interval = Extent(height, fade) + TimeSpan.FromMilliseconds(1500d)
                 };
             }
 
@@ -605,7 +607,10 @@ namespace Wpf.Ui.Controls
                     return;
                 }
 
-                double elapsed = Environment.TickCount64 - _started;
+                long now = Environment.TickCount64;
+                _elapsed += Math.Min(now - _lastFrame, MaximumFrameStep);
+                _lastFrame = now;
+                double elapsed = _elapsed;
                 if (elapsed >= _heightMilliseconds)
                 {
                     Complete();
