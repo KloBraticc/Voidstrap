@@ -581,6 +581,11 @@ public partial class ActivityWatcher : IDisposable
 			requests++;
 			string url = baseUrl + order + (string.IsNullOrEmpty(cursor) ? string.Empty : "&cursor=" + Uri.EscapeDataString(cursor));
 			RobloxApiResponse response = await RobloxCookie.SendGetAsync(url, cts.Token).ConfigureAwait(false);
+			if (response.StatusCode == 0)
+			{
+				await Task.Delay(TimeSpan.FromSeconds(1), cts.Token).ConfigureAwait(false);
+				response = await RobloxCookie.SendGetAsync(url, cts.Token).ConfigureAwait(false);
+			}
 			if (response.RateLimited)
 			{
 				NoteServerListRateLimited(response.RetryAfter);
@@ -679,6 +684,11 @@ public partial class ActivityWatcher : IDisposable
 				await Task.Delay(ServerPageSpacing, cts.Token).ConfigureAwait(false);
 			string url = $"https://games.roblox.com/v1/games/{placeId}/private-servers?limit=100" + (string.IsNullOrEmpty(cursor) ? string.Empty : "&cursor=" + Uri.EscapeDataString(cursor));
 			RobloxApiResponse response = await RobloxCookie.SendGetAsync(url, cts.Token).ConfigureAwait(false);
+			if (response.StatusCode == 0)
+			{
+				await Task.Delay(TimeSpan.FromSeconds(1), cts.Token).ConfigureAwait(false);
+				response = await RobloxCookie.SendGetAsync(url, cts.Token).ConfigureAwait(false);
+			}
 			if (response.RateLimited)
 			{
 				NoteServerListRateLimited(response.RetryAfter);

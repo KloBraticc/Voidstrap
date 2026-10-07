@@ -685,6 +685,10 @@ public partial class MenuContainer : WpfUiWindow
 		{
 			return;
 		}
+		catch (TimeoutException)
+		{
+			App.Logger.WriteLine("MenuContainer::ShowJoinNotification", "The player count was not ready in time, showing the join notification without it");
+		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("MenuContainer::GetServerPlayerStats", ex);
