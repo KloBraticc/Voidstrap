@@ -12,7 +12,7 @@
 
 <p align="center">
   <a href="https://github.com/KloBraticc/Voidstrap/releases/latest">Latest release</a> |
-  <a href="https://voidstrapp.pages.dev/pages/documentation">Documentation</a> |
+  <a href="https://voidstrapp.pages.dev/">Website</a> |
   <a href="https://discord.gg/5tJBqBH8ck">Discord</a>
 </p>
 
@@ -43,11 +43,19 @@
   -->
 </p>
 
-## Quick Install
+**Windows** (PowerShell)
 
 ```powershell
 irm https://voidstrapp.pages.dev/quick-install | iex
 ```
+
+**Linux**
+
+```bash
+curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
+```
+
+Linux picks the right package for your distro. To choose one yourself, end the command with `sh -s -- deb` and swap `deb` for `rpm`, `aur`, `flatpak`, `appimage`, `portable` or `portable-musl`.
 
 ---
 
