@@ -1652,15 +1652,29 @@ public partial class App : Application
 		if (_macApplicationActivated || sender is not Window { ShowActivated: true } window)
 			return;
 		_macApplicationActivated = true;
-		window.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(BringMacApplicationForward));
-	}
-
-	private static void BringMacApplicationForward()
-	{
-		bool activated = Voidstrap.Platform.MacOS.MacOSApplication.Activate();
-		Logger.WriteLine("App::ActivateMacApplication", (activated ? "Brought Voidstrap to the front, " : "Voidstrap could not be brought to the front, ") + Voidstrap.Platform.MacOS.MacOSApplication.Describe());
+		_macActivationTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle, window.Dispatcher) { Interval = TimeSpan.FromMilliseconds(500) };
+		_macActivationTimer.Tick += OnMacActivationTick;
+		_macActivationTimer.Start();
 		if (Environment.GetEnvironmentVariable("VOIDSTRAP_INPUT_TRACE") == "1")
 			System.Windows.Input.InputManager.Current.PreProcessInput += TraceMacInput;
+	}
+
+	private static DispatcherTimer? _macActivationTimer;
+
+	private static int _macActivationAttempts;
+
+	private static void OnMacActivationTick(object? sender, EventArgs e)
+	{
+		bool keyWindow = Voidstrap.Platform.MacOS.MacOSApplication.Activate();
+		if (!keyWindow && ++_macActivationAttempts < 20)
+			return;
+		if (_macActivationTimer != null)
+		{
+			_macActivationTimer.Stop();
+			_macActivationTimer.Tick -= OnMacActivationTick;
+			_macActivationTimer = null;
+		}
+		Logger.WriteLine("App::ActivateMacApplication", (keyWindow ? "Brought Voidstrap to the front, " : "Voidstrap could not be brought to the front, ") + Voidstrap.Platform.MacOS.MacOSApplication.Describe());
 	}
 
 	private static int _tracedMacInput;

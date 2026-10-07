@@ -55,7 +55,7 @@ public static partial class MacOSApplication
 				SendObject(window, sel_registerName("makeKeyAndOrderFront:"), 0);
 				break;
 			}
-			return true;
+			return Send(application, sel_registerName("keyWindow")) != 0;
 		}
 		catch
 		{
