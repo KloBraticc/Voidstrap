@@ -22,7 +22,16 @@ public static partial class MacOSApplication
 			nint count = windows == 0 ? 0 : Send(windows, sel_registerName("count"));
 			nint responder = key == 0 ? 0 : Send(key, sel_registerName("firstResponder"));
 			nint content = key == 0 ? 0 : Send(key, sel_registerName("contentView"));
-			return $"active={SendReturnsBool(application, sel_registerName("isActive"))} windows={count} key={(key == 0 ? "none" : "set")} responder={(responder == 0 ? "none" : responder == content ? "content" : responder == key ? "window" : "other")}";
+			string state = $"active={SendReturnsBool(application, sel_registerName("isActive"))} windows={count} key={(key == 0 ? "none" : "set")} responder={(responder == 0 ? "none" : responder == content ? "content" : responder == key ? "window" : "other")}";
+			for (nint index = 0; index < count; index++)
+			{
+				nint window = SendIndex(windows, sel_registerName("objectAtIndex:"), (nuint)index);
+				if (window == 0)
+					continue;
+				NSRect frame = Frame(window);
+				state += $" [{index}: {frame.X:0},{frame.Y:0} {frame.Width:0}x{frame.Height:0} visible={SendReturnsBool(window, sel_registerName("isVisible"))} mini={SendReturnsBool(window, sel_registerName("isMiniaturized"))} zoomed={SendReturnsBool(window, sel_registerName("isZoomed"))}]";
+			}
+			return state;
 		}
 		catch (Exception ex)
 		{
@@ -122,6 +131,29 @@ public static partial class MacOSApplication
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nint Send(nint receiver, nint selector);
+
+	[StructLayout(LayoutKind.Sequential)]
+	private struct NSRect
+	{
+		public double X;
+		public double Y;
+		public double Width;
+		public double Height;
+	}
+
+	private static NSRect Frame(nint window)
+	{
+		if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+			return SendFrame(window, sel_registerName("frame"));
+		SendFrameStret(out NSRect frame, window, sel_registerName("frame"));
+		return frame;
+	}
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
+	private static partial NSRect SendFrame(nint receiver, nint selector);
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend_stret")]
+	private static partial void SendFrameStret(out NSRect frame, nint receiver, nint selector);
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nint SendObject(nint receiver, nint selector, nint argument);
