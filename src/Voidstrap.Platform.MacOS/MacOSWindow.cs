@@ -78,6 +78,21 @@ public static partial class MacOSWindow
 		}
 	}
 
+	public static double PrimaryScreenHeight()
+	{
+		nint pool = objc_autoreleasePoolPush();
+		try
+		{
+			nint screens = Send(objc_getClass("NSScreen"), sel_registerName("screens"));
+			nint primary = screens == 0 ? 0 : SendIndex(screens, sel_registerName("objectAtIndex:"), 0);
+			return primary == 0 ? 0 : ReadRect(primary, sel_registerName("frame")).Height;
+		}
+		finally
+		{
+			objc_autoreleasePoolPop(pool);
+		}
+	}
+
 	public static void SetFrame(nint window, Rect frame, bool animate)
 	{
 		if (window == 0 || frame.Width <= 0 || frame.Height <= 0)
@@ -118,6 +133,9 @@ public static partial class MacOSWindow
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nint SendObject(nint receiver, nint selector, nint argument);
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
+	private static partial nint SendIndex(nint receiver, nint selector, nuint index);
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nuint SendMask(nint receiver, nint selector);

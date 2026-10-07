@@ -16,62 +16,61 @@ internal static class MacWindowMode
 
 	private static readonly ConditionalWeakTable<Window, State> States = new();
 
-#if CROSSPLAT
 	private sealed class PositionTracker
 	{
 		private readonly Window _window;
-		private readonly Silk.NET.Windowing.IWindow _native;
-		private readonly Action<Silk.NET.Maths.Vector2D<int>> _moved;
+		private long _lastSync;
 
-		public PositionTracker(Window window, Silk.NET.Windowing.IWindow native)
+		public PositionTracker(Window window)
 		{
 			_window = window;
-			_native = native;
-			_moved = OnMoved;
-			_native.Move += _moved;
+			_window.PreviewMouseMove += OnPreviewMouseMove;
+			_window.Activated += OnActivated;
 			_window.Closed += OnClosed;
 		}
 
-		private void OnMoved(Silk.NET.Maths.Vector2D<int> position)
-		{
-			if (_window.Dispatcher.CheckAccess())
-				Apply(position);
-			else
-				_window.Dispatcher.BeginInvoke(new Action(() => Apply(position)));
-		}
+		private void OnPreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e) => Sync(false);
 
-		private void Apply(Silk.NET.Maths.Vector2D<int> position)
+		private void OnActivated(object? sender, EventArgs e) => Sync(true);
+
+		private void Sync(bool force)
 		{
+			long now = Environment.TickCount64;
+			if (!force && now - _lastSync < 200)
+				return;
+			_lastSync = now;
 			if (_window.WindowState != System.Windows.WindowState.Normal)
 				return;
-			if (Math.Abs(_window.Left - position.X) > 1)
-				_window.Left = position.X;
-			if (Math.Abs(_window.Top - position.Y) > 1)
-				_window.Top = position.Y;
+			nint native = ResolveNativeWindow(_window);
+			if (native == 0 || MacOSWindow.IsMinimized(native))
+				return;
+			MacOSWindow.Rect frame = MacOSWindow.GetFrame(native);
+			double top = MacOSWindow.PrimaryScreenHeight() - (frame.Y + frame.Height);
+			if (Math.Abs(_window.Left - frame.X) > 1)
+				_window.Left = frame.X;
+			if (Math.Abs(_window.Top - top) > 1)
+				_window.Top = top;
 		}
 
 		private void OnClosed(object? sender, EventArgs e)
 		{
-			_native.Move -= _moved;
+			_window.PreviewMouseMove -= OnPreviewMouseMove;
+			_window.Activated -= OnActivated;
 			_window.Closed -= OnClosed;
 			Trackers.Remove(_window);
 		}
 	}
 
 	private static readonly ConditionalWeakTable<Window, PositionTracker> Trackers = new();
-#endif
 
 	internal static void TrackPosition(Window window)
 	{
-#if CROSSPLAT
-		if (Trackers.TryGetValue(window, out _)
-			|| !System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(window, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host)
-			|| host?.SilkWindow is not { } native)
+		if (Trackers.TryGetValue(window, out _))
 			return;
-		Trackers.Add(window, new PositionTracker(window, native));
-		if (native.Native?.Cocoa is { } cocoa && cocoa != 0 && window.ResizeMode != ResizeMode.NoResize)
-			MacOSWindow.EnableMinimize(cocoa);
-#endif
+		Trackers.Add(window, new PositionTracker(window));
+		nint native = ResolveNativeWindow(window);
+		if (native != 0 && window.ResizeMode != ResizeMode.NoResize)
+			MacOSWindow.EnableMinimize(native);
 	}
 
 	internal static nint ResolveNativeWindow(Window window)
