@@ -1649,10 +1649,16 @@ public partial class App : Application
 
 	private static void ActivateMacApplication(object sender, RoutedEventArgs e)
 	{
-		if (_macApplicationActivated || sender is not Window { ShowActivated: true })
+		if (_macApplicationActivated || sender is not Window { ShowActivated: true } window)
 			return;
-		_macApplicationActivated = Voidstrap.Platform.MacOS.MacOSApplication.Activate();
-		Logger.WriteLine("App::ActivateMacApplication", _macApplicationActivated ? "Brought Voidstrap to the front" : "Voidstrap could not be brought to the front");
+		_macApplicationActivated = true;
+		window.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(BringMacApplicationForward));
+	}
+
+	private static void BringMacApplicationForward()
+	{
+		bool activated = Voidstrap.Platform.MacOS.MacOSApplication.Activate();
+		Logger.WriteLine("App::ActivateMacApplication", activated ? "Brought Voidstrap to the front" : "Voidstrap could not be brought to the front");
 	}
 
 	private static void WarmRenderLoop(object sender, RoutedEventArgs e)

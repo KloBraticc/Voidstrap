@@ -45,6 +45,12 @@ namespace Wpf.Ui.Controls
             typeof(ExpanderReveal),
             new PropertyMetadata(null));
 
+        private static readonly DependencyProperty PrimedProperty = DependencyProperty.RegisterAttached(
+            "Primed",
+            typeof(bool),
+            typeof(ExpanderReveal),
+            new PropertyMetadata(false));
+
         private static readonly DependencyProperty TweenStateProperty = DependencyProperty.RegisterAttached(
             "TweenState",
             typeof(Tween),
@@ -198,7 +204,65 @@ namespace Wpf.Ui.Controls
                 return;
             }
 
+            if (!(bool)element.GetValue(PrimedProperty))
+            {
+                element.SetValue(PrimedProperty, true);
+                element.Height = Math.Max(current, 1d);
+                new FrameDelay(element, 2, () =>
+                {
+                    if ((int)element.GetValue(GenerationProperty) != generation || !GetIsOpen(element))
+                        return;
+                    StartNative(element, generation, element.Height, target, element.Opacity, 1d, GetDuration(element), GetFadeDuration(element), RevealEase, () => SettleOpen(element, generation));
+                }).Start();
+                return;
+            }
+
             StartNative(element, generation, current, target, opacity, 1d, GetDuration(element), GetFadeDuration(element), RevealEase, () => SettleOpen(element, generation));
+        }
+
+        private sealed class FrameDelay
+        {
+            private readonly FrameworkElement _element;
+            private readonly Action _action;
+            private readonly DispatcherTimer _deadline;
+            private int _remaining;
+            private bool _done;
+
+            internal FrameDelay(FrameworkElement element, int frames, Action action)
+            {
+                _element = element;
+                _remaining = frames;
+                _action = action;
+                _deadline = new DispatcherTimer(DispatcherPriority.Background, element.Dispatcher) { Interval = TimeSpan.FromMilliseconds(500d) };
+            }
+
+            internal void Start()
+            {
+                CompositionTarget.Rendering += OnFrame;
+                _deadline.Tick += OnDeadline;
+                _deadline.Start();
+            }
+
+            private void OnFrame(object? sender, EventArgs e)
+            {
+                if (--_remaining <= 0)
+                    Finish();
+            }
+
+            private void OnDeadline(object? sender, EventArgs e) => Finish();
+
+            private void Finish()
+            {
+                if (_done)
+                    return;
+                _done = true;
+                CompositionTarget.Rendering -= OnFrame;
+                _deadline.Stop();
+                _deadline.Tick -= OnDeadline;
+                if (_element.Dispatcher.HasShutdownStarted)
+                    return;
+                _action();
+            }
         }
 
         private static void AnimateLegacyLinux(FrameworkElement element, int generation, bool open)

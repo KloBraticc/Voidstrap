@@ -20,6 +20,16 @@ public static partial class MacOSApplication
 			if (application == 0)
 				return false;
 			SendBool(application, sel_registerName("activateIgnoringOtherApps:"), true);
+			nint windows = Send(application, sel_registerName("windows"));
+			nint count = windows == 0 ? 0 : Send(windows, sel_registerName("count"));
+			for (nint index = 0; index < count; index++)
+			{
+				nint window = SendIndex(windows, sel_registerName("objectAtIndex:"), (nuint)index);
+				if (window == 0 || !SendReturnsBool(window, sel_registerName("isVisible")) || !SendReturnsBool(window, sel_registerName("canBecomeKeyWindow")))
+					continue;
+				SendObject(window, sel_registerName("makeKeyAndOrderFront:"), 0);
+				break;
+			}
 			return true;
 		}
 		catch
@@ -82,6 +92,9 @@ public static partial class MacOSApplication
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nint Send(nint receiver, nint selector);
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
+	private static partial nint SendObject(nint receiver, nint selector, nint argument);
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nint SendIndex(nint receiver, nint selector, nuint index);
