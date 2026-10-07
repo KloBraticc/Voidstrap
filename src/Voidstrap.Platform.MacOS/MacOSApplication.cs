@@ -20,7 +20,9 @@ public static partial class MacOSApplication
 			nint key = Send(application, sel_registerName("keyWindow"));
 			nint windows = Send(application, sel_registerName("windows"));
 			nint count = windows == 0 ? 0 : Send(windows, sel_registerName("count"));
-			return $"active={SendReturnsBool(application, sel_registerName("isActive"))} windows={count} key={(key == 0 ? "none" : "set")}";
+			nint responder = key == 0 ? 0 : Send(key, sel_registerName("firstResponder"));
+			nint content = key == 0 ? 0 : Send(key, sel_registerName("contentView"));
+			return $"active={SendReturnsBool(application, sel_registerName("isActive"))} windows={count} key={(key == 0 ? "none" : "set")} responder={(responder == 0 ? "none" : responder == content ? "content" : responder == key ? "window" : "other")}";
 		}
 		catch (Exception ex)
 		{
@@ -53,6 +55,9 @@ public static partial class MacOSApplication
 				if (window == 0 || !SendReturnsBool(window, sel_registerName("isVisible")) || !SendReturnsBool(window, sel_registerName("canBecomeKeyWindow")))
 					continue;
 				SendObject(window, sel_registerName("makeKeyAndOrderFront:"), 0);
+				nint content = Send(window, sel_registerName("contentView"));
+				if (content != 0)
+					SendObject(window, sel_registerName("makeFirstResponder:"), content);
 				break;
 			}
 			return Send(application, sel_registerName("keyWindow")) != 0;
