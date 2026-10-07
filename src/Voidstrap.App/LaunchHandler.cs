@@ -1389,6 +1389,19 @@ public static class LaunchHandler
 				{
 					App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "FastFlags could not be applied: " + ex.Message);
 				}
+				try
+				{
+					string robloxVersion = await installer.ReadBundleVersionAsync(ensured.Value, cancellation) ?? "";
+					await linuxBootstrapper.PrepareMacLaunchAsync(ensured.Value, robloxVersion, cancellation);
+				}
+				catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+				{
+					throw;
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "Mods could not be applied: " + ex.Message);
+				}
 			}
 
 			cancellation.ThrowIfCancellationRequested();
