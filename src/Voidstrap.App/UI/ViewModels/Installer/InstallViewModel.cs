@@ -164,7 +164,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 	public InstallViewModel()
 	{
 		_originalInstallLocation = installer.InstallLocation;
-		string suffix = Voidstrap.Utility.Platform.IsLinux ? ".desktop" : ".lnk";
+		string suffix = Voidstrap.Utility.Shortcut.Suffix;
 		PlayerIconTask = new("RobloxPlayer", Paths.Desktop, Voidstrap.Resources.Strings.LaunchMenu_LaunchRoblox + suffix, "-player", true, true);
 		StudioIconTask = new("RobloxStudio", Paths.Desktop, Voidstrap.Resources.Strings.LaunchMenu_LaunchRobloxStudio + suffix, "-studio", true, true);
 		SettingsIconTask = new("Settings", Paths.Desktop, Voidstrap.Resources.Strings.Menu_Title + suffix, "-settings", true, true);

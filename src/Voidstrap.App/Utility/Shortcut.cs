@@ -16,15 +16,31 @@ internal static class Shortcut
 		Create(exePath, exeArgs, lnkPath, exePath);
 	}
 
+	public static string Suffix => Platform.IsLinux ? ".desktop" : Platform.IsMacOS ? ".app" : ".lnk";
+
+	public static bool Exists(string path) => Platform.IsMacOS ? Voidstrap.Platform.MacOS.MacOSShortcut.Exists(path) : File.Exists(path);
+
+	public static void Delete(string path)
+	{
+		if (Platform.IsMacOS)
+			Voidstrap.Platform.MacOS.MacOSShortcut.Delete(path);
+		else
+			File.Delete(path);
+	}
+
 	public static bool Create(string exePath, string exeArgs, string lnkPath, string iconPath, bool overwrite = false)
 	{
-		if (!Platform.IsLinux && !overwrite && File.Exists(lnkPath))
+		if (Platform.IsWindows && !overwrite && File.Exists(lnkPath))
 		{
 			return true;
 		}
 		try
 		{
-			if (Platform.IsLinux)
+			if (Platform.IsMacOS)
+			{
+				Voidstrap.Platform.MacOS.MacOSShortcut.Create(lnkPath, exePath, exeArgs, iconPath);
+			}
+			else if (Platform.IsLinux)
 			{
 				if (!LinuxDesktopEntry.CreateShortcut(lnkPath, Path.GetFileNameWithoutExtension(lnkPath), exePath, exeArgs, iconPath))
 					throw new IOException("The desktop entry could not be written to " + lnkPath);

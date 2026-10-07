@@ -147,7 +147,7 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 		_originalIcon = _selectedIcon;
 		_originalCustomIconPath = _customIconPath;
 		_shortcutPath = Path.Combine(lnkFolder, _shortcutName + Path.GetExtension(lnkName));
-		OriginalState = File.Exists(_shortcutPath);
+		OriginalState = Shortcut.Exists(_shortcutPath);
 	}
 
 	private void UpdatePending(string property)
@@ -216,7 +216,7 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 		byte[] png = buffer.ToArray();
 		string folder = Path.Combine(Paths.Config, "ShortcutIcons");
 		Directory.CreateDirectory(folder);
-		string path = Path.Combine(folder, _key + "_" + Convert.ToHexString(SHA256.HashData(png)).Substring(0, 16) + (Voidstrap.Utility.Platform.IsLinux ? ".png" : ".ico"));
+		string path = Path.Combine(folder, _key + "_" + Convert.ToHexString(SHA256.HashData(png)).Substring(0, 16) + (Voidstrap.Utility.Platform.IsWindows ? ".ico" : ".png"));
 		if (!File.Exists(path))
 		{
 			string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
@@ -224,7 +224,7 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 			{
 				using (var stream = File.Create(temporary))
 				{
-					if (!Voidstrap.Utility.Platform.IsLinux)
+					if (Voidstrap.Utility.Platform.IsWindows)
 					{
 						using var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, true);
 						writer.Write((ushort)0);
@@ -278,22 +278,22 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 		{
 			if (!Shortcut.Create(Paths.Application, _exeFlags, target, icon, _customizable))
 				throw new IOException(Strings.Dialog_CannotCreateShortcuts);
-			if (!string.Equals(target, _shortcutPath, pathComparison) && OriginalState && File.Exists(_shortcutPath))
+			if (!string.Equals(target, _shortcutPath, pathComparison) && OriginalState && Shortcut.Exists(_shortcutPath))
 			{
 				try
 				{
-					File.Delete(_shortcutPath);
+					Shortcut.Delete(_shortcutPath);
 				}
 				catch
 				{
-					File.Delete(target);
+					Shortcut.Delete(target);
 					throw;
 				}
 			}
 		}
-		else if (OriginalState && File.Exists(_shortcutPath))
+		else if (OriginalState && Shortcut.Exists(_shortcutPath))
 		{
-			File.Delete(_shortcutPath);
+			Shortcut.Delete(_shortcutPath);
 		}
 		if (_customizable)
 		{

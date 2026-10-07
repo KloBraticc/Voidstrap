@@ -25,7 +25,6 @@ internal static class LinuxWebImageSource
 	private static bool _refreshQueued;
 
 	private static readonly ConditionalWeakTable<Border, BrushHostState> BrushHosts = new();
-	private static readonly DependencyPropertyDescriptor? BackgroundDescriptor = DependencyPropertyDescriptor.FromProperty(Border.BackgroundProperty, typeof(Border));
 
 	public static void Install()
 	{
@@ -150,8 +149,8 @@ internal static class LinuxWebImageSource
 	{
 		if (element is Image target && target.Source is DrawingImage source && _presented.Contains(source))
 			target.InvalidateMeasure();
-		if (element is Border border && BrushHosts.TryGetValue(border, out BrushHostState? state))
-			state.Present();
+		if (element is Border { Background: ImageBrush } border)
+			BrushHosts.GetValue(border, CreateBrushHost).Attach();
 		else if (element is Panel)
 			UpdatePresentedBrush(element, Panel.BackgroundProperty);
 		else if (element is Control)
@@ -205,33 +204,19 @@ internal static class LinuxWebImageSource
 	{
 		private readonly Border _host;
 		private ImageBrush? _brush;
-		private bool _listening;
 
 		public BrushHostState(Border host) => _host = host;
 
-		public void Attach()
-		{
-			if (_listening)
-				return;
-			_listening = true;
-			BackgroundDescriptor?.AddValueChanged(_host, OnBackgroundChanged);
-			Update();
-		}
+		public void Attach() => Update();
 
 		public void Detach()
 		{
-			if (!_listening)
-				return;
-			_listening = false;
-			BackgroundDescriptor?.RemoveValueChanged(_host, OnBackgroundChanged);
 			if (_brush is { IsFrozen: false })
 				_brush.Changed -= OnBrushChanged;
 			if (_brush != null)
 				Voidstrap.Utility.DynamicRenderSystem.PresentPortableBrushImage(_host, _brush, null);
 			_brush = null;
 		}
-
-		private void OnBackgroundChanged(object? sender, EventArgs e) => Update();
 
 		private void OnBrushChanged(object? sender, EventArgs e) => Present();
 

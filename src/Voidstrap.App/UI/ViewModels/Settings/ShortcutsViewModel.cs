@@ -169,11 +169,13 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 
 	public bool IsStudioOptionVisible => App.IsStudioVisible;
 
-	private static string ShortcutSuffix => Voidstrap.Utility.Platform.IsLinux ? ".desktop" : ".lnk";
+	private static string ShortcutSuffix => Voidstrap.Utility.Shortcut.Suffix;
 
 	private static string ApplicationsFolder => Voidstrap.Utility.Platform.IsLinux
 		? Voidstrap.Utility.LinuxDesktopEntry.ApplicationsFolder
-		: Paths.WindowsStartMenu;
+		: Voidstrap.Utility.Platform.IsMacOS
+			? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Applications")
+			: Paths.WindowsStartMenu;
 
 	public ShortcutTask DesktopIconTask { get; } = new ShortcutTask("Desktop", Paths.Desktop, "Voidstrap" + ShortcutSuffix);
 
