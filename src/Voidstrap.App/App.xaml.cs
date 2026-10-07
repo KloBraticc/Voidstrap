@@ -839,14 +839,14 @@ public partial class App : Application
 			return;
 		}
 		bool headlessLaunch = LaunchSettings.NvApplyFlag.Active || LaunchSettings.NvResetFlag.Active || LaunchSettings.WindowAuditFlag.Active || LaunchSettings.TelemetryBlockFlag.Active;
-		bool portableLinux = Voidstrap.Utility.Platform.IsLinux;
+		bool portableLayout = !Voidstrap.Utility.Platform.IsWindows;
 		string? installLocation;
-		if (portableLinux)
+		if (portableLayout)
 		{
 			Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
 			if (host == null)
 			{
-				Frontend.ShowMessageBox("Voidstrap could not initialize Linux platform services.", MessageBoxImage.Hand);
+				Frontend.ShowMessageBox("Voidstrap could not initialize its platform services.", MessageBoxImage.Hand);
 				Terminate(ErrorCode.ERROR_INSTALL_FAILURE);
 				return;
 			}
@@ -854,7 +854,7 @@ public partial class App : Application
 			Voidstrap.Platform.OperationResult directoryResult = await host.Paths.EnsureDirectoriesAsync(_lifetimeCancellation.Token);
 			if (!directoryResult.Succeeded)
 			{
-				Frontend.ShowMessageBox("Voidstrap could not prepare its Linux data folders: " + (directoryResult.Failure?.Message ?? "Unknown error"), MessageBoxImage.Hand);
+				Frontend.ShowMessageBox("Voidstrap could not prepare its data folders: " + (directoryResult.Failure?.Message ?? "Unknown error"), MessageBoxImage.Hand);
 				Terminate(ErrorCode.ERROR_INSTALL_FAILURE);
 				return;
 			}
@@ -884,7 +884,7 @@ public partial class App : Application
 			LaunchInstaller();
 			return;
 		}
-		if (portableLinux
+		if (portableLayout
 			&& !headlessLaunch
 			&& !LaunchSettings.WatcherFlag.Active
 			&& !File.Exists(App.Settings.FileLocation))
@@ -893,11 +893,11 @@ public partial class App : Application
 			return;
 		}
 
-		if (!portableLinux)
+		if (!portableLayout)
 		{
 			Paths.Initialize(installLocation);
 		}
-		if (!portableLinux && !headlessLaunch && !EnsureInstalledExecutable())
+		if (!portableLayout && !headlessLaunch && !EnsureInstalledExecutable())
 		{
 			return;
 		}
@@ -931,14 +931,14 @@ public partial class App : Application
 
 		Paths.EnsureDirectories();
 
-		if (!portableLinux)
+		if (!portableLayout)
 		{
 			TryStartup("Cloud folder handling", PrepareCloudSyncedInstall);
 		}
 		long persistentStateStarted = Stopwatch.GetTimestamp();
 		LoadPersistentState();
 		LinuxUiPerformance.Duration("Persistent state", persistentStateStarted);
-		if (!portableLinux)
+		if (!portableLayout)
 		{
 			TryStartup("Install location repair", () => InstallLocationResolver.Repair(Paths.Base));
 		}
@@ -983,7 +983,7 @@ public partial class App : Application
 		{
 			try
 			{
-				if (portableLinux)
+				if (portableLayout)
 					await Installer.HandleLinuxUpgradeAsync();
 				else
 					await Installer.HandleUpgradeAsync();
@@ -1195,13 +1195,13 @@ public partial class App : Application
 
 		try
 		{
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (!Voidstrap.Utility.Platform.IsWindows)
 			{
 				Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
 				string? applicationPath = Environment.ProcessPath;
 				if (host == null || string.IsNullOrWhiteSpace(applicationPath))
 				{
-					throw new InvalidOperationException("Linux platform storage is unavailable");
+					throw new InvalidOperationException("Platform storage is unavailable");
 				}
 				Paths.InitializePortable(host.Paths.Storage, applicationPath);
 			}
@@ -1227,7 +1227,7 @@ public partial class App : Application
 			{
 				Voidstrap.Utility.LinuxDesktopEntry.Remove();
 			}
-			else
+			else if (Voidstrap.Utility.Platform.IsWindows)
 			{
 				ResetGeneratedShortcuts();
 			}
