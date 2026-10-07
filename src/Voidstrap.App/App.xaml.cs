@@ -1609,7 +1609,6 @@ public partial class App : Application
 		{
 			TryStartup("macOS animation parity", LinuxAnimationParity.Apply);
 			TryStartup("macOS animation frames", MacAnimationPump.Install);
-			TryStartup("macOS Dock icon", Voidstrap.Utility.Branding.ApplyDockIcon);
 			TryStartup("Render loop warm up", () =>
 			{
 				EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(WarmRenderLoop));
@@ -1676,6 +1675,7 @@ public partial class App : Application
 			_macActivationTimer = null;
 		}
 		Logger.WriteLine("App::ActivateMacApplication", (keyWindow ? "Brought Voidstrap to the front, " : "Voidstrap could not be brought to the front, ") + Voidstrap.Platform.MacOS.MacOSApplication.Describe());
+		Voidstrap.Utility.Branding.ApplyDockIcon();
 	}
 
 	private static int _tracedMacInput;
