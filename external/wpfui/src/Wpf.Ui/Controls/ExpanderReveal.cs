@@ -277,7 +277,7 @@ namespace Wpf.Ui.Controls
 
         private static bool CanAnimate(FrameworkElement element)
         {
-            if (!element.IsLoaded || !element.IsVisible)
+            if (!element.IsVisible || PresentationSource.FromVisual(element) is null)
                 return false;
 
             Window? window = Window.GetWindow(element);

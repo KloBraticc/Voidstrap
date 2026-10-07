@@ -121,6 +121,7 @@
         <ControlTemplate.Triggers>
             <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="Effect" Value="{x:Null}" />
+                <Setter TargetName="SubmenuBorder" Property="controls:PortableShadows.Layered" Value="True" />
             </Trigger>
             <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
@@ -388,6 +389,7 @@
         <ControlTemplate.Triggers>
             <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="Effect" Value="{x:Null}" />
+                <Setter TargetName="SubmenuBorder" Property="controls:PortableShadows.Layered" Value="True" />
             </Trigger>
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
@@ -537,6 +539,7 @@
         <ControlTemplate.Triggers>
             <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="Effect" Value="{x:Null}" />
+                <Setter TargetName="SubmenuBorder" Property="controls:PortableShadows.Layered" Value="True" />
             </Trigger>
             <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
@@ -848,6 +851,7 @@
         <ControlTemplate.Triggers>
             <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="Effect" Value="{x:Null}" />
+                <Setter TargetName="SubmenuBorder" Property="controls:PortableShadows.Layered" Value="True" />
             </Trigger>
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />

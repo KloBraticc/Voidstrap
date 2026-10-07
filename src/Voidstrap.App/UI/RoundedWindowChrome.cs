@@ -131,6 +131,7 @@ public static class RoundedWindowChrome
 			LinuxWindowUpdatePump.Attach(window);
 		}
 		ApplyClip(window);
+		QueueMacShadow(window);
 		EnsureLinuxIdentity(window);
 		LinuxTitleBar.Apply(window);
 		window.SizeChanged -= OnWindowSizeChanged;
@@ -145,6 +146,18 @@ public static class RoundedWindowChrome
 		{
 			WindowEdgeResizer.Attach(window);
 		}
+	}
+
+	private static void QueueMacShadow(Window window)
+	{
+		if (!Voidstrap.Utility.Platform.IsMacOS)
+			return;
+		window.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.ContextIdle, new Action(ApplyMacShadows));
+	}
+
+	private static void ApplyMacShadows()
+	{
+		Voidstrap.Platform.MacOS.MacOSApplication.ApplyWindowShadows();
 	}
 
 	internal static bool IsOverlaySurface(Window window)
@@ -230,6 +243,7 @@ public static class RoundedWindowChrome
 		{
 			QueueContentWidth(window);
 			QueueNativeShapeSync(window);
+			QueueMacShadow(window);
 		}
 	}
 
@@ -283,6 +297,7 @@ public static class RoundedWindowChrome
 		}
 
 		ApplyContentWidth(window);
+		QueueMacShadow(window);
 		if (window.Dispatcher.HasShutdownStarted || window.Dispatcher.HasShutdownFinished)
 		{
 			return;
