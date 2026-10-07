@@ -7,6 +7,31 @@ public static partial class MacOSApplication
 	private const string ObjectiveC = "/usr/lib/libobjc.A.dylib";
 	private static nint _appKit;
 
+	public static string Describe()
+	{
+		if (!OperatingSystem.IsMacOS())
+			return "";
+		nint pool = objc_autoreleasePoolPush();
+		try
+		{
+			nint application = Send(objc_getClass("NSApplication"), sel_registerName("sharedApplication"));
+			if (application == 0)
+				return "no application";
+			nint key = Send(application, sel_registerName("keyWindow"));
+			nint windows = Send(application, sel_registerName("windows"));
+			nint count = windows == 0 ? 0 : Send(windows, sel_registerName("count"));
+			return $"active={SendReturnsBool(application, sel_registerName("isActive"))} windows={count} key={(key == 0 ? "none" : "set")}";
+		}
+		catch (Exception ex)
+		{
+			return ex.Message;
+		}
+		finally
+		{
+			objc_autoreleasePoolPop(pool);
+		}
+	}
+
 	public static bool Activate()
 	{
 		if (!OperatingSystem.IsMacOS())

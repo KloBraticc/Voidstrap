@@ -1658,7 +1658,23 @@ public partial class App : Application
 	private static void BringMacApplicationForward()
 	{
 		bool activated = Voidstrap.Platform.MacOS.MacOSApplication.Activate();
-		Logger.WriteLine("App::ActivateMacApplication", activated ? "Brought Voidstrap to the front" : "Voidstrap could not be brought to the front");
+		Logger.WriteLine("App::ActivateMacApplication", (activated ? "Brought Voidstrap to the front, " : "Voidstrap could not be brought to the front, ") + Voidstrap.Platform.MacOS.MacOSApplication.Describe());
+		if (Environment.GetEnvironmentVariable("VOIDSTRAP_INPUT_TRACE") == "1")
+			System.Windows.Input.InputManager.Current.PreProcessInput += TraceMacInput;
+	}
+
+	private static int _tracedMacInput;
+
+	private static void TraceMacInput(object sender, System.Windows.Input.PreProcessInputEventArgs e)
+	{
+		if (e.StagingItem.Input is not System.Windows.Input.MouseEventArgs || e.StagingItem.Input.RoutedEvent != System.Windows.Input.Mouse.PreviewMouseMoveEvent && e.StagingItem.Input.RoutedEvent != System.Windows.Input.Mouse.PreviewMouseDownEvent)
+			return;
+		if (++_tracedMacInput > 40)
+		{
+			System.Windows.Input.InputManager.Current.PreProcessInput -= TraceMacInput;
+			return;
+		}
+		Logger.WriteLine("App::TraceMacInput", $"{e.StagingItem.Input.RoutedEvent.Name} over={System.Windows.Input.Mouse.DirectlyOver?.GetType().Name ?? "none"} {Voidstrap.Platform.MacOS.MacOSApplication.Describe()}");
 	}
 
 	private static void WarmRenderLoop(object sender, RoutedEventArgs e)
