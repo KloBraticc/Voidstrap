@@ -20,11 +20,15 @@ internal static class MacWindowMode
 	{
 		private readonly Window _window;
 		private long _lastSync;
+		private MacOSWindow.Rect _pressFrame;
+		private (double X, double Y) _pressMouse;
+		private bool _pressed;
 
 		public PositionTracker(Window window)
 		{
 			_window = window;
 			_window.PreviewMouseMove += OnPreviewMouseMove;
+			_window.PreviewMouseLeftButtonDown += OnPreviewMouseDown;
 			_window.PreviewMouseLeftButtonUp += OnPreviewMouseUp;
 			_window.Activated += OnActivated;
 			_window.Closed += OnClosed;
@@ -36,7 +40,35 @@ internal static class MacWindowMode
 				Sync(false);
 		}
 
-		private void OnPreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e) => Sync(true);
+		private void OnPreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			nint native = ResolveNativeWindow(_window);
+			_pressed = native != 0;
+			if (!_pressed)
+				return;
+			_pressFrame = MacOSWindow.GetFrame(native);
+			_pressMouse = MacOSWindow.MouseLocation();
+		}
+
+		private void OnPreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			if (_pressed)
+			{
+				_pressed = false;
+				nint native = ResolveNativeWindow(_window);
+				MacOSWindow.Rect frame = native == 0 ? default : MacOSWindow.GetFrame(native);
+				bool moved = Math.Abs(frame.X - _pressFrame.X) > 1 || Math.Abs(frame.Y - _pressFrame.Y) > 1;
+				bool resized = Math.Abs(frame.Width - _pressFrame.Width) > 1 || Math.Abs(frame.Height - _pressFrame.Height) > 1;
+				if (native != 0 && moved && !resized)
+				{
+					(double mouseX, double mouseY) = MacOSWindow.MouseLocation();
+					MacOSWindow.Rect expected = new(_pressFrame.X + mouseX - _pressMouse.X, _pressFrame.Y + mouseY - _pressMouse.Y, frame.Width, frame.Height);
+					if (!expected.Matches(frame))
+						MacOSWindow.SetFrame(native, expected, false);
+				}
+			}
+			Sync(true);
+		}
 
 		private void OnActivated(object? sender, EventArgs e) => Sync(true);
 
@@ -60,6 +92,7 @@ internal static class MacWindowMode
 		private void OnClosed(object? sender, EventArgs e)
 		{
 			_window.PreviewMouseMove -= OnPreviewMouseMove;
+			_window.PreviewMouseLeftButtonDown -= OnPreviewMouseDown;
 			_window.PreviewMouseLeftButtonUp -= OnPreviewMouseUp;
 			_window.Activated -= OnActivated;
 			_window.Closed -= OnClosed;

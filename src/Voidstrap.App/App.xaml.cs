@@ -1609,8 +1609,7 @@ public partial class App : Application
 		{
 			TryStartup("macOS animation parity", LinuxAnimationParity.Apply);
 			TryStartup("macOS animation frames", MacAnimationPump.Install);
-			if (Voidstrap.Utility.Branding.HasCustomIcon)
-				TryStartup("macOS Dock icon", Voidstrap.Utility.Branding.ApplyDockIcon);
+			TryStartup("macOS Dock icon", Voidstrap.Utility.Branding.ApplyDockIcon);
 			TryStartup("Render loop warm up", () =>
 			{
 				EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(WarmRenderLoop));
