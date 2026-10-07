@@ -1,4 +1,5 @@
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -20,7 +21,7 @@ public sealed partial class MacOSRobloxInstaller
 		_processes = processes;
 	}
 
-	public async Task<OperationResult<string>> EnsureLatestAsync(RuntimeKind kind, string? installedPath, Action<string>? status, CancellationToken cancellationToken = default)
+	public async Task<OperationResult<string>> EnsureLatestAsync(RuntimeKind kind, string? installedPath, Action<string>? status, int maxDownloadSegments = 12, CancellationToken cancellationToken = default)
 	{
 		bool player = kind == RuntimeKind.Player;
 		string channel = player ? "MacPlayer" : "MacStudio";
@@ -55,7 +56,7 @@ public sealed partial class MacOSRobloxInstaller
 			Directory.CreateDirectory(work);
 			string archive = Path.Combine(work, package);
 			string architecture = RuntimeInformation.OSArchitecture == Architecture.Arm64 ? "mac/arm64/" : "mac/";
-			await DownloadAsync(architecture + latest.Upload + "-" + package, archive, displayName, status, cancellationToken);
+			await DownloadAsync(architecture + latest.Upload + "-" + package, archive, displayName, status, Math.Clamp(maxDownloadSegments, 1, 16), cancellationToken);
 
 			status?.Invoke("Installing " + displayName);
 			string extracted = Path.Combine(work, "extracted");
@@ -123,37 +124,14 @@ public sealed partial class MacOSRobloxInstaller
 		return (version, upload);
 	}
 
-	private static async Task DownloadAsync(string relativePath, string destination, string displayName, Action<string>? status, CancellationToken cancellationToken)
+	private static async Task DownloadAsync(string relativePath, string destination, string displayName, Action<string>? status, int segments, CancellationToken cancellationToken)
 	{
 		Exception? lastError = null;
 		foreach (string host in CdnHosts)
 		{
 			try
 			{
-				using HttpResponseMessage response = await Http.GetAsync(host + "/" + relativePath, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-				response.EnsureSuccessStatusCode();
-				long? total = response.Content.Headers.ContentLength;
-				await using Stream source = await response.Content.ReadAsStreamAsync(cancellationToken);
-				await using FileStream target = File.Create(destination);
-				byte[] buffer = new byte[1 << 20];
-				long received = 0;
-				int lastPercent = -1;
-				int read;
-				while ((read = await source.ReadAsync(buffer, cancellationToken)) > 0)
-				{
-					await target.WriteAsync(buffer.AsMemory(0, read), cancellationToken);
-					received += read;
-					int percent = total > 0 ? (int)(received * 100 / total.Value) : -1;
-					if (percent != lastPercent)
-					{
-						lastPercent = percent;
-						status?.Invoke(percent >= 0 ? $"Downloading {displayName} ({percent}%)" : "Downloading " + displayName);
-					}
-				}
-				if (total > 0 && received != total)
-				{
-					throw new IOException("The download ended early");
-				}
+				await DownloadFileAsync(host + "/" + relativePath, destination, displayName, status, segments, cancellationToken);
 				return;
 			}
 			catch (Exception ex) when (ex is not OperationCanceledException)
@@ -162,6 +140,96 @@ public sealed partial class MacOSRobloxInstaller
 			}
 		}
 		throw new IOException(displayName + " could not be downloaded: " + lastError?.Message, lastError);
+	}
+
+	private static async Task DownloadFileAsync(string url, string destination, string displayName, Action<string>? status, int segments, CancellationToken cancellationToken)
+	{
+		if (segments > 1)
+		{
+			try
+			{
+				using HttpRequestMessage request = new(HttpMethod.Head, url);
+				using HttpResponseMessage head = await Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+				if (head.IsSuccessStatusCode && head.Content.Headers.ContentLength is long size && size >= 1 << 20 && head.Headers.AcceptRanges.Contains("bytes"))
+				{
+					await DownloadSegmentsAsync(url, destination, displayName, status, segments, size, head.Headers.ETag, cancellationToken);
+					return;
+				}
+			}
+			catch (Exception ex) when (ex is not OperationCanceledException)
+			{
+			}
+		}
+
+		using HttpResponseMessage response = await Http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+		response.EnsureSuccessStatusCode();
+		long? total = response.Content.Headers.ContentLength;
+		await using Stream source = await response.Content.ReadAsStreamAsync(cancellationToken);
+		await using FileStream target = File.Create(destination);
+		byte[] buffer = new byte[1 << 20];
+		long received = 0;
+		int lastPercent = -1;
+		int read;
+		while ((read = await source.ReadAsync(buffer, cancellationToken)) > 0)
+		{
+			await target.WriteAsync(buffer.AsMemory(0, read), cancellationToken);
+			received += read;
+			int percent = total > 0 ? (int)(received * 100 / total.Value) : -1;
+			if (percent != lastPercent)
+			{
+				lastPercent = percent;
+				status?.Invoke(percent >= 0 ? $"Downloading {displayName} ({percent}%)" : "Downloading " + displayName);
+			}
+		}
+		if (total > 0 && received != total)
+		{
+			throw new IOException("The download ended early");
+		}
+	}
+
+	private static async Task DownloadSegmentsAsync(string url, string destination, string displayName, Action<string>? status, int segments, long total, EntityTagHeaderValue? etag, CancellationToken cancellationToken)
+	{
+		await using FileStream target = new(destination, FileMode.Create, FileAccess.Write, FileShare.None, 1, FileOptions.Asynchronous | FileOptions.RandomAccess);
+		target.SetLength(total);
+		long received = 0;
+		int lastPercent = -1;
+		object progress = new();
+		await Parallel.ForAsync(0, segments, new ParallelOptions { MaxDegreeOfParallelism = segments, CancellationToken = cancellationToken }, async (segment, token) =>
+		{
+			long start = total * segment / segments;
+			long end = total * (segment + 1) / segments - 1;
+			using HttpRequestMessage request = new(HttpMethod.Get, url);
+			request.Headers.Range = new RangeHeaderValue(start, end);
+			if (etag is { IsWeak: false })
+				request.Headers.IfRange = new RangeConditionHeaderValue(etag);
+			using HttpResponseMessage response = await Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token);
+			ContentRangeHeaderValue? range = response.Content.Headers.ContentRange;
+			if (response.StatusCode != System.Net.HttpStatusCode.PartialContent || range?.From != start || range.To != end || range.Length != total || (etag is not null && !etag.Equals(response.Headers.ETag)))
+				throw new IOException("The server did not return the requested download segment");
+			await using Stream source = await response.Content.ReadAsStreamAsync(token);
+			byte[] buffer = new byte[1 << 19];
+			long offset = start;
+			int read;
+			while ((read = await source.ReadAsync(buffer, token)) > 0)
+			{
+				if (read > end - offset + 1)
+					throw new IOException("The download segment exceeded its expected size");
+				await RandomAccess.WriteAsync(target.SafeFileHandle, buffer.AsMemory(0, read), offset, token);
+				offset += read;
+				lock (progress)
+				{
+					received += read;
+					int percent = (int)(received * 100 / total);
+					if (percent != lastPercent)
+					{
+						lastPercent = percent;
+						status?.Invoke($"Downloading {displayName} ({percent}%)");
+					}
+				}
+			}
+			if (offset != end + 1)
+				throw new IOException("The download segment ended early");
+		});
 	}
 
 	private async Task<string?> ReadBundleVersionAsync(string applicationPath, CancellationToken cancellationToken)

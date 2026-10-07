@@ -1324,7 +1324,7 @@ public static class LaunchHandler
 					: host.StudioRuntime;
 				Voidstrap.Platform.RuntimeInstallation installation = await provider.FindInstallationAsync(cancellation);
 				Voidstrap.Platform.MacOS.MacOSRobloxInstaller installer = new(host.Processes);
-				Voidstrap.Platform.OperationResult<string> ensured = await installer.EnsureLatestAsync(runtimeKind, installation.Location, SetPortableLaunchStatus, cancellation);
+				Voidstrap.Platform.OperationResult<string> ensured = await installer.EnsureLatestAsync(runtimeKind, installation.Location, SetPortableLaunchStatus, DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments), cancellation);
 				cancellation.ThrowIfCancellationRequested();
 				if (!ensured.Succeeded || ensured.Value is null)
 				{
