@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,12 +24,17 @@ internal static class LinuxWebImageSource
 
 	private static bool _refreshQueued;
 
+	private static readonly ConditionalWeakTable<Border, BrushHostState> BrushHosts = new();
+	private static readonly DependencyPropertyDescriptor? BackgroundDescriptor = DependencyPropertyDescriptor.FromProperty(Border.BackgroundProperty, typeof(Border));
+
 	public static void Install()
 	{
 		if (_installed || !Voidstrap.Utility.Platform.UsesPortableUi)
 			return;
 
 		_installed = true;
+		EventManager.RegisterClassHandler(typeof(Border), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnBorderLoaded));
+		EventManager.RegisterClassHandler(typeof(Border), FrameworkElement.UnloadedEvent, new RoutedEventHandler(OnBorderUnloaded));
 		try
 		{
 			object? context = typeof(XamlReader).GetProperty("BamlSharedSchemaContext", BindingFlags.NonPublic | BindingFlags.Static)?.GetValue(null);
@@ -144,8 +150,8 @@ internal static class LinuxWebImageSource
 	{
 		if (element is Image target && target.Source is DrawingImage source && _presented.Contains(source))
 			target.InvalidateMeasure();
-		if (element is Border)
-			UpdatePresentedBrush(element, Border.BackgroundProperty);
+		if (element is Border border && BrushHosts.TryGetValue(border, out BrushHostState? state))
+			state.Present();
 		else if (element is Panel)
 			UpdatePresentedBrush(element, Panel.BackgroundProperty);
 		else if (element is Control)
@@ -178,6 +184,81 @@ internal static class LinuxWebImageSource
 		else
 		{
 			brush.SetCurrentValue(ImageBrush.ImageSourceProperty, bitmap);
+		}
+	}
+
+	private static void OnBorderLoaded(object sender, RoutedEventArgs e)
+	{
+		if (sender is Border { Background: ImageBrush } border)
+			BrushHosts.GetValue(border, CreateBrushHost).Attach();
+	}
+
+	private static BrushHostState CreateBrushHost(Border border) => new(border);
+
+	private static void OnBorderUnloaded(object sender, RoutedEventArgs e)
+	{
+		if (sender is Border border && BrushHosts.TryGetValue(border, out BrushHostState? state))
+			state.Detach();
+	}
+
+	private sealed class BrushHostState
+	{
+		private readonly Border _host;
+		private ImageBrush? _brush;
+		private bool _listening;
+
+		public BrushHostState(Border host) => _host = host;
+
+		public void Attach()
+		{
+			if (_listening)
+				return;
+			_listening = true;
+			BackgroundDescriptor?.AddValueChanged(_host, OnBackgroundChanged);
+			Update();
+		}
+
+		public void Detach()
+		{
+			if (!_listening)
+				return;
+			_listening = false;
+			BackgroundDescriptor?.RemoveValueChanged(_host, OnBackgroundChanged);
+			if (_brush is { IsFrozen: false })
+				_brush.Changed -= OnBrushChanged;
+			if (_brush != null)
+				Voidstrap.Utility.DynamicRenderSystem.PresentPortableBrushImage(_host, _brush, null);
+			_brush = null;
+		}
+
+		private void OnBackgroundChanged(object? sender, EventArgs e) => Update();
+
+		private void OnBrushChanged(object? sender, EventArgs e) => Present();
+
+		private void Update()
+		{
+			ImageBrush? next = _host.Background as ImageBrush;
+			if (!ReferenceEquals(_brush, next))
+			{
+				if (_brush is { IsFrozen: false })
+					_brush.Changed -= OnBrushChanged;
+				if (next == null && _brush != null)
+					Voidstrap.Utility.DynamicRenderSystem.PresentPortableBrushImage(_host, _brush, null);
+				_brush = next;
+				if (_brush is { IsFrozen: false })
+					_brush.Changed += OnBrushChanged;
+			}
+			Present();
+		}
+
+		public void Present()
+		{
+			if (_brush == null)
+				return;
+			ImageSource? source = _brush.ImageSource;
+			if (source is DrawingImage { Drawing: DrawingGroup { Children.Count: 1 } group } && group.Children[0] is ImageDrawing drawing)
+				source = drawing.ImageSource;
+			Voidstrap.Utility.DynamicRenderSystem.PresentPortableBrushImage(_host, _brush, source as BitmapSource);
 		}
 	}
 

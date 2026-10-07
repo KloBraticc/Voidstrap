@@ -130,6 +130,14 @@ namespace Voidstrap.Utility
         private static readonly ConditionalWeakTable<ImageBrush, System.Windows.Controls.Border> BrushImageHosts = new();
         private static readonly object BrushImageMarker = new();
 
+        internal static void PresentPortableBrushImage(System.Windows.Controls.Border host, ImageBrush brush, ImageSource? image)
+        {
+            if (!Platform.UsesPortableUi)
+                return;
+            BrushImageHosts.AddOrUpdate(brush, host);
+            PresentLinuxBrushImage(brush, image);
+        }
+
         private static void PresentLinuxBrushImage(ImageBrush brush, ImageSource? image)
         {
             if (!Platform.UsesPortableUi || !BrushImageHosts.TryGetValue(brush, out System.Windows.Controls.Border? host))
@@ -168,10 +176,16 @@ namespace Voidstrap.Utility
                     host.Child = layers;
                 }
                 host.ClipToBounds = true;
+            }
+            host.SizeChanged -= OnBrushHostSizeChanged;
+            if (image != null)
+            {
                 ApplyBrushHostClip(host);
-                host.SizeChanged -= OnBrushHostSizeChanged;
                 host.SizeChanged += OnBrushHostSizeChanged;
             }
+            view.Stretch = brush.Stretch;
+            view.RenderTransform = brush.RelativeTransform;
+            view.Opacity = brush.Opacity;
             view.Source = image;
         }
 
