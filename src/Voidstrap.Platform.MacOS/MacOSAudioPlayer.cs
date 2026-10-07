@@ -108,7 +108,7 @@ public sealed partial class MacOSAudioPlayer : IDisposable
 			SendObject(engine, sel_registerName("attachNode:"), player);
 			SendObject(engine, sel_registerName("attachNode:"), equalizer);
 			Connect(engine, sel_registerName("connect:to:format:"), player, equalizer, format);
-			Connect(engine, sel_registerName("connect:to:format:"), equalizer, Send(engine, sel_registerName("mainMixerNode")), 0);
+			Connect(engine, sel_registerName("connect:to:format:"), equalizer, Send(engine, sel_registerName("mainMixerNode")), format);
 
 			nint bands = Send(equalizer, sel_registerName("bands"));
 			for (int index = 0; index < BandFrequencies.Length; index++)

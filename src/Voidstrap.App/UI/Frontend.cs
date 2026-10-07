@@ -154,7 +154,7 @@ internal static class Frontend
 
 	public static IBootstrapperDialog GetBootstrapperDialog(BootstrapperStyle style)
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			switch (style)
 			{
@@ -167,13 +167,6 @@ internal static class Frontend
 				case BootstrapperStyle.ProgressDialog:
 					return new LinuxProgressDialog();
 			}
-		}
-		else if (!Voidstrap.Utility.Platform.IsWindows && style is BootstrapperStyle.VistaDialog
-			or BootstrapperStyle.LegacyDialog2008
-			or BootstrapperStyle.LegacyDialog2011
-			or BootstrapperStyle.ProgressDialog)
-		{
-			style = BootstrapperStyle.FluentDialog;
 		}
 
 		return style switch

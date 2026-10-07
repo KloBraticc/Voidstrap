@@ -860,9 +860,9 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
             bool canDrag = ParseXmlAttribute<bool>(xmlElement, "CanDrag", true);
 
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.IsWindows)
             {
-                if (!Voidstrap.UI.LinuxWebPanel.IsSupported)
+                if (!Voidstrap.Utility.Platform.IsLinux || !Voidstrap.UI.LinuxWebPanel.IsSupported)
                 {
                     App.Logger.WriteLine("CustomDialog::CreateWebPanel", "The portable web engine is unavailable, this panel stays empty");
                     return host;
