@@ -87,7 +87,7 @@ internal static partial class SystemAccent
 			}
 			else if (OperatingSystem.IsMacOS())
 			{
-				result = GetMacOSAccent() ?? Fallback;
+				result = GetMacOSAccent() ?? MacOSBlue;
 			}
 			else if (OperatingSystem.IsLinux())
 			{
@@ -146,6 +146,11 @@ internal static partial class SystemAccent
 		else if (OperatingSystem.IsLinux())
 		{
 			LinuxAppearancePortal.WatchAccent(OnLinuxAccentChanged);
+			_subscribed = true;
+		}
+		else if (OperatingSystem.IsMacOS())
+		{
+			application.Activated += OnMacApplicationActivated;
 			_subscribed = true;
 		}
 		return changed;
@@ -207,7 +212,22 @@ internal static partial class SystemAccent
 		{
 			LinuxAppearancePortal.StopWatching();
 		}
+		else if (OperatingSystem.IsMacOS() && Application.Current is Application application)
+		{
+			application.Activated -= OnMacApplicationActivated;
+		}
 		_subscribed = false;
+	}
+
+	private static void OnMacApplicationActivated(object? sender, EventArgs e)
+	{
+		Color color = GetMacOSAccent() ?? MacOSBlue;
+		if (_cached == color)
+			return;
+		_cached = color;
+		App.Logger?.WriteLine(LogIdent, "System accent changed to " + Describe(color));
+		if (!TryGetCustomColor(out _))
+			Refresh();
 	}
 
 	private static void OnLinuxAccentChanged(Color color)
@@ -302,24 +322,13 @@ internal static partial class SystemAccent
 		return null;
 	}
 
+	private static readonly Color MacOSBlue = Color.FromRgb(0x00, 0x7A, 0xFF);
+
 	private static Color? GetMacOSAccent()
 	{
-		string value = ShellQuery.Run("defaults", "read -g AppleAccentColor").Trim();
-		if (!int.TryParse(value, out int index))
-		{
-			return null;
-		}
-		return index switch
-		{
-			0 => Color.FromRgb(0xFF, 0x5A, 0x54),
-			1 => Color.FromRgb(0xFF, 0x9F, 0x0A),
-			2 => Color.FromRgb(0xFF, 0xD6, 0x0A),
-			3 => Color.FromRgb(0x30, 0xD1, 0x58),
-			4 => Color.FromRgb(0x00, 0x7A, 0xFF),
-			5 => Color.FromRgb(0xBF, 0x5A, 0xF2),
-			6 => Color.FromRgb(0xFF, 0x2D, 0x55),
-			_ => null
-		};
+		return Voidstrap.Platform.MacOS.MacOSAppearance.TryGetAccentColor(out byte red, out byte green, out byte blue)
+			? Color.FromRgb(red, green, blue)
+			: MacOSBlue;
 	}
 
 	private static Color? GetLinuxAccent()
