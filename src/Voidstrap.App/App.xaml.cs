@@ -103,6 +103,7 @@ public partial class App : Application
 	private static bool _portableToolTipsDisabled;
 
 	private readonly CancellationTokenSource _lifetimeCancellation = new();
+	private readonly TaskCompletionSource<bool> _macOSStartupReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
 	private int _linuxDeferredStarted;
 	private int _linuxDeferredFallbackQueued;
@@ -219,7 +220,7 @@ public partial class App : Application
 			ProcessStartInfo startInfo = new()
 			{
 				FileName = executable,
-				UseShellExecute = true
+				UseShellExecute = !Voidstrap.Utility.Platform.IsMacOS
 			};
 			foreach (string argument in arguments)
 			{
@@ -771,6 +772,8 @@ public partial class App : Application
 	private async Task StartAsync(string[] args)
 	{
 		LinuxUiPerformance.Install();
+		if (Voidstrap.Utility.Platform.IsMacOS)
+			TryStartup("macOS URL handling", () => Voidstrap.Platform.MacOS.MacOSUrlEvents.Install(OnMacOSUrlReceived));
 		TryStartup("Interface scale", Voidstrap.UI.LinuxInterfaceScale.Install);
 		TryStartup("Shared GPU device", Voidstrap.UI.LinuxSharedGpuDevice.Install);
 		TryStartup("Window GL context", Voidstrap.UI.LinuxWindowGlContext.Install);
@@ -868,6 +871,14 @@ public partial class App : Application
 			}
 
 			Paths.InitializePortable(host.Paths.Storage, applicationPath);
+			if (Voidstrap.Utility.Platform.IsMacOS && host.ProtocolRegistration is Voidstrap.Platform.MacOS.MacOSProtocolRegistration registration)
+			{
+				Voidstrap.Platform.OperationResult registered = await registration.RegisterAllAsync(_lifetimeCancellation.Token);
+				if (!registered.Succeeded)
+					Logger.WriteLine("App::StartAsync", "Roblox URL registration failed: " + registered.Failure?.Message);
+				else
+					Logger.WriteLine("App::StartAsync", "Registered Roblox player and Studio URL handlers");
+			}
 			installLocation = Paths.Base;
 		}
 		else
@@ -881,6 +892,7 @@ public partial class App : Application
 
 		if (installLocation == null)
 		{
+			_macOSStartupReady.TrySetResult(true);
 			LaunchInstaller();
 			return;
 		}
@@ -889,6 +901,7 @@ public partial class App : Application
 			&& !LaunchSettings.WatcherFlag.Active
 			&& !File.Exists(App.Settings.FileLocation))
 		{
+			_macOSStartupReady.TrySetResult(true);
 			LaunchInstaller();
 			return;
 		}
@@ -912,6 +925,7 @@ public partial class App : Application
 		}
 		if (LaunchSettings.NvApplyFlag.Active || LaunchSettings.NvResetFlag.Active || LaunchSettings.TelemetryBlockFlag.Active)
 		{
+			_macOSStartupReady.TrySetResult(true);
 			LaunchHandler.ProcessLaunchArgs();
 			return;
 		}
@@ -966,6 +980,7 @@ public partial class App : Application
 			}
 			InitializeWatcherServices();
 			InitializeLanguage();
+			_macOSStartupReady.TrySetResult(true);
 			LaunchHandler.ProcessLaunchArgs();
 			return;
 		}
@@ -995,7 +1010,37 @@ public partial class App : Application
 		}
 		TryStartup("API registration", WindowsRegistry.RegisterApis);
 		TryStartup("Theme protocol cleanup", () => WindowsRegistry.Unregister("voidstrap"));
+		_macOSStartupReady.TrySetResult(true);
 		LaunchHandler.ProcessLaunchArgs();
+	}
+
+	private async void OnMacOSUrlReceived(string value)
+	{
+		if (!Voidstrap.Core.RobloxDeeplink.TryExtract(value, out Uri? deeplink) || deeplink is null)
+			return;
+
+		try
+		{
+			await _macOSStartupReady.Task.WaitAsync(_lifetimeCancellation.Token);
+			if (Dispatcher.HasShutdownStarted)
+				return;
+			await Dispatcher.InvokeAsync(new Action(() =>
+			{
+				if (Dispatcher.HasShutdownStarted)
+					return;
+				Logger.WriteLine("App::OnMacOSUrlReceived", deeplink.Scheme.StartsWith("roblox-studio", StringComparison.OrdinalIgnoreCase) ? "Received Roblox Studio link" : "Received Roblox player link");
+				if (!RestartApplication([deeplink.AbsoluteUri], closeRuntime: false))
+					Logger.WriteLine("App::OnMacOSUrlReceived", "The Roblox link could not be passed to a new launch");
+			}), DispatcherPriority.Background);
+		}
+		catch (OperationCanceledException) when (_lifetimeCancellation.IsCancellationRequested)
+		{
+		}
+		catch (Exception ex)
+		{
+			if (!Dispatcher.HasShutdownStarted)
+				Logger.WriteException("App::OnMacOSUrlReceived", ex);
+		}
 	}
 
 	private void RegisterExceptionHandlers()
@@ -1912,6 +1957,7 @@ public partial class App : Application
 	{
 		LinuxUiPerformance.Shutdown();
 		UnregisterExceptionHandlers();
+		TryShutdown(Voidstrap.Platform.MacOS.MacOSUrlEvents.Shutdown);
 		TryShutdown(DisposeDiscordClient);
 		TryShutdown(DisposeMusicPlayer);
 		TryShutdown(VpnHttpClient.Shutdown);
