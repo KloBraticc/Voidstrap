@@ -72,9 +72,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public static bool IsSidebarItemAvailable(string key)
     {
-        return Voidstrap.Utility.Platform.IsLinux
-            ? key is not "ExtensionsNavItem" and not "ManagerNavItem"
-            : key != "SoberNavItem";
+        return key switch
+        {
+            "SoberNavItem" => Voidstrap.Utility.Platform.IsLinux,
+            "ExtensionsNavItem" or "ManagerNavItem" => Voidstrap.Utility.Platform.IsWindows,
+            _ => true
+        };
     }
 
     public static string NormalizeSidebarName(string? value, string fallback)
@@ -676,9 +679,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         CommandPaletteResultsList.ItemsSource = _commandPaletteRows;
         PrepareLinuxRestartNotificationInput();
         SoberNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
-        ExtensionsNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
+        ExtensionsNavItem.Visibility = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
         ShortcutsNavItem.Visibility = Visibility.Visible;
-        ManagerNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
+        ManagerNavItem.Visibility = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
         VerifySidebarCustomization();
         ApplySidebarCustomization();
         SettingChangeNotifier.Failed += OnSettingChangeFailed;
@@ -988,7 +991,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void RootFrame_Navigated(object sender, NavigationEventArgs e)
     {
-		if (Voidstrap.Utility.Platform.IsLinux && (e.Content is DownloadsPage or ExtensionPage))
+		if (!Voidstrap.Utility.Platform.IsWindows && (e.Content is DownloadsPage or ExtensionPage))
 		{
 			if (e.Content is FrameworkElement hiddenPage)
 			{
@@ -5998,7 +6001,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public bool Navigate(Type pageType)
     {
-		if (Voidstrap.Utility.Platform.IsLinux && (pageType == typeof(DownloadsPage) || pageType == typeof(ExtensionPage)))
+		if (!Voidstrap.Utility.Platform.IsWindows && (pageType == typeof(DownloadsPage) || pageType == typeof(ExtensionPage)))
 		{
 			return false;
 		}

@@ -1102,7 +1102,7 @@ public static class LaunchHandler
 					: "roblox-studio://launch";
 			}
 			Bootstrapper? linuxBootstrapper = null;
-			if (OperatingSystem.IsLinux())
+			if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
 			{
 				linuxBootstrapper = new(launchMode) { CancellationHandledByCaller = true };
 				cancellation = linuxBootstrapper.CancellationToken;
@@ -1314,6 +1314,35 @@ public static class LaunchHandler
 					{
 						Bootstrapper.ReapplyAssetCacheMods();
 					}
+				}
+			}
+
+			if (OperatingSystem.IsMacOS() && linuxBootstrapper is not null)
+			{
+				Voidstrap.Platform.IRobloxRuntimeProvider provider = runtimeKind == Voidstrap.Platform.RuntimeKind.Player
+					? host.PlayerRuntime
+					: host.StudioRuntime;
+				Voidstrap.Platform.RuntimeInstallation installation = await provider.FindInstallationAsync(cancellation);
+				Voidstrap.Platform.MacOS.MacOSRobloxInstaller installer = new(host.Processes);
+				Voidstrap.Platform.OperationResult<string> ensured = await installer.EnsureLatestAsync(runtimeKind, installation.Location, SetPortableLaunchStatus, cancellation);
+				cancellation.ThrowIfCancellationRequested();
+				if (!ensured.Succeeded || ensured.Value is null)
+				{
+					ShowPortableLaunchFailure(ensured.Failure?.Message ?? "Roblox could not be installed.");
+					return;
+				}
+				App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "Using " + ensured.Value);
+
+				SetPortableLaunchStatus(Strings.Bootstrapper_Status_Configuring);
+				try
+				{
+					Voidstrap.Platform.MacOS.MacOSRobloxInstaller.WriteClientSettings(
+						ensured.Value,
+						linuxBootstrapper.FastFlagsAllowedForThisLaunch() ? App.FastFlags.FileLocation : null);
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "FastFlags could not be applied: " + ex.Message);
 				}
 			}
 
