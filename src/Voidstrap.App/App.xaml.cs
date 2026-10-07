@@ -103,6 +103,7 @@ public partial class App : Application
 	private static bool _portableToolTipsDisabled;
 
 	private readonly CancellationTokenSource _lifetimeCancellation = new();
+	private readonly TaskCompletionSource<bool> _macOSStartupReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
 	private int _linuxDeferredStarted;
 	private int _linuxDeferredFallbackQueued;
@@ -219,7 +220,7 @@ public partial class App : Application
 			ProcessStartInfo startInfo = new()
 			{
 				FileName = executable,
-				UseShellExecute = true
+				UseShellExecute = !Voidstrap.Utility.Platform.IsMacOS
 			};
 			foreach (string argument in arguments)
 			{
@@ -771,6 +772,8 @@ public partial class App : Application
 	private async Task StartAsync(string[] args)
 	{
 		LinuxUiPerformance.Install();
+		if (Voidstrap.Utility.Platform.IsMacOS)
+			TryStartup("macOS URL handling", () => Voidstrap.Platform.MacOS.MacOSUrlEvents.Install(OnMacOSUrlReceived));
 		TryStartup("Interface scale", Voidstrap.UI.LinuxInterfaceScale.Install);
 		TryStartup("Shared GPU device", Voidstrap.UI.LinuxSharedGpuDevice.Install);
 		TryStartup("Window GL context", Voidstrap.UI.LinuxWindowGlContext.Install);
@@ -839,14 +842,14 @@ public partial class App : Application
 			return;
 		}
 		bool headlessLaunch = LaunchSettings.NvApplyFlag.Active || LaunchSettings.NvResetFlag.Active || LaunchSettings.WindowAuditFlag.Active || LaunchSettings.TelemetryBlockFlag.Active;
-		bool portableLinux = Voidstrap.Utility.Platform.IsLinux;
+		bool portableLayout = !Voidstrap.Utility.Platform.IsWindows;
 		string? installLocation;
-		if (portableLinux)
+		if (portableLayout)
 		{
 			Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
 			if (host == null)
 			{
-				Frontend.ShowMessageBox("Voidstrap could not initialize Linux platform services.", MessageBoxImage.Hand);
+				Frontend.ShowMessageBox("Voidstrap could not initialize its platform services.", MessageBoxImage.Hand);
 				Terminate(ErrorCode.ERROR_INSTALL_FAILURE);
 				return;
 			}
@@ -854,7 +857,7 @@ public partial class App : Application
 			Voidstrap.Platform.OperationResult directoryResult = await host.Paths.EnsureDirectoriesAsync(_lifetimeCancellation.Token);
 			if (!directoryResult.Succeeded)
 			{
-				Frontend.ShowMessageBox("Voidstrap could not prepare its Linux data folders: " + (directoryResult.Failure?.Message ?? "Unknown error"), MessageBoxImage.Hand);
+				Frontend.ShowMessageBox("Voidstrap could not prepare its data folders: " + (directoryResult.Failure?.Message ?? "Unknown error"), MessageBoxImage.Hand);
 				Terminate(ErrorCode.ERROR_INSTALL_FAILURE);
 				return;
 			}
@@ -868,6 +871,14 @@ public partial class App : Application
 			}
 
 			Paths.InitializePortable(host.Paths.Storage, applicationPath);
+			if (Voidstrap.Utility.Platform.IsMacOS && host.ProtocolRegistration is Voidstrap.Platform.MacOS.MacOSProtocolRegistration registration)
+			{
+				Voidstrap.Platform.OperationResult registered = await registration.RegisterAllAsync(_lifetimeCancellation.Token);
+				if (!registered.Succeeded)
+					Logger.WriteLine("App::StartAsync", "Roblox URL registration failed: " + registered.Failure?.Message);
+				else
+					Logger.WriteLine("App::StartAsync", "Registered Roblox player and Studio URL handlers");
+			}
 			installLocation = Paths.Base;
 		}
 		else
@@ -881,23 +892,25 @@ public partial class App : Application
 
 		if (installLocation == null)
 		{
+			_macOSStartupReady.TrySetResult(true);
 			LaunchInstaller();
 			return;
 		}
-		if (portableLinux
+		if (portableLayout
 			&& !headlessLaunch
 			&& !LaunchSettings.WatcherFlag.Active
 			&& !File.Exists(App.Settings.FileLocation))
 		{
+			_macOSStartupReady.TrySetResult(true);
 			LaunchInstaller();
 			return;
 		}
 
-		if (!portableLinux)
+		if (!portableLayout)
 		{
 			Paths.Initialize(installLocation);
 		}
-		if (!portableLinux && !headlessLaunch && !EnsureInstalledExecutable())
+		if (!portableLayout && !headlessLaunch && !EnsureInstalledExecutable())
 		{
 			return;
 		}
@@ -912,6 +925,7 @@ public partial class App : Application
 		}
 		if (LaunchSettings.NvApplyFlag.Active || LaunchSettings.NvResetFlag.Active || LaunchSettings.TelemetryBlockFlag.Active)
 		{
+			_macOSStartupReady.TrySetResult(true);
 			LaunchHandler.ProcessLaunchArgs();
 			return;
 		}
@@ -931,14 +945,14 @@ public partial class App : Application
 
 		Paths.EnsureDirectories();
 
-		if (!portableLinux)
+		if (!portableLayout)
 		{
 			TryStartup("Cloud folder handling", PrepareCloudSyncedInstall);
 		}
 		long persistentStateStarted = Stopwatch.GetTimestamp();
 		LoadPersistentState();
 		LinuxUiPerformance.Duration("Persistent state", persistentStateStarted);
-		if (!portableLinux)
+		if (!portableLayout)
 		{
 			TryStartup("Install location repair", () => InstallLocationResolver.Repair(Paths.Base));
 		}
@@ -966,6 +980,7 @@ public partial class App : Application
 			}
 			InitializeWatcherServices();
 			InitializeLanguage();
+			_macOSStartupReady.TrySetResult(true);
 			LaunchHandler.ProcessLaunchArgs();
 			return;
 		}
@@ -983,7 +998,7 @@ public partial class App : Application
 		{
 			try
 			{
-				if (portableLinux)
+				if (portableLayout)
 					await Installer.HandleLinuxUpgradeAsync();
 				else
 					await Installer.HandleUpgradeAsync();
@@ -995,7 +1010,37 @@ public partial class App : Application
 		}
 		TryStartup("API registration", WindowsRegistry.RegisterApis);
 		TryStartup("Theme protocol cleanup", () => WindowsRegistry.Unregister("voidstrap"));
+		_macOSStartupReady.TrySetResult(true);
 		LaunchHandler.ProcessLaunchArgs();
+	}
+
+	private async void OnMacOSUrlReceived(string value)
+	{
+		if (!Voidstrap.Core.RobloxDeeplink.TryExtract(value, out Uri? deeplink) || deeplink is null)
+			return;
+
+		try
+		{
+			await _macOSStartupReady.Task.WaitAsync(_lifetimeCancellation.Token);
+			if (Dispatcher.HasShutdownStarted)
+				return;
+			await Dispatcher.InvokeAsync(new Action(() =>
+			{
+				if (Dispatcher.HasShutdownStarted)
+					return;
+				Logger.WriteLine("App::OnMacOSUrlReceived", deeplink.Scheme.StartsWith("roblox-studio", StringComparison.OrdinalIgnoreCase) ? "Received Roblox Studio link" : "Received Roblox player link");
+				if (!RestartApplication([deeplink.AbsoluteUri], closeRuntime: false))
+					Logger.WriteLine("App::OnMacOSUrlReceived", "The Roblox link could not be passed to a new launch");
+			}), DispatcherPriority.Background);
+		}
+		catch (OperationCanceledException) when (_lifetimeCancellation.IsCancellationRequested)
+		{
+		}
+		catch (Exception ex)
+		{
+			if (!Dispatcher.HasShutdownStarted)
+				Logger.WriteException("App::OnMacOSUrlReceived", ex);
+		}
 	}
 
 	private void RegisterExceptionHandlers()
@@ -1195,13 +1240,13 @@ public partial class App : Application
 
 		try
 		{
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (!Voidstrap.Utility.Platform.IsWindows)
 			{
 				Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
 				string? applicationPath = Environment.ProcessPath;
 				if (host == null || string.IsNullOrWhiteSpace(applicationPath))
 				{
-					throw new InvalidOperationException("Linux platform storage is unavailable");
+					throw new InvalidOperationException("Platform storage is unavailable");
 				}
 				Paths.InitializePortable(host.Paths.Storage, applicationPath);
 			}
@@ -1227,7 +1272,7 @@ public partial class App : Application
 			{
 				Voidstrap.Utility.LinuxDesktopEntry.Remove();
 			}
-			else
+			else if (Voidstrap.Utility.Platform.IsWindows)
 			{
 				ResetGeneratedShortcuts();
 			}
@@ -1912,6 +1957,7 @@ public partial class App : Application
 	{
 		LinuxUiPerformance.Shutdown();
 		UnregisterExceptionHandlers();
+		TryShutdown(Voidstrap.Platform.MacOS.MacOSUrlEvents.Shutdown);
 		TryShutdown(DisposeDiscordClient);
 		TryShutdown(DisposeMusicPlayer);
 		TryShutdown(VpnHttpClient.Shutdown);

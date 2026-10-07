@@ -1102,7 +1102,7 @@ public static class LaunchHandler
 					: "roblox-studio://launch";
 			}
 			Bootstrapper? linuxBootstrapper = null;
-			if (OperatingSystem.IsLinux())
+			if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
 			{
 				linuxBootstrapper = new(launchMode) { CancellationHandledByCaller = true };
 				cancellation = linuxBootstrapper.CancellationToken;
@@ -1314,6 +1314,35 @@ public static class LaunchHandler
 					{
 						Bootstrapper.ReapplyAssetCacheMods();
 					}
+				}
+			}
+
+			if (OperatingSystem.IsMacOS() && linuxBootstrapper is not null)
+			{
+				Voidstrap.Platform.IRobloxRuntimeProvider provider = runtimeKind == Voidstrap.Platform.RuntimeKind.Player
+					? host.PlayerRuntime
+					: host.StudioRuntime;
+				Voidstrap.Platform.RuntimeInstallation installation = await provider.FindInstallationAsync(cancellation);
+				Voidstrap.Platform.MacOS.MacOSRobloxInstaller installer = new(host.Processes);
+				Voidstrap.Platform.OperationResult<string> ensured = await installer.EnsureLatestAsync(runtimeKind, installation.Location, SetPortableLaunchStatus, DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments), cancellation);
+				cancellation.ThrowIfCancellationRequested();
+				if (!ensured.Succeeded || ensured.Value is null)
+				{
+					ShowPortableLaunchFailure(ensured.Failure?.Message ?? "Roblox could not be installed.");
+					return;
+				}
+				App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "Using " + ensured.Value);
+
+				SetPortableLaunchStatus(Strings.Bootstrapper_Status_Configuring);
+				try
+				{
+					Voidstrap.Platform.MacOS.MacOSRobloxInstaller.WriteClientSettings(
+						ensured.Value,
+						linuxBootstrapper.FastFlagsAllowedForThisLaunch() ? App.FastFlags.FileLocation : null);
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "FastFlags could not be applied: " + ex.Message);
 				}
 			}
 
@@ -1637,6 +1666,18 @@ public static class LaunchHandler
 			_portableDownloadStatus?.Dispose();
 			_portableDownloadStatus = null;
 			dialog.Message = FormatLaunchStatus(message);
+			int open = message.LastIndexOf('(');
+			if (open >= 0 && message.EndsWith("%)", StringComparison.Ordinal)
+				&& int.TryParse(message.AsSpan(open + 1, message.Length - open - 3), out int percent))
+			{
+				dialog.ProgressStyle = System.Windows.Forms.ProgressBarStyle.Continuous;
+				dialog.ProgressMaximum = 100;
+				dialog.ProgressValue = Math.Clamp(percent, 0, 100);
+			}
+			else if (dialog.ProgressStyle != System.Windows.Forms.ProgressBarStyle.Marquee)
+			{
+				dialog.ProgressStyle = System.Windows.Forms.ProgressBarStyle.Marquee;
+			}
 		}
 		catch (Exception ex)
 		{

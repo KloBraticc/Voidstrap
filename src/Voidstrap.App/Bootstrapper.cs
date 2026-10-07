@@ -4120,7 +4120,7 @@ public class Bootstrapper
         return NativeCodeExtensions.Any(native => string.Equals(native, extension, StringComparison.OrdinalIgnoreCase));
     }
 
-    private bool FastFlagsAllowedForThisLaunch()
+    internal bool FastFlagsAllowedForThisLaunch()
     {
         if (!App.Settings.Prop.UseFastFlagManager)
             return false;

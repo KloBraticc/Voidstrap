@@ -72,9 +72,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public static bool IsSidebarItemAvailable(string key)
     {
-        return Voidstrap.Utility.Platform.IsLinux
-            ? key is not "ExtensionsNavItem" and not "ManagerNavItem"
-            : key != "SoberNavItem";
+        return key switch
+        {
+            "SoberNavItem" => Voidstrap.Utility.Platform.IsLinux,
+            "ExtensionsNavItem" or "ManagerNavItem" => Voidstrap.Utility.Platform.IsWindows,
+            _ => true
+        };
     }
 
     public static string NormalizeSidebarName(string? value, string fallback)
@@ -676,9 +679,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         CommandPaletteResultsList.ItemsSource = _commandPaletteRows;
         PrepareLinuxRestartNotificationInput();
         SoberNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
-        ExtensionsNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
+        ExtensionsNavItem.Visibility = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
         ShortcutsNavItem.Visibility = Visibility.Visible;
-        ManagerNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
+        ManagerNavItem.Visibility = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
         VerifySidebarCustomization();
         ApplySidebarCustomization();
         SettingChangeNotifier.Failed += OnSettingChangeFailed;
@@ -988,7 +991,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void RootFrame_Navigated(object sender, NavigationEventArgs e)
     {
-		if (Voidstrap.Utility.Platform.IsLinux && (e.Content is DownloadsPage or ExtensionPage))
+		if (!Voidstrap.Utility.Platform.IsWindows && (e.Content is DownloadsPage or ExtensionPage))
 		{
 			if (e.Content is FrameworkElement hiddenPage)
 			{
@@ -4158,6 +4161,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ApplyUiZoom();
         LoadSidebarWidth();
         ApplyLinuxWindowSize();
+        if (Voidstrap.Utility.Platform.IsMacOS)
+            FitToScreen();
         SetupNavShortcuts();
         _ = Dispatcher.BeginInvoke(new Action(ResetNavigationHistory), DispatcherPriority.ApplicationIdle);
         Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChanged;
@@ -4553,16 +4558,32 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (WindowState == System.Windows.WindowState.Maximized || Voidstrap.UI.LinuxWindowMode.IsFullscreen(this))
                 return;
 
-            System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
-            double dpiScale = PresentationSource.FromVisual(this)?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
-            double screenW = screen.WorkingArea.Width / dpiScale;
-            double screenH = screen.WorkingArea.Height / dpiScale;
-            double screenL = screen.WorkingArea.Left / dpiScale;
-            double screenT = screen.WorkingArea.Top / dpiScale;
+            Rect work;
+            if (Voidstrap.Utility.Platform.IsMacOS)
+            {
+                work = Voidstrap.Utility.ScreenMetrics.WorkArea;
+            }
+            else
+            {
+                System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
+                double dpiScale = PresentationSource.FromVisual(this)?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
+                work = new Rect(screen.WorkingArea.Left / dpiScale, screen.WorkingArea.Top / dpiScale, screen.WorkingArea.Width / dpiScale, screen.WorkingArea.Height / dpiScale);
+            }
+            if (work.Width <= 0.0 || work.Height <= 0.0)
+                return;
+            double screenW = work.Width;
+            double screenH = work.Height;
+            double screenL = work.Left;
+            double screenT = work.Top;
 
             double minW = MinWidth > 0 ? MinWidth : 640;
             double minH = MinHeight > 0 ? MinHeight : 440;
 
+            if (Voidstrap.Utility.Platform.IsMacOS)
+            {
+                minW = MinWidth = Math.Min(minW, screenW * 0.95);
+                minH = MinHeight = Math.Min(minH, screenH * 0.95);
+            }
             double newW = Math.Max(minW, Math.Min(1071.0, screenW * 0.95));
             double newH = Math.Max(minH, Math.Min(690.0, screenH * 0.95));
 
@@ -5268,7 +5289,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             bool studio = base.DataContext is MainWindowViewModel mainWindowViewModel && mainWindowViewModel.SelectedLaunchModeIndex == 1;
             bool installed = IsLaunchTargetInstalled(studio);
-            if (!Voidstrap.Utility.Platform.SupportsWindowsClient)
+            if (Voidstrap.Utility.Platform.IsLinux)
             {
                 string runtime = studio ? "Vinegar" : "Sober";
                 content = installed ? "Save and Launch " + runtime : "Install " + runtime;
@@ -5288,12 +5309,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            if (!Voidstrap.Utility.Platform.SupportsWindowsClient)
+            if (Voidstrap.Utility.Platform.IsLinux)
             {
                 return studio
                     ? Voidstrap.Platform.Linux.LinuxVinegarStudioRuntimeProvider.IsInstalled()
                     : Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.IsInstalled();
             }
+
+            if (Voidstrap.Utility.Platform.IsMacOS)
+                return Voidstrap.Platform.MacOS.MacOSRobloxRuntimeProvider.IsInstalled(studio ? Voidstrap.Platform.RuntimeKind.Studio : Voidstrap.Platform.RuntimeKind.Player);
 
             Voidstrap.AppData.IAppData appData = (studio ? ((Voidstrap.AppData.IAppData)new Voidstrap.AppData.RobloxStudioData()) : ((Voidstrap.AppData.IAppData)new Voidstrap.AppData.RobloxPlayerData()));
             if (!string.IsNullOrEmpty(appData.State.VersionGuid) && (File.Exists(appData.ExecutablePath) || Voidstrap.Utility.RobloxInstallCompression.IsCompressed(appData)))
@@ -5998,7 +6022,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public bool Navigate(Type pageType)
     {
-		if (Voidstrap.Utility.Platform.IsLinux && (pageType == typeof(DownloadsPage) || pageType == typeof(ExtensionPage)))
+		if (!Voidstrap.Utility.Platform.IsWindows && (pageType == typeof(DownloadsPage) || pageType == typeof(ExtensionPage)))
 		{
 			return false;
 		}

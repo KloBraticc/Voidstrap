@@ -133,7 +133,7 @@ public static class LinuxTextGuard
 
 	public static void Install()
 	{
-		if (_installed || !Voidstrap.Utility.Platform.IsLinux)
+		if (_installed || !Voidstrap.Utility.Platform.UsesPortableUi)
 		{
 			return;
 		}
@@ -558,7 +558,7 @@ public static class LinuxTextGuard
 
 	public static void Refresh(TextBlock? block)
 	{
-		if (block == null || !Voidstrap.Utility.Platform.IsLinux)
+		if (block == null || !Voidstrap.Utility.Platform.UsesPortableUi)
 		{
 			return;
 		}
@@ -579,7 +579,7 @@ public static class LinuxTextGuard
 
 	internal static void AttachOwner(DependencyObject root, Window owner)
 	{
-		if (root == null || owner == null || !Voidstrap.Utility.Platform.IsLinux)
+		if (root == null || owner == null || !Voidstrap.Utility.Platform.UsesPortableUi)
 		{
 			return;
 		}
@@ -600,7 +600,7 @@ public static class LinuxTextGuard
 
 	internal static void CorrectOwner(DependencyObject root, Window owner)
 	{
-		if (root == null || owner == null || !Voidstrap.Utility.Platform.IsLinux)
+		if (root == null || owner == null || !Voidstrap.Utility.Platform.UsesPortableUi)
 		{
 			return;
 		}

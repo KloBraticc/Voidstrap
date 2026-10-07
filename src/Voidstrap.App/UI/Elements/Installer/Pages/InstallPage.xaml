@@ -7,8 +7,8 @@
     </ResourceDictionary>
   </ui:UiPage.Resources>
   <StackPanel Margin="0,0,14,14">
-    <TextBlock FontSize="20" FontWeight="SemiBold" Text="{x:Static resources:Strings.Installer_Install_Location_Title}" TextWrapping="Wrap" />
-    <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.Installer_Install_Location_Text}" TextWrapping="Wrap" />
+    <TextBlock FontSize="20" FontWeight="SemiBold" Text="{Binding InstallLocationTitle}" TextWrapping="Wrap" />
+    <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding InstallLocationDescription}" TextWrapping="Wrap" />
     <ui:Card Margin="0,12,0,0" Padding="12">
       <Grid>
         <Grid.ColumnDefinitions>

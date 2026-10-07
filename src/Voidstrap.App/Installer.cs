@@ -67,13 +67,13 @@ internal partial class Installer
 	public void DoInstall()
 	{
 		App.Logger.WriteLine("Installer::DoInstall", "Beginning installation");
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
 			string? applicationPath = Environment.ProcessPath;
 			if (host == null || string.IsNullOrWhiteSpace(applicationPath))
 			{
-				throw new InvalidOperationException("Linux platform storage is unavailable");
+				throw new InvalidOperationException("Platform storage is unavailable");
 			}
 			if (host.Paths is Voidstrap.Platform.Linux.LinuxPaths linuxPaths && !string.IsNullOrWhiteSpace(InstallLocation))
 			{
@@ -83,7 +83,7 @@ internal partial class Installer
 			Voidstrap.Platform.OperationResult directoryResult = host.Paths.EnsureDirectoriesAsync().GetAwaiter().GetResult();
 			if (!directoryResult.Succeeded)
 			{
-				throw new IOException(directoryResult.Failure?.Message ?? "Linux data folders could not be prepared");
+				throw new IOException(directoryResult.Failure?.Message ?? "Data folders could not be prepared");
 			}
 			Paths.InitializePortable(host.Paths.Storage, applicationPath);
 			InstallLocation = Paths.Base;
@@ -94,7 +94,7 @@ internal partial class Installer
 			Paths.Initialize(InstallLocation);
 		}
 		Paths.EnsureDirectories();
-		if (!Voidstrap.Utility.Platform.IsLinux && !IsImplicitInstall && !string.Equals(Paths.Process, Paths.Application, StringComparison.InvariantCultureIgnoreCase))
+		if (Voidstrap.Utility.Platform.IsWindows && !IsImplicitInstall && !string.Equals(Paths.Process, Paths.Application, StringComparison.InvariantCultureIgnoreCase))
 		{
 			TrySafe("clear read only", () => Filesystem.AssertReadOnly(Paths.Application));
 			try
@@ -167,7 +167,7 @@ internal partial class Installer
 			else
 				TrySafe("function shortcuts", CreateFunctionShortcuts);
 		}
-		else
+		else if (Voidstrap.Utility.Platform.IsLinux)
 		{
 			TrySafe("desktop entry", () => Voidstrap.Utility.LinuxDesktopEntry.Install(Paths.Application, CreateDesktopShortcuts));
 			if (FunctionShortcutTasks != null)
@@ -181,7 +181,7 @@ internal partial class Installer
 
 	private static string GetDefaultInstallLocation()
 	{
-		if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.Platform.RuntimeHost is Voidstrap.Platform.IPlatformHost host)
+		if (!Voidstrap.Utility.Platform.IsWindows && Voidstrap.Utility.Platform.RuntimeHost is Voidstrap.Platform.IPlatformHost host)
 		{
 			return host.Paths.Storage.ApplicationSupport;
 		}

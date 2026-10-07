@@ -30,6 +30,8 @@ namespace Voidstrap.Utility
         public static bool SupportsAudioDucking => IsWindows || IsLinux;
         public static bool SupportsWindowsClient => IsWindows;
 
+        public static bool UsesPortableUi => !IsWindows;
+
         private static IPlatformHost? CreateRuntimeHost()
         {
             if (IsLinux)

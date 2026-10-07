@@ -333,7 +333,7 @@ internal static class Paths
 			: OperatingSystem.IsMacOS()
 				? Path.Combine(home, "Library", "Logs", "Roblox")
 				: Path.Combine(LocalAppData, "Roblox", "logs");
-		InitializeDerivedPaths(!Voidstrap.Utility.Platform.IsLinux);
+		InitializeDerivedPaths(Voidstrap.Utility.Platform.IsWindows);
 	}
 
 	private static void InitializeDerivedPaths(bool resetLegacyLayout = true)

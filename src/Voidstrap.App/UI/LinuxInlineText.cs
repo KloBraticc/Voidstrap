@@ -98,7 +98,7 @@ internal static class LinuxInlineText
 
 	public static void Install()
 	{
-		if (_installed || !Voidstrap.Utility.Platform.IsLinux)
+		if (_installed || !Voidstrap.Utility.Platform.UsesPortableUi)
 		{
 			return;
 		}
@@ -122,7 +122,7 @@ internal static class LinuxInlineText
 
 	internal static void PrepareLinks(TextBlock block)
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux || !ContainsHyperlink(block))
+		if (!Voidstrap.Utility.Platform.UsesPortableUi || !ContainsHyperlink(block))
 			return;
 
 		FlattenEmbeddedLinkText(block);
@@ -131,7 +131,7 @@ internal static class LinuxInlineText
 
 	internal static bool FlattenEmbeddedLinkText(TextBlock block)
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux || block.Inlines.Count == 0)
+		if (!Voidstrap.Utility.Platform.UsesPortableUi || block.Inlines.Count == 0)
 			return false;
 
 		bool changed = false;
@@ -217,7 +217,7 @@ internal static class LinuxInlineText
 
 	internal static void AttachLinkRouting(TextBlock block)
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.UsesPortableUi)
 		{
 			return;
 		}

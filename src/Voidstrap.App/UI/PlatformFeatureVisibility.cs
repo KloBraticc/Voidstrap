@@ -19,11 +19,11 @@ public static class PlatformFeatureVisibility
 
 	public static Visibility VirtualController { get; } = Resolve(FeatureId.VirtualController);
 
-	public static Visibility WindowsIntegration { get; } = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
+	public static Visibility WindowsIntegration { get; } = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
 
 	public static Visibility NetworkMtu { get; } = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
 
-	public static Visibility DesktopBackdrop { get; } = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
+	public static Visibility DesktopBackdrop { get; } = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
 
 	public static Visibility LinuxIntegration { get; } = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
 
@@ -34,7 +34,7 @@ public static class PlatformFeatureVisibility
 
 	private static Visibility Resolve(FeatureId feature)
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.IsWindows)
 		{
 			return Visibility.Visible;
 		}

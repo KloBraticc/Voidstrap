@@ -2411,6 +2411,16 @@ namespace Voidstrap.Resources {
         ///
         ///What would you like to do?.
         /// </summary>
+        public static string Installer_MacOS_DataLocation_Title => ResourceManager.GetString("Installer.MacOS.DataLocation.Title", resourceCulture);
+
+        public static string Installer_MacOS_DataLocation_Text => ResourceManager.GetString("Installer.MacOS.DataLocation.Text", resourceCulture);
+
+        public static string Installer_MacOS_Completion_Text => ResourceManager.GetString("Installer.MacOS.Completion.Text", resourceCulture);
+
+        public static string Installer_MacOS_Roblox_Title => ResourceManager.GetString("Installer.MacOS.Roblox.Title", resourceCulture);
+
+        public static string Installer_MacOS_Roblox_Text => ResourceManager.GetString("Installer.MacOS.Roblox.Text", resourceCulture);
+
         public static string Installer_Completion_Text {
             get {
                 return ResourceManager.GetString("Installer.Completion.Text", resourceCulture);

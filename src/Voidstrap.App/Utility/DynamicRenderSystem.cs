@@ -24,7 +24,7 @@ namespace Voidstrap.Utility
         private const long MaxCacheBytes = 40L * 1024 * 1024;
         private const long MaxDownloadBytes = 8L * 1024 * 1024;
         private const long MaxByteCacheBytes = 10L * 1024 * 1024;
-        private static readonly int DecodeConcurrency = Platform.IsLinux
+        private static readonly int DecodeConcurrency = Platform.UsesPortableUi
             ? Math.Clamp(Environment.ProcessorCount / 2, 2, 4)
             : Math.Max(4, Environment.ProcessorCount);
 
@@ -122,7 +122,7 @@ namespace Voidstrap.Utility
             }
             if (host.ReadLocalValue(BrushDecodeWidthProperty) != DependencyProperty.UnsetValue)
                 SetBrushDecodeWidth(brush, GetBrushDecodeWidth(host));
-            if (Platform.IsLinux)
+            if (Platform.UsesPortableUi)
                 BrushImageHosts.AddOrUpdate(brush, host);
             SetBrushImageSource(brush, GetBrushImageSource(host));
         }
@@ -132,7 +132,7 @@ namespace Voidstrap.Utility
 
         private static void PresentLinuxBrushImage(ImageBrush brush, ImageSource? image)
         {
-            if (!Platform.IsLinux || !BrushImageHosts.TryGetValue(brush, out System.Windows.Controls.Border? host))
+            if (!Platform.UsesPortableUi || !BrushImageHosts.TryGetValue(brush, out System.Windows.Controls.Border? host))
                 return;
 
             Image? view = host.Child switch
@@ -291,7 +291,7 @@ namespace Voidstrap.Utility
 
         private static void OnLinuxImageSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!Platform.IsLinux || d is not Image image)
+            if (!Platform.UsesPortableUi || d is not Image image)
                 return;
             string? uri = e.NewValue as string;
             LinuxImageState state = LinuxImageStates.GetOrCreateValue(image);
@@ -327,7 +327,7 @@ namespace Voidstrap.Utility
 
         private static void OnLinuxImageBrushSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!Platform.IsLinux)
+            if (!Platform.UsesPortableUi)
                 return;
             string? uri = e.NewValue as string;
             if (string.IsNullOrWhiteSpace(uri))
@@ -337,7 +337,7 @@ namespace Voidstrap.Utility
 
         private static void OnLinuxImageBytesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!Platform.IsLinux || d is not Image image || e.NewValue is not byte[] bytes || bytes.Length == 0)
+            if (!Platform.UsesPortableUi || d is not Image image || e.NewValue is not byte[] bytes || bytes.Length == 0)
                 return;
             LinuxImageState state = LinuxImageStates.GetOrCreateValue(image);
             CancelLinuxImageLoad(state);
@@ -437,7 +437,7 @@ namespace Voidstrap.Utility
 
         public static void InstallLinuxImageGuard()
         {
-            if (!Platform.IsLinux || _linuxImageGuardInstalled)
+            if (!Platform.UsesPortableUi || _linuxImageGuardInstalled)
                 return;
             _linuxImageGuardInstalled = true;
             EventManager.RegisterClassHandler(typeof(Image), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnLinuxImageLoaded));
@@ -607,7 +607,7 @@ namespace Voidstrap.Utility
             if (sender is ScrollViewer sv && _watchers.TryGetValue(sv, out Watcher? w))
 			{
 				long now = Environment.TickCount64;
-				if (Platform.IsLinux && now - w.LastEvaluationTicks < 80)
+				if (Platform.UsesPortableUi && now - w.LastEvaluationTicks < 80)
 					return;
 				w.LastEvaluationTicks = now;
                 QueueEval(sv, w);
@@ -769,7 +769,7 @@ namespace Voidstrap.Utility
                     queue = true;
             }
             if (queue)
-                dispatcher.BeginInvoke(Platform.IsLinux ? DispatcherPriority.Background : DispatcherPriority.Render, (Action)delegate
+                dispatcher.BeginInvoke(Platform.UsesPortableUi ? DispatcherPriority.Background : DispatcherPriority.Render, (Action)delegate
                 {
                     FlushAssigns(dispatcher);
                 });
@@ -786,7 +786,7 @@ namespace Voidstrap.Utility
                     _assignPending.Remove(dispatcher);
                     return;
                 }
-                if (Platform.IsLinux && list.Count > 12)
+                if (Platform.UsesPortableUi && list.Count > 12)
                 {
                     batch = list.GetRange(0, 12);
                     list.RemoveRange(0, 12);
@@ -1078,7 +1078,7 @@ namespace Voidstrap.Utility
                     {
                         try
                         {
-                            bytes = Platform.IsLinux
+                            bytes = Platform.UsesPortableUi
                                 ? await AppImage.DownloadBytesAsync(candidate).ConfigureAwait(false)
                                 : await DownloadBytesAsync(candidate).ConfigureAwait(false);
                         }

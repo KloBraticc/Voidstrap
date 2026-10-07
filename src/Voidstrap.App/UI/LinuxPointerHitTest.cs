@@ -10,7 +10,7 @@ public static class LinuxPointerHitTest
 	public static void Install()
 	{
 #if CROSSPLAT
-		if (_installed || !Voidstrap.Utility.Platform.IsLinux)
+		if (_installed || !Voidstrap.Utility.Platform.UsesPortableUi)
 			return;
 
 		_installed = true;
