@@ -443,6 +443,8 @@ namespace Voidstrap.Integrations.Overlays
 				return false;
 			if (Voidstrap.Utility.Platform.IsLinux)
 				return StartLinuxHomepage();
+			if (!Voidstrap.Utility.Platform.IsWindows)
+				return false;
             lock (_lock)
             {
                 if (_thread != null)

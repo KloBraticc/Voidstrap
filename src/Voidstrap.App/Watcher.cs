@@ -459,6 +459,8 @@ public partial class Watcher : IDisposable
 	private void OnRuntimeGameJoin(object? sender, EventArgs e)
 	{
 		Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition();
+		if (Voidstrap.Utility.Platform.IsMacOS)
+			return;
 		if (Voidstrap.Utility.Platform.IsLinux)
 			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true);
 		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameJoin, "FullscreenJoin");
@@ -470,6 +472,8 @@ public partial class Watcher : IDisposable
 	private void OnRuntimeGameLeave(object? sender, EventArgs e)
 	{
 		Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition();
+		if (Voidstrap.Utility.Platform.IsMacOS)
+			return;
 		bool teleporting = ActivityWatcher?.IsTeleporting == true;
 		if (Voidstrap.Utility.Platform.IsLinux && !teleporting)
 			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false);
