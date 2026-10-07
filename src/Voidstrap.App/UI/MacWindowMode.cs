@@ -79,6 +79,87 @@ internal static class MacWindowMode
 			MacOSWindow.EnableMinimize(native);
 	}
 
+	private sealed class DragSession
+	{
+		private const double Threshold = 4;
+		private readonly Window _window;
+		private readonly UIElement _target;
+		private MacOSWindow.Rect _startFrame;
+		private (double X, double Y) _startMouse;
+		private bool _moving;
+
+		public DragSession(Window window, UIElement target, MacOSWindow.Rect frame)
+		{
+			_window = window;
+			_target = target;
+			_startFrame = frame;
+			_startMouse = MacOSWindow.MouseLocation();
+			_target.PreviewMouseMove += OnMove;
+			_target.PreviewMouseLeftButtonUp += OnUp;
+			_target.LostMouseCapture += OnLostCapture;
+			if (!_target.CaptureMouse())
+				End();
+		}
+
+		private void OnMove(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			e.Handled = true;
+			if (e.LeftButton != System.Windows.Input.MouseButtonState.Pressed)
+			{
+				End();
+				return;
+			}
+			nint native = ResolveNativeWindow(_window);
+			if (native == 0)
+				return;
+			(double mouseX, double mouseY) = MacOSWindow.MouseLocation();
+			double dx = mouseX - _startMouse.X;
+			double dy = mouseY - _startMouse.Y;
+			if (!_moving)
+			{
+				if (Math.Abs(dx) < Threshold && Math.Abs(dy) < Threshold)
+					return;
+				_moving = true;
+				if (IsMaximized(_window) && RestoreForDrag(_window, default))
+				{
+					_startFrame = MacOSWindow.GetFrame(native);
+					_startMouse = (mouseX, mouseY);
+					return;
+				}
+			}
+			MacOSWindow.SetFrame(native, new MacOSWindow.Rect(_startFrame.X + dx, _startFrame.Y + dy, _startFrame.Width, _startFrame.Height), false);
+		}
+
+		private void OnUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			if (_moving)
+				e.Handled = true;
+			End();
+		}
+
+		private void OnLostCapture(object sender, System.Windows.Input.MouseEventArgs e) => End();
+
+		private void End()
+		{
+			_target.PreviewMouseMove -= OnMove;
+			_target.PreviewMouseLeftButtonUp -= OnUp;
+			_target.LostMouseCapture -= OnLostCapture;
+			if (_target.IsMouseCaptured)
+				_target.ReleaseMouseCapture();
+			if (Trackers.TryGetValue(_window, out PositionTracker? tracker))
+				tracker.Sync(true);
+		}
+	}
+
+	internal static bool BeginDrag(Window window, UIElement target)
+	{
+		nint native = ResolveNativeWindow(window);
+		if (native == 0)
+			return false;
+		_ = new DragSession(window, target, MacOSWindow.GetFrame(native));
+		return true;
+	}
+
 	internal static nint ResolveNativeWindow(Window window)
 	{
 #if CROSSPLAT

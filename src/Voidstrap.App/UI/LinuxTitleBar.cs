@@ -108,6 +108,12 @@ internal static class LinuxTitleBar
 		{
 			ToggleMaximize(window);
 			e.Handled = true;
+			return;
+		}
+
+		if (OperatingSystem.IsMacOS() && MacWindowMode.BeginDrag(window, titleBar))
+		{
+			e.Handled = true;
 		}
 	}
 
