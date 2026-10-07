@@ -25,7 +25,7 @@ internal static class LinuxAnimationParity
 
 	public static void Apply()
 	{
-		if (_applied || !Voidstrap.Utility.Platform.IsLinux)
+		if (_applied || !Voidstrap.Utility.Platform.UsesPortableUi)
 			return;
 
 		_applied = true;

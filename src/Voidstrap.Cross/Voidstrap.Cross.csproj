@@ -22,6 +22,14 @@
 		<NoWarn>$(NoWarn);CS8305</NoWarn>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('osx'))">
+		<PublishReadyToRun Condition="'$(PublishReadyToRun)' == ''">true</PublishReadyToRun>
+		<TieredPGO>false</TieredPGO>
+		<LinuxProGpuWpfAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\ProGPU.Wpf.dll</LinuxProGpuWpfAssembly>
+		<LinuxPresentationCoreAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\PresentationCore.dll</LinuxPresentationCoreAssembly>
+		<LinuxPresentationFrameworkAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\PresentationFramework.dll</LinuxPresentationFrameworkAssembly>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
 		<PublishSingleFile>true</PublishSingleFile>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
@@ -256,7 +264,7 @@
     </ItemGroup>
   </Target>
 
-	<Target Name="ReplaceLinuxProGpuWpfOutput" AfterTargets="ResolveReferences" BeforeTargets="CopyFilesToOutputDirectory" Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+	<Target Name="ReplaceLinuxProGpuWpfOutput" AfterTargets="ResolveReferences" BeforeTargets="CopyFilesToOutputDirectory" Condition="($(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx')))">
 		<ItemGroup>
 			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)' == 'ProGPU.Wpf.dll'" />
 			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)' == 'PresentationCore.dll'" />
@@ -267,11 +275,11 @@
 		</ItemGroup>
 	</Target>
 
-	<Target Name="CopyLinuxProGpuWpfOutput" AfterTargets="_ProGpuWpfSdkCopyPackageRuntimeAssets" Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+	<Target Name="CopyLinuxProGpuWpfOutput" AfterTargets="_ProGpuWpfSdkCopyPackageRuntimeAssets" Condition="($(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx')))">
 		<Copy SourceFiles="$(LinuxProGpuWpfAssembly);$(LinuxPresentationCoreAssembly);$(LinuxPresentationFrameworkAssembly)" DestinationFiles="$(TargetDir)ProGPU.Wpf.dll;$(TargetDir)PresentationCore.dll;$(TargetDir)PresentationFramework.dll" SkipUnchangedFiles="false" />
 	</Target>
 
-	<Target Name="ReplaceLinuxProGpuWpfPublish" AfterTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+	<Target Name="ReplaceLinuxProGpuWpfPublish" AfterTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="($(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx')))">
 		<ItemGroup>
 			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'ProGPU.Wpf.dll'" />
 			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'PresentationCore.dll'" />
@@ -282,7 +290,7 @@
 		</ItemGroup>
 	</Target>
 
-	<Target Name="PrepareLinuxReadyToRunInputs" BeforeTargets="_PrepareForReadyToRunCompilation" DependsOnTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(PublishReadyToRun)' == 'true'">
+	<Target Name="PrepareLinuxReadyToRunInputs" BeforeTargets="_PrepareForReadyToRunCompilation" DependsOnTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="($(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))) And '$(PublishReadyToRun)' == 'true'">
 		<ItemGroup>
 			<_VoidstrapReadyToRunDuplicate Include="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'System.Private.Windows.Core.dll' And $([System.String]::Copy('%(ResolvedFileToPublish.Identity)').Contains('librewpf.transport'))" />
 			<ResolvedFileToPublish Remove="@(_VoidstrapReadyToRunDuplicate)" />

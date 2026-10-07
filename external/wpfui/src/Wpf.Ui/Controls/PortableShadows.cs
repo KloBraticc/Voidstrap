@@ -11,7 +11,7 @@ namespace Wpf.Ui.Controls
             "IsPortable",
             typeof(bool),
             typeof(PortableShadows),
-            new PropertyMetadata(OperatingSystem.IsLinux()));
+            new PropertyMetadata(Wpf.Ui.Animations.PortableRenderer.IsActive));
 
         public static readonly DropShadowEffect Flyout = CreateWindowsFlyout();
 

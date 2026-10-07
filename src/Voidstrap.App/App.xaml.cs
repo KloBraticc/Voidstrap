@@ -978,6 +978,10 @@ public partial class App : Application
 			TryStartup("Linux screen metrics", LinuxScreenMetrics.Apply);
 			TryStartup("Linux window state", LinuxWindowState.Install);
 			}
+			else if (Voidstrap.Utility.Platform.IsMacOS)
+			{
+				TryStartup("macOS animation parity", LinuxAnimationParity.Apply);
+			}
 			InitializeWatcherServices();
 			InitializeLanguage();
 			_macOSStartupReady.TrySetResult(true);
@@ -1621,6 +1625,19 @@ public partial class App : Application
 				EventManager.RegisterClassHandler(typeof(System.Windows.Controls.Image), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyLinuxImageScaling));
 			});
 			TryStartup("Linux tooltip placement", InstallPortableToolTipPlacement);
+		}
+		else if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			TryStartup("macOS animation parity", LinuxAnimationParity.Apply);
+			TryStartup("Render loop warm up", () =>
+			{
+				EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(WarmRenderLoop));
+			});
+			TryStartup("macOS image scaling", () =>
+			{
+				EventManager.RegisterClassHandler(typeof(System.Windows.Controls.Image), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyLinuxImageScaling));
+			});
+			TryStartup("macOS tooltip placement", InstallPortableToolTipPlacement);
 		}
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{

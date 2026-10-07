@@ -71,7 +71,7 @@ namespace Wpf.Ui.Controls
             int generation = (int)element.GetValue(GenerationProperty) + 1;
             element.SetValue(GenerationProperty, generation);
 
-            if (!OperatingSystem.IsLinux())
+            if (!Wpf.Ui.Animations.PortableRenderer.IsActive)
             {
                 AnimateWindows(element, generation, (bool)e.NewValue);
                 return;
@@ -300,7 +300,7 @@ namespace Wpf.Ui.Controls
             element.Height = double.NaN;
             element.Opacity = 1d;
             element.ClipToBounds = false;
-            if (OperatingSystem.IsLinux())
+            if (Wpf.Ui.Animations.PortableRenderer.IsActive)
                 element.IsHitTestVisible = true;
         }
 
@@ -315,7 +315,7 @@ namespace Wpf.Ui.Controls
             element.Height = double.NaN;
             element.Opacity = 1d;
             element.ClipToBounds = false;
-            if (OperatingSystem.IsLinux())
+            if (Wpf.Ui.Animations.PortableRenderer.IsActive)
                 element.IsHitTestVisible = true;
         }
 
@@ -329,7 +329,7 @@ namespace Wpf.Ui.Controls
             element.BeginAnimation(UIElement.OpacityProperty, null);
             element.Height = 0d;
             element.Opacity = 0d;
-            if (OperatingSystem.IsLinux())
+            if (Wpf.Ui.Animations.PortableRenderer.IsActive)
                 element.IsHitTestVisible = false;
         }
 

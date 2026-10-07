@@ -41,7 +41,7 @@ namespace Wpf.Ui.Controls
             if (_registered)
                 return;
             _registered = true;
-            if (OperatingSystem.IsLinux())
+            if (Wpf.Ui.Animations.PortableRenderer.IsActive)
             {
                 InputManager.Current.PreProcessInput += OnLinuxPreProcessInput;
                 return;
@@ -107,7 +107,7 @@ namespace Wpf.Ui.Controls
 
         internal static bool TryHandleLinuxWheel(DependencyObject? source, int delta)
         {
-            if (!OperatingSystem.IsLinux() ||
+            if (!Wpf.Ui.Animations.PortableRenderer.IsActive ||
                 Keyboard.Modifiers.HasFlag(ModifierKeys.Control) ||
                 FindLinuxScrollViewer(source, delta) is not ScrollViewer sv)
             {
@@ -347,7 +347,7 @@ namespace Wpf.Ui.Controls
                 _hooked = true;
                 _lastFrame = Environment.TickCount64;
                 CompositionTarget.Rendering += OnRender;
-                if (OperatingSystem.IsLinux())
+                if (Wpf.Ui.Animations.PortableRenderer.IsActive)
                     Wpf.Ui.Animations.RenderReady.Hold(_sv, TimeSpan.FromMilliseconds(900));
             }
 
