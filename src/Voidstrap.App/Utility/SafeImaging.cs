@@ -25,6 +25,30 @@ internal static class SafeImaging
 
 	private static readonly Lazy<System.Net.Http.HttpClient> _http = new Lazy<System.Net.Http.HttpClient>(() => VpnHttpClient.Create(TimeSpan.FromSeconds(15)));
 
+	public static void RejectTiff()
+	{
+		SixLabors.ImageSharp.Configuration.Default.ImageFormatsManager.SetDecoder(SixLabors.ImageSharp.Formats.Tiff.TiffFormat.Instance, RejectingDecoder.Instance);
+	}
+
+	private sealed class RejectingDecoder : IImageDecoder
+	{
+		public static readonly RejectingDecoder Instance = new();
+
+		private static SixLabors.ImageSharp.UnknownImageFormatException Rejected() => new("TIFF images are not decoded by Voidstrap");
+
+		public SixLabors.ImageSharp.ImageInfo Identify(DecoderOptions options, Stream stream) => throw Rejected();
+
+		public System.Threading.Tasks.Task<SixLabors.ImageSharp.ImageInfo> IdentifyAsync(DecoderOptions options, Stream stream, CancellationToken cancellationToken = default) => throw Rejected();
+
+		public SixLabors.ImageSharp.Image<TPixel> Decode<TPixel>(DecoderOptions options, Stream stream) where TPixel : unmanaged, IPixel<TPixel> => throw Rejected();
+
+		public SixLabors.ImageSharp.Image Decode(DecoderOptions options, Stream stream) => throw Rejected();
+
+		public System.Threading.Tasks.Task<SixLabors.ImageSharp.Image<TPixel>> DecodeAsync<TPixel>(DecoderOptions options, Stream stream, CancellationToken cancellationToken = default) where TPixel : unmanaged, IPixel<TPixel> => throw Rejected();
+
+		public System.Threading.Tasks.Task<SixLabors.ImageSharp.Image> DecodeAsync(DecoderOptions options, Stream stream, CancellationToken cancellationToken = default) => throw Rejected();
+	}
+
 	public static BitmapSource? FromBytes(byte[]? bytes, int decodeWidth = 0)
 	{
 		if (bytes == null || bytes.Length == 0 || bytes.LongLength > MaxCompressedImageBytes)
