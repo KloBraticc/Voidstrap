@@ -184,10 +184,7 @@ internal static class ModAutoFixer
 		return !dds && !png;
 	}
 
-	public static string OtaPatchBackups => Path.Combine(
-		Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-		"Roblox",
-		"OTAPatchBackups");
+	public static string OtaPatchBackups => Path.Combine(RobloxLocalReset.Root, "OTAPatchBackups");
 
 	public static ModAutoFixReport Run(string robloxFolder, bool modsActive)
 	{

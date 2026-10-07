@@ -460,13 +460,43 @@ public partial class Watcher : IDisposable
 	{
 		Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition();
 		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			_ = NotifyMacGameJoinAsync();
 			return;
+		}
 		if (Voidstrap.Utility.Platform.IsLinux)
 			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true);
 		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameJoin, "FullscreenJoin");
 		RunRuntimeAction(Voidstrap.Integrations.RiShade.RiShadeManager.OnGameJoin, "RiShadeJoin");
 		RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameJoin, "AntiAliasingJoin");
 		RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
+	}
+
+	private async Task NotifyMacGameJoinAsync()
+	{
+		try
+		{
+			ActivityWatcher? watcher = ActivityWatcher;
+			Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
+			if (watcher == null || host == null || !App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || !App.Settings.Prop.ShowServerDetails)
+				return;
+			string? location = await watcher.Data.QueryServerLocation();
+			if (string.IsNullOrEmpty(location))
+				return;
+			string caption = watcher.Data.ServerType switch
+			{
+				Voidstrap.Enums.ServerType.Private => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Private,
+				Voidstrap.Enums.ServerType.Reserved => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Reserved,
+				_ => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Public,
+			};
+			string message = string.Format(Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Text, location);
+			Voidstrap.Platform.OperationResult result = await host.Notifications.ShowAsync(new Voidstrap.Platform.NotificationRequest(caption, message));
+			App.Logger.WriteLine("Watcher::NotifyMacGameJoinAsync", "Game join notification: " + result.Succeeded);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("Watcher::NotifyMacGameJoinAsync", ex);
+		}
 	}
 
 	private void OnRuntimeGameLeave(object? sender, EventArgs e)
