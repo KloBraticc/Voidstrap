@@ -5289,7 +5289,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             bool studio = base.DataContext is MainWindowViewModel mainWindowViewModel && mainWindowViewModel.SelectedLaunchModeIndex == 1;
             bool installed = IsLaunchTargetInstalled(studio);
-            content = (studio ? (installed ? "Save and Launch Studio" : "Install Studio") : (installed ? "Save and Launch" : "Install"));
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                string runtime = studio ? "Vinegar" : "Sober";
+                content = installed ? "Save and Launch " + runtime : "Install " + runtime;
+            }
+            else
+            {
+                content = (studio ? (installed ? "Save and Launch Studio" : "Install Studio") : (installed ? "Save and Launch" : "Install"));
+            }
         }
         if (!object.Equals(LaunchActionText.Text, content))
         {
