@@ -4161,6 +4161,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ApplyUiZoom();
         LoadSidebarWidth();
         ApplyLinuxWindowSize();
+        if (Voidstrap.Utility.Platform.IsMacOS)
+            FitToScreen();
         SetupNavShortcuts();
         _ = Dispatcher.BeginInvoke(new Action(ResetNavigationHistory), DispatcherPriority.ApplicationIdle);
         Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChanged;
@@ -4556,16 +4558,32 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (WindowState == System.Windows.WindowState.Maximized || Voidstrap.UI.LinuxWindowMode.IsFullscreen(this))
                 return;
 
-            System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
-            double dpiScale = PresentationSource.FromVisual(this)?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
-            double screenW = screen.WorkingArea.Width / dpiScale;
-            double screenH = screen.WorkingArea.Height / dpiScale;
-            double screenL = screen.WorkingArea.Left / dpiScale;
-            double screenT = screen.WorkingArea.Top / dpiScale;
+            Rect work;
+            if (Voidstrap.Utility.Platform.IsMacOS)
+            {
+                work = Voidstrap.Utility.ScreenMetrics.WorkArea;
+            }
+            else
+            {
+                System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
+                double dpiScale = PresentationSource.FromVisual(this)?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
+                work = new Rect(screen.WorkingArea.Left / dpiScale, screen.WorkingArea.Top / dpiScale, screen.WorkingArea.Width / dpiScale, screen.WorkingArea.Height / dpiScale);
+            }
+            if (work.Width <= 0.0 || work.Height <= 0.0)
+                return;
+            double screenW = work.Width;
+            double screenH = work.Height;
+            double screenL = work.Left;
+            double screenT = work.Top;
 
             double minW = MinWidth > 0 ? MinWidth : 640;
             double minH = MinHeight > 0 ? MinHeight : 440;
 
+            if (Voidstrap.Utility.Platform.IsMacOS)
+            {
+                minW = MinWidth = Math.Min(minW, screenW * 0.95);
+                minH = MinHeight = Math.Min(minH, screenH * 0.95);
+            }
             double newW = Math.Max(minW, Math.Min(1071.0, screenW * 0.95));
             double newH = Math.Max(minH, Math.Min(690.0, screenH * 0.95));
 
@@ -5271,15 +5289,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             bool studio = base.DataContext is MainWindowViewModel mainWindowViewModel && mainWindowViewModel.SelectedLaunchModeIndex == 1;
             bool installed = IsLaunchTargetInstalled(studio);
-            if (!Voidstrap.Utility.Platform.SupportsWindowsClient)
-            {
-                string runtime = studio ? "Vinegar" : "Sober";
-                content = installed ? "Save and Launch " + runtime : "Install " + runtime;
-            }
-            else
-            {
-                content = (studio ? (installed ? "Save and Launch Studio" : "Install Studio") : (installed ? "Save and Launch" : "Install"));
-            }
+            content = (studio ? (installed ? "Save and Launch Studio" : "Install Studio") : (installed ? "Save and Launch" : "Install"));
         }
         if (!object.Equals(LaunchActionText.Text, content))
         {
@@ -5291,12 +5301,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            if (!Voidstrap.Utility.Platform.SupportsWindowsClient)
+            if (Voidstrap.Utility.Platform.IsLinux)
             {
                 return studio
                     ? Voidstrap.Platform.Linux.LinuxVinegarStudioRuntimeProvider.IsInstalled()
                     : Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.IsInstalled();
             }
+
+            if (Voidstrap.Utility.Platform.IsMacOS)
+                return Voidstrap.Platform.MacOS.MacOSRobloxRuntimeProvider.IsInstalled(studio ? Voidstrap.Platform.RuntimeKind.Studio : Voidstrap.Platform.RuntimeKind.Player);
 
             Voidstrap.AppData.IAppData appData = (studio ? ((Voidstrap.AppData.IAppData)new Voidstrap.AppData.RobloxStudioData()) : ((Voidstrap.AppData.IAppData)new Voidstrap.AppData.RobloxPlayerData()));
             if (!string.IsNullOrEmpty(appData.State.VersionGuid) && (File.Exists(appData.ExecutablePath) || Voidstrap.Utility.RobloxInstallCompression.IsCompressed(appData)))

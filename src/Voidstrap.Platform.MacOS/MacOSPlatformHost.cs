@@ -360,7 +360,7 @@ public sealed class MacOSRobloxRuntimeProvider : IRobloxRuntimeProvider
 	public Task<RuntimeInstallation> FindInstallationAsync(CancellationToken cancellationToken = default)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		string applicationPath = FindApplicationPath();
+		string applicationPath = FindApplicationPath(Kind);
 		bool available = Directory.Exists(applicationPath);
 		CapabilityDescriptor capability = available
 			? new CapabilityDescriptor(GetFeature(), CapabilityState.Available, "The official Roblox application is available")
@@ -413,9 +413,11 @@ public sealed class MacOSRobloxRuntimeProvider : IRobloxRuntimeProvider
 			false));
 	}
 
-	private string FindApplicationPath()
+	public static bool IsInstalled(RuntimeKind kind) => Directory.Exists(FindApplicationPath(kind));
+
+	private static string FindApplicationPath(RuntimeKind kind)
 	{
-		string applicationName = Kind == RuntimeKind.Player ? "Roblox.app" : "RobloxStudio.app";
+		string applicationName = kind == RuntimeKind.Player ? "Roblox.app" : "RobloxStudio.app";
 		string userApplication = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Applications", applicationName);
 		if (Directory.Exists(userApplication))
 		{
