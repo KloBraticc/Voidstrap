@@ -168,7 +168,7 @@ public partial class FastFlagEditorPage : UiPage
 
 	private static ImageSource LoadIcon(string uri)
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.UsesPortableUi)
 		{
 			ImageSource? portable = Voidstrap.Utility.SafeImaging.FromUri(new Uri(uri, UriKind.Absolute));
 			if (portable != null)

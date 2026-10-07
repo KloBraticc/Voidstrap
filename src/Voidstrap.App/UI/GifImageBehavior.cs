@@ -97,7 +97,7 @@ namespace Voidstrap.UI
                 return;
             }
 
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesPortableUi)
             {
                 AnimatePortableGif(image, path);
                 return;

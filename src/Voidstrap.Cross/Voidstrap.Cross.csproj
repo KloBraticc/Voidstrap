@@ -146,6 +146,9 @@
 		<Resource Visible="false" Include="..\..\external\wpfui\src\Wpf.Ui\Fonts\Source\FluentSystemIcons-Regular.ttf">
 			<Link>Resources\Fonts\SymbolIcons\FluentSystemIcons-Regular.ttf</Link>
 		</Resource>
+		<Resource Visible="false" Include="..\..\external\wpfui\src\Wpf.Ui\Fonts\Source\FluentSystemIcons-Filled.ttf" Condition="$(RuntimeIdentifier.StartsWith('osx'))">
+			<Link>Resources\Fonts\SymbolIcons\FluentSystemIcons-Filled.ttf</Link>
+		</Resource>
 		<Resource Visible="false" Include="..\Voidstrap.App\Resources\MessageBox\Error.png;..\Voidstrap.App\Resources\MessageBox\Information.png;..\Voidstrap.App\Resources\MessageBox\Question.png;..\Voidstrap.App\Resources\MessageBox\Warning.png">
 			<Link>Resources\MessageBox\%(Filename)%(Extension)</Link>
 		</Resource>

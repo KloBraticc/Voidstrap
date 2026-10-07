@@ -17,6 +17,8 @@ public class LanguageFlagConverter : IValueConverter
 		}
 		try
 		{
+			if (Voidstrap.Utility.Platform.UsesPortableUi)
+				return Voidstrap.Utility.SafeImaging.FromUri(new Uri(source, UriKind.Absolute));
 			BitmapImage image = new BitmapImage();
 			image.BeginInit();
 			image.UriSource = new Uri(source, UriKind.Absolute);

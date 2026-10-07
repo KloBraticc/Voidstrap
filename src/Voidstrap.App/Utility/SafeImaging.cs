@@ -502,7 +502,7 @@ internal static class SafeImaging
 		int decodeWidth = 0,
 		CancellationToken token = default)
 	{
-		if (Platform.IsLinux)
+		if (Platform.UsesPortableUi)
 			return DecodeAnimationPortableLinux(path, decodeWidth, token);
 		List<(BitmapSource, int)> frames = [];
 		if (string.IsNullOrEmpty(path) || !File.Exists(path))
