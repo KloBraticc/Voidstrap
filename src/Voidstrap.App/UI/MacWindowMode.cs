@@ -25,11 +25,18 @@ internal static class MacWindowMode
 		{
 			_window = window;
 			_window.PreviewMouseMove += OnPreviewMouseMove;
+			_window.PreviewMouseLeftButtonUp += OnPreviewMouseUp;
 			_window.Activated += OnActivated;
 			_window.Closed += OnClosed;
 		}
 
-		private void OnPreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e) => Sync(false);
+		private void OnPreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			if (e.LeftButton != System.Windows.Input.MouseButtonState.Pressed)
+				Sync(false);
+		}
+
+		private void OnPreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e) => Sync(true);
 
 		private void OnActivated(object? sender, EventArgs e) => Sync(true);
 
@@ -55,6 +62,7 @@ internal static class MacWindowMode
 		private void OnClosed(object? sender, EventArgs e)
 		{
 			_window.PreviewMouseMove -= OnPreviewMouseMove;
+			_window.PreviewMouseLeftButtonUp -= OnPreviewMouseUp;
 			_window.Activated -= OnActivated;
 			_window.Closed -= OnClosed;
 			Trackers.Remove(_window);
