@@ -8,7 +8,7 @@ public class WindowsOnlyImageSourceConverter : IValueConverter
 {
 	public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		return Voidstrap.Utility.Platform.IsLinux ? null : value;
+		return Voidstrap.Utility.Platform.UsesPortableUi ? null : value;
 	}
 
 	public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

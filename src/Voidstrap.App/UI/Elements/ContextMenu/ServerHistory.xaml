@@ -121,7 +121,7 @@
                 <Border.Background>
                   <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UniverseDetails.Thumbnail.ImageUrl, Converter={StaticResource WindowsOnlyImageSourceConverter}, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
                 </Border.Background>
-                <Image util:DynamicRenderSystem.LinuxImageSource="{Binding UniverseDetails.Thumbnail.ImageUrl}" Stretch="UniformToFill" Visibility="{x:Static appUi:PlatformFeatureVisibility.LinuxIntegration}" />
+                <Image util:DynamicRenderSystem.LinuxImageSource="{Binding UniverseDetails.Thumbnail.ImageUrl}" Stretch="UniformToFill" Visibility="{x:Static appUi:PlatformFeatureVisibility.PortableImages}" />
               </Border>
               <StackPanel Grid.Column="1" Margin="16,8,8,8" VerticalAlignment="Center">
                 <TextBlock FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding GameName}" TextTrimming="CharacterEllipsis" />

@@ -79,7 +79,8 @@ internal static class LinuxWebImageSource
 		Task<BitmapSource?> load = Voidstrap.Utility.DynamicRenderSystem.LoadWebImageAsync(uri.AbsoluteUri);
 		if (load.IsCompletedSuccessfully)
 		{
-			Present(image, content, load.Result);
+			if (Present(image, content, load.Result))
+				QueueLayoutRefresh(dispatcher);
 			return image;
 		}
 
@@ -143,9 +144,41 @@ internal static class LinuxWebImageSource
 	{
 		if (element is Image target && target.Source is DrawingImage source && _presented.Contains(source))
 			target.InvalidateMeasure();
+		if (element is Border)
+			UpdatePresentedBrush(element, Border.BackgroundProperty);
+		else if (element is Panel)
+			UpdatePresentedBrush(element, Panel.BackgroundProperty);
+		else if (element is Control)
+			UpdatePresentedBrush(element, Control.BackgroundProperty);
+		if (element is System.Windows.Shapes.Shape)
+		{
+			UpdatePresentedBrush(element, System.Windows.Shapes.Shape.FillProperty);
+			UpdatePresentedBrush(element, System.Windows.Shapes.Shape.StrokeProperty);
+		}
 		int count = VisualTreeHelper.GetChildrenCount(element);
 		for (int index = 0; index < count; index++)
 			InvalidatePresented(VisualTreeHelper.GetChild(element, index));
+	}
+
+	private static void UpdatePresentedBrush(DependencyObject element, DependencyProperty property)
+	{
+		if (element.GetValue(property) is not ImageBrush brush
+			|| brush.ImageSource is not DrawingImage drawing
+			|| !_presented.Contains(drawing)
+			|| drawing.Drawing is not DrawingGroup group
+			|| group.Children.Count != 1
+			|| group.Children[0] is not ImageDrawing { ImageSource: BitmapSource bitmap })
+			return;
+		if (brush.IsFrozen)
+		{
+			ImageBrush replacement = brush.CloneCurrentValue();
+			replacement.ImageSource = bitmap;
+			element.SetCurrentValue(property, replacement);
+		}
+		else
+		{
+			brush.SetCurrentValue(ImageBrush.ImageSourceProperty, bitmap);
+		}
 	}
 
 	private sealed class Converter : ImageSourceConverter
