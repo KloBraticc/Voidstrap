@@ -16,7 +16,7 @@ public static class LinuxComboBoxGuard
 
 	public static void Install()
 	{
-		if (_installed || !Voidstrap.Utility.Platform.IsLinux)
+		if (_installed || !Voidstrap.Utility.Platform.UsesPortableUi)
 			return;
 
 		_installed = true;

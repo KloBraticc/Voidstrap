@@ -49,7 +49,7 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 			typeof(InstallPage),
 			typeof(ChannelPage)
 		];
-		if (!Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.IsWindows)
 		{
 			pages.Add(typeof(InstallerModsPage));
 			pages.Add(typeof(InstallerAppearancePage));
@@ -70,9 +70,12 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 		InitializeComponent();
 		App.Logger.WriteLine("MainWindow", "Initializing installer window");
 		base.Closing += MainWindow_Closing;
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.UsesPortableUi)
 		{
 			RootFrame.SizeChanged += RootFrame_SizeChanged;
+		}
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
 			Voidstrap.UI.LinuxUiPerformance.ReducedMotionChanged += OnLinuxReducedMotionChanged;
 			if (Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
 				RootNavigation.TransitionDuration = 0;
@@ -279,7 +282,7 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 
 	private void RootFrame_Navigated(object sender, NavigationEventArgs e)
 	{
-		if (Voidstrap.Utility.Platform.IsLinux && e.Content is DependencyObject content)
+		if (Voidstrap.Utility.Platform.UsesPortableUi && e.Content is DependencyObject content)
 		{
 			_linuxTextContent = content;
 			Voidstrap.UI.LinuxTextGuard.AttachOwner(content, this);

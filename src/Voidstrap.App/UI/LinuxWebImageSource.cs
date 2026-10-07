@@ -25,7 +25,7 @@ internal static class LinuxWebImageSource
 
 	public static void Install()
 	{
-		if (_installed || !OperatingSystem.IsLinux())
+		if (_installed || !Voidstrap.Utility.Platform.UsesPortableUi)
 			return;
 
 		_installed = true;

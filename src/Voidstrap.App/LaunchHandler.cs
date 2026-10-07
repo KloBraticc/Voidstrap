@@ -1666,6 +1666,18 @@ public static class LaunchHandler
 			_portableDownloadStatus?.Dispose();
 			_portableDownloadStatus = null;
 			dialog.Message = FormatLaunchStatus(message);
+			int open = message.LastIndexOf('(');
+			if (open >= 0 && message.EndsWith("%)", StringComparison.Ordinal)
+				&& int.TryParse(message.AsSpan(open + 1, message.Length - open - 3), out int percent))
+			{
+				dialog.ProgressStyle = System.Windows.Forms.ProgressBarStyle.Continuous;
+				dialog.ProgressMaximum = 100;
+				dialog.ProgressValue = Math.Clamp(percent, 0, 100);
+			}
+			else if (dialog.ProgressStyle != System.Windows.Forms.ProgressBarStyle.Marquee)
+			{
+				dialog.ProgressStyle = System.Windows.Forms.ProgressBarStyle.Marquee;
+			}
 		}
 		catch (Exception ex)
 		{
