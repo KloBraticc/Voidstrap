@@ -131,7 +131,7 @@ public sealed partial class MacOSRobloxInstaller
 		{
 			try
 			{
-				await DownloadFileAsync(host + "/" + relativePath, destination, displayName, status, segments, cancellationToken);
+				await DownloadFileAsync(host + "/" + relativePath, destination, displayName, status, segments, cancellationToken).ConfigureAwait(false);
 				return;
 			}
 			catch (Exception ex) when (ex is not OperationCanceledException)
@@ -149,10 +149,10 @@ public sealed partial class MacOSRobloxInstaller
 			try
 			{
 				using HttpRequestMessage request = new(HttpMethod.Head, url);
-				using HttpResponseMessage head = await Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+				using HttpResponseMessage head = await Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
 				if (head.IsSuccessStatusCode && head.Content.Headers.ContentLength is long size && size >= 1 << 20 && head.Headers.AcceptRanges.Contains("bytes"))
 				{
-					await DownloadSegmentsAsync(url, destination, displayName, status, segments, size, head.Headers.ETag, cancellationToken);
+					await DownloadSegmentsAsync(url, destination, displayName, status, segments, size, head.Headers.ETag, cancellationToken).ConfigureAwait(false);
 					return;
 				}
 			}
@@ -161,18 +161,18 @@ public sealed partial class MacOSRobloxInstaller
 			}
 		}
 
-		using HttpResponseMessage response = await Http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+		using HttpResponseMessage response = await Http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
 		response.EnsureSuccessStatusCode();
 		long? total = response.Content.Headers.ContentLength;
-		await using Stream source = await response.Content.ReadAsStreamAsync(cancellationToken);
+		await using Stream source = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
 		await using FileStream target = File.Create(destination);
 		byte[] buffer = new byte[1 << 20];
 		long received = 0;
 		int lastPercent = -1;
 		int read;
-		while ((read = await source.ReadAsync(buffer, cancellationToken)) > 0)
+		while ((read = await source.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) > 0)
 		{
-			await target.WriteAsync(buffer.AsMemory(0, read), cancellationToken);
+			await target.WriteAsync(buffer.AsMemory(0, read), cancellationToken).ConfigureAwait(false);
 			received += read;
 			int percent = total > 0 ? (int)(received * 100 / total.Value) : -1;
 			if (percent != lastPercent)
@@ -194,7 +194,7 @@ public sealed partial class MacOSRobloxInstaller
 		long received = 0;
 		int lastPercent = -1;
 		object progress = new();
-		await Parallel.ForAsync(0, segments, new ParallelOptions { MaxDegreeOfParallelism = segments, CancellationToken = cancellationToken }, async (segment, token) =>
+		await Parallel.ForAsync(0, segments, new ParallelOptions { MaxDegreeOfParallelism = segments, TaskScheduler = TaskScheduler.Default, CancellationToken = cancellationToken }, async (segment, token) =>
 		{
 			long start = total * segment / segments;
 			long end = total * (segment + 1) / segments - 1;
@@ -202,19 +202,19 @@ public sealed partial class MacOSRobloxInstaller
 			request.Headers.Range = new RangeHeaderValue(start, end);
 			if (etag is { IsWeak: false })
 				request.Headers.IfRange = new RangeConditionHeaderValue(etag);
-			using HttpResponseMessage response = await Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token);
+			using HttpResponseMessage response = await Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
 			ContentRangeHeaderValue? range = response.Content.Headers.ContentRange;
 			if (response.StatusCode != System.Net.HttpStatusCode.PartialContent || range?.From != start || range.To != end || range.Length != total || (etag is not null && !etag.Equals(response.Headers.ETag)))
 				throw new IOException("The server did not return the requested download segment");
-			await using Stream source = await response.Content.ReadAsStreamAsync(token);
+			await using Stream source = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
 			byte[] buffer = new byte[1 << 19];
 			long offset = start;
 			int read;
-			while ((read = await source.ReadAsync(buffer, token)) > 0)
+			while ((read = await source.ReadAsync(buffer, token).ConfigureAwait(false)) > 0)
 			{
 				if (read > end - offset + 1)
 					throw new IOException("The download segment exceeded its expected size");
-				await RandomAccess.WriteAsync(target.SafeFileHandle, buffer.AsMemory(0, read), offset, token);
+				await RandomAccess.WriteAsync(target.SafeFileHandle, buffer.AsMemory(0, read), offset, token).ConfigureAwait(false);
 				offset += read;
 				lock (progress)
 				{
@@ -229,7 +229,7 @@ public sealed partial class MacOSRobloxInstaller
 			}
 			if (offset != end + 1)
 				throw new IOException("The download segment ended early");
-		});
+		}).ConfigureAwait(false);
 	}
 
 	private async Task<string?> ReadBundleVersionAsync(string applicationPath, CancellationToken cancellationToken)
