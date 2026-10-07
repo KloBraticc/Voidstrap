@@ -38,8 +38,15 @@ internal static class MacAnimationPump
 
 		_nextTickNeeded = (Func<TimeSpan>)Delegate.CreateDelegate(typeof(Func<TimeSpan>), timeManager, nextTick);
 		addNeedTick.Invoke(timeManager, [new EventHandler(OnNeedTickSooner)]);
+		Dispatcher.CurrentDispatcher.Hooks.DispatcherInactive += OnDispatcherInactive;
 		_nextTickNeeded();
 		App.Logger.WriteLine("MacAnimationPump", "Animations now drive their own frames");
+	}
+
+	private static void OnDispatcherInactive(object? sender, EventArgs e)
+	{
+		if (!_pumping && _nextTickNeeded is not null && _nextTickNeeded() >= TimeSpan.Zero)
+			OnNeedTickSooner(sender, e);
 	}
 
 	private static void OnNeedTickSooner(object? sender, EventArgs e)

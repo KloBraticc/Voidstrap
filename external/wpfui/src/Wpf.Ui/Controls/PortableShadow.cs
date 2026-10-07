@@ -74,8 +74,6 @@ namespace Wpf.Ui.Controls
             Bind(shadow, VisibilityProperty, target, VisibilityProperty);
             Bind(shadow, RenderTransformProperty, target, RenderTransformProperty);
             Bind(shadow, RenderTransformOriginProperty, target, RenderTransformOriginProperty);
-            Bind(shadow, WidthProperty, target, ActualWidthProperty);
-            Bind(shadow, HeightProperty, target, ActualHeightProperty);
             target.SetValue(AttachedShadowProperty, shadow);
             panel.Children.Insert(index, shadow);
         }
@@ -87,6 +85,8 @@ namespace Wpf.Ui.Controls
 
         protected override Size MeasureOverride(Size availableSize) => new(0d, 0d);
 
+        protected override Size ArrangeOverride(Size finalSize) => finalSize;
+
         protected override void OnRender(DrawingContext drawingContext)
         {
             double width = ActualWidth;
@@ -96,11 +96,16 @@ namespace Wpf.Ui.Controls
 
             CornerRadius corners = CornerRadius;
             double radius = Math.Max(Math.Max(corners.TopLeft, corners.TopRight), Math.Max(corners.BottomLeft, corners.BottomRight));
+            RectangleGeometry inner = new(new Rect(0d, 0d, width, height), radius, radius);
+            inner.Freeze();
             for (int layer = Layers; layer >= 1; layer--)
             {
                 double inflate = Spread * layer / Layers;
-                Rect bounds = new(-inflate, -inflate + OffsetY, width + inflate * 2d, height + inflate * 2d);
-                drawingContext.DrawRoundedRectangle(LayerBrush, null, bounds, radius + inflate, radius + inflate);
+                GeometryGroup ring = new() { FillRule = FillRule.EvenOdd };
+                ring.Children.Add(new RectangleGeometry(new Rect(-inflate, -inflate + OffsetY, width + inflate * 2d, height + inflate * 2d), radius + inflate, radius + inflate));
+                ring.Children.Add(inner);
+                ring.Freeze();
+                drawingContext.DrawGeometry(LayerBrush, null, ring);
             }
         }
 
