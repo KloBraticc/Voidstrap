@@ -253,6 +253,8 @@ public static class RoundedWindowChrome
 			QueueNativeShapeSync(window);
 			QueueMacShadow(window);
 			TraceMacWindow(window, "size");
+			if (Voidstrap.Utility.Platform.IsMacOS)
+				MacWindowMode.SyncAfterResize(window);
 		}
 	}
 
