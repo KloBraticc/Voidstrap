@@ -268,7 +268,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 
 	private void OpenFolder()
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			Voidstrap.Utility.PlatformShell.TryOpenFolder(Paths.Base);
 			return;

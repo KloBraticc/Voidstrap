@@ -17,6 +17,8 @@ public static class AudioPlayerHelper
 		"paplay"
 	};
 
+	private const string MacPlayer = "/usr/bin/afplay";
+
 	private static MediaPlayer? _player;
 	private static Process? _linuxPlayer;
 
@@ -47,7 +49,7 @@ public static class AudioPlayerHelper
 			if (Voidstrap.Utility.Platform.IsWindows)
 				return true;
 
-			return Voidstrap.Utility.Platform.IsLinux && ResolveLinuxPlayer() is not null;
+			return !Voidstrap.Utility.Platform.IsWindows && ResolveLinuxPlayer() is not null;
 		}
 	}
 
@@ -67,7 +69,7 @@ public static class AudioPlayerHelper
 			{
 				return;
 			}
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (!Voidstrap.Utility.Platform.IsWindows)
 			{
 				PlayLinuxStartupAudio(text);
 				return;
@@ -199,6 +201,10 @@ public static class AudioPlayerHelper
 
 	private static (string Name, string Executable)? ResolveLinuxPlayer()
 	{
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			return System.IO.File.Exists(MacPlayer) ? ("afplay", MacPlayer) : null;
+		}
 		if (!Voidstrap.Utility.Platform.IsLinux)
 		{
 			return null;
@@ -256,6 +262,10 @@ public static class AudioPlayerHelper
 				break;
 			case "pw-play":
 				info.ArgumentList.Add("--volume=0.3");
+				break;
+			case "afplay":
+				info.ArgumentList.Add("-v");
+				info.ArgumentList.Add("0.3");
 				break;
 		}
 

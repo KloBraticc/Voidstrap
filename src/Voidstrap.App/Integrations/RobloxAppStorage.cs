@@ -18,7 +18,7 @@ internal static class RobloxAppStorage
 
 	private static readonly JsonSerializerOptions WriteOptions = new() { WriteIndented = true };
 
-	public static string Location => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox", "LocalStorage", "appStorage.json");
+	public static string Location => Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "LocalStorage", "appStorage.json");
 
 	public static bool Apply()
 	{

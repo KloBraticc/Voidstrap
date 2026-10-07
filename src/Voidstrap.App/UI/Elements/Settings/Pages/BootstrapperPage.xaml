@@ -292,7 +292,7 @@
           </ui:CardExpander>
         </StackPanel>
       </TabItem>
-      <TabItem>
+      <TabItem Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
         <HeaderedContentControl.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Settings24" Margin="0,0,6,0" />

@@ -1,4 +1,4 @@
-﻿using System.Windows;
+﻿﻿using System.Windows;
 using Voidstrap.Platform;
 
 namespace Voidstrap.UI;
@@ -26,6 +26,8 @@ public static class PlatformFeatureVisibility
 	public static Visibility DesktopBackdrop { get; } = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
 
 	public static Visibility LinuxIntegration { get; } = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
+
+	public static Visibility NotMacOS { get; } = Voidstrap.Utility.Platform.IsMacOS ? Visibility.Collapsed : Visibility.Visible;
 
 	public static Visibility PortableImages { get; } = Voidstrap.Utility.Platform.UsesPortableUi ? Visibility.Visible : Visibility.Collapsed;
 

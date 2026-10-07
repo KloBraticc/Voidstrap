@@ -20,9 +20,7 @@ namespace Voidstrap.Integrations.Overlays
                 return Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "data", "sober", "appData", "GlobalBasicSettings_13.xml");
             }
 
-            return Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                "Roblox", "GlobalBasicSettings_13.xml");
+            return Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "GlobalBasicSettings_13.xml");
         }
 
 

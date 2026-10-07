@@ -528,7 +528,7 @@
           <MenuItem Header="About Voidstrap" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuAbout_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="Rocket24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
-          <MenuItem Header="Check for Updates" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuUpdates_Click">
+          <MenuItem Header="Check for Updates" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuUpdates_Click" Visibility="{x:Static appUi:PlatformFeatureVisibility.NotMacOS}">
             <MenuItem.Icon><ui:SymbolIcon Symbol="ArrowClockwise24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
           <MenuItem Header="Release Notes" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuReleases_Click">

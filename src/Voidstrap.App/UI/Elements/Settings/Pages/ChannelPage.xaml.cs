@@ -143,7 +143,7 @@ public partial class ChannelPage : UiPage{
 	{
 		try
 		{
-			string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox", "LocalStorage");
+			string path = Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "LocalStorage");
 			if (!Directory.Exists(path))
 			{
 				RobloxVersionAPP.Header = "Not Installed";

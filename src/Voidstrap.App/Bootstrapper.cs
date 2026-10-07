@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -957,7 +957,7 @@ public class Bootstrapper
     internal async Task<bool> TryUpdateLauncherAsync()
     {
         bool updateCheckFresh = DateTime.UtcNow - App.State.Prop.LastLauncherUpdateCheckUtc < TimeSpan.FromMinutes(2);
-        if (!App.Settings.Prop.CheckForUpdates || App.LaunchSettings.UpgradeFlag.Active || InstallOnly || updateCheckFresh)
+        if (!App.Settings.Prop.CheckForUpdates || Voidstrap.Utility.Platform.IsMacOS || App.LaunchSettings.UpgradeFlag.Active || InstallOnly || updateCheckFresh)
             return false;
         try
         {
@@ -4334,6 +4334,14 @@ public class Bootstrapper
 
     }
 
+    private static string? MacVersionGuid(string robloxVersion)
+    {
+        if (string.IsNullOrWhiteSpace(robloxVersion))
+            return null;
+        byte[] hash = System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes("macos:" + robloxVersion.Trim()));
+        return "version-" + Convert.ToHexStringLower(hash, 0, 8);
+    }
+
     internal async Task PrepareMacLaunchAsync(string bundlePath, string robloxVersion, CancellationToken cancellationToken)
     {
         const string logIdent = "Bootstrapper::PrepareMacLaunch";
@@ -4381,7 +4389,7 @@ public class Bootstrapper
             App.Logger.WriteLine(logIdent, "Cursors could not be applied: " + ex.Message);
         }
 
-        FileModManager.ApplyFromSettings(resources, null);
+        FileModManager.ApplyFromSettings(resources, MacVersionGuid(robloxVersion));
         try
         {
             ModAutoFixer.PrepareModSources(resources);
@@ -5603,7 +5611,7 @@ public class Bootstrapper
     public static async Task ApplySkyboxPatchToRobloxStorageAsync(CancellationToken ct = default)
     {
         const long maxPatchBytes = 67108864L;
-        string rbxStorage = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox", "rbx-storage");
+        string rbxStorage = Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "rbx-storage");
         HttpClient http = App.HttpClient;
         ConcurrentQueue<string> failures = new();
         await Parallel.ForEachAsync(SkyboxPatchFolderMap, new ParallelOptions

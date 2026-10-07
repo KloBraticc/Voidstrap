@@ -120,7 +120,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	private bool _hardwareAccelerationDisabled;
 
-	private readonly string _robloxLocalStorage = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox", "LocalStorage");
+	private readonly string _robloxLocalStorage = Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "LocalStorage");
 
 
 	private string? _installLocationText;
@@ -1456,7 +1456,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 	{
 		try
 		{
-			string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox", "LocalStorage");
+			string path = Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "LocalStorage");
 			if (!Directory.Exists(path))
 			{
 				return;

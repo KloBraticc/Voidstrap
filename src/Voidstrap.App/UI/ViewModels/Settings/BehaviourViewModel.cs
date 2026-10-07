@@ -997,7 +997,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		? "Lowers Roblox's CPU share while another app is active, then restores it when you return."
 		: "Lowers Roblox's Windows scheduling priority while another app is active, then restores it when you return.";
 
-	public Visibility CleanRobloxCacheVisibility => Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
+	public Visibility CleanRobloxCacheVisibility => Visibility.Visible;
 
 
 
@@ -1537,7 +1537,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 	{
 		bool linux = Voidstrap.Utility.Platform.IsLinux;
 		List<Process> list = new List<Process>();
-		if (!linux && !string.IsNullOrEmpty(App.State.Prop.Player.VersionGuid))
+		if (!linux && (Voidstrap.Utility.Platform.IsMacOS || !string.IsNullOrEmpty(App.State.Prop.Player.VersionGuid)))
 		{
 			list.AddRange(Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName));
 		}
@@ -1553,8 +1553,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		string soberRoot = Path.Combine(Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".var", "app", "org.vinegarhq.Sober");
 		string soberAppData = Path.Combine(soberRoot, "data", "sober", "appData");
 		string path = linux ? Path.Combine(soberRoot, "cache", "sober") : Path.Combine(Path.GetTempPath(), "Roblox");
-		string path2 = linux ? Path.Combine(soberAppData, "rbx-storage") : Path.Combine(Paths.LocalAppData, "Roblox", "rbx-storage");
-		string dbFile = linux ? Path.Combine(soberAppData, "rbx-storage.db") : Path.Combine(Paths.LocalAppData, "Roblox", "rbx-storage.db");
+		string path2 = linux ? Path.Combine(soberAppData, "rbx-storage") : Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "rbx-storage");
+		string dbFile = linux ? Path.Combine(soberAppData, "rbx-storage.db") : Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "rbx-storage.db");
 		List<string> dirs = new List<string>();
 		try
 		{

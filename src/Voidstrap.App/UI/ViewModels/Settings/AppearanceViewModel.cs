@@ -418,6 +418,8 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         LiveLanguageRefresher.ApplyBranding();
         if (Voidstrap.Utility.Platform.IsLinux)
             LinuxApplicationIdentity.Refresh();
+        else if (Voidstrap.Utility.Platform.IsMacOS)
+            Voidstrap.Utility.Branding.ApplyDockIcon();
         else
             TaskbarJumpList.Apply();
     }
@@ -514,7 +516,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
     }
 
     public System.Windows.Visibility WindowsOnlyVisibility =>
-        Voidstrap.Utility.Platform.IsLinux ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
+        Voidstrap.Utility.Platform.IsWindows ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
 
     public bool ClearFont
     {
@@ -1913,7 +1915,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
         try
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.IsWindows)
             {
                 Voidstrap.Utility.PlatformShell.TryRevealFile(saveFileDialog.FileName);
             }

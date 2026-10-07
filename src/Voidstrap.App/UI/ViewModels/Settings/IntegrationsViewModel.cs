@@ -918,7 +918,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 				}
 				_blockTelemetry = !value;
 				OnPropertyChanged(nameof(BlockTelemetry));
-				string reason = Voidstrap.Utility.Platform.IsLinux && !string.IsNullOrWhiteSpace(TelemetryBlocker.LastLinuxFailure)
+				string reason = !Voidstrap.Utility.Platform.IsWindows && !string.IsNullOrWhiteSpace(TelemetryBlocker.LastLinuxFailure)
 					? TelemetryBlocker.LastLinuxFailure + "."
 					: "Administrator approval is required to edit the hosts file.";
 				Frontend.ShowMessageBox((value ? "Voidstrap could not enable the telemetry blocker. " : "Voidstrap could not disable the telemetry blocker. ") + reason, MessageBoxImage.Warning);

@@ -78,7 +78,7 @@ public class GBSEditor
 
 	public bool RepairedOnLoad => _repairedOnLoad;
 
-	public virtual string FileLocation => OperatingSystem.IsLinux() ? SoberFileLocation : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox", "GlobalBasicSettings_13.xml");
+	public virtual string FileLocation => OperatingSystem.IsLinux() ? SoberFileLocation : Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "GlobalBasicSettings_13.xml");
 
 	private static string SoberFileLocation
 	{

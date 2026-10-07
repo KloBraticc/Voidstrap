@@ -26,10 +26,7 @@ internal static class RobloxAssetCache
 		? Path.Combine(
 			Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
 			".var", "app", "org.vinegarhq.Sober", "cache", "sober", "rbx-storage")
-		: Path.Combine(
-			Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-			"Roblox",
-			"rbx-storage");
+		: Path.Combine(RobloxLocalReset.Root, "rbx-storage");
 
 	public static bool IsValidHash(string? value)
 	{
