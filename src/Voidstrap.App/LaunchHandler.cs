@@ -800,13 +800,13 @@ public static class LaunchHandler
 
 	private const int SoberExitConfirmations = 5;
 
-	private static async Task<int> WaitForMacPlayerAsync(CancellationToken cancellationToken)
+	private static async Task<int> WaitForMacProcessAsync(string processName, CancellationToken cancellationToken)
 	{
 		for (int attempt = 0; attempt < 120; attempt++)
 		{
 			int newest = 0;
 			DateTime newestStart = DateTime.MinValue;
-			foreach (Process process in Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName))
+			foreach (Process process in Process.GetProcessesByName(processName))
 			{
 				using (process)
 				{
@@ -826,12 +826,12 @@ public static class LaunchHandler
 			}
 			if (newest > 0)
 			{
-				App.Logger.WriteLine("LaunchHandler::WaitForMacPlayerAsync", $"Watching Roblox process {newest}");
+				App.Logger.WriteLine("LaunchHandler::WaitForMacProcessAsync", $"Watching Roblox process {newest}");
 				return newest;
 			}
 			await Task.Delay(500, cancellationToken);
 		}
-		App.Logger.WriteLine("LaunchHandler::WaitForMacPlayerAsync", "Roblox did not appear in the process list, activity tracking is skipped for this launch");
+		App.Logger.WriteLine("LaunchHandler::WaitForMacProcessAsync", processName + " did not appear in the process list, activity tracking is skipped for this launch");
 		return 0;
 	}
 
@@ -964,6 +964,14 @@ public static class LaunchHandler
 		}
 	}
 
+	private static bool IsAnyProcessRunning(string processName)
+	{
+		Process[] processes = Process.GetProcessesByName(processName);
+		foreach (Process process in processes)
+			process.Dispose();
+		return processes.Length > 0;
+	}
+
 	private static bool IsProcessAlive(int processId)
 	{
 		if (processId <= 0)
@@ -985,7 +993,9 @@ public static class LaunchHandler
 		int missed = 0;
 		while (!cancellationToken.IsCancellationRequested)
 		{
-			bool running = IsProcessAlive(processId) || await probe.IsRunningAsync(cancellationToken);
+			bool running = IsProcessAlive(processId) || (Voidstrap.Utility.Platform.IsMacOS
+				? IsAnyProcessRunning(Voidstrap.Utility.Platform.RobloxStudioProcessName)
+				: await probe.IsRunningAsync(cancellationToken));
 			if (running)
 			{
 				missed = 0;
@@ -1409,10 +1419,11 @@ public static class LaunchHandler
 				stayResident = true;
 				Voidstrap.UI.LinuxTaskbarPresence.HideWhileSessionRuns();
 			}
-			else if (OperatingSystem.IsMacOS() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+			else if (OperatingSystem.IsMacOS())
 			{
-				int playerId = await WaitForMacPlayerAsync(cancellation);
-				if (playerId > 0 && StartResidentWatcher(playerId, true))
+				bool player = runtimeKind == Voidstrap.Platform.RuntimeKind.Player;
+				int runtimeId = await WaitForMacProcessAsync(player ? Voidstrap.Utility.Platform.RobloxPlayerProcessName : Voidstrap.Utility.Platform.RobloxStudioProcessName, cancellation);
+				if (runtimeId > 0 && (player ? StartResidentWatcher(runtimeId, true) : StartStudioResident(runtimeId)))
 					stayResident = true;
 			}
 		}

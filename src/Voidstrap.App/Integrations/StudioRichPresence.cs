@@ -166,7 +166,7 @@ public sealed partial class StudioRichPresence : IDisposable
 			_sessionStart = DateTime.UtcNow;
 			App.Logger.WriteLine(LogTag, "Roblox Studio detected");
 		}
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.UsesPortableUi)
 		{
 			ReadLinuxState();
 		}
@@ -176,7 +176,7 @@ public sealed partial class StudioRichPresence : IDisposable
 			ReadLogState();
 		}
 		ApplyPluginState();
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.UsesPortableUi)
 		{
 			EnsurePlaceName();
 			TrackPlaceSession();
@@ -290,10 +290,11 @@ public sealed partial class StudioRichPresence : IDisposable
 	{
 		try
 		{
-			FileInfo? latest = Voidstrap.Utility.VinegarPaths.LogDirectories
+			IEnumerable<string> directories = Voidstrap.Utility.Platform.IsMacOS ? [Paths.RobloxLogs] : Voidstrap.Utility.VinegarPaths.LogDirectories;
+			FileInfo? latest = directories
 				.Where(Directory.Exists)
 				.SelectMany(directory => new DirectoryInfo(directory).EnumerateFiles("*.log"))
-				.Where(file => file.Name.Contains("Studio", StringComparison.OrdinalIgnoreCase))
+				.Where(file => file.Name.Contains("Studio", StringComparison.OrdinalIgnoreCase) && !file.Name.Contains("CrashHandler", StringComparison.OrdinalIgnoreCase))
 				.OrderByDescending(file => file.LastWriteTimeUtc)
 				.FirstOrDefault();
 			if (latest != null)
@@ -306,7 +307,7 @@ public sealed partial class StudioRichPresence : IDisposable
 			App.Logger.WriteLine(LogTag, "The Studio log could not be read: " + ex.Message);
 		}
 
-		string title = Voidstrap.Platform.Linux.LinuxWindowInterop.FindStudioWindowTitle();
+		string title = Voidstrap.Utility.Platform.IsMacOS ? "" : Voidstrap.Platform.Linux.LinuxWindowInterop.FindStudioWindowTitle();
 		string cleaned = StudioTitleSuffixPattern.Replace(title, "").Trim();
 		if (string.Equals(cleaned, "Roblox Studio", StringComparison.OrdinalIgnoreCase))
 		{
@@ -612,7 +613,7 @@ public sealed partial class StudioRichPresence : IDisposable
 		var settings = App.Settings.Prop;
 		bool showPlace = settings.StudioRpcShowPlace && !string.IsNullOrWhiteSpace(_place);
 		string details = showPlace ? FormatActivity(_mode, _place) : "In Roblox Studio";
-		bool linux = Voidstrap.Utility.Platform.IsLinux;
+		bool linux = Voidstrap.Utility.Platform.UsesPortableUi;
 		bool startPage = linux && _linuxLog.HasEvents && !_linuxLog.DocumentOpen;
 		if (linux && showPlace && _creator.Length > 0)
 		{
@@ -662,7 +663,7 @@ public sealed partial class StudioRichPresence : IDisposable
 					LargeImageKey = largeImage,
 					LargeImageText = Trim(largeText, 128),
 					SmallImageKey = StudioIconUrl,
-					SmallImageText = linux && _linuxLog.Version.Length > 0 ? "Roblox Studio " + _linuxLog.Version + " on Linux" : "Roblox Studio"
+					SmallImageText = linux && _linuxLog.Version.Length > 0 ? "Roblox Studio " + _linuxLog.Version + (Voidstrap.Utility.Platform.IsMacOS ? " on macOS" : " on Linux") : "Roblox Studio"
 				},
 				Buttons = buttons.ToArray()
 			}))

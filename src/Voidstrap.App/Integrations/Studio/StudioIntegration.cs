@@ -21,6 +21,11 @@ namespace Voidstrap.Integrations.Studio
                 {
                     return;
                 }
+                if (Voidstrap.Utility.Platform.IsMacOS)
+                {
+                    StartMacOS();
+                    return;
+                }
                 StudioPluginInstaller.RestoreAfterClassicClient();
                 if (Voidstrap.Utility.Platform.IsLinux)
                 {
@@ -46,6 +51,19 @@ namespace Voidstrap.Integrations.Studio
             {
                 App.Logger.WriteLine(LogTag, "Start failed: " + ex.Message);
             }
+        }
+
+        private static void StartMacOS()
+        {
+            bool presence = App.Settings.Prop.UseDiscordRichPresence;
+            lock (_lock)
+            {
+                if (presence && _rpc == null)
+                {
+                    _rpc = new StudioRichPresence();
+                }
+            }
+            App.Logger.WriteLine(LogTag, "Studio integration started for macOS, presence " + (presence ? "on" : "off"));
         }
 
         private static void StartLinux()
