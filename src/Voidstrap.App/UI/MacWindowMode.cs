@@ -40,14 +40,12 @@ internal static class MacWindowMode
 
 		private void OnActivated(object? sender, EventArgs e) => Sync(true);
 
-		private void Sync(bool force)
+		public void Sync(bool force)
 		{
 			long now = Environment.TickCount64;
 			if (!force && now - _lastSync < 200)
 				return;
 			_lastSync = now;
-			if (_window.WindowState != System.Windows.WindowState.Normal)
-				return;
 			nint native = ResolveNativeWindow(_window);
 			if (native == 0 || MacOSWindow.IsMinimized(native))
 				return;
@@ -167,6 +165,8 @@ internal static class MacWindowMode
 
 	private static void SetMaximized(Window window, State state, bool maximized)
 	{
+		if (Trackers.TryGetValue(window, out PositionTracker? tracker))
+			tracker.Sync(true);
 		state.Maximized = maximized;
 		state.ChangedAt = Environment.TickCount64;
 		LinuxTitleBar.RefreshMaximized(window, maximized);
