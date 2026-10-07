@@ -60,6 +60,14 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 
 	public string ErrorMessage => installer.InstallLocationError;
 
+	public string InstallLocationTitle => Voidstrap.Utility.Platform.IsMacOS
+		? Voidstrap.Resources.Strings.Installer_MacOS_DataLocation_Title
+		: Voidstrap.Resources.Strings.Installer_Install_Location_Title;
+
+	public string InstallLocationDescription => Voidstrap.Utility.Platform.IsMacOS
+		? Voidstrap.Resources.Strings.Installer_MacOS_DataLocation_Text
+		: Voidstrap.Resources.Strings.Installer_Install_Location_Text;
+
 	public string SoberInstallStatus
 	{
 		get => _soberInstallStatus;

@@ -7,6 +7,8 @@ public static class CpuCoreLimiter
 {
 	private static readonly object Sync = new object();
 
+	private static readonly int ProcessorCount = Environment.ProcessorCount;
+
 	private static IntPtr? _originalAffinity;
 
 	public static void ApplyConfiguredLimit()
@@ -16,11 +18,15 @@ public static class CpuCoreLimiter
 
 	public static void SetCpuCoreLimit(int coreCount)
 	{
+		if (!OperatingSystem.IsWindows() && !OperatingSystem.IsLinux())
+		{
+			return;
+		}
 		if (OperatingSystem.IsLinux())
 		{
 			Voidstrap.Platform.Linux.LinuxSoberResources.CaptureStartupAffinity();
 		}
-		int processorCount = Environment.ProcessorCount;
+		int processorCount = ProcessorCount;
 		if (processorCount > IntPtr.Size * 8)
 		{
 			return;

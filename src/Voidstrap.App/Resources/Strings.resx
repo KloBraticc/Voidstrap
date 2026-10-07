@@ -2600,4 +2600,23 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="SwiftTunnel.NotInstalledError" xml:space="preserve"><value>SwiftTunnel is not installed. Install it from Extensions first</value></data>
   <data name="SwiftTunnel.Missing" xml:space="preserve"><value>SwiftTunnel is registered but its app files are missing. Uninstall and install it again to repair it</value></data>
   <data name="SwiftTunnel.NoInstaller" xml:space="preserve"><value>The latest SwiftTunnel release has no verified Windows installer for this computer</value></data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Choose where to store Voidstrap data</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap keeps its settings and mods here. The application stays in its current location. Roblox is installed separately in Applications.</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap is ready.
+
+Roblox will be downloaded when you launch it through Voidstrap for the first time. You can adjust your settings before launching.
+
+What would you like to do?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>Roblox for macOS</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>Voidstrap downloads the official Roblox app into Applications the first time you click Launch, and keeps it up to date after that. No separate installation is required.</value>
+  </data>
 </root>

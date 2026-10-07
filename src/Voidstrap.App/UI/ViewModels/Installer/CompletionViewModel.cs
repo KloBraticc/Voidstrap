@@ -31,6 +31,10 @@ public class CompletionViewModel : ObservableObject, IDisposable
 
 	private string _viewChannel;
 
+	public string CompletionText => Voidstrap.Utility.Platform.IsMacOS
+		? Voidstrap.Resources.Strings.Installer_MacOS_Completion_Text
+		: Voidstrap.Resources.Strings.Installer_Completion_Text;
+
 	public ICommand LaunchSettingsCommand { get; }
 
 	public ICommand LaunchRobloxCommand { get; }

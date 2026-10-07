@@ -61,7 +61,7 @@ if [ -n "$PUBLISHED_EXECUTABLE" ]; then
   [ -f "$PUBLISHED_EXECUTABLE" ] && [ -s "$PUBLISHED_EXECUTABLE" ] || { echo "The published Voidstrap executable is unavailable"; exit 1; }
   cp "$PUBLISHED_EXECUTABLE" "$PUBLISH/Voidstrap"
 else
-  dotnet publish "$ROOT/src/Voidstrap.Cross/Voidstrap.Cross.csproj" -c Release -r "$RID" --self-contained true -o "$PUBLISH" -p:Version="$VERSION" -p:DebugType=none -p:DebugSymbols=false
+  dotnet publish "$ROOT/src/Voidstrap.Cross/Voidstrap.Cross.csproj" -c Release -r "$RID" --self-contained true -o "$PUBLISH" -p:VoidstrapLinuxPackagingRoot="$STAGE/" -p:Version="$VERSION" -p:DebugType=none -p:DebugSymbols=false
 fi
 mkdir -p "$APPLICATION/Contents/MacOS" "$APPLICATION/Contents/Resources"
 cp -R "$PUBLISH/." "$APPLICATION/Contents/MacOS/"
