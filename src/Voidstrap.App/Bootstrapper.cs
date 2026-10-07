@@ -2494,7 +2494,7 @@ public class Bootstrapper
             return Voidstrap.Platform.Linux.StudioProcessNames.AnyRunning();
         }
 
-        Process[] procs = Process.GetProcessesByName("RobloxStudioBeta");
+        Process[] procs = Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxStudioProcessName);
         bool any = procs.Length > 0;
         foreach (Process p in procs)
         {
@@ -4332,6 +4332,83 @@ public class Bootstrapper
             App.Logger.WriteLine(logIdent, "Mods for content Sober downloads could not be prepared: " + ex.Message);
         }
 
+    }
+
+    internal async Task PrepareMacLaunchAsync(string bundlePath, string robloxVersion, CancellationToken cancellationToken)
+    {
+        const string logIdent = "Bootstrapper::PrepareMacLaunch";
+        string resources = Path.Combine(bundlePath, "Contents", "Resources");
+        SetStatus(Strings.Bootstrapper_Status_ApplyingModifications);
+        Directory.CreateDirectory(Paths.Mods);
+
+        try
+        {
+            await ApplySkyboxModifications(false);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(logIdent, "Skybox could not be applied: " + ex.Message);
+        }
+
+        try
+        {
+            Voidstrap.Utility.CustomFontMod.Apply(Path.Combine(resources, "content", "fonts", "families"), logIdent);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(logIdent, "Custom font failed: " + ex.Message);
+        }
+
+        if (!ModsAllowedForThisLaunch())
+        {
+            MacModSync.Apply(resources, new Dictionary<string, string>());
+            App.Logger.WriteLine(logIdent, $"Mods are set to {App.Settings.Prop.ModApplyTarget}, so this launch runs unmodded. Mod files are kept on disk.");
+            return;
+        }
+
+        RepairFlattenedModNames();
+        RepairModRootCase();
+        try
+        {
+            CursorManager.ApplyOnLaunch();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(logIdent, "Cursors could not be applied: " + ex.Message);
+        }
+
+        FileModManager.ApplyFromSettings(resources, null);
+        try
+        {
+            ModAutoFixer.PrepareModSources(resources);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(logIdent, "Mod folders could not be checked: " + ex.Message);
+        }
+
+        if (!IsStudioLaunch && robloxVersion.Length > 0)
+        {
+            try
+            {
+                await ModGenerator.RefreshOutdatedAsync(resources, robloxVersion, cancellationToken);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(logIdent, "The generated UI mod could not be refreshed: " + ex.Message);
+            }
+        }
+
+        cancellationToken.ThrowIfCancellationRequested();
+        MacModSync.Apply(resources, MacModSync.Collect(!IsStudioLaunch));
     }
 
     private static readonly string[] CanonicalModRoots = ["content", "ExtraContent", "PlatformContent"];

@@ -10,7 +10,7 @@ internal static class LinuxTitleBar
 {
 	public static void Apply(Window window)
 	{
-		if (window == null || !OperatingSystem.IsLinux())
+		if (window == null || !OperatingSystem.IsLinux() && !OperatingSystem.IsMacOS())
 		{
 			return;
 		}
@@ -59,7 +59,7 @@ internal static class LinuxTitleBar
 		EnableDoubleClickMaximize(titleBar);
 		Window? window = Window.GetWindow(titleBar);
 		if (window != null)
-			ApplyMaximizedVisual(titleBar, LinuxWindowMode.IsMaximized(window));
+			ApplyMaximizedVisual(titleBar, OperatingSystem.IsMacOS() ? MacWindowMode.IsMaximized(window) : LinuxWindowMode.IsMaximized(window));
 		App.Logger?.WriteLine("LinuxTitleBar::ApplyLayout", "Applied the Windows Wpf.Ui caption controls");
 	}
 
@@ -108,6 +108,12 @@ internal static class LinuxTitleBar
 		{
 			ToggleMaximize(window);
 			e.Handled = true;
+			return;
+		}
+
+		if (OperatingSystem.IsMacOS() && MacWindowMode.BeginDrag(window, titleBar))
+		{
+			e.Handled = true;
 		}
 	}
 
@@ -136,18 +142,31 @@ internal static class LinuxTitleBar
 
 	private static void ToggleMaximize(Window window)
 	{
-		LinuxWindowMode.ToggleMaximize(window);
+		if (OperatingSystem.IsMacOS())
+			MacWindowMode.ToggleMaximize(window);
+		else
+			LinuxWindowMode.ToggleMaximize(window);
 	}
 
 	private static void OverrideMaximizeAction(TitleBar titleBar)
 	{
 		titleBar.MaximizeActionOverride = OnTitleBarMaximizeRequested;
 		titleBar.DragRestoreOverride = OnTitleBarDragRestore;
+		if (OperatingSystem.IsMacOS())
+			titleBar.MinimizeActionOverride = OnTitleBarMinimizeRequested;
+	}
+
+	private static void OnTitleBarMinimizeRequested(TitleBar titleBar, Window window)
+	{
+		if (window != null)
+			MacWindowMode.Minimize(window);
 	}
 
 	private static bool OnTitleBarDragRestore(TitleBar titleBar, Window window, Point pointer)
 	{
-		return window != null && LinuxWindowMode.RestoreForDrag(window, pointer);
+		if (window == null)
+			return false;
+		return OperatingSystem.IsMacOS() ? MacWindowMode.RestoreForDrag(window, pointer) : LinuxWindowMode.RestoreForDrag(window, pointer);
 	}
 
 	private static void OnTitleBarMaximizeRequested(TitleBar titleBar, Window window)

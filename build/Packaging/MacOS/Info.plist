@@ -8,6 +8,8 @@
   <string>Voidstrap</string>
   <key>CFBundleExecutable</key>
   <string>Voidstrap</string>
+  <key>CFBundleIconFile</key>
+  <string>Voidstrap</string>
   <key>CFBundleIdentifier</key>
   <string>dev.voidstrap.desktop</string>
   <key>CFBundleInfoDictionaryVersion</key>

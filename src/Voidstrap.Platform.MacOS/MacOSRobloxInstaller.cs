@@ -232,7 +232,7 @@ public sealed partial class MacOSRobloxInstaller
 		}).ConfigureAwait(false);
 	}
 
-	private async Task<string?> ReadBundleVersionAsync(string applicationPath, CancellationToken cancellationToken)
+	public async Task<string?> ReadBundleVersionAsync(string applicationPath, CancellationToken cancellationToken)
 	{
 		OperationResult<ProcessExecution> result = await _processes.ExecuteAsync(
 			new ProcessCommand("/usr/libexec/PlistBuddy", ["-c", "Print :CFBundleShortVersionString", Path.Combine(applicationPath, "Contents", "Info.plist")]),

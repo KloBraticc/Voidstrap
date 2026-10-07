@@ -108,7 +108,7 @@ namespace Wpf.Ui.Controls
             popup.SetValue(CloseGenerationProperty, generation);
 
             FrameworkElement child = popup.Child as FrameworkElement;
-            CloseState? closeState = OperatingSystem.IsLinux() ? GetCloseState(popup) : null;
+            CloseState? closeState = Wpf.Ui.Animations.PortableRenderer.IsActive ? GetCloseState(popup) : null;
 
             if ((bool)e.NewValue)
             {

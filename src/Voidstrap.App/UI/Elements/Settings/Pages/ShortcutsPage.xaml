@@ -79,7 +79,7 @@
                 <Border.Background>
                   <ImageBrush Stretch="UniformToFill" ImageSource="{Binding GameIconUrl, Converter={StaticResource WindowsOnlyImageSourceConverter}, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
                 </Border.Background>
-                <Image util:DynamicRenderSystem.LinuxImageSource="{Binding GameIconUrl}" Stretch="UniformToFill" Visibility="{x:Static appUi:PlatformFeatureVisibility.LinuxIntegration}" />
+                <Image util:DynamicRenderSystem.LinuxImageSource="{Binding GameIconUrl}" Stretch="UniformToFill" Visibility="{x:Static appUi:PlatformFeatureVisibility.PortableImages}" />
               </Border>
             </Grid>
           </Border>

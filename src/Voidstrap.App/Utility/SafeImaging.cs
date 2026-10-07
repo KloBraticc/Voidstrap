@@ -132,14 +132,30 @@ internal static class SafeImaging
 		int dibFullHeight = BinaryPrimitives.ReadInt32LittleEndian(frame.Slice(8, 4));
 		int bitsPerPixel = BinaryPrimitives.ReadUInt16LittleEndian(frame.Slice(14, 2));
 		int compression = BinaryPrimitives.ReadInt32LittleEndian(frame.Slice(16, 4));
-		int width = Math.Abs(dibWidth) > 0 ? Math.Abs(dibWidth) : entryWidth;
-		int height = Math.Abs(dibFullHeight) >= 2 ? Math.Abs(dibFullHeight) / 2 : entryHeight;
-		if (headerSize < 40 || headerSize > frame.Length || width <= 0 || height <= 0 || bitsPerPixel is not (24 or 32) || compression != 0 || (long)width * height * 4 > MaxDecodedImageBytes)
+		long absoluteWidth = Math.Abs((long)dibWidth);
+		long absoluteHeight = Math.Abs((long)dibFullHeight);
+		long decodedWidth = absoluteWidth > 0 ? absoluteWidth : entryWidth;
+		long decodedHeight = absoluteHeight >= 2 ? absoluteHeight / 2 : entryHeight;
+		if (headerSize < 40 || headerSize > frame.Length || decodedWidth <= 0 || decodedHeight <= 0 || bitsPerPixel is not (1 or 4 or 8 or 24 or 32) || compression != 0 || decodedWidth * decodedHeight > MaxDecodedImageBytes / 4)
 			return false;
+		int width = (int)decodedWidth;
+		int height = (int)decodedHeight;
+		uint colorsUsed = BinaryPrimitives.ReadUInt32LittleEndian(frame.Slice(32, 4));
+		int paletteCount = 0;
+		if (bitsPerPixel <= 8)
+		{
+			int maxColors = 1 << bitsPerPixel;
+			if (colorsUsed > maxColors)
+				return false;
+			paletteCount = colorsUsed > 0 ? (int)colorsUsed : maxColors;
+		}
 
 		int sourceStride = checked(((width * bitsPerPixel + 31) / 32) * 4);
 		int maskStride = checked(((width + 31) / 32) * 4);
-		int pixelOffset = headerSize;
+		long paletteEnd = (long)headerSize + paletteCount * 4;
+		if (paletteEnd > frame.Length)
+			return false;
+		int pixelOffset = (int)paletteEnd;
 		long pixelBytes = (long)sourceStride * height;
 		if (pixelOffset + pixelBytes > frame.Length)
 			return false;
@@ -155,8 +171,20 @@ internal static class SafeImaging
 			int targetRow = y * targetStride;
 			for (int x = 0; x < width; x++)
 			{
-				int sourcePixel = sourceRow + x * (bitsPerPixel / 8);
 				int targetPixel = targetRow + x * 4;
+				int sourcePixel;
+				if (bitsPerPixel <= 8)
+				{
+					int bitOffset = x * bitsPerPixel;
+					int paletteIndex = (frame[sourceRow + bitOffset / 8] >> (8 - bitsPerPixel - bitOffset % 8)) & ((1 << bitsPerPixel) - 1);
+					if (paletteIndex >= paletteCount)
+						return false;
+					sourcePixel = headerSize + paletteIndex * 4;
+				}
+				else
+				{
+					sourcePixel = sourceRow + x * (bitsPerPixel / 8);
+				}
 				pixels[targetPixel] = frame[sourcePixel];
 				pixels[targetPixel + 1] = frame[sourcePixel + 1];
 				pixels[targetPixel + 2] = frame[sourcePixel + 2];
@@ -170,7 +198,7 @@ internal static class SafeImaging
 		{
 			for (int y = 0; y < height; y++)
 			{
-				int maskY = height - 1 - y;
+				int maskY = dibFullHeight > 0 ? height - 1 - y : y;
 				int maskRow = maskOffset + maskY * maskStride;
 				for (int x = 0; x < width; x++)
 				{
@@ -502,7 +530,7 @@ internal static class SafeImaging
 		int decodeWidth = 0,
 		CancellationToken token = default)
 	{
-		if (Platform.IsLinux)
+		if (Platform.UsesPortableUi)
 			return DecodeAnimationPortableLinux(path, decodeWidth, token);
 		List<(BitmapSource, int)> frames = [];
 		if (string.IsNullOrEmpty(path) || !File.Exists(path))

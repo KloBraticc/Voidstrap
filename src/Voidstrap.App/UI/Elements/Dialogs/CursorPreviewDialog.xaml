@@ -12,7 +12,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Title="Cursor Preview" Grid.Row="0" Padding="8" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Title="Cursor Preview" Grid.Row="0" Padding="8" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" />
     <ScrollViewer Grid.Row="1" Margin="16" VerticalScrollBarVisibility="Auto">
       <StackPanel Name="CursorStackPanel" />
     </ScrollViewer>

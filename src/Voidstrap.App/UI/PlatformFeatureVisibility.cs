@@ -27,6 +27,8 @@ public static class PlatformFeatureVisibility
 
 	public static Visibility LinuxIntegration { get; } = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
 
+	public static Visibility PortableImages { get; } = Voidstrap.Utility.Platform.UsesPortableUi ? Visibility.Visible : Visibility.Collapsed;
+
 	public static bool IsSupported(FeatureId feature)
 	{
 		return Resolve(feature) == Visibility.Visible;

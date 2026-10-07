@@ -148,7 +148,7 @@ public partial class ThemeChangesDialog : WpfUiWindow
 
         try
         {
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (Voidstrap.Utility.Platform.UsesPortableUi)
 			{
 				BitmapSource? portable = Voidstrap.Utility.SafeImaging.FromFile(path, 512);
 				if (portable == null)

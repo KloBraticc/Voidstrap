@@ -167,7 +167,7 @@ internal static class CountryFlag
         {
             if (!File.Exists(path) || new FileInfo(path).Length == 0)
                 return null;
-			if (Platform.IsLinux)
+			if (Platform.UsesPortableUi)
 				return SafeImaging.FromFile(path, 64);
             BitmapImage bitmap = new BitmapImage();
             bitmap.BeginInit();

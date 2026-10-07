@@ -114,7 +114,7 @@ public static class BackgroundManager
         {
             throw new InvalidDataException("The animated background is too large.");
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesPortableUi)
         {
             await imageControl.Dispatcher.InvokeAsync((Action)delegate
             {
@@ -205,7 +205,7 @@ public static class BackgroundManager
 
     private static void ClearImage(Image imageControl)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesPortableUi)
         {
             Voidstrap.UI.GifImageBehavior.SetSourcePath(imageControl, string.Empty);
         }

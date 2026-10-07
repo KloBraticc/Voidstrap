@@ -1320,7 +1320,9 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
     {
         OpenFileDialog openFileDialog = new OpenFileDialog
         {
-            Filter = "Background Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.mp4;*.webm;*.avi;*.mov",
+            Filter = Voidstrap.Utility.Platform.IsMacOS
+                ? "Background Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif"
+                : "Background Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.mp4;*.webm;*.avi;*.mov",
             Title = "Select Background File"
         };
         if (openFileDialog.ShowDialog() == true)

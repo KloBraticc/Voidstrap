@@ -11,9 +11,25 @@ namespace Wpf.Ui.Controls
             "IsPortable",
             typeof(bool),
             typeof(PortableShadows),
-            new PropertyMetadata(OperatingSystem.IsLinux()));
+            new PropertyMetadata(Wpf.Ui.Animations.PortableRenderer.IsActive));
+
+        public static readonly DependencyProperty LayeredProperty = DependencyProperty.RegisterAttached(
+            "Layered",
+            typeof(bool),
+            typeof(PortableShadows),
+            new PropertyMetadata(false, OnLayeredChanged));
 
         public static readonly DropShadowEffect Flyout = CreateWindowsFlyout();
+
+        public static bool GetLayered(DependencyObject element) => (bool)element.GetValue(LayeredProperty);
+
+        public static void SetLayered(DependencyObject element, bool value) => element.SetValue(LayeredProperty, value);
+
+        private static void OnLayeredChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is true && d is FrameworkElement element)
+                PortableShadow.Attach(element);
+        }
 
         public static bool GetIsPortable(DependencyObject element) => (bool)element.GetValue(IsPortableProperty);
 

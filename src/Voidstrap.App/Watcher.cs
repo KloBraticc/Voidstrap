@@ -135,7 +135,8 @@ public partial class Watcher : IDisposable
 			{
 				IntegrationWatcher = new IntegrationWatcher(ActivityWatcher);
 				HistoryPersister = new HistoryPersister(ActivityWatcher);
-				ServerMatchmaker = new ServerMatchmaker(ActivityWatcher, this);
+				if (!Voidstrap.Utility.Platform.IsMacOS)
+					ServerMatchmaker = new ServerMatchmaker(ActivityWatcher, this);
 			}
 		}
 		if ((enableActivityTracking || App.LaunchSettings.TestModeFlag.Active) && Voidstrap.Utility.Platform.SupportsTrayIcon)
@@ -297,6 +298,10 @@ public partial class Watcher : IDisposable
 			UpdateLinuxResourceOptimizer();
 			return;
 		}
+		if (!Voidstrap.Utility.Platform.IsWindows)
+		{
+			return;
+		}
 		UpdateTasxOptimizer();
 		if (!RobloxProcessOptimizer.ShouldRun(App.Settings.Prop))
 		{
@@ -357,8 +362,10 @@ public partial class Watcher : IDisposable
 		}
 		IntegrationWatcher ??= new IntegrationWatcher(ActivityWatcher);
 		HistoryPersister ??= new HistoryPersister(ActivityWatcher);
-		ServerMatchmaker ??= new ServerMatchmaker(ActivityWatcher, this);
-		ServerMatchmaker.NotifyIconResolver = () => _notifyIcon;
+		if (!Voidstrap.Utility.Platform.IsMacOS)
+			ServerMatchmaker ??= new ServerMatchmaker(ActivityWatcher, this);
+		if (ServerMatchmaker != null)
+			ServerMatchmaker.NotifyIconResolver = () => _notifyIcon;
 		if (_notifyIcon == null)
 		{
 			if (Voidstrap.Utility.Platform.SupportsTrayIcon)
@@ -452,6 +459,8 @@ public partial class Watcher : IDisposable
 	private void OnRuntimeGameJoin(object? sender, EventArgs e)
 	{
 		Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition();
+		if (Voidstrap.Utility.Platform.IsMacOS)
+			return;
 		if (Voidstrap.Utility.Platform.IsLinux)
 			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true);
 		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameJoin, "FullscreenJoin");
@@ -463,6 +472,8 @@ public partial class Watcher : IDisposable
 	private void OnRuntimeGameLeave(object? sender, EventArgs e)
 	{
 		Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition();
+		if (Voidstrap.Utility.Platform.IsMacOS)
+			return;
 		bool teleporting = ActivityWatcher?.IsTeleporting == true;
 		if (Voidstrap.Utility.Platform.IsLinux && !teleporting)
 			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false);
@@ -656,7 +667,7 @@ public partial class Watcher : IDisposable
 	{
 		try
 		{
-			Process[] processesByName = Process.GetProcessesByName(Path.GetFileNameWithoutExtension("RobloxPlayerBeta"));
+			Process[] processesByName = Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName);
 			bool result = processesByName.Length != 0;
 			Process[] array = processesByName;
 			foreach (Process process in array)

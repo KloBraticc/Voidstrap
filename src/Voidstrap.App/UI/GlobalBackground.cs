@@ -152,11 +152,15 @@ public static class GlobalBackground
                 ImageBehavior.SetAnimatedSource(_image, bitmap);
                 ImageBehavior.SetRepeatBehavior(_image, RepeatBehavior.Forever);
             }
+            else if (extension == ".gif" && Voidstrap.Utility.Platform.IsMacOS)
+            {
+                GifImageBehavior.SetSourcePath(_image, state.FilePath!);
+            }
             else
             {
                 _image.Source = bitmap;
             }
-            _image.Visibility = bitmap == null ? Visibility.Collapsed : Visibility.Visible;
+            _image.Visibility = _image.Source == null ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void OnMediaEnded(object? sender, RoutedEventArgs e)
@@ -177,6 +181,8 @@ public static class GlobalBackground
                 _portableMedia.Visibility = Visibility.Collapsed;
             }
             ImageBehavior.SetAnimatedSource(_image, null);
+            if (Voidstrap.Utility.Platform.IsMacOS)
+                GifImageBehavior.SetSourcePath(_image, string.Empty);
             _image.Source = null;
             _image.Visibility = Visibility.Collapsed;
             if (_media == null)

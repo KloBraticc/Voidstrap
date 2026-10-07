@@ -446,7 +446,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public bool ClassicTopBarCoreGuiEditable => !_classicTopBarBusy && !App.Settings.Prop.ClassicTopBarEnabled;
 
-	public Visibility ClassicTopBarVisibility => !Voidstrap.Utility.Platform.IsLinux || App.Settings.Prop.ClassicTopBarEnabled
+	public Visibility ClassicTopBarVisibility => Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux && App.Settings.Prop.ClassicTopBarEnabled
 		? Visibility.Visible
 		: Visibility.Collapsed;
 

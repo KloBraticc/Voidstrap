@@ -131,6 +131,9 @@ public static class RoundedWindowChrome
 			LinuxWindowUpdatePump.Attach(window);
 		}
 		ApplyClip(window);
+		QueueMacShadow(window);
+		if (Voidstrap.Utility.Platform.IsMacOS)
+			MacWindowMode.TrackPosition(window);
 		EnsureLinuxIdentity(window);
 		LinuxTitleBar.Apply(window);
 		window.SizeChanged -= OnWindowSizeChanged;
@@ -145,6 +148,26 @@ public static class RoundedWindowChrome
 		{
 			WindowEdgeResizer.Attach(window);
 		}
+	}
+
+	private static readonly bool MacWindowTrace = Voidstrap.Utility.Platform.IsMacOS && Environment.GetEnvironmentVariable("VOIDSTRAP_INPUT_TRACE") == "1";
+
+	private static void TraceMacWindow(Window window, string change)
+	{
+		if (MacWindowTrace)
+			App.Logger?.WriteLine("RoundedWindowChrome::TraceMacWindow", $"{change} {window.GetType().Name} {window.WindowState} {window.Left:0},{window.Top:0} {window.ActualWidth:0}x{window.ActualHeight:0} native {Voidstrap.Platform.MacOS.MacOSApplication.Describe()}");
+	}
+
+	private static void QueueMacShadow(Window window)
+	{
+		if (!Voidstrap.Utility.Platform.IsMacOS)
+			return;
+		window.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.ContextIdle, new Action(ApplyMacShadows));
+	}
+
+	private static void ApplyMacShadows()
+	{
+		Voidstrap.Platform.MacOS.MacOSApplication.ApplyWindowShadows();
 	}
 
 	internal static bool IsOverlaySurface(Window window)
@@ -230,6 +253,10 @@ public static class RoundedWindowChrome
 		{
 			QueueContentWidth(window);
 			QueueNativeShapeSync(window);
+			QueueMacShadow(window);
+			TraceMacWindow(window, "size");
+			if (Voidstrap.Utility.Platform.IsMacOS)
+				MacWindowMode.SyncAfterResize(window);
 		}
 	}
 
@@ -283,6 +310,8 @@ public static class RoundedWindowChrome
 		}
 
 		ApplyContentWidth(window);
+		QueueMacShadow(window);
+		TraceMacWindow(window, "state");
 		if (window.Dispatcher.HasShutdownStarted || window.Dispatcher.HasShutdownFinished)
 		{
 			return;
@@ -301,6 +330,7 @@ public static class RoundedWindowChrome
 		{
 			return;
 		}
+		TraceMacWindow(window, "closed");
 		window.SizeChanged -= OnWindowSizeChanged;
 		window.StateChanged -= OnWindowStateChanged;
 		window.SourceInitialized -= OnLinuxWindowReady;

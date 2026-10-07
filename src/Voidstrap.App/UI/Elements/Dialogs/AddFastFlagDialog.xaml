@@ -17,7 +17,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Title="{x:Static resources:Strings.Dialog_AddFastFlag_Title}" Grid.Row="0" Padding="8" CanMaximize="False" ShowMaximize="False" ShowMinimize="False" />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Title="{x:Static resources:Strings.Dialog_AddFastFlag_Title}" Grid.Row="0" Padding="8" CanMaximize="False" ShowMaximize="False" ShowMinimize="False" />
     <TabControl Name="Tabs" Grid.Row="1" Margin="16">
       <TabItem>
         <TabItem.Header>

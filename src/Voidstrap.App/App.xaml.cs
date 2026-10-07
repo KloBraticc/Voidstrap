@@ -100,7 +100,6 @@ public partial class App : Application
 	private static readonly HttpClient _httpClient = CreateHttpClient();
 
 	private static int _showingExceptionDialog;
-	private static bool _portableToolTipsDisabled;
 
 	private readonly CancellationTokenSource _lifetimeCancellation = new();
 	private readonly TaskCompletionSource<bool> _macOSStartupReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -787,7 +786,6 @@ public partial class App : Application
 #endif
 		TryStartup("Focus style", DisableFocusVisuals);
 		TryStartup("Portable popups", EmbedPortablePopups);
-		TryStartup("Portable tooltips", DisablePortableToolTips);
 		TryStartup("Tooltip placement", InstallPortableToolTipPlacement);
 		TryStartup("Locale", Locale.Initialize);
 		TryStartup("Icon font", Voidstrap.Utility.IconFontLoader.Install);
@@ -978,6 +976,10 @@ public partial class App : Application
 			TryStartup("Linux screen metrics", LinuxScreenMetrics.Apply);
 			TryStartup("Linux window state", LinuxWindowState.Install);
 			}
+			else if (Voidstrap.Utility.Platform.IsMacOS)
+			{
+				TryStartup("macOS animation parity", LinuxAnimationParity.Apply);
+			}
 			InitializeWatcherServices();
 			InitializeLanguage();
 			_macOSStartupReady.TrySetResult(true);
@@ -1118,20 +1120,6 @@ public partial class App : Application
 		}
 	}
 
-	private static void DisablePortableToolTips()
-	{
-		if (Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux || _portableToolTipsDisabled)
-		{
-			return;
-		}
-		EventManager.RegisterClassHandler(
-			typeof(FrameworkElement),
-			System.Windows.Controls.ToolTipService.ToolTipOpeningEvent,
-			new System.Windows.Controls.ToolTipEventHandler(OnPortableToolTipOpening),
-			true);
-		_portableToolTipsDisabled = true;
-	}
-
 	private static void EmbedPortablePopups()
 	{
 		if (Voidstrap.Utility.Platform.IsWindows)
@@ -1154,11 +1142,6 @@ public partial class App : Application
 			body = LinqExpression.Block(LinqExpression.Call(release, LinqExpression.Convert(popupSource, typeof(object))), body);
 		Delegate embeddedFactory = LinqExpression.Lambda(factory.PropertyType, body, parameters).Compile();
 		factory.SetValue(null, embeddedFactory);
-	}
-
-	private static void OnPortableToolTipOpening(object sender, System.Windows.Controls.ToolTipEventArgs e)
-	{
-		e.Handled = true;
 	}
 
 	private static BuildMetadataAttribute ResolveBuildMetadata()
@@ -1622,6 +1605,24 @@ public partial class App : Application
 			});
 			TryStartup("Linux tooltip placement", InstallPortableToolTipPlacement);
 		}
+		else if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			TryStartup("macOS animation parity", LinuxAnimationParity.Apply);
+			TryStartup("macOS animation frames", MacAnimationPump.Install);
+			TryStartup("Render loop warm up", () =>
+			{
+				EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(WarmRenderLoop));
+			});
+			TryStartup("macOS image scaling", () =>
+			{
+				EventManager.RegisterClassHandler(typeof(System.Windows.Controls.Image), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyLinuxImageScaling));
+			});
+			TryStartup("macOS tooltip placement", InstallPortableToolTipPlacement);
+			TryStartup("macOS window activation", () =>
+			{
+				EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(ActivateMacApplication));
+			});
+		}
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
 			TryStartup("Smooth font edges", () => EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplySmoothFontEdges)));
@@ -1642,6 +1643,53 @@ public partial class App : Application
 		TryStartup("Application font", AppFont.Initialize);
 		TryStartup("Memory manager", Voidstrap.Utility.MemoryManager.Start);
 		TryStartup("Render diagnostics", LogRenderMode);
+	}
+
+	private static bool _macApplicationActivated;
+
+	private static void ActivateMacApplication(object sender, RoutedEventArgs e)
+	{
+		if (_macApplicationActivated || sender is not Window { ShowActivated: true } window)
+			return;
+		_macApplicationActivated = true;
+		_macActivationTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle, window.Dispatcher) { Interval = TimeSpan.FromMilliseconds(500) };
+		_macActivationTimer.Tick += OnMacActivationTick;
+		_macActivationTimer.Start();
+		if (Environment.GetEnvironmentVariable("VOIDSTRAP_INPUT_TRACE") == "1")
+			System.Windows.Input.InputManager.Current.PreProcessInput += TraceMacInput;
+	}
+
+	private static DispatcherTimer? _macActivationTimer;
+
+	private static int _macActivationAttempts;
+
+	private static void OnMacActivationTick(object? sender, EventArgs e)
+	{
+		bool keyWindow = Voidstrap.Platform.MacOS.MacOSApplication.Activate();
+		if (!keyWindow && ++_macActivationAttempts < 20)
+			return;
+		if (_macActivationTimer != null)
+		{
+			_macActivationTimer.Stop();
+			_macActivationTimer.Tick -= OnMacActivationTick;
+			_macActivationTimer = null;
+		}
+		Logger.WriteLine("App::ActivateMacApplication", (keyWindow ? "Brought Voidstrap to the front, " : "Voidstrap could not be brought to the front, ") + Voidstrap.Platform.MacOS.MacOSApplication.Describe());
+		Voidstrap.Utility.Branding.ApplyDockIcon();
+	}
+
+	private static int _tracedMacInput;
+
+	private static void TraceMacInput(object sender, System.Windows.Input.PreProcessInputEventArgs e)
+	{
+		if (e.StagingItem.Input is not System.Windows.Input.MouseEventArgs || e.StagingItem.Input.RoutedEvent != System.Windows.Input.Mouse.PreviewMouseMoveEvent && e.StagingItem.Input.RoutedEvent != System.Windows.Input.Mouse.PreviewMouseDownEvent)
+			return;
+		if (++_tracedMacInput > 40)
+		{
+			System.Windows.Input.InputManager.Current.PreProcessInput -= TraceMacInput;
+			return;
+		}
+		Logger.WriteLine("App::TraceMacInput", $"{e.StagingItem.Input.RoutedEvent.Name} over={System.Windows.Input.Mouse.DirectlyOver?.GetType().Name ?? "none"} {Voidstrap.Platform.MacOS.MacOSApplication.Describe()}");
 	}
 
 	private static void WarmRenderLoop(object sender, RoutedEventArgs e)

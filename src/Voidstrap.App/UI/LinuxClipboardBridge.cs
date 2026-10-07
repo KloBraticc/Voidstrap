@@ -22,6 +22,7 @@ public static class LinuxClipboardBridge
 	private static readonly Dictionary<ProGPU.Wpf.Interop.PortableWpfServiceKey, IDisposable> Registrations = new();
 	private static Dispatcher? _dispatcher;
 	private static int _invalidationQueued;
+	private static long _macChangeCount = -1;
 	private static bool _installed;
 
 	public static bool IsActive => _installed;
@@ -32,7 +33,7 @@ public static class LinuxClipboardBridge
 	public static void Install()
 	{
 #if CROSSPLAT
-		if (_installed || !OperatingSystem.IsLinux())
+		if (_installed || !(OperatingSystem.IsLinux() || OperatingSystem.IsMacOS()))
 			return;
 
 		if (Environment.GetEnvironmentVariable("VOIDSTRAP_NATIVE_CLIPBOARD") == "0")
@@ -41,9 +42,9 @@ public static class LinuxClipboardBridge
 			return;
 		}
 
-		if (!Voidstrap.Platform.Linux.LinuxClipboard.IsAvailable)
+		if (OperatingSystem.IsMacOS() ? !Voidstrap.Platform.MacOS.MacOSClipboard.IsAvailable : !Voidstrap.Platform.Linux.LinuxClipboard.IsAvailable)
 		{
-			App.Logger.WriteLine(LogIdent, "No X11 display is available, text boxes keep the renderer clipboard");
+			App.Logger.WriteLine(LogIdent, "No system clipboard is available, text boxes keep the renderer clipboard");
 			return;
 		}
 
@@ -53,9 +54,11 @@ public static class LinuxClipboardBridge
 			Register(key);
 
 		ProGPU.Wpf.Interop.PortableWpfServiceRegistry.ClipboardServiceRegistered += OnClipboardServiceRegistered;
-		Voidstrap.Platform.Linux.LinuxClipboard.Changed += OnClipboardChanged;
+		if (OperatingSystem.IsLinux())
+			Voidstrap.Platform.Linux.LinuxClipboard.Changed += OnClipboardChanged;
 		EventManager.RegisterClassHandler(typeof(UIElement), CommandManager.PreviewExecutedEvent, new ExecutedRoutedEventHandler(OnPreviewExecuted), true);
-		App.Logger.WriteLine(LogIdent, Voidstrap.Platform.Linux.LinuxClipboard.TracksChanges
+		EventManager.RegisterClassHandler(typeof(UIElement), CommandManager.PreviewCanExecuteEvent, new CanExecuteRoutedEventHandler(OnPreviewCanExecute), true);
+		App.Logger.WriteLine(LogIdent, OperatingSystem.IsLinux() && Voidstrap.Platform.Linux.LinuxClipboard.TracksChanges
 			? "Copy and paste now use the system clipboard and follow changes from other apps"
 			: "Copy and paste now use the system clipboard, other apps are read again on every paste");
 #endif
@@ -139,15 +142,24 @@ public static class LinuxClipboardBridge
 			RegisterAll();
 	}
 
+	private static void OnPreviewCanExecute(object sender, CanExecuteRoutedEventArgs e)
+	{
+		if (e.Command != ApplicationCommands.Paste || !OperatingSystem.IsMacOS())
+			return;
+		long count = Voidstrap.Platform.MacOS.MacOSClipboard.ChangeCount;
+		if (Interlocked.Exchange(ref _macChangeCount, count) != count)
+			RegisterAll();
+	}
+
 	private static string? ReadText()
 	{
-		string? text = Voidstrap.Platform.Linux.LinuxClipboard.GetText();
+		string? text = OperatingSystem.IsMacOS() ? Voidstrap.Platform.MacOS.MacOSClipboard.GetText() : Voidstrap.Platform.Linux.LinuxClipboard.GetText();
 		return string.IsNullOrEmpty(text) ? null : text;
 	}
 
 	private static void WriteText(string? text)
 	{
-		if (!Voidstrap.Platform.Linux.LinuxClipboard.SetText(text ?? string.Empty))
+		if (!(OperatingSystem.IsMacOS() ? Voidstrap.Platform.MacOS.MacOSClipboard.SetText(text ?? string.Empty) : Voidstrap.Platform.Linux.LinuxClipboard.SetText(text ?? string.Empty)))
 			App.Logger.WriteLine(LogIdent, "The system clipboard could not be updated");
 	}
 #endif

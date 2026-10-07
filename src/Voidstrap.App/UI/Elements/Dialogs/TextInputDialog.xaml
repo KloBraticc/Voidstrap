@@ -13,7 +13,7 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <ui:TitleBar Grid.Row="0" Padding="8" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" Title="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}" />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Grid.Row="0" Padding="8" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" Title="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}" />
 
     <StackPanel Grid.Row="1" Margin="16">
       <TextBlock Name="PromptText" Margin="0,0,0,8" TextWrapping="Wrap" />

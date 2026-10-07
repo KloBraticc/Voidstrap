@@ -61,6 +61,7 @@ internal sealed class WindowEdgeResizer
 		window.PreviewMouseMove += resizer.OnPreviewMouseMove;
 		window.PreviewMouseLeftButtonUp += resizer.OnPreviewMouseUp;
 		window.LostMouseCapture += resizer.OnLostCapture;
+		window.Deactivated += resizer.OnDeactivated;
 		window.Closed += resizer.OnClosed;
 	}
 
@@ -70,6 +71,7 @@ internal sealed class WindowEdgeResizer
 		_window.PreviewMouseMove -= OnPreviewMouseMove;
 		_window.PreviewMouseLeftButtonUp -= OnPreviewMouseUp;
 		_window.LostMouseCapture -= OnLostCapture;
+		_window.Deactivated -= OnDeactivated;
 		_window.Closed -= OnClosed;
 		StopPointerPolling();
 		Attached.Remove(_window);
@@ -79,7 +81,7 @@ internal sealed class WindowEdgeResizer
 	{
 		double width = _window.ActualWidth;
 		double height = _window.ActualHeight;
-		if (width <= 0.0 || height <= 0.0)
+		if (width <= 0.0 || height <= 0.0 || position.X < 0.0 || position.Y < 0.0 || position.X > width || position.Y > height)
 		{
 			return ResizeEdge.None;
 		}
@@ -151,6 +153,10 @@ internal sealed class WindowEdgeResizer
 
 	private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
 	{
+		if (_resizing)
+		{
+			EndResize();
+		}
 		if (!CanResize())
 		{
 			return;
@@ -393,6 +399,14 @@ internal sealed class WindowEdgeResizer
 		{
 			EndResize();
 			e.Handled = true;
+		}
+	}
+
+	private void OnDeactivated(object? sender, EventArgs e)
+	{
+		if (_resizing)
+		{
+			EndResize();
 		}
 	}
 

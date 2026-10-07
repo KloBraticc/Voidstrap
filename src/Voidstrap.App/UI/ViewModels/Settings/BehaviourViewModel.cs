@@ -1539,11 +1539,11 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		List<Process> list = new List<Process>();
 		if (!linux && !string.IsNullOrEmpty(App.State.Prop.Player.VersionGuid))
 		{
-			list.AddRange(Process.GetProcessesByName("RobloxPlayerBeta"));
+			list.AddRange(Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName));
 		}
 		if (!linux && App.IsStudioVisible)
 		{
-			list.AddRange(Process.GetProcessesByName("RobloxStudioBeta"));
+			list.AddRange(Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxStudioProcessName));
 		}
 		if (list.Count != 0 || linux && Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow())
 		{

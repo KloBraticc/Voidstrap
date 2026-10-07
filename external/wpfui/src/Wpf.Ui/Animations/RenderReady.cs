@@ -16,7 +16,7 @@ namespace Wpf.Ui.Animations
 
         private const int HoldPollMilliseconds = 120;
 
-        private static readonly bool Portable = OperatingSystem.IsLinux();
+        private static readonly bool Portable = Wpf.Ui.Animations.PortableRenderer.IsActive;
 
         private static readonly Dictionary<Dispatcher, State> States = new();
 

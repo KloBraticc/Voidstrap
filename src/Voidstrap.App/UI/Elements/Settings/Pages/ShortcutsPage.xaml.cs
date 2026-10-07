@@ -99,7 +99,7 @@ public partial class ShortcutsPage : UiPage{
 		SaveGameSettings();
 		string displayName = SafeShortcutName(shortcutsViewModel.IsSubplaceMode ? shortcutsViewModel.SelectedSubplace?.DisplayName : shortcutsViewModel.DisplayGameName);
 		string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-		string shortcutPath = Path.Combine(folderPath, displayName + (Voidstrap.Utility.Platform.IsLinux ? ".desktop" : ".lnk"));
+		string shortcutPath = Path.Combine(folderPath, displayName + Voidstrap.Utility.Shortcut.Suffix);
 		string executable = File.Exists(Paths.Application) ? Paths.Application : Paths.LaunchExecutable;
 		string iconPath = string.Empty;
 		try
@@ -115,11 +115,11 @@ public partial class ShortcutsPage : UiPage{
 		{
 			iconPath = executable;
 		}
-			if (File.Exists(shortcutPath))
-				File.Delete(shortcutPath);
+			if (Voidstrap.Utility.Shortcut.Exists(shortcutPath))
+				Voidstrap.Utility.Shortcut.Delete(shortcutPath);
 			string arguments = "-player \"" + launch.Value.LaunchUrl.Replace("\"", "") + "\"";
 			Voidstrap.Utility.Shortcut.Create(executable, arguments, shortcutPath, iconPath);
-			if (!File.Exists(shortcutPath))
+			if (!Voidstrap.Utility.Shortcut.Exists(shortcutPath))
 			{
 				Frontend.ShowMessageBox("Failed to create shortcut.\n\nVoidstrap could not write to the desktop folder.");
 				return;
@@ -338,7 +338,7 @@ public partial class ShortcutsPage : UiPage{
 				throw new InvalidDataException("Game icon dimensions are invalid");
 			string iconId = Convert.ToHexString(SHA256.HashData(imageBytes))[..12];
 			string iconPath = Path.Combine(text, baseName + "_" + iconId + ".ico");
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (Voidstrap.Utility.Platform.UsesPortableUi)
 			{
 				string portablePath = Path.Combine(text, baseName + ".png");
 				using SixLabors.ImageSharp.Image portable = SixLabors.ImageSharp.Image.Load(imageBytes);

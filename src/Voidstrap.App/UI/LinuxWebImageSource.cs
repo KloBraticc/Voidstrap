@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,12 +24,16 @@ internal static class LinuxWebImageSource
 
 	private static bool _refreshQueued;
 
+	private static readonly ConditionalWeakTable<Border, BrushHostState> BrushHosts = new();
+
 	public static void Install()
 	{
 		if (_installed || !Voidstrap.Utility.Platform.UsesPortableUi)
 			return;
 
 		_installed = true;
+		EventManager.RegisterClassHandler(typeof(Border), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnBorderLoaded));
+		EventManager.RegisterClassHandler(typeof(Border), FrameworkElement.UnloadedEvent, new RoutedEventHandler(OnBorderUnloaded));
 		try
 		{
 			object? context = typeof(XamlReader).GetProperty("BamlSharedSchemaContext", BindingFlags.NonPublic | BindingFlags.Static)?.GetValue(null);
@@ -79,7 +84,8 @@ internal static class LinuxWebImageSource
 		Task<BitmapSource?> load = Voidstrap.Utility.DynamicRenderSystem.LoadWebImageAsync(uri.AbsoluteUri);
 		if (load.IsCompletedSuccessfully)
 		{
-			Present(image, content, load.Result);
+			if (Present(image, content, load.Result))
+				QueueLayoutRefresh(dispatcher);
 			return image;
 		}
 
@@ -143,9 +149,102 @@ internal static class LinuxWebImageSource
 	{
 		if (element is Image target && target.Source is DrawingImage source && _presented.Contains(source))
 			target.InvalidateMeasure();
+		if (element is Border { Background: ImageBrush } border)
+			BrushHosts.GetValue(border, CreateBrushHost).Attach();
+		else if (element is Panel)
+			UpdatePresentedBrush(element, Panel.BackgroundProperty);
+		else if (element is Control)
+			UpdatePresentedBrush(element, Control.BackgroundProperty);
+		if (element is System.Windows.Shapes.Shape)
+		{
+			UpdatePresentedBrush(element, System.Windows.Shapes.Shape.FillProperty);
+			UpdatePresentedBrush(element, System.Windows.Shapes.Shape.StrokeProperty);
+		}
 		int count = VisualTreeHelper.GetChildrenCount(element);
 		for (int index = 0; index < count; index++)
 			InvalidatePresented(VisualTreeHelper.GetChild(element, index));
+	}
+
+	private static void UpdatePresentedBrush(DependencyObject element, DependencyProperty property)
+	{
+		if (element.GetValue(property) is not ImageBrush brush
+			|| brush.ImageSource is not DrawingImage drawing
+			|| !_presented.Contains(drawing)
+			|| drawing.Drawing is not DrawingGroup group
+			|| group.Children.Count != 1
+			|| group.Children[0] is not ImageDrawing { ImageSource: BitmapSource bitmap })
+			return;
+		if (brush.IsFrozen)
+		{
+			ImageBrush replacement = brush.CloneCurrentValue();
+			replacement.ImageSource = bitmap;
+			element.SetCurrentValue(property, replacement);
+		}
+		else
+		{
+			brush.SetCurrentValue(ImageBrush.ImageSourceProperty, bitmap);
+		}
+	}
+
+	private static void OnBorderLoaded(object sender, RoutedEventArgs e)
+	{
+		if (sender is Border { Background: ImageBrush } border)
+			BrushHosts.GetValue(border, CreateBrushHost).Attach();
+	}
+
+	private static BrushHostState CreateBrushHost(Border border) => new(border);
+
+	private static void OnBorderUnloaded(object sender, RoutedEventArgs e)
+	{
+		if (sender is Border border && BrushHosts.TryGetValue(border, out BrushHostState? state))
+			state.Detach();
+	}
+
+	private sealed class BrushHostState
+	{
+		private readonly Border _host;
+		private ImageBrush? _brush;
+
+		public BrushHostState(Border host) => _host = host;
+
+		public void Attach() => Update();
+
+		public void Detach()
+		{
+			if (_brush is { IsFrozen: false })
+				_brush.Changed -= OnBrushChanged;
+			if (_brush != null)
+				Voidstrap.Utility.DynamicRenderSystem.PresentPortableBrushImage(_host, _brush, null);
+			_brush = null;
+		}
+
+		private void OnBrushChanged(object? sender, EventArgs e) => Present();
+
+		private void Update()
+		{
+			ImageBrush? next = _host.Background as ImageBrush;
+			if (!ReferenceEquals(_brush, next))
+			{
+				if (_brush is { IsFrozen: false })
+					_brush.Changed -= OnBrushChanged;
+				if (next == null && _brush != null)
+					Voidstrap.Utility.DynamicRenderSystem.PresentPortableBrushImage(_host, _brush, null);
+				_brush = next;
+				if (_brush is { IsFrozen: false })
+					_brush.Changed += OnBrushChanged;
+			}
+			Present();
+		}
+
+		public void Present()
+		{
+			if (_brush == null)
+				return;
+			ImageSource? source = _brush.ImageSource;
+			if (source is DrawingImage { Drawing: DrawingGroup { Children.Count: 1 } group } && group.Children[0] is ImageDrawing drawing)
+				source = drawing.ImageSource;
+			Voidstrap.Utility.DynamicRenderSystem.PresentPortableBrushImage(_host, _brush, source as BitmapSource);
+		}
 	}
 
 	private sealed class Converter : ImageSourceConverter

@@ -13,7 +13,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Grid.Row="0" Title="Add NVIDIA Settings" Padding="8" CanMaximize="False" ShowMaximize="False" ShowMinimize="False" />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Grid.Row="0" Title="Add NVIDIA Settings" Padding="8" CanMaximize="False" ShowMaximize="False" ShowMinimize="False" />
     <TextBlock Grid.Row="1" Margin="20,8,20,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Add one setting or import several at once." />
     <TabControl Name="Tabs" Grid.Row="2" Margin="16,0,16,16" SelectionChanged="Tabs_SelectionChanged">
       <TabItem>

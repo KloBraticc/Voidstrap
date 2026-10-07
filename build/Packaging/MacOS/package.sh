@@ -75,6 +75,8 @@ if [ -d "$NOTICES" ]; then
   done < <(find "$NOTICES" -depth -type d)
 fi
 cp "$ROOT/build/Packaging/MacOS/Info.plist" "$APPLICATION/Contents/Info.plist"
+cp "$ROOT/build/Packaging/MacOS/Voidstrap.icns" "$APPLICATION/Contents/Resources/Voidstrap.icns"
+cp "$ROOT/src/Voidstrap.App/Voidstrap.png" "$APPLICATION/Contents/Resources/Voidstrap.png"
 
 if [ "$(uname -s)" != "Darwin" ]; then
   sed -i -e "/<key>CFBundleShortVersionString<\/key>/{n;s|<string>[^<]*</string>|<string>$VERSION</string>|}" -e "/<key>CFBundleVersion<\/key>/{n;s|<string>[^<]*</string>|<string>$VERSION</string>|}" "$APPLICATION/Contents/Info.plist"

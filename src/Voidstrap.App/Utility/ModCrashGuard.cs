@@ -37,7 +37,9 @@ internal static class ModCrashGuard
 
 	private static string StatePath => Path.Combine(Paths.Data, "ModCrashGuard.json");
 
-	public static string CrashReportsFolder => Path.Combine(Paths.LocalAppData, "Roblox", "logs", "crashes", "reports");
+	public static string CrashReportsFolder => Voidstrap.Utility.Platform.IsMacOS
+		? Path.Combine(Paths.RobloxLogs, "crashes", "reports")
+		: Path.Combine(Paths.LocalAppData, "Roblox", "logs", "crashes", "reports");
 
 	public static DateTime BeginSession()
 	{

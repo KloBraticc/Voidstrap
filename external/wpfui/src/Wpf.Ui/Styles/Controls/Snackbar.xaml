@@ -140,6 +140,7 @@
                         </Trigger>
                         <Trigger Property="controls:PortableShadows.IsPortable" Value="True">
                             <Setter TargetName="CardShadow" Property="Effect" Value="{x:Null}" />
+                            <Setter TargetName="CardShadow" Property="controls:PortableShadows.Layered" Value="True" />
                             <Setter TargetName="CardShadow" Property="CacheMode" Value="{x:Null}" />
                         </Trigger>
                         <Trigger Property="IsShown" Value="True">

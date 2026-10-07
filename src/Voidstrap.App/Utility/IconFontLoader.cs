@@ -11,7 +11,9 @@ internal static class IconFontLoader
 	private static readonly (string ResourceKey, string FileName, string FamilyName, string ResourcePath)[] Fonts = new[]
 	{
 		("FluentSystemIcons", "FluentSystemIcons-Regular.ttf", "FluentSystemIcons-Regular", "pack://application:,,,/Resources/Fonts/SymbolIcons/FluentSystemIcons-Regular.ttf"),
-		("FluentSystemIconsFilled", "FluentSystemIcons-Filled.ttf", "FluentSystemIcons-Filled", "pack://application:,,,/Wpf.Ui;component/Fonts/FluentSystemIcons-Filled.ttf")
+		("FluentSystemIconsFilled", "FluentSystemIcons-Filled.ttf", "FluentSystemIcons-Filled", Platform.IsMacOS
+			? "pack://application:,,,/Resources/Fonts/SymbolIcons/FluentSystemIcons-Filled.ttf"
+			: "pack://application:,,,/Wpf.Ui;component/Fonts/FluentSystemIcons-Filled.ttf")
 	};
 
 	public static void Install()

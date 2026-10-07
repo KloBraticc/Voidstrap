@@ -9,7 +9,7 @@ namespace Wpf.Ui.Controls
             "IsLinux",
             typeof(bool),
             typeof(ExpanderMotion),
-            new PropertyMetadata(OperatingSystem.IsLinux()));
+            new PropertyMetadata(Wpf.Ui.Animations.PortableRenderer.IsActive));
 
         public static readonly DependencyProperty UseLinuxAnimationClockProperty = DependencyProperty.RegisterAttached(
             "UseLinuxAnimationClock",

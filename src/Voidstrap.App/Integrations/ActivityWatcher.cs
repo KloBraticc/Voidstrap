@@ -758,6 +758,10 @@ public partial class ActivityWatcher : IDisposable
 			candidates.Add(Path.Combine(soberData, "appData", "logs"));
 			candidates.Add(Path.Combine(soberData, "sober_logs"));
 		}
+		else if (OperatingSystem.IsMacOS())
+		{
+			candidates.Add(Paths.RobloxLogs);
+		}
 		else
 		{
 			candidates.Add(Path.Combine(Paths.LocalAppData, "Roblox", "logs"));
@@ -770,7 +774,7 @@ public partial class ActivityWatcher : IDisposable
 	{
 		return OperatingSystem.IsLinux()
 			? file.Extension.Equals(".log", StringComparison.OrdinalIgnoreCase) || file.Name.Contains("Player", StringComparison.OrdinalIgnoreCase)
-			: file.Name.Contains("Player", StringComparison.OrdinalIgnoreCase);
+			: file.Name.Contains("Player", StringComparison.OrdinalIgnoreCase) && !file.Name.Contains("CrashHandler", StringComparison.OrdinalIgnoreCase);
 	}
 
 	private async Task RunAsync()

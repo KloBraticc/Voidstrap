@@ -45,6 +45,12 @@ namespace Wpf.Ui.Controls
             typeof(ExpanderReveal),
             new PropertyMetadata(null));
 
+        private static readonly DependencyProperty PrimedProperty = DependencyProperty.RegisterAttached(
+            "Primed",
+            typeof(bool),
+            typeof(ExpanderReveal),
+            new PropertyMetadata(false));
+
         private static readonly DependencyProperty TweenStateProperty = DependencyProperty.RegisterAttached(
             "TweenState",
             typeof(Tween),
@@ -71,13 +77,13 @@ namespace Wpf.Ui.Controls
             int generation = (int)element.GetValue(GenerationProperty) + 1;
             element.SetValue(GenerationProperty, generation);
 
-            if (!OperatingSystem.IsLinux())
+            if (!Wpf.Ui.Animations.PortableRenderer.IsActive)
             {
                 AnimateWindows(element, generation, (bool)e.NewValue);
                 return;
             }
 
-            if (!ExpanderMotion.GetUseLinuxAnimationClock(element))
+            if (!ExpanderMotion.GetUseLinuxAnimationClock(element) || OperatingSystem.IsMacOS())
             {
                 AnimateLegacyLinux(element, generation, (bool)e.NewValue);
                 return;
@@ -198,7 +204,65 @@ namespace Wpf.Ui.Controls
                 return;
             }
 
+            if (!(bool)element.GetValue(PrimedProperty))
+            {
+                element.SetValue(PrimedProperty, true);
+                element.Height = Math.Max(current, 1d);
+                new FrameDelay(element, 2, () =>
+                {
+                    if ((int)element.GetValue(GenerationProperty) != generation || !GetIsOpen(element))
+                        return;
+                    StartNative(element, generation, element.Height, target, element.Opacity, 1d, GetDuration(element), GetFadeDuration(element), RevealEase, () => SettleOpen(element, generation));
+                }).Start();
+                return;
+            }
+
             StartNative(element, generation, current, target, opacity, 1d, GetDuration(element), GetFadeDuration(element), RevealEase, () => SettleOpen(element, generation));
+        }
+
+        private sealed class FrameDelay
+        {
+            private readonly FrameworkElement _element;
+            private readonly Action _action;
+            private readonly DispatcherTimer _deadline;
+            private int _remaining;
+            private bool _done;
+
+            internal FrameDelay(FrameworkElement element, int frames, Action action)
+            {
+                _element = element;
+                _remaining = frames;
+                _action = action;
+                _deadline = new DispatcherTimer(DispatcherPriority.Background, element.Dispatcher) { Interval = TimeSpan.FromMilliseconds(500d) };
+            }
+
+            internal void Start()
+            {
+                CompositionTarget.Rendering += OnFrame;
+                _deadline.Tick += OnDeadline;
+                _deadline.Start();
+            }
+
+            private void OnFrame(object? sender, EventArgs e)
+            {
+                if (--_remaining <= 0)
+                    Finish();
+            }
+
+            private void OnDeadline(object? sender, EventArgs e) => Finish();
+
+            private void Finish()
+            {
+                if (_done)
+                    return;
+                _done = true;
+                CompositionTarget.Rendering -= OnFrame;
+                _deadline.Stop();
+                _deadline.Tick -= OnDeadline;
+                if (_element.Dispatcher.HasShutdownStarted)
+                    return;
+                _action();
+            }
         }
 
         private static void AnimateLegacyLinux(FrameworkElement element, int generation, bool open)
@@ -277,7 +341,7 @@ namespace Wpf.Ui.Controls
 
         private static bool CanAnimate(FrameworkElement element)
         {
-            if (!element.IsLoaded || !element.IsVisible)
+            if (!element.IsVisible || PresentationSource.FromVisual(element) is null)
                 return false;
 
             Window? window = Window.GetWindow(element);
@@ -300,7 +364,7 @@ namespace Wpf.Ui.Controls
             element.Height = double.NaN;
             element.Opacity = 1d;
             element.ClipToBounds = false;
-            if (OperatingSystem.IsLinux())
+            if (Wpf.Ui.Animations.PortableRenderer.IsActive)
                 element.IsHitTestVisible = true;
         }
 
@@ -315,7 +379,7 @@ namespace Wpf.Ui.Controls
             element.Height = double.NaN;
             element.Opacity = 1d;
             element.ClipToBounds = false;
-            if (OperatingSystem.IsLinux())
+            if (Wpf.Ui.Animations.PortableRenderer.IsActive)
                 element.IsHitTestVisible = true;
         }
 
@@ -329,7 +393,7 @@ namespace Wpf.Ui.Controls
             element.BeginAnimation(UIElement.OpacityProperty, null);
             element.Height = 0d;
             element.Opacity = 0d;
-            if (OperatingSystem.IsLinux())
+            if (Wpf.Ui.Animations.PortableRenderer.IsActive)
                 element.IsHitTestVisible = false;
         }
 
@@ -477,7 +541,9 @@ namespace Wpf.Ui.Controls
             private readonly IEasingFunction _easing;
             private readonly Action _settle;
             private readonly DispatcherTimer _watchdog;
-            private readonly long _started;
+            private const double MaximumFrameStep = 34d;
+            private long _lastFrame;
+            private double _elapsed;
             private bool _running;
 
             private Tween(FrameworkElement element, int generation, double fromHeight, double toHeight, double fromOpacity, double toOpacity, Duration height, Duration fade, IEasingFunction easing, Action settle)
@@ -492,10 +558,10 @@ namespace Wpf.Ui.Controls
                 _fadeMilliseconds = fade.HasTimeSpan ? fade.TimeSpan.TotalMilliseconds : 180d;
                 _easing = easing;
                 _settle = settle;
-                _started = Environment.TickCount64;
+                _lastFrame = Environment.TickCount64;
                 _watchdog = new DispatcherTimer(DispatcherPriority.Background, element.Dispatcher)
                 {
-                    Interval = Extent(height, fade)
+                    Interval = Extent(height, fade) + TimeSpan.FromMilliseconds(1500d)
                 };
             }
 
@@ -541,7 +607,10 @@ namespace Wpf.Ui.Controls
                     return;
                 }
 
-                double elapsed = Environment.TickCount64 - _started;
+                long now = Environment.TickCount64;
+                _elapsed += Math.Min(now - _lastFrame, MaximumFrameStep);
+                _lastFrame = now;
+                double elapsed = _elapsed;
                 if (elapsed >= _heightMilliseconds)
                 {
                     Complete();
