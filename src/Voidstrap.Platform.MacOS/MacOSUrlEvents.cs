@@ -77,7 +77,10 @@ public static partial class MacOSUrlEvents
 			nint length = Send(value, sel_registerName("length"));
 			if (length <= 0 || length > 32768)
 				return;
-			string? url = Marshal.PtrToStringUTF8(Send(value, sel_registerName("UTF8String")));
+			nint bytes = SendEncoding(value, sel_registerName("lengthOfBytesUsingEncoding:"), 4);
+			if (bytes <= 0 || bytes > 131072)
+				return;
+			string? url = Marshal.PtrToStringUTF8(Send(value, sel_registerName("UTF8String")), (int)bytes);
 			if (!string.IsNullOrWhiteSpace(url))
 				_received?.Invoke(url);
 		}
@@ -135,6 +138,9 @@ public static partial class MacOSUrlEvents
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nint Send(nint receiver, nint selector);
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
+	private static partial nint SendEncoding(nint receiver, nint selector, nuint encoding);
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nint SendKeyword(nint receiver, nint selector, uint keyword);

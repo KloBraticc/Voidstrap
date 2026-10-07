@@ -19,7 +19,7 @@ public sealed class MacOSPlatformHost : IPlatformHost
 		SecureStore = new MacOSSecureStore();
 		PlayerRuntime = new MacOSRobloxRuntimeProvider(RuntimeKind.Player, Processes);
 		StudioRuntime = new MacOSRobloxRuntimeProvider(RuntimeKind.Studio, Processes);
-		ProtocolRegistration = new MacOSProtocolRegistration(Processes);
+		ProtocolRegistration = new MacOSProtocolRegistration();
 		Updater = new UnavailablePlatformUpdater(CreateUpdaterCapability());
 		Notifications = new ProcessNotificationService(
 			Processes,
@@ -445,21 +445,9 @@ public sealed class MacOSRobloxRuntimeProvider : IRobloxRuntimeProvider
 
 public sealed partial class MacOSProtocolRegistration : IProtocolRegistration
 {
-	private static readonly string[] LaunchServicesRegistrationPaths =
-	[
-		"/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister",
-		"/System/Library/Frameworks/ApplicationServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
-	];
-
 	private const string CoreFoundation = "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation";
 	private const string CoreServices = "/System/Library/Frameworks/CoreServices.framework/CoreServices";
 	private static readonly string[] Schemes = ["roblox", "roblox-player", "roblox-studio", "roblox-studio-auth"];
-	private readonly IProcessService _processes;
-
-	public MacOSProtocolRegistration(IProcessService processes)
-	{
-		_processes = processes;
-	}
 
 	public Task<CapabilityDescriptor> GetCapabilityAsync(CancellationToken cancellationToken = default)
 	{
@@ -475,12 +463,12 @@ public sealed partial class MacOSProtocolRegistration : IProtocolRegistration
 	{
 		if (!Schemes.Contains(request.Scheme, StringComparer.OrdinalIgnoreCase))
 			return Task.FromResult(OperationResult.Fail("UnsupportedProtocol", "The application does not handle this URL scheme"));
-		return RegisterSchemesAsync([request.Scheme.ToLowerInvariant()], cancellationToken);
+		return Task.FromResult(RegisterSchemes([request.Scheme.ToLowerInvariant()], cancellationToken));
 	}
 
-	public Task<OperationResult> RegisterAllAsync(CancellationToken cancellationToken = default) => RegisterSchemesAsync(Schemes, cancellationToken);
+	public Task<OperationResult> RegisterAllAsync(CancellationToken cancellationToken = default) => Task.FromResult(RegisterSchemes(Schemes, cancellationToken));
 
-	private async Task<OperationResult> RegisterSchemesAsync(IReadOnlyList<string> schemes, CancellationToken cancellationToken)
+	private static OperationResult RegisterSchemes(IReadOnlyList<string> schemes, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		string? bundle = FindApplicationBundle();
@@ -488,26 +476,6 @@ public sealed partial class MacOSProtocolRegistration : IProtocolRegistration
 		{
 			return OperationResult.Fail("ApplicationBundleMissing", "Protocol registration requires a packaged macOS application");
 		}
-
-		string? registrationTool = FindRegistrationTool();
-		if (registrationTool is null)
-		{
-			return OperationResult.Fail("LaunchServicesUnavailable", "Launch Services registration is unavailable");
-		}
-
-		OperationResult<ProcessExecution> result = await _processes.ExecuteAsync(
-			new ProcessCommand(registrationTool, ["-f", bundle]),
-			cancellationToken).ConfigureAwait(false);
-
-		if (!result.Succeeded || result.Value is null)
-		{
-			return result.Failure is null
-				? OperationResult.Fail("ProtocolRegistrationFailed", "Launch Services registration failed")
-				: OperationResult.Fail(result.Failure.Code, result.Failure.Message, result.Failure.State);
-		}
-
-		if (result.Value.ExitCode != 0)
-			return OperationResult.Fail("ProtocolRegistrationFailed", result.Value.StandardError);
 
 		nint path = CFStringCreateWithCString(0, bundle, 0x08000100);
 		nint url = 0;
@@ -521,6 +489,9 @@ public sealed partial class MacOSProtocolRegistration : IProtocolRegistration
 			nint identifier = application != 0 ? CFBundleGetIdentifier(application) : 0;
 			if (identifier == 0)
 				return OperationResult.Fail("ApplicationBundleInvalid", "The application bundle identifier could not be read");
+			int registrationStatus = LSRegisterURL(url, true);
+			if (registrationStatus != 0)
+				return OperationResult.Fail("ProtocolRegistrationFailed", "The application bundle could not be registered: " + registrationStatus);
 
 			foreach (string scheme in schemes)
 			{
@@ -568,6 +539,9 @@ public sealed partial class MacOSProtocolRegistration : IProtocolRegistration
 	private static partial void CFRelease(nint value);
 
 	[LibraryImport(CoreServices)]
+	private static partial int LSRegisterURL(nint url, [MarshalAs(UnmanagedType.I1)] bool update);
+
+	[LibraryImport(CoreServices)]
 	private static partial int LSSetDefaultHandlerForURLScheme(nint scheme, nint bundleIdentifier);
 
 	private static string? FindApplicationBundle()
@@ -587,19 +561,6 @@ public sealed partial class MacOSProtocolRegistration : IProtocolRegistration
 			}
 
 			directory = directory.Parent;
-		}
-
-		return null;
-	}
-
-	private static string? FindRegistrationTool()
-	{
-		foreach (string path in LaunchServicesRegistrationPaths)
-		{
-			if (File.Exists(path))
-			{
-				return path;
-			}
 		}
 
 		return null;
