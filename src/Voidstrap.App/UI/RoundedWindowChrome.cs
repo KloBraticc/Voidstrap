@@ -132,6 +132,8 @@ public static class RoundedWindowChrome
 		}
 		ApplyClip(window);
 		QueueMacShadow(window);
+		if (Voidstrap.Utility.Platform.IsMacOS)
+			MacWindowMode.TrackPosition(window);
 		EnsureLinuxIdentity(window);
 		LinuxTitleBar.Apply(window);
 		window.SizeChanged -= OnWindowSizeChanged;

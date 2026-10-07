@@ -33,6 +33,15 @@ public static partial class MacOSWindow
 		public double Y;
 	}
 
+	public static void EnableMinimize(nint window)
+	{
+		if (window == 0)
+			return;
+		nuint mask = SendMask(window, sel_registerName("styleMask"));
+		if ((mask & MiniaturizableMask) == 0)
+			SetMask(window, sel_registerName("setStyleMask:"), mask | MiniaturizableMask);
+	}
+
 	public static void Minimize(nint window)
 	{
 		if (window == 0)
@@ -40,9 +49,7 @@ public static partial class MacOSWindow
 		nint pool = objc_autoreleasePoolPush();
 		try
 		{
-			nuint mask = SendMask(window, sel_registerName("styleMask"));
-			if ((mask & MiniaturizableMask) == 0)
-				SetMask(window, sel_registerName("setStyleMask:"), mask | MiniaturizableMask);
+			EnableMinimize(window);
 			SendObject(window, sel_registerName("miniaturize:"), 0);
 		}
 		finally
