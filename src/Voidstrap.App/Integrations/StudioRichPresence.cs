@@ -234,7 +234,7 @@ public sealed partial class StudioRichPresence : IDisposable
 		{
 			processes = Voidstrap.Utility.Platform.IsLinux
 				? Process.GetProcesses().Where(static candidate => Voidstrap.Platform.Linux.StudioProcessNames.IsStudio(SafeProcessName(candidate))).ToArray()
-				: Process.GetProcessesByName("RobloxStudioBeta");
+				: Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxStudioProcessName);
 		}
 		catch
 		{

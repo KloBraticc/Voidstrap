@@ -32,6 +32,10 @@ namespace Voidstrap.Utility
 
         public static bool UsesPortableUi => !IsWindows;
 
+        public static string RobloxPlayerProcessName => IsMacOS ? "RobloxPlayer" : "RobloxPlayerBeta";
+
+        public static string RobloxStudioProcessName => IsMacOS ? "RobloxStudio" : "RobloxStudioBeta";
+
         private static IPlatformHost? CreateRuntimeHost()
         {
             if (IsLinux)

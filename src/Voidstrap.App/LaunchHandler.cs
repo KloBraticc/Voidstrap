@@ -800,6 +800,41 @@ public static class LaunchHandler
 
 	private const int SoberExitConfirmations = 5;
 
+	private static async Task<int> WaitForMacPlayerAsync(CancellationToken cancellationToken)
+	{
+		for (int attempt = 0; attempt < 120; attempt++)
+		{
+			int newest = 0;
+			DateTime newestStart = DateTime.MinValue;
+			foreach (Process process in Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName))
+			{
+				using (process)
+				{
+					try
+					{
+						DateTime started = process.StartTime.ToUniversalTime();
+						if (!process.HasExited && started > newestStart)
+						{
+							newest = process.Id;
+							newestStart = started;
+						}
+					}
+					catch (Exception)
+					{
+					}
+				}
+			}
+			if (newest > 0)
+			{
+				App.Logger.WriteLine("LaunchHandler::WaitForMacPlayerAsync", $"Watching Roblox process {newest}");
+				return newest;
+			}
+			await Task.Delay(500, cancellationToken);
+		}
+		App.Logger.WriteLine("LaunchHandler::WaitForMacPlayerAsync", "Roblox did not appear in the process list, activity tracking is skipped for this launch");
+		return 0;
+	}
+
 	private static async Task<bool> WaitForSoberExitAsync(CancellationToken cancellationToken)
 	{
 		Voidstrap.Platform.Linux.LinuxSoberProcessProbe probe =
@@ -995,7 +1030,7 @@ public static class LaunchHandler
 				try
 				{
 					Task residentTask = resident.Run();
-					bool soberExitObserved = await WaitForSoberExitAsync(_residentCancellation.Token);
+					bool soberExitObserved = Voidstrap.Utility.Platform.IsLinux && await WaitForSoberExitAsync(_residentCancellation.Token);
 					if (!soberExitObserved)
 						await residentTask;
 				}
@@ -1373,6 +1408,12 @@ public static class LaunchHandler
 			{
 				stayResident = true;
 				Voidstrap.UI.LinuxTaskbarPresence.HideWhileSessionRuns();
+			}
+			else if (OperatingSystem.IsMacOS() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+			{
+				int playerId = await WaitForMacPlayerAsync(cancellation);
+				if (playerId > 0 && StartResidentWatcher(playerId, true))
+					stayResident = true;
 			}
 		}
 		catch (OperationCanceledException) when (cancellation.IsCancellationRequested)

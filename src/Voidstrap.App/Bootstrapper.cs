@@ -2494,7 +2494,7 @@ public class Bootstrapper
             return Voidstrap.Platform.Linux.StudioProcessNames.AnyRunning();
         }
 
-        Process[] procs = Process.GetProcessesByName("RobloxStudioBeta");
+        Process[] procs = Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxStudioProcessName);
         bool any = procs.Length > 0;
         foreach (Process p in procs)
         {

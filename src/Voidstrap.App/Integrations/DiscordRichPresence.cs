@@ -623,7 +623,7 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			try
 			{
-				Process[] processes = Process.GetProcessesByName("RobloxStudioBeta");
+				Process[] processes = Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxStudioProcessName);
 				studioRunning = processes.Length != 0;
 				foreach (Process process in processes)
 				{

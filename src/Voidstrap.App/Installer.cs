@@ -516,11 +516,11 @@ internal partial class Installer
 		{
 			if (!string.IsNullOrEmpty(App.State.Prop.Player.VersionGuid))
 			{
-				list.AddRange(Process.GetProcessesByName("RobloxPlayerBeta"));
+				list.AddRange(Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName));
 			}
 			if (App.IsStudioVisible)
 			{
-				list.AddRange(Process.GetProcessesByName("RobloxStudioBeta"));
+				list.AddRange(Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxStudioProcessName));
 			}
 			if (list.Count > 0 && Frontend.ShowMessageBox(Strings.Bootstrapper_Uninstall_RobloxRunning, MessageBoxImage.Asterisk, MessageBoxButton.OKCancel, MessageBoxResult.OK) != MessageBoxResult.OK)
 			{

@@ -15,6 +15,17 @@ public static class ClipboardService
 			return true;
 		}
 
+		if (Platform.IsMacOS)
+		{
+			if (Voidstrap.Platform.MacOS.MacOSClipboard.SetText(value))
+			{
+				Voidstrap.UI.LinuxClipboardBridge.Invalidate();
+				return true;
+			}
+			App.Logger?.WriteLine("ClipboardService::SetText", "The macOS pasteboard could not be updated");
+			return false;
+		}
+
 		try
 		{
 			Clipboard.SetText(value);
@@ -32,7 +43,7 @@ public static class ClipboardService
 		if (data is string text)
 			return SetText(text);
 
-		if (Platform.IsLinux)
+		if (Platform.UsesPortableUi)
 			return SetText(data?.ToString());
 
 		try
@@ -56,6 +67,9 @@ public static class ClipboardService
 				return native;
 		}
 
+		if (Platform.IsMacOS)
+			return Voidstrap.Platform.MacOS.MacOSClipboard.GetText() ?? string.Empty;
+
 		try
 		{
 			return Clipboard.GetText() ?? string.Empty;
@@ -69,7 +83,7 @@ public static class ClipboardService
 
 	public static bool ContainsText()
 	{
-		if (Platform.IsLinux)
+		if (Platform.UsesPortableUi)
 			return GetText().Length > 0;
 
 		try

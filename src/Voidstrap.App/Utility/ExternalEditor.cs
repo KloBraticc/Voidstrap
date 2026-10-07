@@ -57,6 +57,64 @@ namespace Voidstrap.Utility
             ("Pluma", "pluma")
         };
 
+        private static readonly (string Name, string Bundle)[] MacCandidates =
+        {
+            ("Visual Studio Code", "Visual Studio Code.app"),
+            ("Visual Studio Code Insiders", "Visual Studio Code - Insiders.app"),
+            ("VSCodium", "VSCodium.app"),
+            ("Cursor", "Cursor.app"),
+            ("Windsurf", "Windsurf.app"),
+            ("Zed", "Zed.app"),
+            ("Sublime Text", "Sublime Text.app"),
+            ("BBEdit", "BBEdit.app"),
+            ("CotEditor", "CotEditor.app"),
+            ("Nova", "Nova.app"),
+            ("TextEdit", "TextEdit.app")
+        };
+
+        private static List<ExternalEditorInfo> DetectMac()
+        {
+            List<ExternalEditorInfo> found = new() { new ExternalEditorInfo { Name = "Default text editor", Path = LinuxDefaultApp } };
+            string[] roots =
+            {
+                "/Applications",
+                "/System/Applications",
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Applications")
+            };
+            foreach ((string name, string bundle) in MacCandidates)
+            {
+                string? path = roots.Select(root => Path.Combine(root, bundle)).FirstOrDefault(Directory.Exists);
+                if (path != null && !found.Any(e => string.Equals(e.Name, name, StringComparison.OrdinalIgnoreCase)))
+                    found.Add(new ExternalEditorInfo { Name = name, Path = path });
+            }
+            return found;
+        }
+
+        private static bool OpenMac(ExternalEditorInfo editor, string filePath)
+        {
+            try
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo("/usr/bin/open") { UseShellExecute = false, CreateNoWindow = true };
+                if (editor.Path == LinuxDefaultApp)
+                {
+                    startInfo.ArgumentList.Add("-t");
+                }
+                else
+                {
+                    startInfo.ArgumentList.Add("-a");
+                    startInfo.ArgumentList.Add(editor.Path);
+                }
+                startInfo.ArgumentList.Add(filePath);
+                using Process? process = Process.Start(startInfo);
+                return process != null;
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "Could not open " + editor.Name + ": " + ex.Message);
+                return PlatformShell.TryOpenUrl(filePath);
+            }
+        }
+
         private static List<ExternalEditorInfo> DetectLinux()
         {
             List<ExternalEditorInfo> found = new() { new ExternalEditorInfo { Name = "Default text editor", Path = LinuxDefaultApp } };
@@ -111,6 +169,12 @@ namespace Voidstrap.Utility
             if (Voidstrap.Utility.Platform.IsLinux)
             {
                 _cache = DetectLinux();
+                return _cache;
+            }
+
+            if (Voidstrap.Utility.Platform.IsMacOS)
+            {
+                _cache = DetectMac();
                 return _cache;
             }
 
@@ -192,6 +256,8 @@ namespace Voidstrap.Utility
         {
             if (Voidstrap.Utility.Platform.IsLinux)
                 return OpenLinux(editor, filePath);
+            if (Voidstrap.Utility.Platform.IsMacOS)
+                return OpenMac(editor, filePath);
             try
             {
                 Process.Start(new ProcessStartInfo

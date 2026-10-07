@@ -135,7 +135,8 @@ public partial class Watcher : IDisposable
 			{
 				IntegrationWatcher = new IntegrationWatcher(ActivityWatcher);
 				HistoryPersister = new HistoryPersister(ActivityWatcher);
-				ServerMatchmaker = new ServerMatchmaker(ActivityWatcher, this);
+				if (!Voidstrap.Utility.Platform.IsMacOS)
+					ServerMatchmaker = new ServerMatchmaker(ActivityWatcher, this);
 			}
 		}
 		if ((enableActivityTracking || App.LaunchSettings.TestModeFlag.Active) && Voidstrap.Utility.Platform.SupportsTrayIcon)
@@ -297,6 +298,10 @@ public partial class Watcher : IDisposable
 			UpdateLinuxResourceOptimizer();
 			return;
 		}
+		if (!Voidstrap.Utility.Platform.IsWindows)
+		{
+			return;
+		}
 		UpdateTasxOptimizer();
 		if (!RobloxProcessOptimizer.ShouldRun(App.Settings.Prop))
 		{
@@ -357,8 +362,10 @@ public partial class Watcher : IDisposable
 		}
 		IntegrationWatcher ??= new IntegrationWatcher(ActivityWatcher);
 		HistoryPersister ??= new HistoryPersister(ActivityWatcher);
-		ServerMatchmaker ??= new ServerMatchmaker(ActivityWatcher, this);
-		ServerMatchmaker.NotifyIconResolver = () => _notifyIcon;
+		if (!Voidstrap.Utility.Platform.IsMacOS)
+			ServerMatchmaker ??= new ServerMatchmaker(ActivityWatcher, this);
+		if (ServerMatchmaker != null)
+			ServerMatchmaker.NotifyIconResolver = () => _notifyIcon;
 		if (_notifyIcon == null)
 		{
 			if (Voidstrap.Utility.Platform.SupportsTrayIcon)
@@ -656,7 +663,7 @@ public partial class Watcher : IDisposable
 	{
 		try
 		{
-			Process[] processesByName = Process.GetProcessesByName(Path.GetFileNameWithoutExtension("RobloxPlayerBeta"));
+			Process[] processesByName = Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName);
 			bool result = processesByName.Length != 0;
 			Process[] array = processesByName;
 			foreach (Process process in array)
