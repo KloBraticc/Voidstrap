@@ -30,7 +30,7 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <ui:TitleBar Name="RootTitleBar" Title="{x:Static resources:Strings.Dialog_Exception_Title}"
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Name="RootTitleBar" Title="{x:Static resources:Strings.Dialog_Exception_Title}"
                  Grid.Row="0" Padding="8" CanMaximize="False"
                  KeyboardNavigation.TabNavigation="None"
                  ShowMaximize="False" ShowMinimize="False"

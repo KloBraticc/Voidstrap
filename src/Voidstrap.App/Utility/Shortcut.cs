@@ -38,7 +38,8 @@ internal static class Shortcut
 		{
 			if (Platform.IsMacOS)
 			{
-				Voidstrap.Platform.MacOS.MacOSShortcut.Create(lnkPath, exePath, exeArgs, iconPath);
+				bool imageIcon = Path.GetExtension(iconPath).ToLowerInvariant() is ".png" or ".ico" or ".icns" or ".jpg" or ".jpeg";
+				Voidstrap.Platform.MacOS.MacOSShortcut.Create(lnkPath, exePath, exeArgs, !imageIcon && Branding.HasCustomIcon ? Branding.IconPngPath : iconPath);
 			}
 			else if (Platform.IsLinux)
 			{

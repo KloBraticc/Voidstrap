@@ -17,7 +17,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Title="Flag Profiles" Grid.Row="0" Padding="9" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Title="Flag Profiles" Grid.Row="0" Padding="9" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" />
     <TabControl Name="Tabs" Grid.Row="1" Margin="5" SelectionChanged="Tabs_SelectionChanged">
       <TabItem>
         <TabItem.Header>

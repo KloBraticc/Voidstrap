@@ -14,7 +14,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Grid.Row="0" Padding="8" ShowMinimize="False" KeyboardNavigation.TabNavigation="None" Title="Release Notes" />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Grid.Row="0" Padding="8" ShowMinimize="False" KeyboardNavigation.TabNavigation="None" Title="Release Notes" />
     <StackPanel Grid.Row="1" Margin="24,4,24,14">
       <TextBlock x:Name="ReleaseTitleText" Text="Loading release notes" FontSize="24" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
       <TextBlock x:Name="ReleaseDetailsText" Margin="0,6,0,0" FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />

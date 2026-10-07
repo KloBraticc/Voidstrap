@@ -13,7 +13,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Title="Edit Mod" Grid.Row="0" Padding="8" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Title="Edit Mod" Grid.Row="0" Padding="8" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" />
 
     <StackPanel Grid.Row="1" Margin="20,4,20,12">
       <TextBlock x:Name="ModTitle" FontSize="20" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />

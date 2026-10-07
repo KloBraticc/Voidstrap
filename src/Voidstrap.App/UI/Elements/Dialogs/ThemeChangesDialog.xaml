@@ -14,7 +14,7 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <ui:TitleBar Grid.Row="0" Name="RootTitleBar" Padding="8" Title="Files" ShowMinimize="False" ShowMaximize="False" />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Grid.Row="0" Name="RootTitleBar" Padding="8" Title="Files" ShowMinimize="False" ShowMaximize="False" />
 
     <StackPanel Grid.Row="1" Margin="16,4,16,10">
       <TextBlock Name="HeadingText" FontSize="18" FontWeight="Medium" />

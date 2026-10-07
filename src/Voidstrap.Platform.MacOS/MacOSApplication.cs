@@ -81,6 +81,40 @@ public static partial class MacOSApplication
 		}
 	}
 
+	public static bool SetDockIcon(string? pngPath)
+	{
+		if (!OperatingSystem.IsMacOS())
+			return false;
+		nint pool = objc_autoreleasePoolPush();
+		try
+		{
+			if (_appKit == 0)
+				_appKit = NativeLibrary.Load("/System/Library/Frameworks/AppKit.framework/AppKit");
+			nint application = Send(objc_getClass("NSApplication"), sel_registerName("sharedApplication"));
+			if (application == 0)
+				return false;
+			nint image = 0;
+			if (!string.IsNullOrEmpty(pngPath) && File.Exists(pngPath))
+			{
+				nint path = SendString(objc_getClass("NSString"), sel_registerName("stringWithUTF8String:"), pngPath);
+				image = SendObject(Send(objc_getClass("NSImage"), sel_registerName("alloc")), sel_registerName("initWithContentsOfFile:"), path);
+				if (image == 0)
+					return false;
+				Send(image, sel_registerName("autorelease"));
+			}
+			SendObject(application, sel_registerName("setApplicationIconImage:"), image);
+			return true;
+		}
+		catch
+		{
+			return false;
+		}
+		finally
+		{
+			objc_autoreleasePoolPop(pool);
+		}
+	}
+
 	public static int ApplyWindowShadows()
 	{
 		if (!OperatingSystem.IsMacOS())
@@ -154,6 +188,9 @@ public static partial class MacOSApplication
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend_stret")]
 	private static partial void SendFrameStret(out NSRect frame, nint receiver, nint selector);
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend", StringMarshalling = StringMarshalling.Utf8)]
+	private static partial nint SendString(nint receiver, nint selector, string argument);
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nint SendObject(nint receiver, nint selector, nint argument);

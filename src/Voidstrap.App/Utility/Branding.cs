@@ -275,6 +275,13 @@ internal static class Branding
 			_hasIcon = null;
 			_icon = null;
 		}
+		ApplyDockIcon();
+	}
+
+	public static void ApplyDockIcon()
+	{
+		if (Platform.IsMacOS)
+			Voidstrap.Platform.MacOS.MacOSApplication.SetDockIcon(HasCustomIcon ? IconPngPath : null);
 	}
 
 	private static Image<Rgba32>? Decode(byte[] data, string path)

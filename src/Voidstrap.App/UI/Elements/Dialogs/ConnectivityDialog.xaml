@@ -13,7 +13,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Grid.ColumnSpan="2" Padding="8" ShowMinimize="False" ShowMaximize="False" CanMaximize="False" KeyboardNavigation.TabNavigation="None" Title="{x:Static resources:Strings.Dialog_Connectivity_Title}" Foreground="#FFFFFFFF" />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Name="RootTitleBar" Grid.Row="0" Grid.ColumnSpan="2" Padding="8" ShowMinimize="False" ShowMaximize="False" CanMaximize="False" KeyboardNavigation.TabNavigation="None" Title="{x:Static resources:Strings.Dialog_Connectivity_Title}" Foreground="#FFFFFFFF" />
     <Grid Row="1" Margin="16">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
