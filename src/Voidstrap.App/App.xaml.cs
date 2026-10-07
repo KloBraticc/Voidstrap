@@ -1608,6 +1608,7 @@ public partial class App : Application
 		else if (Voidstrap.Utility.Platform.IsMacOS)
 		{
 			TryStartup("macOS animation parity", LinuxAnimationParity.Apply);
+			TryStartup("macOS animation frames", MacAnimationPump.Install);
 			TryStartup("Render loop warm up", () =>
 			{
 				EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(WarmRenderLoop));
