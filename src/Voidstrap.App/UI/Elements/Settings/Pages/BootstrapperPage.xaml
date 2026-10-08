@@ -292,7 +292,7 @@
           </ui:CardExpander>
         </StackPanel>
       </TabItem>
-      <TabItem>
+      <TabItem Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
         <HeaderedContentControl.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Settings24" Margin="0,0,6,0" />
@@ -305,7 +305,6 @@
           </controls:OptionControl>
           <ui:InfoBar Padding="8" Margin="0,4,0,0" IsClosable="False" IsOpen="True" Severity="Warning" Title="Overlays are hidden in exclusive fullscreen" Message="Your Windows mouse cursor and every overlay are hidden" Visibility="{Binding ShowExclusiveFullscreenWarning, Converter={StaticResource BooleanToVisibilityConverter}}" />
           <ui:InfoBar Padding="8" Margin="0,4,0,4" IsClosable="False" IsOpen="True" Severity="Informational" Title="Needs XWayland on Linux" Message="The title, game name, game icon and server info only apply on Wayland when Run Roblox through XWayland is on in the Sober page." Visibility="{Binding LinuxTitleNeedsXWayland, Converter={StaticResource BooleanToVisibilityConverter}}" />
-          <ui:InfoBar Padding="8" Margin="0,4,0,4" IsClosable="False" IsOpen="True" Severity="Informational" Title="Roblox window on macOS" Message="macOS does not let other apps rename the Roblox window, so only the icon is available. macOS sets the Dock icon once when Roblox starts: joining a game shows that game's icon, opening Roblox on its own shows the Voidstrap icon, and the Roblox icon comes back when Roblox closes." Visibility="{x:Static platform:PlatformFeatureVisibility.MacOSOnly}" />
           <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="Title" Description="Leave blank to keep the title Roblox sets">
             <ui:TextBox Width="220" PlaceholderText="Voidstrap" Text="{Binding RobloxTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>

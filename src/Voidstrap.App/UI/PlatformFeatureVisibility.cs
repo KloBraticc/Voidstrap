@@ -27,8 +27,6 @@ public static class PlatformFeatureVisibility
 
 	public static Visibility LinuxIntegration { get; } = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
 
-	public static Visibility MacOSOnly { get; } = Voidstrap.Utility.Platform.IsMacOS ? Visibility.Visible : Visibility.Collapsed;
-
 	public static Visibility NotMacOS { get; } = Voidstrap.Utility.Platform.IsMacOS ? Visibility.Collapsed : Visibility.Visible;
 
 	public static Visibility PortableImages { get; } = Voidstrap.Utility.Platform.UsesPortableUi ? Visibility.Visible : Visibility.Collapsed;

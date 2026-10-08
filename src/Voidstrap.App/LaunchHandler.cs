@@ -1398,7 +1398,7 @@ public static class LaunchHandler
 					string robloxVersion = await installer.ReadBundleVersionAsync(ensured.Value, cancellation) ?? "";
 					await linuxBootstrapper.PrepareMacLaunchAsync(ensured.Value, robloxVersion, cancellation);
 					if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
-						await Voidstrap.Utility.MacRobloxIcon.ApplyForLaunchAsync(ensured.Value, launchTarget, cancellation);
+						Voidstrap.Utility.MacRobloxIcon.Restore(ensured.Value);
 				}
 				catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
 				{
