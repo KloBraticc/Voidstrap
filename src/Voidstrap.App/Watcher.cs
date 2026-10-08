@@ -120,7 +120,7 @@ public partial class Watcher : IDisposable
 		_disableAppPatchEnabled = App.Settings.Prop.UseDisableAppPatch;
 		if (enableActivityTracking || flag || _overlayGameStateEnabled)
 		{
-			ActivityWatcher = new ActivityWatcher(_watcherData.LogFile);
+			ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
 			ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
 			ActivityWatcher.OnGameLeave += OnRuntimeGameLeave;
 			if (enableActivityTracking && App.Settings.Prop.UseDisableAppPatch)
@@ -344,7 +344,7 @@ public partial class Watcher : IDisposable
 		}
 		if (ActivityWatcher == null)
 		{
-			ActivityWatcher = new ActivityWatcher(_watcherData.LogFile);
+			ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
 			ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
 			ActivityWatcher.OnGameLeave += OnRuntimeGameLeave;
 			ActivityWatcher.Start();
@@ -421,7 +421,7 @@ public partial class Watcher : IDisposable
 		{
 			if (ActivityWatcher == null)
 			{
-				ActivityWatcher = new ActivityWatcher(_watcherData.LogFile);
+				ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
 				ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
 				ActivityWatcher.OnGameLeave += OnRuntimeGameLeave;
 				ActivityWatcher.Start();

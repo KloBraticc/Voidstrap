@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -181,10 +182,24 @@ public partial class ActivityWatcher : IDisposable
 
 	private readonly DateTime _createdUtc = DateTime.UtcNow;
 
+	private readonly DateTime? _macProcessStartedUtc;
+
 	private long _nextLogScan;
 
-	public ActivityWatcher(string? logFile = null)
+	public ActivityWatcher(string? logFile = null, int processId = 0)
 	{
+		if (OperatingSystem.IsMacOS() && processId > 0)
+		{
+			try
+			{
+				using Process process = Process.GetProcessById(processId);
+				_macProcessStartedUtc = process.StartTime.ToUniversalTime();
+			}
+			catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception)
+			{
+				App.Logger.WriteLine("ActivityWatcher", "The Roblox process start time could not be read: " + ex.Message);
+			}
+		}
 		if (!string.IsNullOrEmpty(logFile))
 		{
 			LogLocation = logFile;
@@ -811,8 +826,8 @@ public partial class ActivityWatcher : IDisposable
 					continue;
 				}
 				logFileInfo = fileInfo;
-				bool fromThisLaunch = !OperatingSystem.IsMacOS() || logFileInfo.CreationTimeUtc >= _createdUtc.AddSeconds(-8.0);
-				if (fromThisLaunch && logFileInfo.CreationTime.AddSeconds(15.0) > DateTime.Now)
+				bool fromThisLaunch = !OperatingSystem.IsMacOS() || logFileInfo.CreationTimeUtc >= (_macProcessStartedUtc?.AddSeconds(-1.0) ?? _createdUtc.AddSeconds(-8.0));
+				if (fromThisLaunch && (_macProcessStartedUtc.HasValue || logFileInfo.CreationTime.AddSeconds(15.0) > DateTime.Now))
 				{
 					LogLocation = logFileInfo.FullName;
 					break;
