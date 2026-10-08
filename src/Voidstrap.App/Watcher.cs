@@ -693,6 +693,8 @@ public partial class Watcher : IDisposable
 
 	public static bool IsAnyRobloxRunning()
 	{
+		if (Voidstrap.Utility.Platform.IsMacOS)
+			return Voidstrap.Utility.MacRobloxProcesses.IsGameRunning();
 		try
 		{
 			Process[] processesByName = Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName);

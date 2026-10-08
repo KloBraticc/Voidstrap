@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
@@ -88,45 +87,10 @@ internal static class MacRobloxIcon
 
 	private static async Task CloseIdleMenuBarHelperAsync(CancellationToken cancellationToken)
 	{
-		List<int> helpers = [];
-		bool gameRunning = false;
-		try
-		{
-			using System.Diagnostics.Process ps = new()
-			{
-				StartInfo = new System.Diagnostics.ProcessStartInfo("/bin/ps", "-axo pid=,args=")
-				{
-					RedirectStandardOutput = true,
-					UseShellExecute = false,
-					CreateNoWindow = true
-				}
-			};
-			ps.Start();
-			string output = await ps.StandardOutput.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
-			await ps.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
-			foreach (string raw in output.Split('\n', StringSplitOptions.RemoveEmptyEntries))
-			{
-				string line = raw.Trim();
-				int space = line.IndexOf(' ');
-				if (space <= 0 || !int.TryParse(line[..space], out int pid))
-					continue;
-				string args = line[(space + 1)..];
-				if (!args.Contains("/Contents/MacOS/" + Platform.RobloxPlayerProcessName, StringComparison.Ordinal))
-					continue;
-				if (args.Contains("-launchToTray", StringComparison.Ordinal))
-					helpers.Add(pid);
-				else
-					gameRunning = true;
-			}
-		}
-		catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception or IOException)
-		{
-			App.Logger.WriteLine(LogIdent, "The Roblox processes could not be listed: " + ex.Message);
+		MacRobloxProcesses.Snapshot snapshot = MacRobloxProcesses.Scan();
+		if (snapshot.GameRunning || snapshot.MenuBarHelpers.Count == 0)
 			return;
-		}
-		if (gameRunning || helpers.Count == 0)
-			return;
-		foreach (int pid in helpers)
+		foreach (int pid in snapshot.MenuBarHelpers)
 		{
 			try
 			{

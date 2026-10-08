@@ -3995,7 +3995,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             _robloxRunningCached = Voidstrap.Utility.Platform.IsLinux
                 ? Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow()
-                : AnyProcessRunning(Voidstrap.Utility.Platform.RobloxPlayerProcessName) || AnyProcessRunning(Voidstrap.Utility.Platform.RobloxStudioProcessName);
+                : (Voidstrap.Utility.Platform.IsMacOS ? Voidstrap.Utility.MacRobloxProcesses.IsGameRunning() : AnyProcessRunning(Voidstrap.Utility.Platform.RobloxPlayerProcessName)) || AnyProcessRunning(Voidstrap.Utility.Platform.RobloxStudioProcessName);
         }
         catch
         {
