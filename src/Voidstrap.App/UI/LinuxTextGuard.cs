@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -146,6 +146,17 @@ public static class LinuxTextGuard
 		EventManager.RegisterClassHandler(typeof(Wpf.Ui.Controls.UiPage), FrameworkElement.SizeChangedEvent, new SizeChangedEventHandler(OnPageResized));
 		EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnWindowLoaded));
 		EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.SizeChangedEvent, new SizeChangedEventHandler(OnWindowResized));
+		EventManager.RegisterClassHandler(typeof(TabControl), Selector.SelectionChangedEvent, new SelectionChangedEventHandler(OnTabSelectionChanged));
+	}
+
+	private static void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		if (sender is not TabControl tabs || !ReferenceEquals(e.OriginalSource, tabs) || !tabs.IsLoaded)
+		{
+			return;
+		}
+
+		tabs.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => QueueDescendants(tabs, Window.GetWindow(tabs))));
 	}
 
 	private static void OnWindowResized(object sender, SizeChangedEventArgs e)
