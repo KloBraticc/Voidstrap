@@ -179,6 +179,13 @@ public static class FileModManager
 	{
 		if (OperatingSystem.IsLinux())
 			return FindUnpackedSoberClient();
+		if (OperatingSystem.IsMacOS())
+		{
+			string? bundle = Voidstrap.Utility.MacRobloxBundle.Find();
+			string? version = bundle == null ? null : Voidstrap.Utility.MacRobloxBundle.ReadVersion(bundle);
+			string? guid = version == null ? null : Bootstrapper.MacVersionGuid(version);
+			return guid == null ? (null, null) : (Path.Combine(bundle!, "Contents", "Resources"), guid);
+		}
 		try
 		{
 			Voidstrap.AppData.RobloxPlayerData player = new Voidstrap.AppData.RobloxPlayerData();

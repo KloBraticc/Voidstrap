@@ -1399,6 +1399,12 @@ public static class LaunchHandler
 				SetPortableLaunchStatus(Strings.Bootstrapper_Status_Configuring);
 				try
 				{
+					if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+					{
+						App.FastFlags.MigratePlayerLoggingPreset();
+						App.FastFlags.ApplyPreloadFlags();
+					}
+					App.FastFlags.Save();
 					Voidstrap.Platform.MacOS.MacOSRobloxInstaller.WriteClientSettings(
 						ensured.Value,
 						linuxBootstrapper.FastFlagsAllowedForThisLaunch() ? App.FastFlags.FileLocation : null);

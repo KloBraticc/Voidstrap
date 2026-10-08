@@ -4334,7 +4334,7 @@ public class Bootstrapper
 
     }
 
-    private static string? MacVersionGuid(string robloxVersion)
+    internal static string? MacVersionGuid(string robloxVersion)
     {
         if (string.IsNullOrWhiteSpace(robloxVersion))
             return null;
