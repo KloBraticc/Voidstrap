@@ -135,8 +135,7 @@ public partial class Watcher : IDisposable
 			{
 				IntegrationWatcher = new IntegrationWatcher(ActivityWatcher);
 				HistoryPersister = new HistoryPersister(ActivityWatcher);
-				if (!Voidstrap.Utility.Platform.IsMacOS)
-					ServerMatchmaker = new ServerMatchmaker(ActivityWatcher, this);
+				ServerMatchmaker = new ServerMatchmaker(ActivityWatcher, this);
 			}
 		}
 		if ((enableActivityTracking || App.LaunchSettings.TestModeFlag.Active) && Voidstrap.Utility.Platform.SupportsTrayIcon)
@@ -362,8 +361,7 @@ public partial class Watcher : IDisposable
 		}
 		IntegrationWatcher ??= new IntegrationWatcher(ActivityWatcher);
 		HistoryPersister ??= new HistoryPersister(ActivityWatcher);
-		if (!Voidstrap.Utility.Platform.IsMacOS)
-			ServerMatchmaker ??= new ServerMatchmaker(ActivityWatcher, this);
+		ServerMatchmaker ??= new ServerMatchmaker(ActivityWatcher, this);
 		if (ServerMatchmaker != null)
 			ServerMatchmaker.NotifyIconResolver = () => _notifyIcon;
 		if (_notifyIcon == null)

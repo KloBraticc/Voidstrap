@@ -594,6 +594,8 @@ public sealed class ServerMatchmaker : IDisposable
 		timer.Start();
 		try
 		{
+			if (Voidstrap.Utility.Platform.IsMacOS)
+				box.Dispatcher.BeginInvoke(ActivateMacPrompt, System.Windows.Threading.DispatcherPriority.Loaded);
 			box.ShowTopLevelDialog();
 		}
 		finally
@@ -644,43 +646,14 @@ public sealed class ServerMatchmaker : IDisposable
 			return;
 		}
 
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			await TriggerMacRejoinAsync(launchUri, attemptNumber, targetName).ConfigureAwait(false);
+			return;
+		}
+
 		HashSet<int> existingPids = SnapshotRobloxPids();
-		bool spawnedSuccessor = false;
-		try
-		{
-			string process = Paths.LaunchExecutable;
-			if (!string.IsNullOrEmpty(process))
-			{
-				ProcessStartInfo startInfo = new ProcessStartInfo
-				{
-					FileName = process,
-					UseShellExecute = false,
-					CreateNoWindow = true,
-					WorkingDirectory = Path.GetDirectoryName(process) ?? ""
-				};
-				startInfo.ArgumentList.Add("-player");
-				startInfo.ArgumentList.Add(launchUri);
-				startInfo.ArgumentList.Add("-matchmakerrejoin");
-				startInfo.ArgumentList.Add("-matchmakerattempt");
-				startInfo.ArgumentList.Add(attemptNumber.ToString());
-				if (!string.IsNullOrWhiteSpace(targetName))
-				{
-					string clean = targetName.Replace("\n", " ").Replace("\r", " ");
-					if (clean.Length > 60)
-						clean = clean.Substring(0, 60);
-					startInfo.ArgumentList.Add("-matchmakertarget");
-					startInfo.ArgumentList.Add(clean);
-				}
-				using Process? successor = Process.Start(startInfo);
-				spawnedSuccessor = successor != null;
-				if (spawnedSuccessor)
-					App.Logger.WriteLine(LOG_IDENT, "Spawned successor Voidstrap");
-			}
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Could not spawn successor Voidstrap: " + ex.Message);
-		}
+		bool spawnedSuccessor = SpawnSuccessor(launchUri, attemptNumber, targetName);
 
 		if (!spawnedSuccessor)
 		{
@@ -722,6 +695,75 @@ public sealed class ServerMatchmaker : IDisposable
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LOG_IDENT, "Closing the old Roblox failed: " + ex.Message);
+		}
+	}
+
+	private static bool SpawnSuccessor(string launchUri, int attemptNumber, string? targetName)
+	{
+		try
+		{
+			string process = Paths.LaunchExecutable;
+			if (string.IsNullOrEmpty(process))
+				return false;
+			ProcessStartInfo startInfo = new ProcessStartInfo
+			{
+				FileName = process,
+				UseShellExecute = false,
+				CreateNoWindow = true,
+				WorkingDirectory = Path.GetDirectoryName(process) ?? ""
+			};
+			startInfo.ArgumentList.Add("-player");
+			startInfo.ArgumentList.Add(launchUri);
+			startInfo.ArgumentList.Add("-matchmakerrejoin");
+			startInfo.ArgumentList.Add("-matchmakerattempt");
+			startInfo.ArgumentList.Add(attemptNumber.ToString());
+			if (!string.IsNullOrWhiteSpace(targetName))
+			{
+				string clean = targetName.Replace("\n", " ").Replace("\r", " ");
+				if (clean.Length > 60)
+					clean = clean.Substring(0, 60);
+				startInfo.ArgumentList.Add("-matchmakertarget");
+				startInfo.ArgumentList.Add(clean);
+			}
+			using Process? successor = Process.Start(startInfo);
+			if (successor == null)
+				return false;
+			App.Logger.WriteLine(LOG_IDENT, "Spawned successor Voidstrap");
+			return true;
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "Could not spawn successor Voidstrap: " + ex.Message);
+			return false;
+		}
+	}
+
+	private static TaskCompletionSource? _macHandoff;
+
+	internal static Task MacHandoffTask => Volatile.Read(ref _macHandoff)?.Task ?? Task.CompletedTask;
+
+	private async Task TriggerMacRejoinAsync(string launchUri, int attemptNumber, string? targetName)
+	{
+		TaskCompletionSource handoff = new(TaskCreationOptions.RunContinuationsAsynchronously);
+		Volatile.Write(ref _macHandoff, handoff);
+		try
+		{
+			App.Logger.WriteLine(LOG_IDENT, "Closing Roblox so the successor can join the selected server, macOS runs one Roblox at a time");
+			_watcher.KillRobloxProcess();
+			for (int i = 0; i < 40 && Watcher.IsAnyRobloxRunning(); i++)
+				await Task.Delay(250).ConfigureAwait(false);
+			if (Watcher.IsAnyRobloxRunning())
+				App.Logger.WriteLine(LOG_IDENT, "Roblox is still closing, handing off anyway");
+			if (!SpawnSuccessor(launchUri, attemptNumber, targetName))
+			{
+				ShowAlert("Voidstrap could not reopen Roblox on the new server", 10);
+				return;
+			}
+			await Task.Delay(1500).ConfigureAwait(false);
+		}
+		finally
+		{
+			handoff.TrySetResult();
 		}
 	}
 
@@ -937,10 +979,38 @@ public sealed class ServerMatchmaker : IDisposable
 			history.Remove(key);
 	}
 
+	private static void ActivateMacPrompt()
+	{
+		if (OperatingSystem.IsMacOS())
+			Voidstrap.Platform.MacOS.MacOSApplication.Activate();
+	}
+
+	private static async Task ShowMacAlertAsync(string text)
+	{
+		try
+		{
+			Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
+			if (host == null)
+				return;
+			Voidstrap.Platform.OperationResult result = await host.Notifications.ShowAsync(new Voidstrap.Platform.NotificationRequest("Voidstrap Matchmaker", text)).ConfigureAwait(false);
+			if (!result.Succeeded)
+				App.Logger.WriteLine(LOG_IDENT, "Notification failed: " + result.Failure?.Message);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "Notification failed: " + ex.Message);
+		}
+	}
+
 	private void ShowAlert(string text, int durationSeconds)
 	{
 		if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyRoblox)
 			return;
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			_ = ShowMacAlertAsync(text);
+			return;
+		}
 		try
 		{
 			NotifyIconWrapper? icon = NotifyIconResolver?.Invoke();

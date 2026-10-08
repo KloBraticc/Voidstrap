@@ -1043,6 +1043,8 @@ public static class LaunchHandler
 					bool soberExitObserved = Voidstrap.Utility.Platform.IsLinux && await WaitForSoberExitAsync(_residentCancellation.Token);
 					if (!soberExitObserved)
 						await residentTask;
+					if (Voidstrap.Utility.Platform.IsMacOS)
+						await Task.WhenAny(Voidstrap.Integrations.ServerMatchmaker.MacHandoffTask, Task.Delay(20000));
 				}
 				catch (OperationCanceledException)
 				{
