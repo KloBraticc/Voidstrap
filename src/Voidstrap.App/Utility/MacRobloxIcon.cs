@@ -22,9 +22,14 @@ internal static class MacRobloxIcon
 		if (!OperatingSystem.IsMacOS())
 			return;
 		long placeId = string.IsNullOrEmpty(launchTarget) ? 0 : Voidstrap.Integrations.LaunchInterceptor.ExtractPlaceId(launchTarget);
-		if (!App.Settings.Prop.UseGameIconForRobloxWindow || placeId <= 0)
+		if (!App.Settings.Prop.UseGameIconForRobloxWindow)
 		{
 			Restore(bundlePath);
+			return;
+		}
+		if (placeId <= 0)
+		{
+			UseVoidstrapIcon(bundlePath, "Roblox is opening without a game");
 			return;
 		}
 		try
@@ -34,8 +39,7 @@ internal static class MacRobloxIcon
 			long universeId = await ResolveUniverseAsync(placeId, timeout.Token).ConfigureAwait(false);
 			if (universeId <= 0)
 			{
-				App.Logger.WriteLine(LogIdent, $"Place {placeId} has no universe, keeping the Roblox icon");
-				Restore(bundlePath);
+				UseVoidstrapIcon(bundlePath, $"Place {placeId} has no universe");
 				return;
 			}
 			UniverseDetails? details = UniverseDetails.LoadFromCache(universeId);
@@ -47,19 +51,19 @@ internal static class MacRobloxIcon
 			string? url = details?.Thumbnail?.ImageUrl;
 			if (string.IsNullOrWhiteSpace(url))
 			{
-				Restore(bundlePath);
+				UseVoidstrapIcon(bundlePath, "The game icon could not be downloaded");
 				return;
 			}
 			using HttpResponseMessage response = await App.HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, timeout.Token).ConfigureAwait(false);
 			if (!response.IsSuccessStatusCode)
 			{
-				Restore(bundlePath);
+				UseVoidstrapIcon(bundlePath, "The game icon could not be downloaded");
 				return;
 			}
 			byte[] data = await Http.ReadBytesBoundedAsync(response.Content, MaxIconBytes, timeout.Token).ConfigureAwait(false);
 			if (data.Length == 0)
 			{
-				Restore(bundlePath);
+				UseVoidstrapIcon(bundlePath, "The game icon could not be downloaded");
 				return;
 			}
 			Directory.CreateDirectory(Paths.Cache);
@@ -71,14 +75,33 @@ internal static class MacRobloxIcon
 			}
 			else
 			{
-				App.Logger.WriteLine(LogIdent, "The game icon could not be set on the Roblox app");
+				UseVoidstrapIcon(bundlePath, "The game icon could not be set on the Roblox app");
 			}
 		}
 		catch (Exception ex) when (ex is OperationCanceledException or HttpRequestException or IOException or JsonException or UnauthorizedAccessException)
 		{
-			App.Logger.WriteLine(LogIdent, "The game icon is skipped for this launch: " + ex.Message);
-			Restore(bundlePath);
+			UseVoidstrapIcon(bundlePath, "The game icon is skipped for this launch: " + ex.Message);
 		}
+	}
+
+	private static void UseVoidstrapIcon(string bundlePath, string reason)
+	{
+		try
+		{
+			string icon = Voidstrap.Utility.Branding.MacIconPath;
+			if (File.Exists(icon) && Voidstrap.Platform.MacOS.MacOSShortcut.SetCustomIcon(bundlePath, icon))
+			{
+				File.WriteAllText(MarkerFile, bundlePath);
+				App.Logger.WriteLine(LogIdent, reason + ", Roblox uses the Voidstrap icon in the Dock for this session");
+				return;
+			}
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			App.Logger.WriteLine(LogIdent, "The Voidstrap icon could not be set: " + ex.Message);
+		}
+		App.Logger.WriteLine(LogIdent, reason + ", Roblox keeps its own icon");
+		Restore(bundlePath);
 	}
 
 	internal static void Restore(string? bundlePath = null)
