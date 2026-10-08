@@ -180,14 +180,14 @@ internal static class VoidstrapPresence
 						27 => "Golden Gate",
 						_ => ""
 					};
-					return Clip("macOS " + (name.Length > 0 ? name + " " : "") + version, 80);
+					return name.Length > 0 ? name : "Mac";
 				}
 			}
 			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Xml.XmlException)
 			{
 				App.Logger.WriteLine("VoidstrapPresence", "The macOS version could not be read: " + ex.Message);
 			}
-			return "macOS";
+			return "Mac";
 		}
 		foreach (string path in new[] { "/run/host/os-release", "/etc/os-release", "/usr/lib/os-release" })
 		{
