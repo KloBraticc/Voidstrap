@@ -143,6 +143,14 @@ public partial class ChannelPage : UiPage{
 	{
 		try
 		{
+			if (Voidstrap.Utility.Platform.IsMacOS)
+			{
+				string? bundle = new[] { "/Applications/Roblox.app", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Applications", "Roblox.app") }.FirstOrDefault(Directory.Exists);
+				string plist = bundle == null ? "" : Path.Combine(bundle, "Contents", "Info.plist");
+				Match macVersion = File.Exists(plist) ? MacBundleVersionPattern.Match(await ReadLocalTextBoundedAsync(plist, 1024 * 1024, token)) : Match.Empty;
+				RobloxVersionAPP.Header = macVersion.Success ? "Roblox " + macVersion.Groups[1].Value : "Not Installed";
+				return;
+			}
 			string path = Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "LocalStorage");
 			if (!Directory.Exists(path))
 			{
@@ -370,4 +378,7 @@ public partial class ChannelPage : UiPage{
 
     [GeneratedRegex("\"AppVersion\"\\s*:\\s*\"([^\"]+)\"")]
     private static partial Regex AppVersionPattern { get; }
+
+    [GeneratedRegex("<key>CFBundleShortVersionString</key>\\s*<string>([^<]+)</string>")]
+    private static partial Regex MacBundleVersionPattern { get; }
 }

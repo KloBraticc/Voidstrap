@@ -957,7 +957,7 @@ public class Bootstrapper
     internal async Task<bool> TryUpdateLauncherAsync()
     {
         bool updateCheckFresh = DateTime.UtcNow - App.State.Prop.LastLauncherUpdateCheckUtc < TimeSpan.FromMinutes(2);
-        if (!App.Settings.Prop.CheckForUpdates || Voidstrap.Utility.Platform.IsMacOS || App.LaunchSettings.UpgradeFlag.Active || InstallOnly || updateCheckFresh)
+        if (!App.Settings.Prop.CheckForUpdates || App.LaunchSettings.UpgradeFlag.Active || InstallOnly || updateCheckFresh)
             return false;
         try
         {

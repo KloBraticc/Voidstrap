@@ -25,13 +25,13 @@
           <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="Voidstrap CPU limit" Description="Limits Voidstrap's own processor affinity. Leave it at the maximum unless another active app needs reserved cores.">
             <ComboBox Grid.Column="1" Margin="8,0,8,0" Padding="10,5,10,5" Width="200" ItemsSource="{Binding CpuLimitOptions}" SelectedItem="{Binding SelectedCpuLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
-          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{x:Static resources:Strings.Menu_Behaviour_AutoUpdate_Title}" Description="{x:Static resources:Strings.Menu_Behaviour_AutoUpdate_Description}">
+          <controls:OptionControl Header="{x:Static resources:Strings.Menu_Behaviour_AutoUpdate_Title}" Description="{x:Static resources:Strings.Menu_Behaviour_AutoUpdate_Description}">
             <ui:ToggleSwitch IsChecked="{Binding UpdateCheckingEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="Include pre-release versions" Description="Updates to test builds as soon as they are published. These are less tested than normal releases and can break, so leave this off unless you want early builds.">
+          <controls:OptionControl Header="Include pre-release versions" Description="Updates to test builds as soon as they are published. These are less tested than normal releases and can break, so leave this off unless you want early builds.">
             <ui:ToggleSwitch IsChecked="{Binding AllowPreReleaseUpdates, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Launch Roblox without Voidstrap" Description="Joining a game from your browser opens Roblox directly, and launching from Voidstrap closes it once Roblox starts. Overlays and every other in game Voidstrap feature stop working." Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="Launch Roblox without Voidstrap" Description="Joining a game from your browser opens Roblox directly, and launching from Voidstrap closes it once Roblox starts. Overlays and every other in game Voidstrap feature stop working." Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
             <ui:ToggleSwitch IsChecked="{Binding LaunchWithoutVoidstrap, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:BootstrapperImportControl Imported="OnSettingsImported" />
@@ -116,7 +116,7 @@
         </StackPanel>
       </TabItem>
 
-      <TabItem Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+      <TabItem Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="ArrowDownload24" Margin="0,0,6,0" />
@@ -125,16 +125,16 @@
         </TabItem.Header>
         <StackPanel Margin="10">
           <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Installer" />
-          <controls:OptionControl Header="Download server" Description="Used when Roblox is installed or updated" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="Download server" Description="Used when Roblox is installed or updated" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
 			<ComboBox Width="280" Padding="10,5,10,5" DisplayMemberPath="Display" ItemsSource="{Binding MirrorChoices}" SelectedItem="{Binding SelectedMirrorChoice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Download Buffer Size (KB)" Description="Larger buffers can speed up downloads on fast connections" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="Download Buffer Size (KB)" Description="Larger buffers can speed up downloads on fast connections" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
 			<ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding DownloadBufferOptions}" SelectedItem="{Binding DownloadBufferKb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
           <controls:OptionControl Header="Concurrent Downloads" Description="How many packages download at the same time. Higher is faster but uses more bandwidth" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
 			<ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding ConcurrentDownloadOptions}" SelectedItem="{Binding MaxConcurrentDownloads, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Segments Per File" Description="Splits each package into parallel chunks for faster downloading" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="Segments Per File" Description="Splits each package into parallel chunks for faster downloading" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
 			<ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding DownloadSegmentOptions}" SelectedItem="{Binding MaxDownloadSegments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
           <controls:OptionControl Header="Static directory" Description="Switch from version-xxx to BinaryType based install directories." Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
@@ -146,7 +146,7 @@
                 </StackPanel>
       </TabItem>
 
-      <TabItem x:Name="GameSettingsTab" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+      <TabItem x:Name="GameSettingsTab" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <Image Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxPlayerIcon.png" />
@@ -198,7 +198,7 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                         </ui:CardControl>
-                        <ui:CardControl Margin="0,8,0,0" Focusable="False" IsEnabled="{Binding UpdateRoblox}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+                        <ui:CardControl Margin="0,8,0,0" Focusable="False" IsEnabled="{Binding UpdateRoblox}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
                             <ui:CardControl.Header>
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
@@ -221,7 +221,7 @@
             <ComboBox Grid.Column="1" Margin="8,0,8,0" Padding="10,5,10,5" Width="200" ItemsSource="{Binding PriorityOptions}" SelectedItem="{Binding SelectedPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
 
-                        <controls:OptionControl Description="{x:Static resources:Strings.Menu_Behaviour_ForceRobloxReinstall_Description}" Header="{x:Static resources:Strings.Menu_Behaviour_ForceRobloxReinstall_Title}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+                        <controls:OptionControl Description="{x:Static resources:Strings.Menu_Behaviour_ForceRobloxReinstall_Description}" Header="{x:Static resources:Strings.Menu_Behaviour_ForceRobloxReinstall_Title}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
             <FrameworkElement.Style>
               <Style TargetType="{x:Type controls:OptionControl}">
                 <Style.Triggers>
@@ -233,7 +233,7 @@
             </FrameworkElement.Style>
             <ui:ToggleSwitch IsChecked="{Binding ForceRobloxReinstallation, Mode=TwoWay}" />
           </controls:OptionControl>
-                        <controls:OptionControl Description="When disabled, Roblox won't update to newer versions." Header="Roblox updates" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+                        <controls:OptionControl Description="When disabled, Roblox won't update to newer versions." Header="Roblox updates" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
                             <FrameworkElement.Style>
                                 <Style TargetType="{x:Type controls:OptionControl}">
                                     <Style.Triggers>

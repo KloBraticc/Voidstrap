@@ -950,6 +950,12 @@ public partial class App : Application
 		}
 		long persistentStateStarted = Stopwatch.GetTimestamp();
 		LoadPersistentState();
+		if (Voidstrap.Utility.Platform.IsMacOS && Settings.Prop.LaunchWithoutVoidstrap)
+		{
+			Voidstrap.Platform.OperationResult direct = Voidstrap.Platform.MacOS.MacOSProtocolRegistration.SetPlayerHandler(true);
+			if (!direct.Succeeded)
+				Logger.WriteLine("App::StartAsync", "Roblox could not be set as the game link handler: " + direct.Failure?.Message);
+		}
 		LinuxUiPerformance.Duration("Persistent state", persistentStateStarted);
 		if (!portableLayout)
 		{

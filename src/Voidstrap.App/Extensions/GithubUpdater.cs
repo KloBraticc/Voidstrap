@@ -33,6 +33,8 @@ public static class GithubUpdater
             cancellationToken.ThrowIfCancellationRequested();
             if (OperatingSystem.IsLinux())
                 return await GetLatestLinuxVersionTagAsync(cancellationToken).ConfigureAwait(false);
+            if (OperatingSystem.IsMacOS())
+                return await GetLatestMacVersionTagAsync(cancellationToken).ConfigureAwait(false);
             if (App.AllowPreReleaseUpdates)
             {
                 var releases = await Voidstrap.Utility.GitHubCache.GetJsonWithFallbackAsync<List<Voidstrap.Models.APIs.GitHub.GithubRelease>>(
@@ -112,6 +114,8 @@ public static class GithubUpdater
 
             if (OperatingSystem.IsLinux())
                 return await InstallLinuxReleaseAsync(release, tag, cancellationToken).ConfigureAwait(false);
+            if (OperatingSystem.IsMacOS())
+                return await InstallMacReleaseAsync(release, tag, cancellationToken).ConfigureAwait(false);
 
             foreach (var asset in release.Assets ?? [])
             {
@@ -172,6 +176,139 @@ public static class GithubUpdater
         if (expected is null)
             return null;
         return release.Assets?.FirstOrDefault(asset => asset != null && string.Equals(asset.Name, expected, StringComparison.Ordinal) && IsInstallableAsset(asset));
+    }
+
+    private static string MacAssetName => "Voidstrap-" + (System.Runtime.InteropServices.RuntimeInformation.OSArchitecture == System.Runtime.InteropServices.Architecture.Arm64 ? "osx-arm64" : "osx-x64") + ".zip";
+
+    private static string? CurrentMacBundle()
+    {
+        string executable = Environment.ProcessPath ?? "";
+        int index = executable.IndexOf(".app/Contents/MacOS/", StringComparison.Ordinal);
+        return index < 0 ? null : executable[..(index + 4)];
+    }
+
+    private static GithubReleaseAsset? FindMacAsset(Voidstrap.Models.APIs.GitHub.GithubRelease release)
+    {
+        return release.Assets?.FirstOrDefault(asset => asset != null && string.Equals(asset.Name, MacAssetName, StringComparison.Ordinal) && IsInstallableAsset(asset));
+    }
+
+    private static async Task<string?> GetLatestMacVersionTagAsync(CancellationToken cancellationToken)
+    {
+        var releases = await Voidstrap.Utility.GitHubCache.GetJsonWithFallbackAsync<List<Voidstrap.Models.APIs.GitHub.GithubRelease>>(
+            App.ProjectReleaseListApi,
+            App.ProjectFallbackReleaseListApi,
+            TimeSpan.Zero,
+            cancellationToken).ConfigureAwait(false);
+        cancellationToken.ThrowIfCancellationRequested();
+        if (releases == null)
+            return null;
+        Version? newest = null;
+        string? newestTag = null;
+        foreach (var release in releases)
+        {
+            if (release == null || release.Draft || (release.Prerelease && !App.AllowPreReleaseUpdates) || string.IsNullOrEmpty(release.TagName))
+                continue;
+            if (!Version.TryParse(release.TagName.TrimStart('v', 'V'), out Version? version) || (newest != null && version <= newest))
+                continue;
+            if (FindMacAsset(release) == null)
+                continue;
+            newest = version;
+            newestTag = release.TagName;
+        }
+        if (newestTag != null)
+            return newestTag;
+        App.Logger.WriteLine("GitHubUpdater", "No release has a macOS build for this Mac yet");
+        return "v" + (typeof(GithubUpdater).Assembly.GetName().Version?.ToString() ?? "0.0.0.0");
+    }
+
+    private static async Task<bool> InstallMacReleaseAsync(Voidstrap.Models.APIs.GitHub.GithubRelease release, string tag, CancellationToken cancellationToken)
+    {
+        GithubReleaseAsset? asset = FindMacAsset(release);
+        string? bundle = CurrentMacBundle();
+        if (asset == null || bundle == null)
+        {
+            App.Logger.WriteLine("GitHubUpdater", asset == null ? "The release " + tag + " has no macOS build for this Mac" : "Voidstrap is not running from an app bundle, so the update was skipped");
+            return false;
+        }
+        string parent = Path.GetDirectoryName(bundle)!;
+        string probe = Path.Combine(parent, ".voidstrap-update-" + Guid.NewGuid().ToString("N"));
+        try
+        {
+            File.WriteAllBytes(probe, []);
+            File.Delete(probe);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            App.Logger.WriteLine("GitHubUpdater", "The folder holding Voidstrap is not writable, so the update was skipped: " + parent);
+            return false;
+        }
+
+        using Voidstrap.Utility.InterProcessLock updateLock = new("AutoUpdater", TimeSpan.FromSeconds(5));
+        if (!updateLock.IsAcquired)
+            throw new IOException("Another update is already in progress");
+        string tempDirectory = Path.Combine(Path.GetTempPath(), "Voidstrap_Update_" + Guid.NewGuid().ToString("N"));
+        string staging = Path.Combine(parent, "." + Path.GetFileName(bundle) + ".update-" + Guid.NewGuid().ToString("N"));
+        string backup = Path.Combine(parent, "." + Path.GetFileName(bundle) + ".old-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(tempDirectory);
+        try
+        {
+            string archive = Path.Combine(tempDirectory, asset.Name);
+            await DownloadToFileAsync(asset.BrowserDownloadUrl, archive, asset.Digest ?? "", cancellationToken).ConfigureAwait(false);
+            string extracted = Path.Combine(tempDirectory, "extracted");
+            await RunMacToolAsync("/usr/bin/ditto", ["-x", "-k", archive, extracted], cancellationToken).ConfigureAwait(false);
+            string? fresh = Directory.GetDirectories(extracted, "*.app").FirstOrDefault();
+            if (fresh == null || !File.Exists(Path.Combine(fresh, "Contents", "MacOS", Path.GetFileName(Environment.ProcessPath!))))
+            {
+                App.Logger.WriteLine("GitHubUpdater", "The downloaded macOS build did not contain Voidstrap");
+                return false;
+            }
+            await RunMacToolAsync("/usr/bin/ditto", [fresh, staging], cancellationToken).ConfigureAwait(false);
+            LoadBundledAssemblies();
+            Directory.Move(bundle, backup);
+            try
+            {
+                Directory.Move(staging, bundle);
+            }
+            catch
+            {
+                Directory.Move(backup, bundle);
+                throw;
+            }
+            TryDeleteDirectory(backup);
+            App.Logger.WriteLine("GitHubUpdater", "Installed " + tag + " into " + bundle);
+            Voidstrap.Utility.AppNotifications.RecordInfo("upgrade:" + tag.TrimStart('v', 'V'), "Voidstrap updated", "Voidstrap was updated to version " + tag.TrimStart('v', 'V') + ".");
+            return true;
+        }
+        finally
+        {
+            TryDeleteDirectory(staging);
+            TryDeleteDirectory(tempDirectory);
+        }
+    }
+
+    private static async Task RunMacToolAsync(string fileName, IReadOnlyList<string> arguments, CancellationToken cancellationToken)
+    {
+        System.Diagnostics.ProcessStartInfo info = new(fileName) { UseShellExecute = false, CreateNoWindow = true, RedirectStandardError = true };
+        foreach (string argument in arguments)
+            info.ArgumentList.Add(argument);
+        using System.Diagnostics.Process process = System.Diagnostics.Process.Start(info) ?? throw new IOException(Path.GetFileName(fileName) + " could not start");
+        Task<string> error = process.StandardError.ReadToEndAsync(cancellationToken);
+        await process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+        if (process.ExitCode != 0)
+            throw new IOException(Path.GetFileName(fileName) + " failed: " + (await error.ConfigureAwait(false)).Trim());
+    }
+
+    private static void TryDeleteDirectory(string path)
+    {
+        try
+        {
+            if (Directory.Exists(path))
+                Directory.Delete(path, true);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("GitHubUpdater", "Temporary update cleanup failed: " + ex.Message);
+        }
     }
 
     private static Task<LinuxInstallationInfo> DetectLinuxInstallationAsync(CancellationToken cancellationToken)

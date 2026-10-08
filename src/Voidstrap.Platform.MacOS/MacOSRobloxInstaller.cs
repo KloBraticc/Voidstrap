@@ -6,13 +6,25 @@ using System.Text.RegularExpressions;
 
 namespace Voidstrap.Platform.MacOS;
 
+public sealed record MacInstallOptions(
+	int Segments = 12,
+	int BufferBytes = 1 << 20,
+	string? PreferredHost = null,
+	string? Channel = null,
+	bool ForceReinstall = false,
+	bool UpdateRoblox = true,
+	bool EarlyDelivery = false,
+	Func<string, bool>? HoldUpdate = null);
+
 public sealed partial class MacOSRobloxInstaller
 {
 	private const string ApplicationsDirectory = "/Applications";
 
 	private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromMinutes(30) };
 
-	private static readonly string[] CdnHosts = ["https://setup.rbxcdn.com", "https://setup-aws.rbxcdn.com", "https://setup-ak.rbxcdn.com"];
+	private static readonly string[] CdnHosts = ["https://setup.rbxcdn.com", "https://setup-aws.rbxcdn.com", "https://setup-ak.rbxcdn.com", "https://s3.amazonaws.com/setup.roblox.com"];
+
+	private static readonly string[] ClientSettingsHosts = ["https://clientsettingscdn.roblox.com", "https://clientsettings.roblox.com"];
 
 	private readonly IProcessService _processes;
 
@@ -21,20 +33,25 @@ public sealed partial class MacOSRobloxInstaller
 		_processes = processes;
 	}
 
-	public async Task<OperationResult<string>> EnsureLatestAsync(RuntimeKind kind, string? installedPath, Action<string>? status, int maxDownloadSegments = 12, CancellationToken cancellationToken = default)
+	public async Task<OperationResult<string>> EnsureLatestAsync(RuntimeKind kind, string? installedPath, Action<string>? status, MacInstallOptions? options = null, CancellationToken cancellationToken = default)
 	{
+		options ??= new MacInstallOptions();
 		bool player = kind == RuntimeKind.Player;
 		string channel = player ? "MacPlayer" : "MacStudio";
 		string package = player ? "RobloxPlayer.zip" : "RobloxStudioApp.zip";
 		string applicationName = player ? "Roblox.app" : "RobloxStudio.app";
 		string displayName = player ? "Roblox" : "Roblox Studio";
 		bool installed = !string.IsNullOrWhiteSpace(installedPath) && Directory.Exists(installedPath);
+		if (installed && !options.ForceReinstall && !options.UpdateRoblox)
+		{
+			return OperationResult<string>.Success(installedPath!);
+		}
 
 		status?.Invoke("Checking for " + displayName + " updates");
-		(string Version, string Upload) latest;
+		(string Version, string Upload, string Channel) latest;
 		try
 		{
-			latest = await GetLatestVersionAsync(channel, cancellationToken);
+			latest = await GetLatestVersionAsync(channel, options.Channel, options.EarlyDelivery, cancellationToken);
 		}
 		catch (Exception ex) when (ex is not OperationCanceledException)
 		{
@@ -43,9 +60,17 @@ public sealed partial class MacOSRobloxInstaller
 				: OperationResult<string>.Fail("RobloxVersionUnavailable", "The latest " + displayName + " version could not be checked: " + ex.Message);
 		}
 
-		if (installed && string.Equals(await ReadBundleVersionAsync(installedPath!, cancellationToken), latest.Version, StringComparison.Ordinal))
+		if (installed && !options.ForceReinstall)
 		{
-			return OperationResult<string>.Success(installedPath!);
+			string? current = await ReadBundleVersionAsync(installedPath!, cancellationToken);
+			if (string.Equals(current, latest.Version, StringComparison.Ordinal))
+			{
+				return OperationResult<string>.Success(installedPath!);
+			}
+			if (!string.IsNullOrEmpty(current) && options.HoldUpdate?.Invoke(latest.Version) == true)
+			{
+				return OperationResult<string>.Success(installedPath!);
+			}
 		}
 
 		string target = installed ? installedPath! : Path.Combine(ChooseApplicationsDirectory(), applicationName);
@@ -56,7 +81,8 @@ public sealed partial class MacOSRobloxInstaller
 			Directory.CreateDirectory(work);
 			string archive = Path.Combine(work, package);
 			string architecture = RuntimeInformation.OSArchitecture == Architecture.Arm64 ? "mac/arm64/" : "mac/";
-			await DownloadAsync(architecture + latest.Upload + "-" + package, archive, displayName, status, Math.Clamp(maxDownloadSegments, 1, 16), cancellationToken);
+			string prefix = IsProduction(latest.Channel) ? "" : "channel/" + latest.Channel.ToLowerInvariant() + "/";
+			await DownloadAsync(prefix + architecture + latest.Upload + "-" + package, archive, displayName, status, Math.Clamp(options.Segments, 1, 16), Math.Clamp(options.BufferBytes, 16 * 1024, 16 << 20), options.PreferredHost, cancellationToken);
 
 			status?.Invoke("Installing " + displayName);
 			string extracted = Path.Combine(work, "extracted");
@@ -110,28 +136,60 @@ public sealed partial class MacOSRobloxInstaller
 		File.Copy(sourceFile, destination, true);
 	}
 
-	private static async Task<(string Version, string Upload)> GetLatestVersionAsync(string channel, CancellationToken cancellationToken)
-	{
-		using HttpResponseMessage response = await Http.GetAsync("https://clientsettingscdn.roblox.com/v2/client-version/" + channel, cancellationToken);
-		response.EnsureSuccessStatusCode();
-		using JsonDocument document = JsonDocument.Parse(await response.Content.ReadAsStringAsync(cancellationToken));
-		string version = document.RootElement.GetProperty("version").GetString() ?? "";
-		string upload = document.RootElement.GetProperty("clientVersionUpload").GetString() ?? "";
-		if (!UploadPattern().IsMatch(upload))
-		{
-			throw new InvalidDataException("Roblox returned an unexpected version: " + upload);
-		}
-		return (version, upload);
-	}
+	private static bool IsProduction(string? channel) => string.IsNullOrWhiteSpace(channel) || string.Equals(channel.Trim(), "production", StringComparison.OrdinalIgnoreCase);
 
-	private static async Task DownloadAsync(string relativePath, string destination, string displayName, Action<string>? status, int segments, CancellationToken cancellationToken)
+	private static async Task<(string Version, string Upload, string Channel)> GetLatestVersionAsync(string binaryType, string? channel, bool early, CancellationToken cancellationToken)
 	{
-		Exception? lastError = null;
-		foreach (string host in CdnHosts)
+		if (!IsProduction(channel))
 		{
 			try
 			{
-				await DownloadFileAsync(host + "/" + relativePath, destination, displayName, status, segments, cancellationToken).ConfigureAwait(false);
+				return await GetVersionFromHostsAsync(binaryType, channel!.Trim(), early, cancellationToken);
+			}
+			catch (Exception ex) when (ex is not OperationCanceledException)
+			{
+			}
+		}
+		return await GetVersionFromHostsAsync(binaryType, "production", early, cancellationToken);
+	}
+
+	private static async Task<(string Version, string Upload, string Channel)> GetVersionFromHostsAsync(string binaryType, string channel, bool early, CancellationToken cancellationToken)
+	{
+		string path = IsProduction(channel) ? "/v2/client-version/" + binaryType : "/v2/client-version/" + binaryType + "/channel/" + Uri.EscapeDataString(channel);
+		Exception? lastError = null;
+		foreach (string host in early ? Enumerable.Reverse(ClientSettingsHosts) : ClientSettingsHosts)
+		{
+			try
+			{
+				using HttpResponseMessage response = await Http.GetAsync(host + path, cancellationToken);
+				response.EnsureSuccessStatusCode();
+				using JsonDocument document = JsonDocument.Parse(await response.Content.ReadAsStringAsync(cancellationToken));
+				string version = document.RootElement.GetProperty("version").GetString() ?? "";
+				string upload = document.RootElement.GetProperty("clientVersionUpload").GetString() ?? "";
+				if (!UploadPattern().IsMatch(upload))
+				{
+					throw new InvalidDataException("Roblox returned an unexpected version: " + upload);
+				}
+				return (version, upload, channel);
+			}
+			catch (Exception ex) when (ex is not OperationCanceledException)
+			{
+				lastError = ex;
+			}
+		}
+		throw lastError ?? new HttpRequestException("Roblox version services are unavailable");
+	}
+
+	private static async Task DownloadAsync(string relativePath, string destination, string displayName, Action<string>? status, int segments, int bufferBytes, string? preferredHost, CancellationToken cancellationToken)
+	{
+		Exception? lastError = null;
+		string preferred = preferredHost?.Trim().TrimEnd('/') ?? "";
+		IEnumerable<string> hosts = CdnHosts.OrderBy(host => string.Equals(host, preferred, StringComparison.OrdinalIgnoreCase) ? 0 : 1);
+		foreach (string host in hosts)
+		{
+			try
+			{
+				await DownloadFileAsync(host + "/" + relativePath, destination, displayName, status, segments, bufferBytes, cancellationToken).ConfigureAwait(false);
 				return;
 			}
 			catch (Exception ex) when (ex is not OperationCanceledException)
@@ -142,7 +200,7 @@ public sealed partial class MacOSRobloxInstaller
 		throw new IOException(displayName + " could not be downloaded: " + lastError?.Message, lastError);
 	}
 
-	private static async Task DownloadFileAsync(string url, string destination, string displayName, Action<string>? status, int segments, CancellationToken cancellationToken)
+	private static async Task DownloadFileAsync(string url, string destination, string displayName, Action<string>? status, int segments, int bufferBytes, CancellationToken cancellationToken)
 	{
 		if (segments > 1)
 		{
@@ -152,7 +210,7 @@ public sealed partial class MacOSRobloxInstaller
 				using HttpResponseMessage head = await Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
 				if (head.IsSuccessStatusCode && head.Content.Headers.ContentLength is long size && size >= 1 << 20 && head.Headers.AcceptRanges.Contains("bytes"))
 				{
-					await DownloadSegmentsAsync(url, destination, displayName, status, segments, size, head.Headers.ETag, cancellationToken).ConfigureAwait(false);
+					await DownloadSegmentsAsync(url, destination, displayName, status, segments, bufferBytes, size, head.Headers.ETag, cancellationToken).ConfigureAwait(false);
 					return;
 				}
 			}
@@ -166,7 +224,7 @@ public sealed partial class MacOSRobloxInstaller
 		long? total = response.Content.Headers.ContentLength;
 		await using Stream source = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
 		await using FileStream target = File.Create(destination);
-		byte[] buffer = new byte[1 << 20];
+		byte[] buffer = new byte[bufferBytes];
 		long received = 0;
 		int lastPercent = -1;
 		int read;
@@ -187,7 +245,7 @@ public sealed partial class MacOSRobloxInstaller
 		}
 	}
 
-	private static async Task DownloadSegmentsAsync(string url, string destination, string displayName, Action<string>? status, int segments, long total, EntityTagHeaderValue? etag, CancellationToken cancellationToken)
+	private static async Task DownloadSegmentsAsync(string url, string destination, string displayName, Action<string>? status, int segments, int bufferBytes, long total, EntityTagHeaderValue? etag, CancellationToken cancellationToken)
 	{
 		await using FileStream target = new(destination, FileMode.Create, FileAccess.Write, FileShare.None, 1, FileOptions.Asynchronous | FileOptions.RandomAccess);
 		target.SetLength(total);
@@ -207,7 +265,7 @@ public sealed partial class MacOSRobloxInstaller
 			if (response.StatusCode != System.Net.HttpStatusCode.PartialContent || range?.From != start || range.To != end || range.Length != total || (etag is not null && !etag.Equals(response.Headers.ETag)))
 				throw new IOException("The server did not return the requested download segment");
 			await using Stream source = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
-			byte[] buffer = new byte[1 << 19];
+			byte[] buffer = new byte[bufferBytes];
 			long offset = start;
 			int read;
 			while ((read = await source.ReadAsync(buffer, token).ConfigureAwait(false)) > 0)

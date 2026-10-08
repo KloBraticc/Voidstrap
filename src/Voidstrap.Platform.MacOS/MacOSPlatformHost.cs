@@ -468,7 +468,14 @@ public sealed partial class MacOSProtocolRegistration : IProtocolRegistration
 
 	public Task<OperationResult> RegisterAllAsync(CancellationToken cancellationToken = default) => Task.FromResult(RegisterSchemes(Schemes, cancellationToken));
 
-	private static OperationResult RegisterSchemes(IReadOnlyList<string> schemes, CancellationToken cancellationToken)
+	public static OperationResult SetPlayerHandler(bool openRobloxDirectly)
+	{
+		return RegisterSchemes(["roblox", "roblox-player"], CancellationToken.None, openRobloxDirectly ? RobloxPlayerBundleIdentifier : null);
+	}
+
+	private const string RobloxPlayerBundleIdentifier = "com.roblox.RobloxPlayer";
+
+	private static OperationResult RegisterSchemes(IReadOnlyList<string> schemes, CancellationToken cancellationToken, string? handlerOverride = null)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		string? bundle = FindApplicationBundle();
@@ -492,25 +499,37 @@ public sealed partial class MacOSProtocolRegistration : IProtocolRegistration
 			int registrationStatus = LSRegisterURL(url, true);
 			if (registrationStatus != 0)
 				return OperationResult.Fail("ProtocolRegistrationFailed", "The application bundle could not be registered: " + registrationStatus);
-
-			foreach (string scheme in schemes)
+			nint overrideIdentifier = handlerOverride is null ? 0 : CFStringCreateWithCString(0, handlerOverride, 0x08000100);
+			if (handlerOverride is not null && overrideIdentifier == 0)
+				return OperationResult.Fail("ProtocolRegistrationFailed", "The URL handler could not be prepared");
+			if (overrideIdentifier != 0)
+				identifier = overrideIdentifier;
+			try
 			{
-				cancellationToken.ThrowIfCancellationRequested();
-				nint name = CFStringCreateWithCString(0, scheme, 0x08000100);
-				if (name == 0)
-					return OperationResult.Fail("ProtocolRegistrationFailed", "The URL scheme could not be prepared");
-				try
+				foreach (string scheme in schemes)
 				{
-					int status = LSSetDefaultHandlerForURLScheme(name, identifier);
-					if (status != 0)
-						return OperationResult.Fail("ProtocolRegistrationFailed", "The default URL handler could not be set: " + status);
+					cancellationToken.ThrowIfCancellationRequested();
+					nint name = CFStringCreateWithCString(0, scheme, 0x08000100);
+					if (name == 0)
+						return OperationResult.Fail("ProtocolRegistrationFailed", "The URL scheme could not be prepared");
+					try
+					{
+						int status = LSSetDefaultHandlerForURLScheme(name, identifier);
+						if (status != 0)
+							return OperationResult.Fail("ProtocolRegistrationFailed", "The default URL handler could not be set: " + status);
+					}
+					finally
+					{
+						CFRelease(name);
+					}
 				}
-				finally
-				{
-					CFRelease(name);
-				}
+				return OperationResult.Success();
 			}
-			return OperationResult.Success();
+			finally
+			{
+				if (overrideIdentifier != 0)
+					CFRelease(overrideIdentifier);
+			}
 		}
 		finally
 		{

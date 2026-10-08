@@ -2381,7 +2381,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         try
         {
             string currentText = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0";
-            string latestTag = (Voidstrap.Utility.Platform.IsLinux
+            string latestTag = (!Voidstrap.Utility.Platform.IsWindows
                 ? await GithubUpdater.GetLatestVersionTagAsync(_lifetimeCts.Token)
                 : (await App.GetLatestRelease(true))?.TagName) ?? throw new InvalidDataException("Release information is unavailable");
             if (!Version.TryParse(currentText, out Version? current) || !Version.TryParse(latestTag.TrimStart('v', 'V'), out Version? latest))
