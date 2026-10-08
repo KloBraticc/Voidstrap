@@ -155,7 +155,7 @@
         </TabItem.Header>
         <StackPanel Margin="10">
           <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Game" />
-                        <ui:CardControl Margin="0,8,0,0" Focusable="False" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+                        <ui:CardControl Margin="0,8,0,0" Focusable="False" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
                             <ui:CardControl.Header>
                                 <StackPanel>
                                     <Grid>
@@ -214,10 +214,10 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                         </ui:CardControl>
-                        <controls:OptionControl Header="Efficiency mode" Description="{Binding EfficiencyModeDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+                        <controls:OptionControl Header="Efficiency mode" Description="{Binding EfficiencyModeDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding RobloxEfficiencyMode, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Roblox Priority" Description="{Binding RobloxPriorityDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+          <controls:OptionControl Header="Roblox Priority" Description="{Binding RobloxPriorityDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ComboBox Grid.Column="1" Margin="8,0,8,0" Padding="10,5,10,5" Width="200" ItemsSource="{Binding PriorityOptions}" SelectedItem="{Binding SelectedPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
 
