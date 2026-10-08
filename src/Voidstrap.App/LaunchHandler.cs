@@ -1055,6 +1055,8 @@ public static class LaunchHandler
 				}
 
 				App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "Roblox has exited, shutting down");
+				if (Voidstrap.Utility.Platform.IsMacOS && !Voidstrap.Watcher.IsAnyRobloxRunning())
+					Voidstrap.Utility.MacRobloxIcon.Restore();
 				try
 				{
 					autoFullscreen?.Dispose();
@@ -1395,6 +1397,8 @@ public static class LaunchHandler
 				{
 					string robloxVersion = await installer.ReadBundleVersionAsync(ensured.Value, cancellation) ?? "";
 					await linuxBootstrapper.PrepareMacLaunchAsync(ensured.Value, robloxVersion, cancellation);
+					if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+						await Voidstrap.Utility.MacRobloxIcon.ApplyForLaunchAsync(ensured.Value, launchTarget, cancellation);
 				}
 				catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
 				{

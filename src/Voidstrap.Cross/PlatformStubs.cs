@@ -465,6 +465,14 @@ namespace System.Windows.Forms
 				}
 
 				_visible = value;
+				if (OperatingSystem.IsMacOS())
+				{
+					if (value)
+						Voidstrap.UI.Tray.MacTray.TryStart(Text);
+					else
+						Voidstrap.UI.Tray.MacTray.Stop();
+					return;
+				}
 				if (value)
 				{
 					Voidstrap.UI.Tray.LinuxTray.Started += OnTrayStarted;
@@ -581,6 +589,11 @@ namespace System.Windows.Forms
 					}
 				};
 			}
+			if (OperatingSystem.IsMacOS())
+			{
+				_ = Voidstrap.Utility.Platform.RuntimeHost?.Notifications.ShowAsync(new Voidstrap.Platform.NotificationRequest(title, message));
+				return;
+			}
 			Voidstrap.UI.Tray.LinuxTray.Notify(title, message, clicked, timeout > 0 && timeout < 1000 ? timeout * 1000 : timeout);
 		}
 
@@ -597,7 +610,10 @@ namespace System.Windows.Forms
 			if (_visible)
 			{
 				_visible = false;
-				Voidstrap.UI.Tray.LinuxTray.Stop();
+				if (OperatingSystem.IsMacOS())
+					Voidstrap.UI.Tray.MacTray.Stop();
+				else
+					Voidstrap.UI.Tray.LinuxTray.Stop();
 			}
 			_balloonTipClicked = null;
 			MouseClick = null;

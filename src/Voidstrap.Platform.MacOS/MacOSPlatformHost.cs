@@ -79,7 +79,7 @@ public sealed class MacOSPlatformHost : IPlatformHost
 		yield return Available(FeatureId.ProtocolRegistration, "Application bundle protocol registration is available");
 		yield return updater;
 		yield return notifications;
-		yield return new CapabilityDescriptor(FeatureId.Tray, CapabilityState.Unavailable, "The macOS menu bar adapter has not been ported to the shared desktop host");
+		yield return Available(FeatureId.Tray, "Voidstrap shows its menu in the macOS menu bar while Roblox runs");
 		yield return overlay;
 		yield return input;
 		yield return audioSession;

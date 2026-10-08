@@ -115,6 +115,33 @@ public static partial class MacOSApplication
 		}
 	}
 
+	public static bool SetDockVisible(bool visible)
+	{
+		if (!OperatingSystem.IsMacOS())
+			return false;
+		nint pool = objc_autoreleasePoolPush();
+		try
+		{
+			if (_appKit == 0)
+				_appKit = NativeLibrary.Load("/System/Library/Frameworks/AppKit.framework/AppKit");
+			nint application = Send(objc_getClass("NSApplication"), sel_registerName("sharedApplication"));
+			if (application == 0)
+				return false;
+			bool changed = SendPolicy(application, sel_registerName("setActivationPolicy:"), visible ? 0 : 1);
+			if (changed && visible)
+				SendBool(application, sel_registerName("activateIgnoringOtherApps:"), true);
+			return changed;
+		}
+		catch
+		{
+			return false;
+		}
+		finally
+		{
+			objc_autoreleasePoolPop(pool);
+		}
+	}
+
 	public static int ApplyWindowShadows()
 	{
 		if (!OperatingSystem.IsMacOS())
@@ -153,6 +180,10 @@ public static partial class MacOSApplication
 
 	[LibraryImport(ObjectiveC, StringMarshalling = StringMarshalling.Utf8)]
 	private static partial nint objc_getClass(string name);
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
+	[return: MarshalAs(UnmanagedType.I1)]
+	private static partial bool SendPolicy(nint receiver, nint selector, nint policy);
 
 	[LibraryImport(ObjectiveC, StringMarshalling = StringMarshalling.Utf8)]
 	private static partial nint sel_registerName(string name);
