@@ -12,6 +12,8 @@ public static class MacTray
 
     private static int _refreshing;
 
+    private static DispatcherTimer? _refreshTimer;
+
     public static bool IsActive => _started;
 
     public static bool TryStart(string title)
@@ -31,6 +33,9 @@ public static class MacTray
             return false;
         }
         MacOSStatusItem.MenuOpening += OnMenuOpening;
+        _refreshTimer = new DispatcherTimer(DispatcherPriority.Background, dispatcher) { Interval = TimeSpan.FromSeconds(3) };
+        _refreshTimer.Tick += OnRefreshTick;
+        _refreshTimer.Start();
         _started = true;
         App.Logger?.WriteLine("MacTray::TryStart", "Voidstrap is in the menu bar");
         RequestRefresh();
@@ -48,6 +53,12 @@ public static class MacTray
             return;
         }
         MacOSStatusItem.MenuOpening -= OnMenuOpening;
+        if (_refreshTimer != null)
+        {
+            _refreshTimer.Stop();
+            _refreshTimer.Tick -= OnRefreshTick;
+            _refreshTimer = null;
+        }
         MacOSStatusItem.Hide();
         _started = false;
     }
@@ -59,6 +70,8 @@ public static class MacTray
     }
 
     private static void OnMenuOpening() => RequestRefresh();
+
+    private static void OnRefreshTick(object? sender, EventArgs e) => RequestRefresh();
 
     private static async Task RefreshAsync()
     {
