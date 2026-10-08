@@ -159,7 +159,19 @@ public static partial class MacOSShortcut
 						return false;
 					Send(image, sel_registerName("autorelease"));
 				}
-				return SetIcon(workspace, sel_registerName("setIcon:forFile:options:"), image, NSString(path), 0);
+				bool changed = SetIcon(workspace, sel_registerName("setIcon:forFile:options:"), image, NSString(path), 0);
+				if (changed)
+				{
+					try
+					{
+						Directory.SetLastWriteTimeUtc(path, DateTime.UtcNow);
+					}
+					catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+					{
+					}
+					SendObject(workspace, sel_registerName("noteFileSystemChanged:"), NSString(path));
+				}
+				return changed;
 			}
 			catch
 			{
