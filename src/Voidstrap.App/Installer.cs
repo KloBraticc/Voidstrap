@@ -56,7 +56,7 @@ internal partial class Installer
 
 	public bool IsImplicitInstall { get; }
 
-	private static string DesktopShortcut => Path.Combine(Paths.Desktop, "Voidstrap.lnk");
+	private static string DesktopShortcut => Path.Combine(Paths.Desktop, "Voidstrap" + Voidstrap.Utility.Shortcut.Suffix);
 
 	private static string StartMenuShortcut => Path.Combine(Paths.WindowsStartMenu, "Voidstrap.lnk");
 
@@ -161,6 +161,17 @@ internal partial class Installer
 			if (CreateStartMenuShortcuts)
 			{
 				TrySafe("start menu shortcut", () => Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut));
+			}
+			if (FunctionShortcutTasks != null)
+				CreateFunctionShortcuts();
+			else
+				TrySafe("function shortcuts", CreateFunctionShortcuts);
+		}
+		else if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			if (CreateDesktopShortcuts)
+			{
+				TrySafe("desktop shortcut", () => Voidstrap.Utility.Shortcut.Create(Paths.Application, "", DesktopShortcut));
 			}
 			if (FunctionShortcutTasks != null)
 				CreateFunctionShortcuts();
@@ -274,7 +285,7 @@ internal partial class Installer
 		}
 		try
 		{
-			Voidstrap.Utility.Shortcut.Create(Paths.Application, flags, Path.Combine(Paths.Desktop, name + ".lnk"));
+			Voidstrap.Utility.Shortcut.Create(Paths.Application, flags, Path.Combine(Paths.Desktop, name + Voidstrap.Utility.Shortcut.Suffix));
 		}
 		catch (Exception ex)
 		{

@@ -8,16 +8,19 @@ namespace Voidstrap.Utility;
 
 internal static class MacRobloxProcesses
 {
-	internal readonly record struct Snapshot(bool GameRunning, IReadOnlyList<int> MenuBarHelpers);
+	internal readonly record struct Snapshot(IReadOnlyList<int> GamePids, IReadOnlyList<int> MenuBarHelpers)
+	{
+		public bool GameRunning => GamePids.Count > 0;
+	}
 
 	internal static bool IsGameRunning() => Scan().GameRunning;
 
 	internal static Snapshot Scan()
 	{
 		List<int> helpers = [];
-		bool gameRunning = false;
+		List<int> games = [];
 		if (!OperatingSystem.IsMacOS())
-			return new Snapshot(false, helpers);
+			return new Snapshot(games, helpers);
 		try
 		{
 			using Process ps = new()
@@ -45,7 +48,7 @@ internal static class MacRobloxProcesses
 				if (args.Contains("-launchToTray", StringComparison.Ordinal))
 					helpers.Add(pid);
 				else
-					gameRunning = true;
+					games.Add(pid);
 			}
 		}
 		catch (Exception ex) when (ex is InvalidOperationException or Win32Exception or IOException)
@@ -53,10 +56,10 @@ internal static class MacRobloxProcesses
 			App.Logger?.WriteLine("MacRobloxProcesses", "The Roblox processes could not be listed: " + ex.Message);
 			foreach (Process process in Process.GetProcessesByName(Platform.RobloxPlayerProcessName))
 			{
-				gameRunning = true;
+				games.Add(process.Id);
 				process.Dispose();
 			}
 		}
-		return new Snapshot(gameRunning, helpers);
+		return new Snapshot(games, helpers);
 	}
 }

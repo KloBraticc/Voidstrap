@@ -44,11 +44,9 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 
 	private static List<Type> CreatePages()
 	{
-		List<Type> pages =
-		[
-			typeof(InstallPage),
-			typeof(ChannelPage)
-		];
+		List<Type> pages = [typeof(InstallPage)];
+		if (!Voidstrap.Utility.Platform.IsMacOS)
+			pages.Add(typeof(ChannelPage));
 		if (Voidstrap.Utility.Platform.IsWindows)
 		{
 			pages.Add(typeof(InstallerModsPage));

@@ -65,6 +65,8 @@ public partial class Watcher : IDisposable
 
 	private TasxOptimizer? _tasxOptimizer;
 
+	private Voidstrap.Utility.MacTasxOptimizer? _macTasxOptimizer;
+
 	private LinuxRobloxResourceOptimizer? _linuxResourceOptimizer;
 
 	private Task? _windowManipulationTask;
@@ -326,6 +328,18 @@ public partial class Watcher : IDisposable
 
 	private void UpdateTasxOptimizer()
 	{
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			if (!Voidstrap.Utility.MacTasxOptimizer.ShouldRun(App.Settings.Prop))
+			{
+				_macTasxOptimizer?.Dispose();
+				_macTasxOptimizer = null;
+				return;
+			}
+			_macTasxOptimizer ??= new Voidstrap.Utility.MacTasxOptimizer();
+			_macTasxOptimizer.Start();
+			return;
+		}
 		if (!TasxOptimizer.ShouldRun(App.Settings.Prop))
 		{
 			_tasxOptimizer?.Dispose();
@@ -1266,6 +1280,8 @@ public partial class Watcher : IDisposable
 		{
 			_tasxOptimizer?.Dispose();
 			_tasxOptimizer = null;
+			_macTasxOptimizer?.Dispose();
+			_macTasxOptimizer = null;
 		}
 		catch
 		{
