@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
@@ -27,6 +28,7 @@ internal static class MacRobloxIcon
 			Restore(bundlePath);
 			return;
 		}
+		await CloseIdleMenuBarHelperAsync(cancellationToken).ConfigureAwait(false);
 		if (placeId <= 0)
 		{
 			UseVoidstrapIcon(bundlePath, "Roblox is opening without a game");
@@ -82,6 +84,61 @@ internal static class MacRobloxIcon
 		{
 			UseVoidstrapIcon(bundlePath, "The game icon is skipped for this launch: " + ex.Message);
 		}
+	}
+
+	private static async Task CloseIdleMenuBarHelperAsync(CancellationToken cancellationToken)
+	{
+		List<int> helpers = [];
+		bool gameRunning = false;
+		try
+		{
+			using System.Diagnostics.Process ps = new()
+			{
+				StartInfo = new System.Diagnostics.ProcessStartInfo("/bin/ps", "-axo pid=,args=")
+				{
+					RedirectStandardOutput = true,
+					UseShellExecute = false,
+					CreateNoWindow = true
+				}
+			};
+			ps.Start();
+			string output = await ps.StandardOutput.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
+			await ps.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+			foreach (string raw in output.Split('\n', StringSplitOptions.RemoveEmptyEntries))
+			{
+				string line = raw.Trim();
+				int space = line.IndexOf(' ');
+				if (space <= 0 || !int.TryParse(line[..space], out int pid))
+					continue;
+				string args = line[(space + 1)..];
+				if (!args.Contains("/Contents/MacOS/" + Platform.RobloxPlayerProcessName, StringComparison.Ordinal))
+					continue;
+				if (args.Contains("-launchToTray", StringComparison.Ordinal))
+					helpers.Add(pid);
+				else
+					gameRunning = true;
+			}
+		}
+		catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception or IOException)
+		{
+			App.Logger.WriteLine(LogIdent, "The Roblox processes could not be listed: " + ex.Message);
+			return;
+		}
+		if (gameRunning || helpers.Count == 0)
+			return;
+		foreach (int pid in helpers)
+		{
+			try
+			{
+				using System.Diagnostics.Process helper = System.Diagnostics.Process.GetProcessById(pid);
+				helper.Kill();
+				await helper.WaitForExitAsync(cancellationToken).WaitAsync(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+			}
+			catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception or TimeoutException)
+			{
+			}
+		}
+		App.Logger.WriteLine(LogIdent, "Closed the idle Roblox menu bar helper so this launch gets its own Dock icon");
 	}
 
 	private static void UseVoidstrapIcon(string bundlePath, string reason)
