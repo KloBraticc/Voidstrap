@@ -394,6 +394,7 @@ public sealed class ServerMatchmaker : IDisposable
 		int currentPing = VoidstrapMatchmaker.EstimatePingMs(currentKm);
 		string currentKey = VoidstrapMatchmaker.DatacenterKey(currentDc);
 		bool currentIsBlocked = VoidstrapMatchmaker.GetBlockedDatacenters().Contains(VoidstrapMatchmaker.BlockKey(currentDc));
+		App.Logger.WriteLine(LOG_IDENT, $"Current datacenter {VoidstrapMatchmaker.BlockKey(currentDc)}, about {currentPing}ms{(currentIsBlocked ? ", blocked" : "")}");
 
 		string preferredKey = ResolvePreferredDatacenterKey(data.PlaceId);
 		bool hasPreferred = preferredKey.Length > 0;

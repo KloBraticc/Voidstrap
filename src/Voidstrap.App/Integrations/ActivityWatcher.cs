@@ -811,7 +811,8 @@ public partial class ActivityWatcher : IDisposable
 					continue;
 				}
 				logFileInfo = fileInfo;
-				if (logFileInfo.CreationTime.AddSeconds(15.0) > DateTime.Now)
+				bool fromThisLaunch = !OperatingSystem.IsMacOS() || logFileInfo.CreationTimeUtc >= _createdUtc.AddSeconds(-8.0);
+				if (fromThisLaunch && logFileInfo.CreationTime.AddSeconds(15.0) > DateTime.Now)
 				{
 					LogLocation = logFileInfo.FullName;
 					break;
