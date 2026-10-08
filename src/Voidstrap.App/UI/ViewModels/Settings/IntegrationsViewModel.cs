@@ -540,30 +540,6 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool UncapFpsToggleEnabled => Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex == 0;
 
-	public bool UnlockMetal
-	{
-		get
-		{
-			return string.Equals(App.FastFlags.GetPreset("Rendering.LimitFramerate"), "False", StringComparison.OrdinalIgnoreCase)
-				&& int.TryParse(App.FastFlags.GetPreset("Rendering.Framerate"), out int target) && target > 240;
-		}
-		set
-		{
-			if (value)
-			{
-				App.FastFlags.SetPreset("Rendering.LimitFramerate", "False");
-				App.FastFlags.SetPreset("Rendering.Framerate", 9999);
-			}
-			else
-			{
-				App.FastFlags.SetPreset("Rendering.LimitFramerate", null);
-				App.FastFlags.SetPreset("Rendering.Framerate", null);
-			}
-			App.FastFlags.Save();
-			OnPropertyChanged(nameof(UnlockMetal));
-		}
-	}
-
 	public bool DiscordActivityJoinEnabled
 	{
 		get
