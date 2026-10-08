@@ -800,7 +800,7 @@ public static class LaunchHandler
 
 	private const int SoberExitConfirmations = 5;
 
-	private static async Task<int> WaitForMacProcessAsync(string processName, CancellationToken cancellationToken)
+	private static async Task<int> WaitForMacProcessAsync(string processName, DateTime launchRequestedUtc, CancellationToken cancellationToken)
 	{
 		for (int attempt = 0; attempt < 120; attempt++)
 		{
@@ -813,7 +813,7 @@ public static class LaunchHandler
 					try
 					{
 						DateTime started = process.StartTime.ToUniversalTime();
-						if (!process.HasExited && started > newestStart)
+						if (!process.HasExited && started > newestStart && (attempt >= 20 || started >= launchRequestedUtc.AddSeconds(-1)))
 						{
 							newest = process.Id;
 							newestStart = started;
@@ -1414,6 +1414,7 @@ public static class LaunchHandler
 					App.Logger.WriteLine("LaunchHandler::SoberStartup", message);
 					SetPortableLaunchStatus(message);
 				};
+			DateTime launchRequestedUtc = DateTime.UtcNow;
 			Voidstrap.Core.RuntimeLaunchCoordinator coordinator = new(host.PlayerRuntime, host.StudioRuntime);
 			Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result = await coordinator.LaunchAsync(runtimeKind, launchTarget, cancellation);
 			if (!result.Succeeded || result.Value == null)
@@ -1437,7 +1438,7 @@ public static class LaunchHandler
 			else if (OperatingSystem.IsMacOS())
 			{
 				bool player = runtimeKind == Voidstrap.Platform.RuntimeKind.Player;
-				int runtimeId = await WaitForMacProcessAsync(player ? Voidstrap.Utility.Platform.RobloxPlayerProcessName : Voidstrap.Utility.Platform.RobloxStudioProcessName, cancellation);
+				int runtimeId = await WaitForMacProcessAsync(player ? Voidstrap.Utility.Platform.RobloxPlayerProcessName : Voidstrap.Utility.Platform.RobloxStudioProcessName, launchRequestedUtc, cancellation);
 				if (runtimeId > 0 && (player ? StartResidentWatcher(runtimeId, true) : StartStudioResident(runtimeId)))
 					stayResident = true;
 			}
