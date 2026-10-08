@@ -3401,6 +3401,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     await Dispatcher.InvokeAsync(() => InitializeDiscordRpcClient(pipe), DispatcherPriority.Background, token);
                 }
 
+                if (_discordRpcEnabled && _discordReady)
+                    await Dispatcher.InvokeAsync(UpdateDiscordPresence, DispatcherPriority.Background, token);
+
                 await Task.Delay(DiscordIpc.PollInterval, token).ConfigureAwait(false);
             }
         }
@@ -3422,6 +3425,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         client.OnReady += DiscordClient_OnReady;
         client.OnError += DiscordClient_OnError;
         client.OnConnectionFailed += DiscordClient_OnConnectionFailed;
+        client.OnClose += DiscordClient_OnClose;
+        client.OnPresenceUpdate += DiscordClient_OnPresenceUpdate;
         _discordClient = client;
         try
         {
@@ -3439,6 +3444,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             Dispatcher.BeginInvoke(new Action(() => RetryDiscordRpcLater(sender)));
         }
+    }
+
+    private void DiscordClient_OnClose(object sender, CloseMessage e)
+    {
+        if (!Dispatcher.HasShutdownStarted)
+            Dispatcher.BeginInvoke(new Action(() => RetryDiscordRpcLater(sender)));
+    }
+
+    private void DiscordClient_OnPresenceUpdate(object sender, PresenceMessage e)
+    {
+        if (!_isClosed && ReferenceEquals(sender, _discordClient))
+            App.Logger.WriteLine("DiscordRPC", "Discord confirmed the Voidstrap activity");
     }
 
     private void RetryDiscordRpcLater(object client)
@@ -3462,18 +3479,29 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         client.OnReady -= DiscordClient_OnReady;
         client.OnError -= DiscordClient_OnError;
         client.OnConnectionFailed -= DiscordClient_OnConnectionFailed;
+        client.OnClose -= DiscordClient_OnClose;
+        client.OnPresenceUpdate -= DiscordClient_OnPresenceUpdate;
         DiscordIpc.Close(client);
         App.Logger.WriteLine("DiscordRPC", "Cleared the Voidstrap status and closed the connection");
     }
 
     private void DiscordClient_OnReady(object sender, ReadyMessage e)
     {
-		_discordReady = true;
-        App.Logger.WriteLine("DiscordRPC", "Connected to Discord as " + e.User.Username);
-		if (!Dispatcher.HasShutdownStarted && !Dispatcher.HasShutdownFinished)
-		{
-			Dispatcher.BeginInvoke(new Action(UpdateDiscordPresence));
-		}
+        if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished)
+            return;
+        Dispatcher.BeginInvoke(new Action(() =>
+        {
+            if (_isClosed || !ReferenceEquals(sender, _discordClient))
+                return;
+            _discordReady = true;
+            _lastVoidRpcDetails = null;
+            _lastVoidRpcState = null;
+            _lastVoidRpcExtra = null;
+            _lastVoidRpcUpdate = DateTime.MinValue;
+            _voidRpcSuppressed = false;
+            App.Logger.WriteLine("DiscordRPC", "Discord RPC is ready for " + Voidstrap.Utility.Branding.Name + " " + VoidstrapPresence.PlatformName);
+            UpdateDiscordPresence();
+        }));
     }
 
     private void DiscordClient_OnError(object sender, ErrorMessage e)
@@ -4137,6 +4165,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 Details = details,
                 State = state,
+                StatusDisplay = StatusDisplayType.Name,
                 Timestamps = new Timestamps(_voidRpcSessionStart),
                 Assets = assets,
                 Buttons = buttons

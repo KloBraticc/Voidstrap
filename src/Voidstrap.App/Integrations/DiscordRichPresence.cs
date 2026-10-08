@@ -254,9 +254,9 @@ public partial class DiscordRichPresence : IDisposable
 
 	private void OnClientReady(object sender, ReadyMessage e)
 	{
-		App.Logger.WriteLine("DiscordRichPresence", $"Ready: {e.User} ({e.User.ID})");
 		if (_disposed || !ReferenceEquals(sender, _rpcClient))
 			return;
+		App.Logger.WriteLine(LOG_IDENT, "Discord RPC is ready");
 		lock (_activityGate)
 		{
 			_lastPresenceSignature = null;
@@ -290,7 +290,8 @@ public partial class DiscordRichPresence : IDisposable
 
 	private void OnClientPresenceUpdate(object sender, PresenceMessage e)
 	{
-		App.Logger.WriteLine("DiscordRichPresence", "Presence updated");
+		if (!_disposed && ReferenceEquals(sender, _rpcClient))
+			App.Logger.WriteLine(LOG_IDENT, "Discord confirmed the Roblox activity");
 	}
 
 	private void OnClientError(object sender, ErrorMessage e)
@@ -1486,11 +1487,11 @@ public partial class DiscordRichPresence : IDisposable
 		DiscordRPC.RichPresence? presence = _currentPresence;
 		if (_disposed || presence == null)
 		{
-			return new Voidstrap.Models.PresenceSnapshot { Connected = !_disposed && _rpcClient?.IsInitialized == true, Active = false };
+			return new Voidstrap.Models.PresenceSnapshot { Connected = !_disposed && DiscordIpc.IsReady(_rpcClient), Active = false };
 		}
 		Voidstrap.Models.PresenceSnapshot snapshot = new Voidstrap.Models.PresenceSnapshot
 		{
-			Connected = _rpcClient?.IsInitialized == true,
+			Connected = DiscordIpc.IsReady(_rpcClient),
 			Active = true,
 			Details = Voidstrap.Utility.RpcText.Render(presence.Details),
 			State = Voidstrap.Utility.RpcText.Render(presence.State),
