@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading;
 using DiscordRPC;
 using DiscordRPC.IO;
@@ -22,9 +23,17 @@ internal static class DiscordIpc
 
 	private static readonly ConditionalWeakTable<DiscordRpcClient, DiscordActivityPipe> Pipes = new();
 
+	private static readonly PosixSignalRegistration? TerminationSignal;
+	private static readonly PosixSignalRegistration? InterruptSignal;
+
 	static DiscordIpc()
 	{
 		AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+		if (OperatingSystem.IsMacOS())
+		{
+			TerminationSignal = PosixSignalRegistration.Create(PosixSignal.SIGTERM, OnTerminationSignal);
+			InterruptSignal = PosixSignalRegistration.Create(PosixSignal.SIGINT, OnTerminationSignal);
+		}
 	}
 
 	internal static DiscordRpcClient CreateClient(string applicationId, int pipe, ILogger? logger = null, string? activityName = null)
@@ -79,6 +88,15 @@ internal static class DiscordIpc
 	private static void OnProcessExit(object? sender, EventArgs e)
 	{
 		AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
+		ClearActivities();
+		TerminationSignal?.Dispose();
+		InterruptSignal?.Dispose();
+	}
+
+	private static void OnTerminationSignal(PosixSignalContext context) => ClearActivities();
+
+	private static void ClearActivities()
+	{
 		foreach (KeyValuePair<DiscordRpcClient, DiscordActivityPipe> entry in Pipes.ToArray())
 			entry.Value.ClearAndSeal();
 	}

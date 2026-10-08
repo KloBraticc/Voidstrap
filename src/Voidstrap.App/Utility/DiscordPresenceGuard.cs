@@ -45,7 +45,7 @@ internal static class DiscordPresenceGuard
 	{
 		try
 		{
-			if (!Voidstrap.Integrations.DiscordIpc.IsReady(client) || !TryReserveUpdate(client))
+			if (client.IsDisposed || !TryReserveUpdate(client))
 				return false;
 			client.SetPresence(Complete(presence));
 			return true;

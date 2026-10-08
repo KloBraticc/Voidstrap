@@ -1547,7 +1547,7 @@ public partial class DiscordRichPresence : IDisposable
 			}
 			_pendingPresence = _currentPresence.Clone();
 			DiscordRpcClient? client = _rpcClient;
-			if (client?.IsInitialized != true || client.IsDisposed)
+			if (client == null || !DiscordIpc.IsReady(client))
 				return;
 			if (!force && DateTime.UtcNow - _lastPresenceUpdate < _updateCooldown)
 			{

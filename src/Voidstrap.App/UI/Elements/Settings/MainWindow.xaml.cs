@@ -4026,7 +4026,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void UpdateDiscordPresence()
     {
-        if (_discordClient == null || !_discordReady || !_discordRpcEnabled)
+        if (_discordClient == null || !_discordReady || !_discordRpcEnabled || !DiscordIpc.IsReady(_discordClient))
         {
             return;
         }
