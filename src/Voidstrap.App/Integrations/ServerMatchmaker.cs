@@ -620,7 +620,7 @@ public sealed class ServerMatchmaker : IDisposable
 		}
 
 		string? authUri = null;
-		if (!Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.IsWindows)
 		{
 			try
 			{
