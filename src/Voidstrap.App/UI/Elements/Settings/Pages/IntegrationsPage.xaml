@@ -130,8 +130,11 @@
           <controls:OptionControl Header="Telemetry blocker" Description="Block Roblox telemetry. Administrator access is needed once.">
             <ui:ToggleSwitch IsChecked="{Binding BlockTelemetry, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="FPS unlocker" Description="Remove the 240 FPS limit. Unavailable while Frame Generation is enabled." IsEnabled="{Binding UncapFpsToggleEnabled, Mode=OneWay}">
+          <controls:OptionControl Header="FPS unlocker" Description="Remove the 240 FPS limit. Unavailable while Frame Generation is enabled." IsEnabled="{Binding UncapFpsToggleEnabled, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
             <ui:ToggleSwitch IsChecked="{Binding UncapFPS, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Unlock Metal" Description="Lifts Roblox's 240 FPS Metal limit so the game renders as fast as your Mac allows." Visibility="{x:Static platform:PlatformFeatureVisibility.MacOSOnly}">
+            <ui:ToggleSwitch IsChecked="{Binding UnlockMetal, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Header="Snap Tap" Description="When two opposite keys are held, the last one pressed wins instantly." Visibility="{x:Static platform:PlatformFeatureVisibility.GlobalInput}">
             <ui:ToggleSwitch IsChecked="{Binding SnapTapEnabled, Mode=TwoWay}" />
