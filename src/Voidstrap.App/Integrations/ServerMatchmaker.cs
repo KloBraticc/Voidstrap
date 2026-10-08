@@ -743,6 +743,8 @@ public sealed class ServerMatchmaker : IDisposable
 
 	internal static Task MacHandoffTask => Volatile.Read(ref _macHandoff)?.Task ?? Task.CompletedTask;
 
+	internal static bool MacHandoffStarted => Volatile.Read(ref _macHandoff) != null;
+
 	private async Task TriggerMacRejoinAsync(string launchUri, int attemptNumber, string? targetName)
 	{
 		TaskCompletionSource handoff = new(TaskCreationOptions.RunContinuationsAsynchronously);

@@ -1055,7 +1055,7 @@ public static class LaunchHandler
 				}
 
 				App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "Roblox has exited, shutting down");
-				if (Voidstrap.Utility.Platform.IsMacOS && !Voidstrap.Watcher.IsAnyRobloxRunning())
+				if (Voidstrap.Utility.Platform.IsMacOS && !Voidstrap.Integrations.ServerMatchmaker.MacHandoffStarted)
 					Voidstrap.Utility.MacRobloxIcon.Restore();
 				try
 				{
