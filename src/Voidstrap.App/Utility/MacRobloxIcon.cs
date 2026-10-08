@@ -22,12 +22,15 @@ internal static class MacRobloxIcon
 		if (!OperatingSystem.IsMacOS())
 			return;
 		long placeId = string.IsNullOrEmpty(launchTarget) ? 0 : Voidstrap.Integrations.LaunchInterceptor.ExtractPlaceId(launchTarget);
-		if (!App.Settings.Prop.UseGameIconForRobloxWindow)
-		{
+		if (App.Settings.Prop.UseGameIconForRobloxWindow)
+			await SetIconForLaunchAsync(bundlePath, placeId, cancellationToken).ConfigureAwait(false);
+		else
 			Restore(bundlePath);
-			return;
-		}
 		await CloseIdleMenuBarHelperAsync(cancellationToken).ConfigureAwait(false);
+	}
+
+	private static async Task SetIconForLaunchAsync(string bundlePath, long placeId, CancellationToken cancellationToken)
+	{
 		if (placeId <= 0)
 		{
 			UseVoidstrapIcon(bundlePath, "Roblox is opening without a game");

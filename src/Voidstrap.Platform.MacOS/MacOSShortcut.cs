@@ -139,6 +139,25 @@ public static partial class MacOSShortcut
 		}
 	}
 
+	private const string LaunchServicesRegister = "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister";
+
+	private static void Reregister(string path)
+	{
+		if (!File.Exists(LaunchServicesRegister) || !Directory.Exists(path))
+			return;
+		try
+		{
+			System.Diagnostics.ProcessStartInfo info = new(LaunchServicesRegister) { UseShellExecute = false, CreateNoWindow = true };
+			info.ArgumentList.Add("-f");
+			info.ArgumentList.Add(path);
+			using System.Diagnostics.Process? process = System.Diagnostics.Process.Start(info);
+			process?.WaitForExit(5000);
+		}
+		catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception)
+		{
+		}
+	}
+
 	public static bool SetCustomIcon(string path, string? pngPath)
 	{
 		lock (Gate)
@@ -170,6 +189,7 @@ public static partial class MacOSShortcut
 					{
 					}
 					SendObject(workspace, sel_registerName("noteFileSystemChanged:"), NSString(path));
+					Reregister(path);
 				}
 				return changed;
 			}
