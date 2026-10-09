@@ -2427,7 +2427,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void AppMenuReleases_Click(object sender, RoutedEventArgs e)
     {
         AppMenuPopup.IsOpen = false;
-        new Voidstrap.UI.Elements.Dialogs.ReleaseNotesDialog { Owner = this }.ShowDialog();
+        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(ShowReleaseNotes));
+    }
+
+    private void ShowReleaseNotes()
+    {
+        if (_isClosed)
+            return;
+        new Voidstrap.UI.Elements.Dialogs.ReleaseNotesDialog { Owner = this }.ShowOwnedDialog();
     }
 
     private DispatcherTimer? _logsSubmenuCloseTimer;
