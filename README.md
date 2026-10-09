@@ -351,17 +351,17 @@ The script publishes with Windows .NET and packages through WSL. Without WSL and
 
 **You need:** the .NET SDK described above, PowerShell 7 and Bash. On macOS, install Rust with [rustup](https://rustup.rs) and the Xcode Command Line Tools with `xcode-select --install`. Packaging also builds and signs the Rust virtual display helper.
 
-On an Apple silicon Mac:
+To build both macOS architectures on a Mac:
 
 ```bash
-pwsh -NoProfile -File ./publish-all.ps1 -Only osx-arm64 -NoPause
+pwsh -NoProfile -File ./publish-all.ps1 -Only osx-arm64,osx-x64 -NoPause
 ```
 
-For an Intel Mac, use `-Only osx-x64`. On macOS, the output is `PublishedBuilds/macOS/Voidstrap-osx-arm64.dmg` and `Voidstrap-osx-arm64.zip` (or `osx-x64` for Intel). Each contains `Voidstrap.app` with .NET included.
+This creates a `.dmg` and `.zip` for each architecture in `PublishedBuilds/macOS`: `Voidstrap-osx-arm64` for Apple silicon and `Voidstrap-osx-x64` for Intel. Each package contains `Voidstrap.app` with .NET included.
 
 Local packages use ad hoc signing without notarization. For Developer ID signing, set `MACOS_SIGN_IDENTITY`. To notarize, also set `MACOS_NOTARY_PROFILE` to your notarytool keychain profile.
 
-Windows and Linux can cross publish macOS targets. On Windows, use the PowerShell command with `-Only osx-arm64` or `-Only osx-x64`. Packaging needs Git Bash or WSL. These hosts produce `Voidstrap-osx-arm64.tar.gz` or `Voidstrap-osx-x64.tar.gz` app bundles. If packaging fails, output may be a plain executable. Check the final notes and test on a Mac.
+Windows and Linux can cross publish macOS app bundles, but they cannot create `.dmg` files. On Windows, use the PowerShell command with `-Only osx-arm64,osx-x64`. Packaging needs Git Bash or WSL. These hosts produce `Voidstrap-osx-arm64.tar.gz` and `Voidstrap-osx-x64.tar.gz`. Run the command on macOS to create the `.dmg` and `.zip` packages.
 
 </details>
 
