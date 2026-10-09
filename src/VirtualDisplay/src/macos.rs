@@ -116,6 +116,9 @@ unsafe extern "C" {
 #[link(name = "Foundation", kind = "framework")]
 unsafe extern "C" {}
 
+#[link(name = "AppKit", kind = "framework")]
+unsafe extern "C" {}
+
 unsafe extern "C" {
     static _dispatch_main_q: u8;
 }
@@ -651,6 +654,12 @@ fn run_inner(config: Config) -> Result<(), String> {
             unsafe { CGDisplayMirrorsDisplay(display) }
         );
         return Ok(());
+    }
+    let application: Retained<AnyObject> =
+        unsafe { msg_send![class(c"NSApplication")?, sharedApplication] };
+    unsafe {
+        let _: bool = msg_send![&*application, setActivationPolicy: 1isize];
+        let _: () = msg_send![&*application, finishLaunching];
     }
     let lock_path = std::env::temp_dir()
         .join(format!("voidstrap-virtualdisplay-{}.lock", unsafe {
