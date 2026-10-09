@@ -697,6 +697,17 @@ namespace Voidstrap.UI.Elements.Overlay
 
 		private void UpdatePosition()
 		{
+			if (Voidstrap.Utility.Platform.IsMacOS)
+			{
+				FallbackPosition();
+				nint native = Voidstrap.UI.MacWindowMode.ResolveNativeWindow(this);
+				if (native != 0)
+				{
+					Voidstrap.Platform.MacOS.MacOSOverlayWindow.Configure(native, true);
+					Voidstrap.Platform.MacOS.MacOSOverlayWindow.MoveTo(native, Left, Top, ActualWidth > 0 ? ActualWidth : Width, ActualHeight > 0 ? ActualHeight : Height);
+				}
+				return;
+			}
 			if (!Voidstrap.Utility.Platform.IsWindows)
 			{
 				_slideDistance = ActualWidth > 0 ? ActualWidth : Width;

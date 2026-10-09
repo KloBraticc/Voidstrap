@@ -838,8 +838,8 @@
               <ui:ToggleSwitch IsChecked="{Binding OverlaysEnabled, Mode=TwoWay}" />
             </controls:OptionControl>
 
-            <TextBlock Margin="2,20,0,0" FontSize="16" FontWeight="SemiBold" Text="Background" />
-                        <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+            <TextBlock Margin="2,20,0,0" FontSize="16" FontWeight="SemiBold" Text="Background" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" />
+                        <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
               <HeaderedContentControl.Header>
                 <Grid>
                   <Grid.ColumnDefinitions>
@@ -948,7 +948,7 @@
               </StackPanel>
             </StackPanel>
 
-            <StackPanel Margin="0,14,0,0">
+            <StackPanel Margin="0,14,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
               <TextBlock Margin="2,0,0,0" FontSize="14" FontWeight="Medium" Text="Smoothing and frames" />
               <StackPanel>
                 <controls:OptionControl Header="Anti aliasing" Description="Smooths jagged edges using your GPU.">

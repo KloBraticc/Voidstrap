@@ -109,7 +109,7 @@ public sealed class MacOSPlatformHost : IPlatformHost
 
 	private static CapabilityDescriptor CreateOverlayCapability()
 	{
-		return new CapabilityDescriptor(FeatureId.Overlay, CapabilityState.Unavailable, "The ScreenCaptureKit overlay adapter has not been ported to the shared desktop host");
+		return new CapabilityDescriptor(FeatureId.Overlay, CapabilityState.Available, "Overlays float above the Roblox window as click through panels");
 	}
 
 	private static CapabilityDescriptor CreateInputCapability()
