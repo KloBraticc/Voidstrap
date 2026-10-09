@@ -335,7 +335,7 @@ fn event(ident: usize, filter: i16, flags: u16, fflags: u32) -> libc::kevent {
 }
 
 struct Session {
-    display: Retained<AnyObject>,
+    display: Option<Retained<AnyObject>>,
     original: OwnedRef,
     physical: u32,
     virtual_id: u32,
@@ -366,6 +366,12 @@ impl Session {
             unsafe { CGDisplayCopyDisplayMode(physical) },
             "The main display mode is unavailable",
         )?;
+        let application: Retained<AnyObject> =
+            unsafe { msg_send![class(c"NSApplication")?, sharedApplication] };
+        unsafe {
+            let _: bool = msg_send![&*application, setActivationPolicy: 1isize];
+            let _: () = msg_send![&*application, finishLaunching];
+        }
         let (width, height) = config
             .size
             .map(|(w, h)| (w as usize, h as usize))
@@ -434,7 +440,7 @@ impl Session {
             return Err("macOS returned an invalid virtual display identifier".into());
         }
         Ok(Self {
-            display,
+            display: Some(display),
             original,
             physical,
             virtual_id,
@@ -584,6 +590,9 @@ impl Session {
             unsafe { CGConfigureDisplayMirrorOfDisplay(transaction.0, self.physical, 0) },
             "Restore display mirroring",
         )?;
+        transaction.commit()?;
+        self.display.take();
+        let transaction = Transaction::begin()?;
         check(
             unsafe {
                 CGConfigureDisplayWithDisplayMode(
@@ -606,7 +615,6 @@ impl Drop for Session {
         if let Err(error) = self.restore() {
             eprintln!("Virtual display restoration: {error}");
         }
-        let _ = &self.display;
     }
 }
 
@@ -654,12 +662,6 @@ fn run_inner(config: Config) -> Result<(), String> {
             unsafe { CGDisplayMirrorsDisplay(display) }
         );
         return Ok(());
-    }
-    let application: Retained<AnyObject> =
-        unsafe { msg_send![class(c"NSApplication")?, sharedApplication] };
-    unsafe {
-        let _: bool = msg_send![&*application, setActivationPolicy: 1isize];
-        let _: () = msg_send![&*application, finishLaunching];
     }
     let lock_path = std::env::temp_dir()
         .join(format!("voidstrap-virtualdisplay-{}.lock", unsafe {
