@@ -15,6 +15,9 @@ internal sealed class MacWindowBackdrop : IDisposable
 	private MacOSWindowBackdrop? _native;
 	private bool _disposed;
 	private string? _logged;
+#if CROSSPLAT
+	private System.Numerics.Vector4? _clearColor;
+#endif
 
 	private MacWindowBackdrop(Window window)
 	{
@@ -83,6 +86,7 @@ internal sealed class MacWindowBackdrop : IDisposable
 			_native = null;
 		}
 		bool active = enabled && _native != null;
+		ApplyClearColor(active);
 		string state = type + (window == 0 ? " no native window" : active ? " active" : " inactive");
 		if (state != _logged)
 		{
@@ -95,6 +99,19 @@ internal sealed class MacWindowBackdrop : IDisposable
 		if (_window is Elements.Settings.MainWindow main)
 			main.ApplyBackdropSurface();
 		_window.InvalidateVisual();
+	}
+
+	private void ApplyClearColor(bool transparent)
+	{
+#if CROSSPLAT
+		if (!System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(_window, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host)
+			|| host?.CompositionTarget?.Compositor is not { } compositor)
+			return;
+		_clearColor ??= compositor.ClearColor;
+		System.Numerics.Vector4 target = transparent ? System.Numerics.Vector4.Zero : _clearColor.Value;
+		if (compositor.ClearColor != target)
+			compositor.ClearColor = target;
+#endif
 	}
 
 	internal static bool IsActive(Window window) => Windows.TryGetValue(window, out MacWindowBackdrop? state) && state._native != null;
