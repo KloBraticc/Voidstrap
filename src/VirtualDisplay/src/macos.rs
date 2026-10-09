@@ -556,6 +556,7 @@ impl Session {
             self.startup_valid_since = None;
         }
         if unsafe { CGDisplayIsActive(self.virtual_id) } == 0 {
+            self.startup_valid_since = None;
             return Ok(());
         }
         if self
@@ -579,6 +580,7 @@ impl Session {
         if unsafe { CGDisplayMirrorsDisplay(self.physical) } == self.virtual_id {
             let current = unsafe { CGDisplayCopyDisplayMode(self.virtual_id) };
             if current.is_null() {
+                self.startup_valid_since = None;
                 return Ok(());
             }
             let current = OwnedRef(current);
