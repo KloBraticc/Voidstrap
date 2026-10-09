@@ -15,7 +15,9 @@ public static class AppFont
 
 	private static FontFamily? _current;
 
-	private static readonly FontFamily LinuxWpfUiFontFamily = new("Inter 18pt, Selawik, Segoe UI Variable, Segoe UI, Ubuntu, Cantarell, Noto Sans, DejaVu Sans, Liberation Sans, Helvetica Neue");
+	private static readonly FontFamily LinuxWpfUiFontFamily = Voidstrap.Utility.Platform.IsMacOS
+		? new(new Uri(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Fonts") + Path.DirectorySeparatorChar), "./#Inter 18pt, ./#Selawik, Helvetica Neue")
+		: new("Inter 18pt, Selawik, Segoe UI Variable, Segoe UI, Ubuntu, Cantarell, Noto Sans, DejaVu Sans, Liberation Sans");
 
 	public static bool HasCustomFont => _current != null;
 
