@@ -2,7 +2,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 RID="${1:?A macOS runtime identifier is required}"
-VERSION="${2:?A version is required}"
+VERSION="${2:-}"
 OUTPUT="${3:?An output directory is required}"
 PUBLISHED_EXECUTABLE="${4:-}"
 
@@ -10,6 +10,10 @@ case "$RID" in
   osx-x64|osx-arm64) ;;
   *) echo "Unsupported macOS runtime identifier"; exit 1 ;;
 esac
+
+if [ -z "$VERSION" ]; then
+  VERSION="$(sed -n 's:^[[:space:]]*<VoidstrapVersion>\(.*\)</VoidstrapVersion>[[:space:]]*$:\1:p' "$ROOT/Directory.Build.props" | head -n 1)"
+fi
 
 if [[ ! "$VERSION" =~ ^[0-9]+([.][0-9]+){1,3}$ ]]; then
   echo "The package version is invalid"
