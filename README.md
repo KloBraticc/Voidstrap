@@ -57,11 +57,7 @@ Linux picks the right package for your distro. To choose one yourself, end the c
 ---
 
 > [!IMPORTANT]
-> Voidstrap currently supports **Windows 10 and above**, **Android**, and **Linux**.  
-> **macOS support is currently in development** and will be available in a future release.
->
-> If you're looking for a MacOS Bootstrapper in the meantime:
-> - **macOS:** [AppleBlox](https://github.com/AppleBlox/appleblox)
+> Voidstrap is cross platform and supports **Windows 10 and above**, **macOS**, **Linux**, and **Android**.
 
 > [!WARNING]
 > Voidstrap is not an exploit and never will be. We are not considered an exploit. We are here to give users more freedom, features, and support for Roblox.
