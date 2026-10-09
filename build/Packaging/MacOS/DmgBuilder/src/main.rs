@@ -12,9 +12,9 @@ fn run() -> Result<(), Box<dyn Error>> {
 
     let input = fs::read(&args[1])?;
     let mut writer = DmgWriter::create(&args[2])?
-        .compression(CompressionMethod::Raw)
-        .chunk_size(input.len());
-    writer.add_partition("CD_ROM_XA", &input)?;
+        .compression(CompressionMethod::Zlib)
+        .chunk_size(512 * 512);
+    writer.add_partition("whole disk (unknown partition : 0)", &input)?;
     writer.finish()?;
 
     let mut archive = DmgArchive::open(&args[2])?;
@@ -70,8 +70,18 @@ fn repair_koly_trailer(path: &str) -> Result<(), Box<dyn Error>> {
         if data.len() < 40 {
             return Err("the disk image block map is truncated".into());
         }
-        data[32..36].copy_from_slice(&2056u32.to_be_bytes());
-        data[36..40].copy_from_slice(&0u32.to_be_bytes());
+        data[32..36].copy_from_slice(&520u32.to_be_bytes());
+        data[36..40].copy_from_slice(&u32::MAX.wrapping_sub(1).to_be_bytes());
+        if let Some(entry) = block_map.as_dictionary_mut() {
+            entry.insert(
+                "CFName".to_string(),
+                plist::Value::String("whole disk (unknown partition : 0)".to_string()),
+            );
+            entry.insert(
+                "Name".to_string(),
+                plist::Value::String("whole disk (unknown partition : 0)".to_string()),
+            );
+        }
     }
     resource_fork.insert("plst".to_string(), plist::Value::Array(Vec::new()));
 
