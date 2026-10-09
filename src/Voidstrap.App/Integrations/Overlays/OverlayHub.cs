@@ -160,11 +160,12 @@ namespace Voidstrap.Integrations.Overlays
 
 		internal static void SynchronizeLinuxGameState(bool inGame)
 		{
-			if (!Voidstrap.Utility.Platform.IsLinux || _shutdown)
+			if (!Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Utility.Platform.IsMacOS || _shutdown)
 				return;
 			_inGame = inGame;
 			_gameTransition = false;
-			SetLinuxGameplayLease(inGame);
+			if (Voidstrap.Utility.Platform.IsLinux)
+				SetLinuxGameplayLease(inGame);
 			Refresh();
 		}
 
