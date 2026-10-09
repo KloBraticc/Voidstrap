@@ -993,7 +993,7 @@ public static partial class WindowBackdrop
         Color surfaceSecondary = GetSurfaceColor(secondary);
         Color surfaceThird = GetSurfaceColor(third);
         Brush brush;
-        if (!HardwareRendering || (NearlyEqual(surfacePrimary, surfaceSecondary) && NearlyEqual(surfacePrimary, surfaceThird)))
+        if ((!HardwareRendering && Voidstrap.Utility.Platform.IsWindows) || (NearlyEqual(surfacePrimary, surfaceSecondary) && NearlyEqual(surfacePrimary, surfaceThird)))
         {
             SolidColorBrush solid = new(surfacePrimary);
             if (solid.CanFreeze)

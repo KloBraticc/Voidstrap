@@ -4296,7 +4296,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 }
                 item.ToolTip = new System.Windows.Controls.ToolTip
                 {
-                    Content = BuildShortcutToolTip(item.Content?.ToString() ?? "", shortcut.Label),
+                    Content = BuildShortcutToolTip(item.Content?.ToString() ?? "", Wpf.Ui.Converters.ShortcutTextConverter.Format(shortcut.Label)),
                     Placement = PlacementMode.Right,
                     HorizontalOffset = 8,
                     VerticalOffset = 0
