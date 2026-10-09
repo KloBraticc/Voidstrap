@@ -35,19 +35,19 @@ public static class GithubUpdater
                 return await GetLatestLinuxVersionTagAsync(cancellationToken).ConfigureAwait(false);
             if (OperatingSystem.IsMacOS())
                 return await GetLatestMacVersionTagAsync(cancellationToken).ConfigureAwait(false);
-            if (App.AllowPreReleaseUpdates)
+            var releases = await Voidstrap.Utility.GitHubCache.GetJsonWithFallbackAsync<List<Voidstrap.Models.APIs.GitHub.GithubRelease>>(
+                App.ProjectReleaseListApi,
+                App.ProjectFallbackReleaseListApi,
+                TimeSpan.Zero,
+                cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+            if (releases != null)
             {
-                var releases = await Voidstrap.Utility.GitHubCache.GetJsonWithFallbackAsync<List<Voidstrap.Models.APIs.GitHub.GithubRelease>>(
-                    App.ProjectReleaseListApi,
-                    App.ProjectFallbackReleaseListApi,
-                    TimeSpan.Zero,
-                    cancellationToken);
-                cancellationToken.ThrowIfCancellationRequested();
                 Version? newestVersion = null;
                 string? newestTag = null;
-                foreach (var release in releases ?? [])
+                foreach (var release in releases)
                 {
-                    if (release == null || release.Draft || string.IsNullOrEmpty(release.TagName)
+                    if (release == null || release.Draft || (release.Prerelease && !App.AllowPreReleaseUpdates) || string.IsNullOrEmpty(release.TagName)
                         || !Version.TryParse(release.TagName.TrimStart('v', 'V'), out Version? version)
                         || (newestVersion != null && version <= newestVersion)
                         || FindWindowsAsset(release) == null)
@@ -57,7 +57,8 @@ public static class GithubUpdater
                 }
                 if (newestTag != null)
                     return newestTag;
-                App.Logger.WriteLine("GitHubUpdater", "Prerelease lookup found nothing, using the stable release");
+                App.Logger.WriteLine("GitHubUpdater", "No release has a Windows build yet");
+                return "v" + (typeof(GithubUpdater).Assembly.GetName().Version?.ToString() ?? "0.0.0.0");
             }
 
             string? response = await Voidstrap.Utility.GitHubCache.GetStringWithFallbackAsync(
