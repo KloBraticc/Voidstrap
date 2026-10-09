@@ -189,7 +189,7 @@ internal sealed class LinuxWebPanel : FrameworkElement, IDisposable
 		g_signal_connect_data(_manager, "script-message-received::voidstrap", Marshal.GetFunctionPointerForDelegate(messageHandler), IntPtr.Zero, IntPtr.Zero, 0);
 
 		AddScript(_manager, "window.__vsAccentColor = " + System.Text.Json.JsonSerializer.Serialize(accent) + ";");
-		AddScript(_manager, LinuxWebPanelBridge);
+		AddScript(_manager, WebPanelBridge);
 		AddScript(_manager, Voidstrap.UI.Elements.Bootstrapper.CustomDialog.WebPanelApi);
 
 		_view = webkit_web_view_new_with_user_content_manager(_manager);
@@ -408,7 +408,7 @@ internal sealed class LinuxWebPanel : FrameworkElement, IDisposable
 		}
 	}
 
-	private const string LinuxWebPanelBridge = """
+	internal const string WebPanelBridge = """
 		window.chrome = window.chrome || {};
 		window.chrome.webview = window.chrome.webview || {
 			postMessage: function (message) {
@@ -447,7 +447,7 @@ internal sealed class LinuxWebPanel : FrameworkElement, IDisposable
 				return false;
 
 			string? uri = Marshal.PtrToStringUTF8(webkit_uri_request_get_uri(request));
-			if (IsAllowed(uri))
+			if (IsAllowed(ThemeFolder, uri))
 				return false;
 
 			App.Logger?.WriteLine("LinuxWebPanel::OnDecidePolicy", "Blocked navigation to " + (uri ?? "an unknown target"));
@@ -460,7 +460,7 @@ internal sealed class LinuxWebPanel : FrameworkElement, IDisposable
 		}
 	}
 
-	private bool IsAllowed(string? uri)
+	internal static bool IsAllowed(string? folder, string? uri)
 	{
 		if (string.IsNullOrEmpty(uri))
 			return false;
@@ -470,7 +470,6 @@ internal sealed class LinuxWebPanel : FrameworkElement, IDisposable
 
 		if (parsed.Scheme == Uri.UriSchemeFile)
 		{
-			string? folder = ThemeFolder;
 			if (string.IsNullOrEmpty(folder))
 				return false;
 
