@@ -158,7 +158,7 @@ internal static class Locale
 		EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, (RoutedEventHandler)delegate(object sender, RoutedEventArgs _)
 		{
 			Window window = (Window)sender;
-			if (RightToLeft)
+			if (RightToLeft && !Voidstrap.Utility.Platform.IsMacOS)
 			{
 				window.FlowDirection = FlowDirection.RightToLeft;
 				if (window.ContextMenu != null)
