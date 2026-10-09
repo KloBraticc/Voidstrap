@@ -1640,7 +1640,7 @@ public partial class App : Application
 			TryStartup("Clear font", () => EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyClearFont)));
 		}
 		TryStartup("Linux file dialogs", Voidstrap.UI.LinuxFileDialog.Install);
-		TryStartup("Linux editor compatibility", Voidstrap.UI.LinuxEditorCompat.Install);
+		TryStartup("Editor compatibility", Voidstrap.UI.LinuxEditorCompat.Install);
 		TryStartup("Smooth scrolling", () =>
 		{
 			Wpf.Ui.Controls.SmoothScroll.SetGlobalEnabled(!Voidstrap.Utility.Platform.IsLinux && Settings.Prop.SmooothBARRyesirikikthxlucipook);

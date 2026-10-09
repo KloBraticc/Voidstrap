@@ -75,7 +75,15 @@
 		</None>
 	</ItemGroup>
 
-	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('osx'))">
+		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\osx\libvoidstrapeditorcompat.dylib">
+			<Link>libvoidstrapeditorcompat.dylib</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
 		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\System.Windows.Forms.dll">
 			<Link>System.Windows.Forms.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

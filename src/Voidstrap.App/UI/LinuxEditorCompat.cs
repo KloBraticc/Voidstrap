@@ -8,7 +8,7 @@ namespace Voidstrap.UI
 {
     public static class LinuxEditorCompat
     {
-        private const string StubFileName = "libvoidstrapeditorcompat.so";
+        private static string StubFileName => Voidstrap.Utility.Platform.IsMacOS ? "libvoidstrapeditorcompat.dylib" : "libvoidstrapeditorcompat.so";
 
         private static readonly string[] RedirectedLibraries = { "imm32.dll", "user32.dll", "msctf.dll" };
 
@@ -18,7 +18,7 @@ namespace Voidstrap.UI
 
         public static void Install()
         {
-            if (_installed || !Voidstrap.Utility.Platform.IsLinux)
+            if (_installed || Voidstrap.Utility.Platform.IsWindows)
                 return;
 
             try
