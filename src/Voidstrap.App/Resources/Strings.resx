@@ -2637,4 +2637,19 @@ What would you like to do?</value>
   <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
     <value>Videos</value>
   </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>Popover</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Heads up display</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Under window</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Under page</value>
+  </data>
 </root>

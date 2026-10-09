@@ -62,6 +62,8 @@ public static partial class MacOSWindow
 
 	public static Rect GetFrame(nint window) => ReadRect(window, sel_registerName("frame"));
 
+	internal static Rect GetFrameForView(nint view) => ReadRect(view, sel_registerName("frame"));
+
 	public static Rect GetWorkArea(nint window)
 	{
 		nint pool = objc_autoreleasePoolPush();

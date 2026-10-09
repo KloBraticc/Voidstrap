@@ -169,6 +169,11 @@ public static partial class WindowBackdrop
                 ApplyLinuxSurface(window);
             return;
         }
+        if (Voidstrap.Utility.Platform.IsMacOS)
+        {
+            MacWindowBackdrop.Apply(window);
+            return;
+        }
         if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
         {
             IntPtr borderHandle = new WindowInteropHelper(window).Handle;
@@ -624,6 +629,11 @@ public static partial class WindowBackdrop
     {
         if (!window.IsLoaded || window.Dispatcher.HasShutdownStarted || window.Dispatcher.HasShutdownFinished)
             return;
+        if (Voidstrap.Utility.Platform.IsMacOS)
+        {
+            MacWindowBackdrop.Apply(window);
+            return;
+        }
         if (Voidstrap.Utility.Platform.IsLinux)
         {
             if (!Voidstrap.Integrations.Overlays.LinuxOverlaySurface.IsOverlayWindow(window))
@@ -683,6 +693,8 @@ public static partial class WindowBackdrop
 
     internal static bool HasBackdrop(Window window)
     {
+        if (Voidstrap.Utility.Platform.IsMacOS)
+            return MacWindowBackdrop.IsActive(window);
         if (Voidstrap.Utility.Platform.IsLinux)
         {
             return false;
@@ -755,7 +767,7 @@ public static partial class WindowBackdrop
     {
         if (Voidstrap.Utility.Platform.IsLinux || backdrop == BackdropType.None)
             return byte.MaxValue;
-        if (backdrop != BackdropType.Aero && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
+        if (!Voidstrap.Utility.Platform.IsMacOS && backdrop != BackdropType.Aero && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
             return byte.MaxValue;
         double baseAlpha = themeAlpha == 0 ? 204 : themeAlpha;
         double gradientOpacity = Math.Clamp(Voidstrap.UI.ViewModels.Settings.AppearanceViewModel.SharedGradientOpacity, 0.0, 1.0);
@@ -958,6 +970,8 @@ public static partial class WindowBackdrop
         {
             return customGradient;
         }
+        if (Voidstrap.Utility.Platform.IsMacOS && element is Window macWindow && !MacWindowBackdrop.IsActive(macWindow))
+            return CreateOpaqueSurfaceBrush(element);
         if (EffectiveBackdrop(element as Window) == BackdropType.Aero
             && !IsThemedColor(ResolveColor(element, "WindowBackgroundColorPrimary", CreateSurfaceColor())))
         {
@@ -1172,7 +1186,9 @@ public static partial class WindowBackdrop
         {
             return byte.MaxValue;
         }
-        if (backdrop != BackdropType.Aero && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
+        if (backdrop == BackdropType.None)
+            return byte.MaxValue;
+        if (!Voidstrap.Utility.Platform.IsMacOS && backdrop != BackdropType.Aero && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
         {
             return byte.MaxValue;
         }
