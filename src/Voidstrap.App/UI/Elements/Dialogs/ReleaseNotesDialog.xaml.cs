@@ -412,6 +412,8 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 		ClearLinkButtons();
 		NotesPanel.Children.Clear();
 		string text = string.IsNullOrWhiteSpace(markdown) ? "This release does not include any notes." : markdown;
+		_nativeSource = text;
+		_richBlocks.Clear();
 		foreach (MarkdownBlock block in Markdown.Parse(text, Pipeline))
 		{
 			AddNativeBlock(NotesPanel.Children, block, 0, false, "TextFillColorPrimaryBrush");
@@ -447,7 +449,17 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 			return;
 		}
 		Voidstrap.UI.LinuxTextGuard.CorrectOwner(NotesPanel, this);
+		foreach (Voidstrap.UI.Elements.Controls.MarkdownTextBlock rich in _richBlocks)
+		{
+			double width = System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(rich).Width - rich.Margin.Left - rich.Margin.Right;
+			if (width > 40 && Math.Abs(rich.MaxWidth - width) >= 1)
+				rich.MaxWidth = width;
+		}
 	}
+
+	private string _nativeSource = string.Empty;
+
+	private readonly List<Voidstrap.UI.Elements.Controls.MarkdownTextBlock> _richBlocks = new List<Voidstrap.UI.Elements.Controls.MarkdownTextBlock>();
 
 	private void AddNativeBlock(WpfControls.UIElementCollection target, MarkdownBlock block, int depth, bool compact, string brushKey)
 	{
@@ -464,7 +476,7 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 			case ParagraphBlock paragraphBlock:
 			{
 				List<(string Text, string Url)> links = new List<(string, string)>();
-				target.Add(CreateRichText(paragraphBlock.Inline, links, new Thickness(0, 0, 0, compact ? 2 : 10), brushKey));
+				target.Add(CreateRichText(paragraphBlock, links, new Thickness(0, 0, 0, compact ? 2 : 10), brushKey));
 				AddLinkButtons(target, links, compact);
 				break;
 			}
@@ -546,7 +558,7 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 			case LeafBlock leaf when leaf.Inline != null:
 			{
 				List<(string Text, string Url)> links = new List<(string, string)>();
-				target.Add(CreateRichText(leaf.Inline, links, new Thickness(0, 0, 0, compact ? 2 : 10), brushKey));
+				target.Add(CreateRichText(leaf, links, new Thickness(0, 0, 0, compact ? 2 : 10), brushKey));
 				AddLinkButtons(target, links, compact);
 				break;
 			}
@@ -561,14 +573,22 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 		}
 	}
 
-	private static WpfControls.TextBlock CreateRichText(ContainerInline? container, List<(string Text, string Url)> links, Thickness margin, string brushKey)
+	private WpfControls.TextBlock CreateRichText(LeafBlock leaf, List<(string Text, string Url)> links, Thickness margin, string brushKey)
 	{
-		WpfControls.TextBlock block = CreateText(Flatten(container, links), 14, FontWeights.Normal, margin, brushKey, 22);
-		if (container == null || !HasEmphasis(container))
-			return block;
-		block.Inlines.Clear();
-		AddPortableInlines(block.Inlines, container);
-		return block;
+		WpfControls.TextBlock plain = CreateText(Flatten(leaf.Inline, links), 14, FontWeights.Normal, margin, brushKey, 22);
+		if (leaf.Inline == null || !HasEmphasis(leaf.Inline) || leaf.Span.Start < 0 || leaf.Span.End >= _nativeSource.Length || leaf.Span.Length <= 0)
+			return plain;
+		Voidstrap.UI.Elements.Controls.MarkdownTextBlock rich = new Voidstrap.UI.Elements.Controls.MarkdownTextBlock
+		{
+			FontSize = 14,
+			Margin = margin,
+			TextWrapping = TextWrapping.Wrap,
+			LineHeight = 22
+		};
+		rich.SetResourceReference(WpfControls.TextBlock.ForegroundProperty, brushKey);
+		rich.MarkdownText = _nativeSource.Substring(leaf.Span.Start, leaf.Span.Length).Trim();
+		_richBlocks.Add(rich);
+		return rich;
 	}
 
 	private static bool HasEmphasis(ContainerInline container)
@@ -579,45 +599,6 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 				return true;
 		}
 		return false;
-	}
-
-	private static void AddPortableInlines(InlineCollection target, ContainerInline container)
-	{
-		foreach (MarkdownInline inline in container)
-		{
-			switch (inline)
-			{
-				case LiteralInline literal:
-					target.Add(new Run(literal.Content.ToString()));
-					break;
-				case LineBreakInline:
-					target.Add(new LineBreak());
-					break;
-				case CodeInline code:
-					target.Add(new Run(code.Content.ToString()) { FontFamily = CodeFont });
-					break;
-				case HtmlEntityInline entity:
-					target.Add(new Run(entity.Transcoded.ToString()));
-					break;
-				case AutolinkInline autolink:
-					target.Add(new Run(autolink.Url));
-					break;
-				case LinkInline { IsImage: true }:
-					break;
-				case EmphasisInline emphasis:
-				{
-					Span span = emphasis.DelimiterChar == '~'
-						? new Span { TextDecorations = TextDecorations.Strikethrough }
-						: emphasis.DelimiterCount >= 2 ? new Bold() : new Italic();
-					AddPortableInlines(span.Inlines, emphasis);
-					target.Add(span);
-					break;
-				}
-				case ContainerInline nested:
-					AddPortableInlines(target, nested);
-					break;
-			}
-		}
 	}
 
 	private static WpfControls.TextBlock CreateText(string text, double size, FontWeight weight, Thickness margin, string brushKey, double lineHeight)
