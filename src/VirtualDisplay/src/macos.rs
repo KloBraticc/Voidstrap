@@ -88,7 +88,6 @@ unsafe extern "C" {
 unsafe extern "C" {
     static kCFRunLoopDefaultMode: Ref;
     fn CFRelease(value: Ref);
-    fn CFRetain(value: Ref) -> Ref;
     fn CFArrayGetCount(array: Ref) -> isize;
     fn CFArrayGetValueAtIndex(array: Ref, index: isize) -> Ref;
     fn CFRunLoopGetCurrent() -> Ref;
@@ -348,6 +347,7 @@ struct Session {
 
 impl Session {
     fn create(config: Config, stopped: Arc<AtomicBool>) -> Result<Self, String> {
+        let started = Instant::now();
         let physical = unsafe { CGMainDisplayID() };
         if physical == 0 || unsafe { CGDisplayIsActive(physical) } == 0 {
             return Err("No active main display".into());
@@ -440,7 +440,7 @@ impl Session {
             timeout: false,
             error: None,
             stopped,
-            started: Instant::now(),
+            started,
         })
     }
 
@@ -672,9 +672,15 @@ fn run_inner(config: Config) -> Result<(), String> {
             &mut timer_context,
         )
     };
-    if !timer.is_null() {
-        unsafe { CFRunLoopAddTimer(session.run_loop, timer, kCFRunLoopDefaultMode) };
+    if timer.is_null() {
+        drop(monitor);
+        unsafe {
+            CGDisplayRemoveReconfigurationCallback(display_changed, wake_context);
+            CFRunLoopRemoveSource(session.run_loop, source.0, kCFRunLoopDefaultMode);
+        }
+        return Err("Could not create the display startup deadline".into());
     }
+    unsafe { CFRunLoopAddTimer(session.run_loop, timer, kCFRunLoopDefaultMode) };
     wake.signal();
     unsafe { CFRunLoopRun() };
     drop(monitor);
