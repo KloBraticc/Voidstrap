@@ -74,6 +74,7 @@ fn repair_koly_trailer(path: &str) -> Result<(), Box<dyn Error>> {
     plist::to_writer_xml(&mut serialized_property_list, &property_list)?;
     let mut corrected = [0u8; 512];
     corrected[..232].copy_from_slice(&trailer[..232]);
+    corrected[56..64].fill(0);
     corrected[224..232].copy_from_slice(&(serialized_property_list.len() as u64).to_be_bytes());
     corrected[352..500].copy_from_slice(&trailer[296..444]);
     let mut output = Vec::with_capacity(plist_offset + serialized_property_list.len() + 512);
