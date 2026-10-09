@@ -1,0 +1,17 @@
+[package]
+name = "voidstrap-virtualdisplay"
+version = "1.0.0"
+edition = "2024"
+license = "MIT"
+publish = false
+
+[target.'cfg(target_os = "macos")'.dependencies]
+libc = "0.2"
+objc2 = "0.6.4"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = true
+
