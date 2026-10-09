@@ -9,6 +9,7 @@ namespace Voidstrap.Utility;
 internal sealed class MacVirtualDisplaySession : IDisposable
 {
 	private const string LogIdent = "VirtualDisplay";
+	private static readonly SemaphoreSlim SessionSlot = new(1, 1);
 	private readonly object _gate = new();
 	private readonly CancellationTokenSource _cancellation = new();
 	private Process? _process;
@@ -16,18 +17,27 @@ internal sealed class MacVirtualDisplaySession : IDisposable
 
 	public void Start()
 	{
-		lock (_gate)
+		_ = StartAsync();
+	}
+
+	private async Task StartAsync()
+	{
+		bool acquired = false;
+		bool monitoring = false;
+		try
 		{
-			if (_disposed || _process != null || !Platform.IsMacOS)
-				return;
-			string executable = Path.Combine(AppContext.BaseDirectory, "voidstrap-virtualdisplay");
-			if (!File.Exists(executable))
+			await SessionSlot.WaitAsync(_cancellation.Token).ConfigureAwait(false);
+			acquired = true;
+			lock (_gate)
 			{
-				App.Logger.WriteLine(LogIdent, "The virtual display helper is missing, reinstall the macOS package");
-				return;
-			}
-			try
-			{
+				if (_disposed || _process != null || !Platform.IsMacOS)
+					return;
+				string executable = Path.Combine(AppContext.BaseDirectory, "voidstrap-virtualdisplay");
+				if (!File.Exists(executable))
+				{
+					App.Logger.WriteLine(LogIdent, "The virtual display helper is missing, reinstall the macOS package");
+					return;
+				}
 				ProcessStartInfo info = new(executable)
 				{
 					UseShellExecute = false,
@@ -39,15 +49,25 @@ internal sealed class MacVirtualDisplaySession : IDisposable
 				info.ArgumentList.Add("--watch-stdin");
 				_process = Process.Start(info);
 				if (_process != null)
+				{
+					monitoring = true;
 					_ = ObserveAsync(_process, _cancellation.Token);
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine(LogIdent, "The virtual display could not start: " + ex.Message);
+				}
 			}
 		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LogIdent, "The virtual display could not start: " + ex.Message);
+		}
+		finally
+		{
+			if (acquired && !monitoring)
+				SessionSlot.Release();
+		}
 	}
-
 	private async Task ReadOutputAsync(StreamReader reader, CancellationToken token)
 	{
 		while (!token.IsCancellationRequested)
@@ -93,6 +113,7 @@ internal sealed class MacVirtualDisplaySession : IDisposable
 			{
 				_process = null;
 				process.Dispose();
+				SessionSlot.Release();
 				if (_disposed)
 					_cancellation.Dispose();
 			}

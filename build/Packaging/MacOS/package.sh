@@ -79,6 +79,10 @@ if [ "$(uname -s)" = "Darwin" ]; then
   cp "$STAGE/rust/$RUST_TARGET/release/voidstrap-virtualdisplay" "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
   chmod 755 "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
 elif [ -s "${VOIDSTRAP_VIRTUALDISPLAY_BINARY:-$ROOT/external/virtualdisplay/$RID/voidstrap-virtualdisplay}" ]; then
+  if [ -z "${VOIDSTRAP_VIRTUALDISPLAY_BINARY:-}" ]; then
+    (cd "$ROOT" && sha256sum -c external/virtualdisplay/SOURCES.sha256)
+    (cd "$ROOT/external/virtualdisplay/$RID" && sha256sum -c SHA256SUMS)
+  fi
   cp "${VOIDSTRAP_VIRTUALDISPLAY_BINARY:-$ROOT/external/virtualdisplay/$RID/voidstrap-virtualdisplay}" "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
   chmod 755 "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
 else
