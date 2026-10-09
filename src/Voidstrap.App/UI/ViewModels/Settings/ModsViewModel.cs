@@ -1323,6 +1323,8 @@ public ICommand PickCursorColorCommand { get; }
 
 	private void BeginHomepagePreview()
 	{
+		if (Voidstrap.Utility.Platform.UsesPortableUi)
+			return;
 		if (_homepagePreviewRequested)
 			return;
 		_homepagePreviewRequested = true;
@@ -3108,6 +3110,8 @@ public ICommand PickCursorColorCommand { get; }
 				Title = "Choose homepage background",
 				Filter = "All supported media|*.png;*.apng;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.dib;*.gif;*.webp;*.tif;*.tiff;*.ico;*.wdp;*.jxr;*.hdp;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif;*.mp4;*.m4v;*.webm;*.avi;*.mov;*.wmv;*.mpeg;*.mpg;*.mkv|All image files|*.*|Videos|*.mp4;*.m4v;*.webm;*.avi;*.mov;*.wmv;*.mpeg;*.mpg;*.mkv|All files|*.*"
 			};
+			if (Voidstrap.Utility.Platform.IsMacOS)
+				dialog.Filter = "Images and videos|*.png;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.ico;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif;*.mp4;*.m4v;*.mov|Images|*.png;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.ico;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif|Videos|*.mp4;*.m4v;*.mov|All files|*.*";
 			if (dialog.ShowDialog() != true)
 				return;
 			string path = Path.GetFullPath(dialog.FileName);

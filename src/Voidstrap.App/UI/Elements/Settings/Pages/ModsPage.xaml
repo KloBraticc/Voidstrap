@@ -907,7 +907,7 @@
                       </Grid>
                       <controls:HomepageMediaPreviewVideo IsHitTestVisible="False"
                                                           SourcePath="{Binding HomepageBackgroundOverlayMediaPath}"
-                                                          Visibility="{x:Static platform:PlatformFeatureVisibility.LinuxIntegration}" />
+                                                          Visibility="{x:Static platform:PlatformFeatureVisibility.PortableImages}" />
                       <TextBlock Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"
                                  TextAlignment="Center" Opacity="0.7" Text="{Binding HomepageMediaPreviewMessage}"
                                  Visibility="{Binding HasHomepageMediaPreviewMessage, Converter={StaticResource BooleanToVisibilityConverter}}" />

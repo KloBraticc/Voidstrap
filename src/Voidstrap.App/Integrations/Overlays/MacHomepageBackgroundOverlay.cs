@@ -36,6 +36,17 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 	private byte[] _mask = [];
 
 	private byte[] _background = [];
+	private byte[] _frame = [];
+	private int[] _mediaXMap = [];
+	private int[] _mediaYMap = [];
+	private HomepageBackgroundMedia? _media;
+	private string _mediaPath = string.Empty;
+	private long _mediaVersion;
+	private long _nextCapture;
+	private int _contentWidth;
+	private int _contentHeight;
+	private int _windowNumber;
+	private bool _hasCapture;
 
 	private int _width;
 
@@ -93,6 +104,9 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 		if (!OverlayHub.HomepageBackgroundActive || !rect.Valid || !rect.Foreground || rect.Hwnd == IntPtr.Zero)
 		{
 			SetVisible(false);
+			StopMedia();
+			_hasCapture = false;
+			_timer.Interval = TimeSpan.FromMilliseconds(500);
 			Interlocked.Exchange(ref _busy, 0);
 			return;
 		}
@@ -133,8 +147,21 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 		{
 			if (token.IsCancellationRequested)
 				return;
-			if (!Capture(windowNumber, contentWidth, contentHeight, titleBar, out int width, out int height))
+			bool captureDue = Environment.TickCount64 >= _nextCapture || contentWidth != _contentWidth || contentHeight != _contentHeight || windowNumber != _windowNumber;
+			if (!_hasCapture && !captureDue)
+				return;
+			if (captureDue)
 			{
+				_nextCapture = Environment.TickCount64 + 500;
+				_contentWidth = contentWidth;
+				_contentHeight = contentHeight;
+				_windowNumber = windowNumber;
+			}
+			int width = _width;
+			int height = _height;
+			if (captureDue && !Capture(windowNumber, contentWidth, contentHeight, titleBar, out width, out height))
+			{
+				_hasCapture = false;
 				if (Interlocked.Exchange(ref _captureFailureLogged, 1) == 0)
 					App.Logger.WriteLine(LogIdent, "The Roblox window could not be captured, check Screen Recording permission for Voidstrap");
 				Post(() => SetVisible(false));
@@ -151,36 +178,73 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 				_ownWeights = new byte[maskWidth * maskHeight];
 				_mask = new byte[maskWidth * maskHeight];
 			}
-			int matched = LinuxHomepageBackgroundMask.BuildSampled(_raw, width, height, MaskScale, _ownWeights, _mask);
-			if (Interlocked.Exchange(ref _firstCaptureLogged, 1) == 0)
-				App.Logger.WriteLine(LogIdent, $"Captured the Roblox window at {width}x{height}, {matched} home background samples matched");
-			int minimumRegion = Math.Min(_ownWeights.Length, Math.Clamp(_ownWeights.Length / 512, 64, 4096));
-			if (matched < minimumRegion)
+			if (captureDue)
 			{
-				Post(() => SetVisible(false));
-				return;
+				int matched = LinuxHomepageBackgroundMask.BuildSampled(_raw, width, height, MaskScale, _ownWeights, _mask);
+				if (Interlocked.Exchange(ref _firstCaptureLogged, 1) == 0)
+					App.Logger.WriteLine(LogIdent, $"Captured the Roblox window at {width}x{height}, {matched} home background samples matched");
+				int minimumRegion = Math.Min(_ownWeights.Length, Math.Clamp(_ownWeights.Length / 512, 64, 4096));
+				_hasCapture = matched >= minimumRegion;
+				_nextCapture = Environment.TickCount64 + 500;
+				_contentWidth = contentWidth;
+				_contentHeight = contentHeight;
+				_windowNumber = windowNumber;
+				if (!_hasCapture)
+				{
+					Post(() => SetVisible(false));
+					return;
+				}
 			}
 			if (_background.Length != pixels * 4)
 			{
 				_background = new byte[pixels * 4];
+				_frame = new byte[pixels * 4];
+				_mediaXMap = new int[width];
+				_mediaYMap = new int[height];
 				_hasBackground = false;
 			}
-			if (!_hasBackground || width != _width || height != _height || settings != _settings)
+			if (_mediaXMap.Length != width || _mediaYMap.Length != height)
 			{
-				LinuxHomepageBackgroundMask.BuildBackground(width, height, settings, null, 0, 0, _background, new int[width], new int[height]);
+				_mediaXMap = new int[width];
+				_mediaYMap = new int[height];
+			}
+			string path = settings.Mode == "Media" ? settings.MediaPath : string.Empty;
+			if (!string.Equals(path, _mediaPath, StringComparison.Ordinal))
+			{
+				StopMedia();
+				_mediaPath = path;
+				if (System.IO.File.Exists(path))
+					_media = new HomepageBackgroundMedia(path, 30d, contentWidth, contentHeight);
+				_hasBackground = false;
+			}
+			bool backgroundChanged = !_hasBackground || width != _width || height != _height || settings != _settings;
+			if (backgroundChanged)
+				_mediaVersion = 0;
+			bool mediaChanged = _media?.TryReadFrame(_mediaVersion, (mediaPixels, mediaWidth, mediaHeight, version) =>
+			{
+				LinuxHomepageBackgroundMask.BuildBackground(width, height, settings, mediaPixels, mediaWidth, mediaHeight, _background, _mediaXMap, _mediaYMap);
+				_mediaVersion = version;
+			}) == true;
+			if (backgroundChanged)
+			{
+				if (!mediaChanged)
+					LinuxHomepageBackgroundMask.BuildBackground(width, height, settings, null, 0, 0, _background, _mediaXMap, _mediaYMap);
 				_settings = settings;
 				_width = width;
 				_height = height;
 				_hasBackground = true;
 			}
-			LinuxHomepageBackgroundMask.ApplyBackgroundMask(_raw, _mask, _background, width, height, _raw, MaskScale);
+			if (!captureDue && !backgroundChanged && !mediaChanged)
+				return;
+			LinuxHomepageBackgroundMask.ApplyBackgroundMask(_raw, _mask, _background, width, height, _frame, MaskScale);
 			if (token.IsCancellationRequested)
 				return;
-			byte[] frame = _raw;
+			byte[] frame = _frame;
 			pending = Post(() =>
 			{
 				try
 				{
+					_timer.Interval = TimeSpan.FromMilliseconds(_media?.IsAnimated == true ? 1000d / 30d : 500d);
 					Present(frame, width, height);
 				}
 				finally
@@ -238,9 +302,21 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 			_ownWeights = [];
 			_mask = [];
 			_background = [];
+			_frame = [];
+			_mediaXMap = [];
+			_mediaYMap = [];
+			StopMedia();
 			Voidstrap.Platform.MacOS.MacOSScreenCapture.ReleaseWindow();
 			Interlocked.Exchange(ref _busy, 0);
 		}
+	}
+
+	private void StopMedia()
+	{
+		_media?.Dispose();
+		_media = null;
+		_mediaPath = string.Empty;
+		_mediaVersion = 0;
 	}
 
 	public void Dispose()
