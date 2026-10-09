@@ -11,7 +11,9 @@ fn run() -> Result<(), Box<dyn Error>> {
     }
 
     let input = fs::read(&args[1])?;
-    let mut writer = DmgWriter::create(&args[2])?.compression(CompressionMethod::Zlib);
+    let mut writer = DmgWriter::create(&args[2])?
+        .compression(CompressionMethod::Raw)
+        .chunk_size(input.len());
     writer.add_partition("CD_ROM_XA", &input)?;
     writer.finish()?;
 
