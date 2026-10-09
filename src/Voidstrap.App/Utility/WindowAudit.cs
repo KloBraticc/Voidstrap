@@ -5986,7 +5986,7 @@ internal static class WindowAudit
 			AuditLinuxMainWindowSurface(settings);
 			AuditRestartNotificationInput(settings);
 		}
-		if (Voidstrap.Utility.Platform.IsLinux && window is Voidstrap.UI.Elements.Controls.RinColorPickerDialog colorPicker)
+		if (!Voidstrap.Utility.Platform.IsWindows && window is Voidstrap.UI.Elements.Controls.RinColorPickerDialog colorPicker)
 		{
 			AuditColorPicker(colorPicker);
 		}
@@ -6180,6 +6180,28 @@ internal static class WindowAudit
 		}
 	}
 
+	private static void AuditColorPickerWindow()
+	{
+		Voidstrap.UI.Elements.Controls.RinColorPickerDialog window = new(System.Windows.Media.Color.FromRgb(0x11, 0x88, 0xEE), alphaEnabled: true);
+		try
+		{
+			window.Show();
+			Pump(3000);
+			AuditColorPicker(window);
+			window.Picker.SetSpectrumFromPosition(new Point(40, 30));
+			Pump(int.TryParse(Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_HOLD_MS"), out int hold) ? hold : 500);
+			Emit($"colour picker window: PASS, shown at {window.ActualWidth:F0} by {window.ActualHeight:F0}, colour {window.SelectedColor}");
+		}
+		catch (Exception ex)
+		{
+			Emit($"colour picker window: FAIL, {ex.GetType().Name}: {ex.Message.Split('\n')[0]}");
+		}
+		finally
+		{
+			window.Close();
+		}
+	}
+
 	private static void AuditColorPicker(Voidstrap.UI.Elements.Controls.RinColorPickerDialog window)
 	{
 		Voidstrap.UI.Elements.Controls.RinColorPicker picker = window.Picker;
@@ -6203,14 +6225,14 @@ internal static class WindowAudit
 			|| valueTrack.ActualWidth <= valueHandle.ActualWidth || alphaTrack.ActualWidth <= alphaHandle.ActualWidth
 			|| spectrum.ActualWidth <= spectrumHandle.ActualWidth || spectrum.ActualHeight <= spectrumHandle.ActualHeight)
 		{
-			throw new InvalidOperationException("Linux colour picker tracks were unavailable");
+			throw new InvalidOperationException("Colour picker tracks were unavailable");
 		}
 
 		picker.SetValueFromPosition(0);
 		if (picker.SelectedColor.R != 0 || picker.SelectedColor.G != 0 || picker.SelectedColor.B != 0
 			|| Math.Abs(System.Windows.Controls.Canvas.GetLeft(valueHandle)) > 0.01)
 		{
-			throw new InvalidOperationException("Linux colour picker value track did not reach its left endpoint");
+			throw new InvalidOperationException("Colour picker value track did not reach its left endpoint");
 		}
 
 		picker.SetValueFromPosition(valueTrack.ActualWidth);
@@ -6218,13 +6240,13 @@ internal static class WindowAudit
 		if (picker.SelectedColor.R != 255 || picker.SelectedColor.G != 255 || picker.SelectedColor.B != 255
 			|| Math.Abs(System.Windows.Controls.Canvas.GetLeft(valueHandle) - valueRight) > 0.01)
 		{
-			throw new InvalidOperationException("Linux colour picker value track did not reach its right endpoint");
+			throw new InvalidOperationException("Colour picker value track did not reach its right endpoint");
 		}
 
 		picker.SetAlphaFromPosition(0);
 		if (picker.SelectedColor.A != 0 || Math.Abs(System.Windows.Controls.Canvas.GetLeft(alphaHandle)) > 0.01)
 		{
-			throw new InvalidOperationException("Linux colour picker alpha track did not reach its left endpoint");
+			throw new InvalidOperationException("Colour picker alpha track did not reach its left endpoint");
 		}
 
 		picker.BeginAlphaInteraction();
@@ -6235,14 +6257,14 @@ internal static class WindowAudit
 		picker.SetAlphaFromPosition(alphaTrack.ActualWidth);
 		if (!picker.IsInputRefreshPending)
 		{
-			throw new InvalidOperationException("Linux colour picker did not coalesce rapid input refreshes");
+			throw new InvalidOperationException("Colour picker did not coalesce rapid input refreshes");
 		}
 		picker.EndInteraction();
 		Pump();
 		double alphaRight = alphaTrack.ActualWidth - alphaHandle.ActualWidth;
 		if (picker.SelectedColor.A != 255 || Math.Abs(System.Windows.Controls.Canvas.GetLeft(alphaHandle) - alphaRight) > 0.01)
 		{
-			throw new InvalidOperationException("Linux colour picker rapid alpha input did not settle at its right endpoint");
+			throw new InvalidOperationException("Colour picker rapid alpha input did not settle at its right endpoint");
 		}
 
 		picker.SetSpectrumFromPosition(new Point(spectrum.ActualWidth / 2.0, spectrum.ActualHeight / 4.0));
@@ -6250,7 +6272,7 @@ internal static class WindowAudit
 			|| Math.Abs(System.Windows.Controls.Canvas.GetLeft(spectrumHandle) - (spectrum.ActualWidth / 2.0 - spectrumHandle.ActualWidth / 2.0)) > 0.01
 			|| Math.Abs(System.Windows.Controls.Canvas.GetTop(spectrumHandle) - (spectrum.ActualHeight / 4.0 - spectrumHandle.ActualHeight / 2.0)) > 0.01)
 		{
-			throw new InvalidOperationException("Linux colour picker spectrum did not preserve pointer geometry and HSV output");
+			throw new InvalidOperationException("Colour picker spectrum did not preserve pointer geometry and HSV output");
 		}
 
 		Emit("colour picker input audit: PASS, exact endpoints, spectrum geometry, and 1000 rapid updates settled");
