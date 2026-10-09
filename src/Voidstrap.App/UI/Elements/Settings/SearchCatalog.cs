@@ -121,7 +121,7 @@ internal static partial class SearchCatalog
 
 	private static bool IsPageAvailableOnThisPlatform(string sourcePage)
 	{
-		return !Voidstrap.Utility.Platform.IsLinux || !WindowsOnlyPages.Contains(sourcePage);
+		return Voidstrap.Utility.Platform.IsWindows || !WindowsOnlyPages.Contains(sourcePage);
 	}
 
 	private static bool IsVisibleOnThisPlatform(string visibilityExpression)

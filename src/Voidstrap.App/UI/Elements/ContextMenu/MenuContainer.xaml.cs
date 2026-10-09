@@ -500,7 +500,7 @@ public partial class MenuContainer : WpfUiWindow
     private static long ReadRobloxMemory()
     {
         long total = 0;
-        foreach (Process process in Process.GetProcessesByName("RobloxPlayerBeta"))
+        foreach (Process process in Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName))
         {
             using (process)
             {

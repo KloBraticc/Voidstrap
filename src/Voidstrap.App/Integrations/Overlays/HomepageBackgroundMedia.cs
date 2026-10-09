@@ -89,7 +89,7 @@ namespace Voidstrap.Integrations.Overlays
 				Name = "Homepage Background Media",
 				Priority = ThreadPriority.BelowNormal
 			};
-			if (!Voidstrap.Utility.Platform.IsLinux)
+			if (OperatingSystem.IsWindows())
 				_thread.SetApartmentState(ApartmentState.STA);
 			_thread.Start();
 		}

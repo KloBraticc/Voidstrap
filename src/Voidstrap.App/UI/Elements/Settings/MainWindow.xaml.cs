@@ -4906,7 +4906,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 return;
             }
-            if (IntroContent != null && !Voidstrap.Utility.Platform.IsLinux)
+            if (IntroContent != null && Voidstrap.Utility.Platform.IsWindows)
             {
                 IntroContent.CacheMode = new System.Windows.Media.BitmapCache();
                 _introCacheTimer = new DispatcherTimer
@@ -6106,10 +6106,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
 
         DownloadsViewModel downloads = DownloadsViewModel.Shared;
-        if (!Voidstrap.Utility.Platform.IsLinux && downloads.ClientItems.Count == 0)
+        if (Voidstrap.Utility.Platform.IsWindows && downloads.ClientItems.Count == 0)
             downloads.RefreshClassic();
 
-        List<object> entries = Voidstrap.Utility.Platform.IsLinux ? [.. downloads.Items] : [.. downloads.Items, .. downloads.ClientItems];
+        List<object> entries = !Voidstrap.Utility.Platform.IsWindows ? [.. downloads.Items] : [.. downloads.Items, .. downloads.ClientItems];
         if (LaunchTargetList.ItemsSource is not IList<object> shown || !shown.SequenceEqual(entries))
             LaunchTargetList.ItemsSource = entries;
         object? current = null;
@@ -6132,7 +6132,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         DownloadsViewModel downloads = DownloadsViewModel.Shared;
         foreach (DownloadsViewModel.DownloadItem download in downloads.Items)
             download.RefreshInstallState();
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.IsWindows)
         {
             foreach (DownloadsViewModel.ClientItem client in downloads.ClientItems)
                 client.RefreshInstallState();
@@ -6209,7 +6209,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _launchTargetOverlayOpen = true;
         InstallLaunchButton.IsDropDownOpen = true;
         int generation = ++_launchTargetOverlayGeneration;
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesPortableUi)
         {
             ApplyLinuxLaunchTargetBlur();
         }
@@ -6421,7 +6421,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         InstallLaunchButton.IsDropDownOpen = false;
         int generation = ++_launchTargetOverlayGeneration;
         LaunchTargetOverlay.IsHitTestVisible = false;
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.IsWindows)
             LaunchTargetPanel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
         AnimateLaunchTargetOverlay(0.0, 10.0, LaunchTargetCloseDuration, LaunchTargetCloseDuration, LaunchTargetEaseIn, LaunchTargetEaseIn, generation, true);
     }

@@ -378,6 +378,11 @@ internal static partial class ClassicTopBarMod
 
 	public static async Task<string?> FindRobloxInstallAsync(CancellationToken token)
 	{
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			string? bundle = Voidstrap.Utility.MacRobloxBundle.Find();
+			return bundle == null ? null : Path.Combine(bundle, "Contents", "Resources");
+		}
 		if (!Voidstrap.Utility.Platform.IsLinux)
 		{
 			return FindRobloxInstall();

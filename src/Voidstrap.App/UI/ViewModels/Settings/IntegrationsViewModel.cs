@@ -739,7 +739,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool IsCustomIntegrationSelected => SelectedCustomIntegration != null;
 
-	public string CustomIntegrationLocationPlaceholder => Voidstrap.Utility.Platform.IsLinux ? "/usr/bin/obs" : @"C:\Windows\System32\cmd.exe";
+	public string CustomIntegrationLocationPlaceholder => Voidstrap.Utility.Platform.IsLinux ? "/usr/bin/obs" : Voidstrap.Utility.Platform.IsMacOS ? "/Applications/OBS.app" : @"C:\Windows\System32\cmd.exe";
 
 	public IntegrationsViewModel(ActivityWatcher watcher, bool ownsWatcher = false)
 	{
