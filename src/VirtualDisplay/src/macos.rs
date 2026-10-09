@@ -111,6 +111,7 @@ unsafe extern "C" {
     ) -> Ref;
     fn CFRunLoopAddTimer(run_loop: Ref, timer: Ref, mode: Ref);
     fn CFRunLoopTimerInvalidate(timer: Ref);
+    fn CFRunLoopTimerSetNextFireDate(timer: Ref, fire: f64);
 }
 
 #[link(name = "Foundation", kind = "framework")]
@@ -348,6 +349,8 @@ struct Session {
     stopped: Arc<AtomicBool>,
     started: Instant,
     last_configuration: Option<Instant>,
+    mirror_lost: Option<Instant>,
+    timer: Ref,
 }
 
 impl Session {
@@ -453,6 +456,8 @@ impl Session {
             stopped,
             started,
             last_configuration: None,
+            mirror_lost: None,
+            timer: ptr::null_mut(),
         })
     }
 
@@ -466,7 +471,20 @@ impl Session {
         }
         if self.ready {
             if unsafe { CGDisplayMirrorsDisplay(self.physical) } != self.virtual_id {
-                return Err("Virtual display mirroring ended".into());
+                if self
+                    .mirror_lost
+                    .is_some_and(|lost| lost.elapsed().as_millis() >= 500)
+                {
+                    return Err("Virtual display mirroring ended".into());
+                }
+                if self.mirror_lost.is_none() {
+                    self.mirror_lost = Some(Instant::now());
+                    unsafe {
+                        CFRunLoopTimerSetNextFireDate(self.timer, CFAbsoluteTimeGetCurrent() + 0.5)
+                    };
+                }
+            } else {
+                self.mirror_lost = None;
             }
             return Ok(());
         }
@@ -635,8 +653,10 @@ unsafe extern "C" fn timeout(timer: Ref, context: Ref) {
     }
     unsafe { perform(context) };
     let session = unsafe { &*(context as *const Session) };
-    if session.ready || session.error.is_some() || session.stopped.load(Ordering::Acquire) {
+    if session.error.is_some() || session.stopped.load(Ordering::Acquire) {
         unsafe { CFRunLoopTimerInvalidate(timer) };
+    } else if session.ready && session.mirror_lost.is_none() {
+        unsafe { CFRunLoopTimerSetNextFireDate(timer, CFAbsoluteTimeGetCurrent() + 1e12) };
     }
 }
 
@@ -735,6 +755,7 @@ fn run_inner(config: Config) -> Result<(), String> {
         }
         return Err("Could not create the display startup deadline".into());
     }
+    session.timer = timer;
     unsafe { CFRunLoopAddTimer(session.run_loop, timer, kCFRunLoopDefaultMode) };
     wake.signal();
     unsafe { CFRunLoopRun() };
