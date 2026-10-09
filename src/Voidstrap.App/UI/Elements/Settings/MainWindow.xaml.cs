@@ -1420,7 +1420,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 				{
 					break;
 				}
-				await Task.Delay(TimeSpan.FromMilliseconds(500), _lifetimeCts.Token).ConfigureAwait(false);
+				await Task.Delay(TimeSpan.FromMilliseconds(500), _lifetimeCts.SafeToken()).ConfigureAwait(false);
 			}
 			if (!_lifetimeCts.IsCancellationRequested)
 			{
@@ -2382,7 +2382,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             string currentText = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0";
             string latestTag = (!Voidstrap.Utility.Platform.IsWindows
-                ? await GithubUpdater.GetLatestVersionTagAsync(_lifetimeCts.Token)
+                ? await GithubUpdater.GetLatestVersionTagAsync(_lifetimeCts.SafeToken())
                 : (await App.GetLatestRelease(true))?.TagName) ?? throw new InvalidDataException("Release information is unavailable");
             if (!Version.TryParse(currentText, out Version? current) || !Version.TryParse(latestTag.TrimStart('v', 'V'), out Version? latest))
             {
@@ -2396,7 +2396,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 return;
             }
             App.Logger.WriteLine("MainWindow::CheckForUpdates", "Installing " + latestTag + " requested from the app menu");
-            if (!await GithubUpdater.DownloadAndInstallUpdate(latestTag, _lifetimeCts.Token))
+            if (!await GithubUpdater.DownloadAndInstallUpdate(latestTag, _lifetimeCts.SafeToken()))
             {
                 throw new InvalidDataException("The update could not be installed");
             }
@@ -3377,7 +3377,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void InitializeDiscordRPC()
     {
-        _ = SuperviseDiscordRpcAsync(_lifetimeCts.Token);
+        _ = SuperviseDiscordRpcAsync(_lifetimeCts.SafeToken());
         if (RootNavigation != null)
         {
             RootNavigation.Navigated += RootNavigation_RpcNavigated;
@@ -3560,7 +3560,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             await Dispatcher.InvokeAsync(RefreshRpcAvatar);
             long robloxId = 0;
             string userName = "";
-            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.Token))
+            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken()))
             using (var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "https://users.roblox.com/v1/users/authenticated"))
             {
                 cts.CancelAfter(TimeSpan.FromSeconds(15));
@@ -3590,7 +3590,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 return;
             }
             string imageUrl = "";
-            using (var cts2 = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.Token))
+            using (var cts2 = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken()))
             {
                 cts2.CancelAfter(TimeSpan.FromSeconds(15));
                 using var thumbResponse = await App.HttpClient.GetAsync("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" + robloxId + "&size=150x150&format=Png&isCircular=true", System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cts2.Token).ConfigureAwait(continueOnCapturedContext: false);
@@ -3657,7 +3657,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.Token);
+            using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken());
             cts.CancelAfter(TimeSpan.FromSeconds(15));
             using var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, NewsViewModel.FeedUrl);
             using var response = await App.HttpClient.SendAsync(request, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cts.Token).ConfigureAwait(continueOnCapturedContext: false);
@@ -5716,7 +5716,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            await Task.Delay(225, _lifetimeCts.Token);
+            await Task.Delay(225, _lifetimeCts.SafeToken());
             if (!_isClosed && !((DispatcherObject)this).Dispatcher.HasShutdownStarted)
             {
                 _ = ((DispatcherObject)this).Dispatcher.InvokeAsync<bool?>((Func<bool?>)(() => AlreadyRunningSnackbar?.Show()));

@@ -19,6 +19,7 @@ using System.Windows.Threading;
 using Microsoft.Win32;
 using Voidstrap.UI.Elements.Base;
 using Wpf.Ui.Controls;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 
@@ -68,7 +69,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	public FFlagSearchDialog()
 	{
-		_lifetimeToken = _lifetimeCancellation.Token;
+		_lifetimeToken = _lifetimeCancellation.SafeToken();
 		InitializeComponent();
 		InitializeDataSources();
 		SetupDataGrids();

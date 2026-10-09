@@ -19,6 +19,7 @@ using Voidstrap.Models.APIs.Roblox;
 using Voidstrap.Models.Persistable;
 using Voidstrap.RobloxInterfaces;
 using Voidstrap.UI.Elements.Settings;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
@@ -991,7 +992,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 			{
 				_networkStreamingEnabled = value;
 				OnPropertyChanged(nameof(NetworkStreamingEnabled));
-				RunSafeAsync(() => SaveNetworkStreamingStateAsync(value, _lifetimeCts.Token));
+				RunSafeAsync(() => SaveNetworkStreamingStateAsync(value, _lifetimeCts.SafeToken()));
 			}
 		}
 	}
@@ -1236,7 +1237,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		};
 		_revertTimer.Tick += OnRevertTimerTick;
 		LoadMonitors();
-		RunSafeAsync(() => LoadNetworkStreamingStateAsync(_lifetimeCts.Token));
+		RunSafeAsync(() => LoadNetworkStreamingStateAsync(_lifetimeCts.SafeToken()));
 		CpuLimitOptions = new ObservableCollection<int>();
 		int processorCount = Environment.ProcessorCount;
 		for (int i = 1; i <= processorCount; i++)
@@ -1693,7 +1694,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		}
 		_loadChannelCts?.Cancel();
 		_loadChannelCts?.Dispose();
-		_loadChannelCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.Token);
+		_loadChannelCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken());
 		CancellationToken token = _loadChannelCts.Token;
 		ShowLoadingError = false;
 		ChannelDeployInfo = null;

@@ -15,6 +15,7 @@ using System.Windows.Media.ProGPU;
 #endif
 using System.Windows.Threading;
 using Voidstrap.Platform.Linux;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations.Overlays;
 
@@ -989,7 +990,7 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 				throw new InvalidOperationException("The Linux homepage overlay surface closed during startup");
 			ScheduleNativeFinalization();
 			_renderTask = Task.Factory.StartNew(
-				() => RunAsync(_cancellation.Token),
+				() => RunAsync(_cancellation.SafeToken()),
 				CancellationToken.None,
 				TaskCreationOptions.LongRunning,
 				TaskScheduler.Default).Unwrap();

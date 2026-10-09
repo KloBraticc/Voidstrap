@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Voidstrap.Models.Entities;
 using Voidstrap.Utility;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations;
 
@@ -270,7 +271,7 @@ public sealed class HistoryPersister : IDisposable
 	public HistoryPersister(ActivityWatcher activityWatcher)
 	{
 		_activityWatcher = activityWatcher ?? throw new ArgumentNullException(nameof(activityWatcher));
-		_lifetimeToken = _lifetimeCancellation.Token;
+		_lifetimeToken = _lifetimeCancellation.SafeToken();
 		_activityWatcher.OnGameLeave += OnActivityChanged;
 		_activityWatcher.OnGameJoin += OnActivityChanged;
 		_liveTimer = new Timer(OnLiveTick, null, TimeSpan.FromMinutes(10.0), TimeSpan.FromMinutes(10.0));

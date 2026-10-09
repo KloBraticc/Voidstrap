@@ -12,6 +12,7 @@ using SixLabors.ImageSharp.Formats.Gif;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Voidstrap.Core;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations.Overlays
 {
@@ -150,7 +151,7 @@ namespace Voidstrap.Integrations.Overlays
 				else
 					OpenImage(IsGif());
 				if (!_disposed && _portableGifTimer != null)
-					_mediaCancellation.Token.WaitHandle.WaitOne();
+					_mediaCancellation.SafeToken().WaitHandle.WaitOne();
 			}
 			catch (OperationCanceledException) when (_disposed)
 			{
@@ -247,7 +248,7 @@ namespace Voidstrap.Integrations.Overlays
 
 		private void OpenPortableImage()
 		{
-			CancellationToken token = _mediaCancellation.Token;
+			CancellationToken token = _mediaCancellation.SafeToken();
 			DecoderOptions identifyOptions = new()
 			{
 				MaxFrames = 1,
@@ -309,7 +310,7 @@ namespace Voidstrap.Integrations.Overlays
 
 		private void OpenPortableGif()
 		{
-			CancellationToken token = _mediaCancellation.Token;
+			CancellationToken token = _mediaCancellation.SafeToken();
 			DecoderOptions identifyOptions = new()
 			{
 				MaxFrames = MaxGifFrames,
@@ -504,7 +505,7 @@ namespace Voidstrap.Integrations.Overlays
 					return;
 				consecutiveFailures = deliveredFrame ? 0 : Math.Min(consecutiveFailures + 1, 4);
 				int retryDelay = deliveredFrame ? 100 : Math.Min(5000, 500 << consecutiveFailures);
-				if (_mediaCancellation.Token.WaitHandle.WaitOne(retryDelay))
+				if (_mediaCancellation.SafeToken().WaitHandle.WaitOne(retryDelay))
 					return;
 			}
 		}
@@ -518,8 +519,8 @@ namespace Voidstrap.Integrations.Overlays
 			{
 				if (!TryStartLinuxVideoProcess(process))
 					return false;
-				Task<string> outputTask = process.StandardOutput.ReadToEndAsync(_mediaCancellation.Token);
-				Task<string> errorTask = process.StandardError.ReadToEndAsync(_mediaCancellation.Token);
+				Task<string> outputTask = process.StandardOutput.ReadToEndAsync(_mediaCancellation.SafeToken());
+				Task<string> errorTask = process.StandardError.ReadToEndAsync(_mediaCancellation.SafeToken());
 				if (!process.WaitForExit(5000))
 				{
 					process.Kill(true);

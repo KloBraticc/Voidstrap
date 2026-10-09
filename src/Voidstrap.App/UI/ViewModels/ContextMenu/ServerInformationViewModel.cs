@@ -340,7 +340,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 	private async Task InitializeAsync()
 	{
 		await RefreshAllAsync();
-		_ = RefreshLoopAsync(_cts.Token);
+		_ = RefreshLoopAsync(_cts.SafeToken());
 	}
 
 	private async Task RefreshLoopAsync(CancellationToken token)
@@ -433,7 +433,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		_nextUptimeFetch = DateTime.UtcNow.AddMinutes(2.0);
 		try
 		{
-			ServerStartLookup lookup = await VoidstrapMatchmaker.GetServerStartAsync(data.PlaceId, jobId, _cts.Token);
+			ServerStartLookup lookup = await VoidstrapMatchmaker.GetServerStartAsync(data.PlaceId, jobId, _cts.SafeToken());
 			if (_disposed || !string.Equals(_activityWatcher.Data?.JobId, jobId, StringComparison.Ordinal))
 			{
 				_nextUptimeFetch = DateTime.MinValue;
@@ -671,7 +671,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 				return;
 			}
 			string jobId = data.JobId;
-			FriendsInServerResult result = await RobloxPresence.GetFriendsInServerAsync(data.UserId, jobId, _cts.Token);
+			FriendsInServerResult result = await RobloxPresence.GetFriendsInServerAsync(data.UserId, jobId, _cts.SafeToken());
 			if (_disposed || !string.Equals(_activityWatcher.Data?.JobId, jobId, StringComparison.Ordinal))
 			{
 				_lastFriendsFetch = DateTime.MinValue;

@@ -14,6 +14,7 @@ using Voidstrap.Models.Entities;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Models.VoidstrapRPC;
 using Voidstrap.Utility;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations;
 
@@ -584,7 +585,7 @@ public partial class ActivityWatcher : IDisposable
 	{
 		if (ServerListRateLimited)
 			return (ServerLookupOutcome.RateLimited, null);
-		using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.Token);
+		using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.SafeToken());
 		cts.CancelAfter(TimeSpan.FromSeconds(40L));
 		string baseUrl = $"https://games.roblox.com/v1/games/{placeId}/servers/Public?limit=100&excludeFullGames=false&sortOrder=";
 		int requests = 0;
@@ -689,7 +690,7 @@ public partial class ActivityWatcher : IDisposable
 			return (ServerLookupOutcome.SignedOut, null);
 		if (ServerListRateLimited)
 			return (ServerLookupOutcome.RateLimited, null);
-		using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.Token);
+		using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.SafeToken());
 		cts.CancelAfter(TimeSpan.FromSeconds(20L));
 		string? cursor = null;
 		bool anyAnswered = false;
@@ -794,7 +795,7 @@ public partial class ActivityWatcher : IDisposable
 
 	private async Task RunAsync()
 	{
-		CancellationToken token = _playerLifetimeCts.Token;
+		CancellationToken token = _playerLifetimeCts.SafeToken();
 		FileInfo? logFileInfo = null;
 		if (string.IsNullOrEmpty(LogLocation) && OperatingSystem.IsLinux())
 		{
@@ -1466,7 +1467,7 @@ public partial class ActivityWatcher : IDisposable
 	{
 		try
 		{
-			await _playerNameSemaphore.WaitAsync(_playerLifetimeCts.Token).ConfigureAwait(false);
+			await _playerNameSemaphore.WaitAsync(_playerLifetimeCts.SafeToken()).ConfigureAwait(false);
 			try
 			{
 				string? cached;
@@ -1478,7 +1479,7 @@ public partial class ActivityWatcher : IDisposable
 					RaiseEvent(OnPlayerLogUpdated, userLog, "OnPlayerLogUpdated");
 					return;
 				}
-				using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.Token);
+				using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.SafeToken());
 				timeout.CancelAfter(TimeSpan.FromSeconds(8));
 				using HttpResponseMessage response = await App.HttpClient.GetAsync("https://users.roblox.com/v1/users/" + userId, timeout.Token).ConfigureAwait(false);
 				if (!response.IsSuccessStatusCode)

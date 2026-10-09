@@ -11,6 +11,7 @@ using System.Windows.Threading;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.Elements.Overlay
 {
@@ -191,14 +192,14 @@ namespace Voidstrap.UI.Elements.Overlay
 					if (_linuxSyncing)
 					{
 						TimeSpan intro = TimeSpan.FromMilliseconds(IntroSlideMs + 40);
-						await Task.Delay(intro, _lifetimeCts.Token);
+						await Task.Delay(intro, _lifetimeCts.SafeToken());
 						StopLinuxSync();
 						SyncLinuxSurface(true);
-						await Task.Delay(TimeSpan.FromSeconds(duration) - intro, _lifetimeCts.Token);
+						await Task.Delay(TimeSpan.FromSeconds(duration) - intro, _lifetimeCts.SafeToken());
 					}
 					else
 					{
-						await Task.Delay(TimeSpan.FromSeconds(duration), _lifetimeCts.Token);
+						await Task.Delay(TimeSpan.FromSeconds(duration), _lifetimeCts.SafeToken());
 					}
 
                     await PlayOutroAsync();
@@ -315,10 +316,10 @@ namespace Voidstrap.UI.Elements.Overlay
 
 			try
 			{
-				Task guard = Task.Delay(OutroTimeoutMs, _lifetimeCts.Token);
+				Task guard = Task.Delay(OutroTimeoutMs, _lifetimeCts.SafeToken());
 				Task done = await Task.WhenAny(finished.Task, guard);
 				if (ReferenceEquals(done, guard) && guard.IsCanceled)
-					throw new OperationCanceledException(_lifetimeCts.Token);
+					throw new OperationCanceledException(_lifetimeCts.SafeToken());
 			}
 			finally
 			{
@@ -378,7 +379,7 @@ namespace Voidstrap.UI.Elements.Overlay
 			_linuxWarmed = true;
 			try
 			{
-				await Task.Delay(LinuxWarmDelayMs, _lifetimeCts.Token);
+				await Task.Delay(LinuxWarmDelayMs, _lifetimeCts.SafeToken());
 			}
 			catch (OperationCanceledException)
 			{
@@ -407,7 +408,7 @@ namespace Voidstrap.UI.Elements.Overlay
 			ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, progress);
 			try
 			{
-				await Task.Delay(length, _lifetimeCts.Token);
+				await Task.Delay(length, _lifetimeCts.SafeToken());
 			}
 			catch (OperationCanceledException)
 			{

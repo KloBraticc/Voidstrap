@@ -14,6 +14,7 @@ using Voidstrap.Models;
 using Voidstrap.Resources;
 using Voidstrap.UI.Elements.ContextMenu;
 using Voidstrap.Utility;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
@@ -816,7 +817,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		try
 		{
 			byte[]? icon = Voidstrap.Utility.LinuxDesktopEntry.ReadIconPng();
-			string message = await Task.Run(() => Voidstrap.Utility.LinuxSteamIntegration.AddToSteamAsync(icon, closeSteam, _lifetimeCts.Token));
+			string message = await Task.Run(() => Voidstrap.Utility.LinuxSteamIntegration.AddToSteamAsync(icon, closeSteam, _lifetimeCts.SafeToken()));
 			Frontend.ShowMessageBox(message, MessageBoxImage.Information);
 		}
 		catch (OperationCanceledException)
@@ -899,7 +900,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 	{
 		try
 		{
-			bool applied = await TelemetryBlocker.SetAsync(value, _lifetimeCts.Token).ConfigureAwait(false);
+			bool applied = await TelemetryBlocker.SetAsync(value, _lifetimeCts.SafeToken()).ConfigureAwait(false);
 			if (_disposed || version != Volatile.Read(ref _telemetryVersion))
 			{
 				return;

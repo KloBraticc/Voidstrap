@@ -8,6 +8,7 @@ using System.Windows.Shell;
 using System.Windows.Threading;
 using Voidstrap;
 using System.Windows;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.Elements.Bootstrapper
 {
@@ -188,7 +189,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         private int _webPanelUpdatePending;
         private int _webPanelUpdateRunning;
 
-        internal CancellationToken WebPanelLifetimeToken => _webPanelLifetime.Token;
+        internal CancellationToken WebPanelLifetimeToken => _webPanelLifetime.SafeToken();
 
         internal bool WebPanelLifetimeEnded => _isClosed || _webPanelLifetime.IsCancellationRequested;
 
@@ -325,7 +326,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             Interlocked.Exchange(ref _webPanelUpdatePending, 1);
 
             if (Interlocked.Exchange(ref _webPanelUpdateRunning, 1) == 0)
-                _ = PushWebPanelStateAsync(_webPanelLifetime.Token);
+                _ = PushWebPanelStateAsync(_webPanelLifetime.SafeToken());
         }
 
         private async Task PushWebPanelStateAsync(CancellationToken token)

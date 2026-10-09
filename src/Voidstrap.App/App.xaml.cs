@@ -310,7 +310,7 @@ public partial class App : Application
 			window.ContentRendered -= OnLinuxWindowContentRendered;
 		}
 		if (Current is App application && Volatile.Read(ref application._linuxDeferredStarted) == 0 && Interlocked.Exchange(ref application._linuxDeferredFallbackQueued, 1) == 0)
-			_ = application.StartLinuxDeferredFallbackAsync(application._lifetimeCancellation.Token);
+			_ = application.StartLinuxDeferredFallbackAsync(application._lifetimeCancellation.SafeToken());
 		if (Volatile.Read(ref _linuxRendererConfirmed) != 0 || _linuxRendererTimer != null)
 		{
 			return;
@@ -853,7 +853,7 @@ public partial class App : Application
 				return;
 			}
 
-			Voidstrap.Platform.OperationResult directoryResult = await host.Paths.EnsureDirectoriesAsync(_lifetimeCancellation.Token);
+			Voidstrap.Platform.OperationResult directoryResult = await host.Paths.EnsureDirectoriesAsync(_lifetimeCancellation.SafeToken());
 			if (!directoryResult.Succeeded)
 			{
 				Frontend.ShowMessageBox("Voidstrap could not prepare its data folders: " + (directoryResult.Failure?.Message ?? "Unknown error"), MessageBoxImage.Hand);
@@ -872,7 +872,7 @@ public partial class App : Application
 			Paths.InitializePortable(host.Paths.Storage, applicationPath);
 			if (Voidstrap.Utility.Platform.IsMacOS && host.ProtocolRegistration is Voidstrap.Platform.MacOS.MacOSProtocolRegistration registration)
 			{
-				Voidstrap.Platform.OperationResult registered = await registration.RegisterAllAsync(_lifetimeCancellation.Token);
+				Voidstrap.Platform.OperationResult registered = await registration.RegisterAllAsync(_lifetimeCancellation.SafeToken());
 				if (!registered.Succeeded)
 					Logger.WriteLine("App::StartAsync", "Roblox URL registration failed: " + registered.Failure?.Message);
 				else
@@ -1030,7 +1030,7 @@ public partial class App : Application
 
 		try
 		{
-			await _macOSStartupReady.Task.WaitAsync(_lifetimeCancellation.Token);
+			await _macOSStartupReady.Task.WaitAsync(_lifetimeCancellation.SafeToken());
 			if (Dispatcher.HasShutdownStarted)
 				return;
 			await Dispatcher.InvokeAsync(new Action(() =>
@@ -1442,29 +1442,29 @@ public partial class App : Application
 		{
 			TryStartup("Rojo updater", Voidstrap.Integrations.Rojo.RojoManager.AutoUpdate);
 			if (!Voidstrap.Utility.Platform.IsLinux)
-				_ = RefreshRemoteDataAsync(_lifetimeCancellation.Token);
+				_ = RefreshRemoteDataAsync(_lifetimeCancellation.SafeToken());
 		}
 		if (!LaunchSettings.WatcherFlag.Active && !LaunchSettings.IsHelperInvocation)
 		{
 			if (!Voidstrap.Utility.Platform.IsLinux)
 			{
-				_ = Voidstrap.Utility.SavedAccounts.EnsureCurrentAccountSavedAsync(_lifetimeCancellation.Token);
+				_ = Voidstrap.Utility.SavedAccounts.EnsureCurrentAccountSavedAsync(_lifetimeCancellation.SafeToken());
 				TryStartup("ORC updater", () => _ = Task.Run(async delegate
 				{
 					Voidstrap.Integrations.ClassicHostRedirect.CleanStaleRedirect();
 					try
 					{
-						await Voidstrap.Utility.ClassicClients.AutoUpdateAllAsync(_lifetimeCancellation.Token).ConfigureAwait(false);
+						await Voidstrap.Utility.ClassicClients.AutoUpdateAllAsync(_lifetimeCancellation.SafeToken()).ConfigureAwait(false);
 					}
 					catch (Exception ex)
 					{
 						Logger?.WriteLine("App::OrcAutoUpdate", "Auto update failed: " + ex.Message);
 					}
 				}));
-				_ = CleanupTempAsync(_lifetimeCancellation.Token);
+				_ = CleanupTempAsync(_lifetimeCancellation.SafeToken());
 			}
 			if (LaunchSettings.RobloxLaunchMode == LaunchMode.None && Settings.Prop.CompressRobloxInstalls && Voidstrap.Utility.RobloxInstallCompression.Supported)
-				_ = CompressIdleInstallsAsync(_lifetimeCancellation.Token);
+				_ = CompressIdleInstallsAsync(_lifetimeCancellation.SafeToken());
 		}
 		TryStartup("CPU core limiter", CpuCoreLimiter.ApplyConfiguredLimit);
 		if (!Voidstrap.Utility.Platform.IsLinux)
@@ -1475,7 +1475,7 @@ public partial class App : Application
 	{
 		if (!Voidstrap.Utility.Platform.IsLinux || LaunchSettings.WindowAuditFlag.Active || Interlocked.Exchange(ref _linuxDeferredStarted, 1) != 0)
 			return;
-		_ = RunLinuxDeferredServicesAsync(_lifetimeCancellation.Token);
+		_ = RunLinuxDeferredServicesAsync(_lifetimeCancellation.SafeToken());
 	}
 
 	private async Task StartLinuxDeferredFallbackAsync(CancellationToken token)

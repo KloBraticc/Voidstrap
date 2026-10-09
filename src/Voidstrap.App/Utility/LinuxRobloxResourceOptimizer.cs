@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Voidstrap.Core;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Platform.Linux;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Utility;
 
@@ -61,7 +62,7 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 		{
 			return;
 		}
-		_loopTask = Task.Run(() => RunAsync(_cancellation.Token));
+		_loopTask = Task.Run(() => RunAsync(_cancellation.SafeToken()));
 	}
 
 	private async Task RunAsync(CancellationToken token)

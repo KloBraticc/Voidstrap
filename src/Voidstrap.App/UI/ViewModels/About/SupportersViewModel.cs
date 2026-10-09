@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Voidstrap.Enums;
 using Voidstrap.Models.APIs.Config;
 using Voidstrap.Utility;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.ViewModels.About;
 
@@ -97,7 +98,7 @@ public class SupportersViewModel : NotifyPropertyChangedViewModel, IDisposable
 		OnPropertyChanged(nameof(LoadedState));
 		SupporterData? data = null;
 		string error = "";
-		using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.Token);
+		using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken());
 		timeout.CancelAfter(LoadTimeout);
 		try
 		{

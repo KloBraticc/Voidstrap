@@ -13,6 +13,7 @@ using Voidstrap.Enums;
 using Voidstrap.Models.Entities;
 using Voidstrap.Models.VoidstrapRPC;
 using Voidstrap.Utility;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations;
 
@@ -236,7 +237,7 @@ public partial class DiscordRichPresence : IDisposable
 
 	public DiscordRichPresence(ActivityWatcher activityWatcher)
 	{
-		_lifetimeToken = _lifetimeCancellation.Token;
+		_lifetimeToken = _lifetimeCancellation.SafeToken();
 		Voidstrap.Utility.RpcText.Prewarm();
 		_gameCancellation = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken);
 		_activityWatcher = activityWatcher ?? throw new ArgumentNullException(nameof(activityWatcher));

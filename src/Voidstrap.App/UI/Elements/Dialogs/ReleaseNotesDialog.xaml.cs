@@ -22,6 +22,7 @@ using DocumentList = System.Windows.Documents.List;
 using MarkdownBlock = Markdig.Syntax.Block;
 using MarkdownInline = Markdig.Syntax.Inlines.Inline;
 using WpfControls = System.Windows.Controls;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 
@@ -62,7 +63,7 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 		Loaded -= OnLoaded;
 		try
 		{
-			(GithubRelease? release, bool isCurrent) = await ResolveReleaseAsync(_lifetime.Token);
+			(GithubRelease? release, bool isCurrent) = await ResolveReleaseAsync(_lifetime.SafeToken());
 			if (_lifetime.IsCancellationRequested)
 			{
 				return;

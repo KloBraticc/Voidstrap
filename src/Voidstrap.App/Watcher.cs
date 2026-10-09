@@ -13,6 +13,7 @@ using Voidstrap.UI.Elements.Crosshair;
 using Voidstrap.UI.Elements.Overlay;
 using Voidstrap.UI.ViewModels.Settings;
 using Voidstrap.Utility;
+using Voidstrap.Extensions;
 
 namespace Voidstrap;
 
@@ -956,11 +957,11 @@ public partial class Watcher : IDisposable
 		StartWindowManipulation();
 		StartRuntimeOptimizer();
 		DateTime sessionStartedUtc = ModCrashGuard.BeginSession();
-		Task crashMonitor = MonitorModCrashAsync(sessionStartedUtc, _lifetimeCancellation.Token);
-		_ = DisableCrashHandlerWhenSettledAsync(sessionStartedUtc, _lifetimeCancellation.Token);
+		Task crashMonitor = MonitorModCrashAsync(sessionStartedUtc, _lifetimeCancellation.SafeToken());
+		_ = DisableCrashHandlerWhenSettledAsync(sessionStartedUtc, _lifetimeCancellation.SafeToken());
 		try
 		{
-			await WaitForProcessExitAsync(_watcherData.ProcessId, _lifetimeCancellation.Token).ConfigureAwait(false);
+			await WaitForProcessExitAsync(_watcherData.ProcessId, _lifetimeCancellation.SafeToken()).ConfigureAwait(false);
 		}
 		catch (OperationCanceledException) when (_lifetimeCancellation.IsCancellationRequested)
 		{
@@ -1177,7 +1178,7 @@ public partial class Watcher : IDisposable
 			return;
 		}
 		int pid = _watcherData.ProcessId;
-		CancellationToken token = _lifetimeCancellation.Token;
+		CancellationToken token = _lifetimeCancellation.SafeToken();
 		_windowManipulationTask = Task.Run(async delegate
 		{
 			try

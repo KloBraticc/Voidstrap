@@ -38,6 +38,8 @@ public partial class MenuContainer : WpfUiWindow
     private readonly DispatcherTimer _playTimer;
 
     private readonly CancellationTokenSource _lifetimeCts = new CancellationTokenSource();
+
+    private readonly CancellationToken _lifetime;
     private readonly object _sessionSync = new object();
 
     private DateTime _closestServerBackoffUntilUtc = DateTime.MinValue;
@@ -98,6 +100,7 @@ public partial class MenuContainer : WpfUiWindow
 
     public MenuContainer(Watcher watcher)
     {
+        _lifetime = _lifetimeCts.Token;
         _watcher = watcher ?? throw new ArgumentNullException(nameof(watcher));
         _activityWatcher = watcher.ActivityWatcher;
         InitializeComponent();
@@ -398,7 +401,7 @@ public partial class MenuContainer : WpfUiWindow
             _closestServerBackoffUntilUtc = DateTime.UtcNow + TimeSpan.FromMinutes(1);
             return null;
         }
-        using CancellationTokenSource timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token, _lifetimeCts.Token);
+        using CancellationTokenSource timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token, _lifetime);
         timeoutCts.CancelAfter(TimeSpan.FromSeconds(15));
         using HttpResponseMessage response = await App.HttpClient.GetAsync($"https://games.roblox.com/v1/games/{placeId}/servers/Public?limit=100", HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token);
         if (response.StatusCode == HttpStatusCode.TooManyRequests)
@@ -469,8 +472,8 @@ public partial class MenuContainer : WpfUiWindow
             _trayInfoRefreshedUtc = DateTime.UtcNow;
 #endif
             long? robloxMemory = Voidstrap.Utility.Platform.IsLinux
-                ? await Voidstrap.Platform.Linux.LinuxSoberMemory.ReadAsync(new Voidstrap.Core.SystemProcessService(), _lifetimeCts.Token)
-                : await Task.Run(ReadRobloxMemory, _lifetimeCts.Token);
+                ? await Voidstrap.Platform.Linux.LinuxSoberMemory.ReadAsync(new Voidstrap.Core.SystemProcessService(), _lifetime)
+                : await Task.Run(ReadRobloxMemory, _lifetime);
             if (!_closed && (Voidstrap.Utility.Platform.IsLinux || _activityWatcher?.InGame == true))
             {
                 string text = "Roblox: " + (robloxMemory.HasValue ? FormatBytes(robloxMemory.Value) : "N/A");
@@ -537,7 +540,7 @@ public partial class MenuContainer : WpfUiWindow
         JoinClosestServerMenuItem.IsEnabled = false;
         try
         {
-            ServerInfo? server = await FetchClosestServerAsync(data.PlaceId, _lifetimeCts.Token);
+            ServerInfo? server = await FetchClosestServerAsync(data.PlaceId, _lifetime);
             if (server != null)
             {
                 _lastClosestServer = server;

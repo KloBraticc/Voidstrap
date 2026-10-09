@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Voidstrap.Models;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations;
 
@@ -54,7 +55,7 @@ public class IntegrationWatcher : IDisposable
 		{
 			if ((!customIntegration.SpecifyGame || customIntegration.GameID == placeId.ToString()) && ReserveForSession(customIntegration, sessionGeneration))
 			{
-				_ = LaunchIntegrationAsync(customIntegration, placeId, jobId, sessionGeneration, _lifetimeCancellation.Token);
+				_ = LaunchIntegrationAsync(customIntegration, placeId, jobId, sessionGeneration, _lifetimeCancellation.SafeToken());
 			}
 		}
 	}

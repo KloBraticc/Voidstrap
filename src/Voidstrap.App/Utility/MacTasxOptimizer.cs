@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Voidstrap.Models.Persistable;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Utility;
 
@@ -31,7 +32,7 @@ internal sealed class MacTasxOptimizer : IDisposable
 		if (_disposed || !OperatingSystem.IsMacOS() || Interlocked.Exchange(ref _started, 1) != 0)
 			return;
 		App.Logger.WriteLine(LogIdent, "TASX optimization started");
-		_loop = Task.Run(() => RunAsync(_cancellation.Token));
+		_loop = Task.Run(() => RunAsync(_cancellation.SafeToken()));
 	}
 
 	private async Task RunAsync(CancellationToken token)

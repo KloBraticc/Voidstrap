@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Voidstrap.Integrations;
 using Voidstrap.Integrations.Overlays;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.Elements.Overlay
 {
@@ -445,7 +446,7 @@ namespace Voidstrap.UI.Elements.Overlay
                 _locationFetching = true;
 				try
 				{
-					string location = await GetServerLocationAsync(_serverIp, _lifetimeCts.Token);
+					string location = await GetServerLocationAsync(_serverIp, _lifetimeCts.SafeToken());
 					if (_disposed)
 						return;
 					_serverLocation = location;
