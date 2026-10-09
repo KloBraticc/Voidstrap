@@ -32,6 +32,16 @@ unsafe impl Encode for Size {
 }
 
 #[repr(C)]
+struct Point {
+    x: f64,
+    y: f64,
+}
+
+unsafe impl Encode for Point {
+    const ENCODING: Encoding = Encoding::Struct("CGPoint", &[Encoding::Double, Encoding::Double]);
+}
+
+#[repr(C)]
 struct SourceContext {
     version: isize,
     info: Ref,
@@ -92,7 +102,6 @@ unsafe extern "C" {
     fn CFArrayGetCount(array: Ref) -> isize;
     fn CFArrayGetValueAtIndex(array: Ref, index: isize) -> Ref;
     fn CFRunLoopGetCurrent() -> Ref;
-    fn CFRunLoopRun();
     fn CFRunLoopStop(run_loop: Ref);
     fn CFRunLoopWakeUp(run_loop: Ref);
     fn CFRunLoopSourceCreate(allocator: Ref, order: isize, context: *mut SourceContext) -> Ref;
@@ -333,6 +342,7 @@ fn event(ident: usize, filter: i16, flags: u16, fflags: u32) -> libc::kevent {
 }
 
 struct Session {
+    application: Retained<AnyObject>,
     display: Option<Retained<AnyObject>>,
     original: OwnedRef,
     physical: u32,
@@ -449,6 +459,7 @@ impl Session {
             return Err("macOS returned an invalid virtual display identifier".into());
         }
         Ok(Self {
+            application,
             display: Some(display),
             original,
             physical,
@@ -469,7 +480,7 @@ impl Session {
 
     fn update(&mut self) -> Result<(), String> {
         if self.stopped.load(Ordering::Acquire) {
-            unsafe { CFRunLoopStop(self.run_loop) };
+            self.stop();
             return Ok(());
         }
         if unsafe { CGDisplayIsOnline(self.physical) } == 0 {
@@ -596,6 +607,19 @@ impl Session {
         Ok(())
     }
 
+    fn stop(&self) {
+        unsafe {
+            let _: () = msg_send![&*self.application, stop: ptr::null_mut::<AnyObject>()];
+            if let Some(event_class) = AnyClass::get(c"NSEvent") {
+                let event: Option<Retained<AnyObject>> = msg_send![event_class, otherEventWithType: 15usize, location: Point { x: 0.0, y: 0.0 }, modifierFlags: 0usize, timestamp: 0.0f64, windowNumber: 0isize, context: ptr::null_mut::<AnyObject>(), subtype: 0i16, data1: 0isize, data2: 0isize];
+                if let Some(event) = event {
+                    let _: () = msg_send![&*self.application, postEvent: &*event, atStart: true];
+                }
+            }
+            CFRunLoopStop(self.run_loop);
+        }
+    }
+
     fn restore(&mut self) -> Result<(), String> {
         if !self.changed {
             return Ok(());
@@ -647,7 +671,7 @@ unsafe extern "C" fn perform(context: Ref) {
         let session = unsafe { &mut *(context as *mut Session) };
         if let Err(error) = session.update() {
             session.error = Some(error);
-            unsafe { CFRunLoopStop(session.run_loop) };
+            session.stop();
         }
     });
 }
@@ -764,7 +788,10 @@ fn run_inner(config: Config) -> Result<(), String> {
     session.timer = timer;
     unsafe { CFRunLoopAddTimer(session.run_loop, timer, kCFRunLoopDefaultMode) };
     wake.signal();
-    unsafe { CFRunLoopRun() };
+    let application = Retained::as_ptr(&session.application);
+    unsafe {
+        let _: () = msg_send![&*application, run];
+    }
     drop(monitor);
     unsafe {
         CGDisplayRemoveReconfigurationCallback(display_changed, wake_context);
