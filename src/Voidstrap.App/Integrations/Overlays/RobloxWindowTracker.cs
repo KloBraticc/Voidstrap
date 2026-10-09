@@ -869,6 +869,10 @@ namespace Voidstrap.Integrations.Overlays
 
 		private bool _macFocusReturned;
 
+		private DispatcherTimer? _macRetry;
+
+		private int _macRetryAttempts;
+
 		private void ApplyMac(RobloxWindowRect rect)
 		{
 			nint native = _macWindow;
@@ -876,9 +880,14 @@ namespace Voidstrap.Integrations.Overlays
 			{
 				native = Voidstrap.UI.MacWindowMode.ResolveNativeWindow(_window);
 				if (native == 0)
+				{
+					ArmMacRetry();
 					return;
+				}
 				_macWindow = native;
+				StopMacRetry();
 				Voidstrap.Platform.MacOS.MacOSOverlayWindow.Configure(native, true);
+				App.Logger?.WriteLine("RobloxOverlayAnchor", "Attached the macOS overlay " + _window.Title + " to the Roblox window");
 			}
 
 			if (!_macFocusReturned)
@@ -945,6 +954,34 @@ namespace Voidstrap.Integrations.Overlays
 				Voidstrap.Platform.MacOS.MacOSOverlayWindow.ShowWithoutActivating(native);
 				_macShown = true;
 			}
+		}
+
+		private void ArmMacRetry()
+		{
+			if (_disposed || _macRetry != null || _macRetryAttempts > 40)
+				return;
+			_macRetry = new DispatcherTimer(DispatcherPriority.Background, _window.Dispatcher) { Interval = TimeSpan.FromMilliseconds(250) };
+			_macRetry.Tick += OnMacRetryTick;
+			_macRetry.Start();
+		}
+
+		private void StopMacRetry()
+		{
+			if (_macRetry == null)
+				return;
+			_macRetry.Stop();
+			_macRetry.Tick -= OnMacRetryTick;
+			_macRetry = null;
+		}
+
+		private void OnMacRetryTick(object? sender, EventArgs e)
+		{
+			if (_disposed || ++_macRetryAttempts > 40)
+			{
+				StopMacRetry();
+				return;
+			}
+			Apply(RobloxWindowTracker.Current);
 		}
 
 		private nint _linuxHandle;
@@ -1143,6 +1180,7 @@ namespace Voidstrap.Integrations.Overlays
             _disposed = true;
 			Interlocked.Exchange(ref _applyPending, 0);
 			StopLinuxRetry();
+			StopMacRetry();
 
             RobloxWindowTracker.Changed -= OnTrackerChanged;
             _trackerLease.Dispose();
