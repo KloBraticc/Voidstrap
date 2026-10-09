@@ -117,9 +117,6 @@ unsafe extern "C" {
 #[link(name = "Foundation", kind = "framework")]
 unsafe extern "C" {}
 
-#[link(name = "AppKit", kind = "framework")]
-unsafe extern "C" {}
-
 unsafe extern "C" {
     static _dispatch_main_q: u8;
 }
@@ -369,6 +366,16 @@ impl Session {
             unsafe { CGDisplayCopyDisplayMode(physical) },
             "The main display mode is unavailable",
         )?;
+        if unsafe {
+            libc::dlopen(
+                c"/System/Library/Frameworks/AppKit.framework/AppKit".as_ptr(),
+                libc::RTLD_LAZY | libc::RTLD_LOCAL,
+            )
+        }
+        .is_null()
+        {
+            return Err("The macOS display framework is unavailable".into());
+        }
         let application: Retained<AnyObject> =
             unsafe { msg_send![class(c"NSApplication")?, sharedApplication] };
         unsafe {
