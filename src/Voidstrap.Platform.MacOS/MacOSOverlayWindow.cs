@@ -134,25 +134,17 @@ public static partial class MacOSOverlayWindow
 			return 0;
 		lock (Gate)
 		{
-			if (!EnsureWindowKeys())
-				return 0;
-			nint list = CGWindowListCopyWindowInfo(OnScreenOnly | ExcludeDesktopElements, 0);
-			if (list == 0)
-				return 0;
+			nint pool = objc_autoreleasePoolPush();
 			try
 			{
-				nint count = CFArrayGetCount(list);
-				for (nint index = 0; index < count; index++)
-				{
-					nint info = CFArrayGetValueAtIndex(list, index);
-					if (info != 0 && ReadInt(info, _layerKey) == 0)
-						return ReadInt(info, _ownerPidKey);
-				}
-				return 0;
+				EnsureAppKit();
+				nint workspace = Send(objc_getClass("NSWorkspace"), sel_registerName("sharedWorkspace"));
+				nint app = workspace == 0 ? 0 : Send(workspace, sel_registerName("frontmostApplication"));
+				return app == 0 ? 0 : SendReturnsInt(app, sel_registerName("processIdentifier"));
 			}
 			finally
 			{
-				CFRelease(list);
+				objc_autoreleasePoolPop(pool);
 			}
 		}
 	}
@@ -231,6 +223,9 @@ public static partial class MacOSOverlayWindow
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nint SendInt(nint receiver, nint selector, int argument);
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
+	private static partial int SendReturnsInt(nint receiver, nint selector);
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial void SendLong(nint receiver, nint selector, nint argument);
