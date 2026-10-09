@@ -3111,7 +3111,11 @@ public ICommand PickCursorColorCommand { get; }
 				Filter = "All supported media|*.png;*.apng;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.dib;*.gif;*.webp;*.tif;*.tiff;*.ico;*.wdp;*.jxr;*.hdp;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif;*.mp4;*.m4v;*.webm;*.avi;*.mov;*.wmv;*.mpeg;*.mpg;*.mkv|All image files|*.*|Videos|*.mp4;*.m4v;*.webm;*.avi;*.mov;*.wmv;*.mpeg;*.mpg;*.mkv|All files|*.*"
 			};
 			if (Voidstrap.Utility.Platform.IsMacOS)
-				dialog.Filter = "Images and videos|*.png;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.ico;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif;*.mp4;*.m4v;*.mov|Images|*.png;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.ico;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif|Videos|*.mp4;*.m4v;*.mov|All files|*.*";
+			{
+				const string images = "*.png;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.ico;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif";
+				const string videos = "*.mp4;*.m4v;*.mov";
+				dialog.Filter = $"{Strings.ResourceManager.GetString("HomepageMedia.Picker.ImagesAndVideos")}|{images};{videos}|{Strings.ResourceManager.GetString("HomepageMedia.Picker.Images")}|{images}|{Strings.ResourceManager.GetString("HomepageMedia.Picker.Videos")}|{videos}|{Strings.Menu_AllFiles}|*.*";
+			}
 			if (dialog.ShowDialog() != true)
 				return;
 			string path = Path.GetFullPath(dialog.FileName);

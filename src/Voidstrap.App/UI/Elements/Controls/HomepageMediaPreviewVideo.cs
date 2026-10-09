@@ -174,7 +174,7 @@ public class HomepageMediaPreviewVideo : ContentControl
             return;
         if (!File.Exists(SourcePath))
         {
-            ShowPortableError("The selected media file could not be found");
+            ShowPortableError(Voidstrap.Resources.Strings.ResourceManager.GetString("HomepageMedia.Preview.FileMissing") ?? string.Empty);
             return;
         }
 
@@ -211,7 +211,7 @@ public class HomepageMediaPreviewVideo : ContentControl
             });
             if (_portableMedia.Failure is not null)
             {
-                ShowPortableError("This media could not be decoded. Choose another image or video.");
+                ShowPortableError(Voidstrap.Resources.Strings.ResourceManager.GetString("HomepageMedia.Preview.DecodeError") ?? string.Empty);
                 StopPortableMedia();
             }
         }
@@ -220,7 +220,7 @@ public class HomepageMediaPreviewVideo : ContentControl
             if (_portableFailureLogged)
                 return;
             _portableFailureLogged = true;
-            ShowPortableError("The media preview could not be rendered");
+            ShowPortableError(Voidstrap.Resources.Strings.ResourceManager.GetString("HomepageMedia.Preview.RenderError") ?? string.Empty);
             App.Logger.WriteLine("HomepageMediaPreviewVideo::PortableFrame", "The media preview could not be rendered: " + ex.Message);
         }
     }
