@@ -87,7 +87,7 @@ public static class AppFont
 				Apply(window);
 			}
 		});
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.UsesPortableUi)
 		{
 			EventManager.RegisterClassHandler(typeof(Page), FrameworkElement.LoadedEvent, (RoutedEventHandler)delegate(object sender, RoutedEventArgs _)
 			{
@@ -134,13 +134,13 @@ public static class AppFont
 
 	public static void Apply(Window window)
 	{
-		if (window == null || !Voidstrap.Utility.Platform.IsLinux && window is not WpfUiWindow)
+		if (window == null || !Voidstrap.Utility.Platform.UsesPortableUi && window is not WpfUiWindow)
 		{
 			return;
 		}
 		try
 		{
-			if (_current != null || Voidstrap.Utility.Platform.IsLinux)
+			if (_current != null || Voidstrap.Utility.Platform.UsesPortableUi)
 			{
 				window.FontFamily = CurrentFontFamily;
 			}
@@ -164,7 +164,7 @@ public static class AppFont
 		foreach (Window window in current.Windows)
 		{
 			Apply(window);
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (Voidstrap.Utility.Platform.UsesPortableUi)
 			{
 				ApplyToPages(window);
 			}
