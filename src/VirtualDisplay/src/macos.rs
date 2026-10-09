@@ -363,6 +363,7 @@ struct Session {
     started: Instant,
     last_configuration: Option<Instant>,
     mirror_lost: Option<Instant>,
+    startup_valid_since: Option<Instant>,
     timer: Ref,
 }
 
@@ -462,6 +463,7 @@ impl Session {
             started,
             last_configuration: None,
             mirror_lost: None,
+            startup_valid_since: None,
             timer: ptr::null_mut(),
         };
         let settings = new_object(c"CGVirtualDisplaySettings")?;
@@ -548,7 +550,13 @@ impl Session {
                 rates
             ));
         }
+        if unsafe { CGDisplayMirrorsDisplay(self.physical) } != self.virtual_id
+            || unsafe { CGMainDisplayID() } != self.virtual_id
+        {
+            self.startup_valid_since = None;
+        }
         if unsafe { CGDisplayIsActive(self.virtual_id) } == 0 {
+            self.startup_valid_since = None;
             return Ok(());
         }
         if self
@@ -566,17 +574,19 @@ impl Session {
                 "Enable virtual display mirroring",
             )?;
             self.changed = true;
-            self.last_configuration = Some(Instant::now());
             transaction.commit()?;
+            self.last_configuration = Some(Instant::now());
         }
         if unsafe { CGDisplayMirrorsDisplay(self.physical) } == self.virtual_id {
             let current = unsafe { CGDisplayCopyDisplayMode(self.virtual_id) };
             if current.is_null() {
+                self.startup_valid_since = None;
                 return Ok(());
             }
             let current = OwnedRef(current);
             let refresh = unsafe { CGDisplayModeGetRefreshRate(current.0) };
             if (refresh - self.refresh).abs() >= 0.5 {
+                self.startup_valid_since = None;
                 let modes =
                     unsafe { CGDisplayCopyAllDisplayModes(self.virtual_id, ptr::null_mut()) };
                 if modes.is_null() {
@@ -608,11 +618,19 @@ impl Session {
                             },
                             "Retain virtual display mirroring",
                         )?;
-                        self.last_configuration = Some(Instant::now());
                         transaction.commit()?;
+                        self.last_configuration = Some(Instant::now());
                         break;
                     }
                 }
+                return Ok(());
+            }
+            if unsafe { CGMainDisplayID() } != self.virtual_id {
+                self.startup_valid_since = None;
+                return Ok(());
+            }
+            let valid_since = self.startup_valid_since.get_or_insert_with(Instant::now);
+            if cfg!(target_arch = "x86_64") && valid_since.elapsed().as_secs() < 2 {
                 return Ok(());
             }
             self.ready = true;
