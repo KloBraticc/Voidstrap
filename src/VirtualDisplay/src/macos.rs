@@ -180,6 +180,12 @@ impl Drop for Transaction {
     }
 }
 
+fn status(message: std::fmt::Arguments<'_>) -> Result<(), String> {
+    let mut output = std::io::stdout().lock();
+    writeln!(output, "{message}")
+        .and_then(|_| output.flush())
+        .map_err(|error| error.to_string())
+}
 fn check(code: i32, action: &str) -> Result<(), String> {
     if code == 0 {
         Ok(())
@@ -610,16 +616,13 @@ impl Session {
                 return Ok(());
             }
             self.ready = true;
-            println!(
+            status(format_args!(
                 "{{\"ready\":true,\"physical\":{},\"virtual\":{},\"refresh\":{},\"startup_us\":{}}}",
                 self.physical,
                 self.virtual_id,
                 refresh,
                 self.started.elapsed().as_micros()
-            );
-            std::io::stdout()
-                .flush()
-                .map_err(|error| error.to_string())?;
+            ))?;
         }
         Ok(())
     }
@@ -682,7 +685,7 @@ impl Session {
 impl Drop for Session {
     fn drop(&mut self) {
         if let Err(error) = self.restore() {
-            eprintln!("Virtual display restoration: {error}");
+            let _ = writeln!(std::io::stderr(), "Virtual display restoration: {error}");
         }
     }
 }
@@ -722,7 +725,7 @@ fn run_inner(config: Config) -> Result<(), String> {
             unsafe { CGDisplayCopyDisplayMode(display) },
             "No main display mode",
         )?;
-        println!(
+        status(format_args!(
             "{{\"display\":{},\"width\":{},\"height\":{},\"pixel_width\":{},\"pixel_height\":{},\"refresh\":{},\"mirror\":{}}}",
             display,
             unsafe { CGDisplayModeGetWidth(mode.0) },
@@ -731,7 +734,7 @@ fn run_inner(config: Config) -> Result<(), String> {
             unsafe { CGDisplayModeGetPixelHeight(mode.0) },
             unsafe { CGDisplayModeGetRefreshRate(mode.0) },
             unsafe { CGDisplayMirrorsDisplay(display) }
-        );
+        ))?;
         return Ok(());
     }
     let lock_path = std::env::temp_dir()
@@ -761,7 +764,7 @@ fn run_inner(config: Config) -> Result<(), String> {
             return Err(std::io::Error::last_os_error().to_string());
         }
         if available > 0 && input.revents != 0 {
-            println!("{{\"restored\":true}}");
+            status(format_args!("{{\"restored\":true}}"))?;
             return Ok(());
         }
     }
@@ -791,7 +794,7 @@ fn run_inner(config: Config) -> Result<(), String> {
     let wake_context = (&*wake as *const Wake).cast_mut().cast();
     let monitor = StopMonitor::start(&wake, stopped.clone(), config.watch_stdin)?;
     if stopped.load(Ordering::Acquire) {
-        println!("{{\"restored\":true}}");
+        status(format_args!("{{\"restored\":true}}"))?;
         return Ok(());
     }
     let mut session = Box::new(Session::create(config, stopped)?);
@@ -847,6 +850,6 @@ fn run_inner(config: Config) -> Result<(), String> {
     if let Some(error) = session.error.take() {
         return Err(error);
     }
-    println!("{{\"restored\":true}}");
+    status(format_args!("{{\"restored\":true}}"))?;
     Ok(())
 }

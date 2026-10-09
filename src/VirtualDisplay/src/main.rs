@@ -2,10 +2,13 @@ mod config;
 #[cfg(target_os = "macos")]
 mod macos;
 
+use std::io::Write;
+
 fn main() -> std::process::ExitCode {
     let result = match config::Config::parse(std::env::args().skip(1)) {
         Ok(None) => {
-            println!(
+            let _ = writeln!(
+                std::io::stdout(),
                 "Usage: voidstrap-virtualdisplay [--width pixels --height pixels] [--refresh-rate hz] [--watch-stdin] [--probe]"
             );
             return std::process::ExitCode::SUCCESS;
@@ -16,7 +19,7 @@ fn main() -> std::process::ExitCode {
     match result {
         Ok(()) => std::process::ExitCode::SUCCESS,
         Err(error) => {
-            eprintln!("Virtual display: {error}");
+            let _ = writeln!(std::io::stderr(), "Virtual display: {error}");
             std::process::ExitCode::FAILURE
         }
     }
