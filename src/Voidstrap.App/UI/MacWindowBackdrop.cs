@@ -14,6 +14,7 @@ internal sealed class MacWindowBackdrop : IDisposable
 	private readonly Window _window;
 	private MacOSWindowBackdrop? _native;
 	private bool _disposed;
+	private string? _logged;
 
 	private MacWindowBackdrop(Window window)
 	{
@@ -75,6 +76,12 @@ internal sealed class MacWindowBackdrop : IDisposable
 			_native = null;
 		}
 		bool active = enabled && _native != null;
+		string state = type + (window == 0 ? " no native window" : active ? " active" : " inactive");
+		if (state != _logged)
+		{
+			_logged = state;
+			App.Logger?.WriteLine("MacWindowBackdrop::Update", _window.GetType().Name + " backdrop " + state);
+		}
 		_window.Background = active
 			? _window is Elements.Settings.MainWindow ? Brushes.Transparent : WindowBackdrop.CreateSurfaceBrush(_window)
 			: WindowBackdrop.CreateOpaqueSurfaceBrush(_window);
