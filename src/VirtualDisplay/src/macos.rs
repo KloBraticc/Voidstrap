@@ -460,7 +460,24 @@ impl Session {
             return Ok(());
         }
         if self.timeout {
-            return Err("Timed out waiting for the virtual display".into());
+            let mut rates = Vec::new();
+            let modes = unsafe { CGDisplayCopyAllDisplayModes(self.virtual_id, ptr::null_mut()) };
+            if !modes.is_null() {
+                let modes = OwnedRef(modes);
+                for index in 0..unsafe { CFArrayGetCount(modes.0) } {
+                    rates.push(unsafe {
+                        CGDisplayModeGetRefreshRate(CFArrayGetValueAtIndex(modes.0, index))
+                    });
+                }
+            }
+            return Err(format!(
+                "Timed out waiting for the virtual display: active {}, online {}, mirror {}, configured {}, rates {:?}",
+                unsafe { CGDisplayIsActive(self.virtual_id) },
+                unsafe { CGDisplayIsOnline(self.virtual_id) },
+                unsafe { CGDisplayMirrorsDisplay(self.physical) },
+                self.changed,
+                rates
+            ));
         }
         if unsafe { CGDisplayIsActive(self.virtual_id) } == 0 {
             return Ok(());
@@ -582,9 +599,12 @@ unsafe extern "C" fn perform(context: Ref) {
 }
 
 unsafe extern "C" fn timeout(timer: Ref, context: Ref) {
-    let session = unsafe { &mut *(context as *mut Session) };
-    session.timeout = !session.ready && session.started.elapsed().as_secs() >= 10;
+    {
+        let session = unsafe { &mut *(context as *mut Session) };
+        session.timeout = !session.ready && session.started.elapsed().as_secs() >= 10;
+    }
     unsafe { perform(context) };
+    let session = unsafe { &*(context as *const Session) };
     if session.ready || session.error.is_some() || session.stopped.load(Ordering::Acquire) {
         unsafe { CFRunLoopTimerInvalidate(timer) };
     }
