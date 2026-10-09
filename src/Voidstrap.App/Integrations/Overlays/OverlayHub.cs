@@ -443,6 +443,8 @@ namespace Voidstrap.Integrations.Overlays
 				return false;
 			if (Voidstrap.Utility.Platform.IsLinux)
 				return StartLinuxHomepage();
+			if (Voidstrap.Utility.Platform.IsMacOS)
+				return StartMacHomepage();
 			if (!Voidstrap.Utility.Platform.IsWindows)
 				return false;
             lock (_lock)
@@ -473,6 +475,43 @@ namespace Voidstrap.Integrations.Overlays
 				}
             }
         }
+
+		private static MacHomepageBackgroundOverlay? _macHomepage;
+
+		private static bool StartMacHomepage()
+		{
+			System.Windows.Application? app = System.Windows.Application.Current;
+			if (app == null || app.Dispatcher.HasShutdownStarted)
+				return false;
+			app.Dispatcher.BeginInvoke(new Action(() =>
+			{
+				if (_macHomepage != null || _shutdown || !HomepageBackgroundActive)
+					return;
+				try
+				{
+					_macHomepage = new MacHomepageBackgroundOverlay();
+				}
+				catch (Exception ex)
+				{
+					_macHomepage = null;
+					App.Logger.WriteException("OverlayHub::StartMacHomepage", ex);
+				}
+			}));
+			return true;
+		}
+
+		private static void StopMacHomepage()
+		{
+			System.Windows.Application? app = System.Windows.Application.Current;
+			if (app == null || app.Dispatcher.HasShutdownStarted)
+				return;
+			app.Dispatcher.BeginInvoke(new Action(() =>
+			{
+				MacHomepageBackgroundOverlay? overlay = _macHomepage;
+				_macHomepage = null;
+				overlay?.Dispose();
+			}));
+		}
 
 		private static bool StartLinuxHomepage()
 		{
@@ -703,6 +742,11 @@ namespace Voidstrap.Integrations.Overlays
 			if (Voidstrap.Utility.Platform.IsLinux)
 			{
 				StopLinuxHomepage();
+				return;
+			}
+			if (Voidstrap.Utility.Platform.IsMacOS)
+			{
+				StopMacHomepage();
 				return;
 			}
             CancellationTokenSource? cts;
