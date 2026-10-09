@@ -2097,7 +2097,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			if (Voidstrap.Utility.Platform.IsLinux)
 				await Task.Run(() => global::Voidstrap.Bootstrapper.PrepareSoberClientTreeAsync(CancellationToken.None));
-			else
+			else if (Voidstrap.Utility.Platform.IsWindows)
 				await Task.Run(() => Voidstrap.Utility.RobloxInstallCompression.EnsureExtracted(new RobloxPlayerData()));
 			CurrentExplorerPath = ResolveRobloxPlayerDir(forceRefresh: true);
 			RefreshModFiles();
@@ -4086,6 +4086,11 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		if (Voidstrap.Utility.Platform.IsLinux)
 			return GetSoberClientDir();
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			string? bundle = Voidstrap.Utility.MacRobloxBundle.Find();
+			return bundle == null ? "" : Path.Combine(bundle, "Contents", "Resources");
+		}
 		RobloxPlayerData playerData = new RobloxPlayerData();
 		string versionsRoot = Path.GetFullPath(playerData.VersionsRoot);
 		if (Voidstrap.AppData.CommonAppData.IsVersionGuidValid(playerData.State.VersionGuid))

@@ -43,7 +43,7 @@ public partial class ModsPage : UiPage{
 		ViewModel = new ModsViewModel();
 		base.DataContext = ViewModel;
 		InitializeComponent();
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.UsesPortableUi)
 		{
 			ManagedModsEmptyPreview.Effect = null;
 			ManagedModsEmptyPreview.CacheMode = null;
