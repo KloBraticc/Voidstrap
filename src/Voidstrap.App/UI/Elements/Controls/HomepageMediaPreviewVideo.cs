@@ -45,7 +45,7 @@ public class HomepageMediaPreviewVideo : ContentControl
             {
                 TextWrapping = TextWrapping.Wrap,
                 TextAlignment = TextAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(10),
                 Visibility = Visibility.Collapsed
@@ -183,7 +183,7 @@ public class HomepageMediaPreviewVideo : ContentControl
         _portableMedia = new Voidstrap.Integrations.Overlays.HomepageBackgroundMedia(SourcePath, 30d, 960, 540);
         _portableTimer = new DispatcherTimer(DispatcherPriority.Render)
         {
-            Interval = TimeSpan.FromMilliseconds(1000d / 30d)
+            Interval = TimeSpan.FromMilliseconds(500d)
         };
         _portableTimer.Tick += OnPortableFrameTick;
         _portableTimer.Start();
@@ -206,10 +206,12 @@ public class HomepageMediaPreviewVideo : ContentControl
                 }
                 _portableBitmap.WritePixels(new Int32Rect(0, 0, width, height), pixels, stride, 0);
                 _portableFrameVersion = version;
+                if (_portableTimer != null)
+                    _portableTimer.Interval = TimeSpan.FromMilliseconds(_portableMedia?.IsAnimated == true ? 1000d / 30d : 500d);
             });
-            if (_portableMedia.Failure is string failure)
+            if (_portableMedia.Failure is not null)
             {
-                ShowPortableError(failure);
+                ShowPortableError("This media could not be decoded. Choose another image or video.");
                 StopPortableMedia();
             }
         }

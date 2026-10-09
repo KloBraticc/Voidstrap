@@ -55,8 +55,6 @@ public static partial class MacOSImageDecoder
 					context = CGBitmapContextCreate((nint)data, (nuint)width, (nuint)height, 8, (nuint)(width * 4), colorSpace, 0x2002);
 					if (context == 0)
 						throw new InvalidOperationException("macOS could not create an image buffer");
-					CGContextTranslateCTM(context, 0, height);
-					CGContextScaleCTM(context, 1, -1);
 					CGContextDrawImage(context, new MacOSWindow.Rect(0, 0, width, height), image);
 					CGContextRelease(context);
 					context = 0;
@@ -97,8 +95,6 @@ public static partial class MacOSImageDecoder
 	[LibraryImport(Graphics)] private static partial nuint CGImageGetHeight(nint image);
 	[LibraryImport(Graphics)] private static partial nint CGColorSpaceCreateDeviceRGB();
 	[LibraryImport(Graphics)] private static partial nint CGBitmapContextCreate(nint data, nuint width, nuint height, nuint bits, nuint stride, nint colorSpace, uint info);
-	[LibraryImport(Graphics)] private static partial void CGContextTranslateCTM(nint context, double x, double y);
-	[LibraryImport(Graphics)] private static partial void CGContextScaleCTM(nint context, double x, double y);
 	[LibraryImport(Graphics)] private static partial void CGContextDrawImage(nint context, MacOSWindow.Rect rect, nint image);
 	[LibraryImport(Graphics)] private static partial void CGContextRelease(nint context);
 }
