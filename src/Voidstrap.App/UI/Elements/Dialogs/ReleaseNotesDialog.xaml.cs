@@ -464,7 +464,7 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 			case ParagraphBlock paragraphBlock:
 			{
 				List<(string Text, string Url)> links = new List<(string, string)>();
-				target.Add(CreateText(Flatten(paragraphBlock.Inline, links), 14, FontWeights.Normal, new Thickness(0, 0, 0, compact ? 2 : 10), brushKey, 22));
+				target.Add(CreateRichText(paragraphBlock.Inline, links, new Thickness(0, 0, 0, compact ? 2 : 10), brushKey));
 				AddLinkButtons(target, links, compact);
 				break;
 			}
@@ -546,7 +546,7 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 			case LeafBlock leaf when leaf.Inline != null:
 			{
 				List<(string Text, string Url)> links = new List<(string, string)>();
-				target.Add(CreateText(Flatten(leaf.Inline, links), 14, FontWeights.Normal, new Thickness(0, 0, 0, compact ? 2 : 10), brushKey, 22));
+				target.Add(CreateRichText(leaf.Inline, links, new Thickness(0, 0, 0, compact ? 2 : 10), brushKey));
 				AddLinkButtons(target, links, compact);
 				break;
 			}
@@ -557,6 +557,65 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 					AddNativeBlock(target, child, depth, compact, brushKey);
 				}
 				break;
+			}
+		}
+	}
+
+	private static WpfControls.TextBlock CreateRichText(ContainerInline? container, List<(string Text, string Url)> links, Thickness margin, string brushKey)
+	{
+		WpfControls.TextBlock block = CreateText(Flatten(container, links), 14, FontWeights.Normal, margin, brushKey, 22);
+		if (container == null || !HasEmphasis(container))
+			return block;
+		block.Inlines.Clear();
+		AddPortableInlines(block.Inlines, container);
+		return block;
+	}
+
+	private static bool HasEmphasis(ContainerInline container)
+	{
+		foreach (MarkdownInline inline in container)
+		{
+			if (inline is EmphasisInline || inline is ContainerInline nested && HasEmphasis(nested))
+				return true;
+		}
+		return false;
+	}
+
+	private static void AddPortableInlines(InlineCollection target, ContainerInline container)
+	{
+		foreach (MarkdownInline inline in container)
+		{
+			switch (inline)
+			{
+				case LiteralInline literal:
+					target.Add(new Run(literal.Content.ToString()));
+					break;
+				case LineBreakInline:
+					target.Add(new LineBreak());
+					break;
+				case CodeInline code:
+					target.Add(new Run(code.Content.ToString()) { FontFamily = CodeFont });
+					break;
+				case HtmlEntityInline entity:
+					target.Add(new Run(entity.Transcoded.ToString()));
+					break;
+				case AutolinkInline autolink:
+					target.Add(new Run(autolink.Url));
+					break;
+				case LinkInline { IsImage: true }:
+					break;
+				case EmphasisInline emphasis:
+				{
+					Span span = emphasis.DelimiterChar == '~'
+						? new Span { TextDecorations = TextDecorations.Strikethrough }
+						: emphasis.DelimiterCount >= 2 ? new Bold() : new Italic();
+					AddPortableInlines(span.Inlines, emphasis);
+					target.Add(span);
+					break;
+				}
+				case ContainerInline nested:
+					AddPortableInlines(target, nested);
+					break;
 			}
 		}
 	}
