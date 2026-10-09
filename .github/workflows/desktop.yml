@@ -60,6 +60,51 @@ jobs:
           name: ${{ matrix.rid }}
           path: artifacts
 
+  macos_cross_dmgs:
+    name: Build macOS disk images on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          submodules: recursive
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: 10.0.x
+      - run: sudo apt-get update && sudo apt-get install -y genisoimage
+      - run: pwsh -NoProfile -File ./publish-all.ps1 -Only osx-arm64,osx-x64 -SkipSolutionBuild -NoPause
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: macos-cross-dmgs
+          path: PublishedBuilds/macOS/*.dmg
+
+  macos_dmg_mount:
+    name: Mount cross built ${{ matrix.rid }} disk image on macOS
+    needs: macos_cross_dmgs
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        rid: [osx-x64, osx-arm64]
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: macos-cross-dmgs
+          path: artifacts
+      - name: Mount and inspect disk image
+        shell: bash
+        run: |
+          image="artifacts/Voidstrap-${{ matrix.rid }}.dmg"
+          test -s "$image"
+          mountpoint="$(mktemp -d)"
+          trap 'hdiutil detach "$mountpoint" >/dev/null 2>&1 || true; rmdir "$mountpoint"' EXIT
+          hdiutil attach -readonly -nobrowse -noverify -mountpoint "$mountpoint" "$image"
+          app="$mountpoint/Voidstrap.app"
+          test -f "$app/Contents/Info.plist"
+          case "${{ matrix.rid }}" in
+            osx-x64) lipo -verify_arch x86_64 "$app/Contents/MacOS/Voidstrap" ;;
+            osx-arm64) lipo -verify_arch arm64 "$app/Contents/MacOS/Voidstrap" ;;
+          esac
+
   linux_validation:
     name: Linux canonical and experimental validation
     runs-on: ubuntu-latest

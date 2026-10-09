@@ -361,7 +361,7 @@ This creates a `.dmg` and `.zip` for each architecture in `PublishedBuilds/macOS
 
 Local packages use ad hoc signing without notarization. For Developer ID signing, set `MACOS_SIGN_IDENTITY`. To notarize, also set `MACOS_NOTARY_PROFILE` to your notarytool keychain profile.
 
-Windows and Linux can cross publish macOS app bundles, but they cannot create `.dmg` files. On Windows, use the PowerShell command with `-Only osx-arm64,osx-x64`. Packaging needs Git Bash or WSL. These hosts produce `Voidstrap-osx-arm64.tar.gz` and `Voidstrap-osx-x64.tar.gz`. Run the command on macOS to create the `.dmg` and `.zip` packages.
+Windows can create macOS `.dmg` files through WSL 2. Install Rust with `rustup` and `genisoimage` in your WSL distribution, then run the PowerShell command with `-Only osx-arm64,osx-x64`. It produces a `.dmg` and `.tar.gz` for each architecture in `PublishedBuilds/macOS`. Linux can use the same command when Rust, Cargo and `genisoimage` are installed. Git Bash alone can create the `.tar.gz` app bundles, but not `.dmg` files.
 
 </details>
 

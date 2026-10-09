@@ -51,6 +51,7 @@ PUBLISH="$STAGE/publish"
 APPLICATION="$STAGE/Voidstrap.app"
 DMG="$STAGE/Voidstrap-$RID.dmg"
 ARCHIVE="$STAGE/Voidstrap-$RID.zip"
+ISO="$STAGE/Voidstrap-$RID.iso"
 
 commit_artifact() {
   mv -n "$1" "$2"
@@ -108,6 +109,16 @@ if [ "$(uname -s)" != "Darwin" ]; then
   sed -i -e "/<key>CFBundleShortVersionString<\/key>/{n;s|<string>[^<]*</string>|<string>$VERSION</string>|}" -e "/<key>CFBundleVersion<\/key>/{n;s|<string>[^<]*</string>|<string>$VERSION</string>|}" "$APPLICATION/Contents/Info.plist"
   chmod 644 "$APPLICATION/Contents/Info.plist"
   chmod -R go-w "$APPLICATION"
+  if [ "$(uname -s)" = "Linux" ]; then
+    command -v genisoimage >/dev/null 2>&1 || { echo "genisoimage is required to create a macOS disk image on Linux"; exit 1; }
+    CARGO="$(command -v cargo || true)"
+    if [ -z "$CARGO" ] && [ -x "$HOME/.cargo/bin/cargo" ]; then CARGO="$HOME/.cargo/bin/cargo"; fi
+    [ -n "$CARGO" ] || { echo "Rust and Cargo are required to create a macOS disk image on Linux"; exit 1; }
+    genisoimage -D -J -V Voidstrap -no-pad -r -graft-points -o "$ISO" "Voidstrap.app=$APPLICATION"
+    CARGO_TARGET_DIR="$STAGE/cargo-target" "$CARGO" run --quiet --release --locked --manifest-path "$ROOT/build/Packaging/MacOS/DmgBuilder/Cargo.toml" -- "$ISO" "$DMG"
+    [ -s "$DMG" ] || { echo "The macOS disk image is empty"; exit 1; }
+    commit_artifact "$DMG" "$DMG_TARGET"
+  fi
   TARBALL="$STAGE/Voidstrap-$RID.tar"
   tar --sort=name --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --exclude="Voidstrap.app/Contents/MacOS/Voidstrap" --exclude="Voidstrap.app/Contents/MacOS/voidstrap-virtualdisplay" -C "$STAGE" -cf "$TARBALL" Voidstrap.app
   tar --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --mode=0755 -C "$STAGE" -rf "$TARBALL" Voidstrap.app/Contents/MacOS/Voidstrap Voidstrap.app/Contents/MacOS/voidstrap-virtualdisplay

@@ -1396,7 +1396,8 @@ if ($selectedLinuxTargets.Count -gt 0) {
     }
 }
 if (@($Targets | Where-Object { $_.Rid.StartsWith('osx-', [System.StringComparison]::Ordinal) }).Count -gt 0) {
-    $plannedPackages.Add($(if ($packagingShell) { 'macOS: Voidstrap.app archives' } else { 'macOS: plain executables' }))
+    $macDiskImagesAvailable = $packagingShell -and ($packagingShell.Wsl -or $IsLinuxHost)
+    $plannedPackages.Add($(if ($macDiskImagesAvailable) { 'macOS: Voidstrap.app disk images and archives' } elseif ($packagingShell) { 'macOS: Voidstrap.app archives' } else { 'macOS: plain executables' }))
 }
 if ($BuildAndroid) { $plannedPackages.Add('Android: play and direct APKs') }
 Write-Host 'Packages:' -ForegroundColor Cyan
@@ -1690,11 +1691,14 @@ try {
         if (-not $shell) {
             $PackageNotes.Add('macOS app bundles were skipped: they need bash, which Git for Windows provides.')
         } else {
+            if ($IsWindowsHost -and -not $shell.Wsl) {
+                $PackageNotes.Add('macOS disk images were skipped; use WSL 2 with Rust and genisoimage to create them.')
+            }
             $macOutput = $MacOut
             New-Item -ItemType Directory -Path $macOutput -Force | Out-Null
             foreach ($job in $macPackageJobs) {
                 $macArgs = @($macScript, $job.Target.Rid, $packageVersion, (Get-RootRelativePath $macOutput), (Get-RootRelativePath $job.Expected))
-                Invoke-PackagingScript $shell "$($job.Target.Name) app" $macArgs -BestEffort
+                Invoke-PackagingScript $shell "$($job.Target.Name) app" $macArgs
             }
         }
     }
