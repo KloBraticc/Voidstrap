@@ -39,7 +39,21 @@ internal static class LinuxTextFallback
 		"Liberation Sans",
 		"FreeSans",
 		"FreeSerif",
-		"Unifont"
+		"Unifont",
+		"Helvetica Neue",
+		"PingFang SC",
+		"PingFang TC",
+		"PingFang HK",
+		"Hiragino Sans",
+		"Hiragino Kaku Gothic ProN",
+		"Apple SD Gothic Neo",
+		"Geeza Pro",
+		"Thonburi",
+		"Kohinoor Devanagari",
+		"Apple Symbols",
+		"Arial Unicode MS",
+		"STIX Two Math",
+		"Lucida Grande"
 	];
 
 	private static readonly object Gate = new();
@@ -95,7 +109,7 @@ internal static class LinuxTextFallback
 
 	public static void Install()
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.IsWindows)
 			return;
 
 		FieldInfo? hook = typeof(TextFormatter).GetField("VoidstrapRunFilter", BindingFlags.Public | BindingFlags.Static);
@@ -191,6 +205,9 @@ internal static class LinuxTextFallback
 
 	private static string EmojiCacheDirectory()
 	{
+		if (Voidstrap.Utility.Platform.IsMacOS)
+			return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Caches", "Voidstrap", "Fonts");
+
 		string? cache = Environment.GetEnvironmentVariable("XDG_CACHE_HOME");
 		if (string.IsNullOrWhiteSpace(cache) || !Path.IsPathRooted(cache))
 		{
