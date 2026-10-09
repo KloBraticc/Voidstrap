@@ -1698,10 +1698,7 @@ public partial class App : Application
 		if (e.StagingItem.Input is not System.Windows.Input.MouseEventArgs || e.StagingItem.Input.RoutedEvent != System.Windows.Input.Mouse.PreviewMouseMoveEvent && e.StagingItem.Input.RoutedEvent != System.Windows.Input.Mouse.PreviewMouseDownEvent)
 			return;
 		if (++_tracedMacInput > 40)
-		{
-			System.Windows.Input.InputManager.Current.PreProcessInput -= TraceMacInput;
 			return;
-		}
 		Logger.WriteLine("App::TraceMacInput", $"{e.StagingItem.Input.RoutedEvent.Name} over={System.Windows.Input.Mouse.DirectlyOver?.GetType().Name ?? "none"} {Voidstrap.Platform.MacOS.MacOSApplication.Describe()}");
 	}
 
