@@ -1,4 +1,4 @@
-﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.ChannelPage" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="Settings" Scrollable="False" Loaded="OnChannelPageLoaded" Unloaded="OnChannelPageUnloaded">
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.ChannelPage" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="Settings" Scrollable="False" Loaded="OnChannelPageLoaded" Unloaded="OnChannelPageUnloaded">
   <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly">
     <StackPanel Margin="0,0,14,14">
       <TextBlock Margin="0,0,0,8" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.Menu_Channel_Description}" />
@@ -35,6 +35,9 @@
             <ui:ToggleSwitch IsChecked="{Binding LaunchWithoutVoidstrap, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:BootstrapperImportControl Imported="OnSettingsImported" />
+          <controls:OptionControl Header="{x:Static resources:Strings.Menu_MacVirtualDisplay_Title}" Description="{x:Static resources:Strings.Menu_MacVirtualDisplay_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.MacOSIntegration}">
+            <ui:ToggleSwitch IsChecked="{Binding MacVirtualDisplayEnabled, Mode=TwoWay}" />
+          </controls:OptionControl>
           <Expander Header="Display and Resolution" IsExpanded="False" Margin="0,8,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <StackPanel Margin="0,4,0,0">
                             <Border CornerRadius="8" Padding="10" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">

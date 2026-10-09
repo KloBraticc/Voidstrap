@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -152,5 +152,11 @@
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>News Details</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>240 Hz virtual display</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Mirrors the main screen while Roblox runs and restores it when Roblox closes. The physical screen keeps its own refresh limit.</value>
   </data>
 </root>
