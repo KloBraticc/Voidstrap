@@ -15,7 +15,7 @@ public static class AppFont
 
 	private static FontFamily? _current;
 
-	private static readonly FontFamily LinuxWpfUiFontFamily = new("Inter 18pt, Selawik, Segoe UI Variable, Segoe UI, Ubuntu, Cantarell, Noto Sans, DejaVu Sans, Liberation Sans");
+	private static readonly FontFamily LinuxWpfUiFontFamily = new("Inter 18pt, Selawik, Segoe UI Variable, Segoe UI, Ubuntu, Cantarell, Noto Sans, DejaVu Sans, Liberation Sans, Helvetica Neue");
 
 	public static bool HasCustomFont => _current != null;
 
@@ -25,7 +25,7 @@ public static class AppFont
 	{
 		get
 		{
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (Voidstrap.Utility.Platform.UsesPortableUi)
 			{
 				return LinuxWpfUiFontFamily;
 			}
@@ -61,7 +61,7 @@ public static class AppFont
 
 	public static void Initialize()
 	{
-		if (Voidstrap.Utility.Platform.IsLinux && Application.Current != null)
+		if (Voidstrap.Utility.Platform.UsesPortableUi && Application.Current != null)
 		{
 			Application.Current.Resources["ContentControlThemeFontFamily"] = LinuxWpfUiFontFamily;
 			Application.Current.Resources[SystemFonts.MessageFontFamilyKey] = LinuxWpfUiFontFamily;
