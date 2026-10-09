@@ -4,4 +4,5 @@ version = "1.0.0"
 edition = "2024"
 
 [dependencies]
+plist = "=1.10.1"
 udif = "=0.4.2"
