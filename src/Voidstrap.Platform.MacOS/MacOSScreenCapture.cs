@@ -8,7 +8,7 @@ public static unsafe partial class MacOSScreenCapture
 	private const string ObjectiveC = "/usr/lib/libobjc.A.dylib";
 	private const string CoreFoundation = "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation";
 	private const string CoreGraphics = "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics";
-	private const int BlockIsGlobal = 1 << 28;
+	private const int BlockHasCopyDispose = 1 << 25;
 	private const uint PixelFormatBgra = 0x42475241;
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -16,6 +16,8 @@ public static unsafe partial class MacOSScreenCapture
 	{
 		public nuint Reserved;
 		public nuint Size;
+		public nint Copy;
+		public nint Dispose;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -26,20 +28,50 @@ public static unsafe partial class MacOSScreenCapture
 		public int Reserved;
 		public nint Invoke;
 		public BlockDescriptor* Descriptor;
+		public nint Context;
+	}
+
+	private sealed class CaptureRequest(uint windowId, bool image)
+	{
+		public readonly uint WindowId = windowId;
+		private readonly TaskCompletionSource<nint> _result = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+		public nint Wait(TimeSpan timeout)
+		{
+			if (!_result.Task.Wait(timeout))
+				_result.TrySetResult(0);
+			return _result.Task.GetAwaiter().GetResult();
+		}
+
+		public void Complete(nint result)
+		{
+			if (_result.TrySetResult(result) || result == 0)
+				return;
+			if (image)
+				CFRelease(result);
+			else
+				objc_release(result);
+		}
 	}
 
 	private static readonly object Gate = new();
-	private static readonly ManualResetEventSlim Done = new(false);
-	private static BlockLiteral* _contentBlock;
-	private static BlockLiteral* _imageBlock;
+	private static BlockDescriptor* _descriptor;
+	private static nint _stackBlock;
 	private static nint _framework;
-	private static nint _result;
-	private static uint _wantedWindow;
 	private static uint _cachedWindowId;
 	private static nint _cachedWindow;
 	private static bool _unavailable;
 
-	public static bool IsAvailable => OperatingSystem.IsMacOSVersionAtLeast(14) && EnsureLoaded();
+	public static bool IsAvailable
+	{
+		get
+		{
+			if (!OperatingSystem.IsMacOSVersionAtLeast(14))
+				return false;
+			lock (Gate)
+				return EnsureLoaded();
+		}
+	}
 
 	public static bool TryCapture(int windowNumber, int width, int height, ref byte[] buffer, out int capturedWidth, out int capturedHeight)
 	{
@@ -82,18 +114,30 @@ public static unsafe partial class MacOSScreenCapture
 		if (_cachedWindow != 0 && _cachedWindowId == windowId)
 			return _cachedWindow;
 		ForgetWindow();
-		_wantedWindow = windowId;
-		_result = 0;
-		Done.Reset();
 		nint content = Send(objc_getClass("SCShareableContent"), sel_registerName("class"));
 		if (content == 0)
 			return 0;
-		SendBoolBoolBlock(content, sel_registerName("getShareableContentExcludingDesktopWindows:onScreenWindowsOnly:completionHandler:"), true, true, (nint)_contentBlock);
-		if (!Done.Wait(TimeSpan.FromSeconds(3)) || _result == 0)
-			return 0;
-		_cachedWindow = _result;
+		CaptureRequest request = new(windowId, false);
+		nint block = CreateBlock(request, (nint)(delegate* unmanaged<nint, nint, nint, void>)&OnContent);
+		try
+		{
+			SendBoolBoolBlock(content, sel_registerName("getShareableContentExcludingDesktopWindows:onScreenWindowsOnly:completionHandler:"), true, true, block);
+			_cachedWindow = request.Wait(TimeSpan.FromSeconds(3));
+		}
+		finally
+		{
+			BlockRelease(block);
+		}
 		_cachedWindowId = windowId;
 		return _cachedWindow;
+	}
+
+	public static void ReleaseWindow()
+	{
+		if (!OperatingSystem.IsMacOS())
+			return;
+		lock (Gate)
+			ForgetWindow();
 	}
 
 	private static void ForgetWindow()
@@ -122,10 +166,17 @@ public static unsafe partial class MacOSScreenCapture
 			SendNUInt(config, sel_registerName("setHeight:"), (nuint)height);
 			SendUInt(config, sel_registerName("setPixelFormat:"), PixelFormatBgra);
 			SendBool(config, sel_registerName("setShowsCursor:"), false);
-			_result = 0;
-			Done.Reset();
-			SendObjectObjectBlock(objc_getClass("SCScreenshotManager"), sel_registerName("captureImageWithFilter:configuration:completionHandler:"), filter, config, (nint)_imageBlock);
-			return Done.Wait(TimeSpan.FromSeconds(2)) ? _result : 0;
+			CaptureRequest request = new(0, true);
+			nint block = CreateBlock(request, (nint)(delegate* unmanaged<nint, nint, nint, void>)&OnImage);
+			try
+			{
+				SendObjectObjectBlock(objc_getClass("SCScreenshotManager"), sel_registerName("captureImageWithFilter:configuration:completionHandler:"), filter, config, block);
+				return request.Wait(TimeSpan.FromSeconds(2));
+			}
+			finally
+			{
+				BlockRelease(block);
+			}
 		}
 		finally
 		{
@@ -137,6 +188,8 @@ public static unsafe partial class MacOSScreenCapture
 	[UnmanagedCallersOnly]
 	private static void OnContent(nint block, nint content, nint error)
 	{
+		CaptureRequest request = (CaptureRequest)GCHandle.FromIntPtr(((BlockLiteral*)block)->Context).Target!;
+		nint result = 0;
 		try
 		{
 			if (content == 0)
@@ -146,25 +199,24 @@ public static unsafe partial class MacOSScreenCapture
 			for (nint index = 0; index < count; index++)
 			{
 				nint candidate = SendIndex(windows, sel_registerName("objectAtIndex:"), (nuint)index);
-				if (candidate != 0 && SendReturnsUInt(candidate, sel_registerName("windowID")) == _wantedWindow)
+				if (candidate != 0 && SendReturnsUInt(candidate, sel_registerName("windowID")) == request.WindowId)
 				{
-					_result = objc_retain(candidate);
+					result = objc_retain(candidate);
 					return;
 				}
 			}
 		}
 		finally
 		{
-			Done.Set();
+			request.Complete(result);
 		}
 	}
 
 	[UnmanagedCallersOnly]
 	private static void OnImage(nint block, nint image, nint error)
 	{
-		if (image != 0)
-			_result = CFRetain(image);
-		Done.Set();
+		CaptureRequest request = (CaptureRequest)GCHandle.FromIntPtr(((BlockLiteral*)block)->Context).Target!;
+		request.Complete(image != 0 ? CFRetain(image) : 0);
 	}
 
 	private static bool CopyPixels(nint image, ref byte[] buffer, out int width, out int height)
@@ -209,9 +261,11 @@ public static unsafe partial class MacOSScreenCapture
 		{
 			_framework = NativeLibrary.Load("/System/Library/Frameworks/ScreenCaptureKit.framework/ScreenCaptureKit");
 			nint system = NativeLibrary.Load("/usr/lib/libSystem.B.dylib");
-			nint globalBlock = NativeLibrary.GetExport(system, "_NSConcreteGlobalBlock");
-			_contentBlock = CreateBlock(globalBlock, (nint)(delegate* unmanaged<nint, nint, nint, void>)&OnContent);
-			_imageBlock = CreateBlock(globalBlock, (nint)(delegate* unmanaged<nint, nint, nint, void>)&OnImage);
+			_stackBlock = NativeLibrary.GetExport(system, "_NSConcreteStackBlock");
+			_descriptor = (BlockDescriptor*)NativeMemory.AllocZeroed((nuint)sizeof(BlockDescriptor));
+			_descriptor->Size = (nuint)sizeof(BlockLiteral);
+			_descriptor->Copy = (nint)(delegate* unmanaged<nint, nint, void>)&CopyBlock;
+			_descriptor->Dispose = (nint)(delegate* unmanaged<nint, void>)&DisposeBlock;
 			return true;
 		}
 		catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException or BadImageFormatException)
@@ -221,17 +275,37 @@ public static unsafe partial class MacOSScreenCapture
 		}
 	}
 
-	private static BlockLiteral* CreateBlock(nint isa, nint invoke)
+	private static nint CreateBlock(CaptureRequest request, nint invoke)
 	{
-		BlockDescriptor* descriptor = (BlockDescriptor*)NativeMemory.AllocZeroed((nuint)sizeof(BlockDescriptor));
-		descriptor->Size = (nuint)sizeof(BlockLiteral);
-		BlockLiteral* block = (BlockLiteral*)NativeMemory.AllocZeroed((nuint)sizeof(BlockLiteral));
-		block->Isa = isa;
-		block->Flags = BlockIsGlobal;
-		block->Invoke = invoke;
-		block->Descriptor = descriptor;
-		return block;
+		GCHandle handle = GCHandle.Alloc(request);
+		BlockLiteral block = new()
+		{
+			Isa = _stackBlock,
+			Flags = BlockHasCopyDispose,
+			Invoke = invoke,
+			Descriptor = _descriptor,
+			Context = GCHandle.ToIntPtr(handle)
+		};
+		nint copied = BlockCopy((nint)(&block));
+		if (copied != 0)
+			return copied;
+		handle.Free();
+		throw new InvalidOperationException("The screen capture callback could not be allocated");
 	}
+
+	[UnmanagedCallersOnly]
+	private static void CopyBlock(nint destination, nint source)
+	{
+	}
+
+	[UnmanagedCallersOnly]
+	private static void DisposeBlock(nint block) => GCHandle.FromIntPtr(((BlockLiteral*)block)->Context).Free();
+
+	[LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "_Block_copy")]
+	private static partial nint BlockCopy(nint block);
+
+	[LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "_Block_release")]
+	private static partial void BlockRelease(nint block);
 
 	[LibraryImport(CoreGraphics)]
 	private static partial nuint CGImageGetWidth(nint image);

@@ -25,9 +25,9 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 
 	private readonly DispatcherTimer _timer;
 
-	private WriteableBitmap? _bitmap;
+	private readonly CancellationTokenSource _lifetime = new();
 
-	private byte[] _capture = [];
+	private WriteableBitmap? _bitmap;
 
 	private byte[] _raw = [];
 
@@ -36,8 +36,6 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 	private byte[] _mask = [];
 
 	private byte[] _background = [];
-
-	private byte[] _output = [];
 
 	private int _width;
 
@@ -51,7 +49,7 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 
 	private bool _visible;
 
-	private bool _disposed;
+	private volatile bool _disposed;
 
 	private int _captureFailureLogged;
 
@@ -75,7 +73,7 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 		};
 		LinuxOverlaySurface.ReleaseMainWindowClaim(_window);
 		_anchor = new RobloxOverlayAnchor(_window, hideWhenUnfocused: true, placement: RobloxOverlayPlacement.Fill);
-		_timer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(100) };
+		_timer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(500) };
 		_timer.Tick += OnTick;
 		_window.Show();
 		_timer.Start();
@@ -103,7 +101,8 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 		int contentWidth = rect.Width;
 		int contentHeight = rect.Height;
 		LinuxHomepageVisualSettings settings = LinuxHomepageVisualSettings.Read();
-		_ = Task.Run(() => RenderFrame(windowNumber, contentWidth, contentHeight, titleBar, settings));
+		CancellationToken token = _lifetime.Token;
+		_ = Task.Run(() => RenderFrame(windowNumber, contentWidth, contentHeight, titleBar, settings, token));
 	}
 
 	private bool Capture(int windowNumber, int contentWidth, int contentHeight, int titleBar, out int width, out int height)
@@ -122,16 +121,18 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 		if (height <= 0)
 			return false;
 		int needed = rawWidth * height * 4;
-		if (_capture.Length != needed)
-			_capture = new byte[needed];
-		Buffer.BlockCopy(_raw, skip * rawWidth * 4, _capture, 0, needed);
+		if (skip > 0)
+			Buffer.BlockCopy(_raw, skip * rawWidth * 4, _raw, 0, needed);
 		return true;
 	}
 
-	private void RenderFrame(int windowNumber, int contentWidth, int contentHeight, int titleBar, LinuxHomepageVisualSettings settings)
+	private void RenderFrame(int windowNumber, int contentWidth, int contentHeight, int titleBar, LinuxHomepageVisualSettings settings, CancellationToken token)
 	{
+		bool pending = false;
 		try
 		{
+			if (token.IsCancellationRequested)
+				return;
 			if (!Capture(windowNumber, contentWidth, contentHeight, titleBar, out int width, out int height))
 			{
 				if (Interlocked.Exchange(ref _captureFailureLogged, 1) == 0)
@@ -139,6 +140,8 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 				Post(() => SetVisible(false));
 				return;
 			}
+			if (token.IsCancellationRequested)
+				return;
 			Interlocked.Exchange(ref _captureFailureLogged, 0);
 			int pixels = width * height;
 			int maskWidth = (width + MaskScale - 1) / MaskScale;
@@ -148,13 +151,7 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 				_ownWeights = new byte[maskWidth * maskHeight];
 				_mask = new byte[maskWidth * maskHeight];
 			}
-			if (_background.Length != pixels * 4)
-			{
-				_background = new byte[pixels * 4];
-				_output = new byte[pixels * 4];
-				_hasBackground = false;
-			}
-			int matched = LinuxHomepageBackgroundMask.BuildSampled(_capture, width, height, MaskScale, _ownWeights, _mask);
+			int matched = LinuxHomepageBackgroundMask.BuildSampled(_raw, width, height, MaskScale, _ownWeights, _mask);
 			if (Interlocked.Exchange(ref _firstCaptureLogged, 1) == 0)
 				App.Logger.WriteLine(LogIdent, $"Captured the Roblox window at {width}x{height}, {matched} home background samples matched");
 			int minimumRegion = Math.Min(_ownWeights.Length, Math.Clamp(_ownWeights.Length / 512, 64, 4096));
@@ -162,6 +159,11 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 			{
 				Post(() => SetVisible(false));
 				return;
+			}
+			if (_background.Length != pixels * 4)
+			{
+				_background = new byte[pixels * 4];
+				_hasBackground = false;
 			}
 			if (!_hasBackground || width != _width || height != _height || settings != _settings)
 			{
@@ -171,9 +173,21 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 				_height = height;
 				_hasBackground = true;
 			}
-			LinuxHomepageBackgroundMask.ApplyBackgroundMask(_capture, _mask, _background, width, height, _output, MaskScale);
-			byte[] frame = _output;
-			Post(() => Present(frame, width, height));
+			LinuxHomepageBackgroundMask.ApplyBackgroundMask(_raw, _mask, _background, width, height, _raw, MaskScale);
+			if (token.IsCancellationRequested)
+				return;
+			byte[] frame = _raw;
+			pending = Post(() =>
+			{
+				try
+				{
+					Present(frame, width, height);
+				}
+				finally
+				{
+					FinishFrame();
+				}
+			});
 		}
 		catch (Exception ex)
 		{
@@ -181,13 +195,14 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 		}
 		finally
 		{
-			Interlocked.Exchange(ref _busy, 0);
+			if (!pending)
+				FinishFrame();
 		}
 	}
 
 	private void Present(byte[] frame, int width, int height)
 	{
-		if (_disposed)
+		if (_disposed || !OverlayHub.HomepageBackgroundActive || !RobloxWindowTracker.Current.Foreground)
 			return;
 		if (_bitmap == null || _bitmap.PixelWidth != width || _bitmap.PixelHeight != height)
 		{
@@ -207,11 +222,25 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 		_image.Visibility = visible ? Visibility.Visible : Visibility.Hidden;
 	}
 
-	private void Post(Action action)
+	private bool Post(Action action)
 	{
 		if (_disposed || _window.Dispatcher.HasShutdownStarted)
-			return;
-		_window.Dispatcher.BeginInvoke(DispatcherPriority.Render, action);
+			return false;
+		return _window.Dispatcher.BeginInvoke(DispatcherPriority.Render, action).Status != DispatcherOperationStatus.Aborted;
+	}
+
+	private void FinishFrame()
+	{
+		Interlocked.Exchange(ref _busy, 0);
+		if (_disposed && Interlocked.CompareExchange(ref _busy, 1, 0) == 0)
+		{
+			_raw = [];
+			_ownWeights = [];
+			_mask = [];
+			_background = [];
+			Voidstrap.Platform.MacOS.MacOSScreenCapture.ReleaseWindow();
+			Interlocked.Exchange(ref _busy, 0);
+		}
 	}
 
 	public void Dispose()
@@ -221,6 +250,13 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 		_disposed = true;
 		_timer.Stop();
 		_timer.Tick -= OnTick;
+		_lifetime.Cancel();
+		_lifetime.Dispose();
+		_image.Source = null;
+		_bitmap = null;
+		_window.Content = null;
+		if (Interlocked.CompareExchange(ref _busy, 1, 0) == 0)
+			FinishFrame();
 		_anchor.Dispose();
 		try
 		{
