@@ -46,7 +46,7 @@ public static partial class MacOSImageDecoder
 			double scale = Math.Min(1d, Math.Min(Math.Clamp(maxWidth, 1, 3840) / (double)sourceWidth, Math.Clamp(maxHeight, 1, 2160) / (double)sourceHeight));
 			width = Math.Max(1, (int)Math.Floor(sourceWidth * scale));
 			height = Math.Max(1, (int)Math.Floor(sourceHeight * scale));
-			byte[] pixels = GC.AllocateUninitializedArray<byte>(checked(width * height * 4));
+			byte[] pixels = new byte[checked(width * height * 4)];
 			colorSpace = CGColorSpaceCreateDeviceRGB();
 			unsafe
 			{
