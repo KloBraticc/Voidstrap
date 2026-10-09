@@ -373,7 +373,6 @@ impl Session {
             unsafe { msg_send![class(c"NSApplication")?, sharedApplication] };
         unsafe {
             let _: bool = msg_send![&*application, setActivationPolicy: 1isize];
-            let _: () = msg_send![&*application, finishLaunching];
         }
         let (width, height) = config
             .size
