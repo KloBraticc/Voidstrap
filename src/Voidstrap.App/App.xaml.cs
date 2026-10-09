@@ -1690,6 +1690,11 @@ public partial class App : Application
 
 	private static void TraceMacInput(object sender, System.Windows.Input.PreProcessInputEventArgs e)
 	{
+		if (e.StagingItem.Input is System.Windows.Input.KeyEventArgs key && key.RoutedEvent == System.Windows.Input.Keyboard.PreviewKeyDownEvent)
+		{
+			Logger.WriteLine("App::TraceMacInput", $"key {key.Key} system {key.SystemKey} modifiers {System.Windows.Input.Keyboard.Modifiers} focus {System.Windows.Input.Keyboard.FocusedElement?.GetType().Name ?? "none"}");
+			return;
+		}
 		if (e.StagingItem.Input is not System.Windows.Input.MouseEventArgs || e.StagingItem.Input.RoutedEvent != System.Windows.Input.Mouse.PreviewMouseMoveEvent && e.StagingItem.Input.RoutedEvent != System.Windows.Input.Mouse.PreviewMouseDownEvent)
 			return;
 		if (++_tracedMacInput > 40)
