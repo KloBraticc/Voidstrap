@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Threading;
 using DiscordRPC;
 using DiscordRPC.IO;
 using DiscordRPC.Logging;
+using DiscordRPC.Message;
 
 namespace Voidstrap.Integrations;
 
@@ -19,9 +23,17 @@ internal static class DiscordIpc
 
 	private static readonly ConditionalWeakTable<DiscordRpcClient, DiscordActivityPipe> Pipes = new();
 
+	private static readonly PosixSignalRegistration? TerminationSignal;
+	private static readonly PosixSignalRegistration? InterruptSignal;
+
 	static DiscordIpc()
 	{
 		AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+		if (OperatingSystem.IsMacOS())
+		{
+			TerminationSignal = PosixSignalRegistration.Create(PosixSignal.SIGTERM, OnTerminationSignal);
+			InterruptSignal = PosixSignalRegistration.Create(PosixSignal.SIGINT, OnTerminationSignal);
+		}
 	}
 
 	internal static DiscordRpcClient CreateClient(string applicationId, int pipe, ILogger? logger = null, string? activityName = null)
@@ -38,7 +50,21 @@ internal static class DiscordIpc
 	{
 		DiscordRpcClient client = new(applicationId, pipe, logger, true, transport);
 		Pipes.AddOrUpdate(client, transport);
+		client.OnReady += OnClientReady;
 		return client;
+	}
+
+	private static void OnClientReady(object sender, ReadyMessage e)
+	{
+		if (sender is DiscordRpcClient client && Pipes.TryGetValue(client, out DiscordActivityPipe? transport))
+			transport.Ready = true;
+	}
+
+	internal static bool IsReady(DiscordRpcClient? client)
+	{
+		return client is { IsInitialized: true, IsDisposed: false }
+			&& Pipes.TryGetValue(client, out DiscordActivityPipe? transport)
+			&& transport.Ready && transport.IsConnected;
 	}
 
 	internal static void Close(DiscordRpcClient? client)
@@ -48,6 +74,7 @@ internal static class DiscordIpc
 
 		if (Pipes.TryGetValue(client, out DiscordActivityPipe? transport))
 			transport.ClearAndSeal();
+		client.OnReady -= OnClientReady;
 		try
 		{
 			client.Dispose();
@@ -61,6 +88,15 @@ internal static class DiscordIpc
 	private static void OnProcessExit(object? sender, EventArgs e)
 	{
 		AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
+		ClearActivities();
+		TerminationSignal?.Dispose();
+		InterruptSignal?.Dispose();
+	}
+
+	private static void OnTerminationSignal(PosixSignalContext context) => ClearActivities();
+
+	private static void ClearActivities()
+	{
 		foreach (KeyValuePair<DiscordRpcClient, DiscordActivityPipe> entry in Pipes.ToArray())
 			entry.Value.ClearAndSeal();
 	}
@@ -202,10 +238,11 @@ internal static class DiscordIpc
 			if (!File.Exists(path))
 				return false;
 			using Socket socket = new Socket(AddressFamily.Unix, SocketType.Stream, ProtocolType.Unspecified);
-			socket.Connect(new UnixDomainSocketEndPoint(path));
+			using CancellationTokenSource timeout = new(TimeSpan.FromMilliseconds(500));
+			socket.ConnectAsync(new UnixDomainSocketEndPoint(path), timeout.Token).AsTask().GetAwaiter().GetResult();
 			return true;
 		}
-		catch (Exception ex) when (ex is SocketException or IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
+		catch (Exception ex) when (ex is SocketException or IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException or OperationCanceledException)
 		{
 			return false;
 		}
@@ -222,6 +259,28 @@ internal static class DiscordIpc
 
 	internal static bool IsDiscordClientRunning()
 	{
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			Process[] clients = Process.GetProcesses();
+			bool running = false;
+			foreach (Process client in clients)
+			{
+				try
+				{
+					string name = client.ProcessName.ToLowerInvariant();
+					if (ClientNames.Any(candidate => name.Contains(candidate, StringComparison.Ordinal)))
+						running = true;
+				}
+				catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception)
+				{
+				}
+				finally
+				{
+					client.Dispose();
+				}
+			}
+			return running;
+		}
 		string[] processes;
 		try
 		{

@@ -15,6 +15,7 @@ using System.Windows.Media.ProGPU;
 #endif
 using System.Windows.Threading;
 using Voidstrap.Platform.Linux;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations.Overlays;
 
@@ -396,16 +397,16 @@ internal static class LinuxHomepageBackgroundMask
 					int bottomLeftOffset = (mediaBottomRow + mediaLeft) * 4;
 					int bottomRightOffset = (mediaBottomRow + mediaRight) * 4;
 					blue = Interpolate(
-						Interpolate(media![topLeftOffset], media[topRightOffset], horizontalAmount),
-						Interpolate(media[bottomLeftOffset], media[bottomRightOffset], horizontalAmount),
+						Interpolate(CompositeMediaChannel(media!, topLeftOffset, 0, sourceFirst.B), CompositeMediaChannel(media!, topRightOffset, 0, sourceFirst.B), horizontalAmount),
+						Interpolate(CompositeMediaChannel(media!, bottomLeftOffset, 0, sourceFirst.B), CompositeMediaChannel(media!, bottomRightOffset, 0, sourceFirst.B), horizontalAmount),
 						verticalAmount);
 					green = Interpolate(
-						Interpolate(media[topLeftOffset + 1], media[topRightOffset + 1], horizontalAmount),
-						Interpolate(media[bottomLeftOffset + 1], media[bottomRightOffset + 1], horizontalAmount),
+						Interpolate(CompositeMediaChannel(media!, topLeftOffset, 1, sourceFirst.G), CompositeMediaChannel(media!, topRightOffset, 1, sourceFirst.G), horizontalAmount),
+						Interpolate(CompositeMediaChannel(media!, bottomLeftOffset, 1, sourceFirst.G), CompositeMediaChannel(media!, bottomRightOffset, 1, sourceFirst.G), horizontalAmount),
 						verticalAmount);
 					red = Interpolate(
-						Interpolate(media[topLeftOffset + 2], media[topRightOffset + 2], horizontalAmount),
-						Interpolate(media[bottomLeftOffset + 2], media[bottomRightOffset + 2], horizontalAmount),
+						Interpolate(CompositeMediaChannel(media!, topLeftOffset, 2, sourceFirst.R), CompositeMediaChannel(media!, topRightOffset, 2, sourceFirst.R), horizontalAmount),
+						Interpolate(CompositeMediaChannel(media!, bottomLeftOffset, 2, sourceFirst.R), CompositeMediaChannel(media!, bottomRightOffset, 2, sourceFirst.R), horizontalAmount),
 						verticalAmount);
 					colorTransform.Apply(red, green, blue, out red, out green, out blue);
 				}
@@ -603,12 +604,12 @@ internal static class LinuxHomepageBackgroundMask
 					int topRightOffset = (mediaTopRow + mediaRight) * 4;
 					int bottomLeftOffset = (mediaBottomRow + mediaLeft) * 4;
 					int bottomRightOffset = (mediaBottomRow + mediaRight) * 4;
-					byte topBlue = Interpolate(media![topLeftOffset], media[topRightOffset], horizontalAmount);
-					byte topGreen = Interpolate(media[topLeftOffset + 1], media[topRightOffset + 1], horizontalAmount);
-					byte topRed = Interpolate(media[topLeftOffset + 2], media[topRightOffset + 2], horizontalAmount);
-					byte bottomBlue = Interpolate(media[bottomLeftOffset], media[bottomRightOffset], horizontalAmount);
-					byte bottomGreen = Interpolate(media[bottomLeftOffset + 1], media[bottomRightOffset + 1], horizontalAmount);
-					byte bottomRed = Interpolate(media[bottomLeftOffset + 2], media[bottomRightOffset + 2], horizontalAmount);
+					byte topBlue = Interpolate(CompositeMediaChannel(media!, topLeftOffset, 0, sourceFirst.B), CompositeMediaChannel(media!, topRightOffset, 0, sourceFirst.B), horizontalAmount);
+					byte topGreen = Interpolate(CompositeMediaChannel(media!, topLeftOffset, 1, sourceFirst.G), CompositeMediaChannel(media!, topRightOffset, 1, sourceFirst.G), horizontalAmount);
+					byte topRed = Interpolate(CompositeMediaChannel(media!, topLeftOffset, 2, sourceFirst.R), CompositeMediaChannel(media!, topRightOffset, 2, sourceFirst.R), horizontalAmount);
+					byte bottomBlue = Interpolate(CompositeMediaChannel(media!, bottomLeftOffset, 0, sourceFirst.B), CompositeMediaChannel(media!, bottomRightOffset, 0, sourceFirst.B), horizontalAmount);
+					byte bottomGreen = Interpolate(CompositeMediaChannel(media!, bottomLeftOffset, 1, sourceFirst.G), CompositeMediaChannel(media!, bottomRightOffset, 1, sourceFirst.G), horizontalAmount);
+					byte bottomRed = Interpolate(CompositeMediaChannel(media!, bottomLeftOffset, 2, sourceFirst.R), CompositeMediaChannel(media!, bottomRightOffset, 2, sourceFirst.R), horizontalAmount);
 					backgroundBlue = Interpolate(topBlue, bottomBlue, verticalAmount);
 					backgroundGreen = Interpolate(topGreen, bottomGreen, verticalAmount);
 					backgroundRed = Interpolate(topRed, bottomRed, verticalAmount);
@@ -655,6 +656,12 @@ internal static class LinuxHomepageBackgroundMask
 		else
 			for (int y = 0; y < height; y++)
 				composeRow(y);
+	}
+
+	private static byte CompositeMediaChannel(byte[] media, int offset, int channel, byte background)
+	{
+		int alpha = media[offset + 3];
+		return alpha == 255 ? media[offset + channel] : (byte)((media[offset + channel] * alpha + background * (255 - alpha) + 127) / 255);
 	}
 
 	private static byte Interpolate(byte first, byte second, double amount)
@@ -989,7 +996,7 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 				throw new InvalidOperationException("The Linux homepage overlay surface closed during startup");
 			ScheduleNativeFinalization();
 			_renderTask = Task.Factory.StartNew(
-				() => RunAsync(_cancellation.Token),
+				() => RunAsync(_cancellation.SafeToken()),
 				CancellationToken.None,
 				TaskCreationOptions.LongRunning,
 				TaskScheduler.Default).Unwrap();

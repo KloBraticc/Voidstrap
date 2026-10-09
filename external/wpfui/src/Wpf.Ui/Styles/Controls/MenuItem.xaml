@@ -269,7 +269,7 @@
                         VerticalAlignment="Center"
                         FontSize="11"
                         Foreground="{TemplateBinding Foreground}"
-                        Text="{TemplateBinding InputGestureText}" />
+                        Text="{Binding InputGestureText, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static converters:ShortcutTextConverter.Instance}}" />
                 </Border>
             </Grid>
         </Border>
@@ -716,7 +716,7 @@
                         VerticalAlignment="Center"
                         FontSize="11"
                         Foreground="{TemplateBinding Foreground}"
-                        Text="{TemplateBinding InputGestureText}" />
+                        Text="{Binding InputGestureText, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static converters:ShortcutTextConverter.Instance}}" />
                 </Border>
             </Grid>
         </Border>

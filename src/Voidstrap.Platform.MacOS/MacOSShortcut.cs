@@ -139,6 +139,71 @@ public static partial class MacOSShortcut
 		}
 	}
 
+	private const string LaunchServicesRegister = "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister";
+
+	private static void Reregister(string path)
+	{
+		if (!File.Exists(LaunchServicesRegister) || !Directory.Exists(path))
+			return;
+		try
+		{
+			System.Diagnostics.ProcessStartInfo info = new(LaunchServicesRegister) { UseShellExecute = false, CreateNoWindow = true };
+			info.ArgumentList.Add("-f");
+			info.ArgumentList.Add(path);
+			using System.Diagnostics.Process? process = System.Diagnostics.Process.Start(info);
+			process?.WaitForExit(5000);
+		}
+		catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception)
+		{
+		}
+	}
+
+	public static bool SetCustomIcon(string path, string? pngPath)
+	{
+		lock (Gate)
+		{
+			if (!OperatingSystem.IsMacOS() || !Directory.Exists(path) && !File.Exists(path))
+				return false;
+			nint pool = objc_autoreleasePoolPush();
+			try
+			{
+				if (_appKit == 0)
+					_appKit = NativeLibrary.Load("/System/Library/Frameworks/AppKit.framework/AppKit");
+				nint workspace = Send(objc_getClass("NSWorkspace"), sel_registerName("sharedWorkspace"));
+				nint image = 0;
+				if (!string.IsNullOrEmpty(pngPath) && File.Exists(pngPath))
+				{
+					image = SendObject(Send(objc_getClass("NSImage"), sel_registerName("alloc")), sel_registerName("initWithContentsOfFile:"), NSString(pngPath));
+					if (image == 0)
+						return false;
+					Send(image, sel_registerName("autorelease"));
+				}
+				bool changed = SetIcon(workspace, sel_registerName("setIcon:forFile:options:"), image, NSString(path), 0);
+				if (changed)
+				{
+					try
+					{
+						Directory.SetLastWriteTimeUtc(path, DateTime.UtcNow);
+					}
+					catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+					{
+					}
+					SendObject(workspace, sel_registerName("noteFileSystemChanged:"), NSString(path));
+					Reregister(path);
+				}
+				return changed;
+			}
+			catch
+			{
+				return false;
+			}
+			finally
+			{
+				objc_autoreleasePoolPop(pool);
+			}
+		}
+	}
+
 	private static nint NSString(string value) => SendString(objc_getClass("NSString"), sel_registerName("stringWithUTF8String:"), value);
 
 	[LibraryImport(ObjectiveC, StringMarshalling = StringMarshalling.Utf8)]

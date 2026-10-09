@@ -13,6 +13,7 @@ using Voidstrap.UI.Elements.Crosshair;
 using Voidstrap.UI.Elements.Overlay;
 using Voidstrap.UI.ViewModels.Settings;
 using Voidstrap.Utility;
+using Voidstrap.Extensions;
 
 namespace Voidstrap;
 
@@ -64,6 +65,8 @@ public partial class Watcher : IDisposable
 	private RobloxProcessOptimizer? _runtimeOptimizer;
 
 	private TasxOptimizer? _tasxOptimizer;
+
+	private Voidstrap.Utility.MacTasxOptimizer? _macTasxOptimizer;
 
 	private LinuxRobloxResourceOptimizer? _linuxResourceOptimizer;
 
@@ -120,7 +123,7 @@ public partial class Watcher : IDisposable
 		_disableAppPatchEnabled = App.Settings.Prop.UseDisableAppPatch;
 		if (enableActivityTracking || flag || _overlayGameStateEnabled)
 		{
-			ActivityWatcher = new ActivityWatcher(_watcherData.LogFile);
+			ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
 			ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
 			ActivityWatcher.OnGameLeave += OnRuntimeGameLeave;
 			if (enableActivityTracking && App.Settings.Prop.UseDisableAppPatch)
@@ -135,8 +138,7 @@ public partial class Watcher : IDisposable
 			{
 				IntegrationWatcher = new IntegrationWatcher(ActivityWatcher);
 				HistoryPersister = new HistoryPersister(ActivityWatcher);
-				if (!Voidstrap.Utility.Platform.IsMacOS)
-					ServerMatchmaker = new ServerMatchmaker(ActivityWatcher, this);
+				ServerMatchmaker = new ServerMatchmaker(ActivityWatcher, this);
 			}
 		}
 		if ((enableActivityTracking || App.LaunchSettings.TestModeFlag.Active) && Voidstrap.Utility.Platform.SupportsTrayIcon)
@@ -327,6 +329,18 @@ public partial class Watcher : IDisposable
 
 	private void UpdateTasxOptimizer()
 	{
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			if (!Voidstrap.Utility.MacTasxOptimizer.ShouldRun(App.Settings.Prop))
+			{
+				_macTasxOptimizer?.Dispose();
+				_macTasxOptimizer = null;
+				return;
+			}
+			_macTasxOptimizer ??= new Voidstrap.Utility.MacTasxOptimizer();
+			_macTasxOptimizer.Start();
+			return;
+		}
 		if (!TasxOptimizer.ShouldRun(App.Settings.Prop))
 		{
 			_tasxOptimizer?.Dispose();
@@ -345,7 +359,7 @@ public partial class Watcher : IDisposable
 		}
 		if (ActivityWatcher == null)
 		{
-			ActivityWatcher = new ActivityWatcher(_watcherData.LogFile);
+			ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
 			ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
 			ActivityWatcher.OnGameLeave += OnRuntimeGameLeave;
 			ActivityWatcher.Start();
@@ -362,8 +376,7 @@ public partial class Watcher : IDisposable
 		}
 		IntegrationWatcher ??= new IntegrationWatcher(ActivityWatcher);
 		HistoryPersister ??= new HistoryPersister(ActivityWatcher);
-		if (!Voidstrap.Utility.Platform.IsMacOS)
-			ServerMatchmaker ??= new ServerMatchmaker(ActivityWatcher, this);
+		ServerMatchmaker ??= new ServerMatchmaker(ActivityWatcher, this);
 		if (ServerMatchmaker != null)
 			ServerMatchmaker.NotifyIconResolver = () => _notifyIcon;
 		if (_notifyIcon == null)
@@ -423,7 +436,7 @@ public partial class Watcher : IDisposable
 		{
 			if (ActivityWatcher == null)
 			{
-				ActivityWatcher = new ActivityWatcher(_watcherData.LogFile);
+				ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
 				ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
 				ActivityWatcher.OnGameLeave += OnRuntimeGameLeave;
 				ActivityWatcher.Start();
@@ -460,7 +473,12 @@ public partial class Watcher : IDisposable
 	{
 		Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition();
 		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			_ = NotifyMacGameJoinAsync();
+			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true);
+			RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
 			return;
+		}
 		if (Voidstrap.Utility.Platform.IsLinux)
 			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true);
 		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameJoin, "FullscreenJoin");
@@ -469,12 +487,47 @@ public partial class Watcher : IDisposable
 		RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
 	}
 
+	private async Task NotifyMacGameJoinAsync()
+	{
+		try
+		{
+			ActivityWatcher? watcher = ActivityWatcher;
+			Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
+			if (watcher == null || host == null || !App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || !App.Settings.Prop.ShowServerDetails)
+				return;
+			string? location = await watcher.Data.QueryServerLocation();
+			if (string.IsNullOrEmpty(location))
+				return;
+			string caption = watcher.Data.ServerType switch
+			{
+				Voidstrap.Enums.ServerType.Private => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Private,
+				Voidstrap.Enums.ServerType.Reserved => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Reserved,
+				_ => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Public,
+			};
+			string message = string.Format(Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Text, location);
+			Voidstrap.Platform.OperationResult result = await host.Notifications.ShowAsync(new Voidstrap.Platform.NotificationRequest(caption, message));
+			App.Logger.WriteLine("Watcher::NotifyMacGameJoinAsync", "Game join notification: " + result.Succeeded);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("Watcher::NotifyMacGameJoinAsync", ex);
+		}
+	}
+
 	private void OnRuntimeGameLeave(object? sender, EventArgs e)
 	{
 		Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition();
-		if (Voidstrap.Utility.Platform.IsMacOS)
-			return;
 		bool teleporting = ActivityWatcher?.IsTeleporting == true;
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			if (!teleporting)
+			{
+				Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false);
+				RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
+				Voidstrap.UI.LinuxWindowMemory.CompactAfterGame();
+			}
+			return;
+		}
 		if (Voidstrap.Utility.Platform.IsLinux && !teleporting)
 			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false);
 		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameLeave, "FullscreenLeave");
@@ -665,6 +718,8 @@ public partial class Watcher : IDisposable
 
 	public static bool IsAnyRobloxRunning()
 	{
+		if (Voidstrap.Utility.Platform.IsMacOS)
+			return Voidstrap.Utility.MacRobloxProcesses.IsGameRunning();
 		try
 		{
 			Process[] processesByName = Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName);
@@ -912,11 +967,11 @@ public partial class Watcher : IDisposable
 		StartWindowManipulation();
 		StartRuntimeOptimizer();
 		DateTime sessionStartedUtc = ModCrashGuard.BeginSession();
-		Task crashMonitor = MonitorModCrashAsync(sessionStartedUtc, _lifetimeCancellation.Token);
-		_ = DisableCrashHandlerWhenSettledAsync(sessionStartedUtc, _lifetimeCancellation.Token);
+		Task crashMonitor = MonitorModCrashAsync(sessionStartedUtc, _lifetimeCancellation.SafeToken());
+		_ = DisableCrashHandlerWhenSettledAsync(sessionStartedUtc, _lifetimeCancellation.SafeToken());
 		try
 		{
-			await WaitForProcessExitAsync(_watcherData.ProcessId, _lifetimeCancellation.Token).ConfigureAwait(false);
+			await WaitForProcessExitAsync(_watcherData.ProcessId, _lifetimeCancellation.SafeToken()).ConfigureAwait(false);
 		}
 		catch (OperationCanceledException) when (_lifetimeCancellation.IsCancellationRequested)
 		{
@@ -1133,7 +1188,7 @@ public partial class Watcher : IDisposable
 			return;
 		}
 		int pid = _watcherData.ProcessId;
-		CancellationToken token = _lifetimeCancellation.Token;
+		CancellationToken token = _lifetimeCancellation.SafeToken();
 		_windowManipulationTask = Task.Run(async delegate
 		{
 			try
@@ -1236,6 +1291,8 @@ public partial class Watcher : IDisposable
 		{
 			_tasxOptimizer?.Dispose();
 			_tasxOptimizer = null;
+			_macTasxOptimizer?.Dispose();
+			_macTasxOptimizer = null;
 		}
 		catch
 		{

@@ -85,7 +85,7 @@ namespace Voidstrap.Utility
 
         public static void ApplyConfigured()
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.IsWindows)
                 return;
 
             Apply(

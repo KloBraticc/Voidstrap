@@ -143,7 +143,14 @@ public partial class ChannelPage : UiPage{
 	{
 		try
 		{
-			string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox", "LocalStorage");
+			if (Voidstrap.Utility.Platform.IsMacOS)
+			{
+				string? bundle = Voidstrap.Utility.MacRobloxBundle.Find();
+				string? macVersion = bundle == null ? null : await Task.Run(() => Voidstrap.Utility.MacRobloxBundle.ReadVersion(bundle), token);
+				RobloxVersionAPP.Header = macVersion != null ? "Roblox " + macVersion : "Not Installed";
+				return;
+			}
+			string path = Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "LocalStorage");
 			if (!Directory.Exists(path))
 			{
 				RobloxVersionAPP.Header = "Not Installed";
@@ -369,5 +376,4 @@ public partial class ChannelPage : UiPage{
 	}
 
     [GeneratedRegex("\"AppVersion\"\\s*:\\s*\"([^\"]+)\"")]
-    private static partial Regex AppVersionPattern { get; }
-}
+    private static partial Regex AppVersionPattern { get; }}

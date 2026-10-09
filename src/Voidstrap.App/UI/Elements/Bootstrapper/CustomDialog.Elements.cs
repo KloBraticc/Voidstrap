@@ -860,9 +860,30 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
             bool canDrag = ParseXmlAttribute<bool>(xmlElement, "CanDrag", true);
 
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.UI.MacWebPanel.IsSupported)
             {
-                if (!Voidstrap.UI.LinuxWebPanel.IsSupported)
+                Voidstrap.UI.MacWebPanel macPanel = new()
+                {
+                    SourceFile = source,
+                    ThemeFolder = System.IO.Path.GetDirectoryName(source)!,
+                    AccentColor = GetWindowsAccentColorHex(),
+                    CornerRadius = host.CornerRadius.TopLeft,
+                    Owner = dialog,
+                    AllowDrag = canDrag
+                };
+
+                if (canDrag)
+                    dialog.AllowWebPanelDrag = true;
+
+                dialog.RegisterMacWebPanel(macPanel);
+                host.Child = macPanel;
+                host.ClipToBounds = true;
+                return host;
+            }
+
+            if (!Voidstrap.Utility.Platform.IsWindows)
+            {
+                if (!Voidstrap.Utility.Platform.IsLinux || !Voidstrap.UI.LinuxWebPanel.IsSupported)
                 {
                     App.Logger.WriteLine("CustomDialog::CreateWebPanel", "The portable web engine is unavailable, this panel stays empty");
                     return host;

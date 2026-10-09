@@ -676,6 +676,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
                 RootNavigation.TransitionDuration = 0;
         }
+        else if (Voidstrap.Utility.Platform.IsMacOS)
+        {
+            PreviewMouseMove += OnLinuxGradientMouseMove;
+            MouseLeave += RootGrid_MouseLeave;
+        }
         CommandPaletteResultsList.ItemsSource = _commandPaletteRows;
         PrepareLinuxRestartNotificationInput();
         SoberNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
@@ -1420,7 +1425,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 				{
 					break;
 				}
-				await Task.Delay(TimeSpan.FromMilliseconds(500), _lifetimeCts.Token).ConfigureAwait(false);
+				await Task.Delay(TimeSpan.FromMilliseconds(500), _lifetimeCts.SafeToken()).ConfigureAwait(false);
 			}
 			if (!_lifetimeCts.IsCancellationRequested)
 			{
@@ -1989,7 +1994,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             if (shortcut.Page == pageType)
             {
-                return shortcut.Label.Replace("+", " ", StringComparison.Ordinal);
+                return Voidstrap.Utility.Platform.IsMacOS ? Wpf.Ui.Converters.ShortcutTextConverter.Format(shortcut.Label) : shortcut.Label.Replace("+", " ", StringComparison.Ordinal);
             }
         }
         return "";
@@ -2353,14 +2358,22 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         AppMenuPopup.IsOpen = true;
     }
 
-    private void AppMenuAbout_Click(object sender, RoutedEventArgs e)
+    private async void AppMenuAbout_Click(object sender, RoutedEventArgs e)
     {
-        AppMenuPopup.IsOpen = false;
+        if (!await CloseAppMenuBeforeDialogAsync())
+            return;
         Voidstrap.UI.Elements.About.MainWindow window = new Voidstrap.UI.Elements.About.MainWindow
         {
             Owner = this
         };
         window.ShowOwnedDialog();
+    }
+
+    private async Task<bool> CloseAppMenuBeforeDialogAsync()
+    {
+        AppMenuPopup.IsOpen = false;
+        await Task.Delay(180);
+        return !_isClosed;
     }
 
     private async void AppMenuUpdates_Click(object sender, RoutedEventArgs e)
@@ -2381,8 +2394,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         try
         {
             string currentText = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0";
-            string latestTag = (Voidstrap.Utility.Platform.IsLinux
-                ? await GithubUpdater.GetLatestVersionTagAsync(_lifetimeCts.Token)
+            string latestTag = (!Voidstrap.Utility.Platform.IsWindows
+                ? await GithubUpdater.GetLatestVersionTagAsync(_lifetimeCts.SafeToken())
                 : (await App.GetLatestRelease(true))?.TagName) ?? throw new InvalidDataException("Release information is unavailable");
             if (!Version.TryParse(currentText, out Version? current) || !Version.TryParse(latestTag.TrimStart('v', 'V'), out Version? latest))
             {
@@ -2396,7 +2409,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 return;
             }
             App.Logger.WriteLine("MainWindow::CheckForUpdates", "Installing " + latestTag + " requested from the app menu");
-            if (!await GithubUpdater.DownloadAndInstallUpdate(latestTag, _lifetimeCts.Token))
+            if (!await GithubUpdater.DownloadAndInstallUpdate(latestTag, _lifetimeCts.SafeToken()))
             {
                 throw new InvalidDataException("The update could not be installed");
             }
@@ -2419,10 +2432,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private void AppMenuReleases_Click(object sender, RoutedEventArgs e)
+    private async void AppMenuReleases_Click(object sender, RoutedEventArgs e)
     {
-        AppMenuPopup.IsOpen = false;
-        new Voidstrap.UI.Elements.Dialogs.ReleaseNotesDialog { Owner = this }.ShowDialog();
+        if (!await CloseAppMenuBeforeDialogAsync())
+            return;
+        new Voidstrap.UI.Elements.Dialogs.ReleaseNotesDialog { Owner = this }.ShowOwnedDialog();
     }
 
     private DispatcherTimer? _logsSubmenuCloseTimer;
@@ -3263,7 +3277,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void RootGrid_MouseMove(object sender, MouseEventArgs e)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.IsWindows)
             return;
         //IL_000d: Unknown result type (might be due to invalid IL or missing references)
         //IL_0012: Unknown result type (might be due to invalid IL or missing references)
@@ -3291,7 +3305,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void StartGradientRendering()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.IsWindows)
         {
             if (App.Settings.Prop.GRADmentFR && IsActive && IsVisible && WindowState != System.Windows.WindowState.Minimized)
                 StartLinuxGradientAnimation();
@@ -3332,7 +3346,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void StopLinuxGradientAnimation(bool reset)
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.IsWindows)
             return;
         double x = reset ? 0 : BackgroundGradientTranslate.X;
         double y = reset ? 0 : BackgroundGradientTranslate.Y;
@@ -3377,7 +3391,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void InitializeDiscordRPC()
     {
-        _ = SuperviseDiscordRpcAsync(_lifetimeCts.Token);
+        _ = SuperviseDiscordRpcAsync(_lifetimeCts.SafeToken());
         if (RootNavigation != null)
         {
             RootNavigation.Navigated += RootNavigation_RpcNavigated;
@@ -3401,6 +3415,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     await Dispatcher.InvokeAsync(() => InitializeDiscordRpcClient(pipe), DispatcherPriority.Background, token);
                 }
 
+                if (_discordRpcEnabled && _discordReady)
+                    await Dispatcher.InvokeAsync(UpdateDiscordPresence, DispatcherPriority.Background, token);
+
                 await Task.Delay(DiscordIpc.PollInterval, token).ConfigureAwait(false);
             }
         }
@@ -3422,6 +3439,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         client.OnReady += DiscordClient_OnReady;
         client.OnError += DiscordClient_OnError;
         client.OnConnectionFailed += DiscordClient_OnConnectionFailed;
+        client.OnClose += DiscordClient_OnClose;
+        client.OnPresenceUpdate += DiscordClient_OnPresenceUpdate;
         _discordClient = client;
         try
         {
@@ -3439,6 +3458,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             Dispatcher.BeginInvoke(new Action(() => RetryDiscordRpcLater(sender)));
         }
+    }
+
+    private void DiscordClient_OnClose(object sender, CloseMessage e)
+    {
+        if (!Dispatcher.HasShutdownStarted)
+            Dispatcher.BeginInvoke(new Action(() => RetryDiscordRpcLater(sender)));
+    }
+
+    private void DiscordClient_OnPresenceUpdate(object sender, PresenceMessage e)
+    {
+        if (!_isClosed && ReferenceEquals(sender, _discordClient))
+            App.Logger.WriteLine("DiscordRPC", "Discord confirmed the Voidstrap activity");
     }
 
     private void RetryDiscordRpcLater(object client)
@@ -3462,18 +3493,29 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         client.OnReady -= DiscordClient_OnReady;
         client.OnError -= DiscordClient_OnError;
         client.OnConnectionFailed -= DiscordClient_OnConnectionFailed;
+        client.OnClose -= DiscordClient_OnClose;
+        client.OnPresenceUpdate -= DiscordClient_OnPresenceUpdate;
         DiscordIpc.Close(client);
         App.Logger.WriteLine("DiscordRPC", "Cleared the Voidstrap status and closed the connection");
     }
 
     private void DiscordClient_OnReady(object sender, ReadyMessage e)
     {
-		_discordReady = true;
-        App.Logger.WriteLine("DiscordRPC", "Connected to Discord as " + e.User.Username);
-		if (!Dispatcher.HasShutdownStarted && !Dispatcher.HasShutdownFinished)
-		{
-			Dispatcher.BeginInvoke(new Action(UpdateDiscordPresence));
-		}
+        if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished)
+            return;
+        Dispatcher.BeginInvoke(new Action(() =>
+        {
+            if (_isClosed || !ReferenceEquals(sender, _discordClient))
+                return;
+            _discordReady = true;
+            _lastVoidRpcDetails = null;
+            _lastVoidRpcState = null;
+            _lastVoidRpcExtra = null;
+            _lastVoidRpcUpdate = DateTime.MinValue;
+            _voidRpcSuppressed = false;
+            App.Logger.WriteLine("DiscordRPC", "Discord RPC is ready for " + Voidstrap.Utility.Branding.Name + " " + VoidstrapPresence.PlatformName);
+            UpdateDiscordPresence();
+        }));
     }
 
     private void DiscordClient_OnError(object sender, ErrorMessage e)
@@ -3532,7 +3574,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             await Dispatcher.InvokeAsync(RefreshRpcAvatar);
             long robloxId = 0;
             string userName = "";
-            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.Token))
+            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken()))
             using (var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "https://users.roblox.com/v1/users/authenticated"))
             {
                 cts.CancelAfter(TimeSpan.FromSeconds(15));
@@ -3562,7 +3604,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 return;
             }
             string imageUrl = "";
-            using (var cts2 = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.Token))
+            using (var cts2 = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken()))
             {
                 cts2.CancelAfter(TimeSpan.FromSeconds(15));
                 using var thumbResponse = await App.HttpClient.GetAsync("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" + robloxId + "&size=150x150&format=Png&isCircular=true", System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cts2.Token).ConfigureAwait(continueOnCapturedContext: false);
@@ -3629,7 +3671,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.Token);
+            using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken());
             cts.CancelAfter(TimeSpan.FromSeconds(15));
             using var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, NewsViewModel.FeedUrl);
             using var response = await App.HttpClient.SendAsync(request, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cts.Token).ConfigureAwait(continueOnCapturedContext: false);
@@ -3907,7 +3949,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public void ApplyGradientMovement(bool enabled)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.IsWindows)
         {
             StopLinuxGradientAnimation(reset: !enabled);
             if (enabled)
@@ -3967,7 +4009,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             _robloxRunningCached = Voidstrap.Utility.Platform.IsLinux
                 ? Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow()
-                : AnyProcessRunning(Voidstrap.Utility.Platform.RobloxPlayerProcessName) || AnyProcessRunning(Voidstrap.Utility.Platform.RobloxStudioProcessName);
+                : (Voidstrap.Utility.Platform.IsMacOS ? Voidstrap.Utility.MacRobloxProcesses.IsGameRunning() : AnyProcessRunning(Voidstrap.Utility.Platform.RobloxPlayerProcessName)) || AnyProcessRunning(Voidstrap.Utility.Platform.RobloxStudioProcessName);
         }
         catch
         {
@@ -3998,7 +4040,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void UpdateDiscordPresence()
     {
-        if (_discordClient == null || !_discordReady || !_discordRpcEnabled)
+        if (_discordClient == null || !_discordReady || !_discordRpcEnabled || !DiscordIpc.IsReady(_discordClient))
         {
             return;
         }
@@ -4137,6 +4179,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 Details = details,
                 State = state,
+                StatusDisplay = StatusDisplayType.Name,
                 Timestamps = new Timestamps(_voidRpcSessionStart),
                 Assets = assets,
                 Buttons = buttons
@@ -4171,7 +4214,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Voidstrap.Utility.AppNotifications.Changed += OnAppNotificationsChanged;
         Voidstrap.Utility.AppNotifications.Reload();
         ApplyNotificationUnread(Voidstrap.Utility.AppNotifications.UnreadCount);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.IsWindows)
             StartGradientRendering();
         else if (App.Settings.Prop.GRADmentFR && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
         {
@@ -4267,7 +4310,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 }
                 item.ToolTip = new System.Windows.Controls.ToolTip
                 {
-                    Content = BuildShortcutToolTip(item.Content?.ToString() ?? "", shortcut.Label),
+                    Content = BuildShortcutToolTip(item.Content?.ToString() ?? "", Wpf.Ui.Converters.ShortcutTextConverter.Format(shortcut.Label)),
                     Placement = PlacementMode.Right,
                     HorizontalOffset = 8,
                     VerticalOffset = 0
@@ -4877,7 +4920,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 return;
             }
-            if (IntroContent != null && !Voidstrap.Utility.Platform.IsLinux)
+            if (IntroContent != null && Voidstrap.Utility.Platform.IsWindows)
             {
                 IntroContent.CacheMode = new System.Windows.Media.BitmapCache();
                 _introCacheTimer = new DispatcherTimer
@@ -5193,7 +5236,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         try
         {
             _visibilityTimer.Start();
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.IsWindows)
                 StartGradientRendering();
             else if (App.Settings.Prop.GRADmentFR && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
             {
@@ -5687,7 +5730,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            await Task.Delay(225, _lifetimeCts.Token);
+            await Task.Delay(225, _lifetimeCts.SafeToken());
             if (!_isClosed && !((DispatcherObject)this).Dispatcher.HasShutdownStarted)
             {
                 _ = ((DispatcherObject)this).Dispatcher.InvokeAsync<bool?>((Func<bool?>)(() => AlreadyRunningSnackbar?.Show()));
@@ -6077,10 +6120,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
 
         DownloadsViewModel downloads = DownloadsViewModel.Shared;
-        if (!Voidstrap.Utility.Platform.IsLinux && downloads.ClientItems.Count == 0)
+        if (Voidstrap.Utility.Platform.IsWindows && downloads.ClientItems.Count == 0)
             downloads.RefreshClassic();
 
-        List<object> entries = Voidstrap.Utility.Platform.IsLinux ? [.. downloads.Items] : [.. downloads.Items, .. downloads.ClientItems];
+        List<object> entries = !Voidstrap.Utility.Platform.IsWindows ? [.. downloads.Items] : [.. downloads.Items, .. downloads.ClientItems];
         if (LaunchTargetList.ItemsSource is not IList<object> shown || !shown.SequenceEqual(entries))
             LaunchTargetList.ItemsSource = entries;
         object? current = null;
@@ -6103,7 +6146,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         DownloadsViewModel downloads = DownloadsViewModel.Shared;
         foreach (DownloadsViewModel.DownloadItem download in downloads.Items)
             download.RefreshInstallState();
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.IsWindows)
         {
             foreach (DownloadsViewModel.ClientItem client in downloads.ClientItems)
                 client.RefreshInstallState();
@@ -6180,7 +6223,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _launchTargetOverlayOpen = true;
         InstallLaunchButton.IsDropDownOpen = true;
         int generation = ++_launchTargetOverlayGeneration;
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesPortableUi)
         {
             ApplyLinuxLaunchTargetBlur();
         }
@@ -6392,7 +6435,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         InstallLaunchButton.IsDropDownOpen = false;
         int generation = ++_launchTargetOverlayGeneration;
         LaunchTargetOverlay.IsHitTestVisible = false;
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.IsWindows)
             LaunchTargetPanel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
         AnimateLaunchTargetOverlay(0.0, 10.0, LaunchTargetCloseDuration, LaunchTargetCloseDuration, LaunchTargetEaseIn, LaunchTargetEaseIn, generation, true);
     }

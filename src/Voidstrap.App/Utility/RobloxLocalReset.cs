@@ -21,7 +21,9 @@ internal static class RobloxLocalReset
 		"shadercachevk.bin"
 	];
 
-	public static string Root => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox");
+	public static string Root => OperatingSystem.IsMacOS()
+		? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Roblox")
+		: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox");
 
 	public static void MakeCacheWritable()
 	{

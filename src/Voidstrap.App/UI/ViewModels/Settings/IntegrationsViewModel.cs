@@ -14,6 +14,7 @@ using Voidstrap.Models;
 using Voidstrap.Resources;
 using Voidstrap.UI.Elements.ContextMenu;
 using Voidstrap.Utility;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
@@ -738,7 +739,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool IsCustomIntegrationSelected => SelectedCustomIntegration != null;
 
-	public string CustomIntegrationLocationPlaceholder => Voidstrap.Utility.Platform.IsLinux ? "/usr/bin/obs" : @"C:\Windows\System32\cmd.exe";
+	public string CustomIntegrationLocationPlaceholder => Voidstrap.Utility.Platform.IsLinux ? "/usr/bin/obs" : Voidstrap.Utility.Platform.IsMacOS ? "/Applications/OBS.app" : @"C:\Windows\System32\cmd.exe";
 
 	public IntegrationsViewModel(ActivityWatcher watcher, bool ownsWatcher = false)
 	{
@@ -816,7 +817,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		try
 		{
 			byte[]? icon = Voidstrap.Utility.LinuxDesktopEntry.ReadIconPng();
-			string message = await Task.Run(() => Voidstrap.Utility.LinuxSteamIntegration.AddToSteamAsync(icon, closeSteam, _lifetimeCts.Token));
+			string message = await Task.Run(() => Voidstrap.Utility.LinuxSteamIntegration.AddToSteamAsync(icon, closeSteam, _lifetimeCts.SafeToken()));
 			Frontend.ShowMessageBox(message, MessageBoxImage.Information);
 		}
 		catch (OperationCanceledException)
@@ -899,7 +900,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 	{
 		try
 		{
-			bool applied = await TelemetryBlocker.SetAsync(value, _lifetimeCts.Token).ConfigureAwait(false);
+			bool applied = await TelemetryBlocker.SetAsync(value, _lifetimeCts.SafeToken()).ConfigureAwait(false);
 			if (_disposed || version != Volatile.Read(ref _telemetryVersion))
 			{
 				return;
@@ -918,7 +919,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 				}
 				_blockTelemetry = !value;
 				OnPropertyChanged(nameof(BlockTelemetry));
-				string reason = Voidstrap.Utility.Platform.IsLinux && !string.IsNullOrWhiteSpace(TelemetryBlocker.LastLinuxFailure)
+				string reason = !Voidstrap.Utility.Platform.IsWindows && !string.IsNullOrWhiteSpace(TelemetryBlocker.LastLinuxFailure)
 					? TelemetryBlocker.LastLinuxFailure + "."
 					: "Administrator approval is required to edit the hosts file.";
 				Frontend.ShowMessageBox((value ? "Voidstrap could not enable the telemetry blocker. " : "Voidstrap could not disable the telemetry blocker. ") + reason, MessageBoxImage.Warning);

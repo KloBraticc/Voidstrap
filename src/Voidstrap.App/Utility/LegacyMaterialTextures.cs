@@ -227,7 +227,9 @@ internal static partial class LegacyMaterialTextures
 		}
 		string executable = Platform.IsLinux
 			? FindSoberNativePackage() ?? Path.Combine(clientFolder, "libroblox.so")
-			: Path.Combine(clientFolder, "RobloxPlayerBeta.exe");
+			: Platform.IsMacOS
+				? Path.GetFullPath(Path.Combine(clientFolder, "..", "MacOS", "RobloxPlayer"))
+				: Path.Combine(clientFolder, "RobloxPlayerBeta.exe");
 		string signature = BuildSignature(sources, executable);
 		if (File.Exists(ConfigPath) && File.Exists(SignaturePath) && string.Equals(File.ReadAllText(SignaturePath), signature, StringComparison.Ordinal))
 		{

@@ -15,6 +15,7 @@ using Voidstrap.Integrations.CommunityMods;
 using Voidstrap.UI.Elements.Base;
 using Voidstrap.UI.ViewModels.Settings;
 using Voidstrap.Utility;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 
@@ -51,7 +52,7 @@ public partial class ModEditorWindow : WpfUiWindow
 		Loaded -= OnLoaded;
 		try
 		{
-			_rulesMode = await Task.Run(() => ExternalModConfigs.IsExternal(_recordId), _lifetime.Token);
+			_rulesMode = await Task.Run(() => ExternalModConfigs.IsExternal(_recordId), _lifetime.SafeToken());
 			if (_rulesMode)
 			{
 				await LoadConfigsAsync();
@@ -82,7 +83,7 @@ public partial class ModEditorWindow : WpfUiWindow
 	{
 		SetBusy(true, "Reading the mod files");
 		ModHint.Text = "Pick which file this mod uses for each Roblox file it replaces. Changes apply the next time Roblox launches.";
-		CancellationToken token = _lifetime.Token;
+		CancellationToken token = _lifetime.SafeToken();
 		(List<ModSlotRow> rows, bool hasSources) = await Task.Run(() =>
 		{
 			List<ModSlotRow> built = [.. ModVariantStore.BuildSlots(_recordId).Select(slot => new ModSlotRow(slot))];
@@ -115,7 +116,7 @@ public partial class ModEditorWindow : WpfUiWindow
 		Progress<string> progress = new Progress<string>(OnDownloadProgress);
 		try
 		{
-			int count = await Task.Run(() => ModVariantStore.DownloadSourcesAsync(_recordId, _pack, progress, _lifetime.Token), _lifetime.Token);
+			int count = await Task.Run(() => ModVariantStore.DownloadSourcesAsync(_recordId, _pack, progress, _lifetime.SafeToken()), _lifetime.SafeToken());
 			await LoadSlotsAsync();
 			StatusText.Text = count > 0
 				? "Found " + count + " files on GameBanana. " + StatusText.Text
@@ -141,7 +142,7 @@ public partial class ModEditorWindow : WpfUiWindow
 		ModHint.Text = Voidstrap.Utility.Platform.IsLinux
 			? "Turn rules on or off and change what each one replaces. AssetWarp picks up saved changes within a few seconds."
 			: "Turn rules on or off and change what each one replaces. AssetWarp picks up saved changes within a few seconds, Fleasion on its next start.";
-		List<ReplacementConfigFile> files = await Task.Run(() => ExternalModConfigs.GetConfigFiles(_recordId), _lifetime.Token);
+		List<ReplacementConfigFile> files = await Task.Run(() => ExternalModConfigs.GetConfigFiles(_recordId), _lifetime.SafeToken());
 		SetBusy(false, "");
 		if (files.Count == 0)
 		{
@@ -175,7 +176,7 @@ public partial class ModEditorWindow : WpfUiWindow
 			{
 				SetBusy(true, "Reading the replacement config");
 				RuleList.Visibility = Visibility.Collapsed;
-				loaded = await Task.Run(() => ReadConfig(file), _lifetime.Token);
+				loaded = await Task.Run(() => ReadConfig(file), _lifetime.SafeToken());
 				_configs[file.Path] = loaded;
 				SetBusy(false, "");
 				if (!ReferenceEquals(ConfigPicker.SelectedItem, file) && ConfigPicker.Items.Count > 1)
@@ -237,15 +238,15 @@ public partial class ModEditorWindow : WpfUiWindow
 							row.WriteBack();
 						}
 						string temporary = config.File.Path + ".tmp";
-						await File.WriteAllTextAsync(temporary, config.Root.ToJsonString(WriteOptions), new UTF8Encoding(false), _lifetime.Token);
+						await File.WriteAllTextAsync(temporary, config.Root.ToJsonString(WriteOptions), new UTF8Encoding(false), _lifetime.SafeToken());
 						File.Move(temporary, config.File.Path, overwrite: true);
 					}
 					Voidstrap.Integrations.AssetProxy.TextureStripper.InvalidateRuntimeState();
-				}, _lifetime.Token);
+				}, _lifetime.SafeToken());
 			}
 			else
 			{
-				await Task.Run(() => ModVariantStore.ApplySlots(_recordId, _slots.Select(row => row.Slot)), _lifetime.Token);
+				await Task.Run(() => ModVariantStore.ApplySlots(_recordId, _slots.Select(row => row.Slot)), _lifetime.SafeToken());
 			}
 			Changed = true;
 			Close();

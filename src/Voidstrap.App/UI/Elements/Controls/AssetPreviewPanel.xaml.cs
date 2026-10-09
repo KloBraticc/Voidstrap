@@ -114,7 +114,7 @@ public partial class AssetPreviewPanel : UserControl{
 	private bool _draggingAudio;
 
 
-	private WaveOut? _waveOut;
+	private IWavePlayer? _waveOut;
 
 	private WaveStream? _waveReader;
 
@@ -898,7 +898,7 @@ public partial class AssetPreviewPanel : UserControl{
 			_audioData = data;
 			_audioExt = (string.IsNullOrEmpty(ext) ? ".ogg" : ext);
 			_waveReader = CreateWaveReader(data, ext);
-			_waveOut = new WaveOut();
+			_waveOut = OperatingSystem.IsMacOS() ? new Voidstrap.Utility.MacWavePlayer() : new WaveOut();
 			_waveOut.Init(_waveReader);
 			_waveOut.Volume = (float)Math.Clamp(VolumeSlider.Value, 0.0, 1.0);
 			_waveOut.PlaybackStopped += WaveOut_PlaybackStopped;

@@ -58,7 +58,7 @@ public partial class RinColorPicker : UserControl
 		InitializeComponent();
 		Loaded += OnLoaded;
 		SizeChanged += OnAnySizeChanged;
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			InitializeLinuxRendering();
 			SpectrumGrid.Focusable = true;
@@ -230,7 +230,7 @@ public partial class RinColorPicker : UserControl
 		_updating = false;
 		ColorChanged?.Invoke(this, c);
 		RefreshVisuals();
-		if (Voidstrap.Utility.Platform.IsLinux && IsDragging)
+		if (!Voidstrap.Utility.Platform.IsWindows && IsDragging)
 			QueueLinuxInputRefresh();
 		else
 			RefreshInputs();
@@ -242,13 +242,13 @@ public partial class RinColorPicker : UserControl
 
 	internal void BeginAlphaInteraction()
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 			BeginLinuxDrag(AlphaTrack, 2);
 	}
 
 	internal void EndInteraction()
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 			EndLinuxDrag(true);
 	}
 
@@ -375,7 +375,7 @@ public partial class RinColorPicker : UserControl
 		double width = ValueTrack.ActualWidth;
 		if (width <= 1)
 			return;
-		double value = Voidstrap.Utility.Platform.IsLinux
+		double value = !Voidstrap.Utility.Platform.IsWindows
 			? Math.Clamp((x - ValueHandle.Width / 2.0) / Math.Max(1, width - ValueHandle.Width), 0, 1)
 			: Math.Clamp(x / width, 0, 1);
 		if (Math.Abs(_v - value) < 0.0001)
@@ -389,7 +389,7 @@ public partial class RinColorPicker : UserControl
 		double width = AlphaTrack.ActualWidth;
 		if (width <= 1)
 			return;
-		double alpha = Voidstrap.Utility.Platform.IsLinux
+		double alpha = !Voidstrap.Utility.Platform.IsWindows
 			? Math.Clamp((x - AlphaHandle.Width / 2.0) / Math.Max(1, width - AlphaHandle.Width), 0, 1)
 			: Math.Clamp(x / width, 0, 1);
 		if (Math.Abs(_a - alpha) < 0.0001)
@@ -440,7 +440,7 @@ public partial class RinColorPicker : UserControl
 
 	private void Spectrum_MouseDown(object sender, MouseButtonEventArgs e)
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			if (e.ChangedButton != MouseButton.Left)
 				return;
@@ -456,7 +456,7 @@ public partial class RinColorPicker : UserControl
 
 	private void Spectrum_MouseMove(object sender, MouseEventArgs e)
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			if (!_dragSpectrum)
 				return;
@@ -475,7 +475,7 @@ public partial class RinColorPicker : UserControl
 
 	private void Spectrum_MouseUp(object sender, MouseButtonEventArgs e)
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			if (e.ChangedButton == MouseButton.Left && _dragSpectrum)
 			{
@@ -490,7 +490,7 @@ public partial class RinColorPicker : UserControl
 
 	private void Value_MouseDown(object sender, MouseButtonEventArgs e)
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			if (e.ChangedButton != MouseButton.Left)
 				return;
@@ -507,7 +507,7 @@ public partial class RinColorPicker : UserControl
 
 	private void Value_MouseMove(object sender, MouseEventArgs e)
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			if (!_dragValue)
 				return;
@@ -528,7 +528,7 @@ public partial class RinColorPicker : UserControl
 
 	private void Value_MouseUp(object sender, MouseButtonEventArgs e)
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			if (e.ChangedButton == MouseButton.Left && _dragValue)
 			{
@@ -543,7 +543,7 @@ public partial class RinColorPicker : UserControl
 
 	private void Alpha_MouseDown(object sender, MouseButtonEventArgs e)
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			if (e.ChangedButton != MouseButton.Left)
 				return;
@@ -560,7 +560,7 @@ public partial class RinColorPicker : UserControl
 
 	private void Alpha_MouseMove(object sender, MouseEventArgs e)
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			if (!_dragAlpha)
 				return;
@@ -581,7 +581,7 @@ public partial class RinColorPicker : UserControl
 
 	private void Alpha_MouseUp(object sender, MouseButtonEventArgs e)
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			if (e.ChangedButton == MouseButton.Left && _dragAlpha)
 			{

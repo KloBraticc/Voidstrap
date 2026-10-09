@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Windows.Media;
 
 namespace Voidstrap.UI;
 
@@ -62,7 +64,7 @@ public static class LinuxSharedGpuDevice
 	public static void Install()
 	{
 #if CROSSPLAT
-		if (!OperatingSystem.IsLinux())
+		if (!OperatingSystem.IsLinux() && !OperatingSystem.IsMacOS())
 			return;
 
 		_shareDevice = Environment.GetEnvironmentVariable("VOIDSTRAP_SHARED_GPU_DEVICE") != "0" && SharedContextProperty is not null && !Voidstrap.Utility.LinuxStartup.SafeMode;
@@ -79,6 +81,8 @@ public static class LinuxSharedGpuDevice
 #if CROSSPLAT
 	private static System.Windows.Media.ProGPU.ProGpuWpfWindowHost CreateHost(object window)
 	{
+		if (OperatingSystem.IsMacOS() && window is System.Windows.Window macWindow)
+			macWindow.Closed += OnMacWindowClosed;
 		if (window is System.Windows.Window wpf && !RoundedWindowChrome.IsOverlaySurface(wpf))
 		{
 			LinuxInterfaceScale.PrepareWindow(wpf);
@@ -95,6 +99,14 @@ public static class LinuxSharedGpuDevice
 			_shareDevice = false;
 			return WithOwnImageContext(new System.Windows.Media.ProGPU.ProGpuWpfWindowHost(ApplySurfaceOptions(System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window))));
 		}
+	}
+
+	private static void OnMacWindowClosed(object? sender, EventArgs e)
+	{
+		if (sender is not System.Windows.Window window)
+			return;
+		window.Closed -= OnMacWindowClosed;
+		LinuxWindowMemory.ReleaseAfterClose(window, window.ShowInTaskbar);
 	}
 
 	private static System.Windows.Media.ProGPU.ProGpuWpfWindowOptions ApplySurfaceOptions(System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options)
@@ -114,7 +126,8 @@ public static class LinuxSharedGpuDevice
 	private static System.Windows.Media.ProGPU.ProGpuWpfWindowHost CreateTunedHost(object window)
 	{
 		System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options = ApplySurfaceOptions(System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window));
-		ApplyCompositorOptions(options);
+		if (OperatingSystem.IsLinux())
+			ApplyCompositorOptions(options);
 		if (_shareDevice)
 		{
 			try
@@ -130,7 +143,8 @@ public static class LinuxSharedGpuDevice
 		}
 
 		System.Windows.Media.ProGPU.ProGpuWpfWindowHost host = WithOwnImageContext(new(options));
-		LinuxWindowReveal.Prepare(window, host);
+		if (OperatingSystem.IsLinux())
+			LinuxWindowReveal.Prepare(window, host);
 		return host;
 	}
 
@@ -191,6 +205,9 @@ public static class LinuxSharedGpuDevice
 	{
 		private System.Windows.Media.ProGPU.ProGpuWpfWindowHost? _host;
 		private object? _inner;
+		private readonly ConditionalWeakTable<ImageSource, FrozenImage> _frozenImages = new();
+
+		private sealed record FrozenImage(ProGPU.Backend.WgpuContext Context, object Image);
 
 		internal void Attach(System.Windows.Media.ProGPU.ProGpuWpfWindowHost host, object inner)
 		{
@@ -206,7 +223,18 @@ public static class LinuxSharedGpuDevice
 			if (context is null || context.IsDisposed)
 				return targetMethod.Invoke(_inner, args);
 			using (ProGPU.Backend.WgpuContext.PushCurrent(context))
-				return targetMethod.Invoke(_inner, args);
+			{
+				ImageSource? frozen = OperatingSystem.IsMacOS() && targetMethod.Name == "AdaptImageSource" && args is [ImageSource { IsFrozen: true } source] ? source : null;
+				if (frozen is not null && _frozenImages.TryGetValue(frozen, out FrozenImage? cached) && ReferenceEquals(cached.Context, context) && !context.IsDeviceLost)
+					return cached.Image;
+				object? image = targetMethod.Invoke(_inner, args);
+				if (frozen is not null && image is not null)
+				{
+					_frozenImages.Remove(frozen);
+					_frozenImages.Add(frozen, new FrozenImage(context, image));
+				}
+				return image;
+			}
 		}
 	}
 

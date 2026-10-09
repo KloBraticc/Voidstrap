@@ -160,11 +160,12 @@ namespace Voidstrap.Integrations.Overlays
 
 		internal static void SynchronizeLinuxGameState(bool inGame)
 		{
-			if (!Voidstrap.Utility.Platform.IsLinux || _shutdown)
+			if (!Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Utility.Platform.IsMacOS || _shutdown)
 				return;
 			_inGame = inGame;
 			_gameTransition = false;
-			SetLinuxGameplayLease(inGame);
+			if (Voidstrap.Utility.Platform.IsLinux)
+				SetLinuxGameplayLease(inGame);
 			Refresh();
 		}
 
@@ -443,6 +444,8 @@ namespace Voidstrap.Integrations.Overlays
 				return false;
 			if (Voidstrap.Utility.Platform.IsLinux)
 				return StartLinuxHomepage();
+			if (Voidstrap.Utility.Platform.IsMacOS)
+				return StartMacHomepage();
 			if (!Voidstrap.Utility.Platform.IsWindows)
 				return false;
             lock (_lock)
@@ -473,6 +476,54 @@ namespace Voidstrap.Integrations.Overlays
 				}
             }
         }
+
+		private static MacHomepageBackgroundOverlay? _macHomepage;
+
+		private static bool _macHomepageStarting;
+
+		private static bool StartMacHomepage()
+		{
+			System.Windows.Application? app = System.Windows.Application.Current;
+			if (app == null || app.Dispatcher.HasShutdownStarted)
+				return false;
+			app.Dispatcher.BeginInvoke(new Action(() =>
+			{
+				if (_macHomepage != null || _macHomepageStarting || _shutdown || !HomepageBackgroundActive)
+					return;
+				_macHomepageStarting = true;
+				try
+				{
+					MacHomepageBackgroundOverlay overlay = new();
+					if (_shutdown || !HomepageBackgroundActive)
+						overlay.Dispose();
+					else
+						_macHomepage = overlay;
+				}
+				catch (Exception ex)
+				{
+					_macHomepage = null;
+					App.Logger.WriteException("OverlayHub::StartMacHomepage", ex);
+				}
+				finally
+				{
+					_macHomepageStarting = false;
+				}
+			}));
+			return true;
+		}
+
+		private static void StopMacHomepage()
+		{
+			System.Windows.Application? app = System.Windows.Application.Current;
+			if (app == null || app.Dispatcher.HasShutdownStarted)
+				return;
+			app.Dispatcher.BeginInvoke(new Action(() =>
+			{
+				MacHomepageBackgroundOverlay? overlay = _macHomepage;
+				_macHomepage = null;
+				overlay?.Dispose();
+			}));
+		}
 
 		private static bool StartLinuxHomepage()
 		{
@@ -703,6 +754,11 @@ namespace Voidstrap.Integrations.Overlays
 			if (Voidstrap.Utility.Platform.IsLinux)
 			{
 				StopLinuxHomepage();
+				return;
+			}
+			if (Voidstrap.Utility.Platform.IsMacOS)
+			{
+				StopMacHomepage();
 				return;
 			}
             CancellationTokenSource? cts;

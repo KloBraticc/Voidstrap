@@ -12,6 +12,7 @@ using SixLabors.ImageSharp.Formats.Gif;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Voidstrap.Core;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations.Overlays
 {
@@ -64,12 +65,16 @@ namespace Voidstrap.Integrations.Overlays
 		private long _version;
 		private volatile bool _disposed;
 		private int _linuxVideoErrorLogged;
+		private int _cancellationDisposed;
+		private string? _failure;
 
 		private readonly TimeSpan _tickInterval;
 
 		private volatile bool _animated;
 
 		public bool IsAnimated => _animated;
+
+		public string? Failure => Volatile.Read(ref _failure);
 
 		public HomepageBackgroundMedia(string path, double refreshHz, int targetWidth = 0, int targetHeight = 0)
 		{
@@ -88,7 +93,7 @@ namespace Voidstrap.Integrations.Overlays
 				Name = "Homepage Background Media",
 				Priority = ThreadPriority.BelowNormal
 			};
-			if (!Voidstrap.Utility.Platform.IsLinux)
+			if (OperatingSystem.IsWindows())
 				_thread.SetApartmentState(ApartmentState.STA);
 			_thread.Start();
 		}
@@ -106,7 +111,7 @@ namespace Voidstrap.Integrations.Overlays
 
 		private void Run()
 		{
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (Voidstrap.Utility.Platform.UsesPortableUi)
 			{
 				RunPortable();
 				return;
@@ -128,6 +133,7 @@ namespace Voidstrap.Integrations.Overlays
 			}
 			catch (Exception ex)
 			{
+				Volatile.Write(ref _failure, "The selected media could not be decoded: " + ex.Message);
 				App.Logger.WriteException("HomepageBackgroundMedia::Run", ex);
 			}
 			finally
@@ -150,13 +156,14 @@ namespace Voidstrap.Integrations.Overlays
 				else
 					OpenImage(IsGif());
 				if (!_disposed && _portableGifTimer != null)
-					_mediaCancellation.Token.WaitHandle.WaitOne();
+					_mediaCancellation.SafeToken().WaitHandle.WaitOne();
 			}
 			catch (OperationCanceledException) when (_disposed)
 			{
 			}
 			catch (Exception ex)
 			{
+				Volatile.Write(ref _failure, "The selected media could not be decoded: " + ex.Message);
 				App.Logger.WriteException("HomepageBackgroundMedia::Run", ex);
 			}
 			finally
@@ -197,19 +204,33 @@ namespace Voidstrap.Integrations.Overlays
 			try
 			{
 				if (new FileInfo(_path).Length > MaxImageEncodedBytes)
+				{
+					Volatile.Write(ref _failure, "The background image exceeds the file size limit");
 					return;
+				}
 			}
 			catch (Exception ex)
 			{
 				App.Logger.WriteLine("HomepageBackgroundMedia", "The background file could not be read: " + ex.Message);
+				Volatile.Write(ref _failure, "The background file could not be read");
 				return;
 			}
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (Voidstrap.Utility.Platform.UsesPortableUi)
 			{
 				if (animated)
 					OpenPortableGif();
 				else
-					OpenPortableImage();
+				{
+					try
+					{
+						OpenPortableImage();
+					}
+					catch (SixLabors.ImageSharp.UnknownImageFormatException) when (Voidstrap.Utility.Platform.IsMacOS && !_disposed)
+					{
+						byte[] pixels = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(_path, _staticMaxWidth, _staticMaxHeight, out int width, out int height);
+						Publish(new Frame(pixels, width, height, 1000));
+					}
+				}
 				return;
 			}
 			if (!animated)
@@ -247,7 +268,7 @@ namespace Voidstrap.Integrations.Overlays
 
 		private void OpenPortableImage()
 		{
-			CancellationToken token = _mediaCancellation.Token;
+			CancellationToken token = _mediaCancellation.SafeToken();
 			DecoderOptions identifyOptions = new()
 			{
 				MaxFrames = 1,
@@ -259,19 +280,22 @@ namespace Voidstrap.Integrations.Overlays
 			long sourceBytes = checked((long)info.Width * info.Height * 4);
 			if (info.Width > MaxCanvasEdge || info.Height > MaxCanvasEdge || sourceBytes > MaxCanvasBytes)
 			{
-				App.Logger.WriteLine("HomepageBackgroundMedia", "The static background canvas is too large for bounded Linux decoding");
+				Volatile.Write(ref _failure, "The background image exceeds the decoding memory limit");
+				App.Logger.WriteLine("HomepageBackgroundMedia", Failure!);
 				return;
 			}
 			(int targetWidth, int targetHeight) = FitSize(info.Width, info.Height, _staticMaxWidth, _staticMaxHeight);
 			DecoderOptions decodeOptions = new()
 			{
 				MaxFrames = 1,
-				SkipMetadata = true,
+				SkipMetadata = false,
 				TargetSize = new SixLabors.ImageSharp.Size(targetWidth, targetHeight)
 			};
 			using SixLabors.ImageSharp.Image<Bgra32> image = SixLabors.ImageSharp.Image.LoadAsync<Bgra32>(decodeOptions, _path, token).GetAwaiter().GetResult();
 			if (_disposed || image.Frames.Count == 0)
 				return;
+			image.Mutate(context => context.AutoOrient());
+			(targetWidth, targetHeight) = FitSize(image.Width, image.Height, _staticMaxWidth, _staticMaxHeight);
 			if (image.Width != targetWidth || image.Height != targetHeight)
 				image.Mutate(context => context.Resize(targetWidth, targetHeight));
 			long decodedBytes = checked((long)image.Width * image.Height * 4);
@@ -285,6 +309,11 @@ namespace Voidstrap.Integrations.Overlays
 		private void OpenVideo()
 		{
 			_animated = true;
+			if (Voidstrap.Utility.Platform.IsMacOS)
+			{
+				OpenMacVideo();
+				return;
+			}
 			if (Voidstrap.Utility.Platform.IsLinux)
 			{
 				OpenLinuxVideo();
@@ -307,9 +336,44 @@ namespace Voidstrap.Integrations.Overlays
 			_timer.Start();
 		}
 
+		private void OpenMacVideo()
+		{
+			CancellationToken token = _mediaCancellation.SafeToken();
+			int rate = Math.Clamp((int)Math.Round(1000d / _tickInterval.TotalMilliseconds), 1, 30);
+			while (!token.IsCancellationRequested)
+			{
+				using var reader = new Voidstrap.Platform.MacOS.MacOSVideoReader(_path, _animatedMaxWidth, _animatedMaxHeight, rate);
+				Stopwatch clock = Stopwatch.StartNew();
+				double firstTime = double.NaN;
+				bool delivered = false;
+				while (!token.IsCancellationRequested)
+				{
+					byte[] pixels = _videoWritePixels ?? [];
+					if (!reader.ReadFrame(ref pixels, out int width, out int height, out double seconds))
+						break;
+					if (!double.IsFinite(seconds))
+						throw new InvalidOperationException("The video frame time is invalid");
+					if (double.IsNaN(firstTime))
+					{
+						firstTime = seconds;
+						clock.Restart();
+					}
+					double delay = (seconds - firstTime) * 1000d - clock.Elapsed.TotalMilliseconds;
+					if (delay > 0 && token.WaitHandle.WaitOne(TimeSpan.FromMilliseconds(Math.Min(delay, 10000d))))
+						return;
+					if (token.IsCancellationRequested)
+						return;
+					PublishVideo(pixels, width, height);
+					delivered = true;
+				}
+				if (!delivered)
+					throw new InvalidOperationException("macOS could not decode any frames from this video");
+			}
+		}
+
 		private void OpenPortableGif()
 		{
-			CancellationToken token = _mediaCancellation.Token;
+			CancellationToken token = _mediaCancellation.SafeToken();
 			DecoderOptions identifyOptions = new()
 			{
 				MaxFrames = MaxGifFrames,
@@ -323,7 +387,8 @@ namespace Voidstrap.Integrations.Overlays
 			long sourceDecodeBudget = MaxPortableGifDecodedBytes / 2;
 			if (sourceFrameBytes > sourceDecodeBudget)
 			{
-				App.Logger.WriteLine("HomepageBackgroundMedia", "The animation canvas is too large for bounded Linux decoding");
+				Volatile.Write(ref _failure, "The animation exceeds the decoding memory limit");
+				App.Logger.WriteLine("HomepageBackgroundMedia", Failure!);
 				return;
 			}
 			frameCount = Math.Min(frameCount, Math.Max(1, (int)(sourceDecodeBudget / sourceFrameBytes)));
@@ -504,7 +569,7 @@ namespace Voidstrap.Integrations.Overlays
 					return;
 				consecutiveFailures = deliveredFrame ? 0 : Math.Min(consecutiveFailures + 1, 4);
 				int retryDelay = deliveredFrame ? 100 : Math.Min(5000, 500 << consecutiveFailures);
-				if (_mediaCancellation.Token.WaitHandle.WaitOne(retryDelay))
+				if (_mediaCancellation.SafeToken().WaitHandle.WaitOne(retryDelay))
 					return;
 			}
 		}
@@ -518,8 +583,8 @@ namespace Voidstrap.Integrations.Overlays
 			{
 				if (!TryStartLinuxVideoProcess(process))
 					return false;
-				Task<string> outputTask = process.StandardOutput.ReadToEndAsync(_mediaCancellation.Token);
-				Task<string> errorTask = process.StandardError.ReadToEndAsync(_mediaCancellation.Token);
+				Task<string> outputTask = process.StandardOutput.ReadToEndAsync(_mediaCancellation.SafeToken());
+				Task<string> errorTask = process.StandardError.ReadToEndAsync(_mediaCancellation.SafeToken());
 				if (!process.WaitForExit(5000))
 				{
 					process.Kill(true);
@@ -1007,6 +1072,8 @@ namespace Voidstrap.Integrations.Overlays
 		{
 			lock (_frameLock)
 			{
+				if (_disposed)
+					return;
 				_latestPixels = frame.Pixels;
 				_latestWidth = frame.Width;
 				_latestHeight = frame.Height;
@@ -1018,6 +1085,8 @@ namespace Voidstrap.Integrations.Overlays
 		{
 			lock (_frameLock)
 			{
+				if (_disposed)
+					return;
 				byte[]? previous = _latestPixels;
 				_latestPixels = pixels;
 				_latestWidth = width;
@@ -1057,6 +1126,8 @@ namespace Voidstrap.Integrations.Overlays
 			_videoDrawing = null;
 			_videoVisual = null;
 			_videoTarget = null;
+			if (_disposed)
+				DisposeCancellation();
 			StopLinuxVideoProcess();
 		}
 
@@ -1087,8 +1158,7 @@ namespace Voidstrap.Integrations.Overlays
 				if (_disposed)
 					return;
 				_disposed = true;
-				if (Voidstrap.Utility.Platform.IsLinux)
-					_mediaCancellation.Cancel();
+				_mediaCancellation.Cancel();
 				Interlocked.Exchange(ref _portableGifTimer, null)?.Dispose();
 				_portableGifImage?.Dispose();
 				_portableGifImage = null;
@@ -1102,13 +1172,13 @@ namespace Voidstrap.Integrations.Overlays
 				dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(StopDispatcher));
 			if (_thread.IsAlive && Thread.CurrentThread != _thread)
 			{
-				TimeSpan timeout = Voidstrap.Utility.Platform.IsLinux
+				TimeSpan timeout = Voidstrap.Utility.Platform.UsesPortableUi
 					? TimeSpan.FromMilliseconds(100)
 					: TimeSpan.FromSeconds(2);
 				_thread.Join(timeout);
 			}
 			if (!_thread.IsAlive)
-				_mediaCancellation.Dispose();
+				DisposeCancellation();
 			lock (_frameLock)
 			{
 				_latestPixels = null;
@@ -1117,6 +1187,12 @@ namespace Voidstrap.Integrations.Overlays
 				_videoWritePixels = null;
 			}
 			GC.SuppressFinalize(this);
+		}
+
+		private void DisposeCancellation()
+		{
+			if (Interlocked.Exchange(ref _cancellationDisposed, 1) == 0)
+				_mediaCancellation.Dispose();
 		}
 	}
 }

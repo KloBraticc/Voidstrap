@@ -119,7 +119,7 @@ namespace Voidstrap.Integrations.Overlays
                 _started = true;
             }
 
-            if (!Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.IsWindows)
             {
                 _foregroundProc = OnForegroundEvent;
                 _foregroundHook = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _foregroundProc, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
@@ -127,7 +127,7 @@ namespace Voidstrap.Integrations.Overlays
 
             _discoveryTimer = new DispatcherTimer(DispatcherPriority.Background)
             {
-                Interval = TimeSpan.FromMilliseconds(Voidstrap.Utility.Platform.IsLinux ? 250 : 1000)
+                Interval = TimeSpan.FromMilliseconds(Voidstrap.Utility.Platform.IsWindows ? 1000 : Voidstrap.Utility.Platform.IsLinux ? 250 : 500)
             };
             _discoveryTimer.Tick += OnDiscoveryTick;
             _discoveryTimer.Start();
@@ -265,7 +265,7 @@ namespace Voidstrap.Integrations.Overlays
             if (!_started)
                 return;
 
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.IsWindows)
             {
                 Publish();
 				SetDiscoveryInterval(Current.Valid ? 500 : 1000);
@@ -420,6 +420,8 @@ namespace Voidstrap.Integrations.Overlays
         {
             if (Voidstrap.Utility.Platform.IsLinux)
                 return MeasureLinux();
+            if (Voidstrap.Utility.Platform.IsMacOS)
+                return MeasureMac();
 
             IntPtr hwnd = _hwnd;
             if (hwnd == IntPtr.Zero || !IsWindow(hwnd) || !IsWindowVisible(hwnd) || IsIconic(hwnd))
@@ -469,9 +471,64 @@ namespace Voidstrap.Integrations.Overlays
             return new RobloxWindowRect(geometry.Window, geometry.Left, geometry.Top, geometry.Width, geometry.Height, true, focused);
         }
 
+        internal static int MacProcessId => Voidstrap.Utility.Platform.IsMacOS ? (int)_pid : 0;
+
+        private const int MacTitleBarHeight = 28;
+
+        private static int _macTitleBar;
+
+        internal static int MacTitleBarOffset => Volatile.Read(ref _macTitleBar);
+
+        private static RobloxWindowRect MeasureMac()
+        {
+            int pid = (int)_pid;
+            Voidstrap.Platform.MacOS.MacOSScreenWindow? window = pid > 0 && IsProcessAlive(pid)
+                ? Voidstrap.Platform.MacOS.MacOSOverlayWindow.FindLargestWindow(pid)
+                : null;
+            if (window is null)
+            {
+                pid = 0;
+                foreach (Process process in Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName))
+                {
+                    using (process)
+                    {
+                        if (Voidstrap.Platform.MacOS.MacOSOverlayWindow.FindLargestWindow(process.Id) is not { } candidate
+                            || (window is { } current && candidate.Width * candidate.Height <= current.Width * current.Height))
+                            continue;
+                        pid = process.Id;
+                        window = candidate;
+                    }
+                }
+                _pid = (uint)pid;
+            }
+            if (window is not { } found)
+            {
+                _hwnd = IntPtr.Zero;
+                return new RobloxWindowRect(IntPtr.Zero, 0, 0, 0, 0, false, false);
+            }
+            _hwnd = new IntPtr(found.Number);
+            bool foreground = Voidstrap.Platform.MacOS.MacOSOverlayWindow.FrontmostWindowOwner() == pid;
+            int titleBar = found.Top > 0 && found.Height > MacTitleBarHeight * 4 ? MacTitleBarHeight : 0;
+            Volatile.Write(ref _macTitleBar, titleBar);
+            return new RobloxWindowRect(_hwnd, (int)Math.Round(found.Left), (int)Math.Round(found.Top) + titleBar, (int)Math.Round(found.Width), (int)Math.Round(found.Height) - titleBar, true, foreground);
+        }
+
+        private static bool IsProcessAlive(int pid)
+        {
+            try
+            {
+                using System.Diagnostics.Process process = System.Diagnostics.Process.GetProcessById(pid);
+                return !process.HasExited;
+            }
+            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception)
+            {
+                return false;
+            }
+        }
+
         public static bool IsRobloxForeground()
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.IsWindows)
                 return Current.Foreground;
 
 
@@ -659,6 +716,14 @@ namespace Voidstrap.Integrations.Overlays
             _window = window;
             _hideWhenUnfocused = hideWhenUnfocused;
 			_placement = placement;
+			if (Voidstrap.Utility.Platform.IsMacOS)
+			{
+				_window.WindowStartupLocation = WindowStartupLocation.Manual;
+				_window.ShowActivated = false;
+				_window.ShowInTaskbar = false;
+				_window.Topmost = true;
+				Voidstrap.UI.LinuxTextGuard.SetPreserveCompactLayout(_window, true);
+			}
 			if (Voidstrap.Utility.Platform.IsLinux)
 			{
 				_window.WindowStartupLocation = WindowStartupLocation.Manual;
@@ -671,6 +736,7 @@ namespace Voidstrap.Integrations.Overlays
 			}
 
             _window.SourceInitialized += OnSourceInitialized;
+            _window.Loaded += OnWindowLoaded;
             _window.Closed += OnWindowClosed;
 
             RobloxWindowTracker.Changed += OnTrackerChanged;
@@ -686,6 +752,8 @@ namespace Voidstrap.Integrations.Overlays
         }
 
         private void OnWindowClosed(object? sender, EventArgs e) => Dispose();
+
+        private void OnWindowLoaded(object? sender, RoutedEventArgs e) => Refresh();
 
         private void OnTrackerChanged(object? sender, RobloxWindowRect rect)
         {
@@ -722,7 +790,7 @@ namespace Voidstrap.Integrations.Overlays
 
 		public void Refresh()
 		{
-			if (_disposed || _hwnd == IntPtr.Zero)
+			if (_disposed || (!_sourceReady && _hwnd == IntPtr.Zero))
 				return;
 			OnTrackerChanged(null, RobloxWindowTracker.Current);
 		}
@@ -731,6 +799,12 @@ namespace Voidstrap.Integrations.Overlays
         {
             if (_disposed || !_sourceReady || _window.Dispatcher.HasShutdownStarted || _window.Dispatcher.HasShutdownFinished)
                 return;
+
+            if (Voidstrap.Utility.Platform.IsMacOS)
+            {
+                ApplyMac(rect);
+                return;
+            }
 
             if (_hwnd == IntPtr.Zero && !Voidstrap.Utility.Platform.IsLinux)
                 return;
@@ -798,6 +872,123 @@ namespace Voidstrap.Integrations.Overlays
             {
             }
         }
+
+		private nint _macWindow;
+
+		private bool _macShown;
+
+		private bool _macFocusReturned;
+
+		private DispatcherTimer? _macRetry;
+
+		private int _macRetryAttempts;
+
+		private void ApplyMac(RobloxWindowRect rect)
+		{
+			nint native = _macWindow;
+			if (native == 0)
+			{
+				native = Voidstrap.UI.MacWindowMode.ResolveNativeWindow(_window);
+				if (native == 0)
+				{
+					ArmMacRetry();
+					return;
+				}
+				_macWindow = native;
+				StopMacRetry();
+				Voidstrap.Platform.MacOS.MacOSOverlayWindow.Configure(native, true);
+				App.Logger?.WriteLine("RobloxOverlayAnchor", "Attached the macOS overlay " + _window.Title + " to the Roblox window");
+			}
+
+			if (!_macFocusReturned)
+			{
+				_macFocusReturned = true;
+				int roblox = RobloxWindowTracker.MacProcessId;
+				if (roblox > 0 && Voidstrap.Platform.MacOS.MacOSOverlayWindow.FrontmostWindowOwner() == Environment.ProcessId)
+				{
+					Voidstrap.Platform.MacOS.MacOSOverlayWindow.ActivateProcess(roblox);
+				}
+			}
+
+			if (!rect.Valid || (_hideWhenUnfocused && !rect.Foreground))
+			{
+				Voidstrap.Platform.MacOS.MacOSOverlayWindow.Hide(native);
+				_macShown = false;
+				return;
+			}
+
+			int width = rect.Width;
+			int height = rect.Height;
+			int left = rect.Left;
+			int top = rect.Top;
+			if (_placement != RobloxOverlayPlacement.Fill)
+			{
+				width = Math.Max(1, (int)Math.Ceiling(ResolveLogicalLength(_window.Width, _window.ActualWidth, _window.DesiredSize.Width, _window.MinWidth)));
+				height = Math.Max(1, (int)Math.Ceiling(ResolveLogicalLength(_window.Height, _window.ActualHeight, _window.DesiredSize.Height, _window.MinHeight)));
+				if (_placement == RobloxOverlayPlacement.Center)
+				{
+					left = rect.Left + (rect.Width - width) / 2;
+					top = rect.Top + (rect.Height - height) / 2;
+				}
+				else if (_placement == RobloxOverlayPlacement.TopStrip)
+				{
+					width = rect.Width;
+					left = rect.Left;
+					top = rect.Top;
+				}
+				else
+				{
+					left = rect.Left + rect.Width - width - 12;
+					top = rect.Top + 10;
+				}
+			}
+
+			if (!(Math.Abs(_window.Left - left) <= 0.5))
+				_window.Left = left;
+			if (!(Math.Abs(_window.Top - top) <= 0.5))
+				_window.Top = top;
+			if (_placement is RobloxOverlayPlacement.Fill or RobloxOverlayPlacement.TopStrip)
+			{
+				if (!(Math.Abs(_window.Width - width) <= 0.5))
+					_window.Width = width;
+				if (_placement == RobloxOverlayPlacement.Fill && !(Math.Abs(_window.Height - height) <= 0.5))
+					_window.Height = height;
+			}
+			Voidstrap.Platform.MacOS.MacOSOverlayWindow.MoveTo(native, left, top, width, height);
+			if (!_macShown)
+			{
+				Voidstrap.Platform.MacOS.MacOSOverlayWindow.ShowWithoutActivating(native);
+				_macShown = true;
+			}
+		}
+
+		private void ArmMacRetry()
+		{
+			if (_disposed || _macRetry != null || _macRetryAttempts > 40)
+				return;
+			_macRetry = new DispatcherTimer(DispatcherPriority.Background, _window.Dispatcher) { Interval = TimeSpan.FromMilliseconds(500) };
+			_macRetry.Tick += OnMacRetryTick;
+			_macRetry.Start();
+		}
+
+		private void StopMacRetry()
+		{
+			if (_macRetry == null)
+				return;
+			_macRetry.Stop();
+			_macRetry.Tick -= OnMacRetryTick;
+			_macRetry = null;
+		}
+
+		private void OnMacRetryTick(object? sender, EventArgs e)
+		{
+			if (_disposed || ++_macRetryAttempts > 40)
+			{
+				StopMacRetry();
+				return;
+			}
+			Apply(RobloxWindowTracker.Current);
+		}
 
 		private nint _linuxHandle;
 
@@ -995,6 +1186,7 @@ namespace Voidstrap.Integrations.Overlays
             _disposed = true;
 			Interlocked.Exchange(ref _applyPending, 0);
 			StopLinuxRetry();
+			StopMacRetry();
 
             RobloxWindowTracker.Changed -= OnTrackerChanged;
             _trackerLease.Dispose();
@@ -1002,6 +1194,7 @@ namespace Voidstrap.Integrations.Overlays
 			if (_linuxHandle != 0 && _linuxHandle != _hwnd)
 				OverlayDiagnostics.UnregisterOverlayHandle(_linuxHandle);
             _window.SourceInitialized -= OnSourceInitialized;
+            _window.Loaded -= OnWindowLoaded;
             _window.Closed -= OnWindowClosed;
         }
 

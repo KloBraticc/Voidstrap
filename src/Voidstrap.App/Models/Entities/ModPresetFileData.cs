@@ -7,7 +7,7 @@ public class ModPresetFileData
 {
 	public string FilePath { get; private set; }
 
-	public string FullFilePath => Path.Combine(Paths.Mods, FilePath);
+	public string FullFilePath => Path.Combine(Paths.Mods, FilePath.Replace('\\', Path.DirectorySeparatorChar));
 
 	public FileStream FileStream => File.OpenRead(FullFilePath);
 

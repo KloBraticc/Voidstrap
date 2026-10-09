@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Voidstrap.Resources;
 using Voidstrap.UI;
+using Voidstrap.Extensions;
 
 namespace Voidstrap;
 
@@ -259,16 +260,16 @@ public class Logger : IDisposable
 	{
 		try
 		{
-			while (await _writeQueue.Reader.WaitToReadAsync(_writerCts.Token).ConfigureAwait(continueOnCapturedContext: false))
+			while (await _writeQueue.Reader.WaitToReadAsync(_writerCts.SafeToken()).ConfigureAwait(continueOnCapturedContext: false))
 			{
-				await _writerGate.WaitAsync(_writerCts.Token).ConfigureAwait(continueOnCapturedContext: false);
+				await _writerGate.WaitAsync(_writerCts.SafeToken()).ConfigureAwait(continueOnCapturedContext: false);
 				try
 				{
 					while (_writeQueue.Reader.TryRead(out string? message))
 					{
 						await writer.WriteLineAsync(message).ConfigureAwait(continueOnCapturedContext: false);
 					}
-					await writer.FlushAsync(_writerCts.Token).ConfigureAwait(continueOnCapturedContext: false);
+					await writer.FlushAsync(_writerCts.SafeToken()).ConfigureAwait(continueOnCapturedContext: false);
 				}
 				finally
 				{

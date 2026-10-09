@@ -365,7 +365,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 		? Visibility.Visible
 		: Visibility.Collapsed;
 
-	public Visibility FleasionInstallVisibility => Voidstrap.Utility.Platform.IsLinux
+	public Visibility FleasionInstallVisibility => !Voidstrap.Utility.Platform.IsWindows
 		? Visibility.Collapsed
 		: ReplacementInstallVisibility;
 

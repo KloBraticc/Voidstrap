@@ -67,7 +67,7 @@ public class RinColorPickerDialog : WpfUiWindow
 		body.Children.Add(buttons);
 
 		Content = DialogChrome.Host(DialogChrome.TitleBar(Title), body);
-		if (Voidstrap.Utility.Platform.IsLinux && Application.Current != null)
+		if (!Voidstrap.Utility.Platform.IsWindows && Application.Current != null)
 		{
 			Window? active = Application.Current.Windows
 				.OfType<Window>()

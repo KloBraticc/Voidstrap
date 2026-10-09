@@ -15,6 +15,7 @@ using Voidstrap.Enums;
 using Voidstrap.Integrations;
 using Voidstrap.Models.Entities;
 using Voidstrap.Utility;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.ViewModels.ContextMenu;
 
@@ -136,7 +137,7 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		LaunchDeeplinkCommand = new RelayCommand<ActivityData>(LaunchDeeplink, CanRejoin);
 		_selectedSort = SortOptions[0];
 		_selectedServerTypeFilter = ServerTypeFilters[0];
-		_lifetimeToken = _lifetimeCts.Token;
+		_lifetimeToken = _lifetimeCts.SafeToken();
 		_activityWatcher.OnGameLeave += OnGameLeave;
 		_statusTimer.Tick += OnStatusTick;
 		_statusTimer.Start();

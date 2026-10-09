@@ -18,7 +18,7 @@ public partial class OptionControl : UserControl{
 
 	private const double MinimumDescriptionWidth = 80d;
 
-	private static readonly bool ConstrainDescriptionWidth = Voidstrap.Utility.Platform.IsLinux;
+	private static readonly bool ConstrainDescriptionWidth = Voidstrap.Utility.Platform.UsesPortableUi;
 
 	private static readonly bool ReplaceHelpIconWithGlyph = Voidstrap.Utility.Platform.IsLinux;
 

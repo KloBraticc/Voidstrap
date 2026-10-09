@@ -2619,4 +2619,37 @@ What would you like to do?</value>
   <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
     <value>Voidstrap downloads the official Roblox app into Applications the first time you click Launch, and keeps it up to date after that. No separate installation is required.</value>
   </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>The selected media file could not be found.</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>This media could not be decoded. Choose another image or video.</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>The media preview could not be rendered.</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>Images and videos</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>Images</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>Videos</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>Popover</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Heads up display</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Under window</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Under page</value>
+  </data>
 </root>

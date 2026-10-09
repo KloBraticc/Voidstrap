@@ -8,6 +8,7 @@ using System.Windows.Shell;
 using System.Windows.Threading;
 using Voidstrap;
 using System.Windows;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.Elements.Bootstrapper
 {
@@ -177,6 +178,18 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         internal void RegisterLinuxWebPanel(Voidstrap.UI.LinuxWebPanel panel)
         {
             _linuxWebPanels.Add(panel);
+            _viewModel.PropertyChanged -= OnWebPanelStateChanged;
+            _viewModel.PropertyChanged += OnWebPanelStateChanged;
+            QueueWebPanelState();
+        }
+
+        private readonly HashSet<Voidstrap.UI.MacWebPanel> _macWebPanels = new();
+
+        internal void RegisterMacWebPanel(Voidstrap.UI.MacWebPanel panel)
+        {
+            _macWebPanels.Add(panel);
+            _viewModel.PropertyChanged -= OnWebPanelStateChanged;
+            _viewModel.PropertyChanged += OnWebPanelStateChanged;
             QueueWebPanelState();
         }
 
@@ -188,7 +201,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         private int _webPanelUpdatePending;
         private int _webPanelUpdateRunning;
 
-        internal CancellationToken WebPanelLifetimeToken => _webPanelLifetime.Token;
+        internal CancellationToken WebPanelLifetimeToken => _webPanelLifetime.SafeToken();
 
         internal bool WebPanelLifetimeEnded => _isClosed || _webPanelLifetime.IsCancellationRequested;
 
@@ -325,7 +338,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             Interlocked.Exchange(ref _webPanelUpdatePending, 1);
 
             if (Interlocked.Exchange(ref _webPanelUpdateRunning, 1) == 0)
-                _ = PushWebPanelStateAsync(_webPanelLifetime.Token);
+                _ = PushWebPanelStateAsync(_webPanelLifetime.SafeToken());
         }
 
         private async Task PushWebPanelStateAsync(CancellationToken token)
@@ -334,7 +347,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             {
                 while (!token.IsCancellationRequested && Interlocked.Exchange(ref _webPanelUpdatePending, 0) != 0)
                 {
-                    if (_webPanels.Count == 0 && _linuxWebPanels.Count == 0)
+                    if (_webPanels.Count == 0 && _linuxWebPanels.Count == 0 && _macWebPanels.Count == 0)
                         return;
 
                     string payload = System.Text.Json.JsonSerializer.Serialize(new
@@ -349,6 +362,9 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                     string script = "window.voidstrap && window.voidstrap.__apply(" + payload + ");";
 
                     foreach (Voidstrap.UI.LinuxWebPanel panel in _linuxWebPanels)
+                        panel.Evaluate(script);
+
+                    foreach (Voidstrap.UI.MacWebPanel panel in _macWebPanels)
                         panel.Evaluate(script);
 
                     Task<string>[] updates = _webPanels
@@ -384,6 +400,15 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 CleanupWebPanel(view);
 
             _webPanels.Clear();
+
+            foreach (Voidstrap.UI.LinuxWebPanel panel in _linuxWebPanels)
+                panel.Dispose();
+            _linuxWebPanels.Clear();
+
+            foreach (Voidstrap.UI.MacWebPanel panel in _macWebPanels)
+                panel.Dispose();
+            _macWebPanels.Clear();
+
             _webPanelLifetime.Dispose();
         }
         #endregion

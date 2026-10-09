@@ -11,6 +11,7 @@ using Nefarius.ViGEm.Client.Targets.DualShock4;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations
 {
@@ -458,7 +459,7 @@ namespace Voidstrap.Integrations
 
         private void SmoothLoopCore()
         {
-            var token = _cts.Token;
+            var token = _cts.SafeToken();
             while (!token.IsCancellationRequested)
             {
                 bool needsAnimation = _focused && (_w || _a || _s || _d || Math.Abs(_curX) > 1f || Math.Abs(_curY) > 1f || _sendRightStick || Math.Abs(_targetRX) > 1f || Math.Abs(_targetRY) > 1f || _scrollBi >= 0);

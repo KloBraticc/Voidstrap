@@ -91,7 +91,7 @@ internal static class ClassicTopBarOverlay
 	private static void ReconcileCore()
 	{
 		Interlocked.Exchange(ref _reconcilePending, 0);
-		if (Voidstrap.Utility.Platform.IsLinux || !App.Settings.Prop.ClassicTopBarEnabled || !ClassicTopBarMod.AssetsReady)
+		if (Voidstrap.Utility.Platform.IsLinux || Voidstrap.Utility.Platform.IsMacOS || !App.Settings.Prop.ClassicTopBarEnabled || !ClassicTopBarMod.AssetsReady)
 		{
 			CloseAll();
 			return;

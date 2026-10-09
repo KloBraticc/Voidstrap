@@ -15,7 +15,9 @@ public static class AppFont
 
 	private static FontFamily? _current;
 
-	private static readonly FontFamily LinuxWpfUiFontFamily = new("Inter 18pt, Selawik, Segoe UI Variable, Segoe UI, Ubuntu, Cantarell, Noto Sans, DejaVu Sans, Liberation Sans");
+	private static readonly FontFamily LinuxWpfUiFontFamily = Voidstrap.Utility.Platform.IsMacOS
+		? new(new Uri(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Fonts") + Path.DirectorySeparatorChar), "./#Inter 18pt, ./#Selawik, Helvetica Neue")
+		: new("Inter 18pt, Selawik, Segoe UI Variable, Segoe UI, Ubuntu, Cantarell, Noto Sans, DejaVu Sans, Liberation Sans");
 
 	public static bool HasCustomFont => _current != null;
 
@@ -25,7 +27,7 @@ public static class AppFont
 	{
 		get
 		{
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (Voidstrap.Utility.Platform.UsesPortableUi)
 			{
 				return LinuxWpfUiFontFamily;
 			}
@@ -61,7 +63,7 @@ public static class AppFont
 
 	public static void Initialize()
 	{
-		if (Voidstrap.Utility.Platform.IsLinux && Application.Current != null)
+		if (Voidstrap.Utility.Platform.UsesPortableUi && Application.Current != null)
 		{
 			Application.Current.Resources["ContentControlThemeFontFamily"] = LinuxWpfUiFontFamily;
 			Application.Current.Resources[SystemFonts.MessageFontFamilyKey] = LinuxWpfUiFontFamily;
@@ -85,7 +87,7 @@ public static class AppFont
 				Apply(window);
 			}
 		});
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.UsesPortableUi)
 		{
 			EventManager.RegisterClassHandler(typeof(Page), FrameworkElement.LoadedEvent, (RoutedEventHandler)delegate(object sender, RoutedEventArgs _)
 			{
@@ -132,13 +134,13 @@ public static class AppFont
 
 	public static void Apply(Window window)
 	{
-		if (window == null || !Voidstrap.Utility.Platform.IsLinux && window is not WpfUiWindow)
+		if (window == null || !Voidstrap.Utility.Platform.UsesPortableUi && window is not WpfUiWindow)
 		{
 			return;
 		}
 		try
 		{
-			if (_current != null || Voidstrap.Utility.Platform.IsLinux)
+			if (_current != null || Voidstrap.Utility.Platform.UsesPortableUi)
 			{
 				window.FontFamily = CurrentFontFamily;
 			}
@@ -162,7 +164,7 @@ public static class AppFont
 		foreach (Window window in current.Windows)
 		{
 			Apply(window);
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (Voidstrap.Utility.Platform.UsesPortableUi)
 			{
 				ApplyToPages(window);
 			}

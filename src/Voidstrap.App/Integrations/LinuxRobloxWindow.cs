@@ -8,6 +8,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Voidstrap.Models.Entities;
 using Voidstrap.Platform.Linux;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations;
 
@@ -60,7 +61,7 @@ internal sealed class LinuxRobloxWindow : IDisposable
 			window._titleUpdater = new RobloxWindowTitle(activityWatcher, window.SetTitle);
 		if (activityWatcher.InGame && activityWatcher.Data?.UniverseId > 0)
 			_ = window.RefreshForGameAsync(activityWatcher.Data.UniverseId);
-		_ = Task.Run(() => window.LoopAsync(window._cts.Token));
+		_ = Task.Run(() => window.LoopAsync(window._cts.SafeToken()));
 		App.Logger?.WriteLine(LOG_IDENT, "Keeping the Sober window title as '" + window._title + "'");
 		return window;
 	}

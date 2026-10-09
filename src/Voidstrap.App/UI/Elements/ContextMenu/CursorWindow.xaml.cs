@@ -568,7 +568,7 @@ namespace Voidstrap.UI.Elements.Crosshair
 
         private void MakeWindowClickThrough()
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.IsWindows)
             {
                 Voidstrap.Integrations.Overlays.LinuxOverlaySurface.MakeClickThrough(this);
                 return;

@@ -75,7 +75,15 @@
 		</None>
 	</ItemGroup>
 
-	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('osx'))">
+		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\osx\libvoidstrapeditorcompat.dylib">
+			<Link>libvoidstrapeditorcompat.dylib</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
 		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\System.Windows.Forms.dll">
 			<Link>System.Windows.Forms.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -199,6 +207,11 @@
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
 		<PackageReference Include="SharpZipLib" Version="1.4.2" />
 		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+		<NuGetAuditSuppress Include="https://github.com/advisories/GHSA-gwg2-r3hj-4w44" />
+		<NuGetAuditSuppress Include="https://github.com/advisories/GHSA-j3p4-wp97-rph4" />
+		<NuGetAuditSuppress Include="https://github.com/advisories/GHSA-j9gm-c75j-xc9q" />
+		<NuGetAuditSuppress Include="https://github.com/advisories/GHSA-jjfr-hcj7-qf5w" />
+		<NuGetAuditSuppress Include="https://github.com/advisories/GHSA-wmxv-xphr-5c9g" />
 		<PackageReference Include="System.Drawing.Common" Version="10.0.12" />
 		<PackageReference Include="System.Management" Version="10.0.12" />
 		<PackageReference Include="System.Resources.Extensions" Version="10.0.10" />

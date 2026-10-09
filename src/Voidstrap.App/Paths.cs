@@ -333,6 +333,9 @@ internal static class Paths
 			: OperatingSystem.IsMacOS()
 				? Path.Combine(home, "Library", "Logs", "Roblox")
 				: Path.Combine(LocalAppData, "Roblox", "logs");
+		RobloxCache = Voidstrap.Utility.Platform.IsLinux
+			? Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "cache", "sober")
+			: Path.Combine(Path.GetTempPath(), "Roblox");
 		InitializeDerivedPaths(Voidstrap.Utility.Platform.IsWindows);
 	}
 

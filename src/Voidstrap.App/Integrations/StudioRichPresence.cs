@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using DiscordRPC;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations;
 
@@ -57,7 +58,7 @@ public sealed partial class StudioRichPresence : IDisposable
 
 	public StudioRichPresence()
 	{
-		_lifetimeToken = _lifetimeCancellation.Token;
+		_lifetimeToken = _lifetimeCancellation.SafeToken();
 		try
 		{
 			Start();

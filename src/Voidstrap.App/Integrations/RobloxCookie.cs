@@ -86,6 +86,21 @@ public static partial class RobloxCookie
 		}
 	}
 
+	private static string? ReadFromMac()
+	{
+		if (!OperatingSystem.IsMacOS())
+			return null;
+		try
+		{
+			return Voidstrap.Platform.MacOS.MacOSBinaryCookies.Find(Voidstrap.Platform.MacOS.MacOSBinaryCookies.RobloxPlayerStore, SecurityCookieName, "roblox.com");
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			App.Logger?.WriteLine("RobloxCookie", "The Roblox cookie store could not be read: " + ex.Message);
+			return null;
+		}
+	}
+
 	public static bool Exists
 	{
 		get
@@ -110,7 +125,7 @@ public static partial class RobloxCookie
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
-			return Voidstrap.Utility.Platform.IsLinux ? ReadFromSober() : null;
+			return Voidstrap.Utility.Platform.IsLinux ? ReadFromSober() : ReadFromMac();
 		}
 		string? text = ReadFromDat();
 		if (!string.IsNullOrEmpty(text))

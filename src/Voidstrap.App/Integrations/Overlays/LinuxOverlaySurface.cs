@@ -36,6 +36,12 @@ namespace Voidstrap.Integrations.Overlays
 
         public static void MakeClickThrough(Window window, int cornerRadius = 0)
         {
+            if (window != null && Voidstrap.Utility.Platform.IsMacOS)
+            {
+                Voidstrap.UI.LinuxTextGuard.SetPreserveCompactLayout(window, true);
+                Voidstrap.Platform.MacOS.MacOSOverlayWindow.Configure(Voidstrap.UI.MacWindowMode.ResolveNativeWindow(window), true);
+                return;
+            }
             if (window == null || !IsSupported)
                 return;
 
@@ -69,6 +75,11 @@ namespace Voidstrap.Integrations.Overlays
 
         public static void KeepAbove(Window window)
         {
+            if (window != null && Voidstrap.Utility.Platform.IsMacOS)
+            {
+                Voidstrap.Platform.MacOS.MacOSOverlayWindow.Configure(Voidstrap.UI.MacWindowMode.ResolveNativeWindow(window), true);
+                return;
+            }
             if (window == null || !IsSupported)
                 return;
 
@@ -118,7 +129,7 @@ namespace Voidstrap.Integrations.Overlays
 
 		public static bool WakePresentation(Window window)
 		{
-			if (window == null || !IsSupported)
+			if (window == null || !IsSupported && !Voidstrap.Utility.Platform.IsMacOS)
 				return false;
 
 #if CROSSPLAT

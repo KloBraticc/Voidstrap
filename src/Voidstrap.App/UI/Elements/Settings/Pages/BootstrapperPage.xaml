@@ -20,7 +20,7 @@
 		  <controls:OptionControl Header="Disable RobloxCrashHandler" Description="Closes RobloxCrashHandler after Roblox has safely finished starting" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding disablecrashhandleryayyysocool, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="TASX optimization" Description="Full speed while Roblox is focused, throttled while you are tabbed out." Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+          <controls:OptionControl Header="TASX optimization" Description="Full speed while Roblox is focused, throttled while you are tabbed out." Visibility="{x:Static platform:PlatformFeatureVisibility.TasxOptimization}">
             <ui:ToggleSwitch IsChecked="{Binding TasxOptimization, Mode=TwoWay}" />
           </controls:OptionControl>
         </StackPanel>
@@ -292,7 +292,7 @@
           </ui:CardExpander>
         </StackPanel>
       </TabItem>
-      <TabItem>
+      <TabItem Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
         <HeaderedContentControl.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Settings24" Margin="0,0,6,0" />
@@ -305,16 +305,16 @@
           </controls:OptionControl>
           <ui:InfoBar Padding="8" Margin="0,4,0,0" IsClosable="False" IsOpen="True" Severity="Warning" Title="Overlays are hidden in exclusive fullscreen" Message="Your Windows mouse cursor and every overlay are hidden" Visibility="{Binding ShowExclusiveFullscreenWarning, Converter={StaticResource BooleanToVisibilityConverter}}" />
           <ui:InfoBar Padding="8" Margin="0,4,0,4" IsClosable="False" IsOpen="True" Severity="Informational" Title="Needs XWayland on Linux" Message="The title, game name, game icon and server info only apply on Wayland when Run Roblox through XWayland is on in the Sober page." Visibility="{Binding LinuxTitleNeedsXWayland, Converter={StaticResource BooleanToVisibilityConverter}}" />
-          <controls:OptionControl Header="Title" Description="Leave blank to keep the title Roblox sets">
+          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="Title" Description="Leave blank to keep the title Roblox sets">
             <ui:TextBox Width="220" PlaceholderText="Voidstrap" Text="{Binding RobloxTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Add the game name" Description="Shows the experience you are playing in the title bar">
+          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="Add the game name" Description="Shows the experience you are playing in the title bar">
             <ui:ToggleSwitch IsChecked="{Binding CycleTitleWithGameName, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Header="Use the game icon" Description="Shows the experience icon on the Roblox window and taskbar button">
             <ui:ToggleSwitch IsChecked="{Binding UseGameIconForRobloxWindow, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Add the server info" Description="Shows the server region and player count in the title bar">
+          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="Add the server info" Description="Shows the server region and player count in the title bar">
             <ui:ToggleSwitch IsChecked="{Binding ShowServerInfoInTitle, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Header="Window backdrop" Description="Backdrop material to Roblox's window frame. Requires Windows 11" IsEnabled="{Binding IsWindows11}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">

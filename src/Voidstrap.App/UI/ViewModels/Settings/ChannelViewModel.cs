@@ -19,6 +19,7 @@ using Voidstrap.Models.APIs.Roblox;
 using Voidstrap.Models.Persistable;
 using Voidstrap.RobloxInterfaces;
 using Voidstrap.UI.Elements.Settings;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
@@ -120,7 +121,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	private bool _hardwareAccelerationDisabled;
 
-	private readonly string _robloxLocalStorage = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox", "LocalStorage");
+	private readonly string _robloxLocalStorage = Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "LocalStorage");
 
 
 	private string? _installLocationText;
@@ -769,6 +770,16 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	private static async Task ApplyLaunchWithoutVoidstrapAsync(bool enabled)
 	{
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			Voidstrap.Platform.OperationResult result = Voidstrap.Platform.MacOS.MacOSProtocolRegistration.SetPlayerHandler(enabled);
+			App.Logger.WriteLine("ChannelViewModel::LaunchWithoutVoidstrap", result.Succeeded
+				? (enabled ? "Game links now open Roblox directly" : "Game links open through Voidstrap again")
+				: "The game link handler could not be changed: " + result.Failure?.Message);
+			if (enabled && !Directory.Exists("/Applications/Roblox.app") && !Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Applications", "Roblox.app")))
+				Frontend.ShowMessageBox("Roblox is not installed yet. Launch it once through Voidstrap, after that it opens without Voidstrap.", MessageBoxImage.Information);
+			return;
+		}
 		if (enabled)
 			await Task.Run(() => RobloxInstallCompression.EnsureExtracted(new Voidstrap.AppData.RobloxPlayerData())).ConfigureAwait(true);
 		WindowsRegistry.RegisterPlayer();
@@ -981,7 +992,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 			{
 				_networkStreamingEnabled = value;
 				OnPropertyChanged(nameof(NetworkStreamingEnabled));
-				RunSafeAsync(() => SaveNetworkStreamingStateAsync(value, _lifetimeCts.Token));
+				RunSafeAsync(() => SaveNetworkStreamingStateAsync(value, _lifetimeCts.SafeToken()));
 			}
 		}
 	}
@@ -1226,7 +1237,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		};
 		_revertTimer.Tick += OnRevertTimerTick;
 		LoadMonitors();
-		RunSafeAsync(() => LoadNetworkStreamingStateAsync(_lifetimeCts.Token));
+		RunSafeAsync(() => LoadNetworkStreamingStateAsync(_lifetimeCts.SafeToken()));
 		CpuLimitOptions = new ObservableCollection<int>();
 		int processorCount = Environment.ProcessorCount;
 		for (int i = 1; i <= processorCount; i++)
@@ -1456,7 +1467,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 	{
 		try
 		{
-			string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox", "LocalStorage");
+			string path = Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "LocalStorage");
 			if (!Directory.Exists(path))
 			{
 				return;
@@ -1683,7 +1694,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		}
 		_loadChannelCts?.Cancel();
 		_loadChannelCts?.Dispose();
-		_loadChannelCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.Token);
+		_loadChannelCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken());
 		CancellationToken token = _loadChannelCts.Token;
 		ShowLoadingError = false;
 		ChannelDeployInfo = null;

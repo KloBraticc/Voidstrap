@@ -12,11 +12,13 @@ namespace Voidstrap.UI.Elements.Controls;
 public class HomepageMediaPreviewVideo : ContentControl
 {
     private MediaElement? _media;
-    private readonly Image? _linuxImage;
-    private DispatcherTimer? _linuxTimer;
-    private Voidstrap.Integrations.Overlays.HomepageBackgroundMedia? _linuxMedia;
-    private long _linuxFrameVersion;
-    private bool _linuxFailureLogged;
+    private readonly Image? _portableImage;
+    private DispatcherTimer? _portableTimer;
+    private Voidstrap.Integrations.Overlays.HomepageBackgroundMedia? _portableMedia;
+    private long _portableFrameVersion;
+    private bool _portableFailureLogged;
+    private WriteableBitmap? _portableBitmap;
+    private readonly TextBlock? _portableError;
 
     public static readonly DependencyProperty SourcePathProperty = DependencyProperty.Register(
         nameof(SourcePath),
@@ -32,28 +34,42 @@ public class HomepageMediaPreviewVideo : ContentControl
 
     public HomepageMediaPreviewVideo()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesPortableUi)
         {
-            _linuxImage = new Image
+            _portableImage = new Image
             {
                 Stretch = Stretch.UniformToFill,
                 IsHitTestVisible = false
             };
-            Content = _linuxImage;
-            Loaded += OnLoaded;
-            Unloaded += OnUnloaded;
-            return;
+            _portableError = new TextBlock
+            {
+                TextWrapping = TextWrapping.Wrap,
+                TextAlignment = TextAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(10),
+                Visibility = Visibility.Collapsed
+            };
+            Grid preview = new();
+            preview.Children.Add(_portableImage);
+            preview.Children.Add(_portableError);
+            Content = preview;
         }
 
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
-        IsVisibleChanged += OnIsVisibleChanged;
     }
 
     private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesPortableUi)
+        {
+            if (IsVisible && IsLoaded)
+                StartPortableMedia();
+            else
+                StopPortableMedia();
             return;
+        }
         if (IsVisible && IsLoaded)
             EnsureMedia();
         else
@@ -99,9 +115,12 @@ public class HomepageMediaPreviewVideo : ContentControl
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        IsVisibleChanged -= OnIsVisibleChanged;
+        IsVisibleChanged += OnIsVisibleChanged;
+        if (Voidstrap.Utility.Platform.UsesPortableUi)
         {
-            StartLinuxMedia();
+            if (IsVisible)
+                StartPortableMedia();
             return;
         }
 
@@ -111,9 +130,10 @@ public class HomepageMediaPreviewVideo : ContentControl
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        IsVisibleChanged -= OnIsVisibleChanged;
+        if (Voidstrap.Utility.Platform.UsesPortableUi)
         {
-            StopLinuxMedia();
+            StopPortableMedia();
             return;
         }
 
@@ -138,66 +158,95 @@ public class HomepageMediaPreviewVideo : ContentControl
 
     private static void OnSourcePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (Voidstrap.Utility.Platform.IsLinux && d is HomepageMediaPreviewVideo preview && preview.IsLoaded)
-            preview.StartLinuxMedia();
+        if (Voidstrap.Utility.Platform.UsesPortableUi && d is HomepageMediaPreviewVideo preview && preview.IsLoaded && preview.IsVisible)
+            preview.StartPortableMedia();
     }
 
-    private void StartLinuxMedia()
+    private void StartPortableMedia()
     {
-        StopLinuxMedia();
-        if (_linuxImage is null || string.IsNullOrWhiteSpace(SourcePath) || !File.Exists(SourcePath))
-            return;
-
-        _linuxFrameVersion = 0;
-        _linuxFailureLogged = false;
-        _linuxMedia = new Voidstrap.Integrations.Overlays.HomepageBackgroundMedia(SourcePath, 30d);
-        _linuxTimer = new DispatcherTimer(DispatcherPriority.Render)
+        StopPortableMedia();
+        if (_portableError != null)
         {
-            Interval = TimeSpan.FromMilliseconds(1000d / 30d)
+            _portableError.Text = string.Empty;
+            _portableError.Visibility = Visibility.Collapsed;
+        }
+        if (_portableImage is null || string.IsNullOrWhiteSpace(SourcePath))
+            return;
+        if (!File.Exists(SourcePath))
+        {
+            ShowPortableError(Voidstrap.Resources.Strings.ResourceManager.GetString("HomepageMedia.Preview.FileMissing") ?? string.Empty);
+            return;
+        }
+
+        _portableFrameVersion = 0;
+        _portableFailureLogged = false;
+        _portableMedia = new Voidstrap.Integrations.Overlays.HomepageBackgroundMedia(SourcePath, 30d, 960, 540);
+        _portableTimer = new DispatcherTimer(DispatcherPriority.Render)
+        {
+            Interval = TimeSpan.FromMilliseconds(500d)
         };
-        _linuxTimer.Tick += OnLinuxFrameTick;
-        _linuxTimer.Start();
+        _portableTimer.Tick += OnPortableFrameTick;
+        _portableTimer.Start();
     }
 
-    private void OnLinuxFrameTick(object? sender, EventArgs e)
+    private void OnPortableFrameTick(object? sender, EventArgs e)
     {
-        if (_linuxImage is null || _linuxMedia is null)
+        if (_portableImage is null || _portableMedia is null)
             return;
 
         try
         {
-            _linuxMedia.TryReadFrame(_linuxFrameVersion, (pixels, width, height, version) =>
+            _portableMedia.TryReadFrame(_portableFrameVersion, (pixels, width, height, version) =>
             {
                 int stride = checked(width * 4);
-                BitmapSource frame = BitmapSource.Create(width, height, 96d, 96d, PixelFormats.Bgra32, null, pixels, stride);
-                if (frame.CanFreeze)
-                    frame.Freeze();
-                _linuxImage.Source = frame;
-                _linuxFrameVersion = version;
+                if (_portableBitmap == null || _portableBitmap.PixelWidth != width || _portableBitmap.PixelHeight != height)
+                {
+                    _portableBitmap = new WriteableBitmap(width, height, 96d, 96d, PixelFormats.Bgra32, null);
+                    _portableImage.Source = _portableBitmap;
+                }
+                _portableBitmap.WritePixels(new Int32Rect(0, 0, width, height), pixels, stride, 0);
+                _portableFrameVersion = version;
+                if (_portableTimer != null)
+                    _portableTimer.Interval = TimeSpan.FromMilliseconds(_portableMedia?.IsAnimated == true ? 1000d / 30d : 500d);
             });
+            if (_portableMedia.Failure is not null)
+            {
+                ShowPortableError(Voidstrap.Resources.Strings.ResourceManager.GetString("HomepageMedia.Preview.DecodeError") ?? string.Empty);
+                StopPortableMedia();
+            }
         }
         catch (Exception ex)
         {
-            if (_linuxFailureLogged)
+            if (_portableFailureLogged)
                 return;
-            _linuxFailureLogged = true;
-            App.Logger.WriteLine("HomepageMediaPreviewVideo::LinuxFrame", "The media preview could not be rendered: " + ex.Message);
+            _portableFailureLogged = true;
+            ShowPortableError(Voidstrap.Resources.Strings.ResourceManager.GetString("HomepageMedia.Preview.RenderError") ?? string.Empty);
+            App.Logger.WriteLine("HomepageMediaPreviewVideo::PortableFrame", "The media preview could not be rendered: " + ex.Message);
         }
     }
 
-    private void StopLinuxMedia()
+    private void ShowPortableError(string message)
     {
-        if (_linuxTimer != null)
+        if (_portableError == null)
+            return;
+        _portableError.Text = message;
+        _portableError.Visibility = Visibility.Visible;
+    }
+
+    private void StopPortableMedia()
+    {
+        if (_portableTimer != null)
         {
-            _linuxTimer.Stop();
-            _linuxTimer.Tick -= OnLinuxFrameTick;
-            _linuxTimer = null;
+            _portableTimer.Stop();
+            _portableTimer.Tick -= OnPortableFrameTick;
+            _portableTimer = null;
         }
 
-        Voidstrap.Integrations.Overlays.HomepageBackgroundMedia? media = _linuxMedia;
-        _linuxMedia = null;
+        Voidstrap.Integrations.Overlays.HomepageBackgroundMedia? media = _portableMedia;
+        _portableMedia = null;
         media?.Dispose();
-        if (_linuxImage != null)
-            _linuxImage.Source = null;
+        if (_portableImage != null)
+            _portableImage.Source = null;
+        _portableBitmap = null;
     }
 }

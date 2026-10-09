@@ -78,7 +78,7 @@ public class GBSEditor
 
 	public bool RepairedOnLoad => _repairedOnLoad;
 
-	public virtual string FileLocation => OperatingSystem.IsLinux() ? SoberFileLocation : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox", "GlobalBasicSettings_13.xml");
+	public virtual string FileLocation => OperatingSystem.IsLinux() ? SoberFileLocation : Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "GlobalBasicSettings_13.xml");
 
 	private static string SoberFileLocation
 	{
@@ -297,9 +297,13 @@ public class GBSEditor
 		}
 		try
 		{
+			if (!readOnly)
+				SetMacImmutable(FileLocation, false);
 			FileAttributes attributes = File.GetAttributes(FileLocation);
 			attributes = ((!readOnly) ? (attributes & ~FileAttributes.ReadOnly) : (attributes | FileAttributes.ReadOnly));
 			File.SetAttributes(FileLocation, attributes);
+			if (readOnly)
+				SetMacImmutable(FileLocation, true);
 			if (!preserveState)
 			{
 				PreviousReadOnlyState = readOnly;
@@ -310,6 +314,18 @@ public class GBSEditor
 			App.Logger?.WriteLine("GBSEditor::SetReadOnly", "Failed to set read-only on " + FileLocation);
 			App.Logger?.WriteException("GBSEditor::SetReadOnly", ex);
 		}
+	}
+
+	private static void SetMacImmutable(string path, bool immutable)
+	{
+		if (!OperatingSystem.IsMacOS())
+			return;
+		System.Diagnostics.ProcessStartInfo info = new("/usr/bin/chflags") { UseShellExecute = false, CreateNoWindow = true };
+		info.ArgumentList.Add(immutable ? "uchg" : "nouchg");
+		info.ArgumentList.Add(path);
+		using System.Diagnostics.Process? process = System.Diagnostics.Process.Start(info);
+		if (process == null || !process.WaitForExit(5000) || process.ExitCode != 0)
+			App.Logger?.WriteLine("GBSEditor::SetMacImmutable", "Could not " + (immutable ? "lock " : "unlock ") + path);
 	}
 
 	public bool GetReadOnly()

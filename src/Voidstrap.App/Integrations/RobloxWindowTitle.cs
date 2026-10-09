@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Voidstrap.Models.Entities;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations;
 
@@ -33,7 +34,7 @@ internal sealed class RobloxWindowTitle : IDisposable
 	{
 		_activityWatcher = activityWatcher;
 		_apply = apply;
-		CancellationToken token = _cts.Token;
+		CancellationToken token = _cts.SafeToken();
 		_ = Task.Run(() => LoopAsync(token));
 	}
 
@@ -174,7 +175,7 @@ internal sealed class RobloxWindowTitle : IDisposable
 	{
 		try
 		{
-			string? location = await data.QueryServerLocation(_cts.Token).ConfigureAwait(false);
+			string? location = await data.QueryServerLocation(_cts.SafeToken()).ConfigureAwait(false);
 			if (!string.IsNullOrWhiteSpace(location))
 				Refresh();
 			return location;

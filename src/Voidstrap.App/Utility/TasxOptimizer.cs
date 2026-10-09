@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Voidstrap.Models.Persistable;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Utility;
 
@@ -98,7 +99,7 @@ internal sealed partial class TasxOptimizer : IDisposable
 			return;
 		}
 		App.Logger.WriteLine(LogIdent, "TASX optimization started");
-		_loopTask = Task.Run(() => RunAsync(_cancellationTokenSource.Token));
+		_loopTask = Task.Run(() => RunAsync(_cancellationTokenSource.SafeToken()));
 	}
 
 	private async Task RunAsync(CancellationToken token)

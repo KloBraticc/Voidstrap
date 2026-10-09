@@ -1180,7 +1180,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 			if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
 				return null;
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (Voidstrap.Utility.Platform.IsLinux || Voidstrap.Utility.Platform.IsMacOS)
 			{
 				_wallpaper = Voidstrap.Utility.SafeImaging.FromFile(path, 1280);
 				return _wallpaper;
@@ -1728,7 +1728,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 		try
 		{
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (Voidstrap.Utility.Platform.IsLinux || Voidstrap.Utility.Platform.IsMacOS)
 			{
 				System.Windows.Media.Imaging.BitmapSource? portable = Voidstrap.Utility.SafeImaging.FromFile(file.FullPath, 1280);
 				if (portable == null)
@@ -2109,7 +2109,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 		try
 		{
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (!Voidstrap.Utility.Platform.IsWindows)
 				Voidstrap.Utility.PlatformShell.TryRevealFile(file.FullPath);
 			else
 				using (Process? process = Process.Start(Voidstrap.Utility.PlatformShell.WindowsTool("explorer.exe"), "/select,\"" + file.FullPath + "\"")) { }

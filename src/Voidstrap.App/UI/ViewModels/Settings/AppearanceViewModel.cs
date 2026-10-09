@@ -259,7 +259,11 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
     public IEnumerable<Theme> BindableThemes => Voidstrap.Extensions.ThemeEx.Selections;
 
-    public IEnumerable<BackdropType> BackdropOptions { get; } = Enum.GetValues<BackdropType>();
+    public string PageZoomDescription => "Zooms the settings pages like a browser. " + (Voidstrap.Utility.Platform.IsMacOS ? "⌘ Scroll" : "Ctrl+Scroll") + " for hotkey";
+
+    public IEnumerable<BackdropType> BackdropOptions { get; } = Voidstrap.Utility.Platform.IsMacOS
+        ? [BackdropType.Default, BackdropType.Sidebar, BackdropType.Popover, BackdropType.Hud, BackdropType.UnderWindow, BackdropType.UnderPage, BackdropType.None]
+        : Enum.GetValues<BackdropType>().Where(value => value <= BackdropType.None);
 
     public ICommand PreviewBootstrapperCommand => new RelayCommand(PreviewBootstrapper);
 
@@ -418,6 +422,8 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         LiveLanguageRefresher.ApplyBranding();
         if (Voidstrap.Utility.Platform.IsLinux)
             LinuxApplicationIdentity.Refresh();
+        else if (Voidstrap.Utility.Platform.IsMacOS)
+            Voidstrap.Utility.Branding.ApplyDockIcon();
         else
             TaskbarJumpList.Apply();
     }
@@ -514,7 +520,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
     }
 
     public System.Windows.Visibility WindowsOnlyVisibility =>
-        Voidstrap.Utility.Platform.IsLinux ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
+        Voidstrap.Utility.Platform.IsWindows ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
 
     public bool ClearFont
     {
@@ -683,7 +689,12 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
     {
         get
         {
-            if (!Voidstrap.Utility.Platform.IsLinux
+            if (Voidstrap.Utility.Platform.IsMacOS && !BackdropOptions.Contains(App.Settings.Prop.WindowBackdrop))
+            {
+                App.Settings.Prop.WindowBackdrop = BackdropType.Default;
+                App.Settings.SaveDeferred();
+            }
+            if (Voidstrap.Utility.Platform.IsWindows
                 && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000)
                 && App.Settings.Prop.WindowBackdrop != BackdropType.None)
             {
@@ -1913,7 +1924,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
         try
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.IsWindows)
             {
                 Voidstrap.Utility.PlatformShell.TryRevealFile(saveFileDialog.FileName);
             }

@@ -1,8 +1,14 @@
 using System;
+using System.Buffers.Binary;
+using System.Collections.Concurrent;
 using System.IO;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Xml.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using DiscordRPC.IO;
 using DiscordRPC.Logging;
 
@@ -157,7 +163,31 @@ internal static class VoidstrapPresence
 		}
 		if (OperatingSystem.IsMacOS())
 		{
-			return "macOS";
+			try
+			{
+				XElement? dictionary = XDocument.Load("/System/Library/CoreServices/SystemVersion.plist").Root?.Element("dict");
+				string? version = dictionary?.Elements("key").FirstOrDefault(static key => key.Value == "ProductVersion")?.NextNode is XElement value ? value.Value : null;
+				if (Version.TryParse(version, out Version? parsed))
+				{
+					string name = parsed.Major switch
+					{
+						11 => "Big Sur",
+						12 => "Monterey",
+						13 => "Ventura",
+						14 => "Sonoma",
+						15 => "Sequoia",
+						26 => "Tahoe",
+						27 => "Golden Gate",
+						_ => ""
+					};
+					return name.Length > 0 ? name : "Mac";
+				}
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Xml.XmlException)
+			{
+				App.Logger.WriteLine("VoidstrapPresence", "The macOS version could not be read: " + ex.Message);
+			}
+			return "Mac";
 		}
 		foreach (string path in new[] { "/run/host/os-release", "/etc/os-release", "/usr/lib/os-release" })
 		{
@@ -198,7 +228,7 @@ internal static class VoidstrapPresence
 
 internal sealed class DiscordActivityPipe : INamedPipeClient
 {
-	private readonly ManagedNamedPipeClient _inner = new();
+	private readonly INamedPipeClient _inner = OperatingSystem.IsMacOS() ? new MacDiscordPipe() : new ManagedNamedPipeClient();
 
 	private readonly object _gate = new();
 
@@ -207,6 +237,8 @@ internal sealed class DiscordActivityPipe : INamedPipeClient
 	private bool _sealed;
 
 	private bool _hasActivity;
+
+	internal volatile bool Ready;
 
 	private long _activityPid = Environment.ProcessId;
 
@@ -233,13 +265,14 @@ internal sealed class DiscordActivityPipe : INamedPipeClient
 
 	public bool Connect(int pipe)
 	{
+		Ready = false;
 		if (_inner.Connect(pipe))
 			return true;
-		if (Voidstrap.Utility.Platform.IsWindows)
+		if (_inner is not ManagedNamedPipeClient managed || Voidstrap.Utility.Platform.IsWindows)
 			return false;
 		foreach (string path in DiscordIpc.FindUnixSockets(pipe))
 		{
-			if (DiscordIpc.TryConnectPath(_inner, path))
+			if (DiscordIpc.TryConnectPath(managed, path))
 				return true;
 		}
 		return false;
@@ -323,5 +356,139 @@ internal sealed class DiscordActivityPipe : INamedPipeClient
 		{
 		}
 		return frame;
+	}
+}
+
+internal sealed class MacDiscordPipe : INamedPipeClient
+{
+	private readonly object _gate = new();
+	private readonly ConcurrentQueue<PipeFrame> _frames = new();
+	private NetworkStream? _stream;
+	private CancellationTokenSource? _reading;
+	private bool _disposed;
+	private int _pipe = -1;
+
+	public ILogger Logger { get; set; } = new NullLogger();
+
+	public bool IsConnected => Volatile.Read(ref _stream) != null;
+
+	[Obsolete("The connected pipe is not necessary information.")]
+	public int ConnectedPipe => _pipe;
+
+	public bool Connect(int pipe)
+	{
+		lock (_gate)
+		{
+			if (_disposed)
+				return false;
+			Close();
+			foreach (string path in DiscordIpc.FindUnixSockets(pipe))
+			{
+				Socket socket = new(AddressFamily.Unix, SocketType.Stream, ProtocolType.Unspecified);
+				try
+				{
+					using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(1));
+					socket.ConnectAsync(new UnixDomainSocketEndPoint(path), timeout.Token).AsTask().GetAwaiter().GetResult();
+					_stream = new NetworkStream(socket, true) { WriteTimeout = 1000 };
+					_pipe = path[^1] - '0';
+					_reading = new CancellationTokenSource();
+					_ = ReadFramesAsync(_stream, _reading.Token);
+					Logger.Info("Connected to the macOS Discord socket");
+					return true;
+				}
+				catch (Exception ex) when (ex is SocketException or IOException or OperationCanceledException or ArgumentException)
+				{
+					socket.Dispose();
+					Logger.Warning("The macOS Discord socket could not connect: {0}", ex.Message);
+				}
+			}
+			return false;
+		}
+	}
+
+	private async Task ReadFramesAsync(NetworkStream stream, CancellationToken token)
+	{
+		try
+		{
+			byte[] header = new byte[8];
+			while (!token.IsCancellationRequested)
+			{
+				await stream.ReadExactlyAsync(header, token).ConfigureAwait(false);
+				int length = BinaryPrimitives.ReadInt32LittleEndian(header.AsSpan(4));
+				if (length < 0 || length > PipeFrame.MAX_SIZE)
+					throw new InvalidDataException("Discord sent an invalid frame size");
+				byte[] data = new byte[length];
+				await stream.ReadExactlyAsync(data, token).ConfigureAwait(false);
+				lock (_gate)
+				{
+					if (!ReferenceEquals(_stream, stream))
+						return;
+					if (_frames.Count >= 64)
+						throw new InvalidDataException("Discord sent too many pending frames");
+					_frames.Enqueue(new PipeFrame { Opcode = (Opcode)BinaryPrimitives.ReadUInt32LittleEndian(header), Data = data });
+				}
+			}
+		}
+		catch (Exception ex) when (ex is IOException or OperationCanceledException or ObjectDisposedException)
+		{
+			if (!token.IsCancellationRequested)
+				Logger.Warning("The macOS Discord connection closed: {0}", ex.Message);
+		}
+		finally
+		{
+			lock (_gate)
+			{
+				if (ReferenceEquals(_stream, stream))
+					Close();
+			}
+		}
+	}
+
+	public bool ReadFrame(out PipeFrame frame) => _frames.TryDequeue(out frame);
+
+	public bool WriteFrame(PipeFrame frame)
+	{
+		lock (_gate)
+		{
+			if (_stream == null)
+				return false;
+			try
+			{
+				frame.WriteStream(_stream);
+				return true;
+			}
+			catch (Exception ex) when (ex is IOException or ObjectDisposedException or InvalidOperationException)
+			{
+				Logger.Warning("The macOS Discord activity could not be written: {0}", ex.Message);
+				Close();
+				return false;
+			}
+		}
+	}
+
+	public void Close()
+	{
+		lock (_gate)
+		{
+			_reading?.Cancel();
+			_reading?.Dispose();
+			_reading = null;
+			_stream?.Dispose();
+			_stream = null;
+			_frames.Clear();
+			_pipe = -1;
+		}
+	}
+
+	public void Dispose()
+	{
+		lock (_gate)
+		{
+			if (_disposed)
+				return;
+			_disposed = true;
+			Close();
+		}
+		GC.SuppressFinalize(this);
 	}
 }

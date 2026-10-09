@@ -5,6 +5,7 @@ using System.Threading;
 using Vortice.Direct3D11;
 using Vortice.DXGI;
 using Vortice.MediaFoundation;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations.Overlays
 {
@@ -108,7 +109,7 @@ namespace Voidstrap.Integrations.Overlays
 
 		private void Decode()
 		{
-			CancellationToken token = _cancellation.Token;
+			CancellationToken token = _cancellation.SafeToken();
 			double loopBaseMs = 0;
 			long loopFirstTicks = -1;
 			long lastTicks = 0;

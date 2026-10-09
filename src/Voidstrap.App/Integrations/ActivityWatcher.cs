@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -13,6 +14,7 @@ using Voidstrap.Models.Entities;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Models.VoidstrapRPC;
 using Voidstrap.Utility;
+using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations;
 
@@ -181,10 +183,24 @@ public partial class ActivityWatcher : IDisposable
 
 	private readonly DateTime _createdUtc = DateTime.UtcNow;
 
+	private readonly DateTime? _macProcessStartedUtc;
+
 	private long _nextLogScan;
 
-	public ActivityWatcher(string? logFile = null)
+	public ActivityWatcher(string? logFile = null, int processId = 0)
 	{
+		if (OperatingSystem.IsMacOS() && processId > 0)
+		{
+			try
+			{
+				using Process process = Process.GetProcessById(processId);
+				_macProcessStartedUtc = process.StartTime.ToUniversalTime();
+			}
+			catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception)
+			{
+				App.Logger.WriteLine("ActivityWatcher", "The Roblox process start time could not be read: " + ex.Message);
+			}
+		}
 		if (!string.IsNullOrEmpty(logFile))
 		{
 			LogLocation = logFile;
@@ -569,7 +585,7 @@ public partial class ActivityWatcher : IDisposable
 	{
 		if (ServerListRateLimited)
 			return (ServerLookupOutcome.RateLimited, null);
-		using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.Token);
+		using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.SafeToken());
 		cts.CancelAfter(TimeSpan.FromSeconds(40L));
 		string baseUrl = $"https://games.roblox.com/v1/games/{placeId}/servers/Public?limit=100&excludeFullGames=false&sortOrder=";
 		int requests = 0;
@@ -674,7 +690,7 @@ public partial class ActivityWatcher : IDisposable
 			return (ServerLookupOutcome.SignedOut, null);
 		if (ServerListRateLimited)
 			return (ServerLookupOutcome.RateLimited, null);
-		using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.Token);
+		using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.SafeToken());
 		cts.CancelAfter(TimeSpan.FromSeconds(20L));
 		string? cursor = null;
 		bool anyAnswered = false;
@@ -779,7 +795,7 @@ public partial class ActivityWatcher : IDisposable
 
 	private async Task RunAsync()
 	{
-		CancellationToken token = _playerLifetimeCts.Token;
+		CancellationToken token = _playerLifetimeCts.SafeToken();
 		FileInfo? logFileInfo = null;
 		if (string.IsNullOrEmpty(LogLocation) && OperatingSystem.IsLinux())
 		{
@@ -811,7 +827,8 @@ public partial class ActivityWatcher : IDisposable
 					continue;
 				}
 				logFileInfo = fileInfo;
-				if (logFileInfo.CreationTime.AddSeconds(15.0) > DateTime.Now)
+				bool fromThisLaunch = !OperatingSystem.IsMacOS() || logFileInfo.CreationTimeUtc >= (_macProcessStartedUtc?.AddSeconds(-1.0) ?? _createdUtc.AddSeconds(-8.0));
+				if (fromThisLaunch && (_macProcessStartedUtc.HasValue || logFileInfo.CreationTime.AddSeconds(15.0) > DateTime.Now))
 				{
 					LogLocation = logFileInfo.FullName;
 					break;
@@ -1450,7 +1467,7 @@ public partial class ActivityWatcher : IDisposable
 	{
 		try
 		{
-			await _playerNameSemaphore.WaitAsync(_playerLifetimeCts.Token).ConfigureAwait(false);
+			await _playerNameSemaphore.WaitAsync(_playerLifetimeCts.SafeToken()).ConfigureAwait(false);
 			try
 			{
 				string? cached;
@@ -1462,7 +1479,7 @@ public partial class ActivityWatcher : IDisposable
 					RaiseEvent(OnPlayerLogUpdated, userLog, "OnPlayerLogUpdated");
 					return;
 				}
-				using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.Token);
+				using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.SafeToken());
 				timeout.CancelAfter(TimeSpan.FromSeconds(8));
 				using HttpResponseMessage response = await App.HttpClient.GetAsync("https://users.roblox.com/v1/users/" + userId, timeout.Token).ConfigureAwait(false);
 				if (!response.IsSuccessStatusCode)

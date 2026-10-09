@@ -329,6 +329,15 @@ public static class LinuxTray
 
     public static event Action? Started;
 
+    public static Func<Task<List<LinuxTrayMenuItem>>>? MenuProvider
+    {
+        get
+        {
+            lock (Gate)
+                return _menuProvider;
+        }
+    }
+
     public static StatusNotifierItemObject? Item => _item;
 
     public static DbusMenuObject? Menu => _menu;
@@ -358,6 +367,7 @@ public static class LinuxTray
         }
 
         menu?.Rebuild();
+        MacTray.RequestRefresh();
     }
 
     public static void ClearMenuProvider(Func<Task<List<LinuxTrayMenuItem>>> provider)

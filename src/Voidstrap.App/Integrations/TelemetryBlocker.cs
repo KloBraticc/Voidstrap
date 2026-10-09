@@ -44,7 +44,9 @@ public static class TelemetryBlocker
 
 	private static string HostsPath => Voidstrap.Utility.Platform.IsLinux
 		? Voidstrap.Platform.Linux.LinuxHostsBlock.HostsPath
-		: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "drivers", "etc", "hosts");
+		: OperatingSystem.IsMacOS()
+			? Voidstrap.Platform.MacOS.MacOSHostsBlock.HostsPath
+			: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "drivers", "etc", "hosts");
 
 	public static void SyncSettingFromState()
 	{
@@ -170,7 +172,7 @@ public static class TelemetryBlocker
 			{
 				return true;
 			}
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (!Voidstrap.Utility.Platform.IsWindows)
 			{
 				return await SetLinuxAsync(enable, cancellationToken).ConfigureAwait(false);
 			}
@@ -255,7 +257,9 @@ public static class TelemetryBlocker
 			}
 		}
 		App.Logger?.WriteLine(LOG_IDENT, "Asking for administrator approval to " + (enable ? "add" : "remove") + " the telemetry block in /etc/hosts");
-		Voidstrap.Platform.OperationResult result = await Voidstrap.Platform.Linux.LinuxHostsBlock.WriteAsync(Marker, lines, cancellationToken).ConfigureAwait(false);
+		Voidstrap.Platform.OperationResult result = OperatingSystem.IsMacOS()
+			? await Voidstrap.Platform.MacOS.MacOSHostsBlock.WriteAsync(Marker, lines, cancellationToken).ConfigureAwait(false)
+			: await Voidstrap.Platform.Linux.LinuxHostsBlock.WriteAsync(Marker, lines, cancellationToken).ConfigureAwait(false);
 		if (!result.Succeeded)
 		{
 			LastLinuxFailure = result.Failure?.Message ?? "The hosts file could not be changed";

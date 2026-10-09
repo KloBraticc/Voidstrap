@@ -800,7 +800,7 @@ public static class LaunchHandler
 
 	private const int SoberExitConfirmations = 5;
 
-	private static async Task<int> WaitForMacProcessAsync(string processName, CancellationToken cancellationToken)
+	private static async Task<int> WaitForMacProcessAsync(string processName, DateTime launchRequestedUtc, CancellationToken cancellationToken)
 	{
 		for (int attempt = 0; attempt < 120; attempt++)
 		{
@@ -813,7 +813,7 @@ public static class LaunchHandler
 					try
 					{
 						DateTime started = process.StartTime.ToUniversalTime();
-						if (!process.HasExited && started > newestStart)
+						if (!process.HasExited && started > newestStart && (attempt >= 20 || started >= launchRequestedUtc.AddSeconds(-1)))
 						{
 							newest = process.Id;
 							newestStart = started;
@@ -1043,6 +1043,8 @@ public static class LaunchHandler
 					bool soberExitObserved = Voidstrap.Utility.Platform.IsLinux && await WaitForSoberExitAsync(_residentCancellation.Token);
 					if (!soberExitObserved)
 						await residentTask;
+					if (Voidstrap.Utility.Platform.IsMacOS)
+						await Task.WhenAny(Voidstrap.Integrations.ServerMatchmaker.MacHandoffTask, Task.Delay(20000));
 				}
 				catch (OperationCanceledException)
 				{
@@ -1053,6 +1055,8 @@ public static class LaunchHandler
 				}
 
 				App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "Roblox has exited, shutting down");
+				if (Voidstrap.Utility.Platform.IsMacOS && !Voidstrap.Integrations.ServerMatchmaker.MacHandoffStarted)
+					Voidstrap.Utility.MacRobloxIcon.Restore();
 				try
 				{
 					autoFullscreen?.Dispose();
@@ -1362,6 +1366,9 @@ public static class LaunchHandler
 				}
 			}
 
+			if (OperatingSystem.IsMacOS() && linuxBootstrapper is not null && await linuxBootstrapper.TryUpdateLauncherAsync())
+				return;
+
 			if (OperatingSystem.IsMacOS() && linuxBootstrapper is not null)
 			{
 				Voidstrap.Platform.IRobloxRuntimeProvider provider = runtimeKind == Voidstrap.Platform.RuntimeKind.Player
@@ -1369,18 +1376,38 @@ public static class LaunchHandler
 					: host.StudioRuntime;
 				Voidstrap.Platform.RuntimeInstallation installation = await provider.FindInstallationAsync(cancellation);
 				Voidstrap.Platform.MacOS.MacOSRobloxInstaller installer = new(host.Processes);
-				Voidstrap.Platform.OperationResult<string> ensured = await installer.EnsureLatestAsync(runtimeKind, installation.Location, SetPortableLaunchStatus, DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments), cancellation);
+				Voidstrap.Platform.MacOS.MacInstallOptions installOptions = new(
+					DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments),
+					DownloadConfiguration.NormalizeBuffer(App.Settings.Prop.DownloadBufferKb) * 1024,
+					App.Settings.Prop.PreferredMirror,
+					App.Settings.Prop.IsChannelEnabled ? App.Settings.Prop.Channel : null,
+					App.Settings.Prop.ForceRobloxReinstall,
+					App.Settings.Prop.UpdateRoblox,
+					string.Equals(App.Settings.Prop.RobloxUpdateDelivery, "Early", StringComparison.OrdinalIgnoreCase),
+					latest => HoldMacUpdate(runtimeKind, latest));
+				Voidstrap.Platform.OperationResult<string> ensured = await installer.EnsureLatestAsync(runtimeKind, installation.Location, SetPortableLaunchStatus, installOptions, cancellation);
 				cancellation.ThrowIfCancellationRequested();
 				if (!ensured.Succeeded || ensured.Value is null)
 				{
 					ShowPortableLaunchFailure(ensured.Failure?.Message ?? "Roblox could not be installed.");
 					return;
 				}
+				if (App.Settings.Prop.ForceRobloxReinstall)
+				{
+					App.Settings.Prop.ForceRobloxReinstall = false;
+					App.Settings.Save();
+				}
 				App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "Using " + ensured.Value);
 
 				SetPortableLaunchStatus(Strings.Bootstrapper_Status_Configuring);
 				try
 				{
+					if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+					{
+						App.FastFlags.MigratePlayerLoggingPreset();
+						App.FastFlags.ApplyPreloadFlags();
+					}
+					App.FastFlags.Save();
 					Voidstrap.Platform.MacOS.MacOSRobloxInstaller.WriteClientSettings(
 						ensured.Value,
 						linuxBootstrapper.FastFlagsAllowedForThisLaunch() ? App.FastFlags.FileLocation : null);
@@ -1393,6 +1420,8 @@ public static class LaunchHandler
 				{
 					string robloxVersion = await installer.ReadBundleVersionAsync(ensured.Value, cancellation) ?? "";
 					await linuxBootstrapper.PrepareMacLaunchAsync(ensured.Value, robloxVersion, cancellation);
+					if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+						Voidstrap.Utility.MacRobloxIcon.Restore(ensured.Value);
 				}
 				catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
 				{
@@ -1412,6 +1441,28 @@ public static class LaunchHandler
 					App.Logger.WriteLine("LaunchHandler::SoberStartup", message);
 					SetPortableLaunchStatus(message);
 				};
+			DateTime? macDirectStartUtc = null;
+			if (OperatingSystem.IsMacOS() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+			{
+				Voidstrap.Utility.MacRobloxProcesses.CloseIdleMenuBarHelpers();
+				AssetWarpAutoEnable.EnsureEnabled(allowPrompt: !App.LaunchSettings.QuietFlag.Active, userAction: false);
+				if (!App.Settings.Prop.AssetWarpEnabled)
+					AssetProxyServer.Stop();
+				else if (App.Settings.Prop.AssetWarpPreloadEnabled && assetPreloadPlaceId > 0)
+					AssetPreloadCache.SwitchSession(assetPreloadPlaceId);
+				SetPortableLaunchStatus("Starting AssetWarp");
+				await Bootstrapper.StartAssetProxyIfEnabled(cancellation);
+				if (AssetProxyServer.IsRunning)
+				{
+					DateTime started = DateTime.UtcNow;
+					if (Voidstrap.Integrations.AssetProxy.MacAssetWarpBridge.StartRoblox())
+					{
+						macDirectStartUtc = started;
+						await Task.Delay(4000, cancellation);
+					}
+				}
+			}
+			DateTime launchRequestedUtc = macDirectStartUtc ?? DateTime.UtcNow;
 			Voidstrap.Core.RuntimeLaunchCoordinator coordinator = new(host.PlayerRuntime, host.StudioRuntime);
 			Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result = await coordinator.LaunchAsync(runtimeKind, launchTarget, cancellation);
 			if (!result.Succeeded || result.Value == null)
@@ -1432,10 +1483,10 @@ public static class LaunchHandler
 				stayResident = true;
 				Voidstrap.UI.LinuxTaskbarPresence.HideWhileSessionRuns();
 			}
-			else if (OperatingSystem.IsMacOS())
+			else if (OperatingSystem.IsMacOS() && !(runtimeKind == Voidstrap.Platform.RuntimeKind.Player && App.Settings.Prop.LaunchWithoutVoidstrap))
 			{
 				bool player = runtimeKind == Voidstrap.Platform.RuntimeKind.Player;
-				int runtimeId = await WaitForMacProcessAsync(player ? Voidstrap.Utility.Platform.RobloxPlayerProcessName : Voidstrap.Utility.Platform.RobloxStudioProcessName, cancellation);
+				int runtimeId = await WaitForMacProcessAsync(player ? Voidstrap.Utility.Platform.RobloxPlayerProcessName : Voidstrap.Utility.Platform.RobloxStudioProcessName, launchRequestedUtc, cancellation);
 				if (runtimeId > 0 && (player ? StartResidentWatcher(runtimeId, true) : StartStudioResident(runtimeId)))
 					stayResident = true;
 			}
@@ -1776,6 +1827,28 @@ public static class LaunchHandler
 		{
 			App.Logger.WriteLine("LaunchHandler::ClosePortableLaunchDialog", "The launch dialog could not be closed: " + ex.Message);
 		}
+	}
+
+	private static bool HoldMacUpdate(Voidstrap.Platform.RuntimeKind kind, string latest)
+	{
+		if (!string.Equals(App.Settings.Prop.RobloxUpdateDelivery, "Late", StringComparison.OrdinalIgnoreCase))
+			return false;
+		Voidstrap.Models.Persistable.AppState state = kind == Voidstrap.Platform.RuntimeKind.Player ? App.State.Prop.Player : App.State.Prop.Studio;
+		if (state.HeldVersionGuid != latest)
+		{
+			state.HeldVersionGuid = latest;
+			state.HeldVersionFirstSeenUtc = DateTime.UtcNow;
+			App.State.Save();
+		}
+		TimeSpan hold = TimeSpan.FromDays(3);
+		TimeSpan remaining = state.HeldVersionFirstSeenUtc + hold - DateTime.UtcNow;
+		if (remaining <= TimeSpan.Zero || remaining > hold)
+		{
+			App.Logger.WriteLine("LaunchHandler::UpdateDelivery", "Late delivery hold is over, installing " + latest);
+			return false;
+		}
+		App.Logger.WriteLine("LaunchHandler::UpdateDelivery", $"Late delivery is holding {latest} for about {Math.Ceiling(remaining.TotalHours)} more hours");
+		return true;
 	}
 
 	private static void ShowPortableLaunchFailure(string message)

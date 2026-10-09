@@ -71,11 +71,11 @@
               <Border Width="112" Height="64" Margin="0,0,14,0" CornerRadius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}">
                 <Grid>
                   <ui:SymbolIcon Symbol="News24" FontSize="22" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-                  <Border CornerRadius="6" Visibility="{Binding Image, Converter={StaticResource NullToVisibilityConverter}}">
-                    <Border.Background>
-                      <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill" />
-                    </Border.Background>
-                  </Border>
+                  <Image Source="{Binding Image}" Stretch="UniformToFill" Width="112" Height="64" Visibility="{Binding Image, Converter={StaticResource NullToVisibilityConverter}}">
+                    <Image.Clip>
+                      <RectangleGeometry Rect="0,0,112,64" RadiusX="6" RadiusY="6" />
+                    </Image.Clip>
+                  </Image>
                 </Grid>
               </Border>
               <StackPanel Grid.Column="1" VerticalAlignment="Center">

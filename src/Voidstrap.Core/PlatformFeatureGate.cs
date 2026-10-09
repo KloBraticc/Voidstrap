@@ -6,7 +6,7 @@ public static class PlatformFeatureGate
 {
 	public static bool IsHidden(IPlatformCapabilities? capabilities, FeatureId feature)
 	{
-		if (capabilities is null || capabilities.Platform != PlatformId.Linux)
+		if (capabilities is null || capabilities.Platform == PlatformId.Windows)
 		{
 			return false;
 		}

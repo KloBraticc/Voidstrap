@@ -1323,6 +1323,8 @@ public ICommand PickCursorColorCommand { get; }
 
 	private void BeginHomepagePreview()
 	{
+		if (Voidstrap.Utility.Platform.UsesPortableUi)
+			return;
 		if (_homepagePreviewRequested)
 			return;
 		_homepagePreviewRequested = true;
@@ -2097,7 +2099,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			if (Voidstrap.Utility.Platform.IsLinux)
 				await Task.Run(() => global::Voidstrap.Bootstrapper.PrepareSoberClientTreeAsync(CancellationToken.None));
-			else
+			else if (Voidstrap.Utility.Platform.IsWindows)
 				await Task.Run(() => Voidstrap.Utility.RobloxInstallCompression.EnsureExtracted(new RobloxPlayerData()));
 			CurrentExplorerPath = ResolveRobloxPlayerDir(forceRefresh: true);
 			RefreshModFiles();
@@ -3108,6 +3110,12 @@ public ICommand PickCursorColorCommand { get; }
 				Title = "Choose homepage background",
 				Filter = "All supported media|*.png;*.apng;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.dib;*.gif;*.webp;*.tif;*.tiff;*.ico;*.wdp;*.jxr;*.hdp;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif;*.mp4;*.m4v;*.webm;*.avi;*.mov;*.wmv;*.mpeg;*.mpg;*.mkv|All image files|*.*|Videos|*.mp4;*.m4v;*.webm;*.avi;*.mov;*.wmv;*.mpeg;*.mpg;*.mkv|All files|*.*"
 			};
+			if (Voidstrap.Utility.Platform.IsMacOS)
+			{
+				const string images = "*.png;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.ico;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif";
+				const string videos = "*.mp4;*.m4v;*.mov";
+				dialog.Filter = $"{Strings.ResourceManager.GetString("HomepageMedia.Picker.ImagesAndVideos")}|{images};{videos}|{Strings.ResourceManager.GetString("HomepageMedia.Picker.Images")}|{images}|{Strings.ResourceManager.GetString("HomepageMedia.Picker.Videos")}|{videos}|{Strings.Menu_AllFiles}|*.*";
+			}
 			if (dialog.ShowDialog() != true)
 				return;
 			string path = Path.GetFullPath(dialog.FileName);
@@ -4086,6 +4094,11 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		if (Voidstrap.Utility.Platform.IsLinux)
 			return GetSoberClientDir();
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			string? bundle = Voidstrap.Utility.MacRobloxBundle.Find();
+			return bundle == null ? "" : Path.Combine(bundle, "Contents", "Resources");
+		}
 		RobloxPlayerData playerData = new RobloxPlayerData();
 		string versionsRoot = Path.GetFullPath(playerData.VersionsRoot);
 		if (Voidstrap.AppData.CommonAppData.IsVersionGuidValid(playerData.State.VersionGuid))

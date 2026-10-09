@@ -98,9 +98,7 @@ public static partial class RobloxCompressor
         const string LOG_IDENT = "RobloxCompressor::CompressRbxStorage";
         if (level <= 40) return;
 
-        string cacheDir = System.IO.Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "Roblox", "rbx-storage");
+        string cacheDir = System.IO.Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "rbx-storage");
 
         if (!Directory.Exists(cacheDir))
         {

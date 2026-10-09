@@ -138,7 +138,7 @@
               <ui:Button Appearance="Danger" Icon="Delete16" Command="{Binding ManageAppFontCommand}" Content="{Binding AppFontName, Mode=OneWay}" FontFamily="{Binding AppFontFamily, Mode=OneWay}" Visibility="{Binding RemoveAppFontVisibility, Mode=OneWay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="Page zoom" Description="Zooms the settings pages like a browser. Ctrl+Scroll for hotkey">
+          <controls:OptionControl Header="Page zoom" Description="{Binding PageZoomDescription, Mode=OneTime}">
             <ComboBox Width="110" Padding="10,5" ItemsSource="{Binding ZoomOptions}" SelectedItem="{Binding UiZoomPercent, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>

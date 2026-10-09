@@ -128,6 +128,16 @@ internal static class AssetProxyRouting
 				Path.Combine(gdk, "rbx-storage.db")
 			];
 		}
+		else if (OperatingSystem.IsMacOS())
+		{
+			roblox = Path.GetFullPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Roblox"));
+			files =
+			[
+				Path.Combine(roblox, "rbx-storage.db"),
+				Path.Combine(roblox, "rbx-storage.db-wal"),
+				Path.Combine(roblox, "rbx-storage.db-shm")
+			];
+		}
 		else
 		{
 			return true;

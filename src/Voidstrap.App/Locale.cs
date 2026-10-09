@@ -120,7 +120,7 @@ internal static class Locale
 			CultureInfo.DefaultThreadCurrentUICulture = CurrentCulture;
 			Thread.CurrentThread.CurrentUICulture = CurrentCulture;
 		}
-		RightToLeft = IsRightToLeft(CurrentCulture.Name);
+		RightToLeft = MirrorsLayout && IsRightToLeft(CurrentCulture.Name);
 		try
 		{
 			if (App.Settings.Prop.AutoTranslate)
@@ -142,9 +142,11 @@ internal static class Locale
 		return IsRightToLeft(language);
 	}
 
+	private static bool MirrorsLayout => !Voidstrap.Utility.Platform.IsMacOS;
+
 	private static bool IsRightToLeft(string cultureName)
 	{
-		if (string.IsNullOrEmpty(cultureName) || cultureName.Length < 2)
+		if (!MirrorsLayout || string.IsNullOrEmpty(cultureName) || cultureName.Length < 2)
 		{
 			return false;
 		}

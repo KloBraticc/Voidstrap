@@ -44,12 +44,20 @@ public partial class App : Application
 	public const string ProjectDownloadLink = "https://github.com/KloBraticc/Voidstrap/releases";
 	public const string ProjectFallbackRepository = "https://github.com/KloBraticc/Voidstrap";
 	public const string ProjectFallbackDownloadLink = ProjectFallbackRepository + "/releases";
-	public const string ProjectReleaseApi = "https://api.github.com/repos/KloBraticc/Voidstrap/releases/latest";
-	public const string ProjectFallbackReleaseApi = "https://api.github.com/repos/KloBraticc/Voidstrap/releases/latest";
+	private static string ReleaseFeed(string path)
+	{
+		string? repository = Environment.GetEnvironmentVariable("VOIDSTRAP_UPDATE_REPOSITORY");
+		if (string.IsNullOrWhiteSpace(repository) || !System.Text.RegularExpressions.Regex.IsMatch(repository, "^KloBraticc/[A-Za-z0-9._-]+$"))
+			repository = "KloBraticc/Voidstrap";
+		return "https://api.github.com/repos/" + repository + "/" + path;
+	}
 
-	public const string ProjectReleaseListApi = "https://api.github.com/repos/KloBraticc/Voidstrap/releases?per_page=20";
+	public static readonly string ProjectReleaseApi = ReleaseFeed("releases/latest");
+	public static readonly string ProjectFallbackReleaseApi = ReleaseFeed("releases/latest");
 
-	public const string ProjectFallbackReleaseListApi = "https://api.github.com/repos/KloBraticc/Voidstrap/releases?per_page=20";
+	public static readonly string ProjectReleaseListApi = ReleaseFeed("releases?per_page=20");
+
+	public static readonly string ProjectFallbackReleaseListApi = ReleaseFeed("releases?per_page=20");
 
 	public const string ProjectHelpLink = "https://github.com/KloBraticc/Voidstrap";
 
@@ -310,7 +318,7 @@ public partial class App : Application
 			window.ContentRendered -= OnLinuxWindowContentRendered;
 		}
 		if (Current is App application && Volatile.Read(ref application._linuxDeferredStarted) == 0 && Interlocked.Exchange(ref application._linuxDeferredFallbackQueued, 1) == 0)
-			_ = application.StartLinuxDeferredFallbackAsync(application._lifetimeCancellation.Token);
+			_ = application.StartLinuxDeferredFallbackAsync(application._lifetimeCancellation.SafeToken());
 		if (Volatile.Read(ref _linuxRendererConfirmed) != 0 || _linuxRendererTimer != null)
 		{
 			return;
@@ -853,7 +861,7 @@ public partial class App : Application
 				return;
 			}
 
-			Voidstrap.Platform.OperationResult directoryResult = await host.Paths.EnsureDirectoriesAsync(_lifetimeCancellation.Token);
+			Voidstrap.Platform.OperationResult directoryResult = await host.Paths.EnsureDirectoriesAsync(_lifetimeCancellation.SafeToken());
 			if (!directoryResult.Succeeded)
 			{
 				Frontend.ShowMessageBox("Voidstrap could not prepare its data folders: " + (directoryResult.Failure?.Message ?? "Unknown error"), MessageBoxImage.Hand);
@@ -872,7 +880,7 @@ public partial class App : Application
 			Paths.InitializePortable(host.Paths.Storage, applicationPath);
 			if (Voidstrap.Utility.Platform.IsMacOS && host.ProtocolRegistration is Voidstrap.Platform.MacOS.MacOSProtocolRegistration registration)
 			{
-				Voidstrap.Platform.OperationResult registered = await registration.RegisterAllAsync(_lifetimeCancellation.Token);
+				Voidstrap.Platform.OperationResult registered = await registration.RegisterAllAsync(_lifetimeCancellation.SafeToken());
 				if (!registered.Succeeded)
 					Logger.WriteLine("App::StartAsync", "Roblox URL registration failed: " + registered.Failure?.Message);
 				else
@@ -950,6 +958,12 @@ public partial class App : Application
 		}
 		long persistentStateStarted = Stopwatch.GetTimestamp();
 		LoadPersistentState();
+		if (Voidstrap.Utility.Platform.IsMacOS && Settings.Prop.LaunchWithoutVoidstrap)
+		{
+			Voidstrap.Platform.OperationResult direct = Voidstrap.Platform.MacOS.MacOSProtocolRegistration.SetPlayerHandler(true);
+			if (!direct.Succeeded)
+				Logger.WriteLine("App::StartAsync", "Roblox could not be set as the game link handler: " + direct.Failure?.Message);
+		}
 		LinuxUiPerformance.Duration("Persistent state", persistentStateStarted);
 		if (!portableLayout)
 		{
@@ -1024,7 +1038,7 @@ public partial class App : Application
 
 		try
 		{
-			await _macOSStartupReady.Task.WaitAsync(_lifetimeCancellation.Token);
+			await _macOSStartupReady.Task.WaitAsync(_lifetimeCancellation.SafeToken());
 			if (Dispatcher.HasShutdownStarted)
 				return;
 			await Dispatcher.InvokeAsync(new Action(() =>
@@ -1436,29 +1450,29 @@ public partial class App : Application
 		{
 			TryStartup("Rojo updater", Voidstrap.Integrations.Rojo.RojoManager.AutoUpdate);
 			if (!Voidstrap.Utility.Platform.IsLinux)
-				_ = RefreshRemoteDataAsync(_lifetimeCancellation.Token);
+				_ = RefreshRemoteDataAsync(_lifetimeCancellation.SafeToken());
 		}
 		if (!LaunchSettings.WatcherFlag.Active && !LaunchSettings.IsHelperInvocation)
 		{
 			if (!Voidstrap.Utility.Platform.IsLinux)
 			{
-				_ = Voidstrap.Utility.SavedAccounts.EnsureCurrentAccountSavedAsync(_lifetimeCancellation.Token);
+				_ = Voidstrap.Utility.SavedAccounts.EnsureCurrentAccountSavedAsync(_lifetimeCancellation.SafeToken());
 				TryStartup("ORC updater", () => _ = Task.Run(async delegate
 				{
 					Voidstrap.Integrations.ClassicHostRedirect.CleanStaleRedirect();
 					try
 					{
-						await Voidstrap.Utility.ClassicClients.AutoUpdateAllAsync(_lifetimeCancellation.Token).ConfigureAwait(false);
+						await Voidstrap.Utility.ClassicClients.AutoUpdateAllAsync(_lifetimeCancellation.SafeToken()).ConfigureAwait(false);
 					}
 					catch (Exception ex)
 					{
 						Logger?.WriteLine("App::OrcAutoUpdate", "Auto update failed: " + ex.Message);
 					}
 				}));
-				_ = CleanupTempAsync(_lifetimeCancellation.Token);
+				_ = CleanupTempAsync(_lifetimeCancellation.SafeToken());
 			}
 			if (LaunchSettings.RobloxLaunchMode == LaunchMode.None && Settings.Prop.CompressRobloxInstalls && Voidstrap.Utility.RobloxInstallCompression.Supported)
-				_ = CompressIdleInstallsAsync(_lifetimeCancellation.Token);
+				_ = CompressIdleInstallsAsync(_lifetimeCancellation.SafeToken());
 		}
 		TryStartup("CPU core limiter", CpuCoreLimiter.ApplyConfiguredLimit);
 		if (!Voidstrap.Utility.Platform.IsLinux)
@@ -1469,7 +1483,7 @@ public partial class App : Application
 	{
 		if (!Voidstrap.Utility.Platform.IsLinux || LaunchSettings.WindowAuditFlag.Active || Interlocked.Exchange(ref _linuxDeferredStarted, 1) != 0)
 			return;
-		_ = RunLinuxDeferredServicesAsync(_lifetimeCancellation.Token);
+		_ = RunLinuxDeferredServicesAsync(_lifetimeCancellation.SafeToken());
 	}
 
 	private async Task StartLinuxDeferredFallbackAsync(CancellationToken token)
@@ -1610,6 +1624,7 @@ public partial class App : Application
 		{
 			TryStartup("macOS animation parity", LinuxAnimationParity.Apply);
 			TryStartup("macOS animation frames", MacAnimationPump.Install);
+			TryStartup("macOS Dock presence", MacDockPresence.Install);
 			TryStartup("Render loop warm up", () =>
 			{
 				EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(WarmRenderLoop));
@@ -1633,7 +1648,7 @@ public partial class App : Application
 			TryStartup("Clear font", () => EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyClearFont)));
 		}
 		TryStartup("Linux file dialogs", Voidstrap.UI.LinuxFileDialog.Install);
-		TryStartup("Linux editor compatibility", Voidstrap.UI.LinuxEditorCompat.Install);
+		TryStartup("Editor compatibility", Voidstrap.UI.LinuxEditorCompat.Install);
 		TryStartup("Smooth scrolling", () =>
 		{
 			Wpf.Ui.Controls.SmoothScroll.SetGlobalEnabled(!Voidstrap.Utility.Platform.IsLinux && Settings.Prop.SmooothBARRyesirikikthxlucipook);
@@ -1644,6 +1659,7 @@ public partial class App : Application
 		TryStartup("Application font", AppFont.Initialize);
 		TryStartup("Memory manager", Voidstrap.Utility.MemoryManager.Start);
 		TryStartup("Render diagnostics", LogRenderMode);
+		TryStartup("Keyboard focus", Voidstrap.UI.MacKeyboardFocus.Install);
 	}
 
 	private static bool _macApplicationActivated;
@@ -1683,13 +1699,15 @@ public partial class App : Application
 
 	private static void TraceMacInput(object sender, System.Windows.Input.PreProcessInputEventArgs e)
 	{
+		if (e.StagingItem.Input is System.Windows.Input.KeyEventArgs key && key.RoutedEvent == System.Windows.Input.Keyboard.PreviewKeyDownEvent)
+		{
+			Logger.WriteLine("App::TraceMacInput", $"key {key.Key} system {key.SystemKey} modifiers {System.Windows.Input.Keyboard.Modifiers} focus {System.Windows.Input.Keyboard.FocusedElement?.GetType().Name ?? "none"}");
+			return;
+		}
 		if (e.StagingItem.Input is not System.Windows.Input.MouseEventArgs || e.StagingItem.Input.RoutedEvent != System.Windows.Input.Mouse.PreviewMouseMoveEvent && e.StagingItem.Input.RoutedEvent != System.Windows.Input.Mouse.PreviewMouseDownEvent)
 			return;
 		if (++_tracedMacInput > 40)
-		{
-			System.Windows.Input.InputManager.Current.PreProcessInput -= TraceMacInput;
 			return;
-		}
 		Logger.WriteLine("App::TraceMacInput", $"{e.StagingItem.Input.RoutedEvent.Name} over={System.Windows.Input.Mouse.DirectlyOver?.GetType().Name ?? "none"} {Voidstrap.Platform.MacOS.MacOSApplication.Describe()}");
 	}
 
