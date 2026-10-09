@@ -53,7 +53,7 @@ internal static partial class LinuxWindowMemory
 
 	public static void ReleaseAfterClose(Window closed, bool compact)
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.UsesPortableUi)
 			return;
 
 		Dispatcher dispatcher = closed.Dispatcher;
@@ -65,7 +65,7 @@ internal static partial class LinuxWindowMemory
 			dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(delegate
 			{
 				Release(closed);
-				if (compact && Interlocked.Exchange(ref _compactPending, 1) == 0)
+				if (compact && (!Voidstrap.Utility.Platform.IsMacOS || !HasTaskbarWindowShown()) && Interlocked.Exchange(ref _compactPending, 1) == 0)
 					_ = CompactAsync(closed.GetType().Name);
 			}));
 		}
@@ -146,7 +146,7 @@ internal static partial class LinuxWindowMemory
 
 	public static void CompactAfterGame()
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux || Interlocked.Exchange(ref _compactPending, 1) != 0)
+		if (!Voidstrap.Utility.Platform.UsesPortableUi || Interlocked.Exchange(ref _compactPending, 1) != 0)
 			return;
 
 		_ = Task.Run(async delegate
@@ -284,7 +284,10 @@ internal static partial class LinuxWindowMemory
 	{
 		try
 		{
-			_ = MallocTrim(0);
+			if (Voidstrap.Utility.Platform.IsMacOS)
+				_ = MallocZonePressureRelief(0, 0);
+			else
+				_ = MallocTrim(0);
 		}
 		catch (Exception ex) when (ex is EntryPointNotFoundException or DllNotFoundException)
 		{
@@ -293,6 +296,9 @@ internal static partial class LinuxWindowMemory
 
 	[LibraryImport("libc", EntryPoint = "malloc_trim")]
 	private static partial int MallocTrim(nuint pad);
+
+	[LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "malloc_zone_pressure_relief")]
+	private static partial nuint MallocZonePressureRelief(nint zone, nuint goal);
 
 	[LibraryImport("libc", EntryPoint = "madvise", SetLastError = true)]
 	private static partial int MAdvise(nint address, nuint length, int advice);

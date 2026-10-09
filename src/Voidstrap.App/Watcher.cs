@@ -524,6 +524,7 @@ public partial class Watcher : IDisposable
 			{
 				Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false);
 				RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
+				Voidstrap.UI.LinuxWindowMemory.CompactAfterGame();
 			}
 			return;
 		}

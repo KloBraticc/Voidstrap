@@ -479,6 +479,8 @@ namespace Voidstrap.Integrations.Overlays
 
 		private static MacHomepageBackgroundOverlay? _macHomepage;
 
+		private static bool _macHomepageStarting;
+
 		private static bool StartMacHomepage()
 		{
 			System.Windows.Application? app = System.Windows.Application.Current;
@@ -486,16 +488,25 @@ namespace Voidstrap.Integrations.Overlays
 				return false;
 			app.Dispatcher.BeginInvoke(new Action(() =>
 			{
-				if (_macHomepage != null || _shutdown || !HomepageBackgroundActive)
+				if (_macHomepage != null || _macHomepageStarting || _shutdown || !HomepageBackgroundActive)
 					return;
+				_macHomepageStarting = true;
 				try
 				{
-					_macHomepage = new MacHomepageBackgroundOverlay();
+					MacHomepageBackgroundOverlay overlay = new();
+					if (_shutdown || !HomepageBackgroundActive)
+						overlay.Dispose();
+					else
+						_macHomepage = overlay;
 				}
 				catch (Exception ex)
 				{
 					_macHomepage = null;
 					App.Logger.WriteException("OverlayHub::StartMacHomepage", ex);
+				}
+				finally
+				{
+					_macHomepageStarting = false;
 				}
 			}));
 			return true;
