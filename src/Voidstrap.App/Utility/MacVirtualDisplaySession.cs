@@ -109,13 +109,13 @@ internal sealed class MacVirtualDisplaySession : IDisposable
 			try
 			{
 				_process?.StandardInput.Close();
-				if (_process != null)
-					_cancellation.CancelAfter(TimeSpan.FromSeconds(10));
 			}
 			catch (Exception ex)
 			{
 				App.Logger.WriteLine(LogIdent, "The virtual display shutdown request failed: " + ex.Message);
 			}
+			if (_process != null)
+				_cancellation.CancelAfter(TimeSpan.FromSeconds(10));
 			if (_process == null)
 			{
 				_cancellation.Cancel();

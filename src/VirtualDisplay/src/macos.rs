@@ -483,34 +483,7 @@ impl Session {
             return Ok(());
         }
         if !self.changed {
-            let modes = unsafe { CGDisplayCopyAllDisplayModes(self.virtual_id, ptr::null_mut()) };
-            if modes.is_null() {
-                return Ok(());
-            }
-            let modes = OwnedRef(modes);
-            let mut selected = ptr::null_mut();
-            for index in 0..unsafe { CFArrayGetCount(modes.0) } {
-                let mode = unsafe { CFArrayGetValueAtIndex(modes.0, index) };
-                if (unsafe { CGDisplayModeGetRefreshRate(mode) } - self.refresh).abs() < 0.5 {
-                    selected = mode;
-                    break;
-                }
-            }
-            if selected.is_null() {
-                return Ok(());
-            }
             let transaction = Transaction::begin()?;
-            check(
-                unsafe {
-                    CGConfigureDisplayWithDisplayMode(
-                        transaction.0,
-                        self.virtual_id,
-                        selected,
-                        ptr::null_mut(),
-                    )
-                },
-                "Select virtual display mode",
-            )?;
             check(
                 unsafe {
                     CGConfigureDisplayMirrorOfDisplay(transaction.0, self.physical, self.virtual_id)
@@ -521,13 +494,39 @@ impl Session {
             transaction.commit()?;
         }
         if unsafe { CGDisplayMirrorsDisplay(self.physical) } == self.virtual_id {
-            let current = OwnedRef::checked(
-                unsafe { CGDisplayCopyDisplayMode(self.virtual_id) },
-                "Virtual display mode is unavailable",
-            )?;
+            let current = unsafe { CGDisplayCopyDisplayMode(self.virtual_id) };
+            if current.is_null() {
+                return Ok(());
+            }
+            let current = OwnedRef(current);
             let refresh = unsafe { CGDisplayModeGetRefreshRate(current.0) };
             if (refresh - self.refresh).abs() >= 0.5 {
-                return Err("The requested refresh rate was not applied".into());
+                let modes =
+                    unsafe { CGDisplayCopyAllDisplayModes(self.virtual_id, ptr::null_mut()) };
+                if modes.is_null() {
+                    return Ok(());
+                }
+                let modes = OwnedRef(modes);
+                for index in 0..unsafe { CFArrayGetCount(modes.0) } {
+                    let mode = unsafe { CFArrayGetValueAtIndex(modes.0, index) };
+                    if (unsafe { CGDisplayModeGetRefreshRate(mode) } - self.refresh).abs() < 0.5 {
+                        let transaction = Transaction::begin()?;
+                        check(
+                            unsafe {
+                                CGConfigureDisplayWithDisplayMode(
+                                    transaction.0,
+                                    self.virtual_id,
+                                    mode,
+                                    ptr::null_mut(),
+                                )
+                            },
+                            "Select virtual display mode",
+                        )?;
+                        transaction.commit()?;
+                        break;
+                    }
+                }
+                return Ok(());
             }
             self.ready = true;
             println!(
