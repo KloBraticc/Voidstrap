@@ -482,18 +482,25 @@ namespace Voidstrap.Integrations.Overlays
         private static RobloxWindowRect MeasureMac()
         {
             int pid = (int)_pid;
-            if (pid <= 0 || !IsProcessAlive(pid))
+            Voidstrap.Platform.MacOS.MacOSScreenWindow? window = pid > 0 && IsProcessAlive(pid)
+                ? Voidstrap.Platform.MacOS.MacOSOverlayWindow.FindLargestWindow(pid)
+                : null;
+            if (window is null)
             {
-                IReadOnlyList<int> games = Voidstrap.Utility.MacRobloxProcesses.Scan().GamePids;
-                pid = games.Count > 0 ? games[0] : 0;
-                _pid = (uint)Math.Max(pid, 0);
+                pid = 0;
+                foreach (Process process in Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName))
+                {
+                    using (process)
+                    {
+                        if (Voidstrap.Platform.MacOS.MacOSOverlayWindow.FindLargestWindow(process.Id) is not { } candidate
+                            || (window is { } current && candidate.Width * candidate.Height <= current.Width * current.Height))
+                            continue;
+                        pid = process.Id;
+                        window = candidate;
+                    }
+                }
+                _pid = (uint)pid;
             }
-            if (pid <= 0)
-            {
-                _hwnd = IntPtr.Zero;
-                return new RobloxWindowRect(IntPtr.Zero, 0, 0, 0, 0, false, false);
-            }
-            Voidstrap.Platform.MacOS.MacOSScreenWindow? window = Voidstrap.Platform.MacOS.MacOSOverlayWindow.FindLargestWindow(pid);
             if (window is not { } found)
             {
                 _hwnd = IntPtr.Zero;
@@ -905,11 +912,8 @@ namespace Voidstrap.Integrations.Overlays
 
 			if (!rect.Valid || (_hideWhenUnfocused && !rect.Foreground))
 			{
-				if (_macShown)
-				{
-					Voidstrap.Platform.MacOS.MacOSOverlayWindow.Hide(native);
-					_macShown = false;
-				}
+				Voidstrap.Platform.MacOS.MacOSOverlayWindow.Hide(native);
+				_macShown = false;
 				return;
 			}
 
