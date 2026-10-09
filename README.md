@@ -37,10 +37,7 @@
   &nbsp;&nbsp;
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="Linux" width="32" height="32"/>
   &nbsp;&nbsp;
-
-  <!-- macOS
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/apple/apple-original.svg" alt="macOS" width="32" height="32"/>
-  -->
 </p>
 
 **Windows** (PowerShell)
