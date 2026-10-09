@@ -1,3 +1,6 @@
 *.sh text eol=lf
 build/Packaging/** text eol=lf
 src/VirtualDisplay/** text eol=lf
+external/virtualdisplay/*.sha256 text eol=lf
+external/virtualdisplay/**/SHA256SUMS text eol=lf
+external/virtualdisplay/**/voidstrap-virtualdisplay binary

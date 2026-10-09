@@ -361,6 +361,8 @@ For an Intel Mac, use `-Only osx-x64`. On macOS, the output is `PublishedBuilds/
 
 Local packages use ad hoc signing without notarization. For Developer ID signing, set `MACOS_SIGN_IDENTITY`. To notarize, also set `MACOS_NOTARY_PROFILE` to your notarytool keychain profile.
 
+The optional **240 Hz virtual display** setting is under **Settings > Channel > Voidstrap**. The helper is written entirely in Rust and restores the main screen when Roblox closes. It cannot increase the physical panel's refresh limit. This feature is experimental. Apple silicon passed repeated display lifecycle checks, but Intel mirroring still needs validation on a physical Mac.
+
 Windows and Linux can cross publish macOS targets. On Windows, use the PowerShell command with `-Only osx-arm64` or `-Only osx-x64`. Packaging needs Git Bash or WSL. These hosts produce `Voidstrap-osx-arm64.tar.gz` or `Voidstrap-osx-x64.tar.gz` app bundles. If packaging fails, output may be a plain executable. Check the final notes and test on a Mac.
 
 </details>

@@ -109,8 +109,8 @@ if [ "$(uname -s)" != "Darwin" ]; then
   chmod 644 "$APPLICATION/Contents/Info.plist"
   chmod -R go-w "$APPLICATION"
   TARBALL="$STAGE/Voidstrap-$RID.tar"
-  tar --sort=name --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --exclude="Voidstrap.app/Contents/MacOS/Voidstrap" -C "$STAGE" -cf "$TARBALL" Voidstrap.app
-  tar --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --mode=0755 -C "$STAGE" -rf "$TARBALL" Voidstrap.app/Contents/MacOS/Voidstrap
+  tar --sort=name --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --exclude="Voidstrap.app/Contents/MacOS/Voidstrap" --exclude="Voidstrap.app/Contents/MacOS/voidstrap-virtualdisplay" -C "$STAGE" -cf "$TARBALL" Voidstrap.app
+  tar --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --mode=0755 -C "$STAGE" -rf "$TARBALL" Voidstrap.app/Contents/MacOS/Voidstrap Voidstrap.app/Contents/MacOS/voidstrap-virtualdisplay
   gzip -n -f "$TARBALL"
   commit_artifact "$TARBALL.gz" "$TARBALL_TARGET"
   exit 0
