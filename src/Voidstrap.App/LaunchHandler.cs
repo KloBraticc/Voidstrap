@@ -1439,7 +1439,18 @@ public static class LaunchHandler
 					SetPortableLaunchStatus(message);
 				};
 			if (OperatingSystem.IsMacOS() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+			{
 				Voidstrap.Utility.MacRobloxProcesses.CloseIdleMenuBarHelpers();
+				AssetWarpAutoEnable.EnsureEnabled(allowPrompt: !App.LaunchSettings.QuietFlag.Active, userAction: false);
+				if (!App.Settings.Prop.AssetWarpEnabled)
+					AssetProxyServer.Stop();
+				else if (App.Settings.Prop.AssetWarpPreloadEnabled && assetPreloadPlaceId > 0)
+					AssetPreloadCache.SwitchSession(assetPreloadPlaceId);
+				SetPortableLaunchStatus("Starting AssetWarp");
+				await Bootstrapper.StartAssetProxyIfEnabled(cancellation);
+				if (AssetProxyServer.IsRunning)
+					Voidstrap.Integrations.AssetProxy.MacAssetWarpBridge.ApplyLaunchEnvironment();
+			}
 			DateTime launchRequestedUtc = DateTime.UtcNow;
 			Voidstrap.Core.RuntimeLaunchCoordinator coordinator = new(host.PlayerRuntime, host.StudioRuntime);
 			Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result = await coordinator.LaunchAsync(runtimeKind, launchTarget, cancellation);
@@ -1480,6 +1491,8 @@ public static class LaunchHandler
 		}
 		finally
 		{
+			if (OperatingSystem.IsMacOS())
+				Voidstrap.Integrations.AssetProxy.MacAssetWarpBridge.ClearLaunchEnvironment();
 			if (OperatingSystem.IsLinux())
 				Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.StartupStatus = null;
 			cancelRequested.Dispose();

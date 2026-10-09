@@ -338,7 +338,7 @@
           <TextBlock Margin="24" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding NvidiaTabUnavailableReason}" Visibility="{Binding HasNvidiaGpu, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
         </Grid>
       </TabItem>
-      <TabItem Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
+      <TabItem>
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="PaintBrush24" Margin="0,0,6,0" />

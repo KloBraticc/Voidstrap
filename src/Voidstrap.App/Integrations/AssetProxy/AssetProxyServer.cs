@@ -24,7 +24,7 @@ public static class AssetProxyServer
     private static readonly System.Buffers.SearchValues<char> s_myChars = System.Buffers.SearchValues.Create(" ()<>@,;:\\\"/[]?={}\t");
 
     public static bool IsRequired =>
-		(Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux) &&
+		(Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux || Voidstrap.Utility.Platform.IsMacOS) &&
 		!App.Settings.Prop.LaunchWithoutVoidstrap &&
 		App.Settings.Prop.AssetWarpEnabled &&
 		App.Settings.Prop.AssetWarpCertificateApproved &&
@@ -335,7 +335,7 @@ public static class AssetProxyServer
 
 	public static int Port => ListenPort;
 
-	public static bool UsesExplicitProxy => Voidstrap.Utility.Platform.IsLinux || ExplicitPort > 0 || FleasionBridge.IsRequested;
+	public static bool UsesExplicitProxy => !Voidstrap.Utility.Platform.IsWindows || ExplicitPort > 0 || FleasionBridge.IsRequested;
 
 	public static int ExplicitPort => Volatile.Read(ref _explicitPort);
 
@@ -403,7 +403,7 @@ public static class AssetProxyServer
 			_ownershipLock = ownership;
 
 		bool useFleasion = FleasionBridge.IsRequested;
-		bool useExplicitProxy = Voidstrap.Utility.Platform.IsLinux || useFleasion;
+		bool useExplicitProxy = !Voidstrap.Utility.Platform.IsWindows || useFleasion;
 		List<string> hostList = [];
 		if (TextureStripper.IsEnabled || TextureStripper.HasConfiguredRules || App.Settings.Prop.AssetWarpPreloadEnabled)
 		{
@@ -466,7 +466,7 @@ public static class AssetProxyServer
 				}
 			}
 		}
-		AssetProxyCA.Initialize(requireTrustBundle: Voidstrap.Utility.Platform.IsWindows);
+		AssetProxyCA.Initialize(requireTrustBundle: Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsMacOS);
 		bool resolveEndpoints = !useExplicitProxy && UpstreamConnector.ConnectorType is not UpstreamConnectorType.HttpConnect and not UpstreamConnectorType.Socks5;
 		IReadOnlyDictionary<string, string> endpoints = await AssetProxyRouting.PrepareAsync(hosts, ct, resolveEndpoints, removeEntries: !useExplicitProxy).ConfigureAwait(false);
 		CancellationTokenSource linked = new();
@@ -544,7 +544,9 @@ public static class AssetProxyServer
 				}
 				else
 				{
-					Voidstrap.Platform.OperationResult enabled = await LinuxAssetWarpBridge.EnableAsync(address, linked.Token).ConfigureAwait(false);
+					Voidstrap.Platform.OperationResult enabled = Voidstrap.Utility.Platform.IsMacOS
+						? MacAssetWarpBridge.Enable(address)
+						: await LinuxAssetWarpBridge.EnableAsync(address, linked.Token).ConfigureAwait(false);
 					if (!enabled.Succeeded)
 						throw new InvalidOperationException(enabled.Failure?.Message ?? "AssetWarp could not be enabled on this system");
 				}
@@ -585,6 +587,7 @@ public static class AssetProxyServer
 			if (useExplicitProxy)
 			{
 				LinuxAssetWarpBridge.DisableBlocking();
+				MacAssetWarpBridge.Disable();
 			}
 			lock (Gate)
 			{
@@ -829,7 +832,7 @@ public static class AssetProxyServer
 
 	public static void CleanupStaleState()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows && !Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows && !Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Utility.Platform.IsMacOS)
 			return;
 		if (!TryAcquireOwnership(out FileStream? ownership))
 		{
@@ -839,6 +842,17 @@ public static class AssetProxyServer
 		using (ownership)
 		{
 			FleasionBridge.Restore();
+			if (Voidstrap.Utility.Platform.IsMacOS)
+			{
+				MacAssetWarpBridge.Disable();
+				if (App.Settings.Prop.AssetWarpEnabled && !App.Settings.Prop.AssetWarpCertificateApproved)
+				{
+					App.Settings.Prop.AssetWarpEnabled = false;
+					App.Settings.Save();
+				}
+				AssetProxyCA.RemoveOutdatedCertificates(App.Settings.Prop.AssetWarpEnabled && App.Settings.Prop.AssetWarpCertificateApproved);
+				return;
+			}
 			if (Voidstrap.Utility.Platform.IsLinux)
 			{
 				LinuxAssetWarpBridge.DisableBlocking(TimeSpan.FromSeconds(3));

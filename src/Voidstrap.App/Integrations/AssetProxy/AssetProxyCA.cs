@@ -331,6 +331,7 @@ internal static partial class AssetProxyCA
 		AddVersionDirectories(directories, Path.Combine(Paths.LocalAppData, "Roblox", "Versions"));
 		if (Voidstrap.Utility.Platform.IsWindows)
 			directories.Add(new Voidstrap.AppData.RobloxPlayerData().Directory);
+		AddMacBundle(directories);
 
 		int patched = 0;
 		int failed = 0;
@@ -367,6 +368,15 @@ internal static partial class AssetProxyCA
 			throw new IOException("No Roblox certificate bundle was found, AssetWarp cannot intercept asset delivery");
 		}
 		App.Logger?.WriteLine(LOG_IDENT, "No Roblox certificate bundle is present yet, it will be patched when Roblox launches");
+	}
+
+	private static void AddMacBundle(HashSet<string> directories)
+	{
+		if (!Voidstrap.Utility.Platform.IsMacOS)
+			return;
+		string? bundle = Voidstrap.Utility.MacRobloxBundle.Find();
+		if (bundle != null)
+			directories.Add(Path.Combine(bundle, "Contents", "Resources"));
 	}
 
 	private static void AddVersionDirectories(HashSet<string> directories, string root)
@@ -582,6 +592,7 @@ internal static partial class AssetProxyCA
 		AddVersionDirectories(directories, Path.Combine(Paths.LocalAppData, "Roblox", "Versions"));
 		if (Voidstrap.Utility.Platform.IsWindows)
 			directories.Add(new Voidstrap.AppData.RobloxPlayerData().Directory);
+		AddMacBundle(directories);
 		foreach (string directory in directories)
 		{
 			string bundle = Path.Combine(directory, "ssl", "cacert.pem");

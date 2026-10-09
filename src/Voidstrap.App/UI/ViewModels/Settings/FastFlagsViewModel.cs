@@ -1884,6 +1884,8 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		}
 		string prompt = Voidstrap.Utility.Platform.IsLinux
 			? "AssetWarp routes selected Roblox asset requests through a secure local proxy while Sober is running. Voidstrap adds a temporary certificate only to Sober's private Roblox trust bundle and restores Sober's proxy settings when Roblox closes. Enable AssetWarp?"
+			: Voidstrap.Utility.Platform.IsMacOS
+			? "AssetWarp routes selected Roblox asset requests through a secure local proxy while Roblox is running. Voidstrap adds a local certificate only to Roblox's own trust bundle inside Roblox.app, no administrator password or system wide change is needed, and it is removed when AssetWarp is turned off. Enable AssetWarp?"
 			: "AssetWarp redirects selected Roblox asset requests through a secure local proxy. When an AssetWarp feature requires the proxy, Voidstrap will request administrator permission and temporarily install a local certificate so Roblox can trust the connection. The certificate and routing changes are removed when AssetWarp stops. Enable AssetWarp?";
 		if (reason != null)
 		{
