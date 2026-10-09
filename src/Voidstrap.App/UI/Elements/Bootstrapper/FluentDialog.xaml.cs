@@ -181,11 +181,11 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 			}
 			else
 			{
-				if (Environment.OSVersion.Version.Build >= 22000)
+				if (Voidstrap.Utility.Platform.IsWindows)
 				{
-					base.AllowsTransparency = true;
+					base.AllowsTransparency = false;
 				}
-				base.WindowBackdropType = Wpf.Ui.Appearance.BackgroundType.Acrylic;
+				Voidstrap.UI.WindowBackdrop.SetOverride(this, Voidstrap.Models.BackdropType.Aero, forceOpaque: false);
 			}
 			base.LocationChanged += OnLocationChanged;
 			base.SizeChanged += OnSizeChanged;
@@ -222,6 +222,7 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 		base.LocationChanged -= OnLocationChanged;
 		base.SizeChanged -= OnSizeChanged;
 		base.Loaded -= OnLoaded;
+		Voidstrap.UI.WindowBackdrop.ClearOverride(this);
 		BackgroundManager.Cancel(BackgroundImage);
 		_mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
 		if (App.Settings.Prop.BackgroundWindow)

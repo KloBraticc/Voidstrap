@@ -40,7 +40,7 @@ public static partial class WindowBackdrop
 
     private static Brush? _cachedSurfaceBrush;
 
-    private static (uint, uint, uint, byte, uint) _cachedSurfaceKey;
+    private static (uint, uint, uint, byte, uint, BackdropType) _cachedSurfaceKey;
 
     private static Color _accentColor;
 
@@ -738,8 +738,13 @@ public static partial class WindowBackdrop
 
     public static Color GetSurfaceColor(Color color)
     {
-        Color vibrant = Vibrant(color, EffectiveBackdrop(null));
-        byte alpha = IsThemedColor(color) ? GetThemedOpacity(App.Settings.Prop.WindowBackdrop, color.A) : GetSurfaceOpacity();
+        return GetSurfaceColor(color, EffectiveBackdrop(null));
+    }
+
+    private static Color GetSurfaceColor(Color color, BackdropType backdrop)
+    {
+        Color vibrant = Vibrant(color, backdrop);
+        byte alpha = IsThemedColor(color) ? GetThemedOpacity(backdrop, color.A) : GetSurfaceOpacity(backdrop);
         return Color.FromArgb(alpha, vibrant.R, vibrant.G, vibrant.B);
     }
 
@@ -772,6 +777,8 @@ public static partial class WindowBackdrop
         double baseAlpha = themeAlpha == 0 ? 204 : themeAlpha;
         double gradientOpacity = Math.Clamp(Voidstrap.UI.ViewModels.Settings.AppearanceViewModel.SharedGradientOpacity, 0.0, 1.0);
         double scaled = baseAlpha * (0.55 + (gradientOpacity * 0.45));
+        if (backdrop == BackdropType.Aero)
+            scaled = Math.Min(scaled, GetSurfaceOpacity(backdrop));
         return (byte)Math.Clamp(Math.Round(scaled), 40.0, byte.MaxValue);
     }
 
@@ -946,7 +953,7 @@ public static partial class WindowBackdrop
                     stop.Color = Color.FromRgb(color.R, color.G, color.B);
                     continue;
                 }
-                Color surface = GetSurfaceColor(color);
+                Color surface = GetSurfaceColor(color, EffectiveBackdrop(element as Window));
                 stop.Color = Color.FromArgb((byte)Math.Round(surface.A * (color.A / 255.0)), surface.R, surface.G, surface.B);
             }
             if (gradient.CanFreeze)
@@ -972,16 +979,17 @@ public static partial class WindowBackdrop
         }
         if (Voidstrap.Utility.Platform.IsMacOS && element is Window macWindow && !MacWindowBackdrop.IsActive(macWindow))
             return CreateOpaqueSurfaceBrush(element);
-        if (EffectiveBackdrop(element as Window) == BackdropType.Aero
+        BackdropType backdrop = EffectiveBackdrop(element as Window);
+        if (backdrop == BackdropType.Aero
             && !IsThemedColor(ResolveColor(element, "WindowBackgroundColorPrimary", CreateSurfaceColor())))
         {
             return Brushes.Transparent;
         }
-        Color fallback = CreateSurfaceColor();
+        Color fallback = CreateSurfaceColor(backdrop);
         Color primary = ResolveColor(element, "WindowBackgroundColorPrimary", fallback);
         Color secondary = ResolveColor(element, "WindowBackgroundColorSecondary", primary);
         Color third = ResolveColor(element, "WindowBackgroundColorThird", secondary);
-        (uint, uint, uint, byte, uint) surfaceKey = (Pack(primary), Pack(secondary), Pack(third), GetSurfaceOpacity(), Pack(ResolveAccentColor()));
+        (uint, uint, uint, byte, uint, BackdropType) surfaceKey = (Pack(primary), Pack(secondary), Pack(third), GetSurfaceOpacity(backdrop), Pack(ResolveAccentColor()), backdrop);
         lock (_surfaceGate)
         {
             if (_cachedSurfaceBrush != null && _cachedSurfaceKey.Equals(surfaceKey))
@@ -989,9 +997,9 @@ public static partial class WindowBackdrop
                 return _cachedSurfaceBrush;
             }
         }
-        Color surfacePrimary = GetSurfaceColor(primary);
-        Color surfaceSecondary = GetSurfaceColor(secondary);
-        Color surfaceThird = GetSurfaceColor(third);
+        Color surfacePrimary = GetSurfaceColor(primary, backdrop);
+        Color surfaceSecondary = GetSurfaceColor(secondary, backdrop);
+        Color surfaceThird = GetSurfaceColor(third, backdrop);
         Brush brush;
         if ((!HardwareRendering && Voidstrap.Utility.Platform.IsWindows) || (NearlyEqual(surfacePrimary, surfaceSecondary) && NearlyEqual(surfacePrimary, surfaceThird)))
         {
@@ -1135,12 +1143,7 @@ public static partial class WindowBackdrop
         }
         else if (_backdropWindows.Remove(window))
         {
-            SolidColorBrush brush = new(CreateSurfaceColor());
-            if (brush.CanFreeze)
-            {
-                brush.Freeze();
-            }
-            window.Background = brush;
+            window.Background = CreateOpaqueSurfaceBrush(window);
         }
     }
 
