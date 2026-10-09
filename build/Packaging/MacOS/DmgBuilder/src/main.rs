@@ -1,6 +1,7 @@
 use std::env;
 use std::error::Error;
-use std::fs;
+use std::fs::{self, OpenOptions};
+use std::io::{Read, Seek, SeekFrom, Write};
 use udif::{CompressionMethod, DmgArchive, DmgWriter};
 
 fn run() -> Result<(), Box<dyn Error>> {
@@ -18,6 +19,27 @@ fn run() -> Result<(), Box<dyn Error>> {
     if archive.extract_main_partition()? != input {
         return Err("the disk image verification failed".into());
     }
+
+    repair_koly_trailer(&args[2])?;
+
+    Ok(())
+}
+
+fn repair_koly_trailer(path: &str) -> Result<(), Box<dyn Error>> {
+    let mut file = OpenOptions::new().read(true).write(true).open(path)?;
+    file.seek(SeekFrom::End(-512))?;
+    let mut trailer = [0u8; 512];
+    file.read_exact(&mut trailer)?;
+    if &trailer[..4] != b"koly" {
+        return Err("the disk image trailer is invalid".into());
+    }
+
+    let mut corrected = [0u8; 512];
+    corrected[..232].copy_from_slice(&trailer[..232]);
+    corrected[352..500].copy_from_slice(&trailer[296..444]);
+    file.seek(SeekFrom::End(-512))?;
+    file.write_all(&corrected)?;
+    file.flush()?;
 
     Ok(())
 }
