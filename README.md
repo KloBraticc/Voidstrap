@@ -52,7 +52,7 @@ irm https://voidstrapp.pages.dev/quick-install | iex
 curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 ```
 
-Linux picks the right package for your distro. To choose one yourself, end the command with `sh -s -- deb` and swap `deb` for `rpm`, `aur`, `flatpak`, `appimage`, `portable` or `portable-musl`.
+The Linux installer picks the right package for your distro. To choose a format, end the command with `sh -s -- deb` and replace `deb` with `rpm`, `aur`, `flatpak`, `appimage`, `portable` or `portable-musl`.
 
 ---
 
@@ -69,13 +69,13 @@ Linux picks the right package for your distro. To choose one yourself, end the c
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/faq-banned-dark.svg"><img src="assets/readme/faq-banned-light.svg" alt="Can Voidstrap get me banned?" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
-  Voidstrap does not inject cheats, exploit Roblox, or bypass Roblox security. It functions as a launcher and configuration manager.
+  Voidstrap does not inject cheats, exploit Roblox, or bypass its security. It manages launching and configuration.
 </details>
 
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/faq-virus-dark.svg"><img src="assets/readme/faq-virus-light.svg" alt="Is Voidstrap a virus?" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
-  Voidstrap is fully open source, allowing anyone to inspect and review its source code.
+  Voidstrap is open source, so anyone can review its code.
   If your antivirus flags Voidstrap, it's a false positive caused by how Windows detects and handles unsigned applications.
   
   You can review the complete source code [here](https://github.com/KloBraticc/Voidstrap).
@@ -84,7 +84,7 @@ Linux picks the right package for your distro. To choose one yourself, end the c
 ## Installation
 
 1. Download the [latest version](https://github.com/KloBraticc/Voidstrap/releases/latest).
-2. Run the `.exe` and finish the setup.
+2. Run the `.exe` and complete the setup.
 3. Launch Voidstrap.
 4. Enjoy a simpler Roblox!
 
@@ -93,7 +93,7 @@ Linux picks the right package for your distro. To choose one yourself, end the c
 
 Voidstrap for Android needs Android 7 or newer. Download `Voidstrap-Android-direct-<version>.apk` from the [latest release](https://github.com/KloBraticc/Voidstrap/releases/latest) and install it.
 
-Android doesn't let apps change Roblox's files by themselves, so Voidstrap needs extra access to apply your FastFlags. There are three ways to give it that access. You can start any of them from **Settings > Voidstrap helper** in the app, which also shows your exact command with a copy button.
+Android restricts access to Roblox's files, so Voidstrap needs extra permission to apply your FastFlags. Choose one of the three methods below in **Settings > Voidstrap helper**. The app also shows your exact command with a copy button.
 
 | Method | Needs a computer | After your phone restarts |
 | --- | --- | --- |
@@ -106,7 +106,7 @@ Mods only work with root.
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/android-shizuku-dark.svg"><img src="assets/readme/android-shizuku-light.svg" alt="Shizuku" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
-1. Install [Shizuku](https://shizuku.rikka.app/) and start it by following its own guide.
+1. Install [Shizuku](https://shizuku.rikka.app/) and follow its setup guide.
 2. In Voidstrap, open **Settings > Voidstrap helper** and tap **Start with Shizuku**.
 3. Allow Voidstrap when Shizuku asks.
 
@@ -117,7 +117,7 @@ Mods only work with root.
 
 1. Turn on Developer options: open **Settings > About phone** and tap **Build number** seven times. On some phones, Build number is inside **Software information**, or is called **OS version** instead.
 2. Open **Developer options** (usually under **Settings > System**) and turn on **USB debugging**.
-3. On your computer, download Google's [SDK Platform Tools](https://developer.android.com/tools/releases/platform-tools) and unzip it.
+3. On your computer, download Google's [SDK Platform Tools](https://developer.android.com/tools/releases/platform-tools) and extract the archive.
 4. Open a terminal inside the unzipped `platform-tools` folder.
 5. Plug your phone into the computer with a USB cable, then run:
 
@@ -132,7 +132,7 @@ Mods only work with root.
    adb shell "content read --uri content://com.voidstrap.android.direct.start/start.sh | sh"
    ```
 
-In PowerShell, type `.\adb` instead of `adb`. If `adb devices` shows nothing, try another cable, since some cables can only charge.
+In PowerShell, use `.\adb` instead of `adb`. If `adb devices` shows nothing, try another cable. Some cables only support charging.
 
 </details>
 
@@ -140,7 +140,7 @@ In PowerShell, type `.\adb` instead of `adb`. If `adb devices` shows nothing, tr
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/android-adb-wifi-dark.svg"><img src="assets/readme/android-adb-wifi-light.svg" alt="ADB over WiFi (Android 11 or newer)" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 1. Follow steps 1 to 4 of the USB cable guide.
-2. Connect your phone and your computer to the same WiFi network.
+2. Connect your phone and computer to the same WiFi network.
 3. In **Developer options**, turn on **Wireless debugging**, open it, and tap **Pair device with pairing code**.
 4. Pair using the IP address, port and code shown in that popup:
 
@@ -177,7 +177,7 @@ The overlay provides two ebuilds:
 - `games-action/voidstrap`: builds the latest stable release from source.
 - `games-action/voidstrap-9999`: builds the latest code from the upstream `main` branch.
 
-The versioned package is recommended for normal installations. The `9999` live ebuild is only needed if you want to test the latest development code. It is **not required** for installing Voidstrap.
+Use the versioned package for normal installations. The `9999` live ebuild is only for testing the latest development code and is **not required** to install Voidstrap.
 
 Run these commands as root:
 
@@ -214,7 +214,7 @@ emerge --ask games-action/voidstrap
 
 #### Live version
 
-The `games-action/voidstrap-9999` ebuild tracks the upstream `main` branch. It is intended for testing the latest development changes and is **not necessary for normal installation**.
+The `games-action/voidstrap-9999` ebuild tracks the upstream `main` branch for development testing. It is **not needed for normal installations**.
 
 To use the live version:
 
@@ -255,11 +255,11 @@ cd Voidstrap
 > [!TIP]
 > On Windows, use a short path like `C:\src\Voidstrap` to avoid path length errors. One less thing to debug.
 
-Already cloned? Run `git submodule update --init --recursive`. Desktop builds need `external/wpfui` and the bundled files in `external/LibreWPF`.
+If you've already cloned the repository, run `git submodule update --init --recursive`. Desktop builds need `external/wpfui` and the bundled files in `external/LibreWPF`.
 
-Desktop builds need the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), **10.0.300 or a newer stable 10.0 release**, as set in `global.json`. Check with `dotnet --version`. The runtime alone cannot build the app. The first build needs internet access for NuGet packages and may take a while.
+Desktop builds need the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), version **10.0.300 or a newer stable 10.0 release**, as set in `global.json`. Check your version with `dotnet --version`. The runtime alone cannot build the app. The first build downloads NuGet packages and may take a while.
 
-Run commands from the repository root unless shown otherwise. Linux and macOS need [PowerShell 7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) for `publish-all.ps1`. Windows supports both Windows PowerShell and PowerShell 7.
+Run commands from the repository root unless noted otherwise. Linux and macOS need [PowerShell 7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) for `publish-all.ps1`. Windows supports both Windows PowerShell and PowerShell 7.
 
 </details>
 
@@ -349,7 +349,7 @@ The script publishes with Windows .NET and packages through WSL. Without WSL and
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-macos-dark.svg"><img src="assets/readme/build-macos-light.svg" alt="macOS build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
-**You need:** the .NET SDK described above, PowerShell 7 and Bash. On macOS, install Rust with [rustup](https://rustup.rs) and the Xcode Command Line Tools with `xcode-select --install`. Packaging builds and signs the Rust virtual display helper too.
+**You need:** the .NET SDK described above, PowerShell 7 and Bash. On macOS, install Rust with [rustup](https://rustup.rs) and the Xcode Command Line Tools with `xcode-select --install`. Packaging also builds and signs the Rust virtual display helper.
 
 On an Apple silicon Mac:
 
@@ -360,8 +360,6 @@ pwsh -NoProfile -File ./publish-all.ps1 -Only osx-arm64 -NoPause
 For an Intel Mac, use `-Only osx-x64`. On macOS, the output is `PublishedBuilds/macOS/Voidstrap-osx-arm64.dmg` and `Voidstrap-osx-arm64.zip` (or `osx-x64` for Intel). Each contains `Voidstrap.app` with .NET included.
 
 Local packages use ad hoc signing without notarization. For Developer ID signing, set `MACOS_SIGN_IDENTITY`. To notarize, also set `MACOS_NOTARY_PROFILE` to your notarytool keychain profile.
-
-The optional **240 Hz virtual display** setting is under **Settings > Channel > Voidstrap**. The helper is written entirely in Rust and restores the main screen when Roblox closes. It cannot increase the physical panel's refresh limit. This feature is experimental. Apple silicon passed repeated display lifecycle checks, but Intel mirroring still needs validation on a physical Mac.
 
 Windows and Linux can cross publish macOS targets. On Windows, use the PowerShell command with `-Only osx-arm64` or `-Only osx-x64`. Packaging needs Git Bash or WSL. These hosts produce `Voidstrap-osx-arm64.tar.gz` or `Voidstrap-osx-x64.tar.gz` app bundles. If packaging fails, output may be a plain executable. Check the final notes and test on a Mac.
 
@@ -402,7 +400,7 @@ Each APK includes ARM64, ARMv7 and x64 libraries. Debug APKs cannot replace rele
 
 **Signed release APKs**
 
-Release APKs need your own keystore. Create one with `keytool`, using your own path and passwords:
+Release APKs need a keystore. Create one with `keytool`, using your own path and passwords:
 
 ```bash
 keytool -genkeypair -keystore /path/to/voidstrap-release.jks -alias voidstrap -keyalg RSA -keysize 2048 -validity 10000
@@ -417,7 +415,7 @@ voidstrap.keyAlias=your_key_alias
 voidstrap.keyPassword=your_key_password
 ```
 
-Use an absolute keystore path. On Windows, use forward slashes such as `C:/keys/voidstrap-release.jks`. Keep the same signing key for later updates to your own APKs.
+Use an absolute keystore path. On Windows, use forward slashes, as in `C:/keys/voidstrap-release.jks`. Keep the same signing key for future APK updates.
 
 From the `android` directory, build both signed releases directly:
 
@@ -570,7 +568,7 @@ Versions come from `android/rust/Cargo.lock` and `src/VirtualDisplay/Cargo.lock`
 | [serde_json](https://crates.io/crates/serde_json/1.0.151) | 1.0.151 | MIT OR Apache-2.0 |
 | [sevenz-rust2](https://crates.io/crates/sevenz-rust2/0.23.0) | 0.23.0 | Apache-2.0 |
 
-Dependencies brought in by these packages retain their own terms too. The tables list direct dependencies, not every transitive package or system component. Preserve the notices and any required source when redistributing them. A README entry does not replace those requirements.
+Dependencies brought in by these packages keep their own license terms. The tables list direct dependencies, not every transitive package or system component. Preserve all required notices and source when redistributing them. A README entry does not replace those requirements.
 
 The macOS virtual display helper implements the [AppleBlox VirtualDisplay approach](https://github.com/AppleBlox/virtualdisplay) in Rust. Its [bundled notices](src/VirtualDisplay/THIRD-PARTY-NOTICES.txt) cover libc, objc2 and objc2-encode.
 
