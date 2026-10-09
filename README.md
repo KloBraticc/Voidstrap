@@ -31,12 +31,12 @@
 </h5>
 
 <p align="center">
-  <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/windows-dark.svg"><img src="assets/readme/windows-light.svg" alt="Windows" width="32" height="32"/></picture>
-  &nbsp;&nbsp;
+  <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/windows-tile-dark.svg"><img src="assets/readme/windows-tile-light.svg" alt="Windows" width="32" height="32"/></picture>
+    
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/android/android-original.svg" alt="Android" width="32" height="32"/>
-  &nbsp;&nbsp;
+    
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="Linux" width="32" height="32"/>
-  &nbsp;&nbsp;
+    
   <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/macos-dark.svg"><img src="assets/readme/macos-light.svg" alt="macOS" width="32" height="32"/></picture>
 </p>
 
@@ -180,7 +180,7 @@ The overlay provides two ebuilds:
 - `games-action/voidstrap`: builds the latest stable release from source.
 - `games-action/voidstrap-9999`: builds the latest code from the upstream `main` branch.
 
-The versioned package is recommended for normal installations. The `9999` live ebuild is only needed if you want to test the latest development code; it is **not required** for installing Voidstrap.
+The versioned package is recommended for normal installations. The `9999` live ebuild is only needed if you want to test the latest development code. It is **not required** for installing Voidstrap.
 
 Run these commands as root:
 
@@ -239,8 +239,8 @@ The live ebuild may contain unreleased changes and can require newer dependencie
 | App | Build hosts | Targets |
 | --- | --- | --- |
 | Windows | Windows | x64 |
-| Linux | Linux or Windows; macOS can cross publish the executable | x64 and ARM64, glibc or musl |
-| macOS | macOS, Windows or Linux; disk images require macOS | Intel and Apple silicon |
+| Linux | Linux or Windows. macOS can cross publish the executable. | x64 and ARM64, glibc or musl |
+| macOS | macOS, Windows or Linux. Disk images require macOS. | Intel and Apple silicon |
 | Android | Windows, Linux or macOS with the Android NDK host tools | ARM64, ARMv7 and x64 in each APK |
 
 Clone with [Git](https://git-scm.com/downloads):
@@ -251,11 +251,11 @@ cd Voidstrap
 ```
 
 > [!TIP]
-> On Windows, use a short path like `C:\src\Voidstrap` to avoid path length errors.
+> On Windows, use a short path like `C:\src\Voidstrap` to avoid path length errors. One less thing to debug.
 
 Already cloned? Run `git submodule update --init --recursive`. Desktop builds need `external/wpfui` and the bundled files in `external/LibreWPF`.
 
-Desktop builds need the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), **10.0.300 or newer stable 10.0**, as set in `global.json`. Check with `dotnet --version`. The runtime alone is insufficient. The first build needs internet access for NuGet packages.
+Desktop builds need the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), **10.0.300 or a newer stable 10.0 release**, as set in `global.json`. Check with `dotnet --version`. The runtime alone cannot build the app. The first build needs internet access for NuGet packages and may take a while.
 
 Run commands from the repository root unless shown otherwise. Linux and macOS need [PowerShell 7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) for `publish-all.ps1`. Windows supports both Windows PowerShell and PowerShell 7.
 
@@ -296,12 +296,12 @@ dotnet publish src/Voidstrap.Cross/Voidstrap.Cross.csproj \
   -p:DebugType=none -p:DebugSymbols=false
 ```
 
-Output: `PublishedBuilds/Linux-x64/Voidstrap`. Includes .NET but needs compatible graphics and system libraries. Keep the published files together. On Linux or macOS, build this project only; the full solution requires Windows.
+Output: `PublishedBuilds/Linux-x64/Voidstrap`. The app includes .NET but needs compatible graphics and system libraries. Keep the published files together. On Linux or macOS, build this project only. The full solution requires Windows.
 
 For other systems, change `linux-x64` (and the output folder) to:
 
 * `linux-arm64` for ARM64
-* `linux-musl-x64` or `linux-musl-arm64` for musl based distros like Alpine
+* `linux-musl-x64` or `linux-musl-arm64` for distros using musl, such as Alpine
 
 Cross compiling on Linux needs a C compiler for the target architecture. On Ubuntu or Debian, use `gcc-aarch64-linux-gnu` for ARM64 or `gcc-x86-64-linux-gnu` for x64. Set `VOIDSTRAP_EDITOR_COMPILER` to use another compiler.
 
@@ -319,12 +319,12 @@ Then run:
 pwsh -NoProfile -File ./publish-all.ps1 -Only linux-x64 -LinuxPackages -NoPause
 ```
 
-Output: `PublishedBuilds/Linux`. The first run downloads AppImage tools/libraries and the Flatpak runtime/SDK. Flatpak needs a working environment; ARM64 packaging on x64 may need emulation or an ARM64 host.
+Output: `PublishedBuilds/Linux`. The first run downloads AppImage tools, supporting libraries, and the Flatpak runtime and SDK. Yes, more downloads. Flatpak needs a working environment. ARM64 packaging on x64 may need emulation or an ARM64 host.
 
-* For AppImage only, replace `-LinuxPackages` with `-AppImage`. Keep `curl`, `ca-certificates`, `binutils` and `dpkg`; RPM and Flatpak tools are unnecessary.
+* To build only an AppImage, replace `-LinuxPackages` with `-AppImage`. Keep `curl`, `ca-certificates`, `binutils` and `dpkg`. RPM and Flatpak tools are unnecessary.
 * Add `-SkipAppImage` to build the other packages without AppImage.
-* Select `linux-arm64`, `linux-musl-x64` or `linux-musl-arm64` with `-Only` for those targets. musl targets produce only a `.tar.gz`.
-* Full packaging is attempted by default. `-LinuxPackages` fails if tools are missing; otherwise, the script may fall back to a plain executable. Check the final notes.
+* Select `linux-arm64`, `linux-musl-x64` or `linux-musl-arm64` with `-Only` for those targets. Musl targets produce only a `.tar.gz`.
+* Full packaging is attempted by default. `-LinuxPackages` fails if tools are missing. Otherwise, the script may fall back to a plain executable. Check the final notes.
 
 **Building Linux releases from Windows**
 
@@ -350,7 +350,7 @@ For an Intel Mac, use `-Only osx-x64`. On macOS, the output is `PublishedBuilds/
 
 Local packages use ad hoc signing without notarization. For Developer ID signing, set `MACOS_SIGN_IDENTITY`. To notarize, also set `MACOS_NOTARY_PROFILE` to your notarytool keychain profile.
 
-Windows and Linux can cross publish macOS targets. On Windows, use the PowerShell command with `-Only osx-arm64` or `-Only osx-x64`; packaging needs Git Bash or WSL. These hosts produce `Voidstrap-osx-arm64.tar.gz` or `Voidstrap-osx-x64.tar.gz` app bundles. If packaging fails, output may be a plain executable. Check the final notes and test on a Mac.
+Windows and Linux can cross publish macOS targets. On Windows, use the PowerShell command with `-Only osx-arm64` or `-Only osx-x64`. Packaging needs Git Bash or WSL. These hosts produce `Voidstrap-osx-arm64.tar.gz` or `Voidstrap-osx-x64.tar.gz` app bundles. If packaging fails, output may be a plain executable. Check the final notes and test on a Mac.
 
 ### Android app
 
@@ -401,7 +401,7 @@ voidstrap.keyAlias=your_key_alias
 voidstrap.keyPassword=your_key_password
 ```
 
-Use an absolute keystore path; on Windows, use forward slashes such as `C:/keys/voidstrap-release.jks`. Keep the same signing key for later updates to your own APKs.
+Use an absolute keystore path. On Windows, use forward slashes such as `C:/keys/voidstrap-release.jks`. Keep the same signing key for later updates to your own APKs.
 
 From the `android` directory, build both signed releases directly:
 
