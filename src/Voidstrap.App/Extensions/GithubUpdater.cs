@@ -43,9 +43,20 @@ public static class GithubUpdater
                     TimeSpan.Zero,
                     cancellationToken);
                 cancellationToken.ThrowIfCancellationRequested();
-                var newest = releases?.FirstOrDefault(release => release != null && !release.Draft && release.Assets != null);
-                if (newest != null && !string.IsNullOrEmpty(newest.TagName))
-                    return newest.TagName;
+                Version? newestVersion = null;
+                string? newestTag = null;
+                foreach (var release in releases ?? [])
+                {
+                    if (release == null || release.Draft || string.IsNullOrEmpty(release.TagName)
+                        || !Version.TryParse(release.TagName.TrimStart('v', 'V'), out Version? version)
+                        || (newestVersion != null && version <= newestVersion)
+                        || FindWindowsAsset(release) == null)
+                        continue;
+                    newestVersion = version;
+                    newestTag = release.TagName;
+                }
+                if (newestTag != null)
+                    return newestTag;
                 App.Logger.WriteLine("GitHubUpdater", "Prerelease lookup found nothing, using the stable release");
             }
 
@@ -117,12 +128,9 @@ public static class GithubUpdater
             if (OperatingSystem.IsMacOS())
                 return await InstallMacReleaseAsync(release, tag, cancellationToken).ConfigureAwait(false);
 
-            foreach (var asset in release.Assets ?? [])
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                if (asset != null && string.Equals(asset.Name, "Voidstrap.exe", StringComparison.OrdinalIgnoreCase) && IsInstallableAsset(asset))
-                    return await UpdateExe(asset.BrowserDownloadUrl, asset.Name, asset.Digest ?? "", tag, cancellationToken);
-            }
+            GithubReleaseAsset? windowsAsset = FindWindowsAsset(release);
+            if (windowsAsset != null)
+                return await UpdateExe(windowsAsset.BrowserDownloadUrl, windowsAsset.Name, windowsAsset.Digest ?? "", tag, cancellationToken);
 
             App.Logger.WriteLine("GitHubUpdater", "No valid Voidstrap executable asset found.");
             return false;
@@ -185,6 +193,11 @@ public static class GithubUpdater
         string executable = Environment.ProcessPath ?? "";
         int index = executable.IndexOf(".app/Contents/MacOS/", StringComparison.Ordinal);
         return index < 0 ? null : executable[..(index + 4)];
+    }
+
+    private static GithubReleaseAsset? FindWindowsAsset(Voidstrap.Models.APIs.GitHub.GithubRelease release)
+    {
+        return release.Assets?.FirstOrDefault(asset => asset != null && string.Equals(asset.Name, "Voidstrap.exe", StringComparison.OrdinalIgnoreCase) && IsInstallableAsset(asset));
     }
 
     private static GithubReleaseAsset? FindMacAsset(Voidstrap.Models.APIs.GitHub.GithubRelease release)

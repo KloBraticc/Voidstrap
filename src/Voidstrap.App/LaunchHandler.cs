@@ -1366,6 +1366,9 @@ public static class LaunchHandler
 				}
 			}
 
+			if (OperatingSystem.IsMacOS() && linuxBootstrapper is not null && await linuxBootstrapper.TryUpdateLauncherAsync())
+				return;
+
 			if (OperatingSystem.IsMacOS() && linuxBootstrapper is not null)
 			{
 				Voidstrap.Platform.IRobloxRuntimeProvider provider = runtimeKind == Voidstrap.Platform.RuntimeKind.Player

@@ -44,12 +44,20 @@ public partial class App : Application
 	public const string ProjectDownloadLink = "https://github.com/KloBraticc/Voidstrap/releases";
 	public const string ProjectFallbackRepository = "https://github.com/KloBraticc/Voidstrap";
 	public const string ProjectFallbackDownloadLink = ProjectFallbackRepository + "/releases";
-	public const string ProjectReleaseApi = "https://api.github.com/repos/KloBraticc/Voidstrap/releases/latest";
-	public const string ProjectFallbackReleaseApi = "https://api.github.com/repos/KloBraticc/Voidstrap/releases/latest";
+	private static string ReleaseFeed(string path)
+	{
+		string? repository = Environment.GetEnvironmentVariable("VOIDSTRAP_UPDATE_REPOSITORY");
+		if (string.IsNullOrWhiteSpace(repository) || !System.Text.RegularExpressions.Regex.IsMatch(repository, "^KloBraticc/[A-Za-z0-9._-]+$"))
+			repository = "KloBraticc/Voidstrap";
+		return "https://api.github.com/repos/" + repository + "/" + path;
+	}
 
-	public const string ProjectReleaseListApi = "https://api.github.com/repos/KloBraticc/Voidstrap/releases?per_page=20";
+	public static readonly string ProjectReleaseApi = ReleaseFeed("releases/latest");
+	public static readonly string ProjectFallbackReleaseApi = ReleaseFeed("releases/latest");
 
-	public const string ProjectFallbackReleaseListApi = "https://api.github.com/repos/KloBraticc/Voidstrap/releases?per_page=20";
+	public static readonly string ProjectReleaseListApi = ReleaseFeed("releases?per_page=20");
+
+	public static readonly string ProjectFallbackReleaseListApi = ReleaseFeed("releases?per_page=20");
 
 	public const string ProjectHelpLink = "https://github.com/KloBraticc/Voidstrap";
 
