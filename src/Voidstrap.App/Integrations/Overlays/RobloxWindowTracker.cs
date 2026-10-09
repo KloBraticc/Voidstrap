@@ -729,6 +729,7 @@ namespace Voidstrap.Integrations.Overlays
 			}
 
             _window.SourceInitialized += OnSourceInitialized;
+            _window.Loaded += OnWindowLoaded;
             _window.Closed += OnWindowClosed;
 
             RobloxWindowTracker.Changed += OnTrackerChanged;
@@ -744,6 +745,8 @@ namespace Voidstrap.Integrations.Overlays
         }
 
         private void OnWindowClosed(object? sender, EventArgs e) => Dispose();
+
+        private void OnWindowLoaded(object? sender, RoutedEventArgs e) => Refresh();
 
         private void OnTrackerChanged(object? sender, RobloxWindowRect rect)
         {
@@ -780,7 +783,7 @@ namespace Voidstrap.Integrations.Overlays
 
 		public void Refresh()
 		{
-			if (_disposed || _hwnd == IntPtr.Zero)
+			if (_disposed || (!_sourceReady && _hwnd == IntPtr.Zero))
 				return;
 			OnTrackerChanged(null, RobloxWindowTracker.Current);
 		}
@@ -897,7 +900,6 @@ namespace Voidstrap.Integrations.Overlays
 				if (roblox > 0 && Voidstrap.Platform.MacOS.MacOSOverlayWindow.FrontmostWindowOwner() == Environment.ProcessId)
 				{
 					Voidstrap.Platform.MacOS.MacOSOverlayWindow.ActivateProcess(roblox);
-					return;
 				}
 			}
 
@@ -937,18 +939,18 @@ namespace Voidstrap.Integrations.Overlays
 				}
 			}
 
-			Voidstrap.Platform.MacOS.MacOSOverlayWindow.MoveTo(native, left, top, width, height);
-			if (Math.Abs(_window.Left - left) > 0.5)
+			if (!(Math.Abs(_window.Left - left) <= 0.5))
 				_window.Left = left;
-			if (Math.Abs(_window.Top - top) > 0.5)
+			if (!(Math.Abs(_window.Top - top) <= 0.5))
 				_window.Top = top;
 			if (_placement is RobloxOverlayPlacement.Fill or RobloxOverlayPlacement.TopStrip)
 			{
-				if (Math.Abs(_window.Width - width) > 0.5)
+				if (!(Math.Abs(_window.Width - width) <= 0.5))
 					_window.Width = width;
-				if (_placement == RobloxOverlayPlacement.Fill && Math.Abs(_window.Height - height) > 0.5)
+				if (_placement == RobloxOverlayPlacement.Fill && !(Math.Abs(_window.Height - height) <= 0.5))
 					_window.Height = height;
 			}
+			Voidstrap.Platform.MacOS.MacOSOverlayWindow.MoveTo(native, left, top, width, height);
 			if (!_macShown)
 			{
 				Voidstrap.Platform.MacOS.MacOSOverlayWindow.ShowWithoutActivating(native);
@@ -960,7 +962,7 @@ namespace Voidstrap.Integrations.Overlays
 		{
 			if (_disposed || _macRetry != null || _macRetryAttempts > 40)
 				return;
-			_macRetry = new DispatcherTimer(DispatcherPriority.Background, _window.Dispatcher) { Interval = TimeSpan.FromMilliseconds(250) };
+			_macRetry = new DispatcherTimer(DispatcherPriority.Background, _window.Dispatcher) { Interval = TimeSpan.FromMilliseconds(500) };
 			_macRetry.Tick += OnMacRetryTick;
 			_macRetry.Start();
 		}
@@ -1188,6 +1190,7 @@ namespace Voidstrap.Integrations.Overlays
 			if (_linuxHandle != 0 && _linuxHandle != _hwnd)
 				OverlayDiagnostics.UnregisterOverlayHandle(_linuxHandle);
             _window.SourceInitialized -= OnSourceInitialized;
+            _window.Loaded -= OnWindowLoaded;
             _window.Closed -= OnWindowClosed;
         }
 
