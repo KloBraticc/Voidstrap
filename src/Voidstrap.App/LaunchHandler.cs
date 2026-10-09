@@ -1438,6 +1438,8 @@ public static class LaunchHandler
 					App.Logger.WriteLine("LaunchHandler::SoberStartup", message);
 					SetPortableLaunchStatus(message);
 				};
+			if (OperatingSystem.IsMacOS() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+				Voidstrap.Utility.MacRobloxProcesses.CloseIdleMenuBarHelpers();
 			DateTime launchRequestedUtc = DateTime.UtcNow;
 			Voidstrap.Core.RuntimeLaunchCoordinator coordinator = new(host.PlayerRuntime, host.StudioRuntime);
 			Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result = await coordinator.LaunchAsync(runtimeKind, launchTarget, cancellation);

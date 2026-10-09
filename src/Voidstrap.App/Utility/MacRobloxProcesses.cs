@@ -15,6 +15,26 @@ internal static class MacRobloxProcesses
 
 	internal static bool IsGameRunning() => Scan().GameRunning;
 
+	internal static void CloseIdleMenuBarHelpers()
+	{
+		Snapshot snapshot = Scan();
+		if (snapshot.GameRunning || snapshot.MenuBarHelpers.Count == 0)
+			return;
+		foreach (int pid in snapshot.MenuBarHelpers)
+		{
+			try
+			{
+				using Process helper = Process.GetProcessById(pid);
+				helper.Kill();
+				helper.WaitForExit(3000);
+				App.Logger?.WriteLine("MacRobloxProcesses", $"Closed the idle Roblox menu bar helper {pid} so the launch starts a fresh Roblox");
+			}
+			catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or Win32Exception)
+			{
+			}
+		}
+	}
+
 	internal static Snapshot Scan()
 	{
 		List<int> helpers = [];
