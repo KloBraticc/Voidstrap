@@ -439,6 +439,25 @@ impl Session {
             unsafe { msg_send![allocated, initWithDescriptor: &*descriptor] };
         let display =
             display.ok_or_else(|| "macOS refused to create the virtual display".to_string())?;
+        let display_pointer = Retained::as_ptr(&display);
+        let mut session = Self {
+            application,
+            display: Some(display),
+            original,
+            physical,
+            virtual_id: 0,
+            refresh: config.refresh as f64,
+            run_loop: unsafe { CFRunLoopGetCurrent() },
+            changed: false,
+            ready: false,
+            timeout: false,
+            error: None,
+            stopped,
+            started,
+            last_configuration: None,
+            mirror_lost: None,
+            timer: ptr::null_mut(),
+        };
         let settings = new_object(c"CGVirtualDisplaySettings")?;
         let fast = mode(width, height, config.refresh as f64)?;
         let fallback = mode(width, height, 60.0)?;
@@ -454,33 +473,17 @@ impl Session {
         unsafe {
             let _: () = msg_send![&*settings, setHiDPI: u32::from(config.size.is_none() && pixels_wide > width)];
             let _: () = msg_send![&*settings, setModes: &*modes];
-            let applied: bool = msg_send![&*display, applySettings: &*settings];
+            let applied: bool = msg_send![&*display_pointer, applySettings: &*settings];
             if !applied {
                 return Err("macOS refused the virtual display modes".into());
             }
         }
-        let virtual_id: u32 = unsafe { msg_send![&*display, displayID] };
+        let virtual_id: u32 = unsafe { msg_send![&*display_pointer, displayID] };
         if virtual_id == 0 {
             return Err("macOS returned an invalid virtual display identifier".into());
         }
-        Ok(Self {
-            application,
-            display: Some(display),
-            original,
-            physical,
-            virtual_id,
-            refresh: config.refresh as f64,
-            run_loop: unsafe { CFRunLoopGetCurrent() },
-            changed: false,
-            ready: false,
-            timeout: false,
-            error: None,
-            stopped,
-            started,
-            last_configuration: None,
-            mirror_lost: None,
-            timer: ptr::null_mut(),
-        })
+        session.virtual_id = virtual_id;
+        Ok(session)
     }
 
     fn update(&mut self) -> Result<(), String> {
@@ -497,7 +500,16 @@ impl Session {
                     .mirror_lost
                     .is_some_and(|lost| lost.elapsed().as_millis() >= 500)
                 {
-                    return Err("Virtual display mirroring ended".into());
+                    return Err(format!(
+                        "Virtual display mirroring ended: main {}, physical {}, virtual {}, physical master {}, virtual master {}, physical mirror set {}, virtual mirror set {}",
+                        unsafe { CGMainDisplayID() },
+                        self.physical,
+                        self.virtual_id,
+                        unsafe { CGDisplayMirrorsDisplay(self.physical) },
+                        unsafe { CGDisplayMirrorsDisplay(self.virtual_id) },
+                        unsafe { CGDisplayIsInMirrorSet(self.physical) },
+                        unsafe { CGDisplayIsInMirrorSet(self.virtual_id) }
+                    ));
                 }
                 if self.mirror_lost.is_none() {
                     self.mirror_lost = Some(Instant::now());
@@ -626,24 +638,28 @@ impl Session {
     }
 
     fn restore(&mut self) -> Result<(), String> {
-        if !self.changed {
+        if !self.changed && self.display.is_none() {
             return Ok(());
         }
         if unsafe { CGDisplayIsOnline(self.physical) } == 0 {
+            self.display.take();
             self.changed = false;
             return Ok(());
         }
         let mirror = unsafe { CGDisplayMirrorsDisplay(self.physical) };
         if mirror != 0 && mirror != self.virtual_id {
+            self.display.take();
             self.changed = false;
             return Ok(());
         }
-        let transaction = Transaction::begin()?;
-        check(
-            unsafe { CGConfigureDisplayMirrorOfDisplay(transaction.0, self.physical, 0) },
-            "Restore display mirroring",
-        )?;
-        transaction.commit()?;
+        if mirror != 0 {
+            let transaction = Transaction::begin()?;
+            check(
+                unsafe { CGConfigureDisplayMirrorOfDisplay(transaction.0, self.physical, 0) },
+                "Restore display mirroring",
+            )?;
+            transaction.commit()?;
+        }
         self.display.take();
         let transaction = Transaction::begin()?;
         check(
@@ -673,7 +689,7 @@ impl Drop for Session {
 
 unsafe extern "C" fn perform(context: Ref) {
     autoreleasepool(|_| {
-        let session = unsafe { &mut *(context as *mut Session) };
+        let session = unsafe { &mut **(context as *mut *mut Session) };
         if let Err(error) = session.update() {
             session.error = Some(error);
             session.stop();
@@ -683,11 +699,11 @@ unsafe extern "C" fn perform(context: Ref) {
 
 unsafe extern "C" fn timeout(timer: Ref, context: Ref) {
     {
-        let session = unsafe { &mut *(context as *mut Session) };
+        let session = unsafe { &mut **(context as *mut *mut Session) };
         session.timeout = !session.ready && session.started.elapsed().as_secs() >= 10;
     }
     unsafe { perform(context) };
-    let session = unsafe { &*(context as *const Session) };
+    let session = unsafe { &**(context as *const *mut Session) };
     if session.error.is_some() || session.stopped.load(Ordering::Acquire) {
         unsafe { CFRunLoopTimerInvalidate(timer) };
     } else if session.ready && session.mirror_lost.is_none() {
@@ -735,8 +751,8 @@ fn run_inner(config: Config) -> Result<(), String> {
         return Err("A virtual display session is already running".into());
     }
     let stopped = Arc::new(AtomicBool::new(false));
-    let mut session = Box::new(Session::create(config, stopped.clone())?);
-    let context = (&mut *session as *mut Session).cast();
+    let mut session_pointer: *mut Session = ptr::null_mut();
+    let context = ptr::addr_of_mut!(session_pointer).cast();
     let mut source_context = SourceContext {
         version: 0,
         info: context,
@@ -755,10 +771,12 @@ fn run_inner(config: Config) -> Result<(), String> {
     )?;
     let wake = Box::new(Wake {
         source: source.0,
-        run_loop: session.run_loop,
+        run_loop: unsafe { CFRunLoopGetCurrent() },
     });
     let wake_context = (&*wake as *const Wake).cast_mut().cast();
-    let monitor = StopMonitor::start(&wake, stopped, config.watch_stdin)?;
+    let monitor = StopMonitor::start(&wake, stopped.clone(), config.watch_stdin)?;
+    let mut session = Box::new(Session::create(config, stopped)?);
+    session_pointer = &mut *session;
     check(
         unsafe { CGDisplayRegisterReconfigurationCallback(display_changed, wake_context) },
         "Watch display changes",
