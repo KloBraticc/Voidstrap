@@ -37,7 +37,7 @@
   &nbsp;&nbsp;
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="Linux" width="32" height="32"/>
   &nbsp;&nbsp;
-  <img src="assets/readme/macos.svg" alt="macOS" width="32" height="32"/>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/macos-dark.svg"><img src="assets/readme/macos-light.svg" alt="macOS" width="32" height="32"/></picture>
 </p>
 
 **Windows** (PowerShell)
