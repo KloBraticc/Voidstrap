@@ -244,7 +244,7 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 			{
 				try
 				{
-					_timer.Interval = TimeSpan.FromMilliseconds(_media?.IsAnimated == true ? 1000d / 30d : 500d);
+					_timer.Interval = TimeSpan.FromMilliseconds(_media?.IsAnimated == true && _media.Failure == null ? 1000d / 30d : 500d);
 					Present(frame, width, height);
 				}
 				finally
