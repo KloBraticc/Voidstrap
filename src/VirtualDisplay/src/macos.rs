@@ -429,7 +429,7 @@ impl Session {
                 msg_send![&*descriptor, setSizeInMillimeters: CGDisplayScreenSize(physical)];
             let _: () = msg_send![&*descriptor, setVendorID: 0x5653u32];
             let _: () = msg_send![&*descriptor, setProductID: 0x240u32];
-            let _: () = msg_send![&*descriptor, setSerialNum: 1u32];
+            let _: () = msg_send![&*descriptor, setSerialNum: std::process::id()];
             let _: () =
                 msg_send![&*descriptor, setDispatchQueue: ptr::addr_of!(_dispatch_main_q) as Ref];
         }
@@ -750,6 +750,21 @@ fn run_inner(config: Config) -> Result<(), String> {
     if unsafe { libc::flock(lock.as_raw_fd(), libc::LOCK_EX | libc::LOCK_NB) } != 0 {
         return Err("A virtual display session is already running".into());
     }
+    if config.watch_stdin {
+        let mut input = libc::pollfd {
+            fd: libc::STDIN_FILENO,
+            events: libc::POLLIN,
+            revents: 0,
+        };
+        let available = unsafe { libc::poll(&mut input, 1, 0) };
+        if available < 0 {
+            return Err(std::io::Error::last_os_error().to_string());
+        }
+        if available > 0 && input.revents != 0 {
+            println!("{{\"restored\":true}}");
+            return Ok(());
+        }
+    }
     let stopped = Arc::new(AtomicBool::new(false));
     let mut session_pointer: *mut Session = ptr::null_mut();
     let context = ptr::addr_of_mut!(session_pointer).cast();
@@ -775,6 +790,10 @@ fn run_inner(config: Config) -> Result<(), String> {
     });
     let wake_context = (&*wake as *const Wake).cast_mut().cast();
     let monitor = StopMonitor::start(&wake, stopped.clone(), config.watch_stdin)?;
+    if stopped.load(Ordering::Acquire) {
+        println!("{{\"restored\":true}}");
+        return Ok(());
+    }
     let mut session = Box::new(Session::create(config, stopped)?);
     unsafe { ptr::write(context.cast::<*mut Session>(), &mut *session) };
     check(

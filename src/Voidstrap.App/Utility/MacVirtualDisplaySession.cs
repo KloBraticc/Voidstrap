@@ -14,10 +14,17 @@ internal sealed class MacVirtualDisplaySession : IDisposable
 	private readonly CancellationTokenSource _cancellation = new();
 	private Process? _process;
 	private bool _disposed;
+	private bool _started;
 
 	public void Start()
 	{
-		_ = StartAsync();
+		lock (_gate)
+		{
+			if (_disposed || _started || !Platform.IsMacOS)
+				return;
+			_started = true;
+			_ = StartAsync();
+		}
 	}
 
 	private async Task StartAsync()
@@ -68,6 +75,7 @@ internal sealed class MacVirtualDisplaySession : IDisposable
 				SessionSlot.Release();
 		}
 	}
+
 	private async Task ReadOutputAsync(StreamReader reader, CancellationToken token)
 	{
 		while (!token.IsCancellationRequested)
