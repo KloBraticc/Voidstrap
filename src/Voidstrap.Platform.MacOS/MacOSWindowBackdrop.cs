@@ -57,12 +57,54 @@ public sealed partial class MacOSWindowBackdrop : IDisposable
 			nint appearance = SendObject(objc_getClass("NSAppearance"), Selector("appearanceNamed:"), name);
 			SetObject(_view, Selector("setAppearance:"), appearance);
 			SetBool(_view, Selector("setNeedsDisplay:"), true);
+			ClearOpaqueLayers();
 		}
 		finally
 		{
 			objc_autoreleasePoolPop(pool);
 		}
 	}
+
+	public string Describe()
+	{
+		if (_disposed || _window == 0)
+			return "disposed";
+		nint content = Send(_window, Selector("contentView"));
+		nint layer = content == 0 ? 0 : Send(content, Selector("layer"));
+		string text = "window opaque " + GetBool(_window, Selector("isOpaque")) + ", content layer " + DescribeLayer(layer);
+		nint sublayers = layer == 0 ? 0 : Send(layer, Selector("sublayers"));
+		nint count = sublayers == 0 ? 0 : Send(sublayers, Selector("count"));
+		for (nint i = 0; i < count; i++)
+			text += ", sublayer " + DescribeLayer(SendObject(sublayers, Selector("objectAtIndex:"), i));
+		return text;
+	}
+
+	private void ClearOpaqueLayers()
+	{
+		nint content = Send(_window, Selector("contentView"));
+		nint layer = content == 0 ? 0 : Send(content, Selector("layer"));
+		if (layer == 0)
+			return;
+		SetBool(layer, Selector("setOpaque:"), false);
+		nint sublayers = Send(layer, Selector("sublayers"));
+		nint count = sublayers == 0 ? 0 : Send(sublayers, Selector("count"));
+		for (nint i = 0; i < count; i++)
+			SetBool(SendObject(sublayers, Selector("objectAtIndex:"), i), Selector("setOpaque:"), false);
+	}
+
+	private static string DescribeLayer(nint layer)
+	{
+		if (layer == 0)
+			return "none";
+		string? name = Marshal.PtrToStringUTF8(class_getName(object_getClass(layer)));
+		return (name ?? "unknown") + " opaque " + GetBool(layer, Selector("isOpaque"));
+	}
+
+	[LibraryImport(ObjectiveC)]
+	private static partial nint object_getClass(nint value);
+
+	[LibraryImport(ObjectiveC)]
+	private static partial nint class_getName(nint value);
 
 	public void Dispose()
 	{

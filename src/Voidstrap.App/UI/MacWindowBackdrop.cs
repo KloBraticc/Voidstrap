@@ -23,6 +23,7 @@ internal sealed class MacWindowBackdrop : IDisposable
 		window.ContentRendered += OnReady;
 		window.Activated += OnReady;
 		window.Closed += OnClosed;
+		window.SizeChanged += OnSizeChanged;
 	}
 
 	internal static void Apply(Window window)
@@ -40,6 +41,8 @@ internal sealed class MacWindowBackdrop : IDisposable
 
 	private void OnClosed(object? sender, EventArgs e) => Dispose();
 
+	private void OnSizeChanged(object sender, SizeChangedEventArgs e) => _window.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(Update));
+
 	private void Update()
 	{
 		if (_disposed)
@@ -51,7 +54,11 @@ internal sealed class MacWindowBackdrop : IDisposable
 		{
 			try
 			{
-				_native ??= new MacOSWindowBackdrop(window);
+				if (_native == null)
+				{
+					_native = new MacOSWindowBackdrop(window);
+					App.Logger?.WriteLine("MacWindowBackdrop::Update", "Native state before the backdrop: " + _native.Describe());
+				}
 				int material = type switch
 				{
 					BackdropType.Sidebar or BackdropType.Mica => 7,
@@ -80,7 +87,7 @@ internal sealed class MacWindowBackdrop : IDisposable
 		if (state != _logged)
 		{
 			_logged = state;
-			App.Logger?.WriteLine("MacWindowBackdrop::Update", _window.GetType().Name + " backdrop " + state);
+			App.Logger?.WriteLine("MacWindowBackdrop::Update", _window.GetType().Name + " backdrop " + state + (_native != null ? ", " + _native.Describe() : ""));
 		}
 		_window.Background = active
 			? _window is Elements.Settings.MainWindow ? Brushes.Transparent : WindowBackdrop.CreateSurfaceBrush(_window)
@@ -101,6 +108,7 @@ internal sealed class MacWindowBackdrop : IDisposable
 		_window.ContentRendered -= OnReady;
 		_window.Activated -= OnReady;
 		_window.Closed -= OnClosed;
+		_window.SizeChanged -= OnSizeChanged;
 		_native?.Dispose();
 		_native = null;
 		Windows.Remove(_window);
