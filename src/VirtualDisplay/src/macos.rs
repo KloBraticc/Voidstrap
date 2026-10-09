@@ -435,7 +435,7 @@ impl Session {
                 msg_send![&*descriptor, setSizeInMillimeters: CGDisplayScreenSize(physical)];
             let _: () = msg_send![&*descriptor, setVendorID: 0x5653u32];
             let _: () = msg_send![&*descriptor, setProductID: 0x240u32];
-            let _: () = msg_send![&*descriptor, setSerialNum: std::process::id()];
+            let _: () = msg_send![&*descriptor, setSerialNum: 1u32];
             let _: () =
                 msg_send![&*descriptor, setDispatchQueue: ptr::addr_of!(_dispatch_main_q) as Ref];
         }

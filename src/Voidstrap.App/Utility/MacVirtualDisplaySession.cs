@@ -57,6 +57,7 @@ internal sealed class MacVirtualDisplaySession : IDisposable
 				_process = Process.Start(info);
 				if (_process != null)
 				{
+					_cancellation.CancelAfter(TimeSpan.FromSeconds(15));
 					monitoring = true;
 					_ = ObserveAsync(_process, _cancellation.Token);
 				}
@@ -76,13 +77,21 @@ internal sealed class MacVirtualDisplaySession : IDisposable
 		}
 	}
 
-	private async Task ReadOutputAsync(StreamReader reader, CancellationToken token)
+	private async Task ReadOutputAsync(StreamReader reader, CancellationToken token, bool status)
 	{
 		while (!token.IsCancellationRequested)
 		{
 			string? line = await reader.ReadLineAsync(token).ConfigureAwait(false);
 			if (line == null)
 				return;
+			if (status && line.StartsWith("{\"ready\":true,", StringComparison.Ordinal))
+			{
+				lock (_gate)
+				{
+					if (!_disposed)
+						_cancellation.CancelAfter(Timeout.InfiniteTimeSpan);
+				}
+			}
 			App.Logger.WriteLine(LogIdent, line);
 		}
 	}
@@ -91,7 +100,7 @@ internal sealed class MacVirtualDisplaySession : IDisposable
 	{
 		try
 		{
-			await Task.WhenAll(ReadOutputAsync(process.StandardOutput, token), ReadOutputAsync(process.StandardError, token), process.WaitForExitAsync(token)).ConfigureAwait(false);
+			await Task.WhenAll(ReadOutputAsync(process.StandardOutput, token, true), ReadOutputAsync(process.StandardError, token, false), process.WaitForExitAsync(token)).ConfigureAwait(false);
 			if (process.ExitCode != 0)
 				App.Logger.WriteLine(LogIdent, "The virtual display stopped with exit code " + process.ExitCode);
 		}
@@ -101,7 +110,7 @@ internal sealed class MacVirtualDisplaySession : IDisposable
 			{
 				if (!process.HasExited)
 				{
-					App.Logger.WriteLine(LogIdent, "The virtual display did not stop within ten seconds, closing its process");
+					App.Logger.WriteLine(LogIdent, "The virtual display timed out, closing its process");
 					process.Kill();
 					await process.WaitForExitAsync().ConfigureAwait(false);
 				}
