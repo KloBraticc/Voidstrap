@@ -776,7 +776,7 @@ fn run_inner(config: Config) -> Result<(), String> {
     let wake_context = (&*wake as *const Wake).cast_mut().cast();
     let monitor = StopMonitor::start(&wake, stopped.clone(), config.watch_stdin)?;
     let mut session = Box::new(Session::create(config, stopped)?);
-    session_pointer = &mut *session;
+    unsafe { ptr::write(context.cast::<*mut Session>(), &mut *session) };
     check(
         unsafe { CGDisplayRegisterReconfigurationCallback(display_changed, wake_context) },
         "Watch display changes",
