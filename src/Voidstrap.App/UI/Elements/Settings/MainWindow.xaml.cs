@@ -1989,7 +1989,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             if (shortcut.Page == pageType)
             {
-                return shortcut.Label.Replace("+", " ", StringComparison.Ordinal);
+                return Voidstrap.Utility.Platform.IsMacOS ? Wpf.Ui.Converters.ShortcutTextConverter.Format(shortcut.Label) : shortcut.Label.Replace("+", " ", StringComparison.Ordinal);
             }
         }
         return "";
