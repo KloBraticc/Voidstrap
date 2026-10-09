@@ -58,6 +58,7 @@ struct TimerContext {
 unsafe extern "C" {
     fn CGMainDisplayID() -> u32;
     fn CGDisplayIsActive(display: u32) -> u32;
+    fn CGDisplayIsOnline(display: u32) -> u32;
     fn CGDisplayIsInMirrorSet(display: u32) -> u32;
     fn CGDisplayMirrorsDisplay(display: u32) -> u32;
     fn CGDisplayScreenSize(display: u32) -> Size;
@@ -349,7 +350,7 @@ impl Session {
     fn create(config: Config, stopped: Arc<AtomicBool>) -> Result<Self, String> {
         let started = Instant::now();
         let physical = unsafe { CGMainDisplayID() };
-        if physical == 0 || unsafe { CGDisplayIsActive(physical) } == 0 {
+        if physical == 0 || unsafe { CGDisplayIsOnline(physical) } == 0 {
             return Err("No active main display".into());
         }
         if unsafe { CGDisplayIsInMirrorSet(physical) } != 0 {
@@ -449,7 +450,7 @@ impl Session {
             unsafe { CFRunLoopStop(self.run_loop) };
             return Ok(());
         }
-        if unsafe { CGDisplayIsActive(self.physical) } == 0 {
+        if unsafe { CGDisplayIsOnline(self.physical) } == 0 {
             return Err("The main display was disconnected".into());
         }
         if self.ready {
@@ -465,10 +466,11 @@ impl Session {
             return Ok(());
         }
         if !self.changed {
-            let modes = OwnedRef::checked(
-                unsafe { CGDisplayCopyAllDisplayModes(self.virtual_id, ptr::null_mut()) },
-                "Virtual display modes are unavailable",
-            )?;
+            let modes = unsafe { CGDisplayCopyAllDisplayModes(self.virtual_id, ptr::null_mut()) };
+            if modes.is_null() {
+                return Ok(());
+            }
+            let modes = OwnedRef(modes);
             let mut selected = ptr::null_mut();
             for index in 0..unsafe { CFArrayGetCount(modes.0) } {
                 let mode = unsafe { CFArrayGetValueAtIndex(modes.0, index) };
@@ -478,7 +480,7 @@ impl Session {
                 }
             }
             if selected.is_null() {
-                return Err("The requested refresh rate is unavailable".into());
+                return Ok(());
             }
             let transaction = Transaction::begin()?;
             check(
@@ -529,7 +531,7 @@ impl Session {
         if !self.changed {
             return Ok(());
         }
-        if unsafe { CGDisplayIsActive(self.physical) } == 0 {
+        if unsafe { CGDisplayIsOnline(self.physical) } == 0 {
             self.changed = false;
             return Ok(());
         }
