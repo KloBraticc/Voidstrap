@@ -259,6 +259,8 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
     public IEnumerable<Theme> BindableThemes => Voidstrap.Extensions.ThemeEx.Selections;
 
+    public string PageZoomDescription => "Zooms the settings pages like a browser. " + (Voidstrap.Utility.Platform.IsMacOS ? "⌘ Scroll" : "Ctrl+Scroll") + " for hotkey";
+
     public IEnumerable<BackdropType> BackdropOptions { get; } = Voidstrap.Utility.Platform.IsMacOS
         ? [BackdropType.Default, BackdropType.Sidebar, BackdropType.Popover, BackdropType.Hud, BackdropType.UnderWindow, BackdropType.UnderPage, BackdropType.None]
         : Enum.GetValues<BackdropType>().Where(value => value <= BackdropType.None);
