@@ -147,7 +147,11 @@ internal static partial class SearchCatalog
 		Match match = StringsResourcePattern.Match(value);
 		if (match.Success)
 		{
-			return Strings.ResourceManager.GetString(match.Groups[1].Value) ?? match.Groups[1].Value;
+			string name = match.Groups[1].Value;
+			return typeof(Strings).GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)?.GetValue(null) as string
+				?? Strings.ResourceManager.GetString(name)
+				?? Strings.ResourceManager.GetString(name.Replace('_', '.'))
+				?? name;
 		}
 		return value;
 	}
