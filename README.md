@@ -171,7 +171,8 @@ In Voidstrap, open **Settings**, turn on **Use root**, and allow Voidstrap in yo
 
 </details>
 
-### Gentoo Linux
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/gentoo-setup-dark.svg"><img src="assets/readme/gentoo-setup-light.svg" alt="Gentoo Linux" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 Voidstrap is packaged for Gentoo in the [Voidstrap overlay](https://github.com/Pedrodroks34/voidstrap-overlay), maintained by [@Pedrodroks34](https://github.com/Pedrodroks34).
 
@@ -228,6 +229,8 @@ emerge --ask =games-action/voidstrap-9999
 
 The live ebuild may contain unreleased changes and can require newer dependencies than the latest stable release.
 
+</details>
+
 ## Built With
 
 [![C#][shield-csharp]][link-csharp] [![.NET][shield-dotnet]][link-dotnet] [![WPF][shield-wpf]][link-wpf] [![WPF UI][shield-wpfui]][link-wpfui] [![WebView2][shield-webview2]][link-webview2]
@@ -235,6 +238,9 @@ The live ebuild may contain unreleased changes and can require newer dependencie
 [![Java][shield-java]][link-java] [![Rust][shield-rust]][link-rust] [![Android][shield-android]][link-android]
 
 ## Building
+
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-setup-dark.svg"><img src="assets/readme/build-setup-light.svg" alt="Before building" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 | App | Build hosts | Targets |
 | --- | --- | --- |
@@ -259,7 +265,10 @@ Desktop builds need the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotn
 
 Run commands from the repository root unless shown otherwise. Linux and macOS need [PowerShell 7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) for `publish-all.ps1`. Windows supports both Windows PowerShell and PowerShell 7.
 
-### Windows app
+</details>
+
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-windows-dark.svg"><img src="assets/readme/build-windows-light.svg" alt="Windows build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 **You need:** Windows 10 or 11 (64 bit), the .NET SDK described above, and the initialized submodule.
 
@@ -277,7 +286,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only wind
 
 Output: `PublishedBuilds\Windows\Voidstrap.exe`. Requires the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
 
-### Linux app
+</details>
+
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-linux-dark.svg"><img src="assets/readme/build-linux-light.svg" alt="Linux build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 **You need:** the .NET SDK, Bash and a C compiler. On Ubuntu or Debian:
 
@@ -336,7 +348,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only linu
 
 The script publishes with Windows .NET and packages through WSL. Without WSL and its tools, omit `-LinuxPackages` to allow a plain executable in `PublishedBuilds\Linux`. Git Bash alone cannot create the full glibc Linux package set.
 
-### macOS app
+</details>
+
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-macos-dark.svg"><img src="assets/readme/build-macos-light.svg" alt="macOS build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 **You need:** the .NET SDK described above, PowerShell 7 and Bash. On macOS, install the Xcode Command Line Tools with `xcode-select --install` for the signing and packaging tools.
 
@@ -352,7 +367,10 @@ Local packages use ad hoc signing without notarization. For Developer ID signing
 
 Windows and Linux can cross publish macOS targets. On Windows, use the PowerShell command with `-Only osx-arm64` or `-Only osx-x64`. Packaging needs Git Bash or WSL. These hosts produce `Voidstrap-osx-arm64.tar.gz` or `Voidstrap-osx-x64.tar.gz` app bundles. If packaging fails, output may be a plain executable. Check the final notes and test on a Mac.
 
-### Android app
+</details>
+
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-android-dark.svg"><img src="assets/readme/build-android-light.svg" alt="Android build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 **You need:**
 
@@ -419,6 +437,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only andr
 
 On Linux or macOS, use `pwsh -NoProfile -File ./publish-all.ps1 -Only android -NoPause`. The signed APKs are saved as `PublishedBuilds/Android/Voidstrap-Android-play-<version>.apk` and `Voidstrap-Android-direct-<version>.apk`, using the version in `Directory.Build.props`. The script rejects unsigned APKs and APKs signed with the debug certificate.
 
+</details>
+
 ## Forking
 
 To create your own copy of Voidstrap:
@@ -435,7 +455,7 @@ Voidstrap is built on [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by
 
 [![License][shield-license]][link-license]
 
-Voidstrap is released under the [MIT License](LICENSE.VOIDSTRAP). It is built on Bloxstrap and Fishstrap, and their licenses are kept alongside it:
+Voidstrap's own code is released under the [MIT License](LICENSE.VOIDSTRAP). Third party code, fonts, artwork and packages keep their own licenses. The Bloxstrap and Fishstrap notices are also preserved:
 
 | Project | License | Copyright | File |
 | --- | --- | --- | --- |
@@ -450,20 +470,107 @@ Components included in this repository keep their own licenses:
 
 | Component | Used in | License | File |
 | --- | --- | --- | --- |
-| [WPF UI](https://github.com/lepoco/wpfui) | Windows app | MIT | [License](external/wpfui/LICENSE) |
+| [WPF UI](https://github.com/lepoco/wpfui) | Desktop apps | MIT | [License](external/wpfui/LICENSE) |
 | WPF UI docs template by Singulink | WPF UI docs | MIT | [License](external/wpfui/docs/templates/LICENSE) |
-| Fluent System Icons by Microsoft | Windows app | MIT | [License](external/wpfui/src/Wpf.Ui/License%20-%20Fluent%20System%20Icons.txt) |
-| Segoe Fluent Icons by Microsoft | Windows app | Microsoft font license | [License](external/wpfui/src/Wpf.Ui/License%20-%20Segoe%20Fluent%20Icons.txt) |
-| VirtualizingWrapPanel | Windows app | MIT | [License](external/wpfui/src/Wpf.Ui/License%20-%20VirtualizingWrapPanel.txt) |
-| Fira Code font | Windows app | SIL Open Font License 1.1 | [License](external/wpfui/src/Wpf.Ui/License%20-%20Fira%20Code.txt) |
-| Inter font | Windows app | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Inter.txt) |
-| Selawik font by Microsoft | Windows app | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Selawik.txt) |
-| Montserrat font | Windows app | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Montserrat.txt) |
-| Noto Sans Thai font | Windows app | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-NotoSansThai.txt) |
-| Rubik font | Windows app | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Rubik.txt) |
-| Voidstrap Emoji font, built from [Twemoji Mozilla](https://github.com/mozilla/twemoji-colr) 0.7.0 by `build/Packaging/Linux/build-emoji-font.py`, art by [Twemoji](https://github.com/twitter/twemoji) | Linux app | CC BY 4.0 art, Apache 2.0 build code | [License](src/Voidstrap.App/Resources/Fonts/LICENSE-TwemojiMozilla.txt) |
-| [Bibata Modern Ice cursors](https://github.com/ful1e5/Bibata_Cursor) | Windows and Android apps | GPL 3.0 | [License](src/Voidstrap.App/Resources/Mods/Cursor/BibataModernIce/LICENSE.txt) |
+| Fluent System Icons by Microsoft | Desktop apps | MIT | [License](external/wpfui/src/Wpf.Ui/License%20-%20Fluent%20System%20Icons.txt) |
+| VirtualizingWrapPanel | WPF UI | MIT | [License](external/wpfui/src/Wpf.Ui/License%20-%20VirtualizingWrapPanel.txt) |
+| Fira Code font | WPF UI font assets | SIL Open Font License 1.1 | [License](external/wpfui/src/Wpf.Ui/License%20-%20Fira%20Code.txt) |
+| Inter font | Repository font assets | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Inter.txt) |
+| Selawik font by Microsoft | Repository font assets | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Selawik.txt) |
+| Montserrat font | Repository font assets | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Montserrat.txt) |
+| Noto Sans Thai font | Desktop apps | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-NotoSansThai.txt) |
+| Rubik font | Desktop apps | SIL Open Font License 1.1 | [License](src/Voidstrap.App/Resources/Fonts/OFL-Rubik.txt) |
+| Voidstrap Emoji font, adapted from [Twemoji Mozilla](https://github.com/mozilla/twemoji-colr/tree/v0.7.0) 0.7.0 using `build/Packaging/Linux/build-emoji-font.py`, art by [Twemoji](https://github.com/twitter/twemoji) | Linux app | CC BY 4.0 artwork, Apache 2.0 upstream tooling | [License](src/Voidstrap.App/Resources/Fonts/LICENSE-TwemojiMozilla.txt) |
+| [Bibata Modern Ice cursors](https://github.com/ful1e5/Bibata_Cursor/tree/v2.0.7) | Desktop and Android apps | GPL version 3 | [Desktop license](src/Voidstrap.App/Resources/Mods/Cursor/BibataModernIce/LICENSE.txt), [Android license](android/app/src/main/assets/mods/Cursor/BibataModernIce/LICENSE.txt) |
 | ppmd-rust | Android app | CC0 1.0 or MIT No Attribution | [CC0](android/rust/vendor/ppmd-rust/LICENSE-CC0.md), [MIT-0](android/rust/vendor/ppmd-rust/LICENSE-MIT-0.md) |
+| GLFW | Linux runtime | zlib/libpng license | [License](external/LibreWPF/GLFW-LICENSE.txt) |
+| [Devicon](https://github.com/devicons/devicon) platform icons, copyright 2015 konpa | README | MIT | [License](assets/readme/LICENSE-Devicon.txt) |
+
+The Windows and macOS README icons adapt Devicon artwork with background tiles, spacing and color changes. Brand names and logos remain the property of their owners. See [Devicon's brand guidance](https://github.com/devicons/devicon/wiki/Legal).
+
+Segoe Fluent Icons is not bundled. Its [upstream license](external/wpfui/src/Wpf.Ui/License%20-%20Segoe%20Fluent%20Icons.txt) is retained as a reference and does not grant redistribution rights.
+
+**Direct NuGet dependencies**
+
+These versions are declared in the projects under `src`. License labels were checked against their restored package metadata and license files.
+
+| Package | Version | License |
+| --- | --- | --- |
+| AvalonEdit | 6.3.1.120 | [MIT](https://licenses.nuget.org/MIT) |
+| Avalonia | 12.1.2 | [MIT](https://licenses.nuget.org/MIT) |
+| Avalonia.Controls.WebView | 12.1.0 | [MIT](https://licenses.nuget.org/MIT) |
+| Avalonia.Desktop | 12.1.2 | [MIT](https://licenses.nuget.org/MIT) |
+| Avalonia.Themes.Fluent | 12.1.2 | [MIT](https://licenses.nuget.org/MIT) |
+| Avalonia.Wayland | 12.1.3 | [MIT](https://licenses.nuget.org/MIT) |
+| CommandLineParser | 2.9.1 | [MIT](https://www.nuget.org/packages/CommandLineParser/2.9.1/License) |
+| CommunityToolkit.Mvvm | 8.4.2 | [MIT](https://licenses.nuget.org/MIT) |
+| Concentus.Oggfile | 1.0.7 | [MIT](https://licenses.nuget.org/MIT) |
+| DiscordRichPresence | 1.6.1.70 | [MIT](https://licenses.nuget.org/MIT) |
+| Markdig | 1.4.0 | [BSD-2-Clause](https://licenses.nuget.org/BSD-2-Clause) |
+| Microsoft.Extensions.Configuration | 10.0.12 | [MIT](https://licenses.nuget.org/MIT) |
+| Microsoft.Extensions.Configuration.FileExtensions | 10.0.12 | [MIT](https://licenses.nuget.org/MIT) |
+| Microsoft.Extensions.Configuration.Json | 10.0.12 | [MIT](https://licenses.nuget.org/MIT) |
+| Microsoft.ICU.ICU4C.Runtime | 72.1.0.3 | [Unicode license and third party notices](https://www.nuget.org/packages/Microsoft.ICU.ICU4C.Runtime/72.1.0.3/License) |
+| Microsoft.ML.OnnxRuntime.Managed | 1.30.0 | [MIT](https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime.Managed/1.30.0/License) |
+| Microsoft.Web.WebView2 | 1.0.4258.31 | [BSD 3 Clause SDK license](https://www.nuget.org/packages/Microsoft.Web.WebView2/1.0.4258.31/License) |
+| Microsoft.Windows.CsWin32 | 0.3.346 | [MIT](https://licenses.nuget.org/MIT) |
+| Microsoft.Windows.CsWinRT | 2.3.1 | [MIT](https://www.nuget.org/packages/Microsoft.Windows.CsWinRT/2.3.1/License) |
+| NAudio | 3.1.0 | [MIT](https://licenses.nuget.org/MIT) |
+| Nefarius.ViGEm.Client | 1.21.256 | [MIT](https://licenses.nuget.org/MIT) |
+| Newtonsoft.Json | 13.0.4 | [MIT](https://licenses.nuget.org/MIT) |
+| NVorbis | 0.10.5 | [MIT](https://www.nuget.org/packages/NVorbis/0.10.5/License) |
+| OggVorbisEncoder | 1.2.2 | [MIT](https://licenses.nuget.org/MIT) |
+| Openize.Drako | 26.2.0 | [MIT](https://www.nuget.org/packages/Openize.Drako/26.2.0/License) |
+| securifybv.ShellLink | 0.1.0 | [MIT](https://github.com/securifybv/ShellLink/blob/master/LICENSE.txt) |
+| SharpZipLib | 1.4.2 | [MIT](https://licenses.nuget.org/MIT) |
+| SixLabors.ImageSharp | 3.1.12 | [Apache 2.0 for this open source project](https://www.nuget.org/packages/SixLabors.ImageSharp/3.1.12/License) |
+| System.Drawing.Common | 10.0.12 | [MIT](https://licenses.nuget.org/MIT) |
+| System.Management | 10.0.12 | [MIT](https://licenses.nuget.org/MIT) |
+| System.Resources.Extensions | 10.0.10 | [MIT](https://licenses.nuget.org/MIT) |
+| System.Security.Cryptography.ProtectedData | 10.0.12 | [MIT](https://licenses.nuget.org/MIT) |
+| TextCopy | 6.2.1 | [MIT](https://licenses.nuget.org/MIT) |
+| Tmds.DBus | 0.95.1 | [MIT](https://licenses.nuget.org/MIT) |
+| Tomlyn | 2.10.1 | [BSD-2-Clause](https://licenses.nuget.org/BSD-2-Clause) |
+| Vortice.D3DCompiler | 3.8.3 | [MIT](https://licenses.nuget.org/MIT) |
+| Vortice.Direct3D11 | 3.8.3 | [MIT](https://licenses.nuget.org/MIT) |
+| Vortice.DirectComposition | 3.8.3 | [MIT](https://licenses.nuget.org/MIT) |
+| Vortice.DXGI | 3.8.3 | [MIT](https://licenses.nuget.org/MIT) |
+| Vortice.MediaFoundation | 3.8.3 | [MIT](https://licenses.nuget.org/MIT) |
+| WpfAnimatedGif | 2.0.2 | [Apache-2.0](https://licenses.nuget.org/Apache-2.0) |
+| ZstdSharp.Port | 0.8.8 | [MIT](https://licenses.nuget.org/MIT) |
+
+ImageSharp 3.1.12 grants Apache 2.0 terms for open source use under its [Six Labors license](https://github.com/SixLabors/ImageSharp/blob/v3.1.12/LICENSE). Check those terms before using it in a closed source fork.
+
+The [LibreWPF SDK 0.1.0-preview.42](https://www.nuget.org/packages/LibreWPF.Sdk/0.1.0-preview.42) uses MIT. Cross platform builds also include runtime dependencies and notices under `LibreWPF/Notices`. Preserve their individual license and attribution files.
+
+**Direct Android dependencies**
+
+Versions come from `android/gradle/libs.versions.toml`. License labels were checked against the resolved Maven POMs.
+
+| Package | Version | License |
+| --- | --- | --- |
+| AndroidX AppCompat | 1.8.0 | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) |
+| AndroidX Core | 1.19.1 | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) |
+| AndroidX ConstraintLayout | 2.2.2 | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) |
+| Material Components for Android | 1.14.0 | [Apache 2.0](https://github.com/material-components/material-components-android/blob/master/LICENSE) |
+| Shizuku API and provider | 13.1.5 | [MIT](https://github.com/RikkaApps/Shizuku-API/blob/master/LICENSE) |
+| Google Play app update, Play flavor only | 2.1.0 | [Play Core SDK Terms of Service](https://developer.android.com/guide/playcore/license) |
+| desugar_jdk_libs_nio | 2.1.5 | [GPL version 2 with Classpath Exception](https://github.com/google/desugar_jdk_libs/blob/master/LICENSE) |
+
+**Direct Rust dependencies**
+
+Versions come from `android/rust/Cargo.lock`. License expressions were checked against the published crate metadata. `OR` means a choice of licenses.
+
+| Crate | Version | License |
+| --- | --- | --- |
+| [crc32fast](https://crates.io/crates/crc32fast/1.5.2) | 1.5.2 | MIT OR Apache-2.0 |
+| [jni-sys](https://crates.io/crates/jni-sys/0.3.1) | 0.3.1 | MIT OR Apache-2.0 |
+| [miniz_oxide](https://crates.io/crates/miniz_oxide/0.9.1) | 0.9.1 | MIT OR Zlib OR Apache-2.0 |
+| [ppmd-rust](https://crates.io/crates/ppmd-rust/1.5.0) | 1.5.0 | CC0-1.0 OR MIT-0 |
+| [serde_json](https://crates.io/crates/serde_json/1.0.151) | 1.0.151 | MIT OR Apache-2.0 |
+| [sevenz-rust2](https://crates.io/crates/sevenz-rust2/0.23.0) | 0.23.0 | Apache-2.0 |
+
+Dependencies brought in by these packages retain their own terms too. The tables list direct dependencies, not every transitive package or system component. Preserve the notices and any required source when redistributing them. A README entry does not replace those requirements.
 
 </details>
 
