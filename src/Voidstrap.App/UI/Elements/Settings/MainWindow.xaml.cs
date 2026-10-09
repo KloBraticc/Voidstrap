@@ -2358,14 +2358,22 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         AppMenuPopup.IsOpen = true;
     }
 
-    private void AppMenuAbout_Click(object sender, RoutedEventArgs e)
+    private async void AppMenuAbout_Click(object sender, RoutedEventArgs e)
     {
-        AppMenuPopup.IsOpen = false;
+        if (!await CloseAppMenuBeforeDialogAsync())
+            return;
         Voidstrap.UI.Elements.About.MainWindow window = new Voidstrap.UI.Elements.About.MainWindow
         {
             Owner = this
         };
         window.ShowOwnedDialog();
+    }
+
+    private async Task<bool> CloseAppMenuBeforeDialogAsync()
+    {
+        AppMenuPopup.IsOpen = false;
+        await Task.Delay(180);
+        return !_isClosed;
     }
 
     private async void AppMenuUpdates_Click(object sender, RoutedEventArgs e)
@@ -2424,15 +2432,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private void AppMenuReleases_Click(object sender, RoutedEventArgs e)
+    private async void AppMenuReleases_Click(object sender, RoutedEventArgs e)
     {
-        AppMenuPopup.IsOpen = false;
-        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(ShowReleaseNotes));
-    }
-
-    private void ShowReleaseNotes()
-    {
-        if (_isClosed)
+        if (!await CloseAppMenuBeforeDialogAsync())
             return;
         new Voidstrap.UI.Elements.Dialogs.ReleaseNotesDialog { Owner = this }.ShowOwnedDialog();
     }
