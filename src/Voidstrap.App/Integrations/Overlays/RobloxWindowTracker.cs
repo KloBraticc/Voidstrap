@@ -475,6 +475,10 @@ namespace Voidstrap.Integrations.Overlays
 
         private const int MacTitleBarHeight = 28;
 
+        private static int _macTitleBar;
+
+        internal static int MacTitleBarOffset => Volatile.Read(ref _macTitleBar);
+
         private static RobloxWindowRect MeasureMac()
         {
             int pid = (int)_pid;
@@ -498,6 +502,7 @@ namespace Voidstrap.Integrations.Overlays
             _hwnd = new IntPtr(found.Number);
             bool foreground = Voidstrap.Platform.MacOS.MacOSOverlayWindow.FrontmostWindowOwner() == pid;
             int titleBar = found.Top > 0 && found.Height > MacTitleBarHeight * 4 ? MacTitleBarHeight : 0;
+            Volatile.Write(ref _macTitleBar, titleBar);
             return new RobloxWindowRect(_hwnd, (int)Math.Round(found.Left), (int)Math.Round(found.Top) + titleBar, (int)Math.Round(found.Width), (int)Math.Round(found.Height) - titleBar, true, foreground);
         }
 

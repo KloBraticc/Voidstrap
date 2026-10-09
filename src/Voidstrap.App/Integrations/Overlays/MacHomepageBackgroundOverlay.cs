@@ -29,6 +29,8 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 
 	private byte[] _capture = [];
 
+	private byte[] _raw = [];
+
 	private byte[] _ownWeights = [];
 
 	private byte[] _mask = [];
@@ -52,6 +54,8 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 	private bool _disposed;
 
 	private int _captureFailureLogged;
+
+	private int _firstCaptureLogged;
 
 	public MacHomepageBackgroundOverlay()
 	{
@@ -95,15 +99,40 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 			return;
 		}
 		int windowNumber = rect.Hwnd.ToInt32();
+		int titleBar = RobloxWindowTracker.MacTitleBarOffset;
+		int contentWidth = rect.Width;
+		int contentHeight = rect.Height;
 		LinuxHomepageVisualSettings settings = LinuxHomepageVisualSettings.Read();
-		_ = Task.Run(() => RenderFrame(windowNumber, settings));
+		_ = Task.Run(() => RenderFrame(windowNumber, contentWidth, contentHeight, titleBar, settings));
 	}
 
-	private void RenderFrame(int windowNumber, LinuxHomepageVisualSettings settings)
+	private bool Capture(int windowNumber, int contentWidth, int contentHeight, int titleBar, out int width, out int height)
+	{
+		int rawWidth;
+		int rawHeight;
+		bool captured = Voidstrap.Platform.MacOS.MacOSScreenCapture.IsAvailable
+			? Voidstrap.Platform.MacOS.MacOSScreenCapture.TryCapture(windowNumber, contentWidth, contentHeight + titleBar, ref _raw, out rawWidth, out rawHeight)
+			: Voidstrap.Platform.MacOS.MacOSWindowCapture.TryCapture(windowNumber, true, ref _raw, out rawWidth, out rawHeight);
+		width = rawWidth;
+		height = rawHeight;
+		if (!captured)
+			return false;
+		int skip = titleBar <= 0 ? 0 : rawHeight - (int)Math.Round(rawHeight * (double)contentHeight / (contentHeight + titleBar));
+		height = rawHeight - skip;
+		if (height <= 0)
+			return false;
+		int needed = rawWidth * height * 4;
+		if (_capture.Length != needed)
+			_capture = new byte[needed];
+		Buffer.BlockCopy(_raw, skip * rawWidth * 4, _capture, 0, needed);
+		return true;
+	}
+
+	private void RenderFrame(int windowNumber, int contentWidth, int contentHeight, int titleBar, LinuxHomepageVisualSettings settings)
 	{
 		try
 		{
-			if (!Voidstrap.Platform.MacOS.MacOSWindowCapture.TryCapture(windowNumber, true, ref _capture, out int width, out int height))
+			if (!Capture(windowNumber, contentWidth, contentHeight, titleBar, out int width, out int height))
 			{
 				if (Interlocked.Exchange(ref _captureFailureLogged, 1) == 0)
 					App.Logger.WriteLine(LogIdent, "The Roblox window could not be captured, check Screen Recording permission for Voidstrap");
@@ -126,6 +155,8 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 				_hasBackground = false;
 			}
 			int matched = LinuxHomepageBackgroundMask.BuildSampled(_capture, width, height, MaskScale, _ownWeights, _mask);
+			if (Interlocked.Exchange(ref _firstCaptureLogged, 1) == 0)
+				App.Logger.WriteLine(LogIdent, $"Captured the Roblox window at {width}x{height}, {matched} home background samples matched");
 			int minimumRegion = Math.Min(_ownWeights.Length, Math.Clamp(_ownWeights.Length / 512, 64, 4096));
 			if (matched < minimumRegion)
 			{
