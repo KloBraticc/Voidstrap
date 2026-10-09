@@ -15,6 +15,8 @@ public static class PlatformFeatureVisibility
 
 	public static Visibility ResourceOptimization { get; } = Resolve(FeatureId.ResourceOptimization);
 
+	public static Visibility TasxOptimization { get; } = Voidstrap.Utility.Platform.IsMacOS ? Visibility.Visible : ResourceOptimization;
+
 	public static Visibility FrameGeneration { get; } = Resolve(FeatureId.FrameGeneration);
 
 	public static Visibility VirtualController { get; } = Resolve(FeatureId.VirtualController);

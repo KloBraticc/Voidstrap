@@ -20,7 +20,7 @@
 		  <controls:OptionControl Header="Disable RobloxCrashHandler" Description="Closes RobloxCrashHandler after Roblox has safely finished starting" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding disablecrashhandleryayyysocool, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="TASX optimization" Description="Full speed while Roblox is focused, throttled while you are tabbed out." Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+          <controls:OptionControl Header="TASX optimization" Description="Full speed while Roblox is focused, throttled while you are tabbed out." Visibility="{x:Static platform:PlatformFeatureVisibility.TasxOptimization}">
             <ui:ToggleSwitch IsChecked="{Binding TasxOptimization, Mode=TwoWay}" />
           </controls:OptionControl>
         </StackPanel>
