@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 
 namespace Voidstrap.Integrations.AssetProxy;
@@ -12,8 +13,6 @@ internal static class MacAssetWarpBridge
 
 	private static Uri? _address;
 
-	private static int _environmentSet;
-
 	public static Voidstrap.Platform.OperationResult Enable(Uri address)
 	{
 		Volatile.Write(ref _address, address);
@@ -24,51 +23,35 @@ internal static class MacAssetWarpBridge
 	public static void Disable()
 	{
 		Volatile.Write(ref _address, null);
-		ClearLaunchEnvironment();
 	}
 
-	public static bool ApplyLaunchEnvironment()
+	public static bool StartRoblox()
 	{
 		Uri? address = Volatile.Read(ref _address);
 		if (!OperatingSystem.IsMacOS() || address is null)
 			return false;
-		string value = address.GetLeftPart(UriPartial.Authority);
-		foreach (string name in ProxyVariables)
+		string? bundle = Voidstrap.Utility.MacRobloxBundle.Find();
+		string executable = bundle == null ? "" : Path.Combine(bundle, "Contents", "MacOS", "RobloxPlayer");
+		if (!File.Exists(executable))
 		{
-			if (!RunLaunchctl("setenv", name, value))
-			{
-				ClearLaunchEnvironment();
-				return false;
-			}
+			App.Logger?.WriteLine(LogIdent, "RobloxPlayer was not found, Roblox starts without the AssetWarp proxy");
+			return false;
 		}
-		Interlocked.Exchange(ref _environmentSet, 1);
-		App.Logger?.WriteLine(LogIdent, "Roblox will start with the AssetWarp proxy");
-		return true;
-	}
-
-	public static void ClearLaunchEnvironment()
-	{
-		if (!OperatingSystem.IsMacOS() || Interlocked.Exchange(ref _environmentSet, 0) == 0)
-			return;
-		foreach (string name in ProxyVariables)
-			RunLaunchctl("unsetenv", name, null);
-	}
-
-	private static bool RunLaunchctl(string verb, string name, string? value)
-	{
 		try
 		{
-			ProcessStartInfo info = new("/bin/launchctl") { UseShellExecute = false, CreateNoWindow = true };
-			info.ArgumentList.Add(verb);
-			info.ArgumentList.Add(name);
-			if (value != null)
-				info.ArgumentList.Add(value);
+			ProcessStartInfo info = new(executable) { UseShellExecute = false, CreateNoWindow = true };
+			string value = address.GetLeftPart(UriPartial.Authority);
+			foreach (string name in ProxyVariables)
+				info.Environment[name] = value;
 			using Process? process = Process.Start(info);
-			return process != null && process.WaitForExit(5000) && process.ExitCode == 0;
+			if (process == null)
+				return false;
+			App.Logger?.WriteLine(LogIdent, "Started Roblox " + process.Id + " with the AssetWarp proxy");
+			return true;
 		}
 		catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception)
 		{
-			App.Logger?.WriteLine(LogIdent, "launchctl " + verb + " failed: " + ex.Message);
+			App.Logger?.WriteLine(LogIdent, "Roblox could not be started with the AssetWarp proxy: " + ex.Message);
 			return false;
 		}
 	}

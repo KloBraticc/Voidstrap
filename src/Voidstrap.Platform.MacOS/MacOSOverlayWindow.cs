@@ -128,6 +128,35 @@ public static partial class MacOSOverlayWindow
 		}
 	}
 
+	public static int FrontmostWindowOwner()
+	{
+		if (!OperatingSystem.IsMacOS())
+			return 0;
+		lock (Gate)
+		{
+			if (!EnsureWindowKeys())
+				return 0;
+			nint list = CGWindowListCopyWindowInfo(OnScreenOnly | ExcludeDesktopElements, 0);
+			if (list == 0)
+				return 0;
+			try
+			{
+				nint count = CFArrayGetCount(list);
+				for (nint index = 0; index < count; index++)
+				{
+					nint info = CFArrayGetValueAtIndex(list, index);
+					if (info != 0 && ReadInt(info, _layerKey) == 0)
+						return ReadInt(info, _ownerPidKey);
+				}
+				return 0;
+			}
+			finally
+			{
+				CFRelease(list);
+			}
+		}
+	}
+
 	private static int ReadInt(nint dictionary, nint key)
 	{
 		nint number = CFDictionaryGetValue(dictionary, key);

@@ -51,7 +51,7 @@ namespace Voidstrap.Integrations.Overlays
         {
             try
             {
-                return !Voidstrap.Utility.Platform.IsMacOS && OverlayHub.InGame && App.Settings?.Prop?.Crosshair == true;
+                return OverlayHub.InGame && App.Settings?.Prop?.Crosshair == true;
             }
             catch
             {

@@ -48,7 +48,7 @@ internal sealed class MacTasxOptimizer : IDisposable
 					games = [.. MacRobloxProcesses.Scan().GamePids];
 					Forget(games);
 				}
-				Apply(games, Voidstrap.Platform.MacOS.MacOSProcessPolicy.FrontmostProcessId());
+				Apply(games, Voidstrap.Platform.MacOS.MacOSOverlayWindow.FrontmostWindowOwner());
 				tick++;
 				await Task.Delay(TickIntervalMs, token).ConfigureAwait(false);
 			}

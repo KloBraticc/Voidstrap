@@ -1438,6 +1438,7 @@ public static class LaunchHandler
 					App.Logger.WriteLine("LaunchHandler::SoberStartup", message);
 					SetPortableLaunchStatus(message);
 				};
+			DateTime? macDirectStartUtc = null;
 			if (OperatingSystem.IsMacOS() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
 			{
 				Voidstrap.Utility.MacRobloxProcesses.CloseIdleMenuBarHelpers();
@@ -1449,9 +1450,16 @@ public static class LaunchHandler
 				SetPortableLaunchStatus("Starting AssetWarp");
 				await Bootstrapper.StartAssetProxyIfEnabled(cancellation);
 				if (AssetProxyServer.IsRunning)
-					Voidstrap.Integrations.AssetProxy.MacAssetWarpBridge.ApplyLaunchEnvironment();
+				{
+					DateTime started = DateTime.UtcNow;
+					if (Voidstrap.Integrations.AssetProxy.MacAssetWarpBridge.StartRoblox())
+					{
+						macDirectStartUtc = started;
+						await Task.Delay(4000, cancellation);
+					}
+				}
 			}
-			DateTime launchRequestedUtc = DateTime.UtcNow;
+			DateTime launchRequestedUtc = macDirectStartUtc ?? DateTime.UtcNow;
 			Voidstrap.Core.RuntimeLaunchCoordinator coordinator = new(host.PlayerRuntime, host.StudioRuntime);
 			Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result = await coordinator.LaunchAsync(runtimeKind, launchTarget, cancellation);
 			if (!result.Succeeded || result.Value == null)
@@ -1491,8 +1499,6 @@ public static class LaunchHandler
 		}
 		finally
 		{
-			if (OperatingSystem.IsMacOS())
-				Voidstrap.Integrations.AssetProxy.MacAssetWarpBridge.ClearLaunchEnvironment();
 			if (OperatingSystem.IsLinux())
 				Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.StartupStatus = null;
 			cancelRequested.Dispose();

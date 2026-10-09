@@ -473,6 +473,8 @@ namespace Voidstrap.Integrations.Overlays
 
         internal static int MacProcessId => Voidstrap.Utility.Platform.IsMacOS ? (int)_pid : 0;
 
+        private const int MacTitleBarHeight = 28;
+
         private static RobloxWindowRect MeasureMac()
         {
             int pid = (int)_pid;
@@ -494,8 +496,9 @@ namespace Voidstrap.Integrations.Overlays
                 return new RobloxWindowRect(IntPtr.Zero, 0, 0, 0, 0, false, false);
             }
             _hwnd = new IntPtr(found.Number);
-            bool foreground = Voidstrap.Platform.MacOS.MacOSProcessPolicy.FrontmostProcessId() == pid;
-            return new RobloxWindowRect(_hwnd, (int)Math.Round(found.Left), (int)Math.Round(found.Top), (int)Math.Round(found.Width), (int)Math.Round(found.Height), true, foreground);
+            bool foreground = Voidstrap.Platform.MacOS.MacOSOverlayWindow.FrontmostWindowOwner() == pid;
+            int titleBar = found.Top > 0 && found.Height > MacTitleBarHeight * 4 ? MacTitleBarHeight : 0;
+            return new RobloxWindowRect(_hwnd, (int)Math.Round(found.Left), (int)Math.Round(found.Top) + titleBar, (int)Math.Round(found.Width), (int)Math.Round(found.Height) - titleBar, true, foreground);
         }
 
         private static bool IsProcessAlive(int pid)
@@ -877,7 +880,7 @@ namespace Voidstrap.Integrations.Overlays
 			{
 				_macFocusReturned = true;
 				int roblox = RobloxWindowTracker.MacProcessId;
-				if (roblox > 0 && Voidstrap.Platform.MacOS.MacOSProcessPolicy.FrontmostProcessId() == Environment.ProcessId)
+				if (roblox > 0 && Voidstrap.Platform.MacOS.MacOSOverlayWindow.FrontmostWindowOwner() == Environment.ProcessId)
 				{
 					Voidstrap.Platform.MacOS.MacOSOverlayWindow.ActivateProcess(roblox);
 					return;
