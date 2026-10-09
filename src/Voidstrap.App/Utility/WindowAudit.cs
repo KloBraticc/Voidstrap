@@ -6182,7 +6182,7 @@ internal static class WindowAudit
 
 	private static void AuditColorPickerWindow()
 	{
-		Voidstrap.UI.Elements.Controls.RinColorPickerDialog window = new(System.Windows.Media.Color.FromRgb(0x11, 0x88, 0xEE), alphaEnabled: true);
+		Voidstrap.UI.Elements.Controls.RinColorPickerDialog window = new(alphaEnabled: true);
 		try
 		{
 			window.Show();
