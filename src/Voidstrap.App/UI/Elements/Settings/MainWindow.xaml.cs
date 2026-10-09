@@ -676,6 +676,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
                 RootNavigation.TransitionDuration = 0;
         }
+        else if (Voidstrap.Utility.Platform.IsMacOS)
+        {
+            PreviewMouseMove += OnLinuxGradientMouseMove;
+            MouseLeave += RootGrid_MouseLeave;
+        }
         CommandPaletteResultsList.ItemsSource = _commandPaletteRows;
         PrepareLinuxRestartNotificationInput();
         SoberNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
@@ -3263,7 +3268,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void RootGrid_MouseMove(object sender, MouseEventArgs e)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.IsWindows)
             return;
         //IL_000d: Unknown result type (might be due to invalid IL or missing references)
         //IL_0012: Unknown result type (might be due to invalid IL or missing references)
@@ -3291,7 +3296,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void StartGradientRendering()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.IsWindows)
         {
             if (App.Settings.Prop.GRADmentFR && IsActive && IsVisible && WindowState != System.Windows.WindowState.Minimized)
                 StartLinuxGradientAnimation();
@@ -3332,7 +3337,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void StopLinuxGradientAnimation(bool reset)
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.IsWindows)
             return;
         double x = reset ? 0 : BackgroundGradientTranslate.X;
         double y = reset ? 0 : BackgroundGradientTranslate.Y;
@@ -3935,7 +3940,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public void ApplyGradientMovement(bool enabled)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.IsWindows)
         {
             StopLinuxGradientAnimation(reset: !enabled);
             if (enabled)
@@ -4200,7 +4205,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Voidstrap.Utility.AppNotifications.Changed += OnAppNotificationsChanged;
         Voidstrap.Utility.AppNotifications.Reload();
         ApplyNotificationUnread(Voidstrap.Utility.AppNotifications.UnreadCount);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.IsWindows)
             StartGradientRendering();
         else if (App.Settings.Prop.GRADmentFR && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
         {
@@ -5222,7 +5227,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         try
         {
             _visibilityTimer.Start();
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.IsWindows)
                 StartGradientRendering();
             else if (App.Settings.Prop.GRADmentFR && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
             {
