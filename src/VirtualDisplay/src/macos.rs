@@ -344,6 +344,7 @@ struct Session {
     error: Option<String>,
     stopped: Arc<AtomicBool>,
     started: Instant,
+    last_configuration: Option<Instant>,
 }
 
 impl Session {
@@ -442,6 +443,7 @@ impl Session {
             error: None,
             stopped,
             started,
+            last_configuration: None,
         })
     }
 
@@ -482,7 +484,13 @@ impl Session {
         if unsafe { CGDisplayIsActive(self.virtual_id) } == 0 {
             return Ok(());
         }
-        if !self.changed {
+        if self
+            .last_configuration
+            .is_some_and(|last| last.elapsed().as_millis() < 500)
+        {
+            return Ok(());
+        }
+        if unsafe { CGDisplayMirrorsDisplay(self.physical) } != self.virtual_id {
             let transaction = Transaction::begin()?;
             check(
                 unsafe {
@@ -491,6 +499,7 @@ impl Session {
                 "Enable virtual display mirroring",
             )?;
             self.changed = true;
+            self.last_configuration = Some(Instant::now());
             transaction.commit()?;
         }
         if unsafe { CGDisplayMirrorsDisplay(self.physical) } == self.virtual_id {
@@ -522,6 +531,17 @@ impl Session {
                             },
                             "Select virtual display mode",
                         )?;
+                        check(
+                            unsafe {
+                                CGConfigureDisplayMirrorOfDisplay(
+                                    transaction.0,
+                                    self.physical,
+                                    self.virtual_id,
+                                )
+                            },
+                            "Retain virtual display mirroring",
+                        )?;
+                        self.last_configuration = Some(Instant::now());
                         transaction.commit()?;
                         break;
                     }
