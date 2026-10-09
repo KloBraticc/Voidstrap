@@ -44,12 +44,13 @@ internal static class FleasionBridge
 	{
 		get
 		{
-			if (!IsActive && !App.Settings.Prop.Fleasion)
+			if (!IsRequested)
 				return false;
 			try
 			{
 				JsonObject settings = ReadObject(Path.Combine(ConfigDirectory, "settings.json"));
-				return settings["proxy_mode"]?.GetValue<string>() == "env" && settings["proxy_features_enabled"]?.GetValue<bool>() != false;
+				return !string.Equals(settings["proxy_mode"]?.GetValue<string>(), "hosts", StringComparison.OrdinalIgnoreCase)
+					&& settings["proxy_features_enabled"]?.GetValue<bool>() != false;
 			}
 			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or InvalidOperationException)
 			{

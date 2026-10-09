@@ -2520,7 +2520,7 @@ public class Bootstrapper
         }
         bool flag = !string.IsNullOrEmpty(_launchStatusFile);
         bool shouldOptimize = RobloxProcessOptimizer.ShouldRun(App.Settings?.Prop);
-		bool shouldTrackOverlays = Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled
+		bool shouldTrackOverlays = Watcher.OverlaysNeedGameState()
 			|| Voidstrap.Integrations.Overlays.OverlaySettings.GameEffectsEnabled;
 		bool shouldKeepSnapTap = _launchMode == LaunchMode.Player && Voidstrap.Utility.Platform.SupportsInputHooks && (App.Settings?.Prop.SnapTapEnabled ?? false);
 		bool shouldCompressAfterExit = RobloxInstallCompression.Supported && (App.Settings?.Prop.CompressRobloxInstalls ?? false);

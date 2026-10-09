@@ -420,10 +420,11 @@ public partial class Watcher : IDisposable
 		}
 	}
 
-	private static bool OverlaysNeedGameState()
+	internal static bool OverlaysNeedGameState()
 	{
 		return (App.Settings.Prop.OverlaysEnabled && OverlayWindow.SurfaceRequired)
 			|| App.Settings.Prop.Crosshair
+			|| (Voidstrap.Utility.Platform.IsWindows && App.Settings.Prop.ClassicTopBarEnabled)
 			|| Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled
 			|| (!Voidstrap.Utility.Platform.IsLinux && Voidstrap.Integrations.Overlays.OverlaySettings.GameEffectsEnabled);
 	}
