@@ -443,8 +443,13 @@ impl Session {
         let fast = mode(width, height, config.refresh as f64)?;
         let fallback = mode(width, height, 60.0)?;
         let objects = [Retained::as_ptr(&fast), Retained::as_ptr(&fallback)];
+        let mode_count = if config.refresh == 60 {
+            1usize
+        } else {
+            objects.len()
+        };
         let modes: Retained<AnyObject> = unsafe {
-            msg_send![class(c"NSArray")?, arrayWithObjects: objects.as_ptr(), count: objects.len()]
+            msg_send![class(c"NSArray")?, arrayWithObjects: objects.as_ptr(), count: mode_count]
         };
         unsafe {
             let _: () = msg_send![&*settings, setHiDPI: u32::from(config.size.is_none() && pixels_wide > width)];
