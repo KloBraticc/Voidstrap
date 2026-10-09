@@ -1651,6 +1651,7 @@ public partial class App : Application
 		TryStartup("Application font", AppFont.Initialize);
 		TryStartup("Memory manager", Voidstrap.Utility.MemoryManager.Start);
 		TryStartup("Render diagnostics", LogRenderMode);
+		TryStartup("Keyboard focus", Voidstrap.UI.MacKeyboardFocus.Install);
 	}
 
 	private static bool _macApplicationActivated;
