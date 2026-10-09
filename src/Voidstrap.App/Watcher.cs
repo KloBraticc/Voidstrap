@@ -68,6 +68,8 @@ public partial class Watcher : IDisposable
 
 	private Voidstrap.Utility.MacTasxOptimizer? _macTasxOptimizer;
 
+	private Voidstrap.Utility.MacVirtualDisplaySession? _virtualDisplay;
+
 	private LinuxRobloxResourceOptimizer? _linuxResourceOptimizer;
 
 	private Task? _windowManipulationTask;
@@ -115,6 +117,7 @@ public partial class Watcher : IDisposable
 		Current = this;
 		MemoryManager.SetGameplayActive(true);
 		StartSettingsWatcher();
+		UpdateVirtualDisplay();
 		bool enableActivityTracking = App.Settings.Prop.EnableActivityTracking;
 		bool flag = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("VOIDSTRAP_STATUS_FILE"));
 		_activityTrackingEnabled = enableActivityTracking;
@@ -278,6 +281,7 @@ public partial class Watcher : IDisposable
 			}
 		}
 		UpdateRuntimeOptimizer();
+		UpdateVirtualDisplay();
 		Voidstrap.KeyRouting.SnapTapHook.ApplyFromSettings();
 		_notifyIcon?.RefreshGameJoinSubscription();
 		Voidstrap.Integrations.Overlays.OverlayHub.Refresh();
@@ -287,6 +291,20 @@ public partial class Watcher : IDisposable
 	private void StartRuntimeOptimizer()
 	{
 		UpdateRuntimeOptimizer();
+	}
+
+	private void UpdateVirtualDisplay()
+	{
+		if (_disposed || !Voidstrap.Utility.Platform.IsMacOS || !App.Settings.Prop.MacVirtualDisplayEnabled || App.Settings.Prop.LaunchWithoutVoidstrap)
+		{
+			_virtualDisplay?.Dispose();
+			_virtualDisplay = null;
+			return;
+		}
+		if (_virtualDisplay != null)
+			return;
+		_virtualDisplay = new Voidstrap.Utility.MacVirtualDisplaySession();
+		_virtualDisplay.Start();
 	}
 
 	private void UpdateRuntimeOptimizer()
@@ -1246,6 +1264,8 @@ public partial class Watcher : IDisposable
 			return;
 		}
 		_disposed = true;
+		_virtualDisplay?.Dispose();
+		_virtualDisplay = null;
 		Voidstrap.Integrations.Overlays.OverlayHub.ReleaseLinuxGameplayLease();
 		if (ReferenceEquals(Current, this))
 		{

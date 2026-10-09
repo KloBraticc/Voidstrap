@@ -349,7 +349,7 @@ The script publishes with Windows .NET and packages through WSL. Without WSL and
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-macos-dark.svg"><img src="assets/readme/build-macos-light.svg" alt="macOS build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
-**You need:** the .NET SDK described above, PowerShell 7 and Bash. On macOS, install the Xcode Command Line Tools with `xcode-select --install` for the signing and packaging tools.
+**You need:** the .NET SDK described above, PowerShell 7 and Bash. On macOS, install Rust with [rustup](https://rustup.rs) and the Xcode Command Line Tools with `xcode-select --install`. Packaging builds and signs the Rust virtual display helper too.
 
 On an Apple silicon Mac:
 
@@ -555,18 +555,22 @@ Versions come from `android/gradle/libs.versions.toml`. License labels were chec
 
 **Direct Rust dependencies**
 
-Versions come from `android/rust/Cargo.lock`. License expressions were checked against the published crate metadata. `OR` means a choice of licenses.
+Versions come from `android/rust/Cargo.lock` and `src/VirtualDisplay/Cargo.lock`. License expressions were checked against the published crate metadata. `OR` means a choice of licenses.
 
 | Crate | Version | License |
 | --- | --- | --- |
 | [crc32fast](https://crates.io/crates/crc32fast/1.5.2) | 1.5.2 | MIT OR Apache-2.0 |
 | [jni-sys](https://crates.io/crates/jni-sys/0.3.1) | 0.3.1 | MIT OR Apache-2.0 |
+| [libc](https://crates.io/crates/libc/0.2.190) | 0.2.190 | MIT OR Apache-2.0 |
 | [miniz_oxide](https://crates.io/crates/miniz_oxide/0.9.1) | 0.9.1 | MIT OR Zlib OR Apache-2.0 |
+| [objc2](https://crates.io/crates/objc2/0.6.5) | 0.6.5 | MIT |
 | [ppmd-rust](https://crates.io/crates/ppmd-rust/1.5.0) | 1.5.0 | CC0-1.0 OR MIT-0 |
 | [serde_json](https://crates.io/crates/serde_json/1.0.151) | 1.0.151 | MIT OR Apache-2.0 |
 | [sevenz-rust2](https://crates.io/crates/sevenz-rust2/0.23.0) | 0.23.0 | Apache-2.0 |
 
 Dependencies brought in by these packages retain their own terms too. The tables list direct dependencies, not every transitive package or system component. Preserve the notices and any required source when redistributing them. A README entry does not replace those requirements.
+
+The macOS virtual display helper implements the [AppleBlox VirtualDisplay approach](https://github.com/AppleBlox/virtualdisplay) in Rust. Its [bundled notices](src/VirtualDisplay/THIRD-PARTY-NOTICES.txt) cover libc, objc2 and objc2-encode.
 
 </details>
 

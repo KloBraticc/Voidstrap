@@ -35,6 +35,9 @@
             <ui:ToggleSwitch IsChecked="{Binding LaunchWithoutVoidstrap, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:BootstrapperImportControl Imported="OnSettingsImported" />
+          <controls:OptionControl Header="240 Hz virtual display" Description="Mirrors the main screen through a virtual display while Roblox runs, then restores it when Roblox closes. The physical panel keeps its own refresh limit." Visibility="{x:Static platform:PlatformFeatureVisibility.MacOSIntegration}">
+            <ui:ToggleSwitch IsChecked="{Binding MacVirtualDisplayEnabled, Mode=TwoWay}" />
+          </controls:OptionControl>
           <Expander Header="Display and Resolution" IsExpanded="False" Margin="0,8,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <StackPanel Margin="0,4,0,0">
                             <Border CornerRadius="8" Padding="10" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">

@@ -257,6 +257,8 @@ namespace Voidstrap.Models.Persistable
 
         public bool ClassicTopBarEnabled { get; set; } = false;
 
+        public bool MacVirtualDisplayEnabled { get; set; } = false;
+
         public bool ClassicTopBarHideAllCoreGui { get; set; } = false;
 
         public bool Ps4ButtonsEnabled { get; set; } = false;

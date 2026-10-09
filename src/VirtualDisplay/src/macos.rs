@@ -581,10 +581,13 @@ unsafe extern "C" fn perform(context: Ref) {
     });
 }
 
-unsafe extern "C" fn timeout(_: Ref, context: Ref) {
+unsafe extern "C" fn timeout(timer: Ref, context: Ref) {
     let session = unsafe { &mut *(context as *mut Session) };
-    session.timeout = !session.ready;
+    session.timeout = !session.ready && session.started.elapsed().as_secs() >= 10;
     unsafe { perform(context) };
+    if session.ready || session.error.is_some() || session.stopped.load(Ordering::Acquire) {
+        unsafe { CFRunLoopTimerInvalidate(timer) };
+    }
 }
 
 pub fn run(config: Config) -> Result<(), String> {
@@ -666,8 +669,8 @@ fn run_inner(config: Config) -> Result<(), String> {
     let timer = unsafe {
         CFRunLoopTimerCreate(
             ptr::null_mut(),
-            CFAbsoluteTimeGetCurrent() + 10.0,
-            0.0,
+            CFAbsoluteTimeGetCurrent() + 0.5,
+            0.5,
             0,
             0,
             timeout,

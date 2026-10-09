@@ -170,6 +170,19 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public ObservableCollection<DisplayMode> AvailableResolutions { get; } = new ObservableCollection<DisplayMode>();
 
+	public bool MacVirtualDisplayEnabled
+	{
+		get => App.Settings.Prop.MacVirtualDisplayEnabled;
+		set
+		{
+			if (App.Settings.Prop.MacVirtualDisplayEnabled == value)
+				return;
+			App.Settings.Prop.MacVirtualDisplayEnabled = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged(nameof(MacVirtualDisplayEnabled));
+		}
+	}
+
 	public ObservableCollection<MonitorTile> Monitors { get; } = new ObservableCollection<MonitorTile>();
 
 	public ICommand SelectMonitorCommand => _selectMonitorCommand ?? (_selectMonitorCommand = new RelayCommand<MonitorTile>(SelectMonitorFromUi));

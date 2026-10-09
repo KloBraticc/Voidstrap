@@ -69,6 +69,24 @@ else
 fi
 mkdir -p "$APPLICATION/Contents/MacOS" "$APPLICATION/Contents/Resources"
 cp -R "$PUBLISH/." "$APPLICATION/Contents/MacOS/"
+case "$RID" in
+  osx-arm64) RUST_TARGET=aarch64-apple-darwin ;;
+  osx-x64) RUST_TARGET=x86_64-apple-darwin ;;
+esac
+if [ "$(uname -s)" = "Darwin" ]; then
+  rustup target add "$RUST_TARGET"
+  CARGO_TARGET_DIR="$STAGE/rust" RUSTFLAGS="--remap-path-prefix=$ROOT=/src --remap-path-prefix=${CARGO_HOME:-$HOME/.cargo}=/cargo" cargo build --manifest-path "$ROOT/src/VirtualDisplay/Cargo.toml" --locked --release --target "$RUST_TARGET"
+  cp "$STAGE/rust/$RUST_TARGET/release/voidstrap-virtualdisplay" "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
+  chmod 755 "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
+elif [ -s "${VOIDSTRAP_VIRTUALDISPLAY_BINARY:-$ROOT/external/virtualdisplay/$RID/voidstrap-virtualdisplay}" ]; then
+  cp "${VOIDSTRAP_VIRTUALDISPLAY_BINARY:-$ROOT/external/virtualdisplay/$RID/voidstrap-virtualdisplay}" "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
+  chmod 755 "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
+else
+  echo "A macOS virtual display binary is required for this package"
+  exit 1
+fi
+cp "$ROOT/src/VirtualDisplay/THIRD-PARTY-NOTICES.txt" "$APPLICATION/Contents/Resources/VirtualDisplay-Notices.txt"
+cp "$ROOT/LICENSE.VOIDSTRAP" "$APPLICATION/Contents/Resources/VirtualDisplay-License.txt"
 NOTICES="$APPLICATION/Contents/MacOS/LibreWPF/Notices"
 if [ -d "$NOTICES" ]; then
   while IFS= read -r directory; do
@@ -98,8 +116,10 @@ fi
 /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $VERSION" "$APPLICATION/Contents/Info.plist"
 
 if [ -n "${MACOS_SIGN_IDENTITY:-}" ]; then
+  codesign --force --options runtime --sign "$MACOS_SIGN_IDENTITY" "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
   codesign --force --deep --options runtime --entitlements "$ROOT/build/Packaging/MacOS/Entitlements.plist" --sign "$MACOS_SIGN_IDENTITY" "$APPLICATION"
 else
+  codesign --force --sign - "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
   codesign --force --deep --sign - "$APPLICATION"
 fi
 
