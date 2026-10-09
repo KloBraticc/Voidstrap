@@ -49,11 +49,13 @@ fn repair_koly_trailer(path: &str) -> Result<(), Box<dyn Error>> {
 
     let mut property_list =
         plist::Value::from_reader_xml(Cursor::new(&image[plist_offset..plist_end]))?;
-    let block_maps = property_list
+    let resource_fork = property_list
         .as_dictionary_mut()
         .and_then(|root| root.get_mut("resource-fork"))
         .and_then(plist::Value::as_dictionary_mut)
-        .and_then(|resource_fork| resource_fork.get_mut("blkx"))
+        .ok_or("the disk image block map is invalid")?;
+    let block_maps = resource_fork
+        .get_mut("blkx")
         .and_then(plist::Value::as_array_mut)
         .ok_or("the disk image block map is invalid")?;
     for block_map in block_maps {
@@ -71,6 +73,7 @@ fn repair_koly_trailer(path: &str) -> Result<(), Box<dyn Error>> {
         data[32..36].copy_from_slice(&2056u32.to_be_bytes());
         data[36..40].copy_from_slice(&0u32.to_be_bytes());
     }
+    resource_fork.insert("plst".to_string(), plist::Value::Array(Vec::new()));
 
     let mut serialized_property_list = Vec::new();
     plist::to_writer_xml(&mut serialized_property_list, &property_list)?;
