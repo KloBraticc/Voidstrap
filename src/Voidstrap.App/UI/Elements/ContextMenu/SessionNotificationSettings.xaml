@@ -45,7 +45,8 @@
     <Border x:Name="PreviewFrame" Height="190" CornerRadius="10" ClipToBounds="True" Cursor="Hand"
             ToolTip="Click to play the animation" MouseLeftButtonUp="Preview_Click"
             Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}">
-      <Grid>
+      <!-- Clipped to the frame's rounded corners in code, ClipToBounds alone leaves them square -->
+      <Grid x:Name="PreviewClipHost" SizeChanged="PreviewClipHost_SizeChanged">
         <Border CornerRadius="10">
           <Border.Background>
             <ImageBrush x:Name="PreviewBackground" Stretch="UniformToFill" />
@@ -65,6 +66,7 @@
                   <TranslateTransform x:Name="MockTranslate" />
                 </TransformGroup>
               </Border.RenderTransform>
+              <!-- Same layout as the real notification, so wrapping and height match it -->
               <Grid>
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto" />
@@ -73,17 +75,19 @@
                 <Image x:Name="MockIcon" Width="44" Height="44" Margin="0,0,12,0" VerticalAlignment="Center"
                        Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                  <TextBlock Text="Connected to public server" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                  <TextBlock x:Name="MockTitle" Text="Roblox" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
-                             Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-                  <TextBlock Text="Uptime: 1h 12m  •  12/20 players" FontSize="12" Margin="0,2,0,0"
+                  <TextBlock Text="Connected to public server" FontSize="12" Margin="0,0,14,1" TextWrapping="Wrap"
                              Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                  <TextBlock x:Name="MockTitle" Text="Roblox" FontSize="14" FontWeight="SemiBold" Margin="0,0,14,0"
+                             TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                  <TextBlock FontSize="12" Margin="0,2,0,0" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxHeight="64"
+                             Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                             Text="Location: Dallas, United States&#x0a;Uptime: 1h 12m" />
                 </StackPanel>
               </Grid>
             </Border>
           </Border>
         </Canvas>
-        <TextBlock Text="Preview" Margin="12,10,0,0" FontSize="12" FontWeight="SemiBold" Foreground="#E6FFFFFF"
+        <TextBlock x:Name="PreviewLabel" Text="Preview" Margin="12,10,12,0" FontSize="12" FontWeight="SemiBold" Foreground="#E6FFFFFF"
                    HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False" />
       </Grid>
     </Border>

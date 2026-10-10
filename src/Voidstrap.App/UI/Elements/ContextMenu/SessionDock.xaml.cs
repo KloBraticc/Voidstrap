@@ -60,6 +60,12 @@ public partial class SessionDock : Window
     private static readonly AnimationTimeline RingFade = Frozen(new DoubleAnimation(0.45, 0, TimeSpan.FromMilliseconds(900)) { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut } });
     private static readonly AnimationTimeline DotBeat = Frozen(CreateDotBeat());
     private DispatcherTimer? _heartbeat;
+    private static readonly AnimationTimeline DockFadeIn = Smooth(new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(170)) { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } });
+    private static readonly AnimationTimeline DockRise = Smooth(new DoubleAnimation(10, 0, TimeSpan.FromMilliseconds(220)) { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } });
+    // Set when the dock was hidden only because the game lost focus, so it comes back with the game
+    private bool _resumeOnFocus;
+    private bool _resumePopout;
+    private bool _resumeQueued;
     private Window? _popout;
     private IntPtr _popoutHandle;
     private long _bannerUniverse;
@@ -187,6 +193,8 @@ public partial class SessionDock : Window
             Dispatcher.BeginInvoke(new Action(HideDock));
             return;
         }
+        _resumeOnFocus = false;
+        _resumePopout = false;
         if (_closed || !_opened)
             return;
         _opened = false;
@@ -207,6 +215,24 @@ public partial class SessionDock : Window
             SetForegroundWindow(game);
     }
 
+    private void ResumeDock()
+    {
+        _resumeQueued = false;
+        if (_closed || _opened || !_resumeOnFocus)
+            return;
+        bool popout = _resumePopout;
+        if (!RobloxWindowTracker.IsRobloxForeground())
+            return;
+        _resumeOnFocus = false;
+        _resumePopout = false;
+        if (!App.Settings.Prop.SessionDockEnabled || !_activity.InGame)
+            return;
+        // The player just clicked back into the game, so nothing takes the keyboard away from it
+        Open(activatePanels: false);
+        if (popout && _opened)
+            ShowPopout();
+    }
+
     private void Toggle()
     {
         if (_closed || !App.Settings.Prop.SessionDockEnabled)
@@ -218,6 +244,13 @@ public partial class SessionDock : Window
         }
         if (!_activity.InGame)
             return;
+        Open();
+    }
+
+    private void Open(bool activatePanels = true)
+    {
+        _resumeOnFocus = false;
+        _resumePopout = false;
         // The caller already checked that Roblox is in front, make sure the cached bounds agree before anchoring
         RobloxWindowTracker.Refresh();
         _opened = true;
@@ -226,6 +259,8 @@ public partial class SessionDock : Window
         UpdateReadout();
         ShowDimmer();
         _anchor ??= new RobloxOverlayAnchor(this, placement: RobloxOverlayPlacement.BottomCenter);
+        // Started before showing so the very first frame is already the start of the fade
+        PlayEntrance();
         try
         {
             Show();
@@ -243,7 +278,7 @@ public partial class SessionDock : Window
         // Start loading the popout's banner and friends now so they are ready when it is opened
         _ = LoadPopoutAsync();
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
-            panel.Present(true);
+            panel.Present(true, activatePanels);
         RaiseAboveDimmer();
     }
 
@@ -258,8 +293,17 @@ public partial class SessionDock : Window
         }
         if (_opened && (!bounds.Valid || !bounds.Foreground))
         {
+            bool popout = PopoutOpen;
             HideDock();
+            _resumeOnFocus = true;
+            _resumePopout = popout;
             return;
+        }
+        if (!_opened && _resumeOnFocus && bounds.Valid && bounds.Foreground && !_resumeQueued)
+        {
+            // Not from inside the tracker's own event, opening refreshes the tracker
+            _resumeQueued = true;
+            Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(ResumeDock));
         }
         _dimmer?.Place(bounds);
         if (PopoutOpen)
@@ -488,6 +532,28 @@ public partial class SessionDock : Window
         beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.14, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(330)), new QuadraticEase { EasingMode = EasingMode.EaseOut }));
         beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.0, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(520)), new QuadraticEase { EasingMode = EasingMode.EaseIn }));
         return beat;
+    }
+
+    // Fades in while rising a few pixels, the dimmer behind it fades at the same time
+    private void PlayEntrance()
+    {
+        if (!SystemParameters.ClientAreaAnimation)
+        {
+            DockRoot.BeginAnimation(OpacityProperty, null);
+            DockShift.BeginAnimation(TranslateTransform.YProperty, null);
+            DockRoot.Opacity = 1;
+            DockShift.Y = 0;
+            return;
+        }
+        DockRoot.BeginAnimation(OpacityProperty, DockFadeIn);
+        DockShift.BeginAnimation(TranslateTransform.YProperty, DockRise);
+    }
+
+    private static AnimationTimeline Smooth(AnimationTimeline timeline)
+    {
+        Timeline.SetDesiredFrameRate(timeline, 60);
+        timeline.Freeze();
+        return timeline;
     }
 
     private static AnimationTimeline Frozen(AnimationTimeline timeline)
