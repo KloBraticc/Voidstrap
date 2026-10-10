@@ -39,7 +39,7 @@ public partial class NotificationWindow
             DismissButton.MouseLeftButtonDown += OnDismissNotification;
             MouseMove += OnNotificationMouse;
             MouseLeave += OnNotificationMouse;
-            _hoverTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Input) { Interval = TimeSpan.FromMilliseconds(40) };
+            _hoverTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Input) { Interval = TimeSpan.FromMilliseconds(PortableOverlay.Active ? 500 : 40) };
             _hoverTimer.Tick += OnHoverTick;
         }
 
@@ -75,7 +75,7 @@ public partial class NotificationWindow
             DismissButton.Background = Brushes.Transparent;
             SetDismissVisible(false, false);
             Show();
-            _notificationHandle = new WindowInteropHelper(this).Handle;
+            _notificationHandle = PortableOverlay.Active ? PortableOverlay.Handle(this) : new WindowInteropHelper(this).Handle;
             OverlayDiagnostics.RegisterOverlayHandle(_notificationHandle);
             UpdateLayout();
             Size travel = new(Math.Max(1, ActualWidth), Math.Max(1, ActualHeight));
@@ -104,6 +104,8 @@ public partial class NotificationWindow
                 await Task.Delay(intro, token);
             EndCachedAnimation();
             _nativeSlide?.Stop(true);
+            if (PortableOverlay.Active)
+                PlaceWindowsNotification(RobloxWindowTracker.Current);
             _hoverTimer?.Start();
             double duration = appearance.SafeSecondsOnScreen;
             double remaining = duration;
@@ -111,7 +113,7 @@ public partial class NotificationWindow
             double previous = clock.Elapsed.TotalSeconds;
             while (!_dismissRequested && remaining > 0)
             {
-                await Task.Delay(100, token);
+                await Task.Delay(PortableOverlay.Active ? 500 : 100, token);
                 double now = clock.Elapsed.TotalSeconds;
                 if (!_hovered || !appearance.PauseWhileHovered)
                     remaining -= now - previous;
@@ -190,10 +192,12 @@ public partial class NotificationWindow
     // and that bitmap is composited each frame instead of laying out and drawing the text again
     private void BeginCachedAnimation()
     {
+        if (PortableOverlay.Active)
+            return;
         // Cached on the root so the card and its shadow are drawn once, the blur is not redone every frame
         if (NotificationRoot.CacheMode is BitmapCache)
             return;
-        DpiScale dpi = VisualTreeHelper.GetDpi(this);
+        DpiScale dpi = PortableOverlay.Scale(this);
         NotificationRoot.CacheMode = new BitmapCache(Math.Max(dpi.DpiScaleX, dpi.DpiScaleY)) { SnapsToDevicePixels = true };
     }
 
@@ -205,11 +209,16 @@ public partial class NotificationWindow
     {
         if (_closed || !_presenting || _dismissRequested || !IsVisible)
             return;
+        if (PortableOverlay.Active)
+        {
+            UpdatePortableHover();
+            return;
+        }
         IntPtr handle = _notificationHandle;
         if (handle == IntPtr.Zero || !GetCursorPos(out NativePoint cursor) || !GetWindowRect(handle, out NativeRect window))
             return;
         // The window also holds the shadow, so only the card's own rectangle inside it counts as hovering
-        DpiScale hoverDpi = VisualTreeHelper.GetDpi(this);
+        DpiScale hoverDpi = PortableOverlay.Scale(this);
         Thickness shadow = NotificationRoot.Margin;
         bool insideRect = cursor.X >= window.Left + shadow.Left * hoverDpi.DpiScaleX && cursor.X < window.Right - shadow.Right * hoverDpi.DpiScaleX
             && cursor.Y >= window.Top + shadow.Top * hoverDpi.DpiScaleY && cursor.Y < window.Bottom - shadow.Bottom * hoverDpi.DpiScaleY;
@@ -262,7 +271,7 @@ public partial class NotificationWindow
         try
         {
             Rect bounds = DismissButton.TransformToAncestor(this).TransformBounds(new Rect(0, 0, DismissButton.ActualWidth, DismissButton.ActualHeight));
-            DpiScale dpi = VisualTreeHelper.GetDpi(this);
+            DpiScale dpi = PortableOverlay.Scale(this);
             // A few pixels of slack make the small icon easy to hit
             double slack = 4;
             double left = window.Left + (bounds.Left - slack) * dpi.DpiScaleX;
@@ -277,13 +286,37 @@ public partial class NotificationWindow
         }
     }
 
+    private void UpdatePortableHover()
+    {
+        bool hover = IsMouseOver;
+        bool down = false;
+        bool hot = DismissButton.IsMouseOver;
+        if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPointerPosition(out int x, out int y, out down))
+        {
+            Point point = new(x - Left, y - Top);
+            Thickness shadow = NotificationRoot.Margin;
+            hover = point.X >= shadow.Left && point.Y >= shadow.Top
+                && point.X < ActualWidth - shadow.Right && point.Y < ActualHeight - shadow.Bottom;
+            Rect close = DismissButton.TransformToAncestor(this).TransformBounds(new Rect(0, 0, DismissButton.ActualWidth, DismissButton.ActualHeight));
+            hot = hover && close.Contains(point);
+        }
+        if (_hovered != hover)
+        {
+            _hovered = hover;
+            SetDismissVisible(hover && (_appearance?.CloseButtonOnHover ?? true), true);
+        }
+        if (hot && down && !_buttonWasDown && (_appearance?.CloseButtonOnHover ?? true))
+            _dismissRequested = true;
+        _buttonWasDown = down;
+    }
+
     private void OnNotificationMouse(object sender, System.Windows.Input.MouseEventArgs e)
     {
         if (!_closed && _presenting)
             OnHoverTick(null, EventArgs.Empty);
     }
 
-    private static bool IsLeftButtonDown() => (GetAsyncKeyState(0x01) & 0x8000) != 0;
+    private static bool IsLeftButtonDown() => !PortableOverlay.Active && (GetAsyncKeyState(0x01) & 0x8000) != 0;
 
     private void SetDismissVisible(bool visible, bool animate)
     {
@@ -381,7 +414,7 @@ public partial class NotificationWindow
         _nativeSlide ??= new Voidstrap.UI.NativeSlide(this);
         if (_nativeSlide.CurrentPosition() is not Point home || _area.Width <= 0 || _area.Height <= 0)
             return false;
-        DpiScale dpi = VisualTreeHelper.GetDpi(this);
+        DpiScale dpi = PortableOverlay.Scale(this);
         double width = Math.Ceiling(ActualWidth * dpi.DpiScaleX);
         double height = Math.Ceiling(ActualHeight * dpi.DpiScaleY);
         Vector direction = Voidstrap.UI.NotificationStyle.SlideDirection(appearance);
@@ -396,10 +429,10 @@ public partial class NotificationWindow
 
     private void PlaceWindowsNotification(RobloxWindowRect bounds)
     {
-        IntPtr handle = new WindowInteropHelper(this).Handle;
+        IntPtr handle = PortableOverlay.Active ? PortableOverlay.Handle(this) : new WindowInteropHelper(this).Handle;
         if (handle == IntPtr.Zero)
             return;
-        DpiScale dpi = VisualTreeHelper.GetDpi(this);
+        DpiScale dpi = PortableOverlay.Scale(this);
         int width = (int)Math.Ceiling(ActualWidth * dpi.DpiScaleX);
         int height = (int)Math.Ceiling(ActualHeight * dpi.DpiScaleY);
         int right;
@@ -434,12 +467,19 @@ public partial class NotificationWindow
         Point spot = Voidstrap.UI.NotificationStyle.Place(appearance, right - areaLeft, bottom - areaTop, cardWidth, cardHeight, gap);
         int left = Math.Max(areaLeft, areaLeft + (int)Math.Round(spot.X));
         int top = Math.Max(areaTop, areaTop + (int)Math.Round(spot.Y));
+        if (PortableOverlay.Active)
+        {
+            PortableOverlay.Place(this, Math.Clamp(left - shadowLeft, areaLeft, Math.Max(areaLeft, right - width)),
+                Math.Clamp(top - shadowTop, areaTop, Math.Max(areaTop, bottom - height)), Math.Max(1, ActualWidth), Math.Max(1, ActualHeight));
+            return;
+        }
         Interop.SetWindowPos(handle, IntPtr.Zero, left - shadowLeft, top - shadowTop, 0, 0,
             Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_NOACTIVATE);
     }
 
     private void ReleaseWindowsPresentation()
     {
+        _nativeSlide?.Stop(true);
         _presenting = false;
         _dismissRequested = true;
         RobloxWindowTracker.Changed -= OnNotificationBoundsChanged;

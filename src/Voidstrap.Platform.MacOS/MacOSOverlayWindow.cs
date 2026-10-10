@@ -66,6 +66,30 @@ public static partial class MacOSOverlayWindow
 			SendObject(window, sel_registerName("orderOut:"), 0);
 	}
 
+	public static void Focus(nint window)
+	{
+		if (!OperatingSystem.IsMacOS() || window == 0)
+			return;
+		ActivateProcess(Environment.ProcessId);
+		SendObject(window, sel_registerName("makeKeyAndOrderFront:"), 0);
+	}
+
+	public static bool IsKeyWindow(nint window) => OperatingSystem.IsMacOS() && window != 0
+		&& SendReturnsBool(window, sel_registerName("isKeyWindow"));
+
+	public static void SetOpacity(nint window, double opacity)
+	{
+		if (OperatingSystem.IsMacOS() && window != 0)
+			SendDouble(window, sel_registerName("setAlphaValue:"), Math.Clamp(opacity, 0, 1));
+	}
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
+	[return: MarshalAs(UnmanagedType.I1)]
+	private static partial bool SendReturnsBool(nint receiver, nint selector);
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
+	private static partial void SendDouble(nint receiver, nint selector, double value);
+
 	public static void MoveTo(nint window, double left, double top, double width, double height)
 	{
 		if (!OperatingSystem.IsMacOS() || window == 0 || width <= 0 || height <= 0)

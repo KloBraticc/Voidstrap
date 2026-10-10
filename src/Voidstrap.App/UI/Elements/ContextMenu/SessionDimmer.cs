@@ -18,11 +18,30 @@ internal sealed partial class SessionDimmer : IDisposable
     private IntPtr _hwnd;
     private bool _visible;
     private byte _alpha;
+    private System.Windows.Window? _portable;
 
     public bool IsVisible => _visible;
 
     public SessionDimmer()
     {
+        if (PortableOverlay.Active)
+        {
+            if (Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Platform.Linux.LinuxWindowInterop.HasActiveX11Compositor)
+                return;
+            _portable = new System.Windows.Window
+            {
+                Title = "Session dimmer",
+                WindowStyle = System.Windows.WindowStyle.None,
+                ResizeMode = System.Windows.ResizeMode.NoResize,
+                Background = System.Windows.Media.Brushes.Black,
+                Width = 1,
+                Height = 1,
+                Left = -32000,
+                Top = -32000
+            };
+            PortableOverlay.Prepare(_portable);
+            return;
+        }
         IntPtr instance = AntiAliasingInterop.GetModuleHandleW(null);
         ushort atom = EnsureClass(instance);
         if (atom == 0)
@@ -71,6 +90,15 @@ internal sealed partial class SessionDimmer : IDisposable
 
     public void SetOpacity(double opacity)
     {
+        if (_portable != null)
+        {
+            nint handle = PortableOverlay.Handle(_portable);
+            if (Voidstrap.Utility.Platform.IsLinux)
+                Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowOpacity(handle, opacity);
+            else
+                Voidstrap.Platform.MacOS.MacOSOverlayWindow.SetOpacity(handle, opacity);
+            return;
+        }
         if (_hwnd == IntPtr.Zero)
             return;
         byte alpha = (byte)Math.Round(Math.Clamp(opacity, 0, 1) * 255);
@@ -82,6 +110,17 @@ internal sealed partial class SessionDimmer : IDisposable
 
     public void Show(RobloxWindowRect bounds)
     {
+        if (_portable != null && bounds.Valid)
+        {
+            PortableOverlay.Place(_portable, bounds.Left, bounds.Top, bounds.Width, bounds.Height);
+            nint handle = PortableOverlay.Handle(_portable);
+            if (Voidstrap.Utility.Platform.IsLinux)
+                Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetClickThrough(handle);
+            else
+                Voidstrap.Platform.MacOS.MacOSOverlayWindow.SetClickThrough(handle, true);
+            _visible = true;
+            return;
+        }
         if (_hwnd == IntPtr.Zero || !bounds.Valid)
             return;
         AntiAliasingInterop.SetWindowPos(_hwnd, AntiAliasingInterop.HWND_TOPMOST, bounds.Left, bounds.Top, bounds.Width, bounds.Height,
@@ -91,6 +130,11 @@ internal sealed partial class SessionDimmer : IDisposable
 
     public void Place(RobloxWindowRect bounds)
     {
+        if (_portable != null && _visible && bounds.Valid)
+        {
+            PortableOverlay.Place(_portable, bounds.Left, bounds.Top, bounds.Width, bounds.Height, false, false);
+            return;
+        }
         if (_hwnd == IntPtr.Zero || !_visible || !bounds.Valid)
             return;
         AntiAliasingInterop.SetWindowPos(_hwnd, IntPtr.Zero, bounds.Left, bounds.Top, bounds.Width, bounds.Height,
@@ -99,6 +143,12 @@ internal sealed partial class SessionDimmer : IDisposable
 
     public void Hide()
     {
+        if (_portable != null)
+        {
+            _portable.Hide();
+            _visible = false;
+            return;
+        }
         if (_hwnd == IntPtr.Zero || !_visible)
             return;
         AntiAliasingInterop.ShowWindow(_hwnd, AntiAliasingInterop.SW_HIDE);
@@ -107,11 +157,17 @@ internal sealed partial class SessionDimmer : IDisposable
 
     public void Dispose()
     {
-        if (_hwnd == IntPtr.Zero)
-            return;
-        AntiAliasingInterop.DestroyWindow(_hwnd);
+        if (_portable != null)
+        {
+            PortableOverlay.Release(_portable);
+            _portable.Close();
+            _portable = null;
+        }
+        if (_hwnd != IntPtr.Zero)
+            AntiAliasingInterop.DestroyWindow(_hwnd);
         _hwnd = IntPtr.Zero;
         _visible = false;
+        GC.SuppressFinalize(this);
     }
 
     [LibraryImport("gdi32.dll")]

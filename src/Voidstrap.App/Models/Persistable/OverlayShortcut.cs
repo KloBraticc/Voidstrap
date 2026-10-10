@@ -29,11 +29,11 @@ public sealed class OverlayShortcut
 		if ((Modifiers & Control) != 0)
 			parts.Add("Ctrl");
 		if ((Modifiers & Alt) != 0)
-			parts.Add("Alt");
+			parts.Add(Voidstrap.Utility.Platform.IsMacOS ? "Option" : "Alt");
 		if ((Modifiers & Shift) != 0)
 			parts.Add("Shift");
 		if ((Modifiers & Windows) != 0)
-			parts.Add("Win");
+			parts.Add(Voidstrap.Utility.Platform.IsMacOS ? "Command" : Voidstrap.Utility.Platform.IsLinux ? "Super" : "Win");
 		parts.Add(KeyName(Key));
 		return string.Join(" + ", parts);
 	}
