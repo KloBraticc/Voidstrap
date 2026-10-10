@@ -24,6 +24,7 @@ public partial class NotificationWindow
     private bool _buttonWasDown;
     private bool _hoverLogged;
     private bool _hoverSeen;
+    private bool _leaveLogged;
     private System.Windows.Threading.DispatcherTimer? _hoverTimer;
     private Voidstrap.UI.NativeSlide? _nativeSlide;
     // The game's area (or the screen's work area) the notification is placed in, in screen pixels
@@ -69,6 +70,7 @@ public partial class NotificationWindow
             _dismissHot = false;
             _hoverLogged = false;
             _hoverSeen = false;
+            _leaveLogged = false;
             _buttonWasDown = IsLeftButtonDown();
             DismissButton.Background = Brushes.Transparent;
             SetDismissVisible(false, false);
@@ -224,9 +226,13 @@ public partial class NotificationWindow
         {
             _hovered = hovered;
             SetDismissVisible(hovered && (_appearance?.CloseButtonOnHover ?? true), true);
-            if (!_hoverSeen || !hovered)
+            // Logged once each way per notification, moving in and out would otherwise fill the log
+            if (hovered ? !_hoverSeen : !_leaveLogged)
             {
-                _hoverSeen = true;
+                if (hovered)
+                    _hoverSeen = true;
+                else
+                    _leaveLogged = true;
                 App.Logger.WriteLine("NotificationWindow", hovered
                     ? $"Pointer entered the notification at {cursor.X},{cursor.Y}, showing the close button"
                     : "Pointer left the notification, hiding the close button");

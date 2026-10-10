@@ -78,8 +78,9 @@ public partial class SessionDock : Window
     private int _prewarmIndex;
     private DispatcherTimer? _prewarmTimer;
     // Built ahead of time while the dock is open so they appear the moment their button is clicked.
-    // Server details and music start loading as soon as they are built, so those wait for a click.
-    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "history", "adjustments" };
+    // Server details, music and game history start loading as soon as they are built (game history asks Roblox
+    // for the server list of every past game, which got rate limited), so those wait for a click.
+    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "adjustments" };
     private bool _profileLoaded;
     private bool _profileLoading;
     private enum PopoutView
