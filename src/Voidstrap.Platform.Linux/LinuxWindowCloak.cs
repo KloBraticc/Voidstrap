@@ -18,7 +18,7 @@ public static partial class LinuxWindowInterop
 
 	public static SoberWindowCloak? StartSoberCloak()
 	{
-		if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY")) || Display == 0)
+		if (LinuxSteamOS.Current.IsGameMode || string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY")) || Display == 0)
 			return null;
 
 		try

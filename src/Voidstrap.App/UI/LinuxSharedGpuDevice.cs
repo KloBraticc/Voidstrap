@@ -97,7 +97,7 @@ public static class LinuxSharedGpuDevice
 		{
 			App.Logger.WriteLine("LinuxSharedGpuDevice", "The tuned window host failed, falling back to the default host: " + ex.Message);
 			_shareDevice = false;
-			return WithOwnImageContext(new System.Windows.Media.ProGPU.ProGpuWpfWindowHost(ApplySurfaceOptions(System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window))));
+			return WithOwnImageContext(new System.Windows.Media.ProGPU.ProGpuWpfWindowHost(ApplySurfaceOptions(System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window), window)));
 		}
 	}
 
@@ -109,8 +109,11 @@ public static class LinuxSharedGpuDevice
 		LinuxWindowMemory.ReleaseAfterClose(window, window.ShowInTaskbar);
 	}
 
-	private static System.Windows.Media.ProGPU.ProGpuWpfWindowOptions ApplySurfaceOptions(System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options)
+	private static System.Windows.Media.ProGPU.ProGpuWpfWindowOptions ApplySurfaceOptions(System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options, object window)
 	{
+		if (OperatingSystem.IsLinux() && Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode
+			&& window is System.Windows.Window wpf && !RoundedWindowChrome.IsOverlaySurface(wpf))
+			options.TransparentFramebuffer = false;
 		if (Voidstrap.Utility.LinuxStartup.OpaqueWindows && options.TransparentFramebuffer)
 		{
 			options.TransparentFramebuffer = false;
@@ -125,7 +128,7 @@ public static class LinuxSharedGpuDevice
 
 	private static System.Windows.Media.ProGPU.ProGpuWpfWindowHost CreateTunedHost(object window)
 	{
-		System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options = ApplySurfaceOptions(System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window));
+		System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options = ApplySurfaceOptions(System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window), window);
 		if (OperatingSystem.IsLinux())
 			ApplyCompositorOptions(options);
 		if (_shareDevice)

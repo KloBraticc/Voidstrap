@@ -137,6 +137,32 @@ public static partial class LinuxWindowInterop
 		}
 	}
 
+	public static bool TrySetSteamGame(nint window)
+	{
+		uint appId = LinuxSteamOS.ResolveSteamAppId(Environment.GetEnvironmentVariable("SteamAppId"), Environment.GetEnvironmentVariable("SteamGameId"));
+		if (window == 0 || !LinuxSteamOS.Current.IsGameMode || appId == 0)
+			return false;
+		lock (Sync)
+		{
+			nint display = Display;
+			if (display == 0)
+				return false;
+			try
+			{
+				nint property = XInternAtom(display, "STEAM_GAME", false);
+				if (property == 0)
+					return false;
+				_ = XChangeProperty(display, window, property, CardinalPropertyType, 32, ReplacePropertyMode, [unchecked((nint)appId)], 1);
+				_ = XFlush(display);
+				return true;
+			}
+			catch (Exception exception) when (exception is DllNotFoundException or EntryPointNotFoundException)
+			{
+				return false;
+			}
+		}
+	}
+
 	public static bool TrySetWindowTitle(nint window, string title)
 	{
 		lock (Sync)
