@@ -10,6 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Voidstrap.Integrations;
 using Voidstrap.Models.Entities;
@@ -27,19 +29,22 @@ public partial class SessionGameBrowser : Window
     private const long MaxHistoryBytes = 8 * 1024 * 1024;
     private static readonly string SearchSessionId = Guid.NewGuid().ToString();
     private readonly ActivityWatcher _activity;
+    private readonly ServerMatchmaker? _matchmaker;
     private readonly DispatcherTimer _searchTimer = new() { Interval = TimeSpan.FromMilliseconds(450) };
     private CancellationTokenSource? _searchCts;
     private bool _continueLoaded;
     private bool _favoritesLoaded;
     private bool _closed;
+    private bool _launching;
     private int _searchGeneration;
     private string _mode = "continue";
 
     public ObservableCollection<GameBrowserTile> Games { get; } = new();
 
-    public SessionGameBrowser(ActivityWatcher activity)
+    public SessionGameBrowser(ActivityWatcher activity, ServerMatchmaker? matchmaker = null)
     {
         _activity = activity;
+        _matchmaker = matchmaker;
         InitializeComponent();
         DataContext = this;
         Loaded += OnLoaded;
@@ -50,7 +55,14 @@ public partial class SessionGameBrowser : Window
     private async void OnLoaded(object sender, RoutedEventArgs e)
     {
         Loaded -= OnLoaded;
-        await LoadContinueAsync();
+        try
+        {
+            await LoadContinueAsync();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionGameBrowser", "Recent games could not be shown: " + ex.Message);
+        }
     }
 
     private async Task LoadContinueAsync()
@@ -207,7 +219,16 @@ public partial class SessionGameBrowser : Window
     private async void OnSearchTick(object? sender, EventArgs e)
     {
         _searchTimer.Stop();
-        await SearchAsync(SearchBox.Text.Trim());
+        if (_closed)
+            return;
+        try
+        {
+            await SearchAsync(SearchBox.Text.Trim());
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionGameBrowser", "Game search could not be shown: " + ex.Message);
+        }
     }
 
     private async Task SearchAsync(string query)
@@ -288,10 +309,34 @@ public partial class SessionGameBrowser : Window
         return results;
     }
 
-    private void GameTile_Click(object sender, RoutedEventArgs e)
+    private async void GameTile_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is not Button { Tag: GameBrowserTile tile })
+        if (_launching || _closed || sender is not Button { Tag: GameBrowserTile tile } || tile.PlaceId <= 0)
             return;
+        if (_matchmaker != null && _activity.InGame)
+        {
+            // Roblox is already running, so switch through the matchmaker handoff instead of starting a second client
+            _launching = true;
+            SetBusy(true, Strings.ContextMenu_GameBrowser_Loading);
+            try
+            {
+                if (await Task.Run(() => _matchmaker.LaunchPlaceAsync(tile.PlaceId, null, CancellationToken.None)))
+                    return;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("SessionGameBrowser", "The selected game could not be opened: " + ex.Message);
+            }
+            finally
+            {
+                _launching = false;
+                if (!_closed)
+                    SetBusy(false, string.Empty);
+            }
+            if (!_closed)
+                StatusText.Text = Strings.ContextMenu_GameBrowser_Failed;
+            return;
+        }
         try
         {
             string executable = Paths.LaunchExecutable;
@@ -304,7 +349,7 @@ public partial class SessionGameBrowser : Window
             };
             startInfo.ArgumentList.Add("-player");
             startInfo.ArgumentList.Add($"roblox://experiences/start?placeId={tile.PlaceId}");
-            Process.Start(startInfo);
+            Process.Start(startInfo)?.Dispose();
         }
         catch (Exception ex)
         {
@@ -344,14 +389,12 @@ public partial class SessionGameBrowser : Window
         SearchBox.TextChanged -= SearchBox_TextChanged;
         _searchTimer.Stop();
         _searchTimer.Tick -= OnSearchTick;
+        // The token sources are only cancelled, never disposed, because loads that are still running read them
         _searchCts?.Cancel();
-        _searchCts?.Dispose();
         _searchCts = null;
         _lifetime.Cancel();
-        _lifetime.Dispose();
         Games.Clear();
         DataContext = null;
-        GC.SuppressFinalize(this);
     }
 }
 
@@ -361,7 +404,39 @@ public sealed class GameBrowserTile
 
     public long PlaceId => _activity.PlaceId;
     public string Name => _activity.UniverseDetails?.Data?.Name ?? _activity.GameName;
+    private BitmapImage? _thumbnail;
+    private bool _thumbnailResolved;
+
     public string ThumbnailUrl => _activity.UniverseDetails?.Thumbnail?.ImageUrl ?? string.Empty;
+
+    // Decoded at tile size, the full thumbnail is several times larger than the 148 pixel tile
+    public ImageSource? Thumbnail
+    {
+        get
+        {
+            if (_thumbnailResolved)
+                return _thumbnail;
+            _thumbnailResolved = true;
+            if (!Uri.TryCreate(ThumbnailUrl, UriKind.Absolute, out Uri? uri) || (uri.Scheme != Uri.UriSchemeHttps && uri.Scheme != Uri.UriSchemeHttp))
+                return null;
+            try
+            {
+                BitmapImage image = new();
+                image.BeginInit();
+                image.UriSource = uri;
+                image.DecodePixelWidth = 296;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
+                image.EndInit();
+                _thumbnail = image;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("SessionGameBrowser", "A game thumbnail could not be loaded: " + ex.Message);
+            }
+            return _thumbnail;
+        }
+    }
     public string PlayingText => _activity.UniverseDetails?.Data?.Playing is long playing
         ? string.Format(Locale.CurrentCulture, Strings.ContextMenu_GameBrowser_Playing, playing)
         : string.Empty;

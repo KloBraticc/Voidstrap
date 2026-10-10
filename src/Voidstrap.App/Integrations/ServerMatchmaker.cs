@@ -649,6 +649,24 @@ public sealed class ServerMatchmaker : IDisposable
 		return true;
 	}
 
+	public async Task<bool> LaunchPlaceAsync(long placeId, string? targetName, CancellationToken token = default)
+	{
+		if (_disposed || placeId <= 0)
+			return false;
+		CancelPrefetch();
+		try
+		{
+			Interlocked.Exchange(ref _currentCts, null)?.Cancel();
+		}
+		catch (ObjectDisposedException)
+		{
+		}
+		_lastHopUtc = DateTime.UtcNow;
+		App.Logger.WriteLine(LOG_IDENT, $"Switching to place {placeId} picked in the game browser");
+		await TriggerRejoinAsync(placeId, 1, null, targetName, token, token, requireEnabled: false).ConfigureAwait(false);
+		return true;
+	}
+
 	private bool IsManualPick(string? jobId)
 	{
 		if (string.IsNullOrEmpty(jobId))

@@ -21,7 +21,18 @@ public sealed partial class SessionPanelWindow : Window
     private readonly Thumb _resize;
     private readonly Wpf.Ui.Controls.Button _pin;
     private readonly Wpf.Ui.Controls.Button _close;
+    private const int GwlExStyle = -20;
+    private const nint WsExTransparent = 0x20;
+    private const nint WsExToolWindow = 0x80;
+    private const nint WsExLayered = 0x80000;
+    private const nint WsExNoActivate = 0x08000000;
+    private static readonly IntPtr HwndTopmost = new(-1);
     private IntPtr _handle;
+    private bool _placed;
+    private int _lastLeft;
+    private int _lastTop;
+    private int _lastWidth;
+    private int _lastHeight;
     private double _x = 0.15;
     private double _y = 0.12;
     private bool _interactive;
@@ -40,8 +51,14 @@ public sealed partial class SessionPanelWindow : Window
         _view = view;
         Title = title;
         WindowStyle = WindowStyle.None;
-        AllowsTransparency = true;
-        Background = Brushes.Transparent;
+        // A transparent WPF window is rendered in software and re-uploaded on every frame, which makes
+        // scrolling the server and game lists stutter over the game. On Windows the panel is an opaque
+        // window made click-through with a layered style instead, which DWM composites on the GPU.
+        AllowsTransparency = !Voidstrap.Utility.Platform.IsWindows;
+        if (AllowsTransparency)
+            Background = Brushes.Transparent;
+        else
+            SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
         Foreground = SystemColors.ControlTextBrush;
         SetResourceReference(ForegroundProperty, "TextFillColorPrimaryBrush");
         ResizeMode = ResizeMode.NoResize;
@@ -55,8 +72,9 @@ public sealed partial class SessionPanelWindow : Window
         MinHeight = 180;
         DataContext = view.DataContext;
         Resources.MergedDictionaries.Add(view.Resources);
-        if (view.FindName("RootTitleBar") is FrameworkElement oldTitle)
-            oldTitle.Visibility = Visibility.Collapsed;
+        // The view is never shown, so it must not own or be owned by another window
+        view.Owner = null;
+        DetachTitleBar(view);
         object body = view.Content;
         view.Content = null;
         if (body is Panel contentPanel)
@@ -95,7 +113,7 @@ public sealed partial class SessionPanelWindow : Window
         _resize.DragCompleted += OnGeometryFinished;
         Grid.SetRow(_resize, 1);
         root.Children.Add(_resize);
-        Border frame = new() { CornerRadius = new CornerRadius(8), BorderThickness = new Thickness(1), Child = root };
+        Border frame = new() { CornerRadius = new CornerRadius(AllowsTransparency ? 8 : 0), BorderThickness = new Thickness(1), Child = root };
         frame.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
         frame.SetResourceReference(Border.BorderBrushProperty, "SurfaceStrokeColorDefaultBrush");
         Content = frame;
@@ -109,17 +127,40 @@ public sealed partial class SessionPanelWindow : Window
         _tracker = RobloxWindowTracker.Acquire();
     }
 
+    private static void DetachTitleBar(Window view)
+    {
+        // A collapsed WPF-UI title bar still loads, hooks the window procedure of whatever window hosts it
+        // and subscribes to theme changes, so it is taken out of the tree instead of being hidden
+        if (view.FindName("RootTitleBar") is not FrameworkElement title)
+            return;
+        if (title.Parent is Panel parent)
+            parent.Children.Remove(title);
+        else if (title.Parent is Decorator decorator && ReferenceEquals(decorator.Child, title))
+            decorator.Child = null;
+        else if (title.Parent is ContentControl control && ReferenceEquals(control.Content, title))
+            control.Content = null;
+        else
+            title.Visibility = Visibility.Collapsed;
+    }
+
     public void Present(bool interactive)
     {
         if (_closed)
             return;
         _requested = true;
         _interactive = interactive;
-        _handle = new WindowInteropHelper(this).EnsureHandle();
-        UpdateInputStyle();
-        ApplyBounds(RobloxWindowTracker.Current);
-        if (interactive && IsVisible)
-            Activate();
+        try
+        {
+            _handle = new WindowInteropHelper(this).EnsureHandle();
+            UpdateInputStyle();
+            ApplyBounds(RobloxWindowTracker.Current);
+            if (interactive && IsVisible)
+                Activate();
+        }
+        catch (InvalidOperationException ex)
+        {
+            App.Logger.WriteLine("SessionPanelWindow", "The panel could not be shown: " + ex.Message);
+        }
     }
 
     public void SetInteractive(bool interactive)
@@ -134,15 +175,35 @@ public sealed partial class SessionPanelWindow : Window
     public void HideForSession()
     {
         _requested = false;
-        if (!_closed)
-            Hide();
+        HidePanel();
     }
 
     private void OnSourceReady(object? sender, EventArgs e)
     {
         _handle = new WindowInteropHelper(this).Handle;
         OverlayDiagnostics.RegisterOverlayHandle(_handle);
+        if (!AllowsTransparency && _handle != IntPtr.Zero)
+        {
+            SetWindowLongPtrW(_handle, GwlExStyle, GetWindowLongPtrW(_handle, GwlExStyle) | WsExLayered | WsExToolWindow);
+            _ = SetLayeredWindowAttributes(_handle, 0, 255, 0x2);
+            int round = 2;
+            _ = DwmSetWindowAttribute(_handle, 33, ref round, sizeof(int));
+        }
         UpdateInputStyle();
+    }
+
+    private void HidePanel()
+    {
+        _placed = false;
+        if (_closed || !IsVisible)
+            return;
+        try
+        {
+            Hide();
+        }
+        catch (InvalidOperationException)
+        {
+        }
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -171,35 +232,56 @@ public sealed partial class SessionPanelWindow : Window
             return;
         if (!_requested || (!_interactive && !IsPinned) || !bounds.Valid || !bounds.Foreground)
         {
-            Hide();
+            HidePanel();
             return;
         }
-        DpiScale dpi = VisualTreeHelper.GetDpi(this);
-        double availableWidth = bounds.Width / dpi.DpiScaleX;
-        double availableHeight = bounds.Height / dpi.DpiScaleY;
-        Width = Math.Clamp(Width, Math.Min(MinWidth, availableWidth), Math.Max(1, availableWidth));
-        Height = Math.Clamp(Height, Math.Min(MinHeight, availableHeight), Math.Max(1, availableHeight));
-        int width = (int)Math.Ceiling(Width * dpi.DpiScaleX);
-        int height = (int)Math.Ceiling(Height * dpi.DpiScaleY);
-        int left = bounds.Left + (int)Math.Round(_x * Math.Max(0, bounds.Width - width));
-        int top = bounds.Top + (int)Math.Round(_y * Math.Max(0, bounds.Height - height));
-        if (!IsVisible)
-            Show();
-        SetWindowPos(_handle, new IntPtr(-1), left, top, width, height, 0x0010);
+        try
+        {
+            DpiScale dpi = VisualTreeHelper.GetDpi(this);
+            double availableWidth = bounds.Width / dpi.DpiScaleX;
+            double availableHeight = bounds.Height / dpi.DpiScaleY;
+            double width = Math.Clamp(Width, Math.Min(MinWidth, availableWidth), Math.Max(1, availableWidth));
+            double height = Math.Clamp(Height, Math.Min(MinHeight, availableHeight), Math.Max(1, availableHeight));
+            if (width != Width)
+                Width = width;
+            if (height != Height)
+                Height = height;
+            int pixelWidth = (int)Math.Ceiling(width * dpi.DpiScaleX);
+            int pixelHeight = (int)Math.Ceiling(height * dpi.DpiScaleY);
+            int left = bounds.Left + (int)Math.Round(_x * Math.Max(0, bounds.Width - pixelWidth));
+            int top = bounds.Top + (int)Math.Round(_y * Math.Max(0, bounds.Height - pixelHeight));
+            bool shown = IsVisible;
+            if (shown && _placed && left == _lastLeft && top == _lastTop && pixelWidth == _lastWidth && pixelHeight == _lastHeight)
+                return;
+            if (!shown)
+                Show();
+            SetWindowPos(_handle, HwndTopmost, left, top, pixelWidth, pixelHeight, 0x0010);
+            _placed = true;
+            _lastLeft = left;
+            _lastTop = top;
+            _lastWidth = pixelWidth;
+            _lastHeight = pixelHeight;
+        }
+        catch (InvalidOperationException ex)
+        {
+            App.Logger.WriteLine("SessionPanelWindow", "The panel could not be placed: " + ex.Message);
+        }
     }
 
     private void UpdateInputStyle()
     {
-        if (_handle == IntPtr.Zero)
+        if (_handle == IntPtr.Zero || !Voidstrap.Utility.Platform.IsWindows)
             return;
-        nint style = GetWindowLongPtrW(_handle, -20) | 0x80;
-        style = _interactive ? style & ~0x08000020 : style | 0x08000020;
-        SetWindowLongPtrW(_handle, -20, style);
+        nint style = GetWindowLongPtrW(_handle, GwlExStyle) | WsExToolWindow;
+        style = _interactive ? style & ~(WsExNoActivate | WsExTransparent) : style | WsExNoActivate | WsExTransparent;
+        SetWindowLongPtrW(_handle, GwlExStyle, style);
     }
 
     private void OnDrag(object sender, DragDeltaEventArgs e)
     {
         RobloxWindowRect bounds = RobloxWindowTracker.Current;
+        if (!bounds.Valid || !double.IsFinite(e.HorizontalChange) || !double.IsFinite(e.VerticalChange))
+            return;
         DpiScale dpi = VisualTreeHelper.GetDpi(this);
         _x = Math.Clamp(_x + e.HorizontalChange * dpi.DpiScaleX / Math.Max(1, bounds.Width - Width * dpi.DpiScaleX), 0, 1);
         _y = Math.Clamp(_y + e.VerticalChange * dpi.DpiScaleY / Math.Max(1, bounds.Height - Height * dpi.DpiScaleY), 0, 1);
@@ -208,6 +290,8 @@ public sealed partial class SessionPanelWindow : Window
 
     private void OnResize(object sender, DragDeltaEventArgs e)
     {
+        if (!double.IsFinite(e.HorizontalChange) || !double.IsFinite(e.VerticalChange))
+            return;
         Width = Math.Max(MinWidth, Width + e.HorizontalChange);
         Height = Math.Max(MinHeight, Height + e.VerticalChange);
         ApplyBounds(RobloxWindowTracker.Current);
@@ -230,18 +314,20 @@ public sealed partial class SessionPanelWindow : Window
     {
         if (e.Key == Key.Escape)
         {
+            e.Handled = true;
             DismissRequested?.Invoke(this, EventArgs.Empty);
+            if (_closed)
+                return;
             SetInteractive(false);
             IntPtr game = RobloxWindowTracker.Current.Hwnd;
             if (game != IntPtr.Zero)
                 SetForegroundWindow(game);
-            e.Handled = true;
         }
     }
 
     private void RestoreLayout()
     {
-        if (!App.State.Prop.SessionPanels.TryGetValue(_key, out SessionPanelLayout? saved))
+        if (App.State.Prop.SessionPanels?.TryGetValue(_key, out SessionPanelLayout? saved) != true || saved == null)
             return;
         if (double.IsFinite(saved.X)) _x = Math.Clamp(saved.X, 0, 1);
         if (double.IsFinite(saved.Y)) _y = Math.Clamp(saved.Y, 0, 1);
@@ -253,8 +339,16 @@ public sealed partial class SessionPanelWindow : Window
 
     private void SaveLayout()
     {
-        App.State.Prop.SessionPanels[_key] = new SessionPanelLayout { X = _x, Y = _y, Width = Width, Height = Height, Pinned = IsPinned };
-        App.State.SaveDeferred();
+        try
+        {
+            App.State.Prop.SessionPanels ??= new();
+            App.State.Prop.SessionPanels[_key] = new SessionPanelLayout { X = _x, Y = _y, Width = Width, Height = Height, Pinned = IsPinned };
+            App.State.SaveDeferred();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionPanelWindow", "The panel layout could not be saved: " + ex.Message);
+        }
     }
 
     private void OnClosed(object? sender, EventArgs e)
@@ -280,8 +374,13 @@ public sealed partial class SessionPanelWindow : Window
         DismissRequested = null;
         Content = null;
         DataContext = null;
-        _view.Close();
-        GC.SuppressFinalize(this);
+        try
+        {
+            _view.Close();
+        }
+        catch (InvalidOperationException)
+        {
+        }
     }
 
     [LibraryImport("user32.dll", EntryPoint = "GetWindowLongPtrW")]
@@ -294,4 +393,9 @@ public sealed partial class SessionPanelWindow : Window
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool SetForegroundWindow(IntPtr hwnd);
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool SetLayeredWindowAttributes(IntPtr hwnd, uint key, byte alpha, uint flags);
+    [LibraryImport("dwmapi.dll")]
+    private static partial int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int value, int size);
 }

@@ -28,6 +28,8 @@ public partial class SessionServerBrowser : Window
     private readonly CancellationTokenSource _lifetime = new();
     private readonly List<ServerBrowserEntry> _all = new();
     private readonly ConcurrentQueue<MatchmakerCandidate> _incoming = new();
+    private readonly HashSet<string> _seen = new(StringComparer.OrdinalIgnoreCase);
+    private HashSet<string> _blocked = new(StringComparer.OrdinalIgnoreCase);
     private CancellationTokenSource? _scanCts;
     private string? _bestJobId;
     private int _renderPending;
@@ -131,7 +133,9 @@ public partial class SessionServerBrowser : Window
 
         _busy = true;
         _all.Clear();
+        _seen.Clear();
         _incoming.Clear();
+        _blocked = VoidstrapMatchmaker.GetBlockedDatacenters();
         _bestJobId = null;
         ServerList.ItemsSource = null;
         LoadingBar.Visibility = Visibility.Visible;
@@ -155,9 +159,13 @@ public partial class SessionServerBrowser : Window
                 return;
             _incoming.Clear();
             _all.Clear();
+            _seen.Clear();
             _bestJobId = scan.Best?.JobId;
             foreach (MatchmakerCandidate server in scan.Servers)
-                _all.Add(CreateEntry(server));
+            {
+                if (_seen.Add(server.JobId))
+                    _all.Add(CreateEntry(server));
+            }
             RenderServers();
             StatusText.Text = DescribeScan(scan);
             CountText.Text = string.Format(Locale.CurrentCulture, Strings.ContextMenu_ServerBrowser_Count, _all.Count);
@@ -241,7 +249,7 @@ public partial class SessionServerBrowser : Window
         bool added = false;
         while (_incoming.TryDequeue(out MatchmakerCandidate? candidate))
         {
-            if (_all.Any(entry => string.Equals(entry.Id, candidate.JobId, StringComparison.OrdinalIgnoreCase)))
+            if (!_seen.Add(candidate.JobId))
                 continue;
             _all.Add(CreateEntry(candidate));
             added = true;
@@ -251,7 +259,7 @@ public partial class SessionServerBrowser : Window
 
     private ServerBrowserEntry CreateEntry(MatchmakerCandidate server)
     {
-        bool blocked = VoidstrapMatchmaker.GetBlockedDatacenters().Contains(VoidstrapMatchmaker.BlockKey(server.Datacenter));
+        bool blocked = _blocked.Contains(VoidstrapMatchmaker.BlockKey(server.Datacenter));
         return new ServerBrowserEntry(
             server,
             string.Equals(server.JobId, _gameData.JobId, StringComparison.OrdinalIgnoreCase),
@@ -363,11 +371,12 @@ public partial class SessionServerBrowser : Window
         _closed = true;
         Loaded -= OnLoaded;
         Closed -= OnClosed;
+        // Cancelled but not disposed, scans and icon loads that are still finishing read these tokens
         _lifetime.Cancel();
         _scanCts?.Cancel();
         _scanCts = null;
-        _lifetime.Dispose();
         _all.Clear();
+        _seen.Clear();
         _incoming.Clear();
         ServerList.ItemsSource = null;
         GameIcon.Source = null;
