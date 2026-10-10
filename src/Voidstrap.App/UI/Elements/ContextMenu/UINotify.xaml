@@ -13,6 +13,8 @@
         <TranslateTransform x:Name="RootTranslate" X="372" />
       </TransformGroup>
     </Grid.RenderTransform>
+    <!-- Soft shadow rings, filled in from code to match the card's corners -->
+    <Grid x:Name="CardShadow" IsHitTestVisible="False" />
     <Border x:Name="NotificationBorder" CornerRadius="8" Padding="14,12,16,12" Opacity="0"
             Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
             BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">

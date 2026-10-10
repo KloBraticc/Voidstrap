@@ -39,6 +39,9 @@ public sealed class SessionNotifier : IDisposable
 	private Dictionary<long, FriendPresence>? _friends;
 	private HashSet<long>? _badges;
 	private bool _disposed;
+	// Set when Roblox refuses the badge list, it is not asked again for the rest of the game
+	private bool _badgesRefused;
+	private static System.Net.HttpStatusCode _lastStatus;
 
 	public SessionNotifier(Func<ActivityData?> session, Action<SessionNote> post)
 	{
@@ -75,7 +78,7 @@ public sealed class SessionNotifier : IDisposable
 				if (now >= nextBadges)
 				{
 					nextBadges = now + BadgesInterval;
-					if (App.Settings.Prop.NotifyBadges)
+					if (App.Settings.Prop.NotifyBadges && !_badgesRefused)
 						await CheckBadgesAsync(userId, token).ConfigureAwait(false);
 					else
 						_badges = null;
@@ -154,13 +157,19 @@ public sealed class SessionNotifier : IDisposable
 	{
 		try
 		{
-			using JsonDocument? document = await GetJsonAsync($"https://badges.roblox.com/v1/users/{userId}/badges?limit=10&sortOrder=Desc", token).ConfigureAwait(false);
+			using JsonDocument? document = await GetJsonAsync($"https://badges.roblox.com/v1/users/{userId}/badges?limit=10&sortOrder=Desc", token, signedIn: true).ConfigureAwait(false);
+			if (document == null && _lastStatus is System.Net.HttpStatusCode.Unauthorized or System.Net.HttpStatusCode.Forbidden)
+			{
+				_badgesRefused = true;
+				App.Logger.WriteLine(LOG_IDENT, "Roblox does not share your badge list, badge notifications are off for this game");
+				return;
+			}
 			if (document == null || !document.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
 				return;
 			List<(long Id, string Name)> badges = new();
 			foreach (JsonElement item in data.EnumerateArray())
 			{
-				if (!item.TryGetProperty("id", out JsonElement id) || !id.TryGetInt64(out long badgeId) || badgeId <= 0)
+				if (!item.TryGetProperty("id", out JsonElement id) || id.ValueKind != JsonValueKind.Number || !id.TryGetInt64(out long badgeId) || badgeId <= 0)
 					continue;
 				string name = item.TryGetProperty("displayName", out JsonElement display) && display.ValueKind == JsonValueKind.String ? display.GetString() ?? string.Empty : string.Empty;
 				if (name.Length == 0 && item.TryGetProperty("name", out JsonElement plain) && plain.ValueKind == JsonValueKind.String)
@@ -208,7 +217,7 @@ public sealed class SessionNotifier : IDisposable
 			return icons;
 		foreach (JsonElement item in data.EnumerateArray())
 		{
-			if (item.TryGetProperty("targetId", out JsonElement target) && target.TryGetInt64(out long id)
+			if (item.TryGetProperty("targetId", out JsonElement target) && target.ValueKind == JsonValueKind.Number && target.TryGetInt64(out long id)
 				&& item.TryGetProperty("imageUrl", out JsonElement url) && url.ValueKind == JsonValueKind.String && url.GetString() is { Length: > 0 } value)
 				icons[id] = value;
 		}
@@ -229,10 +238,14 @@ public sealed class SessionNotifier : IDisposable
 		}
 	}
 
-	private static async Task<JsonDocument?> GetJsonAsync(string url, CancellationToken token)
+	private static async Task<JsonDocument?> GetJsonAsync(string url, CancellationToken token, bool signedIn = false)
 	{
 		using HttpRequestMessage request = new(HttpMethod.Get, url);
+		// The badge list needs the Roblox sign in now, it answered 401 without it
+		if (signedIn && RobloxCookie.Get() is { Length: > 0 } cookie)
+			request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
 		using HttpResponseMessage response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+		_lastStatus = response.StatusCode;
 		if (!response.IsSuccessStatusCode)
 		{
 			App.Logger.WriteLine(LOG_IDENT, $"{new Uri(url).Host} answered {(int)response.StatusCode} {response.StatusCode}");

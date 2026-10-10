@@ -2,7 +2,6 @@ using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Effects;
 using Voidstrap.Models.Persistable;
 
 namespace Voidstrap.UI;
@@ -22,24 +21,6 @@ internal static class NotificationStyle
 
 	// Room the soft shadow needs around the card
 	public const double ShadowSize = 24;
-
-	// One shared, frozen shadow: a soft dark glow that sits slightly low, like a floating card
-	public static readonly DropShadowEffect Shadow = CreateShadow();
-
-	private static DropShadowEffect CreateShadow()
-	{
-		DropShadowEffect shadow = new()
-		{
-			Color = Colors.Black,
-			BlurRadius = 26,
-			ShadowDepth = 3,
-			Direction = 270,
-			Opacity = 0.55,
-			RenderingBias = RenderingBias.Performance
-		};
-		shadow.Freeze();
-		return shadow;
-	}
 
 	public static NotificationAppearance Current
 	{
@@ -173,13 +154,45 @@ internal static class NotificationStyle
 	// Slides in from and out to the screen edge it is closest to
 	private static Vector SlideOffset(NotificationAppearance appearance, Size size)
 	{
+		Vector direction = SlideDirection(appearance);
+		return new Vector(direction.X * Math.Max(1, size.Width), direction.Y * Math.Max(1, size.Height));
+	}
+
+	// Which way the nearest edge is: (0, 1) is the bottom, (1, 0) the right side
+	public static Vector SlideDirection(NotificationAppearance appearance)
+	{
 		double horizontal = appearance.SafeHorizontal;
 		double vertical = appearance.SafeVertical;
 		double fromSide = Math.Min(horizontal, 100 - horizontal);
 		double fromTopOrBottom = Math.Min(vertical, 100 - vertical);
 		if (fromTopOrBottom <= fromSide)
-			return new Vector(0, vertical < 50 ? -Math.Max(1, size.Height) : Math.Max(1, size.Height));
-		return new Vector(horizontal < 50 ? -Math.Max(1, size.Width) : Math.Max(1, size.Width), 0);
+			return new Vector(0, vertical < 50 ? -1 : 1);
+		return new Vector(horizontal < 50 ? -1 : 1, 0);
+	}
+
+	// A soft shadow made of a few faint rounded rings, drawn once. A blur effect looks about the same but is
+	// recalculated whenever anything changes, which made transparent overlay windows stutter.
+	private static readonly (double Spread, double Drop, byte Alpha)[] Rings =
+	{
+		(2, 1, 0x14), (4, 2, 0x10), (6, 3, 0x0D), (9, 4, 0x0A), (12, 6, 0x07), (16, 8, 0x04)
+	};
+
+	public static void FillShadow(System.Windows.Controls.Panel host, CornerRadius corners)
+	{
+		host.Children.Clear();
+		host.IsHitTestVisible = false;
+		foreach ((double spread, double drop, byte alpha) in Rings)
+		{
+			SolidColorBrush fill = new(Color.FromArgb(alpha, 0, 0, 0));
+			fill.Freeze();
+			host.Children.Add(new System.Windows.Controls.Border
+			{
+				Margin = new Thickness(-spread, -spread + drop, -spread, -spread - drop),
+				CornerRadius = new CornerRadius(corners.TopLeft + spread, corners.TopRight + spread, corners.BottomRight + spread, corners.BottomLeft + spread),
+				Background = fill,
+				SnapsToDevicePixels = true
+			});
+		}
 	}
 
 	private static AnimationTimeline Frozen(AnimationTimeline timeline)

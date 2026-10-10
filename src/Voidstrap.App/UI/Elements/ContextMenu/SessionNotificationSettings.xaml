@@ -142,15 +142,17 @@
               <Border.LayoutTransform>
                 <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
               </Border.LayoutTransform>
-              <Border x:Name="MockCard" Padding="14,12,16,12" RenderTransformOrigin="0.5,0.5"
-                      BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-                <Border.RenderTransform>
+              <!-- The card and its shadow move together, like the real notification's root -->
+              <Grid x:Name="MockLayer" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
                   <TransformGroup>
                     <ScaleTransform x:Name="MockScale" />
                     <TranslateTransform x:Name="MockTranslate" />
                   </TransformGroup>
-                </Border.RenderTransform>
-                <!-- Same layout as the real notification, so wrapping and height match it -->
+                </Grid.RenderTransform>
+                <Grid x:Name="MockShadow" IsHitTestVisible="False" />
+              <Border x:Name="MockCard" Padding="14,12,16,12" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+              <!-- Same layout as the real notification, so wrapping and height match it -->
                 <Grid>
                   <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -171,10 +173,9 @@
                   </StackPanel>
                 </Grid>
               </Border>
+              </Grid>
             </Border>
           </Canvas>
-          <TextBlock x:Name="PreviewLabel" Text="Preview" Margin="12,10,12,0" FontSize="12" FontWeight="SemiBold" Foreground="#E6FFFFFF"
-                     HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False" />
         </Grid>
       </Border>
       <ui:Button HorizontalAlignment="Right" Margin="0,10,0,0" Appearance="Secondary" Focusable="False" Click="SendTest_Click">

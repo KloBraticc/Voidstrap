@@ -62,23 +62,23 @@ public partial class SessionDock : Window
     private static readonly AnimationTimeline DotBeat = Frozen(CreateDotBeat());
     private DispatcherTimer? _heartbeat;
     // Far enough that the pill and its shadow start fully below the window's bottom edge
-    private const double SlideDistance = 104;
     private static readonly TimeSpan EntranceLength = TimeSpan.FromMilliseconds(300);
     private static readonly TimeSpan ExitLength = TimeSpan.FromMilliseconds(220);
-    // Animations only set where they end, so one started halfway through another carries on from where it is.
-    // Single eases with no overshoot, the dock settles exactly once.
-    private static readonly AnimationTimeline DockRise = Smooth(new DoubleAnimation { To = 0, Duration = EntranceLength, EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } });
-    private static readonly AnimationTimeline DockFadeIn = Smooth(new DoubleAnimation { To = 1, Duration = TimeSpan.FromMilliseconds(160), EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut } });
-    private static readonly AnimationTimeline DockSink = Smooth(new DoubleAnimation { To = SlideDistance, Duration = ExitLength, EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn } });
-    private DispatcherTimer? _exitTimer;
+    // Room around the pill for its shadow, the window is the pill plus this
+    private const double ShadowRoomX = 40;
+    private readonly NativeSlide _slide;
     private bool _exiting;
     private static readonly TimeSpan FocusLossGrace = TimeSpan.FromMilliseconds(160);
-    private DispatcherTimer? _settle;
     private DispatcherTimer? _focusLoss;
-    private bool _entranceWaiting;
     private bool _activateOnSettle;
     private bool _popoutOnSettle;
     private bool _pinnedRestored;
+    private bool _prewarming;
+    private int _prewarmIndex;
+    private DispatcherTimer? _prewarmTimer;
+    // Built ahead of time while the dock is open so they appear the moment their button is clicked.
+    // Server details and music start loading as soon as they are built, so those wait for a click.
+    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "history", "adjustments", "profile" };
     private bool _profileLoaded;
     private bool _profileLoading;
     private bool _restoringPinned;
@@ -91,7 +91,8 @@ public partial class SessionDock : Window
         ["games"] = "games",
         ["chat"] = "chat",
         ["history"] = "history",
-        ["music"] = "music"
+        ["music"] = "music",
+        ["profile"] = "profile"
     };
     // Set when the dock was hidden only because the game lost focus, so it comes back with the game
     private bool _resumeOnFocus;
@@ -111,7 +112,8 @@ public partial class SessionDock : Window
         _activity = activity;
         _action = action;
         InitializeComponent();
-        Pill.Effect = Voidstrap.UI.NotificationStyle.Shadow;
+        _slide = new NativeSlide(this);
+        FitWidth();
         DetachServerPanel();
         _clock = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(1) };
         _clock.Tick += OnClock;
@@ -174,6 +176,11 @@ public partial class SessionDock : Window
             panel.DismissRequested += OnPanelDismissed;
             _panels[key] = panel;
         }
+        if (_prewarming)
+        {
+            panel.Prepare();
+            return;
+        }
         // Panels brought back because they were pinned must not take the keyboard from the game
         panel.Present(true, !_restoringPinned);
         UpdateActiveButtons();
@@ -219,7 +226,7 @@ public partial class SessionDock : Window
         {
             if (child is not Wpf.Ui.Controls.Button { Tag: string action } button)
                 continue;
-            bool open = _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? panel) && !panel.IsClosed;
+            bool open = _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? panel) && panel.IsRequested;
             Wpf.Ui.Common.ControlAppearance appearance = open ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Transparent;
             if (button.Appearance != appearance)
                 button.Appearance = appearance;
@@ -297,11 +304,12 @@ public partial class SessionDock : Window
 
     public void HideDock() => HideDock(false);
 
-    private void HideDock(bool animate)
+    // keepPanels is for a hide that only lasts until the game is focused again, every panel comes back with the dock
+    private void HideDock(bool animate, bool keepPanels = false)
     {
         if (!Dispatcher.CheckAccess())
         {
-            Dispatcher.BeginInvoke(new Action(() => HideDock(animate)));
+            Dispatcher.BeginInvoke(new Action(() => HideDock(animate, keepPanels)));
             return;
         }
         _resumeOnFocus = false;
@@ -311,23 +319,28 @@ public partial class SessionDock : Window
         _opened = false;
         bool returnFocus = RobloxWindowTracker.IsRobloxForeground();
         _focusLoss?.Stop();
-        bool slide = animate && SystemParameters.ClientAreaAnimation && IsVisible;
-        if (slide)
-            HoldCurrent();
-        else
-            CancelEntrance();
+        bool slide = animate && NativeSlide.Supported && IsVisible && RobloxWindowTracker.Current.Valid;
+        CancelEntrance();
         _clock.Stop();
         StopHeartbeat();
         CancelRefresh();
         _anchor?.Dispose();
         _anchor = null;
         HidePopout();
-        if (slide)
-            StartExit();
-        else if (IsVisible)
-            Hide();
+        if (!slide || !StartExit())
+        {
+            if (IsVisible)
+                Hide();
+        }
+        // Pinned panels belong to the dock: they hide with it and come back when it opens. The rest close.
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
-            panel.SetInteractive(false);
+        {
+            if (panel.IsPinned || keepPanels || !panel.IsRequested)
+                panel.SetInteractive(false);
+            else
+                panel.Close();
+        }
+        _prewarmTimer?.Stop();
         FadeDimmer(0);
         IntPtr game = RobloxWindowTracker.Current.Hwnd;
         if (returnFocus && game != IntPtr.Zero)
@@ -348,7 +361,7 @@ public partial class SessionDock : Window
     private void SuspendDock()
     {
         bool popout = PopoutOpen;
-        HideDock();
+        HideDock(false, true);
         _resumeOnFocus = true;
         _resumePopout = popout;
     }
@@ -369,7 +382,7 @@ public partial class SessionDock : Window
         Open(activatePanels: false);
         if (!popout || !_opened)
             return;
-        if (_entranceWaiting || _settle?.IsEnabled == true)
+        if (_slide.IsRunning)
             _popoutOnSettle = true;
         else
             ShowPopout();
@@ -403,8 +416,9 @@ public partial class SessionDock : Window
         ShowDimmer();
         // Hiding on focus loss is handled here with a short grace period, the anchor hiding instantly made the dock flicker
         _anchor ??= new RobloxOverlayAnchor(this, hideWhenUnfocused: false, placement: RobloxOverlayPlacement.BottomCenter);
-        // Hidden until the first frame so it never flashes in at full size
-        PrepareEntrance();
+        // Reopened while it was still sliding away: it turns around from where it is
+        Point? resumeFrom = _exiting ? _slide.CurrentPosition() : null;
+        CancelEntrance();
         try
         {
             Show();
@@ -417,87 +431,108 @@ public partial class SessionDock : Window
             FadeDimmer(0);
             return;
         }
+        FitWidth();
         _anchor.Refresh();
         RaiseAboveDimmer();
         _clock.Start();
         _activateOnSettle = activatePanels;
-        StartEntrance();
+        StartEntrance(resumeFrom);
     }
 
-    private void PrepareEntrance()
+    // Slides the whole window up out of the game's bottom edge. The window is moved by Windows, nothing in it
+    // is redrawn while it moves, which is what made the old animation stutter and slow the game down.
+    private void StartEntrance(Point? resumeFrom)
     {
-        if (_exiting && IsVisible && SystemParameters.ClientAreaAnimation)
-        {
-            // Reopened while sliding away: it turns around from where it is instead of jumping
-            StopExit();
-            HoldCurrent();
-            return;
-        }
-        CancelEntrance();
-        if (!SystemParameters.ClientAreaAnimation)
-            return;
-        DockRoot.Opacity = 0;
-        DockShift.Y = SlideDistance;
-        EnsureCache();
-    }
-
-    // Starts on the first rendered frame after the window is placed, so the animation clock
-    // never begins while the window is still being created and no frames are skipped
-    private void StartEntrance()
-    {
-        if (!SystemParameters.ClientAreaAnimation)
+        RobloxWindowRect game = RobloxWindowTracker.Current;
+        if (!NativeSlide.Supported || !game.Valid || _slide.CurrentPosition() is not Point target)
         {
             Settle();
             return;
         }
-        _entranceWaiting = true;
-        CompositionTarget.Rendering += OnFirstFrame;
+        Point from = resumeFrom ?? new Point(target.X, game.Top + game.Height);
+        Int32Rect clip = new(game.Left, game.Top, game.Width, game.Height);
+        if (!_slide.Start(from, target, clip, EntranceLength, true, OnEntranceFinished))
+            Settle();
     }
 
-    private void OnFirstFrame(object? sender, EventArgs e)
+    private void OnEntranceFinished()
     {
-        CompositionTarget.Rendering -= OnFirstFrame;
-        if (!_entranceWaiting || _closed || !_opened)
+        if (_closed || !_opened)
             return;
-        _entranceWaiting = false;
-        DockRoot.BeginAnimation(OpacityProperty, DockFadeIn);
-        DockShift.BeginAnimation(TranslateTransform.YProperty, DockRise);
-        _settle ??= CreateSettleTimer();
-        _settle.Stop();
-        _settle.Start();
-    }
-
-    private DispatcherTimer CreateSettleTimer()
-    {
-        DispatcherTimer timer = new(DispatcherPriority.Background) { Interval = EntranceLength + TimeSpan.FromMilliseconds(40) };
-        timer.Tick += (_, _) =>
-        {
-            timer.Stop();
-            if (!_closed && _opened)
-                Settle();
-        };
-        return timer;
+        _slide.RemoveClip();
+        // Put back exactly where it belongs in case the game moved while it slid
+        _anchor?.Refresh();
+        Settle();
     }
 
     // Everything that does real work waits until the dock has finished appearing
     private void Settle()
     {
-        ResetMotion();
         StartHeartbeat();
         if (_refreshTask is not { IsCompleted: false } && DateTime.UtcNow - _lastRefreshUtc >= RefreshInterval)
             StartRefresh();
         // Start loading the popout's banner and friends now so they are ready when it is opened
         _ = LoadPopoutAsync();
         _ = LoadProfileAsync();
+        // Only panels that were open come back, ones built ahead of time stay hidden until clicked
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
-            panel.Present(true, _activateOnSettle);
+        {
+            if (panel.IsRequested)
+                panel.Present(true, _activateOnSettle);
+        }
         RestorePinnedPanels();
+        StartPrewarm();
         if (_popoutOnSettle)
         {
             _popoutOnSettle = false;
             ShowPopout();
         }
         RaiseAboveDimmer();
+    }
+
+    // One panel per idle moment, so building them never makes the dock or the game hitch
+    private void StartPrewarm()
+    {
+        if (_closed || !Voidstrap.Utility.Platform.IsWindows)
+            return;
+        if (_prewarmTimer == null)
+        {
+            _prewarmTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle) { Interval = TimeSpan.FromMilliseconds(250) };
+            _prewarmTimer.Tick += OnPrewarmTick;
+        }
+        _prewarmIndex = 0;
+        _prewarmTimer.Start();
+    }
+
+    private void OnPrewarmTick(object? sender, EventArgs e)
+    {
+        if (_closed || !_opened || _slide.IsRunning)
+        {
+            if (_closed || !_opened)
+                _prewarmTimer?.Stop();
+            return;
+        }
+        while (_prewarmIndex < PrewarmActions.Length)
+        {
+            string action = PrewarmActions[_prewarmIndex++];
+            if (_panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? existing) && !existing.IsClosed)
+                continue;
+            _prewarming = true;
+            try
+            {
+                _action(action);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("SessionDock", $"The {action} panel could not be built ahead of time: " + ex.Message);
+            }
+            finally
+            {
+                _prewarming = false;
+            }
+            return;
+        }
+        _prewarmTimer?.Stop();
     }
 
     // The first time the dock is opened in a game, every panel left pinned comes back where it was
@@ -541,78 +576,42 @@ public partial class SessionDock : Window
 
     private void CancelEntrance()
     {
-        if (_entranceWaiting)
-        {
-            _entranceWaiting = false;
-            CompositionTarget.Rendering -= OnFirstFrame;
-        }
-        _settle?.Stop();
+        _slide.Stop(true);
+        _exiting = false;
         _popoutOnSettle = false;
-        StopExit();
-        ResetMotion();
     }
 
-    private void ResetMotion()
+    // Slides back down into the game's bottom edge, then hides
+    private bool StartExit()
     {
-        DockRoot.BeginAnimation(OpacityProperty, null);
-        DockShift.BeginAnimation(TranslateTransform.YProperty, null);
-        DockRoot.Opacity = 1;
-        DockShift.Y = 0;
-        DockRoot.CacheMode = null;
+        RobloxWindowRect game = RobloxWindowTracker.Current;
+        if (_slide.CurrentPosition() is not Point from)
+            return false;
+        Int32Rect clip = new(game.Left, game.Top, game.Width, game.Height);
+        _exiting = _slide.Start(from, new Point(from.X, game.Top + game.Height), clip, ExitLength, false, OnExitFinished);
+        return _exiting;
     }
 
-    // Drawn once into a bitmap that is then only moved and faded, nothing is laid out or redrawn per frame
-    private void EnsureCache()
-    {
-        if (DockRoot.CacheMode is not BitmapCache)
-            DockRoot.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
-    }
-
-    // Stops any running motion but keeps the dock exactly where it is on screen right now
-    private void HoldCurrent()
-    {
-        if (_entranceWaiting)
-        {
-            _entranceWaiting = false;
-            CompositionTarget.Rendering -= OnFirstFrame;
-        }
-        _settle?.Stop();
-        double opacity = DockRoot.Opacity;
-        double y = DockShift.Y;
-        DockRoot.BeginAnimation(OpacityProperty, null);
-        DockShift.BeginAnimation(TranslateTransform.YProperty, null);
-        DockRoot.Opacity = opacity;
-        DockShift.Y = y;
-        EnsureCache();
-    }
-
-    private void StartExit()
-    {
-        _exiting = true;
-        DockShift.BeginAnimation(TranslateTransform.YProperty, DockSink);
-        if (_exitTimer == null)
-        {
-            _exitTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = ExitLength + TimeSpan.FromMilliseconds(30) };
-            _exitTimer.Tick += OnExitFinished;
-        }
-        _exitTimer.Stop();
-        _exitTimer.Start();
-    }
-
-    private void StopExit()
+    private void OnExitFinished()
     {
         _exiting = false;
-        _exitTimer?.Stop();
-    }
-
-    private void OnExitFinished(object? sender, EventArgs e)
-    {
-        StopExit();
         if (_closed || _opened)
             return;
         if (IsVisible)
             Hide();
-        ResetMotion();
+        _slide.RemoveClip();
+    }
+
+    // The window is only as wide as the pill and its shadow, a smaller window is cheaper for Windows to draw
+    private void FitWidth()
+    {
+        Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+        double width = Math.Ceiling(Pill.DesiredSize.Width) + ShadowRoomX;
+        if (width <= ShadowRoomX || Math.Abs(width - Width) < 0.5)
+            return;
+        Width = width;
+        if (_opened && !_slide.IsRunning)
+            _anchor?.Refresh();
     }
 
     private void OnTrackerChanged(object? sender, RobloxWindowRect bounds)
@@ -875,6 +874,28 @@ public partial class SessionDock : Window
             block.Text = text;
     }
 
+    // Your avatar and name open the profile panel, a second click closes it again
+    private void ProfileCard_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        e.Handled = true;
+        if (_closed)
+            return;
+        if (_panels.TryGetValue("profile", out SessionPanelWindow? open) && open.IsRequested && open.IsVisible)
+        {
+            open.CloseFromDock();
+            return;
+        }
+        try
+        {
+            _action("profile");
+            RaiseAboveDimmer();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("SessionDock::Profile", ex);
+        }
+    }
+
     private void GameCard_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         e.Handled = true;
@@ -903,7 +924,7 @@ public partial class SessionDock : Window
     private static AnimationTimeline Frozen(AnimationTimeline timeline)
     {
         // A low frame rate is plenty for a 10 pixel dot and keeps the cost of each beat tiny
-        Timeline.SetDesiredFrameRate(timeline, 30);
+        Timeline.SetDesiredFrameRate(timeline, 20);
         timeline.Freeze();
         return timeline;
     }
@@ -1002,7 +1023,7 @@ public partial class SessionDock : Window
             _popout.SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
             _popout.SourceInitialized += OnPopoutSourceInitialized;
         }
-        GameChevron.Text = ProfileChevron.Text = "\uE70D";
+        GameChevron.Text = "\uE70D";
         UpdateReadout();
         try
         {
@@ -1021,7 +1042,7 @@ public partial class SessionDock : Window
 
     private void HidePopout()
     {
-        GameChevron.Text = ProfileChevron.Text = "\uE70E";
+        GameChevron.Text = "\uE70E";
         if (_popout is { IsVisible: true } popout)
             popout.Hide();
     }
@@ -1037,6 +1058,8 @@ public partial class SessionDock : Window
         SetWindowLongPtrW(_popoutHandle, GwlExStyle, style | WsExNoActivate | WsExToolWindow);
         int round = 2;
         _ = DwmSetWindowAttribute(_popoutHandle, 33, ref round, sizeof(int));
+        int disabled = 1;
+        _ = DwmSetWindowAttribute(_popoutHandle, 3, ref disabled, sizeof(int));
         OverlayDiagnostics.RegisterOverlayHandle(_popoutHandle);
     }
 
@@ -1210,17 +1233,12 @@ public partial class SessionDock : Window
         _panels.Clear();
         _clock.Stop();
         _clock.Tick -= OnClock;
-        if (_entranceWaiting)
+        _slide.Stop(false);
+        if (_prewarmTimer != null)
         {
-            _entranceWaiting = false;
-            CompositionTarget.Rendering -= OnFirstFrame;
-        }
-        _settle?.Stop();
-        if (_exitTimer != null)
-        {
-            _exitTimer.Stop();
-            _exitTimer.Tick -= OnExitFinished;
-            _exitTimer = null;
+            _prewarmTimer.Stop();
+            _prewarmTimer.Tick -= OnPrewarmTick;
+            _prewarmTimer = null;
         }
         if (_focusLoss != null)
         {
@@ -1301,6 +1319,9 @@ public partial class SessionDock : Window
         // The dock is clicked while Roblox keeps focus, so the game stays foreground and the hotkey keeps working
         nint style = GetWindowLongPtrW(handle, GwlExStyle);
         SetWindowLongPtrW(handle, GwlExStyle, style | WsExNoActivate | WsExToolWindow);
+        // Its own slide is the only animation, Windows' fade when a window appears would fight it
+        int disabled = 1;
+        _ = DwmSetWindowAttribute(handle, 3, ref disabled, sizeof(int));
     }
 }
 

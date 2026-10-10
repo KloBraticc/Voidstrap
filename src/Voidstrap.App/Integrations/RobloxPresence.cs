@@ -489,15 +489,16 @@ public static class RobloxPresence
 			List<PresenceEntry> list = new List<PresenceEntry>();
 			foreach (JsonElement item in presences.EnumerateArray())
 			{
-				long userId = item.TryGetProperty("userId", out JsonElement id) && id.TryGetInt64(out long value) ? value : 0;
+				// Private locations come back as null, so every number is checked before it is read
+				long userId = ReadNumber(item, "userId");
 				string? gameId = item.TryGetProperty("gameId", out JsonElement game) && game.ValueKind == JsonValueKind.String ? game.GetString() : null;
 				list.Add(new PresenceEntry
 				{
 					UserId = userId,
 					GameId = gameId,
-					Type = item.TryGetProperty("userPresenceType", out JsonElement type) && type.TryGetInt32(out int kind) ? kind : 0,
-					PlaceId = item.TryGetProperty("placeId", out JsonElement place) && place.TryGetInt64(out long placeId) ? placeId : 0,
-					UniverseId = item.TryGetProperty("universeId", out JsonElement universe) && universe.TryGetInt64(out long universeId) ? universeId : 0,
+					Type = (int)ReadNumber(item, "userPresenceType"),
+					PlaceId = ReadNumber(item, "placeId"),
+					UniverseId = ReadNumber(item, "universeId"),
 					LastLocation = item.TryGetProperty("lastLocation", out JsonElement location) && location.ValueKind == JsonValueKind.String ? location.GetString() ?? string.Empty : string.Empty
 				});
 			}
@@ -507,6 +508,9 @@ public static class RobloxPresence
 
 		return null;
 	}
+
+	private static long ReadNumber(JsonElement item, string name)
+		=> item.TryGetProperty(name, out JsonElement value) && value.ValueKind == JsonValueKind.Number && value.TryGetInt64(out long number) ? number : 0;
 
 	private static IEnumerable<List<T>> Chunk<T>(List<T> source, int size)
 	{
