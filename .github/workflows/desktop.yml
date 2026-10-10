@@ -164,6 +164,7 @@ jobs:
                   time.sleep(5)
                   if process.poll() is not None:
                       raise RuntimeError('The packaged app stopped after opening its window')
+                  subprocess.run(['screencapture', '-x', str(root / 'launch.png')], check=True, timeout=15)
                   print('The packaged app opened a visible window and stayed running')
               finally:
                   if process.poll() is None:
@@ -176,6 +177,13 @@ jobs:
                   output.flush()
                   print(log.read_text())
           PY
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        with:
+          name: macos-package-launch-${{ matrix.rid }}
+          path: |
+            ${{ runner.temp }}/launch.log
+            ${{ runner.temp }}/launch.png
 
   linux_validation:
     name: Linux canonical and experimental validation
