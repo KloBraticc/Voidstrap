@@ -211,15 +211,25 @@ jobs:
           }
           exit(visible ? 0 : 1)
           '''
+          # Compiled once up front, `swift -e` recompiles on every call and a cold compile can exceed the poll timeout
+          probe_source = root / 'window-probe.swift'
+          probe_binary = root / 'window-probe'
+          probe_source.write_text(probe)
+          subprocess.run(['xcrun', 'swiftc', '-O', str(probe_source), '-o', str(probe_binary)], check=True, timeout=600)
+          def window_visible(pid):
+              try:
+                  return subprocess.run([str(probe_binary), str(pid)], timeout=20).returncode == 0
+              except subprocess.TimeoutExpired:
+                  return False
           with log.open('w') as output:
               process = subprocess.Popen([str(app / 'Contents/MacOS/Voidstrap'), '-menu'], stdout=output, stderr=subprocess.STDOUT)
               try:
-                  deadline = time.monotonic() + 45
+                  deadline = time.monotonic() + 90
                   visible = False
                   while time.monotonic() < deadline:
                       if process.poll() is not None:
                           raise RuntimeError('The packaged app exited during startup: ' + str(process.returncode))
-                      if subprocess.run(['swift', '-e', probe, str(process.pid)], timeout=30).returncode == 0:
+                      if window_visible(process.pid):
                           visible = True
                           break
                       time.sleep(2)
