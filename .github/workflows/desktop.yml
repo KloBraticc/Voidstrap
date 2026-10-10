@@ -103,11 +103,12 @@ jobs:
           }
           Voidstrap.KeyRouting.MacSnapTap.Stop();
           Voidstrap.KeyRouting.MacSnapTap.Stop();
+          if (typeof(Voidstrap.KeyRouting.MacSnapTap).GetField("_session", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!.GetValue(null) != null) throw new Exception("Native keyboard filter did not finish cleanup");
           Console.WriteLine(started ? "Native keyboard filter started and stopped successfully" : "Keyboard filter correctly refused missing Accessibility access");
           namespace Voidstrap
           {
-              internal static class App { internal static Log? Logger => null; }
-              internal sealed class Log { internal void WriteLine(string name, string message) { } }
+              internal static class App { internal static Log Logger { get; } = new(); }
+              internal sealed class Log { internal void WriteLine(string name, string message) => Console.WriteLine(name + ": " + message); }
           }
           namespace Voidstrap.Platform.MacOS
           {
