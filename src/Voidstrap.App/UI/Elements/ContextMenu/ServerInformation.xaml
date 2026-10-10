@@ -98,7 +98,7 @@
     <Border Grid.Row="2" Padding="15" Background="{DynamicResource PrimaryBackgroundColor}">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
         <Button MinWidth="100" Width="148" Content="{x:Static resources:Strings.ContextMenu_ServerInformation_CopyInstanceId}" ToolTip="Copy the Instance ID" AutomationProperties.Name="Copy Instance ID Button" Command="{Binding CopyInstanceIdCommand, Mode=OneTime}" />
-        <Button MinWidth="100" Margin="12,0,0,0" Content="{x:Static resources:Strings.Common_Close}" IsCancel="True" ToolTip="Close this window" AutomationProperties.Name="Close Button" />
+        <Button MinWidth="100" Margin="12,0,0,0" Content="{x:Static resources:Strings.Common_Close}" IsCancel="True" Click="CloseButton_Click" ToolTip="Close this window" AutomationProperties.Name="Close Button" />
       </StackPanel>
     </Border>
   </Grid>

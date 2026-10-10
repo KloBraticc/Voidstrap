@@ -21,6 +21,19 @@ public partial class ServerInformation : WpfUiWindow{
 		base.Closed += ServerInformation_Closed;
 	}
 
+	// IsCancel alone only closes modal dialogs, this window is shown normally or hosted in a dock panel,
+	// where closing the view closes the panel around it
+	private void CloseButton_Click(object sender, RoutedEventArgs e)
+	{
+		try
+		{
+			Close();
+		}
+		catch (InvalidOperationException)
+		{
+		}
+	}
+
 	private void ServerInformation_Closed(object? sender, EventArgs e)
 	{
 		base.Closed -= ServerInformation_Closed;
