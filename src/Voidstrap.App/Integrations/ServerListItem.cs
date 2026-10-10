@@ -11,4 +11,6 @@ internal sealed class ServerListItem
 	public int Ping { get; init; } = -1;
 
 	public double FPS { get; init; }
+
+	public string[] PlayerTokens { get; init; } = [];
 }

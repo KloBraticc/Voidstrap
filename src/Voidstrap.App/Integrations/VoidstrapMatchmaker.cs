@@ -823,6 +823,8 @@ public static class VoidstrapMatchmaker
 			Ping = winner.Ping,
 			EstimatedPingMs = winner.EstimatedPingMs,
 			Score = winner.Score,
+			Fps = winner.Fps,
+			PlayerTokens = winner.PlayerTokens,
 			BlockedClosestCity = blockedClosestCity,
 			BlockedClosestDistanceKm = blockedClosestKm
 		};
@@ -968,7 +970,9 @@ public static class VoidstrapMatchmaker
 					MaxPlayers = sv.MaxPlayers,
 					Ping = sv.Ping,
 					EstimatedPingMs = Math.Clamp((int)Math.Round(effectivePing), 1, 999),
-					Score = effectivePing + PopulationPenaltyMs(sv.Playing, sv.MaxPlayers, preferEmpty)
+					Score = effectivePing + PopulationPenaltyMs(sv.Playing, sv.MaxPlayers, preferEmpty),
+					Fps = sv.FPS,
+					PlayerTokens = sv.PlayerTokens
 				};
 				results.Add(candidate);
 				Interlocked.Increment(ref resultCount);
@@ -1168,6 +1172,10 @@ public static class VoidstrapMatchmaker
 		};
 		App.Logger.WriteLine(LOG_IDENT, "Server probe returned HTTP " + (int)status + ", " + hint);
 	}
+
+	// A server's start time if a probe already saw it, without asking Roblox again
+	public static DateTimeOffset? KnownServerStart(string? jobId)
+		=> !string.IsNullOrEmpty(jobId) && _knownServerStarts.TryGetValue(jobId, out DateTimeOffset started) ? started : null;
 
 	public static async Task<ServerStartLookup> GetServerStartAsync(long placeId, string? jobId, CancellationToken token = default)
 	{
@@ -1742,13 +1750,17 @@ public static class VoidstrapMatchmaker
 							double fps = TryGetDouble(el, "fps");
 							if (maxPlayers > 0 && playing >= maxPlayers)
 								continue;
+							string[] tokens = [];
+							if (el.TryGetProperty("playerTokens", out JsonElement tokenList) && tokenList.ValueKind == JsonValueKind.Array)
+								tokens = tokenList.EnumerateArray().Where(t => t.ValueKind == JsonValueKind.String).Select(t => t.GetString() ?? string.Empty).Where(t => t.Length > 0).Take(12).ToArray();
 							items.Add(new ServerListItem
 							{
 								JobId = jobId,
 								Playing = playing,
 								MaxPlayers = maxPlayers,
 								Ping = ping,
-								FPS = fps
+								FPS = fps,
+								PlayerTokens = tokens
 							});
 						}
 					}

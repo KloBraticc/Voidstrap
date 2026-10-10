@@ -2,118 +2,264 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-        xmlns:resources="clr-namespace:Voidstrap.Resources"
-        Title="{x:Static resources:Strings.ContextMenu_ServerBrowser_Title}" Width="920" Height="680" MinWidth="520" MinHeight="360"
+        Title="Servers" Width="920" Height="680" MinWidth="560" MinHeight="380"
         WindowStyle="None" AllowsTransparency="False" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
         ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True"
         WindowStartupLocation="Manual" FontFamily="Segoe UI">
   <Window.Resources>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <Style x:Key="Glyph" TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style x:Key="Card" TargetType="Border">
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+    </Style>
+    <Style x:Key="InfoLabel" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="Margin" Value="0,0,14,0" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+    <Style x:Key="InfoValue" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+    </Style>
+    <!-- Tabs: a tray with the open tab raised -->
+    <Style x:Key="Tab" TargetType="RadioButton">
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="RadioButton">
+            <Border x:Name="Chip" CornerRadius="6" Padding="14,6" Background="Transparent">
+              <ContentPresenter />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Chip" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+              </Trigger>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Chip" Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
   </Window.Resources>
-  <Grid Margin="12">
+
+  <Grid Margin="14,10,14,12">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
-      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <Border Grid.Row="1" Margin="0,0,0,12" Padding="12" CornerRadius="10" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+
+    <Grid>
+      <Border HorizontalAlignment="Left" CornerRadius="8" Padding="3" Background="{DynamicResource ControlFillColorSecondaryBrush}"
+              BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+        <StackPanel Orientation="Horizontal">
+          <RadioButton x:Name="PublicTab" GroupName="Tabs" Style="{StaticResource Tab}" IsChecked="True" Checked="Tab_Checked">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE753;" Style="{StaticResource Glyph}" Margin="0,0,8,0" />
+              <TextBlock Text="Public" FontSize="14" VerticalAlignment="Center" />
+            </StackPanel>
+          </RadioButton>
+          <RadioButton x:Name="PrivateTab" GroupName="Tabs" Style="{StaticResource Tab}" Checked="Tab_Checked">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE716;" Style="{StaticResource Glyph}" Margin="0,0,8,0" />
+              <TextBlock Text="Private" FontSize="14" VerticalAlignment="Center" />
+            </StackPanel>
+          </RadioButton>
+          <RadioButton x:Name="RecentTab" GroupName="Tabs" Style="{StaticResource Tab}" Checked="Tab_Checked">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE81C;" Style="{StaticResource Glyph}" Margin="0,0,8,0" />
+              <TextBlock Text="Recent" FontSize="14" VerticalAlignment="Center" />
+            </StackPanel>
+          </RadioButton>
+        </StackPanel>
+      </Border>
+      <TextBlock x:Name="ScanSummaryText" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="12"
+                 Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Grid>
+
+    <!-- The server you are in -->
+    <Border Grid.Row="1" Style="{StaticResource Card}" Margin="0,12,0,0" Padding="14,10">
       <Grid>
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="64" />
-          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" MinWidth="120" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" MinWidth="120" />
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Border Width="64" Height="64" CornerRadius="8" Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" ClipToBounds="True">
-          <Image x:Name="GameIcon" Width="64" Height="64" Stretch="UniformToFill" />
-        </Border>
-        <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
-          <TextBlock x:Name="GameNameText" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-          <TextBlock x:Name="GameDetailsText" Margin="0,4,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="Type" Style="{StaticResource InfoLabel}" />
+        <TextBlock x:Name="TypeText" Grid.Column="1" Style="{StaticResource InfoValue}" Margin="0,0,16,0" />
+        <TextBlock Grid.Row="1" Text="Instance ID" Style="{StaticResource InfoLabel}" Margin="0,8,14,0" />
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0,8,16,0">
+          <TextBlock x:Name="InstanceText" FontFamily="Cascadia Mono, Consolas" FontSize="12" MaxWidth="210" VerticalAlignment="Center"
+                     TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+          <ui:Button x:Name="CopyButton" Margin="8,0,0,0" Padding="6,3" Appearance="Secondary" Focusable="False" ToolTip="Copy the instance ID" Click="CopyButton_Click">
+            <TextBlock x:Name="CopyGlyph" Text="&#xE8C8;" Style="{StaticResource Glyph}" FontSize="12" />
+          </ui:Button>
         </StackPanel>
-        <TextBlock x:Name="ScanSummaryText" Grid.Column="2" Margin="16,0,0,0" VerticalAlignment="Center"
-                   Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextAlignment="Right" />
+        <TextBlock Grid.Column="2" Text="Location" Style="{StaticResource InfoLabel}" />
+        <TextBlock x:Name="LocationText" Grid.Column="3" Style="{StaticResource InfoValue}" Margin="0,0,16,0" />
+        <TextBlock Grid.Row="1" Grid.Column="2" Text="Uptime" Style="{StaticResource InfoLabel}" Margin="0,8,14,0" />
+        <TextBlock x:Name="UptimeText" Grid.Row="1" Grid.Column="3" Style="{StaticResource InfoValue}" Margin="0,8,16,0" />
+        <StackPanel Grid.Column="4" Grid.RowSpan="2" Orientation="Horizontal" VerticalAlignment="Center">
+          <ui:Button x:Name="ClosestButton" Appearance="Secondary" Focusable="False" Click="ClosestButton_Click" ToolTip="Join the server with the lowest ping">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE707;" Style="{StaticResource Glyph}" Margin="0,0,8,0" />
+              <TextBlock Text="Closest server" FontSize="14" VerticalAlignment="Center" />
+            </StackPanel>
+          </ui:Button>
+          <ui:Button x:Name="HopButton" Margin="8,0,0,0" Appearance="Primary" Focusable="False" Click="HopButton_Click" ToolTip="Join a different random server">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE8B1;" Style="{StaticResource Glyph}" Margin="0,0,8,0" />
+              <TextBlock Text="Server hop" FontSize="14" VerticalAlignment="Center" />
+            </StackPanel>
+          </ui:Button>
+        </StackPanel>
       </Grid>
     </Border>
-    <Grid Grid.Row="2" Margin="0,0,0,10">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="Auto" />
-      </Grid.ColumnDefinitions>
-      <ComboBox x:Name="PlaceBox" Width="200" Margin="0,0,8,0" VerticalAlignment="Center" Visibility="Collapsed"
-                ToolTip="Place" DisplayMemberPath="Name" SelectionChanged="PlaceBox_SelectionChanged" />
-      <ui:TextBox x:Name="SearchBox" Grid.Column="1" MinWidth="100" Margin="0,0,8,0" VerticalContentAlignment="Center" Icon="Search24" ClearButtonEnabled="True"
-                  PlaceholderText="{x:Static resources:Strings.ContextMenu_ServerBrowser_Search}" TextChanged="SearchBox_TextChanged" />
-      <ComboBox x:Name="SortBox" Grid.Column="2" Width="160" Margin="0,0,8,0" VerticalAlignment="Center" SelectedIndex="0" SelectionChanged="SortBox_SelectionChanged">
-        <ComboBoxItem Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Sort_Best}" />
-        <ComboBoxItem Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Sort_Ping}" />
-        <ComboBoxItem Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Sort_Population}" />
-        <ComboBoxItem Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Sort_Empty}" />
-      </ComboBox>
-      <ui:Button x:Name="RefreshButton" Grid.Column="3" Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Refresh}"
-                 Appearance="Secondary" Click="RefreshButton_Click" />
-    </Grid>
+
+    <!-- Filters -->
+    <Border x:Name="FilterBar" Grid.Row="2" Style="{StaticResource Card}" Margin="0,10,0,10" Padding="12,8">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Sort by" FontSize="14" VerticalAlignment="Center" Margin="0,0,10,0" />
+        <ComboBox x:Name="SortBox" Grid.Column="1" Width="150" SelectedIndex="0" SelectionChanged="Filter_Changed">
+          <ComboBoxItem Content="Most players" />
+          <ComboBoxItem Content="Fewest players" />
+          <ComboBoxItem Content="Lowest ping" />
+        </ComboBox>
+        <TextBlock Grid.Column="2" Text="Region" FontSize="14" VerticalAlignment="Center" Margin="16,0,10,0" />
+        <ComboBox x:Name="RegionBox" Grid.Column="3" Width="160" SelectionChanged="Filter_Changed" />
+        <ComboBox x:Name="PlaceBox" Grid.Column="4" Width="170" Margin="10,0,0,0" Visibility="Collapsed"
+                  ToolTip="Place" DisplayMemberPath="Name" SelectionChanged="PlaceBox_SelectionChanged" />
+        <StackPanel Grid.Column="5" Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
+          <ui:ToggleSwitch x:Name="HideFullToggle" Click="Filter_Changed" />
+          <TextBlock Text="Hide full servers" FontSize="14" VerticalAlignment="Center" Margin="10,0,0,0" />
+        </StackPanel>
+        <TextBlock x:Name="CountText" Grid.Column="6" FontSize="14" VerticalAlignment="Center" Margin="12,0,12,0" />
+        <ui:Button x:Name="RefreshButton" Grid.Column="7" Appearance="Secondary" Focusable="False" Click="RefreshButton_Click">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="&#xE72C;" Style="{StaticResource Glyph}" Margin="0,0,8,0" />
+            <TextBlock Text="Refresh" FontSize="14" VerticalAlignment="Center" />
+          </StackPanel>
+        </ui:Button>
+      </Grid>
+    </Border>
+
     <Grid Grid.Row="3">
-      <ListView x:Name="ServerList" BorderThickness="0" Background="Transparent"
-                ScrollViewer.CanContentScroll="True" VirtualizingPanel.IsVirtualizing="True"
-                VirtualizingPanel.VirtualizationMode="Recycling" ScrollViewer.VerticalScrollBarVisibility="Auto">
+      <!-- Rows of cards, only the rows on screen are built so long lists stay fast -->
+      <ListView x:Name="ServerList" BorderThickness="0" Background="Transparent" Focusable="False"
+                ScrollViewer.CanContentScroll="True" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.ScrollUnit="Pixel"
+                VirtualizingPanel.VirtualizationMode="Recycling" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled" SizeChanged="ServerList_SizeChanged">
         <ListView.ItemContainerStyle>
           <Style TargetType="ListViewItem">
             <Setter Property="Padding" Value="0" />
-            <Setter Property="Margin" Value="0,0,0,6" />
+            <Setter Property="Margin" Value="0" />
             <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Focusable" Value="False" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                  <ContentPresenter />
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
           </Style>
         </ListView.ItemContainerStyle>
         <ListView.ItemTemplate>
           <DataTemplate>
-            <Border Padding="12,10" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Border Width="44" Height="44" Margin="0,0,12,0" CornerRadius="6" VerticalAlignment="Center" ClipToBounds="True"
-                        Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}">
-                  <Image Source="{Binding PlaceIcon}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
-                </Border>
-                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                  <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding LocationText}" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-                    <TextBlock Text="{x:Static resources:Strings.ContextMenu_ServerBrowser_Current}" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="11"
-                               Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"
-                               Visibility="{Binding IsCurrent, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                    <TextBlock Text="{x:Static resources:Strings.ContextMenu_ServerBrowser_Blocked}" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="11"
-                               Foreground="{DynamicResource SystemFillColorCriticalBrush}"
-                               Visibility="{Binding IsBlocked, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                  </StackPanel>
-                  <TextBlock Text="{Binding MetricsText}" Margin="0,3,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                  <TextBlock Text="{Binding AddressText}" Margin="0,4,0,0" FontSize="10" TextTrimming="CharacterEllipsis"
-                             Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-                </StackPanel>
-                <ui:Button Grid.Column="2" Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Join}"
-                           Appearance="Secondary" VerticalAlignment="Center" Margin="12,0,0,0"
-                           IsEnabled="{Binding CanJoin}" Click="JoinButton_Click" />
-              </Grid>
-            </Border>
+            <ItemsControl ItemsSource="{Binding Cards}" Focusable="False">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <UniformGrid Rows="1" Columns="{Binding Columns}" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Border Margin="0,0,10,10" Padding="12" CornerRadius="8" Loaded="Card_Loaded"
+                          Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                          BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <StackPanel>
+                      <ItemsControl ItemsSource="{Binding Avatars}" HorizontalAlignment="Center" Focusable="False" Margin="0,2,0,6">
+                        <ItemsControl.ItemsPanel>
+                          <ItemsPanelTemplate>
+                            <UniformGrid Columns="3" />
+                          </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate>
+                            <Grid Width="56" Height="56" Margin="6,4">
+                              <Ellipse Fill="{DynamicResource ControlFillColorSecondaryBrush}" />
+                              <Ellipse>
+                                <Ellipse.Fill>
+                                  <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill" />
+                                </Ellipse.Fill>
+                              </Ellipse>
+                              <TextBlock Text="{Binding Text}" FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                         Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                            </Grid>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                      <TextBlock Text="{Binding Title}" FontSize="16" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                      <ItemsControl ItemsSource="{Binding Lines}" Focusable="False" Margin="0,6,0,0">
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                              <TextBlock Text="{Binding Glyph}" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" Width="26" VerticalAlignment="Center"
+                                         Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                              <TextBlock Text="{Binding Text}" FontSize="13.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                                         Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                            </StackPanel>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                      <ProgressBar Margin="0,10,0,0" Height="4" Minimum="0" Maximum="1" Value="{Binding Fill, Mode=OneWay}" />
+                      <ui:Button Margin="0,10,0,0" HorizontalAlignment="Stretch" Appearance="Secondary" Focusable="False"
+                                 Content="{Binding JoinText}" IsEnabled="{Binding CanJoin}" Click="JoinButton_Click" />
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>
       <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False">
         <ProgressBar x:Name="LoadingBar" Width="180" Height="4" IsIndeterminate="True" Visibility="Collapsed" />
-        <TextBlock x:Name="StatusText" Margin="0,10,0,0" MaxWidth="380" TextAlignment="Center" TextWrapping="Wrap"
+        <TextBlock x:Name="StatusText" Margin="0,10,0,0" MaxWidth="380" TextAlignment="Center" TextWrapping="Wrap" FontSize="14"
                    Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
       </StackPanel>
-    </Grid>
-    <Grid Grid.Row="4" Margin="0,10,0,0">
-      <TextBlock x:Name="CountText" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
     </Grid>
   </Grid>
 </Window>
