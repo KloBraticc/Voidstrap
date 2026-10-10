@@ -60,8 +60,17 @@ public partial class SessionDock : Window
     private static readonly AnimationTimeline RingFade = Frozen(new DoubleAnimation(0.45, 0, TimeSpan.FromMilliseconds(900)) { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut } });
     private static readonly AnimationTimeline DotBeat = Frozen(CreateDotBeat());
     private DispatcherTimer? _heartbeat;
-    private static readonly AnimationTimeline DockFadeIn = Smooth(new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(170)) { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } });
-    private static readonly AnimationTimeline DockRise = Smooth(new DoubleAnimation(10, 0, TimeSpan.FromMilliseconds(220)) { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } });
+    private const double EntranceScale = 0.96;
+    private static readonly TimeSpan EntranceLength = TimeSpan.FromMilliseconds(200);
+    // A single ease out with no overshoot, so the dock settles exactly once
+    private static readonly AnimationTimeline DockFadeIn = Smooth(new DoubleAnimation(0, 1, EntranceLength) { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut } });
+    private static readonly AnimationTimeline DockGrow = Smooth(new DoubleAnimation(EntranceScale, 1, EntranceLength) { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } });
+    private static readonly TimeSpan FocusLossGrace = TimeSpan.FromMilliseconds(160);
+    private DispatcherTimer? _settle;
+    private DispatcherTimer? _focusLoss;
+    private bool _entranceWaiting;
+    private bool _activateOnSettle;
+    private bool _popoutOnSettle;
     // Set when the dock was hidden only because the game lost focus, so it comes back with the game
     private bool _resumeOnFocus;
     private bool _resumePopout;
@@ -199,6 +208,8 @@ public partial class SessionDock : Window
             return;
         _opened = false;
         bool returnFocus = RobloxWindowTracker.IsRobloxForeground();
+        _focusLoss?.Stop();
+        CancelEntrance();
         _clock.Stop();
         StopHeartbeat();
         CancelRefresh();
@@ -215,6 +226,25 @@ public partial class SessionDock : Window
             SetForegroundWindow(game);
     }
 
+    private void OnFocusLossTick(object? sender, EventArgs e)
+    {
+        _focusLoss?.Stop();
+        if (_closed || !_opened)
+            return;
+        if (RobloxWindowTracker.Current.Valid && RobloxWindowTracker.IsRobloxForeground())
+            return;
+        SuspendDock();
+    }
+
+    // Hidden because the game lost focus, it comes back on its own when the game is focused again
+    private void SuspendDock()
+    {
+        bool popout = PopoutOpen;
+        HideDock();
+        _resumeOnFocus = true;
+        _resumePopout = popout;
+    }
+
     private void ResumeDock()
     {
         _resumeQueued = false;
@@ -229,7 +259,11 @@ public partial class SessionDock : Window
             return;
         // The player just clicked back into the game, so nothing takes the keyboard away from it
         Open(activatePanels: false);
-        if (popout && _opened)
+        if (!popout || !_opened)
+            return;
+        if (_entranceWaiting || _settle?.IsEnabled == true)
+            _popoutOnSettle = true;
+        else
             ShowPopout();
     }
 
@@ -251,16 +285,16 @@ public partial class SessionDock : Window
     {
         _resumeOnFocus = false;
         _resumePopout = false;
+        _focusLoss?.Stop();
         // The caller already checked that Roblox is in front, make sure the cached bounds agree before anchoring
         RobloxWindowTracker.Refresh();
         _opened = true;
-        if (_refreshTask is not { IsCompleted: false } && DateTime.UtcNow - _lastRefreshUtc >= RefreshInterval)
-            StartRefresh();
         UpdateReadout();
         ShowDimmer();
-        _anchor ??= new RobloxOverlayAnchor(this, placement: RobloxOverlayPlacement.BottomCenter);
-        // Started before showing so the very first frame is already the start of the fade
-        PlayEntrance();
+        // Hiding on focus loss is handled here with a short grace period, the anchor hiding instantly made the dock flicker
+        _anchor ??= new RobloxOverlayAnchor(this, hideWhenUnfocused: false, placement: RobloxOverlayPlacement.BottomCenter);
+        // Hidden until the first frame so it never flashes in at full size
+        PrepareEntrance();
         try
         {
             Show();
@@ -269,17 +303,106 @@ public partial class SessionDock : Window
         {
             App.Logger.WriteLine("SessionDock", "The dock could not be shown: " + ex.Message);
             _opened = false;
+            CancelEntrance();
             FadeDimmer(0);
             return;
         }
         _anchor.Refresh();
+        RaiseAboveDimmer();
         _clock.Start();
+        _activateOnSettle = activatePanels;
+        StartEntrance();
+    }
+
+    private void PrepareEntrance()
+    {
+        CancelEntrance();
+        if (!SystemParameters.ClientAreaAnimation)
+            return;
+        DockRoot.Opacity = 0;
+        DockScale.ScaleX = DockScale.ScaleY = EntranceScale;
+        // Drawn once into a bitmap that is then only faded and scaled, nothing is laid out or redrawn per frame
+        DockRoot.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
+    }
+
+    // Starts on the first rendered frame after the window is placed, so the animation clock
+    // never begins while the window is still being created and no frames are skipped
+    private void StartEntrance()
+    {
+        if (!SystemParameters.ClientAreaAnimation)
+        {
+            Settle();
+            return;
+        }
+        _entranceWaiting = true;
+        CompositionTarget.Rendering += OnFirstFrame;
+    }
+
+    private void OnFirstFrame(object? sender, EventArgs e)
+    {
+        CompositionTarget.Rendering -= OnFirstFrame;
+        if (!_entranceWaiting || _closed || !_opened)
+            return;
+        _entranceWaiting = false;
+        DockRoot.BeginAnimation(OpacityProperty, DockFadeIn);
+        DockScale.BeginAnimation(ScaleTransform.ScaleXProperty, DockGrow);
+        DockScale.BeginAnimation(ScaleTransform.ScaleYProperty, DockGrow);
+        _settle ??= CreateSettleTimer();
+        _settle.Stop();
+        _settle.Start();
+    }
+
+    private DispatcherTimer CreateSettleTimer()
+    {
+        DispatcherTimer timer = new(DispatcherPriority.Background) { Interval = EntranceLength + TimeSpan.FromMilliseconds(40) };
+        timer.Tick += (_, _) =>
+        {
+            timer.Stop();
+            if (!_closed && _opened)
+                Settle();
+        };
+        return timer;
+    }
+
+    // Everything that does real work waits until the dock has finished appearing
+    private void Settle()
+    {
+        DockRoot.BeginAnimation(OpacityProperty, null);
+        DockScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+        DockScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+        DockRoot.Opacity = 1;
+        DockScale.ScaleX = DockScale.ScaleY = 1;
+        DockRoot.CacheMode = null;
         StartHeartbeat();
+        if (_refreshTask is not { IsCompleted: false } && DateTime.UtcNow - _lastRefreshUtc >= RefreshInterval)
+            StartRefresh();
         // Start loading the popout's banner and friends now so they are ready when it is opened
         _ = LoadPopoutAsync();
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
-            panel.Present(true, activatePanels);
+            panel.Present(true, _activateOnSettle);
+        if (_popoutOnSettle)
+        {
+            _popoutOnSettle = false;
+            ShowPopout();
+        }
         RaiseAboveDimmer();
+    }
+
+    private void CancelEntrance()
+    {
+        if (_entranceWaiting)
+        {
+            _entranceWaiting = false;
+            CompositionTarget.Rendering -= OnFirstFrame;
+        }
+        _settle?.Stop();
+        _popoutOnSettle = false;
+        DockRoot.BeginAnimation(OpacityProperty, null);
+        DockScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+        DockScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+        DockRoot.Opacity = 1;
+        DockScale.ScaleX = DockScale.ScaleY = 1;
+        DockRoot.CacheMode = null;
     }
 
     private void OnTrackerChanged(object? sender, RobloxWindowRect bounds)
@@ -291,14 +414,24 @@ public partial class SessionDock : Window
             Dispatcher.BeginInvoke(new Action(() => OnTrackerChanged(sender, bounds)));
             return;
         }
-        if (_opened && (!bounds.Valid || !bounds.Foreground))
+        if (_opened && !bounds.Valid)
         {
-            bool popout = PopoutOpen;
-            HideDock();
-            _resumeOnFocus = true;
-            _resumePopout = popout;
+            SuspendDock();
             return;
         }
+        if (_opened && !bounds.Foreground)
+        {
+            // Focus passes through nothing for a moment when it moves between windows, only hide if it stays away
+            if (_focusLoss == null)
+            {
+                _focusLoss = new DispatcherTimer(DispatcherPriority.Input) { Interval = FocusLossGrace };
+                _focusLoss.Tick += OnFocusLossTick;
+            }
+            if (!_focusLoss.IsEnabled)
+                _focusLoss.Start();
+            return;
+        }
+        _focusLoss?.Stop();
         if (!_opened && _resumeOnFocus && bounds.Valid && bounds.Foreground && !_resumeQueued)
         {
             // Not from inside the tracker's own event, opening refreshes the tracker
@@ -532,21 +665,6 @@ public partial class SessionDock : Window
         beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.14, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(330)), new QuadraticEase { EasingMode = EasingMode.EaseOut }));
         beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.0, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(520)), new QuadraticEase { EasingMode = EasingMode.EaseIn }));
         return beat;
-    }
-
-    // Fades in while rising a few pixels, the dimmer behind it fades at the same time
-    private void PlayEntrance()
-    {
-        if (!SystemParameters.ClientAreaAnimation)
-        {
-            DockRoot.BeginAnimation(OpacityProperty, null);
-            DockShift.BeginAnimation(TranslateTransform.YProperty, null);
-            DockRoot.Opacity = 1;
-            DockShift.Y = 0;
-            return;
-        }
-        DockRoot.BeginAnimation(OpacityProperty, DockFadeIn);
-        DockShift.BeginAnimation(TranslateTransform.YProperty, DockRise);
     }
 
     private static AnimationTimeline Smooth(AnimationTimeline timeline)
@@ -855,6 +973,18 @@ public partial class SessionDock : Window
         _panels.Clear();
         _clock.Stop();
         _clock.Tick -= OnClock;
+        if (_entranceWaiting)
+        {
+            _entranceWaiting = false;
+            CompositionTarget.Rendering -= OnFirstFrame;
+        }
+        _settle?.Stop();
+        if (_focusLoss != null)
+        {
+            _focusLoss.Stop();
+            _focusLoss.Tick -= OnFocusLossTick;
+            _focusLoss = null;
+        }
         if (_heartbeat != null)
         {
             _heartbeat.Stop();
