@@ -25,6 +25,8 @@ public partial class NotificationWindow
             _notificationTracker = RobloxWindowTracker.Acquire();
             RobloxWindowTracker.Changed += OnNotificationBoundsChanged;
             DismissButton.Click += OnDismissNotification;
+            NotificationBorder.MouseEnter += OnNotificationHover;
+            NotificationBorder.MouseLeave += OnNotificationHover;
         }
 
         RobloxWindowRect bounds = RobloxWindowTracker.Current;
@@ -48,6 +50,7 @@ public partial class NotificationWindow
             RootTranslate.X = 0;
             ProgressScale.ScaleX = 1;
             DismissButton.Visibility = Visibility.Visible;
+            SetDismissVisible(false);
             Show();
             _notificationHandle = new WindowInteropHelper(this).Handle;
             OverlayDiagnostics.RegisterOverlayHandle(_notificationHandle);
@@ -70,7 +73,6 @@ public partial class NotificationWindow
                 if (!NotificationBorder.IsMouseOver)
                     remaining -= now - previous;
                 previous = now;
-                ProgressScale.ScaleX = Math.Clamp(remaining / duration, 0, 1);
             }
             AnimateNotification(1, 0, 0, Math.Max(1, ActualHeight), 180);
             await Task.Delay(180, token);
@@ -121,6 +123,25 @@ public partial class NotificationWindow
         CubicEase ease = new() { EasingMode = toOpacity > fromOpacity ? EasingMode.EaseOut : EasingMode.EaseIn };
         NotificationBorder.BeginAnimation(OpacityProperty, new DoubleAnimation(fromOpacity, toOpacity, duration) { EasingFunction = ease });
         RootTranslate.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(fromY, toY, duration) { EasingFunction = ease });
+    }
+
+    // The close button only shows while the pointer is over the notification, which also pauses its countdown
+    private void OnNotificationHover(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        if (!_closed)
+            SetDismissVisible(_presenting && NotificationBorder.IsMouseOver);
+    }
+
+    private void SetDismissVisible(bool visible)
+    {
+        DismissButton.IsHitTestVisible = visible;
+        if (!SystemParameters.ClientAreaAnimation)
+        {
+            DismissButton.BeginAnimation(OpacityProperty, null);
+            DismissButton.Opacity = visible ? 1 : 0;
+            return;
+        }
+        DismissButton.BeginAnimation(OpacityProperty, new DoubleAnimation(visible ? 1 : 0, new Duration(TimeSpan.FromMilliseconds(120))));
     }
 
     private void OnDismissNotification(object sender, RoutedEventArgs e)
@@ -187,6 +208,8 @@ public partial class NotificationWindow
         _dismissRequested = true;
         RobloxWindowTracker.Changed -= OnNotificationBoundsChanged;
         DismissButton.Click -= OnDismissNotification;
+        NotificationBorder.MouseEnter -= OnNotificationHover;
+        NotificationBorder.MouseLeave -= OnNotificationHover;
         _notificationTracker?.Dispose();
         _notificationTracker = null;
         OverlayDiagnostics.UnregisterOverlayHandle(_notificationHandle);

@@ -28,7 +28,7 @@
                    HorizontalAlignment="Right" VerticalAlignment="Top" Appearance="Transparent" Icon="Dismiss12"
                    Visibility="Collapsed" Focusable="False" ToolTip="Dismiss notification" AutomationProperties.Name="Dismiss notification" />
         <Rectangle x:Name="AccentStripe" Visibility="Collapsed" />
-        <Grid x:Name="ProgressContainer" Height="2" Margin="0,0,0,-12" VerticalAlignment="Bottom">
+        <Grid x:Name="ProgressContainer" Height="2" Margin="0,0,0,-12" VerticalAlignment="Bottom" Visibility="Collapsed">
           <Rectangle x:Name="ProgressBar" RenderTransformOrigin="0,0.5"><Rectangle.RenderTransform><ScaleTransform x:Name="ProgressScale" ScaleX="0" /></Rectangle.RenderTransform></Rectangle>
         </Grid>
       </Grid>
