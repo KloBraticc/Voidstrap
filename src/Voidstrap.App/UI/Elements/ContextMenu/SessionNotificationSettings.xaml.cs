@@ -13,7 +13,9 @@ public partial class SessionNotificationSettings : Window
 {
     private const double PreviewScale = 0.5;
     private static readonly string[] MotionNames = { "Slide", "Fade", "Pop", "None" };
-    private NotificationAppearance _appearance;
+    private NotificationAppearance _appearance = new();
+    // Sliders raise ValueChanged while the XAML is still being loaded, before the other controls exist
+    private bool _ready;
     private bool _loading;
     private bool _closed;
     private int _playGeneration;
@@ -31,12 +33,15 @@ public partial class SessionNotificationSettings : Window
             IntroBox.Items.Add(name);
             OutroBox.Items.Add(name);
         }
+        _ready = true;
         LoadControls();
         Closed += (_, _) => _closed = true;
     }
 
     private void LoadControls()
     {
+        if (!_ready)
+            return;
         _loading = true;
         IntroBox.SelectedIndex = (int)_appearance.Intro;
         OutroBox.SelectedIndex = (int)_appearance.Outro;
@@ -58,7 +63,7 @@ public partial class SessionNotificationSettings : Window
     // Every change is saved straight away and shows on the next notification
     private void Commit()
     {
-        if (_loading || _closed)
+        if (!_ready || _loading || _closed)
             return;
         App.Settings.Prop.NotificationAppearance = _appearance.Copy();
         App.Settings.SaveDeferred();
@@ -68,6 +73,8 @@ public partial class SessionNotificationSettings : Window
 
     private void Position_Click(object sender, RoutedEventArgs e)
     {
+        if (!_ready)
+            return;
         if (sender is not FrameworkElement { Tag: string tag } || !Enum.TryParse(tag, out NotificationPosition position))
             return;
         _appearance.Position = position;
@@ -78,7 +85,7 @@ public partial class SessionNotificationSettings : Window
 
     private void Motion_Changed(object sender, SelectionChangedEventArgs e)
     {
-        if (_loading)
+        if (!_ready || _loading)
             return;
         if (IntroBox.SelectedIndex >= 0)
             _appearance.Intro = (NotificationMotion)IntroBox.SelectedIndex;
@@ -90,7 +97,7 @@ public partial class SessionNotificationSettings : Window
 
     private void Slider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        if (_loading)
+        if (!_ready || _loading)
             return;
         _appearance.IntroMilliseconds = (int)IntroSpeed.Value;
         _appearance.OutroMilliseconds = (int)OutroSpeed.Value;
@@ -104,6 +111,8 @@ public partial class SessionNotificationSettings : Window
 
     private void Toggle_Click(object sender, RoutedEventArgs e)
     {
+        if (!_ready)
+            return;
         _appearance.PauseWhileHovered = PauseToggle.IsChecked == true;
         _appearance.CloseButtonOnHover = CloseToggle.IsChecked == true;
         Commit();
@@ -173,7 +182,11 @@ public partial class SessionNotificationSettings : Window
         Canvas.SetTop(MockHost, Math.Round(top));
     }
 
-    private void PreviewStage_SizeChanged(object sender, SizeChangedEventArgs e) => PlaceMock();
+    private void PreviewStage_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (_ready)
+            PlaceMock();
+    }
 
     private void Preview_Click(object sender, System.Windows.Input.MouseButtonEventArgs e) => _ = PlayAsync();
 
