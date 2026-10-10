@@ -104,11 +104,47 @@ fi
 cp "$ROOT/build/Packaging/MacOS/Info.plist" "$APPLICATION/Contents/Info.plist"
 cp "$ROOT/build/Packaging/MacOS/Voidstrap.icns" "$APPLICATION/Contents/Resources/Voidstrap.icns"
 cp "$ROOT/src/Voidstrap.App/Voidstrap.png" "$APPLICATION/Contents/Resources/Voidstrap.png"
+chmod 755 "$APPLICATION/Contents/MacOS/Voidstrap" "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
 
 if [ "$(uname -s)" != "Darwin" ]; then
+  if [ -n "${MACOS_SIGN_IDENTITY:-}" ] || [ -n "${MACOS_NOTARY_PROFILE:-}" ]; then
+    echo "Developer ID signing and notarization require packaging on macOS"
+    exit 1
+  fi
   sed -i -e "/<key>CFBundleShortVersionString<\/key>/{n;s|<string>[^<]*</string>|<string>$VERSION</string>|}" -e "/<key>CFBundleVersion<\/key>/{n;s|<string>[^<]*</string>|<string>$VERSION</string>|}" "$APPLICATION/Contents/Info.plist"
   chmod 644 "$APPLICATION/Contents/Info.plist"
   chmod -R go-w "$APPLICATION"
+  case "$(uname -s):$(uname -m)" in
+    Linux:x86_64)
+      SIGNER_TARGET=x86_64-unknown-linux-musl
+      SIGNER_HASH=dbe85cedd8ee4217b64e9a0e4c2aef92ab8bcaaa41f20bde99781ff02e600002
+      ;;
+    Linux:aarch64|Linux:arm64)
+      SIGNER_TARGET=aarch64-unknown-linux-musl
+      SIGNER_HASH=4af92c87ddf52f5f2d1258a3b4e56c7dcb8f1b2468df744976c5f139e031961f
+      ;;
+    MINGW*:x86_64|MSYS*:x86_64|CYGWIN*:x86_64)
+      SIGNER_TARGET=x86_64-pc-windows-msvc
+      SIGNER_HASH=54bb500e2da7a8de02fcae0f331d1cac6e6d7173b4281042ff9c528ba3159aaa
+      ;;
+    *) echo "This host cannot sign macOS app bundles"; exit 1 ;;
+  esac
+  SIGNER_RELEASE="apple-codesign-0.29.0-$SIGNER_TARGET"
+  SIGNER_EXTENSION=tar.gz
+  case "$SIGNER_TARGET" in *windows*) SIGNER_EXTENSION=zip ;; esac
+  SIGNER_ARCHIVE="$STAGE/$SIGNER_RELEASE.$SIGNER_EXTENSION"
+  curl --fail --location --retry 3 --connect-timeout 15 --max-time 180 --output "$SIGNER_ARCHIVE" "https://github.com/indygreg/apple-platform-rs/releases/download/apple-codesign/0.29.0/$SIGNER_RELEASE.$SIGNER_EXTENSION"
+  printf '%s  %s\n' "$SIGNER_HASH" "$SIGNER_ARCHIVE" | sha256sum -c -
+  mkdir "$STAGE/signer"
+  if [ "$SIGNER_EXTENSION" = zip ]; then
+    unzip -q "$SIGNER_ARCHIVE" -d "$STAGE/signer"
+    SIGNER="$STAGE/signer/$SIGNER_RELEASE/rcodesign.exe"
+  else
+    tar -xzf "$SIGNER_ARCHIVE" -C "$STAGE/signer"
+    SIGNER="$STAGE/signer/$SIGNER_RELEASE/rcodesign"
+  fi
+  "$SIGNER" --config-file /dev/null sign --timestamp-url none --entitlements-xml-file "$ROOT/build/Packaging/MacOS/Entitlements.plist" "$APPLICATION"
+  test -s "$APPLICATION/Contents/_CodeSignature/CodeResources"
   if [ "$(uname -s)" = "Linux" ]; then
     command -v genisoimage >/dev/null 2>&1 || { echo "genisoimage is required to create a macOS disk image on Linux"; exit 1; }
     genisoimage -D -J -V Voidstrap -no-pad -r -graft-points -o "$ISO" "Voidstrap.app=$APPLICATION"
@@ -132,7 +168,7 @@ if [ -n "${MACOS_SIGN_IDENTITY:-}" ]; then
   codesign --force --deep --options runtime --entitlements "$ROOT/build/Packaging/MacOS/Entitlements.plist" --sign "$MACOS_SIGN_IDENTITY" "$APPLICATION"
 else
   codesign --force --sign - "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
-  codesign --force --deep --sign - "$APPLICATION"
+  codesign --force --deep --entitlements "$ROOT/build/Packaging/MacOS/Entitlements.plist" --sign - "$APPLICATION"
 fi
 
 codesign --verify --deep --strict --verbose=2 "$APPLICATION"
