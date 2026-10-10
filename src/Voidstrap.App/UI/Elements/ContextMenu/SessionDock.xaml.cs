@@ -39,6 +39,7 @@ public partial class SessionDock : Window
     private readonly Action<string> _action;
     private readonly DispatcherTimer _clock;
     private readonly CancellationTokenSource _lifetime = new();
+    private readonly CancellationToken _lifetimeToken;
     private readonly IDisposable _trackerLease;
     private RobloxOverlayAnchor? _anchor;
     private DispatcherTimer? _dimmerFade;
@@ -67,6 +68,7 @@ public partial class SessionDock : Window
     private static readonly TimeSpan ExitLength = TimeSpan.FromMilliseconds(220);
     // Room around the pill for its shadow, the window is the pill plus this
     private const double ShadowRoomX = 40;
+    private int _availableWidth;
     private readonly NativeSlide _slide;
     private bool _exiting;
     private static readonly TimeSpan FocusLossGrace = TimeSpan.FromMilliseconds(160);
@@ -120,9 +122,12 @@ public partial class SessionDock : Window
 
     public SessionDock(ActivityWatcher activity, Action<string> action)
     {
+        _lifetimeToken = _lifetime.Token;
         _activity = activity;
         _action = action;
         InitializeComponent();
+        PortableOverlay.Prepare(this);
+        PreviewKeyDown += OnDockKey;
         _slide = new NativeSlide(this);
         // The browser is built on Edge WebView2, which only exists on Windows
         if (!Voidstrap.Utility.Platform.IsWindows)
@@ -136,6 +141,14 @@ public partial class SessionDock : Window
         Closed += OnClosed;
         RobloxWindowTracker.Changed += OnTrackerChanged;
         _trackerLease = RobloxWindowTracker.Acquire();
+    }
+
+    private void OnDockKey(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key != System.Windows.Input.Key.Escape)
+            return;
+        e.Handled = true;
+        CloseDock();
     }
 
     public bool IsOpen => _opened && !_closed;
@@ -222,7 +235,7 @@ public partial class SessionDock : Window
         UpdateActiveButtons();
     }
 
-    private void OnPanelDismissed(object? sender, EventArgs e) => HideDock(true);
+    private void OnPanelDismissed(object? sender, EventArgs e) => CloseDock();
 
     private static string PanelKeyFor(string action) => action switch
     {
@@ -263,7 +276,7 @@ public partial class SessionDock : Window
         _profileLoading = true;
         try
         {
-            RobloxChatResult<long> self = await RobloxChat.GetSelfAsync(_lifetime.Token);
+            RobloxChatResult<long> self = await RobloxChat.GetSelfAsync(_lifetimeToken);
             if (_closed)
                 return;
             if (self.Status != RobloxChatStatus.Ready)
@@ -276,7 +289,7 @@ public partial class SessionDock : Window
             ProfileName.Text = user?.Label is { Length: > 0 } label ? label : "Roblox";
             ProfileHandle.Text = user?.Name is { Length: > 0 } name ? "@" + name : string.Empty;
             _profileLoaded = true;
-            Dictionary<long, string> urls = await RobloxChat.GetHeadshotUrlsAsync(new[] { self.Value }, _lifetime.Token);
+            Dictionary<long, string> urls = await RobloxChat.GetHeadshotUrlsAsync(new[] { self.Value }, _lifetimeToken);
             if (_closed || !urls.TryGetValue(self.Value, out string? url) || !Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
                 return;
             BitmapImage avatar = new();
@@ -320,7 +333,13 @@ public partial class SessionDock : Window
     }
 
     // Closed by the player: slides back down into the bottom edge
-    public void CloseDock() => HideDock(true);
+    public void CloseDock()
+    {
+        if (PortableOverlay.Active)
+            Dispatcher.BeginInvoke(new Action(() => HideDock(true)));
+        else
+            HideDock(true);
+    }
 
     public void HideDock() => HideDock(false);
 
@@ -365,7 +384,9 @@ public partial class SessionDock : Window
         _prewarmTimer?.Stop();
         FadeDimmer(0);
         IntPtr game = RobloxWindowTracker.Current.Hwnd;
-        if (returnFocus && game != IntPtr.Zero)
+        if (returnFocus && PortableOverlay.Active)
+            PortableOverlay.ReturnFocus();
+        else if (returnFocus && game != IntPtr.Zero)
             SetForegroundWindow(game);
     }
 
@@ -515,11 +536,11 @@ public partial class SessionDock : Window
     // One panel per idle moment, so building them never makes the dock or the game hitch
     private void StartPrewarm()
     {
-        if (_closed || !Voidstrap.Utility.Platform.IsWindows)
+        if (_closed)
             return;
         if (_prewarmTimer == null)
         {
-            _prewarmTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle) { Interval = TimeSpan.FromMilliseconds(250) };
+            _prewarmTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle) { Interval = TimeSpan.FromMilliseconds(500) };
             _prewarmTimer.Tick += OnPrewarmTick;
         }
         _prewarmIndex = 0;
@@ -627,8 +648,18 @@ public partial class SessionDock : Window
     // The window is only as wide as the pill and its shadow, a smaller window is cheaper for Windows to draw
     private void FitWidth()
     {
+        if (PortableOverlay.Active)
+            Pill.LayoutTransform = Transform.Identity;
         Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double width = Math.Ceiling(Pill.DesiredSize.Width) + ShadowRoomX;
+        if (PortableOverlay.Active && RobloxWindowTracker.Current is { Valid: true } bounds)
+        {
+            _availableWidth = bounds.Width;
+            double available = Math.Max(1, bounds.Width - ShadowRoomX);
+            double scale = Math.Min(1, available / Math.Max(1, width - ShadowRoomX));
+            Pill.LayoutTransform = new ScaleTransform(scale, scale);
+            width = Math.Min(bounds.Width, width);
+        }
         if (width <= ShadowRoomX || Math.Abs(width - Width) < 0.5)
             return;
         Width = width;
@@ -650,6 +681,8 @@ public partial class SessionDock : Window
             SuspendDock();
             return;
         }
+        if (PortableOverlay.Active && bounds.Valid && bounds.Width != _availableWidth)
+            FitWidth();
         if (_opened && !bounds.Foreground)
         {
             // Focus passes through nothing for a moment when it moves between windows, only hide if it stays away
@@ -676,8 +709,6 @@ public partial class SessionDock : Window
 
     private void ShowDimmer()
     {
-        if (!Voidstrap.Utility.Platform.IsWindows)
-            return;
         if (_dimmer == null)
         {
             _dimmer = new SessionDimmer();
@@ -689,8 +720,20 @@ public partial class SessionDock : Window
         FadeDimmer(DimmerOpacity);
     }
 
-    private void RaiseAboveDimmer()
+    private void RaiseAboveDimmer(Window? active = null)
     {
+        if (PortableOverlay.Active)
+        {
+            foreach (SessionPanelWindow panel in _panels.Values)
+                if (panel.IsVisible)
+                    PortableOverlay.Raise(panel);
+            if (_popout is { IsVisible: true })
+                PortableOverlay.Raise(_popout);
+            if (active is { IsVisible: true })
+                PortableOverlay.Raise(active);
+            PortableOverlay.Raise(this);
+            return;
+        }
         if (!Voidstrap.Utility.Platform.IsWindows)
             return;
         // The dimmer is shown last, so lift the dock and its panels back over it without moving them
@@ -769,7 +812,7 @@ public partial class SessionDock : Window
         if (_closed || _data == null)
             return;
         CancelRefresh();
-        _refreshCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.Token);
+        _refreshCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken);
         _lastRefreshUtc = DateTime.UtcNow;
         _refreshTask = RefreshServerAsync(_data, _refreshCts.Token);
     }
@@ -847,7 +890,7 @@ public partial class SessionDock : Window
         {
             await LoadFriendsAsync(data);
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -1016,7 +1059,7 @@ public partial class SessionDock : Window
 
     private void ShowPopout()
     {
-        if (_closed || !_opened || !Voidstrap.Utility.Platform.IsWindows)
+        if (_closed || !_opened)
             return;
         bool profile = _popoutView == PopoutView.Profile;
         if (_popout == null)
@@ -1036,8 +1079,14 @@ public partial class SessionDock : Window
                 Content = ServerPanel,
                 FontFamily = FontFamily
             };
+            PortableOverlay.Prepare(_popout);
             _popout.SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
             _popout.SourceInitialized += OnPopoutSourceInitialized;
+            if (PortableOverlay.Active)
+            {
+                _popout.PreviewKeyDown += OnDockKey;
+                _popout.PreviewMouseDown += OnPopoutPointerDown;
+            }
         }
         object view = profile ? ProfilePanel : ServerPanel;
         if (!ReferenceEquals(_popout.Content, view))
@@ -1080,7 +1129,7 @@ public partial class SessionDock : Window
         _profileInfoLoading = true;
         try
         {
-            (RobloxChatStatus status, RobloxProfileInfo? info) = await RobloxProfile.GetMineAsync(_lifetime.Token);
+            (RobloxChatStatus status, RobloxProfileInfo? info) = await RobloxProfile.GetMineAsync(_lifetimeToken);
             if (_closed)
                 return;
             if (info == null)
@@ -1100,7 +1149,7 @@ public partial class SessionDock : Window
             _profileInfoUtc = DateTime.UtcNow;
             ShowProfileDetails(info);
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -1225,10 +1274,21 @@ public partial class SessionDock : Window
             popout.Hide();
     }
 
+    private void OnPopoutPointerDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (_opened && _popout is { IsVisible: true })
+            PortableOverlay.Focus(_popout);
+    }
+
     private void OnPopoutSourceInitialized(object? sender, EventArgs e)
     {
         if (_popout == null)
             return;
+        if (PortableOverlay.Active)
+        {
+            _popoutHandle = PortableOverlay.Handle(_popout);
+            return;
+        }
         _popoutHandle = new WindowInteropHelper(_popout).Handle;
         if (_popoutHandle == IntPtr.Zero)
             return;
@@ -1244,7 +1304,19 @@ public partial class SessionDock : Window
     // Sits directly above the dock with the same width, following it when the game window moves
     private void PlacePopout()
     {
-        if (!PopoutOpen || _popoutHandle == IntPtr.Zero)
+        if (!PopoutOpen)
+            return;
+        if (PortableOverlay.Active && _popout != null)
+        {
+            Rect position = Pill.TransformToAncestor(this).TransformBounds(new Rect(0, 0, Pill.ActualWidth, Pill.ActualHeight));
+            RobloxWindowRect game = RobloxWindowTracker.Current;
+            double portableHeight = Math.Max(1, Math.Min(PopoutHeight, Top + position.Top - PopoutGap - game.Top));
+            double portableWidth = Math.Min(position.Width, game.Width);
+            double portableLeft = Math.Clamp(Left + position.Left, game.Left, game.Left + Math.Max(0, game.Width - portableWidth));
+            PortableOverlay.Place(_popout, portableLeft, Math.Max(game.Top, Top + position.Top - PopoutGap - portableHeight), portableWidth, portableHeight);
+            return;
+        }
+        if (_popoutHandle == IntPtr.Zero)
             return;
         IntPtr dock = new WindowInteropHelper(this).Handle;
         if (dock == IntPtr.Zero || !GetWindowRect(dock, out NativeRect rect) || Pill.ActualWidth <= 0)
@@ -1270,7 +1342,7 @@ public partial class SessionDock : Window
         {
             await Task.WhenAll(LoadBannerAsync(data), LoadFriendsAsync(data));
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -1284,17 +1356,17 @@ public partial class SessionDock : Window
         long universeId = data.UniverseId;
         if (universeId <= 0)
         {
-            await UniverseDetails.FetchForEntriesAsync(new[] { data }, _lifetime.Token);
+            await UniverseDetails.FetchForEntriesAsync(new[] { data }, _lifetimeToken);
             universeId = data.UniverseId > 0 ? data.UniverseId : data.UniverseDetails?.Data?.Id ?? 0;
         }
         if (universeId <= 0 || universeId == _bannerUniverse || _closed)
             return;
         string url = "https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=" + universeId
             + "&countPerUniverse=1&defaults=true&size=768x432&format=Png&isCircular=false";
-        using System.Net.Http.HttpResponseMessage response = await App.HttpClient.GetAsync(url, _lifetime.Token);
+        using System.Net.Http.HttpResponseMessage response = await App.HttpClient.GetAsync(url, _lifetimeToken);
         if (!response.IsSuccessStatusCode)
             return;
-        using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 512 * 1024, _lifetime.Token));
+        using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 512 * 1024, _lifetimeToken));
         string? image = null;
         if (document.RootElement.TryGetProperty("data", out System.Text.Json.JsonElement items) && items.ValueKind == System.Text.Json.JsonValueKind.Array)
         {
@@ -1338,7 +1410,7 @@ public partial class SessionDock : Window
         {
             if (FriendsList.ItemsSource == null)
                 FriendsStatus.Text = "Looking for friends";
-            FriendsInServerResult result = await RobloxPresence.GetFriendsInServerAsync(data.UserId, data.JobId, _lifetime.Token);
+            FriendsInServerResult result = await RobloxPresence.GetFriendsInServerAsync(data.UserId, data.JobId, _lifetimeToken);
             if (_closed || !ReferenceEquals(_data, data))
                 return;
             _friendsJobId = data.JobId ?? string.Empty;
@@ -1373,7 +1445,7 @@ public partial class SessionDock : Window
         }
         if (action == "close")
         {
-            HideDock(true);
+            CloseDock();
             return;
         }
         // A highlighted button closes its open panel again, like toggling a tab
@@ -1391,7 +1463,8 @@ public partial class SessionDock : Window
         try
         {
             _action(action);
-            RaiseAboveDimmer();
+            _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? active);
+            RaiseAboveDimmer(active);
         }
         catch (Exception ex)
         {
@@ -1436,12 +1509,17 @@ public partial class SessionDock : Window
             _heartbeat.Tick -= OnHeartbeat;
             _heartbeat = null;
         }
+        PreviewKeyDown -= OnDockKey;
+        PortableOverlay.Release(this);
         SourceInitialized -= OnSourceInitialized;
         Closed -= OnClosed;
         DestroyDimmer();
         if (_popout != null)
         {
+            PortableOverlay.Release(_popout);
             _popout.SourceInitialized -= OnPopoutSourceInitialized;
+            _popout.PreviewKeyDown -= OnDockKey;
+            _popout.PreviewMouseDown -= OnPopoutPointerDown;
             OverlayDiagnostics.UnregisterOverlayHandle(_popoutHandle);
             _popout.Content = null;
             try
@@ -1456,11 +1534,12 @@ public partial class SessionDock : Window
         _anchor?.Dispose();
         _anchor = null;
         CancelRefresh();
-        // Cancelled but not disposed, loads that are still finishing read this token
         _lifetime.Cancel();
+        _lifetime.Dispose();
         _trackerLease.Dispose();
         GamePicture.Source = null;
         _data = null;
+        GC.SuppressFinalize(this);
     }
 
     [LibraryImport("user32.dll")]

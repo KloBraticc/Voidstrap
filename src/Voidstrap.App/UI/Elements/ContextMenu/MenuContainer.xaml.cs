@@ -75,6 +75,7 @@ public partial class MenuContainer : WpfUiWindow
     private bool _closed;
     private bool _sessionDockHotkeyRegistered;
     private OverlayShortcut? _registeredShortcut;
+    private IDisposable? _portableHotkey;
     private bool _sessionDockHotkeySuspended;
     private SessionNotifier? _sessionNotifier;
 
@@ -118,9 +119,12 @@ public partial class MenuContainer : WpfUiWindow
         _activityWatcher = watcher.ActivityWatcher;
         InitializeComponent();
         _currentInstance = this;
-        _handle = new WindowInteropHelper(this).EnsureHandle();
-        _source = HwndSource.FromHwnd(_handle);
-        _source?.AddHook(WindowMessage);
+        if (Voidstrap.Utility.Platform.IsWindows)
+        {
+            _handle = new WindowInteropHelper(this).EnsureHandle();
+            _source = HwndSource.FromHwnd(_handle);
+            _source?.AddHook(WindowMessage);
+        }
         RefreshSessionDockHotkey();
         MenuContainerViewModel dataContext = (MenuContainerViewModel)(base.DataContext = new MenuContainerViewModel());
         if (!Voidstrap.Utility.Platform.IsWindows)
@@ -207,8 +211,15 @@ public partial class MenuContainer : WpfUiWindow
     public static bool TryShortcut(OverlayShortcut shortcut)
     {
         MenuContainer? instance = _currentInstance;
-        if (instance == null || instance._closed || !Voidstrap.Utility.Platform.IsWindows || !shortcut.IsSet)
+        if (instance == null || instance._closed || !shortcut.IsSet)
             return true;
+        if (shortcut.SameAs(instance._registeredShortcut))
+            return true;
+        if (Voidstrap.UI.PortableOverlay.Active)
+        {
+            using IDisposable? probe = RegisterPortableShortcut(shortcut, IgnoreShortcut);
+            return probe != null;
+        }
         const int probeId = 0x564D;
         if (!RegisterHotKey(instance._handle, probeId, shortcut.Modifiers | 0x4000, shortcut.Key))
             return false;
@@ -220,7 +231,7 @@ public partial class MenuContainer : WpfUiWindow
 
     private void RefreshSessionDockHotkey()
     {
-        if (_closed || !Voidstrap.Utility.Platform.IsWindows)
+        if (_closed)
             return;
         OverlayShortcut shortcut = App.Settings.Prop.SessionDockShortcut ??= new OverlayShortcut();
         bool enabled = App.Settings.Prop.SessionDockEnabled && _activityWatcher != null && shortcut.IsSet && !_sessionDockHotkeySuspended;
@@ -228,7 +239,10 @@ public partial class MenuContainer : WpfUiWindow
             return;
         if (_sessionDockHotkeyRegistered)
         {
-            UnregisterHotKey(_handle, SessionDockHotkeyId);
+            if (Voidstrap.Utility.Platform.IsWindows)
+                UnregisterHotKey(_handle, SessionDockHotkeyId);
+            _portableHotkey?.Dispose();
+            _portableHotkey = null;
             _sessionDockHotkeyRegistered = false;
             _registeredShortcut = null;
         }
@@ -240,11 +254,49 @@ public partial class MenuContainer : WpfUiWindow
             return;
         }
         // MOD_NOREPEAT so holding the keys does not toggle the dock over and over
-        _sessionDockHotkeyRegistered = RegisterHotKey(_handle, SessionDockHotkeyId, shortcut.Modifiers | 0x4000, shortcut.Key);
+        if (Voidstrap.UI.PortableOverlay.Active)
+        {
+            _portableHotkey = RegisterPortableShortcut(shortcut, OnPortableShortcut);
+            _sessionDockHotkeyRegistered = _portableHotkey != null;
+        }
+        else
+            _sessionDockHotkeyRegistered = RegisterHotKey(_handle, SessionDockHotkeyId, shortcut.Modifiers | 0x4000, shortcut.Key);
         if (_sessionDockHotkeyRegistered)
             _registeredShortcut = shortcut.Copy();
         else
             App.Logger.WriteLine("MenuContainer", shortcut.Describe() + " could not be registered because the shortcut is unavailable");
+    }
+
+    private static void IgnoreShortcut() { }
+
+    private static IDisposable? RegisterPortableShortcut(OverlayShortcut shortcut, Action callback)
+    {
+        if (Voidstrap.Utility.Platform.IsLinux)
+            return Voidstrap.Platform.Linux.LinuxGlobalHotkey.Register(shortcut.Modifiers, shortcut.Key, callback);
+        if (Voidstrap.Utility.Platform.IsMacOS)
+            return Voidstrap.Platform.MacOS.MacOSGlobalHotkey.Register(shortcut.Modifiers, shortcut.Key, callback);
+        return null;
+    }
+
+    private void OnPortableShortcut()
+    {
+        if (!_closed && !Dispatcher.HasShutdownStarted)
+            Dispatcher.BeginInvoke(new Action(HandlePortableShortcut));
+    }
+
+    private void HandlePortableShortcut()
+    {
+        if (_closed || !_sessionDockHotkeyRegistered)
+            return;
+        try
+        {
+            ToggleSessionDock();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MenuContainer::SessionDock", ex);
+            CloseSessionDock();
+        }
     }
 
     private void CloseSessionDock()
@@ -978,7 +1030,7 @@ public partial class MenuContainer : WpfUiWindow
     {
         try
         {
-            if (!App.Settings.Prop.SessionDockEnabled || !_sessionDockHotkeyRegistered || !Voidstrap.Utility.Platform.IsWindows)
+            if (!App.Settings.Prop.SessionDockEnabled || !_sessionDockHotkeyRegistered)
                 return;
             if (App.State.Prop.SessionDockTipShown && !App.Settings.Prop.NotifyShortcutEveryGame)
                 return;
@@ -1029,7 +1081,7 @@ public partial class MenuContainer : WpfUiWindow
 
     private void StartSessionNotifier()
     {
-        if (_sessionNotifier != null || _activityWatcher == null || !Voidstrap.Utility.Platform.IsWindows)
+        if (_sessionNotifier != null || _activityWatcher == null)
             return;
         ActivityWatcher watcher = _activityWatcher;
         _sessionNotifier = new SessionNotifier(() => watcher.InGame ? watcher.Data : null, note =>
@@ -1616,8 +1668,10 @@ public partial class MenuContainer : WpfUiWindow
         }
         CloseSessionDock();
         StopSessionNotifier();
-        if (_sessionDockHotkeyRegistered)
+        if (_sessionDockHotkeyRegistered && Voidstrap.Utility.Platform.IsWindows)
             UnregisterHotKey(_handle, SessionDockHotkeyId);
+        _portableHotkey?.Dispose();
+        _portableHotkey = null;
         _source?.RemoveHook(WindowMessage);
         if (ReferenceEquals(_currentInstance, this))
             _currentInstance = null;

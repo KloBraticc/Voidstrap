@@ -3033,6 +3033,27 @@ public static partial class LinuxWindowInterop
 		}
 	}
 
+	public static bool TrySetAcceptsKeyboard(nint window, bool accepts)
+	{
+		nint display = Display;
+		if (display == 0 || window == 0)
+			return false;
+		nint property = XInternAtom(display, "WM_HINTS", false);
+		nint[] hints = new nint[9];
+		if (TryGetProperty(display, window, property, out nint data, out ulong count, out int format) && format == 32)
+		{
+			for (int i = 0; i < (int)Math.Min(count, 9UL); i++)
+				hints[i] = Marshal.ReadIntPtr(data, i * IntPtr.Size);
+		}
+		if (data != 0)
+			XFree(data);
+		hints[0] |= 1;
+		hints[1] = accepts ? 1 : 0;
+		XChangeProperty(display, window, property, property, 32, 0, hints, hints.Length);
+		XFlush(display);
+		return true;
+	}
+
 	public static bool IsFullscreen(nint window)
 	{
 		return HasWindowStates(window, true, "_NET_WM_STATE_FULLSCREEN");
@@ -3762,6 +3783,7 @@ public static partial class LinuxWindowInterop
 
 	private static int IgnoreError(nint display, nint errorEvent)
 	{
+		LinuxGlobalHotkey.ObserveError(display);
 		return 0;
 	}
 

@@ -63,6 +63,7 @@ public sealed partial class SessionPanelWindow : Window
         _key = key;
         _view = view;
         Title = title;
+        PortableOverlay.Prepare(this);
         WindowStyle = WindowStyle.None;
         // A transparent WPF window is rendered in software and re-uploaded on every frame, which makes
         // scrolling the server and game lists stutter over the game. On Windows the panel is an opaque
@@ -161,6 +162,7 @@ public sealed partial class SessionPanelWindow : Window
         ContentRendered += OnContentRendered;
         Closed += OnClosed;
         PreviewKeyDown += OnKey;
+        PreviewMouseDown += OnPointerDown;
         _view.Closed += OnViewClosed;
         // Close or Cancel buttons inside a hosted view close the panel, IsCancel alone only works for dialogs
         AddHandler(ButtonBase.ClickEvent, new RoutedEventHandler(OnHostedClick), true);
@@ -262,11 +264,16 @@ public sealed partial class SessionPanelWindow : Window
         _interactive = interactive;
         try
         {
-            _handle = new WindowInteropHelper(this).EnsureHandle();
+            _handle = PortableOverlay.Active ? PortableOverlay.Handle(this) : new WindowInteropHelper(this).EnsureHandle();
             UpdateInputStyle();
             ApplyBounds(RobloxWindowTracker.Current);
             if (activate && interactive && IsVisible)
-                Activate();
+            {
+                if (PortableOverlay.Active)
+                    PortableOverlay.Focus(this);
+                else
+                    Activate();
+            }
         }
         catch (InvalidOperationException ex)
         {
@@ -281,7 +288,7 @@ public sealed partial class SessionPanelWindow : Window
             return;
         try
         {
-            _handle = new WindowInteropHelper(this).EnsureHandle();
+            _handle = PortableOverlay.Active ? PortableOverlay.Handle(this) : new WindowInteropHelper(this).EnsureHandle();
             UpdateInputStyle();
         }
         catch (InvalidOperationException ex)
@@ -307,6 +314,11 @@ public sealed partial class SessionPanelWindow : Window
 
     private void OnSourceReady(object? sender, EventArgs e)
     {
+        if (PortableOverlay.Active)
+        {
+            _handle = PortableOverlay.Handle(this);
+            return;
+        }
         _handle = new WindowInteropHelper(this).Handle;
         OverlayDiagnostics.RegisterOverlayHandle(_handle);
         if (!AllowsTransparency && _handle != IntPtr.Zero)
@@ -380,7 +392,7 @@ public sealed partial class SessionPanelWindow : Window
 
     private void ApplyBounds(RobloxWindowRect bounds)
     {
-        if (_handle == IntPtr.Zero || _closed)
+        if (_closed || (_handle == IntPtr.Zero && !PortableOverlay.Active))
             return;
         // Panels only show while the dock is open, pinned ones included
         if (!_requested || !_interactive || !bounds.Valid || !bounds.Foreground)
@@ -390,10 +402,15 @@ public sealed partial class SessionPanelWindow : Window
         }
         try
         {
-            DpiScale dpi = VisualTreeHelper.GetDpi(this);
+            DpiScale dpi = PortableOverlay.Scale(this);
             double availableWidth = bounds.Width / dpi.DpiScaleX;
             int usableHeight = UsableHeight(bounds, dpi);
             double availableHeight = usableHeight / dpi.DpiScaleY;
+            if (PortableOverlay.Active)
+            {
+                MinWidth = Math.Min(320, availableWidth);
+                MinHeight = Math.Min(180, availableHeight);
+            }
             double width = Math.Clamp(Width, Math.Min(MinWidth, availableWidth), Math.Max(1, availableWidth));
             double height = Math.Clamp(Height, Math.Min(MinHeight, availableHeight), Math.Max(1, availableHeight));
             if (width != Width)
@@ -408,7 +425,13 @@ public sealed partial class SessionPanelWindow : Window
             if (shown && _placed && left == _lastLeft && top == _lastTop && pixelWidth == _lastWidth && pixelHeight == _lastHeight)
                 return;
             // Moved into place while still hidden, so it never flashes up somewhere else first
-            SetWindowPos(_handle, HwndTopmost, left, top, pixelWidth, pixelHeight, 0x0010);
+            if (PortableOverlay.Active)
+            {
+                PortableOverlay.Place(this, left, top, pixelWidth, pixelHeight);
+                _handle = PortableOverlay.Handle(this);
+            }
+            else
+                SetWindowPos(_handle, HwndTopmost, left, top, pixelWidth, pixelHeight, 0x0010);
             if (!shown)
             {
                 // The very first show is cloaked until WPF has drawn it, otherwise it appears blank for a frame
@@ -443,7 +466,7 @@ public sealed partial class SessionPanelWindow : Window
         RobloxWindowRect bounds = RobloxWindowTracker.Current;
         if (!bounds.Valid || !double.IsFinite(e.HorizontalChange) || !double.IsFinite(e.VerticalChange))
             return;
-        DpiScale dpi = VisualTreeHelper.GetDpi(this);
+        DpiScale dpi = PortableOverlay.Scale(this);
         _x = Math.Clamp(_x + e.HorizontalChange * dpi.DpiScaleX / Math.Max(1, bounds.Width - Width * dpi.DpiScaleX), 0, 1);
         _y = Math.Clamp(_y + e.VerticalChange * dpi.DpiScaleY / Math.Max(1, UsableHeight(bounds, dpi) - Height * dpi.DpiScaleY), 0, 1);
         ApplyBounds(bounds);
@@ -473,7 +496,19 @@ public sealed partial class SessionPanelWindow : Window
         if (_closed)
             return;
         _userClosed = true;
-        Close();
+        if (PortableOverlay.Active)
+            Dispatcher.BeginInvoke(new Action(CloseRequested));
+        else
+            Close();
+    }
+
+    private void CloseRequested()
+    {
+        if (!_closed)
+        {
+            Close();
+            PortableOverlay.ReturnFocus();
+        }
     }
 
     private void OnClosePanel(object sender, RoutedEventArgs e) => CloseByUser();
@@ -491,6 +526,8 @@ public sealed partial class SessionPanelWindow : Window
 
     private void OnKey(object sender, KeyEventArgs e)
     {
+        if (_view is SessionNotificationSettings { IsRecordingShortcut: true })
+            return;
         if (e.Key == Key.Escape)
         {
             e.Handled = true;
@@ -499,9 +536,17 @@ public sealed partial class SessionPanelWindow : Window
                 return;
             SetInteractive(false);
             IntPtr game = RobloxWindowTracker.Current.Hwnd;
-            if (game != IntPtr.Zero)
+            if (PortableOverlay.Active)
+                PortableOverlay.ReturnFocus();
+            else if (game != IntPtr.Zero)
                 SetForegroundWindow(game);
         }
+    }
+
+    private void OnPointerDown(object sender, MouseButtonEventArgs e)
+    {
+        if (PortableOverlay.Active && _interactive && !_closed)
+            PortableOverlay.Focus(this);
     }
 
     private void RestoreLayout()
@@ -543,6 +588,7 @@ public sealed partial class SessionPanelWindow : Window
         ContentRendered -= OnContentRendered;
         Closed -= OnClosed;
         PreviewKeyDown -= OnKey;
+        PreviewMouseDown -= OnPointerDown;
         RemoveHandler(ButtonBase.ClickEvent, new RoutedEventHandler(OnHostedClick));
         _drag.DragDelta -= OnDrag;
         _drag.DragCompleted -= OnGeometryFinished;
@@ -553,6 +599,7 @@ public sealed partial class SessionPanelWindow : Window
         _view.Closed -= OnViewClosed;
         RobloxWindowTracker.Changed -= OnBounds;
         _tracker.Dispose();
+        PortableOverlay.Release(this);
         OverlayDiagnostics.UnregisterOverlayHandle(_handle);
         DismissRequested = null;
         Content = null;

@@ -61,6 +61,7 @@ namespace Voidstrap.UI.Elements.Overlay
         {
             Title = "Voidstrap Notification";
             InitializeComponent();
+            PortableOverlay.Prepare(this);
 			_linuxSurface = Voidstrap.Utility.Platform.IsLinux;
 			if (_linuxSurface)
 			{
@@ -157,7 +158,7 @@ namespace Voidstrap.UI.Elements.Overlay
                     NotificationStatus.Text = item.Status;
                     // A notification with no status line, such as the overlay tip, is just a title and a line of text
                     NotificationStatus.Visibility = string.IsNullOrEmpty(item.Status) ? Visibility.Collapsed : Visibility.Visible;
-                    if (Voidstrap.Utility.Platform.IsWindows)
+                    if (Voidstrap.Utility.Platform.IsWindows || PortableOverlay.Active)
                     {
                         await PresentWindowsNotificationAsync(item);
                         continue;
@@ -375,6 +376,8 @@ namespace Voidstrap.UI.Elements.Overlay
 
 		public void Prewarm()
 		{
+            if (PortableOverlay.Active)
+                return;
 			if (_closed || _renderReady || !Voidstrap.Utility.Platform.IsLinux)
 				return;
 
@@ -905,7 +908,7 @@ namespace Voidstrap.UI.Elements.Overlay
             if (!Voidstrap.Utility.Platform.IsWindows)
             {
                 Title = "Voidstrap Notification";
-                Voidstrap.Integrations.Overlays.LinuxOverlaySurface.MakeClickThrough(this);
+                PortableOverlay.Handle(this);
                 return;
             }
 
@@ -941,6 +944,7 @@ namespace Voidstrap.UI.Elements.Overlay
             ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
 			BeginAnimation(LinuxFadeProperty, null);
             ReleaseWindowsPresentation();
+            PortableOverlay.Release(this);
             SetImage(null);
             NotificationTitle.Text = string.Empty;
             NotificationText.Inlines.Clear();

@@ -24,6 +24,7 @@ public partial class SessionNotificationSettings : Window
     private bool _loading;
     private bool _closed;
     private bool _recording;
+    internal bool IsRecordingShortcut => _recording;
     private int _playGeneration;
     private bool _playedOnOpen;
     private readonly DispatcherTimer _replay;
@@ -43,23 +44,31 @@ public partial class SessionNotificationSettings : Window
             OutroBox.Items.Add(name);
         }
         // Replays the preview once the position sliders have settled, not on every step of a drag
-        _replay = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(350) };
-        _replay.Tick += (_, _) =>
-        {
-            _replay.Stop();
-            _ = PlayAsync();
-        };
+        _replay = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(500) };
+        _replay.Tick += OnReplay;
         _ready = true;
         LoadControls();
         ShowShortcut();
         Loaded += OnLoaded;
-        Closed += (_, _) =>
-        {
-            _closed = true;
-            _replay.Stop();
-            _playGeneration++;
-            StopRecording(false);
-        };
+        Closed += OnClosed;
+    }
+
+    private void OnReplay(object? sender, EventArgs e)
+    {
+        _replay.Stop();
+        _ = PlayAsync();
+    }
+
+    private void OnClosed(object? sender, EventArgs e)
+    {
+        _closed = true;
+        _replay.Stop();
+        _replay.Tick -= OnReplay;
+        Loaded -= OnLoaded;
+        Closed -= OnClosed;
+        _playGeneration++;
+        StopRecording(false);
+        GC.SuppressFinalize(this);
     }
 
     // Plays once when the panel opens so the current animation is shown straight away
@@ -483,11 +492,11 @@ public partial class SessionNotificationSettings : Window
         if (held.HasFlag(ModifierKeys.Control))
             text += "Ctrl + ";
         if (held.HasFlag(ModifierKeys.Alt))
-            text += "Alt + ";
+            text += Voidstrap.Utility.Platform.IsMacOS ? "Option + " : "Alt + ";
         if (held.HasFlag(ModifierKeys.Shift))
             text += "Shift + ";
         if (held.HasFlag(ModifierKeys.Windows))
-            text += "Win + ";
+            text += Voidstrap.Utility.Platform.IsMacOS ? "Command + " : Voidstrap.Utility.Platform.IsLinux ? "Super + " : "Win + ";
         return text;
     }
 
