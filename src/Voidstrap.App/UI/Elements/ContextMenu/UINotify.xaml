@@ -24,17 +24,19 @@
                      TextTrimming="CharacterEllipsis" MaxHeight="64"
                      Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
         </StackPanel>
-        <Border x:Name="DismissButton" Grid.Column="1" Width="24" Height="24" Margin="0,-6,-10,0" CornerRadius="6"
-                HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent" Cursor="Hand"
-                Visibility="Collapsed" Opacity="0" IsHitTestVisible="False" AutomationProperties.Name="Dismiss notification">
-          <ui:SymbolIcon Symbol="Dismiss16" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"
-                         Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-        </Border>
         <Rectangle x:Name="AccentStripe" Visibility="Collapsed" />
         <Grid x:Name="ProgressContainer" Height="2" Margin="0,0,0,-12" VerticalAlignment="Bottom" Visibility="Collapsed">
           <Rectangle x:Name="ProgressBar" RenderTransformOrigin="0,0.5"><Rectangle.RenderTransform><ScaleTransform x:Name="ProgressScale" ScaleX="0" /></Rectangle.RenderTransform></Rectangle>
         </Grid>
       </Grid>
+    </Border>
+    <!-- On its own layer above the card so nothing in the card's layout can cover or clip it -->
+    <Border x:Name="DismissButton" Width="26" Height="26" Margin="0,6,6,0" CornerRadius="6" Panel.ZIndex="10"
+            HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent" Cursor="Hand"
+            Visibility="Collapsed" Opacity="0" IsHitTestVisible="False" AutomationProperties.Name="Dismiss notification">
+      <TextBlock Text="&#xE711;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12"
+                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                 Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
     </Border>
   </Grid>
 </Window>

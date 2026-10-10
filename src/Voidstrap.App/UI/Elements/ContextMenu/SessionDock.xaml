@@ -14,8 +14,16 @@
       <Setter Property="MinWidth" Value="42" />
       <Setter Property="Height" Value="38" />
       <Setter Property="Appearance" Value="Transparent" />
-      <Setter Property="Border.CornerRadius" Value="20" />
+      <Setter Property="Border.CornerRadius" Value="8" />
       <Setter Property="Focusable" Value="False" />
+    </Style>
+    <!-- Windows' own icon font, present on every Windows 10 and 11 install, so every icon always renders -->
+    <Style x:Key="DockGlyph" TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
     </Style>
   </Window.Resources>
   <Grid Margin="0">
@@ -24,7 +32,7 @@
       <RowDefinition Height="70" />
     </Grid.RowDefinitions>
     <Border x:Name="ServerPanel" Grid.Row="0" Visibility="Collapsed" Margin="0,0,0,12"
-            Padding="20,16" CornerRadius="16" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
+            Padding="20,16" CornerRadius="12" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
       <Grid>
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
@@ -40,7 +48,7 @@
         </StackPanel>
       </Grid>
     </Border>
-    <Border Grid.Row="1" Padding="14,10" CornerRadius="35" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+    <Border Grid.Row="1" Padding="14,10" CornerRadius="14" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
             BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1" SnapsToDevicePixels="True">
       <Grid>
         <Grid.ColumnDefinitions>
@@ -56,29 +64,31 @@
         </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
           <ui:Button ToolTip="Current server" Tag="server" Click="OnAction" Style="{StaticResource DockAction}">
-            <ui:SymbolIcon Symbol="Info24" />
+            <TextBlock Text="&#xE946;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
           <ui:Button ToolTip="Browse servers" Tag="browser" Click="OnAction" Style="{StaticResource DockAction}">
-            <ui:SymbolIcon Symbol="Search24" />
+            <TextBlock Text="&#xE774;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Continue games and search" Tag="games" Click="OnAction" Style="{StaticResource DockAction}">
-            <ui:SymbolIcon Symbol="Play24" />
+          <ui:Button ToolTip="Games" Tag="games" Click="OnAction" Style="{StaticResource DockAction}">
+            <TextBlock Text="&#xE7FC;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
           <ui:Button ToolTip="Chat with friends" Tag="chat" Click="OnAction" Style="{StaticResource DockAction}">
-            <ui:SymbolIcon Symbol="Chat24" />
+            <TextBlock Text="&#xE8BD;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
           <ui:Button ToolTip="Game history" Tag="history" Click="OnAction" Style="{StaticResource DockAction}">
-            <ui:SymbolIcon Symbol="History24" />
+            <TextBlock Text="&#xE81C;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Music" Tag="music" Click="OnAction" Style="{StaticResource DockAction}" Icon="MusicNote224" />
+          <ui:Button ToolTip="Music" Tag="music" Click="OnAction" Style="{StaticResource DockAction}">
+            <TextBlock Text="&#xE8D6;" Style="{StaticResource DockGlyph}" />
+          </ui:Button>
           <ui:Button ToolTip="Screen adjustments" Tag="adjustments" Click="OnAction" Style="{StaticResource DockAction}">
-            <ui:SymbolIcon Symbol="Settings24" />
+            <TextBlock Text="&#xE706;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
           <ui:Button ToolTip="Copy invite" Tag="invite" Click="OnAction" Style="{StaticResource DockAction}">
-            <ui:SymbolIcon Symbol="Link24" />
+            <TextBlock Text="&#xE71B;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
           <ui:Button ToolTip="Close, Ctrl+Alt+L" Tag="close" Click="OnAction" Style="{StaticResource DockAction}">
-            <ui:SymbolIcon Symbol="Dismiss24" />
+            <TextBlock Text="&#xE711;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
         </StackPanel>
       </Grid>

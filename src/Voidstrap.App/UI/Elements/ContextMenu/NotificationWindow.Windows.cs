@@ -196,10 +196,12 @@ public partial class NotificationWindow
         {
             _hovered = hovered;
             SetDismissVisible(hovered, true);
-            if (hovered && !_hoverSeen)
+            if (!_hoverSeen || !hovered)
             {
                 _hoverSeen = true;
-                App.Logger.WriteLine("NotificationWindow", "Pointer is over the notification, showing the close button");
+                App.Logger.WriteLine("NotificationWindow", hovered
+                    ? $"Pointer entered the notification at {cursor.X},{cursor.Y}, showing the close button"
+                    : "Pointer left the notification, hiding the close button");
             }
         }
         bool hot = hovered && DismissContains(window, cursor);
