@@ -358,7 +358,20 @@ namespace Voidstrap.Integrations
             public IntPtr dwExtraInfo;
         }
 
+        // Called by Windows: an exception escaping a hook terminates the process
         private LRESULT MouseHookCallback(int code, WPARAM wParam, LPARAM lParam)
+        {
+            try
+            {
+                return MouseHookCallbackCore(code, wParam, lParam);
+            }
+            catch
+            {
+                return PInvoke.CallNextHookEx(_mouseHook, code, wParam, lParam);
+            }
+        }
+
+        private LRESULT MouseHookCallbackCore(int code, WPARAM wParam, LPARAM lParam)
         {
             if (code >= 0)
             {

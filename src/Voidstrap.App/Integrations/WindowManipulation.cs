@@ -232,7 +232,20 @@ namespace Voidstrap.Integrations
             PInvoke.SetWindowText(_hWnd, title);
         }
 
+        // Called by Windows: an exception escaping a WinEvent callback terminates the process
         private void SetWindowTitleHook(HWINEVENTHOOK hWinEventHook, uint iEvent, HWND hWnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+        {
+            try
+            {
+                SetWindowTitleHookCore(hWnd, idObject);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("WindowManipulation::SetWindowTitleHook", "Error: " + ex.Message);
+            }
+        }
+
+        private void SetWindowTitleHookCore(HWND hWnd, int idObject)
         {
             const string LOG_IDENT = "WindowManipulation::SetWindowTitleHook";
 

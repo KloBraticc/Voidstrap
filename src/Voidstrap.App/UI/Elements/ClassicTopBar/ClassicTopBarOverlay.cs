@@ -325,7 +325,7 @@ internal static class ClassicTopBarOverlay
 		}
 		try
 		{
-			_hookProc = HookCallback;
+			_hookProc ??= HookCallback;
 			using Process current = Process.GetCurrentProcess();
 			using ProcessModule? module = current.MainModule;
 			if (module == null)
@@ -348,7 +348,7 @@ internal static class ClassicTopBarOverlay
 		}
 		UnhookWindowsHookExSafeHandle? hook = _hook;
 		_hook = null;
-		_hookProc = null;
+		// The hook delegate stays referenced: a keyboard event already in flight may still call it
 		try
 		{
 			hook?.Dispose();
