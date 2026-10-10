@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-        Title="Voidstrap Session" Width="810" Height="70" WindowStyle="None"
+        Title="Voidstrap Session" Width="770" Height="70" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize"
         ShowInTaskbar="False" ShowActivated="False" Topmost="True"
         WindowStartupLocation="Manual" UseLayoutRounding="True"
@@ -146,16 +146,30 @@
                    Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
             <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0">
               <TextBlock x:Name="GameTitle" Text="Roblox" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-              <TextBlock x:Name="SessionTimes" Margin="0,4,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextTrimming="CharacterEllipsis" />
+              <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                <!-- Live server indicator: a dot with a short heartbeat every couple of seconds -->
+                <Grid Width="10" Height="10" Margin="0,0,6,0" VerticalAlignment="Center">
+                  <Ellipse x:Name="PulseRing" Width="8" Height="8" Opacity="0" RenderTransformOrigin="0.5,0.5"
+                           Fill="{DynamicResource SystemFillColorSuccessBrush}">
+                    <Ellipse.RenderTransform>
+                      <ScaleTransform x:Name="PulseRingScale" />
+                    </Ellipse.RenderTransform>
+                  </Ellipse>
+                  <Ellipse x:Name="PulseDot" Width="8" Height="8" RenderTransformOrigin="0.5,0.5"
+                           Fill="{DynamicResource SystemFillColorSuccessBrush}">
+                    <Ellipse.RenderTransform>
+                      <ScaleTransform x:Name="PulseDotScale" />
+                    </Ellipse.RenderTransform>
+                  </Ellipse>
+                </Grid>
+                <TextBlock x:Name="SessionTimes" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextTrimming="CharacterEllipsis" />
+              </StackPanel>
             </StackPanel>
             <TextBlock x:Name="GameChevron" Grid.Column="2" Text="&#xE70E;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="10"
                        VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
           </Grid>
         </Border>
         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-          <ui:Button ToolTip="Current server" Tag="server" Click="OnAction" Style="{StaticResource DockAction}">
-            <TextBlock Text="&#xE946;" Style="{StaticResource DockGlyph}" />
-          </ui:Button>
           <ui:Button ToolTip="Browse servers" Tag="browser" Click="OnAction" Style="{StaticResource DockAction}">
             <TextBlock Text="&#xE774;" Style="{StaticResource DockGlyph}" />
           </ui:Button>

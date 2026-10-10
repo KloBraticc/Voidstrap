@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Voidstrap.Extensions;
@@ -22,7 +23,8 @@ namespace Voidstrap.UI.Elements.Overlay;
 public partial class SessionDock : Window
 {
     private const double DockHeight = 70;
-    private const double ExpandedHeight = 470;
+    private const double PopoutHeight = 388;
+    private const double PopoutGap = 12;
     private const double DimmerOpacity = 0.35;
     private const int GwlExStyle = -20;
     private const nint WsExToolWindow = 0x80;
@@ -53,6 +55,13 @@ public partial class SessionDock : Window
     private bool _disposed;
     private double _dimmerTarget;
     private static readonly TimeSpan FriendsInterval = TimeSpan.FromSeconds(30);
+    private static readonly TimeSpan HeartbeatInterval = TimeSpan.FromMilliseconds(2400);
+    private static readonly AnimationTimeline RingGrow = Frozen(new DoubleAnimation(1, 2.6, TimeSpan.FromMilliseconds(900)) { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut } });
+    private static readonly AnimationTimeline RingFade = Frozen(new DoubleAnimation(0.45, 0, TimeSpan.FromMilliseconds(900)) { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut } });
+    private static readonly AnimationTimeline DotBeat = Frozen(CreateDotBeat());
+    private DispatcherTimer? _heartbeat;
+    private Window? _popout;
+    private IntPtr _popoutHandle;
     private long _bannerUniverse;
     private DateTime _friendsLoadedUtc = DateTime.MinValue;
     private string _friendsJobId = string.Empty;
@@ -65,6 +74,7 @@ public partial class SessionDock : Window
         _activity = activity;
         _action = action;
         InitializeComponent();
+        DetachServerPanel();
         _clock = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(1) };
         _clock.Tick += OnClock;
         SourceInitialized += OnSourceInitialized;
@@ -182,9 +192,11 @@ public partial class SessionDock : Window
         _opened = false;
         bool returnFocus = RobloxWindowTracker.IsRobloxForeground();
         _clock.Stop();
+        StopHeartbeat();
         CancelRefresh();
         _anchor?.Dispose();
         _anchor = null;
+        HidePopout();
         if (IsVisible)
             Hide();
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
@@ -227,6 +239,9 @@ public partial class SessionDock : Window
         }
         _anchor.Refresh();
         _clock.Start();
+        StartHeartbeat();
+        // Start loading the popout's banner and friends now so they are ready when it is opened
+        _ = LoadPopoutAsync();
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
             panel.Present(true);
         RaiseAboveDimmer();
@@ -247,6 +262,8 @@ public partial class SessionDock : Window
             return;
         }
         _dimmer?.Place(bounds);
+        if (PopoutOpen)
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(PlacePopout));
     }
 
     private void ShowDimmer()
@@ -275,6 +292,8 @@ public partial class SessionDock : Window
             if (panel.IsVisible)
                 SetWindowPos(new WindowInteropHelper(panel).Handle, HwndTopmost, 0, 0, 0, 0, flags);
         }
+        if (PopoutOpen && _popoutHandle != IntPtr.Zero)
+            SetWindowPos(_popoutHandle, HwndTopmost, 0, 0, 0, 0, flags);
         IntPtr dock = new WindowInteropHelper(this).Handle;
         if (dock != IntPtr.Zero && IsVisible)
             SetWindowPos(dock, HwndTopmost, 0, 0, 0, 0, flags);
@@ -410,7 +429,7 @@ public partial class SessionDock : Window
             return;
         }
         UpdateReadout();
-        if (ServerPanel.Visibility == Visibility.Visible && _data is { } data && DateTime.UtcNow - _friendsLoadedUtc >= FriendsInterval)
+        if (PopoutOpen && _data is { } data && DateTime.UtcNow - _friendsLoadedUtc >= FriendsInterval)
             _ = RefreshFriendsQuietlyAsync(data);
     }
 
@@ -438,7 +457,7 @@ public partial class SessionDock : Window
         string uptime = _serverStarted.HasValue ? ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - _serverStarted.Value) : "Unavailable";
         string session = data.TimeJoined == default ? "0m" : ServerInformationViewModel.FormatUptime(DateTime.Now - data.TimeJoined);
         SetText(SessionTimes, "Session: " + session + "   Server: " + uptime);
-        if (ServerPanel.Visibility != Visibility.Visible)
+        if (!PopoutOpen)
             return;
         if (_serverType.Length == 0)
             _serverType = data.ServerType.ToConnectedString();
@@ -459,18 +478,170 @@ public partial class SessionDock : Window
         ToggleServerPanel();
     }
 
+    // Two quick beats, like a pulse: up, back, a smaller second beat, then rest until the next tick
+    private static DoubleAnimationUsingKeyFrames CreateDotBeat()
+    {
+        DoubleAnimationUsingKeyFrames beat = new() { Duration = TimeSpan.FromMilliseconds(520) };
+        beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+        beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.28, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(110)), new QuadraticEase { EasingMode = EasingMode.EaseOut }));
+        beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.0, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(230)), new QuadraticEase { EasingMode = EasingMode.EaseIn }));
+        beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.14, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(330)), new QuadraticEase { EasingMode = EasingMode.EaseOut }));
+        beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.0, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(520)), new QuadraticEase { EasingMode = EasingMode.EaseIn }));
+        return beat;
+    }
+
+    private static AnimationTimeline Frozen(AnimationTimeline timeline)
+    {
+        // A low frame rate is plenty for a 10 pixel dot and keeps the cost of each beat tiny
+        Timeline.SetDesiredFrameRate(timeline, 30);
+        timeline.Freeze();
+        return timeline;
+    }
+
+    private void StartHeartbeat()
+    {
+        if (_closed || !SystemParameters.ClientAreaAnimation)
+            return;
+        if (_heartbeat == null)
+        {
+            _heartbeat = new DispatcherTimer(DispatcherPriority.Background) { Interval = HeartbeatInterval };
+            _heartbeat.Tick += OnHeartbeat;
+        }
+        _heartbeat.Start();
+        OnHeartbeat(null, EventArgs.Empty);
+    }
+
+    private void StopHeartbeat()
+    {
+        _heartbeat?.Stop();
+        PulseRing.BeginAnimation(OpacityProperty, null);
+        PulseRingScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+        PulseRingScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+        PulseDotScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+        PulseDotScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+        PulseRing.Opacity = 0;
+    }
+
+    // Between beats nothing animates and nothing is redrawn; each beat lasts under a second
+    private void OnHeartbeat(object? sender, EventArgs e)
+    {
+        if (_closed || !IsVisible)
+            return;
+        PulseRingScale.BeginAnimation(ScaleTransform.ScaleXProperty, RingGrow);
+        PulseRingScale.BeginAnimation(ScaleTransform.ScaleYProperty, RingGrow);
+        PulseRing.BeginAnimation(OpacityProperty, RingFade);
+        PulseDotScale.BeginAnimation(ScaleTransform.ScaleXProperty, DotBeat);
+        PulseDotScale.BeginAnimation(ScaleTransform.ScaleYProperty, DotBeat);
+    }
+
+    private bool PopoutOpen => _popout is { IsVisible: true };
+
+    // The popout lives in its own opaque window above the dock. Drawn inside the dock it made the dock a large
+    // transparent window that Windows renders in software, which made every hover and update stutter.
+    private void DetachServerPanel()
+    {
+        if (ServerPanel.Parent is Panel parent)
+            parent.Children.Remove(ServerPanel);
+        ServerPanel.Margin = new Thickness(0);
+        ServerPanel.BorderThickness = new Thickness(0);
+        ServerPanel.CornerRadius = new CornerRadius(0);
+        ServerPanel.Visibility = Visibility.Visible;
+        if (ServerPanel.Child is Panel content)
+        {
+            foreach (UIElement child in content.Children)
+            {
+                if (child is Border layer)
+                    layer.CornerRadius = new CornerRadius(0);
+            }
+        }
+    }
+
     private void ToggleServerPanel()
     {
         if (_closed)
             return;
-        bool expand = ServerPanel.Visibility != Visibility.Visible;
-        ServerPanel.Visibility = expand ? Visibility.Visible : Visibility.Collapsed;
-        Height = expand ? ExpandedHeight : DockHeight;
-        GameChevron.Text = expand ? "\uE70D" : "\uE70E";
+        if (PopoutOpen)
+        {
+            HidePopout();
+            return;
+        }
+        ShowPopout();
+    }
+
+    private void ShowPopout()
+    {
+        if (_closed || !_opened || !Voidstrap.Utility.Platform.IsWindows)
+            return;
+        if (_popout == null)
+        {
+            _popout = new Window
+            {
+                Title = "Session server",
+                WindowStyle = WindowStyle.None,
+                AllowsTransparency = false,
+                ResizeMode = ResizeMode.NoResize,
+                ShowInTaskbar = false,
+                ShowActivated = false,
+                Topmost = true,
+                WindowStartupLocation = WindowStartupLocation.Manual,
+                Width = ActualWidth > 0 ? ActualWidth : Width,
+                Height = PopoutHeight,
+                Content = ServerPanel,
+                FontFamily = FontFamily
+            };
+            _popout.SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
+            _popout.SourceInitialized += OnPopoutSourceInitialized;
+        }
+        GameChevron.Text = "\uE70D";
         UpdateReadout();
-        _anchor?.Refresh();
-        if (expand)
-            _ = LoadPopoutAsync();
+        try
+        {
+            _popout.Show();
+        }
+        catch (InvalidOperationException ex)
+        {
+            App.Logger.WriteLine("SessionDock", "The server popout could not be shown: " + ex.Message);
+            return;
+        }
+        PlacePopout();
+        RaiseAboveDimmer();
+        UpdateReadout();
+        _ = LoadPopoutAsync();
+    }
+
+    private void HidePopout()
+    {
+        GameChevron.Text = "\uE70E";
+        if (_popout is { IsVisible: true } popout)
+            popout.Hide();
+    }
+
+    private void OnPopoutSourceInitialized(object? sender, EventArgs e)
+    {
+        if (_popout == null)
+            return;
+        _popoutHandle = new WindowInteropHelper(_popout).Handle;
+        if (_popoutHandle == IntPtr.Zero)
+            return;
+        nint style = GetWindowLongPtrW(_popoutHandle, GwlExStyle);
+        SetWindowLongPtrW(_popoutHandle, GwlExStyle, style | WsExNoActivate | WsExToolWindow);
+        int round = 2;
+        _ = DwmSetWindowAttribute(_popoutHandle, 33, ref round, sizeof(int));
+        OverlayDiagnostics.RegisterOverlayHandle(_popoutHandle);
+    }
+
+    // Sits directly above the dock with the same width, following it when the game window moves
+    private void PlacePopout()
+    {
+        if (!PopoutOpen || _popoutHandle == IntPtr.Zero)
+            return;
+        IntPtr dock = new WindowInteropHelper(this).Handle;
+        if (dock == IntPtr.Zero || !GetWindowRect(dock, out NativeRect rect))
+            return;
+        DpiScale dpi = VisualTreeHelper.GetDpi(this);
+        int height = (int)Math.Ceiling(PopoutHeight * dpi.DpiScaleY);
+        int gap = (int)Math.Round(PopoutGap * dpi.DpiScaleY);
+        SetWindowPos(_popoutHandle, HwndTopmost, rect.Left, rect.Top - gap - height, rect.Right - rect.Left, height, 0x0010 | 0x0040);
     }
 
     // Fills the popout: the game's main thumbnail as the banner and the friends who are in this server
@@ -618,9 +789,29 @@ public partial class SessionDock : Window
         _panels.Clear();
         _clock.Stop();
         _clock.Tick -= OnClock;
+        if (_heartbeat != null)
+        {
+            _heartbeat.Stop();
+            _heartbeat.Tick -= OnHeartbeat;
+            _heartbeat = null;
+        }
         SourceInitialized -= OnSourceInitialized;
         Closed -= OnClosed;
         DestroyDimmer();
+        if (_popout != null)
+        {
+            _popout.SourceInitialized -= OnPopoutSourceInitialized;
+            OverlayDiagnostics.UnregisterOverlayHandle(_popoutHandle);
+            _popout.Content = null;
+            try
+            {
+                _popout.Close();
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            _popout = null;
+        }
         _anchor?.Dispose();
         _anchor = null;
         CancelRefresh();
@@ -644,6 +835,22 @@ public partial class SessionDock : Window
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool SetWindowPos(IntPtr hwnd, IntPtr after, int x, int y, int width, int height, uint flags);
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct NativeRect
+    {
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
+    }
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool GetWindowRect(IntPtr hwnd, out NativeRect rect);
+
+    [LibraryImport("dwmapi.dll")]
+    private static partial int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int value, int size);
 
     private void OnSourceInitialized(object? sender, EventArgs e)
     {
