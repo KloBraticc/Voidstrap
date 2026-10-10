@@ -349,6 +349,11 @@ public partial class MenuContainer : WpfUiWindow
                 _sessionDock?.ShowTool("notifications", "Settings",
                     () => new SessionNotificationSettings(CurrentGameIcon.Source, _activityWatcher?.Data?.GameName, SendTestNotification));
                 break;
+            case "web":
+#if !CROSSPLAT
+                _sessionDock?.ShowTool("web", "Browser", () => new SessionWebBrowser());
+#endif
+                break;
             case "invite":
                 InviteDeeplinkMenuItem_Click(this, new RoutedEventArgs());
                 break;

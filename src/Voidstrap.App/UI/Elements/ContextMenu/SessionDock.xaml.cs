@@ -102,7 +102,8 @@ public partial class SessionDock : Window
         ["games"] = "games",
         ["chat"] = "chat",
         ["history"] = "history",
-        ["music"] = "music"
+        ["music"] = "music",
+        ["web"] = "web"
     };
     // Set when the dock was hidden only because the game lost focus, so it comes back with the game
     private bool _resumeOnFocus;
@@ -123,6 +124,9 @@ public partial class SessionDock : Window
         _action = action;
         InitializeComponent();
         _slide = new NativeSlide(this);
+        // The browser is built on Edge WebView2, which only exists on Windows
+        if (!Voidstrap.Utility.Platform.IsWindows)
+            WebButton.Visibility = Visibility.Collapsed;
         FitWidth();
         DetachServerPanel();
         _clock = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(1) };

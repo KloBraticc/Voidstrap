@@ -1,0 +1,114 @@
+<Window x:Class="Voidstrap.UI.Elements.Overlay.SessionWebBrowser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        Title="Browser" Width="960" Height="640" MinWidth="520" MinHeight="360"
+        WindowStyle="None" AllowsTransparency="False" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+        ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True"
+        WindowStartupLocation="Manual" FontFamily="Segoe UI">
+  <Window.Resources>
+    <Style x:Key="NavButton" TargetType="Button">
+      <Setter Property="Width" Value="34" />
+      <Setter Property="Height" Value="34" />
+      <Setter Property="Margin" Value="0,0,4,0" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Chip" CornerRadius="6" Background="Transparent">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Chip" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Chip" Property="Background" Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.35" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="Glyph" TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+  </Window.Resources>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="2" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <!-- Our own toolbar: back, forward, reload, home and one box that searches Google or opens an address -->
+    <Grid Margin="10,8,10,8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <StackPanel Orientation="Horizontal">
+        <Button x:Name="BackButton" Style="{StaticResource NavButton}" ToolTip="Back (Alt+Left)" Click="Back_Click" IsEnabled="False">
+          <TextBlock Text="&#xE72B;" Style="{StaticResource Glyph}" />
+        </Button>
+        <Button x:Name="ForwardButton" Style="{StaticResource NavButton}" ToolTip="Forward (Alt+Right)" Click="Forward_Click" IsEnabled="False">
+          <TextBlock Text="&#xE72A;" Style="{StaticResource Glyph}" />
+        </Button>
+        <Button x:Name="ReloadButton" Style="{StaticResource NavButton}" ToolTip="Reload (F5)" Click="Reload_Click">
+          <TextBlock x:Name="ReloadGlyph" Text="&#xE72C;" Style="{StaticResource Glyph}" />
+        </Button>
+        <Button Style="{StaticResource NavButton}" ToolTip="Google" Click="Home_Click" Margin="0,0,8,0">
+          <TextBlock Text="&#xE80F;" Style="{StaticResource Glyph}" />
+        </Button>
+      </StackPanel>
+      <Border Grid.Column="1" Height="34" CornerRadius="17" Padding="14,0,8,0" BorderThickness="1"
+              Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock x:Name="AddressIcon" Text="&#xE721;" Style="{StaticResource Glyph}" FontSize="13" Margin="0,0,10,0"
+                     Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <Grid Grid.Column="1">
+            <TextBlock x:Name="Placeholder" Text="Search Google or type an address" FontSize="14" VerticalAlignment="Center"
+                       IsHitTestVisible="False" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            <TextBox x:Name="AddressBox" FontSize="14" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" Padding="0"
+                     CaretBrush="{DynamicResource TextFillColorPrimaryBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                     KeyDown="AddressBox_KeyDown" GotKeyboardFocus="AddressBox_GotFocus" LostKeyboardFocus="AddressBox_LostFocus"
+                     TextChanged="AddressBox_TextChanged" />
+          </Grid>
+          <Button x:Name="GoButton" Grid.Column="2" Style="{StaticResource NavButton}" Width="28" Height="28" Margin="4,0,0,0"
+                  ToolTip="Go" Click="Go_Click">
+            <TextBlock Text="&#xE72A;" Style="{StaticResource Glyph}" FontSize="12" />
+          </Button>
+        </Grid>
+      </Border>
+    </Grid>
+
+    <!-- A thin bar that fills while a page loads -->
+    <Border Grid.Row="1" Background="{DynamicResource CardStrokeColorDefaultBrush}" />
+    <ProgressBar x:Name="LoadingBar" Grid.Row="1" Height="2" IsIndeterminate="True" Visibility="Collapsed" BorderThickness="0" />
+
+    <Grid x:Name="ViewHost" Grid.Row="2" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}">
+      <StackPanel x:Name="Message" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420">
+        <TextBlock x:Name="MessageTitle" Text="Starting the browser" FontSize="16" FontWeight="SemiBold" TextAlignment="Center"
+                   Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+        <TextBlock x:Name="MessageText" Margin="0,6,0,0" FontSize="13" TextAlignment="Center" TextWrapping="Wrap"
+                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        <ui:Button x:Name="RetryButton" Margin="0,14,0,0" HorizontalAlignment="Center" Content="Try again" Appearance="Secondary"
+                   Visibility="Collapsed" Click="Retry_Click" />
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Window>
