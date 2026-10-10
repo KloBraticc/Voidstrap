@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Voidstrap.Extensions;
 using Voidstrap.Integrations.Overlays;
 
 namespace Voidstrap.UI.Elements.Overlay;
@@ -33,7 +34,7 @@ public partial class NotificationWindow
         if (OverlayHub.InGame && (!bounds.Valid || !bounds.Foreground))
             return;
 
-        using CancellationTokenSource presentation = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.Token, item.Token);
+        using CancellationTokenSource presentation = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken(), item.Token);
         CancellationToken token = presentation.Token;
         try
         {
@@ -60,8 +61,10 @@ public partial class NotificationWindow
             PlaceWindowsNotification(bounds);
 
             // Starts below the bottom edge and slides up into the corner
-            AnimateNotification(0, 1, slide, 0, 240);
-            await Task.Delay(240, token);
+            BeginCachedAnimation();
+            AnimateNotification(0, 1, slide, 0, IntroMs, new CubicEase { EasingMode = EasingMode.EaseOut });
+            await Task.Delay(IntroMs, token);
+            EndCachedAnimation();
             double duration = double.IsFinite(item.Duration) ? Math.Clamp(item.Duration, 0.5, 60) : 8;
             double remaining = duration;
             Stopwatch clock = Stopwatch.StartNew();
@@ -74,8 +77,13 @@ public partial class NotificationWindow
                     remaining -= now - previous;
                 previous = now;
             }
-            AnimateNotification(1, 0, 0, Math.Max(1, ActualHeight), 180);
-            await Task.Delay(180, token);
+            // Fades out while easing back down below the edge
+            DismissButton.BeginAnimation(OpacityProperty, null);
+            DismissButton.Opacity = 0;
+            DismissButton.IsHitTestVisible = false;
+            BeginCachedAnimation();
+            AnimateNotification(NotificationBorder.Opacity, 0, RootTranslate.Y, Math.Max(1, ActualHeight), OutroMs, new SineEase { EasingMode = EasingMode.EaseInOut });
+            await Task.Delay(OutroMs, token);
         }
         catch (OperationCanceledException)
         {
@@ -85,6 +93,7 @@ public partial class NotificationWindow
             _presenting = false;
             if (!_closed)
             {
+                EndCachedAnimation();
                 Hide();
                 NotificationBorder.BeginAnimation(OpacityProperty, null);
                 RootTranslate.BeginAnimation(TranslateTransform.XProperty, null);
@@ -111,8 +120,12 @@ public partial class NotificationWindow
         SizeToContent = SizeToContent.Height;
     }
 
-    private void AnimateNotification(double fromOpacity, double toOpacity, double fromY, double toY, int milliseconds)
+    private const int IntroMs = 260;
+
+    private void AnimateNotification(double fromOpacity, double toOpacity, double fromY, double toY, int milliseconds, IEasingFunction ease)
     {
+        NotificationBorder.BeginAnimation(OpacityProperty, null);
+        RootTranslate.BeginAnimation(TranslateTransform.YProperty, null);
         if (!SystemParameters.ClientAreaAnimation)
         {
             NotificationBorder.Opacity = toOpacity;
@@ -120,10 +133,27 @@ public partial class NotificationWindow
             return;
         }
         Duration duration = new(TimeSpan.FromMilliseconds(milliseconds));
-        CubicEase ease = new() { EasingMode = toOpacity > fromOpacity ? EasingMode.EaseOut : EasingMode.EaseIn };
-        NotificationBorder.BeginAnimation(OpacityProperty, new DoubleAnimation(fromOpacity, toOpacity, duration) { EasingFunction = ease });
-        RootTranslate.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(fromY, toY, duration) { EasingFunction = ease });
+        DoubleAnimation fade = new(fromOpacity, toOpacity, duration) { EasingFunction = ease };
+        DoubleAnimation slide = new(fromY, toY, duration) { EasingFunction = ease };
+        Timeline.SetDesiredFrameRate(fade, AnimationFrameRate);
+        Timeline.SetDesiredFrameRate(slide, AnimationFrameRate);
+        fade.Freeze();
+        slide.Freeze();
+        NotificationBorder.BeginAnimation(OpacityProperty, fade);
+        RootTranslate.BeginAnimation(TranslateTransform.YProperty, slide);
     }
+
+    // While the card only moves and fades, it is rendered once into a bitmap at the screen's scale
+    // and that bitmap is composited each frame instead of laying out and drawing the text again
+    private void BeginCachedAnimation()
+    {
+        if (NotificationBorder.CacheMode is BitmapCache)
+            return;
+        DpiScale dpi = VisualTreeHelper.GetDpi(this);
+        NotificationBorder.CacheMode = new BitmapCache(Math.Max(dpi.DpiScaleX, dpi.DpiScaleY)) { SnapsToDevicePixels = true };
+    }
+
+    private void EndCachedAnimation() => NotificationBorder.CacheMode = null;
 
     // The close button only shows while the pointer is over the notification, which also pauses its countdown
     private void OnNotificationHover(object sender, System.Windows.Input.MouseEventArgs e)

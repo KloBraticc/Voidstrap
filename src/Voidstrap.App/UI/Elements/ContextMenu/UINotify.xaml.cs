@@ -206,14 +206,6 @@ namespace Voidstrap.UI.Elements.Overlay
 						BeginAnimation(LinuxFadeProperty, fadeIn);
 					else
 						NotificationBorder.BeginAnimation(OpacityProperty, fadeIn);
-					var progressAnim = new DoubleAnimation
-					{
-						From = 0,
-						To = 1,
-                        Duration = TimeSpan.FromSeconds(duration)
-                    };
-					Timeline.SetDesiredFrameRate(progressAnim, AnimationFrameRate);
-					ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, progressAnim);
 
 					if (_linuxSyncing)
 					{
@@ -276,11 +268,34 @@ namespace Voidstrap.UI.Elements.Overlay
 				return;
 			}
 
-			NotificationImage.Source = image;
+			NotificationImage.Source = FitBitmap(image, NotificationImage.Width);
 			NotificationImage.Visibility = Visibility.Visible;
 			NotificationImage.InvalidateMeasure();
 			NotificationImage.InvalidateArrange();
 			NotificationImage.InvalidateVisual();
+		}
+
+		// Game icons arrive at several hundred pixels and are drawn at 44, so they are scaled once up front
+		// instead of being resampled with high quality filtering on every animation frame
+		private BitmapSource FitBitmap(BitmapSource source, double displayWidth)
+		{
+			try
+			{
+				double scale = VisualTreeHelper.GetDpi(this).DpiScaleX;
+				int target = (int)Math.Ceiling(Math.Max(1, displayWidth) * scale);
+				if (source.PixelWidth <= target * 1.25 || source.PixelWidth <= 0 || source.PixelHeight <= 0)
+					return source;
+				double factor = (double)target / source.PixelWidth;
+				TransformedBitmap scaled = new(source, new ScaleTransform(factor, factor));
+				CachedBitmap cached = new(scaled, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+				cached.Freeze();
+				return cached;
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("NotificationWindow", "The notification image could not be resized: " + ex.Message);
+				return source;
+			}
 		}
 
 		private void SetText(string? text, BitmapSource? flag)
@@ -298,7 +313,7 @@ namespace Voidstrap.UI.Elements.Overlay
 				NotificationText.Inlines.Add(new Run(message.Substring(0, marker)));
 			NotificationText.Inlines.Add(new InlineUIContainer(new Image
 			{
-				Source = flag,
+				Source = FitBitmap(flag, 22),
 				Height = 11,
 				Stretch = Stretch.Uniform,
 				Margin = new Thickness(0, 0, 4, -1),
@@ -426,13 +441,10 @@ namespace Voidstrap.UI.Elements.Overlay
 			{
 				EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
 			};
-			DoubleAnimation progress = new(0, 1, length);
 			Timeline.SetDesiredFrameRate(slide, AnimationFrameRate);
 			Timeline.SetDesiredFrameRate(fade, AnimationFrameRate);
-			Timeline.SetDesiredFrameRate(progress, AnimationFrameRate);
 			RootTranslate.BeginAnimation(TranslateTransform.XProperty, slide);
 			NotificationBorder.BeginAnimation(OpacityProperty, fade);
-			ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, progress);
 			try
 			{
 				await Task.Delay(length, _lifetimeCts.SafeToken());
