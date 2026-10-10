@@ -883,8 +883,12 @@ public partial class MenuContainer : WpfUiWindow
         if (Voidstrap.Utility.Platform.IsLinux && text2.Length > 0)
             serverLocation = CompactServerLocation(serverLocation);
         string uptime = await uptimeTask;
+        // Uptime is left out when Roblox does not reveal it, the player count then gets the line to itself
+        string lastLine = uptime.Length > 0
+            ? "Uptime: " + uptime + text2
+            : text2.StartsWith(" • ", StringComparison.Ordinal) ? text2[3..] : text2.Trim();
         string details = "Location: " + (flagImage != null ? NotificationWindow.FlagPlaceholder.ToString() : string.Empty)
-            + serverLocation + "\nUptime: " + uptime + text2;
+            + serverLocation + (lastLine.Length > 0 ? "\n" + lastLine : string.Empty);
         string status = data.ServerType.ToConnectedString();
         try
         {
@@ -937,36 +941,45 @@ public partial class MenuContainer : WpfUiWindow
         }
     }
 
+    // Right after joining, Roblox often does not answer the start time lookup yet and the start time from the
+    // game log arrives a few seconds later, so both are retried briefly before giving up
     private static async Task<string> LoadJoinUptimeAsync(ActivityData data, CancellationToken token)
     {
+        const int attempts = 4;
         try
         {
-            DateTimeOffset? started = data.ServerStartedUtc;
-            if (!started.HasValue)
+            using CancellationTokenSource lookupCts = CancellationTokenSource.CreateLinkedTokenSource(token);
+            lookupCts.CancelAfter(NotificationEnrichTimeout);
+            for (int attempt = 0; attempt < attempts; attempt++)
             {
-                using CancellationTokenSource lookupCts = CancellationTokenSource.CreateLinkedTokenSource(token);
-                lookupCts.CancelAfter(NotificationEnrichTimeout);
+                if (data.ServerStartedUtc is DateTimeOffset fromLog)
+                    return FormatJoinUptime(fromLog);
                 ServerStartLookup lookup = await VoidstrapMatchmaker.GetServerStartAsync(data.PlaceId, data.JobId, lookupCts.Token);
                 if (lookup.Status == ServerStartStatus.Found)
                 {
-                    started = lookup.StartedUtc;
-                    data.ServerStartedUtc = lookup.StartedUtc;
+                    data.ServerStartedUtc ??= lookup.StartedUtc;
+                    return FormatJoinUptime(lookup.StartedUtc);
                 }
+                if (lookup.Status == ServerStartStatus.NotSignedIn)
+                    break;
+                if (attempt < attempts - 1)
+                    await Task.Delay(TimeSpan.FromMilliseconds(1200), lookupCts.Token);
             }
-            return started.HasValue
-                ? Voidstrap.UI.ViewModels.ContextMenu.ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - started.Value)
-                : "Unavailable";
+            return data.ServerStartedUtc is DateTimeOffset late ? FormatJoinUptime(late) : string.Empty;
         }
         catch (OperationCanceledException)
         {
-            return "Unavailable";
+            return data.ServerStartedUtc is DateTimeOffset late ? FormatJoinUptime(late) : string.Empty;
         }
         catch (Exception ex)
         {
             App.Logger.WriteLine("MenuContainer::JoinUptime", "Server uptime could not be loaded: " + ex.Message);
-            return "Unavailable";
+            return string.Empty;
         }
     }
+
+    private static string FormatJoinUptime(DateTimeOffset started)
+        => Voidstrap.UI.ViewModels.ContextMenu.ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - started);
 
     private Task UpdateSessionMenuAsync(ActivityData data, CancellationToken token)
     {
