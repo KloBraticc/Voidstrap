@@ -44,7 +44,8 @@ public sealed partial class SessionPanelWindow : Window
     private bool _userClosed;
     private bool _cloaked;
     private const string PinGlyph = "\uE718";
-    private const string PinnedGlyph = "\uE840";
+    // The solid pin, clearly different from the outline one even when the accent colour is close to white
+    private const string PinnedGlyph = "\uE842";
 
     public event EventHandler? DismissRequested;
 
@@ -165,6 +166,12 @@ public sealed partial class SessionPanelWindow : Window
     }
 
     private const double CaptionHeight = 30;
+    // The dock's strip along the bottom of the game (its gap from the edge, the pill and a little room above it).
+    // Panels stop above it, so they can never be moved or sized over the dock.
+    private const double DockReserve = 104;
+
+    private static int UsableHeight(RobloxWindowRect bounds, DpiScale dpi)
+        => Math.Max(1, bounds.Height - (int)Math.Round(DockReserve * dpi.DpiScaleY));
     private const double FrostBlur = 18;
     private static readonly System.Windows.Media.FontFamily TitleIconFont = new("Segoe Fluent Icons, Segoe MDL2 Assets");
 
@@ -381,7 +388,8 @@ public sealed partial class SessionPanelWindow : Window
         {
             DpiScale dpi = VisualTreeHelper.GetDpi(this);
             double availableWidth = bounds.Width / dpi.DpiScaleX;
-            double availableHeight = bounds.Height / dpi.DpiScaleY;
+            int usableHeight = UsableHeight(bounds, dpi);
+            double availableHeight = usableHeight / dpi.DpiScaleY;
             double width = Math.Clamp(Width, Math.Min(MinWidth, availableWidth), Math.Max(1, availableWidth));
             double height = Math.Clamp(Height, Math.Min(MinHeight, availableHeight), Math.Max(1, availableHeight));
             if (width != Width)
@@ -391,7 +399,7 @@ public sealed partial class SessionPanelWindow : Window
             int pixelWidth = (int)Math.Ceiling(width * dpi.DpiScaleX);
             int pixelHeight = (int)Math.Ceiling(height * dpi.DpiScaleY);
             int left = bounds.Left + (int)Math.Round(_x * Math.Max(0, bounds.Width - pixelWidth));
-            int top = bounds.Top + (int)Math.Round(_y * Math.Max(0, bounds.Height - pixelHeight));
+            int top = bounds.Top + (int)Math.Round(_y * Math.Max(0, usableHeight - pixelHeight));
             bool shown = IsVisible;
             if (shown && _placed && left == _lastLeft && top == _lastTop && pixelWidth == _lastWidth && pixelHeight == _lastHeight)
                 return;
@@ -433,7 +441,7 @@ public sealed partial class SessionPanelWindow : Window
             return;
         DpiScale dpi = VisualTreeHelper.GetDpi(this);
         _x = Math.Clamp(_x + e.HorizontalChange * dpi.DpiScaleX / Math.Max(1, bounds.Width - Width * dpi.DpiScaleX), 0, 1);
-        _y = Math.Clamp(_y + e.VerticalChange * dpi.DpiScaleY / Math.Max(1, bounds.Height - Height * dpi.DpiScaleY), 0, 1);
+        _y = Math.Clamp(_y + e.VerticalChange * dpi.DpiScaleY / Math.Max(1, UsableHeight(bounds, dpi) - Height * dpi.DpiScaleY), 0, 1);
         ApplyBounds(bounds);
     }
 
@@ -574,6 +582,7 @@ public sealed partial class SessionPanelWindow : Window
     {
         private static readonly Duration Fade = new(TimeSpan.FromMilliseconds(100));
         private readonly Border _hover;
+        private readonly Border _toggled;
         private readonly TextBlock _icon;
         private readonly bool _close;
         private bool _pressed;
@@ -591,6 +600,9 @@ public sealed partial class SessionPanelWindow : Window
             Focusable = false;
             SnapsToDevicePixels = true;
             _hover = new Border { Opacity = 0 };
+            // A tinted chip that stays behind a toggled button, the pin while the panel is pinned
+            _toggled = new Border { Opacity = 0, Margin = new Thickness(6, 3, 6, 3), CornerRadius = new CornerRadius(5) };
+            _toggled.SetResourceReference(BackgroundProperty, "SystemAccentColorPrimaryBrush");
             _hover.SetResourceReference(BackgroundProperty, close ? "RinCaptionCloseBrush" : "SubtleFillColorSecondaryBrush");
             // Windows' own icon font, the pin is missing from the bundled one and fell back to the colour emoji
             _icon = new TextBlock
@@ -600,6 +612,7 @@ public sealed partial class SessionPanelWindow : Window
             };
             _icon.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
             Grid layout = new();
+            layout.Children.Add(_toggled);
             layout.Children.Add(_hover);
             layout.Children.Add(_icon);
             Child = layout;
@@ -616,9 +629,12 @@ public sealed partial class SessionPanelWindow : Window
 
         public void SetAccent(bool accent)
         {
-            // Voidstrap's own accent colour, the one its theme settings change, so a pinned panel is easy to spot
+            // Voidstrap's own accent colour on the icon, plus the tinted chip and the solid glyph, so pinned is
+            // obvious whatever the accent colour is
             _accent = accent;
+            _toggled.Opacity = accent ? 0.28 : 0;
             _icon.SetResourceReference(TextBlock.ForegroundProperty, accent ? "SystemAccentColorPrimaryBrush" : "TextFillColorPrimaryBrush");
+            _icon.FontWeight = accent ? FontWeights.Bold : FontWeights.Normal;
         }
 
         private void OnDown(object sender, MouseButtonEventArgs e)

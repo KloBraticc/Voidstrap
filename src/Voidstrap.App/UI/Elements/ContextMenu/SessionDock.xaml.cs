@@ -241,7 +241,13 @@ public partial class SessionDock : Window
             if (button.Appearance != appearance)
                 button.Appearance = appearance;
             if (button.Content is TextBlock glyph)
-                glyph.SetResourceReference(TextBlock.ForegroundProperty, open ? "TextOnAccentFillColorPrimaryBrush" : "TextFillColorPrimaryBrush");
+            {
+                // Black on a light accent and white on a dark one, a near white accent left white icons unreadable
+                if (open)
+                    glyph.Foreground = Voidstrap.UI.Converters.ContrastForegroundConverter.For(TryFindResource("AccentFillColorDefaultBrush"));
+                else
+                    glyph.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+            }
         }
     }
 
