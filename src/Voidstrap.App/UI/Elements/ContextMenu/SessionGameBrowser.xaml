@@ -15,7 +15,6 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <TextBlock Text="{x:Static resources:Strings.ContextMenu_GameBrowser_Title}" FontSize="18" FontWeight="SemiBold" Margin="2,0,0,12" />
     <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
       <ui:Button Content="{x:Static resources:Strings.ContextMenu_GameBrowser_Continue}" Tag="continue" Appearance="Secondary" Click="ModeButton_Click" Margin="0,0,6,0" />
       <ui:Button Content="{x:Static resources:Strings.ContextMenu_GameBrowser_Favorites}" Tag="favorites" Appearance="Secondary" Click="ModeButton_Click" Margin="0,0,6,0" />

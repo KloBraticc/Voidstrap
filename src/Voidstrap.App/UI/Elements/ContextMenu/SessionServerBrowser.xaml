@@ -18,7 +18,6 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <TextBlock Text="{x:Static resources:Strings.ContextMenu_ServerBrowser_Title}" FontSize="18" FontWeight="SemiBold" Margin="2,0,0,12" />
     <Border Grid.Row="1" Margin="0,0,0,12" Padding="12" CornerRadius="10" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
       <Grid>
@@ -40,19 +39,22 @@
     </Border>
     <Grid Grid.Row="2" Margin="0,0,0,10">
       <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
-      <ui:TextBox x:Name="SearchBox" MinWidth="100" Margin="0,0,8,0" VerticalContentAlignment="Center" Icon="Search24" ClearButtonEnabled="True"
+      <ComboBox x:Name="PlaceBox" Width="200" Margin="0,0,8,0" VerticalAlignment="Center" Visibility="Collapsed"
+                ToolTip="Place" DisplayMemberPath="Name" SelectionChanged="PlaceBox_SelectionChanged" />
+      <ui:TextBox x:Name="SearchBox" Grid.Column="1" MinWidth="100" Margin="0,0,8,0" VerticalContentAlignment="Center" Icon="Search24" ClearButtonEnabled="True"
                   PlaceholderText="{x:Static resources:Strings.ContextMenu_ServerBrowser_Search}" TextChanged="SearchBox_TextChanged" />
-      <ComboBox x:Name="SortBox" Grid.Column="1" Width="160" Margin="0,0,8,0" VerticalAlignment="Center" SelectedIndex="0" SelectionChanged="SortBox_SelectionChanged">
+      <ComboBox x:Name="SortBox" Grid.Column="2" Width="160" Margin="0,0,8,0" VerticalAlignment="Center" SelectedIndex="0" SelectionChanged="SortBox_SelectionChanged">
         <ComboBoxItem Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Sort_Best}" />
         <ComboBoxItem Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Sort_Ping}" />
         <ComboBoxItem Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Sort_Population}" />
         <ComboBoxItem Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Sort_Empty}" />
       </ComboBox>
-      <ui:Button x:Name="RefreshButton" Grid.Column="2" Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Refresh}"
+      <ui:Button x:Name="RefreshButton" Grid.Column="3" Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Refresh}"
                  Appearance="Secondary" Click="RefreshButton_Click" />
     </Grid>
     <Grid Grid.Row="3">
@@ -74,15 +76,17 @@
                     BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
               <Grid>
                 <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <StackPanel VerticalAlignment="Center">
+                <Border Width="44" Height="44" Margin="0,0,12,0" CornerRadius="6" VerticalAlignment="Center" ClipToBounds="True"
+                        Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}">
+                  <Image Source="{Binding PlaceIcon}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
+                </Border>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
                   <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{Binding LocationText}" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-                    <TextBlock Text="{x:Static resources:Strings.ContextMenu_ServerBrowser_BestMatch}" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="11" FontWeight="SemiBold"
-                               Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"
-                               Visibility="{Binding IsBest, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     <TextBlock Text="{x:Static resources:Strings.ContextMenu_ServerBrowser_Current}" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="11"
                                Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"
                                Visibility="{Binding IsCurrent, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -94,7 +98,7 @@
                   <TextBlock Text="{Binding AddressText}" Margin="0,4,0,0" FontSize="10" TextTrimming="CharacterEllipsis"
                              Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                 </StackPanel>
-                <ui:Button Grid.Column="1" Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Join}"
+                <ui:Button Grid.Column="2" Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Join}"
                            Appearance="Secondary" VerticalAlignment="Center" Margin="12,0,0,0"
                            IsEnabled="{Binding CanJoin}" Click="JoinButton_Click" />
               </Grid>

@@ -23,7 +23,7 @@ public partial class SessionDock : Window
 {
     private const double DockHeight = 70;
     private const double ExpandedHeight = 316;
-    private const double DimmerOpacity = 0.23;
+    private const double DimmerOpacity = 0.35;
     private const int GwlExStyle = -20;
     private const nint WsExToolWindow = 0x80;
     private const nint WsExNoActivate = 0x08000000;
