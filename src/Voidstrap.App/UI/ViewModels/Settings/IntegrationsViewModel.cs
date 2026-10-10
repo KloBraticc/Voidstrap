@@ -414,6 +414,18 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		}
 	}
 
+	public bool FriendNotifications
+	{
+		get => App.Settings.Prop.NotifyFriends;
+		set
+		{
+			if (App.Settings.Prop.NotifyFriends == value)
+				return;
+			App.Settings.Prop.NotifyFriends = value;
+			SaveAppSetting(nameof(FriendNotifications));
+		}
+	}
+
 	public bool ExitOnDissy
 	{
 		get

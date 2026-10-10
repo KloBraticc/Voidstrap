@@ -22,6 +22,9 @@
           <controls:OptionControl Description="Displays the game you have joined and its server location in the top-right corner." Header="Join-Game Notification" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding joinGameNotify, Mode=TwoWay}" />
           </controls:OptionControl>
+          <controls:OptionControl Description="Notifies you in game when a friend starts playing, joins your game or joins your server." Header="Friend Notifications" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
+            <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding FriendNotifications, Mode=TwoWay}" />
+          </controls:OptionControl>
           <controls:OptionControl Header="{x:Static resources:Strings.Menu_Integrations_DesktopApp_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/What-is-activity-tracking%3F#dont-exit-to-desktop-app" Description="{Binding Source={x:Static resources:Strings.Menu_Integrations_DesktopApp_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://github.com/BloxstrapLabs/Bloxstrap/wiki/What-is-activity-tracking%3F#dont-exit-to-desktop-app}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DisableAppPatchEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
