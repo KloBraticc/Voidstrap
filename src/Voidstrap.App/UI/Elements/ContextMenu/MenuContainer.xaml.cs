@@ -904,6 +904,7 @@ public partial class MenuContainer : WpfUiWindow
                         "MenuContainer::ShowJoinNotification",
                         "Join notification icon: " + (notificationIcon != null ? notificationIcon.PixelWidth + "x" + notificationIcon.PixelHeight + " frozen " + notificationIcon.IsFrozen : "none, thumbnail url was " + (string.IsNullOrEmpty(data.UniverseDetails?.Thumbnail?.ImageUrl) ? "empty" : data.UniverseDetails.Thumbnail.ImageUrl)));
                     notificationWindow.ShowNotification(universeName, details, notificationIcon, 8.0, flagImage, status, token);
+                    QueueSessionDockTip(notificationWindow);
                 }
                 catch (Exception ex)
                 {
@@ -916,6 +917,23 @@ public partial class MenuContainer : WpfUiWindow
         }
         catch (InvalidOperationException)
         {
+        }
+    }
+
+    // Shown once, right after the first join notification ever, so people find out the dock exists
+    private void QueueSessionDockTip(NotificationWindow notificationWindow)
+    {
+        try
+        {
+            if (App.State.Prop.SessionDockTipShown || !App.Settings.Prop.SessionDockEnabled || !_sessionDockHotkeyRegistered || !Voidstrap.Utility.Platform.IsWindows)
+                return;
+            App.State.Prop.SessionDockTipShown = true;
+            App.State.SaveDeferred();
+            notificationWindow.ShowNotification("Open the session dock", "Press Ctrl+Alt+L while you're in a game", null, 7.0, null, "Tip");
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MenuContainer::SessionDockTip", "The session dock tip could not be shown: " + ex.Message);
         }
     }
 
