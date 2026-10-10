@@ -361,7 +361,7 @@ This creates a `.dmg` and `.zip` for each architecture in `PublishedBuilds/macOS
 
 Local packages use ad hoc signing without notarization. For Developer ID signing, set `MACOS_SIGN_IDENTITY`. To notarize, also set `MACOS_NOTARY_PROFILE` to your notarytool keychain profile.
 
-Windows can create macOS `.dmg` files through WSL 2. Install Rust with `rustup` and `genisoimage` in your WSL distribution, then run the PowerShell command with `-Only osx-arm64,osx-x64`. It produces a `.dmg` and `.tar.gz` for each architecture in `PublishedBuilds/macOS`. Linux can use the same command when Rust, Cargo and `genisoimage` are installed. Git Bash alone can create the `.tar.gz` app bundles, but not `.dmg` files.
+Windows can create macOS `.dmg` files through WSL 2. Install `genisoimage` in your WSL distribution, then run the PowerShell command with `-Only osx-arm64,osx-x64`. It produces a `.dmg` and `.tar.gz` for each architecture in `PublishedBuilds/macOS`. Linux can use the same command with `genisoimage` installed. These are uncompressed ISO 9660 disk images. Native macOS builds create compressed UDIF images. Git Bash alone can create the `.tar.gz` app bundles, but not `.dmg` files.
 
 </details>
 

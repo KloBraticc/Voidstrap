@@ -1,7 +1,0 @@
-[package]
-name = "voidstrap-dmg-builder"
-version = "1.0.0"
-edition = "2024"
-
-[dependencies]
-udif = "=0.4.2"

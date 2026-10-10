@@ -97,13 +97,18 @@ jobs:
           test -s "$image"
           mountpoint="$(mktemp -d)"
           trap 'hdiutil detach "$mountpoint" >/dev/null 2>&1 || true; rmdir "$mountpoint"' EXIT
-          hdiutil attach -readonly -nobrowse -noverify -mountpoint "$mountpoint" "$image"
+          hdiutil attach -readonly -nobrowse -mountpoint "$mountpoint" "$image"
           app="$mountpoint/Voidstrap.app"
-          test -f "$app/Contents/Info.plist"
+          plutil -lint "$app/Contents/Info.plist"
+          test -x "$app/Contents/MacOS/Voidstrap"
+          test -x "$app/Contents/MacOS/voidstrap-virtualdisplay"
+          test -s "$app/Contents/Resources/Voidstrap.icns"
           case "${{ matrix.rid }}" in
-            osx-x64) lipo -verify_arch x86_64 "$app/Contents/MacOS/Voidstrap" ;;
-            osx-arm64) lipo -verify_arch arm64 "$app/Contents/MacOS/Voidstrap" ;;
+            osx-x64) arch=x86_64 ;;
+            osx-arm64) arch=arm64 ;;
           esac
+          lipo -verify_arch "$arch" "$app/Contents/MacOS/Voidstrap"
+          lipo -verify_arch "$arch" "$app/Contents/MacOS/voidstrap-virtualdisplay"
 
   linux_validation:
     name: Linux canonical and experimental validation

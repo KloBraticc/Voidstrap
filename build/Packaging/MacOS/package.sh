@@ -111,11 +111,8 @@ if [ "$(uname -s)" != "Darwin" ]; then
   chmod -R go-w "$APPLICATION"
   if [ "$(uname -s)" = "Linux" ]; then
     command -v genisoimage >/dev/null 2>&1 || { echo "genisoimage is required to create a macOS disk image on Linux"; exit 1; }
-    CARGO="$(command -v cargo || true)"
-    if [ -z "$CARGO" ] && [ -x "$HOME/.cargo/bin/cargo" ]; then CARGO="$HOME/.cargo/bin/cargo"; fi
-    [ -n "$CARGO" ] || { echo "Rust and Cargo are required to create a macOS disk image on Linux"; exit 1; }
     genisoimage -D -J -V Voidstrap -no-pad -r -graft-points -o "$ISO" "Voidstrap.app=$APPLICATION"
-    CARGO_TARGET_DIR="$STAGE/cargo-target" "$CARGO" run --quiet --release --locked --manifest-path "$ROOT/build/Packaging/MacOS/DmgBuilder/Cargo.toml" -- "$ISO" "$DMG"
+    mv "$ISO" "$DMG"
     [ -s "$DMG" ] || { echo "The macOS disk image is empty"; exit 1; }
     commit_artifact "$DMG" "$DMG_TARGET"
   fi

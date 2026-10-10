@@ -1692,7 +1692,7 @@ try {
             $PackageNotes.Add('macOS app bundles were skipped: they need bash, which Git for Windows provides.')
         } else {
             if ($IsWindowsHost -and -not $shell.Wsl) {
-                $PackageNotes.Add('macOS disk images were skipped; use WSL 2 with Rust and genisoimage to create them.')
+                $PackageNotes.Add('macOS disk images were skipped; use WSL 2 with genisoimage to create them.')
             }
             $macOutput = $MacOut
             New-Item -ItemType Directory -Path $macOutput -Force | Out-Null
