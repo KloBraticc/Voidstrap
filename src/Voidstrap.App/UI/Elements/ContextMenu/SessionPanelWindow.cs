@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using Voidstrap.Integrations.Overlays;
 using Voidstrap.Models.Persistable;
 using Wpf.Ui.Common;
@@ -19,8 +20,8 @@ public sealed partial class SessionPanelWindow : Window
     private readonly IDisposable _tracker;
     private readonly Thumb _drag;
     private readonly Thumb _resize;
-    private readonly Wpf.Ui.Controls.Button _pin;
-    private readonly Wpf.Ui.Controls.Button _close;
+    private readonly CaptionButton _pin;
+    private readonly CaptionButton _close;
     private const int GwlExStyle = -20;
     private const nint WsExTransparent = 0x20;
     private const nint WsExToolWindow = 0x80;
@@ -100,8 +101,8 @@ public sealed partial class SessionPanelWindow : Window
         caption.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
         header.Children.Add(caption);
         StackPanel actions = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Top };
-        _pin = CreateCaptionButton("UiTitlebarButton", SymbolRegular.Pin24, 14, "Pin panel");
-        _close = CreateCaptionButton("UiTitlebarCloseButton", SymbolRegular.Dismiss20, 16, "Close panel");
+        _pin = new CaptionButton(SymbolRegular.Pin24, 14, false, "Pin panel");
+        _close = new CaptionButton(SymbolRegular.Dismiss20, 16, true, "Close panel");
         _pin.Click += OnPin;
         _close.Click += OnClosePanel;
         actions.Children.Add(_pin);
@@ -111,7 +112,11 @@ public sealed partial class SessionPanelWindow : Window
         ContentControl host = new() { Content = body, Margin = new Thickness(1, 0, 1, 1) };
         Grid.SetRow(host, 1);
         root.Children.Add(host);
-        _resize = new Thumb { Width = 16, Height = 16, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Bottom, Cursor = Cursors.SizeNWSE, Opacity = 0.35 };
+        // An invisible grip in the corner, the default thumb drew a grey square there
+        _resize = new Thumb { Width = 16, Height = 16, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Bottom, Cursor = Cursors.SizeNWSE };
+        FrameworkElementFactory gripVisual = new(typeof(Border));
+        gripVisual.SetValue(Border.BackgroundProperty, Brushes.Transparent);
+        _resize.Template = new ControlTemplate(typeof(Thumb)) { VisualTree = gripVisual };
         _resize.DragDelta += OnResize;
         _resize.DragCompleted += OnGeometryFinished;
         Grid.SetRow(_resize, 1);
@@ -132,50 +137,10 @@ public sealed partial class SessionPanelWindow : Window
 
     private const double CaptionHeight = 30;
 
-    // Uses the title bar's own caption button styles, with hover driven the way the title bar drives it
-    private static Wpf.Ui.Controls.Button CreateCaptionButton(string styleKey, SymbolRegular icon, double size, string tip)
-    {
-        Wpf.Ui.Controls.Button button = new() { Icon = icon, ToolTip = tip, Focusable = false };
-        if (Application.Current?.TryFindResource(styleKey) is Style style)
-            button.Style = style;
-        else
-        {
-            button.Appearance = ControlAppearance.Transparent;
-            button.Width = 44;
-            button.Height = CaptionHeight;
-            button.Padding = new Thickness(0);
-        }
-        button.FontSize = size;
-        button.SetResourceReference(ForegroundProperty, "TextFillColorPrimaryBrush");
-        button.MouseEnter += OnCaptionHover;
-        button.MouseLeave += OnCaptionHover;
-        button.PreviewMouseLeftButtonDown += OnCaptionPress;
-        button.PreviewMouseLeftButtonUp += OnCaptionPress;
-        button.LostMouseCapture += OnCaptionPress;
-        return button;
-    }
-
-    private static void OnCaptionHover(object sender, MouseEventArgs e)
-    {
-        if (sender is Wpf.Ui.Controls.Button button)
-            Wpf.Ui.Controls.CaptionButtonState.SetIsHovered(button, button.IsMouseOver);
-    }
-
-    private static void OnCaptionPress(object sender, MouseEventArgs e)
-    {
-        if (sender is not Wpf.Ui.Controls.Button button)
-            return;
-        Wpf.Ui.Controls.CaptionButtonState.SetIsPressed(button, e.LeftButton == MouseButtonState.Pressed && button.IsMouseOver);
-        Wpf.Ui.Controls.CaptionButtonState.Apply(button, true);
-    }
-
     private void UpdatePinVisual()
     {
         // The title bar has no toggled look, so a pinned panel shows its pin in the accent colour
-        if (IsPinned)
-            _pin.SetResourceReference(ForegroundProperty, "AccentTextFillColorPrimaryBrush");
-        else
-            _pin.SetResourceReference(ForegroundProperty, "TextFillColorPrimaryBrush");
+        _pin.SetAccent(IsPinned);
         _pin.ToolTip = IsPinned ? "Unpin panel" : "Pin panel";
     }
 
@@ -449,4 +414,75 @@ public sealed partial class SessionPanelWindow : Window
     private static partial bool SetLayeredWindowAttributes(IntPtr hwnd, uint key, byte alpha, uint flags);
     [LibraryImport("dwmapi.dll")]
     private static partial int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int value, int size);
+
+    // Drawn the same way as the Voidstrap title bar's caption buttons: 44 by 30, flush in the corner,
+    // a subtle fill that fades in on hover, and the red close hover. Self contained so it never depends
+    // on a style being found at runtime.
+    private sealed class CaptionButton : Border
+    {
+        private static readonly Duration Fade = new(TimeSpan.FromMilliseconds(100));
+        private readonly Border _hover;
+        private readonly Wpf.Ui.Controls.SymbolIcon _icon;
+        private readonly bool _close;
+        private bool _pressed;
+
+        public event RoutedEventHandler? Click;
+
+        public CaptionButton(SymbolRegular symbol, double size, bool close, string tip)
+        {
+            _close = close;
+            Width = 44;
+            Height = CaptionHeight;
+            Background = Brushes.Transparent;
+            ToolTip = tip;
+            Focusable = false;
+            SnapsToDevicePixels = true;
+            _hover = new Border { Opacity = 0 };
+            _hover.SetResourceReference(BackgroundProperty, close ? "RinCaptionCloseBrush" : "SubtleFillColorSecondaryBrush");
+            _icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = symbol, FontSize = size, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+            _icon.SetResourceReference(ForegroundProperty, "TextFillColorPrimaryBrush");
+            Grid layout = new();
+            layout.Children.Add(_hover);
+            layout.Children.Add(_icon);
+            Child = layout;
+            MouseEnter += (_, _) => Refresh();
+            MouseLeave += (_, _) => Refresh();
+            MouseLeftButtonDown += OnDown;
+            MouseLeftButtonUp += OnUp;
+            LostMouseCapture += (_, _) => { _pressed = false; Refresh(); };
+        }
+
+        public void SetAccent(bool accent)
+            => _icon.SetResourceReference(ForegroundProperty, accent ? "AccentTextFillColorPrimaryBrush" : "TextFillColorPrimaryBrush");
+
+        private void OnDown(object sender, MouseButtonEventArgs e)
+        {
+            _pressed = true;
+            CaptureMouse();
+            Refresh();
+            e.Handled = true;
+        }
+
+        private void OnUp(object sender, MouseButtonEventArgs e)
+        {
+            bool click = _pressed && IsMouseOver;
+            _pressed = false;
+            if (IsMouseCaptured)
+                ReleaseMouseCapture();
+            Refresh();
+            e.Handled = true;
+            if (click)
+                Click?.Invoke(this, new RoutedEventArgs());
+        }
+
+        private void Refresh()
+        {
+            bool hovered = IsMouseOver;
+            double target = _pressed && hovered ? 0.8 : hovered ? 1.0 : 0.0;
+            _hover.BeginAnimation(OpacityProperty, new DoubleAnimation(target, Fade) { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut } });
+            if (_close)
+                _icon.SetResourceReference(ForegroundProperty, hovered ? "RinCaptionCloseTextBrush" : "TextFillColorPrimaryBrush");
+            _icon.Opacity = _pressed && !_close ? 0.6063 : 1.0;
+        }
+    }
 }
