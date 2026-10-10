@@ -111,7 +111,7 @@ jobs:
           test -s "$app/Contents/Resources/Voidstrap.icns"
           codesign --verify --deep --strict --verbose=2 "$app"
           codesign --verify --strict "$app/Contents/MacOS/voidstrap-virtualdisplay"
-          codesign --display --entitlements - "$app" 2> /dev/null | python3 -c 'import plistlib, sys; assert plistlib.load(sys.stdin.buffer)["com.apple.security.cs.allow-jit"] is True'
+          codesign --display --entitlements - "$app" 2> /dev/null | python3 -c 'import plistlib, sys; assert plistlib.loads(sys.stdin.buffer.read())["com.apple.security.cs.allow-jit"] is True'
           case "${{ matrix.rid }}" in
             osx-x64) arch=x86_64 ;;
             osx-arm64) arch=arm64 ;;
