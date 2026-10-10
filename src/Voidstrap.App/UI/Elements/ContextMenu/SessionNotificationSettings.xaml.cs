@@ -264,7 +264,7 @@ public partial class SessionNotificationSettings : Window
             return;
         _appearance = new NotificationAppearance { PositionMigrated = true };
         App.Settings.Prop.ServerDetailsInOverlay = true;
-        App.Settings.Prop.NotifyFriends = true;
+        App.Settings.Prop.NotifyFriends = false;
         App.Settings.Prop.NotifyBadges = true;
         App.Settings.Prop.NotifyShortcutEveryGame = false;
         LoadControls();

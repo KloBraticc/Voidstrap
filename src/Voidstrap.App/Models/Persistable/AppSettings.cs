@@ -270,7 +270,8 @@ namespace Voidstrap.Models.Persistable
         // Off shows the server details as a Windows notification instead of the in game one
         public bool ServerDetailsInOverlay { get; set; } = true;
 
-        public bool NotifyFriends { get; set; } = true;
+        // Off unless turned on, it checks every friend's status every 30 seconds while a game is open
+        public bool NotifyFriends { get; set; } = false;
 
         public bool NotifyBadges { get; set; } = true;
 
