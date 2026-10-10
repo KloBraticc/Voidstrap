@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Voidstrap.Models.Persistable;
 using Voidstrap.UI;
 
@@ -19,6 +20,8 @@ public partial class SessionNotificationSettings : Window
     private bool _loading;
     private bool _closed;
     private int _playGeneration;
+    private bool _playedOnOpen;
+    private readonly DispatcherTimer _replay;
 
     public SessionNotificationSettings(ImageSource? gameIcon, string? gameName)
     {
@@ -33,9 +36,35 @@ public partial class SessionNotificationSettings : Window
             IntroBox.Items.Add(name);
             OutroBox.Items.Add(name);
         }
+        // Waits until a speed slider has settled so dragging does not restart the animation every step
+        _replay = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(350) };
+        _replay.Tick += (_, _) =>
+        {
+            _replay.Stop();
+            _ = PlayAsync();
+        };
         _ready = true;
         LoadControls();
-        Closed += (_, _) => _closed = true;
+        Loaded += OnLoaded;
+        Closed += (_, _) =>
+        {
+            _closed = true;
+            _replay.Stop();
+            _playGeneration++;
+        };
+    }
+
+    // Plays once when the panel opens so the current animation is shown straight away
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        if (_playedOnOpen || _closed)
+            return;
+        _playedOnOpen = true;
+        Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+        {
+            PlaceMock();
+            _ = PlayAsync();
+        }));
     }
 
     private void LoadControls()
@@ -107,6 +136,11 @@ public partial class SessionNotificationSettings : Window
         _appearance.BackgroundOpacity = OpacitySlider.Value / 100;
         _appearance.SecondsOnScreen = SecondsSlider.Value;
         Commit();
+        if (ReferenceEquals(sender, IntroSpeed) || ReferenceEquals(sender, OutroSpeed))
+        {
+            _replay.Stop();
+            _replay.Start();
+        }
     }
 
     private void Toggle_Click(object sender, RoutedEventArgs e)
@@ -120,9 +154,10 @@ public partial class SessionNotificationSettings : Window
 
     private void Reset_Click(object sender, RoutedEventArgs e)
     {
+        if (!_ready)
+            return;
         _appearance = new NotificationAppearance();
         LoadControls();
-        _loading = false;
         Commit();
         _ = PlayAsync();
     }
@@ -171,6 +206,8 @@ public partial class SessionNotificationSettings : Window
         double stageHeight = PreviewStage.ActualHeight;
         if (stageWidth <= 0 || stageHeight <= 0)
             return;
+        // A changed width only marks the card dirty, without this the host reports the previous size
+        MockHost.InvalidateMeasure();
         MockHost.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         Size size = MockHost.DesiredSize;
         double spacing = _appearance.SafeEdgeSpacing * PreviewScale;
@@ -178,8 +215,17 @@ public partial class SessionNotificationSettings : Window
             : _appearance.IsRight ? stageWidth - size.Width - spacing
             : (stageWidth - size.Width) / 2;
         double top = _appearance.IsTop ? spacing : stageHeight - size.Height - spacing;
-        Canvas.SetLeft(MockHost, Math.Round(left));
-        Canvas.SetTop(MockHost, Math.Round(top));
+        Canvas.SetLeft(MockHost, Math.Round(Math.Max(0, left)));
+        Canvas.SetTop(MockHost, Math.Round(Math.Max(0, top)));
+        // Keeps the label out from under the card when the card sits in the top left
+        PreviewLabel.HorizontalAlignment = _appearance.Position == NotificationPosition.TopLeft ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+    }
+
+    private void PreviewClipHost_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        RectangleGeometry clip = new(new Rect(e.NewSize), 10, 10);
+        clip.Freeze();
+        PreviewClipHost.Clip = clip;
     }
 
     private void PreviewStage_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -188,16 +234,25 @@ public partial class SessionNotificationSettings : Window
             PlaceMock();
     }
 
-    private void Preview_Click(object sender, System.Windows.Input.MouseButtonEventArgs e) => _ = PlayAsync();
+    private void Preview_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        _replay.Stop();
+        _ = PlayAsync();
+    }
 
     // Plays the entrance, holds briefly, plays the exit, then brings the card back so it stays visible
     private async Task PlayAsync()
     {
+        if (!_ready || _closed)
+            return;
         int generation = ++_playGeneration;
         try
         {
+            PlaceMock();
             MockCard.UpdateLayout();
             double height = Math.Max(1, MockCard.ActualHeight);
+            // Drawn once into a bitmap while it moves, like the real notification, so the small text does not shimmer
+            MockCard.CacheMode ??= new BitmapCache { SnapsToDevicePixels = true };
             NotificationStyle.PrepareIntro(MockCard, MockTranslate, MockScale, _appearance, height);
             NotificationStyle.Play(MockCard, MockTranslate, MockScale, _appearance, height, true);
             await Task.Delay(NotificationStyle.Length(_appearance, true) + 1100);
@@ -207,14 +262,29 @@ public partial class SessionNotificationSettings : Window
             await Task.Delay(NotificationStyle.Length(_appearance, false) + 450);
             if (_closed || generation != _playGeneration)
                 return;
-            NotificationStyle.Stop(MockCard, MockTranslate, MockScale);
-            MockCard.Opacity = 1;
-            MockTranslate.Y = 0;
-            MockScale.ScaleX = MockScale.ScaleY = 1;
+            // Comes back the same way it enters, a card that just pops back in looks like a glitch
+            NotificationStyle.PrepareIntro(MockCard, MockTranslate, MockScale, _appearance, height);
+            NotificationStyle.Play(MockCard, MockTranslate, MockScale, _appearance, height, true);
+            await Task.Delay(NotificationStyle.Length(_appearance, true) + 50);
+            if (_closed || generation != _playGeneration)
+                return;
+            RestMock();
         }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionNotificationSettings", "The preview could not play: " + ex.Message);
+            RestMock();
         }
+    }
+
+    // The resting state: fully shown, in place, and no longer cached so it stays sharp after a resize
+    private void RestMock()
+    {
+        NotificationStyle.Stop(MockCard, MockTranslate, MockScale);
+        MockCard.Opacity = 1;
+        MockTranslate.X = 0;
+        MockTranslate.Y = 0;
+        MockScale.ScaleX = MockScale.ScaleY = 1;
+        MockCard.CacheMode = null;
     }
 }

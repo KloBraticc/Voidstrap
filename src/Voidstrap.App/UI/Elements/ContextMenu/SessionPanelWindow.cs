@@ -162,7 +162,7 @@ public sealed partial class SessionPanelWindow : Window
             title.Visibility = Visibility.Collapsed;
     }
 
-    public void Present(bool interactive)
+    public void Present(bool interactive, bool activate = true)
     {
         if (_closed)
             return;
@@ -173,7 +173,7 @@ public sealed partial class SessionPanelWindow : Window
             _handle = new WindowInteropHelper(this).EnsureHandle();
             UpdateInputStyle();
             ApplyBounds(RobloxWindowTracker.Current);
-            if (interactive && IsVisible)
+            if (activate && interactive && IsVisible)
                 Activate();
         }
         catch (InvalidOperationException ex)

@@ -26,7 +26,10 @@
       <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
     </Style>
   </Window.Resources>
-  <Grid Margin="0">
+  <Grid x:Name="DockRoot" Margin="0">
+    <Grid.RenderTransform>
+      <TranslateTransform x:Name="DockShift" />
+    </Grid.RenderTransform>
     <Grid.RowDefinitions>
       <RowDefinition Height="*" />
       <RowDefinition Height="70" />
