@@ -208,7 +208,7 @@ public partial class SessionServerBrowser : Window
                 Render();
                 StatusText.Text = status switch
                 {
-                    PrivateServersStatus.NotSignedIn => "Allow cookie access in Voidstrap's settings to see your private servers.",
+                    PrivateServersStatus.NotSignedIn => "Sign in to Roblox to see your private servers.",
                     PrivateServersStatus.Unavailable => "Private servers could not be loaded right now.",
                     _ => _private.Count == 0 ? "You have no private servers for this game." : string.Empty
                 };
