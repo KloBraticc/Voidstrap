@@ -38,8 +38,7 @@
     <Style x:Key="Tile" TargetType="Button">
       <Setter Property="Cursor" Value="Hand" />
       <Setter Property="Focusable" Value="False" />
-      <Setter Property="Width" Value="152" />
-      <Setter Property="Margin" Value="0,0,8,12" />
+      <Setter Property="Margin" Value="0,0,6,10" />
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Button">
@@ -97,23 +96,80 @@
                Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
 
     <Grid Grid.Row="2">
-      <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <ItemsControl ItemsSource="{Binding Games}" Focusable="False">
+      <!-- Tiles share the width evenly, more columns as the panel gets wider, so there is never a gap on the right -->
+      <ScrollViewer x:Name="TileScroller" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" SizeChanged="TileScroller_SizeChanged">
+        <ItemsControl ItemsSource="{Binding Games}" Focusable="False" Margin="0,0,4,0">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-              <WrapPanel />
+              <UniformGrid Columns="{Binding DataContext.Columns, RelativeSource={RelativeSource AncestorType=ItemsControl}}" VerticalAlignment="Top" />
             </ItemsPanelTemplate>
           </ItemsControl.ItemsPanel>
           <ItemsControl.ItemTemplate>
             <DataTemplate>
               <Button Style="{StaticResource Tile}" Click="GameTile_Click" Tag="{Binding}" ToolTip="{Binding Name}">
                 <StackPanel>
-                  <Border Width="144" Height="144" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                    <Border.Clip>
-                      <RectangleGeometry Rect="0,0,144,144" RadiusX="8" RadiusY="8" />
-                    </Border.Clip>
-                    <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
-                  </Border>
+                  <!-- Square art: as tall as it is wide, rounded by the border itself -->
+                  <Grid Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
+                    <Border CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
+                    <Border CornerRadius="8">
+                      <Border.Background>
+                        <ImageBrush ImageSource="{Binding Thumbnail}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
+                      </Border.Background>
+                    </Border>
+                    <!-- On hover: the art dims a little and a play button appears in the accent colour -->
+                    <Border CornerRadius="8" Background="#33000000" IsHitTestVisible="False">
+                      <Border.Style>
+                        <Style TargetType="Border">
+                          <Setter Property="Opacity" Value="0" />
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                              <Setter Property="Opacity" Value="1" />
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </Border.Style>
+                      <Border Width="46" Height="46" CornerRadius="23" HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Background="{DynamicResource SystemAccentColorPrimaryBrush}">
+                        <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="18" Margin="3,0,0,0"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+                      </Border>
+                    </Border>
+                    <!-- Favourite star: shows on hover, stays lit once the game is a favourite -->
+                    <Button Width="32" Height="32" Margin="0,6,6,0" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Hand"
+                            Focusable="False" Click="Favorite_Click" Tag="{Binding}" ToolTip="{Binding FavoriteTip}">
+                      <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                          <Border x:Name="Chip" CornerRadius="16" Background="#99000000">
+                            <TextBlock Text="{Binding FavoriteGlyph}" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" />
+                          </Border>
+                          <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                              <Setter TargetName="Chip" Property="Background" Value="#CC000000" />
+                            </Trigger>
+                          </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                      </Button.Template>
+                      <Button.Style>
+                        <Style TargetType="Button">
+                          <Setter Property="Opacity" Value="0" />
+                          <Setter Property="Foreground" Value="White" />
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=1}}" Value="True">
+                              <Setter Property="Opacity" Value="1" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Grid}}" Value="True">
+                              <Setter Property="Opacity" Value="1" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                              <Setter Property="Opacity" Value="1" />
+                              <Setter Property="Foreground" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </Button.Style>
+                    </Button>
+                  </Grid>
                   <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold" Margin="2,8,2,0" TextTrimming="CharacterEllipsis"
                              Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
                   <TextBlock Text="{Binding PlayingText}" FontSize="12" Margin="2,2,2,2" TextTrimming="CharacterEllipsis"

@@ -177,7 +177,6 @@ public sealed partial class SessionPanelWindow : Window
         "music" => "\uE8D6",
         "notifications" => "\uE713",
         "server" => "\uE946",
-        "profile" => "\uE77B",
         _ => null
     };
 
@@ -617,9 +616,9 @@ public sealed partial class SessionPanelWindow : Window
 
         public void SetAccent(bool accent)
         {
-            // The same accent fill the dock uses for its open panels, so a pinned panel is easy to spot
+            // Voidstrap's own accent colour, the one its theme settings change, so a pinned panel is easy to spot
             _accent = accent;
-            _icon.SetResourceReference(TextBlock.ForegroundProperty, accent ? "AccentFillColorDefaultBrush" : "TextFillColorPrimaryBrush");
+            _icon.SetResourceReference(TextBlock.ForegroundProperty, accent ? "SystemAccentColorPrimaryBrush" : "TextFillColorPrimaryBrush");
         }
 
         private void OnDown(object sender, MouseButtonEventArgs e)
@@ -650,7 +649,7 @@ public sealed partial class SessionPanelWindow : Window
             if (_close)
                 _icon.SetResourceReference(TextBlock.ForegroundProperty, hovered ? "RinCaptionCloseTextBrush" : "TextFillColorPrimaryBrush");
             else if (_accent)
-                _icon.SetResourceReference(TextBlock.ForegroundProperty, "AccentFillColorDefaultBrush");
+                _icon.SetResourceReference(TextBlock.ForegroundProperty, "SystemAccentColorPrimaryBrush");
             _icon.Opacity = _pressed && !_close ? 0.6063 : 1.0;
         }
     }

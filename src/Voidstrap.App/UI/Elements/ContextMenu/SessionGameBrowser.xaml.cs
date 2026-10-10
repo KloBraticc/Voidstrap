@@ -20,8 +20,29 @@ using Voidstrap.Utility;
 
 namespace Voidstrap.UI.Elements.Overlay;
 
-public partial class SessionGameBrowser : Window
+public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyPropertyChanged
 {
+    private const double TileMinWidth = 150;
+    private int _columns = 4;
+
+    public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
+
+    // How many tiles fit side by side, they share the width evenly so nothing is left over on the right
+    public int Columns
+    {
+        get => _columns;
+        private set
+        {
+            if (_columns == value)
+                return;
+            _columns = value;
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(nameof(Columns)));
+        }
+    }
+
+    private void TileScroller_SizeChanged(object sender, SizeChangedEventArgs e)
+        => Columns = Math.Clamp((int)((e.NewSize.Width - 4) / TileMinWidth), 2, 8);
+
     private const int MaxRecentGames = 24;
     private const int MaxFavorites = 48;
     private const int MaxSearchResults = 20;
@@ -332,8 +353,35 @@ public partial class SessionGameBrowser : Window
         return results;
     }
 
+    // Adds or removes the game from Favorites without launching it
+    private void Favorite_Click(object sender, RoutedEventArgs e)
+    {
+        e.Handled = true;
+        if (_closed || sender is not FrameworkElement { Tag: GameBrowserTile tile } || tile.PlaceId <= 0)
+            return;
+        List<long> favorites = App.Settings.Prop.FavoriteGamePlaceIds ??= new List<long>();
+        bool favorite = !favorites.Contains(tile.PlaceId);
+        favorites.RemoveAll(id => id == tile.PlaceId);
+        if (favorite)
+            favorites.Insert(0, tile.PlaceId);
+        App.Settings.SaveDeferred();
+        tile.IsFavorite = favorite;
+        // Favorites are read again next time that tab opens; leaving it shown here would keep a removed game
+        _favoritesLoaded = false;
+        if (_mode == "favorites" && !favorite)
+        {
+            Games.Remove(tile);
+            _favorites.Remove(tile);
+            if (Games.Count == 0)
+                SetBusy(false, Strings.ContextMenu_GameBrowser_NoFavorites);
+        }
+    }
+
     private async void GameTile_Click(object sender, RoutedEventArgs e)
     {
+        // The star inside a tile is its own button, its click is not a launch
+        if (e.OriginalSource is FrameworkElement { Tag: GameBrowserTile } source && !ReferenceEquals(source, sender))
+            return;
         if (_launching || _closed || sender is not Button { Tag: GameBrowserTile tile } || tile.PlaceId <= 0)
             return;
         if (_matchmaker != null && _activity.InGame)
@@ -381,11 +429,16 @@ public partial class SessionGameBrowser : Window
         }
     }
 
+    // One tile per game: a game's subplaces and the same game reached from different places are the same tile
     private void ReplaceGames(IEnumerable<GameBrowserTile> games)
     {
         Games.Clear();
+        HashSet<string> seen = new(StringComparer.Ordinal);
         foreach (GameBrowserTile game in games)
-            Games.Add(game);
+        {
+            if (seen.Add(game.GameKey))
+                Games.Add(game);
+        }
     }
 
     private void SetBusy(bool busy, string status)
@@ -423,11 +476,37 @@ public partial class SessionGameBrowser : Window
     }
 }
 
-public sealed class GameBrowserTile
+public sealed class GameBrowserTile : System.ComponentModel.INotifyPropertyChanged
 {
+    private bool _isFavorite;
+
+    public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
+
+    public bool IsFavorite
+    {
+        get => _isFavorite;
+        set
+        {
+            if (_isFavorite == value)
+                return;
+            _isFavorite = value;
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(nameof(IsFavorite)));
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(nameof(FavoriteGlyph)));
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(nameof(FavoriteTip)));
+        }
+    }
+
+    public string FavoriteGlyph => _isFavorite ? "\uE735" : "\uE734";
+
+    public string FavoriteTip => _isFavorite ? "Remove from favorites" : "Add to favorites";
     private readonly ActivityData _activity;
 
     public long PlaceId => _activity.PlaceId;
+
+    // The game a tile is for: its universe when known, otherwise its place
+    public string GameKey => _activity.UniverseDetails?.Data?.Id is long universe and > 0 ? "u" + universe
+        : _activity.UniverseId > 0 ? "u" + _activity.UniverseId
+        : "p" + _activity.PlaceId;
     public string Name => _activity.UniverseDetails?.Data?.Name ?? _activity.GameName;
     private BitmapImage? _thumbnail;
     private bool _thumbnailResolved;
@@ -449,7 +528,7 @@ public sealed class GameBrowserTile
                 BitmapImage image = new();
                 image.BeginInit();
                 image.UriSource = uri;
-                image.DecodePixelWidth = 288;
+                image.DecodePixelWidth = 320;
                 image.CacheOption = BitmapCacheOption.OnLoad;
                 image.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
                 image.EndInit();
@@ -478,5 +557,6 @@ public sealed class GameBrowserTile
     public GameBrowserTile(ActivityData activity)
     {
         _activity = activity;
+        _isFavorite = App.Settings.Prop.FavoriteGamePlaceIds?.Contains(activity.PlaceId) == true;
     }
 }
