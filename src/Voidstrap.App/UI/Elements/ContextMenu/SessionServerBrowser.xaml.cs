@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Voidstrap.Integrations;
@@ -30,8 +31,12 @@ public partial class SessionServerBrowser : Window
     private readonly ConcurrentQueue<MatchmakerCandidate> _incoming = new();
     private readonly HashSet<string> _seen = new(StringComparer.OrdinalIgnoreCase);
     private HashSet<string> _blocked = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<long, ImageSource> _placeIcons = new();
     private CancellationTokenSource? _scanCts;
     private string? _bestJobId;
+    private long _placeId;
+    private bool _rescanPending;
+    private int _scanGeneration;
     private int _renderPending;
     private bool _started;
     private bool _busy;
@@ -43,6 +48,7 @@ public partial class SessionServerBrowser : Window
         _activity = activity;
         _matchmaker = matchmaker;
         _gameData = activity.Data;
+        _placeId = _gameData.PlaceId;
         InitializeComponent();
         Loaded += OnLoaded;
         Closed += OnClosed;
@@ -77,6 +83,7 @@ public partial class SessionServerBrowser : Window
                 if (!_closed)
                     GameIcon.Source = icon;
             }
+            await LoadPlacesAsync(data);
         }
         catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
         {
@@ -118,9 +125,16 @@ public partial class SessionServerBrowser : Window
 
     private async Task ScanServersAsync()
     {
-        if (_busy || _closed)
+        if (_closed)
             return;
-        if (!_activity.InGame || _gameData.PlaceId <= 0)
+        if (_busy)
+        {
+            // A different place was picked mid scan, scan again once this one stops
+            _rescanPending = true;
+            _scanCts?.Cancel();
+            return;
+        }
+        if (!_activity.InGame || _placeId <= 0)
         {
             StatusText.Text = Strings.ContextMenu_ServerBrowser_NotInGame;
             return;
@@ -132,6 +146,7 @@ public partial class SessionServerBrowser : Window
         }
 
         _busy = true;
+        int generation = ++_scanGeneration;
         _all.Clear();
         _seen.Clear();
         _incoming.Clear();
@@ -148,14 +163,14 @@ public partial class SessionServerBrowser : Window
         _scanCts = request;
         try
         {
-            long placeId = _gameData.PlaceId;
+            long placeId = _placeId;
             MatchmakerServerScan scan = await VoidstrapMatchmaker.ScanServersAsync(
                 placeId,
                 ServerMatchmaker.ResolvePreferredDatacenterKey(placeId),
-                _gameData.JobId,
-                QueueResult,
+                placeId == _gameData.PlaceId ? _gameData.JobId : null,
+                candidate => QueueResult(candidate, generation),
                 request.Token);
-            if (_closed)
+            if (_closed || _rescanPending)
                 return;
             _incoming.Clear();
             _all.Clear();
@@ -174,7 +189,7 @@ public partial class SessionServerBrowser : Window
         }
         catch (OperationCanceledException) when (request.IsCancellationRequested)
         {
-            if (!_closed)
+            if (!_closed && !_rescanPending)
                 FinishPartialScan();
         }
         catch (Exception ex)
@@ -192,8 +207,75 @@ public partial class SessionServerBrowser : Window
             {
                 LoadingBar.Visibility = Visibility.Collapsed;
                 RefreshButton.IsEnabled = true;
+                if (_rescanPending)
+                {
+                    _rescanPending = false;
+                    _ = ScanServersAsync();
+                }
             }
         }
+    }
+
+    // Lists the start place and its subplaces; the picker only shows when there is more than one
+    private async Task LoadPlacesAsync(ActivityData data)
+    {
+        try
+        {
+            long universeId = data.UniverseId > 0 ? data.UniverseId : data.UniverseDetails?.Data?.Id ?? 0;
+            long rootPlaceId = data.UniverseDetails?.Data?.RootPlaceId ?? 0;
+            List<RobloxPlace> places = universeId > 0
+                ? await RobloxPlaces.GetUniversePlacesAsync(universeId, rootPlaceId, _lifetime.Token)
+                : new List<RobloxPlace>();
+            if (_closed)
+                return;
+            if (!places.Any(place => place.Id == data.PlaceId))
+                places.Insert(0, new RobloxPlace { Id = data.PlaceId, Name = data.GameName, IsRoot = data.PlaceId == rootPlaceId });
+
+            Dictionary<long, string> urls = await RobloxPlaces.GetPlaceIconUrlsAsync(places.Select(place => place.Id), _lifetime.Token);
+            if (_closed)
+                return;
+            foreach ((long id, string url) in urls)
+            {
+                try
+                {
+                    BitmapImage image = new();
+                    image.BeginInit();
+                    image.UriSource = new Uri(url);
+                    image.DecodePixelWidth = 88;
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.EndInit();
+                    _placeIcons[id] = image;
+                }
+                catch (Exception)
+                {
+                }
+            }
+            if (places.Count > 1)
+            {
+                List<PlaceOption> options = places.Select(place => new PlaceOption(place.Id, place.IsRoot ? place.Name + "  (start place)" : place.Name)).ToList();
+                PlaceBox.SelectionChanged -= PlaceBox_SelectionChanged;
+                PlaceBox.ItemsSource = options;
+                PlaceBox.SelectedItem = options.FirstOrDefault(option => option.Id == _placeId);
+                PlaceBox.SelectionChanged += PlaceBox_SelectionChanged;
+                PlaceBox.Visibility = Visibility.Visible;
+            }
+            RenderServers();
+        }
+        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionServerBrowser", "The places of this game could not be loaded: " + ex.Message);
+        }
+    }
+
+    private void PlaceBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_closed || PlaceBox.SelectedItem is not PlaceOption option || option.Id == _placeId)
+            return;
+        _placeId = option.Id;
+        _ = ScanServersAsync();
     }
 
     private void FinishPartialScan()
@@ -215,9 +297,10 @@ public partial class SessionServerBrowser : Window
         _ => string.Empty
     };
 
-    private void QueueResult(MatchmakerCandidate candidate)
+    private void QueueResult(MatchmakerCandidate candidate, int generation)
     {
-        if (_closed)
+        // Results from a scan that was replaced, for example by picking another place, are dropped
+        if (_closed || generation != Volatile.Read(ref _scanGeneration))
             return;
         _incoming.Enqueue(candidate);
         if (Interlocked.Exchange(ref _renderPending, 1) != 0)
@@ -262,7 +345,7 @@ public partial class SessionServerBrowser : Window
         bool blocked = _blocked.Contains(VoidstrapMatchmaker.BlockKey(server.Datacenter));
         return new ServerBrowserEntry(
             server,
-            string.Equals(server.JobId, _gameData.JobId, StringComparison.OrdinalIgnoreCase),
+            _placeId == _gameData.PlaceId && string.Equals(server.JobId, _gameData.JobId, StringComparison.OrdinalIgnoreCase),
             string.Equals(server.JobId, _bestJobId, StringComparison.OrdinalIgnoreCase),
             blocked);
     }
@@ -282,7 +365,11 @@ public partial class SessionServerBrowser : Window
             3 => query.OrderBy(server => server.IsBlocked).ThenBy(server => server.Server.Playing).ThenBy(server => server.Server.Score),
             _ => query.OrderByDescending(server => server.IsBest).ThenBy(server => server.IsBlocked).ThenBy(server => server.Server.Score)
         };
-        ServerList.ItemsSource = query.ToList();
+        List<ServerBrowserEntry> items = query.ToList();
+        ImageSource? icon = _placeIcons.TryGetValue(_placeId, out ImageSource? found) ? found : GameIcon.Source;
+        foreach (ServerBrowserEntry entry in items)
+            entry.PlaceIcon = icon;
+        ServerList.ItemsSource = items;
     }
 
     private void RefreshButton_Click(object sender, RoutedEventArgs e)
@@ -321,7 +408,7 @@ public partial class SessionServerBrowser : Window
             if (_matchmaker != null)
             {
                 // The handoff closes the current Roblox and this window with it, so it must not be tied to the window lifetime
-                if (await Task.Run(() => _matchmaker.JoinServerAsync(_gameData.PlaceId, entry.Server, CancellationToken.None)))
+                if (await Task.Run(() => _matchmaker.JoinServerAsync(_placeId, entry.Server, CancellationToken.None)))
                     return;
             }
             else
@@ -360,7 +447,7 @@ public partial class SessionServerBrowser : Window
             WorkingDirectory = Path.GetDirectoryName(processPath) ?? string.Empty
         };
         startInfo.ArgumentList.Add("-player");
-        startInfo.ArgumentList.Add($"roblox://experiences/start?placeId={_gameData.PlaceId}&gameInstanceId={Uri.EscapeDataString(jobId)}");
+        startInfo.ArgumentList.Add($"roblox://experiences/start?placeId={_placeId}&gameInstanceId={Uri.EscapeDataString(jobId)}");
         Process.Start(startInfo)?.Dispose();
     }
 
@@ -390,6 +477,7 @@ public sealed class ServerBrowserEntry
     public bool IsBest { get; }
     public bool IsBlocked { get; }
     public bool CanJoin => !IsCurrent;
+    public ImageSource? PlaceIcon { get; set; }
     public string Id => Server.JobId;
     public string LocationText { get; }
     public string CapacityText => Server.MaxPlayers > 0
@@ -420,4 +508,16 @@ public sealed class ServerBrowserEntry
         || LocationText.Contains(search, StringComparison.OrdinalIgnoreCase)
         || (Server.Datacenter?.Country?.Contains(search, StringComparison.OrdinalIgnoreCase) ?? false)
         || Server.MachineAddress.Contains(search, StringComparison.OrdinalIgnoreCase);
+}
+
+public sealed class PlaceOption
+{
+    public long Id { get; }
+    public string Name { get; }
+
+    public PlaceOption(long id, string name)
+    {
+        Id = id;
+        Name = name;
+    }
 }
