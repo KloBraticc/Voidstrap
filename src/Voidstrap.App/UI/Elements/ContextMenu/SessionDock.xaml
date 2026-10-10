@@ -31,18 +31,85 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="70" />
     </Grid.RowDefinitions>
-    <Border x:Name="ServerPanel" Grid.Row="0" Visibility="Collapsed" Margin="0,0,0,12"
-            Padding="20,16" CornerRadius="12" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
+    <Border x:Name="ServerPanel" Grid.Row="0" Visibility="Collapsed" Margin="0,0,0,12" CornerRadius="12"
+            Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
       <Grid>
         <Grid.RowDefinitions>
-          <RowDefinition Height="Auto" />
+          <RowDefinition Height="150" />
           <RowDefinition Height="*" />
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Text="Current server" FontSize="16" FontWeight="SemiBold" />
-        <TextBlock x:Name="ServerReadout" Grid.Row="1" Margin="0,12,0,12" FontSize="13"
-                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" />
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <!-- The game's main thumbnail as a banner, with a fade so the title stays readable -->
+        <Border CornerRadius="11,11,0,0" Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" />
+        <Border CornerRadius="11,11,0,0">
+          <Border.Background>
+            <ImageBrush x:Name="BannerBrush" Stretch="UniformToFill" AlignmentY="Center" />
+          </Border.Background>
+        </Border>
+        <Border CornerRadius="11,11,0,0">
+          <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+              <GradientStop Offset="0.35" Color="#00000000" />
+              <GradientStop Offset="1" Color="#D0000000" />
+            </LinearGradientBrush>
+          </Border.Background>
+        </Border>
+        <StackPanel VerticalAlignment="Bottom" Margin="20,0,20,14">
+          <TextBlock x:Name="BannerTitle" Text="Roblox" FontSize="20" FontWeight="SemiBold" Foreground="White" TextTrimming="CharacterEllipsis" />
+          <TextBlock x:Name="BannerSubtitle" Margin="0,2,0,0" FontSize="12" Foreground="#DDFFFFFF" TextTrimming="CharacterEllipsis" />
+        </StackPanel>
+        <Grid Grid.Row="1" Margin="20,14,20,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="1.3*" />
+          </Grid.ColumnDefinitions>
+          <StackPanel>
+            <TextBlock Text="Server" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <TextBlock x:Name="ServerReadout" Margin="0,6,0,0" FontSize="13" LineHeight="20" TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+            <TextBlock x:Name="FriendCountText" Margin="0,10,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          </StackPanel>
+          <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="FriendsHeader" Text="Friends in this server" FontSize="12" FontWeight="SemiBold"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <ScrollViewer Grid.Row="1" Margin="0,6,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+              <ItemsControl x:Name="FriendsList">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Border Margin="0,0,8,8" Padding="4,4,12,4" CornerRadius="18" Background="{DynamicResource SubtleFillColorSecondaryBrush}" ToolTip="{Binding Username}">
+                      <StackPanel Orientation="Horizontal">
+                        <Border Width="28" Height="28" CornerRadius="14" ClipToBounds="True" Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}">
+                          <Border.OpacityMask>
+                            <VisualBrush>
+                              <VisualBrush.Visual>
+                                <Ellipse Width="28" Height="28" Fill="Black" />
+                              </VisualBrush.Visual>
+                            </VisualBrush>
+                          </Border.OpacityMask>
+                          <Image Source="{Binding Avatar}" Stretch="UniformToFill" />
+                        </Border>
+                        <TextBlock Text="{Binding Name}" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12" />
+                      </StackPanel>
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </ScrollViewer>
+            <TextBlock x:Name="FriendsStatus" Grid.Row="1" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Looking for friends" />
+          </Grid>
+        </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,8,12,12">
           <ui:Button Content="Server details" Tag="details" Click="OnAction" Style="{StaticResource DockAction}" />
           <ui:Button Content="Copy invite" Tag="invite" Click="OnAction" Style="{StaticResource DockAction}" />
         </StackPanel>
@@ -56,12 +123,35 @@
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Image x:Name="GamePicture" Width="42" Height="42" Margin="0,0,12,0"
-               Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,14,0">
-          <TextBlock x:Name="GameTitle" Text="Roblox" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-          <TextBlock x:Name="SessionTimes" Margin="0,4,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextTrimming="CharacterEllipsis" />
-        </StackPanel>
+        <!-- Clickable like an option card, opens the game and server popout above the dock -->
+        <Border x:Name="GameCard" Grid.ColumnSpan="2" Margin="-6,-4,8,-4" Padding="6,4" CornerRadius="8" Cursor="Hand"
+                ToolTip="Game and server" MouseLeftButtonUp="GameCard_MouseLeftButtonUp">
+          <Border.Style>
+            <Style TargetType="Border">
+              <Setter Property="Background" Value="Transparent" />
+              <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </Border.Style>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Image x:Name="GamePicture" Width="42" Height="42" Margin="0,0,12,0"
+                   Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0">
+              <TextBlock x:Name="GameTitle" Text="Roblox" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+              <TextBlock x:Name="SessionTimes" Margin="0,4,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+            <TextBlock x:Name="GameChevron" Grid.Column="2" Text="&#xE70E;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="10"
+                       VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          </Grid>
+        </Border>
         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
           <ui:Button ToolTip="Current server" Tag="server" Click="OnAction" Style="{StaticResource DockAction}">
             <TextBlock Text="&#xE946;" Style="{StaticResource DockGlyph}" />

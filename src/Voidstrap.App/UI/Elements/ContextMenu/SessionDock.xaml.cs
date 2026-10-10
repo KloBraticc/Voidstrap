@@ -22,7 +22,7 @@ namespace Voidstrap.UI.Elements.Overlay;
 public partial class SessionDock : Window
 {
     private const double DockHeight = 70;
-    private const double ExpandedHeight = 316;
+    private const double ExpandedHeight = 470;
     private const double DimmerOpacity = 0.35;
     private const int GwlExStyle = -20;
     private const nint WsExToolWindow = 0x80;
@@ -52,6 +52,11 @@ public partial class SessionDock : Window
     private bool _closed;
     private bool _disposed;
     private double _dimmerTarget;
+    private static readonly TimeSpan FriendsInterval = TimeSpan.FromSeconds(30);
+    private long _bannerUniverse;
+    private DateTime _friendsLoadedUtc = DateTime.MinValue;
+    private string _friendsJobId = string.Empty;
+    private bool _friendsLoading;
     private CancellationTokenSource? _refreshCts;
     private Task? _refreshTask;
 
@@ -405,6 +410,23 @@ public partial class SessionDock : Window
             return;
         }
         UpdateReadout();
+        if (ServerPanel.Visibility == Visibility.Visible && _data is { } data && DateTime.UtcNow - _friendsLoadedUtc >= FriendsInterval)
+            _ = RefreshFriendsQuietlyAsync(data);
+    }
+
+    private async Task RefreshFriendsQuietlyAsync(ActivityData data)
+    {
+        try
+        {
+            await LoadFriendsAsync(data);
+        }
+        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionDock", "Friends in this server could not be refreshed: " + ex.Message);
+        }
     }
 
     private void UpdateReadout()
@@ -420,8 +442,9 @@ public partial class SessionDock : Window
             return;
         if (_serverType.Length == 0)
             _serverType = data.ServerType.ToConnectedString();
-        SetText(ServerReadout, _serverType
-            + "\nLocation: " + _location + "\nUptime: " + uptime + "\nPlayers: " + (_players.Length == 0 ? "Unavailable" : _players));
+        SetText(BannerTitle, GameTitle.Text);
+        SetText(BannerSubtitle, _serverType);
+        SetText(ServerReadout, "Location: " + _location + "\nUptime: " + uptime + "\nPlayers: " + (_players.Length == 0 ? "Unavailable" : _players));
     }
 
     private static void SetText(TextBlock block, string text)
@@ -430,17 +453,135 @@ public partial class SessionDock : Window
             block.Text = text;
     }
 
+    private void GameCard_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        e.Handled = true;
+        ToggleServerPanel();
+    }
+
+    private void ToggleServerPanel()
+    {
+        if (_closed)
+            return;
+        bool expand = ServerPanel.Visibility != Visibility.Visible;
+        ServerPanel.Visibility = expand ? Visibility.Visible : Visibility.Collapsed;
+        Height = expand ? ExpandedHeight : DockHeight;
+        GameChevron.Text = expand ? "\uE70D" : "\uE70E";
+        UpdateReadout();
+        _anchor?.Refresh();
+        if (expand)
+            _ = LoadPopoutAsync();
+    }
+
+    // Fills the popout: the game's main thumbnail as the banner and the friends who are in this server
+    private async Task LoadPopoutAsync()
+    {
+        ActivityData? data = _data;
+        if (data == null || _closed)
+            return;
+        try
+        {
+            await Task.WhenAll(LoadBannerAsync(data), LoadFriendsAsync(data));
+        }
+        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionDock", "The server popout could not be filled: " + ex.Message);
+        }
+    }
+
+    private async Task LoadBannerAsync(ActivityData data)
+    {
+        long universeId = data.UniverseId;
+        if (universeId <= 0)
+        {
+            await UniverseDetails.FetchForEntriesAsync(new[] { data }, _lifetime.Token);
+            universeId = data.UniverseId > 0 ? data.UniverseId : data.UniverseDetails?.Data?.Id ?? 0;
+        }
+        if (universeId <= 0 || universeId == _bannerUniverse || _closed)
+            return;
+        string url = "https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=" + universeId
+            + "&countPerUniverse=1&defaults=true&size=768x432&format=Png&isCircular=false";
+        using System.Net.Http.HttpResponseMessage response = await App.HttpClient.GetAsync(url, _lifetime.Token);
+        if (!response.IsSuccessStatusCode)
+            return;
+        using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 512 * 1024, _lifetime.Token));
+        string? image = null;
+        if (document.RootElement.TryGetProperty("data", out System.Text.Json.JsonElement items) && items.ValueKind == System.Text.Json.JsonValueKind.Array)
+        {
+            foreach (System.Text.Json.JsonElement item in items.EnumerateArray())
+            {
+                if (!item.TryGetProperty("thumbnails", out System.Text.Json.JsonElement thumbnails) || thumbnails.ValueKind != System.Text.Json.JsonValueKind.Array)
+                    continue;
+                foreach (System.Text.Json.JsonElement thumbnail in thumbnails.EnumerateArray())
+                {
+                    if (thumbnail.TryGetProperty("imageUrl", out System.Text.Json.JsonElement value) && value.ValueKind == System.Text.Json.JsonValueKind.String
+                        && value.GetString() is { } candidate && candidate.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                    {
+                        image = candidate;
+                        break;
+                    }
+                }
+                if (image != null)
+                    break;
+            }
+        }
+        if (image == null || _closed)
+            return;
+        BitmapImage banner = new();
+        banner.BeginInit();
+        banner.UriSource = new Uri(image);
+        banner.DecodePixelWidth = 820;
+        banner.CacheOption = BitmapCacheOption.OnLoad;
+        banner.EndInit();
+        BannerBrush.ImageSource = banner;
+        _bannerUniverse = universeId;
+    }
+
+    private async Task LoadFriendsAsync(ActivityData data)
+    {
+        if (_friendsLoading || _closed)
+            return;
+        if (string.Equals(_friendsJobId, data.JobId, StringComparison.OrdinalIgnoreCase) && DateTime.UtcNow - _friendsLoadedUtc < FriendsInterval)
+            return;
+        _friendsLoading = true;
+        try
+        {
+            if (FriendsList.ItemsSource == null)
+                FriendsStatus.Text = "Looking for friends";
+            FriendsInServerResult result = await RobloxPresence.GetFriendsInServerAsync(data.UserId, data.JobId, _lifetime.Token);
+            if (_closed || !ReferenceEquals(_data, data))
+                return;
+            _friendsJobId = data.JobId ?? string.Empty;
+            _friendsLoadedUtc = DateTime.UtcNow;
+            FriendCountText.Text = result.FriendCount > 0 ? "Friends: " + result.FriendCount.ToString(Locale.CurrentCulture) : string.Empty;
+            List<DockFriend> friends = result.Friends.Select(friend => new DockFriend(friend)).ToList();
+            FriendsList.ItemsSource = friends;
+            FriendsHeader.Text = friends.Count > 0 ? $"Friends in this server ({friends.Count})" : "Friends in this server";
+            FriendsStatus.Text = result.Status switch
+            {
+                FriendsInServerStatus.NotSignedIn => "Sign in to Roblox in Voidstrap to see friends in this server",
+                FriendsInServerStatus.SignInExpired => "Your Roblox sign in expired, sign in again to see friends",
+                FriendsInServerStatus.Unavailable => "Friends could not be checked right now",
+                _ => friends.Count == 0 ? "None of your friends are in this server" : string.Empty
+            };
+            FriendsStatus.Visibility = FriendsStatus.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
+        }
+        finally
+        {
+            _friendsLoading = false;
+        }
+    }
+
     private void OnAction(object sender, RoutedEventArgs e)
     {
         if (sender is not FrameworkElement { Tag: string action })
             return;
         if (action == "server")
         {
-            bool expand = ServerPanel.Visibility != Visibility.Visible;
-            ServerPanel.Visibility = expand ? Visibility.Visible : Visibility.Collapsed;
-            Height = expand ? ExpandedHeight : DockHeight;
-            UpdateReadout();
-            _anchor?.Refresh();
+            ToggleServerPanel();
             return;
         }
         if (action == "close")
@@ -483,8 +624,8 @@ public partial class SessionDock : Window
         _anchor?.Dispose();
         _anchor = null;
         CancelRefresh();
+        // Cancelled but not disposed, loads that are still finishing read this token
         _lifetime.Cancel();
-        _lifetime.Dispose();
         _trackerLease.Dispose();
         GamePicture.Source = null;
         _data = null;
@@ -514,5 +655,33 @@ public partial class SessionDock : Window
         // The dock is clicked while Roblox keeps focus, so the game stays foreground and the hotkey keeps working
         nint style = GetWindowLongPtrW(handle, GwlExStyle);
         SetWindowLongPtrW(handle, GwlExStyle, style | WsExNoActivate | WsExToolWindow);
+    }
+}
+
+public sealed class DockFriend
+{
+    public string Name { get; }
+    public string Username { get; }
+    public ImageSource? Avatar { get; }
+
+    public DockFriend(ServerFriend friend)
+    {
+        Name = friend.Label;
+        Username = string.IsNullOrWhiteSpace(friend.Username) ? friend.Label : "@" + friend.Username;
+        if (!Uri.TryCreate(friend.HeadshotUrl, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
+            return;
+        try
+        {
+            BitmapImage image = new();
+            image.BeginInit();
+            image.UriSource = uri;
+            image.DecodePixelWidth = 56;
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.EndInit();
+            Avatar = image;
+        }
+        catch (Exception)
+        {
+        }
     }
 }
