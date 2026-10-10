@@ -75,16 +75,22 @@ jobs:
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: macos-cross-dmgs
-          path: PublishedBuilds/macOS/*.dmg
+          path: |
+            PublishedBuilds/macOS/*.dmg
+            PublishedBuilds/macOS/*.tar.gz
 
   macos_dmg_mount:
     name: Mount cross built ${{ matrix.rid }} disk image on macOS
     needs: macos_cross_dmgs
-    runs-on: macos-latest
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
-        rid: [osx-x64, osx-arm64]
+        include:
+          - rid: osx-x64
+            runner: macos-15-intel
+          - rid: osx-arm64
+            runner: macos-15
     steps:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
@@ -103,12 +109,81 @@ jobs:
           test -x "$app/Contents/MacOS/Voidstrap"
           test -x "$app/Contents/MacOS/voidstrap-virtualdisplay"
           test -s "$app/Contents/Resources/Voidstrap.icns"
+          codesign --verify --deep --strict --verbose=2 "$app"
+          codesign --verify --strict "$app/Contents/MacOS/voidstrap-virtualdisplay"
+          codesign --display --entitlements - --xml "$app" 2> /dev/null | python3 -c 'import plistlib, sys; assert plistlib.loads(sys.stdin.buffer.read())["com.apple.security.cs.allow-jit"] is True'
           case "${{ matrix.rid }}" in
             osx-x64) arch=x86_64 ;;
             osx-arm64) arch=arm64 ;;
           esac
           lipo "$app/Contents/MacOS/Voidstrap" -verify_arch "$arch"
           lipo "$app/Contents/MacOS/voidstrap-virtualdisplay" -verify_arch "$arch"
+          mkdir -p "$RUNNER_TEMP/archive-${{ matrix.rid }}" "$RUNNER_TEMP/installed-${{ matrix.rid }}"
+          tar -xzf "artifacts/Voidstrap-${{ matrix.rid }}.tar.gz" -C "$RUNNER_TEMP/archive-${{ matrix.rid }}"
+          archive_app="$RUNNER_TEMP/archive-${{ matrix.rid }}/Voidstrap.app"
+          codesign --verify --deep --strict --verbose=2 "$archive_app"
+          cmp "$app/Contents/MacOS/Voidstrap" "$archive_app/Contents/MacOS/Voidstrap"
+          ditto "$app" "$RUNNER_TEMP/installed-${{ matrix.rid }}/Voidstrap.app"
+      - name: Launch the installed app
+        env:
+          PACKAGE_RID: ${{ matrix.rid }}
+        run: |
+          python3 - <<'PY'
+          import os, pathlib, subprocess, time
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          app = root / ('installed-' + os.environ['PACKAGE_RID']) / 'Voidstrap.app'
+          log = root / 'launch.log'
+          probe = '''
+          import CoreGraphics
+          import Foundation
+          let pid = Int(CommandLine.arguments[1])!
+          let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
+          let visible = windows.contains { window in
+              guard let owner = window[kCGWindowOwnerPID as String] as? Int,
+                    let bounds = window[kCGWindowBounds as String] as? [String: Any],
+                    let width = bounds["Width"] as? Double,
+                    let height = bounds["Height"] as? Double else { return false }
+              return owner == pid && width >= 200 && height >= 100
+          }
+          exit(visible ? 0 : 1)
+          '''
+          with log.open('w') as output:
+              process = subprocess.Popen([str(app / 'Contents/MacOS/Voidstrap'), '-menu'], stdout=output, stderr=subprocess.STDOUT)
+              try:
+                  deadline = time.monotonic() + 45
+                  visible = False
+                  while time.monotonic() < deadline:
+                      if process.poll() is not None:
+                          raise RuntimeError('The packaged app exited during startup: ' + str(process.returncode))
+                      if subprocess.run(['swift', '-e', probe, str(process.pid)], timeout=30).returncode == 0:
+                          visible = True
+                          break
+                      time.sleep(2)
+                  if not visible:
+                      raise RuntimeError('The packaged app did not open a visible window')
+                  time.sleep(5)
+                  if process.poll() is not None:
+                      raise RuntimeError('The packaged app stopped after opening its window')
+                  subprocess.run(['screencapture', '-x', str(root / 'launch.png')], check=True, timeout=15)
+                  print('The packaged app opened a visible window and stayed running')
+              finally:
+                  if process.poll() is None:
+                      process.terminate()
+                      try:
+                          process.wait(timeout=10)
+                      except subprocess.TimeoutExpired:
+                          process.kill()
+                          process.wait(timeout=10)
+                  output.flush()
+                  print(log.read_text())
+          PY
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        with:
+          name: macos-package-launch-${{ matrix.rid }}
+          path: |
+            ${{ runner.temp }}/launch.log
+            ${{ runner.temp }}/launch.png
 
   linux_validation:
     name: Linux canonical and experimental validation
