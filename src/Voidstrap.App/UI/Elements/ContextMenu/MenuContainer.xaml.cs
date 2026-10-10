@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,9 @@ using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Voidstrap.Enums;
+using Voidstrap.Extensions;
 using Voidstrap.Integrations;
+using Voidstrap.Integrations.Overlays;
 using Voidstrap.Models;
 using Voidstrap.Models.APIs;
 using Voidstrap.Models.Entities;
@@ -32,10 +35,14 @@ namespace Voidstrap.UI.Elements.ContextMenu;
 
 public partial class MenuContainer : WpfUiWindow
 {
+    private const int SessionDockHotkeyId = 0x564C;
+    private static MenuContainer? _currentInstance;
     private readonly Watcher _watcher;
     private readonly ActivityWatcher? _activityWatcher;
     private readonly DispatcherTimer _memoryTimer;
     private readonly DispatcherTimer _playTimer;
+    private readonly HwndSource? _source;
+    private readonly IntPtr _handle;
 
     private readonly CancellationTokenSource _lifetimeCts = new CancellationTokenSource();
 
@@ -50,6 +57,7 @@ public partial class MenuContainer : WpfUiWindow
     private int _joinClosestActive;
 
     private ServerInformation? _serverInformationWindow;
+    private SessionDock? _sessionDock;
 
     private ServerHistory? _gameHistoryWindow;
 
@@ -64,6 +72,7 @@ public partial class MenuContainer : WpfUiWindow
     private CancellationTokenSource? _sessionCts;
 
     private bool _closed;
+    private bool _sessionDockHotkeyRegistered;
 
     private static string TrimWithThreeDots(string text, int maxChars = 18)
     {
@@ -104,6 +113,11 @@ public partial class MenuContainer : WpfUiWindow
         _watcher = watcher ?? throw new ArgumentNullException(nameof(watcher));
         _activityWatcher = watcher.ActivityWatcher;
         InitializeComponent();
+        _currentInstance = this;
+        _handle = new WindowInteropHelper(this).EnsureHandle();
+        _source = HwndSource.FromHwnd(_handle);
+        _source?.AddHook(WindowMessage);
+        RefreshSessionDockHotkey();
         MenuContainerViewModel dataContext = (MenuContainerViewModel)(base.DataContext = new MenuContainerViewModel());
         if (!Voidstrap.Utility.Platform.IsWindows)
         {
@@ -159,6 +173,124 @@ public partial class MenuContainer : WpfUiWindow
         PrewarmJoinNotification();
     }
 
+    public static void SyncSessionDockHotkey()
+    {
+        MenuContainer? instance = _currentInstance;
+        if (instance == null || instance._closed)
+            return;
+        if (!instance.Dispatcher.CheckAccess())
+        {
+            instance.Dispatcher.BeginInvoke(new Action(instance.RefreshSessionDockHotkey));
+            return;
+        }
+        instance.RefreshSessionDockHotkey();
+    }
+
+    private void RefreshSessionDockHotkey()
+    {
+        if (_closed || !Voidstrap.Utility.Platform.IsWindows)
+            return;
+        bool enabled = App.Settings.Prop.SessionDockEnabled && _activityWatcher != null;
+        if (enabled == _sessionDockHotkeyRegistered)
+        {
+            if (!enabled)
+                CloseSessionDock();
+            return;
+        }
+        if (enabled)
+        {
+            _sessionDockHotkeyRegistered = RegisterHotKey(_handle, SessionDockHotkeyId, 0x4003, 0x4C);
+            if (!_sessionDockHotkeyRegistered)
+                App.Logger.WriteLine("MenuContainer", "Ctrl+Alt+L could not be registered because the shortcut is unavailable");
+            return;
+        }
+        UnregisterHotKey(_handle, SessionDockHotkeyId);
+        _sessionDockHotkeyRegistered = false;
+        CloseSessionDock();
+    }
+
+    private void CloseSessionDock()
+    {
+        if (_sessionDock == null)
+            return;
+        _sessionDock.Closed -= SessionDock_Closed;
+        _sessionDock.Close();
+        _sessionDock = null;
+    }
+
+    private void SessionDock_Closed(object? sender, EventArgs e)
+    {
+        if (sender is not SessionDock dock)
+            return;
+        dock.Closed -= SessionDock_Closed;
+        if (ReferenceEquals(_sessionDock, dock))
+            _sessionDock = null;
+    }
+
+    private IntPtr WindowMessage(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        if (message != 0x0312 || wParam.ToInt32() != SessionDockHotkeyId)
+            return IntPtr.Zero;
+        handled = true;
+        // Closing always works, even when one of the dock panels holds focus instead of Roblox
+        if (_sessionDock is { IsOpen: true } openDock)
+        {
+            openDock.HideDock();
+            return IntPtr.Zero;
+        }
+        if (!App.Settings.Prop.SessionDockEnabled || _activityWatcher is not { InGame: true } activityWatcher
+            || !(RobloxWindowTracker.IsProcessForeground(_watcher.RobloxProcessId) || RobloxWindowTracker.IsRobloxForeground()))
+            return IntPtr.Zero;
+        if (_sessionDock == null)
+        {
+            _sessionDock = new SessionDock(activityWatcher, RunDockAction);
+            _sessionDock.Closed += SessionDock_Closed;
+        }
+        _sessionDock.SetGame(activityWatcher.Data, activityWatcher.Data.GameName, CurrentGameIcon.Source as BitmapSource);
+        _sessionDock.ToggleFromHotkey();
+        return IntPtr.Zero;
+    }
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool RegisterHotKey(IntPtr hwnd, int id, uint modifiers, uint key);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool UnregisterHotKey(IntPtr hwnd, int id);
+
+    private void RunDockAction(string action)
+    {
+        switch (action)
+        {
+            case "details":
+                _sessionDock?.ShowTool("server", Strings.ContextMenu_ServerInformation_Title, () => new ServerInformation(_watcher));
+                break;
+            case "history":
+                if (_activityWatcher != null)
+                    _sessionDock?.ShowTool("history", Strings.ContextMenu_GameHistory_Title, () => new ServerHistory(_activityWatcher));
+                break;
+            case "browser":
+                if (_activityWatcher is { } activityWatcher)
+                    _sessionDock?.ShowTool("browser", Strings.ContextMenu_ServerBrowser_Title, () => new SessionServerBrowser(activityWatcher, _watcher.ServerMatchmaker));
+                break;
+            case "games":
+                if (_activityWatcher is { } gameActivityWatcher)
+                    _sessionDock?.ShowTool("games", Strings.ContextMenu_GameBrowser_Title, () => new SessionGameBrowser(gameActivityWatcher));
+                break;
+            case "music":
+                _sessionDock?.ShowTool("music", "Music", () => new MusicPlayer(_activityWatcher));
+                break;
+            case "adjustments":
+                (DataContext as MenuContainerViewModel)?.SyncAdjustmentsFromSettings();
+                _sessionDock?.ShowTool("adjustments", "Screen adjustments", () => new LinuxAdjustmentsWindow(DataContext));
+                break;
+            case "invite":
+                InviteDeeplinkMenuItem_Click(this, new RoutedEventArgs());
+                break;
+        }
+    }
+
     private void PrewarmJoinNotification()
     {
         if (!Voidstrap.Utility.Platform.IsLinux || _activityWatcher == null || !App.Settings.Prop.NotificationWindowShow || !App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins)
@@ -209,7 +341,7 @@ public partial class MenuContainer : WpfUiWindow
         if (!PlatformFeatureVisibility.IsSupported(Voidstrap.Platform.FeatureId.Overlay))
             return false;
         var prop = App.Settings.Prop;
-        return prop.OverlaysEnabled || prop.Crosshair || Voidstrap.Integrations.Overlays.OverlaySettings.AnyEnabled;
+        return OverlayWindow.SurfaceRequired || prop.Crosshair || Voidstrap.Integrations.Overlays.OverlaySettings.AnyEnabled;
     }
 
     private void SyncMenuState()
@@ -238,7 +370,7 @@ public partial class MenuContainer : WpfUiWindow
         OutputConsoleMenuItem.Visibility = inGame && ActivityWatcher.PlayerLoggingEnabled ? Visibility.Visible : Visibility.Collapsed;
         if (inGame)
         {
-            BrightnessTrackerLog.Visibility = App.Settings.Prop.OverlaysEnabled ? Visibility.Visible : Visibility.Collapsed;
+            BrightnessTrackerLog.Visibility = Visibility.Visible;
             ColorsTrackerLog.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : BrightnessTrackerLog.Visibility;
         }
         else if (!transitioning)
@@ -352,8 +484,10 @@ public partial class MenuContainer : WpfUiWindow
                 return;
             await Dispatcher.InvokeAsync(delegate
             {
-                if (IsCurrentSession(data, token))
-                    UpdateCurrentGameInfo(name, icon);
+                if (!IsCurrentSession(data, token))
+                    return;
+                UpdateCurrentGameInfo(name, icon);
+                _sessionDock?.SetGame(data, name, icon);
             }, DispatcherPriority.Background, token);
         }
         catch (OperationCanceledException)
@@ -632,6 +766,7 @@ public partial class MenuContainer : WpfUiWindow
             return;
         }
         Task<string?> locationTask = data.QueryServerLocation(token);
+        Task<string> uptimeTask = LoadJoinUptimeAsync(data, token);
         Task delayTask = Task.Delay(2500, token);
         string universeName;
         BitmapSource? notificationIcon;
@@ -721,7 +856,10 @@ public partial class MenuContainer : WpfUiWindow
         }
         if (Voidstrap.Utility.Platform.IsLinux && text2.Length > 0)
             serverLocation = CompactServerLocation(serverLocation);
-        string text3 = universeName + "\n" + (flagImage != null ? NotificationWindow.FlagPlaceholder.ToString() : string.Empty) + serverLocation + text2;
+        string uptime = await uptimeTask;
+        string details = "Location: " + (flagImage != null ? NotificationWindow.FlagPlaceholder.ToString() : string.Empty)
+            + serverLocation + "\nUptime: " + uptime + text2;
+        string status = "Connected to " + data.ServerType.ToTranslatedString().ToLower(Locale.CurrentCulture) + " server";
         try
         {
             await Dispatcher.InvokeAsync(delegate
@@ -739,7 +877,7 @@ public partial class MenuContainer : WpfUiWindow
                     App.Logger.WriteLine(
                         "MenuContainer::ShowJoinNotification",
                         "Join notification icon: " + (notificationIcon != null ? notificationIcon.PixelWidth + "x" + notificationIcon.PixelHeight + " frozen " + notificationIcon.IsFrozen : "none, thumbnail url was " + (string.IsNullOrEmpty(data.UniverseDetails?.Thumbnail?.ImageUrl) ? "empty" : data.UniverseDetails.Thumbnail.ImageUrl)));
-                    notificationWindow.ShowNotification(text3, notificationIcon, 6.0, flagImage);
+                    notificationWindow.ShowNotification(universeName, details, notificationIcon, 8.0, flagImage, status, token);
                 }
                 catch (Exception ex)
                 {
@@ -752,6 +890,37 @@ public partial class MenuContainer : WpfUiWindow
         }
         catch (InvalidOperationException)
         {
+        }
+    }
+
+    private static async Task<string> LoadJoinUptimeAsync(ActivityData data, CancellationToken token)
+    {
+        try
+        {
+            DateTimeOffset? started = data.ServerStartedUtc;
+            if (!started.HasValue)
+            {
+                using CancellationTokenSource lookupCts = CancellationTokenSource.CreateLinkedTokenSource(token);
+                lookupCts.CancelAfter(NotificationEnrichTimeout);
+                ServerStartLookup lookup = await VoidstrapMatchmaker.GetServerStartAsync(data.PlaceId, data.JobId, lookupCts.Token);
+                if (lookup.Status == ServerStartStatus.Found)
+                {
+                    started = lookup.StartedUtc;
+                    data.ServerStartedUtc = lookup.StartedUtc;
+                }
+            }
+            return started.HasValue
+                ? Voidstrap.UI.ViewModels.ContextMenu.ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - started.Value)
+                : "Unavailable";
+        }
+        catch (OperationCanceledException)
+        {
+            return "Unavailable";
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MenuContainer::JoinUptime", "Server uptime could not be loaded: " + ex.Message);
+            return "Unavailable";
         }
     }
 
@@ -770,7 +939,7 @@ public partial class MenuContainer : WpfUiWindow
 				return Task.CompletedTask;
 			bool trace = ActivityWatcher.PlayerLoggingEnabled;
 			OutputConsoleMenuItem.Visibility = trace ? Visibility.Visible : Visibility.Collapsed;
-            BrightnessTrackerLog.Visibility = App.Settings.Prop.OverlaysEnabled ? Visibility.Visible : Visibility.Collapsed;
+            BrightnessTrackerLog.Visibility = Visibility.Visible;
             ColorsTrackerLog.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : BrightnessTrackerLog.Visibility;
             RequestTrayRefresh();
         }
@@ -837,9 +1006,11 @@ public partial class MenuContainer : WpfUiWindow
     public void ActivityWatcher_OnGameLeave(object? sender, EventArgs e)
     {
         bool transitioning = _activityWatcher?.IsTeleporting == true;
+        _sessionDock?.HideDock();
         CancelSession();
         if (transitioning || _closed)
             return;
+        _sessionDock?.EndSession();
         try
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(ResetSessionMenu));
@@ -1235,6 +1406,17 @@ public partial class MenuContainer : WpfUiWindow
         catch
         {
         }
+        if (_sessionDock != null)
+        {
+            _sessionDock.Closed -= SessionDock_Closed;
+            _sessionDock.Close();
+            _sessionDock = null;
+        }
+        if (_sessionDockHotkeyRegistered)
+            UnregisterHotKey(_handle, SessionDockHotkeyId);
+        _source?.RemoveHook(WindowMessage);
+        if (ReferenceEquals(_currentInstance, this))
+            _currentInstance = null;
         CloseChildWindows();
         if (Application.Current.Resources["NotificationWindow"] is NotificationWindow notificationWindow)
         {

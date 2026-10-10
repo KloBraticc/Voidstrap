@@ -68,6 +68,8 @@ public sealed class ServerMatchmaker : IDisposable
 
 	private long _linuxRejoinPlaceId;
 
+	private string? _manualJobId;
+
 	private bool _disposed;
 
 	public Func<NotifyIconWrapper?>? NotifyIconResolver { get; set; }
@@ -92,6 +94,9 @@ public sealed class ServerMatchmaker : IDisposable
 		}
 		ActivityData? data = _activityWatcher.Data;
 		if (_disposed || data == null || data.PlaceId == 0L || data.IsTeleport || data.ServerType == ServerType.Reserved || !IsEnabled() || IsExcluded(data.PlaceId))
+			return;
+
+		if (IsManualPick(data.JobId))
 			return;
 
 		MatchmakerCandidate? launchPick = VoidstrapMatchmaker.FindLaunchPick(data.JobId);
@@ -181,6 +186,15 @@ public sealed class ServerMatchmaker : IDisposable
 			if (data.IsTeleport)
 			{
 				CancelPrefetch();
+				return;
+			}
+
+			if (IsManualPick(data.JobId))
+			{
+				App.Logger.WriteLine(LOG_IDENT, "Joined the server you picked in the server browser, staying put");
+				ClearLinuxRejoin();
+				ClearAttempt(data.PlaceId);
+				CancelLinuxPrefetch();
 				return;
 			}
 
@@ -607,12 +621,50 @@ public sealed class ServerMatchmaker : IDisposable
 		return box.Result == System.Windows.MessageBoxResult.Yes;
 	}
 
-	private async Task TriggerRejoinAsync(long placeId, int attemptNumber, string? explicitJobId, string? targetName, CancellationToken decideBy, CancellationToken token)
+	public async Task<bool> JoinServerAsync(long placeId, MatchmakerCandidate server, CancellationToken token = default)
+	{
+		if (_disposed || placeId <= 0 || string.IsNullOrWhiteSpace(server.JobId))
+			return false;
+		string? currentJobId = _activityWatcher.Data?.JobId;
+		if (string.Equals(currentJobId, server.JobId, StringComparison.OrdinalIgnoreCase))
+			return false;
+
+		CancelPrefetch();
+		try
+		{
+			Interlocked.Exchange(ref _currentCts, null)?.Cancel();
+		}
+		catch (ObjectDisposedException)
+		{
+		}
+
+		RecordTriedJobId(placeId, currentJobId);
+		RecordTriedJobId(placeId, server.JobId);
+		Volatile.Write(ref _manualJobId, server.JobId);
+		_lastHopUtc = DateTime.UtcNow;
+		VoidstrapMatchmaker.RememberLaunchPick(server);
+		App.Logger.WriteLine(LOG_IDENT, $"Joining {server.DatacenterName} ({server.EstimatedPingMs}ms) picked in the server browser, JobId {server.JobId}");
+		ShowAlert($"Moving you to {server.Datacenter?.City ?? "the selected server"}, about {server.EstimatedPingMs}ms", 8);
+		await TriggerRejoinAsync(placeId, 1, server.JobId, server.Datacenter?.City, token, token, requireEnabled: false).ConfigureAwait(false);
+		return true;
+	}
+
+	private bool IsManualPick(string? jobId)
+	{
+		if (string.IsNullOrEmpty(jobId))
+			return false;
+		string? manual = Volatile.Read(ref _manualJobId);
+		if (string.IsNullOrEmpty(manual) && App.LaunchSettings.MatchmakerManualFlag.Active)
+			manual = App.LaunchSettings.MatchmakerManualFlag.Data;
+		return string.Equals(manual, jobId, StringComparison.OrdinalIgnoreCase);
+	}
+
+	private async Task TriggerRejoinAsync(long placeId, int attemptNumber, string? explicitJobId, string? targetName, CancellationToken decideBy, CancellationToken token, bool requireEnabled = true)
 	{
 		if (_disposed || token.IsCancellationRequested)
 			return;
 
-		if (!IsEnabled() || IsExcluded(placeId))
+		if (requireEnabled && (!IsEnabled() || IsExcluded(placeId)))
 		{
 			App.Logger.WriteLine(LOG_IDENT, "The matchmaker was turned off or this game was skipped before moving servers, staying put");
 			ClearAttempt(placeId);
@@ -649,12 +701,12 @@ public sealed class ServerMatchmaker : IDisposable
 
 		if (Voidstrap.Utility.Platform.IsMacOS)
 		{
-			await TriggerMacRejoinAsync(launchUri, attemptNumber, targetName).ConfigureAwait(false);
+			await TriggerMacRejoinAsync(launchUri, attemptNumber, targetName, requireEnabled ? null : explicitJobId).ConfigureAwait(false);
 			return;
 		}
 
 		HashSet<int> existingPids = SnapshotRobloxPids();
-		bool spawnedSuccessor = SpawnSuccessor(launchUri, attemptNumber, targetName);
+		bool spawnedSuccessor = SpawnSuccessor(launchUri, attemptNumber, targetName, requireEnabled ? null : explicitJobId);
 
 		if (!spawnedSuccessor)
 		{
@@ -699,7 +751,7 @@ public sealed class ServerMatchmaker : IDisposable
 		}
 	}
 
-	private static bool SpawnSuccessor(string launchUri, int attemptNumber, string? targetName)
+	private static bool SpawnSuccessor(string launchUri, int attemptNumber, string? targetName, string? manualJobId = null)
 	{
 		try
 		{
@@ -726,6 +778,11 @@ public sealed class ServerMatchmaker : IDisposable
 				startInfo.ArgumentList.Add("-matchmakertarget");
 				startInfo.ArgumentList.Add(clean);
 			}
+			if (!string.IsNullOrWhiteSpace(manualJobId))
+			{
+				startInfo.ArgumentList.Add("-matchmakermanual");
+				startInfo.ArgumentList.Add(manualJobId);
+			}
 			using Process? successor = Process.Start(startInfo);
 			if (successor == null)
 				return false;
@@ -745,7 +802,7 @@ public sealed class ServerMatchmaker : IDisposable
 
 	internal static bool MacHandoffStarted => Volatile.Read(ref _macHandoff) != null;
 
-	private async Task TriggerMacRejoinAsync(string launchUri, int attemptNumber, string? targetName)
+	private async Task TriggerMacRejoinAsync(string launchUri, int attemptNumber, string? targetName, string? manualJobId)
 	{
 		TaskCompletionSource handoff = new(TaskCreationOptions.RunContinuationsAsynchronously);
 		Volatile.Write(ref _macHandoff, handoff);
@@ -757,7 +814,7 @@ public sealed class ServerMatchmaker : IDisposable
 				await Task.Delay(250).ConfigureAwait(false);
 			if (Watcher.IsAnyRobloxRunning())
 				App.Logger.WriteLine(LOG_IDENT, "Roblox is still closing, handing off anyway");
-			if (!SpawnSuccessor(launchUri, attemptNumber, targetName))
+			if (!SpawnSuccessor(launchUri, attemptNumber, targetName, manualJobId))
 			{
 				ShowAlert("Voidstrap could not reopen Roblox on the new server", 10);
 				return;

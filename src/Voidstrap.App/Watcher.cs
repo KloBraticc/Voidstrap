@@ -39,6 +39,8 @@ public partial class Watcher : IDisposable
 
 	public static Watcher? Current { get; private set; }
 
+	public int RobloxProcessId => _watcherData?.ProcessId ?? 0;
+
 	public IntegrationWatcher? IntegrationWatcher;
 
 	public HistoryPersister? HistoryPersister;
@@ -440,7 +442,7 @@ public partial class Watcher : IDisposable
 
 	internal static bool OverlaysNeedGameState()
 	{
-		return (App.Settings.Prop.OverlaysEnabled && OverlayWindow.SurfaceRequired)
+		return OverlayWindow.SurfaceRequired
 			|| App.Settings.Prop.Crosshair
 			|| (Voidstrap.Utility.Platform.IsWindows && App.Settings.Prop.ClassicTopBarEnabled)
 			|| Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled
@@ -590,15 +592,8 @@ public partial class Watcher : IDisposable
 		}
 		RunRuntimeAction(CrosshairWindow.Reconcile, "CreateCrosshair");
 		RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.Reconcile, "CreateClassicTopBar");
-		if (App.Settings.Prop.OverlaysEnabled)
-		{
-			ScreenColorEffect.ApplyConfigured();
-		}
-		else
-		{
-			ScreenColorEffect.Reset();
-		}
-		if (App.Settings.Prop.OverlaysEnabled && OverlayWindow.SurfaceRequired)
+		ScreenColorEffect.ApplyConfigured();
+		if (OverlayWindow.SurfaceRequired)
 		{
 			RunRuntimeAction(delegate
 			{
@@ -640,12 +635,6 @@ public partial class Watcher : IDisposable
 			return;
 		}
 
-		if (!App.Settings.Prop.OverlaysEnabled)
-		{
-			ReconcileRuntimeSessionWindows();
-			return;
-		}
-
 		try
 		{
 			_brightnessSettleTimer ??= new Timer(delegate { RunOnApplicationDispatcher(ReconcileRuntimeSessionWindows); }, null, Timeout.Infinite, Timeout.Infinite);
@@ -673,7 +662,7 @@ public partial class Watcher : IDisposable
 		RunRuntimeAction(CrosshairWindow.Reconcile, "RefreshCrosshair");
 		RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.Reconcile, "RefreshClassicTopBar");
 
-		bool required = App.Settings.Prop.OverlaysEnabled && OverlayWindow.SurfaceRequired;
+		bool required = OverlayWindow.SurfaceRequired;
 		if (Application.Current.Resources["OverlayWindow"] is OverlayWindow existing)
 		{
 			if (required && existing.IsLoaded && existing.MatchesCurrentSettings())

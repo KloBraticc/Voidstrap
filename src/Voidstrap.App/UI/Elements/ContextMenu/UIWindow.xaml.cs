@@ -71,8 +71,7 @@ namespace Voidstrap.UI.Elements.Overlay
 		{
 			var settings = App.Settings.Prop;
 			bool fullSurface = Math.Abs(settings.Brightness - DefaultBrightness) > 0.01;
-			return settings.OverlaysEnabled
-				&& _showTime == settings.CurrentTimeDisplay
+			return _showTime == settings.CurrentTimeDisplay
 				&& _showLocation == settings.ShowServerDetailsUI
 				&& _fullSurface == fullSurface;
 		}
@@ -121,23 +120,28 @@ namespace Voidstrap.UI.Elements.Overlay
 				Margin = new Thickness(0),
 				Padding = new Thickness(12, 8, 12, 8),
 				CornerRadius = new CornerRadius(8),
-				Background = new SolidColorBrush(Color.FromArgb(228, 12, 13, 16)),
-				BorderBrush = new SolidColorBrush(Color.FromArgb(110, 255, 255, 255)),
+				Background = new SolidColorBrush(Color.FromRgb(25, 28, 36)),
+				BorderBrush = new SolidColorBrush(Color.FromRgb(54, 59, 72)),
 				BorderThickness = new Thickness(1),
 				Child = _readoutPanel
             };
 
+            _readoutBorder.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
+            _readoutBorder.SetResourceReference(Border.BorderBrushProperty, "SurfaceStrokeColorDefaultBrush");
+
             if (_showLocation)
             {
-                _locationTextBlock = CreateTextBlock(Brushes.LightGreen);
+                _locationTextBlock = CreateTextBlock(new SolidColorBrush(Color.FromRgb(245, 247, 252)));
+                _locationTextBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
                 _locationTextBlock.Text = _serverLocation;
 				_readoutPanel.Children.Add(_locationTextBlock);
             }
 
             if (_showTime)
             {
-                _timeTextBlock = CreateTextBlock(Brushes.Cyan);
+                _timeTextBlock = CreateTextBlock(new SolidColorBrush(Color.FromRgb(179, 189, 207)));
 				_lastTimeText = ClockDisplay.Format(DateTime.UtcNow);
+                _timeTextBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
 				_timeTextBlock.Text = _lastTimeText;
 				_readoutPanel.Children.Add(_timeTextBlock);
             }

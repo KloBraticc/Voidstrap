@@ -253,13 +253,14 @@ namespace Voidstrap.Models.Persistable
         public bool ShowAccountOnRichPresence { get; set; } = true;
         public bool ShowServerDetails { get; set; } = true;
 
-        public bool OverlaysEnabled { get; set; } = false;
 
         public bool ClassicTopBarEnabled { get; set; } = false;
 
         public bool MacVirtualDisplayEnabled { get; set; } = false;
 
         public bool ClassicTopBarHideAllCoreGui { get; set; } = false;
+
+        public bool SessionDockEnabled { get; set; } = true;
 
         public bool Ps4ButtonsEnabled { get; set; } = false;
 

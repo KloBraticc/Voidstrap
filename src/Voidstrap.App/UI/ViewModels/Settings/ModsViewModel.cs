@@ -1,4 +1,4 @@
-﻿using Point = System.Windows.Point;
+using Point = System.Windows.Point;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -1138,23 +1138,6 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public bool OverlaysEnabled
-	{
-		get
-		{
-			return App.Settings.Prop.OverlaysEnabled;
-		}
-		set
-		{
-			if (App.Settings.Prop.OverlaysEnabled == value)
-				return;
-			App.Settings.Prop.OverlaysEnabled = value;
-			App.Settings.SaveDeferred();
-			Voidstrap.Watcher.Current?.ApplyBrightnessLive();
-			OnPropertyChanged(nameof(OverlaysEnabled));
-		}
-	}
-
 	public bool HomepageBackgroundOverlayEnabled
 	{
 		get => App.Settings.Prop.HomepageBackgroundOverlayEnabled;
@@ -1173,6 +1156,20 @@ public ICommand PickCursorColorCommand { get; }
 					: "Roblox light mode is not supported. Make sure Roblox dark mode is selected.";
 				Frontend.ShowMessageBox(message, MessageBoxImage.Warning);
 			}
+		}
+	}
+
+	public bool SessionDockEnabled
+	{
+		get => App.Settings.Prop.SessionDockEnabled;
+		set
+		{
+			if (App.Settings.Prop.SessionDockEnabled == value)
+				return;
+			App.Settings.Prop.SessionDockEnabled = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			MenuContainer.SyncSessionDockHotkey();
 		}
 	}
 
@@ -1760,7 +1757,12 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
-			App.Settings.Prop.ShowServerDetailsUI = value;
+            if (App.Settings.Prop.ShowServerDetailsUI == value)
+                return;
+            App.Settings.Prop.ShowServerDetailsUI = value;
+            OnPropertyChanged();
+            App.Settings.SaveDeferred();
+            Voidstrap.Watcher.Current?.ApplyBrightnessLive();
 		}
 	}
 
@@ -1819,7 +1821,9 @@ public ICommand PickCursorColorCommand { get; }
 			if (App.Settings.Prop.CurrentTimeDisplay == value)
 				return;
 			App.Settings.Prop.CurrentTimeDisplay = value;
-			OnPropertyChanged(nameof(CurrentTimeDisplay));
+            OnPropertyChanged(nameof(CurrentTimeDisplay));
+            App.Settings.SaveDeferred();
+            Voidstrap.Watcher.Current?.ApplyBrightnessLive();
 		}
 	}
 

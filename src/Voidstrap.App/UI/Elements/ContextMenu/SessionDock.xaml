@@ -1,0 +1,84 @@
+<Window x:Class="Voidstrap.UI.Elements.Overlay.SessionDock"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        Title="Voidstrap Session" Width="760" Height="70" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize"
+        ShowInTaskbar="False" ShowActivated="False" Topmost="True"
+        WindowStartupLocation="Manual" UseLayoutRounding="True"
+        FontFamily="Segoe UI" Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+  <Window.Resources>
+    <Style x:Key="DockAction" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+      <Setter Property="Margin" Value="3,0" />
+      <Setter Property="Padding" Value="10,8" />
+      <Setter Property="MinWidth" Value="42" />
+      <Setter Property="Height" Value="38" />
+      <Setter Property="Appearance" Value="Transparent" />
+      <Setter Property="Border.CornerRadius" Value="20" />
+      <Setter Property="Focusable" Value="False" />
+    </Style>
+  </Window.Resources>
+  <Grid Margin="0">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="70" />
+    </Grid.RowDefinitions>
+    <Border x:Name="ServerPanel" Grid.Row="0" Visibility="Collapsed" Margin="0,0,0,12"
+            Padding="20,16" CornerRadius="8" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="Current server" FontSize="16" FontWeight="SemiBold" />
+        <TextBlock x:Name="ServerReadout" Grid.Row="1" Margin="0,12,0,12" FontSize="13"
+                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" />
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+          <ui:Button Content="Server details" Tag="details" Click="OnAction" Style="{StaticResource DockAction}" />
+          <ui:Button Content="Copy invite" Tag="invite" Click="OnAction" Style="{StaticResource DockAction}" />
+        </StackPanel>
+      </Grid>
+    </Border>
+    <Border Grid.Row="1" Padding="14,10" CornerRadius="35" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Image x:Name="GamePicture" Width="42" Height="42" Margin="0,0,12,0"
+               Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,14,0">
+          <TextBlock x:Name="GameTitle" Text="Roblox" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <TextBlock x:Name="SessionTimes" Margin="0,4,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextTrimming="CharacterEllipsis" />
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+          <ui:Button ToolTip="Current server" Tag="server" Click="OnAction" Style="{StaticResource DockAction}">
+            <ui:SymbolIcon Symbol="Info24" />
+          </ui:Button>
+          <ui:Button ToolTip="Browse servers" Tag="browser" Click="OnAction" Style="{StaticResource DockAction}">
+            <ui:SymbolIcon Symbol="Search24" />
+          </ui:Button>
+          <ui:Button ToolTip="Continue games and search" Tag="games" Click="OnAction" Style="{StaticResource DockAction}">
+            <ui:SymbolIcon Symbol="Play24" />
+          </ui:Button>
+          <ui:Button ToolTip="Game history" Tag="history" Click="OnAction" Style="{StaticResource DockAction}">
+            <ui:SymbolIcon Symbol="History24" />
+          </ui:Button>
+          <ui:Button ToolTip="Music" Tag="music" Click="OnAction" Style="{StaticResource DockAction}" Icon="MusicNote224" />
+          <ui:Button ToolTip="Screen adjustments" Tag="adjustments" Click="OnAction" Style="{StaticResource DockAction}">
+            <ui:SymbolIcon Symbol="Settings24" />
+          </ui:Button>
+          <ui:Button ToolTip="Copy invite" Tag="invite" Click="OnAction" Style="{StaticResource DockAction}">
+            <ui:SymbolIcon Symbol="Link24" />
+          </ui:Button>
+          <ui:Button ToolTip="Close, Ctrl+Alt+L" Tag="close" Click="OnAction" Style="{StaticResource DockAction}">
+            <ui:SymbolIcon Symbol="Dismiss24" />
+          </ui:Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+  </Grid>
+</Window>

@@ -181,7 +181,7 @@ namespace Voidstrap.Integrations.Overlays
             sb.AppendLine(Text("Scope"));
             sb.AppendLine();
             sb.AppendLine(Text("Configuration"));
-            AppendValue(sb, "Stats", OnOff(prop.OverlaysEnabled));
+            AppendValue(sb, "Stats", OnOff(Voidstrap.UI.Elements.Overlay.OverlayWindow.SurfaceRequired));
             AppendValue(sb, "Crosshair", OnOff(prop.Crosshair));
             AppendValue(sb, "GameEffects", OnOff(OverlaySettings.GameEffectsEnabled));
             AppendValue(sb, "Homepage", OnOff(OverlaySettings.HomepageBackgroundEnabled));
@@ -263,13 +263,13 @@ namespace Voidstrap.Integrations.Overlays
                 sb.AppendLine(Text("NoWindows"));
             sb.AppendLine();
             sb.AppendLine(Text("Findings"));
-            if (!prop.OverlaysEnabled && !prop.Crosshair && !OverlaySettings.GameEffectsEnabled && !OverlaySettings.HomepageBackgroundEnabled)
+            if (!Voidstrap.UI.Elements.Overlay.OverlayWindow.SurfaceRequired && !prop.Crosshair && !OverlaySettings.GameEffectsEnabled && !OverlaySettings.HomepageBackgroundEnabled)
                 sb.AppendLine(Text("Disabled"));
             if (!roblox.Valid)
                 sb.AppendLine(Text("NoUsableWindow"));
             else if (!roblox.Foreground)
                 sb.AppendLine(Text("Unfocused"));
-            if (prop.OverlaysEnabled && statsCount == 0)
+            if (Voidstrap.UI.Elements.Overlay.OverlayWindow.SurfaceRequired && statsCount == 0)
                 sb.AppendLine(Text("MissingStats"));
             if (prop.Crosshair && crosshairCount == 0 && !OverlayHub.CompositorCrosshairActive)
                 sb.AppendLine(Text("MissingCrosshair"));
