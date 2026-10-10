@@ -56,6 +56,8 @@ public static class RobloxPresence
 
 	private const int PresenceBatchSize = 50;
 
+	private const int PresenceConcurrency = 4;
+
 	private static readonly TimeSpan FriendListLifetime = TimeSpan.FromMinutes(5);
 
 	private static readonly TimeSpan ProfileLifetime = TimeSpan.FromMinutes(30);
@@ -108,10 +110,22 @@ public static class RobloxPresence
 
 			HashSet<long> present = new HashSet<long>();
 			bool anyAnswered = false;
-			foreach (List<long> batch in Chunk(friendIds, PresenceBatchSize))
+			// Presence batches run a few at a time instead of one after another, large friend lists were slow
+			using SemaphoreSlim gate = new SemaphoreSlim(PresenceConcurrency, PresenceConcurrency);
+			List<PresenceEntry>?[] answers = await Task.WhenAll(Chunk(friendIds, PresenceBatchSize).Select(async batch =>
 			{
-				token.ThrowIfCancellationRequested();
-				List<PresenceEntry>? presences = await GetPresencesAsync(cookie, batch, token).ConfigureAwait(false);
+				await gate.WaitAsync(token).ConfigureAwait(false);
+				try
+				{
+					return await GetPresencesAsync(cookie, batch, token).ConfigureAwait(false);
+				}
+				finally
+				{
+					gate.Release();
+				}
+			})).ConfigureAwait(false);
+			foreach (List<PresenceEntry>? presences in answers)
+			{
 				if (presences == null)
 					continue;
 				anyAnswered = true;
@@ -267,39 +281,43 @@ public static class RobloxPresence
 			return resolved;
 
 		Dictionary<long, ServerFriend> fetched = missing.ToDictionary(id => id, id => new ServerFriend { UserId = id });
-		try
+		// Names and pictures are fetched at the same time; they fill different fields of the same entries
+		async Task ResolveNamesAsync()
 		{
-			string payload = JsonSerializer.Serialize(new { userIds = missing, excludeBannedUsers = false });
-			using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://users.roblox.com/v1/users")
+			try
 			{
-				Content = new StringContent(payload, Encoding.UTF8, "application/json")
-			};
-			using HttpResponseMessage response = await SharedClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
-			if (response.IsSuccessStatusCode)
-			{
-				using JsonDocument document = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(response.Content, MaxApiResponseBytes, token).ConfigureAwait(false));
-				if (document.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
+				string payload = JsonSerializer.Serialize(new { userIds = missing, excludeBannedUsers = false });
+				using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://users.roblox.com/v1/users")
 				{
-					foreach (JsonElement item in data.EnumerateArray())
+					Content = new StringContent(payload, Encoding.UTF8, "application/json")
+				};
+				using HttpResponseMessage response = await SharedClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+				if (response.IsSuccessStatusCode)
+				{
+					using JsonDocument document = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(response.Content, MaxApiResponseBytes, token).ConfigureAwait(false));
+					if (document.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
 					{
-						if (!item.TryGetProperty("id", out JsonElement id) || !id.TryGetInt64(out long value) || !fetched.TryGetValue(value, out ServerFriend? friend))
-							continue;
-						friend.Username = item.TryGetProperty("name", out JsonElement name) ? name.GetString() ?? string.Empty : string.Empty;
-						friend.DisplayName = item.TryGetProperty("displayName", out JsonElement displayName) ? displayName.GetString() ?? string.Empty : string.Empty;
+						foreach (JsonElement item in data.EnumerateArray())
+						{
+							if (!item.TryGetProperty("id", out JsonElement id) || !id.TryGetInt64(out long value) || !fetched.TryGetValue(value, out ServerFriend? friend))
+								continue;
+							friend.Username = item.TryGetProperty("name", out JsonElement name) ? name.GetString() ?? string.Empty : string.Empty;
+							friend.DisplayName = item.TryGetProperty("displayName", out JsonElement displayName) ? displayName.GetString() ?? string.Empty : string.Empty;
+						}
 					}
 				}
 			}
-		}
-		catch (OperationCanceledException)
-		{
-			throw;
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Friend names could not be loaded: " + ex.Message);
+			catch (OperationCanceledException)
+			{
+				throw;
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine(LOG_IDENT, "Friend names could not be loaded: " + ex.Message);
+			}
 		}
 
-		await ResolveHeadshotsAsync(fetched, token).ConfigureAwait(false);
+		await Task.WhenAll(ResolveNamesAsync(), ResolveHeadshotsAsync(fetched, token)).ConfigureAwait(false);
 
 		lock (ProfileLock)
 		{
