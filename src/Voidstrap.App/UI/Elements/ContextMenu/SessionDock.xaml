@@ -185,8 +185,8 @@
           <ui:Button ToolTip="Music" Tag="music" Click="OnAction" Style="{StaticResource DockAction}">
             <TextBlock Text="&#xE8D6;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Screen adjustments" Tag="adjustments" Click="OnAction" Style="{StaticResource DockAction}">
-            <TextBlock Text="&#xE706;" Style="{StaticResource DockGlyph}" />
+          <ui:Button ToolTip="Settings" Tag="adjustments" Click="OnAction" Style="{StaticResource DockAction}">
+            <TextBlock Text="&#xE713;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
           <ui:Button ToolTip="Copy invite" Tag="invite" Click="OnAction" Style="{StaticResource DockAction}">
             <TextBlock Text="&#xE71B;" Style="{StaticResource DockGlyph}" />
