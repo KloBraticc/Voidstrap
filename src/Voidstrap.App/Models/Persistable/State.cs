@@ -58,6 +58,8 @@ public class State
 	public string LastCacheBackup { get; set; } = string.Empty;
 
 	public bool SafeLaunchPending { get; set; }
+
+	public bool SessionDockTipShown { get; set; }
 }
 
 public sealed class SessionPanelLayout
