@@ -18,6 +18,10 @@ public partial class NotificationWindow
     private bool _dismissRequested;
     private IntPtr _notificationHandle;
     private bool _cornerLayout;
+    private bool _hovered;
+    private bool _dismissHot;
+    private bool _buttonWasDown;
+    private System.Windows.Threading.DispatcherTimer? _hoverTimer;
 
     private async Task PresentWindowsNotificationAsync(NotificationItem item)
     {
@@ -25,9 +29,9 @@ public partial class NotificationWindow
         {
             _notificationTracker = RobloxWindowTracker.Acquire();
             RobloxWindowTracker.Changed += OnNotificationBoundsChanged;
-            DismissButton.Click += OnDismissNotification;
-            NotificationBorder.MouseEnter += OnNotificationHover;
-            NotificationBorder.MouseLeave += OnNotificationHover;
+            DismissButton.MouseLeftButtonUp += OnDismissNotification;
+            _hoverTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Input) { Interval = TimeSpan.FromMilliseconds(40) };
+            _hoverTimer.Tick += OnHoverTick;
         }
 
         RobloxWindowRect bounds = RobloxWindowTracker.Current;
@@ -51,7 +55,11 @@ public partial class NotificationWindow
             RootTranslate.X = 0;
             ProgressScale.ScaleX = 1;
             DismissButton.Visibility = Visibility.Visible;
-            SetDismissVisible(false);
+            _hovered = false;
+            _dismissHot = false;
+            _buttonWasDown = IsLeftButtonDown();
+            DismissButton.Background = Brushes.Transparent;
+            SetDismissVisible(false, false);
             Show();
             _notificationHandle = new WindowInteropHelper(this).Handle;
             OverlayDiagnostics.RegisterOverlayHandle(_notificationHandle);
@@ -65,19 +73,21 @@ public partial class NotificationWindow
             AnimateNotification(0, 1, slide, 0, IntroMs, new CubicEase { EasingMode = EasingMode.EaseOut });
             await Task.Delay(IntroMs, token);
             EndCachedAnimation();
+            _hoverTimer?.Start();
             double duration = double.IsFinite(item.Duration) ? Math.Clamp(item.Duration, 0.5, 60) : 8;
             double remaining = duration;
             Stopwatch clock = Stopwatch.StartNew();
             double previous = clock.Elapsed.TotalSeconds;
             while (!_dismissRequested && remaining > 0)
             {
-                await Task.Delay(500, token);
+                await Task.Delay(100, token);
                 double now = clock.Elapsed.TotalSeconds;
-                if (!NotificationBorder.IsMouseOver)
+                if (!_hovered)
                     remaining -= now - previous;
                 previous = now;
             }
             // Fades out while easing back down below the edge
+            _hoverTimer?.Stop();
             DismissButton.BeginAnimation(OpacityProperty, null);
             DismissButton.Opacity = 0;
             DismissButton.IsHitTestVisible = false;
@@ -91,6 +101,7 @@ public partial class NotificationWindow
         finally
         {
             _presenting = false;
+            _hoverTimer?.Stop();
             if (!_closed)
             {
                 EndCachedAnimation();
@@ -155,26 +166,85 @@ public partial class NotificationWindow
 
     private void EndCachedAnimation() => NotificationBorder.CacheMode = null;
 
-    // The close button only shows while the pointer is over the notification, which also pauses its countdown
-    private void OnNotificationHover(object sender, System.Windows.Input.MouseEventArgs e)
+    // Roblox can keep the mouse to itself, so hover and the close click are read from the real cursor
+    // position while a notification is up instead of relying only on mouse messages reaching this window
+    private void OnHoverTick(object? sender, EventArgs e)
     {
-        if (!_closed)
-            SetDismissVisible(_presenting && NotificationBorder.IsMouseOver);
+        if (_closed || !_presenting || _dismissRequested || !IsVisible)
+            return;
+        if (!GetCursorPos(out NativePoint cursor))
+            return;
+        bool hovered = Contains(NotificationBorder, cursor);
+        if (hovered != _hovered)
+        {
+            _hovered = hovered;
+            SetDismissVisible(hovered, true);
+        }
+        bool hot = hovered && Contains(DismissButton, cursor);
+        if (hot != _dismissHot)
+        {
+            _dismissHot = hot;
+            if (hot)
+                DismissButton.SetResourceReference(System.Windows.Controls.Border.BackgroundProperty, "SubtleFillColorSecondaryBrush");
+            else
+                DismissButton.Background = Brushes.Transparent;
+        }
+        bool down = IsLeftButtonDown();
+        if (hot && down && !_buttonWasDown)
+            _dismissRequested = true;
+        _buttonWasDown = down;
     }
 
-    private void SetDismissVisible(bool visible)
+    private static bool Contains(FrameworkElement element, NativePoint cursor)
+    {
+        if (!element.IsVisible || element.ActualWidth <= 0 || element.ActualHeight <= 0)
+            return false;
+        try
+        {
+            Point topLeft = element.PointToScreen(new Point(0, 0));
+            Point bottomRight = element.PointToScreen(new Point(element.ActualWidth, element.ActualHeight));
+            return cursor.X >= topLeft.X && cursor.X < bottomRight.X && cursor.Y >= topLeft.Y && cursor.Y < bottomRight.Y;
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
+    }
+
+    private static bool IsLeftButtonDown() => (GetAsyncKeyState(0x01) & 0x8000) != 0;
+
+    private void SetDismissVisible(bool visible, bool animate)
     {
         DismissButton.IsHitTestVisible = visible;
-        if (!SystemParameters.ClientAreaAnimation)
+        DismissButton.BeginAnimation(OpacityProperty, null);
+        if (!animate || !SystemParameters.ClientAreaAnimation)
         {
-            DismissButton.BeginAnimation(OpacityProperty, null);
             DismissButton.Opacity = visible ? 1 : 0;
             return;
         }
-        DismissButton.BeginAnimation(OpacityProperty, new DoubleAnimation(visible ? 1 : 0, new Duration(TimeSpan.FromMilliseconds(120))));
+        DoubleAnimation fade = new(visible ? 1 : 0, new Duration(TimeSpan.FromMilliseconds(140)))
+        {
+            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+        };
+        Timeline.SetDesiredFrameRate(fade, AnimationFrameRate);
+        DismissButton.BeginAnimation(OpacityProperty, fade);
     }
 
-    private void OnDismissNotification(object sender, RoutedEventArgs e)
+    [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+    private struct NativePoint
+    {
+        public int X;
+        public int Y;
+    }
+
+    [System.Runtime.InteropServices.LibraryImport("user32.dll")]
+    [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
+    private static partial bool GetCursorPos(out NativePoint point);
+
+    [System.Runtime.InteropServices.LibraryImport("user32.dll")]
+    private static partial short GetAsyncKeyState(int key);
+
+    private void OnDismissNotification(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         _dismissRequested = true;
         e.Handled = true;
@@ -237,9 +307,13 @@ public partial class NotificationWindow
         _presenting = false;
         _dismissRequested = true;
         RobloxWindowTracker.Changed -= OnNotificationBoundsChanged;
-        DismissButton.Click -= OnDismissNotification;
-        NotificationBorder.MouseEnter -= OnNotificationHover;
-        NotificationBorder.MouseLeave -= OnNotificationHover;
+        DismissButton.MouseLeftButtonUp -= OnDismissNotification;
+        if (_hoverTimer != null)
+        {
+            _hoverTimer.Stop();
+            _hoverTimer.Tick -= OnHoverTick;
+            _hoverTimer = null;
+        }
         _notificationTracker?.Dispose();
         _notificationTracker = null;
         OverlayDiagnostics.UnregisterOverlayHandle(_notificationHandle);

@@ -24,7 +24,7 @@
       <RowDefinition Height="70" />
     </Grid.RowDefinitions>
     <Border x:Name="ServerPanel" Grid.Row="0" Visibility="Collapsed" Margin="0,0,0,12"
-            Padding="20,16" CornerRadius="8" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
+            Padding="20,16" CornerRadius="16" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
       <Grid>
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
@@ -40,8 +40,8 @@
         </StackPanel>
       </Grid>
     </Border>
-    <Border Grid.Row="1" Padding="14,10" CornerRadius="35" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
+    <Border Grid.Row="1" Padding="14,10" CornerRadius="35" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+            BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1" SnapsToDevicePixels="True">
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />

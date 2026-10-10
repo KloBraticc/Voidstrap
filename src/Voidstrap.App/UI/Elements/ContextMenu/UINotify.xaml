@@ -24,9 +24,12 @@
                      TextTrimming="CharacterEllipsis" MaxHeight="64"
                      Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
         </StackPanel>
-        <ui:Button x:Name="DismissButton" Grid.Column="1" Width="22" Height="22" Padding="0" Margin="0,-7,-11,0"
-                   HorizontalAlignment="Right" VerticalAlignment="Top" Appearance="Transparent" Icon="Dismiss12"
-                   Visibility="Collapsed" Focusable="False" ToolTip="Dismiss notification" AutomationProperties.Name="Dismiss notification" />
+        <Border x:Name="DismissButton" Grid.Column="1" Width="24" Height="24" Margin="0,-6,-10,0" CornerRadius="6"
+                HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent" Cursor="Hand"
+                Visibility="Collapsed" Opacity="0" IsHitTestVisible="False" AutomationProperties.Name="Dismiss notification">
+          <ui:SymbolIcon Symbol="Dismiss16" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"
+                         Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+        </Border>
         <Rectangle x:Name="AccentStripe" Visibility="Collapsed" />
         <Grid x:Name="ProgressContainer" Height="2" Margin="0,0,0,-12" VerticalAlignment="Bottom" Visibility="Collapsed">
           <Rectangle x:Name="ProgressBar" RenderTransformOrigin="0,0.5"><Rectangle.RenderTransform><ScaleTransform x:Name="ProgressScale" ScaleX="0" /></Rectangle.RenderTransform></Rectangle>
