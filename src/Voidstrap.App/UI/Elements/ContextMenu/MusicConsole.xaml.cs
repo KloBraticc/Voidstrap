@@ -20,6 +20,10 @@ public partial class MusicPlayer : WpfUiWindow
 
 	private readonly MusicPlayerViewModel _viewModel;
 
+	private readonly UIElement? _root;
+
+	private bool _counted;
+
 	public MusicPlayer()
 		: this(null)
 	{
@@ -29,8 +33,12 @@ public partial class MusicPlayer : WpfUiWindow
 	{
 		InitializeComponent();
 		_activityWatcher = activityWatcher;
-		_viewModel = new MusicPlayerViewModel();
+		_viewModel = MusicPlayerViewModel.Shared;
 		base.DataContext = _viewModel;
+		// The content may be moved into a dock panel, so it is what tells the player whether it is on screen
+		_root = base.Content as UIElement;
+		if (_root != null)
+			_root.IsVisibleChanged += Root_IsVisibleChanged;
 		base.Loaded += MusicPlayer_Loaded;
 		base.Closed += MusicPlayer_Closed;
 		base.PreviewKeyDown += MusicPlayer_PreviewKeyDown;
@@ -41,18 +49,25 @@ public partial class MusicPlayer : WpfUiWindow
 		_viewModel.UpdateFilteredLibrary();
 	}
 
+	private void Root_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) => Count(e.NewValue is true);
+
+	private void Count(bool visible)
+	{
+		if (visible == _counted)
+			return;
+		_counted = visible;
+		_viewModel.SetViewVisible(visible);
+	}
+
+	// Closing the window only closes this view of the shared player, the music keeps playing
 	private void MusicPlayer_Closed(object? sender, EventArgs e)
 	{
 		base.Loaded -= MusicPlayer_Loaded;
 		base.Closed -= MusicPlayer_Closed;
 		base.PreviewKeyDown -= MusicPlayer_PreviewKeyDown;
-		try
-		{
-			_viewModel.Dispose();
-		}
-		catch
-		{
-		}
+		if (_root != null)
+			_root.IsVisibleChanged -= Root_IsVisibleChanged;
+		Count(false);
 		base.DataContext = null;
 	}
 
