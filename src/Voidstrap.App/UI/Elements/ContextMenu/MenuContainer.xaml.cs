@@ -211,11 +211,18 @@ public partial class MenuContainer : WpfUiWindow
 
     private void CloseSessionDock()
     {
-        if (_sessionDock == null)
-            return;
-        _sessionDock.Closed -= SessionDock_Closed;
-        _sessionDock.Close();
+        SessionDock? dock = _sessionDock;
         _sessionDock = null;
+        if (dock == null)
+            return;
+        dock.Closed -= SessionDock_Closed;
+        try
+        {
+            dock.Close();
+        }
+        catch (InvalidOperationException)
+        {
+        }
     }
 
     private void SessionDock_Closed(object? sender, EventArgs e)
@@ -232,15 +239,32 @@ public partial class MenuContainer : WpfUiWindow
         if (message != 0x0312 || wParam.ToInt32() != SessionDockHotkeyId)
             return IntPtr.Zero;
         handled = true;
+        // Anything thrown here would escape the window procedure and close Voidstrap, so the dock is fenced off
+        try
+        {
+            ToggleSessionDock();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MenuContainer::SessionDock", ex);
+            CloseSessionDock();
+        }
+        return IntPtr.Zero;
+    }
+
+    private void ToggleSessionDock()
+    {
+        if (_closed)
+            return;
         // Closing always works, even when one of the dock panels holds focus instead of Roblox
         if (_sessionDock is { IsOpen: true } openDock)
         {
             openDock.HideDock();
-            return IntPtr.Zero;
+            return;
         }
         if (!App.Settings.Prop.SessionDockEnabled || _activityWatcher is not { InGame: true } activityWatcher
             || !(RobloxWindowTracker.IsProcessForeground(_watcher.RobloxProcessId) || RobloxWindowTracker.IsRobloxForeground()))
-            return IntPtr.Zero;
+            return;
         if (_sessionDock == null)
         {
             _sessionDock = new SessionDock(activityWatcher, RunDockAction);
@@ -248,7 +272,6 @@ public partial class MenuContainer : WpfUiWindow
         }
         _sessionDock.SetGame(activityWatcher.Data, activityWatcher.Data.GameName, CurrentGameIcon.Source as BitmapSource);
         _sessionDock.ToggleFromHotkey();
-        return IntPtr.Zero;
     }
 
     [LibraryImport("user32.dll")]
@@ -276,7 +299,7 @@ public partial class MenuContainer : WpfUiWindow
                 break;
             case "games":
                 if (_activityWatcher is { } gameActivityWatcher)
-                    _sessionDock?.ShowTool("games", Strings.ContextMenu_GameBrowser_Title, () => new SessionGameBrowser(gameActivityWatcher));
+                    _sessionDock?.ShowTool("games", Strings.ContextMenu_GameBrowser_Title, () => new SessionGameBrowser(gameActivityWatcher, _watcher.ServerMatchmaker));
                 break;
             case "music":
                 _sessionDock?.ShowTool("music", "Music", () => new MusicPlayer(_activityWatcher));
@@ -859,7 +882,7 @@ public partial class MenuContainer : WpfUiWindow
         string uptime = await uptimeTask;
         string details = "Location: " + (flagImage != null ? NotificationWindow.FlagPlaceholder.ToString() : string.Empty)
             + serverLocation + "\nUptime: " + uptime + text2;
-        string status = "Connected to " + data.ServerType.ToTranslatedString().ToLower(Locale.CurrentCulture) + " server";
+        string status = data.ServerType.ToConnectedString();
         try
         {
             await Dispatcher.InvokeAsync(delegate
@@ -1406,12 +1429,7 @@ public partial class MenuContainer : WpfUiWindow
         catch
         {
         }
-        if (_sessionDock != null)
-        {
-            _sessionDock.Closed -= SessionDock_Closed;
-            _sessionDock.Close();
-            _sessionDock = null;
-        }
+        CloseSessionDock();
         if (_sessionDockHotkeyRegistered)
             UnregisterHotKey(_handle, SessionDockHotkeyId);
         _source?.RemoveHook(WindowMessage);

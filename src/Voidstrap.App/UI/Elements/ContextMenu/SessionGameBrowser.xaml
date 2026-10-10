@@ -37,7 +37,7 @@
                 <StackPanel>
                   <Border Width="148" Height="128" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
                     <Grid ClipToBounds="True">
-                      <Image Source="{Binding ThumbnailUrl}" Stretch="UniformToFill" />
+                      <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
                       <Border Width="38" Height="38" CornerRadius="19" HorizontalAlignment="Center" VerticalAlignment="Center"
                               Background="{DynamicResource AccentFillColorDefaultBrush}" Opacity="0.94">
                         <ui:SymbolIcon Symbol="Play24" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />

@@ -60,6 +60,7 @@ public partial class SessionDock : Window
     private string _serverType = string.Empty;
     private bool _opened;
     private bool _closed;
+    private bool _disposed;
     private double _dimmerTarget;
     private CancellationTokenSource? _refreshCts;
     private Task? _refreshTask;
@@ -90,12 +91,20 @@ public partial class SessionDock : Window
         _clock.Tick += OnClock;
         SourceInitialized += OnSourceInitialized;
         SizeChanged += OnSizeChanged;
+        Closing += OnClosing;
         Closed += OnClosed;
         RobloxWindowTracker.Changed += OnTrackerChanged;
         _trackerLease = RobloxWindowTracker.Acquire();
     }
 
     public bool IsOpen => _opened && !_closed;
+
+    // Set as soon as closing starts, showing or hiding a closing window throws
+    private void OnClosing(object? sender, System.ComponentModel.CancelEventArgs e)
+    {
+        if (!e.Cancel)
+            _closed = true;
+    }
 
     public void ToggleFromHotkey()
     {
@@ -121,7 +130,7 @@ public partial class SessionDock : Window
         _serverStarted = data.ServerStartedUtc;
         _location = "Unavailable";
         _players = string.Empty;
-        _serverType = data.ServerType.ToTranslatedString().ToLower(Locale.CurrentCulture);
+        _serverType = data.ServerType.ToConnectedString();
         _lastRefreshUtc = DateTime.MinValue;
         CancelRefresh();
         if (_opened)
@@ -173,8 +182,15 @@ public partial class SessionDock : Window
             Dispatcher.BeginInvoke(new Action(EndSession));
             return;
         }
-        if (!_closed)
+        if (_closed)
+            return;
+        try
+        {
             Close();
+        }
+        catch (InvalidOperationException)
+        {
+        }
     }
 
     public void HideDock()
@@ -192,7 +208,8 @@ public partial class SessionDock : Window
         CancelRefresh();
         _anchor?.Dispose();
         _anchor = null;
-        Hide();
+        if (IsVisible)
+            Hide();
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
             panel.SetInteractive(false);
         FadeDimmer(0);
@@ -220,7 +237,17 @@ public partial class SessionDock : Window
         UpdateReadout();
         ShowDimmer();
         _anchor ??= new RobloxOverlayAnchor(this, placement: RobloxOverlayPlacement.BottomCenter);
-        Show();
+        try
+        {
+            Show();
+        }
+        catch (InvalidOperationException ex)
+        {
+            App.Logger.WriteLine("SessionDock", "The dock could not be shown: " + ex.Message);
+            _opened = false;
+            FadeDimmer(0);
+            return;
+        }
         _anchor.Refresh();
         _clock.Start();
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
@@ -460,8 +487,8 @@ public partial class SessionDock : Window
         if (ServerPanel.Visibility != Visibility.Visible)
             return;
         if (_serverType.Length == 0)
-            _serverType = data.ServerType.ToTranslatedString().ToLower(Locale.CurrentCulture);
-        SetText(ServerReadout, "Connected to " + _serverType + " server"
+            _serverType = data.ServerType.ToConnectedString();
+        SetText(ServerReadout, _serverType
             + "\nLocation: " + _location + "\nUptime: " + uptime + "\nPlayers: " + (_players.Length == 0 ? "Unavailable" : _players));
     }
 
@@ -502,10 +529,12 @@ public partial class SessionDock : Window
 
     private void OnClosed(object? sender, EventArgs e)
     {
-        if (_closed)
+        if (_disposed)
             return;
+        _disposed = true;
         _closed = true;
         _opened = false;
+        Closing -= OnClosing;
         RobloxWindowTracker.Changed -= OnTrackerChanged;
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
         {

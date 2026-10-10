@@ -16,6 +16,7 @@ public partial class NotificationWindow
     private bool _presenting;
     private bool _dismissRequested;
     private IntPtr _notificationHandle;
+    private bool _cornerLayout;
 
     private async Task PresentWindowsNotificationAsync(NotificationItem item)
     {
@@ -40,19 +41,24 @@ public partial class NotificationWindow
             SetText(item.Text, item.Flag);
             NotificationBorder.BeginAnimation(OpacityProperty, null);
             RootTranslate.BeginAnimation(TranslateTransform.XProperty, null);
+            RootTranslate.BeginAnimation(TranslateTransform.YProperty, null);
             ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+            UseCornerLayout();
             NotificationBorder.Opacity = 0;
-            RootTranslate.X = 28;
+            RootTranslate.X = 0;
             ProgressScale.ScaleX = 1;
             DismissButton.Visibility = Visibility.Visible;
             Show();
             _notificationHandle = new WindowInteropHelper(this).Handle;
             OverlayDiagnostics.RegisterOverlayHandle(_notificationHandle);
             UpdateLayout();
+            double slide = Math.Max(1, ActualHeight);
+            RootTranslate.Y = slide;
             PlaceWindowsNotification(bounds);
 
-            AnimateNotification(0, 1, 28, 0, 220);
-            await Task.Delay(220, token);
+            // Starts below the bottom edge and slides up into the corner
+            AnimateNotification(0, 1, slide, 0, 240);
+            await Task.Delay(240, token);
             double duration = double.IsFinite(item.Duration) ? Math.Clamp(item.Duration, 0.5, 60) : 8;
             double remaining = duration;
             Stopwatch clock = Stopwatch.StartNew();
@@ -66,8 +72,8 @@ public partial class NotificationWindow
                 previous = now;
                 ProgressScale.ScaleX = Math.Clamp(remaining / duration, 0, 1);
             }
-            AnimateNotification(1, 0, 0, 20, 160);
-            await Task.Delay(160, token);
+            AnimateNotification(1, 0, 0, Math.Max(1, ActualHeight), 180);
+            await Task.Delay(180, token);
         }
         catch (OperationCanceledException)
         {
@@ -80,6 +86,7 @@ public partial class NotificationWindow
                 Hide();
                 NotificationBorder.BeginAnimation(OpacityProperty, null);
                 RootTranslate.BeginAnimation(TranslateTransform.XProperty, null);
+                RootTranslate.BeginAnimation(TranslateTransform.YProperty, null);
                 NotificationBorder.Opacity = 0;
                 SetImage(null);
                 NotificationTitle.Text = string.Empty;
@@ -88,18 +95,32 @@ public partial class NotificationWindow
         }
     }
 
-    private void AnimateNotification(double fromOpacity, double toOpacity, double fromX, double toX, int milliseconds)
+    private void UseCornerLayout()
+    {
+        if (_cornerLayout)
+            return;
+        _cornerLayout = true;
+        // Flush with the bottom and right edges: no outer margin, square corners where it touches the edges,
+        // and the height follows the content so there is no empty strip under the card
+        NotificationRoot.Margin = new Thickness(0);
+        NotificationRoot.ClipToBounds = true;
+        NotificationBorder.CornerRadius = new CornerRadius(8, 0, 0, 0);
+        NotificationBorder.BorderThickness = new Thickness(1, 1, 0, 0);
+        SizeToContent = SizeToContent.Height;
+    }
+
+    private void AnimateNotification(double fromOpacity, double toOpacity, double fromY, double toY, int milliseconds)
     {
         if (!SystemParameters.ClientAreaAnimation)
         {
             NotificationBorder.Opacity = toOpacity;
-            RootTranslate.X = toX;
+            RootTranslate.Y = toY;
             return;
         }
         Duration duration = new(TimeSpan.FromMilliseconds(milliseconds));
-        CubicEase ease = new() { EasingMode = EasingMode.EaseOut };
+        CubicEase ease = new() { EasingMode = toOpacity > fromOpacity ? EasingMode.EaseOut : EasingMode.EaseIn };
         NotificationBorder.BeginAnimation(OpacityProperty, new DoubleAnimation(fromOpacity, toOpacity, duration) { EasingFunction = ease });
-        RootTranslate.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(fromX, toX, duration) { EasingFunction = ease });
+        RootTranslate.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(fromY, toY, duration) { EasingFunction = ease });
     }
 
     private void OnDismissNotification(object sender, RoutedEventArgs e)
@@ -128,17 +149,35 @@ public partial class NotificationWindow
 
     private void PlaceWindowsNotification(RobloxWindowRect bounds)
     {
-        if (!bounds.Valid)
-        {
-            UpdatePosition();
+        IntPtr handle = new WindowInteropHelper(this).Handle;
+        if (handle == IntPtr.Zero)
             return;
-        }
         DpiScale dpi = VisualTreeHelper.GetDpi(this);
-        int width = (int)Math.Ceiling(Width * dpi.DpiScaleX);
-        int marginX = (int)Math.Round(12 * dpi.DpiScaleX);
-        int marginY = (int)Math.Round(12 * dpi.DpiScaleY);
-        int left = Math.Max(bounds.Left, bounds.Left + bounds.Width - width - marginX);
-        Interop.SetWindowPos(new WindowInteropHelper(this).Handle, IntPtr.Zero, left, bounds.Top + marginY, 0, 0,
+        int width = (int)Math.Ceiling(ActualWidth * dpi.DpiScaleX);
+        int height = (int)Math.Ceiling(ActualHeight * dpi.DpiScaleY);
+        int right;
+        int bottom;
+        int areaLeft;
+        int areaTop;
+        if (bounds.Valid)
+        {
+            // Bottom right corner of the game's client area, touching both edges
+            areaLeft = bounds.Left;
+            areaTop = bounds.Top;
+            right = bounds.Left + bounds.Width;
+            bottom = bounds.Top + bounds.Height;
+        }
+        else
+        {
+            Rect work = SystemParameters.WorkArea;
+            areaLeft = (int)Math.Round(work.Left * dpi.DpiScaleX);
+            areaTop = (int)Math.Round(work.Top * dpi.DpiScaleY);
+            right = (int)Math.Round(work.Right * dpi.DpiScaleX);
+            bottom = (int)Math.Round(work.Bottom * dpi.DpiScaleY);
+        }
+        int left = Math.Max(areaLeft, right - width);
+        int top = Math.Max(areaTop, bottom - height);
+        Interop.SetWindowPos(handle, IntPtr.Zero, left, top, 0, 0,
             Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_NOACTIVATE);
     }
 
