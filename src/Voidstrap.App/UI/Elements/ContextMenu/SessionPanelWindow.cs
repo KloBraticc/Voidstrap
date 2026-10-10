@@ -7,6 +7,8 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
+using System.Windows.Shapes;
 using Voidstrap.Integrations.Overlays;
 using Voidstrap.Models.Persistable;
 
@@ -87,7 +89,9 @@ public sealed partial class SessionPanelWindow : Window
         Grid root = new();
         root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(CaptionHeight) });
         root.RowDefinitions.Add(new RowDefinition());
-        Grid header = new();
+        // A view with a TitleScrollHost scrolls up underneath a frosted title bar instead of stopping at it
+        ScrollViewer? underTitle = view.FindName("TitleScrollHost") as ScrollViewer;
+        Grid header = new() { ClipToBounds = true };
         _drag = new Thumb { Cursor = Cursors.Arrow, Background = Brushes.Transparent };
         FrameworkElementFactory dragVisual = new(typeof(Border));
         dragVisual.SetValue(Border.BackgroundProperty, Brushes.Transparent);
@@ -96,12 +100,16 @@ public sealed partial class SessionPanelWindow : Window
         _drag.DragCompleted += OnGeometryFinished;
         header.Children.Add(_drag);
         // Laid out like the Voidstrap title bar: small title on the left, caption buttons flush in the corner
-        TextBlock caption = new()
+        StackPanel caption = new() { Orientation = Orientation.Horizontal, Margin = new Thickness(14, 0, 100, 0), VerticalAlignment = VerticalAlignment.Center, IsHitTestVisible = false };
+        if (TitleGlyph(key) is { } glyph)
         {
-            Text = title, Margin = new Thickness(16, 0, 100, 0), VerticalAlignment = VerticalAlignment.Center,
-            FontSize = 12, FontWeight = FontWeights.Normal, IsHitTestVisible = false, TextTrimming = TextTrimming.CharacterEllipsis
-        };
-        caption.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+            TextBlock icon = new() { Text = glyph, FontFamily = TitleIconFont, FontSize = 13, Margin = new Thickness(0, 0, 9, 0), VerticalAlignment = VerticalAlignment.Center };
+            icon.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+            caption.Children.Add(icon);
+        }
+        TextBlock captionText = new() { Text = title, FontSize = 12, FontWeight = FontWeights.Normal, VerticalAlignment = VerticalAlignment.Center, TextTrimming = TextTrimming.CharacterEllipsis };
+        captionText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+        caption.Children.Add(captionText);
         header.Children.Add(caption);
         StackPanel actions = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Top };
         _pin = new CaptionButton(PinGlyph, 13, false, "Pin panel");
@@ -111,10 +119,22 @@ public sealed partial class SessionPanelWindow : Window
         actions.Children.Add(_pin);
         actions.Children.Add(_close);
         header.Children.Add(actions);
-        root.Children.Add(header);
         ContentControl host = new() { Content = body, Margin = new Thickness(1, 0, 1, 1) };
-        Grid.SetRow(host, 1);
+        if (underTitle != null)
+        {
+            // The view starts under the title bar, its scrolled content is pushed down by the bar's height
+            Grid.SetRowSpan(host, 2);
+            if (underTitle.Content is FrameworkElement scrolled)
+                scrolled.Margin = new Thickness(scrolled.Margin.Left, scrolled.Margin.Top + CaptionHeight, scrolled.Margin.Right, scrolled.Margin.Bottom);
+            header.Children.Insert(0, CreateFrostedBackdrop(host, header));
+        }
+        else
+        {
+            Grid.SetRow(host, 1);
+        }
         root.Children.Add(host);
+        // Added after the content so it draws on top of anything scrolled underneath it
+        root.Children.Add(header);
         // An invisible grip in the corner, the default thumb drew a grey square there
         _resize = new Thumb { Width = 16, Height = 16, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Bottom, Cursor = Cursors.SizeNWSE };
         FrameworkElementFactory gripVisual = new(typeof(Border));
@@ -142,6 +162,59 @@ public sealed partial class SessionPanelWindow : Window
     }
 
     private const double CaptionHeight = 30;
+    private const double FrostBlur = 18;
+    private static readonly System.Windows.Media.FontFamily TitleIconFont = new("Segoe Fluent Icons, Segoe MDL2 Assets");
+
+    private static string? TitleGlyph(string key) => key switch
+    {
+        "chat" => "\uE8BD",
+        "browser" => "\uE753",
+        "games" => "\uE7FC",
+        "history" => "\uE81C",
+        "music" => "\uE8D6",
+        "notifications" => "\uE713",
+        "server" => "\uE946",
+        _ => null
+    };
+
+    // The frosted title bar: a blurred live copy of whatever is scrolled underneath, under a translucent tint.
+    // The copy is drawn a little larger than the bar so the blur does not darken its edges.
+    private static UIElement CreateFrostedBackdrop(FrameworkElement source, Grid header)
+    {
+        VisualBrush copy = new(source)
+        {
+            ViewboxUnits = BrushMappingMode.Absolute,
+            ViewportUnits = BrushMappingMode.Absolute,
+            Stretch = Stretch.None,
+            AlignmentX = AlignmentX.Left,
+            AlignmentY = AlignmentY.Top
+        };
+        Rectangle blurred = new()
+        {
+            Fill = copy,
+            Margin = new Thickness(-FrostBlur),
+            Effect = new BlurEffect { Radius = FrostBlur, KernelType = KernelType.Gaussian, RenderingBias = RenderingBias.Performance },
+            IsHitTestVisible = false
+        };
+        Rectangle tint = new() { Opacity = 0.62, IsHitTestVisible = false };
+        tint.SetResourceReference(Shape.FillProperty, "SolidBackgroundFillColorBaseBrush");
+        Border line = new() { BorderThickness = new Thickness(0, 0, 0, 1), IsHitTestVisible = false, Opacity = 0.6 };
+        line.SetResourceReference(Border.BorderBrushProperty, "SurfaceStrokeColorDefaultBrush");
+        void Track()
+        {
+            double width = Math.Max(1, header.ActualWidth + FrostBlur * 2);
+            double height = CaptionHeight + FrostBlur * 2;
+            copy.Viewbox = new Rect(-FrostBlur, -FrostBlur, width, height);
+            copy.Viewport = new Rect(0, 0, width, height);
+        }
+        header.SizeChanged += (_, _) => Track();
+        Track();
+        Grid layers = new() { IsHitTestVisible = false };
+        layers.Children.Add(blurred);
+        layers.Children.Add(tint);
+        layers.Children.Add(line);
+        return layers;
+    }
 
     private void UpdatePinVisual()
     {

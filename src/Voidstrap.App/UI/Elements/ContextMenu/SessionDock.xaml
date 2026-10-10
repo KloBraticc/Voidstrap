@@ -268,7 +268,7 @@
           <ui:Button ToolTip="Copy invite link" Tag="invite" Click="OnAction" Style="{StaticResource DockRound}">
             <TextBlock Text="&#xE71B;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Close, Ctrl+Alt+L" Tag="close" Click="OnAction" Style="{StaticResource DockRound}" Margin="8,0,0,0">
+          <ui:Button x:Name="CloseButton" ToolTip="Close" Tag="close" Click="OnAction" Style="{StaticResource DockRound}" Margin="8,0,0,0">
             <TextBlock Text="&#xE711;" Style="{StaticResource DockGlyph}" FontSize="14" />
           </ui:Button>
         </StackPanel>

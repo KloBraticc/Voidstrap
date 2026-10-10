@@ -28,6 +28,21 @@ public sealed class FriendsInServerResult
 	public int FriendCount { get; init; }
 }
 
+public sealed class FriendPresence
+{
+	public long UserId { get; init; }
+
+	public bool InGame { get; init; }
+
+	public string GameId { get; init; } = string.Empty;
+
+	public long PlaceId { get; init; }
+
+	public long UniverseId { get; init; }
+
+	public string LastLocation { get; init; } = string.Empty;
+}
+
 public static class RobloxPresence
 {
 	private sealed class PresenceEntry
@@ -35,6 +50,14 @@ public static class RobloxPresence
 		public long UserId { get; set; }
 
 		public string? GameId { get; set; }
+
+		public int Type { get; set; }
+
+		public long PlaceId { get; set; }
+
+		public long UniverseId { get; set; }
+
+		public string LastLocation { get; set; } = string.Empty;
 	}
 
 	private sealed class FriendList
@@ -87,6 +110,50 @@ public static class RobloxPresence
 		client.DefaultRequestHeaders.UserAgent.ParseAdd("Voidstrap/1.0");
 		return client;
 	}
+
+	// Where every friend is right now, for the friend notifications. Null when it could not be checked.
+	public static async Task<List<FriendPresence>?> GetFriendPresencesAsync(long localUserId, CancellationToken token)
+	{
+		string? cookie = RobloxCookie.Get();
+		if (string.IsNullOrEmpty(cookie) || localUserId <= 0)
+			return null;
+		if (await IsSignInValidAsync(cookie, token).ConfigureAwait(false) == false)
+			return null;
+		List<long>? friendIds = await GetFriendIdsAsync(cookie, localUserId, token).ConfigureAwait(false);
+		if (friendIds == null)
+			return null;
+		if (friendIds.Count == 0)
+			return [];
+		using SemaphoreSlim gate = new SemaphoreSlim(PresenceConcurrency, PresenceConcurrency);
+		List<PresenceEntry>?[] answers = await Task.WhenAll(Chunk(friendIds, PresenceBatchSize).Select(async batch =>
+		{
+			await gate.WaitAsync(token).ConfigureAwait(false);
+			try
+			{
+				return await GetPresencesAsync(cookie, batch, token).ConfigureAwait(false);
+			}
+			finally
+			{
+				gate.Release();
+			}
+		})).ConfigureAwait(false);
+		if (answers.All(answer => answer == null))
+			return null;
+		return answers.Where(answer => answer != null).SelectMany(answer => answer!)
+			.Where(entry => entry.UserId > 0 && entry.UserId != localUserId)
+			.Select(entry => new FriendPresence
+			{
+				UserId = entry.UserId,
+				InGame = entry.Type == 2,
+				GameId = entry.GameId ?? string.Empty,
+				PlaceId = entry.PlaceId,
+				UniverseId = entry.UniverseId,
+				LastLocation = entry.LastLocation
+			}).ToList();
+	}
+
+	// Names and pictures for a few people, cached
+	public static Task<List<ServerFriend>> GetProfilesAsync(List<long> userIds, CancellationToken token) => ResolveProfilesAsync(userIds, token);
 
 	public static async Task<FriendsInServerResult> GetFriendsInServerAsync(long localUserId, string jobId, CancellationToken token = default(CancellationToken))
 	{
@@ -424,7 +491,15 @@ public static class RobloxPresence
 			{
 				long userId = item.TryGetProperty("userId", out JsonElement id) && id.TryGetInt64(out long value) ? value : 0;
 				string? gameId = item.TryGetProperty("gameId", out JsonElement game) && game.ValueKind == JsonValueKind.String ? game.GetString() : null;
-				list.Add(new PresenceEntry { UserId = userId, GameId = gameId });
+				list.Add(new PresenceEntry
+				{
+					UserId = userId,
+					GameId = gameId,
+					Type = item.TryGetProperty("userPresenceType", out JsonElement type) && type.TryGetInt32(out int kind) ? kind : 0,
+					PlaceId = item.TryGetProperty("placeId", out JsonElement place) && place.TryGetInt64(out long placeId) ? placeId : 0,
+					UniverseId = item.TryGetProperty("universeId", out JsonElement universe) && universe.TryGetInt64(out long universeId) ? universeId : 0,
+					LastLocation = item.TryGetProperty("lastLocation", out JsonElement location) && location.ValueKind == JsonValueKind.String ? location.GetString() ?? string.Empty : string.Empty
+				});
 			}
 
 			return list;

@@ -394,6 +394,8 @@ public partial class SessionDock : Window
         _resumeOnFocus = false;
         _resumePopout = false;
         _focusLoss?.Stop();
+        string shortcut = Voidstrap.UI.Elements.ContextMenu.MenuContainer.ShortcutText;
+        CloseButton.ToolTip = shortcut.Length > 0 ? "Close, " + shortcut : "Close";
         // The caller already checked that Roblox is in front, make sure the cached bounds agree before anchoring
         RobloxWindowTracker.Refresh();
         _opened = true;

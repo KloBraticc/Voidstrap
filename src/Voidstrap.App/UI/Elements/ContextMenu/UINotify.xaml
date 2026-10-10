@@ -21,6 +21,12 @@
         <Image x:Name="NotificationImage" Width="44" Height="44" Margin="0,0,12,0" VerticalAlignment="Center"
                Visibility="Collapsed" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
+          <!-- Optional Voidstrap header, chosen per kind of notification in the notification settings -->
+          <StackPanel x:Name="NotificationHeader" Orientation="Horizontal" Margin="0,0,14,5" Visibility="Collapsed">
+            <Image Source="pack://application:,,,/Voidstrap.png" Width="14" Height="14" Margin="0,0,6,0" RenderOptions.BitmapScalingMode="HighQuality" />
+            <TextBlock x:Name="NotificationHeaderText" Text="Voidstrap" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          </StackPanel>
           <TextBlock x:Name="NotificationStatus" FontSize="12" Margin="0,0,14,1" TextWrapping="Wrap"
                      Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
           <TextBlock x:Name="NotificationTitle" FontSize="14" FontWeight="SemiBold" Margin="0,0,14,0"
