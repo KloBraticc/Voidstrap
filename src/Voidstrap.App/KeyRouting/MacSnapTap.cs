@@ -51,7 +51,12 @@ internal static unsafe partial class MacSnapTap
 					return false;
 				else
 				{
-					Volatile.Write(ref existing.Pending, new Config(supported, priority));
+					string description = Describe(supported, priority);
+					if (existing.Description != description)
+					{
+						existing.Description = description;
+						Volatile.Write(ref existing.Pending, new Config(supported, priority));
+					}
 					return true;
 				}
 			}
@@ -87,6 +92,8 @@ internal static unsafe partial class MacSnapTap
 		}
 	}
 
+	private static string Describe(List<int[]> groups, OpposingKeyPriority priority) => priority + ": " + OpposingKeyResolver.FormatGroups(groups);
+
 	private sealed record Config(List<int[]> Groups, OpposingKeyPriority Priority);
 
 	private sealed class Session : IDisposable
@@ -95,6 +102,7 @@ internal static unsafe partial class MacSnapTap
 		public readonly ManualResetEventSlim Started = new();
 		public readonly Thread Worker;
 		public Config? Pending;
+		public string Description;
 		public volatile bool Ready;
 		private readonly OpposingKeyResolver _resolver = new();
 		private readonly List<RoutedKey> _output = new(256);
@@ -112,6 +120,7 @@ internal static unsafe partial class MacSnapTap
 		public Session(Config config)
 		{
 			Pending = config;
+			Description = Describe(config.Groups, config.Priority);
 			Worker = new Thread(Run) { IsBackground = true, Name = "Snap Tap macOS" };
 		}
 
