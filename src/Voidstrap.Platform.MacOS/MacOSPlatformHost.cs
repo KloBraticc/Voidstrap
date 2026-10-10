@@ -114,7 +114,9 @@ public sealed class MacOSPlatformHost : IPlatformHost
 
 	private static CapabilityDescriptor CreateInputCapability()
 	{
-		return new CapabilityDescriptor(FeatureId.GlobalInput, CapabilityState.Unavailable, "The Accessibility input adapter has not been ported to the shared desktop host");
+		return MacOSInputAccess.IsGranted
+			? new CapabilityDescriptor(FeatureId.GlobalInput, CapabilityState.Available, "Snap Tap filters paired keys while Roblox is focused")
+			: new CapabilityDescriptor(FeatureId.GlobalInput, CapabilityState.RequiresPermission, "Snap Tap needs Accessibility access", "Enable Voidstrap in System Settings, Privacy & Security, Accessibility");
 	}
 
 	private static CapabilityDescriptor CreateAudioSessionCapability()

@@ -154,6 +154,7 @@
                 <ui:TextBox MinWidth="240" PlaceholderText="A D, W S" Text="{Binding SnapTapKeys, Mode=TwoWay}" />
               </controls:OptionControl>
               <TextBlock Margin="16,8,16,4" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{x:Static platform:PlatformFeatureVisibility.LinuxIntegration}" Text="On Linux, Snap Tap takes over the keyboard only while Sober is focused and hands it back when you switch away. Sober starts on X11 while Snap Tap is on so Voidstrap can tell when it is focused." />
+              <TextBlock Margin="16,8,16,4" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{x:Static platform:PlatformFeatureVisibility.MacOSIntegration}" Text="On macOS, allow Accessibility access for Voidstrap. Snap Tap follows your keyboard layout, changes paired keys only while Roblox is focused, and restores normal input when you switch away or turn it off." />
             </StackPanel>
           </ui:CardExpander>
                     <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
