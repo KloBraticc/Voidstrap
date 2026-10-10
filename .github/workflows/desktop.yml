@@ -65,7 +65,7 @@ jobs:
           cat > "$probe/KeyboardCheck.csproj" <<EOF
           <Project Sdk="Microsoft.NET.Sdk">
             <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><AllowUnsafeBlocks>true</AllowUnsafeBlocks><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
-            <ItemGroup><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSKeyboardLayout.cs" /><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSInputAccess.cs" /></ItemGroup>
+            <ItemGroup><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSKeyboardLayout.cs" /><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSInputAccess.cs" /><Compile Include="$PWD/src/Voidstrap.App/KeyRouting/MacSnapTap.cs" /><Compile Include="$PWD/src/Voidstrap.App/KeyRouting/OpposingKeyResolver.cs" /></ItemGroup>
           </Project>
           EOF
           cat > "$probe/Program.cs" <<'EOF'
@@ -91,6 +91,29 @@ jobs:
               finally { NativeLibrary.Free(library); }
           }
           Console.WriteLine("All native keyboard filter APIs are available");
+          bool granted = MacOSInputAccess.IsGranted;
+          bool started = Voidstrap.KeyRouting.MacSnapTap.Start([[65, 68]], Voidstrap.KeyRouting.OpposingKeyPriority.LastPressed);
+          if (started != granted) throw new Exception("Keyboard filter startup did not match Accessibility access");
+          if (started)
+          {
+              await Task.Delay(750);
+              var field = typeof(Voidstrap.KeyRouting.MacSnapTap).GetField("_session", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
+              object session = field.GetValue(null)!;
+              if (!(bool)session.GetType().GetField("Ready")!.GetValue(session)!) throw new Exception("Native keyboard filter stopped during initialization");
+          }
+          Voidstrap.KeyRouting.MacSnapTap.Stop();
+          Voidstrap.KeyRouting.MacSnapTap.Stop();
+          Console.WriteLine(started ? "Native keyboard filter started and stopped successfully" : "Keyboard filter correctly refused missing Accessibility access");
+          namespace Voidstrap
+          {
+              internal static class App { internal static Log? Logger => null; }
+              internal sealed class Log { internal void WriteLine(string name, string message) { } }
+          }
+          namespace Voidstrap.Platform.MacOS
+          {
+              internal static class MacOSProcessPolicy { internal static int FrontmostProcessId() => 0; }
+          }
+          namespace System.Windows.Forms { public enum Keys { None = 0 } }
           EOF
           dotnet run --project "$probe/KeyboardCheck.csproj" -warnaserror
       - run: dotnet publish src/Voidstrap.Cross/Voidstrap.Cross.csproj -c Release -r ${{ matrix.rid }} --self-contained true -o artifacts/${{ matrix.rid }}
