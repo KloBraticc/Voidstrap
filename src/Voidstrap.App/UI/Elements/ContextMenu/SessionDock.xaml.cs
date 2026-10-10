@@ -259,7 +259,7 @@ public partial class SessionDock : Window
             if (self.Status != RobloxChatStatus.Ready)
             {
                 ProfileName.Text = "Not signed in";
-                ProfileHandle.Text = self.Status == RobloxChatStatus.SignInExpired ? "Sign in again" : "Allow cookie access";
+                ProfileHandle.Text = self.Status == RobloxChatStatus.SignInExpired ? "Sign in again" : string.Empty;
                 return;
             }
             RobloxChatUser? user = RobloxChat.GetCachedUser(self.Value);
@@ -1077,7 +1077,7 @@ public partial class SessionDock : Window
                 {
                     ProfileStatus.Text = status switch
                     {
-                        RobloxChatStatus.NotSignedIn => "Allow cookie access in Voidstrap's settings to see your profile.",
+                        RobloxChatStatus.NotSignedIn => "Sign in to Roblox to see your profile.",
                         RobloxChatStatus.SignInExpired => "Your Roblox sign in expired, sign in again to see your profile.",
                         _ => "Your profile could not be loaded right now."
                     };

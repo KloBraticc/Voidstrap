@@ -450,7 +450,7 @@
               </Grid.ColumnDefinitions>
               <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
                 <TextBlock Text="Friends" Style="{StaticResource Label}" />
-                <TextBlock Text="Starting a game, joining your game or joining your server. Needs cookie access." Style="{StaticResource Hint}" />
+                <TextBlock Text="Starting a game, joining your game or joining your server." Style="{StaticResource Hint}" />
               </StackPanel>
               <ui:ToggleSwitch x:Name="FriendsToggle" Grid.Column="1" Click="Toggle_Click" />
             </Grid>
@@ -463,7 +463,7 @@
               </Grid.ColumnDefinitions>
               <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
                 <TextBlock Text="Badges" Style="{StaticResource Label}" />
-                <TextBlock Text="When you earn one. Needs cookie access." Style="{StaticResource Hint}" />
+                <TextBlock Text="When you earn one." Style="{StaticResource Hint}" />
               </StackPanel>
               <ui:ToggleSwitch x:Name="BadgesToggle" Grid.Column="1" Click="Toggle_Click" />
             </Grid>
