@@ -131,6 +131,8 @@ public sealed partial class SessionPanelWindow : Window
         Closed += OnClosed;
         PreviewKeyDown += OnKey;
         _view.Closed += OnViewClosed;
+        // Close or Cancel buttons inside a hosted view close the panel, IsCancel alone only works for dialogs
+        AddHandler(ButtonBase.ClickEvent, new RoutedEventHandler(OnHostedClick), true);
         RobloxWindowTracker.Changed += OnBounds;
         _tracker = RobloxWindowTracker.Acquire();
     }
@@ -324,6 +326,17 @@ public sealed partial class SessionPanelWindow : Window
     }
 
     private void OnClosePanel(object sender, RoutedEventArgs e) => Close();
+
+    private void OnHostedClick(object sender, RoutedEventArgs e)
+    {
+        if (_closed || e.OriginalSource is not Button { IsCancel: true })
+            return;
+        Dispatcher.BeginInvoke(new Action(() =>
+        {
+            if (!_closed)
+                Close();
+        }));
+    }
     private void OnViewClosed(object? sender, EventArgs e) => Close();
 
     private void OnKey(object sender, KeyEventArgs e)
@@ -377,6 +390,7 @@ public sealed partial class SessionPanelWindow : Window
         Loaded -= OnLoaded;
         Closed -= OnClosed;
         PreviewKeyDown -= OnKey;
+        RemoveHandler(ButtonBase.ClickEvent, new RoutedEventHandler(OnHostedClick));
         _drag.DragDelta -= OnDrag;
         _drag.DragCompleted -= OnGeometryFinished;
         _resize.DragDelta -= OnResize;
