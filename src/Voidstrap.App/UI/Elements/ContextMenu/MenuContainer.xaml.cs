@@ -301,6 +301,9 @@ public partial class MenuContainer : WpfUiWindow
                 if (_activityWatcher is { } gameActivityWatcher)
                     _sessionDock?.ShowTool("games", Strings.ContextMenu_GameBrowser_Title, () => new SessionGameBrowser(gameActivityWatcher, _watcher.ServerMatchmaker));
                 break;
+            case "chat":
+                _sessionDock?.ShowTool("chat", "Chat", () => new SessionChatWindow());
+                break;
             case "music":
                 _sessionDock?.ShowTool("music", "Music", () => new MusicPlayer(_activityWatcher));
                 break;
