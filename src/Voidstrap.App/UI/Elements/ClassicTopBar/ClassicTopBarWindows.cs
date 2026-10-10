@@ -682,8 +682,15 @@ internal sealed class ClassicMenuWindow : Window
 		{
 			await Task.Delay(1000, token).ConfigureAwait(true);
 			ClassicTopBarInput.Hold(ClassicTopBarInput.VkLeftWindows);
-			ClassicTopBarInput.Tap(ClassicTopBarInput.VkSnapshot);
-			ClassicTopBarInput.Release(ClassicTopBarInput.VkLeftWindows);
+			try
+			{
+				ClassicTopBarInput.Tap(ClassicTopBarInput.VkSnapshot);
+			}
+			finally
+			{
+				// Never leave the Windows key held down
+				ClassicTopBarInput.Release(ClassicTopBarInput.VkLeftWindows);
+			}
 		}
 		catch (OperationCanceledException)
 		{

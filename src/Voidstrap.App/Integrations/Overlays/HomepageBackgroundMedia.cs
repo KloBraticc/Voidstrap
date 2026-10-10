@@ -441,7 +441,20 @@ namespace Voidstrap.Integrations.Overlays
 			}
 		}
 
+		// Runs on a thread pool timer, where an exception would terminate the process
 		private void OnPortableGifTick(object? state)
+		{
+			try
+			{
+				AdvancePortableGif();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("HomepageBackgroundMedia::Gif", "The background animation stopped: " + ex.Message);
+			}
+		}
+
+		private void AdvancePortableGif()
 		{
 			lock (_portableGifLock)
 			{

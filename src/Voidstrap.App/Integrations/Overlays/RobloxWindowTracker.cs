@@ -54,8 +54,10 @@ namespace Voidstrap.Integrations.Overlays
 
         private static readonly object _sync = new object();
 
-        private static WinEventProc? _locationProc;
-        private static WinEventProc? _foregroundProc;
+        // Kept alive for the whole process: Windows can still deliver queued events after a hook is removed,
+        // and a callback into a collected delegate terminates the process
+        private static readonly WinEventProc _locationProc = OnLocationEvent;
+        private static readonly WinEventProc _foregroundProc = OnForegroundEvent;
         private static IntPtr _locationHook;
 		private static IntPtr _destroyHook;
         private static IntPtr _foregroundHook;
@@ -120,7 +122,6 @@ namespace Voidstrap.Integrations.Overlays
 
             if (Voidstrap.Utility.Platform.IsWindows)
             {
-                _foregroundProc = OnForegroundEvent;
                 _foregroundHook = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _foregroundProc, 0, 0, WINEVENT_OUTOFCONTEXT);
             }
 
@@ -230,7 +231,6 @@ namespace Voidstrap.Integrations.Overlays
                 UnhookWinEvent(_foregroundHook);
                 _foregroundHook = IntPtr.Zero;
             }
-            _foregroundProc = null;
 
             _hwnd = IntPtr.Zero;
             _pid = 0;
@@ -267,7 +267,6 @@ namespace Voidstrap.Integrations.Overlays
 				UnhookWinEvent(_destroyHook);
 				_destroyHook = IntPtr.Zero;
 			}
-            _locationProc = null;
         }
 
         private static void OnDiscoveryTick(object? sender, EventArgs e)
@@ -317,7 +316,6 @@ namespace Voidstrap.Integrations.Overlays
                 ReleaseLocationHook();
                 _hwnd = found;
                 _pid = pid;
-                _locationProc = OnLocationEvent;
 				_destroyHook = SetWinEventHook(EVENT_OBJECT_DESTROY, EVENT_OBJECT_DESTROY, IntPtr.Zero, _locationProc, pid, 0, WINEVENT_OUTOFCONTEXT);
 				_locationHook = SetWinEventHook(EVENT_OBJECT_LOCATIONCHANGE, EVENT_OBJECT_LOCATIONCHANGE, IntPtr.Zero, _locationProc, pid, 0, WINEVENT_OUTOFCONTEXT);
             }
@@ -334,25 +332,40 @@ namespace Voidstrap.Integrations.Overlays
                 _discoveryTimer.Interval = interval;
         }
 
+        // Called by Windows: an exception escaping here would terminate the process, so nothing may throw
         private static void OnLocationEvent(IntPtr hook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint thread, uint time)
         {
-            if (!_started || hwnd != _hwnd || idObject != OBJID_WINDOW)
-                return;
-
-            if (eventType == EVENT_OBJECT_DESTROY)
+            try
             {
-				QueuePublish(hwnd, true);
-                return;
-            }
+                if (!_started || hwnd != _hwnd || idObject != OBJID_WINDOW)
+                    return;
 
-            if (eventType == EVENT_OBJECT_LOCATIONCHANGE)
-				QueuePublish(hwnd, false);
+                if (eventType == EVENT_OBJECT_DESTROY)
+                {
+                    QueuePublish(hwnd, true);
+                    return;
+                }
+
+                if (eventType == EVENT_OBJECT_LOCATIONCHANGE)
+                    QueuePublish(hwnd, false);
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine("RobloxWindowTracker::OnLocationEvent", "Error: " + ex.Message);
+            }
         }
 
         private static void OnForegroundEvent(IntPtr hook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint thread, uint time)
         {
-            if (_started)
-				QueuePublish(IntPtr.Zero, false);
+            try
+            {
+                if (_started)
+                    QueuePublish(IntPtr.Zero, false);
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine("RobloxWindowTracker::OnForegroundEvent", "Error: " + ex.Message);
+            }
         }
 
 		private static void QueuePublish(IntPtr hwnd, bool destroyed)
@@ -622,6 +635,18 @@ namespace Voidstrap.Integrations.Overlays
         }
 
         private static bool EnumWindowCallback(IntPtr hwnd, IntPtr lparam)
+        {
+            try
+            {
+                return InspectWindow(hwnd);
+            }
+            catch
+            {
+                return true;
+            }
+        }
+
+        private static bool InspectWindow(IntPtr hwnd)
         {
             if (!IsWindowVisible(hwnd) || IsIconic(hwnd))
                 return true;

@@ -492,16 +492,16 @@ public partial class Watcher : IDisposable
 
 	private void OnRuntimeGameJoin(object? sender, EventArgs e)
 	{
-		Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition();
+		RunRuntimeAction(Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition, "NoteGameTransition");
 		if (Voidstrap.Utility.Platform.IsMacOS)
 		{
 			_ = NotifyMacGameJoinAsync();
-			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true);
+			RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true), "SyncGameJoin");
 			RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
 			return;
 		}
 		if (Voidstrap.Utility.Platform.IsLinux)
-			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true);
+			RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true), "SyncGameJoin");
 		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameJoin, "FullscreenJoin");
 		RunRuntimeAction(Voidstrap.Integrations.RiShade.RiShadeManager.OnGameJoin, "RiShadeJoin");
 		RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameJoin, "AntiAliasingJoin");
@@ -537,20 +537,20 @@ public partial class Watcher : IDisposable
 
 	private void OnRuntimeGameLeave(object? sender, EventArgs e)
 	{
-		Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition();
+		RunRuntimeAction(Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition, "NoteGameTransition");
 		bool teleporting = ActivityWatcher?.IsTeleporting == true;
 		if (Voidstrap.Utility.Platform.IsMacOS)
 		{
 			if (!teleporting)
 			{
-				Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false);
+				RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false), "SyncGameLeave");
 				RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
-				Voidstrap.UI.LinuxWindowMemory.CompactAfterGame();
+				RunRuntimeAction(Voidstrap.UI.LinuxWindowMemory.CompactAfterGame, "CompactAfterGame");
 			}
 			return;
 		}
 		if (Voidstrap.Utility.Platform.IsLinux && !teleporting)
-			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false);
+			RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false), "SyncGameLeave");
 		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameLeave, "FullscreenLeave");
 		if (!teleporting)
 		{
@@ -558,7 +558,7 @@ public partial class Watcher : IDisposable
 			RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameLeave, "AntiAliasingLeave");
 			RunRuntimeAction(Voidstrap.Integrations.FrameGeneration.FrameGenManager.OnGameLeave, "FrameGenerationLeave");
 			RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
-			Voidstrap.UI.LinuxWindowMemory.CompactAfterGame();
+			RunRuntimeAction(Voidstrap.UI.LinuxWindowMemory.CompactAfterGame, "CompactAfterGame");
 		}
 	}
 

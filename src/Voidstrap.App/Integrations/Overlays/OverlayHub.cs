@@ -672,12 +672,32 @@ namespace Voidstrap.Integrations.Overlays
 
 		private static void OnLinuxHomepageRetry(object? state)
 		{
-			if (_shutdown || !HomepageBackgroundActive)
+			// Thread pool timer callback, an exception here would terminate the process
+			try
 			{
-				StopLinuxHomepageRetry();
-				return;
+				if (_shutdown || !HomepageBackgroundActive)
+				{
+					StopLinuxHomepageRetry();
+					return;
+				}
+				StartLinuxHomepage();
 			}
-			StartLinuxHomepage();
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("Overlays", "The Sober homepage retry failed: " + ex.Message);
+			}
+		}
+
+		private static void SafeStart()
+		{
+			try
+			{
+				Start();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteException("OverlayHub::Start", ex);
+			}
 		}
 
 		private static void StopLinuxHomepage()
@@ -907,9 +927,18 @@ namespace Voidstrap.Integrations.Overlays
             if (dispose)
                 owner.Dispose();
 			if (restart)
-				ThreadPool.QueueUserWorkItem(_ => Start());
+				ThreadPool.QueueUserWorkItem(_ => SafeStart());
 			else
-				RobloxFpsCap.Shutdown();
+			{
+				try
+				{
+					RobloxFpsCap.Shutdown();
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteException("OverlayHub::Supervise", ex);
+				}
+			}
         }
 
         private static void WatchRoblox(CancellationTokenSource runCts)
