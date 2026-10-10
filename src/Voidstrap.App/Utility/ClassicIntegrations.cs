@@ -153,11 +153,8 @@ namespace Voidstrap.Utility
 
             try
             {
-                if (App.Settings.Prop.OverlaysEnabled)
-                    ScreenColorEffect.ApplyConfigured();
-                else
-                    ScreenColorEffect.Reset();
-                if (App.Settings.Prop.OverlaysEnabled && OverlayWindow.SurfaceRequired && Application.Current.Resources["OverlayWindow"] is not OverlayWindow)
+                ScreenColorEffect.ApplyConfigured();
+                if (OverlayWindow.SurfaceRequired && Application.Current.Resources["OverlayWindow"] is not OverlayWindow)
                 {
                     var overlay = new OverlayWindow();
                     overlay.Show();

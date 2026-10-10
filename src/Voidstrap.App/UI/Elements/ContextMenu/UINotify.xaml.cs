@@ -17,7 +17,7 @@ namespace Voidstrap.UI.Elements.Overlay
 {
     public partial class NotificationWindow : Window
     {
-        private const int MaxQueuedNotifications = 20;
+        private const int MaxQueuedNotifications = 4;
         private const int EdgeMargin = 10;
         private const int RenderWarmUpFrames = 6;
         private const int RenderWarmUpTimeoutMs = 2500;
@@ -107,16 +107,33 @@ namespace Voidstrap.UI.Elements.Overlay
 				Dispatcher.BeginInvoke(new Action(() => ShowNotification(message, image, durationSeconds, flag)));
 				return;
 			}
+            int separator = message.IndexOf('\n');
+            ShowNotification(separator < 0 ? "Voidstrap" : message[..separator],
+                separator < 0 ? message : message[(separator + 1)..], image, durationSeconds, flag);
+        }
+
+        public void ShowNotification(string title, string message, BitmapSource? image, double durationSeconds,
+            BitmapSource? flag, string status = "Voidstrap", CancellationToken token = default)
+        {
+            if (_closed || token.IsCancellationRequested)
+                return;
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.BeginInvoke(new Action(() => ShowNotification(title, message, image, durationSeconds, flag, status, token)));
+                return;
+            }
             while (_queue.Count >= MaxQueuedNotifications)
                 _queue.Dequeue();
             _queue.Enqueue(new NotificationItem
             {
+                Title = title,
                 Text = message,
                 Image = image,
                 Flag = flag,
-                Duration = durationSeconds
+                Duration = durationSeconds,
+                Status = status,
+                Token = token
             });
-
             if (!_isProcessing)
                 _ = ProcessQueue();
         }
@@ -133,6 +150,15 @@ namespace Voidstrap.UI.Elements.Overlay
                 while (_queue.Count > 0 && !_lifetimeCts.IsCancellationRequested)
                 {
                     var item = _queue.Dequeue();
+                    if (item.Token.IsCancellationRequested)
+                        continue;
+                    NotificationTitle.Text = item.Title;
+                    NotificationStatus.Text = item.Status;
+                    if (Voidstrap.Utility.Platform.IsWindows)
+                    {
+                        await PresentWindowsNotificationAsync(item);
+                        continue;
+                    }
                     double duration = double.IsFinite(item.Duration) ? Math.Clamp(item.Duration, 0.5, 60) : 5;
                     SetText(item.Text, item.Flag);
 
@@ -218,6 +244,7 @@ namespace Voidstrap.UI.Elements.Overlay
             finally
             {
                 _isProcessing = false;
+                ReleaseWindowsPresentation();
 				StopLinuxSync();
 				if (!_closed)
 				{
@@ -869,7 +896,7 @@ namespace Voidstrap.UI.Elements.Overlay
 
             var hwnd = new WindowInteropHelper(this).Handle;
 			nint exStyle = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
-			SetWindowLongPtr(hwnd, GWL_EXSTYLE, exStyle | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
+			SetWindowLongPtr(hwnd, GWL_EXSTYLE, (exStyle & ~WS_EX_TRANSPARENT) | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
         }
 
         private const int GWL_EXSTYLE = -20;
@@ -898,9 +925,12 @@ namespace Voidstrap.UI.Elements.Overlay
             NotificationBorder.BeginAnimation(OpacityProperty, null);
             ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
 			BeginAnimation(LinuxFadeProperty, null);
+            ReleaseWindowsPresentation();
             SetImage(null);
+            NotificationTitle.Text = string.Empty;
             NotificationText.Inlines.Clear();
             _lifetimeCts.Dispose();
+            GC.SuppressFinalize(this);
 
             if (ReferenceEquals(Application.Current?.Resources["NotificationWindow"], this))
                 Application.Current.Resources.Remove("NotificationWindow");
@@ -952,6 +982,9 @@ namespace Voidstrap.UI.Elements.Overlay
 
         private partial class NotificationItem
         {
+            public string Title { get; set; } = string.Empty;
+            public string Status { get; set; } = "Voidstrap";
+            public CancellationToken Token { get; set; }
             public string Text { get; set; } = null!;
             public BitmapSource? Image { get; set; }
             public BitmapSource? Flag { get; set; }

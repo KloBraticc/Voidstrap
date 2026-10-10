@@ -5,6 +5,8 @@ namespace Voidstrap.Models.Persistable;
 
 public class State
 {
+	public Dictionary<string, SessionPanelLayout> SessionPanels { get; set; } = new();
+
 	public bool TestModeWarningShown { get; set; }
 
 	public bool ShowBloxshadeWarning { get; set; }
@@ -56,4 +58,13 @@ public class State
 	public string LastCacheBackup { get; set; } = string.Empty;
 
 	public bool SafeLaunchPending { get; set; }
+}
+
+public sealed class SessionPanelLayout
+{
+	public double X { get; set; }
+	public double Y { get; set; }
+	public double Width { get; set; }
+	public double Height { get; set; }
+	public bool Pinned { get; set; }
 }

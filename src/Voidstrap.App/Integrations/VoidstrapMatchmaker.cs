@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Voidstrap.Models.APIs;
 
 namespace Voidstrap.Integrations;
 
@@ -569,6 +570,80 @@ public static class VoidstrapMatchmaker
 		}
 	}
 
+	public static async Task<MatchmakerServerScan> ScanServersAsync(long placeId, string? preferredOverride = null, string? includeJobId = null, Action<MatchmakerCandidate>? onResult = null, CancellationToken token = default)
+	{
+		if (placeId <= 0)
+			return new MatchmakerServerScan { Status = MatchmakerScanStatus.NoServers };
+
+		using CancellationTokenSource deadlineCts = CancellationTokenSource.CreateLinkedTokenSource(token);
+		deadlineCts.CancelAfter(OverallDeadline);
+		CancellationToken scanToken = deadlineCts.Token;
+
+		string? cookie = RobloxAuthLauncher.TryGetRobloxSecurityCookie();
+		if (string.IsNullOrEmpty(cookie))
+		{
+			App.Logger.WriteLine(LOG_IDENT, "No Roblox cookie found, the server browser needs a signed in account to resolve server locations");
+			return new MatchmakerServerScan { Status = MatchmakerScanStatus.SignedOut };
+		}
+
+		string preferred = (preferredOverride ?? App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "").Trim();
+		HashSet<string> blocked = GetBlockedDatacenters();
+		bool preferEmpty = App.Settings.Prop.VoidstrapMatchmakerPreferEmpty;
+		int probeBudget = Math.Clamp(ResolveEffectiveCandidateCount(), MinCandidateCount, MaxCandidateCount);
+		if (preferred.Length > 0 || blocked.Count > 0)
+			probeBudget = Math.Min(FilteredCandidateCeiling, probeBudget * 2);
+		probeBudget = Math.Max(probeBudget, MaxCandidateCount);
+
+		Task<UserGeo?> geoTask = GetUserGeoAsync(scanToken);
+		Task<List<ServerListItem>> poolTask = ListPublicServersAsync(placeId, cookie, MaxServerListPages, preferEmpty, scanToken);
+		Task csrfTask = PrimeCsrfAsync(placeId, cookie, scanToken);
+		await Task.WhenAll(geoTask, poolTask, csrfTask).ConfigureAwait(false);
+
+		UserGeo? geo = await geoTask.ConfigureAwait(false);
+		List<ServerListItem> pool = await poolTask.ConfigureAwait(false);
+		if (pool.Count == 0)
+			return new MatchmakerServerScan { Status = MatchmakerScanStatus.NoServers };
+		if (geo == null)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "The server browser cannot rank servers without your location");
+			return new MatchmakerServerScan { Status = MatchmakerScanStatus.NoLocation, Listed = pool.Count };
+		}
+
+		List<ServerListItem> probeList = pool.Count > probeBudget ? Stratify(pool, probeBudget) : new List<ServerListItem>(pool);
+		if (!string.IsNullOrEmpty(includeJobId) && !probeList.Any(x => string.Equals(x.JobId, includeJobId, StringComparison.OrdinalIgnoreCase)))
+		{
+			ServerListItem? current = pool.FirstOrDefault(x => string.Equals(x.JobId, includeJobId, StringComparison.OrdinalIgnoreCase));
+			if (current != null)
+				probeList.Insert(0, current);
+		}
+		App.Logger.WriteLine(LOG_IDENT, $"Server browser probing {probeList.Count} of {pool.Count} servers for place {placeId}");
+
+		double floorMs = EstimateRttMs(NearestDatacenterKm(geo));
+		List<MatchmakerCandidate> probed = await ProbeAsync(placeId, probeList, cookie, geo, preferred, blocked, preferEmpty, floorMs, scanToken, allowEarlyExit: false, onResult: onResult).ConfigureAwait(false);
+		if (probed.Count == 0)
+			return new MatchmakerServerScan { Status = MatchmakerScanStatus.Unresolved, Listed = pool.Count };
+
+		MatchmakerCandidate? best = SelectWinner(probed, preferred, blocked, preferEmpty);
+		MatchmakerScanStatus status = MatchmakerScanStatus.Ok;
+		if (best == null)
+		{
+			status = MatchmakerScanStatus.AllBlocked;
+		}
+		else if (ShouldHandOff(best.EstimatedPingMs, floorMs, preferred.Length > 0 && MatchesPreferredDc(best.Datacenter, preferred)))
+		{
+			App.Logger.WriteLine(LOG_IDENT, $"Every server the browser found is far away, the best is about {best.EstimatedPingMs}ms");
+			status = MatchmakerScanStatus.AllFar;
+		}
+
+		return new MatchmakerServerScan
+		{
+			Status = status,
+			Servers = probed.OrderBy(c => c.Score).ToList(),
+			Best = best,
+			Listed = pool.Count
+		};
+	}
+
 	private static async Task<MatchmakerCandidate?> PickBestCoreAsync(long placeId, IEnumerable<string>? exclude, int maxCandidates, string? preferredOverride, CancellationToken token)
 	{
 		System.Diagnostics.Stopwatch stageClock = System.Diagnostics.Stopwatch.StartNew();
@@ -661,6 +736,27 @@ public static class VoidstrapMatchmaker
 		App.Logger.WriteLine(LOG_IDENT, $"Probed {probed.Count} of {probeList.Count} servers in {stageClock.ElapsedMilliseconds - listReadyMs}ms, {stageClock.ElapsedMilliseconds}ms total so far");
 		App.Logger.WriteLine(LOG_IDENT, $"ServerClaimedTime was set for {Volatile.Read(ref _claimedTimeSet)} of {Volatile.Read(ref _claimedTimeSeen)} probed servers, {_knownServerStarts.Count} server start times known");
 
+		MatchmakerCandidate? winner = SelectWinner(probed, preferred, blocked, preferEmpty);
+		if (winner == null)
+			return null;
+
+		string players = winner.MaxPlayers > 0 ? $"{winner.Playing}/{winner.MaxPlayers} players" : "player count unknown";
+		App.Logger.WriteLine(LOG_IDENT, $"Winner: {winner.DatacenterName}, about {winner.EstimatedPingMs}ms, {players}, JobId {winner.JobId}");
+
+		bool winnerIsPreferred = preferred.Length > 0 && MatchesPreferredDc(winner.Datacenter, preferred);
+		if (ShouldHandOff(winner.EstimatedPingMs, floorMs, winnerIsPreferred))
+		{
+			App.Logger.WriteLine(LOG_IDENT, $"Every server found is far away, the best is about {winner.EstimatedPingMs}ms, handing off to Roblox matchmaking so it can try a fresh nearby server");
+			return null;
+		}
+		return winner;
+	}
+
+	internal static MatchmakerCandidate? SelectWinner(List<MatchmakerCandidate> probed, string preferred, HashSet<string> blocked, bool preferEmpty)
+	{
+		if (probed.Count == 0)
+			return null;
+
 		MatchmakerCandidate? closestOverall = probed.OrderBy(c => c.DistanceKm).FirstOrDefault();
 		App.Logger.WriteLine(LOG_IDENT, "Datacenters seen: " + string.Join(", ", probed
 			.GroupBy(c => DatacenterKey(c.Datacenter))
@@ -715,7 +811,7 @@ public static class VoidstrapMatchmaker
 		}
 
 		MatchmakerCandidate winner = allowed.OrderBy(c => c.Score).First();
-		winner = new MatchmakerCandidate
+		return new MatchmakerCandidate
 		{
 			JobId = winner.JobId,
 			MachineAddress = winner.MachineAddress,
@@ -730,17 +826,6 @@ public static class VoidstrapMatchmaker
 			BlockedClosestCity = blockedClosestCity,
 			BlockedClosestDistanceKm = blockedClosestKm
 		};
-
-		string players = winner.MaxPlayers > 0 ? $"{winner.Playing}/{winner.MaxPlayers} players" : "player count unknown";
-		App.Logger.WriteLine(LOG_IDENT, $"Winner: {winner.DatacenterName}, about {winner.EstimatedPingMs}ms, {players}, JobId {winner.JobId}");
-
-		bool winnerIsPreferred = preferred.Length > 0 && MatchesPreferredDc(winner.Datacenter, preferred);
-		if (ShouldHandOff(winner.EstimatedPingMs, floorMs, winnerIsPreferred))
-		{
-			App.Logger.WriteLine(LOG_IDENT, $"Every server found is far away, the best is about {winner.EstimatedPingMs}ms, handing off to Roblox matchmaking so it can try a fresh nearby server");
-			return null;
-		}
-		return winner;
 	}
 
 	internal static bool ShouldHandOff(double winnerPingMs, double floorMs, bool winnerIsPreferred)
@@ -800,7 +885,7 @@ public static class VoidstrapMatchmaker
 		return 0.0;
 	}
 
-	private static async Task<List<MatchmakerCandidate>> ProbeAsync(long placeId, List<ServerListItem> servers, string cookie, UserGeo geo, string preferred, HashSet<string> blocked, bool preferEmpty, double floorMs, CancellationToken token)
+	private static async Task<List<MatchmakerCandidate>> ProbeAsync(long placeId, List<ServerListItem> servers, string cookie, UserGeo geo, string preferred, HashSet<string> blocked, bool preferEmpty, double floorMs, CancellationToken token, bool allowEarlyExit = true, Action<MatchmakerCandidate>? onResult = null)
 	{
 		ConcurrentBag<MatchmakerCandidate> results = new ConcurrentBag<MatchmakerCandidate>();
 		int goodEnough = 0;
@@ -815,7 +900,8 @@ public static class VoidstrapMatchmaker
 		{
 			while (!localToken.IsCancellationRequested && queue.TryDequeue(out ServerListItem? sv))
 			{
-				if (Voidstrap.Utility.Platform.IsLinux
+				if (allowEarlyExit
+					&& Voidstrap.Utility.Platform.IsLinux
 					&& Volatile.Read(ref goodEnough) >= 1
 					&& probeClock.ElapsedMilliseconds >= LinuxSettleMs)
 				{
@@ -871,7 +957,7 @@ public static class VoidstrapMatchmaker
 				double learnedPing = ServerFetchStore.GetMedianPing(resolved.Value.Ip, out int learnedSamples);
 				double learnedWeight = learnedSamples <= 0 || learnedPing < 1.0 || learnedPing > 999.0 ? 0.0 : Math.Min(0.75, 0.2 + learnedSamples * 0.05);
 				double effectivePing = learnedWeight > 0.0 ? geographicPing * (1.0 - learnedWeight) + learnedPing * learnedWeight : geographicPing;
-				results.Add(new MatchmakerCandidate
+				MatchmakerCandidate candidate = new MatchmakerCandidate
 				{
 					JobId = sv.JobId,
 					MachineAddress = resolved.Value.Ip,
@@ -883,8 +969,12 @@ public static class VoidstrapMatchmaker
 					Ping = sv.Ping,
 					EstimatedPingMs = Math.Clamp((int)Math.Round(effectivePing), 1, 999),
 					Score = effectivePing + PopulationPenaltyMs(sv.Playing, sv.MaxPlayers, preferEmpty)
-				});
+				};
+				results.Add(candidate);
 				Interlocked.Increment(ref resultCount);
+				onResult?.Invoke(candidate);
+				if (!allowEarlyExit)
+					continue;
 
 				bool usable = !blocked.Contains(BlockKey(dc));
 				bool onTarget = preferred.Length > 0 ? MatchesPreferredDc(dc, preferred) : EstimateRttMs(km) <= floorMs + ClosestDatacenterBandMs;
@@ -1577,6 +1667,13 @@ public static class VoidstrapMatchmaker
 		return null;
 	}
 
+	private static double TryGetDouble(JsonElement el, string prop)
+	{
+		return el.ValueKind == JsonValueKind.Object && el.TryGetProperty(prop, out JsonElement value) && value.ValueKind == JsonValueKind.Number && value.TryGetDouble(out double result)
+			? result
+			: 0.0;
+	}
+
 	private static async Task<List<ServerListItem>> ListPublicServersAsync(long placeId, string cookie, int maxPages, bool preferEmpty, CancellationToken token)
 	{
 		List<ServerListItem> items = new List<ServerListItem>();
@@ -1642,6 +1739,7 @@ public static class VoidstrapMatchmaker
 							int playing = TryGetInt(el, "playing") ?? 0;
 							int maxPlayers = TryGetInt(el, "maxPlayers") ?? 0;
 							int ping = TryGetInt(el, "ping") ?? -1;
+							double fps = TryGetDouble(el, "fps");
 							if (maxPlayers > 0 && playing >= maxPlayers)
 								continue;
 							items.Add(new ServerListItem
@@ -1649,7 +1747,8 @@ public static class VoidstrapMatchmaker
 								JobId = jobId,
 								Playing = playing,
 								MaxPlayers = maxPlayers,
-								Ping = ping
+								Ping = ping,
+								FPS = fps
 							});
 						}
 					}
@@ -1728,3 +1827,25 @@ public enum ServerStartStatus
 }
 
 public readonly record struct ServerStartLookup(ServerStartStatus Status, DateTimeOffset StartedUtc);
+
+public enum MatchmakerScanStatus
+{
+	Ok,
+	SignedOut,
+	NoLocation,
+	NoServers,
+	Unresolved,
+	AllBlocked,
+	AllFar
+}
+
+public sealed class MatchmakerServerScan
+{
+	public MatchmakerScanStatus Status { get; init; }
+
+	public IReadOnlyList<MatchmakerCandidate> Servers { get; init; } = Array.Empty<MatchmakerCandidate>();
+
+	public MatchmakerCandidate? Best { get; init; }
+
+	public int Listed { get; init; }
+}

@@ -50,7 +50,6 @@ namespace Voidstrap.Integrations.Overlays
         private const uint EVENT_OBJECT_DESTROY = 0x8001;
         private const uint EVENT_OBJECT_LOCATIONCHANGE = 0x800B;
         private const uint WINEVENT_OUTOFCONTEXT = 0x0000;
-        private const uint WINEVENT_SKIPOWNPROCESS = 0x0002;
         private const int OBJID_WINDOW = 0;
 
         private static readonly object _sync = new object();
@@ -122,7 +121,7 @@ namespace Voidstrap.Integrations.Overlays
             if (Voidstrap.Utility.Platform.IsWindows)
             {
                 _foregroundProc = OnForegroundEvent;
-                _foregroundHook = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _foregroundProc, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
+                _foregroundHook = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _foregroundProc, 0, 0, WINEVENT_OUTOFCONTEXT);
             }
 
             _discoveryTimer = new DispatcherTimer(DispatcherPriority.Background)
@@ -134,6 +133,17 @@ namespace Voidstrap.Integrations.Overlays
 
             OnDiscoveryTick(null, EventArgs.Empty);
         }
+
+		public static void Refresh()
+		{
+			if (!_started)
+				return;
+			Dispatcher? dispatcher = Application.Current?.Dispatcher;
+			if (dispatcher != null && dispatcher.CheckAccess())
+				Publish();
+			else
+				QueuePublish(IntPtr.Zero, false);
+		}
 
 		private static void FlushEnsure()
 		{
@@ -544,8 +554,20 @@ namespace Voidstrap.Integrations.Overlays
             return pid != 0 && pid == _pid;
         }
 
+        public static bool IsProcessForeground(int processId)
+        {
+            if (processId <= 0)
+                return false;
+            IntPtr foreground = GetForegroundWindow();
+            if (foreground == IntPtr.Zero)
+                return false;
+            GetWindowThreadProcessId(foreground, out uint processIdAtForeground);
+            return processIdAtForeground == (uint)processId;
+        }
+
         private static readonly HashSet<uint> _findPids = new HashSet<uint>();
         private static EnumWindowsProc? _enumProc;
+        private static readonly char[] _className = new char[64];
         private static IntPtr _findBest;
         private static uint _findBestPid;
         private static long _findBestArea;
@@ -608,9 +630,8 @@ namespace Voidstrap.Integrations.Overlays
             if (wpid == 0 || !_findPids.Contains(wpid))
                 return true;
 
-            char[] className = new char[64];
-            int classLength = GetClassName(hwnd, className, className.Length);
-            if (!className.AsSpan(0, Math.Max(0, classLength)).SequenceEqual("WINDOWSCLIENT"))
+            int classLength = GetClassName(hwnd, _className, _className.Length);
+            if (!_className.AsSpan(0, Math.Clamp(classLength, 0, _className.Length)).SequenceEqual("WINDOWSCLIENT"))
                 return true;
 
             if (!GetClientRect(hwnd, out RECT rc))
@@ -690,6 +711,7 @@ namespace Voidstrap.Integrations.Overlays
         Fill,
         Center,
         TopRight,
+        BottomCenter,
         TopStrip
     }
 
@@ -702,6 +724,7 @@ namespace Voidstrap.Integrations.Overlays
 
         private readonly Window _window;
         private readonly bool _hideWhenUnfocused;
+		private readonly bool _keepZOrder;
 		private readonly RobloxOverlayPlacement _placement;
 		private readonly IDisposable _trackerLease;
 		private readonly object _applySync = new object();
@@ -711,10 +734,11 @@ namespace Voidstrap.Integrations.Overlays
 		private RobloxWindowRect _pendingRect;
 		private int _applyPending;
 
-        public RobloxOverlayAnchor(Window window, bool hideWhenUnfocused = true, RobloxOverlayPlacement placement = RobloxOverlayPlacement.Fill)
+        public RobloxOverlayAnchor(Window window, bool hideWhenUnfocused = true, RobloxOverlayPlacement placement = RobloxOverlayPlacement.Fill, bool keepZOrder = false)
         {
             _window = window;
             _hideWhenUnfocused = hideWhenUnfocused;
+			_keepZOrder = keepZOrder;
 			_placement = placement;
 			if (Voidstrap.Utility.Platform.IsMacOS)
 			{
@@ -741,6 +765,10 @@ namespace Voidstrap.Integrations.Overlays
 
             RobloxWindowTracker.Changed += OnTrackerChanged;
             _trackerLease = RobloxWindowTracker.Acquire();
+            _hwnd = new WindowInteropHelper(_window).Handle;
+            _sourceReady = _hwnd != IntPtr.Zero;
+            if (_sourceReady)
+                OverlayDiagnostics.RegisterOverlayHandle(_hwnd);
         }
 
         private void OnSourceInitialized(object? sender, EventArgs e)
@@ -849,6 +877,11 @@ namespace Voidstrap.Integrations.Overlays
 						left = rect.Left + (rect.Width - width) / 2;
 						top = rect.Top + (rect.Height - height) / 2;
 					}
+                    else if (_placement == RobloxOverlayPlacement.BottomCenter)
+                    {
+                        left = rect.Left + Math.Max(0, (rect.Width - width) / 2);
+                        top = rect.Top + Math.Max(0, rect.Height - height - verticalMargin);
+                    }
 					else if (_placement == RobloxOverlayPlacement.TopStrip)
 					{
 						width = rect.Width;
@@ -866,7 +899,7 @@ namespace Voidstrap.Integrations.Overlays
 					ApplyLinuxGeometry(left, top, Math.Max(1, width), Math.Max(1, height));
 					return;
 				}
-				SetWindowPos(_hwnd, HWND_TOPMOST, left, top, width, height, SWP_NOACTIVATE | SWP_SHOWWINDOW);
+				SetWindowPos(_hwnd, HWND_TOPMOST, left, top, width, height, (uint)(SWP_NOACTIVATE | SWP_SHOWWINDOW | (_keepZOrder ? SWP_NOZORDER : 0)));
             }
             catch (InvalidOperationException)
             {
@@ -929,6 +962,11 @@ namespace Voidstrap.Integrations.Overlays
 				{
 					left = rect.Left + (rect.Width - width) / 2;
 					top = rect.Top + (rect.Height - height) / 2;
+				}
+				else if (_placement == RobloxOverlayPlacement.BottomCenter)
+				{
+					left = rect.Left + Math.Max(0, (rect.Width - width) / 2);
+					top = rect.Top + Math.Max(0, rect.Height - height - 10);
 				}
 				else if (_placement == RobloxOverlayPlacement.TopStrip)
 				{

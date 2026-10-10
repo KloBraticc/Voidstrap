@@ -1,0 +1,115 @@
+<Window x:Class="Voidstrap.UI.Elements.Overlay.SessionServerBrowser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:resources="clr-namespace:Voidstrap.Resources"
+        Title="{x:Static resources:Strings.ContextMenu_ServerBrowser_Title}" Width="920" Height="680" MinWidth="520" MinHeight="360"
+        WindowStyle="None" AllowsTransparency="False" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+        ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True"
+        WindowStartupLocation="Manual" FontFamily="Segoe UI">
+  <Window.Resources>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+  </Window.Resources>
+  <Grid Margin="12">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TextBlock Text="{x:Static resources:Strings.ContextMenu_ServerBrowser_Title}" FontSize="18" FontWeight="SemiBold" Margin="2,0,0,12" />
+    <Border Grid.Row="1" Margin="0,0,0,12" Padding="12" CornerRadius="10" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="64" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Border Width="64" Height="64" CornerRadius="8" Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" ClipToBounds="True">
+          <Image x:Name="GameIcon" Width="64" Height="64" Stretch="UniformToFill" />
+        </Border>
+        <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+          <TextBlock x:Name="GameNameText" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <TextBlock x:Name="GameDetailsText" Margin="0,4,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        </StackPanel>
+        <TextBlock x:Name="ScanSummaryText" Grid.Column="2" Margin="16,0,0,0" VerticalAlignment="Center"
+                   Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextAlignment="Right" />
+      </Grid>
+    </Border>
+    <Grid Grid.Row="2" Margin="0,0,0,10">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <ui:TextBox x:Name="SearchBox" MinWidth="100" Margin="0,0,8,0" VerticalContentAlignment="Center" Icon="Search24" ClearButtonEnabled="True"
+                  PlaceholderText="{x:Static resources:Strings.ContextMenu_ServerBrowser_Search}" TextChanged="SearchBox_TextChanged" />
+      <ComboBox x:Name="SortBox" Grid.Column="1" Width="160" Margin="0,0,8,0" VerticalAlignment="Center" SelectedIndex="0" SelectionChanged="SortBox_SelectionChanged">
+        <ComboBoxItem Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Sort_Best}" />
+        <ComboBoxItem Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Sort_Ping}" />
+        <ComboBoxItem Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Sort_Population}" />
+        <ComboBoxItem Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Sort_Empty}" />
+      </ComboBox>
+      <ui:Button x:Name="RefreshButton" Grid.Column="2" Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Refresh}"
+                 Appearance="Secondary" Click="RefreshButton_Click" />
+    </Grid>
+    <Grid Grid.Row="3">
+      <ListView x:Name="ServerList" BorderThickness="0" Background="Transparent"
+                ScrollViewer.CanContentScroll="True" VirtualizingPanel.IsVirtualizing="True"
+                VirtualizingPanel.VirtualizationMode="Recycling" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <ListView.ItemContainerStyle>
+          <Style TargetType="ListViewItem">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0,0,0,6" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="Transparent" />
+          </Style>
+        </ListView.ItemContainerStyle>
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <Border Padding="12,10" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding LocationText}" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Text="{x:Static resources:Strings.ContextMenu_ServerBrowser_BestMatch}" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="11" FontWeight="SemiBold"
+                               Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"
+                               Visibility="{Binding IsBest, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <TextBlock Text="{x:Static resources:Strings.ContextMenu_ServerBrowser_Current}" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="11"
+                               Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"
+                               Visibility="{Binding IsCurrent, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <TextBlock Text="{x:Static resources:Strings.ContextMenu_ServerBrowser_Blocked}" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="11"
+                               Foreground="{DynamicResource SystemFillColorCriticalBrush}"
+                               Visibility="{Binding IsBlocked, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                  </StackPanel>
+                  <TextBlock Text="{Binding MetricsText}" Margin="0,3,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                  <TextBlock Text="{Binding AddressText}" Margin="0,4,0,0" FontSize="10" TextTrimming="CharacterEllipsis"
+                             Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                </StackPanel>
+                <ui:Button Grid.Column="1" Content="{x:Static resources:Strings.ContextMenu_ServerBrowser_Join}"
+                           Appearance="Secondary" VerticalAlignment="Center" Margin="12,0,0,0"
+                           IsEnabled="{Binding CanJoin}" Click="JoinButton_Click" />
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False">
+        <ProgressBar x:Name="LoadingBar" Width="180" Height="4" IsIndeterminate="True" Visibility="Collapsed" />
+        <TextBlock x:Name="StatusText" Margin="0,10,0,0" MaxWidth="380" TextAlignment="Center" TextWrapping="Wrap"
+                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+      </StackPanel>
+    </Grid>
+    <Grid Grid.Row="4" Margin="0,10,0,0">
+      <TextBlock x:Name="CountText" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+    </Grid>
+  </Grid>
+</Window>
