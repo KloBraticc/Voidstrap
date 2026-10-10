@@ -150,6 +150,8 @@ public static class RobloxChat
 						conversations.Add(conversation);
 				}
 			}
+			if (conversations.Count == 0)
+				LogShape("get-user-conversations", document.RootElement);
 			await ResolveUsersAsync(conversations.SelectMany(c => c.ParticipantIds), token).ConfigureAwait(false);
 			return new RobloxChatResult<List<RobloxConversation>>
 			{
@@ -182,12 +184,14 @@ public static class RobloxChat
 						messages.Add(message);
 				}
 			}
+			if (messages.Count == 0)
+				LogShape("get-conversation-messages", document.RootElement);
 			await ResolveUsersAsync(messages.Select(m => m.SenderId), token).ConfigureAwait(false);
 			return new RobloxChatResult<List<RobloxChatMessage>>
 			{
 				Status = RobloxChatStatus.Ready,
 				Value = messages.OrderBy(m => m.CreatedUtc).ToList(),
-				Cursor = ReadString(document.RootElement, "next_cursor", "nextCursor", "nextPageCursor")
+				Cursor = ReadCursor(document.RootElement)
 			};
 		}
 	}
@@ -398,14 +402,16 @@ public static class RobloxChat
 		if (item.ValueKind != JsonValueKind.Object)
 			return null;
 		string id = ReadString(item, "id", "message_id", "messageId");
-		string content = ReadString(item, "content", "text", "content_text");
+		string content = ReadString(item, "content", "text", "content_text", "message", "body");
+		if (content.Length == 0 && TryGetProperty(item, out JsonElement contentObject, "content", "message") && contentObject.ValueKind == JsonValueKind.Object)
+			content = ReadString(contentObject, "text", "content", "body");
 		string status = ReadString(item, "moderation_type", "status");
 		if (id.Length == 0 && content.Length == 0)
 			return null;
 		return new RobloxChatMessage
 		{
 			Id = id,
-			SenderId = ReadLong(item, "sender_user_id", "senderUserId", "sender_target_id", "senderTargetId"),
+			SenderId = ReadLong(item, "sender_user_id", "senderUserId", "sender_target_id", "senderTargetId", "sender_id", "senderId", "user_id"),
 			Content = content,
 			CreatedUtc = ReadTime(item, "created_at", "createdAt", "sent") ?? DateTimeOffset.UtcNow,
 			Moderated = status.Contains("moderat", StringComparison.OrdinalIgnoreCase)
@@ -425,6 +431,10 @@ public static class RobloxChat
 				request.Content = new StringContent(body, Encoding.UTF8, "application/json");
 			if (!string.IsNullOrEmpty(cookie))
 				request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+			// The chat service is used by the Roblox website, so requests look like they come from it
+			request.Headers.TryAddWithoutValidation("Origin", "https://www.roblox.com");
+			request.Headers.TryAddWithoutValidation("Referer", "https://www.roblox.com/");
+			request.Headers.TryAddWithoutValidation("Accept", "application/json");
 			string csrf = _csrf;
 			if (method != HttpMethod.Get && csrf.Length > 0)
 				request.Headers.TryAddWithoutValidation("X-CSRF-TOKEN", csrf);
@@ -474,7 +484,56 @@ public static class RobloxChat
 	}
 
 	private static bool TryGetArray(JsonElement element, out JsonElement value, params string[] names)
-		=> TryGetProperty(element, out value, names) && value.ValueKind == JsonValueKind.Array;
+	{
+		if (element.ValueKind == JsonValueKind.Array)
+		{
+			value = element;
+			return true;
+		}
+		if (TryGetProperty(element, out value, names) && value.ValueKind == JsonValueKind.Array)
+			return true;
+		// Some responses wrap the payload one level deeper, for example {"data":{"messages":[...]}}
+		foreach (string wrapper in new[] { "data", "result", "response" })
+		{
+			if (TryGetProperty(element, out JsonElement inner, wrapper) && inner.ValueKind == JsonValueKind.Object
+				&& TryGetProperty(inner, out value, names) && value.ValueKind == JsonValueKind.Array)
+				return true;
+		}
+		value = default;
+		return false;
+	}
+
+	private static readonly HashSet<string> _shapesLogged = new(StringComparer.Ordinal);
+
+	// When a response reads as empty, record which fields it had (never their values) so a format change can be seen in the log
+	private static void LogShape(string operation, JsonElement root)
+	{
+		string shape = Describe(root, 0);
+		lock (_shapesLogged)
+		{
+			if (!_shapesLogged.Add(operation + shape) || _shapesLogged.Count > 64)
+				return;
+		}
+		App.Logger.WriteLine(LOG_IDENT, operation + " returned nothing readable, response shape " + shape);
+	}
+
+	private static string Describe(JsonElement element, int depth)
+	{
+		if (depth > 2)
+			return element.ValueKind.ToString();
+		return element.ValueKind switch
+		{
+			JsonValueKind.Object => "{" + string.Join(",", element.EnumerateObject().Take(16).Select(p => p.Name + ":" + Describe(p.Value, depth + 1))) + "}",
+			JsonValueKind.Array => "[" + (element.GetArrayLength() > 0 ? Describe(element[0], depth + 1) : "") + "]x" + element.GetArrayLength(),
+			_ => element.ValueKind.ToString()
+		};
+	}
+
+	public static string? ReadCursor(JsonElement root)
+	{
+		string cursor = ReadString(root, "next_cursor", "nextCursor", "nextPageCursor", "previous_cursor", "cursor");
+		return cursor.Length > 0 ? cursor : null;
+	}
 
 	private static string ReadString(JsonElement element, params string[] names)
 	{

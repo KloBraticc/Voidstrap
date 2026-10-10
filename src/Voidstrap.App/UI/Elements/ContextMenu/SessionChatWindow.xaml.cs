@@ -18,8 +18,10 @@ namespace Voidstrap.UI.Elements.Overlay;
 public partial class SessionChatWindow : Window
 {
     private const int ConversationRefreshTicks = 6;
+    private const int MaxMessages = 400;
     private static readonly TimeSpan PollInterval = TimeSpan.FromSeconds(3);
     private static readonly TimeSpan TypingInterval = TimeSpan.FromSeconds(4);
+    private static readonly TimeSpan EchoMatchWindow = TimeSpan.FromMinutes(2);
     private readonly CancellationTokenSource _lifetime = new();
     private readonly DispatcherTimer _poll;
     private readonly ObservableCollection<ChatMessageItem> _messages = new();
@@ -28,7 +30,9 @@ public partial class SessionChatWindow : Window
     private readonly Dictionary<long, ImageSource> _avatars = new();
     private List<ChatListItem> _conversations = new();
     private List<ChatListItem> _friends = new();
+    private string _listSignature = string.Empty;
     private RobloxConversation? _active;
+    private string? _olderCursor;
     private long _selfId;
     private int _ticks;
     private int _messageGeneration;
@@ -36,6 +40,8 @@ public partial class SessionChatWindow : Window
     private bool _busy;
     private bool _sending;
     private bool _pollBusy;
+    private bool _loadingOlder;
+    private bool _autoOpened;
     private bool _closed;
     private DateTime _lastTypingUtc = DateTime.MinValue;
 
@@ -60,20 +66,20 @@ public partial class SessionChatWindow : Window
         {
             App.Logger.WriteLine("SessionChatWindow", "Chat could not be opened: " + ex.Message);
             if (!_closed)
-                ListStatus.Text = "Chat could not be opened";
+                ShowListStatus("Chat could not be opened");
         }
     }
 
     private async Task StartAsync()
     {
-        ListStatus.Text = "Loading chats";
+        ShowListStatus("Loading chats");
         RobloxChatResult<long> self = await RobloxChat.GetSelfAsync(_lifetime.Token);
         if (_closed)
             return;
         if (self.Status != RobloxChatStatus.Ready)
         {
-            ListStatus.Text = Describe(self.Status);
-            ChatStatus.Text = ListStatus.Text;
+            ShowListStatus(Describe(self.Status));
+            ChatStatus.Text = Describe(self.Status);
             return;
         }
         _selfId = self.Value;
@@ -94,16 +100,35 @@ public partial class SessionChatWindow : Window
             if (result.Status != RobloxChatStatus.Ready || result.Value == null)
             {
                 if (_conversations.Count == 0)
-                    ListStatus.Text = Describe(result.Status);
+                {
+                    ShowListStatus(Describe(result.Status));
+                    ChatStatus.Text = Describe(result.Status);
+                }
                 return;
             }
+            string? activeId = _active?.Id;
             _conversations = result.Value
                 .OrderByDescending(c => c.UpdatedUtc)
-                .Select(c => new ChatListItem(c.Id, TitleOf(c), PreviewOf(c), c.Unread, OtherParticipant(c), c))
+                .Select(c => new ChatListItem(c.Id, TitleOf(c), PreviewOf(c), c.Id == activeId ? 0 : c.Unread, OtherParticipant(c), c))
                 .ToList();
             await LoadAvatarsAsync(_conversations.Select(c => c.UserId));
+            if (_closed)
+                return;
             if (!_showFriends)
-                RenderList();
+                RenderList(false);
+
+            // Open the most recent chat straight away instead of waiting for a click
+            if (!_autoOpened && _active == null && _conversations.Count > 0)
+            {
+                _autoOpened = true;
+                ChatListItem first = _conversations[0];
+                SelectSilently(first);
+                await OpenConversationAsync(first.Conversation!);
+            }
+            else if (_conversations.Count == 0 && _active == null)
+            {
+                ChatStatus.Text = "No chats yet, pick a friend in the Friends tab to start one";
+            }
         }
         catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
         {
@@ -112,7 +137,7 @@ public partial class SessionChatWindow : Window
         {
             App.Logger.WriteLine("SessionChatWindow", "Chats could not be loaded: " + ex.Message);
             if (!_closed && _conversations.Count == 0)
-                ListStatus.Text = "Chats could not be loaded";
+                ShowListStatus("Chats could not be loaded");
         }
         finally
         {
@@ -124,11 +149,12 @@ public partial class SessionChatWindow : Window
     {
         if (_friends.Count > 0 || _closed || _selfId <= 0)
         {
-            RenderList();
+            RenderList(true);
             return;
         }
-        ListStatus.Text = "Loading friends";
+        ShowListStatus("Loading friends");
         ConversationList.ItemsSource = null;
+        _listSignature = string.Empty;
         try
         {
             RobloxChatResult<List<RobloxChatUser>> result = await RobloxChat.GetFriendsAsync(_selfId, _lifetime.Token);
@@ -136,13 +162,13 @@ public partial class SessionChatWindow : Window
                 return;
             if (result.Status != RobloxChatStatus.Ready || result.Value == null)
             {
-                ListStatus.Text = Describe(result.Status);
+                ShowListStatus(Describe(result.Status));
                 return;
             }
             _friends = result.Value.Select(f => new ChatListItem(null, f.Label, "@" + f.Name, 0, f.Id, null)).ToList();
             await LoadAvatarsAsync(_friends.Select(f => f.UserId));
-            if (_showFriends)
-                RenderList();
+            if (!_closed && _showFriends)
+                RenderList(true);
         }
         catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
         {
@@ -151,11 +177,12 @@ public partial class SessionChatWindow : Window
         {
             App.Logger.WriteLine("SessionChatWindow", "Friends could not be loaded: " + ex.Message);
             if (!_closed)
-                ListStatus.Text = "Friends could not be loaded";
+                ShowListStatus("Friends could not be loaded");
         }
     }
 
-    private void RenderList()
+    // Rebuilding the list resets scrolling and selection, so it only happens when what it shows actually changed
+    private void RenderList(bool force)
     {
         if (_closed)
             return;
@@ -165,15 +192,27 @@ public partial class SessionChatWindow : Window
             source = source.Where(item => item.Title.Contains(filter, StringComparison.CurrentCultureIgnoreCase)
                 || item.Preview.Contains(filter, StringComparison.CurrentCultureIgnoreCase));
         List<ChatListItem> items = source.ToList();
+        string signature = (_showFriends ? "f|" : "c|") + filter + "|" + string.Join("|", items.Select(item => item.Signature));
+        if (!force && signature == _listSignature && ConversationList.ItemsSource != null)
+            return;
+        _listSignature = signature;
         foreach (ChatListItem item in items)
             item.Avatar = AvatarFor(item.UserId);
-        string? selected = _active?.Id;
+        double offset = FindScrollViewer(ConversationList)?.VerticalOffset ?? 0;
         ConversationList.SelectionChanged -= ConversationList_SelectionChanged;
         ConversationList.ItemsSource = items;
-        if (!_showFriends && selected != null)
-            ConversationList.SelectedItem = items.FirstOrDefault(item => item.ConversationId == selected);
+        if (!_showFriends && _active != null)
+            ConversationList.SelectedItem = items.FirstOrDefault(item => item.ConversationId == _active.Id);
         ConversationList.SelectionChanged += ConversationList_SelectionChanged;
-        ListStatus.Text = items.Count > 0 ? string.Empty : _showFriends ? "No friends found" : filter.Length > 0 ? "No chats match" : "No chats yet, start one from Friends";
+        FindScrollViewer(ConversationList)?.ScrollToVerticalOffset(offset);
+        ShowListStatus(items.Count > 0 ? string.Empty : _showFriends ? "No friends found" : filter.Length > 0 ? "No chats match" : "No chats yet, start one from Friends");
+    }
+
+    private void SelectSilently(ChatListItem item)
+    {
+        ConversationList.SelectionChanged -= ConversationList_SelectionChanged;
+        ConversationList.SelectedItem = item;
+        ConversationList.SelectionChanged += ConversationList_SelectionChanged;
     }
 
     private async void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -184,7 +223,8 @@ public partial class SessionChatWindow : Window
         {
             if (item.Conversation != null)
             {
-                await OpenConversationAsync(item.Conversation);
+                if (_active?.Id != item.Conversation.Id)
+                    await OpenConversationAsync(item.Conversation);
                 return;
             }
             ChatStatus.Text = "Opening chat with " + item.Title;
@@ -194,7 +234,7 @@ public partial class SessionChatWindow : Window
             if (opened.Status != RobloxChatStatus.Ready || opened.Value == null)
             {
                 ChatStatus.Text = opened.Status == RobloxChatStatus.Unavailable
-                    ? "Roblox did not allow a chat with " + item.Title + ", check that you are friends and chat is on in your Roblox privacy settings"
+                    ? "Roblox did not allow a chat with " + item.Title + ", check that you are friends and that chat is on in your Roblox privacy settings"
                     : Describe(opened.Status);
                 return;
             }
@@ -219,41 +259,176 @@ public partial class SessionChatWindow : Window
         int generation = ++_messageGeneration;
         _messages.Clear();
         _messageIds.Clear();
+        _olderCursor = null;
         HeaderTitle.Text = TitleOf(conversation);
         HeaderAvatar.Source = AvatarFor(OtherParticipant(conversation));
         ChatStatus.Text = "Loading messages";
         InputBox.IsEnabled = true;
         SendButton.IsEnabled = true;
-        RobloxChatResult<List<RobloxChatMessage>> result = await RobloxChat.GetMessagesAsync(conversation.Id, null, _lifetime.Token);
-        if (_closed || generation != _messageGeneration)
-            return;
-        if (result.Status != RobloxChatStatus.Ready || result.Value == null)
+        ClearUnread(conversation.Id);
+        try
         {
-            ChatStatus.Text = Describe(result.Status);
-            return;
+            RobloxChatResult<List<RobloxChatMessage>> result = await RobloxChat.GetMessagesAsync(conversation.Id, null, _lifetime.Token);
+            if (_closed || generation != _messageGeneration)
+                return;
+            if (result.Status != RobloxChatStatus.Ready || result.Value == null)
+            {
+                ChatStatus.Text = result.Status == RobloxChatStatus.Unavailable ? "Messages could not be loaded, trying again shortly" : Describe(result.Status);
+                return;
+            }
+            _olderCursor = result.Cursor;
+            AppendMessages(result.Value, true);
+            ChatStatus.Text = _messages.Count == 0 ? "No messages yet, say hi" : string.Empty;
+            InputBox.Focus();
         }
-        AppendMessages(result.Value);
-        ChatStatus.Text = _messages.Count == 0 ? "Say hi" : string.Empty;
-        InputBox.Focus();
+        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionChatWindow", "Messages could not be loaded: " + ex.Message);
+            if (!_closed && generation == _messageGeneration)
+                ChatStatus.Text = "Messages could not be loaded, trying again shortly";
+        }
     }
 
-    private void AppendMessages(IEnumerable<RobloxChatMessage> messages)
+    private void ClearUnread(string conversationId)
     {
+        ChatListItem? item = _conversations.FirstOrDefault(c => c.ConversationId == conversationId);
+        if (item == null || item.Unread == 0)
+            return;
+        int index = _conversations.IndexOf(item);
+        _conversations[index] = new ChatListItem(item.ConversationId, item.Title, item.Preview, 0, item.UserId, item.Conversation);
+        if (!_showFriends)
+            RenderList(false);
+    }
+
+    private void AppendMessages(IEnumerable<RobloxChatMessage> messages, bool forceScroll)
+    {
+        bool atBottom = forceScroll || IsNearBottom();
         bool added = false;
         foreach (RobloxChatMessage message in messages.OrderBy(m => m.CreatedUtc))
         {
             if (message.Id.Length > 0 && !_messageIds.Add(message.Id))
                 continue;
-            _messages.Add(new ChatMessageItem(message, message.SenderId == _selfId, SenderName(message.SenderId)));
+            bool mine = message.SenderId == _selfId;
+            // A message we echoed locally is replaced by the real one when it comes back from Roblox
+            if (mine && ReplaceEcho(message))
+                continue;
+            ChatMessageItem item = new(message, mine, SenderName(message.SenderId));
+            int index = _messages.Count;
+            while (index > 0 && _messages[index - 1].CreatedUtc > item.CreatedUtc && !_messages[index - 1].IsEcho)
+                index--;
+            _messages.Insert(index, item);
             added = true;
         }
         if (!added)
             return;
-        while (_messages.Count > 300)
+        while (_messages.Count > MaxMessages)
+        {
+            _messageIds.Remove(_messages[0].Id);
             _messages.RemoveAt(0);
+        }
         ChatStatus.Text = string.Empty;
-        if (_messages.Count > 0)
-            MessageList.ScrollIntoView(_messages[^1]);
+        if (atBottom)
+            ScrollToEnd();
+    }
+
+    private bool ReplaceEcho(RobloxChatMessage message)
+    {
+        for (int index = _messages.Count - 1; index >= 0; index--)
+        {
+            ChatMessageItem echo = _messages[index];
+            if (!echo.IsEcho || echo.Text != message.Content || (message.CreatedUtc - echo.CreatedUtc).Duration() > EchoMatchWindow)
+                continue;
+            _messageIds.Remove(echo.Id);
+            _messages[index] = new ChatMessageItem(message, true, SenderName(message.SenderId));
+            return true;
+        }
+        return false;
+    }
+
+    private async Task LoadOlderAsync()
+    {
+        if (_loadingOlder || _closed || _active is not { } active || string.IsNullOrEmpty(_olderCursor))
+            return;
+        _loadingOlder = true;
+        int generation = _messageGeneration;
+        try
+        {
+            RobloxChatResult<List<RobloxChatMessage>> result = await RobloxChat.GetMessagesAsync(active.Id, _olderCursor, _lifetime.Token);
+            if (_closed || generation != _messageGeneration || result.Status != RobloxChatStatus.Ready || result.Value == null)
+                return;
+            List<RobloxChatMessage> older = result.Value.Where(m => m.Id.Length == 0 || !_messageIds.Contains(m.Id)).OrderBy(m => m.CreatedUtc).ToList();
+            // A cursor that brings nothing new means the start of the conversation was reached
+            _olderCursor = older.Count == 0 || result.Cursor == _olderCursor ? null : result.Cursor;
+            ScrollViewer? viewer = FindScrollViewer(MessageList);
+            double fromEnd = viewer == null ? 0 : viewer.ExtentHeight - viewer.VerticalOffset;
+            for (int index = older.Count - 1; index >= 0; index--)
+            {
+                RobloxChatMessage message = older[index];
+                if (message.Id.Length > 0)
+                    _messageIds.Add(message.Id);
+                _messages.Insert(0, new ChatMessageItem(message, message.SenderId == _selfId, SenderName(message.SenderId)));
+            }
+            if (viewer != null && older.Count > 0)
+            {
+                viewer.UpdateLayout();
+                viewer.ScrollToVerticalOffset(Math.Max(0, viewer.ExtentHeight - fromEnd));
+            }
+        }
+        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionChatWindow", "Older messages could not be loaded: " + ex.Message);
+        }
+        finally
+        {
+            _loadingOlder = false;
+        }
+    }
+
+    private async void MessageList_ScrollChanged(object sender, ScrollChangedEventArgs e)
+    {
+        if (_closed || e.VerticalChange >= 0 || e.VerticalOffset > 24 || _messages.Count == 0)
+            return;
+        try
+        {
+            await LoadOlderAsync();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionChatWindow", "Older messages could not be shown: " + ex.Message);
+        }
+    }
+
+    private bool IsNearBottom()
+    {
+        ScrollViewer? viewer = FindScrollViewer(MessageList);
+        return viewer == null || viewer.ScrollableHeight - viewer.VerticalOffset < 48;
+    }
+
+    private void ScrollToEnd()
+    {
+        if (_messages.Count == 0)
+            return;
+        MessageList.ScrollIntoView(_messages[^1]);
+        FindScrollViewer(MessageList)?.ScrollToEnd();
+    }
+
+    private static ScrollViewer? FindScrollViewer(DependencyObject root)
+    {
+        if (root is ScrollViewer viewer)
+            return viewer;
+        int count = VisualTreeHelper.GetChildrenCount(root);
+        for (int index = 0; index < count; index++)
+        {
+            if (FindScrollViewer(VisualTreeHelper.GetChild(root, index)) is { } found)
+                return found;
+        }
+        return null;
     }
 
     private async void OnPoll(object? sender, EventArgs e)
@@ -268,10 +443,19 @@ public partial class SessionChatWindow : Window
             {
                 int generation = _messageGeneration;
                 RobloxChatResult<List<RobloxChatMessage>> result = await RobloxChat.GetMessagesAsync(active.Id, null, _lifetime.Token);
-                if (!_closed && generation == _messageGeneration && result.Status == RobloxChatStatus.Ready && result.Value != null)
-                    AppendMessages(result.Value);
+                if (_closed || generation != _messageGeneration)
+                    return;
+                if (result.Status == RobloxChatStatus.Ready && result.Value != null)
+                {
+                    _olderCursor ??= result.Cursor;
+                    AppendMessages(result.Value, false);
+                    if (_messages.Count == 0)
+                        ChatStatus.Text = "No messages yet, say hi";
+                }
                 else if (result.Status == RobloxChatStatus.RateLimited)
+                {
                     _ticks = 0;
+                }
             }
             if (++_ticks >= ConversationRefreshTicks)
             {
@@ -299,8 +483,17 @@ public partial class SessionChatWindow : Window
         string text = InputBox.Text.Trim();
         if (text.Length == 0)
             return;
+        if (text.Length > RobloxChat.MaxMessageLength)
+            text = text[..RobloxChat.MaxMessageLength];
         _sending = true;
         SendButton.IsEnabled = false;
+        InputBox.Text = string.Empty;
+        // Shown straight away and swapped for the real message when Roblox confirms it
+        ChatMessageItem echo = ChatMessageItem.Echo(text, _selfId);
+        _messageIds.Add(echo.Id);
+        _messages.Add(echo);
+        ChatStatus.Text = string.Empty;
+        ScrollToEnd();
         try
         {
             RobloxChatResult<RobloxChatMessage> result = await RobloxChat.SendMessageAsync(active.Id, text, _lifetime.Token);
@@ -308,14 +501,30 @@ public partial class SessionChatWindow : Window
                 return;
             if (result.Status != RobloxChatStatus.Ready)
             {
+                RemoveEcho(echo);
+                if (InputBox.Text.Length == 0)
+                    InputBox.Text = text;
                 ChatStatus.Text = result.Status == RobloxChatStatus.Unavailable ? "Roblox did not accept that message" : Describe(result.Status);
                 return;
             }
-            InputBox.Text = string.Empty;
-            AppendMessages(new[]
+            if (result.Value is { } sent && _active?.Id == active.Id)
             {
-                result.Value ?? new RobloxChatMessage { Id = "local-" + Guid.NewGuid().ToString("N"), SenderId = _selfId, Content = text, CreatedUtc = DateTimeOffset.UtcNow }
-            });
+                // Swap the echo for the confirmed message directly, Roblox may have filtered the text
+                int index = _messages.IndexOf(echo);
+                _messageIds.Remove(echo.Id);
+                bool known = sent.Id.Length > 0 && !_messageIds.Add(sent.Id);
+                if (index >= 0)
+                {
+                    if (known)
+                        _messages.RemoveAt(index);
+                    else
+                        _messages[index] = new ChatMessageItem(sent, true, SenderName(sent.SenderId));
+                }
+                else if (!known)
+                {
+                    _messages.Add(new ChatMessageItem(sent, true, SenderName(sent.SenderId)));
+                }
+            }
         }
         catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
         {
@@ -324,7 +533,12 @@ public partial class SessionChatWindow : Window
         {
             App.Logger.WriteLine("SessionChatWindow", "The message could not be sent: " + ex.Message);
             if (!_closed)
+            {
+                RemoveEcho(echo);
+                if (InputBox.Text.Length == 0)
+                    InputBox.Text = text;
                 ChatStatus.Text = "The message could not be sent";
+            }
         }
         finally
         {
@@ -337,14 +551,37 @@ public partial class SessionChatWindow : Window
         }
     }
 
-    private async void SendButton_Click(object sender, RoutedEventArgs e) => await SendAsync();
+    private void RemoveEcho(ChatMessageItem echo)
+    {
+        _messageIds.Remove(echo.Id);
+        _messages.Remove(echo);
+    }
+
+    private async void SendButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            await SendAsync();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionChatWindow", "Sending failed: " + ex.Message);
+        }
+    }
 
     private async void InputBox_PreviewKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key != Key.Enter || Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
             return;
         e.Handled = true;
-        await SendAsync();
+        try
+        {
+            await SendAsync();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionChatWindow", "Sending failed: " + ex.Message);
+        }
     }
 
     private void InputBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -370,23 +607,38 @@ public partial class SessionChatWindow : Window
 
     private async void FriendsTab_Click(object sender, RoutedEventArgs e)
     {
-        SetMode(true);
-        await LoadFriendsAsync();
+        try
+        {
+            SetMode(true);
+            await LoadFriendsAsync();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionChatWindow", "Friends could not be shown: " + ex.Message);
+        }
     }
 
     private void SetMode(bool friends)
     {
+        if (_showFriends == friends && ConversationList.ItemsSource != null)
+            return;
         _showFriends = friends;
         ChatsTab.Appearance = friends ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Primary;
         FriendsTab.Appearance = friends ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Secondary;
         FilterBox.PlaceholderText = friends ? "Search friends" : "Search chats";
-        RenderList();
+        RenderList(true);
     }
 
     private void FilterBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (!_closed && IsLoaded)
-            RenderList();
+            RenderList(false);
+    }
+
+    private void ShowListStatus(string text)
+    {
+        if (!_closed)
+            ListStatus.Text = text;
     }
 
     private async Task LoadAvatarsAsync(IEnumerable<long> userIds)
@@ -488,6 +740,7 @@ public sealed class ChatListItem
     public ImageSource? Avatar { get; set; }
     public bool HasUnread => Unread > 0;
     public string UnreadText => Unread > 99 ? "99+" : Unread.ToString(CultureInfo.CurrentCulture);
+    public string Signature => (ConversationId ?? UserId.ToString(CultureInfo.InvariantCulture)) + ":" + Title + ":" + Preview + ":" + Unread;
 
     public ChatListItem(string? conversationId, string title, string preview, int unread, long userId, RobloxConversation? conversation)
     {
@@ -502,18 +755,33 @@ public sealed class ChatListItem
 
 public sealed class ChatMessageItem
 {
+    public string Id { get; }
     public string Text { get; }
     public string Header { get; }
     public bool IsMine { get; }
+    public bool IsEcho { get; }
     public bool Moderated { get; }
+    public DateTimeOffset CreatedUtc { get; }
     public HorizontalAlignment Alignment => IsMine ? HorizontalAlignment.Right : HorizontalAlignment.Left;
 
     public ChatMessageItem(RobloxChatMessage message, bool mine, string sender)
+        : this(message.Id.Length > 0 ? message.Id : "anon-" + Guid.NewGuid().ToString("N"), message.Moderated && message.Content.Length == 0 ? "Message hidden by Roblox" : message.Content,
+            mine, message.Moderated, message.CreatedUtc, sender, false)
     {
-        IsMine = mine;
-        Moderated = message.Moderated;
-        Text = message.Moderated && message.Content.Length == 0 ? "Message hidden by Roblox" : message.Content;
-        string time = message.CreatedUtc.ToLocalTime().ToString("t", CultureInfo.CurrentCulture);
-        Header = mine ? time : sender + "  " + time;
     }
+
+    private ChatMessageItem(string id, string text, bool mine, bool moderated, DateTimeOffset created, string sender, bool echo)
+    {
+        Id = id;
+        Text = text;
+        IsMine = mine;
+        Moderated = moderated;
+        CreatedUtc = created;
+        IsEcho = echo;
+        string time = created.ToLocalTime().ToString("t", CultureInfo.CurrentCulture);
+        Header = echo ? "Sending" : mine ? time : sender + "  " + time;
+    }
+
+    public static ChatMessageItem Echo(string text, long selfId)
+        => new("echo-" + Guid.NewGuid().ToString("N"), text, true, false, DateTimeOffset.UtcNow, string.Empty, true);
 }
