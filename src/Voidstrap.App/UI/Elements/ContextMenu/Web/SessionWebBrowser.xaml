@@ -70,8 +70,19 @@
           <TextBlock Text="&#xE80F;" Style="{StaticResource Glyph}" />
         </Button>
       </StackPanel>
+      <!-- The search box gets an accent outline while typing in it -->
       <Border Grid.Column="1" Height="34" CornerRadius="17" Padding="14,0,8,0" BorderThickness="1"
-              Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
+              Background="{DynamicResource ControlFillColorDefaultBrush}">
+        <Border.Style>
+          <Style TargetType="Border">
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
+            <Style.Triggers>
+              <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </Border.Style>
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -84,6 +95,7 @@
             <TextBlock x:Name="Placeholder" Text="Search Google or type an address" FontSize="14" VerticalAlignment="Center"
                        IsHitTestVisible="False" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
             <TextBox x:Name="AddressBox" FontSize="14" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" Padding="0"
+                     SelectionBrush="{DynamicResource SystemAccentColorPrimaryBrush}" SelectionOpacity="0.55"
                      CaretBrush="{DynamicResource TextFillColorPrimaryBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                      KeyDown="AddressBox_KeyDown" GotKeyboardFocus="AddressBox_GotFocus" LostKeyboardFocus="AddressBox_LostFocus"
                      TextChanged="AddressBox_TextChanged" />
@@ -98,7 +110,8 @@
 
     <!-- A thin bar that fills while a page loads -->
     <Border Grid.Row="1" Background="{DynamicResource CardStrokeColorDefaultBrush}" />
-    <ProgressBar x:Name="LoadingBar" Grid.Row="1" Height="2" IsIndeterminate="True" Visibility="Collapsed" BorderThickness="0" />
+    <ProgressBar x:Name="LoadingBar" Grid.Row="1" Height="2" IsIndeterminate="True" Visibility="Collapsed" BorderThickness="0"
+                 Foreground="{DynamicResource SystemAccentColorPrimaryBrush}" />
 
     <Grid x:Name="ViewHost" Grid.Row="2" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}">
       <StackPanel x:Name="Message" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420">

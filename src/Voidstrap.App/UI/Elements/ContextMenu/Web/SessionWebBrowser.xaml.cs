@@ -32,6 +32,10 @@ public partial class SessionWebBrowser : Window
         "--disable-default-apps",
         "--disable-breakpad",
         "--renderer-process-limit=3",
+        // Pages are drawn on the graphics card and scroll smoothly
+        "--enable-gpu-rasterization",
+        "--enable-zero-copy",
+        "--enable-smooth-scrolling",
         "--disable-features=TranslateUI,msWebOOUI,msPdfOOUI,msSmartScreenProtection,SpareRendererForSitePerProcess,BackForwardCache,msEdgeCollections,msShoppingExp,msEdgeSidebarV2",
         "--disable-pinch",
         "--overscroll-history-navigation=0");
@@ -94,6 +98,7 @@ public partial class SessionWebBrowser : Window
             }
             CoreWebView2 core = view.CoreWebView2;
             Configure(core);
+            await AddAccentStyleAsync(core);
             _view = view;
             _core = core;
             view = null;
@@ -171,6 +176,29 @@ public partial class SessionWebBrowser : Window
         catch (Exception ex)
         {
             App.Logger?.WriteLine(LogIdent, "Browser processes could not be watched: " + ex.Message);
+        }
+    }
+
+    // Selected text, form controls and the text cursor on every page use Voidstrap's accent colour,
+    // with black or white selected text depending on how bright the accent is
+    private async Task AddAccentStyleAsync(CoreWebView2 core)
+    {
+        try
+        {
+            if (TryFindResource("SystemAccentColorPrimaryBrush") is not System.Windows.Media.SolidColorBrush accent)
+                return;
+            System.Windows.Media.Color color = accent.Color;
+            string fill = $"rgb({color.R}, {color.G}, {color.B})";
+            string text = Voidstrap.UI.Converters.ContrastForegroundConverter.For(accent) is System.Windows.Media.SolidColorBrush { Color.R: > 128 } ? "#ffffff" : "#000000";
+            string css = $"::selection{{background:{fill} !important;color:{text} !important}}*{{accent-color:{fill}}}input,textarea,[contenteditable]{{caret-color:{fill}}}";
+            string script = "(() => { const css = " + System.Text.Json.JsonSerializer.Serialize(css) + ";"
+                + " const add = () => { if (document.getElementById('voidstrap-accent')) return; const s = document.createElement('style'); s.id = 'voidstrap-accent'; s.textContent = css; (document.head || document.documentElement).appendChild(s); };"
+                + " if (document.documentElement) add(); else document.addEventListener('DOMContentLoaded', add, { once: true }); })();";
+            await core.AddScriptToExecuteOnDocumentCreatedAsync(script);
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine(LogIdent, "The accent style could not be added: " + ex.Message);
         }
     }
 
@@ -263,13 +291,14 @@ public partial class SessionWebBrowser : Window
 
     private void OnProcessInfosChanged(object? sender, object e) => Fenced(() => ApplyProcessPriority(_hidden));
 
-    // Below the game while it is shown, idle while it is hidden, so the game always gets the CPU first
+    // Normal while you are using it so scrolling and typing never stutter, idle while it is hidden
+    // so the game gets the CPU back the moment the dock closes
     private void ApplyProcessPriority(bool hidden)
     {
         CoreWebView2? core = _core;
         if (core == null)
             return;
-        ProcessPriorityClass priority = hidden ? ProcessPriorityClass.Idle : ProcessPriorityClass.BelowNormal;
+        ProcessPriorityClass priority = hidden ? ProcessPriorityClass.Idle : ProcessPriorityClass.Normal;
         List<int> ids = new();
         try
         {
