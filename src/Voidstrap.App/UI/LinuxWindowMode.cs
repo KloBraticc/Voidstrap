@@ -247,6 +247,7 @@ internal static class LinuxWindowMode
 		if (sender is not Window window)
 			return;
 		ApplySizeLimits(window);
+		LinuxWindowInterop.TrySetSteamGame(ResolveExactNativeWindow(window));
 		HookNativeState(window);
 		RequestMaximizeSynchronization(window);
 	}

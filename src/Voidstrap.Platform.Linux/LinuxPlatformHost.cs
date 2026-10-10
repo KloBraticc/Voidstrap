@@ -1805,6 +1805,7 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 		await LinuxFlatpakHost.PrepareSessionEnvironmentAsync(_processes, cancellationToken).ConfigureAwait(false);
 		List<string> arguments = ["run", selection.Scope];
+		arguments.AddRange(LinuxFlatpakHost.GetLaunchEnvironmentArguments());
 		if (ForceX11Session)
 		{
 			arguments.Add("--nosocket=wayland");
@@ -1864,6 +1865,7 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 			if (!await TryCloseSoberAsync(cancellationToken).ConfigureAwait(false))
 				return OperationResult<LaunchSession>.Fail("SoberCloseFailed", "Sober could not be closed before retrying without effects", CapabilityState.Experimental);
 			List<string> retryArguments = ["run", selection.Scope];
+			retryArguments.AddRange(LinuxFlatpakHost.GetLaunchEnvironmentArguments());
 			if (ForceX11Session)
 				retryArguments.AddRange(["--nosocket=wayland", "--socket=x11", "--env=SDL_VIDEODRIVER=x11"]);
 			retryArguments.AddRange(["--env=ENABLE_VKBASALT=0", "--env=DISABLE_VKBASALT=1", "--env=ENABLE_LSFG=0", "--env=MANGOHUD=0", "--env=DISABLE_MANGOHUD=1"]);

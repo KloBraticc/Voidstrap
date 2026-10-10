@@ -45,6 +45,16 @@ public static class LinuxSteamOS
 
 	public static LinuxSteamOSInfo Current => Detected.Value;
 
+	public static uint ResolveSteamAppId(string? appId, string? gameId)
+	{
+		if (ulong.TryParse(gameId, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out ulong shortcutId)
+			&& (shortcutId & 0xFFFFFFFF) == 0x02000000 && (shortcutId >> 63) == 1)
+			return (uint)(shortcutId >> 32);
+		return uint.TryParse(appId, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out uint parsed)
+			? parsed
+			: 0;
+	}
+
 	public static string WithPrivilegeHint(string message)
 	{
 		LinuxSteamOSInfo current = Current;

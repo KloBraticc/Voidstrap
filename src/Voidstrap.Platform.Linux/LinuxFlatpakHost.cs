@@ -8,6 +8,7 @@ public static class LinuxFlatpakHost
 	public const string DefaultApplicationId = LinuxInstallationUpdates.ApplicationId;
 
 	private static readonly string[] SessionVariables = ["DISPLAY", "WAYLAND_DISPLAY", "XDG_SESSION_TYPE", "XDG_CURRENT_DESKTOP", "XDG_SESSION_DESKTOP", "DESKTOP_SESSION"];
+	private static readonly string[] LaunchVariables = ["SteamAppId", "SteamGameId", "SteamOverlayGameId", "SteamGamepadUI", "STEAM_GAMEPADUI", "GAMESCOPE_WAYLAND_DISPLAY", "SDL_GAMECONTROLLERCONFIG", "SDL_GAMECONTROLLER_IGNORE_DEVICES", "SDL_GAMECONTROLLER_IGNORE_DEVICES_EXCEPT", "SDL_GAMECONTROLLER_ALLOW_STEAM_VIRTUAL_GAMEPAD"];
 	private static readonly object SessionEnvironmentGate = new();
 	private static Dictionary<string, string> _hostSessionEnvironment = new(StringComparer.Ordinal);
 	private static HashSet<string> _hostUnsetSessionVariables = new(StringComparer.Ordinal);
@@ -59,6 +60,8 @@ public static class LinuxFlatpakHost
 
 			List<string> hostArguments = ["--host", "--directory=/"];
 			Dictionary<string, string> sessionEnvironment = GetSessionEnvironment(out IReadOnlyList<string> unsetVariables);
+			foreach (KeyValuePair<string, string> variable in GetLaunchEnvironment())
+				sessionEnvironment[variable.Key] = variable.Value;
 			foreach (KeyValuePair<string, string> variable in sessionEnvironment)
 				hostArguments.Add("--env=" + variable.Key + "=" + variable.Value);
 			if (unsetVariables.Count > 0)
@@ -86,6 +89,25 @@ public static class LinuxFlatpakHost
 
 		command = new ProcessCommand(executable, arguments, CaptureOutput: captureOutput);
 		return true;
+	}
+
+	public static IReadOnlyList<string> GetLaunchEnvironmentArguments()
+	{
+		return GetLaunchEnvironment().Select(variable => "--env=" + variable.Key + "=" + variable.Value).ToArray();
+	}
+
+	private static Dictionary<string, string> GetLaunchEnvironment()
+	{
+		Dictionary<string, string> variables = new(StringComparer.Ordinal);
+		foreach (string name in LaunchVariables)
+		{
+			string? value = Environment.GetEnvironmentVariable(name);
+			bool mapping = name == "SDL_GAMECONTROLLERCONFIG";
+			if (!string.IsNullOrWhiteSpace(value) && value.Length <= (mapping ? 65536 : 4096)
+				&& !value.Any(character => char.IsControl(character) && !(mapping && character is '\r' or '\n')))
+				variables[name] = value;
+		}
+		return variables;
 	}
 
 	private static Dictionary<string, string> GetSessionEnvironment(out IReadOnlyList<string> unsetVariables)

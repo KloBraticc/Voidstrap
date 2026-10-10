@@ -220,6 +220,8 @@ internal static class SoberOnboarding
 
     private static void Hide(HashSet<nint> hidden)
     {
+        if (LinuxSteamOS.Current.IsGameMode)
+            return;
         foreach (nint window in LinuxWindowInterop.FindSoberWindows())
         {
             LinuxWindowInterop.TryCloakWindow(window);

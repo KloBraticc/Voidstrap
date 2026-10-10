@@ -80,6 +80,20 @@ internal static class LinuxWindowReveal
 			return;
 
 		bool dialog = window is IBootstrapperDialog;
+		if (Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode)
+		{
+			try
+			{
+				InitializeHidden?.Invoke(host, null);
+				if (host.SilkWindow?.Native?.X11 is { } x11)
+					Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetSteamGame((nint)x11.Window);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("LinuxWindowReveal", "Could not associate the window with Steam: " + ex.Message);
+			}
+			return;
+		}
 		if (Disabled || _sessionDisabled || Voidstrap.Utility.LinuxStartup.SafeMode || InitializeHidden is null || window is not Window wpf || wpf.AllowsTransparency || wpf.WindowState == System.Windows.WindowState.Minimized)
 		{
 			if (dialog)
