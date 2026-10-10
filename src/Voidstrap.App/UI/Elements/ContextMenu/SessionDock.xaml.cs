@@ -16,6 +16,7 @@ using Voidstrap.Enums;
 using Voidstrap.Integrations;
 using Voidstrap.Integrations.Overlays;
 using Voidstrap.Models.Entities;
+using Voidstrap.Models.Persistable;
 using Voidstrap.UI.ViewModels.ContextMenu;
 
 namespace Voidstrap.UI.Elements.Overlay;
@@ -60,17 +61,38 @@ public partial class SessionDock : Window
     private static readonly AnimationTimeline RingFade = Frozen(new DoubleAnimation(0.45, 0, TimeSpan.FromMilliseconds(900)) { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut } });
     private static readonly AnimationTimeline DotBeat = Frozen(CreateDotBeat());
     private DispatcherTimer? _heartbeat;
-    private const double EntranceScale = 0.96;
-    private static readonly TimeSpan EntranceLength = TimeSpan.FromMilliseconds(200);
-    // A single ease out with no overshoot, so the dock settles exactly once
-    private static readonly AnimationTimeline DockFadeIn = Smooth(new DoubleAnimation(0, 1, EntranceLength) { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut } });
-    private static readonly AnimationTimeline DockGrow = Smooth(new DoubleAnimation(EntranceScale, 1, EntranceLength) { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } });
+    // Far enough that the pill and its shadow start fully below the window's bottom edge
+    private const double SlideDistance = 104;
+    private static readonly TimeSpan EntranceLength = TimeSpan.FromMilliseconds(300);
+    private static readonly TimeSpan ExitLength = TimeSpan.FromMilliseconds(220);
+    // Animations only set where they end, so one started halfway through another carries on from where it is.
+    // Single eases with no overshoot, the dock settles exactly once.
+    private static readonly AnimationTimeline DockRise = Smooth(new DoubleAnimation { To = 0, Duration = EntranceLength, EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } });
+    private static readonly AnimationTimeline DockFadeIn = Smooth(new DoubleAnimation { To = 1, Duration = TimeSpan.FromMilliseconds(160), EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut } });
+    private static readonly AnimationTimeline DockSink = Smooth(new DoubleAnimation { To = SlideDistance, Duration = ExitLength, EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn } });
+    private DispatcherTimer? _exitTimer;
+    private bool _exiting;
     private static readonly TimeSpan FocusLossGrace = TimeSpan.FromMilliseconds(160);
     private DispatcherTimer? _settle;
     private DispatcherTimer? _focusLoss;
     private bool _entranceWaiting;
     private bool _activateOnSettle;
     private bool _popoutOnSettle;
+    private bool _pinnedRestored;
+    private bool _profileLoaded;
+    private bool _profileLoading;
+    private bool _restoringPinned;
+    // Panel keys mapped back to the dock action that opens them
+    private static readonly Dictionary<string, string> PanelActions = new(StringComparer.Ordinal)
+    {
+        ["server"] = "details",
+        ["notifications"] = "adjustments",
+        ["browser"] = "browser",
+        ["games"] = "games",
+        ["chat"] = "chat",
+        ["history"] = "history",
+        ["music"] = "music"
+    };
     // Set when the dock was hidden only because the game lost focus, so it comes back with the game
     private bool _resumeOnFocus;
     private bool _resumePopout;
@@ -89,6 +111,7 @@ public partial class SessionDock : Window
         _activity = activity;
         _action = action;
         InitializeComponent();
+        Pill.Effect = Voidstrap.UI.NotificationStyle.Shadow;
         DetachServerPanel();
         _clock = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(1) };
         _clock.Tick += OnClock;
@@ -151,7 +174,9 @@ public partial class SessionDock : Window
             panel.DismissRequested += OnPanelDismissed;
             _panels[key] = panel;
         }
-        panel.Present(true);
+        // Panels brought back because they were pinned must not take the keyboard from the game
+        panel.Present(true, !_restoringPinned);
+        UpdateActiveButtons();
     }
 
     private void CloseServerPanels()
@@ -173,9 +198,81 @@ public partial class SessionDock : Window
         string? key = _panels.FirstOrDefault(pair => ReferenceEquals(pair.Value, panel)).Key;
         if (key != null)
             _panels.Remove(key);
+        UpdateActiveButtons();
     }
 
-    private void OnPanelDismissed(object? sender, EventArgs e) => HideDock();
+    private void OnPanelDismissed(object? sender, EventArgs e) => HideDock(true);
+
+    private static string PanelKeyFor(string action) => action switch
+    {
+        "details" => "server",
+        "adjustments" => "notifications",
+        _ => action
+    };
+
+    // A dock button whose panel is open is filled with the accent colour, like a selected tab
+    private void UpdateActiveButtons()
+    {
+        if (_closed)
+            return;
+        foreach (object child in ActionButtons.Children)
+        {
+            if (child is not Wpf.Ui.Controls.Button { Tag: string action } button)
+                continue;
+            bool open = _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? panel) && !panel.IsClosed;
+            Wpf.Ui.Common.ControlAppearance appearance = open ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Transparent;
+            if (button.Appearance != appearance)
+                button.Appearance = appearance;
+            if (button.Content is TextBlock glyph)
+                glyph.SetResourceReference(TextBlock.ForegroundProperty, open ? "TextOnAccentFillColorPrimaryBrush" : "TextFillColorPrimaryBrush");
+        }
+    }
+
+    // Your Roblox avatar, display name and username on the left of the dock
+    private async Task LoadProfileAsync()
+    {
+        if (_profileLoaded || _profileLoading || _closed)
+            return;
+        _profileLoading = true;
+        try
+        {
+            RobloxChatResult<long> self = await RobloxChat.GetSelfAsync(_lifetime.Token);
+            if (_closed)
+                return;
+            if (self.Status != RobloxChatStatus.Ready)
+            {
+                ProfileName.Text = "Not signed in";
+                ProfileHandle.Text = self.Status == RobloxChatStatus.SignInExpired ? "Sign in again" : "Allow cookie access";
+                return;
+            }
+            RobloxChatUser? user = RobloxChat.GetCachedUser(self.Value);
+            ProfileName.Text = user?.Label is { Length: > 0 } label ? label : "Roblox";
+            ProfileHandle.Text = user?.Name is { Length: > 0 } name ? "@" + name : string.Empty;
+            _profileLoaded = true;
+            Dictionary<long, string> urls = await RobloxChat.GetHeadshotUrlsAsync(new[] { self.Value }, _lifetime.Token);
+            if (_closed || !urls.TryGetValue(self.Value, out string? url) || !Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
+                return;
+            BitmapImage avatar = new();
+            avatar.BeginInit();
+            avatar.UriSource = uri;
+            avatar.DecodePixelWidth = 96;
+            avatar.CacheOption = BitmapCacheOption.OnLoad;
+            avatar.EndInit();
+            ProfileAvatar.ImageSource = avatar;
+            ProfileFallback.Visibility = Visibility.Collapsed;
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionDock", "Your profile could not be loaded: " + ex.Message);
+        }
+        finally
+        {
+            _profileLoading = false;
+        }
+    }
 
     public void EndSession()
     {
@@ -195,11 +292,16 @@ public partial class SessionDock : Window
         }
     }
 
-    public void HideDock()
+    // Closed by the player: slides back down into the bottom edge
+    public void CloseDock() => HideDock(true);
+
+    public void HideDock() => HideDock(false);
+
+    private void HideDock(bool animate)
     {
         if (!Dispatcher.CheckAccess())
         {
-            Dispatcher.BeginInvoke(new Action(HideDock));
+            Dispatcher.BeginInvoke(new Action(() => HideDock(animate)));
             return;
         }
         _resumeOnFocus = false;
@@ -209,14 +311,20 @@ public partial class SessionDock : Window
         _opened = false;
         bool returnFocus = RobloxWindowTracker.IsRobloxForeground();
         _focusLoss?.Stop();
-        CancelEntrance();
+        bool slide = animate && SystemParameters.ClientAreaAnimation && IsVisible;
+        if (slide)
+            HoldCurrent();
+        else
+            CancelEntrance();
         _clock.Stop();
         StopHeartbeat();
         CancelRefresh();
         _anchor?.Dispose();
         _anchor = null;
         HidePopout();
-        if (IsVisible)
+        if (slide)
+            StartExit();
+        else if (IsVisible)
             Hide();
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
             panel.SetInteractive(false);
@@ -273,7 +381,7 @@ public partial class SessionDock : Window
             return;
         if (_opened)
         {
-            HideDock();
+            HideDock(true);
             return;
         }
         if (!_activity.InGame)
@@ -316,13 +424,19 @@ public partial class SessionDock : Window
 
     private void PrepareEntrance()
     {
+        if (_exiting && IsVisible && SystemParameters.ClientAreaAnimation)
+        {
+            // Reopened while sliding away: it turns around from where it is instead of jumping
+            StopExit();
+            HoldCurrent();
+            return;
+        }
         CancelEntrance();
         if (!SystemParameters.ClientAreaAnimation)
             return;
         DockRoot.Opacity = 0;
-        DockScale.ScaleX = DockScale.ScaleY = EntranceScale;
-        // Drawn once into a bitmap that is then only faded and scaled, nothing is laid out or redrawn per frame
-        DockRoot.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
+        DockShift.Y = SlideDistance;
+        EnsureCache();
     }
 
     // Starts on the first rendered frame after the window is placed, so the animation clock
@@ -345,8 +459,7 @@ public partial class SessionDock : Window
             return;
         _entranceWaiting = false;
         DockRoot.BeginAnimation(OpacityProperty, DockFadeIn);
-        DockScale.BeginAnimation(ScaleTransform.ScaleXProperty, DockGrow);
-        DockScale.BeginAnimation(ScaleTransform.ScaleYProperty, DockGrow);
+        DockShift.BeginAnimation(TranslateTransform.YProperty, DockRise);
         _settle ??= CreateSettleTimer();
         _settle.Stop();
         _settle.Start();
@@ -367,25 +480,61 @@ public partial class SessionDock : Window
     // Everything that does real work waits until the dock has finished appearing
     private void Settle()
     {
-        DockRoot.BeginAnimation(OpacityProperty, null);
-        DockScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
-        DockScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
-        DockRoot.Opacity = 1;
-        DockScale.ScaleX = DockScale.ScaleY = 1;
-        DockRoot.CacheMode = null;
+        ResetMotion();
         StartHeartbeat();
         if (_refreshTask is not { IsCompleted: false } && DateTime.UtcNow - _lastRefreshUtc >= RefreshInterval)
             StartRefresh();
         // Start loading the popout's banner and friends now so they are ready when it is opened
         _ = LoadPopoutAsync();
+        _ = LoadProfileAsync();
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
             panel.Present(true, _activateOnSettle);
+        RestorePinnedPanels();
         if (_popoutOnSettle)
         {
             _popoutOnSettle = false;
             ShowPopout();
         }
         RaiseAboveDimmer();
+    }
+
+    // The first time the dock is opened in a game, every panel left pinned comes back where it was
+    private void RestorePinnedPanels()
+    {
+        if (_pinnedRestored)
+            return;
+        _pinnedRestored = true;
+        Dictionary<string, SessionPanelLayout>? saved = App.State.Prop.SessionPanels;
+        if (saved == null || saved.Count == 0)
+            return;
+        string[] pinned = saved.Where(pair => pair.Value is { Pinned: true } && !_panels.ContainsKey(pair.Key))
+            .Select(pair => pair.Key).ToArray();
+        if (pinned.Length == 0)
+            return;
+        _restoringPinned = true;
+        try
+        {
+            foreach (string key in pinned)
+            {
+                if (_closed || !_opened)
+                    break;
+                if (!PanelActions.TryGetValue(key, out string? action))
+                    continue;
+                try
+                {
+                    _action(action);
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine("SessionDock", $"The pinned panel '{key}' could not be restored: " + ex.Message);
+                }
+            }
+        }
+        finally
+        {
+            _restoringPinned = false;
+        }
+        App.Logger.WriteLine("SessionDock", $"Restored {pinned.Length} pinned panel(s)");
     }
 
     private void CancelEntrance()
@@ -397,12 +546,71 @@ public partial class SessionDock : Window
         }
         _settle?.Stop();
         _popoutOnSettle = false;
+        StopExit();
+        ResetMotion();
+    }
+
+    private void ResetMotion()
+    {
         DockRoot.BeginAnimation(OpacityProperty, null);
-        DockScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
-        DockScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+        DockShift.BeginAnimation(TranslateTransform.YProperty, null);
         DockRoot.Opacity = 1;
-        DockScale.ScaleX = DockScale.ScaleY = 1;
+        DockShift.Y = 0;
         DockRoot.CacheMode = null;
+    }
+
+    // Drawn once into a bitmap that is then only moved and faded, nothing is laid out or redrawn per frame
+    private void EnsureCache()
+    {
+        if (DockRoot.CacheMode is not BitmapCache)
+            DockRoot.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
+    }
+
+    // Stops any running motion but keeps the dock exactly where it is on screen right now
+    private void HoldCurrent()
+    {
+        if (_entranceWaiting)
+        {
+            _entranceWaiting = false;
+            CompositionTarget.Rendering -= OnFirstFrame;
+        }
+        _settle?.Stop();
+        double opacity = DockRoot.Opacity;
+        double y = DockShift.Y;
+        DockRoot.BeginAnimation(OpacityProperty, null);
+        DockShift.BeginAnimation(TranslateTransform.YProperty, null);
+        DockRoot.Opacity = opacity;
+        DockShift.Y = y;
+        EnsureCache();
+    }
+
+    private void StartExit()
+    {
+        _exiting = true;
+        DockShift.BeginAnimation(TranslateTransform.YProperty, DockSink);
+        if (_exitTimer == null)
+        {
+            _exitTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = ExitLength + TimeSpan.FromMilliseconds(30) };
+            _exitTimer.Tick += OnExitFinished;
+        }
+        _exitTimer.Stop();
+        _exitTimer.Start();
+    }
+
+    private void StopExit()
+    {
+        _exiting = false;
+        _exitTimer?.Stop();
+    }
+
+    private void OnExitFinished(object? sender, EventArgs e)
+    {
+        StopExit();
+        if (_closed || _opened)
+            return;
+        if (IsVisible)
+            Hide();
+        ResetMotion();
     }
 
     private void OnTrackerChanged(object? sender, RobloxWindowRect bounds)
@@ -632,8 +840,8 @@ public partial class SessionDock : Window
             return;
         _serverStarted ??= data.ServerStartedUtc;
         string uptime = _serverStarted.HasValue ? ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - _serverStarted.Value) : "Unavailable";
-        string session = data.TimeJoined == default ? "0m" : ServerInformationViewModel.FormatUptime(DateTime.Now - data.TimeJoined);
-        SetText(SessionTimes, "Session: " + session + "   Server: " + uptime);
+        SetRun(SessionClock, data.TimeJoined == default ? "0:00" : FormatClock(DateTime.Now - data.TimeJoined));
+        SetRun(ServerClock, _serverStarted.HasValue ? FormatClock(DateTimeOffset.UtcNow - _serverStarted.Value) : "--");
         if (!PopoutOpen)
             return;
         if (_serverType.Length == 0)
@@ -641,6 +849,22 @@ public partial class SessionDock : Window
         SetText(BannerTitle, GameTitle.Text);
         SetText(BannerSubtitle, _serverType);
         SetText(ServerReadout, "Location: " + _location + "\nUptime: " + uptime + "\nPlayers: " + (_players.Length == 0 ? "Unavailable" : _players));
+    }
+
+    // Short clock style, 2:08 or 9:33:02
+    private static string FormatClock(TimeSpan span)
+    {
+        if (span < TimeSpan.Zero)
+            span = TimeSpan.Zero;
+        return span.TotalHours >= 1
+            ? $"{(int)span.TotalHours}:{span.Minutes:00}:{span.Seconds:00}"
+            : $"{span.Minutes}:{span.Seconds:00}";
+    }
+
+    private static void SetRun(System.Windows.Documents.Run run, string text)
+    {
+        if (!string.Equals(run.Text, text, StringComparison.Ordinal))
+            run.Text = text;
     }
 
     private static void SetText(TextBlock block, string text)
@@ -768,7 +992,7 @@ public partial class SessionDock : Window
                 ShowActivated = false,
                 Topmost = true,
                 WindowStartupLocation = WindowStartupLocation.Manual,
-                Width = ActualWidth > 0 ? ActualWidth : Width,
+                Width = Pill.ActualWidth > 0 ? Pill.ActualWidth : 900,
                 Height = PopoutHeight,
                 Content = ServerPanel,
                 FontFamily = FontFamily
@@ -776,7 +1000,7 @@ public partial class SessionDock : Window
             _popout.SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
             _popout.SourceInitialized += OnPopoutSourceInitialized;
         }
-        GameChevron.Text = "\uE70D";
+        GameChevron.Text = ProfileChevron.Text = "\uE70D";
         UpdateReadout();
         try
         {
@@ -795,7 +1019,7 @@ public partial class SessionDock : Window
 
     private void HidePopout()
     {
-        GameChevron.Text = "\uE70E";
+        GameChevron.Text = ProfileChevron.Text = "\uE70E";
         if (_popout is { IsVisible: true } popout)
             popout.Hide();
     }
@@ -820,12 +1044,17 @@ public partial class SessionDock : Window
         if (!PopoutOpen || _popoutHandle == IntPtr.Zero)
             return;
         IntPtr dock = new WindowInteropHelper(this).Handle;
-        if (dock == IntPtr.Zero || !GetWindowRect(dock, out NativeRect rect))
+        if (dock == IntPtr.Zero || !GetWindowRect(dock, out NativeRect rect) || Pill.ActualWidth <= 0)
             return;
+        // Lined up with the pill itself, not the larger window around it that holds the shadow
         DpiScale dpi = VisualTreeHelper.GetDpi(this);
+        Rect pill = Pill.TransformToAncestor(this).TransformBounds(new Rect(0, 0, Pill.ActualWidth, Pill.ActualHeight));
+        int left = rect.Left + (int)Math.Round(pill.Left * dpi.DpiScaleX);
+        int top = rect.Top + (int)Math.Round(pill.Top * dpi.DpiScaleY);
+        int width = (int)Math.Ceiling(pill.Width * dpi.DpiScaleX);
         int height = (int)Math.Ceiling(PopoutHeight * dpi.DpiScaleY);
         int gap = (int)Math.Round(PopoutGap * dpi.DpiScaleY);
-        SetWindowPos(_popoutHandle, HwndTopmost, rect.Left, rect.Top - gap - height, rect.Right - rect.Left, height, 0x0010 | 0x0040);
+        SetWindowPos(_popoutHandle, HwndTopmost, left, top - gap - height, width, height, 0x0010 | 0x0040);
     }
 
     // Fills the popout: the game's main thumbnail as the banner and the friends who are in this server
@@ -941,7 +1170,13 @@ public partial class SessionDock : Window
         }
         if (action == "close")
         {
-            HideDock();
+            HideDock(true);
+            return;
+        }
+        // A highlighted button closes its open panel again, like toggling a tab
+        if (PanelActions.ContainsValue(action) && _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? open) && !open.IsClosed && open.IsVisible)
+        {
+            open.CloseFromDock();
             return;
         }
         try
@@ -979,6 +1214,12 @@ public partial class SessionDock : Window
             CompositionTarget.Rendering -= OnFirstFrame;
         }
         _settle?.Stop();
+        if (_exitTimer != null)
+        {
+            _exitTimer.Stop();
+            _exitTimer.Tick -= OnExitFinished;
+            _exitTimer = null;
+        }
         if (_focusLoss != null)
         {
             _focusLoss.Stop();

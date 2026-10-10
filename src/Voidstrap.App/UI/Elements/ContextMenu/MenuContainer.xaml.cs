@@ -259,7 +259,7 @@ public partial class MenuContainer : WpfUiWindow
         // Closing always works, even when one of the dock panels holds focus instead of Roblox
         if (_sessionDock is { IsOpen: true } openDock)
         {
-            openDock.HideDock();
+            openDock.CloseDock();
             return;
         }
         if (!App.Settings.Prop.SessionDockEnabled || _activityWatcher is not { InGame: true } activityWatcher
@@ -933,7 +933,7 @@ public partial class MenuContainer : WpfUiWindow
                 return;
             App.State.Prop.SessionDockTipShown = true;
             App.State.SaveDeferred();
-            notificationWindow.ShowNotification("Open the session dock", "Press Ctrl+Alt+L while you're in a game", null, 7.0, null, "Tip");
+            notificationWindow.ShowNotification("Voidstrap overlay is ready", "Press Ctrl + Alt + L to open it.", null, 7.0, null, string.Empty);
         }
         catch (Exception ex)
         {

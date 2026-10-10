@@ -9,7 +9,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Voidstrap.Integrations.Overlays;
 using Voidstrap.Models.Persistable;
-using Wpf.Ui.Common;
 
 namespace Voidstrap.UI.Elements.Overlay;
 
@@ -40,6 +39,10 @@ public sealed partial class SessionPanelWindow : Window
     private bool _requested;
     private bool _closed;
     private bool _viewLoaded;
+    private bool _userClosed;
+    private bool _cloaked;
+    private const string PinGlyph = "\uE718";
+    private const string PinnedGlyph = "\uE840";
 
     public event EventHandler? DismissRequested;
 
@@ -101,8 +104,8 @@ public sealed partial class SessionPanelWindow : Window
         caption.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
         header.Children.Add(caption);
         StackPanel actions = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Top };
-        _pin = new CaptionButton(SymbolRegular.Pin24, 14, false, "Pin panel");
-        _close = new CaptionButton(SymbolRegular.Dismiss20, 16, true, "Close panel");
+        _pin = new CaptionButton(PinGlyph, 13, false, "Pin panel");
+        _close = new CaptionButton("\uE8BB", 10, true, "Close panel");
         _pin.Click += OnPin;
         _close.Click += OnClosePanel;
         actions.Children.Add(_pin);
@@ -128,6 +131,7 @@ public sealed partial class SessionPanelWindow : Window
         RestoreLayout();
         SourceInitialized += OnSourceReady;
         Loaded += OnLoaded;
+        ContentRendered += OnContentRendered;
         Closed += OnClosed;
         PreviewKeyDown += OnKey;
         _view.Closed += OnViewClosed;
@@ -141,9 +145,10 @@ public sealed partial class SessionPanelWindow : Window
 
     private void UpdatePinVisual()
     {
-        // The title bar has no toggled look, so a pinned panel shows its pin in the accent colour
+        // A pinned panel shows a filled pin in the accent colour
+        _pin.SetGlyph(IsPinned ? PinnedGlyph : PinGlyph);
         _pin.SetAccent(IsPinned);
-        _pin.ToolTip = IsPinned ? "Unpin panel" : "Pin panel";
+        _pin.ToolTip = IsPinned ? "Unpin, hides with the dock again" : "Pin, stays over the game after the dock closes";
     }
 
     private static void DetachTitleBar(Window view)
@@ -225,6 +230,22 @@ public sealed partial class SessionPanelWindow : Window
         }
     }
 
+    private void SetCloak(bool cloak)
+    {
+        if (_handle == IntPtr.Zero)
+            return;
+        int value = cloak ? 1 : 0;
+        if (DwmSetWindowAttribute(_handle, 13, ref value, sizeof(int)) == 0)
+            _cloaked = cloak;
+    }
+
+    private void OnContentRendered(object? sender, EventArgs e)
+    {
+        ContentRendered -= OnContentRendered;
+        if (_cloaked && !_closed)
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Render, new Action(() => SetCloak(false)));
+    }
+
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         if (_viewLoaded)
@@ -272,9 +293,15 @@ public sealed partial class SessionPanelWindow : Window
             bool shown = IsVisible;
             if (shown && _placed && left == _lastLeft && top == _lastTop && pixelWidth == _lastWidth && pixelHeight == _lastHeight)
                 return;
-            if (!shown)
-                Show();
+            // Moved into place while still hidden, so it never flashes up somewhere else first
             SetWindowPos(_handle, HwndTopmost, left, top, pixelWidth, pixelHeight, 0x0010);
+            if (!shown)
+            {
+                // The very first show is cloaked until WPF has drawn it, otherwise it appears blank for a frame
+                if (!_viewLoaded && !_cloaked && Voidstrap.Utility.Platform.IsWindows)
+                    SetCloak(true);
+                Show();
+            }
             _placed = true;
             _lastLeft = left;
             _lastTop = top;
@@ -325,19 +352,27 @@ public sealed partial class SessionPanelWindow : Window
         SaveLayout();
     }
 
-    private void OnClosePanel(object sender, RoutedEventArgs e) => Close();
+    // Closing a panel yourself also unpins it, so it does not come back next time
+    private void CloseByUser()
+    {
+        if (_closed)
+            return;
+        _userClosed = true;
+        Close();
+    }
+
+    private void OnClosePanel(object sender, RoutedEventArgs e) => CloseByUser();
+
+    public void CloseFromDock() => CloseByUser();
 
     private void OnHostedClick(object sender, RoutedEventArgs e)
     {
         if (_closed || e.OriginalSource is not Button { IsCancel: true })
             return;
-        Dispatcher.BeginInvoke(new Action(() =>
-        {
-            if (!_closed)
-                Close();
-        }));
+        Dispatcher.BeginInvoke(new Action(CloseByUser));
     }
-    private void OnViewClosed(object? sender, EventArgs e) => Close();
+
+    private void OnViewClosed(object? sender, EventArgs e) => CloseByUser();
 
     private void OnKey(object sender, KeyEventArgs e)
     {
@@ -385,9 +420,12 @@ public sealed partial class SessionPanelWindow : Window
         if (_closed)
             return;
         _closed = true;
+        if (_userClosed)
+            IsPinned = false;
         SaveLayout();
         SourceInitialized -= OnSourceReady;
         Loaded -= OnLoaded;
+        ContentRendered -= OnContentRendered;
         Closed -= OnClosed;
         PreviewKeyDown -= OnKey;
         RemoveHandler(ButtonBase.ClickEvent, new RoutedEventHandler(OnHostedClick));
@@ -436,13 +474,13 @@ public sealed partial class SessionPanelWindow : Window
     {
         private static readonly Duration Fade = new(TimeSpan.FromMilliseconds(100));
         private readonly Border _hover;
-        private readonly Wpf.Ui.Controls.SymbolIcon _icon;
+        private readonly TextBlock _icon;
         private readonly bool _close;
         private bool _pressed;
 
         public event RoutedEventHandler? Click;
 
-        public CaptionButton(SymbolRegular symbol, double size, bool close, string tip)
+        public CaptionButton(string glyph, double size, bool close, string tip)
         {
             _close = close;
             Width = 44;
@@ -453,7 +491,12 @@ public sealed partial class SessionPanelWindow : Window
             SnapsToDevicePixels = true;
             _hover = new Border { Opacity = 0 };
             _hover.SetResourceReference(BackgroundProperty, close ? "RinCaptionCloseBrush" : "SubtleFillColorSecondaryBrush");
-            _icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = symbol, FontSize = size, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+            // Windows' own icon font, the pin is missing from the bundled one and fell back to the colour emoji
+            _icon = new TextBlock
+            {
+                Text = glyph, FontFamily = IconFont, FontSize = size, HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center, IsHitTestVisible = false
+            };
             _icon.SetResourceReference(ForegroundProperty, "TextFillColorPrimaryBrush");
             Grid layout = new();
             layout.Children.Add(_hover);
@@ -465,6 +508,10 @@ public sealed partial class SessionPanelWindow : Window
             MouseLeftButtonUp += OnUp;
             LostMouseCapture += (_, _) => { _pressed = false; Refresh(); };
         }
+
+        private static readonly System.Windows.Media.FontFamily IconFont = new("Segoe Fluent Icons, Segoe MDL2 Assets");
+
+        public void SetGlyph(string glyph) => _icon.Text = glyph;
 
         public void SetAccent(bool accent)
             => _icon.SetResourceReference(ForegroundProperty, accent ? "AccentTextFillColorPrimaryBrush" : "TextFillColorPrimaryBrush");

@@ -154,6 +154,8 @@ namespace Voidstrap.UI.Elements.Overlay
                         continue;
                     NotificationTitle.Text = item.Title;
                     NotificationStatus.Text = item.Status;
+                    // A notification with no status line, such as the overlay tip, is just a title and a line of text
+                    NotificationStatus.Visibility = string.IsNullOrEmpty(item.Status) ? Visibility.Collapsed : Visibility.Visible;
                     if (Voidstrap.Utility.Platform.IsWindows)
                     {
                         await PresentWindowsNotificationAsync(item);
