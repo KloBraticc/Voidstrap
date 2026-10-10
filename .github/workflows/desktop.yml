@@ -107,8 +107,8 @@ jobs:
             osx-x64) arch=x86_64 ;;
             osx-arm64) arch=arm64 ;;
           esac
-          lipo -verify_arch "$arch" "$app/Contents/MacOS/Voidstrap"
-          lipo -verify_arch "$arch" "$app/Contents/MacOS/voidstrap-virtualdisplay"
+          lipo "$app/Contents/MacOS/Voidstrap" -verify_arch "$arch"
+          lipo "$app/Contents/MacOS/voidstrap-virtualdisplay" -verify_arch "$arch"
 
   linux_validation:
     name: Linux canonical and experimental validation
