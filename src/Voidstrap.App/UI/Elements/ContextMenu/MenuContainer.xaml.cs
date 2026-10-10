@@ -333,14 +333,14 @@ public partial class MenuContainer : WpfUiWindow
                 break;
             case "browser":
                 if (_activityWatcher is { } activityWatcher)
-                    _sessionDock?.ShowTool("browser", Strings.ContextMenu_ServerBrowser_Title, () => new SessionServerBrowser(activityWatcher, _watcher.ServerMatchmaker));
+                    _sessionDock?.ShowTool("browser", "Servers", () => new SessionServerBrowser(activityWatcher, _watcher.ServerMatchmaker));
                 break;
             case "games":
                 if (_activityWatcher is { } gameActivityWatcher)
                     _sessionDock?.ShowTool("games", Strings.ContextMenu_GameBrowser_Title, () => new SessionGameBrowser(gameActivityWatcher, _watcher.ServerMatchmaker));
                 break;
             case "chat":
-                _sessionDock?.ShowTool("chat", "Chat", () => new SessionChatWindow());
+                _sessionDock?.ShowTool("chat", "Messages", () => new SessionChatWindow());
                 break;
             case "music":
                 _sessionDock?.ShowTool("music", "Music", () => new MusicPlayer(_activityWatcher));
