@@ -81,9 +81,9 @@ public sealed partial class SessionPanelWindow : Window
             contentPanel.SetResourceReference(Panel.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
 
         Grid root = new();
-        root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(44) });
+        root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(CaptionHeight) });
         root.RowDefinitions.Add(new RowDefinition());
-        Grid header = new() { Margin = new Thickness(8, 2, 8, 0) };
+        Grid header = new();
         _drag = new Thumb { Cursor = Cursors.SizeAll, Background = Brushes.Transparent };
         FrameworkElementFactory dragVisual = new(typeof(Border));
         dragVisual.SetValue(Border.BackgroundProperty, Brushes.Transparent);
@@ -91,14 +91,17 @@ public sealed partial class SessionPanelWindow : Window
         _drag.DragDelta += OnDrag;
         _drag.DragCompleted += OnGeometryFinished;
         header.Children.Add(_drag);
-        header.Children.Add(new TextBlock
+        // Laid out like the Voidstrap title bar: small title on the left, caption buttons flush in the corner
+        TextBlock caption = new()
         {
-            Text = title, Margin = new Thickness(8, 0, 88, 0), VerticalAlignment = VerticalAlignment.Center,
-            FontSize = 14, FontWeight = FontWeights.SemiBold, IsHitTestVisible = false
-        });
-        StackPanel actions = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
-        _pin = new Wpf.Ui.Controls.Button { Icon = SymbolRegular.Pin24, Appearance = ControlAppearance.Transparent, Width = 34, Height = 32, Padding = new Thickness(0), ToolTip = "Pin panel", Focusable = false };
-        _close = new Wpf.Ui.Controls.Button { Icon = SymbolRegular.Dismiss24, Appearance = ControlAppearance.Transparent, Width = 34, Height = 32, Padding = new Thickness(0), ToolTip = "Close panel", Focusable = false };
+            Text = title, Margin = new Thickness(16, 0, 100, 0), VerticalAlignment = VerticalAlignment.Center,
+            FontSize = 12, FontWeight = FontWeights.Normal, IsHitTestVisible = false, TextTrimming = TextTrimming.CharacterEllipsis
+        };
+        caption.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+        header.Children.Add(caption);
+        StackPanel actions = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Top };
+        _pin = CreateCaptionButton("UiTitlebarButton", SymbolRegular.Pin24, 14, "Pin panel");
+        _close = CreateCaptionButton("UiTitlebarCloseButton", SymbolRegular.Dismiss20, 16, "Close panel");
         _pin.Click += OnPin;
         _close.Click += OnClosePanel;
         actions.Children.Add(_pin);
@@ -125,6 +128,55 @@ public sealed partial class SessionPanelWindow : Window
         _view.Closed += OnViewClosed;
         RobloxWindowTracker.Changed += OnBounds;
         _tracker = RobloxWindowTracker.Acquire();
+    }
+
+    private const double CaptionHeight = 30;
+
+    // Uses the title bar's own caption button styles, with hover driven the way the title bar drives it
+    private static Wpf.Ui.Controls.Button CreateCaptionButton(string styleKey, SymbolRegular icon, double size, string tip)
+    {
+        Wpf.Ui.Controls.Button button = new() { Icon = icon, ToolTip = tip, Focusable = false };
+        if (Application.Current?.TryFindResource(styleKey) is Style style)
+            button.Style = style;
+        else
+        {
+            button.Appearance = ControlAppearance.Transparent;
+            button.Width = 44;
+            button.Height = CaptionHeight;
+            button.Padding = new Thickness(0);
+        }
+        button.FontSize = size;
+        button.SetResourceReference(ForegroundProperty, "TextFillColorPrimaryBrush");
+        button.MouseEnter += OnCaptionHover;
+        button.MouseLeave += OnCaptionHover;
+        button.PreviewMouseLeftButtonDown += OnCaptionPress;
+        button.PreviewMouseLeftButtonUp += OnCaptionPress;
+        button.LostMouseCapture += OnCaptionPress;
+        return button;
+    }
+
+    private static void OnCaptionHover(object sender, MouseEventArgs e)
+    {
+        if (sender is Wpf.Ui.Controls.Button button)
+            Wpf.Ui.Controls.CaptionButtonState.SetIsHovered(button, button.IsMouseOver);
+    }
+
+    private static void OnCaptionPress(object sender, MouseEventArgs e)
+    {
+        if (sender is not Wpf.Ui.Controls.Button button)
+            return;
+        Wpf.Ui.Controls.CaptionButtonState.SetIsPressed(button, e.LeftButton == MouseButtonState.Pressed && button.IsMouseOver);
+        Wpf.Ui.Controls.CaptionButtonState.Apply(button, true);
+    }
+
+    private void UpdatePinVisual()
+    {
+        // The title bar has no toggled look, so a pinned panel shows its pin in the accent colour
+        if (IsPinned)
+            _pin.SetResourceReference(ForegroundProperty, "AccentTextFillColorPrimaryBrush");
+        else
+            _pin.SetResourceReference(ForegroundProperty, "TextFillColorPrimaryBrush");
+        _pin.ToolTip = IsPinned ? "Unpin panel" : "Pin panel";
     }
 
     private static void DetachTitleBar(Window view)
@@ -302,8 +354,7 @@ public sealed partial class SessionPanelWindow : Window
     private void OnPin(object sender, RoutedEventArgs e)
     {
         IsPinned = !IsPinned;
-        _pin.Appearance = IsPinned ? ControlAppearance.Primary : ControlAppearance.Transparent;
-        _pin.ToolTip = IsPinned ? "Unpin panel" : "Pin panel";
+        UpdatePinVisual();
         SaveLayout();
     }
 
@@ -334,7 +385,7 @@ public sealed partial class SessionPanelWindow : Window
         if (double.IsFinite(saved.Width) && saved.Width >= MinWidth) Width = Math.Min(saved.Width, 1600);
         if (double.IsFinite(saved.Height) && saved.Height >= MinHeight) Height = Math.Min(saved.Height, 1200);
         IsPinned = saved.Pinned;
-        _pin.Appearance = IsPinned ? ControlAppearance.Primary : ControlAppearance.Transparent;
+        UpdatePinVisual();
     }
 
     private void SaveLayout()

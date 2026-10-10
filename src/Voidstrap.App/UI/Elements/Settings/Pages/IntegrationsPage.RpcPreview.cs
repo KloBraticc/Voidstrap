@@ -347,7 +347,7 @@ public partial class IntegrationsPage
         }
 
         foreach (DiscordRPC.Button button in DiscordRichPresence.BuildButtons(game.Activity))
-            snapshot.Buttons.Add(new PresenceButton { Label = button.Label ?? string.Empty, Url = button.Url ?? string.Empty });
+            snapshot.Buttons.Add(new PresenceButton { Label = Voidstrap.Utility.RpcText.Render(button.Label), Url = button.Url ?? string.Empty });
         return snapshot;
     }
 
@@ -571,7 +571,8 @@ public partial class IntegrationsPage
             host.BorderThickness = new Thickness(1.0);
             TextBlock label = new TextBlock
             {
-                Text = button.Label,
+                // Button labels carry translation markers until rendered, exactly like Discord receives them
+                Text = Voidstrap.Utility.DiscordPresenceGuard.Label(Voidstrap.Utility.RpcText.Render(button.Label), "Open"),
                 FontSize = 13.0,
                 FontWeight = FontWeights.Medium,
                 HorizontalAlignment = HorizontalAlignment.Center,
