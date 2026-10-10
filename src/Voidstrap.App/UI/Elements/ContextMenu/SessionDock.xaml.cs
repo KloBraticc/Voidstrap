@@ -357,6 +357,8 @@ public partial class SessionDock : Window
         {
             if (panel.IsPinned || keepPanels || !panel.IsRequested)
                 panel.SetInteractive(false);
+            else if (panel.KeepsState)
+                panel.HideForSession();
             else
                 panel.Close();
         }
@@ -1377,7 +1379,13 @@ public partial class SessionDock : Window
         // A highlighted button closes its open panel again, like toggling a tab
         if (PanelActions.ContainsValue(action) && _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? open) && !open.IsClosed && open.IsVisible)
         {
-            open.CloseFromDock();
+            if (open.KeepsState)
+            {
+                open.HideForSession();
+                UpdateActiveButtons();
+            }
+            else
+                open.CloseFromDock();
             return;
         }
         try

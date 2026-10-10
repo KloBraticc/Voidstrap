@@ -43,15 +43,89 @@
     </Style>
   </Window.Resources>
 
-  <Grid>
+  <Grid x:Name="BrowserRoot" PreviewKeyDown="BrowserRoot_PreviewKeyDown">
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
       <RowDefinition Height="2" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
 
+    <!-- Tabs: icon, title and close; middle click closes, the plus opens a new one -->
+    <Grid Margin="8,6,8,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <ScrollViewer x:Name="TabScroller" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled"
+                    PreviewMouseWheel="TabScroller_PreviewMouseWheel">
+        <ItemsControl x:Name="TabStrip" Focusable="False">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Border x:Name="Chip" Width="190" Height="32" Margin="0,0,4,0" CornerRadius="8" Padding="10,0,4,0" Cursor="Hand"
+                      ToolTip="{Binding Title}" MouseLeftButtonUp="Tab_Click" MouseDown="Tab_MouseDown">
+                <Border.Style>
+                  <Style TargetType="Border">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Style.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                      </Trigger>
+                      <DataTrigger Binding="{Binding IsActive}" Value="True">
+                        <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </Border.Style>
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <Grid Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center">
+                    <TextBlock Text="&#xE774;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <Image Source="{Binding Icon}" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" />
+                  </Grid>
+                  <TextBlock Grid.Column="1" Text="{Binding Title}" FontSize="12.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                             Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                  <Button Grid.Column="2" Width="24" Height="24" Margin="4,0,0,0" Style="{StaticResource NavButton}" ToolTip="Close tab (Ctrl+W)"
+                          Click="CloseTab_Click">
+                    <TextBlock Text="&#xE711;" Style="{StaticResource Glyph}" FontSize="10" />
+                  </Button>
+                  <!-- The open tab is underlined in the accent colour -->
+                  <Border Grid.ColumnSpan="3" Height="2" Margin="4,0,4,0" VerticalAlignment="Bottom" CornerRadius="1"
+                          Background="{DynamicResource SystemAccentColorPrimaryBrush}">
+                    <Border.Style>
+                      <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding IsActive}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </Border.Style>
+                  </Border>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+      <Button Grid.Column="1" Style="{StaticResource NavButton}" Width="32" Height="32" Margin="4,0,0,0" ToolTip="New tab (Ctrl+T)" Click="NewTab_Click">
+        <TextBlock Text="&#xE710;" Style="{StaticResource Glyph}" />
+      </Button>
+    </Grid>
+
     <!-- Our own toolbar: back, forward, reload, home and one box that searches Google or opens an address -->
-    <Grid Margin="10,8,10,8">
+    <Grid Grid.Row="1" Margin="10,6,10,8">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="*" />
@@ -109,11 +183,11 @@
     </Grid>
 
     <!-- A thin bar that fills while a page loads -->
-    <Border Grid.Row="1" Background="{DynamicResource CardStrokeColorDefaultBrush}" />
-    <ProgressBar x:Name="LoadingBar" Grid.Row="1" Height="2" IsIndeterminate="True" Visibility="Collapsed" BorderThickness="0"
+    <Border Grid.Row="2" Background="{DynamicResource CardStrokeColorDefaultBrush}" />
+    <ProgressBar x:Name="LoadingBar" Grid.Row="2" Height="2" IsIndeterminate="True" Visibility="Collapsed" BorderThickness="0"
                  Foreground="{DynamicResource SystemAccentColorPrimaryBrush}" />
 
-    <Grid x:Name="ViewHost" Grid.Row="2" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}">
+    <Grid x:Name="ViewHost" Grid.Row="3" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}">
       <StackPanel x:Name="Message" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420">
         <TextBlock x:Name="MessageTitle" Text="Starting the browser" FontSize="16" FontWeight="SemiBold" TextAlignment="Center"
                    Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
