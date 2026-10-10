@@ -34,10 +34,14 @@ public partial class SessionGameBrowser : Window
     private CancellationTokenSource? _searchCts;
     private bool _continueLoaded;
     private bool _favoritesLoaded;
+    private List<GameBrowserTile> _continue = new();
+    private List<GameBrowserTile> _favorites = new();
     private bool _closed;
+    // The search tab is checked in the XAML, which raises Checked before the rest of the window exists
+    private bool _ready;
     private bool _launching;
     private int _searchGeneration;
-    private string _mode = "continue";
+    private string _mode = "search";
 
     public ObservableCollection<GameBrowserTile> Games { get; } = new();
 
@@ -46,6 +50,7 @@ public partial class SessionGameBrowser : Window
         _activity = activity;
         _matchmaker = matchmaker;
         InitializeComponent();
+        _ready = true;
         DataContext = this;
         Loaded += OnLoaded;
         Closed += OnClosed;
@@ -65,10 +70,18 @@ public partial class SessionGameBrowser : Window
         }
     }
 
+    // The search tab shows the games you played last until something is typed
     private async Task LoadContinueAsync()
     {
-        if (_continueLoaded || _closed)
+        if (_closed)
             return;
+        SectionText.Text = "Continue";
+        if (_continueLoaded)
+        {
+            ReplaceGames(_continue);
+            SetBusy(false, Games.Count == 0 ? Strings.ContextMenu_GameBrowser_NoContinue : string.Empty);
+            return;
+        }
         string mode = _mode;
         SetBusy(true, Strings.ContextMenu_GameBrowser_Loading);
         try
@@ -87,10 +100,11 @@ public partial class SessionGameBrowser : Window
                 .Take(MaxRecentGames)
                 .ToList();
             await UniverseDetails.FetchForEntriesAsync(games, _lifetimeToken);
-            if (_closed || _mode != mode)
-                return;
-            ReplaceGames(games.Select(game => new GameBrowserTile(game)));
+            _continue = games.Select(game => new GameBrowserTile(game)).ToList();
             _continueLoaded = true;
+            if (_closed || _mode != mode || SearchBox.Text.Trim().Length >= 2)
+                return;
+            ReplaceGames(_continue);
             StatusText.Text = Games.Count == 0 ? Strings.ContextMenu_GameBrowser_NoContinue : string.Empty;
         }
         catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
@@ -138,8 +152,15 @@ public partial class SessionGameBrowser : Window
 
     private async Task LoadFavoritesAsync()
     {
-        if (_favoritesLoaded || _closed)
+        if (_closed)
             return;
+        SectionText.Text = "Favorites";
+        if (_favoritesLoaded)
+        {
+            ReplaceGames(_favorites);
+            SetBusy(false, Games.Count == 0 ? Strings.ContextMenu_GameBrowser_NoFavorites : string.Empty);
+            return;
+        }
         string mode = _mode;
         SetBusy(true, Strings.ContextMenu_GameBrowser_Loading);
         try
@@ -151,10 +172,11 @@ public partial class SessionGameBrowser : Window
                 .Select(placeId => new ActivityData { PlaceId = placeId })
                 .ToList();
             await UniverseDetails.FetchForEntriesAsync(favorites, _lifetimeToken);
+            _favorites = favorites.Select(game => new GameBrowserTile(game)).ToList();
+            _favoritesLoaded = true;
             if (_closed || _mode != mode)
                 return;
-            ReplaceGames(favorites.Select(game => new GameBrowserTile(game)));
-            _favoritesLoaded = true;
+            ReplaceGames(_favorites);
             StatusText.Text = Games.Count == 0 ? Strings.ContextMenu_GameBrowser_NoFavorites : string.Empty;
         }
         catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
@@ -175,42 +197,43 @@ public partial class SessionGameBrowser : Window
         }
     }
 
-    private void ModeButton_Click(object sender, RoutedEventArgs e)
+    private void Tab_Checked(object sender, RoutedEventArgs e)
     {
-        if (sender is not FrameworkElement { Tag: string mode } || _closed)
+        if (_closed || !_ready)
             return;
-        _mode = mode;
-        bool search = mode == "search";
-        SearchBox.Visibility = search ? Visibility.Visible : Visibility.Collapsed;
+        _mode = ReferenceEquals(sender, FavoritesTab) ? "favorites" : "search";
         _searchTimer.Stop();
         CancelSearch();
-        if (mode == "continue")
-            _ = LoadContinueAsync();
-        else if (mode == "favorites")
+        if (_mode == "favorites")
             _ = LoadFavoritesAsync();
         else if (SearchBox.Text.Trim().Length >= 2)
             StartSearch();
         else
-        {
-            Games.Clear();
-            SetBusy(false, Strings.ContextMenu_GameBrowser_SearchPrompt);
-            UpdateCount();
-        }
+            _ = LoadContinueAsync();
     }
 
     private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (_closed || _mode != "search")
+        if (_closed || !_ready)
             return;
         _searchTimer.Stop();
         CancelSearch();
+        // Typing always searches, even from the favorites tab
+        if (_mode != "search")
+        {
+            _mode = "search";
+            FavoritesTab.Checked -= Tab_Checked;
+            SearchTab.Checked -= Tab_Checked;
+            SearchTab.IsChecked = true;
+            FavoritesTab.Checked += Tab_Checked;
+            SearchTab.Checked += Tab_Checked;
+        }
         if (SearchBox.Text.Trim().Length < 2)
         {
-            Games.Clear();
-            SetBusy(false, Strings.ContextMenu_GameBrowser_SearchPrompt);
-            UpdateCount();
+            _ = LoadContinueAsync();
             return;
         }
+        SectionText.Text = "Results";
         _searchTimer.Start();
     }
 
@@ -371,7 +394,9 @@ public partial class SessionGameBrowser : Window
         StatusText.Text = status;
     }
 
-    private void UpdateCount() => CountText.Text = Games.Count.ToString(Locale.CurrentCulture);
+    private void UpdateCount()
+    {
+    }
 
     private void CancelSearch()
     {
@@ -424,7 +449,7 @@ public sealed class GameBrowserTile
                 BitmapImage image = new();
                 image.BeginInit();
                 image.UriSource = uri;
-                image.DecodePixelWidth = 296;
+                image.DecodePixelWidth = 288;
                 image.CacheOption = BitmapCacheOption.OnLoad;
                 image.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
                 image.EndInit();
@@ -437,9 +462,18 @@ public sealed class GameBrowserTile
             return _thumbnail;
         }
     }
-    public string PlayingText => _activity.UniverseDetails?.Data?.Playing is long playing
-        ? string.Format(Locale.CurrentCulture, Strings.ContextMenu_GameBrowser_Playing, playing)
-        : string.Empty;
+    public string PlayingText => _activity.UniverseDetails?.Data?.Playing is long playing ? Compact(playing) + " playing" : string.Empty;
+
+    // 52, 1.1K, 23K, 1.2M
+    private static string Compact(long value)
+    {
+        System.Globalization.CultureInfo culture = Locale.CurrentCulture;
+        if (value >= 1_000_000)
+            return (value / 1_000_000d).ToString(value >= 10_000_000 ? "0" : "0.#", culture) + "M";
+        if (value >= 1_000)
+            return (value / 1_000d).ToString(value >= 10_000 ? "0" : "0.#", culture) + "K";
+        return value.ToString(culture);
+    }
 
     public GameBrowserTile(ActivityData activity)
     {

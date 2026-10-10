@@ -99,7 +99,9 @@ public class NotifyIconWrapper : IDisposable
 		try
 		{
 			ActivityWatcher? watcher = ActivityWatcher;
-			if (watcher != null && App.Settings.Prop.VoidNotify && App.Settings.Prop.NotifyGameJoins && App.Settings.Prop.NotificationWindowShow)
+			// The session dock's shortcut lives in the menu container too, so it starts for the dock even with notifications off
+			bool joinNotifications = App.Settings.Prop.VoidNotify && App.Settings.Prop.NotifyGameJoins && App.Settings.Prop.NotificationWindowShow;
+			if (watcher != null && (joinNotifications || App.Settings.Prop.SessionDockEnabled))
 				EnsureMenuContainerAsync();
 			bool wanted = watcher != null && App.Settings.Prop.VoidNotify && App.Settings.Prop.NotifyGameJoins && App.Settings.Prop.ShowServerDetails && !App.Settings.Prop.NotificationWindowShow;
 			ActivityWatcher? desired = wanted ? watcher : null;
