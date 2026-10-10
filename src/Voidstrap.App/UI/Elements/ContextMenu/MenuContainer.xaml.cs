@@ -21,6 +21,7 @@ using Voidstrap.Integrations.Overlays;
 using Voidstrap.Models;
 using Voidstrap.Models.APIs;
 using Voidstrap.Models.Entities;
+using Voidstrap.Models.Persistable;
 using Voidstrap.Resources;
 using Voidstrap.UI.Chat;
 using Voidstrap.UI.Elements.Base;
@@ -73,6 +74,9 @@ public partial class MenuContainer : WpfUiWindow
 
     private bool _closed;
     private bool _sessionDockHotkeyRegistered;
+    private OverlayShortcut? _registeredShortcut;
+    private bool _sessionDockHotkeySuspended;
+    private SessionNotifier? _sessionNotifier;
 
     private static string TrimWithThreeDots(string text, int maxChars = 18)
     {
@@ -186,27 +190,61 @@ public partial class MenuContainer : WpfUiWindow
         instance.RefreshSessionDockHotkey();
     }
 
+    // Lets the settings record a new shortcut without the current one firing while it is pressed
+    public static void SuspendSessionDockHotkey(bool suspend)
+    {
+        MenuContainer? instance = _currentInstance;
+        if (instance == null || instance._closed)
+            return;
+        instance.Dispatcher.BeginInvoke(new Action(() =>
+        {
+            instance._sessionDockHotkeySuspended = suspend;
+            instance.RefreshSessionDockHotkey();
+        }));
+    }
+
+    // Whether a shortcut can be registered, it fails when another app already owns it
+    public static bool TryShortcut(OverlayShortcut shortcut)
+    {
+        MenuContainer? instance = _currentInstance;
+        if (instance == null || instance._closed || !Voidstrap.Utility.Platform.IsWindows || !shortcut.IsSet)
+            return true;
+        const int probeId = 0x564D;
+        if (!RegisterHotKey(instance._handle, probeId, shortcut.Modifiers | 0x4000, shortcut.Key))
+            return false;
+        UnregisterHotKey(instance._handle, probeId);
+        return true;
+    }
+
+    public static string ShortcutText => App.Settings.Prop.SessionDockShortcut is { IsSet: true } shortcut ? shortcut.Describe() : string.Empty;
+
     private void RefreshSessionDockHotkey()
     {
         if (_closed || !Voidstrap.Utility.Platform.IsWindows)
             return;
-        bool enabled = App.Settings.Prop.SessionDockEnabled && _activityWatcher != null;
-        if (enabled == _sessionDockHotkeyRegistered)
+        OverlayShortcut shortcut = App.Settings.Prop.SessionDockShortcut ??= new OverlayShortcut();
+        bool enabled = App.Settings.Prop.SessionDockEnabled && _activityWatcher != null && shortcut.IsSet && !_sessionDockHotkeySuspended;
+        if (enabled && _sessionDockHotkeyRegistered && shortcut.SameAs(_registeredShortcut))
+            return;
+        if (_sessionDockHotkeyRegistered)
         {
-            if (!enabled)
+            UnregisterHotKey(_handle, SessionDockHotkeyId);
+            _sessionDockHotkeyRegistered = false;
+            _registeredShortcut = null;
+        }
+        if (!enabled)
+        {
+            // Only turning the dock off closes it, pausing the shortcut while a new one is recorded does not
+            if (!App.Settings.Prop.SessionDockEnabled)
                 CloseSessionDock();
             return;
         }
-        if (enabled)
-        {
-            _sessionDockHotkeyRegistered = RegisterHotKey(_handle, SessionDockHotkeyId, 0x4003, 0x4C);
-            if (!_sessionDockHotkeyRegistered)
-                App.Logger.WriteLine("MenuContainer", "Ctrl+Alt+L could not be registered because the shortcut is unavailable");
-            return;
-        }
-        UnregisterHotKey(_handle, SessionDockHotkeyId);
-        _sessionDockHotkeyRegistered = false;
-        CloseSessionDock();
+        // MOD_NOREPEAT so holding the keys does not toggle the dock over and over
+        _sessionDockHotkeyRegistered = RegisterHotKey(_handle, SessionDockHotkeyId, shortcut.Modifiers | 0x4000, shortcut.Key);
+        if (_sessionDockHotkeyRegistered)
+            _registeredShortcut = shortcut.Copy();
+        else
+            App.Logger.WriteLine("MenuContainer", shortcut.Describe() + " could not be registered because the shortcut is unavailable");
     }
 
     private void CloseSessionDock()
@@ -308,8 +346,8 @@ public partial class MenuContainer : WpfUiWindow
                 _sessionDock?.ShowTool("music", "Music", () => new MusicPlayer(_activityWatcher));
                 break;
             case "adjustments":
-                _sessionDock?.ShowTool("notifications", "Notification settings",
-                    () => new SessionNotificationSettings(CurrentGameIcon.Source, _activityWatcher?.Data?.GameName));
+                _sessionDock?.ShowTool("notifications", "Settings",
+                    () => new SessionNotificationSettings(CurrentGameIcon.Source, _activityWatcher?.Data?.GameName, SendTestNotification));
                 break;
             case "invite":
                 InviteDeeplinkMenuItem_Click(this, new RoutedEventArgs());
@@ -896,6 +934,12 @@ public partial class MenuContainer : WpfUiWindow
             {
                 if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || !App.Settings.Prop.NotificationWindowShow || !IsCurrentSession(data, token))
                     return;
+                if (!App.Settings.Prop.ServerDetailsInOverlay)
+                {
+                    // Chosen in the notification settings: a Windows notification instead of the in game one
+                    Frontend.ShowBalloonTip(universeName, status + "\n" + details.Replace(NotificationWindow.FlagPlaceholder.ToString(), string.Empty), System.Windows.Forms.ToolTipIcon.None, 8);
+                    return;
+                }
                 try
                 {
                     NotificationWindow? notificationWindow = Application.Current.Resources["NotificationWindow"] as NotificationWindow;
@@ -907,7 +951,7 @@ public partial class MenuContainer : WpfUiWindow
                     App.Logger.WriteLine(
                         "MenuContainer::ShowJoinNotification",
                         "Join notification icon: " + (notificationIcon != null ? notificationIcon.PixelWidth + "x" + notificationIcon.PixelHeight + " frozen " + notificationIcon.IsFrozen : "none, thumbnail url was " + (string.IsNullOrEmpty(data.UniverseDetails?.Thumbnail?.ImageUrl) ? "empty" : data.UniverseDetails.Thumbnail.ImageUrl)));
-                    notificationWindow.ShowNotification(universeName, details, notificationIcon, 8.0, flagImage, status, token);
+                    notificationWindow.ShowNotification(universeName, details, notificationIcon, 8.0, flagImage, status, token, Voidstrap.UI.NotificationKind.Server);
                     QueueSessionDockTip(notificationWindow);
                 }
                 catch (Exception ex)
@@ -924,21 +968,121 @@ public partial class MenuContainer : WpfUiWindow
         }
     }
 
-    // Shown once, right after the first join notification ever, so people find out the dock exists
+    // Reminds about the dock shortcut after the join notification, the very first time or every game if chosen
     private void QueueSessionDockTip(NotificationWindow notificationWindow)
     {
         try
         {
-            if (App.State.Prop.SessionDockTipShown || !App.Settings.Prop.SessionDockEnabled || !_sessionDockHotkeyRegistered || !Voidstrap.Utility.Platform.IsWindows)
+            if (!App.Settings.Prop.SessionDockEnabled || !_sessionDockHotkeyRegistered || !Voidstrap.Utility.Platform.IsWindows)
                 return;
-            App.State.Prop.SessionDockTipShown = true;
-            App.State.SaveDeferred();
-            notificationWindow.ShowNotification("Voidstrap overlay is ready", "Press Ctrl + Alt + L to open it.", null, 7.0, null, string.Empty);
+            if (App.State.Prop.SessionDockTipShown && !App.Settings.Prop.NotifyShortcutEveryGame)
+                return;
+            string shortcut = ShortcutText;
+            if (shortcut.Length == 0)
+                return;
+            if (!App.State.Prop.SessionDockTipShown)
+            {
+                App.State.Prop.SessionDockTipShown = true;
+                App.State.SaveDeferred();
+            }
+            notificationWindow.ShowNotification("Voidstrap overlay is ready", "Press " + shortcut + " to open it.", null, 7.0, null, string.Empty,
+                default, Voidstrap.UI.NotificationKind.Server);
         }
         catch (Exception ex)
         {
             App.Logger.WriteLine("MenuContainer::SessionDockTip", "The session dock tip could not be shown: " + ex.Message);
         }
+    }
+
+    private NotificationWindow GetNotificationWindow()
+    {
+        if (Application.Current.Resources["NotificationWindow"] is not NotificationWindow window || !window.IsUsable)
+        {
+            window = new NotificationWindow();
+            Application.Current.Resources["NotificationWindow"] = window;
+        }
+        return window;
+    }
+
+    private static bool OverlayNotificationsOn => App.Settings.Prop.VoidNotify && App.Settings.Prop.NotificationWindowShow;
+
+    // From the notification settings: shows a notification with the saved look right now
+    public void SendTestNotification()
+    {
+        if (_closed)
+            return;
+        try
+        {
+            GetNotificationWindow().ShowNotification("Test notification", "This is how Voidstrap notifications look.",
+                CurrentGameIcon.Source as BitmapSource, 5.0, null, string.Empty, default, Voidstrap.UI.NotificationKind.Server);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MenuContainer::TestNotification", "The test notification could not be shown: " + ex.Message);
+        }
+    }
+
+    private void StartSessionNotifier()
+    {
+        if (_sessionNotifier != null || _activityWatcher == null || !Voidstrap.Utility.Platform.IsWindows)
+            return;
+        ActivityWatcher watcher = _activityWatcher;
+        _sessionNotifier = new SessionNotifier(() => watcher.InGame ? watcher.Data : null, note =>
+        {
+            try
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => _ = ShowSessionNoteAsync(note)));
+            }
+            catch (InvalidOperationException)
+            {
+            }
+        });
+        _sessionNotifier.Start();
+    }
+
+    private void StopSessionNotifier()
+    {
+        _sessionNotifier?.Dispose();
+        _sessionNotifier = null;
+    }
+
+    private async Task ShowSessionNoteAsync(SessionNote note)
+    {
+        if (_closed || !OverlayNotificationsOn || _activityWatcher?.InGame != true)
+            return;
+        BitmapSource? image = null;
+        if (Uri.TryCreate(note.ImageUrl, UriKind.Absolute, out Uri? uri) && uri.Scheme == Uri.UriSchemeHttps)
+        {
+            try
+            {
+                image = await LoadRemoteImageAsync(uri, 96);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("MenuContainer::SessionNote", "The picture could not be loaded: " + ex.Message);
+            }
+        }
+        if (_closed || !OverlayNotificationsOn)
+            return;
+        GetNotificationWindow().ShowNotification(note.Title, note.Text, image, 6.0, null, string.Empty, default, note.Kind);
+    }
+
+    private static readonly HttpClient NoteImageClient = new() { Timeout = TimeSpan.FromSeconds(8) };
+
+    private static async Task<BitmapSource?> LoadRemoteImageAsync(Uri uri, int size)
+    {
+        byte[] bytes = await NoteImageClient.GetByteArrayAsync(uri);
+        if (bytes.Length == 0 || bytes.Length > 4 * 1024 * 1024)
+            return null;
+        BitmapImage image = new();
+        using MemoryStream stream = new(bytes);
+        image.BeginInit();
+        image.StreamSource = stream;
+        image.DecodePixelWidth = size;
+        image.CacheOption = BitmapCacheOption.OnLoad;
+        image.EndInit();
+        image.Freeze();
+        return image;
     }
 
     // Right after joining, Roblox often does not answer the start time lookup yet and the start time from the
@@ -1058,6 +1202,7 @@ public partial class MenuContainer : WpfUiWindow
         }
         _ = UpdateCurrentGameIconAsync(data, presentationTask, token);
         _ = ShowJoinNotification(data, presentationTask, token);
+        StartSessionNotifier();
     }
 
     public void ActivityWatcher_OnGameLeave(object? sender, EventArgs e)
@@ -1067,6 +1212,7 @@ public partial class MenuContainer : WpfUiWindow
         CancelSession();
         if (transitioning || _closed)
             return;
+        StopSessionNotifier();
         _sessionDock?.EndSession();
         try
         {
@@ -1464,6 +1610,7 @@ public partial class MenuContainer : WpfUiWindow
         {
         }
         CloseSessionDock();
+        StopSessionNotifier();
         if (_sessionDockHotkeyRegistered)
             UnregisterHotKey(_handle, SessionDockHotkeyId);
         _source?.RemoveHook(WindowMessage);

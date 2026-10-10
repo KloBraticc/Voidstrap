@@ -7,6 +7,14 @@ using Voidstrap.Models.Persistable;
 
 namespace Voidstrap.UI;
 
+// What a notification is about, decides whether it gets the Voidstrap header
+public enum NotificationKind
+{
+	General,
+	Server,
+	Friends
+}
+
 // Shared by the in game notification and the preview in its settings, so the preview is exactly what shows
 internal static class NotificationStyle
 {
@@ -33,47 +41,53 @@ internal static class NotificationStyle
 		return shadow;
 	}
 
-	// Full room on the sides facing into the game, and only as much as the gap allows on a side against an edge,
-	// so a flush notification stays flush and the shadow never spills outside the game
+	public static NotificationAppearance Current
+	{
+		get
+		{
+			NotificationAppearance appearance = App.Settings.Prop.NotificationAppearance ??= new NotificationAppearance();
+			appearance.Migrate();
+			return appearance;
+		}
+	}
+
+	// No room on a side flush with an edge, the gap's worth against an edge when floating, full room elsewhere,
+	// so a flush notification stays flush and the shadow never spills far outside the game
 	public static Thickness ShadowMargins(NotificationAppearance appearance)
 	{
 		double edge = Math.Min(ShadowSize, appearance.SafeEdgeSpacing);
-		bool top = appearance.IsTop;
 		return new Thickness(
-			appearance.IsLeft ? edge : ShadowSize,
-			top ? edge : ShadowSize,
-			appearance.IsRight ? edge : ShadowSize,
-			top ? ShadowSize : edge);
+			appearance.SafeHorizontal <= 0 ? edge : ShadowSize,
+			appearance.SafeVertical <= 0 ? edge : ShadowSize,
+			appearance.SafeHorizontal >= 100 ? edge : ShadowSize,
+			appearance.SafeVertical >= 100 ? edge : ShadowSize);
 	}
 
-	public static NotificationAppearance Current => App.Settings.Prop.NotificationAppearance ?? new NotificationAppearance();
+	// Where the card's top left corner goes inside an area, the sliders run from one edge to the other
+	public static Point Place(NotificationAppearance appearance, double areaWidth, double areaHeight, double cardWidth, double cardHeight, double gap)
+	{
+		double x = gap + Math.Max(0, areaWidth - cardWidth - gap * 2) * appearance.SafeHorizontal / 100;
+		double y = gap + Math.Max(0, areaHeight - cardHeight - gap * 2) * appearance.SafeVertical / 100;
+		return new Point(x, y);
+	}
 
-	// Flush with the screen, the corners that touch an edge stay square; with spacing every corner is rounded
+	// A corner that touches an edge stays square, the rest are rounded
 	public static CornerRadius Corners(NotificationAppearance appearance)
 	{
 		double radius = appearance.SafeCornerRadius;
-		if (appearance.SafeEdgeSpacing > 0)
-			return new CornerRadius(radius);
-		bool top = appearance.IsTop;
-		bool left = appearance.IsLeft;
-		bool right = appearance.IsRight;
+		bool left = appearance.TouchesLeft;
+		bool right = appearance.TouchesRight;
+		bool top = appearance.TouchesTop;
+		bool bottom = appearance.TouchesBottom;
 		return new CornerRadius(
 			top || left ? 0 : radius,
 			top || right ? 0 : radius,
-			!top || right ? 0 : radius,
-			!top || left ? 0 : radius);
+			bottom || right ? 0 : radius,
+			bottom || left ? 0 : radius);
 	}
 
 	public static Thickness Borders(NotificationAppearance appearance)
-	{
-		if (appearance.SafeEdgeSpacing > 0)
-			return new Thickness(1);
-		return new Thickness(
-			appearance.IsLeft ? 0 : 1,
-			appearance.IsTop ? 0 : 1,
-			appearance.IsRight ? 0 : 1,
-			appearance.IsTop ? 1 : 0);
-	}
+		=> new(appearance.TouchesLeft ? 0 : 1, appearance.TouchesTop ? 0 : 1, appearance.TouchesRight ? 0 : 1, appearance.TouchesBottom ? 0 : 1);
 
 	public static Brush Background(FrameworkElement owner, NotificationAppearance appearance)
 	{
@@ -92,31 +106,33 @@ internal static class NotificationStyle
 	}
 
 	// Puts the card where an intro starts from, before it is shown
-	public static void PrepareIntro(UIElement card, TranslateTransform translate, ScaleTransform scale, NotificationAppearance appearance, double height)
+	public static void PrepareIntro(UIElement card, TranslateTransform translate, ScaleTransform scale, NotificationAppearance appearance, Size size)
 	{
 		Stop(card, translate, scale);
 		bool animate = Length(appearance, true) > 0;
+		Vector offset = animate && appearance.Intro == NotificationMotion.Slide ? SlideOffset(appearance, size) : default;
 		card.Opacity = animate ? 0 : 1;
-		translate.X = 0;
-		translate.Y = animate && appearance.Intro == NotificationMotion.Slide ? SlideOffset(appearance, height) : 0;
+		translate.X = offset.X;
+		translate.Y = offset.Y;
 		scale.ScaleX = scale.ScaleY = animate && appearance.Intro == NotificationMotion.Pop ? 0.9 : 1;
 	}
 
-	public static void Play(UIElement card, TranslateTransform translate, ScaleTransform scale, NotificationAppearance appearance, double height, bool intro)
+	public static void Play(UIElement card, TranslateTransform translate, ScaleTransform scale, NotificationAppearance appearance, Size size, bool intro)
 	{
 		NotificationMotion motion = intro ? appearance.Intro : appearance.Outro;
 		int length = Length(appearance, intro);
 		double fromOpacity = card.Opacity;
-		double fromY = translate.Y;
+		Vector from = new(translate.X, translate.Y);
 		double fromScale = scale.ScaleX;
 		Stop(card, translate, scale);
 		double toOpacity = intro ? 1 : 0;
-		double toY = !intro && motion == NotificationMotion.Slide ? SlideOffset(appearance, height) : 0;
+		Vector to = !intro && motion == NotificationMotion.Slide ? SlideOffset(appearance, size) : default;
 		double toScale = !intro && motion == NotificationMotion.Pop ? 0.94 : 1;
 		if (length == 0)
 		{
 			card.Opacity = toOpacity;
-			translate.Y = intro ? 0 : translate.Y;
+			if (intro)
+				translate.X = translate.Y = 0;
 			scale.ScaleX = scale.ScaleY = 1;
 			return;
 		}
@@ -125,8 +141,10 @@ internal static class NotificationStyle
 			: motion == NotificationMotion.Pop ? new QuadraticEase { EasingMode = EasingMode.EaseIn } : new SineEase { EasingMode = EasingMode.EaseInOut };
 		Duration duration = new(TimeSpan.FromMilliseconds(length));
 		card.BeginAnimation(UIElement.OpacityProperty, Frozen(new DoubleAnimation(fromOpacity, toOpacity, duration) { EasingFunction = ease }));
-		if (Math.Abs(fromY - toY) > 0.1)
-			translate.BeginAnimation(TranslateTransform.YProperty, Frozen(new DoubleAnimation(fromY, toY, duration) { EasingFunction = ease }));
+		if (Math.Abs(from.X - to.X) > 0.1)
+			translate.BeginAnimation(TranslateTransform.XProperty, Frozen(new DoubleAnimation(from.X, to.X, duration) { EasingFunction = ease }));
+		if (Math.Abs(from.Y - to.Y) > 0.1)
+			translate.BeginAnimation(TranslateTransform.YProperty, Frozen(new DoubleAnimation(from.Y, to.Y, duration) { EasingFunction = ease }));
 		if (Math.Abs(fromScale - toScale) > 0.001)
 		{
 			AnimationTimeline grow = Frozen(new DoubleAnimation(fromScale, toScale, duration) { EasingFunction = ease });
@@ -138,20 +156,31 @@ internal static class NotificationStyle
 	public static void Stop(UIElement card, TranslateTransform translate, ScaleTransform scale)
 	{
 		double opacity = card.Opacity;
+		double x = translate.X;
 		double y = translate.Y;
 		double size = scale.ScaleX;
 		card.BeginAnimation(UIElement.OpacityProperty, null);
+		translate.BeginAnimation(TranslateTransform.XProperty, null);
 		translate.BeginAnimation(TranslateTransform.YProperty, null);
 		scale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
 		scale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
 		card.Opacity = opacity;
+		translate.X = x;
 		translate.Y = y;
 		scale.ScaleX = scale.ScaleY = size;
 	}
 
-	// Slides in from and out to the screen edge it sits against
-	private static double SlideOffset(NotificationAppearance appearance, double height)
-		=> appearance.IsTop ? -Math.Max(1, height) : Math.Max(1, height);
+	// Slides in from and out to the screen edge it is closest to
+	private static Vector SlideOffset(NotificationAppearance appearance, Size size)
+	{
+		double horizontal = appearance.SafeHorizontal;
+		double vertical = appearance.SafeVertical;
+		double fromSide = Math.Min(horizontal, 100 - horizontal);
+		double fromTopOrBottom = Math.Min(vertical, 100 - vertical);
+		if (fromTopOrBottom <= fromSide)
+			return new Vector(0, vertical < 50 ? -Math.Max(1, size.Height) : Math.Max(1, size.Height));
+		return new Vector(horizontal < 50 ? -Math.Max(1, size.Width) : Math.Max(1, size.Width), 0);
+	}
 
 	private static AnimationTimeline Frozen(AnimationTimeline timeline)
 	{

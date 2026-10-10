@@ -3,40 +3,42 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Voidstrap.Models.Persistable;
 using Voidstrap.UI;
+using Voidstrap.UI.Elements.ContextMenu;
 
 namespace Voidstrap.UI.Elements.Overlay;
 
 public partial class SessionNotificationSettings : Window
 {
     private const double PreviewScale = 0.5;
-    private static readonly string[] MotionNames = { "Slide", "Fade", "Pop", "None" };
+    private static readonly string[] MotionNames = { "Slide in from the edge", "Fade in and out", "Pop", "None" };
+    private const string ShortcutHintText = "The key combination that opens the overlay.";
+    private readonly Action? _sendTest;
     private NotificationAppearance _appearance = new();
     // Sliders raise ValueChanged while the XAML is still being loaded, before the other controls exist
     private bool _ready;
     private bool _loading;
     private bool _closed;
+    private bool _recording;
     private int _playGeneration;
     private bool _playedOnOpen;
     private readonly DispatcherTimer _replay;
 
-    public SessionNotificationSettings(ImageSource? gameIcon, string? gameName)
+    public SessionNotificationSettings(ImageSource? gameIcon, string? gameName, Action? sendTest = null)
     {
+        _sendTest = sendTest;
         InitializeComponent();
         _appearance = NotificationStyle.Current.Copy();
         PreviewBackground.ImageSource = gameIcon;
         MockIcon.Source = gameIcon;
         MockIcon.Visibility = gameIcon == null ? Visibility.Collapsed : Visibility.Visible;
-        MockTitle.Text = string.IsNullOrWhiteSpace(gameName) ? "Roblox" : gameName;
         foreach (string name in MotionNames)
-        {
-            IntroBox.Items.Add(name);
-            OutroBox.Items.Add(name);
-        }
-        // Waits until a speed slider has settled so dragging does not restart the animation every step
+            MotionBox.Items.Add(name);
+        // Replays the preview once the position sliders have settled, not on every step of a drag
         _replay = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(350) };
         _replay.Tick += (_, _) =>
         {
@@ -45,12 +47,14 @@ public partial class SessionNotificationSettings : Window
         };
         _ready = true;
         LoadControls();
+        ShowShortcut();
         Loaded += OnLoaded;
         Closed += (_, _) =>
         {
             _closed = true;
             _replay.Stop();
             _playGeneration++;
+            StopRecording(false);
         };
     }
 
@@ -72,20 +76,28 @@ public partial class SessionNotificationSettings : Window
         if (!_ready)
             return;
         _loading = true;
-        IntroBox.SelectedIndex = (int)_appearance.Intro;
-        OutroBox.SelectedIndex = (int)_appearance.Outro;
-        IntroSpeed.Value = _appearance.SafeIntroMilliseconds;
-        OutroSpeed.Value = _appearance.SafeOutroMilliseconds;
+        CornerLayout.IsChecked = _appearance.Layout == NotificationLayout.Corner;
+        FloatingLayout.IsChecked = _appearance.Layout == NotificationLayout.Floating;
+        HorizontalSlider.Value = _appearance.SafeHorizontal;
+        VerticalSlider.Value = _appearance.SafeVertical;
         CornerSlider.Value = _appearance.SafeCornerRadius;
-        SpacingSlider.Value = _appearance.SafeEdgeSpacing;
-        WidthSlider.Value = _appearance.SafeWidth;
+        SizeSlider.Value = Math.Round(_appearance.SafeScale * 100);
+        TextSizeSlider.Value = Math.Round(_appearance.SafeTextScale * 100);
         OpacitySlider.Value = Math.Round(_appearance.SafeBackgroundOpacity * 100);
         SecondsSlider.Value = _appearance.SafeSecondsOnScreen;
+        MotionBox.SelectedIndex = (int)_appearance.Intro;
+        HeaderOff.IsChecked = _appearance.Header == NotificationHeader.Off;
+        HeaderServer.IsChecked = _appearance.Header == NotificationHeader.Server;
+        HeaderFriends.IsChecked = _appearance.Header == NotificationHeader.Friends;
+        HeaderBoth.IsChecked = _appearance.Header == NotificationHeader.Both;
         PauseToggle.IsChecked = _appearance.PauseWhileHovered;
         CloseToggle.IsChecked = _appearance.CloseButtonOnHover;
+        ServerToggle.IsChecked = App.Settings.Prop.ServerDetailsInOverlay;
+        FriendsToggle.IsChecked = App.Settings.Prop.NotifyFriends;
+        BadgesToggle.IsChecked = App.Settings.Prop.NotifyBadges;
+        ShortcutToggle.IsChecked = App.Settings.Prop.NotifyShortcutEveryGame;
         _loading = false;
         UpdateValueTexts();
-        UpdatePositionButtons();
         ApplyPreview();
     }
 
@@ -94,32 +106,36 @@ public partial class SessionNotificationSettings : Window
     {
         if (!_ready || _loading || _closed)
             return;
+        _appearance.PositionMigrated = true;
         App.Settings.Prop.NotificationAppearance = _appearance.Copy();
         App.Settings.SaveDeferred();
         UpdateValueTexts();
         ApplyPreview();
     }
 
-    private void Position_Click(object sender, RoutedEventArgs e)
+    private void Layout_Checked(object sender, RoutedEventArgs e)
     {
-        if (!_ready)
+        if (!_ready || _loading)
             return;
-        if (sender is not FrameworkElement { Tag: string tag } || !Enum.TryParse(tag, out NotificationPosition position))
-            return;
-        _appearance.Position = position;
-        UpdatePositionButtons();
+        _appearance.Layout = FloatingLayout.IsChecked == true ? NotificationLayout.Floating : NotificationLayout.Corner;
         Commit();
         _ = PlayAsync();
     }
 
+    private void Header_Checked(object sender, RoutedEventArgs e)
+    {
+        if (!_ready || _loading || sender is not FrameworkElement { Tag: string tag } || !Enum.TryParse(tag, out NotificationHeader header))
+            return;
+        _appearance.Header = header;
+        Commit();
+    }
+
     private void Motion_Changed(object sender, SelectionChangedEventArgs e)
     {
-        if (!_ready || _loading)
+        if (!_ready || _loading || MotionBox.SelectedIndex < 0)
             return;
-        if (IntroBox.SelectedIndex >= 0)
-            _appearance.Intro = (NotificationMotion)IntroBox.SelectedIndex;
-        if (OutroBox.SelectedIndex >= 0)
-            _appearance.Outro = (NotificationMotion)OutroBox.SelectedIndex;
+        // One choice for both ways, it enters and leaves the same way
+        _appearance.Intro = _appearance.Outro = (NotificationMotion)MotionBox.SelectedIndex;
         Commit();
         _ = PlayAsync();
     }
@@ -128,15 +144,15 @@ public partial class SessionNotificationSettings : Window
     {
         if (!_ready || _loading)
             return;
-        _appearance.IntroMilliseconds = (int)IntroSpeed.Value;
-        _appearance.OutroMilliseconds = (int)OutroSpeed.Value;
+        _appearance.Horizontal = HorizontalSlider.Value;
+        _appearance.Vertical = VerticalSlider.Value;
         _appearance.CornerRadius = CornerSlider.Value;
-        _appearance.EdgeSpacing = SpacingSlider.Value;
-        _appearance.Width = WidthSlider.Value;
+        _appearance.Size = SizeSlider.Value;
+        _appearance.TextSize = TextSizeSlider.Value;
         _appearance.BackgroundOpacity = OpacitySlider.Value / 100;
         _appearance.SecondsOnScreen = SecondsSlider.Value;
         Commit();
-        if (ReferenceEquals(sender, IntroSpeed) || ReferenceEquals(sender, OutroSpeed))
+        if (ReferenceEquals(sender, HorizontalSlider) || ReferenceEquals(sender, VerticalSlider))
         {
             _replay.Stop();
             _replay.Start();
@@ -145,18 +161,38 @@ public partial class SessionNotificationSettings : Window
 
     private void Toggle_Click(object sender, RoutedEventArgs e)
     {
-        if (!_ready)
+        if (!_ready || _loading)
             return;
         _appearance.PauseWhileHovered = PauseToggle.IsChecked == true;
         _appearance.CloseButtonOnHover = CloseToggle.IsChecked == true;
+        App.Settings.Prop.ServerDetailsInOverlay = ServerToggle.IsChecked == true;
+        App.Settings.Prop.NotifyFriends = FriendsToggle.IsChecked == true;
+        App.Settings.Prop.NotifyBadges = BadgesToggle.IsChecked == true;
+        App.Settings.Prop.NotifyShortcutEveryGame = ShortcutToggle.IsChecked == true;
         Commit();
+    }
+
+    private void SendTest_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            _sendTest?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionNotificationSettings", "The test notification could not be sent: " + ex.Message);
+        }
     }
 
     private void Reset_Click(object sender, RoutedEventArgs e)
     {
         if (!_ready)
             return;
-        _appearance = new NotificationAppearance();
+        _appearance = new NotificationAppearance { PositionMigrated = true };
+        App.Settings.Prop.ServerDetailsInOverlay = true;
+        App.Settings.Prop.NotifyFriends = true;
+        App.Settings.Prop.NotifyBadges = true;
+        App.Settings.Prop.NotifyShortcutEveryGame = false;
         LoadControls();
         Commit();
         _ = PlayAsync();
@@ -164,40 +200,35 @@ public partial class SessionNotificationSettings : Window
 
     private void UpdateValueTexts()
     {
-        IntroSpeedText.Text = _appearance.SafeIntroMilliseconds.ToString(CultureInfo.CurrentCulture) + " ms";
-        OutroSpeedText.Text = _appearance.SafeOutroMilliseconds.ToString(CultureInfo.CurrentCulture) + " ms";
-        CornerText.Text = _appearance.SafeCornerRadius.ToString("0", CultureInfo.CurrentCulture) + " px";
-        SpacingText.Text = _appearance.SafeEdgeSpacing.ToString("0", CultureInfo.CurrentCulture) + " px";
-        WidthText.Text = _appearance.SafeWidth.ToString("0", CultureInfo.CurrentCulture) + " px";
-        OpacityText.Text = Math.Round(_appearance.SafeBackgroundOpacity * 100).ToString(CultureInfo.CurrentCulture) + "%";
-        SecondsText.Text = _appearance.SafeSecondsOnScreen.ToString("0", CultureInfo.CurrentCulture) + " s";
-        bool intro = _appearance.Intro != NotificationMotion.None;
-        bool outro = _appearance.Outro != NotificationMotion.None;
-        IntroSpeed.IsEnabled = intro;
-        OutroSpeed.IsEnabled = outro;
+        CultureInfo culture = CultureInfo.CurrentCulture;
+        HorizontalText.Text = _appearance.SafeHorizontal.ToString("0", culture) + "%";
+        VerticalText.Text = _appearance.SafeVertical.ToString("0", culture) + "%";
+        CornerText.Text = _appearance.SafeCornerRadius.ToString("0", culture) + " px";
+        SizeText.Text = (_appearance.SafeScale * 100).ToString("0", culture) + "%";
+        TextSizeText.Text = (_appearance.SafeTextScale * 100).ToString("0", culture) + "%";
+        OpacityText.Text = Math.Round(_appearance.SafeBackgroundOpacity * 100).ToString(culture) + "%";
+        SecondsText.Text = _appearance.SafeSecondsOnScreen.ToString("0", culture) + " s";
     }
 
-    private void UpdatePositionButtons()
-    {
-        foreach (object child in PositionGrid.Children)
-        {
-            if (child is Wpf.Ui.Controls.Button button)
-                button.Appearance = string.Equals(button.Tag as string, _appearance.Position.ToString(), StringComparison.Ordinal)
-                    ? Wpf.Ui.Common.ControlAppearance.Primary
-                    : Wpf.Ui.Common.ControlAppearance.Secondary;
-        }
-    }
-
-    // The preview uses the real notification's corners, borders, background and placement at half size
+    // The preview uses the real notification's corners, borders, background, size and placement at half scale
     private void ApplyPreview()
     {
         if (_closed)
             return;
-        MockCard.Width = _appearance.SafeWidth;
+        MockCard.Width = NotificationAppearance.BaseWidth;
+        double scale = _appearance.SafeScale;
+        MockCard.LayoutTransform = Math.Abs(scale - 1) < 0.001 ? Transform.Identity : new ScaleTransform(scale, scale);
         MockCard.CornerRadius = NotificationStyle.Corners(_appearance);
         MockCard.BorderThickness = NotificationStyle.Borders(_appearance);
         MockCard.Background = NotificationStyle.Background(this, _appearance);
         MockCard.Effect = NotificationStyle.Shadow;
+        double text = _appearance.SafeTextScale;
+        MockHeaderText.FontSize = 11 * text;
+        MockTitle.FontSize = 14 * text;
+        MockText.FontSize = 12 * text;
+        MockText.MaxHeight = 64 * text;
+        // The test notification counts as a server notification
+        MockHeader.Visibility = _appearance.ShowsHeader(false) ? Visibility.Visible : Visibility.Collapsed;
         // The same shadow room the real notification window has around its card
         MockHost.Padding = NotificationStyle.ShadowMargins(_appearance);
         PlaceMock();
@@ -209,28 +240,24 @@ public partial class SessionNotificationSettings : Window
         double stageHeight = PreviewStage.ActualHeight;
         if (stageWidth <= 0 || stageHeight <= 0)
             return;
-        // A changed width only marks the card dirty, without this the host reports the previous size
+        // A changed size only marks the card dirty, without this the host reports the previous size
         MockHost.InvalidateMeasure();
         MockHost.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         Size size = MockHost.DesiredSize;
         Thickness pad = MockHost.Padding;
         double cardWidth = size.Width - (pad.Left + pad.Right) * PreviewScale;
         double cardHeight = size.Height - (pad.Top + pad.Bottom) * PreviewScale;
-        double spacing = _appearance.SafeEdgeSpacing * PreviewScale;
         // Placed by the card like the real window, then pushed out by the shadow room around it
-        double left = _appearance.IsLeft ? spacing
-            : _appearance.IsRight ? stageWidth - cardWidth - spacing
-            : (stageWidth - cardWidth) / 2;
-        double top = _appearance.IsTop ? spacing : stageHeight - cardHeight - spacing;
-        Canvas.SetLeft(MockHost, Math.Round(Math.Max(0, left) - pad.Left * PreviewScale));
-        Canvas.SetTop(MockHost, Math.Round(Math.Max(0, top) - pad.Top * PreviewScale));
-        // Keeps the label out from under the card when the card sits in the top left
-        PreviewLabel.HorizontalAlignment = _appearance.Position == NotificationPosition.TopLeft ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+        Point spot = NotificationStyle.Place(_appearance, stageWidth, stageHeight, cardWidth, cardHeight, _appearance.SafeEdgeSpacing * PreviewScale);
+        Canvas.SetLeft(MockHost, Math.Round(spot.X - pad.Left * PreviewScale));
+        Canvas.SetTop(MockHost, Math.Round(spot.Y - pad.Top * PreviewScale));
+        // Keeps the label out from under the card when the card sits near the top left
+        PreviewLabel.HorizontalAlignment = _appearance.SafeVertical < 35 && _appearance.SafeHorizontal < 50 ? HorizontalAlignment.Right : HorizontalAlignment.Left;
     }
 
     private void PreviewClipHost_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        RectangleGeometry clip = new(new Rect(e.NewSize), 10, 10);
+        RectangleGeometry clip = new(new Rect(e.NewSize), 8, 8);
         clip.Freeze();
         PreviewClipHost.Clip = clip;
     }
@@ -241,7 +268,7 @@ public partial class SessionNotificationSettings : Window
             PlaceMock();
     }
 
-    private void Preview_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private void Preview_Click(object sender, MouseButtonEventArgs e)
     {
         _replay.Stop();
         _ = PlayAsync();
@@ -257,21 +284,21 @@ public partial class SessionNotificationSettings : Window
         {
             PlaceMock();
             MockCard.UpdateLayout();
-            double height = Math.Max(1, MockCard.ActualHeight);
+            Size travel = MockHost.RenderSize;
             // Drawn once into a bitmap while it moves, like the real notification, so the small text does not shimmer
             MockCard.CacheMode ??= new BitmapCache { SnapsToDevicePixels = true };
-            NotificationStyle.PrepareIntro(MockCard, MockTranslate, MockScale, _appearance, height);
-            NotificationStyle.Play(MockCard, MockTranslate, MockScale, _appearance, height, true);
+            NotificationStyle.PrepareIntro(MockCard, MockTranslate, MockScale, _appearance, travel);
+            NotificationStyle.Play(MockCard, MockTranslate, MockScale, _appearance, travel, true);
             await Task.Delay(NotificationStyle.Length(_appearance, true) + 1100);
             if (_closed || generation != _playGeneration)
                 return;
-            NotificationStyle.Play(MockCard, MockTranslate, MockScale, _appearance, height, false);
+            NotificationStyle.Play(MockCard, MockTranslate, MockScale, _appearance, travel, false);
             await Task.Delay(NotificationStyle.Length(_appearance, false) + 450);
             if (_closed || generation != _playGeneration)
                 return;
             // Comes back the same way it enters, a card that just pops back in looks like a glitch
-            NotificationStyle.PrepareIntro(MockCard, MockTranslate, MockScale, _appearance, height);
-            NotificationStyle.Play(MockCard, MockTranslate, MockScale, _appearance, height, true);
+            NotificationStyle.PrepareIntro(MockCard, MockTranslate, MockScale, _appearance, travel);
+            NotificationStyle.Play(MockCard, MockTranslate, MockScale, _appearance, travel, true);
             await Task.Delay(NotificationStyle.Length(_appearance, true) + 50);
             if (_closed || generation != _playGeneration)
                 return;
@@ -293,5 +320,114 @@ public partial class SessionNotificationSettings : Window
         MockTranslate.Y = 0;
         MockScale.ScaleX = MockScale.ScaleY = 1;
         MockCard.CacheMode = null;
+    }
+
+    // ---- Overlay shortcut ----
+
+    private void ShowShortcut(string? hint = null)
+    {
+        OverlayShortcut shortcut = App.Settings.Prop.SessionDockShortcut ??= new OverlayShortcut();
+        ShortcutText.Text = shortcut.IsSet ? shortcut.Describe() : "None";
+        ShortcutClear.IsEnabled = shortcut.IsSet;
+        ShortcutHint.Text = hint ?? (shortcut.IsSet ? ShortcutHintText : "No shortcut, set one to open the overlay again later.");
+        ShortcutBox.SetResourceReference(Border.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
+    }
+
+    private void ShortcutBox_Click(object sender, MouseButtonEventArgs e)
+    {
+        if (_recording)
+            return;
+        _recording = true;
+        // The current shortcut is paused so pressing it here is recorded instead of closing the overlay
+        MenuContainer.SuspendSessionDockHotkey(true);
+        ShortcutText.Text = "Press a combination";
+        ShortcutHint.Text = "Hold Ctrl or Alt and press a key. Esc cancels.";
+        ShortcutBox.SetResourceReference(Border.BorderBrushProperty, "AccentFillColorDefaultBrush");
+        ShortcutBox.Focus();
+        Keyboard.Focus(ShortcutBox);
+    }
+
+    private void ShortcutBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (!_recording)
+            return;
+        e.Handled = true;
+        Key key = e.Key switch
+        {
+            Key.System => e.SystemKey,
+            Key.ImeProcessed => e.ImeProcessedKey,
+            _ => e.Key
+        };
+        if (key == Key.Escape)
+        {
+            StopRecording(false);
+            return;
+        }
+        ModifierKeys held = Keyboard.Modifiers;
+        if (key is Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt or Key.LeftShift or Key.RightShift or Key.LWin or Key.RWin)
+        {
+            ShortcutText.Text = Describe(held) + "…";
+            return;
+        }
+        uint modifiers = 0;
+        if (held.HasFlag(ModifierKeys.Control))
+            modifiers |= OverlayShortcut.Control;
+        if (held.HasFlag(ModifierKeys.Alt))
+            modifiers |= OverlayShortcut.Alt;
+        if (held.HasFlag(ModifierKeys.Shift))
+            modifiers |= OverlayShortcut.Shift;
+        if (held.HasFlag(ModifierKeys.Windows))
+            modifiers |= OverlayShortcut.Windows;
+        uint virtualKey = (uint)KeyInterop.VirtualKeyFromKey(key);
+        OverlayShortcut candidate = new() { Modifiers = modifiers, Key = virtualKey };
+        if (!candidate.IsSet || virtualKey == 0)
+        {
+            ShortcutHint.Text = "Use Ctrl or Alt together with a key.";
+            return;
+        }
+        if (!MenuContainer.TryShortcut(candidate))
+        {
+            ShortcutHint.Text = candidate.Describe() + " is already used by another app.";
+            return;
+        }
+        App.Settings.Prop.SessionDockShortcut = candidate;
+        App.Settings.SaveDeferred();
+        StopRecording(true);
+    }
+
+    private static string Describe(ModifierKeys held)
+    {
+        string text = string.Empty;
+        if (held.HasFlag(ModifierKeys.Control))
+            text += "Ctrl + ";
+        if (held.HasFlag(ModifierKeys.Alt))
+            text += "Alt + ";
+        if (held.HasFlag(ModifierKeys.Shift))
+            text += "Shift + ";
+        if (held.HasFlag(ModifierKeys.Windows))
+            text += "Win + ";
+        return text;
+    }
+
+    private void ShortcutBox_LostFocus(object sender, KeyboardFocusChangedEventArgs e) => StopRecording(false);
+
+    private void StopRecording(bool saved)
+    {
+        if (!_recording)
+            return;
+        _recording = false;
+        // Registers whatever shortcut is saved now, the new one or the one from before
+        MenuContainer.SuspendSessionDockHotkey(false);
+        if (!_closed)
+            ShowShortcut(saved ? "Saved. " + ShortcutHintText : null);
+    }
+
+    private void ShortcutClear_Click(object sender, RoutedEventArgs e)
+    {
+        StopRecording(false);
+        App.Settings.Prop.SessionDockShortcut = new OverlayShortcut { Key = 0, Modifiers = 0 };
+        App.Settings.SaveDeferred();
+        MenuContainer.SyncSessionDockHotkey();
+        ShowShortcut();
     }
 }

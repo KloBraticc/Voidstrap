@@ -113,13 +113,13 @@ namespace Voidstrap.UI.Elements.Overlay
         }
 
         public void ShowNotification(string title, string message, BitmapSource? image, double durationSeconds,
-            BitmapSource? flag, string status = "Voidstrap", CancellationToken token = default)
+            BitmapSource? flag, string status = "Voidstrap", CancellationToken token = default, Voidstrap.UI.NotificationKind kind = Voidstrap.UI.NotificationKind.General)
         {
             if (_closed || token.IsCancellationRequested)
                 return;
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.BeginInvoke(new Action(() => ShowNotification(title, message, image, durationSeconds, flag, status, token)));
+                Dispatcher.BeginInvoke(new Action(() => ShowNotification(title, message, image, durationSeconds, flag, status, token, kind)));
                 return;
             }
             while (_queue.Count >= MaxQueuedNotifications)
@@ -132,7 +132,8 @@ namespace Voidstrap.UI.Elements.Overlay
                 Flag = flag,
                 Duration = durationSeconds,
                 Status = status,
-                Token = token
+                Token = token,
+                Kind = kind
             });
             if (!_isProcessing)
                 _ = ProcessQueue();
@@ -1003,6 +1004,7 @@ namespace Voidstrap.UI.Elements.Overlay
             public BitmapSource? Image { get; set; }
             public BitmapSource? Flag { get; set; }
             public double Duration { get; set; } = 5;
+            public Voidstrap.UI.NotificationKind Kind { get; set; }
         }
     }
 }

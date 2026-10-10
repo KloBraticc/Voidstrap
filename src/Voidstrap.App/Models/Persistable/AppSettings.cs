@@ -264,6 +264,19 @@ namespace Voidstrap.Models.Persistable
 
         public NotificationAppearance NotificationAppearance { get; set; } = new();
 
+        // Shortcut that opens the session dock, Ctrl+Alt+L by default; a key of 0 means no shortcut
+        public OverlayShortcut SessionDockShortcut { get; set; } = new();
+
+        // Off shows the server details as a Windows notification instead of the in game one
+        public bool ServerDetailsInOverlay { get; set; } = true;
+
+        public bool NotifyFriends { get; set; } = true;
+
+        public bool NotifyBadges { get; set; } = true;
+
+        // On reminds about the dock shortcut every time a game starts, off only the very first time
+        public bool NotifyShortcutEveryGame { get; set; } = false;
+
         public bool Ps4ButtonsEnabled { get; set; } = false;
 
         public bool ModPacksNoticeShown { get; set; } = false;
