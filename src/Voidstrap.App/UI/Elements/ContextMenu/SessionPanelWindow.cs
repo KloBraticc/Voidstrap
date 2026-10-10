@@ -85,7 +85,7 @@ public sealed partial class SessionPanelWindow : Window
         root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(CaptionHeight) });
         root.RowDefinitions.Add(new RowDefinition());
         Grid header = new();
-        _drag = new Thumb { Cursor = Cursors.SizeAll, Background = Brushes.Transparent };
+        _drag = new Thumb { Cursor = Cursors.Arrow, Background = Brushes.Transparent };
         FrameworkElementFactory dragVisual = new(typeof(Border));
         dragVisual.SetValue(Border.BackgroundProperty, Brushes.Transparent);
         _drag.Template = new ControlTemplate(typeof(Thumb)) { VisualTree = dragVisual };
