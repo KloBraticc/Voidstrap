@@ -13,6 +13,10 @@ using Microsoft.Web.WebView2.Core;
 
 namespace Voidstrap.UI.Elements.Overlay;
 
+// Voidstrap has its own ContextMenu namespace and FontFamily model, these names mean the WPF ones here
+using ContextMenu = System.Windows.Controls.ContextMenu;
+using FontFamily = System.Windows.Media.FontFamily;
+
 // Everything around the page: the three layouts and zen mode, the tab strip, the toolbar buttons and menus,
 // keyboard shortcuts, the loading line, the link status pill, toasts and the new tab page
 public partial class SessionWebBrowser
