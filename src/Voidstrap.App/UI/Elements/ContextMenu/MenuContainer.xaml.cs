@@ -337,7 +337,7 @@ public partial class MenuContainer : WpfUiWindow
                 break;
             case "games":
                 if (_activityWatcher is { } gameActivityWatcher)
-                    _sessionDock?.ShowTool("games", Strings.ContextMenu_GameBrowser_Title, () => new SessionGameBrowser(gameActivityWatcher, _watcher.ServerMatchmaker));
+                    _sessionDock?.ShowTool("games", "Games", () => new SessionGameBrowser(gameActivityWatcher, _watcher.ServerMatchmaker));
                 break;
             case "chat":
                 _sessionDock?.ShowTool("chat", "Messages", () => new SessionChatWindow());
@@ -348,9 +348,6 @@ public partial class MenuContainer : WpfUiWindow
             case "adjustments":
                 _sessionDock?.ShowTool("notifications", "Settings",
                     () => new SessionNotificationSettings(CurrentGameIcon.Source, _activityWatcher?.Data?.GameName, SendTestNotification));
-                break;
-            case "profile":
-                _sessionDock?.ShowTool("profile", "Profile", () => new SessionProfileWindow(_activityWatcher?.InGame == true ? _activityWatcher.Data.GameName : null));
                 break;
             case "invite":
                 InviteDeeplinkMenuItem_Click(this, new RoutedEventArgs());

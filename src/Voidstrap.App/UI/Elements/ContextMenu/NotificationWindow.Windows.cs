@@ -169,7 +169,7 @@ public partial class NotificationWindow
         NotificationBorder.BorderThickness = Voidstrap.UI.NotificationStyle.Borders(appearance);
         NotificationBorder.Background = Voidstrap.UI.NotificationStyle.Background(this, appearance);
         // Laid out at the normal width and scaled as a whole, so everything keeps its proportions
-        NotificationBorder.Width = NotificationAppearance.BaseWidth;
+        NotificationBorder.Width = appearance.SafeCardWidth;
         double scale = appearance.SafeScale;
         NotificationBorder.LayoutTransform = Math.Abs(scale - 1) < 0.001 ? Transform.Identity : new ScaleTransform(scale, scale);
         double text = appearance.SafeTextScale;

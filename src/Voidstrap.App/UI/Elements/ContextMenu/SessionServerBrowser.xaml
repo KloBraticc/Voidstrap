@@ -209,7 +209,7 @@
               </ItemsControl.ItemsPanel>
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                  <Border Margin="0,0,10,10" Padding="12" CornerRadius="8" Loaded="Card_Loaded"
+                  <Border Margin="0,0,10,10" Padding="12" CornerRadius="8" Loaded="Card_Loaded" DataContextChanged="Card_DataContextChanged"
                           Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                           BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                     <StackPanel>

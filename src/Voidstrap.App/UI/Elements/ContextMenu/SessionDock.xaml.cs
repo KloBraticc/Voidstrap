@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -78,9 +79,18 @@ public partial class SessionDock : Window
     private DispatcherTimer? _prewarmTimer;
     // Built ahead of time while the dock is open so they appear the moment their button is clicked.
     // Server details and music start loading as soon as they are built, so those wait for a click.
-    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "history", "adjustments", "profile" };
+    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "history", "adjustments" };
     private bool _profileLoaded;
     private bool _profileLoading;
+    private enum PopoutView
+    {
+        Server,
+        Profile
+    }
+    private PopoutView _popoutView = PopoutView.Server;
+    private RobloxProfileInfo? _profileInfo;
+    private DateTime _profileInfoUtc = DateTime.MinValue;
+    private bool _profileInfoLoading;
     private bool _restoringPinned;
     // Panel keys mapped back to the dock action that opens them
     private static readonly Dictionary<string, string> PanelActions = new(StringComparer.Ordinal)
@@ -91,8 +101,7 @@ public partial class SessionDock : Window
         ["games"] = "games",
         ["chat"] = "chat",
         ["history"] = "history",
-        ["music"] = "music",
-        ["profile"] = "profile"
+        ["music"] = "music"
     };
     // Set when the dock was hidden only because the game lost focus, so it comes back with the game
     private bool _resumeOnFocus;
@@ -815,7 +824,7 @@ public partial class SessionDock : Window
             return;
         }
         UpdateReadout();
-        if (PopoutOpen && _data is { } data && DateTime.UtcNow - _friendsLoadedUtc >= FriendsInterval)
+        if (PopoutOpen && _popoutView == PopoutView.Server && _data is { } data && DateTime.UtcNow - _friendsLoadedUtc >= FriendsInterval)
             _ = RefreshFriendsQuietlyAsync(data);
     }
 
@@ -874,32 +883,17 @@ public partial class SessionDock : Window
             block.Text = text;
     }
 
-    // Your avatar and name open the profile panel, a second click closes it again
+    // Your avatar and name open your profile in the popout above the dock, a second click closes it again
     private void ProfileCard_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         e.Handled = true;
-        if (_closed)
-            return;
-        if (_panels.TryGetValue("profile", out SessionPanelWindow? open) && open.IsRequested && open.IsVisible)
-        {
-            open.CloseFromDock();
-            return;
-        }
-        try
-        {
-            _action("profile");
-            RaiseAboveDimmer();
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("SessionDock::Profile", ex);
-        }
+        TogglePopout(PopoutView.Profile);
     }
 
     private void GameCard_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         e.Handled = true;
-        ToggleServerPanel();
+        TogglePopout(PopoutView.Server);
     }
 
     // Two quick beats, like a pulse: up, back, a smaller second beat, then rest until the next tick
@@ -971,6 +965,9 @@ public partial class SessionDock : Window
     // transparent window that Windows renders in software, which made every hover and update stutter.
     private void DetachServerPanel()
     {
+        if (ProfilePanel.Parent is Panel profileParent)
+            profileParent.Children.Remove(ProfilePanel);
+        ProfilePanel.Visibility = Visibility.Visible;
         if (ServerPanel.Parent is Panel parent)
             parent.Children.Remove(ServerPanel);
         ServerPanel.Margin = new Thickness(0);
@@ -987,15 +984,20 @@ public partial class SessionDock : Window
         }
     }
 
-    private void ToggleServerPanel()
+    private void ToggleServerPanel() => TogglePopout(PopoutView.Server);
+
+    // The same popout shows either the server or your profile; clicking the one already shown closes it,
+    // clicking the other switches it in place
+    private void TogglePopout(PopoutView view)
     {
         if (_closed)
             return;
-        if (PopoutOpen)
+        if (PopoutOpen && _popoutView == view)
         {
             HidePopout();
             return;
         }
+        _popoutView = view;
         ShowPopout();
     }
 
@@ -1003,6 +1005,7 @@ public partial class SessionDock : Window
     {
         if (_closed || !_opened || !Voidstrap.Utility.Platform.IsWindows)
             return;
+        bool profile = _popoutView == PopoutView.Profile;
         if (_popout == null)
         {
             _popout = new Window
@@ -1023,7 +1026,11 @@ public partial class SessionDock : Window
             _popout.SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
             _popout.SourceInitialized += OnPopoutSourceInitialized;
         }
-        GameChevron.Text = "\uE70D";
+        object view = profile ? ProfilePanel : ServerPanel;
+        if (!ReferenceEquals(_popout.Content, view))
+            _popout.Content = view;
+        GameChevron.Text = profile ? "\uE70E" : "\uE70D";
+        ProfileChevron.Text = profile ? "\uE70D" : "\uE70E";
         UpdateReadout();
         try
         {
@@ -1036,13 +1043,171 @@ public partial class SessionDock : Window
         }
         PlacePopout();
         RaiseAboveDimmer();
+        if (profile)
+        {
+            _ = LoadProfileDetailsAsync();
+            return;
+        }
         UpdateReadout();
         _ = LoadPopoutAsync();
+    }
+
+    // Fills the profile view: names, pictures, account details and counts, kept for a few minutes
+    private async Task LoadProfileDetailsAsync()
+    {
+        if (_profileInfo != null)
+            ShowProfileDetails(_profileInfo);
+        else
+        {
+            ProfileStatus.Text = "Loading your profile";
+            ProfileStatus.Visibility = Visibility.Visible;
+        }
+        if (_profileInfoLoading || (_profileInfo != null && DateTime.UtcNow - _profileInfoUtc < TimeSpan.FromMinutes(5)))
+            return;
+        _profileInfoLoading = true;
+        try
+        {
+            (RobloxChatStatus status, RobloxProfileInfo? info) = await RobloxProfile.GetMineAsync(_lifetime.Token);
+            if (_closed)
+                return;
+            if (info == null)
+            {
+                if (_profileInfo == null)
+                {
+                    ProfileStatus.Text = status switch
+                    {
+                        RobloxChatStatus.NotSignedIn => "Allow cookie access in Voidstrap's settings to see your profile.",
+                        RobloxChatStatus.SignInExpired => "Your Roblox sign in expired, sign in again to see your profile.",
+                        _ => "Your profile could not be loaded right now."
+                    };
+                }
+                return;
+            }
+            _profileInfo = info;
+            _profileInfoUtc = DateTime.UtcNow;
+            ShowProfileDetails(info);
+        }
+        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionDock", "Your profile could not be loaded: " + ex.Message);
+        }
+        finally
+        {
+            _profileInfoLoading = false;
+        }
+    }
+
+    private void ShowProfileDetails(RobloxProfileInfo info)
+    {
+        CultureInfo culture = CultureInfo.CurrentCulture;
+        ProfileStatus.Visibility = Visibility.Collapsed;
+        ProfileBannerName.Text = info.DisplayName.Length > 0 ? info.DisplayName : info.Name;
+        ProfileBannerHandle.Text = "@" + info.Name + (info.Premium == true ? "  ·  Premium" : string.Empty);
+        ProfileVerified.Visibility = info.Verified ? Visibility.Visible : Visibility.Collapsed;
+        string joined = info.Created is DateTimeOffset created
+            ? created.LocalDateTime.ToString("d MMM yyyy", culture) + " (" + AccountAge(created) + ")"
+            : "Unavailable";
+        ProfileAccountText.Text = "User ID: " + info.UserId.ToString(CultureInfo.InvariantCulture)
+            + "\nJoined: " + joined
+            + "\nRobux: " + (info.Robux is long robux ? robux.ToString("N0", culture) : "Unavailable")
+            + "\nPremium: " + (info.Premium is bool premium ? (premium ? "Yes" : "No") : "Unavailable");
+        ProfileSocialText.Text = "Friends: " + Count(info.Friends)
+            + "\nFollowers: " + Count(info.Followers)
+            + "\nFollowing: " + Count(info.Following)
+            + "\nPlaying: " + (string.IsNullOrWhiteSpace(GameTitle.Text) ? "Roblox" : GameTitle.Text);
+        string about = info.Description.Trim();
+        ProfileAboutText.Text = about;
+        ProfileAboutText.Visibility = about.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
+        if (ProfileHeadshotBrush.ImageSource == null)
+            ProfileHeadshotBrush.ImageSource = Picture(info.HeadshotUrl, 144);
+        if (ProfileBannerBrush.ImageSource == null)
+            ProfileBannerBrush.ImageSource = Picture(info.AvatarUrl.Length > 0 ? info.AvatarUrl : info.HeadshotUrl, 300);
+    }
+
+    private static string Count(long? value)
+    {
+        if (value is not long number)
+            return "Unavailable";
+        CultureInfo culture = CultureInfo.CurrentCulture;
+        return number >= 1_000_000 ? (number / 1_000_000d).ToString("0.#", culture) + "M"
+            : number >= 10_000 ? (number / 1_000d).ToString("0.#", culture) + "K"
+            : number.ToString("N0", culture);
+    }
+
+    private static string AccountAge(DateTimeOffset created)
+    {
+        double days = (DateTimeOffset.UtcNow - created).TotalDays;
+        int years = (int)(days / 365.25);
+        if (years >= 1)
+            return years == 1 ? "1 year" : years + " years";
+        int months = (int)(days / 30.44);
+        if (months >= 1)
+            return months == 1 ? "1 month" : months + " months";
+        int whole = Math.Max(0, (int)days);
+        return whole == 1 ? "1 day" : whole + " days";
+    }
+
+    private static BitmapImage? Picture(string url, int width)
+    {
+        if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
+            return null;
+        try
+        {
+            BitmapImage image = new();
+            image.BeginInit();
+            image.UriSource = uri;
+            image.DecodePixelWidth = width;
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.EndInit();
+            return image;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
+
+    private string? ProfileLink => _profileInfo is { UserId: > 0 } info ? "https://www.roblox.com/users/" + info.UserId.ToString(CultureInfo.InvariantCulture) + "/profile" : null;
+
+    private void OpenProfile_Click(object sender, RoutedEventArgs e)
+    {
+        if (ProfileLink is not { } link)
+            return;
+        try
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(link) { UseShellExecute = true })?.Dispose();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionDock", "Your profile could not be opened: " + ex.Message);
+        }
+    }
+
+    private async void CopyProfile_Click(object sender, RoutedEventArgs e)
+    {
+        if (ProfileLink is not { } link)
+            return;
+        try
+        {
+            Clipboard.SetText(link);
+            CopyProfileButton.Content = "Copied";
+            await Task.Delay(1200);
+            if (!_closed)
+                CopyProfileButton.Content = "Copy profile link";
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionDock", "Your profile link could not be copied: " + ex.Message);
+        }
     }
 
     private void HidePopout()
     {
         GameChevron.Text = "\uE70E";
+        ProfileChevron.Text = "\uE70E";
         if (_popout is { IsVisible: true } popout)
             popout.Hide();
     }

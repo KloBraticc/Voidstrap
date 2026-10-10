@@ -41,12 +41,18 @@ public enum NotificationHeader
 public sealed class NotificationAppearance
 {
 	public const double BaseWidth = 392;
+	public const double MinWidth = 320;
+	public const double MaxWidth = 480;
 	public const double FloatingGap = 16;
 
 	// Only read to move settings saved before the position sliders existed
 	public NotificationPosition Position { get; set; } = NotificationPosition.BottomRight;
 
+	// Gap from the screen edges in the Floating layout; 0 means the usual 16
 	public double EdgeSpacing { get; set; } = 0;
+
+	// Width of the card before Size scales it
+	public double Width { get; set; } = BaseWidth;
 
 	public bool PositionMigrated { get; set; }
 
@@ -85,7 +91,10 @@ public sealed class NotificationAppearance
 
 	public double SafeVertical => Clamp(Vertical, 0, 100, 100);
 
-	public double SafeEdgeSpacing => Layout == NotificationLayout.Floating ? FloatingGap : 0;
+	public double SafeEdgeSpacing => Layout != NotificationLayout.Floating ? 0
+		: double.IsFinite(EdgeSpacing) && EdgeSpacing > 0 ? Math.Clamp(EdgeSpacing, 4, 48) : FloatingGap;
+
+	public double SafeCardWidth => Clamp(Width, MinWidth, MaxWidth, BaseWidth);
 
 	public double SafeCornerRadius => Clamp(CornerRadius, 0, 20, 8);
 
@@ -93,8 +102,8 @@ public sealed class NotificationAppearance
 
 	public double SafeTextScale => Clamp(TextSize, 80, 140, 100) / 100;
 
-	// Width of the card on screen, the card is laid out at the base width and scaled
-	public double SafeWidth => BaseWidth * SafeScale;
+	// Width of the card on screen, the card is laid out at its width and then scaled
+	public double SafeWidth => SafeCardWidth * SafeScale;
 
 	public double SafeBackgroundOpacity => Clamp(BackgroundOpacity, 0.6, 1.0, 1.0);
 

@@ -37,7 +37,11 @@ public partial class SessionNotificationSettings : Window
         MockIcon.Source = gameIcon;
         MockIcon.Visibility = gameIcon == null ? Visibility.Collapsed : Visibility.Visible;
         foreach (string name in MotionNames)
+        {
             MotionBox.Items.Add(name);
+            IntroBox.Items.Add(name);
+            OutroBox.Items.Add(name);
+        }
         // Replays the preview once the position sliders have settled, not on every step of a drag
         _replay = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(350) };
         _replay.Tick += (_, _) =>
@@ -81,11 +85,18 @@ public partial class SessionNotificationSettings : Window
         HorizontalSlider.Value = _appearance.SafeHorizontal;
         VerticalSlider.Value = _appearance.SafeVertical;
         CornerSlider.Value = _appearance.SafeCornerRadius;
+        SpacingSlider.Value = double.IsFinite(_appearance.EdgeSpacing) && _appearance.EdgeSpacing > 0 ? Math.Clamp(_appearance.EdgeSpacing, 4, 48) : NotificationAppearance.FloatingGap;
+        WidthSlider.Value = _appearance.SafeCardWidth;
+        IntroSpeed.Value = _appearance.SafeIntroMilliseconds;
+        OutroSpeed.Value = _appearance.SafeOutroMilliseconds;
+        IntroBox.SelectedIndex = (int)_appearance.Intro;
+        OutroBox.SelectedIndex = (int)_appearance.Outro;
         SizeSlider.Value = Math.Round(_appearance.SafeScale * 100);
         TextSizeSlider.Value = Math.Round(_appearance.SafeTextScale * 100);
         OpacitySlider.Value = Math.Round(_appearance.SafeBackgroundOpacity * 100);
         SecondsSlider.Value = _appearance.SafeSecondsOnScreen;
-        MotionBox.SelectedIndex = (int)_appearance.Intro;
+        // The single choice only shows when entrance and exit are the same
+        MotionBox.SelectedIndex = _appearance.Intro == _appearance.Outro ? (int)_appearance.Intro : -1;
         HeaderOff.IsChecked = _appearance.Header == NotificationHeader.Off;
         HeaderServer.IsChecked = _appearance.Header == NotificationHeader.Server;
         HeaderFriends.IsChecked = _appearance.Header == NotificationHeader.Friends;
@@ -96,9 +107,46 @@ public partial class SessionNotificationSettings : Window
         FriendsToggle.IsChecked = App.Settings.Prop.NotifyFriends;
         BadgesToggle.IsChecked = App.Settings.Prop.NotifyBadges;
         ShortcutToggle.IsChecked = App.Settings.Prop.NotifyShortcutEveryGame;
+        UpdateSpots();
         _loading = false;
         UpdateValueTexts();
         ApplyPreview();
+    }
+
+    // Lights the quick position that matches the sliders, none when the notification sits somewhere in between
+    private void UpdateSpots()
+    {
+        bool loading = _loading;
+        _loading = true;
+        foreach (object child in PositionGrid.Children)
+        {
+            if (child is RadioButton { Tag: string tag } spot && TryParseSpot(tag, out double horizontal, out double vertical))
+                spot.IsChecked = Math.Abs(horizontal - _appearance.SafeHorizontal) < 0.5 && Math.Abs(vertical - _appearance.SafeVertical) < 0.5;
+        }
+        _loading = loading;
+    }
+
+    private static bool TryParseSpot(string tag, out double horizontal, out double vertical)
+    {
+        horizontal = vertical = 0;
+        string[] parts = tag.Split(',');
+        return parts.Length == 2
+            && double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out horizontal)
+            && double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out vertical);
+    }
+
+    private void Position_Checked(object sender, RoutedEventArgs e)
+    {
+        if (!_ready || _loading || sender is not FrameworkElement { Tag: string tag } || !TryParseSpot(tag, out double horizontal, out double vertical))
+            return;
+        _appearance.Horizontal = horizontal;
+        _appearance.Vertical = vertical;
+        _loading = true;
+        HorizontalSlider.Value = horizontal;
+        VerticalSlider.Value = vertical;
+        _loading = false;
+        Commit();
+        _ = PlayAsync();
     }
 
     // Every change is saved straight away and shows on the next notification
@@ -132,10 +180,29 @@ public partial class SessionNotificationSettings : Window
 
     private void Motion_Changed(object sender, SelectionChangedEventArgs e)
     {
-        if (!_ready || _loading || MotionBox.SelectedIndex < 0)
+        if (!_ready || _loading)
             return;
-        // One choice for both ways, it enters and leaves the same way
-        _appearance.Intro = _appearance.Outro = (NotificationMotion)MotionBox.SelectedIndex;
+        _loading = true;
+        if (ReferenceEquals(sender, MotionBox))
+        {
+            if (MotionBox.SelectedIndex < 0)
+            {
+                _loading = false;
+                return;
+            }
+            // One choice for both ways, it enters and leaves the same way
+            _appearance.Intro = _appearance.Outro = (NotificationMotion)MotionBox.SelectedIndex;
+            IntroBox.SelectedIndex = OutroBox.SelectedIndex = MotionBox.SelectedIndex;
+        }
+        else
+        {
+            if (IntroBox.SelectedIndex >= 0)
+                _appearance.Intro = (NotificationMotion)IntroBox.SelectedIndex;
+            if (OutroBox.SelectedIndex >= 0)
+                _appearance.Outro = (NotificationMotion)OutroBox.SelectedIndex;
+            MotionBox.SelectedIndex = _appearance.Intro == _appearance.Outro ? (int)_appearance.Intro : -1;
+        }
+        _loading = false;
         Commit();
         _ = PlayAsync();
     }
@@ -147,12 +214,19 @@ public partial class SessionNotificationSettings : Window
         _appearance.Horizontal = HorizontalSlider.Value;
         _appearance.Vertical = VerticalSlider.Value;
         _appearance.CornerRadius = CornerSlider.Value;
+        _appearance.EdgeSpacing = SpacingSlider.Value;
+        _appearance.Width = WidthSlider.Value;
+        _appearance.IntroMilliseconds = (int)IntroSpeed.Value;
+        _appearance.OutroMilliseconds = (int)OutroSpeed.Value;
         _appearance.Size = SizeSlider.Value;
         _appearance.TextSize = TextSizeSlider.Value;
         _appearance.BackgroundOpacity = OpacitySlider.Value / 100;
         _appearance.SecondsOnScreen = SecondsSlider.Value;
         Commit();
         if (ReferenceEquals(sender, HorizontalSlider) || ReferenceEquals(sender, VerticalSlider))
+            UpdateSpots();
+        if (ReferenceEquals(sender, HorizontalSlider) || ReferenceEquals(sender, VerticalSlider) || ReferenceEquals(sender, SpacingSlider)
+            || ReferenceEquals(sender, IntroSpeed) || ReferenceEquals(sender, OutroSpeed))
         {
             _replay.Stop();
             _replay.Start();
@@ -208,6 +282,14 @@ public partial class SessionNotificationSettings : Window
         TextSizeText.Text = (_appearance.SafeTextScale * 100).ToString("0", culture) + "%";
         OpacityText.Text = Math.Round(_appearance.SafeBackgroundOpacity * 100).ToString(culture) + "%";
         SecondsText.Text = _appearance.SafeSecondsOnScreen.ToString("0", culture) + " s";
+        SpacingText.Text = SpacingSlider.Value.ToString("0", culture) + " px";
+        WidthText.Text = _appearance.SafeCardWidth.ToString("0", culture) + " px";
+        IntroSpeedText.Text = _appearance.SafeIntroMilliseconds.ToString(culture) + " ms";
+        OutroSpeedText.Text = _appearance.SafeOutroMilliseconds.ToString(culture) + " ms";
+        // Settings that do nothing in the current choice are dimmed
+        SpacingSlider.IsEnabled = _appearance.Layout == NotificationLayout.Floating;
+        IntroSpeed.IsEnabled = _appearance.Intro != NotificationMotion.None;
+        OutroSpeed.IsEnabled = _appearance.Outro != NotificationMotion.None;
     }
 
     // The preview uses the real notification's corners, borders, background, size and placement at half scale
@@ -215,7 +297,7 @@ public partial class SessionNotificationSettings : Window
     {
         if (_closed)
             return;
-        MockCard.Width = NotificationAppearance.BaseWidth;
+        MockCard.Width = _appearance.SafeCardWidth;
         double scale = _appearance.SafeScale;
         MockCard.LayoutTransform = Math.Abs(scale - 1) < 0.001 ? Transform.Identity : new ScaleTransform(scale, scale);
         MockCard.CornerRadius = NotificationStyle.Corners(_appearance);

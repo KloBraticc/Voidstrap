@@ -527,10 +527,19 @@ public partial class SessionServerBrowser : Window
             Render();
     }
 
-    // Player pictures are only fetched for cards that are actually on screen, a few at a time
-    private void Card_Loaded(object sender, RoutedEventArgs e)
+    // Player pictures are only fetched for cards that are actually on screen, a few at a time.
+    // The list reuses card views while scrolling, so a reused view asks for its new card's pictures too.
+    private void Card_Loaded(object sender, RoutedEventArgs e) => RequestAvatars((sender as FrameworkElement)?.DataContext as ServerCard);
+
+    private void Card_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        if (_closed || sender is not FrameworkElement { DataContext: ServerCard card } || card.AvatarsRequested || card.Tokens.Length == 0)
+        if (sender is FrameworkElement { IsLoaded: true })
+            RequestAvatars(e.NewValue as ServerCard);
+    }
+
+    private void RequestAvatars(ServerCard? card)
+    {
+        if (_closed || card == null || card.AvatarsRequested || card.Tokens.Length == 0)
             return;
         card.AvatarsRequested = true;
         _avatarQueue.Add(card);
@@ -550,15 +559,25 @@ public partial class SessionServerBrowser : Window
             Dictionary<string, string> urls = await RobloxServers.GetHeadshotsAsync(cards.SelectMany(card => card.Tokens), _lifetime.Token);
             if (_closed)
                 return;
+            List<ServerCard> retry = new();
             foreach (ServerCard card in cards)
             {
+                bool missing = false;
                 for (int i = 0; i < card.Tokens.Length && i < card.Avatars.Count; i++)
                 {
-                    if (card.Avatars[i].IsMore || !urls.TryGetValue(card.Tokens[i], out string? url))
+                    if (card.Avatars[i].IsMore || card.Avatars[i].Image != null)
                         continue;
-                    card.Avatars[i].Image = GetAvatarImage(url);
+                    if (urls.TryGetValue(card.Tokens[i], out string? url))
+                        card.Avatars[i].Image = GetAvatarImage(url);
+                    else
+                        missing = true;
                 }
+                // Roblox answers "still being made" for some pictures, those are asked for again a little later
+                if (missing && ++card.AvatarAttempts < 4)
+                    retry.Add(card);
             }
+            if (retry.Count > 0)
+                _ = RetryAvatarsAsync(retry);
         }
         catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
         {
@@ -575,6 +594,24 @@ public partial class SessionServerBrowser : Window
         }
     }
 
+    private async Task RetryAvatarsAsync(List<ServerCard> cards)
+    {
+        try
+        {
+            await Task.Delay(TimeSpan.FromSeconds(2.5), _lifetime.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        if (_closed)
+            return;
+        foreach (ServerCard card in cards)
+            _avatarQueue.Add(card);
+        if (!_avatarTimer.IsEnabled && !_avatarsLoading)
+            _avatarTimer.Start();
+    }
+
     private ImageSource? GetAvatarImage(string url)
     {
         if (_avatarImages.TryGetValue(url, out ImageSource? cached))
@@ -588,6 +625,8 @@ public partial class SessionServerBrowser : Window
             image.UriSource = uri;
             image.DecodePixelWidth = 72;
             image.CacheOption = BitmapCacheOption.OnLoad;
+            // A picture that fails to download is forgotten so the next request tries it again
+            image.DownloadFailed += (_, _) => _avatarImages.Remove(url);
             image.EndInit();
             _avatarImages[url] = image;
             return image;
@@ -761,6 +800,7 @@ public sealed class ServerCard
     public string AccessCode { get; init; } = string.Empty;
     public MatchmakerCandidate? Server { get; init; }
     public bool AvatarsRequested { get; set; }
+    public int AvatarAttempts { get; set; }
 
     public static ServerCard ForPublic(MatchmakerCandidate server, bool current, bool blocked)
     {

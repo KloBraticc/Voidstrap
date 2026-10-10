@@ -162,6 +162,78 @@
         </StackPanel>
       </Grid>
     </Border>
+    <!-- Your profile, shown in the same popout as the server when your avatar on the dock is clicked -->
+    <Border x:Name="ProfilePanel" Grid.Row="0" Visibility="Collapsed" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="150" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!-- Banner: your avatar blurred behind, the sharp headshot and your names on top -->
+        <Border Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" ClipToBounds="True">
+          <Border Margin="-30">
+            <Border.Background>
+              <ImageBrush x:Name="ProfileBannerBrush" Stretch="UniformToFill" AlignmentY="Top" />
+            </Border.Background>
+            <Border.Effect>
+              <BlurEffect Radius="28" KernelType="Gaussian" RenderingBias="Performance" />
+            </Border.Effect>
+          </Border>
+        </Border>
+        <Border>
+          <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+              <GradientStop Offset="0" Color="#40000000" />
+              <GradientStop Offset="1" Color="#D0000000" />
+            </LinearGradientBrush>
+          </Border.Background>
+        </Border>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="20,0,20,14">
+          <Grid Width="72" Height="72" Margin="0,0,14,0">
+            <Ellipse Fill="#33FFFFFF" />
+            <Ellipse Margin="2">
+              <Ellipse.Fill>
+                <ImageBrush x:Name="ProfileHeadshotBrush" Stretch="UniformToFill" />
+              </Ellipse.Fill>
+            </Ellipse>
+          </Grid>
+          <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,2">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock x:Name="ProfileBannerName" Text="Roblox" FontSize="20" FontWeight="SemiBold" Foreground="White" TextTrimming="CharacterEllipsis" MaxWidth="460" />
+              <TextBlock x:Name="ProfileVerified" Text="&#xE930;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="15" Margin="8,3,0,0"
+                         VerticalAlignment="Center" Visibility="Collapsed" Foreground="{DynamicResource AccentFillColorDefaultBrush}" ToolTip="Verified" />
+            </StackPanel>
+            <TextBlock x:Name="ProfileBannerHandle" Margin="0,2,0,0" FontSize="12" Foreground="#DDFFFFFF" TextTrimming="CharacterEllipsis" />
+          </StackPanel>
+        </StackPanel>
+        <Grid Grid.Row="1" Margin="20,14,20,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="1.3*" />
+          </Grid.ColumnDefinitions>
+          <StackPanel>
+            <TextBlock Text="Account" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <TextBlock x:Name="ProfileAccountText" Margin="0,6,0,0" FontSize="13" LineHeight="20" TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+          </StackPanel>
+          <StackPanel Grid.Column="2">
+            <TextBlock Text="Social" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <TextBlock x:Name="ProfileSocialText" Margin="0,6,0,0" FontSize="13" LineHeight="20" TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+            <TextBlock x:Name="ProfileAboutText" Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" MaxHeight="54" TextTrimming="CharacterEllipsis"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          </StackPanel>
+          <TextBlock x:Name="ProfileStatus" Grid.ColumnSpan="3" FontSize="13" TextWrapping="Wrap" Visibility="Collapsed"
+                     Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,8,12,12">
+          <ui:Button Content="Open profile" Click="OpenProfile_Click" Style="{StaticResource DockAction}" />
+          <ui:Button x:Name="CopyProfileButton" Content="Copy profile link" Click="CopyProfile_Click" Style="{StaticResource DockAction}" />
+        </StackPanel>
+      </Grid>
+    </Border>
     <!-- The dock itself: a pill with a thin outline and a soft shadow. The shadow is a few faint rings drawn once,
          a blur effect had to be recalculated on every change and made the dock and the game stutter -->
     <Grid Grid.Row="1" HorizontalAlignment="Center">
@@ -234,7 +306,7 @@
                   </Ellipse>
                 </Grid>
                 <TextBlock x:Name="SessionTimes" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
-                  <Run Text="Session " /><Run x:Name="SessionClock" Text="0:00" FontFamily="Cascadia Mono, Consolas" Foreground="{DynamicResource SystemFillColorSuccessBrush}" /><Run Text="  ·  Server " /><Run x:Name="ServerClock" Text="--" FontFamily="Cascadia Mono, Consolas" Foreground="{DynamicResource SystemFillColorSuccessBrush}" />
+                  <Run Text="Session " /><Run x:Name="SessionClock" Text="0:00" FontWeight="SemiBold" Foreground="{DynamicResource SystemFillColorSuccessBrush}" /><Run Text="  ·  Server " /><Run x:Name="ServerClock" Text="--" FontWeight="SemiBold" Foreground="{DynamicResource SystemFillColorSuccessBrush}" />
                 </TextBlock>
               </StackPanel>
             </StackPanel>

@@ -205,6 +205,39 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
+              <TextBlock Text="Space from edge" Style="{StaticResource Label}" />
+              <Slider x:Name="SpacingSlider" Grid.Column="1" Minimum="4" Maximum="48" SmallChange="1" LargeChange="4" TickFrequency="1"
+                      Style="{StaticResource RowSlider}" ValueChanged="Slider_Changed" />
+              <TextBlock x:Name="SpacingText" Grid.Column="2" Style="{StaticResource Value}" />
+            </Grid>
+          </Border>
+          <Border Style="{StaticResource Row}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Text="Position" Style="{StaticResource Label}" VerticalAlignment="Top" Margin="0,6,0,0" />
+              <!-- Quick spots, they set the sliders below -->
+              <Border Grid.Column="1" Style="{StaticResource SegmentTray}" HorizontalAlignment="Stretch">
+                <UniformGrid x:Name="PositionGrid" Columns="3">
+                  <RadioButton Content="Top left" Tag="0,0" GroupName="Spot" Style="{StaticResource Segment}" Checked="Position_Checked" />
+                  <RadioButton Content="Top" Tag="50,0" GroupName="Spot" Style="{StaticResource Segment}" Checked="Position_Checked" />
+                  <RadioButton Content="Top right" Tag="100,0" GroupName="Spot" Style="{StaticResource Segment}" Checked="Position_Checked" />
+                  <RadioButton Content="Bottom left" Tag="0,100" GroupName="Spot" Style="{StaticResource Segment}" Checked="Position_Checked" />
+                  <RadioButton Content="Bottom" Tag="50,100" GroupName="Spot" Style="{StaticResource Segment}" Checked="Position_Checked" />
+                  <RadioButton Content="Bottom right" Tag="100,100" GroupName="Spot" Style="{StaticResource Segment}" Checked="Position_Checked" />
+                </UniformGrid>
+              </Border>
+            </Grid>
+          </Border>
+          <Border Style="{StaticResource Row}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
               <TextBlock Text="Horizontal" Style="{StaticResource Label}" />
               <Slider x:Name="HorizontalSlider" Grid.Column="1" Minimum="0" Maximum="100" SmallChange="1" LargeChange="10" TickFrequency="1"
                       Style="{StaticResource RowSlider}" ValueChanged="Slider_Changed" />
@@ -257,6 +290,19 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
+              <TextBlock Text="Width" Style="{StaticResource Label}" />
+              <Slider x:Name="WidthSlider" Grid.Column="1" Minimum="320" Maximum="480" SmallChange="4" LargeChange="16" TickFrequency="4"
+                      Style="{StaticResource RowSlider}" ValueChanged="Slider_Changed" />
+              <TextBlock x:Name="WidthText" Grid.Column="2" Style="{StaticResource Value}" />
+            </Grid>
+          </Border>
+          <Border Style="{StaticResource Row}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
               <TextBlock Text="Text size" Style="{StaticResource Label}" />
               <Slider x:Name="TextSizeSlider" Grid.Column="1" Minimum="80" Maximum="140" SmallChange="1" LargeChange="5" TickFrequency="1"
                       Style="{StaticResource RowSlider}" ValueChanged="Slider_Changed" />
@@ -297,6 +343,52 @@
               </Grid.ColumnDefinitions>
               <TextBlock Text="Animation" Style="{StaticResource Label}" />
               <ComboBox x:Name="MotionBox" Grid.Column="1" SelectionChanged="Motion_Changed" />
+            </Grid>
+          </Border>
+          <Border Style="{StaticResource Row}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="210" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Text="Entrance" Style="{StaticResource Label}" />
+              <ComboBox x:Name="IntroBox" Grid.Column="1" SelectionChanged="Motion_Changed" />
+            </Grid>
+          </Border>
+          <Border Style="{StaticResource Row}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="210" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Text="Exit" Style="{StaticResource Label}" />
+              <ComboBox x:Name="OutroBox" Grid.Column="1" SelectionChanged="Motion_Changed" />
+            </Grid>
+          </Border>
+          <Border Style="{StaticResource Row}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Text="Entrance speed" Style="{StaticResource Label}" />
+              <Slider x:Name="IntroSpeed" Grid.Column="1" Minimum="100" Maximum="1000" SmallChange="10" LargeChange="100" TickFrequency="10"
+                      Style="{StaticResource RowSlider}" ValueChanged="Slider_Changed" />
+              <TextBlock x:Name="IntroSpeedText" Grid.Column="2" Style="{StaticResource Value}" />
+            </Grid>
+          </Border>
+          <Border Style="{StaticResource Row}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Text="Exit speed" Style="{StaticResource Label}" />
+              <Slider x:Name="OutroSpeed" Grid.Column="1" Minimum="100" Maximum="1000" SmallChange="10" LargeChange="100" TickFrequency="10"
+                      Style="{StaticResource RowSlider}" ValueChanged="Slider_Changed" />
+              <TextBlock x:Name="OutroSpeedText" Grid.Column="2" Style="{StaticResource Value}" />
             </Grid>
           </Border>
           <Border Style="{StaticResource Row}">
