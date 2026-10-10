@@ -21,6 +21,8 @@ public partial class NotificationWindow
     private bool _hovered;
     private bool _dismissHot;
     private bool _buttonWasDown;
+    private bool _hoverLogged;
+    private bool _hoverSeen;
     private System.Windows.Threading.DispatcherTimer? _hoverTimer;
 
     private async Task PresentWindowsNotificationAsync(NotificationItem item)
@@ -29,7 +31,9 @@ public partial class NotificationWindow
         {
             _notificationTracker = RobloxWindowTracker.Acquire();
             RobloxWindowTracker.Changed += OnNotificationBoundsChanged;
-            DismissButton.MouseLeftButtonUp += OnDismissNotification;
+            DismissButton.MouseLeftButtonDown += OnDismissNotification;
+            MouseMove += OnNotificationMouse;
+            MouseLeave += OnNotificationMouse;
             _hoverTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Input) { Interval = TimeSpan.FromMilliseconds(40) };
             _hoverTimer.Tick += OnHoverTick;
         }
@@ -57,6 +61,8 @@ public partial class NotificationWindow
             DismissButton.Visibility = Visibility.Visible;
             _hovered = false;
             _dismissHot = false;
+            _hoverLogged = false;
+            _hoverSeen = false;
             _buttonWasDown = IsLeftButtonDown();
             DismissButton.Background = Brushes.Transparent;
             SetDismissVisible(false, false);
@@ -172,15 +178,31 @@ public partial class NotificationWindow
     {
         if (_closed || !_presenting || _dismissRequested || !IsVisible)
             return;
-        if (!GetCursorPos(out NativePoint cursor))
+        IntPtr handle = _notificationHandle;
+        if (handle == IntPtr.Zero || !GetCursorPos(out NativePoint cursor) || !GetWindowRect(handle, out NativeRect window))
             return;
-        bool hovered = Contains(NotificationBorder, cursor);
+        bool insideRect = cursor.X >= window.Left && cursor.X < window.Right && cursor.Y >= window.Top && cursor.Y < window.Bottom;
+        // The window is exactly the size of the card, so being inside its rectangle is hovering the card
+        bool hovered = IsMouseOver || insideRect;
+        if (!_hoverLogged)
+        {
+            _hoverLogged = true;
+            CursorInfo info = new() { Size = System.Runtime.InteropServices.Marshal.SizeOf<CursorInfo>() };
+            bool showing = GetCursorInfo(ref info) && (info.Flags & 1) != 0;
+            IntPtr under = GetAncestor(WindowFromPoint(cursor), 2);
+            App.Logger.WriteLine("NotificationWindow", $"Hover tracking started, notification at {window.Left},{window.Top} to {window.Right},{window.Bottom}, cursor at {cursor.X},{cursor.Y}, cursor {(showing ? "visible" : "hidden by the game")}, window under cursor is {(under == handle ? "the notification" : "another window")}");
+        }
         if (hovered != _hovered)
         {
             _hovered = hovered;
             SetDismissVisible(hovered, true);
+            if (hovered && !_hoverSeen)
+            {
+                _hoverSeen = true;
+                App.Logger.WriteLine("NotificationWindow", "Pointer is over the notification, showing the close button");
+            }
         }
-        bool hot = hovered && Contains(DismissButton, cursor);
+        bool hot = hovered && DismissContains(window, cursor);
         if (hot != _dismissHot)
         {
             _dismissHot = hot;
@@ -195,20 +217,34 @@ public partial class NotificationWindow
         _buttonWasDown = down;
     }
 
-    private static bool Contains(FrameworkElement element, NativePoint cursor)
+    // The close button's bounds are taken relative to this window and offset by the native window rectangle,
+    // so they line up with the cursor whatever the DPI or how the window was moved
+    private bool DismissContains(NativeRect window, NativePoint cursor)
     {
-        if (!element.IsVisible || element.ActualWidth <= 0 || element.ActualHeight <= 0)
+        if (DismissButton.ActualWidth <= 0 || DismissButton.ActualHeight <= 0)
             return false;
         try
         {
-            Point topLeft = element.PointToScreen(new Point(0, 0));
-            Point bottomRight = element.PointToScreen(new Point(element.ActualWidth, element.ActualHeight));
-            return cursor.X >= topLeft.X && cursor.X < bottomRight.X && cursor.Y >= topLeft.Y && cursor.Y < bottomRight.Y;
+            Rect bounds = DismissButton.TransformToAncestor(this).TransformBounds(new Rect(0, 0, DismissButton.ActualWidth, DismissButton.ActualHeight));
+            DpiScale dpi = VisualTreeHelper.GetDpi(this);
+            // A few pixels of slack make the small icon easy to hit
+            double slack = 4;
+            double left = window.Left + (bounds.Left - slack) * dpi.DpiScaleX;
+            double top = window.Top + (bounds.Top - slack) * dpi.DpiScaleY;
+            double right = window.Left + (bounds.Right + slack) * dpi.DpiScaleX;
+            double bottom = window.Top + (bounds.Bottom + slack) * dpi.DpiScaleY;
+            return cursor.X >= left && cursor.X < right && cursor.Y >= top && cursor.Y < bottom;
         }
         catch (InvalidOperationException)
         {
             return false;
         }
+    }
+
+    private void OnNotificationMouse(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        if (!_closed && _presenting)
+            OnHoverTick(null, EventArgs.Empty);
     }
 
     private static bool IsLeftButtonDown() => (GetAsyncKeyState(0x01) & 0x8000) != 0;
@@ -243,6 +279,38 @@ public partial class NotificationWindow
 
     [System.Runtime.InteropServices.LibraryImport("user32.dll")]
     private static partial short GetAsyncKeyState(int key);
+
+    [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+    private struct NativeRect
+    {
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
+    }
+
+    [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+    private struct CursorInfo
+    {
+        public int Size;
+        public int Flags;
+        public IntPtr Cursor;
+        public NativePoint Position;
+    }
+
+    [System.Runtime.InteropServices.LibraryImport("user32.dll")]
+    [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
+    private static partial bool GetWindowRect(IntPtr hwnd, out NativeRect rect);
+
+    [System.Runtime.InteropServices.LibraryImport("user32.dll")]
+    private static partial IntPtr WindowFromPoint(NativePoint point);
+
+    [System.Runtime.InteropServices.LibraryImport("user32.dll")]
+    private static partial IntPtr GetAncestor(IntPtr hwnd, uint flags);
+
+    [System.Runtime.InteropServices.LibraryImport("user32.dll")]
+    [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
+    private static partial bool GetCursorInfo(ref CursorInfo info);
 
     private void OnDismissNotification(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
@@ -307,7 +375,9 @@ public partial class NotificationWindow
         _presenting = false;
         _dismissRequested = true;
         RobloxWindowTracker.Changed -= OnNotificationBoundsChanged;
-        DismissButton.MouseLeftButtonUp -= OnDismissNotification;
+        DismissButton.MouseLeftButtonDown -= OnDismissNotification;
+        MouseMove -= OnNotificationMouse;
+        MouseLeave -= OnNotificationMouse;
         if (_hoverTimer != null)
         {
             _hoverTimer.Stop();
