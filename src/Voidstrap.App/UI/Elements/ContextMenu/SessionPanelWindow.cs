@@ -51,6 +51,9 @@ public sealed partial class SessionPanelWindow : Window
     public bool IsPinned { get; private set; }
     public bool IsClosed => _closed;
 
+    // Asked to be on screen whenever the dock is open, as opposed to only built ahead of time
+    public bool IsRequested => _requested && !_closed;
+
     public SessionPanelWindow(string key, string title, Window view)
     {
         _key = key;
@@ -174,6 +177,7 @@ public sealed partial class SessionPanelWindow : Window
         "music" => "\uE8D6",
         "notifications" => "\uE713",
         "server" => "\uE946",
+        "profile" => "\uE77B",
         _ => null
     };
 
@@ -221,7 +225,7 @@ public sealed partial class SessionPanelWindow : Window
         // A pinned panel shows a filled pin in the accent colour
         _pin.SetGlyph(IsPinned ? PinnedGlyph : PinGlyph);
         _pin.SetAccent(IsPinned);
-        _pin.ToolTip = IsPinned ? "Unpin, hides with the dock again" : "Pin, stays over the game after the dock closes";
+        _pin.ToolTip = IsPinned ? "Unpin, closes with the dock" : "Pin, opens here with the dock every time";
     }
 
     private static void DetachTitleBar(Window view)
@@ -260,6 +264,22 @@ public sealed partial class SessionPanelWindow : Window
         }
     }
 
+    // Builds the native window ahead of time without showing it, so the first open is instant
+    public void Prepare()
+    {
+        if (_closed)
+            return;
+        try
+        {
+            _handle = new WindowInteropHelper(this).EnsureHandle();
+            UpdateInputStyle();
+        }
+        catch (InvalidOperationException ex)
+        {
+            App.Logger.WriteLine("SessionPanelWindow", "The panel could not be prepared: " + ex.Message);
+        }
+    }
+
     public void SetInteractive(bool interactive)
     {
         _interactive = interactive;
@@ -281,10 +301,19 @@ public sealed partial class SessionPanelWindow : Window
         OverlayDiagnostics.RegisterOverlayHandle(_handle);
         if (!AllowsTransparency && _handle != IntPtr.Zero)
         {
-            SetWindowLongPtrW(_handle, GwlExStyle, GetWindowLongPtrW(_handle, GwlExStyle) | WsExLayered | WsExToolWindow);
-            _ = SetLayeredWindowAttributes(_handle, 0, 255, 0x2);
+            // A plain window the graphics card draws directly. It used to be a layered window so it could be
+            // clicked through while pinned over the game, but that made Windows copy every frame back from the
+            // graphics card, which is what made scrolling and everything in the panels lag. Panels now hide
+            // whenever the dock does, so they never need to be clicked through.
+            SetWindowLongPtrW(_handle, GwlExStyle, (GetWindowLongPtrW(_handle, GwlExStyle) | WsExToolWindow) & ~(WsExLayered | WsExTransparent));
             int round = 2;
             _ = DwmSetWindowAttribute(_handle, 33, ref round, sizeof(int));
+        }
+        // No Windows fade and zoom when it appears or hides, it shows the instant it is asked for
+        if (_handle != IntPtr.Zero && Voidstrap.Utility.Platform.IsWindows)
+        {
+            int disabled = 1;
+            _ = DwmSetWindowAttribute(_handle, 3, ref disabled, sizeof(int));
         }
         UpdateInputStyle();
     }
@@ -343,7 +372,8 @@ public sealed partial class SessionPanelWindow : Window
     {
         if (_handle == IntPtr.Zero || _closed)
             return;
-        if (!_requested || (!_interactive && !IsPinned) || !bounds.Valid || !bounds.Foreground)
+        // Panels only show while the dock is open, pinned ones included
+        if (!_requested || !_interactive || !bounds.Valid || !bounds.Foreground)
         {
             HidePanel();
             return;
@@ -392,7 +422,8 @@ public sealed partial class SessionPanelWindow : Window
         if (_handle == IntPtr.Zero || !Voidstrap.Utility.Platform.IsWindows)
             return;
         nint style = GetWindowLongPtrW(_handle, GwlExStyle) | WsExToolWindow;
-        style = _interactive ? style & ~(WsExNoActivate | WsExTransparent) : style | WsExNoActivate | WsExTransparent;
+        style = _interactive ? style & ~WsExNoActivate : style | WsExNoActivate;
+        style &= ~(WsExLayered | WsExTransparent);
         SetWindowLongPtrW(_handle, GwlExStyle, style);
     }
 
@@ -534,9 +565,6 @@ public sealed partial class SessionPanelWindow : Window
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool SetForegroundWindow(IntPtr hwnd);
-    [LibraryImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool SetLayeredWindowAttributes(IntPtr hwnd, uint key, byte alpha, uint flags);
     [LibraryImport("dwmapi.dll")]
     private static partial int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int value, int size);
 
@@ -550,6 +578,7 @@ public sealed partial class SessionPanelWindow : Window
         private readonly TextBlock _icon;
         private readonly bool _close;
         private bool _pressed;
+        private bool _accent;
 
         public event RoutedEventHandler? Click;
 
@@ -570,7 +599,7 @@ public sealed partial class SessionPanelWindow : Window
                 Text = glyph, FontFamily = IconFont, FontSize = size, HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center, IsHitTestVisible = false
             };
-            _icon.SetResourceReference(ForegroundProperty, "TextFillColorPrimaryBrush");
+            _icon.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
             Grid layout = new();
             layout.Children.Add(_hover);
             layout.Children.Add(_icon);
@@ -587,7 +616,11 @@ public sealed partial class SessionPanelWindow : Window
         public void SetGlyph(string glyph) => _icon.Text = glyph;
 
         public void SetAccent(bool accent)
-            => _icon.SetResourceReference(ForegroundProperty, accent ? "AccentTextFillColorPrimaryBrush" : "TextFillColorPrimaryBrush");
+        {
+            // The same accent fill the dock uses for its open panels, so a pinned panel is easy to spot
+            _accent = accent;
+            _icon.SetResourceReference(TextBlock.ForegroundProperty, accent ? "AccentFillColorDefaultBrush" : "TextFillColorPrimaryBrush");
+        }
 
         private void OnDown(object sender, MouseButtonEventArgs e)
         {
@@ -615,7 +648,9 @@ public sealed partial class SessionPanelWindow : Window
             double target = _pressed && hovered ? 0.8 : hovered ? 1.0 : 0.0;
             _hover.BeginAnimation(OpacityProperty, new DoubleAnimation(target, Fade) { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut } });
             if (_close)
-                _icon.SetResourceReference(ForegroundProperty, hovered ? "RinCaptionCloseTextBrush" : "TextFillColorPrimaryBrush");
+                _icon.SetResourceReference(TextBlock.ForegroundProperty, hovered ? "RinCaptionCloseTextBrush" : "TextFillColorPrimaryBrush");
+            else if (_accent)
+                _icon.SetResourceReference(TextBlock.ForegroundProperty, "AccentFillColorDefaultBrush");
             _icon.Opacity = _pressed && !_close ? 0.6063 : 1.0;
         }
     }

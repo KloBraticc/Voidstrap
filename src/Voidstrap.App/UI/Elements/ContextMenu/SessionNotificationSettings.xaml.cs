@@ -221,7 +221,7 @@ public partial class SessionNotificationSettings : Window
         MockCard.CornerRadius = NotificationStyle.Corners(_appearance);
         MockCard.BorderThickness = NotificationStyle.Borders(_appearance);
         MockCard.Background = NotificationStyle.Background(this, _appearance);
-        MockCard.Effect = NotificationStyle.Shadow;
+        NotificationStyle.FillShadow(MockShadow, MockCard.CornerRadius);
         double text = _appearance.SafeTextScale;
         MockHeaderText.FontSize = 11 * text;
         MockTitle.FontSize = 14 * text;
@@ -241,6 +241,8 @@ public partial class SessionNotificationSettings : Window
         if (stageWidth <= 0 || stageHeight <= 0)
             return;
         // A changed size only marks the card dirty, without this the host reports the previous size
+        MockCard.InvalidateMeasure();
+        MockLayer.InvalidateMeasure();
         MockHost.InvalidateMeasure();
         MockHost.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         Size size = MockHost.DesiredSize;
@@ -251,8 +253,6 @@ public partial class SessionNotificationSettings : Window
         Point spot = NotificationStyle.Place(_appearance, stageWidth, stageHeight, cardWidth, cardHeight, _appearance.SafeEdgeSpacing * PreviewScale);
         Canvas.SetLeft(MockHost, Math.Round(spot.X - pad.Left * PreviewScale));
         Canvas.SetTop(MockHost, Math.Round(spot.Y - pad.Top * PreviewScale));
-        // Keeps the label out from under the card when the card sits near the top left
-        PreviewLabel.HorizontalAlignment = _appearance.SafeVertical < 35 && _appearance.SafeHorizontal < 50 ? HorizontalAlignment.Right : HorizontalAlignment.Left;
     }
 
     private void PreviewClipHost_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -286,19 +286,19 @@ public partial class SessionNotificationSettings : Window
             MockCard.UpdateLayout();
             Size travel = MockHost.RenderSize;
             // Drawn once into a bitmap while it moves, like the real notification, so the small text does not shimmer
-            MockCard.CacheMode ??= new BitmapCache { SnapsToDevicePixels = true };
-            NotificationStyle.PrepareIntro(MockCard, MockTranslate, MockScale, _appearance, travel);
-            NotificationStyle.Play(MockCard, MockTranslate, MockScale, _appearance, travel, true);
+            MockLayer.CacheMode ??= new BitmapCache { SnapsToDevicePixels = true };
+            NotificationStyle.PrepareIntro(MockLayer, MockTranslate, MockScale, _appearance, travel);
+            NotificationStyle.Play(MockLayer, MockTranslate, MockScale, _appearance, travel, true);
             await Task.Delay(NotificationStyle.Length(_appearance, true) + 1100);
             if (_closed || generation != _playGeneration)
                 return;
-            NotificationStyle.Play(MockCard, MockTranslate, MockScale, _appearance, travel, false);
+            NotificationStyle.Play(MockLayer, MockTranslate, MockScale, _appearance, travel, false);
             await Task.Delay(NotificationStyle.Length(_appearance, false) + 450);
             if (_closed || generation != _playGeneration)
                 return;
             // Comes back the same way it enters, a card that just pops back in looks like a glitch
-            NotificationStyle.PrepareIntro(MockCard, MockTranslate, MockScale, _appearance, travel);
-            NotificationStyle.Play(MockCard, MockTranslate, MockScale, _appearance, travel, true);
+            NotificationStyle.PrepareIntro(MockLayer, MockTranslate, MockScale, _appearance, travel);
+            NotificationStyle.Play(MockLayer, MockTranslate, MockScale, _appearance, travel, true);
             await Task.Delay(NotificationStyle.Length(_appearance, true) + 50);
             if (_closed || generation != _playGeneration)
                 return;
@@ -314,12 +314,12 @@ public partial class SessionNotificationSettings : Window
     // The resting state: fully shown, in place, and no longer cached so it stays sharp after a resize
     private void RestMock()
     {
-        NotificationStyle.Stop(MockCard, MockTranslate, MockScale);
-        MockCard.Opacity = 1;
+        NotificationStyle.Stop(MockLayer, MockTranslate, MockScale);
+        MockLayer.Opacity = 1;
         MockTranslate.X = 0;
         MockTranslate.Y = 0;
         MockScale.ScaleX = MockScale.ScaleY = 1;
-        MockCard.CacheMode = null;
+        MockLayer.CacheMode = null;
     }
 
     // ---- Overlay shortcut ----

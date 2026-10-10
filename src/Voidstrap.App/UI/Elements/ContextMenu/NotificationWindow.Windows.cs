@@ -25,6 +25,9 @@ public partial class NotificationWindow
     private bool _hoverLogged;
     private bool _hoverSeen;
     private System.Windows.Threading.DispatcherTimer? _hoverTimer;
+    private Voidstrap.UI.NativeSlide? _nativeSlide;
+    // The game's area (or the screen's work area) the notification is placed in, in screen pixels
+    private Int32Rect _area;
 
     private async Task PresentWindowsNotificationAsync(NotificationItem item)
     {
@@ -74,16 +77,31 @@ public partial class NotificationWindow
             OverlayDiagnostics.RegisterOverlayHandle(_notificationHandle);
             UpdateLayout();
             Size travel = new(Math.Max(1, ActualWidth), Math.Max(1, ActualHeight));
-            Voidstrap.UI.NotificationStyle.PrepareIntro(NotificationRoot, RootTranslate, RootScale, appearance, travel);
-            PlaceWindowsNotification(bounds);
-
-            // Enters the way the notification settings say, sliding from the edge it sits against by default
-            BeginCachedAnimation();
-            Voidstrap.UI.NotificationStyle.Play(NotificationRoot, RootTranslate, RootScale, appearance, travel, true);
             int intro = Voidstrap.UI.NotificationStyle.Length(appearance, true);
+            // Sliding moves the window itself, nothing inside it is redrawn while it moves
+            bool nativeIntro = intro > 0 && appearance.Intro == NotificationMotion.Slide && Voidstrap.UI.NativeSlide.Supported;
+            if (nativeIntro)
+            {
+                Voidstrap.UI.NotificationStyle.Stop(NotificationRoot, RootTranslate, RootScale);
+                NotificationRoot.Opacity = 1;
+                RootTranslate.X = RootTranslate.Y = 0;
+                RootScale.ScaleX = RootScale.ScaleY = 1;
+                PlaceWindowsNotification(bounds);
+                if (!SlideWindow(appearance, true, intro))
+                    nativeIntro = false;
+            }
+            if (!nativeIntro)
+            {
+                Voidstrap.UI.NotificationStyle.PrepareIntro(NotificationRoot, RootTranslate, RootScale, appearance, travel);
+                PlaceWindowsNotification(bounds);
+                // Enters the way the notification settings say
+                BeginCachedAnimation();
+                Voidstrap.UI.NotificationStyle.Play(NotificationRoot, RootTranslate, RootScale, appearance, travel, true);
+            }
             if (intro > 0)
                 await Task.Delay(intro, token);
             EndCachedAnimation();
+            _nativeSlide?.Stop(true);
             _hoverTimer?.Start();
             double duration = appearance.SafeSecondsOnScreen;
             double remaining = duration;
@@ -102,9 +120,12 @@ public partial class NotificationWindow
             DismissButton.BeginAnimation(OpacityProperty, null);
             DismissButton.Opacity = 0;
             DismissButton.IsHitTestVisible = false;
-            BeginCachedAnimation();
-            Voidstrap.UI.NotificationStyle.Play(NotificationRoot, RootTranslate, RootScale, appearance, new Size(Math.Max(1, ActualWidth), Math.Max(1, ActualHeight)), false);
             int outro = Voidstrap.UI.NotificationStyle.Length(appearance, false);
+            if (!(outro > 0 && appearance.Outro == NotificationMotion.Slide && Voidstrap.UI.NativeSlide.Supported && SlideWindow(appearance, false, outro)))
+            {
+                BeginCachedAnimation();
+                Voidstrap.UI.NotificationStyle.Play(NotificationRoot, RootTranslate, RootScale, appearance, new Size(Math.Max(1, ActualWidth), Math.Max(1, ActualHeight)), false);
+            }
             if (outro > 0)
                 await Task.Delay(outro, token);
         }
@@ -119,6 +140,7 @@ public partial class NotificationWindow
             {
                 EndCachedAnimation();
                 Hide();
+                _nativeSlide?.Stop(true);
                 NotificationRoot.BeginAnimation(OpacityProperty, null);
                 RootTranslate.BeginAnimation(TranslateTransform.XProperty, null);
                 RootTranslate.BeginAnimation(TranslateTransform.YProperty, null);
@@ -141,8 +163,9 @@ public partial class NotificationWindow
         NotificationBorder.Opacity = 1;
         NotificationRoot.Margin = Voidstrap.UI.NotificationStyle.ShadowMargins(appearance);
         NotificationRoot.ClipToBounds = false;
-        NotificationBorder.Effect = Voidstrap.UI.NotificationStyle.Shadow;
+        NotificationBorder.Effect = null;
         NotificationBorder.CornerRadius = Voidstrap.UI.NotificationStyle.Corners(appearance);
+        Voidstrap.UI.NotificationStyle.FillShadow(CardShadow, NotificationBorder.CornerRadius);
         NotificationBorder.BorderThickness = Voidstrap.UI.NotificationStyle.Borders(appearance);
         NotificationBorder.Background = Voidstrap.UI.NotificationStyle.Background(this, appearance);
         // Laid out at the normal width and scaled as a whole, so everything keeps its proportions
@@ -340,7 +363,29 @@ public partial class NotificationWindow
             Hide();
             return;
         }
+        // Mid slide the window is where the slide put it, it is placed again once it has arrived
+        if (_nativeSlide?.IsRunning == true)
+            return;
         PlaceWindowsNotification(bounds);
+    }
+
+    // Slides the window in from, or out to, the edge nearest to it, clipped to the game so it comes out of the edge
+    private bool SlideWindow(NotificationAppearance appearance, bool intro, int milliseconds)
+    {
+        _nativeSlide ??= new Voidstrap.UI.NativeSlide(this);
+        if (_nativeSlide.CurrentPosition() is not Point home || _area.Width <= 0 || _area.Height <= 0)
+            return false;
+        DpiScale dpi = VisualTreeHelper.GetDpi(this);
+        double width = Math.Ceiling(ActualWidth * dpi.DpiScaleX);
+        double height = Math.Ceiling(ActualHeight * dpi.DpiScaleY);
+        Vector direction = Voidstrap.UI.NotificationStyle.SlideDirection(appearance);
+        Point away = direction.Y > 0 ? new Point(home.X, _area.Y + _area.Height)
+            : direction.Y < 0 ? new Point(home.X, _area.Y - height)
+            : direction.X > 0 ? new Point(_area.X + _area.Width, home.Y)
+            : new Point(_area.X - width, home.Y);
+        return intro
+            ? _nativeSlide.Start(away, home, _area, TimeSpan.FromMilliseconds(milliseconds), true, null)
+            : _nativeSlide.Start(home, away, _area, TimeSpan.FromMilliseconds(milliseconds), false, null);
     }
 
     private void PlaceWindowsNotification(RobloxWindowRect bounds)
@@ -371,6 +416,7 @@ public partial class NotificationWindow
             right = (int)Math.Round(work.Right * dpi.DpiScaleX);
             bottom = (int)Math.Round(work.Bottom * dpi.DpiScaleY);
         }
+        _area = new Int32Rect(areaLeft, areaTop, Math.Max(0, right - areaLeft), Math.Max(0, bottom - areaTop));
         NotificationAppearance appearance = _appearance ?? Voidstrap.UI.NotificationStyle.Current;
         double gap = appearance.SafeEdgeSpacing * dpi.DpiScaleX;
         // Placed by the card, then the window is pushed out by the shadow room around it

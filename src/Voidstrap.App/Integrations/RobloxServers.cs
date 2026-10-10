@@ -154,8 +154,8 @@ public static class RobloxServers
 							JobId = ReadString(item, "id"),
 							AccessCode = accessCode,
 							OwnerName = owner,
-							Playing = item.TryGetProperty("playing", out JsonElement playing) && playing.TryGetInt32(out int count) ? count : tokens.Length,
-							MaxPlayers = item.TryGetProperty("maxPlayers", out JsonElement max) && max.TryGetInt32(out int maximum) ? maximum : 0,
+							Playing = item.TryGetProperty("playing", out JsonElement playing) && playing.ValueKind == JsonValueKind.Number && playing.TryGetInt32(out int count) ? count : tokens.Length,
+							MaxPlayers = item.TryGetProperty("maxPlayers", out JsonElement max) && max.ValueKind == JsonValueKind.Number && max.TryGetInt32(out int maximum) ? maximum : 0,
 							PlayerTokens = tokens
 						});
 					}

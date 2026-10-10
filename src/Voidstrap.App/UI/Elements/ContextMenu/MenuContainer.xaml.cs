@@ -349,6 +349,9 @@ public partial class MenuContainer : WpfUiWindow
                 _sessionDock?.ShowTool("notifications", "Settings",
                     () => new SessionNotificationSettings(CurrentGameIcon.Source, _activityWatcher?.Data?.GameName, SendTestNotification));
                 break;
+            case "profile":
+                _sessionDock?.ShowTool("profile", "Profile", () => new SessionProfileWindow(_activityWatcher?.InGame == true ? _activityWatcher.Data.GameName : null));
+                break;
             case "invite":
                 InviteDeeplinkMenuItem_Click(this, new RoutedEventArgs());
                 break;

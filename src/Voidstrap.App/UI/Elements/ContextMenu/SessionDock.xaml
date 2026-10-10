@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-        Title="Voidstrap Session" Width="1120" Height="96" WindowStyle="None"
+        Title="Voidstrap Session" Width="1060" Height="96" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize"
         ShowInTaskbar="False" ShowActivated="False" Topmost="True"
         WindowStartupLocation="Manual" UseLayoutRounding="True"
@@ -74,9 +74,6 @@
   </Window.Resources>
   <!-- The margins are room for the pill's shadow; the transparent area around the pill lets clicks through to the game -->
   <Grid x:Name="DockRoot" Margin="20,18,20,14">
-    <Grid.RenderTransform>
-      <TranslateTransform x:Name="DockShift" />
-    </Grid.RenderTransform>
     <Grid.RowDefinitions>
       <RowDefinition Height="*" />
       <RowDefinition Height="64" />
@@ -165,8 +162,15 @@
         </StackPanel>
       </Grid>
     </Border>
-    <!-- The dock itself: a pill with a thin outline and a soft shadow, -->
-    <Border x:Name="Pill" Grid.Row="1" HorizontalAlignment="Center" Padding="14,0,12,0" CornerRadius="32" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+    <!-- The dock itself: a pill with a thin outline and a soft shadow. The shadow is a few faint rings drawn once,
+         a blur effect had to be recalculated on every change and made the dock and the game stutter -->
+    <Grid Grid.Row="1" HorizontalAlignment="Center">
+      <Border Margin="-2,-1,-2,-3" CornerRadius="34" Background="#12000000" />
+      <Border Margin="-4,-2,-4,-6" CornerRadius="36" Background="#0F000000" />
+      <Border Margin="-6,-3,-6,-8" CornerRadius="38" Background="#0C000000" />
+      <Border Margin="-9,-5,-9,-11" CornerRadius="41" Background="#09000000" />
+      <Border Margin="-12,-7,-12,-14" CornerRadius="44" Background="#06000000" />
+    <Border x:Name="Pill" Padding="14,0,12,0" CornerRadius="32" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
             BorderBrush="#33FFFFFF" BorderThickness="1" SnapsToDevicePixels="True">
       <Grid VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
@@ -180,7 +184,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- You: avatar, display name and username -->
-        <Border x:Name="ProfileCard" Style="{StaticResource DockCard}" ToolTip="Friends in this server" MouseLeftButtonUp="GameCard_MouseLeftButtonUp">
+        <Border x:Name="ProfileCard" Style="{StaticResource DockCard}" ToolTip="Your profile" MouseLeftButtonUp="ProfileCard_MouseLeftButtonUp">
           <StackPanel Orientation="Horizontal">
             <Grid Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center">
               <Ellipse Fill="{DynamicResource ControlFillColorSecondaryBrush}" />
@@ -274,5 +278,6 @@
         </StackPanel>
       </Grid>
     </Border>
+    </Grid>
   </Grid>
 </Window>
