@@ -40,11 +40,15 @@ jobs:
       - run: dotnet build src/ClientServer/ClientServer.slnx -c Debug -warnaserror
 
   macos:
-    runs-on: macos-latest
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
-        rid: [osx-x64, osx-arm64]
+        include:
+          - rid: osx-x64
+            runner: macos-15-intel
+          - rid: osx-arm64
+            runner: macos-15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -53,6 +57,66 @@ jobs:
         with:
           dotnet-version: 10.0.x
       - run: dotnet build src/Voidstrap.Desktop.MacOS/Voidstrap.Desktop.MacOS.csproj -c Debug -warnaserror
+      - name: Check native keyboard APIs and layout mapping
+        shell: bash
+        run: |
+          probe="$RUNNER_TEMP/keyboard-check"
+          mkdir -p "$probe"
+          cat > "$probe/KeyboardCheck.csproj" <<EOF
+          <Project Sdk="Microsoft.NET.Sdk">
+            <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><AllowUnsafeBlocks>true</AllowUnsafeBlocks><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+            <ItemGroup><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSKeyboardLayout.cs" /><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSInputAccess.cs" /><Compile Include="$PWD/src/Voidstrap.App/KeyRouting/MacSnapTap.cs" /><Compile Include="$PWD/src/Voidstrap.App/KeyRouting/OpposingKeyResolver.cs" /></ItemGroup>
+          </Project>
+          EOF
+          cat > "$probe/Program.cs" <<'EOF'
+          using System.Runtime.InteropServices;
+          using Voidstrap.Platform.MacOS;
+          ushort[] fallback = new ushort[256];
+          Array.Fill(fallback, ushort.MaxValue);
+          using var layout = new MacOSKeyboardLayout();
+          if (!layout.Refresh(fallback, 0, out ushort[] keys)) throw new Exception("No keyboard layout data");
+          for (int key = 'A'; key <= 'Z'; key++)
+              if (keys[key] >= 128) throw new Exception("Missing letter mapping: " + (char)key);
+          if (layout.Refresh(fallback, 0, out _)) throw new Exception("Unchanged layout was rebuilt");
+          Console.WriteLine("Native keyboard layout resolved all letters. Accessibility access: " + MacOSInputAccess.IsGranted);
+          string root = "/System/Library/Frameworks/";
+          foreach (var entry in new[] {
+              (root + "CoreGraphics.framework/CoreGraphics", "CGEventTapCreate CGEventTapEnable CGEventTapIsEnabled CGEventGetIntegerValueField CGEventSetIntegerValueField CGEventSetType CGEventCreateCopy CGEventCreateKeyboardEvent CGEventTapPostEvent CGEventPostToPid CGEventSourceKeyState CGRequestPostEventAccess"),
+              (root + "CoreFoundation.framework/CoreFoundation", "CFMachPortCreateRunLoopSource CFMachPortInvalidate CFStringCreateWithCString CFRunLoopGetCurrent CFRunLoopAddSource CFRunLoopRemoveSource CFRunLoopRunInMode CFRelease"),
+              (root + "Carbon.framework/Carbon", "IsSecureEventInputEnabled"),
+              ("/usr/lib/libproc.dylib", "proc_pidpath") })
+          {
+              nint library = NativeLibrary.Load(entry.Item1);
+              try { foreach (string symbol in entry.Item2.Split(' ')) _ = NativeLibrary.GetExport(library, symbol); }
+              finally { NativeLibrary.Free(library); }
+          }
+          Console.WriteLine("All native keyboard filter APIs are available");
+          bool granted = MacOSInputAccess.IsGranted;
+          bool started = Voidstrap.KeyRouting.MacSnapTap.Start([[65, 68]], Voidstrap.KeyRouting.OpposingKeyPriority.LastPressed);
+          if (started != granted) throw new Exception("Keyboard filter startup did not match Accessibility access");
+          if (started)
+          {
+              await Task.Delay(750);
+              var field = typeof(Voidstrap.KeyRouting.MacSnapTap).GetField("_session", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
+              object session = field.GetValue(null)!;
+              if (!(bool)session.GetType().GetField("Ready")!.GetValue(session)!) throw new Exception("Native keyboard filter stopped during initialization");
+          }
+          Voidstrap.KeyRouting.MacSnapTap.Stop();
+          Voidstrap.KeyRouting.MacSnapTap.Stop();
+          if (typeof(Voidstrap.KeyRouting.MacSnapTap).GetField("_session", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!.GetValue(null) != null) throw new Exception("Native keyboard filter did not finish cleanup");
+          Console.WriteLine(started ? "Native keyboard filter started and stopped successfully" : "Keyboard filter correctly refused missing Accessibility access");
+          namespace Voidstrap
+          {
+              internal static class App { internal static Log Logger { get; } = new(); }
+              internal sealed class Log { internal void WriteLine(string name, string message) => Console.WriteLine(name + ": " + message); }
+          }
+          namespace Voidstrap.Platform.MacOS
+          {
+              internal static class MacOSProcessPolicy { internal static int FrontmostProcessId() => 0; }
+          }
+          namespace System.Windows.Forms { public enum Keys { None = 0 } }
+          EOF
+          dotnet run --project "$probe/KeyboardCheck.csproj" -warnaserror
       - run: dotnet publish src/Voidstrap.Cross/Voidstrap.Cross.csproj -c Release -r ${{ matrix.rid }} --self-contained true -o artifacts/${{ matrix.rid }}
       - run: bash build/Packaging/MacOS/package.sh ${{ matrix.rid }} "" artifacts/package-${{ matrix.rid }}
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a

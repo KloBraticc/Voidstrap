@@ -100,6 +100,11 @@ public static unsafe partial class SnapTapHook
 
 	public static bool Start()
 	{
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			Config macConfig = ReadConfig();
+			return MacSnapTap.Start(macConfig.Groups, macConfig.Priority);
+		}
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
 			Config linuxConfig = ReadConfig();
@@ -156,6 +161,11 @@ public static unsafe partial class SnapTapHook
 
 	public static void Stop()
 	{
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			MacSnapTap.Stop();
+			return;
+		}
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
 			LinuxSnapTap.Stop();

@@ -72,12 +72,16 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	private bool _enableSnapTapAfterGrant;
 
-	public Visibility SnapTapAccessVisibility => Voidstrap.Utility.Platform.IsLinux && _snapTapAccess != Voidstrap.Platform.Linux.LinuxInputAccessState.Ready
+	public Visibility SnapTapAccessVisibility => Voidstrap.Utility.Platform.IsMacOS || (Voidstrap.Utility.Platform.IsLinux && _snapTapAccess != Voidstrap.Platform.Linux.LinuxInputAccessState.Ready)
 		? Visibility.Visible
 		: Visibility.Collapsed;
 
-	public string SnapTapAccessDescription => Voidstrap.KeyRouting.LinuxSnapTap.DescribeAccess(_snapTapAccess)
-		+ ". Grant access once so Snap Tap can take over the keyboard while Sober is focused.";
+	public string SnapTapAccessDescription => Voidstrap.Utility.Platform.IsMacOS
+		? Voidstrap.Platform.MacOS.MacOSInputAccess.IsGranted
+			? "Accessibility access is ready. Snap Tap only changes paired keys while Roblox is focused."
+			: "Enable Voidstrap in System Settings, Privacy & Security, Accessibility. Return here and enable Snap Tap after granting access."
+		: Voidstrap.KeyRouting.LinuxSnapTap.DescribeAccess(_snapTapAccess)
+			+ ". Grant access once so Snap Tap can take over the keyboard while Sober is focused.";
 
 	public bool DuckRobloxAudio
 	{
@@ -192,6 +196,12 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 					return;
 				}
 			}
+			if (value && Voidstrap.Utility.Platform.IsMacOS && !Voidstrap.Platform.MacOS.MacOSInputAccess.IsGranted)
+			{
+				OnPropertyChanged(nameof(SnapTapEnabled));
+				GrantSnapTapAccessCommand.Execute(null);
+				return;
+			}
 			App.Settings.Prop.SnapTapEnabled = value;
 			App.Settings.Save();
 			SettingChangeResult result = SettingChangeNotifier.Try(
@@ -214,6 +224,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 				App.Settings.Save();
 			}
 			OnPropertyChanged(nameof(SnapTapEnabled));
+			OnPropertyChanged(nameof(SnapTapAccessDescription));
 		}
 	}
 
@@ -770,6 +781,15 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	private async Task GrantSnapTapAccessAsync()
 	{
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			SettingChangeNotifier.Try(
+				"IntegrationsViewModel::GrantSnapTapAccess",
+				"Accessibility settings could not be opened.",
+				Voidstrap.Platform.MacOS.MacOSInputAccess.Request);
+			OnPropertyChanged(nameof(SnapTapAccessDescription));
+			return;
+		}
 		Voidstrap.Platform.Linux.LinuxInputAccessResult result = await Voidstrap.Platform.Linux.LinuxInputAccess.GrantAsync();
 		RefreshSnapTapAccess();
 		bool enable = _enableSnapTapAfterGrant;

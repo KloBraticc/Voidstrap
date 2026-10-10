@@ -24,7 +24,7 @@ namespace Voidstrap.Utility
 
         public static bool SupportsOverlays => IsWindows;
         public static bool SupportsWebBrowser => IsWindows;
-        public static bool SupportsInputHooks => IsWindows || IsLinux;
+        public static bool SupportsInputHooks => IsWindows || IsLinux || IsMacOS;
         public static bool SupportsRegistry => IsWindows;
         public static bool SupportsTrayIcon => IsWindows || IsLinux || IsMacOS;
         public static bool SupportsAudioDucking => IsWindows || IsLinux;
