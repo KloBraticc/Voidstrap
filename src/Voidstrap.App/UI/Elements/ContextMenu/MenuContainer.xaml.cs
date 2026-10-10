@@ -308,8 +308,8 @@ public partial class MenuContainer : WpfUiWindow
                 _sessionDock?.ShowTool("music", "Music", () => new MusicPlayer(_activityWatcher));
                 break;
             case "adjustments":
-                (DataContext as MenuContainerViewModel)?.SyncAdjustmentsFromSettings();
-                _sessionDock?.ShowTool("adjustments", "Screen adjustments", () => new LinuxAdjustmentsWindow(DataContext));
+                _sessionDock?.ShowTool("notifications", "Notification settings",
+                    () => new SessionNotificationSettings(CurrentGameIcon.Source, _activityWatcher?.Data?.GameName));
                 break;
             case "invite":
                 InviteDeeplinkMenuItem_Click(this, new RoutedEventArgs());

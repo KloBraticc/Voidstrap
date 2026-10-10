@@ -262,6 +262,8 @@ namespace Voidstrap.Models.Persistable
 
         public bool SessionDockEnabled { get; set; } = true;
 
+        public NotificationAppearance NotificationAppearance { get; set; } = new();
+
         public bool Ps4ButtonsEnabled { get; set; } = false;
 
         public bool ModPacksNoticeShown { get; set; } = false;

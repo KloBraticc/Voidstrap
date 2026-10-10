@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Voidstrap.Extensions;
 using Voidstrap.Integrations.Overlays;
+using Voidstrap.Models.Persistable;
 
 namespace Voidstrap.UI.Elements.Overlay;
 
@@ -17,7 +18,7 @@ public partial class NotificationWindow
     private bool _presenting;
     private bool _dismissRequested;
     private IntPtr _notificationHandle;
-    private bool _cornerLayout;
+    private NotificationAppearance? _appearance;
     private bool _hovered;
     private bool _dismissHot;
     private bool _buttonWasDown;
@@ -50,11 +51,13 @@ public partial class NotificationWindow
             _presenting = true;
             SetImage(item.Image);
             SetText(item.Text, item.Flag);
+            NotificationAppearance appearance = Voidstrap.UI.NotificationStyle.Current;
+            _appearance = appearance;
             NotificationBorder.BeginAnimation(OpacityProperty, null);
             RootTranslate.BeginAnimation(TranslateTransform.XProperty, null);
             RootTranslate.BeginAnimation(TranslateTransform.YProperty, null);
             ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
-            UseCornerLayout();
+            UseCornerLayout(appearance);
             NotificationBorder.Opacity = 0;
             RootTranslate.X = 0;
             ProgressScale.ScaleX = 1;
@@ -70,17 +73,19 @@ public partial class NotificationWindow
             _notificationHandle = new WindowInteropHelper(this).Handle;
             OverlayDiagnostics.RegisterOverlayHandle(_notificationHandle);
             UpdateLayout();
-            double slide = Math.Max(1, ActualHeight);
-            RootTranslate.Y = slide;
+            double height = Math.Max(1, ActualHeight);
+            Voidstrap.UI.NotificationStyle.PrepareIntro(NotificationBorder, RootTranslate, RootScale, appearance, height);
             PlaceWindowsNotification(bounds);
 
-            // Starts below the bottom edge and slides up into the corner
+            // Enters the way the notification settings say, sliding from the edge it sits against by default
             BeginCachedAnimation();
-            AnimateNotification(0, 1, slide, 0, IntroMs, new CubicEase { EasingMode = EasingMode.EaseOut });
-            await Task.Delay(IntroMs, token);
+            Voidstrap.UI.NotificationStyle.Play(NotificationBorder, RootTranslate, RootScale, appearance, height, true);
+            int intro = Voidstrap.UI.NotificationStyle.Length(appearance, true);
+            if (intro > 0)
+                await Task.Delay(intro, token);
             EndCachedAnimation();
             _hoverTimer?.Start();
-            double duration = double.IsFinite(item.Duration) ? Math.Clamp(item.Duration, 0.5, 60) : 8;
+            double duration = appearance.SafeSecondsOnScreen;
             double remaining = duration;
             Stopwatch clock = Stopwatch.StartNew();
             double previous = clock.Elapsed.TotalSeconds;
@@ -88,7 +93,7 @@ public partial class NotificationWindow
             {
                 await Task.Delay(100, token);
                 double now = clock.Elapsed.TotalSeconds;
-                if (!_hovered)
+                if (!_hovered || !appearance.PauseWhileHovered)
                     remaining -= now - previous;
                 previous = now;
             }
@@ -98,8 +103,10 @@ public partial class NotificationWindow
             DismissButton.Opacity = 0;
             DismissButton.IsHitTestVisible = false;
             BeginCachedAnimation();
-            AnimateNotification(NotificationBorder.Opacity, 0, RootTranslate.Y, Math.Max(1, ActualHeight), OutroMs, new SineEase { EasingMode = EasingMode.EaseInOut });
-            await Task.Delay(OutroMs, token);
+            Voidstrap.UI.NotificationStyle.Play(NotificationBorder, RootTranslate, RootScale, appearance, Math.Max(1, ActualHeight), false);
+            int outro = Voidstrap.UI.NotificationStyle.Length(appearance, false);
+            if (outro > 0)
+                await Task.Delay(outro, token);
         }
         catch (OperationCanceledException)
         {
@@ -115,6 +122,9 @@ public partial class NotificationWindow
                 NotificationBorder.BeginAnimation(OpacityProperty, null);
                 RootTranslate.BeginAnimation(TranslateTransform.XProperty, null);
                 RootTranslate.BeginAnimation(TranslateTransform.YProperty, null);
+                RootScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+                RootScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+                RootScale.ScaleX = RootScale.ScaleY = 1;
                 NotificationBorder.Opacity = 0;
                 SetImage(null);
                 NotificationTitle.Text = string.Empty;
@@ -123,41 +133,16 @@ public partial class NotificationWindow
         }
     }
 
-    private void UseCornerLayout()
+    // Applied on every notification so changes in the notification settings show on the next one
+    private void UseCornerLayout(NotificationAppearance appearance)
     {
-        if (_cornerLayout)
-            return;
-        _cornerLayout = true;
-        // Flush with the bottom and right edges: no outer margin, square corners where it touches the edges,
-        // and the height follows the content so there is no empty strip under the card
         NotificationRoot.Margin = new Thickness(0);
         NotificationRoot.ClipToBounds = true;
-        NotificationBorder.CornerRadius = new CornerRadius(8, 0, 0, 0);
-        NotificationBorder.BorderThickness = new Thickness(1, 1, 0, 0);
+        NotificationBorder.CornerRadius = Voidstrap.UI.NotificationStyle.Corners(appearance);
+        NotificationBorder.BorderThickness = Voidstrap.UI.NotificationStyle.Borders(appearance);
+        NotificationBorder.Background = Voidstrap.UI.NotificationStyle.Background(this, appearance);
+        Width = appearance.SafeWidth;
         SizeToContent = SizeToContent.Height;
-    }
-
-    private const int IntroMs = 260;
-
-    private void AnimateNotification(double fromOpacity, double toOpacity, double fromY, double toY, int milliseconds, IEasingFunction ease)
-    {
-        NotificationBorder.BeginAnimation(OpacityProperty, null);
-        RootTranslate.BeginAnimation(TranslateTransform.YProperty, null);
-        if (!SystemParameters.ClientAreaAnimation)
-        {
-            NotificationBorder.Opacity = toOpacity;
-            RootTranslate.Y = toY;
-            return;
-        }
-        Duration duration = new(TimeSpan.FromMilliseconds(milliseconds));
-        DoubleAnimation fade = new(fromOpacity, toOpacity, duration) { EasingFunction = ease };
-        DoubleAnimation slide = new(fromY, toY, duration) { EasingFunction = ease };
-        Timeline.SetDesiredFrameRate(fade, AnimationFrameRate);
-        Timeline.SetDesiredFrameRate(slide, AnimationFrameRate);
-        fade.Freeze();
-        slide.Freeze();
-        NotificationBorder.BeginAnimation(OpacityProperty, fade);
-        RootTranslate.BeginAnimation(TranslateTransform.YProperty, slide);
     }
 
     // While the card only moves and fades, it is rendered once into a bitmap at the screen's scale
@@ -195,7 +180,7 @@ public partial class NotificationWindow
         if (hovered != _hovered)
         {
             _hovered = hovered;
-            SetDismissVisible(hovered, true);
+            SetDismissVisible(hovered && (_appearance?.CloseButtonOnHover ?? true), true);
             if (!_hoverSeen || !hovered)
             {
                 _hoverSeen = true;
@@ -204,7 +189,7 @@ public partial class NotificationWindow
                     : "Pointer left the notification, hiding the close button");
             }
         }
-        bool hot = hovered && DismissContains(window, cursor);
+        bool hot = hovered && (_appearance?.CloseButtonOnHover ?? true) && DismissContains(window, cursor);
         if (hot != _dismissHot)
         {
             _dismissHot = hot;
@@ -366,8 +351,14 @@ public partial class NotificationWindow
             right = (int)Math.Round(work.Right * dpi.DpiScaleX);
             bottom = (int)Math.Round(work.Bottom * dpi.DpiScaleY);
         }
-        int left = Math.Max(areaLeft, right - width);
-        int top = Math.Max(areaTop, bottom - height);
+        NotificationAppearance appearance = _appearance ?? Voidstrap.UI.NotificationStyle.Current;
+        int spacing = (int)Math.Round(appearance.SafeEdgeSpacing * dpi.DpiScaleX);
+        int left = appearance.IsLeft ? areaLeft + spacing
+            : appearance.IsRight ? right - width - spacing
+            : areaLeft + (right - areaLeft - width) / 2;
+        int top = appearance.IsTop ? areaTop + spacing : bottom - height - spacing;
+        left = Math.Max(areaLeft, left);
+        top = Math.Max(areaTop, top);
         Interop.SetWindowPos(handle, IntPtr.Zero, left, top, 0, 0,
             Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_NOACTIVATE);
     }
