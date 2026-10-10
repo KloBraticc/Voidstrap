@@ -2,22 +2,35 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:converters="clr-namespace:Voidstrap.UI.Converters"
+        x:Name="BrowserWindow"
         Title="Browser" Width="960" Height="640" MinWidth="520" MinHeight="360"
         WindowStyle="None" AllowsTransparency="False" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
         ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True"
         WindowStartupLocation="Manual" FontFamily="Segoe UI">
   <Window.Resources>
+    <converters:ContrastForegroundConverter x:Key="ContrastForeground" />
+    <BooleanToVisibilityConverter x:Key="Visible" />
+
+    <Style x:Key="Glyph" TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Flat square-ish buttons with no ripple, they only tint on hover -->
     <Style x:Key="NavButton" TargetType="Button">
-      <Setter Property="Width" Value="34" />
-      <Setter Property="Height" Value="34" />
-      <Setter Property="Margin" Value="0,0,4,0" />
+      <Setter Property="Width" Value="32" />
+      <Setter Property="Height" Value="32" />
+      <Setter Property="Margin" Value="0,0,2,0" />
       <Setter Property="Cursor" Value="Hand" />
       <Setter Property="Focusable" Value="False" />
       <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Button">
-            <Border x:Name="Chip" CornerRadius="6" Background="Transparent">
+            <Border x:Name="Chip" CornerRadius="7" Background="Transparent">
               <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <ControlTemplate.Triggers>
@@ -35,125 +48,71 @@
         </Setter.Value>
       </Setter>
     </Style>
-    <Style x:Key="Glyph" TargetType="TextBlock">
-      <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
-      <Setter Property="FontSize" Value="14" />
-      <Setter Property="HorizontalAlignment" Value="Center" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-    </Style>
-  </Window.Resources>
 
-  <Grid x:Name="BrowserRoot" PreviewKeyDown="BrowserRoot_PreviewKeyDown">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="2" />
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
+    <!-- The card shown when hovering a tab: its title and site, with how much was blocked or that it is sleeping -->
+    <ToolTip x:Key="TabHoverCard" x:Shared="False" Placement="Bottom" HasDropShadow="False">
+      <ToolTip.Template>
+        <ControlTemplate TargetType="ToolTip">
+          <Border MaxWidth="300" Padding="12,9" CornerRadius="10" BorderThickness="1"
+                  Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+            <StackPanel>
+              <TextBlock Text="{Binding Title}" FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap" MaxHeight="40" TextTrimming="CharacterEllipsis"
+                         Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+              <TextBlock Text="{Binding HoverText}" FontSize="12" Margin="0,3,0,0" TextTrimming="CharacterEllipsis"
+                         Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+          </Border>
+        </ControlTemplate>
+      </ToolTip.Template>
+    </ToolTip>
 
-    <!-- Tabs: icon, title and close; middle click closes, the plus opens a new one -->
-    <Grid Margin="8,6,8,0">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="Auto" />
-      </Grid.ColumnDefinitions>
-      <ScrollViewer x:Name="TabScroller" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled"
-                    PreviewMouseWheel="TabScroller_PreviewMouseWheel">
-        <ItemsControl x:Name="TabStrip" Focusable="False">
-          <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-              <StackPanel Orientation="Horizontal" />
-            </ItemsPanelTemplate>
-          </ItemsControl.ItemsPanel>
-          <ItemsControl.ItemTemplate>
-            <DataTemplate>
-              <Border x:Name="Chip" Width="190" Height="32" Margin="0,0,4,0" CornerRadius="8" Padding="10,0,4,0" Cursor="Hand"
-                      ToolTip="{Binding Title}" MouseLeftButtonUp="Tab_Click" MouseDown="Tab_MouseDown">
-                <Border.Style>
-                  <Style TargetType="Border">
-                    <Setter Property="Background" Value="Transparent" />
-                    <Style.Triggers>
-                      <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
-                      </Trigger>
-                      <DataTrigger Binding="{Binding IsActive}" Value="True">
-                        <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
-                      </DataTrigger>
-                    </Style.Triggers>
-                  </Style>
-                </Border.Style>
-                <Grid>
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                  </Grid.ColumnDefinitions>
-                  <Grid Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center">
-                    <TextBlock Text="&#xE774;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"
-                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                    <Image Source="{Binding Icon}" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" />
-                  </Grid>
-                  <TextBlock Grid.Column="1" Text="{Binding Title}" FontSize="12.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
-                             Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-                  <Button Grid.Column="2" Width="24" Height="24" Margin="4,0,0,0" Style="{StaticResource NavButton}" ToolTip="Close tab (Ctrl+W)"
-                          Click="CloseTab_Click">
-                    <TextBlock Text="&#xE711;" Style="{StaticResource Glyph}" FontSize="10" />
-                  </Button>
-                  <!-- The open tab is underlined in the accent colour -->
-                  <Border Grid.ColumnSpan="3" Height="2" Margin="4,0,4,0" VerticalAlignment="Bottom" CornerRadius="1"
-                          Background="{DynamicResource SystemAccentColorPrimaryBrush}">
-                    <Border.Style>
-                      <Style TargetType="Border">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                          <DataTrigger Binding="{Binding IsActive}" Value="True">
-                            <Setter Property="Visibility" Value="Visible" />
-                          </DataTrigger>
-                        </Style.Triggers>
-                      </Style>
-                    </Border.Style>
-                  </Border>
-                </Grid>
-              </Border>
-            </DataTemplate>
-          </ItemsControl.ItemTemplate>
-        </ItemsControl>
-      </ScrollViewer>
-      <Button Grid.Column="1" Style="{StaticResource NavButton}" Width="32" Height="32" Margin="4,0,0,0" ToolTip="New tab (Ctrl+T)" Click="NewTab_Click">
-        <TextBlock Text="&#xE710;" Style="{StaticResource Glyph}" />
-      </Button>
-    </Grid>
+    <!-- What sits at the start of a tab: a spinner while loading, otherwise the site's icon -->
+    <DataTemplate x:Key="TabIcon">
+      <Grid Width="16" Height="16">
+        <TextBlock x:Name="Fallback" Text="&#xE774;" Style="{StaticResource Glyph}" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        <Image x:Name="Favicon" Source="{Binding Icon}" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" />
+        <Path x:Name="Spinner" Width="14" Height="14" Stretch="None" Visibility="Collapsed" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+              Stroke="{DynamicResource SystemAccentColorPrimaryBrush}" Data="M 7,1 A 6,6 0 1 1 1,7" RenderTransformOrigin="0.5,0.5">
+          <Path.RenderTransform>
+            <RotateTransform />
+          </Path.RenderTransform>
+        </Path>
+      </Grid>
+      <DataTemplate.Triggers>
+        <DataTrigger Binding="{Binding IsNewTab}" Value="True">
+          <Setter TargetName="Fallback" Property="Text" Value="&#xE710;" />
+        </DataTrigger>
+        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+          <Setter TargetName="Spinner" Property="Visibility" Value="Visible" />
+          <Setter TargetName="Favicon" Property="Visibility" Value="Collapsed" />
+          <Setter TargetName="Fallback" Property="Visibility" Value="Collapsed" />
+          <DataTrigger.EnterActions>
+            <BeginStoryboard x:Name="Spin">
+              <Storyboard Timeline.DesiredFrameRate="30">
+                <DoubleAnimation Storyboard.TargetName="Spinner" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" From="0" To="360" Duration="0:0:0.8" RepeatBehavior="Forever" />
+              </Storyboard>
+            </BeginStoryboard>
+          </DataTrigger.EnterActions>
+          <DataTrigger.ExitActions>
+            <StopStoryboard BeginStoryboardName="Spin" />
+          </DataTrigger.ExitActions>
+        </DataTrigger>
+      </DataTemplate.Triggers>
+    </DataTemplate>
 
-    <!-- Our own toolbar: back, forward, reload, home and one box that searches Google or opens an address -->
-    <Grid Grid.Row="1" Margin="10,6,10,8">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
-      <StackPanel Orientation="Horizontal">
-        <Button x:Name="BackButton" Style="{StaticResource NavButton}" ToolTip="Back (Alt+Left)" Click="Back_Click" IsEnabled="False">
-          <TextBlock Text="&#xE72B;" Style="{StaticResource Glyph}" />
-        </Button>
-        <Button x:Name="ForwardButton" Style="{StaticResource NavButton}" ToolTip="Forward (Alt+Right)" Click="Forward_Click" IsEnabled="False">
-          <TextBlock Text="&#xE72A;" Style="{StaticResource Glyph}" />
-        </Button>
-        <Button x:Name="ReloadButton" Style="{StaticResource NavButton}" ToolTip="Reload (F5)" Click="Reload_Click">
-          <TextBlock x:Name="ReloadGlyph" Text="&#xE72C;" Style="{StaticResource Glyph}" />
-        </Button>
-        <Button Style="{StaticResource NavButton}" ToolTip="Google" Click="Home_Click" Margin="0,0,8,0">
-          <TextBlock Text="&#xE80F;" Style="{StaticResource Glyph}" />
-        </Button>
-      </StackPanel>
-      <!-- The search box gets an accent outline while typing in it -->
-      <Border Grid.Column="1" Height="34" CornerRadius="17" Padding="14,0,8,0" BorderThickness="1"
-              Background="{DynamicResource ControlFillColorDefaultBrush}">
+    <!-- A tab in the strip along the top. Tabs share the width and shrink as more open, pinned ones are just their icon -->
+    <DataTemplate x:Key="HorizontalTab">
+      <Border x:Name="Chip" Height="32" Margin="0,0,3,0" CornerRadius="8" Padding="9,0,3,0" Cursor="Hand" BorderThickness="1"
+              Background="Transparent" BorderBrush="Transparent" ToolTip="{StaticResource TabHoverCard}"
+              ToolTipService.InitialShowDelay="450" ToolTipService.BetweenShowDelay="80"
+              PreviewMouseDown="Tab_MouseDown" PreviewMouseMove="Tab_MouseMove" PreviewMouseUp="Tab_MouseUp" MouseRightButtonUp="Tab_RightClick">
         <Border.Style>
           <Style TargetType="Border">
-            <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
+            <Setter Property="Width" Value="{Binding TabWidth, RelativeSource={RelativeSource AncestorType=Window}}" />
             <Style.Triggers>
-              <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
-              </Trigger>
+              <DataTrigger Binding="{Binding IsPinned}" Value="True">
+                <Setter Property="Width" Value="40" />
+              </DataTrigger>
             </Style.Triggers>
           </Style>
         </Border.Style>
@@ -162,40 +121,468 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <TextBlock x:Name="AddressIcon" Text="&#xE721;" Style="{StaticResource Glyph}" FontSize="13" Margin="0,0,10,0"
-                     Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-          <Grid Grid.Column="1">
-            <TextBlock x:Name="Placeholder" Text="Search Google or type an address" FontSize="14" VerticalAlignment="Center"
-                       IsHitTestVisible="False" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-            <TextBox x:Name="AddressBox" FontSize="14" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" Padding="0"
-                     SelectionBrush="{DynamicResource SystemAccentColorPrimaryBrush}" SelectionOpacity="0.55"
-                     CaretBrush="{DynamicResource TextFillColorPrimaryBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                     KeyDown="AddressBox_KeyDown" GotKeyboardFocus="AddressBox_GotFocus" LostKeyboardFocus="AddressBox_LostFocus"
-                     TextChanged="AddressBox_TextChanged" />
-          </Grid>
-          <Button x:Name="GoButton" Grid.Column="2" Style="{StaticResource NavButton}" Width="28" Height="28" Margin="4,0,0,0"
-                  ToolTip="Go" Click="Go_Click">
-            <TextBlock Text="&#xE72A;" Style="{StaticResource Glyph}" FontSize="12" />
+          <ContentPresenter x:Name="IconHost" Content="{Binding}" ContentTemplate="{StaticResource TabIcon}" Margin="0,0,8,0" VerticalAlignment="Center" />
+          <TextBlock x:Name="TitleText" Grid.Column="1" Text="{Binding Title}" FontSize="12.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                     Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+          <Button x:Name="AudioButton" Grid.Column="2" Width="22" Height="22" Style="{StaticResource NavButton}" Click="Mute_Click"
+                  Visibility="{Binding ShowsAudio, Converter={StaticResource Visible}}" ToolTip="Mute or unmute this tab">
+            <TextBlock Text="{Binding AudioGlyph}" Style="{StaticResource Glyph}" FontSize="11" />
+          </Button>
+          <Button x:Name="CloseButton" Grid.Column="3" Width="22" Height="22" Style="{StaticResource NavButton}" ToolTip="Close tab (Ctrl+W)"
+                  Click="CloseTab_Click" Visibility="Hidden">
+            <TextBlock Text="&#xE711;" Style="{StaticResource Glyph}" FontSize="9" />
+          </Button>
+          <!-- The open tab is underlined in the accent colour -->
+          <Border x:Name="Underline" Grid.ColumnSpan="4" Height="2" Width="18" Margin="0,0,6,0" VerticalAlignment="Bottom" HorizontalAlignment="Center" CornerRadius="1"
+                  Background="{DynamicResource SystemAccentColorPrimaryBrush}" Visibility="Collapsed" />
+        </Grid>
+      </Border>
+      <DataTemplate.Triggers>
+        <Trigger SourceName="Chip" Property="IsMouseOver" Value="True">
+          <Setter TargetName="Chip" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+          <Setter TargetName="CloseButton" Property="Visibility" Value="Visible" />
+        </Trigger>
+        <DataTrigger Binding="{Binding IsShown}" Value="True">
+          <Setter TargetName="Chip" Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+          <Setter TargetName="Chip" Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+        </DataTrigger>
+        <DataTrigger Binding="{Binding IsActive}" Value="True">
+          <Setter TargetName="Chip" Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+          <Setter TargetName="Chip" Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+          <Setter TargetName="CloseButton" Property="Visibility" Value="Visible" />
+          <Setter TargetName="Underline" Property="Visibility" Value="Visible" />
+        </DataTrigger>
+        <DataTrigger Binding="{Binding IsHibernated}" Value="True">
+          <Setter TargetName="IconHost" Property="Opacity" Value="0.5" />
+          <Setter TargetName="TitleText" Property="Opacity" Value="0.6" />
+        </DataTrigger>
+        <DataTrigger Binding="{Binding IsPinned}" Value="True">
+          <Setter TargetName="Chip" Property="Padding" Value="0" />
+          <Setter TargetName="IconHost" Property="Margin" Value="0" />
+          <Setter TargetName="IconHost" Property="Grid.ColumnSpan" Value="4" />
+          <Setter TargetName="IconHost" Property="HorizontalAlignment" Value="Center" />
+          <Setter TargetName="TitleText" Property="Visibility" Value="Collapsed" />
+          <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed" />
+          <Setter TargetName="AudioButton" Property="Visibility" Value="Collapsed" />
+          <Setter TargetName="Underline" Property="Margin" Value="0" />
+        </DataTrigger>
+      </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <!-- A tab in the side list: full title, site underneath -->
+    <DataTemplate x:Key="VerticalTab">
+      <Border x:Name="Chip" Height="36" Margin="0,0,0,2" CornerRadius="8" Padding="10,0,3,0" Cursor="Hand" BorderThickness="1"
+              Background="Transparent" BorderBrush="Transparent" ToolTip="{StaticResource TabHoverCard}"
+              ToolTipService.InitialShowDelay="650" ToolTipService.Placement="Right"
+              PreviewMouseDown="Tab_MouseDown" PreviewMouseMove="Tab_MouseMove" PreviewMouseUp="Tab_MouseUp" MouseRightButtonUp="Tab_RightClick">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Border x:Name="Marker" Width="3" Height="16" Margin="-9,0,6,0" CornerRadius="1.5" Background="{DynamicResource SystemAccentColorPrimaryBrush}" Visibility="Hidden" />
+          <ContentPresenter x:Name="IconHost" Content="{Binding}" ContentTemplate="{StaticResource TabIcon}" Margin="0,0,10,0" VerticalAlignment="Center" />
+          <TextBlock x:Name="TitleText" Grid.Column="1" Text="{Binding Title}" FontSize="12.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                     Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+          <Button Grid.Column="2" Width="24" Height="24" Style="{StaticResource NavButton}" Click="Mute_Click"
+                  Visibility="{Binding ShowsAudio, Converter={StaticResource Visible}}" ToolTip="Mute or unmute this tab">
+            <TextBlock Text="{Binding AudioGlyph}" Style="{StaticResource Glyph}" FontSize="11" />
+          </Button>
+          <Button x:Name="CloseButton" Grid.Column="3" Width="24" Height="24" Style="{StaticResource NavButton}" ToolTip="Close tab (Ctrl+W)"
+                  Click="CloseTab_Click" Visibility="Hidden">
+            <TextBlock Text="&#xE711;" Style="{StaticResource Glyph}" FontSize="9" />
           </Button>
         </Grid>
       </Border>
+      <DataTemplate.Triggers>
+        <Trigger SourceName="Chip" Property="IsMouseOver" Value="True">
+          <Setter TargetName="Chip" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+          <Setter TargetName="CloseButton" Property="Visibility" Value="Visible" />
+        </Trigger>
+        <DataTrigger Binding="{Binding IsShown}" Value="True">
+          <Setter TargetName="Chip" Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+          <Setter TargetName="Chip" Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+        </DataTrigger>
+        <DataTrigger Binding="{Binding IsActive}" Value="True">
+          <Setter TargetName="Chip" Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+          <Setter TargetName="Chip" Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+          <Setter TargetName="CloseButton" Property="Visibility" Value="Visible" />
+          <Setter TargetName="Marker" Property="Visibility" Value="Visible" />
+        </DataTrigger>
+        <DataTrigger Binding="{Binding IsHibernated}" Value="True">
+          <Setter TargetName="IconHost" Property="Opacity" Value="0.5" />
+          <Setter TargetName="TitleText" Property="Opacity" Value="0.6" />
+        </DataTrigger>
+      </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <!-- A suggestion under the address bar -->
+    <DataTemplate x:Key="SuggestionRow">
+      <Border x:Name="Row" Height="34" CornerRadius="7" Padding="10,0" Background="Transparent" Cursor="Hand"
+              PreviewMouseLeftButtonDown="Suggestion_Click">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding Glyph}" Style="{StaticResource Glyph}" FontSize="13" Width="18" Margin="0,0,10,0"
+                     Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <TextBlock Grid.Column="1" Text="{Binding Text}" FontSize="13.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="420"
+                     Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+          <TextBlock Grid.Column="2" Text="{Binding Detail}" FontSize="12.5" Margin="10,0,0,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                     Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+        </Grid>
+      </Border>
+      <DataTemplate.Triggers>
+        <Trigger SourceName="Row" Property="IsMouseOver" Value="True">
+          <Setter TargetName="Row" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+        </Trigger>
+        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+          <Setter TargetName="Row" Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+        </DataTrigger>
+      </DataTemplate.Triggers>
+    </DataTemplate>
+  </Window.Resources>
+
+  <Grid x:Name="BrowserRoot" PreviewKeyDown="BrowserRoot_PreviewKeyDown">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <!-- Vertical tabs: a side list, new tab at the top -->
+    <Border x:Name="SideBar" Width="216" Visibility="Collapsed" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+      <Grid Margin="6,6,6,6">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Button Height="34" HorizontalAlignment="Stretch" Width="Auto" Style="{StaticResource NavButton}" Margin="0,0,0,6" Click="NewTab_Click" ToolTip="New tab (Ctrl+T)">
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,0">
+            <TextBlock Text="&#xE710;" Style="{StaticResource Glyph}" FontSize="12" Margin="0,0,10,0" />
+            <TextBlock Text="New tab" FontSize="13" VerticalAlignment="Center" />
+          </StackPanel>
+        </Button>
+        <ScrollViewer x:Name="TabListScroller" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <ItemsControl x:Name="TabList" Focusable="False" ItemTemplate="{StaticResource VerticalTab}" />
+        </ScrollViewer>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Column="1">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="3" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+
+      <!-- Everything above the page; zen mode tucks it away until the mouse touches the top edge -->
+      <Grid x:Name="Chrome" MouseLeave="Chrome_MouseLeave">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Tabs along the top, with new tab and tab search at the end -->
+        <Grid x:Name="TabRow" Margin="6,6,6,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <ScrollViewer x:Name="TabScroller" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled"
+                        PreviewMouseWheel="TabScroller_PreviewMouseWheel" SizeChanged="TabScroller_SizeChanged">
+            <ItemsControl x:Name="TabStrip" Focusable="False" ItemTemplate="{StaticResource HorizontalTab}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+            </ItemsControl>
+          </ScrollViewer>
+          <StackPanel x:Name="TabRowButtons" Grid.Column="1" Orientation="Horizontal" Margin="2,0,0,0">
+            <Button Style="{StaticResource NavButton}" ToolTip="New tab (Ctrl+T)" Click="NewTab_Click">
+              <TextBlock Text="&#xE710;" Style="{StaticResource Glyph}" FontSize="13" />
+            </Button>
+          </StackPanel>
+        </Grid>
+
+        <!-- Back, forward, reload, the address bar and the browser's own buttons -->
+        <Grid x:Name="Toolbar" Grid.Row="1" Margin="6,5,6,6">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition x:Name="AddressColumn" Width="*" />
+            <ColumnDefinition x:Name="CompactTabsColumn" Width="0" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel Orientation="Horizontal" Margin="0,0,4,0">
+            <Button x:Name="BackButton" Style="{StaticResource NavButton}" ToolTip="Back (Alt+Left)" Click="Back_Click" IsEnabled="False">
+              <TextBlock Text="&#xE72B;" Style="{StaticResource Glyph}" />
+            </Button>
+            <Button x:Name="ForwardButton" Style="{StaticResource NavButton}" ToolTip="Forward (Alt+Right)" Click="Forward_Click" IsEnabled="False">
+              <TextBlock Text="&#xE72A;" Style="{StaticResource Glyph}" />
+            </Button>
+            <Button x:Name="ReloadButton" Style="{StaticResource NavButton}" ToolTip="Reload (F5)" Click="Reload_Click">
+              <TextBlock x:Name="ReloadGlyph" Text="&#xE72C;" Style="{StaticResource Glyph}" />
+            </Button>
+          </StackPanel>
+
+          <!-- The address bar: searches, opens addresses, takes !bangs and shows suggestions as you type -->
+          <Border x:Name="AddressFrame" Grid.Column="1" Height="34" CornerRadius="9" Padding="10,0,4,0" BorderThickness="1"
+                  Background="{DynamicResource ControlFillColorDefaultBrush}">
+            <Border.Style>
+              <Style TargetType="Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
+                <Style.Triggers>
+                  <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </Border.Style>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock x:Name="AddressIcon" Text="&#xE721;" Style="{StaticResource Glyph}" FontSize="12.5" Margin="2,0,9,0"
+                         Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+              <!-- A typed !bang turns into a chip naming the site that will be searched -->
+              <Border x:Name="KeywordChip" Grid.Column="1" Height="24" CornerRadius="6" Padding="8,0" Margin="0,0,8,0" Visibility="Collapsed"
+                      Background="{DynamicResource SystemAccentColorPrimaryBrush}">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock x:Name="KeywordGlyph" Text="&#xE721;" Style="{StaticResource Glyph}" FontSize="11" Margin="0,0,6,0"
+                             Foreground="{Binding Background, ElementName=KeywordChip, Converter={StaticResource ContrastForeground}}" />
+                  <TextBlock x:Name="KeywordText" FontSize="12.5" FontWeight="SemiBold" VerticalAlignment="Center"
+                             Foreground="{Binding Background, ElementName=KeywordChip, Converter={StaticResource ContrastForeground}}" />
+                </StackPanel>
+              </Border>
+              <Grid Grid.Column="2">
+                <TextBlock x:Name="Placeholder" Text="Search or type an address" FontSize="13.5" VerticalAlignment="Center"
+                           IsHitTestVisible="False" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBox x:Name="AddressBox" FontSize="13.5" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" Padding="0"
+                         SelectionBrush="{DynamicResource SystemAccentColorPrimaryBrush}" SelectionOpacity="0.55"
+                         CaretBrush="{DynamicResource TextFillColorPrimaryBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                         PreviewKeyDown="AddressBox_PreviewKeyDown" GotKeyboardFocus="AddressBox_GotFocus" LostKeyboardFocus="AddressBox_LostFocus"
+                         TextChanged="AddressBox_TextChanged" />
+              </Grid>
+              <!-- Page zoom, only when it is not 100%; clicking puts it back -->
+              <Button x:Name="ZoomPill" Grid.Column="3" Height="24" Width="Auto" Margin="4,0,0,0" Style="{StaticResource NavButton}" Visibility="Collapsed"
+                      ToolTip="Reset zoom (Ctrl+0)" Click="ZoomReset_Click">
+                <Border Padding="7,0" CornerRadius="6" Background="{DynamicResource SubtleFillColorSecondaryBrush}" Height="22">
+                  <TextBlock x:Name="ZoomText" FontSize="11.5" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                </Border>
+              </Button>
+              <Button x:Name="CopyLinkButton" Grid.Column="4" Width="26" Height="26" Style="{StaticResource NavButton}" ToolTip="Copy link (Ctrl+Shift+C)" Click="CopyLink_Click">
+                <TextBlock Text="&#xE8C8;" Style="{StaticResource Glyph}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+              </Button>
+            </Grid>
+          </Border>
+
+          <StackPanel x:Name="ActionButtons" Grid.Column="3" Orientation="Horizontal" Margin="4,0,0,0">
+            <!-- Ads and trackers blocked on this page; clicking allows them on this site -->
+            <Button x:Name="ShieldButton" Style="{StaticResource NavButton}" Click="Shield_Click">
+              <Grid>
+                <TextBlock x:Name="ShieldGlyph" Text="&#xEA18;" Style="{StaticResource Glyph}" />
+                <Border x:Name="ShieldBadge" MinWidth="14" Height="13" CornerRadius="6.5" Padding="3,0" Margin="0,-10,-12,0"
+                        HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed"
+                        Background="{DynamicResource SystemAccentColorPrimaryBrush}">
+                  <TextBlock x:Name="ShieldCount" FontSize="9" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"
+                             Foreground="{Binding Background, ElementName=ShieldBadge, Converter={StaticResource ContrastForeground}}" />
+                </Border>
+              </Grid>
+            </Button>
+            <Button x:Name="TabSearchButton" Style="{StaticResource NavButton}" ToolTip="Search tabs (Ctrl+Shift+A)" Click="TabSearch_Click">
+              <TextBlock Text="&#xE70D;" Style="{StaticResource Glyph}" FontSize="12" />
+            </Button>
+            <Button x:Name="SplitButton" Style="{StaticResource NavButton}" ToolTip="Split view (Ctrl+Shift+S)" Click="Split_Click">
+              <TextBlock x:Name="SplitGlyph" Text="&#xE8A0;" Style="{StaticResource Glyph}" />
+            </Button>
+            <Button x:Name="MenuButton" Style="{StaticResource NavButton}" ToolTip="Browser menu" Click="Menu_Click">
+              <TextBlock Text="&#xE712;" Style="{StaticResource Glyph}" />
+            </Button>
+          </StackPanel>
+        </Grid>
+
+        <!-- Find on the page: every match is highlighted, Enter and Shift+Enter step through them -->
+        <Border x:Name="FindBar" Grid.Row="2" Visibility="Collapsed" Height="34" Margin="6,0,6,6" CornerRadius="9" Padding="10,0,4,0" BorderThickness="1"
+                Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource SystemAccentColorPrimaryBrush}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="&#xE721;" Style="{StaticResource Glyph}" FontSize="12.5" Margin="2,0,9,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <Grid Grid.Column="1">
+              <TextBlock x:Name="FindHint" Text="Find on page" FontSize="13.5" VerticalAlignment="Center" IsHitTestVisible="False"
+                         Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              <TextBox x:Name="FindBox" FontSize="13.5" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" Padding="0"
+                       SelectionBrush="{DynamicResource SystemAccentColorPrimaryBrush}" SelectionOpacity="0.55"
+                       CaretBrush="{DynamicResource TextFillColorPrimaryBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                       TextChanged="FindBox_TextChanged" PreviewKeyDown="FindBox_PreviewKeyDown" />
+            </Grid>
+            <TextBlock x:Name="FindCount" Grid.Column="2" FontSize="12.5" Margin="8,0,6,0" VerticalAlignment="Center"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <Button Grid.Column="3" Width="26" Height="26" Style="{StaticResource NavButton}" ToolTip="Previous (Shift+Enter)" Click="FindPrevious_Click">
+              <TextBlock Text="&#xE70E;" Style="{StaticResource Glyph}" FontSize="11" />
+            </Button>
+            <Button Grid.Column="4" Width="26" Height="26" Style="{StaticResource NavButton}" ToolTip="Next (Enter)" Click="FindNext_Click">
+              <TextBlock Text="&#xE70D;" Style="{StaticResource Glyph}" FontSize="11" />
+            </Button>
+            <Button Grid.Column="5" Width="26" Height="26" Style="{StaticResource NavButton}" ToolTip="Close (Esc)" Click="FindClose_Click">
+              <TextBlock Text="&#xE711;" Style="{StaticResource Glyph}" FontSize="10" />
+            </Button>
+          </Grid>
+        </Border>
+      </Grid>
+
+      <!-- The loading line, which is also where the mouse brings the toolbar back in zen mode -->
+      <Grid x:Name="ProgressRow" Grid.Row="1" Background="Transparent" MouseEnter="ProgressRow_MouseEnter">
+        <Border x:Name="ProgressTrack" Height="1" VerticalAlignment="Bottom" Background="{DynamicResource CardStrokeColorDefaultBrush}" />
+        <Rectangle x:Name="ProgressFill" Height="2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Opacity="0" RadiusX="1" RadiusY="1"
+                   Fill="{DynamicResource SystemAccentColorPrimaryBrush}" RenderTransformOrigin="0,0.5" IsHitTestVisible="False">
+          <Rectangle.RenderTransform>
+            <ScaleTransform x:Name="ProgressScale" ScaleX="0" />
+          </Rectangle.RenderTransform>
+        </Rectangle>
+      </Grid>
+
+      <!-- The pages; in split view two sit side by side with a grip between them -->
+      <Grid x:Name="ViewHost" Grid.Row="2" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition x:Name="LeftPane" Width="*" />
+          <ColumnDefinition x:Name="SplitGap" Width="0" />
+          <ColumnDefinition x:Name="RightPane" Width="0" />
+        </Grid.ColumnDefinitions>
+        <GridSplitter x:Name="SplitGrip" Grid.Column="1" Width="6" HorizontalAlignment="Stretch" Visibility="Collapsed" Background="Transparent"
+                      ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" Focusable="False" />
+
+        <!-- Our own new tab page, drawn by Voidstrap so an empty tab costs nothing -->
+        <ScrollViewer x:Name="NewTabPage" Grid.ColumnSpan="3" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="24,40,24,40" MaxWidth="640">
+            <TextBlock x:Name="NewTabClock" FontSize="52" FontWeight="Light" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+            <TextBlock x:Name="NewTabGreeting" FontSize="15" Margin="0,2,0,22" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <Border Height="46" Width="520" MaxWidth="560" CornerRadius="23" Padding="18,0" Cursor="IBeam" BorderThickness="1"
+                    Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
+                    MouseLeftButtonUp="NewTabSearch_Click">
+              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="&#xE721;" Style="{StaticResource Glyph}" Margin="0,0,12,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <TextBlock x:Name="NewTabSearchText" Text="Search or type an address" FontSize="14.5" VerticalAlignment="Center"
+                           Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              </StackPanel>
+            </Border>
+            <ItemsControl x:Name="NewTabTiles" Margin="0,26,0,0" HorizontalAlignment="Center" Focusable="False">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel HorizontalAlignment="Center" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Border x:Name="Tile" Width="88" Margin="4" Padding="0,10,0,8" CornerRadius="10" Cursor="Hand" Background="Transparent"
+                          ToolTip="{Binding Url}" MouseLeftButtonUp="Tile_Click" MouseRightButtonUp="Tile_RightClick">
+                    <StackPanel>
+                      <!-- A square monogram in the site's own colour, its icon over it once loaded -->
+                      <Grid Width="48" Height="48" HorizontalAlignment="Center">
+                        <Border CornerRadius="12" Background="{Binding Tint}">
+                          <TextBlock Text="{Binding Letter}" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+                        </Border>
+                        <Border CornerRadius="12" Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}"
+                                Visibility="{Binding HasIcon, Converter={StaticResource Visible}}">
+                          <Image Source="{Binding Icon}" Width="26" Height="26" RenderOptions.BitmapScalingMode="HighQuality" />
+                        </Border>
+                      </Grid>
+                      <TextBlock Text="{Binding Name}" FontSize="12" Margin="4,8,4,0" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis"
+                                 Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                    </StackPanel>
+                  </Border>
+                  <DataTemplate.Triggers>
+                    <Trigger SourceName="Tile" Property="IsMouseOver" Value="True">
+                      <Setter TargetName="Tile" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                    </Trigger>
+                  </DataTemplate.Triggers>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Margin="0,22,0,0" HorizontalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                       Text="Tip: start with !yt, !w, !rbx or !dev to search that site straight away" />
+          </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel x:Name="Message" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420">
+          <TextBlock x:Name="MessageTitle" Text="Starting the browser" FontSize="16" FontWeight="SemiBold" TextAlignment="Center"
+                     Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+          <TextBlock x:Name="MessageText" Margin="0,6,0,0" FontSize="13" TextAlignment="Center" TextWrapping="Wrap"
+                     Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <ui:Button x:Name="RetryButton" Margin="0,14,0,0" HorizontalAlignment="Center" Content="Try again" Appearance="Secondary"
+                     Visibility="Collapsed" Click="Retry_Click" />
+        </StackPanel>
+      </Grid>
     </Grid>
 
-    <!-- A thin bar that fills while a page loads -->
-    <Border Grid.Row="2" Background="{DynamicResource CardStrokeColorDefaultBrush}" />
-    <ProgressBar x:Name="LoadingBar" Grid.Row="2" Height="2" IsIndeterminate="True" Visibility="Collapsed" BorderThickness="0"
-                 Foreground="{DynamicResource SystemAccentColorPrimaryBrush}" />
+    <!-- Suggestions under the address bar -->
+    <Popup x:Name="SuggestPopup" PlacementTarget="{Binding ElementName=AddressFrame}" Placement="Bottom" VerticalOffset="4"
+           AllowsTransparency="True" StaysOpen="True" Focusable="False" PopupAnimation="None">
+      <Border Padding="5" CornerRadius="11" BorderThickness="1" Margin="0,0,0,8"
+              Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+        <ItemsControl x:Name="SuggestList" Focusable="False" ItemTemplate="{StaticResource SuggestionRow}" />
+      </Border>
+    </Popup>
 
-    <Grid x:Name="ViewHost" Grid.Row="3" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}">
-      <StackPanel x:Name="Message" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420">
-        <TextBlock x:Name="MessageTitle" Text="Starting the browser" FontSize="16" FontWeight="SemiBold" TextAlignment="Center"
-                   Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-        <TextBlock x:Name="MessageText" Margin="0,6,0,0" FontSize="13" TextAlignment="Center" TextWrapping="Wrap"
-                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-        <ui:Button x:Name="RetryButton" Margin="0,14,0,0" HorizontalAlignment="Center" Content="Try again" Appearance="Secondary"
-                   Visibility="Collapsed" Click="Retry_Click" />
-      </StackPanel>
-    </Grid>
+    <!-- Search tabs: every open tab and the ones closed recently -->
+    <Popup x:Name="TabSearchPopup" PlacementTarget="{Binding ElementName=TabSearchButton}" Placement="Bottom" VerticalOffset="4"
+           AllowsTransparency="True" StaysOpen="False" PopupAnimation="None" Closed="TabSearchPopup_Closed">
+      <Border Width="360" Padding="6" CornerRadius="11" BorderThickness="1" Margin="0,0,0,8"
+              Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+        <StackPanel>
+          <Border Height="32" CornerRadius="8" Padding="10,0" Margin="0,0,0,6" Background="{DynamicResource ControlFillColorDefaultBrush}">
+            <Grid>
+              <TextBlock x:Name="TabSearchHint" Text="Search tabs" FontSize="13" VerticalAlignment="Center" IsHitTestVisible="False"
+                         Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              <TextBox x:Name="TabSearchBox" FontSize="13" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" Padding="0"
+                       SelectionBrush="{DynamicResource SystemAccentColorPrimaryBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                       CaretBrush="{DynamicResource TextFillColorPrimaryBrush}" TextChanged="TabSearchBox_TextChanged" PreviewKeyDown="TabSearchBox_PreviewKeyDown" />
+            </Grid>
+          </Border>
+          <ScrollViewer MaxHeight="380" VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="TabSearchList" Focusable="False" ItemTemplate="{StaticResource SuggestionRow}" />
+          </ScrollViewer>
+        </StackPanel>
+      </Border>
+    </Popup>
+
+    <!-- Where a hovered link goes, in a small pill at the bottom corner -->
+    <Popup x:Name="StatusPopup" PlacementTarget="{Binding ElementName=ViewHost}" Placement="Relative" AllowsTransparency="True"
+           StaysOpen="True" IsHitTestVisible="False" Focusable="False" PopupAnimation="None">
+      <Border MaxWidth="520" Padding="10,5" CornerRadius="14" BorderThickness="1" Margin="0,0,4,4"
+              Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+        <TextBlock x:Name="StatusText" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+      </Border>
+    </Popup>
+
+    <!-- Short confirmations, like a copied link -->
+    <Popup x:Name="ToastPopup" PlacementTarget="{Binding ElementName=ViewHost}" Placement="Relative" AllowsTransparency="True"
+           StaysOpen="True" IsHitTestVisible="False" Focusable="False" PopupAnimation="Fade">
+      <Border Padding="14,8" CornerRadius="10" BorderThickness="1" Margin="0,0,4,4"
+              Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+        <StackPanel Orientation="Horizontal">
+          <TextBlock x:Name="ToastGlyph" Text="&#xE73E;" Style="{StaticResource Glyph}" FontSize="12" Margin="0,0,9,0"
+                     Foreground="{DynamicResource SystemAccentColorPrimaryBrush}" />
+          <TextBlock x:Name="ToastText" FontSize="13" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+        </StackPanel>
+      </Border>
+    </Popup>
   </Grid>
 </Window>
