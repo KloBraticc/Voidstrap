@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-        Title="Voidstrap Session" Width="770" Height="70" WindowStyle="None"
+        Title="Voidstrap Session" Width="1120" Height="96" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize"
         ShowInTaskbar="False" ShowActivated="False" Topmost="True"
         WindowStartupLocation="Manual" UseLayoutRounding="True"
@@ -17,6 +17,52 @@
       <Setter Property="Border.CornerRadius" Value="8" />
       <Setter Property="Focusable" Value="False" />
     </Style>
+    <Style x:Key="DockIcon" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+      <Setter Property="Margin" Value="2,0" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Width" Value="36" />
+      <Setter Property="Height" Value="36" />
+      <Setter Property="MinWidth" Value="36" />
+      <Setter Property="Appearance" Value="Transparent" />
+      <Setter Property="Border.CornerRadius" Value="18" />
+      <Setter Property="Focusable" Value="False" />
+    </Style>
+    <Style x:Key="DockRound" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Width" Value="40" />
+      <Setter Property="Height" Value="40" />
+      <Setter Property="MinWidth" Value="40" />
+      <Setter Property="Appearance" Value="Secondary" />
+      <Setter Property="Border.CornerRadius" Value="20" />
+      <Setter Property="Focusable" Value="False" />
+    </Style>
+    <Style x:Key="DockDivider" TargetType="Rectangle">
+      <Setter Property="Width" Value="1" />
+      <Setter Property="Height" Value="30" />
+      <Setter Property="Margin" Value="10,0" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Fill" Value="#2EFFFFFF" />
+    </Style>
+    <Style x:Key="DockChevron" TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
+      <Setter Property="FontSize" Value="9" />
+      <Setter Property="Margin" Value="12,0,2,0" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+    <!-- A section that reads as one big button: highlights on hover -->
+    <Style x:Key="DockCard" TargetType="Border">
+      <Setter Property="Padding" Value="8,6" />
+      <Setter Property="CornerRadius" Value="26" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Background" Value="Transparent" />
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+          <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+        </Trigger>
+      </Style.Triggers>
+    </Style>
     <!-- Windows' own icon font, present on every Windows 10 and 11 install, so every icon always renders -->
     <Style x:Key="DockGlyph" TargetType="TextBlock">
       <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
@@ -26,13 +72,14 @@
       <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
     </Style>
   </Window.Resources>
-  <Grid x:Name="DockRoot" Margin="0" RenderTransformOrigin="0.5,1">
+  <!-- The margins are room for the pill's shadow; the transparent area around the pill lets clicks through to the game -->
+  <Grid x:Name="DockRoot" Margin="20,18,20,14">
     <Grid.RenderTransform>
-      <ScaleTransform x:Name="DockScale" />
+      <TranslateTransform x:Name="DockShift" />
     </Grid.RenderTransform>
     <Grid.RowDefinitions>
       <RowDefinition Height="*" />
-      <RowDefinition Height="70" />
+      <RowDefinition Height="64" />
     </Grid.RowDefinitions>
     <Border x:Name="ServerPanel" Grid.Row="0" Visibility="Collapsed" Margin="0,0,0,12" CornerRadius="12"
             Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
@@ -118,38 +165,55 @@
         </StackPanel>
       </Grid>
     </Border>
-    <Border Grid.Row="1" Padding="14,10" CornerRadius="14" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
-            BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1" SnapsToDevicePixels="True">
-      <Grid>
+    <!-- The dock itself: a pill with a thin outline and a soft shadow, -->
+    <Border x:Name="Pill" Grid.Row="1" HorizontalAlignment="Center" Padding="14,0,12,0" CornerRadius="32" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+            BorderBrush="#33FFFFFF" BorderThickness="1" SnapsToDevicePixels="True">
+      <Grid VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <!-- Clickable like an option card, opens the game and server popout above the dock -->
-        <Border x:Name="GameCard" Grid.ColumnSpan="2" Margin="-6,-4,8,-4" Padding="6,4" CornerRadius="8" Cursor="Hand"
-                ToolTip="Game and server" MouseLeftButtonUp="GameCard_MouseLeftButtonUp">
-          <Border.Style>
-            <Style TargetType="Border">
-              <Setter Property="Background" Value="Transparent" />
-              <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                  <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
-                </Trigger>
-              </Style.Triggers>
-            </Style>
-          </Border.Style>
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Image x:Name="GamePicture" Width="42" Height="42" Margin="0,0,12,0"
-                   Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
-            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0">
+
+        <!-- You: avatar, display name and username -->
+        <Border x:Name="ProfileCard" Style="{StaticResource DockCard}" ToolTip="Friends in this server" MouseLeftButtonUp="GameCard_MouseLeftButtonUp">
+          <StackPanel Orientation="Horizontal">
+            <Grid Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center">
+              <Ellipse Fill="{DynamicResource ControlFillColorSecondaryBrush}" />
+              <TextBlock x:Name="ProfileFallback" Text="&#xE77B;" Style="{StaticResource DockGlyph}" FontSize="16"
+                         Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+              <Ellipse>
+                <Ellipse.Fill>
+                  <ImageBrush x:Name="ProfileAvatar" Stretch="UniformToFill" />
+                </Ellipse.Fill>
+              </Ellipse>
+            </Grid>
+            <StackPanel VerticalAlignment="Center" MaxWidth="150">
+              <TextBlock x:Name="ProfileName" Text="Roblox" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+              <TextBlock x:Name="ProfileHandle" Margin="0,1,0,0" FontSize="12" TextTrimming="CharacterEllipsis"
+                         Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Signed out" />
+            </StackPanel>
+            <TextBlock x:Name="ProfileChevron" Text="&#xE70E;" Style="{StaticResource DockChevron}" />
+          </StackPanel>
+        </Border>
+        <Rectangle Grid.Column="1" Style="{StaticResource DockDivider}" />
+
+        <!-- The game, clickable like an option card, opens the game and server popout above the dock -->
+        <Border x:Name="GameCard" Grid.Column="2" Style="{StaticResource DockCard}" ToolTip="Game and server" MouseLeftButtonUp="GameCard_MouseLeftButtonUp">
+          <StackPanel Orientation="Horizontal">
+            <Image x:Name="GamePicture" Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center"
+                   Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality">
+              <Image.Clip>
+                <RectangleGeometry Rect="0,0,40,40" RadiusX="8" RadiusY="8" />
+              </Image.Clip>
+            </Image>
+            <StackPanel VerticalAlignment="Center" MaxWidth="250">
               <TextBlock x:Name="GameTitle" Text="Roblox" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-              <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+              <StackPanel Margin="0,1,0,0" Orientation="Horizontal">
                 <!-- Live server indicator: a dot with a short heartbeat every couple of seconds -->
                 <Grid Width="10" Height="10" Margin="0,0,6,0" VerticalAlignment="Center">
                   <Ellipse x:Name="PulseRing" Width="8" Height="8" Opacity="0" RenderTransformOrigin="0.5,0.5"
@@ -165,37 +229,47 @@
                     </Ellipse.RenderTransform>
                   </Ellipse>
                 </Grid>
-                <TextBlock x:Name="SessionTimes" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextTrimming="CharacterEllipsis" />
+                <TextBlock x:Name="SessionTimes" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                  <Run Text="Session " /><Run x:Name="SessionClock" Text="0:00" FontFamily="Cascadia Mono, Consolas" Foreground="{DynamicResource SystemFillColorSuccessBrush}" /><Run Text="  ·  Server " /><Run x:Name="ServerClock" Text="--" FontFamily="Cascadia Mono, Consolas" Foreground="{DynamicResource SystemFillColorSuccessBrush}" />
+                </TextBlock>
               </StackPanel>
             </StackPanel>
-            <TextBlock x:Name="GameChevron" Grid.Column="2" Text="&#xE70E;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="10"
-                       VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-          </Grid>
+            <TextBlock x:Name="GameChevron" Text="&#xE70E;" Style="{StaticResource DockChevron}" />
+          </StackPanel>
         </Border>
-        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-          <ui:Button ToolTip="Browse servers" Tag="browser" Click="OnAction" Style="{StaticResource DockAction}">
-            <TextBlock Text="&#xE774;" Style="{StaticResource DockGlyph}" />
-          </ui:Button>
-          <ui:Button ToolTip="Games" Tag="games" Click="OnAction" Style="{StaticResource DockAction}">
-            <TextBlock Text="&#xE7FC;" Style="{StaticResource DockGlyph}" />
-          </ui:Button>
-          <ui:Button ToolTip="Chat with friends" Tag="chat" Click="OnAction" Style="{StaticResource DockAction}">
+        <Rectangle Grid.Column="3" Style="{StaticResource DockDivider}" HorizontalAlignment="Left" />
+
+        <StackPanel x:Name="ActionButtons" Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center" Margin="6,0,6,0">
+          <ui:Button ToolTip="Chat with friends" Tag="chat" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE8BD;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Game history" Tag="history" Click="OnAction" Style="{StaticResource DockAction}">
+          <ui:Button ToolTip="Servers" Tag="browser" Click="OnAction" Style="{StaticResource DockIcon}">
+            <TextBlock Text="&#xE753;" Style="{StaticResource DockGlyph}" />
+          </ui:Button>
+          <ui:Button ToolTip="Games" Tag="games" Click="OnAction" Style="{StaticResource DockIcon}">
+            <TextBlock Text="&#xE7FC;" Style="{StaticResource DockGlyph}" />
+          </ui:Button>
+          <ui:Button ToolTip="Game history" Tag="history" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE81C;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Music" Tag="music" Click="OnAction" Style="{StaticResource DockAction}">
+          <ui:Button ToolTip="Music" Tag="music" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE8D6;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Settings" Tag="adjustments" Click="OnAction" Style="{StaticResource DockAction}">
+          <ui:Button ToolTip="Server details" Tag="details" Click="OnAction" Style="{StaticResource DockIcon}">
+            <TextBlock Text="&#xE968;" Style="{StaticResource DockGlyph}" />
+          </ui:Button>
+          <ui:Button ToolTip="Settings" Tag="adjustments" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE713;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Copy invite" Tag="invite" Click="OnAction" Style="{StaticResource DockAction}">
+        </StackPanel>
+        <Rectangle Grid.Column="5" Style="{StaticResource DockDivider}" />
+
+        <StackPanel Grid.Column="6" Orientation="Horizontal" VerticalAlignment="Center">
+          <ui:Button ToolTip="Copy invite link" Tag="invite" Click="OnAction" Style="{StaticResource DockRound}">
             <TextBlock Text="&#xE71B;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Close, Ctrl+Alt+L" Tag="close" Click="OnAction" Style="{StaticResource DockAction}">
-            <TextBlock Text="&#xE711;" Style="{StaticResource DockGlyph}" />
+          <ui:Button ToolTip="Close, Ctrl+Alt+L" Tag="close" Click="OnAction" Style="{StaticResource DockRound}" Margin="8,0,0,0">
+            <TextBlock Text="&#xE711;" Style="{StaticResource DockGlyph}" FontSize="14" />
           </ui:Button>
         </StackPanel>
       </Grid>

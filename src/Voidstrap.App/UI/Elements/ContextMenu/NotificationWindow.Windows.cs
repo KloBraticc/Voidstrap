@@ -53,12 +53,12 @@ public partial class NotificationWindow
             SetText(item.Text, item.Flag);
             NotificationAppearance appearance = Voidstrap.UI.NotificationStyle.Current;
             _appearance = appearance;
-            NotificationBorder.BeginAnimation(OpacityProperty, null);
+            NotificationRoot.BeginAnimation(OpacityProperty, null);
             RootTranslate.BeginAnimation(TranslateTransform.XProperty, null);
             RootTranslate.BeginAnimation(TranslateTransform.YProperty, null);
             ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
             UseCornerLayout(appearance);
-            NotificationBorder.Opacity = 0;
+            NotificationRoot.Opacity = 0;
             RootTranslate.X = 0;
             ProgressScale.ScaleX = 1;
             DismissButton.Visibility = Visibility.Visible;
@@ -74,12 +74,12 @@ public partial class NotificationWindow
             OverlayDiagnostics.RegisterOverlayHandle(_notificationHandle);
             UpdateLayout();
             double height = Math.Max(1, ActualHeight);
-            Voidstrap.UI.NotificationStyle.PrepareIntro(NotificationBorder, RootTranslate, RootScale, appearance, height);
+            Voidstrap.UI.NotificationStyle.PrepareIntro(NotificationRoot, RootTranslate, RootScale, appearance, height);
             PlaceWindowsNotification(bounds);
 
             // Enters the way the notification settings say, sliding from the edge it sits against by default
             BeginCachedAnimation();
-            Voidstrap.UI.NotificationStyle.Play(NotificationBorder, RootTranslate, RootScale, appearance, height, true);
+            Voidstrap.UI.NotificationStyle.Play(NotificationRoot, RootTranslate, RootScale, appearance, height, true);
             int intro = Voidstrap.UI.NotificationStyle.Length(appearance, true);
             if (intro > 0)
                 await Task.Delay(intro, token);
@@ -103,7 +103,7 @@ public partial class NotificationWindow
             DismissButton.Opacity = 0;
             DismissButton.IsHitTestVisible = false;
             BeginCachedAnimation();
-            Voidstrap.UI.NotificationStyle.Play(NotificationBorder, RootTranslate, RootScale, appearance, Math.Max(1, ActualHeight), false);
+            Voidstrap.UI.NotificationStyle.Play(NotificationRoot, RootTranslate, RootScale, appearance, Math.Max(1, ActualHeight), false);
             int outro = Voidstrap.UI.NotificationStyle.Length(appearance, false);
             if (outro > 0)
                 await Task.Delay(outro, token);
@@ -119,13 +119,13 @@ public partial class NotificationWindow
             {
                 EndCachedAnimation();
                 Hide();
-                NotificationBorder.BeginAnimation(OpacityProperty, null);
+                NotificationRoot.BeginAnimation(OpacityProperty, null);
                 RootTranslate.BeginAnimation(TranslateTransform.XProperty, null);
                 RootTranslate.BeginAnimation(TranslateTransform.YProperty, null);
                 RootScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
                 RootScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
                 RootScale.ScaleX = RootScale.ScaleY = 1;
-                NotificationBorder.Opacity = 0;
+                NotificationRoot.Opacity = 0;
                 SetImage(null);
                 NotificationTitle.Text = string.Empty;
                 NotificationText.Inlines.Clear();
@@ -136,12 +136,16 @@ public partial class NotificationWindow
     // Applied on every notification so changes in the notification settings show on the next one
     private void UseCornerLayout(NotificationAppearance appearance)
     {
-        NotificationRoot.Margin = new Thickness(0);
-        NotificationRoot.ClipToBounds = true;
+        // The whole card fades as one with its shadow, the window itself clips it at the screen edge
+        NotificationBorder.BeginAnimation(OpacityProperty, null);
+        NotificationBorder.Opacity = 1;
+        NotificationRoot.Margin = Voidstrap.UI.NotificationStyle.ShadowMargins(appearance);
+        NotificationRoot.ClipToBounds = false;
+        NotificationBorder.Effect = Voidstrap.UI.NotificationStyle.Shadow;
         NotificationBorder.CornerRadius = Voidstrap.UI.NotificationStyle.Corners(appearance);
         NotificationBorder.BorderThickness = Voidstrap.UI.NotificationStyle.Borders(appearance);
         NotificationBorder.Background = Voidstrap.UI.NotificationStyle.Background(this, appearance);
-        Width = appearance.SafeWidth;
+        Width = appearance.SafeWidth + NotificationRoot.Margin.Left + NotificationRoot.Margin.Right;
         SizeToContent = SizeToContent.Height;
     }
 
@@ -149,13 +153,14 @@ public partial class NotificationWindow
     // and that bitmap is composited each frame instead of laying out and drawing the text again
     private void BeginCachedAnimation()
     {
-        if (NotificationBorder.CacheMode is BitmapCache)
+        // Cached on the root so the card and its shadow are drawn once, the blur is not redone every frame
+        if (NotificationRoot.CacheMode is BitmapCache)
             return;
         DpiScale dpi = VisualTreeHelper.GetDpi(this);
-        NotificationBorder.CacheMode = new BitmapCache(Math.Max(dpi.DpiScaleX, dpi.DpiScaleY)) { SnapsToDevicePixels = true };
+        NotificationRoot.CacheMode = new BitmapCache(Math.Max(dpi.DpiScaleX, dpi.DpiScaleY)) { SnapsToDevicePixels = true };
     }
 
-    private void EndCachedAnimation() => NotificationBorder.CacheMode = null;
+    private void EndCachedAnimation() => NotificationRoot.CacheMode = null;
 
     // Roblox can keep the mouse to itself, so hover and the close click are read from the real cursor
     // position while a notification is up instead of relying only on mouse messages reaching this window
@@ -166,8 +171,11 @@ public partial class NotificationWindow
         IntPtr handle = _notificationHandle;
         if (handle == IntPtr.Zero || !GetCursorPos(out NativePoint cursor) || !GetWindowRect(handle, out NativeRect window))
             return;
-        bool insideRect = cursor.X >= window.Left && cursor.X < window.Right && cursor.Y >= window.Top && cursor.Y < window.Bottom;
-        // The window is exactly the size of the card, so being inside its rectangle is hovering the card
+        // The window also holds the shadow, so only the card's own rectangle inside it counts as hovering
+        DpiScale hoverDpi = VisualTreeHelper.GetDpi(this);
+        Thickness shadow = NotificationRoot.Margin;
+        bool insideRect = cursor.X >= window.Left + shadow.Left * hoverDpi.DpiScaleX && cursor.X < window.Right - shadow.Right * hoverDpi.DpiScaleX
+            && cursor.Y >= window.Top + shadow.Top * hoverDpi.DpiScaleY && cursor.Y < window.Bottom - shadow.Bottom * hoverDpi.DpiScaleY;
         bool hovered = IsMouseOver || insideRect;
         if (!_hoverLogged)
         {
@@ -353,13 +361,19 @@ public partial class NotificationWindow
         }
         NotificationAppearance appearance = _appearance ?? Voidstrap.UI.NotificationStyle.Current;
         int spacing = (int)Math.Round(appearance.SafeEdgeSpacing * dpi.DpiScaleX);
+        // Placed by the card, then the window is pushed out by the shadow room around it
+        Thickness shadow = NotificationRoot.Margin;
+        int shadowLeft = (int)Math.Round(shadow.Left * dpi.DpiScaleX);
+        int shadowTop = (int)Math.Round(shadow.Top * dpi.DpiScaleY);
+        int cardWidth = width - shadowLeft - (int)Math.Round(shadow.Right * dpi.DpiScaleX);
+        int cardHeight = height - shadowTop - (int)Math.Round(shadow.Bottom * dpi.DpiScaleY);
         int left = appearance.IsLeft ? areaLeft + spacing
-            : appearance.IsRight ? right - width - spacing
-            : areaLeft + (right - areaLeft - width) / 2;
-        int top = appearance.IsTop ? areaTop + spacing : bottom - height - spacing;
+            : appearance.IsRight ? right - cardWidth - spacing
+            : areaLeft + (right - areaLeft - cardWidth) / 2;
+        int top = appearance.IsTop ? areaTop + spacing : bottom - cardHeight - spacing;
         left = Math.Max(areaLeft, left);
         top = Math.Max(areaTop, top);
-        Interop.SetWindowPos(handle, IntPtr.Zero, left, top, 0, 0,
+        Interop.SetWindowPos(handle, IntPtr.Zero, left - shadowLeft, top - shadowTop, 0, 0,
             Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_NOACTIVATE);
     }
 

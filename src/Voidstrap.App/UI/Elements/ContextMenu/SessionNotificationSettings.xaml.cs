@@ -197,6 +197,9 @@ public partial class SessionNotificationSettings : Window
         MockCard.CornerRadius = NotificationStyle.Corners(_appearance);
         MockCard.BorderThickness = NotificationStyle.Borders(_appearance);
         MockCard.Background = NotificationStyle.Background(this, _appearance);
+        MockCard.Effect = NotificationStyle.Shadow;
+        // The same shadow room the real notification window has around its card
+        MockHost.Padding = NotificationStyle.ShadowMargins(_appearance);
         PlaceMock();
     }
 
@@ -210,13 +213,17 @@ public partial class SessionNotificationSettings : Window
         MockHost.InvalidateMeasure();
         MockHost.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         Size size = MockHost.DesiredSize;
+        Thickness pad = MockHost.Padding;
+        double cardWidth = size.Width - (pad.Left + pad.Right) * PreviewScale;
+        double cardHeight = size.Height - (pad.Top + pad.Bottom) * PreviewScale;
         double spacing = _appearance.SafeEdgeSpacing * PreviewScale;
+        // Placed by the card like the real window, then pushed out by the shadow room around it
         double left = _appearance.IsLeft ? spacing
-            : _appearance.IsRight ? stageWidth - size.Width - spacing
-            : (stageWidth - size.Width) / 2;
-        double top = _appearance.IsTop ? spacing : stageHeight - size.Height - spacing;
-        Canvas.SetLeft(MockHost, Math.Round(Math.Max(0, left)));
-        Canvas.SetTop(MockHost, Math.Round(Math.Max(0, top)));
+            : _appearance.IsRight ? stageWidth - cardWidth - spacing
+            : (stageWidth - cardWidth) / 2;
+        double top = _appearance.IsTop ? spacing : stageHeight - cardHeight - spacing;
+        Canvas.SetLeft(MockHost, Math.Round(Math.Max(0, left) - pad.Left * PreviewScale));
+        Canvas.SetTop(MockHost, Math.Round(Math.Max(0, top) - pad.Top * PreviewScale));
         // Keeps the label out from under the card when the card sits in the top left
         PreviewLabel.HorizontalAlignment = _appearance.Position == NotificationPosition.TopLeft ? HorizontalAlignment.Right : HorizontalAlignment.Left;
     }

@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using Voidstrap.Models.Persistable;
 
 namespace Voidstrap.UI;
@@ -10,6 +11,40 @@ namespace Voidstrap.UI;
 internal static class NotificationStyle
 {
 	private const int FrameRate = 60;
+
+	// Room the soft shadow needs around the card
+	public const double ShadowSize = 24;
+
+	// One shared, frozen shadow: a soft dark glow that sits slightly low, like a floating card
+	public static readonly DropShadowEffect Shadow = CreateShadow();
+
+	private static DropShadowEffect CreateShadow()
+	{
+		DropShadowEffect shadow = new()
+		{
+			Color = Colors.Black,
+			BlurRadius = 26,
+			ShadowDepth = 3,
+			Direction = 270,
+			Opacity = 0.55,
+			RenderingBias = RenderingBias.Performance
+		};
+		shadow.Freeze();
+		return shadow;
+	}
+
+	// Full room on the sides facing into the game, and only as much as the gap allows on a side against an edge,
+	// so a flush notification stays flush and the shadow never spills outside the game
+	public static Thickness ShadowMargins(NotificationAppearance appearance)
+	{
+		double edge = Math.Min(ShadowSize, appearance.SafeEdgeSpacing);
+		bool top = appearance.IsTop;
+		return new Thickness(
+			appearance.IsLeft ? edge : ShadowSize,
+			top ? edge : ShadowSize,
+			appearance.IsRight ? edge : ShadowSize,
+			top ? ShadowSize : edge);
+	}
 
 	public static NotificationAppearance Current => App.Settings.Prop.NotificationAppearance ?? new NotificationAppearance();
 
