@@ -144,7 +144,7 @@ if [ "$(uname -s)" != "Darwin" ]; then
     SIGNER="$STAGE/signer/$SIGNER_RELEASE/rcodesign"
   fi
   touch "$STAGE/signing.toml"
-  "$SIGNER" --config-file "$STAGE/signing.toml" sign --timestamp-url none --entitlements-xml-file "$ROOT/build/Packaging/MacOS/Entitlements.plist" "$APPLICATION"
+  (cd "$ROOT" && "$SIGNER" --config-file "$STAGE/signing.toml" sign --timestamp-url none --entitlements-xml-file build/Packaging/MacOS/Entitlements.plist "$APPLICATION")
   test -s "$APPLICATION/Contents/_CodeSignature/CodeResources"
   if [ "$(uname -s)" = "Linux" ]; then
     command -v genisoimage >/dev/null 2>&1 || { echo "genisoimage is required to create a macOS disk image on Linux"; exit 1; }
