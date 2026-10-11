@@ -4,6 +4,11 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      macos_overlay_only:
+        description: Run native macOS and GUI overlay checks only
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -14,6 +19,7 @@ concurrency:
 
 jobs:
   windows:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -31,6 +37,7 @@ jobs:
           path: artifacts
 
   client_server:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -240,6 +247,7 @@ jobs:
           path: artifacts
 
   macos_cross_dmgs:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Build macOS disk images on Linux
     runs-on: ubuntu-latest
     steps:
@@ -259,6 +267,7 @@ jobs:
             PublishedBuilds/macOS/*.tar.gz
 
   macos_dmg_mount:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Mount cross built ${{ matrix.rid }} disk image on macOS
     needs: macos_cross_dmgs
     runs-on: ${{ matrix.runner }}
@@ -375,6 +384,7 @@ jobs:
             ${{ runner.temp }}/launch.png
 
   linux_validation:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Linux canonical and experimental validation
     runs-on: ubuntu-latest
     steps:
@@ -388,6 +398,7 @@ jobs:
       - run: dotnet build src/Voidstrap.Desktop.Linux/Voidstrap.Desktop.Linux.csproj -c Debug -warnaserror -p:BaseIntermediateOutputPath=obj-linux-ci-experimental/
 
   linux_aur:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Arch AUR recipe generation
     runs-on: ubuntu-latest
     steps:
@@ -401,6 +412,7 @@ jobs:
           path: artifacts/aur
 
   linux_packages:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Linux ${{ matrix.rid }} ${{ matrix.format }} package validation
     runs-on: ubuntu-latest
     strategy:
@@ -434,6 +446,7 @@ jobs:
           path: artifacts/packages
 
   linux_rpm_packages:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Linux ${{ matrix.rid }} RPM artifact validation
     runs-on: ubuntu-latest
     strategy:
@@ -481,6 +494,7 @@ jobs:
           path: artifacts/packages
 
   linux_appimage_availability:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Linux AppImage tool availability
     runs-on: ubuntu-latest
     steps:
