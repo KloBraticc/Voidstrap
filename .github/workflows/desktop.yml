@@ -512,16 +512,13 @@ jobs:
 
       - name: Install Voidstrap and Roblox
         run: |
-          "$APP/Contents/MacOS/Voidstrap" > "$RUNNER_TEMP/overlay-logs/installer-stdout.txt" 2>&1 &
-          sleep 15
-          for action in "c:519,450" "c:390,285" "kp:end" "t:Z" "kp:delete" "c:799,601"; do
-            cliclick "$action" || true
-            sleep 4
-          done
-          pkill -x Voidstrap || true
-          sleep 2
-          "$APP/Contents/MacOS/Voidstrap" -player > "$RUNNER_TEMP/overlay-logs/install-roblox.txt" 2>&1 &
+          mkdir -p "$VS/Config"
+          printf '{"CheckForUpdates":false,"AssetWarpAutoEnableDeclined":true}' > "$VS/Config/AppSettings.json"
+          "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/install-roblox.txt" 2>&1 &
           for i in $(seq 1 300); do [ -d /Applications/Roblox.app ] && pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
+          screencapture -x "$OUT/shots/00-runtime-installation.png"
+          test -d /Applications/Roblox.app
+          pgrep -x RobloxPlayer > /dev/null
           sleep 10
           osascript -e 'tell application "Roblox" to quit' > /dev/null 2>&1 || true
           sleep 4
@@ -539,7 +536,7 @@ jobs:
           settings="$VS/Config/AppSettings.json"
           /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d.update({"SessionDockEnabled": True, "OverlaysEnabled": True, "CurrentTimeDisplay": True, "ShowServerDetailsUI": True, "Brightness": 30, "Crosshair": True, "NotificationWindowShow": True, "HomepageBackgroundOverlayEnabled": True, "HomepageBackgroundOverlayColor": "#FF2D7DFF", "EnableActivityTracking": True}); json.dump(d, open(p, "w"))' "$settings"
           front() { osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null; }
-          "$APP/Contents/MacOS/Voidstrap" -player > "$RUNNER_TEMP/overlay-logs/session-stdout.txt" 2>&1 &
+          "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/session-stdout.txt" 2>&1 &
           for i in $(seq 1 120); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
           sleep 20
           screencapture -x "$OUT/shots/01-roblox-menu.png"
@@ -596,6 +593,7 @@ jobs:
           paths += list((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs").glob("*.txt"))
           text = "\n".join(path.read_text(errors="replace") for path in paths)
           result = {
+              "runtime_installed": Path("/Applications/Roblox.app").is_dir(),
               "missing_native_library": "DllNotFoundException" in text,
               "missing_native_entry": "EntryPointNotFoundException" in text,
               "unhandled_exception": "Unhandled exception" in text,
@@ -603,6 +601,8 @@ jobs:
               "screenshots": len(list((Path(os.environ["OUT"]) / "shots").glob("*.png")))
           }
           (Path(os.environ["OUT"]) / "checks.json").write_text(json.dumps(result))
+          if not result["runtime_installed"] or not result["overlay_attached"] or result["screenshots"] < 9 or any(result[key] for key in ("missing_native_library", "missing_native_entry", "unhandled_exception")):
+              raise SystemExit("The GUI overlay checks did not complete successfully")
           PY
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
