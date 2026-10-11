@@ -76,6 +76,8 @@ internal static class LinuxWindowUpdatePump
 		{
 			if (e.NewValue is true)
 				Subscribe();
+			else
+				Unsubscribe();
 		}
 
 		private void OnActivated(object? sender, EventArgs e)
@@ -90,7 +92,7 @@ internal static class LinuxWindowUpdatePump
 
 		private void Subscribe()
 		{
-			if (_stopped)
+			if (_stopped || !_window.IsVisible)
 				return;
 
 			try

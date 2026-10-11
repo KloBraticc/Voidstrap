@@ -117,6 +117,95 @@ jobs:
           namespace System.Windows.Forms { public enum Keys { None = 0 } }
           EOF
           dotnet run --project "$probe/KeyboardCheck.csproj" -warnaserror
+      - name: Check native overlay visibility and geometry
+        shell: bash
+        run: |
+          check="$RUNNER_TEMP/overlay-check"
+          mkdir -p "$check"
+          cat > "$check/OverlayCheck.csproj" <<EOF
+          <Project Sdk="Microsoft.NET.Sdk">
+            <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><AllowUnsafeBlocks>true</AllowUnsafeBlocks><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+            <ItemGroup><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSOverlayWindow.cs" /><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSWindow.cs" /></ItemGroup>
+          </Project>
+          EOF
+          cat > "$check/Program.cs" <<'EOF'
+          using System.Runtime.InteropServices;
+          using Voidstrap.Platform.MacOS;
+          internal static partial class Program
+          {
+              [STAThread]
+              public static void Main()
+              {
+                  NativeLibrary.Load("/System/Library/Frameworks/AppKit.framework/AppKit");
+                  nint pool = objc_autoreleasePoolPush();
+                  nint window = 0;
+                  try
+                  {
+                      Send(objc_getClass("NSApplication"), Sel("sharedApplication"));
+                      window = Create(Send(objc_getClass("NSWindow"), Sel("alloc")), Sel("initWithContentRect:styleMask:backing:defer:"), new(100, 100, 320, 240), 0, 2, false);
+                      Assert(window != 0, "The native overlay could not be created");
+                      SetBool(window, Sel("setReleasedWhenClosed:"), false);
+                      MacOSOverlayWindow.Configure(window, true);
+                      MacOSOverlayWindow.ShowWithoutActivating(window);
+                      Assert(MacOSOverlayWindow.IsWindow(window), "The overlay was not registered with AppKit");
+                      Assert(MacOSOverlayWindow.IsVisible(window), "The overlay did not become visible");
+                      Assert(GetBool(window, Sel("ignoresMouseEvents")), "The passive overlay intercepted input");
+                      Assert(Send(window, Sel("level")) == 25, "The overlay did not use the expected window level");
+                      MacOSOverlayWindow.SetClickThrough(window, false);
+                      Assert(!GetBool(window, Sel("ignoresMouseEvents")), "The interactive overlay could not receive input");
+                      MacOSOverlayWindow.SetOpacity(window, 0.45);
+                      Assert(Math.Abs(GetDouble(window, Sel("alphaValue")) - 0.45) < 0.001, "The dimmer opacity was incorrect");
+                      foreach (var point in new[] { (120d, 80d), (-400d, -120d), (40d, MacOSWindow.PrimaryScreenHeight() + 80) })
+                      {
+                          MacOSOverlayWindow.MoveTo(window, point.Item1, point.Item2, 320, 240);
+                          var frame = MacOSWindow.GetFrame(window);
+                          Assert(frame.Matches(new(point.Item1, MacOSWindow.PrimaryScreenHeight() - point.Item2 - 240, 320, 240)), "The overlay was placed at incorrect screen coordinates");
+                      }
+                      var screens = Send(objc_getClass("NSScreen"), Sel("screens"));
+                      for (nuint index = 0; index < (nuint)Send(screens, Sel("count")); index++)
+                      {
+                          nint screen = At(screens, Sel("objectAtIndex:"), index);
+                          var bounds = MacOSWindow.GetFrame(screen);
+                          bounds.Y = MacOSWindow.PrimaryScreenHeight() - bounds.Y - bounds.Height;
+                          Assert(MacOSWindow.IsScreenSized(bounds), "A fullscreen display was not recognized");
+                          bounds.Height -= 28;
+                          Assert(!MacOSWindow.IsScreenSized(bounds), "A windowed client was mistaken for fullscreen");
+                      }
+                      MacOSOverlayWindow.Hide(window);
+                      Assert(!MacOSOverlayWindow.IsVisible(window), "The overlay remained visible after hiding");
+                      Assert(MacOSOverlayWindow.IsWindow(window), "Hiding invalidated the overlay");
+                      Assert(!MacOSOverlayWindow.IsWindow(42), "A foreign window number was accepted as an AppKit handle");
+                      MacOSOverlayWindow.ShowWithoutActivating(window);
+                      Assert(MacOSOverlayWindow.IsVisible(window), "The overlay did not reopen");
+                      Send(window, Sel("close"));
+                      Send(window, Sel("release"));
+                      nint closed = window;
+                      window = 0;
+                      Assert(!MacOSOverlayWindow.IsWindow(closed), "A closed overlay handle remained live");
+                      Console.WriteLine("Native overlay visibility, input, opacity, fullscreen and screen coordinate checks passed");
+                  }
+                  finally
+                  {
+                      if (window != 0) { Send(window, Sel("close")); Send(window, Sel("release")); }
+                      objc_autoreleasePoolPop(pool);
+                  }
+              }
+              private static void Assert(bool condition, string message) { if (!condition) throw new InvalidOperationException(message); }
+              private static nint Sel(string name) => sel_registerName(name);
+              private const string ObjC = "/usr/lib/libobjc.A.dylib";
+              [LibraryImport(ObjC, StringMarshalling = StringMarshalling.Utf8)] private static partial nint objc_getClass(string name);
+              [LibraryImport(ObjC, StringMarshalling = StringMarshalling.Utf8)] private static partial nint sel_registerName(string name);
+              [LibraryImport(ObjC)] private static partial nint objc_autoreleasePoolPush();
+              [LibraryImport(ObjC)] private static partial void objc_autoreleasePoolPop(nint pool);
+              [LibraryImport(ObjC, EntryPoint = "objc_msgSend")] private static partial nint Send(nint receiver, nint selector);
+              [LibraryImport(ObjC, EntryPoint = "objc_msgSend")] private static partial nint At(nint receiver, nint selector, nuint index);
+              [LibraryImport(ObjC, EntryPoint = "objc_msgSend")] private static partial nint Create(nint receiver, nint selector, MacOSWindow.Rect frame, nuint style, nuint backing, [MarshalAs(UnmanagedType.I1)] bool defer);
+              [LibraryImport(ObjC, EntryPoint = "objc_msgSend")] private static partial void SetBool(nint receiver, nint selector, [MarshalAs(UnmanagedType.I1)] bool value);
+              [LibraryImport(ObjC, EntryPoint = "objc_msgSend")][return: MarshalAs(UnmanagedType.I1)] private static partial bool GetBool(nint receiver, nint selector);
+              [LibraryImport(ObjC, EntryPoint = "objc_msgSend")] private static partial double GetDouble(nint receiver, nint selector);
+          }
+          EOF
+          dotnet run --project "$check/OverlayCheck.csproj" -warnaserror
       - run: dotnet publish src/Voidstrap.Cross/Voidstrap.Cross.csproj -c Release -r ${{ matrix.rid }} --self-contained true -o artifacts/${{ matrix.rid }}
       - run: bash build/Packaging/MacOS/package.sh ${{ matrix.rid }} "" artifacts/package-${{ matrix.rid }}
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a

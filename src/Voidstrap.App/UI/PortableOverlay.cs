@@ -166,6 +166,8 @@ internal static class PortableOverlay
 
     public static void Raise(Window window)
     {
+        if (!window.IsVisible)
+            return;
         nint handle = Handle(window);
         if (Voidstrap.Utility.Platform.IsLinux && window.IsVisible)
             LinuxWindowInterop.TryShowOverlayWindow(handle);

@@ -95,6 +95,31 @@ public static partial class MacOSWindow
 		}
 	}
 
+	public static bool IsScreenSized(Rect bounds)
+	{
+		if (!OperatingSystem.IsMacOS())
+			return false;
+		nint pool = objc_autoreleasePoolPush();
+		try
+		{
+			nint screens = Send(objc_getClass("NSScreen"), sel_registerName("screens"));
+			nuint count = SendMask(screens, sel_registerName("count"));
+			double primaryHeight = PrimaryScreenHeight();
+			for (nuint index = 0; index < count; index++)
+			{
+				Rect screen = ReadRect(SendIndex(screens, sel_registerName("objectAtIndex:"), index), sel_registerName("frame"));
+				screen.Y = primaryHeight - screen.Y - screen.Height;
+				if (bounds.Matches(screen))
+					return true;
+			}
+			return false;
+		}
+		finally
+		{
+			objc_autoreleasePoolPop(pool);
+		}
+	}
+
 	public static void SetFrame(nint window, Rect frame, bool animate)
 	{
 		if (window == 0 || frame.Width <= 0 || frame.Height <= 0)

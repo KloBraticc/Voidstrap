@@ -117,6 +117,8 @@ public partial class SessionDock : Window
         ["music"] = "music",
         ["web"] = "web"
     };
+    internal bool IsAnimating => _slide.IsRunning || _linuxMotionActive;
+
     // Set when the dock was hidden only because the game lost focus, so it comes back with the game
     private bool _resumeOnFocus;
     private bool _resumePopout;

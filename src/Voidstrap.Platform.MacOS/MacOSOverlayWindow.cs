@@ -48,6 +48,30 @@ public static partial class MacOSOverlayWindow
 		}
 	}
 
+	public static bool IsWindow(nint window)
+	{
+		if (!OperatingSystem.IsMacOS() || window == 0)
+			return false;
+		nint pool = objc_autoreleasePoolPush();
+		try
+		{
+			EnsureAppKit();
+			nint app = Send(objc_getClass("NSApplication"), sel_registerName("sharedApplication"));
+			nint windows = Send(app, sel_registerName("windows"));
+			nint count = Send(windows, sel_registerName("count"));
+			for (nuint index = 0; index < (nuint)count; index++)
+				if (SendIndex(windows, sel_registerName("objectAtIndex:"), index) == window)
+					return true;
+			return false;
+		}
+		finally
+		{
+			objc_autoreleasePoolPop(pool);
+		}
+	}
+
+	public static bool IsVisible(nint window) => IsWindow(window) && SendReturnsBool(window, sel_registerName("isVisible"));
+
 	public static void SetClickThrough(nint window, bool clickThrough)
 	{
 		if (OperatingSystem.IsMacOS() && window != 0)
@@ -247,6 +271,9 @@ public static partial class MacOSOverlayWindow
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nint SendInt(nint receiver, nint selector, int argument);
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
+	private static partial nint SendIndex(nint receiver, nint selector, nuint argument);
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial int SendReturnsInt(nint receiver, nint selector);

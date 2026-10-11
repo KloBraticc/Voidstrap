@@ -527,11 +527,13 @@ namespace Voidstrap.Integrations.Overlays
             if (window is not { } found)
             {
                 _hwnd = IntPtr.Zero;
+                Volatile.Write(ref _macTitleBar, 0);
                 return new RobloxWindowRect(IntPtr.Zero, 0, 0, 0, 0, false, false);
             }
             _hwnd = new IntPtr(found.Number);
             bool foreground = Voidstrap.Platform.MacOS.MacOSOverlayWindow.FrontmostWindowOwner() == pid || Voidstrap.UI.PortableOverlay.IsForeground();
-            int titleBar = found.Top > 0 && found.Height > MacTitleBarHeight * 4 ? MacTitleBarHeight : 0;
+            int titleBar = found.Height > MacTitleBarHeight * 4
+                && !Voidstrap.Platform.MacOS.MacOSWindow.IsScreenSized(new(found.Left, found.Top, found.Width, found.Height)) ? MacTitleBarHeight : 0;
             Volatile.Write(ref _macTitleBar, titleBar);
             return new RobloxWindowRect(_hwnd, (int)Math.Round(found.Left), (int)Math.Round(found.Top) + titleBar, (int)Math.Round(found.Width), (int)Math.Round(found.Height) - titleBar, true, foreground);
         }
@@ -775,7 +777,7 @@ namespace Voidstrap.Integrations.Overlays
 				_window.ShowActivated = false;
 				_window.ShowInTaskbar = false;
 				_window.Topmost = true;
-				Voidstrap.UI.LinuxTextGuard.SetPreserveCompactLayout(_window, true);
+				Voidstrap.UI.PortableOverlay.Prepare(_window);
 			}
 			if (Voidstrap.Utility.Platform.IsLinux)
 			{
@@ -859,8 +861,10 @@ namespace Voidstrap.Integrations.Overlays
 
             if (Voidstrap.Utility.Platform.IsMacOS)
             {
-                if (_window is Voidstrap.UI.Elements.Overlay.SessionDock)
+                if (_window is Voidstrap.UI.Elements.Overlay.SessionDock dock)
                 {
+                    if (dock.IsAnimating)
+                        return;
                     if (rect.Valid)
                         Voidstrap.UI.PortableOverlay.Place(_window, rect.Left + Math.Max(0, (rect.Width - _window.Width) / 2), rect.Top + Math.Max(0, rect.Height - _window.Height - 10), _window.Width, _window.Height);
                     else if (_window.IsVisible)
@@ -947,8 +951,6 @@ namespace Voidstrap.Integrations.Overlays
 
 		private bool _macShown;
 
-		private bool _macFocusReturned;
-
 		private DispatcherTimer? _macRetry;
 
 		private int _macRetryAttempts;
@@ -956,7 +958,7 @@ namespace Voidstrap.Integrations.Overlays
 		private void ApplyMac(RobloxWindowRect rect)
 		{
 			nint native = _macWindow;
-			if (native == 0)
+			if (!Voidstrap.Platform.MacOS.MacOSOverlayWindow.IsWindow(native))
 			{
 				native = Voidstrap.UI.MacWindowMode.ResolveNativeWindow(_window);
 				if (native == 0)
@@ -970,19 +972,12 @@ namespace Voidstrap.Integrations.Overlays
 				App.Logger?.WriteLine("RobloxOverlayAnchor", "Attached the macOS overlay " + _window.Title + " to the Roblox window");
 			}
 
-			if (!_macFocusReturned)
-			{
-				_macFocusReturned = true;
-				int roblox = RobloxWindowTracker.MacProcessId;
-				if (roblox > 0 && Voidstrap.Platform.MacOS.MacOSOverlayWindow.FrontmostWindowOwner() == Environment.ProcessId)
-				{
-					Voidstrap.Platform.MacOS.MacOSOverlayWindow.ActivateProcess(roblox);
-				}
-			}
-
 			if (!rect.Valid || (_hideWhenUnfocused && !rect.Foreground))
 			{
-				Voidstrap.Platform.MacOS.MacOSOverlayWindow.Hide(native);
+				if (_window.IsVisible)
+					_window.Hide();
+				if (Voidstrap.Platform.MacOS.MacOSOverlayWindow.IsWindow(native))
+					Voidstrap.Platform.MacOS.MacOSOverlayWindow.Hide(native);
 				_macShown = false;
 				return;
 			}
@@ -1029,6 +1024,16 @@ namespace Voidstrap.Integrations.Overlays
 				if (_placement == RobloxOverlayPlacement.Fill && !(Math.Abs(_window.Height - height) <= 0.5))
 					_window.Height = height;
 			}
+			if (!_window.IsVisible)
+				_window.Show();
+			native = Voidstrap.UI.PortableOverlay.Handle(_window);
+			if (native == 0)
+			{
+				ArmMacRetry();
+				return;
+			}
+			_macWindow = native;
+			Voidstrap.Platform.MacOS.MacOSOverlayWindow.Configure(native, true);
 			Voidstrap.Platform.MacOS.MacOSOverlayWindow.MoveTo(native, left, top, width, height);
 			if (!_macShown)
 			{
@@ -1283,6 +1288,8 @@ namespace Voidstrap.Integrations.Overlays
             RobloxWindowTracker.Changed -= OnTrackerChanged;
             _trackerLease.Dispose();
             OverlayDiagnostics.UnregisterOverlayHandle(_hwnd);
+			if (Voidstrap.Utility.Platform.IsMacOS)
+				Voidstrap.UI.PortableOverlay.Release(_window);
 			if (_linuxHandle != 0 && _linuxHandle != _hwnd)
 				OverlayDiagnostics.UnregisterOverlayHandle(_linuxHandle);
             _window.SourceInitialized -= OnSourceInitialized;
