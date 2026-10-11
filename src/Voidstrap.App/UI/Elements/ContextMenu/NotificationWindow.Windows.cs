@@ -41,6 +41,8 @@ public partial class NotificationWindow
             MouseLeave += OnNotificationMouse;
             _hoverTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Input) { Interval = TimeSpan.FromMilliseconds(Voidstrap.Utility.Platform.IsLinux ? 500 : 40) };
             _hoverTimer.Tick += OnHoverTick;
+            if (PortableOverlay.Active)
+                SizeChanged += OnNotificationSizeChanged;
         }
 
         RobloxWindowRect bounds = RobloxWindowTracker.Current;
@@ -430,6 +432,13 @@ public partial class NotificationWindow
         PlaceWindowsNotification(bounds);
     }
 
+    private void OnNotificationSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (_closed || !_presenting || _nativeSlide?.IsRunning == true || !e.HeightChanged)
+            return;
+        PlaceWindowsNotification(RobloxWindowTracker.Current);
+    }
+
     // Slides the window in from, or out to, the edge nearest to it, clipped to the game so it comes out of the edge
     private bool SlideWindow(NotificationAppearance appearance, bool intro, int milliseconds)
     {
@@ -508,6 +517,7 @@ public partial class NotificationWindow
         DismissButton.MouseLeftButtonDown -= OnDismissNotification;
         MouseMove -= OnNotificationMouse;
         MouseLeave -= OnNotificationMouse;
+        SizeChanged -= OnNotificationSizeChanged;
         if (_hoverTimer != null)
         {
             _hoverTimer.Stop();
