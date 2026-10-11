@@ -778,7 +778,49 @@ jobs:
           printf '%s,1.1,f00d0001,6 [FLog::GameJoinLoadTime] Report game_join_loadtime: placeid:1818, universeid:13058, userid:1\n' "$(ts)" >> "$log"
           sleep 1
           printf '%s,1.2,f00d0001,6 [FLog::Network] serverId: %s|128.116.1.1:53640\n' "$(ts)" "$job" >> "$log"
-          sleep 12
+          cat > "$RUNNER_TEMP/notification-window.swift" <<'SWIFT'
+          import CoreGraphics
+          import Foundation
+          let pid = Int(CommandLine.arguments[1])!
+          let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
+          for window in windows {
+              guard (window[kCGWindowOwnerPID as String] as? Int) == pid,
+                    (window[kCGWindowLayer as String] as? Int) == 27,
+                    (window[kCGWindowAlpha as String] as? Double ?? 0) > 0.01,
+                    let bounds = window[kCGWindowBounds as String] as? [String: Double],
+                    let width = bounds["Width"], let height = bounds["Height"],
+                    width >= 400, width <= 440, height >= 60, height <= 260
+              else { continue }
+              print("\(Int(bounds["X"] ?? 0)) \(Int(bounds["Y"] ?? 0)) \(Int(width)) \(Int(height))")
+              break
+          }
+          SWIFT
+          swiftc "$RUNNER_TEMP/notification-window.swift" -o "$RUNNER_TEMP/notification-window"
+          note=""
+          for i in $(seq 1 60); do
+            note=$("$RUNNER_TEMP/notification-window" "$session_pid")
+            [ -n "$note" ] && break
+            sleep 0.5
+          done
+          if [ -n "$note" ]; then
+            read -r nx ny nw nh <<< "$note"
+            echo true > "$RUNNER_TEMP/overlay-logs/notification-visible.txt"
+            sleep 1
+            screencapture -x "$OUT/shots/02a-join-notification.png"
+            cliclick -e 300 "m:$((nx + 220)),$((ny + nh / 2))"
+            sleep 11
+            [ -n "$("$RUNNER_TEMP/notification-window" "$session_pid")" ] && echo true > "$RUNNER_TEMP/overlay-logs/notification-hover.txt"
+            cliclick -e 200 "m:$((nx + nw - 19)),$((ny + 43))"
+            sleep 1
+            screencapture -x "$OUT/shots/02b-notification-close-button.png"
+            cliclick "c:$((nx + nw - 19)),$((ny + 43))"
+            sleep 2
+            [ -z "$("$RUNNER_TEMP/notification-window" "$session_pid")" ] && echo true > "$RUNNER_TEMP/overlay-logs/notification-closed.txt"
+            case "$(front)" in Roblox*) echo true > "$RUNNER_TEMP/overlay-logs/notification-focus.txt" ;; esac
+            cliclick -e 200 "m:$((nx - 300)),$((ny - 200))"
+            kill -0 "$session_pid"
+          fi
+          sleep 2
           screencapture -x "$OUT/shots/02-in-game.png"
           osascript -e 'tell application "Roblox" to activate'
           osascript -e 'tell application "System Events" to keystroke "l" using {control down, option down}'
@@ -928,11 +970,15 @@ jobs:
               "settings_visible": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/settings-visible.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/settings-visible.txt").is_file() else False,
               "images_visible": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/images-visible.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/images-visible.txt").is_file() else False,
               "server_image_visible": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/server-image-visible.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/server-image-visible.txt").is_file() else False,
+              "join_notification": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/notification-visible.txt").is_file(),
+              "notification_hover_pause": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/notification-hover.txt").is_file(),
+              "notification_close": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/notification-closed.txt").is_file(),
+              "notification_keeps_roblox_focus": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/notification-focus.txt").is_file(),
               "dock_layering": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").is_file() else False,
               "screenshots": len(list((Path(os.environ["OUT"]) / "shots").glob("*.png")))
           }
           (Path(os.environ["OUT"]) / "checks.json").write_text(json.dumps(result))
-          if not result["runtime_installed"] or not result["overlay_attached"] or not result["settings_visible"] or not result["images_visible"] or not result["server_image_visible"] or not result["dock_layering"] or not result["dock_buttons"] or result["screenshots"] < 21 or any(result[key] for key in ("missing_native_library", "missing_native_entry", "unhandled_exception", "dock_action_exception", "native_crash")):
+          if not result["runtime_installed"] or not result["overlay_attached"] or not result["settings_visible"] or not result["images_visible"] or not result["server_image_visible"] or not result["dock_layering"] or not result["dock_buttons"] or not all(result[key] for key in ("join_notification", "notification_hover_pause", "notification_close", "notification_keeps_roblox_focus")) or result["screenshots"] < 21 or any(result[key] for key in ("missing_native_library", "missing_native_entry", "unhandled_exception", "dock_action_exception", "native_crash")):
               raise SystemExit("The GUI overlay checks did not complete successfully")
           PY
 

@@ -39,7 +39,7 @@ public partial class NotificationWindow
             DismissButton.MouseLeftButtonDown += OnDismissNotification;
             MouseMove += OnNotificationMouse;
             MouseLeave += OnNotificationMouse;
-            _hoverTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Input) { Interval = TimeSpan.FromMilliseconds(PortableOverlay.Active ? 500 : 40) };
+            _hoverTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Input) { Interval = TimeSpan.FromMilliseconds(Voidstrap.Utility.Platform.IsLinux ? 500 : 40) };
             _hoverTimer.Tick += OnHoverTick;
         }
 
@@ -113,7 +113,7 @@ public partial class NotificationWindow
             double previous = clock.Elapsed.TotalSeconds;
             while (!_dismissRequested && remaining > 0)
             {
-                await Task.Delay(PortableOverlay.Active ? 500 : 100, token);
+                await Task.Delay(Voidstrap.Utility.Platform.IsLinux ? 500 : 100, token);
                 double now = clock.Elapsed.TotalSeconds;
                 if (!_hovered || !appearance.PauseWhileHovered)
                     remaining -= now - previous;
@@ -291,9 +291,18 @@ public partial class NotificationWindow
         bool hover = IsMouseOver;
         bool down = false;
         bool hot = DismissButton.IsMouseOver;
+        Point? pointer = null;
         if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPointerPosition(out int x, out int y, out down))
+            pointer = new Point(x - Left, y - Top);
+        else if (Voidstrap.Utility.Platform.IsMacOS && Voidstrap.Platform.MacOS.MacOSOverlayWindow.IsWindow(_notificationHandle))
         {
-            Point point = new(x - Left, y - Top);
+            Voidstrap.Platform.MacOS.MacOSWindow.Rect frame = Voidstrap.Platform.MacOS.MacOSWindow.GetFrame(_notificationHandle);
+            (double mouseX, double mouseY) = Voidstrap.Platform.MacOS.MacOSWindow.MouseLocation();
+            down = Voidstrap.Platform.MacOS.MacOSWebView.IsLeftMouseDown();
+            pointer = new Point(mouseX - frame.X, frame.Y + frame.Height - mouseY);
+        }
+        if (pointer is Point point)
+        {
             Thickness shadow = NotificationRoot.Margin;
             hover = point.X >= shadow.Left && point.Y >= shadow.Top
                 && point.X < ActualWidth - shadow.Right && point.Y < ActualHeight - shadow.Bottom;
@@ -306,8 +315,20 @@ public partial class NotificationWindow
             SetDismissVisible(hover && (_appearance?.CloseButtonOnHover ?? true), true);
         }
         if (hot && down && !_buttonWasDown && (_appearance?.CloseButtonOnHover ?? true))
+        {
             _dismissRequested = true;
+            ReturnFocusToRoblox();
+        }
         _buttonWasDown = down;
+    }
+
+    private static void ReturnFocusToRoblox()
+    {
+        if (!Voidstrap.Utility.Platform.IsMacOS)
+            return;
+        int roblox = RobloxWindowTracker.MacProcessId;
+        if (roblox > 0 && Voidstrap.Platform.MacOS.MacOSOverlayWindow.FrontmostWindowOwner() == Environment.ProcessId)
+            Voidstrap.Platform.MacOS.MacOSOverlayWindow.ActivateProcess(roblox);
     }
 
     private void OnNotificationMouse(object sender, System.Windows.Input.MouseEventArgs e)
@@ -316,7 +337,8 @@ public partial class NotificationWindow
             OnHoverTick(null, EventArgs.Empty);
     }
 
-    private static bool IsLeftButtonDown() => !PortableOverlay.Active && (GetAsyncKeyState(0x01) & 0x8000) != 0;
+    private static bool IsLeftButtonDown() => Voidstrap.Utility.Platform.IsWindows ? (GetAsyncKeyState(0x01) & 0x8000) != 0
+        : Voidstrap.Utility.Platform.IsMacOS && Voidstrap.Platform.MacOS.MacOSWebView.IsLeftMouseDown();
 
     private void SetDismissVisible(bool visible, bool animate)
     {
