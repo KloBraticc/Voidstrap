@@ -770,6 +770,7 @@ jobs:
           swiftc "$RUNNER_TEMP/window-count.swift" -o "$RUNNER_TEMP/window-count"
           baseline=$("$RUNNER_TEMP/window-count" "$session_pid")
           buttons_ok=true
+          printf '{}' > "$RUNNER_TEMP/overlay-logs/buttons.json"
           for entry in chat:569 servers:609 games:649 history:689 music:729 details:769 settings:809; do
             name=${entry%:*}
             x=${entry#*:}
@@ -777,7 +778,9 @@ jobs:
             sleep 3
             kill -0 "$session_pid"
             screencapture -x "$OUT/shots/07-panel-$name.png"
-            test "$("$RUNNER_TEMP/window-count" "$session_pid")" -gt "$baseline" || buttons_ok=false
+            count=$("$RUNNER_TEMP/window-count" "$session_pid")
+            test "$count" -gt "$baseline" || buttons_ok=false
+            python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d[sys.argv[2]] = int(sys.argv[3]) > int(sys.argv[4]); json.dump(d, open(p, "w"))' "$RUNNER_TEMP/overlay-logs/buttons.json" "$name" "$count" "$baseline"
             if [ "$name" = settings ]; then
               osascript -e 'tell application "Finder" to activate'
               sleep 3
@@ -862,6 +865,7 @@ jobs:
               "dock_action_exception": "SessionDock::Action" in text and "Exception" in text,
               "native_crash": any((Path.home() / "Library/Logs/DiagnosticReports").glob("Voidstrap*.ips")),
               "dock_buttons": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons-passed").is_file(),
+              "dock_panels": json.loads((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons.json").read_text()) if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons.json").is_file() else {},
               "overlay_attached": "Attached the macOS overlay" in text,
               "dock_layering": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").is_file() else False,
               "screenshots": len(list((Path(os.environ["OUT"]) / "shots").glob("*.png")))

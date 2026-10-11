@@ -156,12 +156,24 @@ internal static class PortableOverlay
     {
         if (!Voidstrap.Utility.Platform.IsMacOS || MacOSOverlayWindow.FrontmostWindowOwner() != Environment.ProcessId)
             return false;
+        bool visible = false;
         foreach (var pair in States)
         {
-            if (pair.Key.IsVisible && MacOSOverlayWindow.IsKeyWindow(pair.Value.Handle))
+            if (!pair.Key.IsVisible)
+                continue;
+            visible = true;
+            if (MacOSOverlayWindow.IsKeyWindow(pair.Value.Handle))
                 return true;
         }
-        return false;
+        if (!visible || Application.Current == null)
+            return false;
+        foreach (Window window in Application.Current.Windows)
+        {
+            if (window.IsVisible && !States.TryGetValue(window, out _)
+                && MacOSOverlayWindow.IsKeyWindow(MacWindowMode.ResolveNativeWindow(window)))
+                return false;
+        }
+        return true;
     }
 
     public static void Raise(Window window)
