@@ -813,6 +813,8 @@ jobs:
             read -r nx ny nw nh nid <<< "$note"
             echo true > "$RUNNER_TEMP/overlay-logs/notification-visible.txt"
             sleep 1
+            settled=$("$RUNNER_TEMP/notification-window" "$session_pid")
+            [ -n "$settled" ] && read -r nx ny nw nh nid <<< "$settled"
             screencapture -x "$OUT/shots/02a-join-notification.png"
             screencapture -x -o -l "$nid" "$OUT/shots/02c-join-notification-window.png" || true
             cliclick -e 300 "m:$((nx + 220)),$((ny + nh / 2))"
