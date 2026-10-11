@@ -74,6 +74,8 @@ android {
         warningsAsErrors = false
     }
 
+    sourceSets.getByName("main").assets.srcDir(rootProject.layout.buildDirectory.dir("licenseAssets"))
+
     packaging {
         jniLibs {
             useLegacyPackaging = true
@@ -170,3 +172,14 @@ dependencies {
     "playImplementation"(libs.app.update)
     coreLibraryDesugaring(libs.desugar.jdk.libs.nio)
 }
+
+val bundleLicenseNotices by tasks.registering(Sync::class) {
+    from(rootProject.file("../THIRD-PARTY-NOTICES.txt"))
+    from(rootProject.file("../legal/sources")) { include("*.tar.gz") }
+    into(rootProject.layout.buildDirectory.dir("licenseAssets/licenses"))
+    doFirst {
+        check(rootProject.file("../THIRD-PARTY-NOTICES.txt").isFile) { "The third party license notices are missing" }
+        check(rootProject.file("../legal/sources/Bibata-Cursor-v2.0.7.tar.gz").isFile) { "The Bibata source archive is missing" }
+    }
+}
+tasks.named("preBuild") { dependsOn(bundleLicenseNotices) }

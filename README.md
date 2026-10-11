@@ -568,6 +568,8 @@ Versions come from `android/rust/Cargo.lock` and `src/VirtualDisplay/Cargo.lock`
 | [serde_json](https://crates.io/crates/serde_json/1.0.151) | 1.0.151 | MIT OR Apache-2.0 |
 | [sevenz-rust2](https://crates.io/crates/sevenz-rust2/0.23.0) | 0.23.0 | Apache-2.0 |
 
+Full notices, including transitive dependencies and native libraries, are in [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt). Release packages include these notices and the [Bibata cursor source](legal/sources/Bibata-Cursor-v2.0.7.tar.gz). See [legal/README.md](legal/README.md) for how to update and check them.
+
 Dependencies brought in by these packages keep their own license terms. The tables list direct dependencies, not every transitive package or system component. Preserve all required notices and source when redistributing them. A README entry does not replace those requirements.
 
 The macOS virtual display helper implements the [AppleBlox VirtualDisplay approach](https://github.com/AppleBlox/virtualdisplay) in Rust. Its [bundled notices](src/VirtualDisplay/THIRD-PARTY-NOTICES.txt) cover libc, objc2 and objc2-encode.

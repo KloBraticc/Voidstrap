@@ -1,4 +1,5 @@
 set -euo pipefail
+umask 022
 
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 RID="${1:?A Linux runtime identifier is required}"
@@ -259,12 +260,16 @@ else
   "$DOTNET_COMMAND" publish "$ROOT/src/Voidstrap.Cross/Voidstrap.Cross.csproj" -c Release -r "$RID" --self-contained true -o "$PUBLISH" -p:VoidstrapLinuxPackagingRoot="$STAGE/" -p:Version="$VERSION" -p:DebugType=none -p:DebugSymbols=false
 fi
 test -s "$PUBLISH/Voidstrap"
-if [ "$(find "$PUBLISH" -mindepth 1 | wc -l)" -ne 1 ]; then
+if [ "$(find "$PUBLISH" -mindepth 1 ! -path "$PUBLISH/licenses" ! -path "$PUBLISH/licenses/*" | wc -l)" -ne 1 ]; then
   echo "The Linux publish is not a single file"
   find "$PUBLISH" -mindepth 1
   exit 1
 fi
 chmod 755 "$PUBLISH/Voidstrap"
+mkdir -p "$PUBLISH/licenses"
+cp "$ROOT/THIRD-PARTY-NOTICES.txt" "$ROOT/legal/sources/Bibata-Cursor-v2.0.7.tar.gz" "$PUBLISH/licenses/"
+chmod 755 "$PUBLISH/licenses"
+chmod 644 "$PUBLISH/licenses/"*
 SOURCES="$STAGE/sources"
 mkdir -p "$SOURCES"
 cp "$DESKTOP_FILE" "$ICON_FILE" "$METAINFO_FILE" "$LICENSE_FILE" "$SOURCES/"
@@ -284,7 +289,7 @@ case "$FORMAT" in
     cp "$DESKTOP_FILE" "$ROOTFS/usr/share/applications/$APPLICATION_ID.desktop"
     cp "$ICON_FILE" "$ROOTFS/usr/share/icons/hicolor/256x256/apps/$APPLICATION_ID.png"
     cp "$METAINFO_FILE" "$ROOTFS/usr/share/metainfo/$APPLICATION_ID.metainfo.xml"
-    cp "$LICENSE_FILE" "$ROOTFS/usr/share/doc/voidstrap/copyright"
+    cp "$PUBLISH/licenses/THIRD-PARTY-NOTICES.txt" "$ROOTFS/usr/share/doc/voidstrap/copyright"
     printf 'Package: voidstrap\nVersion: %s\nSection: games\nPriority: optional\nArchitecture: %s\nMaintainer: Voidstrap\nDepends: libc6, libgcc-s1 | libgcc1, libstdc++6, libvulkan1, mesa-vulkan-drivers | vulkan-icd, libx11-6, libxext6, libxrender1, libxrandr2, libxi6, libxcursor1, libxfixes3, libxcomposite1, libxdamage1, libice6, libsm6, libfontconfig1, libfreetype6, libxkbcommon0, libxkbcommon-x11-0, libwayland-client0, libdbus-1-3, libgl1 | libgl1-mesa-glx, libegl1 | libegl1-mesa, zlib1g, libssl3 | libssl3t64, ca-certificates, flatpak, xdg-utils, desktop-file-utils, libnotify-bin, libsecret-tools, libglib2.0-bin, gstreamer1.0-plugins-base, gstreamer1.0-plugins-good, gstreamer1.0-plugins-bad, gstreamer1.0-libav, libwebkit2gtk-4.1-0 | libwpewebkit-2.0-1\nRecommends: policykit-1 | polkitd, pkexec, pipewire-bin, wireplumber, x11-xserver-utils\nDescription: Customize and launch Roblox through Sober on Linux\n Voidstrap is an open source Roblox bootstrapper for Linux that installs and launches Roblox through Sober.\n .\n It brings FastFlags, performance and graphics controls, mods, themes, account tools, server tools, Discord Rich Presence, and desktop integrations together in one customizable app.\n' "$VERSION" "$DEB_ARCH" > "$ROOTFS/DEBIAN/control"
     printf '#!/bin/sh\nset -e\ncommand -v update-desktop-database >/dev/null 2>&1 && update-desktop-database /usr/share/applications || true\ncommand -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f -t /usr/share/icons/hicolor || true\n' > "$ROOTFS/DEBIAN/postinst"
     printf '#!/bin/sh\nset -e\ncommand -v update-desktop-database >/dev/null 2>&1 && update-desktop-database /usr/share/applications || true\ncommand -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f -t /usr/share/icons/hicolor || true\n' > "$ROOTFS/DEBIAN/postrm"
@@ -366,6 +371,7 @@ APPRUN
     cp "$ICON_FILE" "$APPDIR/usr/share/icons/hicolor/256x256/apps/$APPLICATION_ID.png"
     cp "$METAINFO_FILE" "$APPDIR/usr/share/metainfo/$APPLICATION_ID.appdata.xml"
     cp "$LICENSE_FILE" "$APPDIR/usr/share/licenses/voidstrap/LICENSE"
+    cp "$PUBLISH/licenses/"* "$APPDIR/usr/share/licenses/voidstrap/"
     sed -i -E "s#<release version=\"[^\"]+\" date=\"[^\"]+\" />#<release version=\"$VERSION\" date=\"$(date -u +%Y-%m-%d)\" />#" "$APPDIR/usr/share/metainfo/$APPLICATION_ID.appdata.xml"
     chmod -R go-w "$APPDIR"
     UPDATE_INFORMATION="gh-releases-zsync|KloBraticc|Voidstrap|latest|Voidstrap_*_${APPIMAGE_ARCH}.AppImage.zsync"
@@ -385,6 +391,7 @@ APPRUN
     cp "$ICON_FILE" "$BUNDLE/share/icons/hicolor/256x256/apps/$APPLICATION_ID.png"
     cp "$METAINFO_FILE" "$BUNDLE/share/metainfo/$APPLICATION_ID.metainfo.xml"
     cp "$LICENSE_FILE" "$BUNDLE/share/licenses/voidstrap/LICENSE"
+    cp "$PUBLISH/licenses/"* "$BUNDLE/share/licenses/voidstrap/"
     chmod -R go-w "$BUNDLE"
     tar --sort=name --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --exclude="Voidstrap/Voidstrap" -C "$STAGE" -cf "$UNCOMPRESSED" Voidstrap
     tar --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --mode=0755 -C "$STAGE" -rf "$UNCOMPRESSED" Voidstrap/Voidstrap

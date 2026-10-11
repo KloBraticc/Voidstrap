@@ -320,7 +320,7 @@
 
 	<Target Name="StripDocsFromPublish" AfterTargets="ComputeResolvedFilesToPublishList">
 		<ItemGroup>
-			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Extension)' == '.xml' Or '%(ResolvedFileToPublish.Extension)' == '.pdb' Or '%(ResolvedFileToPublish.Extension)' == '.txt'" />
+			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Extension)' == '.xml' Or '%(ResolvedFileToPublish.Extension)' == '.pdb' Or ('%(ResolvedFileToPublish.Extension)' == '.txt' And !$([System.String]::Copy('%(ResolvedFileToPublish.RelativePath)').StartsWith('licenses')))" />
 			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.RelativePath)' == 'runtimes\win-x64\native\WebView2Loader.dll'" />
 		</ItemGroup>
 	</Target>

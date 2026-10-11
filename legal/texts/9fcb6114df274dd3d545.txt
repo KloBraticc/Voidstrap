@@ -1,0 +1,6 @@
+Play Core Software Development Kit Terms of Service
+
+This component is distributed under the publisher terms at:
+https://developer.android.com/guide/playcore/license
+
+This component is not covered by Voidstrap's MIT license.

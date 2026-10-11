@@ -35,4 +35,14 @@
 		<Copy SourceFiles="@(_VoidstrapWin32CompatAlias->'$(_VoidstrapWin32CompatLibrary)')" DestinationFiles="@(_VoidstrapWin32CompatAlias->'$(TargetDir)%(Identity)')" SkipUnchangedFiles="true" />
 	</Target>
 
+
+	<ItemGroup Condition="'$(OutputType)' == 'Exe' Or '$(OutputType)' == 'WinExe'">
+		<Content Include="$(MSBuildThisFileDirectory)THIRD-PARTY-NOTICES.txt" Link="licenses/THIRD-PARTY-NOTICES.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+		<Content Include="$(MSBuildThisFileDirectory)legal/sources/*.tar.gz" Link="licenses/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(MSBuildProjectName)' == 'Voidstrap' Or '$(MSBuildProjectName)' == 'Voidstrap.Cross'">
+		<EmbeddedResource Include="$(MSBuildThisFileDirectory)THIRD-PARTY-NOTICES.txt" LogicalName="Voidstrap.Licenses.Notices" />
+	</ItemGroup>
+
 </Project>

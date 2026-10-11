@@ -12,7 +12,7 @@ SRC_URI="
 
 S="${WORKDIR}/Voidstrap-${PV}"
 
-LICENSE="MIT"
+LICENSE="MIT GPL-3 OFL-1.1 CC-BY-4.0 Apache-2.0 BSD-2 BSD ZLIB Unicode-DFS-2016"
 SLOT="0"
 KEYWORDS="~amd64 ~arm64"
 

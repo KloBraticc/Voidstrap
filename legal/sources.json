@@ -1,0 +1,9 @@
+[
+  {
+    "path": "sources/Bibata-Cursor-v2.0.7.tar.gz",
+    "sha256": "d760f2f9af8b34a945903e55841d547d9828000aeaf89333463f50086e84fc7b",
+    "source": "https://github.com/ful1e5/Bibata_Cursor",
+    "commit": "35ccfe209a808e40d6c2ca60a46cbe4faf68b690",
+    "license": "GPL-3.0"
+  }
+]

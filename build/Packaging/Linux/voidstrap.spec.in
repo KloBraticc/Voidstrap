@@ -10,7 +10,7 @@ Name: voidstrap
 Version: @VERSION@
 Release: 1
 Summary: Customize and launch Roblox through Sober on Linux
-License: MIT
+License: MIT AND GPL-3.0-only AND OFL-1.1 AND CC-BY-4.0 AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND Zlib AND Unicode-DFS-2016
 URL: https://github.com/KloBraticc/Voidstrap
 ExclusiveArch: x86_64 aarch64
 Requires: libvulkan.so.1()(64bit)
@@ -87,6 +87,7 @@ command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f -t 
 %files
 %dir %{_libdir}/voidstrap
 %{_libdir}/voidstrap/Voidstrap
+%license %{_libdir}/voidstrap/licenses/
 %{_bindir}/voidstrap
 %{_datadir}/applications/io.github.KloBraticc.Voidstrap.desktop
 %{_datadir}/icons/hicolor/256x256/apps/io.github.KloBraticc.Voidstrap.png

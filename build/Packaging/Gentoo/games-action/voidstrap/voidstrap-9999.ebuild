@@ -13,7 +13,7 @@ SRC_URI="
 	https://github.com/bloxstraplabs/wpfui/archive/f710123e72d9dcc8d09fccc4e2a783cc5cf5e652.tar.gz
 "
 
-LICENSE="MIT"
+LICENSE="MIT GPL-3 OFL-1.1 CC-BY-4.0 Apache-2.0 BSD-2 BSD ZLIB Unicode-DFS-2016"
 SLOT="0"
 KEYWORDS=""
 

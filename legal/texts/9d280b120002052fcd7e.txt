@@ -1,0 +1,6 @@
+Android Software Development Kit License
+
+This component is distributed under the publisher terms at:
+https://developer.android.com/studio/terms.html
+
+This component is not covered by Voidstrap's MIT license.

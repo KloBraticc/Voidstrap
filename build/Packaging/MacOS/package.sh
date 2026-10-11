@@ -1,4 +1,5 @@
 set -euo pipefail
+umask 022
 
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 RID="${1:?A macOS runtime identifier is required}"
@@ -90,8 +91,13 @@ else
   echo "A macOS virtual display binary is required for this package"
   exit 1
 fi
+mkdir -p "$APPLICATION/Contents/Resources/licenses"
+cp "$ROOT/THIRD-PARTY-NOTICES.txt" "$ROOT/legal/sources/Bibata-Cursor-v2.0.7.tar.gz" "$APPLICATION/Contents/Resources/licenses/"
+chmod 755 "$APPLICATION/Contents/Resources/licenses"
+chmod 644 "$APPLICATION/Contents/Resources/licenses/"*
 cp "$ROOT/src/VirtualDisplay/THIRD-PARTY-NOTICES.txt" "$APPLICATION/Contents/Resources/VirtualDisplay-Notices.txt"
 cp "$ROOT/LICENSE.VOIDSTRAP" "$APPLICATION/Contents/Resources/VirtualDisplay-License.txt"
+chmod 644 "$APPLICATION/Contents/Resources/VirtualDisplay-Notices.txt" "$APPLICATION/Contents/Resources/VirtualDisplay-License.txt"
 NOTICES="$APPLICATION/Contents/MacOS/LibreWPF/Notices"
 if [ -d "$NOTICES" ]; then
   while IFS= read -r directory; do

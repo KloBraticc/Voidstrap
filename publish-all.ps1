@@ -1607,7 +1607,7 @@ try {
 
     $packageSources = @(Get-ChildItem -LiteralPath (Join-Path $Root 'build/Packaging') -Recurse -File |
         Sort-Object FullName | ForEach-Object { $_.FullName + ':' + (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash })
-    foreach ($sourcePath in @('publish-all.ps1', 'Directory.Build.props', 'LICENSE.VOIDSTRAP', 'src/Voidstrap.App/Voidstrap.png')) {
+    foreach ($sourcePath in @('publish-all.ps1', 'Directory.Build.props', 'LICENSE.VOIDSTRAP', 'THIRD-PARTY-NOTICES.txt', 'legal/sources/Bibata-Cursor-v2.0.7.tar.gz', 'src/Voidstrap.App/Voidstrap.png')) {
         $packageSources += (Get-FileHash -LiteralPath (Join-Path $Root $sourcePath) -Algorithm SHA256).Hash
     }
     if ($appImageTool) { $packageSources += (Get-FileHash -LiteralPath $appImageTool -Algorithm SHA256).Hash }
@@ -1714,6 +1714,9 @@ try {
         $packaged = @(Get-ChildItem -LiteralPath $platformOutput -File | Where-Object { $name = $_.Name; @($tokens | Where-Object { $name.Contains($_) }).Count -gt 0 })
         if ($packaged.Count -eq 0) {
             Copy-Item -LiteralPath $job.Expected -Destination (Join-Path $platformOutput "Voidstrap_$(Get-VoidstrapVersion)_$($job.Target.Rid)") -Force
+            $licenseOutput = Join-Path $platformOutput 'licenses'
+            New-Item -ItemType Directory -Path $licenseOutput -Force | Out-Null
+            Copy-Item -LiteralPath (Join-Path $Root 'THIRD-PARTY-NOTICES.txt'), (Join-Path $Root 'legal/sources/Bibata-Cursor-v2.0.7.tar.gz') -Destination $licenseOutput -Force
             $PackageNotes.Add("$($job.Target.Name): no package could be built, so the plain executable was copied instead.")
         }
         if ($packaged.Count -gt 0 -and $PackageNotes.Count -eq $initialPackageNoteCount) {

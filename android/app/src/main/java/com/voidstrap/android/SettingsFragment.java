@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -518,7 +519,17 @@ public final class SettingsFragment extends Page {
         TextView t = new TextView(requireContext());
         t.setTextAppearance(R.style.TextAppearance_Voidstrap_Caption);
         t.setTextIsSelectable(true);
-        t.setText(R.string.licenses_text);
+        try (InputStream stream = requireContext().getAssets().open("licenses/THIRD-PARTY-NOTICES.txt")) {
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            byte[] buffer = new byte[8192];
+            int length;
+            while ((length = stream.read(buffer)) != -1) {
+                output.write(buffer, 0, length);
+            }
+            t.setText(new String(output.toByteArray(), StandardCharsets.UTF_8));
+        } catch (IOException exception) {
+            t.setText(R.string.licenses_text);
+        }
         Ui.surface(host(), R.string.settings_licenses, 0, t).show();
     }
 
