@@ -20,7 +20,7 @@ public class FluentDialogViewModel : BootstrapperDialogViewModel
 	{
 		if (aero)
 		{
-			BackgroundColourBrush = ResolveGlassTint();
+			BackgroundColourBrush = OperatingSystem.IsWindows() ? Brushes.Transparent : ResolveGlassTint();
 		}
 	}
 

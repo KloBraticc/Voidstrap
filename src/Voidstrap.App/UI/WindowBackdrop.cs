@@ -222,7 +222,7 @@ public static partial class WindowBackdrop
             if (_appliedBackdrops.TryGetValue(window, out string? previousKey) && previousKey == appliedKey)
                 return;
             ResetNativeBackdrop(handle);
-            SetGlassFrame(window, backgroundType != Wpf.Ui.Appearance.BackgroundType.Aero);
+            SetGlassFrame(window, backgroundType != Wpf.Ui.Appearance.BackgroundType.None);
             if (backgroundType == Wpf.Ui.Appearance.BackgroundType.None)
             {
                 Wpf.Ui.Appearance.Background.Remove(handle);
