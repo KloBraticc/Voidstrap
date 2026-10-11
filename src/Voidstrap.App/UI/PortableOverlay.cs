@@ -154,6 +154,12 @@ internal static class PortableOverlay
             MacOSOverlayWindow.ActivateProcess(RobloxWindowTracker.MacProcessId);
     }
 
+    public static void ForgetBounds(Window window)
+    {
+        if (Active && States.TryGetValue(window, out State? state))
+            state.Bounds = null;
+    }
+
     public static void MarkPassive(Window window)
     {
         if (Active)

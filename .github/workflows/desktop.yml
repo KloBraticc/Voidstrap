@@ -813,9 +813,10 @@ jobs:
             cliclick -e 200 "m:$((nx + nw - 19)),$((ny + 43))"
             sleep 1
             screencapture -x "$OUT/shots/02b-notification-close-button.png"
+            present=$("$RUNNER_TEMP/notification-window" "$session_pid")
             cliclick "c:$((nx + nw - 19)),$((ny + 43))"
             sleep 2
-            [ -z "$("$RUNNER_TEMP/notification-window" "$session_pid")" ] && echo true > "$RUNNER_TEMP/overlay-logs/notification-closed.txt"
+            [ -n "$present" ] && [ -z "$("$RUNNER_TEMP/notification-window" "$session_pid")" ] && echo true > "$RUNNER_TEMP/overlay-logs/notification-closed.txt"
             case "$(front)" in Roblox*) echo true > "$RUNNER_TEMP/overlay-logs/notification-focus.txt" ;; esac
             cliclick -e 200 "m:$((nx - 300)),$((ny - 200))"
             kill -0 "$session_pid"
