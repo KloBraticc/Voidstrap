@@ -4374,6 +4374,7 @@ public class Bootstrapper
         if (!ModsAllowedForThisLaunch())
         {
             MacModSync.Apply(resources, new Dictionary<string, string>());
+            LegacyMaterialTextures.RemoveGenerated();
             App.Logger.WriteLine(logIdent, $"Mods are set to {App.Settings.Prop.ModApplyTarget}, so this launch runs unmodded. Mod files are kept on disk.");
             return;
         }
@@ -4397,6 +4398,24 @@ public class Bootstrapper
         catch (Exception ex)
         {
             App.Logger.WriteLine(logIdent, "Mod folders could not be checked: " + ex.Message);
+        }
+
+        if (!IsStudioLaunch)
+        {
+            try
+            {
+                using CancellationTokenSource materialDeadline = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                materialDeadline.CancelAfter(TimeSpan.FromSeconds(45));
+                await LegacyMaterialTextures.ApplyAsync([.. ManagedModStore.EnabledFoldersByPriority(), Paths.Mods], resources, materialDeadline.Token);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(logIdent, "Classic terrain and material textures could not be prepared: " + ex.Message);
+            }
         }
 
         if (!IsStudioLaunch && robloxVersion.Length > 0)
