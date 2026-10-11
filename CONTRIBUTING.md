@@ -22,6 +22,12 @@ Do not open a public issue for security problems. Follow the [security policy](S
 
 ## Contributing code
 
+### Using AI tools
+
+AI is allowed here and always will be, including for new contributors. Get familiar with the codebase before changing things. Use AI to help you learn and work, then read the whole diff, understand it, and test it before sending it. You're responsible for your changes and should be able to explain what they do and why.
+
+The same review and checks apply to everyone. Read [AGENTS.md](AGENTS.md) for more on this. [CLAUDE.md](CLAUDE.md) links to that same file.
+
 ### Setting up
 
 Follow the [Building](README.md#building) section of the README to install the requirements and build the apps.
