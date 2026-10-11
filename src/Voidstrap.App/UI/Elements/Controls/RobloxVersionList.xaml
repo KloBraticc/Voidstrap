@@ -55,7 +55,7 @@
             <Border.Background>
               <ImageBrush ImageSource="{Binding IconImage}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
             </Border.Background>
-            <Image Source="{Binding IconImage}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Visibility="{x:Static appUi:PlatformFeatureVisibility.LinuxIntegration}">
+            <Image Source="{Binding IconImage}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Visibility="{x:Static appUi:PlatformFeatureVisibility.PortableImages}">
               <Image.Clip>
                 <RectangleGeometry Rect="0,0,44,44" RadiusX="6" RadiusY="6" />
               </Image.Clip>

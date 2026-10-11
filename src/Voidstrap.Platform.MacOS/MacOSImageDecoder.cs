@@ -28,6 +28,8 @@ public static partial class MacOSImageDecoder
 		if (bytes.Length == 0 || bytes.LongLength > 64L * 1024 * 1024)
 			throw new InvalidOperationException("The image file size is invalid");
 		nint encodedData = CFDataCreate(0, bytes, bytes.Length);
+		if (encodedData == 0)
+			throw new InvalidOperationException("macOS could not allocate the image data");
 		nint source = 0;
 		nint options = 0;
 		nint number = 0;

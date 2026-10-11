@@ -307,7 +307,7 @@ namespace Voidstrap.Utility
             bool entered = false;
             try
             {
-                if (Platform.IsLinux)
+                if (Platform.UsesPortableUi)
                 {
                     await LinuxDownloadGate.WaitAsync().ConfigureAwait(false);
                     entered = true;
@@ -360,7 +360,7 @@ namespace Voidstrap.Utility
 
         private static string DiskCachePath(string url)
         {
-            return Path.Combine(DiskCacheDirectory, Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(url.ToLowerInvariant()))) + ".img");
+            return Path.Combine(DiskCacheDirectory, Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes("2|" + url))) + ".img");
         }
 
         private static async Task<byte[]?> ReadDiskCacheAsync(string url, CancellationToken ct)

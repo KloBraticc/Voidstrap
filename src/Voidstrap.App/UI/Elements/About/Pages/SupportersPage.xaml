@@ -36,7 +36,7 @@
                 <ImageBrush ImageSource="{Binding Image, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
               </Ellipse.Fill>
             </Ellipse>
-            <Image Source="{Binding Image, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Visibility="{x:Static appUi:PlatformFeatureVisibility.LinuxIntegration}">
+            <Image Source="{Binding Image, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Visibility="{x:Static appUi:PlatformFeatureVisibility.PortableImages}">
               <Image.Clip>
                 <EllipseGeometry Center="16,16" RadiusX="16" RadiusY="16" />
               </Image.Clip>
