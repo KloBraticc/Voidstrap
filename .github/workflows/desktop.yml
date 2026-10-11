@@ -770,20 +770,6 @@ jobs:
           for i in $(seq 1 120); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
           sleep 20
           screencapture -x "$OUT/shots/01-roblox-menu.png"
-          log=$(ls -t ~/Library/Logs/Roblox/*Player*.log | head -1)
-          job=$(uuidgen | tr A-Z a-z)
-          for i in $(seq 1 10); do
-            osascript -e 'tell application "Roblox" to activate' > /dev/null 2>&1 || true
-            sleep 1
-            case "$(front)" in Roblox*) break ;; esac
-          done
-          sleep 2
-          ts() { date -u +%Y-%m-%dT%H:%M:%S.000Z; }
-          printf '%s,1.0,f00d0001,6 [FLog::Output] ! Joining game '"'"'%s'"'"' place 1818 at 128.116.1.1\n' "$(ts)" "$job" >> "$log"
-          sleep 1
-          printf '%s,1.1,f00d0001,6 [FLog::GameJoinLoadTime] Report game_join_loadtime: placeid:1818, universeid:13058, userid:1\n' "$(ts)" >> "$log"
-          sleep 1
-          printf '%s,1.2,f00d0001,6 [FLog::Network] serverId: %s|128.116.1.1:53640\n' "$(ts)" "$job" >> "$log"
           cat > "$RUNNER_TEMP/notification-window.swift" <<'SWIFT'
           import CoreGraphics
           import Foundation
@@ -802,6 +788,20 @@ jobs:
           }
           SWIFT
           swiftc "$RUNNER_TEMP/notification-window.swift" -o "$RUNNER_TEMP/notification-window"
+          log=$(ls -t ~/Library/Logs/Roblox/*Player*.log | head -1)
+          job=$(uuidgen | tr A-Z a-z)
+          for i in $(seq 1 10); do
+            osascript -e 'tell application "Roblox" to activate' > /dev/null 2>&1 || true
+            sleep 1
+            case "$(front)" in Roblox*) break ;; esac
+          done
+          sleep 2
+          ts() { date -u +%Y-%m-%dT%H:%M:%S.000Z; }
+          printf '%s,1.0,f00d0001,6 [FLog::Output] ! Joining game '"'"'%s'"'"' place 1818 at 128.116.1.1\n' "$(ts)" "$job" >> "$log"
+          sleep 1
+          printf '%s,1.1,f00d0001,6 [FLog::GameJoinLoadTime] Report game_join_loadtime: placeid:1818, universeid:13058, userid:1\n' "$(ts)" >> "$log"
+          sleep 1
+          printf '%s,1.2,f00d0001,6 [FLog::Network] serverId: %s|128.116.1.1:53640\n' "$(ts)" "$job" >> "$log"
           note=""
           for i in $(seq 1 60); do
             note=$("$RUNNER_TEMP/notification-window" "$session_pid")
