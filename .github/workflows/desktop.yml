@@ -772,6 +772,8 @@ jobs:
           screencapture -x "$OUT/shots/01-roblox-menu.png"
           log=$(ls -t ~/Library/Logs/Roblox/*Player*.log | head -1)
           job=$(uuidgen | tr A-Z a-z)
+          osascript -e 'tell application "Roblox" to activate' > /dev/null 2>&1 || true
+          sleep 2
           ts() { date -u +%Y-%m-%dT%H:%M:%S.000Z; }
           printf '%s,1.0,f00d0001,6 [FLog::Output] ! Joining game '"'"'%s'"'"' place 1818 at 128.116.1.1\n' "$(ts)" "$job" >> "$log"
           sleep 1
