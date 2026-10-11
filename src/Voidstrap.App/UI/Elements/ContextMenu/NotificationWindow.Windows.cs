@@ -315,11 +315,29 @@ public partial class NotificationWindow
                 && point.X < ActualWidth - shadow.Right && point.Y < ActualHeight - shadow.Bottom;
             Rect close = DismissButton.TransformToAncestor(this).TransformBounds(new Rect(0, 0, DismissButton.ActualWidth, DismissButton.ActualHeight));
             hot = hover && close.Contains(point);
+            if (!_hoverLogged)
+            {
+                _hoverLogged = true;
+                App.Logger.WriteLine("NotificationWindow", $"Hover tracking started, pointer at {point.X:0},{point.Y:0} inside a {ActualWidth:0}x{ActualHeight:0} notification");
+            }
+        }
+        else if (!_hoverLogged)
+        {
+            _hoverLogged = true;
+            App.Logger.WriteLine("NotificationWindow", "Hover tracking has no native pointer position for this notification");
         }
         if (_hovered != hover)
         {
             _hovered = hover;
             SetDismissVisible(hover && (_appearance?.CloseButtonOnHover ?? true), true);
+            if (hover ? !_hoverSeen : !_leaveLogged)
+            {
+                if (hover)
+                    _hoverSeen = true;
+                else
+                    _leaveLogged = true;
+                App.Logger.WriteLine("NotificationWindow", hover ? "Pointer entered the notification, showing the close button" : "Pointer left the notification, hiding the close button");
+            }
         }
         if (hot && down && !_buttonWasDown && (_appearance?.CloseButtonOnHover ?? true))
         {
@@ -337,7 +355,8 @@ public partial class NotificationWindow
         if (roblox > 0 && Voidstrap.Platform.MacOS.MacOSApplication.IsActive())
         {
             Interlocked.Exchange(ref _focusReturnedTicks, Environment.TickCount64);
-            Voidstrap.Platform.MacOS.MacOSOverlayWindow.ActivateProcess(roblox);
+            bool returned = Voidstrap.Platform.MacOS.MacOSOverlayWindow.ActivateProcess(roblox);
+            App.Logger.WriteLine("NotificationWindow", returned ? "Returned focus to Roblox after the notification took it" : "Could not return focus to Roblox after the notification took it");
         }
     }
 

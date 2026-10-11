@@ -818,7 +818,9 @@ jobs:
             screencapture -x "$OUT/shots/02a-join-notification.png"
             screencapture -x -o -l "$nid" "$OUT/shots/02c-join-notification-window.png" || true
             cliclick -e 300 "m:$((nx + 220)),$((ny + nh / 2))"
-            sleep 11
+            sleep 1
+            screencapture -x -C "$OUT/shots/02h-hovering.png"
+            sleep 10
             [ -n "$("$RUNNER_TEMP/notification-window" "$session_pid")" ] && echo true > "$RUNNER_TEMP/overlay-logs/notification-hover.txt"
             cliclick -e 200 "m:$((nx + nw - 19)),$((ny + 43))"
             sleep 1
