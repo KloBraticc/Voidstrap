@@ -26,7 +26,7 @@
               <ImageBrush Stretch="UniformToFill" ImageSource="{Binding GameIcon}" />
             </Border.Background>
           </Border>
-          <Border CornerRadius="8" ClipToBounds="True" Visibility="{x:Static appUi:PlatformFeatureVisibility.LinuxIntegration}">
+          <Border CornerRadius="8" ClipToBounds="True" Visibility="{x:Static appUi:PlatformFeatureVisibility.PortableImages}">
             <Image Source="{Binding GameIcon}" Stretch="UniformToFill" />
           </Border>
           <Border CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}" />

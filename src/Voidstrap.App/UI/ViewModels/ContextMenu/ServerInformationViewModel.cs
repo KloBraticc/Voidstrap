@@ -574,10 +574,8 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		}
 		try
 		{
-			BitmapSource? icon = Voidstrap.Utility.Platform.IsLinux
-				? await Voidstrap.Utility.AppImage.LoadAsync(url, 512)
-				: await Task.Run(() => Voidstrap.Utility.AppImage.LoadSync(url));
-			if (icon != null)
+			BitmapSource? icon = await Voidstrap.Utility.AppImage.LoadAsync(url, 512, _cts.Token);
+			if (icon != null && !_disposed)
 			{
 				GameIcon = icon;
 			}

@@ -204,7 +204,7 @@ namespace Voidstrap.Utility
 
         private static Task<BitmapSource?> DecodeAsync(byte[] bytes, int decodeWidth, CancellationToken ct)
         {
-            if (!Platform.IsLinux)
+            if (!Platform.UsesPortableUi)
             {
                 return Task.Run(delegate
                 {
