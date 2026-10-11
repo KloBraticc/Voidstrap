@@ -139,6 +139,8 @@ jobs:
                   NativeLibrary.Load("/System/Library/Frameworks/AppKit.framework/AppKit");
                   nint pool = objc_autoreleasePoolPush();
                   nint window = 0;
+                  nint dimmer = 0;
+                  nint passive = 0;
                   try
                   {
                       Send(objc_getClass("NSApplication"), Sel("sharedApplication"));
@@ -177,6 +179,19 @@ jobs:
                       Assert(!MacOSOverlayWindow.IsWindow(42), "A foreign window number was accepted as an AppKit handle");
                       MacOSOverlayWindow.ShowWithoutActivating(window);
                       Assert(MacOSOverlayWindow.IsVisible(window), "The overlay did not reopen");
+                      MacOSOverlayWindow.Configure(window, false, MacOSOverlayWindow.InteractiveWindowLevel);
+                      dimmer = Create(Send(objc_getClass("NSWindow"), Sel("alloc")), Sel("initWithContentRect:styleMask:backing:defer:"), new(100, 100, 320, 240), 0, 2, false);
+                      passive = Create(Send(objc_getClass("NSWindow"), Sel("alloc")), Sel("initWithContentRect:styleMask:backing:defer:"), new(100, 100, 320, 240), 0, 2, false);
+                      Assert(dimmer != 0 && passive != 0, "The layering windows could not be created");
+                      SetBool(dimmer, Sel("setReleasedWhenClosed:"), false);
+                      SetBool(passive, Sel("setReleasedWhenClosed:"), false);
+                      MacOSOverlayWindow.Configure(dimmer, true, MacOSOverlayWindow.DimmerWindowLevel);
+                      MacOSOverlayWindow.Configure(passive, true);
+                      MacOSOverlayWindow.ShowWithoutActivating(window);
+                      MacOSOverlayWindow.ShowWithoutActivating(dimmer);
+                      MacOSOverlayWindow.ShowWithoutActivating(passive);
+                      nint ordered = Send(Send(objc_getClass("NSApplication"), Sel("sharedApplication")), Sel("orderedWindows"));
+                      Assert(WindowIndex(ordered, window) < WindowIndex(ordered, dimmer) && WindowIndex(ordered, dimmer) < WindowIndex(ordered, passive), "A passive overlay covered the dock or its dimmer");
                       Send(window, Sel("close"));
                       Send(window, Sel("release"));
                       nint closed = window;
@@ -184,15 +199,24 @@ jobs:
                       objc_autoreleasePoolPop(pool);
                       pool = objc_autoreleasePoolPush();
                       Assert(!MacOSOverlayWindow.IsWindow(closed), "A closed overlay handle remained live");
-                      Console.WriteLine("Native overlay visibility, input, opacity, fullscreen and screen coordinate checks passed");
+                      Console.WriteLine("Native overlay visibility, input, opacity, fullscreen, layering and screen coordinate checks passed");
                   }
                   finally
                   {
                       if (window != 0) { Send(window, Sel("close")); Send(window, Sel("release")); }
+                      if (dimmer != 0) { Send(dimmer, Sel("close")); Send(dimmer, Sel("release")); }
+                      if (passive != 0) { Send(passive, Sel("close")); Send(passive, Sel("release")); }
                       objc_autoreleasePoolPop(pool);
                   }
               }
               private static void Assert(bool condition, string message) { if (!condition) throw new InvalidOperationException(message); }
+              private static int WindowIndex(nint ordered, nint window)
+              {
+                  for (nuint index = 0; index < (nuint)Send(ordered, Sel("count")); index++)
+                      if (At(ordered, Sel("objectAtIndex:"), index) == window)
+                          return (int)index;
+                  throw new InvalidOperationException("The overlay was absent from the native window order");
+              }
               private static nint Sel(string name) => sel_registerName(name);
               private const string ObjC = "/usr/lib/libobjc.A.dylib";
               [LibraryImport(ObjC, StringMarshalling = StringMarshalling.Utf8)] private static partial nint objc_getClass(string name);
@@ -582,6 +606,24 @@ jobs:
           screencapture -x "$OUT/shots/06-overlays-tab.png"
           pkill -x Voidstrap || true
 
+      - name: Check the dock remains above passive overlays
+        run: |
+          cat > "$RUNNER_TEMP/overlay-layering.swift" <<'SWIFT'
+          import AppKit
+          let root = ProcessInfo.processInfo.environment["OUT"]!
+          func brightness(_ name: String) -> Double {
+              guard let data = try? Data(contentsOf: URL(fileURLWithPath: root + "/shots/" + name)),
+                    let image = NSBitmapImageRep(data: data),
+                    let color = image.colorAt(x: image.pixelsWide / 2, y: image.pixelsHigh - 93)?.usingColorSpace(.deviceRGB)
+              else { fatalError("The dock screenshot could not be read") }
+              return Double((color.redComponent + color.greenComponent + color.blueComponent) / 3)
+          }
+          let opened = brightness("02-dock-open.png")
+          let refocused = brightness("04-roblox-refocused.png")
+          print(opened > 0.08 && abs(opened - refocused) < 0.02 ? "true" : "false")
+          SWIFT
+          swift "$RUNNER_TEMP/overlay-layering.swift" > "$RUNNER_TEMP/overlay-logs/layering.txt"
+
       - name: Record fixed diagnostic results
         if: always()
         run: |
@@ -598,10 +640,11 @@ jobs:
               "missing_native_entry": "EntryPointNotFoundException" in text,
               "unhandled_exception": "Unhandled exception" in text,
               "overlay_attached": "Attached the macOS overlay" in text,
+              "dock_layering": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").is_file() else False,
               "screenshots": len(list((Path(os.environ["OUT"]) / "shots").glob("*.png")))
           }
           (Path(os.environ["OUT"]) / "checks.json").write_text(json.dumps(result))
-          if not result["runtime_installed"] or not result["overlay_attached"] or result["screenshots"] < 9 or any(result[key] for key in ("missing_native_library", "missing_native_entry", "unhandled_exception")):
+          if not result["runtime_installed"] or not result["overlay_attached"] or not result["dock_layering"] or result["screenshots"] < 9 or any(result[key] for key in ("missing_native_library", "missing_native_entry", "unhandled_exception")):
               raise SystemExit("The GUI overlay checks did not complete successfully")
           PY
 

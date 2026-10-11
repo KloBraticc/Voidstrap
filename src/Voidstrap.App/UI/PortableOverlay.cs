@@ -58,7 +58,7 @@ internal static class PortableOverlay
                     LinuxWindowInterop.TryResetInputShape(handle);
                 }
                 else
-                    MacOSOverlayWindow.Configure(handle, false);
+                    MacOSOverlayWindow.Configure(handle, false, MacOSOverlayWindow.InteractiveWindowLevel);
             }
         }
         return handle;

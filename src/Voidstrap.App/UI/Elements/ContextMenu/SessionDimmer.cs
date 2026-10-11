@@ -98,7 +98,7 @@ internal sealed partial class SessionDimmer : IDisposable
         if (Voidstrap.Utility.Platform.IsLinux)
             Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetClickThrough(handle);
         else
-            Voidstrap.Platform.MacOS.MacOSOverlayWindow.SetClickThrough(handle, true);
+            Voidstrap.Platform.MacOS.MacOSOverlayWindow.Configure(handle, true, Voidstrap.Platform.MacOS.MacOSOverlayWindow.DimmerWindowLevel);
         _portableOpacityApplied = false;
         SetOpacity(_alpha / 255d);
     }
@@ -138,7 +138,7 @@ internal sealed partial class SessionDimmer : IDisposable
             if (Voidstrap.Utility.Platform.IsLinux)
                 Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetClickThrough(handle);
             else
-                Voidstrap.Platform.MacOS.MacOSOverlayWindow.SetClickThrough(handle, true);
+                Voidstrap.Platform.MacOS.MacOSOverlayWindow.Configure(handle, true, Voidstrap.Platform.MacOS.MacOSOverlayWindow.DimmerWindowLevel);
             _visible = true;
             return;
         }

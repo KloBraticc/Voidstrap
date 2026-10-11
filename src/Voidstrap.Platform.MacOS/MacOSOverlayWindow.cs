@@ -9,7 +9,9 @@ public static partial class MacOSOverlayWindow
 	private const string ObjectiveC = "/usr/lib/libobjc.A.dylib";
 	private const string CoreFoundation = "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation";
 	private const string CoreGraphics = "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics";
-	private const nint StatusWindowLevel = 25;
+	public const int StatusWindowLevel = 25;
+	public const int DimmerWindowLevel = 26;
+	public const int InteractiveWindowLevel = 27;
 	private const nuint CanJoinAllSpaces = 1 << 0;
 	private const nuint Stationary = 1 << 4;
 	private const nuint IgnoresCycle = 1 << 6;
@@ -24,7 +26,7 @@ public static partial class MacOSOverlayWindow
 	private static nint _boundsKey;
 	private static nint _numberKey;
 
-	public static void Configure(nint window, bool clickThrough)
+	public static void Configure(nint window, bool clickThrough, int level = StatusWindowLevel)
 	{
 		if (!OperatingSystem.IsMacOS() || window == 0)
 			return;
@@ -32,7 +34,7 @@ public static partial class MacOSOverlayWindow
 		try
 		{
 			EnsureAppKit();
-			SendLong(window, sel_registerName("setLevel:"), StatusWindowLevel);
+			SendLong(window, sel_registerName("setLevel:"), level);
 			SendULong(window, sel_registerName("setCollectionBehavior:"), CanJoinAllSpaces | Stationary | IgnoresCycle | FullScreenAuxiliary);
 			SendBool(window, sel_registerName("setIgnoresMouseEvents:"), clickThrough);
 			SendBool(window, sel_registerName("setOpaque:"), false);
