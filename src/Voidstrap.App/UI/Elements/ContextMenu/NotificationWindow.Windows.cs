@@ -30,6 +30,9 @@ public partial class NotificationWindow
     // The game's area (or the screen's work area) the notification is placed in, in screen pixels
     private Int32Rect _area;
     private static long _focusReturnedTicks;
+    private int _placeLogs;
+    private double _lastPlaceLeft = double.NaN;
+    private double _lastPlaceTop = double.NaN;
 
     private async Task PresentWindowsNotificationAsync(NotificationItem item)
     {
@@ -56,6 +59,7 @@ public partial class NotificationWindow
         {
             _dismissRequested = false;
             _presenting = true;
+            _placeLogs = 0;
             SetImage(item.Image);
             SetText(item.Text, item.Flag);
             NotificationAppearance appearance = Voidstrap.UI.NotificationStyle.Current;
@@ -534,8 +538,16 @@ public partial class NotificationWindow
         int top = Math.Max(areaTop, areaTop + (int)Math.Round(spot.Y));
         if (PortableOverlay.Active)
         {
-            PortableOverlay.Place(this, Math.Clamp(left - shadowLeft, areaLeft, Math.Max(areaLeft, right - width)),
-                Math.Clamp(top - shadowTop, areaTop, Math.Max(areaTop, bottom - height)), Math.Max(1, ActualWidth), Math.Max(1, ActualHeight));
+            double placeLeft = Math.Clamp(left - shadowLeft, areaLeft, Math.Max(areaLeft, right - width));
+            double placeTop = Math.Clamp(top - shadowTop, areaTop, Math.Max(areaTop, bottom - height));
+            if (_placeLogs < 12 && (placeLeft != _lastPlaceLeft || placeTop != _lastPlaceTop))
+            {
+                _placeLogs++;
+                App.Logger.WriteLine("NotificationWindow", $"Placed at {placeLeft:0},{placeTop:0} size {width}x{height} in area {areaLeft},{areaTop} {right - areaLeft}x{bottom - areaTop}");
+            }
+            _lastPlaceLeft = placeLeft;
+            _lastPlaceTop = placeTop;
+            PortableOverlay.Place(this, placeLeft, placeTop, Math.Max(1, ActualWidth), Math.Max(1, ActualHeight));
             return;
         }
         Interop.SetWindowPos(handle, IntPtr.Zero, left - shadowLeft, top - shadowTop, 0, 0,

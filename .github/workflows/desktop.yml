@@ -817,6 +817,7 @@ jobs:
               sleep 0.5
               settled=$("$RUNNER_TEMP/notification-window" "$session_pid")
               [ -z "$settled" ] && break
+              echo "notification window $settled"
               [ "$settled" = "$previous" ] && break
               previous=$settled
             done
