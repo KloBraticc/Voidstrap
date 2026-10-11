@@ -812,8 +812,14 @@ jobs:
           if [ -n "$note" ]; then
             read -r nx ny nw nh nid <<< "$note"
             echo true > "$RUNNER_TEMP/overlay-logs/notification-visible.txt"
-            sleep 1
-            settled=$("$RUNNER_TEMP/notification-window" "$session_pid")
+            previous=""
+            for i in $(seq 1 12); do
+              sleep 0.5
+              settled=$("$RUNNER_TEMP/notification-window" "$session_pid")
+              [ -z "$settled" ] && break
+              [ "$settled" = "$previous" ] && break
+              previous=$settled
+            done
             [ -n "$settled" ] && read -r nx ny nw nh nid <<< "$settled"
             screencapture -x "$OUT/shots/02a-join-notification.png"
             screencapture -x -o -l "$nid" "$OUT/shots/02c-join-notification-window.png" || true
