@@ -1446,7 +1446,7 @@ public class Bootstrapper
                     && !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
                 App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", Voidstrap.Integrations.Overlays.OverlaySettings.DescribeLinuxSoberSession(LinuxSoberRuntimeProvider.ForceX11Session));
 
-                LinuxSoberRuntimeProvider.LauncherPrefix = await Voidstrap.Utility.SoberLauncherCommand.ResolveAsync(App.Settings.Prop.SoberLauncher, cancellationToken);
+                LinuxSoberRuntimeProvider.LauncherCommand = await Voidstrap.Utility.SoberLauncherCommand.ResolveAsync(App.Settings.Prop.SoberLauncher, cancellationToken);
                 LinuxRuntimeConfiguration configuration = LinuxRuntimeConfiguration.CreateDefault(Paths.Mods, host.Processes);
                 OperationResult prepared = await configuration.PrepareAsync(
                     installation,

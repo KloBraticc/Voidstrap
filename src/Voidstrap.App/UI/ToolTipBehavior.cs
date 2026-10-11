@@ -96,6 +96,7 @@ internal static partial class ToolTipBehavior
 
 	public static void CloseAll()
 	{
+		LinuxOverlayToolTips.CloseAll();
 		if (OpenToolTips.Count == 0)
 			return;
 		foreach (ToolTip toolTip in OpenToolTips.ToArray())

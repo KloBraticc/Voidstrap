@@ -47,6 +47,8 @@ public partial class SessionDock : Window
     private double _dimmerAlpha;
     private double _dimmerFrom;
     private long _dimmerFadeStarted;
+    private readonly TranslateTransform _linuxDimmerFade = new();
+    private int _linuxDimmerGeneration;
     private ActivityData? _data;
     private DateTimeOffset? _serverStarted;
     private DateTime _lastRefreshUtc = DateTime.MinValue;
@@ -72,6 +74,12 @@ public partial class SessionDock : Window
     private readonly NativeSlide _slide;
     private readonly TranslateTransform _linuxDockMotion = new();
     private int _linuxMotionGeneration;
+    private bool _linuxMotionActive;
+    private Point _linuxMotionOrigin;
+    private RobloxWindowRect _linuxMotionBounds;
+    private int _linuxMotionTop = int.MinValue;
+    private DispatcherTimer? _linuxMotionDeadline;
+    private Action? _linuxMotionFinished;
     private bool _exiting;
     private static readonly TimeSpan FocusLossGrace = TimeSpan.FromMilliseconds(160);
     private DispatcherTimer? _focusLoss;
@@ -132,7 +140,6 @@ public partial class SessionDock : Window
         {
             AllowsTransparency = false;
             SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
-            Pill.RenderTransform = _linuxDockMotion;
             DockRoot.Margin = new Thickness(0);
             DockRoot.RowDefinitions[0].Height = new GridLength(0);
             DockRoot.RowDefinitions[1].Height = new GridLength(DockHeight);
@@ -141,6 +148,8 @@ public partial class SessionDock : Window
             DockShadow3.Visibility = Visibility.Collapsed;
             DockShadow4.Visibility = Visibility.Collapsed;
             DockShadow5.Visibility = Visibility.Collapsed;
+            if (Pill.Parent is FrameworkElement container)
+                container.HorizontalAlignment = HorizontalAlignment.Stretch;
             Pill.Height = DockHeight;
             Height = DockHeight;
         }
@@ -313,7 +322,6 @@ public partial class SessionDock : Window
                 ProfileName.Text = user?.Label is { Length: > 0 } label ? label : "Roblox";
                 ProfileHandle.Text = user?.Name is { Length: > 0 } name ? "@" + name : string.Empty;
             });
-            _profileLoaded = true;
             Dictionary<long, string> urls = await RobloxChat.GetHeadshotUrlsAsync(new[] { self.Value }, _lifetimeToken);
             if (_closed || !urls.TryGetValue(self.Value, out string? url) || !Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
                 return;
@@ -324,6 +332,7 @@ public partial class SessionDock : Window
                     if (_closed)
                         return;
                     ProfileAvatar.ImageSource = avatar;
+                    _profileLoaded = true;
                     ProfileFallback.Visibility = Visibility.Collapsed;
                 });
         }
@@ -546,12 +555,20 @@ public partial class SessionDock : Window
     // Everything that does real work waits until the dock has finished appearing
     private void Settle()
     {
+        if (_closed || !_opened)
+            return;
+        ApplyLinuxDockShape();
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            InvalidateVisual();
+            LinuxOverlaySurface.WakePresentation(this);
+        }
         StartHeartbeat();
         if (_refreshTask is not { IsCompleted: false } && DateTime.UtcNow - _lastRefreshUtc >= RefreshInterval)
             StartRefresh();
         // Start loading the popout's banner and friends now so they are ready when it is opened
-        _ = LoadPopoutAsync();
-        _ = LoadProfileAsync();
+        _ = PortableOverlay.RunAsync(this, LoadPopoutAsync);
+        _ = PortableOverlay.RunAsync(this, LoadProfileAsync);
         // Only panels that were open come back, ones built ahead of time stay hidden until clicked
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
         {
@@ -654,7 +671,8 @@ public partial class SessionDock : Window
 
     private void CancelEntrance()
     {
-        _slide.Stop(true);
+        if (!Voidstrap.Utility.Platform.IsLinux)
+            _slide.Stop(true);
         CancelLinuxDockAnimation();
         _exiting = false;
         _popoutOnSettle = false;
@@ -663,47 +681,114 @@ public partial class SessionDock : Window
     private void StartLinuxEntrance()
     {
         _exiting = false;
-        StartLinuxDockAnimation(DockHeight, 0, 0, 1, EntranceLength, EasingMode.EaseOut, Settle);
+        StartLinuxDockAnimation(true, EntranceLength, EasingMode.EaseOut, Settle);
     }
 
     private void StartLinuxExit()
     {
         _exiting = true;
-        StartLinuxDockAnimation(0, DockHeight, 1, 0, ExitLength, EasingMode.EaseIn, OnExitFinished);
+        StartLinuxDockAnimation(false, ExitLength, EasingMode.EaseIn, OnExitFinished);
     }
 
-    private void StartLinuxDockAnimation(double fromY, double toY, double fromOpacity, double toOpacity, TimeSpan duration, EasingMode easingMode, Action completed)
+    private void StartLinuxDockAnimation(bool entering, TimeSpan duration, EasingMode easingMode, Action completed)
     {
-        int generation = ++_linuxMotionGeneration;
-        QuadraticEase easing = new() { EasingMode = easingMode };
-        DoubleAnimation motion = new(fromY, toY, duration)
+        CancelLinuxDockAnimation();
+        RobloxWindowRect bounds = RobloxWindowTracker.Current;
+        if (!bounds.Valid || !IsVisible || Wpf.Ui.Animations.RenderReady.ReducedMotion)
         {
-            EasingFunction = easing,
-            FillBehavior = FillBehavior.Stop
-        };
-        DoubleAnimation opacity = new(fromOpacity, toOpacity, duration)
-        {
-            EasingFunction = easing,
-            FillBehavior = FillBehavior.Stop
-        };
-        motion.Completed += (_, _) =>
-        {
-            if (generation != _linuxMotionGeneration)
-                return;
-            CancelLinuxDockAnimation();
             completed();
+            return;
+        }
+        int generation = _linuxMotionGeneration;
+        _linuxMotionOrigin = new Point(Left, Top);
+        _linuxMotionBounds = bounds;
+        double distance = Math.Max(DockHeight, bounds.Top + bounds.Height - Top);
+        double from = entering ? distance : 0;
+        double to = entering ? 0 : distance;
+        _linuxDockMotion.Y = to;
+        _linuxMotionActive = true;
+        _linuxMotionFinished = completed;
+        _linuxMotionDeadline = new DispatcherTimer(DispatcherPriority.Background, Dispatcher)
+        {
+            Interval = duration + TimeSpan.FromMilliseconds(1500)
         };
-        _linuxDockMotion.BeginAnimation(TranslateTransform.YProperty, motion, HandoffBehavior.SnapshotAndReplace);
-        Pill.BeginAnimation(UIElement.OpacityProperty, opacity, HandoffBehavior.SnapshotAndReplace);
+        _linuxMotionDeadline.Tick += OnLinuxMotionDeadline;
+        Voidstrap.Platform.Linux.LinuxWindowShadow.Track(PortableOverlay.Handle(this), 16, 1, true, unmanaged: true);
+        PlaceLinuxDockFrame(from);
+        Wpf.Ui.Animations.RenderReady.Run(this, () =>
+        {
+            if (_closed || generation != _linuxMotionGeneration)
+                return;
+            _linuxMotionDeadline?.Start();
+            DoubleAnimation motion = new(from, to, duration)
+            {
+                EasingFunction = new QuadraticEase { EasingMode = easingMode },
+                FillBehavior = FillBehavior.Stop
+            };
+            motion.Completed += (_, _) => FinishLinuxDockAnimation(generation);
+            CompositionTarget.Rendering += OnLinuxDockFrame;
+            Wpf.Ui.Animations.RenderReady.Hold(this, duration);
+            _linuxDockMotion.BeginAnimation(TranslateTransform.YProperty, motion, HandoffBehavior.SnapshotAndReplace);
+        });
+    }
+
+    private void OnLinuxDockFrame(object? sender, EventArgs e)
+    {
+        if (_closed || !_linuxMotionActive)
+            return;
+        PlaceLinuxDockFrame(_linuxDockMotion.Y);
+    }
+
+    private void PlaceLinuxDockFrame(double offset)
+    {
+        int top = (int)Math.Round(_linuxMotionOrigin.Y + offset);
+        if (top == _linuxMotionTop)
+            return;
+        _linuxMotionTop = top;
+        nint handle = PortableOverlay.Handle(this);
+        int width = Math.Max(1, (int)Math.Ceiling(Width));
+        int height = Math.Max(1, (int)Math.Ceiling(Height));
+        int clipTop = Math.Max(0, _linuxMotionBounds.Top - top);
+        int clipBottom = Math.Clamp(_linuxMotionBounds.Top + _linuxMotionBounds.Height - top, 0, height);
+        Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(handle, width, height, 16, clipTop, clipBottom);
+        Voidstrap.Platform.Linux.LinuxWindowInterop.TryMoveResize(handle, (int)Math.Round(_linuxMotionOrigin.X), top, width, height);
+    }
+
+    private void OnLinuxMotionDeadline(object? sender, EventArgs e) => FinishLinuxDockAnimation(_linuxMotionGeneration);
+
+    private void FinishLinuxDockAnimation(int generation)
+    {
+        if (generation != _linuxMotionGeneration || !_linuxMotionActive)
+            return;
+        Action? completed = _linuxMotionFinished;
+        if (_opened && !_closed)
+            PlaceLinuxDockFrame(0);
+        CancelLinuxDockAnimation();
+        if (_closed)
+            return;
+        if (_opened)
+        {
+            _anchor?.Refresh();
+            ApplyLinuxDockShape();
+        }
+        completed?.Invoke();
     }
 
     private void CancelLinuxDockAnimation()
     {
         _linuxMotionGeneration++;
+        _linuxMotionActive = false;
+        _linuxMotionFinished = null;
+        _linuxMotionTop = int.MinValue;
+        CompositionTarget.Rendering -= OnLinuxDockFrame;
+        if (_linuxMotionDeadline != null)
+        {
+            _linuxMotionDeadline.Stop();
+            _linuxMotionDeadline.Tick -= OnLinuxMotionDeadline;
+            _linuxMotionDeadline = null;
+        }
         _linuxDockMotion.BeginAnimation(TranslateTransform.YProperty, null);
-        Pill.BeginAnimation(UIElement.OpacityProperty, null);
         _linuxDockMotion.Y = 0;
-        Pill.Opacity = 1;
     }
 
     // Slides back down into the game's bottom edge, then hides
@@ -726,7 +811,8 @@ public partial class SessionDock : Window
             return;
         if (IsVisible)
             Hide();
-        _slide.RemoveClip();
+        if (!Voidstrap.Utility.Platform.IsLinux)
+            _slide.RemoveClip();
     }
 
     // The window is only as wide as the pill and its shadow, a smaller window is cheaper for Windows to draw
@@ -754,7 +840,7 @@ public partial class SessionDock : Window
         if (width <= shadowRoom || Math.Abs(width - Width) < 0.5)
             return;
         Width = width;
-        if (_opened && !_slide.IsRunning)
+        if (_opened && !_slide.IsRunning && !_linuxMotionActive)
         {
             _anchor?.Refresh();
             ApplyLinuxDockShape();
@@ -775,6 +861,8 @@ public partial class SessionDock : Window
             SuspendDock();
             return;
         }
+        if (_linuxMotionActive && !bounds.Matches(_linuxMotionBounds))
+            FinishLinuxDockAnimation(_linuxMotionGeneration);
         if (PortableOverlay.Active && bounds.Valid && bounds.Width != _availableWidth)
             FitWidth();
         if (_opened && !bounds.Foreground)
@@ -848,6 +936,12 @@ public partial class SessionDock : Window
     {
         if (_dimmer == null || _dimmerFade == null)
             return;
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            CompositionTarget.Rendering -= OnLinuxDimmerFrame;
+            _linuxDimmerFade.BeginAnimation(TranslateTransform.YProperty, null);
+            _linuxDimmerGeneration++;
+        }
         _dimmerFrom = _dimmerAlpha;
         _dimmerTarget = target;
         if (Math.Abs(_dimmerFrom - target) < 0.005)
@@ -858,13 +952,59 @@ public partial class SessionDock : Window
                 ParkDimmer();
             return;
         }
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            int generation = _linuxDimmerGeneration;
+            TimeSpan duration = TimeSpan.FromMilliseconds(DimmerFadeMs);
+            _dimmerFade.Stop();
+            Wpf.Ui.Animations.RenderReady.Run(this, () =>
+            {
+                if (_closed || _dimmerFade == null || generation != _linuxDimmerGeneration)
+                    return;
+                _linuxDimmerFade.Y = target;
+                DoubleAnimation fade = new(_dimmerFrom, target, duration)
+                {
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut },
+                    FillBehavior = FillBehavior.Stop
+                };
+                fade.Completed += (_, _) => FinishLinuxDimmerFade(generation);
+                CompositionTarget.Rendering += OnLinuxDimmerFrame;
+                Wpf.Ui.Animations.RenderReady.Hold(this, duration);
+                _linuxDimmerFade.BeginAnimation(TranslateTransform.YProperty, fade);
+                _dimmerFade.Stop();
+                _dimmerFade.Interval = duration + TimeSpan.FromMilliseconds(1500);
+                _dimmerFade.Start();
+            });
+            return;
+        }
         _dimmerFadeStarted = Environment.TickCount64;
         if (!_dimmerFade.IsEnabled)
             _dimmerFade.Start();
     }
 
+    private void OnLinuxDimmerFrame(object? sender, EventArgs e)
+        => SetDimmerAlpha(_linuxDimmerFade.Y);
+
+    private void FinishLinuxDimmerFade(int generation)
+    {
+        if (generation != _linuxDimmerGeneration)
+            return;
+        _linuxDimmerGeneration++;
+        CompositionTarget.Rendering -= OnLinuxDimmerFrame;
+        _linuxDimmerFade.BeginAnimation(TranslateTransform.YProperty, null);
+        _dimmerFade?.Stop();
+        SetDimmerAlpha(_dimmerTarget);
+        if (_dimmerTarget == 0)
+            ParkDimmer();
+    }
+
     private void DimmerFade_Tick(object? sender, EventArgs e)
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            FinishLinuxDimmerFade(_linuxDimmerGeneration);
+            return;
+        }
         double progress = Math.Clamp((Environment.TickCount64 - _dimmerFadeStarted) / DimmerFadeMs, 0, 1);
         double eased = progress < 0.5 ? 2 * progress * progress : 1 - Math.Pow(-2 * progress + 2, 2) / 2;
         SetDimmerAlpha(_dimmerFrom + (_dimmerTarget - _dimmerFrom) * eased);
@@ -890,6 +1030,9 @@ public partial class SessionDock : Window
 
     private void DestroyDimmer()
     {
+        _linuxDimmerGeneration++;
+        CompositionTarget.Rendering -= OnLinuxDimmerFrame;
+        _linuxDimmerFade.BeginAnimation(TranslateTransform.YProperty, null);
         if (_dimmerFade != null)
         {
             _dimmerFade.Stop();
@@ -908,7 +1051,9 @@ public partial class SessionDock : Window
         CancelRefresh();
         _refreshCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken);
         _lastRefreshUtc = DateTime.UtcNow;
-        _refreshTask = RefreshServerAsync(_data, _refreshCts.Token);
+        ActivityData data = _data;
+        CancellationToken token = _refreshCts.Token;
+        _refreshTask = PortableOverlay.RunAsync(this, () => RefreshServerAsync(data, token));
     }
 
     private void CancelRefresh()
@@ -975,7 +1120,7 @@ public partial class SessionDock : Window
         }
         UpdateReadout();
         if (PopoutOpen && _popoutView == PopoutView.Server && _data is { } data && DateTime.UtcNow - _friendsLoadedUtc >= FriendsInterval)
-            _ = RefreshFriendsQuietlyAsync(data);
+            _ = PortableOverlay.RunAsync(this, () => RefreshFriendsQuietlyAsync(data));
     }
 
     private async Task RefreshFriendsQuietlyAsync(ActivityData data)
@@ -1100,8 +1245,9 @@ public partial class SessionDock : Window
     // Between beats nothing animates and nothing is redrawn; each beat lasts under a second
     private void OnHeartbeat(object? sender, EventArgs e)
     {
-        if (_closed || !IsVisible)
+        if (_closed || !_opened || !IsVisible)
             return;
+        Wpf.Ui.Animations.RenderReady.Hold(this, TimeSpan.FromMilliseconds(900));
         PulseRingScale.BeginAnimation(ScaleTransform.ScaleXProperty, RingGrow);
         PulseRingScale.BeginAnimation(ScaleTransform.ScaleYProperty, RingGrow);
         PulseRing.BeginAnimation(OpacityProperty, RingFade);
@@ -1201,11 +1347,11 @@ public partial class SessionDock : Window
         RaiseAboveDimmer();
         if (profile)
         {
-            _ = LoadProfileDetailsAsync();
+            _ = PortableOverlay.RunAsync(this, LoadProfileDetailsAsync);
             return;
         }
         UpdateReadout();
-        _ = LoadPopoutAsync();
+        _ = PortableOverlay.RunAsync(this, LoadPopoutAsync);
     }
 
     // Fills the profile view: names, pictures, account details and counts, kept for a few minutes
@@ -1217,6 +1363,10 @@ public partial class SessionDock : Window
         {
             ProfileStatus.Text = "Loading your profile";
             ProfileStatus.Visibility = Visibility.Visible;
+            if (ProfileAccountText.Parent is UIElement account)
+                account.Visibility = Visibility.Collapsed;
+            if (ProfileSocialText.Parent is UIElement social)
+                social.Visibility = Visibility.Collapsed;
         }
         if (_profileInfoLoading || (_profileInfo != null && DateTime.UtcNow - _profileInfoUtc < TimeSpan.FromMinutes(5)))
             return;
@@ -1265,6 +1415,10 @@ public partial class SessionDock : Window
     {
         CultureInfo culture = CultureInfo.CurrentCulture;
         ProfileStatus.Visibility = Visibility.Collapsed;
+        if (ProfileAccountText.Parent is UIElement account)
+            account.Visibility = Visibility.Visible;
+        if (ProfileSocialText.Parent is UIElement social)
+            social.Visibility = Visibility.Visible;
         ProfileBannerName.Text = info.DisplayName.Length > 0 ? info.DisplayName : info.Name;
         ProfileBannerHandle.Text = "@" + info.Name + (info.Premium == true ? "  ·  Premium" : string.Empty);
         ProfileVerified.Visibility = info.Verified ? Visibility.Visible : Visibility.Collapsed;
@@ -1351,7 +1505,10 @@ public partial class SessionDock : Window
         }
     }
 
-    private async void CopyProfile_Click(object sender, RoutedEventArgs e)
+    private void CopyProfile_Click(object sender, RoutedEventArgs e)
+        => _ = PortableOverlay.RunAsync(this, () => CopyProfileAsync());
+
+    private async Task CopyProfileAsync()
     {
         if (ProfileLink is not { } link)
             return;
@@ -1411,12 +1568,16 @@ public partial class SessionDock : Window
             return;
         if (PortableOverlay.Active && _popout != null)
         {
+            if (_linuxMotionActive)
+                return;
             Rect position = Pill.TransformToAncestor(this).TransformBounds(new Rect(0, 0, Pill.ActualWidth, Pill.ActualHeight));
             RobloxWindowRect game = RobloxWindowTracker.Current;
             double portableHeight = Math.Max(1, Math.Min(PopoutHeight, Top + position.Top - PopoutGap - game.Top));
             double portableWidth = Math.Min(position.Width, game.Width);
             double portableLeft = Math.Clamp(Left + position.Left, game.Left, game.Left + Math.Max(0, game.Width - portableWidth));
             PortableOverlay.Place(_popout, portableLeft, Math.Max(game.Top, Top + position.Top - PopoutGap - portableHeight), portableWidth, portableHeight);
+            if (Voidstrap.Utility.Platform.IsLinux)
+                Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(PortableOverlay.Handle(_popout), (int)Math.Ceiling(portableWidth), (int)Math.Ceiling(portableHeight), 12);
             return;
         }
         if (_popoutHandle == IntPtr.Zero)
@@ -1493,13 +1654,14 @@ public partial class SessionDock : Window
         if (image == null || _closed)
             return;
         System.Windows.Media.Imaging.BitmapSource? banner = await Voidstrap.Utility.SafeImaging.FromHttpAsync(image, 820, _lifetimeToken);
-        if (banner == null || _closed)
+        if (banner == null || _closed || !ReferenceEquals(_data, data))
             return;
         await Dispatcher.InvokeAsync(() =>
         {
-            if (_closed)
+            if (_closed || !ReferenceEquals(_data, data))
                 return;
             BannerBrush.ImageSource = banner;
+            Voidstrap.Utility.DynamicRenderSystem.SetPortableBrushImage(BannerImageHost, banner);
             _bannerUniverse = universeId;
         });
     }
@@ -1616,6 +1778,8 @@ public partial class SessionDock : Window
         _clock.Stop();
         _clock.Tick -= OnClock;
         _slide.Stop(false);
+        CancelLinuxDockAnimation();
+        StopHeartbeat();
         if (Voidstrap.Utility.Platform.IsLinux)
             Voidstrap.Platform.Linux.LinuxWindowShadow.Forget(PortableOverlay.Handle(this));
         if (_prewarmTimer != null)
@@ -1722,7 +1886,7 @@ public partial class SessionDock : Window
 
     private void ApplyLinuxDockShape()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || !IsVisible)
+        if (_closed || !Voidstrap.Utility.Platform.IsLinux || !IsVisible || _linuxMotionActive)
             return;
         nint handle = PortableOverlay.Handle(this);
         if (handle == 0 || !Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(handle, out _, out _, out int width, out int height))
@@ -1730,7 +1894,7 @@ public partial class SessionDock : Window
         double scale = ActualWidth > 0 ? width / ActualWidth : 1;
         int radius = Math.Max(1, (int)Math.Round(16 * Math.Max(0.5, scale)));
         bool rounded = Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(handle, width, height, radius);
-        Voidstrap.Platform.Linux.LinuxWindowShadow.Track(handle, rounded ? radius : 0, scale, !rounded, message => App.Logger.WriteLine("LinuxWindowShadow", message));
+        Voidstrap.Platform.Linux.LinuxWindowShadow.Track(handle, rounded ? radius : 0, scale, !rounded, message => App.Logger.WriteLine("LinuxWindowShadow", message), true);
         if (!rounded)
             App.Logger.WriteLine("SessionDock", "Linux could not round the dock window, its soft shadow is suppressed");
     }

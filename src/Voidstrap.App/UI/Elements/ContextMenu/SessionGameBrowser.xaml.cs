@@ -68,6 +68,7 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
 
     public SessionGameBrowser(ActivityWatcher activity, ServerMatchmaker? matchmaker = null)
     {
+        _lifetimeToken = _lifetime.Token;
         _activity = activity;
         _matchmaker = matchmaker;
         InitializeComponent();
@@ -78,7 +79,10 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         _searchTimer.Tick += OnSearchTick;
     }
 
-    private async void OnLoaded(object sender, RoutedEventArgs e)
+    private void OnLoaded(object sender, RoutedEventArgs e)
+        => _ = PortableOverlay.RunAsync(this, () => OnLoadedAsync(sender, e));
+
+    private async Task OnLoadedAsync(object sender, RoutedEventArgs e)
     {
         Loaded -= OnLoaded;
         try
@@ -134,7 +138,8 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionGameBrowser", "Recent games could not be loaded: " + ex.Message);
-            StatusText.Text = Strings.ContextMenu_GameBrowser_Failed;
+            if (!_closed)
+                StatusText.Text = Strings.ContextMenu_GameBrowser_Failed;
         }
         finally
         {
@@ -147,7 +152,7 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
     }
 
     private readonly CancellationTokenSource _lifetime = new();
-    private CancellationToken _lifetimeToken => _lifetime.Token;
+    private readonly CancellationToken _lifetimeToken;
 
     private static List<ActivityData> LoadStoredHistory()
     {
@@ -206,7 +211,8 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionGameBrowser", "Favorite games could not be loaded: " + ex.Message);
-            StatusText.Text = Strings.ContextMenu_GameBrowser_Failed;
+            if (!_closed)
+                StatusText.Text = Strings.ContextMenu_GameBrowser_Failed;
         }
         finally
         {
@@ -230,7 +236,7 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         else if (SearchBox.Text.Trim().Length >= 2)
             StartSearch();
         else
-            _ = LoadContinueAsync();
+            _ = PortableOverlay.RunAsync(this, LoadContinueAsync);
     }
 
     private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -251,7 +257,7 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         }
         if (SearchBox.Text.Trim().Length < 2)
         {
-            _ = LoadContinueAsync();
+            _ = PortableOverlay.RunAsync(this, LoadContinueAsync);
             return;
         }
         SectionText.Text = "Results";
@@ -260,7 +266,10 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
 
     private void StartSearch() => _searchTimer.Start();
 
-    private async void OnSearchTick(object? sender, EventArgs e)
+    private void OnSearchTick(object? sender, EventArgs e)
+        => _ = PortableOverlay.RunAsync(this, () => OnSearchTickAsync(sender, e));
+
+    private async Task OnSearchTickAsync(object? sender, EventArgs e)
     {
         _searchTimer.Stop();
         if (_closed)
@@ -306,6 +315,7 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         {
             App.Logger.WriteLine("SessionGameBrowser", "Game search failed: " + ex.Message);
             if (!_closed && generation == _searchGeneration)
+                if (!_closed)
                 StatusText.Text = Strings.ContextMenu_GameBrowser_Failed;
         }
         finally
@@ -377,7 +387,10 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         }
     }
 
-    private async void GameTile_Click(object sender, RoutedEventArgs e)
+    private void GameTile_Click(object sender, RoutedEventArgs e)
+        => _ = PortableOverlay.RunAsync(this, () => GameTile_ClickAsync(sender, e));
+
+    private async Task GameTile_ClickAsync(object sender, RoutedEventArgs e)
     {
         // The star inside a tile is its own button, its click is not a launch
         if (e.OriginalSource is FrameworkElement { Tag: GameBrowserTile } source && !ReferenceEquals(source, sender))
@@ -467,10 +480,10 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         SearchBox.TextChanged -= SearchBox_TextChanged;
         _searchTimer.Stop();
         _searchTimer.Tick -= OnSearchTick;
-        // The token sources are only cancelled, never disposed, because loads that are still running read them
         _searchCts?.Cancel();
         _searchCts = null;
         _lifetime.Cancel();
+        _lifetime.Dispose();
         Games.Clear();
         DataContext = null;
     }
@@ -508,7 +521,7 @@ public sealed class GameBrowserTile : System.ComponentModel.INotifyPropertyChang
         : _activity.UniverseId > 0 ? "u" + _activity.UniverseId
         : "p" + _activity.PlaceId;
     public string Name => _activity.UniverseDetails?.Data?.Name ?? _activity.GameName;
-    private BitmapImage? _thumbnail;
+    private BitmapSource? _thumbnail;
     private bool _thumbnailResolved;
 
     public string ThumbnailUrl => _activity.UniverseDetails?.Thumbnail?.ImageUrl ?? string.Empty;
@@ -523,6 +536,11 @@ public sealed class GameBrowserTile : System.ComponentModel.INotifyPropertyChang
             _thumbnailResolved = true;
             if (!Uri.TryCreate(ThumbnailUrl, UriKind.Absolute, out Uri? uri) || (uri.Scheme != Uri.UriSchemeHttps && uri.Scheme != Uri.UriSchemeHttp))
                 return null;
+            if (Voidstrap.Utility.Platform.UsesPortableUi)
+            {
+                _ = LoadPortableThumbnailAsync(uri, Dispatcher.CurrentDispatcher);
+                return _thumbnail;
+            }
             try
             {
                 BitmapImage image = new();
@@ -541,6 +559,25 @@ public sealed class GameBrowserTile : System.ComponentModel.INotifyPropertyChang
             return _thumbnail;
         }
     }
+    private async Task LoadPortableThumbnailAsync(Uri uri, Dispatcher dispatcher)
+    {
+        try
+        {
+            BitmapSource? image = await DynamicRenderSystem.LoadWebImageAsync(uri.AbsoluteUri, 320).ConfigureAwait(false);
+            if (image == null || dispatcher.HasShutdownStarted || dispatcher.HasShutdownFinished)
+                return;
+            await dispatcher.InvokeAsync(() =>
+            {
+                _thumbnail = image;
+                PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(nameof(Thumbnail)));
+            }, DispatcherPriority.Background);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionGameBrowser", "A game thumbnail could not be loaded: " + ex.Message.Split('\n')[0]);
+        }
+    }
+
     public string PlayingText => _activity.UniverseDetails?.Data?.Playing is long playing ? Compact(playing) + " playing" : string.Empty;
 
     // 52, 1.1K, 23K, 1.2M

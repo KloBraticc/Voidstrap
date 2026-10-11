@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -30,10 +31,15 @@ internal static class LinuxWindowUpdatePump
 
 	private static readonly MethodInfo? RemoveUpdateTick = UpdateTickEvent?.GetRemoveMethod(true);
 
-	private static readonly TimeSpan FallbackInterval = TimeSpan.FromMilliseconds(33);
+	private static readonly TimeSpan FallbackInterval = TimeSpan.FromMilliseconds(16);
+
+	private static readonly TimeSpan ActiveInterval = TimeSpan.FromMilliseconds(16);
 
 	private static readonly FieldInfo? NativeLoopRunningField = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost)
 		.GetField("_isNativeLoopRunning", BindingFlags.Instance | BindingFlags.NonPublic);
+
+	private static readonly MethodInfo? DisposeDeferredNativeWindow = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost)
+		.GetMethod("DisposeDeferredNativeWindowIfNeeded", BindingFlags.Instance | BindingFlags.NonPublic);
 
 	private static bool RunsNativeLoop(System.Windows.Media.ProGPU.ProGpuWpfWindowHost host)
 	{
@@ -47,9 +53,11 @@ internal static class LinuxWindowUpdatePump
 		private readonly EventHandler _ownerTick;
 		private System.Windows.Media.ProGPU.ProGpuWpfWindowHost? _host;
 		private DispatcherTimer? _fallback;
-		private bool _updating;
+		private static bool _updating;
+		private static bool _updateQueued;
+		private static readonly HashSet<Pump> Pending = [];
+		private long _lastOwnerTick;
 		private bool _stopped;
-		private bool _eventsContinued;
 
 		internal Pump(Window window)
 		{
@@ -91,6 +99,12 @@ internal static class LinuxWindowUpdatePump
 					return;
 
 				if (AddUpdateTick is null || RemoveUpdateTick is null)
+				{
+					StartFallback();
+					return;
+				}
+
+				if (_updating)
 				{
 					StartFallback();
 					return;
@@ -145,7 +159,7 @@ internal static class LinuxWindowUpdatePump
 			_fallback = new DispatcherTimer(DispatcherPriority.Input, _window.Dispatcher) { Interval = FallbackInterval };
 			_fallback.Tick += OnFallbackTick;
 			_fallback.Start();
-			App.Logger?.WriteLine("LinuxWindowUpdatePump", "The window host has no update tick, " + _window.GetType().Name + " is pumped on a timer");
+			App.Logger?.WriteLine("LinuxWindowUpdatePump", _window.GetType().Name + " uses a fallback pump while no native owner loop is running");
 		}
 
 		private void OnFallbackTick(object? sender, EventArgs e)
@@ -156,31 +170,78 @@ internal static class LinuxWindowUpdatePump
 				return;
 			}
 
-			if (_owners.Exists(RunsNativeLoop))
+			if (HasRecentOwnerTick())
 				return;
 
-			OnOwnerUpdateTick(sender, e);
+			QueueUpdate();
 		}
+
+		private bool HasRecentOwnerTick() => _lastOwnerTick != 0
+			&& Stopwatch.GetElapsedTime(_lastOwnerTick) < ActiveInterval
+			&& _owners.Exists(RunsNativeLoop);
 
 		private void OnOwnerUpdateTick(object? sender, EventArgs e)
 		{
-			if (_updating || _stopped || _host is null || !_window.IsVisible)
-				return;
+			_lastOwnerTick = Stopwatch.GetTimestamp();
+			QueueUpdate();
+		}
 
+		private void QueueUpdate()
+		{
+			if (_stopped || _host is null || !_window.IsVisible || RunsNativeLoop(_host)
+				|| _window.Dispatcher.HasShutdownStarted || _window.Dispatcher.HasShutdownFinished)
+				return;
+			Pending.Add(this);
+			ScheduleUpdates();
+		}
+
+		private static void ScheduleUpdates()
+		{
+			if (_updating || _updateQueued || Pending.Count == 0)
+				return;
+			foreach (Pump pump in Pending)
+			{
+				_updateQueued = true;
+				pump._window.Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(FlushUpdates));
+				break;
+			}
+		}
+
+		private static void FlushUpdates()
+		{
+			_updateQueued = false;
+			if (_updating)
+				return;
+			Pump[] batch = [.. Pending];
+			Pending.Clear();
 			_updating = true;
 			try
 			{
-				bool overlay = Voidstrap.Integrations.Overlays.LinuxOverlaySurface.IsOverlayWindow(_window);
-				if (overlay && !_owners.Exists(RunsNativeLoop))
+				foreach (Pump pump in batch)
 				{
-					if (!_eventsContinued)
-					{
-						_host.SilkWindow?.ContinueEvents();
-						_eventsContinued = true;
-					}
-					_host.SilkWindow?.DoEvents();
+					Pending.Remove(pump);
+					pump.Update();
 				}
-				_host.SilkWindow?.DoUpdate();
+			}
+			finally
+			{
+				_updating = false;
+				ScheduleUpdates();
+			}
+		}
+
+		private void Update()
+		{
+			if (_stopped || _host is null || !_window.IsVisible || RunsNativeLoop(_host))
+				return;
+			bool ownsFrame = false;
+			try
+			{
+				if (_host.SilkWindow is { } nativeWindow)
+					nativeWindow.IsEventDriven = false;
+				NativeLoopRunningField?.SetValue(_host, true);
+				ownsFrame = NativeLoopRunningField is not null;
+				_host.DoEvents();
 			}
 			catch (Exception ex)
 			{
@@ -188,7 +249,18 @@ internal static class LinuxWindowUpdatePump
 			}
 			finally
 			{
-				_updating = false;
+				try
+				{
+					if (ownsFrame)
+					{
+						NativeLoopRunningField!.SetValue(_host, false);
+						DisposeDeferredNativeWindow?.Invoke(_host, null);
+					}
+				}
+				catch (Exception ex)
+				{
+					Stop("the native frame could not finish, " + ex.Message);
+				}
 			}
 		}
 
@@ -204,6 +276,8 @@ internal static class LinuxWindowUpdatePump
 
 		private void Unsubscribe()
 		{
+			Pending.Remove(this);
+			_lastOwnerTick = 0;
 			foreach (System.Windows.Media.ProGPU.ProGpuWpfWindowHost owner in _owners)
 			{
 				try

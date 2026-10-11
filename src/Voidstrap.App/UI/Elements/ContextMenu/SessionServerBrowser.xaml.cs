@@ -38,6 +38,7 @@ public partial class SessionServerBrowser : Window
     private readonly ServerMatchmaker? _matchmaker;
     private readonly ActivityData _gameData;
     private readonly CancellationTokenSource _lifetime = new();
+    private readonly CancellationToken _lifetimeToken;
     private readonly List<ServerCard> _all = new();
     private readonly ConcurrentQueue<MatchmakerCandidate> _incoming = new();
     private readonly HashSet<string> _seen = new(StringComparer.OrdinalIgnoreCase);
@@ -65,6 +66,7 @@ public partial class SessionServerBrowser : Window
 
     public SessionServerBrowser(ActivityWatcher activity, ServerMatchmaker? matchmaker = null)
     {
+        _lifetimeToken = _lifetime.Token;
         _activity = activity;
         _matchmaker = matchmaker;
         _gameData = activity.Data;
@@ -74,7 +76,7 @@ public partial class SessionServerBrowser : Window
         _avatarTimer.Tick += (_, _) =>
         {
             _avatarTimer.Stop();
-            _ = LoadQueuedAvatarsAsync();
+            _ = PortableOverlay.RunAsync(this, LoadQueuedAvatarsAsync);
         };
         RegionBox.Items.Add(AllRegions);
         RegionBox.SelectedIndex = 0;
@@ -87,9 +89,9 @@ public partial class SessionServerBrowser : Window
         if (_started)
             return;
         _started = true;
-        _ = LoadCurrentServerAsync();
-        _ = LoadPlacesAsync(_gameData);
-        _ = ScanServersAsync();
+        _ = PortableOverlay.RunAsync(this, LoadCurrentServerAsync);
+        _ = PortableOverlay.RunAsync(this, () => LoadPlacesAsync(_gameData));
+        _ = PortableOverlay.RunAsync(this, ScanServersAsync);
     }
 
     // ---- The server you are in ----
@@ -104,8 +106,8 @@ public partial class SessionServerBrowser : Window
         UptimeText.Text = data.ServerStartedUtc is DateTimeOffset started ? ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - started) : "Looking up";
         try
         {
-            Task<string?> location = data.QueryServerLocation(_lifetime.Token);
-            Task<ServerStartLookup>? start = data.ServerStartedUtc.HasValue ? null : VoidstrapMatchmaker.GetServerStartAsync(data.PlaceId, data.JobId, _lifetime.Token);
+            Task<string?> location = data.QueryServerLocation(_lifetimeToken);
+            Task<ServerStartLookup>? start = data.ServerStartedUtc.HasValue ? null : VoidstrapMatchmaker.GetServerStartAsync(data.PlaceId, data.JobId, _lifetimeToken);
             string? place = await location;
             if (_closed)
                 return;
@@ -121,7 +123,7 @@ public partial class SessionServerBrowser : Window
             }
             UptimeText.Text = data.ServerStartedUtc is DateTimeOffset known ? ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - known) : "Unavailable";
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -134,7 +136,10 @@ public partial class SessionServerBrowser : Window
         }
     }
 
-    private async void CopyButton_Click(object sender, RoutedEventArgs e)
+    private void CopyButton_Click(object sender, RoutedEventArgs e)
+        => _ = PortableOverlay.RunAsync(this, () => CopyButton_ClickAsync(sender, e));
+
+    private async Task CopyButton_ClickAsync(object sender, RoutedEventArgs e)
     {
         try
         {
@@ -156,14 +161,14 @@ public partial class SessionServerBrowser : Window
             ?? _all.Where(card => card.CanJoin && card.Server != null && !card.IsBlocked).OrderBy(card => card.Server!.EstimatedPingMs).FirstOrDefault();
         if (best != null)
         {
-            _ = JoinAsync(best);
+            _ = PortableOverlay.RunAsync(this, () => JoinAsync(best));
             return;
         }
         // Still scanning, the best server is joined as soon as the scan settles
         _joinBestWhenReady = true;
         StatusText.Text = "Finding the closest server";
         if (!_busy)
-            _ = ScanServersAsync();
+            _ = PortableOverlay.RunAsync(this, ScanServersAsync);
     }
 
     private void HopButton_Click(object sender, RoutedEventArgs e)
@@ -174,7 +179,7 @@ public partial class SessionServerBrowser : Window
             StatusText.Text = _busy ? "Still looking for servers, try again in a moment" : "There is no other server to hop to";
             return;
         }
-        _ = JoinAsync(choices[Random.Shared.Next(choices.Count)]);
+        _ = PortableOverlay.RunAsync(this, () => JoinAsync(choices[Random.Shared.Next(choices.Count)]));
     }
 
     // ---- Tabs ----
@@ -187,7 +192,7 @@ public partial class SessionServerBrowser : Window
         FilterBar.Visibility = _tab == BrowserTab.Public ? Visibility.Visible : Visibility.Collapsed;
         StatusText.Text = string.Empty;
         if (_tab == BrowserTab.Private && !_privateLoaded)
-            _ = LoadPrivateServersAsync();
+            _ = PortableOverlay.RunAsync(this, LoadPrivateServersAsync);
         else if (_tab == BrowserTab.Recent)
             LoadRecentServers();
         Render();
@@ -199,7 +204,7 @@ public partial class SessionServerBrowser : Window
         LoadingBar.Visibility = Visibility.Visible;
         try
         {
-            (PrivateServersStatus status, List<RobloxPrivateServer> servers) = await RobloxServers.GetPrivateServersAsync(_placeId, _lifetime.Token);
+            (PrivateServersStatus status, List<RobloxPrivateServer> servers) = await RobloxServers.GetPrivateServersAsync(_placeId, _lifetimeToken);
             if (_closed)
                 return;
             _private = servers.Select(server => ServerCard.ForPrivate(server)).ToList();
@@ -214,7 +219,7 @@ public partial class SessionServerBrowser : Window
                 };
             }
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -282,7 +287,7 @@ public partial class SessionServerBrowser : Window
         RefreshButton.IsEnabled = false;
         CountText.Text = string.Empty;
         ScanSummaryText.Text = string.Empty;
-        using CancellationTokenSource request = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.Token);
+        using CancellationTokenSource request = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken);
         request.CancelAfter(ScanTimeout);
         _scanCts = request;
         try
@@ -340,7 +345,7 @@ public partial class SessionServerBrowser : Window
                 if (_rescanPending)
                 {
                     _rescanPending = false;
-                    _ = ScanServersAsync();
+                    _ = PortableOverlay.RunAsync(this, ScanServersAsync);
                 }
             }
         }
@@ -351,13 +356,13 @@ public partial class SessionServerBrowser : Window
     {
         try
         {
-            await UniverseDetails.FetchForEntriesAsync(new[] { data }, _lifetime.Token);
+            await UniverseDetails.FetchForEntriesAsync(new[] { data }, _lifetimeToken);
             if (_closed)
                 return;
             long universeId = data.UniverseId > 0 ? data.UniverseId : data.UniverseDetails?.Data?.Id ?? 0;
             long rootPlaceId = data.UniverseDetails?.Data?.RootPlaceId ?? 0;
             List<RobloxPlace> places = universeId > 0
-                ? await RobloxPlaces.GetUniversePlacesAsync(universeId, rootPlaceId, _lifetime.Token)
+                ? await RobloxPlaces.GetUniversePlacesAsync(universeId, rootPlaceId, _lifetimeToken)
                 : new List<RobloxPlace>();
             if (_closed)
                 return;
@@ -373,7 +378,7 @@ public partial class SessionServerBrowser : Window
                 PlaceBox.Visibility = Visibility.Visible;
             }
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -388,7 +393,7 @@ public partial class SessionServerBrowser : Window
             return;
         _placeId = option.Id;
         _privateLoaded = false;
-        _ = ScanServersAsync();
+        _ = PortableOverlay.RunAsync(this, ScanServersAsync);
     }
 
     private void FinishPartialScan()
@@ -556,7 +561,10 @@ public partial class SessionServerBrowser : Window
         _avatarQueue.Clear();
         try
         {
-            Dictionary<string, string> urls = await RobloxServers.GetHeadshotsAsync(cards.SelectMany(card => card.Tokens), _lifetime.Token);
+            Dictionary<string, string> urls = await RobloxServers.GetHeadshotsAsync(cards.SelectMany(card => card.Tokens), _lifetimeToken);
+            if (_closed)
+                return;
+            await LoadAvatarImagesAsync(urls.Values);
             if (_closed)
                 return;
             List<ServerCard> retry = new();
@@ -568,7 +576,11 @@ public partial class SessionServerBrowser : Window
                     if (card.Avatars[i].IsMore || card.Avatars[i].Image != null)
                         continue;
                     if (urls.TryGetValue(card.Tokens[i], out string? url))
-                        card.Avatars[i].Image = GetAvatarImage(url);
+                    {
+                        _avatarImages.TryGetValue(url, out ImageSource? image);
+                        card.Avatars[i].Image = image;
+                        missing |= image == null;
+                    }
                     else
                         missing = true;
                 }
@@ -579,7 +591,7 @@ public partial class SessionServerBrowser : Window
             if (retry.Count > 0)
                 _ = RetryAvatarsAsync(retry);
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -598,7 +610,7 @@ public partial class SessionServerBrowser : Window
     {
         try
         {
-            await Task.Delay(TimeSpan.FromSeconds(2.5), _lifetime.Token);
+            await Task.Delay(TimeSpan.FromSeconds(2.5), _lifetimeToken);
         }
         catch (OperationCanceledException)
         {
@@ -612,40 +624,50 @@ public partial class SessionServerBrowser : Window
             _avatarTimer.Start();
     }
 
-    private ImageSource? GetAvatarImage(string url)
+    private async Task LoadAvatarImagesAsync(IEnumerable<string> urls)
     {
-        if (_avatarImages.TryGetValue(url, out ImageSource? cached))
-            return cached;
-        if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
-            return null;
-        try
+        string[] missing = urls.Where(url => !_avatarImages.ContainsKey(url)).Distinct(StringComparer.Ordinal).ToArray();
+        BitmapSource?[] images = new BitmapSource?[missing.Length];
+        Exception?[] failures = new Exception?[missing.Length];
+        await Parallel.ForEachAsync(Enumerable.Range(0, missing.Length), new ParallelOptions
         {
-            BitmapImage image = new();
-            image.BeginInit();
-            image.UriSource = uri;
-            image.DecodePixelWidth = 72;
-            image.CacheOption = BitmapCacheOption.OnLoad;
-            // A picture that fails to download is forgotten so the next request tries it again
-            image.DownloadFailed += (_, _) => _avatarImages.Remove(url);
-            image.EndInit();
-            _avatarImages[url] = image;
-            return image;
-        }
-        catch (Exception)
+            MaxDegreeOfParallelism = 4,
+            CancellationToken = _lifetimeToken
+        }, async (index, token) =>
         {
-            return null;
+            try
+            {
+                images[index] = await Voidstrap.Utility.SafeImaging.FromHttpAsync(missing[index], 72, token);
+            }
+            catch (OperationCanceledException) when (token.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                failures[index] = ex;
+            }
+        });
+        if (_closed)
+            return;
+        for (int index = 0; index < missing.Length; index++)
+        {
+            if (images[index] is { } image)
+                _avatarImages[missing[index]] = image;
         }
+        if (failures.FirstOrDefault(failure => failure != null) is { } failure)
+            App.Logger.WriteLine("SessionServerBrowser", "Some player pictures could not be loaded: " + failure.Message);
     }
 
     // ---- Joining ----
 
-    private void RefreshButton_Click(object sender, RoutedEventArgs e) => _ = ScanServersAsync();
+    private void RefreshButton_Click(object sender, RoutedEventArgs e) => _ = PortableOverlay.RunAsync(this, ScanServersAsync);
 
     private void JoinButton_Click(object sender, RoutedEventArgs e)
     {
         if (_joining || sender is not FrameworkElement { DataContext: ServerCard card } || !card.CanJoin)
             return;
-        _ = JoinAsync(card);
+        _ = PortableOverlay.RunAsync(this, () => JoinAsync(card));
     }
 
     private async Task JoinAsync(ServerCard card)
@@ -719,8 +741,8 @@ public partial class SessionServerBrowser : Window
         Loaded -= OnLoaded;
         Closed -= OnClosed;
         _avatarTimer.Stop();
-        // Cancelled but not disposed, scans and picture loads that are still finishing read these tokens
         _lifetime.Cancel();
+        _lifetime.Dispose();
         _scanCts?.Cancel();
         _scanCts = null;
         _all.Clear();

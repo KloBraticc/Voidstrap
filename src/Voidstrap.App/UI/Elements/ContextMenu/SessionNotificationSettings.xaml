@@ -131,7 +131,7 @@
               Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}">
         <!-- Clipped to the frame's rounded corners in code, ClipToBounds alone leaves them square -->
         <Grid x:Name="PreviewClipHost" SizeChanged="PreviewClipHost_SizeChanged">
-          <Border>
+          <Border x:Name="PreviewImageHost">
             <Border.Background>
               <ImageBrush x:Name="PreviewBackground" Stretch="UniformToFill" />
             </Border.Background>

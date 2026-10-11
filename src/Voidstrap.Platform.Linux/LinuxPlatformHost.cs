@@ -976,7 +976,7 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 	public static bool ForceX11Session { get; set; }
 
-	public static IReadOnlyList<string> LauncherPrefix { get; set; } = [];
+	public static LinuxSoberLauncher LauncherCommand { get; set; } = LinuxSoberLauncher.Empty;
 
 	public static bool StartedInThisProcess { get; private set; }
 
@@ -1800,11 +1800,9 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		foreach (string argument in ProxyArguments)
 			arguments.Add(argument);
 
-		arguments.Add(selection.Reference);
-
+		LinuxSoberLauncher launcher = LauncherCommand;
 		Uri soberLink = SoberLaunchLink.Normalize(deeplink);
-		if (!SoberLaunchLink.IsHomeLaunch(soberLink))
-			arguments.Add(soberLink.AbsoluteUri);
+		launcher.AppendRunArguments(arguments, selection.Reference, soberLink);
 
 		if (!await TryCloseSoberAsync(cancellationToken).ConfigureAwait(false))
 		{
@@ -1821,8 +1819,8 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		List<string> wrapped = [flatpak, .. arguments];
 		if (LinuxSoberResources.TryGetLaunchCpuList(out string cpuList))
 			wrapped = ["taskset", "--cpu-list", cpuList, .. wrapped];
-		if (LauncherPrefix.Count > 0)
-			wrapped = [.. LauncherPrefix, .. wrapped];
+		if (launcher.HostPrefix.Count > 0)
+			wrapped = [.. launcher.HostPrefix, .. wrapped];
 		if (wrapped.Count > arguments.Count + 1
 			&& LinuxFlatpakHost.TryCreateHostCommand(_processes, wrapped[0], wrapped.GetRange(1, wrapped.Count - 1), out ProcessCommand wrappedCommand, false))
 			launchCommand = wrappedCommand;
@@ -1836,7 +1834,7 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		if (!result.Succeeded || result.Value is null)
 			return OperationResult<LaunchSession>.Fail(result.Failure?.Code ?? "SoberLaunchFailed", result.Failure?.Message ?? "Sober could not start", CapabilityState.Experimental);
 		OperationResult started = await WaitForSoberStartedAsync(launchedUtc, previousLog, previousOwners, result.Value.ProcessId, cancellationToken).ConfigureAwait(false);
-		if (!started.Succeeded && started.Failure?.Code == "SoberStartupExited" && (EffectLayerArguments.Count > 0 || NvidiaArguments.Count > 0))
+		if (!started.Succeeded && started.Failure?.Code == "SoberStartupExited" && (EffectLayerArguments.Count > 0 || NvidiaArguments.Count > 0 || launcher.MangoHud))
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			StartupStatus?.Invoke("Sober stopped with Vulkan effects enabled. Restarting Roblox without effects for this session");
@@ -1846,16 +1844,13 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 			retryArguments.AddRange(LinuxFlatpakHost.GetLaunchEnvironmentArguments());
 			if (ForceX11Session)
 				retryArguments.AddRange(["--nosocket=wayland", "--socket=x11", "--env=SDL_VIDEODRIVER=x11"]);
-			retryArguments.AddRange(["--env=ENABLE_VKBASALT=0", "--env=DISABLE_VKBASALT=1", "--env=ENABLE_LSFG=0", "--env=MANGOHUD=0", "--env=DISABLE_MANGOHUD=1"]);
 			retryArguments.AddRange(ProxyArguments);
-			retryArguments.Add(selection.Reference);
-			if (!SoberLaunchLink.IsHomeLaunch(soberLink))
-				retryArguments.Add(soberLink.AbsoluteUri);
+			launcher.AppendRunArguments(retryArguments, selection.Reference, soberLink, true);
 			List<string> retryWrapped = [flatpak, .. retryArguments];
 			if (LinuxSoberResources.TryGetLaunchCpuList(out string retryCpuList))
 				retryWrapped = ["taskset", "--cpu-list", retryCpuList, .. retryWrapped];
-			if (LauncherPrefix.Count > 0)
-				retryWrapped = [.. LauncherPrefix, .. retryWrapped];
+			if (launcher.HostPrefix.Count > 0)
+				retryWrapped = [.. launcher.HostPrefix, .. retryWrapped];
 			if (!LinuxFlatpakHost.TryCreateHostCommand(_processes, retryWrapped[0], retryWrapped.GetRange(1, retryWrapped.Count - 1), out ProcessCommand retryCommand, false))
 				return OperationResult<LaunchSession>.Fail("SoberLaunchFailed", "Sober could not be restarted without effects", CapabilityState.Experimental);
 			previousOwners = SoberInstanceLockOwners();

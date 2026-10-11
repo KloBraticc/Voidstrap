@@ -18,6 +18,7 @@ internal sealed partial class SessionDimmer : IDisposable
     private IntPtr _hwnd;
     private bool _visible;
     private byte _alpha;
+    private bool _portableOpacityApplied;
     private System.Windows.Window? _portable;
 
     public bool IsVisible => _visible;
@@ -39,6 +40,7 @@ internal sealed partial class SessionDimmer : IDisposable
                 Left = -32000,
                 Top = -32000
             };
+            _portable.SourceInitialized += OnPortableSourceInitialized;
             PortableOverlay.Prepare(_portable);
             return;
         }
@@ -88,21 +90,40 @@ internal sealed partial class SessionDimmer : IDisposable
         }
     }
 
+    private void OnPortableSourceInitialized(object? sender, EventArgs e)
+    {
+        if (_portable == null)
+            return;
+        nint handle = PortableOverlay.Handle(_portable);
+        if (Voidstrap.Utility.Platform.IsLinux)
+            Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetClickThrough(handle);
+        else
+            Voidstrap.Platform.MacOS.MacOSOverlayWindow.SetClickThrough(handle, true);
+        _portableOpacityApplied = false;
+        SetOpacity(_alpha / 255d);
+    }
+
     public void SetOpacity(double opacity)
     {
+        byte alpha = (byte)Math.Round(Math.Clamp(opacity, 0, 1) * 255);
         if (_portable != null)
         {
+            if (_portableOpacityApplied && alpha == _alpha)
+                return;
+            _alpha = alpha;
             nint handle = PortableOverlay.Handle(_portable);
+            if (handle == 0)
+                return;
             if (Voidstrap.Utility.Platform.IsLinux)
-                Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowOpacity(handle, opacity);
+                _portableOpacityApplied = Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowOpacity(handle, alpha / 255d);
             else
-                Voidstrap.Platform.MacOS.MacOSOverlayWindow.SetOpacity(handle, opacity);
+            {
+                Voidstrap.Platform.MacOS.MacOSOverlayWindow.SetOpacity(handle, alpha / 255d);
+                _portableOpacityApplied = true;
+            }
             return;
         }
-        if (_hwnd == IntPtr.Zero)
-            return;
-        byte alpha = (byte)Math.Round(Math.Clamp(opacity, 0, 1) * 255);
-        if (alpha == _alpha)
+        if (_hwnd == IntPtr.Zero || alpha == _alpha)
             return;
         _alpha = alpha;
         AntiAliasingInterop.SetLayeredWindowAttributes(_hwnd, 0, alpha, AntiAliasingInterop.LWA_ALPHA);
@@ -159,6 +180,7 @@ internal sealed partial class SessionDimmer : IDisposable
     {
         if (_portable != null)
         {
+            _portable.SourceInitialized -= OnPortableSourceInitialized;
             PortableOverlay.Release(_portable);
             _portable.Close();
             _portable = null;

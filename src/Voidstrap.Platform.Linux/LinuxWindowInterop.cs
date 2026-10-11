@@ -2154,9 +2154,6 @@ public static partial class LinuxWindowInterop
 					(ushort)Math.Clamp(height, 1, ushort.MaxValue)));
 			}
 
-			if (nativeRectangles.Count == 0)
-				return false;
-
 			int size = Marshal.SizeOf<XRectangle>();
 			nint buffer = Marshal.AllocHGlobal(size * nativeRectangles.Count);
 			try
@@ -2171,7 +2168,7 @@ public static partial class LinuxWindowInterop
 				Marshal.FreeHGlobal(buffer);
 			}
 
-			return TryGetBoundingShapeRectangleCount(window, out int applied) && applied > 0;
+			return TryGetBoundingShapeRectangleCount(window, out int applied) && (nativeRectangles.Count == 0 ? applied == 0 : applied > 0);
 		}
 		catch (DllNotFoundException)
 		{
@@ -2235,7 +2232,7 @@ public static partial class LinuxWindowInterop
 		}
 	}
 
-	public static bool TrySetRoundedCorners(nint window, int width, int height, int radius)
+	public static bool TrySetRoundedCorners(nint window, int width, int height, int radius, int clipTop = 0, int clipBottom = int.MaxValue)
 	{
 		nint display = Display;
 		if (display == 0 || window == 0 || width <= 0 || height <= 0)
@@ -2245,8 +2242,11 @@ public static partial class LinuxWindowInterop
 		if (radius > limit)
 			radius = limit;
 
+		bool clipped = clipTop != 0 || clipBottom != int.MaxValue;
+		clipTop = Math.Clamp(clipTop, 0, height);
+		clipBottom = Math.Clamp(clipBottom, clipTop, height);
 		if (radius <= 0)
-			return TryClearShape(window);
+			return clipped ? TrySetBoundingRectangles(window, [(0, clipTop, width, clipBottom - clipTop)]) : TryClearShape(window);
 
 		try
 		{
@@ -2261,20 +2261,21 @@ public static partial class LinuxWindowInterop
 				if (rowWidth <= 0)
 					continue;
 
-				rectangles.Add(new XRectangle((short)inset, (short)y, (ushort)rowWidth, 1));
-				rectangles.Add(new XRectangle((short)inset, (short)(height - y - 1), (ushort)rowWidth, 1));
+				if (y >= clipTop && y < clipBottom)
+					rectangles.Add(new XRectangle((short)inset, (short)y, (ushort)rowWidth, 1));
+				int bottomY = height - y - 1;
+				if (bottomY >= clipTop && bottomY < clipBottom)
+					rectangles.Add(new XRectangle((short)inset, (short)bottomY, (ushort)rowWidth, 1));
 			}
 
-			int middleHeight = height - radius * 2;
-			if (middleHeight > 0)
-				rectangles.Add(new XRectangle(0, (short)radius, (ushort)width, (ushort)middleHeight));
-			if (width < short.MaxValue)
+			int middleTop = Math.Max(radius, clipTop);
+			int middleBottom = Math.Min(height - radius, clipBottom);
+			if (middleBottom > middleTop)
+				rectangles.Add(new XRectangle(0, (short)middleTop, (ushort)width, (ushort)(middleBottom - middleTop)));
+			if (!clipped && width < short.MaxValue)
 				rectangles.Add(new XRectangle((short)width, 0, (ushort)(short.MaxValue - width), (ushort)short.MaxValue));
-			if (height < short.MaxValue)
+			if (!clipped && height < short.MaxValue)
 				rectangles.Add(new XRectangle(0, (short)height, (ushort)width, (ushort)(short.MaxValue - height)));
-
-			if (rectangles.Count == 0)
-				return false;
 
 			int size = Marshal.SizeOf<XRectangle>();
 			nint buffer = Marshal.AllocHGlobal(size * rectangles.Count);

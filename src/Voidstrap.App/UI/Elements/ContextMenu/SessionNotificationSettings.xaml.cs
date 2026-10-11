@@ -35,6 +35,7 @@ public partial class SessionNotificationSettings : Window
         InitializeComponent();
         _appearance = NotificationStyle.Current.Copy();
         PreviewBackground.ImageSource = gameIcon;
+        Voidstrap.Utility.DynamicRenderSystem.SetPortableBrushImage(PreviewImageHost, gameIcon);
         MockIcon.Source = gameIcon;
         MockIcon.Visibility = gameIcon == null ? Visibility.Collapsed : Visibility.Visible;
         foreach (string name in MotionNames)
@@ -56,7 +57,7 @@ public partial class SessionNotificationSettings : Window
     private void OnReplay(object? sender, EventArgs e)
     {
         _replay.Stop();
-        _ = PlayAsync();
+        _ = PortableOverlay.RunAsync(this, PlayAsync);
     }
 
     private void OnClosed(object? sender, EventArgs e)
@@ -80,7 +81,7 @@ public partial class SessionNotificationSettings : Window
         Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
         {
             PlaceMock();
-            _ = PlayAsync();
+            _ = PortableOverlay.RunAsync(this, PlayAsync);
         }));
     }
 
@@ -155,7 +156,7 @@ public partial class SessionNotificationSettings : Window
         VerticalSlider.Value = vertical;
         _loading = false;
         Commit();
-        _ = PlayAsync();
+        _ = PortableOverlay.RunAsync(this, PlayAsync);
     }
 
     // Every change is saved straight away and shows on the next notification
@@ -176,7 +177,7 @@ public partial class SessionNotificationSettings : Window
             return;
         _appearance.Layout = FloatingLayout.IsChecked == true ? NotificationLayout.Floating : NotificationLayout.Corner;
         Commit();
-        _ = PlayAsync();
+        _ = PortableOverlay.RunAsync(this, PlayAsync);
     }
 
     private void Header_Checked(object sender, RoutedEventArgs e)
@@ -213,7 +214,7 @@ public partial class SessionNotificationSettings : Window
         }
         _loading = false;
         Commit();
-        _ = PlayAsync();
+        _ = PortableOverlay.RunAsync(this, PlayAsync);
     }
 
     private void Slider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -278,7 +279,7 @@ public partial class SessionNotificationSettings : Window
         App.Settings.Prop.NotifyShortcutEveryGame = false;
         LoadControls();
         Commit();
-        _ = PlayAsync();
+        _ = PortableOverlay.RunAsync(this, PlayAsync);
     }
 
     private void UpdateValueTexts()
@@ -362,7 +363,7 @@ public partial class SessionNotificationSettings : Window
     private void Preview_Click(object sender, MouseButtonEventArgs e)
     {
         _replay.Stop();
-        _ = PlayAsync();
+        _ = PortableOverlay.RunAsync(this, PlayAsync);
     }
 
     // Plays the entrance, holds briefly, plays the exit, then brings the card back so it stays visible
@@ -381,7 +382,8 @@ public partial class SessionNotificationSettings : Window
                 PlaceMock();
                 MockCard.UpdateLayout();
                 travel = MockHost.RenderSize;
-                MockLayer.CacheMode ??= new BitmapCache { SnapsToDevicePixels = true };
+                if (!PortableOverlay.Active)
+                    MockLayer.CacheMode ??= new BitmapCache { SnapsToDevicePixels = true };
                 NotificationStyle.PrepareIntro(MockLayer, MockTranslate, MockScale, _appearance, travel);
                 NotificationStyle.Play(MockLayer, MockTranslate, MockScale, _appearance, travel, true);
             });

@@ -88,7 +88,7 @@
         </Grid.RowDefinitions>
         <!-- The game's main thumbnail as a banner, with a fade so the title stays readable -->
         <Border CornerRadius="11,11,0,0" Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" />
-        <Border CornerRadius="11,11,0,0">
+        <Border x:Name="BannerImageHost" CornerRadius="11,11,0,0">
           <Border.Background>
             <ImageBrush x:Name="BannerBrush" Stretch="UniformToFill" AlignmentY="Center" />
           </Border.Background>

@@ -1189,7 +1189,7 @@ public static class LaunchHandler
 					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session = Voidstrap.Integrations.Overlays.OverlaySettings.RequiresLinuxX11Session
 						&& !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
 					App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", Voidstrap.Integrations.Overlays.OverlaySettings.DescribeLinuxSoberSession(Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session));
-					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.LauncherPrefix = await Voidstrap.Utility.SoberLauncherCommand.ResolveAsync(App.Settings.Prop.SoberLauncher, cancellation);
+					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.LauncherCommand = await Voidstrap.Utility.SoberLauncherCommand.ResolveAsync(App.Settings.Prop.SoberLauncher, cancellation);
 					await PrepareLinuxEffectLayersAsync();
 					Voidstrap.Utility.LinuxNvidiaSettings.Choices nvidiaChoices = await PrepareLinuxNvidiaSettingsAsync();
 					cancellation.ThrowIfCancellationRequested();

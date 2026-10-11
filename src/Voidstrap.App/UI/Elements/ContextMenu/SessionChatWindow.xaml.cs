@@ -23,8 +23,7 @@ public partial class SessionChatWindow : Window
     private static readonly TimeSpan TypingInterval = TimeSpan.FromSeconds(4);
     private static readonly TimeSpan EchoMatchWindow = TimeSpan.FromMinutes(2);
     private readonly CancellationTokenSource _lifetime = new();
-    private readonly SynchronizationContext? _previousSynchronizationContext;
-    private readonly DispatcherSynchronizationContext _uiSynchronizationContext;
+    private readonly CancellationToken _lifetimeToken;
     private readonly DispatcherTimer _poll;
     private readonly ObservableCollection<ChatMessageItem> _messages = new();
     private readonly HashSet<string> _messageIds = new(StringComparer.Ordinal);
@@ -50,10 +49,8 @@ public partial class SessionChatWindow : Window
 
     public SessionChatWindow()
     {
+        _lifetimeToken = _lifetime.Token;
         InitializeComponent();
-        _previousSynchronizationContext = SynchronizationContext.Current;
-        _uiSynchronizationContext = new DispatcherSynchronizationContext(Dispatcher);
-        SynchronizationContext.SetSynchronizationContext(_uiSynchronizationContext);
         MessageList.ItemsSource = _messages;
         _poll = new DispatcherTimer(DispatcherPriority.Background) { Interval = PollInterval };
         _poll.Tick += OnPoll;
@@ -61,7 +58,10 @@ public partial class SessionChatWindow : Window
         Closed += OnClosed;
     }
 
-    private async void OnLoaded(object sender, RoutedEventArgs e)
+    private void OnLoaded(object sender, RoutedEventArgs e)
+        => _ = PortableOverlay.RunAsync(this, () => OnLoadedAsync(sender, e));
+
+    private async Task OnLoadedAsync(object sender, RoutedEventArgs e)
     {
         Loaded -= OnLoaded;
         try
@@ -79,7 +79,7 @@ public partial class SessionChatWindow : Window
     private async Task StartAsync()
     {
         ShowListStatus("Loading chats");
-        RobloxChatResult<long> self = await RobloxChat.GetSelfAsync(_lifetime.Token);
+        RobloxChatResult<long> self = await RobloxChat.GetSelfAsync(_lifetimeToken);
         if (_closed)
             return;
         if (self.Status != RobloxChatStatus.Ready)
@@ -90,7 +90,8 @@ public partial class SessionChatWindow : Window
         }
         _selfId = self.Value;
         await LoadConversationsAsync();
-        _poll.Start();
+        if (!_closed)
+            _poll.Start();
     }
 
     private async Task LoadConversationsAsync()
@@ -100,7 +101,7 @@ public partial class SessionChatWindow : Window
         _busy = true;
         try
         {
-            RobloxChatResult<List<RobloxConversation>> result = await RobloxChat.GetConversationsAsync(null, _lifetime.Token);
+            RobloxChatResult<List<RobloxConversation>> result = await RobloxChat.GetConversationsAsync(null, _lifetimeToken);
             if (_closed)
                 return;
             if (result.Status != RobloxChatStatus.Ready || result.Value == null)
@@ -136,7 +137,7 @@ public partial class SessionChatWindow : Window
                 ChatStatus.Text = "No chats yet, pick a friend in the Friends tab to start one";
             }
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -163,7 +164,7 @@ public partial class SessionChatWindow : Window
         _listSignature = string.Empty;
         try
         {
-            RobloxChatResult<List<RobloxChatUser>> result = await RobloxChat.GetFriendsAsync(_selfId, _lifetime.Token);
+            RobloxChatResult<List<RobloxChatUser>> result = await RobloxChat.GetFriendsAsync(_selfId, _lifetimeToken);
             if (_closed)
                 return;
             if (result.Status != RobloxChatStatus.Ready || result.Value == null)
@@ -176,7 +177,7 @@ public partial class SessionChatWindow : Window
             if (!_closed && _showFriends)
                 RenderList(true);
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -221,7 +222,10 @@ public partial class SessionChatWindow : Window
         ConversationList.SelectionChanged += ConversationList_SelectionChanged;
     }
 
-    private async void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        => _ = PortableOverlay.RunAsync(this, () => ConversationList_SelectionChangedAsync(sender, e));
+
+    private async Task ConversationList_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
     {
         if (_closed || ConversationList.SelectedItem is not ChatListItem item)
             return;
@@ -234,7 +238,7 @@ public partial class SessionChatWindow : Window
                 return;
             }
             ChatStatus.Text = "Opening chat with " + item.Title;
-            RobloxChatResult<RobloxConversation> opened = await RobloxChat.OpenDirectAsync(item.UserId, _lifetime.Token);
+            RobloxChatResult<RobloxConversation> opened = await RobloxChat.OpenDirectAsync(item.UserId, _lifetimeToken);
             if (_closed)
                 return;
             if (opened.Status != RobloxChatStatus.Ready || opened.Value == null)
@@ -248,7 +252,7 @@ public partial class SessionChatWindow : Window
             await OpenConversationAsync(opened.Value);
             _ = LoadConversationsAsync();
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -274,7 +278,7 @@ public partial class SessionChatWindow : Window
         ClearUnread(conversation.Id);
         try
         {
-            RobloxChatResult<List<RobloxChatMessage>> result = await RobloxChat.GetMessagesAsync(conversation.Id, null, _lifetime.Token);
+            RobloxChatResult<List<RobloxChatMessage>> result = await RobloxChat.GetMessagesAsync(conversation.Id, null, _lifetimeToken);
             if (_closed || generation != _messageGeneration)
                 return;
             if (result.Status != RobloxChatStatus.Ready || result.Value == null)
@@ -287,7 +291,7 @@ public partial class SessionChatWindow : Window
             ChatStatus.Text = _messages.Count == 0 ? "No messages yet, say hi" : string.Empty;
             InputBox.Focus();
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -362,7 +366,7 @@ public partial class SessionChatWindow : Window
         int generation = _messageGeneration;
         try
         {
-            RobloxChatResult<List<RobloxChatMessage>> result = await RobloxChat.GetMessagesAsync(active.Id, _olderCursor, _lifetime.Token);
+            RobloxChatResult<List<RobloxChatMessage>> result = await RobloxChat.GetMessagesAsync(active.Id, _olderCursor, _lifetimeToken);
             if (_closed || generation != _messageGeneration || result.Status != RobloxChatStatus.Ready || result.Value == null)
                 return;
             List<RobloxChatMessage> older = result.Value.Where(m => m.Id.Length == 0 || !_messageIds.Contains(m.Id)).OrderBy(m => m.CreatedUtc).ToList();
@@ -383,7 +387,7 @@ public partial class SessionChatWindow : Window
                 viewer.ScrollToVerticalOffset(Math.Max(0, viewer.ExtentHeight - fromEnd));
             }
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -396,7 +400,10 @@ public partial class SessionChatWindow : Window
         }
     }
 
-    private async void MessageList_ScrollChanged(object sender, ScrollChangedEventArgs e)
+    private void MessageList_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        => _ = PortableOverlay.RunAsync(this, () => MessageList_ScrollChangedAsync(sender, e));
+
+    private async Task MessageList_ScrollChangedAsync(object sender, ScrollChangedEventArgs e)
     {
         if (_closed || e.VerticalChange >= 0 || e.VerticalOffset > 24 || _messages.Count == 0)
             return;
@@ -437,7 +444,10 @@ public partial class SessionChatWindow : Window
         return null;
     }
 
-    private async void OnPoll(object? sender, EventArgs e)
+    private void OnPoll(object? sender, EventArgs e)
+        => _ = PortableOverlay.RunAsync(this, () => OnPollAsync(sender, e));
+
+    private async Task OnPollAsync(object? sender, EventArgs e)
     {
         // Only talk to Roblox while the chat is actually on screen
         if (_closed || _pollBusy || !Root.IsVisible)
@@ -448,7 +458,7 @@ public partial class SessionChatWindow : Window
             if (_active is { } active)
             {
                 int generation = _messageGeneration;
-                RobloxChatResult<List<RobloxChatMessage>> result = await RobloxChat.GetMessagesAsync(active.Id, null, _lifetime.Token);
+                RobloxChatResult<List<RobloxChatMessage>> result = await RobloxChat.GetMessagesAsync(active.Id, null, _lifetimeToken);
                 if (_closed || generation != _messageGeneration)
                     return;
                 if (result.Status == RobloxChatStatus.Ready && result.Value != null)
@@ -469,7 +479,7 @@ public partial class SessionChatWindow : Window
                 await LoadConversationsAsync();
             }
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -502,7 +512,7 @@ public partial class SessionChatWindow : Window
         ScrollToEnd();
         try
         {
-            RobloxChatResult<RobloxChatMessage> result = await RobloxChat.SendMessageAsync(active.Id, text, _lifetime.Token);
+            RobloxChatResult<RobloxChatMessage> result = await RobloxChat.SendMessageAsync(active.Id, text, _lifetimeToken);
             if (_closed)
                 return;
             if (result.Status != RobloxChatStatus.Ready)
@@ -532,7 +542,7 @@ public partial class SessionChatWindow : Window
                 }
             }
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -563,7 +573,10 @@ public partial class SessionChatWindow : Window
         _messages.Remove(echo);
     }
 
-    private async void SendButton_Click(object sender, RoutedEventArgs e)
+    private void SendButton_Click(object sender, RoutedEventArgs e)
+        => _ = PortableOverlay.RunAsync(this, () => SendButton_ClickAsync(sender, e));
+
+    private async Task SendButton_ClickAsync(object sender, RoutedEventArgs e)
     {
         try
         {
@@ -575,7 +588,10 @@ public partial class SessionChatWindow : Window
         }
     }
 
-    private async void InputBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    private void InputBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        => _ = PortableOverlay.RunAsync(this, () => InputBox_PreviewKeyDownAsync(sender, e));
+
+    private async Task InputBox_PreviewKeyDownAsync(object sender, KeyEventArgs e)
     {
         if (e.Key != Key.Enter || Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
             return;
@@ -602,7 +618,7 @@ public partial class SessionChatWindow : Window
     {
         try
         {
-            await RobloxChat.SendTypingAsync(conversationId, _lifetime.Token);
+            await RobloxChat.SendTypingAsync(conversationId, _lifetimeToken);
         }
         catch (Exception)
         {
@@ -611,7 +627,10 @@ public partial class SessionChatWindow : Window
 
     private void ChatsTab_Click(object sender, RoutedEventArgs e) => SetMode(false);
 
-    private async void FriendsTab_Click(object sender, RoutedEventArgs e)
+    private void FriendsTab_Click(object sender, RoutedEventArgs e)
+        => _ = PortableOverlay.RunAsync(this, () => FriendsTab_ClickAsync(sender, e));
+
+    private async Task FriendsTab_ClickAsync(object sender, RoutedEventArgs e)
     {
         try
         {
@@ -654,10 +673,13 @@ public partial class SessionChatWindow : Window
         {
             try
             {
-                foreach (KeyValuePair<long, string> pair in await RobloxChat.GetHeadshotUrlsAsync(missing, _lifetime.Token))
+                Dictionary<long, string> urls = await RobloxChat.GetHeadshotUrlsAsync(missing, _lifetimeToken);
+                if (_closed)
+                    return;
+                foreach (KeyValuePair<long, string> pair in urls)
                     _avatarUrls[pair.Key] = pair.Value;
             }
-            catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+            catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
             {
             }
             catch (Exception ex)
@@ -666,6 +688,8 @@ public partial class SessionChatWindow : Window
             }
         }
 
+        if (_closed)
+            return;
         List<KeyValuePair<long, string>> pending = _avatarUrls
             .Where(pair => !_avatars.ContainsKey(pair.Key) && _avatarLoads.Add(pair.Key))
             .ToList();
@@ -677,12 +701,32 @@ public partial class SessionChatWindow : Window
     {
         try
         {
-            Task<(long UserId, BitmapSource? Image)>[] loads = pending.Select(async pair =>
-                (pair.Key, await Voidstrap.Utility.SafeImaging.FromHttpAsync(pair.Value, 72, _lifetime.Token))
-            ).ToArray();
-            (long UserId, BitmapSource? Image)[] results = await Task.WhenAll(loads);
+            (long UserId, BitmapSource? Image)[] results = new (long, BitmapSource?)[pending.Count];
+            Exception?[] failures = new Exception?[pending.Count];
+            await Parallel.ForEachAsync(Enumerable.Range(0, pending.Count), new ParallelOptions
+            {
+                MaxDegreeOfParallelism = 4,
+                CancellationToken = _lifetimeToken
+            }, async (index, token) =>
+            {
+                KeyValuePair<long, string> pair = pending[index];
+                try
+                {
+                    results[index] = (pair.Key, await Voidstrap.Utility.SafeImaging.FromHttpAsync(pair.Value, 72, token));
+                }
+                catch (OperationCanceledException) when (token.IsCancellationRequested)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    failures[index] = ex;
+                }
+            });
             if (_closed)
                 return;
+            if (failures.FirstOrDefault(error => error != null) is Exception failure)
+                App.Logger.WriteLine("SessionChatWindow", "Some avatar images could not be loaded: " + failure.Message);
             bool changed = false;
             foreach ((long userId, BitmapSource? image) in results)
             {
@@ -699,7 +743,7 @@ public partial class SessionChatWindow : Window
             if (_active != null)
                 HeaderAvatar.Source = AvatarFor(OtherParticipant(_active));
         }
-        catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
         }
         catch (Exception ex)
@@ -757,16 +801,16 @@ public partial class SessionChatWindow : Window
         if (_closed)
             return;
         _closed = true;
+        Loaded -= OnLoaded;
         Closed -= OnClosed;
         _poll.Stop();
         _poll.Tick -= OnPoll;
         _lifetime.Cancel();
+        _lifetime.Dispose();
         _messages.Clear();
         _avatars.Clear();
         ConversationList.ItemsSource = null;
         MessageList.ItemsSource = null;
-        if (ReferenceEquals(SynchronizationContext.Current, _uiSynchronizationContext))
-            SynchronizationContext.SetSynchronizationContext(_previousSynchronizationContext);
     }
 }
 
