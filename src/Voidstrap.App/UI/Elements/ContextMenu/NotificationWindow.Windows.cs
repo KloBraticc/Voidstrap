@@ -78,6 +78,8 @@ public partial class NotificationWindow
             SetDismissVisible(false, false);
             Show();
             _notificationHandle = PortableOverlay.Active ? PortableOverlay.Handle(this) : new WindowInteropHelper(this).Handle;
+            if (bounds.Foreground)
+                ReturnFocusToRoblox();
             OverlayDiagnostics.RegisterOverlayHandle(_notificationHandle);
             UpdateLayout();
             Size travel = new(Math.Max(1, ActualWidth), Math.Max(1, ActualHeight));
@@ -108,6 +110,8 @@ public partial class NotificationWindow
             _nativeSlide?.Stop(true);
             if (PortableOverlay.Active)
                 PlaceWindowsNotification(RobloxWindowTracker.Current);
+            if (bounds.Foreground)
+                ReturnFocusToRoblox();
             _hoverTimer?.Start();
             double duration = appearance.SafeSecondsOnScreen;
             double remaining = duration;
@@ -329,7 +333,7 @@ public partial class NotificationWindow
         if (!Voidstrap.Utility.Platform.IsMacOS)
             return;
         int roblox = RobloxWindowTracker.MacProcessId;
-        if (roblox > 0 && Voidstrap.Platform.MacOS.MacOSOverlayWindow.FrontmostWindowOwner() == Environment.ProcessId)
+        if (roblox > 0 && Voidstrap.Platform.MacOS.MacOSApplication.IsActive())
             Voidstrap.Platform.MacOS.MacOSOverlayWindow.ActivateProcess(roblox);
     }
 
