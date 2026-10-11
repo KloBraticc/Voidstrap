@@ -342,7 +342,7 @@ namespace Voidstrap.UI.Elements.Overlay
 			EnsureReadableForeground();
 			string message = text ?? string.Empty;
 			int marker = message.IndexOf(FlagPlaceholder);
-			if (marker < 0 || flag == null || Voidstrap.Utility.Platform.IsLinux)
+			if (marker < 0 || flag == null || !Voidstrap.Utility.Platform.IsWindows)
 			{
 				NotificationText.Text = message.Replace(FlagPlaceholder.ToString(), string.Empty);
 				return;
