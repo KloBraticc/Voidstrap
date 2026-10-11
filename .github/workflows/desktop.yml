@@ -844,6 +844,18 @@ jobs:
           let opened = brightness("02-dock-open.png")
           let refocused = brightness("04-roblox-refocused.png")
           print(opened > 0.08 && abs(opened - refocused) < 0.02 ? "true" : "false")
+          let baseline = NSBitmapImageRep(data: try Data(contentsOf: URL(fileURLWithPath: root + "/shots/02-dock-open.png")))!
+          let settings = NSBitmapImageRep(data: try Data(contentsOf: URL(fileURLWithPath: root + "/shots/07-panel-settings.png")))!
+          var changed = 0
+          for y in stride(from: 150, to: min(550, settings.pixelsHigh), by: 2) {
+              for x in stride(from: 100, to: min(900, settings.pixelsWide), by: 2) {
+                  guard let before = baseline.colorAt(x: x, y: y)?.usingColorSpace(.deviceRGB),
+                        let after = settings.colorAt(x: x, y: y)?.usingColorSpace(.deviceRGB) else { continue }
+                  if abs(before.redComponent - after.redComponent) + abs(before.greenComponent - after.greenComponent) + abs(before.blueComponent - after.blueComponent) > 0.3 { changed += 1 }
+              }
+          }
+          let result = ProcessInfo.processInfo.environment["RUNNER_TEMP"]! + "/overlay-logs/settings-visible.txt"
+          try (changed > 5000 ? "true" : "false").write(toFile: result, atomically: true, encoding: .utf8)
           SWIFT
           swift "$RUNNER_TEMP/overlay-layering.swift" > "$RUNNER_TEMP/overlay-logs/layering.txt"
 
@@ -867,11 +879,12 @@ jobs:
               "dock_buttons": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons-passed").is_file(),
               "dock_panels": json.loads((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons.json").read_text()) if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons.json").is_file() else {},
               "overlay_attached": "Attached the macOS overlay" in text,
+              "settings_visible": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/settings-visible.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/settings-visible.txt").is_file() else False,
               "dock_layering": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").is_file() else False,
               "screenshots": len(list((Path(os.environ["OUT"]) / "shots").glob("*.png")))
           }
           (Path(os.environ["OUT"]) / "checks.json").write_text(json.dumps(result))
-          if not result["runtime_installed"] or not result["overlay_attached"] or not result["dock_layering"] or not result["dock_buttons"] or result["screenshots"] < 20 or any(result[key] for key in ("missing_native_library", "missing_native_entry", "unhandled_exception", "dock_action_exception", "native_crash")):
+          if not result["runtime_installed"] or not result["overlay_attached"] or not result["settings_visible"] or not result["dock_layering"] or not result["dock_buttons"] or result["screenshots"] < 20 or any(result[key] for key in ("missing_native_library", "missing_native_entry", "unhandled_exception", "dock_action_exception", "native_crash")):
               raise SystemExit("The GUI overlay checks did not complete successfully")
           PY
 

@@ -133,7 +133,7 @@ public sealed partial class SessionPanelWindow : Window
             Grid.SetRowSpan(host, 2);
             if (underTitle.Content is FrameworkElement scrolled)
                 scrolled.Margin = new Thickness(scrolled.Margin.Left, scrolled.Margin.Top + CaptionHeight, scrolled.Margin.Right, scrolled.Margin.Bottom);
-            header.Children.Insert(0, Voidstrap.Utility.Platform.IsLinux ? CreateTintedBackdrop() : CreateFrostedBackdrop(host, header));
+            header.Children.Insert(0, Voidstrap.Utility.Platform.UsesPortableUi ? CreateTintedBackdrop() : CreateFrostedBackdrop(host, header));
         }
         else
         {
