@@ -793,7 +793,7 @@ jobs:
                     let width = bounds["Width"], let height = bounds["Height"],
                     width >= 400, width <= 440, height >= 60, height <= 260
               else { continue }
-              print("\(Int(bounds["X"] ?? 0)) \(Int(bounds["Y"] ?? 0)) \(Int(width)) \(Int(height))")
+              print("\(Int(bounds["X"] ?? 0)) \(Int(bounds["Y"] ?? 0)) \(Int(width)) \(Int(height)) \(window[kCGWindowNumber as String] as? Int ?? 0)")
               break
           }
           SWIFT
@@ -802,13 +802,15 @@ jobs:
           for i in $(seq 1 60); do
             note=$("$RUNNER_TEMP/notification-window" "$session_pid")
             [ -n "$note" ] && break
+            [ $((i % 4)) -eq 0 ] && screencapture -x "$OUT/shots/02s-join-wait-$i.png"
             sleep 0.5
           done
           if [ -n "$note" ]; then
-            read -r nx ny nw nh <<< "$note"
+            read -r nx ny nw nh nid <<< "$note"
             echo true > "$RUNNER_TEMP/overlay-logs/notification-visible.txt"
             sleep 1
             screencapture -x "$OUT/shots/02a-join-notification.png"
+            screencapture -x -o -l "$nid" "$OUT/shots/02c-join-notification-window.png" || true
             cliclick -e 300 "m:$((nx + 220)),$((ny + nh / 2))"
             sleep 11
             [ -n "$("$RUNNER_TEMP/notification-window" "$session_pid")" ] && echo true > "$RUNNER_TEMP/overlay-logs/notification-hover.txt"
