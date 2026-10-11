@@ -124,6 +124,160 @@ jobs:
           namespace System.Windows.Forms { public enum Keys { None = 0 } }
           EOF
           dotnet run --project "$probe/KeyboardCheck.csproj" -warnaserror
+      - name: Check macOS mods and cookie parsing with synthetic data
+        shell: bash
+        run: |
+          check="$RUNNER_TEMP/mac-content-check"
+          mkdir -p "$check"
+          cat > "$check/ContentCheck.csproj" <<EOF
+          <Project Sdk="Microsoft.NET.Sdk">
+            <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+            <ItemGroup>
+              <Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSBinaryCookies.cs" />
+              <Compile Include="$PWD/src/Voidstrap.App/Utility/MacModSync.cs" />
+              <Compile Include="$PWD/src/Voidstrap.App/Utility/ManagedModStore.cs" />
+              <Compile Include="$PWD/src/Voidstrap.App/Utility/ModPackInfo.cs" />
+              <Compile Include="$PWD/src/Voidstrap.App/Integrations/LaunchInterceptor.cs" />
+            </ItemGroup>
+          </Project>
+          EOF
+          python3 - "$check" <<'PY'
+          import sys
+          from pathlib import Path
+          source = Path('src/Voidstrap.App/Bootstrapper.cs').read_text()
+          start = source.index('    private static readonly string[] CanonicalModRoots')
+          end = source.index('    private static void RepairFlattenedModNames()', start)
+          Path(sys.argv[1], 'RootRepair.cs').write_text('using Voidstrap; namespace Voidstrap.Utility; internal static class RootRepair {\n' + source[start:end] + '\n}')
+          PY
+          cat > "$check/Program.cs" <<'EOF'
+          using System.Buffers.Binary;
+          using System.Text;
+          using Voidstrap;
+          using Voidstrap.Utility;
+          using Voidstrap.Platform.MacOS;
+          string root = Path.Combine(Path.GetTempPath(), "mod-validation-" + Guid.NewGuid().ToString("N"));
+          Paths.Root = root;
+          Directory.CreateDirectory(root);
+          try
+          {
+              void Assert(bool condition) { if (!condition) throw new InvalidOperationException("A macOS content check failed"); }
+              void Write(string path, string value) { Directory.CreateDirectory(Path.GetDirectoryName(path)!); File.WriteAllText(path, value); }
+              string resources = Path.Combine(root, "Roblox.app", "Contents", "Resources");
+              string original = Path.Combine(resources, "content", "textures", "test.png");
+              Write(original, "original");
+              Write(Path.Combine(Paths.Mods, "Content", "textures", "test.png"), "loose");
+              RootRepair.RepairModRootCase();
+              Assert(File.ReadAllText(Path.Combine(Paths.Mods, "content", "textures", "test.png")) == "loose");
+              var first = ManagedModStore.Create("First");
+              var second = ManagedModStore.Create("Second");
+              string relative = "content/textures/test.png";
+              Write(Path.Combine(ManagedModStore.GetFolder(first.Id), relative), "first");
+              Write(Path.Combine(ManagedModStore.GetFolder(second.Id), relative), "second");
+              Write(Path.Combine(ManagedModStore.GetFolder(second.Id), "content/textures/added.png"), "added");
+              Write(Path.Combine(ManagedModStore.GetFolder(second.Id), "unsafe.dll"), "excluded");
+              ModPackInfo.Write(ManagedModStore.GetFolder(second.Id), new() { Name = "Synthetic pack", Source = "test" });
+              Assert(ManagedModStore.ScanLibrary().Single(entry => entry.Record.Id == second.Id).Pack?.Name == "Synthetic pack");
+              MacModSync.Apply(resources, MacModSync.Collect(true));
+              Assert(File.ReadAllText(original) == "second" && !File.Exists(Path.Combine(resources, "unsafe.dll")) && !File.Exists(Path.Combine(resources, ModPackInfo.FileName)));
+              ManagedModStore.MoveRelative(first.Id, second.Id, false);
+              MacModSync.Apply(resources, MacModSync.Collect(true));
+              Assert(File.ReadAllText(original) == "first");
+              ManagedModStore.SetEnabled(first.Id, false);
+              ManagedModStore.SetEnabled(second.Id, false);
+              MacModSync.Apply(resources, MacModSync.Collect(true));
+              Assert(File.ReadAllText(original) == "loose" && !File.Exists(Path.Combine(resources, "content/textures/added.png")));
+              string backup = Path.Combine(Paths.Data, "MacMods", "Roblox", relative);
+              string saved = File.ReadAllText(backup);
+              File.Delete(backup);
+              MacModSync.Apply(resources, new Dictionary<string, string>());
+              Assert(File.ReadAllText(original) == "loose");
+              Write(backup, saved);
+              MacModSync.Apply(resources, new Dictionary<string, string>());
+              Assert(File.ReadAllText(original) == "original");
+              byte[] Cookie(string domain, double expiry)
+              {
+                  byte[] record = new byte[160];
+                  void Number(int offset, int value) => BinaryPrimitives.WriteInt32LittleEndian(record.AsSpan(offset), value);
+                  Number(0, record.Length); Number(16, 56); Number(20, 90); Number(28, 120);
+                  Encoding.UTF8.GetBytes(domain + "\0").CopyTo(record, 56);
+                  Encoding.UTF8.GetBytes(".ROBLOSECURITY\0").CopyTo(record, 90);
+                  Encoding.UTF8.GetBytes("synthetic\0").CopyTo(record, 120);
+                  BinaryPrimitives.WriteDoubleLittleEndian(record.AsSpan(40), expiry);
+                  byte[] data = new byte[28 + record.Length];
+                  "cook"u8.CopyTo(data); BinaryPrimitives.WriteInt32BigEndian(data.AsSpan(4), 1);
+                  BinaryPrimitives.WriteInt32BigEndian(data.AsSpan(8), data.Length - 12);
+                  BinaryPrimitives.WriteInt32LittleEndian(data.AsSpan(16), 1);
+                  BinaryPrimitives.WriteInt32LittleEndian(data.AsSpan(20), 16);
+                  record.CopyTo(data, 28); return data;
+              }
+              string? Read(byte[] data) => MacOSBinaryCookies.Find(data, ".ROBLOSECURITY", "roblox.com");
+              Assert(Read(Cookie(".roblox.com", 4e9)) == "synthetic");
+              Assert(Read(Cookie("www.roblox.com", 4e9)) == "synthetic");
+              Assert(Read(Cookie("evilroblox.com", 4e9)) is null);
+              Assert(Read(Cookie(".roblox.com", 1)) is null);
+              Assert(Read(Cookie(".roblox.com", double.PositiveInfinity)) is null);
+              byte[] broken = Cookie(".roblox.com", 4e9);
+              BinaryPrimitives.WriteInt32LittleEndian(broken.AsSpan(20), int.MaxValue);
+              Assert(Read(broken) is null);
+              for (int length = 0; length < broken.Length; length++) Assert(Read(broken[..length]) is null);
+              string publicUri = Voidstrap.Integrations.LaunchInterceptor.BuildExperienceUri(1818);
+              string jobUri = Voidstrap.Integrations.LaunchInterceptor.BuildExperienceUri(1818, "11111111-1111-1111-1111-111111111111");
+              string privateUri = Voidstrap.Integrations.LaunchInterceptor.BuildExperienceUri(1818, accessCode: "synthetic&code=1");
+              Assert(privateUri.EndsWith("accessCode=synthetic%26code%3D1") && Voidstrap.Integrations.LaunchInterceptor.ContainsSpecificGameInstance(privateUri));
+              Assert(Voidstrap.Integrations.LaunchInterceptor.ExtractPlaceId(jobUri) == 1818);
+              Assert(await Voidstrap.Integrations.LaunchInterceptor.MaybeRewriteForClosestAsync(privateUri) is null);
+              Assert(await Voidstrap.Integrations.LaunchInterceptor.MaybeRewriteForClosestAsync(jobUri) is null);
+              Assert(Voidstrap.Integrations.VoidstrapMatchmaker.Calls == 0);
+              Assert((await Voidstrap.Integrations.LaunchInterceptor.MaybeRewriteForClosestAsync(publicUri))?.Contains("gameInstanceId=") == true);
+              Assert(Voidstrap.Integrations.VoidstrapMatchmaker.Calls == 1);
+              Console.WriteLine("macOS mod, pack, restoration, cookie and launch selection checks passed");
+          }
+          finally { Directory.Delete(root, true); }
+          namespace Voidstrap
+          {
+              internal static class Paths
+              {
+                  public static string Root = "";
+                  public static string Mods => Path.Combine(Root, "Mods");
+                  public static string Data => Path.Combine(Root, "Data");
+                  public static string ManagedMods => Path.Combine(Root, "ManagedMods");
+                  public static string ManagedModPackages => Path.Combine(ManagedMods, "Packages");
+                  public static string ManagedModIndex => Path.Combine(ManagedMods, "index.json");
+              }
+              internal static class App { public static Log Logger { get; } = new(); }
+              internal sealed class Log { public void WriteLine(string component, string message) { } }
+          }
+          namespace Voidstrap.Utility
+          {
+              internal static class ExternalModConfigs { public static void RemoveConfigs(string id) { } }
+              internal static class ModAutoFixer { public static bool IsIgnoredModFile(string path) => false; }
+          }
+          namespace Voidstrap.Integrations.ClassicTopBar
+          {
+              internal static class ClassicTopBarMod { public static HashSet<string> FeatureModIds() => []; }
+          }
+          namespace Voidstrap.Integrations
+          {
+              internal static class ServerMatchmaker
+              {
+                  public static bool IsEnabled() => true;
+                  public static bool IsExcluded(long placeId) => false;
+                  public static string ResolvePreferredDatacenterKey(long placeId) => "";
+              }
+              internal static class RobloxAuthLauncher { public static string? TryGetRobloxSecurityCookie() => "synthetic"; }
+              internal sealed class MatchmakerCandidate { public string JobId => "22222222-2222-2222-2222-222222222222"; public Location? Datacenter => null; public double DistanceKm => 0; }
+              internal sealed class Location { public string City => ""; }
+              internal static class VoidstrapMatchmaker
+              {
+                  public static int Calls;
+                  public static int ResolveEffectiveCandidateCount() => 1;
+                  public static void RememberLaunchPick(MatchmakerCandidate candidate) { }
+                  public static Task<MatchmakerCandidate?> PickBestJobIdAsync(long placeId, HashSet<string>? tried, int count, string preferred, CancellationToken token)
+                  { Calls++; return Task.FromResult<MatchmakerCandidate?>(new()); }
+              }
+          }
+          EOF
+          dotnet run --project "$check/ContentCheck.csproj" -warnaserror
       - name: Check native overlay visibility and geometry
         shell: bash
         run: |
@@ -575,6 +729,7 @@ jobs:
           /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d.update({"SessionDockEnabled": True, "OverlaysEnabled": True, "CurrentTimeDisplay": True, "ShowServerDetailsUI": True, "Brightness": 30, "Crosshair": True, "NotificationWindowShow": True, "HomepageBackgroundOverlayEnabled": True, "HomepageBackgroundOverlayColor": "#FF2D7DFF", "EnableActivityTracking": True}); json.dump(d, open(p, "w"))' "$settings"
           front() { osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null; }
           "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/session-stdout.txt" 2>&1 &
+          session_pid=$!
           for i in $(seq 1 120); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
           sleep 20
           screencapture -x "$OUT/shots/01-roblox-menu.png"
@@ -599,9 +754,53 @@ jobs:
           osascript -e 'tell application "Roblox" to activate' > /dev/null 2>&1 || true
           sleep 4
           screencapture -x "$OUT/shots/04-roblox-refocused.png"
-          osascript -e 'tell application "System Events" to keystroke "l" using {control down, option down}'
+          cat > "$RUNNER_TEMP/window-count.swift" <<'SWIFT'
+          import CoreGraphics
+          import Foundation
+          let pid = Int(CommandLine.arguments[1])!
+          let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
+          print(windows.filter { ($0[kCGWindowOwnerPID as String] as? Int) == pid }.count)
+          SWIFT
+          swiftc "$RUNNER_TEMP/window-count.swift" -o "$RUNNER_TEMP/window-count"
+          baseline=$("$RUNNER_TEMP/window-count" "$session_pid")
+          for entry in chat:560 servers:600 games:640 history:680 music:720 details:760 settings:800; do
+            name=${entry%:*}
+            x=${entry#*:}
+            cliclick "c:$x,653"
+            sleep 3
+            kill -0 "$session_pid"
+            test "$("$RUNNER_TEMP/window-count" "$session_pid")" -gt "$baseline"
+            screencapture -x "$OUT/shots/07-panel-$name.png"
+            if [ "$name" = settings ]; then
+              osascript -e 'tell application "Finder" to activate'
+              sleep 3
+              test "$(front)" = Finder
+              screencapture -x "$OUT/shots/08-panel-unfocused.png"
+              osascript -e 'tell application "Roblox" to activate'
+              sleep 3
+              kill -0 "$session_pid"
+              screencapture -x "$OUT/shots/09-panel-refocused.png"
+            fi
+            cliclick "c:$x,653"
+            sleep 2
+          done
+          cliclick c:185,653
+          sleep 2
+          kill -0 "$session_pid"
+          screencapture -x "$OUT/shots/10-profile.png"
+          cliclick c:185,653
+          cliclick c:400,653
+          sleep 2
+          kill -0 "$session_pid"
+          screencapture -x "$OUT/shots/11-game-card.png"
+          cliclick c:400,653
+          cliclick c:867,653
+          sleep 1
+          osascript -e 'set the clipboard to ""'
+          cliclick c:915,653
           sleep 3
           screencapture -x "$OUT/shots/04-dock-closed.png"
+          touch "$RUNNER_TEMP/overlay-logs/buttons-passed"
           printf '%s,2.0,f00d0001,6 [FLog::Network] Time to disconnect replication data: 0.1\n' "$(ts)" >> "$log"
           sleep 6
           screencapture -x "$OUT/shots/05-left-game.png"
@@ -653,12 +852,15 @@ jobs:
               "missing_native_library": "DllNotFoundException" in text,
               "missing_native_entry": "EntryPointNotFoundException" in text,
               "unhandled_exception": "Unhandled exception" in text,
+              "dock_action_exception": "SessionDock::Action" in text and "Exception" in text,
+              "native_crash": any((Path.home() / "Library/Logs/DiagnosticReports").glob("Voidstrap*.ips")),
+              "dock_buttons": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons-passed").is_file(),
               "overlay_attached": "Attached the macOS overlay" in text,
               "dock_layering": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").is_file() else False,
               "screenshots": len(list((Path(os.environ["OUT"]) / "shots").glob("*.png")))
           }
           (Path(os.environ["OUT"]) / "checks.json").write_text(json.dumps(result))
-          if not result["runtime_installed"] or not result["overlay_attached"] or not result["dock_layering"] or result["screenshots"] < 9 or any(result[key] for key in ("missing_native_library", "missing_native_entry", "unhandled_exception")):
+          if not result["runtime_installed"] or not result["overlay_attached"] or not result["dock_layering"] or not result["dock_buttons"] or result["screenshots"] < 20 or any(result[key] for key in ("missing_native_library", "missing_native_entry", "unhandled_exception", "dock_action_exception", "native_crash")):
               raise SystemExit("The GUI overlay checks did not complete successfully")
           PY
 

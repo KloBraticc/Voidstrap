@@ -649,7 +649,7 @@ public sealed class ServerMatchmaker : IDisposable
 		return true;
 	}
 
-	public async Task<bool> LaunchPlaceAsync(long placeId, string? targetName, CancellationToken token = default)
+	public async Task<bool> LaunchPlaceAsync(long placeId, string? targetName, CancellationToken token = default, string? accessCode = null)
 	{
 		if (_disposed || placeId <= 0)
 			return false;
@@ -663,7 +663,7 @@ public sealed class ServerMatchmaker : IDisposable
 		}
 		_lastHopUtc = DateTime.UtcNow;
 		App.Logger.WriteLine(LOG_IDENT, $"Switching to place {placeId} picked in the game browser");
-		await TriggerRejoinAsync(placeId, 1, null, targetName, token, token, requireEnabled: false).ConfigureAwait(false);
+		await TriggerRejoinAsync(placeId, 1, null, targetName, token, token, requireEnabled: false, accessCode: accessCode).ConfigureAwait(false);
 		return true;
 	}
 
@@ -677,7 +677,7 @@ public sealed class ServerMatchmaker : IDisposable
 		return string.Equals(manual, jobId, StringComparison.OrdinalIgnoreCase);
 	}
 
-	private async Task TriggerRejoinAsync(long placeId, int attemptNumber, string? explicitJobId, string? targetName, CancellationToken decideBy, CancellationToken token, bool requireEnabled = true)
+	private async Task TriggerRejoinAsync(long placeId, int attemptNumber, string? explicitJobId, string? targetName, CancellationToken decideBy, CancellationToken token, bool requireEnabled = true, string? accessCode = null)
 	{
 		if (_disposed || token.IsCancellationRequested)
 			return;
@@ -690,7 +690,7 @@ public sealed class ServerMatchmaker : IDisposable
 		}
 
 		string? authUri = null;
-		if (Voidstrap.Utility.Platform.IsWindows)
+		if (Voidstrap.Utility.Platform.IsWindows && string.IsNullOrEmpty(accessCode))
 		{
 			try
 			{
@@ -707,9 +707,7 @@ public sealed class ServerMatchmaker : IDisposable
 
 		string launchUri = !string.IsNullOrEmpty(authUri)
 			? authUri
-			: string.IsNullOrEmpty(explicitJobId)
-				? $"roblox://experiences/start?placeId={placeId}"
-				: $"roblox://experiences/start?placeId={placeId}&gameInstanceId={Uri.EscapeDataString(explicitJobId)}";
+			: LaunchInterceptor.BuildExperienceUri(placeId, explicitJobId, accessCode);
 
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{

@@ -683,7 +683,15 @@ public partial class SessionServerBrowser : Window
         {
             if (card.AccessCode.Length > 0)
             {
-                LaunchUri($"roblox://experiences/start?placeId={_placeId}&accessCode={Uri.EscapeDataString(card.AccessCode)}");
+                if (Voidstrap.Utility.Platform.IsMacOS && _matchmaker != null)
+                {
+                    if (await Task.Run(() => _matchmaker.LaunchPlaceAsync(_placeId, null, CancellationToken.None, card.AccessCode)))
+                        return;
+                    if (!_closed)
+                        StatusText.Text = Strings.ContextMenu_ServerBrowser_JoinFailed;
+                    return;
+                }
+                LaunchUri(LaunchInterceptor.BuildExperienceUri(_placeId, accessCode: card.AccessCode));
                 return;
             }
             MatchmakerCandidate server = card.Server ?? new MatchmakerCandidate { JobId = card.JobId };
@@ -695,7 +703,7 @@ public partial class SessionServerBrowser : Window
             }
             else
             {
-                LaunchUri($"roblox://experiences/start?placeId={_placeId}&gameInstanceId={Uri.EscapeDataString(server.JobId)}");
+                LaunchUri(LaunchInterceptor.BuildExperienceUri(_placeId, server.JobId));
                 return;
             }
             if (!_closed)

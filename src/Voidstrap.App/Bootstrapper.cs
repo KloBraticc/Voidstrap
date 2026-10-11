@@ -4440,6 +4440,21 @@ public class Bootstrapper
             string target = Path.Combine(Paths.Mods, canonical);
             try
             {
+                string temporary = Path.Combine(Paths.Mods, Guid.NewGuid().ToString("N"));
+                Directory.Move(directory, temporary);
+                try
+                {
+                    if (!Directory.Exists(target))
+                    {
+                        Directory.Move(temporary, target);
+                        continue;
+                    }
+                }
+                finally
+                {
+                    if (Directory.Exists(temporary))
+                        Directory.Move(temporary, directory);
+                }
                 foreach (string file in Directory.EnumerateFiles(directory, "*", SearchOption.AllDirectories))
                 {
                     string destination = Path.Combine(target, Path.GetRelativePath(directory, file));

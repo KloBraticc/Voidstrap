@@ -432,7 +432,7 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
                 WorkingDirectory = Path.GetDirectoryName(executable) ?? string.Empty
             };
             startInfo.ArgumentList.Add("-player");
-            startInfo.ArgumentList.Add($"roblox://experiences/start?placeId={tile.PlaceId}");
+            startInfo.ArgumentList.Add(LaunchInterceptor.BuildExperienceUri(tile.PlaceId));
             Process.Start(startInfo)?.Dispose();
         }
         catch (Exception ex)

@@ -113,6 +113,14 @@ public static partial class LaunchInterceptor
 		return 0L;
 	}
 
+	public static string BuildExperienceUri(long placeId, string? jobId = null, string? accessCode = null)
+	{
+		ArgumentOutOfRangeException.ThrowIfNegativeOrZero(placeId);
+		string uri = $"roblox://experiences/start?placeId={placeId}";
+		return !string.IsNullOrEmpty(accessCode) ? uri + "&accessCode=" + Uri.EscapeDataString(accessCode)
+			: !string.IsNullOrEmpty(jobId) ? uri + "&gameInstanceId=" + Uri.EscapeDataString(jobId) : uri;
+	}
+
 	public static bool ContainsSpecificGameInstance(string args)
 	{
 		if (PrivateServerCodePattern.IsMatch(args))
