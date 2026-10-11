@@ -693,6 +693,41 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
+      - name: Check portable images render in controls and brushes
+        working-directory: voidstrap
+        run: |
+          mkdir -p "$OUT/shots" "$RUNNER_TEMP/overlay-logs"
+          bash build/Validation/check-macos-images.sh gallery > "$RUNNER_TEMP/overlay-logs/images.txt" 2>&1 &
+          image_pid=$!
+          for i in $(seq 1 120); do [ -f "$RUNNER_TEMP/image-check/ready" ] && break; kill -0 "$image_pid"; sleep 1; done
+          test -f "$RUNNER_TEMP/image-check/ready"
+          sleep 2
+          kill -0 "$image_pid"
+          screencapture -x "$OUT/shots/12-images.png"
+          kill "$image_pid"
+          wait "$image_pid" || true
+          cat > "$RUNNER_TEMP/image-render.swift" <<'SWIFT'
+          import AppKit
+          let root = ProcessInfo.processInfo.environment["OUT"]!
+          let image = NSBitmapImageRep(data: try Data(contentsOf: URL(fileURLWithPath: root + "/shots/12-images.png")))!
+          var passed = true
+          for x in [230, 490, 750] {
+              let red = image.colorAt(x: x, y: 240)!.usingColorSpace(.deviceRGB)!
+              let blue = image.colorAt(x: x, y: 400)!.usingColorSpace(.deviceRGB)!
+              passed = passed && red.redComponent > 0.65 && red.blueComponent < 0.2 && blue.blueComponent > 0.65 && blue.redComponent < 0.2
+          }
+          print(passed ? "true" : "false")
+          SWIFT
+          swift "$RUNNER_TEMP/image-render.swift" > "$RUNNER_TEMP/overlay-logs/images-visible.txt"
+          test "$(cat "$RUNNER_TEMP/overlay-logs/images-visible.txt")" = true
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: macos-image-render
+          path: results/shots/12-images.png
+          retention-days: 1
+
       - name: Build and copy Voidstrap into Applications
         working-directory: voidstrap
         run: |
@@ -830,32 +865,6 @@ jobs:
           click 860,268 2
           screencapture -x "$OUT/shots/06-overlays-tab.png"
           pkill -x Voidstrap || true
-
-      - name: Check portable images render in controls and brushes
-        working-directory: voidstrap
-        run: |
-          bash build/Validation/check-macos-images.sh gallery > "$RUNNER_TEMP/overlay-logs/images.txt" 2>&1 &
-          image_pid=$!
-          for i in $(seq 1 120); do [ -f "$RUNNER_TEMP/image-check/ready" ] && break; kill -0 "$image_pid"; sleep 1; done
-          test -f "$RUNNER_TEMP/image-check/ready"
-          sleep 2
-          kill -0 "$image_pid"
-          screencapture -x "$OUT/shots/12-images.png"
-          kill "$image_pid"
-          wait "$image_pid" || true
-          cat > "$RUNNER_TEMP/image-render.swift" <<'SWIFT'
-          import AppKit
-          let root = ProcessInfo.processInfo.environment["OUT"]!
-          let image = NSBitmapImageRep(data: try Data(contentsOf: URL(fileURLWithPath: root + "/shots/12-images.png")))!
-          var passed = true
-          for x in [230, 490, 750] {
-              let red = image.colorAt(x: x, y: 240)!.usingColorSpace(.deviceRGB)!
-              let blue = image.colorAt(x: x, y: 400)!.usingColorSpace(.deviceRGB)!
-              passed = passed && red.redComponent > 0.65 && red.blueComponent < 0.2 && blue.blueComponent > 0.65 && blue.redComponent < 0.2
-          }
-          print(passed ? "true" : "false")
-          SWIFT
-          swift "$RUNNER_TEMP/image-render.swift" > "$RUNNER_TEMP/overlay-logs/images-visible.txt"
 
       - name: Check the dock remains above passive overlays
         run: |

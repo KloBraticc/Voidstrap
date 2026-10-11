@@ -29,6 +29,7 @@ internal static class PortableOverlay
     {
         if (!Active)
             return;
+        LinuxWebImageSource.AttachWindow(window);
         LinuxOverlaySurface.ReleaseMainWindowClaim(window);
         LinuxWindowUpdatePump.Attach(window);
         LinuxOverlayToolTips.Attach(window);
