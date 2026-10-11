@@ -1033,6 +1033,7 @@ namespace Voidstrap.Integrations.Overlays
 				return;
 			}
 			_macWindow = native;
+			Voidstrap.UI.PortableOverlay.MarkPassive(_window);
 			Voidstrap.Platform.MacOS.MacOSOverlayWindow.Configure(native, true);
 			Voidstrap.Platform.MacOS.MacOSOverlayWindow.MoveTo(native, left, top, width, height);
 			if (!_macShown)

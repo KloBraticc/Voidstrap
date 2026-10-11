@@ -17,6 +17,7 @@ internal static class PortableOverlay
     {
         public nint Handle;
         public (int Left, int Top, int Width, int Height)? Bounds;
+        public bool Passive;
     }
 
     private static readonly ConditionalWeakTable<Window, State> States = new();
@@ -153,6 +154,12 @@ internal static class PortableOverlay
             MacOSOverlayWindow.ActivateProcess(RobloxWindowTracker.MacProcessId);
     }
 
+    public static void MarkPassive(Window window)
+    {
+        if (Active)
+            States.GetOrCreateValue(window).Passive = true;
+    }
+
     public static bool IsForeground()
     {
         if (!Voidstrap.Utility.Platform.IsMacOS || MacOSOverlayWindow.FrontmostWindowOwner() != Environment.ProcessId)
@@ -160,7 +167,7 @@ internal static class PortableOverlay
         bool visible = false;
         foreach (var pair in States)
         {
-            if (!pair.Key.IsVisible)
+            if (!pair.Key.IsVisible || pair.Value.Passive)
                 continue;
             visible = true;
             if (MacOSOverlayWindow.IsKeyWindow(pair.Value.Handle))

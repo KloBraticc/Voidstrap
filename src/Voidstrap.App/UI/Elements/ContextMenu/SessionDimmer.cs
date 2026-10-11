@@ -42,6 +42,7 @@ internal sealed partial class SessionDimmer : IDisposable
             };
             _portable.SourceInitialized += OnPortableSourceInitialized;
             PortableOverlay.Prepare(_portable);
+            PortableOverlay.MarkPassive(_portable);
             return;
         }
         IntPtr instance = AntiAliasingInterop.GetModuleHandleW(null);
