@@ -13,7 +13,7 @@ internal static class LinuxWindowUpdatePump
 	internal static void Attach(Window window)
 	{
 #if CROSSPLAT
-		if (!OperatingSystem.IsLinux() || Pumps.TryGetValue(window, out _))
+		if ((!OperatingSystem.IsLinux() && !OperatingSystem.IsMacOS()) || Pumps.TryGetValue(window, out _))
 			return;
 
 		Pumps.Add(window, new Pump(window));
@@ -30,7 +30,7 @@ internal static class LinuxWindowUpdatePump
 
 	private static readonly MethodInfo? RemoveUpdateTick = UpdateTickEvent?.GetRemoveMethod(true);
 
-	private static readonly TimeSpan FallbackInterval = TimeSpan.FromMilliseconds(16);
+	private static readonly TimeSpan FallbackInterval = TimeSpan.FromMilliseconds(33);
 
 	private static readonly FieldInfo? NativeLoopRunningField = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost)
 		.GetField("_isNativeLoopRunning", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -49,16 +49,20 @@ internal static class LinuxWindowUpdatePump
 		private DispatcherTimer? _fallback;
 		private bool _updating;
 		private bool _stopped;
+		private bool _eventsContinued;
 
 		internal Pump(Window window)
 		{
 			_window = window;
 			_ownerTick = OnOwnerUpdateTick;
+			window.Loaded += OnLoaded;
 			window.IsVisibleChanged += OnVisibleChanged;
 			window.Activated += OnActivated;
 			window.PreviewMouseDown += OnPreviewMouseDown;
 			window.Closed += OnClosed;
 		}
+
+		private void OnLoaded(object sender, RoutedEventArgs e) => Subscribe();
 
 		private void OnVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
@@ -107,6 +111,8 @@ internal static class LinuxWindowUpdatePump
 				if (NativeLoopRunningField is not null && RunsNativeLoop(_host))
 					return;
 
+				StartFallback();
+
 				foreach (Window other in application.Windows)
 				{
 					if (ReferenceEquals(other, _window)
@@ -150,6 +156,9 @@ internal static class LinuxWindowUpdatePump
 				return;
 			}
 
+			if (_owners.Exists(RunsNativeLoop))
+				return;
+
 			OnOwnerUpdateTick(sender, e);
 		}
 
@@ -161,6 +170,16 @@ internal static class LinuxWindowUpdatePump
 			_updating = true;
 			try
 			{
+				bool overlay = Voidstrap.Integrations.Overlays.LinuxOverlaySurface.IsOverlayWindow(_window);
+				if (overlay && !_owners.Exists(RunsNativeLoop))
+				{
+					if (!_eventsContinued)
+					{
+						_host.SilkWindow?.ContinueEvents();
+						_eventsContinued = true;
+					}
+					_host.SilkWindow?.DoEvents();
+				}
 				_host.SilkWindow?.DoUpdate();
 			}
 			catch (Exception ex)
@@ -210,6 +229,7 @@ internal static class LinuxWindowUpdatePump
 		{
 			_stopped = true;
 			Unsubscribe();
+			_window.Loaded -= OnLoaded;
 			_window.IsVisibleChanged -= OnVisibleChanged;
 			_window.Activated -= OnActivated;
 			_window.PreviewMouseDown -= OnPreviewMouseDown;

@@ -137,11 +137,43 @@ namespace Voidstrap.UI.Elements.Overlay
                 Kind = kind
             });
             if (!_isProcessing)
-                _ = ProcessQueue();
+                StartProcessQueue();
         }
 
         #endregion
         #region Notification Logic
+
+		private void StartProcessQueue()
+		{
+			if (!Dispatcher.CheckAccess())
+			{
+				Dispatcher.BeginInvoke(new Action(StartProcessQueue));
+				return;
+			}
+
+			SynchronizationContext? previous = SynchronizationContext.Current;
+			try
+			{
+				SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher));
+				_ = RunProcessQueueAsync();
+			}
+			finally
+			{
+				SynchronizationContext.SetSynchronizationContext(previous);
+			}
+		}
+
+		private async Task RunProcessQueueAsync()
+		{
+			try
+			{
+				await ProcessQueue();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("NotificationWindow::ProcessQueue", "Notification cleanup failed: " + ex.Message);
+			}
+		}
 
         private async Task ProcessQueue()
         {
@@ -283,6 +315,8 @@ namespace Voidstrap.UI.Elements.Overlay
 		// instead of being resampled with high quality filtering on every animation frame
 		private BitmapSource FitBitmap(BitmapSource source, double displayWidth)
 		{
+            if (PortableOverlay.Active)
+                return source;
 			try
 			{
 				double scale = VisualTreeHelper.GetDpi(this).DpiScaleX;

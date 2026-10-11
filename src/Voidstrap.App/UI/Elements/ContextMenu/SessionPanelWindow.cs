@@ -43,6 +43,8 @@ public sealed partial class SessionPanelWindow : Window
     private bool _viewLoaded;
     private bool _userClosed;
     private bool _cloaked;
+    private int _roundedWidth;
+    private int _roundedHeight;
     private const string PinGlyph = "\uE718";
     // The solid pin, clearly different from the outline one even when the accent colour is close to white
     private const string PinnedGlyph = "\uE842";
@@ -68,7 +70,7 @@ public sealed partial class SessionPanelWindow : Window
         // A transparent WPF window is rendered in software and re-uploaded on every frame, which makes
         // scrolling the server and game lists stutter over the game. On Windows the panel is an opaque
         // window made click-through with a layered style instead, which DWM composites on the GPU.
-        AllowsTransparency = !Voidstrap.Utility.Platform.IsWindows;
+        AllowsTransparency = !Voidstrap.Utility.Platform.IsWindows && !Voidstrap.Utility.Platform.IsLinux;
         if (AllowsTransparency)
             Background = Brushes.Transparent;
         else
@@ -134,7 +136,7 @@ public sealed partial class SessionPanelWindow : Window
             Grid.SetRowSpan(host, 2);
             if (underTitle.Content is FrameworkElement scrolled)
                 scrolled.Margin = new Thickness(scrolled.Margin.Left, scrolled.Margin.Top + CaptionHeight, scrolled.Margin.Right, scrolled.Margin.Bottom);
-            header.Children.Insert(0, CreateFrostedBackdrop(host, header));
+            header.Children.Insert(0, Voidstrap.Utility.Platform.IsLinux ? CreateTintedBackdrop() : CreateFrostedBackdrop(host, header));
         }
         else
         {
@@ -159,6 +161,7 @@ public sealed partial class SessionPanelWindow : Window
         RestoreLayout();
         SourceInitialized += OnSourceReady;
         Loaded += OnLoaded;
+        SizeChanged += OnSizeChanged;
         ContentRendered += OnContentRendered;
         Closed += OnClosed;
         PreviewKeyDown += OnKey;
@@ -227,6 +230,18 @@ public sealed partial class SessionPanelWindow : Window
         Track();
         Grid layers = new() { IsHitTestVisible = false };
         layers.Children.Add(blurred);
+        layers.Children.Add(tint);
+        layers.Children.Add(line);
+        return layers;
+    }
+
+    private static UIElement CreateTintedBackdrop()
+    {
+        Rectangle tint = new() { Opacity = 0.92, IsHitTestVisible = false };
+        tint.SetResourceReference(Shape.FillProperty, "SolidBackgroundFillColorBaseBrush");
+        Border line = new() { BorderThickness = new Thickness(0, 0, 0, 1), IsHitTestVisible = false, Opacity = 0.6 };
+        line.SetResourceReference(Border.BorderBrushProperty, "SurfaceStrokeColorDefaultBrush");
+        Grid layers = new() { IsHitTestVisible = false };
         layers.Children.Add(tint);
         layers.Children.Add(line);
         return layers;
@@ -317,6 +332,7 @@ public sealed partial class SessionPanelWindow : Window
         if (PortableOverlay.Active)
         {
             _handle = PortableOverlay.Handle(this);
+            ApplyLinuxRoundedCorners();
             return;
         }
         _handle = new WindowInteropHelper(this).Handle;
@@ -372,10 +388,27 @@ public sealed partial class SessionPanelWindow : Window
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
+        ApplyLinuxRoundedCorners();
         if (_viewLoaded)
             return;
         _viewLoaded = true;
         _view.RaiseEvent(new RoutedEventArgs(LoadedEvent));
+    }
+
+    private void OnSizeChanged(object sender, SizeChangedEventArgs e) => ApplyLinuxRoundedCorners();
+
+    private void ApplyLinuxRoundedCorners()
+    {
+        if (!Voidstrap.Utility.Platform.IsLinux || !IsVisible)
+            return;
+        _handle = PortableOverlay.Handle(this);
+        if (_handle == IntPtr.Zero || !Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(_handle, out _, out _, out int width, out int height))
+            return;
+        if (width == _roundedWidth && height == _roundedHeight)
+            return;
+        _roundedWidth = width;
+        _roundedHeight = height;
+        Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(_handle, width, height, 12);
     }
 
     private void OnBounds(object? sender, RobloxWindowRect bounds)
@@ -439,6 +472,7 @@ public sealed partial class SessionPanelWindow : Window
                     SetCloak(true);
                 Show();
             }
+            ApplyLinuxRoundedCorners();
             _placed = true;
             _lastLeft = left;
             _lastTop = top;
@@ -585,6 +619,7 @@ public sealed partial class SessionPanelWindow : Window
         SaveLayout();
         SourceInitialized -= OnSourceReady;
         Loaded -= OnLoaded;
+        SizeChanged -= OnSizeChanged;
         ContentRendered -= OnContentRendered;
         Closed -= OnClosed;
         PreviewKeyDown -= OnKey;

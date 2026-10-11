@@ -187,6 +187,7 @@ internal sealed partial class NativeSlide
                 }
                 _portableClip.Rect = new Rect(x0, y0, Math.Max(0, x1 - x0), Math.Max(0, y1 - y0));
             }
+            Voidstrap.Integrations.Overlays.LinuxOverlaySurface.WakePresentation(_window);
             return;
         }
 		IntPtr region = CreateRectRgn(x0, y0, Math.Max(x0, x1), Math.Max(y0, y1));

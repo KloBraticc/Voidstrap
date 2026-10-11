@@ -70,6 +70,8 @@ public partial class SessionDock : Window
     private const double ShadowRoomX = 40;
     private int _availableWidth;
     private readonly NativeSlide _slide;
+    private readonly TranslateTransform _linuxDockMotion = new();
+    private int _linuxMotionGeneration;
     private bool _exiting;
     private static readonly TimeSpan FocusLossGrace = TimeSpan.FromMilliseconds(160);
     private DispatcherTimer? _focusLoss;
@@ -126,6 +128,22 @@ public partial class SessionDock : Window
         _activity = activity;
         _action = action;
         InitializeComponent();
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            AllowsTransparency = false;
+            SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
+            Pill.RenderTransform = _linuxDockMotion;
+            DockRoot.Margin = new Thickness(0);
+            DockRoot.RowDefinitions[0].Height = new GridLength(0);
+            DockRoot.RowDefinitions[1].Height = new GridLength(DockHeight);
+            DockShadow1.Visibility = Visibility.Collapsed;
+            DockShadow2.Visibility = Visibility.Collapsed;
+            DockShadow3.Visibility = Visibility.Collapsed;
+            DockShadow4.Visibility = Visibility.Collapsed;
+            DockShadow5.Visibility = Visibility.Collapsed;
+            Pill.Height = DockHeight;
+            Height = DockHeight;
+        }
         PortableOverlay.Prepare(this);
         PreviewKeyDown += OnDockKey;
         _slide = new NativeSlide(this);
@@ -137,6 +155,7 @@ public partial class SessionDock : Window
         _clock = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(1) };
         _clock.Tick += OnClock;
         SourceInitialized += OnSourceInitialized;
+        Loaded += OnDockLoaded;
         Closing += OnClosing;
         Closed += OnClosed;
         RobloxWindowTracker.Changed += OnTrackerChanged;
@@ -281,25 +300,32 @@ public partial class SessionDock : Window
                 return;
             if (self.Status != RobloxChatStatus.Ready)
             {
-                ProfileName.Text = "Not signed in";
-                ProfileHandle.Text = self.Status == RobloxChatStatus.SignInExpired ? "Sign in again" : string.Empty;
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    ProfileName.Text = "Not signed in";
+                    ProfileHandle.Text = self.Status == RobloxChatStatus.SignInExpired ? "Sign in again" : string.Empty;
+                });
                 return;
             }
             RobloxChatUser? user = RobloxChat.GetCachedUser(self.Value);
-            ProfileName.Text = user?.Label is { Length: > 0 } label ? label : "Roblox";
-            ProfileHandle.Text = user?.Name is { Length: > 0 } name ? "@" + name : string.Empty;
+            await Dispatcher.InvokeAsync(() =>
+            {
+                ProfileName.Text = user?.Label is { Length: > 0 } label ? label : "Roblox";
+                ProfileHandle.Text = user?.Name is { Length: > 0 } name ? "@" + name : string.Empty;
+            });
             _profileLoaded = true;
             Dictionary<long, string> urls = await RobloxChat.GetHeadshotUrlsAsync(new[] { self.Value }, _lifetimeToken);
             if (_closed || !urls.TryGetValue(self.Value, out string? url) || !Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
                 return;
-            BitmapImage avatar = new();
-            avatar.BeginInit();
-            avatar.UriSource = uri;
-            avatar.DecodePixelWidth = 96;
-            avatar.CacheOption = BitmapCacheOption.OnLoad;
-            avatar.EndInit();
-            ProfileAvatar.ImageSource = avatar;
-            ProfileFallback.Visibility = Visibility.Collapsed;
+            System.Windows.Media.Imaging.BitmapSource? avatar = await Voidstrap.Utility.SafeImaging.FromHttpAsync(uri.AbsoluteUri, 96, _lifetimeToken);
+            if (avatar != null)
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    if (_closed)
+                        return;
+                    ProfileAvatar.ImageSource = avatar;
+                    ProfileFallback.Visibility = Visibility.Collapsed;
+                });
         }
         catch (OperationCanceledException)
         {
@@ -358,7 +384,8 @@ public partial class SessionDock : Window
         _opened = false;
         bool returnFocus = RobloxWindowTracker.IsRobloxForeground();
         _focusLoss?.Stop();
-        bool slide = animate && NativeSlide.Supported && IsVisible && RobloxWindowTracker.Current.Valid;
+        bool linuxSlide = animate && Voidstrap.Utility.Platform.IsLinux && IsVisible;
+        bool slide = animate && NativeSlide.Supported && !Voidstrap.Utility.Platform.IsLinux && IsVisible && RobloxWindowTracker.Current.Valid;
         CancelEntrance();
         _clock.Stop();
         StopHeartbeat();
@@ -366,7 +393,9 @@ public partial class SessionDock : Window
         _anchor?.Dispose();
         _anchor = null;
         HidePopout();
-        if (!slide || !StartExit())
+        if (linuxSlide)
+            StartLinuxExit();
+        else if (!slide || !StartExit())
         {
             if (IsVisible)
                 Hide();
@@ -476,6 +505,7 @@ public partial class SessionDock : Window
         }
         FitWidth();
         _anchor.Refresh();
+        ApplyLinuxDockShape();
         RaiseAboveDimmer();
         _clock.Start();
         _activateOnSettle = activatePanels;
@@ -486,6 +516,11 @@ public partial class SessionDock : Window
     // is redrawn while it moves, which is what made the old animation stutter and slow the game down.
     private void StartEntrance(Point? resumeFrom)
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            StartLinuxEntrance();
+            return;
+        }
         RobloxWindowRect game = RobloxWindowTracker.Current;
         if (!NativeSlide.Supported || !game.Valid || _slide.CurrentPosition() is not Point target)
         {
@@ -536,7 +571,7 @@ public partial class SessionDock : Window
     // One panel per idle moment, so building them never makes the dock or the game hitch
     private void StartPrewarm()
     {
-        if (_closed)
+        if (_closed || Voidstrap.Utility.Platform.IsLinux)
             return;
         if (_prewarmTimer == null)
         {
@@ -620,13 +655,62 @@ public partial class SessionDock : Window
     private void CancelEntrance()
     {
         _slide.Stop(true);
+        CancelLinuxDockAnimation();
         _exiting = false;
         _popoutOnSettle = false;
+    }
+
+    private void StartLinuxEntrance()
+    {
+        _exiting = false;
+        StartLinuxDockAnimation(DockHeight, 0, 0, 1, EntranceLength, EasingMode.EaseOut, Settle);
+    }
+
+    private void StartLinuxExit()
+    {
+        _exiting = true;
+        StartLinuxDockAnimation(0, DockHeight, 1, 0, ExitLength, EasingMode.EaseIn, OnExitFinished);
+    }
+
+    private void StartLinuxDockAnimation(double fromY, double toY, double fromOpacity, double toOpacity, TimeSpan duration, EasingMode easingMode, Action completed)
+    {
+        int generation = ++_linuxMotionGeneration;
+        QuadraticEase easing = new() { EasingMode = easingMode };
+        DoubleAnimation motion = new(fromY, toY, duration)
+        {
+            EasingFunction = easing,
+            FillBehavior = FillBehavior.Stop
+        };
+        DoubleAnimation opacity = new(fromOpacity, toOpacity, duration)
+        {
+            EasingFunction = easing,
+            FillBehavior = FillBehavior.Stop
+        };
+        motion.Completed += (_, _) =>
+        {
+            if (generation != _linuxMotionGeneration)
+                return;
+            CancelLinuxDockAnimation();
+            completed();
+        };
+        _linuxDockMotion.BeginAnimation(TranslateTransform.YProperty, motion, HandoffBehavior.SnapshotAndReplace);
+        Pill.BeginAnimation(UIElement.OpacityProperty, opacity, HandoffBehavior.SnapshotAndReplace);
+    }
+
+    private void CancelLinuxDockAnimation()
+    {
+        _linuxMotionGeneration++;
+        _linuxDockMotion.BeginAnimation(TranslateTransform.YProperty, null);
+        Pill.BeginAnimation(UIElement.OpacityProperty, null);
+        _linuxDockMotion.Y = 0;
+        Pill.Opacity = 1;
     }
 
     // Slides back down into the game's bottom edge, then hides
     private bool StartExit()
     {
+        if (Voidstrap.Utility.Platform.IsLinux)
+            return false;
         RobloxWindowRect game = RobloxWindowTracker.Current;
         if (_slide.CurrentPosition() is not Point from)
             return false;
@@ -651,20 +735,30 @@ public partial class SessionDock : Window
         if (PortableOverlay.Active)
             Pill.LayoutTransform = Transform.Identity;
         Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-        double width = Math.Ceiling(Pill.DesiredSize.Width) + ShadowRoomX;
+        double shadowRoom = Voidstrap.Utility.Platform.IsLinux ? 0 : ShadowRoomX;
+        double width = Math.Ceiling(Pill.DesiredSize.Width) + shadowRoom;
         if (PortableOverlay.Active && RobloxWindowTracker.Current is { Valid: true } bounds)
         {
             _availableWidth = bounds.Width;
-            double available = Math.Max(1, bounds.Width - ShadowRoomX);
-            double scale = Math.Min(1, available / Math.Max(1, width - ShadowRoomX));
+            double available = Math.Max(1, bounds.Width - shadowRoom);
+            double scale = Math.Min(1, available / Math.Max(1, width - shadowRoom));
             Pill.LayoutTransform = new ScaleTransform(scale, scale);
             width = Math.Min(bounds.Width, width);
         }
-        if (width <= ShadowRoomX || Math.Abs(width - Width) < 0.5)
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            width = Math.Ceiling(width / 32) * 32;
+            if (PortableOverlay.Active && _availableWidth > 0)
+                width = Math.Min(_availableWidth, width);
+        }
+        if (width <= shadowRoom || Math.Abs(width - Width) < 0.5)
             return;
         Width = width;
         if (_opened && !_slide.IsRunning)
+        {
             _anchor?.Refresh();
+            ApplyLinuxDockShape();
+        }
     }
 
     private void OnTrackerChanged(object? sender, RobloxWindowRect bounds)
@@ -981,7 +1075,7 @@ public partial class SessionDock : Window
 
     private void StartHeartbeat()
     {
-        if (_closed || !SystemParameters.ClientAreaAnimation)
+        if (_closed || (!Voidstrap.Utility.Platform.IsLinux && !SystemParameters.ClientAreaAnimation))
             return;
         if (_heartbeat == null)
         {
@@ -1136,18 +1230,23 @@ public partial class SessionDock : Window
             {
                 if (_profileInfo == null)
                 {
-                    ProfileStatus.Text = status switch
+                    await Dispatcher.InvokeAsync(() => ProfileStatus.Text = status switch
                     {
                         RobloxChatStatus.NotSignedIn => "Sign in to Roblox to see your profile.",
                         RobloxChatStatus.SignInExpired => "Your Roblox sign in expired, sign in again to see your profile.",
                         _ => "Your profile could not be loaded right now."
-                    };
+                    });
                 }
                 return;
             }
-            _profileInfo = info;
-            _profileInfoUtc = DateTime.UtcNow;
-            ShowProfileDetails(info);
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (_closed)
+                    return;
+                _profileInfo = info;
+                _profileInfoUtc = DateTime.UtcNow;
+                ShowProfileDetails(info);
+            });
         }
         catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
@@ -1183,10 +1282,34 @@ public partial class SessionDock : Window
         string about = info.Description.Trim();
         ProfileAboutText.Text = about;
         ProfileAboutText.Visibility = about.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
-        if (ProfileHeadshotBrush.ImageSource == null)
-            ProfileHeadshotBrush.ImageSource = Picture(info.HeadshotUrl, 144);
-        if (ProfileBannerBrush.ImageSource == null)
-            ProfileBannerBrush.ImageSource = Picture(info.AvatarUrl.Length > 0 ? info.AvatarUrl : info.HeadshotUrl, 300);
+        _ = LoadProfilePicturesAsync(info);
+    }
+
+    private async Task LoadProfilePicturesAsync(RobloxProfileInfo info)
+    {
+        try
+        {
+            string bannerUrl = info.AvatarUrl.Length > 0 ? info.AvatarUrl : info.HeadshotUrl;
+            Task<System.Windows.Media.Imaging.BitmapSource?> headshotTask = Voidstrap.Utility.SafeImaging.FromHttpAsync(info.HeadshotUrl, 144, _lifetimeToken);
+            Task<System.Windows.Media.Imaging.BitmapSource?> bannerTask = Voidstrap.Utility.SafeImaging.FromHttpAsync(bannerUrl, 300, _lifetimeToken);
+            await Task.WhenAll(headshotTask, bannerTask);
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (_closed || !ReferenceEquals(_profileInfo, info))
+                    return;
+                if (ProfileHeadshotBrush.ImageSource == null)
+                    ProfileHeadshotBrush.ImageSource = headshotTask.Result;
+                if (ProfileBannerBrush.ImageSource == null)
+                    ProfileBannerBrush.ImageSource = bannerTask.Result;
+            });
+        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionDock", "Profile images could not be loaded: " + ex.Message);
+        }
     }
 
     private static string Count(long? value)
@@ -1210,26 +1333,6 @@ public partial class SessionDock : Window
             return months == 1 ? "1 month" : months + " months";
         int whole = Math.Max(0, (int)days);
         return whole == 1 ? "1 day" : whole + " days";
-    }
-
-    private static BitmapImage? Picture(string url, int width)
-    {
-        if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
-            return null;
-        try
-        {
-            BitmapImage image = new();
-            image.BeginInit();
-            image.UriSource = uri;
-            image.DecodePixelWidth = width;
-            image.CacheOption = BitmapCacheOption.OnLoad;
-            image.EndInit();
-            return image;
-        }
-        catch (Exception)
-        {
-            return null;
-        }
     }
 
     private string? ProfileLink => _profileInfo is { UserId: > 0 } info ? "https://www.roblox.com/users/" + info.UserId.ToString(CultureInfo.InvariantCulture) + "/profile" : null;
@@ -1389,14 +1492,16 @@ public partial class SessionDock : Window
         }
         if (image == null || _closed)
             return;
-        BitmapImage banner = new();
-        banner.BeginInit();
-        banner.UriSource = new Uri(image);
-        banner.DecodePixelWidth = 820;
-        banner.CacheOption = BitmapCacheOption.OnLoad;
-        banner.EndInit();
-        BannerBrush.ImageSource = banner;
-        _bannerUniverse = universeId;
+        System.Windows.Media.Imaging.BitmapSource? banner = await Voidstrap.Utility.SafeImaging.FromHttpAsync(image, 820, _lifetimeToken);
+        if (banner == null || _closed)
+            return;
+        await Dispatcher.InvokeAsync(() =>
+        {
+            if (_closed)
+                return;
+            BannerBrush.ImageSource = banner;
+            _bannerUniverse = universeId;
+        });
     }
 
     private async Task LoadFriendsAsync(ActivityData data)
@@ -1413,20 +1518,40 @@ public partial class SessionDock : Window
             FriendsInServerResult result = await RobloxPresence.GetFriendsInServerAsync(data.UserId, data.JobId, _lifetimeToken);
             if (_closed || !ReferenceEquals(_data, data))
                 return;
-            _friendsJobId = data.JobId ?? string.Empty;
-            _friendsLoadedUtc = DateTime.UtcNow;
-            FriendCountText.Text = result.FriendCount > 0 ? "Friends: " + result.FriendCount.ToString(Locale.CurrentCulture) : string.Empty;
-            List<DockFriend> friends = result.Friends.Select(friend => new DockFriend(friend)).ToList();
-            FriendsList.ItemsSource = friends;
-            FriendsHeader.Text = friends.Count > 0 ? $"Friends in this server ({friends.Count})" : "Friends in this server";
-            FriendsStatus.Text = result.Status switch
+            DockFriend[] loadedFriends = await Task.WhenAll(result.Friends.Select(async (friend, index) =>
             {
-                FriendsInServerStatus.NotSignedIn => "Sign in to Roblox in Voidstrap to see friends in this server",
-                FriendsInServerStatus.SignInExpired => "Your Roblox sign in expired, sign in again to see friends",
-                FriendsInServerStatus.Unavailable => "Friends could not be checked right now",
-                _ => friends.Count == 0 ? "None of your friends are in this server" : string.Empty
-            };
-            FriendsStatus.Visibility = FriendsStatus.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
+                System.Windows.Media.Imaging.BitmapSource? avatar = null;
+                if (index < 12)
+                {
+                    try
+                    {
+                        avatar = await Voidstrap.Utility.SafeImaging.FromHttpAsync(friend.HeadshotUrl, 56, _lifetimeToken);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                return new DockFriend(friend, avatar);
+            }));
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (_closed || !ReferenceEquals(_data, data))
+                    return;
+                _friendsJobId = data.JobId ?? string.Empty;
+                _friendsLoadedUtc = DateTime.UtcNow;
+                FriendCountText.Text = result.FriendCount > 0 ? "Friends: " + result.FriendCount.ToString(Locale.CurrentCulture) : string.Empty;
+                List<DockFriend> friends = loadedFriends.ToList();
+                FriendsList.ItemsSource = friends;
+                FriendsHeader.Text = friends.Count > 0 ? $"Friends in this server ({friends.Count})" : "Friends in this server";
+                FriendsStatus.Text = result.Status switch
+                {
+                    FriendsInServerStatus.NotSignedIn => "Sign in to Roblox in Voidstrap to see friends in this server",
+                    FriendsInServerStatus.SignInExpired => "Your Roblox sign in expired, sign in again to see friends",
+                    FriendsInServerStatus.Unavailable => "Friends could not be checked right now",
+                    _ => friends.Count == 0 ? "None of your friends are in this server" : string.Empty
+                };
+                FriendsStatus.Visibility = FriendsStatus.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
+            });
         }
         finally
         {
@@ -1491,6 +1616,8 @@ public partial class SessionDock : Window
         _clock.Stop();
         _clock.Tick -= OnClock;
         _slide.Stop(false);
+        if (Voidstrap.Utility.Platform.IsLinux)
+            Voidstrap.Platform.Linux.LinuxWindowShadow.Forget(PortableOverlay.Handle(this));
         if (_prewarmTimer != null)
         {
             _prewarmTimer.Stop();
@@ -1586,6 +1713,28 @@ public partial class SessionDock : Window
         int disabled = 1;
         _ = DwmSetWindowAttribute(handle, 3, ref disabled, sizeof(int));
     }
+
+    private void OnDockLoaded(object sender, RoutedEventArgs e)
+    {
+        if (Voidstrap.Utility.Platform.IsLinux)
+            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(ApplyLinuxDockShape));
+    }
+
+    private void ApplyLinuxDockShape()
+    {
+        if (!Voidstrap.Utility.Platform.IsLinux || !IsVisible)
+            return;
+        nint handle = PortableOverlay.Handle(this);
+        if (handle == 0 || !Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(handle, out _, out _, out int width, out int height))
+            return;
+        double scale = ActualWidth > 0 ? width / ActualWidth : 1;
+        int radius = Math.Max(1, (int)Math.Round(16 * Math.Max(0.5, scale)));
+        bool rounded = Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(handle, width, height, radius);
+        Voidstrap.Platform.Linux.LinuxWindowShadow.Track(handle, rounded ? radius : 0, scale, !rounded, message => App.Logger.WriteLine("LinuxWindowShadow", message));
+        if (!rounded)
+            App.Logger.WriteLine("SessionDock", "Linux could not round the dock window, its soft shadow is suppressed");
+    }
+
 }
 
 public sealed class DockFriend
@@ -1594,24 +1743,10 @@ public sealed class DockFriend
     public string Username { get; }
     public ImageSource? Avatar { get; }
 
-    public DockFriend(ServerFriend friend)
+    public DockFriend(ServerFriend friend, ImageSource? avatar = null)
     {
         Name = friend.Label;
         Username = string.IsNullOrWhiteSpace(friend.Username) ? friend.Label : "@" + friend.Username;
-        if (!Uri.TryCreate(friend.HeadshotUrl, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
-            return;
-        try
-        {
-            BitmapImage image = new();
-            image.BeginInit();
-            image.UriSource = uri;
-            image.DecodePixelWidth = 56;
-            image.CacheOption = BitmapCacheOption.OnLoad;
-            image.EndInit();
-            Avatar = image;
-        }
-        catch (Exception)
-        {
-        }
+        Avatar = avatar;
     }
 }

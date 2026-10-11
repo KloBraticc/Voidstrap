@@ -1091,6 +1091,7 @@ namespace Voidstrap.Integrations.Overlays
 		private const int LinuxParkedPosition = -32000;
 
 		private bool _linuxParked;
+		private (nint Handle, int Left, int Top, int Width, int Height)? _lastLinuxGeometry;
 
 		private bool TryApplyLinuxCenterFallback()
 		{
@@ -1124,6 +1125,7 @@ namespace Voidstrap.Integrations.Overlays
 
 			if (Voidstrap.Platform.Linux.LinuxWindowInterop.TryMoveResize(handle, LinuxParkedPosition, LinuxParkedPosition, 1, 1))
 			{
+				_lastLinuxGeometry = null;
 				SyncLinuxWindowBounds(LinuxParkedPosition, LinuxParkedPosition, 0, 0, false);
 				_linuxParked = true;
 				StopLinuxRetry();
@@ -1196,13 +1198,28 @@ namespace Voidstrap.Integrations.Overlays
 			if (!_linuxPrepared)
 				_linuxPrepared = Voidstrap.Platform.Linux.LinuxWindowInterop.TryPrepareOverlayWindow(handle);
 
+			if (!_linuxParked && _lastLinuxGeometry is { } previous
+				&& previous.Handle == handle
+				&& previous.Left == left
+				&& previous.Top == top
+				&& previous.Width == width
+				&& previous.Height == height)
+			{
+				StopLinuxRetry();
+				if (_window is Voidstrap.UI.Elements.Crosshair.CrosshairWindow visibleCrosshair)
+					visibleCrosshair.SetLinuxPresentation(true);
+				return;
+			}
+
 			if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryMoveResize(handle, left, top, width, height))
 			{
+				_lastLinuxGeometry = null;
 				if (_window is Voidstrap.UI.Elements.Crosshair.CrosshairWindow hiddenCrosshair)
 					hiddenCrosshair.SetLinuxPresentation(false);
 				ArmLinuxRetry();
 				return;
 			}
+			_lastLinuxGeometry = (handle, left, top, width, height);
 			Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetAlwaysOnTop(handle);
 			SyncLinuxWindowBounds(left, top, width, height, _placement is RobloxOverlayPlacement.Fill or RobloxOverlayPlacement.TopStrip);
 			ReportLinuxGeometry(handle, left, top, width, height);
