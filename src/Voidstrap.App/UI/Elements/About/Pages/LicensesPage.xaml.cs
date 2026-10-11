@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -14,7 +15,10 @@ public partial class LicensesPage : UiPage{
 	public LicensesPage()
 	{
 		InitializeComponent();
-		using Stream stream = typeof(LicensesPage).Assembly.GetManifestResourceStream("Voidstrap.Licenses.Notices")
+		Stream? compressed = typeof(LicensesPage).Assembly.GetManifestResourceStream("Voidstrap.Licenses.Notices.gz");
+		using Stream stream = compressed is not null
+			? new GZipStream(compressed, CompressionMode.Decompress)
+			: typeof(LicensesPage).Assembly.GetManifestResourceStream("Voidstrap.Licenses.Notices")
 			?? throw new InvalidOperationException("The bundled license notices are missing.");
 		using StreamReader reader = new(stream);
 		LicenseNotices.Text = reader.ReadToEnd();

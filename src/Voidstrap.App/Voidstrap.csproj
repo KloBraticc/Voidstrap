@@ -86,6 +86,8 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <WarningLevel>4</WarningLevel>
+	  <DebugType>none</DebugType>
+	  <DebugSymbols>false</DebugSymbols>
 	</PropertyGroup>
 	
 
