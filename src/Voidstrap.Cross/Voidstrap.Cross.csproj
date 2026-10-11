@@ -34,7 +34,7 @@
 		<PublishSingleFile>true</PublishSingleFile>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
-		<EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+		<EnableCompressionInSingleFile>false</EnableCompressionInSingleFile>
 		<PublishReadyToRun Condition="'$(PublishReadyToRun)' == ''">true</PublishReadyToRun>
 		<TieredPGO>false</TieredPGO>
 		<LinuxProGpuWpfAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\ProGPU.Wpf.dll</LinuxProGpuWpfAssembly>

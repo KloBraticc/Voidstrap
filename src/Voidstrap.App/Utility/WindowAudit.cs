@@ -1061,6 +1061,37 @@ internal static class WindowAudit
 			: double.NaN;
 	}
 
+	private static void AuditSettingsStartup()
+	{
+		Voidstrap.UI.Elements.Settings.MainWindow window = new(false);
+		bool rendered = false;
+		void OnContentRendered(object? sender, EventArgs args) => rendered = true;
+		window.ContentRendered += OnContentRendered;
+		try
+		{
+			window.Show();
+			System.Diagnostics.Stopwatch elapsed = System.Diagnostics.Stopwatch.StartNew();
+			FieldInfo entriesField = window.GetType().GetField("_topSearchEntriesList", BindingFlags.Instance | BindingFlags.NonPublic)!;
+			int entries = 0;
+			while (elapsed.ElapsedMilliseconds < 15000)
+			{
+				Pump(50);
+				entries = (entriesField.GetValue(window) as System.Collections.ICollection)?.Count ?? 0;
+				if (rendered && entries > 0)
+					break;
+			}
+			Emit(rendered && entries > 0
+				? $"settings startup audit: PASS, rendered content and {entries} searchable options"
+				: $"settings startup audit: FAIL, rendered {rendered}, searchable options {entries}");
+		}
+		finally
+		{
+			window.ContentRendered -= OnContentRendered;
+			window.Close();
+			Pump(80);
+		}
+	}
+
 	private static void AuditLibraryLoading()
 	{
 		if (!Voidstrap.Utility.Platform.IsLinux)

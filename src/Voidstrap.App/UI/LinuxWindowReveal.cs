@@ -231,5 +231,7 @@ internal static class LinuxWindowReveal
 			_deadline = null;
 		}
 	}
+#else
+	internal static bool IsPending(Window window) => false;
 #endif
 }

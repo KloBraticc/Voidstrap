@@ -1451,6 +1451,7 @@ try {
                 '-p:EnableWindowsTargeting=true'
             ) + $PubOpts
         } else {
+            $compressBundle = if ($t.Rid -like 'linux-*') { 'false' } else { 'true' }
             $argList = @(
                 'publish', $CrossProj,
                 '-c', $Configuration,
@@ -1460,7 +1461,7 @@ try {
                 "-p:VoidstrapLinuxPackagingRoot=$targetArtifacts/",
                 '--self-contained', 'true',
                 '-p:IncludeAllContentForSelfExtract=true',
-                '-p:EnableCompressionInSingleFile=true'
+                "-p:EnableCompressionInSingleFile=$compressBundle"
             ) + $PubOpts
         }
 
