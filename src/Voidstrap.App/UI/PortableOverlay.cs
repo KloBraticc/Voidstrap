@@ -26,6 +26,7 @@ internal static class PortableOverlay
         if (!Active)
             return;
         LinuxOverlaySurface.ReleaseMainWindowClaim(window);
+        LinuxWindowUpdatePump.Attach(window);
         LinuxTextGuard.SetPreserveCompactLayout(window, true);
         window.WindowStartupLocation = WindowStartupLocation.Manual;
         window.ShowActivated = false;
@@ -71,7 +72,7 @@ internal static class PortableOverlay
             LinuxWindowInterop.TryMoveResize(handle, (int)Math.Round(left), (int)Math.Round(top),
                 Math.Max(1, (int)Math.Ceiling(width)), Math.Max(1, (int)Math.Ceiling(height)));
             if (raise)
-                LinuxWindowInterop.TryRaiseWindow(handle);
+                LinuxWindowInterop.TryShowOverlayWindow(handle);
         }
         else if (Voidstrap.Utility.Platform.IsMacOS)
         {
@@ -125,8 +126,8 @@ internal static class PortableOverlay
     public static void Raise(Window window)
     {
         nint handle = Handle(window);
-        if (Voidstrap.Utility.Platform.IsLinux)
-            LinuxWindowInterop.TryRaiseWindow(handle);
+        if (Voidstrap.Utility.Platform.IsLinux && window.IsVisible)
+            LinuxWindowInterop.TryShowOverlayWindow(handle);
         else if (Voidstrap.Utility.Platform.IsMacOS)
             MacOSOverlayWindow.ShowWithoutActivating(handle);
     }

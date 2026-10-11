@@ -23,11 +23,14 @@ public partial class SessionChatWindow : Window
     private static readonly TimeSpan TypingInterval = TimeSpan.FromSeconds(4);
     private static readonly TimeSpan EchoMatchWindow = TimeSpan.FromMinutes(2);
     private readonly CancellationTokenSource _lifetime = new();
+    private readonly SynchronizationContext? _previousSynchronizationContext;
+    private readonly DispatcherSynchronizationContext _uiSynchronizationContext;
     private readonly DispatcherTimer _poll;
     private readonly ObservableCollection<ChatMessageItem> _messages = new();
     private readonly HashSet<string> _messageIds = new(StringComparer.Ordinal);
     private readonly Dictionary<long, string> _avatarUrls = new();
     private readonly Dictionary<long, ImageSource> _avatars = new();
+    private readonly HashSet<long> _avatarLoads = new();
     private List<ChatListItem> _conversations = new();
     private List<ChatListItem> _friends = new();
     private string _listSignature = string.Empty;
@@ -48,6 +51,9 @@ public partial class SessionChatWindow : Window
     public SessionChatWindow()
     {
         InitializeComponent();
+        _previousSynchronizationContext = SynchronizationContext.Current;
+        _uiSynchronizationContext = new DispatcherSynchronizationContext(Dispatcher);
+        SynchronizationContext.SetSynchronizationContext(_uiSynchronizationContext);
         MessageList.ItemsSource = _messages;
         _poll = new DispatcherTimer(DispatcherPriority.Background) { Interval = PollInterval };
         _poll.Tick += OnPoll;
@@ -644,43 +650,76 @@ public partial class SessionChatWindow : Window
     private async Task LoadAvatarsAsync(IEnumerable<long> userIds)
     {
         List<long> missing = userIds.Where(id => id > 0 && !_avatarUrls.ContainsKey(id)).Distinct().ToList();
-        if (missing.Count == 0)
-            return;
+        if (missing.Count > 0)
+        {
+            try
+            {
+                foreach (KeyValuePair<long, string> pair in await RobloxChat.GetHeadshotUrlsAsync(missing, _lifetime.Token))
+                    _avatarUrls[pair.Key] = pair.Value;
+            }
+            catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
+            {
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("SessionChatWindow", "Avatar URLs could not be loaded: " + ex.Message);
+            }
+        }
+
+        List<KeyValuePair<long, string>> pending = _avatarUrls
+            .Where(pair => !_avatars.ContainsKey(pair.Key) && _avatarLoads.Add(pair.Key))
+            .ToList();
+        if (pending.Count > 0)
+            _ = LoadAvatarImagesAsync(pending);
+    }
+
+    private async Task LoadAvatarImagesAsync(List<KeyValuePair<long, string>> pending)
+    {
         try
         {
-            foreach (KeyValuePair<long, string> pair in await RobloxChat.GetHeadshotUrlsAsync(missing, _lifetime.Token))
-                _avatarUrls[pair.Key] = pair.Value;
+            Task<(long UserId, BitmapSource? Image)>[] loads = pending.Select(async pair =>
+                (pair.Key, await Voidstrap.Utility.SafeImaging.FromHttpAsync(pair.Value, 72, _lifetime.Token))
+            ).ToArray();
+            (long UserId, BitmapSource? Image)[] results = await Task.WhenAll(loads);
+            if (_closed)
+                return;
+            bool changed = false;
+            foreach ((long userId, BitmapSource? image) in results)
+            {
+                if (image == null)
+                    continue;
+                _avatars[userId] = image;
+                changed = true;
+            }
+            if (!changed)
+                return;
+            foreach (ChatListItem item in _conversations.Concat(_friends))
+                item.Avatar = AvatarFor(item.UserId);
+            RenderList(true);
+            if (_active != null)
+                HeaderAvatar.Source = AvatarFor(OtherParticipant(_active));
         }
         catch (OperationCanceledException) when (_lifetime.IsCancellationRequested)
         {
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("SessionChatWindow", "Avatars could not be loaded: " + ex.Message);
+            App.Logger.WriteLine("SessionChatWindow", "Avatar images could not be loaded: " + ex.Message);
+        }
+        finally
+        {
+            foreach (KeyValuePair<long, string> pair in pending)
+                _avatarLoads.Remove(pair.Key);
         }
     }
 
     private ImageSource? AvatarFor(long userId)
     {
-        if (userId <= 0 || !_avatarUrls.TryGetValue(userId, out string? url))
+        if (userId <= 0)
             return null;
         if (_avatars.TryGetValue(userId, out ImageSource? cached))
             return cached;
-        try
-        {
-            BitmapImage image = new();
-            image.BeginInit();
-            image.UriSource = new Uri(url);
-            image.DecodePixelWidth = 72;
-            image.CacheOption = BitmapCacheOption.OnLoad;
-            image.EndInit();
-            _avatars[userId] = image;
-            return image;
-        }
-        catch (Exception)
-        {
-            return null;
-        }
+        return null;
     }
 
     private long OtherParticipant(RobloxConversation conversation)
@@ -726,6 +765,8 @@ public partial class SessionChatWindow : Window
         _avatars.Clear();
         ConversationList.ItemsSource = null;
         MessageList.ItemsSource = null;
+        if (ReferenceEquals(SynchronizationContext.Current, _uiSynchronizationContext))
+            SynchronizationContext.SetSynchronizationContext(_previousSynchronizationContext);
     }
 }
 

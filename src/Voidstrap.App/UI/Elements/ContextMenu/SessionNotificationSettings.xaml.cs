@@ -373,32 +373,54 @@ public partial class SessionNotificationSettings : Window
         int generation = ++_playGeneration;
         try
         {
-            PlaceMock();
-            MockCard.UpdateLayout();
-            Size travel = MockHost.RenderSize;
-            // Drawn once into a bitmap while it moves, like the real notification, so the small text does not shimmer
-            MockLayer.CacheMode ??= new BitmapCache { SnapsToDevicePixels = true };
-            NotificationStyle.PrepareIntro(MockLayer, MockTranslate, MockScale, _appearance, travel);
-            NotificationStyle.Play(MockLayer, MockTranslate, MockScale, _appearance, travel, true);
+            Size travel = default;
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (_closed || generation != _playGeneration)
+                    return;
+                PlaceMock();
+                MockCard.UpdateLayout();
+                travel = MockHost.RenderSize;
+                MockLayer.CacheMode ??= new BitmapCache { SnapsToDevicePixels = true };
+                NotificationStyle.PrepareIntro(MockLayer, MockTranslate, MockScale, _appearance, travel);
+                NotificationStyle.Play(MockLayer, MockTranslate, MockScale, _appearance, travel, true);
+            });
             await Task.Delay(NotificationStyle.Length(_appearance, true) + 1100);
             if (_closed || generation != _playGeneration)
                 return;
-            NotificationStyle.Play(MockLayer, MockTranslate, MockScale, _appearance, travel, false);
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (!_closed && generation == _playGeneration)
+                    NotificationStyle.Play(MockLayer, MockTranslate, MockScale, _appearance, travel, false);
+            });
             await Task.Delay(NotificationStyle.Length(_appearance, false) + 450);
             if (_closed || generation != _playGeneration)
                 return;
-            // Comes back the same way it enters, a card that just pops back in looks like a glitch
-            NotificationStyle.PrepareIntro(MockLayer, MockTranslate, MockScale, _appearance, travel);
-            NotificationStyle.Play(MockLayer, MockTranslate, MockScale, _appearance, travel, true);
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (_closed || generation != _playGeneration)
+                    return;
+                NotificationStyle.PrepareIntro(MockLayer, MockTranslate, MockScale, _appearance, travel);
+                NotificationStyle.Play(MockLayer, MockTranslate, MockScale, _appearance, travel, true);
+            });
             await Task.Delay(NotificationStyle.Length(_appearance, true) + 50);
             if (_closed || generation != _playGeneration)
                 return;
-            RestMock();
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (!_closed && generation == _playGeneration)
+                    RestMock();
+            });
         }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionNotificationSettings", "The preview could not play: " + ex.Message);
-            RestMock();
+            if (!Dispatcher.HasShutdownStarted && !Dispatcher.HasShutdownFinished)
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    if (!_closed)
+                        RestMock();
+                });
         }
     }
 

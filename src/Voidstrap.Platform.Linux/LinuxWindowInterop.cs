@@ -2996,6 +2996,24 @@ public static partial class LinuxWindowInterop
 		}
 	}
 
+    public static bool TryShowOverlayWindow(nint window)
+    {
+        nint display = Display;
+        if (display == 0 || window == 0 || !IsPreparedOverlayWindow(window))
+            return false;
+        try
+        {
+            _ = XMapWindow(display, window);
+            _ = XRaiseWindow(display, window);
+            _ = XFlush(display);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
 	public static bool TryRaiseWindow(nint window)
 	{
 		nint display = Display;

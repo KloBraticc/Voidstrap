@@ -881,11 +881,6 @@ public partial class MenuContainer : WpfUiWindow
         {
             return;
         }
-        if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Platform.Linux.SoberNativeSettings.IsServerLocationIndicatorEnabled())
-        {
-            App.Logger.WriteLine("MenuContainer::ShowJoinNotification", "Sober shows its own server location notice, skipping the join notification");
-            return;
-        }
         Task<string?> locationTask = data.QueryServerLocation(token);
         Task<string> uptimeTask = LoadJoinUptimeAsync(data, token);
         Task delayTask = Task.Delay(2500, token);

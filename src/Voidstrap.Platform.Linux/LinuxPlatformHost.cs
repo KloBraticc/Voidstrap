@@ -1325,7 +1325,7 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 	{
 		try
 		{
-			return HasCompleteRobloxPackage();
+			return IsRobloxPackageInstalledAsync().GetAwaiter().GetResult();
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 		{
@@ -1360,9 +1360,6 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 	public static async Task<bool> IsRobloxPackageInstalledAsync(CancellationToken cancellationToken = default)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		if (!LinuxFlatpakHost.IsSandboxed)
-			return IsRobloxPackageInstalled();
-
 		const string probe = """
 			for directory in "$1"/packages/*/com.roblox.client; do
 			    [ -f "$directory/base.apk" ] || continue
@@ -1389,25 +1386,6 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		OperationResult<ProcessExecution> result = await processes.ExecuteAsync(command, timeout.Token).ConfigureAwait(false);
 		cancellationToken.ThrowIfCancellationRequested();
 		return result.Succeeded && result.Value?.ExitCode == 0;
-	}
-
-	private static bool HasCompleteRobloxPackage()
-	{
-		string root = Path.Combine(SoberDataDirectory, "packages");
-		if (!Directory.Exists(root))
-			return false;
-
-		foreach (string architecture in Directory.EnumerateDirectories(root))
-		{
-			string directory = Path.Combine(architecture, "com.roblox.client");
-			if (!Directory.Exists(directory))
-				continue;
-			string[] packages = Directory.GetFiles(directory, "*.apk");
-			if (packages.Any(static package => string.Equals(Path.GetFileName(package), "base.apk", StringComparison.Ordinal))
-				&& packages.All(IsCompleteArchive))
-				return true;
-		}
-		return false;
 	}
 
 	private static bool IsCompleteArchive(string path)

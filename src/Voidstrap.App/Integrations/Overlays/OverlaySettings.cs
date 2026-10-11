@@ -36,6 +36,8 @@ namespace Voidstrap.Integrations.Overlays
 				|| App.Settings.Prop.SoberAutoFullscreen
 				|| App.Settings.Prop.SnapTapEnabled
 				|| App.Settings.Prop.DuckRobloxAudioOnUnfocus
+				|| App.Settings.Prop.SessionDockEnabled
+				|| (App.Settings.Prop.VoidNotify && App.Settings.Prop.NotificationWindowShow && App.Settings.Prop.NotifyGameJoins)
 				|| HomepageBackgroundEnabled
 				|| App.Settings.Prop.SoberPreferXWayland);
 
@@ -52,7 +54,7 @@ namespace Voidstrap.Integrations.Overlays
 			if (forcedX11)
 				return App.Settings.Prop.SoberPreferXWayland
 					? "Run Roblox through XWayland is on, starting Sober on X11 so custom cursors and the Roblox window title and icon work"
-					: "Snap Tap, audio ducking, fullscreen helpers or the homepage background are on, starting Sober on X11 so Voidstrap can control its window";
+					: "Window helpers or overlays are on, starting Sober on X11 so Voidstrap can display overlays and receive the dock shortcut";
 			if (LinuxSessionIsWayland && (LinuxRobloxWindow.IsEnabled || LinuxCustomCursorNeedsX11))
 				return "Starting Sober natively on Wayland so the camera keeps the mouse locked, the custom cursor and Roblox window title need Run Roblox through XWayland";
 			return "Starting Sober in its default display mode";
