@@ -958,6 +958,11 @@ jobs:
           SWIFT
           swift "$RUNNER_TEMP/overlay-layering.swift" > "$RUNNER_TEMP/overlay-logs/layering.txt"
 
+      - name: Show notification and focus diagnostics
+        if: always()
+        run: |
+          cat ~/Library/Logs/Voidstrap/*.log 2>/dev/null | grep -E "MacDockPresence|NotificationWindow|ShowJoinNotification|SessionDockTip|RobloxOverlayAnchor" | sed -E 's#/Users/[^/ ]+#~#g' | tail -60 || true
+
       - name: Record fixed diagnostic results
         if: always()
         run: |
