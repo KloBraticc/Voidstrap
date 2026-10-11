@@ -16,9 +16,9 @@ namespace Voidstrap.Utility
 
         private const long MaxCachedBytes = 4L * 1024 * 1024;
 
-        private static readonly ConcurrentDictionary<string, Lazy<Task<byte[]?>>> Downloads = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly ConcurrentDictionary<string, Lazy<Task<byte[]?>>> Downloads = new(StringComparer.Ordinal);
 
-        private static readonly ConcurrentDictionary<string, byte[]> ByteCache = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly ConcurrentDictionary<string, byte[]> ByteCache = new(StringComparer.Ordinal);
 
         private static readonly ConcurrentQueue<string> ByteCacheOrder = new();
 

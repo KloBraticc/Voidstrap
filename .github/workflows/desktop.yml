@@ -64,6 +64,8 @@ jobs:
         with:
           dotnet-version: 10.0.x
       - run: dotnet build src/Voidstrap.Desktop.MacOS/Voidstrap.Desktop.MacOS.csproj -c Debug -warnaserror
+      - name: Check macOS image formats with synthetic data
+        run: bash build/Validation/check-macos-images.sh
       - name: Check native keyboard APIs and layout mapping
         shell: bash
         run: |
@@ -829,6 +831,32 @@ jobs:
           screencapture -x "$OUT/shots/06-overlays-tab.png"
           pkill -x Voidstrap || true
 
+      - name: Check portable images render in controls and brushes
+        working-directory: voidstrap
+        run: |
+          bash build/Validation/check-macos-images.sh gallery > "$RUNNER_TEMP/overlay-logs/images.txt" 2>&1 &
+          image_pid=$!
+          for i in $(seq 1 120); do [ -f "$RUNNER_TEMP/image-check/ready" ] && break; kill -0 "$image_pid"; sleep 1; done
+          test -f "$RUNNER_TEMP/image-check/ready"
+          sleep 2
+          kill -0 "$image_pid"
+          screencapture -x "$OUT/shots/12-images.png"
+          kill "$image_pid"
+          wait "$image_pid" || true
+          cat > "$RUNNER_TEMP/image-render.swift" <<'SWIFT'
+          import AppKit
+          let root = ProcessInfo.processInfo.environment["OUT"]!
+          let image = NSBitmapImageRep(data: try Data(contentsOf: URL(fileURLWithPath: root + "/shots/12-images.png")))!
+          var passed = true
+          for x in [230, 490, 750] {
+              let red = image.colorAt(x: x, y: 240)!.usingColorSpace(.deviceRGB)!
+              let blue = image.colorAt(x: x, y: 400)!.usingColorSpace(.deviceRGB)!
+              passed = passed && red.redComponent > 0.65 && red.blueComponent < 0.2 && blue.blueComponent > 0.65 && blue.redComponent < 0.2
+          }
+          print(passed ? "true" : "false")
+          SWIFT
+          swift "$RUNNER_TEMP/image-render.swift" > "$RUNNER_TEMP/overlay-logs/images-visible.txt"
+
       - name: Check the dock remains above passive overlays
         run: |
           cat > "$RUNNER_TEMP/overlay-layering.swift" <<'SWIFT'
@@ -880,11 +908,12 @@ jobs:
               "dock_panels": json.loads((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons.json").read_text()) if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons.json").is_file() else {},
               "overlay_attached": "Attached the macOS overlay" in text,
               "settings_visible": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/settings-visible.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/settings-visible.txt").is_file() else False,
+              "images_visible": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/images-visible.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/images-visible.txt").is_file() else False,
               "dock_layering": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").is_file() else False,
               "screenshots": len(list((Path(os.environ["OUT"]) / "shots").glob("*.png")))
           }
           (Path(os.environ["OUT"]) / "checks.json").write_text(json.dumps(result))
-          if not result["runtime_installed"] or not result["overlay_attached"] or not result["settings_visible"] or not result["dock_layering"] or not result["dock_buttons"] or result["screenshots"] < 20 or any(result[key] for key in ("missing_native_library", "missing_native_entry", "unhandled_exception", "dock_action_exception", "native_crash")):
+          if not result["runtime_installed"] or not result["overlay_attached"] or not result["settings_visible"] or not result["images_visible"] or not result["dock_layering"] or not result["dock_buttons"] or result["screenshots"] < 21 or any(result[key] for key in ("missing_native_library", "missing_native_entry", "unhandled_exception", "dock_action_exception", "native_crash")):
               raise SystemExit("The GUI overlay checks did not complete successfully")
           PY
 
