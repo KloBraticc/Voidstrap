@@ -31,7 +31,7 @@
           </Grid.ColumnDefinitions>
           <Grid Width="32" Height="32" VerticalAlignment="Center">
             <Ellipse Fill="{DynamicResource ControlFillColorSecondaryBrush}" />
-            <Ellipse>
+            <Ellipse Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}">
               <Ellipse.Fill>
                 <ImageBrush ImageSource="{Binding Image, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
               </Ellipse.Fill>
