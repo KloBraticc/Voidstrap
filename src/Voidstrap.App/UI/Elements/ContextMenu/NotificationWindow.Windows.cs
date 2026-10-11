@@ -130,6 +130,8 @@ public partial class NotificationWindow
                     remaining -= now - previous;
                 previous = now;
             }
+            if (PortableOverlay.Active)
+                App.Logger.WriteLine("NotificationWindow", _dismissRequested ? $"Notification dismissed after {clock.Elapsed.TotalSeconds:0.0}s" : $"Notification expired after {clock.Elapsed.TotalSeconds:0.0}s");
             // Fades out while easing back down below the edge
             _hoverTimer?.Stop();
             DismissButton.BeginAnimation(OpacityProperty, null);
@@ -146,6 +148,8 @@ public partial class NotificationWindow
         }
         catch (OperationCanceledException)
         {
+            if (PortableOverlay.Active)
+                App.Logger.WriteLine("NotificationWindow", item.Token.IsCancellationRequested ? "Notification cancelled because its session ended" : "Notification cancelled");
         }
         finally
         {
@@ -460,6 +464,8 @@ public partial class NotificationWindow
         }
         if (!bounds.Valid || (!bounds.Foreground && !IsReturningFocus()))
         {
+            if (_presenting && !_dismissRequested && PortableOverlay.Active)
+                App.Logger.WriteLine("NotificationWindow", bounds.Valid ? "Notification hidden because Roblox lost focus" : "Notification hidden because the Roblox window is gone");
             _dismissRequested = true;
             Hide();
             return;
