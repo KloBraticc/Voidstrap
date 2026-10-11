@@ -36,7 +36,7 @@
 	</Target>
 
 
-	<ItemGroup Condition="'$(OutputType)' == 'Exe' Or '$(OutputType)' == 'WinExe'">
+	<ItemGroup Condition="('$(OutputType)' == 'Exe' Or '$(OutputType)' == 'WinExe') And '$(MSBuildProjectName)' != 'Voidstrap' And !$(RuntimeIdentifier.StartsWith('win'))">
 		<Content Include="$(MSBuildThisFileDirectory)THIRD-PARTY-NOTICES.txt" Link="licenses/THIRD-PARTY-NOTICES.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
 		<Content Include="$(MSBuildThisFileDirectory)legal/sources/*.tar.gz" Link="licenses/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
 	</ItemGroup>
@@ -44,5 +44,14 @@
 	<ItemGroup Condition="'$(MSBuildProjectName)' == 'Voidstrap' Or '$(MSBuildProjectName)' == 'Voidstrap.Cross'">
 		<EmbeddedResource Include="$(MSBuildThisFileDirectory)THIRD-PARTY-NOTICES.txt" LogicalName="Voidstrap.Licenses.Notices" />
 	</ItemGroup>
+
+	<ItemGroup Condition="'$(MSBuildProjectName)' == 'Voidstrap'">
+		<EmbeddedResource Include="$(MSBuildThisFileDirectory)legal/sources/*.tar.gz" LogicalName="Voidstrap.Licenses.%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<Target Name="RemoveWindowsLicenseSidecars" BeforeTargets="CopyFilesToOutputDirectory;Publish" Condition="'$(MSBuildProjectName)' == 'Voidstrap'">
+		<RemoveDir Directories="$(OutDir)licenses" Condition="'$(OutDir)' != ''" />
+		<RemoveDir Directories="$(PublishDir)licenses" Condition="'$(PublishDir)' != ''" />
+	</Target>
 
 </Project>
