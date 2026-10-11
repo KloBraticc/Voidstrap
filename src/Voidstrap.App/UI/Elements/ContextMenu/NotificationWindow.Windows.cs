@@ -29,6 +29,7 @@ public partial class NotificationWindow
     private Voidstrap.UI.NativeSlide? _nativeSlide;
     // The game's area (or the screen's work area) the notification is placed in, in screen pixels
     private Int32Rect _area;
+    private static long _focusReturnedTicks;
 
     private async Task PresentWindowsNotificationAsync(NotificationItem item)
     {
@@ -334,7 +335,17 @@ public partial class NotificationWindow
             return;
         int roblox = RobloxWindowTracker.MacProcessId;
         if (roblox > 0 && Voidstrap.Platform.MacOS.MacOSApplication.IsActive())
+        {
+            Interlocked.Exchange(ref _focusReturnedTicks, Environment.TickCount64);
             Voidstrap.Platform.MacOS.MacOSOverlayWindow.ActivateProcess(roblox);
+        }
+    }
+
+    private static bool IsReturningFocus()
+    {
+        if (!Voidstrap.Utility.Platform.IsMacOS)
+            return false;
+        return Environment.TickCount64 - Interlocked.Read(ref _focusReturnedTicks) < 1000 || Voidstrap.Platform.MacOS.MacOSApplication.IsActive();
     }
 
     private void OnNotificationMouse(object sender, System.Windows.Input.MouseEventArgs e)
@@ -424,7 +435,7 @@ public partial class NotificationWindow
             Dispatcher.BeginInvoke(new Action(() => OnNotificationBoundsChanged(sender, bounds)));
             return;
         }
-        if (!bounds.Valid || !bounds.Foreground)
+        if (!bounds.Valid || (!bounds.Foreground && !IsReturningFocus()))
         {
             _dismissRequested = true;
             Hide();
