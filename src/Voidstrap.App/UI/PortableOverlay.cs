@@ -172,7 +172,10 @@ internal static class PortableOverlay
         if (Voidstrap.Utility.Platform.IsLinux && window.IsVisible)
             LinuxWindowInterop.TryShowOverlayWindow(handle);
         else if (Voidstrap.Utility.Platform.IsMacOS)
+        {
+            MacOSOverlayWindow.Configure(handle, false, MacOSOverlayWindow.InteractiveWindowLevel);
             MacOSOverlayWindow.ShowWithoutActivating(handle);
+        }
     }
 
     public static void Release(Window window)

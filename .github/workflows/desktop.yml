@@ -759,18 +759,25 @@ jobs:
           import Foundation
           let pid = Int(CommandLine.arguments[1])!
           let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
-          print(windows.filter { ($0[kCGWindowOwnerPID as String] as? Int) == pid }.count)
+          print(windows.filter {
+              guard ($0[kCGWindowOwnerPID as String] as? Int) == pid,
+                    ($0[kCGWindowAlpha as String] as? Double ?? 0) > 0.01,
+                    let bounds = $0[kCGWindowBounds as String] as? [String: Double]
+              else { return false }
+              return (bounds["Width"] ?? 0) > 32 && (bounds["Height"] ?? 0) > 32
+          }.count)
           SWIFT
           swiftc "$RUNNER_TEMP/window-count.swift" -o "$RUNNER_TEMP/window-count"
           baseline=$("$RUNNER_TEMP/window-count" "$session_pid")
-          for entry in chat:560 servers:600 games:640 history:680 music:720 details:760 settings:800; do
+          buttons_ok=true
+          for entry in chat:569 servers:609 games:649 history:689 music:729 details:769 settings:809; do
             name=${entry%:*}
             x=${entry#*:}
             cliclick "c:$x,653"
             sleep 3
             kill -0 "$session_pid"
-            test "$("$RUNNER_TEMP/window-count" "$session_pid")" -gt "$baseline"
             screencapture -x "$OUT/shots/07-panel-$name.png"
+            test "$("$RUNNER_TEMP/window-count" "$session_pid")" -gt "$baseline" || buttons_ok=false
             if [ "$name" = settings ]; then
               osascript -e 'tell application "Finder" to activate'
               sleep 3
@@ -794,13 +801,13 @@ jobs:
           kill -0 "$session_pid"
           screencapture -x "$OUT/shots/11-game-card.png"
           cliclick c:400,653
-          cliclick c:867,653
+          cliclick c:876,653
           sleep 1
           osascript -e 'set the clipboard to ""'
-          cliclick c:915,653
+          cliclick c:924,653
           sleep 3
           screencapture -x "$OUT/shots/04-dock-closed.png"
-          touch "$RUNNER_TEMP/overlay-logs/buttons-passed"
+          [ "$buttons_ok" = true ] && touch "$RUNNER_TEMP/overlay-logs/buttons-passed"
           printf '%s,2.0,f00d0001,6 [FLog::Network] Time to disconnect replication data: 0.1\n' "$(ts)" >> "$log"
           sleep 6
           screencapture -x "$OUT/shots/05-left-game.png"
