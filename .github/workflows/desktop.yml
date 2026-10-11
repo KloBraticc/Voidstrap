@@ -181,6 +181,8 @@ jobs:
                       Send(window, Sel("release"));
                       nint closed = window;
                       window = 0;
+                      objc_autoreleasePoolPop(pool);
+                      pool = objc_autoreleasePoolPush();
                       Assert(!MacOSOverlayWindow.IsWindow(closed), "A closed overlay handle remained live");
                       Console.WriteLine("Native overlay visibility, input, opacity, fullscreen and screen coordinate checks passed");
                   }
@@ -477,3 +479,136 @@ jobs:
         with:
           name: linux-x64-appimage
           path: artifacts/packages
+
+  macos_overlay_gui:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      OUT: ${{ github.workspace }}/results
+      APP: /Applications/Voidstrap.app
+      VS: /Users/runner/Library/Application Support/Voidstrap
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: voidstrap
+          submodules: recursive
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Find the Voidstrap commit
+        id: commit
+        working-directory: voidstrap
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ${{ runner.temp }}/pkg
+          key: voidstrap-mac-pkg-${{ steps.commit.outputs.sha }}-${{ hashFiles('voidstrap/build/Packaging/MacOS/**') }}
+
+      - name: Build and copy Voidstrap into Applications
+        working-directory: voidstrap
+        run: |
+          mkdir -p "$OUT/shots" "$OUT/logs"
+          [ -f "$RUNNER_TEMP/pkg/Voidstrap-osx-arm64.zip" ] || bash build/Packaging/MacOS/package.sh osx-arm64 "" "$RUNNER_TEMP/pkg" > "$OUT/build.txt" 2>&1
+          ditto -x -k "$RUNNER_TEMP/pkg/Voidstrap-osx-arm64.zip" "$RUNNER_TEMP/app"
+          sudo ditto "$RUNNER_TEMP/app/Voidstrap.app" "$APP"
+          sudo chown -R "$(whoami)" "$APP"
+          /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$APP"
+          brew install --quiet cliclick > /dev/null
+
+      - name: Install Voidstrap and Roblox
+        run: |
+          "$APP/Contents/MacOS/Voidstrap" > "$OUT/logs/installer-stdout.txt" 2>&1 &
+          sleep 15
+          for action in "c:519,450" "c:390,285" "kp:end" "t:Z" "kp:delete" "c:799,601"; do
+            cliclick "$action" || true
+            sleep 4
+          done
+          pkill -x Voidstrap || true
+          sleep 2
+          "$APP/Contents/MacOS/Voidstrap" -player > "$OUT/logs/install-roblox.txt" 2>&1 &
+          for i in $(seq 1 300); do [ -d /Applications/Roblox.app ] && pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
+          sleep 10
+          osascript -e 'tell application "Roblox" to quit' > /dev/null 2>&1 || true
+          sleep 4
+          pkill -x RobloxPlayer || true
+          pkill -x Voidstrap || true
+          sleep 2
+
+      - name: Grant Screen Recording to Voidstrap
+        run: |
+          sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "INSERT OR REPLACE INTO access (service, client, client_type, auth_value, auth_reason, auth_version, indirect_object_identifier, flags, last_modified) VALUES ('kTCCServiceScreenCapture', 'dev.voidstrap.desktop', 0, 2, 4, 1, 'UNUSED', 0, strftime('%s','now'));" || echo "TCC grant failed"
+
+      - name: Overlays over a fake game session
+        run: |
+          set -u
+          settings="$VS/Config/AppSettings.json"
+          /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d.update({"SessionDockEnabled": True, "OverlaysEnabled": True, "CurrentTimeDisplay": True, "ShowServerDetailsUI": True, "Brightness": 30, "Crosshair": True, "NotificationWindowShow": True, "HomepageBackgroundOverlayEnabled": True, "HomepageBackgroundOverlayColor": "#FF2D7DFF", "EnableActivityTracking": True}); json.dump(d, open(p, "w"))' "$settings"
+          front() { osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null; }
+          "$APP/Contents/MacOS/Voidstrap" -player > "$OUT/logs/session-stdout.txt" 2>&1 &
+          for i in $(seq 1 120); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
+          sleep 20
+          screencapture -x "$OUT/shots/01-roblox-menu.png"
+          echo "frontmost before join: $(front)"
+          log=$(ls -t ~/Library/Logs/Roblox/*Player*.log | head -1)
+          echo "roblox log: $(basename "$log")"
+          job=$(uuidgen | tr A-Z a-z)
+          ts() { date -u +%Y-%m-%dT%H:%M:%S.000Z; }
+          printf '%s,1.0,f00d0001,6 [FLog::Output] ! Joining game '"'"'%s'"'"' place 1818 at 128.116.1.1\n' "$(ts)" "$job" >> "$log"
+          sleep 1
+          printf '%s,1.1,f00d0001,6 [FLog::GameJoinLoadTime] Report game_join_loadtime: placeid:1818, universeid:13058, userid:1\n' "$(ts)" >> "$log"
+          sleep 1
+          printf '%s,1.2,f00d0001,6 [FLog::Network] serverId: %s|128.116.1.1:53640\n' "$(ts)" "$job" >> "$log"
+          sleep 12
+          screencapture -x "$OUT/shots/02-in-game.png"
+          echo "frontmost in game: $(front)"
+          osascript -e 'tell application "Roblox" to activate'
+          osascript -e 'tell application "System Events" to keystroke "l" using {control down, option down}'
+          sleep 4
+          screencapture -x "$OUT/shots/02-dock-open.png"
+          osascript -e 'tell application "System Events" to get {name, position, size} of every window of every process whose name contains "Voidstrap"' > "$OUT/logs/voidstrap-windows.txt" 2>&1 || true
+          cat "$OUT/logs/voidstrap-windows.txt"
+          osascript -e 'tell application "Finder" to activate' > /dev/null 2>&1 || true
+          sleep 4
+          screencapture -x "$OUT/shots/03-roblox-unfocused.png"
+          echo "frontmost after Finder: $(front)"
+          test "$(front)" = Finder
+          osascript -e 'tell application "Roblox" to activate' > /dev/null 2>&1 || true
+          sleep 4
+          screencapture -x "$OUT/shots/04-roblox-refocused.png"
+          osascript -e 'tell application "System Events" to keystroke "l" using {control down, option down}'
+          sleep 3
+          screencapture -x "$OUT/shots/04-dock-closed.png"
+          printf '%s,2.0,f00d0001,6 [FLog::Network] Time to disconnect replication data: 0.1\n' "$(ts)" >> "$log"
+          sleep 6
+          screencapture -x "$OUT/shots/05-left-game.png"
+          grep -hiE "overlay|crosshair|anchor|notification|exception|homepage|readlogentry" ~/Library/Logs/Voidstrap/*.log | sed 's/^[^ ]* //' | cut -c1-220 | tail -60
+          osascript -e 'tell application "Roblox" to quit' > /dev/null 2>&1 || true
+          sleep 3
+          pkill -x RobloxPlayer || true
+          pkill -x Voidstrap || true
+
+      - name: Overlays tab
+        run: |
+          click() { cliclick -e 500 "m:$1"; sleep 0.3; cliclick "c:$1"; sleep "${2:-1.5}"; }
+          "$APP/Contents/MacOS/Voidstrap" -settings > "$OUT/logs/settings.txt" 2>&1 &
+          sleep 15
+          click 150,470 2.5
+          click 860,268 2
+          screencapture -x "$OUT/shots/06-overlays-tab.png"
+          pkill -x Voidstrap || true
+
+      - name: Collect logs
+        if: always()
+        run: cp -R ~/Library/Logs/Voidstrap "$OUT/voidstrap-logs" 2>/dev/null || true
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: macos-overlay-gui
+          path: results
+          retention-days: 2
