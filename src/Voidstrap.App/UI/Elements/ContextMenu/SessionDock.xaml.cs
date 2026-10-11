@@ -27,7 +27,7 @@ public partial class SessionDock : Window
     private const double DockHeight = 70;
     private const double PopoutHeight = 388;
     private const double PopoutGap = 12;
-    private const double DimmerOpacity = 0.35;
+    private const double DimmerOpacity = 0.45;
     private const int GwlExStyle = -20;
     private const nint WsExToolWindow = 0x80;
     private const nint WsExNoActivate = 0x08000000;
@@ -260,6 +260,8 @@ public partial class SessionDock : Window
         string? key = _panels.FirstOrDefault(pair => ReferenceEquals(pair.Value, panel)).Key;
         if (key != null)
             _panels.Remove(key);
+        if (key == "web" && panel.IsPinned)
+            _pinnedRestored = false;
         UpdateActiveButtons();
     }
 
@@ -414,8 +416,6 @@ public partial class SessionDock : Window
         {
             if (panel.IsPinned || keepPanels || !panel.IsRequested)
                 panel.SetInteractive(false);
-            else if (panel.KeepsState)
-                panel.HideForSession();
             else
                 panel.Close();
         }
@@ -1738,11 +1738,8 @@ public partial class SessionDock : Window
         // A highlighted button closes its open panel again, like toggling a tab
         if (PanelActions.ContainsValue(action) && _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? open) && !open.IsClosed && open.IsVisible)
         {
-            if (open.KeepsState)
-            {
+            if (action == "web")
                 open.HideForSession();
-                UpdateActiveButtons();
-            }
             else
                 open.CloseFromDock();
             return;

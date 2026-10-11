@@ -57,9 +57,6 @@ public sealed partial class SessionPanelWindow : Window
     // Asked to be on screen whenever the dock is open, as opposed to only built ahead of time
     public bool IsRequested => _requested && !_closed;
 
-    // The browser keeps its open pages when it is put away, closing it would throw away the page you were on
-    public bool KeepsState => _key == "web";
-
     public SessionPanelWindow(string key, string title, Window view)
     {
         _key = key;
@@ -359,7 +356,14 @@ public sealed partial class SessionPanelWindow : Window
     private void HidePanel()
     {
         _placed = false;
-        if (_closed || !IsVisible)
+        if (_closed)
+            return;
+        if (_key == "web")
+        {
+            Close();
+            return;
+        }
+        if (!IsVisible)
             return;
         try
         {

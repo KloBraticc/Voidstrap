@@ -18,12 +18,6 @@ using Microsoft.Web.WebView2.Wpf;
 
 namespace Voidstrap.UI.Elements.Overlay;
 
-// A small tabbed browser for the dock, built to cost as little as possible while a game runs:
-// one shared browser engine with the background extras switched off, only the tabs on screen running
-// (the others are suspended, and put fully to sleep after a while), and everything at idle priority while the dock is closed.
-// Your tabs, the tab you were on and where you were on each page are kept, also across restarts.
-// Every callback from the browser engine is fenced so a page or engine crash never takes Voidstrap down,
-// and a crashed engine is rebuilt on its own.
 public partial class SessionWebBrowser : Window
 {
     private const string LogIdent = "SessionWebBrowser";
@@ -78,13 +72,9 @@ public partial class SessionWebBrowser : Window
         InitializeComponent();
         _state = BrowserState.Load();
         _saveTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(1.5) };
-        _saveTimer.Tick += (_, _) =>
-        {
-            _saveTimer.Stop();
-            _ = SaveSessionAsync();
-        };
+        _saveTimer.Tick += OnSaveTick;
         _sleepTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMinutes(1) };
-        _sleepTimer.Tick += (_, _) => SleepIdleTabs();
+        _sleepTimer.Tick += OnSleepTick;
         _sleepTimer.Start();
         InitializeChrome();
         Loaded += OnLoaded;
@@ -146,10 +136,11 @@ public partial class SessionWebBrowser : Window
         _starting = true;
         try
         {
-            _environment = await GetEnvironmentAsync();
+            CoreWebView2Environment environment = await GetEnvironmentAsync();
             if (_closed)
                 return;
-            HookEnvironment(_environment);
+            _environment = environment;
+            HookEnvironment(environment);
             Message.Visibility = Visibility.Collapsed;
             if (_tabs.Count == 0)
                 RestoreTabs();
@@ -248,6 +239,8 @@ public partial class SessionWebBrowser : Window
             Configure(tab, view, core);
             AddBlocking(tab, core, environment);
             await AddAccentStyleAsync(core);
+            if (_closed || tab.Closed)
+                return null;
             if (tab.IsMuted)
                 core.IsMuted = true;
             ApplyZoom(tab);
@@ -859,14 +852,22 @@ public partial class SessionWebBrowser : Window
         _saveTimer.Start();
     }
 
-    private async Task SaveSessionAsync()
+    private void OnSaveTick(object? sender, EventArgs e)
+    {
+        _saveTimer.Stop();
+        _ = SaveSessionAsync();
+    }
+
+    private void OnSleepTick(object? sender, EventArgs e) => SleepIdleTabs();
+
+    private async Task SaveSessionAsync(bool captureScroll = true)
     {
         // Taken before anything is awaited, closing the panel clears the tabs right after
         List<BrowserTab> tabs = _tabs.Where(tab => IsWebAddress(tab.Url) || tab.IsNewTab).ToList();
         BrowserTab? active = _active;
         if (tabs.Count == 0)
             return;
-        if (active != null)
+        if (captureScroll && active != null)
             await CaptureScrollAsync(active);
         _state.Tabs = tabs.Select(tab => tab.Save()).ToList();
         _state.Active = active == null ? 0 : Math.Max(0, tabs.IndexOf(active));
@@ -947,8 +948,6 @@ public partial class SessionWebBrowser : Window
 
     // ---- Staying light ----
 
-    // The whole panel hides with the dock: every tab sleeps and the engine drops to idle priority,
-    // then what was on screen wakes the moment the dock opens again
     private void OnHostVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
         bool visible = e.NewValue is true;
@@ -961,13 +960,10 @@ public partial class SessionWebBrowser : Window
         }
         else
         {
-            _ = SaveSessionAsync();
+            _saveTimer.Stop();
+            _sleepTimer.Stop();
             CloseFloatingParts();
-            foreach (BrowserTab tab in shown)
-            {
-                tab.LastShown = DateTime.UtcNow;
-                _ = SleepAsync(tab);
-            }
+            StopChrome();
         }
         UpdateNewTabClock();
         ApplyProcessPriority();
@@ -1194,16 +1190,19 @@ public partial class SessionWebBrowser : Window
         if (_closed)
             return;
         _saveTimer.Stop();
+        _saveTimer.Tick -= OnSaveTick;
         _sleepTimer.Stop();
+        _sleepTimer.Tick -= OnSleepTick;
         // Saved before the views go away, the tab list is copied before anything is awaited
-        _ = SaveSessionAsync();
+        _ = SaveSessionAsync(false);
         _closed = true;
         CloseFloatingParts();
         StopChrome();
         Loaded -= OnLoaded;
         Closed -= OnClosed;
         ViewHost.IsVisibleChanged -= OnHostVisibleChanged;
-        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(TearDownAll));
+        TearDownAll();
+        _sharedEnvironment = null;
     }
 
     private static string GetUserDataFolder()
