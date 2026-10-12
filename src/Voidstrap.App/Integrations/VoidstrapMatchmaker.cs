@@ -1189,7 +1189,9 @@ public static class VoidstrapMatchmaker
 		try
 		{
 			await PrimeCsrfAsync(placeId, cookie, token).ConfigureAwait(false);
-			ServerStartLookup first = await AttemptServerStartAsync(true, placeId, jobId, cookie, token).ConfigureAwait(false);
+			ServerStartLookup first = Volatile.Read(ref _uptimeV2Missing)
+				? new ServerStartLookup(ServerStartStatus.Unavailable, default)
+				: await AttemptServerStartAsync(true, placeId, jobId, cookie, token).ConfigureAwait(false);
 			if (first.Status is ServerStartStatus.Found or ServerStartStatus.Full)
 				return first;
 			ServerStartLookup second = await AttemptServerStartAsync(false, placeId, jobId, cookie, token).ConfigureAwait(false);
@@ -1207,6 +1209,8 @@ public static class VoidstrapMatchmaker
 			return new ServerStartLookup(ServerStartStatus.Unavailable, default);
 		}
 	}
+
+	private static bool _uptimeV2Missing;
 
 	private static async Task<ServerStartLookup> AttemptServerStartAsync(bool useV2, long placeId, string jobId, string cookie, CancellationToken token)
 	{
@@ -1234,6 +1238,8 @@ public static class VoidstrapMatchmaker
 					return new ServerStartLookup(ServerStartStatus.NotSignedIn, default);
 				if (!res.IsSuccessStatusCode)
 				{
+					if (useV2 && res.StatusCode == HttpStatusCode.NotFound)
+						Volatile.Write(ref _uptimeV2Missing, true);
 					App.Logger.WriteLine(LOG_IDENT, $"Server uptime lookup through gamejoin {api} answered {(int)res.StatusCode}");
 					return new ServerStartLookup(ServerStartStatus.Unavailable, default);
 				}
