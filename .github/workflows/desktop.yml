@@ -1440,6 +1440,63 @@ jobs:
           pkill -x Voidstrap || true
           grep -h "VirtualDisplay\|MacWindowMode\|FastFlag\|ClientSettings\|LaunchPortableRuntime" ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -20 || true
 
+      - name: Homepage background overlay over a simulated Roblox home screen
+        if: always()
+        run: |
+          cat > "$RUNNER_TEMP/fake-home.swift" <<'SWIFT'
+          import AppKit
+          final class Home: NSView {
+              override func draw(_ dirtyRect: NSRect) {
+                  NSColor(srgbRed: 18 / 255, green: 18 / 255, blue: 21 / 255, alpha: 1).setFill()
+                  bounds.fill()
+                  NSColor.white.setFill()
+                  NSRect(x: bounds.midX - 120, y: bounds.midY - 40, width: 240, height: 80).fill()
+              }
+          }
+          let app = NSApplication.shared
+          app.setActivationPolicy(.regular)
+          let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 1000, height: 650), styleMask: [.titled, .closable], backing: .buffered, defer: false)
+          window.title = "Roblox"
+          window.colorSpace = NSColorSpace.sRGB
+          window.contentView = Home()
+          window.setFrameTopLeftPoint(NSPoint(x: 12, y: (NSScreen.main?.frame.height ?? 768) - 40))
+          window.makeKeyAndOrderFront(nil)
+          app.activate(ignoringOtherApps: true)
+          app.run()
+          SWIFT
+          swiftc "$RUNNER_TEMP/fake-home.swift" -o "$RUNNER_TEMP/RobloxPlayer"
+          player=/Applications/Roblox.app/Contents/MacOS/RobloxPlayer
+          pkill -x RobloxPlayer || true
+          pkill -x Voidstrap || true
+          sleep 2
+          sudo mv "$player" "$player.real"
+          sudo cp "$RUNNER_TEMP/RobloxPlayer" "$player"
+          /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d.update({"HomepageBackgroundOverlayEnabled": True, "HomepageBackgroundOverlayColor": "#FF2D7DFF", "MacVirtualDisplayEnabled": False}); json.dump(d, open(p, "w"))' "$VS/Config/AppSettings.json"
+          "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/home-launch.txt" 2>&1 &
+          for i in $(seq 1 60); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
+          echo "fake home running: $(pgrep -x RobloxPlayer || echo no)"
+          osascript -e 'tell application "System Events" to set frontmost of (first process whose name is "RobloxPlayer") to true' > /dev/null 2>&1 || true
+          sleep 12
+          screencapture -x "$OUT/shots/15-homepage-overlay.png"
+          cat > "$RUNNER_TEMP/home-check.swift" <<'SWIFT'
+          import AppKit
+          let image = NSBitmapImageRep(data: try Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[1])))!
+          func at(_ x: Int, _ y: Int) -> NSColor { image.colorAt(x: x, y: y)!.usingColorSpace(.sRGB)! }
+          let background = at(200, 400)
+          let panel = at(512, 360)
+          print(String(format: "background %.0f %.0f %.0f panel %.0f %.0f %.0f", background.redComponent * 255, background.greenComponent * 255, background.blueComponent * 255, panel.redComponent * 255, panel.greenComponent * 255, panel.blueComponent * 255))
+          let tinted = background.blueComponent > 0.6 && background.redComponent < 0.4
+          let kept = panel.redComponent > 0.85 && panel.greenComponent > 0.85 && panel.blueComponent > 0.85
+          print(tinted && kept ? "true" : "false")
+          SWIFT
+          swift "$RUNNER_TEMP/home-check.swift" "$OUT/shots/15-homepage-overlay.png" | tee "$RUNNER_TEMP/overlay-logs/home-check.txt"
+          tail -1 "$RUNNER_TEMP/overlay-logs/home-check.txt" | grep -q true && echo true > "$RUNNER_TEMP/overlay-logs/homepage-overlay.txt" || true
+          grep -h "MacHomepageBackground\|OverlayHub::StartMacHomepage" ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -15 || true
+          pkill -x RobloxPlayer || true
+          pkill -x Voidstrap || true
+          sleep 1
+          sudo mv "$player.real" "$player"
+
       - name: Check the dock remains above passive overlays
         run: |
           cat > "$RUNNER_TEMP/overlay-layering.swift" <<'SWIFT'
@@ -1519,6 +1576,7 @@ jobs:
               "app_virtual_display": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/app-virtual-display.txt").is_file(),
               "app_virtual_display_restored": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/app-virtual-display-restored.txt").is_file(),
               "fps_cap_kept": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/fps-cap-kept.txt").is_file(),
+              "homepage_overlay": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/homepage-overlay.txt").is_file(),
               "dock_layering": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").is_file() else False,
               "screenshots": len(list((Path(os.environ["OUT"]) / "shots").glob("*.png")))
           }
