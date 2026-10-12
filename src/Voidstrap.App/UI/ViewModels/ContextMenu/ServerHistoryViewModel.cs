@@ -237,9 +237,17 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		}
 	}
 
+	public Func<bool>? IsShown { get; set; }
+
+	public void OnShown()
+	{
+		if (!_disposed)
+			_ = RefreshServerStatusesAsync();
+	}
+
 	private async void OnStatusTick(object? sender, EventArgs e)
 	{
-		if (Application.Current.Windows.OfType<Voidstrap.UI.Elements.ContextMenu.ServerHistory>().Any(window => window.IsVisible && window.WindowState != System.Windows.WindowState.Minimized))
+		if (IsShown?.Invoke() == true)
 			await RefreshServerStatusesAsync();
 	}
 
@@ -425,7 +433,7 @@ internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposa
 		};
 		FilteredGameHistory = source.ToList();
 		OnPropertyChanged(nameof(FilteredGameHistory));
-		if (!_disposed)
+		if (!_disposed && IsShown?.Invoke() == true)
 			_ = RefreshServerStatusesAsync();
 	}
 
