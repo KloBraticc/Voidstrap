@@ -173,6 +173,7 @@ internal static class WindowAudit
 		AuditImaging();
 		AuditCrosshairExports();
 		AuditModsFeatures();
+		AuditImageTools();
 		AuditLinuxAccountStorage();
 		AuditLibraryLoading();
 		AuditTextFlowScenarios();
@@ -7205,6 +7206,70 @@ internal static class WindowAudit
 				if (id != null)
 					ManagedModStore.Delete(id);
 				return files > 0 ? "preview " + preview.After.PixelWidth + "x" + preview.After.PixelHeight + ", " + files + " files, " + summary : null;
+			});
+		}
+		finally
+		{
+			try
+			{
+				System.IO.Directory.Delete(scratch, true);
+			}
+			catch (System.IO.IOException)
+			{
+			}
+		}
+	}
+
+	private static void AuditImageTools()
+	{
+		string scratch = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "voidstrap-image-tools-" + Guid.NewGuid().ToString("N"));
+		System.IO.Directory.CreateDirectory(scratch);
+		string source = System.IO.Path.Combine(scratch, "tool.png");
+		using (SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32> picture = new(40, 20, new SixLabors.ImageSharp.PixelFormats.Rgba32(255, 255, 255, 255)))
+			SixLabors.ImageSharp.ImageExtensions.SaveAsPng(picture, source);
+		try
+		{
+			AuditModStep("image adjust tool", () =>
+			{
+				UI.Elements.ContextMenu.ImageAdjustWindow window = new(source, "content/textures/voidstrap-audit.png");
+				try
+				{
+					window.Show();
+					Pump(30);
+					typeof(UI.Elements.ContextMenu.ImageAdjustWindow).GetMethod("Rotate_Click", BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(window, [null, null]);
+					Pump(30);
+					System.Windows.Media.Imaging.BitmapSource? preview = (window.FindName("PreviewImage") as System.Windows.Controls.Image)?.Source as System.Windows.Media.Imaging.BitmapSource;
+					return preview is { PixelWidth: 20, PixelHeight: 40 } ? "rotated preview 20x40" : null;
+				}
+				finally
+				{
+					window.Close();
+				}
+			});
+			AuditModStep("image recolor tool", () =>
+			{
+				UI.Elements.ContextMenu.ImageRecolorWindow window = new(source, "content/textures/voidstrap-audit.png");
+				try
+				{
+					window.Show();
+					Pump(30);
+					if (window.FindName("IntensitySlider") is System.Windows.Controls.Slider slider)
+						slider.Value = slider.Maximum;
+					if (window.FindName("HexInput") is System.Windows.Controls.TextBox hex)
+						hex.Text = "#00FF00";
+					typeof(UI.Elements.ContextMenu.ImageRecolorWindow).GetMethod("ApplyRecolor", BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(window, null);
+					Pump(30);
+					System.Windows.Media.Imaging.BitmapSource? preview = (window.FindName("PreviewImage") as System.Windows.Controls.Image)?.Source as System.Windows.Media.Imaging.BitmapSource;
+					if (preview == null || preview.Format.BitsPerPixel != 32)
+						return null;
+					byte[] pixels = new byte[preview.PixelWidth * preview.PixelHeight * 4];
+					preview.CopyPixels(pixels, preview.PixelWidth * 4, 0);
+					return pixels[1] > 200 && pixels[0] < 60 && pixels[2] < 60 ? "recolored preview to green" : null;
+				}
+				finally
+				{
+					window.Close();
+				}
 			});
 		}
 		finally
