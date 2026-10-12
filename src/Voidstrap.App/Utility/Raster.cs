@@ -46,19 +46,7 @@ internal sealed class Raster
 	{
 		if (NativeImaging.TryIdentify(bytes, out width, out height))
 			return true;
-		try
-		{
-			SixLabors.ImageSharp.ImageInfo info = SixLabors.ImageSharp.Image.Identify(bytes);
-			width = info?.Width ?? 0;
-			height = info?.Height ?? 0;
-			return width > 0 && height > 0;
-		}
-		catch (Exception ex) when (ex is SixLabors.ImageSharp.UnknownImageFormatException or SixLabors.ImageSharp.InvalidImageContentException or NotSupportedException)
-		{
-			width = 0;
-			height = 0;
-			return false;
-		}
+		return RasterFallback.TryIdentify(bytes, out width, out height);
 	}
 
 	public static Raster Load(string path, long maxBytes = DefaultMaxBytes)
@@ -70,14 +58,7 @@ internal sealed class Raster
 	{
 		if (NativeImaging.TryDecodeBgra(bytes, 0, maxBytes, out int width, out int height, out byte[] pixels))
 			return new Raster(width, height, pixels);
-		SixLabors.ImageSharp.ImageInfo info = SixLabors.ImageSharp.Image.Identify(bytes);
-		if (info == null || info.Width <= 0 || info.Height <= 0 || (long)info.Width * info.Height * 4 > maxBytes)
-			throw new InvalidDataException("The image is too large or unreadable");
-		using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image = SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Bgra32>(bytes);
-		SixLabors.ImageSharp.Processing.ProcessingExtensions.Mutate(image, static context => SixLabors.ImageSharp.Processing.AutoOrientExtensions.AutoOrient(context));
-		byte[] managed = new byte[checked(image.Width * image.Height * 4)];
-		image.CopyPixelDataTo(managed);
-		return new Raster(image.Width, image.Height, managed);
+		return RasterFallback.Decode(bytes, maxBytes);
 	}
 
 	public Raster Resize(int width, int height, RasterFilter filter = RasterFilter.Bicubic)
@@ -88,18 +69,7 @@ internal sealed class Raster
 			return Clone();
 		if (NativeImaging.TryResizeBgra(Pixels, Width, Height, width, height, (int)filter, out byte[] resized))
 			return new Raster(width, height, resized);
-		using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image = SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(Pixels, Width, Height);
-		SixLabors.ImageSharp.Processing.Processors.Transforms.IResampler sampler = filter switch
-		{
-			RasterFilter.Lanczos3 => SixLabors.ImageSharp.Processing.KnownResamplers.Lanczos3,
-			RasterFilter.Bilinear => SixLabors.ImageSharp.Processing.KnownResamplers.Triangle,
-			RasterFilter.Nearest => SixLabors.ImageSharp.Processing.KnownResamplers.NearestNeighbor,
-			_ => SixLabors.ImageSharp.Processing.KnownResamplers.Bicubic
-		};
-		SixLabors.ImageSharp.Processing.ProcessingExtensions.Mutate(image, context => SixLabors.ImageSharp.Processing.ResizeExtensions.Resize(context, width, height, sampler));
-		byte[] managed = new byte[checked(width * height * 4)];
-		image.CopyPixelDataTo(managed);
-		return new Raster(width, height, managed);
+		return new Raster(width, height, RasterFallback.Resize(Pixels, Width, Height, width, height, filter));
 	}
 
 	public Raster FitWithin(int maxWidth, int maxHeight, RasterFilter filter = RasterFilter.Bicubic)
@@ -208,19 +178,7 @@ internal sealed class Raster
 	{
 		if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 0, (int)level, out byte[] encoded))
 			return encoded;
-		using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image = SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(Pixels, Width, Height);
-		using MemoryStream output = new MemoryStream();
-		image.Save(output, new SixLabors.ImageSharp.Formats.Png.PngEncoder
-		{
-			ColorType = SixLabors.ImageSharp.Formats.Png.PngColorType.RgbWithAlpha,
-			CompressionLevel = level switch
-			{
-				PngLevel.Fast => SixLabors.ImageSharp.Formats.Png.PngCompressionLevel.BestSpeed,
-				PngLevel.Best => SixLabors.ImageSharp.Formats.Png.PngCompressionLevel.BestCompression,
-				_ => SixLabors.ImageSharp.Formats.Png.PngCompressionLevel.DefaultCompression
-			}
-		});
-		return output.ToArray();
+		return RasterFallback.EncodePng(Pixels, Width, Height, level);
 	}
 
 	public byte[] EncodeJpeg(int quality)
@@ -228,20 +186,14 @@ internal sealed class Raster
 		quality = Math.Clamp(quality, 1, 100);
 		if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 1, quality, out byte[] encoded))
 			return encoded;
-		using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image = SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(Pixels, Width, Height);
-		using MemoryStream output = new MemoryStream();
-		image.Save(output, new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder { Quality = quality });
-		return output.ToArray();
+		return RasterFallback.EncodeJpeg(Pixels, Width, Height, quality);
 	}
 
 	public byte[] EncodeBmp()
 	{
 		if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 2, 0, out byte[] encoded))
 			return encoded;
-		using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image = SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(Pixels, Width, Height);
-		using MemoryStream output = new MemoryStream();
-		image.Save(output, new SixLabors.ImageSharp.Formats.Bmp.BmpEncoder());
-		return output.ToArray();
+		return RasterFallback.EncodeBmp(Pixels, Width, Height);
 	}
 
 	public byte[] EncodeWebp()
