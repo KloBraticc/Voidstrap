@@ -10,7 +10,6 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
-using SixLabors.ImageSharp.Processing;
 using Voidstrap.Utility;
 
 namespace Voidstrap;
@@ -346,25 +345,28 @@ public static class FileModManager
 			if (!file.Exists || file.Length == 0 || file.Length > MaximumImageBytes)
 				throw new InvalidDataException("Choose images smaller than 64 MB.");
 			byte[] bytes = File.ReadAllBytes(path);
-			try
-			{
-				SixLabors.ImageSharp.ImageInfo info = SixLabors.ImageSharp.Image.Identify(bytes);
-				if (info.Width <= 0 || info.Height <= 0 || info.Width > 4096 || info.Height > 4096)
-					throw new InvalidDataException("Use images that are 4096 pixels or smaller on each side.");
-				SixLabors.ImageSharp.Formats.DecoderOptions options = new SixLabors.ImageSharp.Formats.DecoderOptions { MaxFrames = (uint)DdsTextureCodec.WaterFrameCount };
-				using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.L8> image = SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.L8>(options, bytes);
-				image.Mutate(static context => context.Resize(DdsTextureCodec.WaterSize, DdsTextureCodec.WaterSize));
-				for (int index = 0; index < image.Frames.Count && frames.Count < DdsTextureCodec.WaterFrameCount; index++)
-				{
-					using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.L8> single = image.Frames.CloneFrame(index);
-					byte[] heights = new byte[DdsTextureCodec.WaterSize * DdsTextureCodec.WaterSize];
-					single.CopyPixelDataTo(heights);
-					frames.Add(heights);
-				}
-			}
-			catch (SixLabors.ImageSharp.UnknownImageFormatException)
-			{
+			if (!Raster.TryIdentify(bytes, out int sourceWidth, out int sourceHeight))
 				throw new InvalidDataException(Path.GetFileName(path) + " is not an image format that can be used.");
+			if (sourceWidth > 4096 || sourceHeight > 4096)
+				throw new InvalidDataException("Use images that are 4096 pixels or smaller on each side.");
+			int remaining = DdsTextureCodec.WaterFrameCount - frames.Count;
+			List<Raster> decoded = new List<Raster>();
+			if (NativeImaging.TryDecodeAnimationBgra(bytes, 1024, 1024, remaining, 256L * 1024 * 1024, out int width, out int height, out byte[][] pixels, out _))
+			{
+				foreach (byte[] frame in pixels)
+					decoded.Add(new Raster(width, height, frame));
+			}
+			else
+			{
+				decoded.Add(Raster.Decode(bytes));
+			}
+			foreach (Raster frame in decoded)
+			{
+				if (frames.Count >= DdsTextureCodec.WaterFrameCount)
+					break;
+				for (int index = 3; index < frame.Pixels.Length; index += 4)
+					frame.Pixels[index] = 255;
+				frames.Add(ToHeights(frame.Resize(DdsTextureCodec.WaterSize, DdsTextureCodec.WaterSize)));
 			}
 		}
 		if (frames.Count == 0)
