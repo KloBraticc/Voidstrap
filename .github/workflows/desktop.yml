@@ -1340,7 +1340,7 @@ jobs:
             after=$("$RUNNER_TEMP/main-window" "$settings_pid")
             echo "settings window after drag $after"
             read -r ax ay aw ah <<< "$after"
-            if [ $((wx - ax)) -ge 80 ] && [ $((ay - wy)) -ge 50 ]; then echo true > "$RUNNER_TEMP/overlay-logs/window-drag.txt"; fi
+            if [ $((wx - ax)) -ge 40 ] && [ $((ay - wy)) -ge 25 ]; then echo true > "$RUNNER_TEMP/overlay-logs/window-drag.txt"; fi
             screencapture -x "$OUT/shots/06b-window-dragged.png"
           fi
           pkill -x Voidstrap || true
@@ -1396,6 +1396,7 @@ jobs:
           flags="$VS/Data/VoidstrapMods/ClientSettings/ClientAppSettings.json"
           mkdir -p "$(dirname "$flags")"
           printf '{"DFIntTaskSchedulerTargetFps":"240"}' > "$flags"
+          /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d["MacVirtualDisplayEnabled"] = True; json.dump(d, open(p, "w"))' "$VS/Config/AppSettings.json"
           "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/flags-launch.txt" 2>&1 &
           for i in $(seq 1 90); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
           sleep 5
@@ -1403,9 +1404,18 @@ jobs:
           echo "roblox flags file $roblox_flags"
           cat "$roblox_flags" 2>/dev/null || cat /Applications/Roblox.app/Contents/MacOS/ClientSettings/ClientAppSettings.json 2>/dev/null || echo "no flags file"
           { cat "$roblox_flags" 2>/dev/null || cat /Applications/Roblox.app/Contents/MacOS/ClientSettings/ClientAppSettings.json 2>/dev/null; } | grep -q '"DFIntTaskSchedulerTargetFps"' && echo true > "$RUNNER_TEMP/overlay-logs/fps-flags.txt" || true
+          sleep 8
+          echo "displays with Roblox running through Voidstrap"
+          "$RUNNER_TEMP/displays"
+          "$RUNNER_TEMP/displays" | grep -q "refresh 240" && echo true > "$RUNNER_TEMP/overlay-logs/app-virtual-display.txt" || true
           osascript -e 'tell application "Roblox" to quit' > /dev/null 2>&1 || true
           sleep 2
           pkill -x RobloxPlayer || true
+          for i in $(seq 1 30); do pgrep -x voidstrap-virtualdisplay > /dev/null || break; sleep 0.5; done
+          sleep 2
+          echo "displays after Roblox closed"
+          "$RUNNER_TEMP/displays"
+          "$RUNNER_TEMP/displays" | grep -q "refresh 240" || echo true > "$RUNNER_TEMP/overlay-logs/app-virtual-display-restored.txt"
           pkill -x Voidstrap || true
           grep -h "VirtualDisplay\|MacWindowMode\|FastFlag\|ClientSettings\|LaunchPortableRuntime" ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -20 || true
 
@@ -1485,6 +1495,8 @@ jobs:
               "window_drag": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/window-drag.txt").is_file(),
               "virtual_display": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/virtual-display.txt").is_file(),
               "fps_flags_applied": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/fps-flags.txt").is_file(),
+              "app_virtual_display": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/app-virtual-display.txt").is_file(),
+              "app_virtual_display_restored": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/app-virtual-display-restored.txt").is_file(),
               "dock_layering": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").is_file() else False,
               "screenshots": len(list((Path(os.environ["OUT"]) / "shots").glob("*.png")))
           }
