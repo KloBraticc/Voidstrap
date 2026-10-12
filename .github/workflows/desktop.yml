@@ -1497,6 +1497,24 @@ jobs:
           sleep 1
           sudo mv "$player.real" "$player"
 
+      - name: Full in app audit on macOS
+        if: always()
+        timeout-minutes: 25
+        run: |
+          pkill -x Voidstrap || true
+          log_dir="$HOME/Library/Logs/Voidstrap"
+          before=$(ls "$log_dir" 2>/dev/null | wc -l)
+          ( "$APP/Contents/MacOS/Voidstrap" -windowaudit > "$RUNNER_TEMP/overlay-logs/audit-stdout.txt" 2>&1 ) &
+          audit_pid=$!
+          for i in $(seq 1 1200); do kill -0 "$audit_pid" 2>/dev/null || break; sleep 1; done
+          kill "$audit_pid" 2>/dev/null || true
+          audit_log=$(ls -t "$log_dir"/*.log | head -1)
+          grep -h "\[WindowAudit\]" "$audit_log" | sed -E 's#/Users/[^/ ]+#~#g' > "$RUNNER_TEMP/overlay-logs/audit.txt" || true
+          echo "audit lines: $(wc -l < "$RUNNER_TEMP/overlay-logs/audit.txt") failures: $(grep -c FAIL "$RUNNER_TEMP/overlay-logs/audit.txt")"
+          grep FAIL "$RUNNER_TEMP/overlay-logs/audit.txt" | cut -c1-300 | head -120 || true
+          tail -5 "$RUNNER_TEMP/overlay-logs/audit.txt" | cut -c1-300 || true
+          grep -h "Unhandled\|Exception" "$audit_log" | sed -E 's#/Users/[^/ ]+#~#g' | cut -c1-300 | head -30 || true
+
       - name: Check the dock remains above passive overlays
         run: |
           cat > "$RUNNER_TEMP/overlay-layering.swift" <<'SWIFT'
