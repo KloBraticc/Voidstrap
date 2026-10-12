@@ -23,6 +23,14 @@ public static partial class EmulationBypassService
 
 	private const string BackupKeyPath = "Software\\Voidstrap\\EmulationBypass";
 
+	private const string GpuPreferencesKeyPath = "Software\\Microsoft\\DirectX\\UserGpuPreferences";
+
+	private const string GpuBackupKeyPath = "Software\\Voidstrap\\EmulationBypass\\Gpu";
+
+	private const string HighPerformanceGpu = "GpuPreference=2;";
+
+	private const string NoGpuPreference = "";
+
 	private const string ImageOptionsKeyPath = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options";
 
 	private static readonly string[] KeptLayers =
@@ -123,6 +131,7 @@ public static partial class EmulationBypassService
 				App.Logger.WriteLine("EmulationBypassService::ApplyCompatLayerBypass", "Detached the Windows compatibility engine from this Roblox build by removing: " + string.Join(", ", removed));
 			}
 
+			ApplyGpuPreference(executablePath);
 			ReportMachineWideLayers(executablePath);
 			ReportImageFileExecutionOptions(executablePath);
 		}
@@ -151,10 +160,80 @@ public static partial class EmulationBypassService
 
 			foreach (string name in backup.GetValueNames())
 				RestoreOne(backup, layers, name);
+
+			RestoreGpuPreferences();
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine("EmulationBypassService::RestoreCompatLayers", "Failed to restore the original compatibility layers: " + ex.Message);
+		}
+	}
+
+	private static void ApplyGpuPreference(string executablePath)
+	{
+		try
+		{
+			using RegistryKey? backup = Registry.CurrentUser.CreateSubKey(GpuBackupKeyPath);
+			using RegistryKey? preferences = Registry.CurrentUser.CreateSubKey(GpuPreferencesKeyPath);
+
+			if (backup == null || preferences == null)
+				return;
+
+			foreach (string name in backup.GetValueNames())
+			{
+				if (!string.Equals(name, executablePath, StringComparison.OrdinalIgnoreCase))
+					RestoreGpuOne(backup, preferences, name);
+			}
+
+			string? current = preferences.GetValue(executablePath) as string;
+
+			if (string.Equals(current, HighPerformanceGpu, StringComparison.OrdinalIgnoreCase))
+				return;
+
+			if (backup.GetValue(executablePath) == null)
+				backup.SetValue(executablePath, current ?? NoGpuPreference);
+
+			preferences.SetValue(executablePath, HighPerformanceGpu);
+			App.Logger.WriteLine("EmulationBypassService::ApplyGpuPreference", "Roblox now runs on the high performance GPU");
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("EmulationBypassService::ApplyGpuPreference", "Could not set the GPU preference: " + ex.Message);
+		}
+	}
+
+	private static void RestoreGpuPreferences()
+	{
+		using RegistryKey? backup = Registry.CurrentUser.OpenSubKey(GpuBackupKeyPath, writable: true);
+
+		if (backup == null)
+			return;
+
+		using RegistryKey? preferences = Registry.CurrentUser.CreateSubKey(GpuPreferencesKeyPath);
+
+		if (preferences == null)
+			return;
+
+		foreach (string name in backup.GetValueNames())
+			RestoreGpuOne(backup, preferences, name);
+	}
+
+	private static void RestoreGpuOne(RegistryKey backup, RegistryKey preferences, string name)
+	{
+		try
+		{
+			string original = backup.GetValue(name) as string ?? NoGpuPreference;
+
+			if (original == NoGpuPreference)
+				preferences.DeleteValue(name, throwOnMissingValue: false);
+			else
+				preferences.SetValue(name, original);
+
+			backup.DeleteValue(name, throwOnMissingValue: false);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("EmulationBypassService::RestoreGpuOne", "Could not restore the GPU preference for " + name + ": " + ex.Message);
 		}
 	}
 
