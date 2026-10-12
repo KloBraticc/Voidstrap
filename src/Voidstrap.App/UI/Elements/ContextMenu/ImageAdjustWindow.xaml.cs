@@ -7,9 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media.Imaging;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
+using Voidstrap.Utility;
 using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.ContextMenu;
@@ -19,9 +17,9 @@ public partial class ImageAdjustWindow : UiWindow{
 
 	private readonly string _relativePath;
 
-	private Image<Rgba32> _originalBitmap;
+	private readonly Raster _originalBitmap;
 
-	private Image<Rgba32> _currentBitmap;
+	private Raster _currentBitmap;
 
 	public ImageAdjustWindow(string sourcePath, string relativePath)
 	{
@@ -29,7 +27,7 @@ public partial class ImageAdjustWindow : UiWindow{
 		InitializeComponent();
 		_sourcePath = sourcePath;
 		_relativePath = relativePath;
-		_originalBitmap = SixLabors.ImageSharp.Image.Load<Rgba32>(_sourcePath);
+		_originalBitmap = Raster.Load(_sourcePath);
 		_currentBitmap = _originalBitmap.Clone();
 		WidthInput.Text = _originalBitmap.Width.ToString();
 		HeightInput.Text = _originalBitmap.Height.ToString();
@@ -38,27 +36,26 @@ public partial class ImageAdjustWindow : UiWindow{
 
 	private void UpdatePreview()
 	{
-		using MemoryStream memoryStream = new MemoryStream();
-		_currentBitmap.SaveAsPng(memoryStream);
-		memoryStream.Seek(0L, SeekOrigin.Begin);
-		PreviewImage.Source = Voidstrap.Utility.SafeImaging.FromStream(memoryStream);
+		BitmapSource preview = BitmapSource.Create(_currentBitmap.Width, _currentBitmap.Height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null, _currentBitmap.Pixels, _currentBitmap.Width * 4);
+		preview.Freeze();
+		PreviewImage.Source = preview;
 	}
 
 	private void Rotate_Click(object sender, RoutedEventArgs e)
 	{
-		_currentBitmap.Mutate(context => context.Rotate(RotateMode.Rotate90));
+		_currentBitmap = _currentBitmap.RotateClockwise();
 		UpdatePreview();
 	}
 
 	private void FlipH_Click(object sender, RoutedEventArgs e)
 	{
-		_currentBitmap.Mutate(context => context.Flip(FlipMode.Horizontal));
+		_currentBitmap = _currentBitmap.FlipHorizontal();
 		UpdatePreview();
 	}
 
 	private void FlipV_Click(object sender, RoutedEventArgs e)
 	{
-		_currentBitmap.Mutate(context => context.Flip(FlipMode.Vertical));
+		_currentBitmap = _currentBitmap.FlipVertical();
 		UpdatePreview();
 	}
 
@@ -71,14 +68,13 @@ public partial class ImageAdjustWindow : UiWindow{
 				return;
 			}
 
-			_currentBitmap.Mutate(context => context.Resize(result, result2));
+			_currentBitmap = _currentBitmap.Resize(result, result2);
 			UpdatePreview();
 		}
 	}
 
 	private void Reset_Click(object sender, RoutedEventArgs e)
 	{
-		_currentBitmap?.Dispose();
 		_currentBitmap = _originalBitmap.Clone();
 		WidthInput.Text = _originalBitmap.Width.ToString();
 		HeightInput.Text = _originalBitmap.Height.ToString();
@@ -95,7 +91,7 @@ public partial class ImageAdjustWindow : UiWindow{
 			{
 				Directory.CreateDirectory(directoryName);
 			}
-			_currentBitmap.SaveAsPng(text);
+			_currentBitmap.SavePng(text);
 			Frontend.ShowMessageBox("Image adjustments applied and saved to Mods!", MessageBoxImage.Asterisk);
 			Close();
 		}
@@ -112,7 +108,5 @@ public partial class ImageAdjustWindow : UiWindow{
 
 	private void Cancel_Click(object sender, CancelEventArgs e)
 	{
-		_originalBitmap?.Dispose();
-		_currentBitmap?.Dispose();
 	}
 }
