@@ -26,6 +26,9 @@ internal static partial class NativeImaging
 	[LibraryImport(Library, EntryPoint = "vi_encode_bgra")]
 	private static unsafe partial int EncodeBgra(byte* pixels, nuint length, uint width, uint height, uint format, uint level, out IntPtr result, out nuint resultLength);
 
+	[LibraryImport(Library, EntryPoint = "vi_identify")]
+	private static unsafe partial int Identify(byte* data, nuint length, out uint width, out uint height);
+
 	[LibraryImport(Library, EntryPoint = "vi_free")]
 	private static partial void Free(IntPtr pixels, nuint length);
 
@@ -39,7 +42,7 @@ internal static partial class NativeImaging
 			int resolved;
 			try
 			{
-				resolved = Version() >= 2 ? StateReady : StateMissing;
+				resolved = Version() >= 3 ? StateReady : StateMissing;
 			}
 			catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException or BadImageFormatException)
 			{
@@ -151,6 +154,32 @@ internal static partial class NativeImaging
 		{
 			if (native != IntPtr.Zero)
 				Free(native, length);
+		}
+	}
+
+	public static unsafe bool TryIdentify(byte[] bytes, out int width, out int height)
+	{
+		width = 0;
+		height = 0;
+		if (bytes == null || bytes.Length == 0 || !IsAvailable)
+			return false;
+		try
+		{
+			int status;
+			uint identifiedWidth;
+			uint identifiedHeight;
+			fixed (byte* data = bytes)
+				status = Identify(data, (nuint)bytes.Length, out identifiedWidth, out identifiedHeight);
+			if (status != 0 || identifiedWidth == 0 || identifiedHeight == 0 || identifiedWidth > int.MaxValue || identifiedHeight > int.MaxValue)
+				return false;
+			width = (int)identifiedWidth;
+			height = (int)identifiedHeight;
+			return true;
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("NativeImaging", "Native identify failed: " + ex.Message);
+			return false;
 		}
 	}
 }

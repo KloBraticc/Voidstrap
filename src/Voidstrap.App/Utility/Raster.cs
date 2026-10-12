@@ -42,6 +42,25 @@ internal sealed class Raster
 		return new Raster(width, height, new byte[checked(width * height * 4)]);
 	}
 
+	public static bool TryIdentify(byte[] bytes, out int width, out int height)
+	{
+		if (NativeImaging.TryIdentify(bytes, out width, out height))
+			return true;
+		try
+		{
+			SixLabors.ImageSharp.ImageInfo info = SixLabors.ImageSharp.Image.Identify(bytes);
+			width = info?.Width ?? 0;
+			height = info?.Height ?? 0;
+			return width > 0 && height > 0;
+		}
+		catch (Exception ex) when (ex is SixLabors.ImageSharp.UnknownImageFormatException or SixLabors.ImageSharp.InvalidImageContentException or NotSupportedException)
+		{
+			width = 0;
+			height = 0;
+			return false;
+		}
+	}
+
 	public static Raster Load(string path, long maxBytes = DefaultMaxBytes)
 	{
 		return Decode(File.ReadAllBytes(path), maxBytes);

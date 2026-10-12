@@ -5,10 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 
 namespace Voidstrap.Utility;
 
@@ -54,8 +50,9 @@ public static class SkyboxImageConverter
 		if (TryReadDdsDimensions(stream, out int ddsWidth, out int ddsHeight))
 			return ddsWidth > 0 && ddsHeight > 0 && ddsWidth <= MaximumDimension && ddsHeight <= MaximumDimension && (long)ddsWidth * ddsHeight <= MaximumPixels;
 		stream.Position = 0;
-		var info = Image.Identify(new DecoderOptions { MaxFrames = 1 }, stream);
-		return info != null && info.Width > 0 && info.Height > 0 && info.Width <= MaximumDimension && info.Height <= MaximumDimension && (long)info.Width * info.Height <= MaximumPixels;
+		byte[] bytes = GC.AllocateUninitializedArray<byte>(checked((int)stream.Length));
+		stream.ReadExactly(bytes);
+		return Raster.TryIdentify(bytes, out int width, out int height) && width <= MaximumDimension && height <= MaximumDimension && (long)width * height <= MaximumPixels;
 	}
 
 	public static Task ImportAsync(IReadOnlyDictionary<string, string> sourceFiles, CancellationToken token)
@@ -134,39 +131,27 @@ public static class SkyboxImageConverter
 			return copy;
 		}
 
-		using Image<Rgba32> image = DecodeImage(stream);
-		image.Mutate(context => context.AutoOrient().Resize(new ResizeOptions
-		{
-			Size = new Size(FaceSize, FaceSize),
-			Mode = ResizeMode.Crop,
-			Position = AnchorPositionMode.Center,
-			Sampler = KnownResamplers.Lanczos3
-		}));
+		Raster image = DecodeImage(stream).ResizeToCover(FaceSize, FaceSize, RasterFilter.Lanczos3);
 		token.ThrowIfCancellationRequested();
-		using MemoryStream output = new();
-		image.Save(output, new PngEncoder
-		{
-			ColorType = PngColorType.RgbWithAlpha,
-			CompressionLevel = PngCompressionLevel.Level6,
-			FilterMethod = PngFilterMethod.Adaptive
-		});
+		byte[] output = image.EncodePng();
 		if (output.Length <= 0 || output.Length > 16777216L)
 			throw new InvalidDataException("The converted skybox face is too large");
-		return output.ToArray();
+		return output;
 	}
 
-	private static Image<Rgba32> DecodeImage(Stream stream)
+	private static Raster DecodeImage(Stream stream)
 	{
-		DecoderOptions decoderOptions = new() { MaxFrames = 1 };
+		stream.Position = 0;
+		byte[] bytes = GC.AllocateUninitializedArray<byte>(checked((int)stream.Length));
+		stream.ReadExactly(bytes);
 		try
 		{
-			stream.Position = 0;
-			var info = Image.Identify(decoderOptions, stream);
-			ValidateDimensions(info?.Width ?? 0, info?.Height ?? 0);
-			stream.Position = 0;
-			return Image.Load<Rgba32>(decoderOptions, stream);
+			if (!Raster.TryIdentify(bytes, out int width, out int height))
+				throw new NotSupportedException("The selected image format is not recognised");
+			ValidateDimensions(width, height);
+			return Raster.Decode(bytes, MaximumPixels * 4);
 		}
-		catch (Exception ex) when (ex is UnknownImageFormatException or InvalidImageContentException or NotSupportedException)
+		catch (Exception ex) when (ex is InvalidDataException or UnknownImageFormatException or InvalidImageContentException or NotSupportedException)
 		{
 			try
 			{
@@ -180,8 +165,7 @@ public static class SkyboxImageConverter
 				int stride = checked(converted.PixelWidth * 4);
 				byte[] pixels = GC.AllocateUninitializedArray<byte>(checked(stride * converted.PixelHeight));
 				converted.CopyPixels(pixels, stride, 0);
-				using Image<Bgra32> bgra = Image.LoadPixelData<Bgra32>(pixels, converted.PixelWidth, converted.PixelHeight);
-				return bgra.CloneAs<Rgba32>();
+				return new Raster(converted.PixelWidth, converted.PixelHeight, pixels);
 			}
 			catch (Exception fallbackException)
 			{

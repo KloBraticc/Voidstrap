@@ -12,7 +12,7 @@ pub const VI_FAILED: i32 = 4;
 
 #[no_mangle]
 pub extern "C" fn vi_version() -> u32 {
-    2
+    3
 }
 
 #[no_mangle]
@@ -227,6 +227,31 @@ pub unsafe extern "C" fn vi_encode_bgra(
             give(data, out_bytes, out_length);
             VI_OK
         }
+        Ok(Err(code)) => code,
+        Err(_) => VI_FAILED,
+    }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn vi_identify(data: *const u8, length: usize, out_width: *mut u32, out_height: *mut u32) -> i32 {
+    if data.is_null() || length == 0 || out_width.is_null() || out_height.is_null() {
+        return VI_INVALID;
+    }
+    let input = std::slice::from_raw_parts(data, length);
+    let result = catch_unwind(AssertUnwindSafe(|| -> Result<(u32, u32), i32> {
+        let reader = ImageReader::new(Cursor::new(input)).with_guessed_format().map_err(|_| VI_INVALID)?;
+        if reader.format().is_none() {
+            return Err(VI_UNSUPPORTED);
+        }
+        reader.into_dimensions().map_err(|_| VI_UNSUPPORTED)
+    }));
+    match result {
+        Ok(Ok((width, height))) if width > 0 && height > 0 => {
+            *out_width = width;
+            *out_height = height;
+            VI_OK
+        }
+        Ok(Ok(_)) => VI_INVALID,
         Ok(Err(code)) => code,
         Err(_) => VI_FAILED,
     }
