@@ -33,6 +33,7 @@ public class UserDetails
 		{
 			return value;
 		}
+		var thumbnailRequest = Http.GetJson<ApiArrayResponse<ThumbnailResponse>>($"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={id}&size=180x180&format=Png&isCircular=false", token);
 		GetUserResponse userResponse;
 		try
 		{
@@ -50,7 +51,7 @@ public class UserDetails
 		ThumbnailResponse thumbnail;
 		try
 		{
-			thumbnail = (await Http.GetJson<ApiArrayResponse<ThumbnailResponse>>($"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={id}&size=180x180&format=Png&isCircular=false", token))?.Data?.FirstOrDefault() ?? new ThumbnailResponse
+			thumbnail = (await thumbnailRequest)?.Data?.FirstOrDefault() ?? new ThumbnailResponse
 			{
 				TargetId = id,
 				State = "Unavailable",

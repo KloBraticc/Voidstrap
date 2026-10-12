@@ -320,11 +320,8 @@ public partial class IntegrationsPage
         PresenceSnapshot snapshot = new PresenceSnapshot
         {
             Active = true,
-            Details = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildDetailText(cleanName, betaTag, game.Creator, game.Verified)),
-            State = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildStateText(
-                game.Activity.ServerType,
-                string.Empty,
-                App.Settings.Prop.ServerLocationGame && game.Location.Length > 0 ? game.Location : null,
+            Details = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildDetailText(cleanName, betaTag)),
+            State = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildStateText(game.Creator, game.Verified,
                 App.Settings.Prop.FFlagRPCDisplayer ? ReadFlagCount() : 0)),
             Start = _rpcPreviewStart,
         };
@@ -333,7 +330,8 @@ public partial class IntegrationsPage
             ? App.Settings.Prop.UseCustomIcon
             : App.Settings.Prop.GameIconChecked ? game.IconUrl : string.Empty;
         snapshot.LargeImageKey = Voidstrap.Utility.DiscordPresenceGuard.Key(largeImage);
-        snapshot.LargeImageText = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildLargeImageText(shownName, game.Creator));
+        snapshot.LargeImageText = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildServerText(game.Activity.ServerType, string.Empty,
+            App.Settings.Prop.ServerLocationGame && game.Location.Length > 0 ? game.Location : null));
 
         if (App.Settings.Prop.ShowAccountOnRichPresence && !string.IsNullOrWhiteSpace(_rpcAvatarUrl))
         {
