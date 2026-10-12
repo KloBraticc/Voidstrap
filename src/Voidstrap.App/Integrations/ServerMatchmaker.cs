@@ -526,7 +526,14 @@ public sealed class ServerMatchmaker : IDisposable
 		CancellationTokenSource? moveBy = null;
 		try
 		{
-			if (App.Settings.Prop.MatchmakerAskBeforeMoving && !App.LaunchSettings.QuietFlag.Active)
+			if (App.Settings.Prop.MatchmakerAskBeforeMoving && App.LaunchSettings.QuietFlag.Active)
+			{
+				App.Logger.WriteLine(LOG_IDENT, $"Launched quietly, so there is no way to ask before moving, staying in {currentDc.City}");
+				ClearLinuxRejoin();
+				ClearAttempt(data.PlaceId);
+				return;
+			}
+			if (App.Settings.Prop.MatchmakerAskBeforeMoving)
 			{
 				string targetCity = best.Datacenter?.City ?? "a better location";
 				string question = wantsOtherDc && bestIsPreferred

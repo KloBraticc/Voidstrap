@@ -1913,6 +1913,16 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				});
 			}
 			PreferredDatacenterOption? match = PreferredDatacenterOptions.FirstOrDefault(o => string.Equals(o.Key, savedKey, StringComparison.OrdinalIgnoreCase));
+			if (match == null && savedKey.Length > 0)
+			{
+				match = new PreferredDatacenterOption
+				{
+					Key = savedKey,
+					Display = savedKey.Replace("|", ", "),
+					DistanceKm = -1
+				};
+				PreferredDatacenterOptions.Add(match);
+			}
 			_selectedPreferredDatacenter = match ?? (_specificDatacenterMode ? PreferredDatacenterOptions.FirstOrDefault() : null);
 			string resolvedKey = _selectedPreferredDatacenter?.Key ?? "";
 			if (!string.Equals(resolvedKey, savedKey, StringComparison.OrdinalIgnoreCase))
