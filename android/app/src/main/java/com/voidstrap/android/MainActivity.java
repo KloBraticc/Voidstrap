@@ -29,9 +29,6 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_TAB = "tab";
     public static final String EXTRA_PROBLEM = "problem";
-    private static final String TESTING_NOTICE = "androidTestingNoticeSeen";
-
-    private boolean testingNoticeOpen;
 
     private static final int[] TABS = {R.id.nav_home, R.id.nav_library, R.id.nav_mods, R.id.nav_flags, R.id.nav_flag_editor, R.id.nav_integrations, R.id.nav_smart, R.id.nav_settings};
 
@@ -315,7 +312,6 @@ public class MainActivity extends AppCompatActivity {
         Crash.run("update resume", () -> Updater.resume(this));
         Crash.run("update check", () -> Updater.auto(this));
         offerPendingLaunch();
-        offerTestingNotice();
         long now = android.os.SystemClock.elapsedRealtime();
         if (now - lastJoinImport > 15_000) {
             lastJoinImport = now;
@@ -363,18 +359,6 @@ public class MainActivity extends AppCompatActivity {
             t.remove(f);
         }
         if (t != null) t.commitNowAllowingStateLoss();
-    }
-
-    private void offerTestingNotice() {
-        if (testingNoticeOpen || isFinishing() || "1".equals(store.setting(TESTING_NOTICE, "0")) || OnboardingActivity.due(this)) return;
-        testingNoticeOpen = true;
-        Ui.alert(this)
-                .setTitle(R.string.testing_notice_title)
-                .setMessage(R.string.testing_notice_body)
-                .setCancelable(false)
-                .setPositiveButton(R.string.testing_notice_ok, (dialog, which) -> store.putSetting(TESTING_NOTICE, "1"))
-                .setOnDismissListener(dialog -> testingNoticeOpen = false)
-                .show();
     }
 
     private void offerPendingLaunch() {

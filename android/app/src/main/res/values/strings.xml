@@ -1043,9 +1043,6 @@
     <string name="notify_copy_body">Confirms when something is copied to the clipboard.</string>
     <string name="notify_general">Other messages</string>
     <string name="notify_general_body">Confirms saves, backups, sign in and other actions.</string>
-    <string name="testing_notice_title">Android support is in testing</string>
-    <string name="testing_notice_body">Voidstrap for Android is still being tested. Expect errors, and some features may not work, or may not work as well as they do on Windows. If something breaks, please report it.</string>
-    <string name="testing_notice_ok">Got it</string>
     <string name="onboarding_skip">Skip</string>
     <string name="onboarding_back">Back</string>
     <string name="onboarding_next">Next</string>
