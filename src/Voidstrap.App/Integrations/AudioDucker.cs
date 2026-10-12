@@ -475,7 +475,9 @@ public static class AudioDucker
 			if (OverlayDiagnostics.IsOverlayHandle(foregroundValue))
 				return true;
 			PInvoke.GetWindowThreadProcessId(foreground, out uint pid);
-			return pids.Contains(pid);
+			if (pids.Contains(pid))
+				return true;
+			return Voidstrap.Integrations.Overlays.RobloxWindowTracker.IsHiddenShellForeground(foregroundValue, Voidstrap.Integrations.Overlays.RobloxWindowTracker.Current.Hwnd);
 		}
 		catch
 		{

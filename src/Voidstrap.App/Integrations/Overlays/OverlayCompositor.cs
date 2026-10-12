@@ -1027,7 +1027,8 @@ namespace Voidstrap.Integrations.Overlays
             IntPtr fg = Interop.GetForegroundWindow();
             bool robloxActive = _robloxHwnd != IntPtr.Zero && fg == _robloxHwnd
                              || OverlayDiagnostics.IsOverlayHandle(fg)
-                             || RobloxWindowTracker.IsRobloxForeground();
+                             || RobloxWindowTracker.IsRobloxForeground()
+                             || RobloxWindowTracker.IsHiddenShellForeground(fg, _robloxHwnd);
             if (robloxActive)
             {
                 if (_hiddenByFocus)

@@ -566,7 +566,18 @@ namespace Voidstrap.Integrations.Overlays
                 return true;
 
             GetWindowThreadProcessId(foreground, out uint pid);
-            return pid != 0 && pid == _pid;
+            if (pid != 0 && pid == _pid)
+                return true;
+            return IsHiddenShellForeground(foreground, _hwnd);
+        }
+
+        public static bool IsHiddenShellForeground(IntPtr foreground, IntPtr roblox)
+        {
+            if (!Voidstrap.Utility.Platform.IsWindows || foreground == IntPtr.Zero || roblox == IntPtr.Zero || foreground == roblox)
+                return false;
+            if (!IsWindow(roblox) || !IsWindowVisible(roblox) || IsIconic(roblox))
+                return false;
+            return DwmGetWindowAttribute(foreground, DwmwaCloaked, out int cloaked, sizeof(int)) == 0 && cloaked != 0;
         }
 
         public static bool IsProcessForeground(int processId)
@@ -581,7 +592,9 @@ namespace Voidstrap.Integrations.Overlays
             if (foreground == IntPtr.Zero)
                 return false;
             GetWindowThreadProcessId(foreground, out uint processIdAtForeground);
-            return processIdAtForeground == (uint)processId;
+            if (processIdAtForeground == (uint)processId)
+                return true;
+            return _pid == (uint)processId && IsHiddenShellForeground(foreground, _hwnd);
         }
 
         private static readonly HashSet<uint> _findPids = new HashSet<uint>();
@@ -713,6 +726,11 @@ namespace Voidstrap.Integrations.Overlays
         [LibraryImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static partial bool IsIconic(IntPtr hwnd);
+
+        private const int DwmwaCloaked = 14;
+
+        [LibraryImport("dwmapi.dll")]
+        private static partial int DwmGetWindowAttribute(IntPtr hwnd, int attribute, out int value, int size);
 
         [LibraryImport("user32.dll")]
         private static partial IntPtr GetForegroundWindow();

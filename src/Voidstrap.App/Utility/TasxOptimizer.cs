@@ -215,7 +215,8 @@ internal sealed partial class TasxOptimizer : IDisposable
 				(exited ??= new List<int>()).Add(pair.Key);
 				continue;
 			}
-			bool focused = foregroundProcessId != 0 && (uint)pair.Key == foregroundProcessId;
+			bool focused = foregroundProcessId != 0 && (uint)pair.Key == foregroundProcessId
+				|| Voidstrap.Integrations.Overlays.RobloxWindowTracker.IsProcessForeground(pair.Key);
 			if (focused)
 			{
 				instance.WasEverFocused = true;
