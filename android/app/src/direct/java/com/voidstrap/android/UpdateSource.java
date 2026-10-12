@@ -305,7 +305,22 @@ final class UpdateSource {
     }
 
     static String verify(Context app, File apk, Updater.Release r) {
+        if (!r.sha256.isEmpty() && !r.sha256.equalsIgnoreCase(sha256(apk))) return app.getString(R.string.update_error_checksum);
         return verify(app, apk, r.code);
+    }
+
+    private static String sha256(File file) {
+        try (InputStream in = new java.io.FileInputStream(file)) {
+            java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] buf = new byte[65536];
+            int n;
+            while ((n = in.read(buf)) > 0) digest.update(buf, 0, n);
+            StringBuilder hex = new StringBuilder(64);
+            for (byte b : digest.digest()) hex.append(String.format(java.util.Locale.ROOT, "%02x", b));
+            return hex.toString();
+        } catch (IOException | java.security.NoSuchAlgorithmException e) {
+            return "";
+        }
     }
 
     private static String verify(Context app, File apk, long expectedCode) {

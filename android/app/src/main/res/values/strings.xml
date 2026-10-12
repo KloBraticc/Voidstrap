@@ -360,6 +360,7 @@
     <string name="update_error_not_apk">The APK is not a readable Android package</string>
     <string name="update_error_other_app">The APK belongs to %1$s, not to Voidstrap</string>
     <string name="update_error_version">The APK is version %1$s but the release said %2$s</string>
+    <string name="update_error_checksum">The downloaded update did not match the checksum published with the release</string>
     <string name="update_error_older">The APK is not newer than the installed build</string>
     <string name="update_error_cancelled">The install was cancelled</string>
     <string name="update_error_blocked">The device blocked the install</string>

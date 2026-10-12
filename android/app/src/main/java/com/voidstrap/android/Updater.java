@@ -27,6 +27,7 @@ public final class Updater {
         public final long size;
         public final String notes;
         public final String page;
+        public final String sha256;
 
         Release(JSONObject o) {
             version = o.optString("version", "");
@@ -36,6 +37,7 @@ public final class Updater {
             size = o.optLong("size");
             notes = o.optString("notes", "");
             page = o.optString("page", "");
+            sha256 = o.optString("sha256", "");
         }
 
         boolean usable() {

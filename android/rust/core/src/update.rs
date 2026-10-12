@@ -17,6 +17,7 @@ pub struct Release {
     pub size: i64,
     pub notes: String,
     pub page: String,
+    pub sha256: String,
 }
 
 pub fn version_code(version: &str) -> i64 {
@@ -73,7 +74,15 @@ fn notes(body: &str) -> String {
     }
 }
 
-fn asset_of(release: &Value, flavor: &str) -> Option<(String, String, i64)> {
+fn asset_digest(asset: &Value) -> String {
+    let digest = opt_str(asset, "digest", "");
+    match digest.strip_prefix("sha256:") {
+        Some(hex) if hex.len() == 64 && hex.bytes().all(|b| b.is_ascii_hexdigit()) => hex.to_ascii_lowercase(),
+        _ => String::new(),
+    }
+}
+
+fn asset_of(release: &Value, flavor: &str) -> Option<(String, String, i64, String)> {
     let assets = release.get("assets").and_then(Value::as_array)?;
     for a in assets.iter().filter(|a| a.is_object()) {
         let name = opt_str(a, "name", "");
@@ -85,7 +94,7 @@ fn asset_of(release: &Value, flavor: &str) -> Option<(String, String, i64)> {
         if !url.starts_with("https://github.com/") || !(MIN_APK_BYTES..=MAX_APK_BYTES).contains(&size) {
             continue;
         }
-        return Some((name, url, size));
+        return Some((name, url, size, asset_digest(a)));
     }
     None
 }
@@ -132,7 +141,7 @@ pub fn newest(client: &Client, flavor: &str, installed: i64, allow_prerelease: b
             continue;
         }
         newer = true;
-        let Some((name, url, size)) = asset_of(r, flavor) else { continue };
+        let Some((name, url, size, sha256)) = asset_of(r, flavor) else { continue };
         if best.as_ref().is_some_and(|b| b.code >= code) {
             continue;
         }
@@ -147,6 +156,7 @@ pub fn newest(client: &Client, flavor: &str, installed: i64, allow_prerelease: b
                 let p = opt_str(r, "html_url", "");
                 if p.starts_with("https://github.com/") { p } else { PAGE.to_string() }
             },
+            sha256,
         });
     }
     if best.is_some() {
@@ -167,6 +177,7 @@ pub fn to_json(r: &Release) -> Value {
         "size": r.size,
         "notes": r.notes,
         "page": r.page,
+        "sha256": r.sha256,
     })
 }
 
