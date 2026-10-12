@@ -166,6 +166,8 @@ internal static class PortableOverlay
             States.GetOrCreateValue(window).Passive = true;
     }
 
+    public static bool IsPassive(Window window) => Active && States.TryGetValue(window, out State? state) && state.Passive;
+
     public static bool IsForeground()
     {
         if (!Voidstrap.Utility.Platform.IsMacOS || MacOSOverlayWindow.FrontmostWindowOwner() != Environment.ProcessId)
