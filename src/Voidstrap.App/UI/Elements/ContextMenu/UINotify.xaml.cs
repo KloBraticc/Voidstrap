@@ -339,9 +339,16 @@ namespace Voidstrap.UI.Elements.Overlay
 		private void SetText(string? text, BitmapSource? flag)
 		{
 			NotificationText.Inlines.Clear();
+			NotificationFlag.Source = null;
+			NotificationFlag.Visibility = Visibility.Collapsed;
 			EnsureReadableForeground();
 			string message = text ?? string.Empty;
 			int marker = message.IndexOf(FlagPlaceholder);
+			if (marker >= 0 && flag != null && PortableOverlay.Active)
+			{
+				SetTextWithOverlaidFlag(message, marker, flag);
+				return;
+			}
 			if (marker < 0 || flag == null || !Voidstrap.Utility.Platform.IsWindows)
 			{
 				NotificationText.Text = message.Replace(FlagPlaceholder.ToString(), string.Empty);
@@ -362,6 +369,31 @@ namespace Voidstrap.UI.Elements.Overlay
 			});
 			if (marker + 1 < message.Length)
 				NotificationText.Inlines.Add(new Run(message.Substring(marker + 1)));
+		}
+
+		private void SetTextWithOverlaidFlag(string message, int marker, BitmapSource flag)
+		{
+			int lineStart = message.LastIndexOf('\n', Math.Max(0, marker - 1)) + 1;
+			int line = 0;
+			for (int index = 0; index < lineStart; index++)
+			{
+				if (message[index] == '\n')
+					line++;
+			}
+			double flagHeight = NotificationFlag.Height;
+			double flagWidth = flag.PixelHeight > 0 ? Math.Ceiling(flagHeight * flag.PixelWidth / flag.PixelHeight) : 16;
+			double pixelsPerDip = PortableOverlay.Scale(this).PixelsPerDip;
+			Typeface typeface = new(NotificationText.FontFamily, NotificationText.FontStyle, NotificationText.FontWeight, NotificationText.FontStretch);
+			FormattedText Measure(string value) => new(value, System.Globalization.CultureInfo.CurrentUICulture, NotificationText.FlowDirection, typeface, NotificationText.FontSize, Brushes.Black, pixelsPerDip);
+			double space = Math.Max(1, Measure("a a").WidthIncludingTrailingWhitespace - Measure("aa").WidthIncludingTrailingWhitespace);
+			int spaces = (int)Math.Ceiling((flagWidth + 4) / space);
+			string prefix = message.Substring(lineStart, marker - lineStart);
+			NotificationText.Text = message.Substring(0, marker) + new string(' ', spaces) + message.Substring(marker + 1);
+			double lineHeight = NotificationText.FontSize * NotificationText.FontFamily.LineSpacing;
+			NotificationFlag.Source = flag;
+			NotificationFlag.Width = flagWidth;
+			NotificationFlag.Margin = new Thickness(Measure(prefix).WidthIncludingTrailingWhitespace, line * lineHeight + Math.Max(0, (lineHeight - flagHeight) / 2), 0, 0);
+			NotificationFlag.Visibility = Visibility.Visible;
 		}
 
 		private async Task PlayOutroAsync()

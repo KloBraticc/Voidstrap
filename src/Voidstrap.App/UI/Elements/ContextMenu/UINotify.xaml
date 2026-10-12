@@ -33,9 +33,13 @@
                      Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
           <TextBlock x:Name="NotificationTitle" FontSize="14" FontWeight="SemiBold" Margin="0,0,14,0"
                      TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-          <TextBlock x:Name="NotificationText" FontSize="12" Margin="0,2,0,0" TextWrapping="Wrap"
-                     TextTrimming="CharacterEllipsis" MaxHeight="64"
-                     Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <Grid Margin="0,2,0,0">
+            <TextBlock x:Name="NotificationText" FontSize="12" TextWrapping="Wrap"
+                       TextTrimming="CharacterEllipsis" MaxHeight="64"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <Image x:Name="NotificationFlag" Height="11" HorizontalAlignment="Left" VerticalAlignment="Top"
+                   Stretch="Uniform" Visibility="Collapsed" IsHitTestVisible="False" />
+          </Grid>
         </StackPanel>
         <Rectangle x:Name="AccentStripe" Visibility="Collapsed" />
         <Grid x:Name="ProgressContainer" Height="2" Margin="0,0,0,-12" VerticalAlignment="Bottom" Visibility="Collapsed">
