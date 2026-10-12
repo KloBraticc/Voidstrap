@@ -627,7 +627,7 @@ public partial class SessionDock : Window
             _prewarmTimer?.Stop();
             return;
         }
-        if (_slide.IsRunning)
+        if (_slide.IsRunning || NotificationWindow.AnyPresenting)
             return;
         while (_prewarmIndex < PrewarmActions.Length)
         {
@@ -635,9 +635,11 @@ public partial class SessionDock : Window
             if (_panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? existing) && !existing.IsClosed)
                 continue;
             _prewarming = true;
+            long started = System.Diagnostics.Stopwatch.GetTimestamp();
             try
             {
                 _action(action);
+                App.Logger.WriteLine("SessionDock", $"Built the {action} panel ahead of time in {System.Diagnostics.Stopwatch.GetElapsedTime(started).TotalMilliseconds:0} ms");
             }
             catch (Exception ex)
             {

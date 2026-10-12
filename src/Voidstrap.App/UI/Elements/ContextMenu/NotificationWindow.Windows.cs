@@ -30,6 +30,9 @@ public partial class NotificationWindow
     // The game's area (or the screen's work area) the notification is placed in, in screen pixels
     private Int32Rect _area;
     private static long _focusReturnedTicks;
+    private static int _presentingCount;
+
+    internal static bool AnyPresenting => Volatile.Read(ref _presentingCount) > 0;
     private int _placeLogs;
     private double _lastPlaceLeft = double.NaN;
     private double _lastPlaceTop = double.NaN;
@@ -55,10 +58,13 @@ public partial class NotificationWindow
 
         using CancellationTokenSource presentation = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken(), item.Token);
         CancellationToken token = presentation.Token;
+        bool counted = false;
         try
         {
             _dismissRequested = false;
             _presenting = true;
+            Interlocked.Increment(ref _presentingCount);
+            counted = true;
             _placeLogs = 0;
             SetImage(item.Image);
             SetText(item.Text, item.Flag);
@@ -153,6 +159,8 @@ public partial class NotificationWindow
         }
         finally
         {
+            if (counted)
+                Interlocked.Decrement(ref _presentingCount);
             _presenting = false;
             _hoverTimer?.Stop();
             if (!_closed)
