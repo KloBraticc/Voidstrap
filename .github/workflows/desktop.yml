@@ -64,8 +64,341 @@ jobs:
         with:
           dotnet-version: 10.0.x
       - run: dotnet build src/Voidstrap.Desktop.MacOS/Voidstrap.Desktop.MacOS.csproj -c Debug -warnaserror
+      - &image-check-harness
+        name: Write the image check harness
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/image-check-src"
+          cat > "$RUNNER_TEMP/image-check-src/MacOSImages.cs" <<'CSHARP'
+          global using System.Text;
+          using SixLabors.ImageSharp;
+          using SixLabors.ImageSharp.Metadata.Profiles.Exif;
+          using SixLabors.ImageSharp.PixelFormats;
+          using System.Windows;
+          using System.Windows.Controls;
+          using System.Windows.Media;
+          using System.Windows.Media.Imaging;
+          using Voidstrap.Utility;
+
+          SafeImaging.RejectTiff();
+          using Image<Rgba32> fixture = new(64, 32);
+          for (int y = 0; y < 32; y++)
+              for (int x = 0; x < 64; x++)
+                  fixture[x, y] = y < 16 ? new Rgba32(255, 0, 0) : new Rgba32(0, 0, 255);
+          BitmapSource? preview = null;
+          foreach (string format in new[] { "png", "jpg", "gif", "bmp", "webp", "tiff" })
+          {
+              if (format == "tiff" && !OperatingSystem.IsMacOS())
+                  continue;
+              byte[] bytes = Encode(format);
+              BitmapSource decoded = SafeImaging.FromBytes(bytes, 32) ?? throw new Exception("Missing " + format);
+              Assert(decoded.PixelWidth == 32 && decoded.PixelHeight == 16, "Wrong dimensions: " + format);
+              byte[] pixels = new byte[32 * 16 * 4];
+              decoded.CopyPixels(pixels, 32 * 4, 0);
+              Assert(pixels[2] > 180 && pixels[0] < 60 && pixels[^4] > 180 && pixels[^2] < 60, "Wrong colors: " + format);
+              if (format == "png")
+              {
+                  preview = decoded;
+                  if (OperatingSystem.IsMacOS())
+                  {
+                      byte[] native = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(bytes, 32, 32, out int width, out int height);
+                      Assert(width == 32 && height == 16 && native[2] > 180 && native[^4] > 180, "Native image orientation or colors differ");
+                  }
+              }
+          }
+          fixture.Metadata.ExifProfile = new ExifProfile();
+          fixture.Metadata.ExifProfile.SetValue(ExifTag.Orientation, (ushort)6);
+          BitmapSource oriented = SafeImaging.FromBytes(Encode("jpg")) ?? throw new Exception("Missing oriented photo");
+          Assert(oriented.PixelWidth == 32 && oriented.PixelHeight == 64, "Photo orientation was ignored");
+          fixture.Metadata.ExifProfile = null;
+          fixture[0, 0] = new Rgba32(200, 100, 50, 128);
+          if (OperatingSystem.IsMacOS())
+          {
+              byte[] transparent = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(Encode("png"), 64, 32, out _, out _);
+              Assert(Math.Abs(transparent[2] - 200) <= 2 && Math.Abs(transparent[1] - 100) <= 2 && Math.Abs(transparent[0] - 50) <= 2 && transparent[3] == 128, "Native transparency was not preserved");
+          }
+          Assert(SafeImaging.FromBytes([1, 2, 3, 4]) == null && SafeImaging.FromBytes([]) == null, "Invalid image accepted");
+          Assert(SafeImaging.FromBytes(new byte[64 * 1024 * 1024 + 1]) == null, "Oversized image accepted");
+          using (Image<Rgba32> animation = new(8, 8, new Rgba32(255, 0, 0)))
+          using (Image<Rgba32> next = new(8, 8, new Rgba32(0, 255, 0)))
+          using (MemoryStream animatedBytes = new())
+          {
+              animation.Frames.RootFrame.Metadata.GetGifMetadata().FrameDelay = 7;
+              next.Frames.RootFrame.Metadata.GetGifMetadata().FrameDelay = 13;
+              animation.Frames.AddFrame(next.Frames.RootFrame);
+              animation.SaveAsGif(animatedBytes);
+              var frames = SafeImaging.DecodeAnimationPortable(animatedBytes.ToArray(), 4);
+              Assert(frames.Count == 2 && frames[0].Frame.PixelWidth == 4 && frames[0].DelayMilliseconds == 70 && frames[1].DelayMilliseconds == 130, "GIF frames or timing changed");
+              byte[] framePixels = new byte[4 * 4 * 4];
+              frames[1].Frame.CopyPixels(framePixels, 4 * 4, 0);
+              Assert(framePixels[1] == 255 && framePixels[2] == 0, "GIF frame colors changed");
+          }
+          using (System.Net.Sockets.TcpListener server = new(System.Net.IPAddress.Loopback, 0))
+          using (CancellationTokenSource timeout = new(TimeSpan.FromSeconds(20)))
+          {
+              server.Start();
+              int port = ((System.Net.IPEndPoint)server.LocalEndpoint).Port;
+              byte[] original = Encode("png");
+              using Image<Rgba32> green = new(64, 32, new Rgba32(0, 255, 0));
+              using MemoryStream greenStream = new();
+              green.SaveAsPng(greenStream);
+              byte[] alternate = greenStream.ToArray();
+              Task serve = Task.Run(async () =>
+              {
+                  for (int index = 0; index < 5; index++)
+                  {
+                      using var client = await server.AcceptTcpClientAsync(timeout.Token);
+                      using var stream = client.GetStream();
+                      using StreamReader reader = new(stream, leaveOpen: true);
+                      string request = await reader.ReadLineAsync(timeout.Token) ?? "";
+                      while (!string.IsNullOrEmpty(await reader.ReadLineAsync(timeout.Token))) { }
+                      byte[] body = request.Contains("/a.png ", StringComparison.Ordinal) ? alternate : original;
+                      byte[] header = System.Text.Encoding.ASCII.GetBytes("HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nContent-Length: " + body.Length + "\r\nConnection: close\r\n\r\n");
+                      await stream.WriteAsync(header, timeout.Token);
+                      await stream.WriteAsync(body, timeout.Token);
+                  }
+              }, timeout.Token);
+              string origin = "http://127.0.0.1:" + port;
+              Assert(SafeImaging.FromHttpAsync(origin + "/avatar.png", 72, timeout.Token).GetAwaiter().GetResult() is { PixelWidth: 64, PixelHeight: 32 }, "Remote avatar failed to decode");
+              BitmapSource upper = SafeImaging.FromUri(new Uri(origin + "/A.png")) ?? throw new Exception("Missing uppercase image URL");
+              BitmapSource lower = SafeImaging.FromUri(new Uri(origin + "/a.png")) ?? throw new Exception("Missing lowercase image URL");
+              byte[] lowerPixels = new byte[64 * 32 * 4];
+              lower.CopyPixels(lowerPixels, 64 * 4, 0);
+              Assert(!ReferenceEquals(upper, lower) && lowerPixels[1] == 255, "Distinct image URLs shared cached pixels");
+              BitmapSource appUpper = AppImage.LoadAsync(origin + "/A.png", 32, timeout.Token).GetAwaiter().GetResult() ?? throw new Exception("Missing cached uppercase image URL");
+              BitmapSource appLower = AppImage.LoadAsync(origin + "/a.png", 32, timeout.Token).GetAwaiter().GetResult() ?? throw new Exception("Missing cached lowercase image URL");
+              byte[] cachedPixels = new byte[32 * 16 * 4];
+              appLower.CopyPixels(cachedPixels, 32 * 4, 0);
+              Assert(!ReferenceEquals(appUpper, appLower) && cachedPixels[1] == 255, "Distinct image URLs shared downloaded bytes");
+              serve.GetAwaiter().GetResult();
+              SafeImaging.ClearUriCache();
+          }
+          if (args.FirstOrDefault(value => value.EndsWith(".heic", StringComparison.OrdinalIgnoreCase)) is string heicPath)
+          {
+              BitmapSource heic = SafeImaging.FromFile(heicPath, 32) ?? throw new Exception("Missing HEIC image");
+              Assert(heic.PixelWidth == 32 && heic.PixelHeight == 16, "Wrong HEIC dimensions");
+          }
+          Console.WriteLine("Image formats, scaling, orientation, colors, transparency and invalid data checks passed");
+          if (args.Contains("roblox"))
+          {
+              using CancellationTokenSource online = new(TimeSpan.FromSeconds(60));
+              using System.Net.Http.HttpClient api = new() { Timeout = TimeSpan.FromSeconds(20) };
+              string[] avatarUrls = ImageUrls(api, "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=1,156,261&size=150x150&format=Png&isCircular=false", online.Token);
+              string iconUrl = ImageUrls(api, "https://thumbnails.roblox.com/v1/games/icons?universeIds=13058&returnPolicy=PlaceHolder&size=512x512&format=Png&isCircular=false", online.Token)[0];
+              Assert(avatarUrls.Length == 3, "Roblox returned no avatar headshots");
+              List<BitmapSource> chat = [];
+              List<BitmapSource> retina = [];
+              foreach (string url in avatarUrls)
+              {
+                  BitmapSource chatAvatar = SafeImaging.FromHttpAsync(url, 72, online.Token).GetAwaiter().GetResult() ?? throw new Exception("A real avatar could not be decoded for chat");
+                  BitmapSource sharpAvatar = SafeImaging.FromHttpAsync(url, 144, online.Token).GetAwaiter().GetResult() ?? throw new Exception("A real avatar could not be decoded at double resolution");
+                  Assert(chatAvatar.PixelWidth == 72 && sharpAvatar.PixelWidth == 144, "Real avatars were decoded at the wrong size");
+                  Assert(HasDetail(chatAvatar) && HasDetail(sharpAvatar), "A real avatar decoded as a flat image");
+                  chat.Add(chatAvatar);
+                  retina.Add(sharpAvatar);
+              }
+              BitmapSource icon = AppImage.LoadAsync(iconUrl, 256, online.Token).GetAwaiter().GetResult() ?? throw new Exception("A real game icon could not be loaded");
+              BitmapSource sharpIcon = AppImage.LoadAsync(iconUrl, 512, online.Token).GetAwaiter().GetResult() ?? throw new Exception("A real game icon could not be loaded at double resolution");
+              Assert(HasDetail(icon) && HasDetail(sharpIcon), "A real game icon decoded as a flat image");
+              chat.Add(icon);
+              retina.Add(sharpIcon);
+              Console.WriteLine("Real Roblox avatars and game icons decoded at normal and double resolution");
+              Application robloxApp = new();
+              Voidstrap.UI.LinuxWebImageSource.Install();
+              Grid board = new() { Background = Brushes.Black };
+              for (int index = 0; index < 4; index++)
+                  board.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(160) });
+              board.RowDefinitions.Add(new RowDefinition { Height = new GridLength(160) });
+              board.RowDefinitions.Add(new RowDefinition { Height = new GridLength(160) });
+              for (int index = 0; index < 4; index++)
+              {
+                  FrameworkElement normal = index switch
+                  {
+                      0 => new System.Windows.Shapes.Ellipse { Fill = new ImageBrush(chat[0]) { Stretch = Stretch.UniformToFill } },
+                      1 => new System.Windows.Controls.Image { Source = chat[1], Stretch = Stretch.UniformToFill, Clip = new EllipseGeometry(new System.Windows.Point(60, 60), 60, 60) },
+                      2 => new Border { Background = new ImageBrush(chat[2]) { Stretch = Stretch.UniformToFill }, CornerRadius = new CornerRadius(12) },
+                      _ => new System.Windows.Controls.Image { Source = chat[3], Stretch = Stretch.UniformToFill }
+                  };
+                  FrameworkElement sharp = index switch
+                  {
+                      0 => new System.Windows.Shapes.Ellipse { Fill = new ImageBrush(retina[0]) { Stretch = Stretch.UniformToFill } },
+                      1 => new System.Windows.Controls.Image { Source = retina[1], Stretch = Stretch.UniformToFill, Clip = new EllipseGeometry(new System.Windows.Point(60, 60), 60, 60) },
+                      2 => new Border { Background = new ImageBrush(retina[2]) { Stretch = Stretch.UniformToFill }, CornerRadius = new CornerRadius(12) },
+                      _ => new System.Windows.Controls.Image { Source = retina[3], Stretch = Stretch.UniformToFill }
+                  };
+                  foreach ((FrameworkElement element, int row) in new[] { (normal, 0), (sharp, 1) })
+                  {
+                      element.Width = 120;
+                      element.Height = 120;
+                      Grid.SetColumn(element, index);
+                      Grid.SetRow(element, row);
+                      board.Children.Add(element);
+                  }
+              }
+              Window robloxWindow = new() { Title = "Roblox image validation", Content = board, Width = 640, Height = 348, Left = 100, Top = 150, WindowStartupLocation = WindowStartupLocation.Manual, ResizeMode = ResizeMode.NoResize };
+              Voidstrap.UI.LinuxWebImageSource.AttachWindow(robloxWindow);
+              robloxWindow.ContentRendered += OnRobloxRendered;
+              robloxApp.Run(robloxWindow);
+              return;
+          }
+          if (args.Contains("gallery"))
+          {
+              Application app = new();
+              Voidstrap.UI.LinuxWebImageSource.Install();
+              Grid gallery = new() { Background = Brushes.Black };
+              for (int index = 0; index < 3; index++)
+                  gallery.ColumnDefinitions.Add(new ColumnDefinition());
+              System.Windows.Controls.Image avatar = new() { Source = preview, Stretch = Stretch.Fill, Margin = new Thickness(20) };
+              Border brush = new() { Background = new ImageBrush(preview) { Stretch = Stretch.Fill }, Margin = new Thickness(20) };
+              Grid profile = new();
+              profile.Children.Add(new System.Windows.Controls.Image { Source = preview, Stretch = Stretch.Fill, Margin = new Thickness(20), Clip = new EllipseGeometry(new System.Windows.Point(110, 126), 110, 126) });
+              Grid.SetColumn(brush, 1);
+              Grid.SetColumn(profile, 2);
+              gallery.Children.Add(avatar);
+              gallery.Children.Add(brush);
+              gallery.Children.Add(profile);
+              Window window = new() { Title = "Image validation", Content = gallery, Width = 780, Height = 320, Left = 100, Top = 150, WindowStartupLocation = WindowStartupLocation.Manual };
+              Voidstrap.UI.LinuxWebImageSource.AttachWindow(window);
+              window.ContentRendered += OnGalleryRendered;
+              app.Run(window);
+          }
+
+          void OnGalleryRendered(object? sender, EventArgs e)
+          {
+              File.WriteAllText(Path.Combine(Environment.GetEnvironmentVariable("RUNNER_TEMP")!, "image-check", "ready"), "true");
+          }
+
+          void OnRobloxRendered(object? sender, EventArgs e)
+          {
+              File.WriteAllText(Path.Combine(Environment.GetEnvironmentVariable("RUNNER_TEMP")!, "image-check", "ready-roblox"), "true");
+          }
+
+          string[] ImageUrls(System.Net.Http.HttpClient api, string url, CancellationToken token)
+          {
+              using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(api.GetStringAsync(url, token).GetAwaiter().GetResult());
+              return [.. document.RootElement.GetProperty("data").EnumerateArray()
+                  .Select(entry => entry.TryGetProperty("imageUrl", out System.Text.Json.JsonElement value) ? value.GetString() : null)
+                  .Where(value => !string.IsNullOrEmpty(value))
+                  .Select(value => value!)];
+          }
+
+          bool HasDetail(BitmapSource source)
+          {
+              FormatConvertedBitmap converted = new(source, PixelFormats.Bgra32, null, 0);
+              int stride = converted.PixelWidth * 4;
+              byte[] pixels = new byte[stride * converted.PixelHeight];
+              converted.CopyPixels(pixels, stride, 0);
+              HashSet<int> colors = [];
+              for (int index = 0; index + 3 < pixels.Length; index += 4 * 7)
+                  colors.Add((pixels[index] >> 4) | (pixels[index + 1] >> 4 << 4) | (pixels[index + 2] >> 4 << 8));
+              return colors.Count > 12;
+          }
+
+          void Assert(bool condition, string message)
+          {
+              if (!condition)
+                  throw new Exception(message);
+          }
+
+          byte[] Encode(string format)
+          {
+              using MemoryStream stream = new();
+              switch (format)
+              {
+                  case "png": fixture.SaveAsPng(stream); break;
+                  case "jpg": fixture.SaveAsJpeg(stream); break;
+                  case "gif": fixture.SaveAsGif(stream); break;
+                  case "bmp": fixture.SaveAsBmp(stream); break;
+                  case "webp": fixture.SaveAsWebp(stream); break;
+                  case "tiff": fixture.SaveAsTiff(stream); break;
+              }
+              return stream.ToArray();
+          }
+
+          namespace Voidstrap
+          {
+              internal static class App
+              {
+                  internal static Log Logger { get; } = new();
+                  internal static System.Net.Http.HttpClient HttpClient { get; } = new() { Timeout = TimeSpan.FromSeconds(15) };
+              }
+              internal sealed class Log
+              {
+                  internal void WriteLine(string name, string message) { }
+                  internal void WriteException(string name, Exception error) { }
+              }
+              internal static class Paths { internal static string Cache => Path.Combine(Path.GetTempPath(), "image-check", "cache"); }
+          }
+
+          namespace Voidstrap.Utility
+          {
+              internal static class Platform
+              {
+                  internal static bool IsWindows => false;
+                  internal static bool IsLinux => OperatingSystem.IsLinux();
+                  internal static bool IsMacOS => OperatingSystem.IsMacOS();
+                  internal static bool UsesPortableUi => true;
+              }
+              internal static class VpnHttpClient { internal static System.Net.Http.HttpClient Create(TimeSpan timeout) => new() { Timeout = timeout }; }
+          }
+
+          namespace Voidstrap.Platform.MacOS
+          {
+              internal static class MacOSWindow
+              {
+                  [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+                  internal readonly record struct Rect(double X, double Y, double Width, double Height);
+              }
+          }
+          CSHARP
+          cat > "$RUNNER_TEMP/image-check-src/check-macos-images.sh" <<'SHELLSCRIPT'
+          set -euo pipefail
+          root="$PWD"
+          check="$RUNNER_TEMP/image-check"
+          mkdir -p "$check"
+          rm -f "$check/ready"
+          cat > "$check/ImageCheck.csproj" <<EOF
+          <Project Sdk="LibreWPF.Sdk/0.1.0-preview.42">
+            <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0-windows</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><AllowUnsafeBlocks>true</AllowUnsafeBlocks><ProGpuWpfUsePortableFrameworkReferences>true</ProGpuWpfUsePortableFrameworkReferences><LinuxProGpuWpfAssembly>$root/external/LibreWPF/ProGPU.Wpf.dll</LinuxProGpuWpfAssembly><LinuxPresentationCoreAssembly>$root/external/LibreWPF/PresentationCore.dll</LinuxPresentationCoreAssembly><LinuxPresentationFrameworkAssembly>$root/external/LibreWPF/PresentationFramework.dll</LinuxPresentationFrameworkAssembly></PropertyGroup>
+            <ItemGroup>
+              <Compile Include="$RUNNER_TEMP/image-check-src/MacOSImages.cs" />
+              <Compile Include="$root/src/Voidstrap.App/Utility/SafeImaging.cs" />
+              <Compile Include="$root/src/Voidstrap.App/Utility/AppImage.cs" />
+              <Compile Include="$root/src/Voidstrap.App/Utility/DynamicRenderSystem.cs" />
+              <Compile Include="$root/src/Voidstrap.App/UI/LinuxWebImageSource.cs" />
+              <Compile Include="$root/src/Voidstrap.Platform.MacOS/MacOSImageDecoder.cs" />
+              <Reference Include="PresentationCore"><HintPath>$root/external/LibreWPF/PresentationCore.dll</HintPath></Reference>
+              <Reference Include="PresentationFramework"><HintPath>$root/external/LibreWPF/PresentationFramework.dll</HintPath></Reference>
+              <Reference Include="ProGPU.Wpf"><HintPath>$root/external/LibreWPF/ProGPU.Wpf.dll</HintPath></Reference>
+              <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+              <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-gwg2-r3hj-4w44" />
+              <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-j3p4-wp97-rph4" />
+              <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-j9gm-c75j-xc9q" />
+              <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-jjfr-hcj7-qf5w" />
+              <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-wmxv-xphr-5c9g" />
+            </ItemGroup>
+          </Project>
+          EOF
+          cat > "$check/fixture.swift" <<'SWIFT'
+          import AppKit
+          import ImageIO
+          let image = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: 64, pixelsHigh: 32, bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 256, bitsPerPixel: 32)!
+          for y in 0..<32 {
+              for x in 0..<64 {
+                  image.setColor(y < 16 ? .red : .blue, atX: x, y: y)
+              }
+          }
+          let target = URL(fileURLWithPath: CommandLine.arguments[1])
+          guard let destination = CGImageDestinationCreateWithURL(target as CFURL, "public.heic" as CFString, 1, nil) else { fatalError("HEIC encoder is unavailable") }
+          CGImageDestinationAddImage(destination, image.cgImage!, [kCGImageDestinationLossyCompressionQuality: 1.0] as CFDictionary)
+          guard CGImageDestinationFinalize(destination) else { fatalError("The HEIC fixture could not be encoded") }
+          SWIFT
+          swift "$check/fixture.swift" "$check/fixture.heic"
+          dotnet build "$check/ImageCheck.csproj" -warnaserror --nologo
+          exec dotnet "$check/bin/Debug/net10.0-windows/ImageCheck.dll" "$check/fixture.heic" "$@"
+          SHELLSCRIPT
       - name: Check macOS image formats with synthetic data
-        run: bash build/Validation/check-macos-images.sh
+        run: bash "$RUNNER_TEMP/image-check-src/check-macos-images.sh"
       - name: Check native keyboard APIs and layout mapping
         shell: bash
         run: |
@@ -693,11 +1026,12 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
+      - *image-check-harness
       - name: Check portable images render in controls and brushes
         working-directory: voidstrap
         run: |
           mkdir -p "$OUT/shots" "$RUNNER_TEMP/overlay-logs"
-          bash build/Validation/check-macos-images.sh gallery > "$RUNNER_TEMP/overlay-logs/images.txt" 2>&1 &
+          bash "$RUNNER_TEMP/image-check-src/check-macos-images.sh" gallery > "$RUNNER_TEMP/overlay-logs/images.txt" 2>&1 &
           image_pid=$!
           for i in $(seq 1 120); do [ -f "$RUNNER_TEMP/image-check/ready" ] && break; kill -0 "$image_pid"; sleep 1; done
           test -f "$RUNNER_TEMP/image-check/ready"
@@ -721,11 +1055,50 @@ jobs:
           swift "$RUNNER_TEMP/image-render.swift" > "$RUNNER_TEMP/overlay-logs/images-visible.txt"
           test "$(cat "$RUNNER_TEMP/overlay-logs/images-visible.txt")" = true
 
+      - name: Check real Roblox avatars and game icons render
+        working-directory: voidstrap
+        run: |
+          mkdir -p "$OUT/shots" "$RUNNER_TEMP/overlay-logs"
+          rm -f "$RUNNER_TEMP/image-check/ready-roblox"
+          bash "$RUNNER_TEMP/image-check-src/check-macos-images.sh" roblox > "$RUNNER_TEMP/overlay-logs/roblox-images.txt" 2>&1 &
+          image_pid=$!
+          for i in $(seq 1 180); do [ -f "$RUNNER_TEMP/image-check/ready-roblox" ] && break; kill -0 "$image_pid" || break; sleep 1; done
+          grep -E "Real Roblox|Exception|could not|flat image|wrong size|returned no" "$RUNNER_TEMP/overlay-logs/roblox-images.txt" | head -5 || true
+          test -f "$RUNNER_TEMP/image-check/ready-roblox"
+          sleep 2
+          screencapture -x "$OUT/shots/13-roblox-images.png"
+          kill "$image_pid"
+          wait "$image_pid" || true
+          cat > "$RUNNER_TEMP/roblox-render.swift" <<'SWIFT'
+          import AppKit
+          let root = ProcessInfo.processInfo.environment["OUT"]!
+          let image = NSBitmapImageRep(data: try Data(contentsOf: URL(fileURLWithPath: root + "/shots/13-roblox-images.png")))!
+          var passed = true
+          for cx in [180, 340, 500, 660] {
+              for cy in [258, 418] {
+                  var colors = Set<Int>()
+                  for dx in stride(from: -30, through: 30, by: 10) {
+                      for dy in stride(from: -30, through: 30, by: 10) {
+                          let color = image.colorAt(x: cx + dx, y: cy + dy)!.usingColorSpace(.deviceRGB)!
+                          colors.insert(Int(color.redComponent * 15) << 8 | Int(color.greenComponent * 15) << 4 | Int(color.blueComponent * 15))
+                      }
+                  }
+                  passed = passed && colors.count > 6
+              }
+          }
+          print(passed ? "true" : "false")
+          SWIFT
+          swift "$RUNNER_TEMP/roblox-render.swift" > "$RUNNER_TEMP/overlay-logs/roblox-images-visible.txt"
+          cat "$RUNNER_TEMP/overlay-logs/roblox-images-visible.txt"
+          test "$(cat "$RUNNER_TEMP/overlay-logs/roblox-images-visible.txt")" = true
+
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: macos-image-render
-          path: results/shots/12-images.png
+          path: |
+            results/shots/12-images.png
+            results/shots/13-roblox-images.png
           retention-days: 1
 
       - name: Build and copy Voidstrap into Applications
