@@ -35,8 +35,9 @@ public final class Launcher {
             return;
         }
         busy = true;
-        String flags = store.flags.active().valuesJson().toString();
-        boolean unlocked = FlagPresets.targetFps(store.flags.active().values) > 60;
+        boolean removed = FlagWriter.removedFromRoblox(app);
+        String flags = removed ? "{}" : store.flags.active().valuesJson().toString();
+        boolean unlocked = !removed && FlagPresets.targetFps(store.flags.active().values) > 60;
         store.work.execute(() -> {
             try {
                 int flagIssue = FlagWriter.syncForLaunch(app, pkg, flags, unlocked);

@@ -316,7 +316,8 @@ public final class FlagSync {
         }
         Store store = Store.get(a);
         store.work.execute(() -> {
-            int r = FlagWriter.remove(mode);
+            int r = FlagWriter.remove(a, mode, true);
+            if (r == FlagWriter.OK) FlagWriter.setRemovedFromRoblox(a, true);
             store.main.post(() -> report(a, r, R.string.flags_sync_removed));
         });
     }
@@ -332,7 +333,8 @@ public final class FlagSync {
             return;
         }
         store.work.execute(() -> {
-            int r = count == 0 ? FlagWriter.remove(mode) : FlagWriter.write(mode, json);
+            int r = count == 0 ? FlagWriter.remove(a, mode, false) : FlagWriter.write(mode, json);
+            if (r == FlagWriter.OK) FlagWriter.setRemovedFromRoblox(a, false);
             boolean readable = r == FlagWriter.OK && FlagWriter.readable(json);
             store.main.post(() -> {
                 if (a.isFinishing() || a.isDestroyed()) return;

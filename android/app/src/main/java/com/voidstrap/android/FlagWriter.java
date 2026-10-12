@@ -126,9 +126,21 @@ public final class FlagWriter {
         return run(mode, script("writeScript", "json", json), 60);
     }
 
-    public static int remove(Mode mode) {
-        return run(mode, script("removeScript"), 60);
+    public static int remove(Context c, Mode mode, boolean stopRoblox) {
+        String pkg = stopRoblox ? Targets.selected(c) : "";
+        if (pkg == null || !pkg.matches("[A-Za-z0-9_.]+")) pkg = "";
+        return run(mode, script("removeScript", "pkg", pkg, "restore", RESTORE_REFRESH), 60);
     }
+
+    public static boolean removedFromRoblox(Context c) {
+        return "1".equals(Store.get(c).setting(REMOVED_SETTING, "0"));
+    }
+
+    public static void setRemovedFromRoblox(Context c, boolean removed) {
+        Store.get(c).putSetting(REMOVED_SETTING, removed ? "1" : null);
+    }
+
+    private static final String REMOVED_SETTING = "flagsRemovedFromRoblox";
 
     static final String RESTORE_REFRESH = "if [ -e " + REFRESH_BACKUP + " ]; then\n"
             + "while read ns k v; do\n"

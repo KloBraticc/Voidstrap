@@ -211,6 +211,9 @@ public final class FlagsFragment extends Page {
         p.updated = System.currentTimeMillis();
         store.saveFlags();
         store.changed();
+        FlagWriter.setRemovedFromRoblox(requireContext(), false);
+        if (p == store.flags.active() && p.values.isEmpty() && host() != null)
+            FlagSync.apply(host(), true, null);
     }
 
     private void copyJson() {
