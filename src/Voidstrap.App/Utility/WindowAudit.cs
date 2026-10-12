@@ -61,7 +61,7 @@ internal static class WindowAudit
 		}
 		Window? renderKeeper = null;
 #if CROSSPLAT
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.IsLinux || Voidstrap.Utility.Platform.IsMacOS)
 		{
 			try
 			{
@@ -402,7 +402,7 @@ internal static class WindowAudit
 						&& imageSurface.ActualWidth >= 39
 						&& imageSurface.ActualHeight >= 39
 						&& ReferenceEquals(imageSurface.Source, decoded);
-				}, 3500);
+				}, Voidstrap.Utility.Platform.IsLinux ? 3500 : QueuedNotificationWait());
 			}
 
 			bool passed = prepared && decodedPrepared && (!nativeCaptureAvailable || nativePixels);
@@ -421,6 +421,12 @@ internal static class WindowAudit
 		{
 			Pump(600);
 		}
+	}
+
+	private static int QueuedNotificationWait()
+	{
+		Voidstrap.Models.Persistable.NotificationAppearance appearance = Voidstrap.UI.NotificationStyle.Current;
+		return (int)(appearance.SafeSecondsOnScreen * 1000) + appearance.SafeIntroMilliseconds + appearance.SafeOutroMilliseconds + 3500;
 	}
 
 	private static BitmapSource? DecodeAppResource(string resourcePath, int decodeWidth)
