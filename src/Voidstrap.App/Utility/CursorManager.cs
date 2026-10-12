@@ -376,12 +376,12 @@ internal static class CursorManager
 			return bytes;
 		try
 		{
-			return EncodeWithImageSharp(bytes);
+			return EncodeWithRaster(bytes);
 		}
-		catch (SixLabors.ImageSharp.UnknownImageFormatException) when (OperatingSystem.IsWindows())
+		catch (Exception ex) when ((ex is NotSupportedException or SixLabors.ImageSharp.UnknownImageFormatException) && OperatingSystem.IsWindows())
 		{
 		}
-		catch (SixLabors.ImageSharp.UnknownImageFormatException)
+		catch (Exception ex) when (ex is NotSupportedException or SixLabors.ImageSharp.UnknownImageFormatException)
 		{
 			throw new InvalidDataException("That image format is not supported.");
 		}
@@ -399,15 +399,12 @@ internal static class CursorManager
 		}
 	}
 
-	private static byte[] EncodeWithImageSharp(byte[] bytes)
+	private static byte[] EncodeWithRaster(byte[] bytes)
 	{
-		SixLabors.ImageSharp.ImageInfo info = SixLabors.ImageSharp.Image.Identify(bytes);
-		CheckDimensions(info.Width, info.Height);
-		SixLabors.ImageSharp.Formats.DecoderOptions options = new SixLabors.ImageSharp.Formats.DecoderOptions { MaxFrames = 1 };
-		using SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load(options, bytes);
-		using MemoryStream output = new MemoryStream();
-		image.Save(output, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
-		return output.ToArray();
+		if (!Raster.TryIdentify(bytes, out int width, out int height))
+			throw new NotSupportedException("That image format is not supported.");
+		CheckDimensions(width, height);
+		return Raster.Decode(bytes).EncodePng();
 	}
 
 	private static byte[] EncodeWithWindows(byte[] bytes)
