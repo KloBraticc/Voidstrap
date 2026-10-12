@@ -1,8 +1,39 @@
-<ui:UiPage x:Class="Voidstrap.UI.Elements.About.Pages.LicensesPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:data="clr-namespace:Voidstrap.Models" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="AboutPage" Scrollable="True" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.About.Pages">
+<ui:UiPage x:Class="Voidstrap.UI.Elements.About.Pages.LicensesPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:data="clr-namespace:Voidstrap.Models" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="AboutPage" Scrollable="False" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.About.Pages">
 
-  <StackPanel Margin="0,0,14,14">
+  <Grid Margin="0,0,14,14">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
     <TextBlock Margin="0,0,0,16" FontSize="24" FontWeight="Medium" Text="{x:Static resources:Strings.Menu_About_Licenses}" />
-    <TextBox x:Name="LicenseNotices" IsReadOnly="True" TextWrapping="Wrap" BorderThickness="0" />
-
-  </StackPanel>
+    <ListBox x:Name="LicenseNotices" Grid.Row="1" BorderThickness="0" Background="Transparent"
+             VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
+             VirtualizingPanel.ScrollUnit="Pixel" ScrollViewer.CanContentScroll="True"
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <VirtualizingStackPanel />
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+      <ListBox.ItemContainerStyle>
+        <Style TargetType="ListBoxItem">
+          <Setter Property="Padding" Value="0" />
+          <Setter Property="Margin" Value="0" />
+          <Setter Property="Focusable" Value="False" />
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="ListBoxItem">
+                <ContentPresenter />
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </ListBox.ItemContainerStyle>
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </Grid>
 </ui:UiPage>
