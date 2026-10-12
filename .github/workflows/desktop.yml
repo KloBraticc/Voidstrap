@@ -31,7 +31,7 @@ jobs:
       - run: dotnet build Voidstrap.sln -c Debug -warnaserror
       - run: dotnet publish src/Voidstrap.App/Voidstrap.csproj -c Release -r win-x64 --self-contained false -o artifacts/windows
       - run: dotnet publish src/Voidstrap.Desktop.Windows/Voidstrap.Desktop.Windows.csproj -c Release -r win-x64 --self-contained true -o artifacts/windows-desktop
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: windows
           path: artifacts
@@ -731,7 +731,7 @@ jobs:
           dotnet run --project "$check/OverlayCheck.csproj" -warnaserror
       - run: dotnet publish src/Voidstrap.Cross/Voidstrap.Cross.csproj -c Release -r ${{ matrix.rid }} --self-contained true -o artifacts/${{ matrix.rid }}
       - run: bash build/Packaging/MacOS/package.sh ${{ matrix.rid }} "" artifacts/package-${{ matrix.rid }}
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: ${{ matrix.rid }}
           path: artifacts
@@ -749,7 +749,7 @@ jobs:
           dotnet-version: 10.0.x
       - run: sudo apt-get update && sudo apt-get install -y genisoimage
       - run: pwsh -NoProfile -File ./publish-all.ps1 -Only osx-arm64,osx-x64 -SkipSolutionBuild -NoPause
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: macos-cross-dmgs
           path: |
@@ -865,7 +865,7 @@ jobs:
                   output.flush()
                   print(log.read_text())
           PY
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:
           name: macos-package-launch-${{ matrix.rid }}
@@ -896,7 +896,7 @@ jobs:
       - name: Generate the AUR recipe with placeholder release checksums
         run: bash build/Packaging/Arch/pkgbuild.sh '' artifacts/aur 0000000000000000000000000000000000000000000000000000000000000000 0000000000000000000000000000000000000000000000000000000000000000
       - run: bash -n artifacts/aur/PKGBUILD
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: aur
           path: artifacts/aur
@@ -930,7 +930,7 @@ jobs:
           dotnet-version: 10.0.x
       - run: sudo apt-get update && sudo apt-get install -y build-essential gcc-aarch64-linux-gnu binutils desktop-file-utils file
       - run: bash build/Packaging/Linux/package.sh ${{ matrix.rid }} '' ${{ matrix.format }} artifacts/packages
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: ${{ matrix.rid }}-${{ matrix.format }}
           path: artifacts/packages
@@ -978,7 +978,7 @@ jobs:
             rpm -V voidstrap
             test "$(readlink -f /usr/bin/voidstrap)" = /usr/lib64/voidstrap/Voidstrap
           '
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: ${{ matrix.rid }}-rpm
           path: artifacts/packages
@@ -1003,7 +1003,7 @@ jobs:
       - if: steps.tool.outputs.available == 'true'
         run: bash build/Packaging/Linux/package.sh linux-x64 '' appimage artifacts/packages
       - if: steps.tool.outputs.available == 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: linux-x64-appimage
           path: artifacts/packages
@@ -1093,7 +1093,7 @@ jobs:
           cat "$RUNNER_TEMP/overlay-logs/roblox-images-visible.txt"
           test "$(cat "$RUNNER_TEMP/overlay-logs/roblox-images-visible.txt")" = true
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:
           name: macos-image-render
@@ -1609,7 +1609,7 @@ jobs:
               raise SystemExit("The GUI overlay checks did not complete successfully")
           PY
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:
           name: macos-overlay-gui
