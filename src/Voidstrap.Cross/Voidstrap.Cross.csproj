@@ -62,6 +62,26 @@
 		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/Linux/build-native-compat.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(LinuxEditorCompatLibrary)&quot;" />
 	</Target>
 
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
+		<VoidImageFileName Condition="$(RuntimeIdentifier.StartsWith('linux'))">libvoidimage.so</VoidImageFileName>
+		<VoidImageFileName Condition="$(RuntimeIdentifier.StartsWith('osx'))">libvoidimage.dylib</VoidImageFileName>
+		<VoidImageLibrary>$(BaseIntermediateOutputPath)voidimage/$(RuntimeIdentifier)/$(VoidImageFileName)</VoidImageLibrary>
+	</PropertyGroup>
+
+	<Target Name="BuildVoidImage" BeforeTargets="AssignTargetPaths" Condition="'$(VoidImageLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidimage/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidimage/Cargo.lock;@(VoidImageSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidimage.sh" Outputs="$(VoidImageLibrary)">
+		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidimage.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidImageLibrary)&quot; &quot;$(BaseIntermediateOutputPath)voidimage/target&quot;" IgnoreExitCode="true" />
+	</Target>
+
+	<ItemGroup>
+		<VoidImageSources Include="$(MSBuildProjectDirectory)/../../native/voidimage/src/**/*.rs" />
+	</ItemGroup>
+
+	<Target Name="IncludeVoidImage" AfterTargets="BuildVoidImage" BeforeTargets="AssignTargetPaths" Condition="'$(VoidImageLibrary)' != '' And Exists('$(VoidImageLibrary)')">
+		<ItemGroup>
+			<None Include="$(VoidImageLibrary)" Link="$(VoidImageFileName)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+		</ItemGroup>
+	</Target>
+
 	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
 		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\GLFW-LICENSE.txt" Condition="Exists('$(LinuxGlfwLibrary)')">
 			<Link>GLFW-LICENSE.txt</Link>
