@@ -36,7 +36,7 @@
                             FontSize="{TemplateBinding FontSize}"
                             Foreground="{TemplateBinding Foreground}"
                             Symbol="{TemplateBinding Icon}" />
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <ContentPresenter x:Name="CaptionContent" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Icon" Value="Empty">
@@ -44,15 +44,19 @@
                         </Trigger>
                         <Trigger Property="controls:CaptionButtonState.IsHovered" Value="True">
                             <Setter TargetName="CaptionIcon" Property="Opacity" Value="0.6063" />
+                            <Setter TargetName="CaptionContent" Property="Opacity" Value="0.6063" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="CaptionIcon" Property="Opacity" Value="0.6063" />
+                            <Setter TargetName="CaptionContent" Property="Opacity" Value="0.6063" />
                         </Trigger>
                         <Trigger Property="controls:CaptionButtonState.IsPressed" Value="True">
                             <Setter TargetName="CaptionIcon" Property="Opacity" Value="0.6063" />
+                            <Setter TargetName="CaptionContent" Property="Opacity" Value="0.6063" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="CaptionIcon" Property="Opacity" Value="0.3614" />
+                            <Setter TargetName="CaptionContent" Property="Opacity" Value="0.3614" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -222,11 +226,19 @@
                                     CommandParameter="minimize"
                                     FontSize="16"
                                     Foreground="{TemplateBinding ButtonsForeground}"
-                                    Icon="Subtract20"
                                     KeyboardNavigation.IsTabStop="True"
                                     MouseOverBackground="{TemplateBinding ButtonsBackground}"
                                     Style="{StaticResource UiTitlebarButton}"
-                                    ToolTip="Minimize" />
+                                    ToolTip="Minimize">
+                                    <Rectangle
+                                        Width="10"
+                                        Height="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Fill="{TemplateBinding ButtonsForeground}"
+                                        SnapsToDevicePixels="True"
+                                        UseLayoutRounding="True" />
+                                </controls:Button>
                                 <controls:Button
                                     x:Name="PART_MaximizeButton"
                                     Grid.Column="2"
