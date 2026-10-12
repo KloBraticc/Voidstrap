@@ -1491,7 +1491,7 @@ jobs:
           SWIFT
           swift "$RUNNER_TEMP/home-check.swift" "$OUT/shots/15-homepage-overlay.png" | tee "$RUNNER_TEMP/overlay-logs/home-check.txt"
           tail -1 "$RUNNER_TEMP/overlay-logs/home-check.txt" | grep -q true && echo true > "$RUNNER_TEMP/overlay-logs/homepage-overlay.txt" || true
-          grep -h "MacHomepageBackground\|OverlayHub::StartMacHomepage" ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -15 || true
+          grep -h "MacHomepageBackground|HomepageBackground]|OverlayHub::StartMacHomepage"\|OverlayHub::StartMacHomepage" ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -15 || true
           pkill -x RobloxPlayer || true
           pkill -x Voidstrap || true
           sleep 1
