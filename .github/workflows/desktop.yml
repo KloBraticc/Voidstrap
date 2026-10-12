@@ -1446,19 +1446,23 @@ jobs:
           cat > "$RUNNER_TEMP/fake-home.swift" <<'SWIFT'
           import AppKit
           final class Home: NSView {
-              override func draw(_ dirtyRect: NSRect) {
-                  NSColor(srgbRed: 18 / 255, green: 18 / 255, blue: 21 / 255, alpha: 1).setFill()
-                  bounds.fill()
-                  NSColor.white.setFill()
-                  NSRect(x: bounds.midX - 120, y: bounds.midY - 40, width: 240, height: 80).fill()
+              override init(frame: NSRect) {
+                  super.init(frame: frame)
+                  wantsLayer = true
+                  layer?.backgroundColor = CGColor(srgbRed: 18 / 255, green: 18 / 255, blue: 21 / 255, alpha: 1)
+                  let panel = CALayer()
+                  panel.backgroundColor = CGColor(srgbRed: 1, green: 1, blue: 1, alpha: 1)
+                  panel.frame = CGRect(x: 380, y: 285, width: 240, height: 80)
+                  layer?.addSublayer(panel)
               }
+              required init?(coder: NSCoder) { nil }
           }
           let app = NSApplication.shared
           app.setActivationPolicy(.regular)
           let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 1000, height: 650), styleMask: [.titled, .closable], backing: .buffered, defer: false)
           window.title = "Roblox"
           window.colorSpace = NSColorSpace.sRGB
-          window.contentView = Home()
+          window.contentView = Home(frame: NSRect(x: 0, y: 0, width: 1000, height: 650))
           window.setFrameTopLeftPoint(NSPoint(x: 12, y: (NSScreen.main?.frame.height ?? 768) - 40))
           window.makeKeyAndOrderFront(nil)
           app.activate(ignoringOtherApps: true)
