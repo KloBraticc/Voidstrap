@@ -1309,7 +1309,92 @@ jobs:
           click 150,470 2.5
           click 860,268 2
           screencapture -x "$OUT/shots/06-overlays-tab.png"
+          cat > "$RUNNER_TEMP/main-window.swift" <<'SWIFT'
+          import CoreGraphics
+          import Foundation
+          let pid = Int(CommandLine.arguments[1])!
+          let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
+          var best: [String: Double]? = nil
+          for window in windows {
+              guard (window[kCGWindowOwnerPID as String] as? Int) == pid, (window[kCGWindowLayer as String] as? Int) == 0,
+                    let bounds = window[kCGWindowBounds as String] as? [String: Double] else { continue }
+              if best == nil || (bounds["Width"] ?? 0) * (bounds["Height"] ?? 0) > (best!["Width"] ?? 0) * (best!["Height"] ?? 0) { best = bounds }
+          }
+          if let b = best { print("\(Int(b["X"] ?? 0)) \(Int(b["Y"] ?? 0)) \(Int(b["Width"] ?? 0)) \(Int(b["Height"] ?? 0))") }
+          SWIFT
+          swiftc "$RUNNER_TEMP/main-window.swift" -o "$RUNNER_TEMP/main-window"
+          settings_pid=$(pgrep -x Voidstrap | head -1)
+          before=$("$RUNNER_TEMP/main-window" "$settings_pid")
+          echo "settings window before drag $before"
+          if [ -n "$before" ]; then
+            read -r wx wy ww wh <<< "$before"
+            sx=$((wx + ww / 2 + 60)); sy=$((wy + 16))
+            cliclick "m:$sx,$sy"
+            sleep 0.5
+            cliclick "dd:$sx,$sy"
+            for step in 1 2 3 4 5 6 7 8 9 10; do cliclick "dm:$((sx - step * 12)),$((sy + step * 8))"; done
+            cliclick "du:$((sx - 120)),$((sy + 80))"
+            sleep 1.5
+            after=$("$RUNNER_TEMP/main-window" "$settings_pid")
+            echo "settings window after drag $after"
+            read -r ax ay aw ah <<< "$after"
+            if [ $((wx - ax)) -ge 80 ] && [ $((ay - wy)) -ge 50 ]; then echo true > "$RUNNER_TEMP/overlay-logs/window-drag.txt"; fi
+            screencapture -x "$OUT/shots/06b-window-dragged.png"
+          fi
           pkill -x Voidstrap || true
+
+      - name: Virtual display and FPS flag diagnostics
+        if: always()
+        run: |
+          cat > "$RUNNER_TEMP/displays.swift" <<'SWIFT'
+          import CoreGraphics
+          var count: UInt32 = 0
+          CGGetOnlineDisplayList(0, nil, &count)
+          var ids = [CGDirectDisplayID](repeating: 0, count: Int(count))
+          CGGetOnlineDisplayList(count, &ids, &count)
+          for id in ids {
+              let mode = CGDisplayCopyDisplayMode(id)
+              print("display \(id) main \(CGDisplayIsMain(id)) active \(CGDisplayIsActive(id)) size \(mode?.width ?? 0)x\(mode?.height ?? 0) refresh \(mode?.refreshRate ?? 0) mirrors \(CGDisplayMirrorsDisplay(id))")
+          }
+          SWIFT
+          swiftc "$RUNNER_TEMP/displays.swift" -o "$RUNNER_TEMP/displays"
+          echo "displays before"
+          "$RUNNER_TEMP/displays"
+          helper="$APP/Contents/MacOS/voidstrap-virtualdisplay"
+          ls -l "$helper" || true
+          codesign -dv "$helper" 2>&1 | head -5 || true
+          echo "probe"
+          "$helper" --probe 2>&1 | head -20 || true
+          echo "session"
+          mkfifo "$RUNNER_TEMP/vd-stdin"
+          ( "$helper" --watch-stdin < "$RUNNER_TEMP/vd-stdin" > "$RUNNER_TEMP/overlay-logs/vd-out.txt" 2> "$RUNNER_TEMP/overlay-logs/vd-err.txt"; echo "exit $?" >> "$RUNNER_TEMP/overlay-logs/vd-err.txt" ) &
+          exec 7> "$RUNNER_TEMP/vd-stdin"
+          sleep 12
+          echo "displays during"
+          "$RUNNER_TEMP/displays"
+          screencapture -x "$OUT/shots/14-virtual-display.png" || true
+          exec 7>&-
+          sleep 4
+          echo "helper stdout"; cat "$RUNNER_TEMP/overlay-logs/vd-out.txt"
+          echo "helper stderr"; cat "$RUNNER_TEMP/overlay-logs/vd-err.txt"
+          grep -q '"ready":true' "$RUNNER_TEMP/overlay-logs/vd-out.txt" && echo true > "$RUNNER_TEMP/overlay-logs/virtual-display.txt" || true
+          echo "displays after"
+          "$RUNNER_TEMP/displays"
+          flags="$VS/Modifications/ClientSettings/ClientAppSettings.json"
+          mkdir -p "$(dirname "$flags")"
+          printf '{"DFIntTaskSchedulerTargetFps":"240"}' > "$flags"
+          "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/flags-launch.txt" 2>&1 &
+          for i in $(seq 1 90); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
+          sleep 5
+          roblox_flags="$(dirname "$(dirname "$(ps -o comm= -p "$(pgrep -x RobloxPlayer | head -1)" 2>/dev/null)")")/MacOS/ClientSettings/ClientAppSettings.json"
+          echo "roblox flags file $roblox_flags"
+          cat "$roblox_flags" 2>/dev/null || cat /Applications/Roblox.app/Contents/MacOS/ClientSettings/ClientAppSettings.json 2>/dev/null || echo "no flags file"
+          { cat "$roblox_flags" 2>/dev/null || cat /Applications/Roblox.app/Contents/MacOS/ClientSettings/ClientAppSettings.json 2>/dev/null; } | grep -q '"DFIntTaskSchedulerTargetFps"' && echo true > "$RUNNER_TEMP/overlay-logs/fps-flags.txt" || true
+          osascript -e 'tell application "Roblox" to quit' > /dev/null 2>&1 || true
+          sleep 2
+          pkill -x RobloxPlayer || true
+          pkill -x Voidstrap || true
+          grep -h "VirtualDisplay\|MacWindowMode" ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -20 || true
 
       - name: Check the dock remains above passive overlays
         run: |
@@ -1384,6 +1469,9 @@ jobs:
               "notification_keeps_roblox_focus": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/notification-focus.txt").is_file(),
               "cpu_overlays_percent": float((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/cpu-overlays.txt").read_text().strip() or 0) if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/cpu-overlays.txt").is_file() else -1,
               "memory_mb": int((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/memory-mb.txt").read_text().strip() or 0) if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/memory-mb.txt").is_file() else -1,
+              "window_drag": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/window-drag.txt").is_file(),
+              "virtual_display": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/virtual-display.txt").is_file(),
+              "fps_flags_applied": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/fps-flags.txt").is_file(),
               "dock_layering": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").is_file() else False,
               "screenshots": len(list((Path(os.environ["OUT"]) / "shots").glob("*.png")))
           }
