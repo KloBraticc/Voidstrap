@@ -20,7 +20,7 @@
 
   <Grid Margin="0,0,14,14">
     <ScrollViewer x:Name="ListView" VerticalScrollBarVisibility="Auto">
-      <StackPanel>
+      <StackPanel Margin="0,0,14,0">
         <TextBlock Margin="0,0,0,16" FontSize="24" FontWeight="Medium" Text="{x:Static resources:Strings.Menu_About_Licenses}" />
         <ItemsControl ItemTemplate="{StaticResource LicenseRowTemplate}">
           <data:LicenseEntry Name="Voidstrap" Url="https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
