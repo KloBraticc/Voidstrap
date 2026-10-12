@@ -174,6 +174,7 @@ internal static class WindowAudit
 		AuditCrosshairExports();
 		AuditModsFeatures();
 		AuditImageTools();
+		AuditLicensesPage();
 		AuditLinuxAccountStorage();
 		AuditLibraryLoading();
 		AuditTextFlowScenarios();
@@ -7287,6 +7288,55 @@ internal static class WindowAudit
 			catch (System.IO.IOException)
 			{
 			}
+		}
+	}
+
+	private static void AuditLicensesPage()
+	{
+		Window? host = null;
+		try
+		{
+			UI.Elements.About.Pages.LicensesPage page = new();
+			host = new Window { Width = 900, Height = 700, Content = page, ShowInTaskbar = false, ShowActivated = false, Title = "Voidstrap licenses audit" };
+			host.Show();
+			System.Windows.Controls.ItemsControl? rows = page.FindName("NoticeRows") as System.Windows.Controls.ItemsControl;
+			bool loaded = PumpUntil(() => rows?.ItemsSource is System.Collections.ICollection { Count: > 0 }, 15000);
+			if (!loaded || rows?.ItemsSource is not IEnumerable<UI.Elements.About.Pages.LicensesPage.Notice> notices)
+			{
+				Emit("licenses page audit: FAIL, the notices did not load");
+				return;
+			}
+			List<UI.Elements.About.Pages.LicensesPage.Notice> list = notices.ToList();
+			UI.Elements.About.Pages.LicensesPage.Notice largest = list.OrderByDescending(notice => notice.Lines.Length).First();
+			System.Reflection.MethodInfo open = typeof(UI.Elements.About.Pages.LicensesPage).GetMethod("OnNoticeClick", BindingFlags.NonPublic | BindingFlags.Instance)!;
+			System.Reflection.MethodInfo back = typeof(UI.Elements.About.Pages.LicensesPage).GetMethod("OnBackClick", BindingFlags.NonPublic | BindingFlags.Instance)!;
+			System.Diagnostics.Stopwatch timer = System.Diagnostics.Stopwatch.StartNew();
+			open.Invoke(page, [new FrameworkElement { Tag = largest }, new RoutedEventArgs()]);
+			Pump(300);
+			long openMilliseconds = timer.ElapsedMilliseconds;
+			System.Windows.Controls.ListBox? lines = page.FindName("DetailLines") as System.Windows.Controls.ListBox;
+			bool shown = lines?.Items.Count == largest.Lines.Length && (page.FindName("DetailView") as UIElement)?.Visibility == Visibility.Visible;
+			back.Invoke(page, [null, new RoutedEventArgs()]);
+			Pump(120);
+			bool returned = (page.FindName("ListView") as UIElement)?.Visibility == Visibility.Visible;
+			foreach (UI.Elements.About.Pages.LicensesPage.Notice notice in list.Where(notice => notice.Lines.Length == 0).Take(1))
+			{
+				open.Invoke(page, [new FrameworkElement { Tag = notice }, new RoutedEventArgs()]);
+				Pump(60);
+				back.Invoke(page, [null, new RoutedEventArgs()]);
+			}
+			Emit(shown && returned
+				? $"licenses page audit: PASS, {list.Count} rows, opened {largest.Lines.Length} lines in {openMilliseconds} ms and went back"
+				: $"licenses page audit: FAIL, rows {list.Count}, shown {shown}, returned {returned}");
+		}
+		catch (Exception ex)
+		{
+			Emit("licenses page audit: FAIL, " + ex.GetBaseException().GetType().Name + ": " + ex.GetBaseException().Message.Split('\n')[0]);
+		}
+		finally
+		{
+			host?.Close();
+			Pump(80);
 		}
 	}
 
