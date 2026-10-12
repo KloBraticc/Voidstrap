@@ -364,6 +364,7 @@ jobs:
             <ItemGroup>
               <Compile Include="$RUNNER_TEMP/image-check-src/MacOSImages.cs" />
               <Compile Include="$root/src/Voidstrap.App/Utility/SafeImaging.cs" />
+              <Compile Include="$root/src/Voidstrap.App/Utility/NativeImaging.cs" />
               <Compile Include="$root/src/Voidstrap.App/Utility/AppImage.cs" />
               <Compile Include="$root/src/Voidstrap.App/Utility/DynamicRenderSystem.cs" />
               <Compile Include="$root/src/Voidstrap.App/UI/LinuxWebImageSource.cs" />
