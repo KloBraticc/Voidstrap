@@ -59,7 +59,7 @@ internal static class DiscordPresenceGuard
 
 	public static string Text(string? value, int limit = TextLimit)
 	{
-		string text = string.Join(' ', (value ?? "").Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries));
+		string text = string.Join(' ', StripControls(value ?? "").Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries));
 		if (text.Length > limit)
 		{
 			int budget = limit - Ellipsis.Length;
@@ -91,7 +91,51 @@ internal static class DiscordPresenceGuard
 	public static string Key(string? value)
 	{
 		string key = (value ?? "").Trim();
-		return key.Length <= KeyLimit ? key : "";
+		if (key.Length == 0 || key.Length > KeyLimit)
+			return "";
+		if (IsAssetName(key))
+			return key;
+		return Uri.TryCreate(key, UriKind.Absolute, out Uri? uri) && IsSafeHttps(uri) && uri.AbsoluteUri.Length <= KeyLimit ? uri.AbsoluteUri : "";
+	}
+
+	public static string? Link(string? value)
+	{
+		return Uri.TryCreate((value ?? "").Trim(), UriKind.Absolute, out Uri? uri) && IsSafeHttps(uri) && uri.AbsoluteUri.Length <= 512 ? uri.AbsoluteUri : null;
+	}
+
+	private static bool IsSafeHttps(Uri uri)
+	{
+		return uri.Scheme == Uri.UriSchemeHttps && uri.UserInfo.Length == 0 && !uri.IsLoopback && uri.HostNameType == UriHostNameType.Dns;
+	}
+
+	private static bool IsAssetName(string key)
+	{
+		if (key.Length > 64)
+			return false;
+		foreach (char character in key)
+		{
+			if (!(character is >= 'a' and <= 'z' or >= '0' and <= '9' or '_' or '-'))
+				return false;
+		}
+		return true;
+	}
+
+	private static string StripControls(string value)
+	{
+		StringBuilder? builder = null;
+		for (int index = 0; index < value.Length; index++)
+		{
+			char character = value[index];
+			bool unsafeCharacter = character is (>= '\u202A' and <= '\u202E') or (>= '\u2066' and <= '\u2069') or '\u200E' or '\u200F' or '\u061C'
+				|| (char.IsControl(character) && !char.IsWhiteSpace(character));
+			if (unsafeCharacter)
+			{
+				builder ??= new StringBuilder(value, 0, index, value.Length);
+				continue;
+			}
+			builder?.Append(character);
+		}
+		return builder?.ToString() ?? value;
 	}
 
 	private static RichPresence? Complete(RichPresence? presence)
@@ -103,10 +147,13 @@ internal static class DiscordPresenceGuard
 		copy.State = Render(presence.State);
 		if (presence.Buttons is { Length: > 0 } buttons)
 		{
-			Button[] rendered = new Button[buttons.Length];
-			for (int index = 0; index < buttons.Length; index++)
-				rendered[index] = new Button { Label = Label(RpcText.Render(buttons[index].Label), "Open"), Url = buttons[index].Url };
-			copy.Buttons = rendered;
+			List<Button> rendered = new List<Button>(buttons.Length);
+			foreach (Button button in buttons)
+			{
+				if (Link(button.Url) is string url)
+					rendered.Add(new Button { Label = Label(RpcText.Render(button.Label), "Open"), Url = url });
+			}
+			copy.Buttons = rendered.ToArray();
 		}
 		if (presence.Assets == null)
 			return copy;
