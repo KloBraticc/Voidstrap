@@ -139,7 +139,12 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 			Buffer.BlockCopy(_raw, skip * rawWidth * 4, _raw, 0, needed);
 		CalibrateHomeColor(_raw, rawWidth, height);
 		if (Interlocked.Exchange(ref _sampleLogged, 1) == 0)
+		{
 			LogCaptureSample(_raw, rawWidth, height);
+			string? dump = Environment.GetEnvironmentVariable("VOIDSTRAP_HOMEPAGE_CAPTURE_DUMP");
+			if (!string.IsNullOrEmpty(dump))
+				System.IO.File.WriteAllBytes(dump + "-" + rawWidth + "x" + height + ".bgra", _raw.AsSpan(0, rawWidth * height * 4).ToArray());
+		}
 		return true;
 	}
 
