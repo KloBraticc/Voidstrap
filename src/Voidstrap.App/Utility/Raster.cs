@@ -176,6 +176,29 @@ internal sealed class Raster
 		return new Raster(newWidth, Width, result);
 	}
 
+	public void DrawOver(Raster source, int left, int top)
+	{
+		for (int y = Math.Max(0, -top); y < source.Height && top + y < Height; y++)
+		{
+			for (int x = Math.Max(0, -left); x < source.Width && left + x < Width; x++)
+			{
+				int from = (y * source.Width + x) * 4;
+				int to = ((top + y) * Width + left + x) * 4;
+				float sourceAlpha = source.Pixels[from + 3] / 255f;
+				if (sourceAlpha <= 0f)
+					continue;
+				float destinationAlpha = Pixels[to + 3] / 255f;
+				float alpha = sourceAlpha + destinationAlpha * (1f - sourceAlpha);
+				for (int channel = 0; channel < 3; channel++)
+				{
+					float value = (source.Pixels[from + channel] * sourceAlpha + Pixels[to + channel] * destinationAlpha * (1f - sourceAlpha)) / alpha;
+					Pixels[to + channel] = (byte)Math.Clamp(MathF.Round(value), 0f, 255f);
+				}
+				Pixels[to + 3] = (byte)Math.Clamp(MathF.Round(alpha * 255f), 0f, 255f);
+			}
+		}
+	}
+
 	public Raster Clone()
 	{
 		return new Raster(Width, Height, (byte[])Pixels.Clone());

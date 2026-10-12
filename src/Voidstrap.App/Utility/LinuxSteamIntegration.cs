@@ -4,9 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using Voidstrap.Platform.Linux;
 
 namespace Voidstrap.Utility;
@@ -109,7 +106,7 @@ internal static class LinuxSteamIntegration
 			return art;
 		try
 		{
-			using Image<Rgba32> icon = Image.Load<Rgba32>(iconPng);
+			Raster icon = Raster.Decode(iconPng);
 			art["p.png"] = Render(icon, 600, 900, 360, 0.42, playBadge, true);
 			art[".png"] = Render(icon, 920, 430, 280, 0.5, playBadge, true);
 			art["_hero.png"] = Render(icon, 1920, 620, 0, 0.5, false, true);
@@ -123,73 +120,66 @@ internal static class LinuxSteamIntegration
 		return art;
 	}
 
-	private static byte[] Render(Image<Rgba32> icon, int width, int height, int iconSize, double verticalCenter, bool playBadge, bool background)
+	private static byte[] Render(Raster icon, int width, int height, int iconSize, double verticalCenter, bool playBadge, bool background)
 	{
-		using Image<Rgba32> canvas = new(width, height, background ? new Rgba32(14, 15, 20, 255) : new Rgba32(0, 0, 0, 0));
+		Raster canvas = Raster.Blank(width, height);
 		if (background)
 		{
-			canvas.ProcessPixelRows(rows =>
+			byte[] pixels = canvas.Pixels;
+			for (int y = 0; y < height; y++)
 			{
-				for (int y = 0; y < rows.Height; y++)
+				double fade = (double)y / Math.Max(1, height - 1);
+				for (int x = 0; x < width; x++)
 				{
-					Span<Rgba32> row = rows.GetRowSpan(y);
-					double fade = (double)y / Math.Max(1, rows.Height - 1);
-					for (int x = 0; x < row.Length; x++)
-					{
-						double dx = (x - width * 0.5) / width;
-						double dy = (y - height * verticalCenter) / height;
-						double glow = Math.Max(0, 1 - Math.Sqrt(dx * dx + dy * dy) * 1.8);
-						row[x] = new Rgba32(
-							(byte)Math.Clamp(22 - fade * 10 + glow * 40, 0, 255),
-							(byte)Math.Clamp(24 - fade * 10 + glow * 30, 0, 255),
-							(byte)Math.Clamp(32 - fade * 12 + glow * 70, 0, 255),
-							255);
-					}
+					double dx = (x - width * 0.5) / width;
+					double dy = (y - height * verticalCenter) / height;
+					double glow = Math.Max(0, 1 - Math.Sqrt(dx * dx + dy * dy) * 1.8);
+					int offset = (y * width + x) * 4;
+					pixels[offset] = (byte)Math.Clamp(32 - fade * 12 + glow * 70, 0, 255);
+					pixels[offset + 1] = (byte)Math.Clamp(24 - fade * 10 + glow * 30, 0, 255);
+					pixels[offset + 2] = (byte)Math.Clamp(22 - fade * 10 + glow * 40, 0, 255);
+					pixels[offset + 3] = 255;
 				}
-			});
+			}
 		}
 
 		if (iconSize > 0)
 		{
-			using Image<Rgba32> scaled = icon.Clone(context => context.Resize(iconSize, iconSize));
+			Raster scaled = icon.Resize(iconSize, iconSize);
 			int left = (width - iconSize) / 2;
 			int top = (int)Math.Round(height * verticalCenter - iconSize / 2.0);
-			canvas.Mutate(context => context.DrawImage(scaled, new Point(left, Math.Max(0, top)), 1f));
+			canvas.DrawOver(scaled, left, Math.Max(0, top));
 			if (playBadge)
 				DrawPlayBadge(canvas, left + iconSize - iconSize / 4, Math.Max(0, top) + iconSize - iconSize / 4, Math.Max(18, iconSize / 5));
 		}
 
-		using MemoryStream buffer = new();
-		canvas.SaveAsPng(buffer);
-		return buffer.ToArray();
+		return canvas.EncodePng();
 	}
 
-	private static void DrawPlayBadge(Image<Rgba32> canvas, int centerX, int centerY, int radius)
+	private static void DrawPlayBadge(Raster canvas, int centerX, int centerY, int radius)
 	{
-		canvas.ProcessPixelRows(rows =>
+		byte[] pixels = canvas.Pixels;
+		for (int y = Math.Max(0, centerY - radius); y < Math.Min(canvas.Height, centerY + radius); y++)
 		{
-			for (int y = Math.Max(0, centerY - radius); y < Math.Min(rows.Height, centerY + radius); y++)
+			for (int x = Math.Max(0, centerX - radius); x < Math.Min(canvas.Width, centerX + radius); x++)
 			{
-				Span<Rgba32> row = rows.GetRowSpan(y);
-				for (int x = Math.Max(0, centerX - radius); x < Math.Min(row.Length, centerX + radius); x++)
-				{
-					double dx = x - centerX;
-					double dy = y - centerY;
-					double distance = Math.Sqrt(dx * dx + dy * dy);
-					if (distance > radius)
-						continue;
-					double edge = Math.Clamp(radius - distance, 0, 1);
-					bool inTriangle = dx > -radius * 0.28 && dx < radius * 0.42 && Math.Abs(dy) < (radius * 0.42 - dx) * 0.72;
-					Rgba32 fill = inTriangle ? new Rgba32(255, 255, 255, 255) : new Rgba32(0, 176, 111, 255);
-					Rgba32 current = row[x];
-					row[x] = new Rgba32(
-						(byte)(current.R + (fill.R - current.R) * edge),
-						(byte)(current.G + (fill.G - current.G) * edge),
-						(byte)(current.B + (fill.B - current.B) * edge),
-						(byte)Math.Max(current.A, 255 * edge));
-				}
+				double dx = x - centerX;
+				double dy = y - centerY;
+				double distance = Math.Sqrt(dx * dx + dy * dy);
+				if (distance > radius)
+					continue;
+				double edge = Math.Clamp(radius - distance, 0, 1);
+				bool inTriangle = dx > -radius * 0.28 && dx < radius * 0.42 && Math.Abs(dy) < (radius * 0.42 - dx) * 0.72;
+				int fillRed = inTriangle ? 255 : 0;
+				int fillGreen = inTriangle ? 255 : 176;
+				int fillBlue = inTriangle ? 255 : 111;
+				int offset = (y * canvas.Width + x) * 4;
+				pixels[offset] = (byte)(pixels[offset] + (fillBlue - pixels[offset]) * edge);
+				pixels[offset + 1] = (byte)(pixels[offset + 1] + (fillGreen - pixels[offset + 1]) * edge);
+				pixels[offset + 2] = (byte)(pixels[offset + 2] + (fillRed - pixels[offset + 2]) * edge);
+				pixels[offset + 3] = (byte)Math.Max(pixels[offset + 3], 255 * edge);
 			}
-		});
+		}
 	}
 
 	private static async Task<bool> CloseSteamAsync(IReadOnlyList<string> roots, CancellationToken cancellationToken)

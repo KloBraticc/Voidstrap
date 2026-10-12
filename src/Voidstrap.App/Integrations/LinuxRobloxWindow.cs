@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using Voidstrap.Models.Entities;
 using Voidstrap.Platform.Linux;
 using Voidstrap.Extensions;
@@ -201,21 +198,15 @@ internal sealed class LinuxRobloxWindow : IDisposable
 			if (data.Length == 0)
 				return [];
 
-			using Image<Rgba32> source = Image.Load<Rgba32>(data);
+			Voidstrap.Utility.Raster source = Voidstrap.Utility.Raster.Decode(data);
 			List<nint> native = new();
 			foreach (int size in IconSizes)
 			{
-				using Image<Rgba32> scaled = source.Clone(context => context.Resize(size, size));
+				byte[] pixels = source.Resize(size, size).Pixels;
 				native.Add(size);
 				native.Add(size);
-				scaled.ProcessPixelRows(rows =>
-				{
-					for (int y = 0; y < rows.Height; y++)
-					{
-						foreach (Rgba32 pixel in rows.GetRowSpan(y))
-							native.Add((nint)(((uint)pixel.A << 24) | ((uint)pixel.R << 16) | ((uint)pixel.G << 8) | pixel.B));
-					}
-				});
+				for (int offset = 0; offset < pixels.Length; offset += 4)
+					native.Add((nint)(((uint)pixels[offset + 3] << 24) | ((uint)pixels[offset + 2] << 16) | ((uint)pixels[offset + 1] << 8) | pixels[offset]));
 			}
 			return native.ToArray();
 		}
