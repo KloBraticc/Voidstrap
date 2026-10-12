@@ -2,7 +2,7 @@ use std::io::Cursor;
 use std::panic::{catch_unwind, AssertUnwindSafe};
 
 use image::imageops::FilterType;
-use image::{DynamicImage, ImageBuffer, ImageDecoder, ImageReader, Limits, Rgba, RgbaImage};
+use image::{DynamicImage, ImageDecoder, ImageReader, Limits, RgbaImage};
 
 pub const VI_OK: i32 = 0;
 pub const VI_INVALID: i32 = 1;
@@ -12,7 +12,7 @@ pub const VI_FAILED: i32 = 4;
 
 #[no_mangle]
 pub extern "C" fn vi_version() -> u32 {
-    1
+    2
 }
 
 #[no_mangle]
@@ -92,22 +92,142 @@ fn decode(input: &[u8], max_width: u32, max_bytes: u64) -> Result<(u32, u32, Vec
 }
 
 fn resize_premultiplied(source: &RgbaImage, width: u32, height: u32) -> RgbaImage {
-    let premultiplied: ImageBuffer<Rgba<f32>, Vec<f32>> = ImageBuffer::from_fn(source.width(), source.height(), |x, y| {
-        let pixel = source.get_pixel(x, y).0;
-        let alpha = pixel[3] as f32 / 255.0;
-        Rgba([pixel[0] as f32 / 255.0 * alpha, pixel[1] as f32 / 255.0 * alpha, pixel[2] as f32 / 255.0 * alpha, alpha])
-    });
-    let resized = image::imageops::resize(&premultiplied, width, height, FilterType::CatmullRom);
-    RgbaImage::from_fn(width, height, |x, y| {
-        let pixel = resized.get_pixel(x, y).0;
-        let alpha = pixel[3].clamp(0.0, 1.0);
-        let channel = |value: f32| -> u8 {
-            if alpha <= 0.0 {
-                0
-            } else {
-                ((value / alpha).clamp(0.0, 1.0) * 255.0).round() as u8
+    resize_with(source, width, height, 0).unwrap_or_else(|| image::imageops::resize(source, width, height, FilterType::CatmullRom))
+}
+
+fn resize_with(source: &RgbaImage, width: u32, height: u32, filter: u32) -> Option<RgbaImage> {
+    use fast_image_resize::images::Image;
+    use fast_image_resize::{FilterType as Kernel, PixelType, ResizeAlg, ResizeOptions, Resizer};
+    let algorithm = match filter {
+        0 => ResizeAlg::Convolution(Kernel::CatmullRom),
+        1 => ResizeAlg::Convolution(Kernel::Lanczos3),
+        2 => ResizeAlg::Convolution(Kernel::Bilinear),
+        3 => ResizeAlg::Nearest,
+        _ => return None,
+    };
+    let input = Image::from_vec_u8(source.width(), source.height(), source.as_raw().clone(), PixelType::U8x4).ok()?;
+    let mut output = Image::new(width, height, PixelType::U8x4);
+    Resizer::new().resize(&input, &mut output, &ResizeOptions::new().resize_alg(algorithm).use_alpha(true)).ok()?;
+    RgbaImage::from_raw(width, height, output.into_vec())
+}
+
+const MAX_EDGE: u32 = 16384;
+const MAX_PIXEL_BYTES: u64 = 512 * 1024 * 1024;
+
+unsafe fn give(mut bytes: Vec<u8>, out_bytes: *mut *mut u8, out_length: *mut usize) {
+    bytes.shrink_to_fit();
+    let mut boxed = bytes.into_boxed_slice();
+    *out_length = boxed.len();
+    *out_bytes = boxed.as_mut_ptr();
+    std::mem::forget(boxed);
+}
+
+unsafe fn bgra_image(pixels: *const u8, length: usize, width: u32, height: u32) -> Option<RgbaImage> {
+    if pixels.is_null() || width == 0 || height == 0 || width > MAX_EDGE || height > MAX_EDGE {
+        return None;
+    }
+    let expected = (width as u64) * (height as u64) * 4;
+    if expected != length as u64 || expected > MAX_PIXEL_BYTES {
+        return None;
+    }
+    let mut data = std::slice::from_raw_parts(pixels, length).to_vec();
+    for pixel in data.chunks_exact_mut(4) {
+        pixel.swap(0, 2);
+    }
+    RgbaImage::from_raw(width, height, data)
+}
+
+fn to_bgra(image: RgbaImage) -> Vec<u8> {
+    let mut data = image.into_raw();
+    for pixel in data.chunks_exact_mut(4) {
+        pixel.swap(0, 2);
+    }
+    data
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn vi_resize_bgra(
+    pixels: *const u8,
+    length: usize,
+    width: u32,
+    height: u32,
+    new_width: u32,
+    new_height: u32,
+    filter: u32,
+    out_pixels: *mut *mut u8,
+    out_length: *mut usize,
+) -> i32 {
+    if out_pixels.is_null() || out_length.is_null() || new_width == 0 || new_height == 0 || new_width > MAX_EDGE || new_height > MAX_EDGE {
+        return VI_INVALID;
+    }
+    if (new_width as u64) * (new_height as u64) * 4 > MAX_PIXEL_BYTES {
+        return VI_TOO_LARGE;
+    }
+    *out_pixels = std::ptr::null_mut();
+    *out_length = 0;
+    let Some(source) = bgra_image(pixels, length, width, height) else {
+        return VI_INVALID;
+    };
+    if filter > 3 {
+        return VI_INVALID;
+    }
+    match catch_unwind(AssertUnwindSafe(|| resize_with(&source, new_width, new_height, filter).map(to_bgra))) {
+        Ok(None) => VI_FAILED,
+        Ok(Some(data)) => {
+            give(data, out_pixels, out_length);
+            VI_OK
+        }
+        Err(_) => VI_FAILED,
+    }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn vi_encode_bgra(
+    pixels: *const u8,
+    length: usize,
+    width: u32,
+    height: u32,
+    format: u32,
+    level: u32,
+    out_bytes: *mut *mut u8,
+    out_length: *mut usize,
+) -> i32 {
+    if out_bytes.is_null() || out_length.is_null() {
+        return VI_INVALID;
+    }
+    *out_bytes = std::ptr::null_mut();
+    *out_length = 0;
+    let Some(image) = bgra_image(pixels, length, width, height) else {
+        return VI_INVALID;
+    };
+    let result = catch_unwind(AssertUnwindSafe(|| -> Result<Vec<u8>, i32> {
+        let mut output = Vec::new();
+        match format {
+            0 => {
+                let compression = match level {
+                    0 => image::codecs::png::CompressionType::Fast,
+                    2 => image::codecs::png::CompressionType::Best,
+                    _ => image::codecs::png::CompressionType::Default,
+                };
+                let encoder = image::codecs::png::PngEncoder::new_with_quality(&mut output, compression, image::codecs::png::FilterType::Adaptive);
+                image.write_with_encoder(encoder).map_err(|_| VI_FAILED)?;
             }
-        };
-        Rgba([channel(pixel[0]), channel(pixel[1]), channel(pixel[2]), (alpha * 255.0).round() as u8])
-    })
+            1 => {
+                let quality = level.clamp(1, 100) as u8;
+                let rgb = DynamicImage::ImageRgba8(image).into_rgb8();
+                let encoder = image::codecs::jpeg::JpegEncoder::new_with_quality(&mut output, quality);
+                rgb.write_with_encoder(encoder).map_err(|_| VI_FAILED)?;
+            }
+            _ => return Err(VI_UNSUPPORTED),
+        }
+        Ok(output)
+    }));
+    match result {
+        Ok(Ok(data)) => {
+            give(data, out_bytes, out_length);
+            VI_OK
+        }
+        Ok(Err(code)) => code,
+        Err(_) => VI_FAILED,
+    }
 }
