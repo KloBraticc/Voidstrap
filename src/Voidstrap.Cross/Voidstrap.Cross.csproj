@@ -69,7 +69,7 @@
 	</PropertyGroup>
 
 	<Target Name="BuildVoidImage" BeforeTargets="AssignTargetPaths" Condition="'$(VoidImageLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidimage/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidimage/Cargo.lock;@(VoidImageSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidimage.sh" Outputs="$(VoidImageLibrary)">
-		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidimage.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidImageLibrary)&quot; &quot;$(BaseIntermediateOutputPath)voidimage/target&quot;" IgnoreExitCode="true" />
+		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidimage.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidImageLibrary)&quot; &quot;$(BaseIntermediateOutputPath)voidimage/target&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
 	</Target>
 
 	<ItemGroup>
