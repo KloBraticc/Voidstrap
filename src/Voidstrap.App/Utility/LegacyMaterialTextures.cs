@@ -13,8 +13,6 @@ using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using Voidstrap.Integrations;
 
 namespace Voidstrap.Utility;
@@ -736,8 +734,7 @@ internal static partial class LegacyMaterialTextures
 		{
 			pixels[index] = 255;
 		}
-		using Image<Bgra32> output = Image.LoadPixelData<Bgra32>(pixels, image.Width, image.Height);
-		output.SaveAsPng(path);
+		new Raster(image.Width, image.Height, pixels).SavePng(path);
 		return true;
 	}
 

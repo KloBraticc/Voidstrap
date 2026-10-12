@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 
 namespace Voidstrap.Utility;
 
@@ -122,15 +120,12 @@ internal static class ModAutoFixer
 						continue;
 					}
 					string temporary = file + ".autofix";
-					using (Image<Rgba32> image = Image.Load<Rgba32>(file))
-					{
-						image.SaveAsPng(temporary);
-					}
+					Raster.Load(file).SavePng(temporary);
 					File.SetAttributes(file, FileAttributes.Normal);
 					File.Move(temporary, file, true);
 					converted++;
 				}
-				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or UnknownImageFormatException or InvalidImageContentException or NotSupportedException)
+				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException or SixLabors.ImageSharp.UnknownImageFormatException or SixLabors.ImageSharp.InvalidImageContentException or NotSupportedException)
 				{
 					App.Logger?.WriteLine(LogIdent, "Could not convert the sky face " + Path.GetFileName(file) + ": " + ex.Message);
 				}
