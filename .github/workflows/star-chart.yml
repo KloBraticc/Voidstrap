@@ -36,5 +36,7 @@ jobs:
           if git diff --cached --quiet; then
             exit 0
           fi
-          git commit -m 'Update star chart'
-          git push origin HEAD:output
+          base=$(git rev-parse HEAD)
+          git checkout --orphan fresh
+          git commit -m 'Update generated images'
+          git push --force-with-lease=output:"$base" origin HEAD:output
