@@ -1426,6 +1426,10 @@ jobs:
           pkill -x RobloxPlayer || true
           for i in $(seq 1 30); do pgrep -x voidstrap-virtualdisplay > /dev/null || break; sleep 0.5; done
           sleep 2
+          echo "roblox settings files:"
+          find "$HOME/Library" -iname "GlobalBasicSettings*" 2>/dev/null | sed -E 's#/Users/[^/]+#~#' | head -10 || true
+          ls "$HOME/Library/Roblox" 2>/dev/null | head -30 || true
+          defaults read com.roblox.RobloxPlayer 2>/dev/null | grep -i -E "frame|fps|graphics" | head -10 || true
           echo "frame rate cap after Roblox closed: $(grep -o '<int name="FramerateCap">[^<]*</int>' "$gbs" 2>/dev/null || echo missing)"
           grep -q '<int name="FramerateCap">240</int>' "$gbs" 2>/dev/null && echo true > "$RUNNER_TEMP/overlay-logs/fps-cap-kept.txt" || true
           echo "displays after Roblox closed"
