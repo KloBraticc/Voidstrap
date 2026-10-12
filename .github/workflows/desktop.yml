@@ -1353,7 +1353,7 @@ jobs:
       - name: Show notification and focus diagnostics
         if: always()
         run: |
-          cat ~/Library/Logs/Voidstrap/*.log 2>/dev/null | grep -E "MacDockPresence|NotificationWindow|ShowJoinNotification|SessionDockTip|RobloxOverlayAnchor|\[SessionDock\]|PreloadSessionDock|Built the" | sed -E 's#/Users/[^/ ]+#~#g' | tail -60 || true
+          cat ~/Library/Logs/Voidstrap/*.log 2>/dev/null | grep -E "MacDockPresence|NotificationWindow|ShowJoinNotification|SessionDockTip|RobloxOverlayAnchor|\[SessionDock\]|PreloadSessionDock|Built the|LinuxWindowUpdatePump" | sed -E 's#/Users/[^/ ]+#~#g' | tail -60 || true
 
       - name: Record fixed diagnostic results
         if: always()
