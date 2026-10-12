@@ -12,7 +12,7 @@ pub const VI_FAILED: i32 = 4;
 
 #[no_mangle]
 pub extern "C" fn vi_version() -> u32 {
-    3
+    4
 }
 
 #[no_mangle]
@@ -263,4 +263,119 @@ fn open_reader(input: &[u8]) -> Result<ImageReader<Cursor<&[u8]>>, i32> {
         reader.set_format(image::ImageFormat::Tga);
     }
     Ok(reader)
+}
+
+fn fit_size(width: u32, height: u32, max_width: u32, max_height: u32) -> (u32, u32) {
+    if (max_width == 0 || width <= max_width) && (max_height == 0 || height <= max_height) {
+        return (width, height);
+    }
+    let scale_x = if max_width == 0 { f64::MAX } else { max_width as f64 / width as f64 };
+    let scale_y = if max_height == 0 { f64::MAX } else { max_height as f64 / height as f64 };
+    let scale = scale_x.min(scale_y);
+    (((width as f64 * scale).round().max(1.0)) as u32, ((height as f64 * scale).round().max(1.0)) as u32)
+}
+
+fn animation_frames(input: &[u8], format: image::ImageFormat) -> Option<image::Frames<'_>> {
+    use image::AnimationDecoder;
+    match format {
+        image::ImageFormat::Gif => image::codecs::gif::GifDecoder::new(Cursor::new(input)).ok().map(|decoder| decoder.into_frames()),
+        image::ImageFormat::WebP => {
+            let decoder = image::codecs::webp::WebPDecoder::new(Cursor::new(input)).ok()?;
+            if decoder.has_animation() {
+                Some(decoder.into_frames())
+            } else {
+                None
+            }
+        }
+        image::ImageFormat::Png => {
+            let decoder = image::codecs::png::PngDecoder::new(Cursor::new(input)).ok()?;
+            if decoder.is_apng().unwrap_or(false) {
+                decoder.apng().ok().map(|decoder| decoder.into_frames())
+            } else {
+                None
+            }
+        }
+        _ => None,
+    }
+}
+
+fn decode_animation(input: &[u8], max_width: u32, max_height: u32, max_frames: u32, max_bytes: u64) -> Result<(u32, u32, Vec<u8>, Vec<u8>), i32> {
+    let reader = open_reader(input)?;
+    let format = reader.format().ok_or(VI_UNSUPPORTED)?;
+    let (source_width, source_height) = reader.into_dimensions().map_err(|_| VI_UNSUPPORTED)?;
+    if source_width == 0 || source_height == 0 || (source_width as u64) * (source_height as u64) * 4 > max_bytes {
+        return Err(VI_TOO_LARGE);
+    }
+    let (width, height) = fit_size(source_width, source_height, max_width, max_height);
+    let frame_bytes = (width as u64) * (height as u64) * 4;
+    let budget = (max_bytes / frame_bytes).max(1).min(max_frames.max(1) as u64) as usize;
+    let mut pixels: Vec<u8> = Vec::new();
+    let mut delays: Vec<u8> = Vec::new();
+    if let Some(frames) = animation_frames(input, format) {
+        for frame in frames.take(budget) {
+            let frame = frame.map_err(|_| VI_FAILED)?;
+            let (numerator, denominator) = frame.delay().numer_denom_ms();
+            let delay = if denominator == 0 { 0 } else { numerator / denominator };
+            let mut buffer = frame.into_buffer();
+            if buffer.width() != width || buffer.height() != height {
+                buffer = resize_with(&buffer, width, height, 0).ok_or(VI_FAILED)?;
+            }
+            pixels.extend_from_slice(&to_bgra(buffer));
+            delays.extend_from_slice(&delay.to_le_bytes());
+        }
+    }
+    if pixels.is_empty() {
+        let (decoded_width, decoded_height, single) = decode(input, 0, max_bytes)?;
+        let image = RgbaImage::from_raw(decoded_width, decoded_height, single).ok_or(VI_FAILED)?;
+        let mut rgba = image;
+        for pixel in rgba.chunks_exact_mut(4) {
+            pixel.swap(0, 2);
+        }
+        let (fit_width, fit_height) = fit_size(decoded_width, decoded_height, max_width, max_height);
+        if fit_width != decoded_width || fit_height != decoded_height {
+            rgba = resize_with(&rgba, fit_width, fit_height, 0).ok_or(VI_FAILED)?;
+        }
+        if fit_width != width || fit_height != height {
+            return Ok((fit_width, fit_height, to_bgra(rgba), 0u32.to_le_bytes().to_vec()));
+        }
+        pixels = to_bgra(rgba);
+        delays = 0u32.to_le_bytes().to_vec();
+    }
+    Ok((width, height, pixels, delays))
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn vi_decode_animation_bgra(
+    data: *const u8,
+    length: usize,
+    max_width: u32,
+    max_height: u32,
+    max_frames: u32,
+    max_bytes: u64,
+    out_width: *mut u32,
+    out_height: *mut u32,
+    out_pixels: *mut *mut u8,
+    out_pixel_length: *mut usize,
+    out_delays: *mut *mut u8,
+    out_delay_length: *mut usize,
+) -> i32 {
+    if data.is_null() || length == 0 || out_width.is_null() || out_height.is_null() || out_pixels.is_null() || out_pixel_length.is_null() || out_delays.is_null() || out_delay_length.is_null() {
+        return VI_INVALID;
+    }
+    *out_pixels = std::ptr::null_mut();
+    *out_pixel_length = 0;
+    *out_delays = std::ptr::null_mut();
+    *out_delay_length = 0;
+    let input = std::slice::from_raw_parts(data, length);
+    match catch_unwind(AssertUnwindSafe(|| decode_animation(input, max_width, max_height, max_frames, max_bytes))) {
+        Ok(Ok((width, height, pixels, delays))) => {
+            *out_width = width;
+            *out_height = height;
+            give(pixels, out_pixels, out_pixel_length);
+            give(delays, out_delays, out_delay_length);
+            VI_OK
+        }
+        Ok(Err(code)) => code,
+        Err(_) => VI_FAILED,
+    }
 }

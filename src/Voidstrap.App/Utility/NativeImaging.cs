@@ -29,6 +29,9 @@ internal static partial class NativeImaging
 	[LibraryImport(Library, EntryPoint = "vi_identify")]
 	private static unsafe partial int Identify(byte* data, nuint length, out uint width, out uint height);
 
+	[LibraryImport(Library, EntryPoint = "vi_decode_animation_bgra")]
+	private static unsafe partial int DecodeAnimationBgra(byte* data, nuint length, uint maxWidth, uint maxHeight, uint maxFrames, ulong maxBytes, out uint width, out uint height, out IntPtr pixels, out nuint pixelLength, out IntPtr delays, out nuint delayLength);
+
 	[LibraryImport(Library, EntryPoint = "vi_free")]
 	private static partial void Free(IntPtr pixels, nuint length);
 
@@ -42,7 +45,7 @@ internal static partial class NativeImaging
 			int resolved;
 			try
 			{
-				resolved = Version() >= 3 ? StateReady : StateMissing;
+				resolved = Version() >= 4 ? StateReady : StateMissing;
 			}
 			catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException or BadImageFormatException)
 			{
@@ -180,6 +183,60 @@ internal static partial class NativeImaging
 		{
 			App.Logger?.WriteLine("NativeImaging", "Native identify failed: " + ex.Message);
 			return false;
+		}
+	}
+
+	public static unsafe bool TryDecodeAnimationBgra(byte[] bytes, int maxWidth, int maxHeight, int maxFrames, long maxBytes, out int width, out int height, out byte[][] frames, out int[] delays)
+	{
+		width = 0;
+		height = 0;
+		frames = Array.Empty<byte[]>();
+		delays = Array.Empty<int>();
+		if (bytes == null || bytes.Length == 0 || maxBytes <= 0 || maxFrames <= 0 || !IsAvailable)
+			return false;
+		IntPtr native = IntPtr.Zero;
+		nuint length = 0;
+		IntPtr nativeDelays = IntPtr.Zero;
+		nuint delayLength = 0;
+		try
+		{
+			int status;
+			uint decodedWidth;
+			uint decodedHeight;
+			fixed (byte* data = bytes)
+				status = DecodeAnimationBgra(data, (nuint)bytes.Length, (uint)Math.Max(0, maxWidth), (uint)Math.Max(0, maxHeight), (uint)maxFrames, (ulong)maxBytes, out decodedWidth, out decodedHeight, out native, out length, out nativeDelays, out delayLength);
+			if (status != 0 || native == IntPtr.Zero || nativeDelays == IntPtr.Zero || decodedWidth == 0 || decodedHeight == 0 || decodedWidth > int.MaxValue || decodedHeight > int.MaxValue)
+				return false;
+			ulong frameBytes = (ulong)decodedWidth * decodedHeight * 4;
+			ulong count = (ulong)delayLength / 4;
+			if (count == 0 || count > (ulong)maxFrames || (ulong)delayLength != count * 4 || (ulong)length != frameBytes * count || (ulong)length > (ulong)maxBytes || frameBytes > int.MaxValue)
+				return false;
+			byte[][] decodedFrames = new byte[count][];
+			int[] decodedDelays = new int[count];
+			for (int index = 0; index < (int)count; index++)
+			{
+				byte[] frame = GC.AllocateUninitializedArray<byte>((int)frameBytes);
+				Marshal.Copy(IntPtr.Add(native, checked((int)(frameBytes * (ulong)index))), frame, 0, frame.Length);
+				decodedFrames[index] = frame;
+				decodedDelays[index] = Marshal.ReadInt32(nativeDelays, index * 4);
+			}
+			width = (int)decodedWidth;
+			height = (int)decodedHeight;
+			frames = decodedFrames;
+			delays = decodedDelays;
+			return true;
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("NativeImaging", "Native animation decode failed: " + ex.Message);
+			return false;
+		}
+		finally
+		{
+			if (native != IntPtr.Zero)
+				Free(native, length);
+			if (nativeDelays != IntPtr.Zero)
+				Free(nativeDelays, delayLength);
 		}
 	}
 }
