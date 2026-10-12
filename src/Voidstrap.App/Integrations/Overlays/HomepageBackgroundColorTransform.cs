@@ -118,14 +118,27 @@ internal readonly record struct HomepageBackgroundSourceKeys(
 	HomepageBackgroundSourceKey AdjustedOriginal,
 	HomepageBackgroundSourceKey AdjustedSober)
 {
+	private static readonly Lazy<HomepageBackgroundSourceKey> SecondaryKey = new(CreateSecondaryKey);
+
+	private static HomepageBackgroundSourceKey CreateSecondaryKey()
+	{
+		if (OperatingSystem.IsMacOS() && Voidstrap.Platform.MacOS.MacOSDisplayColor.TryMatchSrgbToMainDisplay(18, 18, 21, out byte red, out byte green, out byte blue))
+		{
+			App.Logger?.WriteLine("HomepageBackground", $"The Roblox home color shows as {red},{green},{blue} on this display");
+			return new HomepageBackgroundSourceKey(red, green, blue);
+		}
+		return new HomepageBackgroundSourceKey(18, 18, 24);
+	}
+
 	public static HomepageBackgroundSourceKeys ReadConfigured()
 	{
 		HomepageBackgroundColorTransform transform = HomepageBackgroundColorTransform.ReadConfigured();
+		HomepageBackgroundSourceKey secondary = SecondaryKey.Value;
 		transform.Apply(18, 18, 21, out byte originalRed, out byte originalGreen, out byte originalBlue);
-		transform.Apply(18, 18, 24, out byte soberRed, out byte soberGreen, out byte soberBlue);
+		transform.Apply(secondary.Red, secondary.Green, secondary.Blue, out byte soberRed, out byte soberGreen, out byte soberBlue);
 		return new HomepageBackgroundSourceKeys(
 			new HomepageBackgroundSourceKey(18, 18, 21),
-			new HomepageBackgroundSourceKey(18, 18, 24),
+			secondary,
 			new HomepageBackgroundSourceKey(originalRed, originalGreen, originalBlue),
 			new HomepageBackgroundSourceKey(soberRed, soberGreen, soberBlue));
 	}
