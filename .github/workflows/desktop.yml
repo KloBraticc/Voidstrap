@@ -1376,14 +1376,24 @@ jobs:
           "$RUNNER_TEMP/displays"
           screencapture -x "$OUT/shots/14-virtual-display.png" || true
           exec 7>&-
-          for i in $(seq 1 40); do grep -q "^exit" "$RUNNER_TEMP/overlay-logs/vd-err.txt" && break; sleep 0.5; done
-          echo "helper stopped after $((i / 2)) seconds of waiting"
+          for i in $(seq 1 12); do grep -q "^exit" "$RUNNER_TEMP/overlay-logs/vd-err.txt" && break; sleep 0.5; done
+          helper_pid=$(pgrep -x voidstrap-virtualdisplay | head -1)
+          if [ -n "$helper_pid" ]; then
+            echo "helper still running 6 seconds after stdin closed, sampling"
+            sample "$helper_pid" 2 -file "$RUNNER_TEMP/vd-sample.txt" > /dev/null 2>&1 || true
+            grep -E "Thread_|^ +[0-9]+ " "$RUNNER_TEMP/vd-sample.txt" | head -60 || true
+            kill -TERM "$helper_pid" || true
+            for i in $(seq 1 20); do grep -q "^exit" "$RUNNER_TEMP/overlay-logs/vd-err.txt" && break; sleep 0.5; done
+            echo "after SIGTERM running: $(pgrep -x voidstrap-virtualdisplay || echo no)"
+          else
+            echo "helper stopped on stdin close"
+          fi
           echo "helper stdout"; cat "$RUNNER_TEMP/overlay-logs/vd-out.txt"
           echo "helper stderr"; cat "$RUNNER_TEMP/overlay-logs/vd-err.txt"
           grep -q '"ready":true' "$RUNNER_TEMP/overlay-logs/vd-out.txt" && echo true > "$RUNNER_TEMP/overlay-logs/virtual-display.txt" || true
           echo "displays after"
           "$RUNNER_TEMP/displays"
-          flags="$VS/Modifications/ClientSettings/ClientAppSettings.json"
+          flags="$VS/Data/VoidstrapMods/ClientSettings/ClientAppSettings.json"
           mkdir -p "$(dirname "$flags")"
           printf '{"DFIntTaskSchedulerTargetFps":"240"}' > "$flags"
           "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/flags-launch.txt" 2>&1 &
