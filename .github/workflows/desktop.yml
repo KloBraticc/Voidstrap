@@ -1476,8 +1476,7 @@ jobs:
           sudo mv "$player" "$player.real"
           sudo cp "$RUNNER_TEMP/RobloxPlayer" "$player"
           /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d.update({"HomepageBackgroundOverlayEnabled": True, "HomepageBackgroundOverlayColor": "#FF2D7DFF", "MacVirtualDisplayEnabled": False}); json.dump(d, open(p, "w"))' "$VS/Config/AppSettings.json"
-          rm -f "$RUNNER_TEMP"/home-capture-*.bgra
-          VOIDSTRAP_HOMEPAGE_CAPTURE_DUMP="$RUNNER_TEMP/home-capture" "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/home-launch.txt" 2>&1 &
+          "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/home-launch.txt" 2>&1 &
           for i in $(seq 1 60); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
           echo "fake home running: $(pgrep -x RobloxPlayer || echo no)"
           osascript -e 'tell application "System Events" to set frontmost of (first process whose name is "RobloxPlayer") to true' > /dev/null 2>&1 || true
@@ -1495,21 +1494,6 @@ jobs:
           print(tinted && kept ? "true" : "false")
           SWIFT
           swift "$RUNNER_TEMP/home-check.swift" "$OUT/shots/15-homepage-overlay.png" | tee "$RUNNER_TEMP/overlay-logs/home-check.txt"
-          dump=$(ls "$RUNNER_TEMP"/home-capture-*.bgra 2>/dev/null | head -1)
-          if [ -n "$dump" ]; then
-            size=$(basename "$dump" .bgra | sed 's/home-capture-//')
-            cat > "$RUNNER_TEMP/dump.swift" <<'SWIFT'
-          import AppKit
-          let args = CommandLine.arguments
-          let parts = args[2].split(separator: "x").map { Int($0)! }
-          var data = try Data(contentsOf: URL(fileURLWithPath: args[1]))
-          for i in stride(from: 0, to: data.count, by: 4) { let b = data[i]; data[i] = data[i + 2]; data[i + 2] = b }
-          let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: parts[0], pixelsHigh: parts[1], bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: parts[0] * 4, bitsPerPixel: 32)!
-          data.withUnsafeBytes { memcpy(rep.bitmapData!, $0.baseAddress!, data.count) }
-          try rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: args[3]))
-          SWIFT
-            swift "$RUNNER_TEMP/dump.swift" "$dump" "$size" "$OUT/shots/16-homepage-capture.png" || true
-          fi
           tail -1 "$RUNNER_TEMP/overlay-logs/home-check.txt" | grep -q true && echo true > "$RUNNER_TEMP/overlay-logs/homepage-overlay.txt" || true
           grep -hE 'MacHomepageBackground|HomepageBackground\]|StartMacHomepage' ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -15 || true
           pkill -x RobloxPlayer || true

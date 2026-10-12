@@ -138,36 +138,7 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 		if (skip > 0)
 			Buffer.BlockCopy(_raw, skip * rawWidth * 4, _raw, 0, needed);
 		CalibrateHomeColor(_raw, rawWidth, height);
-		if (Interlocked.Exchange(ref _sampleLogged, 1) == 0)
-		{
-			LogCaptureSample(_raw, rawWidth, height);
-			string? dump = Environment.GetEnvironmentVariable("VOIDSTRAP_HOMEPAGE_CAPTURE_DUMP");
-			if (!string.IsNullOrEmpty(dump))
-				System.IO.File.WriteAllBytes(dump + "-" + rawWidth + "x" + height + ".bgra", _raw.AsSpan(0, rawWidth * height * 4).ToArray());
-		}
 		return true;
-	}
-
-	private static int _sampleLogged;
-
-	private static void LogCaptureSample(byte[] bgra, int width, int height)
-	{
-		Dictionary<int, int> counts = new();
-		int samples = 0;
-		for (int y = 0; y < height; y += 8)
-		{
-			for (int x = 0; x < width; x += 8)
-			{
-				int index = (y * width + x) * 4;
-				int packed = bgra[index] | bgra[index + 1] << 8 | bgra[index + 2] << 16;
-				counts[packed] = counts.GetValueOrDefault(packed) + 1;
-				samples++;
-			}
-		}
-		int center = (height / 2 * width + width / 4) * 4;
-		string top = string.Join(", ", counts.OrderByDescending(pair => pair.Value).Take(3)
-			.Select(pair => $"bytes {pair.Key & 255},{pair.Key >> 8 & 255},{pair.Key >> 16 & 255} share {pair.Value * 100 / Math.Max(1, samples)}%"));
-		App.Logger.WriteLine(LogIdent, $"Capture sample: left middle bytes {bgra[center]},{bgra[center + 1]},{bgra[center + 2]},{bgra[center + 3]}, most common {top}");
 	}
 
 	private const int CalibrationRange = 10;
