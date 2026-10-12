@@ -111,6 +111,20 @@ internal sealed class Raster
 		return scaled.Crop((scaledWidth - width) / 2, (scaledHeight - height) / 2, width, height);
 	}
 
+	public Raster ResizeToPad(int width, int height, RasterFilter filter = RasterFilter.Bicubic)
+	{
+		double scale = Math.Min((double)width / Width, (double)height / Height);
+		int scaledWidth = Math.Clamp((int)Math.Round(Width * scale), 1, width);
+		int scaledHeight = Math.Clamp((int)Math.Round(Height * scale), 1, height);
+		Raster scaled = Resize(scaledWidth, scaledHeight, filter);
+		Raster canvas = Blank(width, height);
+		int left = Math.Clamp((int)Math.Round((width - Width * scale) / 2), 0, width - scaledWidth);
+		int top = Math.Clamp((int)Math.Round((height - Height * scale) / 2), 0, height - scaledHeight);
+		for (int row = 0; row < scaledHeight; row++)
+			Buffer.BlockCopy(scaled.Pixels, row * scaledWidth * 4, canvas.Pixels, ((top + row) * width + left) * 4, scaledWidth * 4);
+		return canvas;
+	}
+
 	public Raster Crop(int x, int y, int width, int height)
 	{
 		if (x < 0 || y < 0 || width <= 0 || height <= 0 || x + width > Width || y + height > Height)
@@ -186,6 +200,16 @@ internal sealed class Raster
 		using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image = SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(Pixels, Width, Height);
 		using MemoryStream output = new MemoryStream();
 		image.Save(output, new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder { Quality = quality });
+		return output.ToArray();
+	}
+
+	public byte[] EncodeBmp()
+	{
+		if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 2, 0, out byte[] encoded))
+			return encoded;
+		using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image = SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(Pixels, Width, Height);
+		using MemoryStream output = new MemoryStream();
+		image.Save(output, new SixLabors.ImageSharp.Formats.Bmp.BmpEncoder());
 		return output.ToArray();
 	}
 

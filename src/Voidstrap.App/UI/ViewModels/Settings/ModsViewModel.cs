@@ -23,7 +23,6 @@ using System.Windows.Threading;
 using CommunityToolkit.Mvvm.Input;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Win32;
-using SixLabors.ImageSharp.Processing;
 using Voidstrap.AppData;
 using Voidstrap.Enums;
 using Voidstrap.Integrations;
@@ -3677,16 +3676,7 @@ public ICommand PickCursorColorCommand { get; }
 	private static BitmapSource ResizeCrosshairImage(BitmapSource source, int dimension, double opacity)
 	{
 		byte[] sourcePixels = ReadStraightBgraPixels(source, out int sourceWidth, out int sourceHeight);
-		using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image = SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(sourcePixels, sourceWidth, sourceHeight);
-		image.Mutate(context => context.Resize(new SixLabors.ImageSharp.Processing.ResizeOptions
-		{
-			Size = new SixLabors.ImageSharp.Size(dimension, dimension),
-			Mode = SixLabors.ImageSharp.Processing.ResizeMode.Pad,
-			PadColor = SixLabors.ImageSharp.Color.Transparent,
-			Sampler = SixLabors.ImageSharp.Processing.KnownResamplers.Lanczos3
-		}));
-		byte[] pixels = new byte[dimension * dimension * 4];
-		image.CopyPixelDataTo(pixels);
+		byte[] pixels = new Raster(sourceWidth, sourceHeight, sourcePixels).ResizeToPad(dimension, dimension, RasterFilter.Lanczos3).Pixels;
 		double alphaScale = Math.Clamp(opacity, 0.0, 1.0);
 		if (alphaScale < 1.0)
 		{
@@ -3701,10 +3691,7 @@ public ICommand PickCursorColorCommand { get; }
 	internal static byte[] EncodeCrosshairPng(BitmapSource bitmap)
 	{
 		byte[] pixels = ReadStraightBgraPixels(bitmap, out int width, out int height);
-		using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image = SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(pixels, width, height);
-		using MemoryStream stream = new MemoryStream();
-		image.Save(stream, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
-		return stream.ToArray();
+		return new Raster(width, height, pixels).EncodePng();
 	}
 
 	internal static byte[] EncodeCrosshairCursor(BitmapSource bitmap, ushort hotspotX, ushort hotspotY)
@@ -4232,15 +4219,14 @@ public ICommand PickCursorColorCommand { get; }
 
 	private static void ConvertReplacementImage(string source, string destination, string extension)
 	{
-		using SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load(source);
-		SixLabors.ImageSharp.Formats.IImageEncoder encoder = extension switch
+		Raster image = Raster.Load(source);
+		byte[] encoded = extension switch
 		{
-			".jpg" or ".jpeg" => new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder(),
-			".bmp" => new SixLabors.ImageSharp.Formats.Bmp.BmpEncoder(),
-			_ => new SixLabors.ImageSharp.Formats.Png.PngEncoder()
+			".jpg" or ".jpeg" => image.EncodeJpeg(75),
+			".bmp" => image.EncodeBmp(),
+			_ => image.EncodePng()
 		};
-		using FileStream stream = File.Create(destination);
-		image.Save(stream, encoder);
+		File.WriteAllBytes(destination, encoded);
 	}
 
 	public void ExportFile()

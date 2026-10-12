@@ -218,6 +218,10 @@ pub unsafe extern "C" fn vi_encode_bgra(
                 let encoder = image::codecs::jpeg::JpegEncoder::new_with_quality(&mut output, quality);
                 rgb.write_with_encoder(encoder).map_err(|_| VI_FAILED)?;
             }
+            2 => {
+                let encoder = image::codecs::bmp::BmpEncoder::new(&mut output);
+                image.write_with_encoder(encoder).map_err(|_| VI_FAILED)?;
+            }
             _ => return Err(VI_UNSUPPORTED),
         }
         Ok(output)
