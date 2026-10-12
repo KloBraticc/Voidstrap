@@ -1491,29 +1491,11 @@ jobs:
           SWIFT
           swift "$RUNNER_TEMP/home-check.swift" "$OUT/shots/15-homepage-overlay.png" | tee "$RUNNER_TEMP/overlay-logs/home-check.txt"
           tail -1 "$RUNNER_TEMP/overlay-logs/home-check.txt" | grep -q true && echo true > "$RUNNER_TEMP/overlay-logs/homepage-overlay.txt" || true
-          grep -h "MacHomepageBackground|HomepageBackground]|OverlayHub::StartMacHomepage"\|OverlayHub::StartMacHomepage" ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -15 || true
+          grep -hE 'MacHomepageBackground|HomepageBackground\]|StartMacHomepage' ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -15 || true
           pkill -x RobloxPlayer || true
           pkill -x Voidstrap || true
           sleep 1
           sudo mv "$player.real" "$player"
-
-      - name: Full in app audit on macOS
-        if: always()
-        timeout-minutes: 25
-        run: |
-          pkill -x Voidstrap || true
-          log_dir="$HOME/Library/Logs/Voidstrap"
-          before=$(ls "$log_dir" 2>/dev/null | wc -l)
-          ( "$APP/Contents/MacOS/Voidstrap" -windowaudit > "$RUNNER_TEMP/overlay-logs/audit-stdout.txt" 2>&1 ) &
-          audit_pid=$!
-          for i in $(seq 1 1200); do kill -0 "$audit_pid" 2>/dev/null || break; sleep 1; done
-          kill "$audit_pid" 2>/dev/null || true
-          audit_log=$(ls -t "$log_dir"/*.log | head -1)
-          grep -h "\[WindowAudit\]" "$audit_log" | sed -E 's#/Users/[^/ ]+#~#g' > "$RUNNER_TEMP/overlay-logs/audit.txt" || true
-          echo "audit lines: $(wc -l < "$RUNNER_TEMP/overlay-logs/audit.txt") failures: $(grep -c FAIL "$RUNNER_TEMP/overlay-logs/audit.txt")"
-          grep FAIL "$RUNNER_TEMP/overlay-logs/audit.txt" | cut -c1-300 | head -120 || true
-          tail -5 "$RUNNER_TEMP/overlay-logs/audit.txt" | cut -c1-300 || true
-          grep -h "Unhandled\|Exception" "$audit_log" | sed -E 's#/Users/[^/ ]+#~#g' | cut -c1-300 | head -30 || true
 
       - name: Check the dock remains above passive overlays
         run: |
@@ -1558,6 +1540,24 @@ jobs:
         if: always()
         run: |
           cat ~/Library/Logs/Voidstrap/*.log 2>/dev/null | grep -E "MacDockPresence|NotificationWindow|ShowJoinNotification|SessionDockTip|RobloxOverlayAnchor|\[SessionDock\]|PreloadSessionDock|Built the|LinuxWindowUpdatePump" | sed -E 's#/Users/[^/ ]+#~#g' | tail -60 || true
+
+      - name: Full in app audit on macOS
+        if: always()
+        timeout-minutes: 25
+        run: |
+          pkill -x Voidstrap || true
+          log_dir="$HOME/Library/Logs/Voidstrap"
+          before=$(ls "$log_dir" 2>/dev/null | wc -l)
+          ( "$APP/Contents/MacOS/Voidstrap" -windowaudit > "$RUNNER_TEMP/overlay-logs/audit-stdout.txt" 2>&1 ) &
+          audit_pid=$!
+          for i in $(seq 1 1200); do kill -0 "$audit_pid" 2>/dev/null || break; sleep 1; done
+          kill "$audit_pid" 2>/dev/null || true
+          audit_log=$(ls -t "$log_dir"/*.log | head -1)
+          grep -h "\[WindowAudit\]" "$audit_log" | sed -E 's#/Users/[^/ ]+#~#g' > "$RUNNER_TEMP/overlay-logs/audit.txt" || true
+          echo "audit lines: $(wc -l < "$RUNNER_TEMP/overlay-logs/audit.txt") failures: $(grep -c FAIL "$RUNNER_TEMP/overlay-logs/audit.txt")"
+          grep FAIL "$RUNNER_TEMP/overlay-logs/audit.txt" | cut -c1-300 | head -120 || true
+          tail -5 "$RUNNER_TEMP/overlay-logs/audit.txt" | cut -c1-300 || true
+          grep -h "Unhandled\|Exception" "$audit_log" | sed -E 's#/Users/[^/ ]+#~#g' | cut -c1-300 | head -30 || true
 
       - name: Record fixed diagnostic results
         if: always()
