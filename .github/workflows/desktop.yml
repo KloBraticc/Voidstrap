@@ -1396,6 +1396,19 @@ jobs:
           flags="$VS/Data/VoidstrapMods/ClientSettings/ClientAppSettings.json"
           mkdir -p "$(dirname "$flags")"
           printf '{"DFIntTaskSchedulerTargetFps":"240"}' > "$flags"
+          gbs="$HOME/Library/Roblox/GlobalBasicSettings_13.xml"
+          echo "global settings file exists: $([ -f "$gbs" ] && echo yes || echo no)"
+          [ -f "$gbs" ] && /usr/bin/python3 - "$gbs" <<'PY'
+          import re, sys
+          path = sys.argv[1]
+          text = open(path, encoding="utf-8").read()
+          if re.search(r'<int name="FramerateCap">-?\d+</int>', text):
+              text = re.sub(r'<int name="FramerateCap">-?\d+</int>', '<int name="FramerateCap">240</int>', text)
+          else:
+              text = text.replace('<Properties>', '<Properties>\n\t\t\t<int name="FramerateCap">240</int>', 1)
+          open(path, "w", encoding="utf-8").write(text)
+          PY
+          grep -o '<int name="FramerateCap">[^<]*</int>' "$gbs" || true
           /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d["MacVirtualDisplayEnabled"] = True; json.dump(d, open(p, "w"))' "$VS/Config/AppSettings.json"
           "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/flags-launch.txt" 2>&1 &
           for i in $(seq 1 90); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
@@ -1413,6 +1426,8 @@ jobs:
           pkill -x RobloxPlayer || true
           for i in $(seq 1 30); do pgrep -x voidstrap-virtualdisplay > /dev/null || break; sleep 0.5; done
           sleep 2
+          echo "frame rate cap after Roblox closed: $(grep -o '<int name="FramerateCap">[^<]*</int>' "$gbs" 2>/dev/null || echo missing)"
+          grep -q '<int name="FramerateCap">240</int>' "$gbs" 2>/dev/null && echo true > "$RUNNER_TEMP/overlay-logs/fps-cap-kept.txt" || true
           echo "displays after Roblox closed"
           "$RUNNER_TEMP/displays"
           "$RUNNER_TEMP/displays" | grep -q "refresh 240" || echo true > "$RUNNER_TEMP/overlay-logs/app-virtual-display-restored.txt"
@@ -1497,6 +1512,7 @@ jobs:
               "fps_flags_applied": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/fps-flags.txt").is_file(),
               "app_virtual_display": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/app-virtual-display.txt").is_file(),
               "app_virtual_display_restored": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/app-virtual-display-restored.txt").is_file(),
+              "fps_cap_kept": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/fps-cap-kept.txt").is_file(),
               "dock_layering": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").is_file() else False,
               "screenshots": len(list((Path(os.environ["OUT"]) / "shots").glob("*.png")))
           }
