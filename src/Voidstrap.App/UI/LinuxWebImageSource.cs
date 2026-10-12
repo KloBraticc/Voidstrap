@@ -26,6 +26,55 @@ internal static class LinuxWebImageSource
 
 	private static readonly ConditionalWeakTable<Border, BrushHostState> BrushHosts = new();
 
+	public static void AttachWindow(Window window)
+	{
+		if (!Voidstrap.Utility.Platform.UsesPortableUi)
+			return;
+		window.ContentRendered -= OnWindowContentRendered;
+		window.ContentRendered += OnWindowContentRendered;
+		window.Closed -= OnWindowClosed;
+		window.Closed += OnWindowClosed;
+	}
+
+	private static void OnWindowContentRendered(object? sender, EventArgs e)
+	{
+		if (sender is not Window window)
+			return;
+		window.ContentRendered -= OnWindowContentRendered;
+		try
+		{
+			InvalidatePresented(window);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException(LogIdent, ex);
+		}
+	}
+
+	private static void OnWindowClosed(object? sender, EventArgs e)
+	{
+		if (sender is not Window window)
+			return;
+		window.ContentRendered -= OnWindowContentRendered;
+		window.Closed -= OnWindowClosed;
+		try
+		{
+			Stack<DependencyObject> pending = new();
+			pending.Push(window);
+			while (pending.TryPop(out DependencyObject? element))
+			{
+				if (element is Border border && BrushHosts.TryGetValue(border, out BrushHostState? state))
+					state.Detach();
+				for (int index = VisualTreeHelper.GetChildrenCount(element) - 1; index >= 0; index--)
+					pending.Push(VisualTreeHelper.GetChild(element, index));
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException(LogIdent, ex);
+		}
+	}
+
 	public static void Install()
 	{
 		if (_installed || !Voidstrap.Utility.Platform.UsesPortableUi)

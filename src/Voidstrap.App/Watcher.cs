@@ -39,6 +39,8 @@ public partial class Watcher : IDisposable
 
 	public static Watcher? Current { get; private set; }
 
+	public int RobloxProcessId => _watcherData?.ProcessId ?? 0;
+
 	public IntegrationWatcher? IntegrationWatcher;
 
 	public HistoryPersister? HistoryPersister;
@@ -440,7 +442,7 @@ public partial class Watcher : IDisposable
 
 	internal static bool OverlaysNeedGameState()
 	{
-		return (App.Settings.Prop.OverlaysEnabled && OverlayWindow.SurfaceRequired)
+		return OverlayWindow.SurfaceRequired
 			|| App.Settings.Prop.Crosshair
 			|| (Voidstrap.Utility.Platform.IsWindows && App.Settings.Prop.ClassicTopBarEnabled)
 			|| Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled
@@ -490,16 +492,16 @@ public partial class Watcher : IDisposable
 
 	private void OnRuntimeGameJoin(object? sender, EventArgs e)
 	{
-		Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition();
+		RunRuntimeAction(Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition, "NoteGameTransition");
 		if (Voidstrap.Utility.Platform.IsMacOS)
 		{
 			_ = NotifyMacGameJoinAsync();
-			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true);
+			RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true), "SyncGameJoin");
 			RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
 			return;
 		}
 		if (Voidstrap.Utility.Platform.IsLinux)
-			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true);
+			RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true), "SyncGameJoin");
 		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameJoin, "FullscreenJoin");
 		RunRuntimeAction(Voidstrap.Integrations.RiShade.RiShadeManager.OnGameJoin, "RiShadeJoin");
 		RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameJoin, "AntiAliasingJoin");
@@ -535,20 +537,20 @@ public partial class Watcher : IDisposable
 
 	private void OnRuntimeGameLeave(object? sender, EventArgs e)
 	{
-		Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition();
+		RunRuntimeAction(Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition, "NoteGameTransition");
 		bool teleporting = ActivityWatcher?.IsTeleporting == true;
 		if (Voidstrap.Utility.Platform.IsMacOS)
 		{
 			if (!teleporting)
 			{
-				Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false);
+				RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false), "SyncGameLeave");
 				RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
-				Voidstrap.UI.LinuxWindowMemory.CompactAfterGame();
+				RunRuntimeAction(Voidstrap.UI.LinuxWindowMemory.CompactAfterGame, "CompactAfterGame");
 			}
 			return;
 		}
 		if (Voidstrap.Utility.Platform.IsLinux && !teleporting)
-			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false);
+			RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false), "SyncGameLeave");
 		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameLeave, "FullscreenLeave");
 		if (!teleporting)
 		{
@@ -556,7 +558,7 @@ public partial class Watcher : IDisposable
 			RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameLeave, "AntiAliasingLeave");
 			RunRuntimeAction(Voidstrap.Integrations.FrameGeneration.FrameGenManager.OnGameLeave, "FrameGenerationLeave");
 			RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
-			Voidstrap.UI.LinuxWindowMemory.CompactAfterGame();
+			RunRuntimeAction(Voidstrap.UI.LinuxWindowMemory.CompactAfterGame, "CompactAfterGame");
 		}
 	}
 
@@ -590,15 +592,8 @@ public partial class Watcher : IDisposable
 		}
 		RunRuntimeAction(CrosshairWindow.Reconcile, "CreateCrosshair");
 		RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.Reconcile, "CreateClassicTopBar");
-		if (App.Settings.Prop.OverlaysEnabled)
-		{
-			ScreenColorEffect.ApplyConfigured();
-		}
-		else
-		{
-			ScreenColorEffect.Reset();
-		}
-		if (App.Settings.Prop.OverlaysEnabled && OverlayWindow.SurfaceRequired)
+		ScreenColorEffect.ApplyConfigured();
+		if (OverlayWindow.SurfaceRequired)
 		{
 			RunRuntimeAction(delegate
 			{
@@ -640,12 +635,6 @@ public partial class Watcher : IDisposable
 			return;
 		}
 
-		if (!App.Settings.Prop.OverlaysEnabled)
-		{
-			ReconcileRuntimeSessionWindows();
-			return;
-		}
-
 		try
 		{
 			_brightnessSettleTimer ??= new Timer(delegate { RunOnApplicationDispatcher(ReconcileRuntimeSessionWindows); }, null, Timeout.Infinite, Timeout.Infinite);
@@ -673,7 +662,7 @@ public partial class Watcher : IDisposable
 		RunRuntimeAction(CrosshairWindow.Reconcile, "RefreshCrosshair");
 		RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.Reconcile, "RefreshClassicTopBar");
 
-		bool required = App.Settings.Prop.OverlaysEnabled && OverlayWindow.SurfaceRequired;
+		bool required = OverlayWindow.SurfaceRequired;
 		if (Application.Current.Resources["OverlayWindow"] is OverlayWindow existing)
 		{
 			if (required && existing.IsLoaded && existing.MatchesCurrentSettings())

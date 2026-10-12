@@ -1446,7 +1446,7 @@ public class Bootstrapper
                     && !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
                 App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", Voidstrap.Integrations.Overlays.OverlaySettings.DescribeLinuxSoberSession(LinuxSoberRuntimeProvider.ForceX11Session));
 
-                LinuxSoberRuntimeProvider.LauncherPrefix = await Voidstrap.Utility.SoberLauncherCommand.ResolveAsync(App.Settings.Prop.SoberLauncher, cancellationToken);
+                LinuxSoberRuntimeProvider.LauncherCommand = await Voidstrap.Utility.SoberLauncherCommand.ResolveAsync(App.Settings.Prop.SoberLauncher, cancellationToken);
                 LinuxRuntimeConfiguration configuration = LinuxRuntimeConfiguration.CreateDefault(Paths.Mods, host.Processes);
                 OperationResult prepared = await configuration.PrepareAsync(
                     installation,
@@ -1762,15 +1762,7 @@ public class Bootstrapper
             processStartInfo.Verb = "runas";
             processStartInfo.UseShellExecute = true;
         }
-        if (App.Settings.Prop.BypassEmulationOverhead)
-        {
-            Voidstrap.Utility.EmulationBypassService.ApplyCompatLayerBypass(executablePath);
-            Voidstrap.Utility.EmulationBypassService.ApplyBypassEnvironment(processStartInfo);
-        }
-        else
-        {
-            Voidstrap.Utility.EmulationBypassService.RestoreCompatLayers();
-        }
+        Voidstrap.Utility.EmulationBypassService.RestoreCompatLayers();
         return processStartInfo;
     }
 
@@ -4374,6 +4366,7 @@ public class Bootstrapper
         if (!ModsAllowedForThisLaunch())
         {
             MacModSync.Apply(resources, new Dictionary<string, string>());
+            LegacyMaterialTextures.RemoveGenerated();
             App.Logger.WriteLine(logIdent, $"Mods are set to {App.Settings.Prop.ModApplyTarget}, so this launch runs unmodded. Mod files are kept on disk.");
             return;
         }
@@ -4397,6 +4390,24 @@ public class Bootstrapper
         catch (Exception ex)
         {
             App.Logger.WriteLine(logIdent, "Mod folders could not be checked: " + ex.Message);
+        }
+
+        if (!IsStudioLaunch)
+        {
+            try
+            {
+                using CancellationTokenSource materialDeadline = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                materialDeadline.CancelAfter(TimeSpan.FromSeconds(45));
+                await LegacyMaterialTextures.ApplyAsync([.. ManagedModStore.EnabledFoldersByPriority(), Paths.Mods], resources, materialDeadline.Token);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(logIdent, "Classic terrain and material textures could not be prepared: " + ex.Message);
+            }
         }
 
         if (!IsStudioLaunch && robloxVersion.Length > 0)
@@ -4440,6 +4451,21 @@ public class Bootstrapper
             string target = Path.Combine(Paths.Mods, canonical);
             try
             {
+                string temporary = Path.Combine(Paths.Mods, Guid.NewGuid().ToString("N"));
+                Directory.Move(directory, temporary);
+                try
+                {
+                    if (!Directory.Exists(target))
+                    {
+                        Directory.Move(temporary, target);
+                        continue;
+                    }
+                }
+                finally
+                {
+                    if (Directory.Exists(temporary))
+                        Directory.Move(temporary, directory);
+                }
                 foreach (string file in Directory.EnumerateFiles(directory, "*", SearchOption.AllDirectories))
                 {
                     string destination = Path.Combine(target, Path.GetRelativePath(directory, file));

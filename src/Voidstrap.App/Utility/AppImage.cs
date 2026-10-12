@@ -16,9 +16,9 @@ namespace Voidstrap.Utility
 
         private const long MaxCachedBytes = 4L * 1024 * 1024;
 
-        private static readonly ConcurrentDictionary<string, Lazy<Task<byte[]?>>> Downloads = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly ConcurrentDictionary<string, Lazy<Task<byte[]?>>> Downloads = new(StringComparer.Ordinal);
 
-        private static readonly ConcurrentDictionary<string, byte[]> ByteCache = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly ConcurrentDictionary<string, byte[]> ByteCache = new(StringComparer.Ordinal);
 
         private static readonly ConcurrentQueue<string> ByteCacheOrder = new();
 
@@ -204,7 +204,7 @@ namespace Voidstrap.Utility
 
         private static Task<BitmapSource?> DecodeAsync(byte[] bytes, int decodeWidth, CancellationToken ct)
         {
-            if (!Platform.IsLinux)
+            if (!Platform.UsesPortableUi)
             {
                 return Task.Run(delegate
                 {
@@ -307,7 +307,7 @@ namespace Voidstrap.Utility
             bool entered = false;
             try
             {
-                if (Platform.IsLinux)
+                if (Platform.UsesPortableUi)
                 {
                     await LinuxDownloadGate.WaitAsync().ConfigureAwait(false);
                     entered = true;
@@ -360,7 +360,7 @@ namespace Voidstrap.Utility
 
         private static string DiskCachePath(string url)
         {
-            return Path.Combine(DiskCacheDirectory, Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(url.ToLowerInvariant()))) + ".img");
+            return Path.Combine(DiskCacheDirectory, Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes("2|" + url))) + ".img");
         }
 
         private static async Task<byte[]?> ReadDiskCacheAsync(string url, CancellationToken ct)

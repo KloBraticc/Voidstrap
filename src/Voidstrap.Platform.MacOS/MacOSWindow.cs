@@ -6,6 +6,7 @@ public static partial class MacOSWindow
 {
 	private const string ObjectiveC = "/usr/lib/libobjc.A.dylib";
 	private const nuint MiniaturizableMask = 1 << 2;
+	private const nuint LeftMouseDownEvent = 1;
 
 	[StructLayout(LayoutKind.Sequential)]
 	public struct Rect
@@ -95,11 +96,56 @@ public static partial class MacOSWindow
 		}
 	}
 
+	public static bool IsScreenSized(Rect bounds)
+	{
+		if (!OperatingSystem.IsMacOS())
+			return false;
+		nint pool = objc_autoreleasePoolPush();
+		try
+		{
+			nint screens = Send(objc_getClass("NSScreen"), sel_registerName("screens"));
+			nuint count = SendMask(screens, sel_registerName("count"));
+			double primaryHeight = PrimaryScreenHeight();
+			for (nuint index = 0; index < count; index++)
+			{
+				Rect screen = ReadRect(SendIndex(screens, sel_registerName("objectAtIndex:"), index), sel_registerName("frame"));
+				screen.Y = primaryHeight - screen.Y - screen.Height;
+				if (bounds.Matches(screen))
+					return true;
+			}
+			return false;
+		}
+		finally
+		{
+			objc_autoreleasePoolPop(pool);
+		}
+	}
+
 	public static void SetFrame(nint window, Rect frame, bool animate)
 	{
 		if (window == 0 || frame.Width <= 0 || frame.Height <= 0)
 			return;
 		SetFrameNative(window, sel_registerName("setFrame:display:animate:"), frame, true, animate);
+	}
+
+	public static bool PerformDrag(nint window)
+	{
+		if (!OperatingSystem.IsMacOS() || window == 0)
+			return false;
+		nint pool = objc_autoreleasePoolPush();
+		try
+		{
+			nint application = Send(objc_getClass("NSApplication"), sel_registerName("sharedApplication"));
+			nint current = application == 0 ? 0 : Send(application, sel_registerName("currentEvent"));
+			if (current == 0 || SendMask(current, sel_registerName("type")) != LeftMouseDownEvent)
+				return false;
+			SendObject(window, sel_registerName("performWindowDragWithEvent:"), current);
+			return true;
+		}
+		finally
+		{
+			objc_autoreleasePoolPop(pool);
+		}
 	}
 
 	public static (double X, double Y) MouseLocation()

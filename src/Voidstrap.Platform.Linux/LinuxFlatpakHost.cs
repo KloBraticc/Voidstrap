@@ -49,6 +49,14 @@ public static class LinuxFlatpakHost
 		ArgumentException.ThrowIfNullOrWhiteSpace(fileName);
 		ArgumentNullException.ThrowIfNull(arguments);
 
+		if (Path.GetFileName(fileName) is "sh" or "bash"
+			&& arguments.Count >= 2 && arguments[0] == "-c" && arguments[1].Contains("\r\n", StringComparison.Ordinal))
+		{
+			string[] normalized = arguments.ToArray();
+			normalized[1] = normalized[1].Replace("\r\n", "\n", StringComparison.Ordinal);
+			arguments = normalized;
+		}
+
 		if (IsSandboxed)
 		{
 			string? spawn = processes.FindExecutable("flatpak-spawn");
@@ -176,7 +184,7 @@ public static class LinuxFlatpakHost
 		OperationResult<ProcessExecution> result;
 		try
 		{
-			result = await processes.ExecuteAsync(new ProcessCommand(spawn, ["--host", "--directory=/", "sh", "-c", probe, "voidstrap", instance]), timeout.Token).ConfigureAwait(false);
+			result = await processes.ExecuteAsync(new ProcessCommand(spawn, ["--host", "--directory=/", "sh", "-c", probe.Replace("\r\n", "\n", StringComparison.Ordinal), "voidstrap", instance]), timeout.Token).ConfigureAwait(false);
 		}
 		catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
 		{

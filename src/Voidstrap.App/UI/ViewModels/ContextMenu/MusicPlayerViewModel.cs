@@ -95,6 +95,46 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
     private int _positionSaveTicks;
     private int _loadGeneration;
     private bool _disposed;
+    private int _visibleViews;
+    private static MusicPlayerViewModel? _shared;
+
+    // One player for the whole app: closing the music panel or the dock keeps the music going,
+    // and the tray menu and the dock always show the same player instead of starting a second one
+    public static MusicPlayerViewModel Shared
+    {
+        get
+        {
+            if (_shared == null || _shared._disposed)
+            {
+                MusicPlayerViewModel created = new();
+                _shared = created;
+                if (Application.Current is { } app)
+                    app.Exit += (_, _) => created.Dispose();
+            }
+            return _shared;
+        }
+    }
+
+    // The progress bar only needs updating while a player window is on screen; with none showing the
+    // timer stops and the next track is still started by the engine's own end of track signal
+    public void SetViewVisible(bool visible)
+    {
+        if (_disposed)
+            return;
+        _visibleViews = Math.Max(0, _visibleViews + (visible ? 1 : -1));
+        if (_visibleViews > 0)
+        {
+            if (!_timer.IsEnabled)
+            {
+                _timer.Start();
+                Timer_Tick(null, EventArgs.Empty);
+            }
+            return;
+        }
+        _timer.Stop();
+        // Remembers where the song is so it picks up there after a restart
+        ScheduleSave();
+    }
 
     public MusicPlayerViewModel()
     {
@@ -130,7 +170,6 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         Tracks.CollectionChanged += Tracks_CollectionChanged;
         _playback.Volume = _isMuted ? 0.0 : _volume;
         UpdateNowPlayingBindings();
-        _timer.Start();
         _ = LoadLibraryAsync();
     }
 

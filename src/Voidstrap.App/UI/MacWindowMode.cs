@@ -151,11 +151,25 @@ internal static class MacWindowMode
 		}
 	}
 
+	private static int _dragPathLogged;
+
+	private static void LogDragPath(string message)
+	{
+		if (System.Threading.Interlocked.Exchange(ref _dragPathLogged, 1) == 0)
+			App.Logger?.WriteLine("MacWindowMode", message);
+	}
+
 	internal static bool BeginDrag(Window window, UIElement target)
 	{
 		nint native = ResolveNativeWindow(window);
 		if (native == 0)
 			return false;
+		if (!IsMaximized(window) && MacOSWindow.PerformDrag(native))
+		{
+			LogDragPath("Windows are dragged natively by macOS");
+			return true;
+		}
+		LogDragPath("Windows are dragged by Voidstrap because macOS had no mouse down event");
 		_ = new DragSession(window, target, MacOSWindow.GetFrame(native));
 		return true;
 	}

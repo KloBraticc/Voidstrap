@@ -1013,6 +1013,7 @@ public partial class App : Application
 		LinuxUiPerformance.Duration("Language", languageStarted);
 		if (!LaunchSettings.BypassUpdateCheck)
 		{
+			long upgradeStarted = Stopwatch.GetTimestamp();
 			try
 			{
 				if (portableLayout)
@@ -1024,10 +1025,12 @@ public partial class App : Application
 			{
 				Logger.WriteException("App::OnStartup::Upgrade", ex);
 			}
+			LinuxUiPerformance.Duration("Installed copy upgrade", upgradeStarted);
 		}
 		TryStartup("API registration", WindowsRegistry.RegisterApis);
 		TryStartup("Theme protocol cleanup", () => WindowsRegistry.Unregister("voidstrap"));
 		_macOSStartupReady.TrySetResult(true);
+		LinuxUiPerformance.Mark("Launch dispatch");
 		LaunchHandler.ProcessLaunchArgs();
 	}
 

@@ -9,7 +9,9 @@ public static partial class MacOSOverlayWindow
 	private const string ObjectiveC = "/usr/lib/libobjc.A.dylib";
 	private const string CoreFoundation = "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation";
 	private const string CoreGraphics = "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics";
-	private const nint StatusWindowLevel = 25;
+	public const int StatusWindowLevel = 25;
+	public const int DimmerWindowLevel = 26;
+	public const int InteractiveWindowLevel = 27;
 	private const nuint CanJoinAllSpaces = 1 << 0;
 	private const nuint Stationary = 1 << 4;
 	private const nuint IgnoresCycle = 1 << 6;
@@ -24,7 +26,7 @@ public static partial class MacOSOverlayWindow
 	private static nint _boundsKey;
 	private static nint _numberKey;
 
-	public static void Configure(nint window, bool clickThrough)
+	public static void Configure(nint window, bool clickThrough, int level = StatusWindowLevel)
 	{
 		if (!OperatingSystem.IsMacOS() || window == 0)
 			return;
@@ -32,7 +34,7 @@ public static partial class MacOSOverlayWindow
 		try
 		{
 			EnsureAppKit();
-			SendLong(window, sel_registerName("setLevel:"), StatusWindowLevel);
+			SendLong(window, sel_registerName("setLevel:"), level);
 			SendULong(window, sel_registerName("setCollectionBehavior:"), CanJoinAllSpaces | Stationary | IgnoresCycle | FullScreenAuxiliary);
 			SendBool(window, sel_registerName("setIgnoresMouseEvents:"), clickThrough);
 			SendBool(window, sel_registerName("setOpaque:"), false);
@@ -47,6 +49,30 @@ public static partial class MacOSOverlayWindow
 			objc_autoreleasePoolPop(pool);
 		}
 	}
+
+	public static bool IsWindow(nint window)
+	{
+		if (!OperatingSystem.IsMacOS() || window == 0)
+			return false;
+		nint pool = objc_autoreleasePoolPush();
+		try
+		{
+			EnsureAppKit();
+			nint app = Send(objc_getClass("NSApplication"), sel_registerName("sharedApplication"));
+			nint windows = Send(app, sel_registerName("windows"));
+			nint count = Send(windows, sel_registerName("count"));
+			for (nuint index = 0; index < (nuint)count; index++)
+				if (SendIndex(windows, sel_registerName("objectAtIndex:"), index) == window)
+					return true;
+			return false;
+		}
+		finally
+		{
+			objc_autoreleasePoolPop(pool);
+		}
+	}
+
+	public static bool IsVisible(nint window) => IsWindow(window) && SendReturnsBool(window, sel_registerName("isVisible"));
 
 	public static void SetClickThrough(nint window, bool clickThrough)
 	{
@@ -65,6 +91,30 @@ public static partial class MacOSOverlayWindow
 		if (OperatingSystem.IsMacOS() && window != 0)
 			SendObject(window, sel_registerName("orderOut:"), 0);
 	}
+
+	public static void Focus(nint window)
+	{
+		if (!OperatingSystem.IsMacOS() || window == 0)
+			return;
+		ActivateProcess(Environment.ProcessId);
+		SendObject(window, sel_registerName("makeKeyAndOrderFront:"), 0);
+	}
+
+	public static bool IsKeyWindow(nint window) => OperatingSystem.IsMacOS() && window != 0
+		&& SendReturnsBool(window, sel_registerName("isKeyWindow"));
+
+	public static void SetOpacity(nint window, double opacity)
+	{
+		if (OperatingSystem.IsMacOS() && window != 0)
+			SendDouble(window, sel_registerName("setAlphaValue:"), Math.Clamp(opacity, 0, 1));
+	}
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
+	[return: MarshalAs(UnmanagedType.I1)]
+	private static partial bool SendReturnsBool(nint receiver, nint selector);
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
+	private static partial void SendDouble(nint receiver, nint selector, double value);
 
 	public static void MoveTo(nint window, double left, double top, double width, double height)
 	{
@@ -223,6 +273,9 @@ public static partial class MacOSOverlayWindow
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nint SendInt(nint receiver, nint selector, int argument);
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
+	private static partial nint SendIndex(nint receiver, nint selector, nuint argument);
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial int SendReturnsInt(nint receiver, nint selector);

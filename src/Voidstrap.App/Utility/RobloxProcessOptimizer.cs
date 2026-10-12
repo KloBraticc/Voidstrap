@@ -151,7 +151,6 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 		}
 		return settings.OptimizeRoblox
 			|| settings.TasxOptimization
-			|| settings.BypassEmulationOverhead
 			|| settings.RobloxEfficiencyMode
 			|| settings.RobloxMemoryLimitEnabled
 			|| settings.MultiAccount
@@ -170,10 +169,6 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 		if (settings.RobloxMemoryLimitEnabled)
 		{
 			RobloxMemoryLimit.Apply(process, settings.RobloxMemoryLimitMb);
-		}
-		if (settings.BypassEmulationOverhead)
-		{
-			EmulationBypassService.ApplyProcessBypass(process);
 		}
 		TryApplyPriority(process, ResolvePriority(settings));
 	}

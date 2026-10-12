@@ -57,6 +57,8 @@ public class LaunchSettings
 
 	public LaunchFlag MatchmakerTargetFlag { get; } = new LaunchFlag("matchmakertarget");
 
+	public LaunchFlag MatchmakerManualFlag { get; } = new LaunchFlag("matchmakermanual");
+
 	public LaunchFlag TelemetryBlockFlag { get; } = new LaunchFlag("telemetryblock");
 
 	public LaunchFlag OrcRedirectFlag { get; } = new LaunchFlag("orcredirect");

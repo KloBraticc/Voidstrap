@@ -764,6 +764,12 @@ public static class ModGenerator
 			if (sober is { } tree)
 				return (tree.ClientDirectory, tree.VersionGuid);
 		}
+		if (Voidstrap.Utility.Platform.IsMacOS)
+		{
+			string? bundle = Voidstrap.Utility.MacRobloxBundle.Find();
+			if (bundle != null)
+				return (Path.Combine(bundle, "Contents", "Resources"), Voidstrap.Utility.MacRobloxBundle.ReadVersion(bundle) ?? string.Empty);
+		}
 		RobloxInstallCompression.EnsureExtracted(data);
 		string folder = data.Directory;
 		string guid = data.State.VersionGuid;

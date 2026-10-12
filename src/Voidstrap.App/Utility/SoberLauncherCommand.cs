@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,25 +14,47 @@ internal static class SoberLauncherCommand
 {
 	private const string LogIdent = "SoberLauncherCommand";
 
-	public static async Task<IReadOnlyList<string>> ResolveAsync(string? text, CancellationToken token)
+	public static async Task<LinuxSoberLauncher> ResolveAsync(string? text, CancellationToken token)
 	{
 		List<string> words = Split(text);
 		words.RemoveAll(static word => string.Equals(word, "%command%", StringComparison.Ordinal));
-		if (words.Count == 0)
-			return [];
-
-		if (IsAssignment(words[0]))
-			words.Insert(0, "env");
-
-		string program = words[0];
-		if (!await ExistsOnHostAsync(program, token).ConfigureAwait(false))
+		LinuxSoberLauncher launcher = LinuxSoberLauncher.Create(words);
+		Voidstrap.Core.SystemProcessService processes = new();
+		if (launcher.MangoHud)
 		{
-			App.Logger.WriteLine(LogIdent, "The Sober launcher '" + program + "' was not found, starting Sober without it");
-			return [];
+			App.Logger.WriteLine(LogIdent, "Preparing MangoHud for Sober's Flatpak runtime");
+			OperationResult installed = await LinuxEffectLayers.InstallAsync(processes, LinuxEffectLayers.MangoHudLayerId, token).ConfigureAwait(false);
+			if (!installed.Succeeded)
+				throw new InvalidOperationException("MangoHud could not be prepared for Sober. " + installed.Failure?.Message);
+			List<string> arguments = [.. launcher.FlatpakArguments, "--filesystem=xdg-config/MangoHud:ro"];
+			if (!arguments.Any(static argument => argument.StartsWith("--env=MANGOHUD_CONFIGFILE=", StringComparison.Ordinal)))
+			{
+				if (LinuxFlatpakHost.TryCreateHostCommand(processes, "sh", ["-c", "file=\"${XDG_CONFIG_HOME:-$HOME/.config}/MangoHud/MangoHud.conf\"; if [ -f \"$file\" ]; then printf '%s' \"$file\"; fi"], out ProcessCommand configCommand))
+				{
+					OperationResult<ProcessExecution> config = await processes.ExecuteAsync(configCommand, token).ConfigureAwait(false);
+					if (config.Succeeded && config.Value is { ExitCode: 0 } result && !string.IsNullOrWhiteSpace(result.StandardOutput))
+						arguments.Add("--env=MANGOHUD_CONFIGFILE=" + result.StandardOutput);
+				}
+			}
+			foreach (string argument in arguments.ToArray())
+			{
+				if (argument.StartsWith("--env=MANGOHUD_CONFIGFILE=/", StringComparison.Ordinal)
+					|| argument.StartsWith("--env=MANGOHUD_PRESETSFILE=/", StringComparison.Ordinal))
+				{
+					string path = argument[(argument.IndexOf('=') + 1)..];
+					path = path[(path.IndexOf('=') + 1)..];
+					arguments.Add("--filesystem=" + Path.GetDirectoryName(path) + ":ro");
+				}
+			}
+			launcher = launcher with { FlatpakArguments = arguments };
 		}
-
-		App.Logger.WriteLine(LogIdent, "Starting Sober through: " + string.Join(' ', words));
-		return words;
+		if (launcher.HostPrefix.Count > 0 && !await ExistsOnHostAsync(launcher.HostPrefix[0], token).ConfigureAwait(false))
+		{
+			App.Logger.WriteLine(LogIdent, "The Sober launcher '" + launcher.HostPrefix[0] + "' was not found, starting Sober without that command");
+			launcher = launcher with { HostPrefix = [] };
+		}
+		token.ThrowIfCancellationRequested();
+		return launcher;
 	}
 
 	internal static List<string> Split(string? text)
@@ -86,15 +109,11 @@ internal static class SoberLauncherCommand
 			started = true;
 		}
 
+		if (quote != '\0')
+			throw new FormatException("The Sober launcher contains an unclosed quote.");
 		if (started)
 			words.Add(word.ToString());
 		return words;
-	}
-
-	private static bool IsAssignment(string word)
-	{
-		int equals = word.IndexOf('=');
-		return equals > 0 && word[..equals].All(static character => char.IsAsciiLetterOrDigit(character) || character == '_') && !char.IsAsciiDigit(word[0]);
 	}
 
 	private static async Task<bool> ExistsOnHostAsync(string program, CancellationToken token)

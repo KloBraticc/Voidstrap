@@ -43,6 +43,28 @@ public static partial class MacOSApplication
 		}
 	}
 
+	public static bool IsActive()
+	{
+		if (!OperatingSystem.IsMacOS())
+			return false;
+		nint pool = objc_autoreleasePoolPush();
+		try
+		{
+			if (_appKit == 0)
+				_appKit = NativeLibrary.Load("/System/Library/Frameworks/AppKit.framework/AppKit");
+			nint application = Send(objc_getClass("NSApplication"), sel_registerName("sharedApplication"));
+			return application != 0 && SendReturnsBool(application, sel_registerName("isActive"));
+		}
+		catch
+		{
+			return false;
+		}
+		finally
+		{
+			objc_autoreleasePoolPop(pool);
+		}
+	}
+
 	public static bool Activate()
 	{
 		if (!OperatingSystem.IsMacOS())

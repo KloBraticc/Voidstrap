@@ -61,7 +61,7 @@ internal static class WindowAudit
 		}
 		Window? renderKeeper = null;
 #if CROSSPLAT
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.IsLinux || Voidstrap.Utility.Platform.IsMacOS)
 		{
 			try
 			{
@@ -172,6 +172,9 @@ internal static class WindowAudit
 		AuditIcons();
 		AuditImaging();
 		AuditCrosshairExports();
+		AuditModsFeatures();
+		AuditImageTools();
+		AuditLicensesPage();
 		AuditLinuxAccountStorage();
 		AuditLibraryLoading();
 		AuditTextFlowScenarios();
@@ -400,7 +403,7 @@ internal static class WindowAudit
 						&& imageSurface.ActualWidth >= 39
 						&& imageSurface.ActualHeight >= 39
 						&& ReferenceEquals(imageSurface.Source, decoded);
-				}, 3500);
+				}, Voidstrap.Utility.Platform.IsLinux ? 3500 : QueuedNotificationWait());
 			}
 
 			bool passed = prepared && decodedPrepared && (!nativeCaptureAvailable || nativePixels);
@@ -419,6 +422,12 @@ internal static class WindowAudit
 		{
 			Pump(600);
 		}
+	}
+
+	private static int QueuedNotificationWait()
+	{
+		Voidstrap.Models.Persistable.NotificationAppearance appearance = Voidstrap.UI.NotificationStyle.Current;
+		return (int)(appearance.SafeSecondsOnScreen * 1000) + appearance.SafeIntroMilliseconds + appearance.SafeOutroMilliseconds + 3500;
 	}
 
 	private static BitmapSource? DecodeAppResource(string resourcePath, int decodeWidth)
@@ -1059,6 +1068,37 @@ internal static class WindowAudit
 		return bar.Template?.FindName("GlowRect", bar) is FrameworkElement glow && glow.RenderTransform is TranslateTransform transform
 			? transform.X
 			: double.NaN;
+	}
+
+	private static void AuditSettingsStartup()
+	{
+		Voidstrap.UI.Elements.Settings.MainWindow window = new(false);
+		bool rendered = false;
+		void OnContentRendered(object? sender, EventArgs args) => rendered = true;
+		window.ContentRendered += OnContentRendered;
+		try
+		{
+			window.Show();
+			System.Diagnostics.Stopwatch elapsed = System.Diagnostics.Stopwatch.StartNew();
+			FieldInfo entriesField = window.GetType().GetField("_topSearchEntriesList", BindingFlags.Instance | BindingFlags.NonPublic)!;
+			int entries = 0;
+			while (elapsed.ElapsedMilliseconds < 15000)
+			{
+				Pump(50);
+				entries = (entriesField.GetValue(window) as System.Collections.ICollection)?.Count ?? 0;
+				if (rendered && entries > 0)
+					break;
+			}
+			Emit(rendered && entries > 0
+				? $"settings startup audit: PASS, rendered content and {entries} searchable options"
+				: $"settings startup audit: FAIL, rendered {rendered}, searchable options {entries}");
+		}
+		finally
+		{
+			window.ContentRendered -= OnContentRendered;
+			window.Close();
+			Pump(80);
+		}
 	}
 
 	private static void AuditLibraryLoading()
@@ -7088,6 +7128,229 @@ internal static class WindowAudit
 			System.Threading.Thread.Sleep(4);
 		}
 		return false;
+	}
+
+	private static void AuditModsFeatures()
+	{
+		string scratch = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "voidstrap-mods-audit-" + Guid.NewGuid().ToString("N"));
+		System.IO.Directory.CreateDirectory(scratch);
+		try
+		{
+			string image = System.IO.Path.Combine(scratch, "cursor.png");
+			using (SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32> picture = new(64, 64, new SixLabors.ImageSharp.PixelFormats.Rgba32(255, 64, 32, 255)))
+				SixLabors.ImageSharp.ImageExtensions.SaveAsPng(picture, image);
+			AuditModStep("mods cursor image", () =>
+			{
+				CursorManager.SetImage(CursorSlot.ShiftLock, image);
+				bool written = System.IO.File.Exists(CursorManager.PreviewPath(CursorSlot.ShiftLock));
+				CursorManager.ClearImage(CursorSlot.ShiftLock);
+				return written ? "shift lock image written and cleared" : null;
+			});
+			AuditModStep("mods cursor sets", () =>
+			{
+				string name = CursorManager.CreateSet("Audit set " + Guid.NewGuid().ToString("N")[..6]);
+				CursorManager.SetSetImage(name, CursorSlot.Arrow, image);
+				string zip = System.IO.Path.Combine(scratch, "set.zip");
+				CursorManager.ExportSet(name, zip);
+				string renamed = CursorManager.RenameSet(name, name + " renamed");
+				string imported = CursorManager.ImportSet(zip);
+				bool listed = CursorManager.ListSets().Contains(renamed) && CursorManager.ListSets().Contains(imported);
+				CursorManager.DeleteSet(renamed);
+				CursorManager.DeleteSet(imported);
+				return listed && System.IO.File.Exists(zip) ? "created, exported, renamed, imported and deleted" : null;
+			});
+			AuditModStep("mods sound presets", () =>
+			{
+				Voidstrap.Models.SettingTasks.ModPresetTask death = new("AuditOldDeathSound", @"content\sounds\oof.ogg", "Sounds.OldDeath.ogg");
+				string target = System.IO.Path.Combine(Paths.Mods, "content", "sounds", "oof.ogg");
+				bool existed = System.IO.File.Exists(target);
+				if (existed)
+					return "skipped, a death sound is already installed";
+				death.NewState = true;
+				death.Execute();
+				bool written = System.IO.File.Exists(target) && new System.IO.FileInfo(target).Length > 0;
+				death.NewState = false;
+				death.Execute();
+				return written && !System.IO.File.Exists(target) ? "old death sound applied and removed at content/sounds/oof.ogg" : null;
+			});
+			AuditModStep("mods skybox", () =>
+			{
+				if (SkyboxImageConverter.HasCustomPack())
+					return "skipped, a custom skybox is already installed";
+				Dictionary<string, string> faces = new(StringComparer.OrdinalIgnoreCase);
+				foreach (string face in new[] { "sky512_bk.tex", "sky512_dn.tex", "sky512_ft.tex", "sky512_lf.tex", "sky512_rt.tex", "sky512_up.tex" })
+					faces[face] = image;
+				SkyboxImageConverter.ImportAsync(faces, CancellationToken.None).GetAwaiter().GetResult();
+				bool installed = SkyboxImageConverter.HasCustomPack();
+				SkyboxImageConverter.Remove();
+				return installed && !SkyboxImageConverter.HasCustomPack() ? "six faces imported and removed" : null;
+			});
+			AuditModStep("mods font", () =>
+			{
+				string? bundle = Voidstrap.Utility.Platform.IsMacOS ? MacRobloxBundle.Find() : null;
+				string families = bundle == null ? "" : System.IO.Path.Combine(bundle, "Contents", "Resources", "content", "fonts", "families");
+				string font = "/System/Library/Fonts/Supplemental/Arial.ttf";
+				if (bundle == null || !System.IO.Directory.Exists(families) || !System.IO.File.Exists(font) || System.IO.File.Exists(Paths.CustomFont))
+					return "skipped, no macOS Roblox font families or system font";
+				System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(Paths.CustomFont)!);
+				System.IO.File.Copy(font, Paths.CustomFont);
+				CustomFontMod.Apply(families, "WindowAudit");
+				int generated = CustomFontMod.FindGeneratedFamilyNames(System.IO.Path.Combine(Paths.Mods, "content", "fonts", "families")).Count;
+				System.IO.File.Delete(Paths.CustomFont);
+				CustomFontMod.Apply(families, "WindowAudit");
+				return generated > 0 ? generated + " font families redirected and removed" : null;
+			});
+			AuditModStep("mods generator", () =>
+			{
+				ModGeneratorSettings settings = new() { ModName = "Audit theme" };
+				ModGeneratorPreview? preview = ModGenerator.RenderPreview(settings);
+				if (preview == null)
+					return null;
+				string summary = ModGenerator.GenerateAsync(settings, null, CancellationToken.None).GetAwaiter().GetResult();
+				string? id = ModGenerator.FindModId();
+				string folder = id == null ? "" : ManagedModStore.GetFolder(id);
+				int files = System.IO.Directory.Exists(folder) ? System.IO.Directory.EnumerateFiles(folder, "*", System.IO.SearchOption.AllDirectories).Count() : 0;
+				if (id != null)
+					ManagedModStore.Delete(id);
+				return files > 0 ? "preview " + preview.After.PixelWidth + "x" + preview.After.PixelHeight + ", " + files + " files, " + summary : null;
+			});
+		}
+		finally
+		{
+			try
+			{
+				System.IO.Directory.Delete(scratch, true);
+			}
+			catch (System.IO.IOException)
+			{
+			}
+		}
+	}
+
+	private static void AuditImageTools()
+	{
+		string scratch = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "voidstrap-image-tools-" + Guid.NewGuid().ToString("N"));
+		System.IO.Directory.CreateDirectory(scratch);
+		string source = System.IO.Path.Combine(scratch, "tool.png");
+		using (SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32> picture = new(40, 20, new SixLabors.ImageSharp.PixelFormats.Rgba32(255, 255, 255, 255)))
+			SixLabors.ImageSharp.ImageExtensions.SaveAsPng(picture, source);
+		try
+		{
+			AuditModStep("image adjust tool", () =>
+			{
+				UI.Elements.ContextMenu.ImageAdjustWindow window = new(source, "content/textures/voidstrap-audit.png");
+				try
+				{
+					window.Show();
+					Pump(30);
+					typeof(UI.Elements.ContextMenu.ImageAdjustWindow).GetMethod("Rotate_Click", BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(window, [null, null]);
+					Pump(30);
+					System.Windows.Media.Imaging.BitmapSource? preview = (window.FindName("PreviewImage") as System.Windows.Controls.Image)?.Source as System.Windows.Media.Imaging.BitmapSource;
+					return preview is { PixelWidth: 20, PixelHeight: 40 } ? "rotated preview 20x40" : null;
+				}
+				finally
+				{
+					window.Close();
+				}
+			});
+			AuditModStep("image recolor tool", () =>
+			{
+				UI.Elements.ContextMenu.ImageRecolorWindow window = new(source, "content/textures/voidstrap-audit.png");
+				try
+				{
+					window.Show();
+					Pump(30);
+					if (window.FindName("IntensitySlider") is System.Windows.Controls.Slider slider)
+						slider.Value = slider.Maximum;
+					if (window.FindName("HexInput") is System.Windows.Controls.TextBox hex)
+						hex.Text = "#00FF00";
+					typeof(UI.Elements.ContextMenu.ImageRecolorWindow).GetMethod("ApplyRecolor", BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(window, null);
+					Pump(30);
+					System.Windows.Media.Imaging.BitmapSource? preview = (window.FindName("PreviewImage") as System.Windows.Controls.Image)?.Source as System.Windows.Media.Imaging.BitmapSource;
+					if (preview == null || preview.Format.BitsPerPixel != 32)
+						return null;
+					byte[] pixels = new byte[preview.PixelWidth * preview.PixelHeight * 4];
+					preview.CopyPixels(pixels, preview.PixelWidth * 4, 0);
+					return pixels[1] > 200 && pixels[0] < 60 && pixels[2] < 60 ? "recolored preview to green" : null;
+				}
+				finally
+				{
+					window.Close();
+				}
+			});
+		}
+		finally
+		{
+			try
+			{
+				System.IO.Directory.Delete(scratch, true);
+			}
+			catch (System.IO.IOException)
+			{
+			}
+		}
+	}
+
+	private static void AuditLicensesPage()
+	{
+		Window? host = null;
+		try
+		{
+			UI.Elements.About.Pages.LicensesPage page = new();
+			host = new Window { Width = 900, Height = 700, Content = page, ShowInTaskbar = false, ShowActivated = false, Title = "Voidstrap licenses audit" };
+			host.Show();
+			System.Windows.Controls.ItemsControl? rows = page.FindName("NoticeRows") as System.Windows.Controls.ItemsControl;
+			bool loaded = PumpUntil(() => rows?.ItemsSource is System.Collections.ICollection { Count: > 0 }, 15000);
+			if (!loaded || rows?.ItemsSource is not IEnumerable<UI.Elements.About.Pages.LicensesPage.Notice> notices)
+			{
+				Emit("licenses page audit: FAIL, the notices did not load");
+				return;
+			}
+			List<UI.Elements.About.Pages.LicensesPage.Notice> list = notices.ToList();
+			UI.Elements.About.Pages.LicensesPage.Notice largest = list.OrderByDescending(notice => notice.Lines.Length).First();
+			System.Reflection.MethodInfo open = typeof(UI.Elements.About.Pages.LicensesPage).GetMethod("OnNoticeClick", BindingFlags.NonPublic | BindingFlags.Instance)!;
+			System.Reflection.MethodInfo back = typeof(UI.Elements.About.Pages.LicensesPage).GetMethod("OnBackClick", BindingFlags.NonPublic | BindingFlags.Instance)!;
+			System.Diagnostics.Stopwatch timer = System.Diagnostics.Stopwatch.StartNew();
+			open.Invoke(page, [new FrameworkElement { Tag = largest }, new RoutedEventArgs()]);
+			Pump(300);
+			long openMilliseconds = timer.ElapsedMilliseconds;
+			System.Windows.Controls.ListBox? lines = page.FindName("DetailLines") as System.Windows.Controls.ListBox;
+			bool shown = lines?.Items.Count == largest.Lines.Length && (page.FindName("DetailView") as UIElement)?.Visibility == Visibility.Visible;
+			back.Invoke(page, [null, new RoutedEventArgs()]);
+			Pump(120);
+			bool returned = (page.FindName("ListView") as UIElement)?.Visibility == Visibility.Visible;
+			foreach (UI.Elements.About.Pages.LicensesPage.Notice notice in list.Where(notice => notice.Lines.Length == 0).Take(1))
+			{
+				open.Invoke(page, [new FrameworkElement { Tag = notice }, new RoutedEventArgs()]);
+				Pump(60);
+				back.Invoke(page, [null, new RoutedEventArgs()]);
+			}
+			Emit(shown && returned
+				? $"licenses page audit: PASS, {list.Count} rows, opened {largest.Lines.Length} lines in {openMilliseconds} ms and went back"
+				: $"licenses page audit: FAIL, rows {list.Count}, shown {shown}, returned {returned}");
+		}
+		catch (Exception ex)
+		{
+			Emit("licenses page audit: FAIL, " + ex.GetBaseException().GetType().Name + ": " + ex.GetBaseException().Message.Split('\n')[0]);
+		}
+		finally
+		{
+			host?.Close();
+			Pump(80);
+		}
+	}
+
+	private static void AuditModStep(string name, Func<string?> step)
+	{
+		try
+		{
+			string? detail = step();
+			Emit(detail == null ? name + " audit: FAIL, the expected files were not produced" : name + " audit: PASS, " + detail);
+		}
+		catch (Exception ex)
+		{
+			Emit(name + " audit: FAIL, " + ex.GetType().Name + ": " + ex.Message.Split('\n')[0]);
+		}
 	}
 
 	private static void Emit(string line)

@@ -22,6 +22,11 @@ public sealed class MatchmakerCandidate
 
 	public double Score { get; init; }
 
+	public double Fps { get; init; }
+
+	// Tokens for the players' headshots, as the server list gives them
+	public string[] PlayerTokens { get; init; } = [];
+
 	public string? BlockedClosestCity { get; init; }
 
 	public double BlockedClosestDistanceKm { get; init; }

@@ -320,11 +320,8 @@ public partial class IntegrationsPage
         PresenceSnapshot snapshot = new PresenceSnapshot
         {
             Active = true,
-            Details = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildDetailText(cleanName, betaTag, game.Creator, game.Verified)),
-            State = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildStateText(
-                game.Activity.ServerType,
-                string.Empty,
-                App.Settings.Prop.ServerLocationGame && game.Location.Length > 0 ? game.Location : null,
+            Details = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildDetailText(cleanName, betaTag)),
+            State = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildStateText(game.Creator, game.Verified,
                 App.Settings.Prop.FFlagRPCDisplayer ? ReadFlagCount() : 0)),
             Start = _rpcPreviewStart,
         };
@@ -333,7 +330,8 @@ public partial class IntegrationsPage
             ? App.Settings.Prop.UseCustomIcon
             : App.Settings.Prop.GameIconChecked ? game.IconUrl : string.Empty;
         snapshot.LargeImageKey = Voidstrap.Utility.DiscordPresenceGuard.Key(largeImage);
-        snapshot.LargeImageText = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildLargeImageText(shownName, game.Creator));
+        snapshot.LargeImageText = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildServerText(game.Activity.ServerType, string.Empty,
+            App.Settings.Prop.ServerLocationGame && game.Location.Length > 0 ? game.Location : null));
 
         if (App.Settings.Prop.ShowAccountOnRichPresence && !string.IsNullOrWhiteSpace(_rpcAvatarUrl))
         {
@@ -347,7 +345,7 @@ public partial class IntegrationsPage
         }
 
         foreach (DiscordRPC.Button button in DiscordRichPresence.BuildButtons(game.Activity))
-            snapshot.Buttons.Add(new PresenceButton { Label = button.Label ?? string.Empty, Url = button.Url ?? string.Empty });
+            snapshot.Buttons.Add(new PresenceButton { Label = Voidstrap.Utility.RpcText.Render(button.Label), Url = button.Url ?? string.Empty });
         return snapshot;
     }
 
@@ -571,7 +569,8 @@ public partial class IntegrationsPage
             host.BorderThickness = new Thickness(1.0);
             TextBlock label = new TextBlock
             {
-                Text = button.Label,
+                // Button labels carry translation markers until rendered, exactly like Discord receives them
+                Text = Voidstrap.Utility.DiscordPresenceGuard.Label(Voidstrap.Utility.RpcText.Render(button.Label), "Open"),
                 FontSize = 13.0,
                 FontWeight = FontWeights.Medium,
                 HorizontalAlignment = HorizontalAlignment.Center,

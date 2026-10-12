@@ -704,7 +704,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         GlobalBackground.Changed += OnGlobalBackgroundChanged;
         ApplyBackgroundSettings();
         PopulateTopSearch();
-        _ = LoadCatalogOptionsAsync();
+        ContentRendered += OnStartupContentRendered;
         _visibilityTimer.Interval = TimeSpan.FromSeconds(0.8);
         _visibilityTimer.Tick += VisibilityTimer_Tick;
         _visibilityTimer.Start();
@@ -1411,11 +1411,31 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
+    private void OnStartupContentRendered(object? sender, EventArgs e)
+    {
+        ContentRendered -= OnStartupContentRendered;
+        if (!Voidstrap.UI.LinuxWindowReveal.IsPending(this))
+            StartDeferredStartupWork();
+    }
+
+    private bool _startupWorkStarted;
+
+    internal void StartDeferredStartupWork()
+    {
+        if (_isClosed || _startupWorkStarted)
+            return;
+        _startupWorkStarted = true;
+        _ = LoadCatalogOptionsAsync();
+        if (_introFinished)
+            ScheduleLaunchTargetWarmup();
+    }
+
     private static readonly char[] separatorArray = new[] { ' ', '\t', '\r', '\n', ',', '.', ':', '/', '\\', '_', '-' };
     private static readonly char[] separator = new[] { ' ', '\t', '\r', '\n', ',', '.', ':', '/', '\\' };
 
     private async Task LoadCatalogOptionsAsync()
     {
+		long searchStarted = System.Diagnostics.Stopwatch.GetTimestamp();
 		try
 		{
 			for (int attempt = 0; attempt < 3 && !_lifetimeCts.IsCancellationRequested; attempt++)
@@ -1429,7 +1449,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 			}
 			if (!_lifetimeCts.IsCancellationRequested)
 			{
-				await Dispatcher.InvokeAsync(PopulateTopSearch, DispatcherPriority.Background);
+				await Dispatcher.InvokeAsync(() =>
+				{
+					PopulateTopSearch();
+					Voidstrap.UI.LinuxUiPerformance.Duration("Settings search indexing", searchStarted);
+					Voidstrap.UI.LinuxUiPerformance.Mark("Settings search ready with " + _topSearchEntriesList.Count + " entries");
+				}, DispatcherPriority.Background);
 			}
 		}
 		catch (OperationCanceledException) when (_lifetimeCts.IsCancellationRequested)
@@ -5002,7 +5027,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             IntroOverlay.Visibility = Visibility.Collapsed;
         }
         LiftTopNav();
-        ScheduleLaunchTargetWarmup();
+        if (_startupWorkStarted)
+            ScheduleLaunchTargetWarmup();
     }
 
     private void LiftTopNav()
@@ -5798,6 +5824,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RootNavigation.Navigated -= RootNavigation_RpcNavigated;
         GlobalBackground.Changed -= OnGlobalBackgroundChanged;
         Voidstrap.UI.LinuxUiPerformance.ReducedMotionChanged -= OnLinuxReducedMotionChanged;
+        ContentRendered -= OnStartupContentRendered;
         PreviewMouseMove -= OnLinuxGradientMouseMove;
         MouseLeave -= RootGrid_MouseLeave;
         RestartNotificationService.Changed -= OnRestartRequirementsChanged;

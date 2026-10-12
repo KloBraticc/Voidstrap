@@ -257,15 +257,20 @@ final class DiscordRpc {
             a.put("status_display_type", p.detailsStatus ? 2 : 0);
             if (p.start > 0) a.put("timestamps", new JSONObject().put("start", p.start));
             JSONObject assets = new JSONObject();
-            if (!p.largeImage.isEmpty()) assets.put("large_image", p.largeImage);
+            String large = image(p.largeImage);
+            String small = image(p.smallImage);
+            if (!large.isEmpty()) assets.put("large_image", large);
             if (!p.largeText.isEmpty()) assets.put("large_text", clip(p.largeText));
-            if (!p.smallImage.isEmpty()) assets.put("small_image", p.smallImage);
+            if (!small.isEmpty()) assets.put("small_image", small);
             if (!p.smallText.isEmpty()) assets.put("small_text", clip(p.smallText));
             if (assets.length() > 0) a.put("assets", assets);
             if (!p.buttons.isEmpty()) {
                 JSONArray buttons = new JSONArray();
-                for (int i = 0; i < p.buttons.size() && i < 2; i++) buttons.put(new JSONObject().put("label", p.buttons.get(i)[0]).put("url", p.buttons.get(i)[1]));
-                a.put("buttons", buttons);
+                for (int i = 0; i < p.buttons.size() && buttons.length() < 2; i++) {
+                    String url = link(p.buttons.get(i)[1], 512);
+                    if (!url.isEmpty()) buttons.put(new JSONObject().put("label", clip(p.buttons.get(i)[0])).put("url", url));
+                }
+                if (buttons.length() > 0) a.put("buttons", buttons);
             }
             return a;
         } catch (JSONException e) {
@@ -273,8 +278,40 @@ final class DiscordRpc {
         }
     }
 
+    private static String image(String value) {
+        String v = value == null ? "" : value.trim();
+        if (v.isEmpty() || v.length() > 256) return "";
+        if (v.length() <= 64 && v.matches("[a-z0-9_-]+")) return v;
+        return link(v, 256);
+    }
+
+    private static String link(String value, int limit) {
+        try {
+            java.net.URI uri = new java.net.URI(value == null ? "" : value.trim());
+            String host = uri.getHost();
+            if (!"https".equalsIgnoreCase(uri.getScheme()) || uri.getRawUserInfo() != null || host == null || host.isEmpty()
+                    || host.equalsIgnoreCase("localhost") || host.startsWith("[") || host.matches("[0-9.]+")) return "";
+            String text = uri.toASCIIString();
+            return text.length() <= limit ? text : "";
+        } catch (java.net.URISyntaxException e) {
+            return "";
+        }
+    }
+
+    private static String clean(String s) {
+        StringBuilder b = new StringBuilder(s.length());
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            boolean bidi = (c >= '\u202A' && c <= '\u202E') || (c >= '\u2066' && c <= '\u2069') || c == '\u200E' || c == '\u200F' || c == '\u061C';
+            if (bidi || (Character.isISOControl(c) && !Character.isWhitespace(c))) continue;
+            b.append(c);
+        }
+        return b.toString();
+    }
+
     private static String clip(String s) {
         if (s == null) return "  ";
+        s = clean(s);
         String t = s.length() > 128 ? s.substring(0, 128) : s;
         return t.length() < 2 ? t + "  " : t;
     }

@@ -89,11 +89,11 @@ namespace Voidstrap.Integrations.Overlays
             var handles = new System.Collections.Generic.List<IntPtr>();
             foreach (Window window in app.Windows)
             {
-                if (window == null || !IsOverlayWindow(window))
+                if (window == null || !window.IsVisible || !IsOverlayWindow(window))
                     continue;
                 try
                 {
-                    IntPtr handle = new WindowInteropHelper(window).Handle;
+                    IntPtr handle = Voidstrap.UI.PortableOverlay.Active ? Voidstrap.UI.PortableOverlay.Handle(window) : new WindowInteropHelper(window).Handle;
                     if (handle != IntPtr.Zero)
                     {
                         handles.Add(handle);
@@ -127,6 +127,8 @@ namespace Voidstrap.Integrations.Overlays
 		{
 			if (handle == IntPtr.Zero)
 				return false;
+			if (Voidstrap.Utility.Platform.IsMacOS)
+				return Voidstrap.Platform.MacOS.MacOSOverlayWindow.IsWindow(handle);
 			return Voidstrap.Utility.Platform.IsLinux
 				? Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(handle)
 					|| Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(handle)
@@ -135,6 +137,12 @@ namespace Voidstrap.Integrations.Overlays
 
 		private static void RaiseHandle(IntPtr handle)
 		{
+			if (Voidstrap.Utility.Platform.IsMacOS)
+			{
+				if (Voidstrap.Platform.MacOS.MacOSOverlayWindow.IsVisible(handle))
+					Voidstrap.Platform.MacOS.MacOSOverlayWindow.ShowWithoutActivating(handle);
+				return;
+			}
 			if (Voidstrap.Utility.Platform.IsLinux)
 			{
 				if (Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(handle))
@@ -181,7 +189,7 @@ namespace Voidstrap.Integrations.Overlays
             sb.AppendLine(Text("Scope"));
             sb.AppendLine();
             sb.AppendLine(Text("Configuration"));
-            AppendValue(sb, "Stats", OnOff(prop.OverlaysEnabled));
+            AppendValue(sb, "Stats", OnOff(Voidstrap.UI.Elements.Overlay.OverlayWindow.SurfaceRequired));
             AppendValue(sb, "Crosshair", OnOff(prop.Crosshair));
             AppendValue(sb, "GameEffects", OnOff(OverlaySettings.GameEffectsEnabled));
             AppendValue(sb, "Homepage", OnOff(OverlaySettings.HomepageBackgroundEnabled));
@@ -208,7 +216,7 @@ namespace Voidstrap.Integrations.Overlays
             sb.AppendLine(Text("RobloxWindow"));
             AppendValue(sb, "UsableRect", OnOff(roblox.Valid));
             AppendValue(sb, "Handle", FormatHandle(roblox.Hwnd));
-            if (roblox.Hwnd != IntPtr.Zero && IsLiveHandle(roblox.Hwnd))
+            if (roblox.Valid && (Voidstrap.Utility.Platform.IsMacOS || IsLiveHandle(roblox.Hwnd)))
             {
                 AppendValue(sb, "Foreground", OnOff(roblox.Foreground));
                 AppendValue(sb, "Bounds", $"{roblox.Width} × {roblox.Height}, {roblox.Left}, {roblox.Top}");
@@ -236,7 +244,7 @@ namespace Voidstrap.Integrations.Overlays
                         statsCount++;
                     if (window is Voidstrap.UI.Elements.Crosshair.CrosshairWindow)
                         crosshairCount++;
-                    IntPtr handle = new WindowInteropHelper(window).Handle;
+                    IntPtr handle = Voidstrap.UI.PortableOverlay.Active ? Voidstrap.UI.PortableOverlay.Handle(window) : new WindowInteropHelper(window).Handle;
                     observed.Add(handle);
                     sb.AppendLine(window.GetType().Name + ": " + FormatHandle(handle));
                     AppendValue(sb, "Visible", OnOff(window.IsVisible));
@@ -263,13 +271,13 @@ namespace Voidstrap.Integrations.Overlays
                 sb.AppendLine(Text("NoWindows"));
             sb.AppendLine();
             sb.AppendLine(Text("Findings"));
-            if (!prop.OverlaysEnabled && !prop.Crosshair && !OverlaySettings.GameEffectsEnabled && !OverlaySettings.HomepageBackgroundEnabled)
+            if (!Voidstrap.UI.Elements.Overlay.OverlayWindow.SurfaceRequired && !prop.Crosshair && !OverlaySettings.GameEffectsEnabled && !OverlaySettings.HomepageBackgroundEnabled)
                 sb.AppendLine(Text("Disabled"));
             if (!roblox.Valid)
                 sb.AppendLine(Text("NoUsableWindow"));
             else if (!roblox.Foreground)
                 sb.AppendLine(Text("Unfocused"));
-            if (prop.OverlaysEnabled && statsCount == 0)
+            if (Voidstrap.UI.Elements.Overlay.OverlayWindow.SurfaceRequired && statsCount == 0)
                 sb.AppendLine(Text("MissingStats"));
             if (prop.Crosshair && crosshairCount == 0 && !OverlayHub.CompositorCrosshairActive)
                 sb.AppendLine(Text("MissingCrosshair"));
@@ -323,7 +331,7 @@ namespace Voidstrap.Integrations.Overlays
         private static RobloxWindowRect ResolveRobloxRect()
         {
             RobloxWindowRect tracked = RobloxWindowTracker.Current;
-            if (!tracked.Valid)
+            if (!tracked.Valid || Voidstrap.Utility.Platform.IsMacOS)
                 return tracked;
             bool live = Voidstrap.Utility.Platform.IsLinux
                 ? Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(tracked.Hwnd)

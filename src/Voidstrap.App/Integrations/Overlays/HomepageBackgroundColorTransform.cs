@@ -118,14 +118,27 @@ internal readonly record struct HomepageBackgroundSourceKeys(
 	HomepageBackgroundSourceKey AdjustedOriginal,
 	HomepageBackgroundSourceKey AdjustedSober)
 {
+	private static int _calibrated = -1;
+
+	public static void Calibrate(byte red, byte green, byte blue)
+	{
+		int packed = red << 16 | green << 8 | blue;
+		if (Interlocked.Exchange(ref _calibrated, packed) != packed)
+			App.Logger?.WriteLine("HomepageBackground", $"The Roblox home color was measured as {red},{green},{blue}");
+	}
+
 	public static HomepageBackgroundSourceKeys ReadConfigured()
 	{
 		HomepageBackgroundColorTransform transform = HomepageBackgroundColorTransform.ReadConfigured();
+		int calibrated = Volatile.Read(ref _calibrated);
+		HomepageBackgroundSourceKey secondary = calibrated >= 0
+			? new HomepageBackgroundSourceKey((byte)(calibrated >> 16), (byte)(calibrated >> 8), (byte)calibrated)
+			: new HomepageBackgroundSourceKey(18, 18, 24);
 		transform.Apply(18, 18, 21, out byte originalRed, out byte originalGreen, out byte originalBlue);
-		transform.Apply(18, 18, 24, out byte soberRed, out byte soberGreen, out byte soberBlue);
+		transform.Apply(secondary.Red, secondary.Green, secondary.Blue, out byte soberRed, out byte soberGreen, out byte soberBlue);
 		return new HomepageBackgroundSourceKeys(
 			new HomepageBackgroundSourceKey(18, 18, 21),
-			new HomepageBackgroundSourceKey(18, 18, 24),
+			secondary,
 			new HomepageBackgroundSourceKey(originalRed, originalGreen, originalBlue),
 			new HomepageBackgroundSourceKey(soberRed, soberGreen, soberBlue));
 	}

@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Voidstrap.Platform.MacOS;
 
@@ -13,11 +12,24 @@ public static partial class MacOSImageDecoder
 
 	public static byte[] Decode(string path, int maxWidth, int maxHeight, out int width, out int height)
 	{
+		using FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+		if (stream.Length <= 0 || stream.Length > 64L * 1024 * 1024)
+			throw new InvalidOperationException("The image file size is invalid");
+		byte[] bytes = new byte[checked((int)stream.Length)];
+		stream.ReadExactly(bytes);
+		return Decode(bytes, maxWidth, maxHeight, out width, out height);
+	}
+
+	public static byte[] Decode(byte[] bytes, int maxWidth, int maxHeight, out int width, out int height)
+	{
 		if (!OperatingSystem.IsMacOS())
 			throw new PlatformNotSupportedException();
 		width = height = 0;
-		byte[] pathBytes = Encoding.UTF8.GetBytes(Path.GetFullPath(path));
-		nint url = CFURLCreateFromFileSystemRepresentation(0, pathBytes, pathBytes.Length, false);
+		if (bytes.Length == 0 || bytes.LongLength > 64L * 1024 * 1024)
+			throw new InvalidOperationException("The image file size is invalid");
+		nint encodedData = CFDataCreate(0, bytes, bytes.Length);
+		if (encodedData == 0)
+			throw new InvalidOperationException("macOS could not allocate the image data");
 		nint source = 0;
 		nint options = 0;
 		nint number = 0;
@@ -26,12 +38,12 @@ public static partial class MacOSImageDecoder
 		nint context = 0;
 		try
 		{
-			source = CGImageSourceCreateWithURL(url, 0);
+			source = CGImageSourceCreateWithData(encodedData, 0);
 			if (source == 0)
 				throw new InvalidOperationException("macOS could not open this image format");
 			options = CFDictionaryCreateMutable(0, 0, NativeLibrary.GetExport(FoundationLibrary.Value, "kCFTypeDictionaryKeyCallBacks"), NativeLibrary.GetExport(FoundationLibrary.Value, "kCFTypeDictionaryValueCallBacks"));
 			nint yes = Constant(FoundationLibrary.Value, "kCFBooleanTrue");
-			int edge = Math.Clamp(Math.Max(maxWidth, maxHeight), 1, 3840);
+			int edge = Math.Clamp(Math.Max(maxWidth, maxHeight), 1, 4096);
 			number = CFNumberCreate(0, 3, ref edge);
 			CFDictionarySetValue(options, Constant(Library.Value, "kCGImageSourceCreateThumbnailFromImageAlways"), yes);
 			CFDictionarySetValue(options, Constant(Library.Value, "kCGImageSourceCreateThumbnailWithTransform"), yes);
@@ -41,9 +53,9 @@ public static partial class MacOSImageDecoder
 				throw new InvalidOperationException("macOS could not decode this image format");
 			int sourceWidth = checked((int)CGImageGetWidth(image));
 			int sourceHeight = checked((int)CGImageGetHeight(image));
-			if (sourceWidth < 1 || sourceHeight < 1 || sourceWidth > 3840 || sourceHeight > 3840)
+			if (sourceWidth < 1 || sourceHeight < 1 || sourceWidth > 4096 || sourceHeight > 4096)
 				throw new InvalidOperationException("The decoded image dimensions are invalid");
-			double scale = Math.Min(1d, Math.Min(Math.Clamp(maxWidth, 1, 3840) / (double)sourceWidth, Math.Clamp(maxHeight, 1, 2160) / (double)sourceHeight));
+			double scale = Math.Min(1d, Math.Min(Math.Clamp(maxWidth, 1, 4096) / (double)sourceWidth, Math.Clamp(maxHeight, 1, 4096) / (double)sourceHeight));
 			width = Math.Max(1, (int)Math.Floor(sourceWidth * scale));
 			height = Math.Max(1, (int)Math.Floor(sourceHeight * scale));
 			byte[] pixels = new byte[checked(width * height * 4)];
@@ -79,17 +91,17 @@ public static partial class MacOSImageDecoder
 			if (number != 0) CFRelease(number);
 			if (options != 0) CFRelease(options);
 			if (source != 0) CFRelease(source);
-			if (url != 0) CFRelease(url);
+			if (encodedData != 0) CFRelease(encodedData);
 		}
 	}
 
 	private static nint Constant(nint library, string name) => Marshal.ReadIntPtr(NativeLibrary.GetExport(library, name));
-	[LibraryImport(Foundation)] private static partial nint CFURLCreateFromFileSystemRepresentation(nint allocator, byte[] bytes, nint length, [MarshalAs(UnmanagedType.I1)] bool directory);
+	[LibraryImport(Foundation)] private static partial nint CFDataCreate(nint allocator, byte[] bytes, nint length);
 	[LibraryImport(Foundation)] private static partial nint CFDictionaryCreateMutable(nint allocator, nint capacity, nint keyCallbacks, nint valueCallbacks);
 	[LibraryImport(Foundation)] private static partial void CFDictionarySetValue(nint dictionary, nint key, nint value);
 	[LibraryImport(Foundation)] private static partial nint CFNumberCreate(nint allocator, int type, ref int value);
 	[LibraryImport(Foundation)] private static partial void CFRelease(nint value);
-	[LibraryImport(ImageIO)] private static partial nint CGImageSourceCreateWithURL(nint url, nint options);
+	[LibraryImport(ImageIO)] private static partial nint CGImageSourceCreateWithData(nint data, nint options);
 	[LibraryImport(ImageIO)] private static partial nint CGImageSourceCreateThumbnailAtIndex(nint source, nuint index, nint options);
 	[LibraryImport(Graphics)] private static partial nuint CGImageGetWidth(nint image);
 	[LibraryImport(Graphics)] private static partial nuint CGImageGetHeight(nint image);

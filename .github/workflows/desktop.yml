@@ -4,6 +4,11 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      macos_overlay_only:
+        description: Run native macOS and GUI overlay checks only
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -14,6 +19,7 @@ concurrency:
 
 jobs:
   windows:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -31,6 +37,7 @@ jobs:
           path: artifacts
 
   client_server:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -57,6 +64,342 @@ jobs:
         with:
           dotnet-version: 10.0.x
       - run: dotnet build src/Voidstrap.Desktop.MacOS/Voidstrap.Desktop.MacOS.csproj -c Debug -warnaserror
+      - &image-check-harness
+        name: Write the image check harness
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/image-check-src"
+          cat > "$RUNNER_TEMP/image-check-src/MacOSImages.cs" <<'CSHARP'
+          global using System.Text;
+          using SixLabors.ImageSharp;
+          using SixLabors.ImageSharp.Metadata.Profiles.Exif;
+          using SixLabors.ImageSharp.PixelFormats;
+          using System.Windows;
+          using System.Windows.Controls;
+          using System.Windows.Media;
+          using System.Windows.Media.Imaging;
+          using Voidstrap.Utility;
+
+          SafeImaging.RejectTiff();
+          using Image<Rgba32> fixture = new(64, 32);
+          for (int y = 0; y < 32; y++)
+              for (int x = 0; x < 64; x++)
+                  fixture[x, y] = y < 16 ? new Rgba32(255, 0, 0) : new Rgba32(0, 0, 255);
+          BitmapSource? preview = null;
+          foreach (string format in new[] { "png", "jpg", "gif", "bmp", "webp", "tiff" })
+          {
+              if (format == "tiff" && !OperatingSystem.IsMacOS())
+                  continue;
+              byte[] bytes = Encode(format);
+              BitmapSource decoded = SafeImaging.FromBytes(bytes, 32) ?? throw new Exception("Missing " + format);
+              Assert(decoded.PixelWidth == 32 && decoded.PixelHeight == 16, "Wrong dimensions: " + format);
+              byte[] pixels = new byte[32 * 16 * 4];
+              decoded.CopyPixels(pixels, 32 * 4, 0);
+              Assert(pixels[2] > 180 && pixels[0] < 60 && pixels[^4] > 180 && pixels[^2] < 60, "Wrong colors: " + format);
+              if (format == "png")
+              {
+                  preview = decoded;
+                  if (OperatingSystem.IsMacOS())
+                  {
+                      byte[] native = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(bytes, 32, 32, out int width, out int height);
+                      Assert(width == 32 && height == 16 && native[2] > 180 && native[^4] > 180, "Native image orientation or colors differ");
+                  }
+              }
+          }
+          fixture.Metadata.ExifProfile = new ExifProfile();
+          fixture.Metadata.ExifProfile.SetValue(ExifTag.Orientation, (ushort)6);
+          BitmapSource oriented = SafeImaging.FromBytes(Encode("jpg")) ?? throw new Exception("Missing oriented photo");
+          Assert(oriented.PixelWidth == 32 && oriented.PixelHeight == 64, "Photo orientation was ignored");
+          fixture.Metadata.ExifProfile = null;
+          fixture[0, 0] = new Rgba32(200, 100, 50, 128);
+          if (OperatingSystem.IsMacOS())
+          {
+              byte[] transparent = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(Encode("png"), 64, 32, out _, out _);
+              Assert(Math.Abs(transparent[2] - 200) <= 2 && Math.Abs(transparent[1] - 100) <= 2 && Math.Abs(transparent[0] - 50) <= 2 && transparent[3] == 128, "Native transparency was not preserved");
+          }
+          Assert(SafeImaging.FromBytes([1, 2, 3, 4]) == null && SafeImaging.FromBytes([]) == null, "Invalid image accepted");
+          Assert(SafeImaging.FromBytes(new byte[64 * 1024 * 1024 + 1]) == null, "Oversized image accepted");
+          using (Image<Rgba32> animation = new(8, 8, new Rgba32(255, 0, 0)))
+          using (Image<Rgba32> next = new(8, 8, new Rgba32(0, 255, 0)))
+          using (MemoryStream animatedBytes = new())
+          {
+              animation.Frames.RootFrame.Metadata.GetGifMetadata().FrameDelay = 7;
+              next.Frames.RootFrame.Metadata.GetGifMetadata().FrameDelay = 13;
+              animation.Frames.AddFrame(next.Frames.RootFrame);
+              animation.SaveAsGif(animatedBytes);
+              var frames = SafeImaging.DecodeAnimationPortable(animatedBytes.ToArray(), 4);
+              Assert(frames.Count == 2 && frames[0].Frame.PixelWidth == 4 && frames[0].DelayMilliseconds == 70 && frames[1].DelayMilliseconds == 130, "GIF frames or timing changed");
+              byte[] framePixels = new byte[4 * 4 * 4];
+              frames[1].Frame.CopyPixels(framePixels, 4 * 4, 0);
+              Assert(framePixels[1] == 255 && framePixels[2] == 0, "GIF frame colors changed");
+          }
+          using (System.Net.Sockets.TcpListener server = new(System.Net.IPAddress.Loopback, 0))
+          using (CancellationTokenSource timeout = new(TimeSpan.FromSeconds(20)))
+          {
+              server.Start();
+              int port = ((System.Net.IPEndPoint)server.LocalEndpoint).Port;
+              byte[] original = Encode("png");
+              using Image<Rgba32> green = new(64, 32, new Rgba32(0, 255, 0));
+              using MemoryStream greenStream = new();
+              green.SaveAsPng(greenStream);
+              byte[] alternate = greenStream.ToArray();
+              Task serve = Task.Run(async () =>
+              {
+                  for (int index = 0; index < 5; index++)
+                  {
+                      using var client = await server.AcceptTcpClientAsync(timeout.Token);
+                      using var stream = client.GetStream();
+                      using StreamReader reader = new(stream, leaveOpen: true);
+                      string request = await reader.ReadLineAsync(timeout.Token) ?? "";
+                      while (!string.IsNullOrEmpty(await reader.ReadLineAsync(timeout.Token))) { }
+                      byte[] body = request.Contains("/a.png ", StringComparison.Ordinal) ? alternate : original;
+                      byte[] header = System.Text.Encoding.ASCII.GetBytes("HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nContent-Length: " + body.Length + "\r\nConnection: close\r\n\r\n");
+                      await stream.WriteAsync(header, timeout.Token);
+                      await stream.WriteAsync(body, timeout.Token);
+                  }
+              }, timeout.Token);
+              string origin = "http://127.0.0.1:" + port;
+              Assert(SafeImaging.FromHttpAsync(origin + "/avatar.png", 72, timeout.Token).GetAwaiter().GetResult() is { PixelWidth: 64, PixelHeight: 32 }, "Remote avatar failed to decode");
+              BitmapSource upper = SafeImaging.FromUri(new Uri(origin + "/A.png")) ?? throw new Exception("Missing uppercase image URL");
+              BitmapSource lower = SafeImaging.FromUri(new Uri(origin + "/a.png")) ?? throw new Exception("Missing lowercase image URL");
+              byte[] lowerPixels = new byte[64 * 32 * 4];
+              lower.CopyPixels(lowerPixels, 64 * 4, 0);
+              Assert(!ReferenceEquals(upper, lower) && lowerPixels[1] == 255, "Distinct image URLs shared cached pixels");
+              BitmapSource appUpper = AppImage.LoadAsync(origin + "/A.png", 32, timeout.Token).GetAwaiter().GetResult() ?? throw new Exception("Missing cached uppercase image URL");
+              BitmapSource appLower = AppImage.LoadAsync(origin + "/a.png", 32, timeout.Token).GetAwaiter().GetResult() ?? throw new Exception("Missing cached lowercase image URL");
+              byte[] cachedPixels = new byte[32 * 16 * 4];
+              appLower.CopyPixels(cachedPixels, 32 * 4, 0);
+              Assert(!ReferenceEquals(appUpper, appLower) && cachedPixels[1] == 255, "Distinct image URLs shared downloaded bytes");
+              serve.GetAwaiter().GetResult();
+              SafeImaging.ClearUriCache();
+          }
+          if (args.FirstOrDefault(value => value.EndsWith(".heic", StringComparison.OrdinalIgnoreCase)) is string heicPath)
+          {
+              BitmapSource heic = SafeImaging.FromFile(heicPath, 32) ?? throw new Exception("Missing HEIC image");
+              Assert(heic.PixelWidth == 32 && heic.PixelHeight == 16, "Wrong HEIC dimensions");
+          }
+          Console.WriteLine("Image formats, scaling, orientation, colors, transparency and invalid data checks passed");
+          if (args.Contains("roblox"))
+          {
+              using CancellationTokenSource online = new(TimeSpan.FromSeconds(60));
+              using System.Net.Http.HttpClient api = new() { Timeout = TimeSpan.FromSeconds(20) };
+              string[] avatarUrls = ImageUrls(api, "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=1,156,261&size=150x150&format=Png&isCircular=false", online.Token);
+              string iconUrl = ImageUrls(api, "https://thumbnails.roblox.com/v1/games/icons?universeIds=13058&returnPolicy=PlaceHolder&size=512x512&format=Png&isCircular=false", online.Token)[0];
+              Assert(avatarUrls.Length == 3, "Roblox returned no avatar headshots");
+              List<BitmapSource> chat = [];
+              List<BitmapSource> retina = [];
+              foreach (string url in avatarUrls)
+              {
+                  BitmapSource chatAvatar = SafeImaging.FromHttpAsync(url, 72, online.Token).GetAwaiter().GetResult() ?? throw new Exception("A real avatar could not be decoded for chat");
+                  BitmapSource sharpAvatar = SafeImaging.FromHttpAsync(url, 144, online.Token).GetAwaiter().GetResult() ?? throw new Exception("A real avatar could not be decoded at double resolution");
+                  Assert(chatAvatar.PixelWidth == 72 && sharpAvatar.PixelWidth == 144, "Real avatars were decoded at the wrong size");
+                  Assert(HasDetail(chatAvatar) && HasDetail(sharpAvatar), "A real avatar decoded as a flat image");
+                  chat.Add(chatAvatar);
+                  retina.Add(sharpAvatar);
+              }
+              BitmapSource icon = AppImage.LoadAsync(iconUrl, 256, online.Token).GetAwaiter().GetResult() ?? throw new Exception("A real game icon could not be loaded");
+              BitmapSource sharpIcon = AppImage.LoadAsync(iconUrl, 512, online.Token).GetAwaiter().GetResult() ?? throw new Exception("A real game icon could not be loaded at double resolution");
+              Assert(HasDetail(icon) && HasDetail(sharpIcon), "A real game icon decoded as a flat image");
+              chat.Add(icon);
+              retina.Add(sharpIcon);
+              Console.WriteLine("Real Roblox avatars and game icons decoded at normal and double resolution");
+              Application robloxApp = new();
+              Voidstrap.UI.LinuxWebImageSource.Install();
+              Grid board = new() { Background = Brushes.Black };
+              for (int index = 0; index < 4; index++)
+                  board.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(160) });
+              board.RowDefinitions.Add(new RowDefinition { Height = new GridLength(160) });
+              board.RowDefinitions.Add(new RowDefinition { Height = new GridLength(160) });
+              for (int index = 0; index < 4; index++)
+              {
+                  FrameworkElement normal = index switch
+                  {
+                      0 => new System.Windows.Shapes.Ellipse { Fill = new ImageBrush(chat[0]) { Stretch = Stretch.UniformToFill } },
+                      1 => new System.Windows.Controls.Image { Source = chat[1], Stretch = Stretch.UniformToFill, Clip = new EllipseGeometry(new System.Windows.Point(60, 60), 60, 60) },
+                      2 => new Border { Background = new ImageBrush(chat[2]) { Stretch = Stretch.UniformToFill }, CornerRadius = new CornerRadius(12) },
+                      _ => new System.Windows.Controls.Image { Source = chat[3], Stretch = Stretch.UniformToFill }
+                  };
+                  FrameworkElement sharp = index switch
+                  {
+                      0 => new System.Windows.Shapes.Ellipse { Fill = new ImageBrush(retina[0]) { Stretch = Stretch.UniformToFill } },
+                      1 => new System.Windows.Controls.Image { Source = retina[1], Stretch = Stretch.UniformToFill, Clip = new EllipseGeometry(new System.Windows.Point(60, 60), 60, 60) },
+                      2 => new Border { Background = new ImageBrush(retina[2]) { Stretch = Stretch.UniformToFill }, CornerRadius = new CornerRadius(12) },
+                      _ => new System.Windows.Controls.Image { Source = retina[3], Stretch = Stretch.UniformToFill }
+                  };
+                  foreach ((FrameworkElement element, int row) in new[] { (normal, 0), (sharp, 1) })
+                  {
+                      element.Width = 120;
+                      element.Height = 120;
+                      Grid.SetColumn(element, index);
+                      Grid.SetRow(element, row);
+                      board.Children.Add(element);
+                  }
+              }
+              Window robloxWindow = new() { Title = "Roblox image validation", Content = board, Width = 640, Height = 348, Left = 100, Top = 150, WindowStartupLocation = WindowStartupLocation.Manual, ResizeMode = ResizeMode.NoResize };
+              Voidstrap.UI.LinuxWebImageSource.AttachWindow(robloxWindow);
+              robloxWindow.ContentRendered += OnRobloxRendered;
+              robloxApp.Run(robloxWindow);
+              return;
+          }
+          if (args.Contains("gallery"))
+          {
+              Application app = new();
+              Voidstrap.UI.LinuxWebImageSource.Install();
+              Grid gallery = new() { Background = Brushes.Black };
+              for (int index = 0; index < 3; index++)
+                  gallery.ColumnDefinitions.Add(new ColumnDefinition());
+              System.Windows.Controls.Image avatar = new() { Source = preview, Stretch = Stretch.Fill, Margin = new Thickness(20) };
+              Border brush = new() { Background = new ImageBrush(preview) { Stretch = Stretch.Fill }, Margin = new Thickness(20) };
+              Grid profile = new();
+              profile.Children.Add(new System.Windows.Controls.Image { Source = preview, Stretch = Stretch.Fill, Margin = new Thickness(20), Clip = new EllipseGeometry(new System.Windows.Point(110, 126), 110, 126) });
+              Grid.SetColumn(brush, 1);
+              Grid.SetColumn(profile, 2);
+              gallery.Children.Add(avatar);
+              gallery.Children.Add(brush);
+              gallery.Children.Add(profile);
+              Window window = new() { Title = "Image validation", Content = gallery, Width = 780, Height = 320, Left = 100, Top = 150, WindowStartupLocation = WindowStartupLocation.Manual };
+              Voidstrap.UI.LinuxWebImageSource.AttachWindow(window);
+              window.ContentRendered += OnGalleryRendered;
+              app.Run(window);
+          }
+
+          void OnGalleryRendered(object? sender, EventArgs e)
+          {
+              File.WriteAllText(Path.Combine(Environment.GetEnvironmentVariable("RUNNER_TEMP")!, "image-check", "ready"), "true");
+          }
+
+          void OnRobloxRendered(object? sender, EventArgs e)
+          {
+              File.WriteAllText(Path.Combine(Environment.GetEnvironmentVariable("RUNNER_TEMP")!, "image-check", "ready-roblox"), "true");
+          }
+
+          string[] ImageUrls(System.Net.Http.HttpClient api, string url, CancellationToken token)
+          {
+              using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(api.GetStringAsync(url, token).GetAwaiter().GetResult());
+              return [.. document.RootElement.GetProperty("data").EnumerateArray()
+                  .Select(entry => entry.TryGetProperty("imageUrl", out System.Text.Json.JsonElement value) ? value.GetString() : null)
+                  .Where(value => !string.IsNullOrEmpty(value))
+                  .Select(value => value!)];
+          }
+
+          bool HasDetail(BitmapSource source)
+          {
+              if (source.Format.BitsPerPixel != 32)
+                  throw new Exception("Decoded images are expected as 32 bit pixels, got " + source.Format);
+              int stride = source.PixelWidth * 4;
+              byte[] pixels = new byte[stride * source.PixelHeight];
+              source.CopyPixels(pixels, stride, 0);
+              HashSet<int> colors = [];
+              for (int index = 0; index + 3 < pixels.Length; index += 4 * 7)
+                  colors.Add((pixels[index] >> 4) | (pixels[index + 1] >> 4 << 4) | (pixels[index + 2] >> 4 << 8));
+              return colors.Count > 12;
+          }
+
+          void Assert(bool condition, string message)
+          {
+              if (!condition)
+                  throw new Exception(message);
+          }
+
+          byte[] Encode(string format)
+          {
+              using MemoryStream stream = new();
+              switch (format)
+              {
+                  case "png": fixture.SaveAsPng(stream); break;
+                  case "jpg": fixture.SaveAsJpeg(stream); break;
+                  case "gif": fixture.SaveAsGif(stream); break;
+                  case "bmp": fixture.SaveAsBmp(stream); break;
+                  case "webp": fixture.SaveAsWebp(stream); break;
+                  case "tiff": fixture.SaveAsTiff(stream); break;
+              }
+              return stream.ToArray();
+          }
+
+          namespace Voidstrap
+          {
+              internal static class App
+              {
+                  internal static Log Logger { get; } = new();
+                  internal static System.Net.Http.HttpClient HttpClient { get; } = new() { Timeout = TimeSpan.FromSeconds(15) };
+              }
+              internal sealed class Log
+              {
+                  internal void WriteLine(string name, string message) { }
+                  internal void WriteException(string name, Exception error) { }
+              }
+              internal static class Paths { internal static string Cache => Path.Combine(Path.GetTempPath(), "image-check", "cache"); }
+          }
+
+          namespace Voidstrap.Utility
+          {
+              internal static class Platform
+              {
+                  internal static bool IsWindows => false;
+                  internal static bool IsLinux => OperatingSystem.IsLinux();
+                  internal static bool IsMacOS => OperatingSystem.IsMacOS();
+                  internal static bool UsesPortableUi => true;
+              }
+              internal static class VpnHttpClient { internal static System.Net.Http.HttpClient Create(TimeSpan timeout) => new() { Timeout = timeout }; }
+          }
+
+          namespace Voidstrap.Platform.MacOS
+          {
+              internal static class MacOSWindow
+              {
+                  [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+                  internal readonly record struct Rect(double X, double Y, double Width, double Height);
+              }
+          }
+          CSHARP
+          cat > "$RUNNER_TEMP/image-check-src/check-macos-images.sh" <<'SHELLSCRIPT'
+          set -euo pipefail
+          root="$PWD"
+          check="$RUNNER_TEMP/image-check"
+          mkdir -p "$check"
+          rm -f "$check/ready"
+          cat > "$check/ImageCheck.csproj" <<EOF
+          <Project Sdk="LibreWPF.Sdk/0.1.0-preview.42">
+            <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0-windows</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><AllowUnsafeBlocks>true</AllowUnsafeBlocks><ProGpuWpfUsePortableFrameworkReferences>true</ProGpuWpfUsePortableFrameworkReferences><LinuxProGpuWpfAssembly>$root/external/LibreWPF/ProGPU.Wpf.dll</LinuxProGpuWpfAssembly><LinuxPresentationCoreAssembly>$root/external/LibreWPF/PresentationCore.dll</LinuxPresentationCoreAssembly><LinuxPresentationFrameworkAssembly>$root/external/LibreWPF/PresentationFramework.dll</LinuxPresentationFrameworkAssembly></PropertyGroup>
+            <ItemGroup>
+              <Compile Include="$RUNNER_TEMP/image-check-src/MacOSImages.cs" />
+              <Compile Include="$root/src/Voidstrap.App/Utility/SafeImaging.cs" />
+              <Compile Include="$root/src/Voidstrap.App/Utility/AppImage.cs" />
+              <Compile Include="$root/src/Voidstrap.App/Utility/DynamicRenderSystem.cs" />
+              <Compile Include="$root/src/Voidstrap.App/UI/LinuxWebImageSource.cs" />
+              <Compile Include="$root/src/Voidstrap.Platform.MacOS/MacOSImageDecoder.cs" />
+              <Reference Include="PresentationCore"><HintPath>$root/external/LibreWPF/PresentationCore.dll</HintPath></Reference>
+              <Reference Include="PresentationFramework"><HintPath>$root/external/LibreWPF/PresentationFramework.dll</HintPath></Reference>
+              <Reference Include="ProGPU.Wpf"><HintPath>$root/external/LibreWPF/ProGPU.Wpf.dll</HintPath></Reference>
+              <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+              <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-gwg2-r3hj-4w44" />
+              <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-j3p4-wp97-rph4" />
+              <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-j9gm-c75j-xc9q" />
+              <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-jjfr-hcj7-qf5w" />
+              <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-wmxv-xphr-5c9g" />
+            </ItemGroup>
+          </Project>
+          EOF
+          cat > "$check/fixture.swift" <<'SWIFT'
+          import AppKit
+          import ImageIO
+          let image = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: 64, pixelsHigh: 32, bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 256, bitsPerPixel: 32)!
+          for y in 0..<32 {
+              for x in 0..<64 {
+                  image.setColor(y < 16 ? .red : .blue, atX: x, y: y)
+              }
+          }
+          let target = URL(fileURLWithPath: CommandLine.arguments[1])
+          guard let destination = CGImageDestinationCreateWithURL(target as CFURL, "public.heic" as CFString, 1, nil) else { fatalError("HEIC encoder is unavailable") }
+          CGImageDestinationAddImage(destination, image.cgImage!, [kCGImageDestinationLossyCompressionQuality: 1.0] as CFDictionary)
+          guard CGImageDestinationFinalize(destination) else { fatalError("The HEIC fixture could not be encoded") }
+          SWIFT
+          swift "$check/fixture.swift" "$check/fixture.heic"
+          dotnet build "$check/ImageCheck.csproj" -warnaserror --nologo
+          exec dotnet "$check/bin/Debug/net10.0-windows/ImageCheck.dll" "$check/fixture.heic" "$@"
+          SHELLSCRIPT
+      - name: Check macOS image formats with synthetic data
+        run: bash "$RUNNER_TEMP/image-check-src/check-macos-images.sh"
       - name: Check native keyboard APIs and layout mapping
         shell: bash
         run: |
@@ -117,6 +460,275 @@ jobs:
           namespace System.Windows.Forms { public enum Keys { None = 0 } }
           EOF
           dotnet run --project "$probe/KeyboardCheck.csproj" -warnaserror
+      - name: Check macOS mods and cookie parsing with synthetic data
+        shell: bash
+        run: |
+          check="$RUNNER_TEMP/mac-content-check"
+          mkdir -p "$check"
+          cat > "$check/ContentCheck.csproj" <<EOF
+          <Project Sdk="Microsoft.NET.Sdk">
+            <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+            <ItemGroup>
+              <Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSBinaryCookies.cs" />
+              <Compile Include="$PWD/src/Voidstrap.App/Utility/MacModSync.cs" />
+              <Compile Include="$PWD/src/Voidstrap.App/Utility/ManagedModStore.cs" />
+              <Compile Include="$PWD/src/Voidstrap.App/Utility/ModPackInfo.cs" />
+              <Compile Include="$PWD/src/Voidstrap.App/Integrations/LaunchInterceptor.cs" />
+            </ItemGroup>
+          </Project>
+          EOF
+          python3 - "$check" <<'PY'
+          import sys
+          from pathlib import Path
+          source = Path('src/Voidstrap.App/Bootstrapper.cs').read_text()
+          start = source.index('    private static readonly string[] CanonicalModRoots')
+          end = source.index('    private static void RepairFlattenedModNames()', start)
+          Path(sys.argv[1], 'RootRepair.cs').write_text('using Voidstrap; namespace Voidstrap.Utility; internal static class RootRepair {\n' + source[start:end] + '\n}')
+          PY
+          cat > "$check/Program.cs" <<'EOF'
+          using System.Buffers.Binary;
+          using System.Text;
+          using Voidstrap;
+          using Voidstrap.Utility;
+          using Voidstrap.Platform.MacOS;
+          string root = Path.Combine(Path.GetTempPath(), "mod-validation-" + Guid.NewGuid().ToString("N"));
+          Paths.Root = root;
+          Directory.CreateDirectory(root);
+          try
+          {
+              void Assert(bool condition) { if (!condition) throw new InvalidOperationException("A macOS content check failed"); }
+              void Write(string path, string value) { Directory.CreateDirectory(Path.GetDirectoryName(path)!); File.WriteAllText(path, value); }
+              string resources = Path.Combine(root, "Roblox.app", "Contents", "Resources");
+              string original = Path.Combine(resources, "content", "textures", "test.png");
+              Write(original, "original");
+              Write(Path.Combine(Paths.Mods, "Content", "textures", "test.png"), "loose");
+              RootRepair.RepairModRootCase();
+              Assert(File.ReadAllText(Path.Combine(Paths.Mods, "content", "textures", "test.png")) == "loose");
+              var first = ManagedModStore.Create("First");
+              var second = ManagedModStore.Create("Second");
+              string relative = "content/textures/test.png";
+              Write(Path.Combine(ManagedModStore.GetFolder(first.Id), relative), "first");
+              Write(Path.Combine(ManagedModStore.GetFolder(second.Id), relative), "second");
+              Write(Path.Combine(ManagedModStore.GetFolder(second.Id), "content/textures/added.png"), "added");
+              Write(Path.Combine(ManagedModStore.GetFolder(second.Id), "unsafe.dll"), "excluded");
+              ModPackInfo.Write(ManagedModStore.GetFolder(second.Id), new() { Name = "Synthetic pack", Source = "test" });
+              Assert(ManagedModStore.ScanLibrary().Single(entry => entry.Record.Id == second.Id).Pack?.Name == "Synthetic pack");
+              MacModSync.Apply(resources, MacModSync.Collect(true));
+              Assert(File.ReadAllText(original) == "second" && !File.Exists(Path.Combine(resources, "unsafe.dll")) && !File.Exists(Path.Combine(resources, ModPackInfo.FileName)));
+              ManagedModStore.MoveRelative(first.Id, second.Id, false);
+              MacModSync.Apply(resources, MacModSync.Collect(true));
+              Assert(File.ReadAllText(original) == "first");
+              ManagedModStore.SetEnabled(first.Id, false);
+              ManagedModStore.SetEnabled(second.Id, false);
+              MacModSync.Apply(resources, MacModSync.Collect(true));
+              Assert(File.ReadAllText(original) == "loose" && !File.Exists(Path.Combine(resources, "content/textures/added.png")));
+              string backup = Path.Combine(Paths.Data, "MacMods", "Roblox", relative);
+              string saved = File.ReadAllText(backup);
+              File.Delete(backup);
+              MacModSync.Apply(resources, new Dictionary<string, string>());
+              Assert(File.ReadAllText(original) == "loose");
+              Write(backup, saved);
+              MacModSync.Apply(resources, new Dictionary<string, string>());
+              Assert(File.ReadAllText(original) == "original");
+              byte[] Cookie(string domain, double expiry)
+              {
+                  byte[] record = new byte[160];
+                  void Number(int offset, int value) => BinaryPrimitives.WriteInt32LittleEndian(record.AsSpan(offset), value);
+                  Number(0, record.Length); Number(16, 56); Number(20, 90); Number(28, 120);
+                  Encoding.UTF8.GetBytes(domain + "\0").CopyTo(record, 56);
+                  Encoding.UTF8.GetBytes(".ROBLOSECURITY\0").CopyTo(record, 90);
+                  Encoding.UTF8.GetBytes("synthetic\0").CopyTo(record, 120);
+                  BinaryPrimitives.WriteDoubleLittleEndian(record.AsSpan(40), expiry);
+                  byte[] data = new byte[28 + record.Length];
+                  "cook"u8.CopyTo(data); BinaryPrimitives.WriteInt32BigEndian(data.AsSpan(4), 1);
+                  BinaryPrimitives.WriteInt32BigEndian(data.AsSpan(8), data.Length - 12);
+                  BinaryPrimitives.WriteInt32LittleEndian(data.AsSpan(16), 1);
+                  BinaryPrimitives.WriteInt32LittleEndian(data.AsSpan(20), 16);
+                  record.CopyTo(data, 28); return data;
+              }
+              string? Read(byte[] data) => MacOSBinaryCookies.Find(data, ".ROBLOSECURITY", "roblox.com");
+              Assert(Read(Cookie(".roblox.com", 4e9)) == "synthetic");
+              Assert(Read(Cookie("www.roblox.com", 4e9)) == "synthetic");
+              Assert(Read(Cookie("evilroblox.com", 4e9)) is null);
+              Assert(Read(Cookie(".roblox.com", 1)) is null);
+              Assert(Read(Cookie(".roblox.com", double.PositiveInfinity)) is null);
+              byte[] broken = Cookie(".roblox.com", 4e9);
+              BinaryPrimitives.WriteInt32LittleEndian(broken.AsSpan(20), int.MaxValue);
+              Assert(Read(broken) is null);
+              for (int length = 0; length < broken.Length; length++) Assert(Read(broken[..length]) is null);
+              string publicUri = Voidstrap.Integrations.LaunchInterceptor.BuildExperienceUri(1818);
+              string jobUri = Voidstrap.Integrations.LaunchInterceptor.BuildExperienceUri(1818, "11111111-1111-1111-1111-111111111111");
+              string privateUri = Voidstrap.Integrations.LaunchInterceptor.BuildExperienceUri(1818, accessCode: "synthetic&code=1");
+              Assert(privateUri.EndsWith("accessCode=synthetic%26code%3D1") && Voidstrap.Integrations.LaunchInterceptor.ContainsSpecificGameInstance(privateUri));
+              Assert(Voidstrap.Integrations.LaunchInterceptor.ExtractPlaceId(jobUri) == 1818);
+              Assert(await Voidstrap.Integrations.LaunchInterceptor.MaybeRewriteForClosestAsync(privateUri) is null);
+              Assert(await Voidstrap.Integrations.LaunchInterceptor.MaybeRewriteForClosestAsync(jobUri) is null);
+              Assert(Voidstrap.Integrations.VoidstrapMatchmaker.Calls == 0);
+              Assert((await Voidstrap.Integrations.LaunchInterceptor.MaybeRewriteForClosestAsync(publicUri))?.Contains("gameInstanceId=") == true);
+              Assert(Voidstrap.Integrations.VoidstrapMatchmaker.Calls == 1);
+              Console.WriteLine("macOS mod, pack, restoration, cookie and launch selection checks passed");
+          }
+          finally { Directory.Delete(root, true); }
+          namespace Voidstrap
+          {
+              internal static class Paths
+              {
+                  public static string Root = "";
+                  public static string Mods => Path.Combine(Root, "Mods");
+                  public static string Data => Path.Combine(Root, "Data");
+                  public static string ManagedMods => Path.Combine(Root, "ManagedMods");
+                  public static string ManagedModPackages => Path.Combine(ManagedMods, "Packages");
+                  public static string ManagedModIndex => Path.Combine(ManagedMods, "index.json");
+              }
+              internal static class App { public static Log Logger { get; } = new(); }
+              internal sealed class Log { public void WriteLine(string component, string message) { } }
+          }
+          namespace Voidstrap.Utility
+          {
+              internal static class ExternalModConfigs { public static void RemoveConfigs(string id) { } }
+              internal static class ModAutoFixer { public static bool IsIgnoredModFile(string path) => false; }
+          }
+          namespace Voidstrap.Integrations.ClassicTopBar
+          {
+              internal static class ClassicTopBarMod { public static HashSet<string> FeatureModIds() => []; }
+          }
+          namespace Voidstrap.Integrations
+          {
+              internal static class ServerMatchmaker
+              {
+                  public static bool IsEnabled() => true;
+                  public static bool IsExcluded(long placeId) => false;
+                  public static string ResolvePreferredDatacenterKey(long placeId) => "";
+              }
+              internal static class RobloxAuthLauncher { public static string? TryGetRobloxSecurityCookie() => "synthetic"; }
+              internal sealed class MatchmakerCandidate { public string JobId => "22222222-2222-2222-2222-222222222222"; public Location? Datacenter => null; public double DistanceKm => 0; }
+              internal sealed class Location { public string City => ""; }
+              internal static class VoidstrapMatchmaker
+              {
+                  public static int Calls;
+                  public static int ResolveEffectiveCandidateCount() => 1;
+                  public static void RememberLaunchPick(MatchmakerCandidate candidate) { }
+                  public static Task<MatchmakerCandidate?> PickBestJobIdAsync(long placeId, HashSet<string>? tried, int count, string preferred, CancellationToken token)
+                  { Calls++; return Task.FromResult<MatchmakerCandidate?>(new()); }
+              }
+          }
+          EOF
+          dotnet run --project "$check/ContentCheck.csproj" -warnaserror
+      - name: Check native overlay visibility and geometry
+        shell: bash
+        run: |
+          check="$RUNNER_TEMP/overlay-check"
+          mkdir -p "$check"
+          cat > "$check/OverlayCheck.csproj" <<EOF
+          <Project Sdk="Microsoft.NET.Sdk">
+            <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><AllowUnsafeBlocks>true</AllowUnsafeBlocks><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+            <ItemGroup><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSOverlayWindow.cs" /><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSWindow.cs" /></ItemGroup>
+          </Project>
+          EOF
+          cat > "$check/Program.cs" <<'EOF'
+          using System.Runtime.InteropServices;
+          using Voidstrap.Platform.MacOS;
+          internal static partial class Program
+          {
+              [STAThread]
+              public static void Main()
+              {
+                  NativeLibrary.Load("/System/Library/Frameworks/AppKit.framework/AppKit");
+                  nint pool = objc_autoreleasePoolPush();
+                  nint window = 0;
+                  nint dimmer = 0;
+                  nint passive = 0;
+                  try
+                  {
+                      Send(objc_getClass("NSApplication"), Sel("sharedApplication"));
+                      window = Create(Send(objc_getClass("NSWindow"), Sel("alloc")), Sel("initWithContentRect:styleMask:backing:defer:"), new(100, 100, 320, 240), 0, 2, false);
+                      Assert(window != 0, "The native overlay could not be created");
+                      SetBool(window, Sel("setReleasedWhenClosed:"), false);
+                      MacOSOverlayWindow.Configure(window, true);
+                      MacOSOverlayWindow.ShowWithoutActivating(window);
+                      Assert(MacOSOverlayWindow.IsWindow(window), "The overlay was not registered with AppKit");
+                      Assert(MacOSOverlayWindow.IsVisible(window), "The overlay did not become visible");
+                      Assert(GetBool(window, Sel("ignoresMouseEvents")), "The passive overlay intercepted input");
+                      Assert(Send(window, Sel("level")) == 25, "The overlay did not use the expected window level");
+                      MacOSOverlayWindow.SetClickThrough(window, false);
+                      Assert(!GetBool(window, Sel("ignoresMouseEvents")), "The interactive overlay could not receive input");
+                      MacOSOverlayWindow.SetOpacity(window, 0.45);
+                      Assert(Math.Abs(GetDouble(window, Sel("alphaValue")) - 0.45) < 0.001, "The dimmer opacity was incorrect");
+                      foreach (var point in new[] { (120d, 80d), (-400d, -120d), (40d, MacOSWindow.PrimaryScreenHeight() + 80) })
+                      {
+                          MacOSOverlayWindow.MoveTo(window, point.Item1, point.Item2, 320, 240);
+                          var frame = MacOSWindow.GetFrame(window);
+                          Assert(frame.Matches(new(point.Item1, MacOSWindow.PrimaryScreenHeight() - point.Item2 - 240, 320, 240)), "The overlay was placed at incorrect screen coordinates");
+                      }
+                      var screens = Send(objc_getClass("NSScreen"), Sel("screens"));
+                      for (nuint index = 0; index < (nuint)Send(screens, Sel("count")); index++)
+                      {
+                          nint screen = At(screens, Sel("objectAtIndex:"), index);
+                          var bounds = MacOSWindow.GetFrame(screen);
+                          bounds.Y = MacOSWindow.PrimaryScreenHeight() - bounds.Y - bounds.Height;
+                          Assert(MacOSWindow.IsScreenSized(bounds), "A fullscreen display was not recognized");
+                          bounds.Height -= 28;
+                          Assert(!MacOSWindow.IsScreenSized(bounds), "A windowed client was mistaken for fullscreen");
+                      }
+                      MacOSOverlayWindow.Hide(window);
+                      Assert(!MacOSOverlayWindow.IsVisible(window), "The overlay remained visible after hiding");
+                      Assert(MacOSOverlayWindow.IsWindow(window), "Hiding invalidated the overlay");
+                      Assert(!MacOSOverlayWindow.IsWindow(42), "A foreign window number was accepted as an AppKit handle");
+                      MacOSOverlayWindow.ShowWithoutActivating(window);
+                      Assert(MacOSOverlayWindow.IsVisible(window), "The overlay did not reopen");
+                      MacOSOverlayWindow.Configure(window, false, MacOSOverlayWindow.InteractiveWindowLevel);
+                      dimmer = Create(Send(objc_getClass("NSWindow"), Sel("alloc")), Sel("initWithContentRect:styleMask:backing:defer:"), new(100, 100, 320, 240), 0, 2, false);
+                      passive = Create(Send(objc_getClass("NSWindow"), Sel("alloc")), Sel("initWithContentRect:styleMask:backing:defer:"), new(100, 100, 320, 240), 0, 2, false);
+                      Assert(dimmer != 0 && passive != 0, "The layering windows could not be created");
+                      SetBool(dimmer, Sel("setReleasedWhenClosed:"), false);
+                      SetBool(passive, Sel("setReleasedWhenClosed:"), false);
+                      MacOSOverlayWindow.Configure(dimmer, true, MacOSOverlayWindow.DimmerWindowLevel);
+                      MacOSOverlayWindow.Configure(passive, true);
+                      MacOSOverlayWindow.ShowWithoutActivating(window);
+                      MacOSOverlayWindow.ShowWithoutActivating(dimmer);
+                      MacOSOverlayWindow.ShowWithoutActivating(passive);
+                      nint ordered = Send(Send(objc_getClass("NSApplication"), Sel("sharedApplication")), Sel("orderedWindows"));
+                      Assert(WindowIndex(ordered, window) < WindowIndex(ordered, dimmer) && WindowIndex(ordered, dimmer) < WindowIndex(ordered, passive), "A passive overlay covered the dock or its dimmer");
+                      Send(window, Sel("close"));
+                      Send(window, Sel("release"));
+                      nint closed = window;
+                      window = 0;
+                      objc_autoreleasePoolPop(pool);
+                      pool = objc_autoreleasePoolPush();
+                      Assert(!MacOSOverlayWindow.IsWindow(closed), "A closed overlay handle remained live");
+                      Console.WriteLine("Native overlay visibility, input, opacity, fullscreen, layering and screen coordinate checks passed");
+                  }
+                  finally
+                  {
+                      if (window != 0) { Send(window, Sel("close")); Send(window, Sel("release")); }
+                      if (dimmer != 0) { Send(dimmer, Sel("close")); Send(dimmer, Sel("release")); }
+                      if (passive != 0) { Send(passive, Sel("close")); Send(passive, Sel("release")); }
+                      objc_autoreleasePoolPop(pool);
+                  }
+              }
+              private static void Assert(bool condition, string message) { if (!condition) throw new InvalidOperationException(message); }
+              private static int WindowIndex(nint ordered, nint window)
+              {
+                  for (nuint index = 0; index < (nuint)Send(ordered, Sel("count")); index++)
+                      if (At(ordered, Sel("objectAtIndex:"), index) == window)
+                          return (int)index;
+                  throw new InvalidOperationException("The overlay was absent from the native window order");
+              }
+              private static nint Sel(string name) => sel_registerName(name);
+              private const string ObjC = "/usr/lib/libobjc.A.dylib";
+              [LibraryImport(ObjC, StringMarshalling = StringMarshalling.Utf8)] private static partial nint objc_getClass(string name);
+              [LibraryImport(ObjC, StringMarshalling = StringMarshalling.Utf8)] private static partial nint sel_registerName(string name);
+              [LibraryImport(ObjC)] private static partial nint objc_autoreleasePoolPush();
+              [LibraryImport(ObjC)] private static partial void objc_autoreleasePoolPop(nint pool);
+              [LibraryImport(ObjC, EntryPoint = "objc_msgSend")] private static partial nint Send(nint receiver, nint selector);
+              [LibraryImport(ObjC, EntryPoint = "objc_msgSend")] private static partial nint At(nint receiver, nint selector, nuint index);
+              [LibraryImport(ObjC, EntryPoint = "objc_msgSend")] private static partial nint Create(nint receiver, nint selector, MacOSWindow.Rect frame, nuint style, nuint backing, [MarshalAs(UnmanagedType.I1)] bool defer);
+              [LibraryImport(ObjC, EntryPoint = "objc_msgSend")] private static partial void SetBool(nint receiver, nint selector, [MarshalAs(UnmanagedType.I1)] bool value);
+              [LibraryImport(ObjC, EntryPoint = "objc_msgSend")][return: MarshalAs(UnmanagedType.I1)] private static partial bool GetBool(nint receiver, nint selector);
+              [LibraryImport(ObjC, EntryPoint = "objc_msgSend")] private static partial double GetDouble(nint receiver, nint selector);
+          }
+          EOF
+          dotnet run --project "$check/OverlayCheck.csproj" -warnaserror
       - run: dotnet publish src/Voidstrap.Cross/Voidstrap.Cross.csproj -c Release -r ${{ matrix.rid }} --self-contained true -o artifacts/${{ matrix.rid }}
       - run: bash build/Packaging/MacOS/package.sh ${{ matrix.rid }} "" artifacts/package-${{ matrix.rid }}
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
@@ -125,6 +737,7 @@ jobs:
           path: artifacts
 
   macos_cross_dmgs:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Build macOS disk images on Linux
     runs-on: ubuntu-latest
     steps:
@@ -144,6 +757,7 @@ jobs:
             PublishedBuilds/macOS/*.tar.gz
 
   macos_dmg_mount:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Mount cross built ${{ matrix.rid }} disk image on macOS
     needs: macos_cross_dmgs
     runs-on: ${{ matrix.runner }}
@@ -211,15 +825,25 @@ jobs:
           }
           exit(visible ? 0 : 1)
           '''
+          # Compiled once up front, `swift -e` recompiles on every call and a cold compile can exceed the poll timeout
+          probe_source = root / 'window-probe.swift'
+          probe_binary = root / 'window-probe'
+          probe_source.write_text(probe)
+          subprocess.run(['xcrun', 'swiftc', '-O', str(probe_source), '-o', str(probe_binary)], check=True, timeout=600)
+          def window_visible(pid):
+              try:
+                  return subprocess.run([str(probe_binary), str(pid)], timeout=20).returncode == 0
+              except subprocess.TimeoutExpired:
+                  return False
           with log.open('w') as output:
               process = subprocess.Popen([str(app / 'Contents/MacOS/Voidstrap'), '-menu'], stdout=output, stderr=subprocess.STDOUT)
               try:
-                  deadline = time.monotonic() + 45
+                  deadline = time.monotonic() + 90
                   visible = False
                   while time.monotonic() < deadline:
                       if process.poll() is not None:
                           raise RuntimeError('The packaged app exited during startup: ' + str(process.returncode))
-                      if subprocess.run(['swift', '-e', probe, str(process.pid)], timeout=30).returncode == 0:
+                      if window_visible(process.pid):
                           visible = True
                           break
                       time.sleep(2)
@@ -250,6 +874,7 @@ jobs:
             ${{ runner.temp }}/launch.png
 
   linux_validation:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Linux canonical and experimental validation
     runs-on: ubuntu-latest
     steps:
@@ -263,6 +888,7 @@ jobs:
       - run: dotnet build src/Voidstrap.Desktop.Linux/Voidstrap.Desktop.Linux.csproj -c Debug -warnaserror -p:BaseIntermediateOutputPath=obj-linux-ci-experimental/
 
   linux_aur:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Arch AUR recipe generation
     runs-on: ubuntu-latest
     steps:
@@ -276,6 +902,7 @@ jobs:
           path: artifacts/aur
 
   linux_packages:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Linux ${{ matrix.rid }} ${{ matrix.format }} package validation
     runs-on: ubuntu-latest
     strategy:
@@ -309,6 +936,7 @@ jobs:
           path: artifacts/packages
 
   linux_rpm_packages:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Linux ${{ matrix.rid }} RPM artifact validation
     runs-on: ubuntu-latest
     strategy:
@@ -356,6 +984,7 @@ jobs:
           path: artifacts/packages
 
   linux_appimage_availability:
+    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Linux AppImage tool availability
     runs-on: ubuntu-latest
     steps:
@@ -378,3 +1007,613 @@ jobs:
         with:
           name: linux-x64-appimage
           path: artifacts/packages
+
+  macos_overlay_gui:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      OUT: ${{ github.workspace }}/results
+      APP: /Applications/Voidstrap.app
+      VS: /Users/runner/Library/Application Support/Voidstrap
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: voidstrap
+          submodules: recursive
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: 10.0.x
+
+      - *image-check-harness
+      - name: Check portable images render in controls and brushes
+        working-directory: voidstrap
+        run: |
+          mkdir -p "$OUT/shots" "$RUNNER_TEMP/overlay-logs"
+          bash "$RUNNER_TEMP/image-check-src/check-macos-images.sh" gallery > "$RUNNER_TEMP/overlay-logs/images.txt" 2>&1 &
+          image_pid=$!
+          for i in $(seq 1 120); do [ -f "$RUNNER_TEMP/image-check/ready" ] && break; kill -0 "$image_pid"; sleep 1; done
+          test -f "$RUNNER_TEMP/image-check/ready"
+          sleep 2
+          kill -0 "$image_pid"
+          screencapture -x "$OUT/shots/12-images.png"
+          kill "$image_pid"
+          wait "$image_pid" || true
+          cat > "$RUNNER_TEMP/image-render.swift" <<'SWIFT'
+          import AppKit
+          let root = ProcessInfo.processInfo.environment["OUT"]!
+          let image = NSBitmapImageRep(data: try Data(contentsOf: URL(fileURLWithPath: root + "/shots/12-images.png")))!
+          var passed = true
+          for x in [230, 490, 750] {
+              let red = image.colorAt(x: x, y: 240)!.usingColorSpace(.deviceRGB)!
+              let blue = image.colorAt(x: x, y: 400)!.usingColorSpace(.deviceRGB)!
+              passed = passed && red.redComponent > 0.65 && red.blueComponent < 0.2 && blue.blueComponent > 0.65 && blue.redComponent < 0.2
+          }
+          print(passed ? "true" : "false")
+          SWIFT
+          swift "$RUNNER_TEMP/image-render.swift" > "$RUNNER_TEMP/overlay-logs/images-visible.txt"
+          test "$(cat "$RUNNER_TEMP/overlay-logs/images-visible.txt")" = true
+
+      - name: Check real Roblox avatars and game icons render
+        working-directory: voidstrap
+        run: |
+          mkdir -p "$OUT/shots" "$RUNNER_TEMP/overlay-logs"
+          rm -f "$RUNNER_TEMP/image-check/ready-roblox"
+          bash "$RUNNER_TEMP/image-check-src/check-macos-images.sh" roblox > "$RUNNER_TEMP/overlay-logs/roblox-images.txt" 2>&1 &
+          image_pid=$!
+          for i in $(seq 1 180); do [ -f "$RUNNER_TEMP/image-check/ready-roblox" ] && break; kill -0 "$image_pid" || break; sleep 1; done
+          grep -E "Real Roblox|Exception|could not|flat image|wrong size|returned no" "$RUNNER_TEMP/overlay-logs/roblox-images.txt" | head -5 || true
+          test -f "$RUNNER_TEMP/image-check/ready-roblox"
+          sleep 2
+          screencapture -x "$OUT/shots/13-roblox-images.png"
+          kill "$image_pid"
+          wait "$image_pid" || true
+          cat > "$RUNNER_TEMP/roblox-render.swift" <<'SWIFT'
+          import AppKit
+          let root = ProcessInfo.processInfo.environment["OUT"]!
+          let image = NSBitmapImageRep(data: try Data(contentsOf: URL(fileURLWithPath: root + "/shots/13-roblox-images.png")))!
+          var passed = true
+          for cx in [180, 340, 500, 660] {
+              for cy in [258, 418] {
+                  var colors = Set<Int>()
+                  for dx in stride(from: -30, through: 30, by: 10) {
+                      for dy in stride(from: -30, through: 30, by: 10) {
+                          let color = image.colorAt(x: cx + dx, y: cy + dy)!.usingColorSpace(.deviceRGB)!
+                          colors.insert(Int(color.redComponent * 15) << 8 | Int(color.greenComponent * 15) << 4 | Int(color.blueComponent * 15))
+                      }
+                  }
+                  passed = passed && colors.count > 6
+              }
+          }
+          print(passed ? "true" : "false")
+          SWIFT
+          swift "$RUNNER_TEMP/roblox-render.swift" > "$RUNNER_TEMP/overlay-logs/roblox-images-visible.txt"
+          cat "$RUNNER_TEMP/overlay-logs/roblox-images-visible.txt"
+          test "$(cat "$RUNNER_TEMP/overlay-logs/roblox-images-visible.txt")" = true
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: macos-image-render
+          path: |
+            results/shots/12-images.png
+            results/shots/13-roblox-images.png
+          retention-days: 1
+
+      - name: Build and copy Voidstrap into Applications
+        working-directory: voidstrap
+        run: |
+          mkdir -p "$OUT/shots" "$RUNNER_TEMP/overlay-logs"
+          [ -f "$RUNNER_TEMP/pkg/Voidstrap-osx-arm64.zip" ] || bash build/Packaging/MacOS/package.sh osx-arm64 "" "$RUNNER_TEMP/pkg" > "$RUNNER_TEMP/overlay-logs/build.txt" 2>&1
+          ditto -x -k "$RUNNER_TEMP/pkg/Voidstrap-osx-arm64.zip" "$RUNNER_TEMP/app"
+          sudo ditto "$RUNNER_TEMP/app/Voidstrap.app" "$APP"
+          sudo chown -R "$(whoami)" "$APP"
+          /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$APP"
+          brew install --quiet cliclick > "$RUNNER_TEMP/overlay-logs/tools.txt" 2>&1
+
+      - name: Install Voidstrap and Roblox
+        run: |
+          mkdir -p "$VS/Config"
+          printf '{"CheckForUpdates":false,"AssetWarpAutoEnableDeclined":true}' > "$VS/Config/AppSettings.json"
+          "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/install-roblox.txt" 2>&1 &
+          for i in $(seq 1 300); do [ -d /Applications/Roblox.app ] && pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
+          screencapture -x "$OUT/shots/00-runtime-installation.png"
+          test -d /Applications/Roblox.app
+          pgrep -x RobloxPlayer > /dev/null
+          sleep 10
+          osascript -e 'tell application "Roblox" to quit' > /dev/null 2>&1 || true
+          sleep 4
+          pkill -x RobloxPlayer || true
+          pkill -x Voidstrap || true
+          sleep 2
+
+      - name: Grant Screen Recording to Voidstrap
+        run: |
+          sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "INSERT OR REPLACE INTO access (service, client, client_type, auth_value, auth_reason, auth_version, indirect_object_identifier, flags, last_modified) VALUES ('kTCCServiceScreenCapture', 'dev.voidstrap.desktop', 0, 2, 4, 1, 'UNUSED', 0, strftime('%s','now'));" || echo "TCC grant failed"
+
+      - name: Overlays over a fake game session
+        run: |
+          set -u
+          settings="$VS/Config/AppSettings.json"
+          /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d.update({"SessionDockEnabled": True, "OverlaysEnabled": True, "CurrentTimeDisplay": True, "ShowServerDetailsUI": True, "Brightness": 30, "Crosshair": True, "NotificationWindowShow": True, "HomepageBackgroundOverlayEnabled": True, "HomepageBackgroundOverlayColor": "#FF2D7DFF", "EnableActivityTracking": True}); json.dump(d, open(p, "w"))' "$settings"
+          front() { osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null; }
+          "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/session-stdout.txt" 2>&1 &
+          session_pid=$!
+          for i in $(seq 1 120); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
+          sleep 20
+          screencapture -x "$OUT/shots/01-roblox-menu.png"
+          cat > "$RUNNER_TEMP/notification-window.swift" <<'SWIFT'
+          import CoreGraphics
+          import Foundation
+          let pid = Int(CommandLine.arguments[1])!
+          let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
+          for window in windows {
+              guard (window[kCGWindowOwnerPID as String] as? Int) == pid,
+                    (window[kCGWindowLayer as String] as? Int) == 27,
+                    (window[kCGWindowAlpha as String] as? Double ?? 0) > 0.01,
+                    let bounds = window[kCGWindowBounds as String] as? [String: Double],
+                    let width = bounds["Width"], let height = bounds["Height"],
+                    width >= 400, width <= 440, height >= 60, height <= 260
+              else { continue }
+              print("\(Int(bounds["X"] ?? 0)) \(Int(bounds["Y"] ?? 0)) \(Int(width)) \(Int(height)) \(window[kCGWindowNumber as String] as? Int ?? 0)")
+              break
+          }
+          SWIFT
+          swiftc "$RUNNER_TEMP/notification-window.swift" -o "$RUNNER_TEMP/notification-window"
+          log=$(ls -t ~/Library/Logs/Roblox/*Player*.log | head -1)
+          job=$(uuidgen | tr A-Z a-z)
+          for i in $(seq 1 10); do
+            osascript -e 'tell application "Roblox" to activate' > /dev/null 2>&1 || true
+            sleep 1
+            case "$(front)" in Roblox*) break ;; esac
+          done
+          sleep 2
+          ts() { date -u +%Y-%m-%dT%H:%M:%S.000Z; }
+          printf '%s,1.0,f00d0001,6 [FLog::Output] ! Joining game '"'"'%s'"'"' place 1818 at 128.116.1.1\n' "$(ts)" "$job" >> "$log"
+          sleep 1
+          printf '%s,1.1,f00d0001,6 [FLog::GameJoinLoadTime] Report game_join_loadtime: placeid:1818, universeid:13058, userid:1\n' "$(ts)" >> "$log"
+          sleep 1
+          printf '%s,1.2,f00d0001,6 [FLog::Network] serverId: %s|128.116.1.1:53640\n' "$(ts)" "$job" >> "$log"
+          note=""
+          for i in $(seq 1 60); do
+            note=$("$RUNNER_TEMP/notification-window" "$session_pid")
+            [ -n "$note" ] && break
+            [ $((i % 4)) -eq 0 ] && screencapture -x "$OUT/shots/02s-join-wait-$i.png"
+            sleep 0.5
+          done
+          if [ -n "$note" ]; then
+            read -r nx ny nw nh nid <<< "$note"
+            echo true > "$RUNNER_TEMP/overlay-logs/notification-visible.txt"
+            previous=""
+            for i in $(seq 1 12); do
+              sleep 0.5
+              settled=$("$RUNNER_TEMP/notification-window" "$session_pid")
+              [ -z "$settled" ] && break
+              echo "notification window $settled"
+              [ "$settled" = "$previous" ] && break
+              previous=$settled
+            done
+            [ -n "$settled" ] && read -r nx ny nw nh nid <<< "$settled"
+            screencapture -x "$OUT/shots/02a-join-notification.png"
+            screencapture -x -o -l "$nid" "$OUT/shots/02c-join-notification-window.png" || true
+            cliclick -e 300 "m:$((nx + 220)),$((ny + nh / 2))"
+            sleep 1
+            screencapture -x -C "$OUT/shots/02h-hovering.png"
+            sleep 10
+            [ -n "$("$RUNNER_TEMP/notification-window" "$session_pid")" ] && echo true > "$RUNNER_TEMP/overlay-logs/notification-hover.txt"
+            cliclick -e 200 "m:$((nx + nw - 19)),$((ny + 43))"
+            sleep 1
+            screencapture -x "$OUT/shots/02b-notification-close-button.png"
+            present=$("$RUNNER_TEMP/notification-window" "$session_pid")
+            cliclick "c:$((nx + nw - 19)),$((ny + 43))"
+            sleep 2
+            [ -n "$present" ] && [ -z "$("$RUNNER_TEMP/notification-window" "$session_pid")" ] && echo true > "$RUNNER_TEMP/overlay-logs/notification-closed.txt"
+            case "$(front)" in Roblox*) echo true > "$RUNNER_TEMP/overlay-logs/notification-focus.txt" ;; esac
+            cliclick -e 200 "m:$((nx - 300)),$((ny - 200))"
+            kill -0 "$session_pid"
+          fi
+          sleep 2
+          screencapture -x "$OUT/shots/02-in-game.png"
+          cpu_total=0
+          for i in $(seq 1 15); do
+            sample=$(ps -o %cpu= -p "$session_pid" | tr -d ' ')
+            cpu_total=$(python3 -c "print(${cpu_total} + float('${sample:-0}'))")
+            sleep 1
+          done
+          python3 -c "print(round(${cpu_total} / 15, 1))" > "$RUNNER_TEMP/overlay-logs/cpu-overlays.txt"
+          ps -o rss= -p "$session_pid" | awk '{ printf "%d", $1 / 1024 }' > "$RUNNER_TEMP/overlay-logs/memory-mb.txt"
+          echo "overlay cpu $(cat "$RUNNER_TEMP/overlay-logs/cpu-overlays.txt")% memory $(cat "$RUNNER_TEMP/overlay-logs/memory-mb.txt")MB"
+          osascript -e 'tell application "Roblox" to activate'
+          osascript -e 'tell application "System Events" to keystroke "l" using {control down, option down}'
+          sleep 4
+          screencapture -x "$OUT/shots/02-dock-open.png"
+          osascript -e 'tell application "Finder" to activate' > /dev/null 2>&1 || true
+          sleep 4
+          screencapture -x "$OUT/shots/03-roblox-unfocused.png"
+          test "$(front)" = Finder
+          osascript -e 'tell application "Roblox" to activate' > /dev/null 2>&1 || true
+          sleep 4
+          screencapture -x "$OUT/shots/04-roblox-refocused.png"
+          cat > "$RUNNER_TEMP/window-count.swift" <<'SWIFT'
+          import CoreGraphics
+          import Foundation
+          let pid = Int(CommandLine.arguments[1])!
+          let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
+          print(windows.filter {
+              guard ($0[kCGWindowOwnerPID as String] as? Int) == pid,
+                    ($0[kCGWindowAlpha as String] as? Double ?? 0) > 0.01,
+                    let bounds = $0[kCGWindowBounds as String] as? [String: Double]
+              else { return false }
+              return (bounds["Width"] ?? 0) > 32 && (bounds["Height"] ?? 0) > 32
+          }.count)
+          SWIFT
+          swiftc "$RUNNER_TEMP/window-count.swift" -o "$RUNNER_TEMP/window-count"
+          baseline=$("$RUNNER_TEMP/window-count" "$session_pid")
+          buttons_ok=true
+          printf '{}' > "$RUNNER_TEMP/overlay-logs/buttons.json"
+          for entry in chat:569 servers:609 games:649 history:689 music:729 details:769 settings:809; do
+            name=${entry%:*}
+            x=${entry#*:}
+            cliclick "c:$x,653"
+            sleep 3
+            kill -0 "$session_pid"
+            screencapture -x "$OUT/shots/07-panel-$name.png"
+            count=$("$RUNNER_TEMP/window-count" "$session_pid")
+            test "$count" -gt "$baseline" || buttons_ok=false
+            python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d[sys.argv[2]] = int(sys.argv[3]) > int(sys.argv[4]); json.dump(d, open(p, "w"))' "$RUNNER_TEMP/overlay-logs/buttons.json" "$name" "$count" "$baseline"
+            if [ "$name" = settings ]; then
+              osascript -e 'tell application "Finder" to activate'
+              sleep 3
+              test "$(front)" = Finder
+              screencapture -x "$OUT/shots/08-panel-unfocused.png"
+              osascript -e 'tell application "Roblox" to activate'
+              sleep 3
+              kill -0 "$session_pid"
+              screencapture -x "$OUT/shots/09-panel-refocused.png"
+            fi
+            cliclick "c:$x,653"
+            sleep 2
+          done
+          cliclick c:185,653
+          sleep 2
+          kill -0 "$session_pid"
+          screencapture -x "$OUT/shots/10-profile.png"
+          cliclick c:185,653
+          cliclick c:400,653
+          sleep 2
+          kill -0 "$session_pid"
+          screencapture -x "$OUT/shots/11-game-card.png"
+          cliclick c:400,653
+          cliclick c:876,653
+          sleep 1
+          osascript -e 'set the clipboard to ""'
+          cliclick c:924,653
+          sleep 3
+          screencapture -x "$OUT/shots/04-dock-closed.png"
+          [ "$buttons_ok" = true ] && touch "$RUNNER_TEMP/overlay-logs/buttons-passed"
+          printf '%s,2.0,f00d0001,6 [FLog::Network] Time to disconnect replication data: 0.1\n' "$(ts)" >> "$log"
+          sleep 6
+          screencapture -x "$OUT/shots/05-left-game.png"
+          osascript -e 'tell application "Roblox" to quit' > /dev/null 2>&1 || true
+          sleep 3
+          pkill -x RobloxPlayer || true
+          pkill -x Voidstrap || true
+
+      - name: Overlays tab
+        run: |
+          click() { cliclick -e 500 "m:$1"; sleep 0.3; cliclick "c:$1"; sleep "${2:-1.5}"; }
+          "$APP/Contents/MacOS/Voidstrap" -settings > "$RUNNER_TEMP/overlay-logs/settings.txt" 2>&1 &
+          sleep 15
+          click 150,470 2.5
+          click 860,268 2
+          screencapture -x "$OUT/shots/06-overlays-tab.png"
+          cat > "$RUNNER_TEMP/main-window.swift" <<'SWIFT'
+          import CoreGraphics
+          import Foundation
+          let pid = Int(CommandLine.arguments[1])!
+          let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
+          var best: [String: Double]? = nil
+          for window in windows {
+              guard (window[kCGWindowOwnerPID as String] as? Int) == pid, (window[kCGWindowLayer as String] as? Int) == 0,
+                    let bounds = window[kCGWindowBounds as String] as? [String: Double] else { continue }
+              let area: Double = (bounds["Width"] ?? 0) * (bounds["Height"] ?? 0)
+              let bestArea: Double = best.map { ($0["Width"] ?? 0) * ($0["Height"] ?? 0) } ?? -1
+              if area > bestArea { best = bounds }
+          }
+          if let b = best { print("\(Int(b["X"] ?? 0)) \(Int(b["Y"] ?? 0)) \(Int(b["Width"] ?? 0)) \(Int(b["Height"] ?? 0))") }
+          SWIFT
+          swiftc "$RUNNER_TEMP/main-window.swift" -o "$RUNNER_TEMP/main-window"
+          settings_pid=$(pgrep -x Voidstrap | head -1)
+          before=$("$RUNNER_TEMP/main-window" "$settings_pid")
+          echo "settings window before drag $before"
+          if [ -n "$before" ]; then
+            read -r wx wy ww wh <<< "$before"
+            sx=$((wx + ww / 2 + 60)); sy=$((wy + 16))
+            cliclick "m:$sx,$sy"
+            sleep 0.5
+            cliclick "dd:$sx,$sy"
+            for step in 1 2 3 4 5 6 7 8 9 10; do cliclick "dm:$((sx - step * 12)),$((sy + step * 8))"; done
+            cliclick "du:$((sx - 120)),$((sy + 80))"
+            sleep 1.5
+            after=$("$RUNNER_TEMP/main-window" "$settings_pid")
+            echo "settings window after drag $after"
+            read -r ax ay aw ah <<< "$after"
+            if [ $((wx - ax)) -ge 40 ] && [ $((ay - wy)) -ge 25 ]; then echo true > "$RUNNER_TEMP/overlay-logs/window-drag.txt"; fi
+            screencapture -x "$OUT/shots/06b-window-dragged.png"
+          fi
+          pkill -x Voidstrap || true
+
+      - name: Virtual display and FPS flag diagnostics
+        if: always()
+        run: |
+          cat > "$RUNNER_TEMP/displays.swift" <<'SWIFT'
+          import CoreGraphics
+          var count: UInt32 = 0
+          CGGetOnlineDisplayList(0, nil, &count)
+          var ids = [CGDirectDisplayID](repeating: 0, count: Int(count))
+          CGGetOnlineDisplayList(count, &ids, &count)
+          for id in ids {
+              let mode = CGDisplayCopyDisplayMode(id)
+              print("display \(id) main \(CGDisplayIsMain(id)) active \(CGDisplayIsActive(id)) size \(mode?.width ?? 0)x\(mode?.height ?? 0) refresh \(mode?.refreshRate ?? 0) mirrors \(CGDisplayMirrorsDisplay(id))")
+          }
+          SWIFT
+          swiftc "$RUNNER_TEMP/displays.swift" -o "$RUNNER_TEMP/displays"
+          echo "displays before"
+          "$RUNNER_TEMP/displays"
+          helper="$APP/Contents/MacOS/voidstrap-virtualdisplay"
+          ls -l "$helper" || true
+          codesign -dv "$helper" 2>&1 | head -5 || true
+          echo "probe"
+          "$helper" --probe 2>&1 | head -20 || true
+          echo "session"
+          mkfifo "$RUNNER_TEMP/vd-stdin"
+          ( "$helper" --watch-stdin < "$RUNNER_TEMP/vd-stdin" > "$RUNNER_TEMP/overlay-logs/vd-out.txt" 2> "$RUNNER_TEMP/overlay-logs/vd-err.txt"; echo "exit $?" >> "$RUNNER_TEMP/overlay-logs/vd-err.txt" ) &
+          exec 7> "$RUNNER_TEMP/vd-stdin"
+          sleep 12
+          echo "displays during"
+          "$RUNNER_TEMP/displays"
+          screencapture -x "$OUT/shots/14-virtual-display.png" || true
+          exec 7>&-
+          for i in $(seq 1 12); do grep -q "^exit" "$RUNNER_TEMP/overlay-logs/vd-err.txt" && break; sleep 0.5; done
+          helper_pid=$(pgrep -x voidstrap-virtualdisplay | head -1)
+          if [ -n "$helper_pid" ]; then
+            echo "helper still running 6 seconds after stdin closed, sampling"
+            sample "$helper_pid" 2 -file "$RUNNER_TEMP/vd-sample.txt" > /dev/null 2>&1 || true
+            grep -E "Thread_|^ +[0-9]+ " "$RUNNER_TEMP/vd-sample.txt" | head -60 || true
+            kill -TERM "$helper_pid" || true
+            for i in $(seq 1 20); do grep -q "^exit" "$RUNNER_TEMP/overlay-logs/vd-err.txt" && break; sleep 0.5; done
+            echo "after SIGTERM running: $(pgrep -x voidstrap-virtualdisplay || echo no)"
+          else
+            echo "helper stopped on stdin close"
+          fi
+          echo "helper stdout"; cat "$RUNNER_TEMP/overlay-logs/vd-out.txt"
+          echo "helper stderr"; cat "$RUNNER_TEMP/overlay-logs/vd-err.txt"
+          grep -q '"ready":true' "$RUNNER_TEMP/overlay-logs/vd-out.txt" && echo true > "$RUNNER_TEMP/overlay-logs/virtual-display.txt" || true
+          echo "displays after"
+          "$RUNNER_TEMP/displays"
+          flags="$VS/Data/VoidstrapMods/ClientSettings/ClientAppSettings.json"
+          mkdir -p "$(dirname "$flags")"
+          printf '{"DFIntTaskSchedulerTargetFps":"240"}' > "$flags"
+          gbs="$HOME/Library/Roblox/GlobalBasicSettings_13.xml"
+          echo "global settings file exists: $([ -f "$gbs" ] && echo yes || echo no)"
+          [ -f "$gbs" ] && /usr/bin/python3 - "$gbs" <<'PY'
+          import re, sys
+          path = sys.argv[1]
+          text = open(path, encoding="utf-8").read()
+          if re.search(r'<int name="FramerateCap">-?\d+</int>', text):
+              text = re.sub(r'<int name="FramerateCap">-?\d+</int>', '<int name="FramerateCap">240</int>', text)
+          else:
+              text = text.replace('<Properties>', '<Properties>\n\t\t\t<int name="FramerateCap">240</int>', 1)
+          open(path, "w", encoding="utf-8").write(text)
+          PY
+          grep -o '<int name="FramerateCap">[^<]*</int>' "$gbs" || true
+          gbs_before=$(md5 -q "$gbs" 2>/dev/null || echo none)
+          /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d["MacVirtualDisplayEnabled"] = True; json.dump(d, open(p, "w"))' "$VS/Config/AppSettings.json"
+          "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/flags-launch.txt" 2>&1 &
+          for i in $(seq 1 90); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
+          sleep 5
+          roblox_flags="$(dirname "$(dirname "$(ps -o comm= -p "$(pgrep -x RobloxPlayer | head -1)" 2>/dev/null)")")/MacOS/ClientSettings/ClientAppSettings.json"
+          echo "roblox flags file $roblox_flags"
+          cat "$roblox_flags" 2>/dev/null || cat /Applications/Roblox.app/Contents/MacOS/ClientSettings/ClientAppSettings.json 2>/dev/null || echo "no flags file"
+          { cat "$roblox_flags" 2>/dev/null || cat /Applications/Roblox.app/Contents/MacOS/ClientSettings/ClientAppSettings.json 2>/dev/null; } | grep -q '"DFIntTaskSchedulerTargetFps"' && echo true > "$RUNNER_TEMP/overlay-logs/fps-flags.txt" || true
+          sleep 8
+          echo "displays with Roblox running through Voidstrap"
+          "$RUNNER_TEMP/displays"
+          "$RUNNER_TEMP/displays" | grep -q "refresh 240" && echo true > "$RUNNER_TEMP/overlay-logs/app-virtual-display.txt" || true
+          osascript -e 'tell application "Roblox" to quit' > /dev/null 2>&1 || true
+          sleep 2
+          pkill -x RobloxPlayer || true
+          for i in $(seq 1 30); do pgrep -x voidstrap-virtualdisplay > /dev/null || break; sleep 0.5; done
+          sleep 2
+          echo "roblox settings files:"
+          find "$HOME/Library" -iname "GlobalBasicSettings*" 2>/dev/null | sed -E 's#/Users/[^/]+#~#' | head -10 || true
+          ls "$HOME/Library/Roblox" 2>/dev/null | head -30 || true
+          defaults read com.roblox.RobloxPlayer 2>/dev/null | grep -i -E "frame|fps|graphics" | head -10 || true
+          echo "global settings rewritten by Roblox: $([ "$(md5 -q "$gbs" 2>/dev/null || echo none)" != "$gbs_before" ] && echo yes || echo no)"
+          echo "frame rate cap after Roblox closed: $(grep -o '<int name="FramerateCap">[^<]*</int>' "$gbs" 2>/dev/null || echo missing)"
+          grep -q '<int name="FramerateCap">240</int>' "$gbs" 2>/dev/null && echo true > "$RUNNER_TEMP/overlay-logs/fps-cap-kept.txt" || true
+          echo "displays after Roblox closed"
+          "$RUNNER_TEMP/displays"
+          "$RUNNER_TEMP/displays" | grep -q "refresh 240" || echo true > "$RUNNER_TEMP/overlay-logs/app-virtual-display-restored.txt"
+          pkill -x Voidstrap || true
+          grep -h "VirtualDisplay\|MacWindowMode\|FastFlag\|ClientSettings\|LaunchPortableRuntime" ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -20 || true
+
+      - name: Homepage background overlay over a simulated Roblox home screen
+        if: always()
+        run: |
+          cat > "$RUNNER_TEMP/fake-home.swift" <<'SWIFT'
+          import AppKit
+          final class Home: NSView {
+              override init(frame: NSRect) {
+                  super.init(frame: frame)
+                  wantsLayer = true
+                  layer?.backgroundColor = CGColor(srgbRed: 18 / 255, green: 18 / 255, blue: 21 / 255, alpha: 1)
+                  let panel = CALayer()
+                  panel.backgroundColor = CGColor(srgbRed: 1, green: 1, blue: 1, alpha: 1)
+                  panel.frame = CGRect(x: 380, y: 285, width: 240, height: 80)
+                  layer?.addSublayer(panel)
+              }
+              required init?(coder: NSCoder) { nil }
+          }
+          let app = NSApplication.shared
+          app.setActivationPolicy(.regular)
+          let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 1000, height: 650), styleMask: [.titled, .closable], backing: .buffered, defer: false)
+          window.title = "Roblox"
+          window.colorSpace = NSColorSpace.sRGB
+          window.contentView = Home(frame: NSRect(x: 0, y: 0, width: 1000, height: 650))
+          window.setFrameTopLeftPoint(NSPoint(x: 12, y: (NSScreen.main?.frame.height ?? 768) - 40))
+          window.makeKeyAndOrderFront(nil)
+          app.activate(ignoringOtherApps: true)
+          app.run()
+          SWIFT
+          swiftc "$RUNNER_TEMP/fake-home.swift" -o "$RUNNER_TEMP/RobloxPlayer"
+          player=/Applications/Roblox.app/Contents/MacOS/RobloxPlayer
+          pkill -x RobloxPlayer || true
+          pkill -x Voidstrap || true
+          sleep 2
+          sudo mv "$player" "$player.real"
+          sudo cp "$RUNNER_TEMP/RobloxPlayer" "$player"
+          /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d.update({"HomepageBackgroundOverlayEnabled": True, "HomepageBackgroundOverlayColor": "#FF2D7DFF", "MacVirtualDisplayEnabled": False}); json.dump(d, open(p, "w"))' "$VS/Config/AppSettings.json"
+          "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/home-launch.txt" 2>&1 &
+          for i in $(seq 1 60); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
+          echo "fake home running: $(pgrep -x RobloxPlayer || echo no)"
+          osascript -e 'tell application "System Events" to set frontmost of (first process whose name is "RobloxPlayer") to true' > /dev/null 2>&1 || true
+          sleep 12
+          screencapture -x "$OUT/shots/15-homepage-overlay.png"
+          cat > "$RUNNER_TEMP/home-check.swift" <<'SWIFT'
+          import AppKit
+          let image = NSBitmapImageRep(data: try Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[1])))!
+          func at(_ x: Int, _ y: Int) -> NSColor { image.colorAt(x: x, y: y)!.usingColorSpace(.sRGB)! }
+          let background = at(200, 400)
+          let panel = at(512, 360)
+          print(String(format: "background %.0f %.0f %.0f panel %.0f %.0f %.0f", background.redComponent * 255, background.greenComponent * 255, background.blueComponent * 255, panel.redComponent * 255, panel.greenComponent * 255, panel.blueComponent * 255))
+          let tinted = background.blueComponent > 0.6 && background.redComponent < 0.4
+          let kept = panel.redComponent > 0.85 && panel.greenComponent > 0.85 && panel.blueComponent > 0.85
+          print(tinted && kept ? "true" : "false")
+          SWIFT
+          swift "$RUNNER_TEMP/home-check.swift" "$OUT/shots/15-homepage-overlay.png" | tee "$RUNNER_TEMP/overlay-logs/home-check.txt"
+          tail -1 "$RUNNER_TEMP/overlay-logs/home-check.txt" | grep -q true && echo true > "$RUNNER_TEMP/overlay-logs/homepage-overlay.txt" || true
+          grep -hE 'MacHomepageBackground|HomepageBackground\]|StartMacHomepage' ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -15 || true
+          pkill -x RobloxPlayer || true
+          pkill -x Voidstrap || true
+          sleep 1
+          sudo mv "$player.real" "$player"
+
+      - name: Check the dock remains above passive overlays
+        run: |
+          cat > "$RUNNER_TEMP/overlay-layering.swift" <<'SWIFT'
+          import AppKit
+          let root = ProcessInfo.processInfo.environment["OUT"]!
+          func brightness(_ name: String) -> Double {
+              guard let data = try? Data(contentsOf: URL(fileURLWithPath: root + "/shots/" + name)),
+                    let image = NSBitmapImageRep(data: data),
+                    let color = image.colorAt(x: image.pixelsWide / 2, y: image.pixelsHigh - 93)?.usingColorSpace(.deviceRGB)
+              else { fatalError("The dock screenshot could not be read") }
+              return Double((color.redComponent + color.greenComponent + color.blueComponent) / 3)
+          }
+          let opened = brightness("02-dock-open.png")
+          let refocused = brightness("04-roblox-refocused.png")
+          print(opened > 0.08 && abs(opened - refocused) < 0.02 ? "true" : "false")
+          let baseline = NSBitmapImageRep(data: try Data(contentsOf: URL(fileURLWithPath: root + "/shots/02-dock-open.png")))!
+          let settings = NSBitmapImageRep(data: try Data(contentsOf: URL(fileURLWithPath: root + "/shots/07-panel-settings.png")))!
+          var changed = 0
+          for y in stride(from: 150, to: min(550, settings.pixelsHigh), by: 2) {
+              for x in stride(from: 100, to: min(900, settings.pixelsWide), by: 2) {
+                  guard let before = baseline.colorAt(x: x, y: y)?.usingColorSpace(.deviceRGB),
+                        let after = settings.colorAt(x: x, y: y)?.usingColorSpace(.deviceRGB) else { continue }
+                  if abs(before.redComponent - after.redComponent) + abs(before.greenComponent - after.greenComponent) + abs(before.blueComponent - after.blueComponent) > 0.3 { changed += 1 }
+              }
+          }
+          let result = ProcessInfo.processInfo.environment["RUNNER_TEMP"]! + "/overlay-logs/settings-visible.txt"
+          try (changed > 5000 ? "true" : "false").write(toFile: result, atomically: true, encoding: .utf8)
+          let details = NSBitmapImageRep(data: try Data(contentsOf: URL(fileURLWithPath: root + "/shots/07-panel-details.png")))!
+          var colored = 0
+          for y in 110..<240 {
+              for x in 245..<390 {
+                  let color = details.colorAt(x: x, y: y)!.usingColorSpace(.deviceRGB)!
+                  if max(color.redComponent, color.greenComponent, color.blueComponent) - min(color.redComponent, color.greenComponent, color.blueComponent) > 0.15 { colored += 1 }
+              }
+          }
+          try (colored > 500 ? "true" : "false").write(toFile: ProcessInfo.processInfo.environment["RUNNER_TEMP"]! + "/overlay-logs/server-image-visible.txt", atomically: true, encoding: .utf8)
+          SWIFT
+          swift "$RUNNER_TEMP/overlay-layering.swift" > "$RUNNER_TEMP/overlay-logs/layering.txt"
+
+      - name: Show notification and focus diagnostics
+        if: always()
+        run: |
+          cat ~/Library/Logs/Voidstrap/*.log 2>/dev/null | grep -E "MacDockPresence|NotificationWindow|ShowJoinNotification|SessionDockTip|RobloxOverlayAnchor|\[SessionDock\]|PreloadSessionDock|Built the|LinuxWindowUpdatePump" | sed -E 's#/Users/[^/ ]+#~#g' | tail -60 || true
+
+      - name: Full in app audit on macOS
+        if: always()
+        timeout-minutes: 25
+        run: |
+          pkill -x Voidstrap || true
+          log_dir="$HOME/Library/Logs/Voidstrap"
+          before=$(ls "$log_dir" 2>/dev/null | wc -l)
+          ( "$APP/Contents/MacOS/Voidstrap" -windowaudit > "$RUNNER_TEMP/overlay-logs/audit-stdout.txt" 2>&1 ) &
+          audit_pid=$!
+          for i in $(seq 1 1200); do kill -0 "$audit_pid" 2>/dev/null || break; sleep 1; done
+          kill "$audit_pid" 2>/dev/null || true
+          audit_log=$(ls -t "$log_dir"/*.log | head -1)
+          grep -h "\[WindowAudit\]" "$audit_log" | sed -E 's#/Users/[^/ ]+#~#g' > "$RUNNER_TEMP/overlay-logs/audit.txt" || true
+          echo "audit lines: $(wc -l < "$RUNNER_TEMP/overlay-logs/audit.txt") failures: $(grep -c FAIL "$RUNNER_TEMP/overlay-logs/audit.txt")"
+          grep FAIL "$RUNNER_TEMP/overlay-logs/audit.txt" | cut -c1-300 | head -120 || true
+          tail -5 "$RUNNER_TEMP/overlay-logs/audit.txt" | cut -c1-300 || true
+          grep -E "mods [a-z ]+ audit|image [a-z]+ tool audit|licenses page audit" "$RUNNER_TEMP/overlay-logs/audit.txt" | cut -c1-250 || true
+          grep -hE "\[ModGenerator|\[RobloxIconIndex" "$audit_log" | sed -E 's#/Users/[^/ ]+#~#g' | cut -c1-300 | head -20 || true
+          grep -h "Unhandled\|Exception" "$audit_log" | sed -E 's#/Users/[^/ ]+#~#g' | cut -c1-300 | head -30 || true
+
+      - name: Record fixed diagnostic results
+        if: always()
+        run: |
+          mkdir -p "$OUT"
+          /usr/bin/python3 <<'PY'
+          import json, os
+          from pathlib import Path
+          paths = list((Path.home() / "Library/Logs/Voidstrap").glob("*.log"))
+          paths += list((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs").glob("*.txt"))
+          text = "\n".join(path.read_text(errors="replace") for path in paths)
+          result = {
+              "runtime_installed": Path("/Applications/Roblox.app").is_dir(),
+              "missing_native_library": "DllNotFoundException" in text,
+              "missing_native_entry": "EntryPointNotFoundException" in text,
+              "unhandled_exception": "Unhandled exception" in text,
+              "dock_action_exception": "SessionDock::Action" in text and "Exception" in text,
+              "native_crash": any((Path.home() / "Library/Logs/DiagnosticReports").glob("Voidstrap*.ips")),
+              "dock_buttons": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons-passed").is_file(),
+              "dock_panels": json.loads((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons.json").read_text()) if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons.json").is_file() else {},
+              "overlay_attached": "Attached the macOS overlay" in text,
+              "settings_visible": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/settings-visible.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/settings-visible.txt").is_file() else False,
+              "images_visible": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/images-visible.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/images-visible.txt").is_file() else False,
+              "server_image_visible": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/server-image-visible.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/server-image-visible.txt").is_file() else False,
+              "join_notification": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/notification-visible.txt").is_file(),
+              "notification_hover_pause": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/notification-hover.txt").is_file(),
+              "notification_close": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/notification-closed.txt").is_file(),
+              "notification_keeps_roblox_focus": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/notification-focus.txt").is_file(),
+              "cpu_overlays_percent": float((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/cpu-overlays.txt").read_text().strip() or 0) if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/cpu-overlays.txt").is_file() else -1,
+              "memory_mb": int((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/memory-mb.txt").read_text().strip() or 0) if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/memory-mb.txt").is_file() else -1,
+              "window_drag": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/window-drag.txt").is_file(),
+              "virtual_display": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/virtual-display.txt").is_file(),
+              "fps_flags_applied": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/fps-flags.txt").is_file(),
+              "app_virtual_display": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/app-virtual-display.txt").is_file(),
+              "app_virtual_display_restored": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/app-virtual-display-restored.txt").is_file(),
+              "fps_cap_kept": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/fps-cap-kept.txt").is_file(),
+              "homepage_overlay": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/homepage-overlay.txt").is_file(),
+              "dock_layering": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").is_file() else False,
+              "screenshots": len(list((Path(os.environ["OUT"]) / "shots").glob("*.png")))
+          }
+          (Path(os.environ["OUT"]) / "checks.json").write_text(json.dumps(result))
+          if not result["runtime_installed"] or not result["overlay_attached"] or not result["settings_visible"] or not result["images_visible"] or not result["server_image_visible"] or not result["dock_layering"] or not result["dock_buttons"] or not all(result[key] for key in ("join_notification", "notification_hover_pause", "notification_close", "notification_keeps_roblox_focus")) or result["screenshots"] < 21 or any(result[key] for key in ("missing_native_library", "missing_native_entry", "unhandled_exception", "dock_action_exception", "native_crash")):
+              raise SystemExit("The GUI overlay checks did not complete successfully")
+          PY
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: macos-overlay-gui
+          path: |
+            results/shots/*.png
+            results/checks.json
+          retention-days: 1

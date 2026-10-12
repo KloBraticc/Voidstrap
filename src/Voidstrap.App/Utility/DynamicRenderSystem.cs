@@ -127,6 +127,32 @@ namespace Voidstrap.Utility
             SetBrushImageSource(brush, GetBrushImageSource(host));
         }
 
+        public static readonly DependencyProperty PortableBrushImageProperty = DependencyProperty.RegisterAttached(
+            "PortableBrushImage",
+            typeof(ImageSource),
+            typeof(DynamicRenderSystem),
+            new PropertyMetadata(null, OnPortableBrushImageChanged));
+
+        public static void SetPortableBrushImage(DependencyObject element, ImageSource? value) => element.SetValue(PortableBrushImageProperty, value);
+
+        public static ImageSource? GetPortableBrushImage(DependencyObject element) => element.GetValue(PortableBrushImageProperty) as ImageSource;
+
+        private static void OnPortableBrushImageChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
+        {
+            if (!Platform.UsesPortableUi || element is not Border host)
+                return;
+            if (host.Background is ImageBrush brush)
+            {
+                PresentPortableBrushImage(host, brush, e.NewValue as ImageSource);
+                return;
+            }
+            host.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+            {
+                if (host.Background is ImageBrush ready)
+                    PresentPortableBrushImage(host, ready, GetPortableBrushImage(host));
+            }));
+        }
+
         private static readonly ConditionalWeakTable<ImageBrush, System.Windows.Controls.Border> BrushImageHosts = new();
         private static readonly object BrushImageMarker = new();
 
@@ -1039,9 +1065,9 @@ namespace Voidstrap.Utility
             }
         }
 
-        internal static Task<BitmapSource?> LoadWebImageAsync(string uri)
+        internal static Task<BitmapSource?> LoadWebImageAsync(string uri, int decodeWidth = 0)
         {
-            return GetOrDecodeAsync(uri, 0);
+            return GetOrDecodeAsync(uri, decodeWidth);
         }
 
         private static Task<BitmapSource?> GetOrDecodeAsync(string uri, int decodeWidth)

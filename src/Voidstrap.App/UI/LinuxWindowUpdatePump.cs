@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -13,7 +14,7 @@ internal static class LinuxWindowUpdatePump
 	internal static void Attach(Window window)
 	{
 #if CROSSPLAT
-		if (!OperatingSystem.IsLinux() || Pumps.TryGetValue(window, out _))
+		if ((!OperatingSystem.IsLinux() && !OperatingSystem.IsMacOS()) || Pumps.TryGetValue(window, out _))
 			return;
 
 		Pumps.Add(window, new Pump(window));
@@ -32,8 +33,22 @@ internal static class LinuxWindowUpdatePump
 
 	private static readonly TimeSpan FallbackInterval = TimeSpan.FromMilliseconds(16);
 
+	private static readonly TimeSpan ActiveInterval = TimeSpan.FromMilliseconds(16);
+
+	private static readonly TimeSpan PassiveInterval = TimeSpan.FromMilliseconds(250);
+
+	private static readonly EventInfo? RenderWakeupEvent = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost)
+		.GetEvent("RenderWakeupRequested", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+	private static readonly MethodInfo? AddRenderWakeup = RenderWakeupEvent?.GetAddMethod(true);
+
+	private static readonly MethodInfo? RemoveRenderWakeup = RenderWakeupEvent?.GetRemoveMethod(true);
+
 	private static readonly FieldInfo? NativeLoopRunningField = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost)
 		.GetField("_isNativeLoopRunning", BindingFlags.Instance | BindingFlags.NonPublic);
+
+	private static readonly MethodInfo? DisposeDeferredNativeWindow = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost)
+		.GetMethod("DisposeDeferredNativeWindowIfNeeded", BindingFlags.Instance | BindingFlags.NonPublic);
 
 	private static bool RunsNativeLoop(System.Windows.Media.ProGPU.ProGpuWpfWindowHost host)
 	{
@@ -47,23 +62,35 @@ internal static class LinuxWindowUpdatePump
 		private readonly EventHandler _ownerTick;
 		private System.Windows.Media.ProGPU.ProGpuWpfWindowHost? _host;
 		private DispatcherTimer? _fallback;
-		private bool _updating;
+		private static bool _updating;
+		private static bool _updateQueued;
+		private static readonly HashSet<Pump> Pending = [];
+		private long _lastOwnerTick;
 		private bool _stopped;
+		private Delegate? _renderWakeup;
+		private System.Windows.Media.ProGPU.ProGpuWpfWindowHost? _wakeupHost;
+		private int _wakeups;
+		private bool _wakeupsLogged;
 
 		internal Pump(Window window)
 		{
 			_window = window;
 			_ownerTick = OnOwnerUpdateTick;
+			window.Loaded += OnLoaded;
 			window.IsVisibleChanged += OnVisibleChanged;
 			window.Activated += OnActivated;
 			window.PreviewMouseDown += OnPreviewMouseDown;
 			window.Closed += OnClosed;
 		}
 
+		private void OnLoaded(object sender, RoutedEventArgs e) => Subscribe();
+
 		private void OnVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
 			if (e.NewValue is true)
 				Subscribe();
+			else
+				Unsubscribe();
 		}
 
 		private void OnActivated(object? sender, EventArgs e)
@@ -78,7 +105,7 @@ internal static class LinuxWindowUpdatePump
 
 		private void Subscribe()
 		{
-			if (_stopped)
+			if (_stopped || !_window.IsVisible)
 				return;
 
 			try
@@ -86,7 +113,15 @@ internal static class LinuxWindowUpdatePump
 				if (_host is null && (!System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(_window, out _host) || _host is null))
 					return;
 
+				SubscribeRenderWakeup();
+
 				if (AddUpdateTick is null || RemoveUpdateTick is null)
+				{
+					StartFallback();
+					return;
+				}
+
+				if (_updating)
 				{
 					StartFallback();
 					return;
@@ -106,6 +141,8 @@ internal static class LinuxWindowUpdatePump
 
 				if (NativeLoopRunningField is not null && RunsNativeLoop(_host))
 					return;
+
+				StartFallback();
 
 				foreach (Window other in application.Windows)
 				{
@@ -127,19 +164,79 @@ internal static class LinuxWindowUpdatePump
 			}
 		}
 
+		private TimeSpan CurrentInterval => _renderWakeup != null && PortableOverlay.IsPassive(_window) ? PassiveInterval : FallbackInterval;
+
+		private void SubscribeRenderWakeup()
+		{
+			if (_renderWakeup != null || _host is null || AddRenderWakeup is null || RenderWakeupEvent?.EventHandlerType is not { } handlerType)
+				return;
+			try
+			{
+				MethodInfo invoke = handlerType.GetMethod("Invoke")!;
+				System.Linq.Expressions.ParameterExpression[] parameters = [.. Array.ConvertAll(invoke.GetParameters(), parameter => System.Linq.Expressions.Expression.Parameter(parameter.ParameterType, parameter.Name))];
+				System.Linq.Expressions.MethodCallExpression call = System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.Constant(this), typeof(Pump).GetMethod(nameof(OnRenderWakeup), BindingFlags.Instance | BindingFlags.NonPublic)!);
+				Delegate handler = System.Linq.Expressions.Expression.Lambda(handlerType, call, parameters).Compile();
+				AddRenderWakeup.Invoke(_host, [handler]);
+				_renderWakeup = handler;
+				_wakeupHost = _host;
+			}
+			catch (Exception ex)
+			{
+				_renderWakeup = null;
+				App.Logger?.WriteLine("LinuxWindowUpdatePump", _window.GetType().Name + " keeps the steady pump because render wakeups are unavailable, " + ex.Message);
+			}
+		}
+
+		private void UnsubscribeRenderWakeup()
+		{
+			if (_renderWakeup is null || _wakeupHost is null)
+				return;
+			try
+			{
+				RemoveRenderWakeup?.Invoke(_wakeupHost, [_renderWakeup]);
+			}
+			catch (Exception)
+			{
+			}
+			_renderWakeup = null;
+			_wakeupHost = null;
+		}
+
+		private void OnRenderWakeup()
+		{
+			if (_window.Dispatcher.CheckAccess())
+			{
+				OnRenderWakeupOnDispatcher();
+				return;
+			}
+			if (!_window.Dispatcher.HasShutdownStarted)
+				_window.Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(OnRenderWakeupOnDispatcher));
+		}
+
+		private void OnRenderWakeupOnDispatcher()
+		{
+			if (_stopped || !_window.IsVisible)
+				return;
+			_wakeups++;
+			QueueUpdate();
+		}
+
 		private void StartFallback()
 		{
 			if (_fallback is not null)
 			{
+				TimeSpan interval = CurrentInterval;
+				if (_fallback.Interval != interval)
+					_fallback.Interval = interval;
 				if (!_fallback.IsEnabled)
 					_fallback.Start();
 				return;
 			}
 
-			_fallback = new DispatcherTimer(DispatcherPriority.Input, _window.Dispatcher) { Interval = FallbackInterval };
+			_fallback = new DispatcherTimer(DispatcherPriority.Input, _window.Dispatcher) { Interval = CurrentInterval };
 			_fallback.Tick += OnFallbackTick;
 			_fallback.Start();
-			App.Logger?.WriteLine("LinuxWindowUpdatePump", "The window host has no update tick, " + _window.GetType().Name + " is pumped on a timer");
+			App.Logger?.WriteLine("LinuxWindowUpdatePump", _window.GetType().Name + " uses a fallback pump while no native owner loop is running");
 		}
 
 		private void OnFallbackTick(object? sender, EventArgs e)
@@ -150,18 +247,87 @@ internal static class LinuxWindowUpdatePump
 				return;
 			}
 
-			OnOwnerUpdateTick(sender, e);
+			TimeSpan interval = CurrentInterval;
+			if (_fallback is not null && _fallback.Interval != interval)
+				_fallback.Interval = interval;
+			if (!_wakeupsLogged && _wakeups >= 20 && interval == PassiveInterval)
+			{
+				_wakeupsLogged = true;
+				App.Logger?.WriteLine("LinuxWindowUpdatePump", _window.GetType().Name + " is passive and redraws on render requests, " + _wakeups + " so far");
+			}
+
+			if (HasRecentOwnerTick())
+				return;
+
+			QueueUpdate();
 		}
+
+		private bool HasRecentOwnerTick() => _lastOwnerTick != 0
+			&& Stopwatch.GetElapsedTime(_lastOwnerTick) < ActiveInterval
+			&& _owners.Exists(RunsNativeLoop);
 
 		private void OnOwnerUpdateTick(object? sender, EventArgs e)
 		{
-			if (_updating || _stopped || _host is null || !_window.IsVisible)
-				return;
+			_lastOwnerTick = Stopwatch.GetTimestamp();
+			QueueUpdate();
+		}
 
+		private void QueueUpdate()
+		{
+			if (_stopped || _host is null || !_window.IsVisible || RunsNativeLoop(_host)
+				|| _window.Dispatcher.HasShutdownStarted || _window.Dispatcher.HasShutdownFinished)
+				return;
+			Pending.Add(this);
+			ScheduleUpdates();
+		}
+
+		private static void ScheduleUpdates()
+		{
+			if (_updating || _updateQueued || Pending.Count == 0)
+				return;
+			foreach (Pump pump in Pending)
+			{
+				_updateQueued = true;
+				pump._window.Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(FlushUpdates));
+				break;
+			}
+		}
+
+		private static void FlushUpdates()
+		{
+			_updateQueued = false;
+			if (_updating)
+				return;
+			Pump[] batch = [.. Pending];
+			Pending.Clear();
 			_updating = true;
 			try
 			{
-				_host.SilkWindow?.DoUpdate();
+				foreach (Pump pump in batch)
+				{
+					Pending.Remove(pump);
+					pump.Update();
+				}
+			}
+			finally
+			{
+				_updating = false;
+				ScheduleUpdates();
+			}
+		}
+
+		private void Update()
+		{
+			if (_stopped || _host is null || !_window.IsVisible || RunsNativeLoop(_host))
+				return;
+			bool ownsFrame = false;
+			try
+			{
+				if (_host.SilkWindow is { } nativeWindow)
+					nativeWindow.IsEventDriven = false;
+				NativeLoopRunningField?.SetValue(_host, true);
+				ownsFrame = NativeLoopRunningField is not null;
+				_host.DoEvents();
 			}
 			catch (Exception ex)
 			{
@@ -169,7 +335,18 @@ internal static class LinuxWindowUpdatePump
 			}
 			finally
 			{
-				_updating = false;
+				try
+				{
+					if (ownsFrame)
+					{
+						NativeLoopRunningField!.SetValue(_host, false);
+						DisposeDeferredNativeWindow?.Invoke(_host, null);
+					}
+				}
+				catch (Exception ex)
+				{
+					Stop("the native frame could not finish, " + ex.Message);
+				}
 			}
 		}
 
@@ -185,6 +362,9 @@ internal static class LinuxWindowUpdatePump
 
 		private void Unsubscribe()
 		{
+			UnsubscribeRenderWakeup();
+			Pending.Remove(this);
+			_lastOwnerTick = 0;
 			foreach (System.Windows.Media.ProGPU.ProGpuWpfWindowHost owner in _owners)
 			{
 				try
@@ -210,6 +390,7 @@ internal static class LinuxWindowUpdatePump
 		{
 			_stopped = true;
 			Unsubscribe();
+			_window.Loaded -= OnLoaded;
 			_window.IsVisibleChanged -= OnVisibleChanged;
 			_window.Activated -= OnActivated;
 			_window.PreviewMouseDown -= OnPreviewMouseDown;

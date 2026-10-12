@@ -1052,6 +1052,300 @@ namespace Voidstrap.Resources {
                 return ResourceManager.GetString("ContextMenu.PlayerLogs.Title", resourceCulture);
             }
         }
+
+        public static string ContextMenu_ServerBrowser_Capacity {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Capacity", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_CapacityUnknown {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.CapacityUnknown", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Count {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Count", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_ExcludeFull {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.ExcludeFull", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Failed {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Failed", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Join {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Join", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Loading {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Loading", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_LoadMore {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.LoadMore", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Metrics {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Metrics", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_NoServers {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.NoServers", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_NotInGame {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.NotInGame", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_RateLimited {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.RateLimited", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Refresh {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Refresh", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Search {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Search", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Sort_Empty {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Sort.Empty", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Sort_Best {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Sort.Best", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_BestMatch {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.BestMatch", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Blocked {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Blocked", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_EstimatedPing {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.EstimatedPing", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Probing {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Probing", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_ProbeSummary {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.ProbeSummary", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Joining {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Joining", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_JoinFailed {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.JoinFailed", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_SignedOut {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.SignedOut", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_NoLocation {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.NoLocation", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Unresolved {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Unresolved", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_AllBlocked {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.AllBlocked", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_AllFar {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.AllFar", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Sort_Ping {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Sort.Ping", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Sort_Population {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Sort.Population", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Title {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Title", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Place {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Place", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_GameDetails {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.GameDetails", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_ScanSummary {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.ScanSummary", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Unknown {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Unknown", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_ServerBrowser_Current {
+            get {
+                return ResourceManager.GetString("ContextMenu.ServerBrowser.Current", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_GameBrowser_Title {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.Title", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_GameBrowser_Continue {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.Continue", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_GameBrowser_Favorites {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.Favorites", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_GameBrowser_Search {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.Search", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_GameBrowser_SearchPlaceholder {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.SearchPlaceholder", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_GameBrowser_Loading {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.Loading", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_GameBrowser_NoContinue {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.NoContinue", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_GameBrowser_NoFavorites {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.NoFavorites", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_GameBrowser_SearchPrompt {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.SearchPrompt", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_GameBrowser_NoResults {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.NoResults", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_GameBrowser_Failed {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.Failed", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_GameBrowser_Playing {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.Playing", resourceCulture);
+            }
+        }
+
+        public static string ContextMenu_GameBrowser_Join {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.Join", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Copy Instance ID.

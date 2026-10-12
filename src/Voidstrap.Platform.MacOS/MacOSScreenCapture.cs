@@ -166,6 +166,9 @@ public static unsafe partial class MacOSScreenCapture
 			SendNUInt(config, sel_registerName("setHeight:"), (nuint)height);
 			SendUInt(config, sel_registerName("setPixelFormat:"), PixelFormatBgra);
 			SendBool(config, sel_registerName("setShowsCursor:"), false);
+			nint srgb = SrgbColorSpaceName();
+			if (srgb != 0 && RespondsTo(config, sel_registerName("respondsToSelector:"), sel_registerName("setColorSpaceName:")))
+				SendObject(config, sel_registerName("setColorSpaceName:"), srgb);
 			CaptureRequest request = new(0, true);
 			nint block = CreateBlock(request, (nint)(delegate* unmanaged<nint, nint, nint, void>)&OnImage);
 			try
@@ -217,6 +220,24 @@ public static unsafe partial class MacOSScreenCapture
 	{
 		CaptureRequest request = (CaptureRequest)GCHandle.FromIntPtr(((BlockLiteral*)block)->Context).Target!;
 		request.Complete(image != 0 ? CFRetain(image) : 0);
+	}
+
+	private static nint _srgbName;
+
+	private static nint SrgbColorSpaceName()
+	{
+		if (_srgbName != 0)
+			return _srgbName;
+		try
+		{
+			nint graphics = NativeLibrary.Load("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics");
+			_srgbName = Marshal.ReadIntPtr(NativeLibrary.GetExport(graphics, "kCGColorSpaceSRGB"));
+		}
+		catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
+		{
+			_srgbName = 0;
+		}
+		return _srgbName;
 	}
 
 	private static bool CopyPixels(nint image, ref byte[] buffer, out int width, out int height)
@@ -360,6 +381,10 @@ public static unsafe partial class MacOSScreenCapture
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nint SendObject(nint receiver, nint selector, nint argument);
+
+	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
+	[return: MarshalAs(UnmanagedType.I1)]
+	private static partial bool RespondsTo(nint receiver, nint selector, nint argument);
 
 	[LibraryImport(ObjectiveC, EntryPoint = "objc_msgSend")]
 	private static partial nint SendIndex(nint receiver, nint selector, nuint index);

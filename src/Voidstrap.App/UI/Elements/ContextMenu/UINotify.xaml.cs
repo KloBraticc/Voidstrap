@@ -17,7 +17,7 @@ namespace Voidstrap.UI.Elements.Overlay
 {
     public partial class NotificationWindow : Window
     {
-        private const int MaxQueuedNotifications = 20;
+        private const int MaxQueuedNotifications = 4;
         private const int EdgeMargin = 10;
         private const int RenderWarmUpFrames = 6;
         private const int RenderWarmUpTimeoutMs = 2500;
@@ -61,6 +61,7 @@ namespace Voidstrap.UI.Elements.Overlay
         {
             Title = "Voidstrap Notification";
             InitializeComponent();
+            PortableOverlay.Prepare(this);
 			_linuxSurface = Voidstrap.Utility.Platform.IsLinux;
 			if (_linuxSurface)
 			{
@@ -107,22 +108,72 @@ namespace Voidstrap.UI.Elements.Overlay
 				Dispatcher.BeginInvoke(new Action(() => ShowNotification(message, image, durationSeconds, flag)));
 				return;
 			}
+            int separator = message.IndexOf('\n');
+            ShowNotification(separator < 0 ? "Voidstrap" : message[..separator],
+                separator < 0 ? message : message[(separator + 1)..], image, durationSeconds, flag);
+        }
+
+        public void ShowNotification(string title, string message, BitmapSource? image, double durationSeconds,
+            BitmapSource? flag, string status = "Voidstrap", CancellationToken token = default, Voidstrap.UI.NotificationKind kind = Voidstrap.UI.NotificationKind.General)
+        {
+            if (_closed || token.IsCancellationRequested)
+                return;
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.BeginInvoke(new Action(() => ShowNotification(title, message, image, durationSeconds, flag, status, token, kind)));
+                return;
+            }
             while (_queue.Count >= MaxQueuedNotifications)
                 _queue.Dequeue();
             _queue.Enqueue(new NotificationItem
             {
+                Title = title,
                 Text = message,
                 Image = image,
                 Flag = flag,
-                Duration = durationSeconds
+                Duration = durationSeconds,
+                Status = status,
+                Token = token,
+                Kind = kind
             });
-
             if (!_isProcessing)
-                _ = ProcessQueue();
+                StartProcessQueue();
         }
 
         #endregion
         #region Notification Logic
+
+		private void StartProcessQueue()
+		{
+			if (!Dispatcher.CheckAccess())
+			{
+				Dispatcher.BeginInvoke(new Action(StartProcessQueue));
+				return;
+			}
+
+			SynchronizationContext? previous = SynchronizationContext.Current;
+			try
+			{
+				SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher));
+				_ = RunProcessQueueAsync();
+			}
+			finally
+			{
+				SynchronizationContext.SetSynchronizationContext(previous);
+			}
+		}
+
+		private async Task RunProcessQueueAsync()
+		{
+			try
+			{
+				await ProcessQueue();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("NotificationWindow::ProcessQueue", "Notification cleanup failed: " + ex.Message);
+			}
+		}
 
         private async Task ProcessQueue()
         {
@@ -133,6 +184,17 @@ namespace Voidstrap.UI.Elements.Overlay
                 while (_queue.Count > 0 && !_lifetimeCts.IsCancellationRequested)
                 {
                     var item = _queue.Dequeue();
+                    if (item.Token.IsCancellationRequested)
+                        continue;
+                    NotificationTitle.Text = item.Title;
+                    NotificationStatus.Text = item.Status;
+                    // A notification with no status line, such as the overlay tip, is just a title and a line of text
+                    NotificationStatus.Visibility = string.IsNullOrEmpty(item.Status) ? Visibility.Collapsed : Visibility.Visible;
+                    if (Voidstrap.Utility.Platform.IsWindows || PortableOverlay.Active)
+                    {
+                        await PresentWindowsNotificationAsync(item);
+                        continue;
+                    }
                     double duration = double.IsFinite(item.Duration) ? Math.Clamp(item.Duration, 0.5, 60) : 5;
                     SetText(item.Text, item.Flag);
 
@@ -180,14 +242,6 @@ namespace Voidstrap.UI.Elements.Overlay
 						BeginAnimation(LinuxFadeProperty, fadeIn);
 					else
 						NotificationBorder.BeginAnimation(OpacityProperty, fadeIn);
-					var progressAnim = new DoubleAnimation
-					{
-						From = 0,
-						To = 1,
-                        Duration = TimeSpan.FromSeconds(duration)
-                    };
-					Timeline.SetDesiredFrameRate(progressAnim, AnimationFrameRate);
-					ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, progressAnim);
 
 					if (_linuxSyncing)
 					{
@@ -218,6 +272,7 @@ namespace Voidstrap.UI.Elements.Overlay
             finally
             {
                 _isProcessing = false;
+                ReleaseWindowsPresentation();
 				StopLinuxSync();
 				if (!_closed)
 				{
@@ -249,19 +304,51 @@ namespace Voidstrap.UI.Elements.Overlay
 				return;
 			}
 
-			NotificationImage.Source = image;
+			NotificationImage.Source = FitBitmap(image, NotificationImage.Width);
 			NotificationImage.Visibility = Visibility.Visible;
 			NotificationImage.InvalidateMeasure();
 			NotificationImage.InvalidateArrange();
 			NotificationImage.InvalidateVisual();
 		}
 
+		// Game icons arrive at several hundred pixels and are drawn at 44, so they are scaled once up front
+		// instead of being resampled with high quality filtering on every animation frame
+		private BitmapSource FitBitmap(BitmapSource source, double displayWidth)
+		{
+            if (PortableOverlay.Active)
+                return source;
+			try
+			{
+				double scale = VisualTreeHelper.GetDpi(this).DpiScaleX;
+				int target = (int)Math.Ceiling(Math.Max(1, displayWidth) * scale);
+				if (source.PixelWidth <= target * 1.25 || source.PixelWidth <= 0 || source.PixelHeight <= 0)
+					return source;
+				double factor = (double)target / source.PixelWidth;
+				TransformedBitmap scaled = new(source, new ScaleTransform(factor, factor));
+				CachedBitmap cached = new(scaled, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+				cached.Freeze();
+				return cached;
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("NotificationWindow", "The notification image could not be resized: " + ex.Message);
+				return source;
+			}
+		}
+
 		private void SetText(string? text, BitmapSource? flag)
 		{
 			NotificationText.Inlines.Clear();
+			NotificationFlag.Source = null;
+			NotificationFlag.Visibility = Visibility.Collapsed;
 			EnsureReadableForeground();
 			string message = text ?? string.Empty;
 			int marker = message.IndexOf(FlagPlaceholder);
+			if (marker >= 0 && flag != null && PortableOverlay.Active)
+			{
+				SetTextWithOverlaidFlag(message, marker, flag);
+				return;
+			}
 			if (marker < 0 || flag == null || !Voidstrap.Utility.Platform.IsWindows)
 			{
 				NotificationText.Text = message.Replace(FlagPlaceholder.ToString(), string.Empty);
@@ -271,7 +358,7 @@ namespace Voidstrap.UI.Elements.Overlay
 				NotificationText.Inlines.Add(new Run(message.Substring(0, marker)));
 			NotificationText.Inlines.Add(new InlineUIContainer(new Image
 			{
-				Source = flag,
+				Source = FitBitmap(flag, 22),
 				Height = 11,
 				Stretch = Stretch.Uniform,
 				Margin = new Thickness(0, 0, 4, -1),
@@ -282,6 +369,31 @@ namespace Voidstrap.UI.Elements.Overlay
 			});
 			if (marker + 1 < message.Length)
 				NotificationText.Inlines.Add(new Run(message.Substring(marker + 1)));
+		}
+
+		private void SetTextWithOverlaidFlag(string message, int marker, BitmapSource flag)
+		{
+			int lineStart = message.LastIndexOf('\n', Math.Max(0, marker - 1)) + 1;
+			int line = 0;
+			for (int index = 0; index < lineStart; index++)
+			{
+				if (message[index] == '\n')
+					line++;
+			}
+			double flagHeight = NotificationFlag.Height;
+			double flagWidth = flag.PixelHeight > 0 ? Math.Ceiling(flagHeight * flag.PixelWidth / flag.PixelHeight) : 16;
+			double pixelsPerDip = PortableOverlay.Scale(this).PixelsPerDip;
+			Typeface typeface = new(NotificationText.FontFamily, NotificationText.FontStyle, NotificationText.FontWeight, NotificationText.FontStretch);
+			FormattedText Measure(string value) => new(value, System.Globalization.CultureInfo.CurrentUICulture, NotificationText.FlowDirection, typeface, NotificationText.FontSize, Brushes.Black, pixelsPerDip);
+			double space = Math.Max(1, Measure("a a").WidthIncludingTrailingWhitespace - Measure("aa").WidthIncludingTrailingWhitespace);
+			int spaces = (int)Math.Ceiling((flagWidth + 4) / space);
+			string prefix = message.Substring(lineStart, marker - lineStart);
+			NotificationText.Text = message.Substring(0, marker) + new string(' ', spaces) + message.Substring(marker + 1);
+			double lineHeight = NotificationText.FontSize * NotificationText.FontFamily.LineSpacing;
+			NotificationFlag.Source = flag;
+			NotificationFlag.Width = flagWidth;
+			NotificationFlag.Margin = new Thickness(Measure(prefix).WidthIncludingTrailingWhitespace, line * lineHeight + Math.Max(0, (lineHeight - flagHeight) / 2), 0, 0);
+			NotificationFlag.Visibility = Visibility.Visible;
 		}
 
 		private async Task PlayOutroAsync()
@@ -330,6 +442,20 @@ namespace Voidstrap.UI.Elements.Overlay
 
 		public void Prewarm()
 		{
+			if (Voidstrap.Utility.Platform.IsWindows && !_closed)
+			{
+				try
+				{
+					new WindowInteropHelper(this).EnsureHandle();
+				}
+				catch (InvalidOperationException ex)
+				{
+					App.Logger.WriteLine("NotificationWindow::Prewarm", "The notification window could not be built ahead of time: " + ex.Message);
+				}
+				return;
+			}
+            if (PortableOverlay.Active)
+                return;
 			if (_closed || _renderReady || !Voidstrap.Utility.Platform.IsLinux)
 				return;
 
@@ -399,13 +525,10 @@ namespace Voidstrap.UI.Elements.Overlay
 			{
 				EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
 			};
-			DoubleAnimation progress = new(0, 1, length);
 			Timeline.SetDesiredFrameRate(slide, AnimationFrameRate);
 			Timeline.SetDesiredFrameRate(fade, AnimationFrameRate);
-			Timeline.SetDesiredFrameRate(progress, AnimationFrameRate);
 			RootTranslate.BeginAnimation(TranslateTransform.XProperty, slide);
 			NotificationBorder.BeginAnimation(OpacityProperty, fade);
-			ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, progress);
 			try
 			{
 				await Task.Delay(length, _lifetimeCts.SafeToken());
@@ -863,13 +986,13 @@ namespace Voidstrap.UI.Elements.Overlay
             if (!Voidstrap.Utility.Platform.IsWindows)
             {
                 Title = "Voidstrap Notification";
-                Voidstrap.Integrations.Overlays.LinuxOverlaySurface.MakeClickThrough(this);
+                PortableOverlay.Handle(this);
                 return;
             }
 
             var hwnd = new WindowInteropHelper(this).Handle;
 			nint exStyle = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
-			SetWindowLongPtr(hwnd, GWL_EXSTYLE, exStyle | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
+			SetWindowLongPtr(hwnd, GWL_EXSTYLE, (exStyle & ~WS_EX_TRANSPARENT) | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
         }
 
         private const int GWL_EXSTYLE = -20;
@@ -898,9 +1021,13 @@ namespace Voidstrap.UI.Elements.Overlay
             NotificationBorder.BeginAnimation(OpacityProperty, null);
             ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
 			BeginAnimation(LinuxFadeProperty, null);
+            ReleaseWindowsPresentation();
+            PortableOverlay.Release(this);
             SetImage(null);
+            NotificationTitle.Text = string.Empty;
             NotificationText.Inlines.Clear();
             _lifetimeCts.Dispose();
+            GC.SuppressFinalize(this);
 
             if (ReferenceEquals(Application.Current?.Resources["NotificationWindow"], this))
                 Application.Current.Resources.Remove("NotificationWindow");
@@ -952,10 +1079,14 @@ namespace Voidstrap.UI.Elements.Overlay
 
         private partial class NotificationItem
         {
+            public string Title { get; set; } = string.Empty;
+            public string Status { get; set; } = "Voidstrap";
+            public CancellationToken Token { get; set; }
             public string Text { get; set; } = null!;
             public BitmapSource? Image { get; set; }
             public BitmapSource? Flag { get; set; }
             public double Duration { get; set; } = 5;
+            public Voidstrap.UI.NotificationKind Kind { get; set; }
         }
     }
 }

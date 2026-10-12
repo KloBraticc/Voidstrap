@@ -11,7 +11,8 @@ namespace Voidstrap.UI;
 
 internal static class LinuxUiPerformance
 {
-	private static readonly bool TraceEnabled = OperatingSystem.IsLinux() && Environment.GetEnvironmentVariable("VOIDSTRAP_PERF_TRACE") == "1";
+	private static readonly bool TraceEnabled = Environment.GetEnvironmentVariable("VOIDSTRAP_PERF_TRACE") == "1";
+	private static readonly string Category = OperatingSystem.IsLinux() ? "LinuxUiPerformance" : "StartupPerformance";
 	private static readonly long Started = Stopwatch.GetTimestamp();
 	private static readonly ConditionalWeakTable<Window, WindowProbe> Windows = new();
 	private static bool _installed;
@@ -29,7 +30,7 @@ internal static class LinuxUiPerformance
 
 	internal static void Install()
 	{
-		if (_installed || !OperatingSystem.IsLinux())
+		if (_installed || (!OperatingSystem.IsLinux() && !TraceEnabled))
 			return;
 
 		_installed = true;
@@ -47,26 +48,28 @@ internal static class LinuxUiPerformance
 
 	internal static void Mark(string stage)
 	{
-		if (OperatingSystem.IsLinux())
-			App.Logger.WriteLine("LinuxUiPerformance", stage + " at " + (int)Stopwatch.GetElapsedTime(Started).TotalMilliseconds + " ms");
+		if (OperatingSystem.IsLinux() || TraceEnabled)
+			App.Logger.WriteLine(Category, stage + " at " + (int)Stopwatch.GetElapsedTime(Started).TotalMilliseconds + " ms");
 	}
 
 	internal static void Duration(string stage, long started)
 	{
-		if (OperatingSystem.IsLinux())
-			App.Logger.WriteLine("LinuxUiPerformance", stage + " took " + (int)Stopwatch.GetElapsedTime(started).TotalMilliseconds + " ms");
+		if (OperatingSystem.IsLinux() || TraceEnabled)
+			App.Logger.WriteLine(Category, stage + " took " + (int)Stopwatch.GetElapsedTime(started).TotalMilliseconds + " ms");
 	}
 
 	internal static void WindowConstructed(Window window)
 	{
-		if (OperatingSystem.IsLinux())
+		if (OperatingSystem.IsLinux() || TraceEnabled)
 			Windows.GetValue(window, static item => new WindowProbe(item));
 	}
 
 	internal static void FirstPresented(Window window, long elapsedMilliseconds)
 	{
 		if (OperatingSystem.IsLinux())
-			App.Logger.WriteLine("LinuxUiPerformance", window.GetType().Name + " first presented frame after " + elapsedMilliseconds + " ms");
+			App.Logger.WriteLine(Category, window.GetType().Name + " first presented frame after " + elapsedMilliseconds + " ms");
+		if (window is Voidstrap.UI.Elements.Settings.MainWindow settings)
+			settings.StartDeferredStartupWork();
 		if (Application.Current is App application)
 			application.StartLinuxDeferredServices();
 	}
@@ -74,7 +77,7 @@ internal static class LinuxUiPerformance
 	internal static void Renderer(string adapter, bool software)
 	{
 		if (TraceEnabled && _lastRenderer != adapter)
-			App.Logger.WriteLine("LinuxUiPerformance", "Renderer " + adapter + (software ? ", software" : ", accelerated"));
+			App.Logger.WriteLine(Category, "Renderer " + adapter + (software ? ", software" : ", accelerated"));
 		_lastRenderer = adapter;
 		if (software)
 			SetReducedMotion();
@@ -103,7 +106,7 @@ internal static class LinuxUiPerformance
 			long[] sorted = new long[count];
 			Array.Copy(InputTimes, sorted, count);
 			Array.Sort(sorted);
-			App.Logger.WriteLine("LinuxUiPerformance", "Input to presented frame p95 " + sorted[(int)Math.Ceiling(count * 0.95) - 1] + " ms, " + slowCount + " of the last " + recentCount + " samples exceeded 33 ms");
+			App.Logger.WriteLine(Category, "Input to presented frame p95 " + sorted[(int)Math.Ceiling(count * 0.95) - 1] + " ms, " + slowCount + " of the last " + recentCount + " samples exceeded 33 ms");
 		}
 	}
 
@@ -113,7 +116,7 @@ internal static class LinuxUiPerformance
 			return;
 		_reducedMotion = true;
 		Wpf.Ui.Animations.RenderReady.ReducedMotion = true;
-		App.Logger.WriteLine("LinuxUiPerformance", "Reduced decorative motion for this session");
+		App.Logger.WriteLine(Category, "Reduced decorative motion for this session");
 		ReducedMotionChanged?.Invoke(null, EventArgs.Empty);
 	}
 
@@ -123,7 +126,7 @@ internal static class LinuxUiPerformance
 		long delayed = (long)Stopwatch.GetElapsedTime(_lastDispatchTick, now).TotalMilliseconds - 500;
 		_lastDispatchTick = now;
 		if (delayed > 50 && _reportedStalls++ < 100)
-			App.Logger.WriteLine("LinuxUiPerformance", "UI thread timer was delayed by " + delayed + " ms");
+			App.Logger.WriteLine(Category, "UI thread timer was delayed by " + delayed + " ms");
 	}
 
 	internal static void Shutdown()
@@ -170,6 +173,7 @@ internal static class LinuxUiPerformance
 		{
 			_window.ContentRendered -= OnContentRendered;
 			Duration(_window.GetType().Name + " construction to content rendered", _constructed);
+			Mark(_window.GetType().Name + " content rendered");
 		}
 
 		private void OnMouseMove(object sender, MouseEventArgs e)
@@ -214,7 +218,7 @@ internal static class LinuxUiPerformance
 			if (presented)
 				RecordInput(elapsed);
 			else if (TraceEnabled)
-				App.Logger.WriteLine("LinuxUiPerformance", _window.GetType().Name + " input had no presented frame within 200 ms");
+				App.Logger.WriteLine(Category, _window.GetType().Name + " input had no presented frame within 200 ms");
 		}
 
 		private void OnClosed(object? sender, EventArgs e)

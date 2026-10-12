@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Voidstrap.Utility;
 
-internal sealed class MacVirtualDisplaySession : IDisposable
+internal sealed partial class MacVirtualDisplaySession : IDisposable
 {
 	private const string LogIdent = "VirtualDisplay";
 	private static readonly SemaphoreSlim SessionSlot = new(1, 1);
@@ -137,6 +137,11 @@ internal sealed class MacVirtualDisplaySession : IDisposable
 		}
 	}
 
+	private const int TerminateSignal = 15;
+
+	[System.Runtime.InteropServices.LibraryImport("libc", EntryPoint = "kill")]
+	private static partial int kill(int pid, int signal);
+
 	public void Dispose()
 	{
 		lock (_gate)
@@ -147,6 +152,8 @@ internal sealed class MacVirtualDisplaySession : IDisposable
 			try
 			{
 				_process?.StandardInput.Close();
+				if (_process is { HasExited: false } running && OperatingSystem.IsMacOS() && kill(running.Id, TerminateSignal) != 0)
+					App.Logger.WriteLine(LogIdent, "The virtual display did not accept the stop signal");
 			}
 			catch (Exception ex)
 			{

@@ -137,7 +137,50 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 		int needed = rawWidth * height * 4;
 		if (skip > 0)
 			Buffer.BlockCopy(_raw, skip * rawWidth * 4, _raw, 0, needed);
+		CalibrateHomeColor(_raw, rawWidth, height);
 		return true;
+	}
+
+	private const int CalibrationRange = 10;
+
+	private const double CalibrationShare = 0.25;
+
+	private static void CalibrateHomeColor(byte[] bgra, int width, int height)
+	{
+		Span<int> counts = stackalloc int[(CalibrationRange * 2 + 1) * (CalibrationRange * 2 + 1) * (CalibrationRange * 2 + 1)];
+		int span = CalibrationRange * 2 + 1;
+		int samples = 0;
+		for (int y = 0; y < height; y += 6)
+		{
+			int row = y * width * 4;
+			for (int x = 0; x < width; x += 6)
+			{
+				int index = row + x * 4;
+				samples++;
+				int red = bgra[index + 2] - 18;
+				int green = bgra[index + 1] - 18;
+				int blue = bgra[index] - 21;
+				if (Math.Abs(red) > CalibrationRange || Math.Abs(green) > CalibrationRange || Math.Abs(blue) > CalibrationRange)
+					continue;
+				counts[((red + CalibrationRange) * span + green + CalibrationRange) * span + blue + CalibrationRange]++;
+			}
+		}
+		int best = -1;
+		int bestCount = 0;
+		for (int index = 0; index < counts.Length; index++)
+		{
+			if (counts[index] > bestCount)
+			{
+				bestCount = counts[index];
+				best = index;
+			}
+		}
+		if (best < 0 || samples == 0 || bestCount < samples * CalibrationShare)
+			return;
+		int blueOffset = best % span - CalibrationRange;
+		int greenOffset = best / span % span - CalibrationRange;
+		int redOffset = best / span / span - CalibrationRange;
+		HomepageBackgroundSourceKeys.Calibrate((byte)(18 + redOffset), (byte)(18 + greenOffset), (byte)(21 + blueOffset));
 	}
 
 	private void RenderFrame(int windowNumber, int contentWidth, int contentHeight, int titleBar, LinuxHomepageVisualSettings settings, CancellationToken token)

@@ -21,3 +21,11 @@ Read [README.md](README.md) and [CONTRIBUTING.md](CONTRIBUTING.md) first. Look a
 Check your suggestions against the code. Run the checks that matter for the change and say what passed or failed. Explain what you changed and point out anything you couldn't test or still aren't sure about.
 
 AI tools are welcome here. Help the contributor understand and review the work they're submitting.
+
+## Commits
+
+Commit work to `dock-overlay`. Use another branch only if the repository owner asks for it.
+
+Write a short summary that says what the diff actually changes. Start with `feature:`, `fix:`, `improvement:`, `chore:`, `ci:`, `docs:`, `build:`, `refactor:`, `test:`, or `revert:` as appropriate. Use `request:` only for changes that record or handle a request. Keep summaries within 72 characters, skip semicolons, and avoid vague titles like "update stuff" or "prepare release" when the commit changes more than a version number.
+
+Use the repository owner's configured Git identity for commits made on their behalf. Preserve other contributors' authorship when rewriting history. Don't add assistant attribution or co-author trailers.

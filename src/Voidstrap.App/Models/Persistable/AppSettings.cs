@@ -185,7 +185,6 @@ namespace Voidstrap.Models.Persistable
         public string RojoProjectPath { get; set; } = "";
         public string PlaceId { get; set; } = "";
         public bool OptimizeRoblox { get; set; } = false;
-        public bool BypassEmulationOverhead { get; set; } = false;
 
         public bool RobloxEfficiencyMode { get; set; } = false;
         public bool RobloxMemoryLimitEnabled { get; set; } = false;
@@ -253,13 +252,30 @@ namespace Voidstrap.Models.Persistable
         public bool ShowAccountOnRichPresence { get; set; } = true;
         public bool ShowServerDetails { get; set; } = true;
 
-        public bool OverlaysEnabled { get; set; } = false;
 
         public bool ClassicTopBarEnabled { get; set; } = false;
 
         public bool MacVirtualDisplayEnabled { get; set; } = false;
 
         public bool ClassicTopBarHideAllCoreGui { get; set; } = false;
+
+        public bool SessionDockEnabled { get; set; } = true;
+
+        public NotificationAppearance NotificationAppearance { get; set; } = new();
+
+        // Shortcut that opens the session dock, Ctrl+Alt+L by default; a key of 0 means no shortcut
+        public OverlayShortcut SessionDockShortcut { get; set; } = new();
+
+        // Off shows the server details as a Windows notification instead of the in game one
+        public bool ServerDetailsInOverlay { get; set; } = true;
+
+        // Off unless turned on, it checks every friend's status every 30 seconds while a game is open
+        public bool NotifyFriends { get; set; } = false;
+
+        public bool NotifyBadges { get; set; } = true;
+
+        // On reminds about the dock shortcut every time a game starts, off only the very first time
+        public bool NotifyShortcutEveryGame { get; set; } = false;
 
         public bool Ps4ButtonsEnabled { get; set; } = false;
 

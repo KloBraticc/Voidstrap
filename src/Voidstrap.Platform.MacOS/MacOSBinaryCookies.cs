@@ -45,7 +45,7 @@ public static class MacOSBinaryCookies
 			for (int index = 0; index < count; index++)
 			{
 				int offset = BinaryPrimitives.ReadInt32LittleEndian(pageData[(8 + index * 4)..]);
-				if (offset < 0 || offset + 56 > pageData.Length)
+				if (offset < 0 || (long)offset + 56 > pageData.Length)
 					continue;
 				ReadOnlySpan<byte> cookie = pageData[offset..];
 				int length = BinaryPrimitives.ReadInt32LittleEndian(cookie);
@@ -54,11 +54,14 @@ public static class MacOSBinaryCookies
 				cookie = cookie[..length];
 				string? domain = ReadString(cookie, BinaryPrimitives.ReadInt32LittleEndian(cookie[16..]));
 				string? cookieName = ReadString(cookie, BinaryPrimitives.ReadInt32LittleEndian(cookie[20..]));
-				if (!string.Equals(cookieName, name, StringComparison.Ordinal) || domain is null || !domain.TrimStart('.').EndsWith(domainSuffix, StringComparison.OrdinalIgnoreCase))
+				string? host = domain?.TrimStart('.');
+				if (!string.Equals(cookieName, name, StringComparison.Ordinal) || host is null
+					|| !(host.Equals(domainSuffix, StringComparison.OrdinalIgnoreCase) || host.EndsWith("." + domainSuffix, StringComparison.OrdinalIgnoreCase)))
 					continue;
 				string? value = ReadString(cookie, BinaryPrimitives.ReadInt32LittleEndian(cookie[28..]));
 				double expiry = BinaryPrimitives.ReadDoubleLittleEndian(cookie[40..]);
-				if (!string.IsNullOrEmpty(value) && expiry > bestExpiry)
+				if (!string.IsNullOrEmpty(value) && double.IsFinite(expiry)
+					&& expiry > (DateTime.UtcNow - new DateTime(2001, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds && expiry > bestExpiry)
 				{
 					best = value;
 					bestExpiry = expiry;

@@ -261,9 +261,14 @@ pub fn account(client: &crate::net::Client, user: i64, circular: bool) -> Option
     if let Some(hit) = ACCOUNTS.lock().ok()?.iter().find(|(id, c, _)| *id == user && *c == circular).map(|(_, _, v)| v.clone()) {
         return Some(hit);
     }
-    let data = client.json(&format!("https://users.roblox.com/v1/users/{user}")).filter(Value::is_object)?;
     let size = if circular { "150x150" } else { "180x180" };
-    let thumbs = client.json(&format!("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={user}&size={size}&format=Png&isCircular={circular}"))?;
+    let (data, thumbs) = std::thread::scope(|scope| {
+        let thumbs = scope.spawn(|| client.json(&format!("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={user}&size={size}&format=Png&isCircular={circular}")));
+        let data = client.json(&format!("https://users.roblox.com/v1/users/{user}"));
+        (data, thumbs.join().ok().flatten())
+    });
+    let data = data.filter(Value::is_object)?;
+    let thumbs = thumbs?;
     let head = thumbs.get("data")?.as_array()?.first().cloned().unwrap_or(Value::Null);
     let image = opt_str(&head, "imageUrl", "");
     if !image.starts_with("https://") || (circular && !roblox_image(&image)) {
@@ -289,35 +294,38 @@ pub fn game(settings: &Value, data: &Value, game: &Value, account: &Value, flag_
     let launch = opt_str(data, "launchData", "");
     let location = opt_str(game, "location", "");
     let creator = opt_str(game, "creator", "");
-    let mut details = Vec::new();
-    if on(settings, "name") {
-        details.push(name);
-    }
-    if on(settings, "creator") && !creator.is_empty() {
-        details.push(format!("by {creator}{}", if opt_bool(game, "verified", false) { " \u{2611}\u{fe0f}" } else { "" }));
-    }
-    if on(settings, "server") {
-        details.push(match kind.as_str() {
-            "PRIVATE" => "Private Server".to_string(),
-            "RESERVED" => match reserved_name(&launch) {
-                r if r.is_empty() => "Reserved Server".to_string(),
-                r => format!("Reserved Server: {r}"),
-            },
-            _ => "Public Server".to_string(),
-        });
-    }
-    if on(settings, "location") && !location.is_empty() {
-        details.push(location);
-    }
-    let mut detail = details.join(" | ");
+    let mut detail = if on(settings, "name") { name } else { String::new() };
     if let Some(tag) = tag {
         detail = if detail.is_empty() { tag.to_string() } else { format!("{detail} {tag}") };
     }
-    let state = if on(settings, "flagCount") { format!("FFlags: {flag_count}") } else { String::new() };
+    let mut states = Vec::new();
+    if on(settings, "creator") && !creator.is_empty() {
+        states.push(format!("by {creator}{}", if opt_bool(game, "verified", false) { " \u{2611}\u{fe0f}" } else { "" }));
+    }
+    if on(settings, "flagCount") {
+        states.push(format!("{flag_count} {}", if flag_count == 1 { "FFlag" } else { "FFlags" }));
+    }
+    let state = states.join(" \u{b7} ");
     let custom_icon = trim(&opt_str(settings, "customIcon", "")).to_string();
     let icon = on(settings, "icon");
     let image = if !custom_icon.is_empty() { custom_icon.clone() } else if icon { opt_str(game, "icon", "") } else { String::new() };
-    let text = if custom_icon.is_empty() && icon { shown_name } else { String::new() };
+    let located = on(settings, "location") && !location.is_empty();
+    let text = if on(settings, "server") {
+        let server = match kind.as_str() {
+            "PRIVATE" => "Private server".to_string(),
+            "RESERVED" => match reserved_name(&launch) {
+                r if r.is_empty() => "Reserved server".to_string(),
+                r => format!("Reserved server: {r}"),
+            },
+            _ => "Public server".to_string(),
+        };
+        if located { format!("{server} in {location}") } else { server }
+    } else if located {
+        format!("Playing in {location}")
+    } else {
+        String::new()
+    };
+    let _ = &shown_name;
     let place = opt_long(data, "placeId", 0);
     let job = opt_str(data, "jobId", "");
     let mut buttons = Vec::new();

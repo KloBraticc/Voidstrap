@@ -93,6 +93,7 @@ internal static class MacModSync
 			Directory.Delete(backupRoot, true);
 		}
 
+		Manifest next = new();
 		int restored = 0;
 		foreach ((string relative, bool hadOriginal) in previous.Files)
 		{
@@ -102,19 +103,22 @@ internal static class MacModSync
 			{
 				string destination = Path.Combine(resources, relative);
 				string backup = Path.Combine(backupRoot, relative);
-				if (hadOriginal && File.Exists(backup))
+				if (hadOriginal)
+				{
+					Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
 					File.Copy(backup, destination, true);
+				}
 				else if (!hadOriginal && File.Exists(destination))
 					File.Delete(destination);
 				restored++;
 			}
 			catch (Exception ex)
 			{
+				next.Files[relative] = hadOriginal;
 				App.Logger.WriteLine(LogIdent, "Could not restore " + relative + ": " + ex.Message);
 			}
 		}
 
-		Manifest next = new();
 		int applied = 0;
 		foreach ((string relative, string source) in selected)
 		{

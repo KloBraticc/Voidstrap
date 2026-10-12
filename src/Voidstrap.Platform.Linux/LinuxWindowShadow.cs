@@ -34,6 +34,7 @@ public static unsafe partial class LinuxWindowShadow
 	private const nuint CwBorderPixel = 1 << 3;
 	private const nuint CwEventMask = 1 << 11;
 	private const nuint CwColormap = 1 << 13;
+	private const nuint CwOverrideRedirect = 1 << 9;
 
 	private const nint AtomType = 4;
 	private const nint CardinalType = 6;
@@ -72,7 +73,7 @@ public static unsafe partial class LinuxWindowShadow
 	private static int _wakeWrite = -1;
 	private static Action<string>? _log;
 
-	public static void Track(nint window, int cornerRadius, double scale, bool suppressed, Action<string>? log = null)
+	public static void Track(nint window, int cornerRadius, double scale, bool suppressed, Action<string>? log = null, bool unmanaged = false)
 	{
 		if (!OperatingSystem.IsLinux() || window == 0 || _disabled)
 			return;
@@ -81,7 +82,7 @@ public static unsafe partial class LinuxWindowShadow
 		if (!EnsureStarted())
 			return;
 		double safeScale = scale > 0.0 && double.IsFinite(scale) ? scale : 1.0;
-		Requests.Enqueue(new Request(window, Math.Max(0, cornerRadius), safeScale, suppressed, false));
+		Requests.Enqueue(new Request(window, Math.Max(0, cornerRadius), safeScale, suppressed, false, unmanaged));
 		Wake();
 	}
 
@@ -89,7 +90,7 @@ public static unsafe partial class LinuxWindowShadow
 	{
 		if (window == 0 || _thread is null || _disabled)
 			return;
-		Requests.Enqueue(new Request(window, 0, 1.0, true, true));
+		Requests.Enqueue(new Request(window, 0, 1.0, true, true, false));
 		Wake();
 	}
 
@@ -186,7 +187,7 @@ public static unsafe partial class LinuxWindowShadow
 		}
 	}
 
-	private readonly record struct Request(nint Window, int Radius, double Scale, bool Suppressed, bool Forget);
+	private readonly record struct Request(nint Window, int Radius, double Scale, bool Suppressed, bool Forget, bool Unmanaged);
 
 	private readonly record struct ShadowStyle(
 		double AmbientBlur,
@@ -285,6 +286,7 @@ public static unsafe partial class LinuxWindowShadow
 		public double Scale = 1.0;
 		public bool CallerSuppressed;
 		public bool TargetMapped;
+		public bool Unmanaged;
 		public bool StateSuppressed;
 		public bool TargetAbove;
 		public long TargetDesktop = -1;
@@ -486,7 +488,7 @@ public static unsafe partial class LinuxWindowShadow
 
 				if (!_byTarget.TryGetValue(request.Window, out Shadow? shadow))
 				{
-					shadow = Adopt(request.Window);
+					shadow = Adopt(request.Window, request.Unmanaged);
 					if (shadow is null)
 						continue;
 				}
@@ -496,11 +498,11 @@ public static unsafe partial class LinuxWindowShadow
 			}
 		}
 
-		private Shadow? Adopt(nint target)
+		private Shadow? Adopt(nint target, bool unmanaged)
 		{
 			_ = XSelectInput(_display, target, StructureNotifyMask | PropertyChangeMask);
 			XWindowAttributes attributes;
-			if (XGetWindowAttributes(_display, target, &attributes) == 0 || attributes.OverrideRedirect != 0)
+			if (XGetWindowAttributes(_display, target, &attributes) == 0 || (attributes.OverrideRedirect != 0 && !unmanaged))
 			{
 				_ = XSelectInput(_display, target, 0);
 				return null;
@@ -508,7 +510,8 @@ public static unsafe partial class LinuxWindowShadow
 
 			Shadow shadow = new(target)
 			{
-				TargetMapped = attributes.MapState == IsViewable
+				TargetMapped = attributes.MapState == IsViewable,
+				Unmanaged = attributes.OverrideRedirect != 0
 			};
 			_byTarget[target] = shadow;
 			return shadow;
@@ -743,7 +746,7 @@ public static unsafe partial class LinuxWindowShadow
 				shadow.RestackAttempts = 0;
 				return;
 			}
-			if (shadow.Mapped)
+			if (shadow.Mapped && !shadow.Unmanaged)
 			{
 				SyncDesktop(shadow);
 				SyncAbove(shadow);
@@ -820,6 +823,7 @@ public static unsafe partial class LinuxWindowShadow
 			attributes.BackgroundPixel = 0;
 			attributes.BorderPixel = 0;
 			attributes.Colormap = _colormap;
+			attributes.OverrideRedirect = shadow.Unmanaged ? 1 : 0;
 			attributes.EventMask = StructureNotifyMask;
 			nint window = XCreateWindow(
 				_display,
@@ -832,7 +836,7 @@ public static unsafe partial class LinuxWindowShadow
 				32,
 				InputOutput,
 				_visual,
-				CwBackPixel | CwBorderPixel | CwEventMask | CwColormap,
+				CwBackPixel | CwBorderPixel | CwEventMask | CwColormap | CwOverrideRedirect,
 				&attributes);
 			if (window == 0)
 				return false;
@@ -954,7 +958,12 @@ public static unsafe partial class LinuxWindowShadow
 		private void Withdraw(Shadow shadow)
 		{
 			if (shadow.Window != 0 && shadow.MapRequested)
-				_ = XWithdrawWindow(_display, shadow.Window, _screen);
+			{
+				if (shadow.Unmanaged)
+					_ = XUnmapWindow(_display, shadow.Window);
+				else
+					_ = XWithdrawWindow(_display, shadow.Window, _screen);
+			}
 			shadow.MapRequested = false;
 			shadow.Mapped = false;
 		}
@@ -975,18 +984,21 @@ public static unsafe partial class LinuxWindowShadow
 		private void Restack()
 		{
 			nint[] stacking = ReadLongs(_root, _netClientListStacking, WindowType);
-			if (stacking.Length == 0)
-				return;
-
 			foreach (Shadow shadow in _byTarget.Values)
 			{
 				if (!shadow.Mapped || shadow.Window == 0)
 					continue;
+				if (shadow.Unmanaged)
+				{
+					XWindowChanges changes = new() { Sibling = shadow.Target, StackMode = 1 };
+					_ = XConfigureWindow(_display, shadow.Window, (1 << 5) | (1 << 6), &changes);
+					continue;
+				}
 				int own = Array.IndexOf(stacking, shadow.Window);
 				int target = Array.IndexOf(stacking, shadow.Target);
 				if (own < 0 || target < 0)
 					continue;
-				if (own == target + 1)
+				if (own == target - 1)
 				{
 					shadow.RestackAttempts = 0;
 					continue;
@@ -1250,6 +1262,18 @@ public static unsafe partial class LinuxWindowShadow
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
+	private struct XWindowChanges
+	{
+		public int X;
+		public int Y;
+		public int Width;
+		public int Height;
+		public int BorderWidth;
+		public nint Sibling;
+		public int StackMode;
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
 	private struct XSetWindowAttributes
 	{
 		public nint BackgroundPixmap;
@@ -1368,6 +1392,12 @@ public static unsafe partial class LinuxWindowShadow
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XMapWindow(nint display, nint window);
+
+	[LibraryImport("libX11.so.6")]
+	private static partial int XUnmapWindow(nint display, nint window);
+
+	[LibraryImport("libX11.so.6")]
+	private static partial int XConfigureWindow(nint display, nint window, uint valueMask, XWindowChanges* changes);
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XWithdrawWindow(nint display, nint window, int screen);

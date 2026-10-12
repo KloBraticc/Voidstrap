@@ -58,12 +58,12 @@ internal static class SafeImaging
 		if (!Platform.IsWindows && TryDecodePortableIcon(bytes, decodeWidth, out BitmapSource? icon))
 			return icon;
 		if (!HasSafeDimensions(bytes, decodeWidth))
-			return null;
+			return DecodeMacOS(bytes, decodeWidth);
 		try
 		{
 			if (!Platform.IsWindows)
 			{
-				return DecodePortable(bytes, decodeWidth);
+				return DecodePortable(bytes, decodeWidth) ?? DecodeMacOS(bytes, decodeWidth);
 			}
 			BitmapImage image = new BitmapImage();
 			image.BeginInit();
@@ -82,6 +82,8 @@ internal static class SafeImaging
 		}
 		catch (Exception ex)
 		{
+			if (DecodeMacOS(bytes, decodeWidth) is BitmapSource native)
+				return native;
 			try
 			{
 				BitmapSource? portable = DecodePortable(bytes, decodeWidth);
@@ -95,6 +97,22 @@ internal static class SafeImaging
 				App.Logger?.WriteLine("SafeImaging::FromBytes", "Fallback decode failed: " + fallbackEx.Message.Split('\n')[0]);
 			}
 			App.Logger?.WriteLine("SafeImaging::FromBytes", "Decode failed: " + ex.Message.Split('\n')[0]);
+			return null;
+		}
+	}
+
+	private static BitmapSource? DecodeMacOS(byte[] bytes, int decodeWidth)
+	{
+		if (!Platform.IsMacOS)
+			return null;
+		try
+		{
+			int limit = decodeWidth > 0 ? Math.Min(decodeWidth, 4096) : 4096;
+			byte[] pixels = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(bytes, limit, 4096, out int width, out int height);
+			return Detach(BitmapSource.Create(width, height, 96, 96, PixelFormats.Bgra32, null, pixels, checked(width * 4)));
+		}
+		catch
+		{
 			return null;
 		}
 	}
@@ -266,7 +284,7 @@ internal static class SafeImaging
 
 	private const int MaxCachedUriImages = 64;
 
-	private static readonly ConcurrentDictionary<string, BitmapSource> _uriCache = new(StringComparer.OrdinalIgnoreCase);
+	private static readonly ConcurrentDictionary<string, BitmapSource> _uriCache = new(StringComparer.Ordinal);
 
 	public static void ClearUriCache()
 	{
@@ -537,6 +555,7 @@ internal static class SafeImaging
 			return null;
 		}
 		using SixLabors.ImageSharp.Image<Bgra32> image = SixLabors.ImageSharp.Image.Load<Bgra32>(bytes);
+		image.Mutate(context => context.AutoOrient());
 		if (decodeWidth > 0 && image.Width > decodeWidth)
 		{
 			int height = Math.Max(1, (int)Math.Round(image.Height * (double)decodeWidth / image.Width));

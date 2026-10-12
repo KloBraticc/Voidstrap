@@ -16,12 +16,15 @@
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-              <Border x:Name="RowBorder" Padding="12" CornerRadius="6" Background="{DynamicResource LauncherMenuHoverBrush}" SnapsToDevicePixels="True">
+              <Border x:Name="RowBorder" Padding="12" CornerRadius="8" BorderThickness="1" BorderBrush="Transparent" Background="{DynamicResource LauncherMenuHoverBrush}" SnapsToDevicePixels="True">
                 <ContentPresenter />
               </Border>
               <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                   <Setter TargetName="RowBorder" Property="Background" Value="#1FFFFFFF" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                  <Setter TargetName="RowBorder" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
                 </Trigger>
                 <DataTrigger Value="False">
                   <DataTrigger.Binding>
@@ -55,7 +58,7 @@
             <Border.Background>
               <ImageBrush ImageSource="{Binding IconImage}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
             </Border.Background>
-            <Image Source="{Binding IconImage}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Visibility="{x:Static appUi:PlatformFeatureVisibility.LinuxIntegration}">
+            <Image Source="{Binding IconImage}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Visibility="{x:Static appUi:PlatformFeatureVisibility.PortableImages}">
               <Image.Clip>
                 <RectangleGeometry Rect="0,0,44,44" RadiusX="6" RadiusY="6" />
               </Image.Clip>
@@ -63,12 +66,12 @@
           </Border>
           <StackPanel Grid.Column="1" Margin="12,0,10,0" VerticalAlignment="Center">
             <TextBlock FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource LauncherTextPrimaryBrush}" Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
-            <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource LauncherTextSecondaryBrush}" Text="{Binding Subtitle}" TextTrimming="CharacterEllipsis" />
+            <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource LauncherTextSecondaryBrush}" Text="{Binding Subtitle}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Subtitle}" />
           </StackPanel>
           <Border Grid.Column="2" Width="22" Height="22" VerticalAlignment="Center" CornerRadius="11" Background="{DynamicResource AccentFillColorPrimaryBrush}" Visibility="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Converter={StaticResource BoolToVisibility}}">
             <ui:SymbolIcon Symbol="Checkmark16" FontSize="13" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Border>
-          <Border Grid.Row="1" Grid.ColumnSpan="3" Margin="0,14,0,0" Padding="10,8" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" ToolTip="{Binding LocationText}">
+          <Border Grid.Row="1" Grid.ColumnSpan="3" Margin="0,10,0,0" Padding="10,6" CornerRadius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" ToolTip="{Binding LocationText}">
             <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

@@ -31,6 +31,10 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	private bool _disposed;
 
+	private bool _active = true;
+
+	private bool _refreshPending;
+
 	private DateTime _lastFriendsFetch = DateTime.MinValue;
 
 	private string _gameName = Strings.Common_Loading;
@@ -351,6 +355,11 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 			while (!token.IsCancellationRequested && !_activityWatcher.IsDisposed)
 			{
 				await Task.Delay(5000, token);
+				if (!_active)
+				{
+					_refreshPending = true;
+					continue;
+				}
 				await RefreshPlayerCountAsync();
 				await RefreshFriendsInServerAsync();
 				await RefreshServerUptimeAsync();
@@ -462,7 +471,43 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		_uptimeJobId = jobId;
 		UpdateUptimeText();
 		OnPropertyChanged(nameof(UptimeVisibility));
-		_uptimeTimer?.Start();
+		if (_active)
+			_uptimeTimer?.Start();
+	}
+
+	public void SetActive(bool active)
+	{
+		if (_disposed || _active == active)
+			return;
+		_active = active;
+		if (!active)
+		{
+			_uptimeTimer?.Stop();
+			return;
+		}
+		if (_serverStartedUtc != null)
+		{
+			UpdateUptimeText();
+			_uptimeTimer?.Start();
+		}
+		if (_refreshPending)
+		{
+			_refreshPending = false;
+			_ = RefreshWhileActiveAsync();
+		}
+	}
+
+	private async Task RefreshWhileActiveAsync()
+	{
+		try
+		{
+			await RefreshPlayerCountAsync();
+			await RefreshFriendsInServerAsync();
+			await RefreshServerUptimeAsync();
+		}
+		catch
+		{
+		}
 	}
 
 	private void OnUptimeTick(object? sender, EventArgs e)
@@ -574,10 +619,8 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		}
 		try
 		{
-			BitmapSource? icon = Voidstrap.Utility.Platform.IsLinux
-				? await Voidstrap.Utility.AppImage.LoadAsync(url, 512)
-				: await Task.Run(() => Voidstrap.Utility.AppImage.LoadSync(url));
-			if (icon != null)
+			BitmapSource? icon = await Voidstrap.Utility.AppImage.LoadAsync(url, 512, _cts.Token);
+			if (icon != null && !_disposed)
 			{
 				GameIcon = icon;
 			}
