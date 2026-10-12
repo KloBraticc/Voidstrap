@@ -1406,6 +1406,12 @@ public static class LaunchHandler
 					{
 						App.FastFlags.MigratePlayerLoggingPreset();
 						App.FastFlags.ApplyPreloadFlags();
+						if (!File.Exists(App.GlobalSettings.FileLocation))
+						{
+							App.GlobalSettings.Load();
+							if (!App.GlobalSettings.Save())
+								App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "Roblox's global settings file could not be created");
+						}
 					}
 					App.FastFlags.Save();
 					Voidstrap.Platform.MacOS.MacOSRobloxInstaller.WriteClientSettings(
