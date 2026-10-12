@@ -172,6 +172,7 @@ internal static class WindowAudit
 		AuditIcons();
 		AuditImaging();
 		AuditCrosshairExports();
+		AuditModsFeatures();
 		AuditLinuxAccountStorage();
 		AuditLibraryLoading();
 		AuditTextFlowScenarios();
@@ -7119,6 +7120,115 @@ internal static class WindowAudit
 			System.Threading.Thread.Sleep(4);
 		}
 		return false;
+	}
+
+	private static void AuditModsFeatures()
+	{
+		string scratch = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "voidstrap-mods-audit-" + Guid.NewGuid().ToString("N"));
+		System.IO.Directory.CreateDirectory(scratch);
+		try
+		{
+			string image = System.IO.Path.Combine(scratch, "cursor.png");
+			using (SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32> picture = new(64, 64, new SixLabors.ImageSharp.PixelFormats.Rgba32(255, 64, 32, 255)))
+				SixLabors.ImageSharp.ImageExtensions.SaveAsPng(picture, image);
+			AuditModStep("mods cursor image", () =>
+			{
+				CursorManager.SetImage(CursorSlot.ShiftLock, image);
+				bool written = System.IO.File.Exists(CursorManager.PreviewPath(CursorSlot.ShiftLock));
+				CursorManager.ClearImage(CursorSlot.ShiftLock);
+				return written ? "shift lock image written and cleared" : null;
+			});
+			AuditModStep("mods cursor sets", () =>
+			{
+				string name = CursorManager.CreateSet("Audit set " + Guid.NewGuid().ToString("N")[..6]);
+				CursorManager.SetSetImage(name, CursorSlot.Arrow, image);
+				string zip = System.IO.Path.Combine(scratch, "set.zip");
+				CursorManager.ExportSet(name, zip);
+				string renamed = CursorManager.RenameSet(name, name + " renamed");
+				string imported = CursorManager.ImportSet(zip);
+				bool listed = CursorManager.ListSets().Contains(renamed) && CursorManager.ListSets().Contains(imported);
+				CursorManager.DeleteSet(renamed);
+				CursorManager.DeleteSet(imported);
+				return listed && System.IO.File.Exists(zip) ? "created, exported, renamed, imported and deleted" : null;
+			});
+			AuditModStep("mods sound presets", () =>
+			{
+				Voidstrap.Models.SettingTasks.ModPresetTask death = new("AuditOldDeathSound", @"content\sounds\oof.ogg", "Sounds.OldDeath.ogg");
+				string target = System.IO.Path.Combine(Paths.Mods, "content", "sounds", "oof.ogg");
+				bool existed = System.IO.File.Exists(target);
+				if (existed)
+					return "skipped, a death sound is already installed";
+				death.NewState = true;
+				death.Execute();
+				bool written = System.IO.File.Exists(target) && new System.IO.FileInfo(target).Length > 0;
+				death.NewState = false;
+				death.Execute();
+				return written && !System.IO.File.Exists(target) ? "old death sound applied and removed at content/sounds/oof.ogg" : null;
+			});
+			AuditModStep("mods skybox", () =>
+			{
+				if (SkyboxImageConverter.HasCustomPack())
+					return "skipped, a custom skybox is already installed";
+				Dictionary<string, string> faces = new(StringComparer.OrdinalIgnoreCase);
+				foreach (string face in new[] { "sky512_bk.tex", "sky512_dn.tex", "sky512_ft.tex", "sky512_lf.tex", "sky512_rt.tex", "sky512_up.tex" })
+					faces[face] = image;
+				SkyboxImageConverter.ImportAsync(faces, CancellationToken.None).GetAwaiter().GetResult();
+				bool installed = SkyboxImageConverter.HasCustomPack();
+				SkyboxImageConverter.Remove();
+				return installed && !SkyboxImageConverter.HasCustomPack() ? "six faces imported and removed" : null;
+			});
+			AuditModStep("mods font", () =>
+			{
+				string? bundle = Voidstrap.Utility.Platform.IsMacOS ? MacRobloxBundle.Find() : null;
+				string families = bundle == null ? "" : System.IO.Path.Combine(bundle, "Contents", "Resources", "content", "fonts", "families");
+				string font = "/System/Library/Fonts/Supplemental/Arial.ttf";
+				if (bundle == null || !System.IO.Directory.Exists(families) || !System.IO.File.Exists(font) || System.IO.File.Exists(Paths.CustomFont))
+					return "skipped, no macOS Roblox font families or system font";
+				System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(Paths.CustomFont)!);
+				System.IO.File.Copy(font, Paths.CustomFont);
+				CustomFontMod.Apply(families, "WindowAudit");
+				int generated = CustomFontMod.FindGeneratedFamilyNames(System.IO.Path.Combine(Paths.Mods, "content", "fonts", "families")).Count;
+				System.IO.File.Delete(Paths.CustomFont);
+				CustomFontMod.Apply(families, "WindowAudit");
+				return generated > 0 ? generated + " font families redirected and removed" : null;
+			});
+			AuditModStep("mods generator", () =>
+			{
+				ModGeneratorSettings settings = new() { ModName = "Audit theme" };
+				ModGeneratorPreview? preview = ModGenerator.RenderPreview(settings);
+				if (preview == null)
+					return null;
+				string folder = ModGenerator.GenerateAsync(settings, null, CancellationToken.None).GetAwaiter().GetResult();
+				int files = System.IO.Directory.Exists(folder) ? System.IO.Directory.EnumerateFiles(folder, "*", System.IO.SearchOption.AllDirectories).Count() : 0;
+				string? id = ModGenerator.FindModId();
+				if (id != null)
+					ManagedModStore.Delete(id);
+				return files > 0 ? "preview " + preview.After.PixelWidth + "x" + preview.After.PixelHeight + ", generated " + files + " files" : null;
+			});
+		}
+		finally
+		{
+			try
+			{
+				System.IO.Directory.Delete(scratch, true);
+			}
+			catch (System.IO.IOException)
+			{
+			}
+		}
+	}
+
+	private static void AuditModStep(string name, Func<string?> step)
+	{
+		try
+		{
+			string? detail = step();
+			Emit(detail == null ? name + " audit: FAIL, the expected files were not produced" : name + " audit: PASS, " + detail);
+		}
+		catch (Exception ex)
+		{
+			Emit(name + " audit: FAIL, " + ex.GetType().Name + ": " + ex.Message.Split('\n')[0]);
+		}
 	}
 
 	private static void Emit(string line)
