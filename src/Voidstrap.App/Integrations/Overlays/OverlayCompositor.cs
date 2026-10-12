@@ -1045,6 +1045,7 @@ namespace Voidstrap.Integrations.Overlays
                     }
                     Interop.ShowWindow(_hwnd, Interop.SW_SHOWNOACTIVATE);
                     AssertZOrder();
+                    OverlayDiagnostics.RaiseOverlayWindows();
                 }
                 return true;
             }

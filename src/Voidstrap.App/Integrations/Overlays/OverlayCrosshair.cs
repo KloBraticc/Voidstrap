@@ -61,14 +61,7 @@ namespace Voidstrap.Integrations.Overlays
 
         public static bool CanComposite()
         {
-            try
-            {
-                return IsEnabled() && App.Settings.Prop.CrosshairShapeIndex != 3;
-            }
-            catch
-            {
-                return false;
-            }
+            return false;
         }
 
         public void Update(ID3D11DeviceContext context)
