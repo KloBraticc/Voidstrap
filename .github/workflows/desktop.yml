@@ -1318,7 +1318,9 @@ jobs:
           for window in windows {
               guard (window[kCGWindowOwnerPID as String] as? Int) == pid, (window[kCGWindowLayer as String] as? Int) == 0,
                     let bounds = window[kCGWindowBounds as String] as? [String: Double] else { continue }
-              if best == nil || (bounds["Width"] ?? 0) * (bounds["Height"] ?? 0) > (best!["Width"] ?? 0) * (best!["Height"] ?? 0) { best = bounds }
+              let area: Double = (bounds["Width"] ?? 0) * (bounds["Height"] ?? 0)
+              let bestArea: Double = best.map { ($0["Width"] ?? 0) * ($0["Height"] ?? 0) } ?? -1
+              if area > bestArea { best = bounds }
           }
           if let b = best { print("\(Int(b["X"] ?? 0)) \(Int(b["Y"] ?? 0)) \(Int(b["Width"] ?? 0)) \(Int(b["Height"] ?? 0))") }
           SWIFT
@@ -1374,7 +1376,8 @@ jobs:
           "$RUNNER_TEMP/displays"
           screencapture -x "$OUT/shots/14-virtual-display.png" || true
           exec 7>&-
-          sleep 4
+          for i in $(seq 1 40); do grep -q "^exit" "$RUNNER_TEMP/overlay-logs/vd-err.txt" && break; sleep 0.5; done
+          echo "helper stopped after $((i / 2)) seconds of waiting"
           echo "helper stdout"; cat "$RUNNER_TEMP/overlay-logs/vd-out.txt"
           echo "helper stderr"; cat "$RUNNER_TEMP/overlay-logs/vd-err.txt"
           grep -q '"ready":true' "$RUNNER_TEMP/overlay-logs/vd-out.txt" && echo true > "$RUNNER_TEMP/overlay-logs/virtual-display.txt" || true
@@ -1394,7 +1397,7 @@ jobs:
           sleep 2
           pkill -x RobloxPlayer || true
           pkill -x Voidstrap || true
-          grep -h "VirtualDisplay\|MacWindowMode" ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -20 || true
+          grep -h "VirtualDisplay\|MacWindowMode\|FastFlag\|ClientSettings\|LaunchPortableRuntime" ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -20 || true
 
       - name: Check the dock remains above passive overlays
         run: |
