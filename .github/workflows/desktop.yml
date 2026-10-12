@@ -80,7 +80,6 @@ jobs:
           using System.Windows.Media.Imaging;
           using Voidstrap.Utility;
 
-          SafeImaging.RejectTiff();
           using Image<Rgba32> fixture = new(64, 32);
           for (int y = 0; y < 32; y++)
               for (int x = 0; x < 64; x++)
