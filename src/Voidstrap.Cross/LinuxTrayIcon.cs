@@ -521,33 +521,19 @@ public static class LinuxTray
 
         try
         {
-            using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32> source =
-                SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>(png);
+            Voidstrap.Utility.Raster source = Voidstrap.Utility.Raster.Decode(png);
             List<(int, int, byte[])> pixmaps = [];
             foreach (int size in PixmapSizes)
             {
-                using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32> scaled = SixLabors.ImageSharp.Processing.ProcessingExtensions.Clone(source, context => SixLabors.ImageSharp.Processing.ResizeExtensions.Resize(context, new SixLabors.ImageSharp.Processing.ResizeOptions
-                {
-                    Size = new SixLabors.ImageSharp.Size(size, size),
-                    Mode = SixLabors.ImageSharp.Processing.ResizeMode.Pad,
-                    PadColor = SixLabors.ImageSharp.Color.Transparent,
-                    Sampler = SixLabors.ImageSharp.Processing.KnownResamplers.Lanczos3
-                }));
+                byte[] pixels = source.ResizeToPad(size, size, Voidstrap.Utility.RasterFilter.Lanczos3).Pixels;
                 byte[] data = new byte[size * size * 4];
-                int offset = 0;
-                scaled.ProcessPixelRows(accessor =>
+                for (int offset = 0; offset < data.Length; offset += 4)
                 {
-                    for (int y = 0; y < accessor.Height; y++)
-                    {
-                        foreach (SixLabors.ImageSharp.PixelFormats.Rgba32 pixel in accessor.GetRowSpan(y))
-                        {
-                            data[offset++] = pixel.A;
-                            data[offset++] = pixel.R;
-                            data[offset++] = pixel.G;
-                            data[offset++] = pixel.B;
-                        }
-                    }
-                });
+                    data[offset] = pixels[offset + 3];
+                    data[offset + 1] = pixels[offset + 2];
+                    data[offset + 2] = pixels[offset + 1];
+                    data[offset + 3] = pixels[offset];
+                }
                 pixmaps.Add((size, size, data));
             }
             return [.. pixmaps];
