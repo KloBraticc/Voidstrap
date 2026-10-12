@@ -9,11 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Shell;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using Voidstrap.Models.Entities;
 
 namespace Voidstrap.UI;
@@ -250,13 +245,12 @@ internal static partial class TaskbarJumpList
 
 	private static bool WriteIcon(byte[] image, string iconPath)
 	{
-		DecoderOptions options = new DecoderOptions { TargetSize = new SixLabors.ImageSharp.Size(512, 512), MaxFrames = 1 };
-		using Image<Rgba32> source = Image.Load<Rgba32>(options, image);
+		Voidstrap.Utility.Raster source = Voidstrap.Utility.Raster.Decode(image).FitWithin(512, 512);
 		if (source.Width < 8 || source.Height < 8)
 			return false;
 		try
 		{
-			Voidstrap.Utility.IconFile.Write(source, iconPath, IconSizes, SixLabors.ImageSharp.Processing.ResizeMode.Crop);
+			Voidstrap.Utility.IconFile.Write(source, iconPath, IconSizes, Voidstrap.Utility.IconFit.Crop);
 			return true;
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)

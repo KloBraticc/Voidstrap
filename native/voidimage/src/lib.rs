@@ -58,10 +58,7 @@ pub unsafe extern "C" fn vi_free(pixels: *mut u8, length: usize) {
 }
 
 fn decode(input: &[u8], max_width: u32, max_bytes: u64) -> Result<(u32, u32, Vec<u8>), i32> {
-    let reader = ImageReader::new(Cursor::new(input)).with_guessed_format().map_err(|_| VI_INVALID)?;
-    if reader.format().is_none() {
-        return Err(VI_UNSUPPORTED);
-    }
+    let reader = open_reader(input)?;
     let mut decoder = reader.into_decoder().map_err(|_| VI_UNSUPPORTED)?;
     let (width, height) = decoder.dimensions();
     if width == 0 || height == 0 {
@@ -243,11 +240,7 @@ pub unsafe extern "C" fn vi_identify(data: *const u8, length: usize, out_width: 
     }
     let input = std::slice::from_raw_parts(data, length);
     let result = catch_unwind(AssertUnwindSafe(|| -> Result<(u32, u32), i32> {
-        let reader = ImageReader::new(Cursor::new(input)).with_guessed_format().map_err(|_| VI_INVALID)?;
-        if reader.format().is_none() {
-            return Err(VI_UNSUPPORTED);
-        }
-        reader.into_dimensions().map_err(|_| VI_UNSUPPORTED)
+        open_reader(input)?.into_dimensions().map_err(|_| VI_UNSUPPORTED)
     }));
     match result {
         Ok(Ok((width, height))) if width > 0 && height > 0 => {
@@ -259,4 +252,15 @@ pub unsafe extern "C" fn vi_identify(data: *const u8, length: usize, out_width: 
         Ok(Err(code)) => code,
         Err(_) => VI_FAILED,
     }
+}
+
+fn open_reader(input: &[u8]) -> Result<ImageReader<Cursor<&[u8]>>, i32> {
+    let mut reader = ImageReader::new(Cursor::new(input)).with_guessed_format().map_err(|_| VI_INVALID)?;
+    if reader.format().is_none() {
+        if input.len() < 18 {
+            return Err(VI_UNSUPPORTED);
+        }
+        reader.set_format(image::ImageFormat::Tga);
+    }
+    Ok(reader)
 }

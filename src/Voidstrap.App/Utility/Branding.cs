@@ -4,10 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 
 namespace Voidstrap.Utility;
 
@@ -228,24 +224,15 @@ internal static class Branding
 		byte[] data = File.ReadAllBytes(path);
 		if (data.Length == 0 || data.Length > 32 * 1024 * 1024)
 			throw new InvalidDataException("The image is empty or larger than 32 MB.");
-		using Image<Rgba32> image = Decode(data, path) ?? throw new InvalidDataException("This image format could not be read. Use a PNG, JPG, BMP, GIF, WEBP, TIFF, TGA or ICO file.");
+		Raster image = Decode(data, path) ?? throw new InvalidDataException("This image format could not be read. Use a PNG, JPG, BMP, GIF, WEBP, TIFF, TGA or ICO file.");
 		if (image.Width < 8 || image.Height < 8)
 			throw new InvalidDataException("The image is too small, use one at least 16 by 16 pixels.");
 		Directory.CreateDirectory(Folder);
 		string png = IconPngPath + "." + Environment.ProcessId + ".tmp";
 		try
 		{
-			using (Image<Rgba32> square = image.Clone(context => context.Resize(new ResizeOptions
-			{
-				Size = new SixLabors.ImageSharp.Size(256, 256),
-				Mode = ResizeMode.Pad,
-				Sampler = KnownResamplers.Lanczos3,
-				PadColor = SixLabors.ImageSharp.Color.Transparent
-			})))
-			{
-				square.SaveAsPng(png);
-			}
-			IconFile.Write(image, IconIcoPath, IcoSizes, ResizeMode.Pad);
+			image.ResizeToPad(256, 256, RasterFilter.Lanczos3).SavePng(png);
+			IconFile.Write(image, IconIcoPath, IcoSizes, IconFit.Pad);
 			File.Move(png, IconPngPath, overwrite: true);
 		}
 		finally
@@ -286,11 +273,11 @@ internal static class Branding
 			Voidstrap.Platform.MacOS.MacOSApplication.SetDockIcon(MacIconPath);
 	}
 
-	private static Image<Rgba32>? Decode(byte[] data, string path)
+	private static Raster? Decode(byte[] data, string path)
 	{
 		try
 		{
-			Image<Rgba32>? icon = IconFile.ReadLargestFrame(data);
+			Raster? icon = IconFile.ReadLargestFrame(data);
 			if (icon != null)
 				return icon;
 		}
@@ -300,10 +287,9 @@ internal static class Branding
 		}
 		try
 		{
-			DecoderOptions options = new DecoderOptions { TargetSize = new SixLabors.ImageSharp.Size(1024, 1024), MaxFrames = 1 };
-			return SixLabors.ImageSharp.Image.Load<Rgba32>(options, data);
+			return Raster.Decode(data).FitWithin(1024, 1024);
 		}
-		catch (Exception ex) when (ex is UnknownImageFormatException or InvalidImageContentException or NotSupportedException)
+		catch (Exception ex) when (ex is InvalidDataException or SixLabors.ImageSharp.UnknownImageFormatException or SixLabors.ImageSharp.InvalidImageContentException or NotSupportedException)
 		{
 			App.Logger?.WriteLine(LOG_IDENT, "The image library could not read the file, trying the system decoder: " + ex.Message);
 		}
@@ -314,7 +300,6 @@ internal static class Branding
 		int stride = checked(bgra.PixelWidth * 4);
 		byte[] pixels = new byte[checked(stride * bgra.PixelHeight)];
 		bgra.CopyPixels(pixels, stride, 0);
-		using Image<Bgra32> converted = SixLabors.ImageSharp.Image.LoadPixelData<Bgra32>(pixels, bgra.PixelWidth, bgra.PixelHeight);
-		return converted.CloneAs<Rgba32>();
+		return new Raster(bgra.PixelWidth, bgra.PixelHeight, pixels);
 	}
 }

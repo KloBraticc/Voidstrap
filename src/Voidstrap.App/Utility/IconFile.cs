@@ -1,30 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 
 namespace Voidstrap.Utility;
 
+internal enum IconFit
+{
+	Pad,
+	Crop
+}
+
 internal static class IconFile
 {
-	public static void Write(Image<Rgba32> source, string path, IReadOnlyList<int> sizes, ResizeMode mode)
+	public static void Write(Raster source, string path, IReadOnlyList<int> sizes, IconFit fit)
 	{
 		List<byte[]> frames = new List<byte[]>(sizes.Count);
 		foreach (int size in sizes)
 		{
-			using Image<Rgba32> frame = source.Clone(context => context.Resize(new ResizeOptions
-			{
-				Size = new Size(size, size),
-				Mode = mode,
-				Sampler = KnownResamplers.Lanczos3,
-				PadColor = Color.Transparent
-			}));
-			using MemoryStream png = new MemoryStream();
-			frame.SaveAsPng(png, new PngEncoder { ColorType = PngColorType.RgbWithAlpha });
-			frames.Add(png.ToArray());
+			Raster frame = fit == IconFit.Crop
+				? source.ResizeToCover(size, size, RasterFilter.Lanczos3)
+				: source.ResizeToPad(size, size, RasterFilter.Lanczos3);
+			frames.Add(frame.EncodePng());
 		}
 		Directory.CreateDirectory(Path.GetDirectoryName(path)!);
 		string temp = path + "." + Environment.ProcessId + ".tmp";
@@ -62,7 +58,7 @@ internal static class IconFile
 		}
 	}
 
-	public static Image<Rgba32>? ReadLargestFrame(byte[] data)
+	public static Raster? ReadLargestFrame(byte[] data)
 	{
 		if (data.Length < 6 || BitConverter.ToUInt16(data, 0) != 0 || BitConverter.ToUInt16(data, 2) is not (1 or 2))
 			return null;
@@ -89,11 +85,11 @@ internal static class IconFile
 			return null;
 		ReadOnlySpan<byte> image = data.AsSpan(bestOffset, bestLength);
 		if (image.Length > 8 && image[0] == 0x89 && image[1] == (byte)'P' && image[2] == (byte)'N' && image[3] == (byte)'G')
-			return Image.Load<Rgba32>(image);
+			return Raster.Decode(image.ToArray());
 		return ReadDib(image);
 	}
 
-	private static Image<Rgba32>? ReadDib(ReadOnlySpan<byte> dib)
+	private static Raster? ReadDib(ReadOnlySpan<byte> dib)
 	{
 		if (dib.Length < 40)
 			return null;
@@ -106,28 +102,19 @@ internal static class IconFile
 		int stride = width * 4;
 		if ((long)headerSize + (long)stride * height > dib.Length)
 			return null;
-		Image<Rgba32> result = new Image<Rgba32>(width, height);
+		Raster result = Raster.Blank(width, height);
 		bool hasAlpha = false;
 		for (int y = 0; y < height; y++)
 		{
 			ReadOnlySpan<byte> row = dib.Slice(headerSize + (height - 1 - y) * stride, stride);
+			row.CopyTo(result.Pixels.AsSpan(y * stride, stride));
 			for (int x = 0; x < width; x++)
-			{
 				hasAlpha |= row[x * 4 + 3] != 0;
-				result[x, y] = new Rgba32(row[x * 4 + 2], row[x * 4 + 1], row[x * 4], row[x * 4 + 3]);
-			}
 		}
 		if (!hasAlpha)
 		{
-			for (int y = 0; y < height; y++)
-			{
-				for (int x = 0; x < width; x++)
-				{
-					Rgba32 pixel = result[x, y];
-					pixel.A = 255;
-					result[x, y] = pixel;
-				}
-			}
+			for (int index = 3; index < result.Pixels.Length; index += 4)
+				result.Pixels[index] = 255;
 		}
 		return result;
 	}

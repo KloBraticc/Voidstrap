@@ -102,6 +102,14 @@ internal sealed class Raster
 		return new Raster(width, height, managed);
 	}
 
+	public Raster FitWithin(int maxWidth, int maxHeight, RasterFilter filter = RasterFilter.Bicubic)
+	{
+		if (Width <= maxWidth && Height <= maxHeight)
+			return this;
+		double scale = Math.Min((double)maxWidth / Width, (double)maxHeight / Height);
+		return Resize(Math.Max(1, (int)Math.Round(Width * scale)), Math.Max(1, (int)Math.Round(Height * scale)), filter);
+	}
+
 	public Raster ResizeToCover(int width, int height, RasterFilter filter = RasterFilter.Bicubic)
 	{
 		double scale = Math.Max((double)width / Width, (double)height / Height);
