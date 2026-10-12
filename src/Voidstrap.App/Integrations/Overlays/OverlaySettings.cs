@@ -8,7 +8,7 @@ namespace Voidstrap.Integrations.Overlays
     public static class OverlaySettings
     {
         public static bool GameEffectsEnabled =>
-            App.Settings.Prop.RiShadeEnabled
+            (App.Settings.Prop.RiShadeEnabled && RiShadeSettings.Current.HasVisibleEffects)
             || AntiAliasingSettings.MethodIndex > 0
             || MotionBlurSettings.StrengthIndex > 0
             || FrameGenSettings.ModeIndex > 0;

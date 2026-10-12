@@ -220,6 +220,8 @@ namespace Voidstrap.Integrations.RiShade
 
         private static long _lastTouchTicks;
 
+        private static int _refreshedVisible = -1;
+
         public static void Touch()
         {
             Interlocked.Increment(ref _version);
@@ -232,6 +234,9 @@ namespace Voidstrap.Integrations.RiShade
                         await System.Threading.Tasks.Task.Delay(120).ConfigureAwait(false);
                     Interlocked.Exchange(ref _savePending, 0);
                     Save();
+                    bool visible = _current.HasVisibleEffects;
+                    if (Interlocked.Exchange(ref _refreshedVisible, visible ? 1 : 0) != (visible ? 1 : 0))
+                        Voidstrap.Integrations.Overlays.OverlayHub.Refresh();
                 });
             }
         }
