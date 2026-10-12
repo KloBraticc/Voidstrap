@@ -7,10 +7,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.Formats.Gif;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using Voidstrap.Core;
 using Voidstrap.Extensions;
 
@@ -52,7 +48,9 @@ namespace Voidstrap.Integrations.Overlays
 		private DrawingVisual? _videoVisual;
 		private RenderTargetBitmap? _videoTarget;
 		private List<Frame>? _gifFrames;
-		private SixLabors.ImageSharp.Image<Bgra32>? _portableGifImage;
+		private byte[][]? _portableGifFrames;
+		private int _portableGifWidth;
+		private int _portableGifHeight;
 		private int[]? _portableGifDelays;
 		private byte[]? _portableGifWritePixels;
 		private int _gifIndex;
@@ -225,7 +223,7 @@ namespace Voidstrap.Integrations.Overlays
 					{
 						OpenPortableImage();
 					}
-					catch (SixLabors.ImageSharp.UnknownImageFormatException) when (Voidstrap.Utility.Platform.IsMacOS && !_disposed)
+					catch (Exception ex) when ((ex is InvalidDataException or NotSupportedException or SixLabors.ImageSharp.UnknownImageFormatException) && Voidstrap.Utility.Platform.IsMacOS && !_disposed)
 					{
 						byte[] pixels = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(_path, _staticMaxWidth, _staticMaxHeight, out int width, out int height);
 						Publish(new Frame(pixels, width, height, 1000));
@@ -269,41 +267,26 @@ namespace Voidstrap.Integrations.Overlays
 		private void OpenPortableImage()
 		{
 			CancellationToken token = _mediaCancellation.SafeToken();
-			DecoderOptions identifyOptions = new()
-			{
-				MaxFrames = 1,
-				SkipMetadata = true
-			};
-			SixLabors.ImageSharp.ImageInfo? info = SixLabors.ImageSharp.Image.IdentifyAsync(identifyOptions, _path, token).GetAwaiter().GetResult();
-			if (_disposed || info == null || info.Width < 1 || info.Height < 1)
+			byte[] bytes = File.ReadAllBytes(_path);
+			token.ThrowIfCancellationRequested();
+			if (_disposed)
 				return;
-			long sourceBytes = checked((long)info.Width * info.Height * 4);
-			if (info.Width > MaxCanvasEdge || info.Height > MaxCanvasEdge || sourceBytes > MaxCanvasBytes)
+			if (!Voidstrap.Utility.Raster.TryIdentify(bytes, out int sourceWidth, out int sourceHeight))
+				throw new NotSupportedException("The background image format is not supported");
+			long sourceBytes = checked((long)sourceWidth * sourceHeight * 4);
+			if (sourceWidth > MaxCanvasEdge || sourceHeight > MaxCanvasEdge || sourceBytes > MaxCanvasBytes)
 			{
 				Volatile.Write(ref _failure, "The background image exceeds the decoding memory limit");
 				App.Logger.WriteLine("HomepageBackgroundMedia", Failure!);
 				return;
 			}
-			(int targetWidth, int targetHeight) = FitSize(info.Width, info.Height, _staticMaxWidth, _staticMaxHeight);
-			DecoderOptions decodeOptions = new()
-			{
-				MaxFrames = 1,
-				SkipMetadata = false,
-				TargetSize = new SixLabors.ImageSharp.Size(targetWidth, targetHeight)
-			};
-			using SixLabors.ImageSharp.Image<Bgra32> image = SixLabors.ImageSharp.Image.LoadAsync<Bgra32>(decodeOptions, _path, token).GetAwaiter().GetResult();
-			if (_disposed || image.Frames.Count == 0)
+			Voidstrap.Utility.Raster image = Voidstrap.Utility.Raster.Decode(bytes, MaxCanvasBytes);
+			if (_disposed)
 				return;
-			image.Mutate(context => context.AutoOrient());
-			(targetWidth, targetHeight) = FitSize(image.Width, image.Height, _staticMaxWidth, _staticMaxHeight);
+			(int targetWidth, int targetHeight) = FitSize(image.Width, image.Height, _staticMaxWidth, _staticMaxHeight);
 			if (image.Width != targetWidth || image.Height != targetHeight)
-				image.Mutate(context => context.Resize(targetWidth, targetHeight));
-			long decodedBytes = checked((long)image.Width * image.Height * 4);
-			if (decodedBytes > MaxCanvasBytes)
-				return;
-			byte[] pixels = GC.AllocateUninitializedArray<byte>(checked((int)decodedBytes));
-			image.Frames.RootFrame.CopyPixelDataTo(pixels);
-			Publish(new Frame(pixels, image.Width, image.Height, 1000));
+				image = image.Resize(targetWidth, targetHeight);
+			Publish(new Frame(image.Pixels, image.Width, image.Height, 1000));
 		}
 
 		private void OpenVideo()
@@ -374,16 +357,11 @@ namespace Voidstrap.Integrations.Overlays
 		private void OpenPortableGif()
 		{
 			CancellationToken token = _mediaCancellation.SafeToken();
-			DecoderOptions identifyOptions = new()
-			{
-				MaxFrames = MaxGifFrames,
-				SkipMetadata = false
-			};
-			SixLabors.ImageSharp.ImageInfo? info = SixLabors.ImageSharp.Image.IdentifyAsync(identifyOptions, _path, token).GetAwaiter().GetResult();
-			if (_disposed || info == null || info.Width < 1 || info.Height < 1)
+			byte[] bytes = File.ReadAllBytes(_path);
+			token.ThrowIfCancellationRequested();
+			if (_disposed || !Voidstrap.Utility.Raster.TryIdentify(bytes, out int sourceWidth, out int sourceHeight))
 				return;
-			int frameCount = Math.Clamp(info.FrameMetadataCollection.Count, 1, MaxGifFrames);
-			long sourceFrameBytes = checked((long)info.Width * info.Height * 4);
+			long sourceFrameBytes = checked((long)sourceWidth * sourceHeight * 4);
 			long sourceDecodeBudget = MaxPortableGifDecodedBytes / 2;
 			if (sourceFrameBytes > sourceDecodeBudget)
 			{
@@ -391,52 +369,48 @@ namespace Voidstrap.Integrations.Overlays
 				App.Logger.WriteLine("HomepageBackgroundMedia", Failure!);
 				return;
 			}
-			frameCount = Math.Min(frameCount, Math.Max(1, (int)(sourceDecodeBudget / sourceFrameBytes)));
-			(int targetWidth, int targetHeight) = FitSize(info.Width, info.Height, Math.Min(_animatedMaxWidth, MaxGifFrameWidth), Math.Min(_animatedMaxHeight, MaxGifFrameHeight));
-			long requestedBytes = checked((long)targetWidth * targetHeight * 4 * frameCount);
+			(int targetWidth, int targetHeight) = FitSize(sourceWidth, sourceHeight, Math.Min(_animatedMaxWidth, MaxGifFrameWidth), Math.Min(_animatedMaxHeight, MaxGifFrameHeight));
+			int frameLimit = Math.Max(1, (int)Math.Min(MaxGifFrames, sourceDecodeBudget / sourceFrameBytes));
+			long requestedBytes = checked((long)targetWidth * targetHeight * 4 * frameLimit);
 			if (requestedBytes > MaxPortableGifDecodedBytes)
 			{
 				double scale = Math.Sqrt(MaxPortableGifDecodedBytes / (double)requestedBytes);
 				targetWidth = Math.Max(1, (int)Math.Floor(targetWidth * scale));
 				targetHeight = Math.Max(1, (int)Math.Floor(targetHeight * scale));
 			}
-			long frameBytes = checked((long)targetWidth * targetHeight * 4);
-			frameCount = Math.Min(frameCount, Math.Max(1, (int)(MaxPortableGifDecodedBytes / frameBytes)));
-			DecoderOptions decodeOptions = new()
+			byte[][] frames;
+			int[] delays;
+			int width;
+			int height;
+			if (Voidstrap.Utility.NativeImaging.TryDecodeAnimationBgra(bytes, targetWidth, targetHeight, frameLimit, MaxPortableGifDecodedBytes, out width, out height, out frames, out delays))
 			{
-				MaxFrames = (uint)frameCount,
-				SkipMetadata = false,
-				TargetSize = new SixLabors.ImageSharp.Size(targetWidth, targetHeight)
-			};
-			SixLabors.ImageSharp.Image<Bgra32> image = SixLabors.ImageSharp.Image.LoadAsync<Bgra32>(decodeOptions, _path, token).GetAwaiter().GetResult();
-			if (_disposed || image.Frames.Count == 0)
-			{
-				image.Dispose();
-				return;
+				for (int index = 0; index < delays.Length; index++)
+					delays[index] = delays[index] <= 10 ? 100 : Math.Clamp(delays[index], 20, 10000);
 			}
-			long decodedBytes = checked((long)image.Width * image.Height * 4 * image.Frames.Count);
-			if (decodedBytes > MaxPortableGifDecodedBytes)
+			else
 			{
-				image.Dispose();
-				return;
+				Voidstrap.Utility.Raster still = Voidstrap.Utility.Raster.Decode(bytes, MaxCanvasBytes);
+				(width, height) = FitSize(still.Width, still.Height, targetWidth, targetHeight);
+				if (still.Width != width || still.Height != height)
+					still = still.Resize(width, height);
+				frames = [still.Pixels];
+				delays = [1000];
 			}
-			int[] delays = new int[image.Frames.Count];
-			for (int index = 0; index < delays.Length; index++)
-				delays[index] = ReadPortableGifDelay(image.Frames[index]);
+			if (_disposed || frames.Length == 0)
+				return;
 
 			lock (_portableGifLock)
 			{
 				if (_disposed)
-				{
-					image.Dispose();
 					return;
-				}
-				_portableGifImage = image;
+				_portableGifFrames = frames;
+				_portableGifWidth = width;
+				_portableGifHeight = height;
 				_portableGifDelays = delays;
-				_animated = image.Frames.Count > 1;
+				_animated = frames.Length > 1;
 				_gifIndex = 0;
 				PublishPortableGifFrameLocked(0);
-				if (image.Frames.Count > 1)
+				if (frames.Length > 1)
 					_portableGifTimer = new System.Threading.Timer(OnPortableGifTick, null, delays[0], System.Threading.Timeout.Infinite);
 			}
 		}
@@ -458,11 +432,11 @@ namespace Voidstrap.Integrations.Overlays
 		{
 			lock (_portableGifLock)
 			{
-				SixLabors.ImageSharp.Image<Bgra32>? image = _portableGifImage;
+				byte[][]? frames = _portableGifFrames;
 				int[]? delays = _portableGifDelays;
-				if (_disposed || image == null || delays == null || image.Frames.Count < 2)
+				if (_disposed || frames == null || delays == null || frames.Length < 2)
 					return;
-				_gifIndex = (_gifIndex + 1) % image.Frames.Count;
+				_gifIndex = (_gifIndex + 1) % frames.Length;
 				PublishPortableGifFrameLocked(_gifIndex);
 				try
 				{
@@ -476,37 +450,23 @@ namespace Voidstrap.Integrations.Overlays
 
 		private void PublishPortableGifFrameLocked(int index)
 		{
-			SixLabors.ImageSharp.Image<Bgra32>? image = _portableGifImage;
-			if (image == null)
+			byte[][]? frames = _portableGifFrames;
+			if (frames == null)
 				return;
-			int length = checked(image.Width * image.Height * 4);
+			int length = checked(_portableGifWidth * _portableGifHeight * 4);
 			byte[] pixels = _portableGifWritePixels != null && _portableGifWritePixels.Length == length
 				? _portableGifWritePixels
 				: GC.AllocateUninitializedArray<byte>(length);
 			_portableGifWritePixels = null;
-			image.Frames[index].CopyPixelDataTo(pixels);
+			Buffer.BlockCopy(frames[index], 0, pixels, 0, length);
 			lock (_frameLock)
 			{
 				byte[]? previous = _latestPixels;
 				_latestPixels = pixels;
-				_latestWidth = image.Width;
-				_latestHeight = image.Height;
+				_latestWidth = _portableGifWidth;
+				_latestHeight = _portableGifHeight;
 				_version++;
 				_portableGifWritePixels = previous != null && previous.Length == length ? previous : null;
-			}
-		}
-
-		private static int ReadPortableGifDelay(SixLabors.ImageSharp.ImageFrame<Bgra32> frame)
-		{
-			try
-			{
-				GifFrameMetadata metadata = SixLabors.ImageSharp.MetadataExtensions.GetGifMetadata(frame.Metadata);
-				int delay = metadata.FrameDelay * 10;
-				return delay <= 10 ? 100 : Math.Clamp(delay, 20, 10000);
-			}
-			catch (Exception)
-			{
-				return 100;
 			}
 		}
 
@@ -1114,8 +1074,7 @@ namespace Voidstrap.Integrations.Overlays
 			lock (_portableGifLock)
 			{
 				Interlocked.Exchange(ref _portableGifTimer, null)?.Dispose();
-				_portableGifImage?.Dispose();
-				_portableGifImage = null;
+				_portableGifFrames = null;
 				_portableGifDelays = null;
 				_portableGifWritePixels = null;
 				_gifFrames = null;
@@ -1173,8 +1132,7 @@ namespace Voidstrap.Integrations.Overlays
 				_disposed = true;
 				_mediaCancellation.Cancel();
 				Interlocked.Exchange(ref _portableGifTimer, null)?.Dispose();
-				_portableGifImage?.Dispose();
-				_portableGifImage = null;
+				_portableGifFrames = null;
 				_portableGifDelays = null;
 				_portableGifWritePixels = null;
 				_gifFrames = null;
