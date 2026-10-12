@@ -12,7 +12,7 @@ pub const VI_FAILED: i32 = 4;
 
 #[no_mangle]
 pub extern "C" fn vi_version() -> u32 {
-    4
+    5
 }
 
 #[no_mangle]
@@ -219,6 +219,14 @@ pub unsafe extern "C" fn vi_encode_bgra(
                 let encoder = image::codecs::bmp::BmpEncoder::new(&mut output);
                 image.write_with_encoder(encoder).map_err(|_| VI_FAILED)?;
             }
+            3 => {
+                let encoder = image::codecs::webp::WebPEncoder::new_lossless(&mut output);
+                image.write_with_encoder(encoder).map_err(|_| VI_FAILED)?;
+            }
+            4 => {
+                let mut encoder = image::codecs::gif::GifEncoder::new(&mut output);
+                encoder.encode_frame(image::Frame::new(image)).map_err(|_| VI_FAILED)?;
+            }
             _ => return Err(VI_UNSUPPORTED),
         }
         Ok(output)
@@ -373,6 +381,50 @@ pub unsafe extern "C" fn vi_decode_animation_bgra(
             *out_height = height;
             give(pixels, out_pixels, out_pixel_length);
             give(delays, out_delays, out_delay_length);
+            VI_OK
+        }
+        Ok(Err(code)) => code,
+        Err(_) => VI_FAILED,
+    }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn vi_encode_gif_frames(
+    pixels: *const u8,
+    length: usize,
+    width: u32,
+    height: u32,
+    count: u32,
+    delay_ms: u32,
+    out_bytes: *mut *mut u8,
+    out_length: *mut usize,
+) -> i32 {
+    if pixels.is_null() || out_bytes.is_null() || out_length.is_null() || count == 0 || width == 0 || height == 0 || width > MAX_EDGE || height > MAX_EDGE {
+        return VI_INVALID;
+    }
+    *out_bytes = std::ptr::null_mut();
+    *out_length = 0;
+    let frame_bytes = (width as u64) * (height as u64) * 4;
+    if frame_bytes * (count as u64) != length as u64 || length as u64 > MAX_PIXEL_BYTES {
+        return VI_INVALID;
+    }
+    let result = catch_unwind(AssertUnwindSafe(|| -> Result<Vec<u8>, i32> {
+        let mut output = Vec::new();
+        {
+            let mut encoder = image::codecs::gif::GifEncoder::new(&mut output);
+            encoder.set_repeat(image::codecs::gif::Repeat::Infinite).map_err(|_| VI_FAILED)?;
+            for index in 0..count as usize {
+                let start = index * frame_bytes as usize;
+                let image = bgra_image(pixels.add(start), frame_bytes as usize, width, height).ok_or(VI_INVALID)?;
+                let delay = image::Delay::from_numer_denom_ms(delay_ms, 1);
+                encoder.encode_frame(image::Frame::from_parts(image, 0, 0, delay)).map_err(|_| VI_FAILED)?;
+            }
+        }
+        Ok(output)
+    }));
+    match result {
+        Ok(Ok(data)) => {
+            give(data, out_bytes, out_length);
             VI_OK
         }
         Ok(Err(code)) => code,

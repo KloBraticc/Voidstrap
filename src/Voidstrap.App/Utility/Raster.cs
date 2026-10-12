@@ -244,6 +244,38 @@ internal sealed class Raster
 		return output.ToArray();
 	}
 
+	public byte[] EncodeWebp()
+	{
+		if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 3, 0, out byte[] encoded))
+			return encoded;
+		throw new InvalidOperationException("WebP encoding needs the native image library");
+	}
+
+	public byte[] EncodeGif()
+	{
+		if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 4, 0, out byte[] encoded))
+			return encoded;
+		throw new InvalidOperationException("GIF encoding needs the native image library");
+	}
+
+	public static byte[] EncodeAnimatedGif(System.Collections.Generic.IReadOnlyList<Raster> frames, int delayMs)
+	{
+		if (frames.Count == 0)
+			throw new ArgumentException("An animation needs at least one frame");
+		int width = frames[0].Width;
+		int height = frames[0].Height;
+		byte[] pixels = new byte[checked(width * height * 4 * frames.Count)];
+		for (int index = 0; index < frames.Count; index++)
+		{
+			if (frames[index].Width != width || frames[index].Height != height)
+				throw new ArgumentException("Animation frames must share one size");
+			Buffer.BlockCopy(frames[index].Pixels, 0, pixels, index * width * height * 4, width * height * 4);
+		}
+		if (NativeImaging.TryEncodeGifFrames(pixels, width, height, frames.Count, delayMs, out byte[] encoded))
+			return encoded;
+		throw new InvalidOperationException("GIF encoding needs the native image library");
+	}
+
 	public void SavePng(string path, PngLevel level = PngLevel.Default)
 	{
 		File.WriteAllBytes(path, EncodePng(level));

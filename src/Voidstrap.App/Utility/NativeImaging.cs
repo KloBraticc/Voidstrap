@@ -32,6 +32,9 @@ internal static partial class NativeImaging
 	[LibraryImport(Library, EntryPoint = "vi_decode_animation_bgra")]
 	private static unsafe partial int DecodeAnimationBgra(byte* data, nuint length, uint maxWidth, uint maxHeight, uint maxFrames, ulong maxBytes, out uint width, out uint height, out IntPtr pixels, out nuint pixelLength, out IntPtr delays, out nuint delayLength);
 
+	[LibraryImport(Library, EntryPoint = "vi_encode_gif_frames")]
+	private static unsafe partial int EncodeGifFrames(byte* pixels, nuint length, uint width, uint height, uint count, uint delayMs, out IntPtr result, out nuint resultLength);
+
 	[LibraryImport(Library, EntryPoint = "vi_free")]
 	private static partial void Free(IntPtr pixels, nuint length);
 
@@ -45,7 +48,7 @@ internal static partial class NativeImaging
 			int resolved;
 			try
 			{
-				resolved = Version() >= 4 ? StateReady : StateMissing;
+				resolved = Version() >= 5 ? StateReady : StateMissing;
 			}
 			catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException or BadImageFormatException)
 			{
@@ -237,6 +240,37 @@ internal static partial class NativeImaging
 				Free(native, length);
 			if (nativeDelays != IntPtr.Zero)
 				Free(nativeDelays, delayLength);
+		}
+	}
+
+	public static unsafe bool TryEncodeGifFrames(byte[] pixels, int width, int height, int count, int delayMs, out byte[] encoded)
+	{
+		encoded = Array.Empty<byte>();
+		if (pixels == null || width <= 0 || height <= 0 || count <= 0 || pixels.LongLength != (long)width * height * 4 * count || !IsAvailable)
+			return false;
+		IntPtr native = IntPtr.Zero;
+		nuint length = 0;
+		try
+		{
+			int status;
+			fixed (byte* data = pixels)
+				status = EncodeGifFrames(data, (nuint)pixels.Length, (uint)width, (uint)height, (uint)count, (uint)Math.Max(0, delayMs), out native, out length);
+			if (status != 0 || native == IntPtr.Zero || length == 0 || length > int.MaxValue)
+				return false;
+			encoded = GC.AllocateUninitializedArray<byte>((int)length);
+			Marshal.Copy(native, encoded, 0, encoded.Length);
+			return true;
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("NativeImaging", "Native GIF encode failed: " + ex.Message);
+			encoded = Array.Empty<byte>();
+			return false;
+		}
+		finally
+		{
+			if (native != IntPtr.Zero)
+				Free(native, length);
 		}
 	}
 }

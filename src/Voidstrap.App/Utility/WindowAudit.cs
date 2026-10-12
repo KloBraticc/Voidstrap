@@ -692,12 +692,12 @@ internal static class WindowAudit
 		try
 		{
 			System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(portableImagePath)!);
-			using (SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image = new(2, 2))
-			{
-				image[0, 0] = new SixLabors.ImageSharp.PixelFormats.Bgra32(17, 34, 51, 255);
-				using System.IO.FileStream outputStream = System.IO.File.Create(portableImagePath);
-				image.Save(outputStream, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
-			}
+			Raster portableImage = Raster.Blank(2, 2);
+			portableImage.Pixels[0] = 51;
+			portableImage.Pixels[1] = 34;
+			portableImage.Pixels[2] = 17;
+			portableImage.Pixels[3] = 255;
+			portableImage.SavePng(portableImagePath);
 			portableMedia = new Voidstrap.Integrations.Overlays.HomepageBackgroundMedia(portableImagePath, 30d);
 			bool decoded = false;
 			long deadline = Environment.TickCount64 + 3000;
@@ -3303,15 +3303,14 @@ internal static class WindowAudit
 		try
 		{
 			System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(crosshairImagePath)!);
-			using (SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image = new(2, 2))
+			Raster crosshairImage = Raster.Blank(2, 2);
+			byte[] crosshairAlpha = [255, 128, 128, 0];
+			for (int pixel = 0; pixel < 4; pixel++)
 			{
-				image[0, 0] = new SixLabors.ImageSharp.PixelFormats.Bgra32(0, 255, 0, 255);
-				image[1, 0] = new SixLabors.ImageSharp.PixelFormats.Bgra32(0, 255, 0, 128);
-				image[0, 1] = new SixLabors.ImageSharp.PixelFormats.Bgra32(0, 255, 0, 128);
-				image[1, 1] = new SixLabors.ImageSharp.PixelFormats.Bgra32(0, 255, 0, 0);
-				using System.IO.FileStream stream = System.IO.File.Create(crosshairImagePath);
-				image.Save(stream, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
+				crosshairImage.Pixels[pixel * 4 + 1] = 255;
+				crosshairImage.Pixels[pixel * 4 + 3] = crosshairAlpha[pixel];
 			}
+			crosshairImage.SavePng(crosshairImagePath);
 			App.Settings.Prop.Crosshair = true;
 			App.Settings.Prop.CrosshairShapeIndex = 0;
 			App.Settings.Prop.CrosshairColorHex = "#FF00FF00";
@@ -3345,16 +3344,13 @@ internal static class WindowAudit
 				&& Math.Abs(imageCrosshair.Width - 40 * Voidstrap.Integrations.Overlays.OverlayCrosshair.RuntimeScale) < 0.01d
 				&& Math.Abs(imageCrosshair.Height - imageCrosshair.Width) < 0.01d
 				&& Math.Abs(imageCrosshair.Opacity - 0.4d) < 0.001d;
-			using System.IO.MemoryStream gifStream = new();
-			using (SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> gif = new(2, 2))
-			using (SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> secondFrame = new(2, 2))
-			{
-				gif[0, 0] = new SixLabors.ImageSharp.PixelFormats.Bgra32(255, 0, 0, 255);
-				secondFrame[0, 0] = new SixLabors.ImageSharp.PixelFormats.Bgra32(0, 0, 255, 255);
-				gif.Frames.AddFrame(secondFrame.Frames.RootFrame);
-				gif.Save(gifStream, new SixLabors.ImageSharp.Formats.Gif.GifEncoder());
-			}
-			App.Settings.Prop.CrosshairImagePath = "data:image/gif;base64," + Convert.ToBase64String(gifStream.ToArray());
+			Raster firstFrame = Raster.Blank(2, 2);
+			firstFrame.Pixels[2] = 255;
+			firstFrame.Pixels[3] = 255;
+			Raster secondFrame = Raster.Blank(2, 2);
+			secondFrame.Pixels[0] = 255;
+			secondFrame.Pixels[3] = 255;
+			App.Settings.Prop.CrosshairImagePath = "data:image/gif;base64," + Convert.ToBase64String(Raster.EncodeAnimatedGif([firstFrame, secondFrame], 100));
 			crosshair.RefreshSettings();
 			bool gifGeometry = PumpUntil(() =>
 				crosshairCanvas?.Children.OfType<System.Windows.Controls.Image>().SingleOrDefault()?.Source != null, 3000);
@@ -5619,13 +5615,9 @@ internal static class WindowAudit
 						? "user media audit: PASS, history thumbnail"
 						: "user media audit: FAIL, thumbnail=" + (thumbnail != null));
 
-				using (SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32> portable = SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>(bytes))
-				{
-					using System.IO.FileStream webpOutput = System.IO.File.Create(webpPath);
-					portable.Save(webpOutput, new SixLabors.ImageSharp.Formats.Webp.WebpEncoder());
-					using System.IO.FileStream gifOutput = System.IO.File.Create(gifPath);
-					portable.Save(gifOutput, new SixLabors.ImageSharp.Formats.Gif.GifEncoder());
-				}
+				Raster portable = Raster.Decode(bytes);
+				System.IO.File.WriteAllBytes(webpPath, portable.EncodeWebp());
+				System.IO.File.WriteAllBytes(gifPath, portable.EncodeGif());
 				string webpBanner = "data:image/webp;base64," + Convert.ToBase64String(System.IO.File.ReadAllBytes(webpPath));
 				string gifBanner = "data:image/gif;base64," + Convert.ToBase64String(System.IO.File.ReadAllBytes(gifPath));
 				System.Windows.Media.Imaging.BitmapSource? webpPreview = AppImage.LoadSync(webpBanner, 256);
@@ -7137,8 +7129,7 @@ internal static class WindowAudit
 		try
 		{
 			string image = System.IO.Path.Combine(scratch, "cursor.png");
-			using (SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32> picture = new(64, 64, new SixLabors.ImageSharp.PixelFormats.Rgba32(255, 64, 32, 255)))
-				SixLabors.ImageSharp.ImageExtensions.SaveAsPng(picture, image);
+			SolidRaster(64, 64, 255, 64, 32).SavePng(image);
 			AuditModStep("mods cursor image", () =>
 			{
 				CursorManager.SetImage(CursorSlot.ShiftLock, image);
@@ -7232,8 +7223,7 @@ internal static class WindowAudit
 		string scratch = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "voidstrap-image-tools-" + Guid.NewGuid().ToString("N"));
 		System.IO.Directory.CreateDirectory(scratch);
 		string source = System.IO.Path.Combine(scratch, "tool.png");
-		using (SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32> picture = new(40, 20, new SixLabors.ImageSharp.PixelFormats.Rgba32(255, 255, 255, 255)))
-			SixLabors.ImageSharp.ImageExtensions.SaveAsPng(picture, source);
+		SolidRaster(40, 20, 255, 255, 255).SavePng(source);
 		try
 		{
 			AuditModStep("image adjust tool", () =>
@@ -7358,5 +7348,18 @@ internal static class WindowAudit
 		if (line.Contains("FAIL", StringComparison.Ordinal))
 			FailedChecks.Add(line);
 		App.Logger.WriteLine("WindowAudit", line);
+	}
+
+	private static Raster SolidRaster(int width, int height, byte red, byte green, byte blue)
+	{
+		Raster raster = Raster.Blank(width, height);
+		for (int offset = 0; offset < raster.Pixels.Length; offset += 4)
+		{
+			raster.Pixels[offset] = blue;
+			raster.Pixels[offset + 1] = green;
+			raster.Pixels[offset + 2] = red;
+			raster.Pixels[offset + 3] = 255;
+		}
+		return raster;
 	}
 }
