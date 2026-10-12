@@ -57,6 +57,7 @@ public partial class SessionDock : Window
     private string _serverType = string.Empty;
     private bool _opened;
     private bool _closed;
+    private bool _fitWidthQueued;
     private bool _disposed;
     private double _dimmerTarget;
     private static readonly TimeSpan FriendsInterval = TimeSpan.FromSeconds(30);
@@ -208,6 +209,7 @@ public partial class SessionDock : Window
         if (!ReferenceEquals(GamePicture.Source, image))
             GamePicture.Source = image;
         GamePicture.Visibility = image == null ? Visibility.Collapsed : Visibility.Visible;
+        QueueFitWidth();
         if (!changed)
             return;
         if (previous != null && (previous.PlaceId != data.PlaceId || !string.Equals(previous.JobId, data.JobId, StringComparison.OrdinalIgnoreCase)))
@@ -318,6 +320,7 @@ public partial class SessionDock : Window
                 {
                     ProfileName.Text = "Not signed in";
                     ProfileHandle.Text = self.Status == RobloxChatStatus.SignInExpired ? "Sign in again" : string.Empty;
+                    QueueFitWidth();
                 });
                 return;
             }
@@ -326,6 +329,7 @@ public partial class SessionDock : Window
             {
                 ProfileName.Text = user?.Label is { Length: > 0 } label ? label : "Roblox";
                 ProfileHandle.Text = user?.Name is { Length: > 0 } name ? "@" + name : string.Empty;
+                QueueFitWidth();
             });
             Dictionary<long, string> urls = await RobloxChat.GetHeadshotUrlsAsync(new[] { self.Value }, _lifetimeToken);
             if (_closed || !urls.TryGetValue(self.Value, out string? url) || !Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
@@ -1195,10 +1199,29 @@ public partial class SessionDock : Window
             : $"{span.Minutes}:{span.Seconds:00}";
     }
 
-    private static void SetRun(System.Windows.Documents.Run run, string text)
+    private void SetRun(System.Windows.Documents.Run run, string text)
     {
-        if (!string.Equals(run.Text, text, StringComparison.Ordinal))
-            run.Text = text;
+        if (string.Equals(run.Text, text, StringComparison.Ordinal))
+            return;
+        bool lengthChanged = run.Text.Length != text.Length;
+        run.Text = text;
+        if (lengthChanged)
+            QueueFitWidth();
+    }
+
+    private void QueueFitWidth()
+    {
+        if (_closed || _fitWidthQueued)
+            return;
+        _fitWidthQueued = true;
+        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(RunQueuedFitWidth));
+    }
+
+    private void RunQueuedFitWidth()
+    {
+        _fitWidthQueued = false;
+        if (!_closed)
+            FitWidth();
     }
 
     private static void SetText(TextBlock block, string text)
