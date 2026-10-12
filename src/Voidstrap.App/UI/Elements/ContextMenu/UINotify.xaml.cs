@@ -410,6 +410,18 @@ namespace Voidstrap.UI.Elements.Overlay
 
 		public void Prewarm()
 		{
+			if (Voidstrap.Utility.Platform.IsWindows && !_closed)
+			{
+				try
+				{
+					new WindowInteropHelper(this).EnsureHandle();
+				}
+				catch (InvalidOperationException ex)
+				{
+					App.Logger.WriteLine("NotificationWindow::Prewarm", "The notification window could not be built ahead of time: " + ex.Message);
+				}
+				return;
+			}
             if (PortableOverlay.Active)
                 return;
 			if (_closed || _renderReady || !Voidstrap.Utility.Platform.IsLinux)

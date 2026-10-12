@@ -87,12 +87,13 @@ public partial class SessionDock : Window
     private bool _popoutOnSettle;
     private bool _pinnedRestored;
     private bool _prewarming;
+    private bool _prewarmLogged;
     private int _prewarmIndex;
     private DispatcherTimer? _prewarmTimer;
     // Built ahead of time while the dock is open so they appear the moment their button is clicked.
     // Server details, music and game history start loading as soon as they are built (game history asks Roblox
     // for the server list of every past game, which got rate limited), so those wait for a click.
-    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "adjustments" };
+    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "adjustments", "details", "history", "music" };
     private bool _profileLoaded;
     private bool _profileLoading;
     private enum PopoutView
@@ -588,9 +589,27 @@ public partial class SessionDock : Window
     }
 
     // One panel per idle moment, so building them never makes the dock or the game hitch
+    public void Preload()
+    {
+        if (_closed)
+            return;
+        if (Voidstrap.Utility.Platform.IsWindows)
+        {
+            try
+            {
+                new WindowInteropHelper(this).EnsureHandle();
+            }
+            catch (InvalidOperationException ex)
+            {
+                App.Logger.WriteLine("SessionDock", "The dock window could not be built ahead of time: " + ex.Message);
+            }
+        }
+        StartPrewarm();
+    }
+
     private void StartPrewarm()
     {
-        if (_closed || Voidstrap.Utility.Platform.IsLinux)
+        if (_closed)
             return;
         if (_prewarmTimer == null)
         {
@@ -603,12 +622,13 @@ public partial class SessionDock : Window
 
     private void OnPrewarmTick(object? sender, EventArgs e)
     {
-        if (_closed || !_opened || _slide.IsRunning)
+        if (_closed)
         {
-            if (_closed || !_opened)
-                _prewarmTimer?.Stop();
+            _prewarmTimer?.Stop();
             return;
         }
+        if (_slide.IsRunning)
+            return;
         while (_prewarmIndex < PrewarmActions.Length)
         {
             string action = PrewarmActions[_prewarmIndex++];
@@ -630,6 +650,11 @@ public partial class SessionDock : Window
             return;
         }
         _prewarmTimer?.Stop();
+        if (!_prewarmLogged)
+        {
+            _prewarmLogged = true;
+            App.Logger.WriteLine("SessionDock", _opened ? "Every dock panel is ready" : "Every dock panel is ready before the dock was opened");
+        }
     }
 
     // The first time the dock is opened in a game, every panel left pinned comes back where it was

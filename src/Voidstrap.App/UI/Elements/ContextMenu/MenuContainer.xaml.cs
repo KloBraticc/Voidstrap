@@ -355,13 +355,36 @@ public partial class MenuContainer : WpfUiWindow
         if (!App.Settings.Prop.SessionDockEnabled || _activityWatcher is not { InGame: true } activityWatcher
             || !(RobloxWindowTracker.IsProcessForeground(_watcher.RobloxProcessId) || RobloxWindowTracker.IsRobloxForeground()))
             return;
+        SessionDock dock = EnsureSessionDock(activityWatcher);
+        dock.SetGame(activityWatcher.Data, activityWatcher.Data.GameName, CurrentGameIcon.Source as BitmapSource);
+        dock.ToggleFromHotkey();
+    }
+
+    private SessionDock EnsureSessionDock(ActivityWatcher activityWatcher)
+    {
         if (_sessionDock == null)
         {
             _sessionDock = new SessionDock(activityWatcher, RunDockAction);
             _sessionDock.Closed += SessionDock_Closed;
         }
-        _sessionDock.SetGame(activityWatcher.Data, activityWatcher.Data.GameName, CurrentGameIcon.Source as BitmapSource);
-        _sessionDock.ToggleFromHotkey();
+        return _sessionDock;
+    }
+
+    private void PreloadSessionDock(ActivityData data, string name, BitmapSource? icon)
+    {
+        if (_closed || !App.Settings.Prop.SessionDockEnabled || !_sessionDockHotkeyRegistered || _activityWatcher is not { InGame: true } activityWatcher)
+            return;
+        try
+        {
+            SessionDock dock = EnsureSessionDock(activityWatcher);
+            dock.SetGame(data, name, icon);
+            dock.Preload();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MenuContainer::PreloadSessionDock", ex);
+            CloseSessionDock();
+        }
     }
 
     [LibraryImport("user32.dll")]
@@ -414,7 +437,7 @@ public partial class MenuContainer : WpfUiWindow
 
     private void PrewarmJoinNotification()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || _activityWatcher == null || !App.Settings.Prop.NotificationWindowShow || !App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins)
+        if (_activityWatcher == null || !App.Settings.Prop.NotificationWindowShow || !App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins)
             return;
 
         try
@@ -609,6 +632,7 @@ public partial class MenuContainer : WpfUiWindow
                     return;
                 UpdateCurrentGameInfo(name, icon);
                 _sessionDock?.SetGame(data, name, icon);
+                PreloadSessionDock(data, name, icon);
             }, DispatcherPriority.Background, token);
         }
         catch (OperationCanceledException)

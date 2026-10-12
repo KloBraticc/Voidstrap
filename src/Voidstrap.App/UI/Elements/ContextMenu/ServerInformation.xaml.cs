@@ -18,7 +18,20 @@ public partial class ServerInformation : WpfUiWindow{
 		_viewModel = new ServerInformationViewModel(watcher);
 		base.DataContext = _viewModel;
 		InitializeComponent();
+		_body = base.Content as FrameworkElement;
+		if (_body != null)
+		{
+			_body.IsVisibleChanged += OnBodyVisibleChanged;
+			_viewModel.SetActive(_body.IsVisible);
+		}
 		base.Closed += ServerInformation_Closed;
+	}
+
+	private readonly FrameworkElement? _body;
+
+	private void OnBodyVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+	{
+		_viewModel.SetActive(e.NewValue is true);
 	}
 
 	// IsCancel alone only closes modal dialogs, this window is shown normally or hosted in a dock panel,
@@ -37,6 +50,8 @@ public partial class ServerInformation : WpfUiWindow{
 	private void ServerInformation_Closed(object? sender, EventArgs e)
 	{
 		base.Closed -= ServerInformation_Closed;
+		if (_body != null)
+			_body.IsVisibleChanged -= OnBodyVisibleChanged;
 		_viewModel.Dispose();
 		base.DataContext = null;
 	}
