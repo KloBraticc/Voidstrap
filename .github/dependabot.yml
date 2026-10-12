@@ -4,9 +4,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    ignore:
-      - dependency-name: "SixLabors.ImageSharp"
-        versions: [">=3.2.0"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
