@@ -24,6 +24,12 @@ namespace Voidstrap.Utility
                 return null;
             try
             {
+                if (NativeImaging.TryDecodeBgra(bytes, maxPixelWidth, MaxDecodedPixels * 4, out int nativeWidth, out int nativeHeight, out byte[] nativePixels) && nativeWidth <= MaxDimension && nativeHeight <= MaxDimension)
+                {
+                    var nativeSource = BitmapSource.Create(nativeWidth, nativeHeight, 96, 96, PixelFormats.Bgra32, null, nativePixels, nativeWidth * 4);
+                    nativeSource.Freeze();
+                    return nativeSource;
+                }
                 var info = SixLabors.ImageSharp.Image.Identify(bytes);
                 if (info == null || info.Width < 1 || info.Height < 1 || info.Width > MaxDimension || info.Height > MaxDimension || (long)info.Width * info.Height > MaxDecodedPixels)
                     return null;

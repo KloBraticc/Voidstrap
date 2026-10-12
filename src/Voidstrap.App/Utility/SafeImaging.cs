@@ -549,6 +549,8 @@ internal static class SafeImaging
 
 	private static BitmapSource? DecodePortable(byte[] bytes, int decodeWidth)
 	{
+		if (NativeImaging.TryDecodeBgra(bytes, decodeWidth, MaxDecodedImageBytes, out int nativeWidth, out int nativeHeight, out byte[] nativePixels))
+			return Detach(BitmapSource.Create(nativeWidth, nativeHeight, 96, 96, PixelFormats.Bgra32, null, nativePixels, checked(nativeWidth * 4)));
 		SixLabors.ImageSharp.ImageInfo? info = SixLabors.ImageSharp.Image.Identify(bytes);
 		if (info == null || info.Width <= 0 || info.Height <= 0 || (long)info.Width * info.Height * 4 > MaxDecodedImageBytes)
 		{

@@ -320,6 +320,28 @@
 		</None>
 	</ItemGroup>
 
+	<PropertyGroup>
+		<VoidImageCrate>$(MSBuildThisFileDirectory)../../native/voidimage</VoidImageCrate>
+		<VoidImageTargetDir>$(MSBuildThisFileDirectory)obj/voidimage</VoidImageTargetDir>
+		<VoidImageDll>$(VoidImageTargetDir)/x86_64-pc-windows-msvc/release/voidimage.dll</VoidImageDll>
+		<VoidImageCargo Condition="Exists('$(USERPROFILE)/.cargo/bin/cargo.exe')">$(USERPROFILE)/.cargo/bin/cargo.exe</VoidImageCargo>
+		<VoidImageCargo Condition="'$(VoidImageCargo)' == ''">cargo</VoidImageCargo>
+	</PropertyGroup>
+
+	<Target Name="BuildVoidImage" BeforeTargets="AssignTargetPaths" Condition="'$(DesignTimeBuild)' != 'true' And '$(OS)' == 'Windows_NT' And Exists('$(VoidImageCrate)/Cargo.toml')" Inputs="$(VoidImageCrate)/Cargo.toml;$(VoidImageCrate)/Cargo.lock;@(VoidImageSources)" Outputs="$(VoidImageDll)">
+		<Exec Command="&quot;$(VoidImageCargo)&quot; build --release --locked --quiet --target x86_64-pc-windows-msvc --manifest-path &quot;$(VoidImageCrate)/Cargo.toml&quot; --target-dir &quot;$(VoidImageTargetDir)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" StandardOutputImportance="low" StandardErrorImportance="low" />
+	</Target>
+
+	<ItemGroup>
+		<VoidImageSources Include="$(MSBuildThisFileDirectory)../../native/voidimage/src/**/*.rs" />
+	</ItemGroup>
+
+	<Target Name="IncludeVoidImage" AfterTargets="BuildVoidImage" BeforeTargets="AssignTargetPaths" Condition="Exists('$(VoidImageDll)')">
+		<ItemGroup>
+			<None Include="$(VoidImageDll)" Link="voidimage.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+		</ItemGroup>
+	</Target>
+
 	<Target Name="StripDocsFromPublish" AfterTargets="ComputeResolvedFilesToPublishList">
 		<ItemGroup>
 			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Extension)' == '.xml' Or '%(ResolvedFileToPublish.Extension)' == '.pdb' Or ('%(ResolvedFileToPublish.Extension)' == '.txt' And !$([System.String]::Copy('%(ResolvedFileToPublish.RelativePath)').StartsWith('licenses')))" />
