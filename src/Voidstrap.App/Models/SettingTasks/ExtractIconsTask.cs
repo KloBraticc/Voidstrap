@@ -142,11 +142,9 @@ public class ExtractIconsTask : BoolBaseTask
 			byte[] pixels = new byte[stride * source.PixelHeight];
 			source.CopyPixels(pixels, stride, 0);
 
-			using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image =
-				SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(pixels, source.PixelWidth, source.PixelHeight);
+			byte[] encoded = new Voidstrap.Utility.Raster(source.PixelWidth, source.PixelHeight, pixels).EncodePng();
 			Filesystem.AssertReadOnly(destination);
-			using FileStream stream = File.Create(destination);
-			image.Save(stream, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
+			File.WriteAllBytes(destination, encoded);
 		}
 		catch (Exception ex)
 		{

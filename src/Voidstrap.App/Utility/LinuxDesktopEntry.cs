@@ -303,11 +303,7 @@ internal static class LinuxDesktopEntry
 			byte[] pixels = new byte[checked(stride * height)];
 			bgra.CopyPixels(pixels, stride, 0);
 
-			using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image =
-				SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(pixels, width, height);
-			using MemoryStream buffer = new();
-			image.Save(buffer, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
-			return buffer.ToArray();
+			return new Raster(width, height, pixels).EncodePng();
 		}
 		catch (Exception ex)
 		{

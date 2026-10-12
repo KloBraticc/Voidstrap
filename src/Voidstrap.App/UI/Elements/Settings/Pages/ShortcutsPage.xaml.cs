@@ -15,7 +15,6 @@ using System.Web;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Threading;
-using SixLabors.ImageSharp.Processing;
 using Voidstrap.UI.ViewModels.Settings;
 using Wpf.Ui.Controls;
 
@@ -333,30 +332,17 @@ public partial class ShortcutsPage : UiPage{
 			using HttpResponseMessage response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, imageCts.Token).ConfigureAwait(false);
 			response.EnsureSuccessStatusCode();
 			byte[] imageBytes = await Voidstrap.Utility.Http.ReadBytesBoundedAsync(response.Content, 4 * 1024 * 1024, imageCts.Token).ConfigureAwait(false);
-			SixLabors.ImageSharp.ImageInfo? imageInfo = SixLabors.ImageSharp.Image.Identify(imageBytes);
-			if (imageInfo == null || imageInfo.Width <= 0 || imageInfo.Height <= 0 || (long)imageInfo.Width * imageInfo.Height > 16_777_216)
+			if (!Voidstrap.Utility.Raster.TryIdentify(imageBytes, out int imageWidth, out int imageHeight) || (long)imageWidth * imageHeight > 16_777_216)
 				throw new InvalidDataException("Game icon dimensions are invalid");
 			string iconId = Convert.ToHexString(SHA256.HashData(imageBytes))[..12];
 			string iconPath = Path.Combine(text, baseName + "_" + iconId + ".ico");
 			if (Voidstrap.Utility.Platform.UsesPortableUi)
 			{
 				string portablePath = Path.Combine(text, baseName + ".png");
-				using SixLabors.ImageSharp.Image portable = SixLabors.ImageSharp.Image.Load(imageBytes);
-				using FileStream portableStream = File.Create(portablePath);
-				portable.Save(portableStream, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
+				File.WriteAllBytes(portablePath, Voidstrap.Utility.Raster.Decode(imageBytes).EncodePng());
 				return portablePath;
 			}
-			using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32> image = SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>(imageBytes);
-			image.Mutate(context => context.Resize(new SixLabors.ImageSharp.Processing.ResizeOptions
-			{
-				Size = new SixLabors.ImageSharp.Size(256, 256),
-				Mode = SixLabors.ImageSharp.Processing.ResizeMode.Pad,
-				PadColor = SixLabors.ImageSharp.Color.Transparent,
-				Sampler = SixLabors.ImageSharp.Processing.KnownResamplers.Lanczos3
-			}));
-			using MemoryStream png = new MemoryStream();
-			image.Save(png, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
-			byte[] payload = png.ToArray();
+			byte[] payload = Voidstrap.Utility.Raster.Decode(imageBytes).ResizeToPad(256, 256, Voidstrap.Utility.RasterFilter.Lanczos3).EncodePng();
 			using FileStream output = new FileStream(iconPath, FileMode.Create, FileAccess.Write, FileShare.None);
 			using BinaryWriter writer = new BinaryWriter(output);
 			writer.Write((ushort)0);

@@ -9,7 +9,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
-using SixLabors.ImageSharp.Processing;
 using Voidstrap.Enums;
 using Voidstrap.Extensions;
 using Voidstrap.Models.SettingTasks.Base;
@@ -206,14 +205,7 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 		int stride = checked(pixelsSource.PixelWidth * 4);
 		byte[] pixels = new byte[checked(stride * pixelsSource.PixelHeight)];
 		pixelsSource.CopyPixels(pixels, stride, 0);
-		using var image = SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(pixels, pixelsSource.PixelWidth, pixelsSource.PixelHeight);
-		image.Mutate(context => context.Resize(new ResizeOptions
-		{
-			Size = new SixLabors.ImageSharp.Size(256, 256), Mode = SixLabors.ImageSharp.Processing.ResizeMode.Pad
-		}));
-		using var buffer = new MemoryStream();
-		image.Save(buffer, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
-		byte[] png = buffer.ToArray();
+		byte[] png = new Raster(pixelsSource.PixelWidth, pixelsSource.PixelHeight, pixels).ResizeToPad(256, 256).EncodePng();
 		string folder = Path.Combine(Paths.Config, "ShortcutIcons");
 		Directory.CreateDirectory(folder);
 		string path = Path.Combine(folder, _key + "_" + Convert.ToHexString(SHA256.HashData(png)).Substring(0, 16) + (Voidstrap.Utility.Platform.IsWindows ? ".ico" : ".png"));

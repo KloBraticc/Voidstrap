@@ -603,13 +603,7 @@ internal static partial class ClassicTopBarMod
 		}
 		try
 		{
-			using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32> blank = new SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(width, height);
-			using MemoryStream buffer = new MemoryStream();
-			blank.Save(buffer, new SixLabors.ImageSharp.Formats.Png.PngEncoder
-			{
-				CompressionLevel = SixLabors.ImageSharp.Formats.Png.PngCompressionLevel.BestSpeed
-			});
-			byte[] bytes = buffer.ToArray();
+			byte[] bytes = Voidstrap.Utility.Raster.Blank(width, height).EncodePng(Voidstrap.Utility.PngLevel.Fast);
 			BlankImages[key] = bytes;
 			return bytes;
 		}
