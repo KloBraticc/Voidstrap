@@ -375,9 +375,7 @@ public static class FileModManager
 			Directory.CreateDirectory(WaterFramesFolder);
 			for (int index = 0; index < frames.Count; index++)
 			{
-				using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.L8> image = SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.L8>(frames[index], DdsTextureCodec.WaterSize, DdsTextureCodec.WaterSize);
-				using FileStream output = File.Create(Path.Combine(WaterFramesFolder, "frame_" + index.ToString("00", CultureInfo.InvariantCulture) + ".png"));
-				image.Save(output, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
+				File.WriteAllBytes(Path.Combine(WaterFramesFolder, "frame_" + index.ToString("00", CultureInfo.InvariantCulture) + ".png"), FromHeights(frames[index], DdsTextureCodec.WaterSize).EncodePng());
 			}
 		}
 		return frames.Count;
@@ -453,12 +451,10 @@ public static class FileModManager
 			return frames;
 		foreach (string file in Directory.GetFiles(WaterFramesFolder, "frame_*.png").OrderBy(static name => name, StringComparer.OrdinalIgnoreCase).Take(DdsTextureCodec.WaterFrameCount))
 		{
-			using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.L8> image = SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.L8>(file);
+			Raster image = Raster.Load(file);
 			if (image.Width != DdsTextureCodec.WaterSize || image.Height != DdsTextureCodec.WaterSize)
-				image.Mutate(static context => context.Resize(DdsTextureCodec.WaterSize, DdsTextureCodec.WaterSize));
-			byte[] heights = new byte[DdsTextureCodec.WaterSize * DdsTextureCodec.WaterSize];
-			image.CopyPixelDataTo(heights);
-			frames.Add(heights);
+				image = image.Resize(DdsTextureCodec.WaterSize, DdsTextureCodec.WaterSize);
+			frames.Add(ToHeights(image));
 		}
 		return frames;
 	}
@@ -720,11 +716,40 @@ public static class FileModManager
 
 	private static byte[] CreatePng(byte shade, byte alpha)
 	{
-		SixLabors.ImageSharp.PixelFormats.Rgba32 color = new SixLabors.ImageSharp.PixelFormats.Rgba32(shade, shade, shade, alpha);
-		using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32> image = new SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(4, 4, color);
-		using MemoryStream output = new MemoryStream();
-		image.Save(output, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
-		return output.ToArray();
+		Raster image = Raster.Blank(4, 4);
+		for (int index = 0; index < image.Pixels.Length; index += 4)
+		{
+			image.Pixels[index] = shade;
+			image.Pixels[index + 1] = shade;
+			image.Pixels[index + 2] = shade;
+			image.Pixels[index + 3] = alpha;
+		}
+		return image.EncodePng();
+	}
+
+	private static Raster FromHeights(byte[] heights, int size)
+	{
+		Raster image = Raster.Blank(size, size);
+		for (int index = 0; index < heights.Length; index++)
+		{
+			int offset = index * 4;
+			image.Pixels[offset] = heights[index];
+			image.Pixels[offset + 1] = heights[index];
+			image.Pixels[offset + 2] = heights[index];
+			image.Pixels[offset + 3] = 255;
+		}
+		return image;
+	}
+
+	private static byte[] ToHeights(Raster image)
+	{
+		byte[] heights = new byte[image.Width * image.Height];
+		for (int index = 0; index < heights.Length; index++)
+		{
+			int offset = index * 4;
+			heights[index] = (byte)(image.Pixels[offset + 2] * 0.2126f + image.Pixels[offset + 1] * 0.7152f + image.Pixels[offset] * 0.0722f + 0.5f);
+		}
+		return heights;
 	}
 
 	private static string Hash(byte[] bytes)
