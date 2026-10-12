@@ -1409,6 +1409,7 @@ jobs:
           open(path, "w", encoding="utf-8").write(text)
           PY
           grep -o '<int name="FramerateCap">[^<]*</int>' "$gbs" || true
+          gbs_before=$(md5 -q "$gbs" 2>/dev/null || echo none)
           /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d["MacVirtualDisplayEnabled"] = True; json.dump(d, open(p, "w"))' "$VS/Config/AppSettings.json"
           "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/flags-launch.txt" 2>&1 &
           for i in $(seq 1 90); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
@@ -1430,6 +1431,7 @@ jobs:
           find "$HOME/Library" -iname "GlobalBasicSettings*" 2>/dev/null | sed -E 's#/Users/[^/]+#~#' | head -10 || true
           ls "$HOME/Library/Roblox" 2>/dev/null | head -30 || true
           defaults read com.roblox.RobloxPlayer 2>/dev/null | grep -i -E "frame|fps|graphics" | head -10 || true
+          echo "global settings rewritten by Roblox: $([ "$(md5 -q "$gbs" 2>/dev/null || echo none)" != "$gbs_before" ] && echo yes || echo no)"
           echo "frame rate cap after Roblox closed: $(grep -o '<int name="FramerateCap">[^<]*</int>' "$gbs" 2>/dev/null || echo missing)"
           grep -q '<int name="FramerateCap">240</int>' "$gbs" 2>/dev/null && echo true > "$RUNNER_TEMP/overlay-logs/fps-cap-kept.txt" || true
           echo "displays after Roblox closed"
