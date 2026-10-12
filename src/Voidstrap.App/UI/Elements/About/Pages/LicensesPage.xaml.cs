@@ -46,7 +46,8 @@ public partial class LicensesPage : UiPage{
 		DetailLines.ItemsSource = notice.Lines;
 		ListView.Visibility = Visibility.Collapsed;
 		DetailView.Visibility = Visibility.Visible;
-		DetailLines.ScrollIntoView(notice.Lines.Length > 0 ? notice.Lines[0] : null);
+		if (notice.Lines.Length > 0)
+			DetailLines.ScrollIntoView(notice.Lines[0]);
 	}
 
 	private void OnBackClick(object sender, RoutedEventArgs e)
