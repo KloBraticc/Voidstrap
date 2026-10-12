@@ -116,8 +116,10 @@ namespace Wpf.Ui.Controls
                     _verticalTimer.Tick += OnVerticalTimerTick;
                     _verticalTimerAttached = true;
                 }
+                TimeSpan verticalInterval = TimeSpan.FromMilliseconds(_timeout);
+                if (_verticalTimer.Interval != verticalInterval)
+                    _verticalTimer.Interval = verticalInterval;
                 _verticalTimer.Stop();
-                _verticalTimer.Interval = TimeSpan.FromMilliseconds(_timeout);
                 _verticalTimer.Start();
             }
             else
@@ -129,8 +131,10 @@ namespace Wpf.Ui.Controls
                     _horizontalTimer.Tick += OnHorizontalTimerTick;
                     _horizontalTimerAttached = true;
                 }
+                TimeSpan horizontalInterval = TimeSpan.FromMilliseconds(_timeout);
+                if (_horizontalTimer.Interval != horizontalInterval)
+                    _horizontalTimer.Interval = horizontalInterval;
                 _horizontalTimer.Stop();
-                _horizontalTimer.Interval = TimeSpan.FromMilliseconds(_timeout);
                 _horizontalTimer.Start();
             }
         }

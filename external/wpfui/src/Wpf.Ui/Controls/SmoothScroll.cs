@@ -248,6 +248,8 @@ namespace Wpf.Ui.Controls
             private bool _hooked;
             private TranslateTransform? _transform;
             private long _lastFrame;
+            private double _appliedOffset = double.NaN;
+            private double _appliedOvershoot;
 
             public Driver(ScrollViewer sv)
             {
@@ -264,7 +266,10 @@ namespace Wpf.Ui.Controls
                 _sv.Unloaded -= OnUnloaded;
                 Unhook();
                 if (_transform != null)
+                {
                     _transform.Y = 0;
+                    _appliedOvershoot = 0;
+                }
                 _sv.ClearValue(DriverProperty);
             }
 
@@ -284,7 +289,10 @@ namespace Wpf.Ui.Controls
                     Unhook();
                     _overshoot = 0;
                     if (_transform != null)
+                    {
                         _transform.Y = 0;
+                        _appliedOvershoot = 0;
+                    }
                     double wheelUnit = _sv.CanContentScroll
                         ? Math.Max(1, SystemParameters.WheelScrollLines)
                         : WheelStepPixels;
@@ -401,7 +409,19 @@ namespace Wpf.Ui.Controls
 
             private void ApplyVerticalOffset(double offset)
             {
-                _sv.ScrollToVerticalOffset(offset);
+                double snapped = _sv.CanContentScroll ? offset : SnapToDevicePixel(offset);
+                if (snapped.Equals(_appliedOffset) && Math.Abs(_sv.VerticalOffset - snapped) < 0.01)
+                    return;
+                _appliedOffset = snapped;
+                _sv.ScrollToVerticalOffset(snapped);
+            }
+
+            private double SnapToDevicePixel(double value)
+            {
+                double scale = VisualTreeHelper.GetDpi(_sv).DpiScaleY;
+                if (scale <= 0)
+                    scale = 1;
+                return Math.Round(value * scale) / scale;
             }
 
             private double ReadVerticalOffset()
@@ -431,7 +451,11 @@ namespace Wpf.Ui.Controls
                     }
                 }
 
-                _transform.Y = amount;
+                double snapped = SnapToDevicePixel(amount);
+                if (snapped.Equals(_appliedOvershoot))
+                    return;
+                _appliedOvershoot = snapped;
+                _transform.Y = snapped;
             }
         }
     }
