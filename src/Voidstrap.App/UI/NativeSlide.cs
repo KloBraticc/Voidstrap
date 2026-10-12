@@ -161,6 +161,11 @@ internal sealed partial class NativeSlide
 			return;
 		int left = (int)Math.Round(position.X);
 		int top = (int)Math.Round(position.Y);
+		if (!PortableOverlay.Active && GetWindowRect(_handle, out NativeRect current))
+		{
+			_width = current.Right - current.Left;
+			_height = current.Bottom - current.Top;
+		}
 		// Only the part of the window inside the game's area is shown while it moves
 		int x0 = Math.Clamp(_clip.X - left, 0, _width);
 		int y0 = Math.Clamp(_clip.Y - top, 0, _height);

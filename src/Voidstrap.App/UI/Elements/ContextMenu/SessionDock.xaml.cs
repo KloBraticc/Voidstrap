@@ -171,6 +171,7 @@ public partial class SessionDock : Window
         Loaded += OnDockLoaded;
         Closing += OnClosing;
         Closed += OnClosed;
+        Pill.SizeChanged += OnPillSizeChanged;
         RobloxWindowTracker.Changed += OnTrackerChanged;
         _trackerLease = RobloxWindowTracker.Acquire();
     }
@@ -557,6 +558,7 @@ public partial class SessionDock : Window
         // Put back exactly where it belongs in case the game moved while it slid
         _anchor?.Refresh();
         Settle();
+        QueueFitWidth();
     }
 
     // Everything that does real work waits until the dock has finished appearing
@@ -1209,6 +1211,12 @@ public partial class SessionDock : Window
             QueueFitWidth();
     }
 
+    private void OnPillSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (e.WidthChanged)
+            QueueFitWidth();
+    }
+
     private void QueueFitWidth()
     {
         if (_closed || _fitWidthQueued)
@@ -1853,6 +1861,7 @@ public partial class SessionDock : Window
         PortableOverlay.Release(this);
         SourceInitialized -= OnSourceInitialized;
         Closed -= OnClosed;
+        Pill.SizeChanged -= OnPillSizeChanged;
         DestroyDimmer();
         if (_popout != null)
         {
