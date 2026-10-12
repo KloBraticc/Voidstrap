@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SixLabors.ImageSharp;
 
 namespace Voidstrap.Utility;
 
@@ -151,7 +150,7 @@ public static class SkyboxImageConverter
 			ValidateDimensions(width, height);
 			return Raster.Decode(bytes, MaximumPixels * 4);
 		}
-		catch (Exception ex) when (ex is InvalidDataException or UnknownImageFormatException or InvalidImageContentException or NotSupportedException)
+		catch (Exception ex) when (ex is InvalidDataException or NotSupportedException)
 		{
 			try
 			{

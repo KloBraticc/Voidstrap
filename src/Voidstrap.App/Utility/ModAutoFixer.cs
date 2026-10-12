@@ -125,7 +125,7 @@ internal static class ModAutoFixer
 					File.Move(temporary, file, true);
 					converted++;
 				}
-				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException or SixLabors.ImageSharp.UnknownImageFormatException or SixLabors.ImageSharp.InvalidImageContentException or NotSupportedException)
+				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException or NotSupportedException)
 				{
 					App.Logger?.WriteLine(LogIdent, "Could not convert the sky face " + Path.GetFileName(file) + ": " + ex.Message);
 				}

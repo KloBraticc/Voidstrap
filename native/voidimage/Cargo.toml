@@ -9,7 +9,7 @@ license = "MIT"
 crate-type = ["cdylib"]
 
 [dependencies]
-image = { version = "0.25", default-features = false, features = ["png", "jpeg", "webp", "gif", "bmp", "ico", "tga", "tiff"] }
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "webp", "gif", "bmp", "ico", "tga"] }
 fast_image_resize = "5"
 
 [profile.release]

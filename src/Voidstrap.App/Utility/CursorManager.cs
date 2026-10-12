@@ -378,10 +378,10 @@ internal static class CursorManager
 		{
 			return EncodeWithRaster(bytes);
 		}
-		catch (Exception ex) when ((ex is NotSupportedException or SixLabors.ImageSharp.UnknownImageFormatException) && OperatingSystem.IsWindows())
+		catch (NotSupportedException) when (OperatingSystem.IsWindows())
 		{
 		}
-		catch (Exception ex) when (ex is NotSupportedException or SixLabors.ImageSharp.UnknownImageFormatException)
+		catch (NotSupportedException)
 		{
 			throw new InvalidDataException("That image format is not supported.");
 		}

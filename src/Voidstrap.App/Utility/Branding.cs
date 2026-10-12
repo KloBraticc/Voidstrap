@@ -289,7 +289,7 @@ internal static class Branding
 		{
 			return Raster.Decode(data).FitWithin(1024, 1024);
 		}
-		catch (Exception ex) when (ex is InvalidDataException or SixLabors.ImageSharp.UnknownImageFormatException or SixLabors.ImageSharp.InvalidImageContentException or NotSupportedException)
+		catch (Exception ex) when (ex is InvalidDataException or NotSupportedException)
 		{
 			App.Logger?.WriteLine(LOG_IDENT, "The image library could not read the file, trying the system decoder: " + ex.Message);
 		}

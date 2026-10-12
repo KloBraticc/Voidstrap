@@ -1,8 +1,6 @@
 using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 
 namespace Voidstrap.Utility
 {
@@ -30,23 +28,7 @@ namespace Voidstrap.Utility
                     nativeSource.Freeze();
                     return nativeSource;
                 }
-                var info = SixLabors.ImageSharp.Image.Identify(bytes);
-                if (info == null || info.Width < 1 || info.Height < 1 || info.Width > MaxDimension || info.Height > MaxDimension || (long)info.Width * info.Height > MaxDecodedPixels)
-                    return null;
-                using var image = SixLabors.ImageSharp.Image.Load<Bgra32>(bytes);
-                if (image.Width < 1 || image.Height < 1 || image.Width > MaxDimension || image.Height > MaxDimension)
-                    return null;
-                if (maxPixelWidth > 0 && image.Width > maxPixelWidth)
-                {
-                    int height = Math.Max(1, (int)Math.Round(image.Height * (double)maxPixelWidth / image.Width));
-                    image.Mutate(x => x.Resize(maxPixelWidth, height));
-                }
-                int stride = image.Width * 4;
-                byte[] pixels = new byte[stride * image.Height];
-                image.CopyPixelDataTo(pixels);
-                var source = BitmapSource.Create(image.Width, image.Height, 96, 96, PixelFormats.Bgra32, null, pixels, stride);
-                source.Freeze();
-                return source;
+                return null;
             }
             catch
             {

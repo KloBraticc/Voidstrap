@@ -778,7 +778,6 @@ public partial class App : Application
 
 	private async Task StartAsync(string[] args)
 	{
-		TryStartup("Image decoders", Voidstrap.Utility.SafeImaging.RejectTiff);
 		LinuxUiPerformance.Install();
 		if (Voidstrap.Utility.Platform.IsMacOS)
 			TryStartup("macOS URL handling", () => Voidstrap.Platform.MacOS.MacOSUrlEvents.Install(OnMacOSUrlReceived));

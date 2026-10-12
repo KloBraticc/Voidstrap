@@ -9,10 +9,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Resources;
-using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.Formats.Gif;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 
 namespace Voidstrap.Utility;
 
@@ -24,30 +20,6 @@ internal static class SafeImaging
 	private const int MaxAnimationFrames = 180;
 
 	private static readonly Lazy<System.Net.Http.HttpClient> _http = new Lazy<System.Net.Http.HttpClient>(() => VpnHttpClient.Create(TimeSpan.FromSeconds(15)));
-
-	public static void RejectTiff()
-	{
-		SixLabors.ImageSharp.Configuration.Default.ImageFormatsManager.SetDecoder(SixLabors.ImageSharp.Formats.Tiff.TiffFormat.Instance, RejectingDecoder.Instance);
-	}
-
-	private sealed class RejectingDecoder : IImageDecoder
-	{
-		public static readonly RejectingDecoder Instance = new();
-
-		private static SixLabors.ImageSharp.UnknownImageFormatException Rejected() => new("TIFF images are not decoded by Voidstrap");
-
-		public SixLabors.ImageSharp.ImageInfo Identify(DecoderOptions options, Stream stream) => throw Rejected();
-
-		public System.Threading.Tasks.Task<SixLabors.ImageSharp.ImageInfo> IdentifyAsync(DecoderOptions options, Stream stream, CancellationToken cancellationToken = default) => throw Rejected();
-
-		public SixLabors.ImageSharp.Image<TPixel> Decode<TPixel>(DecoderOptions options, Stream stream) where TPixel : unmanaged, IPixel<TPixel> => throw Rejected();
-
-		public SixLabors.ImageSharp.Image Decode(DecoderOptions options, Stream stream) => throw Rejected();
-
-		public System.Threading.Tasks.Task<SixLabors.ImageSharp.Image<TPixel>> DecodeAsync<TPixel>(DecoderOptions options, Stream stream, CancellationToken cancellationToken = default) where TPixel : unmanaged, IPixel<TPixel> => throw Rejected();
-
-		public System.Threading.Tasks.Task<SixLabors.ImageSharp.Image> DecodeAsync(DecoderOptions options, Stream stream, CancellationToken cancellationToken = default) => throw Rejected();
-	}
 
 	public static BitmapSource? FromBytes(byte[]? bytes, int decodeWidth = 0)
 	{
@@ -504,11 +476,10 @@ internal static class SafeImaging
 	{
 		width = 0;
 		height = 0;
-		SixLabors.ImageSharp.ImageInfo? info = SixLabors.ImageSharp.Image.Identify(bytes);
-		if (info == null || info.Width <= 0 || info.Height <= 0)
+		if (!Raster.TryIdentify(bytes, out int identifiedWidth, out int identifiedHeight))
 			return false;
-		width = info.Width;
-		height = info.Height;
+		width = identifiedWidth;
+		height = identifiedHeight;
 		return true;
 	}
 
@@ -551,23 +522,7 @@ internal static class SafeImaging
 	{
 		if (NativeImaging.TryDecodeBgra(bytes, decodeWidth, MaxDecodedImageBytes, out int nativeWidth, out int nativeHeight, out byte[] nativePixels))
 			return Detach(BitmapSource.Create(nativeWidth, nativeHeight, 96, 96, PixelFormats.Bgra32, null, nativePixels, checked(nativeWidth * 4)));
-		SixLabors.ImageSharp.ImageInfo? info = SixLabors.ImageSharp.Image.Identify(bytes);
-		if (info == null || info.Width <= 0 || info.Height <= 0 || (long)info.Width * info.Height * 4 > MaxDecodedImageBytes)
-		{
-			return null;
-		}
-		using SixLabors.ImageSharp.Image<Bgra32> image = SixLabors.ImageSharp.Image.Load<Bgra32>(bytes);
-		image.Mutate(context => context.AutoOrient());
-		if (decodeWidth > 0 && image.Width > decodeWidth)
-		{
-			int height = Math.Max(1, (int)Math.Round(image.Height * (double)decodeWidth / image.Width));
-			image.Mutate(context => context.Resize(decodeWidth, height));
-		}
-		int stride = checked(image.Width * 4);
-		byte[] pixels = GC.AllocateUninitializedArray<byte>(checked(stride * image.Height));
-		image.CopyPixelDataTo(pixels);
-		BitmapSource source = BitmapSource.Create(image.Width, image.Height, 96, 96, PixelFormats.Bgra32, null, pixels, stride);
-		return Detach(source);
+		return null;
 	}
 
 	public static IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> DecodeAnimationPortable(
@@ -575,61 +530,26 @@ internal static class SafeImaging
 		int decodeWidth = 0,
 		CancellationToken token = default)
 	{
-		if (Platform.UsesPortableUi)
-			return DecodeAnimationPortableLinux(path, decodeWidth, token);
-		List<(BitmapSource, int)> frames = [];
 		if (string.IsNullOrEmpty(path) || !File.Exists(path))
-		{
-			return frames;
-		}
-
+			return [];
 		try
 		{
+			FileInfo file = new(path);
+			if (file.Length <= 0 || file.Length > MaxCompressedImageBytes)
+				return [];
 			token.ThrowIfCancellationRequested();
-			using SixLabors.ImageSharp.Image<Bgra32> image = token.CanBeCanceled
-				? SixLabors.ImageSharp.Image.LoadAsync<Bgra32>(path, token).GetAwaiter().GetResult()
-				: SixLabors.ImageSharp.Image.Load<Bgra32>(path);
-			if ((long)image.Width * image.Height * 4 > MaxDecodedImageBytes)
-			{
-				return frames;
-			}
-
-			long decodedBytes = 0;
-			int count = Math.Min(image.Frames.Count, MaxAnimationFrames);
-			for (int index = 0; index < count; index++)
-			{
-				token.ThrowIfCancellationRequested();
-				using SixLabors.ImageSharp.Image<Bgra32> frame = image.Frames.CloneFrame(index);
-				if (decodeWidth > 0 && frame.Width > decodeWidth)
-				{
-					int height = Math.Max(1, (int)Math.Round(frame.Height * (double)decodeWidth / frame.Width));
-					frame.Mutate(context => context.Resize(decodeWidth, height));
-				}
-
-				int stride = checked(frame.Width * 4);
-				int frameBytes = checked(stride * frame.Height);
-				if (decodedBytes > MaxDecodedAnimationBytes - frameBytes)
-				{
-					break;
-				}
-				decodedBytes += frameBytes;
-				byte[] pixels = GC.AllocateUninitializedArray<byte>(frameBytes);
-				frame.CopyPixelDataTo(pixels);
-				BitmapSource source = BitmapSource.Create(frame.Width, frame.Height, 96, 96, PixelFormats.Bgra32, null, pixels, stride);
-				frames.Add((Detach(source), ReadFrameDelay(image.Frames[index])));
-			}
+			long budget = Platform.UsesPortableUi ? MaxDecodedAnimationBytes / 4 : MaxDecodedAnimationBytes;
+			return DecodeAnimationFrames(File.ReadAllBytes(path), decodeWidth, budget, token);
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{
-			frames.Clear();
+			return [];
 		}
 		catch (Exception ex)
 		{
 			App.Logger?.WriteLine("SafeImaging::DecodeAnimationPortable", "Animation decode failed: " + ex.Message.Split('\n')[0]);
-			frames.Clear();
+			return [];
 		}
-
-		return frames;
 	}
 
 	public static IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> DecodeAnimationPortable(
@@ -637,147 +557,52 @@ internal static class SafeImaging
 		int decodeWidth = 0,
 		CancellationToken token = default)
 	{
-		List<(BitmapSource, int)> frames = [];
 		if (bytes == null || bytes.Length == 0 || bytes.LongLength > MaxCompressedImageBytes)
-			return frames;
+			return [];
 		try
 		{
-			token.ThrowIfCancellationRequested();
-			DecoderOptions options = new()
-			{
-				MaxFrames = MaxAnimationFrames,
-				SkipMetadata = false
-			};
-			using SixLabors.ImageSharp.Image<Bgra32> image = SixLabors.ImageSharp.Image.Load<Bgra32>(options, bytes);
-			if ((long)image.Width * image.Height * 4 > MaxDecodedImageBytes)
-				return frames;
-			long decodedBytes = 0;
-			for (int index = 0; index < image.Frames.Count; index++)
-			{
-				token.ThrowIfCancellationRequested();
-				using SixLabors.ImageSharp.Image<Bgra32> frame = image.Frames.CloneFrame(index);
-				if (decodeWidth > 0 && frame.Width > decodeWidth)
-				{
-					int height = Math.Max(1, (int)Math.Round(frame.Height * (double)decodeWidth / frame.Width));
-					frame.Mutate(context => context.Resize(decodeWidth, height));
-				}
-				int stride = checked(frame.Width * 4);
-				int frameBytes = checked(stride * frame.Height);
-				if (decodedBytes > MaxDecodedAnimationBytes - frameBytes)
-					break;
-				decodedBytes += frameBytes;
-				byte[] pixels = GC.AllocateUninitializedArray<byte>(frameBytes);
-				frame.CopyPixelDataTo(pixels);
-				BitmapSource source = BitmapSource.Create(frame.Width, frame.Height, 96, 96, PixelFormats.Bgra32, null, pixels, stride);
-				frames.Add((Detach(source), ReadFrameDelay(image.Frames[index])));
-			}
+			return DecodeAnimationFrames(bytes, decodeWidth, MaxDecodedAnimationBytes, token);
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{
-			frames.Clear();
+			return [];
 		}
 		catch (Exception ex)
 		{
 			App.Logger?.WriteLine("SafeImaging::DecodeAnimationPortable", "Animation byte decode failed: " + ex.Message.Split('\n')[0]);
-			frames.Clear();
+			return [];
 		}
-		return frames;
 	}
 
-	private static List<(BitmapSource Frame, int DelayMilliseconds)> DecodeAnimationPortableLinux(
-		string? path,
-		int decodeWidth,
-		CancellationToken token)
+	private static List<(BitmapSource Frame, int DelayMilliseconds)> DecodeAnimationFrames(byte[] bytes, int decodeWidth, long budget, CancellationToken token)
 	{
 		List<(BitmapSource, int)> frames = [];
-		if (string.IsNullOrEmpty(path) || !File.Exists(path))
+		token.ThrowIfCancellationRequested();
+		if (!Raster.TryIdentify(bytes, out int sourceWidth, out int sourceHeight))
 			return frames;
-
-		try
+		long sourceFrameBytes = checked((long)sourceWidth * sourceHeight * 4);
+		if (sourceFrameBytes > MaxDecodedImageBytes)
+			return frames;
+		int targetWidth = sourceWidth;
+		int targetHeight = sourceHeight;
+		if (decodeWidth > 0 && targetWidth > decodeWidth)
 		{
-			FileInfo file = new(path);
-			if (file.Length <= 0 || file.Length > MaxCompressedImageBytes)
-				return frames;
-			token.ThrowIfCancellationRequested();
-			DecoderOptions identifyOptions = new()
-			{
-				MaxFrames = MaxAnimationFrames,
-				SkipMetadata = false
-			};
-			SixLabors.ImageSharp.ImageInfo? info = SixLabors.ImageSharp.Image.IdentifyAsync(identifyOptions, path, token).GetAwaiter().GetResult();
-			if (info == null || info.Width < 1 || info.Height < 1)
-				return frames;
-
-			int frameCount = Math.Clamp(info.FrameMetadataCollection.Count, 1, MaxAnimationFrames);
-			long linuxDecodeBudget = MaxDecodedAnimationBytes / 4;
-			long sourceFrameBytes = checked((long)info.Width * info.Height * 4);
-			if (sourceFrameBytes > linuxDecodeBudget)
-				return frames;
-			frameCount = Math.Min(frameCount, Math.Max(1, (int)(linuxDecodeBudget / sourceFrameBytes)));
-			int targetWidth = info.Width;
-			int targetHeight = info.Height;
-			if (decodeWidth > 0 && targetWidth > decodeWidth)
-			{
-				targetHeight = Math.Max(1, (int)Math.Round(targetHeight * (double)decodeWidth / targetWidth));
-				targetWidth = decodeWidth;
-			}
-			long frameBytes = checked((long)targetWidth * targetHeight * 4);
-			long requestedBytes = checked(frameBytes * frameCount);
-			if (frameBytes > MaxDecodedImageBytes || requestedBytes > linuxDecodeBudget)
-			{
-				double scale = Math.Min(
-					Math.Sqrt(MaxDecodedImageBytes / (double)frameBytes),
-					Math.Sqrt(linuxDecodeBudget / (double)requestedBytes));
-				targetWidth = Math.Max(1, (int)Math.Floor(targetWidth * scale));
-				targetHeight = Math.Max(1, (int)Math.Floor(targetHeight * scale));
-			}
-			frameBytes = checked((long)targetWidth * targetHeight * 4);
-			frameCount = Math.Min(frameCount, Math.Max(1, (int)(linuxDecodeBudget / frameBytes)));
-			DecoderOptions decodeOptions = new()
-			{
-				MaxFrames = (uint)frameCount,
-				SkipMetadata = false,
-				TargetSize = new SixLabors.ImageSharp.Size(targetWidth, targetHeight)
-			};
-			using SixLabors.ImageSharp.Image<Bgra32> image = SixLabors.ImageSharp.Image.LoadAsync<Bgra32>(decodeOptions, path, token).GetAwaiter().GetResult();
-			long decodedBytes = checked((long)image.Width * image.Height * 4 * image.Frames.Count);
-			if (image.Frames.Count == 0 || decodedBytes > linuxDecodeBudget)
-				return frames;
-
-			for (int index = 0; index < image.Frames.Count; index++)
+			targetHeight = Math.Max(1, (int)Math.Round(targetHeight * (double)decodeWidth / targetWidth));
+			targetWidth = decodeWidth;
+		}
+		if (NativeImaging.TryDecodeAnimationBgra(bytes, targetWidth, targetHeight, MaxAnimationFrames, budget, out int width, out int height, out byte[][] pixels, out int[] delays))
+		{
+			for (int index = 0; index < pixels.Length; index++)
 			{
 				token.ThrowIfCancellationRequested();
-				int stride = checked(image.Width * 4);
-				byte[] pixels = GC.AllocateUninitializedArray<byte>(checked(stride * image.Height));
-				image.Frames[index].CopyPixelDataTo(pixels);
-				BitmapSource source = BitmapSource.Create(image.Width, image.Height, 96, 96, PixelFormats.Bgra32, null, pixels, stride);
-				frames.Add((Detach(source), ReadFrameDelay(image.Frames[index])));
+				BitmapSource source = BitmapSource.Create(width, height, 96, 96, PixelFormats.Bgra32, null, pixels[index], checked(width * 4));
+				frames.Add((Detach(source), delays[index] <= 10 ? 100 : delays[index]));
 			}
+			return frames;
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-			frames.Clear();
-		}
-		catch (Exception ex)
-		{
-			App.Logger?.WriteLine("SafeImaging::DecodeAnimationPortable", "Animation decode failed: " + ex.Message.Split('\n')[0]);
-			frames.Clear();
-		}
+		Raster still = Raster.Decode(bytes, MaxDecodedImageBytes).FitWithin(targetWidth, targetHeight);
+		frames.Add((Detach(BitmapSource.Create(still.Width, still.Height, 96, 96, PixelFormats.Bgra32, null, still.Pixels, checked(still.Width * 4))), 100));
 		return frames;
-	}
-
-	private static int ReadFrameDelay(SixLabors.ImageSharp.ImageFrame<Bgra32> frame)
-	{
-		try
-		{
-			GifFrameMetadata metadata = SixLabors.ImageSharp.MetadataExtensions.GetGifMetadata(frame.Metadata);
-			int delay = metadata.FrameDelay * 10;
-			return delay <= 10 ? 100 : delay;
-		}
-		catch (Exception)
-		{
-			return 100;
-		}
 	}
 
 	public static bool TryReadDimensions(string? path, out int width, out int height)
@@ -791,10 +616,10 @@ internal static class SafeImaging
 
 		try
 		{
-			SixLabors.ImageSharp.ImageInfo info = SixLabors.ImageSharp.Image.Identify(path);
-			width = info.Width;
-			height = info.Height;
-			return width > 0 && height > 0;
+			FileInfo file = new(path);
+			if (file.Length <= 0 || file.Length > MaxCompressedImageBytes)
+				return false;
+			return Raster.TryIdentify(File.ReadAllBytes(path), out width, out height);
 		}
 		catch (Exception)
 		{

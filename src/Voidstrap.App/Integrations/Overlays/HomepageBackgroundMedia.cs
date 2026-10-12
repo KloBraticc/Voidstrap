@@ -223,7 +223,7 @@ namespace Voidstrap.Integrations.Overlays
 					{
 						OpenPortableImage();
 					}
-					catch (Exception ex) when ((ex is InvalidDataException or NotSupportedException or SixLabors.ImageSharp.UnknownImageFormatException) && Voidstrap.Utility.Platform.IsMacOS && !_disposed)
+					catch (Exception ex) when ((ex is InvalidDataException or NotSupportedException) && Voidstrap.Utility.Platform.IsMacOS && !_disposed)
 					{
 						byte[] pixels = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(_path, _staticMaxWidth, _staticMaxHeight, out int width, out int height);
 						Publish(new Frame(pixels, width, height, 1000));

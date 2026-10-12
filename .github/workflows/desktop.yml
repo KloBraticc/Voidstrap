@@ -365,6 +365,8 @@ jobs:
               <Compile Include="$RUNNER_TEMP/image-check-src/MacOSImages.cs" />
               <Compile Include="$root/src/Voidstrap.App/Utility/SafeImaging.cs" />
               <Compile Include="$root/src/Voidstrap.App/Utility/NativeImaging.cs" />
+              <Compile Include="$root/src/Voidstrap.App/Utility/Raster.cs" />
+              <Compile Include="$root/src/Voidstrap.App/Utility/RasterFallback.cs" />
               <Compile Include="$root/src/Voidstrap.App/Utility/AppImage.cs" />
               <Compile Include="$root/src/Voidstrap.App/Utility/DynamicRenderSystem.cs" />
               <Compile Include="$root/src/Voidstrap.App/UI/LinuxWebImageSource.cs" />
@@ -397,6 +399,8 @@ jobs:
           SWIFT
           swift "$check/fixture.swift" "$check/fixture.heic"
           dotnet build "$check/ImageCheck.csproj" -warnaserror --nologo
+          case "$(uname -m)" in arm64) image_rid=osx-arm64 ;; *) image_rid=osx-x64 ;; esac
+          bash "$root/build/Packaging/build-voidimage.sh" "$image_rid" "$check/bin/Debug/net10.0-windows/libvoidimage.dylib" "$RUNNER_TEMP/voidimage-target"
           exec dotnet "$check/bin/Debug/net10.0-windows/ImageCheck.dll" "$check/fixture.heic" "$@"
           SHELLSCRIPT
       - name: Check macOS image formats with synthetic data
