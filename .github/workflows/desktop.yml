@@ -1561,13 +1561,6 @@ jobs:
           echo "audit lines: $(wc -l < "$RUNNER_TEMP/overlay-logs/audit.txt") failures: $(grep -c FAIL "$RUNNER_TEMP/overlay-logs/audit.txt")"
           grep FAIL "$RUNNER_TEMP/overlay-logs/audit.txt" | cut -c1-300 | head -120 || true
           tail -5 "$RUNNER_TEMP/overlay-logs/audit.txt" | cut -c1-300 || true
-          res=/Applications/Roblox.app/Contents/Resources
-          echo "roblox resources:"; ls "$res" | head -30
-          echo "ExtraContent: $([ -d "$res/ExtraContent" ] && echo yes || echo no)"
-          echo "sprite sheets: $(find "$res" -name 'img_set_*.png' 2>/dev/null | wc -l)"
-          find "$res" -name 'img_set_*.png' 2>/dev/null | sed "s#$res/##" | head -5
-          for b in ExtraContent/models/UniversalApp/UniversalApp.rbxm ExtraContent/models/InExperience/InExperience.rbxm; do echo "$b: $([ -f "$res/$b" ] && echo yes || echo no)"; done
-          find "$res" -name '*.rbxm' 2>/dev/null | sed "s#$res/##" | head -10
           grep -hE "\[ModGenerator|\[RobloxIconIndex" "$audit_log" | sed -E 's#/Users/[^/ ]+#~#g' | cut -c1-300 | head -20 || true
           grep -h "Unhandled\|Exception" "$audit_log" | sed -E 's#/Users/[^/ ]+#~#g' | cut -c1-300 | head -30 || true
 

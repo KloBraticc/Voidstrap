@@ -7198,12 +7198,13 @@ internal static class WindowAudit
 				ModGeneratorPreview? preview = ModGenerator.RenderPreview(settings);
 				if (preview == null)
 					return null;
-				string folder = ModGenerator.GenerateAsync(settings, null, CancellationToken.None).GetAwaiter().GetResult();
-				int files = System.IO.Directory.Exists(folder) ? System.IO.Directory.EnumerateFiles(folder, "*", System.IO.SearchOption.AllDirectories).Count() : 0;
+				string summary = ModGenerator.GenerateAsync(settings, null, CancellationToken.None).GetAwaiter().GetResult();
 				string? id = ModGenerator.FindModId();
+				string folder = id == null ? "" : ManagedModStore.GetFolder(id);
+				int files = System.IO.Directory.Exists(folder) ? System.IO.Directory.EnumerateFiles(folder, "*", System.IO.SearchOption.AllDirectories).Count() : 0;
 				if (id != null)
 					ManagedModStore.Delete(id);
-				return files > 0 ? "preview " + preview.After.PixelWidth + "x" + preview.After.PixelHeight + ", generated " + files + " files" : null;
+				return files > 0 ? "preview " + preview.After.PixelWidth + "x" + preview.After.PixelHeight + ", " + files + " files, " + summary : null;
 			});
 		}
 		finally
