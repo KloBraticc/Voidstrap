@@ -207,7 +207,36 @@ fn installed() -> bool {
 }
 
 fn serve(mut s: TcpStream) {
+    if !peer_allowed(&s) {
+        return;
+    }
     let _ = handle(&mut s);
+}
+
+fn peer_allowed(s: &TcpStream) -> bool {
+    let (Ok(peer), Ok(local)) = (s.peer_addr(), s.local_addr()) else {
+        return false;
+    };
+    let Some(owner) = socket_owner(peer.port(), local.port()) else {
+        return true;
+    };
+    owner == 0 || owner == unsafe { getuid() } || config().uid.parse::<u32>().ok() == Some(owner)
+}
+
+fn socket_owner(peer_port: u16, local_port: u16) -> Option<u32> {
+    let port = |address: &str| address.rsplit(':').next().and_then(|p| u16::from_str_radix(p, 16).ok());
+    for path in ["/proc/net/tcp", "/proc/net/tcp6"] {
+        let Ok(table) = fs::read_to_string(path) else {
+            continue;
+        };
+        for line in table.lines().skip(1) {
+            let fields: Vec<&str> = line.split_whitespace().collect();
+            if fields.len() > 7 && port(fields[1]) == Some(peer_port) && port(fields[2]) == Some(local_port) {
+                return fields[7].parse().ok();
+            }
+        }
+    }
+    None
 }
 
 fn handle(s: &mut TcpStream) -> io::Result<()> {
