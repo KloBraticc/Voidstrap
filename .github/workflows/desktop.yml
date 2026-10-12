@@ -842,6 +842,15 @@ jobs:
           fi
           sleep 2
           screencapture -x "$OUT/shots/02-in-game.png"
+          cpu_total=0
+          for i in $(seq 1 15); do
+            sample=$(ps -o %cpu= -p "$session_pid" | tr -d ' ')
+            cpu_total=$(python3 -c "print(${cpu_total} + float('${sample:-0}'))")
+            sleep 1
+          done
+          python3 -c "print(round(${cpu_total} / 15, 1))" > "$RUNNER_TEMP/overlay-logs/cpu-overlays.txt"
+          ps -o rss= -p "$session_pid" | awk '{ printf "%d", $1 / 1024 }' > "$RUNNER_TEMP/overlay-logs/memory-mb.txt"
+          echo "overlay cpu $(cat "$RUNNER_TEMP/overlay-logs/cpu-overlays.txt")% memory $(cat "$RUNNER_TEMP/overlay-logs/memory-mb.txt")MB"
           osascript -e 'tell application "Roblox" to activate'
           osascript -e 'tell application "System Events" to keystroke "l" using {control down, option down}'
           sleep 4
@@ -970,7 +979,7 @@ jobs:
       - name: Show notification and focus diagnostics
         if: always()
         run: |
-          cat ~/Library/Logs/Voidstrap/*.log 2>/dev/null | grep -E "MacDockPresence|NotificationWindow|ShowJoinNotification|SessionDockTip|RobloxOverlayAnchor" | sed -E 's#/Users/[^/ ]+#~#g' | tail -60 || true
+          cat ~/Library/Logs/Voidstrap/*.log 2>/dev/null | grep -E "MacDockPresence|NotificationWindow|ShowJoinNotification|SessionDockTip|RobloxOverlayAnchor|\[SessionDock\]|PreloadSessionDock" | sed -E 's#/Users/[^/ ]+#~#g' | tail -60 || true
 
       - name: Record fixed diagnostic results
         if: always()
@@ -999,6 +1008,8 @@ jobs:
               "notification_hover_pause": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/notification-hover.txt").is_file(),
               "notification_close": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/notification-closed.txt").is_file(),
               "notification_keeps_roblox_focus": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/notification-focus.txt").is_file(),
+              "cpu_overlays_percent": float((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/cpu-overlays.txt").read_text().strip() or 0) if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/cpu-overlays.txt").is_file() else -1,
+              "memory_mb": int((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/memory-mb.txt").read_text().strip() or 0) if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/memory-mb.txt").is_file() else -1,
               "dock_layering": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").is_file() else False,
               "screenshots": len(list((Path(os.environ["OUT"]) / "shots").glob("*.png")))
           }
