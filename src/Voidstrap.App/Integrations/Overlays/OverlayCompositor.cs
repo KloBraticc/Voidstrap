@@ -997,6 +997,10 @@ namespace Voidstrap.Integrations.Overlays
                 _robloxHwnd = IntPtr.Zero;
                 return false;
             }
+            if (Interop.DwmGetWindowAttribute(_robloxHwnd, Interop.DWMWA_EXTENDED_FRAME_BOUNDS, out Interop.RECT visible, Marshal.SizeOf<Interop.RECT>()) == 0
+                && visible.Right > visible.Left && visible.Bottom > visible.Top
+                && visible.Left >= rect.Left && visible.Top >= rect.Top && visible.Right <= rect.Right && visible.Bottom <= rect.Bottom)
+                rect = visible;
             IntPtr monitor = Interop.MonitorFromWindow(_robloxHwnd, Interop.MONITOR_DEFAULTTONEAREST);
             if (monitor != IntPtr.Zero)
             {
@@ -1080,6 +1084,8 @@ namespace Voidstrap.Integrations.Overlays
                 return;
             int w = Math.Max(16, rect.Right - rect.Left);
             int h = Math.Max(16, rect.Bottom - rect.Top);
+            if (rect.Left != _rectLeft || rect.Top != _rectTop || w != _width || h != _height)
+                _nextFollowMs = tick + 16;
             if (rect.Left == _rectLeft && rect.Top == _rectTop && w == _width && h == _height)
             {
                 _pendingW = 0;

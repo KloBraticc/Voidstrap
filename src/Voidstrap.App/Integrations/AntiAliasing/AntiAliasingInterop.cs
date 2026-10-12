@@ -127,6 +127,11 @@ namespace Voidstrap.Integrations.AntiAliasing
         [return: MarshalAs(UnmanagedType.Bool)]
         public static partial bool GetWindowRect(IntPtr hWnd, out RECT rect);
 
+        public const int DWMWA_EXTENDED_FRAME_BOUNDS = 9;
+
+        [LibraryImport("dwmapi.dll")]
+        public static partial int DwmGetWindowAttribute(IntPtr hwnd, int attribute, out RECT value, int size);
+
         [LibraryImport("user32.dll")]
         public static partial IntPtr MonitorFromWindow(IntPtr hwnd, uint flags);
 
