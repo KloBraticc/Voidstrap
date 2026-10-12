@@ -1762,15 +1762,7 @@ public class Bootstrapper
             processStartInfo.Verb = "runas";
             processStartInfo.UseShellExecute = true;
         }
-        if (App.Settings.Prop.BypassEmulationOverhead)
-        {
-            Voidstrap.Utility.EmulationBypassService.ApplyCompatLayerBypass(executablePath);
-            Voidstrap.Utility.EmulationBypassService.ApplyBypassEnvironment(processStartInfo);
-        }
-        else
-        {
-            Voidstrap.Utility.EmulationBypassService.RestoreCompatLayers();
-        }
+        Voidstrap.Utility.EmulationBypassService.RestoreCompatLayers();
         return processStartInfo;
     }
 

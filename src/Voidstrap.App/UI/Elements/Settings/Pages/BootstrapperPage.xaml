@@ -82,9 +82,6 @@
               <controls:OptionControl Header="Prioritize Roblox while focused" Description="{Binding PrioritizeRobloxDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
                 <ui:ToggleSwitch IsChecked="{Binding OptimizeRoblox, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Bypass Windows emulation overhead" Description="Runs Roblox on your high performance GPU, stops Windows power throttling it and strips leftover compatibility layers. Undone when turned off." Visibility="{Binding BypassEmulationOverheadVisibility, Mode=OneWay}">
-                <ui:ToggleSwitch IsChecked="{Binding BypassEmulationOverhead, Mode=TwoWay}" />
-              </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">

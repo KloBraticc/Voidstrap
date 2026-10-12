@@ -185,7 +185,6 @@ namespace Voidstrap.Models.Persistable
         public string RojoProjectPath { get; set; } = "";
         public string PlaceId { get; set; } = "";
         public bool OptimizeRoblox { get; set; } = false;
-        public bool BypassEmulationOverhead { get; set; } = false;
 
         public bool RobloxEfficiencyMode { get; set; } = false;
         public bool RobloxMemoryLimitEnabled { get; set; } = false;

@@ -968,27 +968,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public bool BypassEmulationOverhead
-	{
-		get
-		{
-			return App.Settings.Prop.BypassEmulationOverhead;
-		}
-		set
-		{
-			if (App.Settings.Prop.BypassEmulationOverhead != value)
-			{
-				App.Settings.Prop.BypassEmulationOverhead = value;
-				if (!value)
-					Voidstrap.Utility.EmulationBypassService.RestoreCompatLayers();
-				OnPropertyChanged(nameof(BypassEmulationOverhead));
-				App.Settings.SaveDeferred();
-			}
-		}
-	}
-
-	public Visibility BypassEmulationOverheadVisibility => Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
-
 	public string PrioritizeRobloxDescription => Voidstrap.Utility.Platform.IsLinux
 		? "Gives Roblox a larger CPU share while it is in the foreground. A custom Roblox Priority choice takes precedence."
 		: "Uses safe Above Normal scheduling while Roblox is in the foreground. A custom Roblox Priority choice takes precedence.";
