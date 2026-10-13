@@ -209,7 +209,7 @@
         </controls:OptionControl>
       </StackPanel>
     </ui:CardExpander>
-          <ui:CardAction Margin="0,12,0,0" Icon="Wrench24" Click="OpenAdvancedFlags_Click">
+          <ui:CardAction Margin="0,8,0,0" Icon="Wrench24" Click="OpenAdvancedFlags_Click">
             <StackPanel>
               <TextBlock FontSize="14" FontWeight="Medium" Text="Advanced FFlags" />
               <TextBlock Margin="0,2,0,0" FontSize="12" Text="Swap Roblox textures for particles, studs, terrain and water." TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
