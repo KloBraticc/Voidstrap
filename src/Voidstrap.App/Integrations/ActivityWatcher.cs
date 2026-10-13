@@ -808,14 +808,16 @@ public partial class ActivityWatcher : IDisposable
 		}
 		else if (string.IsNullOrEmpty(LogLocation))
 		{
-			string[] logDirectories = GetClientLogDirectories();
-			if (logDirectories.Length == 0)
-			{
-				return;
-			}
 			App.Logger.WriteLine("ActivityWatcher::Start", "Opening Roblox log file...");
 			while (!IsDisposed && !token.IsCancellationRequested)
 			{
+				string[] logDirectories = GetClientLogDirectories();
+				if (logDirectories.Length == 0)
+				{
+					if (!await WaitAsync(1500, token))
+						return;
+					continue;
+				}
 				FileInfo? fileInfo = (from x in logDirectories.SelectMany(static directory => new DirectoryInfo(directory).GetFiles())
 					where IsClientLogFile(x) && x.CreationTime <= DateTime.Now
 					orderby x.CreationTime descending
