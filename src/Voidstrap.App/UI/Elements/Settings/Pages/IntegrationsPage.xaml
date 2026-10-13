@@ -179,7 +179,7 @@
                     <controls:OptionControl Header="Steam library" Description="{Binding SteamShortcutDescription}" Visibility="{Binding SteamShortcutVisibility}">
             <Button Content="Add to Steam" Command="{Binding AddToSteamCommand}" />
           </controls:OptionControl>
-                    <controls:OptionControl Header="Account switcher" Description="Create, back up, and switch Roblox accounts.">
+                    <controls:OptionControl Header="Account switcher" Description="Create, back up, and switch Roblox accounts." Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
             <Button Content="Open" HorizontalAlignment="Left" Command="{Binding AccountWindowCommand}" />
           </controls:OptionControl>
                     <controls:OptionControl Header="Game history" Description="View games you recently played.">
