@@ -44,7 +44,8 @@ jobs:
             ~/.cargo/registry/index
             ~/.cargo/registry/cache
             ~/.cache/voidstrap/zigbuild
-          key: deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/*.csproj', '**/Directory.Build.*', 'native/**/Cargo.lock') }}
+            ~/.cache/voidstrap/rcodesign
+          key: deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/*.csproj', '**/Directory.Build.*', 'native/**/Cargo.lock', 'build/Packaging/MacOS/package.sh') }}
           restore-keys: deps-${{ runner.os }}-${{ runner.arch }}-
       - run: dotnet build Voidstrap.sln -c Debug -warnaserror
       - run: dotnet publish src/Voidstrap.App/Voidstrap.csproj -c Release -r win-x64 --self-contained false -o artifacts/windows
