@@ -37,6 +37,8 @@ namespace Voidstrap.UI.Elements.ContextMenu;
 public partial class MenuContainer : WpfUiWindow
 {
     private const int SessionDockHotkeyId = 0x564C;
+    private const int RiShadeHotkeyId = 0x564E;
+    private const uint VirtualKeyF8 = 0x77;
     private static MenuContainer? _currentInstance;
     private readonly Watcher _watcher;
     private readonly ActivityWatcher? _activityWatcher;
@@ -74,6 +76,7 @@ public partial class MenuContainer : WpfUiWindow
 
     private bool _closed;
     private bool _sessionDockHotkeyRegistered;
+    private bool _riShadeHotkeyRegistered;
     private OverlayShortcut? _registeredShortcut;
     private IDisposable? _portableHotkey;
     private bool _sessionDockHotkeySuspended;
@@ -134,6 +137,7 @@ public partial class MenuContainer : WpfUiWindow
             _source?.AddHook(WindowMessage);
         }
         RefreshSessionDockHotkey();
+        RefreshRiShadeHotkey();
         MenuContainerViewModel dataContext = (MenuContainerViewModel)(base.DataContext = new MenuContainerViewModel());
         if (!Voidstrap.Utility.Platform.IsWindows)
         {
@@ -200,6 +204,38 @@ public partial class MenuContainer : WpfUiWindow
             return;
         }
         instance.RefreshSessionDockHotkey();
+    }
+
+    public static void SyncRiShadeHotkey()
+    {
+        MenuContainer? instance = _currentInstance;
+        if (instance == null || instance._closed)
+            return;
+        if (!instance.Dispatcher.CheckAccess())
+        {
+            instance.Dispatcher.BeginInvoke(new Action(instance.RefreshRiShadeHotkey));
+            return;
+        }
+        instance.RefreshRiShadeHotkey();
+    }
+
+    private void RefreshRiShadeHotkey()
+    {
+        if (_closed || _handle == IntPtr.Zero)
+            return;
+        bool enabled = Voidstrap.Utility.Platform.SupportsOverlays && App.Settings.Prop.RiShadeEnabled && _activityWatcher != null;
+        if (enabled == _riShadeHotkeyRegistered)
+            return;
+        if (!enabled)
+        {
+            UnregisterHotKey(_handle, RiShadeHotkeyId);
+            _riShadeHotkeyRegistered = false;
+            return;
+        }
+        _riShadeHotkeyRegistered = RegisterHotKey(_handle, RiShadeHotkeyId, 0x4000, VirtualKeyF8);
+        App.Logger.WriteLine("MenuContainer", _riShadeHotkeyRegistered
+            ? "RiShade panel hotkey F8 is registered"
+            : "F8 could not be registered because another program already owns it, open the RiShade panel from Voidstrap settings instead");
     }
 
     // Lets the settings record a new shortcut without the current one firing while it is pressed
@@ -334,6 +370,19 @@ public partial class MenuContainer : WpfUiWindow
 
     private IntPtr WindowMessage(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
+        if (message == 0x0312 && wParam.ToInt32() == RiShadeHotkeyId)
+        {
+            handled = true;
+            try
+            {
+                Voidstrap.Integrations.RiShade.RiShadePanel.Toggle();
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException("MenuContainer::RiShadeHotkey", ex);
+            }
+            return IntPtr.Zero;
+        }
         if (message != 0x0312 || wParam.ToInt32() != SessionDockHotkeyId)
             return IntPtr.Zero;
         handled = true;
@@ -1615,6 +1664,9 @@ public partial class MenuContainer : WpfUiWindow
         StopSessionNotifier();
         if (_sessionDockHotkeyRegistered && Voidstrap.Utility.Platform.IsWindows)
             UnregisterHotKey(_handle, SessionDockHotkeyId);
+        if (_riShadeHotkeyRegistered)
+            UnregisterHotKey(_handle, RiShadeHotkeyId);
+        _riShadeHotkeyRegistered = false;
         _portableHotkey?.Dispose();
         _portableHotkey = null;
         _source?.RemoveHook(WindowMessage);

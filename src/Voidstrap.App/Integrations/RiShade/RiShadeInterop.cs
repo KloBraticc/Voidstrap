@@ -15,9 +15,6 @@ namespace Voidstrap.Integrations.RiShade
         public const int WS_EX_LAYERED = 0x00080000;
         public const int WS_EX_NOREDIRECTIONBITMAP = 0x00200000;
         public const uint LWA_ALPHA = 0x00000002;
-        public const uint WM_HOTKEY = 0x0312;
-        public const uint MOD_NOREPEAT = 0x4000;
-        public const uint VK_F8 = 0x77;
         public const int SW_SHOWNOACTIVATE = 4;
         public const int SW_HIDE = 0;
         public const uint SWP_NOACTIVATE = 0x0010;
@@ -116,14 +113,6 @@ namespace Voidstrap.Integrations.RiShade
         [LibraryImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static partial bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags);
-
-        [LibraryImport("user32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
-
-        [LibraryImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool UnregisterHotKey(IntPtr hWnd, int id);
 
         [LibraryImport("kernel32.dll")]
         public static partial uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);

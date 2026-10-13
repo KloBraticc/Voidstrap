@@ -70,8 +70,6 @@ namespace Voidstrap.Integrations.Overlays
         private int _stableCaptureFrames;
         private long _captureUnstableSinceMs;
         private long _lastRecreateMs;
-        private bool _hotkeyRegistered;
-        private bool _hotkeyAttempted;
 
         private ID3D11VertexShader? _vs;
         private ID3D11PixelShader? _psPass;
@@ -409,11 +407,6 @@ namespace Voidstrap.Integrations.Overlays
                 {
                     while (Interop.PeekMessageW(out msg, IntPtr.Zero, 0, 0, Interop.PM_REMOVE))
                     {
-                        if (msg.message == RiShadeInterop.WM_HOTKEY)
-                        {
-                            RiShadePanel.Toggle();
-                            continue;
-                        }
                         Interop.TranslateMessage(ref msg);
                         Interop.DispatchMessageW(ref msg);
                     }
@@ -1778,21 +1771,6 @@ namespace Voidstrap.Integrations.Overlays
                 _rishade.DisposeExternal(stopDepth: true);
                 _riAttached = false;
                 App.Logger.WriteLine(LOG_IDENT, "RiShade stage detached, RiShade is switched off so the frame is left untouched");
-            }
-
-            if (riEnabled && !_hotkeyRegistered && !_hotkeyAttempted && _hwnd != IntPtr.Zero)
-            {
-                _hotkeyAttempted = true;
-                _hotkeyRegistered = RiShadeInterop.RegisterHotKey(_hwnd, 1, RiShadeInterop.MOD_NOREPEAT, RiShadeInterop.VK_F8);
-                App.Logger.WriteLine(LOG_IDENT, _hotkeyRegistered
-                    ? "RiShade panel hotkey F8 is registered"
-                    : "F8 could not be registered because another program already owns it, open the RiShade panel from Voidstrap settings instead");
-            }
-            else if (!riEnabled && _hotkeyRegistered)
-            {
-                RiShadeInterop.UnregisterHotKey(_hwnd, 1);
-                _hotkeyRegistered = false;
-                _hotkeyAttempted = false;
             }
 
             if (aaOn && !_aaAttached)
@@ -3463,8 +3441,6 @@ namespace Voidstrap.Integrations.Overlays
             {
                 if (_timerRaised)
                     _ = Interop.timeEndPeriod(1);
-                if (_hotkeyRegistered && _hwnd != IntPtr.Zero)
-                    RiShadeInterop.UnregisterHotKey(_hwnd, 1);
                 if (_riAttached)
                     _rishade.DisposeExternal(stopDepth: false);
                 if (_aaAttached)

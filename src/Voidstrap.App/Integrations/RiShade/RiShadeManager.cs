@@ -104,6 +104,7 @@ namespace Voidstrap.Integrations.RiShade
             }
             else
                 StopSettingsWatcher();
+            Voidstrap.UI.Elements.ContextMenu.MenuContainer.SyncRiShadeHotkey();
             OverlayHub.Refresh();
         }
 
