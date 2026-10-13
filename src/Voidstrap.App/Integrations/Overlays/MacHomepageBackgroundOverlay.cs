@@ -15,6 +15,12 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 
 	private const int MaskScale = 2;
 
+	private const int FrameMilliseconds = 16;
+
+	private const int IdleCaptureMilliseconds = 100;
+
+	private const int SettleMilliseconds = 500;
+
 	private static int _permissionRequested;
 
 	private readonly Window _window;
@@ -30,6 +36,10 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 	private WriteableBitmap? _bitmap;
 
 	private byte[] _raw = [];
+
+	private byte[] _previousRaw = [];
+
+	private long _lastSourceChange;
 
 	private byte[] _ownWeights = [];
 
@@ -106,6 +116,7 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 			SetVisible(false);
 			StopMedia();
 			_hasCapture = false;
+			_previousRaw = [];
 			if (_bitmap != null)
 			{
 				_image.Source = null;
@@ -115,6 +126,8 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 			Interlocked.Exchange(ref _busy, 0);
 			return;
 		}
+		if (_timer.Interval.TotalMilliseconds != FrameMilliseconds)
+			_timer.Interval = TimeSpan.FromMilliseconds(FrameMilliseconds);
 		int windowNumber = rect.Hwnd.ToInt32();
 		int titleBar = RobloxWindowTracker.MacTitleBarOffset;
 		int contentWidth = rect.Width;
@@ -195,12 +208,13 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 		{
 			if (token.IsCancellationRequested)
 				return;
-			bool captureDue = Environment.TickCount64 >= _nextCapture || contentWidth != _contentWidth || contentHeight != _contentHeight || windowNumber != _windowNumber;
+			long now = Environment.TickCount64;
+			bool geometryChanged = contentWidth != _contentWidth || contentHeight != _contentHeight || windowNumber != _windowNumber;
+			bool captureDue = now >= _nextCapture || geometryChanged;
 			if (!_hasCapture && !captureDue)
 				return;
 			if (captureDue)
 			{
-				_nextCapture = Environment.TickCount64 + 500;
 				_contentWidth = contentWidth;
 				_contentHeight = contentHeight;
 				_windowNumber = windowNumber;
@@ -210,6 +224,7 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 			if (captureDue && !Capture(windowNumber, contentWidth, contentHeight, titleBar, out width, out height))
 			{
 				_hasCapture = false;
+				_previousRaw = [];
 				if (Interlocked.Exchange(ref _captureFailureLogged, 1) == 0)
 					App.Logger.WriteLine(LogIdent, "The Roblox window could not be captured, check Screen Recording permission for Voidstrap");
 				Post(() => SetVisible(false));
@@ -219,6 +234,22 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 				return;
 			Interlocked.Exchange(ref _captureFailureLogged, 0);
 			int pixels = width * height;
+			bool sourceChanged = false;
+			if (captureDue)
+			{
+				int bytes = pixels * 4;
+				sourceChanged = geometryChanged
+					|| _previousRaw.Length != bytes
+					|| !_raw.AsSpan(0, bytes).SequenceEqual(_previousRaw);
+				if (sourceChanged)
+				{
+					if (_previousRaw.Length != bytes)
+						_previousRaw = new byte[bytes];
+					Buffer.BlockCopy(_raw, 0, _previousRaw, 0, bytes);
+					_lastSourceChange = now;
+				}
+				_nextCapture = now + (now - _lastSourceChange < SettleMilliseconds ? 0 : IdleCaptureMilliseconds);
+			}
 			int maskWidth = (width + MaskScale - 1) / MaskScale;
 			int maskHeight = (height + MaskScale - 1) / MaskScale;
 			if (_ownWeights.Length != maskWidth * maskHeight)
@@ -226,23 +257,21 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 				_ownWeights = new byte[maskWidth * maskHeight];
 				_mask = new byte[maskWidth * maskHeight];
 			}
-			if (captureDue)
+			if (sourceChanged)
 			{
 				int matched = LinuxHomepageBackgroundMask.BuildSampled(_raw, width, height, MaskScale, _ownWeights, _mask);
 				if (Interlocked.Exchange(ref _firstCaptureLogged, 1) == 0)
 					App.Logger.WriteLine(LogIdent, $"Captured the Roblox window at {width}x{height}, {matched} home background samples matched");
 				int minimumRegion = Math.Min(_ownWeights.Length, Math.Clamp(_ownWeights.Length / 512, 64, 4096));
 				_hasCapture = matched >= minimumRegion;
-				_nextCapture = Environment.TickCount64 + 500;
-				_contentWidth = contentWidth;
-				_contentHeight = contentHeight;
-				_windowNumber = windowNumber;
 				if (!_hasCapture)
 				{
 					Post(() => SetVisible(false));
 					return;
 				}
 			}
+			if (!_hasCapture)
+				return;
 			if (_background.Length != pixels * 4)
 			{
 				_background = new byte[pixels * 4];
@@ -282,7 +311,7 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 				_height = height;
 				_hasBackground = true;
 			}
-			if (!captureDue && !backgroundChanged && !mediaChanged)
+			if (!sourceChanged && !backgroundChanged && !mediaChanged)
 				return;
 			LinuxHomepageBackgroundMask.ApplyBackgroundMask(_raw, _mask, _background, width, height, _frame, MaskScale);
 			if (token.IsCancellationRequested)
@@ -292,7 +321,6 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 			{
 				try
 				{
-					_timer.Interval = TimeSpan.FromMilliseconds(_media?.IsAnimated == true && _media.Failure == null ? 1000d / 30d : 500d);
 					Present(frame, width, height);
 				}
 				finally
@@ -347,6 +375,7 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 		if (_disposed && Interlocked.CompareExchange(ref _busy, 1, 0) == 0)
 		{
 			_raw = [];
+			_previousRaw = [];
 			_ownWeights = [];
 			_mask = [];
 			_background = [];
