@@ -2,7 +2,11 @@ name: Android validation
 
 on:
   push:
+    paths: &android-paths
+      - "android/**"
+      - ".github/workflows/android.yml"
   pull_request:
+    paths: *android-paths
   workflow_dispatch:
 
 permissions:

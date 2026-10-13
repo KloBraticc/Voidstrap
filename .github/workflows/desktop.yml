@@ -2,7 +2,15 @@ name: Desktop validation
 
 on:
   push:
+    paths-ignore: &desktop-ignored
+      - "android/**"
+      - "**/*.md"
+      - ".github/workflows/android*.yml"
+      - ".github/workflows/snake.yml"
+      - ".github/workflows/star-chart.yml"
+      - ".github/dependabot.yml"
   pull_request:
+    paths-ignore: *desktop-ignored
   workflow_dispatch:
     inputs:
       macos_overlay_only:
@@ -28,6 +36,16 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: 10.0.x
+      - &dependency-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            ~/.nuget/packages
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cache/voidstrap/zigbuild
+          key: deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/*.csproj', '**/Directory.Build.*', 'native/**/Cargo.lock') }}
+          restore-keys: deps-${{ runner.os }}-${{ runner.arch }}-
       - run: dotnet build Voidstrap.sln -c Debug -warnaserror
       - run: dotnet publish src/Voidstrap.App/Voidstrap.csproj -c Release -r win-x64 --self-contained false -o artifacts/windows
       - run: dotnet publish src/Voidstrap.Desktop.Windows/Voidstrap.Desktop.Windows.csproj -c Release -r win-x64 --self-contained true -o artifacts/windows-desktop
@@ -44,6 +62,7 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: 10.0.x
+      - *dependency-cache
       - run: dotnet build src/ClientServer/ClientServer.slnx -c Debug -warnaserror
 
   macos:
@@ -63,6 +82,7 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: 10.0.x
+      - *dependency-cache
       - run: dotnet build src/Voidstrap.Desktop.MacOS/Voidstrap.Desktop.MacOS.csproj -c Debug -warnaserror
       - &image-check-harness
         name: Write the image check harness
@@ -751,7 +771,8 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: 10.0.x
-      - run: sudo apt-get update && sudo apt-get install -y genisoimage
+      - *dependency-cache
+      - run: sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 update && sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 install -y genisoimage
       - run: pwsh -NoProfile -File ./publish-all.ps1 -Only osx-arm64,osx-x64 -SkipSolutionBuild -NoPause
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
@@ -888,6 +909,7 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: 10.0.x
+      - *dependency-cache
       - run: dotnet build src/Voidstrap.Cross/Voidstrap.Cross.csproj -c Debug -warnaserror -p:BaseIntermediateOutputPath=obj-linux-ci-cross/
       - run: dotnet build src/Voidstrap.Desktop.Linux/Voidstrap.Desktop.Linux.csproj -c Debug -warnaserror -p:BaseIntermediateOutputPath=obj-linux-ci-experimental/
 
@@ -932,7 +954,8 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: 10.0.x
-      - run: sudo apt-get update && sudo apt-get install -y build-essential gcc-aarch64-linux-gnu binutils desktop-file-utils file
+      - *dependency-cache
+      - run: sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 update && sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 install -y build-essential gcc-aarch64-linux-gnu binutils desktop-file-utils file
       - run: bash build/Packaging/Linux/package.sh ${{ matrix.rid }} '' ${{ matrix.format }} artifacts/packages
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
@@ -956,7 +979,8 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: 10.0.x
-      - run: sudo apt-get update && sudo apt-get install -y build-essential gcc-aarch64-linux-gnu binutils cpio desktop-file-utils file rpm
+      - *dependency-cache
+      - run: sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 update && sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 install -y build-essential gcc-aarch64-linux-gnu binutils cpio desktop-file-utils file rpm
       - run: bash build/Packaging/Linux/package.sh ${{ matrix.rid }} '' rpm artifacts/packages
       - if: matrix.rid == 'linux-x64'
         run: |
@@ -998,12 +1022,13 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: 10.0.x
+      - *dependency-cache
       - id: tool
         run: if command -v appimagetool >/dev/null 2>&1; then echo 'available=true' >> "$GITHUB_OUTPUT"; else echo 'available=false' >> "$GITHUB_OUTPUT"; fi
       - if: steps.tool.outputs.available == 'false'
         run: echo 'AppImage package validation was not run because appimagetool is unavailable' >> "$GITHUB_STEP_SUMMARY"
       - if: steps.tool.outputs.available == 'true'
-        run: sudo apt-get update && sudo apt-get install -y build-essential gcc-aarch64-linux-gnu binutils desktop-file-utils file
+        run: sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 update && sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 install -y build-essential gcc-aarch64-linux-gnu binutils desktop-file-utils file
       - if: steps.tool.outputs.available == 'true'
         run: bash build/Packaging/Linux/package.sh linux-x64 '' appimage artifacts/packages
       - if: steps.tool.outputs.available == 'true'
@@ -1030,6 +1055,7 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: 10.0.x
+      - *dependency-cache
 
       - *image-check-harness
       - name: Check portable images render in controls and brushes
