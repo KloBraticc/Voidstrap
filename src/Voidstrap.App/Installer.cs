@@ -1036,6 +1036,14 @@ internal partial class Installer
 	}
 
 
+	private static string? ReleaseVersion(string? version)
+	{
+		if (string.IsNullOrWhiteSpace(version))
+			return null;
+		int metadata = version.IndexOf('+');
+		return (metadata < 0 ? version : version[..metadata]).Trim();
+	}
+
 	public static async Task HandleUpgradeAsync()
 	{
 		if (!File.Exists(Paths.Application) || string.Equals(Paths.Process, Paths.Application, StringComparison.OrdinalIgnoreCase) || App.LaunchSettings.WindowAuditFlag.Active)
@@ -1105,9 +1113,10 @@ internal partial class Installer
 			App.State.Save();
 		}
 		RefreshAppIcons();
-		if (productVersion2 != null)
+		string? newVersion = ReleaseVersion(productVersion2);
+		if (newVersion != null && newVersion != ReleaseVersion(productVersion))
 		{
-			Voidstrap.Utility.AppNotifications.RecordInfo("upgrade:" + productVersion2, "Voidstrap updated", "Voidstrap was updated to version " + productVersion2 + ".");
+			Voidstrap.Utility.AppNotifications.RecordInfo("upgrade:" + newVersion, "Voidstrap updated", "Voidstrap was updated to version " + newVersion + ".");
 		}
 		if (productVersion2 != null && !flag)
 		{
@@ -1181,7 +1190,9 @@ internal partial class Installer
 			App.FastFlags.Save();
 			App.State.Save();
 		}
-		Voidstrap.Utility.AppNotifications.RecordInfo("upgrade:" + App.Version, "Voidstrap updated", "Voidstrap was updated to version " + App.Version + ".");
+		string? linuxVersion = ReleaseVersion(App.Version);
+		if (linuxVersion != null && linuxVersion != ReleaseVersion(installedVersion))
+			Voidstrap.Utility.AppNotifications.RecordInfo("upgrade:" + linuxVersion, "Voidstrap updated", "Voidstrap was updated to version " + linuxVersion + ".");
 		if (!flag)
 		{
 			Frontend.ShowMessageBox(string.Format(Strings.InstallChecker_Updated, App.Version), MessageBoxImage.Asterisk);
