@@ -227,6 +227,43 @@ The live ebuild may contain unreleased changes and can require newer dependencie
 
 </details>
 
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/nixos-setup-dark.svg"><img src="assets/readme/nixos-setup-light.svg" alt="NixOS and Nix" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+
+Voidstrap includes a Nix flake for `x86_64-linux` and `aarch64-linux`. Nix builds it from source on your computer, so the first run takes a few minutes.
+
+To try it without installing:
+
+```bash
+nix run github:KloBraticc/Voidstrap
+```
+
+To install it on NixOS, add the flake to your system flake:
+
+```nix
+{
+  inputs.voidstrap.url = "github:KloBraticc/Voidstrap";
+
+  outputs = { nixpkgs, voidstrap, ... }: {
+    nixosConfigurations.your-hostname = nixpkgs.lib.nixosSystem {
+      modules = [
+        ({ pkgs, ... }: {
+          environment.systemPackages = [ voidstrap.packages.${pkgs.stdenv.hostPlatform.system}.default ];
+          hardware.graphics.enable = true;
+          services.flatpak.enable = true;
+        })
+      ];
+    };
+  };
+}
+```
+
+`hardware.graphics.enable` provides the graphics drivers Voidstrap renders with, and `services.flatpak.enable` lets Voidstrap install and run Sober. The flake also provides `overlays.default`, which adds `pkgs.voidstrap`.
+
+To update, run `nix flake update voidstrap` in your configuration and rebuild.
+
+</details>
+
 ## Built With
 
 [![C#][shield-csharp]][link-csharp] [![.NET][shield-dotnet]][link-dotnet] [![WPF][shield-wpf]][link-wpf] [![WPF UI][shield-wpfui]][link-wpfui] [![WebView2][shield-webview2]][link-webview2]
@@ -287,12 +324,15 @@ Output: `PublishedBuilds\Windows\Voidstrap.exe`. Requires the [.NET 10 Desktop R
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-linux-dark.svg"><img src="assets/readme/build-linux-light.svg" alt="Linux build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
-**You need:** the .NET SDK, Bash and a C compiler. On Ubuntu or Debian:
+**You need:** the .NET SDK, Bash, a C compiler and [Rust](https://rustup.rs) with Cargo. On Ubuntu or Debian:
 
 ```bash
 sudo apt-get update
-sudo apt-get install build-essential
+sudo apt-get install build-essential python3-venv
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
+
+Rust builds `libvoidimage.so`, the image library Voidstrap needs to show any picture on Linux. A Linux build stops with an error if it cannot build it.
 
 To publish an x64 executable on an x64 Linux host:
 
@@ -312,6 +352,8 @@ For other systems, change `linux-x64` (and the output folder) to:
 * `linux-musl-x64` or `linux-musl-arm64` for distros using musl, such as Alpine
 
 Cross compiling on Linux needs a C compiler for the target architecture. On Ubuntu or Debian, use `gcc-aarch64-linux-gnu` for ARM64 or `gcc-x86-64-linux-gnu` for x64. Set `VOIDSTRAP_EDITOR_COMPILER` to use another compiler.
+
+The image library uses `cargo-zigbuild` for musl targets, cross compiling and older glibc versions. The build installs it into `~/.cache/voidstrap/zigbuild` by itself when Python 3 with `venv` is available.
 
 **Release packages (optional)**
 
@@ -336,13 +378,23 @@ Output: `PublishedBuilds/Linux`. The first run downloads AppImage tools, support
 
 **Building Linux releases from Windows**
 
-Install WSL and the packaging tools above inside its Linux distribution. Install .NET on Windows, then run in Windows PowerShell:
+Install WSL and the packaging tools above inside its Linux distribution, along with Rust, which builds the image library there. The build uses the WSL distribution named `Ubuntu`. Add `-p:VoidstrapWslDistro=<name>` to use another one. Install .NET on Windows, then run in Windows PowerShell:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only linux-x64 -LinuxPackages -NoPause
 ```
 
 The script publishes with Windows .NET and packages through WSL. Without WSL and its tools, omit `-LinuxPackages` to allow a plain executable in `PublishedBuilds\Linux`. Git Bash alone cannot create the full glibc Linux package set.
+
+**Building with Nix**
+
+With [Nix](https://nixos.org/download) and flakes enabled, build from the repository root:
+
+```bash
+nix build .#voidstrap
+```
+
+Output: `result/bin/voidstrap`. Run `nix develop` for a shell with the .NET SDK, Rust and every library the build needs. The NuGet packages are locked in `nix/deps.json`. After changing package references, update the lock with `nix build .#voidstrap.fetch-deps && ./result nix/deps.json`.
 
 </details>
 
