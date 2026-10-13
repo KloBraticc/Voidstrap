@@ -31,7 +31,7 @@ namespace Voidstrap.Integrations.RiShade
         public float VignetteCenterY { get; set; } = 0.0f;
 
         public bool SharpenEnabled { get; set; } = false;
-        public float SharpenStrength { get; set; } = 0.8f;
+        public float SharpenStrength { get; set; } = 0.5f;
         public float SharpenRadius { get; set; } = 1.0f;
         public float SharpenClamp { get; set; } = 0.08f;
 
@@ -316,25 +316,19 @@ namespace Voidstrap.Integrations.RiShade
                     s.ClarityStrength = 0.3f;
                     s.DebandEnabled = true;
                     s.DebandStrength = 0.45f;
-                    s.GiStrength = 0.45f;
+                    s.GiStrength = 0.25f;
                     s.GiRadius = 0.5f;
-                    s.AmbientStrength = 0.2f;
+                    s.AmbientStrength = 0.15f;
                     s.EyeAdaptEnabled = true;
-                    s.EyeAdaptStrength = 0.4f;
+                    s.EyeAdaptStrength = 0.35f;
                     s.AoEnabled = true;
-                    s.AoStrength = 0.65f;
-                    s.AoSamplesIndex = 2;
-                    s.SsrEnabled = true;
-                    s.SsrIntensity = 0.5f;
-                    s.SsrGlossiness = 0.92f;
-                    s.SsrReflectivity = 0.28f;
-                    s.SsrDistance = 0.6f;
-                    s.SsrSheen = 0.12f;
+                    s.AoStrength = 0.5f;
+                    s.AoSamplesIndex = 1;
                     s.BloomEnabled = true;
-                    s.BloomStrength = 0.18f;
+                    s.BloomStrength = 0.16f;
                     s.BloomThreshold = 0.75f;
                     s.BloomRadius = 1.6f;
-                    s.BloomPasses = 4;
+                    s.BloomPasses = 3;
                     s.SharpenEnabled = true;
                     s.SharpenStrength = 0.35f;
                     s.SharpenRadius = 1.0f;
@@ -392,7 +386,7 @@ namespace Voidstrap.Integrations.RiShade
                     break;
                 case "Dreamy Blur":
                     s.DofEnabled = true;
-                    s.DofStrength = 0.7f;
+                    s.DofStrength = 0.55f;
                     s.DofFocusRange = 0.18f;
                     s.BloomEnabled = true;
                     s.BloomStrength = 0.25f;
