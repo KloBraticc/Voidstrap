@@ -175,6 +175,11 @@
     "hash": "sha256-lcxdNm6Ha8ycOeh68ncniqPfVhCPtXLIhL8h9rniIYI="
   },
   {
+    "pname": "Microsoft.ML.OnnxRuntime.Managed",
+    "version": "1.31.0",
+    "hash": "sha256-xjLcSeaMq2VAe3X5aA+iKmSOr6u6mnG+aX7ecVmb5iY="
+  },
+  {
     "pname": "Microsoft.Win32.SystemEvents",
     "version": "10.0.12",
     "hash": "sha256-bQYUMa+kocicO7+FNtGRcYGrbJrOLFxmenfYFDS7N2k="
