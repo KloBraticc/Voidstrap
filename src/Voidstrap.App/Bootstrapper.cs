@@ -684,16 +684,16 @@ public class Bootstrapper
 		_installLock = installLock;
         if (Voidstrap.Utility.Platform.SupportsWindowsClient && !await Voidstrap.Utility.Connectivity.IsOnlineAsync(_cancelTokenSource.Token))
         {
-            _noConnection = true;
             if (MustUpgrade)
             {
-                App.Logger.WriteLine("Bootstrapper::Run", "Offline and Roblox is not installed, nothing to launch");
-                Frontend.ShowMessageBox("Voidstrap is offline and Roblox is not installed yet. Connect to the internet, then launch again.", MessageBoxImage.Exclamation);
-                Dialog?.CloseBootstrapper();
-                return;
+                App.Logger.WriteLine("Bootstrapper::Run", "The Roblox connectivity probe failed but Roblox is not installed, trying the install anyway");
             }
-            App.Logger.WriteLine("Bootstrapper::Run", "Offline, skipping update checks and launching the installed Roblox");
-            SetStatus("You are offline, launching the installed Roblox");
+            else
+            {
+                _noConnection = true;
+                App.Logger.WriteLine("Bootstrapper::Run", "Offline, skipping update checks and launching the installed Roblox");
+                SetStatus("You are offline, launching the installed Roblox");
+            }
         }
         Task versionInfoTask = Voidstrap.Utility.Platform.SupportsWindowsClient && !_noConnection ? GetLatestVersionInfo(false) : Task.CompletedTask;
         Task<bool> launcherUpdateTask = _noConnection ? Task.FromResult(false) : TryUpdateLauncherAsync();

@@ -14,7 +14,7 @@ internal static class Connectivity
 
 	private const int ProbeCacheMs = 15000;
 
-	private static readonly TimeSpan ProbeTimeout = TimeSpan.FromSeconds(4);
+	private static readonly TimeSpan ProbeTimeout = TimeSpan.FromSeconds(10);
 
 	private static readonly ConcurrentDictionary<string, byte> Warned = new ConcurrentDictionary<string, byte>(StringComparer.Ordinal);
 
