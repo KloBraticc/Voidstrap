@@ -72,13 +72,31 @@
 		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidimage.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidImageLibrary)&quot; &quot;$(BaseIntermediateOutputPath)voidimage/target&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
 	</Target>
 
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) And $([MSBuild]::IsOSPlatform('Windows'))">
+		<VoidstrapWslDistro Condition="'$(VoidstrapWslDistro)' == ''">Ubuntu</VoidstrapWslDistro>
+		<_VoidImageRootWin>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../../'))</_VoidImageRootWin>
+		<_VoidImageLibraryWin>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(VoidImageLibrary)'))))</_VoidImageLibraryWin>
+		<_VoidImageTargetWin>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(BaseIntermediateOutputPath)voidimage/target'))))</_VoidImageTargetWin>
+		<_VoidImageRootWsl>/mnt/$(_VoidImageRootWin.Substring(0, 1).ToLowerInvariant())$(_VoidImageRootWin.Substring(2).Replace('%5C', '/'))</_VoidImageRootWsl>
+		<_VoidImageLibraryWsl>/mnt/$(_VoidImageLibraryWin.Substring(0, 1).ToLowerInvariant())$(_VoidImageLibraryWin.Substring(2).Replace('%5C', '/'))</_VoidImageLibraryWsl>
+		<_VoidImageTargetWsl>/mnt/$(_VoidImageTargetWin.Substring(0, 1).ToLowerInvariant())$(_VoidImageTargetWin.Substring(2).Replace('%5C', '/'))</_VoidImageTargetWsl>
+	</PropertyGroup>
+
+	<Target Name="BuildVoidImageThroughWsl" BeforeTargets="AssignTargetPaths" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(DesignTimeBuild)' != 'true' And $([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidimage/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidimage/Cargo.lock;@(VoidImageSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidimage.sh" Outputs="$(VoidImageLibrary)">
+		<Exec Command="wsl.exe -d $(VoidstrapWslDistro) -e bash &quot;$(_VoidImageRootWsl)build/Packaging/build-voidimage.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(_VoidImageLibraryWsl)&quot; &quot;$(_VoidImageTargetWsl)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
+	</Target>
+
+	<Target Name="RequireLinuxVoidImage" DependsOnTargets="BuildVoidImage;BuildVoidImageThroughWsl" BeforeTargets="AssignTargetPaths" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(DesignTimeBuild)' != 'true' And '$(VoidstrapAllowMissingVoidImage)' != 'true'">
+		<Error Condition="!Exists('$(VoidImageLibrary)')" Text="libvoidimage.so was not built for $(RuntimeIdentifier). Linux builds cannot show any image without it. Install Rust (and WSL with Rust when building on Windows), or set VoidstrapAllowMissingVoidImage=true to build anyway." />
+	</Target>
+
 	<ItemGroup>
 		<VoidImageSources Include="$(MSBuildProjectDirectory)/../../native/voidimage/src/**/*.rs" />
 	</ItemGroup>
 
-	<Target Name="IncludeVoidImage" AfterTargets="BuildVoidImage" BeforeTargets="AssignTargetPaths" Condition="'$(VoidImageLibrary)' != '' And Exists('$(VoidImageLibrary)')">
+	<Target Name="IncludeVoidImage" DependsOnTargets="BuildVoidImage;BuildVoidImageThroughWsl;RequireLinuxVoidImage" BeforeTargets="AssignTargetPaths" Condition="'$(VoidImageLibrary)' != ''">
 		<ItemGroup>
-			<None Include="$(VoidImageLibrary)" Link="$(VoidImageFileName)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+			<None Condition="Exists('$(VoidImageLibrary)')" Include="$(VoidImageLibrary)" Link="$(VoidImageFileName)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 		</ItemGroup>
 	</Target>
 
