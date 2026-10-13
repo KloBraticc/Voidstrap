@@ -202,7 +202,7 @@ internal static class SwiftTunnel
                     if (-not $cleanup.WaitForExit(60000)) { $cleanup | Stop-Process -Force; exit 10 }
                     if ($cleanup.ExitCode -ne 0) { exit 10 }
                 }
-                $uninstaller = Start-Process -FilePath $payload.Installer -ArgumentList @('/x', $payload.ProductCode, '/norestart') -PassThru -Wait
+                $uninstaller = Start-Process -FilePath $payload.Installer -ArgumentList @('/x', $payload.ProductCode, '/qb!', '/norestart') -PassThru -Wait
                 if ($uninstaller.ExitCode -eq 1602) { exit 1602 }
                 if ($uninstaller.ExitCode -notin @(0, 1641, 3010)) { exit 11 }
             } catch { exit 12 }

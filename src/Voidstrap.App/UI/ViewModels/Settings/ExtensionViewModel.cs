@@ -86,6 +86,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     var installation = SwiftTunnel.FindInstallation();
                     if (installation == null)
                         return;
+                    if (Frontend.ShowMessageBox(SwiftTunnel.Text("ConfirmUninstall"), MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                        return;
                     await SwiftTunnel.UninstallAsync(installation.Value, ct);
                     return;
                 }

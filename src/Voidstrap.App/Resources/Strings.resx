@@ -2742,6 +2742,7 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="SwiftTunnel.Error" xml:space="preserve"><value>Could not complete the SwiftTunnel action: {0}</value></data>
   <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve"><value>The SwiftTunnel uninstall entry is incomplete. Remove SwiftTunnel from Windows Settings, Apps instead</value></data>
   <data name="SwiftTunnel.CleanupFailed" xml:space="preserve"><value>SwiftTunnel could not restore its network settings. Its files were kept so cleanup can be retried</value></data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve"><value>Remove SwiftTunnel completely? Its network driver and system settings are restored first, then SwiftTunnel is uninstalled. Once it starts it cannot be canceled.</value></data>
   <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve"><value>SwiftTunnel removal could not finish. Close SwiftTunnel and retry with administrator access</value></data>
   <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve"><value>SwiftTunnel is installed in a shared or unrecognized folder. Move it to its own SwiftTunnel folder before using complete removal</value></data>
   <data name="SwiftTunnel.NotInstalledError" xml:space="preserve"><value>SwiftTunnel is not installed. Install it from Extensions first</value></data>
