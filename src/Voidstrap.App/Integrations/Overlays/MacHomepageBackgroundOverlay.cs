@@ -106,6 +106,11 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 			SetVisible(false);
 			StopMedia();
 			_hasCapture = false;
+			if (_bitmap != null)
+			{
+				_image.Source = null;
+				_bitmap = null;
+			}
 			_timer.Interval = TimeSpan.FromMilliseconds(500);
 			Interlocked.Exchange(ref _busy, 0);
 			return;
