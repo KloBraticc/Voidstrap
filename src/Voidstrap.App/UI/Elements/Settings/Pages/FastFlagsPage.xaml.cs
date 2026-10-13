@@ -194,13 +194,103 @@ public partial class FastFlagsPage : UiPage{
 		InitializeComponent();
 		base.Loaded += LoadFlagsOnLoaded;
 		base.Loaded += StartWaterPreview;
+		base.Loaded += RestartNvidiaWarning;
 		base.Unloaded += FastFlagsPage_Unloaded;
+	}
+
+	private void RestartNvidiaWarning(object sender, RoutedEventArgs e)
+	{
+		if (ReferenceEquals(FlagTabs.SelectedItem, NvidiaTab) && NvidiaWarning.Visibility == Visibility.Visible)
+			ShowNvidiaWarning();
 	}
 
 	private void FastFlagsPage_Unloaded(object sender, RoutedEventArgs e)
 	{
 		_loadingFlags = false;
 		StopWaterPreview();
+		StopNvidiaWarning();
+	}
+
+	private const int NvidiaWarningSeconds = 10;
+	private DispatcherTimer? _nvidiaWarningTimer;
+	private readonly Stopwatch _nvidiaWarningClock = new();
+	private TabItem? _previousTab;
+
+	private void FlagTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		if (!ReferenceEquals(e.OriginalSource, FlagTabs))
+			return;
+		if (ReferenceEquals(FlagTabs.SelectedItem, NvidiaTab))
+			ShowNvidiaWarning();
+		else
+		{
+			StopNvidiaWarning();
+			_previousTab = FlagTabs.SelectedItem as TabItem;
+		}
+	}
+
+	private void ShowNvidiaWarning()
+	{
+		StopNvidiaWarning();
+		NvidiaFrame.Visibility = Visibility.Collapsed;
+		NvidiaWarning.Visibility = Visibility.Visible;
+		NvidiaWarningContinue.IsEnabled = false;
+		_nvidiaWarningClock.Restart();
+		_nvidiaWarningTimer = new DispatcherTimer(DispatcherPriority.Normal);
+		_nvidiaWarningTimer.Tick += NvidiaWarningTimer_Tick;
+		UpdateNvidiaWarning();
+	}
+
+	private void NvidiaWarningTimer_Tick(object? sender, EventArgs e)
+	{
+		UpdateNvidiaWarning();
+	}
+
+	private void UpdateNvidiaWarning()
+	{
+		if (_nvidiaWarningTimer is null)
+			return;
+		_nvidiaWarningTimer.Stop();
+		double remaining = NvidiaWarningSeconds * 1000d - _nvidiaWarningClock.Elapsed.TotalMilliseconds;
+		string label = Voidstrap.Resources.Strings.Menu_FastFlagEditor_Warning_Continue;
+		if (remaining <= 0)
+		{
+			NvidiaWarningContinue.Content = label;
+			NvidiaWarningContinue.IsEnabled = true;
+			StopNvidiaWarning();
+			return;
+		}
+		NvidiaWarningContinue.Content = $"({(int)Math.Ceiling(remaining / 1000d)}) {label}";
+		_nvidiaWarningTimer.Interval = TimeSpan.FromMilliseconds(Math.Max(1, remaining % 1000d));
+		_nvidiaWarningTimer.Start();
+	}
+
+	private void StopNvidiaWarning()
+	{
+		_nvidiaWarningClock.Stop();
+		if (_nvidiaWarningTimer is null)
+			return;
+		_nvidiaWarningTimer.Stop();
+		_nvidiaWarningTimer.Tick -= NvidiaWarningTimer_Tick;
+		_nvidiaWarningTimer = null;
+	}
+
+	private void NvidiaWarningContinue_Click(object sender, RoutedEventArgs e)
+	{
+		if (!NvidiaWarningContinue.IsEnabled)
+			return;
+		StopNvidiaWarning();
+		NvidiaWarning.Visibility = Visibility.Collapsed;
+		NvidiaFrame.Visibility = Visibility.Visible;
+	}
+
+	private void NvidiaWarningBack_Click(object sender, RoutedEventArgs e)
+	{
+		StopNvidiaWarning();
+		TabItem? target = _previousTab is { IsEnabled: true, Visibility: Visibility.Visible } ? _previousTab : null;
+		target ??= FlagTabs.Items.OfType<TabItem>().FirstOrDefault(tab => !ReferenceEquals(tab, NvidiaTab) && tab.IsEnabled && tab.Visibility == Visibility.Visible);
+		if (target is not null)
+			FlagTabs.SelectedItem = target;
 	}
 
 	private void StartWaterPreview(object sender, RoutedEventArgs e)

@@ -7,7 +7,7 @@
   </FrameworkElement.Resources>
   <StackPanel Margin="0,0,14,14">
     <TextBlock Margin="0,0,0,8" FontSize="14" Text="{x:Static resources:Strings.Menu_FastFlags_Description}" />
-    <TabControl x:Name="FlagTabs" Margin="0,0,0,0">
+    <TabControl x:Name="FlagTabs" Margin="0,0,0,0" SelectionChanged="FlagTabs_SelectionChanged">
       <TabItem>
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
@@ -333,7 +333,7 @@
           </controls:OptionControl>
         </StackPanel>
       </TabItem>
-      <TabItem IsEnabled="{Binding HasNvidiaGpu}" ToolTip="{Binding NvidiaTabUnavailableReason}" Visibility="{Binding NvidiaTabSupported, Converter={StaticResource BooleanToVisibilityConverter}}">
+      <TabItem x:Name="NvidiaTab" IsEnabled="{Binding HasNvidiaGpu}" ToolTip="{Binding NvidiaTabUnavailableReason}" Visibility="{Binding NvidiaTabSupported, Converter={StaticResource BooleanToVisibilityConverter}}">
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Flag48" Margin="0,0,6,0" />
@@ -341,7 +341,21 @@
           </StackPanel>
         </TabItem.Header>
         <Grid>
-          <Frame Margin="10" Source="NvidiaFastFlagsPage.xaml" NavigationUIVisibility="Hidden" JournalOwnership="OwnsJournal" Background="Transparent" PreviewMouseWheel="NvidiaFrame_PreviewMouseWheel" Visibility="{Binding HasNvidiaGpu, Converter={StaticResource BooleanToVisibilityConverter}}" />
+          <Grid Visibility="{Binding HasNvidiaGpu, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Frame x:Name="NvidiaFrame" Margin="10" Source="NvidiaFastFlagsPage.xaml" NavigationUIVisibility="Hidden" JournalOwnership="OwnsJournal" Background="Transparent" PreviewMouseWheel="NvidiaFrame_PreviewMouseWheel" Visibility="Collapsed" />
+            <StackPanel x:Name="NvidiaWarning" Margin="24,32" MaxWidth="620" VerticalAlignment="Center">
+              <Image HorizontalAlignment="Center" Source="pack://application:,,,/Resources/MessageBox/Warning.png" RenderOptions.BitmapScalingMode="HighQuality" Width="96" />
+              <TextBlock HorizontalAlignment="Center" Text="{x:Static resources:Strings.Common_Warning}" FontSize="48" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+              <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="NVIDIA FFlags are for advanced users only" FontSize="24" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+              <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="16,16,16,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="These settings change the NVIDIA driver profile Roblox runs with. A wrong value can lower your FPS, add input delay, cause stutters, visual glitches or crashes, and can even stop Roblox from starting. The changes are saved in your NVIDIA driver, so they stay after you close or uninstall Voidstrap." />
+              <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="16,12,16,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="To undo them, open the Advanced Editor and use Reset NIP, which puts every NVIDIA setting for Roblox back to the driver default. Only if you cannot reset them here, update or reinstall your NVIDIA drivers to restore the defaults." />
+              <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="16,12,16,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Only change what you understand, and change one setting at a time." />
+              <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,20,0,0">
+                <ui:Button Content="{x:Static resources:Strings.Menu_FastFlagEditor_Warning_Back}" Margin="0,0,8,0" Appearance="Primary" Click="NvidiaWarningBack_Click" />
+                <ui:Button x:Name="NvidiaWarningContinue" Appearance="Danger" IsEnabled="False" Click="NvidiaWarningContinue_Click" />
+              </StackPanel>
+            </StackPanel>
+          </Grid>
           <TextBlock Margin="24" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding NvidiaTabUnavailableReason}" Visibility="{Binding HasNvidiaGpu, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
         </Grid>
       </TabItem>
