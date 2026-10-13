@@ -10,7 +10,6 @@
           </StackPanel>
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
-          <ui:InfoBar Padding="4" IsClosable="True" IsOpen="True" Message="Features here are highly customizable but intended for advanced users." Severity="Informational" />
           <controls:OptionControl x:Name="ConfirmLaunchOption" Header="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Title}" Description="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Description}">
             <ui:ToggleSwitch IsChecked="{Binding ConfirmLaunches, Mode=TwoWay}" />
           </controls:OptionControl>
