@@ -33,8 +33,7 @@
           </StackPanel>
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
-          <ui:InfoBar Padding="4" IsClosable="True" IsOpen="True" Message="Memory cleanup and optimizations. Some may not work well on every device." Severity="Informational" />
-          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+          <ui:CardExpander IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
                 <TextBlock FontSize="14" Text="Cleaner" />
@@ -97,8 +96,14 @@
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
-          <controls:OptionControl x:Name="MtuOption" Header="{x:Static resources:Strings.Mtu_Title}" Description="{x:Static resources:Strings.Mtu_Description}" HelpLink="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netsh-interface" Visibility="{x:Static platform:PlatformFeatureVisibility.NetworkMtu}">
-            <StackPanel Width="290" IsEnabled="{Binding IsIdle, FallbackValue=False}">
+          <ui:CardExpander x:Name="MtuOption" Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.NetworkMtu}">
+            <HeaderedContentControl.Header>
+              <StackPanel>
+                <TextBlock FontSize="14" Text="{x:Static resources:Strings.Mtu_Title}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{x:Static resources:Strings.Mtu_Description}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              </StackPanel>
+            </HeaderedContentControl.Header>
+            <StackPanel IsEnabled="{Binding IsIdle, FallbackValue=False}">
               <ComboBox ItemsSource="{Binding Adapters}" DisplayMemberPath="DisplayName" SelectedItem="{Binding SelectedAdapter, Mode=TwoWay}" IsEnabled="{Binding IsIdle}" ToolTip="{x:Static resources:Strings.Mtu_Adapter}" />
               <TextBlock Margin="0,6,0,0" Text="{Binding CurrentSummary}" TextWrapping="Wrap" FontSize="12" />
               <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
@@ -113,7 +118,7 @@
               </StackPanel>
               <TextBlock Margin="0,6,0,0" Text="{Binding Status}" FontSize="12" TextWrapping="Wrap" />
             </StackPanel>
-          </controls:OptionControl>
+          </ui:CardExpander>
         </StackPanel>
       </TabItem>
       <TabItem>
