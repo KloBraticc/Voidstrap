@@ -62,6 +62,8 @@ public static partial class StudioTheme
 
 	private static string AccentHex()
 	{
+		if (!Voidstrap.Utility.Platform.IsWindows)
+			return Hex(ResColor(["SystemAccentColor"], Color.FromRgb(0, 120, 212)));
 		try
 		{
 			if (DwmGetColorizationColor(out var colorizationColor, out var _) == 0)

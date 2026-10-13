@@ -614,7 +614,7 @@ public static class LaunchHandler
 			App.Bootstrapper.Dialog = bootstrapperDialog;
 			bootstrapperDialog.Bootstrapper = App.Bootstrapper;
 		}
-		if (App.Settings.Prop.ExclusiveFullscreen)
+		if (App.Settings.Prop.ExclusiveFullscreen && Voidstrap.Utility.Platform.IsWindows)
 		{
 			_ = RobloxFullscreen.WaitAndTriggerFullscreenAsync(App.Bootstrapper.CancellationToken);
 		}
