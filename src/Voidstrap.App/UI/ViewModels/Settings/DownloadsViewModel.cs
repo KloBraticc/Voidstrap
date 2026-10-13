@@ -417,11 +417,14 @@ namespace Voidstrap.UI.ViewModels.Settings
                     var bootstrapper = new CoreBootstrapper(_launchMode, _appData is RobloxPlayerData player ? player.UseVng : null)
                     {
                         InstallOnly = true,
-                        ForceReinstall = IsInstalled && !UpdateAvailable
+                        ForceReinstall = IsInstalled && !UpdateAvailable,
+                        SkipUpdateHold = true
                     };
                     _activeBootstrapper = bootstrapper;
                     await Task.Run(() => bootstrapper.Run()).ConfigureAwait(true);
                     ok = bootstrapper.InstallationSucceeded;
+                    if (!ok && !bootstrapper.IsCancelled)
+                        Frontend.ShowMessageBox($"{Title} did not finish installing. Check the latest log for the reason.", MessageBoxImage.Warning);
                 }
                 catch (Exception ex)
                 {

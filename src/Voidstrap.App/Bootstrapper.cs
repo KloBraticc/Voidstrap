@@ -187,6 +187,10 @@ public class Bootstrapper
 
     public bool ForceReinstall { get; init; }
 
+    public bool SkipUpdateHold { get; init; }
+
+    public bool IsCancelled => _cancelTokenSource.IsCancellationRequested;
+
     private bool ReinstallRequested => ForceReinstall || App.Settings.Prop.ForceRobloxReinstall;
 
     private bool UseVng => AppData is RobloxPlayerData { UseVng: true };
@@ -300,7 +304,7 @@ public class Bootstrapper
         AppState state = AppData.State;
         string installed = state.VersionGuid;
         bool late = string.Equals(App.Settings.Prop.RobloxUpdateDelivery, "Late", StringComparison.OrdinalIgnoreCase);
-        if (!late || forceManifest || string.IsNullOrEmpty(installed) || installed == latest || !IsValidVersionGuid(installed) || MustUpgrade || ReinstallRequested)
+        if (!late || SkipUpdateHold || forceManifest || string.IsNullOrEmpty(installed) || installed == latest || !IsValidVersionGuid(installed) || MustUpgrade || ReinstallRequested)
         {
             if (!string.IsNullOrEmpty(state.HeldVersionGuid))
             {
