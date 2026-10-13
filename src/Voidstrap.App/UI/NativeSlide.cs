@@ -21,8 +21,10 @@ internal sealed partial class NativeSlide
 	private const uint SwpNoSendChanging = 0x0400;
 	private const uint SwpDeferErase = 0x2000;
 	private readonly Window _window;
-	private TimeSpan _startFrame;
+	private const double MaxFrameStepMs = 34;
 	private TimeSpan _lastFrame;
+	private double _elapsed;
+	private bool _started;
 	private int _placedLeft;
 	private int _placedTop;
 	private Int32Rect _placedRegion;
@@ -100,8 +102,9 @@ internal sealed partial class NativeSlide
 		_easeOut = easeOut;
 		_finished = finished;
 		_placed = false;
-		_startFrame = TimeSpan.MinValue;
 		_lastFrame = TimeSpan.MinValue;
+		_elapsed = 0;
+		_started = false;
 		Place(from);
 		CompositionTarget.Rendering += OnFrame;
 		_subscribed = true;
@@ -119,6 +122,19 @@ internal sealed partial class NativeSlide
 		_finished = null;
 		if (removeClip)
 			RemoveClip();
+	}
+
+	public void Conceal()
+	{
+		if (PortableOverlay.Active || !Voidstrap.Utility.Platform.IsWindows)
+			return;
+		IntPtr handle = new WindowInteropHelper(_window).EnsureHandle();
+		if (handle == IntPtr.Zero)
+			return;
+		IntPtr region = CreateRectRgn(0, 0, 0, 0);
+		if (region != IntPtr.Zero && SetWindowRgn(handle, region, false) == 0)
+			_ = DeleteObject(region);
+		_placed = false;
 	}
 
 	public void RemoveClip()
@@ -144,11 +160,16 @@ internal sealed partial class NativeSlide
 		TimeSpan frame = e is RenderingEventArgs rendering ? rendering.RenderingTime : TimeSpan.FromTicks(Stopwatch.GetTimestamp() * TimeSpan.TicksPerSecond / Stopwatch.Frequency);
 		if (frame == _lastFrame)
 			return;
+		TimeSpan previous = _lastFrame;
 		_lastFrame = frame;
-		if (_startFrame == TimeSpan.MinValue)
-			_startFrame = frame;
-		double progress = Math.Clamp((frame - _startFrame).TotalMilliseconds / _length, 0, 1);
-		double eased = _easeOut ? 1 - Math.Pow(1 - progress, 4) : progress * progress * progress;
+		if (!_started)
+		{
+			_started = true;
+			return;
+		}
+		_elapsed += Math.Clamp((frame - previous).TotalMilliseconds, 0, MaxFrameStepMs);
+		double progress = Math.Clamp(_elapsed / _length, 0, 1);
+		double eased = _easeOut ? 1 - Math.Pow(1 - progress, 3) : progress * progress * progress;
 		Place(new Point(_from.X + (_to.X - _from.X) * eased, _from.Y + (_to.Y - _from.Y) * eased));
 		if (progress < 1)
 			return;

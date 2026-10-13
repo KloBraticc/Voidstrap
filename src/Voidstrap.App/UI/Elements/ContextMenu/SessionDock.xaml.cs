@@ -508,6 +508,8 @@ public partial class SessionDock : Window
         // Reopened while it was still sliding away: it turns around from where it is
         Point? resumeFrom = _exiting ? _slide.CurrentPosition() : null;
         CancelEntrance();
+        if (resumeFrom == null && !IsVisible && NativeSlide.Supported && RobloxWindowTracker.Current.Valid)
+            _slide.Conceal();
         try
         {
             Show();
@@ -541,13 +543,17 @@ public partial class SessionDock : Window
         RobloxWindowRect game = RobloxWindowTracker.Current;
         if (!NativeSlide.Supported || !game.Valid || _slide.CurrentPosition() is not Point target)
         {
+            _slide.RemoveClip();
             Settle();
             return;
         }
         Point from = resumeFrom ?? new Point(target.X, game.Top + game.Height);
         Int32Rect clip = new(game.Left, game.Top, game.Width, game.Height);
         if (!_slide.Start(from, target, clip, EntranceLength, true, OnEntranceFinished))
+        {
+            _slide.RemoveClip();
             Settle();
+        }
     }
 
     private void OnEntranceFinished()
