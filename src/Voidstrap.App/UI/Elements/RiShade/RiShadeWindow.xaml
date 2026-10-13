@@ -14,6 +14,10 @@
     ExtendsContentIntoTitleBar="True"
     WindowStartupLocation="Manual">
 
+    <base:WpfUiWindow.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </base:WpfUiWindow.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -44,24 +48,24 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Preset" VerticalAlignment="Center" Margin="0,0,10,0" FontWeight="SemiBold" />
                 <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding BuiltinPresets, Mode=OneTime}" SelectedItem="{Binding SelectedBuiltinPreset, Mode=TwoWay}" />
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="My presets" VerticalAlignment="Center" Margin="14,0,10,0" FontWeight="SemiBold" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="My presets" VerticalAlignment="Center" Margin="16,0,10,0" FontWeight="SemiBold" />
                 <ComboBox Grid.Row="0" Grid.Column="3" ItemsSource="{Binding CustomPresets}" SelectedItem="{Binding SelectedCustomPreset, Mode=TwoWay}" />
-                <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,8,0,0">
-                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="14,0,0,0">
-                        <ui:Button Icon="ArrowDownload24" Content="Import" Command="{Binding ImportPresetCommand}" />
-                        <ui:Button Icon="ArrowUpload24" Content="Export" Margin="6,0,0,0" Command="{Binding ExportPresetCommand}" />
-                        <ui:Button Icon="Document24" Content="ReShade ini" Margin="6,0,0,0" Command="{Binding ImportReShadeCommand}" />
-                        <ui:Button Icon="Delete24" Content="Delete" Appearance="Danger" Margin="6,0,0,0" Command="{Binding DeletePresetCommand}" />
+                <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,10,0,0">
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="12,0,0,0">
+                        <ui:Button Icon="ArrowDownload24" Width="36" Height="34" Padding="0" ToolTip="Import a preset" Command="{Binding ImportPresetCommand}" />
+                        <ui:Button Icon="ArrowUpload24" Width="36" Height="34" Padding="0" Margin="6,0,0,0" ToolTip="Export this preset" Command="{Binding ExportPresetCommand}" />
+                        <ui:Button Icon="Document24" Width="36" Height="34" Padding="0" Margin="6,0,0,0" ToolTip="Import a ReShade ini" Command="{Binding ImportReShadeCommand}" />
+                        <ui:Button Icon="Delete24" Width="36" Height="34" Padding="0" Margin="6,0,0,0" Appearance="Danger" ToolTip="Delete the selected preset" Command="{Binding DeletePresetCommand}" />
                     </StackPanel>
-                    <ui:Button DockPanel.Dock="Right" Margin="8,0,0,0" Icon="Save24" Content="Save" Command="{Binding SavePresetCommand}" />
-                    <ui:TextBox PlaceholderText="Save current look as" Text="{Binding PresetName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ui:Button DockPanel.Dock="Right" Margin="8,0,0,0" Height="34" Appearance="Primary" Icon="Save24" Content="Save" Command="{Binding SavePresetCommand}" />
+                    <ui:TextBox PlaceholderText="Name this look to save it" Text="{Binding PresetName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
             </Grid>
         </Border>
 
         <Grid Grid.Row="2" Margin="14,0,14,10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="210" />
+                <ColumnDefinition Width="220" />
                 <ColumnDefinition Width="12" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
@@ -70,7 +74,14 @@
                 <ListBox x:Name="GroupList" Margin="4" Background="Transparent" BorderThickness="0" SelectionChanged="GroupList_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name}" Margin="2,1" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                            <Grid Margin="2,3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                <Ellipse Grid.Column="1" Width="7" Height="7" Margin="8,0,4,0" VerticalAlignment="Center" Fill="{DynamicResource SystemAccentColorPrimaryBrush}" ToolTip="On" Visibility="{Binding IsOn, Converter={StaticResource BoolToVis}}" />
+                            </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -82,7 +93,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" Margin="16,12,16,10">
+                    <Grid Grid.Row="0" Margin="18,14,18,12">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
@@ -96,7 +107,7 @@
                         <ui:ToggleSwitch x:Name="GroupToggle" Grid.Column="2" VerticalAlignment="Center" />
                     </Grid>
                     <Border Grid.Row="0" Height="1" VerticalAlignment="Bottom" Background="{DynamicResource ControlElevationBorderBrush}" />
-                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="16,10,16,12">
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="18,10,18,14">
                         <ContentControl x:Name="GroupHost" HorizontalContentAlignment="Stretch" />
                     </ScrollViewer>
                 </Grid>

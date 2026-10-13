@@ -35,13 +35,28 @@ public partial class RiShadeWindow : WpfUiWindow
 		public string[]? Items;
 	}
 
-	private sealed class Group
+	private sealed class Group : INotifyPropertyChanged
 	{
+		private bool _isOn;
 		public string Name { get; set; } = "";
 		public string Hint = "";
 		public string Gate = "";
+		public string ActivePath = "";
 		public Row[] Rows = Array.Empty<Row>();
 		public FrameworkElement? Panel;
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		public bool IsOn
+		{
+			get => _isOn;
+			set
+			{
+				if (_isOn == value)
+					return;
+				_isOn = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsOn)));
+			}
+		}
 	}
 
 	private static readonly Brush FallbackBrush = new SolidColorBrush(Color.FromArgb(160, 128, 128, 128));
@@ -69,7 +84,9 @@ public partial class RiShadeWindow : WpfUiWindow
 		_vm = new RiShadeViewModel();
 		DataContext = _vm;
 		BuildGroups();
+		RefreshGroupStates();
 		GroupList.ItemsSource = _groups;
+		_vm.PropertyChanged += Vm_PropertyChanged;
 		Closed += RiShadeWindow_Closed;
 		GroupList.SelectedIndex = 0;
 	}
@@ -168,16 +185,16 @@ public partial class RiShadeWindow : WpfUiWindow
 		Add("Clarity", "Local contrast boost.", new[]
 		{
 			Sl("Strength", "ClarityStrength", 0, 1),
-		});
+		}, "ClarityStrength");
 		Add("Global illumination", "Bounced light between nearby surfaces. Uses the depth estimate.", new[]
 		{
 			Sl("Strength", "GiStrength", 0, 1),
 			Sl("Radius", "GiRadius", 0, 1),
-		});
+		}, "GiStrength");
 		Add("Ambient light", "Lifts dark areas softly.", new[]
 		{
 			Sl("Strength", "AmbientStrength", 0, 1),
-		});
+		}, "AmbientStrength");
 		Add("Auto exposure", "Adapts brightness to the scene like an eye would.", new[]
 		{
 			Tg("Enable auto exposure", "EyeAdaptEnabled"),
@@ -188,7 +205,7 @@ public partial class RiShadeWindow : WpfUiWindow
 			Sl("Strength", "FogStrength", 0, 1),
 			Sl("Distance", "FogStart", 0, 0.9),
 			Sl("Brightness", "FogBrightness", 0, 1),
-		});
+		}, "FogStrength");
 		Add("Deband", "Smooths colour banding in gradients and skies.", new[]
 		{
 			Tg("Enable deband", "DebandEnabled"),
@@ -206,7 +223,7 @@ public partial class RiShadeWindow : WpfUiWindow
 		});
 	}
 
-	private void Add(string name, string hint, Row[] rows)
+	private void Add(string name, string hint, Row[] rows, string? activePath = null)
 	{
 		string gate = "";
 		foreach (Row row in rows)
@@ -217,8 +234,29 @@ public partial class RiShadeWindow : WpfUiWindow
 				break;
 			}
 		}
-		Group group = new Group { Name = name, Hint = hint, Gate = gate, Rows = rows };
+		Group group = new Group { Name = name, Hint = hint, Gate = gate, ActivePath = activePath ?? gate, Rows = rows };
 		_groups.Add(group);
+	}
+
+	private void Vm_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+	{
+		RefreshGroupStates();
+	}
+
+	private void RefreshGroupStates()
+	{
+		foreach (Group group in _groups)
+		{
+			if (group.ActivePath.Length == 0)
+				continue;
+			object? value = typeof(RiShadeViewModel).GetProperty(group.ActivePath)?.GetValue(_vm);
+			group.IsOn = value switch
+			{
+				bool on => on,
+				double amount => amount > 0.0001,
+				_ => false,
+			};
+		}
 	}
 
 	private StackPanel BuildPanel(Group group)
@@ -243,8 +281,8 @@ public partial class RiShadeWindow : WpfUiWindow
 
 	private Grid BuildRow(Row row, string gate)
 	{
-		Grid grid = new Grid { Margin = new Thickness(0, 5, 0, 5) };
-		grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(150) });
+		Grid grid = new Grid { Margin = new Thickness(0, 6, 0, 6) };
+		grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(160) });
 		grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 		grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(74) });
 		grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(34) });
@@ -441,6 +479,7 @@ public partial class RiShadeWindow : WpfUiWindow
 	private void RiShadeWindow_Closed(object? sender, EventArgs e)
 	{
 		Closed -= RiShadeWindow_Closed;
+		_vm.PropertyChanged -= Vm_PropertyChanged;
 		GroupList.SelectionChanged -= GroupList_SelectionChanged;
 		foreach (Group group in _groups)
 		{
