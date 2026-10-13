@@ -915,14 +915,7 @@ public class Bootstrapper
 
     private static async Task WaitForRobloxExitAsync(CancellationToken ct)
     {
-        string procName = "RobloxPlayerBeta";
-        try
-        {
-            procName = Path.GetFileNameWithoutExtension("RobloxPlayerBeta");
-        }
-        catch
-        {
-        }
+        string procName = Voidstrap.Utility.Platform.RobloxPlayerProcessName;
         await Task.Delay(4000, ct).ConfigureAwait(continueOnCapturedContext: false);
         int absentSeconds = 0;
         while (!ct.IsCancellationRequested)
@@ -1578,7 +1571,7 @@ public class Bootstrapper
                 using Process? studioAuthProcess = Process.Start(startInfo);
                 return;
             }
-            string text = Path.Combine(Paths.LocalAppData, "Roblox", "logs");
+            string text = Voidstrap.Utility.Platform.IsMacOS ? Paths.RobloxLogs : Path.Combine(Paths.LocalAppData, "Roblox", "logs");
             Directory.CreateDirectory(text);
             string? logFileName = await WaitForLogFileAsync(text, startInfo, ct);
 			App.Logger.WriteLine("Bootstrapper::StartRoblox", "Process start and readiness completed in " + startTimer.ElapsedMilliseconds + " ms");

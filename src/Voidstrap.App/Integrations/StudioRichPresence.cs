@@ -454,7 +454,7 @@ public sealed partial class StudioRichPresence : IDisposable
 	{
 		try
 		{
-			string logDirectory = Path.Combine(Paths.LocalAppData, "Roblox", "logs");
+			string logDirectory = Voidstrap.Utility.Platform.IsMacOS ? Paths.RobloxLogs : Path.Combine(Paths.LocalAppData, "Roblox", "logs");
 			FileInfo? latest = new DirectoryInfo(logDirectory)
 				.EnumerateFiles("*.log")
 				.Where(file => file.Name.Contains("Studio", StringComparison.OrdinalIgnoreCase))

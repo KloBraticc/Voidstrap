@@ -122,7 +122,7 @@ public static partial class AssetCaptureStore
 
 	private static string RbxStorageDir => Path.Combine(Paths.LocalAppData, "Roblox", "rbx-storage");
 
-	private static string RobloxLogsDir => Path.Combine(Paths.LocalAppData, "Roblox", "logs");
+	private static string RobloxLogsDir => Voidstrap.Utility.Platform.IsMacOS ? Paths.RobloxLogs : Path.Combine(Paths.LocalAppData, "Roblox", "logs");
 
 	public static void SetCurrentPlaceId(long placeId)
 	{
