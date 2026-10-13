@@ -50,6 +50,10 @@ namespace Voidstrap.Integrations.RiShade
         private const int StagingCount = 3;
         private const float DepthPredictLead = 2.5f;
         private const long DepthIdleReleaseMs = 15000;
+        private const float StaleShiftStart = 3f;
+        private const float StaleShiftFull = 18f;
+        private const float StaleFloor = 0.25f;
+        private const double ConfidenceRiseMs = 260.0;
 
         private static readonly ID3D11ShaderResourceView[] _nullSrvs = new ID3D11ShaderResourceView[4];
 
@@ -115,6 +119,8 @@ namespace Voidstrap.Integrations.RiShade
         private bool _aiDepthUploaded;
         private bool _lastAiFlag;
         private long _depthUnusedSinceMs;
+        private float _depthConfidence = 1f;
+        private double _confidenceAtMs;
 
         private int _width;
         private int _height;
@@ -453,10 +459,27 @@ namespace Voidstrap.Integrations.RiShade
 
             if (_aiDepthUploaded)
             {
+                UpdateDepthConfidence();
                 SetPassPx(LvlW(1), LvlH(1));
                 SetVp(LvlW(1), LvlH(1));
                 DrawPass(_psDepthUp!, _aiDepthUpRtv!, _workSrv[RtDown0], _aiDepthSrv, _depthInputSrv);
             }
+        }
+
+        private void UpdateDepthConfidence()
+        {
+            double now = _clock.Elapsed.TotalMilliseconds;
+            double dt = _confidenceAtMs > 0 ? Math.Clamp(now - _confidenceAtMs, 0.0, 100.0) : 0.0;
+            _confidenceAtMs = now;
+            float dx = _predAccumX - _depthBaseX;
+            float dy = _predAccumY - _depthBaseY;
+            float shift = MathF.Sqrt(dx * dx + dy * dy);
+            float t = Math.Clamp((shift - StaleShiftStart) / (StaleShiftFull - StaleShiftStart), 0f, 1f);
+            float target = 1f - t * t * (3f - 2f * t) * (1f - StaleFloor);
+            if (target < _depthConfidence)
+                _depthConfidence += (target - _depthConfidence) * 0.5f;
+            else
+                _depthConfidence += (target - _depthConfidence) * (float)Math.Min(1.0, dt / ConfidenceRiseMs);
         }
 
         private void FitFloorPlane()
@@ -564,6 +587,7 @@ namespace Voidstrap.Integrations.RiShade
             _lastAiFlag = aiFlag;
 
             float[] temp = s.ResolveColorTemp();
+            float trust = aiFlag ? _depthConfidence : 1f;
             var p = new RiShadeParams
             {
                 PA = new Vector4(s.GradeEnabled ? 1f : 0f, 1f, 1f, s.Brightness),
@@ -576,13 +600,13 @@ namespace Voidstrap.Integrations.RiShade
                 PH = new Vector4(s.VignetteCenterY, s.SharpenEnabled ? 1f : 0f, s.SharpenStrength, s.SharpenRadius),
                 PI = new Vector4(s.SharpenClamp, s.ChromaStrength, s.ChromaRadial ? 1f : 0f, s.GrainEnabled ? 1f : 0f),
                 PJ = new Vector4(s.GrainStrength, s.GrainSize, s.GrainColored ? 1f : 0f, s.DofEnabled ? 1f : 0f),
-                PK = new Vector4(s.DofStrength, s.DofFocusRange, s.DofFeather, s.AoEnabled ? 1f : 0f),
-                PL = new Vector4(s.AoStrength, s.AoRadius, s.ResolveAoSamples(), _rw),
+                PK = new Vector4(s.DofStrength * trust, s.DofFocusRange, s.DofFeather, s.AoEnabled ? 1f : 0f),
+                PL = new Vector4(s.AoStrength * trust, s.AoRadius, s.ResolveAoSamples(), _rw),
                 PM = new Vector4(_rh, s.BloomStrength, s.BloomThreshold, s.BloomRadius),
-                PN = new Vector4(s.BloomTint[0], s.BloomTint[1], s.BloomTint[2], s.SsrIntensity),
+                PN = new Vector4(s.BloomTint[0], s.BloomTint[1], s.BloomTint[2], s.SsrIntensity * trust),
                 PO = new Vector4(s.SsrGlossiness, s.SsrReflectivity, s.SsrDistance, s.ClarityStrength),
-                PP = new Vector4(s.DebandEnabled ? 1f : 0f, s.DebandStrength, s.GiStrength, s.GiRadius),
-                PQ = new Vector4(s.FogStrength, s.FogStart, s.FogBrightness, s.AmbientStrength),
+                PP = new Vector4(s.DebandEnabled ? 1f : 0f, s.DebandStrength, s.GiStrength * trust, s.GiRadius),
+                PQ = new Vector4(s.FogStrength * trust, s.FogStart, s.FogBrightness, s.AmbientStrength),
                 PR = new Vector4(s.EyeAdaptEnabled ? _adaptExposure : 1f, _planeN.X, _planeN.Y, _planeN.Z),
                 PS = new Vector4(s.SsrSheen, Math.Clamp((_predAccumX - _depthBaseX) / RiShadeDepth.Size, -0.25f, 0.25f), Math.Clamp(-(_predAccumY - _depthBaseY) / RiShadeDepth.Size, -0.25f, 0.25f), 0f),
                 PT = new Vector4(_planeD, aiFlag ? 1f : 0f, s.DebugView, _planeValid ? 1f : 0f),
@@ -805,6 +829,8 @@ namespace Voidstrap.Integrations.RiShade
             _adaptAvg = 0f;
             _adaptExposure = 1f;
             _depthUnusedSinceMs = 0;
+            _depthConfidence = 1f;
+            _confidenceAtMs = 0;
             _stagingQueue.Clear();
             Array.Clear(_stagingBusy);
         }

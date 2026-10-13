@@ -695,10 +695,11 @@ namespace Voidstrap.Integrations.RiShade
                             }
                             (smoothed, warped) = (warped, smoothed);
                         }
+                        float follow = wdx == 0 && wdy == 0 ? 0.4f : 0.8f;
                         for (int i = 0; i < normalized.Length; i++)
                         {
                             float d = Math.Abs(vbuf[i] - smoothed[i]);
-                            float a = d > 0.15f ? 1f : 0.75f;
+                            float a = d > 0.15f ? 1f : follow;
                             smoothed[i] += (vbuf[i] - smoothed[i]) * a;
                         }
                     }
