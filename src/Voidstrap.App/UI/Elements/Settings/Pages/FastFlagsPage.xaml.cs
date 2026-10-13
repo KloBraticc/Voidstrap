@@ -232,6 +232,12 @@ public partial class FastFlagsPage : UiPage{
 	private void ShowNvidiaWarning()
 	{
 		StopNvidiaWarning();
+		if (App.State.Prop.NvidiaFlagsWarningAccepted)
+		{
+			NvidiaWarning.Visibility = Visibility.Collapsed;
+			NvidiaFrame.Visibility = Visibility.Visible;
+			return;
+		}
 		NvidiaFrame.Visibility = Visibility.Collapsed;
 		NvidiaWarning.Visibility = Visibility.Visible;
 		NvidiaWarningContinue.IsEnabled = false;
@@ -280,6 +286,8 @@ public partial class FastFlagsPage : UiPage{
 		if (!NvidiaWarningContinue.IsEnabled)
 			return;
 		StopNvidiaWarning();
+		App.State.Prop.NvidiaFlagsWarningAccepted = true;
+		App.State.Save();
 		NvidiaWarning.Visibility = Visibility.Collapsed;
 		NvidiaFrame.Visibility = Visibility.Visible;
 	}

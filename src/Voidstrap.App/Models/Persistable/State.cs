@@ -60,6 +60,8 @@ public class State
 	public bool SafeLaunchPending { get; set; }
 
 	public bool SessionDockTipShown { get; set; }
+
+	public bool NvidiaFlagsWarningAccepted { get; set; }
 }
 
 public sealed class SessionPanelLayout
