@@ -444,7 +444,7 @@ public partial class SessionNotificationSettings : Window
         OverlayShortcut shortcut = App.Settings.Prop.SessionDockShortcut ??= new OverlayShortcut();
         ShortcutText.Text = shortcut.IsSet ? shortcut.Describe() : "None";
         ShortcutClear.IsEnabled = shortcut.IsSet;
-        ShortcutHint.Text = hint ?? (shortcut.IsSet ? ShortcutHintText : "No shortcut, set one to open the overlay again later.");
+        ShortcutHint.Text = hint ?? (shortcut.IsSet ? ShortcutHintText : "No shortcut, so the overlay cannot be opened. Set one here, or use Reset shortcut on the Mods page in Voidstrap settings.");
         ShortcutBox.SetResourceReference(Border.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
     }
 

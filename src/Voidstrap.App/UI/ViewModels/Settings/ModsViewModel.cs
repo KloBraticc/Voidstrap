@@ -1172,6 +1172,23 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
+	public string SessionDockDescription => App.Settings.Prop.SessionDockShortcut is { IsSet: true } shortcut
+		? "Show the in game dock when you press " + shortcut.Describe() + "."
+		: "No shortcut is set, so the in game dock cannot be opened. Reset the shortcut to open it again.";
+
+	public bool CanResetSessionDockShortcut => App.Settings.Prop.SessionDockShortcut?.SameAs(new Voidstrap.Models.Persistable.OverlayShortcut()) != true;
+
+	public ICommand ResetSessionDockShortcutCommand => new RelayCommand(ResetSessionDockShortcut);
+
+	private void ResetSessionDockShortcut()
+	{
+		App.Settings.Prop.SessionDockShortcut = new Voidstrap.Models.Persistable.OverlayShortcut();
+		App.Settings.SaveDeferred();
+		MenuContainer.SyncSessionDockHotkey();
+		OnPropertyChanged(nameof(SessionDockDescription));
+		OnPropertyChanged(nameof(CanResetSessionDockShortcut));
+	}
+
 	public string HomepageBackgroundOverlayColor
 	{
 		get => NormalizeHomepageColor(App.Settings.Prop.HomepageBackgroundOverlayColor);
