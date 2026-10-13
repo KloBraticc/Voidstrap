@@ -1,5 +1,6 @@
 *.sh text eol=lf
 build/Packaging/** text eol=lf
+*.icns binary
 src/VirtualDisplay/** text eol=lf
 external/virtualdisplay/*.sha256 text eol=lf
 external/virtualdisplay/**/SHA256SUMS text eol=lf
