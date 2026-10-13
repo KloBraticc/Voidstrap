@@ -55,7 +55,6 @@ public partial class Watcher : IDisposable
 
 	private Timer? _settingsReloadTimer;
 
-	private Timer? _brightnessSettleTimer;
 
 	private bool _activityTrackingEnabled;
 	private bool _overlayGameStateEnabled;
@@ -620,35 +619,16 @@ public partial class Watcher : IDisposable
 		}
 	}
 
-	internal void ApplyBrightnessLive()
+	internal void RefreshOverlayLive()
 	{
 		Application? application = Application.Current;
 		if (application == null || application.Dispatcher.HasShutdownStarted)
 			return;
 		if (!application.Dispatcher.CheckAccess())
 		{
-			RunOnApplicationDispatcher(ApplyBrightnessLive);
+			RunOnApplicationDispatcher(RefreshOverlayLive);
 			return;
 		}
-		if (_disposed || ActivityWatcher?.InGame != true)
-		{
-			return;
-		}
-
-		try
-		{
-			_brightnessSettleTimer ??= new Timer(delegate { RunOnApplicationDispatcher(ReconcileRuntimeSessionWindows); }, null, Timeout.Infinite, Timeout.Infinite);
-			_brightnessSettleTimer.Change(1500, Timeout.Infinite);
-		}
-		catch (ObjectDisposedException)
-		{
-		}
-
-		if (Application.Current?.Resources["OverlayWindow"] is OverlayWindow overlay && overlay.TryApplyLiveBrightness())
-		{
-			return;
-		}
-
 		ReconcileRuntimeSessionWindows();
 	}
 
@@ -667,7 +647,6 @@ public partial class Watcher : IDisposable
 		{
 			if (required && existing.IsLoaded && existing.MatchesCurrentSettings())
 			{
-				existing.TryApplyLiveBrightness();
 				return;
 			}
 			RunRuntimeAction(existing.Close, "RefreshOverlay");
@@ -1281,8 +1260,6 @@ public partial class Watcher : IDisposable
 				_settingsReloadTimer.DisposeAsync().AsTask().ConfigureAwait(continueOnCapturedContext: false).GetAwaiter().GetResult();
 			}
 			_settingsReloadTimer = null;
-			_brightnessSettleTimer?.Dispose();
-			_brightnessSettleTimer = null;
 		}
 		catch
 		{

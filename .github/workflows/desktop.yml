@@ -1168,7 +1168,7 @@ jobs:
         run: |
           set -u
           settings="$VS/Config/AppSettings.json"
-          /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d.update({"SessionDockEnabled": True, "OverlaysEnabled": True, "CurrentTimeDisplay": True, "ShowServerDetailsUI": True, "Brightness": 30, "Crosshair": True, "NotificationWindowShow": True, "HomepageBackgroundOverlayEnabled": True, "HomepageBackgroundOverlayColor": "#FF2D7DFF", "EnableActivityTracking": True}); json.dump(d, open(p, "w"))' "$settings"
+          /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d.update({"SessionDockEnabled": True, "OverlaysEnabled": True, "CurrentTimeDisplay": True, "ShowServerDetailsUI": True, "Crosshair": True, "NotificationWindowShow": True, "HomepageBackgroundOverlayEnabled": True, "HomepageBackgroundOverlayColor": "#FF2D7DFF", "EnableActivityTracking": True}); json.dump(d, open(p, "w"))' "$settings"
           front() { osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null; }
           "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/session-stdout.txt" 2>&1 &
           session_pid=$!

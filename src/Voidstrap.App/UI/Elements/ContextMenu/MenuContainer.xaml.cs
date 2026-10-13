@@ -522,8 +522,7 @@ public partial class MenuContainer : WpfUiWindow
         OutputConsoleMenuItem.Visibility = inGame && ActivityWatcher.PlayerLoggingEnabled ? Visibility.Visible : Visibility.Collapsed;
         if (inGame)
         {
-            BrightnessTrackerLog.Visibility = Visibility.Visible;
-            ColorsTrackerLog.Visibility = Voidstrap.Utility.Platform.IsWindows ? BrightnessTrackerLog.Visibility : Visibility.Collapsed;
+            ColorsTrackerLog.Visibility = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
         }
         else if (!transitioning)
         {
@@ -531,7 +530,6 @@ public partial class MenuContainer : WpfUiWindow
             ServerDetailsMenuItem.Visibility = Visibility.Collapsed;
             GamePassDetailsMenuItem.Visibility = Visibility.Collapsed;
             JoinClosestServerMenuItem.Visibility = Visibility.Collapsed;
-            BrightnessTrackerLog.Visibility = Visibility.Collapsed;
             ColorsTrackerLog.Visibility = Visibility.Collapsed;
             CurrentGameMenuItem.Visibility = Visibility.Collapsed;
         }
@@ -1221,8 +1219,7 @@ public partial class MenuContainer : WpfUiWindow
 				return Task.CompletedTask;
 			bool trace = ActivityWatcher.PlayerLoggingEnabled;
 			OutputConsoleMenuItem.Visibility = trace ? Visibility.Visible : Visibility.Collapsed;
-            BrightnessTrackerLog.Visibility = Visibility.Visible;
-            ColorsTrackerLog.Visibility = Voidstrap.Utility.Platform.IsWindows ? BrightnessTrackerLog.Visibility : Visibility.Collapsed;
+            ColorsTrackerLog.Visibility = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
             RequestTrayRefresh();
         }
         catch (OperationCanceledException)
@@ -1247,7 +1244,6 @@ public partial class MenuContainer : WpfUiWindow
         GamePassDetailsMenuItem.Visibility = Visibility.Collapsed;
         JoinClosestServerMenuItem.Visibility = Visibility.Collapsed;
         OutputConsoleMenuItem.Visibility = Visibility.Collapsed;
-        BrightnessTrackerLog.Visibility = Visibility.Collapsed;
         ColorsTrackerLog.Visibility = Visibility.Collapsed;
         _outputConsole?.Close();
         _serverInformationWindow?.Close();
@@ -1467,10 +1463,6 @@ public partial class MenuContainer : WpfUiWindow
                 if (item.Children.Count == 0)
                     continue;
             }
-            else if (!Voidstrap.Utility.Platform.IsWindows && ContainsSlider(menuItem))
-            {
-                item.Activated = ShowAdjustmentsWindow;
-            }
             else
             {
                 MenuItem target2 = menuItem;
@@ -1501,74 +1493,6 @@ public partial class MenuContainer : WpfUiWindow
         }
     }
 #endif
-
-    private static bool ContainsSlider(DependencyObject node)
-    {
-        if (node is System.Windows.Controls.Primitives.RangeBase)
-            return true;
-
-        if (node is MenuItem menuItem && menuItem.Header is DependencyObject header && ContainsSlider(header))
-            return true;
-
-        int count = System.Windows.Media.VisualTreeHelper.GetChildrenCount(node);
-
-        for (int i = 0; i < count; i++)
-        {
-            if (ContainsSlider(System.Windows.Media.VisualTreeHelper.GetChild(node, i)))
-                return true;
-        }
-
-        if (node is Panel panel)
-        {
-            foreach (UIElement child in panel.Children)
-            {
-                if (ContainsSlider(child))
-                    return true;
-            }
-        }
-
-        if (node is Decorator decorator && decorator.Child is not null)
-            return ContainsSlider(decorator.Child);
-
-        if (node is ContentControl content && content.Content is DependencyObject inner)
-            return ContainsSlider(inner);
-
-        return false;
-    }
-
-    private LinuxAdjustmentsWindow? _adjustmentsWindow;
-
-    private void ShowAdjustmentsWindow()
-    {
-        Dispatcher.BeginInvoke(new Action(delegate
-        {
-            try
-            {
-                (DataContext as MenuContainerViewModel)?.SyncAdjustmentsFromSettings();
-
-                if (_adjustmentsWindow is null || !_adjustmentsWindow.IsLoaded)
-                {
-                    _adjustmentsWindow = new LinuxAdjustmentsWindow(DataContext);
-                    _adjustmentsWindow.Closed += OnAdjustmentsWindowClosed;
-                }
-
-                _adjustmentsWindow.Show();
-                _adjustmentsWindow.Activate();
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("MenuContainer::ShowAdjustmentsWindow", "The adjustments window could not be opened: " + ex.Message);
-            }
-        }));
-    }
-
-    private void OnAdjustmentsWindowClosed(object? sender, EventArgs e)
-    {
-        if (sender is LinuxAdjustmentsWindow window)
-            window.Closed -= OnAdjustmentsWindowClosed;
-
-        _adjustmentsWindow = null;
-    }
 
     private void RaiseTrayClick(MenuItem menuItem)
     {

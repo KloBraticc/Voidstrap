@@ -295,8 +295,6 @@ namespace Voidstrap.Models.Persistable
 
         public string HomepageBackgroundOverlayMode { get; set; } = "Auto";
 
-        public double Brightness { get; set; } = 50;
-
         // Mod Settings
         public string CustomFontLocation { get; set; } = string.Empty;
         public CursorType CursorType { get; set; } = CursorType.VoidstrapDefault;

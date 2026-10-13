@@ -191,21 +191,6 @@
         <MenuItem Name="FrameGenOverlayMenuItem" Header="Generated Frames Overlay" IsCheckable="True" Click="FrameGenOverlayMenuItem_Click" />
         <MenuItem Name="FrameGenSplitMenuItem" Header="Split Screen Compare" IsCheckable="True" Click="FrameGenSplitMenuItem_Click" />
       </MenuItem>
-      <MenuItem Name="BrightnessTrackerLog" Visibility="Collapsed">
-        <HeaderedItemsControl.Header>
-          <StackPanel Margin="0,2">
-            <TextBlock Text="Brightness" FontWeight="SemiBold" Margin="0,0,0,6" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-            <Grid>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="48" />
-              </Grid.ColumnDefinitions>
-              <Slider Grid.Column="0" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" Focusable="True" Value="{Binding Brightness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-              <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding BrightnessDisplay}" />
-            </Grid>
-          </StackPanel>
-        </HeaderedItemsControl.Header>
-      </MenuItem>
       <MenuItem Name="ColorsTrackerLog" Visibility="Collapsed">
         <HeaderedItemsControl.Header>
           <StackPanel Margin="0,2">

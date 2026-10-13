@@ -28,15 +28,8 @@ namespace Voidstrap.UI.Elements.Overlay
 
         private readonly bool _showTime = App.Settings.Prop.CurrentTimeDisplay;
         private readonly bool _showLocation = App.Settings.Prop.ShowServerDetailsUI;
-		private readonly bool _fullSurface;
 
-        private const double DefaultBrightness = 50;
 		private const double LinuxReadoutMaxWidth = 520;
-        private double _brightness = App.Settings.Prop.Brightness;
-        private double _lastAppliedBrightness = App.Settings.Prop.Brightness;
-
-        private Border _darkOverlay;
-        private Border _brightOverlay;
 
         private double _lastAppliedSaturation = App.Settings.Prop.Saturation;
         private double _lastAppliedContrast = App.Settings.Prop.Contrast;
@@ -62,24 +55,20 @@ namespace Voidstrap.UI.Elements.Overlay
             {
                 var settings = App.Settings.Prop;
                 return settings.CurrentTimeDisplay
-                    || settings.ShowServerDetailsUI
-                    || Math.Abs(settings.Brightness - DefaultBrightness) > 0.01;
+                    || settings.ShowServerDetailsUI;
             }
         }
 
 		public bool MatchesCurrentSettings()
 		{
 			var settings = App.Settings.Prop;
-			bool fullSurface = Math.Abs(settings.Brightness - DefaultBrightness) > 0.01;
 			return _showTime == settings.CurrentTimeDisplay
-				&& _showLocation == settings.ShowServerDetailsUI
-				&& _fullSurface == fullSurface;
+				&& _showLocation == settings.ShowServerDetailsUI;
 		}
 
         public OverlayWindow(ActivityWatcher? activityWatcher = null)
         {
 			_activityWatcher = activityWatcher;
-			_fullSurface = Math.Abs(_brightness - DefaultBrightness) > 0.01;
 			LinuxOverlaySurface.ReleaseMainWindowClaim(this);
             Title = "Voidstrap Overlay";
             AllowsTransparency = true;
@@ -92,20 +81,6 @@ namespace Voidstrap.UI.Elements.Overlay
 			UseLayoutRounding = true;
 
             var root = new Grid();
-
-            _darkOverlay = new Border
-            {
-                Background = Brushes.Black,
-                Opacity = 0
-            };
-            _brightOverlay = new Border
-            {
-                Background = Brushes.White,
-                Opacity = 0
-            };
-
-            root.Children.Add(_darkOverlay);
-            root.Children.Add(_brightOverlay);
 
 			_readoutPanel = new StackPanel
             {
@@ -146,7 +121,7 @@ namespace Voidstrap.UI.Elements.Overlay
 				_readoutPanel.Children.Add(_timeTextBlock);
             }
 
-			if (Voidstrap.Utility.Platform.IsLinux && !_fullSurface)
+			if (Voidstrap.Utility.Platform.IsLinux)
 			{
 				SizeToContent = SizeToContent.WidthAndHeight;
 				MaxWidth = LinuxReadoutMaxWidth;
@@ -171,15 +146,12 @@ namespace Voidstrap.UI.Elements.Overlay
             };
             _updateTimer.Tick += OnUpdateTimerTick;
 
-			if (!_fullSurface)
-            {
-				if (!Voidstrap.Utility.Platform.IsLinux)
-				{
-					Width = 360;
-					Height = 18 + new[] { _showLocation, _showTime }.Count(value => value) * 25;
-				}
-            }
-			_anchor = new RobloxOverlayAnchor(this, placement: _fullSurface ? RobloxOverlayPlacement.Fill : RobloxOverlayPlacement.TopRight);
+			if (!Voidstrap.Utility.Platform.IsLinux)
+			{
+				Width = 360;
+				Height = 18 + new[] { _showLocation, _showTime }.Count(value => value) * 25;
+			}
+			_anchor = new RobloxOverlayAnchor(this, placement: RobloxOverlayPlacement.TopRight);
 
 			Loaded += OnOverlayLoaded;
 			SizeChanged += OnOverlaySizeChanged;
@@ -189,11 +161,10 @@ namespace Voidstrap.UI.Elements.Overlay
 
         private void OnOverlayLoaded(object? sender, RoutedEventArgs e)
         {
-			if (Voidstrap.Utility.Platform.IsLinux && !_fullSurface)
+			if (Voidstrap.Utility.Platform.IsLinux)
 				Voidstrap.Integrations.Overlays.LinuxOverlaySurface.MakeClickThrough(this, 8);
 			else
 				MakeClickThrough();
-            ApplyBrightness();
             ApplyColorEffects();
 			UpdateActiveState(IsVisible);
         }
@@ -205,7 +176,7 @@ namespace Voidstrap.UI.Elements.Overlay
 
 		private void OnOverlaySizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			if (Voidstrap.Utility.Platform.IsLinux && !_fullSurface)
+			if (Voidstrap.Utility.Platform.IsLinux)
 			{
 				_anchor.Refresh();
 				Voidstrap.Integrations.Overlays.LinuxOverlaySurface.ApplyRoundedShape(this, 8);
@@ -293,59 +264,6 @@ namespace Voidstrap.UI.Elements.Overlay
 			PropertyChanged = null;
         }
 
-        public double Brightness
-        {
-            get => _brightness;
-            set
-            {
-                double clamped = Math.Clamp(value, 0, 100);
-                if (_brightness != clamped)
-                {
-                    _brightness = clamped;
-                    App.Settings.Prop.Brightness = clamped;
-                    ApplyBrightness();
-                    OnPropertyChanged(nameof(Brightness));
-                }
-            }
-        }
-
-        internal bool TryApplyLiveBrightness()
-        {
-            if (_disposed || !IsLoaded)
-                return false;
-
-            double wanted = Math.Clamp(App.Settings.Prop.Brightness, 0, 100);
-            if (!_fullSurface)
-                return Math.Abs(wanted - DefaultBrightness) <= 0.01;
-
-            _lastAppliedBrightness = wanted;
-            Brightness = wanted;
-            return true;
-        }
-
-        private void ApplyBrightness()
-        {
-            if (_brightness == DefaultBrightness)
-            {
-                _darkOverlay.Opacity = 0;
-                _brightOverlay.Opacity = 0;
-                return;
-            }
-
-            if (_brightness < DefaultBrightness)
-            {
-                double percent = (DefaultBrightness - _brightness) / DefaultBrightness;
-                _darkOverlay.Opacity = percent;
-                _brightOverlay.Opacity = 0;
-            }
-            else
-            {
-                double percent = (_brightness - DefaultBrightness) / DefaultBrightness;
-                _brightOverlay.Opacity = percent;
-                _darkOverlay.Opacity = 0;
-            }
-        }
-
         private static void ApplyColorEffects()
         {
             Voidstrap.Utility.ScreenColorEffect.ApplyConfigured();
@@ -353,12 +271,6 @@ namespace Voidstrap.UI.Elements.Overlay
 
         private void UpdateEffects()
         {
-            if (Math.Abs(App.Settings.Prop.Brightness - _lastAppliedBrightness) > 0.01)
-            {
-                _lastAppliedBrightness = App.Settings.Prop.Brightness;
-                Brightness = _lastAppliedBrightness;
-            }
-
             bool colorChanged = false;
             if (Math.Abs(App.Settings.Prop.Saturation - _lastAppliedSaturation) > 0.01)
             {

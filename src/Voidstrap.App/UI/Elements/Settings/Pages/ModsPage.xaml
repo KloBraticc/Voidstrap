@@ -922,15 +922,9 @@
             </ui:CardExpander>
 
             <TextBlock Margin="2,20,0,0" FontSize="16" FontWeight="SemiBold" Text="Display" />
-                        <StackPanel Margin="0,8,0,0">
+                        <StackPanel Margin="0,8,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
               <TextBlock Margin="2,0,0,0" FontSize="14" FontWeight="Medium" Text="Screen color" />
               <StackPanel>
-                <controls:OptionControl Header="Brightness">
-                  <StackPanel Orientation="Horizontal">
-                    <Slider Width="200" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" Value="{Binding Brightness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding BrightnessDisplay}" />
-                  </StackPanel>
-                </controls:OptionControl>
                 <controls:OptionControl Header="Saturation" Description="100 is normal." Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
                   <StackPanel Orientation="Horizontal">
                     <Slider Width="200" Minimum="0" Maximum="200" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" Value="{Binding Saturation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

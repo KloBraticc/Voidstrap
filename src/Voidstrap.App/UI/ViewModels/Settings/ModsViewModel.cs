@@ -240,18 +240,6 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public bool IsWindows => Voidstrap.Utility.Platform.IsWindows;
 
-	public string BrightnessDisplay
-	{
-		get
-		{
-			if (Brightness != 50.0)
-			{
-				return $"{Brightness:0}";
-			}
-			return "Disabled";
-		}
-	}
-
 	public double Saturation
 	{
 		get
@@ -1742,26 +1730,6 @@ public ICommand PickCursorColorCommand { get; }
 		Frontend.ShowMessageBox($"Roblox FPS cap set to {cap}. Frame generation fills you back up toward {hz}.", MessageBoxImage.Information);
 	}
 
-	public double Brightness
-	{
-		get
-		{
-			return App.Settings.Prop.Brightness;
-		}
-		set
-		{
-			double num = Math.Clamp(value, 0.0, 100.0);
-			if (App.Settings.Prop.Brightness != num)
-			{
-				App.Settings.Prop.Brightness = num;
-				App.Settings.SaveDeferred();
-				Voidstrap.Watcher.Current?.ApplyBrightnessLive();
-				OnPropertyChanged(nameof(Brightness));
-				OnPropertyChanged(nameof(BrightnessDisplay));
-			}
-		}
-	}
-
 	public bool ServerDetailsDisplay
 	{
 		get
@@ -1775,7 +1743,7 @@ public ICommand PickCursorColorCommand { get; }
             App.Settings.Prop.ShowServerDetailsUI = value;
             OnPropertyChanged();
             App.Settings.SaveDeferred();
-            Voidstrap.Watcher.Current?.ApplyBrightnessLive();
+            Voidstrap.Watcher.Current?.RefreshOverlayLive();
 		}
 	}
 
@@ -1836,7 +1804,7 @@ public ICommand PickCursorColorCommand { get; }
 			App.Settings.Prop.CurrentTimeDisplay = value;
             OnPropertyChanged(nameof(CurrentTimeDisplay));
             App.Settings.SaveDeferred();
-            Voidstrap.Watcher.Current?.ApplyBrightnessLive();
+            Voidstrap.Watcher.Current?.RefreshOverlayLive();
 		}
 	}
 
