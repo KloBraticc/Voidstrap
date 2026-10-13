@@ -246,8 +246,8 @@
                 <CheckBox Margin="0,0,8,0" Content="Pre Roblox Launch" IsChecked="{Binding SelectedCustomIntegration.PreLaunch}" />
               </StackPanel>
               <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
-                <CheckBox Margin="0,0,8,0" Content="Run Minimized" IsChecked="{Binding SelectedCustomIntegration.RunMinimized}" />
-                <CheckBox Margin="0,0,8,0" Content="Run As Administrator" IsChecked="{Binding SelectedCustomIntegration.RunAsAdmin}" />
+                <CheckBox Margin="0,0,8,0" Content="Run Minimized" IsChecked="{Binding SelectedCustomIntegration.RunMinimized}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
+                <CheckBox Margin="0,0,8,0" Content="Run As Administrator" IsChecked="{Binding SelectedCustomIntegration.RunAsAdmin}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
               </StackPanel>
               <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
                 <CheckBox Margin="0,0,8,0" Content="Only for a specific game" IsChecked="{Binding SelectedCustomIntegration.SpecifyGame}" />

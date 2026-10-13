@@ -126,11 +126,11 @@ public class IntegrationWatcher : IDisposable
 				WorkingDirectory = Path.GetDirectoryName(integration.Location),
 				UseShellExecute = true
 			};
-			if (integration.RunMinimized)
+			if (integration.RunMinimized && Voidstrap.Utility.Platform.IsWindows)
 			{
 				processStartInfo.WindowStyle = ProcessWindowStyle.Minimized;
 			}
-			if (integration.RunAsAdmin)
+			if (integration.RunAsAdmin && Voidstrap.Utility.Platform.IsWindows)
 			{
 				processStartInfo.Verb = "runas";
 			}

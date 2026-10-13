@@ -615,7 +615,7 @@ namespace Voidstrap.UI.Elements.Crosshair
 			int selectedShape = Math.Clamp(settings.CrosshairShapeIndex, 0, 3);
             string? selectedPath = selectedShape == 3 ? settings.CrosshairImagePath : null;
 			bool wantsGif = IsGifSource(selectedPath);
-			bool wantsPortableGif = wantsGif && (Voidstrap.Utility.Platform.IsLinux || IsInlineDataSource(selectedPath));
+			bool wantsPortableGif = wantsGif && (Voidstrap.Utility.Platform.UsesPortableUi || IsInlineDataSource(selectedPath));
             bool wantsImage = !string.IsNullOrWhiteSpace(selectedPath) && !wantsGif;
             if (!wantsGif || wantsPortableGif)
                 ReleaseGifCrosshair();

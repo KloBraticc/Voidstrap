@@ -1,4 +1,4 @@
-﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.GBSEditorPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="GBSEditor" Scrollable="True" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages">
+﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.GBSEditorPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="GBSEditor" Scrollable="True" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages">
   <ui:UiPage.Resources>
     <Style x:Key="SectionHeading" TargetType="{x:Type TextBlock}">
       <Setter Property="FontSize" Value="20" />
@@ -111,6 +111,7 @@
       <ui:ToggleSwitch IsChecked="{Binding ChatTranslationEnabled, Mode=TwoWay}" />
     </controls:OptionControl>
 
+    <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
     <TextBlock Style="{StaticResource SectionHeading}" Text="Virtual Reality" />
     <controls:OptionControl Header="Enable VR" Description="Toggle virtual reality mode.">
       <ui:ToggleSwitch IsChecked="{Binding VREnabled, Mode=TwoWay}" />
@@ -125,6 +126,7 @@
     <controls:OptionControl Header="Vignette in VR" Description="Enable vignette for motion sickness reduction.">
       <ui:ToggleSwitch IsChecked="{Binding VignetteEnabled, Mode=TwoWay}" />
     </controls:OptionControl>
+    </StackPanel>
 
     <TextBlock Style="{StaticResource SectionHeading}" Text="Advanced" />
     <controls:OptionControl Header="Micro Profiler" Description="Enable Roblox microprofiler server.">

@@ -523,7 +523,7 @@ public partial class MenuContainer : WpfUiWindow
         if (inGame)
         {
             BrightnessTrackerLog.Visibility = Visibility.Visible;
-            ColorsTrackerLog.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : BrightnessTrackerLog.Visibility;
+            ColorsTrackerLog.Visibility = Voidstrap.Utility.Platform.IsWindows ? BrightnessTrackerLog.Visibility : Visibility.Collapsed;
         }
         else if (!transitioning)
         {
@@ -1222,7 +1222,7 @@ public partial class MenuContainer : WpfUiWindow
 			bool trace = ActivityWatcher.PlayerLoggingEnabled;
 			OutputConsoleMenuItem.Visibility = trace ? Visibility.Visible : Visibility.Collapsed;
             BrightnessTrackerLog.Visibility = Visibility.Visible;
-            ColorsTrackerLog.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : BrightnessTrackerLog.Visibility;
+            ColorsTrackerLog.Visibility = Voidstrap.Utility.Platform.IsWindows ? BrightnessTrackerLog.Visibility : Visibility.Collapsed;
             RequestTrayRefresh();
         }
         catch (OperationCanceledException)
