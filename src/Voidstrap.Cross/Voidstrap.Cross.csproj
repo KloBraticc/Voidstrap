@@ -251,7 +251,7 @@
 		<NuGetAuditSuppress Include="https://github.com/advisories/GHSA-wmxv-xphr-5c9g" />
 		<PackageReference Include="System.Drawing.Common" Version="10.0.12" />
 		<PackageReference Include="System.Management" Version="10.0.12" />
-		<PackageReference Include="System.Resources.Extensions" Version="10.0.10" />
+		<PackageReference Include="System.Resources.Extensions" Version="10.0.13" />
 		<PackageReference Include="Vortice.D3DCompiler" Version="3.8.3" />
 		<PackageReference Include="Vortice.Direct3D11" Version="3.8.3" />
 		<PackageReference Include="Vortice.DirectComposition" Version="3.8.3" />
