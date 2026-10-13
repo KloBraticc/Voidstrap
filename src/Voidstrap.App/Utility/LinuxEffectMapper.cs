@@ -12,6 +12,17 @@ internal static class LinuxEffectMapper
 {
 	public const int SupportedAntiAliasingMethods = 5;
 
+	static LinuxEffectMapper()
+	{
+		if (Platform.IsLinux)
+			LinuxSoberRuntimeProvider.EffectLayersDisabled += OnEffectLayersDisabled;
+	}
+
+	private static void OnEffectLayersDisabled()
+	{
+		Voidstrap.Integrations.Overlays.OverlayHub.SetLinuxHomepageNativeShaderActive(false);
+	}
+
 	public static LinuxEffectOptions CreateOptions()
 	{
 		RiShadeSettings shade = RiShadeSettings.Current;
@@ -25,13 +36,18 @@ internal static class LinuxEffectMapper
 			? soberSharpness / 100f
 			: shadeSharpen ? Math.Clamp(shade.SharpenStrength, 0f, 1f) : 0.4f;
 
+		LinuxHomepageShader.HomepageMedia? homepageMedia = LinuxHomepageShader.ResolveMedia();
+		string? homepageShader = LinuxHomepageShader.Build(homepageMedia);
+
 		return new LinuxEffectOptions(
-			Enabled: shadeOn || soberSharpen || MapAntiAliasing() is not null || MapFrameGenMultiplier() > 1,
+			Enabled: shadeOn || soberSharpen || MapAntiAliasing() is not null || MapFrameGenMultiplier() > 1 || homepageShader is not null,
 			AntiAliasing: MapAntiAliasing(),
 			AntiAliasingUltra: AntiAliasingSettings.MethodIndex is 2 or 4,
 			Sharpening: shadeSharpen || soberSharpen,
 			SharpnessAmount: sharpnessAmount,
 			GradingShader: shadeOn ? BuildGradingShader(shade) : null,
+			HomepageShader: homepageShader,
+			HomepageMediaPath: homepageMedia?.Path,
 			FrameGenMultiplier: MapFrameGenMultiplier());
 	}
 

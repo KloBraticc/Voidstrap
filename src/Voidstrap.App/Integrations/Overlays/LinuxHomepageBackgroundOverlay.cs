@@ -462,6 +462,11 @@ internal static class LinuxHomepageBackgroundMask
 			while (pixel < end)
 			{
 				byte alpha = mask[maskRow + Math.Min(maskWidth - 1, x / normalizedMaskScale)];
+				if (alpha > 0 && normalizedMaskScale > 1)
+				{
+					int distance = SourceDistance(source[offset + 2], source[offset + 1], source[offset], sourceKeys);
+					alpha = Math.Min(alpha, DistanceWeights[Math.Min(distance, DistanceWeights.Length - 1)]);
+				}
 				if (alpha == 0)
 				{
 					output[offset] = 0;
@@ -1522,7 +1527,6 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 				{
 					captureAttempts++;
 					bool sourceChanged = !hasCapturedSource
-						|| damageReported
 						|| !pendingCapture.AsSpan().SequenceEqual(capture);
 					if (sourceChanged)
 					{

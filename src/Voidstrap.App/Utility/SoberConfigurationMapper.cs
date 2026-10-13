@@ -105,6 +105,7 @@ internal static class SoberConfigurationMapper
 		if (Integrations.Overlays.OverlaySettings.HomepageBackgroundMode != "Media")
 			return true;
 		string path = settings.HomepageBackgroundOverlayMediaPath ?? string.Empty;
-		return Path.GetExtension(path).ToLowerInvariant() is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".tga";
+		return Path.GetExtension(path).ToLowerInvariant() is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".tga"
+			&& LinuxHomepageShader.IsHighResolutionImage(path);
 	}
 }

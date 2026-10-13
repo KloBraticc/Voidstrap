@@ -13,7 +13,25 @@ namespace Voidstrap.Integrations.Overlays
             || MotionBlurSettings.StrengthIndex > 0
             || FrameGenSettings.ModeIndex > 0;
 
-        public static bool HomepageBackgroundEnabled => App.Settings.Prop.HomepageBackgroundOverlayEnabled;
+        public static bool HomepageBackgroundEnabled
+		{
+			get
+			{
+				if (!App.Settings.Prop.HomepageBackgroundOverlayEnabled)
+					return false;
+				if (!Voidstrap.Utility.Platform.IsLinux || HomepageBackgroundMode != "Media")
+					return true;
+				string path = App.Settings.Prop.HomepageBackgroundOverlayMediaPath ?? string.Empty;
+				return IsHomepageVideo(path) || Voidstrap.Utility.LinuxHomepageShader.IsHighResolutionImage(path);
+			}
+		}
+
+		public static readonly string[] HomepageVideoExtensions = [".mp4", ".m4v", ".webm", ".avi", ".mov", ".wmv", ".mpeg", ".mpg", ".mkv"];
+
+		public static bool IsHomepageVideo(string? path)
+		{
+			return System.Linq.Enumerable.Contains(HomepageVideoExtensions, System.IO.Path.GetExtension(path ?? string.Empty), System.StringComparer.OrdinalIgnoreCase);
+		}
 
 		public static string HomepageBackgroundMode
 		{

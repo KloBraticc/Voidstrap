@@ -1608,7 +1608,20 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 	public static Action<string>? StartupStatus { get; set; }
 
-	public static IReadOnlyList<string> EffectLayerArguments { get; set; } = [];
+	private static IReadOnlyList<string> _effectLayerArguments = [];
+
+	public static event Action? EffectLayersDisabled;
+
+	public static IReadOnlyList<string> EffectLayerArguments
+	{
+		get => _effectLayerArguments;
+		set
+		{
+			_effectLayerArguments = value;
+			if (value.Count == 0)
+				EffectLayersDisabled?.Invoke();
+		}
+	}
 
 	public static IReadOnlyList<string> NvidiaArguments { get; set; } = [];
 
@@ -1840,6 +1853,7 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 			StartupStatus?.Invoke("Sober stopped with Vulkan effects enabled. Restarting Roblox without effects for this session");
 			if (!await TryCloseSoberAsync(cancellationToken).ConfigureAwait(false))
 				return OperationResult<LaunchSession>.Fail("SoberCloseFailed", "Sober could not be closed before retrying without effects", CapabilityState.Experimental);
+			EffectLayerArguments = [];
 			List<string> retryArguments = ["run", selection.Scope];
 			retryArguments.AddRange(LinuxFlatpakHost.GetLaunchEnvironmentArguments());
 			if (ForceX11Session)

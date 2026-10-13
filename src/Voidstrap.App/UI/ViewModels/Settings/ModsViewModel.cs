@@ -1214,9 +1214,6 @@ public ICommand PickCursorColorCommand { get; }
 
 	public string HomepageBackgroundMediaButtonText => HasHomepageBackgroundMedia ? "Remove" : "Choose file";
 
-	private static readonly string[] HomepageVideoExtensions =
-		[".mp4", ".m4v", ".webm", ".avi", ".mov", ".wmv", ".mpeg", ".mpg", ".mkv"];
-
 	private const long MaxHomepagePreviewBytes = 64L * 1024L * 1024L;
 
 	private const long MaxAnimatedPreviewBytes = 12L * 1024L * 1024L;
@@ -1330,7 +1327,7 @@ public ICommand PickCursorColorCommand { get; }
 			return;
 
 		string extension = Path.GetExtension(path).ToLowerInvariant();
-		if (HomepageVideoExtensions.Contains(extension))
+		if (Voidstrap.Integrations.Overlays.OverlaySettings.HomepageVideoExtensions.Contains(extension))
 		{
 			try
 			{
@@ -3124,6 +3121,13 @@ public ICommand PickCursorColorCommand { get; }
 			string path = Path.GetFullPath(dialog.FileName);
 			if (!File.Exists(path))
 				return;
+			if (Voidstrap.Utility.Platform.IsLinux
+				&& !Voidstrap.Integrations.Overlays.OverlaySettings.IsHomepageVideo(path)
+				&& !LinuxHomepageShader.IsHighResolutionImage(path))
+			{
+				Frontend.ShowMessageBox("Linux homepage background images must be at least 540 × 405 pixels.", MessageBoxImage.Hand);
+				return;
+			}
 			App.Settings.Prop.HomepageBackgroundOverlayMediaPath = path;
 			App.Settings.Prop.HomepageBackgroundOverlayMode = "Media";
 			App.Settings.SaveDeferred();
