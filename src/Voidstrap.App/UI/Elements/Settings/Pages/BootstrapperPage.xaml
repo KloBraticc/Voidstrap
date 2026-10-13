@@ -10,7 +10,7 @@
           </StackPanel>
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
-          <controls:OptionControl x:Name="ConfirmLaunchOption" Header="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Title}" Description="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Description}">
+          <controls:OptionControl Margin="0,-8,0,0" x:Name="ConfirmLaunchOption" Header="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Title}" Description="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Description}">
             <ui:ToggleSwitch IsChecked="{Binding ConfirmLaunches, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Description="Disables Background Window when Launching Roblox" Header="Disable Background Window" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
@@ -301,7 +301,7 @@
           </StackPanel>
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
-          <controls:OptionControl Header="Fullscreen mode" Description="How the Roblox game window fills your screen" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Margin="0,-8,0,0" Header="Fullscreen mode" Description="How the Roblox game window fills your screen" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ComboBox Width="240" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" ItemsSource="{Binding FullscreenModes}" SelectedValue="{Binding RobloxFullscreenMode, Mode=TwoWay}" />
           </controls:OptionControl>
           <ui:InfoBar Padding="8" Margin="0,4,0,0" IsClosable="False" IsOpen="True" Severity="Warning" Title="Overlays are hidden in exclusive fullscreen" Message="Your Windows mouse cursor and every overlay are hidden" Visibility="{Binding ShowExclusiveFullscreenWarning, Converter={StaticResource BooleanToVisibilityConverter}}" />
