@@ -59,9 +59,7 @@ public static partial class WindowBackdrop
 
     private static readonly ConditionalWeakTable<Window, string> _appliedBackdrops = new();
 
-    private static IntPtr _contextMenuHandle = IntPtr.Zero;
 
-    private static Wpf.Ui.Appearance.BackgroundType _contextMenuBackdrop = Wpf.Ui.Appearance.BackgroundType.None;
 
     private static readonly ConditionalWeakTable<Window, object?> _renderHooked = new();
 
@@ -325,57 +323,20 @@ public static partial class WindowBackdrop
             return;
         }
         IntPtr handle = source.Handle;
-        Wpf.Ui.Appearance.BackgroundType backgroundType = Resolve(App.Settings.Prop.WindowBackdrop);
-        if (backgroundType == Wpf.Ui.Appearance.BackgroundType.Aero)
-        {
-            backgroundType = Wpf.Ui.Appearance.BackgroundType.None;
-        }
-        if (_contextMenuHandle == handle && _contextMenuBackdrop == backgroundType && contextMenu.Background != null)
-        {
-            contextMenu.Background = backgroundType == Wpf.Ui.Appearance.BackgroundType.None
-                ? CreateOpaqueSurfaceBrush(contextMenu)
-                : CreateSurfaceBrush(contextMenu);
-            return;
-        }
-        _contextMenuHandle = IntPtr.Zero;
-        bool applied = backgroundType == Wpf.Ui.Appearance.BackgroundType.None;
         try
         {
             Wpf.Ui.Appearance.Background.Remove(handle);
             ResetNativeBackdrop(handle);
             int rounded = 2;
             _ = DwmSetWindowAttribute(handle, DwmwaWindowCornerPreference, ref rounded, sizeof(int));
-            if (!applied)
-            {
-                if (backgroundType == Wpf.Ui.Appearance.BackgroundType.Aero)
-                {
-                    applied = ApplyAeroBlur(handle, null);
-                }
-                else
-                {
-                    applied = Wpf.Ui.Appearance.Background.Apply(handle, backgroundType);
-                    applied = VerifyAppliedBackdrop(handle, backgroundType, applied, null);
-                }
-            }
-            Brush surface = applied && backgroundType != Wpf.Ui.Appearance.BackgroundType.None
-                ? CreateSurfaceBrush(contextMenu)
-                : Brushes.Transparent;
-            if (applied && backgroundType != Wpf.Ui.Appearance.BackgroundType.None && !IsFullyTransparent(surface))
-            {
-                if (source.CompositionTarget is { } target)
-                    target.BackgroundColor = Colors.Transparent;
-                contextMenu.Background = surface;
-            }
-            else
-            {
-                Color color = CreateSurfaceColor();
-                color.A = byte.MaxValue;
-                SolidColorBrush brush = new(color);
-                brush.Freeze();
-                contextMenu.Background = brush;
-            }
-            _contextMenuHandle = handle;
-            _contextMenuBackdrop = backgroundType;
+            Color color = App.Settings.Prop.Theme2.GetFinal() == Theme.Light
+                ? Color.FromRgb(249, 249, 249)
+                : Color.FromRgb(44, 44, 44);
+            if (source.CompositionTarget is { } target)
+                target.BackgroundColor = color;
+            SolidColorBrush brush = new(color);
+            brush.Freeze();
+            contextMenu.Background = brush;
         }
         catch (Exception ex)
         {
