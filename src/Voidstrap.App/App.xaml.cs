@@ -817,7 +817,10 @@ public partial class App : Application
 			EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnLinuxWindowLoaded));
 		}
 
-		LaunchSettings = new LaunchSettings(args);
+		bool cli = Cli.IsCliInvocation(args);
+		if (cli)
+			Cli.AttachTerminal();
+		LaunchSettings = new LaunchSettings(cli ? [] : args);
 		if (OperatingSystem.IsWindows() && LaunchSettings.MenuFlag.Active && Voidstrap.UI.TaskbarJumpList.TryForwardToOpenWindow(LaunchSettings.MenuFlag.Data))
 		{
 			Shutdown(0);
@@ -847,7 +850,7 @@ public partial class App : Application
 			RunFactoryReset(LaunchSettings.FactoryResetFlag.Data);
 			return;
 		}
-		bool headlessLaunch = LaunchSettings.NvApplyFlag.Active || LaunchSettings.NvResetFlag.Active || LaunchSettings.WindowAuditFlag.Active || LaunchSettings.TelemetryBlockFlag.Active;
+		bool headlessLaunch = cli || LaunchSettings.NvApplyFlag.Active || LaunchSettings.NvResetFlag.Active || LaunchSettings.WindowAuditFlag.Active || LaunchSettings.TelemetryBlockFlag.Active;
 		bool portableLayout = !Voidstrap.Utility.Platform.IsWindows;
 		string? installLocation;
 		if (portableLayout)
@@ -921,9 +924,9 @@ public partial class App : Application
 			return;
 		}
 
-		Logger.Initialize(LaunchSettings.UninstallFlag.Active);
+		Logger.Initialize(LaunchSettings.UninstallFlag.Active || cli);
 		LinuxUiPerformance.Mark("Logger ready");
-		if (!Logger.Initialized && !Logger.NoWriteMode)
+		if (!cli && !Logger.Initialized && !Logger.NoWriteMode)
 		{
 			Logger.WriteLine("App::OnStartup", "Possible duplicate launch detected, terminating.");
 			Terminate();
@@ -957,6 +960,12 @@ public partial class App : Application
 		}
 		long persistentStateStarted = Stopwatch.GetTimestamp();
 		LoadPersistentState();
+		if (cli)
+		{
+			int exitCode = await Cli.RunAsync(args[1..]);
+			Shutdown(exitCode);
+			return;
+		}
 		if (Voidstrap.Utility.Platform.IsMacOS && Settings.Prop.LaunchWithoutVoidstrap)
 		{
 			Voidstrap.Platform.OperationResult direct = Voidstrap.Platform.MacOS.MacOSProtocolRegistration.SetPlayerHandler(true);
