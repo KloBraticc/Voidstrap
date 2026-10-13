@@ -93,6 +93,8 @@ public partial class MenuContainer : WpfUiWindow
         return string.Concat(text.AsSpan(0, num), "...");
     }
 
+    private DateTime _flagsWriteTimeUtc = DateTime.MinValue;
+
     private void LoadFlags()
     {
         try
@@ -100,14 +102,20 @@ public partial class MenuContainer : WpfUiWindow
             string path = Path.Combine(Paths.Mods, "ClientSettings", "ClientAppSettings.json");
             if (!File.Exists(path))
             {
+                _flagsWriteTimeUtc = DateTime.MinValue;
                 FlagsTextBlock.Text = "Flags: 0";
                 return;
             }
+            DateTime writeTime = File.GetLastWriteTimeUtc(path);
+            if (writeTime == _flagsWriteTimeUtc)
+                return;
+            _flagsWriteTimeUtc = writeTime;
 			int totalFlags = Voidstrap.Utility.JsonFile.Deserialize<Dictionary<string, JsonElement>>(path, JsonOptions.Tolerant, 16777216).Count;
             FlagsTextBlock.Text = $"Flags: {totalFlags}";
         }
         catch
         {
+            _flagsWriteTimeUtc = DateTime.MinValue;
             FlagsTextBlock.Text = "Flags: Error";
         }
     }
@@ -757,10 +765,7 @@ public partial class MenuContainer : WpfUiWindow
             {
                 string text = "Roblox: " + (robloxMemory.HasValue ? FormatBytes(robloxMemory.Value) : "N/A");
                 if (MemoryTextBlock.Text != text)
-                {
                     MemoryTextBlock.Text = text;
-                    RequestTrayRefresh();
-                }
             }
         }
         catch (OperationCanceledException)
@@ -1420,8 +1425,6 @@ public partial class MenuContainer : WpfUiWindow
         {
             PlayTimer_Tick(null, EventArgs.Empty);
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
-            _memoryTimer.Start();
         if (DateTime.UtcNow - _trayInfoRefreshedUtc < TimeSpan.FromSeconds(2))
             return;
         await UpdateRobloxMemoryAsync();
@@ -1654,8 +1657,7 @@ public partial class MenuContainer : WpfUiWindow
 
 	private void ContextMenu_Closed(object sender, RoutedEventArgs e)
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux)
-			_memoryTimer.Stop();
+		_memoryTimer.Stop();
 		_playTimer.Stop();
 	}
 
