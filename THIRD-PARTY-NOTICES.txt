@@ -1320,41 +1320,41 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
   Terms: Publisher license text reproduced below
   Source: https://www.nuget.org/packages/Microsoft.DotNet.PlatformAbstractions/3.1.6
 
-- Microsoft.Extensions.Configuration 10.0.12 (nuget)
+- Microsoft.Extensions.Configuration 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.Configuration/10.0.12
+  Source: https://www.nuget.org/packages/Microsoft.Extensions.Configuration/10.0.13
 
-- Microsoft.Extensions.Configuration.Abstractions 10.0.12 (nuget)
+- Microsoft.Extensions.Configuration.Abstractions 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Abstractions/10.0.12
+  Source: https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Abstractions/10.0.13
 
-- Microsoft.Extensions.Configuration.FileExtensions 10.0.12 (nuget)
+- Microsoft.Extensions.Configuration.FileExtensions 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.Configuration.FileExtensions/10.0.12
+  Source: https://www.nuget.org/packages/Microsoft.Extensions.Configuration.FileExtensions/10.0.13
 
-- Microsoft.Extensions.Configuration.Json 10.0.12 (nuget)
+- Microsoft.Extensions.Configuration.Json 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Json/10.0.12
+  Source: https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Json/10.0.13
 
 - Microsoft.Extensions.DependencyModel 9.0.9 (nuget)
   Terms: MIT
   Source: https://www.nuget.org/packages/Microsoft.Extensions.DependencyModel/9.0.9
 
-- Microsoft.Extensions.FileProviders.Abstractions 10.0.12 (nuget)
+- Microsoft.Extensions.FileProviders.Abstractions 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.FileProviders.Abstractions/10.0.12
+  Source: https://www.nuget.org/packages/Microsoft.Extensions.FileProviders.Abstractions/10.0.13
 
-- Microsoft.Extensions.FileProviders.Physical 10.0.12 (nuget)
+- Microsoft.Extensions.FileProviders.Physical 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.FileProviders.Physical/10.0.12
+  Source: https://www.nuget.org/packages/Microsoft.Extensions.FileProviders.Physical/10.0.13
 
-- Microsoft.Extensions.FileSystemGlobbing 10.0.12 (nuget)
+- Microsoft.Extensions.FileSystemGlobbing 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.FileSystemGlobbing/10.0.12
+  Source: https://www.nuget.org/packages/Microsoft.Extensions.FileSystemGlobbing/10.0.13
 
-- Microsoft.Extensions.Primitives 10.0.12 (nuget)
+- Microsoft.Extensions.Primitives 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.Primitives/10.0.12
+  Source: https://www.nuget.org/packages/Microsoft.Extensions.Primitives/10.0.13
 
 - Microsoft.ICU.ICU4C.Runtime 72.1.0.3 (nuget)
   Terms: Publisher license text reproduced below
@@ -1652,9 +1652,9 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
   Terms: MIT OR public domain
   Source: https://github.com/StbSharp/StbImageSharp/blob/master/generation/StbImageSharp.Generator/stb_image.h
 
-- System.CodeDom 10.0.12 (nuget)
+- System.CodeDom 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/System.CodeDom/10.0.12
+  Source: https://www.nuget.org/packages/System.CodeDom/10.0.13
 
 - System.Configuration.ConfigurationManager 10.0.10 (nuget)
   Terms: MIT
@@ -1672,25 +1672,25 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
   Terms: MIT
   Source: https://www.nuget.org/packages/System.Drawing.Common/10.0.3
 
-- System.Formats.Nrbf 10.0.10 (nuget)
+- System.Formats.Nrbf 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/System.Formats.Nrbf/10.0.10
+  Source: https://www.nuget.org/packages/System.Formats.Nrbf/10.0.13
 
 - System.IO.Packaging 10.0.10 (nuget)
   Terms: MIT
   Source: https://www.nuget.org/packages/System.IO.Packaging/10.0.10
 
-- System.Management 10.0.12 (nuget)
+- System.Management 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/System.Management/10.0.12
+  Source: https://www.nuget.org/packages/System.Management/10.0.13
 
 - System.Numerics.Tensors 9.0.0 (nuget)
   Terms: MIT
   Source: https://www.nuget.org/packages/System.Numerics.Tensors/9.0.0
 
-- System.Resources.Extensions 10.0.10 (nuget)
+- System.Resources.Extensions 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/System.Resources.Extensions/10.0.10
+  Source: https://www.nuget.org/packages/System.Resources.Extensions/10.0.13
 
 - System.Security.Cryptography.Pkcs 10.0.11 (nuget)
   Terms: MIT
@@ -9227,28 +9227,28 @@ DEALINGS IN THE SOFTWARE.
 LibreWPF.Sdk 0.1.0-preview.42
 Origin: NuGet copyright and declared MIT expression
 
-Microsoft.Extensions.Configuration 10.0.12
+Microsoft.Extensions.Configuration 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
-Microsoft.Extensions.Configuration.Abstractions 10.0.12
+Microsoft.Extensions.Configuration.Abstractions 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
-Microsoft.Extensions.Configuration.FileExtensions 10.0.12
+Microsoft.Extensions.Configuration.FileExtensions 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
-Microsoft.Extensions.Configuration.Json 10.0.12
+Microsoft.Extensions.Configuration.Json 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
-Microsoft.Extensions.FileProviders.Abstractions 10.0.12
+Microsoft.Extensions.FileProviders.Abstractions 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
-Microsoft.Extensions.FileProviders.Physical 10.0.12
+Microsoft.Extensions.FileProviders.Physical 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
-Microsoft.Extensions.FileSystemGlobbing 10.0.12
+Microsoft.Extensions.FileSystemGlobbing 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
-Microsoft.Extensions.Primitives 10.0.12
+Microsoft.Extensions.Primitives 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
 Microsoft.NET.ILLink.Tasks 10.0.8
@@ -9263,7 +9263,7 @@ Origin: NuGet copyright and declared MIT expression
 Microsoft.Windows.CsWin32 0.3.360
 Origin: NuGet copyright and declared MIT expression
 
-System.CodeDom 10.0.12
+System.CodeDom 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
 System.Configuration.ConfigurationManager 10.0.10
@@ -9272,16 +9272,16 @@ Origin: NuGet copyright and declared MIT expression
 System.Diagnostics.EventLog 10.0.10
 Origin: NuGet copyright and declared MIT expression
 
-System.Formats.Nrbf 10.0.10
+System.Formats.Nrbf 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
 System.IO.Packaging 10.0.10
 Origin: NuGet copyright and declared MIT expression
 
-System.Management 10.0.12
+System.Management 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
-System.Resources.Extensions 10.0.10
+System.Resources.Extensions 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
 System.Security.Cryptography.Pkcs 10.0.11
@@ -15884,29 +15884,29 @@ SOFTWARE.
 
 ### Notice 76
 
-Microsoft.Extensions.Configuration 10.0.12
-Origin: NuGet package Microsoft.Extensions.Configuration/10.0.12: THIRD-PARTY-NOTICES.TXT
+Microsoft.Extensions.Configuration 10.0.13
+Origin: NuGet package Microsoft.Extensions.Configuration/10.0.13: THIRD-PARTY-NOTICES.TXT
 
-Microsoft.Extensions.Configuration.Abstractions 10.0.12
-Origin: NuGet package Microsoft.Extensions.Configuration.Abstractions/10.0.12: THIRD-PARTY-NOTICES.TXT
+Microsoft.Extensions.Configuration.Abstractions 10.0.13
+Origin: NuGet package Microsoft.Extensions.Configuration.Abstractions/10.0.13: THIRD-PARTY-NOTICES.TXT
 
-Microsoft.Extensions.Configuration.FileExtensions 10.0.12
-Origin: NuGet package Microsoft.Extensions.Configuration.FileExtensions/10.0.12: THIRD-PARTY-NOTICES.TXT
+Microsoft.Extensions.Configuration.FileExtensions 10.0.13
+Origin: NuGet package Microsoft.Extensions.Configuration.FileExtensions/10.0.13: THIRD-PARTY-NOTICES.TXT
 
-Microsoft.Extensions.Configuration.Json 10.0.12
-Origin: NuGet package Microsoft.Extensions.Configuration.Json/10.0.12: THIRD-PARTY-NOTICES.TXT
+Microsoft.Extensions.Configuration.Json 10.0.13
+Origin: NuGet package Microsoft.Extensions.Configuration.Json/10.0.13: THIRD-PARTY-NOTICES.TXT
 
-Microsoft.Extensions.FileProviders.Abstractions 10.0.12
-Origin: NuGet package Microsoft.Extensions.FileProviders.Abstractions/10.0.12: THIRD-PARTY-NOTICES.TXT
+Microsoft.Extensions.FileProviders.Abstractions 10.0.13
+Origin: NuGet package Microsoft.Extensions.FileProviders.Abstractions/10.0.13: THIRD-PARTY-NOTICES.TXT
 
-Microsoft.Extensions.FileProviders.Physical 10.0.12
-Origin: NuGet package Microsoft.Extensions.FileProviders.Physical/10.0.12: THIRD-PARTY-NOTICES.TXT
+Microsoft.Extensions.FileProviders.Physical 10.0.13
+Origin: NuGet package Microsoft.Extensions.FileProviders.Physical/10.0.13: THIRD-PARTY-NOTICES.TXT
 
-Microsoft.Extensions.FileSystemGlobbing 10.0.12
-Origin: NuGet package Microsoft.Extensions.FileSystemGlobbing/10.0.12: THIRD-PARTY-NOTICES.TXT
+Microsoft.Extensions.FileSystemGlobbing 10.0.13
+Origin: NuGet package Microsoft.Extensions.FileSystemGlobbing/10.0.13: THIRD-PARTY-NOTICES.TXT
 
-Microsoft.Extensions.Primitives 10.0.12
-Origin: NuGet package Microsoft.Extensions.Primitives/10.0.12: THIRD-PARTY-NOTICES.TXT
+Microsoft.Extensions.Primitives 10.0.13
+Origin: NuGet package Microsoft.Extensions.Primitives/10.0.13: THIRD-PARTY-NOTICES.TXT
 
 Microsoft.NET.ILLink.Tasks 10.0.8
 Origin: NuGet package Microsoft.NET.ILLink.Tasks/10.0.8: THIRD-PARTY-NOTICES.TXT
@@ -15923,8 +15923,8 @@ Origin: NuGet package Microsoft.Win32.SystemEvents/10.0.12: THIRD-PARTY-NOTICES.
 Microsoft.Win32.SystemEvents 10.0.3
 Origin: NuGet package Microsoft.Win32.SystemEvents/10.0.3: THIRD-PARTY-NOTICES.TXT
 
-System.CodeDom 10.0.12
-Origin: NuGet package System.CodeDom/10.0.12: THIRD-PARTY-NOTICES.TXT
+System.CodeDom 10.0.13
+Origin: NuGet package System.CodeDom/10.0.13: THIRD-PARTY-NOTICES.TXT
 
 System.Configuration.ConfigurationManager 10.0.10
 Origin: NuGet package System.Configuration.ConfigurationManager/10.0.10: THIRD-PARTY-NOTICES.TXT
@@ -15932,17 +15932,17 @@ Origin: NuGet package System.Configuration.ConfigurationManager/10.0.10: THIRD-P
 System.Diagnostics.EventLog 10.0.10
 Origin: NuGet package System.Diagnostics.EventLog/10.0.10: THIRD-PARTY-NOTICES.TXT
 
-System.Formats.Nrbf 10.0.10
-Origin: NuGet package System.Formats.Nrbf/10.0.10: THIRD-PARTY-NOTICES.TXT
+System.Formats.Nrbf 10.0.13
+Origin: NuGet package System.Formats.Nrbf/10.0.13: THIRD-PARTY-NOTICES.TXT
 
 System.IO.Packaging 10.0.10
 Origin: NuGet package System.IO.Packaging/10.0.10: THIRD-PARTY-NOTICES.TXT
 
-System.Management 10.0.12
-Origin: NuGet package System.Management/10.0.12: THIRD-PARTY-NOTICES.TXT
+System.Management 10.0.13
+Origin: NuGet package System.Management/10.0.13: THIRD-PARTY-NOTICES.TXT
 
-System.Resources.Extensions 10.0.10
-Origin: NuGet package System.Resources.Extensions/10.0.10: THIRD-PARTY-NOTICES.TXT
+System.Resources.Extensions 10.0.13
+Origin: NuGet package System.Resources.Extensions/10.0.13: THIRD-PARTY-NOTICES.TXT
 
 System.Security.Cryptography.Pkcs 10.0.11
 Origin: NuGet package System.Security.Cryptography.Pkcs/10.0.11: THIRD-PARTY-NOTICES.TXT

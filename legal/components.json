@@ -4742,9 +4742,9 @@
   {
     "ecosystem": "nuget",
     "name": "Microsoft.Extensions.Configuration",
-    "version": "10.0.12",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/Microsoft.Extensions.Configuration/10.0.12",
+    "source": "https://www.nuget.org/packages/Microsoft.Extensions.Configuration/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -4752,16 +4752,16 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package Microsoft.Extensions.Configuration/10.0.12: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package Microsoft.Extensions.Configuration/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },
   {
     "ecosystem": "nuget",
     "name": "Microsoft.Extensions.Configuration.Abstractions",
-    "version": "10.0.12",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Abstractions/10.0.12",
+    "source": "https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Abstractions/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -4769,16 +4769,16 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package Microsoft.Extensions.Configuration.Abstractions/10.0.12: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package Microsoft.Extensions.Configuration.Abstractions/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },
   {
     "ecosystem": "nuget",
     "name": "Microsoft.Extensions.Configuration.FileExtensions",
-    "version": "10.0.12",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/Microsoft.Extensions.Configuration.FileExtensions/10.0.12",
+    "source": "https://www.nuget.org/packages/Microsoft.Extensions.Configuration.FileExtensions/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -4786,16 +4786,16 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package Microsoft.Extensions.Configuration.FileExtensions/10.0.12: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package Microsoft.Extensions.Configuration.FileExtensions/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },
   {
     "ecosystem": "nuget",
     "name": "Microsoft.Extensions.Configuration.Json",
-    "version": "10.0.12",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Json/10.0.12",
+    "source": "https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Json/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -4803,7 +4803,7 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package Microsoft.Extensions.Configuration.Json/10.0.12: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package Microsoft.Extensions.Configuration.Json/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },
@@ -4827,9 +4827,9 @@
   {
     "ecosystem": "nuget",
     "name": "Microsoft.Extensions.FileProviders.Abstractions",
-    "version": "10.0.12",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/Microsoft.Extensions.FileProviders.Abstractions/10.0.12",
+    "source": "https://www.nuget.org/packages/Microsoft.Extensions.FileProviders.Abstractions/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -4837,16 +4837,16 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package Microsoft.Extensions.FileProviders.Abstractions/10.0.12: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package Microsoft.Extensions.FileProviders.Abstractions/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },
   {
     "ecosystem": "nuget",
     "name": "Microsoft.Extensions.FileProviders.Physical",
-    "version": "10.0.12",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/Microsoft.Extensions.FileProviders.Physical/10.0.12",
+    "source": "https://www.nuget.org/packages/Microsoft.Extensions.FileProviders.Physical/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -4854,16 +4854,16 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package Microsoft.Extensions.FileProviders.Physical/10.0.12: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package Microsoft.Extensions.FileProviders.Physical/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },
   {
     "ecosystem": "nuget",
     "name": "Microsoft.Extensions.FileSystemGlobbing",
-    "version": "10.0.12",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/Microsoft.Extensions.FileSystemGlobbing/10.0.12",
+    "source": "https://www.nuget.org/packages/Microsoft.Extensions.FileSystemGlobbing/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -4871,16 +4871,16 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package Microsoft.Extensions.FileSystemGlobbing/10.0.12: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package Microsoft.Extensions.FileSystemGlobbing/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },
   {
     "ecosystem": "nuget",
     "name": "Microsoft.Extensions.Primitives",
-    "version": "10.0.12",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/Microsoft.Extensions.Primitives/10.0.12",
+    "source": "https://www.nuget.org/packages/Microsoft.Extensions.Primitives/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -4888,7 +4888,7 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package Microsoft.Extensions.Primitives/10.0.12: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package Microsoft.Extensions.Primitives/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },
@@ -5941,9 +5941,9 @@
   {
     "ecosystem": "nuget",
     "name": "System.CodeDom",
-    "version": "10.0.12",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/System.CodeDom/10.0.12",
+    "source": "https://www.nuget.org/packages/System.CodeDom/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -5951,7 +5951,7 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package System.CodeDom/10.0.12: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package System.CodeDom/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },
@@ -6026,9 +6026,9 @@
   {
     "ecosystem": "nuget",
     "name": "System.Formats.Nrbf",
-    "version": "10.0.10",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/System.Formats.Nrbf/10.0.10",
+    "source": "https://www.nuget.org/packages/System.Formats.Nrbf/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -6036,7 +6036,7 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package System.Formats.Nrbf/10.0.10: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package System.Formats.Nrbf/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },
@@ -6060,9 +6060,9 @@
   {
     "ecosystem": "nuget",
     "name": "System.Management",
-    "version": "10.0.12",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/System.Management/10.0.12",
+    "source": "https://www.nuget.org/packages/System.Management/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -6070,7 +6070,7 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package System.Management/10.0.12: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package System.Management/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },
@@ -6094,9 +6094,9 @@
   {
     "ecosystem": "nuget",
     "name": "System.Resources.Extensions",
-    "version": "10.0.10",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/System.Resources.Extensions/10.0.10",
+    "source": "https://www.nuget.org/packages/System.Resources.Extensions/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -6104,7 +6104,7 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package System.Resources.Extensions/10.0.10: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package System.Resources.Extensions/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },
