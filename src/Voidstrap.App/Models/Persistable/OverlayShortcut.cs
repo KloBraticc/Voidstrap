@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Voidstrap.Models.Persistable;
 
 // A global shortcut as Windows registers it: MOD_ALT 1, MOD_CONTROL 2, MOD_SHIFT 4, MOD_WIN 8 and a virtual key
-public sealed class OverlayShortcut
+public sealed partial class OverlayShortcut
 {
 	public const uint Alt = 0x1;
 	public const uint Control = 0x2;
@@ -42,6 +43,8 @@ public sealed class OverlayShortcut
 	{
 		if (key is >= 0x30 and <= 0x39 or >= 0x41 and <= 0x5A)
 			return ((char)key).ToString();
+		if (LayoutCharacter(key) is string typed)
+			return typed;
 		if (key is >= 0x70 and <= 0x87)
 			return "F" + (key - 0x6F);
 		if (key is >= 0x60 and <= 0x69)
@@ -73,7 +76,22 @@ public sealed class OverlayShortcut
 			0xBC => ",",
 			0xBE => ".",
 			0xBF => "/",
+			0xE2 => "<",
 			_ => "Key " + key
 		};
 	}
+
+	private static string? LayoutCharacter(uint key)
+	{
+		if (!Voidstrap.Utility.Platform.IsWindows || key is not (>= 0xBA and <= 0xC0 or >= 0xDB and <= 0xDF or 0xE2))
+			return null;
+		uint mapped = MapVirtualKeyW(key, 2);
+		char value = (char)(mapped & 0xFFFF);
+		if (value == 0 || char.IsControl(value) || char.IsWhiteSpace(value))
+			return null;
+		return char.ToUpperInvariant(value).ToString();
+	}
+
+	[LibraryImport("user32.dll", EntryPoint = "MapVirtualKeyW")]
+	private static partial uint MapVirtualKeyW(uint code, uint mapType);
 }
