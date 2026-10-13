@@ -1170,7 +1170,6 @@ namespace Voidstrap.Integrations.Overlays
 			if (_disposed || _linuxRetryTimer != null)
 				return;
 
-			_linuxRetryAttempts = 0;
 			_linuxRetryTimer = new DispatcherTimer(DispatcherPriority.Background, _window.Dispatcher)
 			{
 				Interval = TimeSpan.FromMilliseconds(150)
@@ -1181,6 +1180,7 @@ namespace Voidstrap.Integrations.Overlays
 
 		private void StopLinuxRetry()
 		{
+			_linuxRetryAttempts = 0;
 			if (_linuxRetryTimer == null)
 				return;
 
@@ -1205,7 +1205,9 @@ namespace Voidstrap.Integrations.Overlays
 				return;
 			}
 
+			int attempts = _linuxRetryAttempts;
 			StopLinuxRetry();
+			_linuxRetryAttempts = attempts;
 			Apply(RobloxWindowTracker.Current);
 		}
 

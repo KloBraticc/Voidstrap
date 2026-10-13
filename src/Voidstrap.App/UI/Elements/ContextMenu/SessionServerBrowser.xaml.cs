@@ -73,15 +73,17 @@ public partial class SessionServerBrowser : Window
         _placeId = _gameData.PlaceId;
         InitializeComponent();
         _avatarTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(120) };
-        _avatarTimer.Tick += (_, _) =>
-        {
-            _avatarTimer.Stop();
-            _ = PortableOverlay.RunAsync(this, LoadQueuedAvatarsAsync);
-        };
+        _avatarTimer.Tick += OnAvatarTimerTick;
         RegionBox.Items.Add(AllRegions);
         RegionBox.SelectedIndex = 0;
         Loaded += OnLoaded;
         Closed += OnClosed;
+    }
+
+    private void OnAvatarTimerTick(object? sender, EventArgs e)
+    {
+        _avatarTimer.Stop();
+        _ = PortableOverlay.RunAsync(this, LoadQueuedAvatarsAsync);
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -749,6 +751,7 @@ public partial class SessionServerBrowser : Window
         Loaded -= OnLoaded;
         Closed -= OnClosed;
         _avatarTimer.Stop();
+        _avatarTimer.Tick -= OnAvatarTimerTick;
         _lifetime.Cancel();
         _lifetime.Dispose();
         _scanCts?.Cancel();
