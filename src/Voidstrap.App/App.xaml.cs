@@ -1400,7 +1400,7 @@ public partial class App : Application
 		LinuxUiPerformance.Duration(name + " load", started);
 	}
 
-	private const int HardwareAccelerationResetVersion = 1;
+	private const int HardwareAccelerationResetVersion = 2;
 
 	private static void ResetHardwareAccelerationOnce()
 	{

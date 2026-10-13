@@ -25,6 +25,8 @@ namespace Voidstrap.Utility
 
         private static int _recovering;
 
+        private static bool _sessionFallback;
+
         private static string SentinelPath => Path.Combine(Paths.Base, "gpurender.pending");
 
         public static bool SoftwareOnly
@@ -33,7 +35,7 @@ namespace Voidstrap.Utility
             {
                 try
                 {
-                    return App.Settings?.Prop?.WPFSoftwareRender == true || App.LaunchSettings.NoGPUFlag.Active;
+                    return _sessionFallback || App.Settings?.Prop?.WPFSoftwareRender == true || App.LaunchSettings.NoGPUFlag.Active;
                 }
                 catch
                 {
@@ -84,15 +86,6 @@ namespace Voidstrap.Utility
 
             App.Logger?.WriteLine("RenderAcceleration::Recover", "The GPU renderer stopped, most likely after a display driver reset, restarting with software rendering");
             StopSettleTimer();
-            try
-            {
-                App.Settings.Prop.WPFSoftwareRender = true;
-                App.Settings.Save();
-            }
-            catch (Exception saveEx)
-            {
-                App.Logger?.WriteException("RenderAcceleration::Recover", saveEx);
-            }
             ClearSentinel();
 
             List<string> arguments = [.. App.LaunchSettings.Args];
@@ -101,10 +94,10 @@ namespace Voidstrap.Utility
             if (App.RestartApplication(arguments, closeRuntime: false))
                 return true;
 
-            App.Logger?.WriteLine("RenderAcceleration::Recover", "The restart failed, software rendering applies on the next launch");
+            App.Logger?.WriteLine("RenderAcceleration::Recover", "The restart failed, Voidstrap closes so it can be opened again");
             try
             {
-                _ = MessageBoxW(0, "Your display driver reset while Voidstrap was drawing its window. Voidstrap switched to software rendering, please open it again.", "Voidstrap", MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
+                _ = MessageBoxW(0, "Your display driver reset while Voidstrap was drawing its window. Please open Voidstrap again.", "Voidstrap", MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
                 if (!App.LaunchSettings.WatcherFlag.Active)
                     Application.Current?.Shutdown();
             }
@@ -176,9 +169,8 @@ namespace Voidstrap.Utility
                 if (App.Settings?.Prop == null || App.Settings.Prop.WPFSoftwareRender)
                     return;
 
-                App.Settings.Prop.WPFSoftwareRender = true;
-                App.Settings.Save();
-                App.Logger?.WriteLine("RenderAcceleration::TripSentinel", "The last hardware rendered session stopped before it rendered stably, falling back to software rendering");
+                _sessionFallback = true;
+                App.Logger?.WriteLine("RenderAcceleration::TripSentinel", "The last hardware rendered session stopped before it rendered stably, using software rendering for this session only");
             }
             catch (Exception ex)
             {
