@@ -18,8 +18,15 @@ internal sealed partial class NativeSlide
 	private const uint SwpNoZOrder = 0x0004;
 	private const uint SwpNoActivate = 0x0010;
 	private const uint SwpNoOwnerZOrder = 0x0200;
+	private const uint SwpNoSendChanging = 0x0400;
+	private const uint SwpDeferErase = 0x2000;
 	private readonly Window _window;
-	private readonly Stopwatch _clock = new();
+	private TimeSpan _startFrame;
+	private TimeSpan _lastFrame;
+	private int _placedLeft;
+	private int _placedTop;
+	private Int32Rect _placedRegion;
+	private bool _placed;
 	private IntPtr _handle;
 	private Point _from;
 	private Point _to;
@@ -92,8 +99,10 @@ internal sealed partial class NativeSlide
 		_length = Math.Max(1, length.TotalMilliseconds);
 		_easeOut = easeOut;
 		_finished = finished;
+		_placed = false;
+		_startFrame = TimeSpan.MinValue;
+		_lastFrame = TimeSpan.MinValue;
 		Place(from);
-		_clock.Restart();
 		CompositionTarget.Rendering += OnFrame;
 		_subscribed = true;
 		return true;
@@ -132,9 +141,14 @@ internal sealed partial class NativeSlide
 
 	private void OnFrame(object? sender, EventArgs e)
 	{
-		double progress = Math.Clamp(_clock.Elapsed.TotalMilliseconds / _length, 0, 1);
-		// Cubic ease, out for arriving and in for leaving, no overshoot so it settles exactly once
-		double eased = _easeOut ? 1 - Math.Pow(1 - progress, 3) : progress * progress * progress;
+		TimeSpan frame = e is RenderingEventArgs rendering ? rendering.RenderingTime : TimeSpan.FromTicks(Stopwatch.GetTimestamp() * TimeSpan.TicksPerSecond / Stopwatch.Frequency);
+		if (frame == _lastFrame)
+			return;
+		_lastFrame = frame;
+		if (_startFrame == TimeSpan.MinValue)
+			_startFrame = frame;
+		double progress = Math.Clamp((frame - _startFrame).TotalMilliseconds / _length, 0, 1);
+		double eased = _easeOut ? 1 - Math.Pow(1 - progress, 4) : progress * progress * progress;
 		Place(new Point(_from.X + (_to.X - _from.X) * eased, _from.Y + (_to.Y - _from.Y) * eased));
 		if (progress < 1)
 			return;
@@ -161,11 +175,6 @@ internal sealed partial class NativeSlide
 			return;
 		int left = (int)Math.Round(position.X);
 		int top = (int)Math.Round(position.Y);
-		if (!PortableOverlay.Active && GetWindowRect(_handle, out NativeRect current))
-		{
-			_width = current.Right - current.Left;
-			_height = current.Bottom - current.Top;
-		}
 		// Only the part of the window inside the game's area is shown while it moves
 		int x0 = Math.Clamp(_clip.X - left, 0, _width);
 		int y0 = Math.Clamp(_clip.Y - top, 0, _height);
@@ -196,10 +205,28 @@ internal sealed partial class NativeSlide
             Voidstrap.Integrations.Overlays.LinuxOverlaySurface.WakePresentation(_window);
             return;
         }
-		IntPtr region = CreateRectRgn(x0, y0, Math.Max(x0, x1), Math.Max(y0, y1));
-		if (region != IntPtr.Zero && SetWindowRgn(_handle, region, false) == 0)
-			_ = DeleteObject(region);
-		_ = SetWindowPos(_handle, IntPtr.Zero, left, top, 0, 0, SwpNoSize | SwpNoZOrder | SwpNoActivate | SwpNoOwnerZOrder);
+		Int32Rect visible = new(x0, y0, Math.Max(0, x1 - x0), Math.Max(0, y1 - y0));
+		bool moved = !_placed || left != _placedLeft || top != _placedTop;
+		bool reshaped = !_placed || !visible.Equals(_placedRegion);
+		if (reshaped)
+		{
+			if (visible.X == 0 && visible.Y == 0 && visible.Width == _width && visible.Height == _height)
+			{
+				_ = SetWindowRgn(_handle, IntPtr.Zero, false);
+			}
+			else
+			{
+				IntPtr region = CreateRectRgn(visible.X, visible.Y, visible.X + visible.Width, visible.Y + visible.Height);
+				if (region != IntPtr.Zero && SetWindowRgn(_handle, region, false) == 0)
+					_ = DeleteObject(region);
+			}
+		}
+		if (moved)
+			_ = SetWindowPos(_handle, IntPtr.Zero, left, top, 0, 0, SwpNoSize | SwpNoZOrder | SwpNoActivate | SwpNoOwnerZOrder | SwpNoSendChanging | SwpDeferErase);
+		_placedLeft = left;
+		_placedTop = top;
+		_placedRegion = visible;
+		_placed = true;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]

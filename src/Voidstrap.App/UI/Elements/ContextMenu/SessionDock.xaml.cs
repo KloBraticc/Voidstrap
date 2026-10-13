@@ -924,6 +924,8 @@ public partial class SessionDock : Window
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(PlacePopout));
     }
 
+    private bool _dimmerFrameHooked;
+
     private void ShowDimmer()
     {
         if (_dimmer == null)
@@ -981,6 +983,7 @@ public partial class SessionDock : Window
         _dimmerTarget = target;
         if (Math.Abs(_dimmerFrom - target) < 0.005)
         {
+            UnhookDimmerFrame();
             _dimmerFade.Stop();
             SetDimmerAlpha(target);
             if (target == 0)
@@ -1013,8 +1016,31 @@ public partial class SessionDock : Window
             return;
         }
         _dimmerFadeStarted = Environment.TickCount64;
-        if (!_dimmerFade.IsEnabled)
-            _dimmerFade.Start();
+        if (!_dimmerFrameHooked)
+        {
+            CompositionTarget.Rendering += OnDimmerFrame;
+            _dimmerFrameHooked = true;
+        }
+    }
+
+    private void OnDimmerFrame(object? sender, EventArgs e)
+    {
+        double progress = Math.Clamp((Environment.TickCount64 - _dimmerFadeStarted) / DimmerFadeMs, 0, 1);
+        double eased = progress < 0.5 ? 2 * progress * progress : 1 - Math.Pow(-2 * progress + 2, 2) / 2;
+        SetDimmerAlpha(_dimmerFrom + (_dimmerTarget - _dimmerFrom) * eased);
+        if (progress < 1)
+            return;
+        UnhookDimmerFrame();
+        if (_dimmerTarget == 0)
+            ParkDimmer();
+    }
+
+    private void UnhookDimmerFrame()
+    {
+        if (!_dimmerFrameHooked)
+            return;
+        CompositionTarget.Rendering -= OnDimmerFrame;
+        _dimmerFrameHooked = false;
     }
 
     private void OnLinuxDimmerFrame(object? sender, EventArgs e)
@@ -1065,6 +1091,7 @@ public partial class SessionDock : Window
 
     private void DestroyDimmer()
     {
+        UnhookDimmerFrame();
         _linuxDimmerGeneration++;
         CompositionTarget.Rendering -= OnLinuxDimmerFrame;
         _linuxDimmerFade.BeginAnimation(TranslateTransform.YProperty, null);
