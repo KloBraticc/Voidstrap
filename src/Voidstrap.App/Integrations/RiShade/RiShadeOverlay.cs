@@ -46,6 +46,9 @@ namespace Voidstrap.Integrations.RiShade
         private const int RtUp0 = 10;
         private const int RtSceneBlurA = 14;
         private const int RtSceneBlurB = 15;
+        private const int RtSsrHistoryA = 2;
+        private const int RtSsrHistoryB = 16;
+        private const float SsrHistoryBlend = 0.25f;
         private const int AiFeedStride = 2;
         private const int StagingCount = 3;
         private const float DepthPredictLead = 2.5f;
@@ -60,9 +63,9 @@ namespace Voidstrap.Integrations.RiShade
         private ID3D11Device? _device;
         private ID3D11DeviceContext? _context;
 
-        private readonly ID3D11Texture2D?[] _workTex = new ID3D11Texture2D?[16];
-        private readonly ID3D11ShaderResourceView?[] _workSrv = new ID3D11ShaderResourceView?[16];
-        private readonly ID3D11RenderTargetView?[] _workRtv = new ID3D11RenderTargetView?[16];
+        private readonly ID3D11Texture2D?[] _workTex = new ID3D11Texture2D?[17];
+        private readonly ID3D11ShaderResourceView?[] _workSrv = new ID3D11ShaderResourceView?[17];
+        private readonly ID3D11RenderTargetView?[] _workRtv = new ID3D11RenderTargetView?[17];
 
         private ID3D11VertexShader? _vs;
         private ID3D11PixelShader? _psMain;
@@ -76,6 +79,9 @@ namespace Voidstrap.Integrations.RiShade
         private ID3D11PixelShader? _psGi;
         private ID3D11PixelShader? _psSsr;
         private ID3D11PixelShader? _psComposite;
+        private ID3D11PixelShader? _psSsrResolve;
+        private bool _ssrHistoryValid;
+        private bool _ssrHistoryFlip;
         private ID3D11PixelShader? _psPassthrough;
         private ID3D11SamplerState? _sampler;
         private ID3D11Buffer? _cbuffer;
@@ -181,6 +187,7 @@ namespace Voidstrap.Integrations.RiShade
             _psGi = CreatePs("PSGi");
             _psSsr = CreatePs("PSSsr");
             _psComposite = CreatePs("PSComposite");
+            _psSsrResolve = CreatePs("PSSsrResolve");
             _psPassthrough = CreatePs("PSPassthrough");
             App.Logger.WriteLine(LOG_IDENT, $"Shader pipeline created in {sw.ElapsedMilliseconds}ms");
 
@@ -300,6 +307,7 @@ namespace Voidstrap.Integrations.RiShade
             _aiDepthUpSrv = _device!.CreateShaderResourceView(_aiDepthUpTex);
             _aiDepthUpRtv = _device!.CreateRenderTargetView(_aiDepthUpTex);
             _lastPassPx = new Vector4(-1f);
+            _ssrHistoryValid = false;
         }
 
         private int LvlW(int level) => Math.Max(8, _rw >> level);
@@ -318,14 +326,18 @@ namespace Voidstrap.Integrations.RiShade
                 int level = index - RtUp0 + 1;
                 return ((uint)LvlW(level), (uint)LvlH(level));
             }
-            if (index == RtSceneBlurA || index == RtSceneBlurB || index == RtGlossWide || index == RtGlossTemp)
+            if (index == RtSceneBlurA || index == RtSceneBlurB || index == RtGlossWide || index == RtGlossTemp || index == RtSsrHistoryA || index == RtSsrHistoryB)
                 return ((uint)LvlW(1), (uint)LvlH(1));
             return ((uint)_rw, (uint)_rh);
         }
 
         private void SetPassPx(int srcW, int srcH, bool upscale = false)
         {
-            var v = new Vector4(1f / Math.Max(srcW, 1), 1f / Math.Max(srcH, 1), upscale ? 1f : 0f, 0f);
+            SetPassVector(new Vector4(1f / Math.Max(srcW, 1), 1f / Math.Max(srcH, 1), upscale ? 1f : 0f, 0f));
+        }
+
+        private void SetPassVector(Vector4 v)
+        {
             if (v == _lastPassPx)
                 return;
             _lastPassPx = v;
@@ -752,10 +764,22 @@ namespace Voidstrap.Integrations.RiShade
                 DrawPass(_psBlurH!, _workRtv[RtGlossTemp]!, _workSrv[RtSceneBlurA]);
                 DrawPass(_psBlurV!, _workRtv[RtGlossWide]!, _workSrv[RtGlossTemp]);
                 DrawPass(_psSsr!, _workRtv[RtSceneBlurB]!, _workSrv[scene], _workSrv[RtGlossWide], _workSrv[RtSceneBlurA], depthSrv);
+                int historyPrevious = _ssrHistoryFlip ? RtSsrHistoryB : RtSsrHistoryA;
+                int historyNext = _ssrHistoryFlip ? RtSsrHistoryA : RtSsrHistoryB;
+                float shiftU = _velAccumX / RiShadeDepth.Size;
+                float shiftV = _velAccumY / RiShadeDepth.Size;
+                SetPassVector(new Vector4(shiftU, shiftV, _ssrHistoryValid ? SsrHistoryBlend : 1f, 0f));
+                DrawPass(_psSsrResolve!, _workRtv[historyNext]!, _workSrv[RtSceneBlurB], _workSrv[historyPrevious]);
+                _ssrHistoryFlip = !_ssrHistoryFlip;
+                _ssrHistoryValid = true;
                 SetVp(_rw, _rh);
                 int other = scene == RtA ? RtB : RtA;
-                DrawPass(_psComposite!, _workRtv[other]!, _workSrv[scene], _workSrv[RtSceneBlurB]);
+                DrawPass(_psComposite!, _workRtv[other]!, _workSrv[scene], _workSrv[historyNext]);
                 scene = other;
+            }
+            else
+            {
+                _ssrHistoryValid = false;
             }
 
             foreach (var custom in _customEffects)
@@ -831,6 +855,7 @@ namespace Voidstrap.Integrations.RiShade
             _depthUnusedSinceMs = 0;
             _depthConfidence = 1f;
             _confidenceAtMs = 0;
+            _ssrHistoryValid = false;
             _stagingQueue.Clear();
             Array.Clear(_stagingBusy);
         }
@@ -878,6 +903,7 @@ namespace Voidstrap.Integrations.RiShade
                 _psGi?.Dispose();
                 _psSsr?.Dispose();
                 _psComposite?.Dispose();
+                _psSsrResolve?.Dispose();
                 _psPassthrough?.Dispose();
                 _sampler?.Dispose();
                 _cbuffer?.Dispose();
@@ -909,6 +935,7 @@ namespace Voidstrap.Integrations.RiShade
                 _psGi = null;
                 _psSsr = null;
                 _psComposite = null;
+                _psSsrResolve = null;
                 _psPassthrough = null;
                 _sampler = null;
                 _cbuffer = null;

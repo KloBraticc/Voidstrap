@@ -19,6 +19,7 @@ namespace Voidstrap.Integrations.RiShade
         public static readonly string[] PixelEntries =
         [
             "PSMain",
+            "PSSsrResolve",
             "PSDownsamplePrefilter",
             "PSDownsample",
             "PSUpsampleTent",

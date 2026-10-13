@@ -9,6 +9,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Voidstrap.UI.Elements.Base;
 using Voidstrap.UI.ViewModels.Settings;
 using Wpf.Ui.Common;
@@ -73,6 +74,8 @@ public partial class RiShadeWindow : WpfUiWindow
 
 	private Group? _selected;
 
+	private readonly DispatcherTimer _depthStatusTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(1) };
+
 	static RiShadeWindow()
 	{
 		FallbackBrush.Freeze();
@@ -87,6 +90,8 @@ public partial class RiShadeWindow : WpfUiWindow
 		RefreshGroupStates();
 		GroupList.ItemsSource = _groups;
 		_vm.PropertyChanged += Vm_PropertyChanged;
+		_depthStatusTimer.Tick += DepthStatusTimer_Tick;
+		_depthStatusTimer.Start();
 		Closed += RiShadeWindow_Closed;
 		GroupList.SelectedIndex = 0;
 	}
@@ -173,7 +178,7 @@ public partial class RiShadeWindow : WpfUiWindow
 			Sl("Radius", "AoRadius", 0.001, 0.1, 4),
 			Cb("Samples", "AoSamplesIndex", _vm.AoSampleNames),
 		});
-		Add("Reflections", "Screen space reflections. Still experimental and can flicker.", new[]
+		Add("Reflections", "Reflections on floors the depth estimate can find. Nothing shows while no floor is in view. Uses the depth estimate.", new[]
 		{
 			Tg("Enable reflections", "SsrEnabled"),
 			Sl("Intensity", "SsrIntensity", 0, 1),
@@ -449,7 +454,7 @@ public partial class RiShadeWindow : WpfUiWindow
 		_selected = group;
 		group.Panel ??= BuildPanel(group);
 		GroupTitle.Text = group.Name;
-		GroupHint.Text = group.Hint;
+		UpdateGroupHint();
 		GroupHost.Content = group.Panel;
 		BindingOperations.ClearBinding(GroupToggle, System.Windows.Controls.Primitives.ToggleButton.IsCheckedProperty);
 		if (group.Gate.Length > 0)
@@ -461,6 +466,32 @@ public partial class RiShadeWindow : WpfUiWindow
 		{
 			GroupToggle.Visibility = Visibility.Collapsed;
 		}
+	}
+
+	private void DepthStatusTimer_Tick(object? sender, EventArgs e)
+	{
+		UpdateGroupHint();
+	}
+
+	private void UpdateGroupHint()
+	{
+		if (_selected == null)
+			return;
+		string hint = _selected.Hint;
+		if (hint.Contains("depth estimate", StringComparison.Ordinal))
+		{
+			string status = Voidstrap.Integrations.RiShade.RiShadeDepth.IsFailed
+				? "The depth estimate could not start, so this effect is off. The Voidstrap log has the reason."
+				: Voidstrap.Integrations.RiShade.RiShadeDepth.IsReady
+					? ""
+					: Voidstrap.Integrations.RiShade.RiShadeDepth.IsActive
+						? "The depth estimate is loading, the first time it also downloads its model. This effect appears once it is ready."
+						: "The depth estimate starts in game once this effect is on.";
+			if (status.Length > 0)
+				hint += "\n" + status;
+		}
+		if (GroupHint.Text != hint)
+			GroupHint.Text = hint;
 	}
 
 	private void GroupReset_Click(object sender, RoutedEventArgs e)
@@ -480,6 +511,8 @@ public partial class RiShadeWindow : WpfUiWindow
 	{
 		Closed -= RiShadeWindow_Closed;
 		_vm.PropertyChanged -= Vm_PropertyChanged;
+		_depthStatusTimer.Stop();
+		_depthStatusTimer.Tick -= DepthStatusTimer_Tick;
 		GroupList.SelectionChanged -= GroupList_SelectionChanged;
 		foreach (Group group in _groups)
 		{

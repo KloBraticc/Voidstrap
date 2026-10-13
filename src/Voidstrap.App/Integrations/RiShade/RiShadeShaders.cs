@@ -646,6 +646,33 @@ float4 PSSsr(VSOut inp) : SV_Target
     return float4(refl, w);
 }
 
+float4 PSSsrResolve(VSOut inp) : SV_Target
+{
+    float4 cur = tex0.SampleLevel(smp, inp.uv, 0.0);
+    float2 huv = inp.uv - passPx.xy;
+    if (passPx.z >= 0.999 || huv.x < 0.0 || huv.x > 1.0 || huv.y < 0.0 || huv.y > 1.0)
+        return cur;
+    float w;
+    float h;
+    tex0.GetDimensions(w, h);
+    float2 px = 1.0 / float2(w, h);
+    float4 lo = cur;
+    float4 hi = cur;
+    [unroll]
+    for (int y = -1; y <= 1; y++)
+    {
+        [unroll]
+        for (int x = -1; x <= 1; x++)
+        {
+            float4 n = tex0.SampleLevel(smp, inp.uv + float2(x, y) * px, 0.0);
+            lo = min(lo, n);
+            hi = max(hi, n);
+        }
+    }
+    float4 hist = clamp(tex1.SampleLevel(smp, huv, 0.0), lo, hi);
+    return lerp(hist, cur, passPx.z);
+}
+
 float4 PSComposite(VSOut inp) : SV_Target
 {
     float3 scene = tex0.Sample(smp, inp.uv).rgb;
