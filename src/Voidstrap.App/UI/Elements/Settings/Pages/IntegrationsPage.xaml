@@ -185,8 +185,7 @@
                     <controls:OptionControl Header="Game history" Description="View games you recently played.">
                         <Button Content="Open" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding OpenHistoryWindowCommand}" />
                     </controls:OptionControl>
-          <TextBlock Margin="0,16,0,0" FontSize="20" FontWeight="Medium" Text="Music" />
-          <controls:OptionControl Header="View Music Player" Description="View and listen to your music, or manage from the tray menu.">
+                    <controls:OptionControl Header="View Music Player" Description="View and listen to your music, or manage from the tray menu.">
             <Button Content="View" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding MusicWindowCommand}" />
           </controls:OptionControl>
           <TextBlock Margin="0,16,0,0" Text="{x:Static resources:Strings.Menu_Integrations_Custom_Title}" FontSize="20" FontWeight="Medium" />
