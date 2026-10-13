@@ -35,30 +35,79 @@
         </Trigger>
       </Style.Triggers>
     </Style>
+    <Style x:Key="PreviewFrame" TargetType="Border">
+      <Setter Property="Height" Value="150" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Background" Value="#FF15171C" />
+      <Setter Property="BorderBrush" Value="#1FFFFFFF" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="ClipToBounds" Value="True" />
+    </Style>
+    <Style x:Key="PreviewLabel" TargetType="TextBlock">
+      <Setter Property="Margin" Value="10,7,0,0" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+      <Setter Property="VerticalAlignment" Value="Top" />
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="Foreground" Value="#99FFFFFF" />
+    </Style>
+    <Style x:Key="OptionLabel" TargetType="TextBlock">
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
   </UserControl.Resources>
 
   <StackPanel>
     <TextBlock Margin="2,24,0,0" FontSize="16" FontWeight="SemiBold" Text="Mod Generator" />
+    <TextBlock Margin="2,2,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Recolour Roblox's menu and top bar icons, then save it as a mod." />
 
     <ui:CardControl Margin="0,10,0,0" Focusable="False" ui:RinControlMotion.Enabled="True">
       <ui:CardControl.Header>
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
+        <StackPanel>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="10" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Style="{StaticResource PreviewFrame}">
+              <Grid>
+                <Image x:Name="BeforeImage" Margin="8,24,8,8" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
+                <TextBlock Style="{StaticResource PreviewLabel}" Text="Original" />
+              </Grid>
+            </Border>
+            <Border Grid.Column="2" Style="{StaticResource PreviewFrame}">
+              <Grid>
+                <Image x:Name="AfterImage" Margin="8,24,8,8" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
+                <TextBlock Style="{StaticResource PreviewLabel}" Text="Your mod" />
+                <ui:ProgressRing x:Name="PreviewRing" Width="22" Height="22" IsIndeterminate="True" Visibility="Collapsed" />
+              </Grid>
+            </Border>
+          </Grid>
+          <Border x:Name="FontPreviewCard" Height="52" Margin="0,10,0,0" CornerRadius="8" Background="#FF15171C" BorderBrush="#1FFFFFFF" BorderThickness="1" ClipToBounds="True" Visibility="Collapsed">
+            <Grid>
+              <Image x:Name="FontPreviewImage" Margin="10,20,10,8" Stretch="Uniform" HorizontalAlignment="Left" />
+              <TextBlock Style="{StaticResource PreviewLabel}" Text="Icon font" />
+            </Grid>
+          </Border>
+          <TextBlock x:Name="PreviewCaption" Margin="2,8,0,0" FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Real icons from your Roblox build" />
+          <TextBlock x:Name="PreviewNote" Margin="2,2,0,0" FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
 
-        <StackPanel Grid.Column="0" Margin="0,0,18,0">
-          <TextBlock FontSize="13" FontWeight="SemiBold" Text="Style" />
-          <ComboBox x:Name="FillPicker" Margin="0,6,0,0" SelectionChanged="Input_Changed">
-            <ComboBoxItem Content="Solid colour" />
-            <ComboBoxItem Content="Gradient" />
-            <ComboBoxItem Content="Image" />
-          </ComboBox>
+          <Grid Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" FontWeight="SemiBold" Text="Colour" />
+            <ComboBox x:Name="FillPicker" Grid.Column="1" MinWidth="160" SelectionChanged="Input_Changed">
+              <ComboBoxItem Content="Solid colour" />
+              <ComboBoxItem Content="Gradient" />
+              <ComboBoxItem Content="Image" />
+            </ComboBox>
+          </Grid>
 
-          <StackPanel x:Name="SolidPanel" Margin="0,12,0,0">
-            <TextBlock FontSize="12.5" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Colour" />
-            <Grid Margin="0,6,0,0">
+          <StackPanel x:Name="SolidPanel" Margin="0,10,0,0">
+            <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -69,9 +118,8 @@
             <WrapPanel x:Name="PresetPanel" Margin="0,8,0,0" />
           </StackPanel>
 
-          <StackPanel x:Name="GradientPanel" Margin="0,12,0,0" Visibility="Collapsed">
-            <TextBlock FontSize="12.5" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Colours, the middle one is optional" />
-            <Grid Margin="0,6,0,0">
+          <StackPanel x:Name="GradientPanel" Margin="0,10,0,0" Visibility="Collapsed">
+            <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="8" />
@@ -93,7 +141,7 @@
                   <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Border x:Name="GradientMiddleSwatch" Width="30" Height="30" Margin="0,0,6,0" Style="{StaticResource ColorSwatch}" MouseLeftButtonDown="Swatch_Click" />
-                <ui:TextBox x:Name="GradientMiddleBox" Grid.Column="1" PlaceholderText="Middle" TextChanged="Input_Changed" />
+                <ui:TextBox x:Name="GradientMiddleBox" Grid.Column="1" PlaceholderText="Middle (optional)" TextChanged="Input_Changed" />
               </Grid>
               <Grid Grid.Column="4">
                 <Grid.ColumnDefinitions>
@@ -116,156 +164,113 @@
             </Grid>
           </StackPanel>
 
-          <StackPanel x:Name="ImagePanel" Margin="0,12,0,0" Visibility="Collapsed">
-            <TextBlock FontSize="12.5" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Every icon is filled with this image, cropped to its shape" />
-            <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+          <StackPanel x:Name="ImagePanel" Margin="0,10,0,0" Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal">
               <ui:Button Content="Choose image" Icon="Image24" Appearance="Secondary" Click="ChooseFill_Click" />
-              <TextBlock x:Name="FillImageText" Margin="10,0,0,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="260" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="No image chosen" />
+              <TextBlock x:Name="FillImageText" Margin="10,0,0,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="320" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="No image chosen" />
             </StackPanel>
+            <TextBlock Margin="0,6,0,0" FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Every icon is filled with this image, cropped to its shape." />
           </StackPanel>
-
-          <Grid Margin="0,16,0,0">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel VerticalAlignment="Center">
-              <TextBlock FontSize="13" Text="Icon sizes" />
-              <TextBlock FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Roblox picks a size for your screen, all sizes is safest" />
-            </StackPanel>
-            <ComboBox x:Name="ScalePicker" Grid.Column="1" MinWidth="120" VerticalAlignment="Center" SelectionChanged="Input_Changed">
-              <ComboBoxItem Content="All sizes" />
-              <ComboBoxItem Content="1x only" />
-              <ComboBoxItem Content="2x only" />
-              <ComboBoxItem Content="3x only" />
-            </ComboBox>
-          </Grid>
-
-          <Grid Margin="0,12,0,0">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel VerticalAlignment="Center">
-              <TextBlock FontSize="13" Text="Recolour the new icon font" />
-              <TextBlock FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Roblox draws most new menu and top bar icons with the Builder Icons font instead of images. Images use their average colour here" />
-            </StackPanel>
-            <ui:ToggleSwitch x:Name="IconFontToggle" Grid.Column="1" VerticalAlignment="Center" Checked="Input_Changed" Unchecked="Input_Changed" />
-          </Grid>
-
-          <Grid Margin="0,12,0,0">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel VerticalAlignment="Center">
-              <TextBlock FontSize="13" Text="Keep icon shading" />
-              <TextBlock FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Two tone icons keep their darker details instead of becoming one flat shape" />
-            </StackPanel>
-            <ui:ToggleSwitch x:Name="KeepShadingToggle" Grid.Column="1" VerticalAlignment="Center" Checked="Input_Changed" Unchecked="Input_Changed" />
-          </Grid>
-
-          <Grid Margin="0,12,0,0">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel VerticalAlignment="Center">
-              <TextBlock FontSize="13" Text="Keep coloured icons" />
-              <TextBlock FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Leaves badges, currency, reactions, logos and other full colour art untouched" />
-            </StackPanel>
-            <ui:ToggleSwitch x:Name="KeepColoredToggle" Grid.Column="1" VerticalAlignment="Center" Checked="Input_Changed" Unchecked="Input_Changed" />
-          </Grid>
-
-          <Grid Margin="0,12,0,0">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel VerticalAlignment="Center">
-              <TextBlock FontSize="13" Text="Also recolour buttons, bubbles and backgrounds" />
-              <TextBlock FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="These shapes are normally tinted by Roblox while it runs, so they stay untouched unless you want everything themed" />
-            </StackPanel>
-            <ui:ToggleSwitch x:Name="RecolorShapesToggle" Grid.Column="1" VerticalAlignment="Center" Checked="Input_Changed" Unchecked="Input_Changed" />
-          </Grid>
-
-          <Grid Margin="0,12,0,0">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel VerticalAlignment="Center">
-              <TextBlock FontSize="13" Text="Also recolour other UI textures" />
-              <TextBlock FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Includes the loose in game and app textures such as settings, chat, player list and inspect menu icons" />
-            </StackPanel>
-            <ui:ToggleSwitch x:Name="UiTexturesToggle" Grid.Column="1" VerticalAlignment="Center" />
-          </Grid>
-
-          <Grid Margin="0,12,0,0">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel VerticalAlignment="Center">
-              <TextBlock FontSize="13" Text="Custom Roblox logo" />
-              <TextBlock x:Name="LogoText" FontSize="11.5" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Replaces the Roblox logo in menus, the app and the loading screen" />
-            </StackPanel>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-              <ui:Button x:Name="ClearLogoButton" Margin="0,0,8,0" Content="Remove" Icon="Delete24" Appearance="Secondary" Visibility="Collapsed" Click="ClearLogo_Click" />
-              <ui:Button Content="Choose" Icon="Add24" Appearance="Secondary" Click="ChooseLogo_Click" />
-            </StackPanel>
-          </Grid>
-
-          <Grid Margin="0,12,0,0">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock VerticalAlignment="Center" Margin="0,0,12,0" FontSize="13" Text="Mod name" />
-            <ui:TextBox x:Name="ModNameBox" Grid.Column="1" PlaceholderText="Generated UI theme" />
-          </Grid>
         </StackPanel>
-
-        <StackPanel Grid.Column="1" Width="264">
-          <TextBlock FontSize="13" FontWeight="SemiBold" Text="Preview" />
-          <TextBlock x:Name="PreviewCaption" Margin="0,2,0,8" FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Real icons from your Roblox build" />
-          <Border Height="168" CornerRadius="8" Background="#FF15171C" BorderBrush="#1FFFFFFF" BorderThickness="1" ClipToBounds="True">
-            <Grid>
-              <Image x:Name="BeforeImage" Margin="6,20,6,6" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
-              <TextBlock Margin="8,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10.5" Foreground="#99FFFFFF" Text="Original" />
-            </Grid>
-          </Border>
-          <Border Height="168" Margin="0,8,0,0" CornerRadius="8" Background="#FF15171C" BorderBrush="#1FFFFFFF" BorderThickness="1" ClipToBounds="True">
-            <Grid>
-              <Image x:Name="AfterImage" Margin="6,20,6,6" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
-              <TextBlock Margin="8,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10.5" Foreground="#99FFFFFF" Text="Generated" />
-              <ui:ProgressRing x:Name="PreviewRing" Width="22" Height="22" IsIndeterminate="True" Visibility="Collapsed" />
-            </Grid>
-          </Border>
-          <Border x:Name="FontPreviewCard" Height="58" Margin="0,8,0,0" CornerRadius="8" Background="#FF15171C" BorderBrush="#1FFFFFFF" BorderThickness="1" ClipToBounds="True" Visibility="Collapsed">
-            <Grid>
-              <Image x:Name="FontPreviewImage" Margin="8,22,8,8" Stretch="Uniform" HorizontalAlignment="Left" />
-              <TextBlock Margin="8,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10.5" Foreground="#99FFFFFF" Text="Icon font" />
-            </Grid>
-          </Border>
-          <TextBlock x:Name="PreviewNote" Margin="0,6,0,0" FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-        </StackPanel>
-
-      </Grid>
       </ui:CardControl.Header>
     </ui:CardControl>
 
+    <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+      <HeaderedContentControl.Header>
+        <StackPanel>
+          <TextBlock FontSize="14" Text="More options" />
+          <TextBlock Margin="0,2,0,0" FontSize="12" Text="Icon sizes, shading, which icons change, and a custom Roblox logo" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+        </StackPanel>
+      </HeaderedContentControl.Header>
+      <StackPanel>
+        <Grid ToolTip="Roblox picks a size for your screen, so all sizes is safest.">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Style="{StaticResource OptionLabel}" Text="Icon sizes" />
+          <ComboBox x:Name="ScalePicker" Grid.Column="1" MinWidth="120" VerticalAlignment="Center" SelectionChanged="Input_Changed">
+            <ComboBoxItem Content="All sizes" />
+            <ComboBoxItem Content="1x only" />
+            <ComboBoxItem Content="2x only" />
+            <ComboBoxItem Content="3x only" />
+          </ComboBox>
+        </Grid>
+
+        <Grid Margin="0,10,0,0" ToolTip="Roblox draws most new menu and top bar icons with its Builder Icons font instead of images. With an image fill, its average colour is used.">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Style="{StaticResource OptionLabel}" Text="Recolour the icon font" />
+          <ui:ToggleSwitch x:Name="IconFontToggle" Grid.Column="1" VerticalAlignment="Center" Checked="Input_Changed" Unchecked="Input_Changed" />
+        </Grid>
+
+        <Grid Margin="0,10,0,0" ToolTip="Two tone icons keep their darker details instead of becoming one flat shape.">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Style="{StaticResource OptionLabel}" Text="Keep icon shading" />
+          <ui:ToggleSwitch x:Name="KeepShadingToggle" Grid.Column="1" VerticalAlignment="Center" Checked="Input_Changed" Unchecked="Input_Changed" />
+        </Grid>
+
+        <Grid Margin="0,10,0,0" ToolTip="Leaves badges, currency, reactions, logos and other full colour art untouched.">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Style="{StaticResource OptionLabel}" Text="Keep coloured icons as they are" />
+          <ui:ToggleSwitch x:Name="KeepColoredToggle" Grid.Column="1" VerticalAlignment="Center" Checked="Input_Changed" Unchecked="Input_Changed" />
+        </Grid>
+
+        <Grid Margin="0,10,0,0" ToolTip="Roblox normally tints these shapes while it runs, so leave this off unless you want everything themed.">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Style="{StaticResource OptionLabel}" Text="Recolour buttons, bubbles and backgrounds" />
+          <ui:ToggleSwitch x:Name="RecolorShapesToggle" Grid.Column="1" VerticalAlignment="Center" Checked="Input_Changed" Unchecked="Input_Changed" />
+        </Grid>
+
+        <Grid Margin="0,10,0,0" ToolTip="Includes loose in game and app textures such as settings, chat, player list and inspect menu icons.">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Style="{StaticResource OptionLabel}" Text="Recolour other UI textures" />
+          <ui:ToggleSwitch x:Name="UiTexturesToggle" Grid.Column="1" VerticalAlignment="Center" />
+        </Grid>
+
+        <Grid Margin="0,12,0,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel VerticalAlignment="Center">
+            <TextBlock FontSize="13" Text="Custom Roblox logo" />
+            <TextBlock x:Name="LogoText" FontSize="11.5" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Replaces the Roblox logo in menus, the app and the loading screen" />
+          </StackPanel>
+          <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <ui:Button x:Name="ClearLogoButton" Margin="0,0,8,0" Content="Remove" Icon="Delete24" Appearance="Secondary" Visibility="Collapsed" Click="ClearLogo_Click" />
+            <ui:Button Content="Choose" Icon="Add24" Appearance="Secondary" Click="ChooseLogo_Click" />
+          </StackPanel>
+        </Grid>
+      </StackPanel>
+    </ui:CardExpander>
+
     <ui:CardControl Margin="0,8,0,0" Focusable="False" ui:RinControlMotion.Enabled="True">
       <ui:CardControl.Header>
-        <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
-          <TextBlock x:Name="StatusText" FontSize="12.5" TextWrapping="Wrap" Text="Ready to generate" />
+        <StackPanel Margin="0,0,12,0">
+          <ui:TextBox x:Name="ModNameBox" PlaceholderText="Mod name (Generated UI theme)" />
+          <TextBlock x:Name="StatusText" Margin="2,8,0,0" FontSize="12.5" TextWrapping="Wrap" Text="Ready to generate" />
           <ProgressBar x:Name="GenerateProgress" Margin="0,8,0,0" Height="4" Minimum="0" Maximum="1" Visibility="Collapsed" />
         </StackPanel>
       </ui:CardControl.Header>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-          <ui:Button x:Name="CancelButton" Margin="0,0,8,0" Content="Cancel" Icon="Dismiss24" Appearance="Secondary" Visibility="Collapsed" Click="Cancel_Click" />
-          <ui:Button x:Name="GenerateButton" Content="Generate mod" Icon="Wand24" Appearance="Primary" Background="{DynamicResource SystemAccentColorSecondaryBrush}" Click="Generate_Click" />
-        </StackPanel>
+      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <ui:Button x:Name="CancelButton" Margin="0,0,8,0" Content="Cancel" Icon="Dismiss24" Appearance="Secondary" Visibility="Collapsed" Click="Cancel_Click" />
+        <ui:Button x:Name="GenerateButton" Content="Generate mod" Icon="Wand24" Appearance="Primary" Background="{DynamicResource SystemAccentColorSecondaryBrush}" Click="Generate_Click" />
+      </StackPanel>
     </ui:CardControl>
   </StackPanel>
 </UserControl>
