@@ -7,7 +7,7 @@
   </FrameworkElement.Resources>
   <StackPanel Margin="0,0,14,14">
     <TextBlock Margin="0,0,0,8" FontSize="14" Text="{x:Static resources:Strings.Menu_FastFlags_Description}" />
-    <TabControl Margin="0,0,0,0">
+    <TabControl x:Name="FlagTabs" Margin="0,0,0,0">
       <TabItem>
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
@@ -217,9 +217,15 @@
       </ComboBox>
       <Button Name="CheckSystemButton" Margin="8,0,0,0" Content="Apply Profile" Click="CheckSystemButton_Click" />
     </StackPanel>
+          <ui:CardAction Margin="0,12,0,0" Icon="Wrench24" Click="OpenAdvancedFlags_Click">
+            <StackPanel>
+              <TextBlock FontSize="14" FontWeight="Medium" Text="Advanced FFlags" />
+              <TextBlock Margin="0,2,0,0" FontSize="12" Text="Swap Roblox textures for particles, studs, terrain and water." TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            </StackPanel>
+          </ui:CardAction>
         </StackPanel>
       </TabItem>
-      <TabItem>
+      <TabItem x:Name="AdvancedFlagsTab" Visibility="Collapsed">
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Wrench24" Margin="0,0,6,0" />
@@ -227,6 +233,7 @@
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
+          <ui:Button Margin="0,0,0,8" Icon="ArrowLeft24" Content="Back" Click="CloseAdvancedFlags_Click" />
           <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Informational" Message="These options only swap some of Roblox's built in texture files, like particles, studs, terrain and water. Most games use their own textures and effects, so you may not notice much of a difference." />
           <controls:OptionControl Header="Particles" Description="Fire, smoke, explosions, sparkles and force fields">
             <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding TextureParticleStyle, Mode=TwoWay}">

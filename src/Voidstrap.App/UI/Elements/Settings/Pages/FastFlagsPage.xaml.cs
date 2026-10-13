@@ -435,4 +435,14 @@ public partial class FastFlagsPage : UiPage{
     private static partial Regex CategorySectionPattern { get; }
     [GeneratedRegex("<li>(?<flag>[A-Za-z][A-Za-z0-9_]*)</li>", RegexOptions.IgnoreCase, "en-US")]
     private static partial Regex FlagListItemPattern { get; }
+
+	private void OpenAdvancedFlags_Click(object sender, System.Windows.RoutedEventArgs e)
+	{
+		FlagTabs.SelectedItem = AdvancedFlagsTab;
+	}
+
+	private void CloseAdvancedFlags_Click(object sender, System.Windows.RoutedEventArgs e)
+	{
+		FlagTabs.SelectedIndex = 0;
+	}
 }
