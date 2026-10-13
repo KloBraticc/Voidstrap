@@ -138,14 +138,20 @@
           <controls:OptionControl Header="Ask before moving servers" Description="When a better server is found after you join, ask first instead of moving you right away. No answer within 20 seconds keeps you where you are.">
             <ui:ToggleSwitch IsEnabled="{Binding VoidstrapMatchmakerEnabled}" IsChecked="{Binding MatchmakerAskBeforeMoving, Mode=TwoWay}" />
           </controls:OptionControl>
-          <StackPanel Margin="0,12,0,0" Visibility="{Binding ShowPreferredDatacenterPicker, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <TextBlock FontSize="14" Text="Which datacenter" />
-            <TextBlock Margin="0,2,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Click a pin to pick a datacenter. Drag to pan, scroll to zoom, hover for details." />
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{Binding ShowPreferredDatacenterPicker, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <HeaderedContentControl.Header>
+              <StackPanel>
+                <TextBlock FontSize="14" Text="Which datacenter" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Click a pin to pick a datacenter. Drag to pan, scroll to zoom, hover for details." />
+              </StackPanel>
+            </HeaderedContentControl.Header>
+            <StackPanel>
             <controls:WorldServerMap Height="420" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" Datacenters="{Binding Datacenters}" SelectedKey="{Binding PreferredDatacenterKey, Mode=TwoWay}" UserLatitude="{Binding UserLatitude}" UserLongitude="{Binding UserLongitude}" />
             <controls:OptionControl Margin="0,8,0,0" Header="Preferred datacenter" Description="Voidstrap will always try this one first and only fall back when it has no room">
               <ComboBox Width="280" Padding="10,5,10,5" DisplayMemberPath="Display" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" ItemsSource="{Binding PreferredDatacenterOptions}" SelectedItem="{Binding SelectedPreferredDatacenter, Mode=TwoWay}" />
             </controls:OptionControl>
-          </StackPanel>
+            </StackPanel>
+          </ui:CardExpander>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <Grid>
