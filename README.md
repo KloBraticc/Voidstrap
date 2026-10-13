@@ -260,7 +260,7 @@ To install it on NixOS, add the flake to your system flake:
 
 `hardware.graphics.enable` provides the graphics drivers Voidstrap renders with, and `services.flatpak.enable` lets Voidstrap install and run Sober. The flake also provides `overlays.default`, which adds `pkgs.voidstrap`.
 
-To update, run `nix flake update voidstrap` in your configuration and rebuild.
+The flake installs the latest release. To update, run `nix flake update voidstrap` in your configuration and rebuild.
 
 </details>
 
@@ -391,10 +391,10 @@ The script publishes with Windows .NET and packages through WSL. Without WSL and
 With [Nix](https://nixos.org/download) and flakes enabled, build from the repository root:
 
 ```bash
-nix build .#voidstrap
+nix build .#voidstrap-git
 ```
 
-Output: `result/bin/voidstrap`. Run `nix develop` for a shell with the .NET SDK, Rust and every library the build needs. The NuGet packages are locked in `nix/deps.json`. After changing package references, update the lock with `nix build .#voidstrap.fetch-deps && ./result nix/deps.json`.
+This builds the current checkout, while `.#voidstrap` builds the latest release. Output: `result/bin/voidstrap`. Run `nix develop` for a shell with the .NET SDK, Rust and every library the build needs. The NuGet packages are locked in `nix/deps.json`. After changing package references, update the lock with `nix build .#voidstrap.fetch-deps && ./result nix/deps.json`.
 
 </details>
 

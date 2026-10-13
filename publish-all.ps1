@@ -64,7 +64,7 @@ trap {
     Exit-Script 1
 }
 
-$validOnly = @('windows', 'linux-x64', 'linux-arm64', 'linux-musl-x64', 'linux-musl-arm64', 'osx-x64', 'osx-arm64', 'android', 'all')
+$validOnly = @('windows', 'linux-x64', 'linux-arm64', 'linux-musl-x64', 'linux-musl-arm64', 'osx-x64', 'osx-arm64', 'android', 'nix', 'all')
 $Only = @($Only | ForEach-Object { $_ -split ',' } | ForEach-Object { $_.Trim().ToLowerInvariant() } | Where-Object { $_ })
 $invalidOnly = @($Only | Where-Object { $validOnly -notcontains $_ })
 if ($Only.Count -eq 0 -or $invalidOnly.Count -gt 0) {
@@ -1055,6 +1055,82 @@ function Get-VoidstrapVersion {
     return $match.Groups[1].Value
 }
 
+function Get-LatestReleaseVersion {
+    try {
+        [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+        $release = Invoke-RestMethod -Uri 'https://api.github.com/repos/KloBraticc/Voidstrap/releases/latest' -TimeoutSec 20 -UseBasicParsing
+        return ([string]$release.tag_name) -replace '^v', ''
+    } catch {
+        return $null
+    }
+}
+
+function Update-NixPackage {
+    $packageFile = Join-Path $Root 'nix/package.nix'
+    $match = [regex]::Match((Get-Content -Raw -LiteralPath $packageFile), 'version = "([0-9.]+)";')
+    if (-not $match.Success) {
+        throw "The package version is unavailable in $packageFile"
+    }
+    $current = $match.Groups[1].Value
+    $latest = Get-LatestReleaseVersion
+    if (-not $latest) {
+        $PackageNotes.Add('Nix package: the latest GitHub release could not be read, the package stays on ' + $current + '.')
+        return
+    }
+    if ($latest -eq $current) {
+        Write-Host "Nix package: already on the latest release $latest" -ForegroundColor DarkGray
+        return
+    }
+
+    $docker = Get-Command docker -ErrorAction SilentlyContinue
+    $dockerInfo = if ($docker) { Invoke-NativeWithTimeout -FilePath $docker.Source -Arguments @('info', '--format', '{{.ServerVersion}}') -TimeoutSeconds 20 } else { $null }
+    if (-not $dockerInfo -or $dockerInfo.ExitCode -ne 0) {
+        $PackageNotes.Add("Nix package: start Docker Desktop and run with -Only nix to move it from $current to $latest.")
+        return
+    }
+
+    Write-Host "Nix package: updating $current to $latest, this builds the release in Docker" -ForegroundColor Cyan
+    $workDir = Join-Path ([System.IO.Path]::GetTempPath()) ('voidstrap-nix-' + [guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Force -Path $workDir | Out-Null
+    $log = Join-Path $ArtifactDir 'nix.log'
+    New-Item -ItemType Directory -Force -Path $ArtifactDir | Out-Null
+    $updateScript = @(
+        'set -e',
+        'export NIX_CONFIG="experimental-features = nix-command flakes"',
+        "git config --global --add safe.directory '*'",
+        'mkdir -p /work',
+        'git -C /src archive HEAD | tar -x -C /work',
+        'cd /work',
+        'git init -q && git add -A && git -c user.name=nix -c user.email=nix@localhost commit -qm work',
+        'nix run nixpkgs#nix-update -- --flake voidstrap --version "$1" --subpackage voidimage',
+        'nix build .#voidstrap -o /tmp/result',
+        'test -x /tmp/result/bin/voidstrap',
+        'test -e /tmp/result/lib/voidstrap/libvoidimage.so',
+        'cp nix/package.nix nix/deps.json /out/'
+    ) -join "`n"
+    [System.IO.File]::WriteAllText((Join-Path $workDir 'update.sh'), $updateScript + "`n")
+    try {
+        $arguments = "run --rm --privileged -v voidstrap-nix:/nix -v `"${Root}:/src:ro`" -v `"${workDir}:/out`" nixos/nix:latest sh /out/update.sh $latest"
+        $process = Start-Process -FilePath $docker.Source -ArgumentList $arguments -NoNewWindow -PassThru -RedirectStandardOutput $log -RedirectStandardError "$log.err"
+        $null = $process.Handle
+        while (-not $process.WaitForExit(15000)) {
+            Write-Host "Nix package: still building $latest" -ForegroundColor DarkGray
+        }
+        Get-Content -LiteralPath "$log.err" -ErrorAction SilentlyContinue | Add-Content -LiteralPath $log
+        Remove-Item -LiteralPath "$log.err" -Force -ErrorAction SilentlyContinue
+        $updated = Join-Path $workDir 'package.nix'
+        if ($process.ExitCode -ne 0 -or -not (Test-Path -LiteralPath $updated)) {
+            $PackageNotes.Add("Nix package: updating to $latest failed, see $log")
+            return
+        }
+        Copy-Item -LiteralPath $updated -Destination $packageFile -Force
+        Copy-Item -LiteralPath (Join-Path $workDir 'deps.json') -Destination (Join-Path $Root 'nix/deps.json') -Force
+        Write-Host "Nix package: updated to $latest, commit nix/package.nix and nix/deps.json" -ForegroundColor Green
+    } finally {
+        Remove-Item -LiteralPath $workDir -Recurse -Force -ErrorAction SilentlyContinue
+    }
+}
+
 $script:HeartbeatClock = [System.Diagnostics.Stopwatch]::StartNew()
 
 function Write-Heartbeat {
@@ -1251,6 +1327,14 @@ if ($RequestedAll) {
 $AndroidExplicit = $Only -contains 'android'
 $BuildAndroid = $AndroidExplicit -or $RequestedAll
 $PackageNotes = [System.Collections.Generic.List[string]]::new()
+
+if (@($Only | Where-Object { $_ -ne 'nix' }).Count -eq 0) {
+    Update-NixPackage
+    foreach ($note in $PackageNotes) {
+        Write-Host $note -ForegroundColor Yellow
+    }
+    Exit-Script ([int]($PackageNotes.Count -gt 0))
+}
 
 if ($Targets.Count -eq 0 -and -not $BuildAndroid) {
     throw "Nothing matches -Only $($Only -join ', ')"
@@ -1738,8 +1822,13 @@ finally {
     }
 }
 
+if ($RequestedAll -or $Only -contains 'nix') {
+    Update-NixPackage
+}
+
 $sw.Stop()
 Write-Host ''
+
 if ($PackageNotes.Count -gt 0) {
     Write-Host 'Not published on this host:' -ForegroundColor DarkYellow
     foreach ($note in $PackageNotes) {

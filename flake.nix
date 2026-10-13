@@ -17,7 +17,8 @@
     in
     {
       packages = forAllSystems (pkgs: rec {
-        voidstrap = (pkgs.callPackage ./nix/package.nix { }).overrideAttrs {
+        voidstrap = pkgs.callPackage ./nix/package.nix { };
+        voidstrap-git = voidstrap.overrideAttrs {
           inherit version;
           src = self;
         };
@@ -30,7 +31,7 @@
 
       devShells = forAllSystems (pkgs: {
         default = pkgs.mkShell {
-          inputsFrom = [ self.packages.${pkgs.stdenv.hostPlatform.system}.voidstrap ];
+          inputsFrom = [ self.packages.${pkgs.stdenv.hostPlatform.system}.voidstrap-git ];
           packages = [
             pkgs.cargo
             pkgs.rustc
