@@ -47,10 +47,10 @@ float4 PSBlur(VSOut inp) : SV_Target
     float3 center = tex0.SampleLevel(smp, inp.uv, 0).rgb;
     float2 v = motionAt(inp.uv);
     float lenV = length(v);
-    if (lenV < 0.5)
+    [branch] if (lenV < 0.75)
         return float4(center, 1.0);
 
-    int taps = (int)clamp(ceil(lenV * 0.4), 4.0, 32.0);
+    int taps = (int)clamp(ceil(lenV * 0.2), 3.0, 12.0);
     float jitter = frac(52.9829189 * frac(dot(inp.pos.xy, float2(0.06711056, 0.00583715)))) - 0.5;
     float3 sum = center;
     [loop] for (int i = 0; i < taps; i++)

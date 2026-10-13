@@ -1961,15 +1961,24 @@ namespace Voidstrap.Integrations.Overlays
                     _aaAttached = false;
                 }
             }
+            bool blurredIntoBackBuffer = false;
             if (mbOn && _mbAttached)
             {
                 try
                 {
-                    int mbStage = ReferenceEquals(composited, _stageSrv[0]) ? 1 : 0;
-                    if (_stageRtv[mbStage] != null && _stageSrv[mbStage] != null)
+                    if (!(fgOn && _fgAttached) && !OverlayHub.HomepageBackgroundActive && _backBufferRtv != null)
                     {
-                        _motionBlur.RenderInto(composited, _stageRtv[mbStage]!, _width, _height);
-                        composited = _stageSrv[mbStage]!;
+                        _motionBlur.RenderInto(composited, _backBufferRtv, _width, _height);
+                        blurredIntoBackBuffer = true;
+                    }
+                    else
+                    {
+                        int mbStage = ReferenceEquals(composited, _stageSrv[0]) ? 1 : 0;
+                        if (_stageRtv[mbStage] != null && _stageSrv[mbStage] != null)
+                        {
+                            _motionBlur.RenderInto(composited, _stageRtv[mbStage]!, _width, _height);
+                            composited = _stageSrv[mbStage]!;
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -1988,7 +1997,7 @@ namespace Voidstrap.Integrations.Overlays
 				{
 					ComposeHomepage(_backBufferRtv!, composited);
 				}
-				else
+				else if (!blurredIntoBackBuffer)
 				{
 					DrawBlit(_psPass!, _backBufferRtv!, composited);
 				}
