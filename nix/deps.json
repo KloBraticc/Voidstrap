@@ -131,8 +131,8 @@
   },
   {
     "pname": "Microsoft.ML.OnnxRuntime.Managed",
-    "version": "1.31.0",
-    "hash": "sha256-xjLcSeaMq2VAe3X5aA+iKmSOr6u6mnG+aX7ecVmb5iY="
+    "version": "1.24.4",
+    "hash": "sha256-lcxdNm6Ha8ycOeh68ncniqPfVhCPtXLIhL8h9rniIYI="
   },
   {
     "pname": "Microsoft.Win32.SystemEvents",

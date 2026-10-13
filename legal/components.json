@@ -4973,17 +4973,17 @@
   {
     "ecosystem": "nuget",
     "name": "Microsoft.ML.OnnxRuntime.Managed",
-    "version": "1.31.0",
+    "version": "1.24.4",
     "license": "Publisher license text reproduced below",
-    "source": "https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime.Managed/1.31.0",
+    "source": "https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime.Managed/1.24.4",
     "documents": [
       {
         "path": "texts/c250d6278f0b47a6439f.txt",
-        "source": "NuGet package Microsoft.ML.OnnxRuntime.Managed/1.31.0: LICENSE.txt"
+        "source": "NuGet package Microsoft.ML.OnnxRuntime.Managed/1.24.4: LICENSE.txt"
       },
       {
-        "path": "texts/c53a76501ef60db6f865.txt",
-        "source": "NuGet package Microsoft.ML.OnnxRuntime.Managed/1.31.0: ThirdPartyNotices.txt"
+        "path": "texts/fb0af774b4d7cffc5b9d.txt",
+        "source": "NuGet package Microsoft.ML.OnnxRuntime.Managed/1.24.4: ThirdPartyNotices.txt"
       }
     ]
   },

@@ -4,6 +4,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      - dependency-name: "Microsoft.ML.OnnxRuntime.Managed"
+        versions: [">= 1.25.0"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
