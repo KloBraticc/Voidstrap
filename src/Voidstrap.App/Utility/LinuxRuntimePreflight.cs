@@ -49,15 +49,6 @@ public static class LinuxRuntimePreflight
 				missing.Add((library, purpose));
 		}
 
-		if (!CanLoad("libvulkan.so.1"))
-		{
-			missing.Add(("libvulkan.so.1", "the graphics renderer"));
-		}
-		else if (!HasVulkanDriver())
-		{
-			missing.Add(("a Vulkan driver", "the graphics renderer, install your distribution's Vulkan driver package"));
-		}
-
 		bool hasRenderer = false;
 		foreach ((string library, _) in RenderLibraries)
 		{
@@ -69,7 +60,13 @@ public static class LinuxRuntimePreflight
 		}
 
 		if (!hasRenderer)
+		{
+			if (!CanLoad("libvulkan.so.1"))
+				missing.Add(("libvulkan.so.1", "the graphics renderer"));
+			else if (!HasVulkanDriver())
+				missing.Add(("a Vulkan driver", "the graphics renderer, install your distribution's Vulkan driver package"));
 			missing.Add((RenderLibraries[0].Library, RenderLibraries[0].Purpose));
+		}
 
 		if (missing.Count == 0)
 			return true;
