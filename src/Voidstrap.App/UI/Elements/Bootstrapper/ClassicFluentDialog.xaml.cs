@@ -138,11 +138,16 @@ public partial class ClassicFluentDialog : WpfUiWindow,IBootstrapperDialog{
 		base.DataContext = _viewModel;
 		base.Title = App.Settings.Prop.BootstrapperTitle;
 		base.Icon = Voidstrap.Extensions.IconEx.GetBootstrapperWindowIcon();
+		if (Voidstrap.Utility.Platform.IsWindows)
+		{
+			Voidstrap.UI.WindowBackdrop.SetOverride(this, null, forceOpaque: true);
+		}
 	}
 
 	private void OnClosed(object? sender, EventArgs e)
 	{
 		base.Closed -= OnClosed;
+		Voidstrap.UI.WindowBackdrop.ClearOverride(this);
 		_mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
 		if (App.Settings.Prop.BackgroundWindow)
 		{
