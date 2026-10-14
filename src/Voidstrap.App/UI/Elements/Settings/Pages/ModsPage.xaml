@@ -963,7 +963,7 @@
                     </StackPanel>
                   </controls:OptionControl>
                 </StackPanel>
-                <controls:OptionControl Header="Frame generation V1" Description="Adds generated frames between real ones. Adds a little input delay." Visibility="{x:Static platform:PlatformFeatureVisibility.FrameGeneration}">
+                <controls:OptionControl Header="Frame generation V1.0.0" Description="Adds generated frames between real ones. Adds a little input delay." Visibility="{x:Static platform:PlatformFeatureVisibility.FrameGeneration}">
                   <ui:ToggleSwitch IsChecked="{Binding FrameGenEnabled, Mode=TwoWay}" />
                 </controls:OptionControl>
                 <controls:OptionControl Header="Show generated frames" Description="Displays how many frames are being generated." Visibility="{x:Static platform:PlatformFeatureVisibility.FrameGeneration}">
