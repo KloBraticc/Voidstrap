@@ -4,7 +4,7 @@
     <ResourceDictionary>
       <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
       <BitmapImage x:Key="AppIconImage" UriSource="pack://application:,,,/Voidstrap.png" />
-      <SolidColorBrush x:Key="LauncherMenuBrush" Color="#FF1C1C1E" />
+      <SolidColorBrush x:Key="LauncherMenuBrush" Color="#FF2E2E2E" />
       <SolidColorBrush x:Key="LauncherMenuHoverBrush" Color="#14FFFFFF" />
       <SolidColorBrush x:Key="LauncherMenuBorderBrush" Color="#1AFFFFFF" />
       <SolidColorBrush x:Key="LauncherDividerBrush" Color="#12FFFFFF" />

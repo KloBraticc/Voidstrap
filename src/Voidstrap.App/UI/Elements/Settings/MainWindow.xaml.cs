@@ -504,7 +504,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         base.ApplyTheme();
         Voidstrap.UI.WindowBackdrop.ApplyMainWindow(this);
-        Resources["LauncherMenuBrush"] = Voidstrap.UI.WindowBackdrop.CreateOpaqueSurfaceBrush(this);
+        Resources["LauncherMenuBrush"] = TryFindResource("SystemFillColorSolidNeutralBackgroundBrush") as Brush ?? Voidstrap.UI.WindowBackdrop.CreateOpaqueSurfaceBrush(this);
     }
 
     protected override void OnSourceInitialized(EventArgs e)
@@ -583,7 +583,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void ApplyThemeBackground()
     {
-        Resources["LauncherMenuBrush"] = Voidstrap.UI.WindowBackdrop.CreateOpaqueSurfaceBrush(this);
+        Resources["LauncherMenuBrush"] = TryFindResource("SystemFillColorSolidNeutralBackgroundBrush") as Brush ?? Voidstrap.UI.WindowBackdrop.CreateOpaqueSurfaceBrush(this);
         if (GradientLayer == null)
         {
             return;
