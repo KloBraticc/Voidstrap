@@ -181,10 +181,10 @@ impl Cadence {
         let drained = input.drained_queued_capture != 0;
         let normalization_ms = if !drained {
             0.0
+        } else if self.count >= 3 && self.ema_interval_ms > 4.0 {
+            self.ema_interval_ms
         } else if input.cap_ms > 4.0 {
             input.cap_ms
-        } else if self.count >= 3 {
-            self.ema_interval_ms
         } else {
             0.0
         };

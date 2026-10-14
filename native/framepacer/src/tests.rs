@@ -235,3 +235,15 @@ fn auto_ceiling_drops_below_what_is_in_use() {
     assert_eq!(q.consider(0, false, 1, 2, 50.0), quality::EVENT_AUTO_LOWER_PACING);
     assert_eq!(q.auto_generated_limit, 1);
 }
+
+#[test]
+fn dropped_capture_below_the_cap_uses_the_measured_rate() {
+    let mut c = Cadence::default();
+    for _ in 0..30 {
+        c.update(&CadenceInput { dt: 50.0 / 3.0, cap_ms: 12.5, fps_cap: 80, src_is_capture: 1, ..Default::default() });
+    }
+    let count = c.count;
+    c.update(&CadenceInput { dt: 100.0 / 3.0, cap_ms: 12.5, fps_cap: 80, drained_queued_capture: 1, skipped_since_last_use: 1, src_is_capture: 1, ..Default::default() });
+    assert_eq!(c.count, count);
+    assert!((c.ema_interval_ms - 50.0 / 3.0).abs() < 0.01, "ema {}", c.ema_interval_ms);
+}
