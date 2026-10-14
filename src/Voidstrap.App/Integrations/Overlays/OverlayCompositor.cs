@@ -486,7 +486,7 @@ namespace Voidstrap.Integrations.Overlays
         {
             _factory = DXGI.CreateDXGIFactory2<IDXGIFactory2>(false);
 
-            IDXGIAdapter1? chosen = null;
+            IDXGIAdapter1? chosen = FindRobloxRenderAdapter();
             try
             {
                 int cx = _rectLeft + _width / 2;
@@ -559,6 +559,50 @@ namespace Voidstrap.Integrations.Overlays
                 _device = null;
                 D3D11.D3D11CreateDevice((IDXGIAdapter?)null, DriverType.Warp, DeviceCreationFlags.BgraSupport, _featureLevels, out _device, out _context).CheckError();
                 App.Logger.WriteLine(LOG_IDENT, $"WARP device created, feature level {_device!.FeatureLevel}");
+            }
+        }
+
+        private IDXGIAdapter1? FindRobloxRenderAdapter()
+        {
+            try
+            {
+                List<IDXGIAdapter1> hardware = new();
+                for (uint i = 0; ; i++)
+                {
+                    if (_factory!.EnumAdapters1(i, out IDXGIAdapter1? adapter).Failure || adapter == null)
+                        break;
+                    if ((adapter.Description1.Flags & AdapterFlags.Software) != 0)
+                        adapter.Dispose();
+                    else
+                        hardware.Add(adapter);
+                }
+                IDXGIAdapter1? match = null;
+                if (hardware.Count > 1 && _robloxHwnd != IntPtr.Zero && GetWindowThreadProcessId(_robloxHwnd, out uint pid) != 0
+                    && ProcessGpuAdapter.FindRenderAdapterLuid((int)pid) is long luid)
+                {
+                    foreach (IDXGIAdapter1 adapter in hardware)
+                    {
+                        var id = adapter.Description1.Luid;
+                        if (((long)id.HighPart << 32 | id.LowPart) == luid)
+                        {
+                            match = adapter;
+                            break;
+                        }
+                    }
+                }
+                foreach (IDXGIAdapter1 adapter in hardware)
+                {
+                    if (!ReferenceEquals(adapter, match))
+                        adapter.Dispose();
+                }
+                if (match != null)
+                    App.Logger.WriteLine(LOG_IDENT, $"Roblox renders on {match.Description1.Description}, the compositor uses the same GPU");
+                return match;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Could not find the GPU Roblox renders on, using the display's GPU: " + ex.Message);
+                return null;
             }
         }
 
