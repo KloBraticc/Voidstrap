@@ -188,7 +188,9 @@ impl Cadence {
         } else {
             0.0
         };
-        let mut clamped_dt = if normalization_ms > 4.0 {
+        let mut clamped_dt = if drained && input.src_is_capture != 0 && input.skipped_since_last_use > 0 {
+            clamp(measured_dt / (input.skipped_since_last_use.wrapping_add(1)) as f64, 2.0, 400.0)
+        } else if normalization_ms > 4.0 {
             normalize_interval(measured_dt, normalization_ms)
         } else {
             measured_dt

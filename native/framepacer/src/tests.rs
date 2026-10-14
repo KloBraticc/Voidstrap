@@ -247,3 +247,15 @@ fn dropped_capture_below_the_cap_uses_the_measured_rate() {
     assert_eq!(c.count, count);
     assert!((c.ema_interval_ms - 50.0 / 3.0).abs() < 0.01, "ema {}", c.ema_interval_ms);
 }
+
+#[test]
+fn skipping_every_other_capture_still_measures_the_source_rate() {
+    let mut c = Cadence::default();
+    for _ in 0..20 {
+        c.update(&CadenceInput { dt: 1000.0 / 55.0, cap_ms: 12.5, fps_cap: 80, src_is_capture: 1, ..Default::default() });
+    }
+    for _ in 0..60 {
+        c.update(&CadenceInput { dt: 2000.0 / 55.0, cap_ms: 12.5, fps_cap: 80, drained_queued_capture: 1, skipped_since_last_use: 1, src_is_capture: 1, ..Default::default() });
+    }
+    assert!((c.ema_interval_ms - 1000.0 / 55.0).abs() < 0.5, "ema {}", c.ema_interval_ms);
+}
