@@ -25,6 +25,8 @@ $sw = [System.Diagnostics.Stopwatch]::StartNew()
 $script:WallClockStart = [DateTime]::UtcNow
 $script:ClockWasWrong = $false
 $script:OutputSnapshot = @{}
+$script:PackagingChains = @()
+$script:PackageContext = $null
 
 function Wait-BeforeClose {
     if ($NoPause -or $env:CI -or [Console]::IsInputRedirected) {
@@ -42,6 +44,9 @@ function Exit-Script {
 
     if (Get-Command Stop-AndroidBuild -ErrorAction SilentlyContinue) {
         Stop-AndroidBuild
+    }
+    foreach ($chain in @($script:PackagingChains)) {
+        try { $chain.Process.WaitForExit() } catch { }
     }
     if (Get-Command Remove-PublishManifests -ErrorAction SilentlyContinue) {
         Remove-PublishManifests
@@ -867,6 +872,132 @@ function Invoke-PackagingScript {
     $PackageNotes.Add($message)
 }
 
+function ConvertTo-ShellArgument {
+    param([AllowEmptyString()] [string]$Argument)
+
+    return "'" + $Argument.Replace("'", "'\''") + "'"
+}
+
+function Start-PackagingChain {
+    param(
+        [Parameter(Mandatory)] $Shell,
+        [Parameter(Mandatory)] [string]$Label,
+        [Parameter(Mandatory)] [object[]]$Steps
+    )
+
+    $name = ($Label -replace '[^A-Za-z0-9]+', '-').Trim('-').ToLowerInvariant()
+    New-Item -ItemType Directory -Path $Staging -Force | Out-Null
+    $script = Join-Path $Staging "package-$name.sh"
+    $lines = @('set -e')
+    foreach ($step in $Steps) {
+        $lines += 'echo ' + (ConvertTo-ShellArgument "Packaging $($step.Label)")
+        $lines += 'bash ' + (($step.Arguments | ForEach-Object { ConvertTo-ShellArgument ([string]$_) }) -join ' ')
+    }
+    [System.IO.File]::WriteAllText($script, ($lines -join "`n") + "`n")
+    New-Item -ItemType Directory -Path $ArtifactDir -Force | Out-Null
+    $log = Join-Path $ArtifactDir "package-$name.log"
+    $arguments = (@($Shell.Prefix) + @(Get-RootRelativePath $script) | ForEach-Object { ConvertTo-CommandLineArgument ([string]$_) }) -join ' '
+    Write-Host "  Packaging $Label..." -ForegroundColor DarkGray
+    $process = Start-Process -FilePath $Shell.Command -ArgumentList $arguments -WorkingDirectory $Root -NoNewWindow -PassThru -RedirectStandardOutput $log -RedirectStandardError "$log.err"
+    $null = $process.Handle
+    return [pscustomobject]@{ Label = $Label; Process = $process; Log = $log; StartTime = Get-Date; Done = $false }
+}
+
+function Update-PackagingChains {
+    foreach ($chain in @($script:PackagingChains | Where-Object { -not $_.Done -and $_.Process.HasExited })) {
+        $chain.Done = $true
+        Get-Content -LiteralPath "$($chain.Log).err" -ErrorAction SilentlyContinue | Add-Content -LiteralPath $chain.Log
+        Remove-Item -LiteralPath "$($chain.Log).err" -Force -ErrorAction SilentlyContinue
+        $seconds = [int](New-TimeSpan -Start $chain.StartTime).TotalSeconds
+        if ($chain.Process.ExitCode -eq 0) {
+            Write-Host "  $($chain.Label): packaged ($($seconds)s)" -ForegroundColor Green
+        } else {
+            Write-Host "  $($chain.Label): packaging failed with exit code $($chain.Process.ExitCode) ($($seconds)s)" -ForegroundColor Red
+        }
+    }
+}
+
+function Wait-PackagingChains {
+    if ($script:PackagingChains.Count -eq 0) { return }
+    $heartbeat = [System.Diagnostics.Stopwatch]::StartNew()
+    while ($true) {
+        Update-PackagingChains
+        $running = @($script:PackagingChains | Where-Object { -not $_.Done })
+        if ($running.Count -eq 0) { break }
+        if ($heartbeat.Elapsed.TotalSeconds -ge 15) {
+            $heartbeat.Restart()
+            Write-Host "  Still packaging: $(($running | ForEach-Object { "$($_.Label) $([int](New-TimeSpan -Start $_.StartTime).TotalSeconds)s" }) -join ', ')" -ForegroundColor DarkGray
+        }
+        Start-Sleep -Milliseconds 250
+    }
+
+    $failed = @($script:PackagingChains | Where-Object { $_.Process.ExitCode -ne 0 })
+    foreach ($chain in $failed) {
+        Write-Host ''
+        Write-Host "$($chain.Label) packaging output (last 40 lines, full log: $($chain.Log)):" -ForegroundColor Red
+        Get-Content -LiteralPath $chain.Log -Tail 40 -ErrorAction SilentlyContinue | Out-Host
+    }
+    if ($failed.Count -gt 0) {
+        throw "$(($failed | ForEach-Object { $_.Label }) -join ', ') packaging failed."
+    }
+}
+
+function Start-TargetPackaging {
+    param([Parameter(Mandatory)] $Job)
+
+    $context = $script:PackageContext
+    if (-not $context -or $Job.Status -ne 'Done' -or $Job.PackagingStarted) { return }
+    $rid = $Job.Target.Rid
+    $isLinux = $rid.StartsWith('linux-', [System.StringComparison]::Ordinal)
+    $isMac = $rid.StartsWith('osx-', [System.StringComparison]::Ordinal)
+    if (-not ($isLinux -or $isMac)) { return }
+    $Job.PackagingStarted = $true
+
+    $inputText = ($context.Sources + (Get-FileHash -LiteralPath $Job.Expected -Algorithm SHA256).Hash) -join "`n"
+    $hasher = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $Job.PackageInputHash = [BitConverter]::ToString($hasher.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($inputText))).Replace('-', '')
+    } finally {
+        $hasher.Dispose()
+    }
+    $Job.PackagesCached = Test-PackageCache $Job
+    if ($Job.PackagesCached) {
+        Write-Host "  $($Job.Target.Name): verified existing packages." -ForegroundColor Green
+        return
+    }
+    Get-PackageFiles $Job | ForEach-Object { Remove-Item -LiteralPath $_.FullName -Force }
+
+    $shell = $context.Shell
+    $version = $context.Version
+    if ($isLinux -and $wantLinuxPackages) {
+        New-Item -ItemType Directory -Path $LinuxOut -Force | Out-Null
+        $outputPath = Get-RootRelativePath $LinuxOut
+        $executablePath = Get-RootRelativePath $Job.Expected
+        $glibc = -not $rid.StartsWith('linux-musl-', [System.StringComparison]::Ordinal)
+        $formats = @('tar')
+        if ($glibc) {
+            $formats += 'deb', 'rpm'
+            if ($appImageTool) { $formats += 'appimage' }
+        }
+        $steps = @($formats | ForEach-Object { [pscustomobject]@{ Label = "$($Job.Target.Name) $_"; Arguments = @($context.LinuxScript, $rid, $version, $_, $outputPath, $executablePath) } })
+        $script:PackagingChains += Start-PackagingChain $shell $Job.Target.Name $steps
+        if ($glibc) {
+            $script:PackagingChains += Start-PackagingChain $shell "$($Job.Target.Name) Flatpak" @([pscustomobject]@{ Label = "$($Job.Target.Name) Flatpak"; Arguments = @($context.FlatpakScript, $rid, $version, $outputPath, $executablePath) })
+        }
+    }
+    elseif ($isMac) {
+        if (-not $shell) {
+            if (-not $PackageNotes.Contains($context.MacShellNote)) { $PackageNotes.Add($context.MacShellNote) }
+            return
+        }
+        if ($IsWindowsHost -and -not $shell.Wsl -and -not $PackageNotes.Contains($context.MacImageNote)) {
+            $PackageNotes.Add($context.MacImageNote)
+        }
+        New-Item -ItemType Directory -Path $MacOut -Force | Out-Null
+        $script:PackagingChains += Start-PackagingChain $shell $Job.Target.Name @([pscustomobject]@{ Label = "$($Job.Target.Name) app"; Arguments = @($context.MacScript, $rid, $version, (Get-RootRelativePath $MacOut), (Get-RootRelativePath $Job.Expected)) })
+    }
+}
+
 function Test-TransientPublishFailure {
     param([Parameter(Mandatory)] $Job)
 
@@ -1163,8 +1294,10 @@ function Wait-ForPublishJobs {
         foreach ($job in $Jobs) {
             if ($job.Status -eq 'Building' -and $job.Process.HasExited) {
                 Finish-PublishJob $job
+                Start-TargetPackaging $job
             }
         }
+        Update-PackagingChains
         if ($WaitForSlot -and @($Jobs | Where-Object { $_.Status -eq 'Building' }).Count -lt $MaxParallel) {
             return
         }
@@ -1497,6 +1630,36 @@ Test-SystemClock
 Repair-FutureTimestamps
 $script:OutputSnapshot = Get-OutputSnapshot
 
+$wantAppImageOnly = $ShouldBuildAppImage -and -not $wantLinuxPackages
+if ($packagingShell) {
+    Write-Host "Packaging with $($packagingShell.Name) as each build finishes" -ForegroundColor DarkGray
+}
+if ($appImageTool) {
+    $env:APPIMAGETOOL = $appImageTool
+    if ($packagingShell.Wsl -and $env:WSLENV -notmatch '(^|:)APPIMAGETOOL/') {
+        $env:WSLENV = (@($env:WSLENV, 'APPIMAGETOOL/p') | Where-Object { $_ }) -join ':'
+    }
+}
+$packageSources = @(Get-ChildItem -LiteralPath (Join-Path $Root 'build/Packaging') -Recurse -File |
+    Sort-Object FullName | ForEach-Object { $_.FullName + ':' + (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash })
+foreach ($sourcePath in @('publish-all.ps1', 'Directory.Build.props', 'LICENSE.VOIDSTRAP', 'THIRD-PARTY-NOTICES.txt', 'legal/sources/Bibata-Cursor-v2.0.7.tar.gz', 'src/Voidstrap.App/Voidstrap.png')) {
+    $packageSources += (Get-FileHash -LiteralPath (Join-Path $Root $sourcePath) -Algorithm SHA256).Hash
+}
+if ($appImageTool) { $packageSources += (Get-FileHash -LiteralPath $appImageTool -Algorithm SHA256).Hash }
+$shellName = if ($packagingShell) { $packagingShell.Name } else { '' }
+$packageSources += "$wantLinuxPackages,$wantAppImageOnly,$shellName,$IsWindowsHost,$($env:VOIDSTRAP_APPIMAGE_GLIBC_CEILING),$($env:SOURCE_DATE_EPOCH),$($env:MACOS_DEPLOYMENT_TARGET)"
+$script:PackageContext = [pscustomobject]@{
+    Shell         = $packagingShell
+    Version       = if ($packagingShell) { Get-VoidstrapVersion } else { $null }
+    Sources       = $packageSources
+    NoteCount     = $PackageNotes.Count
+    LinuxScript   = 'build/Packaging/Linux/package.sh'
+    FlatpakScript = 'build/Packaging/Flatpak/package.sh'
+    MacScript     = 'build/Packaging/MacOS/package.sh'
+    MacShellNote  = 'macOS app bundles were skipped: they need bash, which Git for Windows provides.'
+    MacImageNote  = 'macOS disk images were skipped; use WSL 2 with genisoimage to create them.'
+}
+
 $jobs = @()
 $unexpectedFailure = $null
 
@@ -1567,6 +1730,9 @@ try {
             StdErr     = ''
             Status     = 'Building'
             Retried    = $false
+            PackagingStarted = $false
+            PackageInputHash = $null
+            PackagesCached = $false
         }
 
         $jobs += $job
@@ -1579,6 +1745,7 @@ try {
                 Restart-PublishJob $job
                 Finish-PublishJob $job
             }
+            Start-TargetPackaging $job
         }
     }
 
@@ -1601,6 +1768,11 @@ try {
         Write-Host "  The system clock changed by about $minutes minutes during the build, so files from before and after the change could mix. Rebuilding every target once so nothing stale ships..." -ForegroundColor DarkYellow
         Repair-FutureTimestamps
         $script:WallClockStart = [DateTime]::UtcNow - $sw.Elapsed
+        Wait-PackagingChains
+        $script:PackagingChains = @()
+        foreach ($job in $jobs) {
+            $job.PackagingStarted = $false
+        }
         foreach ($job in $jobs) {
             if ($UseParallel -and @($jobs | Where-Object { $_.Status -eq 'Building' }).Count -ge $MaxParallel) {
                 Wait-ForPublishJobs -Jobs $jobs -WaitForSlot
@@ -1608,6 +1780,7 @@ try {
             Restart-PublishJob $job
             if (-not $UseParallel) {
                 Finish-PublishJob $job
+                Start-TargetPackaging $job
             }
         }
         if ($UseParallel) {
@@ -1675,77 +1848,19 @@ try {
         Complete-AndroidPublish (Get-VoidstrapVersion)
     }
 
-    $linuxJobs = @($jobs | Where-Object { $_.Status -eq 'Done' -and $_.Target.Rid.StartsWith('linux-', [System.StringComparison]::Ordinal) })
-    $macJobs = @($jobs | Where-Object { $_.Status -eq 'Done' -and $_.Target.Rid.StartsWith('osx-', [System.StringComparison]::Ordinal) })
-    $wantAppImageOnly = $ShouldBuildAppImage -and -not $wantLinuxPackages
-    $shell = $packagingShell
-    if ($shell) {
-        Write-Host "Packaging with $($shell.Name)" -ForegroundColor DarkGray
+    foreach ($job in $jobs) {
+        Start-TargetPackaging $job
     }
+    $packagingJobs = @($jobs | Where-Object { $_.PackagingStarted -and -not $_.PackagesCached })
+    $linuxPackageJobs = @($packagingJobs | Where-Object { $_.Target.Rid.StartsWith('linux-', [System.StringComparison]::Ordinal) })
+    $macPackageJobs = @($packagingJobs | Where-Object { $_.Target.Rid.StartsWith('osx-', [System.StringComparison]::Ordinal) })
+    Wait-PackagingChains
 
-    $linuxScript = 'build/Packaging/Linux/package.sh'
-    $flatpakScript = 'build/Packaging/Flatpak/package.sh'
-    $aurScript = 'build/Packaging/Arch/pkgbuild.sh'
-    $macScript = 'build/Packaging/MacOS/package.sh'
-    $packageVersion = if ($shell) { Get-VoidstrapVersion } else { $null }
-    $initialPackageNoteCount = $PackageNotes.Count
-
-    $packageSources = @(Get-ChildItem -LiteralPath (Join-Path $Root 'build/Packaging') -Recurse -File |
-        Sort-Object FullName | ForEach-Object { $_.FullName + ':' + (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash })
-    foreach ($sourcePath in @('publish-all.ps1', 'Directory.Build.props', 'LICENSE.VOIDSTRAP', 'THIRD-PARTY-NOTICES.txt', 'legal/sources/Bibata-Cursor-v2.0.7.tar.gz', 'src/Voidstrap.App/Voidstrap.png')) {
-        $packageSources += (Get-FileHash -LiteralPath (Join-Path $Root $sourcePath) -Algorithm SHA256).Hash
-    }
-    if ($appImageTool) { $packageSources += (Get-FileHash -LiteralPath $appImageTool -Algorithm SHA256).Hash }
-    $shellName = if ($shell) { $shell.Name } else { '' }
-    $packageSources += "$wantLinuxPackages,$wantAppImageOnly,$shellName,$IsWindowsHost,$($env:VOIDSTRAP_APPIMAGE_GLIBC_CEILING),$($env:SOURCE_DATE_EPOCH),$($env:MACOS_DEPLOYMENT_TARGET)"
-    foreach ($job in @($linuxJobs) + @($macJobs)) {
-        $inputText = ($packageSources + (Get-FileHash -LiteralPath $job.Expected -Algorithm SHA256).Hash) -join "`n"
-        $hasher = [System.Security.Cryptography.SHA256]::Create()
-        try {
-            $inputHash = [BitConverter]::ToString($hasher.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($inputText))).Replace('-', '')
-        } finally {
-            $hasher.Dispose()
-        }
-        $job | Add-Member -NotePropertyName PackageInputHash -NotePropertyValue $inputHash
-        $cached = Test-PackageCache $job
-        $job | Add-Member -NotePropertyName PackagesCached -NotePropertyValue $cached
-        if ($cached) {
-            Write-Host "  $($job.Target.Name): verified existing packages." -ForegroundColor Green
-        } else {
-            Get-PackageFiles $job | ForEach-Object { Remove-Item -LiteralPath $_.FullName -Force }
-        }
-    }
-    $linuxPackageJobs = @($linuxJobs | Where-Object { -not $_.PackagesCached })
-    $macPackageJobs = @($macJobs | Where-Object { -not $_.PackagesCached })
-
-    if ($appImageTool) {
-        $env:APPIMAGETOOL = $appImageTool
-        if ($shell.Wsl -and $env:WSLENV -notmatch '(^|:)APPIMAGETOOL/') {
-            $env:WSLENV = (@($env:WSLENV, 'APPIMAGETOOL/p') | Where-Object { $_ }) -join ':'
-        }
-    }
-
+    $shell = $script:PackageContext.Shell
+    $packageVersion = $script:PackageContext.Version
+    $initialPackageNoteCount = $script:PackageContext.NoteCount
     if ($wantLinuxPackages) {
         $packageOutput = $LinuxOut
-        New-Item -ItemType Directory -Path $packageOutput -Force | Out-Null
-        $packageOutputPath = Get-RootRelativePath $packageOutput
-        foreach ($job in $linuxPackageJobs) {
-            $rid = $job.Target.Rid
-            $executablePath = Get-RootRelativePath $job.Expected
-            $glibc = -not $rid.StartsWith('linux-musl-', [System.StringComparison]::Ordinal)
-            $formats = @('tar')
-            if ($glibc) {
-                $formats += 'deb', 'rpm'
-                if ($appImageTool) { $formats += 'appimage' }
-            }
-            foreach ($format in $formats) {
-                Invoke-PackagingScript $shell "$($job.Target.Name) $format" @($linuxScript, $rid, $packageVersion, $format, $packageOutputPath, $executablePath)
-            }
-            if ($glibc) {
-                Invoke-PackagingScript $shell "$($job.Target.Name) Flatpak" @($flatpakScript, $rid, $packageVersion, $packageOutputPath, $executablePath)
-            }
-        }
-
         $x64Archive = Join-Path $packageOutput "Voidstrap_${packageVersion}_linux-x64.tar.gz"
         $arm64Archive = Join-Path $packageOutput "Voidstrap_${packageVersion}_linux-arm64.tar.gz"
         $aurMetadata = Join-Path $packageOutput 'Voidstrap_AUR_metadata.tar.gz'
@@ -1753,7 +1868,7 @@ try {
             if (Test-Path -LiteralPath $aurMetadata -PathType Leaf) { Remove-Item -LiteralPath $aurMetadata -Force }
             $aurStage = Join-Path $Staging 'AUR'
             Reset-OutputDirectory $aurStage
-            $aurArgs = @($aurScript, $packageVersion, (Get-RootRelativePath $aurStage), (Get-RootRelativePath $x64Archive), (Get-RootRelativePath $arm64Archive), (Get-RootRelativePath (Join-Path $packageOutput 'Voidstrap_AUR_metadata.tar.gz')))
+            $aurArgs = @('build/Packaging/Arch/pkgbuild.sh', $packageVersion, (Get-RootRelativePath $aurStage), (Get-RootRelativePath $x64Archive), (Get-RootRelativePath $arm64Archive), (Get-RootRelativePath (Join-Path $packageOutput 'Voidstrap_AUR_metadata.tar.gz')))
             Invoke-PackagingScript $shell 'AUR metadata' $aurArgs
         }
     }
@@ -1761,29 +1876,13 @@ try {
         $appImageOutput = $LinuxOut
         New-Item -ItemType Directory -Path $appImageOutput -Force | Out-Null
         foreach ($job in @($linuxPackageJobs | Where-Object { $_.Target.Rid -in @('linux-x64', 'linux-arm64') })) {
-            Invoke-PackagingScript $shell "$($job.Target.Name) AppImage" @($linuxScript, $job.Target.Rid, $packageVersion, 'appimage', (Get-RootRelativePath $appImageOutput), (Get-RootRelativePath $job.Expected))
+            Invoke-PackagingScript $shell "$($job.Target.Name) AppImage" @($script:PackageContext.LinuxScript, $job.Target.Rid, $packageVersion, 'appimage', (Get-RootRelativePath $appImageOutput), (Get-RootRelativePath $job.Expected))
             $packageArchitecture = if ($job.Target.Rid -eq 'linux-x64') { 'x86_64' } else { 'aarch64' }
             $appImagePath = Join-Path $appImageOutput "Voidstrap_${packageVersion}_${packageArchitecture}.AppImage"
             Assert-FileExists $appImagePath 'AppImage output'
             Assert-FileExists ($appImagePath + '.zsync') 'AppImage update information'
             if ((Get-Item -LiteralPath $appImagePath).Length -lt 1048576) {
                 throw 'The AppImage output is unexpectedly small.'
-            }
-        }
-    }
-
-    if ($macPackageJobs.Count -gt 0) {
-        if (-not $shell) {
-            $PackageNotes.Add('macOS app bundles were skipped: they need bash, which Git for Windows provides.')
-        } else {
-            if ($IsWindowsHost -and -not $shell.Wsl) {
-                $PackageNotes.Add('macOS disk images were skipped; use WSL 2 with genisoimage to create them.')
-            }
-            $macOutput = $MacOut
-            New-Item -ItemType Directory -Path $macOutput -Force | Out-Null
-            foreach ($job in $macPackageJobs) {
-                $macArgs = @($macScript, $job.Target.Rid, $packageVersion, (Get-RootRelativePath $macOutput), (Get-RootRelativePath $job.Expected))
-                Invoke-PackagingScript $shell "$($job.Target.Name) app" $macArgs
             }
         }
     }

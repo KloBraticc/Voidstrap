@@ -141,10 +141,17 @@ if [ "$(uname -s)" != "Darwin" ]; then
   SIGNER_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/voidstrap/rcodesign"
   SIGNER_ARCHIVE="$SIGNER_CACHE/$SIGNER_RELEASE.$SIGNER_EXTENSION"
   mkdir -p "$SIGNER_CACHE"
+  if command -v flock >/dev/null 2>&1; then
+    exec 9>"$SIGNER_CACHE/.download.lock"
+    flock 9
+  fi
   if ! printf '%s  %s\n' "$SIGNER_HASH" "$SIGNER_ARCHIVE" | sha256sum -c - >/dev/null 2>&1; then
     rm -f "$SIGNER_ARCHIVE"
     curl --fail --location --retry 8 --retry-delay 10 --retry-all-errors --connect-timeout 30 --max-time 300 --output "$SIGNER_ARCHIVE.part" "https://github.com/indygreg/apple-platform-rs/releases/download/apple-codesign/0.29.0/$SIGNER_RELEASE.$SIGNER_EXTENSION"
     mv "$SIGNER_ARCHIVE.part" "$SIGNER_ARCHIVE"
+  fi
+  if command -v flock >/dev/null 2>&1; then
+    exec 9>&-
   fi
   printf '%s  %s\n' "$SIGNER_HASH" "$SIGNER_ARCHIVE" | sha256sum -c -
   mkdir "$STAGE/signer"

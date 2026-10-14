@@ -5,6 +5,7 @@
 %global __os_install_post %{nil}
 %global debug_package %{nil}
 %global __strip /bin/true
+%global _binary_payload w19T.zstdio
 
 Name: voidstrap
 Version: @VERSION@

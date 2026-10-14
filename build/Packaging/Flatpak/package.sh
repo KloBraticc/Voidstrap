@@ -23,7 +23,7 @@ if [[ ! "$VERSION" =~ ^[0-9]+([.][0-9]+){1,3}$ ]]; then
 fi
 
 command -v flatpak >/dev/null 2>&1 || { echo "Flatpak is unavailable"; exit 1; }
-flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flock "${TMPDIR:-/tmp}/voidstrap-flatpak-remote.lock" flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 mkdir -p "$OUTPUT"
 OUTPUT="$(cd "$OUTPUT" && pwd)"
 FINAL_TARGET="$OUTPUT/Voidstrap_${VERSION}_${ARCH}.flatpak"
