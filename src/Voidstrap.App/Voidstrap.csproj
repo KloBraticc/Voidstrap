@@ -341,6 +341,30 @@
 		</ItemGroup>
 	</Target>
 
+	<PropertyGroup>
+		<VoidPacerCrate>$(MSBuildThisFileDirectory)../../native/framepacer</VoidPacerCrate>
+		<VoidPacerTargetDir>$(MSBuildThisFileDirectory)obj/framepacer</VoidPacerTargetDir>
+		<VoidPacerDll>$(VoidPacerTargetDir)/x86_64-pc-windows-msvc/release/voidpacer.dll</VoidPacerDll>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<VoidPacerSources Include="$(MSBuildThisFileDirectory)../../native/framepacer/src/**/*.rs" />
+	</ItemGroup>
+
+	<Target Name="BuildVoidPacer" BeforeTargets="AssignTargetPaths" Condition="'$(DesignTimeBuild)' != 'true' And '$(OS)' == 'Windows_NT' And Exists('$(VoidPacerCrate)/Cargo.toml')" Inputs="$(VoidPacerCrate)/Cargo.toml;$(VoidPacerCrate)/Cargo.lock;@(VoidPacerSources)" Outputs="$(VoidPacerDll)">
+		<Exec Command="&quot;$(VoidImageCargo)&quot; build --release --locked --quiet --target x86_64-pc-windows-msvc --manifest-path &quot;$(VoidPacerCrate)/Cargo.toml&quot; --target-dir &quot;$(VoidPacerTargetDir)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" StandardOutputImportance="low" StandardErrorImportance="low" />
+	</Target>
+
+	<Target Name="RequireVoidPacer" AfterTargets="BuildVoidPacer" BeforeTargets="AssignTargetPaths" Condition="'$(DesignTimeBuild)' != 'true' And '$(OS)' == 'Windows_NT' And '$(Configuration)' == 'Release' And '$(VoidstrapAllowMissingPacer)' != 'true'">
+		<Error Condition="!Exists('$(VoidPacerDll)')" Text="The frame pacer library voidpacer.dll could not be built. Install Rust with the x86_64-pc-windows-msvc target, or set VoidstrapAllowMissingPacer to true to build without frame generation." />
+	</Target>
+
+	<Target Name="IncludeVoidPacer" AfterTargets="BuildVoidPacer" BeforeTargets="AssignTargetPaths" Condition="Exists('$(VoidPacerDll)')">
+		<ItemGroup>
+			<None Include="$(VoidPacerDll)" Link="voidpacer.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+		</ItemGroup>
+	</Target>
+
 	<Target Name="StripDocsFromPublish" AfterTargets="ComputeResolvedFilesToPublishList">
 		<ItemGroup>
 			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Extension)' == '.xml' Or '%(ResolvedFileToPublish.Extension)' == '.pdb' Or ('%(ResolvedFileToPublish.Extension)' == '.txt' And !$([System.String]::Copy('%(ResolvedFileToPublish.RelativePath)').StartsWith('licenses')))" />

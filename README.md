@@ -303,7 +303,7 @@ Run commands from the repository root unless noted otherwise. Linux and macOS ne
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-windows-dark.svg"><img src="assets/readme/build-windows-light.svg" alt="Windows build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
-**You need:** Windows 10 or 11 (64 bit), the .NET SDK described above, and the initialized submodule.
+**You need:** Windows 10 or 11 (64 bit), the .NET SDK described above, [Rust](https://rustup.rs) with Cargo, and the initialized submodule. Rust builds the frame pacing library frame generation runs on, and Release builds stop if it is missing.
 
 ```powershell
 dotnet build Voidstrap.sln -c Release
