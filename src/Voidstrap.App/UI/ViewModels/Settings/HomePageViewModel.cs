@@ -27,7 +27,7 @@ namespace Voidstrap.UI.ViewModels.Pages
     }
 
 
-    internal class HistoryGameEntry : NotifyPropertyChangedViewModel
+    internal sealed class HistoryGameEntry : NotifyPropertyChangedViewModel
     {
         internal static bool RebuildingDatacenterOptions;
 
@@ -195,7 +195,7 @@ namespace Voidstrap.UI.ViewModels.Pages
         }
     }
 
-    internal class NewsCardEntry
+    internal sealed class NewsCardEntry
     {
         public long Id { get; init; }
         public string Title { get; init; } = string.Empty;
@@ -242,7 +242,7 @@ namespace Voidstrap.UI.ViewModels.Pages
         }
     }
 
-    internal class CatalogItemEntry
+    internal sealed class CatalogItemEntry
     {
         public long Id { get; init; }
         public string Name { get; init; } = string.Empty;
@@ -267,7 +267,7 @@ namespace Voidstrap.UI.ViewModels.Pages
         public string CatalogUrl => "https://www.roblox.com/catalog/" + Id;
     }
 
-    internal class HomePageViewModel : NotifyPropertyChangedViewModel
+    internal sealed class HomePageViewModel : NotifyPropertyChangedViewModel
     {
         private readonly string _historyFilePath = Paths.ServerHistory;
         private const int MaxHistoryEntries = 50;

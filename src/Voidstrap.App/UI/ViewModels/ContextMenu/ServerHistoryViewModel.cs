@@ -42,7 +42,7 @@ public class ServerTypeFilterOption
     public override string ToString() => Display;
 }
 
-internal class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposable
+internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposable
 {
 	private readonly ActivityWatcher _activityWatcher;
 	private readonly SemaphoreSlim _loadGate = new SemaphoreSlim(1, 1);

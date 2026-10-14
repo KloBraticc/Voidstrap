@@ -261,7 +261,7 @@ namespace Voidstrap.UI.ViewModels.Dialogs
             }
         }
 
-        private class CacheMeta
+        private sealed class CacheMeta
         {
             public DateTime LastUpdatedUtc { get; set; }
         }

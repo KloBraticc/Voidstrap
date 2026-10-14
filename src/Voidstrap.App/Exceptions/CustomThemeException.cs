@@ -6,7 +6,7 @@ using Voidstrap.Resources;
 
 namespace Voidstrap.Exceptions;
 
-internal class CustomThemeException : Exception
+internal sealed class CustomThemeException : Exception
 {
 	public string EnglishMessage { get; }
 

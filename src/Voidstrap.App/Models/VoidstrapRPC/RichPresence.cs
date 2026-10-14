@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Voidstrap.Models.VoidstrapRPC;
 
-internal class RichPresence
+internal sealed class RichPresence
 {
 	[JsonPropertyName("details")]
 	public string? Details { get; set; }

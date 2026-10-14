@@ -21,7 +21,7 @@ using Voidstrap.Utility;
 
 namespace Voidstrap.UI.ViewModels.Pages;
 
-internal class HistoryPageViewModel : NotifyPropertyChangedViewModel
+internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 {
 	private readonly string _historyFilePath = Paths.ServerHistory;
 

@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Voidstrap.Models.APIs.Roblox;
 
-internal class ThumbnailRequest
+internal sealed class ThumbnailRequest
 {
 	[JsonPropertyName("requestId")]
 	public string? RequestId { get; set; }

@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace Voidstrap.UI.Converters;
 
-internal class RangeConverter : IValueConverter
+internal sealed class RangeConverter : IValueConverter
 {
 	public int? From { get; set; }
 

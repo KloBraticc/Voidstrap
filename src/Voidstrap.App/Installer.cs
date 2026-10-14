@@ -20,7 +20,7 @@ using Voidstrap.Utility;
 
 namespace Voidstrap;
 
-internal partial class Installer
+internal sealed partial class Installer
 {
 	private sealed class DeferredCleanupPayload
 	{

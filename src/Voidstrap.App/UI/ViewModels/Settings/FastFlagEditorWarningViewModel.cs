@@ -9,7 +9,7 @@ using Wpf.Ui.Mvvm.Contracts;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
-internal class FastFlagEditorWarningViewModel : NotifyPropertyChangedViewModel
+internal sealed class FastFlagEditorWarningViewModel : NotifyPropertyChangedViewModel
 {
 	private Page _page;
 

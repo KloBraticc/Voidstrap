@@ -2,6 +2,6 @@ using System;
 
 namespace Voidstrap.Exceptions;
 
-internal class InvalidHTTPResponseException(string message) : Exception(message)
+internal sealed class InvalidHTTPResponseException(string message) : Exception(message)
 {
 }

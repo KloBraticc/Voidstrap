@@ -19,7 +19,7 @@ namespace Voidstrap.UI.Elements.Controls;
 
 [ContentProperty("MarkdownText")]
 [Localizability(LocalizationCategory.Text)]
-internal class MarkdownTextBlock : TextBlock
+internal sealed class MarkdownTextBlock : TextBlock
 {
 	private static readonly MarkdownPipeline _markdownPipeline = new MarkdownPipelineBuilder().UseEmphasisExtras(EmphasisExtraOptions.Marked).UseSoftlineBreakAsHardlineBreak().Build();
 

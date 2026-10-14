@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Voidstrap.Models;
 
-internal class WatcherData
+internal sealed class WatcherData
 {
 	public int ProcessId { get; set; }
 

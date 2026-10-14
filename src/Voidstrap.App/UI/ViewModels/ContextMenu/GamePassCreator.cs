@@ -1,6 +1,6 @@
 namespace Voidstrap.UI.ViewModels.ContextMenu;
 
-internal class GamePassCreator
+internal sealed class GamePassCreator
 {
 	public string CreatorType { get; set; } = string.Empty;
 

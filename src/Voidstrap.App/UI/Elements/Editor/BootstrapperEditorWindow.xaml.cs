@@ -32,14 +32,14 @@ namespace Voidstrap.UI.Elements.Editor;
 public partial class BootstrapperEditorWindow : WpfUiWindow{
 	private static class CustomBootstrapperSchema
 	{
-		private class Schema
+		private sealed class Schema
 		{
 			public Dictionary<string, Element> Elements { get; set; } = new Dictionary<string, Element>();
 
 			public Dictionary<string, Type> Types { get; set; } = new Dictionary<string, Type>();
 		}
 
-		private class Element
+		private sealed class Element
 		{
 			public string? SuperClass { get; set; }
 
@@ -48,7 +48,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			public Dictionary<string, string> Attributes { get; set; } = new Dictionary<string, string>();
 		}
 
-		public class Type
+		public sealed class Type
 		{
 			public bool CanHaveElement { get; set; }
 

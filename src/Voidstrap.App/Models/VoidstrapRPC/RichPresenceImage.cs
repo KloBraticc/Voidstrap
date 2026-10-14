@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Voidstrap.Models.VoidstrapRPC;
 
-internal class RichPresenceImage
+internal sealed class RichPresenceImage
 {
 	[JsonPropertyName("assetId")]
 	public ulong? AssetId { get; set; }

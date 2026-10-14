@@ -1,6 +1,6 @@
 namespace Voidstrap.UI.ViewModels.ContextMenu;
 
-internal class GamePassData
+internal sealed class GamePassData
 {
 	public long GamePassId { get; set; }
 

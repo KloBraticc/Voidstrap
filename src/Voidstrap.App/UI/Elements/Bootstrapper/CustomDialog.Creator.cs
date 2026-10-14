@@ -12,7 +12,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
         private static readonly string[] RootNames = { "VoidstrapCustomBootstrapper", "BloxstrapCustomBootstrapper", "FishstrapCustomBootstrapper" };
 
-        private class DummyFrameworkElement : FrameworkElement { }
+        private sealed class DummyFrameworkElement : FrameworkElement { }
 
         private const int MaxElements = 100;
 

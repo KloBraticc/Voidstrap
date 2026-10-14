@@ -28,7 +28,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 	private readonly object _saveGate = new object();
 	private CancellationTokenSource? _autoSaveCancellation;
 	private CancellationTokenSource? _previewCancellation;
-	private class PlayAreaSession
+	private sealed class PlayAreaSession
 	{
 		public List<PluginModel> Plugins { get; set; } = null!;
 

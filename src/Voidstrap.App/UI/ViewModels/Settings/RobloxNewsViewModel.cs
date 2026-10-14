@@ -12,7 +12,7 @@ using Voidstrap.Integrations;
 
 namespace Voidstrap.UI.ViewModels.Settings
 {
-    internal class RobloxNewsEntry
+    internal sealed class RobloxNewsEntry
     {
         public long Id { get; init; }
 
@@ -71,7 +71,7 @@ namespace Voidstrap.UI.ViewModels.Settings
         }
     }
 
-    internal class RobloxNewsViewModel : NotifyPropertyChangedViewModel
+    internal sealed class RobloxNewsViewModel : NotifyPropertyChangedViewModel
     {
         private readonly ObservableCollection<RobloxNewsEntry> _posts = new();
         private bool _isLoading = true;

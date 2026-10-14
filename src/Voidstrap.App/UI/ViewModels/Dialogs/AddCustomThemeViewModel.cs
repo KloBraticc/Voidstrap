@@ -4,7 +4,7 @@ using Voidstrap.Enums;
 
 namespace Voidstrap.UI.ViewModels.Dialogs;
 
-internal class AddCustomThemeViewModel : NotifyPropertyChangedViewModel
+internal sealed class AddCustomThemeViewModel : NotifyPropertyChangedViewModel
 {
 	private string _filePath = "";
 

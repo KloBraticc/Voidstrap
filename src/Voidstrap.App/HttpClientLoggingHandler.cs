@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace Voidstrap;
 
-internal class HttpClientLoggingHandler : MessageProcessingHandler
+internal sealed class HttpClientLoggingHandler : MessageProcessingHandler
 {
 	public HttpClientLoggingHandler(HttpMessageHandler innerHandler)
 		: base(innerHandler)

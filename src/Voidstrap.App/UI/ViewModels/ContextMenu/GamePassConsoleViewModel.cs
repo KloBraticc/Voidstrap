@@ -14,7 +14,7 @@ using Voidstrap.Integrations;
 
 namespace Voidstrap.UI.ViewModels.ContextMenu;
 
-internal class GamePassConsoleViewModel : NotifyPropertyChangedViewModel, IDisposable
+internal sealed class GamePassConsoleViewModel : NotifyPropertyChangedViewModel, IDisposable
 {
 	private static readonly HttpClient _httpClient = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(20));
 	private static readonly JsonSerializerOptions _jsonOptions = new() { PropertyNameCaseInsensitive = true };

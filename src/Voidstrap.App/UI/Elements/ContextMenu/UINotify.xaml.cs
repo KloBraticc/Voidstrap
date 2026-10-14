@@ -1077,7 +1077,7 @@ namespace Voidstrap.UI.Elements.Overlay
             public static partial bool SetWindowPos(IntPtr hWnd, IntPtr insertAfter, int x, int y, int cx, int cy, uint flags);
         }
 
-        private partial class NotificationItem
+        private sealed partial class NotificationItem
         {
             public string Title { get; set; } = string.Empty;
             public string Status { get; set; } = "Voidstrap";

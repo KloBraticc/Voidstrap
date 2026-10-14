@@ -9,7 +9,7 @@ namespace Voidstrap.UI.Elements.ContextMenu;
 
 public class TextMarkerService : DocumentColorizingTransformer, IBackgroundRenderer, ITextMarkerService
 {
-	private class TextMarker : ITextMarker
+	private sealed class TextMarker : ITextMarker
 	{
 		public int StartOffset { get; set; }
 

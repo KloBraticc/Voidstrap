@@ -7,7 +7,7 @@ using Voidstrap.Resources;
 
 namespace Voidstrap.UI.Converters;
 
-internal class EnumNameConverter : IValueConverter
+internal sealed class EnumNameConverter : IValueConverter
 {
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
