@@ -1545,8 +1545,8 @@ namespace Voidstrap.Utility
 			process.StartInfo.UseShellExecute = false;
             process.StartInfo.FileName = executablePath;
             process.StartInfo.WorkingDirectory = executableDir;
-			foreach (string argument in SplitLaunchArguments(arguments))
-				process.StartInfo.ArgumentList.Add(argument);
+			SplitLaunchArguments(arguments);
+			process.StartInfo.Arguments = arguments;
             App.Logger?.WriteLine("ClassicClients::Launch", $"Launching {client} {launchType}: {executablePath} {arguments}");
             process.Start();
             return process;
