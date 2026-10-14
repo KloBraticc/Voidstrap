@@ -30,6 +30,8 @@ public static class RobloxPlaces
 	private static readonly object CacheLock = new();
 	private static readonly Dictionary<long, (List<RobloxPlace> Places, DateTime FetchedUtc)> PlaceCache = new();
 	private static readonly Dictionary<long, string> IconCache = new();
+
+	private const int MaxCachedEntries = 256;
 	private static readonly TimeSpan PlaceLifetime = TimeSpan.FromMinutes(10);
 
 	private static HttpClient CreateClient()
@@ -81,7 +83,14 @@ public static class RobloxPlaces
 		// The start place first, then the subplaces in the order Roblox lists them
 		places = places.OrderByDescending(place => place.IsRoot).ToList();
 		lock (CacheLock)
+		{
 			PlaceCache[universeId] = (places, DateTime.UtcNow);
+			if (PlaceCache.Count > MaxCachedEntries)
+			{
+				foreach (long expired in PlaceCache.Where(entry => DateTime.UtcNow - entry.Value.FetchedUtc >= PlaceLifetime).Select(entry => entry.Key).ToList())
+					PlaceCache.Remove(expired);
+			}
+		}
 		return places.ToList();
 	}
 

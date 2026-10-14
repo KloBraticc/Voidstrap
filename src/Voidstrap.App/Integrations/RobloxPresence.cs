@@ -93,6 +93,8 @@ public static class RobloxPresence
 
 	private static readonly Dictionary<long, (ServerFriend Friend, DateTime FetchedUtc)> Profiles = new Dictionary<long, (ServerFriend, DateTime)>();
 
+	private const int MaxCachedProfiles = 256;
+
 	private static FriendList? _friendList;
 
 	private static (int CookieHash, bool Valid, DateTime CheckedUtc)? _signIn;
@@ -392,6 +394,11 @@ public static class RobloxPresence
 			{
 				if (!string.IsNullOrWhiteSpace(friend.Username))
 					Profiles[friend.UserId] = (friend, DateTime.UtcNow);
+			}
+			if (Profiles.Count > MaxCachedProfiles)
+			{
+				foreach (long expired in Profiles.Where(entry => DateTime.UtcNow - entry.Value.FetchedUtc >= ProfileLifetime).Select(entry => entry.Key).ToList())
+					Profiles.Remove(expired);
 			}
 		}
 
