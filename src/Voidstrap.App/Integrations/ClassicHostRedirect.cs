@@ -307,7 +307,11 @@ public static class ClassicHostRedirect
 			App.Logger?.WriteLine(LOG_IDENT, "Holding the redirect until the classic session ends");
 
 			bool started = false;
-			for (int i = 0; i < 240; i++)
+			if (owner == null || owner.HasExited)
+			{
+				App.Logger?.WriteLine(LOG_IDENT, "The Voidstrap window that asked for the redirect is gone, releasing it");
+			}
+			else for (int i = 0; i < 240; i++)
 			{
 				if (Voidstrap.Utility.ClassicClients.AnyClassicClientRunning())
 				{

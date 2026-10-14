@@ -938,7 +938,7 @@ public partial class App : Application
 			LaunchHandler.ProcessLaunchArgs();
 			return;
 		}
-		if (!LaunchSettings.WatcherFlag.Active && !headlessLaunch)
+		if (!LaunchSettings.WatcherFlag.Active && !headlessLaunch && !LaunchSettings.OrcRedirectFlag.Active)
 		{
 			LaunchHandler.CloseOtherInstances();
 		}

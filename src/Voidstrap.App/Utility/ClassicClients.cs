@@ -2154,6 +2154,8 @@ namespace Voidstrap.Utility
             {
                 try
                 {
+                    if (!process.ProcessName.StartsWith("Roblox", StringComparison.OrdinalIgnoreCase))
+                        continue;
                     string? path = process.MainModule?.FileName;
                     if (!string.IsNullOrEmpty(path) && path.StartsWith(root, StringComparison.OrdinalIgnoreCase))
                     {
