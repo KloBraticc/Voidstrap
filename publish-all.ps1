@@ -948,9 +948,9 @@ function Start-TargetPackaging {
     $context = $script:PackageContext
     if (-not $context -or $Job.Status -ne 'Done' -or $Job.PackagingStarted) { return }
     $rid = $Job.Target.Rid
-    $isLinux = $rid.StartsWith('linux-', [System.StringComparison]::Ordinal)
-    $isMac = $rid.StartsWith('osx-', [System.StringComparison]::Ordinal)
-    if (-not ($isLinux -or $isMac)) { return }
+    $linuxTarget = $rid.StartsWith('linux-', [System.StringComparison]::Ordinal)
+    $macTarget = $rid.StartsWith('osx-', [System.StringComparison]::Ordinal)
+    if (-not ($linuxTarget -or $macTarget)) { return }
     $Job.PackagingStarted = $true
 
     $inputText = ($context.Sources + (Get-FileHash -LiteralPath $Job.Expected -Algorithm SHA256).Hash) -join "`n"
@@ -969,7 +969,7 @@ function Start-TargetPackaging {
 
     $shell = $context.Shell
     $version = $context.Version
-    if ($isLinux -and $wantLinuxPackages) {
+    if ($linuxTarget -and $wantLinuxPackages) {
         New-Item -ItemType Directory -Path $LinuxOut -Force | Out-Null
         $outputPath = Get-RootRelativePath $LinuxOut
         $executablePath = Get-RootRelativePath $Job.Expected
@@ -985,7 +985,7 @@ function Start-TargetPackaging {
             $script:PackagingChains += Start-PackagingChain $shell "$($Job.Target.Name) Flatpak" @([pscustomobject]@{ Label = "$($Job.Target.Name) Flatpak"; Arguments = @($context.FlatpakScript, $rid, $version, $outputPath, $executablePath) })
         }
     }
-    elseif ($isMac) {
+    elseif ($macTarget) {
         if (-not $shell) {
             if (-not $PackageNotes.Contains($context.MacShellNote)) { $PackageNotes.Add($context.MacShellNote) }
             return
