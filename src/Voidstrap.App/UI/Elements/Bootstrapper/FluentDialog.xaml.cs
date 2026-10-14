@@ -196,6 +196,10 @@ public partial class FluentDialog : WpfUiWindow,IBootstrapperDialog{
 			base.WindowBackdropType = Voidstrap.UI.LinuxGlassBackdrop.IsSupported
 				? Wpf.Ui.Appearance.BackgroundType.None
 				: Wpf.Ui.Appearance.BackgroundType.Mica;
+			if (Voidstrap.Utility.Platform.IsWindows)
+			{
+				Voidstrap.UI.WindowBackdrop.SetOverride(this, null, forceOpaque: true);
+			}
 		}
 		string? text = Directory.Exists(Paths.Media) ? Directory.GetFiles(Paths.Media, "bootstrapper_bg.*").FirstOrDefault() : null;
 		if (text != null)
