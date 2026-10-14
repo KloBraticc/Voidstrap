@@ -12,6 +12,8 @@ public static class PackageCache
 
 	private const long MaxBudgetBytes = 6L * 1024 * 1024 * 1024;
 
+	private static readonly TimeSpan StalePackageAge = TimeSpan.FromDays(14);
+
 	public static void Touch(string path)
 	{
 		try
@@ -80,9 +82,10 @@ public static class PackageCache
 				.Where(f => !f.Name.Contains(".part", StringComparison.OrdinalIgnoreCase) && !f.Name.EndsWith(".meta", StringComparison.OrdinalIgnoreCase))
 				.ToList();
 			long total = files.Sum(f => f.Length);
+			DateTime staleBefore = DateTime.UtcNow - StalePackageAge;
 			foreach (FileInfo file in files.Where(f => !keep.Contains(f.Name)).OrderBy(f => f.LastWriteTimeUtc))
 			{
-				if (total <= budget)
+				if (total <= budget && file.LastWriteTimeUtc >= staleBefore)
 					break;
 				try
 				{
