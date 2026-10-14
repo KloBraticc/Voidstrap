@@ -380,7 +380,7 @@ jobs:
           rm -f "$check/ready"
           cat > "$check/ImageCheck.csproj" <<EOF
           <Project Sdk="LibreWPF.Sdk/0.1.0-preview.42">
-            <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0-windows</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><AllowUnsafeBlocks>true</AllowUnsafeBlocks><ProGpuWpfUsePortableFrameworkReferences>true</ProGpuWpfUsePortableFrameworkReferences><LinuxProGpuWpfAssembly>$root/external/LibreWPF/ProGPU.Wpf.dll</LinuxProGpuWpfAssembly><LinuxPresentationCoreAssembly>$root/external/LibreWPF/PresentationCore.dll</LinuxPresentationCoreAssembly><LinuxPresentationFrameworkAssembly>$root/external/LibreWPF/PresentationFramework.dll</LinuxPresentationFrameworkAssembly></PropertyGroup>
+            <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0-windows</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><AllowUnsafeBlocks>true</AllowUnsafeBlocks><ProGpuWpfUsePortableFrameworkReferences>true</ProGpuWpfUsePortableFrameworkReferences><ProGpuWpfSystemSecurityCryptographyXmlVersion>10.0.13</ProGpuWpfSystemSecurityCryptographyXmlVersion><LinuxProGpuWpfAssembly>$root/external/LibreWPF/ProGPU.Wpf.dll</LinuxProGpuWpfAssembly><LinuxPresentationCoreAssembly>$root/external/LibreWPF/PresentationCore.dll</LinuxPresentationCoreAssembly><LinuxPresentationFrameworkAssembly>$root/external/LibreWPF/PresentationFramework.dll</LinuxPresentationFrameworkAssembly></PropertyGroup>
             <ItemGroup>
               <Compile Include="$RUNNER_TEMP/image-check-src/MacOSImages.cs" />
               <Compile Include="$root/src/Voidstrap.App/Utility/SafeImaging.cs" />

@@ -5975,9 +5975,9 @@
   {
     "ecosystem": "nuget",
     "name": "System.Security.Cryptography.Pkcs",
-    "version": "10.0.11",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/System.Security.Cryptography.Pkcs/10.0.11",
+    "source": "https://www.nuget.org/packages/System.Security.Cryptography.Pkcs/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -5985,7 +5985,7 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package System.Security.Cryptography.Pkcs/10.0.11: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package System.Security.Cryptography.Pkcs/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },
@@ -6026,9 +6026,9 @@
   {
     "ecosystem": "nuget",
     "name": "System.Security.Cryptography.Xml",
-    "version": "10.0.11",
+    "version": "10.0.13",
     "license": "MIT",
-    "source": "https://www.nuget.org/packages/System.Security.Cryptography.Xml/10.0.11",
+    "source": "https://www.nuget.org/packages/System.Security.Cryptography.Xml/10.0.13",
     "documents": [
       {
         "path": "texts/3eb8813929e3947f86c6.txt",
@@ -6036,7 +6036,7 @@
       },
       {
         "path": "texts/6d15e10a101c6bfff2ab.txt",
-        "source": "NuGet package System.Security.Cryptography.Xml/10.0.11: THIRD-PARTY-NOTICES.TXT"
+        "source": "NuGet package System.Security.Cryptography.Xml/10.0.13: THIRD-PARTY-NOTICES.TXT"
       }
     ]
   },

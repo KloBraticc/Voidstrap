@@ -446,8 +446,8 @@
   },
   {
     "pname": "System.Security.Cryptography.Pkcs",
-    "version": "10.0.11",
-    "hash": "sha256-+L6ZL7/9VeyMlOJDcNjV/Rb7FMxXctLekfWROU0tMIM="
+    "version": "10.0.13",
+    "hash": "sha256-VO0kV46tNLW1DSWQhCQ0MvEXM+J1S4sZbnmdNBjTBKc="
   },
   {
     "pname": "System.Security.Cryptography.ProtectedData",
@@ -456,8 +456,8 @@
   },
   {
     "pname": "System.Security.Cryptography.Xml",
-    "version": "10.0.11",
-    "hash": "sha256-oHuLaMtw4Pt0bwZ8hDmM0TpLpxcPoKD+gO4nFI3AmH0="
+    "version": "10.0.13",
+    "hash": "sha256-bsMey8n1EQLZ+3/w6WB652mb8gMpmkcCox1SczIqTok="
   },
   {
     "pname": "System.Security.Permissions",

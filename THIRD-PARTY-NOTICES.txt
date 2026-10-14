@@ -1660,9 +1660,9 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
   Terms: MIT
   Source: https://www.nuget.org/packages/System.Resources.Extensions/10.0.13
 
-- System.Security.Cryptography.Pkcs 10.0.11 (nuget)
+- System.Security.Cryptography.Pkcs 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/System.Security.Cryptography.Pkcs/10.0.11
+  Source: https://www.nuget.org/packages/System.Security.Cryptography.Pkcs/10.0.13
 
 - System.Security.Cryptography.ProtectedData 10.0.10 (nuget)
   Terms: MIT
@@ -1672,9 +1672,9 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
   Terms: MIT
   Source: https://www.nuget.org/packages/System.Security.Cryptography.ProtectedData/10.0.12
 
-- System.Security.Cryptography.Xml 10.0.11 (nuget)
+- System.Security.Cryptography.Xml 10.0.13 (nuget)
   Terms: MIT
-  Source: https://www.nuget.org/packages/System.Security.Cryptography.Xml/10.0.11
+  Source: https://www.nuget.org/packages/System.Security.Cryptography.Xml/10.0.13
 
 - System.Security.Permissions 10.0.10 (nuget)
   Terms: MIT
@@ -9228,7 +9228,7 @@ Origin: NuGet copyright and declared MIT expression
 System.Resources.Extensions 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
-System.Security.Cryptography.Pkcs 10.0.11
+System.Security.Cryptography.Pkcs 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
 System.Security.Cryptography.ProtectedData 10.0.10
@@ -9237,7 +9237,7 @@ Origin: NuGet copyright and declared MIT expression
 System.Security.Cryptography.ProtectedData 10.0.12
 Origin: NuGet copyright and declared MIT expression
 
-System.Security.Cryptography.Xml 10.0.11
+System.Security.Cryptography.Xml 10.0.13
 Origin: NuGet copyright and declared MIT expression
 
 System.Security.Permissions 10.0.10
@@ -15864,8 +15864,8 @@ Origin: NuGet package System.Management/10.0.13: THIRD-PARTY-NOTICES.TXT
 System.Resources.Extensions 10.0.13
 Origin: NuGet package System.Resources.Extensions/10.0.13: THIRD-PARTY-NOTICES.TXT
 
-System.Security.Cryptography.Pkcs 10.0.11
-Origin: NuGet package System.Security.Cryptography.Pkcs/10.0.11: THIRD-PARTY-NOTICES.TXT
+System.Security.Cryptography.Pkcs 10.0.13
+Origin: NuGet package System.Security.Cryptography.Pkcs/10.0.13: THIRD-PARTY-NOTICES.TXT
 
 System.Security.Cryptography.ProtectedData 10.0.10
 Origin: NuGet package System.Security.Cryptography.ProtectedData/10.0.10: THIRD-PARTY-NOTICES.TXT
@@ -15873,8 +15873,8 @@ Origin: NuGet package System.Security.Cryptography.ProtectedData/10.0.10: THIRD-
 System.Security.Cryptography.ProtectedData 10.0.12
 Origin: NuGet package System.Security.Cryptography.ProtectedData/10.0.12: THIRD-PARTY-NOTICES.TXT
 
-System.Security.Cryptography.Xml 10.0.11
-Origin: NuGet package System.Security.Cryptography.Xml/10.0.11: THIRD-PARTY-NOTICES.TXT
+System.Security.Cryptography.Xml 10.0.13
+Origin: NuGet package System.Security.Cryptography.Xml/10.0.13: THIRD-PARTY-NOTICES.TXT
 
 System.Security.Permissions 10.0.10
 Origin: NuGet package System.Security.Permissions/10.0.10: THIRD-PARTY-NOTICES.TXT

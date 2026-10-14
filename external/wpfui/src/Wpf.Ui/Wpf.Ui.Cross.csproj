@@ -13,7 +13,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <ProGpuWpfUsePortableFrameworkReferences>true</ProGpuWpfUsePortableFrameworkReferences>
-    <ProGpuWpfSystemSecurityCryptographyXmlVersion>10.0.11</ProGpuWpfSystemSecurityCryptographyXmlVersion>
+    <ProGpuWpfSystemSecurityCryptographyXmlVersion>10.0.13</ProGpuWpfSystemSecurityCryptographyXmlVersion>
     <ProGpuWpfUsePortableWinFormsCompat>false</ProGpuWpfUsePortableWinFormsCompat>
     <ProGpuWpfUseLibreWinForms>false</ProGpuWpfUseLibreWinForms>
     <PlatformTarget Condition="'$(RuntimeIdentifier)' == 'linux-arm64' Or '$(RuntimeIdentifier)' == 'osx-arm64'">ARM64</PlatformTarget>
