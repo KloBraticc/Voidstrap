@@ -515,6 +515,17 @@ float floorDisp(float2 g)
     return uFloorFit.x * q.x + uFloorFit.y * q.y + uFloorFit.z;
 }
 
+float floorRow(float disp, float gx)
+{
+    return (disp - uFloorFit.z - uFloorFit.x * (gx - uDepthShift.x)) / uFloorFit.y + uDepthShift.y;
+}
+
+bool standsAbove(float gx, float y)
+{
+    float fq = floorDisp(float2(gx, y));
+    return sampG(tex3, float2(gx, y)).r > fq + 0.02 + fq * 0.08;
+}
+
 float3 sampleReflection(float2 g, float cone)
 {
     float3 sharp = sampG(tex0, g);
@@ -536,57 +547,65 @@ float4 PSSsr(VSOut inp) : SV_Target
     float member = 1.0 - smoothstep(tol * 0.5, tol, abs(d - f));
     if (member <= 0.0)
         return float4(0.0, 0.0, 0.0, 0.0);
-    float horizon = -(uFloorFit.x * (g.x - uDepthShift.x) + uFloorFit.z) / uFloorFit.y + uDepthShift.y;
+    float horizon = floorRow(0.0, g.x);
     float top = min(horizon, 1.0);
     float span = min(0.12 + uSsrDist * 0.5, top - g.y);
-    if (span <= 0.002)
-        return float4(0.0, 0.0, 0.0, 0.0);
     bool hit = false;
     float contact = 0.0;
-    float prev = g.y;
-    [loop]
-    for (int i = 1; i <= 40; i++)
+    if (span > 0.002)
     {
-        float y = g.y + span * (float(i) / 40.0);
-        float fq = floorDisp(float2(g.x, y));
-        float dq = sampG(tex3, float2(g.x, y)).r;
-        if (dq > fq + 0.02 + fq * 0.08)
+        float stepY = span / 40.0;
+        float prev = g.y;
+        [loop]
+        for (int i = 1; i <= 40; i++)
         {
-            float lo = prev;
-            float hi = y;
-            [unroll]
-            for (int r = 0; r < 4; r++)
+            float y = g.y + stepY * float(i);
+            if (standsAbove(g.x, y) && standsAbove(g.x, min(y + stepY * 0.5, 0.999)))
             {
-                float mid = (lo + hi) * 0.5;
-                float fm = floorDisp(float2(g.x, mid));
-                if (sampG(tex3, float2(g.x, mid)).r > fm + 0.02 + fm * 0.08) hi = mid; else lo = mid;
+                float lo = prev;
+                float hi = y;
+                [unroll]
+                for (int r = 0; r < 4; r++)
+                {
+                    float mid = (lo + hi) * 0.5;
+                    if (standsAbove(g.x, mid)) hi = mid; else lo = mid;
+                }
+                float fh = floorDisp(float2(g.x, hi));
+                contact = max(g.y, hi - (0.02 + fh * 0.08) / max(-uFloorFit.y, 1e-3));
+                hit = true;
+                break;
             }
-            float fh = floorDisp(float2(g.x, hi));
-            contact = max(g.y, hi - (0.02 + fh * 0.08) / max(-uFloorFit.y, 1e-3));
-            hit = true;
-            break;
+            prev = y;
         }
-        prev = y;
     }
-    float3 refl;
-    float conf;
-    if (hit)
+    float ys = hit ? 2.0 * contact - g.y : 2.0 * horizon - g.y;
+    float ds = 0.0;
+    [unroll]
+    for (int k = 0; k < 3; k++)
     {
-        float ys = contact + (contact - g.y);
-        conf = saturate((1.0 - ys) * 25.0);
-        if (conf <= 0.0)
-            return float4(0.0, 0.0, 0.0, 0.0);
-        float cone = saturate((1.0 - uSsrGloss) * (0.3 + (contact - g.y) * 6.0));
-        refl = sampleReflection(float2(g.x, ys), cone);
+        if (ys >= 0.999)
+            break;
+        ds = sampG(tex3, float2(g.x, ys)).r;
+        if (ds > f + 0.005)
+            break;
+        ys = max(2.0 * floorRow(ds, g.x) - g.y, g.y + 0.002);
     }
-    else
-    {
-        if (uSsrSheen <= 0.0 || horizon >= 1.0)
-            return float4(0.0, 0.0, 0.0, 0.0);
-        float ys = min(2.0 * horizon - g.y, 0.999);
-        conf = uSsrSheen * saturate((1.0 - ys) * 25.0);
-        refl = sampleReflection(float2(g.x, ys), 1.0);
-    }
+    if (ys >= 0.999)
+        return float4(0.0, 0.0, 0.0, 0.0);
+    ds = sampG(tex3, float2(g.x, ys)).r;
+    if (ds > f + 0.005)
+        return float4(0.0, 0.0, 0.0, 0.0);
+    float mirrorRow = floorRow(ds, g.x);
+    float err = abs(2.0 * mirrorRow - g.y - ys);
+    float consistent = 1.0 - smoothstep(0.01, 0.045, err);
+    float edge = saturate((1.0 - ys) * 25.0);
+    float solid = smoothstep(0.02, 0.06, ds);
+    float conf = consistent * edge * lerp(uSsrSheen, 1.0, solid);
+    if (conf <= 0.0)
+        return float4(0.0, 0.0, 0.0, 0.0);
+    float travel = ys - g.y;
+    float cone = saturate((1.0 - uSsrGloss) * (0.3 + travel * 3.0) + travel * 0.4 * (1.0 - solid));
+    float3 refl = sampleReflection(float2(g.x, ys), cone) * 0.92;
     float below = saturate((horizon - g.y) / 0.6);
     float f0 = uSsrRefl * 0.6;
     float fres = f0 + (1.0 - f0) * pow(1.0 - below, 3.0);
