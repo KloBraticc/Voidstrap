@@ -433,7 +433,55 @@ public static class LinuxComboBoxGuard
 			if (!_box.IsDropDownOpen)
 				return;
 
+			MatchOwnerDeviceScale();
 			QueueVerification(_generation, DispatcherPriority.Input);
+		}
+
+		private static readonly System.Reflection.MethodInfo? SetDeviceScaleMethod = Voidstrap.Utility.Platform.IsMacOS
+			? typeof(PresentationSource).Assembly.GetType("System.Windows.PortablePresentationSource")?.GetMethod(
+				"SetDeviceScale",
+				System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public,
+				null,
+				[typeof(double), typeof(double)],
+				null)
+			: null;
+
+		private static readonly System.Reflection.PropertyInfo? PortableOwnerProperty = Voidstrap.Utility.Platform.IsMacOS
+			? typeof(System.Windows.Interop.HwndSource).GetProperty(
+				"PortableOwner",
+				System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public)
+			: null;
+
+		private void MatchOwnerDeviceScale()
+		{
+			if (SetDeviceScaleMethod is null || _popup?.Child is not System.Windows.Media.Visual child)
+				return;
+
+			PresentationSource? popupSource = PresentationSource.FromVisual(child);
+			if (popupSource is not null && !SetDeviceScaleMethod.DeclaringType!.IsInstanceOfType(popupSource))
+				popupSource = PortableOwnerProperty?.GetValue(popupSource) as PresentationSource;
+			PresentationSource? ownerSource = PresentationSource.FromVisual(_box);
+			if (popupSource?.CompositionTarget is null || ownerSource?.CompositionTarget is null
+				|| !SetDeviceScaleMethod.DeclaringType!.IsInstanceOfType(popupSource))
+				return;
+
+			System.Windows.Media.Matrix popupScale = popupSource.CompositionTarget.TransformToDevice;
+			System.Windows.Media.Matrix ownerScale = ownerSource.CompositionTarget.TransformToDevice;
+			if (Math.Abs(popupScale.M11 - ownerScale.M11) < 0.01 && Math.Abs(popupScale.M22 - ownerScale.M22) < 0.01)
+				return;
+
+			try
+			{
+				SetDeviceScaleMethod.Invoke(popupSource, [ownerScale.M11, ownerScale.M22]);
+			}
+			catch (System.Reflection.TargetInvocationException ex)
+			{
+				App.Logger.WriteLine("LinuxComboBoxGuard", "The dropdown scale could not be matched to its window: " + ex.InnerException?.Message);
+				return;
+			}
+
+			if (popupSource.RootVisual is UIElement root)
+				root.InvalidateMeasure();
 		}
 
 		private void OnPopupClosed(object? sender, EventArgs e)
