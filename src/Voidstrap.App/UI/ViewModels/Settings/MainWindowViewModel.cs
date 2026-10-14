@@ -139,10 +139,13 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 				return SelectedLaunchModeIndex == 1 ? "Vinegar" : "Sober";
 			}
 			string code = SelectedLaunchClient;
-			if (!string.IsNullOrEmpty(code) && ClassicClients.IsClientInstalled(code))
+			if (IsClassicSelection(code))
 			{
-				var config = ClassicClients.GetInstalledConfig(code);
-				return (config != null && !string.IsNullOrWhiteSpace(config.Name)) ? config.Name : code;
+				var config = ClassicClients.IsClientInstalled(code) ? ClassicClients.GetInstalledConfig(code) : null;
+				if (config != null && !string.IsNullOrWhiteSpace(config.Name))
+					return config.Name;
+				string? catalogName = ClassicClients.Catalog.FirstOrDefault(entry => string.Equals(entry.Code, code, StringComparison.OrdinalIgnoreCase))?.Name;
+				return string.IsNullOrWhiteSpace(catalogName) ? code : catalogName;
 			}
 			if (SelectedLaunchModeIndex != 1)
 			{
@@ -252,12 +255,17 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 	private void LaunchSelectedTarget()
 	{
 		string code = SelectedLaunchClient;
-		if (!string.IsNullOrEmpty(code) && ClassicClients.EngineInstalled && ClassicClients.IsClientInstalled(code))
+		if (IsClassicSelection(code))
 		{
 			LaunchClassicClient(code, SelectedLaunchModeIndex == 1);
 			return;
 		}
 		LaunchHandler.LaunchRoblox((SelectedLaunchModeIndex != 1) ? LaunchMode.Player : LaunchMode.Studio);
+	}
+
+	private static bool IsClassicSelection(string code)
+	{
+		return Voidstrap.Utility.Platform.IsWindows && ClassicClients.IsSupportedClientCode(code);
 	}
 
 	private static void StopVoidstrapRpcForClassic()

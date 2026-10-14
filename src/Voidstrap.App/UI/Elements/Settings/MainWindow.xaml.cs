@@ -6161,7 +6161,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             string code = vm.SelectedLaunchClient;
             if (!string.IsNullOrEmpty(code))
-                current = downloads.ClientItems.FirstOrDefault(client => client.IsInstalled && string.Equals(client.Code, code, StringComparison.OrdinalIgnoreCase));
+                current = downloads.ClientItems.FirstOrDefault(client => string.Equals(client.Code, code, StringComparison.OrdinalIgnoreCase));
             Voidstrap.Enums.LaunchMode mode = vm.SelectedLaunchModeIndex == 1 ? Voidstrap.Enums.LaunchMode.Studio : Voidstrap.Enums.LaunchMode.Player;
             current ??= downloads.Items.FirstOrDefault(download => download.LaunchMode == mode);
         }
@@ -6190,7 +6190,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             switch (item)
             {
-                case DownloadsViewModel.ClientItem client when client.IsInstalled:
+                case DownloadsViewModel.ClientItem client:
                     mainWindowViewModel.SelectedLaunchClient = client.Code;
                     break;
                 case DownloadsViewModel.DownloadItem download:

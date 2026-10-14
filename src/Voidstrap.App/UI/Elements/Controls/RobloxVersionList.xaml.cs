@@ -45,7 +45,7 @@ public partial class RobloxVersionList : UserControl
 	{
 		return item switch
 		{
-			DownloadsViewModel.ClientItem client => client.IsInstalled,
+			DownloadsViewModel.ClientItem => true,
 			DownloadsViewModel.DownloadItem => true,
 			_ => false
 		};

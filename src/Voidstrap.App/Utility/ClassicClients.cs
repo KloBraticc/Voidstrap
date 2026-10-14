@@ -716,8 +716,17 @@ namespace Voidstrap.Utility
 
         private static async Task UpdateEverythingCoreAsync(string client, Action<string> status, Action<double, string> progress, CancellationToken ct)
         {
-            if (!EngineInstalled)
+            if (!EngineInstalled || EngineNeedsRepair())
+            {
+                status?.Invoke("Installing the ORC engine");
+                await InstallEngineCoreAsync(progress, ct).ConfigureAwait(false);
+            }
+            if (!IsClientInstalled(client))
+            {
+                status?.Invoke("Installing " + client);
+                await InstallClientCoreAsync(client, progress, ct).ConfigureAwait(false);
                 return;
+            }
             status?.Invoke("Checking for updates");
             try { await FetchManifestAsync(ct, force: true).ConfigureAwait(false); } catch { }
             if (await IsAssetUpdateAvailableAsync("engine.zip", EngineKey, ct).ConfigureAwait(false))
