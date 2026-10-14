@@ -252,6 +252,12 @@
             BorderBrush="#33FFFFFF" BorderThickness="1" SnapsToDevicePixels="True">
       <Grid VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+      <ScrollViewer x:Name="DockScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" Focusable="False" PreviewMouseWheel="DockScroll_PreviewMouseWheel">
+      <Grid x:Name="DockContent" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
@@ -354,7 +360,9 @@
         </StackPanel>
         <Rectangle Grid.Column="5" Style="{StaticResource DockDivider}" />
 
-        <StackPanel Grid.Column="6" Orientation="Horizontal" VerticalAlignment="Center">
+      </Grid>
+      </ScrollViewer>
+        <StackPanel x:Name="TrailingButtons" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
           <ui:Button ToolTip="Copy invite link" Tag="invite" Click="OnAction" Style="{StaticResource DockRound}">
             <TextBlock Text="&#xE71B;" Style="{StaticResource DockGlyph}" />
           </ui:Button>

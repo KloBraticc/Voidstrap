@@ -71,6 +71,8 @@ public partial class SessionDock : Window
     private static readonly TimeSpan ExitLength = TimeSpan.FromMilliseconds(220);
     // Room around the pill for its shadow, the window is the pill plus this
     private const double ShadowRoomX = 40;
+
+    private const double MaxDockWidth = 1180;
     private int _availableWidth;
     private readonly NativeSlide _slide;
     private readonly TranslateTransform _linuxDockMotion = new();
@@ -172,6 +174,10 @@ public partial class SessionDock : Window
         Closing += OnClosing;
         Closed += OnClosed;
         Pill.SizeChanged += OnPillSizeChanged;
+        ProfileCard.SizeChanged += OnPillSizeChanged;
+        GameCard.SizeChanged += OnPillSizeChanged;
+        ActionButtons.SizeChanged += OnPillSizeChanged;
+        TrailingButtons.SizeChanged += OnPillSizeChanged;
         RobloxWindowTracker.Changed += OnTrackerChanged;
         _trackerLease = RobloxWindowTracker.Acquire();
     }
@@ -863,7 +869,7 @@ public partial class SessionDock : Window
             Pill.LayoutTransform = Transform.Identity;
         Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double shadowRoom = Voidstrap.Utility.Platform.IsLinux ? 0 : ShadowRoomX;
-        double width = Math.Ceiling(Pill.DesiredSize.Width) + shadowRoom;
+        double width = Math.Min(MaxDockWidth, Math.Ceiling(Pill.DesiredSize.Width)) + shadowRoom;
         if (PortableOverlay.Active && RobloxWindowTracker.Current is { Valid: true } bounds)
         {
             _availableWidth = bounds.Width;
@@ -1242,6 +1248,14 @@ public partial class SessionDock : Window
         run.Text = text;
         if (lengthChanged)
             QueueFitWidth();
+    }
+
+    private void DockScroll_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+    {
+        if (DockScroll.ScrollableWidth <= 0)
+            return;
+        DockScroll.ScrollToHorizontalOffset(Math.Clamp(DockScroll.HorizontalOffset - e.Delta, 0, DockScroll.ScrollableWidth));
+        e.Handled = true;
     }
 
     private void OnPillSizeChanged(object sender, SizeChangedEventArgs e)
@@ -1895,6 +1909,10 @@ public partial class SessionDock : Window
         SourceInitialized -= OnSourceInitialized;
         Closed -= OnClosed;
         Pill.SizeChanged -= OnPillSizeChanged;
+        ProfileCard.SizeChanged -= OnPillSizeChanged;
+        GameCard.SizeChanged -= OnPillSizeChanged;
+        ActionButtons.SizeChanged -= OnPillSizeChanged;
+        TrailingButtons.SizeChanged -= OnPillSizeChanged;
         DestroyDimmer();
         if (_popout != null)
         {
