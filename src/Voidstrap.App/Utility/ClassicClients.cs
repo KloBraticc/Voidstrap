@@ -1638,31 +1638,16 @@ namespace Voidstrap.Utility
 
         private static string? EnsureWebServerRunningCore(string client, Action<string>? status)
         {
-            Process[] existing = Process.GetProcessesByName("VoidstrapClient.WebServer");
-            int aliveCount = 0;
+            bool ownAlive = false;
             try
             {
-                aliveCount = existing.Count(p => !p.HasExited);
+                ownAlive = _webServerProcess != null && !_webServerProcess.HasExited;
             }
             catch
             {
             }
-            finally
-            {
-                foreach (Process p in existing)
-                {
-                    try { p.Dispose(); } catch { }
-                }
-            }
 
-            if (aliveCount > 1)
-            {
-                App.Logger?.WriteLine("ClassicClients::EnsureWebServerRunning", aliveCount + " local services are running, replacing them with a single instance for " + client);
-                _webServerClient = "";
-                KillWebServer();
-                Thread.Sleep(300);
-            }
-            else if (aliveCount == 1)
+            if (ownAlive)
             {
                 bool sameClient = string.Equals(_webServerClient, client, StringComparison.OrdinalIgnoreCase);
                 if (sameClient && IsWebServerAnswering())
@@ -1670,6 +1655,13 @@ namespace Voidstrap.Utility
                 App.Logger?.WriteLine("ClassicClients::EnsureWebServerRunning", sameClient
                     ? "The local service is not answering, restarting it for " + client
                     : "The local service is not serving " + client + ", restarting it");
+                _webServerClient = "";
+                StopOwnWebServer();
+                Thread.Sleep(300);
+            }
+            else if (!AnyClassicClientRunning() && AnyWebServerProcess())
+            {
+                App.Logger?.WriteLine("ClassicClients::EnsureWebServerRunning", "A local service from an earlier session is still running, replacing it");
                 _webServerClient = "";
                 KillWebServer();
                 Thread.Sleep(300);
@@ -1741,6 +1733,8 @@ namespace Voidstrap.Utility
                     App.Logger?.WriteLine("ClassicClients::EnsureWebServerRunning", "The ORC local service did not start");
                     return "Windows did not start the ORC local service.";
                 }
+                _webServerProcess?.Dispose();
+                _webServerProcess = server;
                 App.Logger?.WriteLine("ClassicClients::EnsureWebServerRunning", "Started the ORC local service on " + Voidstrap.Integrations.ClassicHostRedirect.ServerPrefix);
                 for (int i = 0; i < 40; i++)
                 {
@@ -2121,8 +2115,42 @@ namespace Voidstrap.Utility
             return ProbeHostScript("", out _);
         }
 
+        private static Process? _webServerProcess;
+
+        private static bool AnyWebServerProcess()
+        {
+            Process[] servers = Process.GetProcessesByName("VoidstrapClient.WebServer");
+            foreach (Process server in servers)
+                server.Dispose();
+            return servers.Length > 0;
+        }
+
+        private static void StopOwnWebServer()
+        {
+            Process? server = _webServerProcess;
+            _webServerProcess = null;
+            if (server == null)
+                return;
+            try
+            {
+                if (!server.HasExited)
+                {
+                    server.Kill();
+                    server.WaitForExit(2000);
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                server.Dispose();
+            }
+        }
+
         private static void KillWebServer()
         {
+            StopOwnWebServer();
             foreach (Process server in Process.GetProcessesByName("VoidstrapClient.WebServer"))
             {
                 try { server.Kill(); server.WaitForExit(2000); }
