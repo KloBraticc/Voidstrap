@@ -1565,6 +1565,7 @@ public class Bootstrapper
             if (_launchMode == LaunchMode.Player && !_noConnection)
                 await WarmRobloxSettingsDnsAsync(ct);
 			App.Logger.WriteLine("Bootstrapper::StartRoblox", "Process preparation completed in " + startTimer.ElapsedMilliseconds + " ms");
+            await PrestartMacVirtualDisplayAsync(ct);
             ProcessStartInfo startInfo = BuildStartInfo();
             if (_launchMode == LaunchMode.StudioAuth)
             {
@@ -1624,6 +1625,24 @@ public class Bootstrapper
             App.Logger.WriteLine("Bootstrapper::StartRoblox", $"Unexpected error in StartRoblox: {value}");
             Frontend.ShowPlayerErrorDialog();
         }
+        finally
+        {
+            Voidstrap.Utility.MacVirtualDisplaySession.TakePrestarted()?.Dispose();
+        }
+    }
+
+    private bool UsesMacVirtualDisplay => Voidstrap.Utility.Platform.IsMacOS && _launchMode == LaunchMode.Player && !ClosesAfterLaunch && (App.Settings?.Prop.MacVirtualDisplayEnabled ?? false);
+
+    private async Task PrestartMacVirtualDisplayAsync(CancellationToken ct)
+    {
+        if (!UsesMacVirtualDisplay || System.Windows.Application.Current == null)
+            return;
+        Voidstrap.Utility.MacVirtualDisplaySession session = new();
+        Voidstrap.Utility.MacVirtualDisplaySession.Prestart(session);
+        session.Start();
+        Stopwatch waited = Stopwatch.StartNew();
+        bool ready = await session.WaitUntilReadyAsync(TimeSpan.FromSeconds(12), ct);
+        App.Logger.WriteLine("Bootstrapper::StartRoblox", (ready ? "The virtual display was ready" : "The virtual display did not start") + " after " + waited.ElapsedMilliseconds + " ms, launching Roblox");
     }
 
     private async Task WarmRobloxSettingsDnsAsync(CancellationToken ct)
@@ -2513,7 +2532,7 @@ public class Bootstrapper
 			|| Voidstrap.Integrations.Overlays.OverlaySettings.GameEffectsEnabled;
 		bool shouldKeepSnapTap = _launchMode == LaunchMode.Player && Voidstrap.Utility.Platform.SupportsInputHooks && (App.Settings?.Prop.SnapTapEnabled ?? false);
 		bool shouldCompressAfterExit = RobloxInstallCompression.Supported && (App.Settings?.Prop.CompressRobloxInstalls ?? false);
-		if (!((App.Settings?.Prop.EnableActivityTracking ?? false) || flag || shouldOptimize || shouldTrackOverlays || shouldKeepSnapTap || shouldCompressAfterExit) && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
+		if (!((App.Settings?.Prop.EnableActivityTracking ?? false) || flag || shouldOptimize || shouldTrackOverlays || shouldKeepSnapTap || shouldCompressAfterExit || UsesMacVirtualDisplay) && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
         {
             return Task.CompletedTask;
         }
@@ -2523,7 +2542,7 @@ public class Bootstrapper
             LogFile = logFileName,
             AutoclosePids = [.. _integrationAutoclosePids]
         };
-        if (AssetProxyServer.IsRequired && _launchMode == LaunchMode.Player)
+        if ((AssetProxyServer.IsRequired && _launchMode == LaunchMode.Player) || (UsesMacVirtualDisplay && System.Windows.Application.Current != null))
         {
             try
             {
@@ -2550,7 +2569,7 @@ public class Bootstrapper
                         Watcher.ForceShutdownAfterRobloxExit("Bootstrapper::LaunchWatcherIfNeeded");
                     }, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.Default);
                 }
-                App.Logger.WriteLine("Bootstrapper::LaunchWatcherIfNeeded", "Running the watcher in-process for AssetWarp so no second Voidstrap process is needed.");
+                App.Logger.WriteLine("Bootstrapper::LaunchWatcherIfNeeded", "Running the watcher in-process so AssetWarp and the virtual display stay with this Voidstrap process.");
                 return Task.CompletedTask;
             }
             catch (Exception ex)

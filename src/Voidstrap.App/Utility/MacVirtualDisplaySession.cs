@@ -12,6 +12,8 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
 	private static readonly SemaphoreSlim SessionSlot = new(1, 1);
 	private readonly object _gate = new();
 	private readonly CancellationTokenSource _cancellation = new();
+	private readonly TaskCompletionSource<bool> _ready = new(TaskCreationOptions.RunContinuationsAsynchronously);
+	private static MacVirtualDisplaySession? _prestarted;
 	private Process? _process;
 	private bool _disposed;
 	private bool _started;
@@ -25,6 +27,29 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
 			_started = true;
 			_ = StartAsync();
 		}
+	}
+
+	public async Task<bool> WaitUntilReadyAsync(TimeSpan timeout, CancellationToken token)
+	{
+		try
+		{
+			return await _ready.Task.WaitAsync(timeout, token).ConfigureAwait(false);
+		}
+		catch (TimeoutException)
+		{
+			App.Logger.WriteLine(LogIdent, "The virtual display was not ready in time, starting Roblox anyway");
+			return false;
+		}
+	}
+
+	public static void Prestart(MacVirtualDisplaySession session)
+	{
+		Interlocked.Exchange(ref _prestarted, session)?.Dispose();
+	}
+
+	public static MacVirtualDisplaySession? TakePrestarted()
+	{
+		return Interlocked.Exchange(ref _prestarted, null);
 	}
 
 	private async Task StartAsync()
@@ -74,6 +99,8 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
 		{
 			if (acquired && !monitoring)
 				SessionSlot.Release();
+			if (!monitoring)
+				_ready.TrySetResult(false);
 		}
 	}
 
@@ -91,6 +118,7 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
 					if (!_disposed)
 						_cancellation.CancelAfter(Timeout.InfiniteTimeSpan);
 				}
+				_ready.TrySetResult(true);
 			}
 			App.Logger.WriteLine(LogIdent, line);
 		}
@@ -126,6 +154,7 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
 		}
 		finally
 		{
+			_ready.TrySetResult(false);
 			lock (_gate)
 			{
 				_process = null;
@@ -149,6 +178,7 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
 			if (_disposed)
 				return;
 			_disposed = true;
+			_ready.TrySetResult(false);
 			try
 			{
 				_process?.StandardInput.Close();
