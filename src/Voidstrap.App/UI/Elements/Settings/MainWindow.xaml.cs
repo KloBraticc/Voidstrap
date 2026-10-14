@@ -6294,6 +6294,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         int generation = ++_launchTargetOverlayGeneration;
         LaunchTargetOverlay.IsHitTestVisible = false;
+        SetModalUnderlayHidden(false);
         if (Voidstrap.Utility.Platform.IsWindows)
             _modalPanel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
         AnimateLaunchTargetOverlay(0.0, 10.0, LaunchTargetCloseDuration, LaunchTargetCloseDuration, LaunchTargetEaseIn, LaunchTargetEaseIn, generation, true);
@@ -6529,6 +6530,17 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _modalPanel.CacheMode = null;
         if (_launchTargetOverlayOpen)
             Dispatcher.BeginInvoke(DispatcherPriority.Background, RefreshLaunchTargetStates);
+        SetModalUnderlayHidden(Voidstrap.Utility.Platform.IsWindows && LaunchTargetBackdrop.Source != null);
+    }
+
+    private void SetModalUnderlayHidden(bool hidden)
+    {
+        Visibility visibility = hidden ? Visibility.Hidden : Visibility.Visible;
+        foreach (UIElement target in new UIElement[] { BackgroundLayer, RootGrid, StatusBarHost, TopNavPanel })
+        {
+            if (target.Visibility != Visibility.Collapsed)
+                target.Visibility = visibility;
+        }
     }
 
     private void FinishLaunchTargetClose(int generation)
@@ -6543,6 +6555,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _modalTranslate = null;
         LaunchTargetOverlay.Visibility = Visibility.Hidden;
         LaunchTargetBackdrop.Source = null;
+        SetModalUnderlayHidden(false);
         RemoveLinuxLaunchTargetBlur();
         ReleaseOrphanedCapture();
     }
