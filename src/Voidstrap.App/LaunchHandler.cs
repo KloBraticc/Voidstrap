@@ -1453,6 +1453,7 @@ public static class LaunchHandler
 			if (OperatingSystem.IsMacOS() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
 			{
 				Voidstrap.Utility.MacRobloxProcesses.CloseIdleMenuBarHelpers();
+				await PrestartMacVirtualDisplayAsync(cancellation);
 				AssetWarpAutoEnable.EnsureEnabled(allowPrompt: !App.LaunchSettings.QuietFlag.Active, userAction: false);
 				if (!App.Settings.Prop.AssetWarpEnabled)
 					AssetProxyServer.Stop();
@@ -1512,6 +1513,7 @@ public static class LaunchHandler
 		{
 			if (OperatingSystem.IsLinux())
 				Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.StartupStatus = null;
+			Voidstrap.Utility.MacVirtualDisplaySession.TakePrestarted()?.Dispose();
 			cancelRequested.Dispose();
 			soberLaunchLease?.Dispose();
 			Interlocked.Exchange(ref _portableLaunchActive, 0);
@@ -1522,6 +1524,19 @@ public static class LaunchHandler
 				App.SoftTerminate();
 			}
 		}
+	}
+
+	private static async Task PrestartMacVirtualDisplayAsync(CancellationToken cancellation)
+	{
+		if (!App.Settings.Prop.MacVirtualDisplayEnabled || (App.Settings.Prop.LaunchWithoutVoidstrap && !App.LaunchSettings.TestModeFlag.Active))
+			return;
+		SetPortableLaunchStatus("Starting the virtual display");
+		Voidstrap.Utility.MacVirtualDisplaySession session = new();
+		Voidstrap.Utility.MacVirtualDisplaySession.Prestart(session);
+		session.Start();
+		Stopwatch waited = Stopwatch.StartNew();
+		bool ready = await session.WaitUntilReadyAsync(TimeSpan.FromSeconds(12), cancellation);
+		App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", (ready ? "The virtual display was ready" : "The virtual display did not start") + " after " + waited.ElapsedMilliseconds + " ms, launching Roblox");
 	}
 
 	private static IBootstrapperDialog? _portableDialog;
