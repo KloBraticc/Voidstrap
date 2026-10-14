@@ -714,7 +714,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RootFrame.Navigating += RootFrame_Navigating;
         RootFrame.Navigated += RootFrame_Navigated;
         Wpf.Ui.Controls.Navigation.NavigationTiming.PageCreated += OnNavigationPageCreated;
-        CommandPalettePopup.Closed += OverlayPopup_Closed;
         AppMenuPopup.Closing += AppMenuPopup_Closing;
         AppMenuPopup.Closed += OverlayPopup_Closed;
         App.Logger.WriteLine("MainWindow", "Initializing settings window");
@@ -1400,7 +1399,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 IndexDynamicPageSearchEntries(currentPage);
             }
-            if (CommandPalettePopup?.IsOpen == true && !CommandPalettePopup.IsClosing)
+            if (_commandPaletteOpen)
             {
                 RefreshCommandPaletteResults();
             }
@@ -1927,25 +1926,22 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void ToggleCommandPalette()
     {
-        if (CommandPalettePopup.IsOpen && !CommandPalettePopup.IsClosing)
+        if (_commandPaletteOpen)
         {
             CloseCommandPalette();
             return;
         }
         CloseOverlayPopups();
         CommandPaletteSearchBox.Text = "";
+        _commandPaletteOpen = true;
         RefreshCommandPaletteResults();
-        CommandPalettePopup.IsOpen = true;
-    }
-
-    private void CommandPalettePopup_Opened(object? sender, EventArgs e)
-    {
+        OpenModalOverlay(CommandPalettePanel, CommandPalettePanelTranslate);
         Dispatcher.BeginInvoke(new Action(FocusCommandPalette), DispatcherPriority.Input);
     }
 
     private void FocusCommandPalette()
     {
-        if (!CommandPalettePopup.IsOpen)
+        if (!_commandPaletteOpen)
         {
             return;
         }
@@ -1956,10 +1952,25 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void CloseCommandPalette()
     {
         CancelCommandPaletteSearch();
-        if (CommandPalettePopup != null)
+        if (!_commandPaletteOpen)
         {
-            CommandPalettePopup.IsOpen = false;
+            return;
         }
+        _commandPaletteOpen = false;
+        CloseModalOverlay();
+    }
+
+    private void CommandPaletteClose_Click(object sender, RoutedEventArgs e)
+    {
+        CloseCommandPalette();
+    }
+
+    private void ResetCommandPalette()
+    {
+        CancelCommandPaletteSearch();
+        CommandPaletteSearchBox.Text = "";
+        _commandPaletteRows.Clear();
+        _commandPaletteSelected = -1;
     }
 
     private void CancelCommandPaletteSearch()
@@ -2085,7 +2096,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             App.Logger.WriteLine("MainWindow::Search", "Could not rank search results: " + ex.Message);
             return;
         }
-        if (_isClosed || token.IsCancellationRequested || generation != Volatile.Read(ref _commandPaletteSearchGeneration) || !CommandPalettePopup.IsOpen)
+        if (_isClosed || token.IsCancellationRequested || generation != Volatile.Read(ref _commandPaletteSearchGeneration) || !_commandPaletteOpen)
         {
             return;
         }
@@ -2196,7 +2207,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void CommandPaletteSearchBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         CommandPalettePlaceholder.Visibility = string.IsNullOrEmpty(CommandPaletteSearchBox.Text) ? Visibility.Visible : Visibility.Collapsed;
-        if (CommandPalettePopup.IsOpen)
+        if (_commandPaletteOpen)
         {
             RefreshCommandPaletteResults();
         }
@@ -4385,7 +4396,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             e.Handled = true;
             return;
         }
-        if (e.Key == Key.Escape && CommandPalettePopup.IsOpen)
+        if (e.Key == Key.Escape && _commandPaletteOpen)
         {
             CloseCommandPalette();
             e.Handled = true;
@@ -4397,7 +4408,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             e.Handled = true;
             return;
         }
-        if (CommandPalettePopup.IsOpen)
+        if (_commandPaletteOpen)
         {
             return;
         }
@@ -5080,13 +5091,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             StopLogsSubmenuCloseTimer();
             AppMenuLogsItem.IsSubmenuOpen = false;
         }
-        else if (ReferenceEquals(sender, CommandPalettePopup))
-        {
-            CancelCommandPaletteSearch();
-            CommandPaletteSearchBox.Text = "";
-            _commandPaletteRows.Clear();
-            _commandPaletteSelected = -1;
-        }
         ReleaseOrphanedCapture();
     }
 
@@ -5117,7 +5121,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             return;
         }
-        if (_launchTargetOverlayOpen || CommandPalettePopup?.IsOpen == true || AppMenuPopup?.IsOpen == true || NotificationPopup?.IsOpen == true)
+        if (_launchTargetOverlayOpen || _commandPaletteOpen || AppMenuPopup?.IsOpen == true || NotificationPopup?.IsOpen == true)
         {
             return;
         }
@@ -5816,7 +5820,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RootFrame.Navigating -= RootFrame_Navigating;
         RootFrame.Navigated -= RootFrame_Navigated;
         Wpf.Ui.Controls.Navigation.NavigationTiming.PageCreated -= OnNavigationPageCreated;
-        CommandPalettePopup.Closed -= OverlayPopup_Closed;
         AppMenuPopup.Closing -= AppMenuPopup_Closing;
         AppMenuPopup.Closed -= OverlayPopup_Closed;
         RootNavigation.NavigationFailed -= OnNavigationFailed;
@@ -6209,6 +6212,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool _launchTargetOverlayOpen;
 
+    private bool _commandPaletteOpen;
+
+    private Border? _modalPanel;
+
+    private TranslateTransform? _modalTranslate;
+
     private int _launchTargetOverlayGeneration;
 
     private static readonly IEasingFunction LaunchTargetEaseOut = CreateLaunchTargetEase(new ExponentialEase { Exponent = 5, EasingMode = EasingMode.EaseOut });
@@ -6249,20 +6258,45 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         PopulateLaunchTargets();
         _launchTargetOverlayOpen = true;
         InstallLaunchButton.IsDropDownOpen = true;
+        OpenModalOverlay(LaunchTargetPanel, LaunchTargetPanelTranslate);
+        LaunchTargetList.FocusList();
+    }
+
+    private void OpenModalOverlay(Border panel, TranslateTransform translate)
+    {
         int generation = ++_launchTargetOverlayGeneration;
-        if (Voidstrap.Utility.Platform.UsesPortableUi)
+        bool fresh = LaunchTargetOverlay.Visibility != Visibility.Visible || !LaunchTargetOverlay.IsHitTestVisible || !ReferenceEquals(_modalPanel, panel);
+        _modalPanel = panel;
+        _modalTranslate = translate;
+        LaunchTargetPanel.Visibility = ReferenceEquals(panel, LaunchTargetPanel) ? Visibility.Visible : Visibility.Collapsed;
+        CommandPalettePanel.Visibility = ReferenceEquals(panel, CommandPalettePanel) ? Visibility.Visible : Visibility.Collapsed;
+        if (fresh)
         {
-            ApplyLinuxLaunchTargetBlur();
+            LaunchTargetOverlay.BeginAnimation(OpacityProperty, null);
+            LaunchTargetOverlay.Opacity = 0;
+            translate.BeginAnimation(TranslateTransform.YProperty, null);
+            translate.Y = 16;
+            if (Voidstrap.Utility.Platform.UsesPortableUi)
+                ApplyLinuxLaunchTargetBlur();
+            else
+                CaptureLaunchTargetBackdrop();
         }
-        else
-        {
-            CaptureLaunchTargetBackdrop();
-            LaunchTargetPanel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
-        }
+        if (!Voidstrap.Utility.Platform.UsesPortableUi)
+            panel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
         LaunchTargetOverlay.Visibility = Visibility.Visible;
         LaunchTargetOverlay.IsHitTestVisible = true;
         AnimateLaunchTargetOverlay(1.0, 0.0, LaunchTargetOpenFadeDuration, LaunchTargetOpenDuration, LaunchTargetFadeOut, LaunchTargetEaseOut, generation, false);
-        LaunchTargetList.FocusList();
+    }
+
+    private void CloseModalOverlay()
+    {
+        if (_launchTargetOverlayOpen || _commandPaletteOpen || _modalPanel == null)
+            return;
+        int generation = ++_launchTargetOverlayGeneration;
+        LaunchTargetOverlay.IsHitTestVisible = false;
+        if (Voidstrap.Utility.Platform.IsWindows)
+            _modalPanel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
+        AnimateLaunchTargetOverlay(0.0, 10.0, LaunchTargetCloseDuration, LaunchTargetCloseDuration, LaunchTargetEaseIn, LaunchTargetEaseIn, generation, true);
     }
 
     private void CaptureLaunchTargetBackdrop()
@@ -6417,7 +6451,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void WarmLaunchTargets()
     {
-        if (_launchTargetsWarmed || _launchTargetOverlayOpen || _isClosed || LaunchTargetOverlay == null)
+        if (_launchTargetsWarmed || _launchTargetOverlayOpen || _commandPaletteOpen || _isClosed || LaunchTargetOverlay == null)
             return;
         _launchTargetsWarmed = true;
         try
@@ -6448,7 +6482,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void FinishLaunchTargetWarmup()
     {
-        if (_launchTargetOverlayOpen || LaunchTargetOverlay == null)
+        if (_launchTargetOverlayOpen || _commandPaletteOpen || LaunchTargetOverlay == null)
             return;
         LaunchTargetOverlay.Visibility = Visibility.Hidden;
         LaunchTargetOverlay.Opacity = 0;
@@ -6460,11 +6494,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         _launchTargetOverlayOpen = false;
         InstallLaunchButton.IsDropDownOpen = false;
-        int generation = ++_launchTargetOverlayGeneration;
-        LaunchTargetOverlay.IsHitTestVisible = false;
-        if (Voidstrap.Utility.Platform.IsWindows)
-            LaunchTargetPanel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
-        AnimateLaunchTargetOverlay(0.0, 10.0, LaunchTargetCloseDuration, LaunchTargetCloseDuration, LaunchTargetEaseIn, LaunchTargetEaseIn, generation, true);
+        CloseModalOverlay();
     }
 
     private void AnimateLaunchTargetOverlay(double opacity, double offsetY, TimeSpan fadeDuration, TimeSpan moveDuration, IEasingFunction fadeEase, IEasingFunction moveEase, int generation, bool finishClose)
@@ -6481,7 +6511,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         move.Completed += Completed;
         LaunchTargetOverlay.BeginAnimation(OpacityProperty, fade, HandoffBehavior.SnapshotAndReplace);
-        LaunchTargetPanelTranslate.BeginAnimation(TranslateTransform.YProperty, move, HandoffBehavior.SnapshotAndReplace);
+        (_modalTranslate ?? LaunchTargetPanelTranslate).BeginAnimation(TranslateTransform.YProperty, move, HandoffBehavior.SnapshotAndReplace);
     }
 
     private static DoubleAnimation CreateLaunchTargetAnimation(double to, TimeSpan duration, IEasingFunction ease)
@@ -6493,17 +6523,24 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void FinishLaunchTargetOpen(int generation)
     {
-        if (generation != _launchTargetOverlayGeneration || !_launchTargetOverlayOpen)
+        if (generation != _launchTargetOverlayGeneration || !(_launchTargetOverlayOpen || _commandPaletteOpen))
             return;
-        LaunchTargetPanel.CacheMode = null;
-        Dispatcher.BeginInvoke(DispatcherPriority.Background, RefreshLaunchTargetStates);
+        if (_modalPanel != null)
+            _modalPanel.CacheMode = null;
+        if (_launchTargetOverlayOpen)
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, RefreshLaunchTargetStates);
     }
 
     private void FinishLaunchTargetClose(int generation)
     {
-        if (generation != _launchTargetOverlayGeneration || _launchTargetOverlayOpen)
+        if (generation != _launchTargetOverlayGeneration || _launchTargetOverlayOpen || _commandPaletteOpen)
             return;
-        LaunchTargetPanel.CacheMode = null;
+        if (_modalPanel != null)
+            _modalPanel.CacheMode = null;
+        if (ReferenceEquals(_modalPanel, CommandPalettePanel))
+            ResetCommandPalette();
+        _modalPanel = null;
+        _modalTranslate = null;
         LaunchTargetOverlay.Visibility = Visibility.Hidden;
         LaunchTargetBackdrop.Source = null;
         RemoveLinuxLaunchTargetBlur();
@@ -6513,6 +6550,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void LaunchTargetScrim_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         CloseLaunchTargetOverlay();
+        CloseCommandPalette();
         e.Handled = true;
     }
 
