@@ -1032,7 +1032,18 @@ public partial class Watcher : IDisposable
 
 	private void ReopenSettingsForTestMode()
 	{
-		if (_disposed || _lifetimeCancellation.IsCancellationRequested || !App.LaunchSettings.TestModeFlag.Active)
+		if (_disposed || _lifetimeCancellation.IsCancellationRequested)
+		{
+			return;
+		}
+		ReopenSettingsForTestModeOnce();
+	}
+
+	private static int _testModeReopened;
+
+	internal static void ReopenSettingsForTestModeOnce()
+	{
+		if (!App.LaunchSettings.TestModeFlag.Active || Interlocked.Exchange(ref _testModeReopened, 1) != 0)
 		{
 			return;
 		}

@@ -2502,7 +2502,7 @@ public class Bootstrapper
 
     private Task LaunchWatcherIfNeeded(string logFileName, CancellationToken ct)
     {
-        if (ClosesAfterLaunch)
+        if (ClosesAfterLaunch && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
         {
             App.Logger.WriteLine("Bootstrapper::LaunchWatcherIfNeeded", "Launch without Voidstrap is on, nothing keeps running after Roblox starts");
             return Task.CompletedTask;

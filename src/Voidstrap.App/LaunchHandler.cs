@@ -949,6 +949,7 @@ public static class LaunchHandler
 				}
 
 				Volatile.Write(ref _residentActive, 0);
+				Watcher.ReopenSettingsForTestModeOnce();
 				PortableSessionEnded.TrySetResult(true);
 				App.Terminate();
 			});
@@ -1090,6 +1091,7 @@ public static class LaunchHandler
 				if (Voidstrap.Utility.Platform.IsLinux)
 					Voidstrap.Utility.LinuxSessionHandoff.ClearResident();
 				Volatile.Write(ref _residentActive, 0);
+				Watcher.ReopenSettingsForTestModeOnce();
 				PortableSessionEnded.TrySetResult(true);
 				App.Terminate();
 			});
@@ -1489,7 +1491,7 @@ public static class LaunchHandler
 				stayResident = true;
 				Voidstrap.UI.LinuxTaskbarPresence.HideWhileSessionRuns();
 			}
-			else if (OperatingSystem.IsMacOS() && !(runtimeKind == Voidstrap.Platform.RuntimeKind.Player && App.Settings.Prop.LaunchWithoutVoidstrap))
+			else if (OperatingSystem.IsMacOS() && !(runtimeKind == Voidstrap.Platform.RuntimeKind.Player && App.Settings.Prop.LaunchWithoutVoidstrap && !App.LaunchSettings.TestModeFlag.Active))
 			{
 				bool player = runtimeKind == Voidstrap.Platform.RuntimeKind.Player;
 				int runtimeId = await WaitForMacProcessAsync(player ? Voidstrap.Utility.Platform.RobloxPlayerProcessName : Voidstrap.Utility.Platform.RobloxStudioProcessName, launchRequestedUtc, cancellation);
