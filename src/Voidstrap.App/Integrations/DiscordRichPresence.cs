@@ -602,6 +602,18 @@ public partial class DiscordRichPresence : IDisposable
 
 	private void OnStudioWatch(object? state)
 	{
+		try
+		{
+			StudioWatchTick();
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("DiscordRichPresence::OnStudioWatch", ex);
+		}
+	}
+
+	private void StudioWatchTick()
+	{
 		if (_disposed)
 		{
 			return;
