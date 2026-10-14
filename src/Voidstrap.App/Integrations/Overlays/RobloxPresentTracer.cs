@@ -209,9 +209,11 @@ namespace Voidstrap.Integrations.Overlays
             }
         }
 
+        private const string TracePrefix = "VoidstrapRobloxPresent";
+
         private static void TraceLoop()
         {
-            string sessionName = "VoidstrapRobloxPresent" + Environment.ProcessId;
+            string sessionName = TracePrefix + Environment.ProcessId;
             int stopGeneration = Volatile.Read(ref _stopGeneration);
             try
             {
@@ -513,6 +515,7 @@ namespace Voidstrap.Integrations.Overlays
 
             public static EtwSession Create(string name)
             {
+                StopAbandonedSessions(name);
                 byte* properties = NewProperties();
                 try
                 {
@@ -533,6 +536,68 @@ namespace Voidstrap.Integrations.Overlays
                 finally
                 {
                     NativeMemory.Free(properties);
+                }
+            }
+
+            private static void StopAbandonedSessions(string ownName)
+            {
+                const int maxSessions = 64;
+                const int stride = PropertiesSize + NameBytes * 2;
+                byte* block = (byte*)NativeMemory.AllocZeroed((nuint)(stride * maxSessions));
+                byte** list = stackalloc byte*[maxSessions];
+                try
+                {
+                    for (int i = 0; i < maxSessions; i++)
+                    {
+                        byte* entry = block + i * stride;
+                        *(uint*)entry = stride;
+                        *(uint*)(entry + 112) = PropertiesSize + NameBytes;
+                        *(uint*)(entry + 116) = PropertiesSize;
+                        list[i] = entry;
+                    }
+                    if (QueryAllTraces(list, maxSessions, out uint count) != 0)
+                        return;
+                    string prefix = TracePrefix;
+                    for (int i = 0; i < (int)Math.Min(count, (uint)maxSessions); i++)
+                    {
+                        uint offset = *(uint*)(list[i] + 116);
+                        if (offset == 0 || offset >= stride)
+                            continue;
+                        string? sessionName = Marshal.PtrToStringUni((IntPtr)(list[i] + offset));
+                        if (sessionName == null || sessionName == ownName || !sessionName.StartsWith(prefix, StringComparison.Ordinal)
+                            || !int.TryParse(sessionName.AsSpan(prefix.Length), out int ownerPid) || IsVoidstrapProcess(ownerPid))
+                            continue;
+                        byte* properties = NewProperties();
+                        try
+                        {
+                            if (ControlTrace(0, sessionName, properties, 1) == 0)
+                                App.Logger.WriteLine("RobloxPresentTracer", "Stopped a present trace session left behind by an earlier Voidstrap process");
+                        }
+                        finally
+                        {
+                            NativeMemory.Free(properties);
+                        }
+                    }
+                }
+                catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
+                {
+                }
+                finally
+                {
+                    NativeMemory.Free(block);
+                }
+            }
+
+            private static bool IsVoidstrapProcess(int processId)
+            {
+                try
+                {
+                    using System.Diagnostics.Process process = System.Diagnostics.Process.GetProcessById(processId);
+                    return process.ProcessName.Contains("Voidstrap", StringComparison.OrdinalIgnoreCase);
+                }
+                catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
+                {
+                    return false;
                 }
             }
 
@@ -633,6 +698,9 @@ namespace Voidstrap.Integrations.Overlays
 
             [LibraryImport("advapi32.dll", EntryPoint = "ControlTraceW", StringMarshalling = StringMarshalling.Utf16)]
             private static partial uint ControlTrace(ulong handle, string? name, byte* properties, uint controlCode);
+
+            [LibraryImport("advapi32.dll", EntryPoint = "QueryAllTracesW")]
+            private static partial uint QueryAllTraces(byte** properties, uint count, out uint sessionCount);
 
             [LibraryImport("advapi32.dll", EntryPoint = "EnableTraceEx2")]
             private static partial uint EnableTraceEx2(ulong handle, Guid* provider, uint controlCode, byte level, ulong matchAnyKeyword, ulong matchAllKeyword, uint timeout, byte* parameters);
