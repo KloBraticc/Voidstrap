@@ -1320,41 +1320,9 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
   Terms: Publisher license text reproduced below
   Source: https://www.nuget.org/packages/Microsoft.DotNet.PlatformAbstractions/3.1.6
 
-- Microsoft.Extensions.Configuration 10.0.13 (nuget)
-  Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.Configuration/10.0.13
-
-- Microsoft.Extensions.Configuration.Abstractions 10.0.13 (nuget)
-  Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Abstractions/10.0.13
-
-- Microsoft.Extensions.Configuration.FileExtensions 10.0.13 (nuget)
-  Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.Configuration.FileExtensions/10.0.13
-
-- Microsoft.Extensions.Configuration.Json 10.0.13 (nuget)
-  Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Json/10.0.13
-
 - Microsoft.Extensions.DependencyModel 9.0.9 (nuget)
   Terms: MIT
   Source: https://www.nuget.org/packages/Microsoft.Extensions.DependencyModel/9.0.9
-
-- Microsoft.Extensions.FileProviders.Abstractions 10.0.13 (nuget)
-  Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.FileProviders.Abstractions/10.0.13
-
-- Microsoft.Extensions.FileProviders.Physical 10.0.13 (nuget)
-  Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.FileProviders.Physical/10.0.13
-
-- Microsoft.Extensions.FileSystemGlobbing 10.0.13 (nuget)
-  Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.FileSystemGlobbing/10.0.13
-
-- Microsoft.Extensions.Primitives 10.0.13 (nuget)
-  Terms: MIT
-  Source: https://www.nuget.org/packages/Microsoft.Extensions.Primitives/10.0.13
 
 - Microsoft.ICU.ICU4C.Runtime 72.1.0.3 (nuget)
   Terms: Publisher license text reproduced below
@@ -9227,30 +9195,6 @@ DEALINGS IN THE SOFTWARE.
 LibreWPF.Sdk 0.1.0-preview.42
 Origin: NuGet copyright and declared MIT expression
 
-Microsoft.Extensions.Configuration 10.0.13
-Origin: NuGet copyright and declared MIT expression
-
-Microsoft.Extensions.Configuration.Abstractions 10.0.13
-Origin: NuGet copyright and declared MIT expression
-
-Microsoft.Extensions.Configuration.FileExtensions 10.0.13
-Origin: NuGet copyright and declared MIT expression
-
-Microsoft.Extensions.Configuration.Json 10.0.13
-Origin: NuGet copyright and declared MIT expression
-
-Microsoft.Extensions.FileProviders.Abstractions 10.0.13
-Origin: NuGet copyright and declared MIT expression
-
-Microsoft.Extensions.FileProviders.Physical 10.0.13
-Origin: NuGet copyright and declared MIT expression
-
-Microsoft.Extensions.FileSystemGlobbing 10.0.13
-Origin: NuGet copyright and declared MIT expression
-
-Microsoft.Extensions.Primitives 10.0.13
-Origin: NuGet copyright and declared MIT expression
-
 Microsoft.NET.ILLink.Tasks 10.0.8
 Origin: NuGet copyright and declared MIT expression
 
@@ -15883,30 +15827,6 @@ SOFTWARE.
 
 
 ### Notice 76
-
-Microsoft.Extensions.Configuration 10.0.13
-Origin: NuGet package Microsoft.Extensions.Configuration/10.0.13: THIRD-PARTY-NOTICES.TXT
-
-Microsoft.Extensions.Configuration.Abstractions 10.0.13
-Origin: NuGet package Microsoft.Extensions.Configuration.Abstractions/10.0.13: THIRD-PARTY-NOTICES.TXT
-
-Microsoft.Extensions.Configuration.FileExtensions 10.0.13
-Origin: NuGet package Microsoft.Extensions.Configuration.FileExtensions/10.0.13: THIRD-PARTY-NOTICES.TXT
-
-Microsoft.Extensions.Configuration.Json 10.0.13
-Origin: NuGet package Microsoft.Extensions.Configuration.Json/10.0.13: THIRD-PARTY-NOTICES.TXT
-
-Microsoft.Extensions.FileProviders.Abstractions 10.0.13
-Origin: NuGet package Microsoft.Extensions.FileProviders.Abstractions/10.0.13: THIRD-PARTY-NOTICES.TXT
-
-Microsoft.Extensions.FileProviders.Physical 10.0.13
-Origin: NuGet package Microsoft.Extensions.FileProviders.Physical/10.0.13: THIRD-PARTY-NOTICES.TXT
-
-Microsoft.Extensions.FileSystemGlobbing 10.0.13
-Origin: NuGet package Microsoft.Extensions.FileSystemGlobbing/10.0.13: THIRD-PARTY-NOTICES.TXT
-
-Microsoft.Extensions.Primitives 10.0.13
-Origin: NuGet package Microsoft.Extensions.Primitives/10.0.13: THIRD-PARTY-NOTICES.TXT
 
 Microsoft.NET.ILLink.Tasks 10.0.8
 Origin: NuGet package Microsoft.NET.ILLink.Tasks/10.0.8: THIRD-PARTY-NOTICES.TXT
