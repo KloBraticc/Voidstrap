@@ -72,7 +72,7 @@
 		<AnalysisLevel>latest</AnalysisLevel>
 		<NoWarn>$(NoWarn);CS8305</NoWarn>
 
-		<StartupObject></StartupObject>
+		<StartupObject>Voidstrap.Program</StartupObject>
 
 		<CsWinRTIncludes>Windows.Foundation;Windows.Graphics.Capture;Windows.Graphics.DirectX;Windows.Graphics.SizeInt32;Windows.Graphics.RectInt32;Windows.Graphics.DisplayId;Windows.UI.WindowId;Windows.Security.Authorization.AppCapabilityAccess.AppCapabilityAccessStatus</CsWinRTIncludes>
 		<CsWinRTExcludes>Windows.Foundation.Diagnostics</CsWinRTExcludes>
