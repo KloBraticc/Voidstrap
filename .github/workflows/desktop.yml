@@ -1469,7 +1469,8 @@ jobs:
           "$RUNNER_TEMP/displays"
           "$RUNNER_TEMP/displays" | grep -q "refresh 240" || echo true > "$RUNNER_TEMP/overlay-logs/app-virtual-display-restored.txt"
           pkill -x Voidstrap || true
-          grep -h "VirtualDisplay\|MacWindowMode\|FastFlag\|ClientSettings\|LaunchPortableRuntime" ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -20 || true
+          grep -h "VirtualDisplay\|virtual display\|in-process\|MacWindowMode\|FastFlag\|ClientSettings\|LaunchPortableRuntime" ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -20 || true
+          grep -qh "The virtual display was ready after" ~/Library/Logs/Voidstrap/*.log 2>/dev/null && echo true > "$RUNNER_TEMP/overlay-logs/app-virtual-display-prestart.txt" || true
 
       - name: Homepage background overlay over a simulated Roblox home screen
         if: always()
@@ -1630,6 +1631,7 @@ jobs:
               "fps_flags_applied": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/fps-flags.txt").is_file(),
               "app_virtual_display": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/app-virtual-display.txt").is_file(),
               "app_virtual_display_restored": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/app-virtual-display-restored.txt").is_file(),
+              "app_virtual_display_prestart": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/app-virtual-display-prestart.txt").is_file(),
               "fps_cap_kept": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/fps-cap-kept.txt").is_file(),
               "homepage_overlay": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/homepage-overlay.txt").is_file(),
               "dock_layering": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").read_text().strip() == "true" if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/layering.txt").is_file() else False,
