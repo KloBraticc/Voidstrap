@@ -147,28 +147,202 @@
               </ItemsControl.ItemTemplate>
             </ComboBox>
           </controls:OptionControl>
+        </StackPanel>
+      </TabItem>
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="MoreHorizontal24" Margin="0,0,6,0" />
+            <TextBlock Text="More" />
+          </StackPanel>
+        </TabItem.Header>
+        <StackPanel>
+        <StackPanel Margin="10">
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Language" />
+          <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Language_Title}" Description="{x:Static resources:Strings.Menu_Appearance_Language_Description}">
+            <ComboBox Width="260" Padding="10,5,10,5" ItemsSource="{Binding LanguageOptions, Mode=OneTime}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
+              <ComboBox.Resources>
+                <langconv:LanguageFlagConverter x:Key="LanguageFlagConverter" />
+                <langconv:LanguageFlagVisibilityConverter x:Key="LanguageFlagVisibilityConverter" />
+                <langconv:LanguageStatusConverter x:Key="LanguageStatusConverter" />
+                <langconv:LanguageStatusVisibilityConverter x:Key="LanguageStatusVisibilityConverter" />
+              </ComboBox.Resources>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel Orientation="Horizontal">
+                    <Border Width="22" Height="15" Margin="0,0,10,0" VerticalAlignment="Center" CornerRadius="2" SnapsToDevicePixels="True" Visibility="{Binding Path=., Converter={StaticResource LanguageFlagVisibilityConverter}}">
+                      <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Path=., Converter={StaticResource LanguageFlagConverter}}" />
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                      <TextBlock Text="{Binding Path=.}" TextTrimming="CharacterEllipsis" />
+                      <TextBlock Margin="0,1,0,0" FontSize="11" Opacity="0.65" Text="{Binding Path=., Converter={StaticResource LanguageStatusConverter}}" Visibility="{Binding Path=., Converter={StaticResource LanguageStatusVisibilityConverter}}" />
+                    </StackPanel>
+                  </StackPanel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ComboBox>
+          </controls:OptionControl>
+          <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Language_AutoTranslateLanguage}" Description="{x:Static resources:Strings.Menu_Appearance_Language_AutoTranslateLanguage_Description}" Visibility="{Binding AutoTranslateVisibility, Mode=OneWay}">
+            <ComboBox Width="200" Padding="10,5,10,5" ItemsSource="{Binding AutoTranslateLanguages, Mode=OneTime}" SelectedItem="{Binding SelectedAutoTranslateLanguage, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Discord status language" Description="Translates your Discord status into another language. Game names, creators and places stay as they are.">
+            <ComboBox Width="200" Padding="10,5,10,5" ItemsSource="{Binding DiscordRpcLanguages, Mode=OneTime}" SelectedItem="{Binding SelectedDiscordRpcLanguage, Mode=TwoWay}" />
+          </controls:OptionControl>
+        </StackPanel>
+        <StackPanel Margin="10">
+          <Grid Margin="0,8,0,8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="0,0,16,0">
+              <TextBlock Text="Bootstrapper" FontSize="20" FontWeight="Medium" />
+                        </StackPanel>
+            <ui:Button Grid.Column="1" Icon="Play24" Content="Preview" VerticalAlignment="Center" Command="{Binding PreviewBootstrapperCommand}" />
+          </Grid>
+
+          <controls:OptionControl Header="Launcher style" Description="Choose a built in launcher or use one of your own themes.">
+            <ComboBox MinWidth="210" Padding="10,5" ItemsSource="{Binding Dialogs, Mode=OneTime}" SelectedItem="{Binding Dialog, Mode=TwoWay}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ComboBox>
+          </controls:OptionControl>
+
+          <controls:OptionControl Header="Launcher size" Description="Change the overall size and spacing of the launcher.">
+            <ComboBox MinWidth="150" Padding="10,5" ItemsSource="{Binding BootstrapperScales, Mode=OneTime}" SelectedItem="{Binding BootstrapperScale, Mode=TwoWay}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ComboBox>
+          </controls:OptionControl>
+
+          <Grid Margin="0,8,0,0">
+            <Grid.Style>
+              <Style TargetType="Grid">
+                <Setter Property="Visibility" Value="Collapsed" />
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding CustomThemesExpanded}" Value="True">
+                    <Setter Property="Visibility" Value="Visible" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </Grid.Style>
+            <ui:CardExpander Style="{StaticResource NoUserExpansionCardExpanderStyle}" IsExpanded="{Binding CustomThemesExpanded, Mode=OneWay}">
+              <HeaderedContentControl.Header>
+                <StackPanel>
+                  <TextBlock FontSize="14" Text="Theme creator" />
+                  <TextBlock Margin="0,2,0,0" FontSize="12" Text="Create and manage the theme used by your custom launcher." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                </StackPanel>
+              </HeaderedContentControl.Header>
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="250" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ListBox Name="CustomThemesListBox" Height="250" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" ItemsSource="{Binding CustomThemes, Mode=OneWay}" SelectedIndex="{Binding SelectedCustomThemeIndex, Mode=TwoWay}" SelectionChanged="CustomThemeSelection" />
+
+                <Grid Grid.Row="1" Grid.Column="0" Margin="0,8,5,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="Add24" Content="New theme" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding AddCustomThemeCommand, Mode=OneTime}" />
+                  <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Delete24" Content="Delete" Appearance="Danger" HorizontalAlignment="Stretch" IsEnabled="{Binding IsCustomThemeSelected, Mode=OneWay}" Command="{Binding DeleteCustomThemeCommand, Mode=OneTime}" />
+                </Grid>
+
+                <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5,0,0,0">
+                  <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                      <Setter Property="Visibility" Value="Visible" />
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCustomThemeSelected}" Value="False">
+                          <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </StackPanel.Style>
+
+                  <TextBlock Text="Theme name" FontWeight="SemiBold" />
+                  <Grid Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ui:TextBox Grid.Column="0" Text="{Binding SelectedCustomThemeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ui:Button Grid.Column="1" Margin="8,0,0,0" Icon="Save24" Content="Save name" Command="{Binding RenameCustomThemeCommand, Mode=OneTime}" />
+                  </Grid>
+
+                  <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="DesktopEdit24" Content="Open editor" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding EditCustomThemeCommand, Mode=OneTime}" />
+                    <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Play24" Content="Preview" HorizontalAlignment="Stretch" Command="{Binding PreviewBootstrapperCommand}" />
+                  </Grid>
+
+                  <Expander Margin="0,10,0,0" Header="More actions" IsExpanded="False">
+                    <Grid Margin="0,8,0,0">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                      </Grid.ColumnDefinitions>
+                      <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="ImageMultiple24" Content="View files" HorizontalAlignment="Stretch" Command="{Binding ViewCustomThemeFilesCommand, Mode=OneTime}" />
+                      <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="ArrowExportRtl24" Content="Export" HorizontalAlignment="Stretch" Command="{Binding ExportCustomThemeCommand, Mode=OneTime}" />
+                    </Grid>
+                  </Expander>
+                </StackPanel>
+
+                <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5,0,0,0" Text="Select a theme from the list, or create a new one." TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                  <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                      <Setter Property="Visibility" Value="Visible" />
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCustomThemeSelected}" Value="True">
+                          <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </TextBlock.Style>
+                </TextBlock>
+              </Grid>
+            </ui:CardExpander>
+          </Grid>
+
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="App identity" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Give the app your own name and icon." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="Optional launcher extras" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Add a background or startup sound. These extras do not apply to custom launchers or themes created in Theme Creator." TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
-            <StackPanel>
-              <controls:OptionControl Header="App name" Description="Replaces the app name everywhere it is shown. Leave it empty to use the original name.">
-                <ui:TextBox Width="220" MaxLength="32" PlaceholderText="Voidstrap" Text="{Binding BrandName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-              </controls:OptionControl>
-              <controls:OptionControl Header="App icon">
+            <StackPanel IsEnabled="{Binding LauncherExtrasEnabled, Mode=OneWay}">
+              <controls:OptionControl Header="Background" Description="Choose an image for the launcher background.">
                 <StackPanel Orientation="Horizontal">
-                  <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}">
-                    <Image Width="28" Height="28" Source="{Binding AppIconPreview}" RenderOptions.BitmapScalingMode="HighQuality" />
-                  </Border>
-                  <ui:Button Content="Choose image" Icon="ImageAdd24" Command="{Binding ChooseAppIconCommand}" />
-                  <ui:Button Margin="8,0,0,0" Content="Reset" Icon="ArrowReset24" Appearance="Secondary" Visibility="{Binding ResetAppIconVisibility}" Command="{Binding ResetAppIconCommand}" />
+                  <ui:Button Content="Choose image" Icon="ImageAdd24" Margin="0,0,8,0" Command="{Binding ImportBackgroundCommand}" />
+                  <ui:Button Content="Remove" Icon="Delete24" Appearance="Danger" Command="{Binding RemoveBackgroundCommand}" />
+                </StackPanel>
+              </controls:OptionControl>
+              <controls:OptionControl Header="Startup sound" Description="Choose audio to play when the launcher opens.">
+                <StackPanel Orientation="Horizontal">
+                  <ui:Button Content="Choose audio" Icon="MusicNote124" Margin="0,0,8,0" Command="{Binding ImportStartupAudioCommand}" />
+                  <ui:Button Content="Remove" Icon="Delete24" Appearance="Danger" Command="{Binding RemoveStartupAudioCommand}" />
                 </StackPanel>
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
+        </StackPanel>
+        <StackPanel Margin="10,0,10,10">
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
@@ -364,196 +538,24 @@
               </Grid>
             </Grid>
           </ui:CardExpander>
-        </StackPanel>
-      </TabItem>
-      <TabItem>
-        <TabItem.Header>
-          <StackPanel Orientation="Horizontal">
-            <ui:SymbolIcon Symbol="MoreHorizontal24" Margin="0,0,6,0" />
-            <TextBlock Text="More" />
-          </StackPanel>
-        </TabItem.Header>
-        <StackPanel>
-        <StackPanel Margin="10">
-          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Language" />
-          <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Language_Title}" Description="{x:Static resources:Strings.Menu_Appearance_Language_Description}">
-            <ComboBox Width="260" Padding="10,5,10,5" ItemsSource="{Binding LanguageOptions, Mode=OneTime}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
-              <ComboBox.Resources>
-                <langconv:LanguageFlagConverter x:Key="LanguageFlagConverter" />
-                <langconv:LanguageFlagVisibilityConverter x:Key="LanguageFlagVisibilityConverter" />
-                <langconv:LanguageStatusConverter x:Key="LanguageStatusConverter" />
-                <langconv:LanguageStatusVisibilityConverter x:Key="LanguageStatusVisibilityConverter" />
-              </ComboBox.Resources>
-              <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                  <StackPanel Orientation="Horizontal">
-                    <Border Width="22" Height="15" Margin="0,0,10,0" VerticalAlignment="Center" CornerRadius="2" SnapsToDevicePixels="True" Visibility="{Binding Path=., Converter={StaticResource LanguageFlagVisibilityConverter}}">
-                      <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Path=., Converter={StaticResource LanguageFlagConverter}}" />
-                    </Border>
-                    <StackPanel VerticalAlignment="Center">
-                      <TextBlock Text="{Binding Path=.}" TextTrimming="CharacterEllipsis" />
-                      <TextBlock Margin="0,1,0,0" FontSize="11" Opacity="0.65" Text="{Binding Path=., Converter={StaticResource LanguageStatusConverter}}" Visibility="{Binding Path=., Converter={StaticResource LanguageStatusVisibilityConverter}}" />
-                    </StackPanel>
-                  </StackPanel>
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ComboBox>
-          </controls:OptionControl>
-          <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Language_AutoTranslateLanguage}" Description="{x:Static resources:Strings.Menu_Appearance_Language_AutoTranslateLanguage_Description}" Visibility="{Binding AutoTranslateVisibility, Mode=OneWay}">
-            <ComboBox Width="200" Padding="10,5,10,5" ItemsSource="{Binding AutoTranslateLanguages, Mode=OneTime}" SelectedItem="{Binding SelectedAutoTranslateLanguage, Mode=TwoWay}" />
-          </controls:OptionControl>
-          <controls:OptionControl Header="Discord status language" Description="Translates your Discord status into another language. Game names, creators and places stay as they are.">
-            <ComboBox Width="200" Padding="10,5,10,5" ItemsSource="{Binding DiscordRpcLanguages, Mode=OneTime}" SelectedItem="{Binding SelectedDiscordRpcLanguage, Mode=TwoWay}" />
-          </controls:OptionControl>
-        </StackPanel>
-        <StackPanel Margin="10">
-          <Grid Margin="0,8,0,8">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Margin="0,0,16,0">
-              <TextBlock Text="Bootstrapper" FontSize="20" FontWeight="Medium" />
-                        </StackPanel>
-            <ui:Button Grid.Column="1" Icon="Play24" Content="Preview" VerticalAlignment="Center" Command="{Binding PreviewBootstrapperCommand}" />
-          </Grid>
-
-          <controls:OptionControl Header="Launcher style" Description="Choose a built in launcher or use one of your own themes.">
-            <ComboBox MinWidth="210" Padding="10,5" ItemsSource="{Binding Dialogs, Mode=OneTime}" SelectedItem="{Binding Dialog, Mode=TwoWay}">
-              <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                  <TextBlock Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ComboBox>
-          </controls:OptionControl>
-
-          <controls:OptionControl Header="Launcher size" Description="Change the overall size and spacing of the launcher.">
-            <ComboBox MinWidth="150" Padding="10,5" ItemsSource="{Binding BootstrapperScales, Mode=OneTime}" SelectedItem="{Binding BootstrapperScale, Mode=TwoWay}">
-              <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                  <TextBlock Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ComboBox>
-          </controls:OptionControl>
-
-          <Grid Margin="0,8,0,0">
-            <Grid.Style>
-              <Style TargetType="Grid">
-                <Setter Property="Visibility" Value="Collapsed" />
-                <Style.Triggers>
-                  <DataTrigger Binding="{Binding CustomThemesExpanded}" Value="True">
-                    <Setter Property="Visibility" Value="Visible" />
-                  </DataTrigger>
-                </Style.Triggers>
-              </Style>
-            </Grid.Style>
-            <ui:CardExpander Style="{StaticResource NoUserExpansionCardExpanderStyle}" IsExpanded="{Binding CustomThemesExpanded, Mode=OneWay}">
-              <HeaderedContentControl.Header>
-                <StackPanel>
-                  <TextBlock FontSize="14" Text="Theme creator" />
-                  <TextBlock Margin="0,2,0,0" FontSize="12" Text="Create and manage the theme used by your custom launcher." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-                </StackPanel>
-              </HeaderedContentControl.Header>
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="*" />
-                  <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="250" />
-                  <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <ListBox Name="CustomThemesListBox" Height="250" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" ItemsSource="{Binding CustomThemes, Mode=OneWay}" SelectedIndex="{Binding SelectedCustomThemeIndex, Mode=TwoWay}" SelectionChanged="CustomThemeSelection" />
-
-                <Grid Grid.Row="1" Grid.Column="0" Margin="0,8,5,0">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                  </Grid.ColumnDefinitions>
-                  <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="Add24" Content="New theme" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding AddCustomThemeCommand, Mode=OneTime}" />
-                  <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Delete24" Content="Delete" Appearance="Danger" HorizontalAlignment="Stretch" IsEnabled="{Binding IsCustomThemeSelected, Mode=OneWay}" Command="{Binding DeleteCustomThemeCommand, Mode=OneTime}" />
-                </Grid>
-
-                <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5,0,0,0">
-                  <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                      <Setter Property="Visibility" Value="Visible" />
-                      <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsCustomThemeSelected}" Value="False">
-                          <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                      </Style.Triggers>
-                    </Style>
-                  </StackPanel.Style>
-
-                  <TextBlock Text="Theme name" FontWeight="SemiBold" />
-                  <Grid Margin="0,5,0,0">
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="*" />
-                      <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <ui:TextBox Grid.Column="0" Text="{Binding SelectedCustomThemeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <ui:Button Grid.Column="1" Margin="8,0,0,0" Icon="Save24" Content="Save name" Command="{Binding RenameCustomThemeCommand, Mode=OneTime}" />
-                  </Grid>
-
-                  <Grid Margin="0,12,0,0">
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="*" />
-                      <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="DesktopEdit24" Content="Open editor" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding EditCustomThemeCommand, Mode=OneTime}" />
-                    <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Play24" Content="Preview" HorizontalAlignment="Stretch" Command="{Binding PreviewBootstrapperCommand}" />
-                  </Grid>
-
-                  <Expander Margin="0,10,0,0" Header="More actions" IsExpanded="False">
-                    <Grid Margin="0,8,0,0">
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                      </Grid.ColumnDefinitions>
-                      <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="ImageMultiple24" Content="View files" HorizontalAlignment="Stretch" Command="{Binding ViewCustomThemeFilesCommand, Mode=OneTime}" />
-                      <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="ArrowExportRtl24" Content="Export" HorizontalAlignment="Stretch" Command="{Binding ExportCustomThemeCommand, Mode=OneTime}" />
-                    </Grid>
-                  </Expander>
-                </StackPanel>
-
-                <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5,0,0,0" Text="Select a theme from the list, or create a new one." TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
-                  <TextBlock.Style>
-                    <Style TargetType="TextBlock">
-                      <Setter Property="Visibility" Value="Visible" />
-                      <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsCustomThemeSelected}" Value="True">
-                          <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                      </Style.Triggers>
-                    </Style>
-                  </TextBlock.Style>
-                </TextBlock>
-              </Grid>
-            </ui:CardExpander>
-          </Grid>
-
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="Optional launcher extras" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Add a background or startup sound. These extras do not apply to custom launchers or themes created in Theme Creator." TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="App identity" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Give the app your own name and icon." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
-            <StackPanel IsEnabled="{Binding LauncherExtrasEnabled, Mode=OneWay}">
-              <controls:OptionControl Header="Background" Description="Choose an image for the launcher background.">
-                <StackPanel Orientation="Horizontal">
-                  <ui:Button Content="Choose image" Icon="ImageAdd24" Margin="0,0,8,0" Command="{Binding ImportBackgroundCommand}" />
-                  <ui:Button Content="Remove" Icon="Delete24" Appearance="Danger" Command="{Binding RemoveBackgroundCommand}" />
-                </StackPanel>
+            <StackPanel>
+              <controls:OptionControl Header="App name" Description="Replaces the app name everywhere it is shown. Leave it empty to use the original name.">
+                <ui:TextBox Width="220" MaxLength="32" PlaceholderText="Voidstrap" Text="{Binding BrandName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Startup sound" Description="Choose audio to play when the launcher opens.">
+              <controls:OptionControl Header="App icon">
                 <StackPanel Orientation="Horizontal">
-                  <ui:Button Content="Choose audio" Icon="MusicNote124" Margin="0,0,8,0" Command="{Binding ImportStartupAudioCommand}" />
-                  <ui:Button Content="Remove" Icon="Delete24" Appearance="Danger" Command="{Binding RemoveStartupAudioCommand}" />
+                  <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                    <Image Width="28" Height="28" Source="{Binding AppIconPreview}" RenderOptions.BitmapScalingMode="HighQuality" />
+                  </Border>
+                  <ui:Button Content="Choose image" Icon="ImageAdd24" Command="{Binding ChooseAppIconCommand}" />
+                  <ui:Button Margin="8,0,0,0" Content="Reset" Icon="ArrowReset24" Appearance="Secondary" Visibility="{Binding ResetAppIconVisibility}" Command="{Binding ResetAppIconCommand}" />
                 </StackPanel>
               </controls:OptionControl>
             </StackPanel>
