@@ -342,7 +342,7 @@
             </StackPanel>
           </ui:CardExpander>
         </StackPanel>
-        <StackPanel Margin="10,0,10,10">
+        <StackPanel Margin="10,-10,10,10">
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
