@@ -237,6 +237,9 @@ namespace Voidstrap.Integrations.Overlays
         private int _fgFailures;
         private bool _fgDisabledByError;
         private const double HoldPresentIntervalMs = 200.0;
+        private const double FrameGenSettleSec = 8.0;
+        private const double CaptureLossRatio = 0.9;
+        private double _fgSettleUntilSec;
         private double _holdNextPresentMs;
         private int _lastDisplayBudget;
         private int _lastGenCount;
@@ -1756,6 +1759,7 @@ namespace Voidstrap.Integrations.Overlays
             _lastCaptureDropCount = _wgc?.DroppedCount ?? 0;
             _sourceIntervalMs = 0;
             _consumeRatioEma = 1.0;
+            _fgSettleUntilSec = _clock.Elapsed.TotalSeconds + FrameGenSettleSec;
             RobloxPresentTracer.ReportFrameGenerationCadence(0);
         }
 
@@ -2272,9 +2276,11 @@ namespace Voidstrap.Integrations.Overlays
 
             double pacingIntervalMs = _emaIntervalMs;
 
-            bool sourceRegressed = TrackSourceHealth(baseFps);
+            bool settled = _clock.Elapsed.TotalSeconds >= _fgSettleUntilSec && _dtCount >= 3;
+            bool sourceRegressed = settled && TrackSourceHealth(baseFps);
             int userMax = FrameGenSettings.MaxGeneratedForCadence(fgMode, pacingIntervalMs, _refreshHz, _consumeRatioEma);
-            ConsiderFrameGenQuality(_lastGenCount >= 3 ? 2 : _lastGenCount >= 2 ? 1 : 0, drainedQueuedCapture || sourceRegressed);
+            if (settled)
+                ConsiderFrameGenQuality(_lastGenCount >= 3 ? 2 : _lastGenCount >= 2 ? 1 : 0, (drainedQueuedCapture && _consumeRatioEma < CaptureLossRatio) || sourceRegressed);
             const bool uncap = false;
             int displayBudget = pacingIntervalMs > 0.5 && _refreshHz > 1.0
                 ? FrameGenSettings.TargetTotal(pacingIntervalMs, _refreshHz, fgMode, uncap, ref _multErr)
@@ -2305,7 +2311,9 @@ namespace Voidstrap.Integrations.Overlays
                     if (genCount == 0)
                         App.Logger.WriteLine(LOG_IDENT, Environment.TickCount64 < Volatile.Read(ref _fgHoldUntilTick)
                             ? "Frame Generation is resting while the game loads, real frames pass through until it ends"
-                            : $"Frame Generation paused, base {baseFps:0} fps against a {_refreshHz:0}Hz display leaves no room to insert frames");
+                            : baseFps < 3.0 || _dtCount < FrameGenSettings.RequiredCadenceSamples(pacingIntervalMs)
+                                ? "Frame Generation is measuring Roblox's frame rate before inserting frames"
+                                : $"Frame Generation paused, base {baseFps:0} fps against a {_refreshHz:0}Hz display leaves no room to insert frames");
                     else
                     {
                         double outFps = baseFps * (genCount + 1);
