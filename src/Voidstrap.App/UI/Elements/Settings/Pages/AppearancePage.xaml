@@ -19,27 +19,55 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
+              <TextBlock Margin="4,4,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Color" />
               <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Accent_Title}" Description="{x:Static resources:Strings.Menu_Appearance_Accent_Description}">
-                <StackPanel>
-                  <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                    <Border Width="24" Height="24" CornerRadius="4" Background="{DynamicResource SystemAccentColorBrush}" Margin="0,0,8,0" />
-                    <ui:Button Content="{x:Static resources:Strings.Menu_Appearance_Accent_Choose}" Command="{Binding ChooseAccentCommand}" />
-                  </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                  <Border Width="24" Height="24" CornerRadius="4" Background="{DynamicResource SystemAccentColorBrush}" Margin="0,0,8,0" />
+                  <ui:Button Content="{x:Static resources:Strings.Menu_Appearance_Accent_Choose}" Command="{Binding ChooseAccentCommand}" Margin="0,0,6,0" />
                   <ui:Button Content="{x:Static resources:Strings.Menu_Appearance_Accent_System}" Command="{Binding ResetAccentCommand}" />
                 </StackPanel>
               </controls:OptionControl>
-              <controls:OptionControl Description="Adds Snow to Voidstraps background" Header="Background Snow">
+              <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Background" />
+              <controls:OptionControl Header="Background image" Description="Import an image, video or GIF as the Voidstrap background.">
+                <ui:Button>
+                  <ui:Button.Style>
+                    <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                      <Setter Property="Content" Value="Import" />
+                      <Setter Property="Command" Value="{Binding ImportBackgroundCommand2}" />
+                      <Setter Property="Appearance" Value="Secondary" />
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasCustomBackground}" Value="True">
+                          <Setter Property="Content" Value="Remove" />
+                          <Setter Property="Command" Value="{Binding RemoveBackgroundCommand2}" />
+                          <Setter Property="Appearance" Value="Danger" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </ui:Button.Style>
+                </ui:Button>
+              </controls:OptionControl>
+              <controls:OptionControl Header="Gradient opacity" Description="Set from the image lighting on import. You can change it afterwards.">
+                <StackPanel Orientation="Horizontal">
+                  <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding GradientOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                  <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding GradientOpacity, StringFormat={}{0:P0}}" />
+                </StackPanel>
+              </controls:OptionControl>
+              <controls:OptionControl Header="Dark overlay" Description="Darkens the background so text stays readable.">
+                <StackPanel Orientation="Horizontal">
+                  <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding BlackOverlayOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                  <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding BlackOverlayOpacity, StringFormat={}{0:P0}}" />
+                </StackPanel>
+              </controls:OptionControl>
+              <controls:OptionControl Header="Show background everywhere" Description="Uses the background behind every Voidstrap window, not only the main one.">
+                <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding BackgroundEverywhere, Mode=TwoWay}" />
+              </controls:OptionControl>
+              <controls:OptionControl Header="Snow" Description="Adds falling snow to the background.">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding Snowww, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Description="Adds a Gradient Movement with Cursor" Header="Gradient Movement">
+              <controls:OptionControl Header="Gradient movement" Description="Moves the background gradient with your cursor.">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding GRADmentFR, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Description="Adds smooth scrollbar movement instantly" Header="Smooth ScrollBar" Visibility="{Binding WindowsOnlyVisibility}">
-                <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding SmooothBARRyesirikikthxlucipook, Mode=TwoWay}" />
-              </controls:OptionControl>
-              <controls:OptionControl Description="Uses sharper text rendering after Voidstrap restarts" Header="Clear Font" Visibility="{Binding WindowsOnlyVisibility}">
-                <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding ClearFont, Mode=TwoWay}" />
-              </controls:OptionControl>
+              <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Shape" />
               <controls:OptionControl Header="Window corners" Description="How round the corners of every Voidstrap window are.">
                 <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding WindowCornerStyles, Mode=OneTime}" SelectedItem="{Binding WindowCornerStyle, Mode=TwoWay}">
                   <ItemsControl.ItemTemplate>
@@ -55,41 +83,12 @@
                   <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding UiCornerScale, StringFormat={}{0:P0}}" />
                 </StackPanel>
               </controls:OptionControl>
-              <controls:OptionControl Header="Background Settings" Description="Import a background image/video/gif and adjust opacity settings. Gradient opacity is set from the image lighting on import, and you can change it after.">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Margin="0,5,0,0">
-                  <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,5">
-                    <TextBlock Text="Gradient Opacity" VerticalAlignment="Center" Width="120" />
-                    <Slider Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Width="200" Value="{Binding GradientOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Margin="5,0,0,0" Text="{Binding GradientOpacity, StringFormat={}{0:F2}}" />
-                  </StackPanel>
-                  <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,5">
-                    <TextBlock Text="Dark Overlay" VerticalAlignment="Center" Width="120" />
-                    <Slider Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Width="200" Value="{Binding BlackOverlayOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Margin="5,0,0,0" Text="{Binding BlackOverlayOpacity, StringFormat={}{0:F2}}" />
-                  </StackPanel>
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,5">
-                                        <TextBlock Text="Display everywhere" VerticalAlignment="Center" Width="130" />
-                                        <ui:ToggleSwitch IsChecked="{Binding BackgroundEverywhere, Mode=TwoWay}" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,5">
-                    <ui:Button>
-                      <ui:Button.Style>
-                        <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
-                          <Setter Property="Content" Value="Import" />
-                          <Setter Property="Command" Value="{Binding ImportBackgroundCommand2}" />
-                          <Setter Property="Appearance" Value="Secondary" />
-                          <Style.Triggers>
-                            <DataTrigger Binding="{Binding HasCustomBackground}" Value="True">
-                              <Setter Property="Content" Value="Remove" />
-                              <Setter Property="Command" Value="{Binding RemoveBackgroundCommand2}" />
-                              <Setter Property="Appearance" Value="Danger" />
-                            </DataTrigger>
-                          </Style.Triggers>
-                        </Style>
-                      </ui:Button.Style>
-                    </ui:Button>
-                  </StackPanel>
-                </StackPanel>
+              <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Text and scrolling" Visibility="{Binding WindowsOnlyVisibility}" />
+              <controls:OptionControl Header="Clear font" Description="Uses sharper text rendering after Voidstrap restarts." Visibility="{Binding WindowsOnlyVisibility}">
+                <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding ClearFont, Mode=TwoWay}" />
+              </controls:OptionControl>
+              <controls:OptionControl Header="Smooth scrollbar" Description="Scrolls smoothly instead of jumping." Visibility="{Binding WindowsOnlyVisibility}">
+                <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding SmooothBARRyesirikikthxlucipook, Mode=TwoWay}" />
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
