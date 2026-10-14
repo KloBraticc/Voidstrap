@@ -86,7 +86,7 @@ public class FontModPresetTask : StringBaseTask
 
 	public override void Execute()
 	{
-		if (!string.IsNullOrEmpty(NewState) && !string.Equals(NewState, Paths.CustomFont, StringComparison.InvariantCultureIgnoreCase))
+		if (!string.IsNullOrEmpty(NewState) && !string.Equals(NewState, Paths.CustomFont, StringComparison.OrdinalIgnoreCase))
 		{
 			if (!File.Exists(NewState))
 				throw new FileNotFoundException("The selected font source is no longer available", NewState);

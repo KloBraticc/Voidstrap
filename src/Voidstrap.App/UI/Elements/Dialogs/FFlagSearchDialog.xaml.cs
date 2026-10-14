@@ -224,7 +224,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 			{
 				token.ThrowIfCancellationRequested();
 				string name = line.Trim();
-				if (name.StartsWith("[", StringComparison.Ordinal) && name.IndexOf(']') is int end && end >= 0) name = name[(end + 1)..].Trim();
+				if (name.StartsWith('[') && name.IndexOf(']') is int end && end >= 0) name = name[(end + 1)..].Trim();
 				if (IsFlagName(name)) flags.TryAdd(name, string.Empty);
 				if (flags.Count >= MaximumFlagsPerSource) break;
 			}
@@ -402,7 +402,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 			if (flags.Count >= MaximumValidationFlags) throw new InvalidDataException(Text("TooMany"));
 			if (!flags.TryAdd(name, value)) { duplicates.Add(name); flags[name] = value; }
 		}
-		if (input.TrimStart().StartsWith("{", StringComparison.Ordinal) || input.TrimStart().StartsWith("[", StringComparison.Ordinal))
+		if (input.TrimStart().StartsWith('{') || input.TrimStart().StartsWith('['))
 		{
 			using var document = JsonDocument.Parse(input);
 			if (document.RootElement.ValueKind != JsonValueKind.Object) throw new JsonException(Text("ObjectRequired"));
@@ -428,7 +428,7 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	private static bool IsValidInput(string name, string value)
 	{
-		if (name.StartsWith("D", StringComparison.Ordinal) || name.StartsWith("S", StringComparison.Ordinal)) name = name[1..];
+		if (name.StartsWith('D') || name.StartsWith('S')) name = name[1..];
 		if (name.StartsWith("FFlag", StringComparison.Ordinal)) return bool.TryParse(value, out _);
 		if (name.StartsWith("FInt", StringComparison.Ordinal) || name.StartsWith("FLog", StringComparison.Ordinal))
 			return int.TryParse(value, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out _);

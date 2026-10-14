@@ -589,7 +589,7 @@ public static partial class RobloxCompressor
             string trimmed = line.TrimEnd();
             if (level > 40)
             {
-                int commentIdx = trimmed.IndexOf("--");
+                int commentIdx = trimmed.IndexOf("--", StringComparison.Ordinal);
                 if (commentIdx >= 0)
                 {
                     int quoteCheck = trimmed.IndexOf('"');

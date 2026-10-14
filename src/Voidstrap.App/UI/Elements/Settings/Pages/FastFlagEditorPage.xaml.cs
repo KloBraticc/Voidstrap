@@ -279,7 +279,7 @@ public partial class FastFlagEditorPage : UiPage
 		try
 		{
 			string content = await Voidstrap.Utility.Http.GetString(url).ConfigureAwait(continueOnCapturedContext: false);
-			if (url.EndsWith(".json") || url.Contains("clientsettings.roblox.com"))
+			if (url.EndsWith(".json", StringComparison.Ordinal) || url.Contains("clientsettings.roblox.com"))
 			{
 				using JsonDocument doc = JsonDocument.Parse(content);
 				JsonElement root = doc.RootElement;

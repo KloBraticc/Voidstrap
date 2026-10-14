@@ -109,27 +109,27 @@ public partial class AddFastFlagDialog : WpfUiWindow{
 			ImportedFlags = source.Select(delegate(KeyValuePair<string, string> kvp)
 			{
 				string item = "Unknown";
-				if (kvp.Key.StartsWith("FFlag"))
+				if (kvp.Key.StartsWith("FFlag", StringComparison.Ordinal))
 				{
 					item = "FFlag";
 				}
-				else if (kvp.Key.StartsWith("DFFlag"))
+				else if (kvp.Key.StartsWith("DFFlag", StringComparison.Ordinal))
 				{
 					item = "DFFlag";
 				}
-				else if (kvp.Key.StartsWith("FInt"))
+				else if (kvp.Key.StartsWith("FInt", StringComparison.Ordinal))
 				{
 					item = "FInt";
 				}
-				else if (kvp.Key.StartsWith("DFInt"))
+				else if (kvp.Key.StartsWith("DFInt", StringComparison.Ordinal))
 				{
 					item = "DFInt";
 				}
-				else if (kvp.Key.StartsWith("FString"))
+				else if (kvp.Key.StartsWith("FString", StringComparison.Ordinal))
 				{
 					item = "FString";
 				}
-				else if (kvp.Key.StartsWith("FDouble"))
+				else if (kvp.Key.StartsWith("FDouble", StringComparison.Ordinal))
 				{
 					item = "FDouble";
 				}

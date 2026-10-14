@@ -39,7 +39,7 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 		OnPropertyChanged(nameof(NavigationVisibility));
 	}
 
-	public int ButtonWidth { get; } = Locale.CurrentCulture.Name.StartsWith("bg") ? 112 : 96;
+	public int ButtonWidth { get; } = Locale.CurrentCulture.Name.StartsWith("bg", StringComparison.Ordinal) ? 112 : 96;
 
 	public ICommand BackPageCommand => new RelayCommand(BackPage);
 

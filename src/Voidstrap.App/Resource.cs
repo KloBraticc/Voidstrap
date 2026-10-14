@@ -13,7 +13,7 @@ internal static class Resource
 
 	public static Stream GetStream(string name)
 	{
-		string name2 = resourceNames.Single((string str) => str.EndsWith(name));
+		string name2 = resourceNames.Single((string str) => str.EndsWith(name, StringComparison.Ordinal));
 		return assembly.GetManifestResourceStream(name2) ?? throw new InvalidDataException("Embedded resource could not be opened: " + name);
 	}
 

@@ -891,7 +891,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 
 	public void SetPreset(string prefix, object? value)
 	{
-		foreach (KeyValuePair<string, string> item in PresetFlags.Where<KeyValuePair<string, string>>((KeyValuePair<string, string> x) => x.Key.StartsWith(prefix)))
+		foreach (KeyValuePair<string, string> item in PresetFlags.Where<KeyValuePair<string, string>>((KeyValuePair<string, string> x) => x.Key.StartsWith(prefix, StringComparison.Ordinal)))
 		{
 			SetValue(item.Value, value);
 		}
@@ -899,9 +899,9 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 
 	public void SetPresetEnum(string prefix, string target, object? value)
 	{
-		foreach (KeyValuePair<string, string> item in PresetFlags.Where<KeyValuePair<string, string>>((KeyValuePair<string, string> x) => x.Key.StartsWith(prefix)))
+		foreach (KeyValuePair<string, string> item in PresetFlags.Where<KeyValuePair<string, string>>((KeyValuePair<string, string> x) => x.Key.StartsWith(prefix, StringComparison.Ordinal)))
 		{
-			if (item.Key.StartsWith(prefix + "." + target))
+			if (item.Key.StartsWith(prefix + "." + target, StringComparison.Ordinal))
 			{
 				SetValue(item.Value, value);
 			}

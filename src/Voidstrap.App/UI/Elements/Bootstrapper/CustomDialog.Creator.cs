@@ -78,7 +78,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
         private static void AddXml(CustomDialog dialog, XElement xmlElement)
         {
-            if (xmlElement.Name.ToString().StartsWith($"{xmlElement.Parent!.Name}."))
+            if (xmlElement.Name.ToString().StartsWith($"{xmlElement.Parent!.Name}.", StringComparison.Ordinal))
                 return; // not an xml element
 
             var uiElement = HandleXml<UIElement>(dialog, xmlElement);

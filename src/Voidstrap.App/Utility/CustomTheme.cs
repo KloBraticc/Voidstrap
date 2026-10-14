@@ -531,7 +531,7 @@ namespace Voidstrap.Utility
                     return false;
             }
             string upper = trimmed.ToUpperInvariant();
-            return upper is not ("CON" or "PRN" or "AUX" or "NUL") && !(upper.Length == 4 && (upper.StartsWith("COM") || upper.StartsWith("LPT")) && char.IsDigit(upper[3]));
+            return upper is not ("CON" or "PRN" or "AUX" or "NUL") && !(upper.Length == 4 && (upper.StartsWith("COM", StringComparison.Ordinal) || upper.StartsWith("LPT", StringComparison.Ordinal)) && char.IsDigit(upper[3]));
         }
 
         public static string ProfilePath(string name)

@@ -36,7 +36,7 @@ public partial class ByfronDialog : Window,IBootstrapperDialog{
 		set
 		{
 			string text = value;
-			if (text.EndsWith("..."))
+			if (text.EndsWith("...", StringComparison.Ordinal))
 			{
 				string text2 = text;
 				text = text2.Substring(0, text2.Length - 3);

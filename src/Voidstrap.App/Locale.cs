@@ -168,7 +168,7 @@ internal static class Locale
 					window.ContextMenu.FlowDirection = FlowDirection.RightToLeft;
 				}
 			}
-			else if (CurrentCulture.Name.StartsWith("th"))
+			else if (CurrentCulture.Name.StartsWith("th", StringComparison.Ordinal))
 			{
 				window.FontFamily = new FontFamily(new Uri("pack://application:,,,/Resources/Fonts/"), "./#Noto Sans Thai");
 			}

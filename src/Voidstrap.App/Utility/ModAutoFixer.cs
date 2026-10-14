@@ -423,7 +423,7 @@ internal static class ModAutoFixer
 				foreach (string file in Directory.EnumerateFiles(root, "* (?).*", SearchOption.AllDirectories))
 				{
 					string name = Path.GetFileNameWithoutExtension(file);
-					if (name.EndsWith(")", StringComparison.Ordinal) && name.Contains(" (", StringComparison.Ordinal))
+					if (name.EndsWith(')') && name.Contains(" (", StringComparison.Ordinal))
 					{
 						count++;
 					}

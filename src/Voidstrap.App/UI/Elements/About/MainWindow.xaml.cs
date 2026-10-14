@@ -18,7 +18,7 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 	{
 		InitializeComponent();
 		App.Logger.WriteLine("MainWindow", "Initializing about window");
-		if (Locale.CurrentCulture.Name.StartsWith("tr"))
+		if (Locale.CurrentCulture.Name.StartsWith("tr", StringComparison.Ordinal))
 			TranslatorsText.FontSize = 9.0;
 	}
 

@@ -158,7 +158,7 @@ public partial class AddCustomThemeDialog : WpfUiWindow{
 
 	private bool ValidateImport()
 	{
-		if (!_viewModel.FilePath.EndsWith(".zip"))
+		if (!_viewModel.FilePath.EndsWith(".zip", StringComparison.Ordinal))
 		{
 			_viewModel.FileError = Strings.CustomTheme_Add_Errors_FileNotZip;
 			return false;

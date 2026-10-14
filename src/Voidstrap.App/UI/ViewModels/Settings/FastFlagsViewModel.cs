@@ -1006,7 +1006,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 				bool flag = true;
 				foreach (KeyValuePair<string, string?> flag2 in iGMenuVersion.Value)
 				{
-					foreach (KeyValuePair<string, string> item in FastFlagManager.PresetFlags.Where<KeyValuePair<string, string>>((KeyValuePair<string, string> x) => x.Key.StartsWith("UI.Menu.Style." + flag2.Key)))
+					foreach (KeyValuePair<string, string> item in FastFlagManager.PresetFlags.Where<KeyValuePair<string, string>>((KeyValuePair<string, string> x) => x.Key.StartsWith("UI.Menu.Style." + flag2.Key, StringComparison.Ordinal)))
 					{
 						if (App.FastFlags.GetValue(item.Value) != flag2.Value)
 						{

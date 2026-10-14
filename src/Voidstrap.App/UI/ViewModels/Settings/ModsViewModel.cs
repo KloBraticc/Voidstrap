@@ -3761,7 +3761,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	private void ApplyCode()
 	{
-		if (string.IsNullOrWhiteSpace(CursorCode) || !CursorCode.StartsWith("VXH:"))
+		if (string.IsNullOrWhiteSpace(CursorCode) || !CursorCode.StartsWith("VXH:", StringComparison.Ordinal))
 		{
 			return;
 		}

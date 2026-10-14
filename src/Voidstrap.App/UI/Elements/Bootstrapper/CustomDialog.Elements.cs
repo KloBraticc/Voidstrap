@@ -777,7 +777,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
                     HandleXmlElement_Grid_ColumnDefinitions(grid, dialog, element);
                 }
-                else if (element.Name.ToString().StartsWith("Grid."))
+                else if (element.Name.ToString().StartsWith("Grid.", StringComparison.Ordinal))
                 {
                     continue; // ignore others
                 }
@@ -1198,7 +1198,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             if (cornerRadius != null)
                 border.CornerRadius = (CornerRadius)cornerRadius;
 
-            var children = xmlElement.Elements().Where(x => !x.Name.ToString().StartsWith("Border."));
+            var children = xmlElement.Elements().Where(x => !x.Name.ToString().StartsWith("Border.", StringComparison.Ordinal));
             if (children.Any())
             {
                 if (children.Count() > 1)

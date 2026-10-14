@@ -209,7 +209,7 @@ namespace Voidstrap.Integrations.AssetProxy
                 }
 
                 string response = Encoding.ASCII.GetString(buffer, 0, end);
-                if (!response.StartsWith("HTTP/1.1 200") && !response.StartsWith("HTTP/1.0 200"))
+                if (!response.StartsWith("HTTP/1.1 200", StringComparison.Ordinal) && !response.StartsWith("HTTP/1.0 200", StringComparison.Ordinal))
                 {
                     App.Logger?.WriteLine(LOG_IDENT, $"HTTP CONNECT to {targetHost} failed: {response.Split('\n')[0]}");
                     tcp.Dispose();

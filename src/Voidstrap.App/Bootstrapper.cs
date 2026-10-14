@@ -4775,7 +4775,7 @@ public class Bootstrapper
                 if (fastFlagsAllowed)
                     selectedMods[text2] = text;
             }
-            else if (modsAllowed && !text2.EndsWith(".lock") && (!IsStudioLaunch || !text2.StartsWith("PlatformContent\\pc\\textures\\sky", StringComparison.OrdinalIgnoreCase)))
+            else if (modsAllowed && !text2.EndsWith(".lock", StringComparison.Ordinal) && (!IsStudioLaunch || !text2.StartsWith("PlatformContent\\pc\\textures\\sky", StringComparison.OrdinalIgnoreCase)))
             {
                 selectedMods[text2] = text;
             }

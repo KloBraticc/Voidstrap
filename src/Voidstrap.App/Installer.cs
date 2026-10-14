@@ -94,7 +94,7 @@ internal partial class Installer
 			Paths.Initialize(InstallLocation);
 		}
 		Paths.EnsureDirectories();
-		if (Voidstrap.Utility.Platform.IsWindows && !IsImplicitInstall && !string.Equals(Paths.Process, Paths.Application, StringComparison.InvariantCultureIgnoreCase))
+		if (Voidstrap.Utility.Platform.IsWindows && !IsImplicitInstall && !string.Equals(Paths.Process, Paths.Application, StringComparison.OrdinalIgnoreCase))
 		{
 			TrySafe("clear read only", () => Filesystem.AssertReadOnly(Paths.Application));
 			try
@@ -218,7 +218,7 @@ internal partial class Installer
 		{
 			return false;
 		}
-		if (InstallLocation.StartsWith("\\\\"))
+		if (InstallLocation.StartsWith("\\\\", StringComparison.Ordinal))
 		{
 			return false;
 		}
@@ -230,7 +230,7 @@ internal partial class Installer
 		{
 			return false;
 		}
-		if (string.Compare(Directory.GetParent(InstallLocation)?.FullName, Paths.UserProfile, StringComparison.InvariantCultureIgnoreCase) == 0
+		if (string.Compare(Directory.GetParent(InstallLocation)?.FullName, Paths.UserProfile, StringComparison.OrdinalIgnoreCase) == 0
 			&& !(Voidstrap.Utility.Platform.IsLinux && string.Equals(Path.GetFileName(Path.TrimEndingDirectorySeparator(InstallLocation)), "voidstrap", StringComparison.OrdinalIgnoreCase)))
 		{
 			return false;
@@ -625,7 +625,7 @@ internal partial class Installer
 				if (!Voidstrap.Utility.Platform.IsWindows)
 					return;
 				foreach (string item2 in from x in Directory.GetFiles(Paths.Desktop)
-					where x.EndsWith("lnk")
+					where x.EndsWith("lnk", StringComparison.Ordinal)
 					select x)
 				{
 					if (ShellLink.Shortcut.ReadFromFile(item2).ExtraData.EnvironmentVariableDataBlock?.TargetUnicode == Paths.Application)
@@ -1050,7 +1050,7 @@ internal partial class Installer
 		{
 			return;
 		}
-		bool flag = App.LaunchSettings.UpgradeFlag.Active || Paths.Process.StartsWith(Path.Combine(Paths.Base, "Updates")) || Paths.Process.StartsWith(Path.Combine(Paths.LocalAppData, "Temp")) || Paths.Process.StartsWith(Paths.TempUpdates);
+		bool flag = App.LaunchSettings.UpgradeFlag.Active || Paths.Process.StartsWith(Path.Combine(Paths.Base, "Updates"), StringComparison.Ordinal) || Paths.Process.StartsWith(Path.Combine(Paths.LocalAppData, "Temp"), StringComparison.Ordinal) || Paths.Process.StartsWith(Paths.TempUpdates, StringComparison.Ordinal);
 		string? productVersion = FileVersionInfo.GetVersionInfo(Paths.Application).ProductVersion;
 		string? productVersion2 = FileVersionInfo.GetVersionInfo(Paths.Process).ProductVersion;
 		if (MD5Hash.FromFile(Paths.Process) == MD5Hash.FromFile(Paths.Application) || (productVersion2 != null && productVersion != null && Utilities.CompareVersions(productVersion2, productVersion) == VersionComparison.LessThan && Frontend.ShowMessageBox(Strings.InstallChecker_VersionLessThanInstalled, MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes) || (!flag && Frontend.ShowMessageBox(Strings.InstallChecker_VersionDifferentThanInstalled, MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes))
@@ -1412,12 +1412,12 @@ internal partial class Installer
 		{
 			text2 = Path.Combine(text2, "Voidstrap");
 		}
-		if (string.Equals(text2, text, StringComparison.InvariantCultureIgnoreCase))
+		if (string.Equals(text2, text, StringComparison.OrdinalIgnoreCase))
 		{
 			Frontend.ShowMessageBox("Voidstrap is already installed at that location.", MessageBoxImage.Asterisk);
 			return false;
 		}
-		if (text2.Length <= 3 || text2.StartsWith("\\\\") || text2.StartsWith(Path.GetTempPath(), StringComparison.InvariantCultureIgnoreCase) || text2.Contains("\\Temp\\", StringComparison.InvariantCultureIgnoreCase) || IsCloudSyncedPath(text2) || text2.Contains("Program Files"))
+		if (text2.Length <= 3 || text2.StartsWith("\\\\", StringComparison.Ordinal) || text2.StartsWith(Path.GetTempPath(), StringComparison.OrdinalIgnoreCase) || text2.Contains("\\Temp\\", StringComparison.OrdinalIgnoreCase) || IsCloudSyncedPath(text2) || text2.Contains("Program Files"))
 		{
 			Frontend.ShowMessageBox(Strings.Menu_InstallLocation_CantInstall, MessageBoxImage.Hand);
 			return false;
