@@ -1390,6 +1390,7 @@ public partial class App : Application
 		ResetHardwareAccelerationOnce();
 		ResetWindowBackdropOnce();
 		ResetServerInfoInTitleOnce();
+		ResetClockOverlayOnce();
 		TimedLoad("FastFlags", () => FastFlags.Load(alertFailure: false));
 	}
 
@@ -1443,6 +1444,18 @@ public partial class App : Application
 		Settings.Prop.ServerInfoInTitleResetVersion = ServerInfoInTitleResetVersion;
 		Settings.Save();
 		Logger.WriteLine("App::ResetServerInfoInTitleOnce", "Add the server info for the Roblox window title reset to off");
+	}
+
+	private const int ClockOverlayResetVersion = 1;
+
+	private static void ResetClockOverlayOnce()
+	{
+		if (Settings.Prop.ClockOverlayResetVersion >= ClockOverlayResetVersion)
+			return;
+		Settings.Prop.CurrentTimeDisplay = false;
+		Settings.Prop.ClockOverlayResetVersion = ClockOverlayResetVersion;
+		Settings.Save();
+		Logger.WriteLine("App::ResetClockOverlayOnce", "Clock overlay reset to off");
 	}
 
 	private void InitializeServices()

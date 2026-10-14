@@ -212,6 +212,7 @@ namespace Voidstrap.Models.Persistable
         public bool FFlagRPCDisplayer { get; set; } = false;
 
         public bool CurrentTimeDisplay { get; set; } = false;
+        public int ClockOverlayResetVersion { get; set; }
 
         public string ClockTimeZoneId { get; set; } = "";
 
