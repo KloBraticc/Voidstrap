@@ -184,8 +184,8 @@ public partial class RiShadeWindow : WpfUiWindow
 			Sl("Intensity", "SsrIntensity", 0, 1),
 			Sl("Glossiness", "SsrGlossiness", 0, 1),
 			Sl("Wetness", "SsrReflectivity", 0, 1),
-			Sl("Reach", "SsrDistance", 0, 1),
-			Sl("Surface sheen", "SsrSheen", 0, 1),
+			Sl("Reflection height", "SsrDistance", 0, 1),
+			Sl("Open floor shine", "SsrSheen", 0, 1),
 		});
 		Add("Clarity", "Local contrast boost.", new[]
 		{

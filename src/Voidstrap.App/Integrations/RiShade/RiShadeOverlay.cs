@@ -48,7 +48,7 @@ namespace Voidstrap.Integrations.RiShade
         private const int RtSceneBlurB = 15;
         private const int RtSsrHistoryA = 2;
         private const int RtSsrHistoryB = 16;
-        private const float SsrHistoryBlend = 0.25f;
+        private const float SsrHistoryBlend = 0.4f;
         private const int AiFeedStride = 2;
         private const int StagingCount = 3;
         private const float DepthPredictLead = 2.5f;
@@ -107,8 +107,7 @@ namespace Voidstrap.Integrations.RiShade
 
         private float _adaptAvg;
         private float _adaptExposure = 1f;
-        private Vector3 _planeN = new(0f, 1f, 0f);
-        private float _planeD;
+        private Vector3 _floorFit;
         private bool _planeValid;
         private float _depthBaseX;
         private float _depthBaseY;
@@ -497,76 +496,70 @@ namespace Voidstrap.Integrations.RiShade
         private void FitFloorPlane()
         {
             int size = RiShadeDepth.Size;
-            float aspect = (float)_width / Math.Max(_height, 1);
-            const float tanHalf = 0.7f;
-            int yStart = (int)(size * 0.40f);
+            int yStart = (int)(size * 0.45f);
             double a = 0, b = 0, c = 0;
             bool haveFit = false;
-            for (int round = 0; round < 2; round++)
+            for (int round = 0; round < 3; round++)
             {
-                double sxx = 0, sxz = 0, sx = 0, szz = 0, sz = 0, sw = 0, sxy = 0, szy = 0, sy = 0;
-                for (int py = yStart; py < size; py += 3)
+                double sxx = 0, sxy = 0, sx = 0, syy = 0, sy = 0, sw = 0, sxd = 0, syd = 0, sd = 0;
+                for (int py = yStart; py < size; py += 2)
                 {
-                    float gy = 1f - (py + 0.5f) / size;
-                    for (int px = 0; px < size; px += 3)
+                    double gy = 1.0 - (py + 0.5) / size;
+                    for (int px = 0; px < size; px += 2)
                     {
-                        float disp = _depthFloats[py * size + px];
-                        float z = 1f / (disp * 3f + 0.25f);
-                        float gx = (px + 0.5f) / size;
-                        double X = (gx * 2f - 1f) * tanHalf * aspect * z;
-                        double Y = (gy * 2f - 1f) * tanHalf * z;
+                        double gx = (px + 0.5) / size;
+                        double disp = _depthFloats[py * size + px];
                         double w = 1.0;
                         if (haveFit)
                         {
-                            double r = Y - (a * X + b * z + c);
-                            w = 1.0 / (1.0 + (r * r) / 0.0064);
+                            double r = disp - (a * gx + b * gy + c);
+                            w = 1.0 / (1.0 + (r * r) / 0.0009);
                         }
-                        sxx += w * X * X; sxz += w * X * z; sx += w * X;
-                        szz += w * z * z; sz += w * z; sw += w;
-                        sxy += w * X * Y; szy += w * z * Y; sy += w * Y;
+                        sxx += w * gx * gx; sxy += w * gx * gy; sx += w * gx;
+                        syy += w * gy * gy; sy += w * gy; sw += w;
+                        sxd += w * gx * disp; syd += w * gy * disp; sd += w * disp;
                     }
                 }
-                double det = sxx * (szz * sw - sz * sz) - sxz * (sxz * sw - sz * sx) + sx * (sxz * sz - szz * sx);
-                if (Math.Abs(det) < 1e-9 || sw < 200)
+                double det = sxx * (syy * sw - sy * sy) - sxy * (sxy * sw - sy * sx) + sx * (sxy * sy - syy * sx);
+                if (Math.Abs(det) < 1e-12 || sw < 50)
                 {
                     _planeValid = false;
                     return;
                 }
-                double detA = sxy * (szz * sw - sz * sz) - sxz * (szy * sw - sz * sy) + sx * (szy * sz - szz * sy);
-                double detB = sxx * (szy * sw - sy * sz) - sxy * (sxz * sw - sz * sx) + sx * (sxz * sy - szy * sx);
-                double detC = sxx * (szz * sy - sz * szy) - sxz * (sxz * sy - szy * sx) + sxy * (sxz * sz - szz * sx);
-                a = detA / det;
-                b = detB / det;
-                c = detC / det;
+                a = (sxd * (syy * sw - sy * sy) - sxy * (syd * sw - sy * sd) + sx * (syd * sy - syy * sd)) / det;
+                b = (sxx * (syd * sw - sd * sy) - sxd * (sxy * sw - sy * sx) + sx * (sxy * sd - syd * sx)) / det;
+                c = (sxx * (syy * sd - sy * syd) - sxy * (sxy * sd - syd * sx) + sxd * (sxy * sy - syy * sx)) / det;
                 haveFit = true;
             }
-            float nx = (float)(-a), ny = 1f, nz = (float)(-b);
-            float len = MathF.Sqrt(nx * nx + ny * ny + nz * nz);
-            var n = new Vector3(nx / len, ny / len, nz / len);
-            float d = (float)c / len;
-            if (n.Y < 0.55f)
+            int inliers = 0;
+            int total = 0;
+            for (int py = yStart; py < size; py += 4)
+            {
+                double gy = 1.0 - (py + 0.5) / size;
+                for (int px = 0; px < size; px += 4)
+                {
+                    double gx = (px + 0.5) / size;
+                    double pred = a * gx + b * gy + c;
+                    total++;
+                    if (pred > 0.02 && Math.Abs(_depthFloats[py * size + px] - pred) < 0.02 + pred * 0.06)
+                        inliers++;
+                }
+            }
+            if (b > -0.15 || total == 0 || inliers < total / 4)
             {
                 _planeValid = false;
                 return;
             }
+            var fit = new Vector3((float)a, (float)b, (float)c);
             if (!_planeValid)
             {
-                _planeN = n;
-                _planeD = d;
+                _floorFit = fit;
                 _planeValid = true;
                 return;
             }
-            float dev = 1f - Math.Clamp(Vector3.Dot(n, _planeN), -1f, 1f);
-            float ddev = Math.Abs(d - _planeD);
-            float pa;
-            if (dev < 0.02f && ddev < 0.02f)
-                pa = 0.05f;
-            else if (dev < 0.08f && ddev < 0.06f)
-                pa = 0.15f;
-            else
-                pa = 0.30f;
-            _planeN = Vector3.Normalize(_planeN + (n - _planeN) * pa);
-            _planeD += (d - _planeD) * pa;
+            float change = Math.Abs(fit.X - _floorFit.X) + Math.Abs(fit.Y - _floorFit.Y) + Math.Abs(fit.Z - _floorFit.Z);
+            float pa = change < 0.05f ? 0.25f : change < 0.2f ? 0.45f : 0.8f;
+            _floorFit += (fit - _floorFit) * pa;
         }
 
         private void UpdateAdaptExposure(RiShadeSettings s)
@@ -615,13 +608,13 @@ namespace Voidstrap.Integrations.RiShade
                 PK = new Vector4(s.DofStrength * trust, s.DofFocusRange, s.DofFeather, s.AoEnabled ? 1f : 0f),
                 PL = new Vector4(s.AoStrength * trust, s.AoRadius, s.ResolveAoSamples(), _rw),
                 PM = new Vector4(_rh, s.BloomStrength, s.BloomThreshold, s.BloomRadius),
-                PN = new Vector4(s.BloomTint[0], s.BloomTint[1], s.BloomTint[2], s.SsrIntensity * trust),
+                PN = new Vector4(s.BloomTint[0], s.BloomTint[1], s.BloomTint[2], s.SsrIntensity * (0.5f + 0.5f * trust)),
                 PO = new Vector4(s.SsrGlossiness, s.SsrReflectivity, s.SsrDistance, s.ClarityStrength),
                 PP = new Vector4(s.DebandEnabled ? 1f : 0f, s.DebandStrength, s.GiStrength * trust, s.GiRadius),
                 PQ = new Vector4(s.FogStrength * trust, s.FogStart, s.FogBrightness, s.AmbientStrength),
-                PR = new Vector4(s.EyeAdaptEnabled ? _adaptExposure : 1f, _planeN.X, _planeN.Y, _planeN.Z),
+                PR = new Vector4(s.EyeAdaptEnabled ? _adaptExposure : 1f, _floorFit.X, _floorFit.Y, _floorFit.Z),
                 PS = new Vector4(s.SsrSheen, Math.Clamp((_predAccumX - _depthBaseX) / RiShadeDepth.Size, -0.25f, 0.25f), Math.Clamp(-(_predAccumY - _depthBaseY) / RiShadeDepth.Size, -0.25f, 0.25f), 0f),
-                PT = new Vector4(_planeD, aiFlag ? 1f : 0f, s.DebugView, _planeValid ? 1f : 0f),
+                PT = new Vector4(0f, aiFlag ? 1f : 0f, s.DebugView, _planeValid ? 1f : 0f),
             };
             _context!.UpdateSubresource(p, _cbuffer!);
         }
@@ -848,8 +841,7 @@ namespace Voidstrap.Integrations.RiShade
             _depthSeenVersion = RiShadeDepth.DepthVersion;
             _aiDepthUploaded = false;
             _planeValid = false;
-            _planeN = new Vector3(0f, 1f, 0f);
-            _planeD = 0f;
+            _floorFit = Vector3.Zero;
             _adaptAvg = 0f;
             _adaptExposure = 1f;
             _depthUnusedSinceMs = 0;

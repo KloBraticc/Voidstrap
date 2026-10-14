@@ -84,10 +84,9 @@ cbuffer PassInfo : register(b1)
 #define uFogGray    pQ.z
 #define uALStr      pQ.w
 #define uAdaptExp   pR.x
-#define uPlaneN     pR.yzw
+#define uFloorFit   pR.yzw
 #define uSsrSheen   pS.x
 #define uDepthShift pS.yz
-#define uPlaneD     pT.x
 #define uPlaneValid (pT.w > 0.5)
 #define uAiDepth    (pT.y > 0.5)
 #define uDebugView  ((int)pT.z)
@@ -510,139 +509,88 @@ float4 PSBloomCombine(VSOut inp) : SV_Target
     return float4(scene + bloom * uBloomStr * uBloomTint, 1.0);
 }
 
+float floorDisp(float2 g)
+{
+    float2 q = g - uDepthShift;
+    return uFloorFit.x * q.x + uFloorFit.y * q.y + uFloorFit.z;
+}
+
+float3 sampleReflection(float2 g, float cone)
+{
+    float3 sharp = sampG(tex0, g);
+    float3 soft = sampG(tex2, g);
+    float3 wide = sampG(tex1, g);
+    return cone < 0.5 ? lerp(sharp, soft, cone * 2.0) : lerp(soft, wide, cone * 2.0 - 1.0);
+}
+
 float4 PSSsr(VSOut inp) : SV_Target
 {
-    if (!uAiDepth || !uPlaneValid || uSsrIntensity <= 0.0)
+    if (!uAiDepth || !uPlaneValid || uSsrIntensity <= 0.0 || uFloorFit.y >= -1e-4)
         return float4(0.0, 0.0, 0.0, 0.0);
     float2 g = float2(inp.uv.x, 1.0 - inp.uv.y);
-    float aspect = uTexW / max(uTexH, 1.0);
-    float3 Npl = normalize(uPlaneN);
-    float z = aiZ(sampG(tex3, g).r);
-    float3 P = float3((g.x * 2.0 - 1.0) * AI_TANHALF * aspect * z, (g.y * 2.0 - 1.0) * AI_TANHALF * z, z);
-    float distP = dot(Npl, P) - uPlaneD;
-    float band = 0.05 + z * 0.04;
-    float member = 1.0 - saturate(abs(distP) / band);
-    float eo = 6.0 / 256.0;
-    float zNear = min(min(aiZ(sampG(tex3, g + float2(eo, 0.0)).r), aiZ(sampG(tex3, g - float2(eo, 0.0)).r)),
-                      min(aiZ(sampG(tex3, g + float2(0.0, eo)).r), aiZ(sampG(tex3, g - float2(0.0, eo)).r)));
-    float nearObj = saturate((z - zNear) / (0.08 + z * 0.12));
-    member *= (1.0 - nearObj * 0.85);
-    bool isFloor = member >= 0.05;
-    float3 refN = Npl;
-    float consistency = 1.0;
-    if (isFloor)
-    {
-        float3 nUp = aiNormalE(tex3, g, 8.0 / 256.0);
-        if (nUp.y < 0.25)
-            isFloor = false;
-    }
-    if (!isFloor)
-    {
-        if (uSsrSheen <= 0.0)
-            return float4(0.0, 0.0, 0.0, 0.0);
-        float es = 6.0 / 256.0;
-        float zr = aiZ(sampG(tex3, g + float2(es, 0.0)).r);
-        float zl = aiZ(sampG(tex3, g - float2(es, 0.0)).r);
-        float zu = aiZ(sampG(tex3, g + float2(0.0, es)).r);
-        float zd = aiZ(sampG(tex3, g - float2(0.0, es)).r);
-        float silh = max(max(abs(zr - z), abs(zl - z)), max(abs(zu - z), abs(zd - z)));
-        if (silh > 0.16 * z + 0.04)
-            return float4(0.0, 0.0, 0.0, 0.0);
-        float3 nFine = aiNormalE(tex3, g, 4.0 / 256.0);
-        float3 nWide = aiNormalE(tex3, g, 12.0 / 256.0);
-        if (dot(nFine, nWide) < 0.5)
-            return float4(0.0, 0.0, 0.0, 0.0);
-        refN = normalize(nWide * 0.65 + nFine * 0.35);
-        if (refN.y < -0.25)
-            return float4(0.0, 0.0, 0.0, 0.0);
-        float facing = saturate(-refN.z);
-        consistency = 1.0 - saturate((facing - 0.85) / 0.12);
-        if (consistency <= 0.02)
-            return float4(0.0, 0.0, 0.0, 0.0);
-    }
-    float3 V = normalize(P);
-    float3 R = reflect(V, refN);
-    float ndv = saturate(dot(-V, refN));
-    float f0 = uSsrRefl * 0.8;
-    float fres = f0 + (1.0 - f0) * pow(1.0 - ndv, 5.0);
-    float maxLen = 4.0 + uSsrDist * 8.0;
-    float tmax = maxLen;
-    if (R.z < 0.0)
-        tmax = min(tmax, (0.06 - P.z) / R.z * 0.99);
-    if (tmax < 0.05)
+    float d = sampG(tex3, g).r;
+    float f = floorDisp(g);
+    if (f <= 0.02)
         return float4(0.0, 0.0, 0.0, 0.0);
-    float2 hitG = float2(-1.0, -1.0);
-    float hitT = 0.0;
-    float conf = 0.0;
-    bool haveHit = false;
-    float prevT = 0.0;
+    float tol = 0.02 + f * 0.06;
+    float member = 1.0 - smoothstep(tol * 0.5, tol, abs(d - f));
+    if (member <= 0.0)
+        return float4(0.0, 0.0, 0.0, 0.0);
+    float horizon = -(uFloorFit.x * (g.x - uDepthShift.x) + uFloorFit.z) / uFloorFit.y + uDepthShift.y;
+    float top = min(horizon, 1.0);
+    float span = min(0.12 + uSsrDist * 0.5, top - g.y);
+    if (span <= 0.002)
+        return float4(0.0, 0.0, 0.0, 0.0);
+    bool hit = false;
+    float contact = 0.0;
+    float prev = g.y;
     [loop]
-    for (int i = 1; i <= 64; i++)
+    for (int i = 1; i <= 40; i++)
     {
-        float tt = float(i) / 64.0;
-        float t = tt * tt * tmax;
-        float pz = P.z + R.z * t;
-        if (pz < 0.05)
-            break;
-        float su = (P.x + R.x * t) / (pz * AI_TANHALF * aspect) * 0.5 + 0.5;
-        float sv = (P.y + R.y * t) / (pz * AI_TANHALF) * 0.5 + 0.5;
-        if (su < 0.0 || su > 1.0 || sv < 0.0 || sv > 1.0)
-            break;
-        float sceneZ = aiZ(sampG(tex3, float2(su, sv)).r);
-        float diff = pz - sceneZ;
-        float thick = 0.06 + sceneZ * 0.30;
-        if (diff > 0.01 && diff < thick)
+        float y = g.y + span * (float(i) / 40.0);
+        float fq = floorDisp(float2(g.x, y));
+        float dq = sampG(tex3, float2(g.x, y)).r;
+        if (dq > fq + 0.02 + fq * 0.08)
         {
-            float lo = prevT;
-            float hi = t;
+            float lo = prev;
+            float hi = y;
             [unroll]
             for (int r = 0; r < 4; r++)
             {
                 float mid = (lo + hi) * 0.5;
-                float mz = P.z + R.z * mid;
-                float mu = saturate((P.x + R.x * mid) / (mz * AI_TANHALF * aspect) * 0.5 + 0.5);
-                float mv = saturate((P.y + R.y * mid) / (mz * AI_TANHALF) * 0.5 + 0.5);
-                if (mz - aiZ(sampG(tex3, float2(mu, mv)).r) > 0.01) hi = mid; else lo = mid;
+                float fm = floorDisp(float2(g.x, mid));
+                if (sampG(tex3, float2(g.x, mid)).r > fm + 0.02 + fm * 0.08) hi = mid; else lo = mid;
             }
-            float fz = P.z + R.z * hi;
-            hitG = float2((P.x + R.x * hi) / (fz * AI_TANHALF * aspect) * 0.5 + 0.5, (P.y + R.y * hi) / (fz * AI_TANHALF) * 0.5 + 0.5);
-            hitT = hi / maxLen;
-            float2 e = min(hitG, 1.0 - hitG);
-            conf = (1.0 - hitT * 0.35) * saturate(min(e.x, e.y) * 10.0 + 0.15);
-            haveHit = true;
+            float fh = floorDisp(float2(g.x, hi));
+            contact = max(g.y, hi - (0.02 + fh * 0.08) / max(-uFloorFit.y, 1e-3));
+            hit = true;
             break;
         }
-        prevT = t;
+        prev = y;
     }
     float3 refl;
-    if (haveHit)
+    float conf;
+    if (hit)
     {
-        float cone = saturate((1.0 - uSsrGloss) * (0.25 + hitT * 2.2) * 1.5 + hitT * 0.12);
-        float3 sharp = sampG(tex0, hitG);
-        float3 soft = sampG(tex2, hitG);
-        float3 wide = sampG(tex1, hitG);
-        refl = cone < 0.5 ? lerp(sharp, soft, cone * 2.0) : lerp(soft, wide, cone * 2.0 - 1.0);
+        float ys = contact + (contact - g.y);
+        conf = saturate((1.0 - ys) * 25.0);
+        if (conf <= 0.0)
+            return float4(0.0, 0.0, 0.0, 0.0);
+        float cone = saturate((1.0 - uSsrGloss) * (0.3 + (contact - g.y) * 6.0));
+        refl = sampleReflection(float2(g.x, ys), cone);
     }
     else
     {
-        if (!isFloor)
+        if (uSsrSheen <= 0.0 || horizon >= 1.0)
             return float4(0.0, 0.0, 0.0, 0.0);
-        if (R.z < 0.02)
-            return float4(0.0, 0.0, 0.0, 0.0);
-        float upward = saturate(R.y * 2.0);
-        if (upward < 0.03)
-            return float4(0.0, 0.0, 0.0, 0.0);
-        float fz2 = max(P.z + R.z * tmax, 0.06);
-        float fu = saturate((P.x + R.x * tmax) / (fz2 * AI_TANHALF * aspect) * 0.5 + 0.5);
-        float fv = saturate((P.y + R.y * tmax) / (fz2 * AI_TANHALF) * 0.5 + 0.5);
-        refl = sampG(tex2, float2(fu, fv));
-        conf = 0.10 * upward;
+        float ys = min(2.0 * horizon - g.y, 0.999);
+        conf = uSsrSheen * saturate((1.0 - ys) * 25.0);
+        refl = sampleReflection(float2(g.x, ys), 1.0);
     }
-    float w;
-    if (isFloor)
-        w = saturate(uSsrIntensity * (0.30 + 0.70 * fres) * member * conf) * (0.55 + 0.45 * member);
-    else
-        w = saturate(uSsrSheen * uSsrIntensity * (0.2 + 0.8 * fres) * consistency * conf);
+    float below = saturate((horizon - g.y) / 0.6);
+    float f0 = uSsrRefl * 0.6;
+    float fres = f0 + (1.0 - f0) * pow(1.0 - below, 3.0);
+    float w = saturate(uSsrIntensity * (0.25 + 0.75 * fres) * member * conf);
     return float4(refl, w);
 }
 

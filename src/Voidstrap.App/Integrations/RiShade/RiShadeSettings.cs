@@ -61,7 +61,7 @@ namespace Voidstrap.Integrations.RiShade
         public float SsrGlossiness { get; set; } = 0.92f;
         public float SsrReflectivity { get; set; } = 0.3f;
         public float SsrDistance { get; set; } = 0.6f;
-        public float SsrSheen { get; set; } = 0.0f;
+        public float SsrSheen { get; set; } = 0.3f;
         public bool AoEnabled { get; set; } = false;
         public float AoStrength { get; set; } = 0.6f;
         public float AoRadius { get; set; } = 0.012f;
