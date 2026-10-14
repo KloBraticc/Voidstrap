@@ -933,8 +933,8 @@
             </Grid>
           </Border>
           <Grid x:Name="CommandPaletteResultsArea" Height="420" Margin="0,10,0,0">
-            <ScrollViewer x:Name="CommandPaletteResultsScroll" Padding="0,0,6,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-              <ItemsControl x:Name="CommandPaletteResultsList" Focusable="False">
+            <ScrollViewer x:Name="CommandPaletteResultsScroll" Padding="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+              <ItemsControl x:Name="CommandPaletteResultsList" Margin="0,0,16,0" Focusable="False">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
                     <Grid>
