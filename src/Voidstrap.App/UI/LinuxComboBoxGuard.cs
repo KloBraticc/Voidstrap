@@ -75,8 +75,6 @@ public static class LinuxComboBoxGuard
 		private bool _presented;
 		private bool _attached;
 		private Window? _owner;
-		private long _openingPress;
-		private static readonly long OpeningClickTicks = TimeSpan.FromMilliseconds(500).Ticks;
 
 		internal Lifecycle(ComboBox box)
 		{
@@ -95,8 +93,6 @@ public static class LinuxComboBoxGuard
 			_box.SelectionChanged += OnSelectionChanged;
 			_box.LostMouseCapture += OnLostMouseCapture;
 			_box.IsVisibleChanged += OnIsVisibleChanged;
-			_box.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
-			_box.PreviewMouseLeftButtonUp += OnPreviewMouseLeftButtonUp;
 			_owner = Window.GetWindow(_box);
 			if (_owner is not null)
 			{
@@ -124,8 +120,6 @@ public static class LinuxComboBoxGuard
 			_box.SelectionChanged -= OnSelectionChanged;
 			_box.LostMouseCapture -= OnLostMouseCapture;
 			_box.IsVisibleChanged -= OnIsVisibleChanged;
-			_box.PreviewMouseLeftButtonDown -= OnPreviewMouseLeftButtonDown;
-			_box.PreviewMouseLeftButtonUp -= OnPreviewMouseLeftButtonUp;
 			if (_owner is not null)
 			{
 				_owner.Deactivated -= OnOwnerDeactivated;
@@ -491,19 +485,6 @@ public static class LinuxComboBoxGuard
 
 			if (_box.IsDropDownOpen)
 				_box.SetCurrentValue(ComboBox.IsDropDownOpenProperty, false);
-		}
-
-		private void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			_openingPress = _box.IsDropDownOpen ? 0 : DateTime.UtcNow.Ticks;
-		}
-
-		private void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-		{
-			long press = _openingPress;
-			_openingPress = 0;
-			if (press != 0 && _box.IsDropDownOpen && DateTime.UtcNow.Ticks - press < OpeningClickTicks)
-				e.Handled = true;
 		}
 
 		private void OnLostMouseCapture(object sender, MouseEventArgs e)
