@@ -10,7 +10,7 @@ use align::Aligner;
 use cadence::{Cadence, CadenceInput, CadenceResult};
 use quality::Quality;
 
-pub const ABI_VERSION: u32 = 1;
+pub const ABI_VERSION: u32 = 2;
 
 #[repr(C)]
 pub struct Layout {
@@ -66,9 +66,9 @@ pub unsafe extern "C" fn vfp_quality_record_slot(state: *mut Quality, missed: i3
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn vfp_quality_consider(state: *mut Quality, minimum_quality: i32, capture_backpressure: i32, active_mode: i32, now_sec: f64) -> u32 {
+pub unsafe extern "C" fn vfp_quality_consider(state: *mut Quality, minimum_quality: i32, capture_backpressure: i32, active_mode: i32, current_generated: i32, now_sec: f64) -> u32 {
     match state.as_mut() {
-        Some(state) => state.consider(minimum_quality, capture_backpressure != 0, active_mode, now_sec),
+        Some(state) => state.consider(minimum_quality, capture_backpressure != 0, active_mode, current_generated, now_sec),
         None => 0,
     }
 }

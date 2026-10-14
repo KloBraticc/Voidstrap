@@ -124,15 +124,15 @@ fn heavy_misses_lower_quality_then_stability_restores_it() {
     for i in 0..120 {
         q.record_slot(i % 2 == 0, now);
     }
-    let events = q.consider(0, false, 0, now);
+    let events = q.consider(0, false, 0, 0, now);
     assert_eq!(events, quality::EVENT_LOWER_QUALITY_PACING);
     assert_eq!(q.fg_quality, 1);
-    for _ in 0..3 {
+    for _ in 0..4 {
         now += 3.0;
         for _ in 0..120 {
             q.record_slot(false, now);
         }
-        q.consider(0, false, 0, now);
+        q.consider(0, false, 0, 0, now);
     }
     assert_eq!(q.fg_quality, 2);
 }
@@ -140,10 +140,10 @@ fn heavy_misses_lower_quality_then_stability_restores_it() {
 #[test]
 fn capture_backpressure_lowers_quality_and_rate_limits() {
     let mut q = Quality { fg_quality: 2, auto_generated_limit: 7, six_load_limit: 5, ..Default::default() };
-    assert_eq!(q.consider(0, true, 1, 10.0), quality::EVENT_LOWER_QUALITY_CAPTURE);
-    assert_eq!(q.consider(0, true, 1, 11.0), 0);
-    assert_eq!(q.consider(0, true, 1, 13.5), quality::EVENT_FAST_FLOW_CAPTURE);
-    assert_eq!(q.consider(0, true, 1, 17.0), quality::EVENT_AUTO_LOWER_CAPTURE);
+    assert_eq!(q.consider(0, true, 1, 0, 10.0), quality::EVENT_LOWER_QUALITY_CAPTURE);
+    assert_eq!(q.consider(0, true, 1, 0, 11.0), 0);
+    assert_eq!(q.consider(0, true, 1, 0, 13.5), quality::EVENT_FAST_FLOW_CAPTURE);
+    assert_eq!(q.consider(0, true, 1, 0, 17.0), quality::EVENT_AUTO_LOWER_CAPTURE);
     assert_eq!(q.auto_generated_limit, 6);
 }
 
@@ -181,4 +181,57 @@ fn helpers_match_expected_values() {
     assert_eq!(cadence::median_interval(&[5.0, 1.0, 3.0]), 3.0);
     assert_eq!(cadence::max_generated_for_cadence(1, 0.5), 3);
     assert_eq!(cadence::required_cadence_samples(70.0), 1);
+}
+
+#[test]
+fn roblox_skipping_frames_is_paced_at_its_real_rate() {
+    let mut c = Cadence::default();
+    let mut resets = 0;
+    for i in 0..300 {
+        let dt = if i % 3 == 2 { 25.0 } else { 12.5 };
+        let r = c.update(&CadenceInput { dt, cap_ms: 12.5, fps_cap: 80, src_is_capture: 1, ..Default::default() });
+        resets += r.reset_history;
+    }
+    assert_eq!(resets, 0);
+    assert!((c.ema_interval_ms - 50.0 / 3.0).abs() < 1.0, "ema {}", c.ema_interval_ms);
+    let mut phase = 0.0;
+    assert_eq!(cadence::target_total(c.ema_interval_ms, 240.0, 1, false, &mut phase), 3);
+}
+
+#[test]
+fn real_dropped_captures_are_still_normalized() {
+    let mut c = Cadence::default();
+    for _ in 0..30 {
+        c.update(&CadenceInput { dt: 12.5, cap_ms: 12.5, fps_cap: 80, src_is_capture: 1, ..Default::default() });
+    }
+    let r = c.update(&CadenceInput { dt: 25.0, cap_ms: 12.5, fps_cap: 80, drained_queued_capture: 1, skipped_since_last_use: 1, src_is_capture: 1, ..Default::default() });
+    assert_eq!(r.reset_history, 1);
+    assert!((c.ema_interval_ms - 12.5).abs() < 0.01);
+}
+
+#[test]
+fn pacing_reductions_wait_for_their_effect() {
+    let mut q = Quality { fg_quality: 1, auto_generated_limit: 7, six_load_limit: 5, ..Default::default() };
+    let mut now = 100.0;
+    let mut reductions = 0;
+    for _ in 0..8 {
+        for i in 0..120 {
+            q.record_slot(i % 2 == 0, now);
+        }
+        if q.consider(1, false, 1, 2, now) == quality::EVENT_AUTO_LOWER_PACING {
+            reductions += 1;
+        }
+        now += 0.5;
+    }
+    assert_eq!(reductions, 1);
+}
+
+#[test]
+fn auto_ceiling_drops_below_what_is_in_use() {
+    let mut q = Quality { fg_quality: 0, auto_generated_limit: 7, six_load_limit: 5, ..Default::default() };
+    for i in 0..120 {
+        q.record_slot(i % 2 == 0, 50.0);
+    }
+    assert_eq!(q.consider(0, false, 1, 2, 50.0), quality::EVENT_AUTO_LOWER_PACING);
+    assert_eq!(q.auto_generated_limit, 1);
 }

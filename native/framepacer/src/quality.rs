@@ -4,6 +4,7 @@ const SOURCE_REGRESSION_RATIO: f64 = 0.7;
 const SOURCE_REGRESSION_FLOOR: f64 = 30.0;
 const SOURCE_PEAK_DECAY: f64 = 0.002;
 const SOURCE_REGRESSION_HOLD_SEC: f64 = 3.0;
+const PACING_REDUCE_COOLDOWN_SEC: f64 = 2.0;
 
 pub const EVENT_FAST_FLOW_CAPTURE: u32 = 1;
 pub const EVENT_LOWER_QUALITY_CAPTURE: u32 = 2;
@@ -36,6 +37,11 @@ pub struct Quality {
     pub source_fps_peak: f64,
     pub source_regressed_since_sec: f64,
     pub missed_slots_total: i64,
+}
+
+fn lowered_auto_limit(limit: i32, current_generated: i32) -> i32 {
+    let effective = if current_generated > 0 { limit.min(current_generated) } else { limit };
+    (effective - 1).max(1)
 }
 
 fn push(events: &mut u32, event: u32) {
@@ -86,7 +92,7 @@ impl Quality {
         1
     }
 
-    pub fn consider(&mut self, minimum_quality: i32, capture_backpressure: bool, active_mode: i32, now_sec: f64) -> u32 {
+    pub fn consider(&mut self, minimum_quality: i32, capture_backpressure: bool, active_mode: i32, current_generated: i32, now_sec: f64) -> u32 {
         let mut events = 0u32;
         if capture_backpressure {
             self.backpressure_until_sec = now_sec + 5.0;
@@ -100,7 +106,7 @@ impl Quality {
                     self.six_load_limit -= 1;
                     push(&mut events, EVENT_SIX_LOWER_CAPTURE);
                 } else if active_mode == 1 && self.auto_generated_limit > 1 {
-                    self.auto_generated_limit -= 1;
+                    self.auto_generated_limit = lowered_auto_limit(self.auto_generated_limit, current_generated);
                     push(&mut events, EVENT_AUTO_LOWER_CAPTURE);
                 }
             }
@@ -126,6 +132,9 @@ impl Quality {
         self.miss_window = 0;
         if misses.wrapping_mul(4) > slots {
             self.stable_slots = 0;
+            if now_sec - self.last_change_sec < PACING_REDUCE_COOLDOWN_SEC {
+                return events;
+            }
             self.last_change_sec = now_sec;
             if self.fg_quality > minimum_quality {
                 self.fg_quality -= 1;
@@ -134,7 +143,7 @@ impl Quality {
                 self.six_load_limit -= 1;
                 push(&mut events, EVENT_SIX_LOWER_PACING);
             } else if active_mode == 1 && self.auto_generated_limit > 1 {
-                self.auto_generated_limit -= 1;
+                self.auto_generated_limit = lowered_auto_limit(self.auto_generated_limit, current_generated);
                 push(&mut events, EVENT_AUTO_LOWER_PACING);
             }
             return events;

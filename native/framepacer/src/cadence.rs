@@ -1,6 +1,9 @@
 use crate::num::{clamp, max, round, to_int};
 
 pub const RING: usize = 15;
+const OUTLIER_HIGH: f64 = 2.5;
+const OUTLIER_LOW: f64 = 0.4;
+const TRIM_FROM: usize = 5;
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -131,6 +134,18 @@ pub fn median_interval(samples: &[f64]) -> f64 {
     sorted[count / 2]
 }
 
+pub fn trimmed_mean(samples: &[f64]) -> f64 {
+    if samples.is_empty() {
+        return 0.0;
+    }
+    let count = samples.len().min(RING);
+    let mut sorted = [0.0f64; RING];
+    sorted[..count].copy_from_slice(&samples[..count]);
+    sorted[..count].sort_by(|a, b| a.total_cmp(b));
+    let kept = if count >= TRIM_FROM { &sorted[1..count - 1] } else { &sorted[..count] };
+    kept.iter().sum::<f64>() / kept.len() as f64
+}
+
 pub fn is_slot_overdue(target_ms: f64, now_ms: f64, slot_ms: f64) -> bool {
     target_ms < now_ms - max(slot_ms, 2.0)
 }
@@ -158,13 +173,15 @@ impl Cadence {
             return self.ema_interval_ms;
         }
         let count = (self.count.max(0) as usize).min(RING);
-        median_interval(&self.ring[..count])
+        trimmed_mean(&self.ring[..count])
     }
 
     pub fn update(&mut self, input: &CadenceInput) -> CadenceResult {
         let measured_dt = clamp(input.dt, 2.0, 400.0);
         let drained = input.drained_queued_capture != 0;
-        let normalization_ms = if drained && input.cap_ms > 4.0 {
+        let normalization_ms = if !drained {
+            0.0
+        } else if input.cap_ms > 4.0 {
             input.cap_ms
         } else if self.count >= 3 {
             self.ema_interval_ms
@@ -191,7 +208,7 @@ impl Cadence {
         }
         let reset_history = !cadence_locked && (clamped_dt - measured_dt).abs() > 0.01;
         if self.count >= 3 && self.ema_interval_ms > 4.0 {
-            let outlier = clamped_dt > self.ema_interval_ms * 1.6 || clamped_dt < self.ema_interval_ms * 0.55;
+            let outlier = clamped_dt > self.ema_interval_ms * OUTLIER_HIGH || clamped_dt < self.ema_interval_ms * OUTLIER_LOW;
             if outlier && self.outlier_run < 5 {
                 self.outlier_run += 1;
                 clamped_dt = self.ema_interval_ms;
