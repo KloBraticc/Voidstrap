@@ -369,10 +369,11 @@
       <TabItem>
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
-            <ui:SymbolIcon Symbol="Globe24" Margin="0,0,6,0" />
-            <TextBlock Text="Language" />
+            <ui:SymbolIcon Symbol="MoreHorizontal24" Margin="0,0,6,0" />
+            <TextBlock Text="More" />
           </StackPanel>
         </TabItem.Header>
+        <StackPanel>
         <StackPanel Margin="10">
           <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Language" />
           <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Language_Title}" Description="{x:Static resources:Strings.Menu_Appearance_Language_Description}">
@@ -405,14 +406,6 @@
             <ComboBox Width="200" Padding="10,5,10,5" ItemsSource="{Binding DiscordRpcLanguages, Mode=OneTime}" SelectedItem="{Binding SelectedDiscordRpcLanguage, Mode=TwoWay}" />
           </controls:OptionControl>
         </StackPanel>
-      </TabItem>
-      <TabItem>
-        <TabItem.Header>
-          <StackPanel Orientation="Horizontal">
-            <ui:SymbolIcon Symbol="Layer24" Margin="0,0,6,0" />
-            <TextBlock Text="Bootstrapper" />
-          </StackPanel>
-        </TabItem.Header>
         <StackPanel Margin="10">
           <Grid Margin="0,8,0,8">
             <Grid.ColumnDefinitions>
@@ -565,6 +558,7 @@
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
+        </StackPanel>
         </StackPanel>
       </TabItem>
       <TabItem>
