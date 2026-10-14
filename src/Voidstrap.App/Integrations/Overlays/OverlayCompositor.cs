@@ -389,6 +389,7 @@ namespace Voidstrap.Integrations.Overlays
 
                 CreateWindow();
                 CreateDevice();
+                ProtectDevice();
                 ResolveRobloxHwnd();
                 _refreshHz = QueryRefreshHz();
                 CreateCapture();
@@ -558,6 +559,19 @@ namespace Voidstrap.Integrations.Overlays
                 _device = null;
                 D3D11.D3D11CreateDevice((IDXGIAdapter?)null, DriverType.Warp, DeviceCreationFlags.BgraSupport, _featureLevels, out _device, out _context).CheckError();
                 App.Logger.WriteLine(LOG_IDENT, $"WARP device created, feature level {_device!.FeatureLevel}");
+            }
+        }
+
+        private void ProtectDevice()
+        {
+            try
+            {
+                using ID3D11Multithread multithread = _device!.QueryInterface<ID3D11Multithread>();
+                multithread.SetMultithreadProtected(true);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Graphics device thread protection is unavailable: " + ex.Message);
             }
         }
 
