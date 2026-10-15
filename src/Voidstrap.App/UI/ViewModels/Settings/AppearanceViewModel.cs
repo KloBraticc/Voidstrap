@@ -159,7 +159,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         public SidebarItemEditor(MainWindow.SidebarItemDefinition definition, string name, bool isVisible, SymbolRegular icon, bool hasCustomSymbol, string? customImagePath, Action<SidebarItemEditor> changed)
         {
             Key = definition.Key;
-            DefaultName = definition.DefaultName;
+            DefaultName = definition.DisplayName;
             Section = definition.Section;
             CanHide = definition.CanHide;
             DefaultIcon = definition.DefaultIcon;
@@ -1171,7 +1171,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             .ThenBy(item => ranks.TryGetValue(item.Key, out int rank) ? rank : int.MaxValue)
             .ThenBy(item => defaults[item.Key]))
         {
-            string name = names.TryGetValue(definition.Key, out string? customName) ? customName : definition.DefaultName;
+            string name = names.TryGetValue(definition.Key, out string? customName) ? customName : definition.DisplayName;
             bool visible = !hidden.Contains(definition.Key, StringComparer.Ordinal);
             SymbolRegular customIcon = definition.DefaultIcon;
             bool hasCustomSymbol = icons.TryGetValue(definition.Key, out string? iconName)

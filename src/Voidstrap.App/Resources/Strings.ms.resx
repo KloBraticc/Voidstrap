@@ -2999,4 +2999,352 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0}% siap</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>Tetapan diubah</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Tutup</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>Mulakan semula Voidstrap untuk menggunakan perubahan ini.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap telah menyimpan dan melancarkan Roblox!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>Perubahan telah disimpan.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>Tetapan tidak diubah</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Tandakan semua sebagai dibaca</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>Kosongkan semua</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>Kosongkan semua pemberitahuan</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Tiada pemberitahuan baharu</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Ranap, ralat dan kemas kini penting daripada Voidstrap dipaparkan di sini.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>Ke hadapan</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>UTAMA</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>PUSTAKA</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>BERITA</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Semak kemas kini</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Nota keluaran</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Buka folder log</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Log Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Log Roblox</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Buka folder aplikasi</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Sokongan</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Sokong Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Mulakan semula Voidstrap</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>Kuncupkan atau kembangkan bar sisi</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Teras</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Utama</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Konfigurasi</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>Tetapan FastFlag</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>Editor FastFlag</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Lagi</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Berita</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Sambungan</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Pengurus</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Tetapan</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>Seret untuk mengubah saiz, klik dua kali untuk menetapkan semula</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Cari...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Zum keluar</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Zum masuk</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Pilih versi Roblox</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Pilih apa yang dilancarkan oleh Simpan dan lancar.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Lompat ke mana-mana halaman atau tetapan.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Cari halaman dan tetapan</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Tiada hasil</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Cuba perkataan lain atau semak ejaan</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>untuk bergerak</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>untuk membuka</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>untuk menutup</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Aplikasi</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>Sesuaikan latar belakang, antara muka dan pilihan</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Warna</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Latar belakang</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Imej latar belakang</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Import imej, video atau GIF sebagai latar belakang Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>Ditetapkan berdasarkan pencahayaan imej semasa import. Anda boleh mengubahnya kemudian.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Menggelapkan latar belakang supaya teks kekal mudah dibaca.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Paparkan latar belakang di mana-mana</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>Menggunakan latar belakang di belakang setiap tetingkap Voidstrap, bukan hanya tetingkap utama.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Salji</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Menambah salji yang turun pada latar belakang.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>Menggerakkan gradien latar belakang mengikut kursor anda.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Bentuk</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Bucu tetingkap</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>Sejauh mana bucu setiap tetingkap Voidstrap dibundarkan.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Kebundaran bucu</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>Sejauh mana kad, butang, kotak dan menu di dalam aplikasi dibundarkan.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Teks dan tatal</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Bar tatal lancar</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Menatal dengan lancar dan bukannya melompat.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Lihat beberapa tema terbina dalam kami!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Latar tetingkap</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Pilih bahan di belakang tetingkap Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Fon aplikasi</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Tukar fon yang digunakan di seluruh Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Pilih fon...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Bahasa status Discord</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Menterjemah status Discord anda ke bahasa lain. Nama permainan, pencipta dan tempat kekal seperti asal.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Gaya pelancar</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Pilih pelancar terbina dalam atau gunakan salah satu tema anda sendiri.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Saiz pelancar</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Tukar saiz keseluruhan dan jarak pelancar.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Pencipta tema</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Cipta dan urus tema pelancar tersuai anda.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Tema baharu</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Nama tema</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>Simpan nama</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Buka editor</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>Lagi tindakan</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Lihat fail</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Pilih tema daripada senarai, atau cipta yang baharu.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>Tambahan pilihan pelancar</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Tambah latar belakang atau bunyi permulaan. Tambahan ini tidak terpakai pada pelancar tersuai atau tema yang dicipta dalam Pencipta tema.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Pilih imej untuk latar belakang pelancar.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Bunyi permulaan</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Pilih audio yang dimainkan apabila pelancar dibuka.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Susun atur bar sisi</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Namakan semula, pilih ikon atau imej sendiri, papar, sembunyi dan susun semula halaman bar sisi.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Tukar ikon bar sisi</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Bahagian</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Papar</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Tukar keterlihatan dalam bar sisi</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Alih</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Alih ke atas</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Alih ke bawah</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>Utama dan Penampilan sentiasa kelihatan supaya penyesuaian sentiasa boleh dicapai.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>Tetapkan semula bar sisi</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>Identiti aplikasi</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Beri aplikasi nama dan ikon anda sendiri.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Nama aplikasi</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Menggantikan nama aplikasi di mana-mana ia dipaparkan. Biarkan kosong untuk menggunakan nama asal.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>Ikon aplikasi</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Pilih imej</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Ikon Studio</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Ikon yang dipaparkan oleh pelancar semasa melancarkan Roblox Studio.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Penyesuaian</value>
+  </data>
 </root>

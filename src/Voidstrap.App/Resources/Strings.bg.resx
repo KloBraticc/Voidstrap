@@ -3038,4 +3038,352 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0}% завършен</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>Настройките са променени</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Затвори</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>Рестартирайте Voidstrap, за да приложите тази промяна.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap запази настройките и стартира Roblox!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>Промените са запазени.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>Настройката не е променена</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Маркирай всички като прочетени</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>Изчисти всички</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>Изчисти всички известия</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Нямате нови известия</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Тук се показват сривове, грешки и важни актуализации от Voidstrap.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>Напред</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>НАЧАЛО</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>БИБЛИОТЕКА</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>НОВИНИ</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Проверка за актуализации</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Бележки към версията</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Отвори папката с дневници</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Дневници на Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Дневници на Roblox</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Отвори папката на приложението</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Поддръжка</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Подкрепете Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Рестартирай Voidstrap</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>Свий или разгъни страничната лента</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Основни</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Начало</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Конфигурация</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>Настройки на FastFlag</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>Редактор на FastFlag</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Още</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Глобални</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Новини</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Разширения</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Мениджър</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>Плъзнете, за да промените размера, щракнете два пъти за нулиране</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Търсене...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Намали</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Увеличи</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Изберете версия на Roblox</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Изберете какво да стартира Запази и стартирай.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Отидете на всяка страница или настройка.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Търсене на страници и настройки</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Няма резултати</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Опитайте с друга дума или проверете правописа</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>за преместване</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>за отваряне</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>за затваряне</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Приложение</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>Персонализирайте фона, интерфейса и опциите</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Цвят</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Фон</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Фоново изображение</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Импортирайте изображение, видео или GIF като фон на Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>Задава се при импортиране според осветеността на изображението. Можете да я промените по-късно.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Затъмнява фона, за да остане текстът четлив.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Показвай фона навсякъде</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>Използва фона зад всеки прозорец на Voidstrap, не само главния.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Сняг</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Добавя падащ сняг към фона.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>Движи фоновия градиент заедно с курсора.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Форма</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Ъгли на прозорците</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>Колко заоблени са ъглите на всеки прозорец на Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Заобляне на ъглите</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>Колко заоблени са картите, бутоните, полетата и менютата в приложението.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Текст и превъртане</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Плавна лента за превъртане</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Превърта плавно вместо на скокове.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Разгледайте някои от вградените ни теми!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Фон на прозорците</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Изберете материала зад прозорците на Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Шрифт на приложението</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Сменете шрифта, използван в целия Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Изберете шрифт...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Език на статуса в Discord</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Превежда статуса Ви в Discord на друг език. Имената на игри, създатели и места остават същите.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Стил на стартера</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Изберете вграден стартер или използвайте някоя от собствените си теми.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Размер на стартера</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Променете общия размер и разстоянията на стартера.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Създател на теми</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Създавайте и управлявайте темата на собствения си стартер.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Нова тема</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Име на темата</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>Запази името</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Отвори редактора</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>Още действия</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Преглед на файловете</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Изберете тема от списъка или създайте нова.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>Допълнителни опции на стартера</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Добавете фон или звук при стартиране. Тези допълнения не важат за собствени стартери или теми, създадени в Създателя на теми.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Изберете изображение за фона на стартера.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Звук при стартиране</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Изберете звук, който да се пуска при отваряне на стартера.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Подредба на страничната лента</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Преименувайте, изберете икони или собствени изображения, показвайте, скривайте и пренареждайте страниците в страничната лента.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Смени иконата в страничната лента</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Раздел</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Показвай</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Промени видимостта в страничната лента</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Премести</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Нагоре</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Надолу</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>Начало и Външен вид остават видими, за да е персонализацията винаги достъпна.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>Нулирай страничната лента</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>Идентичност на приложението</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Дайте на приложението собствено име и икона.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Име на приложението</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Заменя името на приложението навсякъде, където се показва. Оставете празно, за да използвате оригиналното име.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>Икона на приложението</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Изберете изображение</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Икона на Studio</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Иконата, която стартерът показва при стартиране на Roblox Studio.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Персонализиране</value>
+  </data>
 </root>

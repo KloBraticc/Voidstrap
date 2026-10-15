@@ -3044,4 +3044,352 @@ Bạn muốn làm gì?</value>
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>Hoàn thành {0}%</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>Đã thay đổi cài đặt</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Bỏ qua</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>Khởi động lại Voidstrap để áp dụng thay đổi này.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap đã lưu và khởi chạy Roblox!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>Đã lưu các thay đổi.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>Cài đặt chưa thay đổi</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Đánh dấu tất cả là đã đọc</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>Xóa tất cả</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>Xóa tất cả thông báo</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Không có thông báo mới</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Sự cố, lỗi và bản cập nhật quan trọng từ Voidstrap sẽ hiển thị ở đây.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>Tiến</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>TRANG CHỦ</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>THƯ VIỆN</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>TIN TỨC</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Kiểm tra cập nhật</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Ghi chú phát hành</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Mở thư mục nhật ký</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Nhật ký Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Nhật ký Roblox</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Mở thư mục ứng dụng</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Hỗ trợ</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Ủng hộ Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Khởi động lại Voidstrap</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>Thu gọn hoặc mở rộng thanh bên</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Cốt lõi</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Trang chủ</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Cấu hình</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>Cài đặt FastFlag</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>Trình chỉnh sửa FastFlag</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Thêm</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Chung</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Tin tức</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Tiện ích mở rộng</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Trình quản lý</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Cài đặt</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>Kéo để đổi kích thước, nhấp đúp để đặt lại</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Tìm kiếm...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Thu nhỏ</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Phóng to</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Chọn phiên bản Roblox</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Chọn những gì Lưu và khởi chạy sẽ mở.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Chuyển đến bất kỳ trang hoặc cài đặt nào.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Tìm trang và cài đặt</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Không có kết quả</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Hãy thử từ khác hoặc kiểm tra chính tả</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>để di chuyển</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>để mở</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>để đóng</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Ứng dụng</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>Tùy chỉnh nền, giao diện và tùy chọn</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Màu sắc</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Nền</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Ảnh nền</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Nhập ảnh, video hoặc GIF làm nền Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>Được đặt theo ánh sáng của ảnh khi nhập. Bạn có thể thay đổi sau.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Làm tối nền để chữ vẫn dễ đọc.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Hiển thị nền ở mọi nơi</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>Dùng nền phía sau mọi cửa sổ Voidstrap, không chỉ cửa sổ chính.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Tuyết</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Thêm tuyết rơi vào nền.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>Di chuyển dải màu nền theo con trỏ của bạn.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Hình dạng</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Góc cửa sổ</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>Độ bo tròn góc của mọi cửa sổ Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Độ bo góc</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>Độ bo tròn của thẻ, nút, ô và menu trong ứng dụng.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Văn bản và cuộn</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Thanh cuộn mượt</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Cuộn mượt thay vì nhảy.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Hãy xem một số chủ đề có sẵn của chúng tôi!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Nền cửa sổ</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Chọn chất liệu phía sau cửa sổ Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Phông chữ ứng dụng</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Thay đổi phông chữ dùng trong toàn bộ Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Chọn phông chữ...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Ngôn ngữ trạng thái Discord</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Dịch trạng thái Discord của bạn sang ngôn ngữ khác. Tên trò chơi, người tạo và địa điểm được giữ nguyên.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Kiểu trình khởi chạy</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Chọn trình khởi chạy có sẵn hoặc dùng một trong các chủ đề của riêng bạn.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Kích thước trình khởi chạy</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Thay đổi kích thước tổng thể và khoảng cách của trình khởi chạy.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Trình tạo chủ đề</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Tạo và quản lý chủ đề cho trình khởi chạy tùy chỉnh của bạn.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Chủ đề mới</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Tên chủ đề</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>Lưu tên</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Mở trình chỉnh sửa</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>Thao tác khác</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Xem tệp</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Chọn một chủ đề trong danh sách hoặc tạo chủ đề mới.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>Tiện ích tùy chọn cho trình khởi chạy</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Thêm nền hoặc âm thanh khởi động. Các tiện ích này không áp dụng cho trình khởi chạy tùy chỉnh hoặc chủ đề tạo bằng Trình tạo chủ đề.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Chọn ảnh làm nền cho trình khởi chạy.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Âm thanh khởi động</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Chọn âm thanh phát khi trình khởi chạy mở.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Bố cục thanh bên</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Đổi tên, chọn biểu tượng hoặc ảnh riêng, hiện, ẩn và sắp xếp lại các trang trên thanh bên.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Đổi biểu tượng thanh bên</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Mục</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Hiện</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Đổi chế độ hiển thị trên thanh bên</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Di chuyển</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Di chuyển lên</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Di chuyển xuống</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>Trang chủ và Giao diện luôn hiển thị để bạn luôn có thể tùy chỉnh.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>Đặt lại thanh bên</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>Nhận diện ứng dụng</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Đặt cho ứng dụng tên và biểu tượng của riêng bạn.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Tên ứng dụng</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Thay tên ứng dụng ở mọi nơi tên được hiển thị. Để trống để dùng tên gốc.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>Biểu tượng ứng dụng</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Chọn ảnh</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Biểu tượng Studio</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Biểu tượng trình khởi chạy hiển thị khi mở Roblox Studio.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Tùy chỉnh</value>
+  </data>
 </root>

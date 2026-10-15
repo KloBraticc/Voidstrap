@@ -3048,4 +3048,352 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0}% 완료</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>설정이 변경되었습니다</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>닫기</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>이 변경 사항을 적용하려면 Voidstrap을 다시 시작하세요.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap이 저장하고 Roblox를 실행했습니다!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>변경 사항이 저장되었습니다.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>설정이 변경되지 않았습니다</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>모두 읽음으로 표시</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>모두 지우기</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>모든 알림 지우기</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>새 알림이 없습니다</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Voidstrap의 충돌, 오류 및 중요한 업데이트가 여기에 표시됩니다.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>앞으로</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>홈</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>라이브러리</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>뉴스</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>업데이트 확인</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>릴리스 노트</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>로그 폴더 열기</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Voidstrap 로그</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Roblox 로그</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>응용 프로그램 폴더 열기</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>지원</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Voidstrap 후원하기</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Voidstrap 다시 시작</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>사이드바 접기 또는 펼치기</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>기본</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>홈</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>구성</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>FastFlag 설정</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>FastFlag 편집기</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>더 보기</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>전역</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>뉴스</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>확장 기능</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>관리자</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>설정</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>끌어서 크기 조정, 두 번 클릭하여 초기화</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>검색...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>축소</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>확대</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Roblox 버전 선택</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>저장 후 실행으로 무엇을 시작할지 선택하세요.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>원하는 페이지나 설정으로 바로 이동합니다.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>페이지 및 설정 검색</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>결과 없음</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>다른 단어를 사용하거나 철자를 확인하세요</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>이동</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>열기</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>닫기</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>응용 프로그램</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>배경, UI 및 옵션 사용자 지정</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>색상</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>배경</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>배경 이미지</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>이미지, 동영상 또는 GIF를 Voidstrap 배경으로 가져옵니다.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>가져올 때 이미지의 밝기에 따라 설정됩니다. 나중에 변경할 수 있습니다.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>글자가 잘 보이도록 배경을 어둡게 합니다.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>모든 곳에 배경 표시</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>메인 창뿐 아니라 모든 Voidstrap 창 뒤에 배경을 사용합니다.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>눈</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>배경에 내리는 눈을 추가합니다.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>배경 그라데이션이 커서를 따라 움직입니다.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>모양</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>창 모서리</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>모든 Voidstrap 창 모서리의 둥근 정도입니다.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>모서리 둥글기</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>앱 안의 카드, 버튼, 상자, 메뉴의 둥근 정도입니다.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>텍스트 및 스크롤</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>부드러운 스크롤바</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>끊기지 않고 부드럽게 스크롤합니다.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>내장된 사용자 지정 테마를 확인해 보세요!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>창 배경 효과</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Voidstrap 창 뒤에 표시할 재질을 선택합니다.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>응용 프로그램 글꼴</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Voidstrap 전체에서 사용하는 글꼴을 변경합니다.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>글꼴 선택...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Discord 상태 언어</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Discord 상태를 다른 언어로 번역합니다. 게임, 제작자, 장소 이름은 그대로 유지됩니다.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>런처 스타일</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>내장 런처를 선택하거나 직접 만든 테마를 사용합니다.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>런처 크기</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>런처의 전체 크기와 간격을 변경합니다.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>테마 만들기</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>사용자 지정 런처에서 사용할 테마를 만들고 관리합니다.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>새 테마</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>테마 이름</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>이름 저장</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>편집기 열기</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>추가 작업</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>파일 보기</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>목록에서 테마를 선택하거나 새로 만드세요.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>런처 추가 옵션</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>배경이나 시작 소리를 추가합니다. 이 옵션은 사용자 지정 런처나 테마 만들기로 만든 테마에는 적용되지 않습니다.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>런처 배경으로 사용할 이미지를 선택합니다.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>시작 소리</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>런처가 열릴 때 재생할 오디오를 선택합니다.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>사이드바 레이아웃</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>사이드바 페이지의 이름 변경, 아이콘이나 이미지 선택, 표시, 숨기기, 순서 변경을 할 수 있습니다.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>사이드바 아이콘 변경</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>섹션</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>표시</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>사이드바 표시 여부 변경</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>이동</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>위로 이동</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>아래로 이동</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>사용자 지정에 언제든 접근할 수 있도록 홈과 모양은 항상 표시됩니다.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>사이드바 초기화</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>앱 정보</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>앱에 원하는 이름과 아이콘을 지정합니다.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>앱 이름</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>표시되는 모든 곳에서 앱 이름을 바꿉니다. 비워 두면 원래 이름을 사용합니다.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>앱 아이콘</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>이미지 선택</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Studio 아이콘</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Roblox Studio를 실행할 때 부트스트래퍼에 표시되는 아이콘입니다.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>사용자 지정</value>
+  </data>
 </root>

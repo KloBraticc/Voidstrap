@@ -3072,4 +3072,352 @@ Ką norėtumėte daryti?</value>
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0} % baigta</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>Nustatymai pakeisti</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Uždaryti</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>Paleiskite Voidstrap iš naujo, kad pakeitimas įsigaliotų.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap išsaugojo nustatymus ir paleido Roblox!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>Pakeitimai išsaugoti.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>Nustatymas nepakeistas</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Pažymėti viską kaip perskaitytą</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>Išvalyti viską</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>Išvalyti visus pranešimus</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Naujų pranešimų nėra</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Čia rodomi Voidstrap gedimai, klaidos ir svarbūs atnaujinimai.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>Pirmyn</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>PRADŽIA</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>BIBLIOTEKA</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>NAUJIENOS</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Tikrinti atnaujinimus</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Leidimo pastabos</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Atidaryti žurnalų aplanką</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Voidstrap žurnalai</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Roblox žurnalai</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Atidaryti programos aplanką</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Pagalba</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Paremti Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Paleisti Voidstrap iš naujo</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>Suskleisti arba išskleisti šoninę juostą</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Pagrindinis</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Pradžia</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Konfigūracija</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>FastFlag nustatymai</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>FastFlag redaktorius</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Daugiau</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Bendri</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Naujienos</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Plėtiniai</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Tvarkyklė</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Nustatymai</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>Vilkite, kad pakeistumėte dydį, dukart spustelėkite, kad atkurtumėte</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Ieškoti...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Tolinti</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Artinti</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Pasirinkite Roblox versiją</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Pasirinkite, ką turi paleisti Išsaugoti ir paleisti.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Pereikite į bet kurį puslapį ar nustatymą.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Ieškoti puslapių ir nustatymų</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Rezultatų nėra</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Pabandykite kitą žodį arba patikrinkite rašybą</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>judėti</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>atidaryti</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>uždaryti</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Programa</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>Tinkinkite foną, sąsają ir parinktis</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Spalva</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Fonas</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Fono paveikslėlis</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Importuokite paveikslėlį, vaizdo įrašą ar GIF kaip Voidstrap foną.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>Nustatoma importuojant pagal paveikslėlio apšvietimą. Vėliau galite ją pakeisti.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Patamsina foną, kad tekstas liktų įskaitomas.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Rodyti foną visur</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>Naudoja foną už kiekvieno Voidstrap lango, ne tik pagrindinio.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Sniegas</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Prideda krintantį sniegą prie fono.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>Judina fono gradientą kartu su žymekliu.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Forma</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Langų kampai</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>Kiek suapvalinti kiekvieno Voidstrap lango kampai.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Kampų apvalumas</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>Kiek suapvalintos kortelės, mygtukai, laukai ir meniu programoje.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Tekstas ir slinkimas</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Sklandi slinkties juosta</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Slenka sklandžiai, o ne šuoliais.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Peržiūrėkite kai kurias mūsų įtaisytas temas!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Langų fonas</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Pasirinkite medžiagą už Voidstrap langų.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Programos šriftas</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Pakeiskite visame Voidstrap naudojamą šriftą.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Pasirinkti šriftą...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Discord būsenos kalba</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Išverčia jūsų Discord būseną į kitą kalbą. Žaidimų, kūrėjų ir vietų pavadinimai nesikeičia.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Paleidiklio stilius</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Pasirinkite įtaisytą paleidiklį arba naudokite vieną iš savo temų.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Paleidiklio dydis</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Pakeiskite bendrą paleidiklio dydį ir tarpus.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Temų kūrimas</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Kurkite ir tvarkykite savo paleidiklio temą.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Nauja tema</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Temos pavadinimas</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>Išsaugoti pavadinimą</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Atidaryti redaktorių</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>Daugiau veiksmų</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Peržiūrėti failus</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Pasirinkite temą iš sąrašo arba sukurkite naują.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>Pasirenkami paleidiklio priedai</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Pridėkite foną arba paleidimo garsą. Šie priedai netaikomi savo paleidikliams ar temoms, sukurtoms Temų kūrime.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Pasirinkite paveikslėlį paleidiklio fonui.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Paleidimo garsas</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Pasirinkite garsą, kuris skambės atsidarius paleidikliui.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Šoninės juostos išdėstymas</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Pervadinkite, pasirinkite piktogramas ar savo paveikslėlius, rodykite, slėpkite ir pertvarkykite šoninės juostos puslapius.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Keisti piktogramą šoninėje juostoje</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Skyrius</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Rodyti</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Keisti matomumą šoninėje juostoje</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Perkelti</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Perkelti aukštyn</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Perkelti žemyn</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>Pradžia ir Išvaizda visada matomi, kad tinkinimas būtų visada pasiekiamas.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>Atkurti šoninę juostą</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>Programos tapatybė</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Suteikite programai savo pavadinimą ir piktogramą.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Programos pavadinimas</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Pakeičia programos pavadinimą visur, kur jis rodomas. Palikite tuščią, kad būtų naudojamas originalus pavadinimas.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>Programos piktograma</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Pasirinkti paveikslėlį</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Studio piktograma</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Piktograma, kurią paleidiklis rodo paleidžiant Roblox Studio.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Tinkinimas</value>
+  </data>
 </root>

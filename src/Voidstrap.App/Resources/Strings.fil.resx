@@ -2811,4 +2811,352 @@ Ano ang gusto mong gawin?</value>
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0}% kumpleto</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>Nabago ang mga setting</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Isara</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>I-restart ang Voidstrap para mailapat ang pagbabagong ito.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Na-save ng Voidstrap at nailunsad ang Roblox!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>Na-save ang mga pagbabago.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>Hindi nabago ang setting</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Markahan lahat bilang nabasa na</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>I-clear lahat</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>I-clear lahat ng notification</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Wala kang bagong notification</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Dito lumalabas ang mga crash, error at mahahalagang update mula sa Voidstrap.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>Pasulong</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>HOME</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>LIBRARY</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>BALITA</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Tingnan kung may update</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Mga release note</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Buksan ang folder ng log</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Mga log ng Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Mga log ng Roblox</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Buksan ang folder ng app</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Suporta</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Suportahan ang Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>I-restart ang Voidstrap</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>I-collapse o i-expand ang sidebar</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Pangunahin</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>Mga setting ng FastFlag</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>FastFlag editor</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Iba pa</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Balita</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Mga extension</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Manager</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Mga setting</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>I-drag para baguhin ang laki, i-double click para i-reset</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Maghanap...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Mag-zoom out</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Mag-zoom in</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Pumili ng bersyon ng Roblox</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Piliin kung ano ang bubuksan ng I-save at ilunsad.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Pumunta sa kahit anong page o setting.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Maghanap ng mga page at setting</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Walang resulta</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Subukan ang ibang salita o tingnan ang baybay</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>para lumipat</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>para buksan</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>para isara</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>I-customize ang background, UI at mga opsyon</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Kulay</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Background</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Larawan sa background</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Mag-import ng larawan, video o GIF bilang background ng Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>Itinatakda batay sa liwanag ng larawan sa pag-import. Puwede mo itong baguhin pagkatapos.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Pinadidilim ang background para manatiling nababasa ang teksto.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Ipakita ang background kahit saan</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>Ginagamit ang background sa likod ng bawat window ng Voidstrap, hindi lang sa pangunahin.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Niyebe</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Nagdaragdag ng nahuhulog na niyebe sa background.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>Ginagalaw ang gradient ng background kasabay ng iyong cursor.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Hugis</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Mga sulok ng window</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>Kung gaano kabilog ang mga sulok ng bawat window ng Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Bilog ng mga sulok</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>Kung gaano kabilog ang mga card, button, box at menu sa loob ng app.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Teksto at pag-scroll</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Makinis na scrollbar</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Nag-i-scroll nang makinis sa halip na tumalon.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Silipin ang ilan sa aming mga built in na tema!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Backdrop ng window</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Piliin ang materyal sa likod ng mga window ng Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Font ng application</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Palitan ang font na ginagamit sa buong Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Pumili ng font...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Wika ng status sa Discord</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Isinasalin ang iyong status sa Discord sa ibang wika. Hindi nagbabago ang mga pangalan ng laro, creator at place.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Istilo ng launcher</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Pumili ng built in na launcher o gamitin ang isa sa sarili mong mga tema.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Laki ng launcher</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Baguhin ang kabuuang laki at espasyo ng launcher.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Gumawa ng tema</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Gumawa at pamahalaan ang tema ng iyong custom na launcher.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Bagong tema</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Pangalan ng tema</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>I-save ang pangalan</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Buksan ang editor</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>Iba pang aksyon</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Tingnan ang mga file</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Pumili ng tema mula sa listahan, o gumawa ng bago.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>Mga opsyonal na extra ng launcher</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Magdagdag ng background o tunog sa pagbukas. Hindi nalalapat ang mga extra na ito sa mga custom na launcher o tema na ginawa sa Gumawa ng tema.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Pumili ng larawan para sa background ng launcher.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Tunog sa pagbukas</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Pumili ng audio na tutugtog kapag bumukas ang launcher.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Ayos ng sidebar</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Palitan ang pangalan, pumili ng icon o sariling larawan, ipakita, itago at ayusin muli ang mga page ng sidebar.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Palitan ang icon sa sidebar</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Seksyon</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Ipakita</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Baguhin ang visibility sa sidebar</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Ilipat</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Ilipat pataas</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Ilipat pababa</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>Laging nakikita ang Home at Hitsura para laging maabot ang pag-customize.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>I-reset ang sidebar</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>Pagkakakilanlan ng app</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Bigyan ang app ng sarili mong pangalan at icon.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Pangalan ng app</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Pinapalitan ang pangalan ng app saanman ito lumalabas. Iwanang blangko para gamitin ang orihinal na pangalan.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>Icon ng app</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Pumili ng larawan</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Icon ng Studio</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Ang icon na ipinapakita ng bootstrapper kapag inilulunsad ang Roblox Studio.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Pag-customize</value>
+  </data>
 </root>

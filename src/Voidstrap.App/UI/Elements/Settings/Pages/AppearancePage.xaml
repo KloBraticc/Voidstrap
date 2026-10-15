@@ -6,20 +6,20 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Color24" Margin="0,0,6,0" />
-            <TextBlock Text="Application" />
+            <TextBlock Text="{resources:Loc Ui_Appearance_TabApplication}" />
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Application" />
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="{resources:Loc Ui_Appearance_TabApplication}" />
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
                 <TextBlock FontSize="14" Text="{resources:Loc Installer_Appearance_BackgroundUI_Title}" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Customize background ui and options" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Appearance_Subtitle}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <TextBlock Margin="4,4,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Color" />
+              <TextBlock Margin="4,4,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Appearance_Color}" />
               <controls:OptionControl Header="{resources:Loc Menu_Appearance_Accent_Title}" Description="{resources:Loc Menu_Appearance_Accent_Description}">
                 <StackPanel Orientation="Horizontal">
                   <Border Width="24" Height="24" CornerRadius="4" Background="{DynamicResource SystemAccentColorBrush}" Margin="0,0,8,0" />
@@ -27,8 +27,8 @@
                   <ui:Button Content="{resources:Loc Menu_Appearance_Accent_System}" Command="{Binding ResetAccentCommand}" />
                 </StackPanel>
               </controls:OptionControl>
-              <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Background" />
-              <controls:OptionControl Header="Background image" Description="Import an image, video or GIF as the Voidstrap background.">
+              <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Appearance_Background}" />
+              <controls:OptionControl Header="{resources:Loc Ui_Appearance_BackgroundImage}" Description="{resources:Loc Ui_Appearance_BackgroundImageDescription}">
                 <ui:Button>
                   <ui:Button.Style>
                     <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
@@ -46,29 +46,29 @@
                   </ui:Button.Style>
                 </ui:Button>
               </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Installer_Appearance_GradientOpacity}" Description="Set from the image lighting on import. You can change it afterwards.">
+              <controls:OptionControl Header="{resources:Loc Installer_Appearance_GradientOpacity}" Description="{resources:Loc Ui_Appearance_GradientOpacityDescription}">
                 <StackPanel Orientation="Horizontal">
                   <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding GradientOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                   <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding GradientOpacity, StringFormat={}{0:P0}}" />
                 </StackPanel>
               </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Installer_Appearance_DarkOverlay}" Description="Darkens the background so text stays readable.">
+              <controls:OptionControl Header="{resources:Loc Installer_Appearance_DarkOverlay}" Description="{resources:Loc Ui_Appearance_DarkOverlayDescription}">
                 <StackPanel Orientation="Horizontal">
                   <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding BlackOverlayOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                   <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding BlackOverlayOpacity, StringFormat={}{0:P0}}" />
                 </StackPanel>
               </controls:OptionControl>
-              <controls:OptionControl Header="Show background everywhere" Description="Uses the background behind every Voidstrap window, not only the main one.">
+              <controls:OptionControl Header="{resources:Loc Ui_Appearance_BackgroundEverywhere}" Description="{resources:Loc Ui_Appearance_BackgroundEverywhereDescription}">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding BackgroundEverywhere, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Snow" Description="Adds falling snow to the background.">
+              <controls:OptionControl Header="{resources:Loc Ui_Appearance_Snow}" Description="{resources:Loc Ui_Appearance_SnowDescription}">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding Snowww, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Installer_Appearance_GradientMovement_Title}" Description="Moves the background gradient with your cursor.">
+              <controls:OptionControl Header="{resources:Loc Installer_Appearance_GradientMovement_Title}" Description="{resources:Loc Ui_Appearance_GradientMovementDescription}">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding GRADmentFR, Mode=TwoWay}" />
               </controls:OptionControl>
-              <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Shape" />
-              <controls:OptionControl Header="Window corners" Description="How round the corners of every Voidstrap window are.">
+              <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Appearance_Shape}" />
+              <controls:OptionControl Header="{resources:Loc Ui_Appearance_WindowCorners}" Description="{resources:Loc Ui_Appearance_WindowCornersDescription}">
                 <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding WindowCornerStyles, Mode=OneTime}" SelectedItem="{Binding WindowCornerStyle, Mode=TwoWay}">
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -77,22 +77,22 @@
                   </ItemsControl.ItemTemplate>
                 </ComboBox>
               </controls:OptionControl>
-              <controls:OptionControl Header="Corner roundness" Description="How round cards, buttons, boxes and menus are inside the app.">
+              <controls:OptionControl Header="{resources:Loc Ui_Appearance_CornerRoundness}" Description="{resources:Loc Ui_Appearance_CornerRoundnessDescription}">
                 <StackPanel Orientation="Horizontal">
                   <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="2" SmallChange="0.05" LargeChange="0.25" TickFrequency="0.05" IsSnapToTickEnabled="True" Value="{Binding UiCornerScale, Mode=TwoWay}" />
                   <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding UiCornerScale, StringFormat={}{0:P0}}" />
                 </StackPanel>
               </controls:OptionControl>
-              <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Text and scrolling" Visibility="{Binding WindowsOnlyVisibility}" />
+              <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Appearance_TextAndScrolling}" Visibility="{Binding WindowsOnlyVisibility}" />
               <controls:OptionControl Header="{resources:Loc Installer_Appearance_ClearFont_Title}" Description="{resources:Loc Installer_Appearance_ClearFont_Description}" Visibility="{Binding WindowsOnlyVisibility}">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding ClearFont, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Smooth scrollbar" Description="Scrolls smoothly instead of jumping." Visibility="{Binding WindowsOnlyVisibility}">
+              <controls:OptionControl Header="{resources:Loc Ui_Appearance_SmoothScrollbar}" Description="{resources:Loc Ui_Appearance_SmoothScrollbarDescription}" Visibility="{Binding WindowsOnlyVisibility}">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding SmooothBARRyesirikikthxlucipook, Mode=TwoWay}" />
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
-          <controls:OptionControl Header="{resources:Loc Menu_Appearance_Global_Theme_Title}" Description="Check out some of our built-in custom themes!">
+          <controls:OptionControl Header="{resources:Loc Menu_Appearance_Global_Theme_Title}" Description="{resources:Loc Ui_Appearance_ThemesDescription}">
             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
               <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding BindableThemes}" SelectedItem="{Binding Theme, Mode=TwoWay}" SelectionChanged="ThemeComboBox_SelectionChanged">
                 <ComboBox.Resources>
@@ -122,7 +122,7 @@
             </Border.Background>
             <controls:CustomThemePanel />
           </Border>
-          <controls:OptionControl Header="Window Backdrop" Description="Choose the material behind Voidstrap windows." Visibility="{x:Static platform:PlatformFeatureVisibility.DesktopBackdrop}">
+          <controls:OptionControl Header="{resources:Loc Ui_Appearance_WindowBackdrop}" Description="{resources:Loc Ui_Appearance_WindowBackdropDescription}" Visibility="{x:Static platform:PlatformFeatureVisibility.DesktopBackdrop}">
             <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding BackdropOptions}" SelectedItem="{Binding SelectedBackdrop, Mode=OneWay}" SelectionChanged="BackdropComboBox_SelectionChanged">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -131,9 +131,9 @@
               </ItemsControl.ItemTemplate>
             </ComboBox>
           </controls:OptionControl>
-          <controls:OptionControl Header="Application Font" Description="Change the font used across all of Voidstrap.">
+          <controls:OptionControl Header="{resources:Loc Ui_Appearance_AppFont}" Description="{resources:Loc Ui_Appearance_AppFontDescription}">
             <StackPanel>
-              <ui:Button Content="Choose Font..." Icon="DocumentAdd16" Command="{Binding ManageAppFontCommand}" Visibility="{Binding ChooseAppFontVisibility, Mode=OneWay}" />
+              <ui:Button Content="{resources:Loc Ui_Appearance_ChooseFont}" Icon="DocumentAdd16" Command="{Binding ManageAppFontCommand}" Visibility="{Binding ChooseAppFontVisibility, Mode=OneWay}" />
               <ui:Button Appearance="Danger" Icon="Delete16" Command="{Binding ManageAppFontCommand}" Content="{Binding AppFontName, Mode=OneWay}" FontFamily="{Binding AppFontFamily, Mode=OneWay}" Visibility="{Binding RemoveAppFontVisibility, Mode=OneWay}" />
             </StackPanel>
           </controls:OptionControl>
@@ -152,7 +152,7 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="MoreHorizontal24" Margin="0,0,6,0" />
-            <TextBlock Text="More" />
+            <TextBlock Text="{resources:Loc Ui_Nav_More}" />
           </StackPanel>
         </TabItem.Header>
         <StackPanel>
@@ -184,7 +184,7 @@
           <controls:OptionControl Header="{resources:Loc Menu_Appearance_Language_AutoTranslateLanguage}" Description="{resources:Loc Menu_Appearance_Language_AutoTranslateLanguage_Description}" Visibility="{Binding AutoTranslateVisibility, Mode=OneWay}">
             <ComboBox Width="200" Padding="10,5,10,5" ItemsSource="{Binding AutoTranslateLanguages, Mode=OneTime}" SelectedItem="{Binding SelectedAutoTranslateLanguage, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Discord status language" Description="Translates your Discord status into another language. Game names, creators and places stay as they are.">
+          <controls:OptionControl Header="{resources:Loc Ui_Appearance_DiscordLanguage}" Description="{resources:Loc Ui_Appearance_DiscordLanguageDescription}">
             <ComboBox Width="200" Padding="10,5,10,5" ItemsSource="{Binding DiscordRpcLanguages, Mode=OneTime}" SelectedItem="{Binding SelectedDiscordRpcLanguage, Mode=TwoWay}" />
           </controls:OptionControl>
         </StackPanel>
@@ -200,7 +200,7 @@
             <ui:Button Grid.Column="1" Icon="Play24" Content="{resources:Loc CustomTheme_Editor_Preview}" VerticalAlignment="Center" Command="{Binding PreviewBootstrapperCommand}" />
           </Grid>
 
-          <controls:OptionControl Header="Launcher style" Description="Choose a built in launcher or use one of your own themes.">
+          <controls:OptionControl Header="{resources:Loc Ui_Appearance_LauncherStyle}" Description="{resources:Loc Ui_Appearance_LauncherStyleDescription}">
             <ComboBox MinWidth="210" Padding="10,5" ItemsSource="{Binding Dialogs, Mode=OneTime}" SelectedItem="{Binding Dialog, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -210,7 +210,7 @@
             </ComboBox>
           </controls:OptionControl>
 
-          <controls:OptionControl Header="Launcher size" Description="Change the overall size and spacing of the launcher.">
+          <controls:OptionControl Header="{resources:Loc Ui_Appearance_LauncherSize}" Description="{resources:Loc Ui_Appearance_LauncherSizeDescription}">
             <ComboBox MinWidth="150" Padding="10,5" ItemsSource="{Binding BootstrapperScales, Mode=OneTime}" SelectedItem="{Binding BootstrapperScale, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -234,8 +234,8 @@
             <ui:CardExpander Style="{StaticResource NoUserExpansionCardExpanderStyle}" IsExpanded="{Binding CustomThemesExpanded, Mode=OneWay}">
               <HeaderedContentControl.Header>
                 <StackPanel>
-                  <TextBlock FontSize="14" Text="Theme creator" />
-                  <TextBlock Margin="0,2,0,0" FontSize="12" Text="Create and manage the theme used by your custom launcher." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                  <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_ThemeCreator}" />
+                  <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Appearance_ThemeCreatorDescription}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                 </StackPanel>
               </HeaderedContentControl.Header>
               <Grid>
@@ -255,7 +255,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                   </Grid.ColumnDefinitions>
-                  <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="Add24" Content="New theme" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding AddCustomThemeCommand, Mode=OneTime}" />
+                  <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="Add24" Content="{resources:Loc Ui_Appearance_NewTheme}" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding AddCustomThemeCommand, Mode=OneTime}" />
                   <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Delete24" Content="{resources:Loc Common_Delete}" Appearance="Danger" HorizontalAlignment="Stretch" IsEnabled="{Binding IsCustomThemeSelected, Mode=OneWay}" Command="{Binding DeleteCustomThemeCommand, Mode=OneTime}" />
                 </Grid>
 
@@ -271,14 +271,14 @@
                     </Style>
                   </StackPanel.Style>
 
-                  <TextBlock Text="Theme name" FontWeight="SemiBold" />
+                  <TextBlock Text="{resources:Loc Ui_Appearance_ThemeName}" FontWeight="SemiBold" />
                   <Grid Margin="0,5,0,0">
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="*" />
                       <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <ui:TextBox Grid.Column="0" Text="{Binding SelectedCustomThemeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <ui:Button Grid.Column="1" Margin="8,0,0,0" Icon="Save24" Content="Save name" Command="{Binding RenameCustomThemeCommand, Mode=OneTime}" />
+                    <ui:Button Grid.Column="1" Margin="8,0,0,0" Icon="Save24" Content="{resources:Loc Ui_Appearance_SaveName}" Command="{Binding RenameCustomThemeCommand, Mode=OneTime}" />
                   </Grid>
 
                   <Grid Margin="0,12,0,0">
@@ -286,23 +286,23 @@
                       <ColumnDefinition Width="*" />
                       <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="DesktopEdit24" Content="Open editor" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding EditCustomThemeCommand, Mode=OneTime}" />
+                    <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="DesktopEdit24" Content="{resources:Loc Ui_Appearance_OpenEditor}" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding EditCustomThemeCommand, Mode=OneTime}" />
                     <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Play24" Content="{resources:Loc CustomTheme_Editor_Preview}" HorizontalAlignment="Stretch" Command="{Binding PreviewBootstrapperCommand}" />
                   </Grid>
 
-                  <Expander Margin="0,10,0,0" Header="More actions" IsExpanded="False">
+                  <Expander Margin="0,10,0,0" Header="{resources:Loc Ui_Appearance_MoreActions}" IsExpanded="False">
                     <Grid Margin="0,8,0,0">
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                       </Grid.ColumnDefinitions>
-                      <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="ImageMultiple24" Content="View files" HorizontalAlignment="Stretch" Command="{Binding ViewCustomThemeFilesCommand, Mode=OneTime}" />
+                      <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="ImageMultiple24" Content="{resources:Loc Ui_Appearance_ViewFiles}" HorizontalAlignment="Stretch" Command="{Binding ViewCustomThemeFilesCommand, Mode=OneTime}" />
                       <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="ArrowExportRtl24" Content="{resources:Loc Common_Export}" HorizontalAlignment="Stretch" Command="{Binding ExportCustomThemeCommand, Mode=OneTime}" />
                     </Grid>
                   </Expander>
                 </StackPanel>
 
-                <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5,0,0,0" Text="Select a theme from the list, or create a new one." TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5,0,0,0" Text="{resources:Loc Ui_Appearance_SelectThemeHint}" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
                   <TextBlock.Style>
                     <Style TargetType="TextBlock">
                       <Setter Property="Visibility" Value="Visible" />
@@ -321,12 +321,12 @@
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="Optional launcher extras" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Add a background or startup sound. These extras do not apply to custom launchers or themes created in Theme Creator." TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_LauncherExtras}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Appearance_LauncherExtrasDescription}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel IsEnabled="{Binding LauncherExtrasEnabled, Mode=OneWay}">
-              <controls:OptionControl Header="Background" Description="Choose an image for the launcher background.">
+              <controls:OptionControl Header="{resources:Loc Ui_Appearance_Background}" Description="{resources:Loc Ui_Appearance_LauncherBackgroundDescription}">
                 <ui:Button>
                   <ui:Button.Style>
                     <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
@@ -345,7 +345,7 @@
                   </ui:Button.Style>
                 </ui:Button>
               </controls:OptionControl>
-              <controls:OptionControl Header="Startup sound" Description="Choose audio to play when the launcher opens.">
+              <controls:OptionControl Header="{resources:Loc Ui_Appearance_StartupSound}" Description="{resources:Loc Ui_Appearance_StartupSoundDescription}">
                 <ui:Button>
                   <ui:Button.Style>
                     <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
@@ -371,8 +371,8 @@
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="Sidebar layout" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Rename, choose icons or custom images, show, hide, and reorder sidebar pages." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_SidebarLayout}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Appearance_SidebarLayoutDescription}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <Grid>
@@ -415,7 +415,7 @@
                   <DataGridTemplateColumn Header="{resources:Loc Menu_Appearance_Icon_Title}" Width="138" CanUserSort="False">
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
-                        <ui:Button Height="30" Margin="4,3" Padding="8,0" HorizontalContentAlignment="Left" ToolTip="Change sidebar icon" Tag="{Binding}" Click="SidebarIconButton_Click">
+                        <ui:Button Height="30" Margin="4,3" Padding="8,0" HorizontalContentAlignment="Left" ToolTip="{resources:Loc Ui_Appearance_ChangeSidebarIcon}" Tag="{Binding}" Click="SidebarIconButton_Click">
                           <StackPanel Orientation="Horizontal">
                             <Grid Width="22" Height="22">
                               <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="18" Foreground="{DynamicResource TextFillColorPrimaryBrush}">
@@ -449,11 +449,11 @@
                       </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                   </DataGridTemplateColumn>
-                  <DataGridTextColumn Header="Section" Width="130" IsReadOnly="True" Binding="{Binding Section}" />
-                  <DataGridTemplateColumn Header="Show" Width="90" CanUserSort="False">
+                  <DataGridTextColumn Header="{resources:Loc Ui_Appearance_Section}" Width="130" IsReadOnly="True" Binding="{Binding Section}" />
+                  <DataGridTemplateColumn Header="{resources:Loc Ui_Appearance_Show}" Width="90" CanUserSort="False">
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
-                        <ui:Button MinWidth="74" Height="30" Padding="10,0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding VisibilityLabel}" ToolTip="Change sidebar visibility" IsEnabled="{Binding CanHide}" Command="{Binding DataContext.ToggleSidebarItemVisibilityCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                        <ui:Button MinWidth="74" Height="30" Padding="10,0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding VisibilityLabel}" ToolTip="{resources:Loc Ui_Appearance_ChangeSidebarVisibility}" IsEnabled="{Binding CanHide}" Command="{Binding DataContext.ToggleSidebarItemVisibilityCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                           <ui:Button.Style>
                             <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
                               <Setter Property="Appearance" Value="Secondary" />
@@ -468,14 +468,14 @@
                       </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                   </DataGridTemplateColumn>
-                  <DataGridTemplateColumn Header="Move" Width="86" CanUserSort="False">
+                  <DataGridTemplateColumn Header="{resources:Loc Ui_Appearance_Move}" Width="86" CanUserSort="False">
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                          <ui:Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" ToolTip="Move up" AutomationProperties.Name="Move up" IsEnabled="{Binding CanMoveUp}" Command="{Binding DataContext.MoveSidebarItemUpCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                          <ui:Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" ToolTip="{resources:Loc Ui_Appearance_MoveUp}" AutomationProperties.Name="{resources:Loc Ui_Appearance_MoveUp}" IsEnabled="{Binding CanMoveUp}" Command="{Binding DataContext.MoveSidebarItemUpCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                             <ui:SymbolIcon Symbol="ChevronUp24" Style="{StaticResource SidebarMoveIconStyle}" />
                           </ui:Button>
-                          <ui:Button Width="34" Height="30" Padding="0" ToolTip="Move down" AutomationProperties.Name="Move down" IsEnabled="{Binding CanMoveDown}" Command="{Binding DataContext.MoveSidebarItemDownCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                          <ui:Button Width="34" Height="30" Padding="0" ToolTip="{resources:Loc Ui_Appearance_MoveDown}" AutomationProperties.Name="{resources:Loc Ui_Appearance_MoveDown}" IsEnabled="{Binding CanMoveDown}" Command="{Binding DataContext.MoveSidebarItemDownCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                             <ui:SymbolIcon Symbol="ChevronDown24" Style="{StaticResource SidebarMoveIconStyle}" />
                           </ui:Button>
                         </StackPanel>
@@ -498,7 +498,7 @@
                           <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{Binding Section}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                         </Grid>
                         <WrapPanel Margin="0,8,0,0">
-                          <ui:Button Width="136" Height="32" Margin="0,0,6,4" Padding="8,0" HorizontalContentAlignment="Left" ToolTip="Change sidebar icon" Tag="{Binding}" Click="SidebarIconButton_Click">
+                          <ui:Button Width="136" Height="32" Margin="0,0,6,4" Padding="8,0" HorizontalContentAlignment="Left" ToolTip="{resources:Loc Ui_Appearance_ChangeSidebarIcon}" Tag="{Binding}" Click="SidebarIconButton_Click">
                             <StackPanel Orientation="Horizontal">
                               <Grid Width="22" Height="22">
                                 <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="18" Foreground="{DynamicResource TextFillColorPrimaryBrush}">
@@ -529,7 +529,7 @@
                               <TextBlock Margin="7,0,0,0" MaxWidth="86" VerticalAlignment="Center" Text="{Binding IconLabel}" TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                           </ui:Button>
-                          <ui:Button MinWidth="76" Height="32" Margin="0,0,6,4" Padding="8,0" Content="{Binding VisibilityLabel}" ToolTip="Change sidebar visibility" IsEnabled="{Binding CanHide}" Command="{Binding DataContext.ToggleSidebarItemVisibilityCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
+                          <ui:Button MinWidth="76" Height="32" Margin="0,0,6,4" Padding="8,0" Content="{Binding VisibilityLabel}" ToolTip="{resources:Loc Ui_Appearance_ChangeSidebarVisibility}" IsEnabled="{Binding CanHide}" Command="{Binding DataContext.ToggleSidebarItemVisibilityCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
                             <ui:Button.Style>
                               <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
                                 <Setter Property="Appearance" Value="Secondary" />
@@ -541,10 +541,10 @@
                               </Style>
                             </ui:Button.Style>
                           </ui:Button>
-                          <ui:Button Width="34" Height="32" Margin="0,0,4,4" Padding="0" ToolTip="Move up" AutomationProperties.Name="Move up" IsEnabled="{Binding CanMoveUp}" Command="{Binding DataContext.MoveSidebarItemUpCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
+                          <ui:Button Width="34" Height="32" Margin="0,0,4,4" Padding="0" ToolTip="{resources:Loc Ui_Appearance_MoveUp}" AutomationProperties.Name="{resources:Loc Ui_Appearance_MoveUp}" IsEnabled="{Binding CanMoveUp}" Command="{Binding DataContext.MoveSidebarItemUpCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
                             <ui:SymbolIcon Symbol="ChevronUp24" FontSize="16" />
                           </ui:Button>
-                          <ui:Button Width="34" Height="32" Margin="0,0,0,4" Padding="0" ToolTip="Move down" AutomationProperties.Name="Move down" IsEnabled="{Binding CanMoveDown}" Command="{Binding DataContext.MoveSidebarItemDownCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
+                          <ui:Button Width="34" Height="32" Margin="0,0,0,4" Padding="0" ToolTip="{resources:Loc Ui_Appearance_MoveDown}" AutomationProperties.Name="{resources:Loc Ui_Appearance_MoveDown}" IsEnabled="{Binding CanMoveDown}" Command="{Binding DataContext.MoveSidebarItemDownCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
                             <ui:SymbolIcon Symbol="ChevronDown24" FontSize="16" />
                           </ui:Button>
                         </WrapPanel>
@@ -558,28 +558,28 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Home and Appearance stay visible so customization is always reachable." TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                <ui:Button Grid.Column="1" Margin="12,0,0,0" Icon="ArrowReset24" Content="Reset sidebar" Command="{Binding ResetSidebarCommand}" />
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{resources:Loc Ui_Appearance_SidebarAlwaysVisible}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <ui:Button Grid.Column="1" Margin="12,0,0,0" Icon="ArrowReset24" Content="{resources:Loc Ui_Appearance_ResetSidebar}" Command="{Binding ResetSidebarCommand}" />
               </Grid>
             </Grid>
           </ui:CardExpander>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="App identity" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Give the app your own name and icon." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_AppIdentity}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Appearance_AppIdentityDescription}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl Header="App name" Description="Replaces the app name everywhere it is shown. Leave it empty to use the original name.">
+              <controls:OptionControl Header="{resources:Loc Ui_Appearance_AppName}" Description="{resources:Loc Ui_Appearance_AppNameDescription}">
                 <ui:TextBox Width="220" MaxLength="32" PlaceholderText="{resources:Loc Enums_Theme_Voidstrap}" Text="{Binding BrandName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="App icon">
+              <controls:OptionControl Header="{resources:Loc Ui_Appearance_AppIcon}">
                 <StackPanel Orientation="Horizontal">
                   <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}">
                     <Image Width="28" Height="28" Source="{Binding AppIconPreview}" RenderOptions.BitmapScalingMode="HighQuality" />
                   </Border>
-                  <ui:Button Content="Choose image" Icon="ImageAdd24" Command="{Binding ChooseAppIconCommand}" />
+                  <ui:Button Content="{resources:Loc Ui_Appearance_ChooseImage}" Icon="ImageAdd24" Command="{Binding ChooseAppIconCommand}" />
                   <ui:Button Margin="8,0,0,0" Content="{resources:Loc Common_Reset}" Icon="ArrowReset24" Appearance="Secondary" Visibility="{Binding ResetAppIconVisibility}" Command="{Binding ResetAppIconCommand}" />
                 </StackPanel>
               </controls:OptionControl>
@@ -613,7 +613,7 @@
               </ItemsControl.ItemTemplate>
             </ComboBox>
           </controls:OptionControl>
-          <controls:OptionControl x:Name="StudioIconSelector" Header="Studio icon" Description="The icon shown on the bootstrapper when launching Roblox Studio." Visibility="{Binding StudioIconVisibility, Mode=OneWay}">
+          <controls:OptionControl x:Name="StudioIconSelector" Header="{resources:Loc Ui_Appearance_StudioIcon}" Description="{resources:Loc Ui_Appearance_StudioIconDescription}" Visibility="{Binding StudioIconVisibility, Mode=OneWay}">
             <ComboBox Padding="10,5,10,5" SelectedValuePath="IconType" ItemsSource="{Binding Icons, Mode=OneWay}" SelectedValue="{Binding StudioIcon, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -637,7 +637,7 @@
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                  <TextBlock FontSize="14" Text="Customization" />
+                  <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_Customization}" />
                   <TextBlock FontSize="12" Text="{resources:Loc Menu_Appearance_Customisation_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                 </StackPanel>
               </Grid>

@@ -67,6 +67,238 @@ namespace Voidstrap.Resources {
 
         public static string Menu_Appearance_Language_CompletionStatus => ResourceManager.GetString("Menu.Appearance.Language.CompletionStatus", resourceCulture);
 
+        public static string Ui_Main_SettingsChanged => ResourceManager.GetString("Ui.Main.SettingsChanged", resourceCulture);
+
+        public static string Ui_Main_Dismiss => ResourceManager.GetString("Ui.Main.Dismiss", resourceCulture);
+
+        public static string Ui_Main_RestartToApply => ResourceManager.GetString("Ui.Main.RestartToApply", resourceCulture);
+
+        public static string Ui_Main_SavedAndLaunched => ResourceManager.GetString("Ui.Main.SavedAndLaunched", resourceCulture);
+
+        public static string Ui_Main_ChangesSaved => ResourceManager.GetString("Ui.Main.ChangesSaved", resourceCulture);
+
+        public static string Ui_Main_SettingNotChanged => ResourceManager.GetString("Ui.Main.SettingNotChanged", resourceCulture);
+
+        public static string Ui_Main_MarkAllRead => ResourceManager.GetString("Ui.Main.MarkAllRead", resourceCulture);
+
+        public static string Ui_Main_ClearAll => ResourceManager.GetString("Ui.Main.ClearAll", resourceCulture);
+
+        public static string Ui_Main_ClearAllNotifications => ResourceManager.GetString("Ui.Main.ClearAllNotifications", resourceCulture);
+
+        public static string Ui_Main_AllCaughtUp => ResourceManager.GetString("Ui.Main.AllCaughtUp", resourceCulture);
+
+        public static string Ui_Main_NotificationsEmpty => ResourceManager.GetString("Ui.Main.NotificationsEmpty", resourceCulture);
+
+        public static string Ui_Main_Forward => ResourceManager.GetString("Ui.Main.Forward", resourceCulture);
+
+        public static string Ui_Main_TabHome => ResourceManager.GetString("Ui.Main.TabHome", resourceCulture);
+
+        public static string Ui_Main_TabLibrary => ResourceManager.GetString("Ui.Main.TabLibrary", resourceCulture);
+
+        public static string Ui_Main_TabNews => ResourceManager.GetString("Ui.Main.TabNews", resourceCulture);
+
+        public static string Ui_Main_CheckForUpdates => ResourceManager.GetString("Ui.Main.CheckForUpdates", resourceCulture);
+
+        public static string Ui_Main_ReleaseNotes => ResourceManager.GetString("Ui.Main.ReleaseNotes", resourceCulture);
+
+        public static string Ui_Main_OpenLogsFolder => ResourceManager.GetString("Ui.Main.OpenLogsFolder", resourceCulture);
+
+        public static string Ui_Main_VoidstrapLogs => ResourceManager.GetString("Ui.Main.VoidstrapLogs", resourceCulture);
+
+        public static string Ui_Main_RobloxLogs => ResourceManager.GetString("Ui.Main.RobloxLogs", resourceCulture);
+
+        public static string Ui_Main_OpenAppFolder => ResourceManager.GetString("Ui.Main.OpenAppFolder", resourceCulture);
+
+        public static string Ui_Main_Support => ResourceManager.GetString("Ui.Main.Support", resourceCulture);
+
+        public static string Ui_Main_SupportVoidstrap => ResourceManager.GetString("Ui.Main.SupportVoidstrap", resourceCulture);
+
+        public static string Ui_Main_RestartVoidstrap => ResourceManager.GetString("Ui.Main.RestartVoidstrap", resourceCulture);
+
+        public static string Ui_Main_ToggleSidebar => ResourceManager.GetString("Ui.Main.ToggleSidebar", resourceCulture);
+
+        public static string Ui_Nav_Core => ResourceManager.GetString("Ui.Nav.Core", resourceCulture);
+
+        public static string Ui_Nav_Home => ResourceManager.GetString("Ui.Nav.Home", resourceCulture);
+
+        public static string Ui_Nav_Configuration => ResourceManager.GetString("Ui.Nav.Configuration", resourceCulture);
+
+        public static string Ui_Nav_FastFlagSettings => ResourceManager.GetString("Ui.Nav.FastFlagSettings", resourceCulture);
+
+        public static string Ui_Nav_FastFlagEditor => ResourceManager.GetString("Ui.Nav.FastFlagEditor", resourceCulture);
+
+        public static string Ui_Nav_More => ResourceManager.GetString("Ui.Nav.More", resourceCulture);
+
+        public static string Ui_Nav_Global => ResourceManager.GetString("Ui.Nav.Global", resourceCulture);
+
+        public static string Ui_Nav_News => ResourceManager.GetString("Ui.Nav.News", resourceCulture);
+
+        public static string Ui_Nav_Extensions => ResourceManager.GetString("Ui.Nav.Extensions", resourceCulture);
+
+        public static string Ui_Nav_Manager => ResourceManager.GetString("Ui.Nav.Manager", resourceCulture);
+
+        public static string Ui_Nav_Settings => ResourceManager.GetString("Ui.Nav.Settings", resourceCulture);
+
+        public static string Ui_Main_ResizeSidebar => ResourceManager.GetString("Ui.Main.ResizeSidebar", resourceCulture);
+
+        public static string Ui_Main_SearchPlaceholder => ResourceManager.GetString("Ui.Main.SearchPlaceholder", resourceCulture);
+
+        public static string Ui_Main_ZoomOut => ResourceManager.GetString("Ui.Main.ZoomOut", resourceCulture);
+
+        public static string Ui_Main_ZoomIn => ResourceManager.GetString("Ui.Main.ZoomIn", resourceCulture);
+
+        public static string Ui_Main_ChooseRobloxVersion => ResourceManager.GetString("Ui.Main.ChooseRobloxVersion", resourceCulture);
+
+        public static string Ui_Main_ChooseRobloxVersionHint => ResourceManager.GetString("Ui.Main.ChooseRobloxVersionHint", resourceCulture);
+
+        public static string Ui_Main_SearchHint => ResourceManager.GetString("Ui.Main.SearchHint", resourceCulture);
+
+        public static string Ui_Main_SearchTitle => ResourceManager.GetString("Ui.Main.SearchTitle", resourceCulture);
+
+        public static string Ui_Main_NoResults => ResourceManager.GetString("Ui.Main.NoResults", resourceCulture);
+
+        public static string Ui_Main_NoResultsHint => ResourceManager.GetString("Ui.Main.NoResultsHint", resourceCulture);
+
+        public static string Ui_Main_ToMove => ResourceManager.GetString("Ui.Main.ToMove", resourceCulture);
+
+        public static string Ui_Main_ToOpen => ResourceManager.GetString("Ui.Main.ToOpen", resourceCulture);
+
+        public static string Ui_Main_ToClose => ResourceManager.GetString("Ui.Main.ToClose", resourceCulture);
+
+        public static string Ui_Appearance_TabApplication => ResourceManager.GetString("Ui.Appearance.TabApplication", resourceCulture);
+
+        public static string Ui_Appearance_Subtitle => ResourceManager.GetString("Ui.Appearance.Subtitle", resourceCulture);
+
+        public static string Ui_Appearance_Color => ResourceManager.GetString("Ui.Appearance.Color", resourceCulture);
+
+        public static string Ui_Appearance_Background => ResourceManager.GetString("Ui.Appearance.Background", resourceCulture);
+
+        public static string Ui_Appearance_BackgroundImage => ResourceManager.GetString("Ui.Appearance.BackgroundImage", resourceCulture);
+
+        public static string Ui_Appearance_BackgroundImageDescription => ResourceManager.GetString("Ui.Appearance.BackgroundImageDescription", resourceCulture);
+
+        public static string Ui_Appearance_GradientOpacityDescription => ResourceManager.GetString("Ui.Appearance.GradientOpacityDescription", resourceCulture);
+
+        public static string Ui_Appearance_DarkOverlayDescription => ResourceManager.GetString("Ui.Appearance.DarkOverlayDescription", resourceCulture);
+
+        public static string Ui_Appearance_BackgroundEverywhere => ResourceManager.GetString("Ui.Appearance.BackgroundEverywhere", resourceCulture);
+
+        public static string Ui_Appearance_BackgroundEverywhereDescription => ResourceManager.GetString("Ui.Appearance.BackgroundEverywhereDescription", resourceCulture);
+
+        public static string Ui_Appearance_Snow => ResourceManager.GetString("Ui.Appearance.Snow", resourceCulture);
+
+        public static string Ui_Appearance_SnowDescription => ResourceManager.GetString("Ui.Appearance.SnowDescription", resourceCulture);
+
+        public static string Ui_Appearance_GradientMovementDescription => ResourceManager.GetString("Ui.Appearance.GradientMovementDescription", resourceCulture);
+
+        public static string Ui_Appearance_Shape => ResourceManager.GetString("Ui.Appearance.Shape", resourceCulture);
+
+        public static string Ui_Appearance_WindowCorners => ResourceManager.GetString("Ui.Appearance.WindowCorners", resourceCulture);
+
+        public static string Ui_Appearance_WindowCornersDescription => ResourceManager.GetString("Ui.Appearance.WindowCornersDescription", resourceCulture);
+
+        public static string Ui_Appearance_CornerRoundness => ResourceManager.GetString("Ui.Appearance.CornerRoundness", resourceCulture);
+
+        public static string Ui_Appearance_CornerRoundnessDescription => ResourceManager.GetString("Ui.Appearance.CornerRoundnessDescription", resourceCulture);
+
+        public static string Ui_Appearance_TextAndScrolling => ResourceManager.GetString("Ui.Appearance.TextAndScrolling", resourceCulture);
+
+        public static string Ui_Appearance_SmoothScrollbar => ResourceManager.GetString("Ui.Appearance.SmoothScrollbar", resourceCulture);
+
+        public static string Ui_Appearance_SmoothScrollbarDescription => ResourceManager.GetString("Ui.Appearance.SmoothScrollbarDescription", resourceCulture);
+
+        public static string Ui_Appearance_ThemesDescription => ResourceManager.GetString("Ui.Appearance.ThemesDescription", resourceCulture);
+
+        public static string Ui_Appearance_WindowBackdrop => ResourceManager.GetString("Ui.Appearance.WindowBackdrop", resourceCulture);
+
+        public static string Ui_Appearance_WindowBackdropDescription => ResourceManager.GetString("Ui.Appearance.WindowBackdropDescription", resourceCulture);
+
+        public static string Ui_Appearance_AppFont => ResourceManager.GetString("Ui.Appearance.AppFont", resourceCulture);
+
+        public static string Ui_Appearance_AppFontDescription => ResourceManager.GetString("Ui.Appearance.AppFontDescription", resourceCulture);
+
+        public static string Ui_Appearance_ChooseFont => ResourceManager.GetString("Ui.Appearance.ChooseFont", resourceCulture);
+
+        public static string Ui_Appearance_DiscordLanguage => ResourceManager.GetString("Ui.Appearance.DiscordLanguage", resourceCulture);
+
+        public static string Ui_Appearance_DiscordLanguageDescription => ResourceManager.GetString("Ui.Appearance.DiscordLanguageDescription", resourceCulture);
+
+        public static string Ui_Appearance_LauncherStyle => ResourceManager.GetString("Ui.Appearance.LauncherStyle", resourceCulture);
+
+        public static string Ui_Appearance_LauncherStyleDescription => ResourceManager.GetString("Ui.Appearance.LauncherStyleDescription", resourceCulture);
+
+        public static string Ui_Appearance_LauncherSize => ResourceManager.GetString("Ui.Appearance.LauncherSize", resourceCulture);
+
+        public static string Ui_Appearance_LauncherSizeDescription => ResourceManager.GetString("Ui.Appearance.LauncherSizeDescription", resourceCulture);
+
+        public static string Ui_Appearance_ThemeCreator => ResourceManager.GetString("Ui.Appearance.ThemeCreator", resourceCulture);
+
+        public static string Ui_Appearance_ThemeCreatorDescription => ResourceManager.GetString("Ui.Appearance.ThemeCreatorDescription", resourceCulture);
+
+        public static string Ui_Appearance_NewTheme => ResourceManager.GetString("Ui.Appearance.NewTheme", resourceCulture);
+
+        public static string Ui_Appearance_ThemeName => ResourceManager.GetString("Ui.Appearance.ThemeName", resourceCulture);
+
+        public static string Ui_Appearance_SaveName => ResourceManager.GetString("Ui.Appearance.SaveName", resourceCulture);
+
+        public static string Ui_Appearance_OpenEditor => ResourceManager.GetString("Ui.Appearance.OpenEditor", resourceCulture);
+
+        public static string Ui_Appearance_MoreActions => ResourceManager.GetString("Ui.Appearance.MoreActions", resourceCulture);
+
+        public static string Ui_Appearance_ViewFiles => ResourceManager.GetString("Ui.Appearance.ViewFiles", resourceCulture);
+
+        public static string Ui_Appearance_SelectThemeHint => ResourceManager.GetString("Ui.Appearance.SelectThemeHint", resourceCulture);
+
+        public static string Ui_Appearance_LauncherExtras => ResourceManager.GetString("Ui.Appearance.LauncherExtras", resourceCulture);
+
+        public static string Ui_Appearance_LauncherExtrasDescription => ResourceManager.GetString("Ui.Appearance.LauncherExtrasDescription", resourceCulture);
+
+        public static string Ui_Appearance_LauncherBackgroundDescription => ResourceManager.GetString("Ui.Appearance.LauncherBackgroundDescription", resourceCulture);
+
+        public static string Ui_Appearance_StartupSound => ResourceManager.GetString("Ui.Appearance.StartupSound", resourceCulture);
+
+        public static string Ui_Appearance_StartupSoundDescription => ResourceManager.GetString("Ui.Appearance.StartupSoundDescription", resourceCulture);
+
+        public static string Ui_Appearance_SidebarLayout => ResourceManager.GetString("Ui.Appearance.SidebarLayout", resourceCulture);
+
+        public static string Ui_Appearance_SidebarLayoutDescription => ResourceManager.GetString("Ui.Appearance.SidebarLayoutDescription", resourceCulture);
+
+        public static string Ui_Appearance_ChangeSidebarIcon => ResourceManager.GetString("Ui.Appearance.ChangeSidebarIcon", resourceCulture);
+
+        public static string Ui_Appearance_Section => ResourceManager.GetString("Ui.Appearance.Section", resourceCulture);
+
+        public static string Ui_Appearance_Show => ResourceManager.GetString("Ui.Appearance.Show", resourceCulture);
+
+        public static string Ui_Appearance_ChangeSidebarVisibility => ResourceManager.GetString("Ui.Appearance.ChangeSidebarVisibility", resourceCulture);
+
+        public static string Ui_Appearance_Move => ResourceManager.GetString("Ui.Appearance.Move", resourceCulture);
+
+        public static string Ui_Appearance_MoveUp => ResourceManager.GetString("Ui.Appearance.MoveUp", resourceCulture);
+
+        public static string Ui_Appearance_MoveDown => ResourceManager.GetString("Ui.Appearance.MoveDown", resourceCulture);
+
+        public static string Ui_Appearance_SidebarAlwaysVisible => ResourceManager.GetString("Ui.Appearance.SidebarAlwaysVisible", resourceCulture);
+
+        public static string Ui_Appearance_ResetSidebar => ResourceManager.GetString("Ui.Appearance.ResetSidebar", resourceCulture);
+
+        public static string Ui_Appearance_AppIdentity => ResourceManager.GetString("Ui.Appearance.AppIdentity", resourceCulture);
+
+        public static string Ui_Appearance_AppIdentityDescription => ResourceManager.GetString("Ui.Appearance.AppIdentityDescription", resourceCulture);
+
+        public static string Ui_Appearance_AppName => ResourceManager.GetString("Ui.Appearance.AppName", resourceCulture);
+
+        public static string Ui_Appearance_AppNameDescription => ResourceManager.GetString("Ui.Appearance.AppNameDescription", resourceCulture);
+
+        public static string Ui_Appearance_AppIcon => ResourceManager.GetString("Ui.Appearance.AppIcon", resourceCulture);
+
+        public static string Ui_Appearance_ChooseImage => ResourceManager.GetString("Ui.Appearance.ChooseImage", resourceCulture);
+
+        public static string Ui_Appearance_StudioIcon => ResourceManager.GetString("Ui.Appearance.StudioIcon", resourceCulture);
+
+        public static string Ui_Appearance_StudioIconDescription => ResourceManager.GetString("Ui.Appearance.StudioIconDescription", resourceCulture);
+
+        public static string Ui_Appearance_Customization => ResourceManager.GetString("Ui.Appearance.Customization", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

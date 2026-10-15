@@ -3076,4 +3076,352 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0}% کامل</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>تنظیمات تغییر کرد</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>بستن</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>برای اعمال این تغییر، Voidstrap را دوباره راه‌اندازی کنید.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap ذخیره کرد و Roblox را اجرا کرد!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>تغییرات ذخیره شد.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>تنظیم تغییر نکرد</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>علامت‌گذاری همه به‌عنوان خوانده‌شده</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>پاک کردن همه</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>پاک کردن همهٔ اعلان‌ها</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>اعلان جدیدی ندارید</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>از کار افتادن‌ها، خطاها و به‌روزرسانی‌های مهم Voidstrap اینجا نمایش داده می‌شوند.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>جلو</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>خانه</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>کتابخانه</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>اخبار</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>بررسی به‌روزرسانی‌ها</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>یادداشت‌های انتشار</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>باز کردن پوشهٔ گزارش‌ها</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>گزارش‌های Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>گزارش‌های Roblox</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>باز کردن پوشهٔ برنامه</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>پشتیبانی</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>حمایت از Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>راه‌اندازی دوبارهٔ Voidstrap</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>جمع کردن یا باز کردن نوار کناری</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>اصلی</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>خانه</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>پیکربندی</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>تنظیمات FastFlag</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>ویرایشگر FastFlag</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>بیشتر</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>سراسری</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>اخبار</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>افزونه‌ها</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>مدیریت</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>تنظیمات</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>برای تغییر اندازه بکشید و برای بازنشانی دوبار کلیک کنید</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>جست‌وجو...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>کوچک‌نمایی</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>بزرگ‌نمایی</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>انتخاب نسخهٔ Roblox</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>انتخاب کنید ذخیره و اجرا چه چیزی را اجرا کند.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>به هر صفحه یا تنظیمی بروید.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>جست‌وجوی صفحه‌ها و تنظیمات</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>نتیجه‌ای پیدا نشد</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>واژهٔ دیگری را امتحان کنید یا املا را بررسی کنید</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>برای جابه‌جایی</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>برای باز کردن</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>برای بستن</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>برنامه</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>شخصی‌سازی پس‌زمینه، رابط و گزینه‌ها</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>رنگ</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>پس‌زمینه</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>تصویر پس‌زمینه</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>یک تصویر، ویدیو یا GIF را به‌عنوان پس‌زمینهٔ Voidstrap وارد کنید.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>هنگام وارد کردن بر اساس نور تصویر تنظیم می‌شود. بعداً می‌توانید آن را تغییر دهید.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>پس‌زمینه را تیره‌تر می‌کند تا متن خوانا بماند.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>نمایش پس‌زمینه در همه‌جا</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>پس‌زمینه را پشت همهٔ پنجره‌های Voidstrap به کار می‌برد، نه فقط پنجرهٔ اصلی.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>برف</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>برف در حال باریدن را به پس‌زمینه اضافه می‌کند.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>گرادیان پس‌زمینه را همراه نشانگر حرکت می‌دهد.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>شکل</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>گوشه‌های پنجره</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>میزان گرد بودن گوشه‌های همهٔ پنجره‌های Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>گردی گوشه‌ها</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>میزان گرد بودن کارت‌ها، دکمه‌ها، کادرها و منوها در برنامه.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>متن و پیمایش</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>نوار پیمایش نرم</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>به‌جای پرش، نرم پیمایش می‌کند.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>برخی از پوسته‌های داخلی ما را ببینید!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>پس‌زمینهٔ پنجره</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>جنسی را که پشت پنجره‌های Voidstrap نمایش داده می‌شود انتخاب کنید.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>قلم برنامه</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>قلم مورد استفاده در سراسر Voidstrap را تغییر دهید.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>انتخاب قلم...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>زبان وضعیت Discord</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>وضعیت Discord شما را به زبان دیگری ترجمه می‌کند. نام بازی‌ها، سازندگان و مکان‌ها بدون تغییر می‌مانند.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>سبک لانچر</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>یک لانچر داخلی انتخاب کنید یا از یکی از پوسته‌های خودتان استفاده کنید.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>اندازهٔ لانچر</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>اندازه و فاصله‌گذاری کلی لانچر را تغییر دهید.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>سازندهٔ پوسته</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>پوستهٔ لانچر سفارشی خود را بسازید و مدیریت کنید.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>پوستهٔ جدید</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>نام پوسته</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>ذخیرهٔ نام</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>باز کردن ویرایشگر</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>کارهای بیشتر</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>مشاهدهٔ فایل‌ها</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>یک پوسته از فهرست انتخاب کنید یا پوستهٔ جدیدی بسازید.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>افزودنی‌های اختیاری لانچر</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>پس‌زمینه یا صدای شروع اضافه کنید. این افزودنی‌ها روی لانچرهای سفارشی یا پوسته‌های ساخته‌شده در سازندهٔ پوسته اعمال نمی‌شوند.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>تصویری برای پس‌زمینهٔ لانچر انتخاب کنید.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>صدای شروع</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>صدایی را که هنگام باز شدن لانچر پخش می‌شود انتخاب کنید.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>چیدمان نوار کناری</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>صفحه‌های نوار کناری را تغییر نام دهید، برایشان نماد یا تصویر انتخاب کنید و آن‌ها را نمایش دهید، پنهان کنید و مرتب کنید.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>تغییر نماد نوار کناری</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>بخش</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>نمایش</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>تغییر نمایش در نوار کناری</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>جابه‌جایی</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>انتقال به بالا</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>انتقال به پایین</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>خانه و ظاهر همیشه نمایان می‌مانند تا شخصی‌سازی همیشه در دسترس باشد.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>بازنشانی نوار کناری</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>هویت برنامه</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>به برنامه نام و نماد دلخواه خودتان را بدهید.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>نام برنامه</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>نام برنامه را در همهٔ جاهایی که نمایش داده می‌شود جایگزین می‌کند. برای استفاده از نام اصلی خالی بگذارید.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>نماد برنامه</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>انتخاب تصویر</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>نماد Studio</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>نمادی که لانچر هنگام اجرای Roblox Studio نمایش می‌دهد.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>شخصی‌سازی</value>
+  </data>
 </root>

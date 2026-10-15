@@ -289,9 +289,9 @@
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ui:SymbolIcon Grid.Column="0" Grid.RowSpan="2" Margin="0,1,12,0" VerticalAlignment="Top" FontSize="22" Symbol="ArrowClockwise24" />
-        <TextBlock Name="RestartNotificationTitle" Grid.Column="1" FontSize="14" FontWeight="SemiBold" Text="Settings changed" TextWrapping="Wrap" />
-        <ui:Button Name="RestartNotificationDismiss" Grid.Column="2" Width="30" Height="30" Margin="10,-5,-5,0" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="Dismiss" Click="RestartNotificationDismiss_Click" />
-        <TextBlock Name="RestartNotificationMessage" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Restart Voidstrap to apply this change." TextWrapping="Wrap" />
+        <TextBlock Name="RestartNotificationTitle" Grid.Column="1" FontSize="14" FontWeight="SemiBold" Text="{resources:Loc Ui_Main_SettingsChanged}" TextWrapping="Wrap" />
+        <ui:Button Name="RestartNotificationDismiss" Grid.Column="2" Width="30" Height="30" Margin="10,-5,-5,0" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="{resources:Loc Ui_Main_Dismiss}" Click="RestartNotificationDismiss_Click" />
+        <TextBlock Name="RestartNotificationMessage" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Main_RestartToApply}" TextWrapping="Wrap" />
         <ui:Button Name="RestartNotificationAction" Grid.Column="1" Grid.Row="2" Margin="0,10,0,0" HorizontalAlignment="Left" Appearance="Primary" Background="{DynamicResource SystemAccentBrush}" Content="{resources:Loc SettingsProfiles_Restart}" Click="RestartNotificationAction_Click" />
       </Grid>
     </Border>
@@ -315,7 +315,7 @@
         </LinearGradientBrush>
       </Control.Background>
     </ui:Snackbar>
-    <ui:Snackbar Name="SettingsSavedLaunchSnackbar" Title="Voidstrap Saved And Launched Roblox!" Grid.RowSpan="10" Margin="150,0,150,20" Panel.ZIndex="10" Icon="CheckboxChecked24" Message="Changes have been saved." Timeout="2000">
+    <ui:Snackbar Name="SettingsSavedLaunchSnackbar" Title="{resources:Loc Ui_Main_SavedAndLaunched}" Grid.RowSpan="10" Margin="150,0,150,20" Panel.ZIndex="10" Icon="CheckboxChecked24" Message="{resources:Loc Ui_Main_ChangesSaved}" Timeout="2000">
       <Control.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
           <GradientStop Offset="0.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
@@ -325,7 +325,7 @@
         </LinearGradientBrush>
       </Control.Background>
     </ui:Snackbar>
-    <ui:Snackbar Name="SettingFailureSnackbar" Title="Setting not changed" Grid.RowSpan="10" Margin="180,0,180,20" Panel.ZIndex="11" Icon="ErrorCircle24" Timeout="5000" />
+    <ui:Snackbar Name="SettingFailureSnackbar" Title="{resources:Loc Ui_Main_SettingNotChanged}" Grid.RowSpan="10" Margin="180,0,180,20" Panel.ZIndex="11" Icon="ErrorCircle24" Timeout="5000" />
     <ui:TitleBar Name="RootTitleBar" Padding="8" Grid.Row="0" Panel.ZIndex="1000" ForceShutdown="False" MinimizeToTray="False" UseSnapLayout="True">
       <ui:TitleBar.Header>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight" Margin="0,6,0,-6">
@@ -363,10 +363,10 @@
                     <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
                     <TextBlock Text="{resources:Loc Notifications_Title}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" />
                     <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="12,0,0,0">
-                      <Button x:Name="NotificationMarkAllButton" Style="{StaticResource TopBarIconButtonStyle}" Width="32" Height="32" Focusable="True" ToolTip="Mark all as read" AutomationProperties.Name="Mark all as read" Click="NotificationMarkAll_Click">
+                      <Button x:Name="NotificationMarkAllButton" Style="{StaticResource TopBarIconButtonStyle}" Width="32" Height="32" Focusable="True" ToolTip="{resources:Loc Ui_Main_MarkAllRead}" AutomationProperties.Name="{resources:Loc Ui_Main_MarkAllRead}" Click="NotificationMarkAll_Click">
                         <ui:SymbolIcon Symbol="Checkmark24" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
                       </Button>
-                      <Button x:Name="NotificationClearButton" Style="{StaticResource TopBarIconButtonStyle}" Width="32" Height="32" Margin="4,0,0,0" Focusable="True" ToolTip="Clear all" AutomationProperties.Name="Clear all notifications" Click="NotificationClear_Click">
+                      <Button x:Name="NotificationClearButton" Style="{StaticResource TopBarIconButtonStyle}" Width="32" Height="32" Margin="4,0,0,0" Focusable="True" ToolTip="{resources:Loc Ui_Main_ClearAll}" AutomationProperties.Name="{resources:Loc Ui_Main_ClearAllNotifications}" Click="NotificationClear_Click">
                         <ui:SymbolIcon Symbol="Delete24" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
                       </Button>
                     </StackPanel>
@@ -374,8 +374,8 @@
                   <Grid Grid.Row="1">
                     <StackPanel x:Name="NotificationEmpty" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="24,30,24,36">
                       <ui:SymbolIcon Symbol="Alert24" FontSize="28" Foreground="{StaticResource LauncherTextTertiaryBrush}" HorizontalAlignment="Center" />
-                      <TextBlock x:Name="NotificationEmptyTitle" Text="You're all caught up" FontSize="14" FontWeight="SemiBold" Margin="0,10,0,0" HorizontalAlignment="Center" />
-                      <TextBlock x:Name="NotificationEmptySubtitle" Text="Crashes, errors and important updates from Voidstrap show up here." FontSize="12" Foreground="{StaticResource LauncherTextTertiaryBrush}" Margin="0,3,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+                      <TextBlock x:Name="NotificationEmptyTitle" Text="{resources:Loc Ui_Main_AllCaughtUp}" FontSize="14" FontWeight="SemiBold" Margin="0,10,0,0" HorizontalAlignment="Center" />
+                      <TextBlock x:Name="NotificationEmptySubtitle" Text="{resources:Loc Ui_Main_NotificationsEmpty}" FontSize="12" Foreground="{StaticResource LauncherTextTertiaryBrush}" Margin="0,3,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
                     </StackPanel>
                     <ScrollViewer x:Name="NotificationScroll" MaxHeight="430" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="Collapsed">
                       <ItemsControl x:Name="NotificationList" Margin="6,0,6,10">
@@ -450,12 +450,12 @@
       <Button x:Name="TopNavBack" Width="26" Height="26" Style="{StaticResource TopNavArrowStyle}" Margin="5,0,0,0" IsEnabled="False" ToolTip="{resources:Loc Menu_FastFlagEditor_Back}" Click="TopNavBack_Click">
         <ui:SymbolIcon Symbol="ChevronLeft24" FontSize="17" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
       </Button>
-      <Button x:Name="TopNavForward" Width="26" Height="26" Style="{StaticResource TopNavArrowStyle}" Margin="0" IsEnabled="False" ToolTip="Forward" Click="TopNavForward_Click">
+      <Button x:Name="TopNavForward" Width="26" Height="26" Style="{StaticResource TopNavArrowStyle}" Margin="0" IsEnabled="False" ToolTip="{resources:Loc Ui_Main_Forward}" Click="TopNavForward_Click">
         <ui:SymbolIcon Symbol="ChevronRight24" FontSize="17" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
       </Button>
-      <Button x:Name="TopNavHome" Content="HOME" Style="{StaticResource TopNavButtonStyle}" Click="TopNavHome_Click" />
-      <Button x:Name="TopNavLibrary" Content="LIBRARY" Style="{StaticResource TopNavButtonStyle}" Click="TopNavLibrary_Click" />
-      <Button x:Name="TopNavNews" Content="NEWS" Style="{StaticResource TopNavButtonStyle}" Click="TopNavNews_Click" />
+      <Button x:Name="TopNavHome" Content="{resources:Loc Ui_Main_TabHome}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavHome_Click" />
+      <Button x:Name="TopNavLibrary" Content="{resources:Loc Ui_Main_TabLibrary}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavLibrary_Click" />
+      <Button x:Name="TopNavNews" Content="{resources:Loc Ui_Main_TabNews}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavNews_Click" />
     </StackPanel>
     <vscontrols:AnimatedPopup x:Name="AppMenuPopup" PlacementTarget="{Binding ElementName=AppMenuButton}" Placement="Bottom" LightDismiss="True" AllowsTransparency="True" HorizontalOffset="-8" VerticalOffset="-4">
       <Border Margin="12" MinWidth="220" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="6" TextElement.FontSize="13.5" TextElement.Foreground="{StaticResource LauncherTextPrimaryBrush}">
@@ -463,30 +463,30 @@
           <MenuItem Header="{resources:Loc About_Title}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuAbout_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="Rocket24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
-          <MenuItem Header="Check for Updates" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuUpdates_Click">
+          <MenuItem Header="{resources:Loc Ui_Main_CheckForUpdates}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuUpdates_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="ArrowClockwise24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
-          <MenuItem Header="Release Notes" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuReleases_Click">
+          <MenuItem Header="{resources:Loc Ui_Main_ReleaseNotes}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuReleases_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="DocumentBulletList24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
           <Separator Style="{StaticResource TopBarMenuSeparatorStyle}" />
-          <MenuItem x:Name="AppMenuLogsItem" Header="Open Logs Folder" Style="{StaticResource TopBarMenuItemStyle}" MouseLeave="AppMenuLogsItem_MouseLeave">
+          <MenuItem x:Name="AppMenuLogsItem" Header="{resources:Loc Ui_Main_OpenLogsFolder}" Style="{StaticResource TopBarMenuItemStyle}" MouseLeave="AppMenuLogsItem_MouseLeave">
             <MenuItem.Icon><ui:SymbolIcon Symbol="Folder24" FontSize="16" /></MenuItem.Icon>
-            <MenuItem Header="Voidstrap Logs" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuVoidstrapLogs_Click" />
-            <MenuItem Header="Roblox Logs" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuRobloxLogs_Click" />
+            <MenuItem Header="{resources:Loc Ui_Main_VoidstrapLogs}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuVoidstrapLogs_Click" />
+            <MenuItem Header="{resources:Loc Ui_Main_RobloxLogs}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuRobloxLogs_Click" />
           </MenuItem>
-          <MenuItem Header="Open Application Folder" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuApplicationFolder_Click">
+          <MenuItem Header="{resources:Loc Ui_Main_OpenAppFolder}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuApplicationFolder_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="FolderOpen24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
           <Separator Style="{StaticResource TopBarMenuSeparatorStyle}" />
-          <MenuItem Header="Support" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuSupport_Click">
+          <MenuItem Header="{resources:Loc Ui_Main_Support}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuSupport_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="Question24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
-          <MenuItem Header="Support Voidstrap" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuDonate_Click">
+          <MenuItem Header="{resources:Loc Ui_Main_SupportVoidstrap}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuDonate_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="Star24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
           <Separator Style="{StaticResource TopBarMenuSeparatorStyle}" />
-          <MenuItem Header="Restart Voidstrap" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuRestart_Click">
+          <MenuItem Header="{resources:Loc Ui_Main_RestartVoidstrap}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuRestart_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="ArrowClockwise24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
         </StackPanel>
@@ -501,7 +501,7 @@
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
-      <ui:Button Name="SidebarToggle" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Width="40" Height="36" Margin="8,0,0,6" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="70" Style="{StaticResource HamburgerButton}" ToolTip="Collapse or expand the sidebar" Click="SidebarToggle_Click" />
+      <ui:Button Name="SidebarToggle" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Width="40" Height="36" Margin="8,0,0,6" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="70" Style="{StaticResource HamburgerButton}" ToolTip="{resources:Loc Ui_Main_ToggleSidebar}" Click="SidebarToggle_Click" />
       <Grid Name="SidebarHost" Row="1" Column="0" Margin="0,0,5,0" Panel.ZIndex="60">
         <ui:NavigationFluent Name="RootNavigation" ClipToBounds="True" Width="225" SelectedPageIndex="1" TransitionType="FadeInWithSlideLeft" TransitionDuration="150" Frame="{Binding ElementName=RootFrame}">
           <ui:NavigationFluent.Resources>
@@ -777,30 +777,30 @@
             </ControlTemplate>
           </ui:NavigationFluent.Template>
           <ui:NavigationBase.Items>
-            <ui:NavigationItem Content="Core" IsEnabled="False" Opacity="0.6" />
-            <ui:NavigationItem Cache="True" Name="HomeNavItem" Content="Home" Icon="Home24" Tag="Home20" PageType="{x:Type pages:HomePage}" />
+            <ui:NavigationItem Content="{resources:Loc Ui_Nav_Core}" IsEnabled="False" Opacity="0.6" />
+            <ui:NavigationItem Cache="True" Name="HomeNavItem" Content="{resources:Loc Ui_Nav_Home}" Icon="Home24" Tag="Home20" PageType="{x:Type pages:HomePage}" />
             <ui:NavigationItem Cache="True" Name="IntegrationsNavItem" Content="{resources:Loc Menu_Integrations_Title}" Icon="Add12" Tag="Add16" PageType="{x:Type pages:IntegrationsPage}" />
             <ui:NavigationItem Cache="True" Name="DeploymentNavItem" Content="{resources:Loc Common_Deployment}" Icon="PlaySettings20" Tag="Play20" PageType="{x:Type pages:BehaviourPage}" />
             <ui:NavigationItem Cache="True" Name="AppearanceNavItem" Content="{resources:Loc Menu_Appearance_Title}" Icon="Color24" Tag="Color20" PageType="{x:Type pages:AppearancePage}" />
             <ui:NavigationSeparator />
-            <ui:NavigationItem Content="Configuration" IsEnabled="False" Opacity="0.6" />
-            <ui:NavigationItem Cache="True" Name="FastFlagSettingsNavItem" Content="FastFlag Settings" Icon="Settings28" Tag="SettingsChat24" PageType="{x:Type pages:FastFlagsPage}" />
-            <ui:NavigationItem Cache="True" Name="FastFlagEditorNavItem" Content="FastFlag Editor" Icon="Flag28" Tag="Flag20" PageType="{x:Type pages:FastFlagEditorPage}" />
+            <ui:NavigationItem Content="{resources:Loc Ui_Nav_Configuration}" IsEnabled="False" Opacity="0.6" />
+            <ui:NavigationItem Cache="True" Name="FastFlagSettingsNavItem" Content="{resources:Loc Ui_Nav_FastFlagSettings}" Icon="Settings28" Tag="SettingsChat24" PageType="{x:Type pages:FastFlagsPage}" />
+            <ui:NavigationItem Cache="True" Name="FastFlagEditorNavItem" Content="{resources:Loc Ui_Nav_FastFlagEditor}" Icon="Flag28" Tag="Flag20" PageType="{x:Type pages:FastFlagEditorPage}" />
             <ui:NavigationItem Cache="True" Name="ModsNavItem" Content="{resources:Loc Menu_Mods_Title}" Icon="WrenchScrewdriver20" Tag="Wrench24" PageType="{x:Type pages:ModsPage}" />
-            <ui:NavigationItem Cache="True" Name="MoreNavItem" Content="More" Icon="MoreHorizontal24" Tag="MoreHorizontal20" PageType="{x:Type pages:MorePage}" vscontrols:SidebarGroup.IsHeader="True" />
-            <ui:NavigationItem Cache="True" Name="GlobalNavItem" Margin="0" Content="Global" Icon="GlobeLocation20" Tag="Globe20" PageType="{x:Type pages:GBSEditorPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
+            <ui:NavigationItem Cache="True" Name="MoreNavItem" Content="{resources:Loc Ui_Nav_More}" Icon="MoreHorizontal24" Tag="MoreHorizontal20" PageType="{x:Type pages:MorePage}" vscontrols:SidebarGroup.IsHeader="True" />
+            <ui:NavigationItem Cache="True" Name="GlobalNavItem" Margin="0" Content="{resources:Loc Ui_Nav_Global}" Icon="GlobeLocation20" Tag="Globe20" PageType="{x:Type pages:GBSEditorPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
             <ui:NavigationItem Cache="True" Name="ShortcutsNavItem" Margin="0" Content="{resources:Loc Common_Shortcuts}" Icon="Apps32" Tag="Apps24" PageType="{x:Type pages:ShortcutsPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
-            <ui:NavigationItem Cache="True" Name="NewsNavItem" Margin="0" Content="News" Icon="News16" Tag="News20" PageType="{x:Type pages:NewsPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
+            <ui:NavigationItem Cache="True" Name="NewsNavItem" Margin="0" Content="{resources:Loc Ui_Nav_News}" Icon="News16" Tag="News20" PageType="{x:Type pages:NewsPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
           </ui:NavigationBase.Items>
           <ui:NavigationBase.Footer>
-            <ui:NavigationItem Cache="True" Name="ExtensionsNavItem" Content="Extensions" Icon="CubeAdd20" Tag="CubeLink20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:ExtensionPage}" />
-            <ui:NavigationItem Cache="True" Name="ManagerNavItem" Content="Manager" Icon="ArrowDownload24" Tag="ArrowDownload20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:DownloadsPage}" />
+            <ui:NavigationItem Cache="True" Name="ExtensionsNavItem" Content="{resources:Loc Ui_Nav_Extensions}" Icon="CubeAdd20" Tag="CubeLink20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:ExtensionPage}" />
+            <ui:NavigationItem Cache="True" Name="ManagerNavItem" Content="{resources:Loc Ui_Nav_Manager}" Icon="ArrowDownload24" Tag="ArrowDownload20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:DownloadsPage}" />
             <ui:NavigationItem Cache="True" Name="SoberNavItem" Content="{resources:Loc Menu_Sober_Title}" Icon="Empty" Image="pack://application:,,,/Resources/SoberIcon.png" Tag="Settings20" PageType="{x:Type pages:SoberPage}" />
-            <ui:NavigationItem Cache="True" Name="SettingsNavItem" Content="Settings" Icon="Settings28" Tag="Settings20" PageType="{x:Type pages:ChannelPage}" />
+            <ui:NavigationItem Cache="True" Name="SettingsNavItem" Content="{resources:Loc Ui_Nav_Settings}" Icon="Settings28" Tag="Settings20" PageType="{x:Type pages:ChannelPage}" />
             <ui:NavigationItem Name="AboutNavItem" Content="{resources:Loc Menu_About_Title}" Icon="QuestionCircle32" Tag="QuestionCircle48" Command="{Binding OpenAboutCommand, Mode=OneTime}" />
           </ui:NavigationBase.Footer>
         </ui:NavigationFluent>
-        <Border Name="SidebarResizer" Width="8" HorizontalAlignment="Right" Background="Transparent" Cursor="SizeWE" ToolTip="Drag to resize, double click to reset" MouseLeftButtonDown="SidebarResizer_MouseLeftButtonDown" MouseMove="SidebarResizer_MouseMove" MouseLeftButtonUp="SidebarResizer_MouseLeftButtonUp" />
+        <Border Name="SidebarResizer" Width="8" HorizontalAlignment="Right" Background="Transparent" Cursor="SizeWE" ToolTip="{resources:Loc Ui_Main_ResizeSidebar}" MouseLeftButtonDown="SidebarResizer_MouseLeftButtonDown" MouseMove="SidebarResizer_MouseMove" MouseLeftButtonUp="SidebarResizer_MouseLeftButtonUp" />
       </Grid>
       <Grid Row="0" RowSpan="3" Column="1">
         <Grid.RowDefinitions>
@@ -818,7 +818,7 @@
             <ui:Breadcrumb Navigation="{Binding ElementName=RootNavigation}" />
           </StackPanel>
           <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-            <ui:TextBox Name="GlobalSearchBox" Margin="0,0,6,0" HorizontalAlignment="Right" Visibility="Collapsed" PlaceholderText="Search..." ClearButtonEnabled="True" Icon="Search24" TextChanged="GlobalSearchBox_TextChanged" />
+            <ui:TextBox Name="GlobalSearchBox" Margin="0,0,6,0" HorizontalAlignment="Right" Visibility="Collapsed" PlaceholderText="{resources:Loc Ui_Main_SearchPlaceholder}" ClearButtonEnabled="True" Icon="Search24" TextChanged="GlobalSearchBox_TextChanged" />
           </StackPanel>
           <ui:InfoBar Margin="0,0,28,0" Grid.Column="2" HorizontalAlignment="Right" Padding="3" IsClosable="True" IsOpen="True" Message="{Binding AppVersion}" appUi:LinuxTextGuard.PreserveCompactLayout="True" />
         </Grid>
@@ -841,9 +841,9 @@
             BorderThickness="1"
             BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
       <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-        <ui:Button Width="34" Height="30" Padding="0" Content="-" FontSize="15" Click="ZoomOut_Click" ToolTip="Zoom out" />
+        <ui:Button Width="34" Height="30" Padding="0" Content="-" FontSize="15" Click="ZoomOut_Click" ToolTip="{resources:Loc Ui_Main_ZoomOut}" />
         <TextBlock Name="ZoomIndicatorText" MinWidth="54" Margin="8,0" FontSize="13" FontWeight="SemiBold" TextAlignment="Center" VerticalAlignment="Center" Text="100%" />
-        <ui:Button Width="34" Height="30" Padding="0" Content="+" FontSize="15" Click="ZoomIn_Click" ToolTip="Zoom in" />
+        <ui:Button Width="34" Height="30" Padding="0" Content="+" FontSize="15" Click="ZoomIn_Click" ToolTip="{resources:Loc Ui_Main_ZoomIn}" />
         <ui:Button Height="30" Margin="10,0,0,0" Padding="12,0" Content="{resources:Loc Common_Reset}" Click="ZoomReset_Click" />
       </StackPanel>
     </Border>
@@ -904,10 +904,10 @@
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="{StaticResource LauncherTextPrimaryBrush}" Text="Choose Roblox version" />
+            <TextBlock VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="{StaticResource LauncherTextPrimaryBrush}" Text="{resources:Loc Ui_Main_ChooseRobloxVersion}" />
             <ui:Button Grid.Column="1" Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="{resources:Loc Common_Close}" Click="LaunchTargetClose_Click" />
           </Grid>
-          <TextBlock Grid.Row="1" Margin="0,6,0,16" FontSize="13" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="Select what Save and Launch should start." TextWrapping="Wrap" />
+          <TextBlock Grid.Row="1" Margin="0,6,0,16" FontSize="13" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="{resources:Loc Ui_Main_ChooseRobloxVersionHint}" TextWrapping="Wrap" />
           <vscontrols:RobloxVersionList x:Name="LaunchTargetList" Grid.Row="2" MaxHeight="470" ItemChosen="LaunchTargetList_ItemChosen" />
           <ui:ToggleSwitch Grid.Row="3" Margin="0,14,0,0" Content="{resources:Loc Menu_LaunchDropdownOnRight}"
                            IsChecked="{Binding LaunchDropdownOnRight, Mode=TwoWay}" />
@@ -923,12 +923,12 @@
             <TextBlock VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="{StaticResource LauncherTextPrimaryBrush}" Text="{resources:Loc ContextMenu_GameBrowser_Search}" />
             <ui:Button Grid.Column="1" Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="{resources:Loc Common_Close}" Click="CommandPaletteClose_Click" />
           </Grid>
-          <TextBlock Margin="0,6,0,16" FontSize="13" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="Jump to any page or setting." TextWrapping="Wrap" />
+          <TextBlock Margin="0,6,0,16" FontSize="13" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="{resources:Loc Ui_Main_SearchHint}" TextWrapping="Wrap" />
           <Border Height="44" Padding="14,0" CornerRadius="8" Background="{StaticResource LauncherControlBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1">
             <Grid>
               <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
               <ui:SymbolIcon Symbol="Search24" FontSize="17" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
-              <TextBlock x:Name="CommandPalettePlaceholder" Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="14.5" Text="Search pages and settings" Foreground="{StaticResource LauncherTextTertiaryBrush}" IsHitTestVisible="False" />
+              <TextBlock x:Name="CommandPalettePlaceholder" Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="14.5" Text="{resources:Loc Ui_Main_SearchTitle}" Foreground="{StaticResource LauncherTextTertiaryBrush}" IsHitTestVisible="False" />
               <TextBox x:Name="CommandPaletteSearchBox" Grid.Column="1" Margin="10,0,0,0" FontSize="14.5" Style="{StaticResource TopSearchTextBoxStyle}" TextChanged="CommandPaletteSearchBox_TextChanged" PreviewKeyDown="CommandPaletteSearchBox_PreviewKeyDown" />
             </Grid>
           </Border>
@@ -967,19 +967,19 @@
             </ScrollViewer>
             <StackPanel x:Name="CommandPaletteEmpty" Margin="24,30,24,30" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
               <ui:SymbolIcon Symbol="Search24" FontSize="26" HorizontalAlignment="Center" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
-              <TextBlock x:Name="CommandPaletteEmptyText" Margin="0,10,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="380" FontSize="13.5" FontWeight="SemiBold" Text="No results" />
-              <TextBlock Margin="0,4,0,0" HorizontalAlignment="Center" TextAlignment="Center" FontSize="12" Text="Try a different word or check the spelling" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
+              <TextBlock x:Name="CommandPaletteEmptyText" Margin="0,10,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="380" FontSize="13.5" FontWeight="SemiBold" Text="{resources:Loc Ui_Main_NoResults}" />
+              <TextBlock Margin="0,4,0,0" HorizontalAlignment="Center" TextAlignment="Center" FontSize="12" Text="{resources:Loc Ui_Main_NoResultsHint}" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
             </StackPanel>
           </Grid>
           <Grid Height="36" Margin="0,10,0,0" TextElement.FontSize="11.5" TextElement.Foreground="{StaticResource LauncherTextTertiaryBrush}">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
               <Border Width="20" Height="20" CornerRadius="5" Background="{StaticResource LauncherMenuHoverBrush}"><ui:SymbolIcon Symbol="ChevronUp24" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" /></Border>
               <Border Width="20" Height="20" Margin="3,0,0,0" CornerRadius="5" Background="{StaticResource LauncherMenuHoverBrush}"><ui:SymbolIcon Symbol="ChevronDown24" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" /></Border>
-              <TextBlock Margin="6,0,14,0" VerticalAlignment="Center" Text="to move" />
+              <TextBlock Margin="6,0,14,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Main_ToMove}" />
               <Border Height="20" Padding="6,0" CornerRadius="5" Background="{StaticResource LauncherMenuHoverBrush}"><TextBlock VerticalAlignment="Center" FontSize="11" Text="{Binding Source='Enter', Converter={x:Static wpfconv:ShortcutTextConverter.Instance}}" Foreground="{StaticResource LauncherTextSecondaryBrush}" /></Border>
-              <TextBlock Margin="6,0,14,0" VerticalAlignment="Center" Text="to open" />
+              <TextBlock Margin="6,0,14,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Main_ToOpen}" />
               <Border Height="20" Padding="6,0" CornerRadius="5" Background="{StaticResource LauncherMenuHoverBrush}"><TextBlock VerticalAlignment="Center" FontSize="11" Text="Esc" Foreground="{StaticResource LauncherTextSecondaryBrush}" /></Border>
-              <TextBlock Margin="6,0,0,0" VerticalAlignment="Center" Text="to close" />
+              <TextBlock Margin="6,0,0,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Main_ToClose}" />
             </StackPanel>
             <TextBlock x:Name="CommandPaletteCount" HorizontalAlignment="Right" VerticalAlignment="Center" />
           </Grid>

@@ -2996,4 +2996,352 @@ Vad vill du göra?</value>
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0} % klart</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>Inställningar ändrade</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Stäng</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>Starta om Voidstrap för att tillämpa ändringen.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap sparade och startade Roblox!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>Ändringarna har sparats.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>Inställningen ändrades inte</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Markera alla som lästa</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>Rensa alla</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>Rensa alla aviseringar</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Du är helt i fas</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Krascher, fel och viktiga uppdateringar från Voidstrap visas här.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>Framåt</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>HEM</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>BIBLIOTEK</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>NYHETER</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Sök efter uppdateringar</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Versionsinformation</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Öppna loggmappen</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Voidstrap-loggar</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Roblox-loggar</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Öppna programmappen</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Stöd Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Starta om Voidstrap</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>Fäll ihop eller fäll ut sidofältet</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Kärna</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Hem</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Konfiguration</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>FastFlag-inställningar</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>FastFlag-redigerare</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Mer</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Globalt</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Nyheter</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Tillägg</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Hanterare</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Inställningar</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>Dra för att ändra storlek, dubbelklicka för att återställa</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Sök...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Zooma ut</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Zooma in</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Välj Roblox-version</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Välj vad Spara och starta ska öppna.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Hoppa till valfri sida eller inställning.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Sök sidor och inställningar</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Inga resultat</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Prova ett annat ord eller kontrollera stavningen</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>för att flytta</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>för att öppna</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>för att stänga</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>Anpassa bakgrund, gränssnitt och alternativ</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Färg</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Bakgrund</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Bakgrundsbild</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Importera en bild, video eller GIF som bakgrund i Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>Ställs in efter bildens ljus vid import. Du kan ändra det efteråt.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Gör bakgrunden mörkare så att texten förblir läsbar.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Visa bakgrunden överallt</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>Använder bakgrunden bakom alla Voidstrap-fönster, inte bara huvudfönstret.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Snö</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Lägger till fallande snö i bakgrunden.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>Flyttar bakgrundens övertoning med muspekaren.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Form</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Fönsterhörn</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>Hur rundade hörnen på alla Voidstrap-fönster är.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Hörnrundning</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>Hur rundade kort, knappar, rutor och menyer i appen är.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Text och rullning</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Mjuk rullningslist</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Rullar mjukt i stället för att hoppa.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Kolla in några av våra inbyggda teman!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Fönsterbakgrund</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Välj materialet bakom Voidstrap-fönster.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Programmets typsnitt</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Ändra typsnittet som används i hela Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Välj typsnitt...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Språk för Discord-status</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Översätter din Discord-status till ett annat språk. Namn på spel, skapare och platser förblir oförändrade.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Startprogrammets stil</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Välj ett inbyggt startprogram eller använd ett av dina egna teman.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Startprogrammets storlek</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Ändra startprogrammets totala storlek och avstånd.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Temaskapare</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Skapa och hantera temat för ditt anpassade startprogram.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Nytt tema</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Temanamn</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>Spara namn</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Öppna redigeraren</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>Fler åtgärder</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Visa filer</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Välj ett tema i listan eller skapa ett nytt.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>Valfria tillägg för startprogrammet</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Lägg till en bakgrund eller ett startljud. Dessa tillägg gäller inte för anpassade startprogram eller teman som skapats i temaskaparen.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Välj en bild för startprogrammets bakgrund.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Startljud</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Välj ljud som spelas när startprogrammet öppnas.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Sidofältets layout</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Byt namn, välj ikoner eller egna bilder, visa, dölj och ordna om sidorna i sidofältet.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Ändra ikon i sidofältet</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Avsnitt</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Visa</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Ändra synlighet i sidofältet</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Flytta</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Flytta upp</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Flytta ned</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>Hem och Utseende förblir synliga så att anpassningen alltid går att nå.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>Återställ sidofältet</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>Appens identitet</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Ge appen ditt eget namn och din egen ikon.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Appnamn</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Ersätter appens namn överallt där det visas. Lämna tomt för att använda originalnamnet.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>Appikon</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Välj bild</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Studio-ikon</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Ikonen som startprogrammet visar när Roblox Studio startas.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Anpassning</value>
+  </data>
 </root>

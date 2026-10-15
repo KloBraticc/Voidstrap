@@ -3030,4 +3030,352 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>เสร็จแล้ว {0}%</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>เปลี่ยนการตั้งค่าแล้ว</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>ปิด</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>รีสตาร์ท Voidstrap เพื่อใช้การเปลี่ยนแปลงนี้</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap บันทึกและเปิด Roblox แล้ว!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>บันทึกการเปลี่ยนแปลงแล้ว</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>การตั้งค่าไม่ได้เปลี่ยน</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>ทำเครื่องหมายว่าอ่านแล้วทั้งหมด</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>ล้างทั้งหมด</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>ล้างการแจ้งเตือนทั้งหมด</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>ไม่มีการแจ้งเตือนใหม่</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>การแครช ข้อผิดพลาด และอัปเดตสำคัญจาก Voidstrap จะแสดงที่นี่</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>ไปข้างหน้า</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>หน้าแรก</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>คลัง</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>ข่าว</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>ตรวจหาอัปเดต</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>บันทึกประจำรุ่น</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>เปิดโฟลเดอร์บันทึก</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>บันทึกของ Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>บันทึกของ Roblox</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>เปิดโฟลเดอร์แอป</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>ความช่วยเหลือ</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>สนับสนุน Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>รีสตาร์ท Voidstrap</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>ย่อหรือขยายแถบด้านข้าง</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>หลัก</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>หน้าแรก</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>การกำหนดค่า</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>การตั้งค่า FastFlag</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>ตัวแก้ไข FastFlag</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>เพิ่มเติม</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>ทั่วไป</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>ข่าว</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>ส่วนขยาย</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>ตัวจัดการ</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>การตั้งค่า</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>ลากเพื่อปรับขนาด ดับเบิลคลิกเพื่อรีเซ็ต</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>ค้นหา...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>ซูมออก</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>ซูมเข้า</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>เลือกเวอร์ชัน Roblox</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>เลือกสิ่งที่ บันทึกและเปิด จะเริ่มทำงาน</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>ไปยังหน้าหรือการตั้งค่าใดก็ได้</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>ค้นหาหน้าและการตั้งค่า</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>ไม่พบผลลัพธ์</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>ลองใช้คำอื่นหรือตรวจสอบการสะกด</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>เพื่อเลื่อน</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>เพื่อเปิด</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>เพื่อปิด</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>แอปพลิเคชัน</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>ปรับแต่งพื้นหลัง อินเทอร์เฟซ และตัวเลือก</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>สี</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>พื้นหลัง</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>ภาพพื้นหลัง</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>นำเข้ารูปภาพ วิดีโอ หรือ GIF เป็นพื้นหลังของ Voidstrap</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>ตั้งค่าตามแสงของภาพตอนนำเข้า คุณเปลี่ยนได้ภายหลัง</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>ทำให้พื้นหลังมืดลงเพื่อให้อ่านข้อความได้ชัด</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>แสดงพื้นหลังทุกที่</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>ใช้พื้นหลังหลังทุกหน้าต่างของ Voidstrap ไม่ใช่แค่หน้าต่างหลัก</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>หิมะ</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>เพิ่มหิมะตกบนพื้นหลัง</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>เลื่อนไล่สีพื้นหลังตามเคอร์เซอร์ของคุณ</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>รูปทรง</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>มุมหน้าต่าง</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>ความโค้งของมุมทุกหน้าต่างของ Voidstrap</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>ความโค้งของมุม</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>ความโค้งของการ์ด ปุ่ม กล่อง และเมนูภายในแอป</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>ข้อความและการเลื่อน</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>แถบเลื่อนแบบนุ่มนวล</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>เลื่อนอย่างนุ่มนวลแทนการกระโดด</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>ลองดูธีมในตัวบางส่วนของเรา!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>ฉากหลังหน้าต่าง</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>เลือกวัสดุที่แสดงหลังหน้าต่าง Voidstrap</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>ฟอนต์ของแอป</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>เปลี่ยนฟอนต์ที่ใช้ทั่วทั้ง Voidstrap</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>เลือกฟอนต์...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>ภาษาของสถานะ Discord</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>แปลสถานะ Discord ของคุณเป็นภาษาอื่น ชื่อเกม ผู้สร้าง และเพลสจะคงเดิม</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>สไตล์ตัวเปิดเกม</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>เลือกตัวเปิดเกมในตัวหรือใช้ธีมของคุณเอง</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>ขนาดตัวเปิดเกม</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>เปลี่ยนขนาดและระยะห่างโดยรวมของตัวเปิดเกม</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>ตัวสร้างธีม</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>สร้างและจัดการธีมของตัวเปิดเกมแบบกำหนดเองของคุณ</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>ธีมใหม่</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>ชื่อธีม</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>บันทึกชื่อ</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>เปิดตัวแก้ไข</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>การดำเนินการเพิ่มเติม</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>ดูไฟล์</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>เลือกธีมจากรายการ หรือสร้างธีมใหม่</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>ส่วนเสริมของตัวเปิดเกม</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>เพิ่มพื้นหลังหรือเสียงตอนเริ่ม ส่วนเสริมเหล่านี้ใช้ไม่ได้กับตัวเปิดเกมแบบกำหนดเองหรือธีมที่สร้างในตัวสร้างธีม</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>เลือกรูปภาพสำหรับพื้นหลังของตัวเปิดเกม</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>เสียงตอนเริ่ม</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>เลือกเสียงที่จะเล่นเมื่อเปิดตัวเปิดเกม</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>การจัดวางแถบด้านข้าง</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>เปลี่ยนชื่อ เลือกไอคอนหรือรูปภาพของคุณเอง แสดง ซ่อน และจัดลำดับหน้าบนแถบด้านข้าง</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>เปลี่ยนไอคอนบนแถบด้านข้าง</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>ส่วน</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>แสดง</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>เปลี่ยนการแสดงผลบนแถบด้านข้าง</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>ย้าย</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>ย้ายขึ้น</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>ย้ายลง</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>หน้าแรกและรูปลักษณ์จะแสดงเสมอ เพื่อให้เข้าถึงการปรับแต่งได้ตลอด</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>รีเซ็ตแถบด้านข้าง</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>ตัวตนของแอป</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>ตั้งชื่อและไอคอนของแอปเป็นของคุณเอง</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>ชื่อแอป</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>แทนที่ชื่อแอปทุกที่ที่แสดง เว้นว่างไว้เพื่อใช้ชื่อเดิม</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>ไอคอนแอป</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>เลือกรูปภาพ</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>ไอคอน Studio</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>ไอคอนที่ตัวเปิดเกมแสดงเมื่อเปิด Roblox Studio</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>การปรับแต่ง</value>
+  </data>
 </root>

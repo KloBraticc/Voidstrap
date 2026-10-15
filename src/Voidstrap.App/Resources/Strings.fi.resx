@@ -3030,4 +3030,352 @@ Mitä haluat tehdä?</value>
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0} % valmis</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>Asetuksia muutettu</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Hylkää</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>Käynnistä Voidstrap uudelleen, jotta muutos tulee voimaan.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap tallensi asetukset ja käynnisti Robloxin!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>Muutokset on tallennettu.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>Asetusta ei muutettu</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Merkitse kaikki luetuiksi</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>Tyhjennä kaikki</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>Tyhjennä kaikki ilmoitukset</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Olet ajan tasalla</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Voidstrapin kaatumiset, virheet ja tärkeät päivitykset näkyvät täällä.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>Eteenpäin</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>ETUSIVU</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>KIRJASTO</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>UUTISET</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Tarkista päivitykset</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Julkaisutiedot</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Avaa lokikansio</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Voidstrapin lokit</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Robloxin lokit</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Avaa sovelluskansio</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Tuki</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Tue Voidstrapia</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Käynnistä Voidstrap uudelleen</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>Kutista tai laajenna sivupalkki</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Perusasiat</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Etusivu</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Määritykset</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>FastFlag-asetukset</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>FastFlag-muokkain</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Lisää</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Yleiset</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Uutiset</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Laajennukset</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Hallinta</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Asetukset</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>Muuta kokoa vetämällä, palauta kaksoisnapsautuksella</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Hae...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Loitonna</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Lähennä</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Valitse Roblox-versio</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Valitse, mitä Tallenna ja käynnistä avaa.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Siirry mille tahansa sivulle tai asetukseen.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Hae sivuja ja asetuksia</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Ei tuloksia</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Kokeile toista sanaa tai tarkista kirjoitusasu</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>siirtyäksesi</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>avataksesi</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>sulkeaksesi</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Sovellus</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>Mukauta taustaa, käyttöliittymää ja asetuksia</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Väri</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Tausta</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Taustakuva</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Tuo kuva, video tai GIF Voidstrapin taustaksi.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>Asetetaan tuonnin yhteydessä kuvan valaistuksen mukaan. Voit muuttaa sitä myöhemmin.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Tummentaa taustaa, jotta teksti pysyy luettavana.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Näytä tausta kaikkialla</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>Käyttää taustaa kaikkien Voidstrapin ikkunoiden takana, ei vain pääikkunan.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Lumi</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Lisää taustalle sataa lunta.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>Liikuttaa taustan liukuvärjäystä osoittimen mukana.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Muoto</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Ikkunoiden kulmat</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>Kuinka pyöristetyt Voidstrapin ikkunoiden kulmat ovat.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Kulmien pyöristys</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>Kuinka pyöristettyjä kortit, painikkeet, kentät ja valikot sovelluksessa ovat.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Teksti ja vieritys</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Pehmeä vierityspalkki</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Vierittää pehmeästi hyppimisen sijaan.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Tutustu sisäänrakennettuihin teemoihimme!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Ikkunoiden tausta</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Valitse materiaali Voidstrapin ikkunoiden taakse.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Sovelluksen fontti</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Vaihda koko Voidstrapissa käytettävä fontti.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Valitse fontti...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Discord-tilan kieli</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Kääntää Discord-tilasi toiselle kielelle. Pelien, tekijöiden ja paikkojen nimet pysyvät ennallaan.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Käynnistimen tyyli</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Valitse sisäänrakennettu käynnistin tai käytä omaa teemaasi.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Käynnistimen koko</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Muuta käynnistimen kokonaiskokoa ja välejä.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Teemaeditori</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Luo ja hallitse oman käynnistimesi teemaa.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Uusi teema</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Teeman nimi</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>Tallenna nimi</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Avaa editori</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>Lisää toimintoja</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Näytä tiedostot</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Valitse teema luettelosta tai luo uusi.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>Käynnistimen valinnaiset lisät</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Lisää tausta tai käynnistysääni. Nämä lisät eivät koske omia käynnistimiä tai teemaeditorilla luotuja teemoja.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Valitse kuva käynnistimen taustaksi.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Käynnistysääni</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Valitse ääni, joka soi käynnistimen avautuessa.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Sivupalkin asettelu</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Nimeä uudelleen, valitse kuvakkeet tai omat kuvat, näytä, piilota ja järjestä sivupalkin sivuja.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Vaihda sivupalkin kuvake</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Osio</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Näytä</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Muuta näkyvyyttä sivupalkissa</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Siirrä</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Siirrä ylös</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Siirrä alas</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>Etusivu ja Ulkoasu pysyvät näkyvissä, jotta mukautus on aina käytettävissä.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>Palauta sivupalkki</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>Sovelluksen identiteetti</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Anna sovellukselle oma nimi ja kuvake.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Sovelluksen nimi</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Korvaa sovelluksen nimen kaikkialla, missä se näkyy. Jätä tyhjäksi käyttääksesi alkuperäistä nimeä.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>Sovelluksen kuvake</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Valitse kuva</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Studion kuvake</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Kuvake, jonka käynnistin näyttää Roblox Studiota avattaessa.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Mukauttaminen</value>
+  </data>
 </root>

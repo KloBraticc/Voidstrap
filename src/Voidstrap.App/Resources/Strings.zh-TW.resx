@@ -3038,4 +3038,352 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>已完成 {0}%</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>設定已變更</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>重新啟動 Voidstrap 以套用此變更。</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap 已儲存並啟動 Roblox！</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>變更已儲存。</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>設定未變更</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>全部標示為已讀</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>全部清除</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>清除所有通知</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>沒有新通知</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Voidstrap 的當機、錯誤和重要更新會顯示在這裡。</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>下一頁</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>首頁</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>收藏庫</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>新聞</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>檢查更新</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>版本資訊</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>開啟記錄資料夾</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Voidstrap 記錄</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Roblox 記錄</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>開啟應用程式資料夾</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>支援</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>支持 Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>重新啟動 Voidstrap</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>收合或展開側邊欄</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>核心</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>首頁</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>設定組態</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>FastFlag 設定</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>FastFlag 編輯器</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>更多</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>全域</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>新聞</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>擴充功能</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>管理員</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>拖曳以調整大小，按兩下以重設</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>搜尋...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>縮小</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>放大</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>選擇 Roblox 版本</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>選擇「儲存並啟動」要啟動的項目。</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>跳至任何頁面或設定。</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>搜尋頁面和設定</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>沒有結果</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>試試其他字詞或檢查拼字</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>開啟</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>應用程式</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>自訂背景、介面和選項</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>色彩</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>背景</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>背景圖片</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>匯入圖片、影片或 GIF 作為 Voidstrap 背景。</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>匯入時依圖片亮度設定，之後可以變更。</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>調暗背景，讓文字保持清晰易讀。</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>在所有視窗顯示背景</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>在每個 Voidstrap 視窗後顯示背景，而不只是主視窗。</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>飄雪</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>為背景加入飄落的雪花。</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>讓背景漸層跟著游標移動。</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>形狀</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>視窗圓角</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>每個 Voidstrap 視窗的圓角程度。</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>圓角程度</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>應用程式內卡片、按鈕、方塊和選單的圓角程度。</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>文字與捲動</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>平滑捲軸</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>平滑捲動而不是跳動。</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>來看看我們的內建主題吧！</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>視窗背景材質</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>選擇顯示在 Voidstrap 視窗後方的材質。</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>應用程式字型</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>變更整個 Voidstrap 使用的字型。</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>選擇字型...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Discord 狀態語言</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>將你的 Discord 狀態翻譯成其他語言。遊戲、創作者和地點名稱維持不變。</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>啟動器樣式</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>選擇內建啟動器或使用你自己的主題。</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>啟動器大小</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>變更啟動器的整體大小和間距。</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>主題製作</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>建立並管理自訂啟動器使用的主題。</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>新增主題</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>主題名稱</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>儲存名稱</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>開啟編輯器</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>更多動作</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>檢視檔案</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>從清單中選擇主題，或建立新主題。</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>啟動器選用附加項目</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>加入背景或啟動音效。這些附加項目不適用於自訂啟動器或在主題製作中建立的主題。</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>選擇啟動器背景圖片。</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>啟動音效</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>選擇啟動器開啟時播放的音訊。</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>側邊欄版面配置</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>重新命名側邊欄頁面，選擇圖示或自訂圖片，顯示、隱藏和重新排序。</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>變更側邊欄圖示</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>區段</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>顯示</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>變更側邊欄中的顯示狀態</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>上移</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>下移</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>首頁和外觀會一直顯示，確保隨時都能進行自訂。</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>重設側邊欄</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>應用程式識別</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>為應用程式設定你自己的名稱和圖示。</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>應用程式名稱</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>在所有顯示位置取代應用程式名稱。留空則使用原始名稱。</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>應用程式圖示</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>選擇圖片</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Studio 圖示</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>啟動 Roblox Studio 時啟動程式顯示的圖示。</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>自訂</value>
+  </data>
 </root>

@@ -3030,4 +3030,352 @@ Ne yapmak istersiniz?</value>
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>%{0} tamamlandı</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>Ayarlar değişti</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Kapat</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>Bu değişikliği uygulamak için Voidstrap'i yeniden başlatın.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap kaydetti ve Roblox'u başlattı!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>Değişiklikler kaydedildi.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>Ayar değiştirilmedi</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Tümünü okundu olarak işaretle</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>Tümünü temizle</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>Tüm bildirimleri temizle</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Yeni bildirim yok</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Voidstrap'ten gelen çökmeler, hatalar ve önemli güncellemeler burada görünür.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>İleri</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>ANA SAYFA</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>KİTAPLIK</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>HABERLER</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Güncellemeleri denetle</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Sürüm notları</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Günlük klasörünü aç</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Voidstrap günlükleri</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Roblox günlükleri</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Uygulama klasörünü aç</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Destek</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Voidstrap'i destekleyin</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Voidstrap'i yeniden başlat</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>Kenar çubuğunu daralt veya genişlet</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Temel</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Ana sayfa</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Yapılandırma</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>FastFlag ayarları</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>FastFlag düzenleyici</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Daha fazla</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Genel</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Haberler</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Uzantılar</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Yönetici</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Ayarlar</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>Boyutlandırmak için sürükleyin, sıfırlamak için çift tıklayın</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Ara...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Uzaklaştır</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Yakınlaştır</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Roblox sürümünü seçin</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Kaydet ve başlat'ın neyi başlatacağını seçin.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Herhangi bir sayfaya veya ayara gidin.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Sayfalarda ve ayarlarda ara</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Sonuç yok</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Başka bir kelime deneyin veya yazımı kontrol edin</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>ile gezin</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>ile açın</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>ile kapatın</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Uygulama</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>Arka planı, arayüzü ve seçenekleri özelleştirin</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Renk</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Arka plan</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Arka plan resmi</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Voidstrap arka planı olarak bir resim, video veya GIF içe aktarın.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>İçe aktarırken resmin ışığına göre ayarlanır. Sonradan değiştirebilirsiniz.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Metin okunabilir kalsın diye arka planı koyulaştırır.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Arka planı her yerde göster</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>Arka planı yalnızca ana pencerede değil, her Voidstrap penceresinin arkasında kullanır.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Kar</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Arka plana yağan kar ekler.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>Arka plan geçişini imlecinizle birlikte hareket ettirir.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Şekil</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Pencere köşeleri</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>Her Voidstrap penceresinin köşelerinin ne kadar yuvarlak olduğu.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Köşe yuvarlaklığı</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>Uygulamadaki kartların, düğmelerin, kutuların ve menülerin ne kadar yuvarlak olduğu.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Metin ve kaydırma</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Yumuşak kaydırma çubuğu</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Atlamak yerine yumuşakça kaydırır.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Yerleşik temalarımızdan bazılarına göz atın!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Pencere arka planı</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Voidstrap pencerelerinin arkasındaki malzemeyi seçin.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Uygulama yazı tipi</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Voidstrap genelinde kullanılan yazı tipini değiştirin.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Yazı tipi seç...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Discord durumunun dili</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Discord durumunuzu başka bir dile çevirir. Oyun, yapımcı ve mekân adları olduğu gibi kalır.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Başlatıcı stili</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Yerleşik bir başlatıcı seçin veya kendi temalarınızdan birini kullanın.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Başlatıcı boyutu</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Başlatıcının genel boyutunu ve boşluklarını değiştirin.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Tema oluşturucu</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Özel başlatıcınızın temasını oluşturun ve yönetin.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Yeni tema</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Tema adı</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>Adı kaydet</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Düzenleyiciyi aç</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>Diğer işlemler</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Dosyaları görüntüle</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Listeden bir tema seçin veya yeni bir tane oluşturun.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>İsteğe bağlı başlatıcı ekleri</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Bir arka plan veya açılış sesi ekleyin. Bu ekler özel başlatıcılar veya Tema oluşturucu ile yapılan temalar için geçerli değildir.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Başlatıcı arka planı için bir resim seçin.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Açılış sesi</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Başlatıcı açıldığında çalınacak sesi seçin.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Kenar çubuğu düzeni</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Kenar çubuğu sayfalarını yeniden adlandırın, simge veya resim seçin, gösterin, gizleyin ve sıralayın.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Kenar çubuğu simgesini değiştir</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Bölüm</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Göster</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Kenar çubuğundaki görünürlüğü değiştir</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Taşı</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Yukarı taşı</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Aşağı taşı</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>Özelleştirmeye her zaman ulaşılabilsin diye Ana sayfa ve Görünüm her zaman görünür kalır.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>Kenar çubuğunu sıfırla</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>Uygulama kimliği</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Uygulamaya kendi adınızı ve simgenizi verin.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Uygulama adı</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Uygulama adını gösterildiği her yerde değiştirir. Orijinal adı kullanmak için boş bırakın.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>Uygulama simgesi</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Resim seç</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Studio simgesi</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Roblox Studio başlatılırken başlatıcının gösterdiği simge.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Özelleştirme</value>
+  </data>
 </root>

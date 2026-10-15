@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -48,26 +49,29 @@ namespace Voidstrap.UI.Elements.Settings;
 
 public partial class MainWindow : WpfUiWindow, INavigationWindow
 {
-    public sealed record SidebarItemDefinition(string Key, string DefaultName, string Section, SymbolRegular DefaultIcon, bool CanHide = true);
+    public sealed record SidebarItemDefinition(string Key, string DefaultName, string Section, SymbolRegular DefaultIcon, bool CanHide = true, string? NameKey = null)
+    {
+        public string DisplayName => NameKey != null && Voidstrap.Resources.LocalizedStrings.Instance[NameKey] is { Length: > 0 } localized ? localized : DefaultName;
+    }
 
     public static IReadOnlyList<SidebarItemDefinition> SidebarCustomizationItems { get; } = new SidebarItemDefinition[]
     {
-        new("HomeNavItem", "Home", "Core", SymbolRegular.Home24, false),
-        new("IntegrationsNavItem", "Integrations", "Core", SymbolRegular.Add12),
-        new("DeploymentNavItem", "Deployment", "Core", SymbolRegular.PlaySettings20),
-        new("AppearanceNavItem", "Appearance", "Core", SymbolRegular.Color24, false),
-        new("FastFlagSettingsNavItem", "FastFlag Settings", "Configuration", SymbolRegular.Settings28),
-        new("FastFlagEditorNavItem", "FastFlag Editor", "Configuration", SymbolRegular.Flag28),
-        new("ModsNavItem", "Mods", "Configuration", SymbolRegular.WrenchScrewdriver20),
-        new("MoreNavItem", "More", "Configuration", SymbolRegular.MoreHorizontal24),
-        new("GlobalNavItem", "Global", "More", SymbolRegular.GlobeLocation20),
-        new("ShortcutsNavItem", "Shortcuts", "More", SymbolRegular.Apps32),
-        new("NewsNavItem", "News", "More", SymbolRegular.News16),
-        new("ExtensionsNavItem", "Extensions", "Footer", SymbolRegular.CubeAdd20),
-        new("ManagerNavItem", "Manager", "Footer", SymbolRegular.ArrowDownload24),
-        new("SoberNavItem", "Sober", "Footer", SymbolRegular.Empty),
-        new("SettingsNavItem", "Settings", "Footer", SymbolRegular.Settings28),
-        new("AboutNavItem", "About", "Footer", SymbolRegular.QuestionCircle32)
+        new("HomeNavItem", "Home", "Core", SymbolRegular.Home24, false, NameKey: "Ui_Nav_Home"),
+        new("IntegrationsNavItem", "Integrations", "Core", SymbolRegular.Add12, NameKey: "Menu_Integrations_Title"),
+        new("DeploymentNavItem", "Deployment", "Core", SymbolRegular.PlaySettings20, NameKey: "Common_Deployment"),
+        new("AppearanceNavItem", "Appearance", "Core", SymbolRegular.Color24, false, NameKey: "Menu_Appearance_Title"),
+        new("FastFlagSettingsNavItem", "FastFlag Settings", "Configuration", SymbolRegular.Settings28, NameKey: "Ui_Nav_FastFlagSettings"),
+        new("FastFlagEditorNavItem", "FastFlag Editor", "Configuration", SymbolRegular.Flag28, NameKey: "Ui_Nav_FastFlagEditor"),
+        new("ModsNavItem", "Mods", "Configuration", SymbolRegular.WrenchScrewdriver20, NameKey: "Menu_Mods_Title"),
+        new("MoreNavItem", "More", "Configuration", SymbolRegular.MoreHorizontal24, NameKey: "Ui_Nav_More"),
+        new("GlobalNavItem", "Global", "More", SymbolRegular.GlobeLocation20, NameKey: "Ui_Nav_Global"),
+        new("ShortcutsNavItem", "Shortcuts", "More", SymbolRegular.Apps32, NameKey: "Common_Shortcuts"),
+        new("NewsNavItem", "News", "More", SymbolRegular.News16, NameKey: "Ui_Nav_News"),
+        new("ExtensionsNavItem", "Extensions", "Footer", SymbolRegular.CubeAdd20, NameKey: "Ui_Nav_Extensions"),
+        new("ManagerNavItem", "Manager", "Footer", SymbolRegular.ArrowDownload24, NameKey: "Ui_Nav_Manager"),
+        new("SoberNavItem", "Sober", "Footer", SymbolRegular.Empty, NameKey: "Menu_Sober_Title"),
+        new("SettingsNavItem", "Settings", "Footer", SymbolRegular.Settings28, NameKey: "Ui_Nav_Settings"),
+        new("AboutNavItem", "About", "Footer", SymbolRegular.QuestionCircle32, NameKey: "Menu_About_Title")
     };
 
     public static bool IsSidebarItemAvailable(string key)
@@ -1073,7 +1077,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             .OfType<NavigationItem>()
             .Where(item => !string.IsNullOrEmpty(item.Name))
             .ToDictionary(item => item.Name, StringComparer.Ordinal);
-        _defaultSidebarContent ??= items.ToDictionary(pair => pair.Key, pair => (object?)pair.Value.Content, StringComparer.Ordinal);
+        _defaultSidebarContent ??= items.ToDictionary<KeyValuePair<string, NavigationItem>, string, object?>(pair => pair.Key, pair => (object?)BindingOperations.GetBindingBase(pair.Value, ContentControl.ContentProperty) ?? (object?)pair.Value.Content, StringComparer.Ordinal);
         _defaultSidebarIcons ??= items.ToDictionary(pair => pair.Key, pair => pair.Value.Icon, StringComparer.Ordinal);
         _defaultSidebarImages ??= items.ToDictionary(pair => pair.Key, pair => (BitmapSource?)pair.Value.Image, StringComparer.Ordinal);
         Dictionary<string, string> names = App.Settings.Prop.SidebarNames ??= new Dictionary<string, string>();
@@ -1096,9 +1100,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 continue;
             }
-            item.Content = names.TryGetValue(definition.Key, out string? customName)
-                ? NormalizeSidebarName(customName, definition.DefaultName)
-                : _defaultSidebarContent[definition.Key];
+            if (names.TryGetValue(definition.Key, out string? customName))
+            {
+                item.Content = NormalizeSidebarName(customName, definition.DisplayName);
+            }
+            else if (_defaultSidebarContent[definition.Key] is BindingBase defaultBinding)
+            {
+                item.SetBinding(ContentControl.ContentProperty, defaultBinding);
+            }
+            else
+            {
+                item.Content = _defaultSidebarContent[definition.Key];
+            }
             item.Icon = _defaultSidebarIcons[definition.Key];
             BitmapSource? defaultImage = _defaultSidebarImages[definition.Key];
             item.SetValue(NavigationItem.ImageProperty, defaultImage);
@@ -1193,6 +1206,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (names.TryGetValue(key, out string? customName))
         {
             return NormalizeSidebarName(customName, fallback);
+        }
+        if (SidebarCustomizationItems.FirstOrDefault(item => item.Key == key) is { NameKey: not null } definition)
+        {
+            return definition.DisplayName;
         }
         if (_defaultSidebarContent != null && _defaultSidebarContent.TryGetValue(key, out object? content) && content is string text)
         {

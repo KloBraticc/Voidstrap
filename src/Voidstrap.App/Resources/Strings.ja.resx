@@ -3061,4 +3061,352 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0}% 完了</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>設定が変更されました</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>この変更を適用するには Voidstrap を再起動してください。</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap が保存して Roblox を起動しました！</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>変更を保存しました。</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>設定は変更されませんでした</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>すべて既読にする</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>すべてクリア</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>すべての通知をクリア</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>新しい通知はありません</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Voidstrap のクラッシュ、エラー、重要なアップデートがここに表示されます。</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>進む</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>ホーム</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>ライブラリ</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>ニュース</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>アップデートを確認</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>リリースノート</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>ログフォルダーを開く</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Voidstrap のログ</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Roblox のログ</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>アプリケーションフォルダーを開く</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>サポート</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Voidstrap を支援</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Voidstrap を再起動</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>サイドバーを折りたたむ、または展開する</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>基本</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>ホーム</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>構成</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>FastFlag 設定</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>FastFlag エディター</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>その他</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>グローバル</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>ニュース</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>拡張機能</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>マネージャー</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>ドラッグでサイズ変更、ダブルクリックでリセット</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>検索...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>縮小</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>拡大</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Roblox のバージョンを選択</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>保存して起動で何を起動するかを選択します。</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>任意のページや設定に移動できます。</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>ページと設定を検索</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>結果なし</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>別の単語を試すか、つづりを確認してください</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>で移動</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>で開く</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>で閉じる</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>アプリケーション</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>背景、UI、オプションをカスタマイズ</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>色</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>背景</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>背景画像</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>画像、動画、GIF を Voidstrap の背景としてインポートします。</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>インポート時に画像の明るさから設定されます。後から変更できます。</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>背景を暗くして文字を読みやすくします。</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>背景をすべての場所に表示</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>メインウィンドウだけでなく、すべての Voidstrap ウィンドウの背後に背景を表示します。</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>雪</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>背景に降る雪を追加します。</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>背景のグラデーションをカーソルに合わせて動かします。</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>形状</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>ウィンドウの角</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>すべての Voidstrap ウィンドウの角の丸さ。</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>角の丸み</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>アプリ内のカード、ボタン、ボックス、メニューの丸さ。</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>テキストとスクロール</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>スムーズスクロールバー</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>ジャンプせずになめらかにスクロールします。</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>組み込みのカスタムテーマをぜひご覧ください！</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>ウィンドウの背景効果</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Voidstrap ウィンドウの背後に表示する素材を選択します。</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>アプリケーションのフォント</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Voidstrap 全体で使うフォントを変更します。</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>フォントを選択...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Discord ステータスの言語</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Discord のステータスを別の言語に翻訳します。ゲーム名、作成者名、プレイス名はそのままです。</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>ランチャーのスタイル</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>組み込みのランチャーを選ぶか、自作のテーマを使用します。</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>ランチャーのサイズ</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>ランチャー全体のサイズと間隔を変更します。</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>テーマ作成</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>カスタムランチャーで使うテーマを作成、管理します。</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>新しいテーマ</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>テーマ名</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>名前を保存</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>エディターを開く</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>その他の操作</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>ファイルを表示</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>一覧からテーマを選ぶか、新しく作成してください。</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>ランチャーの追加オプション</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>背景や起動音を追加します。これらはカスタムランチャーやテーマ作成で作ったテーマには適用されません。</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>ランチャーの背景に使う画像を選択します。</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>起動音</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>ランチャーを開いたときに再生する音声を選択します。</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>サイドバーのレイアウト</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>サイドバーのページの名前変更、アイコンや画像の選択、表示、非表示、並べ替えができます。</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>サイドバーのアイコンを変更</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>セクション</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>サイドバーでの表示を切り替え</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>上へ移動</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>下へ移動</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>カスタマイズにいつでも戻れるよう、ホームと外観は常に表示されます。</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>サイドバーをリセット</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>アプリの名前とアイコン</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>アプリに独自の名前とアイコンを設定します。</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>アプリ名</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>表示されるすべての場所でアプリ名を置き換えます。空欄にすると元の名前を使用します。</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>アプリのアイコン</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>画像を選択</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Studio のアイコン</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Roblox Studio の起動時にブートストラッパーが表示するアイコンです。</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>カスタマイズ</value>
+  </data>
 </root>

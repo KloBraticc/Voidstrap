@@ -3037,4 +3037,352 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0} % dovršeno</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>Postavke su promijenjene</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Odbaci</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>Ponovno pokreni Voidstrap da bi se promjena primijenila.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap je spremio postavke i pokrenuo Roblox!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>Promjene su spremljene.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>Postavka nije promijenjena</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Označi sve kao pročitano</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>Očisti sve</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>Očisti sve obavijesti</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Nema novih obavijesti</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Ovdje se prikazuju rušenja, pogreške i važna ažuriranja Voidstrapa.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>Naprijed</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>POČETNA</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>KNJIŽNICA</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>NOVOSTI</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Provjeri ažuriranja</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Bilješke o izdanju</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Otvori mapu zapisa</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Zapisi Voidstrapa</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Zapisi Robloxa</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Otvori mapu aplikacije</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Podrška</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Podrži Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Ponovno pokreni Voidstrap</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>Sažmi ili proširi bočnu traku</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Osnovno</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Početna</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Konfiguracija</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>FastFlag postavke</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>FastFlag uređivač</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Više</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Globalno</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Novosti</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Proširenja</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Upravitelj</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Postavke</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>Povuci za promjenu veličine, dvaput klikni za vraćanje</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Pretraži...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Smanji</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Povećaj</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Odaberi verziju Robloxa</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Odaberi što će pokrenuti Spremi i pokreni.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Skoči na bilo koju stranicu ili postavku.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Pretraži stranice i postavke</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Nema rezultata</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Pokušaj s drugom riječi ili provjeri pravopis</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>za pomicanje</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>za otvaranje</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>za zatvaranje</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Aplikacija</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>Prilagodi pozadinu, sučelje i mogućnosti</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Boja</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Pozadina</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Slika pozadine</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Uvezi sliku, video ili GIF kao pozadinu Voidstrapa.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>Postavlja se pri uvozu prema osvjetljenju slike. Možeš je kasnije promijeniti.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Zatamnjuje pozadinu kako bi tekst ostao čitljiv.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Prikaži pozadinu posvuda</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>Koristi pozadinu iza svakog prozora Voidstrapa, ne samo glavnog.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Snijeg</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Dodaje snijeg koji pada u pozadinu.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>Pomiče gradijent pozadine zajedno s pokazivačem.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Oblik</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Kutovi prozora</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>Koliko su zaobljeni kutovi svakog prozora Voidstrapa.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Zaobljenost kutova</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>Koliko su zaobljene kartice, gumbi, okviri i izbornici u aplikaciji.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Tekst i pomicanje</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Glatka traka za pomicanje</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Pomiče se glatko umjesto skokovito.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Pogledaj neke od naših ugrađenih tema!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Pozadina prozora</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Odaberi materijal iza prozora Voidstrapa.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Font aplikacije</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Promijeni font koji se koristi u cijelom Voidstrapu.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Odaberi font...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Jezik Discord statusa</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Prevodi tvoj Discord status na drugi jezik. Nazivi igara, autora i mjesta ostaju isti.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Stil pokretača</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Odaberi ugrađeni pokretač ili koristi neku od svojih tema.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Veličina pokretača</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Promijeni ukupnu veličinu i razmake pokretača.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Izrada tema</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Izradi i upravljaj temom svog prilagođenog pokretača.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Nova tema</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Naziv teme</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>Spremi naziv</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Otvori uređivač</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>Više radnji</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Prikaži datoteke</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Odaberi temu s popisa ili izradi novu.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>Neobavezni dodaci pokretača</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Dodaj pozadinu ili zvuk pokretanja. Ovi dodaci ne vrijede za prilagođene pokretače ni teme izrađene u Izradi tema.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Odaberi sliku za pozadinu pokretača.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Zvuk pokretanja</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Odaberi zvuk koji se reproducira pri otvaranju pokretača.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Raspored bočne trake</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Preimenuj, odaberi ikone ili vlastite slike, prikaži, sakrij i preuredi stranice bočne trake.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Promijeni ikonu u bočnoj traci</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Odjeljak</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Prikaži</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Promijeni vidljivost u bočnoj traci</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Premjesti</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Pomakni gore</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Pomakni dolje</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>Početna i Izgled ostaju vidljivi kako bi prilagodba uvijek bila dostupna.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>Vrati bočnu traku</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>Identitet aplikacije</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Daj aplikaciji vlastito ime i ikonu.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Naziv aplikacije</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Zamjenjuje naziv aplikacije svugdje gdje se prikazuje. Ostavi prazno za izvorni naziv.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>Ikona aplikacije</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Odaberi sliku</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Ikona Studija</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Ikona koju pokretač prikazuje pri pokretanju Roblox Studija.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Prilagodba</value>
+  </data>
 </root>

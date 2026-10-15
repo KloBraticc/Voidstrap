@@ -2959,4 +2959,352 @@ Que souhaitez-vous faire ?</value>
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0} % terminé</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>Paramètres modifiés</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Ignorer</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>Redémarrez Voidstrap pour appliquer ce changement.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap a enregistré et lancé Roblox !</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>Les modifications ont été enregistrées.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>Paramètre non modifié</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Tout marquer comme lu</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>Tout effacer</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>Effacer toutes les notifications</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Vous êtes à jour</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Les plantages, erreurs et mises à jour importantes de Voidstrap apparaissent ici.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>Suivant</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>ACCUEIL</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>BIBLIOTHÈQUE</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>ACTUALITÉS</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Rechercher des mises à jour</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Notes de version</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Ouvrir le dossier des journaux</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Journaux de Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Journaux de Roblox</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Ouvrir le dossier de l'application</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Assistance</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Soutenir Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Redémarrer Voidstrap</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>Réduire ou développer la barre latérale</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Essentiel</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Accueil</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>Paramètres FastFlag</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>Éditeur FastFlag</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Plus</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Actualités</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Extensions</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Gestionnaire</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>Faites glisser pour redimensionner, double-cliquez pour réinitialiser</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Rechercher...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Zoom arrière</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Zoom avant</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Choisir la version de Roblox</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Choisissez ce que Enregistrer et lancer doit démarrer.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Accédez à n'importe quelle page ou paramètre.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Rechercher des pages et des paramètres</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Aucun résultat</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Essayez un autre mot ou vérifiez l'orthographe</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>pour se déplacer</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>pour ouvrir</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>pour fermer</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>Personnalisez l'arrière-plan, l'interface et les options</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Couleur</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Arrière plan</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Image d'arrière-plan</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Importez une image, une vidéo ou un GIF comme arrière-plan de Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>Définie à l'import selon la luminosité de l'image. Vous pouvez la modifier ensuite.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Assombrit l'arrière-plan pour garder le texte lisible.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Afficher l'arrière-plan partout</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>Utilise l'arrière-plan derrière chaque fenêtre de Voidstrap, pas seulement la principale.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Neige</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Ajoute de la neige qui tombe à l'arrière-plan.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>Déplace le dégradé d'arrière-plan avec votre curseur.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Forme</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Coins des fenêtres</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>L'arrondi des coins de chaque fenêtre de Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Arrondi des coins</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>L'arrondi des cartes, boutons, champs et menus dans l'application.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Texte et défilement</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Barre de défilement fluide</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Défile en douceur au lieu de sauter.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Découvrez quelques-uns de nos thèmes intégrés !</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Fond des fenêtres</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Choisissez le matériau derrière les fenêtres de Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Police de l'application</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Changez la police utilisée dans tout Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Choisir une police...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Langue du statut Discord</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Traduit votre statut Discord dans une autre langue. Les noms des jeux, des créateurs et des lieux restent inchangés.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Style du lanceur</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Choisissez un lanceur intégré ou l'un de vos propres thèmes.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Taille du lanceur</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Modifiez la taille générale et l'espacement du lanceur.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Créateur de thèmes</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Créez et gérez le thème de votre lanceur personnalisé.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Nouveau thème</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Nom du thème</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>Enregistrer le nom</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Ouvrir l'éditeur</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>Plus d'actions</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Voir les fichiers</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Sélectionnez un thème dans la liste ou créez-en un nouveau.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>Extras facultatifs du lanceur</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Ajoutez un arrière-plan ou un son de démarrage. Ces extras ne s'appliquent pas aux lanceurs personnalisés ni aux thèmes créés dans le créateur de thèmes.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Choisissez une image pour l'arrière-plan du lanceur.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Son de démarrage</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Choisissez l'audio joué à l'ouverture du lanceur.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Disposition de la barre latérale</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Renommez, choisissez des icônes ou des images, affichez, masquez et réorganisez les pages de la barre latérale.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Changer l'icône de la barre latérale</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Section</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Afficher</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Changer la visibilité dans la barre latérale</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Déplacer</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Monter</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Descendre</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>Accueil et Apparence restent visibles pour que la personnalisation soit toujours accessible.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>Réinitialiser la barre latérale</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>Identité de l'application</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Donnez à l'application votre propre nom et votre propre icône.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Nom de l'application</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Remplace le nom de l'application partout où il apparaît. Laissez vide pour utiliser le nom d'origine.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>Icône de l'application</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Choisir une image</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Icône de Studio</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>L'icône affichée par le bootstrapper au lancement de Roblox Studio.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Personnalisation</value>
+  </data>
 </root>

@@ -3034,4 +3034,352 @@ Mit szeretnél tenni?</value>
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0}%-ban kész</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>A beállítások megváltoztak</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Elvetés</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>Indítsd újra a Voidstrapot a módosítás alkalmazásához.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>A Voidstrap mentett és elindította a Robloxot!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>A módosítások mentve.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>A beállítás nem változott</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Összes megjelölése olvasottként</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>Összes törlése</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>Összes értesítés törlése</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Nincs új értesítés</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Itt jelennek meg a Voidstrap összeomlásai, hibái és fontos frissítései.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>Előre</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>KEZDŐLAP</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>KÖNYVTÁR</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>HÍREK</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Frissítések keresése</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Kiadási megjegyzések</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Naplómappa megnyitása</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Voidstrap-naplók</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Roblox-naplók</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Alkalmazásmappa megnyitása</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Támogatás</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>A Voidstrap támogatása</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Voidstrap újraindítása</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>Oldalsáv össze- vagy kinyitása</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Alapok</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Kezdőlap</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Konfiguráció</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>FastFlag-beállítások</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>FastFlag-szerkesztő</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Továbbiak</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Globális</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Hírek</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Bővítmények</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Kezelő</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Beállítások</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>Húzd az átméretezéshez, kattints duplán a visszaállításhoz</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Keresés...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Kicsinyítés</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Nagyítás</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Roblox-verzió kiválasztása</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Válaszd ki, mit indítson a Mentés és indítás.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Ugorj bármelyik oldalra vagy beállításra.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Oldalak és beállítások keresése</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Nincs találat</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Próbálj más szót, vagy ellenőrizd a helyesírást</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>a mozgáshoz</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>a megnyitáshoz</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>a bezáráshoz</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Alkalmazás</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>Háttér, felület és beállítások testreszabása</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Szín</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Háttér</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Háttérkép</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Importálj egy képet, videót vagy GIF-et a Voidstrap hátteréül.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>Importáláskor a kép megvilágítása alapján állítódik be. Később módosíthatod.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Sötétíti a hátteret, hogy a szöveg olvasható maradjon.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Háttér megjelenítése mindenhol</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>A hátteret minden Voidstrap-ablak mögött használja, nem csak a főablakban.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Hó</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Hulló havat ad a háttérhez.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>A háttér színátmenetét a kurzorral együtt mozgatja.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Forma</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Ablakok sarkai</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>Mennyire kerekek a Voidstrap-ablakainak sarkai.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Sarkok lekerekítése</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>Mennyire kerekek a kártyák, gombok, mezők és menük az alkalmazásban.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Szöveg és görgetés</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Sima görgetősáv</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Simán görget ugrálás helyett.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Nézd meg néhány beépített témánkat!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Ablakok háttere</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Válaszd ki a Voidstrap-ablakai mögötti anyagot.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Alkalmazás betűtípusa</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Módosítsd a Voidstrap egészében használt betűtípust.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Betűtípus kiválasztása...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Discord-állapot nyelve</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Lefordítja a Discord-állapotodat egy másik nyelvre. A játékok, alkotók és helyek neve nem változik.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Indító stílusa</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Válassz beépített indítót, vagy használd valamelyik saját témádat.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Indító mérete</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Módosítsd az indító teljes méretét és térközeit.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Témakészítő</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Hozd létre és kezeld a saját indítód témáját.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Új téma</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Téma neve</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>Név mentése</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Szerkesztő megnyitása</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>További műveletek</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Fájlok megtekintése</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Válassz témát a listából, vagy hozz létre újat.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>Az indító opcionális kiegészítői</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Adj hozzá hátteret vagy indítási hangot. Ezek a kiegészítők nem vonatkoznak a saját indítókra és a Témakészítőben létrehozott témákra.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Válassz képet az indító hátteréhez.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Indítási hang</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Válaszd ki az indító megnyitásakor lejátszott hangot.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Oldalsáv elrendezése</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Nevezd át, válassz ikonokat vagy saját képeket, jelenítsd meg, rejtsd el és rendezd át az oldalsáv oldalait.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Oldalsáv ikonjának módosítása</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Szakasz</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Megjelenítés</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Láthatóság módosítása az oldalsávon</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Áthelyezés</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Feljebb</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Lejjebb</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>A Kezdőlap és a Megjelenés mindig látható marad, így a testreszabás mindig elérhető.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>Oldalsáv visszaállítása</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>Alkalmazás azonossága</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Adj az alkalmazásnak saját nevet és ikont.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Alkalmazás neve</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Mindenhol lecseréli az alkalmazás nevét, ahol megjelenik. Hagyd üresen az eredeti név használatához.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>Alkalmazás ikonja</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Kép kiválasztása</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Studio-ikon</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Az ikon, amelyet az indító a Roblox Studio indításakor mutat.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Testreszabás</value>
+  </data>
 </root>

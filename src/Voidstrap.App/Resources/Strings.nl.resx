@@ -2994,4 +2994,352 @@ Wat wil je doen?</value>
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0}% voltooid</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>Instellingen gewijzigd</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Sluiten</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>Start Voidstrap opnieuw om deze wijziging toe te passen.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap heeft opgeslagen en Roblox gestart!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>Wijzigingen zijn opgeslagen.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>Instelling niet gewijzigd</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Alles als gelezen markeren</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>Alles wissen</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>Alle meldingen wissen</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Je bent helemaal bij</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Crashes, fouten en belangrijke updates van Voidstrap verschijnen hier.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>Vooruit</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>START</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>BIBLIOTHEEK</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>NIEUWS</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Controleren op updates</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Releaseopmerkingen</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Logmap openen</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Voidstrap-logs</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Roblox-logs</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Programmamap openen</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Ondersteuning</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Voidstrap steunen</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Voidstrap opnieuw starten</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>Zijbalk in- of uitklappen</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Kern</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Configuratie</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>FastFlag-instellingen</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>FastFlag-editor</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Meer</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Globaal</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Nieuws</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Extensies</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Beheer</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Instellingen</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>Sleep om het formaat te wijzigen, dubbelklik om te herstellen</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Zoeken...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Uitzoomen</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Inzoomen</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Roblox-versie kiezen</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Kies wat Opslaan en starten moet openen.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Ga naar elke pagina of instelling.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Pagina's en instellingen zoeken</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Geen resultaten</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Probeer een ander woord of controleer de spelling</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>om te bewegen</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>om te openen</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>om te sluiten</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Applicatie</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>Pas achtergrond, interface en opties aan</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Kleur</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Achtergrond</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Achtergrondafbeelding</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Importeer een afbeelding, video of GIF als achtergrond van Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>Wordt bij het importeren ingesteld op basis van de belichting van de afbeelding. Je kunt het later aanpassen.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Maakt de achtergrond donkerder zodat tekst leesbaar blijft.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Achtergrond overal tonen</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>Gebruikt de achtergrond achter elk Voidstrap-venster, niet alleen het hoofdvenster.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Sneeuw</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Voegt vallende sneeuw toe aan de achtergrond.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>Beweegt het achtergrondverloop mee met je cursor.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Vorm</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Vensterhoeken</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>Hoe rond de hoeken van elk Voidstrap-venster zijn.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Hoekafronding</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>Hoe rond kaarten, knoppen, vakken en menu's in de app zijn.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Tekst en scrollen</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Vloeiende schuifbalk</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Scrolt vloeiend in plaats van te springen.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Bekijk enkele van onze ingebouwde thema's!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Vensterachtergrond</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Kies het materiaal achter Voidstrap-vensters.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Lettertype van de applicatie</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Wijzig het lettertype dat in heel Voidstrap wordt gebruikt.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Lettertype kiezen...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Taal van je Discord-status</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Vertaalt je Discord-status naar een andere taal. Namen van games, makers en plaatsen blijven ongewijzigd.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Launcherstijl</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Kies een ingebouwde launcher of gebruik een van je eigen thema's.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Launchergrootte</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Wijzig de algemene grootte en ruimte van de launcher.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Themamaker</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Maak en beheer het thema van je aangepaste launcher.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Nieuw thema</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Themanaam</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>Naam opslaan</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Editor openen</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>Meer acties</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Bestanden bekijken</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Kies een thema uit de lijst of maak een nieuw thema.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>Optionele launcherextra's</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Voeg een achtergrond of opstartgeluid toe. Deze extra's gelden niet voor aangepaste launchers of thema's gemaakt met de themamaker.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Kies een afbeelding voor de launcherachtergrond.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Opstartgeluid</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Kies audio die afspeelt wanneer de launcher opent.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Indeling van de zijbalk</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Hernoem pagina's, kies pictogrammen of eigen afbeeldingen, toon, verberg en herschik de pagina's in de zijbalk.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Pictogram in de zijbalk wijzigen</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Sectie</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Tonen</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Zichtbaarheid in de zijbalk wijzigen</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Verplaatsen</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Omhoog</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Omlaag</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>Start en Uiterlijk blijven zichtbaar zodat aanpassen altijd bereikbaar is.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>Zijbalk herstellen</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>App-identiteit</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Geef de app je eigen naam en pictogram.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Appnaam</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Vervangt de appnaam overal waar die wordt getoond. Laat leeg om de originele naam te gebruiken.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>App-pictogram</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Afbeelding kiezen</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Studio-pictogram</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Het pictogram dat de bootstrapper toont bij het starten van Roblox Studio.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Aanpassing</value>
+  </data>
 </root>

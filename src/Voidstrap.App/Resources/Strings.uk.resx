@@ -3048,4 +3048,352 @@ Roblox буде завантажено під час першого запуск
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>Готово на {0}%</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>Налаштування змінено</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Закрити</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>Перезапустіть Voidstrap, щоб застосувати цю зміну.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap зберіг налаштування і запустив Roblox!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>Зміни збережено.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>Налаштування не змінено</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Позначити все як прочитане</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>Очистити все</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>Очистити всі сповіщення</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Нових сповіщень немає</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Тут з'являються збої, помилки та важливі оновлення Voidstrap.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>Вперед</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>ГОЛОВНА</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>БІБЛІОТЕКА</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>НОВИНИ</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Перевірити оновлення</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Примітки до випуску</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Відкрити папку журналів</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Журнали Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Журнали Roblox</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Відкрити папку застосунку</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Підтримка</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Підтримати Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Перезапустити Voidstrap</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>Згорнути або розгорнути бічну панель</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Основне</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Головна</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Конфігурація</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>Налаштування FastFlag</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>Редактор FastFlag</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Більше</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Глобальні</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Новини</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Розширення</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Менеджер</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Налаштування</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>Перетягніть, щоб змінити розмір, двічі клацніть, щоб скинути</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Пошук...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Зменшити</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Збільшити</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Виберіть версію Roblox</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Виберіть, що запускатиме кнопка Зберегти і запустити.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Перейдіть до будь-якої сторінки чи налаштування.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Пошук сторінок і налаштувань</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Нічого не знайдено</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Спробуйте інше слово або перевірте написання</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>для переміщення</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>щоб відкрити</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>щоб закрити</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Застосунок</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>Налаштування фону, інтерфейсу та параметрів</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Колір</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Фон</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Фонове зображення</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Імпортуйте зображення, відео або GIF як фон Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>Задається за освітленням зображення під час імпорту. Її можна змінити пізніше.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Затемнює фон, щоб текст лишався читабельним.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Показувати фон усюди</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>Використовує фон у всіх вікнах Voidstrap, а не лише в головному.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Сніг</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Додає сніг, що падає, на фон.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>Рухає фоновий градієнт слідом за курсором.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Форма</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Кути вікон</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>Наскільки заокруглені кути кожного вікна Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Заокруглення кутів</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>Наскільки заокруглені картки, кнопки, поля і меню в застосунку.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Текст і прокручування</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Плавна смуга прокручування</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Прокручує плавно, а не ривками.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Перегляньте наші вбудовані теми!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Фон вікон</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Виберіть матеріал за вікнами Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Шрифт застосунку</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Змініть шрифт у всьому Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Вибрати шрифт...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Мова статусу Discord</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Перекладає ваш статус Discord іншою мовою. Назви ігор, творців і місць не змінюються.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Стиль лаунчера</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Виберіть вбудований лаунчер або одну зі своїх тем.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Розмір лаунчера</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Змініть загальний розмір і відступи лаунчера.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Конструктор тем</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Створюйте тему власного лаунчера та керуйте нею.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Нова тема</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Назва теми</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>Зберегти назву</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Відкрити редактор</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>Інші дії</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Показати файли</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Виберіть тему зі списку або створіть нову.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>Додатки лаунчера</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Додайте фон або звук запуску. Ці додатки не діють на власні лаунчери та теми з конструктора тем.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Виберіть зображення для фону лаунчера.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Звук запуску</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Виберіть звук, що грає під час відкриття лаунчера.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Макет бічної панелі</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Перейменовуйте сторінки, вибирайте значки або зображення, показуйте, приховуйте й змінюйте порядок сторінок бічної панелі.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Змінити значок на бічній панелі</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Розділ</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Показати</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Змінити видимість на бічній панелі</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Перемістити</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Вгору</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Вниз</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>Головна і Вигляд завжди видимі, щоб налаштування лишалися доступними.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>Скинути бічну панель</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>Оформлення застосунку</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Дайте застосунку власну назву і значок.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Назва застосунку</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Замінює назву застосунку всюди, де вона показана. Залиште порожнім, щоб використати початкову назву.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>Значок застосунку</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Вибрати зображення</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Значок Studio</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Значок, який показує завантажувач під час запуску Roblox Studio.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Персоналізація</value>
+  </data>
 </root>

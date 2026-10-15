@@ -3018,4 +3018,352 @@ Co chcete udělat?</value>
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0} % hotovo</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>Nastavení změněno</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>Zavřít</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>Restartujte Voidstrap, aby se tato změna projevila.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>Voidstrap uložil nastavení a spustil Roblox!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>Změny byly uloženy.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>Nastavení nebylo změněno</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>Označit vše jako přečtené</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>Vymazat vše</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>Vymazat všechna oznámení</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>Žádná nová oznámení</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>Zde se zobrazují pády, chyby a důležité aktualizace Voidstrap.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>Vpřed</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>DOMŮ</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>KNIHOVNA</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>NOVINKY</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>Zkontrolovat aktualizace</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>Poznámky k verzi</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>Otevřít složku protokolů</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>Protokoly Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>Protokoly Roblox</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>Otevřít složku aplikace</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>Podpora</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>Podpořit Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>Restartovat Voidstrap</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>Sbalit nebo rozbalit postranní panel</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>Základ</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>Domů</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>Konfigurace</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>Nastavení FastFlag</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>Editor FastFlag</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>Více</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>Globální</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>Novinky</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>Rozšíření</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>Správce</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>Nastavení</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>Přetažením změníte velikost, dvojklikem obnovíte</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>Hledat...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>Oddálit</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>Přiblížit</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>Vyberte verzi Roblox</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>Vyberte, co má spustit tlačítko Uložit a spustit.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>Přejděte na libovolnou stránku nebo nastavení.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>Hledat stránky a nastavení</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>Žádné výsledky</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>Zkuste jiné slovo nebo zkontrolujte pravopis</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>pro pohyb</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>pro otevření</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>pro zavření</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>Aplikace</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>Přizpůsobte pozadí, rozhraní a možnosti</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>Barva</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>Pozadí</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>Obrázek na pozadí</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>Importujte obrázek, video nebo GIF jako pozadí Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>Nastaví se při importu podle osvětlení obrázku. Později ji můžete změnit.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>Ztmaví pozadí, aby text zůstal čitelný.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>Zobrazit pozadí všude</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>Použije pozadí za každým oknem Voidstrap, nejen za hlavním.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>Sníh</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>Přidá do pozadí padající sníh.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>Pohybuje přechodem pozadí spolu s kurzorem.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>Tvar</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>Rohy oken</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>Jak zaoblené jsou rohy každého okna Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>Zaoblení rohů</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>Jak zaoblené jsou karty, tlačítka, pole a nabídky v aplikaci.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>Text a posouvání</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>Plynulý posuvník</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>Posouvá plynule místo skoků.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>Podívejte se na některé z našich vestavěných motivů!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>Pozadí oken</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>Vyberte materiál za okny Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>Písmo aplikace</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>Změňte písmo používané v celém Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>Vybrat písmo...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>Jazyk stavu na Discordu</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>Přeloží váš stav na Discordu do jiného jazyka. Názvy her, tvůrců a míst zůstanou beze změny.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>Styl spouštěče</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>Vyberte vestavěný spouštěč nebo použijte jeden z vlastních motivů.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>Velikost spouštěče</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>Změňte celkovou velikost a rozestupy spouštěče.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>Tvůrce motivů</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>Vytvářejte a spravujte motiv vlastního spouštěče.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>Nový motiv</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>Název motivu</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>Uložit název</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>Otevřít editor</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>Další akce</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>Zobrazit soubory</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>Vyberte motiv ze seznamu nebo vytvořte nový.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>Volitelné doplňky spouštěče</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>Přidejte pozadí nebo zvuk při spuštění. Tyto doplňky neplatí pro vlastní spouštěče ani motivy vytvořené v tvůrci motivů.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>Vyberte obrázek na pozadí spouštěče.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>Zvuk při spuštění</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>Vyberte zvuk, který se přehraje při otevření spouštěče.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>Rozvržení postranního panelu</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>Přejmenujte stránky, vyberte ikony nebo obrázky, zobrazte, skryjte a seřaďte stránky postranního panelu.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>Změnit ikonu v postranním panelu</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>Sekce</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>Zobrazit</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>Změnit viditelnost v postranním panelu</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>Přesunout</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>Nahoru</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>Dolů</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>Domů a Vzhled zůstávají viditelné, aby bylo přizpůsobení vždy dostupné.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>Obnovit postranní panel</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>Identita aplikace</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>Dejte aplikaci vlastní název a ikonu.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>Název aplikace</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>Nahradí název aplikace všude, kde se zobrazuje. Ponechte prázdné pro původní název.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>Ikona aplikace</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>Vybrat obrázek</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>Ikona Studia</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>Ikona, kterou zobrazí zavaděč při spuštění Roblox Studia.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>Přizpůsobení</value>
+  </data>
 </root>

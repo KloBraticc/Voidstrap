@@ -3067,4 +3067,352 @@
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>مكتملة بنسبة {0}%</value>
   </data>
+  <data name="Ui.Main.SettingsChanged" xml:space="preserve">
+    <value>تم تغيير الإعدادات</value>
+  </data>
+  <data name="Ui.Main.Dismiss" xml:space="preserve">
+    <value>تجاهل</value>
+  </data>
+  <data name="Ui.Main.RestartToApply" xml:space="preserve">
+    <value>أعد تشغيل Voidstrap لتطبيق هذا التغيير.</value>
+  </data>
+  <data name="Ui.Main.SavedAndLaunched" xml:space="preserve">
+    <value>حفظ Voidstrap الإعدادات وشغّل Roblox!</value>
+  </data>
+  <data name="Ui.Main.ChangesSaved" xml:space="preserve">
+    <value>تم حفظ التغييرات.</value>
+  </data>
+  <data name="Ui.Main.SettingNotChanged" xml:space="preserve">
+    <value>لم يتغير الإعداد</value>
+  </data>
+  <data name="Ui.Main.MarkAllRead" xml:space="preserve">
+    <value>تعليم الكل كمقروء</value>
+  </data>
+  <data name="Ui.Main.ClearAll" xml:space="preserve">
+    <value>مسح الكل</value>
+  </data>
+  <data name="Ui.Main.ClearAllNotifications" xml:space="preserve">
+    <value>مسح كل الإشعارات</value>
+  </data>
+  <data name="Ui.Main.AllCaughtUp" xml:space="preserve">
+    <value>لا توجد إشعارات جديدة</value>
+  </data>
+  <data name="Ui.Main.NotificationsEmpty" xml:space="preserve">
+    <value>تظهر هنا الأعطال والأخطاء والتحديثات المهمة من Voidstrap.</value>
+  </data>
+  <data name="Ui.Main.Forward" xml:space="preserve">
+    <value>للأمام</value>
+  </data>
+  <data name="Ui.Main.TabHome" xml:space="preserve">
+    <value>الرئيسية</value>
+  </data>
+  <data name="Ui.Main.TabLibrary" xml:space="preserve">
+    <value>المكتبة</value>
+  </data>
+  <data name="Ui.Main.TabNews" xml:space="preserve">
+    <value>الأخبار</value>
+  </data>
+  <data name="Ui.Main.CheckForUpdates" xml:space="preserve">
+    <value>التحقق من التحديثات</value>
+  </data>
+  <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
+    <value>ملاحظات الإصدار</value>
+  </data>
+  <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
+    <value>فتح مجلد السجلات</value>
+  </data>
+  <data name="Ui.Main.VoidstrapLogs" xml:space="preserve">
+    <value>سجلات Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RobloxLogs" xml:space="preserve">
+    <value>سجلات Roblox</value>
+  </data>
+  <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
+    <value>فتح مجلد التطبيق</value>
+  </data>
+  <data name="Ui.Main.Support" xml:space="preserve">
+    <value>الدعم</value>
+  </data>
+  <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
+    <value>ادعم Voidstrap</value>
+  </data>
+  <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
+    <value>إعادة تشغيل Voidstrap</value>
+  </data>
+  <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
+    <value>طي الشريط الجانبي أو توسيعه</value>
+  </data>
+  <data name="Ui.Nav.Core" xml:space="preserve">
+    <value>الأساسيات</value>
+  </data>
+  <data name="Ui.Nav.Home" xml:space="preserve">
+    <value>الرئيسية</value>
+  </data>
+  <data name="Ui.Nav.Configuration" xml:space="preserve">
+    <value>التكوين</value>
+  </data>
+  <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
+    <value>إعدادات FastFlag</value>
+  </data>
+  <data name="Ui.Nav.FastFlagEditor" xml:space="preserve">
+    <value>محرر FastFlag</value>
+  </data>
+  <data name="Ui.Nav.More" xml:space="preserve">
+    <value>المزيد</value>
+  </data>
+  <data name="Ui.Nav.Global" xml:space="preserve">
+    <value>عام</value>
+  </data>
+  <data name="Ui.Nav.News" xml:space="preserve">
+    <value>الأخبار</value>
+  </data>
+  <data name="Ui.Nav.Extensions" xml:space="preserve">
+    <value>الإضافات</value>
+  </data>
+  <data name="Ui.Nav.Manager" xml:space="preserve">
+    <value>المدير</value>
+  </data>
+  <data name="Ui.Nav.Settings" xml:space="preserve">
+    <value>الإعدادات</value>
+  </data>
+  <data name="Ui.Main.ResizeSidebar" xml:space="preserve">
+    <value>اسحب لتغيير الحجم، وانقر نقرًا مزدوجًا لإعادة التعيين</value>
+  </data>
+  <data name="Ui.Main.SearchPlaceholder" xml:space="preserve">
+    <value>بحث...</value>
+  </data>
+  <data name="Ui.Main.ZoomOut" xml:space="preserve">
+    <value>تصغير</value>
+  </data>
+  <data name="Ui.Main.ZoomIn" xml:space="preserve">
+    <value>تكبير</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersion" xml:space="preserve">
+    <value>اختر إصدار Roblox</value>
+  </data>
+  <data name="Ui.Main.ChooseRobloxVersionHint" xml:space="preserve">
+    <value>اختر ما يشغّله زر حفظ وتشغيل.</value>
+  </data>
+  <data name="Ui.Main.SearchHint" xml:space="preserve">
+    <value>انتقل إلى أي صفحة أو إعداد.</value>
+  </data>
+  <data name="Ui.Main.SearchTitle" xml:space="preserve">
+    <value>البحث في الصفحات والإعدادات</value>
+  </data>
+  <data name="Ui.Main.NoResults" xml:space="preserve">
+    <value>لا توجد نتائج</value>
+  </data>
+  <data name="Ui.Main.NoResultsHint" xml:space="preserve">
+    <value>جرّب كلمة أخرى أو تحقق من الإملاء</value>
+  </data>
+  <data name="Ui.Main.ToMove" xml:space="preserve">
+    <value>للتنقل</value>
+  </data>
+  <data name="Ui.Main.ToOpen" xml:space="preserve">
+    <value>للفتح</value>
+  </data>
+  <data name="Ui.Main.ToClose" xml:space="preserve">
+    <value>للإغلاق</value>
+  </data>
+  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
+    <value>التطبيق</value>
+  </data>
+  <data name="Ui.Appearance.Subtitle" xml:space="preserve">
+    <value>خصّص الخلفية والواجهة والخيارات</value>
+  </data>
+  <data name="Ui.Appearance.Color" xml:space="preserve">
+    <value>اللون</value>
+  </data>
+  <data name="Ui.Appearance.Background" xml:space="preserve">
+    <value>الخلفية</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
+    <value>صورة الخلفية</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundImageDescription" xml:space="preserve">
+    <value>استورد صورة أو فيديو أو GIF كخلفية لـ Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.GradientOpacityDescription" xml:space="preserve">
+    <value>تُضبط عند الاستيراد حسب إضاءة الصورة. يمكنك تغييرها لاحقًا.</value>
+  </data>
+  <data name="Ui.Appearance.DarkOverlayDescription" xml:space="preserve">
+    <value>يُعتم الخلفية ليبقى النص مقروءًا.</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhere" xml:space="preserve">
+    <value>إظهار الخلفية في كل مكان</value>
+  </data>
+  <data name="Ui.Appearance.BackgroundEverywhereDescription" xml:space="preserve">
+    <value>يستخدم الخلفية خلف كل نوافذ Voidstrap، وليس النافذة الرئيسية فقط.</value>
+  </data>
+  <data name="Ui.Appearance.Snow" xml:space="preserve">
+    <value>ثلج</value>
+  </data>
+  <data name="Ui.Appearance.SnowDescription" xml:space="preserve">
+    <value>يضيف ثلجًا متساقطًا إلى الخلفية.</value>
+  </data>
+  <data name="Ui.Appearance.GradientMovementDescription" xml:space="preserve">
+    <value>يحرّك تدرج الخلفية مع المؤشر.</value>
+  </data>
+  <data name="Ui.Appearance.Shape" xml:space="preserve">
+    <value>الشكل</value>
+  </data>
+  <data name="Ui.Appearance.WindowCorners" xml:space="preserve">
+    <value>زوايا النوافذ</value>
+  </data>
+  <data name="Ui.Appearance.WindowCornersDescription" xml:space="preserve">
+    <value>مدى استدارة زوايا كل نوافذ Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundness" xml:space="preserve">
+    <value>استدارة الزوايا</value>
+  </data>
+  <data name="Ui.Appearance.CornerRoundnessDescription" xml:space="preserve">
+    <value>مدى استدارة البطاقات والأزرار والمربعات والقوائم داخل التطبيق.</value>
+  </data>
+  <data name="Ui.Appearance.TextAndScrolling" xml:space="preserve">
+    <value>النص والتمرير</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbar" xml:space="preserve">
+    <value>شريط تمرير سلس</value>
+  </data>
+  <data name="Ui.Appearance.SmoothScrollbarDescription" xml:space="preserve">
+    <value>يمرّر بسلاسة بدلًا من القفز.</value>
+  </data>
+  <data name="Ui.Appearance.ThemesDescription" xml:space="preserve">
+    <value>اطّلع على بعض السمات المدمجة لدينا!</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
+    <value>خلفية النوافذ</value>
+  </data>
+  <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
+    <value>اختر المادة الظاهرة خلف نوافذ Voidstrap.</value>
+  </data>
+  <data name="Ui.Appearance.AppFont" xml:space="preserve">
+    <value>خط التطبيق</value>
+  </data>
+  <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
+    <value>غيّر الخط المستخدم في Voidstrap بالكامل.</value>
+  </data>
+  <data name="Ui.Appearance.ChooseFont" xml:space="preserve">
+    <value>اختيار الخط...</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguage" xml:space="preserve">
+    <value>لغة حالة Discord</value>
+  </data>
+  <data name="Ui.Appearance.DiscordLanguageDescription" xml:space="preserve">
+    <value>يترجم حالتك في Discord إلى لغة أخرى. تبقى أسماء الألعاب والمنشئين والأماكن كما هي.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyle" xml:space="preserve">
+    <value>نمط المشغّل</value>
+  </data>
+  <data name="Ui.Appearance.LauncherStyleDescription" xml:space="preserve">
+    <value>اختر مشغّلًا مدمجًا أو استخدم إحدى سماتك الخاصة.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSize" xml:space="preserve">
+    <value>حجم المشغّل</value>
+  </data>
+  <data name="Ui.Appearance.LauncherSizeDescription" xml:space="preserve">
+    <value>غيّر الحجم العام للمشغّل والمسافات فيه.</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreator" xml:space="preserve">
+    <value>منشئ السمات</value>
+  </data>
+  <data name="Ui.Appearance.ThemeCreatorDescription" xml:space="preserve">
+    <value>أنشئ السمة التي يستخدمها مشغّلك المخصص وأدرها.</value>
+  </data>
+  <data name="Ui.Appearance.NewTheme" xml:space="preserve">
+    <value>سمة جديدة</value>
+  </data>
+  <data name="Ui.Appearance.ThemeName" xml:space="preserve">
+    <value>اسم السمة</value>
+  </data>
+  <data name="Ui.Appearance.SaveName" xml:space="preserve">
+    <value>حفظ الاسم</value>
+  </data>
+  <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
+    <value>فتح المحرر</value>
+  </data>
+  <data name="Ui.Appearance.MoreActions" xml:space="preserve">
+    <value>إجراءات أخرى</value>
+  </data>
+  <data name="Ui.Appearance.ViewFiles" xml:space="preserve">
+    <value>عرض الملفات</value>
+  </data>
+  <data name="Ui.Appearance.SelectThemeHint" xml:space="preserve">
+    <value>اختر سمة من القائمة أو أنشئ سمة جديدة.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtras" xml:space="preserve">
+    <value>إضافات اختيارية للمشغّل</value>
+  </data>
+  <data name="Ui.Appearance.LauncherExtrasDescription" xml:space="preserve">
+    <value>أضف خلفية أو صوت بدء. لا تنطبق هذه الإضافات على المشغّلات المخصصة أو السمات المنشأة في منشئ السمات.</value>
+  </data>
+  <data name="Ui.Appearance.LauncherBackgroundDescription" xml:space="preserve">
+    <value>اختر صورة لخلفية المشغّل.</value>
+  </data>
+  <data name="Ui.Appearance.StartupSound" xml:space="preserve">
+    <value>صوت البدء</value>
+  </data>
+  <data name="Ui.Appearance.StartupSoundDescription" xml:space="preserve">
+    <value>اختر الصوت الذي يُشغَّل عند فتح المشغّل.</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
+    <value>تخطيط الشريط الجانبي</value>
+  </data>
+  <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
+    <value>أعد تسمية صفحات الشريط الجانبي واختر لها أيقونات أو صورًا، وأظهرها أو أخفها ورتّبها.</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarIcon" xml:space="preserve">
+    <value>تغيير أيقونة الشريط الجانبي</value>
+  </data>
+  <data name="Ui.Appearance.Section" xml:space="preserve">
+    <value>القسم</value>
+  </data>
+  <data name="Ui.Appearance.Show" xml:space="preserve">
+    <value>إظهار</value>
+  </data>
+  <data name="Ui.Appearance.ChangeSidebarVisibility" xml:space="preserve">
+    <value>تغيير الظهور في الشريط الجانبي</value>
+  </data>
+  <data name="Ui.Appearance.Move" xml:space="preserve">
+    <value>نقل</value>
+  </data>
+  <data name="Ui.Appearance.MoveUp" xml:space="preserve">
+    <value>نقل لأعلى</value>
+  </data>
+  <data name="Ui.Appearance.MoveDown" xml:space="preserve">
+    <value>نقل لأسفل</value>
+  </data>
+  <data name="Ui.Appearance.SidebarAlwaysVisible" xml:space="preserve">
+    <value>تبقى الرئيسية والمظهر ظاهرتين ليكون التخصيص متاحًا دائمًا.</value>
+  </data>
+  <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
+    <value>إعادة تعيين الشريط الجانبي</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
+    <value>هوية التطبيق</value>
+  </data>
+  <data name="Ui.Appearance.AppIdentityDescription" xml:space="preserve">
+    <value>امنح التطبيق اسمك وأيقونتك الخاصة.</value>
+  </data>
+  <data name="Ui.Appearance.AppName" xml:space="preserve">
+    <value>اسم التطبيق</value>
+  </data>
+  <data name="Ui.Appearance.AppNameDescription" xml:space="preserve">
+    <value>يستبدل اسم التطبيق في كل مكان يظهر فيه. اتركه فارغًا لاستخدام الاسم الأصلي.</value>
+  </data>
+  <data name="Ui.Appearance.AppIcon" xml:space="preserve">
+    <value>أيقونة التطبيق</value>
+  </data>
+  <data name="Ui.Appearance.ChooseImage" xml:space="preserve">
+    <value>اختيار صورة</value>
+  </data>
+  <data name="Ui.Appearance.StudioIcon" xml:space="preserve">
+    <value>أيقونة Studio</value>
+  </data>
+  <data name="Ui.Appearance.StudioIconDescription" xml:space="preserve">
+    <value>الأيقونة التي يعرضها المشغّل عند تشغيل Roblox Studio.</value>
+  </data>
+  <data name="Ui.Appearance.Customization" xml:space="preserve">
+    <value>التخصيص</value>
+  </data>
 </root>
