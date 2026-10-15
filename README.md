@@ -52,15 +52,11 @@ irm https://voidstrapp.pages.dev/quick-install | iex
 curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 ```
 
-The Linux installer picks the right package for your distro. To choose a format, end the command with `sh -s -- deb` and replace `deb` with `rpm`, `aur`, `flatpak`, `appimage`, `portable` or `portable-musl`.
-
 **macOS**
 
 ```bash
 curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 ```
-
-The macOS installer picks the Apple silicon or Intel build, installs Voidstrap to `~/Applications` and opens it.
 
 ---
 
