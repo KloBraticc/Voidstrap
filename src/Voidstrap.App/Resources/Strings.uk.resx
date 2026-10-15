@@ -3903,4 +3903,286 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Mods.FindMods2" xml:space="preserve">
     <value>Знайти моди</value>
   </data>
+  <data name="Ui.FastFlags.ChooseWhetherYourFastFlagsAre" xml:space="preserve">
+    <value>Виберіть, чи застосовувати Fast Flags до плеєра Roblox, Roblox Studio або до обох.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyFastFlagsTo" xml:space="preserve">
+    <value>Застосовувати Fast Flags до</value>
+  </data>
+  <data name="Ui.FastFlags.ViewTheFastFlagsRobloxOfficiallyAllows" xml:space="preserve">
+    <value>Перегляд FastFlags, які Roblox офіційно дозволяє в локальній конфігурації.</value>
+  </data>
+  <data name="Ui.FastFlags.Category" xml:space="preserve">
+    <value>Категорія</value>
+  </data>
+  <data name="Ui.FastFlags.ReducesOrScalesGrassMovementIn" xml:space="preserve">
+    <value>Зменшує або масштабує рух трави в Roblox заради продуктивності чи візуального комфорту.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassMovementFactor" xml:space="preserve">
+    <value>Коефіцієнт руху трави</value>
+  </data>
+  <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
+    <value>Деталізація сіток</value>
+  </data>
+  <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
+    <value>Керує відображенням деталізованих сіток у самій грі.</value>
+  </data>
+  <data name="Ui.FastFlags.LowestQuality" xml:space="preserve">
+    <value>Найнижча якість</value>
+  </data>
+  <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
+    <value>Найвища якість</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
+    <value>Перевизначення якості FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
+    <value>Виберіть перевизначення якості FRM.</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
+    <value>Перевизначення якості FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
+    <value>Основні налаштування графіки та рендерингу</value>
+  </data>
+  <data name="Ui.FastFlags.Lighting" xml:space="preserve">
+    <value>Освітлення</value>
+  </data>
+  <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
+    <value>Примусово сіре небо</value>
+  </data>
+  <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
+    <value>Згладжує зубчасті краї. Вищі значення згладжують сильніше.</value>
+  </data>
+  <data name="Ui.FastFlags.AdjustTheQualityOfTexturesHigher" xml:space="preserve">
+    <value>Налаштовує якість текстур. Вищий рівень підвищує якість.</value>
+  </data>
+  <data name="Ui.FastFlags.ControlsGrassRenderDistanceInRoblox" xml:space="preserve">
+    <value>Керує дальністю відмальовування трави в іграх Roblox. Встановіть обидва значення на 0, щоб вимкнути траву.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
+    <value>Дальність трави</value>
+  </data>
+  <data name="Ui.FastFlags.Min" xml:space="preserve">
+    <value>Мін</value>
+  </data>
+  <data name="Ui.FastFlags.Max" xml:space="preserve">
+    <value>Макс</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
+    <value>Налаштування API рендерингу для Roblox. Натисніть Alt Enter під час переходу в повноекранний режим, якщо використовуєте Direct3D. Vulkan може спричиняти помилки!.</value>
+  </data>
+  <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
+    <value>Режим рендерингу</value>
+  </data>
+  <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
+    <value>Розширені FFlags</value>
+  </data>
+  <data name="Ui.FastFlags.SwapRobloxTexturesForParticlesStuds" xml:space="preserve">
+    <value>Замінює текстури Roblox для частинок, студів, рельєфу та води.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyProfile" xml:space="preserve">
+    <value>Застосувати профіль</value>
+  </data>
+  <data name="Ui.FastFlags.TheseOptionsOnlySwapSomeOf" xml:space="preserve">
+    <value>Ці параметри замінюють лише деякі вбудовані файли текстур Roblox, як-от частинки, студи, рельєф і воду. Більшість ігор використовують власні текстури й ефекти, тож різниця може бути майже непомітною.</value>
+  </data>
+  <data name="Ui.FastFlags.Particles" xml:space="preserve">
+    <value>Частинки</value>
+  </data>
+  <data name="Ui.FastFlags.FireSmokeExplosionsSparklesAndForce" xml:space="preserve">
+    <value>Вогонь, дим, вибухи, іскри та силові поля</value>
+  </data>
+  <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
+    <value>Непрозорість квадратів</value>
+  </data>
+  <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
+    <value>Наскільки щільними виглядають квадрати</value>
+  </data>
+  <data name="Ui.FastFlags.Studs" xml:space="preserve">
+    <value>Студи</value>
+  </data>
+  <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
+    <value>Візерунок студів на деталях</value>
+  </data>
+  <data name="Ui.FastFlags.FlatShade" xml:space="preserve">
+    <value>Пласке затінення</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrightFlatSurfacesLook50" xml:space="preserve">
+    <value>Наскільки яскравими виглядають пласкі поверхні. 50% відповідає звичайній яскравості</value>
+  </data>
+  <data name="Ui.FastFlags.Water" xml:space="preserve">
+    <value>Вода</value>
+  </data>
+  <data name="Ui.FastFlags.TheRipplesOnTerrainWater" xml:space="preserve">
+    <value>Брижі на воді рельєфу</value>
+  </data>
+  <data name="Ui.FastFlags.WaterPreview" xml:space="preserve">
+    <value>Попередній перегляд води</value>
+  </data>
+  <data name="Ui.FastFlags.ThisIsTheExactRippleTexture" xml:space="preserve">
+    <value>Це саме та текстура брижів, яку завантажує Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.WaterAnimationImages" xml:space="preserve">
+    <value>Кадри анімації води</value>
+  </data>
+  <data name="Ui.FastFlags.RippleStrength" xml:space="preserve">
+    <value>Сила брижів</value>
+  </data>
+  <data name="Ui.FastFlags.0IsFlat100IsNormal" xml:space="preserve">
+    <value>0% пласко, 100% звично, більше означає сильніше хвилювання</value>
+  </data>
+  <data name="Ui.FastFlags.RippleSpeed" xml:space="preserve">
+    <value>Швидкість брижів</value>
+  </data>
+  <data name="Ui.FastFlags.HowFastTheRipplesMove" xml:space="preserve">
+    <value>Як швидко рухаються брижі</value>
+  </data>
+  <data name="Ui.FastFlags.FrozenFrame" xml:space="preserve">
+    <value>Заморожений кадр</value>
+  </data>
+  <data name="Ui.FastFlags.WhichRippleFrameToHoldStill" xml:space="preserve">
+    <value>Який кадр брижів залишити нерухомим</value>
+  </data>
+  <data name="Ui.FastFlags.GlitchAmount" xml:space="preserve">
+    <value>Сила спотворень</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrokenTheWaterLooks" xml:space="preserve">
+    <value>Наскільки зламаною виглядає вода</value>
+  </data>
+  <data name="Ui.FastFlags.Terrain" xml:space="preserve">
+    <value>Рельєф</value>
+  </data>
+  <data name="Ui.FastFlags.StretchTheGroundTexturesAndChange" xml:space="preserve">
+    <value>Розтягує текстури землі й змінює частоту їх повторення</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainTextureSize" xml:space="preserve">
+    <value>Розмір текстур рельєфу</value>
+  </data>
+  <data name="Ui.FastFlags.1xIsTheNormalRobloxSize" xml:space="preserve">
+    <value>1x означає звичайний розмір Roblox, менше означає більше й розмитіше</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainRepeatHiding" xml:space="preserve">
+    <value>Приховування повторів рельєфу</value>
+  </data>
+  <data name="Ui.FastFlags.HigherLetsRepeatingPatternsShowMore" xml:space="preserve">
+    <value>Чим вище, тим помітніші повторювані візерунки</value>
+  </data>
+  <data name="Ui.FastFlags.NVIDIAFFlagsAreForAdvancedUsers" xml:space="preserve">
+    <value>NVIDIA FFlags призначені лише для досвідчених користувачів</value>
+  </data>
+  <data name="Ui.FastFlags.TheseSettingsChangeTheNVIDIADriver" xml:space="preserve">
+    <value>Ці налаштування змінюють профіль драйвера NVIDIA, з яким працює Roblox. Неправильне значення може знизити FPS, додати затримку введення, підвисання, графічні збої чи вильоти й навіть завадити запуску Roblox. Зміни зберігаються в драйвері NVIDIA, тож лишаються після закриття або видалення Voidstrap.</value>
+  </data>
+  <data name="Ui.FastFlags.ToUndoThemOpenTheAdvanced" xml:space="preserve">
+    <value>Щоб скасувати їх, відкрийте розширений редактор і скористайтеся Reset NIP, що повертає всі налаштування NVIDIA для Roblox до значень драйвера за замовчуванням. Лише якщо скинути їх тут не вдається, оновіть або перевстановіть драйвери NVIDIA, щоб відновити значення за замовчуванням.</value>
+  </data>
+  <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
+    <value>Змінюйте лише те, що розумієте, і по одному налаштуванню за раз.</value>
+  </data>
+  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
+    <value>Вмикає проксі AssetWarp і всі пов'язані функції</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
+    <value>Видалити всі текстури</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
+    <value>Видалити всі декалі</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
+    <value>Видалити всі зображення</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
+    <value>Видалити всі анімації</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
+    <value>Видалити всі сітки</value>
+  </data>
+  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
+    <value>Підміна статусу</value>
+  </data>
+  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
+    <value>Змінює те, що бачать інші: у мережі, у Studio або не в мережі</value>
+  </data>
+  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
+    <value>Попереднє завантаження</value>
+  </data>
+  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
+    <value>Попереднє завантаження ресурсів</value>
+  </data>
+  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
+    <value>Запам'ятовує кожну гру й видає раніше завантажені ресурси</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
+    <value>Ліміт кешу попереднього завантаження</value>
+  </data>
+  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
+    <value>Обмежує місце на диску для кешу запам'ятованих ресурсів</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
+    <value>Попередньо завантажувати аватар</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
+    <value>Попередньо завантажує аватар і вдягнені аксесуари перед кожним запуском гри</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
+    <value>Попередньо завантажувати нещодавні ігри</value>
+  </data>
+  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
+    <value>Прогріває кеш нещодавніми іграми перед кожним запуском</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
+    <value>Підміна на боці клієнта</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
+    <value>Лише на боці клієнта, ці зміни бачите тільки ви.</value>
+  </data>
+  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
+    <value>Ім'я користувача всіх інших</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
+    <value>Задає ім'я, яке ваш клієнт показує для всіх інших гравців</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
+    <value>Застосувати до всіх інших у грі</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
+    <value>Застосовує ім'я всіх інших у Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
+    <value>Верифікувати всіх інших</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
+    <value>Показує всіх інших гравців верифікованими в цьому клієнті</value>
+  </data>
+  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
+    <value>Ваше ім'я користувача</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
+    <value>Задає ім'я, яке ваш клієнт показує для вашого акаунта</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
+    <value>Застосувати своє ім'я в грі</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
+    <value>Застосовує підроблене ім'я в Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
+    <value>Налаштування Robux</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
+    <value>Верифікувати свій акаунт</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
+    <value>Показує ваш акаунт верифікованим у цьому клієнті</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
+    <value>Зробити себе творцем гри</value>
+  </data>
+  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
+    <value>Використовує ваш поточний ID користувача Roblox у перехоплених даних про творця гри</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
+    <value>Зробити себе творцем гри не працює у Windows. Roblox тепер захищає вхід в ігри у Windows, і його зміна спричиняє помилку 529, тому Voidstrap його не чіпає. У Linux і macOS функція й далі працює, а інші параметри не зачеплено.</value>
+  </data>
 </root>

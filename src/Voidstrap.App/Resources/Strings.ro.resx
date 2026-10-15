@@ -3873,4 +3873,286 @@ Ce vrei să faci?</value>
   <data name="Ui.Mods.FindMods2" xml:space="preserve">
     <value>Găsește moduri</value>
   </data>
+  <data name="Ui.FastFlags.ChooseWhetherYourFastFlagsAre" xml:space="preserve">
+    <value>Alege dacă Fast Flags se aplică playerului Roblox, Roblox Studio sau ambelor.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyFastFlagsTo" xml:space="preserve">
+    <value>Aplică Fast Flags la</value>
+  </data>
+  <data name="Ui.FastFlags.ViewTheFastFlagsRobloxOfficiallyAllows" xml:space="preserve">
+    <value>Vezi FastFlags pe care Roblox le permite oficial în configurația locală.</value>
+  </data>
+  <data name="Ui.FastFlags.Category" xml:space="preserve">
+    <value>Categorie</value>
+  </data>
+  <data name="Ui.FastFlags.ReducesOrScalesGrassMovementIn" xml:space="preserve">
+    <value>Reduce sau scalează mișcarea ierbii în Roblox pentru performanță sau confort vizual.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassMovementFactor" xml:space="preserve">
+    <value>Factorul mișcării ierbii</value>
+  </data>
+  <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
+    <value>Detaliul meshurilor</value>
+  </data>
+  <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
+    <value>Controlează cum apar meshurile detaliate în joc.</value>
+  </data>
+  <data name="Ui.FastFlags.LowestQuality" xml:space="preserve">
+    <value>Cea mai mică calitate</value>
+  </data>
+  <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
+    <value>Cea mai mare calitate</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
+    <value>Suprascriere calitate FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
+    <value>Alege suprascrierea calității FRM.</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
+    <value>Suprascriere calitate FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
+    <value>Configurează setările de bază pentru grafică și randare</value>
+  </data>
+  <data name="Ui.FastFlags.Lighting" xml:space="preserve">
+    <value>Iluminare</value>
+  </data>
+  <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
+    <value>Forțează cer gri</value>
+  </data>
+  <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
+    <value>Netezește marginile zimțate. Valorile mai mari netezesc mai mult.</value>
+  </data>
+  <data name="Ui.FastFlags.AdjustTheQualityOfTexturesHigher" xml:space="preserve">
+    <value>Ajustează calitatea texturilor. Nivelurile mai mari cresc calitatea.</value>
+  </data>
+  <data name="Ui.FastFlags.ControlsGrassRenderDistanceInRoblox" xml:space="preserve">
+    <value>Controlează distanța de randare a ierbii în jocurile Roblox. Setează ambele valori la 0 pentru a dezactiva iarba.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
+    <value>Distanța ierbii</value>
+  </data>
+  <data name="Ui.FastFlags.Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="Ui.FastFlags.Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
+    <value>Configurează API ul de randare pentru Roblox. Apasă Alt Enter când treci pe ecran complet dacă folosești Direct3D. Vulkan poate cauza unele erori!.</value>
+  </data>
+  <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
+    <value>Mod de randare</value>
+  </data>
+  <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
+    <value>FFlags avansate</value>
+  </data>
+  <data name="Ui.FastFlags.SwapRobloxTexturesForParticlesStuds" xml:space="preserve">
+    <value>Înlocuiește texturile Roblox pentru particule, studs, teren și apă.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyProfile" xml:space="preserve">
+    <value>Aplică profilul</value>
+  </data>
+  <data name="Ui.FastFlags.TheseOptionsOnlySwapSomeOf" xml:space="preserve">
+    <value>Aceste opțiuni înlocuiesc doar unele fișiere de texturi integrate în Roblox, precum particulele, studs, terenul și apa. Majoritatea jocurilor folosesc propriile texturi și efecte, așa că s ar putea să nu observi o diferență mare.</value>
+  </data>
+  <data name="Ui.FastFlags.Particles" xml:space="preserve">
+    <value>Particule</value>
+  </data>
+  <data name="Ui.FastFlags.FireSmokeExplosionsSparklesAndForce" xml:space="preserve">
+    <value>Foc, fum, explozii, scântei și câmpuri de forță</value>
+  </data>
+  <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
+    <value>Opacitatea pătratelor</value>
+  </data>
+  <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
+    <value>Cât de solide par pătratele</value>
+  </data>
+  <data name="Ui.FastFlags.Studs" xml:space="preserve">
+    <value>Studs</value>
+  </data>
+  <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
+    <value>Modelul de studs de pe piese</value>
+  </data>
+  <data name="Ui.FastFlags.FlatShade" xml:space="preserve">
+    <value>Umbrire plată</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrightFlatSurfacesLook50" xml:space="preserve">
+    <value>Cât de luminoase par suprafețele plate. 50% corespunde luminozității normale</value>
+  </data>
+  <data name="Ui.FastFlags.Water" xml:space="preserve">
+    <value>Apă</value>
+  </data>
+  <data name="Ui.FastFlags.TheRipplesOnTerrainWater" xml:space="preserve">
+    <value>Valurile de pe apa terenului</value>
+  </data>
+  <data name="Ui.FastFlags.WaterPreview" xml:space="preserve">
+    <value>Previzualizare apă</value>
+  </data>
+  <data name="Ui.FastFlags.ThisIsTheExactRippleTexture" xml:space="preserve">
+    <value>Aceasta este exact textura de valuri pe care o încarcă Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.WaterAnimationImages" xml:space="preserve">
+    <value>Imagini pentru animația apei</value>
+  </data>
+  <data name="Ui.FastFlags.RippleStrength" xml:space="preserve">
+    <value>Intensitatea valurilor</value>
+  </data>
+  <data name="Ui.FastFlags.0IsFlat100IsNormal" xml:space="preserve">
+    <value>0% este plat, 100% normal, mai mult înseamnă mai agitat</value>
+  </data>
+  <data name="Ui.FastFlags.RippleSpeed" xml:space="preserve">
+    <value>Viteza valurilor</value>
+  </data>
+  <data name="Ui.FastFlags.HowFastTheRipplesMove" xml:space="preserve">
+    <value>Cât de repede se mișcă valurile</value>
+  </data>
+  <data name="Ui.FastFlags.FrozenFrame" xml:space="preserve">
+    <value>Cadru înghețat</value>
+  </data>
+  <data name="Ui.FastFlags.WhichRippleFrameToHoldStill" xml:space="preserve">
+    <value>Ce cadru de valuri rămâne nemișcat</value>
+  </data>
+  <data name="Ui.FastFlags.GlitchAmount" xml:space="preserve">
+    <value>Nivel de defecte</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrokenTheWaterLooks" xml:space="preserve">
+    <value>Cât de stricată arată apa</value>
+  </data>
+  <data name="Ui.FastFlags.Terrain" xml:space="preserve">
+    <value>Teren</value>
+  </data>
+  <data name="Ui.FastFlags.StretchTheGroundTexturesAndChange" xml:space="preserve">
+    <value>Întinde texturile solului și schimbă cât de des se repetă</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainTextureSize" xml:space="preserve">
+    <value>Dimensiunea texturilor terenului</value>
+  </data>
+  <data name="Ui.FastFlags.1xIsTheNormalRobloxSize" xml:space="preserve">
+    <value>1x este dimensiunea normală Roblox, mai puțin înseamnă mai mare și mai neclar</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainRepeatHiding" xml:space="preserve">
+    <value>Ascunderea repetițiilor terenului</value>
+  </data>
+  <data name="Ui.FastFlags.HigherLetsRepeatingPatternsShowMore" xml:space="preserve">
+    <value>Valorile mai mari lasă modelele repetate să se vadă mai mult</value>
+  </data>
+  <data name="Ui.FastFlags.NVIDIAFFlagsAreForAdvancedUsers" xml:space="preserve">
+    <value>NVIDIA FFlags sunt doar pentru utilizatori avansați</value>
+  </data>
+  <data name="Ui.FastFlags.TheseSettingsChangeTheNVIDIADriver" xml:space="preserve">
+    <value>Aceste setări modifică profilul driverului NVIDIA cu care rulează Roblox. O valoare greșită poate scădea FPS ul, poate adăuga întârziere la comenzi, sacadări, erori vizuale sau blocări și poate chiar împiedica pornirea Roblox. Modificările sunt salvate în driverul NVIDIA, deci rămân și după ce închizi sau dezinstalezi Voidstrap.</value>
+  </data>
+  <data name="Ui.FastFlags.ToUndoThemOpenTheAdvanced" xml:space="preserve">
+    <value>Pentru a le anula, deschide editorul avansat și folosește Reset NIP, care readuce fiecare setare NVIDIA pentru Roblox la valoarea implicită a driverului. Doar dacă nu le poți reseta aici, actualizează sau reinstalează driverele NVIDIA pentru a restabili valorile implicite.</value>
+  </data>
+  <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
+    <value>Schimbă doar ce înțelegi și câte o singură setare odată.</value>
+  </data>
+  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
+    <value>Activează proxy ul AssetWarp și toate funcțiile asociate</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
+    <value>Elimină toate texturile</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
+    <value>Elimină toate decalurile</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
+    <value>Elimină toate imaginile</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
+    <value>Elimină toate animațiile</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
+    <value>Elimină toate meshurile</value>
+  </data>
+  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
+    <value>Falsificator de prezență</value>
+  </data>
+  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
+    <value>Schimbă ce văd ceilalți: online, în Studio sau offline</value>
+  </data>
+  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
+    <value>Preîncărcare</value>
+  </data>
+  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
+    <value>Preîncărcarea resurselor</value>
+  </data>
+  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
+    <value>Învață fiecare joc și oferă resursele descărcate anterior</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
+    <value>Limita cache ului de preîncărcare</value>
+  </data>
+  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
+    <value>Limitează cât spațiu pe disc poate folosi cache ul de resurse învățate</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
+    <value>Preîncarcă avatarul</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
+    <value>Preîncarcă avatarul și accesoriile echipate înainte de fiecare lansare</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
+    <value>Preîncarcă jocurile recente</value>
+  </data>
+  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
+    <value>Pregătește cache ul cu jocurile jucate recent înainte de fiecare lansare</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
+    <value>Falsificator pe client</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
+    <value>Doar pe client, doar tu vezi aceste schimbări.</value>
+  </data>
+  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
+    <value>Numele de utilizator al tuturor celorlalți</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
+    <value>Setează numele afișat pe clientul tău pentru toți ceilalți jucători</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
+    <value>Aplică pentru toți ceilalți în joc</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
+    <value>Aplică numele tuturor celorlalți în Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
+    <value>Verifică pe toți ceilalți</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
+    <value>Afișează toți ceilalți jucători ca verificați pe acest client</value>
+  </data>
+  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
+    <value>Numele tău de utilizator</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
+    <value>Setează numele afișat pe clientul tău pentru contul tău</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
+    <value>Aplică numele tău în joc</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
+    <value>Aplică numele tău falsificat în Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
+    <value>Ajustare Robux</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
+    <value>Verifică contul tău</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
+    <value>Afișează contul tău ca verificat pe acest client</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
+    <value>Fă te creatorul jocului</value>
+  </data>
+  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
+    <value>Folosește ID ul tău actual de utilizator Roblox pentru datele interceptate despre creatorul jocului</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
+    <value>Fă te creatorul jocului nu funcționează pe Windows. Roblox protejează acum intrarea în jocuri pe Windows, iar modificarea ei duce la eroarea 529, așa că Voidstrap nu o atinge. Funcționează în continuare pe Linux și macOS, iar celelalte opțiuni nu sunt afectate.</value>
+  </data>
 </root>

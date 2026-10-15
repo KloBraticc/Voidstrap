@@ -3862,4 +3862,286 @@ Cosa vuoi fare?</value>
   <data name="Ui.Mods.FindMods2" xml:space="preserve">
     <value>Trova mod</value>
   </data>
+  <data name="Ui.FastFlags.ChooseWhetherYourFastFlagsAre" xml:space="preserve">
+    <value>Scegli se le tue Fast Flags vengono applicate al player di Roblox, a Roblox Studio o a entrambi.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyFastFlagsTo" xml:space="preserve">
+    <value>Applica le Fast Flags a</value>
+  </data>
+  <data name="Ui.FastFlags.ViewTheFastFlagsRobloxOfficiallyAllows" xml:space="preserve">
+    <value>Visualizza le FastFlags che Roblox consente ufficialmente nella configurazione locale.</value>
+  </data>
+  <data name="Ui.FastFlags.Category" xml:space="preserve">
+    <value>Categoria</value>
+  </data>
+  <data name="Ui.FastFlags.ReducesOrScalesGrassMovementIn" xml:space="preserve">
+    <value>Riduce o scala il movimento dell'erba in Roblox per prestazioni o comfort visivo.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassMovementFactor" xml:space="preserve">
+    <value>Fattore di movimento dell'erba</value>
+  </data>
+  <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
+    <value>Dettaglio mesh</value>
+  </data>
+  <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
+    <value>Controlla come appaiono le mesh dettagliate nel gioco.</value>
+  </data>
+  <data name="Ui.FastFlags.LowestQuality" xml:space="preserve">
+    <value>Qualità più bassa</value>
+  </data>
+  <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
+    <value>Qualità più alta</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
+    <value>Forzatura qualità FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
+    <value>Scegli la forzatura della qualità FRM.</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
+    <value>Forzatura qualità FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
+    <value>Configura le impostazioni grafiche e di rendering di base</value>
+  </data>
+  <data name="Ui.FastFlags.Lighting" xml:space="preserve">
+    <value>Illuminazione</value>
+  </data>
+  <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
+    <value>Forza cielo grigio</value>
+  </data>
+  <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
+    <value>Smussa i bordi frastagliati. Valori più alti smussano di più.</value>
+  </data>
+  <data name="Ui.FastFlags.AdjustTheQualityOfTexturesHigher" xml:space="preserve">
+    <value>Regola la qualità delle texture. Livelli più alti aumentano la qualità.</value>
+  </data>
+  <data name="Ui.FastFlags.ControlsGrassRenderDistanceInRoblox" xml:space="preserve">
+    <value>Controlla la distanza di rendering dell'erba nei giochi Roblox. Imposta entrambi i valori a 0 per disattivare l'erba.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
+    <value>Distanza dell'erba</value>
+  </data>
+  <data name="Ui.FastFlags.Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="Ui.FastFlags.Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
+    <value>Configura l'API di rendering per Roblox. Premi Alt Invio quando passi a schermo intero se usi Direct3D. Vulkan potrebbe causare alcuni bug!.</value>
+  </data>
+  <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
+    <value>Modalità di rendering</value>
+  </data>
+  <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
+    <value>FFlags avanzate</value>
+  </data>
+  <data name="Ui.FastFlags.SwapRobloxTexturesForParticlesStuds" xml:space="preserve">
+    <value>Sostituisci le texture di Roblox per particelle, stud, terreno e acqua.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyProfile" xml:space="preserve">
+    <value>Applica profilo</value>
+  </data>
+  <data name="Ui.FastFlags.TheseOptionsOnlySwapSomeOf" xml:space="preserve">
+    <value>Queste opzioni sostituiscono solo alcuni file di texture integrati di Roblox, come particelle, stud, terreno e acqua. La maggior parte dei giochi usa texture ed effetti propri, quindi potresti non notare molta differenza.</value>
+  </data>
+  <data name="Ui.FastFlags.Particles" xml:space="preserve">
+    <value>Particelle</value>
+  </data>
+  <data name="Ui.FastFlags.FireSmokeExplosionsSparklesAndForce" xml:space="preserve">
+    <value>Fuoco, fumo, esplosioni, scintille e campi di forza</value>
+  </data>
+  <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
+    <value>Opacità dei quadrati</value>
+  </data>
+  <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
+    <value>Quanto appaiono solidi i quadrati</value>
+  </data>
+  <data name="Ui.FastFlags.Studs" xml:space="preserve">
+    <value>Stud</value>
+  </data>
+  <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
+    <value>Il motivo degli stud sulle parti</value>
+  </data>
+  <data name="Ui.FastFlags.FlatShade" xml:space="preserve">
+    <value>Ombreggiatura piatta</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrightFlatSurfacesLook50" xml:space="preserve">
+    <value>Quanto appaiono luminose le superfici piatte. 50% corrisponde alla luminosità normale</value>
+  </data>
+  <data name="Ui.FastFlags.Water" xml:space="preserve">
+    <value>Acqua</value>
+  </data>
+  <data name="Ui.FastFlags.TheRipplesOnTerrainWater" xml:space="preserve">
+    <value>Le increspature dell'acqua del terreno</value>
+  </data>
+  <data name="Ui.FastFlags.WaterPreview" xml:space="preserve">
+    <value>Anteprima dell'acqua</value>
+  </data>
+  <data name="Ui.FastFlags.ThisIsTheExactRippleTexture" xml:space="preserve">
+    <value>Questa è esattamente la texture delle increspature caricata da Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.WaterAnimationImages" xml:space="preserve">
+    <value>Immagini dell'animazione dell'acqua</value>
+  </data>
+  <data name="Ui.FastFlags.RippleStrength" xml:space="preserve">
+    <value>Intensità delle increspature</value>
+  </data>
+  <data name="Ui.FastFlags.0IsFlat100IsNormal" xml:space="preserve">
+    <value>0% è piatto, 100% è normale, di più è più mosso</value>
+  </data>
+  <data name="Ui.FastFlags.RippleSpeed" xml:space="preserve">
+    <value>Velocità delle increspature</value>
+  </data>
+  <data name="Ui.FastFlags.HowFastTheRipplesMove" xml:space="preserve">
+    <value>Quanto velocemente si muovono le increspature</value>
+  </data>
+  <data name="Ui.FastFlags.FrozenFrame" xml:space="preserve">
+    <value>Fotogramma congelato</value>
+  </data>
+  <data name="Ui.FastFlags.WhichRippleFrameToHoldStill" xml:space="preserve">
+    <value>Quale fotogramma delle increspature tenere fermo</value>
+  </data>
+  <data name="Ui.FastFlags.GlitchAmount" xml:space="preserve">
+    <value>Quantità di glitch</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrokenTheWaterLooks" xml:space="preserve">
+    <value>Quanto appare rotta l'acqua</value>
+  </data>
+  <data name="Ui.FastFlags.Terrain" xml:space="preserve">
+    <value>Terreno</value>
+  </data>
+  <data name="Ui.FastFlags.StretchTheGroundTexturesAndChange" xml:space="preserve">
+    <value>Allunga le texture del suolo e cambia quanto si ripetono</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainTextureSize" xml:space="preserve">
+    <value>Dimensione texture del terreno</value>
+  </data>
+  <data name="Ui.FastFlags.1xIsTheNormalRobloxSize" xml:space="preserve">
+    <value>1x è la dimensione normale di Roblox, valori più bassi sono più grandi e sfocati</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainRepeatHiding" xml:space="preserve">
+    <value>Nascondi ripetizioni del terreno</value>
+  </data>
+  <data name="Ui.FastFlags.HigherLetsRepeatingPatternsShowMore" xml:space="preserve">
+    <value>Valori più alti lasciano vedere di più i motivi ripetuti</value>
+  </data>
+  <data name="Ui.FastFlags.NVIDIAFFlagsAreForAdvancedUsers" xml:space="preserve">
+    <value>Le NVIDIA FFlags sono solo per utenti esperti</value>
+  </data>
+  <data name="Ui.FastFlags.TheseSettingsChangeTheNVIDIADriver" xml:space="preserve">
+    <value>Queste impostazioni modificano il profilo del driver NVIDIA con cui gira Roblox. Un valore sbagliato può ridurre gli FPS, aggiungere ritardo di input, scatti, glitch grafici o crash, e persino impedire l'avvio di Roblox. Le modifiche vengono salvate nel driver NVIDIA, quindi restano anche dopo aver chiuso o disinstallato Voidstrap.</value>
+  </data>
+  <data name="Ui.FastFlags.ToUndoThemOpenTheAdvanced" xml:space="preserve">
+    <value>Per annullarle, apri l'editor avanzato e usa Reset NIP, che riporta ogni impostazione NVIDIA di Roblox al valore predefinito del driver. Solo se non riesci a reimpostarle qui, aggiorna o reinstalla i driver NVIDIA per ripristinare i valori predefiniti.</value>
+  </data>
+  <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
+    <value>Cambia solo ciò che capisci, e un'impostazione alla volta.</value>
+  </data>
+  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
+    <value>Attiva il proxy AssetWarp e tutte le funzioni correlate</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
+    <value>Rimuovi tutte le texture</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
+    <value>Rimuovi tutti i decal</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
+    <value>Rimuovi tutte le immagini</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
+    <value>Rimuovi tutte le animazioni</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
+    <value>Rimuovi tutte le mesh</value>
+  </data>
+  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
+    <value>Falsificatore di stato</value>
+  </data>
+  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
+    <value>Cambia ciò che vedono gli altri: online, in Studio o offline</value>
+  </data>
+  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
+    <value>Precaricamento</value>
+  </data>
+  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
+    <value>Precaricamento asset</value>
+  </data>
+  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
+    <value>Impara ogni gioco e fornisce gli asset già scaricati</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
+    <value>Limite cache di precaricamento</value>
+  </data>
+  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
+    <value>Limita lo spazio su disco che la cache degli asset appresi può usare</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
+    <value>Precarica avatar</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
+    <value>Precarica il tuo avatar e gli accessori indossati prima di ogni avvio</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
+    <value>Precarica giochi recenti</value>
+  </data>
+  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
+    <value>Prepara la cache con i giochi giocati di recente prima di ogni avvio</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
+    <value>Falsificatore lato client</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
+    <value>Solo lato client, solo tu vedi queste modifiche.</value>
+  </data>
+  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
+    <value>Nome utente di tutti gli altri</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
+    <value>Imposta il nome utente mostrato sul tuo client per tutti gli altri giocatori</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
+    <value>Applica a tutti gli altri in gioco</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
+    <value>Applica il nome utente di tutti gli altri dentro Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
+    <value>Verifica tutti gli altri</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
+    <value>Mostra tutti gli altri giocatori come verificati su questo client</value>
+  </data>
+  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
+    <value>Il tuo nome utente</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
+    <value>Imposta il nome utente mostrato sul tuo client per il tuo account</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
+    <value>Applica il tuo nome utente in gioco</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
+    <value>Applica il tuo nome utente falso dentro Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
+    <value>Regolatore di Robux</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
+    <value>Verifica il tuo account</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
+    <value>Mostra il tuo account come verificato su questo client</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
+    <value>Diventa il creatore del gioco</value>
+  </data>
+  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
+    <value>Usa il tuo ID utente Roblox attuale per i metadati del creatore del gioco intercettati</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
+    <value>Diventa il creatore del gioco non funziona su Windows. Roblox ora protegge l'accesso ai giochi su Windows e modificarlo fa fallire l'accesso con l'errore 529, quindi Voidstrap non lo tocca. Funziona ancora su Linux e macOS, e le altre opzioni non sono interessate.</value>
+  </data>
 </root>

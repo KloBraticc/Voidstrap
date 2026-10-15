@@ -3666,4 +3666,286 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Mods.FindMods2" xml:space="preserve">
     <value>Maghanap ng mod</value>
   </data>
+  <data name="Ui.FastFlags.ChooseWhetherYourFastFlagsAre" xml:space="preserve">
+    <value>Piliin kung ilalapat ang Fast Flags sa Roblox player, sa Roblox Studio, o sa pareho.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyFastFlagsTo" xml:space="preserve">
+    <value>Ilapat ang Fast Flags sa</value>
+  </data>
+  <data name="Ui.FastFlags.ViewTheFastFlagsRobloxOfficiallyAllows" xml:space="preserve">
+    <value>Tingnan ang FastFlags na opisyal na pinapayagan ng Roblox sa lokal na configuration.</value>
+  </data>
+  <data name="Ui.FastFlags.Category" xml:space="preserve">
+    <value>Kategorya</value>
+  </data>
+  <data name="Ui.FastFlags.ReducesOrScalesGrassMovementIn" xml:space="preserve">
+    <value>Binabawasan o sini-scale ang galaw ng damo sa Roblox para sa performance o ginhawa sa paningin.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassMovementFactor" xml:space="preserve">
+    <value>Factor ng galaw ng damo</value>
+  </data>
+  <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
+    <value>Detalye ng mesh</value>
+  </data>
+  <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
+    <value>Kinokontrol kung paano lumalabas ang detalyadong mesh sa laro.</value>
+  </data>
+  <data name="Ui.FastFlags.LowestQuality" xml:space="preserve">
+    <value>Pinakamababang kalidad</value>
+  </data>
+  <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
+    <value>Pinakamataas na kalidad</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
+    <value>Override ng kalidad ng FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
+    <value>Piliin ang override ng kalidad ng FRM.</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
+    <value>Override ng kalidad ng FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
+    <value>I set up ang mga pangunahing setting ng graphics at rendering</value>
+  </data>
+  <data name="Ui.FastFlags.Lighting" xml:space="preserve">
+    <value>Ilaw</value>
+  </data>
+  <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
+    <value>Pilitin ang kulay abong langit</value>
+  </data>
+  <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
+    <value>Pinapakinis ang mga gilid na tulis tulis. Mas mataas na value, mas makinis.</value>
+  </data>
+  <data name="Ui.FastFlags.AdjustTheQualityOfTexturesHigher" xml:space="preserve">
+    <value>Inaayos ang kalidad ng texture. Mas mataas na level, mas mataas na kalidad.</value>
+  </data>
+  <data name="Ui.FastFlags.ControlsGrassRenderDistanceInRoblox" xml:space="preserve">
+    <value>Kinokontrol ang layo ng pagpapakita ng damo sa mga laro ng Roblox. Itakda ang dalawang value sa 0 para patayin ang damo.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
+    <value>Layo ng damo</value>
+  </data>
+  <data name="Ui.FastFlags.Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="Ui.FastFlags.Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
+    <value>I set up ang rendering API ng Roblox. Pindutin ang Alt Enter kapag lumilipat sa full screen kung Direct3D ang gamit mo. Maaaring magdulot ng error ang Vulkan!.</value>
+  </data>
+  <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
+    <value>Rendering mode</value>
+  </data>
+  <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
+    <value>Advanced FFlags</value>
+  </data>
+  <data name="Ui.FastFlags.SwapRobloxTexturesForParticlesStuds" xml:space="preserve">
+    <value>Pinapalitan ang mga texture ng Roblox para sa particles, studs, terrain, at tubig.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyProfile" xml:space="preserve">
+    <value>Ilapat ang profile</value>
+  </data>
+  <data name="Ui.FastFlags.TheseOptionsOnlySwapSomeOf" xml:space="preserve">
+    <value>Pinapalitan lang ng mga opsyong ito ang ilang built in na texture file ng Roblox, gaya ng particles, studs, terrain, at tubig. Karamihan sa mga laro ay may sariling texture at effect, kaya baka hindi mo gaanong mapansin ang pagkakaiba.</value>
+  </data>
+  <data name="Ui.FastFlags.Particles" xml:space="preserve">
+    <value>Particles</value>
+  </data>
+  <data name="Ui.FastFlags.FireSmokeExplosionsSparklesAndForce" xml:space="preserve">
+    <value>Apoy, usok, pagsabog, kislap, at force field</value>
+  </data>
+  <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
+    <value>Opacity ng mga parisukat</value>
+  </data>
+  <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
+    <value>Gaano kasolido ang hitsura ng mga parisukat</value>
+  </data>
+  <data name="Ui.FastFlags.Studs" xml:space="preserve">
+    <value>Studs</value>
+  </data>
+  <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
+    <value>Ang pattern ng studs sa mga part</value>
+  </data>
+  <data name="Ui.FastFlags.FlatShade" xml:space="preserve">
+    <value>Flat shading</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrightFlatSurfacesLook50" xml:space="preserve">
+    <value>Gaano kaliwanag ang hitsura ng mga patag na surface. Ang 50% ay katumbas ng normal na liwanag</value>
+  </data>
+  <data name="Ui.FastFlags.Water" xml:space="preserve">
+    <value>Tubig</value>
+  </data>
+  <data name="Ui.FastFlags.TheRipplesOnTerrainWater" xml:space="preserve">
+    <value>Ang mga alon sa tubig ng terrain</value>
+  </data>
+  <data name="Ui.FastFlags.WaterPreview" xml:space="preserve">
+    <value>Preview ng tubig</value>
+  </data>
+  <data name="Ui.FastFlags.ThisIsTheExactRippleTexture" xml:space="preserve">
+    <value>Ito mismo ang ripple texture na nilo-load ng Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.WaterAnimationImages" xml:space="preserve">
+    <value>Mga larawan ng animation ng tubig</value>
+  </data>
+  <data name="Ui.FastFlags.RippleStrength" xml:space="preserve">
+    <value>Lakas ng alon</value>
+  </data>
+  <data name="Ui.FastFlags.0IsFlat100IsNormal" xml:space="preserve">
+    <value>0% ay patag, 100% ay normal, mas mataas ay mas magulo</value>
+  </data>
+  <data name="Ui.FastFlags.RippleSpeed" xml:space="preserve">
+    <value>Bilis ng alon</value>
+  </data>
+  <data name="Ui.FastFlags.HowFastTheRipplesMove" xml:space="preserve">
+    <value>Gaano kabilis gumalaw ang mga alon</value>
+  </data>
+  <data name="Ui.FastFlags.FrozenFrame" xml:space="preserve">
+    <value>Nakahintong frame</value>
+  </data>
+  <data name="Ui.FastFlags.WhichRippleFrameToHoldStill" xml:space="preserve">
+    <value>Aling ripple frame ang hindi gagalaw</value>
+  </data>
+  <data name="Ui.FastFlags.GlitchAmount" xml:space="preserve">
+    <value>Dami ng glitch</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrokenTheWaterLooks" xml:space="preserve">
+    <value>Gaano kasira ang hitsura ng tubig</value>
+  </data>
+  <data name="Ui.FastFlags.Terrain" xml:space="preserve">
+    <value>Terrain</value>
+  </data>
+  <data name="Ui.FastFlags.StretchTheGroundTexturesAndChange" xml:space="preserve">
+    <value>Binabanat ang mga texture ng lupa at binabago kung gaano kadalas umuulit ang mga ito</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainTextureSize" xml:space="preserve">
+    <value>Laki ng texture ng terrain</value>
+  </data>
+  <data name="Ui.FastFlags.1xIsTheNormalRobloxSize" xml:space="preserve">
+    <value>Ang 1x ay normal na laki ng Roblox, mas mababa ay mas malaki at mas malabo</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainRepeatHiding" xml:space="preserve">
+    <value>Pagtatago ng pag uulit ng terrain</value>
+  </data>
+  <data name="Ui.FastFlags.HigherLetsRepeatingPatternsShowMore" xml:space="preserve">
+    <value>Mas mataas na value, mas kita ang mga paulit ulit na pattern</value>
+  </data>
+  <data name="Ui.FastFlags.NVIDIAFFlagsAreForAdvancedUsers" xml:space="preserve">
+    <value>Ang NVIDIA FFlags ay para lang sa mga advanced na user</value>
+  </data>
+  <data name="Ui.FastFlags.TheseSettingsChangeTheNVIDIADriver" xml:space="preserve">
+    <value>Binabago ng mga setting na ito ang profile ng NVIDIA driver na ginagamit ng Roblox. Ang maling value ay maaaring magpababa ng FPS, magdagdag ng input lag, pagka utal, graphics error, o crash, at maaari pang pigilan ang pagbukas ng Roblox. Naka save ang mga pagbabago sa NVIDIA driver mo, kaya nananatili ang mga ito kahit isara o i uninstall mo ang Voidstrap.</value>
+  </data>
+  <data name="Ui.FastFlags.ToUndoThemOpenTheAdvanced" xml:space="preserve">
+    <value>Para i undo ang mga ito, buksan ang advanced editor at gamitin ang Reset NIP, na ibinabalik ang bawat NVIDIA setting para sa Roblox sa default ng driver. Kung hindi mo lang talaga ma reset dito, i update o i reinstall ang NVIDIA drivers mo para maibalik ang mga default.</value>
+  </data>
+  <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
+    <value>Baguhin lang ang naiintindihan mo, at isang setting lang bawat beses.</value>
+  </data>
+  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
+    <value>Binubuksan ang AssetWarp proxy at lahat ng kaugnay na feature</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
+    <value>Alisin ang lahat ng texture</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
+    <value>Alisin ang lahat ng decal</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
+    <value>Alisin ang lahat ng larawan</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
+    <value>Alisin ang lahat ng animation</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
+    <value>Alisin ang lahat ng mesh</value>
+  </data>
+  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
+    <value>Status spoofer</value>
+  </data>
+  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
+    <value>Binabago ang nakikita ng iba: online, nasa Studio, o offline</value>
+  </data>
+  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
+    <value>Preload</value>
+  </data>
+  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
+    <value>I preload ang mga asset</value>
+  </data>
+  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
+    <value>Natututunan ang bawat laro at ibinibigay ang mga asset na na download na dati</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
+    <value>Limitasyon ng preload cache</value>
+  </data>
+  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
+    <value>Nililimitahan kung gaano kalaking disk space ang magagamit ng natutunang asset cache</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
+    <value>I preload ang avatar</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
+    <value>Ipe preload ang avatar mo at ang mga suot na accessory bago ang bawat paglunsad ng laro</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
+    <value>I preload ang mga kamakailang laro</value>
+  </data>
+  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
+    <value>Inihahanda ang cache gamit ang mga kamakailang nilaro mo bago ang bawat paglunsad</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
+    <value>Client side spoofer</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
+    <value>Sa client side lang, ikaw lang ang makakakita ng mga pagbabagong ito.</value>
+  </data>
+  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
+    <value>Username ng lahat ng iba</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
+    <value>Itinatakda ang username na ipinapakita ng client mo para sa lahat ng ibang player</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
+    <value>Ilapat sa lahat ng iba sa laro</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
+    <value>Inilalapat ang username ng lahat ng iba sa Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
+    <value>I verify ang lahat ng iba</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
+    <value>Ipinapakitang verified ang lahat ng ibang player sa client na ito</value>
+  </data>
+  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
+    <value>Ang username mo</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
+    <value>Itinatakda ang username na ipinapakita ng client mo para sa account mo</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
+    <value>Ilapat ang username mo sa laro</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
+    <value>Inilalapat ang na spoof mong username sa Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
+    <value>Robux adjuster</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
+    <value>I verify ang account mo</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
+    <value>Ipinapakitang verified ang account mo sa client na ito</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
+    <value>Gawing creator ng laro ang sarili mo</value>
+  </data>
+  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
+    <value>Ginagamit ang kasalukuyang Roblox user ID mo para sa na intercept na data ng creator ng laro</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
+    <value>Hindi gumagana sa Windows ang Gawing creator ng laro ang sarili mo. Pinoprotektahan na ngayon ng Roblox ang pagsali sa laro sa Windows, at ang pagbabago rito ay nagdudulot ng error 529, kaya hindi ito ginagalaw ng Voidstrap. Gumagana pa rin ito sa Linux at macOS, at hindi apektado ang iba mong opsyon.</value>
+  </data>
 </root>

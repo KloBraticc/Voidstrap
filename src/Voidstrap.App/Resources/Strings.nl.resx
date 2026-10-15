@@ -3849,4 +3849,286 @@ Wat wil je doen?</value>
   <data name="Ui.Mods.FindMods2" xml:space="preserve">
     <value>Mods zoeken</value>
   </data>
+  <data name="Ui.FastFlags.ChooseWhetherYourFastFlagsAre" xml:space="preserve">
+    <value>Kies of je Fast Flags worden toegepast op de Roblox-speler, Roblox Studio of beide.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyFastFlagsTo" xml:space="preserve">
+    <value>Fast Flags toepassen op</value>
+  </data>
+  <data name="Ui.FastFlags.ViewTheFastFlagsRobloxOfficiallyAllows" xml:space="preserve">
+    <value>Bekijk de FastFlags die Roblox officieel toestaat in lokale configuratie.</value>
+  </data>
+  <data name="Ui.FastFlags.Category" xml:space="preserve">
+    <value>Categorie</value>
+  </data>
+  <data name="Ui.FastFlags.ReducesOrScalesGrassMovementIn" xml:space="preserve">
+    <value>Vermindert of schaalt de grasbeweging in Roblox voor prestaties of visueel comfort.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassMovementFactor" xml:space="preserve">
+    <value>Grasbewegingsfactor</value>
+  </data>
+  <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
+    <value>Meshdetail</value>
+  </data>
+  <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
+    <value>Bepaalt hoe gedetailleerde meshes in het spel zelf worden getoond.</value>
+  </data>
+  <data name="Ui.FastFlags.LowestQuality" xml:space="preserve">
+    <value>Laagste kwaliteit</value>
+  </data>
+  <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
+    <value>Hoogste kwaliteit</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
+    <value>FRM-kwaliteit overschrijven</value>
+  </data>
+  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
+    <value>Kies de FRM-kwaliteit om te overschrijven.</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
+    <value>FRM-kwaliteit overschrijven</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
+    <value>Stel basisinstellingen voor graphics en rendering in</value>
+  </data>
+  <data name="Ui.FastFlags.Lighting" xml:space="preserve">
+    <value>Belichting</value>
+  </data>
+  <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
+    <value>Grijze lucht forceren</value>
+  </data>
+  <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
+    <value>Maakt gekartelde randen glad. Hogere waarden maken gladder.</value>
+  </data>
+  <data name="Ui.FastFlags.AdjustTheQualityOfTexturesHigher" xml:space="preserve">
+    <value>Past de kwaliteit van textures aan. Hogere niveaus verhogen de kwaliteit.</value>
+  </data>
+  <data name="Ui.FastFlags.ControlsGrassRenderDistanceInRoblox" xml:space="preserve">
+    <value>Bepaalt de weergaveafstand van gras in Roblox-games. Zet beide waarden op 0 om gras uit te schakelen.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
+    <value>Grasafstand</value>
+  </data>
+  <data name="Ui.FastFlags.Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="Ui.FastFlags.Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
+    <value>Stel de render-API voor Roblox in. Druk op Alt Enter bij volledig scherm als je Direct3D gebruikt. Vulkan kan enkele bugs veroorzaken!.</value>
+  </data>
+  <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
+    <value>Rendermodus</value>
+  </data>
+  <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
+    <value>Geavanceerde FFlags</value>
+  </data>
+  <data name="Ui.FastFlags.SwapRobloxTexturesForParticlesStuds" xml:space="preserve">
+    <value>Vervang Roblox-textures voor deeltjes, studs, terrein en water.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyProfile" xml:space="preserve">
+    <value>Profiel toepassen</value>
+  </data>
+  <data name="Ui.FastFlags.TheseOptionsOnlySwapSomeOf" xml:space="preserve">
+    <value>Deze opties vervangen alleen enkele ingebouwde texturebestanden van Roblox, zoals deeltjes, studs, terrein en water. De meeste games gebruiken eigen textures en effecten, dus je merkt misschien weinig verschil.</value>
+  </data>
+  <data name="Ui.FastFlags.Particles" xml:space="preserve">
+    <value>Deeltjes</value>
+  </data>
+  <data name="Ui.FastFlags.FireSmokeExplosionsSparklesAndForce" xml:space="preserve">
+    <value>Vuur, rook, explosies, vonken en krachtvelden</value>
+  </data>
+  <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
+    <value>Dekking van vierkanten</value>
+  </data>
+  <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
+    <value>Hoe massief de vierkanten eruitzien</value>
+  </data>
+  <data name="Ui.FastFlags.Studs" xml:space="preserve">
+    <value>Studs</value>
+  </data>
+  <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
+    <value>Het studpatroon op parts</value>
+  </data>
+  <data name="Ui.FastFlags.FlatShade" xml:space="preserve">
+    <value>Vlakke schaduw</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrightFlatSurfacesLook50" xml:space="preserve">
+    <value>Hoe helder vlakke oppervlakken eruitzien. 50% komt overeen met de normale helderheid</value>
+  </data>
+  <data name="Ui.FastFlags.Water" xml:space="preserve">
+    <value>Water</value>
+  </data>
+  <data name="Ui.FastFlags.TheRipplesOnTerrainWater" xml:space="preserve">
+    <value>De rimpelingen op terreinwater</value>
+  </data>
+  <data name="Ui.FastFlags.WaterPreview" xml:space="preserve">
+    <value>Watervoorbeeld</value>
+  </data>
+  <data name="Ui.FastFlags.ThisIsTheExactRippleTexture" xml:space="preserve">
+    <value>Dit is precies de rimpeltexture die Roblox laadt</value>
+  </data>
+  <data name="Ui.FastFlags.WaterAnimationImages" xml:space="preserve">
+    <value>Afbeeldingen van de wateranimatie</value>
+  </data>
+  <data name="Ui.FastFlags.RippleStrength" xml:space="preserve">
+    <value>Rimpelsterkte</value>
+  </data>
+  <data name="Ui.FastFlags.0IsFlat100IsNormal" xml:space="preserve">
+    <value>0% is vlak, 100% is normaal, hoger is woeliger</value>
+  </data>
+  <data name="Ui.FastFlags.RippleSpeed" xml:space="preserve">
+    <value>Rimpelsnelheid</value>
+  </data>
+  <data name="Ui.FastFlags.HowFastTheRipplesMove" xml:space="preserve">
+    <value>Hoe snel de rimpelingen bewegen</value>
+  </data>
+  <data name="Ui.FastFlags.FrozenFrame" xml:space="preserve">
+    <value>Bevroren frame</value>
+  </data>
+  <data name="Ui.FastFlags.WhichRippleFrameToHoldStill" xml:space="preserve">
+    <value>Welk rimpelframe stil moet blijven</value>
+  </data>
+  <data name="Ui.FastFlags.GlitchAmount" xml:space="preserve">
+    <value>Glitchhoeveelheid</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrokenTheWaterLooks" xml:space="preserve">
+    <value>Hoe kapot het water eruitziet</value>
+  </data>
+  <data name="Ui.FastFlags.Terrain" xml:space="preserve">
+    <value>Terrein</value>
+  </data>
+  <data name="Ui.FastFlags.StretchTheGroundTexturesAndChange" xml:space="preserve">
+    <value>Rekt de grondtextures uit en verandert hoe vaak ze herhalen</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainTextureSize" xml:space="preserve">
+    <value>Grootte van terreintextures</value>
+  </data>
+  <data name="Ui.FastFlags.1xIsTheNormalRobloxSize" xml:space="preserve">
+    <value>1x is de normale Roblox-grootte, lager is groter en waziger</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainRepeatHiding" xml:space="preserve">
+    <value>Herhaling in terrein verbergen</value>
+  </data>
+  <data name="Ui.FastFlags.HigherLetsRepeatingPatternsShowMore" xml:space="preserve">
+    <value>Hoger laat herhalende patronen meer zien</value>
+  </data>
+  <data name="Ui.FastFlags.NVIDIAFFlagsAreForAdvancedUsers" xml:space="preserve">
+    <value>NVIDIA FFlags zijn alleen voor gevorderde gebruikers</value>
+  </data>
+  <data name="Ui.FastFlags.TheseSettingsChangeTheNVIDIADriver" xml:space="preserve">
+    <value>Deze instellingen wijzigen het NVIDIA-stuurprogrammaprofiel waarmee Roblox draait. Een verkeerde waarde kan je FPS verlagen, invoervertraging, haperingen, beeldfouten of crashes veroorzaken en zelfs voorkomen dat Roblox start. De wijzigingen worden in je NVIDIA-stuurprogramma opgeslagen en blijven dus ook na het sluiten of verwijderen van Voidstrap.</value>
+  </data>
+  <data name="Ui.FastFlags.ToUndoThemOpenTheAdvanced" xml:space="preserve">
+    <value>Om ze ongedaan te maken, open je de geavanceerde editor en gebruik je Reset NIP, dat elke NVIDIA-instelling voor Roblox terugzet naar de standaard van het stuurprogramma. Alleen als je ze hier niet kunt herstellen, werk je je NVIDIA-stuurprogramma's bij of installeer je ze opnieuw om de standaarden te herstellen.</value>
+  </data>
+  <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
+    <value>Wijzig alleen wat je begrijpt, en één instelling tegelijk.</value>
+  </data>
+  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
+    <value>Schakelt de AssetWarp-proxy en alle bijbehorende functies in</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
+    <value>Alle textures verwijderen</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
+    <value>Alle decals verwijderen</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
+    <value>Alle afbeeldingen verwijderen</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
+    <value>Alle animaties verwijderen</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
+    <value>Alle meshes verwijderen</value>
+  </data>
+  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
+    <value>Statusvervalser</value>
+  </data>
+  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
+    <value>Verandert wat anderen zien: online, in Studio of offline</value>
+  </data>
+  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
+    <value>Vooraf laden</value>
+  </data>
+  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
+    <value>Assets vooraf laden</value>
+  </data>
+  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
+    <value>Leert elk spel en levert eerder gedownloade assets</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
+    <value>Limiet van de voorlaadcache</value>
+  </data>
+  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
+    <value>Beperkt hoeveel schijfruimte de geleerde assetcache mag gebruiken</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
+    <value>Avatar vooraf laden</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
+    <value>Laadt je avatar en gedragen accessoires vooraf voor elke start</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
+    <value>Recente games vooraf laden</value>
+  </data>
+  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
+    <value>Warmt de cache op met je recent gespeelde games voor elke start</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
+    <value>Clientvervalser</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
+    <value>Alleen aan de clientkant, alleen jij ziet deze wijzigingen.</value>
+  </data>
+  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
+    <value>Gebruikersnaam van alle anderen</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
+    <value>Stelt de gebruikersnaam in die je client voor alle andere spelers toont</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
+    <value>Toepassen op alle anderen in het spel</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
+    <value>Past de gebruikersnaam van alle anderen toe in Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
+    <value>Alle anderen verifiëren</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
+    <value>Toont alle andere spelers als geverifieerd op deze client</value>
+  </data>
+  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
+    <value>Je gebruikersnaam</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
+    <value>Stelt de gebruikersnaam in die je client voor je account toont</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
+    <value>Je gebruikersnaam in het spel toepassen</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
+    <value>Past je vervalste gebruikersnaam toe in Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
+    <value>Robux-aanpassing</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
+    <value>Je account verifiëren</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
+    <value>Toont je account als geverifieerd op deze client</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
+    <value>Maak jezelf de maker van het spel</value>
+  </data>
+  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
+    <value>Gebruikt je huidige Roblox-gebruikers-ID voor onderschepte gegevens over de maker van het spel</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
+    <value>Maak jezelf de maker van het spel werkt niet op Windows. Roblox beschermt het deelnemen aan games op Windows nu, en wijzigingen laten het deelnemen mislukken met fout 529, dus Voidstrap blijft eraf. Het werkt nog wel op Linux en macOS, en je andere opties worden niet beïnvloed.</value>
+  </data>
 </root>

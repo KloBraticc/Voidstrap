@@ -3885,4 +3885,286 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Mods.FindMods2" xml:space="preserve">
     <value>Mod bul</value>
   </data>
+  <data name="Ui.FastFlags.ChooseWhetherYourFastFlagsAre" xml:space="preserve">
+    <value>Fast Flags ayarlarının Roblox oynatıcısına, Roblox Studio'ya veya her ikisine uygulanıp uygulanmayacağını seçin.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyFastFlagsTo" xml:space="preserve">
+    <value>Fast Flags şuna uygulansın</value>
+  </data>
+  <data name="Ui.FastFlags.ViewTheFastFlagsRobloxOfficiallyAllows" xml:space="preserve">
+    <value>Roblox'un yerel yapılandırmada resmi olarak izin verdiği FastFlags ayarlarını görüntüleyin.</value>
+  </data>
+  <data name="Ui.FastFlags.Category" xml:space="preserve">
+    <value>Kategori</value>
+  </data>
+  <data name="Ui.FastFlags.ReducesOrScalesGrassMovementIn" xml:space="preserve">
+    <value>Performans veya görsel rahatlık için Roblox'taki çim hareketini azaltır ya da ölçekler.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassMovementFactor" xml:space="preserve">
+    <value>Çim hareketi katsayısı</value>
+  </data>
+  <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
+    <value>Model ayrıntısı</value>
+  </data>
+  <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
+    <value>Ayrıntılı modellerin oyun içinde nasıl görüneceğini kontrol eder.</value>
+  </data>
+  <data name="Ui.FastFlags.LowestQuality" xml:space="preserve">
+    <value>En düşük kalite</value>
+  </data>
+  <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
+    <value>En yüksek kalite</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
+    <value>FRM kalitesini geçersiz kıl</value>
+  </data>
+  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
+    <value>FRM kalitesi geçersiz kılma değerini seçin.</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
+    <value>FRM kalitesini geçersiz kılma</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
+    <value>Temel grafik ve işleme ayarlarını yapılandırın</value>
+  </data>
+  <data name="Ui.FastFlags.Lighting" xml:space="preserve">
+    <value>Aydınlatma</value>
+  </data>
+  <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
+    <value>Gri gökyüzünü zorla</value>
+  </data>
+  <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
+    <value>Pürüzlü kenarları yumuşatır. Daha yüksek değerler daha çok yumuşatır.</value>
+  </data>
+  <data name="Ui.FastFlags.AdjustTheQualityOfTexturesHigher" xml:space="preserve">
+    <value>Doku kalitesini ayarlar. Daha yüksek seviyeler kaliteyi artırır.</value>
+  </data>
+  <data name="Ui.FastFlags.ControlsGrassRenderDistanceInRoblox" xml:space="preserve">
+    <value>Roblox oyunlarında çimin görünme mesafesini kontrol eder. Çimi kapatmak için iki değeri de 0 yapın.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
+    <value>Çim mesafesi</value>
+  </data>
+  <data name="Ui.FastFlags.Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="Ui.FastFlags.Max" xml:space="preserve">
+    <value>Maks</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
+    <value>Roblox için işleme API'sini yapılandırın. Direct3D kullanıyorsanız tam ekrana geçerken Alt Enter tuşlarına basın. Vulkan bazı hatalara yol açabilir!.</value>
+  </data>
+  <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
+    <value>İşleme modu</value>
+  </data>
+  <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
+    <value>Gelişmiş FFlags</value>
+  </data>
+  <data name="Ui.FastFlags.SwapRobloxTexturesForParticlesStuds" xml:space="preserve">
+    <value>Parçacıklar, studs, arazi ve su için Roblox dokularını değiştirir.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyProfile" xml:space="preserve">
+    <value>Profili uygula</value>
+  </data>
+  <data name="Ui.FastFlags.TheseOptionsOnlySwapSomeOf" xml:space="preserve">
+    <value>Bu seçenekler yalnızca parçacıklar, studs, arazi ve su gibi bazı yerleşik Roblox doku dosyalarını değiştirir. Çoğu oyun kendi doku ve efektlerini kullanır, bu yüzden büyük bir fark görmeyebilirsiniz.</value>
+  </data>
+  <data name="Ui.FastFlags.Particles" xml:space="preserve">
+    <value>Parçacıklar</value>
+  </data>
+  <data name="Ui.FastFlags.FireSmokeExplosionsSparklesAndForce" xml:space="preserve">
+    <value>Ateş, duman, patlamalar, kıvılcımlar ve kuvvet alanları</value>
+  </data>
+  <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
+    <value>Kare opaklığı</value>
+  </data>
+  <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
+    <value>Karelerin ne kadar dolu göründüğü</value>
+  </data>
+  <data name="Ui.FastFlags.Studs" xml:space="preserve">
+    <value>Studs</value>
+  </data>
+  <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
+    <value>Parçalardaki studs deseni</value>
+  </data>
+  <data name="Ui.FastFlags.FlatShade" xml:space="preserve">
+    <value>Düz gölgelendirme</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrightFlatSurfacesLook50" xml:space="preserve">
+    <value>Düz yüzeylerin ne kadar parlak göründüğü. %50 normal parlaklığa denk gelir</value>
+  </data>
+  <data name="Ui.FastFlags.Water" xml:space="preserve">
+    <value>Su</value>
+  </data>
+  <data name="Ui.FastFlags.TheRipplesOnTerrainWater" xml:space="preserve">
+    <value>Arazi suyundaki dalgacıklar</value>
+  </data>
+  <data name="Ui.FastFlags.WaterPreview" xml:space="preserve">
+    <value>Su önizlemesi</value>
+  </data>
+  <data name="Ui.FastFlags.ThisIsTheExactRippleTexture" xml:space="preserve">
+    <value>Bu, Roblox'un yüklediği dalgacık dokusunun ta kendisidir</value>
+  </data>
+  <data name="Ui.FastFlags.WaterAnimationImages" xml:space="preserve">
+    <value>Su animasyonu görselleri</value>
+  </data>
+  <data name="Ui.FastFlags.RippleStrength" xml:space="preserve">
+    <value>Dalgacık gücü</value>
+  </data>
+  <data name="Ui.FastFlags.0IsFlat100IsNormal" xml:space="preserve">
+    <value>%0 düz, %100 normal, daha fazlası daha dalgalı</value>
+  </data>
+  <data name="Ui.FastFlags.RippleSpeed" xml:space="preserve">
+    <value>Dalgacık hızı</value>
+  </data>
+  <data name="Ui.FastFlags.HowFastTheRipplesMove" xml:space="preserve">
+    <value>Dalgacıkların ne kadar hızlı hareket ettiği</value>
+  </data>
+  <data name="Ui.FastFlags.FrozenFrame" xml:space="preserve">
+    <value>Dondurulmuş kare</value>
+  </data>
+  <data name="Ui.FastFlags.WhichRippleFrameToHoldStill" xml:space="preserve">
+    <value>Hangi dalgacık karesinin sabit kalacağı</value>
+  </data>
+  <data name="Ui.FastFlags.GlitchAmount" xml:space="preserve">
+    <value>Bozulma miktarı</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrokenTheWaterLooks" xml:space="preserve">
+    <value>Suyun ne kadar bozuk görüneceği</value>
+  </data>
+  <data name="Ui.FastFlags.Terrain" xml:space="preserve">
+    <value>Arazi</value>
+  </data>
+  <data name="Ui.FastFlags.StretchTheGroundTexturesAndChange" xml:space="preserve">
+    <value>Zemin dokularını uzatır ve ne sıklıkla tekrar ettiklerini değiştirir</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainTextureSize" xml:space="preserve">
+    <value>Arazi doku boyutu</value>
+  </data>
+  <data name="Ui.FastFlags.1xIsTheNormalRobloxSize" xml:space="preserve">
+    <value>1x normal Roblox boyutudur, daha azı daha büyük ve daha bulanıktır</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainRepeatHiding" xml:space="preserve">
+    <value>Arazi tekrarını gizleme</value>
+  </data>
+  <data name="Ui.FastFlags.HigherLetsRepeatingPatternsShowMore" xml:space="preserve">
+    <value>Daha yüksek değer tekrar eden desenleri daha çok gösterir</value>
+  </data>
+  <data name="Ui.FastFlags.NVIDIAFFlagsAreForAdvancedUsers" xml:space="preserve">
+    <value>NVIDIA FFlags yalnızca ileri düzey kullanıcılar içindir</value>
+  </data>
+  <data name="Ui.FastFlags.TheseSettingsChangeTheNVIDIADriver" xml:space="preserve">
+    <value>Bu ayarlar Roblox'un çalıştığı NVIDIA sürücü profilini değiştirir. Yanlış bir değer FPS'i düşürebilir, giriş gecikmesi, takılma, grafik hataları veya çökmelere yol açabilir, hatta Roblox'un açılmasını engelleyebilir. Değişiklikler NVIDIA sürücünüze kaydedilir, bu yüzden Voidstrap'i kapattıktan veya kaldırdıktan sonra da kalır.</value>
+  </data>
+  <data name="Ui.FastFlags.ToUndoThemOpenTheAdvanced" xml:space="preserve">
+    <value>Geri almak için gelişmiş düzenleyiciyi açın ve Reset NIP seçeneğini kullanın. Bu, Roblox için her NVIDIA ayarını sürücü varsayılanına döndürür. Yalnızca burada sıfırlayamıyorsanız varsayılanları geri yüklemek için NVIDIA sürücülerinizi güncelleyin veya yeniden yükleyin.</value>
+  </data>
+  <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
+    <value>Yalnızca anladığınız şeyleri ve her seferinde tek bir ayarı değiştirin.</value>
+  </data>
+  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
+    <value>AssetWarp proxy'sini ve ilgili tüm özellikleri açar</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
+    <value>Tüm dokuları kaldır</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
+    <value>Tüm çıkartmaları kaldır</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
+    <value>Tüm görselleri kaldır</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
+    <value>Tüm animasyonları kaldır</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
+    <value>Tüm modelleri kaldır</value>
+  </data>
+  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
+    <value>Durum taklitçisi</value>
+  </data>
+  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
+    <value>Başkalarının ne gördüğünü değiştirir: çevrimiçi, Studio'da veya çevrimdışı</value>
+  </data>
+  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
+    <value>Ön yükleme</value>
+  </data>
+  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
+    <value>Kaynakları önceden yükle</value>
+  </data>
+  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
+    <value>Her oyunu öğrenir ve önceden indirilmiş kaynakları sunar</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
+    <value>Ön yükleme önbelleği sınırı</value>
+  </data>
+  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
+    <value>Öğrenilen kaynak önbelleğinin kullanabileceği disk alanını sınırlar</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
+    <value>Avatarı önceden yükle</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
+    <value>Her oyun açılışından önce avatarınızı ve takılı aksesuarlarınızı önceden yükler</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
+    <value>Son oyunları önceden yükle</value>
+  </data>
+  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
+    <value>Her açılıştan önce önbelleği son oynadığınız oyunlarla hazırlar</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
+    <value>İstemci taraflı taklitçi</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
+    <value>Yalnızca istemci tarafında, bu değişiklikleri yalnızca siz görürsünüz.</value>
+  </data>
+  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
+    <value>Diğer herkesin kullanıcı adı</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
+    <value>İstemcinizin diğer tüm oyuncular için gösterdiği kullanıcı adını belirler</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
+    <value>Oyunda diğer herkese uygula</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
+    <value>Diğer herkesin kullanıcı adını Roblox'ta uygular</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
+    <value>Diğer herkesi doğrulanmış göster</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
+    <value>Bu istemcide diğer tüm oyuncuları doğrulanmış olarak gösterir</value>
+  </data>
+  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
+    <value>Kullanıcı adınız</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
+    <value>İstemcinizin hesabınız için gösterdiği kullanıcı adını belirler</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
+    <value>Kendi kullanıcı adınızı oyunda uygula</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
+    <value>Taklit edilmiş kullanıcı adınızı Roblox'ta uygular</value>
+  </data>
+  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
+    <value>Robux ayarlayıcı</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
+    <value>Hesabınızı doğrulanmış göster</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
+    <value>Bu istemcide hesabınızı doğrulanmış olarak gösterir</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
+    <value>Kendinizi oyunun yapımcısı yapın</value>
+  </data>
+  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
+    <value>Yakalanan oyun yapımcısı verileri için mevcut Roblox kullanıcı kimliğinizi kullanır</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
+    <value>Kendinizi oyunun yapımcısı yapın özelliği Windows'ta çalışmaz. Roblox artık Windows'ta oyunlara katılımı koruyor ve bunu değiştirmek katılımın 529 hatasıyla başarısız olmasına neden oluyor, bu yüzden Voidstrap buna dokunmaz. Linux ve macOS'ta hâlâ çalışır, diğer seçenekleriniz etkilenmez.</value>
+  </data>
 </root>

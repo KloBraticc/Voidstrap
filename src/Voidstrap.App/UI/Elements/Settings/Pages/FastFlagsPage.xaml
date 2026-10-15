@@ -28,7 +28,7 @@
     <controls:OptionControl Height="73" Description="{resources:Loc Menu_FastFlags_ManagerEnabled_Description}" Header="{resources:Loc Menu_FastFlags_ManagerEnabled_Title}">
       <ui:ToggleSwitch IsChecked="{Binding UseFastFlagManager, Mode=TwoWay}" />
     </controls:OptionControl>
-    <controls:OptionControl Description="Choose whether your Fast Flags are applied to the Roblox player, Roblox Studio, or both." Header="Apply Fast Flags to">
+    <controls:OptionControl Description="{resources:Loc Ui_FastFlags_ChooseWhetherYourFastFlagsAre}" Header="{resources:Loc Ui_FastFlags_ApplyFastFlagsTo}">
       <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding FastFlagApplyTargets, Mode=OneTime}" SelectedItem="{Binding FastFlagApplyTarget, Mode=TwoWay}">
         <ItemsControl.ItemTemplate>
           <DataTemplate>
@@ -43,7 +43,7 @@
     <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
       <HeaderedContentControl.Header>
         <StackPanel>
-          <TextBlock Margin="0,0,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="View the FastFlags Roblox officially allows in local configuration." />
+          <TextBlock Margin="0,0,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_FastFlags_ViewTheFastFlagsRobloxOfficiallyAllows}" />
         </StackPanel>
       </HeaderedContentControl.Header>
       <StackPanel>
@@ -66,14 +66,14 @@
                     ScrollViewer.CanContentScroll="True">
             <DataGrid.Columns>
               <DataGridTextColumn Width="2*" Header="{resources:Loc Common_Name}" Binding="{Binding Name}" />
-              <DataGridTextColumn Width="*" Header="Category" Binding="{Binding Value}" />
+              <DataGridTextColumn Width="*" Header="{resources:Loc Ui_FastFlags_Category}" Binding="{Binding Value}" />
             </DataGrid.Columns>
           </DataGrid>
         </Border>
       </StackPanel>
     </ui:CardExpander>
     <TextBlock Margin="0,16,0,0" FontSize="17.65" FontWeight="Medium" Text="{resources:Loc Menu_FastFlags_Title}" />
-    <controls:OptionControl Description="Reduces or scales grass movement in Roblox for performance or visual comfort." Header="Grass Movement Factor">
+    <controls:OptionControl Description="{resources:Loc Ui_FastFlags_ReducesOrScalesGrassMovementIn}" Header="{resources:Loc Ui_FastFlags_GrassMovementFactor}">
       <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" SelectedValuePath="Key" ItemsSource="{Binding GrassMovementOptions}" SelectedValue="{Binding SelectedGrassMovementFactor, Mode=TwoWay}">
         <ItemsControl.ItemTemplate>
           <DataTemplate>
@@ -90,10 +90,10 @@
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
           <StackPanel Grid.Column="0">
-            <TextBlock FontSize="14" Text="Mesh Detail" />
-            <TextBlock FontSize="12" Text="Control how detail meshes appear in the game itself." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            <TextBlock FontSize="14" Text="{resources:Loc Ui_FastFlags_MeshDetail}" />
+            <TextBlock FontSize="12" Text="{resources:Loc Ui_FastFlags_ControlHowDetailMeshesAppearIn}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
           </StackPanel>
-          <ui:ToggleSwitch Grid.Column="1" AutomationProperties.Name="Mesh Detail" IsChecked="{Binding MeshQualityEnabled, Mode=TwoWay}" />
+          <ui:ToggleSwitch Grid.Column="1" AutomationProperties.Name="{resources:Loc Ui_FastFlags_MeshDetail}" IsChecked="{Binding MeshQualityEnabled, Mode=TwoWay}" />
         </Grid>
       </HeaderedContentControl.Header>
       <StackPanel Margin="0,8,0,0">
@@ -103,9 +103,9 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <TextBlock Text="Lowest Quality" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0" />
+          <TextBlock Text="{resources:Loc Ui_FastFlags_LowestQuality}" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0" />
           <Slider Grid.Column="1" Minimum="1" Maximum="3" TickFrequency="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" SmallChange="1" LargeChange="1" Margin="8,0,8,0" Value="{Binding MeshQuality, Mode=TwoWay}" />
-          <TextBlock Text="Highest Quality" Grid.Column="2" VerticalAlignment="Center" Margin="8,0,0,0" />
+          <TextBlock Text="{resources:Loc Ui_FastFlags_HighestQuality}" Grid.Column="2" VerticalAlignment="Center" Margin="8,0,0,0" />
         </Grid>
       </StackPanel>
     </ui:CardExpander>
@@ -117,10 +117,10 @@
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
           <StackPanel Grid.Column="0">
-            <TextBlock FontSize="14" Text="FRM Quality Overright" />
-            <TextBlock FontSize="12" Text="Choose the FRM quality overright." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            <TextBlock FontSize="14" Text="{resources:Loc Ui_FastFlags_FRMQualityOverright}" />
+            <TextBlock FontSize="12" Text="{resources:Loc Ui_FastFlags_ChooseTheFRMQualityOverright}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
           </StackPanel>
-          <ui:ToggleSwitch Grid.Column="1" AutomationProperties.Name="FRM Quality Override" IsChecked="{Binding FRMQualityOverrideEnabled, Mode=TwoWay}" />
+          <ui:ToggleSwitch Grid.Column="1" AutomationProperties.Name="{resources:Loc Ui_FastFlags_FRMQualityOverride}" IsChecked="{Binding FRMQualityOverrideEnabled, Mode=TwoWay}" />
         </Grid>
       </HeaderedContentControl.Header>
       <StackPanel Margin="0,8,0,0">
@@ -130,9 +130,9 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <TextBlock Text="Lowest Quality" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0" />
+          <TextBlock Text="{resources:Loc Ui_FastFlags_LowestQuality}" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0" />
           <Slider Grid.Column="1" Minimum="1" Maximum="21" TickFrequency="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" SmallChange="1" LargeChange="1" Margin="8,0,8,0" Value="{Binding FRMQualityOverride, Mode=TwoWay}" />
-          <TextBlock Text="Highest Quality" Grid.Column="2" VerticalAlignment="Center" Margin="8,0,0,0" />
+          <TextBlock Text="{resources:Loc Ui_FastFlags_HighestQuality}" Grid.Column="2" VerticalAlignment="Center" Margin="8,0,0,0" />
         </Grid>
       </StackPanel>
     </ui:CardExpander>
@@ -145,7 +145,7 @@
           </Grid.ColumnDefinitions>
           <StackPanel Grid.Column="0">
             <TextBlock FontSize="14.4" Text="{resources:Loc Menu_FastFlags_Presets_Categories_Rendering}" />
-            <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Configure basic graphic and rendering settings" />
+            <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_FastFlags_ConfigureBasicGraphicAndRenderingSettings}" />
           </StackPanel>
         </Grid>
       </HeaderedContentControl.Header>
@@ -158,17 +158,17 @@
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
               <StackPanel Grid.Column="0">
-                <TextBlock FontSize="14" Text="Lighting" />
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_FastFlags_Lighting}" />
               </StackPanel>
             </Grid>
           </HeaderedContentControl.Header>
           <StackPanel>
-            <controls:OptionControl Margin="0,-8,0,0" Header="Force Gray Sky">
+            <controls:OptionControl Margin="0,-8,0,0" Header="{resources:Loc Ui_FastFlags_ForceGraySky}">
               <ui:ToggleSwitch IsChecked="{Binding EnableGraySky, Mode=TwoWay}" />
             </controls:OptionControl>
           </StackPanel>
         </ui:CardExpander>
-        <controls:OptionControl Description="Smooth out jagged edges. Higher values increases smoothness." Header="{resources:Loc Menu_FastFlags_Presets_MSAA_Title}">
+        <controls:OptionControl Description="{resources:Loc Ui_FastFlags_SmoothOutJaggedEdgesHigherValues}" Header="{resources:Loc Menu_FastFlags_Presets_MSAA_Title}">
           <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding MSAALevels.Keys, Mode=OneTime}" Text="{Binding SelectedMSAALevel, Mode=TwoWay}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
@@ -177,7 +177,7 @@
             </ItemsControl.ItemTemplate>
           </ComboBox>
         </controls:OptionControl>
-        <controls:OptionControl Description="Adjust the quality of textures. Higher levels increase quality." Header="{resources:Loc Menu_FastFlags_Presets_TextureQuality_Title}">
+        <controls:OptionControl Description="{resources:Loc Ui_FastFlags_AdjustTheQualityOfTexturesHigher}" Header="{resources:Loc Menu_FastFlags_Presets_TextureQuality_Title}">
           <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding TextureQualities.Keys, Mode=OneTime}" Text="{Binding SelectedTextureQuality, Mode=TwoWay}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
@@ -189,16 +189,16 @@
         <controls:OptionControl Description="{resources:Loc Menu_FastFlags_Presets_FixDisplayScaling_Description}" Header="{resources:Loc Menu_FastFlags_Presets_FixDisplayScaling_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/A-guide-to-FastFlags#dpi-scaling-fixes">
           <ui:ToggleSwitch IsChecked="{Binding FixDisplayScaling, Mode=TwoWay}" />
         </controls:OptionControl>
-        <controls:OptionControl Description="Controls grass render distance in Roblox games. Set both values to 0 to disable grass." Header="Grass Distance">
+        <controls:OptionControl Description="{resources:Loc Ui_FastFlags_ControlsGrassRenderDistanceInRoblox}" Header="{resources:Loc Ui_FastFlags_GrassDistance}">
           <StackPanel Orientation="Horizontal">
-            <TextBlock VerticalAlignment="Center" Text="Min" Margin="0,0,8,0" />
+            <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_FastFlags_Min}" Margin="0,0,8,0" />
             <ui:TextBox Width="80" Padding="8,4" Text="{Binding MinGrassDistance, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PreviewTextInput="ValidateInt" />
             <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" />
             <ui:TextBox Width="80" Padding="8,4" Text="{Binding MaxGrassDistance, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PreviewTextInput="ValidateInt" />
-            <TextBlock VerticalAlignment="Center" Text="Max" Margin="8,0,0,0" />
+            <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_FastFlags_Max}" Margin="8,0,0,0" />
           </StackPanel>
         </controls:OptionControl>
-        <controls:OptionControl Description="Configure the rendering api for Roblox. Press Alt Enter when going to Fullscreen if using Direct3D. Setting to Vulkan may cause some bugs!." Header="Rendering Mode" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+        <controls:OptionControl Description="{resources:Loc Ui_FastFlags_ConfigureTheRenderingApiForRoblox}" Header="{resources:Loc Ui_FastFlags_RenderingMode}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
           <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding RenderingModes.Keys, Mode=OneTime}" Text="{Binding SelectedRenderingMode, Mode=TwoWay}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
@@ -211,8 +211,8 @@
     </ui:CardExpander>
           <ui:CardAction Margin="0,8,0,0" Icon="Wrench24" Click="OpenAdvancedFlags_Click">
             <StackPanel>
-              <TextBlock FontSize="14" FontWeight="Medium" Text="Advanced FFlags" />
-              <TextBlock Margin="0,2,0,0" FontSize="12" Text="Swap Roblox textures for particles, studs, terrain and water." TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              <TextBlock FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_FastFlags_AdvancedFFlags}" />
+              <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_FastFlags_SwapRobloxTexturesForParticlesStuds}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
             </StackPanel>
           </ui:CardAction>
     <StackPanel Margin="0,12,0,0" HorizontalAlignment="Right" Orientation="Horizontal">
@@ -221,7 +221,7 @@
         <ComboBoxItem Content="Performance" Tag="Performance" />
         <ComboBoxItem Content="Quality" Tag="Quality" />
       </ComboBox>
-      <Button Name="CheckSystemButton" Margin="8,0,0,0" Content="Apply Profile" Click="CheckSystemButton_Click" />
+      <Button Name="CheckSystemButton" Margin="8,0,0,0" Content="{resources:Loc Ui_FastFlags_ApplyProfile}" Click="CheckSystemButton_Click" />
     </StackPanel>
         </StackPanel>
       </TabItem>
@@ -229,38 +229,38 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Wrench24" Margin="0,0,6,0" />
-            <TextBlock Text="Advanced FFlags" />
+            <TextBlock Text="{resources:Loc Ui_FastFlags_AdvancedFFlags}" />
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
           <ui:Button Margin="0,0,0,8" Icon="ArrowLeft24" Content="{resources:Loc Menu_FastFlagEditor_Back}" Click="CloseAdvancedFlags_Click" />
-          <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Informational" Message="These options only swap some of Roblox's built in texture files, like particles, studs, terrain and water. Most games use their own textures and effects, so you may not notice much of a difference." />
-          <controls:OptionControl Header="Particles" Description="Fire, smoke, explosions, sparkles and force fields">
+          <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Informational" Message="{resources:Loc Ui_FastFlags_TheseOptionsOnlySwapSomeOf}" />
+          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_Particles}" Description="{resources:Loc Ui_FastFlags_FireSmokeExplosionsSparklesAndForce}">
             <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding TextureParticleStyle, Mode=TwoWay}">
               <ComboBoxItem Content="Roblox default" />
               <ComboBoxItem Content="Hidden" />
               <ComboBoxItem Content="Squares" />
             </ComboBox>
           </controls:OptionControl>
-          <controls:OptionControl Header="Square opacity" Description="How solid the squares look" Visibility="{Binding TextureParticleSquares, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_SquareOpacity}" Description="{resources:Loc Ui_FastFlags_HowSolidTheSquaresLook}" Visibility="{Binding TextureParticleSquares, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="10" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding TextureParticleOpacity, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureParticleOpacityDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="Studs" Description="The stud pattern on parts">
+          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_Studs}" Description="{resources:Loc Ui_FastFlags_TheStudPatternOnParts}">
             <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding TextureStudStyle, Mode=TwoWay}">
               <ComboBoxItem Content="Roblox default" />
               <ComboBoxItem Content="Flat" />
             </ComboBox>
           </controls:OptionControl>
-          <controls:OptionControl Header="Flat shade" Description="How bright flat surfaces look. 50% matches the normal brightness" Visibility="{Binding TextureStudFlat, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_FlatShade}" Description="{resources:Loc Ui_FastFlags_HowBrightFlatSurfacesLook50}" Visibility="{Binding TextureStudFlat, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding TextureStudShade, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureStudShadeDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="Water" Description="The ripples on terrain water">
+          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_Water}" Description="{resources:Loc Ui_FastFlags_TheRipplesOnTerrainWater}">
             <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding TextureWaterStyle, Mode=TwoWay}">
               <ComboBoxItem Content="Roblox default" />
               <ComboBoxItem Content="Adjusted ripples" />
@@ -280,52 +280,52 @@
                 <Image x:Name="WaterPreviewImage" Width="256" Height="256" Stretch="None" SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="{Binding TextureWaterPreview}" />
               </Border>
               <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
-                <TextBlock FontSize="14" Text="Water preview" />
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_FastFlags_WaterPreview}" />
                 <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{Binding TextureWaterPreviewStatus}" />
-                <TextBlock Margin="0,10,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="This is the exact ripple texture Roblox loads" />
+                <TextBlock Margin="0,10,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{resources:Loc Ui_FastFlags_ThisIsTheExactRippleTexture}" />
               </StackPanel>
             </Grid>
           </Border>
-          <controls:OptionControl Header="Water animation images" Description="{Binding TextureWaterFramesSummary}" Visibility="{Binding TextureWaterCustom, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_WaterAnimationImages}" Description="{Binding TextureWaterFramesSummary}" Visibility="{Binding TextureWaterCustom, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
-              <ui:Button Icon="DocumentAdd16" Content="Choose" Command="{Binding ChooseWaterFramesCommand}" />
-              <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="Remove" Command="{Binding ClearWaterFramesCommand}" Visibility="{Binding TextureWaterHasFrames, Converter={StaticResource BooleanToVisibilityConverter}}" />
+              <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding ChooseWaterFramesCommand}" />
+              <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding ClearWaterFramesCommand}" Visibility="{Binding TextureWaterHasFrames, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="Ripple strength" Description="0% is flat, 100% is normal, higher is choppier" Visibility="{Binding TextureWaterShowStrength, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_RippleStrength}" Description="{resources:Loc Ui_FastFlags_0IsFlat100IsNormal}" Visibility="{Binding TextureWaterShowStrength, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="0" Maximum="300" TickFrequency="10" IsSnapToTickEnabled="True" Value="{Binding TextureWaterStrength, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureWaterStrengthDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="Ripple speed" Description="How fast the ripples move" Visibility="{Binding TextureWaterShowSpeed, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_RippleSpeed}" Description="{resources:Loc Ui_FastFlags_HowFastTheRipplesMove}" Visibility="{Binding TextureWaterShowSpeed, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="1" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding TextureWaterSpeed, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureWaterSpeedDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="Frozen frame" Description="Which ripple frame to hold still" Visibility="{Binding TextureWaterShowFrame, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_FrozenFrame}" Description="{resources:Loc Ui_FastFlags_WhichRippleFrameToHoldStill}" Visibility="{Binding TextureWaterShowFrame, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="1" Maximum="25" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding TextureWaterFrame, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureWaterFrameDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="Glitch amount" Description="How broken the water looks" Visibility="{Binding TextureWaterShowGlitch, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_GlitchAmount}" Description="{resources:Loc Ui_FastFlags_HowBrokenTheWaterLooks}" Visibility="{Binding TextureWaterShowGlitch, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="5" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding TextureWaterGlitch, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureWaterGlitchDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="Terrain" Description="Stretch the ground textures and change how much they repeat">
+          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_Terrain}" Description="{resources:Loc Ui_FastFlags_StretchTheGroundTexturesAndChange}">
             <ui:ToggleSwitch IsChecked="{Binding TextureTerrainEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Terrain texture size" Description="1x is the normal Roblox size, lower is bigger and blurrier" Visibility="{Binding TextureTerrainEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_TerrainTextureSize}" Description="{resources:Loc Ui_FastFlags_1xIsTheNormalRobloxSize}" Visibility="{Binding TextureTerrainEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="0.05" Maximum="1" TickFrequency="0.05" IsSnapToTickEnabled="True" Value="{Binding TextureTerrainSize, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureTerrainSizeDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="Terrain repeat hiding" Description="Higher lets repeating patterns show more" Visibility="{Binding TextureTerrainEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_TerrainRepeatHiding}" Description="{resources:Loc Ui_FastFlags_HigherLetsRepeatingPatternsShowMore}" Visibility="{Binding TextureTerrainEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding TextureTerrainRepeat, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureTerrainRepeatDisplay}" />
@@ -346,10 +346,10 @@
             <StackPanel x:Name="NvidiaWarning" Margin="24,32" MaxWidth="620" VerticalAlignment="Center">
               <Image HorizontalAlignment="Center" Source="pack://application:,,,/Resources/MessageBox/Warning.png" RenderOptions.BitmapScalingMode="HighQuality" Width="96" />
               <TextBlock HorizontalAlignment="Center" Text="{resources:Loc Common_Warning}" FontSize="48" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-              <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="NVIDIA FFlags are for advanced users only" FontSize="24" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-              <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="16,16,16,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="These settings change the NVIDIA driver profile Roblox runs with. A wrong value can lower your FPS, add input delay, cause stutters, visual glitches or crashes, and can even stop Roblox from starting. The changes are saved in your NVIDIA driver, so they stay after you close or uninstall Voidstrap." />
-              <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="16,12,16,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="To undo them, open the Advanced Editor and use Reset NIP, which puts every NVIDIA setting for Roblox back to the driver default. Only if you cannot reset them here, update or reinstall your NVIDIA drivers to restore the defaults." />
-              <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="16,12,16,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Only change what you understand, and change one setting at a time." />
+              <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="{resources:Loc Ui_FastFlags_NVIDIAFFlagsAreForAdvancedUsers}" FontSize="24" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+              <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="16,16,16,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_FastFlags_TheseSettingsChangeTheNVIDIADriver}" />
+              <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="16,12,16,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_FastFlags_ToUndoThemOpenTheAdvanced}" />
+              <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="16,12,16,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_FastFlags_OnlyChangeWhatYouUnderstandAnd}" />
               <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,20,0,0">
                 <ui:Button Content="{resources:Loc Menu_FastFlagEditor_Warning_Back}" Margin="0,0,8,0" Appearance="Primary" Click="NvidiaWarningBack_Click" />
                 <ui:Button x:Name="NvidiaWarningContinue" Appearance="Danger" IsEnabled="False" Click="NvidiaWarningContinue_Click" />
@@ -367,26 +367,26 @@
           </StackPanel>
                 </TabItem.Header>
                 <StackPanel Margin="10" Height="Auto">
-                  <controls:OptionControl Header="AssetWarp" Description="Enables the AssetWarp proxy and all related features">
+                  <controls:OptionControl Header="AssetWarp" Description="{resources:Loc Ui_FastFlags_EnablesTheAssetWarpProxyAndAll}">
                     <ui:ToggleSwitch IsChecked="{Binding AssetWarpEnabled, Mode=TwoWay}" />
                   </controls:OptionControl>
                   <StackPanel IsEnabled="{Binding AssetWarpEnabled}">
-                    <controls:OptionControl Header="Remove All Textures" Description="{resources:Loc AssetWarp_RemoveTexturesDescription}">
+                    <controls:OptionControl Header="{resources:Loc Ui_FastFlags_RemoveAllTextures}" Description="{resources:Loc AssetWarp_RemoveTexturesDescription}">
             <ui:ToggleSwitch IsChecked="{Binding DisableAllTextures, Mode=TwoWay}" />
           </controls:OptionControl>
-		  <controls:OptionControl Header="Remove All Decals" Description="{resources:Loc AssetWarp_RemoveDecalsDescription}">
+		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_RemoveAllDecals}" Description="{resources:Loc AssetWarp_RemoveDecalsDescription}">
 			<ui:ToggleSwitch IsChecked="{Binding DisableAllDecals, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Remove All Images" Description="{resources:Loc AssetWarp_RemoveImagesDescription}">
+		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_RemoveAllImages}" Description="{resources:Loc AssetWarp_RemoveImagesDescription}">
 			<ui:ToggleSwitch IsChecked="{Binding DisableAllImages, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Remove All Animations" Description="{resources:Loc AssetWarp_RemoveAnimationsDescription}">
+		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_RemoveAllAnimations}" Description="{resources:Loc AssetWarp_RemoveAnimationsDescription}">
 			<ui:ToggleSwitch IsChecked="{Binding DisableAllAnimations, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Remove All Meshes" Description="{resources:Loc AssetWarp_RemoveMeshesDescription}">
+		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_RemoveAllMeshes}" Description="{resources:Loc AssetWarp_RemoveMeshesDescription}">
 			<ui:ToggleSwitch IsChecked="{Binding DisableAllMeshes, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Presence Spoofer" Description="Changes what others see online, in studio, or offline">
+		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_PresenceSpoofer}" Description="{resources:Loc Ui_FastFlags_ChangesWhatOthersSeeOnlineIn}">
 			<ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding PresenceSpoofMode, Mode=TwoWay}">
 			  <ComboBoxItem Content="Off" />
 			  <ComboBoxItem Content="Appear Online" />
@@ -395,49 +395,49 @@
 			</ComboBox>
 		  </controls:OptionControl>
 
-                    <TextBlock Text="Preloading" FontSize="18" FontWeight="SemiBold" Margin="0,16,0,2" />
-                    <controls:OptionControl Header="Asset Preloading" Description="Learns each game and serves previously downloaded assets">
+                    <TextBlock Text="{resources:Loc Ui_FastFlags_Preloading}" FontSize="18" FontWeight="SemiBold" Margin="0,16,0,2" />
+                    <controls:OptionControl Header="{resources:Loc Ui_FastFlags_AssetPreloading}" Description="{resources:Loc Ui_FastFlags_LearnsEachGameAndServesPreviously}">
                         <ui:ToggleSwitch IsChecked="{Binding AssetWarpPreloadEnabled, Mode=TwoWay}" />
                     </controls:OptionControl>
-                    <controls:OptionControl Header="Preload Cache Limit" Description="Limits how much disk space the learned asset cache can use">
+                    <controls:OptionControl Header="{resources:Loc Ui_FastFlags_PreloadCacheLimit}" Description="{resources:Loc Ui_FastFlags_LimitsHowMuchDiskSpaceThe}">
                         <StackPanel Width="250">
                             <Slider Minimum="256" Maximum="8192" TickFrequency="256" IsSnapToTickEnabled="True" Value="{Binding AssetWarpPreloadCacheMb, Mode=TwoWay}" />
                             <TextBlock HorizontalAlignment="Right" Text="{Binding AssetWarpPreloadCacheSizeDisplay}" />
                         </StackPanel>
                     </controls:OptionControl>
-                    <controls:OptionControl Header="Preload Avatar" Description="Preloads your avatar and equipped accessories before each game launch">
+                    <controls:OptionControl Header="{resources:Loc Ui_FastFlags_PreloadAvatar}" Description="{resources:Loc Ui_FastFlags_PreloadsYourAvatarAndEquippedAccessories}">
                         <ui:ToggleSwitch IsChecked="{Binding AssetWarpPreloadAvatar, Mode=TwoWay}" />
                     </controls:OptionControl>
-                    <controls:OptionControl Header="Preload Recent Games" Description="Warms cache from your recently played games before each launch">
+                    <controls:OptionControl Header="{resources:Loc Ui_FastFlags_PreloadRecentGames}" Description="{resources:Loc Ui_FastFlags_WarmsCacheFromYourRecentlyPlayed}">
                         <ui:ToggleSwitch IsChecked="{Binding AssetWarpPreloadCrossGame, Mode=TwoWay}" />
                     </controls:OptionControl>
-                    <TextBlock Text="Client Spoofer" FontSize="18" FontWeight="SemiBold" Margin="0,16,0,2" />
-		  <TextBlock Text="Client sided, only you see these changes." Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,0,0,4" />
-		  <controls:OptionControl Header="Everyone Else Username" Description="Sets the client sided username shown for every other player">
+                    <TextBlock Text="{resources:Loc Ui_FastFlags_ClientSpoofer}" FontSize="18" FontWeight="SemiBold" Margin="0,16,0,2" />
+		  <TextBlock Text="{resources:Loc Ui_FastFlags_ClientSidedOnlyYouSeeThese}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,0,0,4" />
+		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_EveryoneElseUsername}" Description="{resources:Loc Ui_FastFlags_SetsTheClientSidedUsernameShown}">
 			<TextBox Width="200" Padding="10,5,10,5" Text="{Binding SpoofOthersName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Apply Everyone Else Ingame" Description="Applies the everyone else username inside Roblox">
+		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_ApplyEveryoneElseIngame}" Description="{resources:Loc Ui_FastFlags_AppliesTheEveryoneElseUsernameInside}">
 			<ui:ToggleSwitch IsChecked="{Binding SpoofOthersApplyIngame, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Verify Everyone Else" Description="Shows every other player as verified on this client">
+		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_VerifyEveryoneElse}" Description="{resources:Loc Ui_FastFlags_ShowsEveryOtherPlayerAsVerified}">
 			<ui:ToggleSwitch IsChecked="{Binding SpoofOthersVerified, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Your Username" Description="Sets the client sided username shown for your account">
+		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_YourUsername}" Description="{resources:Loc Ui_FastFlags_SetsTheClientSidedUsernameShown2}">
 			<TextBox Width="200" Padding="10,5,10,5" Text="{Binding SpoofSelfName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Apply Your Username Ingame" Description="Applies your spoofed username inside Roblox">
+		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_ApplyYourUsernameIngame}" Description="{resources:Loc Ui_FastFlags_AppliesYourSpoofedUsernameInsideRoblox}">
 			<ui:ToggleSwitch IsChecked="{Binding SpoofSelfApplyIngame, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Robux adjuster" Description="{Binding RobuxSpoofSummary}">
+		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_RobuxAdjuster}" Description="{Binding RobuxSpoofSummary}">
 			<TextBox Width="200" Padding="10,5,10,5" Text="{Binding RobuxSpoofAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Verify Your Account" Description="Shows your account as verified on this client">
+		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_VerifyYourAccount}" Description="{resources:Loc Ui_FastFlags_ShowsYourAccountAsVerifiedOn}">
 			<ui:ToggleSwitch IsChecked="{Binding SpoofSelfVerified, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Make Yourself Game Creator" Description="Uses your current Roblox user ID for intercepted game creator metadata">
+		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_MakeYourselfGameCreator}" Description="{resources:Loc Ui_FastFlags_UsesYourCurrentRobloxUserID}">
 			<ui:ToggleSwitch IsChecked="{Binding SpoofSelfGameCreator, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <ui:InfoBar Margin="0,8,0,0" Padding="8" IsClosable="False" IsOpen="True" Severity="Warning" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" Message="Make Yourself Game Creator does not work on Windows. Roblox now protects game joins on Windows, and changing them makes joins fail with error 529, so Voidstrap leaves them alone. It still works on Linux and macOS, and your other options are not affected." />
+		  <ui:InfoBar Margin="0,8,0,0" Padding="8" IsClosable="False" IsOpen="True" Severity="Warning" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" Message="{resources:Loc Ui_FastFlags_MakeYourselfGameCreatorDoesNot}" />
                   </StackPanel>
         </StackPanel>
       </TabItem>

@@ -3931,4 +3931,286 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Mods.FindMods2" xml:space="preserve">
     <value>یافتن مادها</value>
   </data>
+  <data name="Ui.FastFlags.ChooseWhetherYourFastFlagsAre" xml:space="preserve">
+    <value>انتخاب کنید که Fast Flags روی پخش‌کننده Roblox، Roblox Studio یا هر دو اعمال شوند.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyFastFlagsTo" xml:space="preserve">
+    <value>اعمال Fast Flags روی</value>
+  </data>
+  <data name="Ui.FastFlags.ViewTheFastFlagsRobloxOfficiallyAllows" xml:space="preserve">
+    <value>FastFlags هایی را که Roblox به‌طور رسمی در پیکربندی محلی مجاز می‌داند ببینید.</value>
+  </data>
+  <data name="Ui.FastFlags.Category" xml:space="preserve">
+    <value>دسته</value>
+  </data>
+  <data name="Ui.FastFlags.ReducesOrScalesGrassMovementIn" xml:space="preserve">
+    <value>حرکت چمن را در Roblox برای کارایی یا راحتی دید کاهش می‌دهد یا مقیاس می‌کند.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassMovementFactor" xml:space="preserve">
+    <value>ضریب حرکت چمن</value>
+  </data>
+  <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
+    <value>جزئیات مش</value>
+  </data>
+  <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
+    <value>نحوه نمایش مش‌های پرجزئیات را در بازی کنترل می‌کند.</value>
+  </data>
+  <data name="Ui.FastFlags.LowestQuality" xml:space="preserve">
+    <value>کمترین کیفیت</value>
+  </data>
+  <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
+    <value>بیشترین کیفیت</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
+    <value>جایگزینی کیفیت FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
+    <value>جایگزینی کیفیت FRM را انتخاب کنید.</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
+    <value>جایگزینی کیفیت FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
+    <value>تنظیمات پایه گرافیک و رندر</value>
+  </data>
+  <data name="Ui.FastFlags.Lighting" xml:space="preserve">
+    <value>نورپردازی</value>
+  </data>
+  <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
+    <value>اجبار آسمان خاکستری</value>
+  </data>
+  <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
+    <value>لبه‌های دندانه‌دار را صاف می‌کند. مقادیر بالاتر صاف‌تر می‌کنند.</value>
+  </data>
+  <data name="Ui.FastFlags.AdjustTheQualityOfTexturesHigher" xml:space="preserve">
+    <value>کیفیت بافت‌ها را تنظیم می‌کند. سطوح بالاتر کیفیت را افزایش می‌دهند.</value>
+  </data>
+  <data name="Ui.FastFlags.ControlsGrassRenderDistanceInRoblox" xml:space="preserve">
+    <value>فاصله نمایش چمن را در بازی‌های Roblox کنترل می‌کند. برای خاموش کردن چمن هر دو مقدار را 0 بگذارید.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
+    <value>فاصله چمن</value>
+  </data>
+  <data name="Ui.FastFlags.Min" xml:space="preserve">
+    <value>حداقل</value>
+  </data>
+  <data name="Ui.FastFlags.Max" xml:space="preserve">
+    <value>حداکثر</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
+    <value>API رندر Roblox را تنظیم کنید. اگر از Direct3D استفاده می‌کنید هنگام رفتن به تمام‌صفحه Alt Enter را بزنید. Vulkan ممکن است خطاهایی ایجاد کند!.</value>
+  </data>
+  <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
+    <value>حالت رندر</value>
+  </data>
+  <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
+    <value>FFlags پیشرفته</value>
+  </data>
+  <data name="Ui.FastFlags.SwapRobloxTexturesForParticlesStuds" xml:space="preserve">
+    <value>بافت‌های Roblox را برای ذرات، studs، زمین و آب جایگزین می‌کند.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyProfile" xml:space="preserve">
+    <value>اعمال نمایه</value>
+  </data>
+  <data name="Ui.FastFlags.TheseOptionsOnlySwapSomeOf" xml:space="preserve">
+    <value>این گزینه‌ها فقط برخی از فایل‌های بافت داخلی Roblox مانند ذرات، studs، زمین و آب را جایگزین می‌کنند. بیشتر بازی‌ها از بافت‌ها و جلوه‌های خودشان استفاده می‌کنند، پس ممکن است تفاوت زیادی نبینید.</value>
+  </data>
+  <data name="Ui.FastFlags.Particles" xml:space="preserve">
+    <value>ذرات</value>
+  </data>
+  <data name="Ui.FastFlags.FireSmokeExplosionsSparklesAndForce" xml:space="preserve">
+    <value>آتش، دود، انفجار، جرقه و میدان نیرو</value>
+  </data>
+  <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
+    <value>کدری مربع‌ها</value>
+  </data>
+  <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
+    <value>مربع‌ها چقدر توپر به نظر می‌رسند</value>
+  </data>
+  <data name="Ui.FastFlags.Studs" xml:space="preserve">
+    <value>Studs</value>
+  </data>
+  <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
+    <value>الگوی studs روی قطعات</value>
+  </data>
+  <data name="Ui.FastFlags.FlatShade" xml:space="preserve">
+    <value>سایه‌زنی تخت</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrightFlatSurfacesLook50" xml:space="preserve">
+    <value>سطوح صاف چقدر روشن به نظر می‌رسند. 50% برابر روشنایی عادی است</value>
+  </data>
+  <data name="Ui.FastFlags.Water" xml:space="preserve">
+    <value>آب</value>
+  </data>
+  <data name="Ui.FastFlags.TheRipplesOnTerrainWater" xml:space="preserve">
+    <value>موج‌های روی آب زمین</value>
+  </data>
+  <data name="Ui.FastFlags.WaterPreview" xml:space="preserve">
+    <value>پیش‌نمایش آب</value>
+  </data>
+  <data name="Ui.FastFlags.ThisIsTheExactRippleTexture" xml:space="preserve">
+    <value>این دقیقاً همان بافت موجی است که Roblox بارگذاری می‌کند</value>
+  </data>
+  <data name="Ui.FastFlags.WaterAnimationImages" xml:space="preserve">
+    <value>تصاویر انیمیشن آب</value>
+  </data>
+  <data name="Ui.FastFlags.RippleStrength" xml:space="preserve">
+    <value>شدت موج</value>
+  </data>
+  <data name="Ui.FastFlags.0IsFlat100IsNormal" xml:space="preserve">
+    <value>0% صاف، 100% عادی، بیشتر یعنی متلاطم‌تر</value>
+  </data>
+  <data name="Ui.FastFlags.RippleSpeed" xml:space="preserve">
+    <value>سرعت موج</value>
+  </data>
+  <data name="Ui.FastFlags.HowFastTheRipplesMove" xml:space="preserve">
+    <value>موج‌ها با چه سرعتی حرکت می‌کنند</value>
+  </data>
+  <data name="Ui.FastFlags.FrozenFrame" xml:space="preserve">
+    <value>فریم ثابت</value>
+  </data>
+  <data name="Ui.FastFlags.WhichRippleFrameToHoldStill" xml:space="preserve">
+    <value>کدام فریم موج ثابت بماند</value>
+  </data>
+  <data name="Ui.FastFlags.GlitchAmount" xml:space="preserve">
+    <value>میزان خرابی</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrokenTheWaterLooks" xml:space="preserve">
+    <value>آب چقدر خراب به نظر برسد</value>
+  </data>
+  <data name="Ui.FastFlags.Terrain" xml:space="preserve">
+    <value>زمین</value>
+  </data>
+  <data name="Ui.FastFlags.StretchTheGroundTexturesAndChange" xml:space="preserve">
+    <value>بافت‌های زمین را می‌کشد و تعداد تکرارشان را تغییر می‌دهد</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainTextureSize" xml:space="preserve">
+    <value>اندازه بافت زمین</value>
+  </data>
+  <data name="Ui.FastFlags.1xIsTheNormalRobloxSize" xml:space="preserve">
+    <value>1x اندازه عادی Roblox است، کمتر یعنی بزرگ‌تر و تارتر</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainRepeatHiding" xml:space="preserve">
+    <value>پنهان کردن تکرار زمین</value>
+  </data>
+  <data name="Ui.FastFlags.HigherLetsRepeatingPatternsShowMore" xml:space="preserve">
+    <value>مقدار بالاتر الگوهای تکراری را بیشتر نشان می‌دهد</value>
+  </data>
+  <data name="Ui.FastFlags.NVIDIAFFlagsAreForAdvancedUsers" xml:space="preserve">
+    <value>NVIDIA FFlags فقط برای کاربران حرفه‌ای است</value>
+  </data>
+  <data name="Ui.FastFlags.TheseSettingsChangeTheNVIDIADriver" xml:space="preserve">
+    <value>این تنظیمات نمایه درایور NVIDIA را که Roblox با آن اجرا می‌شود تغییر می‌دهند. یک مقدار اشتباه می‌تواند FPS را کم کند، تأخیر ورودی، لگ، خطای گرافیکی یا کرش ایجاد کند و حتی مانع اجرای Roblox شود. تغییرات در درایور NVIDIA شما ذخیره می‌شوند، پس پس از بستن یا حذف Voidstrap هم باقی می‌مانند.</value>
+  </data>
+  <data name="Ui.FastFlags.ToUndoThemOpenTheAdvanced" xml:space="preserve">
+    <value>برای برگرداندن آن‌ها، ویرایشگر پیشرفته را باز کنید و از Reset NIP استفاده کنید که همه تنظیمات NVIDIA مربوط به Roblox را به پیش‌فرض درایور برمی‌گرداند. فقط اگر نتوانستید اینجا بازنشانی کنید، درایورهای NVIDIA را به‌روزرسانی یا دوباره نصب کنید تا پیش‌فرض‌ها بازگردند.</value>
+  </data>
+  <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
+    <value>فقط چیزی را که می‌فهمید تغییر دهید، و هر بار یک تنظیم.</value>
+  </data>
+  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
+    <value>پروکسی AssetWarp و همه قابلیت‌های مرتبط را روشن می‌کند</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
+    <value>حذف همه بافت‌ها</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
+    <value>حذف همه برچسب‌ها</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
+    <value>حذف همه تصاویر</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
+    <value>حذف همه انیمیشن‌ها</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
+    <value>حذف همه مش‌ها</value>
+  </data>
+  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
+    <value>جعل وضعیت</value>
+  </data>
+  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
+    <value>آنچه دیگران می‌بینند را تغییر می‌دهد: آنلاین، در Studio یا آفلاین</value>
+  </data>
+  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
+    <value>پیش‌بارگذاری</value>
+  </data>
+  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
+    <value>پیش‌بارگذاری منابع</value>
+  </data>
+  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
+    <value>هر بازی را یاد می‌گیرد و منابعی را که قبلاً دانلود شده‌اند ارائه می‌کند</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
+    <value>محدودیت حافظه پیش‌بارگذاری</value>
+  </data>
+  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
+    <value>فضای دیسکی را که حافظه منابع آموخته‌شده می‌تواند استفاده کند محدود می‌کند</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
+    <value>پیش‌بارگذاری آواتار</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
+    <value>آواتار و لوازم پوشیده شما را پیش از هر بار اجرای بازی پیش‌بارگذاری می‌کند</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
+    <value>پیش‌بارگذاری بازی‌های اخیر</value>
+  </data>
+  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
+    <value>پیش از هر اجرا حافظه را با بازی‌هایی که اخیراً بازی کرده‌اید آماده می‌کند</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
+    <value>جعل سمت کلاینت</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
+    <value>فقط سمت کلاینت، فقط شما این تغییرات را می‌بینید.</value>
+  </data>
+  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
+    <value>نام کاربری همه دیگران</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
+    <value>نام کاربری‌ای را که کلاینت شما برای همه بازیکنان دیگر نشان می‌دهد تنظیم می‌کند</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
+    <value>اعمال روی همه دیگران در بازی</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
+    <value>نام کاربری همه دیگران را در Roblox اعمال می‌کند</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
+    <value>تأیید همه دیگران</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
+    <value>همه بازیکنان دیگر را در این کلاینت تأییدشده نشان می‌دهد</value>
+  </data>
+  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
+    <value>نام کاربری شما</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
+    <value>نام کاربری‌ای را که کلاینت شما برای حسابتان نشان می‌دهد تنظیم می‌کند</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
+    <value>اعمال نام شما در بازی</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
+    <value>نام کاربری جعلی شما را در Roblox اعمال می‌کند</value>
+  </data>
+  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
+    <value>تنظیم Robux</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
+    <value>تأیید حساب شما</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
+    <value>حساب شما را در این کلاینت تأییدشده نشان می‌دهد</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
+    <value>خودتان را سازنده بازی کنید</value>
+  </data>
+  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
+    <value>از شناسه کاربری فعلی Roblox شما برای داده‌های رهگیری‌شده سازنده بازی استفاده می‌کند</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
+    <value>خودتان را سازنده بازی کنید در Windows کار نمی‌کند. Roblox اکنون از پیوستن به بازی در Windows محافظت می‌کند و تغییر آن باعث می‌شود پیوستن با خطای 529 شکست بخورد، بنابراین Voidstrap به آن دست نمی‌زند. این قابلیت همچنان در Linux و macOS کار می‌کند و گزینه‌های دیگر شما تحت تأثیر قرار نمی‌گیرند.</value>
+  </data>
 </root>

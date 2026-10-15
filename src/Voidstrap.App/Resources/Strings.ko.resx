@@ -3903,4 +3903,286 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Mods.FindMods2" xml:space="preserve">
     <value>모드 찾기</value>
   </data>
+  <data name="Ui.FastFlags.ChooseWhetherYourFastFlagsAre" xml:space="preserve">
+    <value>Fast Flags를 Roblox 플레이어, Roblox Studio 또는 둘 다에 적용할지 선택합니다.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyFastFlagsTo" xml:space="preserve">
+    <value>Fast Flags 적용 대상</value>
+  </data>
+  <data name="Ui.FastFlags.ViewTheFastFlagsRobloxOfficiallyAllows" xml:space="preserve">
+    <value>Roblox가 로컬 구성에서 공식적으로 허용하는 FastFlags를 확인합니다.</value>
+  </data>
+  <data name="Ui.FastFlags.Category" xml:space="preserve">
+    <value>카테고리</value>
+  </data>
+  <data name="Ui.FastFlags.ReducesOrScalesGrassMovementIn" xml:space="preserve">
+    <value>성능이나 시각적 편안함을 위해 Roblox의 풀 움직임을 줄이거나 조정합니다.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassMovementFactor" xml:space="preserve">
+    <value>풀 움직임 계수</value>
+  </data>
+  <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
+    <value>메시 세부 정보</value>
+  </data>
+  <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
+    <value>세밀한 메시가 게임에서 표시되는 방식을 제어합니다.</value>
+  </data>
+  <data name="Ui.FastFlags.LowestQuality" xml:space="preserve">
+    <value>최저 품질</value>
+  </data>
+  <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
+    <value>최고 품질</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
+    <value>FRM 품질 재정의</value>
+  </data>
+  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
+    <value>FRM 품질 재정의를 선택합니다.</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
+    <value>FRM 품질 재정의</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
+    <value>기본 그래픽 및 렌더링 설정</value>
+  </data>
+  <data name="Ui.FastFlags.Lighting" xml:space="preserve">
+    <value>조명</value>
+  </data>
+  <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
+    <value>회색 하늘 강제 적용</value>
+  </data>
+  <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
+    <value>들쭉날쭉한 가장자리를 부드럽게 합니다. 값이 높을수록 더 부드러워집니다.</value>
+  </data>
+  <data name="Ui.FastFlags.AdjustTheQualityOfTexturesHigher" xml:space="preserve">
+    <value>텍스처 품질을 조정합니다. 수준이 높을수록 품질이 올라갑니다.</value>
+  </data>
+  <data name="Ui.FastFlags.ControlsGrassRenderDistanceInRoblox" xml:space="preserve">
+    <value>Roblox 게임에서 풀의 표시 거리를 제어합니다. 풀을 끄려면 두 값을 모두 0으로 설정하십시오.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
+    <value>풀 거리</value>
+  </data>
+  <data name="Ui.FastFlags.Min" xml:space="preserve">
+    <value>최소</value>
+  </data>
+  <data name="Ui.FastFlags.Max" xml:space="preserve">
+    <value>최대</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
+    <value>Roblox의 렌더링 API를 설정합니다. Direct3D를 사용하는 경우 전체 화면으로 전환할 때 Alt Enter를 누르십시오. Vulkan은 일부 오류를 일으킬 수 있습니다!.</value>
+  </data>
+  <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
+    <value>렌더링 모드</value>
+  </data>
+  <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
+    <value>고급 FFlags</value>
+  </data>
+  <data name="Ui.FastFlags.SwapRobloxTexturesForParticlesStuds" xml:space="preserve">
+    <value>입자, studs, 지형, 물에 대한 Roblox 텍스처를 교체합니다.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyProfile" xml:space="preserve">
+    <value>프로필 적용</value>
+  </data>
+  <data name="Ui.FastFlags.TheseOptionsOnlySwapSomeOf" xml:space="preserve">
+    <value>이 옵션은 입자, studs, 지형, 물 등 Roblox에 내장된 일부 텍스처 파일만 교체합니다. 대부분의 게임은 자체 텍스처와 효과를 사용하므로 큰 차이를 느끼지 못할 수 있습니다.</value>
+  </data>
+  <data name="Ui.FastFlags.Particles" xml:space="preserve">
+    <value>입자</value>
+  </data>
+  <data name="Ui.FastFlags.FireSmokeExplosionsSparklesAndForce" xml:space="preserve">
+    <value>불, 연기, 폭발, 불꽃, 역장</value>
+  </data>
+  <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
+    <value>사각형 불투명도</value>
+  </data>
+  <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
+    <value>사각형이 얼마나 단단해 보이는지</value>
+  </data>
+  <data name="Ui.FastFlags.Studs" xml:space="preserve">
+    <value>Studs</value>
+  </data>
+  <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
+    <value>파트의 studs 무늬</value>
+  </data>
+  <data name="Ui.FastFlags.FlatShade" xml:space="preserve">
+    <value>플랫 셰이딩</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrightFlatSurfacesLook50" xml:space="preserve">
+    <value>평평한 표면이 얼마나 밝게 보이는지. 50%가 일반 밝기입니다</value>
+  </data>
+  <data name="Ui.FastFlags.Water" xml:space="preserve">
+    <value>물</value>
+  </data>
+  <data name="Ui.FastFlags.TheRipplesOnTerrainWater" xml:space="preserve">
+    <value>지형 물의 잔물결</value>
+  </data>
+  <data name="Ui.FastFlags.WaterPreview" xml:space="preserve">
+    <value>물 미리 보기</value>
+  </data>
+  <data name="Ui.FastFlags.ThisIsTheExactRippleTexture" xml:space="preserve">
+    <value>Roblox가 불러오는 바로 그 잔물결 텍스처입니다</value>
+  </data>
+  <data name="Ui.FastFlags.WaterAnimationImages" xml:space="preserve">
+    <value>물 애니메이션 이미지</value>
+  </data>
+  <data name="Ui.FastFlags.RippleStrength" xml:space="preserve">
+    <value>잔물결 강도</value>
+  </data>
+  <data name="Ui.FastFlags.0IsFlat100IsNormal" xml:space="preserve">
+    <value>0%는 평평함, 100%는 보통, 더 높으면 더 거칠어집니다</value>
+  </data>
+  <data name="Ui.FastFlags.RippleSpeed" xml:space="preserve">
+    <value>잔물결 속도</value>
+  </data>
+  <data name="Ui.FastFlags.HowFastTheRipplesMove" xml:space="preserve">
+    <value>잔물결이 움직이는 속도</value>
+  </data>
+  <data name="Ui.FastFlags.FrozenFrame" xml:space="preserve">
+    <value>고정 프레임</value>
+  </data>
+  <data name="Ui.FastFlags.WhichRippleFrameToHoldStill" xml:space="preserve">
+    <value>정지 상태로 유지할 잔물결 프레임</value>
+  </data>
+  <data name="Ui.FastFlags.GlitchAmount" xml:space="preserve">
+    <value>글리치 정도</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrokenTheWaterLooks" xml:space="preserve">
+    <value>물이 얼마나 깨져 보이는지</value>
+  </data>
+  <data name="Ui.FastFlags.Terrain" xml:space="preserve">
+    <value>지형</value>
+  </data>
+  <data name="Ui.FastFlags.StretchTheGroundTexturesAndChange" xml:space="preserve">
+    <value>지면 텍스처를 늘리고 반복 빈도를 변경합니다</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainTextureSize" xml:space="preserve">
+    <value>지형 텍스처 크기</value>
+  </data>
+  <data name="Ui.FastFlags.1xIsTheNormalRobloxSize" xml:space="preserve">
+    <value>1x는 Roblox 기본 크기이며, 작을수록 더 크고 흐릿해집니다</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainRepeatHiding" xml:space="preserve">
+    <value>지형 반복 숨기기</value>
+  </data>
+  <data name="Ui.FastFlags.HigherLetsRepeatingPatternsShowMore" xml:space="preserve">
+    <value>값이 높을수록 반복되는 무늬가 더 잘 드러납니다</value>
+  </data>
+  <data name="Ui.FastFlags.NVIDIAFFlagsAreForAdvancedUsers" xml:space="preserve">
+    <value>NVIDIA FFlags는 고급 사용자 전용입니다</value>
+  </data>
+  <data name="Ui.FastFlags.TheseSettingsChangeTheNVIDIADriver" xml:space="preserve">
+    <value>이 설정은 Roblox가 실행되는 NVIDIA 드라이버 프로필을 변경합니다. 잘못된 값은 FPS 저하, 입력 지연, 끊김, 그래픽 오류나 충돌을 일으킬 수 있으며 Roblox가 실행되지 않을 수도 있습니다. 변경 사항은 NVIDIA 드라이버에 저장되므로 Voidstrap을 닫거나 제거한 후에도 유지됩니다.</value>
+  </data>
+  <data name="Ui.FastFlags.ToUndoThemOpenTheAdvanced" xml:space="preserve">
+    <value>되돌리려면 고급 편집기를 열고 Reset NIP를 사용하십시오. Roblox용 모든 NVIDIA 설정이 드라이버 기본값으로 돌아갑니다. 여기서 재설정할 수 없는 경우에만 NVIDIA 드라이버를 업데이트하거나 다시 설치하여 기본값을 복원하십시오.</value>
+  </data>
+  <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
+    <value>이해하는 항목만, 한 번에 하나씩 변경하십시오.</value>
+  </data>
+  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
+    <value>AssetWarp 프록시와 모든 관련 기능을 켭니다</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
+    <value>모든 텍스처 제거</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
+    <value>모든 데칼 제거</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
+    <value>모든 이미지 제거</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
+    <value>모든 애니메이션 제거</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
+    <value>모든 메시 제거</value>
+  </data>
+  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
+    <value>상태 위장</value>
+  </data>
+  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
+    <value>다른 사람에게 보이는 상태를 변경합니다: 온라인, Studio 사용 중 또는 오프라인</value>
+  </data>
+  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
+    <value>미리 로드</value>
+  </data>
+  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
+    <value>에셋 미리 로드</value>
+  </data>
+  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
+    <value>각 게임을 학습하고 이전에 다운로드한 에셋을 제공합니다</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
+    <value>미리 로드 캐시 한도</value>
+  </data>
+  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
+    <value>학습된 에셋 캐시가 사용할 수 있는 디스크 공간을 제한합니다</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
+    <value>아바타 미리 로드</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
+    <value>게임을 실행할 때마다 아바타와 착용한 액세서리를 미리 불러옵니다</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
+    <value>최근 게임 미리 로드</value>
+  </data>
+  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
+    <value>실행할 때마다 최근에 플레이한 게임으로 캐시를 준비합니다</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
+    <value>클라이언트 측 위장</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
+    <value>클라이언트 측에서만 적용되며, 이 변경 사항은 본인에게만 보입니다.</value>
+  </data>
+  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
+    <value>다른 모든 사람의 사용자 이름</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
+    <value>클라이언트가 다른 모든 플레이어에게 표시하는 사용자 이름을 설정합니다</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
+    <value>게임 내 다른 모든 사람에게 적용</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
+    <value>Roblox에서 다른 모든 사람의 사용자 이름을 적용합니다</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
+    <value>다른 모든 사람 인증 표시</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
+    <value>이 클라이언트에서 다른 모든 플레이어를 인증됨으로 표시합니다</value>
+  </data>
+  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
+    <value>내 사용자 이름</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
+    <value>클라이언트가 내 계정에 표시하는 사용자 이름을 설정합니다</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
+    <value>게임 내 내 사용자 이름 적용</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
+    <value>Roblox에서 위장한 사용자 이름을 적용합니다</value>
+  </data>
+  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
+    <value>Robux 조정</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
+    <value>내 계정 인증 표시</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
+    <value>이 클라이언트에서 내 계정을 인증됨으로 표시합니다</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
+    <value>나를 게임 제작자로 만들기</value>
+  </data>
+  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
+    <value>가로챈 게임 제작자 데이터에 현재 Roblox 사용자 ID를 사용합니다</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
+    <value>나를 게임 제작자로 만들기는 Windows에서 작동하지 않습니다. Roblox가 이제 Windows에서 게임 참여를 보호하며, 이를 변경하면 오류 529로 참여가 실패하므로 Voidstrap은 이를 건드리지 않습니다. Linux와 macOS에서는 여전히 작동하며 다른 옵션에는 영향이 없습니다.</value>
+  </data>
 </root>

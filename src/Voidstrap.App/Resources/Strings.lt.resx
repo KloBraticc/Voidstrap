@@ -3927,4 +3927,286 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Mods.FindMods2" xml:space="preserve">
     <value>Rasti modus</value>
   </data>
+  <data name="Ui.FastFlags.ChooseWhetherYourFastFlagsAre" xml:space="preserve">
+    <value>Pasirinkite, ar Fast Flags taikomi Roblox grotuvui, Roblox Studio ar abiem.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyFastFlagsTo" xml:space="preserve">
+    <value>Taikyti Fast Flags</value>
+  </data>
+  <data name="Ui.FastFlags.ViewTheFastFlagsRobloxOfficiallyAllows" xml:space="preserve">
+    <value>Peržiūrėkite FastFlags, kuriuos Roblox oficialiai leidžia vietinėje konfigūracijoje.</value>
+  </data>
+  <data name="Ui.FastFlags.Category" xml:space="preserve">
+    <value>Kategorija</value>
+  </data>
+  <data name="Ui.FastFlags.ReducesOrScalesGrassMovementIn" xml:space="preserve">
+    <value>Sumažina arba keičia žolės judėjimą Roblox dėl našumo ar vaizdo patogumo.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassMovementFactor" xml:space="preserve">
+    <value>Žolės judėjimo koeficientas</value>
+  </data>
+  <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
+    <value>Tinklelių detalumas</value>
+  </data>
+  <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
+    <value>Valdo, kaip žaidime rodomi detalūs tinkleliai.</value>
+  </data>
+  <data name="Ui.FastFlags.LowestQuality" xml:space="preserve">
+    <value>Žemiausia kokybė</value>
+  </data>
+  <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
+    <value>Aukščiausia kokybė</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
+    <value>FRM kokybės nepaisymas</value>
+  </data>
+  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
+    <value>Pasirinkite FRM kokybės nepaisymą.</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
+    <value>FRM kokybės nepaisymas</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
+    <value>Nustatykite pagrindinius grafikos ir atvaizdavimo nustatymus</value>
+  </data>
+  <data name="Ui.FastFlags.Lighting" xml:space="preserve">
+    <value>Apšvietimas</value>
+  </data>
+  <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
+    <value>Priverstinis pilkas dangus</value>
+  </data>
+  <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
+    <value>Išlygina dantytus kraštus. Didesnės reikšmės išlygina labiau.</value>
+  </data>
+  <data name="Ui.FastFlags.AdjustTheQualityOfTexturesHigher" xml:space="preserve">
+    <value>Reguliuoja tekstūrų kokybę. Aukštesni lygiai pagerina kokybę.</value>
+  </data>
+  <data name="Ui.FastFlags.ControlsGrassRenderDistanceInRoblox" xml:space="preserve">
+    <value>Valdo žolės matomumo atstumą Roblox žaidimuose. Nustatykite abi reikšmes į 0, kad išjungtumėte žolę.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
+    <value>Žolės atstumas</value>
+  </data>
+  <data name="Ui.FastFlags.Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="Ui.FastFlags.Max" xml:space="preserve">
+    <value>Maks</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
+    <value>Nustatykite Roblox atvaizdavimo API. Jei naudojate Direct3D, pereidami į viso ekrano režimą paspauskite Alt Enter. Vulkan gali sukelti klaidų!.</value>
+  </data>
+  <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
+    <value>Atvaizdavimo režimas</value>
+  </data>
+  <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
+    <value>Išplėstiniai FFlags</value>
+  </data>
+  <data name="Ui.FastFlags.SwapRobloxTexturesForParticlesStuds" xml:space="preserve">
+    <value>Pakeičia Roblox tekstūras dalelėms, studs, reljefui ir vandeniui.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyProfile" xml:space="preserve">
+    <value>Taikyti profilį</value>
+  </data>
+  <data name="Ui.FastFlags.TheseOptionsOnlySwapSomeOf" xml:space="preserve">
+    <value>Šios parinktys pakeičia tik kai kuriuos integruotus Roblox tekstūrų failus, pavyzdžiui, daleles, studs, reljefą ir vandenį. Dauguma žaidimų naudoja savo tekstūras ir efektus, todėl didelio skirtumo galite nepastebėti.</value>
+  </data>
+  <data name="Ui.FastFlags.Particles" xml:space="preserve">
+    <value>Dalelės</value>
+  </data>
+  <data name="Ui.FastFlags.FireSmokeExplosionsSparklesAndForce" xml:space="preserve">
+    <value>Ugnis, dūmai, sprogimai, kibirkštys ir jėgos laukai</value>
+  </data>
+  <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
+    <value>Kvadratų neskaidrumas</value>
+  </data>
+  <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
+    <value>Kiek vientisi atrodo kvadratai</value>
+  </data>
+  <data name="Ui.FastFlags.Studs" xml:space="preserve">
+    <value>Studs</value>
+  </data>
+  <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
+    <value>Studs raštas ant dalių</value>
+  </data>
+  <data name="Ui.FastFlags.FlatShade" xml:space="preserve">
+    <value>Plokščias šešėliavimas</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrightFlatSurfacesLook50" xml:space="preserve">
+    <value>Kiek šviesūs atrodo plokšti paviršiai. 50% atitinka įprastą ryškumą</value>
+  </data>
+  <data name="Ui.FastFlags.Water" xml:space="preserve">
+    <value>Vanduo</value>
+  </data>
+  <data name="Ui.FastFlags.TheRipplesOnTerrainWater" xml:space="preserve">
+    <value>Raibuliai ant reljefo vandens</value>
+  </data>
+  <data name="Ui.FastFlags.WaterPreview" xml:space="preserve">
+    <value>Vandens peržiūra</value>
+  </data>
+  <data name="Ui.FastFlags.ThisIsTheExactRippleTexture" xml:space="preserve">
+    <value>Tai lygiai ta raibulių tekstūra, kurią įkelia Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.WaterAnimationImages" xml:space="preserve">
+    <value>Vandens animacijos vaizdai</value>
+  </data>
+  <data name="Ui.FastFlags.RippleStrength" xml:space="preserve">
+    <value>Raibulių stiprumas</value>
+  </data>
+  <data name="Ui.FastFlags.0IsFlat100IsNormal" xml:space="preserve">
+    <value>0% lygu, 100% įprasta, daugiau reiškia neramiau</value>
+  </data>
+  <data name="Ui.FastFlags.RippleSpeed" xml:space="preserve">
+    <value>Raibulių greitis</value>
+  </data>
+  <data name="Ui.FastFlags.HowFastTheRipplesMove" xml:space="preserve">
+    <value>Kaip greitai juda raibuliai</value>
+  </data>
+  <data name="Ui.FastFlags.FrozenFrame" xml:space="preserve">
+    <value>Sustabdytas kadras</value>
+  </data>
+  <data name="Ui.FastFlags.WhichRippleFrameToHoldStill" xml:space="preserve">
+    <value>Kuris raibulių kadras lieka nejudantis</value>
+  </data>
+  <data name="Ui.FastFlags.GlitchAmount" xml:space="preserve">
+    <value>Trikdžių lygis</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrokenTheWaterLooks" xml:space="preserve">
+    <value>Kiek sugadintas atrodo vanduo</value>
+  </data>
+  <data name="Ui.FastFlags.Terrain" xml:space="preserve">
+    <value>Reljefas</value>
+  </data>
+  <data name="Ui.FastFlags.StretchTheGroundTexturesAndChange" xml:space="preserve">
+    <value>Ištempia žemės tekstūras ir keičia, kaip dažnai jos kartojasi</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainTextureSize" xml:space="preserve">
+    <value>Reljefo tekstūrų dydis</value>
+  </data>
+  <data name="Ui.FastFlags.1xIsTheNormalRobloxSize" xml:space="preserve">
+    <value>1x yra įprastas Roblox dydis, mažiau reiškia didesnes ir labiau išsiliejusias</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainRepeatHiding" xml:space="preserve">
+    <value>Reljefo pasikartojimų slėpimas</value>
+  </data>
+  <data name="Ui.FastFlags.HigherLetsRepeatingPatternsShowMore" xml:space="preserve">
+    <value>Didesnė reikšmė labiau atskleidžia pasikartojančius raštus</value>
+  </data>
+  <data name="Ui.FastFlags.NVIDIAFFlagsAreForAdvancedUsers" xml:space="preserve">
+    <value>NVIDIA FFlags skirti tik patyrusiems naudotojams</value>
+  </data>
+  <data name="Ui.FastFlags.TheseSettingsChangeTheNVIDIADriver" xml:space="preserve">
+    <value>Šie nustatymai keičia NVIDIA tvarkyklės profilį, su kuriuo veikia Roblox. Netinkama reikšmė gali sumažinti FPS, pridėti įvesties delsą, strigimų, grafikos klaidų ar gedimų ir net neleisti Roblox paleisti. Pakeitimai įrašomi į NVIDIA tvarkyklę, todėl išlieka uždarius ar pašalinus Voidstrap.</value>
+  </data>
+  <data name="Ui.FastFlags.ToUndoThemOpenTheAdvanced" xml:space="preserve">
+    <value>Norėdami juos atšaukti, atidarykite išplėstinį redaktorių ir naudokite Reset NIP, kuris kiekvieną Roblox NVIDIA nustatymą grąžina į tvarkyklės numatytąją reikšmę. Tik jei čia jų atkurti negalite, atnaujinkite arba iš naujo įdiekite NVIDIA tvarkykles, kad atkurtumėte numatytąsias reikšmes.</value>
+  </data>
+  <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
+    <value>Keiskite tik tai, ką suprantate, ir po vieną nustatymą.</value>
+  </data>
+  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
+    <value>Įjungia AssetWarp tarpinį serverį ir visas susijusias funkcijas</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
+    <value>Pašalinti visas tekstūras</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
+    <value>Pašalinti visus lipdukus</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
+    <value>Pašalinti visus vaizdus</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
+    <value>Pašalinti visas animacijas</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
+    <value>Pašalinti visus tinklelius</value>
+  </data>
+  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
+    <value>Būsenos klastotė</value>
+  </data>
+  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
+    <value>Keičia, ką mato kiti: prisijungęs, Studio arba atsijungęs</value>
+  </data>
+  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
+    <value>Išankstinis įkėlimas</value>
+  </data>
+  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
+    <value>Išteklių išankstinis įkėlimas</value>
+  </data>
+  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
+    <value>Išmoksta kiekvieną žaidimą ir pateikia anksčiau atsisiųstus išteklius</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
+    <value>Išankstinio įkėlimo talpyklos riba</value>
+  </data>
+  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
+    <value>Riboja, kiek disko vietos gali naudoti išmoktų išteklių talpykla</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
+    <value>Iš anksto įkelti avatarą</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
+    <value>Prieš kiekvieną žaidimo paleidimą iš anksto įkelia jūsų avatarą ir uždėtus aksesuarus</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
+    <value>Iš anksto įkelti naujausius žaidimus</value>
+  </data>
+  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
+    <value>Prieš kiekvieną paleidimą paruošia talpyklą su neseniai žaistais žaidimais</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
+    <value>Kliento pusės klastotė</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
+    <value>Tik kliento pusėje, šiuos pakeitimus matote tik jūs.</value>
+  </data>
+  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
+    <value>Visų kitų naudotojo vardas</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
+    <value>Nustato vardą, kurį jūsų klientas rodo visiems kitiems žaidėjams</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
+    <value>Taikyti visiems kitiems žaidime</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
+    <value>Taiko visų kitų vardą Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
+    <value>Patvirtinti visus kitus</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
+    <value>Šiame kliente visi kiti žaidėjai rodomi kaip patvirtinti</value>
+  </data>
+  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
+    <value>Jūsų naudotojo vardas</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
+    <value>Nustato vardą, kurį jūsų klientas rodo jūsų paskyrai</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
+    <value>Taikyti jūsų vardą žaidime</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
+    <value>Taiko jūsų suklastotą vardą Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
+    <value>Robux keitiklis</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
+    <value>Patvirtinti jūsų paskyrą</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
+    <value>Šiame kliente jūsų paskyra rodoma kaip patvirtinta</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
+    <value>Tapkite žaidimo kūrėju</value>
+  </data>
+  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
+    <value>Perimtiems žaidimo kūrėjo duomenims naudoja jūsų dabartinį Roblox naudotojo ID</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
+    <value>Tapkite žaidimo kūrėju neveikia Windows. Roblox dabar saugo prisijungimą prie žaidimų Windows, o jo keitimas sukelia klaidą 529, todėl Voidstrap jo neliečia. Linux ir macOS tai vis dar veikia, o kitos jūsų parinktys nepaveiktos.</value>
+  </data>
 </root>

@@ -637,6 +637,194 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Mods_FindMods2 => ResourceManager.GetString("Ui.Mods.FindMods2", resourceCulture);
 
+        public static string Ui_FastFlags_ChooseWhetherYourFastFlagsAre => ResourceManager.GetString("Ui.FastFlags.ChooseWhetherYourFastFlagsAre", resourceCulture);
+
+        public static string Ui_FastFlags_ApplyFastFlagsTo => ResourceManager.GetString("Ui.FastFlags.ApplyFastFlagsTo", resourceCulture);
+
+        public static string Ui_FastFlags_ViewTheFastFlagsRobloxOfficiallyAllows => ResourceManager.GetString("Ui.FastFlags.ViewTheFastFlagsRobloxOfficiallyAllows", resourceCulture);
+
+        public static string Ui_FastFlags_Category => ResourceManager.GetString("Ui.FastFlags.Category", resourceCulture);
+
+        public static string Ui_FastFlags_ReducesOrScalesGrassMovementIn => ResourceManager.GetString("Ui.FastFlags.ReducesOrScalesGrassMovementIn", resourceCulture);
+
+        public static string Ui_FastFlags_GrassMovementFactor => ResourceManager.GetString("Ui.FastFlags.GrassMovementFactor", resourceCulture);
+
+        public static string Ui_FastFlags_MeshDetail => ResourceManager.GetString("Ui.FastFlags.MeshDetail", resourceCulture);
+
+        public static string Ui_FastFlags_ControlHowDetailMeshesAppearIn => ResourceManager.GetString("Ui.FastFlags.ControlHowDetailMeshesAppearIn", resourceCulture);
+
+        public static string Ui_FastFlags_LowestQuality => ResourceManager.GetString("Ui.FastFlags.LowestQuality", resourceCulture);
+
+        public static string Ui_FastFlags_HighestQuality => ResourceManager.GetString("Ui.FastFlags.HighestQuality", resourceCulture);
+
+        public static string Ui_FastFlags_FRMQualityOverright => ResourceManager.GetString("Ui.FastFlags.FRMQualityOverright", resourceCulture);
+
+        public static string Ui_FastFlags_ChooseTheFRMQualityOverright => ResourceManager.GetString("Ui.FastFlags.ChooseTheFRMQualityOverright", resourceCulture);
+
+        public static string Ui_FastFlags_FRMQualityOverride => ResourceManager.GetString("Ui.FastFlags.FRMQualityOverride", resourceCulture);
+
+        public static string Ui_FastFlags_ConfigureBasicGraphicAndRenderingSettings => ResourceManager.GetString("Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings", resourceCulture);
+
+        public static string Ui_FastFlags_Lighting => ResourceManager.GetString("Ui.FastFlags.Lighting", resourceCulture);
+
+        public static string Ui_FastFlags_ForceGraySky => ResourceManager.GetString("Ui.FastFlags.ForceGraySky", resourceCulture);
+
+        public static string Ui_FastFlags_SmoothOutJaggedEdgesHigherValues => ResourceManager.GetString("Ui.FastFlags.SmoothOutJaggedEdgesHigherValues", resourceCulture);
+
+        public static string Ui_FastFlags_AdjustTheQualityOfTexturesHigher => ResourceManager.GetString("Ui.FastFlags.AdjustTheQualityOfTexturesHigher", resourceCulture);
+
+        public static string Ui_FastFlags_ControlsGrassRenderDistanceInRoblox => ResourceManager.GetString("Ui.FastFlags.ControlsGrassRenderDistanceInRoblox", resourceCulture);
+
+        public static string Ui_FastFlags_GrassDistance => ResourceManager.GetString("Ui.FastFlags.GrassDistance", resourceCulture);
+
+        public static string Ui_FastFlags_Min => ResourceManager.GetString("Ui.FastFlags.Min", resourceCulture);
+
+        public static string Ui_FastFlags_Max => ResourceManager.GetString("Ui.FastFlags.Max", resourceCulture);
+
+        public static string Ui_FastFlags_ConfigureTheRenderingApiForRoblox => ResourceManager.GetString("Ui.FastFlags.ConfigureTheRenderingApiForRoblox", resourceCulture);
+
+        public static string Ui_FastFlags_RenderingMode => ResourceManager.GetString("Ui.FastFlags.RenderingMode", resourceCulture);
+
+        public static string Ui_FastFlags_AdvancedFFlags => ResourceManager.GetString("Ui.FastFlags.AdvancedFFlags", resourceCulture);
+
+        public static string Ui_FastFlags_SwapRobloxTexturesForParticlesStuds => ResourceManager.GetString("Ui.FastFlags.SwapRobloxTexturesForParticlesStuds", resourceCulture);
+
+        public static string Ui_FastFlags_ApplyProfile => ResourceManager.GetString("Ui.FastFlags.ApplyProfile", resourceCulture);
+
+        public static string Ui_FastFlags_TheseOptionsOnlySwapSomeOf => ResourceManager.GetString("Ui.FastFlags.TheseOptionsOnlySwapSomeOf", resourceCulture);
+
+        public static string Ui_FastFlags_Particles => ResourceManager.GetString("Ui.FastFlags.Particles", resourceCulture);
+
+        public static string Ui_FastFlags_FireSmokeExplosionsSparklesAndForce => ResourceManager.GetString("Ui.FastFlags.FireSmokeExplosionsSparklesAndForce", resourceCulture);
+
+        public static string Ui_FastFlags_SquareOpacity => ResourceManager.GetString("Ui.FastFlags.SquareOpacity", resourceCulture);
+
+        public static string Ui_FastFlags_HowSolidTheSquaresLook => ResourceManager.GetString("Ui.FastFlags.HowSolidTheSquaresLook", resourceCulture);
+
+        public static string Ui_FastFlags_Studs => ResourceManager.GetString("Ui.FastFlags.Studs", resourceCulture);
+
+        public static string Ui_FastFlags_TheStudPatternOnParts => ResourceManager.GetString("Ui.FastFlags.TheStudPatternOnParts", resourceCulture);
+
+        public static string Ui_FastFlags_FlatShade => ResourceManager.GetString("Ui.FastFlags.FlatShade", resourceCulture);
+
+        public static string Ui_FastFlags_HowBrightFlatSurfacesLook50 => ResourceManager.GetString("Ui.FastFlags.HowBrightFlatSurfacesLook50", resourceCulture);
+
+        public static string Ui_FastFlags_Water => ResourceManager.GetString("Ui.FastFlags.Water", resourceCulture);
+
+        public static string Ui_FastFlags_TheRipplesOnTerrainWater => ResourceManager.GetString("Ui.FastFlags.TheRipplesOnTerrainWater", resourceCulture);
+
+        public static string Ui_FastFlags_WaterPreview => ResourceManager.GetString("Ui.FastFlags.WaterPreview", resourceCulture);
+
+        public static string Ui_FastFlags_ThisIsTheExactRippleTexture => ResourceManager.GetString("Ui.FastFlags.ThisIsTheExactRippleTexture", resourceCulture);
+
+        public static string Ui_FastFlags_WaterAnimationImages => ResourceManager.GetString("Ui.FastFlags.WaterAnimationImages", resourceCulture);
+
+        public static string Ui_FastFlags_RippleStrength => ResourceManager.GetString("Ui.FastFlags.RippleStrength", resourceCulture);
+
+        public static string Ui_FastFlags_0IsFlat100IsNormal => ResourceManager.GetString("Ui.FastFlags.0IsFlat100IsNormal", resourceCulture);
+
+        public static string Ui_FastFlags_RippleSpeed => ResourceManager.GetString("Ui.FastFlags.RippleSpeed", resourceCulture);
+
+        public static string Ui_FastFlags_HowFastTheRipplesMove => ResourceManager.GetString("Ui.FastFlags.HowFastTheRipplesMove", resourceCulture);
+
+        public static string Ui_FastFlags_FrozenFrame => ResourceManager.GetString("Ui.FastFlags.FrozenFrame", resourceCulture);
+
+        public static string Ui_FastFlags_WhichRippleFrameToHoldStill => ResourceManager.GetString("Ui.FastFlags.WhichRippleFrameToHoldStill", resourceCulture);
+
+        public static string Ui_FastFlags_GlitchAmount => ResourceManager.GetString("Ui.FastFlags.GlitchAmount", resourceCulture);
+
+        public static string Ui_FastFlags_HowBrokenTheWaterLooks => ResourceManager.GetString("Ui.FastFlags.HowBrokenTheWaterLooks", resourceCulture);
+
+        public static string Ui_FastFlags_Terrain => ResourceManager.GetString("Ui.FastFlags.Terrain", resourceCulture);
+
+        public static string Ui_FastFlags_StretchTheGroundTexturesAndChange => ResourceManager.GetString("Ui.FastFlags.StretchTheGroundTexturesAndChange", resourceCulture);
+
+        public static string Ui_FastFlags_TerrainTextureSize => ResourceManager.GetString("Ui.FastFlags.TerrainTextureSize", resourceCulture);
+
+        public static string Ui_FastFlags_1xIsTheNormalRobloxSize => ResourceManager.GetString("Ui.FastFlags.1xIsTheNormalRobloxSize", resourceCulture);
+
+        public static string Ui_FastFlags_TerrainRepeatHiding => ResourceManager.GetString("Ui.FastFlags.TerrainRepeatHiding", resourceCulture);
+
+        public static string Ui_FastFlags_HigherLetsRepeatingPatternsShowMore => ResourceManager.GetString("Ui.FastFlags.HigherLetsRepeatingPatternsShowMore", resourceCulture);
+
+        public static string Ui_FastFlags_NVIDIAFFlagsAreForAdvancedUsers => ResourceManager.GetString("Ui.FastFlags.NVIDIAFFlagsAreForAdvancedUsers", resourceCulture);
+
+        public static string Ui_FastFlags_TheseSettingsChangeTheNVIDIADriver => ResourceManager.GetString("Ui.FastFlags.TheseSettingsChangeTheNVIDIADriver", resourceCulture);
+
+        public static string Ui_FastFlags_ToUndoThemOpenTheAdvanced => ResourceManager.GetString("Ui.FastFlags.ToUndoThemOpenTheAdvanced", resourceCulture);
+
+        public static string Ui_FastFlags_OnlyChangeWhatYouUnderstandAnd => ResourceManager.GetString("Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd", resourceCulture);
+
+        public static string Ui_FastFlags_EnablesTheAssetWarpProxyAndAll => ResourceManager.GetString("Ui.FastFlags.EnablesTheAssetWarpProxyAndAll", resourceCulture);
+
+        public static string Ui_FastFlags_RemoveAllTextures => ResourceManager.GetString("Ui.FastFlags.RemoveAllTextures", resourceCulture);
+
+        public static string Ui_FastFlags_RemoveAllDecals => ResourceManager.GetString("Ui.FastFlags.RemoveAllDecals", resourceCulture);
+
+        public static string Ui_FastFlags_RemoveAllImages => ResourceManager.GetString("Ui.FastFlags.RemoveAllImages", resourceCulture);
+
+        public static string Ui_FastFlags_RemoveAllAnimations => ResourceManager.GetString("Ui.FastFlags.RemoveAllAnimations", resourceCulture);
+
+        public static string Ui_FastFlags_RemoveAllMeshes => ResourceManager.GetString("Ui.FastFlags.RemoveAllMeshes", resourceCulture);
+
+        public static string Ui_FastFlags_PresenceSpoofer => ResourceManager.GetString("Ui.FastFlags.PresenceSpoofer", resourceCulture);
+
+        public static string Ui_FastFlags_ChangesWhatOthersSeeOnlineIn => ResourceManager.GetString("Ui.FastFlags.ChangesWhatOthersSeeOnlineIn", resourceCulture);
+
+        public static string Ui_FastFlags_Preloading => ResourceManager.GetString("Ui.FastFlags.Preloading", resourceCulture);
+
+        public static string Ui_FastFlags_AssetPreloading => ResourceManager.GetString("Ui.FastFlags.AssetPreloading", resourceCulture);
+
+        public static string Ui_FastFlags_LearnsEachGameAndServesPreviously => ResourceManager.GetString("Ui.FastFlags.LearnsEachGameAndServesPreviously", resourceCulture);
+
+        public static string Ui_FastFlags_PreloadCacheLimit => ResourceManager.GetString("Ui.FastFlags.PreloadCacheLimit", resourceCulture);
+
+        public static string Ui_FastFlags_LimitsHowMuchDiskSpaceThe => ResourceManager.GetString("Ui.FastFlags.LimitsHowMuchDiskSpaceThe", resourceCulture);
+
+        public static string Ui_FastFlags_PreloadAvatar => ResourceManager.GetString("Ui.FastFlags.PreloadAvatar", resourceCulture);
+
+        public static string Ui_FastFlags_PreloadsYourAvatarAndEquippedAccessories => ResourceManager.GetString("Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories", resourceCulture);
+
+        public static string Ui_FastFlags_PreloadRecentGames => ResourceManager.GetString("Ui.FastFlags.PreloadRecentGames", resourceCulture);
+
+        public static string Ui_FastFlags_WarmsCacheFromYourRecentlyPlayed => ResourceManager.GetString("Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed", resourceCulture);
+
+        public static string Ui_FastFlags_ClientSpoofer => ResourceManager.GetString("Ui.FastFlags.ClientSpoofer", resourceCulture);
+
+        public static string Ui_FastFlags_ClientSidedOnlyYouSeeThese => ResourceManager.GetString("Ui.FastFlags.ClientSidedOnlyYouSeeThese", resourceCulture);
+
+        public static string Ui_FastFlags_EveryoneElseUsername => ResourceManager.GetString("Ui.FastFlags.EveryoneElseUsername", resourceCulture);
+
+        public static string Ui_FastFlags_SetsTheClientSidedUsernameShown => ResourceManager.GetString("Ui.FastFlags.SetsTheClientSidedUsernameShown", resourceCulture);
+
+        public static string Ui_FastFlags_ApplyEveryoneElseIngame => ResourceManager.GetString("Ui.FastFlags.ApplyEveryoneElseIngame", resourceCulture);
+
+        public static string Ui_FastFlags_AppliesTheEveryoneElseUsernameInside => ResourceManager.GetString("Ui.FastFlags.AppliesTheEveryoneElseUsernameInside", resourceCulture);
+
+        public static string Ui_FastFlags_VerifyEveryoneElse => ResourceManager.GetString("Ui.FastFlags.VerifyEveryoneElse", resourceCulture);
+
+        public static string Ui_FastFlags_ShowsEveryOtherPlayerAsVerified => ResourceManager.GetString("Ui.FastFlags.ShowsEveryOtherPlayerAsVerified", resourceCulture);
+
+        public static string Ui_FastFlags_YourUsername => ResourceManager.GetString("Ui.FastFlags.YourUsername", resourceCulture);
+
+        public static string Ui_FastFlags_SetsTheClientSidedUsernameShown2 => ResourceManager.GetString("Ui.FastFlags.SetsTheClientSidedUsernameShown2", resourceCulture);
+
+        public static string Ui_FastFlags_ApplyYourUsernameIngame => ResourceManager.GetString("Ui.FastFlags.ApplyYourUsernameIngame", resourceCulture);
+
+        public static string Ui_FastFlags_AppliesYourSpoofedUsernameInsideRoblox => ResourceManager.GetString("Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox", resourceCulture);
+
+        public static string Ui_FastFlags_RobuxAdjuster => ResourceManager.GetString("Ui.FastFlags.RobuxAdjuster", resourceCulture);
+
+        public static string Ui_FastFlags_VerifyYourAccount => ResourceManager.GetString("Ui.FastFlags.VerifyYourAccount", resourceCulture);
+
+        public static string Ui_FastFlags_ShowsYourAccountAsVerifiedOn => ResourceManager.GetString("Ui.FastFlags.ShowsYourAccountAsVerifiedOn", resourceCulture);
+
+        public static string Ui_FastFlags_MakeYourselfGameCreator => ResourceManager.GetString("Ui.FastFlags.MakeYourselfGameCreator", resourceCulture);
+
+        public static string Ui_FastFlags_UsesYourCurrentRobloxUserID => ResourceManager.GetString("Ui.FastFlags.UsesYourCurrentRobloxUserID", resourceCulture);
+
+        public static string Ui_FastFlags_MakeYourselfGameCreatorDoesNot => ResourceManager.GetString("Ui.FastFlags.MakeYourselfGameCreatorDoesNot", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

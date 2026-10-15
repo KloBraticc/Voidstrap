@@ -3885,4 +3885,286 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Mods.FindMods2" xml:space="preserve">
     <value>Etsi modeja</value>
   </data>
+  <data name="Ui.FastFlags.ChooseWhetherYourFastFlagsAre" xml:space="preserve">
+    <value>Valitse, käytetäänkö Fast Flageja Roblox-pelaajassa, Roblox Studiossa vai molemmissa.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyFastFlagsTo" xml:space="preserve">
+    <value>Käytä Fast Flageja kohteessa</value>
+  </data>
+  <data name="Ui.FastFlags.ViewTheFastFlagsRobloxOfficiallyAllows" xml:space="preserve">
+    <value>Näytä FastFlagit, jotka Roblox sallii virallisesti paikallisessa määrityksessä.</value>
+  </data>
+  <data name="Ui.FastFlags.Category" xml:space="preserve">
+    <value>Luokka</value>
+  </data>
+  <data name="Ui.FastFlags.ReducesOrScalesGrassMovementIn" xml:space="preserve">
+    <value>Vähentää tai skaalaa ruohon liikettä Robloxissa suorituskyvyn tai visuaalisen mukavuuden vuoksi.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassMovementFactor" xml:space="preserve">
+    <value>Ruohon liikekerroin</value>
+  </data>
+  <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
+    <value>Verkkojen yksityiskohdat</value>
+  </data>
+  <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
+    <value>Määrittää, miten yksityiskohtaiset verkot näkyvät itse pelissä.</value>
+  </data>
+  <data name="Ui.FastFlags.LowestQuality" xml:space="preserve">
+    <value>Alhaisin laatu</value>
+  </data>
+  <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
+    <value>Korkein laatu</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
+    <value>FRM-laadun ohitus</value>
+  </data>
+  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
+    <value>Valitse FRM-laadun ohitus.</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
+    <value>FRM-laadun ohitus</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
+    <value>Määritä grafiikan ja renderöinnin perusasetukset</value>
+  </data>
+  <data name="Ui.FastFlags.Lighting" xml:space="preserve">
+    <value>Valaistus</value>
+  </data>
+  <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
+    <value>Pakota harmaa taivas</value>
+  </data>
+  <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
+    <value>Pehmentää rosoiset reunat. Suuremmat arvot pehmentävät enemmän.</value>
+  </data>
+  <data name="Ui.FastFlags.AdjustTheQualityOfTexturesHigher" xml:space="preserve">
+    <value>Säätää tekstuurien laatua. Korkeammat tasot parantavat laatua.</value>
+  </data>
+  <data name="Ui.FastFlags.ControlsGrassRenderDistanceInRoblox" xml:space="preserve">
+    <value>Määrittää ruohon piirtoetäisyyden Roblox-peleissä. Aseta molemmat arvot nollaan poistaaksesi ruohon.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
+    <value>Ruohon etäisyys</value>
+  </data>
+  <data name="Ui.FastFlags.Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="Ui.FastFlags.Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
+    <value>Määritä Robloxin renderöintirajapinta. Paina Alt Enter siirtyessäsi koko näyttöön, jos käytät Direct3D:tä. Vulkan voi aiheuttaa virheitä!.</value>
+  </data>
+  <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
+    <value>Renderöintitila</value>
+  </data>
+  <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
+    <value>Edistyneet FFlagit</value>
+  </data>
+  <data name="Ui.FastFlags.SwapRobloxTexturesForParticlesStuds" xml:space="preserve">
+    <value>Vaihda Robloxin tekstuurit hiukkasille, nastoille, maastolle ja vedelle.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyProfile" xml:space="preserve">
+    <value>Käytä profiilia</value>
+  </data>
+  <data name="Ui.FastFlags.TheseOptionsOnlySwapSomeOf" xml:space="preserve">
+    <value>Nämä asetukset vaihtavat vain osan Robloxin sisäänrakennetuista tekstuuritiedostoista, kuten hiukkaset, nastat, maaston ja veden. Useimmat pelit käyttävät omia tekstuurejaan ja efektejään, joten eroa ei välttämättä huomaa.</value>
+  </data>
+  <data name="Ui.FastFlags.Particles" xml:space="preserve">
+    <value>Hiukkaset</value>
+  </data>
+  <data name="Ui.FastFlags.FireSmokeExplosionsSparklesAndForce" xml:space="preserve">
+    <value>Tuli, savu, räjähdykset, kipinät ja voimakentät</value>
+  </data>
+  <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
+    <value>Neliöiden peittävyys</value>
+  </data>
+  <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
+    <value>Kuinka kiinteiltä neliöt näyttävät</value>
+  </data>
+  <data name="Ui.FastFlags.Studs" xml:space="preserve">
+    <value>Nastat</value>
+  </data>
+  <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
+    <value>Osien nastakuvio</value>
+  </data>
+  <data name="Ui.FastFlags.FlatShade" xml:space="preserve">
+    <value>Tasainen varjostus</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrightFlatSurfacesLook50" xml:space="preserve">
+    <value>Kuinka kirkkailta tasaiset pinnat näyttävät. 50% vastaa normaalia kirkkautta</value>
+  </data>
+  <data name="Ui.FastFlags.Water" xml:space="preserve">
+    <value>Vesi</value>
+  </data>
+  <data name="Ui.FastFlags.TheRipplesOnTerrainWater" xml:space="preserve">
+    <value>Maastoveden väreily</value>
+  </data>
+  <data name="Ui.FastFlags.WaterPreview" xml:space="preserve">
+    <value>Veden esikatselu</value>
+  </data>
+  <data name="Ui.FastFlags.ThisIsTheExactRippleTexture" xml:space="preserve">
+    <value>Tämä on täsmälleen Robloxin lataama väreilytekstuuri</value>
+  </data>
+  <data name="Ui.FastFlags.WaterAnimationImages" xml:space="preserve">
+    <value>Vesianimaation kuvat</value>
+  </data>
+  <data name="Ui.FastFlags.RippleStrength" xml:space="preserve">
+    <value>Väreilyn voimakkuus</value>
+  </data>
+  <data name="Ui.FastFlags.0IsFlat100IsNormal" xml:space="preserve">
+    <value>0% on tasainen, 100% normaali, suurempi on rauhattomampi</value>
+  </data>
+  <data name="Ui.FastFlags.RippleSpeed" xml:space="preserve">
+    <value>Väreilyn nopeus</value>
+  </data>
+  <data name="Ui.FastFlags.HowFastTheRipplesMove" xml:space="preserve">
+    <value>Kuinka nopeasti väreily liikkuu</value>
+  </data>
+  <data name="Ui.FastFlags.FrozenFrame" xml:space="preserve">
+    <value>Pysäytetty kuva</value>
+  </data>
+  <data name="Ui.FastFlags.WhichRippleFrameToHoldStill" xml:space="preserve">
+    <value>Mikä väreilykuva pidetään paikallaan</value>
+  </data>
+  <data name="Ui.FastFlags.GlitchAmount" xml:space="preserve">
+    <value>Häiriön määrä</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrokenTheWaterLooks" xml:space="preserve">
+    <value>Kuinka rikkinäiseltä vesi näyttää</value>
+  </data>
+  <data name="Ui.FastFlags.Terrain" xml:space="preserve">
+    <value>Maasto</value>
+  </data>
+  <data name="Ui.FastFlags.StretchTheGroundTexturesAndChange" xml:space="preserve">
+    <value>Venyttää maan tekstuureja ja muuttaa niiden toistumista</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainTextureSize" xml:space="preserve">
+    <value>Maastotekstuurin koko</value>
+  </data>
+  <data name="Ui.FastFlags.1xIsTheNormalRobloxSize" xml:space="preserve">
+    <value>1x on Robloxin normaali koko, pienempi on suurempi ja sumeampi</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainRepeatHiding" xml:space="preserve">
+    <value>Maaston toiston piilotus</value>
+  </data>
+  <data name="Ui.FastFlags.HigherLetsRepeatingPatternsShowMore" xml:space="preserve">
+    <value>Suurempi arvo näyttää toistuvat kuviot selvemmin</value>
+  </data>
+  <data name="Ui.FastFlags.NVIDIAFFlagsAreForAdvancedUsers" xml:space="preserve">
+    <value>NVIDIA FFlagit ovat vain kokeneille käyttäjille</value>
+  </data>
+  <data name="Ui.FastFlags.TheseSettingsChangeTheNVIDIADriver" xml:space="preserve">
+    <value>Nämä asetukset muuttavat NVIDIA-ajurin profiilia, jolla Roblox toimii. Väärä arvo voi laskea FPS:ää, lisätä syöteviivettä, nykimistä, grafiikkavirheitä tai kaatumisia ja jopa estää Robloxia käynnistymästä. Muutokset tallennetaan NVIDIA-ajuriisi, joten ne säilyvät myös Voidstrapin sulkemisen tai poistamisen jälkeen.</value>
+  </data>
+  <data name="Ui.FastFlags.ToUndoThemOpenTheAdvanced" xml:space="preserve">
+    <value>Kumoa ne avaamalla lisäeditori ja käyttämällä Reset NIP -toimintoa, joka palauttaa jokaisen Robloxin NVIDIA-asetuksen ajurin oletukseen. Vain jos et voi palauttaa niitä täällä, päivitä tai asenna NVIDIA-ajurit uudelleen oletusten palauttamiseksi.</value>
+  </data>
+  <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
+    <value>Muuta vain sitä, minkä ymmärrät, ja yksi asetus kerrallaan.</value>
+  </data>
+  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
+    <value>Ottaa käyttöön AssetWarp-välityspalvelimen ja kaikki siihen liittyvät toiminnot</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
+    <value>Poista kaikki tekstuurit</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
+    <value>Poista kaikki tarrat</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
+    <value>Poista kaikki kuvat</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
+    <value>Poista kaikki animaatiot</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
+    <value>Poista kaikki verkot</value>
+  </data>
+  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
+    <value>Tilan väärentäjä</value>
+  </data>
+  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
+    <value>Muuttaa sitä, mitä muut näkevät: paikalla, Studiossa tai poissa</value>
+  </data>
+  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
+    <value>Esilataus</value>
+  </data>
+  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
+    <value>Resurssien esilataus</value>
+  </data>
+  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
+    <value>Oppii jokaisen pelin ja tarjoaa aiemmin ladatut resurssit</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
+    <value>Esilatausvälimuistin raja</value>
+  </data>
+  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
+    <value>Rajoittaa, kuinka paljon levytilaa opittu resurssivälimuisti saa käyttää</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
+    <value>Esilataa avatar</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
+    <value>Esilataa avatarisi ja puetut asusteet ennen jokaista pelin käynnistystä</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
+    <value>Esilataa viimeisimmät pelit</value>
+  </data>
+  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
+    <value>Lämmittää välimuistin viimeksi pelaamillasi peleillä ennen jokaista käynnistystä</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
+    <value>Asiakkaan väärentäjä</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
+    <value>Vain asiakaspuolella, vain sinä näet nämä muutokset.</value>
+  </data>
+  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
+    <value>Kaikkien muiden käyttäjänimi</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
+    <value>Asettaa käyttäjänimen, jonka asiakkaasi näyttää kaikille muille pelaajille</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
+    <value>Käytä kaikille muille pelissä</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
+    <value>Käyttää kaikkien muiden käyttäjänimeä Robloxissa</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
+    <value>Vahvista kaikki muut</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
+    <value>Näyttää kaikki muut pelaajat vahvistettuina tässä asiakkaassa</value>
+  </data>
+  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
+    <value>Oma käyttäjänimesi</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
+    <value>Asettaa käyttäjänimen, jonka asiakkaasi näyttää tilillesi</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
+    <value>Käytä omaa käyttäjänimeä pelissä</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
+    <value>Käyttää väärennettyä käyttäjänimeäsi Robloxissa</value>
+  </data>
+  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
+    <value>Robux-säädin</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
+    <value>Vahvista tilisi</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
+    <value>Näyttää tilisi vahvistettuna tässä asiakkaassa</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
+    <value>Tee itsestäsi pelin tekijä</value>
+  </data>
+  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
+    <value>Käyttää nykyistä Roblox-käyttäjätunnustasi siepatuissa pelin tekijän tiedoissa</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
+    <value>Tee itsestäsi pelin tekijä ei toimi Windowsissa. Roblox suojaa nykyään peleihin liittymisen Windowsissa, ja sen muuttaminen saa liittymisen epäonnistumaan virheellä 529, joten Voidstrap ei koske siihen. Se toimii yhä Linuxissa ja macOS:ssä, eikä muihin asetuksiin vaikuteta.</value>
+  </data>
 </root>

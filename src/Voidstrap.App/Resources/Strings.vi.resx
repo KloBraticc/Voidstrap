@@ -3899,4 +3899,286 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Mods.FindMods2" xml:space="preserve">
     <value>Tìm mod</value>
   </data>
+  <data name="Ui.FastFlags.ChooseWhetherYourFastFlagsAre" xml:space="preserve">
+    <value>Chọn áp dụng Fast Flags cho trình phát Roblox, Roblox Studio hoặc cả hai.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyFastFlagsTo" xml:space="preserve">
+    <value>Áp dụng Fast Flags cho</value>
+  </data>
+  <data name="Ui.FastFlags.ViewTheFastFlagsRobloxOfficiallyAllows" xml:space="preserve">
+    <value>Xem các FastFlags mà Roblox chính thức cho phép trong cấu hình cục bộ.</value>
+  </data>
+  <data name="Ui.FastFlags.Category" xml:space="preserve">
+    <value>Danh mục</value>
+  </data>
+  <data name="Ui.FastFlags.ReducesOrScalesGrassMovementIn" xml:space="preserve">
+    <value>Giảm hoặc điều chỉnh chuyển động của cỏ trong Roblox để tăng hiệu năng hoặc dễ nhìn hơn.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassMovementFactor" xml:space="preserve">
+    <value>Hệ số chuyển động cỏ</value>
+  </data>
+  <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
+    <value>Chi tiết lưới</value>
+  </data>
+  <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
+    <value>Điều khiển cách các lưới chi tiết hiển thị trong trò chơi.</value>
+  </data>
+  <data name="Ui.FastFlags.LowestQuality" xml:space="preserve">
+    <value>Chất lượng thấp nhất</value>
+  </data>
+  <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
+    <value>Chất lượng cao nhất</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
+    <value>Ghi đè chất lượng FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
+    <value>Chọn mức ghi đè chất lượng FRM.</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
+    <value>Ghi đè chất lượng FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
+    <value>Thiết lập đồ họa và kết xuất cơ bản</value>
+  </data>
+  <data name="Ui.FastFlags.Lighting" xml:space="preserve">
+    <value>Ánh sáng</value>
+  </data>
+  <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
+    <value>Buộc bầu trời xám</value>
+  </data>
+  <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
+    <value>Làm mượt các cạnh răng cưa. Giá trị cao hơn làm mượt nhiều hơn.</value>
+  </data>
+  <data name="Ui.FastFlags.AdjustTheQualityOfTexturesHigher" xml:space="preserve">
+    <value>Điều chỉnh chất lượng kết cấu. Mức cao hơn tăng chất lượng.</value>
+  </data>
+  <data name="Ui.FastFlags.ControlsGrassRenderDistanceInRoblox" xml:space="preserve">
+    <value>Điều khiển khoảng cách hiển thị cỏ trong các trò chơi Roblox. Đặt cả hai giá trị về 0 để tắt cỏ.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
+    <value>Khoảng cách cỏ</value>
+  </data>
+  <data name="Ui.FastFlags.Min" xml:space="preserve">
+    <value>Tối thiểu</value>
+  </data>
+  <data name="Ui.FastFlags.Max" xml:space="preserve">
+    <value>Tối đa</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
+    <value>Thiết lập API kết xuất cho Roblox. Nhấn Alt Enter khi chuyển sang toàn màn hình nếu bạn dùng Direct3D. Vulkan có thể gây ra một số lỗi!.</value>
+  </data>
+  <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
+    <value>Chế độ kết xuất</value>
+  </data>
+  <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
+    <value>FFlags nâng cao</value>
+  </data>
+  <data name="Ui.FastFlags.SwapRobloxTexturesForParticlesStuds" xml:space="preserve">
+    <value>Thay thế kết cấu Roblox cho hạt, studs, địa hình và nước.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyProfile" xml:space="preserve">
+    <value>Áp dụng hồ sơ</value>
+  </data>
+  <data name="Ui.FastFlags.TheseOptionsOnlySwapSomeOf" xml:space="preserve">
+    <value>Các tùy chọn này chỉ thay một số tệp kết cấu tích hợp của Roblox, như hạt, studs, địa hình và nước. Hầu hết trò chơi dùng kết cấu và hiệu ứng riêng, nên bạn có thể không thấy khác biệt nhiều.</value>
+  </data>
+  <data name="Ui.FastFlags.Particles" xml:space="preserve">
+    <value>Hạt</value>
+  </data>
+  <data name="Ui.FastFlags.FireSmokeExplosionsSparklesAndForce" xml:space="preserve">
+    <value>Lửa, khói, vụ nổ, tia lửa và trường lực</value>
+  </data>
+  <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
+    <value>Độ mờ đục của ô vuông</value>
+  </data>
+  <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
+    <value>Ô vuông trông đặc đến mức nào</value>
+  </data>
+  <data name="Ui.FastFlags.Studs" xml:space="preserve">
+    <value>Studs</value>
+  </data>
+  <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
+    <value>Họa tiết studs trên các khối</value>
+  </data>
+  <data name="Ui.FastFlags.FlatShade" xml:space="preserve">
+    <value>Đổ bóng phẳng</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrightFlatSurfacesLook50" xml:space="preserve">
+    <value>Bề mặt phẳng trông sáng đến mức nào. 50% bằng độ sáng bình thường</value>
+  </data>
+  <data name="Ui.FastFlags.Water" xml:space="preserve">
+    <value>Nước</value>
+  </data>
+  <data name="Ui.FastFlags.TheRipplesOnTerrainWater" xml:space="preserve">
+    <value>Gợn sóng trên nước địa hình</value>
+  </data>
+  <data name="Ui.FastFlags.WaterPreview" xml:space="preserve">
+    <value>Xem trước nước</value>
+  </data>
+  <data name="Ui.FastFlags.ThisIsTheExactRippleTexture" xml:space="preserve">
+    <value>Đây chính là kết cấu gợn sóng mà Roblox tải</value>
+  </data>
+  <data name="Ui.FastFlags.WaterAnimationImages" xml:space="preserve">
+    <value>Hình ảnh hoạt ảnh nước</value>
+  </data>
+  <data name="Ui.FastFlags.RippleStrength" xml:space="preserve">
+    <value>Độ mạnh gợn sóng</value>
+  </data>
+  <data name="Ui.FastFlags.0IsFlat100IsNormal" xml:space="preserve">
+    <value>0% là phẳng, 100% là bình thường, cao hơn là dữ dội hơn</value>
+  </data>
+  <data name="Ui.FastFlags.RippleSpeed" xml:space="preserve">
+    <value>Tốc độ gợn sóng</value>
+  </data>
+  <data name="Ui.FastFlags.HowFastTheRipplesMove" xml:space="preserve">
+    <value>Gợn sóng di chuyển nhanh đến mức nào</value>
+  </data>
+  <data name="Ui.FastFlags.FrozenFrame" xml:space="preserve">
+    <value>Khung hình đứng yên</value>
+  </data>
+  <data name="Ui.FastFlags.WhichRippleFrameToHoldStill" xml:space="preserve">
+    <value>Khung gợn sóng nào được giữ đứng yên</value>
+  </data>
+  <data name="Ui.FastFlags.GlitchAmount" xml:space="preserve">
+    <value>Mức độ lỗi hình</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrokenTheWaterLooks" xml:space="preserve">
+    <value>Nước trông hỏng đến mức nào</value>
+  </data>
+  <data name="Ui.FastFlags.Terrain" xml:space="preserve">
+    <value>Địa hình</value>
+  </data>
+  <data name="Ui.FastFlags.StretchTheGroundTexturesAndChange" xml:space="preserve">
+    <value>Kéo giãn kết cấu mặt đất và thay đổi tần suất lặp lại</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainTextureSize" xml:space="preserve">
+    <value>Kích thước kết cấu địa hình</value>
+  </data>
+  <data name="Ui.FastFlags.1xIsTheNormalRobloxSize" xml:space="preserve">
+    <value>1x là kích thước Roblox bình thường, nhỏ hơn là lớn hơn và mờ hơn</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainRepeatHiding" xml:space="preserve">
+    <value>Ẩn lặp lại địa hình</value>
+  </data>
+  <data name="Ui.FastFlags.HigherLetsRepeatingPatternsShowMore" xml:space="preserve">
+    <value>Giá trị cao hơn để lộ các họa tiết lặp lại nhiều hơn</value>
+  </data>
+  <data name="Ui.FastFlags.NVIDIAFFlagsAreForAdvancedUsers" xml:space="preserve">
+    <value>NVIDIA FFlags chỉ dành cho người dùng nâng cao</value>
+  </data>
+  <data name="Ui.FastFlags.TheseSettingsChangeTheNVIDIADriver" xml:space="preserve">
+    <value>Các cài đặt này thay đổi hồ sơ trình điều khiển NVIDIA mà Roblox chạy cùng. Một giá trị sai có thể làm giảm FPS, thêm độ trễ đầu vào, giật, lỗi đồ họa hoặc treo, thậm chí khiến Roblox không mở được. Thay đổi được lưu trong trình điều khiển NVIDIA của bạn, nên vẫn còn sau khi bạn đóng hoặc gỡ cài đặt Voidstrap.</value>
+  </data>
+  <data name="Ui.FastFlags.ToUndoThemOpenTheAdvanced" xml:space="preserve">
+    <value>Để hoàn tác, hãy mở trình chỉnh sửa nâng cao và dùng Reset NIP, tính năng đưa mọi cài đặt NVIDIA cho Roblox về mặc định của trình điều khiển. Chỉ khi không thể đặt lại tại đây, hãy cập nhật hoặc cài lại trình điều khiển NVIDIA để khôi phục mặc định.</value>
+  </data>
+  <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
+    <value>Chỉ thay đổi những gì bạn hiểu, và mỗi lần một cài đặt.</value>
+  </data>
+  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
+    <value>Bật proxy AssetWarp và mọi tính năng liên quan</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
+    <value>Xóa mọi kết cấu</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
+    <value>Xóa mọi decal</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
+    <value>Xóa mọi hình ảnh</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
+    <value>Xóa mọi hoạt ảnh</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
+    <value>Xóa mọi lưới</value>
+  </data>
+  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
+    <value>Giả mạo trạng thái</value>
+  </data>
+  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
+    <value>Thay đổi những gì người khác thấy: trực tuyến, trong Studio hoặc ngoại tuyến</value>
+  </data>
+  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
+    <value>Tải trước</value>
+  </data>
+  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
+    <value>Tải trước tài nguyên</value>
+  </data>
+  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
+    <value>Học từng trò chơi và cung cấp các tài nguyên đã tải trước đó</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
+    <value>Giới hạn bộ nhớ đệm tải trước</value>
+  </data>
+  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
+    <value>Giới hạn dung lượng ổ đĩa mà bộ nhớ đệm tài nguyên đã học được dùng</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
+    <value>Tải trước avatar</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
+    <value>Tải trước avatar và phụ kiện đang đeo trước mỗi lần khởi chạy trò chơi</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
+    <value>Tải trước trò chơi gần đây</value>
+  </data>
+  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
+    <value>Làm nóng bộ nhớ đệm bằng các trò chơi bạn chơi gần đây trước mỗi lần khởi chạy</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
+    <value>Giả mạo phía máy khách</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
+    <value>Chỉ ở phía máy khách, chỉ bạn thấy những thay đổi này.</value>
+  </data>
+  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
+    <value>Tên người dùng của mọi người khác</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
+    <value>Đặt tên người dùng mà máy khách của bạn hiển thị cho mọi người chơi khác</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
+    <value>Áp dụng cho mọi người khác trong trò chơi</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
+    <value>Áp dụng tên người dùng của mọi người khác trong Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
+    <value>Xác minh mọi người khác</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
+    <value>Hiển thị mọi người chơi khác là đã xác minh trên máy khách này</value>
+  </data>
+  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
+    <value>Tên người dùng của bạn</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
+    <value>Đặt tên người dùng mà máy khách của bạn hiển thị cho tài khoản của bạn</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
+    <value>Áp dụng tên của bạn trong trò chơi</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
+    <value>Áp dụng tên người dùng giả mạo của bạn trong Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
+    <value>Điều chỉnh Robux</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
+    <value>Xác minh tài khoản của bạn</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
+    <value>Hiển thị tài khoản của bạn là đã xác minh trên máy khách này</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
+    <value>Biến bạn thành người tạo trò chơi</value>
+  </data>
+  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
+    <value>Dùng ID người dùng Roblox hiện tại của bạn cho dữ liệu người tạo trò chơi bị chặn</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
+    <value>Biến bạn thành người tạo trò chơi không hoạt động trên Windows. Roblox hiện bảo vệ việc tham gia trò chơi trên Windows và việc thay đổi nó khiến tham gia thất bại với lỗi 529, nên Voidstrap không đụng tới. Tính năng vẫn hoạt động trên Linux và macOS, và các tùy chọn khác của bạn không bị ảnh hưởng.</value>
+  </data>
 </root>

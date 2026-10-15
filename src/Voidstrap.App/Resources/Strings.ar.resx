@@ -3922,4 +3922,286 @@
   <data name="Ui.Mods.FindMods2" xml:space="preserve">
     <value>البحث عن تعديلات</value>
   </data>
+  <data name="Ui.FastFlags.ChooseWhetherYourFastFlagsAre" xml:space="preserve">
+    <value>اختر ما إذا كانت Fast Flags تُطبَّق على مشغل Roblox أو Roblox Studio أو كليهما.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyFastFlagsTo" xml:space="preserve">
+    <value>تطبيق Fast Flags على</value>
+  </data>
+  <data name="Ui.FastFlags.ViewTheFastFlagsRobloxOfficiallyAllows" xml:space="preserve">
+    <value>اعرض FastFlags التي يسمح بها Roblox رسميًا في الإعدادات المحلية.</value>
+  </data>
+  <data name="Ui.FastFlags.Category" xml:space="preserve">
+    <value>الفئة</value>
+  </data>
+  <data name="Ui.FastFlags.ReducesOrScalesGrassMovementIn" xml:space="preserve">
+    <value>يقلل حركة العشب في Roblox أو يغيّر حجمها لتحسين الأداء أو الراحة البصرية.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassMovementFactor" xml:space="preserve">
+    <value>معامل حركة العشب</value>
+  </data>
+  <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
+    <value>تفاصيل الشبكات</value>
+  </data>
+  <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
+    <value>يتحكم في طريقة ظهور الشبكات المفصلة داخل اللعبة.</value>
+  </data>
+  <data name="Ui.FastFlags.LowestQuality" xml:space="preserve">
+    <value>أدنى جودة</value>
+  </data>
+  <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
+    <value>أعلى جودة</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
+    <value>تجاوز جودة FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
+    <value>اختر تجاوز جودة FRM.</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
+    <value>تجاوز جودة FRM</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
+    <value>اضبط إعدادات الرسومات والعرض الأساسية</value>
+  </data>
+  <data name="Ui.FastFlags.Lighting" xml:space="preserve">
+    <value>الإضاءة</value>
+  </data>
+  <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
+    <value>فرض سماء رمادية</value>
+  </data>
+  <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
+    <value>ينعّم الحواف المسننة. القيم الأعلى تنعّم أكثر.</value>
+  </data>
+  <data name="Ui.FastFlags.AdjustTheQualityOfTexturesHigher" xml:space="preserve">
+    <value>يضبط جودة الخامات. المستويات الأعلى تزيد الجودة.</value>
+  </data>
+  <data name="Ui.FastFlags.ControlsGrassRenderDistanceInRoblox" xml:space="preserve">
+    <value>يتحكم في مسافة ظهور العشب في ألعاب Roblox. اضبط القيمتين على 0 لإيقاف العشب.</value>
+  </data>
+  <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
+    <value>مسافة العشب</value>
+  </data>
+  <data name="Ui.FastFlags.Min" xml:space="preserve">
+    <value>الأدنى</value>
+  </data>
+  <data name="Ui.FastFlags.Max" xml:space="preserve">
+    <value>الأقصى</value>
+  </data>
+  <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
+    <value>اضبط واجهة العرض لـ Roblox. اضغط Alt Enter عند التبديل إلى ملء الشاشة إذا كنت تستخدم Direct3D. قد يسبب Vulkan بعض الأخطاء!.</value>
+  </data>
+  <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
+    <value>وضع العرض</value>
+  </data>
+  <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
+    <value>FFlags متقدمة</value>
+  </data>
+  <data name="Ui.FastFlags.SwapRobloxTexturesForParticlesStuds" xml:space="preserve">
+    <value>يستبدل خامات Roblox للجسيمات وstuds والتضاريس والماء.</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyProfile" xml:space="preserve">
+    <value>تطبيق الملف الشخصي</value>
+  </data>
+  <data name="Ui.FastFlags.TheseOptionsOnlySwapSomeOf" xml:space="preserve">
+    <value>تستبدل هذه الخيارات بعض ملفات الخامات المدمجة في Roblox فقط، مثل الجسيمات وstuds والتضاريس والماء. تستخدم معظم الألعاب خاماتها وتأثيراتها الخاصة، لذا قد لا تلاحظ فرقًا كبيرًا.</value>
+  </data>
+  <data name="Ui.FastFlags.Particles" xml:space="preserve">
+    <value>الجسيمات</value>
+  </data>
+  <data name="Ui.FastFlags.FireSmokeExplosionsSparklesAndForce" xml:space="preserve">
+    <value>النار والدخان والانفجارات والشرر وحقول القوة</value>
+  </data>
+  <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
+    <value>عتامة المربعات</value>
+  </data>
+  <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
+    <value>مدى صلابة مظهر المربعات</value>
+  </data>
+  <data name="Ui.FastFlags.Studs" xml:space="preserve">
+    <value>Studs</value>
+  </data>
+  <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
+    <value>نمط studs على الأجزاء</value>
+  </data>
+  <data name="Ui.FastFlags.FlatShade" xml:space="preserve">
+    <value>تظليل مسطح</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrightFlatSurfacesLook50" xml:space="preserve">
+    <value>مدى سطوع الأسطح المسطحة. 50% تعادل السطوع العادي</value>
+  </data>
+  <data name="Ui.FastFlags.Water" xml:space="preserve">
+    <value>الماء</value>
+  </data>
+  <data name="Ui.FastFlags.TheRipplesOnTerrainWater" xml:space="preserve">
+    <value>التموجات على ماء التضاريس</value>
+  </data>
+  <data name="Ui.FastFlags.WaterPreview" xml:space="preserve">
+    <value>معاينة الماء</value>
+  </data>
+  <data name="Ui.FastFlags.ThisIsTheExactRippleTexture" xml:space="preserve">
+    <value>هذه هي بالضبط خامة التموجات التي يحمّلها Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.WaterAnimationImages" xml:space="preserve">
+    <value>صور حركة الماء</value>
+  </data>
+  <data name="Ui.FastFlags.RippleStrength" xml:space="preserve">
+    <value>قوة التموج</value>
+  </data>
+  <data name="Ui.FastFlags.0IsFlat100IsNormal" xml:space="preserve">
+    <value>0% مسطح و100% عادي والأكثر أشد اضطرابًا</value>
+  </data>
+  <data name="Ui.FastFlags.RippleSpeed" xml:space="preserve">
+    <value>سرعة التموج</value>
+  </data>
+  <data name="Ui.FastFlags.HowFastTheRipplesMove" xml:space="preserve">
+    <value>مدى سرعة حركة التموجات</value>
+  </data>
+  <data name="Ui.FastFlags.FrozenFrame" xml:space="preserve">
+    <value>إطار ثابت</value>
+  </data>
+  <data name="Ui.FastFlags.WhichRippleFrameToHoldStill" xml:space="preserve">
+    <value>أي إطار تموج يبقى ثابتًا</value>
+  </data>
+  <data name="Ui.FastFlags.GlitchAmount" xml:space="preserve">
+    <value>مقدار التشويش</value>
+  </data>
+  <data name="Ui.FastFlags.HowBrokenTheWaterLooks" xml:space="preserve">
+    <value>مدى ظهور الماء معطوبًا</value>
+  </data>
+  <data name="Ui.FastFlags.Terrain" xml:space="preserve">
+    <value>التضاريس</value>
+  </data>
+  <data name="Ui.FastFlags.StretchTheGroundTexturesAndChange" xml:space="preserve">
+    <value>يمدد خامات الأرض ويغيّر عدد مرات تكرارها</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainTextureSize" xml:space="preserve">
+    <value>حجم خامات التضاريس</value>
+  </data>
+  <data name="Ui.FastFlags.1xIsTheNormalRobloxSize" xml:space="preserve">
+    <value>1x هو الحجم العادي في Roblox، والأقل يعني أكبر وأكثر ضبابية</value>
+  </data>
+  <data name="Ui.FastFlags.TerrainRepeatHiding" xml:space="preserve">
+    <value>إخفاء تكرار التضاريس</value>
+  </data>
+  <data name="Ui.FastFlags.HigherLetsRepeatingPatternsShowMore" xml:space="preserve">
+    <value>القيمة الأعلى تُظهر الأنماط المتكررة أكثر</value>
+  </data>
+  <data name="Ui.FastFlags.NVIDIAFFlagsAreForAdvancedUsers" xml:space="preserve">
+    <value>NVIDIA FFlags مخصصة للمستخدمين المتقدمين فقط</value>
+  </data>
+  <data name="Ui.FastFlags.TheseSettingsChangeTheNVIDIADriver" xml:space="preserve">
+    <value>تغيّر هذه الإعدادات ملف تعريف برنامج تشغيل NVIDIA الذي يعمل به Roblox. قد تؤدي القيمة الخاطئة إلى خفض FPS وزيادة تأخر الإدخال والتقطيع وأخطاء الرسومات أو الأعطال، بل وقد تمنع Roblox من الفتح. تُحفظ التغييرات في برنامج تشغيل NVIDIA لديك، لذا تبقى بعد إغلاق Voidstrap أو إلغاء تثبيته.</value>
+  </data>
+  <data name="Ui.FastFlags.ToUndoThemOpenTheAdvanced" xml:space="preserve">
+    <value>للتراجع عنها، افتح المحرر المتقدم واستخدم Reset NIP، الذي يعيد كل إعداد NVIDIA خاص بـ Roblox إلى القيمة الافتراضية لبرنامج التشغيل. فقط إذا تعذّرت إعادة تعيينها هنا، حدّث برامج تشغيل NVIDIA أو أعد تثبيتها لاستعادة القيم الافتراضية.</value>
+  </data>
+  <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
+    <value>غيّر فقط ما تفهمه، وإعدادًا واحدًا في كل مرة.</value>
+  </data>
+  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
+    <value>يشغّل وكيل AssetWarp وجميع الميزات المرتبطة به</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
+    <value>إزالة كل الخامات</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
+    <value>إزالة كل الملصقات</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
+    <value>إزالة كل الصور</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
+    <value>إزالة كل الرسوم المتحركة</value>
+  </data>
+  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
+    <value>إزالة كل الشبكات</value>
+  </data>
+  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
+    <value>تزييف الحالة</value>
+  </data>
+  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
+    <value>يغيّر ما يراه الآخرون: متصل أو في Studio أو غير متصل</value>
+  </data>
+  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
+    <value>التحميل المسبق</value>
+  </data>
+  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
+    <value>التحميل المسبق للموارد</value>
+  </data>
+  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
+    <value>يتعلم كل لعبة ويقدّم الموارد التي نُزّلت سابقًا</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
+    <value>حد ذاكرة التحميل المسبق</value>
+  </data>
+  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
+    <value>يحدد مساحة القرص التي يمكن أن تستخدمها ذاكرة الموارد المتعلَّمة</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
+    <value>التحميل المسبق للأفاتار</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
+    <value>يحمّل الأفاتار والإكسسوارات المرتداة مسبقًا قبل كل تشغيل للعبة</value>
+  </data>
+  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
+    <value>التحميل المسبق للألعاب الأخيرة</value>
+  </data>
+  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
+    <value>يجهّز الذاكرة المؤقتة بالألعاب التي لعبتها مؤخرًا قبل كل تشغيل</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
+    <value>تزييف من جهة العميل</value>
+  </data>
+  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
+    <value>من جهة العميل فقط، أنت وحدك ترى هذه التغييرات.</value>
+  </data>
+  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
+    <value>اسم المستخدم لجميع الآخرين</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
+    <value>يحدد اسم المستخدم الذي يعرضه عميلك لجميع اللاعبين الآخرين</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
+    <value>تطبيق على جميع الآخرين في اللعبة</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
+    <value>يطبّق اسم المستخدم لجميع الآخرين في Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
+    <value>توثيق جميع الآخرين</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
+    <value>يعرض جميع اللاعبين الآخرين كموثقين في هذا العميل</value>
+  </data>
+  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
+    <value>اسم المستخدم الخاص بك</value>
+  </data>
+  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
+    <value>يحدد اسم المستخدم الذي يعرضه عميلك لحسابك</value>
+  </data>
+  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
+    <value>تطبيق اسمك في اللعبة</value>
+  </data>
+  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
+    <value>يطبّق اسم المستخدم المزيف الخاص بك في Roblox</value>
+  </data>
+  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
+    <value>ضبط Robux</value>
+  </data>
+  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
+    <value>توثيق حسابك</value>
+  </data>
+  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
+    <value>يعرض حسابك كموثق في هذا العميل</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
+    <value>اجعل نفسك منشئ اللعبة</value>
+  </data>
+  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
+    <value>يستخدم معرّف مستخدم Roblox الحالي الخاص بك لبيانات منشئ اللعبة المعترَضة</value>
+  </data>
+  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
+    <value>ميزة اجعل نفسك منشئ اللعبة لا تعمل على Windows. يحمي Roblox الآن الانضمام إلى الألعاب على Windows، وتعديله يجعل الانضمام يفشل بالخطأ 529، لذلك لا يلمسه Voidstrap. لا تزال تعمل على Linux وmacOS، ولا تتأثر خياراتك الأخرى.</value>
+  </data>
 </root>
