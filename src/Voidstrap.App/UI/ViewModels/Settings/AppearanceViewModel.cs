@@ -1605,11 +1605,13 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 		AudioPlayerHelper.StopAudio();
 	}
 
+    private static string CustomIconFilter => Strings.Menu_IconFiles + (Voidstrap.Utility.Platform.IsMacOS ? "|*.icns;*.ico;*.png" : "|*.ico");
+
     private void BrowseCustomIconLocation()
     {
         OpenFileDialog openFileDialog = new OpenFileDialog
         {
-            Filter = Strings.Menu_IconFiles + "|*.ico"
+            Filter = CustomIconFilter
         };
         if (openFileDialog.ShowDialog() == true)
         {
@@ -1644,7 +1646,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
     {
         OpenFileDialog openFileDialog = new OpenFileDialog
         {
-            Filter = Strings.Menu_IconFiles + "|*.ico"
+            Filter = CustomIconFilter
         };
         if (openFileDialog.ShowDialog() != true)
         {
