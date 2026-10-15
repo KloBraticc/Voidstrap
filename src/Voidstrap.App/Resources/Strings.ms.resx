@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap tidak dapat membuang laluan AssetWarp yang tertinggal daripada fail hosts Windows. Roblox tidak akan dapat memuatkan tekstur atau aset lain sehingga ia dibuang. Jalankan Voidstrap sebagai pentadbir untuk membersihkannya.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap tidak dapat mengemas kini secara automatik ke versi {0}. Sila kemas kini secara manual dengan memuat turun dan menjalankannya dari laman web GitHub.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Menunggu "instances" yang lain...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Kedua-duanya</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Pemain</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Kosong</value>
@@ -407,6 +416,9 @@
   <data name="ContextMenu.ServerInformation.CopyInstanceId" xml:space="preserve">
     <value>Meniru Instance ID</value>
   </data>
+  <data name="ContextMenu.ServerInformation.InstanceId" xml:space="preserve">
+    <value>ID instans</value>
+  </data>
   <data name="ContextMenu.ServerInformation.Location" xml:space="preserve">
     <value>Lokasi</value>
   </data>
@@ -422,6 +434,150 @@ Klik untuk maklumat lanjut</value>
   </data>
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>Taip</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Pelayar pelayan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Tempat {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Tempat {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} pelayan diimbas</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Muat semula</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Muatkan lebih banyak pelayan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Sembunyikan pelayan yang penuh</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Cari bandar, negara atau ID pelayan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Pemain paling ramai</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Pemain paling sedikit</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Ping terendah</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Sertai</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Semasa</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Memuatkan pelayan awam</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Tiada pelayan awam ditemui</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Sertai permainan sebelum membuka pelayar pelayan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Senarai pelayan dijeda kerana Roblox mengehadkan permintaan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Tidak dapat memuatkan pelayan awam</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} pelayan dimuatkan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} daripada {1} pemain</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} pemain</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Tidak diketahui</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Padanan terbaik</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Padanan terbaik</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Disekat</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Kira-kira {0} ms dari anda</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>{0} pelayan telah dikesan setakat ini</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{0} daripada {1} pelayan dikesan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Memindahkan anda ke {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Tidak dapat menyertai pelayan itu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Log masuk melalui Tetapan &gt; Server Matchmaker supaya Voidstrap dapat mencari lokasi setiap pelayan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Lokasi anda tidak dapat ditemui, jadi pelayan tidak boleh disusun mengikut ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox tidak mendedahkan lokasi pelayan ini, cuba lagi sebentar lagi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Semua pelayan yang ditemui berada di pusat data yang anda sekat</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Semua pelayan yang ditemui jauh dari anda, jadi matchmaker akan membiarkan Roblox memilih</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Pelayar permainan</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Teruskan</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Kegemaran</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Cari</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Cari permainan Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Memuatkan permainan</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Tiada permainan terkini dalam sesi ini</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Tiada permainan kegemaran disimpan</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Cari permainan Roblox mengikut nama</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Tiada permainan ditemui untuk {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Tidak dapat memuatkan permainan</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} sedang bermain</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Sertai</value>
   </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>Tambah "FastFlag"</value>
@@ -521,6 +677,9 @@ Jika belum, sila laporkan masalah tersebut melalui [isu GitHub]({1}) bersama den
   </data>
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>Ungu</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Beri</value>
   </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>Hijau</value>
@@ -961,6 +1120,12 @@ Memilih 'Tidak' akan mengabaikan amaran ini dan pemasangan akan diteruskan.</val
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>Pilih bahasa pilihan</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Terjemahan automatik</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Terjemahkan ke</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>Pilih bahasa sebelum memulakan dengan pemasangan.</value>
   </data>
@@ -969,6 +1134,18 @@ Memilih 'Tidak' akan mengabaikan amaran ini dan pemasangan akan diteruskan.</val
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>Beberapa teks mungkin tidak diterjemahkan ke dalam bahasa pilihan.</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Bahasa terjemahan automatik</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Terjemahkan seluruh antara muka Voidstrap ke mana-mana bahasa. Terjemahan terbina dalam digunakan dahulu, dan teks yang selebihnya diterjemahkan secara langsung.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Terjemah RPC Discord secara automatik</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Menterjemah teks Discord Rich Presence secara automatik ke bahasa yang dipilih.</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>Benarkan penggunaan bahasa yang tidak disokong oleh Roblox</value>
@@ -1295,6 +1472,9 @@ Sila buang fail Voidstrap.exe secara manual dari lokasi pemasangan atau cuba mul
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Tidak tersedia</value>
   </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Ciri ini hanya tersedia pada Windows.</value>
+  </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>Urus tetapan kesesuaian</value>
   </data>
@@ -1357,6 +1537,9 @@ Sila buang fail Voidstrap.exe secara manual dari lokasi pemasangan atau cuba mul
 Semasa mod ini diaktifkan, ia akan melancarkan Roblox secara automatik selepas menutup menu Tetapan, dan membuka semula menu Tetapan selepas menutup Roblox, secara berulang sehingga anda mematikan ciri ini.
 
 Adakah anda ingin mengaktifkan mod pengujian?</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Semua orang yang disenaraikan di sini telah meluangkan masa dan usaha mereka dengan murah hati untuk membantu menterjemah Voidstrap. Terima kasih yang tidak terhingga kepada semua!</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Pasang</value>
@@ -1443,6 +1626,21 @@ Sila tutup sebarang aplikasi yang mungkin menggunakan fail Roblox, dan cuba lagi
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
     <value>Sambungan anda telah tamat masa, yang mungkin menunjukkan bahawa sambungan internet anda yang lemah atau terdapat sekatan firewall.</value>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Tukar tetapan pengedaran dan pemasangan untuk Roblox dan Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Saluran</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Pilih saluran pengedaran. Jangan ubah melainkan anda tahu apa yang anda lakukan.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Versi</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Kemas kini Roblox</value>
+  </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>Apabila dilumpuhkan, klien Roblox tidak akan dinaik taraf ke versi yang lebih baharu.</value>
   </data>
@@ -1473,8 +1671,17 @@ Sila tutup sebarang aplikasi yang mungkin menggunakan fail Roblox, dan cuba lagi
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>Menghalang pakaian berlapis daripada dipaparkan pada avatar pemain lain.</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Mod gelap</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>Mengaktifkan DarkMode akses awal Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetri</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Mod gelap</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>Pramuat</value>
@@ -1662,213 +1869,6 @@ Adakah anda ingin menukar saluran pilihan kepada {0}?</value>
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Butiran Berita</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap tidak dapat membuang laluan AssetWarp yang tertinggal daripada fail hosts Windows. Roblox tidak akan dapat memuatkan tekstur atau aset lain sehingga ia dibuang. Jalankan Voidstrap sebagai pentadbir untuk membersihkannya.</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>Kedua-duanya</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>Pemain</value>
-  </data>
-  <data name="ContextMenu.ServerInformation.InstanceId" xml:space="preserve">
-    <value>ID instans</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>Pelayar pelayan</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>Tempat {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  Tempat {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>{0} pelayan diimbas</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>Muat semula</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>Muatkan lebih banyak pelayan</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>Sembunyikan pelayan yang penuh</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>Cari bandar, negara atau ID pelayan</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>Pemain paling ramai</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>Pemain paling sedikit</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>Ping terendah</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>Sertai</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>Semasa</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>Memuatkan pelayan awam</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>Tiada pelayan awam ditemui</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>Sertai permainan sebelum membuka pelayar pelayan</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>Senarai pelayan dijeda kerana Roblox mengehadkan permintaan</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>Tidak dapat memuatkan pelayan awam</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>{0} pelayan dimuatkan</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0} daripada {1} pemain</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>{0} pemain</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>Tidak diketahui</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>Padanan terbaik</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>Padanan terbaik</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>Disekat</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>Kira-kira {0} ms dari anda</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>{0} pelayan telah dikesan setakat ini</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>{0} daripada {1} pelayan dikesan</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>Memindahkan anda ke {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>Tidak dapat menyertai pelayan itu</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>Log masuk melalui Tetapan &gt; Server Matchmaker supaya Voidstrap dapat mencari lokasi setiap pelayan</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>Lokasi anda tidak dapat ditemui, jadi pelayan tidak boleh disusun mengikut ping</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox tidak mendedahkan lokasi pelayan ini, cuba lagi sebentar lagi</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>Semua pelayan yang ditemui berada di pusat data yang anda sekat</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>Semua pelayan yang ditemui jauh dari anda, jadi matchmaker akan membiarkan Roblox memilih</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>Pelayar permainan</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>Teruskan</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>Kegemaran</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>Cari</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>Cari permainan Roblox</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>Memuatkan permainan</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>Tiada permainan terkini dalam sesi ini</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>Tiada permainan kegemaran disimpan</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>Cari permainan Roblox mengikut nama</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>Tiada permainan ditemui untuk {0}</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>Tidak dapat memuatkan permainan</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>{0} sedang bermain</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>Sertai</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Beri</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>Terjemahan automatik</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>Terjemahkan ke</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>Bahasa terjemahan automatik</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>Terjemahkan seluruh antara muka Voidstrap ke mana-mana bahasa. Terjemahan terbina dalam digunakan dahulu, dan teks yang selebihnya diterjemahkan secara langsung.</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>Terjemah RPC Discord secara automatik</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>Menterjemah teks Discord Rich Presence secara automatik ke bahasa yang dipilih.</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>Ciri ini hanya tersedia pada Windows.</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Semua orang yang disenaraikan di sini telah meluangkan masa dan usaha mereka dengan murah hati untuk membantu menterjemah Voidstrap. Terima kasih yang tidak terhingga kepada semua!</value>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>Tukar tetapan pengedaran dan pemasangan untuk Roblox dan Voidstrap.</value>
-  </data>
-  <data name="Common.Channel" xml:space="preserve">
-    <value>Saluran</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>Pilih saluran pengedaran. Jangan ubah melainkan anda tahu apa yang anda lakukan.</value>
-  </data>
-  <data name="Common.Version" xml:space="preserve">
-    <value>Versi</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>Kemas kini Roblox</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>Mod gelap</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Telemetri</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>Mod gelap</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>Konfigurasikan masa jalan Linux yang digunakan Voidstrap untuk melancarkan Roblox. Sober menjalankan pemain, Vinegar menjalankan Studio. Voidstrap hanya mengubah pilihan yang anda gantikan secara jelas.</value>

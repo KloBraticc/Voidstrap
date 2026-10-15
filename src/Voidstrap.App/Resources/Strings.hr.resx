@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap nije mogao ukloniti preostalo AssetWarp usmjeravanje iz Windows datoteke hosts. Roblox neće moći učitati teksture ni druge resurse dok se ono ne ukloni. Pokreni Voidstrap kao administrator da ga očistiš.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap se nije uspio automatski ažurirati na verziju {0}. Molimo ažurirajte ju ručno tako da je preuzmete i pokrenete sa web-stranice.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Čekanje ostalih slučajeva...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Oboje</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Igrač</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Prazno</value>
@@ -432,6 +441,150 @@ Kliknite za više informacija</value>
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>Vrsta</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Preglednik poslužitelja</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Mjesto {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Mjesto {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>Skenirano poslužitelja: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Osvježi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Učitaj još poslužitelja</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Sakrij pune poslužitelje</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Traži grad, državu ili ID poslužitelja</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Najviše igrača</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Najmanje igrača</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Najmanji ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Pridruži se</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Trenutno</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Učitavanje javnih poslužitelja</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Nije pronađen nijedan javni poslužitelj</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Pridruži se igri prije otvaranja preglednika poslužitelja</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Popis poslužitelja je pauziran jer Roblox ograničava zahtjeve</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Nije moguće učitati javne poslužitelje</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>Učitano poslužitelja: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} od {1} igrača</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>Igrača: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Nepoznato</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Najbolje podudaranje</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Najbolje podudaranje</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Blokirano</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Oko {0} ms od tebe</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Do sada pronađeno poslužitelja: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>Pronađeno {0} od {1} poslužitelja</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Premještanje na {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Nije moguće pridružiti se tom poslužitelju</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Prijavi se u Postavke &gt; Server Matchmaker kako bi Voidstrap mogao pronaći gdje se nalazi svaki poslužitelj</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Tvoju lokaciju nije moguće pronaći, pa se poslužitelji ne mogu poredati po pingu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox nije otkrio gdje se nalaze ti poslužitelji, pokušaj ponovno za trenutak</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Svi pronađeni poslužitelji nalaze se u podatkovnom centru koji si blokirao</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Svi pronađeni poslužitelji daleko su od tebe, pa bi matchmaker prepustio odabir Robloxu</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Preglednik igara</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Nastavi</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Favoriti</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Traži</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Traži Roblox igre</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Učitavanje igara</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Nema nedavnih igara u ovoj sesiji</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Nema spremljenih omiljenih igara</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Pretraži Roblox igru po nazivu</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Nije pronađena nijedna igra za {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Nije moguće učitati igre</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>Igra: {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Pridruži se</value>
+  </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>Dodaj Brzu Zastavu (FastFlag)</value>
   </data>
@@ -537,6 +690,9 @@ Ako nije, molimo prijavite ovu iznimku preko [GitHub issue]({1}) zajedno sa kopi
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>Ljubičasta</value>
   </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Bobičasta</value>
+  </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>Zelena</value>
   </data>
@@ -575,6 +731,9 @@ Ako nije, molimo prijavite ovu iznimku preko [GitHub issue]({1}) zajedno sa kopi
   </data>
   <data name="Menu.About.Description" xml:space="preserve">
     <value>Alternativni bootstrapper za Roblox s nekoliko dodatnih dodataka.</value>
+  </data>
+  <data name="Menu.About.DiscordServer" xml:space="preserve">
+    <value>Discord poslužitelj</value>
   </data>
   <data name="Menu.About.GithubRepository" xml:space="preserve">
     <value>GitHub repozitorij</value>
@@ -980,6 +1139,12 @@ Promjena na iduću lokaciju je preporučena: {0}
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>Odaberi preferirani jezik</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Automatski prijevod</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Prevedi na</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>Odaberite jezik prije nastavka s instalacijom.</value>
   </data>
@@ -988,6 +1153,18 @@ Promjena na iduću lokaciju je preporučena: {0}
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>Neki tekstovi možda neće biti prevedeni na željeni jezik.</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Jezik automatskog prijevoda</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Prevedi cijelo sučelje Voidstrapa na bilo koji jezik. Najprije se koriste ugrađeni prijevodi, a preostali tekst prevodi se uživo.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Automatski prevodi Discord RPC</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Automatski prevodi tekst Discord Rich Presence na odabrani jezik.</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>Dopusti korištenje nepodržanih Roblox jezika</value>
@@ -1318,6 +1495,9 @@ Molimo ručno izbrišite Voidstrap.exe iz lokacije instalacije ili pokušajte po
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Nije dostupno</value>
   </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Ova je značajka dostupna samo na sustavu Windows.</value>
+  </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>Upravljajte postavkama kompatibilnosti</value>
   </data>
@@ -1382,6 +1562,9 @@ Molimo ručno izbrišite Voidstrap.exe iz lokacije instalacije ili pokušajte po
 Kada uključen, automatski će pokrenuti Roblox nakon zatvaranja postavki, i ponovno otvoriti postavke nakon zatvaranja Roblox-a, u krugu sve dok ga ne isključite.
 
 Želite li uključiti testni mod?</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Svi ovdje navedeni velikodušno su uložili svoje vrijeme i trud u prevođenje Voidstrapa. Veliko hvala svima!</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Instaliraj</value>
@@ -1469,6 +1652,21 @@ Molimo zatvorite bilo koju aplikaciju koja bi mogla koristiti Robloxove datoteke
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
     <value>Veza je istekla, što može naznačiti lošu internetsku vezu ili blokadu vatrozida.</value>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Promijeni postavke uvođenja i instalacije za Roblox i Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kanal</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Odaberi kanal uvođenja. Ne mijenjaj ga ako ne znaš što radiš.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Verzija</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Roblox ažuriranja</value>
+  </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>Kada je onemogućeno, Roblox klijent neće se nadograditi na noviju verziju.</value>
   </data>
@@ -1499,8 +1697,17 @@ Molimo zatvorite bilo koju aplikaciju koja bi mogla koristiti Robloxove datoteke
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>Sprječava renderiranje slojevite odjeće na avatarima drugih igrača.</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Tamni način</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>Aktivira Robloxov rani pristup DarkMode</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetrija</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Tamni način</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>Predučitavanje</value>
@@ -1535,6 +1742,9 @@ Molimo zatvorite bilo koju aplikaciju koja bi mogla koristiti Robloxove datoteke
   </data>
   <data name="Menu.Channel.ChangeAction.Ignore" xml:space="preserve">
     <value>Nikad ne mijenjaj</value>
+  </data>
+  <data name="Common.Debug" xml:space="preserve">
+    <value>Otklanjanje pogrešaka</value>
   </data>
   <data name="Menu.FastFlags.Presets.Categories.IngameMenu" xml:space="preserve">
     <value>Roblox izbornik</value>
@@ -1685,216 +1895,6 @@ Molimo zatvorite bilo koju aplikaciju koja bi mogla koristiti Robloxove datoteke
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Detalji vijesti</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap nije mogao ukloniti preostalo AssetWarp usmjeravanje iz Windows datoteke hosts. Roblox neće moći učitati teksture ni druge resurse dok se ono ne ukloni. Pokreni Voidstrap kao administrator da ga očistiš.</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>Oboje</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>Igrač</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>Preglednik poslužitelja</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>Mjesto {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  Mjesto {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>Skenirano poslužitelja: {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>Osvježi</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>Učitaj još poslužitelja</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>Sakrij pune poslužitelje</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>Traži grad, državu ili ID poslužitelja</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>Najviše igrača</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>Najmanje igrača</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>Najmanji ping</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>Pridruži se</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>Trenutno</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>Učitavanje javnih poslužitelja</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>Nije pronađen nijedan javni poslužitelj</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>Pridruži se igri prije otvaranja preglednika poslužitelja</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>Popis poslužitelja je pauziran jer Roblox ograničava zahtjeve</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>Nije moguće učitati javne poslužitelje</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>Učitano poslužitelja: {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0} od {1} igrača</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>Igrača: {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>Nepoznato</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>Najbolje podudaranje</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>Najbolje podudaranje</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>Blokirano</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>Oko {0} ms od tebe</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>Do sada pronađeno poslužitelja: {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>Pronađeno {0} od {1} poslužitelja</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>Premještanje na {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>Nije moguće pridružiti se tom poslužitelju</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>Prijavi se u Postavke &gt; Server Matchmaker kako bi Voidstrap mogao pronaći gdje se nalazi svaki poslužitelj</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>Tvoju lokaciju nije moguće pronaći, pa se poslužitelji ne mogu poredati po pingu</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox nije otkrio gdje se nalaze ti poslužitelji, pokušaj ponovno za trenutak</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>Svi pronađeni poslužitelji nalaze se u podatkovnom centru koji si blokirao</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>Svi pronađeni poslužitelji daleko su od tebe, pa bi matchmaker prepustio odabir Robloxu</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>Preglednik igara</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>Nastavi</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>Favoriti</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>Traži</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>Traži Roblox igre</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>Učitavanje igara</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>Nema nedavnih igara u ovoj sesiji</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>Nema spremljenih omiljenih igara</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>Pretraži Roblox igru po nazivu</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>Nije pronađena nijedna igra za {0}</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>Nije moguće učitati igre</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>Igra: {0}</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>Pridruži se</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Bobičasta</value>
-  </data>
-  <data name="Menu.About.DiscordServer" xml:space="preserve">
-    <value>Discord poslužitelj</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>Automatski prijevod</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>Prevedi na</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>Jezik automatskog prijevoda</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>Prevedi cijelo sučelje Voidstrapa na bilo koji jezik. Najprije se koriste ugrađeni prijevodi, a preostali tekst prevodi se uživo.</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>Automatski prevodi Discord RPC</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>Automatski prevodi tekst Discord Rich Presence na odabrani jezik.</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>Ova je značajka dostupna samo na sustavu Windows.</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Svi ovdje navedeni velikodušno su uložili svoje vrijeme i trud u prevođenje Voidstrapa. Veliko hvala svima!</value>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>Promijeni postavke uvođenja i instalacije za Roblox i Voidstrap.</value>
-  </data>
-  <data name="Common.Channel" xml:space="preserve">
-    <value>Kanal</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>Odaberi kanal uvođenja. Ne mijenjaj ga ako ne znaš što radiš.</value>
-  </data>
-  <data name="Common.Version" xml:space="preserve">
-    <value>Verzija</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>Roblox ažuriranja</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>Tamni način</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Telemetrija</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>Tamni način</value>
-  </data>
-  <data name="Common.Debug" xml:space="preserve">
-    <value>Otklanjanje pogrešaka</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>Konfiguriraj Linux okruženja s kojima Voidstrap pokreće Roblox. Sober pokreće player, a Vinegar pokreće Studio. Voidstrap mijenja samo opcije koje izričito nadjačaš.</value>

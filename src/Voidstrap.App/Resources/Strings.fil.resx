@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Hindi maalis ng Voidstrap ang naiwang AssetWarp route mula sa Windows hosts file. Hindi makakapag-load ang Roblox ng mga texture o iba pang asset hangga't hindi ito naaalis. Patakbuhin ang Voidstrap bilang administrator para linisin ito.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Hindi nagkukusang nag update ang Voidstrap sa version {0}. Pakiusap na i-update mo ng manu-mano sa pag-download at pagtakbo nito sa website.</value>
   </data>
@@ -162,6 +165,9 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Naghihintay ng ibang instances...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Pareho</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Blanko</value>
@@ -337,6 +343,9 @@
   <data name="Common.AddSingle" xml:space="preserve">
     <value>Magdagdag ng isa</value>
   </data>
+  <data name="Common.Browse" xml:space="preserve">
+    <value>Mag-browse</value>
+  </data>
   <data name="Common.Cancel" xml:space="preserve">
     <value>Kanselahin</value>
   </data>
@@ -348,6 +357,9 @@
   </data>
   <data name="Common.Help" xml:space="preserve">
     <value>Tulong</value>
+  </data>
+  <data name="Common.ImportJson" xml:space="preserve">
+    <value>I-import ang JSON</value>
   </data>
   <data name="Common.OpenLogFile" xml:space="preserve">
     <value>I-buksan ang log file</value>
@@ -366,6 +378,16 @@
   </data>
   <data name="Common.OK" xml:space="preserve">
     <value>Oo</value>
+  </data>
+  <data name="Common.Presets" xml:space="preserve">
+    <value>Mga preset</value>
+  </data>
+  <data name="Common.Reset" xml:space="preserve">
+    <value>I-reset</value>
+    <comment>In the context of resetting something to a default value</comment>
+  </data>
+  <data name="Common.Value" xml:space="preserve">
+    <value>Halaga</value>
   </data>
   <data name="Common.Warning" xml:space="preserve">
     <value>Babala</value>
@@ -400,994 +422,6 @@ Pindutin para sa marami pang impormasyon</value>
   </data>
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>Uri</value>
-  </data>
-  <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
-    <value>Maglagay ng Fast Flag</value>
-  </data>
-  <data name="Dialog.Connectivity.MoreInfo" xml:space="preserve">
-    <value>Ibang impormasyon:</value>
-  </data>
-  <data name="Dialog.Connectivity.UnableToConnect" xml:space="preserve">
-    <value>Hindi maka-konek ang Voidstrap sa {0}</value>
-    <comment>{0} is the name of a service (i.e. Roblox, GitHub)</comment>
-  </data>
-  <data name="Dialog.Exception.CopyLogContents" xml:space="preserve">
-    <value>Kopyahin ang log contents</value>
-  </data>
-  <data name="Dialog.Exception.Info.1" xml:space="preserve">
-    <value>May exception na nangyari habang pinapatakbo ang Voidstrap</value>
-  </data>
-  <data name="Dialog.Exception.Info.2" xml:space="preserve">
-    <value>Suriin muna ang [Voidstrap Wiki]({0}) upang makita kung itong problema ay meron nang paraan ng pag-aayos.
-
-Kung hindi, paki ulat itong pagbubukod, gamit ang [GitHub issue]({1}) kasama ang kopya ng log file na nilikha.</value>
-  </data>
-  <data name="Enums.FlagPresets.LightingMode.Default" xml:space="preserve">
-    <value>Pinili ng laro</value>
-  </data>
-  <data name="Enums.ServerType.Private" xml:space="preserve">
-    <value>Pribadong server</value>
-  </data>
-  <data name="Enums.ServerType.Public" xml:space="preserve">
-    <value>Publikong serbiro</value>
-  </data>
-  <data name="Enums.ServerType.Reserved" xml:space="preserve">
-    <value>Nakareserba na serbiro</value>
-  </data>
-  <data name="Enums.Theme.Yellow" xml:space="preserve">
-    <value>Dilaw</value>
-  </data>
-  <data name="Enums.Theme.Purple" xml:space="preserve">
-    <value>Lila</value>
-  </data>
-  <data name="Enums.Theme.Green" xml:space="preserve">
-    <value>Berde</value>
-  </data>
-  <data name="Enums.Theme.Orange" xml:space="preserve">
-    <value>Kahel</value>
-  </data>
-  <data name="Enums.Theme.Red" xml:space="preserve">
-    <value>Light</value>
-  </data>
-  <data name="Enums.Theme.Blue" xml:space="preserve">
-    <value>Light</value>
-  </data>
-  <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Na-upgrade na ang Voidstrap sa v{0}</value>
-  </data>
-  <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
-    <value>Ang bersyon ng Voidstrap na iyong sinimulan ay magkaiba sa bersyon na iyong ininstall. Gusto mo ba i-upgrade ang kasalukuyang naka-install na bersyon?</value>
-  </data>
-  <data name="Menu.About.Contributors" xml:space="preserve">
-    <value>Mga Kontribyutor</value>
-  </data>
-  <data name="Menu.About.Contributors.Description" xml:space="preserve">
-    <value>Ito ang mga tao na nagbigay ng mahalagang kontribusyon sa Voidstrap, na tumulong upang maging ganito ang Voidstrap.</value>
-  </data>
-  <data name="Menu.About.Contributors.FeatureIdeas" xml:space="preserve">
-    <value>Mga tampok na ideya</value>
-  </data>
-  <data name="Menu.About.Contributors.SpecialThanks" xml:space="preserve">
-    <value>Namumukod-tanging pasasalamat</value>
-  </data>
-  <data name="Menu.About.Description" xml:space="preserve">
-    <value>Isang alternatibong bootstrapper para sa Roblox na may maraming karagdagang feature.</value>
-  </data>
-  <data name="Menu.About.GithubRepository" xml:space="preserve">
-    <value>Github repository</value>
-  </data>
-  <data name="Menu.About.HelpInformation" xml:space="preserve">
-    <value>Tulong at Impormasyon</value>
-  </data>
-  <data name="Menu.About.ReportIssue" xml:space="preserve">
-    <value>Mag ulat ng isyu</value>
-  </data>
-  <data name="Menu.AllFiles" xml:space="preserve">
-    <value>Lahat ng files</value>
-  </data>
-  <data name="Menu.AlreadyRunning.Caption" xml:space="preserve">
-    <value>Tandaan, hindi lahat ng pagbabago ay agad na maga-apply hangga't hindi pa naisasa ang lahat ng bukas na Roblox instances.</value>
-  </data>
-  <data name="Menu.AlreadyRunning.Title" xml:space="preserve">
-    <value>Ang Voidstrap ay kasalukuyang tumatakbo</value>
-  </data>
-  <data name="Menu.Appearance.Bootstrapper.Description" xml:space="preserve">
-    <value>Maaari mong gawin itong magmukhang iba, retro, o kahit na tulad lamang ng Roblox.</value>
-  </data>
-  <data name="Menu.Appearance.Customisation.Description" xml:space="preserve">
-    <value>Ipasadya ang ibang miscellaneous customisable options na pagpipilian.</value>
-  </data>
-  <data name="Menu.Appearance.Customisation.Title" xml:space="preserve">
-    <value>Pagpapasadya</value>
-  </data>
-  <data name="Menu.Appearance.CustomisationIcon.Description" xml:space="preserve">
-    <value>Dapat isang multi-size na .ico file na may mga size mula 16px hanggang 128px. Itakda ang Icon bilang 'Custom' upang magamit ito.</value>
-  </data>
-  <data name="Menu.Appearance.CustomisationTitle.Description" xml:space="preserve">
-    <value>Ang text na ipinapakitang pamagat ng bootstrapper.</value>
-  </data>
-  <data name="Menu.Appearance.Description" xml:space="preserve">
-    <value>I-configure kung paano dapat magmukha ang Voidstrap.</value>
-  </data>
-  <data name="Menu.Appearance.Icon.Description" xml:space="preserve">
-    <value>Pumili kung anong icon ang dapat gamitin.</value>
-  </data>
-  <data name="Menu.Appearance.Style.Description" xml:space="preserve">
-    <value>Piliin kung ano ang magiging hitsura nito. Ang madilim na tema ay hindi nalalapat sa Legacy/Vista.</value>
-  </data>
-  <data name="Menu.Behaviour.AutoUpdate.Description" xml:space="preserve">
-    <value>Awtomatikong susuriin at ia-update ng Voidstrap ang sarili nito kapag magsisimula na ang Roblox.</value>
-  </data>
-  <data name="Menu.Behaviour.AutoUpdate.Title" xml:space="preserve">
-    <value>Awtomatikong i-update ang Voidstrap</value>
-  </data>
-  <data name="Menu.Behaviour.ConfirmLaunches.Description" xml:space="preserve">
-    <value>Pigilan ang pagsasara ng kasalukuyang laro mo mula sa aksidenteng pagbukas ng isa pa.</value>
-  </data>
-  <data name="Menu.Behaviour.ConfirmLaunches.Title" xml:space="preserve">
-    <value>I-prompt upang kumpirmahin kapag mag-launch ng iba pang Roblox instance</value>
-  </data>
-  <data name="Menu.Behaviour.Description" xml:space="preserve">
-    <value>I-configure kung ano ang dapat gawin ng Voidstrap kapag ito'y binubuksan.</value>
-  </data>
-  <data name="Menu.Behaviour.ForceRobloxReinstall.Description" xml:space="preserve">
-    <value>Ang Roblox ay mai-install nang bago sa susunod na bubuksan ito.</value>
-  </data>
-  <data name="Menu.Behaviour.ForceRobloxReinstall.Title" xml:space="preserve">
-    <value>Pilitang muling i-install ang Roblox</value>
-  </data>
-  <data name="Menu.FastFlagEditor.AddNew" xml:space="preserve">
-    <value>Magdagdag ng bago</value>
-  </data>
-  <data name="Menu.FastFlagEditor.AlreadyExists" xml:space="preserve">
-    <value>Mayroong kapareho na ng flag na ito.</value>
-  </data>
-  <data name="Menu.FastFlagEditor.Back" xml:space="preserve">
-    <value>Balik</value>
-  </data>
-  <data name="Menu.FastFlagEditor.BannerText" xml:space="preserve">
-    <value>Ang maling paggamit nito ay maaring magdulot ng instability o hindi inaasahang bagay.</value>
-    <comment>The element that this string is rendered in *cannot be wrapped* and may be truncated when displayed if too long. If so, try and paraphrase a shortened version.</comment>
-  </data>
-  <data name="Menu.FastFlagEditor.BannerTitle" xml:space="preserve">
-    <value>Gamitin na may pag-iingat.</value>
-  </data>
-  <data name="Menu.FastFlagEditor.ConflictingImport" xml:space="preserve">
-    <value>Ang ilang mga flag na sinusubukan mong i-import ay mayroon nang mga itinakdang halaga. Gusto mo bang palitan ang kanilang kasalukuyang mga halaga gamit ang mga itinakda sa pag-import?
-
-Mayroong {0} mga magkaalitang mga kahulugan ng flag: {1}</value>
-    <comment>{0} is a number, {1} is a comma-separated list</comment>
-  </data>
-  <data name="Menu.FastFlagEditor.DeleteSelected" xml:space="preserve">
-    <value>Tanggalin ang naka-select</value>
-  </data>
-  <data name="Menu.FastFlagEditor.Description" xml:space="preserve">
-    <value>I-Manage ang iyong sariling FastFlags. I-Double click ang column upang ma-edit.</value>
-  </data>
-  <data name="Menu.FastFlagEditor.InvalidCharacter" xml:space="preserve">
-    <value>Ang pangalan ng flag na '{0}' ay hindi tama sapagkat ang pangalan ay dapat naglalaman lang ng mga letra, numero, at underscores</value>
-  </data>
-  <data name="Menu.FastFlagEditor.InvalidJSON" xml:space="preserve">
-    <value>Ang JSON na iyong nilagay ay hindi wasto. Tiyakin ulit at subukan ulit
-
-Karagdagang impormasyon:
-{0}</value>
-    <comment>{0} is an exception message</comment>
-  </data>
-  <data name="Menu.FastFlagEditor.InvalidPrefix" xml:space="preserve">
-    <value>Ang pangalan ng flag na '{0}' ay hindi tama sapagkat ang pangalan ay dapat nagsisimula sa FFlag, DFInt, atbp</value>
-  </data>
-  <data name="Menu.FastFlagEditor.JsonCopiedToClipboard" xml:space="preserve">
-    <value>Na copy sa clipboard.</value>
-  </data>
-  <data name="Menu.FastFlagEditor.LargeConfig" xml:space="preserve">
-    <value>Mukhang nagi-import ka nag sobrang laking configuration. Dapat mag-i-import ka lamang ng mga configuration na naiintindihan mo. HUWAG ka bulag mag paste ng configuration na gawa ng ibang tao. Kung itutuloy mo, malamang na magkakaroon ka ng mga isyu sa katatagan at makakaranas ng hindi inaasahang pagbago
-
-Sigurado ka bang gusto mo magtuloy?</value>
-  </data>
-  <data name="Menu.FastFlagEditor.Search" xml:space="preserve">
-    <value>Hanapin</value>
-  </data>
-  <data name="Menu.FastFlagEditor.ShowPresetFlags" xml:space="preserve">
-    <value>Ipakita ang preset flags</value>
-  </data>
-  <data name="Menu.FastFlagEditor.Warning.Back" xml:space="preserve">
-    <value>Bumalik</value>
-  </data>
-  <data name="Menu.FastFlagEditor.Warning.Continue" xml:space="preserve">
-    <value>Alam ko ang ginagawa ko</value>
-  </data>
-  <data name="Menu.FastFlagEditor.Warning.Header" xml:space="preserve">
-    <value>Alam mo ba ang ginagawa mo?</value>
-  </data>
-  <data name="Menu.FastFlagEditor.Warning.Text" xml:space="preserve">
-    <value>Napakalakas ang mga Fast Flag, dahil sila ay sinasadya na dapat ginagamit lang ng mga Roblox engineers. Bagama't maaaring nakakatulong, manu-manong pag-configure sa mga ito ay maaaring makagawa ng seryosong isyu sa tatag at functionality. HUWAG gamitin ang editor kapag hindi ka sure kung ano ang ginagawa mo.
-
-HUWAG gagamitin ito upang mag-import ng mga malalaking "flag lists" na gawa ng ibang tao na nangangakong nagpapabuti ng performance o katulad nito. Ang mga ito ay nabanggit na isyu, at sila ay nakakaproblema sa iyo dahil hindi mo alam na alam ang pinapaltan nila. Kung gagawin mo iyon, BUMALIK KA.</value>
-  </data>
-  <data name="Menu.FastFlags.Description" xml:space="preserve">
-    <value>I-Control kung paano na-configure ang mga espesipikong parameter at feature ng Roblox engine.</value>
-  </data>
-  <data name="Menu.FastFlags.Editor.Description" xml:space="preserve">
-    <value>I-Manage ang iyong Fast Flags. Gamitin nang may pag-iingat.</value>
-    <comment>Title is Menu.FastFlagEditor.Title</comment>
-  </data>
-  <data name="Menu.FastFlags.Help.Description" xml:space="preserve">
-    <value>Mas matuto pa sa Fast Flags, kung ano ang ginagawa ng mga preset na ito, at kung paano gamitin ang mga ito.</value>
-    <comment>Title is Common.Help</comment>
-  </data>
-  <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [exclusive fullscreen]({0}) ang paggamit ng Alt+Enter ay naka enable na by default.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
-    <value>Bersyon ng escape menu na naayon sa iyong panlasa</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FixDisplayScaling.Description" xml:space="preserve">
-    <value>Ang Roblox ay binabawasan ang iyong rendering quality depende sa gaanong laki ang display sa Windows.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FixDisplayScaling.Title" xml:space="preserve">
-    <value>Pangalagaan ang rendering quality kasama ang display scaling</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FPSLimit.Description" xml:space="preserve">
-    <value>Ilagay sa 0 para sa defaults pag ikaw ay gusto gamitin ang native framerate unlocker ng Roblox.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FPSLimit.Title" xml:space="preserve">
-    <value>Framerate Limit</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Toggled kasama ang [keyboard shortcuts]({0}). Gumagana lang kapag ikaw ay nasa [Voidstrap group]({1}).</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
-    <value>Paganahin ang kakayahang itago ang mga GUIs</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.LightingTechnology.Description" xml:space="preserve">
-    <value>Ang napili ay ang magiging default lighting sa lahat ng laro. [Babala, maaring magdulot ng isyu sa lighting!]({0})</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.LightingTechnology.Title" xml:space="preserve">
-    <value>Gustong lighting technology</value>
-  </data>
-  <data name="Menu.FastFlags.Title" xml:space="preserve">
-    <value>Engine Settings</value>
-  </data>
-  <data name="Menu.InstallLocation.CantInstall" xml:space="preserve">
-    <value>Hindi maaring i-install ang Voidstrap dito. Mangyaring pumili ng ibang location, o mapilitang gamitin ang Default location sa pamamagitan ng pagpindot ng reset button.</value>
-  </data>
-  <data name="Menu.InstallLocation.NotEmpty" xml:space="preserve">
-    <value>Ang iyong piniling folder upang i-install ang Voidstrap ay umiiral na at HINDI walang laman. Ito ay malakas na ni rerecommenda para ma install ang Voidstrap sa kanyang independent na folder.
-
-Iminumungkahi na palitan ito sa:
-{0}
-
-Gusto mo ba palitan ito sa sa iminungkahing lokasyon?
-Ang pagpili ng 'Hindi' ay hindi papansinin ang babalang ito at itutuloy ang pag-install.</value>
-    <comment>{0} is a file path</comment>
-  </data>
-  <data name="Menu.InstallLocation.NotSet" xml:space="preserve">
-    <value>Kinakailangan mo mag-set ang install location</value>
-  </data>
-  <data name="Menu.InstallLocation.NoWritePerms" xml:space="preserve">
-    <value>Ang Voidstrap ay walang write access sa iyong install location na pinili. Mangyari pumili ng ibang location.</value>
-  </data>
-  <data name="Menu.Integrations.AllowActivityJoining.Description" xml:space="preserve">
-    <value>Ina-allow para sa kung sino man sumali sa game na kasalukuyang nakikita sa Discord profile.</value>
-  </data>
-  <data name="Menu.Integrations.AllowActivityJoining.Title" xml:space="preserve">
-    <value>Payagan ang activity joining</value>
-  </data>
-  <data name="Menu.Integrations.ShowAccountOnProfile.Description" xml:space="preserve">
-    <value>Ipakita ang Roblox account na iyong nilalaro sa iyong Discord profile.</value>
-  </data>
-  <data name="Menu.Integrations.ShowAccountOnProfile.Title" xml:space="preserve">
-    <value>Ipakita ang Roblox account</value>
-  </data>
-  <data name="Menu.Integrations.Custom.AppLocation" xml:space="preserve">
-    <value>Lokasyon ng Application</value>
-  </data>
-  <data name="Menu.Integrations.Custom.AutoClose" xml:space="preserve">
-    <value>Awtomatikong isara kapag nagsara ang Roblox</value>
-  </data>
-  <data name="Menu.Integrations.Custom.Description" xml:space="preserve">
-    <value>Dito, maaari kang awtomatikong maglunsad ng iba pang mga programa gamit ang Roblox.</value>
-  </data>
-  <data name="Menu.Integrations.Custom.LaunchArgs.Placeholder" xml:space="preserve">
-    <value>Tumatakbo ang Roblox!</value>
-  </data>
-  <data name="Menu.Integrations.Custom.NewIntegration" xml:space="preserve">
-    <value>Bagong Integrasyon</value>
-  </data>
-  <data name="Menu.Integrations.Custom.NoneSelected" xml:space="preserve">
-    <value>Walang piniling integrasyon, Magselect o magdagdag ng bago</value>
-  </data>
-  <data name="Menu.Integrations.Description" xml:space="preserve">
-    <value>I-configure ang mga karagdagang mga functionality na kasama sa Roblox.</value>
-  </data>
-  <data name="Menu.Integrations.DesktopApp.Description" xml:space="preserve">
-    <value>Ang Roblox ay magsasarado kapag ikaw ay umalis sa laro sa halip ng pagbalik sa app. [Makakasira ng gamit!]({0})</value>
-  </data>
-  <data name="Menu.Integrations.DesktopApp.Title" xml:space="preserve">
-    <value>Huwag lumabas sa desktop app</value>
-  </data>
-  <data name="Menu.Integrations.EnableActivityTracking.Description" xml:space="preserve">
-    <value>Pahintulutan ang Voidstrap na matukoy kung anong larong Roblox ang iyong nilalaro. Maaaring kailanganin ito ng ilang partikular na feature.</value>
-  </data>
-  <data name="Menu.Integrations.EnableActivityTracking.Title" xml:space="preserve">
-    <value>Paganahin ang activity tracking</value>
-  </data>
-  <data name="Menu.Integrations.RequiresActivityTracking" xml:space="preserve">
-    <value>Itong feature ay kinakailangang naka-enable ang activity tracking at ang Discord desktop app na naka-install at naka-bukas. [Alamin pa]({0}).</value>
-  </data>
-  <data name="Menu.Integrations.ShowGameActivity.Description" xml:space="preserve">
-    <value>Ang nilalaro mong Roblox game ay lalabas sa iyong Discord profile. [Di gumagana?]({0})</value>
-  </data>
-  <data name="Menu.Integrations.ShowGameActivity.Title" xml:space="preserve">
-    <value>Ipakita ang game activity</value>
-  </data>
-  <data name="Menu.Integrations.QueryServerLocation.Description" xml:space="preserve">
-    <value>Kapag nasa loob ng laro, makikita mo ang iyong lokasyon ng server sa pamamagitan ng [ipinfo.io]({0}).</value>
-  </data>
-  <data name="Menu.Integrations.QueryServerLocation.Title" xml:space="preserve">
-    <value>Query server location</value>
-  </data>
-  <data name="Menu.Mods.Description" xml:space="preserve">
-    <value>I-Manage at i-apply ang mga file mods sa Roblox game client.</value>
-  </data>
-  <data name="Menu.Mods.Help.Description" xml:space="preserve">
-    <value>Tignan ang impormasyon tungkol sa pag-manage at paglikha ng mods.</value>
-    <comment>Title is Common.Help</comment>
-  </data>
-  <data name="Menu.Mods.Misc.CustomFont.Choose" xml:space="preserve">
-    <value>Piliin ang font...</value>
-  </data>
-  <data name="Menu.Mods.Misc.CustomFont.Description" xml:space="preserve">
-    <value>Ang Font size ay pwede ibago sa Engine Settings tab.</value>
-  </data>
-  <data name="Menu.Mods.Misc.CustomFont.Invalid" xml:space="preserve">
-    <value>Ang pinili mo na file ay hindi wasto na font file.</value>
-  </data>
-  <data name="Menu.Mods.Misc.CustomFont.Remove" xml:space="preserve">
-    <value>Itanggal ang inilagay na font</value>
-  </data>
-  <data name="Menu.Mods.Misc.CustomFont.Title" xml:space="preserve">
-    <value>Gamitin ang custom font</value>
-  </data>
-  <data name="Menu.Mods.OpenModsFolder.Description" xml:space="preserve">
-    <value>I-Manage ang mga custom na Roblox mods dito.</value>
-  </data>
-  <data name="Menu.Mods.OpenModsFolder.Title" xml:space="preserve">
-    <value>Buksan ang Mods Folder</value>
-  </data>
-  <data name="Menu.Mods.Presets.EmojiType.Description" xml:space="preserve">
-    <value>Piliin ang type ng emoji na dapat piliin ng Roblox.</value>
-  </data>
-  <data name="Menu.Mods.Presets.EmojiType.Title" xml:space="preserve">
-    <value>Gustong uri ng emoji</value>
-  </data>
-  <data name="Menu.Mods.Presets.MouseCursor.Description" xml:space="preserve">
-    <value>Pumili sa dalawang klase ng classic Roblox cursor style.</value>
-  </data>
-  <data name="Menu.Mods.Presets.MouseCursor.Title" xml:space="preserve">
-    <value>Cursor ng mouse</value>
-  </data>
-  <data name="Menu.Mods.Presets.OldAvatarEditor.Description" xml:space="preserve">
-    <value>Ibalik ang dating avatar editor background na ginamit sa Roblox app bago ang 2020.</value>
-  </data>
-  <data name="Menu.Mods.Presets.OldAvatarEditor.Title" xml:space="preserve">
-    <value>Gamitin ang dating avatar editor background</value>
-  </data>
-  <data name="Menu.Mods.Presets.OldCharacterSounds.Description" xml:space="preserve">
-    <value>Isang pagsubok upang halos mapabalik ang mga tunog ng character na ginamit bago mag 2014.</value>
-  </data>
-  <data name="Menu.Mods.Presets.OldCharacterSounds.Title" xml:space="preserve">
-    <value>Kopyahin ang dating tunog ng character</value>
-  </data>
-  <data name="Menu.Mods.Presets.OldDeathSound.Description" xml:space="preserve">
-    <value>Ibalik ang classic 'oof' death sound.</value>
-  </data>
-  <data name="Menu.Mods.Presets.OldDeathSound.Title" xml:space="preserve">
-    <value>Gamitin ang dating death sound</value>
-  </data>
-  <data name="Menu.MoreInfo" xml:space="preserve">
-    <value>Pindutin para sa mas maraming informasyon sa option na ito.</value>
-  </data>
-  <data name="Menu.SettingsSaved.Message" xml:space="preserve">
-    <value>Ang mga pagbabago ay mag-eepekto sa susunod na bubuksan mo ang Roblox.</value>
-  </data>
-  <data name="Menu.SettingsSaved.Title" xml:space="preserve">
-    <value>Nai-save na ang settings!</value>
-  </data>
-  <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
-    <value>Pumili ng gustong wika</value>
-  </data>
-  <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Pumili ng wika bago mag-install.</value>
-  </data>
-  <data name="Menu.Appearance.Language.Title" xml:space="preserve">
-    <value>Wika</value>
-  </data>
-  <data name="Menu.Appearance.Language.Description" xml:space="preserve">
-    <value>Maaaring hindi naisalin ang ilang teksto sa ginustong wika.</value>
-  </data>
-  <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
-    <value>Payagan ang paggamit ng mga hindi suportadong wika sa Roblox</value>
-  </data>
-  <data name="Menu.Behaviour.ForceRobloxLanguage.Description" xml:space="preserve">
-    <value>Ito ay gagana lang sa mga laro na-launch gamit ang Roblox website.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Categories.Rendering" xml:space="preserve">
-    <value>Rendering at Graphics</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Categories.UserInterface" xml:space="preserve">
-    <value>User Interface at Layout</value>
-  </data>
-  <data name="Menu.FastFlags.ManagerEnabled.Title" xml:space="preserve">
-    <value>Payagin ang Voidstrap na i-manage ang Fast Flags</value>
-  </data>
-  <data name="Menu.FastFlags.ManagerEnabled.Description" xml:space="preserve">
-    <value>Sa pag disable nito ay ang mga na-configure dito ay hindi gagana sa Roblox.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DisablePostFX.Title" xml:space="preserve">
-    <value>I-disable ang post-processing effects</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FullscreenTitlebar.Title" xml:space="preserve">
-    <value>I-disable ang full-screen titlebar</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FullscreenTitlebar.Description" xml:space="preserve">
-    <value>Hindi siya ipinapakita pag ginalaw mo ang iyong mouse sa tuktok ng screen.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.TextureQuality.Title" xml:space="preserve">
-    <value>Quality ng texture</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DisablePlayerShadows.Title" xml:space="preserve">
-    <value>I-disable ang player shadows</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FontPadding.Description" xml:space="preserve">
-    <value>Ang default value nito ay 1. I-adjust ito pag gumagamit ng custom font.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DisableTerrainTextures.Title" xml:space="preserve">
-    <value>I-disable ang terrain textures</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DisableGrass.Title" xml:space="preserve">
-    <value>I-disable ang galaw ng damo</value>
-  </data>
-  <data name="Dialog.Connectivity.UnableToDownload" xml:space="preserve">
-    <value>Hindi maka-download ng Roblox ang Voidstrap</value>
-  </data>
-  <data name="Dialog.Connectivity.UnableToDownloadReason" xml:space="preserve">
-    <value>Hindi ma-download ang Roblox ngayon oras na ito. Basahin ang following help page para sa idadag na impormasyon: {0}</value>
-    <comment>{0} is a URL</comment>
-  </data>
-  <data name="Common.ImportFromFile" xml:space="preserve">
-    <value>I-Import galing sa file</value>
-  </data>
-  <data name="FileTypes.JSONFiles" xml:space="preserve">
-    <value>Mga JSON files</value>
-    <comment>Allows selection of JSON, TXT, and Markdown files (*.json;*.txt;*.md)</comment>
-  </data>
-  <data name="Menu.FastFlagEditor.InvalidBoolValue" xml:space="preserve">
-    <value>Ang entry para sa '{0}' ay hindi tama sapagkat ang value ay dapat isang boolean (maging 'True' o 'False')</value>
-    <comment>Do not translate 'True' and 'False', those must stay in English</comment>
-  </data>
-  <data name="Menu.FastFlagEditor.InvalidNumberValue" xml:space="preserve">
-    <value>Ang entry para sa '{0}' ay hindi tama sapagkat ang value ay dapat isang numero</value>
-  </data>
-  <data name="Logger.NoWriteMode" xml:space="preserve">
-    <value>Walang magagawang log file para sa launch na ito dahil ang Voidstrap ay hindi makapag-gawa nito sa folder na '{0}'</value>
-  </data>
-  <data name="Common.SystemDefault" xml:space="preserve">
-    <value>System default</value>
-  </data>
-  <data name="Menu.FastFlagEditor.InvalidPlaceFilter" xml:space="preserve">
-    <value>Ang entry na {0} ay hindi tama dahil ang place filter ay hindi naka-format ng maayos.</value>
-  </data>
-  <data name="Installer.Welcome.Title" xml:space="preserve">
-    <value>Maligayang pagdating</value>
-  </data>
-  <data name="Installer.Completion.Title" xml:space="preserve">
-    <value>Pagkumpleto</value>
-  </data>
-  <data name="Common.Navigation.Back" xml:space="preserve">
-    <value>Bumalik</value>
-  </data>
-  <data name="Common.Navigation.Next" xml:space="preserve">
-    <value>Sunod</value>
-  </data>
-  <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Salamat sa pag-download ng Voidstrap.
-
-Ang mga opisyal na websites na makukuha para ma-download ang Voidstrap ay nandito sa {0} at {1}, kaya’t pakiusap lang na i-verify mo na nakuha mo siya sa opisyal na source.
-
-Ang proseso ng installation ay mabilis at simple lang, at ikaw ang magaayos ng kahit anong mga settings ng Voidstrap pagkatapos ng installation.</value>
-    <comment>{0} and {1} are URLs</comment>
-  </data>
-  <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
-    <value>Paki click ang 'Next' upang magpatuloy.</value>
-  </data>
-  <data name="Installer.Welcome.UpdateNotice" xml:space="preserve">
-    <value>Sinubukan mong i-install ang version {0} ng Voidstrap, pero ang latest version ay {1}. Gusto mo ba itong i-download?</value>
-  </data>
-  <data name="Installer.Install.Location.Title" xml:space="preserve">
-    <value>Piliin kung saan i-install</value>
-  </data>
-  <data name="Installer.Install.Location.Text" xml:space="preserve">
-    <value>Ang Roblox ay mai-install din sa path nito. Baguhin mo ito kung gusto mong i-install lahat ng laro mo sa isang hiwalay na drive. Kung hindi, inirerekumenda na huwag na lang ibahin.</value>
-  </data>
-  <data name="Installer.Install.Location.DataFound" xml:space="preserve">
-    <value>May natagpuang existing data. Ang mods at settings mo ay naiibalik na sa dating kalagayan.</value>
-  </data>
-  <data name="Common.Shortcuts" xml:space="preserve">
-    <value>Mga Shortcuts</value>
-  </data>
-  <data name="Common.Shortcuts.Desktop" xml:space="preserve">
-    <value>Desktop na icon</value>
-  </data>
-  <data name="Common.Shortcuts.StartMenu" xml:space="preserve">
-    <value>Start Menu na icon</value>
-  </data>
-  <data name="Installer.Completion.Text" xml:space="preserve">
-    <value>Nai-install ng matagumpay ang Voidstrap.
-
-Hindi pa nainstall ang Roblox, yan ang mangyayari kapag nilaunch mo gamit ang Voidstrap sa unahang pagkakataon.
-
-Gayundin, iwasang paggamit ng "Roblox Player" shortcut para i-launch ang Roblox, dahil hindi la-launch ang Voidstrap kasama ang Roblox. Kung hindi mo nakitang lumilitaw ang Voidstrap kapag nag-lalaunch siya galing sa website, i-launch mo yung Roblox kasama ang Voidstrap ng isang beses galing sa desktop para ayusin ito.
-
-Ano ang gusto mong gawin?</value>
-  </data>
-  <data name="Installer.Completion.Settings.Title" xml:space="preserve">
-    <value>I-configure mga Voidstrap settings</value>
-  </data>
-  <data name="Installer.Completion.Settings.Description" xml:space="preserve">
-    <value>I-tweak ang lahat ng features na inaalok nito</value>
-  </data>
-  <data name="Installer.Completion.Launch.Title" xml:space="preserve">
-    <value>I-install at I-launch ang Roblox</value>
-  </data>
-  <data name="Installer.Completion.Launch.Description" xml:space="preserve">
-    <value>Ilalagay ka sa loob ng desktop app kapag tapos na lahat</value>
-  </data>
-  <data name="Uninstaller.Title" xml:space="preserve">
-    <value>I-uninstall ang Voidstrap</value>
-  </data>
-  <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Matatanggal ang Voidstrap sa iyong systema kapag na-uninstall mo, at kukusang i-configure ang default na Roblox launcher kung naka install pa rin.
-
-Kung ikaw ay mag-uninstall o mag-reinstall dahil mayroon kang issues sa Roblox, basahin mo [itong help page]({0}) muna.
-
-Ang proseso sa pag-uninstall ay maaaring hindi ganap na malinis ang sarili, kaya kailangan mong linisin ang natitirang files kung saan na-install ang Voidstrap.
-
-Na-installed ang Voidstrap sa "{1}".</value>
-  </data>
-  <data name="Uninstaller.KeepData.Label" xml:space="preserve">
-    <value>I-tabi ang aking settings at mods</value>
-  </data>
-  <data name="Uninstaller.KeepData.Description" xml:space="preserve">
-    <value>Matatabi din ito kung saan na-install ang Voidstrap, at mababalik din sa pag-reinstall.</value>
-  </data>
-  <data name="LaunchMenu.LaunchRoblox" xml:space="preserve">
-    <value>I-launch ang Roblox</value>
-  </data>
-  <data name="LaunchMenu.ConfigureSettings" xml:space="preserve">
-    <value>I-configure ang mga setting</value>
-  </data>
-  <data name="LaunchMenu.Wiki.Title" xml:space="preserve">
-    <value>Nagkaroon kang issue?</value>
-  </data>
-  <data name="LaunchMenu.Wiki.Description" xml:space="preserve">
-    <value>Tumingin sa Wiki para magtanong</value>
-  </data>
-  <data name="Bootstrapper.WebView2NotFound" xml:space="preserve">
-    <value>Hindi mo pa nainstall ang WebView2 runtime. Hindi gagana ng maayos ang mga Roblox features kung wala pa yan, katulad ng desktop app. Gusto mong I-download ito ngayon?</value>
-  </data>
-  <data name="Dialog.CannotCreateShortcuts" xml:space="preserve">
-    <value>Hindi kaya ng Voidstrap na gumawa ng shortcuts para sa Desktop at Start Menu. Subukan mong gawin ito sa ibang pagkakataon sa mga settings.</value>
-  </data>
-  <data name="Dialog.Exception.Info.2.Alt" xml:space="preserve">
-    <value>Tumingin sa [Voidstrap Wiki]({0}) muna para makita kung itong problema ay tinutugunan ng pag-aayos.
-
-Kung hindi, I-report mo itong eksepsyon sa maintainers ng fork nito. HUWAG mong i-report ito sa GitHub issues ng Voidstrap, dahil ito ang unofficial build.</value>
-    <comment>"fork" in general means "a variation of" or "a different version of". You can alternatively write the first sentence as "...to the maintainers of this version."</comment>
-  </data>
-  <data name="Installer.Install.Shortcuts.Description" xml:space="preserve">
-    <value>Ito ang mga pangkalahatang mga shortcuts na ilabas ang multi-choice launch menu. Ang mga shortcuts para sa mga tiyak na functions ay magagawa din sa susunod sa loob ng settings.</value>
-  </data>
-  <data name="Menu.Shortcuts.Description" xml:space="preserve">
-    <value>I-configure kung paano madaling i-launch ang Voidstrap.</value>
-  </data>
-  <data name="Menu.Shortcuts.General.Description" xml:space="preserve">
-    <value>Ito ang mga pangkalahatang mga shortcuts na ilabas ang multi-choice launch menu.</value>
-  </data>
-  <data name="Menu.Shortcuts.Function.Description" xml:space="preserve">
-    <value>Gumawa ng shortcut para may quick access sa mga specific na function. Lahat ng ito ay ilalagay sa Desktop.</value>
-  </data>
-  <data name="ContextMenu.ServerInformation.Notification.Title.Private" xml:space="preserve">
-    <value>Nakakonekta sa private server</value>
-  </data>
-  <data name="ContextMenu.ServerInformation.Notification.Title.Reserved" xml:space="preserve">
-    <value>Nakakonekta sa nakareserbang server</value>
-  </data>
-  <data name="Menu.Mods.Presets.EmojiType.Error" xml:space="preserve">
-    <value>Itong emoji mod ay hindi muna pwedeng inilapat.</value>
-  </data>
-  <data name="Dialog.AlreadyRunning.Installer" xml:space="preserve">
-    <value>Paki antaying tapusin ang installation.</value>
-  </data>
-  <data name="Dialog.AlreadyRunning.Uninstaller" xml:space="preserve">
-    <value>Paki antaying tapusin ang uninstallation.</value>
-  </data>
-  <data name="About.Title" xml:space="preserve">
-    <value>Tungkol sa Voidstrap</value>
-  </data>
-  <data name="About.Licenses.Title" xml:space="preserve">
-    <value>Mga lisensya</value>
-    <comment>Referring to code licenses; see https://opensource.org/licenses for example</comment>
-  </data>
-  <data name="About.Translators.Title" xml:space="preserve">
-    <value>Tagapagsalin</value>
-  </data>
-  <data name="Menu.UnsavedChanges" xml:space="preserve">
-    <value>Meron kang nabago at hindi pa naka-save. Sigurado ka bang gusto mo isara nang hindi naka-save?</value>
-  </data>
-  <data name="InstallChecker.VersionLessThanInstalled" xml:space="preserve">
-    <value>Ang version ng Voidstrap na nabuksan mo ay mas matanda kaysa sa version na install mo ngayon.
-Mayroong issues na mangyayari at yung settings mo ay maiiba. Ang pag-reinstall ay rekomendado.
-Sigurado kang gusto mo bang ituloy?</value>
-  </data>
-  <data name="Dialog.PlayerError.FailedLaunch" xml:space="preserve">
-    <value>Nabigo ang Roblox sa pag-launch.</value>
-  </data>
-  <data name="Dialog.PlayerError.Crash" xml:space="preserve">
-    <value>Nag-crash ang Roblox.</value>
-  </data>
-  <data name="Dialog.PlayerError.HelpInformation" xml:space="preserve">
-    <value>Para sa impormasyon kung bakit ito nangyayari at kung paano ito ayusin, pakibasa po [ng help article]({0})
-
-Tingnan kung nagana ang Roblox gamit ang [original launcher]({1}). Kapag hindi, ito ay hindi problema ng Voidstrap. Kapag nagana, pakitingin sa help article.</value>
-  </data>
-  <data name="Common.NetworkError" xml:space="preserve">
-    <value>Hindi makapag load ng data dahil sa network error.</value>
-  </data>
-  <data name="Common.Loading" xml:space="preserve">
-    <value>Naglo-loading, maaring maghintay...</value>
-  </data>
-  <data name="About.Supporters.Title" xml:space="preserve">
-    <value>Mga Tagasupporta</value>
-  </data>
-  <data name="About.Supporters.Description" xml:space="preserve">
-    <value>Ito ang mga tao na nag suporta sa Voidstrap gamit ang Ko-fi. Maraming salamat para sa lahat ng nandito! Lahat ng tao na nandito ay naka rank gamit ang kanilang overall pledge.</value>
-  </data>
-  <data name="JsonManager.SettingsLoadFailed" xml:space="preserve">
-    <value>Ang settings mo ay hindi makaload. Naka-reset na sa dating pagsasaayos.</value>
-  </data>
-  <data name="JsonManager.FastFlagsLoadFailed" xml:space="preserve">
-    <value>Ang FastFlags mo ay hindi makaload. Naka-reset na sa dating pagsasaayos.</value>
-  </data>
-  <data name="ActivityWatcher.RichPresenceLoadFailed" xml:space="preserve">
-    <value>Ang laro mo ngayon ay hindi makikita sa iyong Discord presence dahil may naganap na error sa pagloload ng impormasyon sa laro.</value>
-  </data>
-  <data name="ContextMenu.GameHistory.Description" xml:space="preserve">
-    <value>Ang Game History ay nakarecord lamang para sa Roblox session mo ngayon. Ang mga laro ay nakalitaw dito kapag nakaalis ka o magteleport ka sa kanila. Hindi lahat ng servers ay rejoinable.</value>
-  </data>
-  <data name="ActivityWatcher.LocationQueryFailed" xml:space="preserve">
-    <value>Ang server location ay hindi makapagusisa. Baka nagjoin ka ng mga laro na masyong mabilis.</value>
-  </data>
-  <data name="Dialog.Connectivity.TryAgainLater" xml:space="preserve">
-    <value>Pakisubukang muli mamaya.</value>
-  </data>
-  <data name="Dialog.Connectivity.RobloxUpgradeSkip" xml:space="preserve">
-    <value>Para sa launch nito, hindi makatingin ang Roblox para sa mga upgrades, at mga pagkakaiba sa mods ay hindi ilalapat.</value>
-  </data>
-  <data name="Dialog.Connectivity.RobloxUpgradeNeeded" xml:space="preserve">
-    <value>Dahil kailangan ng Roblox na maginstall o magupgrade, hindi makapagtuloy ang Voidstrap.</value>
-  </data>
-  <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
-    <value>Ang Voidstrap ay naka install sa isang lokasyon dati at andito pa rin, pero hindi ma-overwrite ng installer ang dating executable.
-
-Pakialisin mismo ang Voidstrap.exe sa install location o subukan mong i-restart ang systema, at ulitin mo yung installation pagkatapos.</value>
-  </data>
-  <data name="Common.NotAvailable" xml:space="preserve">
-    <value>Hindi magagamit</value>
-  </data>
-  <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
-    <value>I-manage ang compatibility settings</value>
-  </data>
-  <data name="Menu.Mods.Misc.CompatibilitySettings.Description" xml:space="preserve">
-    <value>I-configure ang mga application parameters kagaya ng DPI scaling behaviour at [fullscreen optimizations]({0}).</value>
-  </data>
-  <data name="Common.RobloxNotInstalled" xml:space="preserve">
-    <value>Hindi pa nakainstall ang Roblox. Paki-launch mo yung Roblox gamit ng Voidstrap kahit minsan lang bago subukang gamitin itong option.</value>
-  </data>
-  <data name="Installer.ShouldCancel" xml:space="preserve">
-    <value>Sigurado ka bang gusto mo i-cancel ang pag install?</value>
-  </data>
-  <data name="Bootstrapper.JsonManagerSaveFailed" xml:space="preserve">
-    <value>Sumablay ang pag-save {0}: {1}</value>
-  </data>
-  <data name="Dialog.IconLoadFailed" xml:space="preserve">
-    <value>Ang piniling icon ng bootstrapper ay hindi maka-load.
-
-{0}</value>
-    <comment>{0} is an exception message</comment>
-  </data>
-  <data name="Menu.Shortcuts.ExtractIcons.Title" xml:space="preserve">
-    <value>I-extract ang mga icon ng Roblox sa folder</value>
-  </data>
-  <data name="Menu.Shortcuts.ExtractIcons.Description" xml:space="preserve">
-    <value>Binibigyang-daan kang gamitin yung Voidstrap ang mga Roblox icons para sa iyong shortcuts. [Pakita kung paano.]({0})</value>
-  </data>
-  <data name="Dialog.RegistryWriteError" xml:space="preserve">
-    <value>Hindi makapagsulat sa Windows Registry ang Voidstrap. Malamang ang antivirus ay nakialam at nagdudulot ng mga isyu. Pakitignan para sigurado na walang anumang bagay na pumipigil sa operasyon ng Voidstrap.</value>
-  </data>
-  <data name="About.Supporters.Monthly" xml:space="preserve">
-    <value>Buwanan</value>
-  </data>
-  <data name="About.Supporters.OneOff" xml:space="preserve">
-    <value>Isang beses</value>
-  </data>
-  <data name="Menu.Voidstrap.Description" xml:space="preserve">
-    <value>I-configure ang mga option na nanuugnay sa pag-uugali ng Voidstrap mismo.</value>
-  </data>
-  <data name="Menu.Voidstrap.Analytics.Title" xml:space="preserve">
-    <value>I-enable ang pag-send ng analitiko</value>
-  </data>
-  <data name="Menu.Voidstrap.Analytics.Description" xml:space="preserve">
-    <value>Ito ay anonima lang at walang masama, promise. Para sa insight na anong kinokolekta namin at bakit, tignan mo ang aming [privacy policy]({0}).</value>
-  </data>
-  <data name="Common.Analytics" xml:space="preserve">
-    <value>Analitika</value>
-  </data>
-  <data name="Menu.FastFlags.Reset.Title" xml:space="preserve">
-    <value>I-balik lahat sa default</value>
-  </data>
-  <data name="Menu.TestMode.Prompt" xml:space="preserve">
-    <value>Pinapadali ang "Test Mode" para paulit-ulit na masubok kung paano ina-apekto ang settings mo sa Roblox.
-
-Habang naka-enable, kusang bubukas ang Roblox pagkatapos isara ang mga settings, at bubuksan ulit ang mga settings pagkatapos isara ang Roblox, sa isang cycle hanggang sa i-disable mo ito.
-
-Gusto mo bang i-enable ang "Test Mode"?</value>
-  </data>
-  <data name="Common.Navigation.Install" xml:space="preserve">
-    <value>I-install</value>
-    <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>
-  </data>
-  <data name="LaunchMenu.Donate" xml:space="preserve">
-    <value>Sumali sa aming Discord server</value>
-    <comment>Call-to-action button</comment>
-  </data>
-  <data name="Paths.Icons" xml:space="preserve">
-    <value>Mga icon</value>
-    <comment>Name of the folder that gets created according to the "create shortcut icons" option. Ensure that it is a valid folder name.</comment>
-  </data>
-  <data name="Menu_FlagProfiles_Description" xml:space="preserve">
-    <value>I-save at i-load ang Fast Flag Backups.</value>
-  </data>
-  <data name="Menu_FastFlagProfiles_Save" xml:space="preserve">
-    <value>I-save ang kasalukuyang flags</value>
-  </data>
-  <data name="Menu.Load" xml:space="preserve">
-    <value>I-load</value>
-  </data>
-  <data name="Bootstrapper.Status.CancelUpgrade" xml:space="preserve">
-    <value>Kinakansela ang pag-upgrade ng Roblox.</value>
-  </data>
-  <data name="Menu.Behaviour.RenameToEurotrucks.Title" xml:space="preserve">
-    <value>Suporta sa Bloxshade</value>
-  </data>
-  <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
-    <value>Para sa pinakamainam na performance, kailangan ng suportadong graphics card.
-Mahalaga ang feature na ito para sa wastong paggana ng shaders.</value>
-  </data>
-  <data name="LaunchMenu.LaunchRobloxStudio" xml:space="preserve">
-    <value>I-launch ang Roblox Studio</value>
-  </data>
-  <data name="Bootstrapper.FilesInUse" xml:space="preserve">
-    <value>Sinubukan ng Voidstrap mag-upgrade ng Roblox pero hindi kaya kasi ginagamit pa ang mga file ng Roblox.
-
-Isarado muna ang kahit anong application na maaaring gamitin ang mga file ng Roblox, at mag relaunch.</value>
-    <comment>This is *not* for when Roblox is still running when trying to upgrade. This applies to files being open (i.e. image assets)</comment>
-  </data>
-  <data name="Common.Export" xml:space="preserve">
-    <value>I-export</value>
-    <comment>Currently used under the "Voidstrap" settings tab for the button to export diagnostic data</comment>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.Title" xml:space="preserve">
-    <value>I-export ang diagnostic data</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.Description" xml:space="preserve">
-    <value>I-gather ang impormasyon na pwedeng I-upload online para ma-troubleshoot ang iyong nararanasan na problema.</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
-    <value>Lahat ng Voidstrap logs</value>
-    <comment>Label that appears next to a checkbox</comment>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>Baguhin ang deployment at installation settings ng Roblox at Voidstrap.</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>Pumili ng deployment channel. Huwag baguhin maliban kung alam mo ang ginagawa mo.</value>
-  </data>
-  <data name="Common.Version" xml:space="preserve">
-    <value>Bersyon</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>Mga upgrade ng Roblox</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
-    <value>Kapag naka-disable, hindi mag-uupgrade ang Roblox client sa mas bagong bersyon.</value>
-  </data>
-  <data name="Bootstrapper.Status.Downloading" xml:space="preserve">
-    <value>Dina-download</value>
-  </data>
-  <data name="Menu.Appearance.BootstrapperDownloading.Description" xml:space="preserve">
-    <value>Palitan ang downloading string. {0} ay package name, {1} ay laki ng downloaded packages at {2} ay kabuuang laki ng packages.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry.Title" xml:space="preserve">
-    <value>I-disable ang Roblox telemetry</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry.Description" xml:space="preserve">
-    <value>Pansin: na-disable lang nito ang bahagi ng Roblox telemetry.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Preload.Description" xml:space="preserve">
-    <value>Pinapagana ang preload sa karamihan ng textures at fonts (Babala: Maaaring lumawak ang loading time!)</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
-    <value>Pinipigilan ang layered clothing na mag-render sa avatars ng ibang mga manlalaro.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
-    <value>I-activate ang early access DarkMode ng Roblox</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Chromeui.Description" xml:space="preserve">
-    <value>Kapag naka-disable, gagamitin ng Roblox ang lumang top bar.</value>
-  </data>
-  <data name="Menu.FlagProfiles.ClearFlags" xml:space="preserve">
-    <value>Burahin ang Kasalukuyang FFlags</value>
-  </data>
-  <data name="Menu.Deployment.Channel.OutOfDate" xml:space="preserve">
-    <value>Ang channel na ito ay luma na at malamang hindi na ina-update. Mangyaring gumamit ng ibang channel.</value>
-  </data>
-  <data name="Bootstrapper.Dialog.ChannelOutOfDate" xml:space="preserve">
-    <value>Ang channel na kasalukuyan mong ginagamit ({0}) ay luma na at mukhang hindi na tumatanggap ng mga update.\n
-Gusto mo bang lumipat sa default channel ({1})?</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Title" xml:space="preserve">
-    <value>Aksyon sa awtomatikong pagpapalit ng channel</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Description" xml:space="preserve">
-    <value>Maaaring subukan ng Roblox o Voidstrap na palitan ang iyong ginustong channel.</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Automatic" xml:space="preserve">
-    <value>Awtomatikong baguhin</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Prompt" xml:space="preserve">
-    <value>Laging itanong</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Ignore" xml:space="preserve">
-    <value>Huwag palitan</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Categories.IngameMenu.Description" xml:space="preserve">
-    <value>I-debloat ang Roblox menu gamit ang custom toggles</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Title" xml:space="preserve">
-    <value>Pagsasalin ng chat</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Description" xml:space="preserve">
-    <value>Pinapayagang i-disable ang VR mode toggle.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Description" xml:space="preserve">
-    <value>Itinatago ang button para sa pagsusumite ng feedback sa translation quality.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Description" xml:space="preserve">
-    <value>Hindi pinapayagan ang haptic feedback features, gaya ng vibrations para sa controller.</value>
-  </data>
-  <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
-    <value>Sinusubukan ng Roblox na itakda ang iyong channel sa {0}, ngunit ang iyong kasalukuyang ginustong channel ay {1}.
-
-
-Gusto mo bang palitan ang iyong ginustong channel sa {0}?</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Description" xml:space="preserve">
-    <value>Inaalis ang FPS presets sa menu.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Description" xml:space="preserve">
-    <value>Pinapayagan ang mga manlalaro na i-disable ang interface translation.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Description" xml:space="preserve">
-    <value>Hindi pinapayagan ang automatic translation ng chat messages.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FlagState.Description" xml:space="preserve">
-    <value>Ipakita ang values ng specified flags habang tumatakbo. Bawat flag ay comma separated.</value>
-  </data>
-  <data name="Menu.Context.PlayerLogs.Description" xml:space="preserve">
-    <value>Ipinapakita ang mga manlalarong sumasali/lumalabas sa server mo.</value>
-  </data>
-  <data name="Common.Type" xml:space="preserve">
-    <value>Uri</value>
-  </data>
-  <data name="Common.Time" xml:space="preserve">
-    <value>Oras</value>
-  </data>
-  <data name="Menu.Channel.VersionHash.Desription" xml:space="preserve">
-    <value>Pilitin ang Voidstrap na mag-download ng bersyon mula sa partikular na hash. Huwag baguhin kung hindi mo alam ang ginagawa nito.</value>
-  </data>
-  <data name="Menu.SaveAndLaunch" xml:space="preserve">
-    <value>I-save at ilunsad</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.PingBreakdown.Description" xml:space="preserve">
-    <value>Nagpapadala ng detalyadong ping information sa Roblox console.</value>
-  </data>
-  <data name="Bootstrapper.Dialog.NoUpgradeWithoutClient" xml:space="preserve">
-    <value>Hindi nailunsad dahil sa nawawalang client.
-		Paki-enable ang Roblox upgrades.</value>
-  </data>
-  <data name="Menu.Channel.Switcher.Unauthorized" xml:space="preserve">
-    <value>Hindi umiiral o pribado ang itinukoy na channel</value>
-  </data>
-  <data name="Boostrapper.Dialog.UnauthorizedChannel" xml:space="preserve">
-    <value>Ang channel na kasalukuyan mong ginagamit ({0}) ay limitado na para sa pampublikong paggamit. Mapupunta ka na sa default channel ({1}).</value>
-  </data>
-  <data name="Menu.Channel.Switcher.Fetching" xml:space="preserve">
-    <value>Kinukuha ang pinakabagong deploy info, mangyaring maghintay...</value>
-  </data>
-  <data name="Common.Message" xml:space="preserve">
-    <value>Mensahe</value>
-  </data>
-  <data name="ContextMenu.MessageLogs.Description" xml:space="preserve">
-    <value>Ipinapakita ang mga kamakailang mensahe ng mga manlalaro.</value>
-  </data>
-  <data name="Menu.Behaviour.AnselBanner" xml:space="preserve">
-    <value>Kailangan ng Bloxshade support para sa shaders.</value>
-  </data>
-  <data name="Dialog.Bloxshade.ThankYou" xml:space="preserve">
-    <value>Salamat sa paggamit ng Bloxshade kasama ang Voidstrap</value>
-  </data>
-  <data name="Dialog.Bloxshade.Setting" xml:space="preserve">
-    <value>Naka-enable na ang suporta sa Bloxshade</value>
-  </data>
-  <data name="Common.Profiles" xml:space="preserve">
-    <value>Mga Profile</value>
-  </data>
-  <data name="Common.Open" xml:space="preserve">
-    <value>Buksan</value>
-  </data>
-  <data name="Common.Refresh" xml:space="preserve">
-    <value>I-refresh</value>
-  </data>
-  <data name="Common.CopyText" xml:space="preserve">
-    <value>Kopyahin ang teksto</value>
-  </data>
-  <data name="Menu.Channel.HWAccel.DisableRestart" xml:space="preserve">
-    <value>Idi-disable ang hardware acceleration sa susunod na pagbukas ng Voidstrap.</value>
-  </data>
-  <data name="Menu.Channel.HWAccel.EnableRestart" xml:space="preserve">
-    <value>I-eenable muli ang hardware acceleration sa susunod na pagbukas ng Voidstrap.</value>
-  </data>
-  <data name="Menu.News.LatestUpdates" xml:space="preserve">
-    <value>Pinakabagong mga update at anunsyo</value>
-  </data>
-  <data name="Menu.News.Loading" xml:space="preserve">
-    <value>Niloload ang mga balita...</value>
-  </data>
-  <data name="Menu.News.DialogTitle" xml:space="preserve">
-    <value>Mga Detalye ng Balita</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Hindi maalis ng Voidstrap ang naiwang AssetWarp route mula sa Windows hosts file. Hindi makakapag-load ang Roblox ng mga texture o iba pang asset hangga't hindi ito naaalis. Patakbuhin ang Voidstrap bilang administrator para linisin ito.</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>Pareho</value>
-  </data>
-  <data name="Common.Browse" xml:space="preserve">
-    <value>Mag-browse</value>
-  </data>
-  <data name="Common.ImportJson" xml:space="preserve">
-    <value>I-import ang JSON</value>
-  </data>
-  <data name="Common.Presets" xml:space="preserve">
-    <value>Mga preset</value>
-  </data>
-  <data name="Common.Reset" xml:space="preserve">
-    <value>I-reset</value>
-  </data>
-  <data name="Common.Value" xml:space="preserve">
-    <value>Halaga</value>
   </data>
   <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
     <value>{0} server ang na-scan</value>
@@ -1521,8 +555,29 @@ Gusto mo bang palitan ang iyong ginustong channel sa {0}?</value>
   <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
     <value>Sumali</value>
   </data>
+  <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
+    <value>Maglagay ng Fast Flag</value>
+  </data>
+  <data name="Dialog.Connectivity.MoreInfo" xml:space="preserve">
+    <value>Ibang impormasyon:</value>
+  </data>
   <data name="Dialog.Connectivity.Title" xml:space="preserve">
     <value>Error sa koneksyon</value>
+  </data>
+  <data name="Dialog.Connectivity.UnableToConnect" xml:space="preserve">
+    <value>Hindi maka-konek ang Voidstrap sa {0}</value>
+    <comment>{0} is the name of a service (i.e. Roblox, GitHub)</comment>
+  </data>
+  <data name="Dialog.Exception.CopyLogContents" xml:space="preserve">
+    <value>Kopyahin ang log contents</value>
+  </data>
+  <data name="Dialog.Exception.Info.1" xml:space="preserve">
+    <value>May exception na nangyari habang pinapatakbo ang Voidstrap</value>
+  </data>
+  <data name="Dialog.Exception.Info.2" xml:space="preserve">
+    <value>Suriin muna ang [Voidstrap Wiki]({0}) upang makita kung itong problema ay meron nang paraan ng pag-aayos.
+
+Kung hindi, paki ulat itong pagbubukod, gamit ang [GitHub issue]({1}) kasama ang kopya ng log file na nilikha.</value>
   </data>
   <data name="Dialog.Exception.Title" xml:space="preserve">
     <value>Exception sa Voidstrap</value>
@@ -1548,29 +603,123 @@ Gusto mo bang palitan ang iyong ginustong channel sa {0}?</value>
   <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
     <value>Luma (2011 - 2014)</value>
   </data>
+  <data name="Enums.FlagPresets.LightingMode.Default" xml:space="preserve">
+    <value>Pinili ng laro</value>
+  </data>
+  <data name="Enums.ServerType.Private" xml:space="preserve">
+    <value>Pribadong server</value>
+  </data>
+  <data name="Enums.ServerType.Public" xml:space="preserve">
+    <value>Publikong serbiro</value>
+  </data>
+  <data name="Enums.ServerType.Reserved" xml:space="preserve">
+    <value>Nakareserba na serbiro</value>
+  </data>
   <data name="Enums.Theme.Dark" xml:space="preserve">
     <value>Madilim</value>
+  </data>
+  <data name="Enums.Theme.Yellow" xml:space="preserve">
+    <value>Dilaw</value>
+  </data>
+  <data name="Enums.Theme.Purple" xml:space="preserve">
+    <value>Lila</value>
+  </data>
+  <data name="Enums.Theme.Green" xml:space="preserve">
+    <value>Berde</value>
+  </data>
+  <data name="Enums.Theme.Orange" xml:space="preserve">
+    <value>Kahel</value>
   </data>
   <data name="Enums.Theme.Light" xml:space="preserve">
     <value>Maliwanag</value>
   </data>
+  <data name="Enums.Theme.Red" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Enums.Theme.Blue" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="InstallChecker.Updated" xml:space="preserve">
+    <value>Na-upgrade na ang Voidstrap sa v{0}</value>
+  </data>
+  <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
+    <value>Ang bersyon ng Voidstrap na iyong sinimulan ay magkaiba sa bersyon na iyong ininstall. Gusto mo ba i-upgrade ang kasalukuyang naka-install na bersyon?</value>
+  </data>
+  <data name="Menu.About.Contributors" xml:space="preserve">
+    <value>Mga Kontribyutor</value>
+  </data>
+  <data name="Menu.About.Contributors.Description" xml:space="preserve">
+    <value>Ito ang mga tao na nagbigay ng mahalagang kontribusyon sa Voidstrap, na tumulong upang maging ganito ang Voidstrap.</value>
+  </data>
+  <data name="Menu.About.Contributors.FeatureIdeas" xml:space="preserve">
+    <value>Mga tampok na ideya</value>
+  </data>
+  <data name="Menu.About.Contributors.SpecialThanks" xml:space="preserve">
+    <value>Namumukod-tanging pasasalamat</value>
+  </data>
+  <data name="Menu.About.Description" xml:space="preserve">
+    <value>Isang alternatibong bootstrapper para sa Roblox na may maraming karagdagang feature.</value>
+  </data>
+  <data name="Menu.About.GithubRepository" xml:space="preserve">
+    <value>Github repository</value>
+  </data>
+  <data name="Menu.About.HelpInformation" xml:space="preserve">
+    <value>Tulong at Impormasyon</value>
+  </data>
   <data name="Menu.About.Licenses" xml:space="preserve">
     <value>Mga lisensya</value>
+  </data>
+  <data name="Menu.About.ReportIssue" xml:space="preserve">
+    <value>Mag ulat ng isyu</value>
   </data>
   <data name="Menu.About.Title" xml:space="preserve">
     <value>Tungkol</value>
   </data>
   <data name="Menu.About.Version" xml:space="preserve">
     <value>Bersyon {0}</value>
+    <comment>{0} is replaced with the version, i.e. "Version 1.0.3.6"</comment>
+  </data>
+  <data name="Menu.AllFiles" xml:space="preserve">
+    <value>Lahat ng files</value>
+  </data>
+  <data name="Menu.AlreadyRunning.Caption" xml:space="preserve">
+    <value>Tandaan, hindi lahat ng pagbabago ay agad na maga-apply hangga't hindi pa naisasa ang lahat ng bukas na Roblox instances.</value>
+  </data>
+  <data name="Menu.AlreadyRunning.Title" xml:space="preserve">
+    <value>Ang Voidstrap ay kasalukuyang tumatakbo</value>
+  </data>
+  <data name="Menu.Appearance.Bootstrapper.Description" xml:space="preserve">
+    <value>Maaari mong gawin itong magmukhang iba, retro, o kahit na tulad lamang ng Roblox.</value>
+  </data>
+  <data name="Menu.Appearance.Customisation.Description" xml:space="preserve">
+    <value>Ipasadya ang ibang miscellaneous customisable options na pagpipilian.</value>
+  </data>
+  <data name="Menu.Appearance.Customisation.Title" xml:space="preserve">
+    <value>Pagpapasadya</value>
+  </data>
+  <data name="Menu.Appearance.CustomisationIcon.Description" xml:space="preserve">
+    <value>Dapat isang multi-size na .ico file na may mga size mula 16px hanggang 128px. Itakda ang Icon bilang 'Custom' upang magamit ito.</value>
   </data>
   <data name="Menu.Appearance.CustomisationIcon.Title" xml:space="preserve">
     <value>Custom na icon</value>
   </data>
+  <data name="Menu.Appearance.CustomisationTitle.Description" xml:space="preserve">
+    <value>Ang text na ipinapakitang pamagat ng bootstrapper.</value>
+  </data>
   <data name="Menu.Appearance.CustomisationTitle.Title" xml:space="preserve">
     <value>Pamagat</value>
   </data>
+  <data name="Menu.Appearance.Description" xml:space="preserve">
+    <value>I-configure kung paano dapat magmukha ang Voidstrap.</value>
+  </data>
   <data name="Menu.Appearance.Global.Theme.Title" xml:space="preserve">
     <value>Global na tema</value>
+  </data>
+  <data name="Menu.Appearance.Icon.Description" xml:space="preserve">
+    <value>Pumili kung anong icon ang dapat gamitin.</value>
+  </data>
+  <data name="Menu.Appearance.Style.Description" xml:space="preserve">
+    <value>Piliin kung ano ang magiging hitsura nito. Ang madilim na tema ay hindi nalalapat sa Legacy/Vista.</value>
   </data>
   <data name="Menu.Appearance.Style.Title" xml:space="preserve">
     <value>Estilo</value>
@@ -1578,11 +727,145 @@ Gusto mo bang palitan ang iyong ginustong channel sa {0}?</value>
   <data name="Menu.Appearance.Title" xml:space="preserve">
     <value>Hitsura</value>
   </data>
+  <data name="Menu.Behaviour.AutoUpdate.Description" xml:space="preserve">
+    <value>Awtomatikong susuriin at ia-update ng Voidstrap ang sarili nito kapag magsisimula na ang Roblox.</value>
+  </data>
+  <data name="Menu.Behaviour.AutoUpdate.Title" xml:space="preserve">
+    <value>Awtomatikong i-update ang Voidstrap</value>
+  </data>
+  <data name="Menu.Behaviour.ConfirmLaunches.Description" xml:space="preserve">
+    <value>Pigilan ang pagsasara ng kasalukuyang laro mo mula sa aksidenteng pagbukas ng isa pa.</value>
+  </data>
+  <data name="Menu.Behaviour.ConfirmLaunches.Title" xml:space="preserve">
+    <value>I-prompt upang kumpirmahin kapag mag-launch ng iba pang Roblox instance</value>
+  </data>
+  <data name="Menu.Behaviour.Description" xml:space="preserve">
+    <value>I-configure kung ano ang dapat gawin ng Voidstrap kapag ito'y binubuksan.</value>
+  </data>
+  <data name="Menu.Behaviour.ForceRobloxReinstall.Description" xml:space="preserve">
+    <value>Ang Roblox ay mai-install nang bago sa susunod na bubuksan ito.</value>
+  </data>
+  <data name="Menu.Behaviour.ForceRobloxReinstall.Title" xml:space="preserve">
+    <value>Pilitang muling i-install ang Roblox</value>
+  </data>
+  <data name="Menu.FastFlagEditor.AddNew" xml:space="preserve">
+    <value>Magdagdag ng bago</value>
+  </data>
+  <data name="Menu.FastFlagEditor.AlreadyExists" xml:space="preserve">
+    <value>Mayroong kapareho na ng flag na ito.</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Back" xml:space="preserve">
+    <value>Balik</value>
+  </data>
+  <data name="Menu.FastFlagEditor.BannerText" xml:space="preserve">
+    <value>Ang maling paggamit nito ay maaring magdulot ng instability o hindi inaasahang bagay.</value>
+    <comment>The element that this string is rendered in *cannot be wrapped* and may be truncated when displayed if too long. If so, try and paraphrase a shortened version.</comment>
+  </data>
+  <data name="Menu.FastFlagEditor.BannerTitle" xml:space="preserve">
+    <value>Gamitin na may pag-iingat.</value>
+  </data>
+  <data name="Menu.FastFlagEditor.ConflictingImport" xml:space="preserve">
+    <value>Ang ilang mga flag na sinusubukan mong i-import ay mayroon nang mga itinakdang halaga. Gusto mo bang palitan ang kanilang kasalukuyang mga halaga gamit ang mga itinakda sa pag-import?
+
+Mayroong {0} mga magkaalitang mga kahulugan ng flag: {1}</value>
+    <comment>{0} is a number, {1} is a comma-separated list</comment>
+  </data>
+  <data name="Menu.FastFlagEditor.DeleteSelected" xml:space="preserve">
+    <value>Tanggalin ang naka-select</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Description" xml:space="preserve">
+    <value>I-Manage ang iyong sariling FastFlags. I-Double click ang column upang ma-edit.</value>
+  </data>
   <data name="Menu.FastFlagEditor.ExportJson" xml:space="preserve">
     <value>I-export ang JSON</value>
   </data>
+  <data name="Menu.FastFlagEditor.InvalidCharacter" xml:space="preserve">
+    <value>Ang pangalan ng flag na '{0}' ay hindi tama sapagkat ang pangalan ay dapat naglalaman lang ng mga letra, numero, at underscores</value>
+  </data>
+  <data name="Menu.FastFlagEditor.InvalidJSON" xml:space="preserve">
+    <value>Ang JSON na iyong nilagay ay hindi wasto. Tiyakin ulit at subukan ulit
+
+Karagdagang impormasyon:
+{0}</value>
+    <comment>{0} is an exception message</comment>
+  </data>
+  <data name="Menu.FastFlagEditor.InvalidPrefix" xml:space="preserve">
+    <value>Ang pangalan ng flag na '{0}' ay hindi tama sapagkat ang pangalan ay dapat nagsisimula sa FFlag, DFInt, atbp</value>
+  </data>
+  <data name="Menu.FastFlagEditor.JsonCopiedToClipboard" xml:space="preserve">
+    <value>Na copy sa clipboard.</value>
+  </data>
+  <data name="Menu.FastFlagEditor.LargeConfig" xml:space="preserve">
+    <value>Mukhang nagi-import ka nag sobrang laking configuration. Dapat mag-i-import ka lamang ng mga configuration na naiintindihan mo. HUWAG ka bulag mag paste ng configuration na gawa ng ibang tao. Kung itutuloy mo, malamang na magkakaroon ka ng mga isyu sa katatagan at makakaranas ng hindi inaasahang pagbago
+
+Sigurado ka bang gusto mo magtuloy?</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Search" xml:space="preserve">
+    <value>Hanapin</value>
+  </data>
+  <data name="Menu.FastFlagEditor.ShowPresetFlags" xml:space="preserve">
+    <value>Ipakita ang preset flags</value>
+  </data>
   <data name="Menu.FastFlagEditor.Title" xml:space="preserve">
     <value>Fast Flag editor</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Warning.Back" xml:space="preserve">
+    <value>Bumalik</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Warning.Continue" xml:space="preserve">
+    <value>Alam ko ang ginagawa ko</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Warning.Header" xml:space="preserve">
+    <value>Alam mo ba ang ginagawa mo?</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Warning.Text" xml:space="preserve">
+    <value>Napakalakas ang mga Fast Flag, dahil sila ay sinasadya na dapat ginagamit lang ng mga Roblox engineers. Bagama't maaaring nakakatulong, manu-manong pag-configure sa mga ito ay maaaring makagawa ng seryosong isyu sa tatag at functionality. HUWAG gamitin ang editor kapag hindi ka sure kung ano ang ginagawa mo.
+
+HUWAG gagamitin ito upang mag-import ng mga malalaking "flag lists" na gawa ng ibang tao na nangangakong nagpapabuti ng performance o katulad nito. Ang mga ito ay nabanggit na isyu, at sila ay nakakaproblema sa iyo dahil hindi mo alam na alam ang pinapaltan nila. Kung gagawin mo iyon, BUMALIK KA.</value>
+  </data>
+  <data name="Menu.FastFlags.Description" xml:space="preserve">
+    <value>I-Control kung paano na-configure ang mga espesipikong parameter at feature ng Roblox engine.</value>
+  </data>
+  <data name="Menu.FastFlags.Editor.Description" xml:space="preserve">
+    <value>I-Manage ang iyong Fast Flags. Gamitin nang may pag-iingat.</value>
+    <comment>Title is Menu.FastFlagEditor.Title</comment>
+  </data>
+  <data name="Menu.FastFlags.Help.Description" xml:space="preserve">
+    <value>Mas matuto pa sa Fast Flags, kung ano ang ginagawa ng mga preset na ito, at kung paano gamitin ang mga ito.</value>
+    <comment>Title is Common.Help</comment>
+  </data>
+  <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
+    <value>Direct3D [exclusive fullscreen]({0}) ang paggamit ng Alt+Enter ay naka enable na by default.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
+    <value>Bersyon ng escape menu na naayon sa iyong panlasa</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FixDisplayScaling.Description" xml:space="preserve">
+    <value>Ang Roblox ay binabawasan ang iyong rendering quality depende sa gaanong laki ang display sa Windows.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FixDisplayScaling.Title" xml:space="preserve">
+    <value>Pangalagaan ang rendering quality kasama ang display scaling</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FPSLimit.Description" xml:space="preserve">
+    <value>Ilagay sa 0 para sa defaults pag ikaw ay gusto gamitin ang native framerate unlocker ng Roblox.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FPSLimit.Title" xml:space="preserve">
+    <value>Framerate Limit</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
+    <value>Toggled kasama ang [keyboard shortcuts]({0}). Gumagana lang kapag ikaw ay nasa [Voidstrap group]({1}).</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
+    <value>Paganahin ang kakayahang itago ang mga GUIs</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.LightingTechnology.Description" xml:space="preserve">
+    <value>Ang napili ay ang magiging default lighting sa lahat ng laro. [Babala, maaring magdulot ng isyu sa lighting!]({0})</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.LightingTechnology.Title" xml:space="preserve">
+    <value>Gustong lighting technology</value>
+  </data>
+  <data name="Menu.FastFlags.Title" xml:space="preserve">
+    <value>Engine Settings</value>
   </data>
   <data name="Menu.FontFiles" xml:space="preserve">
     <value>Font file</value>
@@ -1590,32 +873,190 @@ Gusto mo bang palitan ang iyong ginustong channel sa {0}?</value>
   <data name="Menu.IconFiles" xml:space="preserve">
     <value>Icon file</value>
   </data>
+  <data name="Menu.InstallLocation.CantInstall" xml:space="preserve">
+    <value>Hindi maaring i-install ang Voidstrap dito. Mangyaring pumili ng ibang location, o mapilitang gamitin ang Default location sa pamamagitan ng pagpindot ng reset button.</value>
+  </data>
+  <data name="Menu.InstallLocation.NotEmpty" xml:space="preserve">
+    <value>Ang iyong piniling folder upang i-install ang Voidstrap ay umiiral na at HINDI walang laman. Ito ay malakas na ni rerecommenda para ma install ang Voidstrap sa kanyang independent na folder.
+
+Iminumungkahi na palitan ito sa:
+{0}
+
+Gusto mo ba palitan ito sa sa iminungkahing lokasyon?
+Ang pagpili ng 'Hindi' ay hindi papansinin ang babalang ito at itutuloy ang pag-install.</value>
+    <comment>{0} is a file path</comment>
+  </data>
+  <data name="Menu.InstallLocation.NotSet" xml:space="preserve">
+    <value>Kinakailangan mo mag-set ang install location</value>
+  </data>
+  <data name="Menu.InstallLocation.NoWritePerms" xml:space="preserve">
+    <value>Ang Voidstrap ay walang write access sa iyong install location na pinili. Mangyari pumili ng ibang location.</value>
+  </data>
   <data name="Menu.Integrations.ActivityTracking" xml:space="preserve">
     <value>Pagsubaybay sa aktibidad</value>
+  </data>
+  <data name="Menu.Integrations.AllowActivityJoining.Description" xml:space="preserve">
+    <value>Ina-allow para sa kung sino man sumali sa game na kasalukuyang nakikita sa Discord profile.</value>
+  </data>
+  <data name="Menu.Integrations.AllowActivityJoining.Title" xml:space="preserve">
+    <value>Payagan ang activity joining</value>
+  </data>
+  <data name="Menu.Integrations.ShowAccountOnProfile.Description" xml:space="preserve">
+    <value>Ipakita ang Roblox account na iyong nilalaro sa iyong Discord profile.</value>
+  </data>
+  <data name="Menu.Integrations.ShowAccountOnProfile.Title" xml:space="preserve">
+    <value>Ipakita ang Roblox account</value>
+  </data>
+  <data name="Menu.Integrations.Custom.AppLocation" xml:space="preserve">
+    <value>Lokasyon ng Application</value>
+  </data>
+  <data name="Menu.Integrations.Custom.AutoClose" xml:space="preserve">
+    <value>Awtomatikong isara kapag nagsara ang Roblox</value>
+  </data>
+  <data name="Menu.Integrations.Custom.Description" xml:space="preserve">
+    <value>Dito, maaari kang awtomatikong maglunsad ng iba pang mga programa gamit ang Roblox.</value>
   </data>
   <data name="Menu.Integrations.Custom.LaunchArgs" xml:space="preserve">
     <value>Mga launch argument</value>
   </data>
+  <data name="Menu.Integrations.Custom.LaunchArgs.Placeholder" xml:space="preserve">
+    <value>Tumatakbo ang Roblox!</value>
+  </data>
+  <data name="Menu.Integrations.Custom.NewIntegration" xml:space="preserve">
+    <value>Bagong Integrasyon</value>
+  </data>
+  <data name="Menu.Integrations.Custom.NoneSelected" xml:space="preserve">
+    <value>Walang piniling integrasyon, Magselect o magdagdag ng bago</value>
+  </data>
   <data name="Menu.Integrations.Custom.Title" xml:space="preserve">
     <value>Mga custom na integration</value>
+  </data>
+  <data name="Menu.Integrations.Description" xml:space="preserve">
+    <value>I-configure ang mga karagdagang mga functionality na kasama sa Roblox.</value>
+  </data>
+  <data name="Menu.Integrations.DesktopApp.Description" xml:space="preserve">
+    <value>Ang Roblox ay magsasarado kapag ikaw ay umalis sa laro sa halip ng pagbalik sa app. [Makakasira ng gamit!]({0})</value>
+  </data>
+  <data name="Menu.Integrations.DesktopApp.Title" xml:space="preserve">
+    <value>Huwag lumabas sa desktop app</value>
+  </data>
+  <data name="Menu.Integrations.EnableActivityTracking.Description" xml:space="preserve">
+    <value>Pahintulutan ang Voidstrap na matukoy kung anong larong Roblox ang iyong nilalaro. Maaaring kailanganin ito ng ilang partikular na feature.</value>
+  </data>
+  <data name="Menu.Integrations.EnableActivityTracking.Title" xml:space="preserve">
+    <value>Paganahin ang activity tracking</value>
+  </data>
+  <data name="Menu.Integrations.RequiresActivityTracking" xml:space="preserve">
+    <value>Itong feature ay kinakailangang naka-enable ang activity tracking at ang Discord desktop app na naka-install at naka-bukas. [Alamin pa]({0}).</value>
+  </data>
+  <data name="Menu.Integrations.ShowGameActivity.Description" xml:space="preserve">
+    <value>Ang nilalaro mong Roblox game ay lalabas sa iyong Discord profile. [Di gumagana?]({0})</value>
+  </data>
+  <data name="Menu.Integrations.ShowGameActivity.Title" xml:space="preserve">
+    <value>Ipakita ang game activity</value>
+  </data>
+  <data name="Menu.Integrations.QueryServerLocation.Description" xml:space="preserve">
+    <value>Kapag nasa loob ng laro, makikita mo ang iyong lokasyon ng server sa pamamagitan ng [ipinfo.io]({0}).</value>
+  </data>
+  <data name="Menu.Integrations.QueryServerLocation.Title" xml:space="preserve">
+    <value>Query server location</value>
   </data>
   <data name="Menu.Integrations.Title" xml:space="preserve">
     <value>Mga integration</value>
   </data>
+  <data name="Menu.Mods.Description" xml:space="preserve">
+    <value>I-Manage at i-apply ang mga file mods sa Roblox game client.</value>
+  </data>
+  <data name="Menu.Mods.Help.Description" xml:space="preserve">
+    <value>Tignan ang impormasyon tungkol sa pag-manage at paglikha ng mods.</value>
+    <comment>Title is Common.Help</comment>
+  </data>
+  <data name="Menu.Mods.Misc.CustomFont.Choose" xml:space="preserve">
+    <value>Piliin ang font...</value>
+  </data>
+  <data name="Menu.Mods.Misc.CustomFont.Description" xml:space="preserve">
+    <value>Ang Font size ay pwede ibago sa Engine Settings tab.</value>
+  </data>
+  <data name="Menu.Mods.Misc.CustomFont.Invalid" xml:space="preserve">
+    <value>Ang pinili mo na file ay hindi wasto na font file.</value>
+  </data>
+  <data name="Menu.Mods.Misc.CustomFont.Remove" xml:space="preserve">
+    <value>Itanggal ang inilagay na font</value>
+  </data>
+  <data name="Menu.Mods.Misc.CustomFont.Title" xml:space="preserve">
+    <value>Gamitin ang custom font</value>
+  </data>
+  <data name="Menu.Mods.OpenModsFolder.Description" xml:space="preserve">
+    <value>I-Manage ang mga custom na Roblox mods dito.</value>
+  </data>
+  <data name="Menu.Mods.OpenModsFolder.Title" xml:space="preserve">
+    <value>Buksan ang Mods Folder</value>
+  </data>
+  <data name="Menu.Mods.Presets.EmojiType.Description" xml:space="preserve">
+    <value>Piliin ang type ng emoji na dapat piliin ng Roblox.</value>
+  </data>
+  <data name="Menu.Mods.Presets.EmojiType.Title" xml:space="preserve">
+    <value>Gustong uri ng emoji</value>
+  </data>
+  <data name="Menu.Mods.Presets.MouseCursor.Description" xml:space="preserve">
+    <value>Pumili sa dalawang klase ng classic Roblox cursor style.</value>
+  </data>
+  <data name="Menu.Mods.Presets.MouseCursor.Title" xml:space="preserve">
+    <value>Cursor ng mouse</value>
+  </data>
+  <data name="Menu.Mods.Presets.OldAvatarEditor.Description" xml:space="preserve">
+    <value>Ibalik ang dating avatar editor background na ginamit sa Roblox app bago ang 2020.</value>
+  </data>
+  <data name="Menu.Mods.Presets.OldAvatarEditor.Title" xml:space="preserve">
+    <value>Gamitin ang dating avatar editor background</value>
+  </data>
+  <data name="Menu.Mods.Presets.OldCharacterSounds.Description" xml:space="preserve">
+    <value>Isang pagsubok upang halos mapabalik ang mga tunog ng character na ginamit bago mag 2014.</value>
+  </data>
+  <data name="Menu.Mods.Presets.OldCharacterSounds.Title" xml:space="preserve">
+    <value>Kopyahin ang dating tunog ng character</value>
+  </data>
+  <data name="Menu.Mods.Presets.OldDeathSound.Description" xml:space="preserve">
+    <value>Ibalik ang classic 'oof' death sound.</value>
+  </data>
+  <data name="Menu.Mods.Presets.OldDeathSound.Title" xml:space="preserve">
+    <value>Gamitin ang dating death sound</value>
+  </data>
   <data name="Menu.Mods.Title" xml:space="preserve">
     <value>Mga mod</value>
+  </data>
+  <data name="Menu.MoreInfo" xml:space="preserve">
+    <value>Pindutin para sa mas maraming informasyon sa option na ito.</value>
   </data>
   <data name="Menu.Save" xml:space="preserve">
     <value>I-save</value>
   </data>
+  <data name="Menu.SettingsSaved.Message" xml:space="preserve">
+    <value>Ang mga pagbabago ay mag-eepekto sa susunod na bubuksan mo ang Roblox.</value>
+  </data>
+  <data name="Menu.SettingsSaved.Title" xml:space="preserve">
+    <value>Nai-save na ang settings!</value>
+  </data>
   <data name="Menu.Title" xml:space="preserve">
     <value>Mga setting ng Voidstrap</value>
+  </data>
+  <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
+    <value>Pumili ng gustong wika</value>
   </data>
   <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
     <value>Awtomatikong pagsasalin</value>
   </data>
   <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
     <value>Isalin sa</value>
+  </data>
+  <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
+    <value>Pumili ng wika bago mag-install.</value>
+  </data>
+  <data name="Menu.Appearance.Language.Title" xml:space="preserve">
+    <value>Wika</value>
+  </data>
+  <data name="Menu.Appearance.Language.Description" xml:space="preserve">
+    <value>Maaaring hindi naisalin ang ilang teksto sa ginustong wika.</value>
   </data>
   <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
     <value>Wika ng awtomatikong pagsasalin</value>
@@ -1629,11 +1070,41 @@ Gusto mo bang palitan ang iyong ginustong channel sa {0}?</value>
   <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
     <value>Awtomatikong isinasalin ang teksto ng Discord Rich Presence sa napiling wika.</value>
   </data>
+  <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
+    <value>Payagan ang paggamit ng mga hindi suportadong wika sa Roblox</value>
+  </data>
+  <data name="Menu.Behaviour.ForceRobloxLanguage.Description" xml:space="preserve">
+    <value>Ito ay gagana lang sa mga laro na-launch gamit ang Roblox website.</value>
+  </data>
   <data name="Enums.FlagPresets.InGameMenuVersion.V4Chrome" xml:space="preserve">
     <value>2023 (V4 + bagong UI)</value>
   </data>
+  <data name="Menu.FastFlags.Presets.Categories.Rendering" xml:space="preserve">
+    <value>Rendering at Graphics</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Categories.UserInterface" xml:space="preserve">
+    <value>User Interface at Layout</value>
+  </data>
+  <data name="Menu.FastFlags.ManagerEnabled.Title" xml:space="preserve">
+    <value>Payagin ang Voidstrap na i-manage ang Fast Flags</value>
+  </data>
+  <data name="Menu.FastFlags.ManagerEnabled.Description" xml:space="preserve">
+    <value>Sa pag disable nito ay ang mga na-configure dito ay hindi gagana sa Roblox.</value>
+  </data>
   <data name="Menu.FastFlags.Presets.MSAA.Title" xml:space="preserve">
     <value>Kalidad ng anti-aliasing (MSAA)</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DisablePostFX.Title" xml:space="preserve">
+    <value>I-disable ang post-processing effects</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FullscreenTitlebar.Title" xml:space="preserve">
+    <value>I-disable ang full-screen titlebar</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FullscreenTitlebar.Description" xml:space="preserve">
+    <value>Hindi siya ipinapakita pag ginalaw mo ang iyong mouse sa tuktok ng screen.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.TextureQuality.Title" xml:space="preserve">
+    <value>Quality ng texture</value>
   </data>
   <data name="Enums.FlagPresets.TextureQuality.Level0" xml:space="preserve">
     <value>Level 0 (Pinakamababa)</value>
@@ -1641,26 +1112,250 @@ Gusto mo bang palitan ang iyong ginustong channel sa {0}?</value>
   <data name="Enums.FlagPresets.TextureQuality.Level3" xml:space="preserve">
     <value>Level 3 (Pinakamataas)</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DisablePlayerShadows.Title" xml:space="preserve">
+    <value>I-disable ang player shadows</value>
+  </data>
   <data name="Menu.FastFlags.Presets.FontPadding.Title" xml:space="preserve">
     <value>Laki ng font</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FontPadding.Description" xml:space="preserve">
+    <value>Ang default value nito ay 1. I-adjust ito pag gumagamit ng custom font.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DisableTerrainTextures.Title" xml:space="preserve">
+    <value>I-disable ang terrain textures</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DisableGrass.Title" xml:space="preserve">
+    <value>I-disable ang galaw ng damo</value>
+  </data>
+  <data name="Dialog.Connectivity.UnableToDownload" xml:space="preserve">
+    <value>Hindi maka-download ng Roblox ang Voidstrap</value>
+  </data>
+  <data name="Dialog.Connectivity.UnableToDownloadReason" xml:space="preserve">
+    <value>Hindi ma-download ang Roblox ngayon oras na ito. Basahin ang following help page para sa idadag na impormasyon: {0}</value>
+    <comment>{0} is a URL</comment>
+  </data>
+  <data name="Common.ImportFromFile" xml:space="preserve">
+    <value>I-Import galing sa file</value>
+  </data>
+  <data name="FileTypes.JSONFiles" xml:space="preserve">
+    <value>Mga JSON files</value>
+    <comment>Allows selection of JSON, TXT, and Markdown files (*.json;*.txt;*.md)</comment>
+  </data>
+  <data name="Menu.FastFlagEditor.InvalidBoolValue" xml:space="preserve">
+    <value>Ang entry para sa '{0}' ay hindi tama sapagkat ang value ay dapat isang boolean (maging 'True' o 'False')</value>
+    <comment>Do not translate 'True' and 'False', those must stay in English</comment>
+  </data>
+  <data name="Menu.FastFlagEditor.InvalidNumberValue" xml:space="preserve">
+    <value>Ang entry para sa '{0}' ay hindi tama sapagkat ang value ay dapat isang numero</value>
+  </data>
+  <data name="Logger.NoWriteMode" xml:space="preserve">
+    <value>Walang magagawang log file para sa launch na ito dahil ang Voidstrap ay hindi makapag-gawa nito sa folder na '{0}'</value>
   </data>
   <data name="Common.Automatic" xml:space="preserve">
     <value>Awtomatiko</value>
   </data>
+  <data name="Common.SystemDefault" xml:space="preserve">
+    <value>System default</value>
+  </data>
+  <data name="Menu.FastFlagEditor.InvalidPlaceFilter" xml:space="preserve">
+    <value>Ang entry na {0} ay hindi tama dahil ang place filter ay hindi naka-format ng maayos.</value>
+  </data>
   <data name="Installer.Title" xml:space="preserve">
     <value>Voidstrap installer</value>
   </data>
+  <data name="Installer.Welcome.Title" xml:space="preserve">
+    <value>Maligayang pagdating</value>
+  </data>
   <data name="Installer.Install.Title" xml:space="preserve">
     <value>I-install</value>
+    <comment>Refers to "Install" as a verb</comment>
+  </data>
+  <data name="Installer.Completion.Title" xml:space="preserve">
+    <value>Pagkumpleto</value>
+  </data>
+  <data name="Common.Navigation.Back" xml:space="preserve">
+    <value>Bumalik</value>
+  </data>
+  <data name="Common.Navigation.Next" xml:space="preserve">
+    <value>Sunod</value>
+  </data>
+  <data name="Installer.Welcome.MainText" xml:space="preserve">
+    <value>Salamat sa pag-download ng Voidstrap.
+
+Ang mga opisyal na websites na makukuha para ma-download ang Voidstrap ay nandito sa {0} at {1}, kaya’t pakiusap lang na i-verify mo na nakuha mo siya sa opisyal na source.
+
+Ang proseso ng installation ay mabilis at simple lang, at ikaw ang magaayos ng kahit anong mga settings ng Voidstrap pagkatapos ng installation.</value>
+    <comment>{0} and {1} are URLs</comment>
+  </data>
+  <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
+    <value>Paki click ang 'Next' upang magpatuloy.</value>
+  </data>
+  <data name="Installer.Welcome.UpdateNotice" xml:space="preserve">
+    <value>Sinubukan mong i-install ang version {0} ng Voidstrap, pero ang latest version ay {1}. Gusto mo ba itong i-download?</value>
+  </data>
+  <data name="Installer.Install.Location.Title" xml:space="preserve">
+    <value>Piliin kung saan i-install</value>
+  </data>
+  <data name="Installer.Install.Location.Text" xml:space="preserve">
+    <value>Ang Roblox ay mai-install din sa path nito. Baguhin mo ito kung gusto mong i-install lahat ng laro mo sa isang hiwalay na drive. Kung hindi, inirerekumenda na huwag na lang ibahin.</value>
+  </data>
+  <data name="Installer.Install.Location.DataFound" xml:space="preserve">
+    <value>May natagpuang existing data. Ang mods at settings mo ay naiibalik na sa dating kalagayan.</value>
+  </data>
+  <data name="Common.Shortcuts" xml:space="preserve">
+    <value>Mga Shortcuts</value>
+  </data>
+  <data name="Common.Shortcuts.Desktop" xml:space="preserve">
+    <value>Desktop na icon</value>
+  </data>
+  <data name="Common.Shortcuts.StartMenu" xml:space="preserve">
+    <value>Start Menu na icon</value>
+  </data>
+  <data name="Installer.Completion.Text" xml:space="preserve">
+    <value>Nai-install ng matagumpay ang Voidstrap.
+
+Hindi pa nainstall ang Roblox, yan ang mangyayari kapag nilaunch mo gamit ang Voidstrap sa unahang pagkakataon.
+
+Gayundin, iwasang paggamit ng "Roblox Player" shortcut para i-launch ang Roblox, dahil hindi la-launch ang Voidstrap kasama ang Roblox. Kung hindi mo nakitang lumilitaw ang Voidstrap kapag nag-lalaunch siya galing sa website, i-launch mo yung Roblox kasama ang Voidstrap ng isang beses galing sa desktop para ayusin ito.
+
+Ano ang gusto mong gawin?</value>
+  </data>
+  <data name="Installer.Completion.Settings.Title" xml:space="preserve">
+    <value>I-configure mga Voidstrap settings</value>
+  </data>
+  <data name="Installer.Completion.Settings.Description" xml:space="preserve">
+    <value>I-tweak ang lahat ng features na inaalok nito</value>
+  </data>
+  <data name="Installer.Completion.Launch.Title" xml:space="preserve">
+    <value>I-install at I-launch ang Roblox</value>
+  </data>
+  <data name="Installer.Completion.Launch.Description" xml:space="preserve">
+    <value>Ilalagay ka sa loob ng desktop app kapag tapos na lahat</value>
+  </data>
+  <data name="Uninstaller.Title" xml:space="preserve">
+    <value>I-uninstall ang Voidstrap</value>
+  </data>
+  <data name="Uninstaller.Text" xml:space="preserve">
+    <value>Matatanggal ang Voidstrap sa iyong systema kapag na-uninstall mo, at kukusang i-configure ang default na Roblox launcher kung naka install pa rin.
+
+Kung ikaw ay mag-uninstall o mag-reinstall dahil mayroon kang issues sa Roblox, basahin mo [itong help page]({0}) muna.
+
+Ang proseso sa pag-uninstall ay maaaring hindi ganap na malinis ang sarili, kaya kailangan mong linisin ang natitirang files kung saan na-install ang Voidstrap.
+
+Na-installed ang Voidstrap sa "{1}".</value>
+  </data>
+  <data name="Uninstaller.KeepData.Label" xml:space="preserve">
+    <value>I-tabi ang aking settings at mods</value>
+  </data>
+  <data name="Uninstaller.KeepData.Description" xml:space="preserve">
+    <value>Matatabi din ito kung saan na-install ang Voidstrap, at mababalik din sa pag-reinstall.</value>
   </data>
   <data name="Uninstaller.Uninstall" xml:space="preserve">
     <value>I-uninstall</value>
   </data>
+  <data name="LaunchMenu.LaunchRoblox" xml:space="preserve">
+    <value>I-launch ang Roblox</value>
+  </data>
+  <data name="LaunchMenu.ConfigureSettings" xml:space="preserve">
+    <value>I-configure ang mga setting</value>
+  </data>
+  <data name="LaunchMenu.Wiki.Title" xml:space="preserve">
+    <value>Nagkaroon kang issue?</value>
+  </data>
+  <data name="LaunchMenu.Wiki.Description" xml:space="preserve">
+    <value>Tumingin sa Wiki para magtanong</value>
+  </data>
+  <data name="Bootstrapper.WebView2NotFound" xml:space="preserve">
+    <value>Hindi mo pa nainstall ang WebView2 runtime. Hindi gagana ng maayos ang mga Roblox features kung wala pa yan, katulad ng desktop app. Gusto mong I-download ito ngayon?</value>
+  </data>
+  <data name="Dialog.CannotCreateShortcuts" xml:space="preserve">
+    <value>Hindi kaya ng Voidstrap na gumawa ng shortcuts para sa Desktop at Start Menu. Subukan mong gawin ito sa ibang pagkakataon sa mga settings.</value>
+  </data>
+  <data name="Dialog.Exception.Info.2.Alt" xml:space="preserve">
+    <value>Tumingin sa [Voidstrap Wiki]({0}) muna para makita kung itong problema ay tinutugunan ng pag-aayos.
+
+Kung hindi, I-report mo itong eksepsyon sa maintainers ng fork nito. HUWAG mong i-report ito sa GitHub issues ng Voidstrap, dahil ito ang unofficial build.</value>
+    <comment>"fork" in general means "a variation of" or "a different version of". You can alternatively write the first sentence as "...to the maintainers of this version."</comment>
+  </data>
+  <data name="Installer.Install.Shortcuts.Description" xml:space="preserve">
+    <value>Ito ang mga pangkalahatang mga shortcuts na ilabas ang multi-choice launch menu. Ang mga shortcuts para sa mga tiyak na functions ay magagawa din sa susunod sa loob ng settings.</value>
+  </data>
+  <data name="Menu.Shortcuts.Description" xml:space="preserve">
+    <value>I-configure kung paano madaling i-launch ang Voidstrap.</value>
+  </data>
   <data name="Menu.Shortcuts.General.Title" xml:space="preserve">
     <value>Pangkalahatan</value>
   </data>
+  <data name="Menu.Shortcuts.General.Description" xml:space="preserve">
+    <value>Ito ang mga pangkalahatang mga shortcuts na ilabas ang multi-choice launch menu.</value>
+  </data>
   <data name="Menu.Shortcuts.Function.Title" xml:space="preserve">
     <value>Mga function</value>
+  </data>
+  <data name="Menu.Shortcuts.Function.Description" xml:space="preserve">
+    <value>Gumawa ng shortcut para may quick access sa mga specific na function. Lahat ng ito ay ilalagay sa Desktop.</value>
+  </data>
+  <data name="ContextMenu.ServerInformation.Notification.Title.Private" xml:space="preserve">
+    <value>Nakakonekta sa private server</value>
+  </data>
+  <data name="ContextMenu.ServerInformation.Notification.Title.Reserved" xml:space="preserve">
+    <value>Nakakonekta sa nakareserbang server</value>
+  </data>
+  <data name="Menu.Mods.Presets.EmojiType.Error" xml:space="preserve">
+    <value>Itong emoji mod ay hindi muna pwedeng inilapat.</value>
+  </data>
+  <data name="Dialog.AlreadyRunning.Installer" xml:space="preserve">
+    <value>Paki antaying tapusin ang installation.</value>
+  </data>
+  <data name="Dialog.AlreadyRunning.Uninstaller" xml:space="preserve">
+    <value>Paki antaying tapusin ang uninstallation.</value>
+  </data>
+  <data name="About.Title" xml:space="preserve">
+    <value>Tungkol sa Voidstrap</value>
+  </data>
+  <data name="About.Licenses.Title" xml:space="preserve">
+    <value>Mga lisensya</value>
+    <comment>Referring to code licenses; see https://opensource.org/licenses for example</comment>
+  </data>
+  <data name="About.Translators.Title" xml:space="preserve">
+    <value>Tagapagsalin</value>
+  </data>
+  <data name="Menu.UnsavedChanges" xml:space="preserve">
+    <value>Meron kang nabago at hindi pa naka-save. Sigurado ka bang gusto mo isara nang hindi naka-save?</value>
+  </data>
+  <data name="InstallChecker.VersionLessThanInstalled" xml:space="preserve">
+    <value>Ang version ng Voidstrap na nabuksan mo ay mas matanda kaysa sa version na install mo ngayon.
+Mayroong issues na mangyayari at yung settings mo ay maiiba. Ang pag-reinstall ay rekomendado.
+Sigurado kang gusto mo bang ituloy?</value>
+  </data>
+  <data name="Dialog.PlayerError.FailedLaunch" xml:space="preserve">
+    <value>Nabigo ang Roblox sa pag-launch.</value>
+  </data>
+  <data name="Dialog.PlayerError.Crash" xml:space="preserve">
+    <value>Nag-crash ang Roblox.</value>
+  </data>
+  <data name="Dialog.PlayerError.HelpInformation" xml:space="preserve">
+    <value>Para sa impormasyon kung bakit ito nangyayari at kung paano ito ayusin, pakibasa po [ng help article]({0})
+
+Tingnan kung nagana ang Roblox gamit ang [original launcher]({1}). Kapag hindi, ito ay hindi problema ng Voidstrap. Kapag nagana, pakitingin sa help article.</value>
+  </data>
+  <data name="Common.NetworkError" xml:space="preserve">
+    <value>Hindi makapag load ng data dahil sa network error.</value>
+  </data>
+  <data name="Common.Loading" xml:space="preserve">
+    <value>Naglo-loading, maaring maghintay...</value>
+  </data>
+  <data name="About.Supporters.Title" xml:space="preserve">
+    <value>Mga Tagasupporta</value>
+  </data>
+  <data name="About.Supporters.Description" xml:space="preserve">
+    <value>Ito ang mga tao na nag suporta sa Voidstrap gamit ang Ko-fi. Maraming salamat para sa lahat ng nandito! Lahat ng tao na nandito ay naka rank gamit ang kanilang overall pledge.</value>
+  </data>
+  <data name="JsonManager.SettingsLoadFailed" xml:space="preserve">
+    <value>Ang settings mo ay hindi makaload. Naka-reset na sa dating pagsasaayos.</value>
+  </data>
+  <data name="JsonManager.FastFlagsLoadFailed" xml:space="preserve">
+    <value>Ang FastFlags mo ay hindi makaload. Naka-reset na sa dating pagsasaayos.</value>
   </data>
   <data name="ContextMenu.GameHistory.Title" xml:space="preserve">
     <value>Kasaysayan ng laro</value>
@@ -1668,32 +1363,172 @@ Gusto mo bang palitan ang iyong ginustong channel sa {0}?</value>
   <data name="ContextMenu.GameHistory.Rejoin" xml:space="preserve">
     <value>Sumali ulit</value>
   </data>
+  <data name="ActivityWatcher.RichPresenceLoadFailed" xml:space="preserve">
+    <value>Ang laro mo ngayon ay hindi makikita sa iyong Discord presence dahil may naganap na error sa pagloload ng impormasyon sa laro.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Description" xml:space="preserve">
+    <value>Ang Game History ay nakarecord lamang para sa Roblox session mo ngayon. Ang mga laro ay nakalitaw dito kapag nakaalis ka o magteleport ka sa kanila. Hindi lahat ng servers ay rejoinable.</value>
+  </data>
+  <data name="ActivityWatcher.LocationQueryFailed" xml:space="preserve">
+    <value>Ang server location ay hindi makapagusisa. Baka nagjoin ka ng mga laro na masyong mabilis.</value>
+  </data>
+  <data name="Dialog.Connectivity.TryAgainLater" xml:space="preserve">
+    <value>Pakisubukang muli mamaya.</value>
+  </data>
+  <data name="Dialog.Connectivity.RobloxUpgradeSkip" xml:space="preserve">
+    <value>Para sa launch nito, hindi makatingin ang Roblox para sa mga upgrades, at mga pagkakaiba sa mods ay hindi ilalapat.</value>
+  </data>
+  <data name="Dialog.Connectivity.RobloxUpgradeNeeded" xml:space="preserve">
+    <value>Dahil kailangan ng Roblox na maginstall o magupgrade, hindi makapagtuloy ang Voidstrap.</value>
+  </data>
+  <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
+    <value>Ang Voidstrap ay naka install sa isang lokasyon dati at andito pa rin, pero hindi ma-overwrite ng installer ang dating executable.
+
+Pakialisin mismo ang Voidstrap.exe sa install location o subukan mong i-restart ang systema, at ulitin mo yung installation pagkatapos.</value>
+  </data>
+  <data name="Common.NotAvailable" xml:space="preserve">
+    <value>Hindi magagamit</value>
+  </data>
   <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
     <value>Available lang ang feature na ito sa Windows.</value>
+  </data>
+  <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
+    <value>I-manage ang compatibility settings</value>
+  </data>
+  <data name="Menu.Mods.Misc.CompatibilitySettings.Description" xml:space="preserve">
+    <value>I-configure ang mga application parameters kagaya ng DPI scaling behaviour at [fullscreen optimizations]({0}).</value>
+  </data>
+  <data name="Common.RobloxNotInstalled" xml:space="preserve">
+    <value>Hindi pa nakainstall ang Roblox. Paki-launch mo yung Roblox gamit ng Voidstrap kahit minsan lang bago subukang gamitin itong option.</value>
+  </data>
+  <data name="Installer.ShouldCancel" xml:space="preserve">
+    <value>Sigurado ka bang gusto mo i-cancel ang pag install?</value>
+  </data>
+  <data name="Bootstrapper.JsonManagerSaveFailed" xml:space="preserve">
+    <value>Sumablay ang pag-save {0}: {1}</value>
+  </data>
+  <data name="Dialog.IconLoadFailed" xml:space="preserve">
+    <value>Ang piniling icon ng bootstrapper ay hindi maka-load.
+
+{0}</value>
+    <comment>{0} is an exception message</comment>
+  </data>
+  <data name="Menu.Shortcuts.ExtractIcons.Title" xml:space="preserve">
+    <value>I-extract ang mga icon ng Roblox sa folder</value>
+  </data>
+  <data name="Menu.Shortcuts.ExtractIcons.Description" xml:space="preserve">
+    <value>Binibigyang-daan kang gamitin yung Voidstrap ang mga Roblox icons para sa iyong shortcuts. [Pakita kung paano.]({0})</value>
+  </data>
+  <data name="Dialog.RegistryWriteError" xml:space="preserve">
+    <value>Hindi makapagsulat sa Windows Registry ang Voidstrap. Malamang ang antivirus ay nakialam at nagdudulot ng mga isyu. Pakitignan para sigurado na walang anumang bagay na pumipigil sa operasyon ng Voidstrap.</value>
+  </data>
+  <data name="About.Supporters.Monthly" xml:space="preserve">
+    <value>Buwanan</value>
+  </data>
+  <data name="About.Supporters.OneOff" xml:space="preserve">
+    <value>Isang beses</value>
+  </data>
+  <data name="Menu.Voidstrap.Description" xml:space="preserve">
+    <value>I-configure ang mga option na nanuugnay sa pag-uugali ng Voidstrap mismo.</value>
+  </data>
+  <data name="Menu.Voidstrap.Analytics.Title" xml:space="preserve">
+    <value>I-enable ang pag-send ng analitiko</value>
+  </data>
+  <data name="Menu.Voidstrap.Analytics.Description" xml:space="preserve">
+    <value>Ito ay anonima lang at walang masama, promise. Para sa insight na anong kinokolekta namin at bakit, tignan mo ang aming [privacy policy]({0}).</value>
+  </data>
+  <data name="Common.Analytics" xml:space="preserve">
+    <value>Analitika</value>
+  </data>
+  <data name="Menu.FastFlags.Reset.Title" xml:space="preserve">
+    <value>I-balik lahat sa default</value>
   </data>
   <data name="Dialog.Exception.Report" xml:space="preserve">
     <value>Mag-ulat ng mga exception</value>
   </data>
   <data name="Menu.TestMode" xml:space="preserve">
     <value>Testing mode</value>
+    <comment>See the prompt for more context</comment>
+  </data>
+  <data name="Menu.TestMode.Prompt" xml:space="preserve">
+    <value>Pinapadali ang "Test Mode" para paulit-ulit na masubok kung paano ina-apekto ang settings mo sa Roblox.
+
+Habang naka-enable, kusang bubukas ang Roblox pagkatapos isara ang mga settings, at bubuksan ulit ang mga settings pagkatapos isara ang Roblox, sa isang cycle hanggang sa i-disable mo ito.
+
+Gusto mo bang i-enable ang "Test Mode"?</value>
   </data>
   <data name="About.Translators.Description" xml:space="preserve">
     <value>Lahat ng nakalista rito ay maluwag sa loob na nagbigay ng kanilang oras at pagsisikap para tumulong sa pagsasalin ng Voidstrap. Maraming salamat sa inyong lahat!</value>
   </data>
+  <data name="Common.Navigation.Install" xml:space="preserve">
+    <value>I-install</value>
+    <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>
+  </data>
+  <data name="LaunchMenu.Donate" xml:space="preserve">
+    <value>Sumali sa aming Discord server</value>
+    <comment>Call-to-action button</comment>
+  </data>
+  <data name="Paths.Icons" xml:space="preserve">
+    <value>Mga icon</value>
+    <comment>Name of the folder that gets created according to the "create shortcut icons" option. Ensure that it is a valid folder name.</comment>
+  </data>
   <data name="Menu_FlagProfiles_Title" xml:space="preserve">
     <value>Fast Flag backup</value>
+  </data>
+  <data name="Menu_FlagProfiles_Description" xml:space="preserve">
+    <value>I-save at i-load ang Fast Flag Backups.</value>
   </data>
   <data name="Common_FastFlags" xml:space="preserve">
     <value>Fast Flag editor</value>
   </data>
+  <data name="Menu_FastFlagProfiles_Save" xml:space="preserve">
+    <value>I-save ang kasalukuyang flags</value>
+  </data>
   <data name="Menu.FastFlagEditor.ProfilesDescription" xml:space="preserve">
     <value>FFlag backup</value>
+  </data>
+  <data name="Menu.Load" xml:space="preserve">
+    <value>I-load</value>
+  </data>
+  <data name="Bootstrapper.Status.CancelUpgrade" xml:space="preserve">
+    <value>Kinakansela ang pag-upgrade ng Roblox.</value>
+  </data>
+  <data name="Menu.Behaviour.RenameToEurotrucks.Title" xml:space="preserve">
+    <value>Suporta sa Bloxshade</value>
+  </data>
+  <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
+    <value>Para sa pinakamainam na performance, kailangan ng suportadong graphics card.
+Mahalaga ang feature na ito para sa wastong paggana ng shaders.</value>
+  </data>
+  <data name="LaunchMenu.LaunchRobloxStudio" xml:space="preserve">
+    <value>I-launch ang Roblox Studio</value>
   </data>
   <data name="Dialog.Exception.Version" xml:space="preserve">
     <value>Bersyon {0}</value>
   </data>
+  <data name="Bootstrapper.FilesInUse" xml:space="preserve">
+    <value>Sinubukan ng Voidstrap mag-upgrade ng Roblox pero hindi kaya kasi ginagamit pa ang mga file ng Roblox.
+
+Isarado muna ang kahit anong application na maaaring gamitin ang mga file ng Roblox, at mag relaunch.</value>
+    <comment>This is *not* for when Roblox is still running when trying to upgrade. This applies to files being open (i.e. image assets)</comment>
+  </data>
+  <data name="Common.Export" xml:space="preserve">
+    <value>I-export</value>
+    <comment>Currently used under the "Voidstrap" settings tab for the button to export diagnostic data</comment>
+  </data>
+  <data name="Menu.Voidstrap.ExportData.Title" xml:space="preserve">
+    <value>I-export ang diagnostic data</value>
+  </data>
+  <data name="Menu.Voidstrap.ExportData.Description" xml:space="preserve">
+    <value>I-gather ang impormasyon na pwedeng I-upload online para ma-troubleshoot ang iyong nararanasan na problema.</value>
+  </data>
   <data name="Menu.Voidstrap.ExportData.ExportConfig" xml:space="preserve">
     <value>Configuration ng Voidstrap</value>
+    <comment>Label that appears next to a checkbox</comment>
+  </data>
+  <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
+    <value>Lahat ng Voidstrap logs</value>
+    <comment>Label that appears next to a checkbox</comment>
   </data>
   <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
     <value>Maaaring may pumipigil sa Voidstrap na kumonekta sa internet.</value>
@@ -1701,17 +1536,84 @@ Gusto mo bang palitan ang iyong ginustong channel sa {0}?</value>
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
     <value>Nag-time out ang koneksyon, na maaaring senyales ng mahinang internet o pagharang ng firewall.</value>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Baguhin ang deployment at installation settings ng Roblox at Voidstrap.</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Pumili ng deployment channel. Huwag baguhin maliban kung alam mo ang ginagawa mo.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Bersyon</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Mga upgrade ng Roblox</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
+    <value>Kapag naka-disable, hindi mag-uupgrade ang Roblox client sa mas bagong bersyon.</value>
+  </data>
+  <data name="Bootstrapper.Status.Downloading" xml:space="preserve">
+    <value>Dina-download</value>
+  </data>
   <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
     <value>Status ng download ng bootstrapper</value>
+  </data>
+  <data name="Menu.Appearance.BootstrapperDownloading.Description" xml:space="preserve">
+    <value>Palitan ang downloading string. {0} ay package name, {1} ay laki ng downloaded packages at {2} ay kabuuang laki ng packages.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry.Title" xml:space="preserve">
+    <value>I-disable ang Roblox telemetry</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry.Description" xml:space="preserve">
+    <value>Pansin: na-disable lang nito ang bahagi ng Roblox telemetry.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload.Description" xml:space="preserve">
+    <value>Pinapagana ang preload sa karamihan ng textures at fonts (Babala: Maaaring lumawak ang loading time!)</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
+    <value>Pinipigilan ang layered clothing na mag-render sa avatars ng ibang mga manlalaro.</value>
   </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
     <value>Dark mode</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
+    <value>I-activate ang early access DarkMode ng Roblox</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
     <value>Dark mode</value>
   </data>
+  <data name="Menu.FastFlags.Presets.Chromeui.Description" xml:space="preserve">
+    <value>Kapag naka-disable, gagamitin ng Roblox ang lumang top bar.</value>
+  </data>
+  <data name="Menu.FlagProfiles.ClearFlags" xml:space="preserve">
+    <value>Burahin ang Kasalukuyang FFlags</value>
+  </data>
+  <data name="Menu.Deployment.Channel.OutOfDate" xml:space="preserve">
+    <value>Ang channel na ito ay luma na at malamang hindi na ina-update. Mangyaring gumamit ng ibang channel.</value>
+  </data>
+  <data name="Bootstrapper.Dialog.ChannelOutOfDate" xml:space="preserve">
+    <value>Ang channel na kasalukuyan mong ginagamit ({0}) ay luma na at mukhang hindi na tumatanggap ng mga update.\n
+Gusto mo bang lumipat sa default channel ({1})?</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Title" xml:space="preserve">
+    <value>Aksyon sa awtomatikong pagpapalit ng channel</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Description" xml:space="preserve">
+    <value>Maaaring subukan ng Roblox o Voidstrap na palitan ang iyong ginustong channel.</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Automatic" xml:space="preserve">
+    <value>Awtomatikong baguhin</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Prompt" xml:space="preserve">
+    <value>Laging itanong</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Ignore" xml:space="preserve">
+    <value>Huwag palitan</value>
+  </data>
   <data name="Menu.FastFlags.Presets.Categories.IngameMenu" xml:space="preserve">
     <value>Roblox menu</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Categories.IngameMenu.Description" xml:space="preserve">
+    <value>I-debloat ang Roblox menu gamit ang custom toggles</value>
   </data>
   <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Title" xml:space="preserve">
     <value>Pagpili ng wika</value>
@@ -1722,23 +1624,126 @@ Gusto mo bang palitan ang iyong ginustong channel sa {0}?</value>
   <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Title" xml:space="preserve">
     <value>Limitasyon ng frame rate</value>
   </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Title" xml:space="preserve">
+    <value>Pagsasalin ng chat</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Description" xml:space="preserve">
+    <value>Pinapayagang i-disable ang VR mode toggle.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Description" xml:space="preserve">
+    <value>Itinatago ang button para sa pagsusumite ng feedback sa translation quality.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Description" xml:space="preserve">
+    <value>Hindi pinapayagan ang haptic feedback features, gaya ng vibrations para sa controller.</value>
+  </data>
+  <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
+    <value>Sinusubukan ng Roblox na itakda ang iyong channel sa {0}, ngunit ang iyong kasalukuyang ginustong channel ay {1}.
+
+
+Gusto mo bang palitan ang iyong ginustong channel sa {0}?</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Description" xml:space="preserve">
+    <value>Inaalis ang FPS presets sa menu.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Description" xml:space="preserve">
+    <value>Pinapayagan ang mga manlalaro na i-disable ang interface translation.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Description" xml:space="preserve">
+    <value>Hindi pinapayagan ang automatic translation ng chat messages.</value>
+  </data>
   <data name="Menu.FastFlags.Presets.FlagState.Title" xml:space="preserve">
     <value>Status ng flag</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FlagState.Description" xml:space="preserve">
+    <value>Ipakita ang values ng specified flags habang tumatakbo. Bawat flag ay comma separated.</value>
   </data>
   <data name="Menu.Context.PlayerLogs" xml:space="preserve">
     <value>Mga log ng player</value>
   </data>
+  <data name="Menu.Context.PlayerLogs.Description" xml:space="preserve">
+    <value>Ipinapakita ang mga manlalarong sumasali/lumalabas sa server mo.</value>
+  </data>
+  <data name="Common.Type" xml:space="preserve">
+    <value>Uri</value>
+  </data>
   <data name="Common.UserId" xml:space="preserve">
     <value>User ID</value>
+  </data>
+  <data name="Common.Time" xml:space="preserve">
+    <value>Oras</value>
+  </data>
+  <data name="Menu.Channel.VersionHash.Desription" xml:space="preserve">
+    <value>Pilitin ang Voidstrap na mag-download ng bersyon mula sa partikular na hash. Huwag baguhin kung hindi mo alam ang ginagawa nito.</value>
+  </data>
+  <data name="Menu.SaveAndLaunch" xml:space="preserve">
+    <value>I-save at ilunsad</value>
   </data>
   <data name="Menu.FastFlags.Presets.PingBreakdown.Title" xml:space="preserve">
     <value>Breakdown ng ping</value>
   </data>
+  <data name="Menu.FastFlags.Presets.PingBreakdown.Description" xml:space="preserve">
+    <value>Nagpapadala ng detalyadong ping information sa Roblox console.</value>
+  </data>
+  <data name="Bootstrapper.Dialog.NoUpgradeWithoutClient" xml:space="preserve">
+    <value>Hindi nailunsad dahil sa nawawalang client.
+		Paki-enable ang Roblox upgrades.</value>
+  </data>
   <data name="ContextMenu.PlayerLogs.Title" xml:space="preserve">
     <value>Mga log ng player</value>
   </data>
+  <data name="Menu.Channel.Switcher.Unauthorized" xml:space="preserve">
+    <value>Hindi umiiral o pribado ang itinukoy na channel</value>
+  </data>
+  <data name="Boostrapper.Dialog.UnauthorizedChannel" xml:space="preserve">
+    <value>Ang channel na kasalukuyan mong ginagamit ({0}) ay limitado na para sa pampublikong paggamit. Mapupunta ka na sa default channel ({1}).</value>
+  </data>
+  <data name="Menu.Channel.Switcher.Fetching" xml:space="preserve">
+    <value>Kinukuha ang pinakabagong deploy info, mangyaring maghintay...</value>
+  </data>
+  <data name="Common.Message" xml:space="preserve">
+    <value>Mensahe</value>
+  </data>
   <data name="ContextMenu.MessageLogs.Title" xml:space="preserve">
     <value>Mga log ng mensahe</value>
+  </data>
+  <data name="ContextMenu.MessageLogs.Description" xml:space="preserve">
+    <value>Ipinapakita ang mga kamakailang mensahe ng mga manlalaro.</value>
+  </data>
+  <data name="Menu.Behaviour.AnselBanner" xml:space="preserve">
+    <value>Kailangan ng Bloxshade support para sa shaders.</value>
+  </data>
+  <data name="Dialog.Bloxshade.ThankYou" xml:space="preserve">
+    <value>Salamat sa paggamit ng Bloxshade kasama ang Voidstrap</value>
+  </data>
+  <data name="Dialog.Bloxshade.Setting" xml:space="preserve">
+    <value>Naka-enable na ang suporta sa Bloxshade</value>
+  </data>
+  <data name="Common.Profiles" xml:space="preserve">
+    <value>Mga Profile</value>
+  </data>
+  <data name="Common.Open" xml:space="preserve">
+    <value>Buksan</value>
+  </data>
+  <data name="Common.Refresh" xml:space="preserve">
+    <value>I-refresh</value>
+  </data>
+  <data name="Common.CopyText" xml:space="preserve">
+    <value>Kopyahin ang teksto</value>
+  </data>
+  <data name="Menu.Channel.HWAccel.DisableRestart" xml:space="preserve">
+    <value>Idi-disable ang hardware acceleration sa susunod na pagbukas ng Voidstrap.</value>
+  </data>
+  <data name="Menu.Channel.HWAccel.EnableRestart" xml:space="preserve">
+    <value>I-eenable muli ang hardware acceleration sa susunod na pagbukas ng Voidstrap.</value>
+  </data>
+  <data name="Menu.News.LatestUpdates" xml:space="preserve">
+    <value>Pinakabagong mga update at anunsyo</value>
+  </data>
+  <data name="Menu.News.Loading" xml:space="preserve">
+    <value>Niloload ang mga balita...</value>
+  </data>
+  <data name="Menu.News.DialogTitle" xml:space="preserve">
+    <value>Mga Detalye ng Balita</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>I-configure ang mga Linux runtime na ginagamit ng Voidstrap para ilunsad ang Roblox. Ang Sober ang nagpapatakbo ng player, ang Vinegar ang nagpapatakbo ng Studio. Binabago lang ng Voidstrap ang mga opsyon na tahasan mong pinalitan.</value>

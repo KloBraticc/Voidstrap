@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap ไม่สามารถลบเส้นทาง AssetWarp ที่ค้างอยู่ออกจากไฟล์ hosts ของ Windows ได้ Roblox จะโหลดเท็กซ์เจอร์หรือแอสเซ็ตอื่นไม่ได้จนกว่าจะลบออก เรียกใช้ Voidstrap ในฐานะผู้ดูแลระบบเพื่อล้างข้อมูลนี้</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap ไม่สามารถอัปเดตเป็นเวอร์ชั่น {0} โดยอัตโนมัติได้. โปรดอัพเดทด้วยตัวเองเเละใช้งานจากเว็ปไซต์</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>กำลังรออินสแตนซ์อื่นๆ...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>ทั้งสองอย่าง</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>ผู้เล่น</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>ว่าง</value>
@@ -413,6 +422,9 @@
   <data name="ContextMenu.ServerInformation.CopyInstanceId" xml:space="preserve">
     <value>คัดลอก Instance ID</value>
   </data>
+  <data name="ContextMenu.ServerInformation.InstanceId" xml:space="preserve">
+    <value>ID อินสแตนซ์</value>
+  </data>
   <data name="ContextMenu.ServerInformation.Location" xml:space="preserve">
     <value>ตำแหน่งที่ตั้ง</value>
   </data>
@@ -428,6 +440,153 @@
   </data>
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>ชนิด</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>เบราว์เซอร์เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>เพลส {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  เพลส {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>สแกนแล้ว {0} เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>รีเฟรช</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>โหลดเซิร์ฟเวอร์เพิ่ม</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>ซ่อนเซิร์ฟเวอร์ที่เต็ม</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>ค้นหาเมือง ประเทศ หรือ ID เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>ผู้เล่นมากที่สุด</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>ผู้เล่นน้อยที่สุด</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>ปิงต่ำที่สุด</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>เข้าร่วม</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>ปัจจุบัน</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>กำลังโหลดเซิร์ฟเวอร์สาธารณะ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>ไม่พบเซิร์ฟเวอร์สาธารณะ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>เข้าเกมก่อนเปิดเบราว์เซอร์เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>รายการเซิร์ฟเวอร์หยุดชั่วคราวเพราะ Roblox จำกัดจำนวนคำขอ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>ไม่สามารถโหลดเซิร์ฟเวอร์สาธารณะได้</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>โหลดแล้ว {0} เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} จาก {1} ผู้เล่น</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} ผู้เล่น</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
+    <value>ปิง {0} ms, FPS {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>ไม่ทราบ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>ตรงที่สุด</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>ตรงที่สุด</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>ถูกบล็อก</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>ห่างจากคุณประมาณ {0} ms</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>ระบุตำแหน่งแล้ว {0} เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>ระบุตำแหน่งแล้ว {0} จาก {1} เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>กำลังย้ายคุณไปที่ {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>ไม่สามารถเข้าร่วมเซิร์ฟเวอร์นั้นได้</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้ที่ การตั้งค่า &gt; Server Matchmaker เพื่อให้ Voidstrap หาตำแหน่งของแต่ละเซิร์ฟเวอร์ได้</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>ไม่พบตำแหน่งของคุณ จึงเรียงเซิร์ฟเวอร์ตามปิงไม่ได้</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox ไม่ได้เปิดเผยตำแหน่งของเซิร์ฟเวอร์เหล่านี้ ลองอีกครั้งในอีกสักครู่</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ที่พบทั้งหมดอยู่ในดาต้าเซ็นเตอร์ที่คุณบล็อกไว้</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ที่พบทั้งหมดอยู่ไกลจากคุณ matchmaker จึงให้ Roblox เลือกเอง</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>เบราว์เซอร์เกม</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>เล่นต่อ</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>รายการโปรด</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>ค้นหา</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>ค้นหาเกม Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>กำลังโหลดเกม</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>ไม่มีเกมล่าสุดในเซสชันนี้</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>ยังไม่มีเกมโปรดที่บันทึกไว้</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>ค้นหาเกม Roblox ตามชื่อ</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>ไม่พบเกมสำหรับ {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>ไม่สามารถโหลดเกมได้</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} กำลังเล่น</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>เข้าร่วม</value>
   </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>เพิ่ม Fast Flag</value>
@@ -471,11 +630,35 @@
   <data name="Enums.BootstrapperStyle.ClassicFluentDialog" xml:space="preserve">
     <value>Voidstrap (ดั้งเดิม)</value>
   </data>
+  <data name="Enums.BootstrapperStyle.FluentAeroDialog" xml:space="preserve">
+    <value>Voidstrap (กระจก)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2008" xml:space="preserve">
+    <value>รุ่นเก่า (2008 - 2011)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
+    <value>รุ่นเก่า (2011 - 2014)</value>
+  </data>
+  <data name="Enums.CursorType.From2006" xml:space="preserve">
+    <value>2006 (การ์ตูน)</value>
+  </data>
+  <data name="Enums.CursorType.From2013" xml:space="preserve">
+    <value>2013 (เหลี่ยม)</value>
+  </data>
   <data name="Enums.EmojiType.Default" xml:space="preserve">
     <value>ค่าเริ่มต้น (Twemoji)</value>
   </data>
   <data name="Enums.FlagPresets.LightingMode.Default" xml:space="preserve">
     <value>เกมเป็นผู้เลือก</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.Future" xml:space="preserve">
+    <value>Future (ระยะที่ 3)</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.ShadowMap" xml:space="preserve">
+    <value>Shadow Map (ระยะที่ 2)</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.Voxel" xml:space="preserve">
+    <value>Voxel (ระยะที่ 1)</value>
   </data>
   <data name="Enums.ServerType.Private" xml:space="preserve">
     <value>เซิร์ฟเวอร์ส่วนตัว</value>
@@ -504,6 +687,9 @@
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>ม่วง</value>
   </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>เบอร์รี่</value>
+  </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>เขียว</value>
   </data>
@@ -528,6 +714,9 @@
   </data>
   <data name="Menu.About.Contributors" xml:space="preserve">
     <value>ผู้มีส่วนร่วม</value>
+  </data>
+  <data name="Menu.About.Contributors.Code" xml:space="preserve">
+    <value>โค้ด</value>
   </data>
   <data name="Menu.About.Contributors.Description" xml:space="preserve">
     <value>คนเหล่านี้คือคนที่มีส่วนร่วมใน Voidstrap และช่วยพัฒนามันให้เป็นอย่างที่เป็น.</value>
@@ -768,6 +957,12 @@
   <data name="Menu.FastFlags.Title" xml:space="preserve">
     <value>ตั้งค่าเกม Engine</value>
   </data>
+  <data name="Menu.FontFiles" xml:space="preserve">
+    <value>ไฟล์ฟอนต์</value>
+  </data>
+  <data name="Menu.IconFiles" xml:space="preserve">
+    <value>ไฟล์ไอคอน</value>
+  </data>
   <data name="Menu.InstallLocation.CantInstall" xml:space="preserve">
     <value>Voidstrap ไม่สามารถติดตั้งได้ โปรดเลือกพื้นที่การติดตั้งอื่น หรือสามารถใช้พื้นที่การติดตั้งที่เป็นค่าเริ่มต้นได้โดยการกดปุ่ม reset</value>
   </data>
@@ -939,6 +1134,12 @@
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>เลือกใช้ภาษาที่ต้องการ</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>แปลอัตโนมัติ</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>แปลเป็น</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>เลือกภาษาก่อนเริ่มการติดตั้ง</value>
   </data>
@@ -947,6 +1148,18 @@
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>ข้อความบางส่วนอาจไม่ได้รับการแปลเป็นภาษาที่ต้องการ</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>ภาษาแปลอัตโนมัติ</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>แปลอินเทอร์เฟซทั้งหมดของ Voidstrap เป็นภาษาใดก็ได้ ใช้คำแปลในตัวก่อน แล้วแปลข้อความที่เหลือแบบสด</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>แปล Discord RPC อัตโนมัติ</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>แปลข้อความ Discord Rich Presence เป็นภาษาที่เลือกโดยอัตโนมัติ</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>อนุญาตให้ใช้ภาษาที่ Roblox ไม่รองรับได้</value>
@@ -968,6 +1181,9 @@
   </data>
   <data name="Menu.FastFlags.ManagerEnabled.Description" xml:space="preserve">
     <value>การปิดตัวเลือกนี้จะปิดกั้นทุกอย่างที่ถูกตั้งค่าที่นี่จากการเปิดใช้กับ Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.MSAA.Title" xml:space="preserve">
+    <value>คุณภาพการลดรอยหยัก (MSAA)</value>
   </data>
   <data name="Menu.FastFlags.Presets.DisablePostFX.Title" xml:space="preserve">
     <value>ปิดการใช้งานเอฟเฟกต์หลังจากการประมวลผล</value>
@@ -1269,6 +1485,9 @@ Voidstrap จะติดตั้งไว้ที่ "{1}"</value>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>ไม่พร้อมใช้งาน</value>
   </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>ฟีเจอร์นี้ใช้ได้บน Windows เท่านั้น</value>
+  </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>จัดการการตั้งค่าความเข้ากันได้</value>
   </data>
@@ -1333,6 +1552,9 @@ Voidstrap จะติดตั้งไว้ที่ "{1}"</value>
 เมื่อเปิดใช้งาน มันจะเปิด Roblox โดยอัตโนมัติหลังจากปิดการตั้งค่า และจะเปิดการตั้งค่าอีกครั้งหลังจากปิด Roblox ในลูปจนกว่าคุณจะปิดใช้งานมัน
 
 คุณต้องการเปิดใช้งานโหมดทดสอบหรือไม่?</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>ทุกคนในรายชื่อนี้สละเวลาและแรงกายช่วยแปล Voidstrap ขอขอบคุณทุกคนเป็นอย่างยิ่ง!</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>ติดตั้ง</value>
@@ -1420,6 +1642,21 @@ Voidstrap จะติดตั้งไว้ที่ "{1}"</value>
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
     <value>การเชื่อมต่อหมดเวลา, สึ่งอาจเป็นเพราะการเชื่อมต่ออินเทอร์เน็ตที่ไม่ดีหรือการบล็อกไฟร์วอลล์</value>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>เปลี่ยนการตั้งค่าการปรับใช้และการติดตั้งของ Roblox และ Voidstrap</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>ช่องทาง</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>เลือกช่องทางการปรับใช้ อย่าเปลี่ยนหากไม่แน่ใจว่ากำลังทำอะไร</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>เวอร์ชัน</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>อัปเดต Roblox</value>
+  </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>เมื่อปิดใช้งาน ไคลเอนต์ Roblox จะไม่อัปเกรดเป็นเวอร์ชันใหม่</value>
   </data>
@@ -1450,8 +1687,17 @@ Voidstrap จะติดตั้งไว้ที่ "{1}"</value>
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>ป้องกันไม่ให้แสดงเสื้อผ้าเลเยอร์บนอวตารของผู้เล่นคนอื่น</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>โหมดมืด</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>เปิดใช้งาน DarkMode early access ของ Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>การส่งข้อมูลระยะไกล</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>โหมดมืด</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>โหลดล่วงหน้า</value>
@@ -1642,252 +1888,6 @@ Voidstrap จะติดตั้งไว้ที่ "{1}"</value>
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>รายละเอียดข่าว</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap ไม่สามารถลบเส้นทาง AssetWarp ที่ค้างอยู่ออกจากไฟล์ hosts ของ Windows ได้ Roblox จะโหลดเท็กซ์เจอร์หรือแอสเซ็ตอื่นไม่ได้จนกว่าจะลบออก เรียกใช้ Voidstrap ในฐานะผู้ดูแลระบบเพื่อล้างข้อมูลนี้</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>ทั้งสองอย่าง</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>ผู้เล่น</value>
-  </data>
-  <data name="ContextMenu.ServerInformation.InstanceId" xml:space="preserve">
-    <value>ID อินสแตนซ์</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>เบราว์เซอร์เซิร์ฟเวอร์</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>เพลส {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  เพลส {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>สแกนแล้ว {0} เซิร์ฟเวอร์</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>รีเฟรช</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>โหลดเซิร์ฟเวอร์เพิ่ม</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>ซ่อนเซิร์ฟเวอร์ที่เต็ม</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>ค้นหาเมือง ประเทศ หรือ ID เซิร์ฟเวอร์</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>ผู้เล่นมากที่สุด</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>ผู้เล่นน้อยที่สุด</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>ปิงต่ำที่สุด</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>เข้าร่วม</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>ปัจจุบัน</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>กำลังโหลดเซิร์ฟเวอร์สาธารณะ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>ไม่พบเซิร์ฟเวอร์สาธารณะ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>เข้าเกมก่อนเปิดเบราว์เซอร์เซิร์ฟเวอร์</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>รายการเซิร์ฟเวอร์หยุดชั่วคราวเพราะ Roblox จำกัดจำนวนคำขอ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>ไม่สามารถโหลดเซิร์ฟเวอร์สาธารณะได้</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>โหลดแล้ว {0} เซิร์ฟเวอร์</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0} จาก {1} ผู้เล่น</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>{0} ผู้เล่น</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
-    <value>ปิง {0} ms, FPS {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>ไม่ทราบ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>ตรงที่สุด</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>ตรงที่สุด</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>ถูกบล็อก</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>ห่างจากคุณประมาณ {0} ms</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>ระบุตำแหน่งแล้ว {0} เซิร์ฟเวอร์</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>ระบุตำแหน่งแล้ว {0} จาก {1} เซิร์ฟเวอร์</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>กำลังย้ายคุณไปที่ {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>ไม่สามารถเข้าร่วมเซิร์ฟเวอร์นั้นได้</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>ลงชื่อเข้าใช้ที่ การตั้งค่า &gt; Server Matchmaker เพื่อให้ Voidstrap หาตำแหน่งของแต่ละเซิร์ฟเวอร์ได้</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>ไม่พบตำแหน่งของคุณ จึงเรียงเซิร์ฟเวอร์ตามปิงไม่ได้</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox ไม่ได้เปิดเผยตำแหน่งของเซิร์ฟเวอร์เหล่านี้ ลองอีกครั้งในอีกสักครู่</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>เซิร์ฟเวอร์ที่พบทั้งหมดอยู่ในดาต้าเซ็นเตอร์ที่คุณบล็อกไว้</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>เซิร์ฟเวอร์ที่พบทั้งหมดอยู่ไกลจากคุณ matchmaker จึงให้ Roblox เลือกเอง</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>เบราว์เซอร์เกม</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>เล่นต่อ</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>รายการโปรด</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>ค้นหา</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>ค้นหาเกม Roblox</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>กำลังโหลดเกม</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>ไม่มีเกมล่าสุดในเซสชันนี้</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>ยังไม่มีเกมโปรดที่บันทึกไว้</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>ค้นหาเกม Roblox ตามชื่อ</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>ไม่พบเกมสำหรับ {0}</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>ไม่สามารถโหลดเกมได้</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>{0} กำลังเล่น</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>เข้าร่วม</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.FluentAeroDialog" xml:space="preserve">
-    <value>Voidstrap (กระจก)</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.LegacyDialog2008" xml:space="preserve">
-    <value>รุ่นเก่า (2008 - 2011)</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
-    <value>รุ่นเก่า (2011 - 2014)</value>
-  </data>
-  <data name="Enums.CursorType.From2006" xml:space="preserve">
-    <value>2006 (การ์ตูน)</value>
-  </data>
-  <data name="Enums.CursorType.From2013" xml:space="preserve">
-    <value>2013 (เหลี่ยม)</value>
-  </data>
-  <data name="Enums.FlagPresets.LightingMode.Future" xml:space="preserve">
-    <value>Future (ระยะที่ 3)</value>
-  </data>
-  <data name="Enums.FlagPresets.LightingMode.ShadowMap" xml:space="preserve">
-    <value>Shadow Map (ระยะที่ 2)</value>
-  </data>
-  <data name="Enums.FlagPresets.LightingMode.Voxel" xml:space="preserve">
-    <value>Voxel (ระยะที่ 1)</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>เบอร์รี่</value>
-  </data>
-  <data name="Menu.About.Contributors.Code" xml:space="preserve">
-    <value>โค้ด</value>
-  </data>
-  <data name="Menu.FontFiles" xml:space="preserve">
-    <value>ไฟล์ฟอนต์</value>
-  </data>
-  <data name="Menu.IconFiles" xml:space="preserve">
-    <value>ไฟล์ไอคอน</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>แปลอัตโนมัติ</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>แปลเป็น</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>ภาษาแปลอัตโนมัติ</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>แปลอินเทอร์เฟซทั้งหมดของ Voidstrap เป็นภาษาใดก็ได้ ใช้คำแปลในตัวก่อน แล้วแปลข้อความที่เหลือแบบสด</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>แปล Discord RPC อัตโนมัติ</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>แปลข้อความ Discord Rich Presence เป็นภาษาที่เลือกโดยอัตโนมัติ</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.MSAA.Title" xml:space="preserve">
-    <value>คุณภาพการลดรอยหยัก (MSAA)</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>ฟีเจอร์นี้ใช้ได้บน Windows เท่านั้น</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>ทุกคนในรายชื่อนี้สละเวลาและแรงกายช่วยแปล Voidstrap ขอขอบคุณทุกคนเป็นอย่างยิ่ง!</value>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>เปลี่ยนการตั้งค่าการปรับใช้และการติดตั้งของ Roblox และ Voidstrap</value>
-  </data>
-  <data name="Common.Channel" xml:space="preserve">
-    <value>ช่องทาง</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>เลือกช่องทางการปรับใช้ อย่าเปลี่ยนหากไม่แน่ใจว่ากำลังทำอะไร</value>
-  </data>
-  <data name="Common.Version" xml:space="preserve">
-    <value>เวอร์ชัน</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>อัปเดต Roblox</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>โหมดมืด</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>การส่งข้อมูลระยะไกล</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>โหมดมืด</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>กำหนดค่ารันไทม์ Linux ที่ Voidstrap ใช้เปิด Roblox โดย Sober ใช้เล่นเกม Vinegar ใช้เปิด Studio Voidstrap จะเปลี่ยนเฉพาะตัวเลือกที่คุณแทนที่อย่างชัดเจนเท่านั้น</value>

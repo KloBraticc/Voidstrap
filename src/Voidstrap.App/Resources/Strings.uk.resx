@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap не вдалося видалити залишкову маршрутизацію AssetWarp з файлу hosts Windows. Roblox не зможе завантажувати текстури та інші ресурси, доки її не буде видалено. Запустіть Voidstrap від імені адміністратора, щоб очистити її.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap не зміг автоматично оновитися до версії {0}. Будь ласка, оновіть його вручну, завантаживши та запустивши з вебсайту.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Чекаємо на інші інстанції...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Обидва</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Гравець</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Порожній</value>
@@ -416,6 +425,9 @@
   <data name="ContextMenu.ServerInformation.CopyInstanceId" xml:space="preserve">
     <value>Скопіювати "Instance ID"</value>
   </data>
+  <data name="ContextMenu.ServerInformation.InstanceId" xml:space="preserve">
+    <value>ID екземпляра</value>
+  </data>
   <data name="ContextMenu.ServerInformation.Location" xml:space="preserve">
     <value>Локація</value>
   </data>
@@ -431,6 +443,153 @@
   </data>
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>Тип</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Оглядач серверів</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Місце {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Місце {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>Проскановано серверів: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Оновити</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Завантажити більше серверів</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Сховати заповнені сервери</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Пошук за містом, країною або ID сервера</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Найбільше гравців</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Найменше гравців</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Найменший пінг</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Приєднатися</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Поточний</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Завантаження публічних серверів</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Публічні сервери не знайдено</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Приєднайтеся до гри, перш ніж відкривати оглядач серверів</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Список серверів призупинено, бо Roblox обмежує запити</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Не вдалося завантажити публічні сервери</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>Завантажено серверів: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} з {1} гравців</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>Гравців: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
+    <value>Пінг {0} мс, FPS {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Невідомо</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Найкращий збіг</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Найкращий збіг</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Заблоковано</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Приблизно {0} мс від Вас</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Знайдено серверів: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>Знайдено {0} з {1} серверів</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Переміщуємо Вас на {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Не вдалося приєднатися до цього сервера</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Увійдіть у Налаштування &gt; Server Matchmaker, щоб Voidstrap міг визначити, де розташований кожен сервер</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Не вдалося визначити Ваше розташування, тому сервери не можна впорядкувати за пінгом</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox не повідомив, де розташовані ці сервери, спробуйте ще раз за мить</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Усі знайдені сервери розташовані в датацентрі, який Ви заблокували</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Усі знайдені сервери далеко від Вас, тож матчмейкер дозволив би Roblox вибрати самому</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Оглядач ігор</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Продовжити</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Обране</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Пошук</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Пошук ігор Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Завантаження ігор</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>У цьому сеансі немає нещодавніх ігор</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Немає збережених обраних ігор</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Знайдіть гру Roblox за назвою</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Ігор за запитом {0} не знайдено</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Не вдалося завантажити ігри</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>Грають: {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Приєднатися</value>
   </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>Додати Fast Flag</value>
@@ -467,6 +626,9 @@
   </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>Кінець 2015</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.ByfronDialog" xml:space="preserve">
+    <value>Підробний Byfron (2023)</value>
   </data>
   <data name="Enums.BootstrapperStyle.ClassicFluentDialog" xml:space="preserve">
     <value>Voidstrap (Класичний)</value>
@@ -536,6 +698,9 @@
   </data>
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>Фіолетовий</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Ягідна</value>
   </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>Зелений</value>
@@ -982,6 +1147,12 @@
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>Оберіть бажану мову</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Автопереклад</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Перекласти на</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>Оберіть мову до того, як продовжити встановлення.</value>
   </data>
@@ -990,6 +1161,18 @@
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>Деякі тексти можуть бути не перекладені вибраною мовою.</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Мова автоперекладу</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Перекладіть увесь інтерфейс Voidstrap будь-якою мовою. Спершу використовуються вбудовані переклади, а решта тексту перекладається на льоту.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Автоматично перекладати Discord RPC</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Автоматично перекладає текст Discord Rich Presence вибраною мовою.</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>Дозволити використовувати не підтримувану мову в Roblox</value>
@@ -1320,6 +1503,9 @@ Voidstrap встановлено на "{1}".</value>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Недоступно</value>
   </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Ця функція доступна лише у Windows.</value>
+  </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>Керувати налаштуваннями сумісності</value>
   </data>
@@ -1384,6 +1570,9 @@ Voidstrap встановлено на "{1}".</value>
 Поки він увімкнений, він автоматично запускатиме Roblox після закриття Налаштувань і знову відкриватиме Налаштування після закриття Roblox, у циклі, доки ви не вимкнете його.
 
 Бажаєте увімкнути тестовий режим?</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Усі перелічені тут люди безкоштовно присвятили свій час і зусилля, щоб допомогти перекласти Voidstrap. Величезне дякуємо всім!</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Встановити</value>
@@ -1471,6 +1660,21 @@ Voidstrap встановлено на "{1}".</value>
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
     <value>Час з'єднання вичерпано, що може вказувати на погане інтернет-з'єднання або блокування брандмауером.</value>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Змініть параметри розгортання та встановлення Roblox і Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Канал</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Виберіть канал розгортання. Не змінюйте його, якщо не знаєте, що робите.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Версія</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Оновлення Roblox</value>
+  </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>Коли вимкнено, клієнт Roblox не оновлюватиметься до нової версії.</value>
   </data>
@@ -1501,8 +1705,17 @@ Voidstrap встановлено на "{1}".</value>
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>Запобігає рендерингу багатошарового одягу на аватарах інших гравців.</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Темний режим</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>Активує ранній доступ до DarkMode Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Телеметрія</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Темний режим</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>Попереднє завантаження</value>
@@ -1693,219 +1906,6 @@ Voidstrap встановлено на "{1}".</value>
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Деталі новини</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap не вдалося видалити залишкову маршрутизацію AssetWarp з файлу hosts Windows. Roblox не зможе завантажувати текстури та інші ресурси, доки її не буде видалено. Запустіть Voidstrap від імені адміністратора, щоб очистити її.</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>Обидва</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>Гравець</value>
-  </data>
-  <data name="ContextMenu.ServerInformation.InstanceId" xml:space="preserve">
-    <value>ID екземпляра</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>Оглядач серверів</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>Місце {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  Місце {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>Проскановано серверів: {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>Оновити</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>Завантажити більше серверів</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>Сховати заповнені сервери</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>Пошук за містом, країною або ID сервера</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>Найбільше гравців</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>Найменше гравців</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>Найменший пінг</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>Приєднатися</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>Поточний</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>Завантаження публічних серверів</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>Публічні сервери не знайдено</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>Приєднайтеся до гри, перш ніж відкривати оглядач серверів</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>Список серверів призупинено, бо Roblox обмежує запити</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>Не вдалося завантажити публічні сервери</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>Завантажено серверів: {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0} з {1} гравців</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>Гравців: {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
-    <value>Пінг {0} мс, FPS {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>Невідомо</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>Найкращий збіг</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>Найкращий збіг</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>Заблоковано</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>Приблизно {0} мс від Вас</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>Знайдено серверів: {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>Знайдено {0} з {1} серверів</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>Переміщуємо Вас на {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>Не вдалося приєднатися до цього сервера</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>Увійдіть у Налаштування &gt; Server Matchmaker, щоб Voidstrap міг визначити, де розташований кожен сервер</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>Не вдалося визначити Ваше розташування, тому сервери не можна впорядкувати за пінгом</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox не повідомив, де розташовані ці сервери, спробуйте ще раз за мить</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>Усі знайдені сервери розташовані в датацентрі, який Ви заблокували</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>Усі знайдені сервери далеко від Вас, тож матчмейкер дозволив би Roblox вибрати самому</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>Оглядач ігор</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>Продовжити</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>Обране</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>Пошук</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>Пошук ігор Roblox</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>Завантаження ігор</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>У цьому сеансі немає нещодавніх ігор</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>Немає збережених обраних ігор</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>Знайдіть гру Roblox за назвою</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>Ігор за запитом {0} не знайдено</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>Не вдалося завантажити ігри</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>Грають: {0}</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>Приєднатися</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.ByfronDialog" xml:space="preserve">
-    <value>Підробний Byfron (2023)</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Ягідна</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>Автопереклад</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>Перекласти на</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>Мова автоперекладу</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>Перекладіть увесь інтерфейс Voidstrap будь-якою мовою. Спершу використовуються вбудовані переклади, а решта тексту перекладається на льоту.</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>Автоматично перекладати Discord RPC</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>Автоматично перекладає текст Discord Rich Presence вибраною мовою.</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>Ця функція доступна лише у Windows.</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Усі перелічені тут люди безкоштовно присвятили свій час і зусилля, щоб допомогти перекласти Voidstrap. Величезне дякуємо всім!</value>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>Змініть параметри розгортання та встановлення Roblox і Voidstrap.</value>
-  </data>
-  <data name="Common.Channel" xml:space="preserve">
-    <value>Канал</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>Виберіть канал розгортання. Не змінюйте його, якщо не знаєте, що робите.</value>
-  </data>
-  <data name="Common.Version" xml:space="preserve">
-    <value>Версія</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>Оновлення Roblox</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>Темний режим</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Телеметрія</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>Темний режим</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>Налаштуйте середовища Linux, у яких Voidstrap запускає Roblox. Sober запускає плеєр, Vinegar запускає Studio. Voidstrap змінює лише ті параметри, які Ви явно перевизначите.</value>

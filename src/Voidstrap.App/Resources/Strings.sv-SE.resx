@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap kunde inte ta bort kvarvarande AssetWarp-routning från Windows hosts-fil. Roblox kan inte läsa in texturer eller andra resurser förrän den har tagits bort. Kör Voidstrap som administratör för att rensa den.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap kunde inte automatiskt uppdatera till version {0}. Uppdatera Roblox manuellt genom att ladda ner och köra Roblox från webbsidan.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Väntar på andra instanser...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Båda</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Spelare</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Tom</value>
@@ -429,6 +438,150 @@ Klicka för mer information</value>
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>Typ</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Serverbläddrare</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Plats {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Plats {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} servrar skannade</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Uppdatera</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Läs in fler servrar</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Dölj fulla servrar</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Sök stad, land eller server-ID</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Flest spelare</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Minst spelare</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Lägst ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Gå med</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Nuvarande</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Läser in offentliga servrar</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Inga offentliga servrar hittades</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Gå med i ett spel innan du öppnar serverbläddraren</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Serverlistan är pausad eftersom Roblox begränsar förfrågningar</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Kunde inte läsa in offentliga servrar</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} servrar inlästa</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} av {1} spelare</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} spelare</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Okänd</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Bästa matchning</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Bästa matchning</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Blockerad</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Ungefär {0} ms från dig</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>{0} servrar lokaliserade hittills</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{0} av {1} servrar lokaliserade</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Flyttar dig till {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Kunde inte gå med i den servern</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Logga in via Inställningar &gt; Server Matchmaker så att Voidstrap kan hitta var varje server finns</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Din plats kunde inte hittas, så servrarna kan inte sorteras efter ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox avslöjade inte var de här servrarna finns, försök igen om en stund</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Alla hittade servrar finns i ett datacenter som du har blockerat</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Alla hittade servrar ligger långt från dig, matchmakern skulle låta Roblox välja i stället</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Spelbläddrare</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Fortsätt</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Favoriter</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Sök</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Sök Roblox-spel</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Läser in spel</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Inga senaste spel i den här sessionen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Inga favoritspel sparade</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Sök efter ett Roblox-spel med namn</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Inga spel hittades för {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Kunde inte läsa in spel</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} spelar</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Gå med</value>
+  </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>Lägg till Fast Flag</value>
   </data>
@@ -524,6 +677,9 @@ Om det inte har det, rapportera gärna detta undantag med ett [GitHub-ärende]({
   </data>
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>Lila</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Bär</value>
   </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>Grön</value>
@@ -966,6 +1122,12 @@ Om du väljer "Nej" ignoreras denna varning och installationen fortsätter.</val
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>Välj föredraget språk</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Automatisk översättning</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Översätt till</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>Välj ett språk innan du fortsätter med installationen.</value>
   </data>
@@ -974,6 +1136,18 @@ Om du väljer "Nej" ignoreras denna varning och installationen fortsätter.</val
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>Vissa texter kanske inte är översatta till önskat språk.</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Språk för automatisk översättning</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Översätt hela Voidstrap-gränssnittet till valfritt språk. Inbyggda översättningar används först och resten av texten översätts direkt.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Översätt Discord-RPC automatiskt</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Översätter texten i Discord Rich Presence automatiskt till det valda språket.</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>Tillåt användning av Roblox-språk som inte stöds</value>
@@ -1304,6 +1478,9 @@ Ta manuellt bort Voidstrap.exe från installationsplatsen eller försök starta 
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Inte tillgänglig</value>
   </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Den här funktionen finns bara på Windows.</value>
+  </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>Hantera kompatibilitetsinställningar</value>
   </data>
@@ -1368,6 +1545,9 @@ Ta manuellt bort Voidstrap.exe från installationsplatsen eller försök starta 
 När testläge är aktiverat kommer Voidstrap automatiskt att starta Roblox efter att du stänger inställningsmenyn, och kommer sedan öppna inställningsmenyn igen varje gång du stänger Roblox, tills du inaktiverar testläget.
 
 Vill du aktivera testläge?</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Alla som listas här har generöst lagt ner sin tid och sitt arbete på att översätta Voidstrap. Ett enormt tack till alla!</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Installera</value>
@@ -1452,6 +1632,18 @@ Var vänlig och stäng applikationer som kan använda Roblox filer, och starta s
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
     <value>Anslutningen tog för lång tid, vilket kan peka på en dålig internetuppkoppling eller en block från din brandvägg.</value>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Ändra distributions- och installationsinställningar för Roblox och Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kanal</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Välj distributionskanal. Ändra inte om du inte vet vad du gör.</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Roblox-uppdateringar</value>
+  </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>När det är inaktiverat kommer Roblox-klienten inte att uppgraderas till en nyare version.</value>
   </data>
@@ -1482,8 +1674,17 @@ Var vänlig och stäng applikationer som kan använda Roblox filer, och starta s
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>Förhindrar att skiktad klädsel renderas på andra spelares avatarer.</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Mörkt läge</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>Aktiverar Robloxs early access DarkMode</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetri</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Mörkt läge</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>Förinläsning</value>
@@ -1671,207 +1872,6 @@ Vill du byta din föredragna kanal till {0}?</value>
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Nyhetsdetaljer</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap kunde inte ta bort kvarvarande AssetWarp-routning från Windows hosts-fil. Roblox kan inte läsa in texturer eller andra resurser förrän den har tagits bort. Kör Voidstrap som administratör för att rensa den.</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>Båda</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>Spelare</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>Serverbläddrare</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>Plats {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  Plats {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>{0} servrar skannade</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>Uppdatera</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>Läs in fler servrar</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>Dölj fulla servrar</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>Sök stad, land eller server-ID</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>Flest spelare</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>Minst spelare</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>Lägst ping</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>Gå med</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>Nuvarande</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>Läser in offentliga servrar</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>Inga offentliga servrar hittades</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>Gå med i ett spel innan du öppnar serverbläddraren</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>Serverlistan är pausad eftersom Roblox begränsar förfrågningar</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>Kunde inte läsa in offentliga servrar</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>{0} servrar inlästa</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0} av {1} spelare</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>{0} spelare</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>Okänd</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>Bästa matchning</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>Bästa matchning</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>Blockerad</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>Ungefär {0} ms från dig</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>{0} servrar lokaliserade hittills</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>{0} av {1} servrar lokaliserade</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>Flyttar dig till {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>Kunde inte gå med i den servern</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>Logga in via Inställningar &gt; Server Matchmaker så att Voidstrap kan hitta var varje server finns</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>Din plats kunde inte hittas, så servrarna kan inte sorteras efter ping</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox avslöjade inte var de här servrarna finns, försök igen om en stund</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>Alla hittade servrar finns i ett datacenter som du har blockerat</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>Alla hittade servrar ligger långt från dig, matchmakern skulle låta Roblox välja i stället</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>Spelbläddrare</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>Fortsätt</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>Favoriter</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>Sök</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>Sök Roblox-spel</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>Läser in spel</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>Inga senaste spel i den här sessionen</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>Inga favoritspel sparade</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>Sök efter ett Roblox-spel med namn</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>Inga spel hittades för {0}</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>Kunde inte läsa in spel</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>{0} spelar</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>Gå med</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Bär</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>Automatisk översättning</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>Översätt till</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>Språk för automatisk översättning</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>Översätt hela Voidstrap-gränssnittet till valfritt språk. Inbyggda översättningar används först och resten av texten översätts direkt.</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>Översätt Discord-RPC automatiskt</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>Översätter texten i Discord Rich Presence automatiskt till det valda språket.</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>Den här funktionen finns bara på Windows.</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Alla som listas här har generöst lagt ner sin tid och sitt arbete på att översätta Voidstrap. Ett enormt tack till alla!</value>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>Ändra distributions- och installationsinställningar för Roblox och Voidstrap.</value>
-  </data>
-  <data name="Common.Channel" xml:space="preserve">
-    <value>Kanal</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>Välj distributionskanal. Ändra inte om du inte vet vad du gör.</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>Roblox-uppdateringar</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>Mörkt läge</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Telemetri</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>Mörkt läge</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>Konfigurera de Linux-miljöer som Voidstrap startar Roblox med. Sober kör spelaren, Vinegar kör Studio. Voidstrap ändrar bara alternativ som du uttryckligen åsidosätter.</value>

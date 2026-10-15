@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap نتوانست مسیر باقی‌ماندهٔ AssetWarp را از فایل hosts ویندوز حذف کند. تا زمانی که حذف نشود، Roblox نمی‌تواند بافت‌ها یا دیگر دارایی‌ها را بارگیری کند. برای پاک‌سازی، Voidstrap را با دسترسی مدیر اجرا کنید.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>بلاکسترپ نتوانست خود را به صورت خودکار به نسخه {0} به روزرسانی کند. لطفاً با دانلود و اجرای آن از وب سایت، آن را به صورت دستی به روز کنید.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>در حال صبر کردن برای موارد دیگر...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>هر دو</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>بازیکن</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>خالی</value>
@@ -435,6 +444,153 @@
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>نوع</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>مرورگر سرور</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>مکان {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  مکان {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} سرور بررسی شد</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>تازه‌سازی</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>بارگیری سرورهای بیشتر</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>پنهان کردن سرورهای پر</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>جست‌وجوی شهر، کشور یا شناسهٔ سرور</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>بیشترین بازیکن</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>کمترین بازیکن</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>کمترین پینگ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>پیوستن</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>فعلی</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>در حال بارگیری سرورهای عمومی</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>هیچ سرور عمومی پیدا نشد</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>پیش از باز کردن مرورگر سرور، وارد یک بازی شوید</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>فهرست سرورها متوقف شده است، زیرا Roblox درخواست‌ها را محدود می‌کند</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>بارگیری سرورهای عمومی ممکن نشد</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} سرور بارگیری شد</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} از {1} بازیکن</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} بازیکن</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
+    <value>پینگ {0} ms، FPS {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>نامشخص</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>بهترین گزینه</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>بهترین گزینه</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>مسدود</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>حدود {0} ms از شما</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>تاکنون موقعیت {0} سرور مشخص شده است</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>موقعیت {0} از {1} سرور مشخص شد</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>در حال انتقال شما به {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>پیوستن به آن سرور ممکن نشد</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>از تنظیمات &gt; Server Matchmaker وارد شوید تا Voidstrap بتواند محل هر سرور را پیدا کند</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>موقعیت شما پیدا نشد، بنابراین سرورها بر اساس پینگ مرتب نمی‌شوند</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox محل این سرورها را نشان نمی‌دهد، کمی بعد دوباره تلاش کنید</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>همهٔ سرورهای پیداشده در مراکز داده‌ای هستند که مسدود کرده‌اید</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>همهٔ سرورهای پیداشده از شما دور هستند، بنابراین انتخاب به Roblox سپرده می‌شود</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>مرورگر بازی</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>ادامه</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>علاقه‌مندی‌ها</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>جست‌وجو</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>جست‌وجوی بازی‌های Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>در حال بارگیری بازی‌ها</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>در این نشست بازی اخیری وجود ندارد</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>هیچ بازی موردعلاقه‌ای ذخیره نشده است</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>جست‌وجوی بازی‌های Roblox بر اساس نام</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>هیچ بازی‌ای برای {0} پیدا نشد</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>بارگیری بازی‌ها ممکن نشد</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} نفر در حال بازی</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>پیوستن</value>
+  </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>اضافه کردن فست فلگس</value>
   </data>
@@ -479,6 +635,12 @@
   </data>
   <data name="Enums.BootstrapperStyle.FluentAeroDialog" xml:space="preserve">
     <value>بلاکسترپ (شیشه ای)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2008" xml:space="preserve">
+    <value>قدیمی (2008 - 2011)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
+    <value>قدیمی (2011 - 2014)</value>
   </data>
   <data name="Enums.BootstrapperStyle.ProgressDialog" xml:space="preserve">
     <value>روبلاکس (~2014)</value>
@@ -557,6 +719,9 @@
   </data>
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>بنفش</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>توت</value>
   </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>سبز</value>
@@ -879,6 +1044,9 @@
   <data name="Menu.Integrations.Custom.Description" xml:space="preserve">
     <value>در اینجا شما میتواند نرم‌افزار های دیگری را همزمان با روبلاکس باز کنید.</value>
   </data>
+  <data name="Menu.Integrations.Custom.LaunchArgs" xml:space="preserve">
+    <value>آرگومان‌های اجرا</value>
+  </data>
   <data name="Menu.Integrations.Custom.LaunchArgs.Placeholder" xml:space="preserve">
     <value>روبلاکس باز است!</value>
   </data>
@@ -1003,6 +1171,12 @@
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>انتخاب کردن زبان موردنیاز</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>ترجمهٔ خودکار</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>ترجمه به</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>یک زبان انتخاب کنید قبل از ادامه دادن نصب.</value>
   </data>
@@ -1011,6 +1185,18 @@
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>ممکن است برخی متون به زبان دلخواه ترجمه نشده باشند.</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>زبان ترجمهٔ خودکار</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>کل رابط Voidstrap را به هر زبانی ترجمه کنید. ابتدا ترجمه‌های داخلی استفاده می‌شوند و بقیهٔ متن به‌صورت زنده ترجمه می‌شود.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>ترجمهٔ خودکار Discord RPC</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>متن Discord Rich Presence را به‌طور خودکار به زبان انتخاب‌شده ترجمه می‌کند.</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>اجازه استفاده از زبان های پشتیبانی نشده روبلاکس</value>
@@ -1341,6 +1527,9 @@
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>در دسترس نیست</value>
   </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>این قابلیت فقط در ویندوز در دسترس است.</value>
+  </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>مدیریت تنظیمات سازگاری</value>
   </data>
@@ -1405,6 +1594,9 @@
 در حالی که فعال است، پس از بستن تنظیمات، روبلاکس به طور خودکار راه‌اندازی می شود و پس از بستن روبلاکس، در یک چرخه تا زمانی که آنرا غیرفعال نکنید، تنظیمات را دوباره باز می کند.
 
 آیا می خواهید حالت تست را فعال کنید؟</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>همهٔ کسانی که نامشان اینجا آمده، سخاوتمندانه وقت و تلاش خود را برای کمک به ترجمهٔ Voidstrap گذاشته‌اند. از همهٔ شما صمیمانه سپاسگزاریم!</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>نصب</value>
@@ -1486,6 +1678,12 @@
     <value>تمامی لاگ های بلاکسترپ</value>
     <comment>Label that appears next to a checkbox</comment>
   </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>ممکن است چیزی مانع اتصال Voidstrap به اینترنت شود.</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>مهلت اتصال به پایان رسید؛ ممکن است اتصال اینترنت ضعیف باشد یا دیوارهٔ آتش آن را مسدود کرده باشد.</value>
+  </data>
   <data name="Menu.Channel.Description" xml:space="preserve">
     <value>تغییر تنظیمات استقرار و نصب Roblox و Voidstrap.</value>
   </data>
@@ -1534,8 +1732,17 @@
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>از رندر شدن لباس‌های لایه‌ای روی آواتارهای سایر بازیکنان جلوگیری می‌کند.</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>حالت تیره</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>DarkMode دسترسی زودهنگام Roblox را فعال می‌کند</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>تله‌متری</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>حالت تیره</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>بارگذاری اولیه</value>
@@ -1727,213 +1934,6 @@
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>جزئیات خبر</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap نتوانست مسیر باقی‌ماندهٔ AssetWarp را از فایل hosts ویندوز حذف کند. تا زمانی که حذف نشود، Roblox نمی‌تواند بافت‌ها یا دیگر دارایی‌ها را بارگیری کند. برای پاک‌سازی، Voidstrap را با دسترسی مدیر اجرا کنید.</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>هر دو</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>بازیکن</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>مرورگر سرور</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>مکان {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  مکان {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>{0} سرور بررسی شد</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>تازه‌سازی</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>بارگیری سرورهای بیشتر</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>پنهان کردن سرورهای پر</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>جست‌وجوی شهر، کشور یا شناسهٔ سرور</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>بیشترین بازیکن</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>کمترین بازیکن</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>کمترین پینگ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>پیوستن</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>فعلی</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>در حال بارگیری سرورهای عمومی</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>هیچ سرور عمومی پیدا نشد</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>پیش از باز کردن مرورگر سرور، وارد یک بازی شوید</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>فهرست سرورها متوقف شده است، زیرا Roblox درخواست‌ها را محدود می‌کند</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>بارگیری سرورهای عمومی ممکن نشد</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>{0} سرور بارگیری شد</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0} از {1} بازیکن</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>{0} بازیکن</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
-    <value>پینگ {0} ms، FPS {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>نامشخص</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>بهترین گزینه</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>بهترین گزینه</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>مسدود</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>حدود {0} ms از شما</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>تاکنون موقعیت {0} سرور مشخص شده است</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>موقعیت {0} از {1} سرور مشخص شد</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>در حال انتقال شما به {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>پیوستن به آن سرور ممکن نشد</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>از تنظیمات &gt; Server Matchmaker وارد شوید تا Voidstrap بتواند محل هر سرور را پیدا کند</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>موقعیت شما پیدا نشد، بنابراین سرورها بر اساس پینگ مرتب نمی‌شوند</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox محل این سرورها را نشان نمی‌دهد، کمی بعد دوباره تلاش کنید</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>همهٔ سرورهای پیداشده در مراکز داده‌ای هستند که مسدود کرده‌اید</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>همهٔ سرورهای پیداشده از شما دور هستند، بنابراین انتخاب به Roblox سپرده می‌شود</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>مرورگر بازی</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>ادامه</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>علاقه‌مندی‌ها</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>جست‌وجو</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>جست‌وجوی بازی‌های Roblox</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>در حال بارگیری بازی‌ها</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>در این نشست بازی اخیری وجود ندارد</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>هیچ بازی موردعلاقه‌ای ذخیره نشده است</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>جست‌وجوی بازی‌های Roblox بر اساس نام</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>هیچ بازی‌ای برای {0} پیدا نشد</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>بارگیری بازی‌ها ممکن نشد</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>{0} نفر در حال بازی</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>پیوستن</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.LegacyDialog2008" xml:space="preserve">
-    <value>قدیمی (2008 - 2011)</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
-    <value>قدیمی (2011 - 2014)</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>توت</value>
-  </data>
-  <data name="Menu.Integrations.Custom.LaunchArgs" xml:space="preserve">
-    <value>آرگومان‌های اجرا</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>ترجمهٔ خودکار</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>ترجمه به</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>زبان ترجمهٔ خودکار</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>کل رابط Voidstrap را به هر زبانی ترجمه کنید. ابتدا ترجمه‌های داخلی استفاده می‌شوند و بقیهٔ متن به‌صورت زنده ترجمه می‌شود.</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>ترجمهٔ خودکار Discord RPC</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>متن Discord Rich Presence را به‌طور خودکار به زبان انتخاب‌شده ترجمه می‌کند.</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>این قابلیت فقط در ویندوز در دسترس است.</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>همهٔ کسانی که نامشان اینجا آمده، سخاوتمندانه وقت و تلاش خود را برای کمک به ترجمهٔ Voidstrap گذاشته‌اند. از همهٔ شما صمیمانه سپاسگزاریم!</value>
-  </data>
-  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
-    <value>ممکن است چیزی مانع اتصال Voidstrap به اینترنت شود.</value>
-  </data>
-  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
-    <value>مهلت اتصال به پایان رسید؛ ممکن است اتصال اینترنت ضعیف باشد یا دیوارهٔ آتش آن را مسدود کرده باشد.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>حالت تیره</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>تله‌متری</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>حالت تیره</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>محیط‌های اجرای لینوکسی را که Voidstrap برای اجرای Roblox استفاده می‌کند پیکربندی کنید. Sober بازیکن را اجرا می‌کند و Vinegar استودیو را. Voidstrap فقط گزینه‌هایی را تغییر می‌دهد که شما صراحتاً جایگزین کرده‌اید.</value>

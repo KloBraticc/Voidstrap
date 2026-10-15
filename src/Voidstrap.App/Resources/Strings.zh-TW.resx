@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap 無法從 Windows hosts 檔案中移除殘留的 AssetWarp 路由。移除之前，Roblox 將無法載入材質或其他資源。請以系統管理員身分執行 Voidstrap 進行清理。</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap 未能自動更新到版本 {0}。請自行到官方網站下載最新版本並執行它來手動更新。</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>正在等待其他Roblox程式...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>兩者</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>玩家</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>空白</value>
@@ -432,6 +441,153 @@
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>類型</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>伺服器瀏覽器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>地點 {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  地點 {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>已掃描 {0} 個伺服器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>重新整理</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>載入更多伺服器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>隱藏已滿的伺服器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>搜尋城市、國家或伺服器 ID</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>玩家最多</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>玩家最少</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>延遲最低</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>加入</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>目前</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>正在載入公開伺服器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>找不到公開伺服器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>請先加入遊戲再開啟伺服器瀏覽器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Roblox 正在限制請求，伺服器清單已暫停</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>無法載入公開伺服器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>已載入 {0} 個伺服器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} / {1} 名玩家</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} 名玩家</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
+    <value>延遲 {0} ms，FPS {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>最佳配對</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>最佳配對</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>已封鎖</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>距離你約 {0} ms</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>目前已定位 {0} 個伺服器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>已定位 {0} / {1} 個伺服器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>正在將你轉移到 {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>無法加入該伺服器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>請在 設定 &gt; Server Matchmaker 中登入，讓 Voidstrap 能找到每個伺服器的位置</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>無法確定你的位置，因此無法依延遲排序伺服器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox 未公開這些伺服器的位置，請稍後再試</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>找到的所有伺服器都位於你封鎖的資料中心</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>找到的所有伺服器都離你很遠，因此配對器會讓 Roblox 自行選擇</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>遊戲瀏覽器</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>繼續</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>最愛</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>搜尋</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>搜尋 Roblox 遊戲</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>正在載入遊戲</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>本次工作階段沒有最近玩過的遊戲</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>沒有已儲存的最愛遊戲</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>依名稱搜尋 Roblox 遊戲</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>找不到與 {0} 相關的遊戲</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>無法載入遊戲</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} 人正在玩</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>加入</value>
+  </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>新增Fast Flag</value>
   </data>
@@ -533,6 +689,9 @@
   </data>
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>紫色</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>莓果</value>
   </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>綠色</value>
@@ -982,6 +1141,12 @@
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>選擇啟動器語言</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>自動翻譯</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>翻譯為</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>在繼續安裝之前，請選擇一種語言。</value>
   </data>
@@ -990,6 +1155,18 @@
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>部分文字可能尚未翻譯為所選語言。</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>自動翻譯語言</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>將整個 Voidstrap 介面翻譯成任何語言。優先使用內建翻譯，其餘文字即時翻譯。</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>自動翻譯 Discord RPC</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>自動將 Discord Rich Presence 文字翻譯成所選語言。</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>允許使用Roblox官方不支援的語言</value>
@@ -1321,6 +1498,9 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>無法使用</value>
   </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>此功能僅適用於 Windows。</value>
+  </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>管理相容性設定</value>
   </data>
@@ -1386,6 +1566,9 @@ Voidstrap 安裝在 "{1}"。</value>
 啟用後，它將在關閉設定視窗後自動啟動 Roblox，並在關閉 Roblox 後重新打開設定視窗，如此循環，直到您關閉該功能。
 
 您想要啟用測試模式嗎？</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>這裡列出的每一位都慷慨付出了時間與心力協助翻譯 Voidstrap。由衷感謝大家！</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>安裝</value>
@@ -1473,6 +1656,21 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
     <value>連接超時。這可能是因為較差的網路或被防火牆阻止連線。</value>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>變更 Roblox 和 Voidstrap 的部署與安裝設定。</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>頻道</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>選擇部署頻道。如果不清楚用途，請勿變更。</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>更新 Roblox</value>
+  </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>停用後，Roblox 客戶端不會升級到新版本。</value>
   </data>
@@ -1503,8 +1701,17 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>防止分層服裝在其他玩家頭像上渲染。</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>深色模式</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>啟用 Roblox 搶先體驗的 DarkMode</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>遙測</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>深色模式</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>預載</value>
@@ -1692,213 +1899,6 @@ Voidstrap 安裝在 "{1}"。</value>
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>新聞詳情</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap 無法從 Windows hosts 檔案中移除殘留的 AssetWarp 路由。移除之前，Roblox 將無法載入材質或其他資源。請以系統管理員身分執行 Voidstrap 進行清理。</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>兩者</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>玩家</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>伺服器瀏覽器</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>地點 {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  地點 {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>已掃描 {0} 個伺服器</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>重新整理</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>載入更多伺服器</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>隱藏已滿的伺服器</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>搜尋城市、國家或伺服器 ID</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>玩家最多</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>玩家最少</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>延遲最低</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>加入</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>目前</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>正在載入公開伺服器</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>找不到公開伺服器</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>請先加入遊戲再開啟伺服器瀏覽器</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>Roblox 正在限制請求，伺服器清單已暫停</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>無法載入公開伺服器</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>已載入 {0} 個伺服器</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0} / {1} 名玩家</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>{0} 名玩家</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
-    <value>延遲 {0} ms，FPS {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>未知</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>最佳配對</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>最佳配對</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>已封鎖</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>距離你約 {0} ms</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>目前已定位 {0} 個伺服器</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>已定位 {0} / {1} 個伺服器</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>正在將你轉移到 {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>無法加入該伺服器</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>請在 設定 &gt; Server Matchmaker 中登入，讓 Voidstrap 能找到每個伺服器的位置</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>無法確定你的位置，因此無法依延遲排序伺服器</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox 未公開這些伺服器的位置，請稍後再試</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>找到的所有伺服器都位於你封鎖的資料中心</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>找到的所有伺服器都離你很遠，因此配對器會讓 Roblox 自行選擇</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>遊戲瀏覽器</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>繼續</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>最愛</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>搜尋</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>搜尋 Roblox 遊戲</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>正在載入遊戲</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>本次工作階段沒有最近玩過的遊戲</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>沒有已儲存的最愛遊戲</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>依名稱搜尋 Roblox 遊戲</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>找不到與 {0} 相關的遊戲</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>無法載入遊戲</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>{0} 人正在玩</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>加入</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>莓果</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>自動翻譯</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>翻譯為</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>自動翻譯語言</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>將整個 Voidstrap 介面翻譯成任何語言。優先使用內建翻譯，其餘文字即時翻譯。</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>自動翻譯 Discord RPC</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>自動將 Discord Rich Presence 文字翻譯成所選語言。</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>此功能僅適用於 Windows。</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>這裡列出的每一位都慷慨付出了時間與心力協助翻譯 Voidstrap。由衷感謝大家！</value>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>變更 Roblox 和 Voidstrap 的部署與安裝設定。</value>
-  </data>
-  <data name="Common.Channel" xml:space="preserve">
-    <value>頻道</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>選擇部署頻道。如果不清楚用途，請勿變更。</value>
-  </data>
-  <data name="Common.Version" xml:space="preserve">
-    <value>版本</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>更新 Roblox</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>深色模式</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>遙測</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>深色模式</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>設定 Voidstrap 用來啟動 Roblox 的 Linux 執行環境。Sober 執行玩家用戶端，Vinegar 執行 Studio。Voidstrap 只會變更你明確覆寫的選項。</value>

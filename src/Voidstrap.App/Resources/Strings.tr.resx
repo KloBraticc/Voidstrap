@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap, Windows hosts dosyasında kalan AssetWarp yönlendirmesini kaldıramadı. Bu kaldırılana kadar Roblox doku veya diğer varlıkları yükleyemez. Temizlemek için Voidstrap'i yönetici olarak çalıştırın.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap {0} sürümüne otomatik olarak güncellenemedi. Lütfen Voidstrap'ı web sitesinden indirip çalıştırarak manuel olarak güncelleyin.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Diğer istemciler için bekleniliyor...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>İkisi de</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Oyuncu</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Boş</value>
@@ -432,6 +441,150 @@ Daha fazla bilgi için tıklayınız</value>
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>Tür</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Sunucu tarayıcısı</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Yer {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Yer {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} sunucu tarandı</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Yenile</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Daha fazla sunucu yükle</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Dolu sunucuları gizle</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Şehir, ülke veya sunucu kimliği ara</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>En çok oyuncu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>En az oyuncu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>En düşük ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Katıl</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Mevcut</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Herkese açık sunucular yükleniyor</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Herkese açık sunucu bulunamadı</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Sunucu tarayıcısını açmadan önce bir oyuna katılın</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Roblox istekleri sınırladığı için sunucu listesi duraklatıldı</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Herkese açık sunucular yüklenemedi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} sunucu yüklendi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0}/{1} oyuncu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} oyuncu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Bilinmiyor</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>En iyi eşleşme</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>En iyi eşleşme</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Engellendi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Size yaklaşık {0} ms uzaklıkta</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Şu ana kadar {0} sunucunun konumu bulundu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{1} sunucudan {0} tanesinin konumu bulundu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>{0} sunucusuna taşınıyorsunuz</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>O sunucuya katılınamadı</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Voidstrap'in her sunucunun nerede olduğunu bulabilmesi için Ayarlar &gt; Server Matchmaker bölümünden giriş yapın</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Konumunuz bulunamadı, bu yüzden sunucular pinge göre sıralanamıyor</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox bu sunucuların nerede olduğunu açıklamadı, biraz sonra tekrar deneyin</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Bulunan tüm sunucular engellediğiniz bir veri merkezinde</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Bulunan tüm sunucular size uzak, eşleştirici seçimi Roblox'a bırakır</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Oyun tarayıcısı</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Devam et</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Favoriler</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Ara</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Roblox oyunlarında ara</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Oyunlar yükleniyor</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Bu oturumda son oynanan oyun yok</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Kayıtlı favori oyun yok</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Bir Roblox oyununu adına göre arayın</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>{0} için oyun bulunamadı</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Oyunlar yüklenemedi</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} kişi oynuyor</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Katıl</value>
+  </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>Fast Flag ekle</value>
   </data>
@@ -533,6 +686,9 @@ Değilse, lütfen bu sorunu oluşturulan kayıt dosyasının bir kopyasıyla bir
   </data>
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>Mor</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Böğürtlen</value>
   </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>Yeşil</value>
@@ -975,6 +1131,12 @@ Aşağıdaki konuma değiştirilmesi önerilir:
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>Tercih edilen dili seçiniz</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Otomatik çeviri</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Şu dile çevir</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>Kuruma devam etmeden önce bir dil seçiniz.</value>
   </data>
@@ -983,6 +1145,18 @@ Aşağıdaki konuma değiştirilmesi önerilir:
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>Bazı metinler tercih edilen dile çevrilmemiş olabilir.</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Otomatik çeviri dili</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Voidstrap arayüzünün tamamını istediğiniz dile çevirin. Önce yerleşik çeviriler kullanılır, kalan metin canlı olarak çevrilir.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Discord RPC'lerini otomatik çevir</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Discord Rich Presence metnini seçilen dile otomatik olarak çevirir.</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>Roblox'un desteklemediği dillerin kullanımına izin verin</value>
@@ -1311,6 +1485,9 @@ Lütfen manuel olarak yükleme yolundan Voidstrap.exe'yi silin veya sisteminizi 
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Mevcut değil</value>
   </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Bu özellik yalnızca Windows'ta kullanılabilir.</value>
+  </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>Uyumluluk ayarlarını yönetin</value>
   </data>
@@ -1375,6 +1552,9 @@ Lütfen manuel olarak yükleme yolundan Voidstrap.exe'yi silin veya sisteminizi 
 Etkinken, kapatana kadar bir döngü içerisinde Ayarları kapattıktan sonra otomatik olarak Roblox'u başlatacak, ve Roblox'u kapattıktan sonra Ayarları yeniden açacak.
 
 Test modu açmak ister misiniz?</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Burada listelenen herkes Voidstrap'in çevrilmesine yardım etmek için cömertçe zamanını ve emeğini verdi. Hepsine çok teşekkürler!</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Yükle</value>
@@ -1462,6 +1642,21 @@ Lütfen Roblox'un dosyalarını kullanabilecek olan uygulamaları kapatın, ve t
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
     <value>Bağlantı zaman aşımına uğradı, bu da zayıf bir internet bağlantısının veya bir güvenlik duvarı engelinin işareti olabilir.</value>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Roblox ve Voidstrap için dağıtım ve yükleme ayarlarını değiştirin.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kanal</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Dağıtım kanalını seçin. Ne yaptığınızı bilmiyorsanız değiştirmeyin.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Sürüm</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Roblox güncellemeleri</value>
+  </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>Devre dışı bırakıldığında Roblox istemcisi daha yeni bir sürüme yükseltilmeyecek.</value>
   </data>
@@ -1492,8 +1687,17 @@ Lütfen Roblox'un dosyalarını kullanabilecek olan uygulamaları kapatın, ve t
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>Diğer oyuncuların avatarlarında katmanlı kıyafetlerin görüntülenmesini önler.</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Karanlık mod</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>Roblox'un erken erişim DarkMode özelliğini etkinleştirir</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetri</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Karanlık mod</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>Ön yükleme</value>
@@ -1684,210 +1888,6 @@ Tercih ettiğiniz kanalı {0} olarak değiştirmek istiyor musunuz?</value>
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Haber Ayrıntıları</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap, Windows hosts dosyasında kalan AssetWarp yönlendirmesini kaldıramadı. Bu kaldırılana kadar Roblox doku veya diğer varlıkları yükleyemez. Temizlemek için Voidstrap'i yönetici olarak çalıştırın.</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>İkisi de</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>Oyuncu</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>Sunucu tarayıcısı</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>Yer {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  Yer {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>{0} sunucu tarandı</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>Yenile</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>Daha fazla sunucu yükle</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>Dolu sunucuları gizle</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>Şehir, ülke veya sunucu kimliği ara</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>En çok oyuncu</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>En az oyuncu</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>En düşük ping</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>Katıl</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>Mevcut</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>Herkese açık sunucular yükleniyor</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>Herkese açık sunucu bulunamadı</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>Sunucu tarayıcısını açmadan önce bir oyuna katılın</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>Roblox istekleri sınırladığı için sunucu listesi duraklatıldı</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>Herkese açık sunucular yüklenemedi</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>{0} sunucu yüklendi</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0}/{1} oyuncu</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>{0} oyuncu</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>Bilinmiyor</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>En iyi eşleşme</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>En iyi eşleşme</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>Engellendi</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>Size yaklaşık {0} ms uzaklıkta</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>Şu ana kadar {0} sunucunun konumu bulundu</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>{1} sunucudan {0} tanesinin konumu bulundu</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>{0} sunucusuna taşınıyorsunuz</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>O sunucuya katılınamadı</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>Voidstrap'in her sunucunun nerede olduğunu bulabilmesi için Ayarlar &gt; Server Matchmaker bölümünden giriş yapın</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>Konumunuz bulunamadı, bu yüzden sunucular pinge göre sıralanamıyor</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox bu sunucuların nerede olduğunu açıklamadı, biraz sonra tekrar deneyin</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>Bulunan tüm sunucular engellediğiniz bir veri merkezinde</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>Bulunan tüm sunucular size uzak, eşleştirici seçimi Roblox'a bırakır</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>Oyun tarayıcısı</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>Devam et</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>Favoriler</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>Ara</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>Roblox oyunlarında ara</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>Oyunlar yükleniyor</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>Bu oturumda son oynanan oyun yok</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>Kayıtlı favori oyun yok</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>Bir Roblox oyununu adına göre arayın</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>{0} için oyun bulunamadı</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>Oyunlar yüklenemedi</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>{0} kişi oynuyor</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>Katıl</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Böğürtlen</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>Otomatik çeviri</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>Şu dile çevir</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>Otomatik çeviri dili</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>Voidstrap arayüzünün tamamını istediğiniz dile çevirin. Önce yerleşik çeviriler kullanılır, kalan metin canlı olarak çevrilir.</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>Discord RPC'lerini otomatik çevir</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>Discord Rich Presence metnini seçilen dile otomatik olarak çevirir.</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>Bu özellik yalnızca Windows'ta kullanılabilir.</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Burada listelenen herkes Voidstrap'in çevrilmesine yardım etmek için cömertçe zamanını ve emeğini verdi. Hepsine çok teşekkürler!</value>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>Roblox ve Voidstrap için dağıtım ve yükleme ayarlarını değiştirin.</value>
-  </data>
-  <data name="Common.Channel" xml:space="preserve">
-    <value>Kanal</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>Dağıtım kanalını seçin. Ne yaptığınızı bilmiyorsanız değiştirmeyin.</value>
-  </data>
-  <data name="Common.Version" xml:space="preserve">
-    <value>Sürüm</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>Roblox güncellemeleri</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>Karanlık mod</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Telemetri</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>Karanlık mod</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>Voidstrap'in Roblox'u başlattığı Linux çalışma ortamlarını yapılandırın. Sober oynatıcıyı, Vinegar ise Studio'yu çalıştırır. Voidstrap yalnızca açıkça geçersiz kıldığınız seçenekleri değiştirir.</value>

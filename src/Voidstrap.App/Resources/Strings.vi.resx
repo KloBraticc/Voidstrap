@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap không thể xóa tuyến AssetWarp còn sót lại khỏi tệp hosts của Windows. Roblox sẽ không thể tải texture hoặc các tài nguyên khác cho đến khi tuyến này được xóa. Hãy chạy Voidstrap với quyền quản trị viên để dọn dẹp.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap không thể tự động cập nhật lên phiên bản {0}. Xin hãy tải về chương trình cài đặt và cập nhật thủ công.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Đang đợi các tiến trình khác...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Cả hai</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Người chơi</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Trống</value>
@@ -432,6 +441,150 @@ Bấm để biết thêm thông tin</value>
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>Loại</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Trình duyệt máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Địa điểm {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Địa điểm {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>Đã quét {0} máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Làm mới</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Tải thêm máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Ẩn máy chủ đã đầy</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Tìm thành phố, quốc gia hoặc ID máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Nhiều người chơi nhất</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Ít người chơi nhất</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Ping thấp nhất</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Tham gia</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Hiện tại</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Đang tải máy chủ công khai</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Không tìm thấy máy chủ công khai</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Hãy vào một trò chơi trước khi mở trình duyệt máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Danh sách máy chủ tạm dừng vì Roblox đang giới hạn yêu cầu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Không thể tải máy chủ công khai</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>Đã tải {0} máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} trên {1} người chơi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} người chơi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Không rõ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Phù hợp nhất</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Phù hợp nhất</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Đã chặn</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Cách bạn khoảng {0} ms</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Đã định vị {0} máy chủ cho đến nay</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>Đã định vị {0} trên {1} máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Đang chuyển bạn đến {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Không thể tham gia máy chủ đó</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Đăng nhập tại Cài đặt &gt; Server Matchmaker để Voidstrap có thể tìm vị trí của từng máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Không thể xác định vị trí của bạn nên không thể sắp xếp máy chủ theo ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox không cho biết các máy chủ này ở đâu, hãy thử lại sau ít phút</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Tất cả máy chủ tìm thấy đều nằm ở trung tâm dữ liệu mà bạn đã chặn</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Tất cả máy chủ tìm thấy đều ở xa bạn nên matchmaker sẽ để Roblox tự chọn</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Trình duyệt trò chơi</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Tiếp tục</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Yêu thích</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Tìm kiếm</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Tìm trò chơi Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Đang tải trò chơi</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Không có trò chơi gần đây trong phiên này</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Chưa lưu trò chơi yêu thích nào</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Tìm trò chơi Roblox theo tên</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Không tìm thấy trò chơi nào cho {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Không thể tải trò chơi</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} đang chơi</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Tham gia</value>
+  </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>Thêm Fast Flag</value>
   </data>
@@ -479,6 +632,15 @@ Nếu chưa, xin hay báo cáo lỗi này qua [GitHub issue]({1}) với bản co
   </data>
   <data name="Enums.BootstrapperStyle.LegacyDialog2008" xml:space="preserve">
     <value>Legacy (2008-2011)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
+    <value>Cũ (2011 - 2014)</value>
+  </data>
+  <data name="Enums.CursorType.From2006" xml:space="preserve">
+    <value>2006 (Hoạt hình)</value>
+  </data>
+  <data name="Enums.CursorType.From2013" xml:space="preserve">
+    <value>2013 (Góc cạnh)</value>
   </data>
   <data name="Enums.EmojiType.Default" xml:space="preserve">
     <value>Mặc định (Twemoji)</value>
@@ -530,6 +692,9 @@ Nếu chưa, xin hay báo cáo lỗi này qua [GitHub issue]({1}) với bản co
   </data>
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>Tím</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Quả mọng</value>
   </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>Xanh lá</value>
@@ -980,6 +1145,12 @@ Chọn 'Không' sẽ bỏ qua cảnh báo này và tiếp tục cài đặt.</va
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>Chọn ngôn ngữ ưa thích</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Tự động dịch</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Dịch sang</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>Chọn một ngôn ngữ trước khi tiếp tục cài đặt.</value>
   </data>
@@ -988,6 +1159,18 @@ Chọn 'Không' sẽ bỏ qua cảnh báo này và tiếp tục cài đặt.</va
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>Một số văn bản có thể chưa được dịch sang ngôn ngữ ưu tiên.</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Ngôn ngữ tự động dịch</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Dịch toàn bộ giao diện Voidstrap sang bất kỳ ngôn ngữ nào. Bản dịch có sẵn được dùng trước, phần văn bản còn lại được dịch trực tiếp.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Tự động dịch Discord RPC</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Tự động dịch văn bản Discord Rich Presence sang ngôn ngữ đã chọn.</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>Cho phép sử dụng các ngôn ngữ không được hỗ trợ</value>
@@ -1319,6 +1502,9 @@ Vui lòng xóa thủ công Voidstrap.exe khỏi vị trí cài đặt hoặc th�
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Không có sẵn</value>
   </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Tính năng này chỉ có trên Windows.</value>
+  </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>Quản lý cài đặt tương thích</value>
   </data>
@@ -1383,6 +1569,9 @@ Vui lòng xóa thủ công Voidstrap.exe khỏi vị trí cài đặt hoặc th�
 Khi được bật, nó sẽ tự động khởi chạy Roblox sau khi đóng Cài Đặt, và mở lại Cài Đặt sau khi đóng Roblox, lặp lại theo chu kỳ cho đến khi bạn tắt chế độ này.
 
 Bạn có muốn bật chế độ thử nghiệm không?</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Tất cả những người có tên ở đây đã hào phóng dành thời gian và công sức để giúp dịch Voidstrap. Xin chân thành cảm ơn tất cả mọi người!</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Cài đặt</value>
@@ -1470,6 +1659,21 @@ Xin hãy đóng các ứng dụng đang sử dụng các tập tin của Roblox,
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
     <value>Kết nối đã bị gián đoạn, có thể là bởi kết nối mạng không ổn định hoặc là đã bị chặn bởi tường lửa.</value>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Thay đổi cài đặt triển khai và cài đặt cho Roblox và Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kênh</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Chọn kênh triển khai. Đừng thay đổi nếu bạn không biết mình đang làm gì.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Phiên bản</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Cập nhật Roblox</value>
+  </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>Khi tắt, client Roblox sẽ không nâng cấp lên phiên bản mới hơn.</value>
   </data>
@@ -1500,8 +1704,17 @@ Xin hãy đóng các ứng dụng đang sử dụng các tập tin của Roblox,
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>Ngăn quần áo phân lớp hiển thị trên avatar của người chơi khác.</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Chế độ tối</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>Kích hoạt DarkMode truy cập sớm của Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Đo từ xa</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Chế độ tối</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>Tải sẵn</value>
@@ -1689,219 +1902,6 @@ Bạn có muốn chuyển kênh ưa thích sang {0} không?</value>
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Chi tiết tin tức</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap không thể xóa tuyến AssetWarp còn sót lại khỏi tệp hosts của Windows. Roblox sẽ không thể tải texture hoặc các tài nguyên khác cho đến khi tuyến này được xóa. Hãy chạy Voidstrap với quyền quản trị viên để dọn dẹp.</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>Cả hai</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>Người chơi</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>Trình duyệt máy chủ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>Địa điểm {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  Địa điểm {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>Đã quét {0} máy chủ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>Làm mới</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>Tải thêm máy chủ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>Ẩn máy chủ đã đầy</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>Tìm thành phố, quốc gia hoặc ID máy chủ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>Nhiều người chơi nhất</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>Ít người chơi nhất</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>Ping thấp nhất</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>Tham gia</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>Hiện tại</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>Đang tải máy chủ công khai</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>Không tìm thấy máy chủ công khai</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>Hãy vào một trò chơi trước khi mở trình duyệt máy chủ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>Danh sách máy chủ tạm dừng vì Roblox đang giới hạn yêu cầu</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>Không thể tải máy chủ công khai</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>Đã tải {0} máy chủ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0} trên {1} người chơi</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>{0} người chơi</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>Không rõ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>Phù hợp nhất</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>Phù hợp nhất</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>Đã chặn</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>Cách bạn khoảng {0} ms</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>Đã định vị {0} máy chủ cho đến nay</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>Đã định vị {0} trên {1} máy chủ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>Đang chuyển bạn đến {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>Không thể tham gia máy chủ đó</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>Đăng nhập tại Cài đặt &gt; Server Matchmaker để Voidstrap có thể tìm vị trí của từng máy chủ</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>Không thể xác định vị trí của bạn nên không thể sắp xếp máy chủ theo ping</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox không cho biết các máy chủ này ở đâu, hãy thử lại sau ít phút</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>Tất cả máy chủ tìm thấy đều nằm ở trung tâm dữ liệu mà bạn đã chặn</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>Tất cả máy chủ tìm thấy đều ở xa bạn nên matchmaker sẽ để Roblox tự chọn</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>Trình duyệt trò chơi</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>Tiếp tục</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>Yêu thích</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>Tìm kiếm</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>Tìm trò chơi Roblox</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>Đang tải trò chơi</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>Không có trò chơi gần đây trong phiên này</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>Chưa lưu trò chơi yêu thích nào</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>Tìm trò chơi Roblox theo tên</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>Không tìm thấy trò chơi nào cho {0}</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>Không thể tải trò chơi</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>{0} đang chơi</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>Tham gia</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
-    <value>Cũ (2011 - 2014)</value>
-  </data>
-  <data name="Enums.CursorType.From2006" xml:space="preserve">
-    <value>2006 (Hoạt hình)</value>
-  </data>
-  <data name="Enums.CursorType.From2013" xml:space="preserve">
-    <value>2013 (Góc cạnh)</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Quả mọng</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>Tự động dịch</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>Dịch sang</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>Ngôn ngữ tự động dịch</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>Dịch toàn bộ giao diện Voidstrap sang bất kỳ ngôn ngữ nào. Bản dịch có sẵn được dùng trước, phần văn bản còn lại được dịch trực tiếp.</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>Tự động dịch Discord RPC</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>Tự động dịch văn bản Discord Rich Presence sang ngôn ngữ đã chọn.</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>Tính năng này chỉ có trên Windows.</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Tất cả những người có tên ở đây đã hào phóng dành thời gian và công sức để giúp dịch Voidstrap. Xin chân thành cảm ơn tất cả mọi người!</value>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>Thay đổi cài đặt triển khai và cài đặt cho Roblox và Voidstrap.</value>
-  </data>
-  <data name="Common.Channel" xml:space="preserve">
-    <value>Kênh</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>Chọn kênh triển khai. Đừng thay đổi nếu bạn không biết mình đang làm gì.</value>
-  </data>
-  <data name="Common.Version" xml:space="preserve">
-    <value>Phiên bản</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>Cập nhật Roblox</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>Chế độ tối</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Đo từ xa</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>Chế độ tối</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>Cấu hình môi trường chạy Linux mà Voidstrap dùng để khởi chạy Roblox. Sober chạy trình chơi, Vinegar chạy Studio. Voidstrap chỉ thay đổi những tùy chọn bạn ghi đè rõ ràng.</value>

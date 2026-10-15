@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap ei voinut poistaa jäljelle jäänyttä AssetWarp-reititystä Windowsin hosts-tiedostosta. Roblox ei voi ladata tekstuureja tai muita resursseja ennen kuin se poistetaan. Suorita Voidstrap järjestelmänvalvojana poistaaksesi sen.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap ei pystynyt automaattisesti päivittämään versioon {0}. Ole hyvä ja päivitä se manuaalisesti lataamalla ja suorittamalla sen verkkosivulta.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Odotetaan muita instansseja...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Molemmat</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Pelaaja</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Tyhjä</value>
@@ -429,6 +438,150 @@ Klikkaa saadaksesi lisätietoja</value>
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>Tyyppi</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Palvelinselain</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Paikka {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Paikka {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} palvelinta skannattu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Päivitä</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Lataa lisää palvelimia</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Piilota täydet palvelimet</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Hae kaupunkia, maata tai palvelimen tunnusta</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Eniten pelaajia</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Vähiten pelaajia</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Pienin ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Liity</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Nykyinen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Ladataan julkisia palvelimia</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Julkisia palvelimia ei löytynyt</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Liity peliin ennen kuin avaat palvelinselaimen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Palvelinluettelo on keskeytetty, koska Roblox rajoittaa pyyntöjä</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Julkisia palvelimia ei voitu ladata</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} palvelinta ladattu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0}/{1} pelaajaa</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} pelaajaa</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Tuntematon</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Paras osuma</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Paras osuma</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Estetty</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Noin {0} ms sinusta</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>{0} palvelinta paikannettu tähän mennessä</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{0}/{1} palvelinta paikannettu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Siirretään sinut kohteeseen {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Palvelimeen ei voitu liittyä</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Kirjaudu sisään kohdassa Asetukset &gt; Server Matchmaker, jotta Voidstrap voi selvittää jokaisen palvelimen sijainnin</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Sijaintiasi ei löytynyt, joten palvelimia ei voi järjestää pingin mukaan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox ei kertonut, missä nämä palvelimet sijaitsevat, yritä hetken päästä uudelleen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Kaikki löydetyt palvelimet ovat datakeskuksessa, jonka olet estänyt</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Kaikki löydetyt palvelimet ovat kaukana sinusta, joten matchmaker antaisi Robloxin valita</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Peliselain</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Jatka</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Suosikit</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Hae</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Hae Roblox-pelejä</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Ladataan pelejä</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Ei viimeaikaisia pelejä tässä istunnossa</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Ei tallennettuja suosikkipelejä</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Hae Roblox-peliä nimellä</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Haulla {0} ei löytynyt pelejä</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Pelejä ei voitu ladata</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} pelaa</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Liity</value>
+  </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>Lisää Fast Flag</value>
   </data>
@@ -527,6 +680,9 @@ Jos se ei ole korjattu, ole hyvä ja raportoi tämä poikkeus [GitHub-issuen]({1
   </data>
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>Violetti</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Marja</value>
   </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>Vihreä</value>
@@ -976,6 +1132,12 @@ Vastaus 'Ei' ohittaa tämän varoituksen ja jatkaa asentamista.</value>
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>Valitse tahdottu kieli</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Automaattinen käännös</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Käännä kielelle</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>Valitse kieli ennen asennuksen jatkamista.</value>
   </data>
@@ -984,6 +1146,18 @@ Vastaus 'Ei' ohittaa tämän varoituksen ja jatkaa asentamista.</value>
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>Joitakin tekstejä ei välttämättä ole käännetty haluamallesi kielelle.</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Automaattisen käännöksen kieli</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Käännä koko Voidstrapin käyttöliittymä mille tahansa kielelle. Valmiita käännöksiä käytetään ensin, ja loput tekstistä käännetään reaaliajassa.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Käännä Discord RPC:t automaattisesti</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Kääntää Discord Rich Presencen tekstin automaattisesti valitulle kielelle.</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>Salli tukemattomien Roblox-kielien käyttö</value>
@@ -1314,6 +1488,9 @@ Ole hyvä ja poista Voidstrap.exe manuaalisesti asennussijainnista tai käynnist
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Ei saatavilla</value>
   </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Tämä ominaisuus on saatavilla vain Windowsissa.</value>
+  </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>Hallitse yhteensopivuusasetuksia</value>
   </data>
@@ -1378,6 +1555,9 @@ Ole hyvä ja poista Voidstrap.exe manuaalisesti asennussijainnista tai käynnist
 Kun se on päällä, se käynnistää Robloxin automaattisesti, kun suljet asetukset ja avaa asetukset kun suljet Robloxin, jatkuvassa kierteessä kunnes otat sen pois käytöstä.
 
 Haluaisitko ottaa testaustilan käyttöön?</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Kaikki tässä luetellut ovat anteliaasti käyttäneet aikaansa ja vaivaansa Voidstrapin kääntämiseen. Valtava kiitos kaikille!</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Asentaa</value>
@@ -1465,6 +1645,21 @@ Sulje kaikki sovellukset, jotka saattavat käyttää Robloxin tiedostoja, ja kä
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
     <value>Yhteys aikakatkaistiin, mikä voisi merkitä huonoa internetyhteyttä tai palomuurin estoa.</value>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Muuta Robloxin ja Voidstrapin jakelu- ja asennusasetuksia.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kanava</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Valitse jakelukanava. Älä muuta sitä, ellet tiedä mitä teet.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Versio</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Robloxin päivitykset</value>
+  </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>Kun pois käytöstä, Roblox-asiakas ei päivity uudempaan versioon.</value>
   </data>
@@ -1495,8 +1690,17 @@ Sulje kaikki sovellukset, jotka saattavat käyttää Robloxin tiedostoja, ja kä
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>Estää kerrosvaatteiden renderöinnin muiden pelaajien avatareihin.</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Tumma tila</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>Aktivoi Robloxin varhaisen pääsyn DarkModen</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetria</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Tumma tila</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>Esilataus</value>
@@ -1684,210 +1888,6 @@ Haluatko vaihtaa suosikkikanavaksi {0}?</value>
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Uutisen tiedot</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap ei voinut poistaa jäljelle jäänyttä AssetWarp-reititystä Windowsin hosts-tiedostosta. Roblox ei voi ladata tekstuureja tai muita resursseja ennen kuin se poistetaan. Suorita Voidstrap järjestelmänvalvojana poistaaksesi sen.</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>Molemmat</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>Pelaaja</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>Palvelinselain</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>Paikka {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  Paikka {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>{0} palvelinta skannattu</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>Päivitä</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>Lataa lisää palvelimia</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>Piilota täydet palvelimet</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>Hae kaupunkia, maata tai palvelimen tunnusta</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>Eniten pelaajia</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>Vähiten pelaajia</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>Pienin ping</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>Liity</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>Nykyinen</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>Ladataan julkisia palvelimia</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>Julkisia palvelimia ei löytynyt</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>Liity peliin ennen kuin avaat palvelinselaimen</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>Palvelinluettelo on keskeytetty, koska Roblox rajoittaa pyyntöjä</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>Julkisia palvelimia ei voitu ladata</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>{0} palvelinta ladattu</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0}/{1} pelaajaa</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>{0} pelaajaa</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>Tuntematon</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>Paras osuma</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>Paras osuma</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>Estetty</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>Noin {0} ms sinusta</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>{0} palvelinta paikannettu tähän mennessä</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>{0}/{1} palvelinta paikannettu</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>Siirretään sinut kohteeseen {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>Palvelimeen ei voitu liittyä</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>Kirjaudu sisään kohdassa Asetukset &gt; Server Matchmaker, jotta Voidstrap voi selvittää jokaisen palvelimen sijainnin</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>Sijaintiasi ei löytynyt, joten palvelimia ei voi järjestää pingin mukaan</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox ei kertonut, missä nämä palvelimet sijaitsevat, yritä hetken päästä uudelleen</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>Kaikki löydetyt palvelimet ovat datakeskuksessa, jonka olet estänyt</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>Kaikki löydetyt palvelimet ovat kaukana sinusta, joten matchmaker antaisi Robloxin valita</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>Peliselain</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>Jatka</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>Suosikit</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>Hae</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>Hae Roblox-pelejä</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>Ladataan pelejä</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>Ei viimeaikaisia pelejä tässä istunnossa</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>Ei tallennettuja suosikkipelejä</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>Hae Roblox-peliä nimellä</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>Haulla {0} ei löytynyt pelejä</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>Pelejä ei voitu ladata</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>{0} pelaa</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>Liity</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Marja</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>Automaattinen käännös</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>Käännä kielelle</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>Automaattisen käännöksen kieli</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>Käännä koko Voidstrapin käyttöliittymä mille tahansa kielelle. Valmiita käännöksiä käytetään ensin, ja loput tekstistä käännetään reaaliajassa.</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>Käännä Discord RPC:t automaattisesti</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>Kääntää Discord Rich Presencen tekstin automaattisesti valitulle kielelle.</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>Tämä ominaisuus on saatavilla vain Windowsissa.</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Kaikki tässä luetellut ovat anteliaasti käyttäneet aikaansa ja vaivaansa Voidstrapin kääntämiseen. Valtava kiitos kaikille!</value>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>Muuta Robloxin ja Voidstrapin jakelu- ja asennusasetuksia.</value>
-  </data>
-  <data name="Common.Channel" xml:space="preserve">
-    <value>Kanava</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>Valitse jakelukanava. Älä muuta sitä, ellet tiedä mitä teet.</value>
-  </data>
-  <data name="Common.Version" xml:space="preserve">
-    <value>Versio</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>Robloxin päivitykset</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>Tumma tila</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Telemetria</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>Tumma tila</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>Määritä Linux-ympäristöt, joilla Voidstrap käynnistää Robloxin. Sober suorittaa pelaajan, Vinegar suorittaa Studion. Voidstrap muuttaa vain asetuksia, jotka ohitat nimenomaisesti.</value>

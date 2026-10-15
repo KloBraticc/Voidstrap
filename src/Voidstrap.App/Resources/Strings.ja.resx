@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap は Windows の hosts ファイルに残った AssetWarp のルートを削除できませんでした。削除されるまで Roblox はテクスチャなどのアセットを読み込めません。Voidstrap を管理者として実行してクリーンアップしてください。</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap {0}への自動更新に失敗しました。Webサイトから手動でインストールしてください。</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>他のインスタンスを待機中...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>両方</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>プレイヤー</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>空白</value>
@@ -429,6 +438,153 @@
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>種類</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>サーバーブラウザー</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>プレイス {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  プレイス {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} 件のサーバーをスキャンしました</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>さらにサーバーを読み込む</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>満員のサーバーを隠す</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>都市、国、サーバー ID で検索</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>プレイヤーが多い順</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>プレイヤーが少ない順</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Ping が低い順</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>参加</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>現在</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>公開サーバーを読み込んでいます</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>公開サーバーが見つかりません</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>サーバーブラウザーを開く前にゲームに参加してください</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Roblox がリクエストを制限しているため、サーバー一覧を一時停止しています</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>公開サーバーを読み込めませんでした</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} 件のサーバーを読み込みました</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} / {1} 人</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} 人</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
+    <value>Ping {0} ms、FPS {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>最適</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>最適</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>ブロック済み</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>あなたから約 {0} ms</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>これまでに {0} 件のサーバーを特定しました</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{1} 件中 {0} 件のサーバーを特定しました</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>{0} に移動しています</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>そのサーバーに参加できませんでした</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Voidstrap が各サーバーの場所を特定できるよう、設定 &gt; Server Matchmaker でサインインしてください</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>現在地を特定できなかったため、Ping 順に並べ替えられません</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox がこれらのサーバーの場所を公開していません。しばらくしてからもう一度お試しください</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>見つかったサーバーはすべてブロック中のデータセンターにあります</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>見つかったサーバーはすべて遠いため、Matchmaker は Roblox に選択を任せます</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>ゲームブラウザー</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>続きから</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>お気に入り</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Roblox のゲームを検索</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>ゲームを読み込んでいます</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>このセッションで最近遊んだゲームはありません</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>お気に入りのゲームは保存されていません</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>名前で Roblox のゲームを検索</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>{0} に一致するゲームは見つかりませんでした</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>ゲームを読み込めませんでした</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} 人がプレイ中</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>参加</value>
+  </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>FastFlagを追加</value>
   </data>
@@ -540,6 +696,9 @@
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>紫</value>
   </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>ベリー</value>
+  </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>緑</value>
   </data>
@@ -591,6 +750,12 @@
   </data>
   <data name="Menu.About.Licenses" xml:space="preserve">
     <value>ライセンス</value>
+  </data>
+  <data name="Menu.About.Licenses.BSD2" xml:space="preserve">
+    <value>BSD 2-Clause ライセンス</value>
+  </data>
+  <data name="Menu.About.Licenses.MIT" xml:space="preserve">
+    <value>MIT ライセンス</value>
   </data>
   <data name="Menu.About.ReportIssue" xml:space="preserve">
     <value>問題を報告する</value>
@@ -989,6 +1154,12 @@
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>言語を選択</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>自動翻訳</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>翻訳先</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>インストールを開始する前に言語を選択してください。</value>
   </data>
@@ -997,6 +1168,18 @@
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>一部のテキストは指定した言語に翻訳されていない場合があります。</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>自動翻訳の言語</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Voidstrap のインターフェース全体を任意の言語に翻訳します。組み込みの翻訳を優先し、残りのテキストはリアルタイムで翻訳されます。</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Discord RPC を自動翻訳</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Discord Rich Presence のテキストを選択した言語に自動で翻訳します。</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>Robloxで非対応の言語を使用する</value>
@@ -1332,6 +1515,9 @@ Robloxが[正規のランチャー]({1})で動作するか確認してくださ�
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>利用不可</value>
   </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>この機能は Windows でのみ使用できます。</value>
+  </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>互換性設定を変更する</value>
   </data>
@@ -1397,6 +1583,9 @@ Robloxが[正規のランチャー]({1})で動作するか確認してくださ�
 
 テストモードをオンにしますか？
 </value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>ここに名前のある皆さんは、Voidstrap の翻訳に時間と労力を惜しみなく注いでくれました。本当にありがとうございます!</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>インストール</value>
@@ -1484,6 +1673,21 @@ Robloxのアプリファイルを使用している可能性のあるアプリ�
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
     <value>インターネット接続がタイムアウトしました。インターネット回線が不安定、またはファイアウォールによるブロックの可能性があります。</value>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Roblox と Voidstrap のデプロイとインストールの設定を変更します。</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>チャンネル</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>デプロイチャンネルを選択します。内容を理解していない場合は変更しないでください。</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Roblox を更新</value>
+  </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>無効にすると、Roblox クライアントは新しいバージョンにアップグレードされません。</value>
   </data>
@@ -1514,8 +1718,17 @@ Robloxのアプリファイルを使用している可能性のあるアプリ�
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>他のプレイヤーのアバターにレイヤード衣装がレンダリングされるのを防ぎます。</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>ダークモード</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>Roblox の早期アクセス DarkMode を有効化</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>テレメトリー</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>ダークモード</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>プリロード</value>
@@ -1706,219 +1919,6 @@ Robloxのアプリファイルを使用している可能性のあるアプリ�
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>ニュースの詳細</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap は Windows の hosts ファイルに残った AssetWarp のルートを削除できませんでした。削除されるまで Roblox はテクスチャなどのアセットを読み込めません。Voidstrap を管理者として実行してクリーンアップしてください。</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>両方</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>プレイヤー</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>サーバーブラウザー</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>プレイス {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  プレイス {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>{0} 件のサーバーをスキャンしました</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>更新</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>さらにサーバーを読み込む</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>満員のサーバーを隠す</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>都市、国、サーバー ID で検索</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>プレイヤーが多い順</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>プレイヤーが少ない順</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>Ping が低い順</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>参加</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>現在</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>公開サーバーを読み込んでいます</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>公開サーバーが見つかりません</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>サーバーブラウザーを開く前にゲームに参加してください</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>Roblox がリクエストを制限しているため、サーバー一覧を一時停止しています</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>公開サーバーを読み込めませんでした</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>{0} 件のサーバーを読み込みました</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0} / {1} 人</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>{0} 人</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
-    <value>Ping {0} ms、FPS {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>不明</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>最適</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>最適</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>ブロック済み</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>あなたから約 {0} ms</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>これまでに {0} 件のサーバーを特定しました</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>{1} 件中 {0} 件のサーバーを特定しました</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>{0} に移動しています</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>そのサーバーに参加できませんでした</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>Voidstrap が各サーバーの場所を特定できるよう、設定 &gt; Server Matchmaker でサインインしてください</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>現在地を特定できなかったため、Ping 順に並べ替えられません</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox がこれらのサーバーの場所を公開していません。しばらくしてからもう一度お試しください</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>見つかったサーバーはすべてブロック中のデータセンターにあります</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>見つかったサーバーはすべて遠いため、Matchmaker は Roblox に選択を任せます</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>ゲームブラウザー</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>続きから</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>お気に入り</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>検索</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>Roblox のゲームを検索</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>ゲームを読み込んでいます</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>このセッションで最近遊んだゲームはありません</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>お気に入りのゲームは保存されていません</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>名前で Roblox のゲームを検索</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>{0} に一致するゲームは見つかりませんでした</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>ゲームを読み込めませんでした</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>{0} 人がプレイ中</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>参加</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>ベリー</value>
-  </data>
-  <data name="Menu.About.Licenses.BSD2" xml:space="preserve">
-    <value>BSD 2-Clause ライセンス</value>
-  </data>
-  <data name="Menu.About.Licenses.MIT" xml:space="preserve">
-    <value>MIT ライセンス</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>自動翻訳</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>翻訳先</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>自動翻訳の言語</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>Voidstrap のインターフェース全体を任意の言語に翻訳します。組み込みの翻訳を優先し、残りのテキストはリアルタイムで翻訳されます。</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>Discord RPC を自動翻訳</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>Discord Rich Presence のテキストを選択した言語に自動で翻訳します。</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>この機能は Windows でのみ使用できます。</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>ここに名前のある皆さんは、Voidstrap の翻訳に時間と労力を惜しみなく注いでくれました。本当にありがとうございます!</value>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>Roblox と Voidstrap のデプロイとインストールの設定を変更します。</value>
-  </data>
-  <data name="Common.Channel" xml:space="preserve">
-    <value>チャンネル</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>デプロイチャンネルを選択します。内容を理解していない場合は変更しないでください。</value>
-  </data>
-  <data name="Common.Version" xml:space="preserve">
-    <value>バージョン</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>Roblox を更新</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>ダークモード</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>テレメトリー</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>ダークモード</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>Voidstrap が Roblox を起動する際に使う Linux ランタイムを設定します。Sober はプレイヤーを、Vinegar は Studio を実行します。Voidstrap は明示的に上書きしたオプションだけを変更します。</value>
