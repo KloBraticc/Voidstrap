@@ -46,13 +46,7 @@
 irm https://voidstrapp.pages.dev/quick-install | iex
 ```
 
-**Linux**
-
-```bash
-curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
-```
-
-**macOS**
+**Linux and macOS**
 
 ```bash
 curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
